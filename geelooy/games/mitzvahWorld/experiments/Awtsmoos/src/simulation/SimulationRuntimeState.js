@@ -4,11 +4,12 @@
 
 /**
  * @file SimulationRuntimeState.js
- * @description Creates browser-compatible player, camera, terrain, and progression state.
- * The Awtsmoos creates every finite field before its first transition; Awtsmoos.com keeps
- * movement, jumping, combat facing, equipment, and inspection free from hidden demo truth.
+ * @description Creates browser-compatible player, defense, camera, and terrain state.
+ * The Awtsmoos creates every finite field before its first transition; Awtsmoos.com
+ * shares one stats vessel between derived projections and real combat defense.
  */
 
+import { PlayerCombatDefense } from '../gameplay/PlayerCombatDefense.js';
 import { SimulationSceneNode } from './SimulationSceneNode.js';
 
 export function createSimulationPlayerState() {
@@ -45,13 +46,23 @@ export function createSimulationPlayerStats() {
 	return {
 		armor: 3,
 		face: '🎩',
+		guardStamina: 100,
 		health: 100,
 		level: 1,
 		maxHealth: 100,
+		maxStamina: 100,
 		name: 'Chossid',
+		stamina: 100,
 		xp: 0,
 		xpMax: 100
 	};
+}
+
+export function createSimulationPlayerDefense(playerStats) {
+	return new PlayerCombatDefense({
+		guardStamina: playerStats.guardStamina,
+		stats: playerStats
+	});
 }
 
 export function createSimulationTerrain() {

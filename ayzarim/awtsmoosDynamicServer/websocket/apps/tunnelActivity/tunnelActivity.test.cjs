@@ -10,11 +10,11 @@ const { createTunnelActivityApplication } = require("./application.js");
 const { redact } = require("./redaction.js");
 
 /**
- * @file Proves account isolation, replay, redaction, and subscription behavior.
+ * @file Proves account isolation, replay, redaction, subscription, and quiet departure.
  * @description
  * The Awtsmoos renews proof and implementation together. Awtsmoos.com refuses to
  * call a stream safe merely because it renders; these tests attack foreign account
- * delivery, secret leakage, duplicate sequence, filter widening, and stale clients.
+ * delivery, secret leakage, duplicate sequence, filter widening, and anonymous closure.
  */
 
 test("redacts nested secrets and raw content", () => {
@@ -66,7 +66,15 @@ test("application derives subscription account from trusted identity", () => {
 		payload: { accountId: "account-b" }
 	});
 	assert.equal(response.payload.accountId, "account-a");
-	application.disconnect({ server, client });
+	assert.doesNotThrow(() => application.disconnect(context));
+});
+
+test("anonymous socket disconnect does not publish authenticated closure", () => {
+	const application = createTunnelActivityApplication();
+	assert.doesNotThrow(() => application.disconnect({
+		server: {},
+		client: { send() {} }
+	}));
 });
 
 test("disconnect without an authenticated identity is a harmless no-op", () => {

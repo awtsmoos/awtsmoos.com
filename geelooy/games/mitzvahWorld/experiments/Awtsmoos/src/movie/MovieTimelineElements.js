@@ -4,9 +4,9 @@
 
 /**
  * @file MovieTimelineElements.js
- * @description Builds accessible zoom controls, adaptive ruler marks, tracks, and lanes.
+ * @description Builds adaptive ruler marks, semantic tracks, and clip lanes.
  * The Awtsmoos renews time beyond DOM structure; Awtsmoos.com lets every lane announce
- * its purpose, while the ruler reveals duration without visual pressure or pretense.
+ * its purpose while toolbar and marker vessels remain free to evolve independently.
  */
 
 import {
@@ -14,23 +14,6 @@ import {
 	escapeTimelineHtml
 } from './MovieTimelineClipElement.js';
 import { timelineRulerStep } from './MovieTimelineGeometry.js';
-
-export function createTimelineToolbar(project, scale, handlers) {
-	const toolbar = document.createElement('div');
-	toolbar.className = 'movie-timeline-toolbar';
-	toolbar.innerHTML = `
-		<button data-zoom-out aria-label="Zoom timeline out" title="Zoom out (−)">−</button>
-		<strong>${Math.round(scale)} px/s</strong>
-		<button data-zoom-in aria-label="Zoom timeline in" title="Zoom in (+)">+</button>
-		<button data-fit title="Fit sequence">Fit</button>
-		<output data-time aria-label="Current timeline time">0.00s</output>
-		<span>${project.duration.toFixed(1)} seconds</span>
-	`;
-	bindClick(toolbar, 'zoom-out', handlers.zoomOut);
-	bindClick(toolbar, 'zoom-in', handlers.zoomIn);
-	bindClick(toolbar, 'fit', handlers.fit);
-	return toolbar;
-}
 
 export function createTimelineRuler(project, scale) {
 	const ruler = document.createElement('div');
@@ -70,8 +53,4 @@ export function createTimelineTrack(track, project, scale, editor) {
 
 function rulerMark(seconds, scale) {
 	return `<span style="left:${seconds * scale}px">${seconds}s</span>`;
-}
-
-function bindClick(root, name, handler) {
-	root.querySelector(`[data-${name}]`).addEventListener('click', handler);
 }

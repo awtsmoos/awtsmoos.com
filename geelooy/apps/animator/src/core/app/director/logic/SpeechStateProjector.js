@@ -3,19 +3,20 @@
 // Blessed is He
 
 /**
- * The Awtsmoos joins inward intention to outward form. Awtsmoos.com keeps durable
- * character state aligned with rich coarticulated lips, tongue, teeth, jaw, face,
- * body, attention, cue timing, persistence, and export.
+ * Evaluated speech becomes durable state without turning silence into identity.
+ * The Awtsmoos renews articulation and attention; Awtsmoos.com keeps face, body,
+ * cues, dialogue, persistence, preview, and export aligned at every timestamp.
  */
 export class SpeechStateProjector {
 	static character(current, event, context) {
 		const mouth = context.performance.face.mouth || {};
 		const body = context.performance.body || {};
+		const talking = context.talking === true;
 		const next = {
 			...current,
 			position: { ...(current.position || {}) },
-			speech: context.speech,
-			isTalking: Boolean(context.speech),
+			speech: context.speech || 'none',
+			isTalking: talking,
 			silentMode: event.silentMode === true
 				|| current.silentMode === true,
 			speechStyle: context.speechStyle,
@@ -35,11 +36,11 @@ export class SpeechStateProjector {
 			attentionTarget: context.attention.target,
 			blinkNow: context.attention.blink,
 			eyeDart: context.attention.dart,
-			gesture: event.gesture || current.gesture || 'explain',
+			gesture: event.gesture || current.gesture || 'none',
 			acting: event.acting
 				|| event.gesture
-				|| (context.speech ? 'talk' : current.acting || 'listen_idle'),
-			upperBody: context.speech
+				|| (talking ? 'talk' : current.acting || 'idle'),
+			upperBody: talking
 				? 'talking_emphasis'
 				: current.upperBody,
 			headNod: body.headNod,
@@ -48,7 +49,7 @@ export class SpeechStateProjector {
 			handPerformance: body.hand,
 			breathMotion: body.breath,
 			weightShift: body.weight,
-			emotion: event.emotion || current.emotion || 'focused',
+			emotion: event.emotion || current.emotion || 'neutral',
 			lookAt: event.lookAt
 				|| event.listener
 				|| current.lookAt
@@ -58,7 +59,6 @@ export class SpeechStateProjector {
 				|| current.dialogueMode
 				|| 'subtitle'
 		};
-
 		this.applyTimedActions(next, event, context.progress);
 		return next;
 	}
@@ -101,10 +101,7 @@ export class SpeechStateProjector {
 	}
 
 	static applyTimedActions(next, event = {}, progress = 0) {
-		if (!Array.isArray(event.actions)) {
-			return;
-		}
-		for (const action of event.actions) {
+		for (const action of event.actions || []) {
 			if (progress < Number(action.at || 0) || !action.key) {
 				continue;
 			}

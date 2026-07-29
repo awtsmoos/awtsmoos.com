@@ -5,9 +5,9 @@
 import { VirtualGraph as G } from '../../../../engine/graph/VirtualGraph.js';
 
 /**
- * Soft whites and explicit lids let openness, skepticism, and blinking share one
- * organic vocabulary. The Awtsmoos renews each gaze; Awtsmoos.com keeps the eye
- * vessels editable and identical in production preview, persistence, and export.
+ * Eye whites remain anatomical while upper and lower lids carry the moment.
+ * The Awtsmoos renews every gaze without a permanent skeptical mask;
+ * Awtsmoos.com keeps lid motion editable and identical in preview and export.
  */
 export class StableEyeWhite2D {
 	static build(kind, colors, side, geometry) {
@@ -19,16 +19,12 @@ export class StableEyeWhite2D {
 	}
 
 	static white(kind, colors, side, geometry) {
-		const skeptical = geometry.style.kind === 'skeptical';
-		const height = skeptical
-			? geometry.height * 0.86
-			: geometry.height;
 		return G.ellipse(
 			`${kind}_eye_white_${side}`,
 			0,
-			skeptical ? geometry.height * 0.05 : 0,
+			0,
 			geometry.width,
-			height,
+			geometry.height,
 			geometry.rotation,
 			{
 				fill: colors.eyeLight,
@@ -39,10 +35,10 @@ export class StableEyeWhite2D {
 	}
 
 	static upperLid(kind, colors, side, geometry) {
-		const drop = Number(geometry.style.lidDrop || 0);
-		const skeptical = geometry.style.kind === 'skeptical';
-		const edge = skeptical ? -0.18 + drop * 0.35 : -0.62 + drop;
-		const arch = skeptical ? -0.92 + drop * 0.4 : -1.42 + drop * 0.7;
+		const anatomy = Number(geometry.style.lidDrop || 0);
+		const dynamic = Number(geometry.upperLid || 0);
+		const edge = -0.62 + anatomy + dynamic * 0.42;
+		const arch = -1.42 + anatomy * 0.7 + dynamic * 0.68;
 		return G.path(`${kind}_upper_lid_${side}`, [
 			{ type: 'move', x: -geometry.width * 0.96, y: geometry.height * edge },
 			{
@@ -60,17 +56,21 @@ export class StableEyeWhite2D {
 	}
 
 	static lowerLid(kind, colors, side, geometry) {
-		if (geometry.style.kind !== 'skeptical') {
+		const amount = Number(geometry.lowerLid || 0);
+		const anatomy = Number(geometry.style.lowerLidPresence || 0);
+		if (amount <= 0.015 && anatomy <= 0.015) {
 			return null;
 		}
+		const strength = Math.max(amount, anatomy);
+		const y = 0.62 - strength * 0.18;
 		return G.path(`${kind}_lower_lid_${side}`, [
-			{ type: 'move', x: -geometry.width * 0.66, y: geometry.height * 0.62 },
+			{ type: 'move', x: -geometry.width * 0.66, y: geometry.height * y },
 			{
 				type: 'quad',
 				cx: 0,
-				cy: geometry.height * 0.82,
+				cy: geometry.height * (0.82 - strength * 0.22),
 				x: geometry.width * 0.64,
-				y: geometry.height * 0.58
+				y: geometry.height * (y - 0.04)
 			}
 		], {
 			stroke: colors.line,

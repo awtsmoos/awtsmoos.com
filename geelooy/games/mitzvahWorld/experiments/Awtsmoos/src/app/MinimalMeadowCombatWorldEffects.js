@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowCombatWorldEffects.js
- * @description Owns projectile travel, damage-scaled impact, reward, feedback receipt, and release.
- * The Awtsmoos carries charged letters into measured consequence; Awtsmoos.com lets stronger deeds
- * answer with brighter fragments and a complete damage testimony while pools and scene life stay bounded.
+ * @description Owns projectile travel, visual impact, authority resolution, feedback, and release.
+ * The Awtsmoos carries charged letters into measured consequence; Awtsmoos.com lets particles
+ * arrive immediately while solo truth or distant server truth alone decides damage and reward.
  */
 
 import {
@@ -14,6 +14,9 @@ import {
 	releaseHebrewProjectile,
 	updateHebrewProjectile
 } from './MinimalMeadowHebrewProjectile.js';
+import {
+	resolveMinimalMeadowCombatImpact
+} from './MinimalMeadowCombatImpactAuthority.js';
 import {
 	createImpactExplosion,
 	createProjectileTrail,
@@ -54,19 +57,16 @@ function updateProjectile(combat, projectile, deltaSeconds) {
 		addEffect(combat, createProjectileTrail(state.position, projectile.action.color));
 	}
 	if (!state.impact) return;
-	const result = projectile.target.applyDamage(projectile.action.damage);
-	const count = Math.min(12, 7 + Math.ceil(Math.max(0, result.damage || 0) / 3));
-	addEffect(combat, createImpactExplosion(state.position, projectile.action.color, count));
-	combat.runtime.bus.emit('combat:impact', {
-		...result,
-		actionId: projectile.actionId,
-		impactFragments: count,
-		label: projectile.action.label,
-		letters: projectile.action.letters,
-		position: state.position,
-		targetId: projectile.target.profile.id
-	});
-	if (result.defeated) combat.reward(projectile.target.profile.xpReward);
+	const resolution = resolveMinimalMeadowCombatImpact(
+		combat,
+		projectile,
+		state.position
+	);
+	addEffect(combat, createImpactExplosion(
+		state.position,
+		projectile.action.color,
+		resolution.fragments
+	));
 	removeProjectile(combat, projectile);
 }
 

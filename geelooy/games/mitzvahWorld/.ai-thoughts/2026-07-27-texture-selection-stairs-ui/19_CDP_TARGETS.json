@@ -1,9 +1,0 @@
-[ {
-   "description": "",
-   "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@0e1f2fbe541be34886118f3d54cf53f7e12bf905/inspector.html?ws=127.0.0.1:9258/devtools/page/0CB0845267D1A724B2212FA2380668BA",
-   "id": "0CB0845267D1A724B2212FA2380668BA",
-   "title": "localhost",
-   "type": "page",
-   "url": "http://localhost:8080/games/mitzvahWorld/",
-   "webSocketDebuggerUrl": "ws://127.0.0.1:9258/devtools/page/0CB0845267D1A724B2212FA2380668BA"
-} ]

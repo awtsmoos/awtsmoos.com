@@ -6,9 +6,9 @@ import { CalmReferenceFaceIdentity } from './CalmReferenceFaceIdentity.js';
 import { CalmReferenceHeadStyle } from './CalmReferenceHeadStyle.js';
 
 /**
- * Miriam's rose lips retain feminine contour across restrained articulation.
- * The Awtsmoos renews every finite syllable; Awtsmoos.com preserves her identity
- * through editable speech, expression, persistence, preview, and final export.
+ * Miriam's thin neutral Cupid bow and lower-lip arc remain independent from speech.
+ * The Awtsmoos renews every expression; Awtsmoos.com preserves mouth identity,
+ * phonemes, persistence, preview, and exact production export without a fixed smile.
  */
 export class CalmReferenceAppearance {
 	static create() {
@@ -17,13 +17,16 @@ export class CalmReferenceAppearance {
 			...CalmReferenceHeadStyle.create(),
 			mouthStyle: {
 				kind: 'rose_lips', lipColor: '#a85e69', tongueColor: '#d98a87',
-				widthScale: 0.76, heightScale: 0.5,
-				openScale: 0.6, jawScale: 0.5,
-				cavityWidthScale: 0.78, cavityHeightScale: 0.68,
-				lipThickness: 1.02, asymmetryBias: 0.03, smileBias: 0.12,
-				upperLiftScale: 0.82, lowerDropScale: 0.7,
-				lineWidth: 0.98, lowerLipWidth: 1.1, cupidDepth: 1.35,
-				horizontalOffset: 1, verticalOffset: 0,
+				restWidthScale: 0.82, restLipThickness: 1.05,
+				restCornerTilt: 0, restAsymmetry: 0,
+				heightScale: 0.68, openScale: 0.72, jawScale: 0.58,
+				cavityWidthScale: 0.82, cavityHeightScale: 0.72,
+				upperLiftScale: 0.88, lowerDropScale: 0.78,
+				lineWidth: 0.8, lowerLipWidth: 1.02,
+				cornerCompression: 0.9, cupidDepth: 1.15,
+				cupidWidthScale: 0.44, upperWingScale: 0.78,
+				lowerBowlScale: 1.08, lowerCornerScale: 0.92,
+				horizontalOffset: 0, verticalOffset: 0,
 				chinDetail: false, philtrum: false, commissures: false
 			}
 		};

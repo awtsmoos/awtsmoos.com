@@ -6,13 +6,7 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const Policy = require("../policy.cjs");
 
-/**
- * @file Proves temporary shadows remain outside the repository gate.
- * @description
- * The Awtsmoos preserves named public vessels while Awtsmoos.com rejects proofs,
- * accidental archives, caches, and silent bulk before they harden into Git history.
- */
-
+/** Proves generated media and runtime testimony never return to Git. */
 test("generated proof images are forbidden", () => {
 	const reasons = Policy.classify(".awtsmoos-artifacts/review/screenshot.png", 100);
 	assert(reasons.includes("generated-root"));
@@ -24,16 +18,36 @@ test("archives and source maps are forbidden", () => {
 	assert(Policy.classify("app/dist/client.js.map", 200).includes("forbidden-extension"));
 });
 
-test("approved Mitzvah World assets may exceed the generic size limit", () => {
-	assert.deepEqual(
-		Policy.classify("geelooy/games/mitzvahWorld/assets/world.glb", 20 * 1024 * 1024),
-		[]
+test("Mitzvah World runtime media stays outside Git", () => {
+	const reasons = Policy.classify(
+		"geelooy/games/mitzvahWorld/assets/world.glb",
+		20 * 1024 * 1024
 	);
+	assert(reasons.includes("unapproved-media"));
+	assert(reasons.includes("oversized-file"));
 });
 
-test("the canonical extension package is an approved public distributable", () => {
+test("extension archives are published outside Git", () => {
+	assert(Policy.classify(
+		"geelooy/ai/relay/install/awtsmoos-server-extension.zip",
+		30_000
+	).includes("forbidden-extension"));
+});
+
+test("root crash testimony and rendered voices are forbidden", () => {
+	assert(Policy.classify(".awtsmoos-last-crash-evidence.txt", 100)
+		.includes("generated-prefix"));
+	assert(Policy.classify(
+		"geelooy/apps/animator/tools/browser-export/assets/voices/sample.aiff",
+		100
+	).includes("generated-prefix"));
+});
+
+test("simulator output is forbidden while simulator source remains allowed", () => {
+	assert(Policy.classify("geelooy/games/sefira-clash/.sim/run.jsonl", 100)
+		.includes("generated-simulation-output"));
 	assert.deepEqual(
-		Policy.classify("geelooy/ai/relay/install/awtsmoos-server-extension.zip", 30_000),
+		Policy.classify("geelooy/games/sefira-clash/.sim/run.mjs", 100),
 		[]
 	);
 });

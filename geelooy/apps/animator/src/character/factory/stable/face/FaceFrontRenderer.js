@@ -8,9 +8,9 @@ import { StableFaceShape2D } from './StableFaceShape2D.js';
 import { StableReferenceEars2D } from './StableReferenceEars2D.js';
 
 /**
- * The head shell remains stable while its living features share one measured
- * composition. The Awtsmoos renews expression while Awtsmoos.com keeps every
- * blink deterministic without sacrificing the neutral identity frame.
+ * The renderer receives an evaluated pose and never invents a permanent mood.
+ * The Awtsmoos renews every visible moment; Awtsmoos.com keeps neutral identity,
+ * dynamic acting, blink, persistence, preview, and export on one shared path.
  */
 export class FaceFrontRenderer {
 	static build(kind, data, colors, metrics, view, legacyBeard) {
@@ -37,29 +37,23 @@ export class FaceFrontRenderer {
 	static mood(data = {}) {
 		const pose = data._stablePose?.face || {};
 		const face = data.renderPerformance?.face || {};
-		if (Object.keys(pose).length || Object.keys(face).length) {
-			return {
-				brow: Number(pose.browOuter ?? face.browOuter ?? 0) * -18,
-				browInner: Number(pose.browInner ?? face.browInner ?? 0),
-				browPinch: Number(pose.browPinch ?? face.browSqueeze ?? 0),
-				smile: Number(pose.mouthSmile ?? face.mouthSmileAmount ?? 0),
-				squint: Number(
-					pose.squint
-						?? face.squintAmount
-						?? (1 - Number(pose.eyeOpen ?? face.eyeOpenAmount ?? 1))
-				),
-				mouthOpen: Number(pose.mouthOpen ?? face.mouthOpenAmount ?? 0),
-				cheekLift: Number(pose.cheekLift ?? face.cheekRaiseAmount ?? 0),
-				blush: Number(face.blushAmount || 0)
-			};
-		}
-		const moods = {
-			happy: { brow: -4, smile: 1, squint: 0.05, cheekLift: 0.45 },
-			skeptical: { brow: 2.8, smile: -0.45, squint: 0.2, browPinch: 0.38 },
-			calm: { brow: -0.6, smile: 0.22, squint: 0.04, cheekLift: 0.08 },
-			neutral: { brow: 0, smile: 0.05, squint: 0 }
+		return {
+			browOuter: Number(pose.browOuter ?? face.browOuter ?? 0),
+			browInner: Number(pose.browInner ?? face.browInner ?? 0),
+			browPinch: Number(pose.browPinch ?? face.browSqueeze ?? 0),
+			browTilt: Number(pose.browTilt ?? face.browTilt ?? 0),
+			browAsymmetry: Number(pose.browAsymmetry ?? face.browAsymmetry ?? 0),
+			smile: Number(pose.mouthSmile ?? face.mouthSmileAmount ?? 0),
+			squint: Number(pose.squint ?? face.squintAmount ?? 0),
+			mouthOpen: Number(pose.mouthOpen ?? face.mouthOpenAmount ?? 0),
+			mouthJaw: Number(pose.mouthJaw ?? face.mouthJawAmount ?? 0),
+			mouthAsymmetry: Number(pose.mouthAsymmetry ?? face.mouthAsymmetry ?? 0),
+			cheekLift: Number(pose.cheekLift ?? face.cheekRaiseAmount ?? 0),
+			blush: Number(face.blushAmount || 0),
+			upperLid: Number(face.upperLidAmount || 0),
+			lowerLid: Number(face.lowerLidAmount || 0),
+			eyeAsymmetry: Number(face.eyeAsymmetry || 0)
 		};
-		return moods[data.emotion] || moods.neutral;
 	}
 
 	static blink(data = {}) {

@@ -4,9 +4,9 @@
 
 /**
  * @file publicMaterialResolverAliases.test.mjs
- * @description Protects canonical recovery aliases while proving remote transport.
- * The Awtsmoos preserves material meaning when one finite name failed;
- * Awtsmoos.com sends the recovered canonical path through the trusted migration root.
+ * @description Protects canonical texture aliases and trusted remote identities.
+ * The Awtsmoos preserves each source name while the transport stays immutable;
+ * Awtsmoos.com rejects retired hosts and validates every owned migration path.
  */
 
 import assert from 'node:assert/strict';
@@ -17,37 +17,34 @@ import {
 	publicMaterialAliases
 } from '../../assets/PublicMaterialResolver.js';
 import {
-	isTrustedAwtsmoosMaterialUrl
-} from '../../assets/RemoteTextureTransport.js';
+	assertLocalMaterialUrl,
+	canonicalSourcePath
+} from './LocalMaterialTestSupport.mjs';
 
-test('logged source failures redirect to documented canonical remote identities', () => {
-	assert.equal(
-		fullMaterialPath('grass 6'),
-		'awtsmoos-nature/chai-forest/textures/ground/grass.jpg'
-	);
-	assert.equal(
-		fullMaterialPath('mud'),
-		'awtsmoos-nature/chai-forest/textures/ground/dirt_color.jpg'
-	);
-	assert.equal(fullMaterialPath('oak wood 2'), 'full-resolution/oak wood 3.png');
-	assert.equal(fullMaterialPath('stone floor'), 'full-resolution/stone floor 2.png');
-	const stoneFloor = fullMaterialUrl('stone floor');
-	assert.equal(isTrustedAwtsmoosMaterialUrl(stoneFloor), true);
-	assert.match(stoneFloor, /full-resolution\/stone%20floor%202\.png$/);
+const EXPECTED_ALIASES = Object.freeze({
+	'grass 6': 'awtsmoos-nature/chai-forest/textures/ground/grass.jpg',
+	'mud': 'awtsmoos-nature/chai-forest/textures/ground/dirt_color.jpg',
+	'oak wood 2': 'full-resolution/oak wood 3.png',
+	'stone floor': 'full-resolution/stone floor 2.png'
 });
 
-test('unaliased names retain exact canonical paths inside remote URLs', () => {
+test('redirects logged source names to verified canonical identities', () => {
+	assert.deepEqual(publicMaterialAliases(), EXPECTED_ALIASES);
+	for (const [name, sourcePath] of Object.entries(EXPECTED_ALIASES)) {
+		assert.equal(fullMaterialPath(name), sourcePath);
+		const url = fullMaterialUrl(name);
+		assertLocalMaterialUrl(assert, url, `/${sourcePath}`);
+		assert.equal(canonicalSourcePath(url), `/${sourcePath}`);
+	}
+});
+
+test('unaliased names retain exact canonical migration paths', () => {
 	assert.equal(fullMaterialPath('stone 1'), 'full-resolution/stone 1.png');
-	const stoneUrl = fullMaterialUrl('stone 1');
-	assert.equal(isTrustedAwtsmoosMaterialUrl(stoneUrl), true);
-	assert.equal(
-		decodeURIComponent(new URL(stoneUrl).pathname).endsWith('/full-resolution/stone 1.png'),
-		true
+	const url = fullMaterialUrl('stone 1');
+	assertLocalMaterialUrl(assert, url, '/full-resolution/stone 1.png');
+	assert.equal(canonicalSourcePath(url), '/full-resolution/stone 1.png');
+	assert.deepEqual(
+		Object.keys(publicMaterialAliases()).sort(),
+		Object.keys(EXPECTED_ALIASES).sort()
 	);
-	assert.deepEqual(Object.keys(publicMaterialAliases()).sort(), [
-		'grass 6',
-		'mud',
-		'oak wood 2',
-		'stone floor'
-	]);
 });

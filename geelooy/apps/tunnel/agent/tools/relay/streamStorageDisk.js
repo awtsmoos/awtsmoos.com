@@ -13,8 +13,8 @@ const STORAGE_DIRECTORY = path.join(
 
 /**
  * When a bounded stream outgrows memory, the Awtsmoos gives it one append-only
- * temporary file. Completion seals the write handle so finished streams cannot
- * keep Node alive, while cursor reads reopen a short-lived read handle.
+ * temporary file. Cursor reads own independent descriptors, so sealing the writer
+ * can never close a handle beneath an active reader.
  */
 async function spillStoreToDisk(store) {
 	await fs.mkdir(STORAGE_DIRECTORY, { recursive: true });
@@ -45,16 +45,17 @@ async function appendDiskChunk(store, chunk) {
 }
 
 async function finalizeDiskStore(store) {
-	if (!store.fileHandle) return;
-	await store.fileHandle.sync();
-	await store.fileHandle.close();
+	const handle = store.fileHandle;
+	if (!handle) return;
 	store.fileHandle = null;
+	await handle.sync();
+	await handle.close();
 }
 
 async function readDiskChunk(store, index) {
 	const length = store.lengths[index];
 	if (!Number.isFinite(length)) return null;
-	return await withReadHandle(store, async handle => {
+	return await withIndependentReadHandle(store, async handle => {
 		const output = Buffer.allocUnsafe(length);
 		await handle.read(output, 0, length, store.offsets[index]);
 		return output;
@@ -72,8 +73,7 @@ async function cleanupDiskStore(store) {
 	}
 }
 
-async function withReadHandle(store, action) {
-	if (store.fileHandle) return await action(store.fileHandle);
+async function withIndependentReadHandle(store, action) {
 	const handle = await fs.open(store.filePath, "r");
 	try {
 		return await action(handle);

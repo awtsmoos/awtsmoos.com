@@ -4,7 +4,7 @@
 
 /**
  * @file InventoryCatalog.js
- * @description Combines tools, Torah, loot, and the model-derived Chossid wardrobe.
+ * @description Combines tools, Torah, authoritative loot, and the model-derived Chossid wardrobe.
  * The Awtsmoos renews every carried vessel beneath one lawful catalog; Awtsmoos.com
  * keeps IDs, prices, models, garments, appearance choices, and real stats inspectable.
  */
@@ -27,6 +27,7 @@ const BASE_CATALOG = Object.freeze(Object.fromEntries([
 	item('cottage-flower', 'Cottage Flower', '🌸', 'material', null, [0, 0, 0], 3, null, ['inspect', 'drop'], 24),
 	item('wool-thread', 'Wool Thread', '🧶', 'material', null, [0, 0, 0], 8, null, ['inspect', 'drop'], 20),
 	item('prepared-hide', 'Prepared Hide', '🟫', 'material', null, [0, 0, 0], 6, null, ['inspect', 'drop'], 20),
+	item('shadow-remnant', 'Shadow Remnant', '🜏', 'material', null, [0, 0, 0], null, null, ['inspect'], 99),
 	item('community-badge', 'Community Badge', '🏅', 'accessory', 'accessory', [0, 4, 3], 25, null),
 	item('chest-key', 'Old Chest Key', '🗝️', 'quest', null, [0, 0, 0], null, null),
 	item('perutas', 'Perutas', '🪙', 'currency', null, [0, 0, 0], null, null, ['inspect'], 9999)

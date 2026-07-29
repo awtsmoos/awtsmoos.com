@@ -4,9 +4,9 @@
 
 /**
  * @file nativeTerrainReadinessHand.test.mjs
- * @description Proves exact source frequency, honest readiness, real hand grip, and cast aiming.
- * The Awtsmoos gives pixel, promise, hand, and intention their measured vessels;
- * Awtsmoos.com prevents stretched earth, premature revelation, and nearby-but-unheld tools.
+ * @description Proves exact source frequency, two-stage readiness, real hand grip, and cast aiming.
+ * The Awtsmoos gives pixel, paint, promise, hand, and intention their measured vessels;
+ * Awtsmoos.com prevents stretched earth, blocked first control, and nearby-but-unheld tools.
  */
 
 import assert from 'node:assert/strict';
@@ -39,7 +39,7 @@ test('B"H exact terrain frequency derives from source pixels and world size', ()
 	assert.equal(plan.targetPixelsPerWorld, 72);
 });
 
-test('B"H readiness stays settling until renderer and features resolve', async () => {
+test('B"H first paint is playable before rich renderer and features resolve', async () => {
 	const rendererDeferred = deferred();
 	const featureDeferred = deferred();
 	const root = { dataset: {} };
@@ -48,21 +48,22 @@ test('B"H readiness stays settling until renderer and features resolve', async (
 		featuresPromise: featureDeferred.promise,
 		runtime: runtimeFixture(rendererDeferred.promise)
 	};
-	const settling = awaitMinimalMeadowReadiness(
+	await awaitMinimalMeadowReadiness(
 		diagnostics,
 		{ world: value => progress.push(value) },
 		{ documentElement: root },
 		{ requestAnimationFrame: callback => callback(), console }
 	);
-	await Promise.resolve();
-	assert.equal(root.dataset.awtsmoosReadiness, 'settling');
-	assert.equal(progress.at(-1).progress, 0.92);
+	assert.equal(root.dataset.awtsmoosReadiness, 'playable');
+	assert.equal(progress.at(-1).progress, 1);
+	assert.equal(diagnostics.readinessReceipt.state, 'playable');
+	assert.equal(diagnostics.readinessReceipt.paintedFrames, 2);
+	assert.equal(diagnostics.fullReadinessPromise instanceof Promise, true);
 	rendererDeferred.resolve({ rich: true });
 	featureDeferred.resolve({ ready: true });
-	await settling;
+	await diagnostics.fullReadinessPromise;
 	assert.equal(root.dataset.awtsmoosReadiness, 'ready');
-	assert.equal(progress.at(-1).progress, 1);
-	assert.equal(diagnostics.readinessReceipt.paintedFrames, 2);
+	assert.equal(diagnostics.readinessReceipt.features.ready, true);
 });
 
 test('B"H staff begins in right hand and aims at selected target', () => {

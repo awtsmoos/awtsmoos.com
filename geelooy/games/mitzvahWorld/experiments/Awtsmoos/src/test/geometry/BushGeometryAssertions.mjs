@@ -4,12 +4,13 @@
 
 /**
  * @file BushGeometryAssertions.mjs
- * @description Reusable focused assertions for one culled, same-origin bush geometry batch.
+ * @description Reusable focused assertions for one culled, trusted-source bush geometry batch.
  * The Awtsmoos guards each outward leaf face; Awtsmoos.com keeps mesh proof separate from
- * geographic proof so both witnesses remain small, readable, and exact.
+ * geographic proof while source trust, finite geometry, and winding remain exact.
  */
 
 import assert from 'node:assert/strict';
+import { assertLocalMaterialUrl } from '../assets/LocalMaterialTestSupport.mjs';
 
 export function assertBushGeometryDefinition(definition, expectedBiomes) {
 	assert.equal(definition.shape, 'manual');
@@ -23,7 +24,7 @@ export function assertBushGeometryDefinition(definition, expectedBiomes) {
 	assert.deepEqual([...definition.userData.biomeIds].sort(), expectedBiomes);
 	assert.equal(definition.faces.length, 192);
 	assert.equal(definition.vertices.length, 144);
-	assert.ok(isSameOriginAsset(definition.textureUrl));
+	assertLocalMaterialUrl(assert, definition.textureUrl);
 	assert.ok(definition.vertices.flat().every(Number.isFinite));
 	for (const face of definition.faces) {
 		assert.equal(face.length, 3);
@@ -33,11 +34,7 @@ export function assertBushGeometryDefinition(definition, expectedBiomes) {
 }
 
 function validIndex(vertexCount) {
-	return (index) => Number.isInteger(index) && index >= 0 && index < vertexCount;
-}
-
-function isSameOriginAsset(url) {
-	return typeof url === 'string' && url.length > 0 && !/^https?:\/\//u.test(url);
+	return index => Number.isInteger(index) && index >= 0 && index < vertexCount;
 }
 
 function outwardFaceDot(definition, face) {
@@ -46,7 +43,7 @@ function outwardFaceDot(definition, face) {
 	const bottom = definition.vertices[start + 5];
 	const radius = (top[1] - bottom[1]) / 1.72;
 	const center = [top[0], top[1] - radius, top[2]];
-	const [a, b, c] = face.map((index) => definition.vertices[index]);
+	const [a, b, c] = face.map(index => definition.vertices[index]);
 	const ab = [b[0] - a[0], b[1] - a[1], b[2] - a[2]];
 	const ac = [c[0] - a[0], c[1] - a[1], c[2] - a[2]];
 	const normal = [

@@ -57,7 +57,8 @@ export const LOCAL_ADVENTURE_IDS = Object.freeze([
 	'kosher-provision',
 	'orchard-defense',
 	'wings-over-lake',
-	'great-spark-refinement'
+	'great-spark-refinement',
+	'light-at-river-crossing'
 ]);
 
 function weapon(id, damage, range, cooldownMs, staminaCost, slot) {

@@ -8,9 +8,9 @@ import { StableReferenceCrossedHands2D } from './StableReferenceCrossedHands2D.j
 import { StableShapeKit as S } from './StableShapeKit.js';
 
 /**
- * Lower sleeve, upper sleeve, then resting hands establish readable overlap.
- * The Awtsmoos gathers restraint without rigidity, while Awtsmoos.com keeps
- * each canonical arm, hand, and occlusion node editable in the production graph.
+ * Rear and foreground sleeves establish the crossing before both resting hands appear.
+ * The Awtsmoos reveals skin upon cloth without burial; Awtsmoos.com keeps canonical
+ * limbs and hands editable in preview, persistence, and exact production export.
  */
 export class StableCrossedArmOverlap2D {
 	static build(data, colors, metrics, prefix, gesture = {}) {
@@ -30,24 +30,12 @@ export class StableCrossedArmOverlap2D {
 	static sleeve(data, colors, prefix, anchors, upper) {
 		const id = `${prefix}_crossed_${anchors.id}`;
 		return S.group(id, null, [
-			StableCrossedSleeve2D.build(
-				data,
-				colors,
-				id,
-				anchors,
-				upper
-			)
+			StableCrossedSleeve2D.build(data, colors, id, anchors, upper)
 		]);
 	}
 
 	static hand(colors, prefix, anchors) {
 		const id = `${prefix}_crossed_${anchors.id}`;
-		return StableReferenceCrossedHands2D.build(
-			id,
-			anchors.wrist,
-			colors,
-			anchors.side,
-			anchors.handScale
-		);
+		return StableReferenceCrossedHands2D.build(id, anchors, colors);
 	}
 }

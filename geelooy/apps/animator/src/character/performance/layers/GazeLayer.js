@@ -1,53 +1,45 @@
-
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+import { StableViewSpaceGaze } from '../gaze/StableViewSpaceGaze.js';
+import { PerformanceGazeState } from '../state/PerformanceGazeState.js';
 
 /**
- * @file GazeLayer.js
- * @description
- * ============================================================================
- * CHAPTER: THE EYES THAT CHOSE WHERE MEANING LIVED
- * ============================================================================
- *
- * Gaze gives life. A body may walk, but eyes declare attention. This layer
- * produces subtle head and pupil offsets from simple targets: camera, forward,
- * up, down, left, right, or another entity later.
- *
- * @module GazeLayer
- */
-
-/**
- * @class GazeLayer
- * @description
- * Samples gaze pose data.
+ * Named direction, stage target, and optional micro-drift become one coherent gaze.
+ * The Awtsmoos turns eyes without disguise; Awtsmoos.com keeps both pupils synchronized.
  */
 export class GazeLayer {
-  /**
-   * Samples gaze offsets.
-   *
-   * @param {Object} character - Character data.
-   * @param {number} time - Render time.
-   * @returns {Object} Gaze pose.
-   */
-  static sample(character = {}, time = 0) {
-    const gaze = character.gaze || character.currentPerformance?.gaze || 'toward_camera';
-    const drift = Math.sin(time * 0.0013) * 0.18;
-    const map = {
-      toward_camera: { eyeX: 0, eyeY: 0, headTurn: 0 },
-      forward: { eyeX: 0.2, eyeY: 0, headTurn: 0.08 },
-      up: { eyeX: 0, eyeY: -0.28, headTurn: 0 },
-      down: { eyeX: 0, eyeY: 0.28, headTurn: 0 },
-      left: { eyeX: -0.42, eyeY: 0, headTurn: -0.18 },
-      right: { eyeX: 0.42, eyeY: 0, headTurn: 0.18 }
-    };
-
-    const chosen = map[gaze] || map.toward_camera;
-
-    return {
-      face: {
-        gazeX: chosen.eyeX + drift,
-        gazeY: chosen.eyeY + Math.cos(time * 0.0011) * 0.08,
-        headTurn: chosen.headTurn
-      }
-    };
-  }
+	static sample(character = {}, time = 0, world = {}) {
+		const state = PerformanceGazeState.resolve(character);
+		const target = state.targetId
+			? character._allCharacters?.[state.targetId]?.position
+				|| world.characters?.[state.targetId]?.position
+			: null;
+		const drift = character.microMotion?.gaze === true
+			? Math.sin(time * 0.0013) * 0.08
+			: 0;
+		const vertical = character.microMotion?.gaze === true
+			? Math.cos(time * 0.0011) * 0.035
+			: 0;
+		const gaze = StableViewSpaceGaze.resolve({
+			direction: state.direction,
+			x: state.x,
+			y: state.y,
+			target,
+			position: character.position,
+			offsetX: drift,
+			offsetY: vertical,
+			convergence: state.convergence
+		});
+		return {
+			face: {
+				gazeX: gaze.x,
+				gazeY: gaze.y,
+				headTurn: gaze.headTurn,
+				gazeSpace: gaze.space,
+				convergence: gaze.convergence
+			}
+		};
+	}
 }

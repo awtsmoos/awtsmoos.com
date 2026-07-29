@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioResponsiveCss.js
- * @description Gives desktop, tablet, and mobile distinct editor compositions.
+ * @description Constrains pane preferences into desktop, tablet, portrait, and landscape vessels.
  * The Awtsmoos pours one creative purpose into every changing screen; Awtsmoos.com
- * keeps preview, transport, timeline, and inspector reachable, deliberate, and clean.
+ * preserves authored ratios, touch doors, and bounded sheets wherever width or height may turn.
  */
 
 export function movieStudioResponsiveCss() {
@@ -15,24 +15,28 @@ export function movieStudioResponsiveCss() {
 			.Awtsmoos-movie-studio:not(.is-inspector-open) .movie-studio-workspace {
 				grid-template-columns: minmax(0, 1fr);
 			}
-			.Awtsmoos-movie-studio:not(.is-inspector-open) .movie-studio-inspector {
+			.Awtsmoos-movie-studio:not(.is-inspector-open) .movie-studio-inspector,
+			.Awtsmoos-movie-studio:not(.is-inspector-open) .movie-inspector-splitter {
 				display: none;
 			}
 		}
 		@media (max-width: 980px) {
 			.Awtsmoos-movie-studio {
-				--movie-timeline-height: clamp(260px, 38vh, 390px);
+				--movie-timeline-row-height: min(var(--movie-timeline-height), 38vh);
 			}
 			.movie-studio-workspace {
 				grid-template-columns: minmax(0, 1fr);
+			}
+			.movie-inspector-splitter {
+				display: none;
 			}
 			.movie-studio-inspector {
 				position: absolute;
 				top: 0;
 				right: 0;
 				bottom: 0;
-				z-index: 8;
-				width: min(390px, calc(100vw - 32px));
+				z-index: 18;
+				width: min(var(--movie-inspector-width), calc(100vw - 32px));
 				border: 1px solid var(--movie-border-strong);
 				border-radius: 0 0 0 var(--movie-radius-lg);
 				box-shadow: var(--movie-shadow);
@@ -44,26 +48,25 @@ export function movieStudioResponsiveCss() {
 				transform: translateX(0);
 				visibility: visible;
 			}
+			.movie-utility-toolbar button,
+			.movie-studio-bar > button {
+				min-height: var(--movie-touch-height);
+			}
 		}
 		@media (max-width: 640px) {
 			.Awtsmoos-movie-studio {
-				--movie-header-height: 54px;
-				--movie-timeline-height: clamp(300px, 43vh, 410px);
-				--movie-track-header-width: 108px;
-				font-size: 13px;
+				--movie-timeline-row-height: min(var(--movie-timeline-height), 43vh);
 			}
 			.movie-studio-bar {
-				padding-inline: var(--movie-space-3);
+				padding-inline: var(--movie-space-2);
 			}
 			.movie-studio-bar .movie-secondary-label {
 				display: none;
 			}
-			.movie-studio-preview-shell {
+			.movie-studio-preview-stage {
 				padding: var(--movie-space-2);
 			}
-			.movie-studio-preview {
-				width: 100%;
-				max-height: 100%;
+			.movie-studio-preview-frame {
 				border-radius: var(--movie-radius);
 			}
 			.movie-studio-transport {
@@ -75,7 +78,6 @@ export function movieStudioResponsiveCss() {
 				flex: 1 1 0;
 				min-width: 0;
 				min-height: var(--movie-touch-height);
-				padding-inline: var(--movie-space-2);
 			}
 			.movie-studio-status {
 				padding-inline: var(--movie-space-2);
@@ -87,16 +89,12 @@ export function movieStudioResponsiveCss() {
 				right: 0;
 				bottom: 0;
 				width: auto;
-				max-height: min(72vh, 620px);
+				max-height: min(72dvh, 100%);
 				border-radius: var(--movie-radius-lg) var(--movie-radius-lg) 0 0;
 				transform: translateY(calc(100% + 24px));
 			}
 			.Awtsmoos-movie-studio.is-inspector-open .movie-studio-inspector {
 				transform: translateY(0);
-			}
-			.movie-studio-actions,
-			.movie-studio-project-summary {
-				grid-template-columns: 1fr;
 			}
 		}
 	`;

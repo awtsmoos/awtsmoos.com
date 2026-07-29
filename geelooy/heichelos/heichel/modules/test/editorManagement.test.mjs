@@ -19,6 +19,7 @@ const socialContentApi = read("geelooy/heichelos/heichel/modules/api/socialConte
 const commentsApi = read("geelooy/heichelos/heichel/modules/api/comments.js");
 const gridRenderer = read("geelooy/heichelos/heichel/modules/ui/render/grids.js");
 const socialActions = read("geelooy/heichelos/heichel/modules/ui/render/social-actions.js");
+const socialActionMenu = read("geelooy/heichelos/heichel/modules/ui/render/living-path/card-menu.js");
 const mainLayout = read("geelooy/heichelos/heichel/modules/ui/blueprints/main-layout.js");
 const layoutForm = read("geelooy/heichelos/heichel/modules/ui/blueprints/layout-form.js");
 const uiMap = read("geelooy/heichelos/heichel/modules/ui/map.js");
@@ -82,7 +83,8 @@ assert.match(socialContentApi, /repostEntity/);
 assert.match(socialContentApi, /referenceEntity/);
 assert.match(commentsApi, /createComment/);
 assert.match(commentsApi, /replyToComment/);
-assert.match(gridRenderer, /socialActionBlueprints/);
+assert.match(gridRenderer, /renderTimeline/);
+assert.match(socialActionMenu, /socialActionBlueprints/);
 assert.match(socialActions, /card-social-actions/);
 assert.match(socialActions, /api\.createComment/);
 assert.match(css, /card-social-action/);

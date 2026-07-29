@@ -8,9 +8,9 @@ import { StableMouthTeeth2D } from './StableMouthTeeth2D.js';
 import { StableMouthTongue2D } from './StableMouthTongue2D.js';
 
 /**
- * The Awtsmoos reveals one speaking interior through cavity, throat, teeth, gum,
- * and tongue. Awtsmoos.com keeps every layer bound to shared articulation rather
- * than swapping disconnected mouth sprites.
+ * The cavity follows asymmetric lips while teeth, throat, and tongue share depth.
+ * The Awtsmoos reveals voice through one organic interior; Awtsmoos.com keeps
+ * every layer editable, deterministic, persistent, previewable, and export-stable.
  */
 export class StableMouthCavity2D {
 	static build(kind, colors, geometry) {
@@ -26,23 +26,29 @@ export class StableMouthCavity2D {
 	}
 
 	static cavity(kind, colors, geometry) {
-		const { x, y, cavityHalfWidth, cavityHalfHeight } = geometry;
+		const leftX = geometry.x - geometry.cavityHalfWidth;
+		const rightX = geometry.x + geometry.cavityHalfWidth;
 		return G.path(`${kind}_mouth_cavity`, [
-			{ type: 'move', x: x - cavityHalfWidth, y },
+			{ type: 'move', x: leftX, y: geometry.leftCornerY },
 			{
-				type: 'quad',
-				cx: x,
-				cy: y - cavityHalfHeight * 1.18,
-				x: x + cavityHalfWidth,
-				y
+				type: 'bezier',
+				c1x: geometry.x - geometry.cavityHalfWidth * 0.44,
+				c1y: geometry.cavityTopY,
+				c2x: geometry.x + geometry.cavityHalfWidth * 0.44,
+				c2y: geometry.cavityTopY,
+				x: rightX,
+				y: geometry.rightCornerY
 			},
 			{
-				type: 'quad',
-				cx: x,
-				cy: y + cavityHalfHeight * 1.22,
-				x: x - cavityHalfWidth,
-				y
-			}
+				type: 'bezier',
+				c1x: geometry.x + geometry.cavityHalfWidth * 0.52,
+				c1y: geometry.cavityBottomY,
+				c2x: geometry.x - geometry.cavityHalfWidth * 0.52,
+				c2y: geometry.cavityBottomY,
+				x: leftX,
+				y: geometry.leftCornerY
+			},
+			{ type: 'close' }
 		], {
 			fill: colors.mouth || '#39161a',
 			stroke: colors.line,
@@ -52,13 +58,13 @@ export class StableMouthCavity2D {
 	}
 
 	static throat(kind, geometry) {
-		const height = geometry.cavityHalfHeight;
+		const height = geometry.cavityBottomY - geometry.cavityTopY;
 		return G.ellipse(
 			`${kind}_mouth_throat`,
 			geometry.x,
-			geometry.y + height * 0.28,
+			geometry.cavityTopY + height * 0.58,
 			geometry.cavityHalfWidth * 0.46,
-			height * 0.5,
+			height * 0.24,
 			0,
 			{
 				fill: 'rgba(36,5,13,0.42)',

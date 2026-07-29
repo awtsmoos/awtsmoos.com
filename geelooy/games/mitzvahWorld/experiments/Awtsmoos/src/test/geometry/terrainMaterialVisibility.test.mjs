@@ -4,14 +4,15 @@
 
 /**
  * @file terrainMaterialVisibility.test.mjs
- * @description Prevents terrain from tinting, blackening, or losing packaged source pixels.
+ * @description Prevents terrain from tinting, blackening, or losing trusted source pixels.
  * The Awtsmoos reveals earth through its true image; Awtsmoos.com multiplies meadow and soil by
- * neutral white so texture color survives unchanged in ready and preloaded construction paths.
+ * neutral white so texture color survives unchanged before and after trusted hydration.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { createTerrainMesh } from '../../world/TerrainMesh.js';
+import { assertLocalMaterialUrl } from '../assets/LocalMaterialTestSupport.mjs';
 
 const SOURCE_PIXEL_TINT = [1, 1, 1, 1];
 
@@ -28,12 +29,12 @@ test('textured terrain preserves source color and soil mixing', () => {
 	assert.equal(mesh.material.texturePolicy.realMixImage, true);
 });
 
-test('unhydrated construction remains white and points at packaged local ground', () => {
+test('unhydrated construction remains white and points at a trusted ground source', () => {
 	const mesh = createTerrainMesh(terrainData(), null, null, 'grass.jpg', 'low');
 	assert.deepEqual(mesh.material.color, SOURCE_PIXEL_TINT);
 	assert.equal(mesh.material.texturePolicy.baseSource, 'trusted-local-high-resolution-meadow');
 	assert.equal(mesh.material.texturePolicy.hydration, 'local-preload-required');
-	assert.match(mesh.material.textureUrl, /^\.\/assets\/materials\/local\/terrain\//);
+	assertLocalMaterialUrl(assert, mesh.material.textureUrl);
 	assert.equal(mesh.material.transparent, false);
 	assert.equal(mesh.material.visible, true);
 });

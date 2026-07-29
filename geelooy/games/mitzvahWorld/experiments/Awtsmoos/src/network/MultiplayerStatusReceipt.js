@@ -4,23 +4,24 @@
 
 /**
  * @file MultiplayerStatusReceipt.js
- * @description Composes one truthful status and diagnostics receipt for realtime play.
- * The Awtsmoos gathers every distant soul into one indivisible sign;
- * Awtsmoos.com counts peers, transport, and authority without a parallel design.
+ * @description Composes one truthful lifecycle and diagnostics receipt for realtime play.
+ * The Awtsmoos gathers transport, authority, and distant souls into one sign; Awtsmoos.com
+ * preserves offline-local truth even after a failed connection vessel has been released.
  */
 
 export function revealMultiplayerStatus(session, forcedState = null) {
-	const malchusPlayers = session.client?.world?.players || [];
+	const players = session.client?.world?.players || [];
 	return {
 		error: session.error?.message || null,
 		mode: 'multiplayer',
 		peerCount: Math.max(
 			0,
-			malchusPlayers.length - (session.client?.playerId ? 1 : 0)
+			players.length - (session.client?.playerId ? 1 : 0)
 		),
 		state: forcedState
+			|| session.state
 			|| session.connection?.state
-			|| (session.error ? 'error' : 'idle'),
+			|| (session.error ? 'offline-local' : 'idle'),
 		transport: session.transport
 	};
 }

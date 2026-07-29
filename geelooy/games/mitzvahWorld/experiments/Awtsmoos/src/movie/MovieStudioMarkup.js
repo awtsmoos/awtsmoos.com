@@ -4,79 +4,72 @@
 
 /**
  * @file MovieStudioMarkup.js
- * @description Holds the semantic structure of the active MitzvahWorld editor shell.
- * The Awtsmoos renews each control from one indivisible source; Awtsmoos.com gives
- * every visible region a truthful name, so keyboard, touch, and sight can share its course.
+ * @description Composes the semantic NLE shell with preview, inspector, timeline, utilities, and responsive status.
+ * The Awtsmoos renews every panel through one source; Awtsmoos.com gives desktop and mobile
+ * the same named vessels while focused markup modules keep each responsibility clear and bounded.
  */
 
-export function movieStudioMarkup() {
+import { movieStudioInspectorMarkup } from './MovieStudioInspectorMarkup.js';
+import {
+	movieStudioStatusBarMarkup,
+	movieStudioUtilitySurfacesMarkup,
+	movieStudioUtilityToolbarMarkup
+} from './MovieStudioUtilityMarkup.js';
+
+export function movieStudioMarkup(project) {
 	return `
 		<header class="movie-studio-bar">
 			<div class="movie-studio-brand">
-				<strong data-title>Movie Maker</strong>
-				<span data-project-meta>Preparing project…</span>
+				<strong>B"H MitzvahWorld Movie Maker</strong>
+				<span data-title>${escapeMovieMarkup(project.title)}</span>
 			</div>
+			${movieStudioUtilityToolbarMarkup()}
 			<button data-inspector-toggle aria-controls="movie-studio-inspector" aria-expanded="true">
 				<span aria-hidden="true">☰</span>
 				<span class="movie-secondary-label">Inspector</span>
 			</button>
 		</header>
-		<div class="movie-studio-workspace">
-			<main class="movie-studio-preview-column">
-				<div class="movie-studio-preview-shell">
-					<div class="movie-studio-preview" data-preview aria-label="Movie preview"></div>
-				</div>
-				<div class="movie-studio-transport" aria-label="Playback controls">
-					<button data-play title="Play preview (Space)">
-						▶ <span class="movie-secondary-label">Play</span>
-					</button>
-					<button data-stop title="Pause preview (Space)">
-						■ <span class="movie-secondary-label">Pause</span>
-					</button>
-				</div>
-				<div class="movie-studio-status" data-status role="status" aria-live="polite">Ready.</div>
-			</main>
-			<aside class="movie-studio-inspector" id="movie-studio-inspector" data-inspector>
-				<header class="movie-studio-inspector-header">
-					<h2>Inspector</h2>
-					<button data-inspector-close aria-label="Close inspector">×</button>
-				</header>
-				<section class="movie-studio-section">
-					<h3>Project</h3>
-					<div class="movie-studio-project-summary">
-						<div class="movie-studio-summary-item">
-							<span>Canvas</span><strong data-resolution></strong>
-						</div>
-						<div class="movie-studio-summary-item">
-							<span>Frame rate</span><strong data-fps></strong>
-						</div>
-						<div class="movie-studio-summary-item">
-							<span>Duration</span><strong data-duration></strong>
-						</div>
-						<div class="movie-studio-summary-item">
-							<span>Tracks</span><strong data-track-count></strong>
-						</div>
-					</div>
-				</section>
-				<section class="movie-studio-section" data-transform></section>
-				<section class="movie-studio-section">
-					<h3>Project and export</h3>
-					<div class="movie-studio-actions">
-						<button class="movie-primary-action" data-render>Render Live MP4</button>
-						<button data-render-exact>Render Exact Package</button>
-						<button data-copy>Copy Project URL</button>
-					</div>
-				</section>
-				<details class="movie-studio-section">
-					<summary>Advanced project JSON</summary>
-					<label class="movie-studio-field">
-						<span>Canonical project document</span>
-						<textarea class="movie-studio-json" spellcheck="false" data-json></textarea>
-					</label>
-					<button data-apply>Apply JSON</button>
-				</details>
-			</aside>
-		</div>
-		<div data-timeline aria-label="Movie timeline"></div>
+		<main class="movie-studio-workspace" data-workspace>
+			<section class="movie-studio-preview-column" aria-label="Program monitor">
+				${moviePreviewMarkup()}
+			</section>
+			<div class="movie-studio-splitter movie-studio-splitter-inspector" data-inspector-splitter role="separator" aria-label="Resize inspector" aria-orientation="vertical" tabindex="0"></div>
+			${movieStudioInspectorMarkup()}
+		</main>
+		<div class="movie-studio-splitter movie-studio-splitter-timeline" data-timeline-splitter role="separator" aria-label="Resize timeline" aria-orientation="horizontal" tabindex="0"></div>
+		<section data-timeline aria-label="Movie timeline"></section>
+		${movieStudioStatusBarMarkup()}
+		${movieStudioUtilitySurfacesMarkup()}
 	`;
+}
+
+function moviePreviewMarkup() {
+	return `
+		<div class="movie-studio-preview-stage" data-preview-stage>
+			<div class="movie-studio-preview-frame" data-preview-frame>
+				<div class="movie-studio-preview" data-preview></div>
+				<div class="movie-preview-overlay" data-preview-overlay aria-hidden="true">
+					<i data-overlay="thirds"></i>
+					<i data-overlay="center"></i>
+					<i data-overlay="titleSafe"></i>
+					<i data-overlay="actionSafe"></i>
+				</div>
+			</div>
+		</div>
+		<div class="movie-studio-transport" aria-label="Playback controls">
+			<button data-play aria-label="Play preview">▶</button>
+			<button data-pause aria-label="Pause preview">Ⅱ</button>
+		</div>
+		<div class="movie-studio-status" data-status role="status" aria-live="polite">Ready.</div>
+	`;
+}
+
+function escapeMovieMarkup(value) {
+	return String(value || '').replace(/[&<>"']/g, character => ({
+		'&': '&amp;',
+		'<': '&lt;',
+		'>': '&gt;',
+		'"': '&quot;',
+		"'": '&#39;'
+	})[character]);
 }

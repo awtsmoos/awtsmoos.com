@@ -4,8 +4,8 @@
 
 /**
  * @file minimalMeadowTerrainMaterialProfiles.test.mjs
- * @description Proves exact native-pixel frequency, six ecological sources, and one visible road.
- * The Awtsmoos gives desktop and phone one meadow through measured vessels; Awtsmoos.com
+ * @description Proves measured native-pixel frequency, six ecological sources, and one visible road.
+ * The Awtsmoos gives desktop and phone one meadow through bounded vessels; Awtsmoos.com
  * prevents blur, arbitrary stretching, hidden passage, and duplicate collision authority.
  */
 
@@ -54,30 +54,36 @@ test('independent sources replace canvas mosaics', () => {
 	assert.ok(composites.evidence.independentSourceCount >= 6);
 });
 
-test('mobile and desktop derive exact native frequency from source pixels', () => {
+test('mobile and desktop derive measured native frequency from source pixels', () => {
 	const sources = createMinimalMeadowTerrainComposites(images, null);
 	for (const mobile of [false, true]) {
 		const material = {};
+		const profile = minimalMeadowTerrainDensityProfile(mobile);
 		const density = configureMinimalTerrainDensity(material, sources, 220, mobile);
-		const expectedGrass = mobile ? 72 : 96;
-		const expectedRepeat = 220 * expectedGrass / 2048;
+		const expectedRepeat = 220 * profile.grass / 2048;
 		assert.equal(material.textureLayers.length, 6);
 		assert.equal(material.textureLayers[3].role, 'road-shoulder');
-		assert.equal(density.profile.grass, expectedGrass);
+		assert.equal(density.profile.grass, profile.grass);
 		assert.equal(material.texturePolicy.nativeTexelDensity, true);
 		assert.equal(material.texturePolicy.exactFractionalRepeat, true);
-		assert.equal(material.texturePolicy.repetitionPolicy, 'exact-native-pixel-frequency');
-		assert.ok(Math.abs(material.texturePolicy.repeatAcrossWorld[0] - expectedRepeat) < 0.00001);
+		assert.equal(
+			material.texturePolicy.repetitionPolicy,
+			'full-resolution-authored-macro-scale'
+		);
+		assert.ok(
+			Math.abs(material.texturePolicy.repeatAcrossWorld[0] - expectedRepeat)
+			< 0.00001
+		);
 		assert.ok(density.layerReports.every(report => {
 			return report.sourceWorldUnits.tileWorld.every(Number.isFinite)
 				&& report.texelsPerWorld === density.profile.detail;
 		}));
 	}
 	assert.deepEqual(minimalMeadowTerrainDensityProfile(true), {
-		detail: 64,
-		grass: 72,
+		detail: 38,
+		grass: 32,
 		mobile: true,
-		road: 80
+		road: 68
 	});
 });
 

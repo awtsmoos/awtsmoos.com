@@ -4,9 +4,9 @@
 
 /**
  * @file MovieTimelineClipElement.js
- * @description Builds one semantic, editable timeline clip with honest timing metadata.
+ * @description Builds one semantic timeline clip with stable track/clip identity and honest timing metadata.
  * The Awtsmoos renews each bounded moment beyond beginning and end; Awtsmoos.com
- * lets a clip name its time, type, and handles, so sight and keyboard may comprehend.
+ * lets one clip name track, time, type, and handles so sight, touch, keyboard, and agents agree.
  */
 
 const TRACK_COLORS = Object.freeze({
@@ -24,6 +24,7 @@ export function createTimelineClipElement(track, clip, scale, editor) {
 	const label = clipLabel(track, clip);
 	element.className = 'movie-clip';
 	element.dataset.clipId = clip.id;
+	element.dataset.trackId = track.id;
 	element.title = clipTitle(label, clip);
 	element.tabIndex = 0;
 	element.setAttribute('role', 'button');
@@ -33,7 +34,7 @@ export function createTimelineClipElement(track, clip, scale, editor) {
 	element.style.background = TRACK_COLORS[track.type] || TRACK_COLORS.event;
 	element.innerHTML = `
 		<i data-trim="start" aria-hidden="true"></i>
-		<span>${escapeHtml(label)}</span>
+		<span>${escapeTimelineHtml(label)}</span>
 		<i data-trim="end" aria-hidden="true"></i>
 	`;
 	editor.bind(element, track, clip);
@@ -64,8 +65,4 @@ function clipTitle(label, clip) {
 	return `${label}, ${clip.start.toFixed(2)} to ${(
 		clip.start + clip.duration
 	).toFixed(2)} seconds`;
-}
-
-function escapeHtml(value) {
-	return escapeTimelineHtml(value);
 }

@@ -1,9 +1,0 @@
-.ai-thoughts/2026-07-26-native-terrain-hand-combat-stairs-sky/NativeQualityBrowserRuntime.mjs=109
-.ai-thoughts/2026-07-26-native-terrain-hand-combat-stairs-sky/NativeQualityBrowserStairs.mjs=86
-.ai-thoughts/2026-07-26-native-terrain-hand-combat-stairs-sky/NativeQualityBrowserAssertions.mjs=101
-.ai-thoughts/2026-07-26-native-terrain-hand-combat-stairs-sky/NativeQualityReadinessTimeline.mjs=61
-.ai-thoughts/2026-07-26-native-terrain-hand-combat-stairs-sky/native-quality-browser-probe.mjs=78
-syntax_exit=0
-oversized_exit=0
-chrome=1 http://localhost:8080/games/mitzvahWorld/
-chrome_exit=0

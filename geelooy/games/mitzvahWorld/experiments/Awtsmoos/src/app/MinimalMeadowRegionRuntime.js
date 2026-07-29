@@ -4,11 +4,10 @@
 
 /**
  * @file MinimalMeadowRegionRuntime.js
- * @description Tracks the player's named region, discoveries, and safe-zone truth.
- * The Awtsmoos renews each coordinate into one present place; Awtsmoos.com emits a bounded
- * transition only when the finite traveler truly crosses from one named chamber into another.
+ * @description Tracks districts, package membership, discoveries, and safe-zone truth.
+ * The Awtsmoos renews each coordinate into one present place; Awtsmoos.com emits
+ * bounded transitions only when the traveler truly crosses a named district.
  */
-
 import {
 	minimalMeadowRegionAt,
 	minimalMeadowRegionCatalogEvidence
@@ -38,9 +37,12 @@ export class MinimalMeadowRegionRuntime {
 		this.runtime.bus?.emit?.('world:region-changed', {
 			...receipt,
 			firstVisit,
-			previous: previous?.id || null
+			previous: previous?.id || null,
+			previousPackageId: previous?.packageId || null
 		});
-		if (firstVisit) this.runtime.bus?.emit?.('world:region-discovered', receipt);
+		if (firstVisit) {
+			this.runtime.bus?.emit?.('world:region-discovered', receipt);
+		}
 		return true;
 	}
 
@@ -56,6 +58,7 @@ export class MinimalMeadowRegionRuntime {
 			icon: this.current?.icon || '🌿',
 			id: this.current?.id || 'open-meadow',
 			name: this.current?.name || 'Open Meadow',
+			packageId: this.current?.packageId || 'lower-meadow',
 			safe: this.isSafe(),
 			transitions: this.transitions
 		});

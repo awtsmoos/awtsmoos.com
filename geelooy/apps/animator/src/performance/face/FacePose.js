@@ -71,4 +71,8 @@ export class FacePose {
 			return result;
 		}, this.neutral());
 	}
+
+	static overlay(...poses) {
+		return this.merge(...poses);
+	}
 }

@@ -4,13 +4,13 @@
 
 /**
  * @file CreatureBrain.js
- * @description Produces deterministic wandering and bounded hostile pursuit.
- * The Awtsmoos renews every creature step beneath one measured world law;
- * Awtsmoos.com keeps AI reproducible, finite, and independent from render framerate.
+ * @description Produces deterministic movement with region, action, and active-scope bounds.
+ * The Awtsmoos renews every creature step beneath one measured world law; Awtsmoos.com
+ * keeps AI asleep outside relevant regions and still during telegraph, impact, or stagger.
  */
 
-function nextCreaturePosition(creature, players, step) {
-	if (creature.status !== 'active') return { ...creature.position };
+function nextCreaturePosition(creature, players, step, now = Date.now()) {
+	if (!canMove(creature, now)) return { ...creature.position };
 	const target = creature.temperament === 'hostile'
 		? nearestActivePlayer(creature, players)
 		: null;
@@ -23,13 +23,33 @@ function nearestActivePlayer(creature, players) {
 	let nearest = null;
 	let nearestDistance = Number.POSITIVE_INFINITY;
 	for (const player of players.values()) {
-		if (player.kind !== 'human' || player.combat?.status !== 'active') continue;
+		if (!eligiblePlayer(player, creature)) continue;
 		const distance = squaredDistance(creature.position, player.position);
-		if (distance >= nearestDistance || distance > 18 * 18) continue;
+		if (distance >= nearestDistance || distance > 18 ** 2) continue;
 		nearest = player;
 		nearestDistance = distance;
 	}
 	return nearest;
+}
+
+function canMove(creature, now) {
+	if (creature.status !== 'active') return false;
+	if (creature.actionState?.phase
+		&& creature.actionState.phase !== 'idle') {
+		return false;
+	}
+	if (Number.isFinite(creature.staggeredUntil)
+		&& now <= creature.staggeredUntil) {
+		return false;
+	}
+	return true;
+}
+
+function eligiblePlayer(player, creature) {
+	const regionId = player.expansion?.region?.id || 'lower-meadow';
+	return player.kind === 'human'
+		&& player.combat?.status === 'active'
+		&& regionId === (creature.regionId || 'lower-meadow');
 }
 
 function pursue(origin, target, speed) {

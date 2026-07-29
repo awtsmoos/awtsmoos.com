@@ -4,21 +4,22 @@
 
 /**
  * @file MovieTimelineRenderer.js
- * @description Renders the timeline DOM and restores scroll without owning project mutations.
- * The Awtsmoos renews visible form while the project meaning remains one; Awtsmoos.com
- * rebuilds ruler, tracks, and playhead cleanly, then returns the creator where they begun.
+ * @description Renders command, ruler, marker, track, splitter, scale, and playhead vessels.
+ * The Awtsmoos renews visible form while project meaning remains one; Awtsmoos.com
+ * publishes true-second geometry and zoom bands while rebuilding without stale listeners.
  */
 
 import {
 	createTimelineRuler,
-	createTimelineToolbar,
 	createTimelineTrack
 } from './MovieTimelineElements.js';
 import { timelinePixelAtTime } from './MovieTimelineGeometry.js';
+import { createTimelineMarkerLane } from './MovieTimelineMarkers.js';
 import {
-	fitTimelineScale,
-	timelineHeaderWidth
-} from './MovieTimelineViewport.js';
+	createTimelineToolbar,
+	refreshTimelineToolbar
+} from './MovieTimelineToolbar.js';
+import { timelineHeaderWidth } from './MovieTimelineViewport.js';
 
 export function renderMovieTimeline(view) {
 	const previousScroll = {
@@ -28,17 +29,17 @@ export function renderMovieTimeline(view) {
 	view.interactions.unbind();
 	view.shell.replaceChildren();
 	view.shell.className = 'movie-timeline-shell';
+	view.shell.dataset.scaleBand = timelineScaleBand(view.scale);
+	view.shell.style.setProperty(
+		'--movie-timeline-second-width',
+		`${view.scale}px`
+	);
 	view.shell.tabIndex = 0;
 	view.shell.setAttribute('role', 'region');
-	view.shell.appendChild(createTimelineToolbar(view.project, view.scale, {
-		fit: () => view.setScale(fitTimelineScale(
-			view.shell,
-			view.project.duration
-		)),
-		zoomIn: () => view.setScale(view.scale * 1.35),
-		zoomOut: () => view.setScale(view.scale / 1.35)
-	}));
+	view.shell.setAttribute('aria-label', 'Movie timeline editor');
+	view.shell.appendChild(createTimelineToolbar(view));
 	view.shell.appendChild(createTimelineRuler(view.project, view.scale));
+	view.shell.appendChild(createTimelineMarkerLane(view));
 	for (const track of view.project.tracks) {
 		view.shell.appendChild(createTimelineTrack(
 			track,
@@ -47,6 +48,7 @@ export function renderMovieTimeline(view) {
 			view.editor
 		));
 	}
+	view.shell.appendChild(createTrackHeaderSplitter(view));
 	view.playhead = document.createElement('div');
 	view.playhead.className = 'movie-playhead';
 	view.shell.appendChild(view.playhead);
@@ -68,4 +70,28 @@ export function setMovieTimelineTime(view, time) {
 		view.scale,
 		timelineHeaderWidth(view.shell)
 	)}px)`;
+}
+
+export function refreshMovieTimelineCommands(view) {
+	refreshTimelineToolbar(view);
+}
+
+function createTrackHeaderSplitter(view) {
+	const splitter = document.createElement('div');
+	splitter.className = 'movie-track-header-splitter';
+	splitter.dataset.resize = 'trackHeader';
+	splitter.tabIndex = 0;
+	splitter.setAttribute('role', 'separator');
+	splitter.setAttribute('aria-label', 'Resize timeline track labels');
+	splitter.setAttribute('aria-orientation', 'vertical');
+	splitter.setAttribute('aria-valuemin', '80');
+	splitter.setAttribute('aria-valuemax', '280');
+	splitter.setAttribute('aria-valuenow', String(timelineHeaderWidth(view.shell)));
+	return splitter;
+}
+
+function timelineScaleBand(scale) {
+	if (scale < 24) return 'overview';
+	if (scale >= 96) return 'frames';
+	return 'seconds';
 }

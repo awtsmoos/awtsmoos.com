@@ -3,101 +3,91 @@
 // Blessed is He
 
 import assert from 'node:assert/strict';
-import { createHash } from 'node:crypto';
-import { FaceRenderer } from '../../src/character/factory/stable/face/FaceRenderer.js';
-import { StablePalette } from '../../src/character/factory/stable/StablePalette.js';
-import { StableReferenceMetrics } from '../../src/character/factory/stable/StableReferenceMetrics.js';
-import { StableRigMetrics } from '../../src/character/factory/stable/StableRigMetrics.js';
-import { StableViewProfile } from '../../src/character/factory/stable/StableViewProfile.js';
-import { ReferenceCharacterCatalog } from '../../src/character/reference/ReferenceCharacterCatalog.js';
 import { ReferenceCharacterIds } from '../../src/character/reference/specification/ReferenceCharacterIds.js';
+import { ReferenceTrioFaceProofHelper as Proof } from './reference-trio/ReferenceTrioFaceProofHelper.js';
 
 /**
- * @file referenceTrioBeardMouthSmoke.js
- * @description Proves authored mouths and beards through the real production face chain.
- * The Awtsmoos is one beyond front and profile; Awtsmoos.com demands deterministic nodes,
- * speech above beard openings, distinct identities, and no bitmap substitute in any view.
+ * Production beards must taper beneath genuinely untouched mouth skin in every
+ * view. The Awtsmoos joins regional hair with expression; Awtsmoos.com requires
+ * stable nodes, notched bridges, open moustaches, preview, and exact export.
  */
 const VIEWS = ['front', 'threeQuarter', 'side'];
-const IDS = ReferenceCharacterIds.all();
+const MALE_IDS = [
+	ReferenceCharacterIds.cheerful,
+	ReferenceCharacterIds.skeptical
+];
 
 for (const viewType of VIEWS) {
-	for (const id of IDS) {
-		const first = faceFor(id, viewType);
-		const second = faceFor(id, viewType);
-		assert.equal(hash(first.graph), hash(second.graph));
+	for (const id of ReferenceCharacterIds.all()) {
+		const first = Proof.face(id, viewType);
+		const second = Proof.face(id, viewType);
+		assert.equal(first.hash, second.hash);
 		assert.ok(first.ids.some(nodeId => nodeId.endsWith('_upper_lip')));
 		assert.ok(first.ids.some(nodeId => nodeId.endsWith('_lower_lip')));
-		if (id === ReferenceCharacterIds.calm) {
+		if (!MALE_IDS.includes(id)) {
 			assert.equal(first.ids.includes('continuous_beard_mass'), false);
 			continue;
 		}
-		for (const nodeId of [
-			'continuous_beard_mass',
-			'continuous_beard_outer',
-			'continuous_beard_face_opening',
-			'continuous_moustache_-1',
-			'continuous_moustache_1'
-		]) {
+		for (const nodeId of requiredNodes()) {
 			assert.ok(first.ids.includes(nodeId), `${id} ${viewType} lacks ${nodeId}`);
 		}
-		const lipIndex = first.ids.findIndex(nodeId => nodeId.endsWith('_upper_lip'));
-		assert.ok(
-			first.ids.indexOf('continuous_beard_mass') < lipIndex,
-			`${id} ${viewType} beard must render beneath speech`
-		);
+		const outer = Proof.node(first.graph, 'continuous_beard_outer');
+		assert.equal(outer.type, 'group');
+		assert.equal(outer.children.length, 3);
+		assertRegion(Proof.node(first.graph, 'continuous_beard_left_wing'));
+		assertRegion(Proof.node(first.graph, 'continuous_beard_right_wing'));
+		assertRegion(Proof.node(first.graph, 'continuous_beard_chin_bridge'));
+		assertMoustache(first.graph, -1);
+		assertMoustache(first.graph, 1);
+		assert.ok(first.beard.bridge.shoulderY > first.beard.mouth.lowerPeakY);
+		assert.ok(first.beard.bridge.topCenterY > first.beard.bridge.shoulderY);
+		assert.ok(first.beard.bridge.bottomHalf < first.beard.bridge.topHalf);
+		assert.ok(first.beard.bridge.bottomY > first.beard.bridge.topCenterY);
 	}
 }
 
-const ariFront = faceFor(ReferenceCharacterIds.cheerful, 'front');
-const dovidFront = faceFor(ReferenceCharacterIds.skeptical, 'front');
-const miriamFront = faceFor(ReferenceCharacterIds.calm, 'front');
-const miriam = ReferenceCharacterCatalog.character(ReferenceCharacterIds.calm);
-const roseStroke = findNode(miriamFront.graph, 'human_upper_lip')?.style?.stroke;
+const ari = Proof.face(ReferenceCharacterIds.cheerful, 'front');
+const dovid = Proof.face(ReferenceCharacterIds.skeptical, 'front');
+assert.equal(ari.beard.profile.name, 'broadFull');
+assert.equal(dovid.beard.profile.name, 'shortTapered');
+assert.ok(ari.beard.mouth.cavityHalfHeight > 7);
+assert.ok(ari.beard.articulation.teeth >= 0.85);
+assert.ok(dovid.beard.profile.jawSpread < ari.beard.profile.jawSpread);
+assert.ok(dovid.beard.bridge.height < ari.beard.bridge.height);
+assert.ok(dovid.beard.bridge.bottomHalf < ari.beard.bridge.bottomHalf);
+assert.ok(dovid.beard.bridge.height < 18);
+assert.equal(ari.beard.wings[0].bridgeX, ari.beard.bridge.leftShoulderX);
+assert.equal(dovid.beard.wings[1].bridgeX, dovid.beard.bridge.rightShoulderX);
 assert.notDeepEqual(
-	findNode(ariFront.graph, 'continuous_beard_outer'),
-	findNode(dovidFront.graph, 'continuous_beard_outer')
+	Proof.node(ari.graph, 'continuous_beard_outer'),
+	Proof.node(dovid.graph, 'continuous_beard_outer')
 );
-assert.equal(roseStroke, miriam.mouthStyle.lipColor);
-assert.notEqual(roseStroke, miriam.colors.line);
+
 console.log('B"H reference trio beard and mouth smoke passed');
 
-function faceFor(id, viewType) {
-	const data = JSON.parse(JSON.stringify(ReferenceCharacterCatalog.character(id)));
-	data.view = viewType;
-	const sage = data.archetype === 'sage' || data.style === 'illustrated_sage';
-	const baseMetrics = sage ? StableRigMetrics.sage() : StableRigMetrics.human();
-	const metrics = StableReferenceMetrics.apply(data, baseMetrics);
-	const colors = sage ? StablePalette.sage(data) : StablePalette.human(data);
-	const view = StableViewProfile.get(data);
-	const graph = FaceRenderer.build(
-		sage ? 'sage' : 'human',
-		data,
-		colors,
-		metrics,
-		view,
-		sage
-	);
-	return { graph, ids: collectIds(graph) };
+function requiredNodes() {
+	return [
+		'continuous_beard_mass',
+		'continuous_beard_outer',
+		'continuous_beard_left_wing',
+		'continuous_beard_right_wing',
+		'continuous_beard_chin_bridge',
+		'continuous_beard_face_opening',
+		'continuous_moustache_-1',
+		'continuous_moustache_1'
+	];
 }
 
-function collectIds(node, result = []) {
-	if (!node || typeof node !== 'object') return result;
-	if (typeof node.id === 'string') result.push(node.id);
-	for (const child of node.children || []) collectIds(child, result);
-	return result;
+function assertRegion(node) {
+	assert.equal(node.type, 'path');
+	assert.ok(node.style.fill);
+	assert.ok(node.style.stroke);
+	assert.ok(node.points.length >= 5);
 }
 
-function findNode(node, id) {
-	if (!node || typeof node !== 'object') return null;
-	if (node.id === id) return node;
-	for (const child of node.children || []) {
-		const found = findNode(child, id);
-		if (found) return found;
-	}
-	return null;
-}
-
-function hash(value) {
-	return createHash('sha256').update(JSON.stringify(value)).digest('hex');
+function assertMoustache(graph, side) {
+	const node = Proof.node(graph, `continuous_moustache_${side}`);
+	assert.ok(node.style.stroke);
+	assert.equal(node.style.fill, undefined);
+	assert.ok(node.style.lineWidth > 0);
 }

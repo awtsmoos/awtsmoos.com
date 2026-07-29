@@ -3,71 +3,71 @@
 // Blessed is He
 
 /**
- * Rib, waist, and hip curves carry asymmetrical cloth without owning a torso.
- * The Awtsmoos is beyond left and right; Awtsmoos.com keeps each finite side
- * reusable, editable, deterministic, and shared by preview and export.
+ * Chest, waist, hip, and hem form a rounded taper instead of parallel walls. The
+ * Awtsmoos carries cloth through changing width; Awtsmoos.com preserves both sides,
+ * editable curves, persistence, preview, and exact production export.
  */
 export class StableTorsoSideSegments {
 	static down(v, side) {
 		const g = this.geometry(v, side);
 		return [
-			{
-				type: 'bezier',
-				c1x: g.chest + g.out * v.ribRound,
-				c1y: v.armholeY + 7,
-				c2x: g.chest + g.out * v.ribRound,
-				c2y: v.chestSideY,
-				x: g.chest,
-				y: v.chestSideY
-			},
-			{
-				type: 'bezier',
-				c1x: g.chest + g.out * v.sideRound,
-				c1y: v.chestSideY + 12,
-				c2x: g.waist + g.out * v.sideRound * 0.4,
-				c2y: v.waistY - 10,
-				x: g.waist + g.belly,
-				y: v.waistY
-			},
-			{
-				type: 'quad',
-				cx: g.hip + g.out * v.sideRound,
-				cy: v.hemY - 12,
-				x: g.hip,
-				y: v.hemY - g.out * v.hemLift
-			}
+			this.rib(v, g, true),
+			this.waist(v, g, true),
+			this.hip(v, g, true)
 		];
 	}
 
 	static up(v, side) {
 		const g = this.geometry(v, side);
 		return [
-			{
-				type: 'quad',
-				cx: g.hip + g.out * v.sideRound,
-				cy: v.hemY - 12,
-				x: g.waist + g.belly,
-				y: v.waistY
-			},
-			{
-				type: 'bezier',
-				c1x: g.waist + g.out * v.sideRound * 0.4,
-				c1y: v.waistY - 10,
-				c2x: g.chest + g.out * v.sideRound,
-				c2y: v.chestSideY + 12,
-				x: g.chest,
-				y: v.chestSideY
-			},
-			{
-				type: 'bezier',
-				c1x: g.chest + g.out * v.ribRound,
-				c1y: v.chestSideY,
-				c2x: g.chest + g.out * v.ribRound,
-				c2y: v.armholeY + 7,
-				x: g.chest,
-				y: v.armholeY
-			}
+			this.hip(v, g, false),
+			this.waist(v, g, false),
+			this.rib(v, g, false)
 		];
+	}
+
+	static rib(v, g, descending) {
+		return {
+			type: 'bezier',
+			c1x: g.chest + g.out * v.ribRound * 0.62,
+			c1y: descending ? v.armholeY + 7 : v.chestSideY - 3,
+			c2x: g.chest + g.out * v.ribRound * 0.42,
+			c2y: descending ? v.chestSideY - 3 : v.armholeY + 7,
+			x: g.chest,
+			y: descending ? v.chestSideY : v.armholeY
+		};
+	}
+
+	static waist(v, g, descending) {
+		return {
+			type: 'bezier',
+			c1x: descending
+				? g.chest + g.out * v.sideRound * 0.72
+				: g.waist + g.belly + g.out * v.sideRound * 0.18,
+			c1y: descending ? v.chestSideY + 13 : v.waistY - 11,
+			c2x: descending
+				? g.waist + g.belly + g.out * v.sideRound * 0.18
+				: g.chest + g.out * v.sideRound * 0.72,
+			c2y: descending ? v.waistY - 11 : v.chestSideY + 13,
+			x: descending ? g.waist + g.belly : g.chest,
+			y: descending ? v.waistY : v.chestSideY
+		};
+	}
+
+	static hip(v, g, descending) {
+		return {
+			type: 'bezier',
+			c1x: descending
+				? g.waist + g.belly + g.out * v.sideRound * 0.26
+				: g.hip + g.out * v.sideRound * 0.42,
+			c1y: descending ? v.waistY + 8 : v.hemY - 10,
+			c2x: descending
+				? g.hip + g.out * v.sideRound * 0.42
+				: g.waist + g.belly + g.out * v.sideRound * 0.26,
+			c2y: descending ? v.hemY - 10 : v.waistY + 8,
+			x: descending ? g.hip : g.waist + g.belly,
+			y: descending ? v.hemY - g.out * v.hemLift : v.waistY
+		};
 	}
 
 	static geometry(v, side) {

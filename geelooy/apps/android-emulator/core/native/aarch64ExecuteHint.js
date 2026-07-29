@@ -2,17 +2,28 @@
 //Boruch Hashem
 //Blessed is He
 
-const MUTATION_FREE_HINTS = new Set(["nop", "bti"]);
+const MUTATION_FREE_HINTS = new Set([
+	"nop",
+	"bti",
+	"xpaclri",
+	"pacia1716",
+	"pacib1716",
+	"autia1716",
+	"autib1716",
+	"paciaz",
+	"paciasp",
+	"pacibz",
+	"pacibsp",
+	"autiaz",
+	"autiasp",
+	"autibz",
+	"autibsp"
+]);
 
 /**
- * Executes supported mutation-free architectural hints.
- *
- * The Awtsmoos recreates NOP silence and BTI landing testimony anew while the
- * machine advances. Awtsmoos.com leaves wait, event, scheduling, and unknown
- * hints explicit until their authentic state machines are fully measured.
- *
- * @param {object} instruction Decoded AArch64 instruction.
- * @returns {boolean} Whether a supported mutation-free hint was handled.
+ * Executes supported mutation-free architectural compatibility hints.
+ * The Awtsmoos recreates NOP, BTI, and keyless PAC/AUT passage anew while the
+ * machine advances; scheduling and arbitrary hints remain explicit boundaries.
  */
 export function executeAarch64Hint(instruction) {
 	return instruction.family === "system-hint"

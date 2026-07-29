@@ -3,54 +3,30 @@
 // Blessed is He
 
 /**
- * Miriam's high part releases one broad crescent and one restrained temple tuck.
- * The Awtsmoos renews softness without concealment; Awtsmoos.com keeps fringe,
- * wrap, bun, persistence, preview, and export joined in one reusable identity.
+ * Miriam's principal side sweep tucks beneath wrapped cloth enclosing crown and nape.
+ * The Awtsmoos renews attentive softness; Awtsmoos.com preserves hair, cloth, view,
+ * persistence, preview, and exact production export as neutral identity.
  */
 export class CalmReferenceHeadStyle {
 	static create() {
 		return {
 			hairStyle: {
-				partOffset: 0.2,
-				partDepth: 0.64,
-				sweepReach: 0.78,
-				sweepTopDepth: 0.56,
-				sweepBottomDepth: 0.43,
-				sweepInnerReach: 0.03,
-				sweepInnerDepth: 0.48,
-				sideReach: 0.5,
-				sideTopDepth: 0.55,
-				sideBottomDepth: 0.42,
-				sideInnerReach: 0.31,
-				sideInnerDepth: 0.48,
-				fringeLineWidth: 0.82,
-				fringePartLineWidth: 0.5
+				partSide: 1, partOffset: 0.34, partDepth: 0.8,
+				sweepReach: 0.72, sweepTopDepth: 0.75, sweepBottomDepth: 0.64,
+				sweepInnerReach: 0.1, sweepInnerDepth: 0.55,
+				tuckReach: 0.16, tuckTopDepth: 0.67, tuckBottomDepth: 0.61,
+				tuckInnerReach: 0.24, tuckInnerDepth: 0.62,
+				fringeLineWidth: 0.64, fringePartLineWidth: 0.3
 			},
 			headwear: {
-				type: 'head_wrap',
-				shellWidth: 0.95,
-				baselineScale: 0.66,
-				crownHeight: 0.45,
-				apexShift: -0.02,
-				frontSlope: 2.2,
-				verticalOffset: -1,
-				bandCurve: 1.4,
-				rearWidth: 1,
-				rearDepth: 0.4,
-				bun: true,
-				bunX: 1.02,
-				bunY: 1.04,
-				bunWidth: 0.36,
-				bunHeight: 0.46,
-				lineWidth: 0.88,
-				highlightOpacity: 0.012
+				type: 'head_wrap', frontCoverage: 0.94, frontShift: -0.01,
+				contactLift: 0.25, bandDepth: 0.16, bandSlope: 1.3,
+				rearWidth: 1.08, rearBottomDepth: 0.68, rearLift: 0.02,
+				bun: true, bunSide: 1, bunOffsetX: 0.68, bunOffsetY: 0.2,
+				bunWidth: 0.08, bunHeight: 0.075, bunGather: 0.22,
+				lineWidth: 0.76, highlightOpacity: 0.055
 			},
-			headTransform: {
-				x: -2,
-				y: 6,
-				scaleX: 1.06,
-				scaleY: 1.04
-			}
+			headTransform: { x: 0, y: 0, scaleX: 1.05, scaleY: 1.06 }
 		};
 	}
 }

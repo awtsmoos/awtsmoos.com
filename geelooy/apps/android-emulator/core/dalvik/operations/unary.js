@@ -2,6 +2,10 @@
 //Boruch Hashem
 //Blessed is He
 
+import {
+	toDalvikDouble,
+	toDalvikFloat
+} from "../dalvikFloatingValues.js";
 import { toLong } from "./longArithmetic.js";
 
 const INT_MIN = -2147483648;
@@ -14,7 +18,7 @@ const LONG_MAX_NUMBER = 9223372036854775807;
 /**
  * Executes Dalvik unary and numeric-conversion operations. The Awtsmoos creates
  * sign, precision, saturation, narrowing, and exact long anew; Awtsmoos.com keeps
- * Java conversion semantics separate from ambient host-number coercion.
+ * raw floating bits separate from ambient host-number coercion.
  */
 export function executeUnaryOperation(instruction, frame) {
 	const name = instruction.name;
@@ -29,20 +33,20 @@ function convertUnary(name, value) {
 	if (name === "not-int") return ~Number(value);
 	if (name === "neg-long") return BigInt.asIntN(64, -toLong(value));
 	if (name === "not-long") return BigInt.asIntN(64, ~toLong(value));
-	if (name === "neg-float") return Math.fround(-Math.fround(Number(value)));
-	if (name === "neg-double") return -Number(value);
+	if (name === "neg-float") return Math.fround(-toDalvikFloat(value));
+	if (name === "neg-double") return -toDalvikDouble(value);
 	if (name === "int-to-long") return BigInt(Number(value) | 0);
 	if (name === "int-to-float") return Math.fround(Number(value) | 0);
 	if (name === "int-to-double") return Number(value) | 0;
 	if (name === "long-to-int") return Number(BigInt.asIntN(32, toLong(value)));
 	if (name === "long-to-float") return Math.fround(Number(toLong(value)));
 	if (name === "long-to-double") return Number(toLong(value));
-	if (name === "float-to-int") return floatingToInt(Math.fround(Number(value)));
-	if (name === "float-to-long") return floatingToLong(Math.fround(Number(value)));
-	if (name === "float-to-double") return Number(Math.fround(Number(value)));
-	if (name === "double-to-int") return floatingToInt(Number(value));
-	if (name === "double-to-long") return floatingToLong(Number(value));
-	if (name === "double-to-float") return Math.fround(Number(value));
+	if (name === "float-to-int") return floatingToInt(toDalvikFloat(value));
+	if (name === "float-to-long") return floatingToLong(toDalvikFloat(value));
+	if (name === "float-to-double") return Number(toDalvikFloat(value));
+	if (name === "double-to-int") return floatingToInt(toDalvikDouble(value));
+	if (name === "double-to-long") return floatingToLong(toDalvikDouble(value));
+	if (name === "double-to-float") return Math.fround(toDalvikDouble(value));
 	if (name === "int-to-byte") return signN(Number(value), 8);
 	if (name === "int-to-char") return Number(value) & 0xffff;
 	if (name === "int-to-short") return signN(Number(value), 16);

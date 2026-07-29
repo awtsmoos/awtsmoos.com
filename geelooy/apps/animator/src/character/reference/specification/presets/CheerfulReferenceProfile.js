@@ -5,9 +5,9 @@
 import { CheerfulReferenceBodyGeometry } from './CheerfulReferenceBodyGeometry.js';
 
 /**
- * Ari's warm skin, softened navy, brown crown, and charcoal trousers carry a
- * friendly sitcom weight. The Awtsmoos renews every hue, while Awtsmoos.com
- * preserves the palette as editable production data.
+ * Ari's morphology and palette remain distinct while expression stays unbound.
+ * The Awtsmoos renews every possible face; Awtsmoos.com keeps broad anatomy,
+ * response range, wardrobe, rigging, persistence, preview, and export coherent.
  */
 export class CheerfulReferenceProfile {
 	static character() {
@@ -16,10 +16,11 @@ export class CheerfulReferenceProfile {
 			referenceMetrics: this.referenceMetrics(),
 			bodyGeometry: CheerfulReferenceBodyGeometry.create(),
 			bodyProfile: 'friendlyBroad',
-			expressionProfile: 'bright_open_speaker',
-			motion: 'happy',
+			expressionRangeProfile: 'expressiveBroad',
+			expressionProfile: 'expressiveBroad',
+			motion: 'groundedBroad',
 			gesture: 'open_palm_left',
-			acting: 'explain',
+			acting: 'neutral',
 			beard: true,
 			beardStyle: 'rounded_full',
 			beardLength: 0.78,
@@ -38,9 +39,14 @@ export class CheerfulReferenceProfile {
 	static measurements() {
 		return {
 			body: {
-				headWidth: 0.255, headHeight: 0.27, shoulderWidth: 0.345,
-				hipWidth: 0.205, armWidth: 0.052, legWidth: 0.052,
-				waistY: 0.57, hipY: 0.675
+				headWidth: 0.255,
+				headHeight: 0.27,
+				shoulderWidth: 0.345,
+				hipWidth: 0.205,
+				armWidth: 0.052,
+				legWidth: 0.052,
+				waistY: 0.57,
+				hipY: 0.675
 			},
 			style: {
 				outerLineWidth: 0.0072,
@@ -52,10 +58,22 @@ export class CheerfulReferenceProfile {
 
 	static referenceMetrics() {
 		return {
-			headRX: 38, headRY: 42, neckTopY: -195, neckBottomY: -181,
-			shoulderY: -183, chestY: -135, waistY: -83, hipY: -63,
-			kneeY: -32, ankleY: 2, footY: 11, shoulderHalf: 43,
-			hipHalf: 29, armWidth: 13, legWidth: 14, shadowRX: 45
+			headRX: 38,
+			headRY: 42,
+			neckTopY: -195,
+			neckBottomY: -181,
+			shoulderY: -183,
+			chestY: -135,
+			waistY: -83,
+			hipY: -63,
+			kneeY: -32,
+			ankleY: 2,
+			footY: 11,
+			shoulderHalf: 43,
+			hipHalf: 29,
+			armWidth: 13,
+			legWidth: 14,
+			shadowRX: 45
 		};
 	}
 
@@ -63,14 +81,8 @@ export class CheerfulReferenceProfile {
 		return {
 			body: { torsoLean: -2, headNod: -1 },
 			arms: {
-				left: {
-					shoulderLift: 2, elbowX: 34, elbowY: 33,
-					handX: 35, handY: 19, handPose: 'open'
-				},
-				right: {
-					shoulderLift: -2, elbowX: 20, elbowY: 37,
-					handX: -24, handY: -9, handPose: 'hold'
-				}
+				left: { shoulderLift: 2, elbowX: 34, elbowY: 33, handX: 35, handY: 19, handPose: 'open' },
+				right: { shoulderLift: -2, elbowX: 20, elbowY: 37, handX: -24, handY: -9, handPose: 'hold' }
 			}
 		};
 	}

@@ -7,9 +7,9 @@ import { CharacterDesignStyleSections } from './CharacterDesignStyleSections.js'
 import { CharacterDesignValue as V } from './CharacterDesignValue.js';
 
 /**
- * Every major character domain remains a separate readable vessel. The Awtsmoos
- * joins body, face, skin, hair, wardrobe, voice, motion, emotion, and provenance
- * while Awtsmoos.com keeps one validation facade for the canonical schema.
+ * Every design domain remains a separate vessel, including expression range.
+ * The Awtsmoos renews every current feeling; Awtsmoos.com validates anatomy,
+ * style, responsiveness, provenance, persistence, preview, and export together.
  */
 export class CharacterDesignSections {
 	static body(value, options) {
@@ -60,11 +60,21 @@ export class CharacterDesignSections {
 
 	static emotion(value, options) {
 		return {
-			default: V.option(value.default, options.emotion, 'calm'),
+			default: V.option(value.default, options.emotion, 'neutral'),
 			intensity: V.number(value.intensity, 0, 2, 1),
-			traits: Array.isArray(value.traits)
-				? value.traits.map(String).slice(0, 12)
-				: []
+			traits: this.list(value.traits)
+		};
+	}
+
+	static expression(value, options) {
+		return {
+			rangeProfile: V.option(
+				value.rangeProfile,
+				options.expressionRangeProfile,
+				'universal'
+			),
+			responsiveness: V.number(value.responsiveness, 0.25, 1.75, 1),
+			traits: this.list(value.traits)
 		};
 	}
 
@@ -76,5 +86,11 @@ export class CharacterDesignSections {
 			approved: value.approved === true,
 			provenance: String(value.provenance || 'user-authored')
 		};
+	}
+
+	static list(value) {
+		return Array.isArray(value)
+			? value.map(String).slice(0, 12)
+			: [];
 	}
 }

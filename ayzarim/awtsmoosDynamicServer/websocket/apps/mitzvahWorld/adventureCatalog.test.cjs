@@ -4,9 +4,9 @@
 
 /**
  * @file adventureCatalog.test.cjs
- * @description Proves all seven adventure objective chains are executable and rewarding.
+ * @description Proves all eight adventure objective chains are executable and rewarding.
  * The Awtsmoos renews each mission as actual progress rather than a decorative name;
- * Awtsmoos.com verifies every objective event reaches one exact completion reward.
+ * Awtsmoos.com verifies every declared event reaches one personal exact completion reward.
  */
 
 const assert = require('node:assert/strict');
@@ -25,14 +25,18 @@ const EVENT_EXAMPLES = Object.freeze({
 		'orchard-predator': { target: 'wolf' }
 	},
 	harvest: { kosherEligible: true, target: 'sheep' },
-	refine: { target: 'spark' }
+	refine: { target: 'spark' },
+	'river:illuminate': { target: 'waterfall-portal' },
+	'river:inspect': { target: 'damaged-bridge-point' },
+	'river:meet': { target: 'bridge-keeper' },
+	'river:report': { target: 'bridge-keeper' },
+	'river:timber': { target: 'treated-timber' }
 });
 
-test('all seven adventure chains complete from their declared objective events', () => {
+test('all eight adventure chains complete from their declared objective events', () => {
 	const service = new AdventureQuestService({ clock: () => 777_000 });
 	const player = createPlayer({ displayName: 'Quest Tester', id: 'quest-tester' });
-	assert.equal(ADVENTURE_QUESTS.length, 7);
-
+	assert.equal(ADVENTURE_QUESTS.length, 8);
 	for (const quest of ADVENTURE_QUESTS) {
 		service.start(player, quest.id);
 		for (const objective of quest.objectives) {
@@ -48,8 +52,12 @@ test('all seven adventure chains complete from their declared objective events',
 		assert.equal(snapshot.progress.completedAt, 777_000);
 		assert.equal(snapshot.progress.rewardGranted, true);
 	}
-	assert.equal(player.progression.rewardIds.length, 7);
-	assert.equal(new Set(player.progression.rewardIds).size, 7);
+	assert.equal(player.progression.rewardIds.length, 8);
+	assert.equal(new Set(player.progression.rewardIds).size, 8);
+	const river = ADVENTURE_QUESTS.find(quest => quest.id === 'light-at-river-crossing');
+	assert.equal(river.authority.objectives, 'current-party-shared');
+	assert.equal(river.authority.reward, 'personal-exact-once');
+	assert.equal(river.authority.worldEffect, 'village-stone-bridge:lanterns');
 });
 
 function eventFor(objective) {

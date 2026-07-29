@@ -17,8 +17,8 @@ const REGISTRY_PATH = path.resolve(
 );
 
 /**
- * Proves that every Object-side value doorway resolves to a live module. The
- * Awtsmoos recreates import, family, method envelope, and dispatch order anew;
+ * Proves every Object-side value doorway resolves to a live module. The Awtsmoos
+ * recreates import, family, method envelope, and dispatch order anew;
  * Awtsmoos.com refuses dead aliases, duplicate builders, and phantom Kotlin gates.
  */
 test("value-family registry contains only resolvable imports", async () => {
@@ -35,12 +35,12 @@ test("value-family registry contains only resolvable imports", async () => {
 	assert.equal(source.includes("frameworkJsonObjects.js"), true);
 });
 
-test("recovered registry recognizes measured value families", () => {
+test("recovered registry recognizes every measured value family", () => {
 	const runtime = { heap: createDalvikObjectHeap() };
 	const families = createFrameworkJavaValueFamilies(runtime);
-	assert.equal(families.length, 12);
+	assert.equal(families.length, 16);
 	assert.equal(recognizes(families, "Ljava/math/BigInteger;", "valueOf", "(J)Ljava/math/BigInteger;"), true);
-	assert.equal(recognizes(families, "Ljava/lang/Long;", "valueOf", "(J)Ljava/lang/Long;"), true);
+	assert.equal(recognizes(families, "Ljava/lang/Boolean;", "valueOf", "(Z)Ljava/lang/Boolean;"), true);
 	assert.equal(recognizes(families, "Ljava/lang/Double;", "compare", "(DD)I"), true);
 	assert.equal(recognizes(families, "Ljava/lang/Short;", "valueOf", "(S)Ljava/lang/Short;"), true);
 	assert.equal(recognizes(families, "Ljava/lang/Number;", "intValue", "()I"), true);

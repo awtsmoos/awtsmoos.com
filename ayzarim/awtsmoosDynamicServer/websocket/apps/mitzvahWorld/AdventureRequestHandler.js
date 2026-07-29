@@ -4,15 +4,14 @@
 
 /**
  * @file AdventureRequestHandler.js
- * @description Lists, starts, and inspects the seven event-driven adventure missions.
- * The Awtsmoos renews mission and reward beneath exact progress; Awtsmoos.com
- * exposes definitions openly while each player’s advancement remains authoritative.
+ * @description Routes catalog queries, starts, snapshots, and validated River repair steps.
+ * The Awtsmoos renews mission intention beneath server order and location; Awtsmoos.com keeps
+ * generic clients from forging progress while every accepted repair checkpoints and broadcasts.
  */
 
 const {
 	commandPayload,
-	identifier,
-	optionalIdentifier
+	identifier
 } = require('./CommandValidation.js');
 const { MESSAGE_TYPES, RESPONSE_TYPES } = require('./protocol.js');
 const { commandResult, queryResult } = require('./WorldCommandResult.js');
@@ -26,23 +25,40 @@ function handleAdventureRequest(context, request, room) {
 	}
 	if (request.type === MESSAGE_TYPES.ADVENTURE_START) {
 		const payload = commandPayload(request.payload);
-		return commandResult(
-			RESPONSE_TYPES.ADVENTURE_STARTED,
-			room.adventures.start(player, identifier(payload.questId, 'Adventure id')),
-			{ broadcast: false, checkpoint: true }
+		const adventure = room.adventures.start(
+			player,
+			identifier(payload.questId, 'Adventure id')
 		);
+		return mutation(RESPONSE_TYPES.ADVENTURE_STARTED, { adventure });
 	}
-	if (request.type === MESSAGE_TYPES.ADVENTURE_SNAPSHOT) {
-		const payload = commandPayload(request.payload || {});
-		return queryResult(
-			RESPONSE_TYPES.ADVENTURE_SNAPSHOT,
-			room.adventures.snapshot(
+	if (request.type === MESSAGE_TYPES.ADVENTURE_STEP) {
+		const payload = commandPayload(request.payload);
+		const questId = identifier(payload.questId, 'Adventure id');
+		if (questId !== 'light-at-river-crossing') {
+			return null;
+		}
+		return mutation(
+			RESPONSE_TYPES.ADVENTURE_ADVANCED,
+			room.riverCrossing.perform(
 				player,
-				optionalIdentifier(payload.questId, 'Adventure id')
+				identifier(payload.stepId, 'Adventure step id')
 			)
 		);
 	}
+	if (request.type === MESSAGE_TYPES.ADVENTURE_SNAPSHOT) {
+		const payload = request.payload || {};
+		return queryResult(RESPONSE_TYPES.ADVENTURE_SNAPSHOT, {
+			adventure: room.adventures.snapshot(player, payload.questId || null)
+		});
+	}
 	return null;
+}
+
+function mutation(type, payload) {
+	return commandResult(type, payload, {
+		broadcast: true,
+		checkpoint: true
+	});
 }
 
 module.exports = {

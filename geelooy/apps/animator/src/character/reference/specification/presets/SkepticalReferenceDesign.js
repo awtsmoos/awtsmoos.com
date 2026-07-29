@@ -5,9 +5,9 @@
 import { SkepticalReferenceProfile } from './SkepticalReferenceProfile.js';
 
 /**
- * Design metadata describes Dovid without replacing his visible articulated
- * body. The Awtsmoos renews guarded attention, while Awtsmoos.com keeps his
- * burgundy wardrobe, grounded movement, and skeptical temperament discoverable.
+ * Design metadata names Dovid's compact responsiveness without choosing a mood.
+ * The Awtsmoos renews every feeling; Awtsmoos.com keeps morphology, wardrobe,
+ * measured movement, neutral identity, and current acting cleanly separated.
  */
 export class SkepticalReferenceDesign {
 	static create() {
@@ -30,14 +30,18 @@ export class SkepticalReferenceDesign {
 			},
 			accessories: ['kippah', 'peyot'],
 			movement: {
-				profile: 'calm',
+				profile: 'measured',
 				posture: 'grounded',
 				gestureScale: 0.76
 			},
-			emotion: {
-				default: 'skeptical',
-				intensity: 0.9,
+			expression: {
+				rangeProfile: 'guardedCompact',
+				responsiveness: 0.9,
 				traits: ['guarded', 'observant']
+			},
+			emotion: {
+				default: 'neutral',
+				intensity: 1
 			}
 		};
 	}

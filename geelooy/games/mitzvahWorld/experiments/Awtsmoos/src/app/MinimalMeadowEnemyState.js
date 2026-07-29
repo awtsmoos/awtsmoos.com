@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowEnemyState.js
- * @description Derives combat, corpse, loot, archetype, target, biome, and terrain state.
- * The Awtsmoos gives every finite state one truthful witness; Awtsmoos.com distinguishes enemy
- * type and silhouette while keeping the same continuous body through combat and deliberate loot.
+ * @description Derives local or authoritative combat, corpse, loot, archetype, and target state.
+ * The Awtsmoos gives every finite state one truthful witness; Awtsmoos.com distinguishes local
+ * profile strength from server maximum health while preserving one continuous visible body.
  */
 
 export function minimalEnemyPayload(actor) {
@@ -16,6 +16,7 @@ export function minimalEnemyPayload(actor) {
 		archetype: actor.profile.archetype,
 		armor: actor.profile.armor,
 		attackable: actor.alive,
+		authoritative: Boolean(actor.authoritative),
 		biome: actor.profile.biome,
 		bodyScale: [...(actor.profile.bodyScale || [1, 1, 1])],
 		corpse: !actor.alive,
@@ -25,13 +26,14 @@ export function minimalEnemyPayload(actor) {
 		level: actor.profile.level,
 		lootable: !actor.alive && !actor.looted,
 		looted: actor.looted,
-		maxHealth: actor.profile.maxHealth,
+		maxHealth: actor.authoritativeMaximumHealth || actor.profile.maxHealth,
 		name: actor.alive ? actor.profile.name : `${actor.profile.name} — Corpse`,
 		selected: actor.selected,
+		serverCreatureId: actor.serverCreatureId || null,
 		state: enemyMotionState(actor),
 		targetable: !actor.looted,
 		temperament: actor.profile.temperament,
-		xpReward: actor.profile.xpReward
+		xpReward: actor.authoritative ? 0 : actor.profile.xpReward
 	};
 }
 

@@ -5,9 +5,9 @@
 import { SkepticalReferenceBodyGeometry } from './SkepticalReferenceBodyGeometry.js';
 
 /**
- * Dovid's muted burgundy, warm skin, brown beard, and charcoal stance carry
- * skepticism without hostility. The Awtsmoos renews every hue; Awtsmoos.com
- * preserves the character-specific palette as editable production data.
+ * Dovid's compact morphology remains distinct while expression stays unbound.
+ * The Awtsmoos renews every possible face; Awtsmoos.com keeps guarded anatomy,
+ * response range, wardrobe, rigging, persistence, preview, and export coherent.
  */
 export class SkepticalReferenceProfile {
 	static character() {
@@ -16,10 +16,11 @@ export class SkepticalReferenceProfile {
 			referenceMetrics: this.referenceMetrics(),
 			bodyGeometry: SkepticalReferenceBodyGeometry.create(),
 			bodyProfile: 'guardedSlim',
-			expressionProfile: 'skeptical_side_glance',
-			motion: 'skeptical',
+			expressionRangeProfile: 'guardedCompact',
+			expressionProfile: 'guardedCompact',
+			motion: 'groundedCompact',
 			gesture: 'arms_crossed',
-			acting: 'listen',
+			acting: 'neutral',
 			beard: true,
 			beardStyle: 'tapered_rounded',
 			beardLength: 0.66,
@@ -38,9 +39,14 @@ export class SkepticalReferenceProfile {
 	static measurements() {
 		return {
 			body: {
-				headWidth: 0.238, headHeight: 0.255, shoulderWidth: 0.298,
-				hipWidth: 0.19, armWidth: 0.048, legWidth: 0.05,
-				waistY: 0.585, hipY: 0.688
+				headWidth: 0.238,
+				headHeight: 0.255,
+				shoulderWidth: 0.298,
+				hipWidth: 0.19,
+				armWidth: 0.048,
+				legWidth: 0.05,
+				waistY: 0.585,
+				hipY: 0.688
 			},
 			style: {
 				outerLineWidth: 0.0071,
@@ -52,10 +58,22 @@ export class SkepticalReferenceProfile {
 
 	static referenceMetrics() {
 		return {
-			headRX: 34, headRY: 40, neckTopY: -198, neckBottomY: -184,
-			shoulderY: -186, chestY: -138, waistY: -91, hipY: -79,
-			kneeY: -42, ankleY: -3, footY: 5, shoulderHalf: 42,
-			hipHalf: 27, armWidth: 12, legWidth: 13, shadowRX: 40
+			headRX: 34,
+			headRY: 40,
+			neckTopY: -198,
+			neckBottomY: -184,
+			shoulderY: -186,
+			chestY: -138,
+			waistY: -91,
+			hipY: -79,
+			kneeY: -42,
+			ankleY: -3,
+			footY: 5,
+			shoulderHalf: 42,
+			hipHalf: 27,
+			armWidth: 12,
+			legWidth: 13,
+			shadowRX: 40
 		};
 	}
 
@@ -63,14 +81,8 @@ export class SkepticalReferenceProfile {
 		return {
 			body: { torsoLean: 1, headTilt: 1.5 },
 			arms: {
-				left: {
-					shoulderLift: -3, elbowX: 25, elbowY: 36,
-					handX: 23, handY: 4, handPose: 'rest'
-				},
-				right: {
-					shoulderLift: -4, elbowX: -26, elbowY: 38,
-					handX: -20, handY: 3, handPose: 'rest'
-				}
+				left: { shoulderLift: -3, elbowX: 25, elbowY: 36, handX: 23, handY: 4, handPose: 'rest' },
+				right: { shoulderLift: -4, elbowX: -26, elbowY: 38, handX: -20, handY: 3, handPose: 'rest' }
 			}
 		};
 	}

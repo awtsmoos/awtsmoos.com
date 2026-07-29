@@ -4,96 +4,80 @@
 
 /**
  * @file MitzvahWorldChatPanel.js
- * @description Presents live census, scoped history, channels, and private messaging.
- * The Awtsmoos renews each shared word within its rightful boundary; Awtsmoos.com
- * renders text through DOM text nodes and removes every listener when the world closes.
+ * @description Presents retractable shared chat with personal protection outside solo and boot.
+ * The Awtsmoos opens conversation only by choice; Awtsmoos.com keeps folding, moderation,
+ * transport truth, text safety, bounded polling, private history, and teardown complete.
  */
 
+import {
+	loadChatPanelChannels,
+	refreshChatPanelCensus,
+	refreshChatPanelHistory
+} from './MitzvahWorldChatPanelData.js';
+import {
+	bindMitzvahWorldChatPanel
+} from './MitzvahWorldChatPanelBindings.js';
+import {
+	bindChatModerationControls
+} from './MitzvahWorldChatModerationControls.js';
 import { installMitzvahWorldChatPanelStyle } from './MitzvahWorldChatPanelStyle.js';
+import { readChatPanelOpen, writeChatPanelOpen } from './MitzvahWorldChatPanelState.js';
+import {
+	createChatMessageLine,
+	createMitzvahWorldChatPanel
+} from './MitzvahWorldChatPanelView.js';
 
 export class MitzvahWorldChatPanel {
 	constructor(client, options = {}) {
-		installMitzvahWorldChatPanelStyle();
 		this.client = client;
+		this.environment = options.environment || globalThis;
+		this.documentValue = options.documentValue || this.environment.document;
+		this.storage = options.storage || this.environment.localStorage;
 		this.intervalMs = options.intervalMs || 15000;
 		this.messages = [];
-		this.unsubscribers = [];
-		this.root = createPanel();
-		document.body.appendChild(this.root);
-		this.bind();
-		this.refreshHistory();
-		this.refreshCensus();
-		this.timer = setInterval(() => this.refreshCensus(), this.intervalMs);
+		this.timer = null;
+		const open = readChatPanelOpen(this.storage);
+		installMitzvahWorldChatPanelStyle(this.documentValue);
+		this.root = createMitzvahWorldChatPanel(this.documentValue, open);
+		(options.root || this.documentValue.body).appendChild(this.root);
+		this.moderation = bindChatModerationControls(this);
+		this.unbind = bindMitzvahWorldChatPanel(this);
+		if (open) this.activate();
 	}
 
 	get scope() {
-		return this.root.querySelector('[data-chat-scope]').value;
+		return this.root.querySelector('[data-chat-scope]').value || 'world';
 	}
 
 	get target() {
 		return this.root.querySelector('[data-chat-target]').value.trim();
 	}
 
-	bind() {
-		this.root.querySelector('[data-chat-toggle]').addEventListener('click', () => {
-			const open = this.root.dataset.open !== 'true';
-			this.root.dataset.open = String(open);
-		});
-		this.root.querySelector('[data-chat-scope]').addEventListener('change', () => {
-			this.updateTargetVisibility();
-			this.refreshHistory();
-		});
-		this.root.querySelector('[data-chat-send]').addEventListener('click', () => this.send());
-		this.root.querySelector('[data-chat-message]').addEventListener('keydown', event => {
-			if (event.key === 'Enter' && !event.shiftKey) {
-				event.preventDefault();
-				this.send();
-			}
-		});
-		this.unsubscribers.push(this.client.on('chat.message', payload => this.receive(payload)));
-		this.unsubscribers.push(this.client.on('chat.private', payload => this.receive(payload)));
+	setOpen(open) {
+		this.root.dataset.open = String(open);
+		this.root.querySelector('[data-chat-toggle]').setAttribute('aria-expanded', String(open));
+		writeChatPanelOpen(this.storage, open);
+		open ? this.activate() : this.stopPolling();
+	}
+
+	async activate() {
+		await loadChatPanelChannels(this);
 		this.updateTargetVisibility();
+		await Promise.all([
+			this.refreshHistory(),
+			refreshChatPanelCensus(this),
+			this.moderation.refresh()
+		]);
+		this.stopPolling();
+		this.timer = this.environment.setInterval?.(
+			() => refreshChatPanelCensus(this),
+			this.intervalMs
+		) || null;
+		this.timer?.unref?.();
 	}
 
-	async send() {
-		const input = this.root.querySelector('[data-chat-message]');
-		const message = input.value.trim();
-		if (!message) return;
-		this.setStatus('Sending…');
-		try {
-			await this.client.mmorpg.community.chat(this.scope, message, this.target || null);
-			input.value = '';
-			this.setStatus('Sent.');
-		} catch (error) {
-			this.setStatus(error.message);
-		}
-	}
-
-	async refreshHistory() {
-		this.setStatus('Loading history…');
-		try {
-			const response = await this.client.mmorpg.community.chatHistory(
-				this.scope,
-				this.target || null
-			);
-			this.messages = [...(response.payload.messages || [])];
-			this.renderMessages();
-			this.setStatus('');
-		} catch (error) {
-			this.messages = [];
-			this.renderMessages();
-			this.setStatus(error.message);
-		}
-	}
-
-	async refreshCensus() {
-		const output = this.root.querySelector('[data-chat-population]');
-		try {
-			const response = await this.client.census();
-			output.textContent = `${response.payload.connected} connected`;
-		} catch {
-			output.textContent = 'Population unavailable';
-		}
+	refreshHistory() {
+		return refreshChatPanelHistory(this);
 	}
 
 	receive(payload) {
@@ -104,7 +88,9 @@ export class MitzvahWorldChatPanel {
 
 	renderMessages() {
 		const history = this.root.querySelector('[data-chat-history]');
-		history.replaceChildren(...this.messages.map(messageLine));
+		history.replaceChildren(...this.messages.map(message => {
+			return createChatMessageLine(this.documentValue, message);
+		}));
 		history.scrollTop = history.scrollHeight;
 	}
 
@@ -118,27 +104,15 @@ export class MitzvahWorldChatPanel {
 		this.root.querySelector('[data-chat-status]').textContent = message;
 	}
 
+	stopPolling() {
+		if (this.timer !== null) this.environment.clearInterval?.(this.timer);
+		this.timer = null;
+	}
+
 	destroy() {
-		clearInterval(this.timer);
-		for (const unsubscribe of this.unsubscribers) unsubscribe?.();
+		this.stopPolling();
+		this.moderation.destroy();
+		this.unbind();
 		this.root.remove();
 	}
-}
-
-function createPanel() {
-	const root = document.createElement('section');
-	root.className = 'Awtsmoos-chat';
-	root.dataset.open = 'true';
-	root.innerHTML = `<header><button class="Awtsmoos-chat-toggle" data-chat-toggle aria-label="Toggle chat">💬</button><strong>Community Chat</strong><output data-chat-population>Loading…</output></header><div class="Awtsmoos-chat-body"><div class="Awtsmoos-chat-controls"><select data-chat-scope aria-label="Chat channel"><option value="world">World</option><option value="global">Global</option><option value="party">Party</option><option value="guild">Guild</option><option value="private">Private</option></select><label class="Awtsmoos-chat-target" data-chat-target-wrap data-visible="false"><input data-chat-target placeholder="world:player-id" aria-label="Private player address"></label></div><div class="Awtsmoos-chat-history" data-chat-history aria-live="polite"></div><div class="Awtsmoos-chat-compose"><input data-chat-message maxlength="512" placeholder="Write a message…" aria-label="Message"><button class="Awtsmoos-chat-send" data-chat-send>Send</button></div><div class="Awtsmoos-chat-status" data-chat-status></div></div>`;
-	return root;
-}
-
-function messageLine(message) {
-	const line = document.createElement('p');
-	line.className = 'Awtsmoos-chat-line';
-	line.dataset.private = String(message.scope === 'private');
-	const speaker = document.createElement('strong');
-	speaker.textContent = `${message.from?.displayName || message.from?.address || 'World'}: `;
-	line.append(speaker, document.createTextNode(message.message || ''));
-	return line;
 }

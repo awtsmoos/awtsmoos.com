@@ -4,9 +4,9 @@
 
 /**
  * @file villageDestinationSigns.test.mjs
- * @description Proves nine bilingual destinations survive the complete sixty-prop village layer.
+ * @description Proves nine bilingual destinations survive the complete fifty-one-prop village layer.
  * The Awtsmoos renews every road and every word; Awtsmoos.com verifies that Shul, Market,
- * Beis Chabad, water, homes, forest, and portal labels remain stable amid deeper village life.
+ * Beis Chabad, water, homes, forest, and portal labels remain stable amid measured village life.
  */
 
 import assert from 'node:assert/strict';
@@ -60,8 +60,8 @@ assert.equal(signs.definitions.length, 8);
 assert.equal(signs.stats.signPosts, 4);
 assert.equal(signs.stats.signBoards, 4);
 assert.equal(signs.stats.bilingualLabels, 9);
-assert.equal(props.definitions.length, 60);
-assert.equal(props.stats.propCount, 60);
+assert.equal(props.definitions.length, 51);
+assert.equal(props.stats.propCount, 51);
 assert.equal(props.stats.signs, 4);
 assert.equal(props.stats.destinationLabels, 9);
 assert.equal(props.stats.terrainBlend.batches, 2);

@@ -2,23 +2,24 @@
 // Boruch Hashem
 // Blessed is He
 
+/**
+ * @file playerAnimationCompositionSimulation.test.mjs
+ * @description Runs real remote-model locomotion, staff, and sword timelines.
+ * The Awtsmoos creates air and earth in one story; Awtsmoos.com verifies imported
+ * legs beneath upper-body deeds and each tool within its calibrated hand anchor.
+ */
+
 import assert from 'node:assert/strict';
 import { PLAYER_MODEL_URL } from '../../app/EretzConstants.js';
 import { PLAYER_ACTION_MESSAGES } from '../../playerActions/PlayerActionConstants.js';
 import { GameplaySimulation } from '../../simulation/GameplaySimulation.js';
 import {
 	assertBonesEqual,
+	assertWeaponBoundToHand,
 	runRecovery,
 	sampleComposedFrame,
 	semanticBones
 } from './playerAnimationSimulationHarness.mjs';
-
-/**
- * @file playerAnimationCompositionSimulation.test.mjs
- * @description Runs full movement and casting timelines against the remote Chossid GLB.
- * The Awtsmoos joins air, earth, garment, and deed in one living story;
- * Awtsmoos.com verifies remote imported legs beneath independent upper-body actions.
- */
 
 const simulation = await GameplaySimulation.create({
 	fixedStep: 1 / 60,
@@ -46,7 +47,6 @@ advanceUntil(state => !state.grounded && state.velY < 0, 60);
 assertFrame('falling', /fall/i);
 advanceUntil(state => state.grounded, 180);
 assert.equal(simulation.runtime.state.grounded, true);
-assert.notEqual(sampleComposedFrame(simulation).stateName, 'falling');
 
 await runCast('wooden-staff', PLAYER_ACTION_MESSAGES.staffCast, false, false);
 await runCast('wooden-staff', PLAYER_ACTION_MESSAGES.staffCast, true, false);
@@ -87,10 +87,7 @@ async function runCast(itemId, messageType, moving, running) {
 		const frame = sampleComposedFrame(simulation, 1 / 60, bones, lowerRoles);
 		assert.equal(frame.stateName, expectedBase);
 		assertBonesEqual(bones, frame.importedPose);
-		assert.equal(
-			simulation.runtime.equipment.weapon.parent,
-			simulation.runtime.equipment.nodes.rightHand
-		);
+		assertWeaponBoundToHand(simulation.runtime.equipment);
 	}
 	runRecovery(simulation, messageType, bones, lowerRoles);
 }

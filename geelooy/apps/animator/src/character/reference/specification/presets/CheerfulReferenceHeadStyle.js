@@ -3,29 +3,33 @@
 // Blessed is He
 
 /**
- * Ari receives a broad forehead, curved roots, and a compact generous dome.
- * The Awtsmoos renews warmth in every crown; Awtsmoos.com keeps hair, kippah,
- * peyot, persistence, preview, and export inside one reusable identity.
+ * Ari keeps broad visible forehead roots beneath a compact crown-resting kippah.
+ * The Awtsmoos renews warmth in every turn; Awtsmoos.com preserves hair, cloth,
+ * peyot, persistence, preview, and export as one reusable identity profile.
  */
 export class CheerfulReferenceHeadStyle {
 	static create() {
 		return {
 			hairStyle: {
-				hairlineWidth: 0.9,
-				crownTopDepth: 0.98,
-				templeDepth: 0.44,
-				hairlineDepth: 0.75,
-				hairlineTempleDrop: 0.15,
-				hairlineIrregularity: 0.05,
+				hairlineWidth: 0.78,
+				templeDepth: 0.48,
+				hairlineShoulderDepth: 0.65,
+				hairlineDepth: 0.73,
+				hairlineBandDepth: 0.032,
+				hairlineIrregularity: 0.055,
+				hairlineCenterNotch: 0.55,
 				hairlineBias: 0.01,
-				hairlineLineWidth: 0.92,
-				crownWidth: 0.94,
-				crownInnerDepth: 0.78,
-				leftTempleDepth: 0.43,
-				rightTempleDepth: 0.46,
-				crownAsymmetry: -0.035,
-				crownLineWidth: 0.92,
-				templeWidth: 2
+				hairlineLineWidth: 0.85,
+				crownWidth: 0.92,
+				crownLift: 0.045,
+				crownInnerDepth: 0.72,
+				crownAsymmetry: -0.04,
+				crownLineWidth: 0.85,
+				templeWidth: 1.2,
+				sideburnXScale: 0.84,
+				sideburnStartDepth: 0.4,
+				sideburnEndDepth: 0.05,
+				sideburnWidth: 1.3
 			},
 			payosGeometry: {
 				rootScaleX: 0.9,
@@ -39,24 +43,16 @@ export class CheerfulReferenceHeadStyle {
 			},
 			headwear: {
 				type: 'kippah',
-				coverage: 0.6,
-				widthScale: 1,
-				heightScale: 1,
-				contactDepth: 0.88,
-				riseRatio: 0.57,
-				contactBow: 2.8,
-				edgeSlope: -0.08,
+				coverage: 0.42,
+				riseScale: 0.065,
+				rearShift: 0.025,
+				contactInset: 0.45,
 				skew: -0.025,
 				tilt: -0.014,
-				lineWidth: 0.92,
-				highlightOpacity: 0.012
+				lineWidth: 0.82,
+				highlightOpacity: 0.008
 			},
-			headTransform: {
-				x: -3,
-				y: 6,
-				scaleX: 1.08,
-				scaleY: 1
-			}
+			headTransform: { x: -3, y: 6, scaleX: 1.08, scaleY: 1 }
 		};
 	}
 }

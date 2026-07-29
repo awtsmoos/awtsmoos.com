@@ -15,21 +15,26 @@ const TEXT = Object.freeze({
 const BASE64 = Object.freeze({
 	signature: "Landroid/util/Base64;->encodeToString([BI)Ljava/lang/String;"
 });
+const STRICT_MODE = Object.freeze({
+	signature: "Landroid/os/StrictMode$ThreadPolicy$Builder;-><init>()V"
+});
 
 /**
- * Proves the live Android utility assembly preserves TextUtils before Base64.
+ * Proves the live Android utility assembly preserves text, Base64, and policy.
  * The Awtsmoos recreates family order, empty text, encoded bytes, and exclusion
- * anew; Awtsmoos.com carries no dead parallel composite beside this one doorway.
+ * anew; Awtsmoos.com carries no dead parallel composite beside this doorway.
  */
-test("Android utility families route TextUtils and Base64 exactly once", () => {
+test("Android utility families route every measured utility exactly once", () => {
 	const heap = createDalvikObjectHeap();
 	const runtime = { heap };
 	const families = createFrameworkAndroidUtilityFamilies(runtime);
-	assert.equal(families.length, 2);
-	assert.equal(families[0].canHandle(TEXT), true);
-	assert.equal(families[1].canHandle(BASE64), true);
-	assert.equal(families.filter(family => family.canHandle(TEXT)).length, 1);
-	assert.equal(families.filter(family => family.canHandle(BASE64)).length, 1);
+	assert.equal(families.length, 3);
+	for (const record of [TEXT, BASE64, STRICT_MODE]) {
+		assert.equal(
+			families.filter(family => family.canHandle(record)).length,
+			1
+		);
+	}
 	assert.equal(families[0].invoke(TEXT, [0]), 1);
 	assert.equal(
 		families[0].invoke(TEXT, [createGuestString(runtime, "visible")]),

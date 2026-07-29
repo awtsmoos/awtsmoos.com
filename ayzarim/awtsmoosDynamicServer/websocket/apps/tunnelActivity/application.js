@@ -22,11 +22,13 @@ function createTunnelActivityApplication() {
 		legacyTypes: [],
 		versions: [Constants.APPLICATION_VERSION],
 		disconnect(context) {
+			const identity = context.identity || context.client?.identity || null;
 			getActivityHub(context.server).unsubscribe(context.client);
+			if (!publishableIdentity(identity)) return;
 			Session.publishClosed(
 				context.server,
 				context.client,
-				context.identity || context.client?.identity
+				identity
 			);
 		},
 		handleVersioned(context, request) {
@@ -79,6 +81,10 @@ function accountFrom(identity = {}) {
 		);
 	}
 	return accountId;
+}
+
+function publishableIdentity(identity) {
+	return Boolean(identifier(identity?.accountId || identity?.userId));
 }
 
 function snapshotResult(hub, accountId, payload = {}) {

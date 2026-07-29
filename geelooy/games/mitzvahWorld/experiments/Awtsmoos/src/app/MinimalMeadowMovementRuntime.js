@@ -4,17 +4,25 @@
 
 /**
  * @file MinimalMeadowMovementRuntime.js
- * @description Bridges vertical motion, collision, exact floors, and underground recovery.
+ * @description Bridges vertical motion, collision, exact floors, checkpoints, and fall recovery.
  * The Awtsmoos recreates terrain and every house support as one lawful footing; Awtsmoos.com
- * samples proposed and final positions so rooms cannot surrender the traveler beneath the earth.
+ * samples proposed and final positions so no room, gap, or invalid number may swallow the traveler.
  */
 
 import { minimalMeadowGroundHeight } from './MinimalMeadowGroundSupport.js';
-import { finishMinimalMeadowVertical, prepareMinimalMeadowVertical } from './MinimalMeadowJumpState.js';
+import {
+	finishMinimalMeadowVertical,
+	prepareMinimalMeadowVertical
+} from './MinimalMeadowJumpState.js';
 
-export { movementAxes, movementModeFor, updateMovementCamera } from './MinimalMeadowMovementSupport.js';
+export {
+	movementAxes,
+	movementModeFor,
+	updateMovementCamera
+} from './MinimalMeadowMovementSupport.js';
 
 export function prepareMovementVertical(runtime, state, deltaSeconds) {
+	runtime.movementRecovery?.beforeStep(state);
 	if (supportsRichVertical(runtime)) {
 		prepareMinimalMeadowVertical(runtime, state, deltaSeconds);
 		return true;
@@ -27,9 +35,11 @@ export function prepareMovementVertical(runtime, state, deltaSeconds) {
 }
 
 export function finishMovementVertical(runtime, state, richVertical) {
-	if (richVertical) return finishMinimalMeadowVertical(runtime, state);
-	if (!state.grounded) return;
-	setGroundedHeight(state, groundHeight(runtime, state.x, state.z, state.renderY));
+	if (richVertical) finishMinimalMeadowVertical(runtime, state);
+	else if (state.grounded) {
+		setGroundedHeight(state, groundHeight(runtime, state.x, state.z, state.renderY));
+	}
+	runtime.movementRecovery?.afterStep(state);
 }
 
 export function applyMovementCollision(runtime, state, step) {
@@ -43,12 +53,18 @@ export function applyMovementCollision(runtime, state, step) {
 		return;
 	}
 	const result = runtime.collisionMover.move(state, step, {
-		blockSteepFloors: false, floorY, grounded: state.grounded,
-		maxStepHeight: 0.5, maxSlopeNormal: 0.58
+		blockSteepFloors: false,
+		floorY,
+		grounded: state.grounded,
+		maxSlopeNormal: 0.58,
+		maxStepHeight: 0.5
 	});
 	state.contacts = result.normals || [];
 	const finalGround = groundHeight(runtime, state.x, state.z, state.renderY);
-	if (state.grounded && (finalGround >= state.renderY || Math.abs(finalGround - state.renderY) <= 0.55)) {
+	if (
+		state.grounded
+		&& (finalGround >= state.renderY || Math.abs(finalGround - state.renderY) <= 0.55)
+	) {
 		setGroundedHeight(state, finalGround);
 	}
 }
@@ -56,9 +72,11 @@ export function applyMovementCollision(runtime, state, step) {
 function supportsRichVertical(runtime) {
 	return Boolean(runtime.terrain?.heightAt && runtime.input?.consumeJump);
 }
+
 function groundHeight(runtime, x, z, currentY) {
 	return minimalMeadowGroundHeight(runtime, x, z, currentY, currentY);
 }
+
 function setGroundedHeight(state, height) {
 	state.groundY = height;
 	state.renderY = height;

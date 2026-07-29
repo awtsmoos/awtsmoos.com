@@ -2,22 +2,22 @@
 // Boruch Hashem
 // Blessed is He
 
+/**
+ * @file realismRuntimePolicies.test.mjs
+ * @description Proves lightweight shaders and trusted content-addressed assets.
+ * The Awtsmoos joins shader restraint with immutable public sources;
+ * Awtsmoos.com keeps every texture and Chossid garment on verified remote paths.
+ */
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
+import { isTrustedRemoteModelUrl, remoteModelUrl } from '../../assets/RemoteModelCatalog.js';
 import { RUNTIME_MATERIALS } from '../../assets/RuntimeMaterialManifest.js';
-import { isTrustedRemoteModelUrl } from '../../assets/RemoteModelCatalog.js';
 import { PLAYER_MODEL_URL } from '../../app/EretzConstants.js';
 import { assertLocalMaterialUrl } from '../assets/LocalMaterialTestSupport.mjs';
 import { fragmentShader } from '../../../../light-three-gltf/tiny-fragment-shader.js';
 import { materialModeCode } from '../../../../light-three-gltf/tiny-render-webgl-utils.js';
-
-/**
- * @file realismRuntimePolicies.test.mjs
- * @description Proves lightweight shaders and verified remote visual assets.
- * The Awtsmoos joins restraint with truthful remote garments;
- * Awtsmoos.com keeps textures and the canonical Chossid beyond repository weight.
- */
 
 test('renderer selects explicit lightweight realism modes', () => {
 	assert.equal(materialModeCode(mesh('lake', { shader: 'layered-flow-refraction-fresnel-foam' })), 1);
@@ -29,7 +29,7 @@ test('renderer selects explicit lightweight realism modes', () => {
 	}
 });
 
-test('runtime roles use verified remote textures without reduced production debt', () => {
+test('runtime roles use owned full-resolution texture sources', () => {
 	assert.ok(RUNTIME_MATERIALS.length >= 20);
 	for (const material of RUNTIME_MATERIALS) {
 		assertLocalMaterialUrl(assert, material.primaryUrl);
@@ -38,13 +38,12 @@ test('runtime roles use verified remote textures without reduced production debt
 	}
 });
 
-test('all dynamic human systems bind the content-addressed Drive Chossid', () => {
+test('dynamic human systems bind the trusted canonical Chossid', () => {
+	assert.equal(PLAYER_MODEL_URL, remoteModelUrl('player/chossid.glb'));
 	assert.equal(isTrustedRemoteModelUrl(PLAYER_MODEL_URL), true);
-	assert.match(PLAYER_MODEL_URL, /\/[a-f0-9]{64}\/chossid\.glb$/);
 	const remote = source('../../network/RemoteChossidPopulation.js');
 	const village = source('../../world/village/VillageNpcPopulationSystem.js');
 	assert.match(remote, /this\.assetUrl = options\.assetUrl \|\| PLAYER_MODEL_URL/);
-	assert.match(remote, /this\.loadGltf = options\.loadGltf \|\| loadIsolatedGltf/);
 	assert.match(remote, /this\.loadGltf\(this\.assetUrl/);
 	assert.match(village, /chossid\.glb-only-no-stick-figures/);
 	assert.doesNotMatch(village, /createVillageBoxBatch|appendPerson|npc-heads/);

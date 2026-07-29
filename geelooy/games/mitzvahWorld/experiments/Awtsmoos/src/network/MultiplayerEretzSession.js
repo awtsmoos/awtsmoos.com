@@ -1,20 +1,22 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * @file MultiplayerEretzSession.js
- * @description Owns the sole connection, authority bridge, and status badge for one world.
- * The Awtsmoos joins many windows without dividing the source of their light;
- * Awtsmoos.com keeps one session, one bridge, one transport, in covenant bright.
+ * @description Owns one connection, authority bridge, optional shared UI, and truthful lifecycle.
+ * The Awtsmoos joins distant windows without delaying the first local step; Awtsmoos.com
+ * mounts conversation only after connection and destroys it for offline, stopped, or replaced worlds.
  */
-
 import { createMultiplayerConnection } from './MultiplayerConnectionFactory.js';
+import { MultiplayerOptionalUi } from './MultiplayerOptionalUi.js';
+import {
+	multiplayerConnectionOptions,
+	stopMultiplayerResources
+} from './MultiplayerEretzSessionLifecycle.js';
 import { revealMultiplayerDiagnostics, revealMultiplayerStatus } from './MultiplayerStatusReceipt.js';
 import { MultiplayerStatusBadge } from './MultiplayerStatusBadge.js';
 import { revealMultiplayerTransport } from './MultiplayerTransportIdentity.js';
 import { runtimePlayerSnapshot } from './RuntimePlayerSnapshot.js';
-
 const STATUS_REFRESH_SECONDS = 0.25;
 
 export class MultiplayerEretzRuntime {
@@ -24,29 +26,32 @@ export class MultiplayerEretzRuntime {
 		this.displayName = options.displayName || 'Mountain Shliach';
 		this.worldId = options.worldId || 'main-village';
 		this.WebSocketClass = options.WebSocketClass;
-		this.location = options.location || globalThis.location;
+		this.environment = options.environment || globalThis;
+		this.location = options.location || this.environment.location;
 		this.localOptions = options.localOptions;
 		this.serverOptions = options.serverOptions;
 		this.createConnection = options.connectionFactory || createMultiplayerConnection;
-		this.statusRoot = options.statusRoot || globalThis.document?.body;
+		this.statusRoot = options.statusRoot || this.environment.document?.body;
+		this.optionalUi = options.optionalUi || new MultiplayerOptionalUi({
+			environment: this.environment
+		});
 		this.connection = null;
 		this.client = null;
 		this.bridge = null;
 		this.statusBadge = null;
 		this.statusElapsed = 0;
 		this.transport = revealMultiplayerTransport(this.location);
+		this.state = 'idle';
 		this.error = null;
 	}
-
-	/** Opens the selected transport while the playable village remains responsive. */
 	async start() {
-		this.stopBridgeAndConnection();
+		stopMultiplayerResources(this);
 		this.ensureStatusBadge();
 		this.error = null;
 		this.statusElapsed = 0;
 		this.refreshStatus('connecting');
 		try {
-			this.connection = await this.createConnection(this.connectionOptions());
+			this.connection = await this.createConnection(multiplayerConnectionOptions(this));
 			this.transport = this.connection.transport || this.transport;
 			this.refreshStatus('connecting');
 			this.client = await this.connection.start(
@@ -54,6 +59,11 @@ export class MultiplayerEretzRuntime {
 				this.worldId,
 				runtimePlayerSnapshot(this.runtime)
 			);
+			if (!this.client) {
+				stopMultiplayerResources(this);
+				this.refreshStatus('offline-local');
+				return null;
+			}
 			const { AuthoritativeMultiplayerBridge } = await import(
 				'./AuthoritativeMultiplayerBridge.js?v=20260722-stream-02'
 			);
@@ -62,18 +72,21 @@ export class MultiplayerEretzRuntime {
 				runtime: this.runtime,
 				transport: this.transport
 			});
-			const malchusSession = this.bridge.start();
-			this.refreshStatus();
-			return malchusSession;
+			const session = this.bridge.start();
+			this.refreshStatus('connected');
+			this.optionalUi.start(this.client, this.transport);
+			return session;
 		} catch (error) {
 			this.error = error;
-			console.warn('[MitzvahWorld] Multiplayer offline; continuing locally.', error);
-			this.stopBridgeAndConnection();
-			this.refreshStatus('error');
+			this.environment.console?.warn?.(
+				'[MitzvahWorld] Multiplayer offline; continuing locally.',
+				error
+			);
+			stopMultiplayerResources(this);
+			this.refreshStatus('offline-local');
 			return null;
 		}
 	}
-
 	update(deltaSeconds) {
 		this.bridge?.update(deltaSeconds);
 		this.statusElapsed += deltaSeconds;
@@ -81,39 +94,22 @@ export class MultiplayerEretzRuntime {
 		this.statusElapsed %= STATUS_REFRESH_SECONDS;
 		this.refreshStatus();
 	}
-
 	stop() {
-		this.stopBridgeAndConnection();
+		stopMultiplayerResources(this);
 		this.refreshStatus('stopped');
 	}
-
 	diagnostics() {
-		return revealMultiplayerDiagnostics(this);
-	}
-
-	connectionOptions() {
 		return {
-			WebSocketClass: this.WebSocketClass,
-			localOptions: this.localOptions,
-			location: this.location,
-			serverOptions: this.serverOptions,
-			url: this.url
+			...revealMultiplayerDiagnostics(this),
+			optionalUi: this.optionalUi.diagnostics()
 		};
 	}
-
-	stopBridgeAndConnection() {
-		this.bridge?.stop?.();
-		this.bridge = null;
-		this.connection?.stop?.();
-		this.connection = null;
-		this.client = null;
-	}
-
 	ensureStatusBadge() {
 		if (!this.statusBadge) this.statusBadge = new MultiplayerStatusBadge(this.statusRoot);
 	}
-
 	refreshStatus(forcedState = null) {
-		this.statusBadge?.setStatus(revealMultiplayerStatus(this, forcedState));
+		if (forcedState) this.state = forcedState;
+		else if (this.connection?.state) this.state = this.connection.state;
+		this.statusBadge?.setStatus(revealMultiplayerStatus(this));
 	}
 }

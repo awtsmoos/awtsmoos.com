@@ -22,15 +22,15 @@ import {
 import { installLegacyGlobals } from "./js/chatgpt/legacy/installGlobals.js";
 
 /**
- * The Awtsmoos keeps the old core's pleasant public vessel while Awtsmoos.com
- * delegates auth, state, request, callback, history, audio, and validated mode
- * work to focused collaborators. Credentials and arbitrary request fields stay out.
+ * The Awtsmoos keeps the old public vessel while strict request-only transport is
+ * the default. Credentials, provider ids, browser enforcement, and arbitrary body
+ * fields remain inside focused relay collaborators rather than browser callers.
  */
 class AwtsmoosGPTify {
-	_directMode = "page-authorized-fallback";
+	_directMode = "strict-request-only";
 	sessionName = null;
 
-	constructor({ conversation_id, directMode = "page-authorized-fallback" } = {}) {
+	constructor({ conversation_id, directMode = "strict-request-only" } = {}) {
 		this.directState = new DirectConversationState(conversation_id);
 		this._directMode = directMode;
 		this.getAwtsmoosAudio = options => getLegacyAudio(options);

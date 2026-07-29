@@ -11,8 +11,9 @@ export function executeAarch64Multiply(instruction, registers) {
 	if (instruction.family === "multiply-add") {
 		return executeMultiplyAdd(instruction, registers);
 	}
-	if (instruction.family === "signed-multiply-add-long") {
-		return executeSignedMultiplyLong(instruction, registers);
+	if (instruction.family === "signed-multiply-add-long"
+		|| instruction.family === "unsigned-multiply-add-long") {
+		return executeMultiplyLong(instruction, registers);
 	}
 	return false;
 }
@@ -23,9 +24,14 @@ function executeMultiplyAdd(instruction, registers) {
 	return writeResult(instruction, registers, left * right);
 }
 
-function executeSignedMultiplyLong(instruction, registers) {
-	const left = signedSource(registers, instruction.source);
-	const right = signedSource(registers, instruction.secondSource);
+function executeMultiplyLong(instruction, registers) {
+	const signedSources = instruction.family === "signed-multiply-add-long";
+	const left = wideningSource(registers, instruction.source, signedSources);
+	const right = wideningSource(
+		registers,
+		instruction.secondSource,
+		signedSources
+	);
 	return writeResult(instruction, registers, left * right);
 }
 
@@ -47,6 +53,7 @@ function writeResult(instruction, registers, product) {
 	return true;
 }
 
-function signedSource(registers, index) {
-	return BigInt.asIntN(32, registers.read(index, 32, "zero"));
+function wideningSource(registers, index, signedSources) {
+	const value = registers.read(index, 32, "zero");
+	return signedSources ? BigInt.asIntN(32, value) : value;
 }

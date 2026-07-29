@@ -17,6 +17,11 @@ import {
 	createConsumedWindowInsets
 } from "./frameworkAndroidWindowInsetsValues.js";
 import {
+	initializeJavaFileStaticField,
+	JAVA_FILE,
+	JAVA_FILE_FIELDS
+} from "./frameworkJavaFileFields.js";
+import {
 	initializeJavaPrimitiveTypeStaticField,
 	JAVA_PRIMITIVE_TYPE_FIELD_GROUPS
 } from "./frameworkJavaPrimitiveTypeFields.js";
@@ -38,6 +43,7 @@ const WINDOW_INSETS_CONSUMED = Object.freeze({
 const FRAMEWORK_FIELDS = new Map([
 	[ANDROID_BUILD, ANDROID_BUILD_FIELDS],
 	[ANDROID_TRACE, ANDROID_TRACE_FIELDS],
+	[JAVA_FILE, JAVA_FILE_FIELDS],
 	...JAVA_PRIMITIVE_TYPE_FIELD_GROUPS,
 	[SUN_MISC_UNSAFE, SUN_MISC_UNSAFE_FIELDS],
 	[ANDROID_WINDOW_INSETS, Object.freeze([WINDOW_INSETS_CONSUMED])]
@@ -57,6 +63,8 @@ export function initializeFrameworkStaticField(runtime, metadata) {
 	if (build.supported) return build;
 	const trace = initializeAndroidTraceStaticField(metadata);
 	if (trace.supported) return trace;
+	const file = initializeJavaFileStaticField(runtime, metadata);
+	if (file.supported) return file;
 	const primitive = initializeJavaPrimitiveTypeStaticField(metadata);
 	if (primitive.supported) return primitive;
 	const unsafe = initializeJavaUnsafeStaticField(runtime, metadata);

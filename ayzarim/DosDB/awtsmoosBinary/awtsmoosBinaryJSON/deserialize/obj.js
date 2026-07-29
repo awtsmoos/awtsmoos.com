@@ -1,95 +1,83 @@
 // B"H
-//FILE deserialize/obj.js
-// The Awtsmoos, Essence of Atzmut, pulses through this code, recreating all from nothing every instant.
-// From the Ohr Ein Sof’s boundless light, threading through the Kav into Atzilus, this script unveils
-// the binary structure, a map of divine order, restoring the JSON essence as the Awtsmoos restores all reality.
+// FILE deserialize/obj.js
+// The Awtsmoos restores the bounded binary structure without pouring an entire
+// malformed database object into production logs.
 
-const { 
-    magicJSON,
-    magicArray
+const {
+	magicJSON,
+	magicArray
 } = require("./../constants.js");
+const FileBuffer = require("../../fileBuffer.js");
+const { getMetadata } = require("./get.js");
 
-
-var fileBuffer = require("../../fileBuffer.js");
-
-const readConditional = require("../helpers/readConditional.js");
-const unpackTypeAndLengthSize = require("../packing/unpackTypeAndLengthSize.js");
-
-var {
-    getValueByKey,
-    getKeys,
-    getMetadata
-} = require("./get.js")
-var temp = {};
-
-// Lazy-loaded modules, reflections of the Ohr Ein Sof, summoned only when the Awtsmoos wills it.
-var parseValueFromType = null;
+const temp = {};
+let parseValueFromType = null;
 Object.defineProperty(temp, "parseValueFromType", {
-    get() {
-        if (!parseValueFromType) parseValueFromType = require("../parsing/fromType.js");
-        return parseValueFromType;
-    }
+	get() {
+		if (!parseValueFromType) parseValueFromType = require("../parsing/fromType.js");
+		return parseValueFromType;
+	}
 });
 
-var deserializeArray = null;
+let deserializeArray = null;
 Object.defineProperty(temp, "deserializeArray", {
-    get() {
-        if (!deserializeArray) deserializeArray = require("./array.js");
-        return deserializeArray;
-    }
+	get() {
+		if (!deserializeArray) deserializeArray = require("./array.js");
+		return deserializeArray;
+	}
 });
 
-
-/**
- * @method deserializeJSON
- * @description Reconstructs the JSON object, tearing apart the binary veil to reveal the Awtsmoos’ essence.
- * @param {Buffer} buffer - The serialized binary buffer.
- * @returns {object} - The reconstructed JSON object.
- */
+/** Reconstructs one Awtsmoos binary JSON object. */
 function deserializeJSON(buffer, metadata) {
-    if(typeof(buffer) == "string") {
-        buffer = new fileBuffer(buffer)
-    }
-    var magic = buffer.subarray(
-        0,
-        magicJSON.length
-    ).toString();
+	if (typeof buffer === "string") buffer = new FileBuffer(buffer);
+	const magicBytes = buffer.subarray(0, magicJSON.length);
+	const magic = magicBytes.toString();
 
-    if (magic === magicArray) {
-        return temp.deserializeArray(buffer);
-    }
-    if (magic !== magicJSON) {
-        console.log(
-            `Not an Awtsmoos JSON: ${
-                magic
-            }`,
-            buffer
-        );
-        return null;
-    }
+	if (magic === magicArray) return temp.deserializeArray(buffer);
+	if (magic !== magicJSON) {
+		logInvalidBuffer(buffer, magicBytes);
+		return null;
+	}
 
-    
-    metadata = metadata || getMetadata(buffer);
-    var obj = {};
-    metadata/*array of keys with 
-    value offsets and lengths,
-    pretty easy*/.forEach(d => {
-        var valueBuffer = buffer.subarray(
-            d.offsetOfValueInMain,
-            d.offsetOfValueInMain + 
-            d.valueLength
-        );
-        var parst = temp.parseValueFromType({
-            value: valueBuffer,
-            type: d.valueType
-        });
-        obj[d.key] = parst.value
-   
-    });
+	const entries = metadata || getMetadata(buffer);
+	const object = {};
+	entries.forEach(entry => {
+		const valueBuffer = buffer.subarray(
+			entry.offsetOfValueInMain,
+			entry.offsetOfValueInMain + entry.valueLength
+		);
+		const parsed = temp.parseValueFromType({
+			value: valueBuffer,
+			type: entry.valueType
+		});
+		object[entry.key] = parsed.value;
+	});
+	return object;
+}
 
-    return obj;
+function logInvalidBuffer(buffer, magicBytes) {
+	const size = finiteLength(buffer);
+	const preview = safePreview(buffer, 160);
+	console.warn("Not an Awtsmoos JSON", {
+		bytes: size,
+		magicHex: Buffer.from(magicBytes || "").toString("hex").slice(0, 64),
+		preview
+	});
+}
 
-    
+function finiteLength(buffer) {
+	const length = Number(buffer?.length ?? buffer?.size ?? 0);
+	return Number.isFinite(length) && length >= 0 ? length : null;
+}
+
+function safePreview(buffer, maximumBytes) {
+	try {
+		return Buffer.from(buffer.subarray(0, maximumBytes)).toString("utf8")
+			.replace(/[\u0000-\u001f\u007f]/g, " ")
+			.slice(0, maximumBytes);
+	} catch {
+		return "unavailable";
+	}
 }
 
 module.exports = deserializeJSON;

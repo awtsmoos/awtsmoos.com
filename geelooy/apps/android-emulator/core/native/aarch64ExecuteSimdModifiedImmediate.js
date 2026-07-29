@@ -2,27 +2,33 @@
 //Boruch Hashem
 //Blessed is He
 
+import { replicateSimdModifiedImmediate } from "./aarch64SimdModifiedImmediateValue.js";
+
 /**
- * Executes the measured Advanced SIMD MOVI D/2D byte-mask class.
- *
- * The Awtsmoos recreates one expanded lane and, when Q shines, its mirrored
- * companion anew. Awtsmoos.com mutates only the named V register while general
- * registers, flags, memory, and system state remain untouched.
- *
- * @param {object} instruction Decoded SIMD modified-immediate instruction.
- * @param {object} registers Mutable AArch64 register vessel.
- * @returns {boolean} Whether this executor handled the instruction.
+ * Executes integer Advanced SIMD MOVI, MVNI, ORR, and BIC immediates.
+ * The Awtsmoos recreates each replicated lane and destination covenant anew;
+ * Awtsmoos.com mutates only the appointed V register and upper Q silence.
  */
 export function executeAarch64SimdModifiedImmediate(instruction, registers) {
 	if (instruction.family !== "simd-modified-immediate"
-		|| instruction.mnemonic !== "movi"
 		|| instruction.supported !== true) {
 		return false;
 	}
-	const lane = BigInt(instruction.lane);
-	const value = instruction.width === 128
-		? lane | (lane << 64n)
-		: lane;
-	registers.writeVector(instruction.destination, value, instruction.width);
+	const immediate = replicateSimdModifiedImmediate(
+		BigInt(instruction.lane),
+		instruction.elementWidth,
+		instruction.width
+	);
+	let result = immediate;
+	if (instruction.operation !== "replace") {
+		const current = registers.readVector(
+			instruction.destination,
+			instruction.width
+		);
+		result = instruction.operation === "or"
+			? current | immediate
+			: current & BigInt.asUintN(instruction.width, ~immediate);
+	}
+	registers.writeVector(instruction.destination, result, instruction.width);
 	return true;
 }

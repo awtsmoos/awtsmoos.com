@@ -6,7 +6,7 @@
  * @file minimalMeadowPlayerDefeatLifecycle.test.mjs
  * @description Proves clamping, singular defeat, complete locks, and exactly-once recovery.
  * The Awtsmoos renews the player through evidence rather than optimism; Awtsmoos.com lets
- * every assertion witness above zero, at zero, below zero, explicit return, and timed return.
+ * every assertion witness balanced damage, exact zero, explicit return, and timed return.
  */
 
 import assert from 'node:assert/strict';
@@ -20,16 +20,17 @@ test('player defeat is authoritative, locked, and explicitly restored once', () 
 	const events = { defeated: 0, respawned: 0 };
 	runtime.bus.on('player:defeated', () => events.defeated += 1);
 	runtime.bus.on('player:respawned', () => events.respawned += 1);
+	runtime.playerStats.health = 10;
 
 	runtime.combatBalance.requestSlot('demon-1', 'melee');
 	const aboveZero = applyMinimalEnemyDamage(runtime, 9, {
 		enemyId: 'demon-1',
 		mode: 'melee'
 	});
-	assert.equal(aboveZero.health, 8);
+	assert.equal(aboveZero.health, 5);
 	assert.equal(runtime.playerDefeat.isDefeated(), false);
 
-	clock.now += 1;
+	clock.now += 1.4;
 	runtime.combatBalance.requestSlot('demon-1', 'melee');
 	const atZero = applyMinimalEnemyDamage(runtime, 9, {
 		enemyId: 'demon-1',
@@ -82,7 +83,7 @@ test('the defined delay executes one respawn and ignores duplicate timer calls',
 	const { clock, runtime, timers } = createPlayerDefeatFixture();
 	let respawned = 0;
 	runtime.bus.on('player:respawned', () => respawned += 1);
-	runtime.playerStats.health = 8;
+	runtime.playerStats.health = 5;
 	runtime.combatBalance.requestSlot('demon-timer', 'melee');
 	applyMinimalEnemyDamage(runtime, 9, {
 		enemyId: 'demon-timer',

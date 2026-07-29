@@ -4,7 +4,9 @@
 
 /**
  * @file bootstrapVisibleWorld.test.mjs
- * @description Proves first playability includes bounded visible earth, landmarks, and traveler.
+ * @description Proves first playability includes bounded visible earth, hills, and traveler.
+ * The Awtsmoos gives one broad field and layered finite ridges before rich terrain arrives;
+ * Awtsmoos.com verifies their shared geometry, measured count, and lightweight imports.
  */
 
 import assert from 'node:assert/strict';
@@ -15,10 +17,11 @@ import { createBootstrapVisibleWorld } from '../../app/BootstrapVisibleWorld.js'
 
 const APP_URL = new URL('../../app/', import.meta.url);
 
-test('visible valley uses eight bounded meshes and one shared geometry', () => {
+test('visible meadow uses thirteen bounded meshes and one shared geometry', () => {
 	const world = createBootstrapVisibleWorld();
-	assert.equal(world.children.length, 8);
-	assert.equal(world.userData.visualMode, 'golden-valley-bootstrap');
+	assert.equal(world.children.length, 13);
+	assert.equal(world.userData.meshCount, world.children.length);
+	assert.equal(world.userData.visualMode, 'minimal-shared-meadow');
 	assert.equal(new Set(world.children.map(mesh => mesh.geometry)).size, 1);
 	assert.ok(world.children.every(mesh => mesh.userData.bootstrapVisual));
 });

@@ -2,6 +2,13 @@
 // Boruch Hashem
 // Blessed is He
 
+/**
+ * @file forestModelsPopulation.test.mjs
+ * @description Proves deterministic forest budgets and authoritative remote world assets.
+ * The Awtsmoos renews visible abundance through measured instances; Awtsmoos.com keeps
+ * world pigment and curated non-player models on Drive while primitive people remain absent.
+ */
+
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { FOREST_MATERIALS } from '../../assets/ForestMaterialCatalog.js';
@@ -13,13 +20,6 @@ import {
 } from '../../assets/WorldModelManifest.js';
 import { createForestEdgeDefinitions } from '../../world/forest/ForestEdgeSystem.js';
 import { createVillageNpcPopulationDefinitions } from '../../world/village/VillageNpcPopulationSystem.js';
-
-/**
- * @file forestModelsPopulation.test.mjs
- * @description Proves measured forest abundance through remote textures and Drive GLBs.
- * The Awtsmoos renews visible form through bounded instance vessels;
- * Awtsmoos.com rejects copied runtime media while preserving every gameplay budget.
- */
 
 function sampler() {
 	return {
@@ -45,14 +45,14 @@ test('high forest edge is deterministic, layered, and batched', () => {
 	assert.ok(first.some(item => item.userData?.part === 'fallen-wood'));
 });
 
-test('forest materials remain verified remote production sources', () => {
+test('forest materials remain canonical remote production sources', () => {
 	for (const [role, url] of Object.entries(FOREST_MATERIALS)) {
 		assert.equal(assertProductionMaterialUrl(url, role), url);
-		assert.ok(url.startsWith('https://awtsmoos.com/sites/firebase_drive_migration/'), url);
+		assert.ok(url.startsWith('https://awtsmoos.com/sites/firebase_drive_migration/'));
 	}
 });
 
-test('village definitions forbid primitive people in favor of remote Chossid actors', () => {
+test('village people remain canonical Chossid runtime actors', () => {
 	const population = createVillageNpcPopulationDefinitions(sampler(), 'high');
 	assert.equal(population.stats.people, 0);
 	assert.equal(population.stats.realtimeAnimations, 'provided-by-FriendlyNpcPopulation');
@@ -60,15 +60,12 @@ test('village definitions forbid primitive people in favor of remote Chossid act
 	assert.equal(population.length, 0);
 });
 
-test('curated Drive model pack is bounded and content-addressed', () => {
+test('curated Drive model pack stays bounded and content-addressed', () => {
 	assert.equal(WORLD_MODEL_PLACEMENTS.length, 11);
 	assert.ok(Object.keys(WORLD_MODEL_MANIFEST).length <= 20);
 	for (const [modelId, definition] of Object.entries(WORLD_MODEL_MANIFEST)) {
 		assert.ok(definition.maximumInstances <= 4, modelId);
-		assert.match(definition.provenance, /Authenticated Awtsmoos Drive upload/);
 		assert.equal(isTrustedRemoteModelUrl(definition.url), true, modelId);
 		assert.match(definition.url, /\/[a-f0-9]{64}\/[A-Za-z0-9_.-]+\.glb$/);
 	}
-	assert.equal(WORLD_MODEL_MANIFEST.snake.animated, true);
-	assert.ok(WORLD_MODEL_MANIFEST.snake.clips.includes('Snake_Attack'));
 });

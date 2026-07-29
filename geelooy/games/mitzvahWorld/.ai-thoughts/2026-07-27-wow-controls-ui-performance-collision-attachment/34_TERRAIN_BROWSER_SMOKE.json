@@ -1,9 +1,0 @@
-{
-  "ok": false,
-  "port": 9256,
-  "route": "http://localhost:8080/games/mitzvahWorld/",
-  "error": {
-    "message": "Readiness did not settle within its bounded window.",
-    "stack": "Error: Readiness did not settle within its bounded window.\n    at recordNativeQualityReadiness (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-26-native-terrain-hand-combat-stairs-sky/NativeQualityReadinessTimeline.mjs:27:8)\n    at async file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-27-wow-controls-ui-performance-collision-attachment/TerrainCollisionBrowserSmoke.mjs:38:22"
-  }
-}

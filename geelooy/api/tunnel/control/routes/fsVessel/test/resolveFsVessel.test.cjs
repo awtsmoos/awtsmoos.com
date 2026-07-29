@@ -1,9 +1,10 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 const assert = require("node:assert/strict");
 const test = require("node:test");
+const Test = require("../../../core/test/tunnelSecurityTestContext.cjs");
 const {
 	resolveFsVessel,
 	requestedVesselType
@@ -12,13 +13,25 @@ const { VESSEL_TYPES } = require("../vesselTypes.js");
 const { VIRTUAL_OS_TUNNEL_NAME } = require("../virtualNames.js");
 
 /**
- * B"H
- * The resolver names each vessel through one shared covenant. The Awtsmoos is
- * beyond every adapter; Awtsmoos.com tests route reasons, public names, and
- * canonical kinds separately so old labels cannot masquerade as regressions.
+ * The resolver names each vessel through one shared covenant. Fixtures use the
+ * same possession-backed account binding required in production so routing tests
+ * cannot silently bypass authorization.
  */
+const isolated = Test.createSecurityContext();
+const binding = Test.addBinding(Test.bindingInput(
+	"u",
+	"native-one",
+	"native-one"
+));
+
+test.after(() => isolated.cleanup());
+
 function client(tunnelName, extra = {}) {
 	return {
+		accessKind: extra.browserAgent ? "browser" : "device",
+		accountId: "u",
+		connected: true,
+		deviceId: extra.deviceId || "browser-device",
 		isAlive: true,
 		isTunnel: true,
 		registeredAt: Date.now(),
@@ -31,8 +44,8 @@ function context(clients = []) {
 	return {
 		ws: {
 			clients,
-			async sendTunnelRequest(name, payload) {
-				return { name, ok: true, payload };
+			async sendTunnelRequest(accountId, routeReference, payload) {
+				return { accountId, routeReference, ok: true, payload };
 			}
 		}
 	};
@@ -40,11 +53,14 @@ function context(clients = []) {
 
 const native = client("native-one", {
 	allowCommands: true,
-	allowWrite: true
+	allowWrite: true,
+	deviceId: binding.deviceId,
+	tunnelId: binding.tunnelId
 });
 const browser = client("browser-one", {
 	allowWrite: true,
 	browserAgent: true,
+	tunnelId: "browser-route-one",
 	vesselType: "browser-tab"
 });
 const $i = context([native, browser]);
@@ -52,9 +68,9 @@ const $i = context([native, browser]);
 function resolve(tunnelName, payload = {}, server = $i) {
 	return resolveFsVessel({
 		$i: server,
+		identity: { accountId: "u", userId: "u" },
 		payload,
-		tunnelName,
-		userId: "u"
+		tunnelName
 	});
 }
 
@@ -72,10 +88,13 @@ test("requested vessel type uses canonical shared constants", () => {
 		VESSEL_TYPES.NATIVE
 	);
 	assert.equal(requestedVesselType("native-one", { fallback: "virtual-os" }), "");
-	assert.equal(requestedVesselType("auto", { fallback: "virtual-os" }), VESSEL_TYPES.VIRTUAL_OS);
+	assert.equal(
+		requestedVesselType("auto", { fallback: "virtual-os" }),
+		VESSEL_TYPES.VIRTUAL_OS
+	);
 });
 
-test("explicit routing preserves kind, name, and reason", () => {
+test("explicit routing preserves kind, immutable route, and reason", () => {
 	let vessel = resolve("native-one", { targetVessel: "virtual-os" });
 	assert.equal(vessel.kind, VESSEL_TYPES.VIRTUAL_OS);
 	assert.equal(vessel.tunnelName, VIRTUAL_OS_TUNNEL_NAME);
@@ -83,11 +102,13 @@ test("explicit routing preserves kind, name, and reason", () => {
 
 	vessel = resolve("browser-one", { targetVessel: "browser-tab" });
 	assert.equal(vessel.kind, VESSEL_TYPES.BROWSER);
-	assert.equal(vessel.reason, "explicit_browser_tab");
+	assert.equal(vessel.routeReference, "browser-route-one");
+	assert.equal(vessel.reason, "authorized_browser_tunnel");
 
 	vessel = resolve("native-one", { targetVessel: "native" });
 	assert.equal(vessel.kind, VESSEL_TYPES.NATIVE);
-	assert.equal(vessel.reason, "explicit_native");
+	assert.equal(vessel.routeReference, binding.tunnelId);
+	assert.equal(vessel.reason, "authorized_owned_native_tunnel");
 });
 
 test("fallback hints do not override an exact live tunnel", () => {
@@ -98,18 +119,19 @@ test("fallback hints do not override an exact live tunnel", () => {
 		});
 		assert.equal(vessel.kind, VESSEL_TYPES.NATIVE);
 		assert.equal(vessel.tunnelName, "native-one");
-		assert.equal(vessel.reason, "exact_native_tunnel");
+		assert.equal(vessel.routeReference, binding.tunnelId);
+		assert.equal(vessel.reason, "authorized_owned_native_tunnel");
 	}
 });
 
-test("auto routing selects the single live vessel or hosted fallback", () => {
-	let vessel = resolve("auto");
+test("auto routing selects one authorized live vessel or hosted fallback", () => {
+	let vessel = resolve("auto", {}, context([browser]));
 	assert.equal(vessel.kind, VESSEL_TYPES.BROWSER);
-	assert.equal(vessel.reason, "auto_single_browser_tab");
+	assert.equal(vessel.reason, "authorized_browser_tunnel");
 
 	vessel = resolve("auto", {}, context([native]));
 	assert.equal(vessel.kind, VESSEL_TYPES.NATIVE);
-	assert.equal(vessel.reason, "auto_single_native_tunnel");
+	assert.equal(vessel.reason, "authorized_owned_native_tunnel");
 
 	vessel = resolve("auto", {}, context([]));
 	assert.equal(vessel.kind, VESSEL_TYPES.VIRTUAL_OS);

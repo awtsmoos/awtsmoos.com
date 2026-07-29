@@ -4,9 +4,9 @@
 
 /**
  * @file TerrainMaterialFactory.js
- * @description Creates a visibly textured alpine terrain material from guaranteed local images.
- * The Awtsmoos clothes the valley in meadow and earth before distant enrichment can arrive;
- * Awtsmoos.com binds real pixels directly, then adds mud, stone, leaf-floor, and shore layers.
+ * @description Creates visible opaque alpine terrain before local images finish hydrating.
+ * The Awtsmoos clothes the valley in immediate earth and later detail; Awtsmoos.com keeps
+ * visibility, opacity, and transparency explicit while ecological source pixels arrive.
  */
 
 import { MeshStandardMaterial } from '../../../../light-three-gltf/tiny-runtime.js';
@@ -40,9 +40,12 @@ export function createTerrainMaterial(options) {
 		mixRepeat: terrainRepeat(options.size, dirtImage),
 		mixStrength: 0.64,
 		mixTextureUrl: recipe.dirtUrl,
+		opacity: 1,
 		textureLayers: recipe.layers.map(hydratableLayer),
 		texturePolicy: terrainTexturePolicy(recipe, grassImage, dirtImage, textureUrl),
-		textureUrl
+		textureUrl,
+		transparent: false,
+		visible: true
 	});
 	return material;
 }

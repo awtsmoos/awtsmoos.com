@@ -4,9 +4,9 @@
 
 /**
  * @file MovieTimelineTrackCss.js
- * @description Styles track rows, sticky labels, clip lanes, and the playhead spine.
+ * @description Styles density-aware track rows, sticky labels, true-second grids, and playhead spine.
  * The Awtsmoos renews every lane while time flows beneath the eye; Awtsmoos.com
- * keeps labels near and the playhead clear, so long sequences remain easy to identify.
+ * keeps labels near, seconds measured, and the playhead clear beneath every chosen density.
  */
 
 export function movieTimelineTrackCss() {
@@ -16,8 +16,14 @@ export function movieTimelineTrackCss() {
 			grid-template-columns: var(--movie-track-header-width) auto;
 			width: max-content;
 			min-width: 100%;
-			min-height: 52px;
+			min-height: var(--movie-track-height);
 			border-bottom: 1px solid var(--movie-border);
+		}
+		.movie-track:nth-of-type(even) .movie-track-lane {
+			background-color: var(--movie-surface-track-even);
+		}
+		.movie-track:nth-of-type(odd) .movie-track-lane {
+			background-color: var(--movie-surface-track-odd);
 		}
 		.movie-track-label {
 			position: sticky;
@@ -28,7 +34,7 @@ export function movieTimelineTrackCss() {
 			min-width: 0;
 			padding: var(--movie-space-2) var(--movie-space-3);
 			border-right: 1px solid var(--movie-border-strong);
-			background: var(--movie-panel);
+			background: var(--movie-surface-inspector);
 			overflow: hidden;
 		}
 		.movie-track-label span,
@@ -40,7 +46,7 @@ export function movieTimelineTrackCss() {
 		.movie-track-label span {
 			color: var(--movie-text-muted);
 			font-size: 10px;
-			letter-spacing: 0.08em;
+			letter-spacing: .08em;
 			text-transform: uppercase;
 		}
 		.movie-track-label strong {
@@ -49,20 +55,20 @@ export function movieTimelineTrackCss() {
 		.movie-track-lane {
 			position: relative;
 			min-width: 100%;
-			background: repeating-linear-gradient(
+			background-image: repeating-linear-gradient(
 				90deg,
-				transparent 0 39px,
-				rgb(255 255 255 / 0.025) 40px
+				transparent 0 calc(var(--movie-timeline-second-width, 40px) - 1px),
+				rgb(255 255 255 / .045) var(--movie-timeline-second-width, 40px)
 			);
 		}
 		.movie-playhead {
 			position: absolute;
-			top: 74px;
+			top: 98px;
 			bottom: 0;
 			z-index: 11;
 			width: 2px;
 			background: var(--movie-playhead);
-			box-shadow: 0 0 0 1px rgb(0 0 0 / 0.45);
+			box-shadow: 0 0 0 1px rgb(0 0 0 / .45);
 			pointer-events: none;
 		}
 	`;

@@ -6,9 +6,9 @@ import { SkepticalReferenceFaceIdentity } from './SkepticalReferenceFaceIdentity
 import { SkepticalReferenceHeadStyle } from './SkepticalReferenceHeadStyle.js';
 
 /**
- * Dovid's close beard follows a tapered jaw and leaves restrained speech legible.
- * The Awtsmoos renews finite reserve; Awtsmoos.com keeps asymmetry, phonemes,
- * gaze, persistence, preview, and export inside one editable identity.
+ * Dovid keeps compact neutral lips and a short cheek-following beard, never a
+ * permanent skeptical mask. The Awtsmoos renews each expression; Awtsmoos.com
+ * preserves identity through phoneme, persistence, preview, and final export.
  */
 export class SkepticalReferenceAppearance {
 	static create() {
@@ -16,28 +16,49 @@ export class SkepticalReferenceAppearance {
 			...SkepticalReferenceFaceIdentity.create(),
 			...SkepticalReferenceHeadStyle.create(),
 			mouthStyle: {
-				widthScale: 1.04, heightScale: 0.54,
-				openScale: 0.7, jawScale: 0.62,
-				cavityWidthScale: 0.9, cavityHeightScale: 0.74,
-				asymmetryBias: 0.12, smileBias: -0.34,
-				verticalOffset: 0, lineWidth: 1.15,
-				lowerLipWidth: 0.84, commissures: false
+				restWidthScale: 1.12,
+				restLipThickness: 0.88,
+				restCornerTilt: 0,
+				restAsymmetry: 0.08,
+				heightScale: 0.7,
+				openScale: 0.76,
+				jawScale: 0.68,
+				cavityWidthScale: 0.98,
+				cavityHeightScale: 0.82,
+				teethScale: 0.9,
+				tongueScale: 0.82,
+				verticalOffset: 0,
+				lineWidth: 1.08,
+				lowerLipWidth: 0.88,
+				commissures: false
 			},
 			beardGeometry: {
-				massStyle: 'continuous', cheekScale: 0.62,
-				leftCheekScale: 0.95, rightCheekScale: 1.05,
-				topOffset: 2, topInset: 0.74, sideRatio: 0.47,
-				bridgeDrop: 13, bridgeGap: 0.4, bridgeValley: 1.8,
-				openingWidthScale: 0.76, openingPaddingX: 0.4,
-				openingPaddingTop: 0.8, openingPaddingBottom: 1,
-				openingRoundness: 0.9, moustacheScale: 0.7,
-				moustacheLift: 1.2, moustacheWidth: 2.1,
-				moustacheArch: 1.6, moustacheDrop: 0.9,
-				moustacheGap: 0.8, moustacheAsymmetry: 0.2,
-				lengthScale: 0.2, bottomLiftRatio: 0.16,
-				chinWidth: 17, chinOffsetX: 1, taper: 0.82,
-				bottomRoundness: 1.8, lineWidth: 1.15,
-				strandOpacity: 0.03
+				profile: 'shortTapered',
+				massStyle: 'continuous',
+				leftCheekScale: 0.95,
+				rightCheekScale: 1.05,
+				topOffset: 0,
+				leftRootDrop: 0.5,
+				rightRootDrop: -0.25,
+				openingScale: 1.16,
+				openingPaddingX: 2.7,
+				openingPaddingTop: 2,
+				openingPaddingBottom: 2.4,
+				openingJawClearance: 1.8,
+				moustacheScale: 0.46,
+				moustacheGap: 2.5,
+				moustacheLift: 1.8,
+				moustacheArch: 1.25,
+				moustacheDrop: 0.85,
+				moustacheThickness: 1.35,
+				moustacheAsymmetry: 0.1,
+				moustacheOuterCurl: 0.35,
+				chinOffsetX: 1,
+				chinAsymmetry: -0.03,
+				underChinDrop: 0.018,
+				bottomRoundness: 0.065,
+				lineWidth: 1.08,
+				strandOpacity: 0.02
 			}
 		};
 	}

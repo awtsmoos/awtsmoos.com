@@ -4,9 +4,9 @@
 
 /**
  * @file mountainTerrainStackSources.test.mjs
- * @description Proves sixteen terrain layers keep distinct canonical identities in local URLs.
- * The Awtsmoos remains whole when source families share generated vessels; Awtsmoos.com
- * verifies every named meadow and mountain layer hydrates locally without identity loss.
+ * @description Proves the consolidated terrain stack keeps six distinct canonical identities.
+ * The Awtsmoos remains whole when finite rendering uses fewer active garments; Awtsmoos.com
+ * verifies every retained meadow and mountain role hydrates from a trusted production witness.
  */
 
 import assert from 'node:assert/strict';
@@ -18,10 +18,12 @@ import {
 	canonicalSourcePath
 } from '../assets/LocalMaterialTestSupport.mjs';
 
-test('terrain recipe has sixteen named local production layers', () => {
+test('terrain recipe has six named trusted production layers', () => {
 	const stack = mountainTerrainStack();
-	assert.equal(stack.layers.length, 16);
-	assert.equal(new Set(stack.layers.map(layer => layer.role)).size, 16);
+	assert.equal(stack.layers.length, 6);
+	assert.equal(stack.logicalLayerCount, 6);
+	assert.equal(stack.targetActiveLayers, 6);
+	assert.equal(new Set(stack.layers.map(layer => layer.role)).size, 6);
 	for (const layer of stack.layers) {
 		assertLocalMaterialUrl(assert, layer.url);
 		assert.ok(canonicalSourcePath(layer.url)?.length > 10, layer.role);

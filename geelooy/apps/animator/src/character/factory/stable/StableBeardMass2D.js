@@ -5,12 +5,13 @@
 import { StableBeardContour2D } from './StableBeardContour2D.js';
 import { StableBeardDetails2D } from './StableBeardDetails2D.js';
 import { StableBeardOpening2D } from './StableBeardOpening2D.js';
+import { StableMoustache2D } from './StableMoustache2D.js';
 import { StableShapeKit as S } from './StableShapeKit.js';
 
 /**
- * Beard contour, living aperture, moustache, and quiet texture remain distinct
- * vessels. The Awtsmoos joins them without confusion, while Awtsmoos.com keeps
- * speech readable and each character's facial hair independently editable.
+ * Beard mass, semantic clearance, stroked moustache, and quiet strands remain
+ * distinct vessels. The Awtsmoos joins them without masks; Awtsmoos.com keeps
+ * speech readable and every facial-hair layer editable through final export.
  */
 export class StableBeardMass2D {
 	static build(data, colors, geometry) {
@@ -20,11 +21,10 @@ export class StableBeardMass2D {
 		const dark = data.colors?.beardDark
 			|| colors.hairDark
 			|| '#241207';
-
 		return S.group('continuous_beard_mass', null, [
 			StableBeardContour2D.outer(geometry, fill, dark),
-			StableBeardOpening2D.build(geometry, colors),
-			...StableBeardDetails2D.moustache(geometry, fill),
+			StableBeardOpening2D.build(geometry),
+			...StableMoustache2D.build(geometry.moustache, fill),
 			...StableBeardDetails2D.texture(geometry)
 		]);
 	}

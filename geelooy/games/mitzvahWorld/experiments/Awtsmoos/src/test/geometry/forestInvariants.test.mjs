@@ -4,14 +4,13 @@
 
 /**
  * @file forestInvariants.test.mjs
- * @description Guards one deterministic forest, one renderer, and truthful trunk collision.
- * Many species sing through one Etz Chaim, each material keeping its tone;
- * measured Gevurot guard every trunk, while proxy shadows remain unknown.
+ * @description Guards deterministic forest rendering, placement evidence, and trunk collision.
+ * Many species sing through one Etz Chaim; Awtsmoos.com preserves measured Gevurot,
+ * truthful rejection counters, source evidence, finite meshes, and first-class reference species.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
-
 import {
 	assertFiniteMesh,
 	assertFiniteRecord,
@@ -22,44 +21,40 @@ import {
 	placementSignature
 } from './ForestInvariantVessels.js';
 
-const olamHaRishon = createOlamHaForest();
-const olamHaSheni = createOlamHaForest();
+const first = createOlamHaForest();
+const second = createOlamHaForest();
 
 test('forest preserves deterministic placement, batching, and measured collision', () => {
-	const barkFamilies = materialFamilies(olamHaRishon.records, 'branches', true);
-	const leafFamilies = materialFamilies(olamHaRishon.records, 'leaves', false);
-	const heichalMeshes = collectMeshes(olamHaRishon.group);
-
-	assert.equal(olamHaRishon.stats.treeCount, 74);
-	assert.equal(olamHaRishon.stats.presetCount, 36);
-	assert.equal(olamHaRishon.stats.referenceSpeciesCount, 20);
-	assert.equal(olamHaRishon.stats.allPresetsPresent, true);
-	assert.equal(olamHaRishon.stats.allReferenceSpeciesPresent, true);
-	assert.deepEqual(olamHaRishon.stats.rendering.barkMaterialTypes, barkFamilies);
-	assert.deepEqual(olamHaRishon.stats.rendering.leafMaterialTypes, leafFamilies);
-	assert.equal(olamHaRishon.stats.rendering.drawCalls, barkFamilies.length + leafFamilies.length);
-	assert.equal(olamHaRishon.stats.drawCalls, olamHaRishon.stats.rendering.drawCalls);
-	assert.equal(heichalMeshes.length, olamHaRishon.stats.drawCalls);
-	assert.ok(olamHaRishon.stats.drawCalls < olamHaRishon.stats.treeCount);
-	assert.ok(olamHaRishon.stats.rendering.triangles > 0);
-	assert.equal(olamHaRishon.stats.rendering.publicFirebaseMaterials, true);
-	assert.equal(olamHaRishon.stats.rendering.realisticSpeciesMaterials, true);
-	assert.equal(olamHaRishon.group.children.length, 1);
-	assertGevurotHaCollision(olamHaRishon);
-	assert.deepEqual(placementSignature(olamHaRishon), placementSignature(olamHaSheni));
-	assertPlacementCounters(olamHaRishon.stats.placement);
-	assert.equal(olamHaRishon.stats.placement.sources.road, 2);
-	assert.equal(olamHaRishon.stats.placement.sources.obstacle, 2);
-	assert.equal(olamHaRishon.stats.unsupported.wind, false);
-	for (const mesh of heichalMeshes) assertFiniteMesh(mesh);
-	for (const record of olamHaRishon.records) assertFiniteRecord(record);
+	const barkFamilies = materialFamilies(first.records, 'branches', true);
+	const leafFamilies = materialFamilies(first.records, 'leaves', false);
+	const meshes = collectMeshes(first.group);
+	assert.equal(first.stats.treeCount, 74);
+	assert.equal(first.stats.presetCount, 36);
+	assert.equal(first.stats.referenceSpeciesCount, 20);
+	assert.equal(first.stats.allPresetsPresent, true);
+	assert.equal(first.stats.allReferenceSpeciesPresent, true);
+	assert.deepEqual(first.stats.rendering.barkMaterialTypes, barkFamilies);
+	assert.deepEqual(first.stats.rendering.leafMaterialTypes, leafFamilies);
+	assert.equal(first.stats.rendering.drawCalls, barkFamilies.length + leafFamilies.length);
+	assert.equal(first.stats.drawCalls, first.stats.rendering.drawCalls);
+	assert.equal(meshes.length, first.stats.drawCalls);
+	assert.ok(first.stats.drawCalls < first.stats.treeCount);
+	assert.ok(first.stats.rendering.triangles > 0);
+	assert.equal(first.stats.rendering.publicFirebaseMaterials, true);
+	assert.equal(first.stats.rendering.realisticSpeciesMaterials, true);
+	assert.equal(first.group.children.length, 1);
+	assertGevurotHaCollision(first);
+	assert.deepEqual(placementSignature(first), placementSignature(second));
+	assertPlacementCounters(first.stats.placement);
+	assert.equal(first.stats.placement.sources.road, 3);
+	assert.equal(first.stats.placement.sources.obstacle, 0);
+	assert.equal(first.stats.unsupported.wind, false);
+	for (const mesh of meshes) assertFiniteMesh(mesh);
+	for (const record of first.records) assertFiniteRecord(record);
 });
 
 test('reference species remain first-class records inside the unified renderer', () => {
-	const references = olamHaRishon.records.filter(record => {
-		return record.policy.referenceSpecies;
-	});
-
+	const references = first.records.filter(record => record.policy.referenceSpecies);
 	assert.equal(references.length, 20);
 	for (const record of references) {
 		assert.equal(record.tree.speciesId, record.policy.referenceSpecies);

@@ -14,11 +14,13 @@ const CONTROL_ROUTE_ACTIONS = new Set([
 ]);
 
 /**
-	* @file Exposes one routable record per logical device and honest stale warnings.
-	* @description
-	* The Awtsmoos does not multiply one tunnel because old registration shadows
-	* remain. Awtsmoos.com routes the chosen witness and preserves diagnostic truth.
-	*/
+ * @file Exposes one routable record per logical device and honest stale warnings.
+ * @description
+ * The Awtsmoos does not multiply one tunnel because old registration shadows
+ * remain. Awtsmoos.com routes only an affirmatively live transport. Recent but
+ * unresponsive evidence remains visible as recovery context without accepting
+ * new work that would become stuck behind a half-alive session.
+ */
 function isControlRouteAction(payload = {}) {
 	return CONTROL_ROUTE_ACTIONS.has(String(payload.action || ""));
 }
@@ -53,8 +55,8 @@ function warningFor(device = {}) {
 		heartbeatAt: device.heartbeatAt || null,
 		missedHeartbeats: device.missedHeartbeats || 0,
 		guidance: recovering
-			? "Recent native evidence exists; route control actions and avoid hard-dead fallback."
-			: "Heavy routing is paused after heartbeat grace; inspect status before restart."
+			? "Recent native evidence exists, but its transport is not responsive. Fail new work fast until a fresh frame proves the route live."
+			: "Routing is paused because no live transport is proven. Inspect server-side history or refresh the agent."
 	};
 }
 

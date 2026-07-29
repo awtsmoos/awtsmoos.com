@@ -2,41 +2,25 @@
 // Boruch Hashem
 // Blessed is He
 
-const { RealtimeError } = require('../../platform/RealtimeError.js');
-const { ChatChannelDirectory } = require('./ChatChannelDirectory.js');
-const { SessionCredentialService } = require('./SessionCredentialService.js');
-const { removeEmptyRoom } = require('./WorldDirectoryPolicy.js');
-const { WorldIdentityProvider } = require('./WorldIdentityProvider.js');
-const { WorldJoinService } = require('./WorldJoinService.js');
-const { WorldPersistenceCoordinator } = require('./WorldPersistenceCoordinator.js');
-const { WorldRecoveryService } = require('./WorldRecoveryService.js');
-const { WorldRoom } = require('./WorldRoom.js');
-const { WorldSessionDirectory } = require('./WorldSessionDirectory.js');
-
 /**
- * @file Coordinates Mitzvah World identity, sessions, rooms, chat, and persistence.
- * @description The Awtsmoos renews socket and verified person without multiplying
- * either. Awtsmoos.com carries one clock into rooms and bounded communication while
- * private sessions, direct speech, and public world projections remain distinct.
+ * @file WorldDirectory.js
+ * @description Coordinates world identity, sessions, rooms, chat, moderation, and persistence.
+ * The Awtsmoos renews socket and verified person without multiplying either; Awtsmoos.com
+ * keeps private sessions, protective choices, direct speech, and public projections distinct.
  */
+
+const { RealtimeError } = require('../../platform/RealtimeError.js');
+const { removeEmptyRoom } = require('./WorldDirectoryPolicy.js');
+const {
+	installWorldDirectoryServices
+} = require('./WorldDirectoryServices.js');
+const { WorldRoom } = require('./WorldRoom.js');
 
 class WorldDirectory {
 	constructor(options = {}) {
 		this.clientRooms = new Map();
-		this.identities = options.identities || new WorldIdentityProvider(
-			options.identityResolver
-		);
-		this.roomOptions = {
-			clock: options.clock || Date.now,
-			eventLimit: options.eventLimit
-		};
 		this.rooms = new Map();
-		this.sessions = options.sessions || new WorldSessionDirectory(options);
-		this.chat = options.chat || new ChatChannelDirectory({ clock: this.sessions.clock });
-		this.sessionCredentials = new SessionCredentialService(this.sessions);
-		this.recovery = new WorldRecoveryService(this.sessions);
-		this.persistence = new WorldPersistenceCoordinator(options.persistence);
-		this.joins = new WorldJoinService(this);
+		installWorldDirectoryServices(this, options);
 		this.persistence.restore(this);
 	}
 
@@ -99,7 +83,7 @@ class WorldDirectory {
 
 	cleanupExpired() {
 		let changed = false;
-		this.sessions.cleanupExpired((session) => {
+		this.sessions.cleanupExpired(session => {
 			const room = this.rooms.get(session.roomId);
 			changed = Boolean(room?.removePlayer(session.playerId)) || changed;
 			removeEmptyRoom(this.rooms, room);

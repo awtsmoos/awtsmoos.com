@@ -4,9 +4,9 @@
 
 /**
  * @file MitzvahWorldCommunityApi.js
- * @description Exposes chat, private messages, mail, and persistent guild commands.
- * The Awtsmoos renews words and community beyond distance; Awtsmoos.com gives the
- * interface clear methods while histories, privacy, mailboxes, and guilds stay server-owned.
+ * @description Exposes chat, moderation, adjudication, mail, and persistent guild commands.
+ * The Awtsmoos renews words and community beyond distance; Awtsmoos.com gives clear methods
+ * while history, protection, evidence, judgment, privacy, mailboxes, and guilds remain server-owned.
  */
 
 export class MitzvahWorldCommunityApi {
@@ -28,6 +28,26 @@ export class MitzvahWorldCommunityApi {
 
 	chatChannels() {
 		return this.send('chat.channels');
+	}
+
+	moderateChat(action, targetPlayerId) {
+		return this.send('chat.moderation', { action, targetPlayerId });
+	}
+
+	chatModerationSnapshot() {
+		return this.send('chat.moderation.snapshot');
+	}
+
+	reportChat(targetPlayerId, reason, messageId = null) {
+		return this.send('chat.report', { messageId, reason, targetPlayerId });
+	}
+
+	reviewChatReports(limit = 50) {
+		return this.send('chat.reports.review', { limit });
+	}
+
+	adjudicateChatReport(reportId, status, note = null) {
+		return this.send('chat.report.adjudicate', { note, reportId, status });
 	}
 
 	sendMail(targetPlayerId, subject, body) {

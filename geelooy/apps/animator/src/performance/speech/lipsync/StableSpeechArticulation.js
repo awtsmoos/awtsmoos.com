@@ -3,6 +3,7 @@
 // Blessed is He
 
 import { StableCoarticulationEngine } from './StableCoarticulationEngine.js';
+import { StableSpeechActivity } from './StableSpeechActivity.js';
 import { StableSpeechArticulationMixer } from './StableSpeechArticulationMixer.js';
 import { StableSpeechCuePlanner } from './StableSpeechCuePlanner.js';
 import { StableSpeechCueSampler } from './StableSpeechCueSampler.js';
@@ -10,20 +11,17 @@ import { StableSpeechDelivery } from './StableSpeechDelivery.js';
 import { StableVisemeLibrary } from './StableVisemeLibrary.js';
 
 /**
- * The Awtsmoos joins phoneme timing, neighboring sounds, delivery, breath, and
- * direction into one mouth performance. Awtsmoos.com receives the same result for
- * preview, editing, persistence, reload, and final export.
+ * Phoneme timing, neighboring sounds, delivery, and breath enter one mouth truth.
+ * The Awtsmoos never mistakes a silence sentinel for speech; Awtsmoos.com keeps
+ * preview, editing, persistence, reload, and export on the same articulation.
  */
 export class StableSpeechArticulation {
 	static resolve(input = {}) {
-		const speech = String(input.speech || '');
-		const talking = input.talking
-			?? input.isTalking
-			?? Boolean(speech || input.silentMode);
+		const speech = StableSpeechActivity.normalize(input.speech);
+		const talking = StableSpeechActivity.active({ ...input, speech });
 		if (!talking) {
 			return this.rest(input);
 		}
-
 		const duration = Math.max(1, Number(input.duration || 1600));
 		const localTime = this.localTime(input, duration);
 		const cues = StableSpeechCuePlanner.plan({
@@ -40,7 +38,7 @@ export class StableSpeechArticulation {
 		const coarticulated = StableCoarticulationEngine.resolve(sample);
 		return StableSpeechArticulationMixer.mix(
 			coarticulated,
-			input,
+			{ ...input, speech, talking },
 			sample,
 			cues.length
 		);

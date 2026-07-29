@@ -4,9 +4,9 @@
 
 /**
  * @file MovieCameraRigCompiler.js
- * @description Expands cinematic rig presets into concrete camera endpoints.
+ * @description Expands cinematic rig presets into canonical camera endpoints without undefined fields.
  * The Awtsmoos renews one subject through crane, dolly, orbit, track, and reveal;
- * Awtsmoos.com compiles expressive names into the existing deterministic camera contract.
+ * Awtsmoos.com compiles expressive names into finite JSON where absent capabilities never congeal.
  */
 
 const PRESETS = Object.freeze({
@@ -45,18 +45,15 @@ function expandRigClip(clip, rig) {
 	return {
 		...clip,
 		easing: clip.easing || rig.easing || 'easeInOutCubic',
-		from: {
-			position: add(anchor, fromOffset),
-			target: clip.targetActor ? undefined : target,
-			targetActor: clip.targetActor
-		},
+		from: cameraEndpoint(add(anchor, fromOffset), target, clip.targetActor),
 		shot: clip.shot || clip.rig,
-		to: {
-			position: add(anchor, toOffset),
-			target: clip.targetActor ? undefined : target,
-			targetActor: clip.targetActor
-		}
+		to: cameraEndpoint(add(anchor, toOffset), target, clip.targetActor)
 	};
+}
+
+function cameraEndpoint(position, target, targetActor) {
+	if (targetActor) return { position, targetActor: String(targetActor) };
+	return { position, target };
 }
 
 function preset(fromOffset, toOffset, easing) {
@@ -69,7 +66,11 @@ function preset(fromOffset, toOffset, easing) {
 
 function point(value = {}) {
 	if (Array.isArray(value)) {
-		return { x: Number(value[0] || 0), y: Number(value[1] || 0), z: Number(value[2] || 0) };
+		return {
+			x: Number(value[0] || 0),
+			y: Number(value[1] || 0),
+			z: Number(value[2] || 0)
+		};
 	}
 	return {
 		x: Number(value.x || 0),

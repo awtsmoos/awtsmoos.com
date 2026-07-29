@@ -89,7 +89,7 @@ test("signed multiply-long keeps register 31 as zero and preserves SP/NZCV", () 
 });
 
 test("neighboring unimplemented multiply encodings remain unknown", () => {
-	for (const word of [0x9ba00000, 0x9bc00000, 0x1b200000]) {
+	for (const word of [0x9bc00000, 0x1b200000]) {
 		assert.equal(decodeAarch64Instruction(word).family, "unknown");
 	}
 });
@@ -98,7 +98,8 @@ function run(fields, values, destination) {
 	const instruction = decodeAarch64Instruction(encode(fields));
 	const registers = createAarch64Registers();
 	for (const [index, value] of Object.entries(values)) {
-		registers.write(Number(index), value, Number(index) === fields.accumulator ? 64 : 32);
+		registers.write(Number(index), value,
+			Number(index) === fields.accumulator ? 64 : 32);
 	}
 	executeAarch64Data(instruction, registers);
 	return registers.read(destination, 64);

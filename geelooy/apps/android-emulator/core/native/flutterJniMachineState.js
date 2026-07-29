@@ -41,6 +41,11 @@ export function createFlutterJniMachineState(imageMemory, entryPoint, options = 
 	const nativePthreadMutexes = options.nativePthreadMutexes
 		|| createNativePthreadMutexState();
 	const nativeFileState = createFlutterJniFileState(nativeMemory.nativeHeap, options);
+	const resolveArrayLength = optionalResolver(options.resolveArrayLength);
+	const resolveObjectArrayElement = optionalResolver(
+		options.resolveObjectArrayElement
+	);
+	const resolveStringValue = optionalResolver(options.resolveStringValue);
 	const resolveClass = createResolver(options.resolveClass);
 	const resolveField = createResolver(options.resolveField);
 	const resolveMethod = createResolver(options.resolveMethod);
@@ -83,14 +88,21 @@ export function createFlutterJniMachineState(imageMemory, entryPoint, options = 
 		nativeLogcat: options.nativeLogcat || null,
 		nativePthreadMutexes,
 		registers,
+		resolveArrayLength,
 		resolveClass,
 		resolveField,
 		resolveMethod,
+		resolveObjectArrayElement,
+		resolveStringValue,
 		returnAddress: RETURN_SENTINEL,
 		stack: nativeMemory.stack,
 		systemRegisters,
 		thread: nativeMemory.thread
 	});
+}
+
+function optionalResolver(candidate) {
+	return typeof candidate === "function" ? candidate : null;
 }
 
 function createResolver(candidate) {

@@ -2,88 +2,52 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Geelooy Direct ChatGPT Relay
+# Geelooy Direct AI Relay
 
-The relay separates two explicit transports:
+The default transport is now fully request-only:
 
-- `strict-request-only` — capability truth and refusal when browser enforcement is required.
-- `page-authorized-fallback` — the minimum normal-browser carrier needed to obtain fresh enforcement values, followed by request-driven chat and GET polling.
+- `strict-request-only` — native server-side HTTP to the official OpenAI Responses API.
+- `official-api-request-only` — explicit name for the same zero-browser transport.
+- `page-authorized-fallback` — explicit legacy ChatGPT website fallback when website-sidebar conversations are specifically required.
 
-It never fabricates, derives, logs, stores, or replays proof, Turnstile, session-observer, conduit, account, session, or upstream conversation values.
+Strict mode never opens Chrome, inspects a page, queries the DOM, types, clicks, installs a WebSocket shim, or reads browser cookies. When the official API credential is missing, strict mode fails immediately with `official_api_key_required` before any browser work.
 
-## Request-only capability
+## Configure the request-only transport
 
-The strict capability path uses an authenticated `/settings` tab. It does not focus, type into, click, or submit the composer. It does not install a WebSocket shim.
+Create an API key in the OpenAI developer platform and export it in the relay server's shell:
 
-Official probes run sequentially:
+```bash
+export OPENAI_API_KEY="your_api_key_here"
+export OPENAI_MODEL="gpt-5.2"
+```
 
-1. Observe ordinary application headers in transient memory.
-2. POST `/backend-api/f/conversation/prepare`.
-3. Wait two seconds.
-4. POST `/backend-api/sentinel/chat-requirements/prepare`.
-5. Wait two seconds.
-6. Load the public Sentinel SDK and invoke its public methods.
-7. Cache the redacted capability result for 60 seconds.
+Keep the key in the server environment or a server-side key-management service. Never put it in browser JavaScript, commit it to the repository, paste it into a chat message, or include it in relay payloads.
 
-The request-only surface provides:
+Check configuration without contacting Chrome or the model API:
 
-- authenticated application headers;
-- conversation preparation;
-- conduit state;
-- Sentinel preparation metadata;
-- public Sentinel SDK readiness;
-- authenticated conversation-route GET completion.
+```bash
+npm run ai:request-capability
+```
 
-The live environment currently requires:
+Run four request-only conversation chains with five messages each:
 
-- Turnstile;
-- proof of work;
-- session-observer enforcement.
+```bash
+npm run ai:request-only-stress
+```
 
-The public `sessionObserverToken` method exists but did not return a usable token in the tested flow.
+The stress runner:
 
-## Proven browser-challenge boundary
+1. Creates four independent Responses API chains.
+2. Advances each chain through `previous_response_id`.
+3. Sends exactly twenty native HTTP requests.
+4. Enforces one global minimum ten-second request-start gap.
+5. Keeps provider response IDs behind opaque local `BH_DIRECT_...` keys.
+6. Stores no prompts, answers, credentials, or provider IDs in its report.
+7. Records `browserUsed: false` and `domUsed: false`.
 
-Suppressed normal-page traces established the exact boundary:
+These are API conversation chains. They do not create entries in the ChatGPT website sidebar.
 
-1. The page calls Sentinel prepare.
-2. Cloudflare's normal challenge runtime performs its verification.
-3. The page calls Sentinel finalize, `/req`, and `/ping`.
-4. The proof and Turnstile values used by the conversation request exactly match the values sent by the normal page to Sentinel `/ping`.
-5. Those values do not match prepare, finalize, or `/req` response tokens.
-
-Therefore active enforcement cannot currently be completed with ordinary requests alone. This project does not implement challenge solvers, proof derivation, token fabrication, or anti-abuse bypasses.
-
-## Minimum fallback
-
-When `page-authorized-fallback` is selected explicitly:
-
-1. Open one owned authenticated tab.
-2. Activate only that owned target.
-3. Click the visible composer once to obtain normal user activation.
-4. Insert a harmless transient carrier—not the user's prompt.
-5. Wait until ChatGPT reports an enabled Send control.
-6. Intercept the carrier conversation POST and abort it before delivery.
-7. Reuse the fresh normal-page enforcement envelope for exactly one same-origin conversation POST containing the real prompt.
-8. Poll the authenticated conversation route with GET requests until completion.
-9. Close or safely reuse the bounded owned host.
-
-The user's actual prompt never enters the composer. The carrier request is suppressed. Only the real request is delivered.
-
-Live verification proved:
-
-- suppressed carrier conversation-count delta: `0`;
-- one real diagnostic conversation created successfully;
-- exact expected answer matched;
-- answer completion used authenticated GET polling;
-- no topic WebSocket was required for completion.
-
-## Relay routes
-
-- `GET /direct-health`
-- `GET /direct-capability`
-- `POST /direct-chat`
-- `POST /direct-reset`
+## Browser-free relay behavior
 
 `POST /direct-chat` defaults to:
 
@@ -93,9 +57,55 @@ Live verification proved:
 }
 ```
 
-When active enforcement is required, strict mode returns HTTP 409 with `direct_enforcement_required`. It does not construct the carrier path or send a conversation POST.
+Optional request fields:
 
-Explicit fallback:
+```json
+{
+	"prompt": "Your prompt",
+	"conversationKey": null,
+	"mode": "strict-request-only",
+	"model": "gpt-5.2",
+	"thinkingEffort": "low"
+}
+```
+
+The browser caller can send only prompt text, an opaque local continuation key, an explicit mode, model, reasoning effort, and the legacy website-only conversation mode. The API key remains server-side.
+
+The official Responses API result is reduced to:
+
+- answer text;
+- opaque local conversation key;
+- created/continued state;
+- HTTP completion state;
+- safe model and token-count metadata;
+- pacing and latency facts.
+
+Raw provider payloads, response IDs, authorization headers, account data, and hidden reasoning are not returned.
+
+## Capability routes
+
+- `GET /direct-health`
+- `GET /direct-capability`
+- `POST /direct-chat`
+- `POST /direct-reset`
+
+`GET /direct-capability` is configuration-only. It does not open Chrome or contact OpenAI. It reports whether `OPENAI_API_KEY` exists without revealing its value.
+
+## Separate website diagnostic
+
+The old ChatGPT website analysis remains available only as a separate diagnostic:
+
+```bash
+npm run ai:web-capability
+```
+
+That command opens an authenticated `/settings` host and safely reports the website's enforcement boundary. It never sends a conversation POST.
+
+Suppressed traces established that the website's final proof and Turnstile values are outputs of its normal browser challenge lifecycle. They are not ordinary prepare/finalize response values. The project does not derive, solve, fabricate, replay, or bypass those protections.
+
+## Explicit website fallback
+
+When a ChatGPT website-sidebar conversation is specifically required, select:
 
 ```json
 {
@@ -104,40 +114,24 @@ Explicit fallback:
 }
 ```
 
+The minimum fallback uses one owned authenticated tab, one harmless suppressed carrier, one real same-origin request, and authenticated GET completion. The user's real prompt never enters the composer. This fallback is intentionally not automatic.
+
 ## Commands
-
-Manual authentication:
-
-```bash
-npm run ai:login
-```
-
-Live request-only capability report, with no composer and no conversation POST:
 
 ```bash
 npm run ai:request-capability
+npm run ai:request-only-stress
+npm run ai:web-capability
+npm run ai:login
+npm run ai:fallback-stress
 ```
 
-Login plus strict stress verification:
+## Safety contracts
 
-```bash
-npm run ai:login-stress
-```
-
-Start the relay directly:
-
-```bash
-AWTSMOOS_SPLIT_BROWSER_PORT=38488 \
-AWTSMOOS_CHROME_DEBUG_PORT=9223 \
-AWTSMOOS_DIRECT_INTERVAL_MS=10000 \
-node geelooy/ai/relay/split-browser/index.js
-```
-
-## Safety and pacing
-
-- Capability probes are sequential with two-second gaps.
-- Capability results are cached for 60 seconds.
+- Official API mode contains no browser or DOM imports.
+- Missing API credentials fail before browser inspection.
+- Browser callers never receive or submit the API key.
+- Provider continuation IDs stay inside an in-memory local store.
 - Real stress requests use a global minimum ten-second start gap.
-- Carrier POSTs are always intercepted and suppressed.
-- No report includes token values, cookie values, authorization values, account identifiers, session identifiers, upstream conversation identifiers, prompts, or answers.
+- Public errors never include provider bodies, credentials, or stacks.
 - Every direct-relay source file is limited to 120 lines.

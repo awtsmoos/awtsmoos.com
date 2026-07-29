@@ -4,21 +4,29 @@
 
 /**
  * @file MinimalMeadowHouseSurfaceAssertions.mjs
- * @description Asserts deterministic two-sided mobile visibility for every house surface.
- * The Awtsmoos sustains wall, floor, roof, stair, and foundation from every finite angle;
- * Awtsmoos.com verifies one stable visibility law instead of role-dependent GL state races.
+ * @description Asserts reverse faces only for thin exterior walls and bounded front faces elsewhere.
+ * The Awtsmoos sustains each architectural role through its fitting visibility law; Awtsmoos.com
+ * keeps walls camera-safe without turning floors, roofs, landings, and foundations inside out.
  */
 
 import assert from 'node:assert/strict';
 
 export function assertMinimalMeadowHouseSurface(mesh) {
 	const record = mesh.userData.AwtsmoosHouseSurface;
-	assert.equal(mesh.material.doubleSided, true);
-	assert.equal(mesh.material.backfaceCull, false);
-	assert.equal(mesh.frustumCulled, false);
 	assert.equal(record.closedVolume, true);
-	assert.equal(record.sidedness, 'double-mobile-stable');
-	assert.equal(record.visibilityPolicy, 'unculled-house-surface');
+	if (record.cameraSafeWall) {
+		assert.equal(mesh.material.doubleSided, true);
+		assert.equal(mesh.material.backfaceCull, false);
+		assert.equal(mesh.frustumCulled, false);
+		assert.equal(record.sidedness, 'double-mobile-stable');
+		assert.equal(record.visibilityPolicy, 'unculled-camera-safe-wall');
+		return;
+	}
+	assert.equal(mesh.material.doubleSided, false);
+	assert.equal(mesh.material.backfaceCull, true);
+	assert.equal(mesh.frustumCulled, true);
+	assert.equal(record.sidedness, 'front');
+	assert.equal(record.visibilityPolicy, 'bounded-front-surface');
 }
 
 export function countMinimalMeadowCameraSafeWalls(meshes) {

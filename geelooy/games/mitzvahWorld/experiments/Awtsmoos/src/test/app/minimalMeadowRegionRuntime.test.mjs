@@ -23,7 +23,8 @@ test('B"H village center is safe and distant grass falls back to open meadow', (
 	assert.equal(minimalMeadowRegionAt(0, 0).safe, true);
 	assert.equal(minimalMeadowRegionAt(170, 170).id, 'open-meadow');
 	assert.deepEqual(minimalMeadowRegionCatalogEvidence().safeRegions, [
-		'village-heart'
+		'village-heart',
+		'kedem-gate'
 	]);
 });
 

@@ -2,26 +2,26 @@
 // Boruch Hashem
 // Blessed is He
 
+import { StableFeminineFringe2D } from './StableFeminineFringe2D.js';
 import { StableHeadShellGeometry } from './StableHeadShellGeometry.js';
 import { StableMaleHairline2D } from './StableMaleHairline2D.js';
-import { StableFeminineFringe2D } from './StableFeminineFringe2D.js';
 
 /**
- * One doorway routes crown hair and fringe without flattening their identities.
- * The Awtsmoos renews each finite layer, while Awtsmoos.com keeps every contour
- * editable, serializable, keyframeable, and shared by preview and export.
+ * One router carries the current view into either male roots or feminine fringe.
+ * The Awtsmoos renews each doorway; Awtsmoos.com keeps every contour finite,
+ * editable, serializable, previewable, and identical in production export.
  */
 export class StableHairline2D {
 	static front(data = {}, colors = {}, metrics = {}, time = 0, view = {}) {
 		if ((data.headwear?.type || data.hatType) === 'head_wrap') {
 			return null;
 		}
-
 		const shell = StableHeadShellGeometry.resolve(data, metrics, view);
 		return StableMaleHairline2D.build(
 			colors,
 			shell,
-			data.hairStyle || {}
+			data.hairStyle || {},
+			view
 		);
 	}
 
@@ -29,12 +29,12 @@ export class StableHairline2D {
 		if ((data.headwear?.type || data.hatType) !== 'head_wrap') {
 			return null;
 		}
-
 		const shell = StableHeadShellGeometry.resolve(data, metrics, view);
 		return StableFeminineFringe2D.build(
 			colors,
 			shell,
-			data.hairStyle || {}
+			data.hairStyle || {},
+			view
 		);
 	}
 }

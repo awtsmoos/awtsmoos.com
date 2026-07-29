@@ -6,7 +6,7 @@
  * @file TerrainGeometry.js
  * @description Samples canonical earth and cooperatively finalizes expensive mesh vessels.
  * The Awtsmoos renews cliff, terrace, riverbank, and foundation in bounded moments;
- * Awtsmoos.com preserves exact terrain APIs while the browser remains responsive.
+ * Awtsmoos.com preserves exact terrain APIs and counts every browser-yield receipt truthfully.
  */
 
 import { v } from '../math/Geometry3D.js';
@@ -40,26 +40,31 @@ export async function createTerrainGeometryAsync(
 	const startedAt = now();
 	const state = createSamplingState(size, steps);
 	const yieldEvery = boundedInteger(options.yieldEvery, 64, 16, 512);
-	const yieldWork = options.yieldWork || yieldToBrowser;
-	let yields = 0;
-	for (let index = 0; index < state.total; index += 1) {
-		sampleVertex(state, index);
-		if ((index + 1) % yieldEvery !== 0 || index + 1 === state.total) continue;
-		yields += 1;
-		if (yields % 6 === 0) options.onProgress?.(index + 1, state.total);
-		await yieldWork();
-	}
-	options.onProgress?.(state.total, state.total);
-	await yieldWork();
-	return finishTerrainGeometryAsync(state, {
+	const baseYield = options.yieldWork || yieldToBrowser;
+	const preparation = {
 		milliseconds: 0,
 		mode: 'cooperative',
 		startedAt,
 		yieldEvery,
-		yields: yields + 1
-	}, terrainCoordinateAt, {
+		yields: 0
+	};
+	const countedYield = async () => {
+		preparation.yields += 1;
+		await baseYield();
+	};
+	for (let index = 0; index < state.total; index += 1) {
+		sampleVertex(state, index);
+		if ((index + 1) % yieldEvery !== 0 || index + 1 === state.total) continue;
+		if ((preparation.yields + 1) % 6 === 0) {
+			options.onProgress?.(index + 1, state.total);
+		}
+		await countedYield();
+	}
+	options.onProgress?.(state.total, state.total);
+	await countedYield();
+	return finishTerrainGeometryAsync(state, preparation, terrainCoordinateAt, {
 		onPhase: options.onPhase,
-		yieldWork
+		yieldWork: countedYield
 	});
 }
 

@@ -4,9 +4,9 @@
 
 /**
  * @file WorldSnapshotProjector.js
- * @description Projects players, creatures, NPCs, and both quest families for recovery.
- * Nearby deltas are finite garments while the Awtsmoos remains the whole;
- * Awtsmoos.com keeps one complete public projection for join and resynchronization.
+ * @description Projects players, creatures, NPCs, quests, and persisted public world effects.
+ * Nearby deltas are finite garments while the Awtsmoos remains the whole; Awtsmoos.com keeps
+ * one complete public projection for join, resynchronization, and repaired crossing visibility.
  */
 
 function projectWorldSnapshot(room, npcs, questDefinition) {
@@ -17,7 +17,8 @@ function projectWorldSnapshot(room, npcs, questDefinition) {
 		npcs,
 		players: room.roster.snapshots(),
 		quests: [questDefinition],
-		revision: room.revision
+		revision: room.revision,
+		worldEffects: room.worldEffects.snapshot()
 	}));
 }
 

@@ -4,9 +4,9 @@
 
 /**
  * @file ChatRequestHandler.js
- * @description Routes legacy and scoped chat through bounded private-aware ledgers.
- * The Awtsmoos renews each word beneath the vessel that may receive it;
- * Awtsmoos.com preserves the legacy event while new scopes remain explicitly typed.
+ * @description Routes scoped chat and persisted moderation through private-aware ledgers.
+ * The Awtsmoos renews each word beneath the vessel that may receive it; Awtsmoos.com preserves
+ * legacy speech while mute, block, history concealment, reports, and trusted review remain explicit.
  */
 
 const {
@@ -15,6 +15,9 @@ const {
 	oneOf,
 	optionalIdentifier
 } = require('./CommandValidation.js');
+const {
+	handleChatModerationRequest
+} = require('./ChatModerationRequestHandler.js');
 const { EVENT_TYPES, MESSAGE_TYPES, RESPONSE_TYPES } = require('./protocol.js');
 const { commandResult, queryResult } = require('./WorldCommandResult.js');
 
@@ -22,6 +25,8 @@ const SCOPES = Object.freeze(['global', 'world', 'party', 'guild', 'private']);
 
 function handleChatRequest(directory, context, request, room) {
 	const player = room.playerFor(context.client);
+	const moderation = handleChatModerationRequest(directory, request, room, player);
+	if (moderation) return moderation;
 	if (request.type === MESSAGE_TYPES.PLAYER_CHAT) {
 		return sendChat(directory, context, room, player, {
 			...commandPayload(request.payload),
@@ -42,13 +47,17 @@ function handleChatRequest(directory, context, request, room) {
 	if (request.type === MESSAGE_TYPES.CHAT_HISTORY) {
 		const payload = commandPayload(request.payload || {});
 		const scope = oneOf(payload.scope || 'world', SCOPES, 'Chat scope');
-		return queryResult(RESPONSE_TYPES.CHAT_HISTORY, directory.chat.history(
+		const history = directory.chat.history(
 			room,
 			player,
 			scope,
 			optionalIdentifier(payload.targetPlayerId, 'Target player id'),
 			payload.limit
-		));
+		);
+		return queryResult(
+			RESPONSE_TYPES.CHAT_HISTORY,
+			directory.moderation.filterHistory(player, history)
+		);
 	}
 	if (request.type === MESSAGE_TYPES.CHAT_CHANNELS) {
 		return queryResult(RESPONSE_TYPES.CHAT_CHANNELS, directory.chat.channels(room, player));
@@ -62,7 +71,13 @@ function sendChat(directory, context, room, player, payload, response) {
 		scope: payload.scope,
 		targetPlayerId: optionalIdentifier(payload.targetPlayerId, 'Target player id')
 	});
-	for (const client of delivery.clients) {
+	const clients = directory.moderation.filterRecipients(
+		directory,
+		room,
+		player,
+		delivery.clients
+	);
+	for (const client of clients) {
 		context.sendEvent(client, response.eventType, delivery.message);
 	}
 	return commandResult(response.responseType, delivery.message, {

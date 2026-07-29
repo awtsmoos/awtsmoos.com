@@ -47,7 +47,7 @@ const HIGH_Z_ALLOW = new Map([
   ["css/events/panel-chrome.css", [".is-fullscreen", ".is-maximized"]],
   ["css/ideal/mobile/composer.css", [".transport-status", ".input-area", ".attachment-tools"]],
   ["css/ideal/mobile/revamp.css", ["body", ".sidebar", ".mobile-bottom-dock", ".input-area"]],
-  ["css/ideal/mobile/scenes.css", [".main", ".sidebar", ".automation-panel", ".mobile-scene-active"]],
+  ["css/ideal/mobile/scenes.css", [".main", ".sidebar", ".automation-panel", "#sidebar", "#automation-panel", ".mobile-scene-active"]],
   ["css/ideal/mobile/suggestions.css", [".mobile-suggestion-rail"]],
   ["css/ideal/shell.css", [".is-panel-fullscreen"]],
   ["css/right-panel/fullscreen.css", [".is-panel-fullscreen"]],

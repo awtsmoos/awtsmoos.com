@@ -5,31 +5,35 @@
 import { VirtualGraph as G } from '../../../engine/graph/VirtualGraph.js';
 import { LineArtStyle } from '../../style/LineArtStyle.js';
 import { StableOrganicSleevePath2D } from './StableOrganicSleevePath2D.js';
+import { StableRelaxedFist2D } from './StableRelaxedFist2D.js';
+import { StableRelaxedFistGeometry } from './StableRelaxedFistGeometry.js';
 import { StableShapeKit as S } from './StableShapeKit.js';
+import { StableSleeveShoulderUnderlap } from './StableSleeveShoulderUnderlap.js';
 
 /**
- * Ari gathers one rounded fist near his heart through a broad unbroken sleeve.
- * The Awtsmoos renews cuff, thumb, knuckles, and cloth, while Awtsmoos.com keeps
- * every canonical node editable and shared by production preview and export.
+ * A readable chestward fist emerges beneath one rounded jacket shoulder. The
+ * Awtsmoos renews inward resolve without raw overscaling; Awtsmoos.com preserves
+ * canonical nodes, editable gesture, persistence, preview, and exact export.
  */
 export class StableReferenceRightFistArm2D {
 	static build(data, colors, metrics, prefix, gesture = {}) {
-		const shoulder = {
-			x: data._skeleton.rightShoulder.x,
-			y: data._skeleton.rightShoulder.y + 7
-		};
+		const shoulder = this.shoulder(data, gesture);
 		const elbow = {
-			x: shoulder.x + this.number(gesture.fistElbowOut, 17),
-			y: shoulder.y + this.number(gesture.fistElbowDown, 31)
+			x: shoulder.x + this.number(gesture.fistElbowOut, 3),
+			y: shoulder.y + this.number(gesture.fistElbowDown, 19)
 		};
 		const wrist = {
-			x: this.number(gesture.fistX, 49),
-			y: metrics.chestY + this.number(gesture.fistDrop, 23)
+			x: this.number(gesture.fistX, 16),
+			y: metrics.chestY + this.number(gesture.fistDrop, 8)
 		};
-		const scale = this.number(gesture.fistScale, 1.16);
+		const fist = StableRelaxedFistGeometry.resolve(
+			wrist,
+			this.number(gesture.fistScale, 1.08),
+			gesture
+		);
 		return S.group(`${prefix}_right_fist_arm`, null, [
-			S.group(`${prefix}_right_fist_upper`, { x: shoulder.x, y: shoulder.y }, []),
-			S.group(`${prefix}_right_fist_fore`, { x: elbow.x, y: elbow.y }, []),
+			S.group(`${prefix}_right_fist_upper`, shoulder, []),
+			S.group(`${prefix}_right_fist_fore`, elbow, []),
 			StableOrganicSleevePath2D.build(
 				`${prefix}_right_fist_sleeve`,
 				shoulder,
@@ -38,52 +42,50 @@ export class StableReferenceRightFistArm2D {
 				this.widths(metrics, gesture),
 				LineArtStyle.outer(data, colors.jacket)
 			),
-			this.cuff(data, colors, wrist, prefix, scale),
-			this.fist(data, colors, wrist, prefix, scale)
+			this.cuff(data, colors, fist, prefix),
+			StableRelaxedFist2D.build(data, colors, fist, prefix)
 		]);
+	}
+
+	static shoulder(data, gesture) {
+		const raw = {
+			x: data._skeleton.rightShoulder.x,
+			y: data._skeleton.rightShoulder.y
+				+ this.number(gesture.fistShoulderDrop, 1)
+		};
+		return StableSleeveShoulderUnderlap.resolve(
+			raw,
+			this.centerX(data),
+			{
+				inset: this.number(gesture.fistShoulderInset, 8),
+				drop: this.number(gesture.fistShoulderUnderlapDrop, 7)
+			}
+		);
 	}
 
 	static widths(metrics, gesture) {
 		return {
-			shoulder: this.number(gesture.fistShoulderWidth, metrics.armWidth + 8),
-			elbow: this.number(gesture.fistElbowWidth, metrics.armWidth + 4),
-			wrist: this.number(gesture.fistWristWidth, metrics.armWidth - 1)
+			shoulder: this.number(gesture.fistShoulderWidth, metrics.armWidth + 3),
+			elbow: this.number(gesture.fistElbowWidth, metrics.armWidth),
+			wrist: this.number(gesture.fistWristWidth, metrics.armWidth - 3)
 		};
 	}
 
-	static cuff(data, colors, wrist, prefix, scale) {
+	static cuff(data, colors, fist, prefix) {
+		const cuff = fist.cuff;
 		return G.ellipse(
 			`${prefix}_right_fist_cuff`,
-			wrist.x - 4 * scale, wrist.y - 2.2 * scale,
-			6.1 * scale, 3.7 * scale, -0.18,
+			cuff.x,
+			cuff.y,
+			cuff.radiusX,
+			cuff.radiusY,
+			-0.16,
 			LineArtStyle.medium(data, colors.jacketDark || colors.jacket)
 		);
 	}
 
-	static fist(data, colors, wrist, prefix, scale) {
-		const x = wrist.x - 3.4 * scale;
-		const y = wrist.y - 5.8 * scale;
-		return S.group(`${prefix}_relaxed_right_fist`, null, [
-			G.path(`${prefix}_relaxed_right_fist_mass`, [
-				{ type: 'move', x: x - 7 * scale, y: y - 4.2 * scale },
-				{ type: 'quad', cx: x, cy: y - 9.3 * scale, x: x + 7.5 * scale, y: y - 4.1 * scale },
-				{ type: 'quad', cx: x + 9.8 * scale, cy: y + 0.5 * scale, x: x + 5.8 * scale, y: y + 7.3 * scale },
-				{ type: 'quad', cx: x - 0.7 * scale, cy: y + 9.8 * scale, x: x - 7.3 * scale, y: y + 5.1 * scale },
-				{ type: 'quad', cx: x - 9.5 * scale, cy: y, x: x - 7 * scale, y: y - 4.2 * scale }
-			], LineArtStyle.medium(data, colors.skin)),
-			...[-3.2, 0, 3.2].map((offset, index) => G.path(`${prefix}_relaxed_right_knuckle_${index}`, [
-				{ type: 'move', x: x - 2.7 * scale, y: y + offset * scale },
-				{ type: 'quad', cx: x + 0.8 * scale, cy: y + (offset - 0.5) * scale, x: x + 4.5 * scale, y: y + offset * scale }
-			], { stroke: colors.skinDark, lineWidth: 0.58, lineCap: 'round' })),
-			G.path(`${prefix}_relaxed_right_thumb`, [
-				{ type: 'move', x: x - 5.1 * scale, y: y + 0.2 * scale },
-				{ type: 'quad', cx: x - 1.2 * scale, cy: y + 4.8 * scale, x: x + 4.2 * scale, y: y + 3.6 * scale }
-			], { stroke: colors.skin, lineWidth: 4.3 * scale, lineCap: 'round' }),
-			G.path(`${prefix}_relaxed_right_thumb_fold`, [
-				{ type: 'move', x: x - 2.2 * scale, y: y + 3.1 * scale },
-				{ type: 'quad', cx: x + 0.4 * scale, cy: y + 4.5 * scale, x: x + 2.8 * scale, y: y + 3.8 * scale }
-			], { stroke: colors.skinDark, lineWidth: 0.62, lineCap: 'round' })
-		]);
+	static centerX(data = {}) {
+		return this.number(data.bodyGeometry?.torso?.waistCenterX, 0);
 	}
 
 	static number(value, fallback) {

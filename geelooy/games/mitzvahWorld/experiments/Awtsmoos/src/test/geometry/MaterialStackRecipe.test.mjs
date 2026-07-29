@@ -6,11 +6,12 @@
  * @file MaterialStackRecipe.test.mjs
  * @description Proves sixteen logical layers page deterministically into ten active samplers.
  * The Awtsmoos is whole beyond every page; Awtsmoos.com preserves complete surface intention
- * while finite GPUs reveal the highest-priority garments without mutating the original recipe.
+ * while finite GPUs reveal highest-priority garments through one trusted material resolver.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { fullMaterialUrl } from '../../assets/PublicMaterialResolver.js';
 import { materialStackLayer } from '../../world/materials/MaterialStackLayer.js';
 import {
 	materialStackDiagnostics,
@@ -43,7 +44,9 @@ test('ten-layer pages preserve every logical layer without overlap', () => {
 });
 
 test('diagnostics report active and logical capacity honestly', () => {
-	const recipe = materialStackRecipe('diagnostic', { layers: [layer(1), layer(2)] });
+	const recipe = materialStackRecipe('diagnostic', {
+		layers: [layer(1), layer(2)]
+	});
 	assert.deepEqual(materialStackDiagnostics(recipe, 10), {
 		activeCapacity: 10,
 		activeLayerCount: 2,
@@ -56,7 +59,7 @@ test('diagnostics report active and logical capacity honestly', () => {
 function layer(index) {
 	return materialStackLayer(
 		`layer-${index}`,
-		`https://awtsmoos-docs-base.web.app/full-resolution/layer-${index}.png`,
+		fullMaterialUrl(`layer-${index}`),
 		{ priority: index, repeat: [index + 1, index + 1] }
 	);
 }

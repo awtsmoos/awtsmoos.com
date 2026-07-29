@@ -1,9 +1,0 @@
-{
-  "ok": false,
-  "port": 9263,
-  "route": "http://localhost:8080/games/mitzvahWorld/",
-  "error": {
-    "message": "Coordination systems did not settle within the bounded window.",
-    "stack": "Error: Coordination systems did not settle within the bounded window.\n    at waitForCoordination (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-28-full-game-improvement-wave/live-coordination-smoke.mjs:59:8)\n    at async file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-28-full-game-improvement-wave/live-coordination-smoke.mjs:26:2"
-  }
-}

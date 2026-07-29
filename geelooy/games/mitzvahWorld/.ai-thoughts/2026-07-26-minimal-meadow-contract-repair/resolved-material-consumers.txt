@@ -1,8 +1,0 @@
-src/test/assets/publicMaterialCatalog.test.mjs:38:assert.ok(resolveMaterialRecord(records[0], 'low').resolvedPath.startsWith('half-resolution/'));
-src/test/assets/publicMaterialCatalog.test.mjs:39:assert.ok(resolveMaterialRecord(records[0], 'high').resolvedPath.startsWith('full-resolution/'));
-src/test/assets/publicMaterialCatalog.test.mjs:45:assert.equal(resolved.resolvedPath, 'half-resolution/oak leaf spring.png');
-src/test/assets/publicMaterialCatalog.test.mjs:46:assert.equal(canonicalSourcePath(resolved.resolvedUrl), '/full-resolution/oak leaf spring.png');
-src/test/assets/publicMaterialCatalog.test.mjs:48:console.log(JSON.stringify({ ok: true, records: records.length, resolved: resolved.resolvedPath }, null, 2));
-src/assets/PublicMaterialResolver.js:27:	const resolvedPath = preferHalf
-src/assets/PublicMaterialResolver.js:33:		resolvedPath,
-src/assets/PublicMaterialResolver.js:34:		resolvedUrl: publicMaterialUrl(resolvedPath)

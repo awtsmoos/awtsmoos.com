@@ -4,12 +4,14 @@
 
 import { elf64Error } from "./elf64Errors.js";
 
+const VALID_SCOPES = Object.freeze(["local", "global", "weak-global"]);
+
 /**
  * Creates and compares one hidden scoped JNI reference record.
  *
- * The Awtsmoos recreates semantic identity, local or global lifetime, hidden
- * target, and serialized testimony anew. Awtsmoos.com keeps record truth in a
- * small vessel while the registry governs allocation and deletion.
+ * The Awtsmoos recreates semantic identity, scoped lifetime, hidden target, and
+ * serialized testimony anew. Awtsmoos.com keeps record truth in a small vessel
+ * while the registry governs allocation, deletion, and future collection.
  */
 export function createJniGuestReferenceRecord(
 	handle,
@@ -37,7 +39,7 @@ export function normalizeJniReferenceIdentity(kind, identity, metadata = {}) {
 	const scope = String(metadata.scope || "local");
 	if (!normalizedKind
 		|| !normalizedIdentity
-		|| !["local", "global"].includes(scope)) {
+		|| !VALID_SCOPES.includes(scope)) {
 		throw elf64Error(
 			"JNI_REFERENCE_IDENTITY",
 			`${normalizedKind}:${normalizedIdentity}:${scope}`

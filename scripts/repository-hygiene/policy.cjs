@@ -47,6 +47,10 @@ function classify(file, bytes = 0) {
 		reasons.push("generated-root");
 	}
 
+	if (Data.GENERATED_PREFIXES.some(prefix => normalized.startsWith(prefix))) {
+		reasons.push("generated-prefix");
+	}
+
 	if (!isSourceException(normalized) &&
 		segments.some(segment => Data.GENERATED_SEGMENTS.has(segment))) {
 		reasons.push("generated-directory");
@@ -59,6 +63,10 @@ function classify(file, bytes = 0) {
 
 	if (Data.FORBIDDEN_SUFFIXES.some(suffix => lower.endsWith(suffix))) {
 		reasons.push("forbidden-extension");
+	}
+
+	if (normalized.includes("/.sim/") && /\.(?:json|jsonl|log|out|err)$/.test(lower)) {
+		reasons.push("generated-simulation-output");
 	}
 
 	if ((isMedia(normalized) || lower.endsWith(".gz")) &&

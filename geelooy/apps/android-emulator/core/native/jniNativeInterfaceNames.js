@@ -36,8 +36,15 @@ const KNOWN_NAMES = Object.freeze({
 	94: "GetFieldID",
 	113: "GetStaticMethodID",
 	144: "GetStaticFieldID",
+	164: "GetStringLength",
+	165: "GetStringChars",
+	166: "ReleaseStringChars",
+	171: "GetArrayLength",
+	173: "GetObjectArrayElement",
 	215: "RegisterNatives",
 	216: "UnregisterNatives",
+	226: "NewWeakGlobalRef",
+	227: "DeleteWeakGlobalRef",
 	228: "ExceptionCheck"
 });
 

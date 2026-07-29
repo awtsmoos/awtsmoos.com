@@ -2,121 +2,66 @@
 // Boruch Hashem
 // Blessed is He
 
+import { GesturePhaseEngine } from '../gesture/GesturePhaseEngine.js';
+import { GesturePoseCatalog } from '../gesture/GesturePoseCatalog.js';
+import { PerformanceLayerMixer as Mix } from '../core/PerformanceLayerMixer.js';
+
 /**
- * The Awtsmoos renews intention as articulated motion. At Awtsmoos.com the long
- * open palm, guarded crossed arms, and quiet pocketed hand remain keyframeable
- * poses whose breath never destroys the authoritative silhouette.
+ * Gesture now unfolds through phase instead of teleporting from rest to pose. The
+ * Awtsmoos renews intention as motion; Awtsmoos.com preserves each authored devotion.
  */
 export class GestureLayer {
-	static apply(pose, state, view, time) {
-		const gesture = state.gesture
-			|| state.raw?.gesture
-			|| state.raw?.currentPerformance?.gesture
-			|| 'none';
-		this.ensureArms(pose);
-		const handler = this.handlers()[gesture];
-		if (handler) {
-			handler.call(this, pose, time, view);
+	static apply(pose, state = {}, view = {}, time = 0) {
+		this.ensure(pose);
+		const gesture = this.resolve(state);
+		const phase = GesturePhaseEngine.sample(gesture, time);
+		const target = GesturePoseCatalog.get(gesture.type, time);
+		if (!target || phase.amount <= 0) {
+			this.meta(pose, gesture.type, phase);
+			return pose;
 		}
+		const amount = phase.amount * Number(gesture.intensity ?? 1);
+		for (const side of ['left', 'right']) {
+			if (target[side]) {
+				Mix.arm(pose, side, target[side], amount, amount > 0.92);
+			}
+		}
+		if (target.body) {
+			Mix.addBody(pose, target.body, amount);
+		}
+		this.followThrough(pose, target, phase, amount);
+		this.meta(pose, gesture.type, phase);
 		return pose;
 	}
 
-	static handlers() {
-		return {
-			wave: this.wave,
-			point: this.point,
-			explain: this.explain,
-			open_palm_left: this.openPalmLeft,
-			arms_crossed: this.armsCrossed,
-			right_hand_in_pocket: this.rightHandInPocket
-		};
+	static resolve(state) {
+		const source = state.gesture || state.raw?.gesture || 'none';
+		return source && typeof source === 'object'
+			? source
+			: { type: String(source), intensity: 1, progress: null, phase: 'auto' };
 	}
 
-	static wave(pose, time) {
-		Object.assign(pose.arms.right, {
-			elbowX: 24,
-			elbowY: -18,
-			handX: 18 + Math.sin(time * 0.011) * 8,
-			handY: -44,
-			handPose: 'open'
-		});
+	static followThrough(pose, target, phase, amount) {
+		const follow = phase.followThrough * amount;
+		if (target.right) {
+			pose.arms.right.handY = Number(pose.arms.right.handY || 0) + follow * 18;
+		}
+		if (target.left) {
+			pose.arms.left.handY = Number(pose.arms.left.handY || 0) - follow * 12;
+		}
+		pose.body.shoulderCounter = Number(pose.body.shoulderCounter || 0)
+			+ follow * 3;
 	}
 
-	static point(pose) {
-		Object.assign(pose.arms.right, {
-			elbowX: 34,
-			elbowY: 10,
-			handX: 44,
-			handY: -4,
-			handPose: 'point'
-		});
+	static meta(pose, type, phase) {
+		pose.meta ||= {};
+		pose.meta.gesture = type;
+		pose.meta.gesturePhase = phase.phase;
+		pose.meta.gestureAmount = phase.amount;
 	}
 
-	static explain(pose, time) {
-		Object.assign(pose.arms.right, {
-			elbowX: 28,
-			elbowY: 20 + Math.sin(time * 0.005) * 5,
-			handX: 26 + Math.cos(time * 0.004) * 6,
-			handY: 4,
-			handPose: 'open'
-		});
-	}
-
-	static openPalmLeft(pose, time) {
-		const breath = Math.sin(time * 0.003) * 1.5;
-		Object.assign(pose.arms.left, {
-			elbowX: 52 + breath,
-			elbowY: 10,
-			handX: 48 + breath,
-			handY: -11,
-			handPose: 'open'
-		});
-		Object.assign(pose.arms.right, {
-			elbowX: -8,
-			elbowY: 24,
-			handX: -18,
-			handY: -4,
-			handPose: 'relaxed'
-		});
-	}
-
-	static armsCrossed(pose, time) {
-		const breath = Math.sin(time * 0.0018) * 0.7;
-		Object.assign(pose.arms.left, {
-			elbowX: -15,
-			elbowY: 20 + breath,
-			handX: -27,
-			handY: -12,
-			handPose: 'hold'
-		});
-		Object.assign(pose.arms.right, {
-			elbowX: -15,
-			elbowY: 20 - breath,
-			handX: -27,
-			handY: -12,
-			handPose: 'hold'
-		});
-	}
-
-	static rightHandInPocket(pose, time) {
-		const breath = Math.sin(time * 0.002) * 0.8;
-		Object.assign(pose.arms.left, {
-			elbowX: 8,
-			elbowY: 36 + breath,
-			handX: 5,
-			handY: 23,
-			handPose: 'relaxed'
-		});
-		Object.assign(pose.arms.right, {
-			elbowX: -2,
-			elbowY: 28,
-			handX: -13,
-			handY: 16,
-			handPose: 'hold'
-		});
-	}
-
-	static ensureArms(pose) {
+	static ensure(pose) {
+		pose.body ||= {};
 		pose.arms ||= {};
 		pose.arms.left ||= {};
 		pose.arms.right ||= {};
@@ -124,10 +69,7 @@ export class GestureLayer {
 
 	static sample(args = {}) {
 		return this.apply(
-			args.pose || {},
-			args.state || {},
-			args.view || {},
-			args.time || 0
+			args.pose || {}, args.state || {}, args.view || {}, args.time || 0
 		);
 	}
 }

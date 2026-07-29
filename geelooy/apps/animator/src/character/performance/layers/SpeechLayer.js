@@ -1,63 +1,74 @@
-
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+import { StableSpeechActivity } from '../../../performance/speech/lipsync/StableSpeechActivity.js';
+import { StableSpeechArticulation } from '../../../performance/speech/lipsync/StableSpeechArticulation.js';
 
 /**
- * @file SpeechLayer.js
- * @description
- * ============================================================================
- * CHAPTER: THE SPEECH LAYER THAT MOVED THE MOUTH WITHOUT SUMMONING ERRORS
- * ============================================================================
- *
- * This layer is static-only. It never requires new. It adds mouth rhythm and
- * a tiny head nod while leaving the stable body alone.
- *
- * @module SpeechLayer
- */
-
-/**
- * @class SpeechLayer
- * @description
- * Safe speech performance layer.
+ * Legacy layered poses receive the same authored visemes as production mouths. The
+ * Awtsmoos joins phrase to face; Awtsmoos.com keeps expression in its proper place.
  */
 export class SpeechLayer {
-  /**
-   * Applies speech influence.
-   *
-   * @param {Object} pose - Pose object.
-   * @param {Object} state - Performance state.
-   * @param {Object} view - View data.
-   * @param {number} time - Render time.
-   * @param {Object} world - World data.
-   * @returns {Object} Pose.
-   */
-  static apply(pose, state, view, time, world = {}) {
-    const raw = state.raw || state.data || {};
-    const text = String(state.dialogue || raw.dialogue || raw.speech || '');
-    const active = Boolean(state.speech === 'talk' || raw.speaking || text);
+	static apply(pose, state = {}, view = {}, time = 0) {
+		const raw = state.raw || state.data || {};
+		const speechState = state.speech && typeof state.speech === 'object'
+			? state.speech
+			: {};
+		const speech = StableSpeechActivity.resolve({
+			...raw,
+			speech: speechState.text ?? state.dialogue ?? raw.dialogue ?? raw.speech,
+			text: state.dialogue,
+			talking: speechState.active ?? raw.speaking ?? raw.isTalking,
+			silentMode: speechState.silentMode ?? raw.silentMode,
+			lipSyncCues: speechState.lipSyncCues ?? raw.lipSyncCues,
+			phonemeCues: speechState.phonemeCues ?? raw.phonemeCues,
+			manual: raw.manualMouth
+		});
+		pose.face ||= {};
+		pose.body ||= {};
+		pose.face.speaking = speech.active;
+		if (!speech.active) return pose;
+		const articulation = StableSpeechArticulation.resolve({
+			id: raw.id,
+			speech: speech.text,
+			talking: true,
+			silentMode: speech.silentMode,
+			time: raw.speechLocalTime ?? time,
+			duration: raw.speechDuration,
+			energy: speech.energy,
+			audioEnvelope: raw.audioEnvelope,
+			emotion: state.emotion || raw.emotion,
+			speechStyle: speech.style,
+			lipSyncCues: speechState.lipSyncCues ?? raw.lipSyncCues,
+			phonemeCues: speechState.phonemeCues ?? raw.phonemeCues,
+			manual: raw.manualMouth
+		});
+		const face = pose.face;
+		face.mouthOpen = articulation.open;
+		face.mouthWide = articulation.width;
+		face.mouthRound = articulation.round;
+		face.mouthPress = articulation.press;
+		face.mouthJaw = articulation.jaw;
+		face.mouthTeeth = articulation.teeth;
+		face.mouthTongue = articulation.tongue;
+		face.mouthShape = articulation.viseme;
+		face.phoneme = articulation.phoneme;
+		face.speechEnvelope = articulation.envelope;
+		face.mouthSmile = Number(face.mouthSmile || 0)
+			+ Number(articulation.smile || 0) * 0.35;
+		pose.body.headNod = Number(pose.body.headNod || 0)
+			+ (Number(articulation.phase || 0) - 0.5)
+				* Number(articulation.envelope || 0) * 1.4;
+		return pose;
+	}
 
-    pose.face = pose.face || {};
-    pose.body = pose.body || {};
-
-    if (!active) {
-      pose.face.mouthOpen = pose.face.mouthOpen ?? 0.04;
-      return pose;
-    }
-
-    const beat = Math.abs(Math.sin(time * 0.0105));
-    pose.face.mouthOpen = 0.1 + beat * 0.68;
-    pose.face.mouthWide = 0.08 + Math.sin(time * 0.006) * 0.08;
-    pose.body.headNod = Math.sin(time * 0.0048) * 1.2;
-
-    return pose;
-  }
-
-  /**
-   * Sample-compatible layer entry.
-   *
-   * @param {Object} args - Runner args.
-   * @returns {Object} Pose.
-   */
-  static sample(args = {}) {
-    return this.apply(args.pose || {}, args.state || {}, args.view || {}, args.time || 0, args.world || {});
-  }
+	static sample(args = {}) {
+		return this.apply(
+			args.pose || {},
+			args.state || {},
+			args.view || {},
+			args.time || 0
+		);
+	}
 }

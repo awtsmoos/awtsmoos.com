@@ -62,10 +62,10 @@ test("division uses XZR and preserves SP and NZCV", () => {
 	assert.equal(registers.nzcv, 0b1010);
 });
 
-test("neighboring two-source encodings remain unknown", () => {
-	for (const word of [0x9ac02000, 0x9ac02400, 0x9ac04000]) {
-		assert.equal(decodeAarch64Instruction(word).family, "unknown");
-	}
+test("neighboring two-source operations retain their proven families", () => {
+	assert.equal(decodeAarch64Instruction(0x9ac02000).family, "variable-shift");
+	assert.equal(decodeAarch64Instruction(0x9ac02400).family, "variable-shift");
+	assert.equal(decodeAarch64Instruction(0x9ac04000).family, "unknown");
 });
 
 function runWord(word, leftIndex, left, rightIndex, right, destination) {

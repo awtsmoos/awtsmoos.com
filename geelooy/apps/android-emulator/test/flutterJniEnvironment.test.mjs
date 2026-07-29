@@ -10,11 +10,11 @@ import { createNativeCompositeMemory } from "../core/native/nativeCompositeMemor
 import { createNativeImportAddressSpace } from "../core/native/nativeImportAddressSpace.js";
 
 /**
- * Proves the guest JNIEnv pointer and function table geometry. The Awtsmoos
- * recreates slot, table pointer, and named JNI doorway anew; Awtsmoos.com keeps
- * all function pointers as deterministic guest traps rather than host pointers.
+ * Proves the guest JNIEnv pointer and named function-table geometry.
+ * The Awtsmoos recreates slot, table pointer, and JNI doorway anew;
+ * Awtsmoos.com keeps deterministic guest traps instead of host pointers.
  */
-test("JNIEnv points at a bounded table with named and numeric traps", () => {
+test("JNIEnv exposes named, weak-reference, and numeric traps", () => {
 	const region = createNativeAnonymousMemory(0x5000n, 0x1000, "jni");
 	const memory = createNativeCompositeMemory(faultingPrimary(), [region]);
 	const imports = createNativeImportAddressSpace({ base: 0x9000n });
@@ -28,6 +28,20 @@ test("JNIEnv points at a bounded table with named and numeric traps", () => {
 	assert.equal(memory.readU64(0x5530n), 0x9020n);
 	assert.equal(imports.find(0x9020n).name, "JNINativeInterface.FindClass");
 	assert.equal(report.knownSlots.FindClass.slot, 6);
+	assert.deepEqual(report.knownSlots.NewWeakGlobalRef, {
+		address: memory.readU64(0x5c10n).toString(),
+		offset: 1808,
+		slot: 226
+	});
+	assert.equal(
+		imports.find(memory.readU64(0x5c10n)).name,
+		"JNINativeInterface.NewWeakGlobalRef"
+	);
+	assert.equal(report.knownSlots.DeleteWeakGlobalRef.offset, 1816);
+	assert.equal(
+		imports.find(memory.readU64(0x5c18n)).name,
+		"JNINativeInterface.DeleteWeakGlobalRef"
+	);
 	assert.equal(report.tableSlots, 256);
 	assert.equal(
 		imports.find(memory.readU64(0x5cf8n)).name,

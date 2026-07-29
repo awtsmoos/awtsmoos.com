@@ -12,11 +12,24 @@ import { ReferenceRigPoseDefaults } from './specification/ReferenceRigPoseDefaul
 import { ReferenceTimelineTracks } from './specification/ReferenceTimelineTracks.js';
 
 const RIG_BONES = [
-	'root', 'hips', 'spine', 'chest', 'neck', 'head',
-	'leftShoulder', 'leftElbow', 'leftWrist',
-	'rightShoulder', 'rightElbow', 'rightWrist',
-	'leftHip', 'leftKnee', 'leftAnkle',
-	'rightHip', 'rightKnee', 'rightAnkle'
+	'root',
+	'hips',
+	'spine',
+	'chest',
+	'neck',
+	'head',
+	'leftShoulder',
+	'leftElbow',
+	'leftWrist',
+	'rightShoulder',
+	'rightElbow',
+	'rightWrist',
+	'leftHip',
+	'leftKnee',
+	'leftAnkle',
+	'rightHip',
+	'rightKnee',
+	'rightAnkle'
 ];
 
 /**
@@ -28,7 +41,7 @@ export class ReferenceCharacterBase {
 	static create(specification = {}) {
 		const source = this.clone(specification);
 		const character = {
-			documentVersion: 'awtsmoos.character.document.v3',
+			documentVersion: 'awtsmoos.character.document.v2',
 			archetype: 'human',
 			style: 'reference_sitcom',
 			lineStyle: 'softCartoon',
@@ -46,7 +59,9 @@ export class ReferenceCharacterBase {
 			rigPose: ReferenceRigPoseDefaults.create(source.rigPose),
 			facePose: FacePose.make(source.facePose),
 			manualFacePose: source.manualFacePose || null,
-			renderPerformance: ReferencePerformanceDefaults.create(source.renderPerformance),
+			renderPerformance: ReferencePerformanceDefaults.create(
+				source.renderPerformance
+			),
 			partHierarchy: ReferencePartHierarchy.definitions(),
 			editableParts: ReferencePartHierarchy.editableIds(),
 			rig: this.rig()

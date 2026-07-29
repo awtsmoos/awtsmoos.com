@@ -1,9 +1,0 @@
-{
-  "ok": false,
-  "port": 9262,
-  "route": "http://localhost:8080/games/mitzvahWorld/",
-  "error": {
-    "message": "Mobile runtime did not settle within 180000ms.",
-    "stack": "Error: Mobile runtime did not settle within 180000ms.\n    at waitForMobileRuntime (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-26-mobile-gameplay-polish/MobileCdpClient.mjs:76:8)\n    at async file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-28-mobile-ui-terrain-water-combat/live-mobile-repair-proof.mjs:39:2"
-  }
-}

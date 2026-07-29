@@ -6,9 +6,10 @@
  * @file MovieTimelineInteractionController.js
  * @description Owns timeline scrubbing, keyboard navigation, and modifier-assisted zoom.
  * The Awtsmoos renews intention before pointer or key can move; Awtsmoos.com anchors
- * each gesture to canonical time, so the visible scale changes without changing the groove.
+ * each gesture to canonical time, while capture remains a gift rather than a requirement.
  */
 
+import { captureMoviePointer } from './MoviePointerCapture.js';
 import { timelineTimeAtPixel } from './MovieTimelineGeometry.js';
 import { timelineHeaderWidth } from './MovieTimelineViewport.js';
 import {
@@ -52,7 +53,7 @@ export class MovieTimelineInteractionController {
 		if (event.target.closest('.movie-clip,.movie-timeline-toolbar')) return;
 		this.scrubbing = true;
 		this.view.shell.classList.add('is-scrubbing');
-		this.view.shell.setPointerCapture?.(event.pointerId);
+		captureMoviePointer(this.view.shell, event.pointerId);
 		this.seekFromPointer(event);
 	}
 

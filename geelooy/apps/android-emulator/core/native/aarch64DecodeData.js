@@ -7,25 +7,45 @@ import { decodeAarch64Bitfield } from "./aarch64DecodeBitfield.js";
 import { decodeAarch64ConditionalCompare } from "./aarch64DecodeConditionalCompare.js";
 import { decodeAarch64ConditionalSelect } from "./aarch64DecodeConditionalSelect.js";
 import { decodeAarch64Division } from "./aarch64DecodeDivision.js";
+import { decodeAarch64Extract } from "./aarch64DecodeExtract.js";
+import { decodeAarch64FloatingArithmetic } from "./aarch64DecodeFloatingArithmetic.js";
+import { decodeAarch64FloatingCompare } from "./aarch64DecodeFloatingCompare.js";
 import { decodeAarch64FloatToInteger } from "./aarch64DecodeFloatToInteger.js";
 import { decodeAarch64GeneralSimdMove } from "./aarch64DecodeGeneralSimdMove.js";
+import { decodeAarch64IntegerToFloat } from "./aarch64DecodeIntegerToFloat.js";
 import { decodeAarch64LogicalImmediate } from "./aarch64DecodeLogicalImmediate.js";
 import { decodeAarch64Multiply } from "./aarch64DecodeMultiply.js";
+import { decodeAarch64OneSourceBit } from "./aarch64DecodeOneSourceBit.js";
+import { decodeAarch64SimdAddLongReduction } from "./aarch64DecodeSimdAddLongReduction.js";
+import { decodeAarch64SimdByteUnary } from "./aarch64DecodeSimdByteUnary.js";
+import { decodeAarch64SimdElementInsert } from "./aarch64DecodeSimdElementInsert.js";
 import { decodeAarch64SimdGeneralInsert } from "./aarch64DecodeSimdGeneralInsert.js";
+import { decodeAarch64SimdGeneralMove } from "./aarch64DecodeSimdGeneralMove.js";
 import { decodeAarch64SimdModifiedImmediate } from "./aarch64DecodeSimdModifiedImmediate.js";
+import { decodeAarch64VariableShift } from "./aarch64DecodeVariableShift.js";
 import { aarch64Bits } from "./aarch64InstructionBits.js";
 
 /**
  * Decodes scalar, SIMD, arithmetic, conditional, and logical data families.
  * The Awtsmoos recreates each measured transformation anew; Awtsmoos.com routes
- * exact vector-lane appointments before scalar moves and numeric conversions.
+ * exact lane and bit transformations before broader arithmetic families.
  */
 export function decodeAarch64Data(word) {
 	const normalized = Number(word) >>> 0;
 	return decodeAarch64SimdGeneralInsert(normalized)
+		|| decodeAarch64SimdElementInsert(normalized)
+		|| decodeAarch64SimdGeneralMove(normalized)
+		|| decodeAarch64SimdByteUnary(normalized)
+		|| decodeAarch64SimdAddLongReduction(normalized)
 		|| decodeAarch64GeneralSimdMove(normalized)
 		|| decodeAarch64FloatToInteger(normalized)
+		|| decodeAarch64IntegerToFloat(normalized)
+		|| decodeAarch64FloatingArithmetic(normalized)
+		|| decodeAarch64FloatingCompare(normalized)
 		|| decodeAarch64SimdModifiedImmediate(normalized)
+		|| decodeAarch64Extract(normalized)
+		|| decodeAarch64VariableShift(normalized)
+		|| decodeAarch64OneSourceBit(normalized)
 		|| decodeAarch64Bitfield(normalized)
 		|| decodeAarch64Multiply(normalized)
 		|| decodeAarch64Division(normalized)

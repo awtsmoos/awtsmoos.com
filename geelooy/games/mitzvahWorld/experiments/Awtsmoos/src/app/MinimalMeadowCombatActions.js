@@ -4,60 +4,50 @@
 
 /**
  * @file MinimalMeadowCombatActions.js
- * @description Defines graphic actions while Hebrew remains in names, casting, and particles.
- * The Awtsmoos lets symbol and letter serve without confusion; Awtsmoos.com gives children
- * immediate pictograms while preserving Hebrew speech in every charged fictional deed.
+ * @description Joins casting with complete staff and sword action definitions.
+ * The Awtsmoos gives every deed a stable name and truthful border; Awtsmoos.com
+ * lets one catalog guide solo animation, multiplayer intent, UI, and diagnostics.
  */
+import { combatActionRecord as action } from './combat/CombatActionRecord.js';
+import { STAFF_ACTIONS } from './combat/StaffActionCatalog.js';
+import { SWORD_ACTIONS } from './combat/SwordActionCatalog.js';
+
+const CASTS = Object.freeze({
+	'hebrew-fire': cast('hebrew-fire', 'Hebrew Fire', '🔥', 'אש', 1.65, 2.5, 28, 34, 8.5, 'Digit1', '1'),
+	'letter-light': cast('letter-light', 'Letter Light', '☀️', 'אור', 1.1, 1.85, 18, 38, 11.5, 'Digit2', '2'),
+	'staff-cast': cast('staff-cast', 'Staff Casting', '🪄', 'חי', 0.62, 1.2, 12, 34, 16, 'Digit3', '3', 'staff')
+});
 
 export const MINIMAL_MEADOW_COMBAT_ACTIONS = Object.freeze({
-	'hebrew-fire': action({
-		castTime: 1.65,
-		color: [1, 0.18, 0.03, 1],
-		cooldown: 2.5,
-		damage: 28,
-		icon: '🔥',
-		keyCode: 'Digit1',
-		keyLabel: '1',
-		label: 'Hebrew Fire',
-		letters: 'אש',
-		range: 34,
-		speed: 8.5
-	}),
-	'letter-light': action({
-		castTime: 1.1,
-		color: [1, 0.83, 0.22, 1],
-		cooldown: 1.85,
-		damage: 18,
-		icon: '☀️',
-		keyCode: 'Digit2',
-		keyLabel: '2',
-		label: 'Letter Light',
-		letters: 'אור',
-		range: 38,
-		speed: 11.5
-	}),
-	'staff-strike': action({
-		castTime: 0.62,
-		color: [0.42, 0.83, 1, 1],
-		cooldown: 1.2,
-		damage: 12,
-		icon: '🪄',
-		keyCode: 'Digit3',
-		keyLabel: '3',
-		label: 'Staff Strike',
-		letters: 'חי',
-		range: 5.2,
-		speed: 16
-	})
+	...CASTS,
+	...STAFF_ACTIONS,
+	...SWORD_ACTIONS
 });
 
 export function minimalMeadowCombatActionList() {
-	return Object.entries(MINIMAL_MEADOW_COMBAT_ACTIONS).map(([id, definition]) => ({
-		...definition,
-		id
-	}));
+	return Object.values(MINIMAL_MEADOW_COMBAT_ACTIONS);
 }
 
-function action(definition) {
-	return Object.freeze({ ...definition });
+function cast(id, displayName, icon, letters, castTime, cooldown, damage, range, speed, keyCode, keyLabel, requiredWeaponClass = null) {
+	return action({
+		activeEnd: castTime,
+		activeStart: castTime,
+		castTime,
+		cooldown,
+		damage,
+		displayName,
+		icon,
+		id,
+		keyCode,
+		keyLabel,
+		label: displayName,
+		letters,
+		range,
+		requiredSlot: requiredWeaponClass ? 'hand' : null,
+		requiredWeaponClass,
+		serverIntent: 'player-cast',
+		speed,
+		type: 'cast',
+		windup: castTime
+	});
 }

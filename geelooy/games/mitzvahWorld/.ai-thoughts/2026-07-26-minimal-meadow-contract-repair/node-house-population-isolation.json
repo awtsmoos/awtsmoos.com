@@ -1,6 +1,0 @@
-{
-  "ok": false,
-  "durationMs": 603,
-  "error": "octree.insert is not a function",
-  "stack": "TypeError: octree.insert is not a function\n    at installMinimalMeadowHouseDefinitions (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseAssemblyInstallers.js:21:11)\n    at createMinimalMeadowHouseAssembly (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseAssembly.js:39:26)\n    at file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHousePopulation.js:35:4\n    at Array.map (<anonymous>)\n    at new MinimalMeadowHousePopulation (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHousePopulation.js:34:47)\n    at MinimalMeadowHousePopulation.create (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHousePopulation.js:24:10)\n    at async file:///Users/awtsmoos/work/awtsmoos.com/geelooy/games/mitzvahWorld/[eval1]:17:21"
-}

@@ -4,14 +4,17 @@
 
 import { VirtualGraph as G } from '../../../engine/graph/VirtualGraph.js';
 import { LineArtStyle } from '../../style/LineArtStyle.js';
+import { StableCalmCuff2D } from './StableCalmCuff2D.js';
 import { StableOrganicSleevePath2D } from './StableOrganicSleevePath2D.js';
 import { StablePocketGeometry } from './StablePocketGeometry.js';
+import { StablePocketHand2D } from './StablePocketHand2D.js';
 import { StableShapeKit as S } from './StableShapeKit.js';
+import { StableSleeveShoulderUnderlap } from './StableSleeveShoulderUnderlap.js';
 
 /**
- * Miriam's pocket sleeve flows through one hidden elbow into a cloth-occluded hand.
- * The Awtsmoos renews sleeve and opening together; Awtsmoos.com keeps canonical
- * arm, cuff, hand, and pocket nodes editable in preview, persistence, and export.
+ * Miriam's pocket sleeve flows beneath the shoulder into one cloth-occluded hand.
+ * The Awtsmoos renews sleeve and opening together; Awtsmoos.com preserves canonical
+ * arm, cuff, hand, pocket, persistence, preview, and exact production export.
  */
 export class StablePocketArm2D {
 	static build(data, colors, metrics, prefix, gesture = {}) {
@@ -24,77 +27,65 @@ export class StablePocketArm2D {
 				anchors.shoulder,
 				anchors.elbow,
 				anchors.entry,
-				{
-					shoulder: metrics.armWidth + 5,
-					elbow: metrics.armWidth + 1,
-					wrist: metrics.armWidth - 2
-				},
+				this.widths(metrics),
 				LineArtStyle.exterior(data, colors.jacket)
 			),
 			this.fold(data, colors, prefix, anchors),
-			this.cuff(data, colors, prefix, anchors),
+			StableCalmCuff2D.build(
+				data, colors, `${prefix}_right_pocket_cuff`,
+				anchors.elbow, anchors.entry, 4.8, 3
+			),
 			pocket.visibleHand
-				? this.hiddenHand(data, colors, pocket, prefix)
+				? StablePocketHand2D.build(data, colors, pocket, prefix)
 				: null,
 			this.occlusionLip(data, colors, pocket, prefix)
 		].filter(Boolean));
 	}
 
 	static anchors(data, pocket, gesture) {
-		const shoulder = {
+		const raw = {
 			x: data._skeleton.rightShoulder.x,
 			y: data._skeleton.rightShoulder.y
-				+ Number(gesture.shoulderDrop || 7)
+				+ this.number(gesture.shoulderDrop, 4)
 		};
+		const shoulder = StableSleeveShoulderUnderlap.resolve(
+			raw,
+			this.number(data.bodyGeometry?.torso?.waistCenterX, 0),
+			{
+				inset: this.number(gesture.shoulderInset, 7),
+				drop: this.number(gesture.shoulderUnderlapDrop, 7)
+			}
+		);
 		return {
 			shoulder,
 			elbow: {
-				x: shoulder.x + Number(gesture.elbowOut || 8)
-					+ Number(gesture.forearmBend || 0) * 0.25,
-				y: shoulder.y + Number(gesture.elbowDown || 32)
+				x: shoulder.x + this.number(gesture.elbowOut, 10)
+					+ this.number(gesture.forearmBend, 0) * 0.25,
+				y: shoulder.y + this.number(gesture.elbowDown, 35)
 			},
 			entry: { x: pocket.entryX, y: pocket.entryY }
 		};
 	}
 
+	static widths(metrics) {
+		return {
+			shoulder: metrics.armWidth + 6,
+			elbow: metrics.armWidth + 3,
+			wrist: metrics.armWidth - 4
+		};
+	}
+
 	static fold(data, colors, prefix, anchors) {
 		return G.path(`${prefix}_right_pocket_fore`, [
-			{ type: 'move', x: anchors.elbow.x - 2.2, y: anchors.elbow.y + 1 },
+			{ type: 'move', x: anchors.elbow.x - 2.6, y: anchors.elbow.y + 0.8 },
 			{
 				type: 'quad',
 				cx: anchors.elbow.x + 0.5,
-				cy: anchors.elbow.y + 2.4,
-				x: anchors.elbow.x + 3,
-				y: anchors.elbow.y + 0.3
+				cy: anchors.elbow.y + 2.7,
+				x: anchors.elbow.x + 3.4,
+				y: anchors.elbow.y + 0.2
 			}
 		], LineArtStyle.interior(data, colors.jacketDark));
-	}
-
-	static cuff(data, colors, prefix, anchors) {
-		return G.path(`${prefix}_right_pocket_cuff`, [
-			{ type: 'move', x: anchors.entry.x - 3.8, y: anchors.entry.y - 1 },
-			{
-				type: 'quad',
-				cx: anchors.entry.x,
-				cy: anchors.entry.y + 1.5,
-				x: anchors.entry.x + 3.8,
-				y: anchors.entry.y
-			}
-		], LineArtStyle.medium(data, colors.jacketDark || colors.jacket));
-	}
-
-	static hiddenHand(data, colors, pocket, prefix) {
-		const width = 5.8 * pocket.handDepth;
-		const height = 6.6 * pocket.handDepth;
-		return G.ellipse(
-			`${prefix}_right_pocket_hidden_hand`,
-			pocket.entryX,
-			pocket.entryY - height * 0.28,
-			width,
-			height,
-			-0.12,
-			LineArtStyle.medium(data, colors.skin)
-		);
 	}
 
 	static occlusionLip(data, colors, pocket, prefix) {
@@ -109,5 +100,9 @@ export class StablePocketArm2D {
 				y: y + 1
 			}
 		], LineArtStyle.seam(data, colors.jacketDark));
+	}
+
+	static number(value, fallback) {
+		return Number.isFinite(Number(value)) ? Number(value) : fallback;
 	}
 }

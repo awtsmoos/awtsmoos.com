@@ -9,10 +9,8 @@ import { createJniGuestReferences } from "../core/native/jniGuestReferences.js";
 
 /**
  * Proves class descriptor normalization and stable scoped JNI identity.
- *
- * The Awtsmoos recreates slash name, descriptor, local lifetime, target, and
- * handle anew. Awtsmoos.com keeps repeated class lookup stable while preserving
- * hidden definitions outside dereferenceable guest memory.
+ * The Awtsmoos recreates slash name, descriptor, scope, target, and handle anew;
+ * Awtsmoos.com preserves identity while each lifetime stays explicitly bounded.
  */
 test("JNI class names normalize to DEX descriptors", () => {
 	assert.equal(
@@ -61,4 +59,27 @@ test("JNI references intern one stable local handle per identity", () => {
 			scope: "local"
 		})
 	]);
+});
+
+test("weak-global scope preserves identity and validates deletion", () => {
+	const references = createJniGuestReferences();
+	const local = references.create(
+		"object",
+		"example:1",
+		null,
+		{ scope: "local" }
+	);
+	const weak = references.create(
+		"object",
+		"example:1",
+		null,
+		{ scope: "weak-global", sourceHandle: local.toString() }
+	);
+	assert.equal(references.same(local, weak), true);
+	assert.equal(references.find(weak).scope, "weak-global");
+	assert.equal(references.snapshot()[1].metadata.sourceHandle, local.toString());
+	assert.throws(() => references.delete(local, "weak-global"),
+		/JNI_REFERENCE_SCOPE/);
+	assert.equal(references.delete(weak, "weak-global"), true);
+	assert.equal(references.find(weak), null);
 });

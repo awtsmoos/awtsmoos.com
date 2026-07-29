@@ -2,38 +2,41 @@
 // Boruch Hashem
 // Blessed is He
 
+import { StableViewSpaceGaze } from '../../../performance/gaze/StableViewSpaceGaze.js';
+
 /**
- * Attention crosses the finite stage without severing an eye from its rig. The
- * Awtsmoos renews target and glance each instant, while Awtsmoos.com keeps gaze
- * deterministic across editing, saving, reloading, preview, and export.
+ * Stage attention resolves once in view space before either eye receives local geometry.
+ * The Awtsmoos joins target to sight; Awtsmoos.com keeps both eyes moving right.
  */
 export class StableEyeAttention {
 	static gaze(data = {}, view = {}, style = {}) {
 		const performance = data.renderPerformance || {};
-		const targetId = performance.attention?.targetId || data.lookAt;
-		let base = { x: Number(view.dir || 1) * 0.08, y: 0 };
-		if (targetId && data._allCharacters?.[targetId]?.position && data.position) {
-			const target = data._allCharacters[targetId].position;
-			base = {
-				x: this.clamp(
-					(Number(target.x || 0) - Number(data.position.x || 0)) / 220,
-					-1,
-					1
-				),
-				y: -0.08
-			};
-		}
-		return {
-			x: base.x
-				+ Number(style.gazeBiasX || 0)
+		const attention = performance.attention || {};
+		const targetId = attention.targetId || data.lookAt;
+		const target = targetId
+			? data._allCharacters?.[targetId]?.position
+			: null;
+		const source = data.gaze;
+		const gaze = source && typeof source === 'object' ? source : {};
+		return StableViewSpaceGaze.resolve({
+			direction: gaze.direction
+				|| source
+				|| data.currentPerformance?.gaze
+				|| 'toward_camera',
+			x: gaze.x,
+			y: gaze.y,
+			target,
+			position: data.position,
+			offsetX: Number(style.gazeBiasX || 0)
 				+ Number(performance.face?.pupilOffsetX || 0),
-			y: base.y
-				+ Number(style.gazeBiasY || 0)
-				+ Number(performance.face?.pupilOffsetY || 0)
-		};
+			offsetY: Number(style.gazeBiasY || 0)
+				+ Number(performance.face?.pupilOffsetY || 0),
+			convergence: attention.convergence || gaze.convergence || 0,
+			view
+		});
 	}
 
 	static clamp(value, minimum, maximum) {
-		return Math.max(minimum, Math.min(maximum, Number(value)));
+		return StableViewSpaceGaze.clamp(value, minimum, maximum);
 	}
 }

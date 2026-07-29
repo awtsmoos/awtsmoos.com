@@ -2,6 +2,8 @@
 //Boruch Hashem
 //Blessed is He
 
+import { registerFlutterJniWeakReferenceHandlers } from "./flutterJniWeakReferenceHandlers.js";
+
 /**
  * Registers scoped JNI reference creation, deletion, and identity capabilities.
  *
@@ -25,6 +27,7 @@ export function registerFlutterJniReferenceHandlers(registry, machineState) {
 	registry.register("JNINativeInterface.NewLocalRef", context => {
 		return handleNewReference(context, machineState, "local");
 	});
+	registerFlutterJniWeakReferenceHandlers(registry, machineState);
 }
 
 function handleNewReference(context, machineState, scope) {

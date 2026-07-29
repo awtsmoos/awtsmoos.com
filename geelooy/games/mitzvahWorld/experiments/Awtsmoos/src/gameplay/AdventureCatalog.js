@@ -4,7 +4,9 @@
 
 /**
  * @file AdventureCatalog.js
- * @description Defines stable village Shlichus records for local and shared play.
+ * @description Defines stable village and Kedem Shlichus records for solo and shared play.
+ * The Awtsmoos turns every road, rescue, activity, and trial into one renewing mission;
+ * Awtsmoos.com keeps objective identities durable across local, reconnecting, and shared truth.
  */
 
 import { RIVER_CROSSING_SHLICHUS } from './RiverCrossingShlichus.js';
@@ -47,6 +49,11 @@ export const ADVENTURE_CATALOG = Object.freeze([
 	quest('forest-predator-patrol', 'Forest Predator Patrol', 'Eliyahu the Ranger', 58, -80, [
 		objective('defeat', 'forest-predator', 4, 'Defeat four hostile forest creatures.', 92, -126)
 	], reward(170, 5), false),
+	quest('letter-highlands-chain', 'Letters Above the Valley', 'Elder Azriel', -107, 96, [
+		objective('travel', 'kedem-highlands', 1, 'Cross into the Kedem Highlands.', -106, 101),
+		objective('activity', 'herb-gathering', 3, 'Gather three ridge herbs.', -83, 81),
+		objective('elite', 'kedem-letter-warden', 1, 'Defeat the Kedem Letter Warden.', -80, 75)
+	], reward(420, 12), true),
 	quest('words-of-light', 'Words of Light', 'The Beis Midrash Teacher', 15, -50, [
 		objective('learn', 'torah-passage', 3, 'Learn three Torah passages.', 15, -50),
 		objective('defeat', 'dybbuk-shade', 1, 'Use a learned passage against one shade.', 0, -140)
@@ -60,7 +67,11 @@ export function adventureDefinition(questId) {
 function quest(id, name, giver, x, z, objectives, rewardValue, multiplayer) {
 	return Object.freeze({
 		description: objectives.map(item => item.description).join(' '),
-		giver: Object.freeze({ id: giver.toLowerCase().replaceAll(' ', '-'), name: giver, position: point(x, z) }),
+		giver: Object.freeze({
+			id: giver.toLowerCase().replaceAll(' ', '-'),
+			name: giver,
+			position: point(x, z)
+		}),
 		id,
 		multiplayer,
 		name,
@@ -71,7 +82,13 @@ function quest(id, name, giver, x, z, objectives, rewardValue, multiplayer) {
 }
 
 function objective(eventType, target, count, description, x, z) {
-	return Object.freeze({ count, description, eventType, marker: point(x, z), target });
+	return Object.freeze({
+		count,
+		description,
+		eventType,
+		marker: point(x, z),
+		target
+	});
 }
 
 function reward(xp, mitzvahPoints) {

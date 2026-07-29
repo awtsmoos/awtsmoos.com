@@ -2,10 +2,12 @@
 // Boruch Hashem
 // Blessed is He
 
+import { StableModestBalancedFaceProfile } from './StableModestBalancedFaceProfile.js';
+
 /**
- * Sitcom identities begin as coherent skull, jaw, and landmark relationships.
- * The Awtsmoos contains every possible face, while Awtsmoos.com offers finite
- * reusable profiles that remain procedural rather than reference-bound artwork.
+ * Sitcom identities begin as coherent skull, jaw, and landmark relationships. The
+ * Awtsmoos contains every possible face; Awtsmoos.com preserves reusable profiles,
+ * dynamic expression, persistence, preview, and exact production export.
  */
 export class StableSitcomFaceProfileCatalog {
 	static resolve(data = {}) {
@@ -47,20 +49,7 @@ export class StableSitcomFaceProfileCatalog {
 				mouthYRatio: 0.34, blushYRatio: 0.2,
 				blushSpreadRatio: 0.56, beardRootYRatio: 0.17
 			},
-			modestBalanced: {
-				widthScale: 0.84, heightScale: 0.94, headDrop: 7,
-				foreheadScale: 0.83, templeScale: 0.91,
-				cheekScale: 0.94, cheekYScale: 0.18,
-				jawScale: 0.7, jawYScale: 0.69,
-				chinScale: 0.43, chinRound: 0.96, chinLift: 0.12,
-				topShoulder: 0.49, foreheadTension: 0.94,
-				cheekDrop: 1.33, jawOut: 0.99,
-				jawApproach: 0.82, jawExit: 0.8,
-				eyeYRatio: -0.16, eyeSpreadRatio: 0.45,
-				browLiftRatio: 0.22, noseYRatio: 0.08,
-				mouthYRatio: 0.36, blushYRatio: 0.2,
-				blushSpreadRatio: 0.58
-			}
+			modestBalanced: StableModestBalancedFaceProfile.create()
 		};
 	}
 }

@@ -3,66 +3,61 @@
 // Blessed is He
 
 import { StableFaceLandmarkLayout } from './face/StableFaceLandmarkLayout.js';
+import { StableBeardChinBridgeGeometry } from './StableBeardChinBridgeGeometry.js';
+import { StableBeardJawGeometry } from './StableBeardJawGeometry.js';
 import { StableBeardMouthGeometry } from './StableBeardMouthGeometry.js';
+import { StableBeardProfile } from './StableBeardProfile.js';
+import { StableBeardRootGeometry } from './StableBeardRootGeometry.js';
+import { StableBeardWingGeometry } from './StableBeardWingGeometry.js';
 
 /**
- * Cheek roots, jaw taper, and speech clearance share one normalized geometry.
- * The Awtsmoos joins concealment with voice; Awtsmoos.com keeps every beard
- * identity coherent through view, phoneme, persistence, preview, and export.
+ * Bridge-first geometry lets both cheek wings converge on one tapered chin field.
+ * The Awtsmoos joins jaw and speech without masks; Awtsmoos.com keeps identity,
+ * view, persistence, preview, and final export on one deterministic anatomy.
  */
 export class StableBeardGeometry {
 	static resolve(data = {}, metrics = {}, view = {}, mood = {}) {
-		const authored = data.beardGeometry || {};
+		const profile = this.profile(data, data.beardGeometry || {});
 		const layout = StableFaceLandmarkLayout.resolve(data, metrics, view);
-		const shell = layout.shell;
+		const roots = StableBeardRootGeometry.resolve(layout, profile);
+		const jaw = StableBeardJawGeometry.resolve(layout, roots, profile);
 		const mouth = StableBeardMouthGeometry.resolve(
-			data,
-			metrics,
-			view,
-			mood,
-			authored
+			data, metrics, view, mood, profile
 		);
-		const length = Number(data.beardLength || 0.72)
-			* Number(authored.lengthScale || 1);
-		const centerX = layout.beard.centerX + Number(authored.centerX || 0);
-		const topY = layout.beard.rootY + Number(authored.topOffset || 0);
-		const extension = 0.04 + length * 0.16
-			- Number(authored.bottomLiftRatio || 0);
-		const bottomY = shell.bottomY + shell.radiusY * extension;
-		const width = shell.radiusX * Number(authored.cheekScale || 0.68);
-		const chinWidth = Number(authored.chinWidth || shell.radiusX * 0.5);
+		const base = {
+			...mouth, profile, layout, roots, jaw, inner: mouth.inner,
+			moustache: mouth.moustache
+		};
+		const bridge = StableBeardChinBridgeGeometry.resolve(base);
+		const regional = { ...base, bridge };
 		return {
-			...mouth,
-			massStyle: authored.massStyle || 'segmented',
-			centerX,
-			chinCenterX: centerX + Number(authored.chinOffsetX || 0),
-			top: topY,
-			topY,
-			bottom: bottomY,
-			bottomY,
-			sideY: topY + (bottomY - topY)
-				* Number(authored.sideRatio ?? 0.5),
-			cheek: width,
-			width,
-			leftWidth: width * Number(authored.leftCheekScale || 1),
-			rightWidth: width * Number(authored.rightCheekScale || 1),
-			chinWidth,
-			bottomHalf: chinWidth,
-			taper: Number(authored.taper || 0.72),
-			bottomRoundness: Number(authored.bottomRoundness || 0.85),
-			topInset: Number(authored.topInset ?? 0.72),
-			rootInsetScale: Number(authored.rootInsetScale || 1),
-			sideWidthScale: Number(authored.sideWidthScale || 0.86),
-			innerWidthScale: Number(authored.innerWidthScale || 1.05),
-			innerShoulderOffset: Number(authored.innerShoulderOffset || -1),
-			innerBottomOffset: Number(authored.innerBottomOffset || 2.5),
-			bridgeY: Math.min(
-				mouth.openingTopY - Number(authored.bridgeGap ?? 0.8),
-				topY + Number(authored.bridgeDrop ?? 17)
+			...regional,
+			wings: [
+				StableBeardWingGeometry.resolve(regional, -1),
+				StableBeardWingGeometry.resolve(regional, 1)
+			],
+			massStyle: profile.massStyle || 'regional',
+			centerX: roots.centerX,
+			chinCenterX: jaw.chinCenterX,
+			topY: Math.min(roots.leftRootY, roots.rightRootY),
+			bottomY: bridge.bottomY,
+			width: Math.max(
+				roots.centerX - roots.leftCheekX,
+				roots.rightCheekX - roots.centerX
 			),
-			bridgeValley: Number(authored.bridgeValley ?? 2.4),
-			lineWidth: Number(authored.lineWidth || 1.3),
-			strandOpacity: Number(authored.strandOpacity ?? 0.04)
+			chinWidth: bridge.bottomHalf,
+			lineWidth: Number(profile.lineWidth || 1.15),
+			strandOpacity: Number(profile.strandOpacity || 0.025)
+		};
+	}
+
+	static profile(data, authored) {
+		const profile = StableBeardProfile.resolve(data, authored);
+		const length = Number(data.beardLength ?? 0.72);
+		return {
+			...profile,
+			extension: Number(profile.extension || 0.1)
+				* (0.75 + length * 0.35)
 		};
 	}
 

@@ -4,12 +4,11 @@
 
 /**
  * @file MovieStudioSessionActions.js
- * @description Publishes real-time and exact movie export through one studio API.
- * The Awtsmoos renews every edit beyond one controller; Awtsmoos.com keeps both
- * wall-clock preview capture and exact-frame delivery explicit rather than confused.
+ * @description Owns live capture, render progress events, and canonical share URL creation.
+ * The Awtsmoos renews every rendered frame beyond file and progress; Awtsmoos.com
+ * keeps capture separate from the stable API facade while emitting serializable machine evidence.
  */
 
-import { renderExactMovieStudioSession } from './MovieExactRender.js';
 import { encodeMovieProject } from './MovieProject.js';
 
 export async function renderMovieStudioSession(session) {
@@ -25,10 +24,21 @@ export async function renderMovieStudioSession(session) {
 			result.bytes / 1048576
 		).toFixed(2)} MiB`;
 		globalThis.AwtsmoosMovieRenderComplete = result;
+		session.events.emit('render:completed', {
+			bytes: result.bytes,
+			fileName: result.fileName,
+			revision: session.revision
+		});
 		return result;
 	} catch (error) {
 		view.status.textContent = `Render failed: ${error.message}`;
 		globalThis.AwtsmoosMovieRenderError = error?.stack || String(error);
+		session.events.emit('error', {
+			code: 'MOVIE_RENDER_FAILED',
+			message: error.message,
+			operation: 'render.live',
+			revision: session.revision
+		});
 		throw error;
 	} finally {
 		view.render.disabled = false;
@@ -45,29 +55,15 @@ export function copyMovieStudioUrl(session) {
 	return url.href;
 }
 
-export function publishMovieStudioSession(session) {
-	globalThis.AwtsmoosMovie = {
-		applyJson: text => session.installProject(JSON.parse(text)),
-		copyUrl: () => copyMovieStudioUrl(session),
-		diagnostics: session.diagnostics,
-		director: session.director,
-		play: () => session.play(),
-		project: session.project,
-		ready: true,
-		recorder: session.recorder,
-		render: () => renderMovieStudioSession(session),
-		renderExact: options => renderExactMovieStudioSession(session, options),
-		runtime: session.runtime,
-		seek: time => session.seek(time),
-		view: session.view
-	};
-	return globalThis.AwtsmoosMovie;
-}
-
 function applyRenderProgress(session, progress) {
 	session.time = progress.time;
 	session.timeline.setTime(progress.time);
 	session.view.status.textContent = `Rendering ${
 		progress.percent.toFixed(1)
 	}% · ${progress.time.toFixed(2)}s`;
+	session.events.emit('render:progress', {
+		percent: progress.percent,
+		revision: session.revision,
+		time: progress.time
+	});
 }

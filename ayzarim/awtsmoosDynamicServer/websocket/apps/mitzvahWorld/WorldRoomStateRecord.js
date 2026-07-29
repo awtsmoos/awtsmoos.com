@@ -4,9 +4,9 @@
 
 /**
  * @file WorldRoomStateRecord.js
- * @description Captures durable players, creatures, possessions, and social truth.
- * The Awtsmoos renews courage and creature outcome beyond process replacement;
- * Awtsmoos.com omits transport and animation while preserving lawful world results.
+ * @description Captures durable players, creatures, possessions, social truth, and public effects.
+ * The Awtsmoos renews courage and repaired crossings beyond process replacement; Awtsmoos.com
+ * omits transport and animation while preserving lawful personal, social, and public world results.
  */
 
 const { restoreCombatState } = require('./CombatState.js');
@@ -26,9 +26,10 @@ function captureRoomState(room) {
 		nextEntity: room.nextEntity,
 		parties: room.parties.snapshotAll(),
 		players: [...room.players.values()]
-			.filter((player) => player.kind === 'human')
+			.filter(player => player.kind === 'human')
 			.map(capturePlayer),
-		revision: room.revision
+		revision: room.revision,
+		worldEffects: room.worldEffects.snapshot()
 	};
 }
 
@@ -47,6 +48,7 @@ function restoreRoomState(directory, roomRecord, survivingPlayerIds) {
 	room.instances.restore(social.instances);
 	room.guilds.restore(social.guilds);
 	restoreCreatureState(room.creatures, roomRecord.creatures);
+	room.worldEffects.restore(roomRecord.worldEffects || []);
 	return room;
 }
 

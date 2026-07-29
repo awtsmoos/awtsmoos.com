@@ -1,30 +1,20 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
-const assert = require("assert");
-const {
-	capabilityFor
-} = require("../capabilities");
-const {
-	publicTunnelClient
-} = require("../tunnelClient");
-const {
-	vesselTypeFor
-} = require("../vesselTypes");
-const {
-	virtualClient
-} = require("../virtualClient");
+const assert = require("node:assert/strict");
+const { capabilityFor } = require("../capabilities.js");
+const { publicBrowserTunnel } = require("../browserClient.js");
+const { vesselTypeFor } = require("../vesselTypes.js");
+const { virtualClient } = require("../virtualClient.js");
 
 /**
- * B"H
- *
  * Server projection must prefer declared capability states over permissive
- * compatibility flags. The Awtsmoos creates declaration and observer together;
- * Awtsmoos.com proves that hosted, browser, and connected OS remain distinct.
+ * compatibility flags. Public browser projection must expose the sanitized
+ * capability result without inventing native command or secret authority.
  */
-
 const declared = {
+	tunnelId: "browser-route-one",
 	tunnelName: "browser-one",
 	deviceName: "Apps Code",
 	vesselType: "browser-tunnel",
@@ -45,6 +35,7 @@ const declared = {
 		}
 	}
 };
+
 const projected = capabilityFor("browser-tunnel", declared);
 assert.equal(projected.fsRead, true);
 assert.equal(projected.fsWrite, true);
@@ -53,11 +44,14 @@ assert.equal(projected.runtime, "virtualized");
 assert.equal(projected.chrome, false);
 assert.equal(projected.nativeAccess, "delegated");
 
-const publicClient = publicTunnelClient(declared);
+const publicClient = publicBrowserTunnel(declared);
 assert.equal(publicClient.vesselType, "browser-tunnel");
-assert.equal(publicClient.capabilityProfile.schemaVersion, 1);
+assert.equal(publicClient.routeReference, "browser-route-one");
+assert.equal(publicClient.capabilities.profile.schemaVersion, 1);
 assert.equal(publicClient.capabilities.commandRun, "simulated");
 assert.equal(publicClient.allowWrite, false);
+assert.equal(publicClient.allowCommands, false);
+assert.equal(publicClient.allowSecrets, false);
 
 assert.equal(vesselTypeFor({
 	browserAgent: true,

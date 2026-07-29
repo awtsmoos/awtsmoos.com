@@ -1,5 +1,5 @@
 B"H
-1.0.432
+1.0.433
 main.js
 ai/relay/split-browser/authState.cjs
 ai/relay/split-browser/autoLogin.cjs
@@ -1019,6 +1019,7 @@ lib/ws/clientSupport.js
 lib/ws/frameCodec.js
 lib/ws/frameStream.js
 lib/ws/handshake.js
+lib/ws/remoteClose.js
 lib/ws/socketFactory.js
 lib/ws/transportFailure.js
 lib/ws/transportFailureHistory.js

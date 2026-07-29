@@ -4,15 +4,13 @@
 
 /**
  * @file MovieProjectQueryLoader.js
- * @description Loads bounded movie source from JSON, base64url, URL, or named preset.
- * The Awtsmoos renews a requested story only after its vessel is measured;
- * Awtsmoos.com rejects unsafe schemes and remote documents beyond one mebibyte.
+ * @description Loads bounded movie source from JSON, base64url, URL, named preset, or instant default factory.
+ * The Awtsmoos renews a requested story before network delay can reign; Awtsmoos.com
+ * opens its default reel synchronously while still guarding remote documents and unsafe schemes.
  */
 
-import {
-	decodeMovieProject,
-	parseMovieJson
-} from './MovieProjectCodec.js';
+import { createDefaultMovieProject } from './MovieDefaultProject.js';
+import { decodeMovieProject, parseMovieJson } from './MovieProjectCodec.js';
 
 const MAX_REMOTE_MOVIE_BYTES = 1048576;
 const PRESETS = Object.freeze({
@@ -32,12 +30,9 @@ export async function loadMovieProjectSource(search = '', fetcher = globalThis.f
 		return fetchMovieSource(params.get('movieUrl'), fetcher, 'Movie URL');
 	}
 	const movie = params.get('movie');
-	if (movie && !PRESETS[movie]) return decodeMovieProject(movie);
-	return fetchMovieSource(
-		PRESETS[movie] || PRESETS.sample30,
-		fetcher,
-		movie ? `Movie preset ${movie}` : 'Sample movie'
-	);
+	if (!movie) return createDefaultMovieProject();
+	if (!PRESETS[movie]) return decodeMovieProject(movie);
+	return fetchMovieSource(PRESETS[movie], fetcher, `Movie preset ${movie}`);
 }
 
 export function hasMovieQuery(search = '') {

@@ -2,16 +2,17 @@
 // Boruch Hashem
 // Blessed is He
 
-import { VirtualGraph as G } from '../../../engine/graph/VirtualGraph.js';
-import { LineArtStyle } from '../../style/LineArtStyle.js';
+import { StableCalmCuff2D } from './StableCalmCuff2D.js';
 import { StableOrganicSleevePath2D } from './StableOrganicSleevePath2D.js';
 import { StableRelaxedHand2D } from './StableRelaxedHand2D.js';
 import { StableShapeKit as S } from './StableShapeKit.js';
+import { StableSleeveShoulderUnderlap } from './StableSleeveShoulderUnderlap.js';
+import { LineArtStyle } from '../../style/LineArtStyle.js';
 
 /**
- * Miriam's free sleeve arcs through hidden elbow weight into one calm hand. The
- * Awtsmoos renews its soft bend; Awtsmoos.com keeps every canonical sleeve,
- * cuff, palm, and finger editable in the shared production character graph.
+ * Miriam's free sleeve emerges beneath the shoulder and settles into one calm hand.
+ * The Awtsmoos renews its soft bend without a tube; Awtsmoos.com preserves sleeve,
+ * cuff, palm, fingers, persistence, preview, and exact production export.
  */
 export class StableCalmLeftArm2D {
 	static build(data, colors, metrics, prefix, gesture = {}) {
@@ -23,51 +24,56 @@ export class StableCalmLeftArm2D {
 				anchors.shoulder,
 				anchors.elbow,
 				anchors.wrist,
-				{
-					shoulder: metrics.armWidth + 5.8,
-					elbow: metrics.armWidth + 2.4,
-					wrist: metrics.armWidth - 1.2
-				},
+				this.widths(metrics, gesture),
 				LineArtStyle.exterior(data, colors.jacket)
 			),
-			this.cuff(data, colors, anchors.wrist, prefix),
+			StableCalmCuff2D.build(
+				data, colors, `${id}_cuff`,
+				anchors.elbow, anchors.wrist, 5.2, 3.2
+			),
 			StableRelaxedHand2D.build(
-				data,
-				colors,
-				`${id}_hand`,
-				anchors.wrist,
-				Number(gesture.leftHandScale || 1.05)
+				data, colors, `${id}_hand`, anchors.wrist,
+				this.number(gesture.leftHandScale, 1.18)
 			)
 		]);
 	}
 
 	static anchors(data, gesture) {
-		const shoulder = {
+		const raw = {
 			x: data._skeleton.leftShoulder.x,
-			y: data._skeleton.leftShoulder.y + 4
+			y: data._skeleton.leftShoulder.y
+				+ this.number(gesture.leftShoulderDrop, 1)
 		};
+		const shoulder = StableSleeveShoulderUnderlap.resolve(
+			raw,
+			this.number(data.bodyGeometry?.torso?.waistCenterX, 0),
+			{
+				inset: this.number(gesture.leftShoulderInset, 7),
+				drop: this.number(gesture.leftShoulderUnderlapDrop, 7)
+			}
+		);
 		return {
 			shoulder,
 			elbow: {
-				x: shoulder.x + Number(gesture.leftElbowOut ?? -6) - 5,
-				y: shoulder.y + Number(gesture.leftElbowDown ?? 36)
+				x: shoulder.x + this.number(gesture.leftElbowOut, -13),
+				y: shoulder.y + this.number(gesture.leftElbowDown, 37)
 			},
 			wrist: {
-				x: shoulder.x + Number(gesture.leftWristOut ?? -2) - 4,
-				y: shoulder.y + Number(gesture.leftWristDown ?? 76) - 3
+				x: shoulder.x + this.number(gesture.leftWristOut, -9),
+				y: shoulder.y + this.number(gesture.leftWristDown, 73)
 			}
 		};
 	}
 
-	static cuff(data, colors, wrist, prefix) {
-		return G.ellipse(
-			`${prefix}_left_arm_connected_cuff`,
-			wrist.x,
-			wrist.y - 1.2,
-			5.1,
-			2.7,
-			0.04,
-			LineArtStyle.medium(data, colors.jacketDark || colors.jacket)
-		);
+	static widths(metrics, gesture) {
+		return {
+			shoulder: this.number(gesture.leftShoulderWidth, metrics.armWidth + 6),
+			elbow: this.number(gesture.leftElbowWidth, metrics.armWidth + 2),
+			wrist: this.number(gesture.leftWristWidth, metrics.armWidth - 4)
+		};
+	}
+
+	static number(value, fallback) {
+		return Number.isFinite(Number(value)) ? Number(value) : fallback;
 	}
 }

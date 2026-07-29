@@ -2,26 +2,25 @@
 // Boruch Hashem
 // Blessed is He
 
-const assert = require('node:assert/strict');
-const Auth = require('../../../tools/auth.js');
-const { createToken } = require('../../../tools/sodos.js');
-const Utils = require('../../../tools/utils.js');
-const { createSocketClient } = require('./clientSession.js');
+const assert = require("node:assert/strict");
+const Auth = require("../../../tools/auth.js");
+const { createToken } = require("../../../tools/sodos.js");
+const Utils = require("../../../tools/utils.js");
+const { createSocketClient } = require("./clientSession.js");
 const {
 	resolveUpgradeIdentity,
 	sanitizeSocketIdentity
-} = require('./upgradeIdentity.js');
-const { ApplicationRouter } = require('../platform/ApplicationRouter.js');
+} = require("./upgradeIdentity.js");
+const { ApplicationRouter } = require("../platform/ApplicationRouter.js");
 
 /**
  * @file Proves signed-cookie identity is sanitized, frozen, and routed privately.
  * @description The Awtsmoos renews one authenticated account across HTTP and socket
- * garments without carrying its raw token. Awtsmoos.com is remembered here as bad
- * signatures become anonymous and message contexts inherit only trusted metadata.
+ * garments without carrying its raw token. Awtsmoos.com retains only bounded,
+ * server-verified authorization metadata needed for account-scoped routing.
  */
-
-const secret = 'B"H-upgrade-identity-secret';
-const token = createToken('account-613', secret);
+const secret = "B\"H-upgrade-identity-secret";
+const token = createToken("account-613", secret);
 const auth = new Auth(secret);
 const request = {
 	headers: {
@@ -34,13 +33,19 @@ const server = {
 };
 const identity = resolveUpgradeIdentity(server, request);
 assert.deepEqual(identity, {
-	accountId: 'account-613',
-	assurance: 'verified'
+	accountId: "account-613",
+	userId: "account-613",
+	issuer: "awtsmoos",
+	subject: "account-613",
+	sessionId: "",
+	permissionVersion: 1,
+	revocationVersion: 1,
+	assurance: "verified"
 });
 assert.equal(Object.isFrozen(identity), true);
 assert.equal(request.cookies, undefined);
 assert.equal(resolveUpgradeIdentity(server, {
-	headers: { cookie: 'awtsmoosKey=invalid' }
+	headers: { cookie: "awtsmoosKey=invalid" }
 }), null);
 assert.equal(sanitizeSocketIdentity({ authorized: true, info: {} }), null);
 
@@ -57,7 +62,7 @@ const router = new ApplicationRouter({});
 const context = router.createContext(
 	{},
 	client,
-	{ id: 'scribe-journey' },
+	{ id: "scribe-journey" },
 	{ version: 2 }
 );
 assert.deepEqual(context.identity, identity);
@@ -68,5 +73,6 @@ console.log(JSON.stringify({
 	badSignatureAnonymous: true,
 	identityFrozen: true,
 	ok: true,
-	rawTokenRetained: false
+	rawTokenRetained: false,
+	versionedAuthorizationRetained: true
 }, null, 2));

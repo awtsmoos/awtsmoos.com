@@ -4,44 +4,33 @@
 
 /**
  * @file combatQuestStairsSky.test.mjs
- * @description Proves merciful combat, spaced spawns, bright selection, live mission, stairs, and sky.
- * The Awtsmoos gives trial, choice, ascent, mission, and heaven their visible measures;
- * Awtsmoos.com prevents crowd attacks, fake parchment, hidden slopes, and flat blue emptiness.
+ * @description Proves merciful combat, spaced spawns, bright selection, mission, stairs, and sky.
+ * The Awtsmoos gives trial, choice, ascent, mission, and heaven visible measures;
+ * Awtsmoos.com protects current action identities without reviving retired catalog keys.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { Group } from '../../../../light-three-gltf/tiny-runtime.js';
 import { skyFragmentFunctions } from '../../../../light-three-gltf/tiny-sky-fragment-functions.js';
-import {
-	MINIMAL_MEADOW_COMBAT_ACTIONS
-} from '../../app/MinimalMeadowCombatActions.js';
-import {
-	MINIMAL_MEADOW_COMBAT_BALANCE
-} from '../../app/MinimalMeadowCombatBalancePolicy.js';
-import {
-	MINIMAL_MEADOW_ENEMY_PROFILES
-} from '../../app/MinimalMeadowEnemyProfiles.js';
+import { MINIMAL_MEADOW_COMBAT_ACTIONS } from '../../app/MinimalMeadowCombatActions.js';
+import { MINIMAL_MEADOW_COMBAT_BALANCE } from '../../app/MinimalMeadowCombatBalancePolicy.js';
+import { MINIMAL_MEADOW_ENEMY_PROFILES } from '../../app/MinimalMeadowEnemyProfiles.js';
 import {
 	clearMinimalMeadowEnemyVisual,
 	selectMinimalMeadowEnemyVisual
 } from '../../app/MinimalMeadowEnemySelectionVisual.js';
-import {
-	createMinimalMeadowHouseStairs
-} from '../../app/MinimalMeadowHouseStairs.js';
-import {
-	MINIMAL_MEADOW_HOUSE_PROFILES
-} from '../../app/MinimalMeadowHouseProfiles.js';
+import { createMinimalMeadowHouseStairs } from '../../app/MinimalMeadowHouseStairs.js';
+import { MINIMAL_MEADOW_HOUSE_PROFILES } from '../../app/MinimalMeadowHouseProfiles.js';
 import { housePoint } from '../../app/MinimalMeadowHouseMath.js';
-import {
-	minimalMeadowShlichusMenuContent
-} from '../../ui/MinimalMeadowMenuShlichus.js';
+import { minimalMeadowShlichusMenuContent } from '../../ui/MinimalMeadowMenuShlichus.js';
 
 test('B"H action icons are pictographic while Hebrew remains present', () => {
 	assert.equal(MINIMAL_MEADOW_COMBAT_ACTIONS['hebrew-fire'].icon, '🔥');
 	assert.equal(MINIMAL_MEADOW_COMBAT_ACTIONS['letter-light'].icon, '☀️');
-	assert.equal(MINIMAL_MEADOW_COMBAT_ACTIONS['staff-strike'].icon, '🪄');
+	assert.equal(MINIMAL_MEADOW_COMBAT_ACTIONS['staff-light'].icon, '🪄');
 	assert.equal(MINIMAL_MEADOW_COMBAT_ACTIONS['hebrew-fire'].letters, 'אש');
+	assert.equal(MINIMAL_MEADOW_COMBAT_ACTIONS['staff-light'].letters, 'מטה');
 });
 
 test('B"H combat pressure is slower, smaller, and spatially separated', () => {

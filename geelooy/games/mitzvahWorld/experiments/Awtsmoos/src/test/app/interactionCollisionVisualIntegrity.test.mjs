@@ -4,9 +4,9 @@
 
 /**
  * @file interactionCollisionVisualIntegrity.test.mjs
- * @description Guards broad terrain, rooted flora, bark, stairs, and deterministic house surfaces.
- * The Awtsmoos reveals correction through direct finite contracts; Awtsmoos.com prevents
- * floating growth, open trunks, blocked stairs, tiled ground, and disappearing masonry.
+ * @description Guards terrain density, rooted flora, bark, discrete stairs, and role-based surfaces.
+ * The Awtsmoos reveals correction through finite contracts; Awtsmoos.com prevents floating growth,
+ * open trunks, hidden ramps, wasteful two-sided floors, and disappearing exterior masonry.
  */
 
 import assert from 'node:assert/strict';
@@ -14,18 +14,13 @@ import test from 'node:test';
 import {
 	installMinimalMeadowHouseSurfacePolicy
 } from '../../app/MinimalMeadowHouseSurfacePolicy.js';
-import {
-	createMinimalMeadowHouseStairs
-} from '../../app/MinimalMeadowHouseStairs.js';
-import {
-	MINIMAL_MEADOW_HOUSE_PROFILES
-} from '../../app/MinimalMeadowHouseProfiles.js';
+import { createMinimalMeadowHouseStairs } from '../../app/MinimalMeadowHouseStairs.js';
+import { housePoint } from '../../app/MinimalMeadowHouseMath.js';
+import { MINIMAL_MEADOW_HOUSE_PROFILES } from '../../app/MinimalMeadowHouseProfiles.js';
 import {
 	minimalMeadowTerrainDensityProfile
 } from '../../app/MinimalMeadowTerrainMaterialDensity.js';
-import {
-	minimalMeadowTreeTemplate
-} from '../../app/MinimalMeadowTreeGeometry.js';
+import { minimalMeadowTreeTemplate } from '../../app/MinimalMeadowTreeGeometry.js';
 import {
 	MinimalMeadowVegetationSystem
 } from '../../app/MinimalMeadowVegetationSystem.js';
@@ -34,13 +29,18 @@ import {
 	integrityVegetationCell
 } from './interactionCollisionVisualIntegrityFixture.mjs';
 
-test('B"H terrain profile favors broad full-source coverage', () => {
-	assert.deepEqual(minimalMeadowTerrainDensityProfile(true), {
-		detail: 10,
-		grass: 12,
+test('B"H terrain profile preserves bounded mobile and richer desktop density', () => {
+	const mobile = minimalMeadowTerrainDensityProfile(true);
+	const desktop = minimalMeadowTerrainDensityProfile(false);
+	assert.deepEqual(mobile, {
+		detail: 38,
+		grass: 32,
 		mobile: true,
-		road: 14
+		road: 68
 	});
+	assert.ok(desktop.detail > mobile.detail);
+	assert.ok(desktop.grass > mobile.grass);
+	assert.ok(desktop.road > mobile.road);
 });
 
 test('B"H vegetation cell stays level while wind remains reactive', () => {
@@ -70,33 +70,44 @@ test('B"H bark is depth-writing and cannot expose reversed branch faces', () => 
 	assert.equal(template.bark.material.depthWrite, true);
 });
 
-test('B"H stairs own a continuous invisible walkable ramp', () => {
+test('B"H stairs use discrete tread support and no hidden ramp', () => {
+	const profile = MINIMAL_MEADOW_HOUSE_PROFILES.find(item => item.floors > 1);
 	const stairs = createMinimalMeadowHouseStairs(
-		MINIMAL_MEADOW_HOUSE_PROFILES[0],
+		profile,
 		{ floor: { color: '#777777' } },
 		0
 	);
-	const ramp = stairs.definitions.find(definition => {
-		return definition.userData?.role
-			=== 'continuous-walkable-stair-ramp';
-	});
-	assert.ok(ramp);
-	assert.equal(ramp.shape, 'manual');
-	assert.equal(ramp.visible, false);
-	assert.equal(ramp.walkable, true);
-	assert.equal(stairs.stats.collision, 'continuous-walkable-ramp');
+	assert.equal(stairs.stats.collision, 'discrete-tread-height-sampler');
+	assert.equal(stairs.definitions.some(definition => {
+		return definition.userData?.role === 'continuous-walkable-stair-ramp';
+	}), false);
+	const startZ = profile.layout.innerDepth / 2 - 3;
+	const first = housePoint(profile, 0, startZ - profile.layout.stairTread * 0.5);
+	const third = housePoint(profile, 0, startZ - profile.layout.stairTread * 2.5);
+	const firstHeight = stairs.support.heightAt(first.x, first.z, 0);
+	const thirdHeight = stairs.support.heightAt(third.x, third.z, firstHeight);
+	assert.ok(thirdHeight > firstHeight);
 });
 
-test('B"H every house surface uses deterministic two-sided visibility', () => {
-	const mesh = {
+test('B"H only thin exterior walls receive reverse faces', () => {
+	const exterior = meshFixture('exterior-side-wall');
+	const floor = meshFixture('level-interior-floor');
+	const exteriorReceipt = installMinimalMeadowHouseSurfacePolicy(exterior);
+	const floorReceipt = installMinimalMeadowHouseSurfacePolicy(floor);
+	assert.equal(exterior.material.doubleSided, true);
+	assert.equal(exterior.frustumCulled, false);
+	assert.equal(exteriorReceipt.cameraSafeWall, true);
+	assert.equal(floor.material.doubleSided, false);
+	assert.equal(floor.material.backfaceCull, true);
+	assert.equal(floor.frustumCulled, true);
+	assert.equal(floorReceipt.sidedness, 'front');
+});
+
+function meshFixture(role) {
+	return {
 		frustumCulled: true,
 		material: { backfaceCull: true, doubleSided: false },
-		name: 'foundation-side',
-		userData: { role: 'foundation-side' }
+		name: role,
+		userData: { role }
 	};
-	const receipt = installMinimalMeadowHouseSurfacePolicy(mesh);
-	assert.equal(mesh.frustumCulled, false);
-	assert.equal(mesh.material.doubleSided, true);
-	assert.equal(mesh.material.backfaceCull, false);
-	assert.equal(receipt.sidedness, 'double-mobile-stable');
-});
+}

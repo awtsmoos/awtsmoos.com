@@ -4,27 +4,32 @@
 
 /**
  * @file RiverCrossingShlichus.js
- * @description Defines the event-driven bridge repair mission and its permanent world result.
+ * @description Defines the client-facing six-stage River Crossing mission and durable reward.
+ * The Awtsmoos joins keeper, bridge, timber, battle, Torah light, and return into one repair;
+ * Awtsmoos.com preserves local bus compatibility while multiplayer authority remains explicit.
  */
 
 export const RIVER_CROSSING_SHLICHUS = Object.freeze({
-	description: 'Repair the river crossing, disperse the nearby concealment, and restore its lanterns.',
+	authority: Object.freeze({
+		objectives: 'current-party-shared',
+		reward: 'personal-exact-once',
+		worldEffect: 'village-stone-bridge:lanterns'
+	}),
 	giver: Object.freeze({
 		id: 'bridge-keeper',
-		name: 'Reb Zalman the Bridge Keeper',
-		position: point(-18, 34)
+		position: Object.freeze({ x: -18, y: 0, z: 34 })
 	}),
 	id: 'light-at-river-crossing',
-	location: Object.freeze({ districtId: 'riverbank-bridge', name: 'Riverbank and Bridge Approach' }),
-	multiplayer: false,
+	multiplayer: true,
 	name: 'The Light at the River Crossing',
+	npcId: 'bridge-keeper',
 	objectives: Object.freeze([
-		objective('meet-keeper', 'npc:talk', 'bridge-keeper', 1, 'Speak with Reb Zalman at the bridge.', -18, 34),
-		objective('inspect-damage', 'bridge:inspect', 'damaged-bridge-point', 3, 'Inspect three damaged bridge points.', -12, 39),
-		objective('bring-timber', 'inventory:add', 'treated-timber', 4, 'Bring four treated timbers from the workshop.', -43, 14),
-		objective('clear-shadows', 'defeat', 'dybbuk-shade', 2, 'Disperse two shadows along the riverbank.', 0, -140),
-		objective('illuminate-portal', 'torah', 'light-against-concealment', 1, 'Use Light Against Concealment at the waterfall portal.', -6, -166),
-		objective('report-repair', 'npc:talk', 'bridge-keeper', 1, 'Return to Reb Zalman.', -18, 34)
+		objective('npc:talk', 'bridge-keeper', 1, 'Meet the bridge keeper.'),
+		objective('bridge:inspect', 'damaged-bridge-point', 3, 'Inspect three bridge braces.'),
+		objective('inventory:add', 'treated-timber', 4, 'Recover four treated timbers.'),
+		objective('defeat', 'dybbuk-shade', 2, 'Disperse two river shades.'),
+		objective('torah', 'light-against-concealment', 1, 'Illuminate the waterfall portal.'),
+		objective('npc:talk', 'bridge-keeper', 1, 'Report the completed repair.')
 	]),
 	reward: Object.freeze({
 		mitzvahPoints: 8,
@@ -32,17 +37,32 @@ export const RIVER_CROSSING_SHLICHUS = Object.freeze({
 		perutas: 24,
 		xp: 220
 	}),
-	storyIntroduction: 'The bridge still carries travelers, but its darkened lamps and cracked braces invite danger after dusk.',
-	title: 'The Light at the River Crossing',
+	steps: Object.freeze([
+		'meet-keeper',
+		'inspect-west',
+		'inspect-center',
+		'inspect-east',
+		'collect-timber-1',
+		'collect-timber-2',
+		'collect-timber-3',
+		'collect-timber-4',
+		'illuminate-portal',
+		'report-repair'
+	]),
+	worldEffect: Object.freeze({
+		id: 'village-stone-bridge:lanterns',
+		state: 'lit',
+		target: 'village-stone-bridge'
+	}),
 	worldEffects: Object.freeze([
-		Object.freeze({ state: 'lit', target: 'village-stone-bridge', type: 'bridge:lanterns' })
+		Object.freeze({
+			state: 'lit',
+			target: 'village-stone-bridge',
+			type: 'bridge:lanterns'
+		})
 	])
 });
 
-function objective(id, eventType, target, count, description, x, z) {
-	return Object.freeze({ count, description, eventType, id, marker: point(x, z), optional: false, target });
-}
-
-function point(x, z) {
-	return Object.freeze({ x, y: 0, z });
+function objective(eventType, target, count, description) {
+	return Object.freeze({ count, description, eventType, target });
 }

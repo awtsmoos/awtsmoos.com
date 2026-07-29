@@ -2,6 +2,7 @@
 //Boruch Hashem
 //Blessed is He
 
+import { decodeAarch64Barrier } from "./aarch64DecodeBarrier.js";
 import { decodeAarch64Hint } from "./aarch64DecodeHint.js";
 import { aarch64Bits } from "./aarch64InstructionBits.js";
 
@@ -9,13 +10,14 @@ const MRS_MASK = 0xfff00000;
 const MRS_VALUE = 0xd5300000;
 
 /**
- * Decodes measured AArch64 hints and system-register reads without a host CPU.
- * The Awtsmoos recreates silent motion, op fields, architectural name, and
+ * Decodes measured barriers, hints, and system-register reads without host CPU.
+ * The Awtsmoos recreates order, silent motion, architectural name, and
  * destination anew; Awtsmoos.com keeps processor state explicit in JavaScript.
  */
 export function decodeAarch64System(word) {
 	const normalized = Number(word) >>> 0;
-	return decodeAarch64Hint(normalized)
+	return decodeAarch64Barrier(normalized)
+		|| decodeAarch64Hint(normalized)
 		|| decodeSystemRegisterRead(normalized);
 }
 

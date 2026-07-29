@@ -2,6 +2,13 @@
 // Boruch Hashem
 // Blessed is He
 
+/**
+ * @file AuthoritativeMultiplayerBridge.test.mjs
+ * @description Proves exact transform publication, normalized input, and settled launcher authority.
+ * The Awtsmoos joins runtime truth with distant forms; Awtsmoos.com waits for the covenant
+ * before naming it connected, while first local play remains free to begin beforehand.
+ */
+
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
@@ -9,11 +16,14 @@ import {
 	runtimePlayerSnapshot
 } from '../network/AuthoritativeMultiplayerBridge.js';
 import { createMultiplayerEretzRuntime } from '../network/MultiplayerEretzRuntime.js';
+import {
+	multiplayerRuntimeFixture,
+	SingleClientBroadcastChannel
+} from './fixtures/MultiplayerBridgeFixture.mjs';
 
 test('local authority receives exact runtime x/y/z/facing/moving state', async () => {
 	let listener = null;
 	let sent = null;
-	const ground = { heightAt: () => 12 };
 	const client = {
 		playerId: 'local',
 		world: { players: [], revision: 1 },
@@ -24,17 +34,11 @@ test('local authority receives exact runtime x/y/z/facing/moving state', async (
 			return () => { listener = null; };
 		}
 	};
-	const runtime = runtimeFixture(ground, {
-		facing: -1.75,
-		moving: true,
-		x: 17.125,
-		y: 8.625,
-		z: -44.25
+	const runtime = multiplayerRuntimeFixture({ heightAt: () => 12 }, {
+		facing: -1.75, moving: true, x: 17.125, y: 8.625, z: -44.25
 	});
 	const bridge = new AuthoritativeMultiplayerBridge({
-		client,
-		runtime,
-		transport: 'local-tab'
+		client, runtime, transport: 'local-tab'
 	});
 	bridge.start();
 	await Promise.resolve();
@@ -65,7 +69,7 @@ test('websocket authority retains normalized input commands', async () => {
 			return () => {};
 		}
 	};
-	const runtime = runtimeFixture({ heightAt: () => 0 }, { facing: 1.25 });
+	const runtime = multiplayerRuntimeFixture({ heightAt: () => 0 }, { facing: 1.25 });
 	runtime.input.axis = () => ({ x: 1, y: -1 });
 	const bridge = new AuthoritativeMultiplayerBridge({ client, runtime });
 	bridge.start();
@@ -74,17 +78,14 @@ test('websocket authority retains normalized input commands', async () => {
 	bridge.stop();
 });
 
-test('multiplayer launcher helper attaches its live controller and reports peers', async () => {
-	const runtime = runtimeFixture({ heightAt: () => 0 }, {
-		facing: 0,
-		x: 3,
-		y: 4,
-		z: 5
+test('multiplayer launcher settles before reporting connected peers', async () => {
+	const runtime = multiplayerRuntimeFixture({ heightAt: () => 0 }, {
+		facing: 0, x: 3, y: 4, z: 5
 	});
 	const diagnostics = await createMultiplayerEretzRuntime({}, {
 		displayName: 'Proof',
 		localOptions: {
-			BroadcastChannelClass: FakeBroadcastChannel,
+			BroadcastChannelClass: SingleClientBroadcastChannel,
 			heartbeatIntervalMs: 0,
 			playerId: 'proof'
 		},
@@ -92,6 +93,8 @@ test('multiplayer launcher helper attaches its live controller and reports peers
 		runtimeFactory: async () => ({ runtime }),
 		worldId: 'helper-proof'
 	});
+	assert.equal(diagnostics.sessionMode, 'multiplayer-connecting');
+	await diagnostics.multiplayerReady;
 	assert.equal(runtime.multiplayerBridge, diagnostics.multiplayer);
 	assert.equal(diagnostics.multiplayerDiagnostics().transport, 'local-tab');
 	assert.equal(diagnostics.multiplayerDiagnostics().state, 'connected');
@@ -99,37 +102,3 @@ test('multiplayer launcher helper attaches its live controller and reports peers
 	assert.equal(diagnostics.sessionMode, 'multiplayer');
 	diagnostics.multiplayer.stop();
 });
-
-function runtimeFixture(ground, state = {}) {
-	return {
-		ground,
-		input: { axis: () => ({ x: 0, y: 0 }) },
-		joystick: { vector: { magnitude: 0, x: 0, y: 0 } },
-		scene: { add() {} },
-		state: {
-			clip: '',
-			facing: 0,
-			level: 'eretz',
-			moving: false,
-			runMode: false,
-			x: 0,
-			y: 0,
-			z: 0,
-			...state
-		}
-	};
-}
-
-class FakeBroadcastChannel {
-	constructor() {
-		this.listeners = new Set();
-	}
-	addEventListener(type, listener) {
-		if (type === 'message') this.listeners.add(listener);
-	}
-	removeEventListener(type, listener) {
-		if (type === 'message') this.listeners.delete(listener);
-	}
-	postMessage() {}
-	close() {}
-}

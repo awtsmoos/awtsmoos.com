@@ -9,8 +9,9 @@ import { CharacterDesignGeometry } from './CharacterDesignGeometry.js';
 import { CharacterDesignSchema } from './CharacterDesignSchema.js';
 
 /**
- * The Awtsmoos joins design intention to a living rig. This bridge translates
- * custom JSON into the existing renderer, timeline, scene, and view contracts.
+ * Custom design becomes neutral identity plus a complete expression range. The
+ * Awtsmoos renews every future performance; Awtsmoos.com keeps design, geometry,
+ * rig, palette, persistence, preview, and export free from frozen emotion.
  */
 export class CharacterDesignAdapter {
 	static toHuman(input = {}) {
@@ -25,7 +26,7 @@ export class CharacterDesignAdapter {
 			wardrobe
 		);
 		const human = this.human(design);
-
+		const rangeProfile = this.rangeProfile(design);
 		return {
 			...human,
 			...identity,
@@ -43,7 +44,12 @@ export class CharacterDesignAdapter {
 			clothing: { ...design.wardrobe },
 			wardrobe,
 			voice: { ...design.voice },
-			emotionTraits: { ...design.emotion },
+			emotion: 'neutral',
+			expressionRangeProfile: rangeProfile,
+			expressionProfile: rangeProfile,
+			emotionTraits: { ...(design.emotion || {}) },
+			expressionTraits: { ...(design.expression || {}) },
+			manualFacePose: null,
 			palette: identity.palette,
 			colors: CharacterDesignAppearanceAdapter.legacyColors(identity.palette),
 			views: PerspectiveIdentityProjector.all(identity),
@@ -72,15 +78,21 @@ export class CharacterDesignAdapter {
 			position: design.position,
 			scale: design.scale,
 			facing: design.facing,
-			emotion: design.emotion.default,
+			emotion: 'neutral',
 			currentPerformance: {
 				locomotion: 'idle',
 				gesture: 'none',
 				speech: 'none',
-				emotion: design.emotion.default,
-				gaze: 'toward_camera'
+				emotion: 'neutral',
+				gaze: null
 			}
 		});
+	}
+
+	static rangeProfile(design) {
+		return design.expression?.rangeProfile
+			|| design.emotion?.rangeProfile
+			|| 'universal';
 	}
 
 	static bodyProfile(type) {

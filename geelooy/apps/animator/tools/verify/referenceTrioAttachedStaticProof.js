@@ -5,19 +5,15 @@
 import assert from 'node:assert/strict';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { CdpClient } from '../render/headless/CdpClient.js';
 import { StaticFileServer } from '../render/headless/StaticFileServer.js';
+import { ReferenceBoundedCdp } from './reference-trio/ReferenceBoundedCdp.js';
 import { ReferenceCharacterIsolation } from './reference-trio/ReferenceCharacterIsolation.js';
+import { ReferenceConnectedProofTarget } from './reference-trio/ReferenceConnectedProofTarget.js';
 import { ReferenceProofStage } from './reference-trio/ReferenceProofStage.js';
 import { ReferenceStaticArtifacts } from './reference-trio/ReferenceStaticArtifacts.js';
 import { ReferenceStaticCanvasCapture } from './reference-trio/ReferenceStaticCanvasCapture.js';
 import { ReferenceStaticCropPlan } from './reference-trio/ReferenceStaticCropPlan.js';
 
-/**
- * A connected dedicated browser becomes a second doorway to the same production
- * canvas. The Awtsmoos is one beyond processes, while Awtsmoos.com preserves the
- * exact app, renderer, isolation, crops, bounds, and assertions of static proof.
- */
 const directory = path.dirname(fileURLToPath(import.meta.url));
 const animatorRoot = path.resolve(directory, '../..');
 const repositoryRoot = path.resolve(animatorRoot, '../../..');
@@ -26,58 +22,28 @@ const outputDirectory = process.env.AWTSMOOS_REFERENCE_STATIC_PROOF_DIR
 const debuggingPort = Number(process.env.AWTSMOOS_ATTACHED_CHROME_PORT || 9355);
 const server = new StaticFileServer(repositoryRoot);
 const artifacts = new ReferenceStaticArtifacts(outputDirectory);
-const delay = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds));
 
-async function connect() {
-	const response = await fetch(`http://127.0.0.1:${debuggingPort}/json/list`);
-	const pages = await response.json();
-	let page = pages.find(entry => entry.type === 'page');
-	if (!page) {
-		const created = await fetch(
-			`http://127.0.0.1:${debuggingPort}/json/new?about:blank`,
-			{ method: 'PUT' }
-		);
-		page = await created.json();
-	}
-	assert.ok(page?.webSocketDebuggerUrl, 'Dedicated Chrome page was not available.');
-	const client = await new CdpClient(page.webSocketDebuggerUrl).connect();
-	await client.send('Page.enable');
-	await client.send('Runtime.enable');
-	return client;
-}
-
-async function waitForReady(client) {
-	for (let attempt = 0; attempt < 180; attempt += 1) {
-		const ready = await Promise.race([
-			client.evaluate(`(() => {
-				const app = window.__AWTSMOOS_PARK_APP__;
-				const canvas = document.querySelector('#character-canvas');
-				return Boolean(canvas?.width && Object.keys(
-					app?.state?.get?.('characters') || {}
-				).length === 3);
-			})()`),
-			delay(500).then(() => false)
-		]);
-		if (ready) return;
-		await delay(100);
-	}
-	throw new Error('Attached production Animator did not become ready.');
-}
-
+/**
+ * A fresh connected target witnesses the real production canvas without stale CDP
+ * commands. The Awtsmoos renews browser and scene; Awtsmoos.com preserves the
+ * exact renderer, isolation, crops, bounds, hashes, persistence, and final export.
+ */
 async function run() {
 	const baseUrl = await server.start();
-	const client = await connect();
-	const chrome = { client };
+	const url = `${baseUrl}/geelooy/apps/animator/index.html?referenceTrioProof=1`;
+	const target = await ReferenceConnectedProofTarget.open(debuggingPort, url);
+	const chrome = { client: target.client };
 	try {
-		await client.send('Emulation.setDeviceMetricsOverride', {
-			width: ReferenceProofStage.width,
-			height: ReferenceProofStage.height,
-			deviceScaleFactor: 1,
-			mobile: false
-		});
-		const url = `${baseUrl}/geelooy/apps/animator/index.html?referenceTrioProof=1`;
-		await Promise.race([client.send('Page.navigate', { url }), delay(2000)]);
-		await waitForReady(client);
+		await ReferenceBoundedCdp.send(
+			target.client,
+			'Emulation.setDeviceMetricsOverride',
+			{
+				width: ReferenceProofStage.width,
+				height: ReferenceProofStage.height,
+				deviceScaleFactor: 1,
+				mobile: false
+			}
+		);
 		await ReferenceProofStage.prepare(chrome);
 		const plan = ReferenceStaticCropPlan.all();
 		const characterIds = ReferenceStaticCropPlan.characterIds();
@@ -86,11 +52,14 @@ async function run() {
 			characterIds
 		);
 		await ReferenceCharacterIsolation.setVisibility(chrome, null);
-		await delay(400);
+		await new Promise(resolve => setTimeout(resolve, 400));
 		const capture = await ReferenceStaticCanvasCapture.capture(chrome, plan);
 		const report = {
 			capturedAt: new Date().toISOString(),
-			canvas: { width: ReferenceProofStage.width, height: ReferenceProofStage.height },
+			canvas: {
+				width: ReferenceProofStage.width,
+				height: ReferenceProofStage.height
+			},
 			characterIds,
 			cropPlan: plan,
 			individualBoxes
@@ -106,7 +75,7 @@ async function run() {
 			cropCount: written.crops.length
 		}, null, 2));
 	} finally {
-		client.close();
+		await ReferenceConnectedProofTarget.close(target);
 		await server.stop();
 	}
 }

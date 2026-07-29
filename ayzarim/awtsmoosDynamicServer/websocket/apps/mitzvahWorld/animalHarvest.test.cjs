@@ -28,7 +28,9 @@ test('three cared animals and one eligible harvest complete two adventures', asy
 		await flow.send('creature.care', { creatureId });
 	}
 	assert.equal(
-		(await flow.send('adventure.snapshot', { questId: 'shepherds-mercy' })).payload.progress.status,
+		(await flow.send('adventure.snapshot', {
+			questId: 'shepherds-mercy'
+		})).payload.adventure.progress.status,
 		'complete'
 	);
 
@@ -49,7 +51,9 @@ test('three cared animals and one eligible harvest complete two adventures', asy
 	assert.equal(quantity(harvested.payload.state, 'kosher-meat'), 2);
 	assert.equal(quantity(harvested.payload.state, 'prepared-hide'), 1);
 	assert.equal(
-		(await flow.send('adventure.snapshot', { questId: 'kosher-provision' })).payload.progress.status,
+		(await flow.send('adventure.snapshot', {
+			questId: 'kosher-provision'
+		})).payload.adventure.progress.status,
 		'complete'
 	);
 

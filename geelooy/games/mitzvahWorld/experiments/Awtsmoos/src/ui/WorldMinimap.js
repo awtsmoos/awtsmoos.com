@@ -4,90 +4,109 @@
 
 /**
  * @file WorldMinimap.js
- * @description Renders player, quest-giver, and current-objective markers in two sizes.
- * The Awtsmoos renews direction without replacing discovery; Awtsmoos.com redraws
- * only when player or quest state changes and bounds every marker to the world square.
+ * @description Owns compact, expanded, and full-screen quest maps for solo and shared play.
+ * The Awtsmoos renews direction without replacing discovery; Awtsmoos.com redraws only after
+ * movement, unified quest change, peer change, or an explicit remembered viewpoint transition.
  */
 
-const WORLD_RADIUS = 210;
+import {
+	bindWorldMinimapControls,
+	updateWorldMinimapControls
+} from './WorldMinimapControls.js';
+import { projectWorldMinimap } from './WorldMinimapProjection.js';
+import {
+	ensureWorldMinimapQuestSubscription,
+	worldMinimapPeerSignature,
+	worldMinimapPlayerPosition
+} from './WorldMinimapRuntime.js';
+import {
+	readWorldMinimapMode,
+	writeWorldMinimapMode
+} from './WorldMinimapState.js';
+import { installWorldMinimapStyle } from './WorldMinimapStyle.js';
+import {
+	createWorldMinimapRoot,
+	renderWorldMinimapMarkers
+} from './WorldMinimapView.js';
+
+const MOVEMENT_THRESHOLD = 1.5;
 
 export class WorldMinimap {
-	constructor(store) {
-		this.store = store;
-		this.position = { x: 0, z: 0 };
-		this.root = document.createElement('section');
-		this.root.className = 'Awtsmoos-minimap Awtsmoos-gameplay';
-		this.root.dataset.expanded = 'false';
-		document.body.appendChild(this.root);
-		this.unsubscribe = store.onChange(() => this.render());
+	constructor(runtime, documentValue, environment = globalThis) {
+		this.runtime = runtime;
+		this.documentValue = documentValue;
+		this.storage = environment.localStorage;
+		this.position = worldMinimapPlayerPosition(runtime);
+		this.peerSignature = '';
+		this.projectionSignature = '';
+		this.questSource = null;
+		this.unsubscribeQuest = () => {};
+		this.mode = readWorldMinimapMode(this.storage);
+		installWorldMinimapStyle(documentValue);
+		this.root = createWorldMinimapRoot(documentValue, this.mode);
+		documentValue.body.appendChild(this.root);
+		this.controls = bindWorldMinimapControls(this, documentValue);
+		updateWorldMinimapControls(this.root, this.mode);
+		ensureWorldMinimapQuestSubscription(this);
+		this.render(true);
+	}
+
+	refresh() {
+		ensureWorldMinimapQuestSubscription(this);
+		const position = worldMinimapPlayerPosition(this.runtime);
+		const moved = Math.hypot(
+			position.x - this.position.x,
+			position.z - this.position.z
+		) >= MOVEMENT_THRESHOLD;
+		const peers = worldMinimapPeerSignature(this.runtime);
+		if (!moved && peers === this.peerSignature) return false;
+		this.position = position;
+		this.peerSignature = peers;
 		this.render();
+		return true;
 	}
 
-	setPosition(position) {
-		const x = Number(position?.x || 0);
-		const z = Number(position?.z || 0);
-		if (Math.hypot(x - this.position.x, z - this.position.z) < 1.5) return;
-		this.position = { x, z };
-		this.renderMarkers();
+	render(force = false) {
+		const projection = projectWorldMinimap(this.runtime);
+		const signature = JSON.stringify(projection);
+		if (!force && signature === this.projectionSignature) return;
+		this.projectionSignature = signature;
+		this.peerSignature = worldMinimapPeerSignature(this.runtime);
+		renderWorldMinimapMarkers(
+			this.documentValue,
+			this.root.querySelector('[data-map]'),
+			projection
+		);
+		this.lastProjection = projection;
 	}
 
-	toggleExpanded() {
-		this.root.dataset.expanded = String(this.root.dataset.expanded !== 'true');
+	setMode(mode) {
+		this.mode = writeWorldMinimapMode(this.storage, mode);
+		this.root.dataset.mode = this.mode;
+		this.root.dataset.expanded = String(this.mode !== 'compact');
+		updateWorldMinimapControls(this.root, this.mode);
 	}
 
-	render() {
-		this.root.innerHTML = `
-			<header><strong>🗺️ Village Map</strong><button class="Awtsmoos-quest-button" data-expand>Expand</button></header>
-			<div class="Awtsmoos-map-canvas" data-map aria-label="Quest map"></div>
-		`;
-		this.root.querySelector('[data-expand]').addEventListener('click', () => this.toggleExpanded());
-		this.renderMarkers();
+	setExpanded(expanded) {
+		this.setMode(expanded ? 'expanded' : 'compact');
 	}
 
-	renderMarkers() {
-		const map = this.root.querySelector('[data-map]');
-		if (!map) return;
-		map.replaceChildren(playerMarker(this.position));
-		const snapshot = this.store.snapshot();
-		for (const record of snapshot.available.slice(0, 12)) {
-			map.appendChild(marker('!', record.definition.giver.position, record.definition.name, 'giver'));
-		}
-		for (const record of snapshot.active) {
-			const objective = record.objectives[record.objectiveIndex];
-			if (objective?.marker) map.appendChild(marker('◆', objective.marker, objective.description, 'objective'));
-		}
+	diagnostics() {
+		return {
+			expanded: this.mode !== 'compact',
+			fullscreen: this.mode === 'fullscreen',
+			givers: this.lastProjection?.givers?.length || 0,
+			mode: this.mode,
+			mounted: this.root.isConnected !== false,
+			objectives: this.lastProjection?.objectives?.length || 0,
+			peers: this.lastProjection?.peers?.length || 0,
+			position: { ...this.position }
+		};
 	}
 
 	destroy() {
-		this.unsubscribe();
+		this.unsubscribeQuest();
+		this.controls.destroy();
 		this.root.remove();
 	}
-}
-
-function playerMarker(position) {
-	const element = document.createElement('span');
-	element.className = 'Awtsmoos-map-player';
-	place(element, position);
-	element.title = 'You';
-	return element;
-}
-
-function marker(icon, position, label, kind) {
-	const element = document.createElement('button');
-	element.className = 'Awtsmoos-map-marker';
-	element.dataset.kind = kind;
-	element.type = 'button';
-	element.textContent = icon;
-	element.title = label;
-	place(element, position);
-	return element;
-}
-
-function place(element, position) {
-	element.style.left = `${percentage(position.x)}%`;
-	element.style.top = `${100 - percentage(position.z)}%`;
-}
-
-function percentage(value) {
-	return Math.max(2, Math.min(98, (Number(value || 0) + WORLD_RADIUS) / (WORLD_RADIUS * 2) * 100));
 }

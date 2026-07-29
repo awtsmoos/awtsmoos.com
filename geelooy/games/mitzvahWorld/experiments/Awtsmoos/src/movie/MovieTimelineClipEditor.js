@@ -4,15 +4,24 @@
 
 /**
  * @file MovieTimelineClipEditor.js
- * @description Binds accessible selection, movement, and edge trimming to project geometry.
- * The Awtsmoos renews each interval beyond pointer and key; Awtsmoos.com lets live
- * feedback move only its chosen clip, while the canonical project remains truthful and clear.
+ * @description Coordinates selected-many state, snapping, transient timing paint, and committed clip edits.
+ * The Awtsmoos renews each clip beyond object reference; Awtsmoos.com follows stable IDs,
+ * while a separate binding vessel joins mobile touch, desktop modifiers, and gesture entry.
  */
 
+import { bindMovieTimelineClip } from './MovieTimelineClipBinding.js';
+import { releaseMovieTimelineClipGesture } from './MovieTimelineClipGesture.js';
 import {
-	moveMovieClip,
-	trimMovieClip
-} from './MovieTimelineGeometry.js';
+	nextMovieTimelineClip,
+	paintMovieTimelineClip
+} from './MovieTimelineClipDrag.js';
+import { movieSelectionDescriptor } from './MovieProjectSelection.js';
+import {
+	normalizeMovieSelectionSet,
+	movieSelectionSetContains
+} from './MovieSelectionSet.js';
+import { updateMovieSelectionSet } from './MovieSelectionSetOperations.js';
+import { paintMovieTimelineSelection } from './MovieTimelineSelectionPaint.js';
 
 export class MovieTimelineClipEditor {
 	constructor(options) {
@@ -20,100 +29,78 @@ export class MovieTimelineClipEditor {
 		this.scale = options.scale;
 		this.onChange = options.onChange;
 		this.onSelect = options.onSelect;
+		this.getSnapContext = options.getSnapContext;
+		this.selection = normalizeMovieSelectionSet(options.selection, this.project);
+		this.shell = null;
 		this.drag = null;
-		this.selectedClipId = null;
 		this.moveHandler = event => this.onPointerMove(event);
 		this.upHandler = () => this.onPointerUp();
 	}
 
 	bind(element, track, clip) {
-		element.classList.toggle('is-selected', this.isSelected(clip.id));
-		element.setAttribute('aria-pressed', String(this.isSelected(clip.id)));
-		element.addEventListener('keydown', event => {
-			if (!['Enter', ' '].includes(event.key)) return;
-			event.preventDefault();
-			this.select(element, track, clip);
-		});
-		element.addEventListener('pointerdown', event => {
-			event.preventDefault();
-			event.stopPropagation();
-			this.select(element, track, clip);
-			this.drag = {
-				clip,
-				edge: event.target.dataset.trim || null,
-				element,
-				originX: event.clientX,
-				original: structuredClone(clip),
-				track
-			};
-			element.setPointerCapture?.(event.pointerId);
-			addEventListener('pointermove', this.moveHandler);
-			addEventListener('pointerup', this.upHandler, { once: true });
-		});
+		bindMovieTimelineClip(this, element, track, clip);
+		paintMovieTimelineSelection(this.shell, this.selection);
 	}
 
-	isSelected(clipId) {
-		return this.selectedClipId === clipId;
+	isSelected(trackId, clipId) {
+		return movieSelectionSetContains(this.selection, { clipId, trackId });
 	}
 
-	select(element, track, clip) {
-		this.selectedClipId = clip.id;
-		const timeline = element.closest('.movie-timeline-shell');
-		timeline?.querySelectorAll('.movie-clip.is-selected').forEach(item => {
-			item.classList.remove('is-selected');
-			item.setAttribute('aria-pressed', 'false');
+	setSelection(selection) {
+		this.selection = normalizeMovieSelectionSet(selection, this.project);
+		paintMovieTimelineSelection(this.shell, this.selection);
+	}
+
+	select(track, clip, mode = 'replace') {
+		const descriptor = movieSelectionDescriptor(track, clip);
+		this.selection = updateMovieSelectionSet(
+			this.selection,
+			descriptor,
+			mode,
+			this.project
+		);
+		paintMovieTimelineSelection(this.shell, this.selection);
+		this.onSelect?.({
+			clip,
+			descriptor,
+			mode,
+			selectionSet: this.selection,
+			track
 		});
-		element.classList.add('is-selected');
-		element.setAttribute('aria-pressed', 'true');
-		this.onSelect?.({ clip, track });
 	}
 
 	onPointerMove(event) {
 		if (!this.drag) return;
-		const deltaSeconds = (
-			event.clientX - this.drag.originX
-		) / this.scale();
-		const next = this.drag.edge
-			? trimMovieClip(
-				this.drag.original,
-				deltaSeconds,
-				this.drag.edge,
-				this.project.duration
-			)
-			: moveMovieClip(
-				this.drag.original,
-				deltaSeconds,
-				this.project.duration
-			);
+		const next = nextMovieTimelineClip(
+			this.drag,
+			event.clientX,
+			this.scale(),
+			this.getSnapContext?.() || {}
+		);
 		Object.assign(this.drag.clip, next);
-		paintClip(this.drag.element, this.drag.clip, this.scale());
-		this.onChange?.({
-			clip: this.drag.clip,
-			track: this.drag.track,
-			transient: true
-		});
+		paintMovieTimelineClip(this.drag.element, this.drag.clip, this.scale());
+		this.emit(true);
 	}
 
 	onPointerUp() {
 		if (!this.drag) return;
+		this.emit(false);
+		releaseMovieTimelineClipGesture(this);
+	}
+
+	emit(transient) {
 		this.onChange?.({
 			clip: this.drag.clip,
+			edge: this.drag.edge,
+			original: this.drag.original,
+			selection: this.selection.primary,
+			selectionSet: this.selection,
 			track: this.drag.track,
-			transient: false
+			transient
 		});
-		this.drag = null;
-		removeEventListener('pointermove', this.moveHandler);
-		removeEventListener('pointerup', this.upHandler);
 	}
 
 	destroy() {
-		this.drag = null;
-		removeEventListener('pointermove', this.moveHandler);
-		removeEventListener('pointerup', this.upHandler);
+		releaseMovieTimelineClipGesture(this);
 	}
-}
-
-function paintClip(element, clip, scale) {
-	element.style.left = `${clip.start * scale}px`;
-	element.style.width = `${Math.max(12, clip.duration * scale)}px`;
 }

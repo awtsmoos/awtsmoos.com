@@ -4,15 +4,18 @@
 
 import { AttentionEngine } from '../../../../performance/attention/AttentionEngine.js';
 import { SpeechPerformanceEngine } from '../../../../performance/SpeechPerformanceEngine.js';
+import { StableSpeechActivity } from '../../../../performance/speech/lipsync/StableSpeechActivity.js';
 
 /**
- * A spoken line descends from intention into timing, attention, and articulation.
- * The Awtsmoos joins authored phoneme cues, audio envelope, face, and body, while
- * Awtsmoos.com preserves one deterministic speech input for every production path.
+ * Speech combines current direction with articulation without inheriting silence.
+ * The Awtsmoos renews each word; Awtsmoos.com preserves emotion, range, cues,
+ * attention, manual keys, preview, persistence, and export in one truthful input.
  */
 export class SpeechDirectorInput {
 	static compose(current, event = {}, timelineProgress = 0) {
-		const speech = String(event.speech ?? event.text ?? '');
+		const speech = StableSpeechActivity.normalize(
+			event.speech ?? event.text ?? current.speech
+		);
 		const duration = Math.max(
 			500,
 			Number(event.end || 0) - Number(event.start || 0)
@@ -39,6 +42,18 @@ export class SpeechDirectorInput {
 			|| event.phonemeCues
 			|| current.lipSyncCues
 			|| current.phonemeCues;
+		const talking = StableSpeechActivity.active({
+			speech,
+			talking: event.talking,
+			silentMode: event.silentMode === true
+				|| current.silentMode === true,
+			lipSyncCues,
+			phonemeCues: event.phonemeCues || current.phonemeCues,
+			manualMouth: event.manualMouth || current.manualMouth
+		});
+		const rangeProfile = current.expressionRangeProfile
+			|| current.expressionProfile
+			|| 'universal';
 		const performance = SpeechPerformanceEngine.compose({
 			id: current.id || event.id || event.actor || event.speaker,
 			speech,
@@ -46,23 +61,25 @@ export class SpeechDirectorInput {
 			time: localTime,
 			duration,
 			energy: emphasis,
-			emotion: event.emotion || current.emotion,
-			moment: event.moment || (speech ? 'curious' : null),
-			profile: current.expressionProfile,
+			emotion: event.emotion || current.emotion || 'neutral',
+			moment: event.moment || current.moment || null,
+			profile: rangeProfile,
+			expressionRangeProfile: rangeProfile,
 			attention: attention.target,
 			blink: attention.blink,
 			dart: attention.dart,
 			gesture: event.gesture || current.gesture,
 			speechStyle,
+			talking,
 			silentMode: event.silentMode === true
 				|| current.silentMode === true,
 			audioEnvelope: event.audioEnvelope ?? current.audioEnvelope,
 			lipSyncCues,
 			phonemeCues: event.phonemeCues || current.phonemeCues,
 			manualMouth: event.manualMouth || current.manualMouth,
-			facePose: event.facePose || current.facePose
+			facePose: event.facePose,
+			manualFacePose: event.manualFacePose || current.manualFacePose
 		});
-
 		return {
 			attention,
 			duration,
@@ -72,7 +89,8 @@ export class SpeechDirectorInput {
 			performance,
 			progress,
 			speech,
-			speechStyle
+			speechStyle,
+			talking
 		};
 	}
 

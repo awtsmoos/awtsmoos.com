@@ -4,9 +4,9 @@
 
 /**
  * @file minimalMeadowReadinessRendererIdentity.test.mjs
- * @description Proves final readiness never overwrites renderer backend or hydration identity.
- * The Awtsmoos lets fallback, bootstrap, and rich garments change without changing their vessel;
- * Awtsmoos.com waits for settled systems while backend, stage, hydration, and fallback stay truthful.
+ * @description Proves final background settlement preserves renderer backend and hydration identity.
+ * The Awtsmoos releases the playable vessel before optional garments finish; Awtsmoos.com
+ * separately verifies fallback, bootstrap, rich, and degraded truth after full readiness.
  */
 
 import assert from 'node:assert/strict';
@@ -23,7 +23,7 @@ import {
 	webGlRenderer
 } from './RendererReadinessTestHarness.mjs';
 
-test('B"H fallback readiness preserves Canvas2D backend identity', async () => {
+test('B"H fallback settlement preserves Canvas2D backend identity', async () => {
 	const documentValue = fakeDocument();
 	const diagnostics = diagnosticsWith(fallbackRenderer());
 	await awaitMinimalMeadowReadiness(
@@ -32,6 +32,8 @@ test('B"H fallback readiness preserves Canvas2D backend identity', async () => {
 		documentValue,
 		fakeEnvironment()
 	);
+	assert.equal(documentValue.documentElement.dataset.awtsmoosReadiness, 'playable');
+	await diagnostics.fullReadinessPromise;
 	const dataset = documentValue.documentElement.dataset;
 	assert.equal(dataset.awtsmoosRenderer, 'canvas-2d-fallback');
 	assert.equal(dataset.awtsmoosRendererStage, 'fallback-ready');
@@ -41,7 +43,7 @@ test('B"H fallback readiness preserves Canvas2D backend identity', async () => {
 	assert.equal(diagnostics.readinessReceipt.paintedFrames, 2);
 });
 
-test('B"H rich hydration keeps WebGL backend and records rich stage', async () => {
+test('B"H rich settlement keeps WebGL backend and records rich stage', async () => {
 	const documentValue = fakeDocument();
 	const renderer = webGlRenderer(() => Promise.resolve({ ready: true }));
 	const diagnostics = diagnosticsWith(renderer);
@@ -51,6 +53,7 @@ test('B"H rich hydration keeps WebGL backend and records rich stage', async () =
 		documentValue,
 		fakeEnvironment()
 	);
+	await diagnostics.fullReadinessPromise;
 	const dataset = documentValue.documentElement.dataset;
 	assert.equal(dataset.awtsmoosRenderer, 'webgl');
 	assert.equal(dataset.awtsmoosRendererStage, 'rich-ready');
@@ -60,7 +63,7 @@ test('B"H rich hydration keeps WebGL backend and records rich stage', async () =
 	assert.equal(dataset.awtsmoosReadiness, 'ready');
 });
 
-test('B"H hydration failure degrades only after final settlement', async () => {
+test('B"H hydration failure degrades only after background settlement', async () => {
 	const documentValue = fakeDocument();
 	const renderer = webGlRenderer(() => {
 		return Promise.reject(new Error('shader hydration failed'));
@@ -73,6 +76,8 @@ test('B"H hydration failure degrades only after final settlement', async () => {
 		documentValue,
 		environment
 	);
+	assert.equal(documentValue.documentElement.dataset.awtsmoosReadiness, 'playable');
+	await diagnostics.fullReadinessPromise;
 	const dataset = documentValue.documentElement.dataset;
 	assert.equal(dataset.awtsmoosRenderer, 'webgl');
 	assert.equal(dataset.awtsmoosRendererStage, 'bootstrap-degraded');

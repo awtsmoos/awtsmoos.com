@@ -3,6 +3,7 @@
 //Blessed is He
 
 import { createGuestString } from "./guestText.js";
+import { installedNativeLibraryDirectory } from "./frameworkPackageNativeLibraryPath.js";
 
 export const APPLICATION_INFO = "Landroid/content/pm/ApplicationInfo;";
 export const ACTIVITY_INFO = "Landroid/content/pm/ActivityInfo;";
@@ -18,6 +19,7 @@ export function installedApplicationInfo(runtime) {
 	const name = installedPackageName(runtime);
 	runtime.applicationInfo = runtime.heap.allocate(APPLICATION_INFO, {
 		[field(APPLICATION_INFO, "dataDir", "Ljava/lang/String;")]: string(runtime, `/data/data/${name}`),
+		[field(APPLICATION_INFO, "nativeLibraryDir", "Ljava/lang/String;")]: string(runtime, installedNativeLibraryDirectory(runtime)),
 		[field(APPLICATION_INFO, "packageName", "Ljava/lang/String;")]: string(runtime, name),
 		[field(APPLICATION_INFO, "publicSourceDir", "Ljava/lang/String;")]: string(runtime, `/data/app/${name}/base.apk`),
 		[field(APPLICATION_INFO, "sourceDir", "Ljava/lang/String;")]: string(runtime, `/data/app/${name}/base.apk`)

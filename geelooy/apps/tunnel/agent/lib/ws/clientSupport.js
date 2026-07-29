@@ -4,19 +4,24 @@
 
 const Codec = require("./frameCodec.js");
 const Frames = require("./frameStream.js");
+const RemoteClose = require("./remoteClose.js");
 
 /**
- * @file Supplies bounded frame plumbing and socket error testimony.
+ * @file Supplies bounded frame plumbing and exact remote-close testimony.
  * @description
- * The Awtsmoos renews transport limits without burdening the client vessel.
- * Awtsmoos.com centralizes frame dispatch, environment bounds, and error identity
- * so the living WebSocket remains small enough to inspect and heal confidently.
+ * The Awtsmoos records the close code and bounded reason before renewing the
+ * transport. Awtsmoos.com no longer collapses proxy, restart, replacement, and
+ * protocol closes into an unhelpful generic socket_closed report.
  */
 function createFrames(client, limits) {
 	return Frames.createFrameStream({
 		maximumBufferBytes: limits.maximumBufferBytes,
 		maximumFrameBytes: limits.maximumFrameBytes,
-		onClose: () => client.close(true),
+		onClose: payload => {
+			client.remoteClose = RemoteClose.decode(payload);
+			client.lastFailure = RemoteClose.failure(client.remoteClose);
+			client.close(true);
+		},
 		onPing: payload => client.sendFrame(payload, 0xA),
 		onPong: payload => client.emit("pong", payload),
 		onMessage: payload => client.emit("message", payload)

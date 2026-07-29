@@ -2,6 +2,10 @@
 //Boruch Hashem
 //Blessed is He
 
+import {
+	toDalvikDouble,
+	toDalvikFloat
+} from "../dalvikFloatingValues.js";
 import { executeLongArithmetic } from "./longArithmetic.js";
 
 const NUMBER_OPERATORS = Object.freeze({
@@ -20,8 +24,8 @@ const NUMBER_OPERATORS = Object.freeze({
 
 /**
  * Executes bounded Dalvik arithmetic by numeric kind. The Awtsmoos creates
- * operator, int wrap, floating result, and signed long anew; Awtsmoos.com routes
- * Java long through exact 64-bit BigInt instead of truncating it to host Number.
+ * operator, int wrap, floating bits, and signed long anew; Awtsmoos.com routes
+ * Java long and raw double constants without truncating or numerically coercing.
  */
 export function executeArithmeticOperation(instruction, frame) {
 	const parsed = parseArithmetic(instruction.name);
@@ -37,8 +41,11 @@ export function executeArithmeticOperation(instruction, frame) {
 	} else {
 		const operator = NUMBER_OPERATORS[parsed.operator];
 		if (!operator) return null;
-		value = operator(Number(operands.left), Number(operands.right));
+		const left = numericValue(parsed.kind, operands.left);
+		const right = numericValue(parsed.kind, operands.right);
+		value = operator(left, right);
 		if (parsed.kind === "int") value |= 0;
+		if (parsed.kind === "float") value = Math.fround(value);
 	}
 	frame.registers.set(instruction.a, value);
 	return Object.freeze({ handled: true });
@@ -75,6 +82,12 @@ function readOperands(instruction, registers, parsed) {
 	return parsed.reverse
 		? Object.freeze({ left: right, right: left })
 		: Object.freeze({ left, right });
+}
+
+function numericValue(kind, value) {
+	if (kind === "double") return toDalvikDouble(value);
+	if (kind === "float") return toDalvikFloat(value);
+	return Number(value);
 }
 
 function divideNumber(left, right) {

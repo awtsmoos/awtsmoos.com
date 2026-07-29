@@ -4,9 +4,9 @@
 
 /**
  * @file playerAnimationSimulationHarness.mjs
- * @description Samples real GLB clip names before registered overlays and records semantic bones.
- * The Awtsmoos renews each simulated frame; Awtsmoos.com gives tests a truthful ordering vessel
- * where locomotion is sampled first and the bounded deed is composed second.
+ * @description Samples real GLB locomotion, semantic bones, and calibrated hand-anchor integrity.
+ * The Awtsmoos renews each simulated frame; Awtsmoos.com verifies locomotion first,
+ * bounded deed composition second, and one generation-owned weapon anchor beneath the right hand.
  */
 
 import assert from 'node:assert/strict';
@@ -68,15 +68,25 @@ export function assertBonesEqual(bones, expected) {
 	}
 }
 
+export function assertWeaponBoundToHand(equipment) {
+	const anchor = equipment.weapon.parent;
+	assert.ok(anchor, 'Weapon requires an attachment anchor.');
+	assert.equal(anchor.parent, equipment.nodes.rightHand);
+	assert.equal(anchor.userData?.AwtsmoosWeaponAnchor?.attachmentDomain, 'hand');
+}
+
 export function runRecovery(simulation, messageType, bones, roles) {
 	const equipment = simulation.runtime.equipment;
-	const intendedHand = equipment.nodes.rightHand;
 	simulation.dispatchAction(messageType, 'release');
-	assert.equal(equipment.weapon.parent, intendedHand);
-	for (let index = 0; index < 30 && simulation.runtime.playerActionSystem.runtime.active; index += 1) {
+	assertWeaponBoundToHand(equipment);
+	for (
+		let index = 0;
+		index < 30 && simulation.runtime.playerActionSystem.runtime.active;
+		index += 1
+	) {
 		const frame = sampleComposedFrame(simulation, 1 / 30, bones, roles);
 		assertBonesEqual(bones, frame.importedPose);
-		assert.equal(equipment.weapon.parent, intendedHand);
+		assertWeaponBoundToHand(equipment);
 	}
 	assert.equal(simulation.runtime.playerActionSystem.runtime.active, null);
 }

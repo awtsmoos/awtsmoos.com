@@ -3,10 +3,9 @@
 // Blessed is He
 
 /**
- * @file StableBodyGeometry.js
- * @description Resolves authored body proportions consumed by the production graph.
- * The Awtsmoos renews shoulder, ribcage, waist, garment, foot, and gesture as
- * precise vessels; Awtsmoos.com preserves editable geometry without flattening the rig.
+ * Authored body proportions become renderer geometry without discarding semantic fields.
+ * The Awtsmoos renews torso, garment, stance, and gesture together; Awtsmoos.com
+ * preserves editable intent, persistence, preview, and exact production export.
  */
 export class StableBodyGeometry {
 	static resolve(data = {}, metrics = {}) {
@@ -17,7 +16,7 @@ export class StableBodyGeometry {
 			skirt: this.skirt(source.skirt, metrics, data.skirt),
 			legs: this.legs(source.legs),
 			details: this.details(source.details),
-			pocket: this.pocket(source.pocket),
+			pocket: { ...(source.pocket || {}) },
 			gesture: this.gesture(source.gesture, data.gesture)
 		};
 	}
@@ -27,6 +26,7 @@ export class StableBodyGeometry {
 		const hipHalf = this.number(source.hipHalf, (metrics.hipHalf || 27) + 18);
 		const shoulderHalf = this.number(metrics.shoulderHalf, 42);
 		return {
+			...source,
 			garmentKind: source.garmentKind || 'jacket',
 			shoulderExtra: this.number(source.shoulderExtra, 0),
 			shoulderDrop: this.number(source.shoulderDrop, 4),
@@ -50,6 +50,7 @@ export class StableBodyGeometry {
 
 	static pelvis(source = {}, metrics = {}) {
 		return {
+			...source,
 			centerX: this.number(source.centerX, 0),
 			topHalf: this.number(source.topHalf, (metrics.hipHalf || 27) + 16),
 			bottomHalf: this.number(source.bottomHalf, (metrics.hipHalf || 27) + 9),
@@ -60,6 +61,7 @@ export class StableBodyGeometry {
 	static skirt(source = {}, metrics = {}, skirt = {}) {
 		const length = this.number(skirt?.length, 1);
 		return {
+			...source,
 			centerX: this.number(source.centerX, 0),
 			topHalf: this.number(source.topHalf, (metrics.hipHalf || 27) + 10),
 			bottomHalf: this.number(source.bottomHalf, (metrics.hipHalf || 27) + 17),
@@ -76,17 +78,16 @@ export class StableBodyGeometry {
 
 	static details(source = {}) {
 		return {
+			...source,
 			shirtPanelHalf: this.number(source.shirtPanelHalf, 14),
+			shirtPanelHemClearance: this.number(source.shirtPanelHemClearance, 9),
 			lapelHalf: this.number(source.lapelHalf, 14),
+			lapelDrop: this.number(source.lapelDrop, 13),
 			collarSpread: this.number(source.collarSpread, 17),
 			collarDrop: this.number(source.collarDrop, 14),
 			buttons: source.buttons !== false,
 			pockets: source.pockets !== false
 		};
-	}
-
-	static pocket(source = {}) {
-		return { ...source };
 	}
 
 	static gesture(source = {}, fallback = '') {

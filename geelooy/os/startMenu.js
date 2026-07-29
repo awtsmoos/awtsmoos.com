@@ -1,6 +1,6 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 import { sceneJSON } from "./helpers/serialize.js";
 import { openSocialWindow } from "./social/socialPanel.js";
@@ -15,8 +15,17 @@ import {
  * @file startMenu.js
  * @description
  * The Awtsmoos preserves every social, portal, file, and tunnel action.
- * Awtsmoos.com gives those inherited deeds structured, executable metadata.
+ * Awtsmoos.com gives those inherited deeds structured, executable metadata and
+ * points treasury doors at real guarded routes instead of nonexistent app stubs.
  */
+
+export const TREASURY_LINKS = Object.freeze({
+	home: "/api/tunnel/control/treasury/home",
+	budgets: "/api/tunnel/control/treasury/budgets",
+	marketplace: "/api/tunnel/control/treasury/marketplace",
+	graph: "/api/tunnel/control/treasury/graph",
+	bank: "/api/tunnel/control/bank"
+});
 
 const DEFINITIONS = Object.freeze([
 	action("My Mail", "social", "✉️", "Read and send messages.", social("mail")),
@@ -35,11 +44,11 @@ const DEFINITIONS = Object.freeze([
 	action("Mission Cockpit", "web", "🧭", "Open the mission planning cockpit.", portal("/apps/missions.html")),
 	action("Tunnel Control", "web", "🔌", "Open live tunnel controls.", portal("/apps/tunnel-control/")),
 	action("Apps Code", "web", "🧬", "Open the standalone code workspace.", portal("/apps/code/")),
-	action("Treasury OS", "web", "💠", "Open Treasury operations.", portal("/apps/treasury/")),
-	action("Treasury Budgets", "web", "📈", "Open Treasury budgets.", portal("/apps/treasury/budgets/")),
-	action("Treasury Marketplace", "web", "🛍️", "Open the Treasury marketplace.", portal("/apps/treasury/marketplace/")),
-	action("Treasury Graph", "web", "🕸️", "Open Treasury relationships.", portal("/apps/treasury/relationships/")),
-	action("Awtsmoos Bank", "web", "🏦", "Open Awtsmoos Bank.", portal("/apps/bank/")),
+	action("Treasury OS", "web", "💠", "Open Treasury operations.", portal(TREASURY_LINKS.home)),
+	action("Treasury Budgets", "web", "📈", "Open Treasury budgets.", portal(TREASURY_LINKS.budgets)),
+	action("Treasury Marketplace", "web", "🛍️", "Open the Treasury marketplace.", portal(TREASURY_LINKS.marketplace)),
+	action("Treasury Graph", "web", "🕸️", "Open Treasury relationships.", portal(TREASURY_LINKS.graph)),
+	action("Awtsmoos Bank", "web", "🏦", "Open Awtsmoos Bank.", portal(TREASURY_LINKS.bank)),
 	action("Developer Diagnostics", "system", "🧰", "Inspect the living OS graph.", openProgram("awtsmoosDiagnostics", "Developer Diagnostics")),
 	action("Copy Scene JSON", "system", "📋", "Copy the current scene graph.", copyScene),
 	action("Enable Virtual OS Tunnel", "system", "🔗", "Install and open the tunnel launcher.", enableTunnel),

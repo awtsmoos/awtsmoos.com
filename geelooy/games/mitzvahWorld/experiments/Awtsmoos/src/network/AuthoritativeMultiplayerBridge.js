@@ -4,11 +4,13 @@
 
 /**
  * @file AuthoritativeMultiplayerBridge.js
- * @description Bridges runtime truth into local-tab or server-authoritative remote Chassidim.
- * The Awtsmoos gives every distant traveler one present form; Awtsmoos.com imports this
- * population garment only after the connection itself has already succeeded.
+ * @description Bridges runtime truth into peers, server enemies, and authoritative defense.
+ * The Awtsmoos gives distant traveler and hostile one present form; Awtsmoos.com imports
+ * authority only after connection while local-tab and solo truth retain their own garments.
  */
 
+import { installMultiplayerAuthorities } from './AuthoritativeMultiplayerBridgeAuthority.js';
+import { multiplayerBridgeDiagnostics, multiplayerBridgeReceipt } from './AuthoritativeMultiplayerBridgeReceipts.js';
 import { RemoteChossidPopulation } from './RemoteChossidPopulation.js';
 import { currentMovementIntent, runtimePlayerSnapshot } from './RuntimePlayerSnapshot.js';
 
@@ -19,38 +21,42 @@ const SERVER_HEARTBEAT_INTERVAL_SECONDS = 5;
 
 export class AuthoritativeMultiplayerBridge {
 	constructor({ client, runtime, transport = 'websocket' }) {
-		this.client = client;
-		this.runtime = runtime;
-		this.transport = transport;
-		this.population = null;
-		this.unsubscribe = null;
-		this.stateElapsed = 0;
-		this.heartbeatElapsed = 0;
-		this.lastRevision = 0;
+		Object.assign(this, {
+			client,
+			defenseAuthority: null,
+			enemyAuthority: null,
+			heartbeatElapsed: 0,
+			lastRevision: 0,
+			population: null,
+			runtime,
+			stateElapsed: 0,
+			transport,
+			unsubscribe: null
+		});
 	}
 
 	start() {
+		this.runtime.state.multiplayerLocalPlayerId = this.client.playerId;
 		this.population = new RemoteChossidPopulation({
 			ground: this.runtime.ground,
 			localPlayerId: this.client.playerId,
 			scene: this.runtime.scene
 		});
+		if (this.transport !== 'local-tab') {
+			installMultiplayerAuthorities(this);
+		}
 		this.unsubscribe = this.client.onWorld(world => this.applyWorld(world));
 		if (this.client.world && this.runtime.state.multiplayer !== this.client.world) {
 			this.applyWorld(this.client.world);
 		}
 		this.publishRuntimeState();
-		return {
-			client: this.client,
-			playerAddress: this.client.playerAddress,
-			population: this.population,
-			transport: this.transport
-		};
+		return multiplayerBridgeReceipt(this);
 	}
 
 	applyWorld(world) {
 		this.lastRevision = world?.revision ?? this.lastRevision;
 		this.population?.sync(world?.players || []);
+		this.enemyAuthority?.sync(world);
 		this.runtime.state.multiplayer = world;
 	}
 
@@ -59,11 +65,12 @@ export class AuthoritativeMultiplayerBridge {
 		this.stateElapsed += deltaSeconds;
 		this.heartbeatElapsed += deltaSeconds;
 		this.population.update(deltaSeconds);
+		this.enemyAuthority?.update();
 		if (this.stateElapsed >= STATE_INTERVAL_SECONDS) {
 			this.publishRuntimeState();
 			this.stateElapsed %= STATE_INTERVAL_SECONDS;
 		}
-		if (this.transport !== 'local-tab' && this.heartbeatElapsed >= SERVER_HEARTBEAT_INTERVAL_SECONDS) {
+		if (this.shouldHeartbeat()) {
 			this.client.heartbeat().catch(() => {});
 			this.heartbeatElapsed %= SERVER_HEARTBEAT_INTERVAL_SECONDS;
 		}
@@ -75,26 +82,33 @@ export class AuthoritativeMultiplayerBridge {
 			return this.client.updatePlayerState(snapshot).catch(() => {});
 		}
 		const input = currentMovementIntent(this.runtime);
-		return this.client.input(input.forward, input.strafe, snapshot.facing).catch(() => {});
+		return this.client.input(
+			input.forward,
+			input.strafe,
+			snapshot.facing
+		).catch(() => {});
 	}
 
 	stop() {
 		this.unsubscribe?.();
 		this.unsubscribe = null;
+		this.defenseAuthority?.stop();
+		this.defenseAuthority = null;
+		this.enemyAuthority?.stop();
+		this.enemyAuthority = null;
+		this.runtime.enemyAuthority = null;
 		this.population?.dispose?.();
 		this.population = null;
+		this.runtime.state.multiplayer = null;
+		this.runtime.state.multiplayerLocalPlayerId = null;
 	}
 
 	diagnostics() {
-		const players = this.client.world?.players?.length || 0;
-		return {
-			assetUrl: this.population?.assetUrl || null,
-			playerId: this.client.playerId,
-			players,
-			remoteActors: this.population?.actors?.size || 0,
-			remotePeers: Math.max(0, players - 1),
-			revision: this.client.world?.revision ?? this.lastRevision,
-			transport: this.transport
-		};
+		return multiplayerBridgeDiagnostics(this);
+	}
+
+	shouldHeartbeat() {
+		return this.transport !== 'local-tab'
+			&& this.heartbeatElapsed >= SERVER_HEARTBEAT_INTERVAL_SECONDS;
 	}
 }

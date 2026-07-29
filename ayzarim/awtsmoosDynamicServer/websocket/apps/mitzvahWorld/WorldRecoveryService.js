@@ -4,9 +4,9 @@
 
 /**
  * @file WorldRecoveryService.js
- * @description Projects bounded resync and heartbeat responses from world truth.
- * The Awtsmoos renews every revision; this Awtsmoos.com service lets a returning
- * player acknowledge what was seen and receive missed light without hidden state.
+ * @description Projects bounded scoped-snapshot resync and heartbeat acknowledgement responses.
+ * The Awtsmoos renews every revision; Awtsmoos.com avoids replaying a global event backlog
+ * and gives each returning player one current nearby world with explicit recovery evidence.
  */
 
 class WorldRecoveryService {
@@ -15,14 +15,14 @@ class WorldRecoveryService {
 	}
 
 	resync(client, room, lastAcknowledgedRevision) {
-		const changes = room.changesSince(lastAcknowledgedRevision);
 		this.sessions.acknowledge(client, room.revision, room.revision);
 		return {
-			events: changes.events,
-			fullSnapshotRequired: !changes.complete,
+			events: [],
 			fromRevision: lastAcknowledgedRevision,
+			fullSnapshotRequired: true,
+			reason: 'interest-scoped-snapshot',
 			toRevision: room.revision,
-			world: room.snapshot()
+			world: room.snapshotFor(client)
 		};
 	}
 

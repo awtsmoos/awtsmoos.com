@@ -53,12 +53,12 @@ test("register 31 is zero for sources, accumulator, and destination", () => {
 	assert.equal(registers.nzcv, 0b1010);
 });
 
-test("signed-long and neighboring multiply families keep their boundaries", () => {
+test("widening and neighboring high multiply families keep their boundaries", () => {
 	assert.equal(decodeAarch64Instruction(0x9b332500).family,
 		"signed-multiply-add-long");
-	for (const word of [0x9ba00000, 0x9bc00000]) {
-		assert.equal(decodeAarch64Instruction(word).family, "unknown");
-	}
+	assert.equal(decodeAarch64Instruction(0x9ba97d18).family,
+		"unsigned-multiply-add-long");
+	assert.equal(decodeAarch64Instruction(0x9bc00000).family, "unknown");
 });
 
 function runWord(word, values, destination) {

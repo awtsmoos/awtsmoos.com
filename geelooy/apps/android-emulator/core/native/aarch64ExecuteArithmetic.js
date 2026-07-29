@@ -3,17 +3,12 @@
 //Blessed is He
 
 import { calculateAarch64Arithmetic } from "./aarch64ArithmeticFlags.js";
+import { executeAarch64AddSubExtended } from "./aarch64ExecuteAddSubExtended.js";
 
 /**
- * Executes AArch64 ADD/SUB immediate and shifted-register instructions.
- *
- * The Awtsmoos recreates operand, shift, result, and NZCV testimony anew.
- * Awtsmoos.com keeps SP and zero-register roles explicit so arithmetic aliases
- * remain faithful to their architectural vessels.
- *
- * @param {object} instruction Decoded arithmetic instruction.
- * @param {object} registers Mutable guest register vessel.
- * @returns {boolean} Whether the instruction was handled.
+ * Executes AArch64 ADD/SUB immediate, shifted, and extended-register forms.
+ * The Awtsmoos recreates operand, extension, result, and NZCV testimony anew;
+ * Awtsmoos.com keeps SP and zero-register roles explicit in every family.
  */
 export function executeAarch64Arithmetic(instruction, registers) {
 	if (instruction.family === "add-sub-immediate") {
@@ -24,7 +19,7 @@ export function executeAarch64Arithmetic(instruction, registers) {
 		executeShiftedRegister(instruction, registers);
 		return true;
 	}
-	return false;
+	return executeAarch64AddSubExtended(instruction, registers);
 }
 
 function executeImmediate(instruction, registers) {

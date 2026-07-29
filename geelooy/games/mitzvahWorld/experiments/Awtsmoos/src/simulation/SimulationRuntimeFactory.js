@@ -5,8 +5,8 @@
 /**
  * @file SimulationRuntimeFactory.js
  * @description Assembles real gameplay authorities around a renderer-free loaded GLB.
- * The Awtsmoos creates browser and Node mechanics from one law; Awtsmoos.com replaces only
- * DOM, WebGL, and wall waiting while movement, collision, equipment, combat, and actions remain real.
+ * The Awtsmoos creates browser and Node mechanics from one law; Awtsmoos.com replaces
+ * only DOM, WebGL, and wall waiting while every gameplay authority remains real.
  */
 
 import { BootstrapMovementController } from '../app/BootstrapMovementController.js';
@@ -24,6 +24,7 @@ import { SimulationImportedAnimationState } from './SimulationImportedAnimationS
 import { SimulationInput } from './SimulationInput.js';
 import {
 	createSimulationCamera,
+	createSimulationPlayerDefense,
 	createSimulationPlayerState,
 	createSimulationPlayerStats,
 	createSimulationTerrain
@@ -59,6 +60,7 @@ export async function createSimulationRuntime(options) {
 
 function baseRuntime(scene, gltf, collisionWorld) {
 	const scheduler = new SimulationScheduler();
+	const playerStats = createSimulationPlayerStats();
 	return {
 		bus: new AwtsmoosEventBus(),
 		camera: createSimulationCamera(),
@@ -72,12 +74,12 @@ function baseRuntime(scene, gltf, collisionWorld) {
 		model: gltf.scene,
 		modelManifest: gltf.manifest,
 		multiplayerBridge: null,
+		playerDefense: createSimulationPlayerDefense(playerStats),
 		playerGltf: gltf,
-		playerStats: createSimulationPlayerStats(),
+		playerStats,
 		runToggle: false,
 		scene,
-		schedule: (delaySeconds, callback) =>
-			scheduler.schedule(delaySeconds, callback),
+		schedule: (delaySeconds, callback) => scheduler.schedule(delaySeconds, callback),
 		scheduler,
 		state: createSimulationPlayerState(),
 		terrain: createSimulationTerrain()
@@ -94,16 +96,11 @@ function addDefaultCollision(collisionWorld) {
 
 function stepSimulationRuntime(runtime, deltaSeconds) {
 	runtime.movement.update(deltaSeconds);
-	runtime.importedAnimation.sample(
-		runtime.state.action,
-		runtime.equipment.weaponItemId
-	);
+	runtime.importedAnimation.sample(runtime.state.action, runtime.equipment.weaponItemId);
 	runtime.combat.update(deltaSeconds);
 	runtime.playerActionSystem.update(deltaSeconds);
 	runtime.enemies.update(deltaSeconds);
-	for (const actor of runtime.friendlyActors) {
-		actor.update(deltaSeconds);
-	}
+	for (const actor of runtime.friendlyActors) actor.update(deltaSeconds);
 	runtime.scheduler.update(deltaSeconds);
 	runtime.state.clip = runtime.importedAnimation.current;
 	runtime.model.updateWorldMatrix?.();

@@ -4,9 +4,9 @@
 
 /**
  * @file inventoryTorahTools.test.mjs
- * @description Proves purchases, equipment, stats, tool gates, learning, and cooldowns.
+ * @description Proves purchases, complete equipment stats, tool gates, learning, and cooldowns.
  * The Awtsmoos renews every carried and learned vessel beneath measured limits;
- * Awtsmoos.com refuses gathering or symbolic combat without ownership and preparation.
+ * Awtsmoos.com counts the entire canonical outfit and refuses actions without preparation.
  */
 
 import assert from 'node:assert/strict';
@@ -43,33 +43,42 @@ test('buying and equipping an axe enables woodcutting', () => {
 	);
 	store.buy('forest-axe');
 	assert.equal(store.owns('forest-axe'), true);
-	assert.equal(store.snapshot().items.find(item => item.itemId === 'perutas').quantity, 75);
+	assert.equal(
+		store.snapshot().items.find(item => item.itemId === 'perutas').quantity,
+		75
+	);
 	assert.throws(
 		() => validateToolAction('chop', policyState(store)),
 		/REQUIRED_ITEM_NOT_EQUIPPED/
 	);
 	store.equip('forest-axe');
 	assert.equal(
-		validateToolAction('chop', policyState(store), { target: 'fallen-wood' }).allowed,
+		validateToolAction('chop', policyState(store), {
+			target: 'fallen-wood'
+		}).allowed,
 		true
 	);
 });
 
-test('equipment and clothing contribute to derived statistics', () => {
+test('complete equipment and clothing contribute to derived statistics', () => {
 	const store = new InventoryStore();
 	const initial = store.snapshot().stats;
 	assert.equal(initial.damage, 26);
-	assert.equal(initial.defense, 8);
-	assert.equal(initial.focus, 27);
+	assert.equal(initial.defense, 24);
+	assert.equal(initial.focus, 48);
 	store.add('village-shield');
 	store.equip('village-shield');
-	assert.equal(store.snapshot().stats.defense, 18);
+	assert.equal(store.snapshot().stats.defense, 34);
 });
 
 test('Torah passages require learning, focus, and cooldown', () => {
 	const store = new InventoryStore();
 	assert.throws(
-		() => validateTorahAction('creation-light', store.snapshot(), { focus: 30, now: 2000 }),
+		() => validateTorahAction(
+			'creation-light',
+			store.snapshot(),
+			{ focus: 30, now: 2000 }
+		),
 		/PASSAGE_NOT_LEARNED/
 	);
 	store.add('chumash-light');
@@ -82,11 +91,19 @@ test('Torah passages require learning, focus, and cooldown', () => {
 	assert.equal(allowed.damage, 24);
 	store.markPassageUsed('creation-light', 2000);
 	assert.throws(
-		() => validateTorahAction('creation-light', store.snapshot(), { focus: 30, now: 2500 }),
+		() => validateTorahAction(
+			'creation-light',
+			store.snapshot(),
+			{ focus: 30, now: 2500 }
+		),
 		/PASSAGE_COOLDOWN/
 	);
 	assert.throws(
-		() => validateTorahAction('creation-light', store.snapshot(), { focus: 3, now: 4000 }),
+		() => validateTorahAction(
+			'creation-light',
+			store.snapshot(),
+			{ focus: 3, now: 4000 }
+		),
 		/INSUFFICIENT_FOCUS/
 	);
 });

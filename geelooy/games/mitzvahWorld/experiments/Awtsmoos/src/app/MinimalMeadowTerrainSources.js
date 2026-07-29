@@ -4,59 +4,90 @@
 
 /**
  * @file MinimalMeadowTerrainSources.js
- * @description Loads uploaded full-resolution filenames into independent ecological terrain roles.
- * The Awtsmoos gives grass, dirt, marsh, shoulder, and road their own light; Awtsmoos.com keeps
- * original pixels intact so continuous masks reveal mixture without mosaic, downscale, or disguise.
+ * @description Exposes cached remote terrain roles and deferred Awtsmoos Drive hydration.
+ * The Awtsmoos reveals visible earth before distant images decode; Awtsmoos.com preserves
+ * canonical remote identity while recording cached, deferred, loaded, and failed source truth.
  */
 
+import { cachedTextureImage } from '../assets/PublicMaterialCache.js';
 import {
-	MINIMAL_MEADOW_FIREBASE_TEXTURES as TEXTURES,
-	minimalMeadowFirebaseTextureUrls
-} from './MinimalMeadowFirebaseTextures.js?v=20260727-remote-textures-1';
+	MINIMAL_MEADOW_AWTSMOOS_DRIVE_TEXTURES as TEXTURES,
+	minimalMeadowTextureEntries,
+	minimalMeadowTextureTransportEvidence,
+	minimalMeadowTextureUrls
+} from './MinimalMeadowAwtsmoosDriveTextures.js?v=20260729-drive-1';
 import {
-	loadMinimalMeadowTextureBatch,
-	requireMinimalMeadowTextureImages
-} from './MinimalMeadowTextureBatchLoader.js?v=20260724-meadow-14';
+	loadMinimalMeadowTextureBatch
+} from './MinimalMeadowTextureBatchLoader.js';
 
-export async function loadMinimalMeadowTerrainSources(options = {}) {
-	const urls = minimalMeadowFirebaseTextureUrls();
-	const records = await loadMinimalMeadowTextureBatch(
-		urls,
-		(_, index, total) => options.onProgress?.({
-			message: `Decoding ground source ${index + 1} of ${total}…`,
-			progress: 0.14 + (index + 1) / total * 0.3
-		})
-	);
-	const images = requireMinimalMeadowTextureImages(
-		Object.entries(TEXTURES),
-		records
-	);
-	const cobbleRecord = records.find(record => {
-		return record.url === TEXTURES.roadCobblestone
-			|| record.primaryUrl === TEXTURES.roadCobblestone;
-	}) || null;
-	return {
-		cobbleRecord,
-		images,
-		records,
-		roles: minimalMeadowTerrainSourceRoles(images)
-	};
-}
-
-export function minimalMeadowTerrainSourceRoles(images = {}) {
+export function createMinimalMeadowTerrainSourceSnapshot() {
+	const entries = minimalMeadowTextureEntries();
+	const images = imagesForEntries(entries);
 	return Object.freeze({
-		dry: first(images.grassFive, images.dirtGrassOne, images.grassSeven),
-		lush: first(images.grassOne, images.grassEight, images.grassFour),
-		main: first(images.grassFour, images.grassOne, images.grassEight),
-		marsh: first(images.marshGrass, images.dirtGrassSix, images.soilDark),
-		mud: first(images.soilDark, images.tilledSoil, images.soilLight),
-		path: first(images.roadCobblestone, images.pathCenter, images.soilLight),
-		pathEdge: first(images.dirtGrassThree, images.dirtGrassSix, images.dirtGrassOne),
-		secondary: first(images.grassEight, images.grassSeven, images.grassOne),
-		soil: first(images.soilLight, images.soilDark, images.tilledSoil)
+		images: Object.freeze(images),
+		mode: availableCount(images) ? 'cached-remote' : 'visible-fallback',
+		records: Object.freeze(recordMap(entries, 'deferred-remote')),
+		transport: minimalMeadowTextureTransportEvidence(),
+		urls: minimalMeadowTextureUrls()
 	});
 }
 
-function first(...values) {
-	return values.find(Boolean) || null;
+export async function loadMinimalMeadowTerrainSources(options = {}) {
+	const entries = minimalMeadowTextureEntries();
+	const urls = minimalMeadowTextureUrls();
+	const records = await loadMinimalMeadowTextureBatch(
+		urls,
+		record => options.onTextureSettled?.(record),
+		options.textureBatchOptions
+	);
+	const images = imagesForEntries(entries);
+	const loaded = availableCount(images);
+	return Object.freeze({
+		failed: records.filter(record => !record?.ok).length,
+		images: Object.freeze(images),
+		loaded,
+		mode: loaded === entries.length ? 'ready' : loaded ? 'partial' : 'degraded',
+		records: Object.freeze(recordMap(entries, 'loaded', records)),
+		transport: minimalMeadowTextureTransportEvidence(),
+		urls
+	});
 }
+
+export function minimalMeadowTerrainSourceRoles(images = {}) {
+	return {
+		dry: images.dirtGrassSix,
+		lush: images.grassEight,
+		main: images.grassFour,
+		marsh: images.marshGrass,
+		mud: images.soilDark,
+		path: images.roadCobblestone || images.cobblestone,
+		pathEdge: images.dirtGrassThree,
+		secondary: images.grassFive,
+		soil: images.soilDark,
+		soilLight: images.soilLight,
+		tilled: images.tilledSoil
+	};
+}
+
+function imagesForEntries(entries) {
+	return Object.fromEntries(entries.map(([role, url]) => [role, cachedTextureImage(url)]));
+}
+
+function availableCount(images) {
+	return Object.values(images).filter(Boolean).length;
+}
+
+function recordMap(entries, fallbackStatus, records = []) {
+	return Object.fromEntries(entries.map(([role, url]) => {
+		const record = records.find(candidate => candidate?.url === url || candidate?.primaryUrl === url);
+		return [role, Object.freeze({
+			attempts: record?.batchAttempts || [],
+			error: record?.error || null,
+			ok: Boolean(cachedTextureImage(url)),
+			status: record ? (record.ok ? 'loaded' : 'failed') : fallbackStatus,
+			url
+		})];
+	}));
+}
+
+export { TEXTURES };

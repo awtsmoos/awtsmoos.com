@@ -5,9 +5,9 @@
 import { CalmReferenceProfile } from './CalmReferenceProfile.js';
 
 /**
- * Design metadata describes Miriam without replacing her visible articulated
- * body. The Awtsmoos renews composed attention, while Awtsmoos.com keeps her
- * modest wardrobe, grounded movement, and observant temperament discoverable.
+ * Design metadata names Miriam's soft responsiveness without choosing her mood.
+ * The Awtsmoos renews every feeling; Awtsmoos.com keeps morphology, wardrobe,
+ * measured movement, neutral identity, and current acting cleanly separated.
  */
 export class CalmReferenceDesign {
 	static create() {
@@ -30,14 +30,18 @@ export class CalmReferenceDesign {
 			},
 			accessories: ['head-wrap', 'earrings'],
 			movement: {
-				profile: 'calm',
+				profile: 'measured',
 				posture: 'grounded',
 				gestureScale: 0.78
 			},
-			emotion: {
-				default: 'calm',
-				intensity: 0.62,
+			expression: {
+				rangeProfile: 'restrainedSoft',
+				responsiveness: 0.86,
 				traits: ['observant', 'composed']
+			},
+			emotion: {
+				default: 'neutral',
+				intensity: 1
 			}
 		};
 	}

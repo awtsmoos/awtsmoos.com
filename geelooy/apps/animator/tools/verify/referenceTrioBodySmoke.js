@@ -8,36 +8,11 @@ import { ReferenceCharacterCatalog } from '../../src/character/reference/Referen
 import { ReferenceCharacterIds } from '../../src/character/reference/specification/ReferenceCharacterIds.js';
 
 /**
- * @file referenceTrioBodySmoke.js
- * @description Proves three authored garments, gestures, planted feet, and one shared pocket anchor.
+ * Three authored garments, gestures, planted feet, and one shared pocket anchor remain.
  * The Awtsmoos renews welcome, guarded weight, and calm dignity through distinct bodies;
  * Awtsmoos.com keeps every jacket, hand, trouser, skirt, pocket, and shoe editable.
  */
-
 const [ARI_ID, DOVID_ID, MIRIAM_ID] = ReferenceCharacterIds.all();
-
-function character(id) {
-	return ReferenceCharacterCatalog.character(id);
-}
-
-function ids(node, result = []) {
-	if (!node || typeof node !== 'object') return result;
-	if (typeof node.id === 'string') result.push(node.id);
-	for (const child of node.children || []) ids(child, result);
-	return result;
-}
-
-function graphFor(data) {
-	const graph = StableCharacterAssembler.assemble({ ...data, _renderTime: 0 });
-	assert.ok(graph);
-	assert.deepEqual(graph, StableCharacterAssembler.assemble({ ...data, _renderTime: 0 }));
-	return graph;
-}
-
-function expectIds(graph, required) {
-	const actual = ids(graph);
-	for (const id of required) assert.ok(actual.includes(id), `missing ${id}`);
-}
 
 const ari = character(ARI_ID);
 const ariGraph = graphFor(ari);
@@ -82,10 +57,42 @@ expectIds(miriamGraph, [
 	'skirt_mass',
 	'skirt_fold_0',
 	'skirt_fold_1',
-	'skirt_fold_2'
+	'skirt_fold_2',
+	'human_reference_foot_-1_shoe_upper',
+	'human_reference_foot_1_shoe_upper',
+	'human_reference_foot_-1_flat_opening',
+	'human_reference_foot_1_flat_opening'
 ]);
 assert.ok(miriam.bodyGeometry.gesture.pocketDrop <= 10);
 assert.ok(miriam.bodyGeometry.skirt.bottomHalf >= 43);
 assert.ok(miriam.bodyGeometry.skirt.sway >= 0.4);
-assert.ok(miriam.bodyGeometry.legs.shoeScaleX <= 0.9);
+assert.ok(miriam.bodyGeometry.legs.shoeScaleX >= 0.95);
+assert.ok(miriam.bodyGeometry.legs.shoeScaleX <= 1.08);
+assert.ok(miriam.bodyGeometry.legs.shoeScaleY >= 0.7);
+assert.ok(miriam.bodyGeometry.legs.shoeScaleY <= 0.85);
+
 console.log('B"H reference trio body smoke passed');
+
+function character(id) {
+	return ReferenceCharacterCatalog.character(id);
+}
+
+function graphFor(data) {
+	const input = { ...data, _renderTime: 0 };
+	const graph = StableCharacterAssembler.assemble(input);
+	assert.ok(graph);
+	assert.deepEqual(graph, StableCharacterAssembler.assemble(input));
+	return graph;
+}
+
+function expectIds(graph, required) {
+	const actual = ids(graph);
+	for (const id of required) assert.ok(actual.includes(id), `missing ${id}`);
+}
+
+function ids(node, result = []) {
+	if (!node || typeof node !== 'object') return result;
+	if (typeof node.id === 'string') result.push(node.id);
+	for (const child of node.children || []) ids(child, result);
+	return result;
+}

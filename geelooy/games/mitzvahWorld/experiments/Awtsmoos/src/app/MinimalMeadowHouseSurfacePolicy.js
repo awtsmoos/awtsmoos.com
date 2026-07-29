@@ -4,32 +4,35 @@
 
 /**
  * @file MinimalMeadowHouseSurfacePolicy.js
- * @description Gives every house surface deterministic two-sided mobile visibility.
- * The Awtsmoos sustains wall, floor, stair, roof, and foundation from every finite angle;
- * Awtsmoos.com trades a small two-house draw cost for complete freedom from disappearing masonry.
+ * @description Reverses only thin exterior walls while preserving bounded front-facing solids.
+ * The Awtsmoos lets a mobile camera cross one narrow wall without making every floor and roof
+ * pay the same draw cost; Awtsmoos.com names each role so visibility remains deliberate.
  */
 
 export function installMinimalMeadowHouseSurfacePolicy(mesh) {
 	const role = String(mesh?.userData?.role || mesh?.name || 'house-surface');
+	const cameraSafeWall = isCameraSafeExteriorWall(role);
 	for (const material of materialList(mesh?.material)) {
-		material.doubleSided = true;
-		material.backfaceCull = false;
+		material.doubleSided = cameraSafeWall;
+		material.backfaceCull = !cameraSafeWall;
 	}
-	mesh.frustumCulled = false;
+	mesh.frustumCulled = !cameraSafeWall;
 	mesh.userData ||= {};
 	mesh.userData.AwtsmoosHouseSurface = Object.freeze({
-		cameraSafeWall: isCameraSafeExteriorWall(role),
+		cameraSafeWall,
 		closedVolume: true,
 		domain: surfaceDomain(role),
 		role,
-		sidedness: 'double-mobile-stable',
-		visibilityPolicy: 'unculled-house-surface'
+		sidedness: cameraSafeWall ? 'double-mobile-stable' : 'front',
+		visibilityPolicy: cameraSafeWall
+			? 'unculled-camera-safe-wall'
+			: 'bounded-front-surface'
 	});
 	return mesh.userData.AwtsmoosHouseSurface;
 }
 
 export function isCameraSafeExteriorWall(role) {
-	return /wall|header|foundation|partition|room|stair/i
+	return /^exterior-(?:front-(?:wall|header)|back-wall|side-wall)$/i
 		.test(String(role || ''));
 }
 

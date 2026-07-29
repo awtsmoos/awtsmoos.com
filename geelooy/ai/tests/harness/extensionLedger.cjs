@@ -89,9 +89,10 @@ function decodeDataUrl(url = "") { return Buffer.from(String(url).split(",").pop
 function assertBridgeContracts() {
   const jected = fs.readFileSync(path.join(ROOT, "../scripts/tricks/extensions/server/jected.js"), "utf8");
   const background = fs.readFileSync(path.join(ROOT, "../scripts/tricks/extensions/server/background.js"), "utf8");
+  const backgroundHandlers = fs.readFileSync(path.join(ROOT, "../scripts/tricks/extensions/server/backgroundHandlers.js"), "utf8");
   assert(/unhandledrejection/.test(jected) && /preventDefault\(\)/.test(jected), "injected bridge must suppress expected extension promise rejections");
   assert(/cancel-stream/.test(jected) && /awtsFetch\.cancelStream/.test(jected), "page bridge must expose per-stream cancel");
-  assert(/cancel-stream/.test(background) && /__awtsmoosStreamLedger\.cancel/.test(background), "background must route per-stream cancel to ledger");
+  assert(/cancel-stream/.test(backgroundHandlers) && /__awtsmoosStreamLedger\.cancel/.test(backgroundHandlers), "background handlers must route per-stream cancel to ledger");
   assert(/extension-timeout/.test(jected) && /awtsmoos-server-feedback/.test(jected), "injected bridge must report timeout feedback instead of silent console spam");
 }
 

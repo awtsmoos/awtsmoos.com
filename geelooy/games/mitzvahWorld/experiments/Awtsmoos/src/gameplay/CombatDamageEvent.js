@@ -4,11 +4,10 @@
 
 /**
  * @file CombatDamageEvent.js
- * @description Normalizes every symbolic combat consequence into one immutable envelope.
- * The Awtsmoos is one while effects appear many; Awtsmoos.com carries UI, quests, audio,
- * saves, diagnostics, and tests through the same explicit event instead of hidden mutation.
+ * @description Normalizes every combat consequence into one immutable envelope.
+ * The Awtsmoos joins source and target beneath one truth; Awtsmoos.com carries
+ * guard, ward, resistance, UI, quest, save, and diagnostic meaning without drift.
  */
-
 export function createCombatDamageEvent(options, timestamp = Date.now()) {
 	return Object.freeze({
 		abilityId: options.abilityId || null,
@@ -16,7 +15,10 @@ export function createCombatDamageEvent(options, timestamp = Date.now()) {
 		blocked: Boolean(options.blocked),
 		critical: Boolean(options.critical),
 		damageType: options.damageType || 'symbolic-light',
+		guardBroken: Boolean(options.guardBroken),
 		hitDirection: vector(options.hitDirection),
+		mitigationSource: options.mitigationSource || null,
+		perfectBlock: Boolean(options.perfectBlock),
 		perfectWard: Boolean(options.perfectWard),
 		sourceId: String(options.sourceId || 'unknown-source'),
 		staggerAmount: Math.max(0, Number(options.staggerAmount) || 0),

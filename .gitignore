@@ -21,6 +21,8 @@
 .awtsmoos.config.local.json
 .Awtsmoos.local.json
 .Awtsmoos.config.local.json
+.awtsmoos-*
+.ai_tmp_*
 
 # Intentional public Awtsmoos source trees.
 !geelooy/scripts/awtsmoos/
@@ -59,6 +61,10 @@ traces/
 **/reports/
 **/screenshots/
 **/visual-proof/
+**/review-output/
+**/simulator-results/
+**/.sim/*.json
+**/.sim/*.jsonl
 **/lastChrome*.json
 **/lastNodeDom*.json
 **/fullGameplay*.json
@@ -114,7 +120,6 @@ searchPacked/
 *.bak
 *.swp
 *.tmp
-!geelooy/ai/relay/install/awtsmoos-server-extension.zip
 
 # Images, audio, video, documents, and 3D models are denied unless a source root opens them.
 *.png
@@ -131,6 +136,8 @@ searchPacked/
 *.wav
 *.flac
 *.m4a
+*.aif
+*.aiff
 *.mp4
 *.mov
 *.avi
@@ -139,13 +146,9 @@ searchPacked/
 *.glb
 *.gltf
 *.pdf
-!favicon.ico
-!geelooy/favicon.ico
 !geelooy/games/seven-mitzvos/favicon.svg
-!geelooy/apps/animator/tools/**
 !geelooy/apps/code/assets/**
 !geelooy/scripts/awtsmoos/MerkavaExecutor/**
-!geelooy/scripts/tricks/extensions/**
 
 # Operating-system and editor noise.
 .DS_Store

@@ -4,9 +4,9 @@
 
 /**
  * @file minimalMeadowNativeBootContract.test.mjs
- * @description Locks production boot to native ESM and the current four-level revision boundary.
- * The Awtsmoos needs no distorted intermediary to speak through a module graph; Awtsmoos.com
- * verifies launcher, runtime, feature bundle, UI, and world systems cross one fresh browser covenant.
+ * @description Locks production boot to one eager ESM doorway and conditional optional entries.
+ * The Awtsmoos opens the playable module graph without unopened tools; Awtsmoos.com verifies
+ * launcher, scheduler, runtime, feature bundle, mobile care, and API exploration remain explicit.
  */
 
 import assert from 'node:assert/strict';
@@ -16,15 +16,27 @@ import test from 'node:test';
 const gameRoot = 'geelooy/games/mitzvahWorld';
 const revision = '20260728-full-wave-1';
 
-test('B"H production launcher and mobile integration use the current native revision', () => {
+test('B"H production index eagerly loads only the shared meadow launcher', () => {
 	const index = source('index.html');
-	const launcher = moduleSource(index, 'MinimalSharedMeadowPage.js');
-	const mobile = moduleSource(index, 'MinimalMeadowMobileIntegration.js');
-	assert.match(launcher, new RegExp(`rev=${revision}`));
-	assert.match(mobile, new RegExp(`rev=${revision}`));
-	assert.doesNotMatch(launcher, /compact=true/);
-	assert.ok(index.indexOf(launcher) < index.indexOf(mobile));
+	const scripts = [...index.matchAll(/<script type="module"[^>]+src="([^"]+)"/g)]
+		.map(match => match[1]);
+	assert.equal(scripts.length, 1);
+	assert.match(scripts[0], /MinimalSharedMeadowPage\.js/);
+	assert.match(scripts[0], new RegExp(`rev=${revision}`));
+	assert.doesNotMatch(index, /MinimalMeadowMobileIntegration\.js/);
+	assert.doesNotMatch(index, /MinimalUniversalApiExplorer\.js/);
+	assert.doesNotMatch(index, /mitzvah-world-mobile-integration\.css/);
+	assert.doesNotMatch(index, /mitzvah-world-api-explorer\.css/);
 	assert.match(index, /MinimalMeadowTreeCoreFacade\.js/);
+});
+
+test('B"H launcher conditionally owns mobile and API entry points', () => {
+	const launcher = source('experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPage.js');
+	const optional = source('experiments/Awtsmoos/src/launcher/MinimalMeadowOptionalEntries.js');
+	assert.match(launcher, /installMinimalMeadowOptionalEntries/);
+	assert.match(optional, /MinimalMeadowMobileIntegration\.js\?rev=20260728-full-wave-1/);
+	assert.match(optional, /MinimalUniversalApiExplorer\.js\?rev=20260728-universal-api-1/);
+	assert.match(optional, /AwtsmoosOpenApiExplorer/);
 });
 
 test('B"H launcher, runtime, and feature bundle share one fresh dependency boundary', () => {
@@ -33,6 +45,7 @@ test('B"H launcher, runtime, and feature bundle share one fresh dependency bound
 	const bundle = source('experiments/Awtsmoos/src/app/MinimalMeadowFeatureBundle.js');
 	assert.match(launcher, new RegExp(`createMinimalMeadowRuntime\\.js\\?rev=${revision}`));
 	assert.match(runtime, new RegExp(`FEATURE_REVISION = '${revision}'`));
+	assert.match(runtime, /scheduleMinimalMeadowFeatures/);
 	assert.match(runtime, /MinimalMeadowFeatureBundle\.js\?compact=true&rev=/);
 	assert.match(bundle, new RegExp(`MinimalMeadowUi\\.js\\?rev=${revision}`));
 	assert.match(bundle, new RegExp(`MinimalMeadowWorldSystems\\.js\\?rev=${revision}`));
@@ -47,12 +60,4 @@ test('B"H native facade is served as an explicit-binding module contract', () =>
 
 function source(relativePath) {
 	return fs.readFileSync(`${gameRoot}/${relativePath}`, 'utf8');
-}
-
-function moduleSource(index, fileName) {
-	const escaped = fileName.replace('.', '\\.');
-	const pattern = new RegExp(`<script[^>]+src="([^"]*${escaped}[^"]*)"`);
-	const match = index.match(pattern);
-	assert.ok(match, `missing module script ${fileName}`);
-	return match[1];
 }

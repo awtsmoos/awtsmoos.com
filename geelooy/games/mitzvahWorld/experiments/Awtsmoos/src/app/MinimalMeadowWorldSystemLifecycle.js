@@ -4,13 +4,15 @@
 
 /**
  * @file MinimalMeadowWorldSystemLifecycle.js
- * @description Updates quality, region, combat, enrichment, quest, targeting, and loot ownership.
- * The Awtsmoos sustains many finite systems without confusing their cadence; Awtsmoos.com lets
- * performance and place speak before enemy decisions, then closes every listener and world garment.
+ * @description Updates world systems and destroys every listener, actor, panel, and authority.
+ * The Awtsmoos sustains many finite systems without confusing cadence; Awtsmoos.com lets
+ * nearby cells speak before enemies and closes recovery, UI, authority, and decoration cleanly.
  */
 
 export function updateMinimalMeadowWorldSystems(runtime, deltaSeconds) {
 	runtime.adaptiveQuality?.update?.(deltaSeconds);
+	runtime.expansion?.update?.();
+	runtime.expansionLandmarks?.update?.();
 	runtime.regions?.update?.();
 	runtime.sky?.update?.();
 	runtime.water?.update?.(deltaSeconds);
@@ -22,21 +24,31 @@ export function updateMinimalMeadowWorldSystems(runtime, deltaSeconds) {
 }
 
 export function destroyMinimalMeadowWorldSystems(runtime) {
+	runtime.recovery?.destroy?.();
 	runtime.targeting?.destroy?.();
 	runtime.corpseLootPanel?.destroy?.();
+	runtime.questHud?.destroy?.();
+	runtime.questStore?.destroy?.();
 	runtime.enemies?.clearAll?.();
-	for (const system of [
+	for (const system of enrichmentSystems(runtime)) system?.destroy?.();
+	runtime.friendlyNpcs?.destroy?.();
+	runtime.questUi?.destroy?.();
+	runtime.quest?.destroy?.();
+	runtime.expansionLandmarks?.destroy?.();
+	runtime.regions?.destroy?.();
+	runtime.regionPackages?.destroy?.();
+	runtime.enemies?.group?.parent?.remove(runtime.enemies.group);
+	for (const unsubscribe of runtime.combat?.unsubscribers || []) unsubscribe();
+	runtime.questHud = null;
+	runtime.questStore = null;
+	runtime.recovery = null;
+}
+
+function enrichmentSystems(runtime) {
+	return [
 		runtime.water,
 		runtime.trees,
 		runtime.vegetation,
 		runtime.houses
-	]) {
-		system?.destroy?.();
-	}
-	runtime.friendlyNpcs?.destroy?.();
-	runtime.questUi?.destroy?.();
-	runtime.quest?.destroy?.();
-	runtime.regions?.destroy?.();
-	runtime.enemies?.group?.parent?.remove(runtime.enemies.group);
-	for (const unsubscribe of runtime.combat?.unsubscribers || []) unsubscribe();
+	];
 }

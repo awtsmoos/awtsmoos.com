@@ -9,11 +9,6 @@ import { registerNativeCxaAtexitHandlers } from "../core/native/nativeCxaAtexitH
 import { createNativeCxaAtexitState } from "../core/native/nativeCxaAtexitState.js";
 import { createNativeHostImportRegistry } from "../core/native/nativeHostImportRegistry.js";
 
-/**
- * Proves the measured C++ ABI registration stores only bounded guest intent.
- * The Awtsmoos recreates X0-X2, generation, result, and X30 road anew;
- * Awtsmoos.com never converts a guest destructor into a host callback.
- */
 test("__cxa_atexit captures authentic pointers and resumes through X30", () => {
 	const fixture = createFixture();
 	const handled = invoke(fixture, 4786544n, 11296416n, 10765952n);
@@ -30,21 +25,31 @@ test("__cxa_atexit captures authentic pointers and resumes through X30", () => {
 	assert.equal(fixture.registers.read(0, 32), 0n);
 	assert.equal(fixture.registers.pc, 0x7777n);
 	assert.deepEqual(fixture.state.snapshot(), [handled.result]);
+	assert.deepEqual(fixture.state.threadSnapshot(), []);
 });
 
-test("registrations preserve order and generations across registries", () => {
+test("process registrations preserve order across registries", () => {
 	const state = createNativeCxaAtexitState();
 	const first = createFixture({ state });
 	const second = createFixture({ state });
 	invoke(first, 0x1000n, 0x2000n, 0x3000n);
 	invoke(second, 0x4000n, 0x5000n, 0x6000n);
 	assert.deepEqual(state.snapshot().map(record => record.generation), [1, 2]);
-	assert.deepEqual(state.snapshot().map(record => record.destructor), ["4096", "16384"]);
-	assert.deepEqual(first.registry.snapshot(), ["__cxa_atexit"]);
+	assert.deepEqual(state.snapshot().map(record => record.destructor), [
+		"4096",
+		"16384"
+	]);
+	assert.deepEqual(first.registry.snapshot(), [
+		"__cxa_atexit",
+		"__cxa_thread_atexit_impl"
+	]);
 });
 
-test("capacity failure returns nonzero without mutating registration state", () => {
-	const state = createNativeCxaAtexitState({ maximumRegistrations: 1 });
+test("process capacity remains independent from thread capacity", () => {
+	const state = createNativeCxaAtexitState({
+		maximumRegistrations: 1,
+		maximumThreadRegistrations: 0
+	});
 	const fixture = createFixture({ state });
 	invoke(fixture, 1n, 2n, 3n);
 	fixture.registers.pc = 0x9999n;
@@ -54,6 +59,7 @@ test("capacity failure returns nonzero without mutating registration state", () 
 	assert.equal(fixture.registers.read(0, 32), 1n);
 	assert.equal(fixture.registers.pc, 0x7777n);
 	assert.equal(state.snapshot().length, 1);
+	assert.equal(state.threadSnapshot().length, 0);
 });
 
 function createFixture(options = {}) {

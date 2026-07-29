@@ -4,7 +4,7 @@
 
 import assert from "node:assert/strict";
 import test from "node:test";
-import { allocateJavaBigInteger } from "../core/android/frameworkJavaBigIntegerValues.js";
+import { createJavaBigInteger } from "../core/android/frameworkJavaBigIntegerValues.js";
 import { createJavaDouble } from "../core/android/frameworkJavaDoubleValues.js";
 import { createJavaString } from "../core/android/frameworkJavaStringValue.js";
 import { createFrameworkJavaNumberMethods } from "../core/android/frameworkJavaNumbers.js";
@@ -46,7 +46,7 @@ test("Number converts supported wrapper values exactly", () => {
 	const fixture = createFixture();
 	const short = fixture.short("valueOf", "(S)Ljava/lang/Short;", [-2]);
 	const decimal = createJavaDouble(fixture.runtime, 12.75);
-	const huge = allocateJavaBigInteger(fixture.runtime, 0x100000001n);
+	const huge = createJavaBigInteger(fixture.runtime, 0x100000001n);
 	assert.equal(fixture.number("intValue", "()I", [short]), -2);
 	assert.equal(fixture.number("longValue", "()J", [short]), -2n);
 	assert.equal(fixture.number("intValue", "()I", [decimal]), 12);

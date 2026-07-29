@@ -4,12 +4,14 @@
 
 /**
  * @file WorldResponseTypes.js
- * @description Declares stable version-one success names including census and chat.
- * The Awtsmoos renews every answer without erasing prior covenants; Awtsmoos.com
- * keeps global, world, community, and private communication explicitly typed.
+ * @description Declares every stable version-one Mitzvah World success name.
+ * The Awtsmoos renews each answer without erasing earlier covenants; Awtsmoos.com keeps
+ * combat, community, progression, recovery, trade, and world receipts readable and typed.
  */
 
 const RESPONSE_TYPES = Object.freeze({
+	ACTIVITY_COMPLETED: 'activity.completed',
+	ADVENTURE_ADVANCED: 'adventure.advanced',
 	ADVENTURE_LIST: 'adventure.list',
 	ADVENTURE_SNAPSHOT: 'adventure.snapshot',
 	ADVENTURE_STARTED: 'adventure.started',
@@ -19,8 +21,14 @@ const RESPONSE_TYPES = Object.freeze({
 	BOT_TICKED: 'bot.ticked',
 	CHAT_CHANNELS: 'chat.channels',
 	CHAT_HISTORY: 'chat.history',
+	CHAT_MODERATION_SNAPSHOT: 'chat.moderation.snapshot',
+	CHAT_MODERATION_UPDATED: 'chat.moderation.updated',
+	CHAT_REPORTED: 'chat.reported',
+	CHAT_REPORT_ADJUDICATED: 'chat.report.adjudicated',
+	CHAT_REPORTS_REVIEW: 'chat.reports.review',
 	CHAT_SENT: 'chat.sent',
 	COMBAT_ATTACKED: 'combat.attacked',
+	COMBAT_DEFENDED: 'combat.defended',
 	COMBAT_SNAPSHOT: 'combat.snapshot',
 	COMBAT_TICKED: 'combat.ticked',
 	CRAFT_COMPLETED: 'craft.completed',
@@ -28,6 +36,7 @@ const RESPONSE_TYPES = Object.freeze({
 	CREATURE_CARED: 'creature.cared',
 	CREATURE_SNAPSHOT: 'creature.snapshot',
 	ECONOMY_BALANCE: 'economy.balance',
+	ELITE_COMPLETED: 'elite.completed',
 	GUILD_CREATED: 'guild.created',
 	GUILD_INVITED: 'guild.invited',
 	GUILD_JOINED: 'guild.joined',
@@ -35,10 +44,11 @@ const RESPONSE_TYPES = Object.freeze({
 	GUILD_LEFT: 'guild.left',
 	GUILD_SNAPSHOT: 'guild.snapshot',
 	HARVEST_COMPLETED: 'harvest.completed',
+	INPUT_ACCEPTED: 'player.input.accepted',
 	INSTANCE_ENTERED: 'instance.entered',
 	INSTANCE_LEFT: 'instance.left',
 	INSTANCE_SNAPSHOT: 'instance.snapshot',
-	INPUT_ACCEPTED: 'player.input.accepted',
+	LOOT_CLAIMED: 'loot.claimed',
 	MAIL_DELETED: 'mail.deleted',
 	MAIL_SENT: 'mail.sent',
 	MAIL_SNAPSHOT: 'mail.snapshot',
@@ -57,10 +67,12 @@ const RESPONSE_TYPES = Object.freeze({
 	PLAYER_PROFILE: 'player.profile',
 	PLAYER_RESPAWNED: 'player.respawned',
 	PRESENCE_RESULT: 'presence.result',
+	PROGRESSION_SNAPSHOT: 'progression.snapshot',
 	QUEST_ABANDONED: 'quest.abandoned',
 	QUEST_ADVANCED: 'quest.advanced',
 	QUEST_SNAPSHOT: 'quest.snapshot',
 	QUEST_STARTED: 'quest.started',
+	REGION_TRANSITIONED: 'region.transitioned',
 	REWARD_CLAIMED: 'reward.claimed',
 	SERVER_TIME: 'server.time',
 	SESSION_REVOKED: 'session.revoked',

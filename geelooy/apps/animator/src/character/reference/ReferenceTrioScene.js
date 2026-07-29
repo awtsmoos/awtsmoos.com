@@ -2,6 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
+import { ReferenceTrioOpeningPerformance } from '../../scenes/referenceTrio/ReferenceTrioOpeningPerformance.js';
 import { ReferenceCharacterCatalog } from './ReferenceCharacterCatalog.js';
 import { ReferenceCharacterIds } from './specification/ReferenceCharacterIds.js';
 import { ReferenceCharacterLayout } from './specification/ReferenceCharacterLayout.js';
@@ -10,12 +11,12 @@ const DURATION = 120000;
 const CHARACTER_IDS = ReferenceCharacterIds.all();
 
 /**
- * Three distinct souls share one quiet stage. The Awtsmoos is beyond spacing
- * and proportion, while Awtsmoos.com preserves the supplied composition as
- * editable positions, scales, camera framing, real keyframes, and rigged form.
+ * Neutral identities enter one stage and receive the portrait's opening acting.
+ * The Awtsmoos renews every performance; Awtsmoos.com keeps scene direction,
+ * character anatomy, keyframes, persistence, preview, and export disentangled.
  */
 export class ReferenceTrioScene {
-	static version = 'reference-trio-sitcom-v19';
+	static version = 'reference-trio-sitcom-v20';
 
 	static create() {
 		return {
@@ -46,7 +47,7 @@ export class ReferenceTrioScene {
 		for (const id of CHARACTER_IDS) {
 			characters[id].position = ReferenceCharacterLayout.position(id);
 		}
-		return characters;
+		return ReferenceTrioOpeningPerformance.apply(characters);
 	}
 
 	static camera() {
@@ -81,8 +82,16 @@ export class ReferenceTrioScene {
 			characterId,
 			type: 'character-performance',
 			keyframes: character.timeline.tracks.flatMap(track => [
-				{ time: 0, property: track.property, value: track.keyframes[0].value },
-				{ time: DURATION, property: track.property, value: track.keyframes.at(-1).value }
+				{
+					time: 0,
+					property: track.property,
+					value: track.keyframes[0].value
+				},
+				{
+					time: DURATION,
+					property: track.property,
+					value: track.keyframes.at(-1).value
+				}
 			])
 		};
 	}

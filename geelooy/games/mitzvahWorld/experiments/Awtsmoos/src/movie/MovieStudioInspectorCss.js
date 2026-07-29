@@ -4,105 +4,104 @@
 
 /**
  * @file MovieStudioInspectorCss.js
- * @description Styles the contextual inspector as a readable, scroll-safe editing vessel.
- * The Awtsmoos hides infinite depth inside each finite form; Awtsmoos.com lets details
- * unfold by section, without burying the creator beneath a storm.
+ * @description Styles the current inspector shell, JSON actions, appearance controls, and mobile-safe scrolling.
+ * The Awtsmoos hides infinite detail inside a finite pane;
+ * Awtsmoos.com gives every label and action a calm and readable lane.
  */
 
 export function movieStudioInspectorCss() {
 	return `
 		.movie-studio-inspector {
+			display: grid;
+			grid-template-rows: auto minmax(0, 1fr);
 			min-width: 0;
 			min-height: 0;
-			overflow: auto;
+			overflow: hidden;
 			border-left: 1px solid var(--movie-border);
-			background: var(--movie-panel);
+			background: var(--movie-surface-inspector);
 		}
-		.movie-studio-inspector-header {
-			position: sticky;
-			top: 0;
+		.movie-inspector-heading {
+			position: relative;
 			z-index: 3;
 			display: flex;
 			align-items: center;
+			justify-content: space-between;
 			gap: var(--movie-space-2);
-			padding: var(--movie-space-3) var(--movie-space-4);
+			min-height: 52px;
+			padding: var(--movie-space-2) var(--movie-space-3);
 			border-bottom: 1px solid var(--movie-border);
-			background: rgb(17 25 37 / 0.96);
+			background: color-mix(in srgb, var(--movie-surface-inspector) 92%, transparent);
 			backdrop-filter: blur(12px);
 		}
-		.movie-studio-inspector-header h2 {
-			margin: 0 auto 0 0;
-			font-size: 15px;
+		.movie-inspector-heading button {
+			min-width: var(--movie-control-height);
+			padding: 0;
 		}
-		.movie-studio-section {
-			padding: var(--movie-space-4);
-			border-bottom: 1px solid var(--movie-border);
-		}
-		.movie-studio-section h3 {
-			margin: 0 0 var(--movie-space-3);
-			color: var(--movie-text);
-			font-size: 13px;
-			letter-spacing: 0.04em;
-			text-transform: uppercase;
-		}
-		.movie-studio-field {
-			display: grid;
-			gap: var(--movie-space-1);
-			margin-block: var(--movie-space-3);
-		}
-		.movie-studio-field > span {
-			color: var(--movie-text-muted);
-			font-size: 12px;
-		}
-		.movie-studio-field input,
-		.movie-studio-field select,
-		.movie-studio-field textarea {
-			width: 100%;
-			min-height: var(--movie-control-height);
-			padding: var(--movie-space-2) var(--movie-space-3);
-		}
-		.movie-studio-field textarea,
-		.movie-studio-json {
-			min-height: 180px;
-			resize: vertical;
-			font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-			font-size: 12px;
-			line-height: 1.55;
-		}
-		.movie-studio-actions {
-			display: grid;
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-			gap: var(--movie-space-2);
-		}
-		.movie-studio-actions button {
-			padding-inline: var(--movie-space-3);
-		}
-		.movie-studio-actions .movie-primary-action {
-			border-color: var(--movie-accent);
-			background: var(--movie-accent);
-			color: var(--movie-accent-ink);
-			font-weight: 700;
-		}
-		.movie-studio-project-summary {
-			display: grid;
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-			gap: var(--movie-space-2);
-		}
-		.movie-studio-summary-item {
+		.movie-inspector-body {
+			min-height: 0;
 			padding: var(--movie-space-3);
-			border: 1px solid var(--movie-border);
-			border-radius: var(--movie-radius);
-			background: var(--movie-bg);
+			overflow: auto;
+			overscroll-behavior: contain;
 		}
-		.movie-studio-summary-item span {
-			display: block;
+		.movie-project-json-panel,
+		.movie-appearance-panel {
+			display: grid;
+			gap: var(--movie-space-3);
+			padding-block: var(--movie-space-4);
+			border-top: 1px solid var(--movie-divider-subtle);
+		}
+		.movie-project-json-panel textarea {
+			width: 100%;
+			min-height: 180px;
+			padding: var(--movie-space-3);
+			resize: vertical;
+			font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+		}
+		.movie-project-json-actions {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: var(--movie-space-2);
+		}
+		.movie-appearance-heading {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: var(--movie-space-2);
+		}
+		.movie-appearance-heading h3 {
+			margin: 0;
+		}
+		.movie-appearance-heading output {
 			color: var(--movie-text-muted);
 			font-size: 11px;
 		}
-		.movie-studio-summary-item strong {
-			display: block;
-			margin-top: var(--movie-space-1);
-			overflow-wrap: anywhere;
+		.movie-appearance-panel > label,
+		.movie-overlay-options label {
+			display: grid;
+			gap: var(--movie-space-1);
+			color: var(--movie-text-muted);
+			font-size: 12px;
+		}
+		.movie-appearance-panel select {
+			width: 100%;
+			min-height: var(--movie-control-height);
+			padding-inline: var(--movie-space-2);
+		}
+		.movie-overlay-options {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: var(--movie-space-2);
+		}
+		.movie-overlay-options label {
+			grid-template-columns: auto minmax(0, 1fr);
+			align-items: center;
+			min-height: var(--movie-control-height);
+		}
+		@media (max-width: 420px) {
+			.movie-project-json-actions,
+			.movie-overlay-options {
+				grid-template-columns: 1fr;
+			}
 		}
 	`;
 }

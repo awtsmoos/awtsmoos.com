@@ -84,6 +84,7 @@ install -m 0644 "$target/ops/systemd/awtsmoos-health-watchdog.timer" \
 	/etc/systemd/system/awtsmoos-health-watchdog.timer
 install -m 0644 "$target/ops/systemd/awtsmoos-recover.service" \
 	/etc/systemd/system/awtsmoos-recover.service
+bash "$target/scripts/production/ensure-nginx-websocket-timeouts.sh"
 systemctl daemon-reload
 
 ln -s "$target" "$next_link"

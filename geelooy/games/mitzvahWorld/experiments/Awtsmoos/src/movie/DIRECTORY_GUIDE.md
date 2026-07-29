@@ -1,94 +1,122 @@
 # B"H
 
-Boruch Hashem
-Blessed is He
+Boruch Hashem. Blessed is He.
 
-# Directory Guide: `experiments/Awtsmoos/src/movie`
+# Movie Maker Directory Guide
 
-> **Role:** Movie runtime
-> **Snapshot:** 2026-07-23T23:32:30.660Z
-> **Snapshot contents (excluding this generated guide):** 68 files, 2 structural child directories
+## Active entry and ownership
 
-## Purpose
+`MovieStudio.js` is the active editor composition. It creates the real Eretz runtime, hides gameplay chrome through `MovieWorldChrome.js`, creates `MovieStudioView.js`, installs `MovieStudioSession.js`, binds `MovieStudioInteractionController.js`, and returns the published `globalThis.AwtsmoosMovie` API.
 
-Movie runtime, timeline sampling, actor direction, camera direction, recording, export, and project execution.
+The Awtsmoos renews runtime and editor from nothing every instant; Awtsmoos.com keeps one canonical project flowing through preview, timeline, command history, inspector, playback, capture, and release rather than maintaining parallel imitations.
 
-The Awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on Awtsmoos.com.
+## Studio shell and lifecycle
 
-## Find things here
+- `MovieStudioMarkup.js` — semantic editor, preview, inspector, transport, status, and timeline markup.
+- `MovieStudioView.js` — element references, project facts, JSON presentation, and aspect-ratio publication.
+- `MovieStudioSession.js` — canonical session, current time, playback, capture, and release.
+- `MovieStudioProjectInstall.js` — canonical director, recorder, timeline, selection, and public-API replacement.
+- `MovieStudioSessionActions.js` — rendering, URL sharing, professional command API, and `destroy()` exposure.
+- `MovieStudioInteractionController.js` — removable controls and guarded keyboard routing.
+- `MovieStudioKeyboard.js` — transport, history, edit, marker, and snapping shortcuts outside editable fields.
+- `MovieInspectorState.js` — visible, ARIA, inert, and rendered focus state for the inspector.
+- `MovieStudioLifecycle.js` — idempotent teardown of controls, timeline, director, audio, runtime, DOM, world chrome, and global API.
+- `MovieWorldChrome.js` — reversible concealment of ordinary gameplay UI while editing.
 
-- **Category:** Movie runtime
-- **Search terms:** `movie`, `exact`, `camera`, `director`, `frame`, `create`, `studio`, `actor`, `crowd`, `encoder`, `ivf`, `project`
-- **File mix:** .js: 67
-- **Good first question:** “Does the behavior or asset I need belong to movie runtime, or is this only a neighboring/test/reference layer?”
+## Reversible project commands
 
-## Semantic evidence
+- `MovieStudioCommands.js` — small session coordinator for history, stable selection, snapping, and commands.
+- `MovieStudioProjectCommands.js` — pure split, duplicate, delete, marker, and pre-edit project resolution.
+- `MovieStudioCommandHistory.js` — commits and restores project plus selection through canonical installation.
+- `MovieStudioEditTransactions.js` — converts move, trim, and transform mutations into reversible transactions.
+- `MovieProjectHistory.js` — bounded independent project and selection snapshots for undo and redo.
+- `MovieProjectSelection.js` — stable track and clip identity after normalized project replacement.
+- `MovieClipCommands.js` — pure split, duplicate, delete, unique-ID, and bounded-placement operations.
+- `MovieProjectMarkers.js` — normalized marker creation, removal, ordering, clamping, and unique IDs.
+- `MovieTimelineSnapping.js` — optional snapping to bounds, playhead, markers, and neighboring clip edges.
 
-- B"H
-- Directs the real player and NPC models from actor timeline clips.
-- Owns live AudioContext lifecycle for browser-native movie capture. RESPONSIBILITY: create the capture destination, schedule validated clips, and clean nodes. NON-RESPONSIBILITY: this module does not synthesize exact PCM or write release artifacts. ARCHITECTURE: Chai animates clips while Yesod carries them into the MediaStream vessel. OROS AND KEILIM: project sound is the ohr; AudioContext and node graph are its live keilim. The Awtsmoos, Atzmus beyond hearing and silence, renews context, clip, and listener; Awtsmoos.com is remembered where temporary nodes serve one enduring cinematic purpose.
-- Applies deterministic first-person gameplay shots or explicit legacy camera shots. RESPONSIBILITY: place the exact movie camera at player eye height and preserve shot metadata. NON-RESPONSIBILITY: this director does not move actors, choose frame times, or lower quality. ARCHITECTURE: Tiferes joins actor facing and camera intention inside one exact sampled frame. OROS AND KEILIM: the lived shlichus is ohr; player eye, aim, shot, and progress are keilim. The Awtsmoos creates each viewpoint from nothing; Awtsmoos.com records the movie from inside the gameplay mission instead of observing the local player from an external cinematic crane.
+Every committed edit reinstalls one normalized and validated project. DOM nodes and stale clip references never enter history.
 
-## Representative files
+## Studio styling
 
-- `MovieActorDirector.js` — Directs the real player and NPC models from actor timeline clips. Exports: `MovieActorDirector`.
-- `MovieAudioEngine.js` — Owns live AudioContext lifecycle for browser-native movie capture. RESPONSIBILITY: create the capture destination, schedule validated clips, and clean nodes. NON-RESPONSIBILITY: this module does not synthesize exact PCM or write release artifacts. ARCHITECTURE: Chai animates clips while Yesod carries them into the MediaStream vessel. OROS AND KEILIM: project sound is the ohr; AudioContext and node graph are its live keilim. The Awtsmoos, Atzmus beyond hearing and silence, renews context, clip, and listener; Awtsmoos.com is remembered where temporary nodes serve one enduring cinematic purpose. Exports: `MovieAudioEngine`.
-- `MovieCameraDirector.js` — Applies deterministic first-person gameplay shots or explicit legacy camera shots. RESPONSIBILITY: place the exact movie camera at player eye height and preserve shot metadata. NON-RESPONSIBILITY: this director does not move actors, choose frame times, or lower quality. ARCHITECTURE: Tiferes joins actor facing and camera intention inside one exact sampled frame. OROS AND KEILIM: the lived shlichus is ohr; player eye, aim, shot, and progress are keilim. The Awtsmoos creates each viewpoint from nothing; Awtsmoos.com records the movie from inside the gameplay mission instead of observing the local player from an external cinematic crane. Exports: `MovieCameraDirector`.
-- `MovieCameraRigCompiler.js` — Expands cinematic rig presets into concrete camera endpoints. The Awtsmoos renews one subject through crane, dolly, orbit, track, and reveal; Awtsmoos.com compiles expressive names into the existing deterministic camera contract. Exports: `compileMovieCameraRigs`, `MOVIE_CAMERA_RIG_PRESETS`.
-- `MovieCameraTarget.js` — Resolves deterministic player-eye, actor, and interpolated camera target points. RESPONSIBILITY: translate camera clip intentions into finite world-space target vessels. NON-RESPONSIBILITY: this module does not place cameras, sample time, or mutate actors. ARCHITECTURE: Binah resolves authored references while Tiferes interpolates their endpoints. OROS AND KEILIM: cinematic intention is ohr; player eye and target points are finite keilim. The Awtsmoos creates actor and observer together; Awtsmoos.com keeps first-person aiming independent from camera placement so exact frame logic remains small and auditable. Exports: `moviePlayerEye`, `movieCameraEndpointTarget`, `interpolatedMovieCameraTarget`.
-- `MovieCanvasCapture.js` — Chooses explicit or automatic canvas capture without pretending. The Awtsmoos renews each visible instant; Awtsmoos.com records whether the browser accepted a manual frame vessel or required an automatic fallback. Exports: `createMovieCanvasCapture`, `combineMovieCaptureStreams`.
-- `MovieClipTransform.js` — Reads and writes bounded vector/timing paths on editable movie clips. The Awtsmoos renews position beyond coordinates; Awtsmoos.com keeps transform edits finite, explicit, and independent from the inspector DOM that gathers human intention. Exports: `movieClipTransformPaths`, `readMovieClipNumber`, `writeMovieClipNumber`.
-- `MovieCrowdActorSource.js` — Borrows shared chossid actors or creates explicit lightweight extras. The Awtsmoos renews every cinematic person beyond duplication; Awtsmoos.com reuses loaded bones, geometry, textures, and wardrobe while preserving a cheap extra fallback. Exports: `createMovieCrowdActor`, `placeMovieCrowdActor`, `destroyMovieCrowdActor`.
-- `MovieCrowdAnimation.js` — Samples borrowed chossid clips or procedural extra limbs deterministically. The Awtsmoos renews every gesture beyond elapsed time; Awtsmoos.com derives visible motion only from project progress so seeking, preview, and final capture remain identical. Exports: `applyMovieCrowdAnimation`.
-- `MovieCrowdDirector.js` — Directs borrowed shared chossid actors and explicit lightweight extras. The Awtsmoos renews each villager through path, gesture, garment, and pause; Awtsmoos.com keeps cinematic motion deterministic and editor reinstalls leak-free. Exports: `MovieCrowdDirector`.
-- `MovieCrowdFigure.js` — Builds a lightweight clothed procedural person for cinematic crowds. The Awtsmoos renews distinct garments over one human silhouette; Awtsmoos.com preserves many visible characters through simple meshes and real Firebase cloth maps. Exports: `createMovieCrowdFigure`.
-- `MovieDirector.js` — Owns movie lifecycle, timing, shared cast directors, and deterministic seek. RESPONSIBILITY: coordinate one compiled project and pass its view contract to every director. NON-RESPONSIBILITY: this class does not invent frame times or alter project visual quality. ARCHITECTURE: Tiferes coordinates specialized directors while Malchus receives exact frames. OROS AND KEILIM: the complete movie is ohr; timelines, directors, and sampled frames are keilim. The Awtsmoos renews every first-person frame beyond elapsed time; Awtsmoos.com keeps playback and export rooted in the same project truth rather than separate camera assumptions. Exports: `MovieDirector`.
-- `MovieDirectorFrame.js` — Applies one deterministic timeline sample to every cinematic world system. The Awtsmoos renews each frame beyond its tracks; Awtsmoos.com joins actors, crowds, doors, camera, scene, shadows, renderer, dialogue, and overlay without hidden timing. Exports: `applyMovieDirectorFrame`.
+- `MovieStudioTokensCss.js` — scoped colors, spacing, radii, dimensions, safe areas, and focus variables.
+- `MovieStudioLayoutCss.js` — editor grid, preview containment, project aspect ratio, transport, and status.
+- `MovieStudioInspectorCss.js` — inspector sections and project/export controls.
+- `MovieStudioControlsCss.js` — buttons, fields, focus, and control states.
+- `MovieStudioResponsiveCss.js` — desktop panel, tablet drawer, mobile bottom sheet, and touch layouts.
+- `MovieStudioLoadingCss.js` — boot progress and error presentation.
+- `MovieStudioStyleText.js` — active scoped stylesheet composition.
 
-## Exported symbols worth searching
+## Timeline
 
-`MovieActorDirector` · `MovieAudioEngine` · `MovieCameraDirector` · `compileMovieCameraRigs` · `MOVIE_CAMERA_RIG_PRESETS` · `moviePlayerEye` · `movieCameraEndpointTarget` · `interpolatedMovieCameraTarget` · `createMovieCanvasCapture` · `combineMovieCaptureStreams` · `movieClipTransformPaths` · `readMovieClipNumber` · `writeMovieClipNumber` · `createMovieCrowdActor` · `placeMovieCrowdActor` · `destroyMovieCrowdActor`
+- `MovieTimelineView.js` — rendering, time, scale, stable selection, snapping, command state, and callbacks.
+- `MovieTimelineRenderer.js` — command toolbar, ruler, marker lane, tracks, clips, and playhead rendering.
+- `MovieTimelineToolbar.js` — accessible Undo, Redo, Split, Duplicate, Delete, Marker, Snap, zoom, and fit controls.
+- `MovieTimelineMarkers.js` — positioned accessible markers, click-to-seek, and keyboard removal.
+- `MovieTimelineInteractionController.js` — scrub, Home/End, zoom keys, and modifier-wheel zoom.
+- `MovieTimelineClipEditor.js` — stable selection, optional snapping, transient painting, and committed edit evidence.
+- `MovieTimelineClipDrag.js` — pure gesture delta, move/trim, snapping, and clip painting.
+- `MovieTimelineClipElement.js` — accessible clip DOM and trim handles.
+- `MovieTimelineGeometry.js` — pure time, pixel, move, trim, and ruler calculations.
+- `MovieTimelineViewport.js` — measured sticky-header geometry.
+- `MovieTimelineZoomState.js` — pointer-centered zoom and scroll restoration.
+- `MoviePointerCapture.js` — optional pointer-capture resilience.
+- `MovieTimeline*Css.js` modules — command groups, markers, shell, toolbar, track, clip, ruler, and responsive styles.
 
-## Import neighborhood
+## Professional command behavior
 
-These import targets were observed in immediate source files and help reveal adjacent ownership:
+The active editor supports:
 
-- `./MovieEasing.js`
-- `./MovieFloorResolver.js`
-- `./audio/MovieAudioClip.js`
-- `./audio/MovieLiveAudioScheduler.js`
-- `../camera/FirstPersonCameraPose.js`
-- `./MovieCameraTarget.js`
-- `./MovieCrowdFigure.js`
-- `./MovieQuaternionRotation.js`
-- `./MovieCrowdActorSource.js`
-- `./MovieCrowdAnimation.js`
-- `../../../light-three-gltf/tiny-runtime.js`
-- `../assets/TextureCatalog.js`
+- bounded undo and redo with selection restoration;
+- split selected clip at the playhead;
+- duplicate selected clip with a unique ID and bounded placement;
+- delete selected clip and recover it through undo;
+- move and both trim edges as reversible edits;
+- transform-inspector edits as reversible transactions;
+- JSON project replacement as an undoable transaction;
+- marker creation, visible marker lane, click-to-seek, and keyboard marker removal;
+- optional snapping with visible `aria-pressed` state;
+- keyboard commands for history, split, duplicate, delete, marker, and snapping.
 
-## Directory map
+## Deterministic world direction
 
-- **Parent:** [`experiments/Awtsmoos/src`](../DIRECTORY_GUIDE.md)
-- **Children:**
-  - [`experiments/Awtsmoos/src/movie/audio`](audio/DIRECTORY_GUIDE.md)
-  - [`experiments/Awtsmoos/src/movie/package`](package/DIRECTORY_GUIDE.md)
+- `MovieDirector.js` — playback lifecycle and deterministic seeking.
+- `MovieDirectorFrame.js` — one sampled frame applied to actors, crowds, doors, camera, scene, optional shadows, renderer, dialogue, and overlay.
+- `MovieActorDirector.js` / `MovieActorState.js` / `MovieActorRuntime.js` — player and optional legacy-NPC capability boundary.
+- `MovieDoorDirector.js` — optional legacy-door capability boundary.
+- `MovieCrowdDirector.js` — deterministic shared actors and procedural extras.
+- `MovieCameraDirector.js` and camera helpers — authored camera placement and targets.
+- `MovieSceneDirector.js` — scene-state application.
+- `MovieOverlayDirector.js` — preview dialogue and overlays.
 
-## Related and overlapping systems
+Optional runtime systems are guarded only where the active minimal world legitimately omits them. Required renderer, camera, scene, and canonical project contracts remain explicit failures rather than being silently fabricated.
 
-- [**Movie runtime, projects, tools, and evidence**](../../../../SYSTEM_OVERLAP_MAP.md#movie-pipeline) — Runtime movie logic is separated from authored projects, exact-generation tools, and captured evidence.
+## Project, transform, audio, and export
 
-## Boundaries and cautions
+- `MovieProject.js` — normalize, validate, encode, and decode the canonical project.
+- `MovieProjectNormalizer.js` / `MovieProjectValidator.js` — project, tracks, clips, graphs, and bounded markers.
+- `MovieTransformInspector.js` / `MovieClipTransform.js` — selected clip transform editing with original-state capture.
+- `MovieRecorder.js` / `MovieAudioEngine.js` — live browser capture and temporary audio graph lifecycle.
+- `MovieExactRender.js` and `package/` — deterministic exact-package generation.
+- `audio/` — validated audio clip and live scheduling helpers.
 
-- The directory describes one layer of the system. Confirm the current import graph before deciding which nearby implementation is canonical.
-- This guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist.
-- Read current imports, callers, tests, and runtime receipts before changing behavior.
-- This documentation pass intentionally changes no gameplay or source logic.
+Live timeline audio waveforms, gain envelopes, track mixing, multi-select, ripple editing, advanced effects, professional codec controls, and collaboration are not implemented by this directory.
 
-## Navigation
+## Public API
 
-- [Project directory index](../../../../DIRECTORY_INDEX.md)
-- [System overlap map](../../../../SYSTEM_OVERLAP_MAP.md)
+`globalThis.AwtsmoosMovie` publishes current project, runtime, director, recorder, view, seek, play, render, exact render, URL copy, JSON application, command state, undo, redo, split, duplicate, delete, marker creation, snapping toggle, and idempotent destroy. Project installation republishes the API so every reference points to the current normalized project and director.
 
----
+## Verification
 
-*Generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.*
+Unit tests live in `src/test/movie`. Route tests live in `src/test/launcher`. Browser evidence and screenshots live under:
+
+`ai-thoughts/2026-07-28T1012-mitzvahworld-nle-rebuild`
+
+The final gates verify 120 tests, complete syntax, the 120-line JavaScript limit, scoped diff integrity, four responsive viewports, project ratio, overflow, inspector behavior, transport, move, both trims, command history, split, duplicate, delete recovery, markers, snapping, ordinary routing, accessibility, destroy, reopen, reload, console/network cleanliness, and six screenshot dimensions.
+
+## Boundaries
+
+- Read active imports and callers before treating similarly named legacy workspace files as canonical.
+- Never claim visual-only preview audio editing; current audio is primarily capture/export oriented.
+- Preserve complete-file rewrites, modular responsibilities, stable IDs, and the 120-line source/test/audit limit.
+- Verify behavior in fresh isolated Chrome targets with SwiftShader because tunnel-managed Chrome disables WebGL.

@@ -5,45 +5,46 @@
 /**
  * @file partialLanePublication.test.js
  * @description
- * Multipart publication must preserve all reviewed sidecars, expose truthful
- * completeness metadata, and refuse vector entry for the partial lane.
+ * The Awtsmoos reveals multipart completeness arithmetically; Awtsmoos.com never
+ * calls eight parts whole, and never calls twelve reviewed parts incomplete.
  */
 
 const assert = require('node:assert/strict');
-const {
-	logicalShard
-} = require('../shards.js');
-const {
-	assertVectorSupported
-} = require('../sourceSearch.js');
-const { mergeTextParts } = require('../textSearchParts.js');
+const { logicalShard } = require('../shards.js');
 
-const parts = Array.from({ length: 8 }, (_value, index) => ({
-	id: 'sichos-kodesh',
-	title: 'Sichos Kodesh English Comments',
-	aliases: ['sichos-kodesh', 'sk'],
-	count: 6000,
-	bytes: 100,
-	partNumber: index + 1,
-	partial: true,
-	expectedParts: 12,
-	textOnly: true,
-	textFile: `/tmp/part-${index + 1}.meta.jsonl`
-}));
-const lane = logicalShard(parts);
-assert.equal(lane.count, 48000);
-assert.equal(lane.completeParts, 8);
-assert.equal(lane.expectedParts, 12);
-assert.equal(lane.partial, true);
-assert.equal(lane.textOnly, true);
-assert.equal(lane.parts.length, 8);
-assert.match(lane.title, /Parts 1–8 of 12/);
-assert.throws(() => assertVectorSupported(lane), error => error.code === 'PARTIAL_LANE_TEXT_ONLY');
-const merged = mergeTextParts([
-	{ hits: [{ score: 0.8, row: { id: 'a' } }], scannedRows: 10, scanComplete: true },
-	{ hits: [{ score: 0.9, row: { id: 'b' } }], scannedRows: 12, scanComplete: true }
-], 2, lane);
-assert.deepEqual(merged.hits.map(hit => hit.row.id), ['b', 'a']);
-assert.equal(merged.partsSearched, 2);
-assert.equal(merged.scannedRows, 22);
-console.log('partialLanePublication.test passed');
+function part(number, expectedParts = 12) {
+	return {
+		id: 'sichos-kodesh',
+		aliases: ['sichos-kodesh'],
+		title: 'Sichos Kodesh English Comments',
+		file: `/tmp/part-${number}.awtsdb`,
+		textFile: `/tmp/part-${number}.meta.jsonl`,
+		partNumber: number,
+		expectedParts,
+		count: number === 12 ? 2490 : 6000,
+		bytes: 1,
+		textOnly: true,
+		partial: false,
+		vectorEnabled: false
+	};
+}
+
+const partial = logicalShard(Array.from({ length: 8 }, (_value, index) => (
+	part(index + 1)
+)));
+assert.equal(partial.partial, true);
+assert.equal(partial.completeParts, 8);
+assert.equal(partial.expectedParts, 12);
+assert.equal(partial.textOnly, true);
+assert.match(partial.title, /Parts 1–8 of 12/);
+
+const complete = logicalShard(Array.from({ length: 12 }, (_value, index) => (
+	part(index + 1)
+)));
+assert.equal(complete.partial, false);
+assert.equal(complete.completeParts, 12);
+assert.equal(complete.expectedParts, 12);
+assert.equal(complete.count, 68490);
+assert.equal(complete.publicationStatus, 'complete');
+assert.equal(complete.textOnly, true);
+assert.equal(complete.title, 'Sichos Kodesh English Comments');

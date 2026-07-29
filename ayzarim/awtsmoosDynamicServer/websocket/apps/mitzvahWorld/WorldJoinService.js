@@ -9,10 +9,10 @@ const {
 } = require('./WorldDirectoryPolicy.js');
 
 /**
- * @file Creates or resumes one Mitzvah World player with private identity binding.
+ * @file Creates or resumes one Mitzvah World player with private identity and moderator binding.
  * @description The Awtsmoos renews arrival without multiplying the traveler.
- * Awtsmoos.com resolves verified identity only from the injected provider, guards
- * reconnect compatibility, and preserves guest bearer recovery unchanged.
+ * Awtsmoos.com resolves verified identity only from injected providers, guards reconnect
+ * compatibility, reapplies trusted moderator policy, and preserves guest recovery unchanged.
  */
 
 class WorldJoinService {
@@ -40,6 +40,7 @@ class WorldJoinService {
 		}
 		const room = this.directory.room(profile.worldId);
 		const player = room.join(client, profile);
+		this.directory.moderators.apply(player, identity, client);
 		const session = this.directory.sessions.create(
 			client,
 			room.id,
@@ -69,6 +70,7 @@ class WorldJoinService {
 		const player = alreadyAttached
 			? room.players.get(session.playerId)
 			: room.attach(client, session.playerId);
+		this.directory.moderators.apply(player, identity, client);
 		this.directory.clientRooms.set(client, room.id);
 		if (profile.lastAcknowledgedRevision !== null) {
 			this.directory.sessions.acknowledge(

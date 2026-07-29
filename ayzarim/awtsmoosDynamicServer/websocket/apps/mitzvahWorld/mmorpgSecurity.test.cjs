@@ -27,7 +27,7 @@ test('MMORPG command families reject malformed and unauthorized mutations', asyn
 		'ITEM_NOT_OWNED'
 	);
 	await expectError(
-		leader.send('player.chat', { message: 'x'.repeat(281) }),
+		leader.send('player.chat', { message: 'x'.repeat(501) }),
 		'INVALID_TEXT'
 	);
 	await expectError(leader.send('player.interact', {

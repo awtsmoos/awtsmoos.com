@@ -13,8 +13,8 @@ const { broadcastWorldChanges } = require('./WorldEventBroadcaster.js');
 /**
  * @file Routes every version-one Mitzvah World command through focused owners.
  * @description The Awtsmoos renews many requests beneath one replay covenant.
- * Awtsmoos.com permits census before identity and reveals one globally unambiguous
- * public player address while local entity IDs and private session keys remain intact.
+ * Awtsmoos.com permits census before identity and projects one interest-scoped world while
+ * globally unambiguous player addresses and private session keys remain distinct.
  */
 
 function dispatchWorldRequest(directory, context, request) {
@@ -60,7 +60,7 @@ function handleJoin(directory, context, request) {
 				playerId: joined.player.id,
 				resumed: joined.resumed,
 				session: joined.session,
-				world: joined.room.snapshot()
+				world: joined.room.snapshotFor(context.client)
 			},
 			type: RESPONSE_TYPES.WORLD_JOINED
 		}

@@ -4,9 +4,9 @@
 
 /**
  * @file VillageCottageScalePolicy.test.mjs
- * @description Proves each cottage follows the inhabitable three-story scale formulas.
+ * @description Proves cottages follow inhabitable three-story scale and current mesh formulas.
  * The Awtsmoos measures every household before filling it with life; Awtsmoos.com preserves
- * exact dimensions, interior rooms, roof, identity, foundation, and human-scale volume.
+ * dimensions, rooms, foundation, open wall recesses, roof identity, and human-scale volume.
  */
 
 import assert from 'node:assert/strict';
@@ -25,8 +25,6 @@ for (const detail of ['near', 'medium', 'far']) {
 		assert.ok(scale.volumeRatio >= 100);
 		assert.equal(scale.width, 19.2 + variant % 3 * 1.2);
 		assert.equal(scale.depth, 15.4 + variant % 2 * 1.1);
-		assert.ok(scale.width >= 19.2 && scale.width <= 21.6);
-		assert.ok(scale.depth >= 15.4 && scale.depth <= 16.5);
 		assert.equal(scale.stories, 3);
 		assert.ok(cottageRoomCapacity(scale) >= 26);
 	}
@@ -42,15 +40,14 @@ const cottage = createVillageCottageDefinitions({
 	z: -4
 });
 const [envelope, interior, roof] = cottage.definitions;
-
 assert.equal(cottage.definitions.length, 3);
 assert.equal(envelope.shape, 'manual');
 assert.equal(envelope.solid, true);
-assert.equal(envelope.vertices.length, 48);
-assert.equal(envelope.faces.length, 32);
+assert.equal(envelope.vertices.length, 56);
+assert.equal(envelope.faces.length, 37);
 assert.equal(envelope.userData.canonicalId, 'H10');
 assert.equal(envelope.userData.houseId, 'H10');
-assert.equal(envelope.userData.part, 'stone-plinth-and-recessed-wall-envelope');
+assert.equal(envelope.userData.part, 'stone-plinth-and-open-recessed-wall-envelope');
 assert.ok(envelope.userData.foundationHeight > 0);
 assert.ok(envelope.userData.expansionRatio >= 10);
 assert.ok(envelope.userData.volumeRatio >= 100);
@@ -66,11 +63,3 @@ assert.equal(roof.vertices.length, 34);
 assert.equal(roof.uvs.length, roof.vertices.length * 2);
 assert.ok(roof.mixTextureUrl);
 assert.equal(roof.solid, true);
-
-console.log(JSON.stringify({
-	expansionRatio: envelope.userData.expansionRatio,
-	ok: true,
-	playerVolume: playerReferenceVolume(),
-	roomCapacity: envelope.userData.roomCapacity,
-	volumeRatio: envelope.userData.volumeRatio
-}, null, 2));

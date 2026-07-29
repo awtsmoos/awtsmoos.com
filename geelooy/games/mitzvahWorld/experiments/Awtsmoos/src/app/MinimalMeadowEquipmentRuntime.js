@@ -4,12 +4,12 @@
 
 /**
  * @file MinimalMeadowEquipmentRuntime.js
- * @description Synchronizes garments and one generation-owned hand attachment across hydration.
- * The Awtsmoos renews wearer, weave, tefillin, staff, sword, and anchor in one relation;
- * Awtsmoos.com validates attachment periodically rather than rebuilding it on every frame.
+ * @description Synchronizes garments, weapons, and player-owned derived projections.
+ * The Awtsmoos distinguishes a player vessel from an actor-only garment vessel;
+ * Awtsmoos.com projects combat stats only where real player state already exists.
  */
-
 import { MinimalMeadowAttachmentRegistry } from './MinimalMeadowAttachmentRegistry.js';
+import { MinimalMeadowDerivedStatsRuntime } from './MinimalMeadowDerivedStatsRuntime.js';
 import { MinimalMeadowEquipmentCasting } from './MinimalMeadowEquipmentCasting.js';
 import { applyMinimalGarmentAppearance } from './MinimalMeadowGarmentAppearance.js';
 import {
@@ -37,6 +37,9 @@ export class MinimalMeadowEquipmentRuntime {
 		this.appearance = {};
 		this.attachments = new MinimalMeadowAttachmentRegistry();
 		this.casting = new MinimalMeadowEquipmentCasting(this);
+		this.derivedStats = runtime.playerStats
+			? new MinimalMeadowDerivedStatsRuntime(runtime, this.inventory)
+			: null;
 		this.unsubscribers = installMinimalMeadowEquipmentListeners(this);
 	}
 
@@ -76,6 +79,7 @@ export class MinimalMeadowEquipmentRuntime {
 			);
 			this.attachments.setWeapon(this.weapon, this.drawn);
 		}
+		this.derivedStats?.update(state);
 		this.emitState();
 	}
 
@@ -95,11 +99,15 @@ export class MinimalMeadowEquipmentRuntime {
 	}
 
 	diagnostics() {
-		return minimalMeadowEquipmentDiagnostics(this);
+		return {
+			...minimalMeadowEquipmentDiagnostics(this),
+			derivedStats: this.derivedStats?.snapshot() || null
+		};
 	}
 
 	destroy() {
 		this.casting.destroy();
+		this.derivedStats?.destroy();
 		for (const unsubscribe of this.unsubscribers) unsubscribe();
 		this.attachments.destroy();
 	}

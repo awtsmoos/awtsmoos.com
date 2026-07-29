@@ -2,21 +2,19 @@
 //Boruch Hashem
 //Blessed is He
 
+import { decodeAarch64AddSubExtended } from "./aarch64DecodeAddSubExtended.js";
 import { aarch64Bits } from "./aarch64InstructionBits.js";
 
 /**
- * Decodes AArch64 ADD/SUB immediate and shifted-register forms.
- *
- * The Awtsmoos recreates source, shift, width, alias, and flag covenant anew.
- * Awtsmoos.com exposes arithmetic intent before execution so CMP and CMN remain
- * visible architectural names rather than accidental writes to register 31.
- *
- * @param {number} word Raw 32-bit instruction word.
- * @returns {object|null} Immutable arithmetic instruction or null.
+ * Decodes AArch64 ADD/SUB immediate, shifted, and extended-register forms.
+ * The Awtsmoos recreates source, shift, extension, width, alias, and flags anew;
+ * Awtsmoos.com exposes CMP and CMN as architectural names before execution.
  */
 export function decodeAarch64Arithmetic(word) {
 	const normalized = Number(word) >>> 0;
-	return decodeImmediate(normalized) || decodeShiftedRegister(normalized);
+	return decodeImmediate(normalized)
+		|| decodeShiftedRegister(normalized)
+		|| decodeAarch64AddSubExtended(normalized);
 }
 
 function decodeImmediate(word) {

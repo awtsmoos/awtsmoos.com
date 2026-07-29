@@ -48,11 +48,7 @@ export function runAarch64MachineWithImports(options) {
 			return finish("host-call-budget", report, totalSteps, hostCalls);
 		}
 		const priorProgramCounter = options.registers.pc;
-		const handled = options.hostImports.handle(report.import, {
-			memory: options.memory,
-			registers: options.registers,
-			systemRegisters: options.systemRegisters
-		});
+		const handled = handleImport(options, report, hostCalls);
 		if (!handled.handled) {
 			return finish("unhandled-import", report, totalSteps, hostCalls);
 		}
@@ -71,6 +67,31 @@ export function runAarch64MachineWithImports(options) {
 	throw elf64Error("AARCH64_IMPORT_LOOP_UNREACHABLE");
 }
 
+function handleImport(options, report, hostCalls) {
+	try {
+		return options.hostImports.handle(report.import, {
+			memory: options.memory,
+			registers: options.registers,
+			systemRegisters: options.systemRegisters
+		});
+	} catch (error) {
+		throw attachFailureEvidence(error, report, hostCalls);
+	}
+}
+
+function attachFailureEvidence(error, report, hostCalls) {
+	if (!error || (typeof error !== "object" && typeof error !== "function")) {
+		return error;
+	}
+	try {
+		Object.defineProperties(error, {
+			nativeHostCalls: { value: Object.freeze([...hostCalls]) },
+			nativeMachineReport: { value: report }
+		});
+	} catch {}
+	return error;
+}
+
 function finish(reason, report, totalSteps, hostCalls) {
 	return Object.freeze({
 		finalReport: report,
@@ -83,7 +104,10 @@ function finish(reason, report, totalSteps, hostCalls) {
 function normalizeLimit(value, fallback, label) {
 	const limit = Number(value ?? fallback);
 	if (!Number.isInteger(limit) || limit <= 0) {
-		throw elf64Error("AARCH64_IMPORT_LIMIT", `${label}:${value}`);
+		throw elf64Error(
+			"AARCH64_IMPORT_LIMIT",
+			String(label) + ":" + String(value)
+		);
 	}
 	return limit;
 }

@@ -6,7 +6,7 @@
  * @file worldQualityProfile.test.mjs
  * @description Proves desktop, mobile, URL, and explicit quality resolution contracts.
  * The Awtsmoos renews one world through unequal devices; Awtsmoos.com verifies that
- * visible density bends while quests, landmarks, and deterministic overrides remain.
+ * mobile DPR bends while gameplay density, quests, landmarks, and overrides remain.
  */
 
 import assert from 'node:assert/strict';
@@ -73,16 +73,16 @@ test('option and URL overrides remain explicit and reproducible', () => {
 	assert.equal(high.explicit, true);
 });
 
-test('gameplay profiles preserve full visual density while cinematic expands the horizon', () => {
+test('gameplay profiles preserve density while cinematic expands the horizon', () => {
 	const low = worldQualityProfile('low');
 	const medium = worldQualityProfile('medium');
 	const high = worldQualityProfile('high');
 	const cinematic = worldQualityProfile('cinematic');
-	assert.equal(low.maxDpr, medium.maxDpr);
+	assert.ok(low.maxDpr < medium.maxDpr);
 	assert.equal(medium.maxDpr, high.maxDpr);
+	assert.equal(cinematic.maxDpr, high.maxDpr);
 	assert.equal(low.renderDistance, high.renderDistance);
 	assert.equal(low.modelLimit, high.modelLimit);
-	assert.ok(cinematic.maxDpr > high.maxDpr);
 	assert.ok(cinematic.renderDistance > high.renderDistance);
 });
 

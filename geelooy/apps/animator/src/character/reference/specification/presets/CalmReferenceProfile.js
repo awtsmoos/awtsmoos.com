@@ -3,23 +3,28 @@
 // Blessed is He
 
 import { CalmReferenceBodyGeometry } from './CalmReferenceBodyGeometry.js';
+import { CalmReferenceMeasurements } from './CalmReferenceMeasurements.js';
+import { CalmReferencePalette } from './CalmReferencePalette.js';
+import { CalmReferenceRigProfile } from './CalmReferenceRigProfile.js';
 
 /**
- * Miriam's muted olive, charcoal dress, warm skin, rose lips, and quiet gold hold
- * attentive calm. The Awtsmoos renews every hue; Awtsmoos.com keeps her palette
- * editable, serializable, and bound to the production renderer.
+ * Miriam's profile composes neutral rig, measured body, wardrobe, and palette. The
+ * Awtsmoos renews all expression and pose later; Awtsmoos.com preserves anatomy,
+ * persistence, preview, exact export, and legacy design metadata without duplication.
  */
 export class CalmReferenceProfile {
 	static character() {
 		return {
-			measurements: this.measurements(),
-			referenceMetrics: this.referenceMetrics(),
+			measurements: CalmReferenceMeasurements.normalized(),
+			referenceMetrics: CalmReferenceMeasurements.reference(),
 			bodyGeometry: CalmReferenceBodyGeometry.create(),
 			bodyProfile: 'modestBalanced',
-			expressionProfile: 'calm_attentive',
-			motion: 'calm',
+			neckStyle: CalmReferenceRigProfile.neck(),
+			expressionRangeProfile: 'restrainedSoft',
+			expressionProfile: 'restrainedSoft',
+			motion: 'groundedMeasured',
 			gesture: 'right_hand_in_pocket',
-			acting: 'listen',
+			acting: 'neutral',
 			skirt: true,
 			earrings: true,
 			beard: false,
@@ -27,61 +32,12 @@ export class CalmReferenceProfile {
 			hatType: 'head_wrap',
 			lineStyle: 'referenceSitcom',
 			wardrobeProfile: 'olive_overshirt_black_dress',
-			rigPose: this.pose(),
+			rigPose: CalmReferenceRigProfile.pose(),
 			colors: this.colors()
 		};
 	}
 
-	static measurements() {
-		return {
-			body: {
-				headWidth: 0.23, headHeight: 0.245, shoulderWidth: 0.25,
-				hipWidth: 0.19, armWidth: 0.042, legWidth: 0.04,
-				waistY: 0.595, hipY: 0.696
-			},
-			style: {
-				outerLineWidth: 0.0069,
-				innerLineWidth: 0.0029,
-				shadowWidth: 0.235
-			}
-		};
-	}
-
-	static referenceMetrics() {
-		return {
-			headRX: 32, headRY: 38, neckTopY: -200, neckBottomY: -185,
-			shoulderY: -184, chestY: -143, waistY: -109, hipY: -73,
-			kneeY: -47, ankleY: -2, footY: 5, shoulderHalf: 36,
-			hipHalf: 26, armWidth: 11, legWidth: 11, shadowRX: 35
-		};
-	}
-
-	static pose() {
-		return {
-			body: { torsoLean: -0.5, headTilt: -1 },
-			arms: {
-				left: {
-					shoulderLift: -2, elbowX: 6, elbowY: 43,
-					handX: 1, handY: 42, handPose: 'rest'
-				},
-				right: {
-					shoulderLift: -4, elbowX: 13, elbowY: 31,
-					handX: 10, handY: 7, handPose: 'pocket'
-				}
-			}
-		};
-	}
-
 	static colors() {
-		return {
-			line: '#2c2a2d', eye: '#242225', eyeLight: '#fffdf8',
-			mouth: '#71363d', tooth: '#fff9ef', blush: 'rgba(235,111,111,0.25)',
-			jacket: '#68764f', jacketDark: '#53603f', jacketLight: '#82906a',
-			shirt: '#303035', innerShirt: '#303035', skirt: '#343439',
-			pants: '#343439', pantsDark: '#27272b', shoe: '#252427',
-			skin: '#f2be91', skinDark: '#d68a60', skinLight: '#ffd5ae',
-			hair: '#493326', hairDark: '#302119', hat: '#2d2d31',
-			lip: '#ad6772', earring: '#c9a64c'
-		};
+		return CalmReferencePalette.create();
 	}
 }

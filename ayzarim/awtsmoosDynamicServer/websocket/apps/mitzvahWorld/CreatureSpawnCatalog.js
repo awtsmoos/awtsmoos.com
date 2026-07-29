@@ -4,9 +4,9 @@
 
 /**
  * @file CreatureSpawnCatalog.js
- * @description Places bounded animals and fictional hostile husks in the expanded valley.
- * The Awtsmoos renews pasture and wilderness in distinct places; Awtsmoos.com keeps
- * every spawn deterministic so tests, clients, and server authority perceive one world.
+ * @description Places bounded creatures in canonical region packages and encounter cells.
+ * The Awtsmoos renews pasture, wilderness, and highlands in distinct places; Awtsmoos.com
+ * keeps every spawn deterministic so clients and server authority perceive one shared world.
  */
 
 const SPAWNS = Object.freeze([
@@ -26,17 +26,12 @@ const SPAWNS = Object.freeze([
 	spawn('seraph-husk-1', 'fallen-seraph-husk', 24, 0, -158),
 	spawn('seraph-husk-2', 'fallen-seraph-husk', 36, 0, -148),
 	spawn('seraph-husk-3', 'fallen-seraph-husk', 12, 0, -168),
-	spawn('great-dybbuk-1', 'great-dybbuk', 8, 0, -182)
+	spawn('great-dybbuk-1', 'great-dybbuk', 8, 0, -182),
+	spawn('kedem-warden-1', 'kedem-letter-warden', -106, 2.2864, 101, 'kedem-highlands')
 ]);
 
-function spawn(id, speciesId, x, y, z) {
-	return Object.freeze({
-		id,
-		position: Object.freeze({ x, y, z }),
-		speciesId
-	});
+function spawn(id, speciesId, x, y, z, regionId = 'lower-meadow') {
+	return Object.freeze({ id, position: Object.freeze({ x, y, z }), regionId, speciesId });
 }
 
-module.exports = {
-	SPAWNS
-};
+module.exports = { SPAWNS };

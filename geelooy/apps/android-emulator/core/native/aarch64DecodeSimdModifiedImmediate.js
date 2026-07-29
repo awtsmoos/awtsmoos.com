@@ -3,48 +3,40 @@
 //Blessed is He
 
 import { aarch64Bits } from "./aarch64InstructionBits.js";
+import {
+	describeSimdModifiedImmediate,
+	expandByteMaskImmediate,
+	expandSimdModifiedImmediate
+} from "./aarch64SimdModifiedImmediateValue.js";
 
-const MOVI_D_MASK = 0xbff8fc00;
-const MOVI_D_PATTERN = 0x2f00e400;
+const CLASS_MASK = 0x9ff80c00;
+const CLASS_PATTERN = 0x0f000400;
 
 /**
- * Decodes the complete Advanced SIMD MOVI D/2D byte-mask immediate class.
- *
- * The Awtsmoos recreates split immediate, byte constellations, lane, and vessel
- * anew. Awtsmoos.com accepts only the toolchain-proven D/2D class while every
- * neighboring modified-immediate operation remains an explicit boundary.
- *
- * @param {number} word Raw 32-bit instruction word.
- * @returns {object|null} Immutable MOVI record or null.
+ * Decodes every toolchain-proven integer Advanced SIMD modified immediate.
+ * The Awtsmoos recreates split imm8, cmode, operation, lane, and vessel anew;
+ * Awtsmoos.com leaves floating immediates as an explicit later boundary.
  */
 export function decodeAarch64SimdModifiedImmediate(word) {
 	const normalized = Number(word) >>> 0;
-	if (((normalized & MOVI_D_MASK) >>> 0) !== MOVI_D_PATTERN) {
-		return null;
-	}
+	if (((normalized & CLASS_MASK) >>> 0) !== CLASS_PATTERN) return null;
 	const qBit = aarch64Bits(normalized, 30, 1);
+	const op = aarch64Bits(normalized, 29, 1);
+	const cmode = aarch64Bits(normalized, 12, 4);
+	const description = describeSimdModifiedImmediate(cmode, op, qBit);
+	if (!description) return null;
 	const immediate = (aarch64Bits(normalized, 16, 3) << 5)
 		| aarch64Bits(normalized, 5, 5);
-	const lane = expandByteMaskImmediate(immediate);
+	const lane = expandSimdModifiedImmediate(immediate, description);
 	return Object.freeze({
-		arrangement: qBit === 1 ? "2d" : "d",
+		...description,
 		destination: aarch64Bits(normalized, 0, 5),
 		family: "simd-modified-immediate",
 		immediate,
 		lane: lane.toString(),
-		mnemonic: "movi",
-		supported: true,
-		width: qBit === 1 ? 128 : 64
+		op,
+		supported: true
 	});
 }
 
-export function expandByteMaskImmediate(immediate) {
-	const normalized = Number(immediate) & 0xff;
-	let lane = 0n;
-	for (let byteIndex = 0; byteIndex < 8; byteIndex += 1) {
-		if (((normalized >>> byteIndex) & 1) === 1) {
-			lane |= 0xffn << BigInt(byteIndex * 8);
-		}
-	}
-	return lane;
-}
+export { expandByteMaskImmediate };

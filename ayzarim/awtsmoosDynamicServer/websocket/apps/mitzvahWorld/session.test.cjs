@@ -4,7 +4,7 @@
 
 /**
  * @file session.test.cjs
- * @description Proves reconnect identity, recovery, secrecy, and replay behavior.
+ * @description Proves reconnect identity, scoped recovery, secrecy, and replay behavior.
  * The Awtsmoos renews a player beyond a broken wire; this Awtsmoos.com evidence
  * follows the session through the same versioned router used by real clients.
  */
@@ -38,7 +38,10 @@ test('session resumes, resyncs, replays safely, and expires after grace', async 
 	);
 	const session = joined.payload.session;
 	const playerId = joined.payload.playerId;
-	assert.equal(joined.payload.world.players.find(player => player.id === playerId).connected, true);
+	assert.equal(
+		joined.payload.world.players.find(player => player.id === playerId).connected,
+		true
+	);
 	assert.match(session.resumeToken, /^[A-Za-z0-9_-]{24,128}$/);
 	assert.equal(JSON.stringify(joined.payload.world).includes(session.resumeToken), false);
 
@@ -74,7 +77,10 @@ test('session resumes, resyncs, replays safely, and expires after grace', async 
 	assert.equal(resumed.payload.playerId, playerId);
 	assert.equal(resumed.payload.resumed, true);
 	assert.equal(resumed.payload.session.id, session.id);
-	assert.equal(resumed.payload.world.players.find(player => player.id === playerId).connected, true);
+	assert.equal(
+		resumed.payload.world.players.find(player => player.id === playerId).connected,
+		true
+	);
 
 	const duplicate = await sendRequest(
 		platform,
@@ -92,7 +98,9 @@ test('session resumes, resyncs, replays safely, and expires after grace', async 
 	const resynced = await sendRequest(platform, resumedClient, 'world.resync', {
 		lastAcknowledgedRevision: 0
 	}, 'resync', 3);
-	assert.equal(resynced.payload.events.length > 0, true);
+	assert.deepEqual(resynced.payload.events, []);
+	assert.equal(resynced.payload.fullSnapshotRequired, true);
+	assert.equal(resynced.payload.reason, 'interest-scoped-snapshot');
 	assert.equal(JSON.stringify(resynced.payload.world).includes(session.resumeToken), false);
 	const heartbeat = await sendRequest(platform, resumedClient, 'world.heartbeat', {
 		lastAcknowledgedRevision: resynced.payload.toRevision

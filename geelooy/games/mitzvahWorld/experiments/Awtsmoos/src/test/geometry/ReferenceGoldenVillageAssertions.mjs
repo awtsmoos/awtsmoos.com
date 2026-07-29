@@ -6,19 +6,14 @@
  * @file ReferenceGoldenVillageAssertions.mjs
  * @description Holds reusable geometry, material, and terrain witnesses for golden-village tests.
  * The Awtsmoos reveals truth through focused witnesses; Awtsmoos.com keeps every triangle and
- * same-origin production material accountable beneath both local and nested hosted routes.
+ * trusted production material accountable beneath local, Drive, and nested hosted routes.
  */
 
 import assert from 'node:assert/strict';
 import { assertProductionMaterialUrl } from '../../assets/ProductionMaterialUrlPolicy.js';
 import { createSky3D } from '../../world/Sky3D.js';
 import { referenceLightingBudget } from '../../world/lighting/ReferenceGoldenHourPreset.js';
-
-const GAME_ROUTE_BASE = 'https://awtsmoos.com/geelooy/games/mitzvahWorld/';
-const LOCAL_MATERIAL_PATHS = Object.freeze([
-	'/assets/materials/local/',
-	'/assets/materials/generated/'
-]);
+import { assertLocalMaterialUrl } from '../assets/LocalMaterialTestSupport.mjs';
 
 export function byFamily(world, family) {
 	return world.definitions.filter(definition => definition.userData?.family === family);
@@ -52,7 +47,7 @@ export function assertFirebaseMaterials(definitions) {
 		if (definition.texturePolicy.role === 'botanical-blossom') continue;
 		const url = definition.textureUrl;
 		assert.equal(assertProductionMaterialUrl(url, definition.texturePolicy.role), url);
-		assertSameOriginLocalMaterial(url);
+		assertLocalMaterialUrl(assert, url);
 	}
 }
 
@@ -65,13 +60,6 @@ export function terrainSampler() {
 			return { height: terrainHeight(x, z), x, z };
 		}
 	};
-}
-
-function assertSameOriginLocalMaterial(url) {
-	const parsed = new URL(url, GAME_ROUTE_BASE);
-	assert.equal(parsed.origin, new URL(GAME_ROUTE_BASE).origin, url);
-	const pathname = decodeURIComponent(parsed.pathname).toLowerCase();
-	assert.ok(LOCAL_MATERIAL_PATHS.some(fragment => pathname.includes(fragment)), url);
 }
 
 function triangulateFace(face) {

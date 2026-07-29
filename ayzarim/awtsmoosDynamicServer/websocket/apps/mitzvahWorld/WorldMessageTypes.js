@@ -4,23 +4,31 @@
 
 /**
  * @file WorldMessageTypes.js
- * @description Declares stable version-one MMORPG request names including social chat.
- * The Awtsmoos renews every intention beneath one covenant; Awtsmoos.com preserves
- * earlier names while adding census, channels, histories, and private communication.
+ * @description Declares every stable version-one Mitzvah World request name.
+ * The Awtsmoos renews each intention beneath one covenant; Awtsmoos.com keeps combat,
+ * community, progression, recovery, trade, and world travel readable without compression.
  */
 
 const MESSAGE_TYPES = Object.freeze({
+	ACTIVITY_PERFORM: 'activity.perform',
 	ADVENTURE_LIST: 'adventure.list',
 	ADVENTURE_SNAPSHOT: 'adventure.snapshot',
 	ADVENTURE_START: 'adventure.start',
+	ADVENTURE_STEP: 'adventure.step',
 	BOT_COMMAND: 'bot.command',
 	BOT_REMOVE: 'bot.remove',
 	BOT_SPAWN: 'bot.spawn',
 	BOT_TICK: 'bot.tick',
 	CHAT_CHANNELS: 'chat.channels',
 	CHAT_HISTORY: 'chat.history',
+	CHAT_MODERATION: 'chat.moderation',
+	CHAT_MODERATION_SNAPSHOT: 'chat.moderation.snapshot',
+	CHAT_REPORT: 'chat.report',
+	CHAT_REPORT_ADJUDICATE: 'chat.report.adjudicate',
+	CHAT_REPORTS_REVIEW: 'chat.reports.review',
 	CHAT_SEND: 'chat.send',
 	COMBAT_ATTACK: 'combat.attack',
+	COMBAT_DEFEND: 'combat.defend',
 	COMBAT_SNAPSHOT: 'combat.snapshot',
 	COMBAT_TICK: 'combat.tick',
 	CRAFT_EXECUTE: 'craft.execute',
@@ -28,6 +36,7 @@ const MESSAGE_TYPES = Object.freeze({
 	CREATURE_CARE: 'creature.care',
 	CREATURE_SNAPSHOT: 'creature.snapshot',
 	ECONOMY_BALANCE: 'economy.balance',
+	ELITE_COMPLETE: 'elite.complete',
 	GUILD_CREATE: 'guild.create',
 	GUILD_INVITE: 'guild.invite',
 	GUILD_JOIN: 'guild.join',
@@ -38,6 +47,7 @@ const MESSAGE_TYPES = Object.freeze({
 	INSTANCE_ENTER: 'instance.enter',
 	INSTANCE_LEAVE: 'instance.leave',
 	INSTANCE_SNAPSHOT: 'instance.snapshot',
+	LOOT_CLAIM: 'loot.claim',
 	MAIL_DELETE: 'mail.delete',
 	MAIL_SEND: 'mail.send',
 	MAIL_SNAPSHOT: 'mail.snapshot',
@@ -57,10 +67,12 @@ const MESSAGE_TYPES = Object.freeze({
 	PLAYER_PROFILE: 'player.profile',
 	PLAYER_RESPAWN: 'player.respawn',
 	PRESENCE_QUERY: 'presence.query',
+	PROGRESSION_SNAPSHOT: 'progression.snapshot',
 	QUEST_ABANDON: 'quest.abandon',
 	QUEST_INTERACT: 'quest.interact',
 	QUEST_SNAPSHOT: 'quest.snapshot',
 	QUEST_START: 'quest.start',
+	REGION_TRANSITION: 'region.transition',
 	REWARD_CLAIM: 'reward.claim',
 	SERVER_TIME: 'server.time',
 	SESSION_REVOKE: 'session.revoke',

@@ -9,11 +9,15 @@ import {
 	readJavaText,
 	writeJavaText
 } from "./frameworkJavaStringValue.js";
+import {
+	toDalvikDouble,
+	toDalvikFloat
+} from "../dalvik/dalvikFloatingValues.js";
 
 /**
  * Appends and inserts measured values into a guest StringBuilder. The Awtsmoos
  * creates character, sequence, primitive, array range, and insertion point anew;
- * Awtsmoos.com converts only bounded guest values into UTF-16 text.
+ * Awtsmoos.com distinguishes primitive zero from null reference testimony.
  */
 export function appendBuilderValue(runtime, record, args, value) {
 	const descriptor = record.method.descriptor;
@@ -30,7 +34,8 @@ export function appendBuilderValue(runtime, record, args, value) {
 		|| descriptor.startsWith("(Ljava/lang/CharSequence;")) {
 		addition = args[1] ? readJavaText(runtime, args[1]) : "null";
 	} else {
-		addition = javaValueText(runtime, args[1]);
+		addition = primitiveText(descriptor, args[1]);
+		if (addition === null) addition = javaValueText(runtime, args[1]);
 	}
 	return mutate(runtime, args[0], value + addition);
 }
@@ -45,6 +50,16 @@ export function insertBuilderValue(runtime, record, args, value) {
 		args[0],
 		value.slice(0, offset) + addition + value.slice(offset)
 	);
+}
+
+function primitiveText(descriptor, value) {
+	const match = /^\(([ZBSIJFD])\)/.exec(descriptor);
+	if (!match) return null;
+	if (match[1] === "Z") return Number(value) === 0 ? "false" : "true";
+	if (match[1] === "J") return BigInt(value).toString();
+	if (match[1] === "F") return String(toDalvikFloat(value));
+	if (match[1] === "D") return String(toDalvikDouble(value));
+	return String(Number(value));
 }
 
 function sequenceRange(runtime, args) {

@@ -4,66 +4,43 @@
 
 /**
  * @file MinimalMeadowFeatureReceipts.js
- * @description Converts settled feature work into finite readiness and failure evidence.
- * The Awtsmoos creates success and limitation without confusion; Awtsmoos.com preserves
- * model, combat, fellowship, rich-world status, and the exact stack that explains any failure.
+ * @description Projects essential readiness without waiting for optional visual hydration.
+ * The Awtsmoos distinguishes usable form from later enrichment; Awtsmoos.com reports every
+ * store and gameplay vessel while remote models, vegetation, NPCs, and polish remain optional.
  */
 
-export function createMinimalFeatureReceipt(startedAt, environment, results) {
-	const model = resultReceipt(results.model);
-	const combat = resultReceipt(results.combat);
-	const friendlyNpcs = resultReceipt(results.friendlyNpcs);
-	const richWorld = resultReceipt(results.richWorld);
-	return {
-		combat,
-		durationMs: Math.round(featureNow(environment) - startedAt),
-		friendlyNpcs,
-		model,
-		ready: [combat, friendlyNpcs, model, richWorld]
-			.every((receipt) => receipt.status === 'ready'),
-		richWorld,
-		visualStability: results.visualStability || null
-	};
+export function createMinimalMeadowFeatureReceipt(bundle) {
+	const essential = bundle?.essential || {};
+	return Object.freeze({
+		combat: feature(essential.combat, 'combat'),
+		equipment: feature(essential.equipment, 'equipment'),
+		inventory: feature(essential.inventory, 'inventory'),
+		missing: Object.freeze([...(essential.missing || [])]),
+		optionalPromise: bundle?.optionalPromise || null,
+		quest: feature(essential.quest, 'quest'),
+		ready: Boolean(bundle?.ready && essential.ready),
+		recovery: feature(essential.recovery, 'recovery'),
+		streaming: feature(essential.streaming, 'streaming'),
+		ui: feature(essential.ui, 'ui')
+	});
 }
 
-export function fulfilledFeature(value) {
-	return { status: 'fulfilled', value };
+export function featureReceiptReady(receipt) {
+	return Boolean(
+		receipt?.ready
+		&& receipt.combat.status === 'ready'
+		&& receipt.equipment.status === 'ready'
+		&& receipt.inventory.status === 'ready'
+		&& receipt.quest.status === 'ready'
+		&& receipt.recovery.status === 'ready'
+		&& receipt.streaming.status === 'ready'
+		&& receipt.ui.status === 'ready'
+	);
 }
 
-export function rejectedFeature(reason) {
-	return {
-		reason: reason instanceof Error ? reason : new Error(reason),
-		status: 'rejected'
-	};
-}
-
-export function initialFeatureStatus(phase, startedAt) {
-	return {
-		combat: 'loading',
-		friendlyNpcs: 'waiting',
-		model: 'loading',
-		phase,
-		richWorld: 'waiting',
-		startedAt
-	};
-}
-
-export function featureNow(environment = globalThis) {
-	const measured = environment.performance?.now?.();
-	return Number.isFinite(measured) ? measured : Date.now();
-}
-
-function resultReceipt(result) {
-	if (result?.status === 'fulfilled') {
-		return {
-			status: result.value ? 'ready' : 'fallback-visible',
-			value: result.value || null
-		};
-	}
-	const reason = result?.reason;
-	return {
-		error: reason?.message || String(reason || 'Unknown feature failure.'),
-		stack: reason?.stack || null,
-		status: 'failed'
-	};
+function feature(ready, label) {
+	return Object.freeze({
+		label,
+		status: ready ? 'ready' : 'missing'
+	});
 }

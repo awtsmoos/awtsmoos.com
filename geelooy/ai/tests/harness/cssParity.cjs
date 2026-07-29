@@ -28,6 +28,7 @@ async function run() {
     const legacyActive = activeCss.filter(file => legacyDeny().includes(file));
     const rightManifest = read("css/right-panel/manifest.css");
     const overlapSeal = read("css/right-panel/mobile-overlap-kill.css");
+    const mobileAutomationFlow = read("css/right-panel/mobile-automation-flow.css");
     const mobile = read("css/ideal/mobile.css");
     const scenes = read("css/ideal/mobile/scenes.css");
     const revamp = read("css/ideal/mobile/revamp.css");
@@ -37,9 +38,11 @@ async function run() {
     const idealComposer = read("css/ideal/composer.css");
     const panel = read("js/automation/panel.js");
     const promptJs = read("prompt.js");
+    const promptAssets = read("promptAssets.js");
     const index = read("index.js");
     const appMain = read("app-main.js");
     const bg = fs.readFileSync(path.join(ROOT, "../scripts/tricks/extensions/server/background.js"), "utf8");
+    const bgHandlers = fs.readFileSync(path.join(ROOT, "../scripts/tricks/extensions/server/backgroundHandlers.js"), "utf8");
 
     assert(isManifestOnly(styles), "styles.css must remain a cascade manifest");
     assert(JSON.stringify(imports) === JSON.stringify(expectedImports()), "top-level CSS imports must remain ordered", { imports });
@@ -59,17 +62,17 @@ async function run() {
     assert(imports.indexOf("./css/events/manifest.css") < imports.indexOf("./css/ideal/mobile.css"), "mobile polish must follow event palace");
     assert(imports.at(-1) === "./css/right-panel/mobile-overlap-kill.css", "mobile overlap seal must be final top-level import", { imports });
     assert(/mobile-overlap-kill\.css";\s*$/m.test(rightManifest), "right-panel mobile overlap seal must remain final right-panel import");
-    assert(/#automation-panel \.right-panel-body[\s\S]*overflow-y:auto/.test(overlapSeal), "mobile panel body must own vertical scroll");
-    assert(/#automation-panel \.automation-status[\s\S]*position:static/.test(overlapSeal), "mobile status pill must not cover controls");
-    assert(/#automation-panel \.automation-stop-button[\s\S]*position:static/.test(overlapSeal), "mobile stop button must not float over forms");
+    assert(/#automation-panel \.right-panel-body[\s\S]*overflow-y:auto/.test(mobileAutomationFlow), "mobile panel body must own vertical scroll");
+    assert(/#automation-panel[\s\S]*\.automation-status[\s\S]*position:static/.test(mobileAutomationFlow), "mobile status pill must not cover controls");
+    assert(/#automation-panel \.automation-stop-button[\s\S]*position:static/.test(mobileAutomationFlow), "mobile stop button must not float over forms");
     assert(!/event-region|thought-envelope-card|tool-window/.test(revamp), "mobile revamp must not own event/thought/tool internals");
     assert(/@import "\.\/mobile\/revamp\.css"/.test(mobile), "mobile revamp must stay imported");
-    assert(/position:\s*fixed/.test(scenes) && /mobile-scene-active/.test(scenes), "mobile scenes must use reachable fixed drawers");
+    assert(/position:\s*fixed/.test(scenes) && /data-mobile-scene/.test(scenes), "mobile scenes must use reachable fixed drawers");
     assert(/env\(safe-area-inset-top\)/.test(idealTokens + mobile + revamp), "mobile shell must respect safe-area top inset");
     assert(/env\(safe-area-inset-bottom\)/.test(idealTokens + mobile + revamp), "mobile surfaces must respect safe-area bottom inset");
     assert(/mobile-bottom-dock/.test(read("css/ideal/mobile/crown.css")), "mobile dock must be present");
     assert(/--awt-send-min:\s*5[6-9]px/.test(idealTokens) && /#send-button\{[\s\S]*min-height:var\(--awt-send-min\)/.test(idealComposer), "send button touch target must stay above 44px");
-    assert(/@media\(max-width:680px\)/.test(promptJs) && /font-size:16px/.test(promptJs), "install prompt inline CSS must be mobile-safe and avoid browser zoom");
+    assert(/promptStyle/.test(promptJs) && /@media\(max-width:680px\)/.test(promptAssets) && /font-size:16px/.test(promptAssets), "install prompt inline CSS must be mobile-safe and avoid browser zoom");
     assert(/grid-template-areas:var\(--awt-shell-areas\)/.test(idealShell), "shell layout must remain token-driven");
     assert(/scrollbar-gutter:\s*stable/.test(idealChat), "chat scroll surface must reserve scrollbar gutter");
     assert(/chooseTab\(tab\)[\s\S]*closeOpenMenu\(\)/.test(panel), "tab selection must close the menu before rerender");
@@ -77,9 +80,10 @@ async function run() {
     assert(!/classList\.toggle\("hidden"\)/.test(index + appMain), "raw hidden sidebar toggle returned");
     assert(/sendPrompt:[\s\S]*controller\.send\(prompt/.test(index), "index automation must send through controller.send");
     assert(count(appMain, /controller\.sendAutomation/g) === 1, "app-main sendAutomation wiring count wrong");
-    assert(count(bg, /portManager\.on\("fetch"/g) === 1, "extension fetch handler must be exactly one");
-    assert(count(bg, /portManager\.on\("fetch-body"/g) === 1, "extension fetch-body handler must be exactly one");
-    assert(count(bg, /portManager\.on\("resume-stream"/g) === 1, "extension resume handler must be exactly one");
+    assert(/registerAwtsmoosBackgroundHandlers/.test(bg), "background must install the split handler module");
+    assert(count(bgHandlers, /portManager\.on\("fetch"/g) === 1, "extension fetch handler must be exactly one");
+    assert(count(bgHandlers, /"fetch-body"/g) === 1, "extension fetch-body handler must be exactly one");
+    assert(count(bgHandlers, /"resume-stream"/g) === 1, "extension resume handler must be exactly one");
     return { imports: imports.length, eventImports: eventImports.length, activeCss: activeCss.length, allCss: allCss.length, activeImportant: 0, eventsManifestLive: true, thoughtsLive: true, toolTerminalLive: true, fileReviewLive: true, mobileOverlapSeal: "final-small", handlers: 3 };
   });
 }

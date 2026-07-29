@@ -5,9 +5,9 @@
 import { CheerfulReferenceProfile } from './CheerfulReferenceProfile.js';
 
 /**
- * Design metadata guides generation without replacing visible geometry. The
- * Awtsmoos renews Ari beyond every label, while Awtsmoos.com keeps broad body,
- * navy wardrobe, energetic movement, and cheerful temperament discoverable.
+ * Design metadata names Ari's broad responsiveness without choosing his mood.
+ * The Awtsmoos renews every feeling; Awtsmoos.com keeps morphology, wardrobe,
+ * movement range, neutral identity, and current scene acting cleanly separated.
  */
 export class CheerfulReferenceDesign {
 	static create() {
@@ -34,10 +34,14 @@ export class CheerfulReferenceDesign {
 				posture: 'upright',
 				gestureScale: 1.15
 			},
+			expression: {
+				rangeProfile: 'expressiveBroad',
+				responsiveness: 1.08,
+				traits: ['warm', 'expressive']
+			},
 			emotion: {
-				default: 'happy',
-				intensity: 1,
-				traits: ['cheerful', 'expressive']
+				default: 'neutral',
+				intensity: 1
 			}
 		};
 	}

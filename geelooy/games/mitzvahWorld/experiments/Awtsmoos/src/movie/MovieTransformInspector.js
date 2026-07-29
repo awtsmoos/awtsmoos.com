@@ -4,9 +4,9 @@
 
 /**
  * @file MovieTransformInspector.js
- * @description Edits clip timing, easing, and structured actor/camera transform channels.
- * The Awtsmoos renews motion beyond numeric coordinates; Awtsmoos.com gives each shot
- * a readable desktop/mobile vessel whose finite values feed the same compiled project.
+ * @description Edits timing, easing, and transform channels as one reversible clip transaction.
+ * The Awtsmoos renews motion beyond numeric coordinates; Awtsmoos.com remembers the
+ * departing clip before finite values change, so inspector edits enter the same honest history.
  */
 
 import {
@@ -14,6 +14,7 @@ import {
 	readMovieClipNumber,
 	writeMovieClipNumber
 } from './MovieClipTransform.js';
+import { movieSelectionDescriptor } from './MovieProjectSelection.js';
 
 const EASINGS = Object.freeze([
 	'linear',
@@ -64,28 +65,43 @@ export class MovieTransformInspector {
 			</div>
 			<button data-apply-transform>Apply transform</button>
 		`;
-		this.host.querySelector('[data-apply-transform]').addEventListener('click', () => {
-			this.apply();
-		});
+		this.host.querySelector('[data-apply-transform]').addEventListener(
+			'click',
+			() => this.apply()
+		);
 	}
 
 	apply() {
+		if (!this.selection) return null;
 		const { clip, track } = this.selection;
+		const original = structuredClone(clip);
 		for (const input of this.host.querySelectorAll('[data-path]')) {
-			if (input.dataset.path === 'start') {
-				clip.start = Math.max(0, Number(input.value || 0));
-				continue;
-			}
-			if (input.dataset.path === 'duration') {
-				clip.duration = Math.max(0.001, Number(input.value || 0.001));
-				continue;
-			}
-			writeMovieClipNumber(clip, input.dataset.path, input.value);
+			applyMovieTransformInput(clip, input);
 		}
 		clip.easing = this.host.querySelector('[data-easing]').value;
-		this.onChange?.({ clip, track });
+		const value = {
+			clip,
+			descriptor: this.selection.descriptor
+				|| movieSelectionDescriptor(track, clip),
+			original,
+			track
+		};
+		this.onChange?.(value);
 		this.render();
+		return value;
 	}
+}
+
+function applyMovieTransformInput(clip, input) {
+	if (input.dataset.path === 'start') {
+		clip.start = Math.max(0, Number(input.value || 0));
+		return;
+	}
+	if (input.dataset.path === 'duration') {
+		clip.duration = Math.max(0.001, Number(input.value || 0.001));
+		return;
+	}
+	writeMovieClipNumber(clip, input.dataset.path, input.value);
 }
 
 function numberInput(path, label, value) {

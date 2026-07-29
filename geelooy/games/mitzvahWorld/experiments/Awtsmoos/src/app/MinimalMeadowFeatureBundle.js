@@ -4,90 +4,78 @@
 
 /**
  * @file MinimalMeadowFeatureBundle.js
- * @description Hydrates the current UI, world coordination, player, combat, quest, and visual stability.
- * The Awtsmoos reveals traveler and world after first play; Awtsmoos.com versions the two primary
- * feature owners so a browser cannot preserve an earlier UI or world-system graph across reload.
+ * @description Installs essential gameplay before detached optional hydration begins.
+ * The Awtsmoos grants usable vessels before distant beauty; Awtsmoos.com keeps stores,
+ * combat, quests, recovery, and cells inside readiness while visual enrichment continues.
  */
 
-import { installMinimalMeadowAnimation } from './MinimalMeadowAnimationState.js';
-import {
-	createMinimalFeatureReceipt,
-	featureNow,
-	fulfilledFeature,
-	initialFeatureStatus,
-	rejectedFeature
-} from './MinimalMeadowFeatureReceipts.js';
+import { installMinimalMeadowAnimationRuntime } from './MinimalMeadowAnimationRuntime.js';
+import { installMinimalMeadowFriendlyNpcs } from './MinimalMeadowFriendlyNpcs.js';
 import { hydrateMinimalMeadowPlayer } from './MinimalMeadowPlayerHydration.js';
-import {
-	installMinimalMeadowUi
-} from './MinimalMeadowUi.js?rev=20260728-full-wave-1';
-import { installMinimalMeadowVisualStability } from './MinimalMeadowVisualStability.js';
-import {
-	installMinimalMeadowWorldSystems
-} from './MinimalMeadowWorldSystems.js?rev=20260728-full-wave-1';
+import { enhanceMinimalMeadowRenderer } from './MinimalMeadowRendererEnhancement.js';
+import { installMinimalMeadowUi } from './MinimalMeadowUi.js';
+import { awaitMinimalMeadowVisualStability } from './MinimalMeadowVisualReadiness.js';
+import { installMinimalMeadowWorldSystems } from './MinimalMeadowWorldSystems.js';
 
-export async function installMinimalMeadowFeatures(runtime, environment = globalThis) {
-	const startedAt = featureNow(environment);
-	runtime.featureStatus = initialFeatureStatus('installing-action-bar', startedAt);
-	installMinimalMeadowUi(runtime, environment.document, environment);
-	runtime.featureStatus.phase = 'loading-combat-and-model';
-	const [model, combat] = await Promise.allSettled([
-		hydratePlayer(runtime, environment),
-		installMinimalMeadowWorldSystems(runtime, environment)
-	]);
-	const richWorld = await settleRichWorld(runtime, combat);
-	const friendlyNpcs = settleFriendly(runtime, richWorld);
-	const visualStability = installMinimalMeadowVisualStability(runtime);
-	const receipt = createMinimalFeatureReceipt(startedAt, environment, {
-		combat,
-		friendlyNpcs,
-		model,
-		richWorld,
-		visualStability
+export async function installMinimalMeadowFeatures(
+	runtime,
+	environment = globalThis
+) {
+	const ui = installMinimalMeadowUi(runtime);
+	const animation = installMinimalMeadowAnimationRuntime(runtime);
+	const world = await installMinimalMeadowWorldSystems(runtime, environment);
+	const essential = essentialReceipt(runtime, ui, animation, world);
+	if (!essential.ready) {
+		throw new Error(`MINIMAL_MEADOW_ESSENTIAL_MISSING:${essential.missing.join(',')}`);
+	}
+	const optionalPromise = hydrateOptional(runtime, environment);
+	runtime.optionalFeaturePromise = optionalPromise;
+	return Object.freeze({
+		essential,
+		optionalPromise,
+		ready: true
 	});
-	applyFeatureStatus(runtime, receipt);
-	runtime.bus.emit('features:ready', receipt);
+}
+
+function essentialReceipt(runtime, ui, animation, world) {
+	const values = {
+		animation: Boolean(animation),
+		combat: Boolean(runtime.combat),
+		equipment: Boolean(runtime.equipment),
+		inventory: Boolean(runtime.inventoryStore),
+		quest: Boolean(runtime.questStore || runtime.quest),
+		recovery: Boolean(runtime.recovery),
+		streaming: Boolean(runtime.expansion?.streaming),
+		ui: Boolean(ui),
+		world: Boolean(world)
+	};
+	const missing = Object.entries(values)
+		.filter(([, ready]) => !ready)
+		.map(([name]) => name);
+	return Object.freeze({
+		...values,
+		missing: Object.freeze(missing),
+		ready: missing.length === 0
+	});
+}
+
+async function hydrateOptional(runtime, environment) {
+	const results = await Promise.allSettled([
+		hydrateMinimalMeadowPlayer(runtime),
+		enhanceMinimalMeadowRenderer(runtime),
+		runtime.richWorldPromise,
+		installMinimalMeadowFriendlyNpcs(runtime, environment),
+		awaitMinimalMeadowVisualStability(runtime)
+	]);
+	const receipt = Object.freeze({
+		failures: Object.freeze(results.flatMap(result => {
+			return result.status === 'rejected'
+				? [result.reason?.message || String(result.reason)]
+				: [];
+		})),
+		ready: true,
+		results: Object.freeze(results.map(result => result.status))
+	});
+	runtime.bus?.emit?.('world:optional-ready', receipt);
 	return receipt;
 }
-
-async function hydratePlayer(runtime, environment) {
-	const result = await hydrateMinimalMeadowPlayer(runtime, environment);
-	if (result) installMinimalMeadowAnimation(runtime);
-	return result;
-}
-
-function settleFriendly(runtime, richWorldResult) {
-	if (richWorldResult.status !== 'fulfilled' || !runtime.friendlyNpcs) {
-		return rejectedFeature('Canonical quest Chossid did not mount.');
-	}
-	return fulfilledFeature(runtime.friendlyNpcs.diagnostics());
-}
-
-async function settleRichWorld(runtime, combatResult) {
-	if (combatResult.status !== 'fulfilled') {
-		return rejectedFeature('Combat core failed before rich-world hydration.');
-	}
-	try {
-		const value = await runtime.richWorldPromise;
-		return value
-			? fulfilledFeature(value)
-			: rejectedFeature(runtime.richWorldError || 'Rich world returned no receipt.');
-	} catch (reason) {
-		return { reason, status: 'rejected' };
-	}
-}
-
-function applyFeatureStatus(runtime, receipt) {
-	Object.assign(runtime.featureStatus, {
-		combat: receipt.combat.status,
-		durationMs: receipt.durationMs,
-		friendlyNpcs: receipt.friendlyNpcs.status,
-		model: receipt.model.status,
-		phase: receipt.ready ? 'ready' : 'degraded',
-		receipt,
-		richWorld: receipt.richWorld.status,
-		visualStability: receipt.visualStability
-	});
-}
-
-export default installMinimalMeadowFeatures;

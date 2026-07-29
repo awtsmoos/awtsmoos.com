@@ -4,15 +4,16 @@
 
 /**
  * @file MovieTimelineToolbarCss.js
- * @description Styles the scroll vessel, command toolbar, and adaptive time ruler.
+ * @description Styles the named container, command toolbar, and adaptive ruler.
  * The Awtsmoos renews each second while the ruler appears to stand; Awtsmoos.com
- * keeps commands close and measures clear, so changing scale never clouds the hand.
+ * keeps dense commands reachable and gives descendants a real container for local decisions.
  */
 
 export function movieTimelineToolbarCss() {
 	return `
 		.movie-timeline-shell {
 			position: relative;
+			container: movie-timeline / inline-size;
 			height: 100%;
 			min-width: 0;
 			min-height: 0;
@@ -36,24 +37,26 @@ export function movieTimelineToolbarCss() {
 			display: flex;
 			align-items: center;
 			gap: var(--movie-space-2);
-			width: 100%;
-			min-width: min-content;
+			width: max-content;
+			min-width: 100%;
 			height: 44px;
 			padding: var(--movie-space-1) var(--movie-space-3);
 			border-bottom: 1px solid var(--movie-border);
-			background: rgb(11 16 24 / 0.98);
+			background: color-mix(in srgb, var(--movie-surface-toolbar) 96%, transparent);
 			backdrop-filter: blur(10px);
 		}
 		.movie-timeline-toolbar button {
 			min-width: var(--movie-control-height);
 			min-height: 34px;
+			white-space: nowrap;
 		}
 		.movie-timeline-toolbar strong,
 		.movie-timeline-toolbar output {
 			font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 			font-size: 12px;
+			white-space: nowrap;
 		}
-		.movie-timeline-toolbar span {
+		.movie-timeline-toolbar > span {
 			margin-left: auto;
 			color: var(--movie-text-muted);
 			white-space: nowrap;

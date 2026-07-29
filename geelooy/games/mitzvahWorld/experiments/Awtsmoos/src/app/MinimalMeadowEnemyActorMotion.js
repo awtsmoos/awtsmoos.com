@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowEnemyActorMotion.js
- * @description Advances patrol, combat, corpse grounding, yaw, and selection pulse.
- * The Awtsmoos renews each finite step and each chosen glow; Awtsmoos.com keeps movement,
- * stillness, and target readability synchronized without hiding them inside actor identity.
+ * @description Advances local AI or server-owned animation, corpse grounding, yaw, and selection pulse.
+ * The Awtsmoos renews each finite step and each chosen glow; Awtsmoos.com keeps local wandering,
+ * distant authority, stillness, corpse readability, and target visibility synchronized without confusion.
  */
 
 import { animateMinimalShadowCreature } from './MinimalMeadowCreatureAnimation.js';
@@ -20,15 +20,14 @@ export function updateMinimalMeadowEnemyActor(actor, deltaSeconds) {
 		updateMinimalMeadowEnemySelectionVisual(actor, deltaSeconds);
 		return;
 	}
+	if (actor.authoritative) {
+		updateAuthoritativeEnemy(actor, deltaSeconds);
+		return;
+	}
 	if (!actor.combat.update(deltaSeconds)) {
 		wanderMinimalMeadowEnemy(actor, deltaSeconds);
 	}
-	actor.group.position.y = actor.ground(
-		actor.group.position.x,
-		actor.group.position.z
-	);
-	animateMinimalShadowCreature(actor, deltaSeconds);
-	updateMinimalMeadowEnemySelectionVisual(actor, deltaSeconds);
+	groundAndAnimate(actor, deltaSeconds);
 }
 
 export function wanderMinimalMeadowEnemy(actor, deltaSeconds) {
@@ -73,4 +72,19 @@ export function moveMinimalMeadowEnemy(
 		0,
 		Math.cos(yaw / 2)
 	);
+}
+
+function updateAuthoritativeEnemy(actor, deltaSeconds) {
+	actor.moving = false;
+	if (actor.action !== 'hit') actor.action = 'idle';
+	groundAndAnimate(actor, deltaSeconds);
+}
+
+function groundAndAnimate(actor, deltaSeconds) {
+	actor.group.position.y = actor.ground(
+		actor.group.position.x,
+		actor.group.position.z
+	);
+	animateMinimalShadowCreature(actor, deltaSeconds);
+	updateMinimalMeadowEnemySelectionVisual(actor, deltaSeconds);
 }

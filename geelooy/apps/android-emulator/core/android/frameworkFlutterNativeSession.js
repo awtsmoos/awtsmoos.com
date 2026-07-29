@@ -6,6 +6,8 @@ import { runAarch64MachineWithImports } from "../native/aarch64MachineWithImport
 import { createFlutterJniImportHandlers } from "../native/flutterJniImportHandlers.js";
 import { createFlutterJniMachineState } from "../native/flutterJniMachineState.js";
 import { createNativeImportAddressSpace } from "../native/nativeImportAddressSpace.js";
+import { createFrameworkFlutterNativeArrayResolver } from "./frameworkFlutterNativeArrayElements.js";
+import { createFrameworkFlutterNativeStringResolver } from "./frameworkFlutterNativeStringValues.js";
 import { relocateNativeImage } from "../native/nativeRelocator.js";
 import { loadNativeLibraryImage } from "./frameworkNativeLibraryImages.js";
 import { createFrameworkRuntimeJniResolver } from "./frameworkRuntimeJniResolver.js";
@@ -37,9 +39,13 @@ async function createFrameworkFlutterNativeSession(runtime) {
 		{ imports }
 	);
 	const resolver = createFrameworkRuntimeJniResolver(runtime);
+	const arrayResolver = createFrameworkFlutterNativeArrayResolver(runtime);
+	const stringResolver = createFrameworkFlutterNativeStringResolver(runtime);
 	const entry = library.image.findSymbol("JNI_OnLoad");
 	if (!entry) throw sessionError("ANDROID_FLUTTER_JNI_ONLOAD_MISSING");
 	const state = createFlutterJniMachineState(library.memory, entry.value, {
+		...arrayResolver,
+		...stringResolver,
 		imports,
 		nativeLogcat: runtime.logcat,
 		packageFilesystem: runtime.filesystem,

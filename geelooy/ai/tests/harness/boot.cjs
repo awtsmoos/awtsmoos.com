@@ -19,7 +19,7 @@ async function run() {
   results.push(await test("extension-bridge-boot-exposes-awtsmoos-fetch", () => {
     assert(/window\.awtsmoosFetch\s*=\s*awtsFetch/.test(files.jected), "jected bridge must expose awtsmoosFetch");
     assert(/window\.mFetch\s*=\s*awtsFetch/.test(files.jected), "jected bridge must expose legacy mFetch");
-    assert(/awtsmoos-server-ready/.test(files.jected), "bridge must announce readiness");
+    assert(/awtsmoos-server-ready/.test(files.jectedBridge), "bridge helper must announce readiness");
     assert(/chrome\.runtime\.getURL\("\.\/jected\.js"\)/.test(files.content), "content script must inject jected.js into page world");
     return { awtsmoosFetch:true, mFetch:true, ready:true };
   }));
@@ -43,7 +43,7 @@ async function run() {
     assert(/OLD_COOKIE_RELAY_URL\s*=\s*"http:\/\/127\.0\.0\.1:38487"/.test(files.relaySettings), "old cookie relay port must be recognized as stale");
     assert(/isOldCookieRelay\(rawUrl\)/.test(files.relaySettings), "stale relay URLs must be healed");
     assert(/if \(!ignoreEnabled && !isNodeRelayEnabled\(\)\) return false/.test(files.relayFetch), "relay health must be gated by explicit selection");
-    assert(/if \(!isNodeRelayEnabled\(\)\) throw new Error\("Node relay is not enabled/.test(files.relayFetch), "relay fetch must refuse implicit use");
+    assert(/if \(!isNodeRelayEnabled\(\)\)\s*\{[\s\S]*throw new Error\("Node relay is not enabled/.test(files.relayFetch), "relay fetch must refuse implicit use");
     return { relayDefaultOff:true, splitBrowserPort:38488, stalePortHealed:38487 };
   }));
   results.push(await test("automation-bridge-detection-cannot-block-conversation-list", () => {
@@ -90,7 +90,7 @@ async function run() {
 
 function readBootFiles(ext) {
   return {
-    index: read("index.js"), controller: read("js/app/conversationController.js"), pager: read("js/app/conversationListPager.js"), bridge: read("js/chatgpt/transport/bridge.js"), relayFetch: read("js/chatgpt/transport/nodeRelayFetch.js"), relaySettings: read("js/chatgpt/transport/nodeRelaySettings.js"), backgroundBridge: read("js/automation/backgroundBridge.js"), requirements: read("js/chatgpt/sentinel/requirements.js"), chatCss: read("css/chat.css"), audio: read("js/chatgpt/audio/audioControls.js"), jected: fs.readFileSync(path.join(ext, "jected.js"), "utf8"), content: fs.readFileSync(path.join(ext, "awtsmoosContent.js"), "utf8")
+    index: read("index.js"), controller: read("js/app/conversationController.js"), pager: read("js/app/conversationListPager.js"), bridge: read("js/chatgpt/transport/bridge.js"), relayFetch: read("js/chatgpt/transport/nodeRelayFetch.js"), relaySettings: read("js/chatgpt/transport/nodeRelaySettings.js"), backgroundBridge: read("js/automation/backgroundBridge.js"), requirements: read("js/chatgpt/sentinel/requirements.js"), chatCss: read("css/chat.css"), audio: read("js/chatgpt/audio/audioControls.js"), jected: fs.readFileSync(path.join(ext, "jected.js"), "utf8"), jectedBridge: fs.readFileSync(path.join(ext, "jectedBridge.js"), "utf8"), content: fs.readFileSync(path.join(ext, "awtsmoosContent.js"), "utf8")
   };
 }
 function read(rel) { return fs.readFileSync(path.join(ROOT, rel), "utf8"); }

@@ -4,9 +4,9 @@
 
 /**
  * @file minimalMeadowTerrainVisualQuality.test.mjs
- * @description Guards native detail, six ecological identities, zones, and road mounting.
+ * @description Guards bounded native detail, ecological identities, zones, and visible road mounting.
  * The Awtsmoos reveals one meadow through distinct finite garments; Awtsmoos.com prevents
- * blur, arbitrary stretching, green monotony, hidden roads, and collision duplication.
+ * blur, arbitrary stretching, green monotony, hidden roads, and duplicate collision authority.
  */
 
 import assert from 'node:assert/strict';
@@ -23,20 +23,20 @@ import {
 } from '../../app/MinimalMeadowTerrainRoadMount.js';
 import { minimalMeadowZoneWeight } from '../../world/TerrainMesh.js';
 
-test('B"H mobile terrain preserves full native source quality', () => {
+test('B"H mobile terrain keeps bounded detail below richer desktop density', () => {
 	const mobile = minimalMeadowTerrainDensityProfile(true);
 	const desktop = minimalMeadowTerrainDensityProfile(false);
 	assert.deepEqual(mobile, {
-		detail: 64,
-		grass: 72,
+		detail: 38,
+		grass: 32,
 		mobile: true,
-		road: 80
+		road: 68
 	});
 	assert.deepEqual(desktop, {
-		detail: 84,
-		grass: 96,
+		detail: 48,
+		grass: 40,
 		mobile: false,
-		road: 112
+		road: 84
 	});
 	assert.ok(desktop.detail > mobile.detail);
 	assert.ok(desktop.grass > mobile.grass);

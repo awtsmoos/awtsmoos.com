@@ -27,6 +27,7 @@ assert.match(deploy, /AWTSMOOS_PRODUCTION_DATA_DIR/);
 assert.match(deploy, /ln -s "\$persistent_data" "\$stage\/geelooy\/\.data"/);
 assert.match(deploy, /ln -sfn "\$previous" "\$current"/);
 assert.match(deploy, /systemctl enable --now awtsmoos-health-watchdog\.timer/);
+assert.match(deploy, /ensure-nginx-websocket-timeouts\.sh/);
 assert.match(entry, /git -C "\$repo" fetch --prune origin main/);
 assert.match(entry, /git -C "\$repo" show "\$commit:scripts\/production\/immutable-deploy\.sh"/);
 assert.match(unit, /--max-http-header-size=131072/);
@@ -41,5 +42,6 @@ console.log(JSON.stringify({
 	healthRollback: true,
 	durableCredentialStore: true,
 	eventLoopWatchdog: true,
+	durableWebsocketProxy: true,
 	boundedHeaders: true
 }, null, 2));

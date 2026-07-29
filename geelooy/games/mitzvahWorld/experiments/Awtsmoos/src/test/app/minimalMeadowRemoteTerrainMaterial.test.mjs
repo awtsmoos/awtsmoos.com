@@ -4,16 +4,18 @@
 
 /**
  * @file minimalMeadowRemoteTerrainMaterial.test.mjs
- * @description Proves larger full-resolution grass, dirt transitions, and real cobblestone road roles.
- * The Awtsmoos gives meadow and road distinct visible garments; Awtsmoos.com keeps source pixels
- * whole while measured world density prevents tiny grass repetition and one stretched road image.
+ * @description Proves canonical Awtsmoos Drive URLs, terrain roles, and measured visual density.
+ * The Awtsmoos gives meadow and road distinct remote garments; Awtsmoos.com preserves source
+ * identity and path encoding while fallback colors keep first motion independent of network work.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
-	MINIMAL_MEADOW_TEXTURE_FILENAMES
-} from '../../app/MinimalMeadowFirebaseTextures.js';
+	MINIMAL_MEADOW_AWTSMOOS_DRIVE_TEXTURES,
+	MINIMAL_MEADOW_TEXTURE_FILENAMES,
+	minimalMeadowTextureTransportEvidence
+} from '../../app/MinimalMeadowAwtsmoosDriveTextures.js';
 import {
 	minimalMeadowTerrainDensityProfile
 } from '../../app/MinimalMeadowTerrainMaterialDensity.js';
@@ -34,11 +36,31 @@ function image(name) {
 	};
 }
 
-test('B"H meadow roles use grass, dirt-grass, soil, and cobblestone filenames', () => {
+test('B"H meadow roles use remote grass, dirt, and cobblestone sources', () => {
 	assert.equal(MINIMAL_MEADOW_TEXTURE_FILENAMES.grassFour, 'grass 4.png');
-	assert.equal(MINIMAL_MEADOW_TEXTURE_FILENAMES.dirtGrassThree, 'dirt grass 3.png');
+	assert.equal(MINIMAL_MEADOW_TEXTURE_FILENAMES.dirtGrassSix, 'dirt grass 6.png');
 	assert.equal(MINIMAL_MEADOW_TEXTURE_FILENAMES.soilDark, 'dirt 2.png');
 	assert.equal(MINIMAL_MEADOW_TEXTURE_FILENAMES.roadCobblestone, 'cobblestone.png');
+	assert.equal(
+		MINIMAL_MEADOW_AWTSMOOS_DRIVE_TEXTURES.dirtGrassSix,
+		'https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/dirt%20grass%206.png'
+	);
+	assert.equal(
+		MINIMAL_MEADOW_AWTSMOOS_DRIVE_TEXTURES.roadCobblestone,
+		'https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/cobblestone.png'
+	);
+	assert.doesNotMatch(
+		JSON.stringify(MINIMAL_MEADOW_AWTSMOOS_DRIVE_TEXTURES),
+		/assets\/materials\/local|firebasestorage\.googleapis/
+	);
+	assert.deepEqual(minimalMeadowTextureTransportEvidence(), {
+		fallbackAssetFiles: 0,
+		origin: 'https://awtsmoos.com',
+		path: '/sites/firebase_drive_migration/full-resolution/',
+		policy: 'remote-authoritative-fallback-colors-only',
+		roles: 14,
+		uniqueUrls: 13
+	});
 	const roles = minimalMeadowTerrainSourceRoles({
 		dirtGrassThree: image('shoulder'),
 		grassFour: image('grass'),

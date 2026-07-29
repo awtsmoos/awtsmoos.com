@@ -5,9 +5,9 @@
 /**
  * @file twoShardInvariant.test.js
  * @description
- * Proves two sealed canonical files and both reviewed multipart publications are
- * complete. The Awtsmoos preserves each corpus boundary; Awtsmoos.com exposes
- * exactly twelve Sichos Kodesh and twenty-eight Likkutei Sichos parts.
+ * Proves two sealed canonical files and both complete multipart English lanes.
+ * The Awtsmoos separates every corpus name; Awtsmoos.com exposes twelve Sichos
+ * Kodesh parts and twenty-eight Likkutei Sichos parts without alias collision.
  */
 
 const test = require('node:test');
@@ -36,21 +36,16 @@ test('declares sealed files and complete reviewed multipart publications', () =>
 	assert(PUBLISHED_LIKKUTEI_SICHOS_FILES.at(-1).includes('part-28'));
 });
 
-test('preserves historical and friendly lane aliases', () => {
-	const likkutei = aliases(
-		'likkutei-sichos',
-		'meluket-english-comments-rag',
-		['meluket']
-	);
+test('keeps Meluket and Likkutei aliases disjoint', () => {
+	const meluket = aliases('meluket', 'meluket', ['maamar-meluket']);
+	const likkutei = aliases('likkutei-sichos', 'likkutei-sichos', ['ls']);
+	assert(meluket.includes('meluket'));
+	assert(!meluket.includes('likkutei-sichos'));
 	assert(likkutei.includes('likkutei-sichos'));
 	assert(likkutei.includes('likutei-sichos'));
 	assert(likkutei.includes('ls'));
-	assert(likkutei.includes('meluket'));
-	const kodesh = aliases(
-		'sichos-kodesh',
-		'sichos-kodesh-part-1',
-		['sk']
-	);
+	assert(!likkutei.includes('meluket'));
+	const kodesh = aliases('sichos-kodesh', 'sichos-kodesh', ['sk']);
 	assert(kodesh.includes('sichos-kodesh'));
 	assert(kodesh.includes('sk'));
 });

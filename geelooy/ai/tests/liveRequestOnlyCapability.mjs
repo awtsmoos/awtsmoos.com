@@ -4,72 +4,57 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import { RequestOnlyCapabilityService } from "../relay/direct/chatgpt/RequestOnlyCapabilityService.mjs";
+import { DirectService } from "../relay/direct/chatgpt/DirectService.mjs";
 
 /**
- * The Awtsmoos reveals the production relay's strict request-only boundary in a
- * live authenticated browser. Awtsmoos.com persists booleans and public labels
- * only—never conduit, Sentinel, proof, Turnstile, session, or account values.
+ * Capability probes only native HTTP providers: server-side OpenAI configuration
+ * and localhost model health. The Awtsmoos touches no Chrome, DOM, composer,
+ * browser session, provider response, credential value, transcript, or model input.
  */
 const outputPath = process.env.AWTSMOOS_CAPABILITY_REPORT
 	?? "geelooy/ai/thoughts/live-request-only-capability.json";
-const preferredPort = Number(process.env.AWTSMOOS_CHROME_DEBUG_PORT || 9226);
-const service = new RequestOnlyCapabilityService({ preferredPort });
-const capability = await service.inspect({ refresh: true });
-const report = {
-	BH: "B\"H — Boruch Hashem — Blessed is He",
-	observedAt: new Date().toISOString(),
-	...capability
-};
+const service = new DirectService();
 
-validate(report);
-fs.mkdirSync(path.dirname(path.resolve(outputPath)), { recursive: true });
-fs.writeFileSync(outputPath, `${JSON.stringify(report, null, "\t")}\n`, "utf8");
-console.log(JSON.stringify({
-	status: "passed",
-	outputPath,
-	strictChatReady: report.strictChatReady,
-	fallbackRequired: report.fallbackRequired,
-	enforcementRequired: report.enforcementRequired,
-	browserChallengeRequired: report.browserChallengeBoundary.required,
-	minimumFallback: report.minimumFallback.mode
-}, null, "\t"));
+try {
+	const capability = await service.capability();
+	validate(capability);
+	fs.mkdirSync(path.dirname(path.resolve(outputPath)), { recursive: true });
+	fs.writeFileSync(outputPath, `${JSON.stringify({
+		BH: "B\"H — Boruch Hashem — Blessed is He",
+		observedAt: new Date().toISOString(),
+		...capability
+	}, null, "\t")}\n`);
+	console.log(JSON.stringify({
+		status: capability.strictChatReady ? "ready" : "provider-required",
+		outputPath,
+		transport: capability.transport,
+		browserRequired: capability.browserRequired,
+		browserInspected: capability.browserInspected,
+		domUsed: capability.composerTouched,
+		officialApiConfigured: capability.officialApi?.configured === true,
+		localModelConfigured: capability.localModel?.configured === true,
+		failureCode: capability.failureCode
+	}, null, 2));
+	if (!capability.strictChatReady) process.exitCode = 2;
+} finally {
+	await service.close().catch(() => undefined);
+}
 
 function validate(value) {
-	const expectations = [
-		[value.ok === true, "Capability service did not report ok."],
-		[value.mode === "strict-request-only", "Capability mode was not strict."],
-		[value.authenticated === true, "Settings host was not authenticated."],
-		[value.socketRequired === false, "Capability incorrectly required a socket."],
-		[value.composerTouched === false, "Capability run touched the composer."],
-		[value.conversationPostSent === false, "Capability run sent a conversation POST."],
-		[value.conversationPrepare?.ready === true, "Conversation prepare was not ready."],
-		[value.sentinelPrepare?.ready === true, "Sentinel prepare was not ready."],
-		[value.sentinelSdk?.ready === true, "Sentinel SDK token was not ready."],
-		[value.requestOnlyCoverage?.conduitToken === true, "Conduit coverage was absent."],
-		[value.requestOnlyCoverage?.proofTokenAvailable === false, "Proof boundary was absent."],
-		[value.requestOnlyCoverage?.turnstileTokenAvailable === false, "Turnstile boundary was absent."],
-		[value.browserChallengeBoundary?.required === true, "Browser challenge was not reported."],
-		[value.minimumFallback?.carrierConversationPostSuppressed === true, "Carrier suppression was absent."],
-		[value.enforcementRequired === true, "Normal enforcement was not reported."],
-		[value.strictChatReady === false, "Strict chat was incorrectly marked ready."],
-		[value.fallbackRequired === true, "Fallback requirement was not reported."]
+	const required = [
+		value.ok === true,
+		value.mode === "strict-request-only",
+		value.browserRequired === false,
+		value.browserInspected === false,
+		value.composerTouched === false,
+		value.conversationPostSent === false,
+		value.socketRequired === false
 	];
-	const failure = expectations.find(([passed]) => !passed);
-	if (failure) throw new Error(failure[1]);
-
+	if (required.includes(false)) {
+		throw new Error("Request-only capability violated the zero-browser contract.");
+	}
 	const serialized = JSON.stringify(value);
-	const forbidden = [
-		/Bearer\s+[A-Za-z0-9._-]{20,}/i,
-		/\beyJ[A-Za-z0-9_-]{20,}/,
-		/\bgAAAA[A-Za-z0-9_-]{20,}/,
-		/wss:\/\/ws\.chatgpt\.com\/[^\s"']+/i,
-		/prepare_token\"\s*:\s*\"/i,
-		/conduit_token\"\s*:\s*\"/i,
-		/proofToken\"\s*:\s*\"/i,
-		/turnstileToken\"\s*:\s*\"/i
-	];
-	if (forbidden.some(pattern => pattern.test(serialized))) {
-		throw new Error("Live capability report retained a forbidden secret value.");
+	if (/Bearer\s|\bsk-[A-Za-z0-9_-]+|resp_[A-Za-z0-9_-]+|BH_DIRECT_/i.test(serialized)) {
+		throw new Error("Request-only capability retained a private value.");
 	}
 }

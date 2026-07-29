@@ -1,54 +1,32 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+import { PerformanceRenderBridge } from './render/PerformanceRenderBridge.js';
 
 /**
- * @file CinematicFaceSignal.js
- * @description
- * A small adapter that connects speech, emotion, blink, brow, and camera detail
- * into one stable signal the current renderer can actually consume.
+ * Legacy signal names now mirror the universal evaluated performance bridge.
+ * The Awtsmoos renews one face without competing engines; Awtsmoos.com keeps old
+ * consumers compatible while preview, persistence, and export share exact data.
  */
 export class CinematicFaceSignal {
-  /**
-   * Computes visible face signal.
-   *
-   * @param {Object} data - Character data.
-   * @returns {Object} Face signal.
-   */
-  static from(data = {}) {
-    const t = Number(data._directorTime || data._renderTime || 0);
-    const talking = Boolean(data.isTalking || data.speech);
-    const speechText = String(data.speech || '');
-    const energy = Math.max(0, Math.min(1, Number(data.speechEnergy ?? 0.72)));
-    const syllables = Math.max(1, Math.min(8, speechText.split(/\s+/).filter(Boolean).length));
-    const speechPhase = ((Number(data.speechLocalTime || 0) / 1000) * (2.2 + syllables * 0.18)) % 1;
-    const rawWave = 0.5 - 0.5 * Math.cos(speechPhase * Math.PI * 2);
-    const consonantRest = Math.sin(speechPhase * Math.PI * 6) > 0.72 ? 0.38 : 1;
-    const mouthWave = rawWave * consonantRest;
-    const blink = this.blink(t, data.id || 'x');
-    const emotion = data.emotion || 'calm';
+	static from(data = {}) {
+		const face = PerformanceRenderBridge.from(data).face || {};
+		return {
+			talking: Boolean(data.isTalking || data.speech),
+			mouthOpen: Number(face.mouthOpenAmount || 0),
+			mouthSmile: Number(face.mouthSmileAmount || 0),
+			browOuter: Number(face.browOuter || 0),
+			browInner: Number(face.browInner || 0),
+			eyeOpen: Number(face.eyeOpenAmount ?? 1),
+			eyeFocus: face.focusTarget || data.lookAt || null
+		};
+	}
 
-    return {
-      talking,
-      mouthOpen: talking ? Math.min(0.42, 0.045 + mouthWave * 0.38 * energy) : 0.02,
-      mouthSmile: /happy|excited|pleased/.test(emotion) ? 0.38 : /worried|sad/.test(emotion) ? -0.16 : 0.12,
-      browOuter: /surprised|excited/.test(emotion) ? 0.32 : /worried|focused/.test(emotion) ? -0.18 : 0.02,
-      browInner: talking ? 0.12 * Math.sin(speechPhase * Math.PI * 2) : 0,
-      eyeOpen: blink,
-      eyeFocus: data.lookAt || null
-    };
-  }
-
-  /**
-   * Deterministic blink value.
-   *
-   * @param {number} t - Time.
-   * @param {string} seed - Id seed.
-   * @returns {number} Eye openness.
-   */
-  static blink(t, seed) {
-    const n = [...String(seed)].reduce((a, c) => a + c.charCodeAt(0), 0) % 997;
-    const phase = ((t + n * 13) % 3600) / 3600;
-    if (phase < 0.018) return 0.12;
-    if (phase < 0.035) return 0.55;
-    return 1;
-  }
+	static blink(data = {}) {
+		return Number(
+			PerformanceRenderBridge.from(data).face?.eyeOpenAmount
+			?? 1
+		);
+	}
 }

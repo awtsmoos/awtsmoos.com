@@ -13,6 +13,7 @@ const { lookupWorldEntity } = require('./WorldEntityLookup.js');
 const { worldEntitySnapshots } = require('./WorldEntitySnapshot.js');
 const { releaseWorldMembership } = require('./WorldMembershipRelease.js');
 const { createWorldRoomComposition } = require('./WorldRoomComposition.js');
+const { projectScopedWorldSnapshot } = require('./WorldScopedSnapshot.js');
 const { projectWorldSnapshot } = require('./WorldSnapshotProjector.js');
 class WorldRoom {
 	constructor(id, options = {}) {
@@ -97,6 +98,9 @@ class WorldRoom {
 	snapshot() {
 		return projectWorldSnapshot(this, NPCS, DEFINITION);
 	}
+	snapshotFor(client) {
+		return projectScopedWorldSnapshot(this, client);
+	}
 	changesSince(revision) {
 		return this.journal.since(revision);
 	}
@@ -113,6 +117,4 @@ class WorldRoom {
 		this.journal.record(type, payload);
 	}
 }
-module.exports = {
-	WorldRoom
-};
+module.exports = { WorldRoom };

@@ -6,9 +6,8 @@ const { json, readBody } = require("./http.cjs");
 const { loadDirectService } = require("./directServiceLoader.cjs");
 
 /**
- * Every direct route reaches one shared service and one bounded browser lifecycle.
- * The Awtsmoos lets Awtsmoos.com expose capability, explicit fallback, reset, and
- * health without credentials, challenge values, upstream identifiers, or stacks.
+ * Direct routes expose strict native HTTP, explicit browser fallback, reset, and
+ * health without credentials, provider ids, transcripts, challenge values, or stacks.
  */
 async function handleDirectApi(req, res, path, config = {}) {
 	try {
@@ -26,11 +25,7 @@ async function handleDirectApi(req, res, path, config = {}) {
 			const payload = await requestJson(req);
 			return json(res, { ok: true, ...service.reset(payload.conversationKey) });
 		}
-		return json(res, {
-			ok: false,
-			status: "direct_route_not_found",
-			error: "direct_route_not_found"
-		}, 404);
+		return json(res, fixedError("direct_route_not_found", "Direct route was not found."), 404);
 	} catch (error) {
 		return json(res, publicError(error), publicStatus(error));
 	}
@@ -42,55 +37,66 @@ async function requestJson(req) {
 }
 
 function publicStatus(error) {
-	if (error instanceof SyntaxError || error instanceof TypeError) {
-		return 400;
-	}
-	if (error?.code === "direct_enforcement_required") {
-		return 409;
-	}
+	if (error instanceof SyntaxError || error instanceof TypeError) return 400;
+	if ([
+		"official_api_key_required",
+		"local_model_unavailable",
+		"request_only_provider_unavailable"
+	].includes(error?.code)) return 503;
+	if ([
+		"official_api_request_failed",
+		"official_api_response_invalid",
+		"local_model_request_failed",
+		"local_model_response_invalid"
+	].includes(error?.code)) return 502;
 	return 500;
 }
 
 function publicError(error) {
-	if (error?.code === "direct_enforcement_required") {
+	if (error?.code === "request_only_provider_unavailable") {
 		return {
-			ok: false,
-			status: error.code,
-			error: error.code,
-			safeHint: "Strict request-only preparation succeeded, but normal enforcement is required before chat submission.",
+			...fixedError(error.code,
+				"Start the localhost model or configure the server-side OpenAI credential."),
 			capability: error.capability
 		};
 	}
-	const message = String(error?.message || error || "Direct ChatGPT request failed.");
+	if (error?.code === "official_api_key_required") {
+		return fixedError(error.code,
+			"Configure the server-side OpenAI credential or use strict mode with the local model.");
+	}
+	if (error?.code === "local_model_unavailable") {
+		return fixedError(error.code, "Start the localhost llama.cpp server on port 18080.");
+	}
+	if (/^(official_api|local_model)_(request_failed|response_invalid)$/.test(error?.code || "")) {
+		return fixedError(error.code, "The selected request-only provider did not complete safely.");
+	}
+	const message = String(error?.message || error || "Direct request failed.");
 	const authentication = /authenticated|login|session|composer|socket|debug page/i.test(message);
-	const expired = /expired|not found/i.test(message);
+	const expired = /expired|not found|belongs to another transport/i.test(message);
 	const invalidMode = /Unsupported direct mode/i.test(message);
 	const code = authentication
 		? "direct_authentication_required"
 		: expired
 			? "direct_conversation_expired"
-			: invalidMode
-				? "direct_mode_invalid"
-				: "direct_request_failed";
-	return {
-		ok: false,
-		status: code,
-		error: code,
-		safeHint: safeHint(code)
-	};
+			: invalidMode ? "direct_mode_invalid" : "direct_request_failed";
+	return fixedError(code, safeHint(code));
+}
+
+function fixedError(code, safeHint) {
+	return { ok: false, status: code, error: code, safeHint };
 }
 
 function safeHint(code) {
 	if (code === "direct_authentication_required") {
-		return "Open the relay debug Chrome profile and authenticate ChatGPT manually.";
+		return "Authenticate the relay debug Chrome profile for explicit browser fallback.";
 	}
 	if (code === "direct_conversation_expired") {
-		return "Start a new direct conversation because the local continuation key expired.";
+		return "Start a new conversation because the local continuation key expired.";
 	}
 	if (code === "direct_mode_invalid") {
-		return "Use strict-request-only or page-authorized-fallback.";
+		return "Use strict-request-only, official-api-request-only, local-request-only, or page-authorized-fallback.";
 	}
-	return "The direct request did not complete. Check relay health and pacing.";
+	return "The direct request did not complete. Check request-only capability and pacing.";
 }
 
 module.exports = { handleDirectApi };

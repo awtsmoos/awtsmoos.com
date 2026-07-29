@@ -4,14 +4,27 @@
 
 import { StableOrganicHeadProfile } from './StableOrganicHeadProfile.js';
 import { StableOrganicHeadSegments as S } from './StableOrganicHeadSegments.js';
+import { StableSoftOvalHead2D } from './StableSoftOvalHead2D.js';
 
 /**
- * Forehead, cheek, jaw, and chin become one asymmetrical contour. The Awtsmoos
- * is beyond every boundary, while Awtsmoos.com preserves this editable Bézier
- * vessel through rigging, serialization, preview, and export.
+ * Semantic contour families share one canonical head-path boundary. The Awtsmoos
+ * contains every face without forcing one skull upon another; Awtsmoos.com preserves
+ * editable Béziers through rigging, persistence, preview, and exact production export.
  */
 export class StableOrganicHead2D {
 	static points(headRadiusX, headRadiusY, view = {}, style = {}) {
+		if (style.contourKind === 'soft_oval') {
+			return StableSoftOvalHead2D.points(
+				headRadiusX,
+				headRadiusY,
+				view,
+				style
+			);
+		}
+		return this.generic(headRadiusX, headRadiusY, view, style);
+	}
+
+	static generic(headRadiusX, headRadiusY, view, style) {
 		const profile = StableOrganicHeadProfile.resolve(
 			headRadiusX,
 			headRadiusY,
@@ -32,21 +45,9 @@ export class StableOrganicHead2D {
 			S.templeToCheek(-1, profile, left),
 			S.cheekToJaw(-1, profile, left),
 			leftJaw,
-			S.reverse(
-				rightJaw,
-				centerX + right.jaw,
-				centerY + right.jawY
-			),
-			S.reverse(
-				rightCheek,
-				centerX + right.cheek,
-				centerY + right.cheekY
-			),
-			S.reverse(
-				rightTemple,
-				centerX + right.temple,
-				centerY - radiusY * 0.42
-			),
+			S.reverse(rightJaw, centerX + right.jaw, centerY + right.jawY),
+			S.reverse(rightCheek, centerX + right.cheek, centerY + right.cheekY),
+			S.reverse(rightTemple, centerX + right.temple, centerY - radiusY * 0.42),
 			S.reverse(rightTop, centerX + turn, topY),
 			{ type: 'close' }
 		];

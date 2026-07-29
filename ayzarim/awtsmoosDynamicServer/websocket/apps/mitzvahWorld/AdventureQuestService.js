@@ -4,15 +4,13 @@
 
 /**
  * @file AdventureQuestService.js
- * @description Advances event-driven missions and grants exact-once complete rewards.
- * The Awtsmoos renews every objective as a measured step toward repair; Awtsmoos.com
- * joins XP, mitzvah points, level attributes, and Perutas beneath one replay-safe id.
+ * @description Advances personal missions through solo or current-party authoritative events.
+ * The Awtsmoos joins objective progress without merging reward identity; Awtsmoos.com keeps
+ * each player’s completion time, wallet, XP, mitzvah points, and replay-safe reward separate.
  */
 
 const { RealtimeError } = require('../../platform/RealtimeError.js');
-const {
-	matchesAdventureObjective
-} = require('./AdventureObjectiveRules.js');
+const { advanceAdventureEvent } = require('./AdventureQuestEventProgress.js');
 const { grantReward } = require('./Progression.js');
 const {
 	ADVENTURE_QUESTS,
@@ -22,12 +20,11 @@ const {
 class AdventureQuestService {
 	constructor(options = {}) {
 		this.clock = options.clock || Date.now;
+		this.membersFor = options.membersFor || (player => [player]);
 	}
-
 	list() {
 		return clone(ADVENTURE_QUESTS);
 	}
-
 	start(player, questId) {
 		const definition = this.requireDefinition(questId);
 		const existing = player.adventureQuests[questId];
@@ -40,31 +37,17 @@ class AdventureQuestService {
 		}
 		player.adventureQuests[questId] = {
 			count: 0,
+			evidence: [],
 			objectiveIndex: 0,
 			status: 'active'
 		};
 		return this.snapshot(player, definition.id);
 	}
-
 	recordEvent(player, event) {
-		const advanced = [];
-		for (const quest of ADVENTURE_QUESTS) {
-			const progress = player.adventureQuests[quest.id];
-			if (!progress || progress.status !== 'active') continue;
-			const objective = quest.objectives[progress.objectiveIndex];
-			if (!matchesAdventureObjective(objective, event)) continue;
-			progress.count = Math.min(
-				objective.count,
-				progress.count + Number(event.count || 1)
-			);
-			if (progress.count >= objective.count) {
-				this.advanceObjective(player, quest, progress);
-			}
-			advanced.push(this.snapshot(player, quest.id));
-		}
-		return advanced;
+		return uniquePlayers(this.membersFor(player)).flatMap(recipient => {
+			return advanceAdventureEvent(this, recipient, event);
+		});
 	}
-
 	advanceObjective(player, quest, progress) {
 		progress.objectiveIndex += 1;
 		progress.count = 0;
@@ -80,7 +63,6 @@ class AdventureQuestService {
 			}
 		);
 	}
-
 	snapshot(player, questId = null) {
 		if (questId) {
 			const definition = this.requireDefinition(questId);
@@ -94,7 +76,6 @@ class AdventureQuestService {
 			progress: player.adventureQuests
 		});
 	}
-
 	requireDefinition(questId) {
 		const definition = adventureQuestDefinition(questId);
 		if (!definition) {
@@ -107,6 +88,9 @@ class AdventureQuestService {
 	}
 }
 
+function uniquePlayers(players = []) {
+	return [...new Map(players.filter(Boolean).map(player => [player.id, player])).values()];
+}
 function clone(value) {
 	return JSON.parse(JSON.stringify(value));
 }

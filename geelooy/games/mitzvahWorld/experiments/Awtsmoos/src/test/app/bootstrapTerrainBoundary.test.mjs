@@ -4,9 +4,9 @@
 
 /**
  * @file bootstrapTerrainBoundary.test.mjs
- * @description Proves first movement owns one honest flat terrain state without authored imports.
- * The Awtsmoos gives open ground before mountain detail; Awtsmoos.com verifies collision,
- * sampling, chunks, diagnostics, scene ownership, and the dormant-valley boundary in rhyme.
+ * @description Proves first movement owns visible flat ground without authored-world imports.
+ * The Awtsmoos gives open earth before mountain detail; Awtsmoos.com verifies collision,
+ * sampling, chunks, diagnostics, scene ownership, and the visible bootstrap boundary.
  */
 
 import assert from 'node:assert/strict';
@@ -38,7 +38,7 @@ function servicesHarness() {
 	};
 }
 
-test('bootstrap foundation composes one truthful open flat world', () => {
+test('bootstrap foundation composes one truthful visible open world', () => {
 	const harness = servicesHarness();
 	const world = createBootstrapWorldFoundation(harness.services);
 	assert.equal(harness.added.length, 1);
@@ -55,10 +55,10 @@ test('bootstrap foundation composes one truthful open flat world', () => {
 		collision: { completed: 0 },
 		visual: { completed: 0 }
 	});
-	assert.equal(world.materialCanonicalization.mode, 'bootstrap-dormant');
+	assert.equal(world.materialCanonicalization.mode, 'visible-bootstrap');
 });
 
-test('critical foundation source excludes authored terrain and world finalizer imports', async () => {
+test('critical foundation excludes authored terrain and finalizer imports', async () => {
 	const foundation = await readFile(new URL('EretzWorldFoundation.js', APP_URL), 'utf8');
 	const bootstrap = await readFile(new URL('BootstrapWorldFoundation.js', APP_URL), 'utf8');
 	for (const forbidden of [
@@ -71,6 +71,9 @@ test('critical foundation source excludes authored terrain and world finalizer i
 		assert.doesNotMatch(foundation, new RegExp(forbidden));
 		assert.doesNotMatch(bootstrap, new RegExp(forbidden));
 	}
-	assert.match(foundation, /BootstrapWorldFoundation\.js\?v=20260722-stream-15/);
+	assert.match(
+		foundation,
+		/BootstrapWorldFoundation\.js\?v=\d{8}-stream-\d+/
+	);
 	assert.match(bootstrap, /createBootstrapTerrainPackage/);
 });

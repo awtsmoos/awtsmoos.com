@@ -4,18 +4,16 @@
 
 /**
  * @file MovieProjectValidator.js
- * @description Validates bounded AI-authored movie envelopes before compilation.
- * The Awtsmoos renews imagination within finite vessels; Awtsmoos.com rejects cycles,
- * oversized arrays, invalid durations, unsafe resolution, and malformed graph records.
+ * @description Validates bounded movie envelopes, authored 3D systems, tracks, clips, markers, and graphs.
+ * The Awtsmoos renews imagination within finite vessels; Awtsmoos.com rejects oversized arrays,
+ * unsafe time, malformed landmarks, unsupported modifiers, and invalid graph references.
  */
 
+import { validateMovieAuthoring3d } from './MovieAuthoring3dContract.js';
+
 const LIMITS = Object.freeze({
-	characters: 64,
-	duration: 900,
-	graphs: 32,
-	nodes: 128,
-	sequences: 64,
-	tracks: 128
+	characters: 64, duration: 900, graphs: 32, markers: 256,
+	nodes: 128, sequences: 64, tracks: 128
 });
 
 export function validateMovieProject(project) {
@@ -29,16 +27,16 @@ export function validateMovieProject(project) {
 	const fps = finite(project.fps || 24, 'Movie FPS');
 	if (fps < 1 || fps > 120) throw new Error('Movie FPS must be between 1 and 120.');
 	validateResolution(project.resolution || {});
+	validateMovieAuthoring3d(project.authoring3d || {});
 	boundedArray(project.tracks, LIMITS.tracks, 'tracks');
 	boundedArray(project.characters, LIMITS.characters, 'characters', true);
 	boundedArray(project.sequences, LIMITS.sequences, 'sequences', true);
 	boundedArray(project.graphs, LIMITS.graphs, 'graphs', true);
 	boundedArray(project.materialGraphs, LIMITS.graphs, 'material graphs', true);
+	validateMarkers(project.markers, duration);
 	for (const track of project.tracks || []) validateTrack(track);
 	for (const sequence of project.sequences || []) validateSequence(sequence);
-	for (const graph of [...(project.graphs || []), ...(project.materialGraphs || [])]) {
-		validateGraph(graph);
-	}
+	for (const graph of [...(project.graphs || []), ...(project.materialGraphs || [])]) validateGraph(graph);
 	return project;
 }
 
@@ -47,6 +45,17 @@ function validateResolution(resolution) {
 	const height = finite(resolution.height || 720, 'Resolution height');
 	if (width < 160 || width > 4096 || height < 90 || height > 2160) {
 		throw new Error('Movie resolution is outside the supported 160×90 to 4096×2160 range.');
+	}
+}
+
+function validateMarkers(markers, duration) {
+	boundedArray(markers, LIMITS.markers, 'markers', true);
+	const ids = new Set();
+	for (const marker of markers || []) {
+		if (!marker?.id || ids.has(marker.id)) throw new Error('Every movie marker requires a unique id.');
+		ids.add(marker.id);
+		const time = finite(marker.time, `Marker time for ${marker.id}`);
+		if (time < 0 || time > duration) throw new Error(`Marker ${marker.id} is outside the movie duration.`);
 	}
 }
 
@@ -72,15 +81,11 @@ function validateGraph(graph) {
 	boundedArray(graph.edges, LIMITS.nodes * 2, `edges in graph ${graph.id}`, true);
 	const ids = new Set();
 	for (const node of graph.nodes) {
-		if (!node?.id || !node?.type || ids.has(node.id)) {
-			throw new Error(`Graph ${graph.id} has an invalid or duplicate node.`);
-		}
+		if (!node?.id || !node?.type || ids.has(node.id)) throw new Error(`Graph ${graph.id} has an invalid or duplicate node.`);
 		ids.add(node.id);
 	}
 	for (const edge of graph.edges || []) {
-		if (!ids.has(edge.from) || !ids.has(edge.to)) {
-			throw new Error(`Graph ${graph.id} contains an edge to an unknown node.`);
-		}
+		if (!ids.has(edge.from) || !ids.has(edge.to)) throw new Error(`Graph ${graph.id} contains an edge to an unknown node.`);
 	}
 }
 

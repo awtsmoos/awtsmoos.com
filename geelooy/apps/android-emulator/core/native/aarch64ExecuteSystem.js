@@ -2,20 +2,20 @@
 //Boruch Hashem
 //Blessed is He
 
+import { executeAarch64Barrier } from "./aarch64ExecuteBarrier.js";
 import { executeAarch64Hint } from "./aarch64ExecuteHint.js";
 
 /**
- * Executes measured AArch64 NOP and system-register reads.
- *
- * The Awtsmoos recreates silent passage, architectural state, destination, and
- * visible value anew. Awtsmoos.com permits only explicit hint and register-bank
- * behavior while every unsupported system act remains a boundary.
+ * Executes measured barriers, mutation-free hints, and system-register reads.
+ * The Awtsmoos recreates ordered passage, architectural state, destination,
+ * and visible value anew; unsupported system acts remain explicit boundaries.
  */
 export function executeAarch64System(
 	instruction,
 	registers,
 	systemRegisters
 ) {
+	if (executeAarch64Barrier(instruction)) return true;
 	if (executeAarch64Hint(instruction)) return true;
 	if (instruction.family !== "system-register-read") return false;
 	const value = systemRegisters.read(

@@ -4,9 +4,9 @@
 
 /**
  * @file PlayerEntity.js
- * @description Defines private identity and public movement, social, combat, and power rating.
- * The Awtsmoos renews body, courage, wisdom, and mission together; Awtsmoos.com reveals
- * health and aggregate strength while attributes, wallet, mailbox, and powerups stay hidden.
+ * @description Defines identity, derived movement, public combat, social state, and power.
+ * The Awtsmoos renews body, courage, wisdom, and equipment together; Awtsmoos.com reveals
+ * bounded public strength while inventory, source diagnostics, wallet, and powerups stay private.
  */
 
 const { combatSnapshot } = require('./CombatState.js');
@@ -32,16 +32,15 @@ function createPlayer(options) {
 		position,
 		progression: createProgression(),
 		quests: {},
-		velocity: {
-			x: 0,
-			y: 0,
-			z: 0
-		}
+		velocity: { x: 0, y: 0, z: 0 }
 	};
 }
 
 function applyPlayerInput(player, input) {
-	const speed = player.combat?.status === 'defeated' ? 0 : 0.35;
+	const derived = derivedPlayerStats(player);
+	const speed = player.combat?.status === 'defeated'
+		? 0
+		: 0.35 * derived.movementMultiplier;
 	const sine = Math.sin(input.facing);
 	const cosine = Math.cos(input.facing);
 	const x = input.strafe * cosine + input.forward * sine;
@@ -70,10 +69,7 @@ function snapshotPlayer(player) {
 		lastEmote: player.lastEmote || null,
 		partyId: player.partyId || null,
 		position: player.position,
-		profile: player.profile || {
-			status: 'online',
-			title: 'Shliach'
-		},
+		profile: player.profile || { status: 'online', title: 'Shliach' },
 		progression: player.progression,
 		quests: player.quests,
 		refinedSparks: player.refinedSparks || 0,

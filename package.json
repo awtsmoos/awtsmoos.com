@@ -46,7 +46,7 @@
 		"test:platform-ops": "node geelooy/api/social/helper/test/platformOps.test.js",
 		"test:platform-execution": "node geelooy/api/social/helper/test/platformExecution.test.js",
 		"bh": "node scripts/ship.mjs && node scripts/bh.mjs",
-    "rbm": "node geelooy/apps/tunnel/agent/rebuild-manifest.cjs",
+		"rbm": "node geelooy/apps/tunnel/agent/rebuild-manifest.cjs",
 		"tunnel:identity": "node geelooy/apps/tunnel/agent/scripts/device-identity.cjs status",
 		"tunnel:logout": "node geelooy/apps/tunnel/agent/scripts/device-identity.cjs forget",
 		"ship:bh": "node scripts/ship.mjs && node scripts/bh.mjs",
@@ -64,7 +64,13 @@
 		"ai:login": "node geelooy/ai/relay/split-browser/commands/loginOnly.cjs",
 		"ai:login-stress": "node geelooy/ai/relay/split-browser/commands/loginAndStress.cjs",
 		"ai:request-capability": "AWTSMOOS_CHROME_DEBUG_PORT=${AWTSMOOS_CHROME_DEBUG_PORT:-9223} node geelooy/ai/tests/liveRequestOnlyCapability.mjs",
-		"ai:fallback-stress": "AWTSMOOS_CHROME_DEBUG_PORT=${AWTSMOOS_CHROME_DEBUG_PORT:-9223} AWTSMOOS_DIRECT_INTERVAL_MS=${AWTSMOOS_DIRECT_INTERVAL_MS:-10000} node geelooy/ai/tests/liveFallbackStress.mjs"
+		"ai:fallback-stress": "AWTSMOOS_CHROME_DEBUG_PORT=${AWTSMOOS_CHROME_DEBUG_PORT:-9223} AWTSMOOS_DIRECT_INTERVAL_MS=${AWTSMOOS_DIRECT_INTERVAL_MS:-10000} node geelooy/ai/tests/liveFallbackStress.mjs",
+		"ai:local-model-start": "node geelooy/ai/relay/direct/local/startLocalModel.mjs",
+		"ai:local-model-status": "node geelooy/ai/relay/direct/local/statusLocalModel.mjs",
+		"ai:local-model-stop": "node geelooy/ai/relay/direct/local/stopLocalModel.mjs",
+		"ai:request-only-stress": "AWTSMOOS_DIRECT_INTERVAL_MS=${AWTSMOOS_DIRECT_INTERVAL_MS:-10000} node geelooy/ai/tests/liveRequestOnlyStress.mjs",
+		"ai:setup-request-only": "node geelooy/ai/relay/direct/openai/setupRequestOnly.mjs",
+		"ai:web-capability": "AWTSMOOS_CHROME_DEBUG_PORT=${AWTSMOOS_CHROME_DEBUG_PORT:-9223} node geelooy/ai/tests/liveRequestOnlyCapability.mjs"
 	},
 	"author": "",
 	"license": "ISC"

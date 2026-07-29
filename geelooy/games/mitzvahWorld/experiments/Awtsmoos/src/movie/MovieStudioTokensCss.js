@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioTokensCss.js
- * @description Defines the editor-scoped visual covenant shared by every movie surface.
- * The Awtsmoos renews each shade without separation or loss; Awtsmoos.com gathers those
- * renewed sparks into calm tokens, so every panel can differ in purpose and still belong.
+ * @description Defines semantic surfaces, density geometry, track colors, and shared studio tokens.
+ * The Awtsmoos renews each shade and measure without division; Awtsmoos.com gathers those
+ * sparks into named vessels so themes, tracks, panes, and controls differ without losing unity.
  */
 
 export function movieStudioTokensCss() {
@@ -17,10 +17,18 @@ export function movieStudioTokensCss() {
 			--movie-panel: #111925;
 			--movie-panel-raised: #182333;
 			--movie-panel-hover: #202e41;
+			--movie-surface-canvas: #030508;
+			--movie-surface-toolbar: #0b1018;
+			--movie-surface-inspector: #111925;
+			--movie-surface-floating: #182333;
+			--movie-surface-track-even: #0e1622;
+			--movie-surface-track-odd: #101a28;
 			--movie-text: #f2f6fb;
 			--movie-text-muted: #9babbe;
 			--movie-border: #2b3a4e;
 			--movie-border-strong: #415775;
+			--movie-divider-subtle: #243247;
+			--movie-divider-strong: #526c91;
 			--movie-accent: #62d8b3;
 			--movie-accent-strong: #8ff0d1;
 			--movie-accent-ink: #052018;
@@ -31,6 +39,15 @@ export function movieStudioTokensCss() {
 			--movie-ruler: #162235;
 			--movie-track: #0e1622;
 			--movie-playhead: #ffcf5f;
+			--movie-track-actor: #9d7cff;
+			--movie-track-audio: #54c889;
+			--movie-track-camera: #5b9dff;
+			--movie-track-crowd: #c77dff;
+			--movie-track-dialogue: #f3b95f;
+			--movie-track-door: #ff8e5b;
+			--movie-track-event: #f0669a;
+			--movie-track-scene: #4fc9c1;
+			--movie-track-sequence: #8a9bb5;
 			--movie-shadow: 0 18px 48px rgb(0 0 0 / 0.34);
 			--movie-space-1: 4px;
 			--movie-space-2: 8px;
@@ -43,8 +60,14 @@ export function movieStudioTokensCss() {
 			--movie-control-height: 40px;
 			--movie-touch-height: 44px;
 			--movie-header-height: 58px;
-			--movie-timeline-height: clamp(240px, 36vh, 430px);
-			--movie-track-header-width: clamp(112px, 12vw, 164px);
+			--movie-track-height: 52px;
+			--movie-clip-height: 36px;
+			--movie-clip-offset: 8px;
+			--movie-trim-width: 12px;
+			--movie-splitter-size: 8px;
+			--movie-timeline-height: 340px;
+			--movie-track-header-width: 148px;
+			--movie-inspector-width: 340px;
 			--movie-safe-top: env(safe-area-inset-top, 0px);
 			--movie-safe-right: env(safe-area-inset-right, 0px);
 			--movie-safe-bottom: env(safe-area-inset-bottom, 0px);

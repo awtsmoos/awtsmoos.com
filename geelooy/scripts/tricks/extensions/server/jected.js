@@ -7,6 +7,7 @@
 	]);
 	const bridge = globalThis.__awtsmoosPageBridge;
 	const responseTools = globalThis.__awtsmoosResponseTools;
+	installExpectedRejectionGuard(bridge);
 
 	/**
 	 * The page bridge carries fetch, resumable streams, automation, strict direct
@@ -99,5 +100,21 @@
 				(document.head || document.documentElement).appendChild(script);
 			});
 		}
+	}
+
+	function installExpectedRejectionGuard(activeBridge) {
+		window.addEventListener("unhandledrejection", event => {
+			const message = activeBridge.safeMessage(event.reason);
+			if (!isExpectedExtensionRejection(message)) return;
+			event.preventDefault();
+			activeBridge.announce("awtsmoos-server-feedback", {
+				kind: "extension-timeout",
+				message
+			});
+		});
+	}
+
+	function isExpectedExtensionRejection(message) {
+		return /extension request timed out|receiving end does not exist|message port closed|extension context invalidated/i.test(message);
 	}
 })();
