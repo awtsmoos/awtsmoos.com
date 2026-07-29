@@ -14,22 +14,22 @@ const CATEGORY_TITLES = Object.freeze({
 /**
  * @file startMenuSections.js
  * @description
- * The Awtsmoos gives apps and inherited deeds distinct visual vessels.
- * Awtsmoos.com renders semantic buttons without trusting labels as markup.
+ * The Awtsmoos gives apps and inherited deeds distinct, actionable vessels.
+ * Awtsmoos.com exposes category, meaning, and pending state without unsafe markup.
  */
 
-export function createAppSection(apps, close) {
+export function createAppSection(apps, run) {
 	const section = createSection("Apps", "start-menu-app-section");
 	const grid = document.createElement("div");
 	grid.className = "start-app-grid";
 	for (const app of apps) {
-		grid.append(createRecordButton(app, close, "start-app-card"));
+		grid.append(createRecordButton(app, run, "start-app-card", true));
 	}
 	section.append(grid);
 	return section;
 }
 
-export function createActionSections(actions, close) {
+export function createActionSections(actions, run) {
 	const sections = [];
 	for (const [category, values] of groupActions(actions)) {
 		const section = createSection(
@@ -39,7 +39,7 @@ export function createActionSections(actions, close) {
 		const list = document.createElement("div");
 		list.className = "start-action-list";
 		for (const action of values) {
-			list.append(createRecordButton(action, close, "start-action-row"));
+			list.append(createRecordButton(action, run, "start-action-row"));
 		}
 		section.append(list);
 		sections.push(section);
@@ -54,11 +54,12 @@ export function createEmptyState() {
 	return empty;
 }
 
-function createRecordButton(record, close, className) {
+function createRecordButton(record, run, className, showCategory = false) {
 	const button = document.createElement("button");
 	button.type = "button";
 	button.className = className;
 	button.dataset.actionId = record.id;
+	button.tabIndex = -1;
 	const icon = document.createElement("span");
 	icon.className = "start-record-icon";
 	icon.setAttribute("aria-hidden", "true");
@@ -72,12 +73,19 @@ function createRecordButton(record, close, className) {
 		|| CATEGORY_TITLES[record.category]
 		|| "";
 	copy.append(title, description);
+	if (showCategory) {
+		copy.append(categoryPill(record.category));
+	}
 	button.append(icon, copy);
-	button.addEventListener("click", async () => {
-		close();
-		await record.run?.();
-	});
+	button.addEventListener("click", () => run(button, record));
 	return button;
+}
+
+function categoryPill(category) {
+	const pill = document.createElement("span");
+	pill.className = "start-record-category";
+	pill.textContent = CATEGORY_TITLES[category] || category || "App";
+	return pill;
 }
 
 function createSection(title, className) {

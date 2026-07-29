@@ -3,12 +3,16 @@
 //Blessed is He
 
 import { matchingShellActions } from "./actionCatalog.js";
+import { createShellActionRunner } from "./actionRunner.js";
+import { renderCommandResults } from "./commandResults.js";
+import { bindFocusTrap, restoreConnectedFocus } from "./focusTrap.js";
+import { bindResultNavigation } from "./resultNavigation.js";
 
 /**
  * @file commandPalette.js
  * @description
- * The Awtsmoos lets keyboard search reveal the same native apps and inherited deeds.
- * Awtsmoos.com never invents a command that the Start launcher cannot actually run.
+ * The Awtsmoos gives keyboard search one modal, selected, guarded command surface.
+ * Awtsmoos.com always returns dismissal to the Search control that invoked it.
  */
 
 export function bindCommandPalette({ records }) {
@@ -16,51 +20,54 @@ export function bindCommandPalette({ records }) {
 	const input = document.getElementById("shell-command-input");
 	const results = document.getElementById("shell-command-results");
 	const trigger = document.getElementById("shell-command-button");
-	if (!root || !input || !results || !trigger) {
-		return () => {};
-	}
-	let previousFocus = null;
-	const close = () => {
+	if (!root || !input || !results || !trigger) return () => {};
+	const meta = ensureMeta(input, results);
+	const close = (restore = true) => {
 		root.hidden = true;
+		root.dataset.open = "false";
 		document.body.classList.remove("shell-modal-open");
-		previousFocus?.focus?.();
+		if (restore) restoreConnectedFocus(trigger);
 	};
-	const draw = () => renderCommands(
-		matchingShellActions(records, input.value),
-		results,
-		close
-	);
+	const run = createShellActionRunner({ close: () => close(false) });
+	const navigation = bindResultNavigation({
+		input,
+		root: results,
+		selector: ".shell-command-result",
+		onEscape: () => close(true)
+	});
+	const draw = () => {
+		const matches = matchingShellActions(records, input.value).slice(0, 24);
+		renderCommandResults(matches, results, run);
+		meta.textContent = `${matches.length} result${matches.length === 1 ? "" : "s"} · arrows move · Enter opens`;
+		navigation.refresh();
+	};
 	const open = () => {
-		previousFocus = document.activeElement;
 		root.hidden = false;
+		root.dataset.open = "true";
 		document.body.classList.add("shell-modal-open");
 		input.value = "";
 		draw();
 		queueMicrotask(() => input.focus());
 	};
 	const outside = event => {
-		if (event.target === root) {
-			close();
-		}
+		if (event.target === root) close(true);
 	};
 	const keys = event => {
 		const shortcut = (event.ctrlKey || event.metaKey)
 			&& event.shiftKey
 			&& event.key.toLowerCase() === "k";
-		if (shortcut) {
-			event.preventDefault();
-			root.hidden ? open() : close();
-		}
-		if (!root.hidden && event.key === "Escape") {
-			event.preventDefault();
-			close();
-		}
+		if (!shortcut) return;
+		event.preventDefault();
+		root.hidden ? open() : close(true);
 	};
+	const releaseTrap = bindFocusTrap(root);
 	trigger.addEventListener("click", open);
 	input.addEventListener("input", draw);
 	root.addEventListener("click", outside);
 	document.addEventListener("keydown", keys);
 	return () => {
+		navigation.dispose();
+		releaseTrap();
 		trigger.removeEventListener("click", open);
 		input.removeEventListener("input", draw);
 		root.removeEventListener("click", outside);
@@ -68,38 +75,13 @@ export function bindCommandPalette({ records }) {
 	};
 }
 
-function renderCommands(records, root, close) {
-	root.replaceChildren();
-	if (!records.length) {
-		const empty = document.createElement("p");
-		empty.className = "shell-command-empty";
-		empty.textContent = "No matching Geelooy app or action.";
-		root.append(empty);
-		return;
-	}
-	for (const record of records.slice(0, 24)) {
-		root.append(commandButton(record, close));
-	}
-}
-
-function commandButton(record, close) {
-	const button = document.createElement("button");
-	button.type = "button";
-	button.className = "shell-command-result";
-	const icon = document.createElement("span");
-	icon.className = "shell-command-icon";
-	icon.setAttribute("aria-hidden", "true");
-	icon.textContent = record.icon || "✦";
-	const copy = document.createElement("span");
-	const title = document.createElement("strong");
-	title.textContent = record.title;
-	const description = document.createElement("small");
-	description.textContent = record.description || record.category;
-	copy.append(title, description);
-	button.append(icon, copy);
-	button.addEventListener("click", async () => {
-		close();
-		await record.run?.();
-	});
-	return button;
+function ensureMeta(input, results) {
+	const existing = document.getElementById("shell-command-meta");
+	if (existing) return existing;
+	const meta = document.createElement("div");
+	meta.id = "shell-command-meta";
+	meta.className = "shell-command-meta";
+	input.after(meta);
+	meta.after(results);
+	return meta;
 }

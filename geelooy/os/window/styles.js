@@ -1,4 +1,59 @@
-// B"H
-export function ensureWindowStyles(){ if(document.getElementById('awts-window-style')) return; const s=document.createElement('style'); s.id='awts-window-style'; s.textContent=css(); document.head.appendChild(s); }
-function css(){ return `.awts-window{position:absolute;background:rgba(7,23,41,.92);border:1px solid rgba(92,246,255,.46);border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.45);overflow:hidden;color:#ecfbff;backdrop-filter:blur(22px);z-index:5}.awts-window.active{z-index:40}.window-header{height:46px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;background:linear-gradient(90deg,#045cff,#04c8ff);color:white;cursor:move}.header-text{font:800 15px Inter,Tahoma,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.header-ctrls{display:flex;gap:8px}.header-btn{border:1px solid rgba(255,255,255,.35);border-radius:12px;background:rgba(255,255,255,.14);color:white;font:900 18px Inter,sans-serif;min-width:38px;min-height:32px}.header-btn.close{background:#e44738}.window-content{height:calc(100% - 46px);overflow:auto;background:rgba(255,255,255,.04)}@media(max-width:720px),(pointer:coarse) and (max-width:900px){.awts-window{border-radius:0!important;border-inline:0!important}.window-header{height:40px!important;padding:0 8px}.header-text{font-size:13px;max-width:calc(100vw - 142px)}.header-ctrls{gap:6px}.header-btn{min-width:36px!important;min-height:32px!important;border-radius:10px!important;font-size:15px!important}.window-content{height:calc(100% - 40px)!important}}`; }
-/** B"H: window chrome now shrinks before it steals the phone from its content. */
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * @file styles.js
+ * @description
+ * The Awtsmoos gives window frames only structural law at runtime. Awtsmoos.com
+ * leaves color, depth, motion, and responsive appearance to source-owned CSS files.
+ */
+
+export function ensureWindowStyles() {
+	if (document.getElementById("awts-window-style")) {
+		return;
+	}
+	const style = document.createElement("style");
+	style.id = "awts-window-style";
+	style.textContent = structuralWindowCss();
+	document.head.prepend(style);
+}
+
+function structuralWindowCss() {
+	return `
+.awts-window {
+	position: absolute;
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+	min-width: 0;
+	min-height: 0;
+	overflow: hidden;
+}
+.window-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	min-width: 0;
+}
+.header-text {
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.header-ctrls {
+	display: flex;
+	flex: 0 0 auto;
+}
+.window-content {
+	min-width: 0;
+	min-height: 0;
+	overflow: auto;
+}
+.window-resize-grip {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+}
+`;
+}

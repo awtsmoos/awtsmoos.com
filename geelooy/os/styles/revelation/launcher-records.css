@@ -2,61 +2,66 @@
 Boruch Hashem
 Blessed is He
 The Awtsmoos creates each app card and action row anew. Awtsmoos.com gives
-registered programs readable identity without turning descriptions into dead decoration.
+selection, category, icon depth, and pending state one coherent visual language.
 */
 .start-app-card,
 .start-action-row {
-	border: 1px solid var(--geo-border);
+	position: relative;
+	border: 1px solid var(--geo-border-soft);
 	color: var(--geo-text);
-	background: rgba(255, 255, 255, 0.055);
+	background: linear-gradient(145deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .035));
 	cursor: pointer;
-	transition:
-		transform var(--geo-fast),
-		border-color var(--geo-fast),
-		background var(--geo-fast);
+	transition: transform var(--geo-fast), border-color var(--geo-fast), background var(--geo-fast), box-shadow var(--geo-fast);
 }
 .start-app-card {
 	display: grid;
 	grid-template-rows: auto 1fr;
-	gap: 9px;
-	min-height: 132px;
+	gap: 10px;
+	min-height: 138px;
 	padding: 14px;
-	border-radius: 18px;
+	border-radius: 19px;
 	text-align: left;
 }
 .start-action-row {
 	display: grid;
-	grid-template-columns: 36px minmax(0, 1fr);
+	grid-template-columns: 38px minmax(0, 1fr);
 	gap: 10px;
 	align-items: center;
 	width: 100%;
-	min-height: 54px;
-	padding: 8px 10px;
+	min-height: 56px;
+	padding: 8px 11px;
 	border-radius: 14px;
 	text-align: left;
 }
 .start-app-card:hover,
 .start-action-row:hover,
-.start-app-card:focus-visible,
-.start-action-row:focus-visible {
+.start-app-card[data-active="true"],
+.start-action-row[data-active="true"] {
 	transform: translateY(-2px);
 	border-color: var(--geo-border-bright);
-	background: linear-gradient(
-		145deg,
-		rgba(77, 233, 220, 0.14),
-		rgba(91, 140, 255, 0.12)
-	);
+	background: linear-gradient(145deg, rgba(77, 233, 220, .16), rgba(91, 140, 255, .13));
+	box-shadow: 0 12px 30px rgba(0, 0, 0, .24);
 }
 .start-record-icon {
-	font: 30px/1 var(--geo-font-emoji);
+	display: grid;
+	place-items: center;
+	width: 48px;
+	height: 48px;
+	border: 1px solid rgba(255, 255, 255, .13);
+	border-radius: 16px;
+	background: linear-gradient(145deg, rgba(77, 233, 220, .12), rgba(183, 125, 255, .11));
+	font: 28px/1 var(--geo-font-emoji);
+	box-shadow: inset 0 1px rgba(255, 255, 255, .1);
 }
 .start-action-row .start-record-icon {
-	text-align: center;
-	font-size: 23px;
+	width: 36px;
+	height: 36px;
+	border-radius: 12px;
+	font-size: 21px;
 }
 .start-record-copy {
 	display: grid;
-	gap: 3px;
+	gap: 4px;
 	min-width: 0;
 }
 .start-record-copy strong,
@@ -64,7 +69,25 @@ registered programs readable identity without turning descriptions into dead dec
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
+.start-record-copy strong {
+	font-size: 14px;
+	letter-spacing: -.01em;
+}
 .start-record-copy small {
 	color: var(--geo-text-muted);
 	line-height: 1.35;
+}
+.start-app-card:disabled,
+.start-action-row:disabled {
+	color: var(--geo-text);
+}
+@media (max-width: 700px) {
+	.start-app-card {
+		min-height: 102px;
+	}
+	.start-app-card .start-record-icon {
+		margin-inline: auto;
+		width: 46px;
+		height: 46px;
+	}
 }

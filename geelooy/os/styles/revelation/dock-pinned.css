@@ -2,7 +2,7 @@
 Boruch Hashem
 Blessed is He
 The Awtsmoos creates each pinned entrance and divider anew. Awtsmoos.com
-lets frequent programs rest beside running tasks without becoming process buttons.
+lets frequent programs rest beside running tasks with snap, depth, and busy truth.
 */
 .shell-pinned-apps {
 	display: flex;
@@ -11,34 +11,42 @@ lets frequent programs rest beside running tasks without becoming process button
 	flex: 0 1 auto;
 	min-width: 0;
 	overflow-x: auto;
+	scroll-snap-type: x proximity;
 	scrollbar-width: none;
 }
 .shell-pinned-apps::-webkit-scrollbar {
 	display: none;
 }
 .shell-pinned-app {
+	position: relative;
 	display: grid;
 	place-items: center;
 	flex: 0 0 auto;
 	width: 46px;
 	height: 46px;
 	padding: 0;
-	border: 1px solid transparent;
+	scroll-snap-align: center;
+	border: 1px solid var(--geo-border-soft);
 	border-radius: 15px;
 	color: var(--geo-text);
-	background: rgba(255, 255, 255, 0.06);
+	background: linear-gradient(145deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .035));
+	box-shadow: inset 0 1px rgba(255, 255, 255, .07);
 	font: 23px/1 var(--geo-font-emoji);
 	cursor: pointer;
-	transition:
-		transform var(--geo-fast),
-		border-color var(--geo-fast),
-		background var(--geo-fast);
+	transition: transform var(--geo-fast), border-color var(--geo-fast), background var(--geo-fast), box-shadow var(--geo-fast);
 }
 .shell-pinned-app:hover,
 .shell-pinned-app:focus-visible {
 	transform: translateY(-3px);
 	border-color: var(--geo-border-bright);
-	background: rgba(77, 233, 220, 0.14);
+	background: linear-gradient(145deg, rgba(77, 233, 220, .17), rgba(91, 140, 255, .11));
+	box-shadow: 0 10px 28px rgba(0, 0, 0, .24);
+}
+.shell-pinned-app[data-running="true"] {
+	border-color: var(--geo-gold);
+}
+.shell-pinned-icon {
+	transform: translateZ(0);
 }
 .shell-pinned-label {
 	position: absolute;
@@ -51,5 +59,14 @@ lets frequent programs rest beside running tasks without becoming process button
 	flex: 0 0 1px;
 	align-self: stretch;
 	margin-block: 7px;
-	background: var(--geo-border);
+	background: linear-gradient(transparent, var(--geo-border), transparent);
+}
+@media (pointer: coarse) {
+	.shell-pinned-apps {
+		scroll-padding-inline: 10px;
+	}
+	.shell-pinned-app {
+		width: 44px;
+		height: 44px;
+	}
 }

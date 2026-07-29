@@ -1,78 +1,109 @@
 /*B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos creates every program window as a distinct vessel. Awtsmoos.com
-gives those vessels coherent depth, readable chrome, and joyful motion.
+The Awtsmoos creates every active frame, resting frame, title, and edge anew.
+Awtsmoos.com reveals process focus without sacrificing readable inactive windows.
 */
-.desktop {
-	position: relative;
-	flex: 1;
-	min-height: 0;
-	padding: 18px 18px calc(var(--geo-dock-height) + 34px);
-	background: transparent !important;
+.window,
+.awts-window {
+	border: 1px solid var(--geo-border);
+	border-radius: 19px;
+	background: var(--geo-surface-strong);
+	box-shadow: var(--geo-shadow-soft);
+	backdrop-filter: blur(24px) saturate(150%);
+	transition: border-color var(--geo-fast), box-shadow var(--geo-fast), opacity var(--geo-fast), transform var(--geo-fast);
 }
-.window {
-	border: 1px solid var(--geo-border) !important;
-	border-radius: var(--geo-radius-md) !important;
-	background: var(--geo-surface-strong) !important;
-	box-shadow: var(--geo-shadow) !important;
-	backdrop-filter: blur(24px) saturate(145%);
-	overflow: hidden;
-	animation: geo-window-arrive var(--geo-medium) cubic-bezier(.2, .8, .2, 1);
+.window.active,
+.awts-window[data-state="active"] {
+	z-index: 900;
+	border-color: var(--geo-border-bright);
+	box-shadow: var(--geo-shadow-active);
+	opacity: 1;
 }
-.window:focus-within {
-	border-color: var(--geo-border-bright) !important;
-	box-shadow: 0 28px 90px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(77, 233, 220, 0.26) !important;
+.window.inactive,
+.awts-window[data-state="inactive"] {
+	filter: saturate(.82);
+	opacity: .92;
+	box-shadow: 0 16px 48px rgba(0, 0, 0, .3);
 }
 .window-header {
-	min-height: 44px !important;
-	padding: 0 12px !important;
-	color: var(--geo-text) !important;
-	background: linear-gradient(90deg, rgba(77, 233, 220, 0.14), rgba(91, 140, 255, 0.12), rgba(183, 125, 255, 0.14)) !important;
-	border-bottom: 1px solid var(--geo-border) !important;
+	height: 44px;
+	padding: 0 8px 0 14px;
+	border-bottom: 1px solid var(--geo-border-soft);
+	color: var(--geo-text-muted);
+	background: linear-gradient(180deg, rgba(255, 255, 255, .075), rgba(255, 255, 255, .025));
+	cursor: grab;
+	user-select: none;
 }
-.window-content {
+.window.active .window-header,
+.awts-window[data-state="active"] .window-header {
 	color: var(--geo-text);
-	background: rgba(5, 9, 24, 0.72);
+	background: linear-gradient(100deg, rgba(77, 233, 220, .12), rgba(91, 140, 255, .08));
 }
-.window button, .awtsmoos-program-toolbar button {
-	border: 1px solid var(--geo-border);
-	border-radius: var(--geo-radius-sm);
+.window-header:active {
+	cursor: grabbing;
+}
+.header-text {
+	font-size: 13px;
+	font-weight: 780;
+	letter-spacing: .01em;
+}
+.header-ctrls {
+	gap: 5px;
+}
+.header-btn,
+.awtsBtn {
+	display: grid;
+	place-items: center;
+	width: 31px;
+	height: 31px;
+	padding: 0;
+	border: 1px solid transparent;
+	border-radius: 10px;
+	color: var(--geo-text-muted);
+	background: transparent;
+	cursor: pointer;
+	transition: color var(--geo-fast), background var(--geo-fast), border-color var(--geo-fast);
+}
+.header-btn:hover,
+.awtsBtn:hover {
+	border-color: var(--geo-border-soft);
 	color: var(--geo-text);
-	background: rgba(255, 255, 255, 0.08);
+	background: rgba(255, 255, 255, .09);
 }
-.window button:hover, .awtsmoos-program-toolbar button:hover {
-	border-color: var(--geo-border-bright);
-	background: rgba(77, 233, 220, 0.14);
+.header-btn.close:hover,
+.awtsBtn.close:hover {
+	border-color: rgba(255, 107, 127, .44);
+	background: rgba(255, 107, 127, .18);
 }
-.awtsmoos-program-host {
+.window-content,
+.windows-body {
 	color: var(--geo-text);
-	background: linear-gradient(145deg, rgba(6, 10, 27, 0.96), rgba(11, 20, 50, 0.94));
+	background: linear-gradient(180deg, rgba(2, 6, 18, .16), rgba(2, 6, 18, .32));
 }
-.awtsmoos-executable-desktop {
-	background:
-		radial-gradient(circle at 50% 35%, rgba(77, 233, 220, 0.15), transparent 42%),
-		linear-gradient(145deg, #071022, #0f1b3c);
+.window-content > img {
+	display: block;
+	max-width: 100%;
+	max-height: 100%;
+	margin: auto;
+	object-fit: contain;
 }
-.awtsmoos-executable-console, .awtsmoos-program-report {
-	font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
-	color: #dffef8;
-	background: rgba(1, 5, 15, 0.82);
-	border: 1px solid rgba(77, 233, 220, 0.18);
+.window.is-fullscreen,
+.awts-window.is-fullscreen {
+	border-radius: 0;
+	box-shadow: none;
 }
-.webgl-label {
-	padding: 8px 12px;
-	color: var(--geo-text);
-	background: rgba(5, 9, 24, 0.82);
-	border-top: 1px solid var(--geo-border);
-}
-@keyframes geo-window-arrive {
-	from {
-		opacity: 0;
-		transform: translateY(12px) scale(0.97);
+@media (max-width: 700px) {
+	.window,
+	.awts-window {
+		transition: none;
 	}
-	to {
+	.window-header {
+		background: var(--geo-surface-opaque);
+	}
+	.window.inactive,
+	.awts-window[data-state="inactive"] {
 		opacity: 1;
-		transform: translateY(0) scale(1);
+		filter: none;
 	}
 }

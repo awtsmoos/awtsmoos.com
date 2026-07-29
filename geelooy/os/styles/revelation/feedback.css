@@ -1,0 +1,104 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos creates every pending deed, selected path, toast, and resize edge anew.
+Awtsmoos.com makes invisible state visible without stealing focus or motion choice.
+*/
+[data-running="true"] {
+	cursor: progress !important;
+	filter: saturate(.72);
+	opacity: .72;
+}
+[data-running="true"]::after {
+	content: "";
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	width: 10px;
+	height: 10px;
+	border: 2px solid currentColor;
+	border-right-color: transparent;
+	border-radius: 50%;
+	animation: geo-spin .7s linear infinite;
+}
+.start-menu-summary,
+.shell-command-meta {
+	color: var(--geo-text-subtle);
+	font-size: 12px;
+	line-height: 1.35;
+}
+.start-record-category,
+.shell-command-category {
+	justify-self: start;
+	padding: 3px 7px;
+	border: 1px solid var(--geo-border-soft);
+	border-radius: 999px;
+	color: var(--geo-cyan);
+	background: rgba(77, 233, 220, .07);
+	font-size: 10px;
+	font-weight: 800;
+	letter-spacing: .06em;
+	text-transform: uppercase;
+}
+.window-resize-grip {
+	z-index: 6;
+	width: 24px;
+	height: 24px;
+	padding: 0;
+	border: 0 !important;
+	background: transparent !important;
+	cursor: nwse-resize;
+}
+.window-resize-grip::before {
+	content: "";
+	position: absolute;
+	right: 5px;
+	bottom: 5px;
+	width: 10px;
+	height: 10px;
+	border-right: 2px solid var(--geo-text-muted);
+	border-bottom: 2px solid var(--geo-text-muted);
+	opacity: .72;
+}
+.awtsmoos-toast-container {
+	right: max(16px, env(safe-area-inset-right)) !important;
+	bottom: calc(var(--geo-dock-height) + max(24px, env(safe-area-inset-bottom))) !important;
+}
+.awtsmoos-toast {
+	border-color: var(--geo-border) !important;
+	background: var(--geo-surface-opaque) !important;
+	box-shadow: var(--geo-shadow-soft) !important;
+	backdrop-filter: blur(22px);
+}
+@supports not (backdrop-filter: blur(1px)) {
+	#awtsmoos-shell-topbar,
+	#start-bar,
+	#start-menu,
+	.shell-panel,
+	.shell-command-card,
+	.window,
+	.awtsmoos-toast {
+		background: var(--geo-surface-opaque) !important;
+	}
+}
+@media (max-width: 700px) {
+	.start-record-category,
+	.shell-command-category {
+		display: none;
+	}
+	.window-resize-grip {
+		display: none !important;
+	}
+	.awtsmoos-toast-container {
+		left: max(10px, env(safe-area-inset-left));
+		right: max(10px, env(safe-area-inset-right)) !important;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	[data-running="true"]::after {
+		animation: none;
+	}
+}
+@keyframes geo-spin {
+	to { transform: rotate(1turn); }
+}

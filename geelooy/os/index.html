@@ -2,7 +2,7 @@
 Boruch Hashem
 Blessed is He
 The Awtsmoos creates shell, app, action, window, and responsive boundary anew.
-Awtsmoos.com gives every registered stub a real entrance on desktop and mobile.
+Awtsmoos.com gives every registered stub a stable entrance on desktop and mobile.
 -->
 <!doctype html>
 <html lang="en">
@@ -11,21 +11,22 @@ Awtsmoos.com gives every registered stub a real entrance on desktop and mobile.
 	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 	<meta name="theme-color" content="#071022">
 	<title>Geelooy OS — Awtsmoos</title>
-	<link rel="stylesheet" href="./styles.css?v=revelation-3">
-	<link rel="stylesheet" href="./civilization/styles.css?v=revelation-3">
-	<link rel="stylesheet" href="./styles/native-executable-accessibility.css?v=revelation-3">
-	<link rel="stylesheet" href="./styles/revelation/tokens.css?v=revelation-3">
-	<link rel="stylesheet" href="./styles/revelation/shell.css?v=revelation-3">
-	<link rel="stylesheet" href="./styles/revelation/dock.css?v=revelation-3">
-	<link rel="stylesheet" href="./styles/revelation/dock-pinned.css?v=revelation-3">
-	<link rel="stylesheet" href="./styles/revelation/windows.css?v=revelation-3">
-	<link rel="stylesheet" href="./styles/revelation/overlays.css?v=revelation-3">
-	<link rel="stylesheet" href="./styles/revelation/command.css?v=revelation-3">
-	<link rel="stylesheet" href="./styles/revelation/launcher.css?v=revelation-3">
-	<link rel="stylesheet" href="./styles/revelation/launcher-records.css?v=revelation-3">
-	<link rel="stylesheet" href="./styles/revelation/responsive.css?v=revelation-3">
-	<link rel="stylesheet" href="./styles/revelation/responsive-mobile.css?v=revelation-3">
-	<link rel="stylesheet" href="./styles/revelation/accessibility.css?v=revelation-3">
+	<link rel="stylesheet" href="./styles.css?v=revelation-5">
+	<link rel="stylesheet" href="./civilization/styles.css?v=revelation-5">
+	<link rel="stylesheet" href="./styles/native-executable-accessibility.css?v=revelation-5">
+	<link rel="stylesheet" href="./styles/revelation/tokens.css?v=revelation-5">
+	<link rel="stylesheet" href="./styles/revelation/shell.css?v=revelation-5">
+	<link rel="stylesheet" href="./styles/revelation/dock.css?v=revelation-5">
+	<link rel="stylesheet" href="./styles/revelation/dock-pinned.css?v=revelation-5">
+	<link rel="stylesheet" href="./styles/revelation/windows.css?v=revelation-5">
+	<link rel="stylesheet" href="./styles/revelation/overlays.css?v=revelation-5">
+	<link rel="stylesheet" href="./styles/revelation/command.css?v=revelation-5">
+	<link rel="stylesheet" href="./styles/revelation/launcher.css?v=revelation-5">
+	<link rel="stylesheet" href="./styles/revelation/launcher-records.css?v=revelation-5">
+	<link rel="stylesheet" href="./styles/revelation/feedback.css?v=revelation-5">
+	<link rel="stylesheet" href="./styles/revelation/responsive.css?v=revelation-5">
+	<link rel="stylesheet" href="./styles/revelation/responsive-mobile.css?v=revelation-5">
+	<link rel="stylesheet" href="./styles/revelation/accessibility.css?v=revelation-5">
 </head>
 <body>
 	<div class="main">
@@ -36,9 +37,9 @@ Awtsmoos.com gives every registered stub a real entrance on desktop and mobile.
 			</div>
 			<span id="shell-status" class="shell-chip" role="status">Starting…</span>
 			<div class="shell-topbar-actions">
-				<button id="shell-command-button" class="shell-chip" type="button">Search <kbd>⌘⇧K</kbd></button>
+				<button id="shell-command-button" class="shell-chip" type="button" aria-haspopup="dialog">Search <kbd>⌘⇧K</kbd></button>
 				<time id="shell-clock" class="shell-chip">--:--</time>
-				<button id="shell-quick-settings-button" class="shell-icon-button" type="button" aria-label="Quick settings" aria-expanded="false">⚙️</button>
+				<button id="shell-quick-settings-button" class="shell-icon-button" type="button" aria-label="Quick settings" aria-controls="shell-quick-settings" aria-expanded="false">⚙️</button>
 				<div id="loginHolder" class="login-area"></div>
 			</div>
 		</header>
@@ -66,11 +67,11 @@ Awtsmoos.com gives every registered stub a real entrance on desktop and mobile.
 	</aside>
 	<div id="shell-command-palette" hidden role="dialog" aria-modal="true" aria-label="Command palette">
 		<div class="shell-command-card">
-			<input id="shell-command-input" type="search" autocomplete="off" placeholder="Search apps and actions">
-			<div id="shell-command-results" role="listbox"></div>
+			<input id="shell-command-input" type="search" autocomplete="off" placeholder="Search apps and actions" aria-controls="shell-command-results">
+			<div id="shell-command-results" role="listbox" aria-label="Command results"></div>
 		</div>
 	</div>
-	<div id="shell-live-region" class="shell-live-region" aria-live="polite"></div>
-	<script type="module" src="./script.js?v=revelation-3"></script>
+	<div id="shell-live-region" class="shell-live-region" aria-live="polite" aria-atomic="true"></div>
+	<script type="module" src="./script.js?v=revelation-5"></script>
 </body>
 </html>

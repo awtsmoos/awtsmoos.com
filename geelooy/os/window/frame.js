@@ -1,6 +1,70 @@
-// B"H
-export function makeHeader(win) { const h = document.createElement('div'); h.className = 'window-header'; h.hidden = win.hideTitleBar; const title = document.createElement('div'); title.className = 'header-text'; title.textContent = win.title; const ctrls = document.createElement('div'); ctrls.className = 'header-ctrls'; buttons(win).forEach(b => ctrls.appendChild(b)); h.append(title, ctrls); win.winHeader = h; return h; }
-export function makeBody(win) { const b = document.createElement('div'); b.className = 'window-content windows-body'; if (typeof win.content === 'string') b.innerHTML = win.content; else if (win.content instanceof HTMLElement) b.appendChild(win.content); else if (win.content instanceof Blob && win.content.type.includes('image')) addImage(b, win.content); win.winBody = b; return b; }
-function buttons(win) { return [['_','minimize',()=>win.minimize()],['□','maximize',()=>win.toggleFullscreen()],['X','close',()=>win.close()]].map(([txt, cls, fn]) => { const b = document.createElement('button'); b.className = `header-btn awtsBtn ${cls}`; b.textContent = txt; b.onclick = fn; return b; }); }
-function addImage(body, blob) { const img = document.createElement('img'); img.src = URL.createObjectURL(blob); body.appendChild(img); }
-/** B"H: header, buttons, and body are built by a frame craftsman. */
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * @file frame.js
+ * @description
+ * The Awtsmoos gives every program title, controls, and body one accessible frame.
+ * Awtsmoos.com names every button and leaves visual ornament to the shell styles.
+ */
+
+export function makeHeader(windowRecord) {
+	const header = document.createElement("div");
+	header.className = "window-header";
+	header.hidden = windowRecord.hideTitleBar;
+	const title = document.createElement("div");
+	title.id = `${windowRecord.id}-title`;
+	title.className = "header-text";
+	title.textContent = windowRecord.title;
+	const controls = document.createElement("div");
+	controls.className = "header-ctrls";
+	for (const button of controlButtons(windowRecord)) {
+		controls.append(button);
+	}
+	header.append(title, controls);
+	windowRecord.winHeader = header;
+	windowRecord.win.setAttribute("aria-labelledby", title.id);
+	return header;
+}
+
+export function makeBody(windowRecord) {
+	const body = document.createElement("div");
+	body.className = "window-content windows-body";
+	const content = windowRecord.content;
+	if (typeof content === "string") {
+		body.innerHTML = content;
+	} else if (content instanceof HTMLElement) {
+		body.append(content);
+	} else if (content instanceof Blob && content.type.includes("image")) {
+		addImage(body, content);
+	}
+	windowRecord.winBody = body;
+	return body;
+}
+
+function controlButtons(windowRecord) {
+	return [
+		control("−", "minimize", "Minimize window", () => windowRecord.minimize()),
+		control("□", "maximize", "Toggle full screen", () => windowRecord.toggleFullscreen()),
+		control("×", "close", "Close window", () => windowRecord.close())
+	];
+}
+
+function control(text, className, label, activate) {
+	const button = document.createElement("button");
+	button.type = "button";
+	button.className = `header-btn awtsBtn ${className}`;
+	button.textContent = text;
+	button.title = label;
+	button.setAttribute("aria-label", label);
+	button.addEventListener("click", activate);
+	return button;
+}
+
+function addImage(body, blob) {
+	const image = document.createElement("img");
+	image.alt = "Opened image";
+	image.src = URL.createObjectURL(blob);
+	body.append(image);
+}
