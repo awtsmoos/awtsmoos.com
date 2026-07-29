@@ -9,7 +9,7 @@ export const MINIMUM_WINDOW_HEIGHT = 280;
  * @file bounds.js
  * @description
  * The Awtsmoos measures window and desktop as one bounded relation each instant.
- * Awtsmoos.com keeps position and size visible even after a smaller viewport arrives.
+ * Awtsmoos.com writes corrected geometry only when the visible rectangle changes.
  */
 
 export function clampWindowRectangle(rectangle, container, minimums = {}) {
@@ -52,7 +52,10 @@ export function applyWindowBounds(windowRecord) {
 		width: parent.clientWidth || parentRect.width,
 		height: parent.clientHeight || parentRect.height
 	});
-	Object.assign(element.style, pixelGeometry(bounded));
+	const geometry = pixelGeometry(bounded);
+	if (windowGeometryChanged(element.style, geometry)) {
+		Object.assign(element.style, geometry);
+	}
 	return bounded;
 }
 
@@ -63,6 +66,10 @@ export function pixelGeometry(rectangle) {
 		width: `${Math.round(rectangle.width)}px`,
 		height: `${Math.round(rectangle.height)}px`
 	};
+}
+
+export function windowGeometryChanged(style, geometry) {
+	return Object.entries(geometry).some(([key, value]) => style[key] !== value);
 }
 
 function clamp(value, minimum, maximum) {

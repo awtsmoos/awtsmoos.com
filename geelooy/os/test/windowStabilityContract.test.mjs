@@ -8,7 +8,8 @@ import test from "node:test";
 import {
 	MINIMUM_WINDOW_HEIGHT,
 	MINIMUM_WINDOW_WIDTH,
-	clampWindowRectangle
+	clampWindowRectangle,
+	windowGeometryChanged
 } from "../window/bounds.js";
 
 const ROOT = new URL("../", import.meta.url);
@@ -16,8 +17,8 @@ const ROOT = new URL("../", import.meta.url);
 /**
  * @file windowStabilityContract.test.mjs
  * @description
- * The Awtsmoos proves window size, position, resizing, and phone state remain bounded.
- * Awtsmoos.com observes both desktop changes and program-driven frame growth.
+ * The Awtsmoos proves window size, position, mutation, and phone state stay bounded.
+ * Awtsmoos.com observes both rendered size and direct inline geometry changes.
  */
 
 test("window rectangles clamp position and dimensions inside the desktop", () => {
@@ -52,7 +53,21 @@ test("small desktops override minimums without overflow", () => {
 	);
 });
 
-test("window class installs resize and dual ResizeObserver clamping", async () => {
+test("geometry writes occur only when an inline value changes", () => {
+	const geometry = {
+		left: "0px",
+		top: "0px",
+		width: "800px",
+		height: "600px"
+	};
+	assert.equal(windowGeometryChanged({ ...geometry }, geometry), false);
+	assert.equal(
+		windowGeometryChanged({ ...geometry, width: "1200px" }, geometry),
+		true
+	);
+});
+
+test("window class installs resize and mutation-aware clamping", async () => {
 	const windows = await text("windows.js");
 	const resizing = await text("window/resizing.js");
 	const clamp = await text("window/viewportClamp.js");
@@ -61,8 +76,10 @@ test("window class installs resize and dual ResizeObserver clamping", async () =
 	assert.doesNotMatch(windows, /isPhoneWindow\(\).*toggleFullscreen/);
 	assert.match(resizing, /window-resize-grip/);
 	assert.match(resizing, /pointercancel/);
-	assert.match(clamp, /observer\.observe\(container\)/);
-	assert.match(clamp, /observer\.observe\(windowRecord\.win\)/);
+	assert.match(clamp, /resizeObserver\.observe\(container\)/);
+	assert.match(clamp, /resizeObserver\.observe\(windowRecord\.win\)/);
+	assert.match(clamp, /new MutationObserver\(schedule\)/);
+	assert.match(clamp, /attributeFilter: \["style"\]/);
 	assert.match(clamp, /orientationchange/);
 	assert.match(clamp, /visualViewport/);
 });

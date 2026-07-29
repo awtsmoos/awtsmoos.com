@@ -8,7 +8,7 @@ import { isPhoneWindow } from "./mobile.js";
 /**
  * @file viewportClamp.js
  * @description
- * The Awtsmoos measures desktop, window, resize, and orientation as one relation.
+ * The Awtsmoos observes desktop, window size, and inline geometry mutation anew.
  * Awtsmoos.com re-clamps browser changes and program-driven frame growth alike.
  */
 
@@ -27,17 +27,25 @@ export function bindWindowViewportClamp(windowRecord) {
 		});
 	};
 	const container = windowRecord.win?.parentElement;
-	const observer = globalThis.ResizeObserver
+	const resizeObserver = globalThis.ResizeObserver
 		? new ResizeObserver(schedule)
 		: null;
-	if (observer && container) observer.observe(container);
-	if (observer && windowRecord.win) observer.observe(windowRecord.win);
+	if (resizeObserver && container) resizeObserver.observe(container);
+	if (resizeObserver && windowRecord.win) resizeObserver.observe(windowRecord.win);
+	const mutationObserver = globalThis.MutationObserver && windowRecord.win
+		? new MutationObserver(schedule)
+		: null;
+	mutationObserver?.observe(windowRecord.win, {
+		attributes: true,
+		attributeFilter: ["style"]
+	});
 	globalThis.addEventListener("resize", schedule);
 	globalThis.addEventListener("orientationchange", schedule);
 	globalThis.visualViewport?.addEventListener?.("resize", schedule);
 	return () => {
 		if (frame) cancelAnimationFrame(frame);
-		observer?.disconnect();
+		resizeObserver?.disconnect();
+		mutationObserver?.disconnect();
 		globalThis.removeEventListener("resize", schedule);
 		globalThis.removeEventListener("orientationchange", schedule);
 		globalThis.visualViewport?.removeEventListener?.("resize", schedule);
