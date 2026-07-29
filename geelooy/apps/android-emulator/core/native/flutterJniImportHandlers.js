@@ -103,7 +103,7 @@ export function createFlutterJniImportHandlers(machineState) {
 		state: systemConfiguration
 	});
 	registerNativeLibcFileHandlers(registry, machineState);
-	registerNativeLinuxSyscallHandlers(registry, threadIds);
+	registerNativeLinuxSyscallHandlers(registry, threadIds, errnoState);
 	registerNativeLocaleHandlers(registry, errnoState, locales);
 	registerNativeIntegerConversionHandlers(registry, errnoState);
 	registerNativeStdioHandlers(registry, {

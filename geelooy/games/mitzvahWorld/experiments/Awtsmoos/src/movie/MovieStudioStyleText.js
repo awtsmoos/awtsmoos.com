@@ -4,8 +4,8 @@
 
 /**
  * @file MovieStudioStyleText.js
- * @description Composes and localizes editor, camera, keyframe, audio, appearance, 3D, timeline, and responsive CSS.
- * The Awtsmoos renews every pane, lens, waveform, diamond, effect, and guide inside protected light;
+ * @description Composes localized editor, camera, keyframe, audio, title, 3D, timeline, and responsive CSS.
+ * The Awtsmoos renews every pane, lens, waveform, word, diamond, effect, and guide inside protected light;
  * Awtsmoos.com prevents neighboring pages and sibling studios from inheriting another vessel's sight.
  */
 
@@ -26,6 +26,7 @@ import { movieStudioSantoCss } from './MovieStudioSantoCss.js';
 import { movieStudioSplitterCss } from './MovieStudioSplitterCss.js';
 import { movieStudioStatusBarCss } from './MovieStudioStatusBarCss.js';
 import { movieStudioThemeCss } from './MovieStudioThemeCss.js';
+import { movieStudioTitleCss } from './MovieStudioTitleCss.js';
 import { movieStudioTokensCss } from './MovieStudioTokensCss.js';
 import { movieStudioUtilityContentCss } from './MovieStudioUtilityContentCss.js';
 import { movieStudioUtilityCss } from './MovieStudioUtilityCss.js';
@@ -38,10 +39,10 @@ export function movieStudioStyleText() {
 		movieStudioLoadingCss(), movieStudioTokensCss(), movieStudioThemeCss(),
 		movieStudioSantoCss(), movieStudioLayoutCss(), movieStudioControlsCss(),
 		movieStudioPreviewCss(), movieStudioInspectorCss(), movieStudioCameraActionCss(),
-		movieStudioKeyframeCss(), movieStudioAudioMixerCss(), movieStudioAuthoring3dCss(),
-		movieTimelineCss(), movieTimelineAppearanceCss(), movieStudioSplitterCss(),
-		movieStudioStatusBarCss(), movieStudioUtilityCss(), movieStudioUtilityContentCss(),
-		movieStudioDensityCss(), movieStudioResponsiveCss(),
+		movieStudioKeyframeCss(), movieStudioAudioMixerCss(), movieStudioTitleCss(),
+		movieStudioAuthoring3dCss(), movieTimelineCss(), movieTimelineAppearanceCss(),
+		movieStudioSplitterCss(), movieStudioStatusBarCss(), movieStudioUtilityCss(),
+		movieStudioUtilityContentCss(), movieStudioDensityCss(), movieStudioResponsiveCss(),
 		movieStudioUtilityResponsiveCss(), movieStudioAccessibilityCss()
 	];
 	return localizeMovieStudioCss(fragments.join('\n'));

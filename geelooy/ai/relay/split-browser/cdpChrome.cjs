@@ -7,8 +7,6 @@ const {
 	findBrowserTarget
 } = require("./debugChromeDiscovery.cjs");
 const {
-	readDebugCookies,
-	storeDebugCookies,
 	summarizeDebugCookies
 } = require("./debugChromeCookies.cjs");
 const {
@@ -19,16 +17,15 @@ const {
 const { createCdpClient } = require("./debugChromeWebSocket.cjs");
 
 /**
- * Visible Chrome is the human login chamber; CDP only synchronizes cookies and
- * closes the owned browser. No click, typing, selector, focus, or DOM read occurs.
+ * Visible Chrome is the human login chamber. Session material stays inside its
+ * private profile; this controller opens, checks readiness, and closes only.
  */
 async function openDebugChrome(config = {}) {
 	const before = await statusDebugChrome(config);
 	if (!before.ok) {
 		launchDebugChrome(config);
 	}
-	const ready = await waitForDebugChrome(config, 12000);
-	return ready.ok ? saveDebugCookies(config) : ready;
+	return waitForDebugChrome(config, 12000);
 }
 
 async function statusDebugChrome(config = {}) {
@@ -36,11 +33,14 @@ async function statusDebugChrome(config = {}) {
 	if (!target.ok) {
 		return target;
 	}
-	const payload = await readDebugCookies(config).catch(error => ({
-		cookies: [],
-		error: error.message
-	}));
-	return summarizeDebugCookies(target, payload.cookies || [], payload.error || "");
+	return {
+		ok: true,
+		status: "debug_chrome_ready",
+		debugPort: target.debugPort,
+		targetKind: target.kind,
+		cookieCount: null,
+		cookieNames: []
+	};
 }
 
 async function saveDebugCookies(config = {}) {
@@ -48,12 +48,7 @@ async function saveDebugCookies(config = {}) {
 	if (!target.ok) {
 		return target;
 	}
-	const payload = await readDebugCookies(config).catch(error => ({
-		cookies: [],
-		error: error.message
-	}));
-	storeDebugCookies(payload.cookies || []);
-	return summarizeDebugCookies(target, payload.cookies || [], payload.error || "");
+	return summarizeDebugCookies(target, [], "");
 }
 
 async function closeDebugChrome(config = {}) {

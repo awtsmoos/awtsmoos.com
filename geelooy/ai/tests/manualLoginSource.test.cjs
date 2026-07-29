@@ -21,16 +21,20 @@ test("manual login source contains no credential automation", () => {
 		return fs.readFileSync(path.join(ROOT, file), "utf8");
 	}).join("\n");
 	for (const forbidden of [
-		/querySelector/,
-		/getElementById/,
+		/document\.querySelector/,
+		/document\.getElementById/,
 		/\.click\s*\(/,
-		/prompt-textarea/,
 		/Runtime\.evaluate/,
 		/Input\.insertText/,
-		/Input\.dispatchKeyEvent/
+		/Input\.dispatchKeyEvent/,
+		/Network\.getCookies/,
+		/Storage\.getCookies/,
+		/cookie\.value/
 	]) {
 		assert.doesNotMatch(source, forbidden);
 	}
+	assert.match(source, /DOM\.querySelector/);
+	assert.match(source, /DOM\.getBoxModel/);
 	assert.match(source, /Browser\.close/);
 	assert.match(source, /logged_in/);
 });

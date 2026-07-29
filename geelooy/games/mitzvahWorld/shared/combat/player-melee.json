@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H",
+	"boruchHashem": "Boruch Hashem",
+	"blessedIsHe": "Blessed is He",
+	"poem": "The Awtsmoos measures staff and sword through wind-up, window, guard, and rest; Awtsmoos.com keeps each impact server-owned and each animation honestly expressed.",
+	"schemaVersion": 1,
+	"actions": {
+		"chalaf-harvest": {
+			"id": "chalaf-harvest", "clientActionIds": [], "hebrewName": "קציר מדוד", "englishName": "Measured Harvest",
+			"affinityId": "malchus", "elementId": "physical", "kind": "melee", "tags": ["tool", "harvest"],
+			"guardDamage": 6, "stagger": 5, "interruptForce": 4, "danger": "low"
+		},
+		"staff-light": {
+			"id": "staff-light", "clientActionIds": ["staff.light-one"], "hebrewName": "מכת מטה", "englishName": "Staff Strike",
+			"affinityId": "zeir-anpin", "elementId": "physical", "kind": "melee", "tags": ["flow", "combo-start"],
+			"guardDamage": 9, "stagger": 12, "interruptForce": 10, "danger": "measured"
+		},
+		"staff-follow": {
+			"id": "staff-follow", "clientActionIds": ["staff.light-two"], "hebrewName": "השבת המטה", "englishName": "Returning Staff Strike",
+			"affinityId": "zeir-anpin", "elementId": "physical", "kind": "melee", "tags": ["flow", "combo-follow"],
+			"guardDamage": 11, "stagger": 14, "interruptForce": 12, "danger": "measured"
+		},
+		"staff-heavy": {
+			"id": "staff-heavy", "clientActionIds": ["staff.heavy-sweep"], "hebrewName": "סחיפת המטה", "englishName": "Heavy Staff Sweep",
+			"affinityId": "malchus", "elementId": "earth-dust", "kind": "melee", "tags": ["area", "heavy"],
+			"guardDamage": 28, "stagger": 32, "interruptForce": 30, "danger": "high"
+		},
+		"staff-shove": {
+			"id": "staff-shove", "clientActionIds": ["staff.shove"], "hebrewName": "שבירת שמירה", "englishName": "Staff Guard Break",
+			"affinityId": "malchus", "elementId": "earth-dust", "kind": "melee", "tags": ["guard-break", "counter"],
+			"guardDamage": 44, "stagger": 42, "interruptForce": 38, "danger": "counter"
+		},
+		"sword-light": {
+			"id": "sword-light", "clientActionIds": ["sword.light-one"], "hebrewName": "חיתוך אור", "englishName": "Sword Slash",
+			"affinityId": "chochmah", "elementId": "light-air", "kind": "melee", "tags": ["swift", "combo-start"],
+			"guardDamage": 8, "stagger": 10, "interruptForce": 11, "danger": "measured"
+		},
+		"sword-follow": {
+			"id": "sword-follow", "clientActionIds": ["sword.light-two"], "hebrewName": "חיתוך חוזר", "englishName": "Reverse Sword Slash",
+			"affinityId": "chochmah", "elementId": "light-air", "kind": "melee", "tags": ["swift", "combo-follow"],
+			"guardDamage": 9, "stagger": 11, "interruptForce": 12, "danger": "measured"
+		},
+		"sword-finish": {
+			"id": "sword-finish", "clientActionIds": ["sword.finisher"], "hebrewName": "חתימת אור", "englishName": "Finishing Slash",
+			"affinityId": "chochmah", "elementId": "light-air", "kind": "melee", "tags": ["swift", "finisher"],
+			"guardDamage": 18, "stagger": 22, "interruptForce": 24, "danger": "high"
+		},
+		"sword-heavy": {
+			"id": "sword-heavy", "clientActionIds": ["sword.heavy"], "hebrewName": "בקיעת אור", "englishName": "Heavy Sword Cleave",
+			"affinityId": "binah", "elementId": "fire", "kind": "melee", "tags": ["heavy", "charged"],
+			"guardDamage": 30, "stagger": 35, "interruptForce": 32, "danger": "high"
+		}
+	}
+}

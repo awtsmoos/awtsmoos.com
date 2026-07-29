@@ -19,6 +19,10 @@ function createController(options = {}) {
 	let restartCount = 0;
 	let stopping = false;
 	let lastStatsSentAt = 0;
+	const maximumRestartDelayMs = boundedRestartDelay(
+		options.maximumRestartDelayMs ??
+		process.env.AWTSMOOS_CONNECTION_CHILD_RESTART_MAX_MS
+	);
 	const proxy = Proxy.createProxy({ mailbox, notify });
 
 	function connect() {
@@ -49,7 +53,6 @@ function createController(options = {}) {
 	function handleMessage(message) {
 		if (!Protocol.valid(message)) return;
 		if (message.type === Protocol.TYPES.READY) {
-			restartCount = 0;
 			notify(Protocol.message(Protocol.TYPES.PARENT_READY));
 			publishStats(true);
 			return;
@@ -59,6 +62,7 @@ function createController(options = {}) {
 			return;
 		}
 		if (message.type === Protocol.TYPES.STATE) {
+			if (message.state?.registered === true) restartCount = 0;
 			mirror(message.state);
 			publishStats();
 			return;
@@ -111,7 +115,10 @@ function createController(options = {}) {
 		mirror({ connected: false, exitCode: code, running: false, signal });
 		if (stopping) return;
 		restartCount += 1;
-		const delay = Math.min(30000, 250 * 2 ** Math.min(restartCount, 7));
+		const delay = Math.min(
+			maximumRestartDelayMs,
+			250 * 2 ** Math.min(restartCount, 7)
+		);
 		restartTimer = setTimeout(startChild, delay);
 		restartTimer.unref?.();
 	}
@@ -139,4 +146,11 @@ function createController(options = {}) {
 	};
 }
 
-module.exports = { createController };
+function boundedRestartDelay(value) {
+	const number = Number(value);
+	return Number.isFinite(number)
+		? Math.max(1000, Math.min(30000, Math.floor(number)))
+		: 5000;
+}
+
+module.exports = { boundedRestartDelay, createController };

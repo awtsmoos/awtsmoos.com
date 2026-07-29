@@ -5,6 +5,7 @@
 const Shapes = require("./request-retry-shapes.js");
 const Collection = require("./request-retry-collection.js");
 const Disk = require("./request-retry-disk.js");
+const Durability = require("./request-retry-durability.js");
 const Mutation = require("./request-retry-mutation.js");
 const Outcomes = require("./request-retry-record-outcomes.js");
 const Store = require("./request-retry-record-map.js");
@@ -30,7 +31,7 @@ function begin(identity = {}, payload = {}) {
 	if (Collection.fullWithoutEviction()) return Outcomes.registryFull();
 	const record = createRecord(identity, payload);
 	Store.records.set(identity.controlRequestId, record);
-	if (record.mutation) {
+	if (record.durable?.enabled) {
 		try {
 			Disk.write(record);
 		} catch (error) {
@@ -48,6 +49,7 @@ function begin(identity = {}, payload = {}) {
 function createRecord(identity, payload) {
 	const timestamp = now();
 	const mutation = Mutation.describe(payload);
+	const durability = Durability.describe(identity.requestedAction, mutation, payload);
 	return {
 		...identity,
 		schemaVersion: 2,
@@ -57,8 +59,10 @@ function createRecord(identity, payload) {
 		progress: null,
 		result: null,
 		mutation,
-		durable: mutation ? {
+		durable: durability.enabled ? {
 			enabled: true,
+			replaySafe: durability.replaySafe,
+			reason: durability.reason,
 			receiptRef: Disk.receiptRef(identity.controlRequestId),
 			persistedAt: timestamp
 		} : null

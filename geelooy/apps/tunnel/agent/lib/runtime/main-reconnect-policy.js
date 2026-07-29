@@ -2,7 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
-const DEFAULT_MAXIMUM_DELAY_MS = 30000;
+const DEFAULT_MAXIMUM_DELAY_MS = 5000;
 
 /**
  * @file Calculates bounded reconnect delay without allowing synchronized storms.

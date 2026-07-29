@@ -1,5 +1,10 @@
 // B"H
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+const temporaryRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'awtsmoos-retry-registry-'));
+process.env.AWTSMOOS_INSTALL_ROOT = temporaryRoot;
 const Registry = require('../lib/runtime/request-retry-registry.js');
 const Priority = require('../lib/runtime/priority.js');
 
@@ -58,4 +63,5 @@ const Priority = require('../lib/runtime/priority.js');
 		suite: 'production-retry-registry',
 		snapshot: Registry.snapshot()
 	}, null, 2));
+	fs.rmSync(temporaryRoot, { force: true, recursive: true });
 })();

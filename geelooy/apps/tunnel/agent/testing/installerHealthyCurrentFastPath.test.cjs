@@ -28,6 +28,7 @@ try {
 	assert.doesNotMatch(healthy.stdout, /stop_existing_runtime/);
 	assert.doesNotMatch(healthy.stdout, /start_supervisor/);
 	assert.match(healthy.stdout, /fast_repair_completed=1/);
+	assert.match(healthy.stdout, /root_receipt_activation_argument=empty/);
 
 	const stalledExecutor = run({ AWTS_TEST_LOCAL_READY: "0" });
 	assert.equal(
@@ -62,6 +63,7 @@ try {
 		ok: true,
 		suite: "installer-healthy-current-fast-path",
 		healthyCurrentPreservesPid: true,
+		newInstallActivationDoesNotInvalidateCurrentRuntime: true,
 		executorStallRestarts: true,
 		staleReceiptRestarts: true,
 		changedWorkspaceRestarts: true
@@ -85,7 +87,11 @@ runtime_pid_matches(){ return 0; }
 runtime_registered(){ [ "\${AWTS_TEST_RECEIPT_READY:-1}" = "1" ]; }
 service_supervision_ready(){ return 0; }
 local_runtime_action_ready(){ [ "\${AWTS_TEST_LOCAL_READY:-1}" = "1" ]; }
-project_root_receipt_matches_runtime(){ [ "\${AWTS_TEST_ROOT_CURRENT:-1}" = "1" ]; }
+project_root_receipt_matches_runtime(){
+	[ "\${AWTS_TEST_ROOT_CURRENT:-1}" = "1" ] || return 1
+	[ "$#" -ge 2 ] && [ -z "\${2:-}" ] || return 1
+	printf 'root_receipt_activation_argument=empty\\n'
+}
 service_supervision_stable(){ service_supervision_ready "$1"; }
 service_health_summary(){ printf 'supervisors=1 agents=1'; }
 write_activation_journal(){ printf 'journal:%s\\n' "$1"; }
@@ -104,7 +110,11 @@ printf 'fast_repair_completed=%s\\n' "$FAST_REPAIR_COMPLETED"
 `;
 	return spawnSync("bash", ["-c", script], {
 		encoding: "utf8",
-		env: { ...process.env, ...environment }
+		env: {
+			...process.env,
+			AWTSMOOS_ACTIVATION_ID: "activation-for-new-installer-transaction",
+			...environment
+		}
 	});
 }
 

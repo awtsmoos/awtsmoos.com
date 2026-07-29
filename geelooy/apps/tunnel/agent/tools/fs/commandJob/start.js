@@ -21,10 +21,14 @@ async function startCommandJob(config = {}, payload = {}) {
 	const invalid = validate(config, payload, command);
 	if (invalid) return invalid;
 	await GarbageCadence.collect(config);
+	await Idempotency.hydrate(config);
 	const ids = Context.Ids.commandIds();
 	const prepared = prepare(config, payload, ids, command);
+	const idempotencyKey = String(
+		payload.idempotencyKey || payload.controlRequestId || ""
+	).trim();
 	const keyed = Idempotency.begin({
-		idempotencyKey: payload.idempotencyKey,
+		idempotencyKey,
 		commandHash: prepared.hash,
 		jobId: ids.jobId
 	});
@@ -33,7 +37,12 @@ async function startCommandJob(config = {}, payload = {}) {
 		return Results.coalesced(config, payload, keyed.record);
 	}
 	await Context.Paths.ensureDir(config, ids.jobId);
-	const meta = createMeta(config, payload, ids, prepared);
+	const meta = createMeta(
+		config,
+		{ ...payload, idempotencyKey },
+		ids,
+		prepared
+	);
 	await Context.Meta.write(config, ids.jobId, meta);
 	const scheduled = await Scheduler.submit({
 		jobId: ids.jobId,

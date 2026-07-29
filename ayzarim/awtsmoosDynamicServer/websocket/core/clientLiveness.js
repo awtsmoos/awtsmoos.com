@@ -5,9 +5,9 @@
  * death sentence. This module keeps that mercy pure and testable.
  */
 const DEFAULTS = {
-  maxMissedHeartbeats: Number(process.env.AWTSMOOS_WS_MAX_MISSED_HEARTBEATS || 6),
+  maxMissedHeartbeats: Number(process.env.AWTSMOOS_WS_MAX_MISSED_HEARTBEATS || 3),
   probeGraceMs: Number(process.env.AWTSMOOS_WS_PROBE_GRACE_MS || 10000),
-  staleMs: Number(process.env.AWTSMOOS_WS_STALE_MS || 5 * 60 * 1000)
+  staleMs: Number(process.env.AWTSMOOS_WS_STALE_MS || 90 * 1000)
 };
 
 function stamp(value) {
@@ -46,7 +46,12 @@ function evidenceIsFresh(client, now = Date.now(), limits = DEFAULTS) {
 
 function shouldTerminate(client, now = Date.now(), limits = DEFAULTS) {
   const missed = Number(client?.missedHeartbeats || 0);
-  return missed >= limits.maxMissedHeartbeats && !evidenceIsFresh(client, now, limits);
+  const lastResponsiveFrame = Math.max(
+    stamp(client.lastSeenAt),
+    stamp(client.heartbeatAt)
+  );
+  return missed >= limits.maxMissedHeartbeats &&
+    !recent(lastResponsiveFrame, limits.probeGraceMs * 2, now);
 }
 
 function stateFor(client = {}, now = Date.now(), limits = DEFAULTS) {

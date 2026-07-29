@@ -8,6 +8,7 @@ const require = createRequire(import.meta.url);
 const { loadConfig } = require("../../split-browser/config.cjs");
 const { openDebugChrome } = require("../../split-browser/cdpChrome.cjs");
 const { ManualLoginGate } = require("../../split-browser/commands/ManualLoginGate.cjs");
+let authenticationFlight = null;
 
 /**
  * Missing website authentication opens one visible ChatGPT login chamber. The
@@ -26,6 +27,14 @@ export class WebsiteLoginCoordinator {
 	}
 
 	async authenticate() {
+		authenticationFlight ??= this.authenticateOnce()
+			.finally(() => {
+				authenticationFlight = null;
+			});
+		return authenticationFlight;
+	}
+
+	async authenticateOnce() {
 		const config = this.configFactory();
 		const login = await this.gateFactory().authenticate(config);
 		const reopened = await this.openBrowser({

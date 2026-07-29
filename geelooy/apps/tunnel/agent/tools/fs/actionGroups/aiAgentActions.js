@@ -4,6 +4,7 @@ const { listProviders, providerFor } = require("./aiAgents/providers.js");
 const { listAgents } = require("./aiAgents/registry.js");
 const { sendAgentMessage } = require("./aiAgents/client.js");
 const tasks = require("./aiAgents/taskRunner.js");
+const WebsiteMissions = require("./websiteAgents/runner.js");
 
 const NUMERIC_AI_KEYS = ["maxDepth", "maxChildrenPerTask", "maxTotalTasks", "pollIntervalMs", "promotionCycles", "agentCycles", "chapterCycles", "providerTimeoutMs"];
 const CARRIER_KEYS = ["params", "content", "text", "body", "query", "goal", "message", "prompt"];
@@ -29,6 +30,8 @@ function buildAiAgentActions(ctx) {
     async aiAgentRemoveProviderKey() { return removeProviderKey(raw); },
     async aiAgentMessage() { return sendAgentMessage(config, raw); },
     async aiAgentSpawnTask() { return tasks.spawnTask(config, raw); },
+    async aiAgentSpawnWebsiteMission() { return WebsiteMissions.start(config, raw); },
+    async aiAgentWebsiteMissionStatus() { return WebsiteMissions.status(config, raw); },
     async aiAgentSpawnNovel() { return tasks.spawnTask(config, { ...raw, kind: "novelOrchestra" }); },
     async aiAgentTaskStatus() { return tasks.status(raw); },
     async aiAgentTaskResult() { return tasks.result(raw); },
@@ -39,7 +42,10 @@ function buildAiAgentActions(ctx) {
 async function consolidatedAgent(payload = {}) {
   const config = loadConfig();
   payload = scopedPayload(payload, config);
-  const mode = String(payload.mode || payload.agentMode || "message").trim();
+  const mode = String(payload.mode || payload.agentMode || "website-mission").trim();
+  if (["website-mission", "website", "council", "delegate"].includes(mode)) {
+    return WebsiteMissions.start(config, payload);
+  }
   if (mode === "list") return listAll();
   if (mode === "config") return setConfig(payload);
   if (mode === "setKey") return setProviderKey(payload);
@@ -161,7 +167,7 @@ function publicAiConfig(config) {
 }
 
 function knownProvider(providerId) { try { providerFor(providerId); return true; } catch (_) { return false; } }
-function taskActions() { return ["agent", "aiAgentSpawnTask", "aiAgentSpawnNovel", "aiAgentTaskStatus", "aiAgentTaskResult", "aiAgentTaskList", "aiAgentConfigSet"]; }
+function taskActions() { return ["agent", "aiAgentSpawnWebsiteMission", "aiAgentWebsiteMissionStatus", "websiteAgentMissionStart", "websiteAgentMissionStatus", "websiteAgentMissionMessage", "websiteAgentMissionStop", "websiteAgentMissionForget", "aiAgentSpawnTask", "aiAgentSpawnNovel", "aiAgentTaskStatus", "aiAgentTaskResult", "aiAgentTaskList", "aiAgentConfigSet"]; }
 function clean(value) { return String(value || "").trim().toLowerCase(); }
 function failure(error, extra = {}) { return { ok: false, action: "aiAgent", error, ...extra }; }
 

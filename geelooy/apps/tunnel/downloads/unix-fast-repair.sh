@@ -12,7 +12,10 @@ current_runtime_is_stably_healthy() {
 		runtime_pid_matches "$pid" &&
 		runtime_registered "$pid" "$receipt_max_age_ms" &&
 		local_runtime_action_ready &&
-		project_root_receipt_matches_runtime "$pid" &&
+		# The current process belongs to the preceding successful activation.
+		# A reinstall creates a fresh transaction id before this check, so binding
+		# the live receipt to that new id would force every healthy no-op to restart.
+		project_root_receipt_matches_runtime "$pid" "" &&
 		service_supervision_stable "$pid" \
 			"${AWTSMOOS_HEALTHY_CURRENT_STABILITY_SAMPLES:-8}" 10
 }

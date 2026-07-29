@@ -11,7 +11,7 @@ const DEFAULT_AI = Object.freeze({
 	providerKeys: {},
 	providerKeyFiles: {},
 	maxDepth: 3,
-	maxChildrenPerTask: 8,
+	maxChildrenPerTask: 12,
 	maxTotalTasks: 80,
 	pollIntervalMs: 7000,
 	promotionCycles: 7,

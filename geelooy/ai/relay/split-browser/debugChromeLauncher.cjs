@@ -3,6 +3,7 @@
 // Blessed is He
 
 const { spawn } = require("node:child_process");
+const fs = require("node:fs");
 
 const CHATGPT = "https://chatgpt.com";
 
@@ -13,6 +14,8 @@ const CHATGPT = "https://chatgpt.com";
 function launchDebugChrome(config = {}) {
 	const profile = process.env.AWTSMOOS_CHROME_PROFILE
 		|| `${process.env.USERPROFILE || process.env.HOME || "."}/.awtsmoos-split-debug-chrome`;
+	fs.mkdirSync(profile, { recursive: true, mode: 0o700 });
+	try { fs.chmodSync(profile, 0o700); } catch {}
 	const child = spawn(chromePath(), [
 		`--remote-debugging-port=${debugPort(config)}`,
 		`--user-data-dir=${profile}`,

@@ -208,17 +208,18 @@ async function connectPageWs(port, page, timeoutMs = 30000) {
 }
 
 async function enableDomains() {
-	for (const method of [
+	await Promise.allSettled([
 		"Runtime.enable",
 		"Page.enable",
 		"DOM.enable",
 		"Log.enable",
 		"Network.enable"
-	]) {
-		try {
-			await cdpCall(method, {}, 8000, { noReconnect: true });
-		} catch {}
-	}
+	].map(method => cdpCall(
+		method,
+		{},
+		2500,
+		{ noReconnect: true }
+	)));
 }
 
 async function ensurePage(port = 9222, options = {}) {

@@ -12,6 +12,7 @@ const REQUIRED_STARTUP_FILES = require("./runtimeRequiredFiles.js");
  * separate required catalog names every vessel needed for self-preserving startup.
  */
 const EXTERNAL_DIRECTORIES = Object.freeze([
+	"ai/relay/direct",
 	"ai/relay/split-browser",
 	"ayzarim/DosDB/awtsmoosBinary/awtsmoosDB"
 ]);

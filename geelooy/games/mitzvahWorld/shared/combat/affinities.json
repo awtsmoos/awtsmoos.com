@@ -1,0 +1,61 @@
+{
+	"BH": "B\"H",
+	"boruchHashem": "Boruch Hashem",
+	"blessedIsHe": "Blessed is He",
+	"poem": "The Awtsmoos renews four revealed paths while remaining beyond every name; Awtsmoos.com gives each path a tested vessel, never a decorative flame.",
+	"schemaVersion": 1,
+	"affinities": {
+		"chochmah": {
+			"id": "chochmah",
+			"hebrewName": "חכמה",
+			"englishName": "Wisdom",
+			"elementId": "light-air",
+			"icon": "spark-wind",
+			"shape": "diamond-rays",
+			"mechanics": {
+				"projectileSpeedPerPoint": 0.015,
+				"revealDurationPerPointMs": 120,
+				"airborneCriticalThreshold": 6
+			}
+		},
+		"binah": {
+			"id": "binah",
+			"hebrewName": "בינה",
+			"englishName": "Understanding",
+			"elementId": "fire",
+			"icon": "letter-flame",
+			"shape": "triangle-flame",
+			"mechanics": {
+				"burnDurationPerPointMs": 140,
+				"chargedAreaPerPoint": 0.018,
+				"burnStackThreshold": 5
+			}
+		},
+		"zeir-anpin": {
+			"id": "zeir-anpin",
+			"hebrewName": "זעיר אנפין",
+			"englishName": "Harmonized Flow",
+			"elementId": "water",
+			"icon": "sixfold-water",
+			"shape": "six-wave-circle",
+			"mechanics": {
+				"flowRecoveryPerPoint": 0.012,
+				"soakDurationPerPointMs": 110,
+				"chainHealingThreshold": 6
+			}
+		},
+		"malchus": {
+			"id": "malchus",
+			"hebrewName": "מלכות",
+			"englishName": "Sovereignty",
+			"elementId": "earth-dust",
+			"icon": "crowned-earth",
+			"shape": "square-crown",
+			"mechanics": {
+				"poisePerPoint": 2,
+				"guardDamagePerPoint": 0.02,
+				"groundedDurationPerPointMs": 130
+			}
+		}
+	}
+}

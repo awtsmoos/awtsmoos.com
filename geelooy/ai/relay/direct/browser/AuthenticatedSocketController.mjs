@@ -8,8 +8,8 @@ import { OwnedHostInspector } from "./OwnedHostInspector.mjs";
 
 /**
  * One accessible existing tab carries authenticated ChatGPT turns whenever possible.
- * The Awtsmoos detaches from reused tabs without closing them, and owns/closes only
- * a target that this controller was forced to create as a last resort.
+ * The Awtsmoos detaches from reused tabs without closing them, and avoids optional
+ * CDP domain-enable handshakes that can stall an already busy ChatGPT renderer.
  */
 export class AuthenticatedSocketController {
 	constructor({
@@ -40,12 +40,16 @@ export class AuthenticatedSocketController {
 		const cdpClient = this.clientFactory(target);
 		try {
 			await cdpClient.connect();
-			await cdpClient.send("Page.enable");
-			await cdpClient.send("DOM.enable");
-			await cdpClient.send("Page.navigate", { url: "https://chatgpt.com/" });
+			await this.activateTarget(target.id);
+			if (source !== "existing-chatgpt") {
+				await cdpClient.send(
+					"Page.navigate",
+					{ url: "https://chatgpt.com/" },
+					30000
+				);
+			}
 			const inspector = this.inspectorFactory(cdpClient);
 			const pageState = await this.waitUntilReady(inspector, timeoutMs);
-			await this.activateTarget(target.id);
 			await this.sleep(250);
 			return {
 				cdpClient,

@@ -50,7 +50,8 @@ async function chromeLaunch(p = {}) {
  const args = chromeLaunchArgs({ port, userDataDir, headless, url });
  const persist = param(p, "persist", true) !== false;
  const launchAttempts = Math.max(1, Math.min(3, Number(param(p, "launchAttempts", 2)) || 2));
- fs.mkdirSync(userDataDir, { recursive:true });
+ fs.mkdirSync(userDataDir, { recursive:true, mode:0o700 });
+ try { fs.chmodSync(userDataDir, 0o700); } catch {}
  if (persist) saveConfigPatch({ chrome:{ enabled:true, path:chromePath, chromePath, port, userDataDir, headless }, tools:{ chrome:true } });
  let lastError = null;
  for (let attempt = 1; attempt <= launchAttempts; attempt++) {
@@ -111,7 +112,46 @@ async function chromeType(p = {}) { const text = param(p, "text", ""); return aw
 async function evalElementAction(action, p, body, extra = {}) { const { blocked, port } = chromeConfig(p, action); if (blocked) return blocked; await cdp.ensurePage(port, { ...targetOptions(p), timeoutMs:timeoutOf(p, 10000) }); const selector = param(p, "selector", ""); if (!selector) return { ok:false, action, error:"missing_selector" }; const expression = `(() => { const el=document.querySelector(${JSON.stringify(selector)}); if(!el) return {ok:false,error:"not_found"}; ${body} })()`; const result = await cdp.cdpCall("Runtime.evaluate", { expression, awaitPromise:true, returnByValue:true }, timeoutOf(p)); return { ok:true, action, selector, target:targetOptions(p), ...extra, result:compactRemoteResult(result, Number(param(p, "maxValueChars", 8000))), logs:readCompactLogs(p) }; }
 async function chromeLogs(p = {}) { return { ok:true, action:"chromeLogs", ...readCompactLogs({ ...p, maxLogs:p.maxLogs ?? 40 }) }; }
 async function chromeSnapshot(p = {}) { const { blocked, port } = chromeConfig(p, "chromeSnapshot"); if (blocked) return blocked; await cdp.ensurePage(port, { ...targetOptions(p), timeoutMs:timeoutOf(p, 10000) }); return { ok:true, action:"chromeSnapshot", target:targetOptions(p), ...(await pageSnapshot({ ...p, maxText:Math.min(Number(p.maxText || 3000), 8000), maxLogs:40 })) }; }
-async function chromeScreenshot(p = {}) { const { blocked, port } = chromeConfig(p, "chromeScreenshot"); if (blocked) return blocked; await cdp.ensurePage(port, { ...targetOptions(p), timeoutMs:timeoutOf(p, 10000) }); const format = p.format === "png" ? "png" : "jpeg", quality = format === "jpeg" ? Math.max(1, Math.min(Number(p.quality || 70), 100)) : undefined; const params = { format, fromSurface:p.fromSurface !== false, captureBeyondViewport:p.captureBeyondViewport === true }; if (quality) params.quality = quality; const result = await cdp.cdpCall("Page.captureScreenshot", params, timeoutOf(p, 20000)); const data = result.data || ""; return { ok:true, action:"chromeScreenshot", target:targetOptions(p), contentType:"image/" + format, format, bytes:data.length, frame64:data, logs:readCompactLogs(p) }; }
+async function chromeScreenshot(p = {}) {
+ const { blocked, port } = chromeConfig(p, "chromeScreenshot");
+ if (blocked) return blocked;
+ const target = targetOptions(p);
+ const timeoutMs = Math.min(timeoutOf(p, 15000), 15000);
+ await cdp.ensurePage(port, { ...target, timeoutMs:Math.min(timeoutMs, 10000) });
+ const format = p.format === "png" ? "png" : "jpeg";
+ const quality = format === "jpeg" ? Math.max(1, Math.min(Number(p.quality || 70), 100)) : undefined;
+ const params = {
+  format,
+  fromSurface:p.fromSurface !== false,
+  captureBeyondViewport:p.captureBeyondViewport === true
+ };
+ if (quality) params.quality = quality;
+ try {
+  await cdp.cdpCall("Page.bringToFront", {}, Math.min(timeoutMs, 5000));
+  const result = await cdp.cdpCall("Page.captureScreenshot", params, timeoutMs);
+  const data = result.data || "";
+  return {
+   ok:true,
+   action:"chromeScreenshot",
+   target,
+   contentType:"image/" + format,
+   format,
+   bytes:Buffer.byteLength(data, "base64"),
+   frame64:data,
+   logs:readCompactLogs(p)
+  };
+ } catch (error) {
+  return {
+   ok:false,
+   action:"chromeScreenshot",
+   target,
+   error:"chrome_screenshot_failed",
+   detail:error.message,
+   retryable:true,
+   logs:readCompactLogs(p)
+  };
+ }
+}
 async function chromeRunScript(p = {}) { const steps = Array.isArray(p.script) ? p.script : [], results = []; const dispatch = { goto:s => chromeNavigate({ ...p, ...s, url:s.url }), navigate:s => chromeNavigate({ ...p, ...s, url:s.url }), waitForSelector:s => chromeWaitForSelector({ ...p, ...s }), click:s => chromeClick({ ...p, ...s }), type:s => chromeType({ ...p, ...s }), eval:s => chromeEval({ ...p, ...s, expression:s.expression || "document.title" }), logs:s => chromeLogs({ ...p, ...s }), snapshot:s => chromeSnapshot({ ...p, ...s }), screenshot:s => chromeScreenshot({ ...p, ...s }), closeTabs:s => chromeCloseTabs({ ...p, ...s }) }; for (const step of steps) results.push(dispatch[step.type || step.action] ? await dispatch[step.type || step.action](step) : { ok:false, error:"unknown_step", stepType:step.type || step.action }); return { ok:results.every(x => x.ok !== false), action:"chromeRunScript", count:steps.length, results:results.slice(0, Number(p.maxStepResults || 25)), logs:readCompactLogs(p) }; }
 function targetOptions(p = {}) { return { pageId:param(p, "pageId", param(p, "chromeTargetId", param(p, "targetId", ""))), chromeTargetId:param(p, "chromeTargetId", param(p, "pageId", param(p, "targetId", ""))), browserSessionId:param(p, "browserSessionId", ""), roomId:param(p, "roomId", ""), missionId:param(p, "missionId", ""), agentSessionId:param(p, "agentSessionId", ""), logicalAgentId:param(p, "logicalAgentId", ""), shared:p.shared === true, inspectShared:p.inspectShared === true, force:p.force === true }; }
 function targetView(t = {}) { const lease = cdp.targetLease(t.id); return { id:t.id, chromeTargetId:t.id, title:String(t.title || "").slice(0, 120), url:String(t.url || "").slice(0, 300), type:t.type, attached:Boolean(t.webSocketDebuggerUrl), lease }; }

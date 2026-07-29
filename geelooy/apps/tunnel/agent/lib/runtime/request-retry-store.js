@@ -11,9 +11,9 @@ const Shapes = require("./request-retry-shapes.js");
 /**
  * B"H
  *
- * Progress stays light in memory; mutating completion is sealed to disk before a
- * response may leave. The Awtsmoos renews result and durable witness together;
- * Awtsmoos.com returns the receipt reference without leaking source contents.
+ * Progress stays light in memory; observations and mutations are sealed before
+ * response. After a generation change, observations may replay once while file
+ * mutations are reconciled by effect hash and never repeated.
  */
 function begin(identity, payload) {
 	return Records.begin(identity, payload);

@@ -16,7 +16,10 @@ async function ready(payload = {}) {
   }
   const port = Number(payload.port || config.chrome.port || 9222);
   try {
-    await ensurePage(port, { timeoutMs:Math.min(timeoutOf(payload, 10000), 10000) });
+    await ensurePage(port, {
+      ...chromeActions.targetOptions(payload),
+      timeoutMs:Math.min(timeoutOf(payload, 10000), 10000)
+    });
     return { config, port, launched:false };
   } catch (originalError) {
     if (payload.autoLaunch === false) throw originalError;
@@ -34,7 +37,11 @@ async function ready(payload = {}) {
       error.details = launched;
       throw error;
     }
-    await ensurePage(port, { forceReconnect:true, timeoutMs:Math.min(timeoutOf(payload, 15000), 15000) });
+    await ensurePage(port, {
+      ...chromeActions.targetOptions(payload),
+      forceReconnect:true,
+      timeoutMs:Math.min(timeoutOf(payload, 15000), 15000)
+    });
     return { config:loadConfig(), port, launched:true, launch:launched, originalError:originalError.message };
   }
 }
@@ -42,10 +49,20 @@ function timeoutOf(payload = {}, fallback = 30000) { const n = Number(payload.ti
 function logs(payload = {}) { return compactLogs(readChromeLogs({ maxLogs:payload.maxLogs || 80, clear:!!payload.clearLogs }), payload.maxLogs || 80); }
 async function chromeScreenshot(payload = {}) {
   await ready(payload);
-  const result = await cdpCall("Page.captureScreenshot", { format:payload.format || "png", fromSurface:true, captureBeyondViewport:payload.fullPage !== false }, timeoutOf(payload));
-  const content64 = result.data || ""; let savedPath = null;
-  if (payload.path || payload.inline !== true) { const rel = String(payload.path || `.awtsmoos/chrome/screenshots/${Date.now().toString(36)}.${payload.format || "png"}`).replace(/^[/\\]+/, ""); const full = path.join(ROOT, rel); await fsp.mkdir(path.dirname(full), { recursive:true }); await fsp.writeFile(full, Buffer.from(content64, "base64")); savedPath = full; }
-  return { ok:true, action:"chromeScreenshot", format:payload.format || "png", bytes:Buffer.byteLength(content64, "base64"), savedPath, content64:payload.inline === true ? content64 : "" };
+  const timeoutMs = Math.min(timeoutOf(payload, 15000), 15000);
+  try {
+    await cdpCall("Page.bringToFront", {}, Math.min(timeoutMs, 5000));
+    const result = await cdpCall("Page.captureScreenshot", {
+      format:payload.format || "png",
+      fromSurface:true,
+      captureBeyondViewport:payload.fullPage === true
+    }, timeoutMs);
+    const content64 = result.data || ""; let savedPath = null;
+    if (payload.path || payload.inline !== true) { const rel = String(payload.path || `.awtsmoos/chrome/screenshots/${Date.now().toString(36)}.${payload.format || "png"}`).replace(/^[/\\]+/, ""); const full = path.join(ROOT, rel); await fsp.mkdir(path.dirname(full), { recursive:true }); await fsp.writeFile(full, Buffer.from(content64, "base64")); savedPath = full; }
+    return { ok:true, action:"chromeScreenshot", format:payload.format || "png", bytes:Buffer.byteLength(content64, "base64"), savedPath, content64:payload.inline === true ? content64 : "" };
+  } catch (error) {
+    return { ok:false, action:"chromeScreenshot", error:"chrome_screenshot_failed", detail:error.message, retryable:true };
+  }
 }
 async function chromeNetwork(payload = {}) { const logRead = readChromeLogs({ maxLogs:payload.maxLogs || 300, clear:!!payload.clearLogs }); const network = logRead.logs.filter(x => x.source.startsWith("network") || x.details?.url || x.details?.requestId); const filtered = payload.failedOnly === false ? network : network.filter(isChromeError); return { ok:true, action:"chromeNetwork", failedOnly:payload.failedOnly !== false, count:filtered.length, logs:compactLogs({ ...logRead, logs:filtered }, payload.maxLogs || 80) }; }
 async function chromeAccessibilitySnapshot(payload = {}) {
@@ -56,7 +73,12 @@ async function chromeAccessibilitySnapshot(payload = {}) {
 }
 async function chromeTestUrl(payload = {}) {
   const readiness = await ready(payload); const { port } = readiness; const url = payload.url || "about:blank"; if (payload.clearLogs !== false) readChromeLogs({ clear:true }); const startedAt = Date.now();
-  const navigation = await navigateAndWait(url, timeoutOf(payload), port);
+  const navigation = await navigateAndWait(
+    url,
+    timeoutOf(payload),
+    port,
+    chromeActions.targetOptions(payload)
+  );
   let selectorFound = !payload.selector;
   if (payload.selector) { const start = Date.now(), timeout = timeoutOf({ timeoutMs:payload.selectorTimeoutMs || payload.timeoutMs }, 10000); while (Date.now() - start < timeout) { const seen = await cdpCall("Runtime.evaluate", { expression:"!!document.querySelector(" + JSON.stringify(payload.selector) + ")", returnByValue:true }, Math.min(timeout, 15000)); if (seen.result?.value) { selectorFound = true; break; } await new Promise(resolve => setTimeout(resolve, 250)); } }
   if (payload.waitMs) await new Promise(resolve => setTimeout(resolve, Math.min(Number(payload.waitMs), 30000)));

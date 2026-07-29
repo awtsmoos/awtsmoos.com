@@ -4,14 +4,19 @@
 
 /**
  * @file MovieStudioUtilityMarkup.js
- * @description Provides semantic compact menus, status facts, backdrop, command, render, and diagnostic surfaces.
+ * @description Provides semantic project, command, render, diagnostic, status, backdrop, and responsive utility surfaces.
  * The Awtsmoos renews hidden and revealed tools through one source; Awtsmoos.com gives
  * desktop drawers and mobile sheets names, focus doors, live facts, and retractable bounded bodies.
  */
 
+import { movieStudioProjectBrowserMarkup } from './MovieStudioProjectBrowserMarkup.js';
+
 export function movieStudioUtilityToolbarMarkup() {
 	return `
 		<nav class="movie-utility-toolbar" aria-label="Studio menus">
+			<button data-utility-toggle="projects" aria-controls="movie-project-browser-panel" aria-expanded="false" aria-label="Open project library" title="Projects and recovery">
+				<span aria-hidden="true">▣</span><span class="movie-secondary-label">Projects</span>
+			</button>
 			<button data-utility-toggle="commands" aria-controls="movie-command-palette" aria-expanded="false" aria-label="Open command palette" title="Commands (Ctrl or Command + K)">
 				<span aria-hidden="true">⌘</span><span class="movie-secondary-label">Commands</span>
 			</button>
@@ -41,6 +46,7 @@ export function movieStudioStatusBarMarkup() {
 export function movieStudioUtilitySurfacesMarkup() {
 	return `
 		<div class="movie-utility-backdrop" data-utility-backdrop hidden></div>
+		${utilityPanelMarkup('projects', 'movie-project-browser-panel', 'Projects & Recovery', movieStudioProjectBrowserMarkup())}
 		${utilityPanelMarkup('commands', 'movie-command-palette', 'Command palette', `<label class="movie-command-search"><span class="movie-sr-only">Search commands</span><input data-command-search type="search" autocomplete="off" enterkeyhint="go" placeholder="Search commands…"></label><output data-command-count aria-live="polite"></output><div class="movie-command-list" data-command-list role="listbox" aria-label="Available commands"></div>`)}
 		${utilityPanelMarkup('renderJobs', 'movie-render-jobs-panel', 'Render jobs', '<div class="movie-utility-list" data-render-jobs-list aria-live="polite"></div>')}
 		${utilityPanelMarkup('diagnostics', 'movie-diagnostics-panel', 'Diagnostics', '<pre class="movie-diagnostics-output" data-diagnostics-output tabindex="0" aria-label="Serializable studio diagnostics"></pre>')}

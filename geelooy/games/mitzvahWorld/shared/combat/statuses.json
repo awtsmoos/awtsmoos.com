@@ -1,0 +1,90 @@
+{
+	"BH": "B\"H",
+	"boruchHashem": "Boruch Hashem",
+	"blessedIsHe": "Blessed is He",
+	"poem": "The Awtsmoos renews each bounded change and lets no stack become a sea; Awtsmoos.com records source, expiry, cleanse, and limit faithfully.",
+	"schemaVersion": 1,
+	"maximumActivePerTarget": 24,
+	"statuses": {
+		"illuminated": {
+			"id": "illuminated",
+			"hebrewName": "מואר",
+			"englishName": "Illuminated",
+			"durationMs": 7000,
+			"tickMs": 0,
+			"maximumStacks": 1,
+			"dispelCategory": "concealment",
+			"modifiers": { "revealsHidden": true, "evasionMultiplier": 0.75 }
+		},
+		"burning": {
+			"id": "burning",
+			"hebrewName": "בוער",
+			"englishName": "Burning",
+			"durationMs": 6500,
+			"tickMs": 1000,
+			"maximumStacks": 4,
+			"dispelCategory": "fire",
+			"modifiers": { "damagePerTick": 4 }
+		},
+		"soaked": {
+			"id": "soaked",
+			"hebrewName": "רטוב",
+			"englishName": "Soaked",
+			"durationMs": 6000,
+			"tickMs": 0,
+			"maximumStacks": 1,
+			"dispelCategory": "water",
+			"modifiers": { "fireReceivedMultiplier": 0.72, "earthReceivedMultiplier": 1.2 }
+		},
+		"grounded": {
+			"id": "grounded",
+			"hebrewName": "מקורקע",
+			"englishName": "Grounded",
+			"durationMs": 5000,
+			"tickMs": 0,
+			"maximumStacks": 1,
+			"dispelCategory": "earth",
+			"modifiers": { "airborne": false, "interruptResistanceMultiplier": 0.82 }
+		},
+		"dust-bound": {
+			"id": "dust-bound",
+			"hebrewName": "קשור בעפר",
+			"englishName": "Dust Bound",
+			"durationMs": 3200,
+			"tickMs": 0,
+			"maximumStacks": 1,
+			"dispelCategory": "earth",
+			"modifiers": { "movementMultiplier": 0.58, "rooted": true }
+		},
+		"flowing": {
+			"id": "flowing",
+			"hebrewName": "זורם",
+			"englishName": "Flowing",
+			"durationMs": 8000,
+			"tickMs": 0,
+			"maximumStacks": 3,
+			"dispelCategory": "blessing",
+			"modifiers": { "recoveryMultiplierPerStack": 0.05 }
+		},
+		"guard-broken": {
+			"id": "guard-broken",
+			"hebrewName": "מגן שבור",
+			"englishName": "Guard Broken",
+			"durationMs": 1400,
+			"tickMs": 0,
+			"maximumStacks": 1,
+			"dispelCategory": "physical",
+			"modifiers": { "guardDisabled": true, "staggered": true }
+		},
+		"clarified": {
+			"id": "clarified",
+			"hebrewName": "מבואר",
+			"englishName": "Clarified",
+			"durationMs": 5500,
+			"tickMs": 0,
+			"maximumStacks": 1,
+			"dispelCategory": "blessing",
+			"modifiers": { "interruptAccuracy": 0.16, "insightTierBonus": 1 }
+		}
+	}
+}

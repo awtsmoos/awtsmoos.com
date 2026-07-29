@@ -17,7 +17,20 @@ const Store = require("./request-retry-store.js");
 function begin(input = {}) {
 	const payload = input.payload || input;
 	const identity = Identity.requestIdentity(payload, input.data || {});
-	return Store.begin(identity, payload);
+	const begun = Store.begin(identity, payload);
+	if (
+		begun?.kind === "coalesced" &&
+		begun.record?.state === "pending" &&
+		begun.record?.hydratedAfterRestart === true &&
+		begun.record?.durable?.replaySafe === true
+	) {
+		const revived = Store.update(identity.controlRequestId, {
+			hydratedAfterRestart: false,
+			redispatchedAfterRestartAt: new Date().toISOString()
+		});
+		return { ok: true, kind: "created", record: revived };
+	}
+	return begun;
 }
 
 function poll(input = {}) {

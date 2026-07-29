@@ -4,6 +4,7 @@
 
 const Identity = require("./idempotencyIdentity.js");
 const State = require("./idempotencyState.js");
+const Hydration = require("./idempotencyHydration.js");
 
 /**
  * B"H
@@ -113,7 +114,9 @@ module.exports = {
 	begin,
 	collect: State.collect,
 	commandHash: Identity.commandHash,
+	hydrate: config => Hydration.hydrate(config, State.records),
 	remove,
+	resetHydration: Hydration.reset,
 	snapshot: State.snapshot,
 	update
 };

@@ -1,0 +1,63 @@
+{
+	"BH": "B\"H",
+	"boruchHashem": "Boruch Hashem",
+	"blessedIsHe": "Blessed is He",
+	"poem": "The Awtsmoos speaks through light, flame, water, earth, and measured might; Awtsmoos.com keeps color joined to icon, shape, text, and motion for readable fight.",
+	"schemaVersion": 1,
+	"elements": {
+		"light-air": {
+			"id": "light-air",
+			"hebrewName": "אור ורוח",
+			"englishName": "Light and Air",
+			"icon": "spark-wind",
+			"shape": "diamond-rays",
+			"motion": "rising-spiral",
+			"statusId": "illuminated"
+		},
+		"fire": {
+			"id": "fire",
+			"hebrewName": "אש",
+			"englishName": "Fire",
+			"icon": "letter-flame",
+			"shape": "triangle-flame",
+			"motion": "flicker-rise",
+			"statusId": "burning"
+		},
+		"water": {
+			"id": "water",
+			"hebrewName": "מים",
+			"englishName": "Water",
+			"icon": "sixfold-water",
+			"shape": "six-wave-circle",
+			"motion": "flowing-orbit",
+			"statusId": "soaked"
+		},
+		"earth-dust": {
+			"id": "earth-dust",
+			"hebrewName": "עפר",
+			"englishName": "Earth and Dust",
+			"icon": "crowned-earth",
+			"shape": "square-crown",
+			"motion": "grounded-pulse",
+			"statusId": "grounded"
+		},
+		"physical": {
+			"id": "physical",
+			"hebrewName": "גשמי",
+			"englishName": "Physical",
+			"icon": "measured-strike",
+			"shape": "crossed-lines",
+			"motion": "impact-ring",
+			"statusId": null
+		},
+		"spiritual-neutral": {
+			"id": "spiritual-neutral",
+			"hebrewName": "רוחני",
+			"englishName": "Spiritual",
+			"icon": "clear-letter",
+			"shape": "open-circle",
+			"motion": "steady-glow",
+			"statusId": null
+		}
+	}
+}

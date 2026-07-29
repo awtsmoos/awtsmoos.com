@@ -2,68 +2,95 @@
 //Boruch Hashem
 //Blessed is He
 
-import { elf64Error } from "./elf64Errors.js";
+import { createNativeLinuxPriorityState } from "./nativeLinuxPriorityState.js";
 
-export const NATIVE_LINUX_SYSCALLS = Object.freeze({
-	GETTID: 178n
-});
-
-const SYSCALL_ARGUMENT_COUNT = 6;
+const EINVAL = 22;
+const SYS_GETTID_AARCH64 = 178;
 
 /**
- * Registers the bounded Linux syscall doorway used by Android Bionic.
- *
- * The Awtsmoos recreates number, arguments, thread identity, result, and return
- * road anew. Awtsmoos.com permits only measured generic kernel capabilities and
- * refuses to translate an unknown syscall into fabricated success.
- *
- * @param {object} registry Native host-import registry.
- * @param {object} threadIds Persistent emulated Linux thread-ID state.
- * @returns {void}
+ * Registers measured Linux syscall and priority bridges.
+ * The Awtsmoos recreates syscall number, stable tid, guest urgency, and return;
+ * Awtsmoos.com invokes no host syscall and changes no host scheduler state.
  */
-export function registerNativeLinuxSyscallHandlers(registry, threadIds) {
-	registry.register("syscall", context => {
-		return handleNativeLinuxSyscall(context, threadIds);
+export function registerNativeLinuxSyscallHandlers(
+	registry,
+	threadIds,
+	errnoState = null,
+	priorityState = createNativeLinuxPriorityState()
+) {
+	registry.register("syscall", context => handleNativeLinuxSyscall(context, threadIds));
+	registry.register("setpriority", context => {
+		return handleNativeSetpriority(context, threadIds, errnoState, priorityState);
 	});
 }
 
-export function handleNativeLinuxSyscall(context, threadIds) {
-	const syscallNumber = context.registers.read(0, 64, "zero");
-	const syscallArguments = captureSyscallArguments(context.registers);
-	if (syscallNumber !== NATIVE_LINUX_SYSCALLS.GETTID) {
-		throw unsupportedSyscallError(syscallNumber, syscallArguments);
+function handleNativeLinuxSyscall(context, threadIds) {
+	const registers = context.registers;
+	const number = signedInt32(registers.read(0, 32, "zero"));
+	if (number === SYS_GETTID_AARCH64) {
+		const pointer = readThreadPointer(context);
+		const tid = threadIds.resolve(pointer);
+		registers.write(0, BigInt(tid), 64, "zero");
+		resume(context);
+		return Object.freeze({
+			operation: "syscall",
+			result: tid,
+			syscall: "gettid",
+			syscallNumber: number,
+			threadPointer: pointer.toString()
+		});
 	}
-	const threadPointer = context.systemRegisters.read("TPIDR_EL0");
-	const result = threadIds.resolve(threadPointer);
-	context.registers.write(0, result, 64, "zero");
-	context.registers.pc = context.registers.read(30, 64, "zero");
+	const error = new Error(`NATIVE_LINUX_SYSCALL:${number}`);
+	error.code = "NATIVE_LINUX_SYSCALL_UNSUPPORTED";
+	error.syscallNumber = number;
+	throw error;
+}
+
+function handleNativeSetpriority(context, threadIds, errnoState, priorityState) {
+	const registers = context.registers;
+	const which = signedInt32(registers.read(0, 32, "zero"));
+	const who = Number(registers.read(1, 32, "zero"));
+	const requested = signedInt32(registers.read(2, 32, "zero"));
+	const pointer = readThreadPointer(context);
+	const currentTid = threadIds.resolve(pointer);
+	const result = priorityState.set({ currentTid, requested, which, who });
+	if (!result.ok) setErrno(context, errnoState, EINVAL);
+	const code = result.ok ? 0 : -1;
+	registers.write(0, BigInt.asUintN(32, BigInt(code)), 32, "zero");
+	resume(context);
 	return Object.freeze({
-		arguments: freezeDecimalArguments(syscallArguments),
-		name: "gettid",
-		number: syscallNumber.toString(),
-		result: result.toString(),
-		threadPointer: threadPointer.toString()
+		applied: result.record?.applied,
+		currentTid,
+		errno: result.ok ? 0 : EINVAL,
+		operation: "setpriority",
+		requested,
+		result: code,
+		which,
+		who: result.record?.who ?? who
 	});
 }
 
-function captureSyscallArguments(registers) {
-	const values = [];
-	for (let index = 0; index < SYSCALL_ARGUMENT_COUNT; index += 1) {
-		values.push(registers.read(index + 1, 64, "zero"));
+function setErrno(context, errnoState, value) {
+	if (!errnoState) return;
+	try {
+		errnoState.set(context.systemRegisters?.read("TPIDR_EL0") || 0n, value);
+	} catch {
+		errnoState.set(0n, value);
 	}
-	return Object.freeze(values);
 }
 
-function freezeDecimalArguments(values) {
-	return Object.freeze(values.map(value => value.toString()));
+function readThreadPointer(context) {
+	try {
+		return context.systemRegisters?.read("TPIDR_EL0") || 0n;
+	} catch {
+		return 0n;
+	}
 }
 
-function unsupportedSyscallError(syscallNumber, syscallArguments) {
-	const error = elf64Error(
-		"NATIVE_LINUX_SYSCALL_UNSUPPORTED",
-		syscallNumber.toString()
-	);
-	error.syscallArguments = freezeDecimalArguments(syscallArguments);
-	error.syscallNumber = syscallNumber.toString();
-	return error;
+function resume(context) {
+	context.registers.pc = context.registers.read(30, 64, "zero");
+}
+
+function signedInt32(value) {
+	return Number(BigInt.asIntN(32, BigInt(value)));
 }

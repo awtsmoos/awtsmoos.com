@@ -20,8 +20,39 @@ const chains = [
 ];
 const records = [];
 const startTimes = [];
+let smoke = null;
 
 try {
+	startTimes.push(Date.now());
+	const smokeResult = await service.send({
+		prompt: "Reply with exactly: BH TEST NEW CHAT.",
+		conversationKey: null,
+		mode: "chatgpt-website",
+		timeoutMs: 240000,
+		onProgress: event => append({
+			type: "smoke-progress",
+			stage: event.stage,
+			status: event.status,
+			at: event.at
+		})
+	});
+	smoke = {
+		exact: smokeResult.answer.trim() === "BH TEST NEW CHAT.",
+		created: smokeResult.created,
+		composerTouched: smokeResult.composerTouched,
+		submissionTransport: smokeResult.submissionTransport,
+		completionSource: smokeResult.completionSource
+	};
+	assert(smoke.exact, "New-chat smoke answer was not exact.");
+	assert(smoke.created === true, "New-chat smoke was not marked created.");
+	assert(smoke.composerTouched === true, "New-chat smoke did not use the website composer.");
+	assert(smoke.submissionTransport === "chatgpt-website-composer",
+		"New-chat smoke did not use the ordinary website submission.");
+	assert(smoke.completionSource === "page-request-get",
+		"New-chat smoke did not finish through authenticated GET polling.");
+	service.reset(smokeResult.conversationKey);
+	append({ type: "smoke-complete", ...smoke });
+
 	for (const turn of [1, 2]) {
 		for (const chain of chains) {
 			const expected = `BH CAREFUL WEBSITE C${chain.conversation} T${turn}.`;
@@ -81,9 +112,11 @@ try {
 		BH: "B\"H — Boruch Hashem — Blessed is He",
 		verifiedAt: new Date().toISOString(),
 		mode: "chatgpt-website",
+		smoke,
+		smokeConversationsCreated: 1,
 		conversationsCreated: 2,
 		turnsPerConversation: 2,
-		totalTurns: records.length,
+		totalTurns: records.length + 1,
 		minimumIntervalMs,
 		minimumObservedStartGapMs: Math.min(...intervals),
 		beforePageCount: beforeTargets.length,

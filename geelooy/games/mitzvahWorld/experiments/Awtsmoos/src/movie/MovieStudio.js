@@ -6,7 +6,7 @@
  * @file MovieStudio.js
  * @description Boots the real world beneath the stable API and responsive professional NLE.
  * The Awtsmoos renews world and editing vessel together; Awtsmoos.com binds runtime, project,
- * cameras, actions, keyframes, audio mixer, 3D authoring, utilities, controls, and rendering.
+ * cameras, actions, keyframes, audio, titles, 3D authoring, utilities, controls, and rendering.
  */
 
 import { createEretzRuntime } from '../app/createEretzRuntime.js';
@@ -19,6 +19,7 @@ import { MovieStudioKeyframeController } from './MovieStudioKeyframeController.j
 import { MovieStudioPreferenceController } from './MovieStudioPreferenceController.js';
 import { MovieStudioResizeController } from './MovieStudioResizeController.js';
 import { MovieStudioSession } from './MovieStudioSession.js';
+import { MovieStudioTitleController } from './MovieStudioTitleController.js';
 import { MovieStudioUtilityController } from './MovieStudioUtilityController.js';
 import { createMovieStudioView, showMovieLoading } from './MovieStudioView.js';
 import { hideMovieWorldChrome } from './MovieWorldChrome.js';
@@ -26,13 +27,10 @@ import { hideMovieWorldChrome } from './MovieWorldChrome.js';
 export async function createMovieStudio(hosts, initialProject, options = {}) {
 	const loading = showMovieLoading();
 	try {
-		const diagnostics = await createEretzRuntime(hosts, {
-			quality: options.quality || 'cinematic',
-			startLoop: false
-		});
+		const diagnostics = await createEretzRuntime(hosts, { quality: options.quality || 'cinematic', startLoop: false });
 		const runtime = diagnostics.runtime;
 		const restoreWorldChrome = hideMovieWorldChrome(hosts, runtime.renderer.canvas);
-		loading.set('B"H arranging timeline, sound, materials, actions, keyframes, and cameras…');
+		loading.set('B"H arranging timeline, sound, titles, materials, actions, keyframes, and cameras…');
 		const view = createMovieStudioView(initialProject);
 		const session = new MovieStudioSession(runtime, diagnostics, view, initialProject);
 		session.restoreWorldChrome = restoreWorldChrome;
@@ -40,15 +38,14 @@ export async function createMovieStudio(hosts, initialProject, options = {}) {
 		session.cameraActionController = new MovieStudioCameraActionController(session, view);
 		session.keyframeController = new MovieStudioKeyframeController(session, view);
 		session.audioMixerController = new MovieStudioAudioMixerController(session, view);
+		session.titleController = new MovieStudioTitleController(session, view);
 		session.utilityController = new MovieStudioUtilityController(session, view);
 		session.interactions = new MovieStudioInteractionController(session, view);
 		session.preferenceController = new MovieStudioPreferenceController(session, view);
 		session.resizeController = new MovieStudioResizeController(session, view);
 		scheduleAutomaticRender(session, options);
 		return session.publicApi;
-	} finally {
-		loading.remove();
-	}
+	} finally { loading.remove(); }
 }
 
 function scheduleAutomaticRender(session, options) {

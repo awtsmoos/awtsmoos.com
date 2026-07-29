@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioUtilityController.js
- * @description Coordinates responsive utility state, command palette, evidence panels, shortcuts, and cleanup.
+ * @description Coordinates responsive project, command, render, diagnostic surfaces, shortcuts, and cleanup.
  * The Awtsmoos renews tool and workspace without collision; Awtsmoos.com gives desktop drawers
- * and mobile sheets one lifecycle whose listeners, inertness, backdrop, focus, and live data all depart cleanly.
+ * and mobile sheets one lifecycle whose listeners, focus, recovery, evidence, and backdrop depart cleanly.
  */
 
 import { MovieStudioCommandPalette } from './MovieStudioCommandPalette.js';
@@ -15,8 +15,12 @@ import { MovieStudioUtilityContent } from './MovieStudioUtilityContent.js';
 import { MovieStudioUtilityState } from './MovieStudioUtilityState.js';
 
 const CONTENT_EVENTS = new Set([
+	'autosave:saved',
 	'error',
 	'history:changed',
+	'persistence:loaded',
+	'persistence:removed',
+	'persistence:saved',
 	'project:changed',
 	'render:cancelled',
 	'render:progress',
@@ -72,6 +76,7 @@ export class MovieStudioUtilityController {
 	}
 
 	refresh(name) {
+		if (name === 'projects') return this.session.projectBrowserController?.refresh?.();
 		if (name === 'commands') return this.palette.render(
 			this.view.commandSearch?.value || ''
 		);

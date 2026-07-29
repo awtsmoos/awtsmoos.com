@@ -2,135 +2,61 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file movieStudioKeyframeEditor.test.mjs
- * @description Proves selected-clip effect lanes, bounded diamonds, removal, markup, CSS, and lifecycle wiring.
- * The Awtsmoos renews every value before time can call it a point; Awtsmoos.com verifies
- * the visible keyframe editor remains canonical, accessible, localized, and history-compatible.
- */
-
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { movieStudioInspectorMarkup } from '../../movie/MovieStudioInspectorMarkup.js';
-import {
-	movieEffectBounds,
-	movieKeyframeLanes,
-	removeMovieEffectKeyframe,
-	selectedMovieKeyframeClip,
-	upsertMovieEffectKeyframe
-} from '../../movie/MovieStudioKeyframeProject.js';
-import { movieStudioKeyframeMarkup } from '../../movie/MovieStudioKeyframeMarkup.js';
-import {
-	collectMovieStudioKeyframeView,
-	paintMovieKeyframeLanes
-} from '../../movie/MovieStudioKeyframeView.js';
-import { movieStudioStyleText } from '../../movie/MovieStudioStyleText.js';
+import { MovieStudioKeyframeController } from '../../movie/MovieStudioKeyframeController.js';
 
-function project() {
-	return {
+function fakeSession() {
+	const project = {
+		authoring3d: {
+			keyframes: [
+				{ id: 'key-a', targetId: 'hero', time: 1, type: 'transform', value: { position: { x: 0, y: 0, z: 0 } } },
+				{ id: 'key-b', targetId: 'hero', time: 3, type: 'transform', value: { position: { x: 2, y: 0, z: 0 } } }
+			]
+		},
 		duration: 10,
-		tracks: [{
-			clips: [{
-				duration: 4,
-				effects: [{
-					enabled: true,
-					id: 'opacity-effect',
-					keyframes: [{ easing: 'linear', time: 0, value: 0 }],
-					kind: 'opacity',
-					value: 1
-				}],
-				id: 'clip-a',
-				start: 1
-			}],
-			id: 'video',
-			type: 'video'
-		}]
+		tracks: []
+	};
+	return {
+		commands: { commitProject(next, label) { this.last = { label, project: next }; } },
+		events: { emit() {} },
+		project,
+		revision: 1,
+		seek(time) { this.time = time; },
+		time: 0,
+		view: { status: { textContent: '' } }
 	};
 }
 
-test('selection resolves the canonical track and clip', () => {
-	const resolved = selectedMovieKeyframeClip(project(), {
-		clipId: 'clip-a',
-		trackId: 'video'
-	});
-	assert.equal(resolved.track.id, 'video');
-	assert.equal(resolved.clip.id, 'clip-a');
-});
-
-test('upsert clamps time and value and replaces a diamond at the same time', () => {
-	const clip = project().tracks[0].clips[0];
-	const effect = upsertMovieEffectKeyframe(clip, {
-		baseValue: 2,
-		easing: 'smoothstep',
-		kind: 'opacity',
-		time: 99,
-		value: -5
-	});
-	assert.equal(effect.value, 1);
-	assert.deepEqual(effect.keyframes.at(-1), {
-		easing: 'smoothstep',
-		time: 4,
-		value: 0
-	});
-	const replaced = upsertMovieEffectKeyframe({ ...clip, effects: [effect] }, {
-		baseValue: 1,
-		easing: 'linear',
-		kind: 'opacity',
-		time: 4,
-		value: 0.5
-	});
-	assert.equal(replaced.keyframes.filter(frame => frame.time === 4).length, 1);
-	assert.equal(replaced.keyframes.at(-1).value, 0.5);
-});
-
-test('lane discovery sorts frames and removal returns a new effect', () => {
-	const clip = project().tracks[0].clips[0];
-	const effect = {
-		...clip.effects[0],
-		keyframes: [
-			{ easing: 'linear', time: 3, value: 1 },
-			{ easing: 'linear', time: 1, value: 0.5 }
-		]
+function fakeView() {
+	return {
+		keyframeEditor: {
+			addEventListener() {},
+			innerHTML: '',
+			removeEventListener() {}
+		}
 	};
-	const lanes = movieKeyframeLanes({ ...clip, effects: [effect] });
-	assert.deepEqual(lanes[0].keyframes.map(frame => frame.time), [1, 3]);
-	const removed = removeMovieEffectKeyframe({ ...clip, effects: [effect] }, effect.id, 1);
-	assert.deepEqual(removed.keyframes.map(frame => frame.time), [3]);
-	assert.equal(effect.keyframes.length, 2);
+}
+
+test('keyframe editor saves and removes keyframes through project commits', () => {
+	const session = fakeSession();
+	const controller = new MovieStudioKeyframeController(session, fakeView());
+	controller.save('key-a', { time: 2, value: { position: { x: 1, y: 0, z: 0 } } });
+	assert.equal(session.commands.last.label, 'Update keyframe');
+	assert.equal(session.commands.last.project.authoring3d.keyframes[0].time, 2);
+	session.project = session.commands.last.project;
+	controller.remove('key-b');
+	assert.equal(session.commands.last.label, 'Remove keyframe');
+	assert.deepEqual(
+		session.commands.last.project.authoring3d.keyframes.map(frame => frame.id),
+		['key-a']
+	);
 });
 
-test('bounds expose the canonical appearance ranges', () => {
-	assert.deepEqual(movieEffectBounds('opacity'), {
-		defaultValue: 1,
-		maximum: 1,
-		minimum: 0
-	});
-	assert.equal(movieEffectBounds('missing'), null);
-});
-
-test('markup, view helper, lane paint, and localized CSS expose the editor', () => {
-	const markup = movieStudioKeyframeMarkup();
-	const inspector = movieStudioInspectorMarkup();
-	const css = movieStudioStyleText();
-	for (const token of [
-		'data-keyframe-kind',
-		'data-keyframe-time',
-		'data-keyframe-add',
-		'data-keyframe-lanes'
-	]) assert.match(markup, new RegExp(token));
-	assert.match(inspector, /Effect Keyframes/);
-	assert.match(css, /\.Awtsmoos-movie-studio \.movie-keyframe-panel/);
-	const lanes = { innerHTML: '' };
-	const root = {
-		querySelector: selector => selector === '[data-keyframe-lanes]' ? lanes : null
-	};
-	const view = collectMovieStudioKeyframeView(root);
-	paintMovieKeyframeLanes(view, [{
-		id: 'opacity-effect',
-		keyframes: [{ easing: 'linear', time: 2, value: 0.5 }],
-		kind: 'opacity',
-		value: 1
-	}], 4);
-	assert.match(lanes.innerHTML, /left:50%/);
-	assert.match(lanes.innerHTML, /movie-keyframe-diamond/);
+test('keyframe editor selects and previews a keyframe time', () => {
+	const session = fakeSession();
+	const controller = new MovieStudioKeyframeController(session, fakeView());
+	assert.equal(controller.select('key-b'), 'key-b');
+	assert.equal(session.time, 3);
+	assert.match(controller.view.keyframeEditor.innerHTML, /key-b/);
 });
