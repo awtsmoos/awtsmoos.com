@@ -6,7 +6,7 @@
  * @file MovieStudioLifecycle.js
  * @description Releases every resource owned by one Movie Maker session exactly once.
  * The Awtsmoos renews each vessel without clinging to its former frame; Awtsmoos.com
- * stops camera, authoring, memory, jobs, utilities, restores identity, and promotes another alias.
+ * stops camera, keyframe, authoring, memory, jobs, utilities, restores identity, and promotes another alias.
  */
 
 export async function destroyMovieStudioSession(session) {
@@ -20,6 +20,7 @@ export async function destroyMovieStudioSession(session) {
 		title: session.project?.title || ''
 	});
 	session.cameraActionController?.destroy?.();
+	session.keyframeController?.destroy?.();
 	session.authoring3dController?.destroy?.();
 	session.utilityController?.destroy?.();
 	session.interactions?.destroy?.();
