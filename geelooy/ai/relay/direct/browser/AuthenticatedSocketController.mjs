@@ -41,6 +41,7 @@ export class AuthenticatedSocketController {
 		try {
 			await cdpClient.connect();
 			await cdpClient.send("Page.enable");
+			await cdpClient.send("DOM.enable");
 			await cdpClient.send("Page.navigate", { url: "https://chatgpt.com/" });
 			const inspector = this.inspectorFactory(cdpClient);
 			const pageState = await this.waitUntilReady(inspector, timeoutMs);
