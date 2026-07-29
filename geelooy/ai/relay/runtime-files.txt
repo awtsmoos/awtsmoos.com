@@ -9,6 +9,7 @@ direct/browser/CarrierControlGate.mjs
 direct/browser/CarrierInputController.mjs
 direct/browser/CarrierNodeFinder.mjs
 direct/browser/CdpClient.mjs
+direct/browser/ChatGptTargetSelector.mjs
 direct/browser/ChromeDiscovery.mjs
 direct/browser/DebugPortResolver.mjs
 direct/browser/OwnedHostInspector.mjs

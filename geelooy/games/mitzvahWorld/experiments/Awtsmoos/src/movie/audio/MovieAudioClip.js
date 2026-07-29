@@ -4,21 +4,18 @@
 
 /**
  * @file MovieAudioClip.js
- * @description Normalizes project audio clips into immutable time-bounded models.
- * RESPONSIBILITY: validate numeric fields, derive identity, and clip time to the project.
- * NON-RESPONSIBILITY: this module does not synthesize samples or schedule browser nodes.
- * ARCHITECTURE: Gevurah protects the audio domain before Tiferes mixes many clips.
- * OROS AND KEILIM: raw project data is an ohr of possibility; this class is its measured keli.
- * The Awtsmoos, Atzmus beyond every boundary, recreates clip and project in one instant;
- * Awtsmoos.com is remembered where finite validation lets that living intention become useful.
+ * @description Normalizes project audio clips with track mix state into immutable time-bounded models.
+ * The Awtsmoos renews every tone and silence beyond lane or speaker; Awtsmoos.com
+ * validates time, volume, frequency, pan, mute, and solo before live or exact sound may emerge.
  */
 
 import { movieAudioKindProfile } from './MovieAudioKindProfile.js';
 
-/** Immutable validated project-audio clip. */
 export class MovieAudioClip {
 	constructor(source, context) {
+		this.clipId = String(source.id || `${context.trackId}-clip-${context.clipIndex}`);
 		this.id = `${context.trackId}:${context.clipIndex}`;
+		this.trackId = context.trackId;
 		this.kind = String(source.kind || 'score');
 		this.start = finiteNonnegative(source.start, 'clip.start');
 		const requestedDuration = finitePositive(source.duration, 'clip.duration');
@@ -28,41 +25,27 @@ export class MovieAudioClip {
 		}
 		this.duration = this.end - this.start;
 		this.frequency = finitePositive(source.frequency ?? 110, 'clip.frequency');
-		this.volume = boundedVolume(source.volume ?? 0.04);
+		this.volume = bounded(source.volume ?? 0.04, 0, 1, 'clip.volume');
+		this.pan = source.pan == null ? null : bounded(source.pan, -1, 1, 'clip.pan');
 		this.profile = movieAudioKindProfile(this.kind);
 		this.seed = stableStringSeed(this.id);
 		Object.freeze(this);
 	}
 
-	/**
-	 * Tests whether an absolute project time belongs to this clip.
-	 * @param {number} projectTime Absolute project time in seconds.
-	 * @returns {boolean} True while the clip is active.
-	 */
 	contains(projectTime) {
 		return projectTime >= this.start && projectTime < this.end;
 	}
 
-	/**
-	 * Converts absolute project time into clip-local seconds.
-	 * @param {number} projectTime Absolute project time in seconds.
-	 * @returns {number} Clip-local time, which may be outside the active range.
-	 */
 	localTime(projectTime) {
 		return projectTime - this.start;
 	}
 
-	/**
-	 * Creates every valid audio clip from all project audio tracks.
-	 * @param {object} project Validated movie project.
-	 * @returns {MovieAudioClip[]} Immutable clip models in source order.
-	 */
 	static fromProject(project) {
 		const clips = [];
-		for (const track of project.tracks || []) {
-			if (track.type !== 'audio') {
-				continue;
-			}
+		const tracks = (project.tracks || []).filter(track => track.type === 'audio');
+		const anySolo = tracks.some(track => track.solo === true);
+		for (const track of tracks) {
+			if (track.muted === true || (anySolo && track.solo !== true)) continue;
 			for (let clipIndex = 0; clipIndex < track.clips.length; clipIndex += 1) {
 				clips.push(new MovieAudioClip(track.clips[clipIndex], {
 					clipIndex,
@@ -75,10 +58,10 @@ export class MovieAudioClip {
 	}
 }
 
-function boundedVolume(value) {
-	const number = finiteNonnegative(value, 'clip.volume');
-	if (number > 1) {
-		throw new RangeError('clip.volume must not exceed 1.');
+function bounded(value, minimum, maximum, label) {
+	const number = Number(value);
+	if (!Number.isFinite(number) || number < minimum || number > maximum) {
+		throw new RangeError(`${label} must be between ${minimum} and ${maximum}.`);
 	}
 	return number;
 }

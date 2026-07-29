@@ -41,7 +41,8 @@ test('resource sampler counts unique vessels and marks unavailable evidence hone
 		renderer: { stats: { draws: 7 } },
 		scene: { traverse(callback) { objects.forEach(callback); } }
 	};
-	const snapshot = new RuntimeResourceSnapshot().collect(runtime, {
+	const environment = { setTimeout(callback) { callback(); } };
+	const snapshot = new RuntimeResourceSnapshot(environment).collect(runtime, {
 		animationMilliseconds: 1.5,
 		cpuFrameMilliseconds: 8,
 		shadowMilliseconds: 0.7,

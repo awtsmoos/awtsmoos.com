@@ -6,14 +6,15 @@
  * @file MovieAgentBeatCompiler.js
  * @description Validates AI beats and places them into deterministic target-specific tracks.
  * The Awtsmoos renews every finite beat before target and clock can divide it; Awtsmoos.com
- * guards type, identity, duration, and relative time while scene orchestration remains small.
+ * guards type, identity, duration, text fields, and relative time while scene orchestration remains small.
  */
 
+import { compileMovieAgentTextBeat } from './MovieAgentTextBeatCompiler.js';
 import { MovieApiError } from './MovieApiError.js';
 
 const TRACK_TYPES = new Set([
-	'actor', 'audio', 'camera', 'crowd', 'dialogue',
-	'door', 'event', 'sequence'
+	'actor', 'audio', 'camera', 'caption', 'crowd',
+	'dialogue', 'door', 'event', 'sequence', 'title'
 ]);
 
 export function compileMovieAgentBeat(beat, index, scene, state) {
@@ -42,10 +43,7 @@ export function compileMovieAgentBeat(beat, index, scene, state) {
 	}
 	const target = beat.target == null ? null : String(beat.target);
 	const destination = movieAgentTrack(state, type, target);
-	const clip = { ...beat };
-	delete clip.offset;
-	delete clip.target;
-	delete clip.type;
+	const clip = createBeatClip(beat, type);
 	clip.duration = duration;
 	clip.id = movieAgentUniqueId(
 		String(clip.id || `${scene.id}-${type}-${index + 1}`),
@@ -79,7 +77,10 @@ export function movieAgentUniqueId(base, used) {
 export function movieAgentPositive(value, label) {
 	const number = Number(value);
 	if (!Number.isFinite(number) || number <= 0) {
-		throw new MovieApiError('INVALID_AGENT_TIME', `${label} must be positive.`);
+		throw new MovieApiError(
+			'INVALID_AGENT_TIME',
+			`${label} must be positive.`
+		);
 	}
 	return number;
 }
@@ -87,9 +88,22 @@ export function movieAgentPositive(value, label) {
 export function movieAgentNonNegative(value, label) {
 	const number = Number(value);
 	if (!Number.isFinite(number) || number < 0) {
-		throw new MovieApiError('INVALID_AGENT_TIME', `${label} must be non-negative.`);
+		throw new MovieApiError(
+			'INVALID_AGENT_TIME',
+			`${label} must be non-negative.`
+		);
 	}
 	return number;
+}
+
+function createBeatClip(beat, type) {
+	const clip = ['title', 'caption'].includes(type)
+		? compileMovieAgentTextBeat(beat, type)
+		: { ...beat };
+	delete clip.offset;
+	delete clip.target;
+	delete clip.type;
+	return clip;
 }
 
 function movieAgentSlug(value) {

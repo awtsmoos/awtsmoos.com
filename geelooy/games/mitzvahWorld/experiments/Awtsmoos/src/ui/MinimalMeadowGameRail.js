@@ -98,8 +98,9 @@ export class MinimalMeadowGameRail {
 	}
 }
 
-export function shouldCollapseRail() {
-	return false;
+export function shouldCollapseRail(environment) {
+	const width = Number(environment?.innerWidth);
+	return Number.isFinite(width) && width > 0 && width <= 820;
 }
 
 export function movementModePresentation(runMode) {

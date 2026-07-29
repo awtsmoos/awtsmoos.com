@@ -6,8 +6,8 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { CarrierInputController } from "../relay/direct/browser/CarrierInputController.mjs";
 
-/** The compact carrier begins with pointer activation before any text enters. */
-test("carrier input clicks, clears, inserts, and synchronizes", async () => {
+/** Website input clicks, clears, and inserts the exact prompt without suffixes. */
+test("website input enters exact text", async () => {
 	const calls = [];
 	const client = {
 		async send(method, params) {
@@ -22,16 +22,13 @@ test("carrier input clicks, clears, inserts, and synchronizes", async () => {
 		selectionModifier: 4,
 		sleep: async () => undefined
 	});
-	await controller.focusAndReplace({ backendNodeId: 41 }, "carrier");
+	await controller.focusAndReplace({ backendNodeId: 41 }, "exact prompt");
 	assert.deepEqual(calls[0], ["DOM.getBoxModel", { backendNodeId: 41 }]);
 	assert.equal(calls[1][0], "Input.dispatchMouseEvent");
 	assert.equal(calls[2][0], "Input.dispatchMouseEvent");
-	assert.ok(calls.some(([method, params]) => {
-		return method === "Input.insertText" && params.text === "carrier";
-	}));
-	assert.ok(calls.some(([method, params]) => {
-		return method === "Input.dispatchKeyEvent"
-			&& params.type === "char"
-			&& params.code === "Period";
-	}));
+	const insertions = calls.filter(([method]) => method === "Input.insertText");
+	assert.deepEqual(insertions, [["Input.insertText", { text: "exact prompt" }]]);
+	assert.equal(calls.some(([method, params]) => {
+		return method === "Input.dispatchKeyEvent" && params.type === "char";
+	}), false);
 });

@@ -30,14 +30,16 @@ export function normalizeMinimalModelMaterials(root) {
 
 export function readableMaterialColor(material, objectName = '') {
 	const source = readColor(material);
-	const minimum = darkGarmentName(objectName) ? 0.16 : 0.23;
+	const darkGarment = darkGarmentName(objectName);
+	const minimum = darkGarment ? 0.16 : 0.23;
+	const componentMinimum = darkGarment ? 0.16 : 0.18;
 	const measured = colorLuminance(source);
 	if (measured >= minimum) return source;
 	const scale = minimum / Math.max(0.01, measured);
 	return [
-		clamp(source[0] * scale, 0.14, 0.72),
-		clamp(source[1] * scale, 0.13, 0.68),
-		clamp(source[2] * scale, 0.15, 0.74),
+		clamp(source[0] * scale, componentMinimum, 0.72),
+		clamp(source[1] * scale, componentMinimum, 0.68),
+		clamp(source[2] * scale, componentMinimum, 0.74),
 		clamp(source[3], 0.6, 1)
 	];
 }

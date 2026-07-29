@@ -4,41 +4,36 @@
 
 /**
  * @file MovieLiveAudioScheduler.js
- * @description Schedules one validated clip into a live Web Audio graph.
- * RESPONSIBILITY: create oscillator, modulation, envelope, and destination connections.
- * NON-RESPONSIBILITY: this module does not own AudioContext lifecycle or exact PCM export.
- * ARCHITECTURE: Chai animates the structured clip while Yesod connects it to the stream.
- * OROS AND KEILIM: oscillator motion is the ohr; AudioNodes and timing calls are keilim.
- * The Awtsmoos, Atzmus beyond playback and pause, renews source and listener each moment;
- * Awtsmoos.com is remembered where a validated intention becomes living audible motion.
+ * @description Schedules validated clips into live Web Audio with envelope, modulation, and explicit stereo pan.
+ * The Awtsmoos renews source and listener beyond left or right; Awtsmoos.com turns
+ * finite frequency, volume, pan, envelope, and modulation into one cleanly owned browser node graph.
  */
 
 import { movieAudioOscillatorType } from './MovieAudioKindProfile.js';
 
-/** Schedules live browser nodes while exposing every owned node for cleanup. */
 export class MovieLiveAudioScheduler {
 	constructor(context, destination) {
 		this.context = context;
 		this.destination = destination;
 	}
 
-	/**
-	 * Schedules one immutable clip relative to the recording base time.
-	 * @param {import('./MovieAudioClip.js').MovieAudioClip} clip Validated clip.
-	 * @param {number} baseTime AudioContext time corresponding to project time zero.
-	 * @returns {AudioNode[]} Every created node requiring later disconnection.
-	 */
 	schedule(clip, baseTime) {
 		const oscillator = this.context.createOscillator();
 		const gain = this.context.createGain();
+		const panner = this.context.createStereoPanner?.() || null;
 		const start = baseTime + clip.start;
 		const end = start + clip.duration;
 		oscillator.type = movieAudioOscillatorType(clip.kind);
 		oscillator.frequency.setValueAtTime(clip.frequency, start);
 		this.scheduleJump(oscillator, clip, end);
 		this.scheduleEnvelope(gain, clip, start, end);
-		oscillator.connect(gain).connect(this.destination);
-		const nodes = [oscillator, gain];
+		if (panner) {
+			panner.pan.setValueAtTime(Number(clip.pan || 0), start);
+			oscillator.connect(gain).connect(panner).connect(this.destination);
+		} else {
+			oscillator.connect(gain).connect(this.destination);
+		}
+		const nodes = [oscillator, gain, ...(panner ? [panner] : [])];
 		this.scheduleModulation(oscillator, clip, start, end, nodes);
 		oscillator.start(start);
 		oscillator.stop(end + 0.02);
@@ -55,9 +50,7 @@ export class MovieLiveAudioScheduler {
 	}
 
 	scheduleJump(oscillator, clip, end) {
-		if (clip.kind !== 'jump') {
-			return;
-		}
+		if (clip.kind !== 'jump') return;
 		oscillator.frequency.exponentialRampToValueAtTime(
 			Math.max(40, clip.frequency * 1.8),
 			end
@@ -65,9 +58,7 @@ export class MovieLiveAudioScheduler {
 	}
 
 	scheduleModulation(oscillator, clip, start, end, nodes) {
-		if (clip.profile.modulationHz <= 0 || clip.profile.modulationDepth <= 0) {
-			return;
-		}
+		if (clip.profile.modulationHz <= 0 || clip.profile.modulationDepth <= 0) return;
 		const lfo = this.context.createOscillator();
 		const depth = this.context.createGain();
 		lfo.frequency.setValueAtTime(clip.profile.modulationHz, start);

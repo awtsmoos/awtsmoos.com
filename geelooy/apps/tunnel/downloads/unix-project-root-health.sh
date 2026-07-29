@@ -42,6 +42,37 @@ try {
 NODE
 }
 
+# A blocked or absent workspace is optional, but a receipt for a different
+# configured root proves that the living agent has not loaded current config.
+# This identity-only check lets the fast path preserve a deliberately missing
+# workspace while still restarting after a dashboard/root change.
+project_root_receipt_matches_runtime() {
+	local pid="$1"
+	local expected_activation_id="${2:-${AWTSMOOS_ACTIVATION_ID:-}}"
+	node - "$ROOT/config.json" "$(project_root_receipt_path)" "$ROOT/install-state.txt" \
+		"$pid" "$expected_activation_id" <<'NODE'
+const fs = require("node:fs");
+const path = require("node:path");
+const [configFile, receiptFile, versionFile, expectedPid, activationId] = process.argv.slice(2);
+const canonical = value => {
+	const resolved = path.resolve(String(value || ""));
+	try { return fs.realpathSync(resolved); } catch { return resolved; }
+};
+try {
+	const config = JSON.parse(fs.readFileSync(configFile, "utf8"));
+	const receipt = JSON.parse(fs.readFileSync(receiptFile, "utf8"));
+	const version = fs.readFileSync(versionFile, "utf8").trim();
+	const valid = Number(receipt.pid) === Number(expectedPid) &&
+		canonical(receipt.canonicalRoot || receipt.root) === canonical(config.root) &&
+		receipt.runtimeVersion === version &&
+		(!activationId || receipt.activationId === activationId);
+	process.exit(valid ? 0 : 1);
+} catch {
+	process.exit(1);
+}
+NODE
+}
+
 wait_for_project_root_readiness() {
 	local pid="$1"
 	local timeout_seconds="${2:-30}"

@@ -27,6 +27,7 @@ import { registerNativeLibcFileHandlers } from "./nativeLibcFileHandlers.js";
 import { registerNativeLibcMemoryHandlers } from "./nativeLibcMemoryHandlers.js";
 import { registerNativeLibcStringHandlers } from "./nativeLibcStringHandlers.js";
 import { registerNativeLibcStringLengthHandlers } from "./nativeLibcStringLengthHandlers.js";
+import { registerNativeLibcSystemHandlers } from "./nativeLibcSystemHandlers.js";
 import { createNativeHostImportRegistry } from "./nativeHostImportRegistry.js";
 import { registerNativeLinuxSyscallHandlers } from "./nativeLinuxSyscallHandlers.js";
 import { createNativeLinuxThreadIds } from "./nativeLinuxThreadIds.js";
@@ -36,6 +37,7 @@ import { createNativeProcessEnvironment } from "./nativeProcessEnvironment.js";
 import { registerNativePthreadHandlers } from "./registerNativePthreadHandlers.js";
 import { registerNativeStdioHandlers } from "./registerNativeStdioHandlers.js";
 import { createNativeStdioState } from "./nativeStdioState.js";
+import { createNativeSystemConfiguration } from "./nativeSystemConfiguration.js";
 
 /**
  * Reveals JNI, Android, libc, loader, locale, stdio, and pthread roads.
@@ -66,6 +68,8 @@ export function createFlutterJniImportHandlers(machineState) {
 	const stdio = machineState.nativeStdio || createNativeStdioState({
 		fileStreams: machineState.nativeFileStreams
 	});
+	const systemConfiguration = machineState.nativeSystemConfiguration
+		|| createNativeSystemConfiguration(machineState.nativeSystemConfigurationOptions);
 	registry.register("JNIInvokeInterface.GetEnv", context => {
 		return handleFlutterJniGetEnv(context, machineState);
 	});
@@ -94,6 +98,10 @@ export function createFlutterJniImportHandlers(machineState) {
 	registerNativeLibcStringHandlers(registry);
 	registerNativeLibcStringLengthHandlers(registry);
 	registerNativeLibcEnvironmentHandlers(registry, environment);
+	registerNativeLibcSystemHandlers(registry, {
+		errnoState,
+		state: systemConfiguration
+	});
 	registerNativeLibcFileHandlers(registry, machineState);
 	registerNativeLinuxSyscallHandlers(registry, threadIds);
 	registerNativeLocaleHandlers(registry, errnoState, locales);

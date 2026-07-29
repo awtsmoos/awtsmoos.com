@@ -46,6 +46,9 @@ runtime_health_summary() {
 service_supervision_ready() {
 	[ "\${AWTS_TEST_SERVICE_READY:-1}" = "1" ]
 }
+wait_for_service_supervision() {
+	service_supervision_ready
+}
 service_health_summary() {
 	printf 'serviceState=%s' "\${AWTS_TEST_SERVICE_READY:-1}"
 }

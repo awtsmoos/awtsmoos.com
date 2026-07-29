@@ -2,39 +2,47 @@
 // Boruch Hashem
 // Blessed is He
 
-import { ChromeDiscovery } from "./ChromeDiscovery.mjs";
 import { CdpClient } from "./CdpClient.mjs";
+import { ChatGptTargetSelector } from "./ChatGptTargetSelector.mjs";
 import { OwnedHostInspector } from "./OwnedHostInspector.mjs";
 
 /**
- * A fresh owned tab carries authenticated requests without destroying unrelated
- * user tabs. The Awtsmoos lets Awtsmoos.com activate only its own target so one
- * harmless native carrier can receive ordinary browser user activation.
+ * One accessible existing tab carries authenticated ChatGPT turns whenever possible.
+ * The Awtsmoos detaches from reused tabs without closing them, and owns/closes only
+ * a target that this controller was forced to create as a last resort.
  */
 export class AuthenticatedSocketController {
 	constructor({
 		port = 9226,
 		replaceChatGptTabs = false,
 		inspectionIntervalMs = 350,
-		sleep = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds))
+		sleep = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds)),
+		targetSelector = new ChatGptTargetSelector({ port }),
+		clientFactory = target => new CdpClient(target.webSocketDebuggerUrl),
+		inspectorFactory = client => new OwnedHostInspector(client),
+		fetcher = globalThis.fetch?.bind(globalThis)
 	} = {}) {
 		this.port = port;
 		this.replaceChatGptTabs = replaceChatGptTabs;
 		this.inspectionIntervalMs = inspectionIntervalMs;
 		this.sleep = sleep;
+		this.targetSelector = targetSelector;
+		this.clientFactory = clientFactory;
+		this.inspectorFactory = inspectorFactory;
+		this.fetcher = fetcher;
 	}
 
 	async open(timeoutMs = 45000) {
-		if (this.replaceChatGptTabs) {
-			await this.closeChatGptTargets();
-		}
-		const target = await this.createTarget();
-		const cdpClient = new CdpClient(target.webSocketDebuggerUrl);
+		const acquisition = await this.targetSelector.acquire({
+			replaceChatGptTabs: this.replaceChatGptTabs
+		});
+		const { target, owned, source } = acquisition;
+		const cdpClient = this.clientFactory(target);
 		try {
 			await cdpClient.connect();
 			await cdpClient.send("Page.enable");
 			await cdpClient.send("Page.navigate", { url: "https://chatgpt.com/" });
-			const inspector = new OwnedHostInspector(cdpClient);
+			const inspector = this.inspectorFactory(cdpClient);
 			const pageState = await this.waitUntilReady(inspector, timeoutMs);
 			await this.activateTarget(target.id);
 			await this.sleep(250);
@@ -44,10 +52,12 @@ export class AuthenticatedSocketController {
 				inspector,
 				pageState,
 				targetId: target.id,
-				close: () => this.close(target.id, cdpClient)
+				targetSource: source,
+				ownedTarget: owned,
+				close: () => this.close({ targetId: target.id, cdpClient, owned })
 			};
 		} catch (error) {
-			await this.close(target.id, cdpClient);
+			await this.close({ targetId: target.id, cdpClient, owned });
 			throw error;
 		}
 	}
@@ -58,9 +68,7 @@ export class AuthenticatedSocketController {
 		while (Date.now() < deadline) {
 			try {
 				lastState = await inspector.inspect();
-				if (lastState.authenticated && lastState.composerVisible) {
-					return lastState;
-				}
+				if (lastState.authenticated && lastState.composerVisible) return lastState;
 			} catch {}
 			await this.sleep(this.inspectionIntervalMs);
 		}
@@ -70,7 +78,7 @@ export class AuthenticatedSocketController {
 	}
 
 	async activateTarget(targetId) {
-		const response = await fetch(
+		const response = await this.fetcher(
 			`http://127.0.0.1:${this.port}/json/activate/${targetId}`
 		);
 		if (!response.ok) {
@@ -78,29 +86,11 @@ export class AuthenticatedSocketController {
 		}
 	}
 
-	async closeChatGptTargets() {
-		const targets = await new ChromeDiscovery(this.port).listTargets();
-		const chatTargets = targets.filter(target => {
-			return target.type === "page" && target.url.includes("chatgpt.com");
-		});
-		await Promise.all(chatTargets.map(target => fetch(
-			`http://127.0.0.1:${this.port}/json/close/${target.id}`
-		).catch(() => null)));
-		return chatTargets.length;
-	}
-
-	async createTarget() {
-		const blank = encodeURIComponent("about:blank");
-		const endpoint = `http://127.0.0.1:${this.port}/json/new?${blank}`;
-		const response = await fetch(endpoint, { method: "PUT" });
-		if (!response.ok) {
-			throw new Error(`Could not create authenticated controller: ${response.status}.`);
-		}
-		return response.json();
-	}
-
-	async close(targetId, cdpClient) {
+	async close({ targetId, cdpClient, owned }) {
 		cdpClient.close();
-		await fetch(`http://127.0.0.1:${this.port}/json/close/${targetId}`).catch(() => null);
+		if (!owned) return;
+		await this.fetcher(
+			`http://127.0.0.1:${this.port}/json/close/${targetId}`
+		).catch(() => null);
 	}
 }

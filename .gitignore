@@ -153,3 +153,32 @@ searchPacked/
 # Operating-system and editor noise.
 .DS_Store
 Thumbs.db
+
+# B"H Awtsmoos generated artifacts
+.awtsmoos/
+.awtsmoos/actions/
+.awtsmoos/actions/results/
+.awtsmoos/previews/
+.awtsmoos/tmp/
+.Awtsmoos/
+.Awtsmoos/actions/
+.Awtsmoos/actions/results/
+.Awtsmoos/previews/
+.Awtsmoos/tmp/
+**/.awtsmoos/
+**/.Awtsmoos/
+.awtsmoos-tmp/
+.Awtsmoos-tmp/
+*.awtsmoos.log
+.awtsmoos.local.json
+.Awtsmoos.local.json
+**/runtime-cache/
+**/execution-plans/*.json
+**/tests/headless/visual-proof/*.png
+**/tests/chrome/*.png
+**/tests/chrome/*.json
+**/reports/*.json
+**/dist/*.exe
+**/.cache/
+**/tmp/
+**/temp/

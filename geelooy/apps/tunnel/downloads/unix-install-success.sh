@@ -100,6 +100,9 @@ complete_install_experience() {
 	tunnel_id="$(connection_receipt_value tunnelId)"
 	[ -n "$tunnel_id" ] || install_fail "complete" \
 		"Registration did not provide an authoritative tunnel ID." "pid=$agent_pid"
+	wait_for_service_supervision 5 || install_fail "complete" \
+		"Durable guardian did not remain singular at final display." \
+		"pid=$agent_pid $(service_health_summary)"
 	workspace_status="$(workspace_status_label "$agent_pid")"
 	install_progress 100 "Awtsmoos Tunnel is fully verified and guarded"
 	finish_install_progress_line

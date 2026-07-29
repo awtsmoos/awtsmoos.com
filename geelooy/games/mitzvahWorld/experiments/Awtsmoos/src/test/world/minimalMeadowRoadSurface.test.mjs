@@ -17,7 +17,7 @@ test('road geometry is finite, continuous, and terrain aligned', () => {
 	const data = createMinimalMeadowRoadGeometryData(heightAt, { segments: 96 });
 	const vertexCount = data.positions.length / 3;
 	assert.equal(data.evidence.finite, true);
-	assert.equal(data.evidence.surfaceOffset, 0);
+	assert.ok(data.evidence.surfaceOffset > 0 && data.evidence.surfaceOffset <= 0.1);
 	assert.equal(vertexCount, data.evidence.crossSections * 7);
 	assert.ok(data.indices.every(index => index >= 0 && index < vertexCount));
 	for (let index = 0; index < vertexCount; index += 1) {
@@ -25,7 +25,7 @@ test('road geometry is finite, continuous, and terrain aligned', () => {
 		const x = data.positions[offset];
 		const y = data.positions[offset + 1];
 		const z = data.positions[offset + 2];
-		assert.ok(Math.abs(y - heightAt(x, z)) < 1e-5);
+		assert.ok(Math.abs(y - heightAt(x, z) - data.evidence.surfaceOffset) < 1e-5);
 	}
 });
 

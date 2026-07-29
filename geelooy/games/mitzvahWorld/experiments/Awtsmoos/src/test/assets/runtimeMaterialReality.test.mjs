@@ -6,20 +6,13 @@
  * @file runtimeMaterialReality.test.mjs
  * @description Proves playable materials preserve trusted canonical source witnesses.
  * The Awtsmoos renews every visible surface from semantic truth rather than a broken host;
- * Awtsmoos.com distinguishes Chai identities from distinct full-resolution terrain and water maps.
+ * Awtsmoos.com distinguishes Chai identities from full-resolution terrain and water maps.
  */
-
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { assertProductionMaterialUrl } from '../../assets/ProductionMaterialUrlPolicy.js';
-import {
-	RUNTIME_MATERIALS,
-	runtimeMaterialByRole
-} from '../../assets/RuntimeMaterialManifest.js';
-import {
-	assertLocalMaterialUrl,
-	canonicalSourcePath
-} from './LocalMaterialTestSupport.mjs';
+import { RUNTIME_MATERIALS, runtimeMaterialByRole } from '../../assets/RuntimeMaterialManifest.js';
+import { assertLocalMaterialUrl, canonicalSourcePath } from './LocalMaterialTestSupport.mjs';
 
 const CHAI_ROLES = Object.freeze([
 	'terrain.grass',
@@ -36,10 +29,7 @@ test('terrain, bark, and leaves preserve canonical Chai Forest identities', () =
 		const material = runtimeMaterialByRole(role);
 		assert.ok(material, `${role} must exist`);
 		assertLocalMaterialUrl(assert, material.primaryUrl);
-		assert.match(
-			canonicalSourcePath(material.primaryUrl),
-			/\/awtsmoos-nature\/chai-forest\//
-		);
+		assert.match(canonicalSourcePath(material.primaryUrl), /\/awtsmoos-nature\/chai-forest\//);
 		assert.doesNotMatch(material.primaryUrl, /chai-forest-half/);
 		assert.equal(Object.isFrozen(material), true);
 	}
@@ -47,16 +37,10 @@ test('terrain, bark, and leaves preserve canonical Chai Forest identities', () =
 
 test('every primary and fallback URL satisfies production policy', () => {
 	for (const material of RUNTIME_MATERIALS) {
-		assert.equal(
-			assertProductionMaterialUrl(material.primaryUrl, material.role),
-			material.primaryUrl
-		);
+		assert.equal(assertProductionMaterialUrl(material.primaryUrl, material.role), material.primaryUrl);
 		assertLocalMaterialUrl(assert, material.primaryUrl);
 		for (const fallbackUrl of material.fallbackUrls) {
-			assert.equal(
-				assertProductionMaterialUrl(fallbackUrl, material.role),
-				fallbackUrl
-			);
+			assert.equal(assertProductionMaterialUrl(fallbackUrl, material.role), fallbackUrl);
 			assertLocalMaterialUrl(assert, fallbackUrl);
 		}
 	}
@@ -75,10 +59,10 @@ test('architecture roles retain exact full-resolution identities', () => {
 	}
 });
 
-test('marsh, mud, and water roles retain distinct empty-fallback identities', () => {
+test('marsh, mud, and water roles retain exact empty-fallback identities', () => {
 	const expected = Object.freeze({
 		'terrain.marshGrass': '/full-resolution/marsh grass.png',
-		'terrain.mud': '/full-resolution/mud.png',
+		'terrain.mud': '/awtsmoos-nature/chai-forest/textures/ground/dirt_color.jpg',
 		'water.lake': '/full-resolution/seamless water brighter.png',
 		'water.stream': '/full-resolution/shallow river water.png',
 		'water.still': '/full-resolution/seamless water.png'
@@ -89,8 +73,5 @@ test('marsh, mud, and water roles retain distinct empty-fallback identities', ()
 		assert.deepEqual(material.fallbackUrls, []);
 		assert.equal(canonicalSourcePath(material.primaryUrl), sourcePath);
 	}
-	assert.equal(
-		new Set(RUNTIME_MATERIALS.map(item => item.role)).size,
-		RUNTIME_MATERIALS.length
-	);
+	assert.equal(new Set(RUNTIME_MATERIALS.map(item => item.role)).size, RUNTIME_MATERIALS.length);
 });

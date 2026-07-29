@@ -46,12 +46,25 @@ try {
 	assert.equal(staleReceipt.status, 0, `${staleReceipt.stdout}\n${staleReceipt.stderr}`);
 	assert.match(staleReceipt.stdout, /stop_existing_runtime/);
 
+	const changedWorkspace = run({
+		AWTS_TEST_LOCAL_READY: "1",
+		AWTS_TEST_ROOT_CURRENT: "0"
+	});
+	assert.equal(
+		changedWorkspace.status,
+		0,
+		`${changedWorkspace.stdout}\n${changedWorkspace.stderr}`
+	);
+	assert.match(changedWorkspace.stdout, /stop_existing_runtime/);
+	assert.match(changedWorkspace.stdout, /journal:repaired_current/);
+
 	console.log(JSON.stringify({
 		ok: true,
 		suite: "installer-healthy-current-fast-path",
 		healthyCurrentPreservesPid: true,
 		executorStallRestarts: true,
-		staleReceiptRestarts: true
+		staleReceiptRestarts: true,
+		changedWorkspaceRestarts: true
 	}, null, 2));
 } finally {
 	fs.rmSync(sandbox, { recursive: true, force: true });
@@ -72,6 +85,7 @@ runtime_pid_matches(){ return 0; }
 runtime_registered(){ [ "\${AWTS_TEST_RECEIPT_READY:-1}" = "1" ]; }
 service_supervision_ready(){ return 0; }
 local_runtime_action_ready(){ [ "\${AWTS_TEST_LOCAL_READY:-1}" = "1" ]; }
+project_root_receipt_matches_runtime(){ [ "\${AWTS_TEST_ROOT_CURRENT:-1}" = "1" ]; }
 service_supervision_stable(){ service_supervision_ready "$1"; }
 service_health_summary(){ printf 'supervisors=1 agents=1'; }
 write_activation_journal(){ printf 'journal:%s\\n' "$1"; }

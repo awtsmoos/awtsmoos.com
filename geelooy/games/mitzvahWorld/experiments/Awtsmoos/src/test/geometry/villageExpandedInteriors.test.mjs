@@ -1,9 +1,11 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /** The Awtsmoos expands every house into textured chambers joined by real openings. */
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { assertProductionMaterialUrl } from '../../assets/ProductionMaterialUrlPolicy.js';
 import { createVillageCottageDefinitions } from '../../world/village/VillageCottageDefinitionFactory.js';
 import { villageCottageScalePolicy } from '../../world/village/VillageCottageScalePolicy.js';
 
@@ -20,15 +22,7 @@ for (const detail of ['near', 'far']) {
 }
 
 test('cottage factory emits shell, textured interior, and roof', () => {
-	const result = createVillageCottageDefinitions({
-		base: 1,
-		detail: 'near',
-		id: 'H01',
-		x: 4,
-		yaw: 0.3,
-		z: 8,
-		variant: 1
-	});
+	const result = createVillageCottageDefinitions({ base: 1, detail: 'near', id: 'H01', x: 4, y: 0, yaw: 0.3, z: 8, variant: 1 });
 	assert.equal(result.definitions.length, 3);
 	const shell = result.definitions.find(item => item.userData?.family === 'reference-village-district');
 	const interior = result.definitions.find(item => item.userData?.family === 'canonical-cottage-interior');
@@ -39,5 +33,5 @@ test('cottage factory emits shell, textured interior, and roof', () => {
 	assert.equal(interior.userData.rooms.length, 12);
 	assert.ok(interior.userData.rooms.every(room => room.id && room.purpose));
 	assert.equal(interior.userData.doorOpenings, 12);
-	assert.match(interior.textureUrl, /^\.\/assets\/materials\//);
+	assert.equal(assertProductionMaterialUrl(interior.textureUrl, 'cottage-interior'), interior.textureUrl);
 });

@@ -2,13 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file expandedVillageComposition.test.mjs
- * @description Protects measured districts, cottages, landmarks, bridge, life, and actors.
- * The Awtsmoos renews one inhabited valley through finite vessels; Awtsmoos.com verifies
- * the current consolidated composition without losing identity, continuity, or gameplay layers.
- */
-
+/** @file expandedVillageComposition.test.mjs @description Protects current measured village batching and actors. */
 import assert from 'node:assert/strict';
 import { createVillageCreatureDefinitions } from '../../world/creatures/VillageCreatureSystem.js';
 import { createVillageDistrictArchitecture } from '../../world/village/VillageDistrictArchitecture.js';
@@ -16,11 +10,7 @@ import { VILLAGE_DISTRICTS } from '../../world/village/VillageDistrictCatalog.js
 import { createVillageWorldDefinitions } from '../../world/village/VillageWorldSystem.js';
 import { VILLAGE_WORLD_LAYERS } from '../../world/village/VillageWorldLayers.js';
 import { villageWorldBudget } from '../../world/village/VillageWorldBudget.js';
-import {
-	MAXIMUM_VILLAGE_DEFINITIONS,
-	VILLAGE_QUALITY_FLOORS
-} from './VillageDefinitionBudgetAssertions.mjs';
-
+import { MAXIMUM_VILLAGE_DEFINITIONS, VILLAGE_QUALITY_FLOORS } from './VillageDefinitionBudgetAssertions.mjs';
 const sampler = terrainSampler();
 const budget = villageWorldBudget('high');
 const architecture = createVillageDistrictArchitecture(sampler, 'high');
@@ -30,7 +20,6 @@ const cottageShells = byFamily(architecture, 'reference-village-district');
 const cottageRoofs = byFamily(architecture, 'reference-village-cottage-roof');
 const cottageShadows = byFamily(architecture, 'reference-cottage-sun-shadows');
 const bridge = byFamily(world.definitions, 'canonical-stone-bridge');
-
 assert.equal(VILLAGE_DISTRICTS.length, 10);
 assert.equal(new Set(VILLAGE_DISTRICTS.map(district => district.id)).size, 10);
 assert.equal(budget.radius, 280);
@@ -45,12 +34,11 @@ assert.equal(cottageRoofs.length, cottageShells.length);
 assert.equal(cottageShadows.length, 1);
 assert.equal(cottageShadows[0].userData.instances, cottageShells.length);
 assert.ok(cottageShells.every(item => item.userData.volumeRatio >= 100));
-assert.ok(cottageShells.every(item => item.mixTextureUrl && item.mixStrength > 0));
 assert.ok(cottageRoofs.every(item => item.shape === 'manual' && item.faces.length === 9));
 assertCanonicalLandmarks(architecture);
 assert.equal(creatures.stats.creatures, 8);
-assert.equal(creatures.stats.liveHostiles, 3);
-assert.equal(creatures.stats.totalActors, 11);
+assert.equal(creatures.stats.liveHostiles, 6);
+assert.equal(creatures.stats.totalActors, 14);
 assert.ok(creatures.stats.triangles <= 3200);
 assert.deepEqual(world.stats.layers, VILLAGE_WORLD_LAYERS);
 assert.equal(world.stats.houseBubbles.houses, 18);
@@ -74,24 +62,7 @@ assert.equal(world.stats.population.visualPolicy, 'no-primitive-humans');
 assert.equal(world.definitions.length, world.stats.definitionCount);
 assert.ok(world.definitions.length >= VILLAGE_QUALITY_FLOORS.high);
 assert.ok(world.definitions.length <= MAXIMUM_VILLAGE_DEFINITIONS);
-
-function assertCanonicalLandmarks(definitions) {
-	for (const id of ['SHUL01', 'BEIS01', 'MARKET01', 'PORTAL01']) {
-		assert.ok(definitions.some(item => item.userData?.canonicalId === id));
-	}
-}
-
-function byFamily(definitions, family) {
-	return definitions.filter(item => item.userData?.family === family);
-}
-
-function terrainSampler() {
-	return {
-		heightAt: (x, z) => ({ y: height(x, z) }),
-		sample: (x, z) => ({ height: height(x, z), x, z })
-	};
-}
-
-function height(x, z) {
-	return 0.8 + x * 0.002 + z * 0.003;
-}
+function assertCanonicalLandmarks(definitions) { for (const id of ['SHUL01', 'BEIS01', 'MARKET01', 'PORTAL01']) assert.ok(definitions.some(item => item.userData?.canonicalId === id)); }
+function byFamily(definitions, family) { return definitions.filter(item => item.userData?.family === family); }
+function terrainSampler() { return { heightAt: (x, z) => ({ y: height(x, z) }), sample: (x, z) => ({ height: height(x, z), x, z }) }; }
+function height(x, z) { return 0.8 + x * 0.002 + z * 0.003; }

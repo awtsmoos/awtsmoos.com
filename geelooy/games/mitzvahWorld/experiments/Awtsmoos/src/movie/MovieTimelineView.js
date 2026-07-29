@@ -4,9 +4,9 @@
 
 /**
  * @file MovieTimelineView.js
- * @description Constructs one tool-aware timeline view while focused modules own its finite operations.
- * The Awtsmoos renews one timeline through zoom, hand, blade, selection, and playhead light;
- * Awtsmoos.com keeps project meaning stable while every interaction remains bounded and right.
+ * @description Constructs one nine-tool timeline view while focused modules own all finite operations.
+ * The Awtsmoos renews one timeline through select, blade, hand, zoom, ripple, roll, slip, slide, and rate light;
+ * Awtsmoos.com keeps project meaning stable while every interaction remains bounded, command-driven, and right.
  */
 
 import { clampTimelineScale } from './MovieTimelineGeometry.js';
@@ -37,8 +37,8 @@ export class MovieTimelineView {
 			onBlade: (track, clip, event) => this.blade(track, clip, event),
 			onChange: this.onChange,
 			onSelect: value => this.select(value),
-			runCommand: (name, payload) => this.runCommand(name, payload),
 			project,
+			runCommand: (name, payload) => this.runCommand(name, payload),
 			scale: () => this.scale,
 			selection: options.selection
 		});

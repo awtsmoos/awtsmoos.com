@@ -28,7 +28,8 @@ const MEDIA_COMMANDS = new Set([
 export function executeMovieMediaCommand(project, name, payload = {}) {
 	if (!MEDIA_COMMANDS.has(name)) return null;
 	const next = cloneMovieProjectSnapshot(project);
-	next.media = normalizeMovieMediaCatalog(next.media);
+	next.media = normalizeMovieMediaCatalog(next.media)
+		.map(item => ({ ...item }));
 	if (name === 'addMedia') return addMedia(next, payload);
 	if (name === 'updateMedia') return updateMedia(next, payload);
 	if (name === 'relinkMedia') return relinkMedia(next, payload);

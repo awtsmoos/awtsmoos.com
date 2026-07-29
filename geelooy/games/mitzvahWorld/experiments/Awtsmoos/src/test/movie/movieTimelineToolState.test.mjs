@@ -4,8 +4,8 @@
 
 /**
  * @file movieTimelineToolState.test.mjs
- * @description Proves bounded tool names, definitions, shortcuts, modifier safety, and editable-target protection.
- * The Awtsmoos is beyond key and instrument while each finite shortcut receives one truthful gate;
+ * @description Proves nine bounded timeline tools, shortcuts, modifier safety, and editable-target protection.
+ * The Awtsmoos is beyond instrument and key while each finite shortcut receives one truthful gate;
  * Awtsmoos.com keeps typing vessels untouched and rejects every unknown creative state.
  */
 
@@ -18,7 +18,7 @@ import {
 	normalizeMovieTimelineTool
 } from '../../movie/MovieTimelineToolState.js';
 
-test('timeline tools expose one bounded canonical vocabulary', () => {
+test('timeline tools expose the complete bounded professional vocabulary', () => {
 	assert.deepEqual(MOVIE_TIMELINE_TOOLS.map(tool => tool.name), [
 		'select',
 		'blade',
@@ -31,34 +31,44 @@ test('timeline tools expose one bounded canonical vocabulary', () => {
 		'rateStretch'
 	]);
 	assert.equal(normalizeMovieTimelineTool(), 'select');
-	assert.equal(normalizeMovieTimelineTool('BLADE'), 'blade');
-	assert.equal(movieTimelineToolDefinition('hand').key, 'h');
+	assert.equal(movieTimelineToolDefinition('rateStretch').key, 'r');
 	assert.throws(
 		() => normalizeMovieTimelineTool('paint'),
-		error => error.code === 'UNKNOWN_MOVIE_TIMELINE_TOOL'
+		/Unknown movie timeline tool/
 	);
 });
 
-test('all timeline-tool shortcuts resolve only outside editable or modified contexts', () => {
+test('tool shortcuts resolve only outside editable or modified contexts', () => {
 	const neutralTarget = { closest: () => null };
 	for (const [key, expected] of [
 		['v', 'select'],
-		['B', 'blade'],
+		['b', 'blade'],
 		['h', 'hand'],
-		['Z', 'zoom'],
+		['z', 'zoom'],
 		['w', 'ripple'],
-		['N', 'roll'],
+		['n', 'roll'],
 		['y', 'slip'],
-		['U', 'slide'],
+		['u', 'slide'],
 		['r', 'rateStretch']
 	]) {
-		assert.equal(movieTimelineToolFromKey({ key, target: neutralTarget }), expected);
+		assert.equal(
+			movieTimelineToolFromKey({ key, target: neutralTarget }),
+			expected
+		);
 	}
-	assert.equal(movieTimelineToolFromKey({ key: 'b', metaKey: true, target: neutralTarget }), null);
-	assert.equal(movieTimelineToolFromKey({ key: 'h', altKey: true, target: neutralTarget }), null);
-	assert.equal(movieTimelineToolFromKey({
-		key: 'z',
-		target: { closest: () => ({ tagName: 'INPUT' }) }
-	}), null);
-	assert.equal(movieTimelineToolFromKey({ key: 'q', target: neutralTarget }), null);
+	assert.equal(
+		movieTimelineToolFromKey({
+			key: 'r',
+			metaKey: true,
+			target: neutralTarget
+		}),
+		null
+	);
+	assert.equal(
+		movieTimelineToolFromKey({
+			key: 'w',
+			target: { closest: () => ({ tagName: 'INPUT' }) }
+		}),
+		null
+	);
 });

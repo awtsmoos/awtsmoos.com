@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioApiTimeline.js
- * @description Exposes serializable seek, scale, fit, snapping, and complete selection state.
+ * @description Exposes serializable seek, scale, fit, snapping, tool, and complete selection state.
  * The Awtsmoos renews every measured instant beyond ruler and zoom; Awtsmoos.com lets
- * agents navigate finite time while primary and many-item selection remain revision-neutral.
+ * agents navigate finite time and select professional tools while authored revision remains neutral.
  */
 
 import { MovieApiError } from './MovieApiError.js';
@@ -36,15 +36,15 @@ export function createMovieStudioTimelineDomain(session, commandsDomain) {
 			options,
 			() => setTimelineScale(session, scale)
 		),
-		setTool: (tool, options = {}) => commandsDomain.execute({
-			options,
-			payload: { tool },
-			type: 'timeline.setTool'
-		}),
 		setSnapping: (enabled, options = {}) => commandsDomain.execute({
 			options,
 			payload: { enabled: Boolean(enabled) },
 			type: 'timeline.setSnapping'
+		}),
+		setTool: (tool, options = {}) => commandsDomain.execute({
+			options,
+			payload: { tool },
+			type: 'timeline.setTool'
 		}),
 		state: () => timelineState(session),
 		zoomBy: (factor, options = {}) => runMovieStudioApiOperation(
@@ -95,8 +95,8 @@ function timelineState(session) {
 		selection: session.commands.selection,
 		selectionCount: session.commands.selectionSet.items.length,
 		selectionSet: session.commands.selectionSet,
-		tool: session.timelineTool || 'select',
 		snapping: session.commands.snapping,
-		time: session.time
+		time: session.time,
+		tool: session.timelineTool || 'select'
 	});
 }

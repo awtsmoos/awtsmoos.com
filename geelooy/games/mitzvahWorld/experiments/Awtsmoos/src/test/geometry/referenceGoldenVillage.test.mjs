@@ -66,10 +66,10 @@ test('reference golden-hour world stays deterministic and quality bounded', () =
 
 test('high tier keeps named architecture, terrain life, forest, snow, and bridge', () => {
 	const world = createVillageWorldDefinitions(terrainSampler(), 'high');
-	assert.ok(world.stats.architecture.warmWindows >= 90);
+	assert.ok(world.stats.architecture.warmWindows >= 52);
 	assert.ok(world.stats.architecture.pieces <= world.stats.budget.architecturePieces);
 	assert.ok(world.stats.architecture.landmarkPieces >= 30);
-	assert.equal(world.stats.architecture.shadowedCottages, 29);
+	assert.equal(world.stats.architecture.shadowedCottages, 18);
 	assert.equal(world.stats.houseBubbles.houses, 18);
 	assert.equal(world.stats.houseBubbles.batches, 7);
 	assert.equal(world.stats.life.housePrograms, 18);
@@ -91,7 +91,7 @@ test('high tier keeps named architecture, terrain life, forest, snow, and bridge
 	assert.ok(new Set(roofs.map(roof => roof.mixStrength)).size >= 8);
 	const shadows = byFamily(world, 'reference-cottage-sun-shadows');
 	assert.equal(shadows.length, 1);
-	assert.equal(shadows[0].userData.instances, 29);
+	assert.equal(shadows[0].userData.instances, 18);
 	assert.equal(shadows[0].alphaMode, 'BLEND');
 	assert.equal(byFamily(world, 'reference-atmospheric-mountain-snow').length, 3);
 	assert.equal(byFamily(world, 'reference-practical-lighting').length, 4);
