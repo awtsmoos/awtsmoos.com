@@ -4,50 +4,74 @@
 
 /**
  * @file MovieTimelineClipElement.js
- * @description Builds accessible timeline clips with transition, effect, keyframe, selection, trim, and mobile affordances.
- * The Awtsmoos renews each clip beyond geometry; Awtsmoos.com gives every finite block a name,
- * handles, authored appearance witnesses, stable identities, and touch-safe semantic editing contracts.
+ * @description Builds one positioned semantic clip with trim handles, appearance witnesses, and stable identity.
+ * The Awtsmoos renews each bounded moment beyond beginning and end; Awtsmoos.com
+ * lets clip, track, time, transition, effect, keyframe, touch, keyboard, and agent evidence agree.
  */
 
-import { escapeMovieStudioHtml } from './MovieStudioMarkupEscape.js';
 import {
 	applyMovieTimelineAppearanceData,
 	movieTimelineAppearanceMarkup
 } from './MovieTimelineAppearanceMarkup.js';
 
-export function createTimelineClipElement(clip, track, editor) {
-	const element = document.createElement('button');
-	const label = clipLabel(clip);
-	element.type = 'button';
-	element.className = `movie-clip movie-clip-${track.type}`;
+const TRACK_COLORS = Object.freeze({
+	actor: '#315f9d',
+	audio: '#47772f',
+	camera: '#704ca1',
+	dialogue: '#9b5d30',
+	door: '#8b4b3d',
+	event: '#3f5a62',
+	scene: '#236b65'
+});
+
+export function createTimelineClipElement(track, clip, scale, editor) {
+	const element = document.createElement('div');
+	const label = clipLabel(track, clip);
+	element.className = 'movie-clip';
 	element.dataset.clipId = String(clip.id);
 	element.dataset.trackId = String(track.id);
 	element.dataset.trackType = String(track.type);
-	element.setAttribute('aria-label', `${label}, ${track.type} clip`);
+	element.title = clipTitle(label, clip);
+	element.tabIndex = 0;
+	element.setAttribute('role', 'button');
+	element.setAttribute('aria-label', element.title);
 	element.setAttribute('aria-pressed', 'false');
-	element.title = `${label} · ${track.type} · ${clip.start.toFixed(2)}s`;
+	element.style.left = `${clip.start * scale}px`;
+	element.style.width = `${Math.max(12, clip.duration * scale)}px`;
+	element.style.background = TRACK_COLORS[track.type] || TRACK_COLORS.event;
 	applyMovieTimelineAppearanceData(element, clip);
 	element.innerHTML = `
-		<i class="movie-clip-handle movie-clip-handle-left" data-edge="left" aria-hidden="true"></i>
-		<span class="movie-clip-label">${escapeMovieStudioHtml(label)}</span>
+		<i data-trim="start" aria-hidden="true"></i>
+		<span>${escapeTimelineHtml(label)}</span>
 		${movieTimelineAppearanceMarkup(clip)}
-		<i class="movie-clip-handle movie-clip-handle-right" data-edge="right" aria-hidden="true"></i>
+		<i data-trim="end" aria-hidden="true"></i>
 	`;
 	editor.bind(element, track, clip);
 	return element;
 }
 
-function clipLabel(clip) {
-	return String(
-		clip.text
-		|| clip.label
-		|| clip.action
-		|| clip.animation
+export function escapeTimelineHtml(value) {
+	return String(value).replace(/[&<>"']/g, character => ({
+		'&': '&amp;',
+		'<': '&lt;',
+		'>': '&gt;',
+		'"': '&quot;',
+		"'": '&#39;'
+	})[character]);
+}
+
+function clipLabel(track, clip) {
+	return clip.label
 		|| clip.shot
-		|| clip.rig
-		|| clip.sequenceId
+		|| clip.text
+		|| clip.action
 		|| clip.kind
-		|| clip.url
 		|| clip.id
-	);
+		|| track.type;
+}
+
+function clipTitle(label, clip) {
+	return `${label}, ${clip.start.toFixed(2)} to ${(
+		clip.start + clip.duration
+	).toFixed(2)} seconds`;
 }

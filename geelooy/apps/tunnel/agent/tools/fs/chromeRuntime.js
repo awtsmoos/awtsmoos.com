@@ -1,5 +1,5 @@
 // B"H
-const { chromeLaunch, chromeStatus, chromeNavigate, chromeEval, chromeClick, chromeType, chromeWaitForSelector, chromeSnapshot } = require("../chrome/actions.js");
+const { chromeLaunch, chromeStop, chromeStatus, chromeNavigate, chromeEval, chromeClick, chromeType, chromeWaitForSelector, chromeSnapshot } = require("../chrome/actions.js");
 
 /**
  * B"H
@@ -20,7 +20,14 @@ function actionList(options = {}) {
 async function ensureChrome(options = {}) {
   const status = await chromeStatus({ port: options.port, maxLogs: 20 });
   if (status.connected) return { status, launched: false };
-  const launch = await chromeLaunch({ port: options.port || 9222, headless: options.headless !== false, url: "about:blank", startupWaitMs: options.startupWaitMs || 1200, maxLogs: 50 });
+  const launch = await chromeLaunch({
+    port: options.port || 9222,
+    headless: options.headless !== false,
+    url: "about:blank",
+    startupWaitMs: options.startupWaitMs || 1200,
+    maxLogs: 50,
+    persist: false
+  });
   if (launch.ok === false) throw new Error(launch.error || launch.message || "chrome_launch_failed");
   return { status: await chromeStatus({ port: launch.port, maxLogs: 20 }), launched: true, launch };
 }
@@ -66,21 +73,27 @@ async function readReturnValues(values = []) {
 }
 
 async function simulateChromeRuntime(options = {}) {
-  await ensureChrome(options);
-  const url = options.url && !/^https:\/\/awtsmoos\.com\/?$/.test(options.url) ? options.url : htmlDataUrl(options.files?.[options.entry] || options.html || "");
-  const nav = await chromeNavigate({ url, waitMs: options.waitMs || 0, timeoutMs: options.timeoutMs || 30000, snapshot: false, headless: options.headless !== false });
-  if (nav.ok === false) throw new Error(nav.error || "chrome_navigation_failed");
-  const interactionLog = [];
-  const errors = [];
-  for (const step of actionList(options)) {
-    const result = await runChromeAction(step);
-    interactionLog.push(result);
-    if (result.ok === false) errors.push(result);
+  const chrome = await ensureChrome(options);
+  try {
+    const url = options.url && !/^https:\/\/awtsmoos\.com\/?$/.test(options.url) ? options.url : htmlDataUrl(options.files?.[options.entry] || options.html || "");
+    const nav = await chromeNavigate({ url, waitMs: options.waitMs || 0, timeoutMs: options.timeoutMs || 30000, snapshot: false, headless: options.headless !== false });
+    if (nav.ok === false) throw new Error(nav.error || "chrome_navigation_failed");
+    const interactionLog = [];
+    const errors = [];
+    for (const step of actionList(options)) {
+      const result = await runChromeAction(step);
+      interactionLog.push(result);
+      if (result.ok === false) errors.push(result);
+    }
+    if (options.waitMs) await sleep(Number(options.waitMs));
+    const values = await readReturnValues(options.returnValues || options.values || []);
+    const snapshot = await chromeSnapshot({ maxLogs: 100 }).catch(error => ({ ok: false, error: error.message }));
+    return { ok: errors.length === 0, action: "simulateRuntime", engine: "chrome", score: errors.length ? 50 : 100, url, navigation: nav, interactionLog, errors, values, snapshot };
+  } finally {
+    if (chrome.launched && options.keepChromeAlive !== true) {
+      await chromeStop({ port: chrome.launch?.port, pid: chrome.launch?.pid, force: true }).catch(() => {});
+    }
   }
-  if (options.waitMs) await sleep(Number(options.waitMs));
-  const values = await readReturnValues(options.returnValues || options.values || []);
-  const snapshot = await chromeSnapshot({ maxLogs: 100 }).catch(error => ({ ok: false, error: error.message }));
-  return { ok: errors.length === 0, action: "simulateRuntime", engine: "chrome", score: errors.length ? 50 : 100, url, navigation: nav, interactionLog, errors, values, snapshot };
 }
 
 function sleep(ms) { return new Promise(resolve => setTimeout(resolve, Math.max(0, ms))); }

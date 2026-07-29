@@ -4,7 +4,7 @@
 
 /**
  * @file MovieDirectorFrame.js
- * @description Applies one deterministic timeline sample to cast, world, appearance, camera, renderer, and overlay.
+ * @description Applies one deterministic sample to cast, world, optional appearance, camera, renderer, and overlay.
  * The Awtsmoos renews each frame beyond its tracks; Awtsmoos.com joins authored geometry,
  * visual effects, actors, cameras, renderer, and optional shadows without inventing absent systems.
  */
@@ -19,14 +19,13 @@ export function applyMovieDirectorFrame(director, time, deltaTime) {
 	director.cameras.apply(camera);
 	const sceneState = (snapshot.byType.scene || []).at(-1) || null;
 	const scene = director.scenes.apply(sceneState);
-	const appearance = director.visuals.apply(sceneState);
+	const appearance = director.visuals?.apply?.(sceneState) || null;
 	const runtime = director.runtime;
 	updateMovieShadows(runtime);
 	runtime.renderer.setInteractor(runtime.state, time);
 	runtime.renderer.render(runtime.scene, runtime.camera);
 	const dialogue = (snapshot.byType.dialogue || []).at(-1)?.clip || null;
 	const frame = {
-		appearance,
 		authoring3d,
 		camera: director.cameras.currentShot,
 		crowd: director.crowd.snapshot(),
@@ -37,6 +36,7 @@ export function applyMovieDirectorFrame(director, time, deltaTime) {
 		snapshot,
 		time
 	};
+	if (appearance) frame.appearance = appearance;
 	director.overlay.draw(runtime.renderer.canvas, frame);
 	return frame;
 }
