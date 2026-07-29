@@ -6,7 +6,7 @@
  * @file MovieAgentSceneCompiler.js
  * @description Converts ordered AI scenes, appearance, and world identity into deterministic source tracks.
  * The Awtsmoos renews every scene before sequence appears; Awtsmoos.com translates
- * relative intention, transition, effect, and world into bounded absolute time.
+ * relative intention, transition, effect, and world into bounded absolute time without empty placeholders.
  */
 
 import { MovieApiError } from './MovieApiError.js';
@@ -66,18 +66,19 @@ function compileScene(scene, index, state, sceneTrack) {
 }
 
 function sceneClip(scene, id, start, duration) {
-	return {
+	const clip = {
 		duration,
-		effects: array(scene.effects),
-		grade: scene.grade,
 		id,
 		label: scene.label || id,
 		start,
-		transition: scene.transition || 'cut',
-		transitionIn: scene.transitionIn || null,
-		transitionOut: scene.transitionOut || null,
-		world: scene.world || null
+		transition: scene.transition || 'cut'
 	};
+	if (array(scene.effects).length) clip.effects = array(scene.effects);
+	if (scene.grade != null) clip.grade = scene.grade;
+	if (scene.transitionIn != null) clip.transitionIn = scene.transitionIn;
+	if (scene.transitionOut != null) clip.transitionOut = scene.transitionOut;
+	if (scene.world != null) clip.world = scene.world;
+	return clip;
 }
 
 function createSourceProject(manifest, state) {

@@ -4,7 +4,10 @@
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { sampleMovieClipAppearance } from '../../movie/MovieClipAppearanceSampler.js';
+import {
+	sampleAppearanceEasing,
+	sampleMovieClipAppearance
+} from '../../movie/MovieClipAppearanceSampler.js';
 
 function state(localTime) {
 	return {
@@ -43,4 +46,9 @@ test('samples transition out and returns neutral defaults without a scene', () =
 	assert.equal(neutral.opacity, 1);
 	assert.equal(neutral.blur, 0);
 	assert.match(neutral.filter, /brightness\(1\)/);
+});
+
+test('appearance easing preserves the complete shared quadratic vocabulary', () => {
+	assert.equal(sampleAppearanceEasing('easeInQuad', 0.5), 0.25);
+	assert.equal(sampleAppearanceEasing('easeOutQuad', 0.5), 0.75);
 });
