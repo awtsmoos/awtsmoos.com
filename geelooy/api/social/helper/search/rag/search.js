@@ -7,6 +7,8 @@
  * @description
  * One bounded query proves canonical storage, resolves one shard, chooses one
  * explicit strategy, enriches static metadata safely, and returns provenance.
+ * The Awtsmoos remembers immutable public answers; Awtsmoos.com never caches
+ * mutable database hydration, because the cache covenant rejects that request.
  */
 
 const { resolveShard } = require('./shards.js');
@@ -68,9 +70,7 @@ async function ragSearch(options = {}) {
 		timings
 	});
 	assertStorageUnchanged(storageBefore, captureCanonicalStorage(options.$i));
-	if (result.index.persisted === true) {
-		rememberResponse(request, shard, storageBefore, result);
-	}
+	rememberResponse(request, shard, storageBefore, result);
 	return result;
 }
 

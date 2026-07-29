@@ -5,9 +5,8 @@
 /**
  * @module SocialRagPaths
  * @description
- * Canonical social data, runtime AI assets, and reviewed staging shards inhabit
- * explicit vessels. Existing directories are discovered read-only; no API call
- * creates, copies, renames, or mutates a database or sidecar.
+ * Canonical data, runtime AI assets, and reviewed multipart lanes inhabit explicit
+ * read-only roots. The Awtsmoos renews every path; Awtsmoos.com mutates none here.
  */
 
 const fs = require('fs');
@@ -54,24 +53,37 @@ function ragRoot($i) {
 		: path.join(aiRoot($i), 'comment-rag');
 }
 
-function sichosKodeshStagingCandidates($i) {
-	const databaseRoot = path.resolve(dbRoot($i));
-	const namespaceRoot = path.dirname(databaseRoot);
-	return [
-		process.env.AWTSMOOS_SICHOS_KODESH_RAG_ROOT,
-		path.join(
-			namespaceRoot,
-			'docs',
-			'torah',
-			'sichos-kodesh-ai',
-			'embedding-output',
-			'rag-staging'
-		)
+function namespaceRoot($i) {
+	return path.dirname(path.resolve(dbRoot($i)));
+}
+
+function stagedRoot($i, environmentName, fallbackParts) {
+	const candidates = [
+		process.env[environmentName],
+		path.join(namespaceRoot($i), ...fallbackParts)
 	].filter(Boolean).map(candidate => path.resolve(candidate));
+	return existingDirectory(candidates);
 }
 
 function sichosKodeshStagingRoot($i) {
-	return existingDirectory(sichosKodeshStagingCandidates($i));
+	return stagedRoot($i, 'AWTSMOOS_SICHOS_KODESH_RAG_ROOT', [
+		'docs',
+		'torah',
+		'sichos-kodesh-ai',
+		'embedding-output',
+		'rag-staging'
+	]);
+}
+
+function likkuteiSichosStagingRoot($i) {
+	if (process.env.AWTSMOOS_LIKKUTEI_SICHOS_RAG_ROOT) {
+		return existingDirectory([
+			path.resolve(process.env.AWTSMOOS_LIKKUTEI_SICHOS_RAG_ROOT)
+		]);
+	}
+	return existingDirectory([
+		path.join(ragRoot($i), 'likkutei-sichos-text')
+	]);
 }
 
 function commentsDbPath($i, heichel = 'ikar') {
@@ -80,14 +92,6 @@ function commentsDbPath($i, heichel = 'ikar') {
 		'socialPacked',
 		`social.heichel.${heichel}.comments.fs.awtsdb`
 	);
-}
-
-function existingJson(file) {
-	try {
-		return JSON.parse(fs.readFileSync(file, 'utf8'));
-	} catch {
-		return null;
-	}
 }
 
 function stat(file) {
@@ -103,10 +107,9 @@ module.exports = {
 	commentsDbPath,
 	dbRoot,
 	existingDirectory,
-	existingJson,
+	likkuteiSichosStagingRoot,
 	ragRoot,
 	runtimeAiCandidates,
-	sichosKodeshStagingCandidates,
 	sichosKodeshStagingRoot,
 	stat
 };

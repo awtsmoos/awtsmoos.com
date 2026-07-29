@@ -5,9 +5,9 @@
 /**
  * @module RagShardManifest
  * @description
- * Converts reviewed manifests into bounded descriptions. Multipart identity and
- * partial-publication metadata survive discovery while vectors remain unopened
- * until an explicitly supported vector request crosses that boundary.
+ * Converts reviewed manifests into truthful vector or text-only descriptions.
+ * The Awtsmoos preserves every corpus boundary; Awtsmoos.com exposes declared
+ * aliases alone, never leaking multipart filenames into the public lane identity.
  */
 
 const {
@@ -30,14 +30,8 @@ function manifestFor(file) {
 	return readManifest(manifestPath(file));
 }
 
-function isPublishable(manifest) {
-	return Boolean(
-		manifest
-		&& manifest.disabled !== true
-		&& manifest.listName
-		&& Number(manifest.records || manifest.listLength) > 0
-		&& Number(manifest.dimensions) > 0
-	);
+function recordCount(manifest = {}) {
+	return Number(manifest.records ?? manifest.listLength ?? 0);
 }
 
 function textFileFor(file, manifest = {}) {
@@ -51,41 +45,64 @@ function textFileFor(file, manifest = {}) {
 	return candidates.find(candidate => candidate && stat(candidate)) || null;
 }
 
+function isPublishable(manifest, file = '') {
+	if (!manifest || manifest.disabled === true) return false;
+	if (recordCount(manifest) < 1) return false;
+	if (manifest.textOnly === true) {
+		return Boolean(file && textFileFor(file, manifest));
+	}
+	return Boolean(manifest.listName && Number(manifest.dimensions) > 0);
+}
+
+function expectedParts(manifest, id) {
+	const declared = Number(manifest?.expectedParts || 0);
+	if (declared > 0) return declared;
+	return id === 'sichos-kodesh' ? SICHOS_KODESH_EXPECTED_PARTS : 1;
+}
+
+function partNumber(manifest = {}) {
+	const declared = Number(manifest.partNumber || 0);
+	if (declared > 0) return declared;
+	return Number(String(manifest.partId || '').match(/\d+/)?.[0] || 0);
+}
+
 function describeFile(file) {
-	const manifest = manifestFor(file);
+	const manifest = manifestFor(file) || {};
 	const fileSlug = slug(file);
-	const id = String(manifest?.id || fileSlug).toLowerCase();
-	const partNumber = Number(String(manifest?.partId || '').match(/\d+/)?.[0] || 0);
-	const partial = id === 'sichos-kodesh';
+	const id = String(manifest.id || fileSlug).toLowerCase();
+	const textOnly = manifest.textOnly === true || id === 'sichos-kodesh';
 	return {
 		id,
-		aliases: aliases(id, fileSlug, manifest?.aliases),
-		title: manifest?.title || label(id),
+		aliases: aliases(id, id, manifest.aliases),
+		title: manifest.title || label(id),
 		file,
-		listName: manifest.listName,
-		count: Number(manifest.records || manifest.listLength || 0),
+		listName: manifest.listName || null,
+		count: recordCount(manifest),
 		dimensions: Number(manifest.dimensions || 0),
 		vectorEnabled: false,
 		bytes: stat(file)?.size || 0,
 		textFile: textFileFor(file, manifest),
-		partNumber,
-		partial,
-		expectedParts: partial ? SICHOS_KODESH_EXPECTED_PARTS : 1,
-		textOnly: partial
+		partNumber: partNumber(manifest),
+		partial: manifest.partial === true,
+		expectedParts: expectedParts(manifest, id),
+		textOnly
 	};
 }
 
 function shardFiles($i) {
 	return publishedShardFiles($i)
-		.filter(file => isPublishable(manifestFor(file)));
+		.filter(file => isPublishable(manifestFor(file), file));
 }
 
 module.exports = {
 	aliases,
 	describeFile,
+	expectedParts,
 	isPublishable,
 	manifestFor,
 	manifestPath,
+	partNumber,
+	recordCount,
 	shardFiles,
 	slug,
 	textFileFor

@@ -5,31 +5,46 @@
 /**
  * @module RagShardSources
  * @description
- * Produces an immutable publication list from two live files and eight reviewed
- * staging parts. Parts nine through twelve can exist physically yet never enter
- * this list until the declared publication boundary is deliberately advanced.
+ * Builds one immutable publication list from sealed live shards and two reviewed
+ * multipart roots. The Awtsmoos separates each source; Awtsmoos.com publishes only
+ * files whose declared boundary has been deliberately advanced.
  */
 
 const fs = require('fs');
 const path = require('path');
 const {
 	CANONICAL_SHARD_FILES,
+	PUBLISHED_LIKKUTEI_SICHOS_FILES,
 	PUBLISHED_SICHOS_KODESH_FILES
 } = require('./canonicalShards.js');
 const {
+	likkuteiSichosStagingRoot,
 	ragRoot,
 	sichosKodeshStagingRoot
 } = require('./paths.js');
 
+function filesAt(root, names) {
+	if (!root) return [];
+	return names
+		.map(name => path.join(root, name))
+		.filter(file => fs.existsSync(file));
+}
+
 function publishedShardFiles($i) {
-	const live = CANONICAL_SHARD_FILES.map(name => path.join(ragRoot($i), name));
-	const stagingRoot = sichosKodeshStagingRoot($i);
-	const staged = stagingRoot
-		? PUBLISHED_SICHOS_KODESH_FILES.map(name => path.join(stagingRoot, name))
-		: [];
-	return [...live, ...staged].filter(file => fs.existsSync(file));
+	return [
+		...filesAt(ragRoot($i), CANONICAL_SHARD_FILES),
+		...filesAt(
+			sichosKodeshStagingRoot($i),
+			PUBLISHED_SICHOS_KODESH_FILES
+		),
+		...filesAt(
+			likkuteiSichosStagingRoot($i),
+			PUBLISHED_LIKKUTEI_SICHOS_FILES
+		)
+	];
 }
 
 module.exports = {
+	filesAt,
 	publishedShardFiles
 };

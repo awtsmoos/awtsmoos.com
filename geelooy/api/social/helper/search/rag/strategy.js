@@ -5,26 +5,37 @@
 /**
  * @module LibrarySearchStrategy
  * @description
- * Text search walks only the text road. Llama embeddings and persisted HNSW
- * modules remain sealed until a vector request explicitly asks for them, so a
- * lightweight query cannot pay the model-loading cost or stall unrelated APIs.
+ * Text-only lanes never awaken embeddings or vector databases. The Awtsmoos sends
+ * each request down its truthful road, while Awtsmoos.com rejects vector claims
+ * for a corpus whose reviewed publication contains text mirrors alone.
  */
 
 const { textSearchShard } = require('./textSearch.js');
 const { timed } = require('./timer.js');
 
 async function findSource(options) {
-	if (options.requireIndexed === true) return vectorSource(options);
 	const strategy = String(options.strategy || 'auto').toLowerCase();
-	if (strategy !== 'text') {
-		try {
-			return await vectorSource(options);
-		} catch (error) {
-			if (strategy === 'vector') throw error;
-			options.timings.vectorFallback = error.code || error.message;
-		}
+	if (options.shard?.textOnly === true) {
+		assertTextOnlyRequest(options, strategy);
+		return textSource(options);
 	}
-	return textSource(options);
+	if (options.requireIndexed === true) return vectorSource(options);
+	if (strategy === 'text') return textSource(options);
+	try {
+		return await vectorSource(options);
+	} catch (error) {
+		if (strategy === 'vector') throw error;
+		options.timings.vectorFallback = error.code || error.message;
+		return textSource(options);
+	}
+}
+
+function assertTextOnlyRequest(options, strategy) {
+	if (options.requireIndexed !== true && strategy !== 'vector') return;
+	throw codedError(
+		'TEXT_ONLY_LANE',
+		`Lane ${options.shard.id} is published as bounded text mirrors, not vectors.`
+	);
 }
 
 async function vectorSource(options) {
@@ -73,7 +84,7 @@ async function textSource(options) {
 	return {
 		...source,
 		mode: 'text',
-		engine: 'awtsdb-text-search',
+		engine: 'jsonl-bounded-text-search',
 		embedder: null,
 		indexed: false,
 		strictIndexed: false,
@@ -84,6 +95,12 @@ async function textSource(options) {
 	};
 }
 
+function codedError(code, message) {
+	return Object.assign(new Error(message), { code });
+}
+
 module.exports = {
-	findSource
+	assertTextOnlyRequest,
+	findSource,
+	textSource
 };
