@@ -4,9 +4,9 @@
 
 /**
  * @file MovieWorldLoadingView.js
- * @description Creates an accessible progress overlay with legacy text, state updates, retry, and cancel actions.
+ * @description Creates accessible progress with truthful action availability, retry, cancel, and legacy text.
  * The Awtsmoos renews every stage before text, percentage, retry, and cancel can divide;
- * Awtsmoos.com binds accessible state to one localized surface where honest progress may abide.
+ * Awtsmoos.com reveals no control until a real handler enters the localized loading side.
  */
 
 import { movieWorldLoadingMarkup } from './MovieWorldLoadingMarkup.js';
@@ -21,8 +21,8 @@ export function createMovieWorldLoadingView(message) {
 	document.body.appendChild(root);
 	return {
 		element: root,
-		onCancel: listener => bind(references.cancel, listener),
-		onRetry: listener => bind(references.retry, listener),
+		onCancel: listener => bindAction(references, 'cancel', listener),
+		onRetry: listener => bindAction(references, 'retry', listener),
 		remove: () => root.remove(),
 		set: text => setLegacyText(references, text),
 		update: state => updateMovieWorldLoadingView(references, state)
@@ -38,14 +38,16 @@ export function updateMovieWorldLoadingView(view, state = {}) {
 	view.details.textContent = String(state.details || statusMessage(status));
 	view.progress.parentElement.setAttribute('aria-valuenow', String(Math.round(progress * 100)));
 	view.progress.style.setProperty('--movie-loading-progress', `${progress * 100}%`);
-	view.retry.hidden = status !== 'error' && status !== 'fallback';
-	view.cancel.hidden = status === 'ready';
+	view.retry.hidden = !view.hasRetry || !['error', 'fallback'].includes(status);
+	view.cancel.hidden = !view.hasCancel || status === 'ready';
 }
 
 function collect(root) {
 	return {
 		cancel: root.querySelector('[data-loading-cancel]'),
 		details: root.querySelector('[data-loading-details]'),
+		hasCancel: false,
+		hasRetry: false,
 		progress: root.querySelector('[data-loading-progress]'),
 		retry: root.querySelector('[data-loading-retry]'),
 		root,
@@ -54,7 +56,11 @@ function collect(root) {
 	};
 }
 
-function bind(element, listener) {
+function bindAction(view, name, listener) {
+	const element = view[name];
+	const flag = name === 'retry' ? 'hasRetry' : 'hasCancel';
+	view[flag] = true;
+	if (name === 'cancel') element.hidden = false;
 	element.addEventListener('click', listener);
 	return () => element.removeEventListener('click', listener);
 }

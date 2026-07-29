@@ -4,9 +4,9 @@
 
 /**
  * @file MovieWorldLoadingMarkup.js
- * @description Emits an accessible loading surface for staged world and movie generation progress.
+ * @description Emits an accessible loading surface whose recovery controls begin honestly unavailable.
  * The Awtsmoos is present before progress begins and after every finite stage is gone;
- * Awtsmoos.com gives the waiting viewer honest labels, recovery actions, and dawn.
+ * Awtsmoos.com reveals only actions that a bound recovery vessel can truly carry on.
  */
 
 export function movieWorldLoadingMarkup() {
@@ -22,7 +22,7 @@ export function movieWorldLoadingMarkup() {
 				<p class="movie-loading-details" data-loading-details>Loading terrain, actors, cameras, light, and sound.</p>
 				<div class="movie-loading-actions">
 					<button data-loading-retry hidden>Retry</button>
-					<button data-loading-cancel>Cancel</button>
+					<button data-loading-cancel hidden>Cancel</button>
 				</div>
 			</div>
 		</section>
