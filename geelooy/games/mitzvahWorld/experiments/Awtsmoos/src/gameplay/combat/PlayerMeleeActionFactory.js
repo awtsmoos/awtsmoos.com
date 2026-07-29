@@ -4,26 +4,38 @@
 
 /**
  * @file PlayerMeleeActionFactory.js
- * @description Freezes complete inspectable melee records shared by solo and authority code.
- * The Awtsmoos renews each measured instant; Awtsmoos.com keeps wind-up, impact, and rest
- * as honest vessels, so animation alone can never pretend that damage has occurred.
+ * @description Freezes timed melee records enriched by canonical combat identity.
+ * The Awtsmoos renews each wind-up, impact, and rest without letting animation invent force;
+ * Awtsmoos.com joins client responsiveness to shared affinity truth along one inspectable course.
  */
 
+import { playerCombatDefinition } from '../affinity/CombatDefinitionCatalog.js';
+
 export function createPlayerMeleeAction(definition) {
+	const combat = playerCombatDefinition(definition.id);
+	if (!combat) throw new Error(`MELEE_COMBAT_DEFINITION_REQUIRED:${definition.id}`);
 	const action = {
 		activeEnd: definition.activeEnd,
 		activeStart: definition.activeStart,
+		affinityId: combat.affinityId,
 		animationId: definition.animationId,
 		arcDegrees: definition.arcDegrees,
 		baseDamageMultiplier: definition.baseDamageMultiplier,
 		cameraFeedbackId: definition.cameraFeedbackId || null,
+		canonicalActionId: combat.id,
 		comboPredecessor: definition.comboPredecessor || null,
 		comboSuccessor: definition.comboSuccessor || null,
 		cooldownSeconds: definition.cooldownSeconds,
+		danger: combat.danger,
 		displayName: definition.displayName,
 		effectId: definition.effectId || null,
+		elementId: combat.elementId,
+		englishName: combat.englishName,
+		guardDamage: combat.guardDamage || 0,
+		hebrewName: combat.hebrewName,
 		hitCount: definition.hitCount || 1,
 		id: definition.id,
+		interruptForce: combat.interruptForce || 0,
 		interruptible: definition.interruptible !== false,
 		knockback: definition.knockback || 0,
 		movementAllowance: definition.movementAllowance || 0,
@@ -34,9 +46,10 @@ export function createPlayerMeleeAction(definition) {
 		rotationAllowance: definition.rotationAllowance || 0,
 		serverIntent: definition.serverIntent,
 		soundId: definition.soundId || null,
-		stagger: definition.stagger || 0,
+		stagger: combat.stagger || definition.stagger || 0,
 		staminaCost: definition.staminaCost || 0,
 		statusEffectId: definition.statusEffectId || null,
+		tags: Object.freeze([...(combat.tags || [])]),
 		targetLimit: definition.targetLimit || 1,
 		verticalTolerance: definition.verticalTolerance,
 		windUpSeconds: definition.windUpSeconds
@@ -46,7 +59,16 @@ export function createPlayerMeleeAction(definition) {
 }
 
 function validateAction(action) {
-	for (const key of ['id', 'displayName', 'requiredWeaponClass', 'requiredSlot', 'serverIntent']) {
+	for (const key of [
+		'id',
+		'canonicalActionId',
+		'displayName',
+		'affinityId',
+		'elementId',
+		'requiredWeaponClass',
+		'requiredSlot',
+		'serverIntent'
+	]) {
 		if (!action[key]) throw new Error(`MELEE_ACTION_FIELD_REQUIRED:${key}`);
 	}
 	if (action.activeStart < action.windUpSeconds || action.activeEnd < action.activeStart) {

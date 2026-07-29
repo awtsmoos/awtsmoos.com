@@ -4,13 +4,14 @@
 
 /**
  * @file MovieStudioInteractionController.js
- * @description Binds removable studio actions, empty creation, keyboard flow, history, and inspector state.
+ * @description Binds removable studio actions, recovery-protected replacement, keyboard flow, history, and inspector state.
  * The Awtsmoos renews intention before finger or key can move; Awtsmoos.com lets
- * every new beginning and remaining action travel through one guarded history-aware path.
+ * every new beginning and destructive replacement travel through one guarded recovery-aware path.
  */
 
 import { createEmptyMovieProject } from './MovieEmptyProject.js';
 import { applyMovieInspectorState } from './MovieInspectorState.js';
+import { commitMovieProjectWithRecovery } from './MovieProjectReplacementRecovery.js';
 import { renderExactMovieStudioSession } from './MovieExactRender.js';
 import { handleMovieStudioKey } from './MovieStudioKeyboard.js';
 
@@ -42,17 +43,19 @@ export class MovieStudioInteractionController {
 		return handleMovieStudioKey(this, event);
 	}
 
-	applyJson() {
-		try {
-			this.session.commands.commitProject(JSON.parse(this.view.json.value), 'Apply project JSON');
-		} catch (error) {
-			this.view.status.textContent = `Project error: ${error.message}`;
-		}
+	async applyJson() {
+		const project = JSON.parse(this.view.json.value);
+		await commitMovieProjectWithRecovery(
+			this.session,
+			project,
+			'Apply project JSON'
+		);
 	}
 
-	createEmptyProject() {
+	async createEmptyProject() {
 		this.session.director.pause();
-		return this.session.commands.commitProject(
+		return commitMovieProjectWithRecovery(
+			this.session,
 			createEmptyMovieProject(),
 			'Create empty movie project'
 		);
@@ -65,7 +68,8 @@ export class MovieStudioInteractionController {
 
 	toggleInspector(open = !this.view.root.classList.contains('is-inspector-open'), restoreFocus = true) {
 		return applyMovieInspectorState(this.view, open, {
-			compact: innerWidth <= 980, restoreFocus
+			compact: innerWidth <= 980,
+			restoreFocus
 		});
 	}
 
@@ -92,11 +96,11 @@ export class MovieStudioInteractionController {
 
 function createHandlers(controller) {
 	return {
-		apply: () => controller.applyJson(),
+		apply: () => controller.run(() => controller.applyJson()),
 		closeInspector: () => controller.toggleInspector(false),
 		copy: () => controller.run(() => controller.session.copyUrl()),
 		keyDown: event => controller.onKeyDown(event),
-		newEmptyProject: () => controller.createEmptyProject(),
+		newEmptyProject: () => controller.run(() => controller.createEmptyProject()),
 		play: () => controller.session.play(),
 		render: () => controller.run(() => controller.session.render()),
 		renderExact: () => controller.run(() => renderExactMovieStudioSession(controller.session)),

@@ -6,7 +6,7 @@
  * @file MovieStudio.js
  * @description Boots the real world beneath the stable API and responsive professional NLE.
  * The Awtsmoos renews world and editing vessel together; Awtsmoos.com binds runtime, project,
- * cameras, actions, keyframes, audio, titles, 3D authoring, utilities, controls, and rendering.
+ * recovery, cameras, actions, keyframes, audio, titles, 3D authoring, utilities, and rendering.
  */
 
 import { createEretzRuntime } from '../app/createEretzRuntime.js';
@@ -17,6 +17,7 @@ import { MovieStudioCameraActionController } from './MovieStudioCameraActionCont
 import { MovieStudioInteractionController } from './MovieStudioInteractionController.js';
 import { MovieStudioKeyframeController } from './MovieStudioKeyframeController.js';
 import { MovieStudioPreferenceController } from './MovieStudioPreferenceController.js';
+import { MovieStudioProjectBrowserController } from './MovieStudioProjectBrowserController.js';
 import { MovieStudioResizeController } from './MovieStudioResizeController.js';
 import { MovieStudioSession } from './MovieStudioSession.js';
 import { MovieStudioTitleController } from './MovieStudioTitleController.js';
@@ -30,7 +31,7 @@ export async function createMovieStudio(hosts, initialProject, options = {}) {
 		const diagnostics = await createEretzRuntime(hosts, { quality: options.quality || 'cinematic', startLoop: false });
 		const runtime = diagnostics.runtime;
 		const restoreWorldChrome = hideMovieWorldChrome(hosts, runtime.renderer.canvas);
-		loading.set('B"H arranging timeline, sound, titles, materials, actions, keyframes, and cameras…');
+		loading.set('B"H arranging recovery, timeline, sound, titles, materials, actions, keyframes, and cameras…');
 		const view = createMovieStudioView(initialProject);
 		const session = new MovieStudioSession(runtime, diagnostics, view, initialProject);
 		session.restoreWorldChrome = restoreWorldChrome;
@@ -39,6 +40,7 @@ export async function createMovieStudio(hosts, initialProject, options = {}) {
 		session.keyframeController = new MovieStudioKeyframeController(session, view);
 		session.audioMixerController = new MovieStudioAudioMixerController(session, view);
 		session.titleController = new MovieStudioTitleController(session, view);
+		session.projectBrowserController = new MovieStudioProjectBrowserController(session, view.root);
 		session.utilityController = new MovieStudioUtilityController(session, view);
 		session.interactions = new MovieStudioInteractionController(session, view);
 		session.preferenceController = new MovieStudioPreferenceController(session, view);

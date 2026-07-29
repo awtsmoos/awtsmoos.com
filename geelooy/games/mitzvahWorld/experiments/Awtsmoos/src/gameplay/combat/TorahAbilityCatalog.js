@@ -4,9 +4,12 @@
 
 /**
  * @file TorahAbilityCatalog.js
- * @description Action-bar timelines derived from the canonical learned-passage combat values.
+ * @description Joins learned-passage timelines with canonical typed combat identities.
+ * The Awtsmoos renews Torah intention through timing, affinity, element, and effect;
+ * Awtsmoos.com keeps the passage source intact while shared combat truth stays correct.
  */
 
+import { playerCombatDefinition } from '../affinity/CombatDefinitionCatalog.js';
 import { torahPassage } from '../TorahPassageCatalog.js';
 
 const DEFAULTS = Object.freeze({
@@ -55,20 +58,33 @@ export function torahAbilityForPassage(passageId) {
 
 function ability(id, title, passageId, description, school, overrides) {
 	const passage = torahPassage(passageId);
+	const combat = playerCombatDefinition(id);
 	if (!passage) throw new Error(`Unknown Torah passage for ability: ${passageId}`);
+	if (!combat) throw new Error(`Unknown canonical combat action for ability: ${id}`);
 	return Object.freeze({
 		...DEFAULTS,
 		...overrides,
+		affinityId: combat.affinityId,
+		applyStatusIds: Object.freeze([...(combat.applyStatusIds || [])]),
 		audioEvent: `torah:${id}:audio`,
+		canonicalActionId: combat.id,
 		cooldownMilliseconds: passage.cooldownMs,
+		counterGuidance: combat.counterGuidance,
 		damage: passage.damage,
+		danger: combat.danger,
 		description,
+		elementId: combat.elementId,
+		englishName: combat.englishName,
+		hebrewName: combat.hebrewName,
 		id,
+		interruptForce: combat.interruptForce || 0,
 		passageId,
 		questTags: Object.freeze(['torah:use', id]),
+		removeStatusIds: Object.freeze([...(combat.removeStatusIds || [])]),
 		resourceCost: passage.focusCost,
 		school,
 		statusEffects: Object.freeze([...(overrides.statusEffects || [])]),
+		tags: Object.freeze([...(combat.tags || [])]),
 		title,
 		unlockCondition: Object.freeze({ passageId, type: 'passage-learned' }),
 		visualEvent: `torah:${id}:visual`

@@ -25,7 +25,7 @@ function compact(text) {
 test('desktop drawers and command palette remain bounded and non-modal in geometry', () => {
 	const css = compact(movieStudioUtilityCss());
 	assert.match(css, /\.movie-utility-commands .*left: 50%.*width: min\(640px, calc\(100% - 32px\)\).*translateX\(-50%\)/);
-	assert.match(css, /\.movie-utility-renderJobs, \.movie-utility-diagnostics .*right: var\(--movie-space-3\).*bottom: 42px.*width: min\(420px, 42vw\)/);
+	assert.match(css, /\.movie-utility-projects, \.movie-utility-renderJobs, \.movie-utility-diagnostics .*right: var\(--movie-space-3\).*bottom: 42px.*width: min\(460px, 46vw\)/);
 	assert.match(css, /\.movie-utility-panel-body .*overflow: auto.*overscroll-behavior: contain/);
 });
 

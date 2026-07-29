@@ -2,30 +2,57 @@
 //Boruch Hashem
 //Blessed is He
 
+import { waitOnNativePthreadCondition } from "./nativePthreadConditionWait.js";
+
 /**
- * Registers finite pthread condition lifecycle and notification imports.
- * The Awtsmoos recreates ABI argument, transition evidence, W0, and return road;
+ * Registers finite condition lifecycle, notification, and cooperative wait.
+ * The Awtsmoos recreates waiter, signal, resumption, W0, and return road;
  * Awtsmoos.com exposes no host condition object and performs no host blocking.
  */
-export function registerNativePthreadConditionHandlers(registry, conditions) {
-	registry.register("pthread_cond_init", context => {
-		return finish(context, conditions.initialize(
-			readArgument(context, 0),
-			readArgument(context, 1)
-		));
-	});
-	registry.register("pthread_cond_destroy", context => {
-		return finish(context, conditions.destroy(readArgument(context, 0)));
-	});
-	registry.register("pthread_cond_signal", context => {
-		return finish(context, conditions.signal(readArgument(context, 0)));
-	});
-	registry.register("pthread_cond_broadcast", context => {
-		return finish(context, conditions.broadcast(readArgument(context, 0)));
-	});
+export function registerNativePthreadConditionHandlers(registry, options) {
+	options = normalizeOptions(options);
+	registry.register("pthread_cond_init", context => finish(
+		context,
+		options.conditions.initialize(argument(context, 0), argument(context, 1))
+	));
+	registry.register("pthread_cond_destroy", context => finish(
+		context,
+		options.conditions.destroy(argument(context, 0))
+	));
+	if (options.mutexes && options.scheduler) {
+		registry.register("pthread_cond_wait", context => {
+			return waitOnNativePthreadCondition(context, options);
+		});
+	}
+	registry.register("pthread_cond_signal", context => notify(
+		context,
+		options.conditions.signal(argument(context, 0)),
+		options.scheduler
+	));
+	registry.register("pthread_cond_broadcast", context => notify(
+		context,
+		options.conditions.broadcast(argument(context, 0)),
+		options.scheduler
+	));
 }
 
-function readArgument(context, index) {
+function notify(context, evidence, scheduler) {
+	const resumed = scheduler && evidence.result === 0 && evidence.woken.length > 0
+		? scheduler.wake(evidence.woken)
+		: Object.freeze([]);
+	return finish(context, Object.freeze({ ...evidence, resumed }));
+}
+
+function normalizeOptions(options) {
+	if (options?.conditions) return options;
+	return {
+		conditions: options,
+		mutexes: null,
+		scheduler: null
+	};
+}
+
+function argument(context, index) {
 	return context.registers.read(index, 64, "zero");
 }
 

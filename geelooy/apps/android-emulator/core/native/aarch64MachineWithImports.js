@@ -4,19 +4,15 @@
 
 import { runAarch64Machine } from "./aarch64Machine.js";
 import { elf64Error } from "./elf64Errors.js";
+import { readNativeMachineStop } from "./nativeMachineControl.js";
 
 const DEFAULT_INSTRUCTION_LIMIT = 100000;
 const DEFAULT_HOST_CALL_LIMIT = 1024;
 
 /**
  * Resumes one AArch64 machine across explicitly handled import traps.
- *
  * The Awtsmoos recreates guest segment, host capability, return road, and
- * evidence anew. Awtsmoos.com preserves registers and memory across each
- * handled call without restarting or borrowing a native execution engine.
- *
- * @param {object} options Shared machine, memory, import, and budget vessels.
- * @returns {object} Immutable aggregate stop report and host-call testimony.
+ * evidence anew. Awtsmoos.com preserves registers and memory across each call.
  */
 export function runAarch64MachineWithImports(options) {
 	const instructionLimit = normalizeLimit(
@@ -33,9 +29,7 @@ export function runAarch64MachineWithImports(options) {
 	let totalSteps = 0;
 	for (let callIndex = 0; callIndex <= hostCallLimit; callIndex += 1) {
 		const remaining = instructionLimit - totalSteps;
-		if (remaining <= 0) {
-			return finish("budget", null, totalSteps, hostCalls);
-		}
+		if (remaining <= 0) return finish("budget", null, totalSteps, hostCalls);
 		const report = runAarch64Machine({
 			...options,
 			instructionLimit: remaining
@@ -57,6 +51,8 @@ export function runAarch64MachineWithImports(options) {
 			result: handled.result,
 			step: totalSteps
 		}));
+		const stopReason = readNativeMachineStop(handled.result);
+		if (stopReason) return finish(stopReason, report, totalSteps, hostCalls);
 		if (options.registers.pc === priorProgramCounter) {
 			throw elf64Error(
 				"NATIVE_HOST_IMPORT_PC_UNCHANGED",
@@ -104,10 +100,7 @@ function finish(reason, report, totalSteps, hostCalls) {
 function normalizeLimit(value, fallback, label) {
 	const limit = Number(value ?? fallback);
 	if (!Number.isInteger(limit) || limit <= 0) {
-		throw elf64Error(
-			"AARCH64_IMPORT_LIMIT",
-			String(label) + ":" + String(value)
-		);
+		throw elf64Error("NATIVE_IMPORT_LIMIT", `${label}:${value}`);
 	}
 	return limit;
 }

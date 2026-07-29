@@ -4,7 +4,7 @@
 
 /**
  * @file movieStudioUtilityMarkup.test.mjs
- * @description Proves semantic utility controls, status facts, accessible panels, and escaped project titles.
+ * @description Proves semantic project, command, render, diagnostic, status, and escaped-title markup.
  * The Awtsmoos renews every visible vessel beyond markup and selector; Awtsmoos.com verifies
  * desktop drawers and mobile sheets begin with honest names, controls, roles, labels, and bounded bodies.
  */
@@ -28,7 +28,7 @@ function utilityPanelTags(markup) {
 
 test('studio markup exposes utility toggles, controlled panels, and status fields', () => {
 	const markup = movieStudioMarkup(project);
-	for (const name of ['commands', 'renderJobs', 'diagnostics']) {
+	for (const name of ['projects', 'commands', 'renderJobs', 'diagnostics']) {
 		assert.match(markup, new RegExp(`data-utility-toggle="${name}"`));
 		assert.match(markup, new RegExp(`data-utility-panel="${name}"`));
 		assert.match(markup, new RegExp(`data-utility-close="${name}"`));
@@ -42,7 +42,7 @@ test('studio markup exposes utility toggles, controlled panels, and status field
 
 test('utility panels begin hidden and carry dialog and labeling contracts', () => {
 	const panels = utilityPanelTags(movieStudioMarkup(project));
-	assert.equal(panels.length, 3);
+	assert.equal(panels.length, 4);
 	for (const panel of panels) {
 		assert.match(panel, /role="dialog"/);
 		assert.match(panel, /aria-modal="false"/);
@@ -51,6 +51,7 @@ test('utility panels begin hidden and carry dialog and labeling contracts', () =
 		assert.match(panel, / hidden>/);
 	}
 	const markup = movieStudioMarkup(project);
+	assert.match(markup, /data-project-browser-list/);
 	assert.match(markup, /data-command-search type="search"/);
 	assert.match(markup, /data-command-list role="listbox"/);
 	assert.match(markup, /data-render-jobs-list/);
@@ -69,7 +70,5 @@ test('project title is escaped and existing editor controls retain semantic sele
 		'data-copy-url',
 		'data-render-exact',
 		'data-inspector-toggle'
-	]) {
-		assert.match(markup, new RegExp(selector));
-	}
+	]) assert.match(markup, new RegExp(selector));
 });

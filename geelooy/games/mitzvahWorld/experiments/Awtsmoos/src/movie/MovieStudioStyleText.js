@@ -4,8 +4,8 @@
 
 /**
  * @file MovieStudioStyleText.js
- * @description Composes localized editor, camera, keyframe, audio, title, 3D, timeline, and responsive CSS.
- * The Awtsmoos renews every pane, lens, waveform, word, diamond, effect, and guide inside protected light;
+ * @description Composes localized recovery, editor, camera, keyframe, audio, title, 3D, timeline, and responsive CSS.
+ * The Awtsmoos renews every pane, save, lens, waveform, word, diamond, effect, and guide inside protected light;
  * Awtsmoos.com prevents neighboring pages and sibling studios from inheriting another vessel's sight.
  */
 
@@ -21,6 +21,7 @@ import { movieStudioKeyframeCss } from './MovieStudioKeyframeCss.js';
 import { movieStudioLayoutCss } from './MovieStudioLayoutCss.js';
 import { movieStudioLoadingCss } from './MovieStudioLoadingCss.js';
 import { movieStudioPreviewCss } from './MovieStudioPreviewCss.js';
+import { movieStudioProjectBrowserCss } from './MovieStudioProjectBrowserCss.js';
 import { movieStudioResponsiveCss } from './MovieStudioResponsiveCss.js';
 import { movieStudioSantoCss } from './MovieStudioSantoCss.js';
 import { movieStudioSplitterCss } from './MovieStudioSplitterCss.js';
@@ -42,8 +43,8 @@ export function movieStudioStyleText() {
 		movieStudioKeyframeCss(), movieStudioAudioMixerCss(), movieStudioTitleCss(),
 		movieStudioAuthoring3dCss(), movieTimelineCss(), movieTimelineAppearanceCss(),
 		movieStudioSplitterCss(), movieStudioStatusBarCss(), movieStudioUtilityCss(),
-		movieStudioUtilityContentCss(), movieStudioDensityCss(), movieStudioResponsiveCss(),
-		movieStudioUtilityResponsiveCss(), movieStudioAccessibilityCss()
+		movieStudioUtilityContentCss(), movieStudioProjectBrowserCss(), movieStudioDensityCss(),
+		movieStudioResponsiveCss(), movieStudioUtilityResponsiveCss(), movieStudioAccessibilityCss()
 	];
 	return localizeMovieStudioCss(fragments.join('\n'));
 }

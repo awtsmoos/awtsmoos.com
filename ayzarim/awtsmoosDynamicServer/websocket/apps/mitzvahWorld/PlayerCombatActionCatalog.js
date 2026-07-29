@@ -4,10 +4,14 @@
 
 /**
  * @file PlayerCombatActionCatalog.js
- * @description Server-owned harvesting, casting, and melee timing, geometry, cost, and balance.
- * The Awtsmoos renews each measured deed; Awtsmoos.com refuses client-authored force,
- * while every tool, cast, and strike shares one inspectable authoritative action scroll.
+ * @description Joins server-owned timing and balance to canonical shared combat identities.
+ * The Awtsmoos renews each measured deed while the client can author neither force nor name;
+ * Awtsmoos.com preserves established windows and weapons beneath one typed action flame.
  */
+
+const {
+	playerCombatDefinition: sharedPlayerCombatDefinition
+} = require('./CombatDefinitionCatalog.js');
 
 const ACTIONS = Object.freeze(Object.fromEntries([
 	cast('hebrew-fire', 1.65, 4.2, 34, 1.45, 14, 2500),
@@ -25,58 +29,61 @@ const ACTIONS = Object.freeze(Object.fromEntries([
 ]));
 
 function cast(id, elapsed, range, arcDegrees, multiplier, staminaCost, cooldownMs) {
-	return record(
-		id,
-		'wooden-staff',
-		elapsed - 0.08,
-		elapsed + 0.25,
-		range,
+	return record({
+		activeEnd: elapsed + 0.25,
+		activeStart: elapsed - 0.08,
 		arcDegrees,
-		3,
-		multiplier,
-		staminaCost,
 		cooldownMs,
-		'cast'
-	);
+		damageMultiplier: multiplier,
+		id,
+		kind: 'cast',
+		range,
+		staminaCost,
+		verticalTolerance: 3,
+		weaponId: 'wooden-staff'
+	});
 }
 
-function melee(id, weaponId, activeStart, activeEnd, range, arcDegrees, verticalTolerance, multiplier, staminaCost, cooldownMs) {
-	return record(
-		id,
-		weaponId,
-		activeStart,
-		activeEnd,
-		range,
-		arcDegrees,
-		verticalTolerance,
-		multiplier,
-		staminaCost,
-		cooldownMs,
-		'melee'
-	);
-}
-
-function record(id, weaponId, activeStart, activeEnd, range, arcDegrees, verticalTolerance, damageMultiplier, staminaCost, cooldownMs, kind) {
-	return [id, Object.freeze({
+function melee(id, weaponId, activeStart, activeEnd, range, arcDegrees, verticalTolerance, damageMultiplier, staminaCost, cooldownMs) {
+	return record({
 		activeEnd,
 		activeStart,
 		arcDegrees,
 		cooldownMs,
 		damageMultiplier,
 		id,
-		kind,
+		kind: 'melee',
 		range,
 		staminaCost,
 		verticalTolerance,
 		weaponId
+	});
+}
+
+function record(balance) {
+	const combat = sharedPlayerCombatDefinition(balance.id);
+	if (!combat) throw new Error(`PLAYER_COMBAT_DEFINITION_REQUIRED:${balance.id}`);
+	return [balance.id, Object.freeze({
+		...balance,
+		affinityId: combat.affinityId,
+		applyStatusIds: Object.freeze([...(combat.applyStatusIds || [])]),
+		canonicalActionId: combat.id,
+		danger: combat.danger,
+		elementId: combat.elementId,
+		englishName: combat.englishName,
+		guardDamage: combat.guardDamage || 0,
+		hebrewName: combat.hebrewName,
+		interruptForce: combat.interruptForce || 0,
+		removeStatusIds: Object.freeze([...(combat.removeStatusIds || [])]),
+		stagger: combat.stagger || 0,
+		tags: Object.freeze([...(combat.tags || [])])
 	})];
 }
 
 function playerCombatAction(actionId) {
-	return ACTIONS[actionId] || null;
+	if (ACTIONS[actionId]) return ACTIONS[actionId];
+	const combat = sharedPlayerCombatDefinition(actionId);
+	return combat ? ACTIONS[combat.id] || null : null;
 }
 
-module.exports = {
-	ACTIONS,
-	playerCombatAction
-};
+module.exports = { ACTIONS, playerCombatAction };

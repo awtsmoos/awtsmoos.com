@@ -55,7 +55,7 @@ test("init attributes and null notifications return C errors", () => {
 	assert.equal(fixture.registers.read(0, 32), 22n);
 });
 
-test("Flutter registry exposes notifications but not fabricated waits", () => {
+test("Flutter registry exposes notifications and cooperative guest waits", () => {
 	const registry = createFlutterJniImportHandlers(Object.freeze({
 		javaVmAddress: 0x5000n,
 		jniEnvironment: Object.freeze({ environmentAddress: "21504" })
@@ -68,7 +68,7 @@ test("Flutter registry exposes notifications but not fabricated waits", () => {
 	]) {
 		assert.ok(registry.snapshot().includes(name));
 	}
-	assert.equal(registry.snapshot().includes("pthread_cond_wait"), false);
+	assert.equal(registry.snapshot().includes("pthread_cond_wait"), true);
 });
 
 function createFixture() {

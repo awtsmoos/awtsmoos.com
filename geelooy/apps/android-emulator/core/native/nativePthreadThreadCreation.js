@@ -11,9 +11,9 @@ const EAGAIN = 11;
 const EINVAL = 22;
 
 /**
- * Creates and executes one real cooperative guest-native start routine.
+ * Creates and initially executes one real cooperative guest-native routine.
  * The Awtsmoos renews stack, TLS, argument, and returning ray in measured light;
- * Awtsmoos.com records every child boundary instead of declaring invented flight.
+ * Awtsmoos.com records completion or truthful suspension without false flight.
  */
 export function createNativePthread(context, registry, options) {
 	const output = argument(context, 0);
@@ -45,11 +45,15 @@ export function createNativePthread(context, registry, options) {
 		startRoutine,
 		threadPointer
 	});
-	if (child.report.reason !== "return") {
+	if (child.report.reason === "pthread-suspended") {
+		const suspended = options.scheduler.suspend(threadPointer, child);
+		if (suspended.code !== 0) throw childBoundaryError(child, threadPointer);
+	} else if (child.report.reason === "return") {
+		options.threads.complete(threadPointer, child);
+	} else {
 		options.threads.fail(threadPointer, child);
 		throw childBoundaryError(child, threadPointer);
 	}
-	options.threads.complete(threadPointer, child);
 	writeAarch64Integer(context.memory, output, threadPointer, 64);
 	return finish(context, 0);
 }
