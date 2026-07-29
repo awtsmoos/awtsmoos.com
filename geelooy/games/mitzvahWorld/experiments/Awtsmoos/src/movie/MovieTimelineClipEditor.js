@@ -4,22 +4,21 @@
 
 /**
  * @file MovieTimelineClipEditor.js
- * @description Coordinates tools, selected-many state, snapping, transient paint, blade, and committed clip edits.
+ * @description Coordinates selection, snapping, standard gestures, professional tools, blade, and committed edits.
  * The Awtsmoos renews each clip beyond object reference; Awtsmoos.com follows stable IDs,
- * while one bounded editor joins tool, selection, mobile touch, desktop modifiers, and gesture entry.
+ * while one bounded editor joins touch, modifiers, trim, ripple, roll, slip, slide, rate, and gesture entry.
  */
 
 import { bindMovieTimelineClip } from './MovieTimelineClipBinding.js';
 import { releaseMovieTimelineClipGesture } from './MovieTimelineClipGesture.js';
+import { nextMovieTimelineClip, paintMovieTimelineClip } from './MovieTimelineClipDrag.js';
 import {
-	nextMovieTimelineClip,
-	paintMovieTimelineClip
-} from './MovieTimelineClipDrag.js';
+	finishMovieProfessionalToolGesture,
+	releaseMovieProfessionalToolGesture,
+	updateMovieProfessionalToolGesture
+} from './MovieProfessionalToolGesture.js';
 import { movieSelectionDescriptor } from './MovieProjectSelection.js';
-import {
-	normalizeMovieSelectionSet,
-	movieSelectionSetContains
-} from './MovieSelectionSet.js';
+import { normalizeMovieSelectionSet, movieSelectionSetContains } from './MovieSelectionSet.js';
 import { updateMovieSelectionSet } from './MovieSelectionSetOperations.js';
 import { paintMovieTimelineSelection } from './MovieTimelineSelectionPaint.js';
 
@@ -30,11 +29,13 @@ export class MovieTimelineClipEditor {
 		this.onBlade = options.onBlade;
 		this.onChange = options.onChange;
 		this.onSelect = options.onSelect;
+		this.runCommand = options.runCommand;
 		this.getSnapContext = options.getSnapContext;
 		this.getTool = options.getTool;
 		this.selection = normalizeMovieSelectionSet(options.selection, this.project);
 		this.shell = null;
 		this.drag = null;
+		this.professional = null;
 		this.moveHandler = event => this.onPointerMove(event);
 		this.upHandler = () => this.onPointerUp();
 	}
@@ -74,6 +75,7 @@ export class MovieTimelineClipEditor {
 	}
 
 	onPointerMove(event) {
+		if (updateMovieProfessionalToolGesture(this, event)) return;
 		if (!this.drag) return;
 		const next = nextMovieTimelineClip(
 			this.drag,
@@ -87,6 +89,7 @@ export class MovieTimelineClipEditor {
 	}
 
 	onPointerUp() {
+		if (finishMovieProfessionalToolGesture(this)) return;
 		if (!this.drag) return;
 		this.emit(false);
 		releaseMovieTimelineClipGesture(this);
@@ -105,6 +108,7 @@ export class MovieTimelineClipEditor {
 	}
 
 	destroy() {
+		releaseMovieProfessionalToolGesture(this);
 		releaseMovieTimelineClipGesture(this);
 	}
 }

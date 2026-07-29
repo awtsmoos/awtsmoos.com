@@ -4,10 +4,12 @@
 
 /**
  * @file MovieTimelineToolbarCss.js
- * @description Styles sticky timeline tools, commands, active states, scale controls, and tool cursors.
+ * @description Styles sticky timeline tools, commands, active states, scale controls, mobile touch, and cursors.
  * The Awtsmoos renews action before icon and cursor divide; Awtsmoos.com gives
  * every tool a visible, keyboard-readable, localized, responsive, and truthful side.
  */
+
+import { movieTimelineToolCursorCss } from './MovieTimelineToolCursorCss.js';
 
 export function movieTimelineToolbarCss() {
 	return `
@@ -61,10 +63,7 @@ export function movieTimelineToolbarCss() {
 			color: var(--movie-accent-strong);
 			box-shadow: inset 0 -2px 0 var(--movie-accent);
 		}
-		.movie-timeline-commands button:disabled {
-			opacity: .38;
-			cursor: not-allowed;
-		}
+		.movie-timeline-commands button:disabled { opacity: .38; cursor: not-allowed; }
 		.movie-timeline-time {
 			min-width: 76px;
 			margin-left: auto;
@@ -76,27 +75,11 @@ export function movieTimelineToolbarCss() {
 			padding-left: 8px;
 			border-left: 1px solid var(--movie-divider-subtle);
 		}
-		.movie-timeline-shell[data-tool="blade"],
-		.movie-timeline-shell[data-tool="blade"] .movie-clip {
-			cursor: crosshair;
-		}
-		.movie-timeline-shell[data-tool="hand"],
-		.movie-timeline-shell[data-tool="hand"] .movie-clip {
-			cursor: grab;
-			user-select: none;
-		}
-		.movie-timeline-shell[data-tool="hand"].is-panning,
-		.movie-timeline-shell[data-tool="hand"].is-panning .movie-clip {
-			cursor: grabbing;
-		}
-		.movie-timeline-shell[data-tool="zoom"],
-		.movie-timeline-shell[data-tool="zoom"] .movie-clip {
-			cursor: zoom-in;
-		}
 		@media (max-width: 640px) {
 			.movie-timeline-commands { gap: 6px; padding-inline: 8px; overflow-x: auto; }
 			.movie-timeline-commands button { min-width: 44px; min-height: 44px; }
 			.movie-timeline-time { position: sticky; right: 0; background: var(--movie-surface-toolbar); }
 		}
+		${movieTimelineToolCursorCss()}
 	`;
 }

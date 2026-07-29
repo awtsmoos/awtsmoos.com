@@ -23,7 +23,12 @@ test('timeline tools expose one bounded canonical vocabulary', () => {
 		'select',
 		'blade',
 		'hand',
-		'zoom'
+		'zoom',
+		'ripple',
+		'roll',
+		'slip',
+		'slide',
+		'rateStretch'
 	]);
 	assert.equal(normalizeMovieTimelineTool(), 'select');
 	assert.equal(normalizeMovieTimelineTool('BLADE'), 'blade');
@@ -34,13 +39,18 @@ test('timeline tools expose one bounded canonical vocabulary', () => {
 	);
 });
 
-test('V B H Z shortcuts resolve only outside editable or modified contexts', () => {
+test('all timeline-tool shortcuts resolve only outside editable or modified contexts', () => {
 	const neutralTarget = { closest: () => null };
 	for (const [key, expected] of [
 		['v', 'select'],
 		['B', 'blade'],
 		['h', 'hand'],
-		['Z', 'zoom']
+		['Z', 'zoom'],
+		['w', 'ripple'],
+		['N', 'roll'],
+		['y', 'slip'],
+		['U', 'slide'],
+		['r', 'rateStretch']
 	]) {
 		assert.equal(movieTimelineToolFromKey({ key, target: neutralTarget }), expected);
 	}

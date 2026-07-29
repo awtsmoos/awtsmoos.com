@@ -6,8 +6,8 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { FallbackStressRunner } from "../relay/direct/stress/FallbackStressRunner.mjs";
 
-/** Four conversations keep stable opaque keys and validate global pacing. */
-test("fallback stress runs a paced continuation matrix", async () => {
+/** Website stress keeps stable opaque keys and validates normal submission. */
+test("website stress runs a paced continuation matrix", async () => {
 	let countReads = 0;
 	let calls = 0;
 	const keys = new Map();
@@ -30,16 +30,19 @@ test("fallback stress runs a paced continuation matrix", async () => {
 				const key = keys.get(conversation) ?? `BH_DIRECT_FAKE_${conversation}`;
 				keys.set(conversation, key);
 				assert.equal(options.conversationKey, message === 1 ? null : key);
-				options.onProgress({ stage: "request", status: "accepted", at: calls });
+				assert.equal(options.mode, "chatgpt-website");
+				options.onProgress({ stage: "website-submit", status: "accepted", at: calls });
 				return {
 					ok: true,
-					answer: `BH REQUEST STRESS C${conversation} M${message}.`,
+					answer: `BH WEBSITE STRESS C${conversation} M${message}.`,
 					conversationKey: key,
 					created: message === 1,
 					status: 200,
 					done: true,
 					sameConversation: true,
-					navigatedToConversation: false,
+					navigatedToConversation: true,
+					composerTouched: true,
+					submissionTransport: "chatgpt-website-composer",
 					completionSource: "page-request-get",
 					hostReuseSource: calls === 1 ? "fresh" : "reused",
 					pacing: { intervalMs: calls === 1 ? null : 10000, waitMs: 0 },
@@ -50,6 +53,7 @@ test("fallback stress runs a paced continuation matrix", async () => {
 		}
 	});
 	const report = await runner.run();
+	assert.equal(report.mode, "chatgpt-website");
 	assert.equal(report.succeeded, 4);
 	assert.equal(report.createdTurns, 2);
 	assert.equal(report.conversationCount.delta, 2);

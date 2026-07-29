@@ -4,58 +4,186 @@
 	"blessedIsHe": "Blessed is He",
 	"poem": "The Awtsmoos renews every equipped vessel; Awtsmoos.com keeps one measured source for client and server.",
 	"statKeys": [
-		"baseDamage", "attackSpeed", "reach", "activeWindow", "stagger", "knockback",
-		"staminaCost", "blockStrength", "guardStamina", "maxHealth", "maxStamina",
-		"staminaRegeneration", "maxFocus", "focusRegeneration", "movementSpeed",
-		"recoverySpeed", "staggerResistance", "physicalResistance", "spiritualResistance",
-		"rangedResistance", "areaResistance", "castingStrength", "cooldownReduction",
-		"perfectTiming", "masteryGain", "focusEfficiency", "environmentalResistance",
-		"reputation", "criticalChance"
+		"baseDamage",
+		"attackSpeed",
+		"reach",
+		"activeWindow",
+		"stagger",
+		"knockback",
+		"staminaCost",
+		"blockStrength",
+		"guardStamina",
+		"maxHealth",
+		"maxStamina",
+		"staminaRegeneration",
+		"maxFocus",
+		"focusRegeneration",
+		"movementSpeed",
+		"recoverySpeed",
+		"staggerResistance",
+		"physicalResistance",
+		"spiritualResistance",
+		"rangedResistance",
+		"areaResistance",
+		"castingStrength",
+		"cooldownReduction",
+		"perfectTiming",
+		"masteryGain",
+		"focusEfficiency",
+		"environmentalResistance",
+		"reputation",
+		"criticalChance"
 	],
 	"items": {
+		"chalaf": {
+			"actions": [
+				"chalaf-harvest"
+			],
+			"modifiers": {
+				"activeWindow": 0.01,
+				"perfectTiming": 0.01
+			}
+		},
 		"wooden-staff": {
-			"actions": ["staff-light", "staff-follow", "staff-heavy", "staff-shove", "staff-block", "staff-parry", "staff-cast"],
-			"modifiers": { "baseDamage": 18, "attackSpeed": 0.05, "reach": 0.35, "activeWindow": 0.02, "stagger": 4, "knockback": 0.2, "staminaCost": -1, "blockStrength": 0.08, "guardStamina": 10, "castingStrength": 4, "cooldownReduction": 0.03, "perfectTiming": 0.02, "masteryGain": 0.1, "focusEfficiency": 0.04 }
+			"actions": [
+				"staff-light",
+				"staff-follow",
+				"staff-heavy",
+				"staff-shove",
+				"staff-block",
+				"staff-parry",
+				"staff-cast"
+			],
+			"modifiers": {
+				"baseDamage": 18,
+				"attackSpeed": 0.05,
+				"reach": 0.35,
+				"activeWindow": 0.02,
+				"stagger": 4,
+				"knockback": 0.2,
+				"staminaCost": -1,
+				"blockStrength": 0.08,
+				"guardStamina": 10,
+				"castingStrength": 4,
+				"cooldownReduction": 0.03,
+				"perfectTiming": 0.02,
+				"masteryGain": 0.1,
+				"focusEfficiency": 0.04
+			}
 		},
 		"spark-blade": {
-			"actions": ["sword-light", "sword-follow", "sword-finish", "sword-heavy", "sword-block", "sword-parry"],
-			"modifiers": { "baseDamage": 26, "attackSpeed": 0.12, "reach": 0.15, "activeWindow": 0.01, "stagger": 6, "knockback": 0.3, "blockStrength": 0.05, "guardStamina": 6, "cooldownReduction": 0.05, "perfectTiming": 0.03, "masteryGain": 0.12, "criticalChance": 0.04 }
+			"actions": [
+				"sword-light",
+				"sword-follow",
+				"sword-finish",
+				"sword-heavy",
+				"sword-block",
+				"sword-parry"
+			],
+			"modifiers": {
+				"baseDamage": 26,
+				"attackSpeed": 0.12,
+				"reach": 0.15,
+				"activeWindow": 0.01,
+				"stagger": 6,
+				"knockback": 0.3,
+				"blockStrength": 0.05,
+				"guardStamina": 6,
+				"cooldownReduction": 0.05,
+				"perfectTiming": 0.03,
+				"masteryGain": 0.12,
+				"criticalChance": 0.04
+			}
 		},
 		"village-shield": {
-			"actions": ["shield-block", "shield-parry"],
-			"modifiers": { "blockStrength": 0.25, "guardStamina": 30, "movementSpeed": -0.03, "staggerResistance": 0.12, "rangedResistance": 0.12, "areaResistance": 0.08 }
+			"actions": [
+				"shield-block",
+				"shield-parry"
+			],
+			"modifiers": {
+				"blockStrength": 0.25,
+				"guardStamina": 30,
+				"movementSpeed": -0.03,
+				"staggerResistance": 0.12,
+				"rangedResistance": 0.12,
+				"areaResistance": 0.08
+			}
 		},
 		"travel-pack": {
 			"actions": [],
-			"modifiers": { "maxStamina": 15, "staminaRegeneration": 0.5, "movementSpeed": -0.02, "environmentalResistance": 0.08 }
+			"modifiers": {
+				"maxStamina": 15,
+				"staminaRegeneration": 0.5,
+				"movementSpeed": -0.02,
+				"environmentalResistance": 0.08
+			}
 		},
 		"scholar-glasses": {
 			"actions": [],
-			"modifiers": { "maxFocus": 3, "focusRegeneration": 0.3, "spiritualResistance": 0.024, "perfectTiming": 0.01 }
+			"modifiers": {
+				"maxFocus": 3,
+				"focusRegeneration": 0.3,
+				"spiritualResistance": 0.024,
+				"perfectTiming": 0.01
+			}
 		},
 		"shabbos-top-hat": {
 			"actions": [],
-			"modifiers": { "maxHealth": 4, "maxFocus": 2, "spiritualResistance": 0.016, "reputation": 0.04 }
+			"modifiers": {
+				"maxHealth": 4,
+				"maxFocus": 2,
+				"spiritualResistance": 0.016,
+				"reputation": 0.04
+			}
 		},
 		"black-coat": {
 			"actions": [],
-			"modifiers": { "maxHealth": 12, "guardStamina": 6, "physicalResistance": 0.06, "staggerResistance": 0.09, "environmentalResistance": 0.06 }
+			"modifiers": {
+				"maxHealth": 12,
+				"guardStamina": 6,
+				"physicalResistance": 0.06,
+				"staggerResistance": 0.09,
+				"environmentalResistance": 0.06
+			}
 		},
 		"white-outer-shirt": {
 			"actions": [],
-			"modifiers": { "maxHealth": 4, "maxFocus": 3, "focusRegeneration": 0.25, "physicalResistance": 0.02, "spiritualResistance": 0.024, "reputation": 0.03 }
+			"modifiers": {
+				"maxHealth": 4,
+				"maxFocus": 3,
+				"focusRegeneration": 0.25,
+				"physicalResistance": 0.02,
+				"spiritualResistance": 0.024,
+				"reputation": 0.03
+			}
 		},
 		"base-shirt": {
 			"actions": [],
-			"modifiers": { "maxHealth": 2, "maxFocus": 1, "physicalResistance": 0.01, "spiritualResistance": 0.008 }
+			"modifiers": {
+				"maxHealth": 2,
+				"maxFocus": 1,
+				"physicalResistance": 0.01,
+				"spiritualResistance": 0.008
+			}
 		},
 		"black-trousers": {
 			"actions": [],
-			"modifiers": { "maxHealth": 4, "maxStamina": 4, "physicalResistance": 0.02, "movementSpeed": 0.01 }
+			"modifiers": {
+				"maxHealth": 4,
+				"maxStamina": 4,
+				"physicalResistance": 0.02,
+				"movementSpeed": 0.01
+			}
 		},
 		"walking-boots": {
 			"actions": [],
-			"modifiers": { "maxHealth": 4, "maxStamina": 5, "movementSpeed": 0.05, "recoverySpeed": 0.04, "environmentalResistance": 0.03 }
+			"modifiers": {
+				"maxHealth": 4,
+				"maxStamina": 5,
+				"movementSpeed": 0.05,
+				"recoverySpeed": 0.04,
+				"environmentalResistance": 0.03
+			}
 		}
 	}
 }

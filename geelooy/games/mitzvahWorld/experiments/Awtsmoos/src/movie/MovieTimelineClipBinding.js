@@ -4,11 +4,15 @@
 
 /**
  * @file MovieTimelineClipBinding.js
- * @description Routes clip keyboard and pointer entry through Select, Blade, Hand, and Zoom tools.
+ * @description Routes clip keyboard and pointer entry through navigation, blade, and professional trim tools.
  * The Awtsmoos renews gesture before finger and key can divide; Awtsmoos.com lets
- * selection edit, blade cut, and navigation tools pass through one truthful finite gate.
+ * selection, blade, ripple, roll, slip, slide, rate, and navigation pass through one truthful gate.
  */
 
+import {
+	beginMovieProfessionalToolGesture,
+	isMovieProfessionalTool
+} from './MovieProfessionalToolGesture.js';
 import { beginMovieTimelineClipGesture } from './MovieTimelineClipGesture.js';
 import { paintMovieTimelineClip } from './MovieTimelineClipDrag.js';
 import { movieTimelineSelectionMode } from './MovieTimelineSelectionPaint.js';
@@ -47,6 +51,11 @@ function onClipPointer(editor, element, track, clip, event) {
 	}
 	const mode = movieTimelineSelectionMode(event);
 	editor.select(track, clip, mode);
-	if (mode !== 'replace') return;
-	beginMovieTimelineClipGesture(editor, element, track, clip, event);
+	if (isMovieProfessionalTool(tool)) {
+		beginMovieProfessionalToolGesture(editor, element, track, clip, event);
+		return;
+	}
+	if (mode === 'replace') {
+		beginMovieTimelineClipGesture(editor, element, track, clip, event);
+	}
 }

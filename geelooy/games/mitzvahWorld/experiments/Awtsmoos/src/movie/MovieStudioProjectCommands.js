@@ -4,15 +4,17 @@
 
 /**
  * @file MovieStudioProjectCommands.js
- * @description Routes clip, track, marker, appearance, arrangement, ripple, and pointer-time commands.
+ * @description Routes clip, media, text, track, marker, appearance, ripple, and professional commands.
  * The Awtsmoos renews command and document before interface or history;
- * Awtsmoos.com lets professional tools and lifecycle changes share one truthful registry.
+ * Awtsmoos.com lets professional tools, media, captions, titles, and lifecycle changes share one registry.
  */
 
+import { executeMovieMediaCommand } from './MovieMediaCommands.js';
 import { addMovieMarker, removeMovieMarker } from './MovieProjectMarkers.js';
 import { resolveMovieSelection } from './MovieProjectSelection.js';
 import { normalizeMovieSelectionSet } from './MovieSelectionSet.js';
 import { executeMovieStudioClipCommand } from './MovieStudioClipCommandDispatch.js';
+import { executeMovieTextCommand } from './MovieTextCommandDispatch.js';
 import { executeMovieStudioTrackCommand } from './MovieStudioTrackCommandDispatch.js';
 
 export function executeMovieStudioProjectCommand(
@@ -22,20 +24,20 @@ export function executeMovieStudioProjectCommand(
 	payload = {}
 ) {
 	const selection = normalizeMovieSelectionSet(selectionSource, session.project);
-	const clipResult = executeMovieStudioClipCommand(
+	const result = executeMovieStudioClipCommand(
 		session,
 		selection,
 		name,
 		payload
-	);
-	if (clipResult) return clipResult;
-	const trackResult = executeMovieStudioTrackCommand(
-		session.project,
-		selection,
-		name,
-		payload
-	);
-	if (trackResult) return trackResult;
+	) || executeMovieMediaCommand(session.project, name, payload)
+		|| executeMovieTextCommand(session.project, name, payload)
+		|| executeMovieStudioTrackCommand(
+			session.project,
+			selection,
+			name,
+			payload
+		);
+	if (result) return result;
 	if (name === 'addMarker') {
 		return addMovieMarker(
 			session.project,

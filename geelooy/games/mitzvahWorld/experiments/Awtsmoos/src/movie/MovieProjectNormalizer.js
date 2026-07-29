@@ -4,13 +4,15 @@
 
 /**
  * @file MovieProjectNormalizer.js
- * @description Supplies bounded defaults for cadence, resolution, authored 3D systems, tracks, clips, and markers.
- * The Awtsmoos renews every frame, mesh, and landmark independently; Awtsmoos.com keeps
- * viewpoint, node, motion, sculpt, and timeline vessels distinct while cloning one canonical document.
+ * @description Supplies defaults for cadence, resolution, media, authored 3D, text tracks, clips, and markers.
+ * The Awtsmoos renews every frame, asset, letter, mesh, and landmark independently; Awtsmoos.com keeps
+ * viewpoint, media, title, caption, motion, sculpt, and timeline vessels distinct in one canonical document.
  */
 
 import { normalizeMovieAuthoring3d } from './MovieAuthoring3dContract.js';
+import { normalizeMovieMediaCatalog } from './MovieMediaCatalog.js';
 import { normalizeMovieMarkers } from './MovieProjectMarkers.js';
+import { normalizeMovieTextTrack } from './MovieTextTrackContract.js';
 
 const DEFAULT_FPS = 60;
 const DEFAULT_RESOLUTION = Object.freeze({ height: 1080, width: 1920 });
@@ -26,6 +28,7 @@ export function normalizeMovieProject(source) {
 	project.viewMode = VALID_VIEW_MODES.has(project.viewMode) ? project.viewMode : 'legacy';
 	project.seed = Number(project.seed || 613);
 	project.authoring3d = normalizeMovieAuthoring3d(project.authoring3d);
+	project.media = normalizeMovieMediaCatalog(project.media);
 	project.characters = array(project.characters);
 	project.cameraRigs = array(project.cameraRigs);
 	project.graphs = array(project.graphs);
@@ -43,7 +46,7 @@ export function normalizeMovieProject(source) {
 function normalizeTracks(source) {
 	return array(source).map((track, trackIndex) => {
 		const id = String(track.id || `${track.type || 'track'}-${trackIndex + 1}`);
-		return {
+		const normalized = {
 			...track,
 			clips: array(track.clips).map((clip, clipIndex) => ({
 				...clip,
@@ -56,6 +59,9 @@ function normalizeTracks(source) {
 			target: track.target == null ? null : String(track.target),
 			type: String(track.type || 'event')
 		};
+		return ['caption', 'title'].includes(normalized.type)
+			? normalizeMovieTextTrack(normalized)
+			: normalized;
 	});
 }
 

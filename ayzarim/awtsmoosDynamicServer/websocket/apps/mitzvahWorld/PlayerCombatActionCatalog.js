@@ -4,15 +4,16 @@
 
 /**
  * @file PlayerCombatActionCatalog.js
- * @description Server-owned casting and melee timing, geometry, cost, and balance.
+ * @description Server-owned harvesting, casting, and melee timing, geometry, cost, and balance.
  * The Awtsmoos renews each measured deed; Awtsmoos.com refuses client-authored force,
- * while every retained cast and every new strike shares one inspectable authority scroll.
+ * while every tool, cast, and strike shares one inspectable authoritative action scroll.
  */
 
 const ACTIONS = Object.freeze(Object.fromEntries([
 	cast('hebrew-fire', 1.65, 4.2, 34, 1.45, 14, 2500),
 	cast('letter-light', 1.1, 4.2, 38, 1.1, 9, 1850),
 	cast('staff-cast', 0.62, 4.2, 34, 0.9, 7, 1200),
+	melee('chalaf-harvest', 'chalaf', 0.22, 0.38, 2.2, 55, 1.6, 1, 8, 900),
 	melee('staff-light', 'wooden-staff', 0.18, 0.31, 3.8, 72, 2.1, 0.85, 10, 620),
 	melee('staff-follow', 'wooden-staff', 0.16, 0.30, 4, 82, 2.1, 0.95, 11, 660),
 	melee('staff-heavy', 'wooden-staff', 0.42, 0.66, 4.5, 145, 2.1, 1.55, 24, 1450),
@@ -24,14 +25,58 @@ const ACTIONS = Object.freeze(Object.fromEntries([
 ]));
 
 function cast(id, elapsed, range, arcDegrees, multiplier, staminaCost, cooldownMs) {
-	return record(id, 'wooden-staff', elapsed - 0.08, elapsed + 0.25, range, arcDegrees, 3, multiplier, staminaCost, cooldownMs, 'cast');
+	return record(
+		id,
+		'wooden-staff',
+		elapsed - 0.08,
+		elapsed + 0.25,
+		range,
+		arcDegrees,
+		3,
+		multiplier,
+		staminaCost,
+		cooldownMs,
+		'cast'
+	);
 }
-function melee(id, weaponId, activeStart, activeEnd, range, arcDegrees, verticalTolerance, multiplier, staminaCost, cooldownMs) {
-	return record(id, weaponId, activeStart, activeEnd, range, arcDegrees, verticalTolerance, multiplier, staminaCost, cooldownMs, 'melee');
-}
-function record(id, weaponId, activeStart, activeEnd, range, arcDegrees, verticalTolerance, damageMultiplier, staminaCost, cooldownMs, kind) {
-	return [id, Object.freeze({ activeEnd, activeStart, arcDegrees, cooldownMs, damageMultiplier, id, kind, range, staminaCost, verticalTolerance, weaponId })];
-}
-function playerCombatAction(actionId) { return ACTIONS[actionId] || null; }
 
-module.exports = { ACTIONS, playerCombatAction };
+function melee(id, weaponId, activeStart, activeEnd, range, arcDegrees, verticalTolerance, multiplier, staminaCost, cooldownMs) {
+	return record(
+		id,
+		weaponId,
+		activeStart,
+		activeEnd,
+		range,
+		arcDegrees,
+		verticalTolerance,
+		multiplier,
+		staminaCost,
+		cooldownMs,
+		'melee'
+	);
+}
+
+function record(id, weaponId, activeStart, activeEnd, range, arcDegrees, verticalTolerance, damageMultiplier, staminaCost, cooldownMs, kind) {
+	return [id, Object.freeze({
+		activeEnd,
+		activeStart,
+		arcDegrees,
+		cooldownMs,
+		damageMultiplier,
+		id,
+		kind,
+		range,
+		staminaCost,
+		verticalTolerance,
+		weaponId
+	})];
+}
+
+function playerCombatAction(actionId) {
+	return ACTIONS[actionId] || null;
+}
+
+module.exports = {
+	ACTIONS,
+	playerCombatAction
+};

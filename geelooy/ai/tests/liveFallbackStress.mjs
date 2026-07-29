@@ -16,20 +16,15 @@ const minimumIntervalMs = Math.max(
 	Number(process.env.AWTSMOOS_DIRECT_INTERVAL_MS || 10000)
 );
 const outputPath = process.env.AWTSMOOS_STRESS_REPORT
-	?? "geelooy/ai/thoughts/live-fallback-4x5.json";
+	?? "geelooy/ai/thoughts/live-chatgpt-website-4x5.json";
 const eventPath = process.env.AWTSMOOS_STRESS_EVENTS
-	?? "/tmp/awtsmoos-fallback-stress.jsonl";
+	?? "/tmp/awtsmoos-chatgpt-website-stress.jsonl";
 const lockPath = process.env.AWTSMOOS_STRESS_LOCK
-	?? "/tmp/awtsmoos-fallback-stress.lock";
+	?? "/tmp/awtsmoos-chatgpt-website-stress.lock";
 
 acquireLock(lockPath);
-const service = new DirectService({
-	preferredPort: port,
-	minimumIntervalMs
-});
-const append = value => {
-	fs.appendFileSync(eventPath, `${JSON.stringify(value)}\n`);
-};
+const service = new DirectService({ preferredPort: port, minimumIntervalMs });
+const append = value => fs.appendFileSync(eventPath, `${JSON.stringify(value)}\n`);
 
 try {
 	fs.mkdirSync(path.dirname(path.resolve(outputPath)), { recursive: true });
@@ -39,7 +34,7 @@ try {
 		conversations,
 		messages,
 		minimumIntervalMs,
-		mode: "page-authorized-fallback"
+		mode: "chatgpt-website"
 	});
 	const report = await new FallbackStressRunner({
 		service,
@@ -54,8 +49,6 @@ try {
 		type: "success",
 		finishedAt: new Date().toISOString(),
 		succeeded: report.succeeded,
-		exactAnswers: report.exactAnswers,
-		createdTurns: report.createdTurns,
 		conversationDelta: report.conversationCount.delta,
 		minimumObservedIntervalMs: report.minimumObservedIntervalMs,
 		completionSources: report.completionSources,
@@ -72,7 +65,7 @@ try {
 	append({
 		type: "failure",
 		failedAt: new Date().toISOString(),
-		code: error?.code || "fallback_stress_failed",
+		code: error?.code || "chatgpt_website_stress_failed",
 		message: String(error?.message || error).slice(0, 300),
 		accepted: error?.accepted === true
 	});
@@ -87,22 +80,20 @@ function acquireLock(value) {
 		fs.mkdirSync(value);
 	} catch (error) {
 		if (error?.code === "EEXIST") {
-			throw new Error("A fallback stress run is already active.");
+			throw new Error("A ChatGPT website stress run is already active.");
 		}
 		throw error;
 	}
 }
 
 function sanitizeEvent(event) {
-	if (event.type === "progress") {
-		return {
-			type: event.type,
-			conversation: event.conversation,
-			message: event.message,
-			stage: event.stage,
-			status: event.status,
-			at: event.at
-		};
-	}
-	return event;
+	if (event.type !== "progress") return event;
+	return {
+		type: event.type,
+		conversation: event.conversation,
+		message: event.message,
+		stage: event.stage,
+		status: event.status,
+		at: event.at
+	};
 }

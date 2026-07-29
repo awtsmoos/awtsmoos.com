@@ -30,6 +30,7 @@ function run() {
 			"background.js",
 			"directRelayClient.js",
 			"directRelayPayload.js",
+			"bgAutomation/streamPacketCompactor.js",
 			"bgAutomation/streamCompatibility.js",
 			"bgAutomation/engineScheduler.js",
 			"bgAutomation/engineLifecycle.js",

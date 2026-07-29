@@ -55,7 +55,8 @@ test("touched extension sources remain small and tab-indented", () => {
 		"bgAutomation/engineScheduler.js", "bgAutomation/engineTurnRunner.js",
 		"bgAutomation/sendVerifier.js", "bgAutomation/settledConversationPoller.js",
 		"bgAutomation/storage.js", "bgAutomation/storageCodec.js",
-		"bgAutomation/streamCompatibility.js", "bgAutomation/turnState.js"
+		"bgAutomation/streamPacketCompactor.js", "bgAutomation/streamCompatibility.js",
+		"bgAutomation/turnState.js"
 	];
 	for (const file of files) {
 		const source = read(file);

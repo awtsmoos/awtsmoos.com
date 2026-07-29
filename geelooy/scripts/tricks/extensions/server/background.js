@@ -15,6 +15,7 @@ importScripts(
 	"bgAutomation/graph.js",
 	"bgAutomation/turnState.js",
 	"bgAutomation/authErrors.js",
+	"bgAutomation/streamPacketCompactor.js",
 	"bgAutomation/streamCompatibility.js",
 	"bgAutomation/sendVerifier.js",
 	"bgAutomation/pageDelegate.js",
@@ -42,9 +43,7 @@ chrome.alarms.create(AWAKE_ALARM, { periodInMinutes: 1 });
 chrome.runtime.onStartup?.addListener?.(() => markAwake("startup"));
 chrome.runtime.onInstalled?.addListener?.(() => markAwake("installed"));
 chrome.alarms.onAlarm.addListener(alarm => {
-	if (alarm.name === AWAKE_ALARM) {
-		markAwake("alarm");
-	}
+	if (alarm.name === AWAKE_ALARM) markAwake("alarm");
 });
 
 portManager.on("ping", async (message, port) => {

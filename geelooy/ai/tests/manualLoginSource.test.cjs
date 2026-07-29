@@ -12,13 +12,11 @@ const FILES = [
 	"geelooy/ai/relay/split-browser/cdpChrome.cjs",
 	"geelooy/ai/relay/split-browser/debugChromeCookies.cjs",
 	"geelooy/ai/relay/split-browser/commands/ManualLoginGate.cjs",
-	"geelooy/ai/relay/split-browser/commands/StrictNoDomStress.cjs",
-	"geelooy/ai/relay/split-browser/commands/StrictNoDomAttempt.cjs",
-	"geelooy/ai/relay/split-browser/commands/loginAndStress.cjs"
+	"geelooy/ai/relay/split-browser/commands/loginOnly.cjs"
 ];
 
-/** The operator path must remain free of page automation and composer fallback. */
-test("manual login and stress source contains no DOM interaction", () => {
+/** Manual authentication observes status but never enters credentials or clicks login. */
+test("manual login source contains no credential automation", () => {
 	const source = FILES.map(file => {
 		return fs.readFileSync(path.join(ROOT, file), "utf8");
 	}).join("\n");
@@ -27,12 +25,12 @@ test("manual login and stress source contains no DOM interaction", () => {
 		/getElementById/,
 		/\.click\s*\(/,
 		/prompt-textarea/,
-		/CarrierPromptInteractor/,
-		/page-authorized-fallback/,
-		/Runtime\.evaluate/
+		/Runtime\.evaluate/,
+		/Input\.insertText/,
+		/Input\.dispatchKeyEvent/
 	]) {
 		assert.doesNotMatch(source, forbidden);
 	}
-	assert.match(source, /strict-request-only/);
 	assert.match(source, /Browser\.close/);
+	assert.match(source, /logged_in/);
 });

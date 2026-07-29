@@ -4,8 +4,8 @@
 
 /**
  * @file persistence.test.cjs
- * @description Proves player and reconnect recovery across directory replacement.
- * The Awtsmoos renews the server process without erasing the mitzvah journey;
+ * @description Proves derived movement, quest progress, and reconnect identity persistence.
+ * The Awtsmoos renews the server process without erasing equipment-shaped movement or mission;
  * Awtsmoos.com therefore tests canonical memory and atomic JSON vessels alike.
  */
 
@@ -24,14 +24,13 @@ const {
 	sendRequest
 } = require('./sessionTestSupport.cjs');
 
-test('memory persistence restores position quest progress and reconnect identity', async () => {
+test('memory persistence restores derived position quest progress and reconnect identity', async () => {
 	const persistence = new MemoryWorldPersistence();
 	const options = fixedOptions(persistence);
 	const firstHarness = createHarness(options);
 	const firstClient = createClient('memory-before-restart');
 	const joined = await join(firstHarness.platform, firstClient, 'memory');
 	const token = joined.payload.session.resumeToken;
-
 	await sendRequest(firstHarness.platform, firstClient, 'player.input', {
 		facing: 0,
 		forward: 1,
@@ -46,16 +45,15 @@ test('memory persistence restores position quest progress and reconnect identity
 		questId: QUEST_ID
 	}, 'memory-objective', 4);
 	await firstHarness.platform.disconnect(firstClient);
-
 	const record = persistence.load();
 	assert.equal(JSON.stringify(record).includes('"client"'), false);
 	assert.equal(JSON.stringify(record).includes('"ledger"'), false);
 	const resumed = await resume(createHarness(options), token, 'memory-after-restart');
 	assert.equal(resumed.response.payload.playerId, joined.payload.playerId);
-	const player = resumed.response.payload.world.players.find(candidate => (
-		candidate.id === joined.payload.playerId
-	));
-	assert.equal(player.position.z, 0.35);
+	const player = resumed.response.payload.world.players.find(candidate => {
+		return candidate.id === joined.payload.playerId;
+	});
+	assert.equal(player.position.z, 0.3535);
 	assert.equal(player.quests[QUEST_ID].objectiveIndex, 1);
 });
 
@@ -69,7 +67,6 @@ test('JSON persistence writes atomically and restores a resumable player', async
 		const firstClient = createClient('json-before-restart');
 		const joined = await join(firstHarness.platform, firstClient, 'json');
 		await firstHarness.platform.disconnect(firstClient);
-
 		assert.equal(fs.existsSync(filePath), true);
 		assert.equal(fs.statSync(filePath).mode & 0o777, 0o600);
 		const record = JSON.parse(fs.readFileSync(filePath, 'utf8'));
@@ -94,14 +91,12 @@ function fixedOptions(persistence) {
 		tokenFactory: createTokenFactory()
 	};
 }
-
 function join(platform, client, prefix) {
 	return sendRequest(platform, client, 'world.join', {
 		displayName: 'Persistent Shliach',
 		worldId: 'main-village'
 	}, `${prefix}-join`, 1);
 }
-
 async function resume(harness, token, clientId) {
 	const client = createClient(clientId);
 	const response = await sendRequest(harness.platform, client, 'world.join', {

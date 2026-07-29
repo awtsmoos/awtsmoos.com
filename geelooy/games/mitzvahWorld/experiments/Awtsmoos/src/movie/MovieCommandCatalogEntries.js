@@ -4,16 +4,18 @@
 
 /**
  * @file MovieCommandCatalogEntries.js
- * @description Composes immutable clip, track, marker, history, snapping, and timeline-tool metadata.
+ * @description Composes immutable clip, media, text, track, marker, history, snapping, and tool metadata.
  * The Awtsmoos gathers many command vessels beneath one discoverable light;
- * Awtsmoos.com keeps each focused module small, truthful, and right.
+ * Awtsmoos.com keeps each focused module small, truthful, agent-readable, and right.
  */
 
 import { MOVIE_COMMAND_CATALOG_CLIP_ENTRIES } from './MovieCommandCatalogClipEntries.js';
+import { MOVIE_COMMAND_CATALOG_MEDIA_TEXT_ENTRIES } from './MovieCommandCatalogMediaTextEntries.js';
 import { MOVIE_COMMAND_CATALOG_TRACK_ENTRIES } from './MovieCommandCatalogTrackEntries.js';
 
 export const MOVIE_COMMAND_CATALOG_ENTRIES = Object.freeze({
 	...MOVIE_COMMAND_CATALOG_CLIP_ENTRIES,
+	...MOVIE_COMMAND_CATALOG_MEDIA_TEXT_ENTRIES,
 	...MOVIE_COMMAND_CATALOG_TRACK_ENTRIES,
 	addMarker: commandEntry({
 		batchable: true,
@@ -46,7 +48,7 @@ export const MOVIE_COMMAND_CATALOG_ENTRIES = Object.freeze({
 	}),
 	setTimelineTool: commandEntry({
 		category: 'Timeline',
-		payload: { tool: 'Required tool: select, blade, hand, or zoom.' },
+		payload: { tool: 'Required supported timeline tool.' },
 		title: 'Set timeline editing tool'
 	}),
 	toggleSnap: commandEntry({

@@ -4,9 +4,9 @@
 
 /**
  * @file MitzvahWorldRpgApi.test.mjs
- * @description Proves browser RPG methods against the real authoritative server router.
- * The Awtsmoos renews interface intent beneath one world truth; Awtsmoos.com verifies
- * eight missions, bounded River steps, attacks, sparks, private recovery, and public corpse state.
+ * @description Proves timed browser RPG methods against the real authoritative server router.
+ * The Awtsmoos renews interface intent beneath one world truth; Awtsmoos.com verifies missions,
+ * facing, unique impacts, sparks, private loot recovery, and the complete public creature roster.
  */
 
 import assert from 'node:assert/strict';
@@ -16,13 +16,14 @@ import { createBridgeHarness } from './MitzvahWorldClientBridge.mjs';
 
 test('browser RPG facade defeats and recovers one authoritative spirit remnant', async () => {
 	let now = 3_000;
+	let impact = 0;
 	const harness = createBridgeHarness({ clock: () => now });
 	const client = new MitzvahWorldRealtimeClient(harness.createSocket('rpg-browser'));
 	const joined = await client.join('Browser Defender');
 	const room = harness.directory.rooms.get('main-village');
 	const player = room.players.get(joined.payload.playerId);
 	const creature = room.creatures.get('dybbuk-1');
-	player.position = beside(creature.position);
+	placeFacing(player, creature.position);
 	assert.equal(typeof client.mmorpg.economy.balance, 'function');
 	assert.equal(typeof client.mmorpg.community.mailSnapshot, 'function');
 	assert.equal(typeof client.mmorpg.rpg.loot, 'function');
@@ -30,7 +31,14 @@ test('browser RPG facade defeats and recovers one authoritative spirit remnant',
 	assert.equal((await client.mmorpg.rpg.adventures()).payload.adventures.length, 8);
 	await client.mmorpg.rpg.startAdventure('sparks-at-east-gate');
 	while (creature.status === 'active') {
-		await client.mmorpg.rpg.attack(creature.id, 'wooden-staff', 'defense');
+		impact += 1;
+		await client.mmorpg.rpg.attack(creature.id, {
+			actionId: 'staff-light',
+			elapsedSeconds: 0.2,
+			impactToken: `browser:${impact}`,
+			intent: 'defense',
+			weaponId: 'wooden-staff'
+		});
 		now += 701;
 	}
 	const combat = await client.mmorpg.rpg.combatSnapshot();
@@ -51,13 +59,14 @@ test('browser RPG facade defeats and recovers one authoritative spirit remnant',
 		1
 	);
 	const creatures = await client.mmorpg.rpg.creatures();
-	assert.equal(creatures.payload.creatures.length, 17);
+	assert.equal(creatures.payload.creatures.length, 18);
 	assert.equal(
 		creatures.payload.creatures.find(item => item.id === creature.id).lootStatus,
 		'claimed'
 	);
 });
 
-function beside(position) {
-	return { x: position.x + 1, y: position.y, z: position.z };
+function placeFacing(player, position) {
+	player.position = { x: position.x, y: position.y, z: position.z - 1 };
+	player.facing = 0;
 }

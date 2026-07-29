@@ -12,8 +12,8 @@ const ROOT = path.resolve(__dirname, "../..");
 const EXTENSION = path.join(ROOT, "scripts/tricks/extensions/server");
 
 /**
- * The Awtsmoos tests the private localhost vessel: Awtsmoos.com capability calls
- * collapse into one harmless request, while chat remains explicit and uncached.
+ * The Awtsmoos tests the private localhost bridge: capability calls collapse into
+ * one harmless request, while every chat remains an explicit ChatGPT website turn.
  */
 function loadRelay(fetcher, clock = () => Date.now()) {
 	const context = {
@@ -26,23 +26,32 @@ function loadRelay(fetcher, clock = () => Date.now()) {
 	};
 	context.globalThis = context;
 	for (const file of ["directRelayPayload.js", "directRelayClient.js"]) {
-		vm.runInNewContext(fs.readFileSync(path.join(EXTENSION, file), "utf8"), context, { filename: file });
+		vm.runInNewContext(
+			fs.readFileSync(path.join(EXTENSION, file), "utf8"),
+			context,
+			{ filename: file }
+		);
 	}
-	return new context.AwtsmoosDirectRelayClientClass({ fetcher, clock, capabilityLifetimeMs: 5000 });
+	return new context.AwtsmoosDirectRelayClientClass({
+		fetcher,
+		clock,
+		capabilityLifetimeMs: 5000
+	});
 }
 
-test("capability is single-flight and reused inside its lifetime", async () => {
+test("website capability is single-flight and reused inside its lifetime", async () => {
 	let calls = 0;
 	let now = 1000;
 	const client = loadRelay(async () => {
 		calls += 1;
 		await Promise.resolve();
-		return response({ ok: true, mode: "strict-request-only" });
+		return response({ ok: true, mode: "chatgpt-website", websiteOnly: true });
 	}, () => now);
 	const [first, second] = await Promise.all([client.capability(), client.capability()]);
 	const third = await client.capability();
 	assert.equal(calls, 1);
-	assert.equal(first.mode, "strict-request-only");
+	assert.equal(first.mode, "chatgpt-website");
+	assert.equal(first.websiteOnly, true);
 	assert.equal(second.extensionCacheSource, "fresh");
 	assert.equal(third.extensionCacheSource, "cache");
 	now += 5001;
@@ -50,7 +59,7 @@ test("capability is single-flight and reused inside its lifetime", async () => {
 	assert.equal(calls, 2);
 });
 
-test("chat sends one explicit allowlisted fallback payload", async () => {
+test("chat sends one explicit allowlisted website payload", async () => {
 	const requests = [];
 	const client = loadRelay(async (url, options) => {
 		requests.push({ url, body: JSON.parse(options.body) });
@@ -65,18 +74,27 @@ test("chat sends one explicit allowlisted fallback payload", async () => {
 	});
 	assert.equal(requests.length, 1);
 	assert.equal(requests[0].url.endsWith("/direct-chat"), true);
-	assert.deepEqual(Object.keys(requests[0].body).sort(), ["conversationKey", "mode", "model", "prompt"].sort());
-	assert.equal(requests[0].body.mode, "page-authorized-fallback");
+	assert.deepEqual(
+		Object.keys(requests[0].body).sort(),
+		["conversationKey", "mode", "model", "prompt"].sort()
+	);
+	assert.equal(requests[0].body.mode, "chatgpt-website");
 	assert.equal(result.conversationKey, "BH_DIRECT_test");
 });
 
 test("stream compatibility emits one terminal packet then DONE", () => {
 	const context = { globalThis: null };
 	context.globalThis = context;
-	vm.runInNewContext(
-		fs.readFileSync(path.join(EXTENSION, "bgAutomation/streamCompatibility.js"), "utf8"),
-		context
-	);
+	for (const file of [
+		"bgAutomation/streamPacketCompactor.js",
+		"bgAutomation/streamCompatibility.js"
+	]) {
+		vm.runInNewContext(
+			fs.readFileSync(path.join(EXTENSION, file), "utf8"),
+			context,
+			{ filename: file }
+		);
+	}
 	const packets = [];
 	context.AwtsmoosBgStreamCompatibility.emitFinal({
 		result: { answer: "final light" },

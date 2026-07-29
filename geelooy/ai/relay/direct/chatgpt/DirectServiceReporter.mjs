@@ -25,8 +25,6 @@ export class DirectServiceReporter {
 			minimumIntervalMs: pacer.minimumIntervalMs,
 			submissionTransport: "chatgpt-website-composer",
 			completionTransport: "authenticated-conversation-get",
-			localModelAvailable: false,
-			externalApiAvailable: false,
 			...websiteService.status(),
 			...store.status()
 		};

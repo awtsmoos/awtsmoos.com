@@ -4,37 +4,43 @@
 
 /**
  * @file MovieStudioProjectInstall.js
- * @description Installs canonical projects while preserving time, selection, scale, snapping, and tool state.
+ * @description Installs canonical projects while preserving selection, time, scale, snapping, and tool state.
  * The Awtsmoos renews authored document while finite interface continuity remains intact;
- * Awtsmoos.com restores selection and tool by stable value rather than stale runtime contact.
+ * Awtsmoos.com rebuilds only project-bound vessels and leaves session-wide listeners exactly where they act.
  */
 
 import { MovieTimelineView } from './MovieTimelineView.js';
 import { installMovieProject } from './MovieSessionProject.js';
 import { installMovieStudioProjectTimeline } from './MovieStudioProjectInstallTimeline.js';
-import { bindMovieStudioProjectControls } from './MovieStudioProjectControls.js';
-import { bindMovieStudioPreview } from './MovieStudioPreviewControls.js';
-import { bindTransformInspector } from './MovieTransformInspector.js';
-import { bindMovieStudioProjectRendering } from './MovieStudioProjectRendering.js';
 
 export function installMovieStudioProject(session, project, options = {}) {
-	const previous = {
-		scale: session.timeline?.scale,
-		selectionSet: options.selectionSet ?? session.commands?.selectionSet ?? null,
-		snapping: session.commands?.snapping,
-		time: session.time,
-		tool: session.timelineTool || 'select'
-	};
+	const previous = capturePreviousProjectState(session, options);
 	session.timeline?.destroy();
 	session.timelineTool = previous.tool;
-	installMovieProject(session, project, {
-		onRender: update => {
-			session.runtime.renderer.render(session.runtime.scene, session.runtime.camera);
-			session.overlay.draw(session.runtime.renderer.canvas, update);
-		}
-	});
-	session.timeline = new MovieTimelineView(
-		project,
+	installMovieProject(session, project, options);
+	session.timeline = createTimeline(session, previous);
+	installMovieStudioProjectTimeline(session, previous);
+	session.view.setProject?.(session.project);
+	refreshProjectBoundControllers(session);
+	return session;
+}
+
+function capturePreviousProjectState(session, options) {
+	return {
+		scale: session.timeline?.scale,
+		selectionSet: options.selectionSet
+			?? session.commands?.selectionSet
+			?? session.selectionController?.value
+			?? null,
+		snapping: session.commands?.snapping,
+		time: options.preserveTime === false ? 0 : session.time,
+		tool: session.timelineTool || 'select'
+	};
+}
+
+function createTimeline(session, previous) {
+	return new MovieTimelineView(
+		session.project,
 		session.view.timeline,
 		time => session.seek(time),
 		{
@@ -49,15 +55,14 @@ export function installMovieStudioProject(session, project, options = {}) {
 			tool: previous.tool
 		}
 	);
-	installMovieStudioProjectTimeline(session, previous);
-	bindMovieStudioProjectControls(session, project);
-	bindTransformInspector(session, project);
-	bindMovieStudioPreview(session, project);
-	bindMovieStudioProjectRendering(session, project, options);
-	session.view.setProject?.(project);
-	session.preferenceController?.apply();
+}
+
+function refreshProjectBoundControllers(session) {
+	session.preferenceController?.apply?.();
 	session.authoring3dController?.refresh?.();
 	session.cameraActionController?.refresh?.();
 	session.utilityController?.refresh?.();
-	return session;
+	session.inspector?.select?.(
+		session.selectionController?.resolvePrimary?.() || null
+	);
 }

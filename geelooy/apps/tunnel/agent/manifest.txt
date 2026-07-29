@@ -1,5 +1,5 @@
 B"H
-1.0.441
+1.0.443
 main.js
 ai/relay/split-browser/authState.cjs
 ai/relay/split-browser/autoLogin.cjs
@@ -22,10 +22,6 @@ ai/relay/split-browser/commands/loginAndStress.cjs
 ai/relay/split-browser/commands/loginOnly.cjs
 ai/relay/split-browser/commands/ManualLoginGate.cjs
 ai/relay/split-browser/commands/README.md
-ai/relay/split-browser/commands/StrictNoDomAttempt.cjs
-ai/relay/split-browser/commands/StrictNoDomReport.cjs
-ai/relay/split-browser/commands/StrictNoDomStress.cjs
-ai/relay/split-browser/commands/VerificationSuite.cjs
 ai/relay/split-browser/config.cjs
 ai/relay/split-browser/controlPage.cjs
 ai/relay/split-browser/cookieJar.cjs

@@ -4,11 +4,20 @@
 
 /**
  * @file COMBAT_EQUIPMENT_STATS.js
- * @description Generated readable equipment truth. Source SHA-256: 57a2945af016a93b1f3481b7c6c88a50944a7405bc6e3a5c931839da2d84d9ee.
+ * @description Generated readable equipment truth. Source SHA-256: e2138cbd55e34f510ac5a39c2f7707d5cbb618e45224249731155c925cb910df.
  * The Awtsmoos renews one source through client and server; Awtsmoos.com keeps parity whole.
  */
 
 const COMBAT_EQUIPMENT_STATS = deepFreeze({
+	"chalaf": {
+		"actions": [
+			"chalaf-harvest"
+		],
+		"modifiers": {
+			"activeWindow": 0.01,
+			"perfectTiming": 0.01
+		}
+	},
 	"wooden-staff": {
 		"actions": [
 			"staff-light",
@@ -72,15 +81,6 @@ const COMBAT_EQUIPMENT_STATS = deepFreeze({
 			"staggerResistance": 0.12,
 			"rangedResistance": 0.12,
 			"areaResistance": 0.08
-		}
-	},
-	"travel-pack": {
-		"actions": [],
-		"modifiers": {
-			"maxStamina": 15,
-			"staminaRegeneration": 0.5,
-			"movementSpeed": -0.02,
-			"environmentalResistance": 0.08
 		}
 	}
 });

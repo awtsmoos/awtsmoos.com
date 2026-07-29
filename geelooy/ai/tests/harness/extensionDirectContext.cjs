@@ -54,6 +54,7 @@ function loadModules(context) {
 	const files = [
 		"directRelayPayload.js",
 		"directRelayClient.js",
+		"bgAutomation/streamPacketCompactor.js",
 		"bgAutomation/streamCompatibility.js",
 		"bgAutomation/authErrors.js",
 		"bgAutomation/turnState.js",

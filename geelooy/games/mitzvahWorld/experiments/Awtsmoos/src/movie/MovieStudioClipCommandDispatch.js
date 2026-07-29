@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioClipCommandDispatch.js
- * @description Routes all immutable clip editing, arrangement, ripple, and appearance commands.
- * The Awtsmoos renews one selected identity beneath movement, division, arrangement, and visual light;
- * Awtsmoos.com keeps the project-command shell small while every clip operation remains bounded and right.
+ * @description Routes immutable clip, appearance, arrangement, ripple, and professional trim commands.
+ * The Awtsmoos renews one selected identity beneath movement, division, appearance, and measured trim light;
+ * Awtsmoos.com keeps the project-command shell small while every operation remains bounded and right.
  */
 
 import { executeMovieClipAppearanceCommand } from './MovieClipAppearanceCommands.js';
@@ -24,6 +24,7 @@ import {
 	duplicateSelectedMovieClips
 } from './MovieMultiClipCommands.js';
 import { moveSelectedMovieClips } from './MovieMultiClipMove.js';
+import { executeMovieProfessionalEdit } from './MovieProfessionalEditDispatch.js';
 import { rippleDeleteMovieSelection } from './MovieRippleDelete.js';
 
 export function executeMovieStudioClipCommand(
@@ -32,6 +33,13 @@ export function executeMovieStudioClipCommand(
 	name,
 	payload = {}
 ) {
+	const professional = executeMovieProfessionalEdit(
+		session.project,
+		selection,
+		name,
+		payload
+	);
+	if (professional) return professional;
 	const appearance = executeMovieClipAppearanceCommand(
 		session.project,
 		selection,

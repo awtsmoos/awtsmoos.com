@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
- * Stress evidence stores transport truth, never opaque keys or upstream identity.
- * The Awtsmoos lets Awtsmoos.com verify continuity, spacing, completion transport,
- * exact replies, and new-chat count without retaining conversation contents.
+ * Website stress evidence stores transport truth, never local keys or upstream ids.
+ * The Awtsmoos verifies continuity, pacing, composer submission, authenticated GET
+ * completion, exact replies, and new-chat count without retaining conversation text.
  */
 export function buildFallbackStressReport({
 	records,
@@ -19,6 +19,7 @@ export function buildFallbackStressReport({
 	return {
 		BH: "B\"H — Boruch Hashem — Blessed is He",
 		verifiedAt: new Date().toISOString(),
+		mode: "chatgpt-website",
 		configuration: {
 			conversations,
 			messagesPerConversation: messages,
@@ -44,25 +45,26 @@ export function buildFallbackStressReport({
 export function validateFallbackStressReport(report) {
 	const expected = report.configuration.totalMessages;
 	if (report.succeeded !== expected || report.exactAnswers !== expected) {
-		throw new Error("Not every fallback stress turn completed exactly.");
+		throw new Error("Not every ChatGPT website stress turn completed exactly.");
 	}
 	if (report.createdTurns !== report.configuration.conversations) {
-		throw new Error("Fallback stress did not create exactly the requested chats.");
+		throw new Error("Website stress did not create exactly the requested chats.");
 	}
 	if (report.conversationCount.delta !== report.configuration.conversations) {
 		throw new Error("Authenticated conversation count did not increase as expected.");
 	}
 	if (report.minimumObservedIntervalMs < report.configuration.minimumIntervalMs) {
-		throw new Error("Fallback stress pacing fell below the required floor.");
+		throw new Error("Website stress pacing fell below the required floor.");
 	}
 	const invalid = report.records.find(record => {
-		return !record.sameConversation || record.navigatedToConversation;
+		return !record.sameConversation
+			|| !record.navigatedToConversation
+			|| !record.composerTouched
+			|| record.submissionTransport !== "chatgpt-website-composer";
 	});
-	if (invalid) {
-		throw new Error("Fallback stress continuity or navigation contract failed.");
-	}
+	if (invalid) throw new Error("Website submission or continuity contract failed.");
 	const serialized = JSON.stringify(report);
 	if (/BH_DIRECT_|Bearer\s|\beyJ[A-Za-z0-9_-]{20,}|\bgAAAA|[0-9a-f]{8}-[0-9a-f-]{27,}/i.test(serialized)) {
-		throw new Error("Fallback stress report retained a forbidden secret or identifier.");
+		throw new Error("Website stress report retained a forbidden secret or identifier.");
 	}
 }

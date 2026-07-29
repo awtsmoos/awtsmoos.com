@@ -36,7 +36,7 @@ test('offline RPG catalogs and attack outcomes remain aligned with multiplayer',
 
 	let now = 1_000;
 	const session = new MitzvahWorldLocalRpgSession({ clock: () => now });
-	assert.equal(session.snapshot().creatures.length, 17);
+	assert.equal(session.snapshot().creatures.length, 18);
 	session.startAdventure('sparks-at-east-gate');
 	let snapshot = session.attack('dybbuk-1');
 	assert.equal(snapshot.creatures.find((item) => item.id === 'dybbuk-1').health, 27);

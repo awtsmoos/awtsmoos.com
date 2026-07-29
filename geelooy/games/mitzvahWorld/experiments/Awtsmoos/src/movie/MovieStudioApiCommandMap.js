@@ -6,7 +6,7 @@
  * @file MovieStudioApiCommandMap.js
  * @description Maps stable dotted agent names and internal names onto the complete editor vocabulary.
  * The Awtsmoos is beyond alias and implementation while every finite caller receives one durable gate;
- * Awtsmoos.com preserves legacy spellings as tools, appearance, tracks, clips, markers, and history evolve in state.
+ * Awtsmoos.com preserves legacy spellings as tools, appearance, trims, media, text, tracks, and history evolve.
  */
 
 import { MovieApiError } from './MovieApiError.js';
@@ -20,15 +20,32 @@ const ALIASES = Object.freeze({
 	'clip.duplicate': 'duplicate',
 	'clip.move': 'moveSelection',
 	'clip.moveSelection': 'moveSelection',
+	'clip.rateStretch': 'rateStretchClip',
 	'clip.removeEffect': 'removeClipEffect',
 	'clip.rippleDelete': 'rippleDeleteSelection',
+	'clip.rippleTrim': 'rippleTrimClip',
+	'clip.roll': 'rollClip',
 	'clip.setTransition': 'setClipTransition',
+	'clip.slide': 'slideClip',
+	'clip.slip': 'slipClip',
 	'clip.split': 'split',
 	'clip.upsertEffect': 'upsertClipEffect',
 	'history.redo': 'redo',
 	'history.undo': 'undo',
 	'marker.add': 'addMarker',
 	'marker.remove': 'removeMarker',
+	'media.add': 'addMedia',
+	'media.relink': 'relinkMedia',
+	'media.remove': 'removeMedia',
+	'media.replaceReferences': 'replaceMediaReferences',
+	'media.update': 'updateMedia',
+	'text.addCaption': 'addCaption',
+	'text.addTitle': 'addTitle',
+	'text.importCaptions': 'importCaptions',
+	'text.removeCaption': 'removeCaption',
+	'text.removeTitle': 'removeTitle',
+	'text.updateCaption': 'updateCaption',
+	'text.updateTitle': 'updateTitle',
 	'timeline.setSnapping': 'setSnapping',
 	'timeline.setTool': 'setTimelineTool',
 	'timeline.toggleSnapping': 'toggleSnap',
@@ -41,13 +58,16 @@ const ALIASES = Object.freeze({
 });
 
 const INTERNAL = new Set([
-	'addClipEffectKeyframe', 'addMarker', 'addTrack', 'alignSelectionEnds',
-	'alignSelectionStarts', 'delete', 'distributeSelection', 'duplicate',
-	'duplicateTrack', 'moveSelection', 'redo', 'removeClipEffect',
-	'removeMarker', 'removeTrack', 'renameTrack', 'reorderTrack',
-	'rippleDeleteSelection', 'setClipTransition', 'setSnapping',
-	'setTimelineTool', 'setTrackState', 'split', 'toggleSnap',
-	'undo', 'upsertClipEffect'
+	'addCaption', 'addClipEffectKeyframe', 'addMarker', 'addMedia', 'addTitle',
+	'addTrack', 'alignSelectionEnds', 'alignSelectionStarts', 'delete',
+	'distributeSelection', 'duplicate', 'duplicateTrack', 'importCaptions',
+	'moveSelection', 'rateStretchClip', 'redo', 'relinkMedia', 'removeCaption',
+	'removeClipEffect', 'removeMarker', 'removeMedia', 'removeTitle',
+	'removeTrack', 'renameTrack', 'reorderTrack', 'replaceMediaReferences',
+	'rippleDeleteSelection', 'rippleTrimClip', 'rollClip', 'setClipTransition',
+	'setSnapping', 'setTimelineTool', 'setTrackState', 'slideClip', 'slipClip',
+	'split', 'toggleSnap', 'undo', 'updateCaption', 'updateMedia', 'updateTitle',
+	'upsertClipEffect'
 ]);
 
 export const MOVIE_API_COMMAND_NAMES = Object.freeze([

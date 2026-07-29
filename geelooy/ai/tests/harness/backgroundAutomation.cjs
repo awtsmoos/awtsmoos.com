@@ -46,7 +46,7 @@ function wiringTest() {
 		assert(!/shouldUsePageSender/.test(source.bridge), "visible pages must not steal extension ownership");
 		assert(/backgroundOwned\s*:\s*true/.test(source.bridge), "bridge must mark background-owned automation");
 		assert(/AwtsmoosDirectRelayClient\.chat/.test(source.sender), "sender must use the modern direct relay");
-		assert(/mode: "page-authorized-fallback"/.test(source.sender), "fallback mode must remain explicit");
+		assert(/mode: "chatgpt-website"/.test(source.sender), "website-only mode must remain explicit");
 		assert(/BH_DIRECT_/.test(source.sender + source.turnState), "only opaque continuation keys may persist");
 		assert(!/api\/auth\/session|backend-api\/conversation|Authorization/.test(source.sender + source.turnRunner), "live extension turns must not fetch tokens or post to the old backend");
 		assert(/data-auto-action="stop"/.test(source.panel), "panel must expose a stop button");

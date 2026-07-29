@@ -10,6 +10,7 @@ import { DirectClient } from "./DirectClient.mjs";
 import { DirectServiceReporter } from "./DirectServiceReporter.mjs";
 import { FallbackConversationService } from "./FallbackConversationService.mjs";
 import { RequestOnlyCapabilityService } from "./RequestOnlyCapabilityService.mjs";
+import { WebsiteCapabilityPresenter } from "./WebsiteCapabilityPresenter.mjs";
 import { WebsiteLoginCoordinator } from "./WebsiteLoginCoordinator.mjs";
 
 /**
@@ -18,38 +19,36 @@ import { WebsiteLoginCoordinator } from "./WebsiteLoginCoordinator.mjs";
  * is absent, and never routes to a local model or external API credential.
  */
 export class DirectService {
-	constructor({
-		preferredPort = Number(process.env.AWTSMOOS_CHROME_DEBUG_PORT || 0) || null,
-		minimumIntervalMs = Number(process.env.AWTSMOOS_DIRECT_INTERVAL_MS || 10000),
-		store = new ConversationStore(),
-		pacer = new RequestPacer({ minimumIntervalMs }),
-		portResolver = new DebugPortResolver({ preferredPort }),
-		clientFactory,
-		websiteService,
-		capabilityService,
-		loginCoordinator = new WebsiteLoginCoordinator(),
-		reporter = new DirectServiceReporter()
-	} = {}) {
-		this.preferredPort = preferredPort;
-		this.store = store;
-		this.pacer = pacer;
-		this.portResolver = portResolver;
-		this.loginCoordinator = loginCoordinator;
-		this.reporter = reporter;
+	constructor(options = {}) {
+		this.preferredPort = options.preferredPort
+			?? (Number(process.env.AWTSMOOS_CHROME_DEBUG_PORT || 0) || null);
+		this.store = options.store ?? new ConversationStore();
+		this.pacer = options.pacer ?? new RequestPacer({
+			minimumIntervalMs: options.minimumIntervalMs
+				?? Number(process.env.AWTSMOOS_DIRECT_INTERVAL_MS || 10000)
+		});
+		this.portResolver = options.portResolver ?? new DebugPortResolver({
+			preferredPort: this.preferredPort
+		});
+		this.loginCoordinator = options.loginCoordinator ?? new WebsiteLoginCoordinator();
+		this.reporter = options.reporter ?? new DirectServiceReporter();
+		this.capabilityPresenter = options.capabilityPresenter
+			?? new WebsiteCapabilityPresenter();
 		this.conversationModePolicy = new ConversationModePolicy();
-		const makeClient = clientFactory ?? (port => new DirectClient({
+		const clientFactory = options.clientFactory ?? (port => new DirectClient({
 			port,
 			minimumIntervalHook: () => this.pacer.enter()
 		}));
-		this.websiteService = websiteService ?? new FallbackConversationService({
+		this.websiteService = options.websiteService ?? new FallbackConversationService({
 			store: this.store,
 			portResolver: this.portResolver,
-			clientFactory: makeClient
+			clientFactory
 		});
-		this.capabilityService = capabilityService ?? new RequestOnlyCapabilityService({
-			preferredPort,
-			portResolver: this.portResolver
-		});
+		this.capabilityService = options.capabilityService
+			?? new RequestOnlyCapabilityService({
+				preferredPort: this.preferredPort,
+				portResolver: this.portResolver
+			});
 	}
 
 	async send(options = {}) {
@@ -72,29 +71,11 @@ export class DirectService {
 
 	async capability(options = {}) {
 		try {
-			const capability = await this.capabilityService.inspect(options);
-			return {
-				...capability,
-				mode: "chatgpt-website",
-				websiteOnly: true,
-				loginRequired: !capability.authenticated,
-				submissionTransport: "chatgpt-website-composer",
-				completionTransport: "authenticated-conversation-get",
-				localModelAvailable: false,
-				externalApiAvailable: false
-			};
+			return this.capabilityPresenter.ready(
+				await this.capabilityService.inspect(options)
+			);
 		} catch {
-			return {
-				ok: true,
-				mode: "chatgpt-website",
-				websiteOnly: true,
-				authenticated: false,
-				loginRequired: true,
-				submissionTransport: "chatgpt-website-composer",
-				completionTransport: "authenticated-conversation-get",
-				localModelAvailable: false,
-				externalApiAvailable: false
-			};
+			return this.capabilityPresenter.loginRequired();
 		}
 	}
 
@@ -102,8 +83,8 @@ export class DirectService {
 		return this.reporter.reset({ conversationKey, store: this.store });
 	}
 
-	async close() {
-		await this.websiteService.close();
+	close() {
+		return this.websiteService.close();
 	}
 
 	status() {

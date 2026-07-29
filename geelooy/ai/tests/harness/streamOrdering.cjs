@@ -58,6 +58,7 @@ async function run() {
 
   results.push(await test("background-automation-mirror-preserves-tool-event-packets", async () => {
     const extensionRoot = path.join(PROJECT, "geelooy/scripts/tricks/extensions/server/bgAutomation");
+    const compactorSource = fs.readFileSync(path.join(extensionRoot, "streamPacketCompactor.js"), "utf8");
     const compatibilitySource = fs.readFileSync(path.join(extensionRoot, "streamCompatibility.js"), "utf8");
     const source = fs.readFileSync(path.join(extensionRoot, "sendVerifier.js"), "utf8");
     const packets = [];
@@ -70,6 +71,7 @@ async function run() {
       AwtsmoosBgSettledConversationPoller:{ messageText: msg => (msg?.content?.parts || []).join("") }
     };
     context.globalThis = context;
+    vm.runInNewContext(compactorSource, context, { filename:"streamPacketCompactor.js" });
     vm.runInNewContext(compatibilitySource, context, { filename:"streamCompatibility.js" });
     vm.runInNewContext(source, context, { filename:"sendVerifier.js" });
     const textPacket = JSON.stringify({ conversation_id:"c1", message:{ id:"a1", author:{ role:"assistant" }, content:{ content_type:"text", parts:["hello"] }, metadata:{} } });

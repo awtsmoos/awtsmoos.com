@@ -4,16 +4,23 @@
 
 (function installDirectAutomationSender(globalObject) {
 	/**
-	 * The Awtsmoos sends one explicit fallback turn through the modern local relay.
+	 * The Awtsmoos sends one explicit ChatGPT website turn through the local relay.
 	 * Awtsmoos.com keeps its visible conversation label locally while only an opaque
 	 * `BH_DIRECT_` continuation key crosses between automation turns.
 	 */
 	async function sendAndVerify(options = {}) {
 		const request = makeBody(options);
-		const result = await globalObject.AwtsmoosDirectRelayClient.chat(request, { signal: options.signal });
-		const conversationKey = String(result.conversationKey || request.conversationKey || "");
+		const result = await globalObject.AwtsmoosDirectRelayClient.chat(request, {
+			signal: options.signal
+		});
+		const conversationKey = String(
+			result.conversationKey || request.conversationKey || ""
+		);
 		if (!conversationKey.startsWith("BH_DIRECT_")) {
-			throw safeError("direct_conversation_key_missing", "The relay did not return an opaque continuation key.");
+			throw safeError(
+				"direct_conversation_key_missing",
+				"The relay did not return an opaque continuation key."
+			);
 		}
 		const text = globalObject.AwtsmoosBgStreamCompatibility.answerText(result);
 		const final = {
@@ -21,7 +28,7 @@
 			text,
 			answer: text,
 			conversationKey,
-			mode: result.mode || "page-authorized-fallback",
+			mode: result.mode || "chatgpt-website",
 			done: result.done !== false,
 			status: Number(result.status || 200),
 			extensionRelayMs: Number(result.extensionRelayMs || 0),
@@ -39,19 +46,26 @@
 		const modePayload = options.chatgptModePayload || {};
 		const request = {
 			prompt: String(options.prompt || ""),
-			mode: "page-authorized-fallback",
-			conversationKey: options.conversationKey || options.directConversationKey || undefined
+			mode: "chatgpt-website",
+			conversationKey: options.conversationKey
+				|| options.directConversationKey
+				|| undefined
 		};
 		copyText(request, "model", options.model ?? modePayload.model);
-		copyText(request, "thinkingEffort", options.thinkingEffort ?? modePayload.thinkingEffort);
-		request.conversationMode = resolveConversationMode(options.chatgptMode, modePayload);
+		copyText(
+			request,
+			"thinkingEffort",
+			options.thinkingEffort ?? modePayload.thinkingEffort
+		);
+		request.conversationMode = resolveConversationMode(
+			options.chatgptMode,
+			modePayload
+		);
 		return request;
 	}
 
 	function resolveConversationMode(chatgptMode, modePayload) {
-		if (modePayload.conversationMode) {
-			return modePayload.conversationMode;
-		}
+		if (modePayload.conversationMode) return modePayload.conversationMode;
 		const gizmoId = modePayload.gizmo_id || modePayload.gizmoId || chatgptMode;
 		if (/^g-[a-z0-9]{32}$/i.test(gizmoId || "")) {
 			return { kind: "gizmo_interaction", gizmo_id: gizmoId };
@@ -60,9 +74,7 @@
 	}
 
 	function copyText(target, name, value) {
-		if (typeof value === "string" && value) {
-			target[name] = value;
-		}
+		if (typeof value === "string" && value) target[name] = value;
 	}
 
 	function safeError(code, safeHint) {

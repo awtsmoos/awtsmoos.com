@@ -6,154 +6,123 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { DirectService } from "../relay/direct/chatgpt/DirectService.mjs";
 
-/** Browser fallback still creates and continues without leaking upstream ids. */
-test("explicit fallback preserves opaque browser continuity", async () => {
+/** Website turns create and continue behind one opaque local key. */
+test("website relay preserves opaque ChatGPT continuity", async () => {
 	let call = 0;
-	const conversationId = "upstream-conversation-secret";
+	const upstreamConversation = "website-conversation-secret";
 	const service = new DirectService({
-		portResolver: { resolve: async () => 9226 },
+		portResolver: {
+			async resolve() { return 9223; },
+			invalidate() {}
+		},
 		clientFactory: () => ({
-			send: async ({ prompt, state }) => {
+			async send({ prompt, state }) {
 				call += 1;
-				return makeBrowserResult({ prompt, state, conversationId, call });
-			}
+				return websiteResult({ prompt, state, upstreamConversation, call });
+			},
+			async close() {},
+			status: () => ({})
 		}),
-		apiService: unavailableApi(),
-		localService: unavailableLocal()
+		loginCoordinator: neverLogin()
 	});
-	const created = await service.send({
-		prompt: "first",
-		mode: "page-authorized-fallback"
-	});
+	const created = await service.send({ prompt: "first", mode: "chatgpt-website" });
 	const continued = await service.send({
 		prompt: "second",
-		conversationKey: created.conversationKey,
-		mode: "page-authorized-fallback"
+		conversationKey: created.conversationKey
 	});
 	const serialized = JSON.stringify({ created, continued });
 	assert.match(created.conversationKey, /^BH_DIRECT_/);
 	assert.equal(continued.conversationKey, created.conversationKey);
 	assert.equal(continued.sameConversation, true);
-	assert.equal(serialized.includes(conversationId), false);
-	assert.equal(serialized.includes("upstream-message"), false);
+	assert.equal(continued.composerTouched, true);
+	assert.equal(continued.submissionTransport, "chatgpt-website-composer");
+	assert.equal(serialized.includes(upstreamConversation), false);
+	assert.equal(serialized.includes("website-message"), false);
 });
 
-/** Strict mode uses the official API without constructing or inspecting a browser. */
-test("strict request-only mode prefers configured official API", async () => {
-	let fallbackCalls = 0;
-	let localCalls = 0;
-	const apiCalls = [];
-	const service = new DirectService({
-		fallbackService: fallbackStub(() => fallbackCalls += 1),
-		apiService: {
-			configured: () => true,
-			async send(options) {
-				apiCalls.push(options);
-				return { ok: true, answer: "official request only" };
-			},
-			reset: () => ({ deleted: 0 }),
-			status: () => providerStatus(true, "official-responses-api")
+/** Missing authentication opens manual login and retries the website turn once. */
+test("website relay performs one manual-login retry", async () => {
+	let sends = 0;
+	let logins = 0;
+	let closes = 0;
+	let invalidations = 0;
+	const websiteService = {
+		async send() {
+			sends += 1;
+			if (sends === 1) throw new Error("ChatGPT is not authenticated.");
+			return { ok: true, answer: "ready" };
 		},
-		localService: {
-			async configured() { return true; },
-			async send() {
-				localCalls += 1;
-				return { ok: true, answer: "local request only" };
-			},
-			reset: () => ({ deleted: 0 }),
-			status: () => providerStatus(true, "local-llama-http")
-		}
-	});
-	const result = await service.send({ prompt: "strict" });
-	assert.equal(result.answer, "official request only");
-	assert.equal(apiCalls.length, 1);
-	assert.equal(localCalls, 0);
-	assert.equal(fallbackCalls, 0);
-	const capability = await service.capability();
-	assert.equal(capability.transport, "official-responses-api");
-	assert.equal(capability.browserRequired, false);
-	assert.equal(capability.browserInspected, false);
-});
-
-/** Strict mode uses local HTTP when the official credential is absent. */
-test("strict request-only mode falls back to localhost, never browser", async () => {
-	let fallbackCalls = 0;
-	let localCalls = 0;
-	const service = new DirectService({
-		fallbackService: fallbackStub(() => fallbackCalls += 1),
-		apiService: unavailableApi(),
-		localService: {
-			async configured() { return true; },
-			async send() {
-				localCalls += 1;
-				return { ok: true, answer: "local request only" };
-			},
-			reset: () => ({ deleted: 0 }),
-			status: () => providerStatus(true, "local-llama-http")
-		}
-	});
-	const result = await service.send({ prompt: "strict" });
-	assert.equal(result.answer, "local request only");
-	assert.equal(localCalls, 1);
-	assert.equal(fallbackCalls, 0);
-	assert.equal((await service.capability()).transport, "local-llama-http");
-});
-
-/** Missing request-only providers fail immediately without browser work. */
-test("strict request-only mode fails before browser interaction", async () => {
-	let fallbackCalls = 0;
-	const service = new DirectService({
-		fallbackService: fallbackStub(() => fallbackCalls += 1),
-		apiService: unavailableApi(),
-		localService: unavailableLocal()
-	});
-	await assert.rejects(
-		() => service.send({ prompt: "strict" }),
-		error => error.code === "request_only_provider_unavailable"
-	);
-	assert.equal(fallbackCalls, 0);
-	const capability = await service.capability();
-	assert.equal(capability.strictChatReady, false);
-	assert.equal(capability.browserInspected, false);
-	assert.equal(capability.failureCode, "request_only_provider_unavailable");
-});
-
-function unavailableApi() {
-	return {
-		configured: () => false,
-		async send() { throw new Error("Official API must not be called."); },
-		reset: () => ({ deleted: 0 }),
-		status: () => providerStatus(false, "official-responses-api")
-	};
-}
-
-function unavailableLocal() {
-	return {
-		async configured() { return false; },
-		async send() { throw new Error("Local model must not be called."); },
-		reset: () => ({ deleted: 0 }),
-		status: () => providerStatus(false, "local-llama-http")
-	};
-}
-
-function providerStatus(configured, transport) {
-	return { configured, transport, minimumIntervalMs: 10000, activeConversations: 0 };
-}
-
-function fallbackStub(onSend) {
-	return {
-		async send() { onSend(); },
-		async close() {},
+		async close() { closes += 1; },
 		status: () => ({})
 	};
-}
+	const service = new DirectService({
+		websiteService,
+		portResolver: {
+			invalidate() { invalidations += 1; }
+		},
+		loginCoordinator: {
+			shouldAuthenticate: () => true,
+			async authenticate() { logins += 1; }
+		}
+	});
+	const result = await service.send({ prompt: "hello" });
+	assert.equal(result.answer, "ready");
+	assert.equal(sends, 2);
+	assert.equal(logins, 1);
+	assert.equal(closes, 1);
+	assert.equal(invalidations, 1);
+});
 
-function makeBrowserResult({ prompt, state, conversationId, call }) {
+/** Capability truth is website-only whether authenticated or awaiting login. */
+test("website capability reports authenticated and login-required states", async () => {
+	const authenticated = new DirectService({
+		websiteService: serviceStub(),
+		capabilityService: {
+			async inspect() { return { ok: true, authenticated: true }; }
+		},
+		loginCoordinator: neverLogin()
+	});
+	const ready = await authenticated.capability();
+	assert.equal(ready.mode, "chatgpt-website");
+	assert.equal(ready.websiteOnly, true);
+	assert.equal(ready.loginRequired, false);
+
+	const missing = new DirectService({
+		websiteService: serviceStub(),
+		capabilityService: {
+			async inspect() { throw new Error("No Chrome debug browser was found."); }
+		},
+		loginCoordinator: neverLogin()
+	});
+	const login = await missing.capability();
+	assert.equal(login.websiteOnly, true);
+	assert.equal(login.authenticated, false);
+	assert.equal(login.loginRequired, true);
+});
+
+/** Unrelated modes are rejected before any website turn. */
+test("website relay rejects unrelated transport modes", async () => {
+	let sends = 0;
+	const service = new DirectService({
+		websiteService: {
+			...serviceStub(),
+			async send() { sends += 1; }
+		},
+		loginCoordinator: neverLogin()
+	});
+	await assert.rejects(
+		() => service.send({ prompt: "hello", mode: "unrelated-provider" }),
+		/Unsupported direct mode/
+	);
+	assert.equal(sends, 0);
+});
+
+function websiteResult({ prompt, state, upstreamConversation, call }) {
 	return {
 		answer: `answer:${prompt}`,
 		state: {
-			conversationId: state?.conversationId ?? conversationId,
-			parentMessageId: `upstream-message-${call}`
+			conversationId: state?.conversationId ?? upstreamConversation,
+			parentMessageId: `website-message-${call}`
 		},
 		status: 200,
 		done: true,
@@ -164,6 +133,23 @@ function makeBrowserResult({ prompt, state, conversationId, call }) {
 		requestLatencyMs: 12,
 		pacing: { intervalMs: call === 1 ? null : 10000 },
 		hostReuseSource: call === 1 ? "fresh" : "reused",
-		navigatedToConversation: false
+		navigatedToConversation: true,
+		composerTouched: true,
+		submissionTransport: "chatgpt-website-composer"
+	};
+}
+
+function serviceStub() {
+	return {
+		async send() { return { ok: true, answer: "ready" }; },
+		async close() {},
+		status: () => ({})
+	};
+}
+
+function neverLogin() {
+	return {
+		shouldAuthenticate: () => false,
+		async authenticate() { throw new Error("Login must not run."); }
 	};
 }

@@ -8,9 +8,9 @@ import {
 } from "./FallbackStressReport.mjs";
 
 /**
- * Four conversations advance across one sequential timeline. The Awtsmoos lets
- * Awtsmoos.com keep continuation keys only in memory while every real POST is
- * globally paced, exact, single-shot, and followed by authenticated GET completion.
+ * ChatGPT website conversations advance across one sequential paced timeline. The
+ * Awtsmoos keeps continuation keys only in memory while every prompt uses the
+ * ordinary website composer and every completion returns through authenticated GET.
  */
 export class FallbackStressRunner {
 	constructor({
@@ -63,15 +63,17 @@ export class FallbackStressRunner {
 	}
 
 	async executeTurn({ conversation, message, conversationKey }) {
-		const expected = `BH REQUEST STRESS C${conversation} M${message}.`;
+		const expected = `BH WEBSITE STRESS C${conversation} M${message}.`;
 		let accepted = false;
 		const result = await this.service.send({
 			prompt: `Reply with exactly: ${expected}`,
 			conversationKey,
-			mode: "page-authorized-fallback",
+			mode: "chatgpt-website",
 			timeoutMs: this.timeoutMs,
 			onProgress: event => {
-				if (event.stage === "request" && event.status === "accepted") accepted = true;
+				if (event.stage === "website-submit" && event.status === "accepted") {
+					accepted = true;
+				}
 				this.onEvent({ type: "progress", conversation, message, ...event });
 			}
 		});
@@ -80,10 +82,12 @@ export class FallbackStressRunner {
 			&& result.status === 200
 			&& result.done === true
 			&& result.sameConversation === true
-			&& result.navigatedToConversation === false
+			&& result.navigatedToConversation === true
+			&& result.composerTouched === true
+			&& result.submissionTransport === "chatgpt-website-composer"
 			&& exactAnswer;
 		if (!success) {
-			const error = new Error("Fallback stress turn failed its transport contract.");
+			const error = new Error("ChatGPT website stress turn failed its contract.");
 			error.accepted = accepted;
 			throw error;
 		}
@@ -96,6 +100,8 @@ export class FallbackStressRunner {
 			created: result.created,
 			sameConversation: result.sameConversation,
 			navigatedToConversation: result.navigatedToConversation,
+			composerTouched: result.composerTouched,
+			submissionTransport: result.submissionTransport,
 			completionSource: result.completionSource,
 			hostReuseSource: result.hostReuseSource,
 			intervalMs: result.pacing?.intervalMs ?? null,
@@ -107,7 +113,7 @@ export class FallbackStressRunner {
 
 	validateDependencies() {
 		if (!this.service?.send || !this.counter?.read) {
-			throw new TypeError("Fallback stress requires a direct service and counter.");
+			throw new TypeError("Website stress requires a direct service and counter.");
 		}
 	}
 }

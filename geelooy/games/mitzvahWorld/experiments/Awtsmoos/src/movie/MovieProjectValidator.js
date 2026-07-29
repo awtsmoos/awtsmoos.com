@@ -11,6 +11,7 @@
 
 import { validateMovieAuthoring3d } from './MovieAuthoring3dContract.js';
 import { validateMovieClipAppearance } from './MovieClipAppearanceContract.js';
+import { validateMovieProjectContent } from './MovieProjectContentValidator.js';
 
 const LIMITS = Object.freeze({
 	characters: 64, duration: 900, graphs: 32, markers: 256,
@@ -29,6 +30,7 @@ export function validateMovieProject(project) {
 	if (fps < 1 || fps > 120) throw new Error('Movie FPS must be between 1 and 120.');
 	validateResolution(project.resolution || {});
 	validateMovieAuthoring3d(project.authoring3d || {});
+	validateMovieProjectContent(project);
 	boundedArray(project.tracks, LIMITS.tracks, 'tracks');
 	boundedArray(project.characters, LIMITS.characters, 'characters', true);
 	boundedArray(project.sequences, LIMITS.sequences, 'sequences', true);

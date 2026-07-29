@@ -4,9 +4,9 @@
 
 /**
  * @file shliachProfile.test.cjs
- * @description Proves private attributes, timed powerups, public privacy, and rewards.
- * The Awtsmoos renews growth beneath one replay-safe covenant; Awtsmoos.com verifies
- * that Perutas and inner attributes never leak into the shared player projection.
+ * @description Proves private attributes, equipment-derived stats, powerups, privacy, and rewards.
+ * The Awtsmoos renews growth beneath one replay-safe covenant; Awtsmoos.com verifies that
+ * equipment contributes once while Perutas and inner attributes never leak into public truth.
  */
 
 const assert = require('node:assert/strict');
@@ -17,13 +17,10 @@ const { grantReward } = require('./Progression.js');
 const { ShliachProfileService } = require('./ShliachProfileService.js');
 
 function player() {
-	return createPlayer({
-		displayName: 'Test Shliach',
-		id: 'player-test'
-	});
+	return createPlayer({ displayName: 'Test Shliach', id: 'player-test' });
 }
 
-test('new players receive five private attributes and three points', () => {
+test('new players receive five private attributes, three points, and equipped power', () => {
 	const value = player();
 	assert.deepEqual(value.shliach.attributes, {
 		binah: 1,
@@ -34,7 +31,7 @@ test('new players receive five private attributes and three points', () => {
 	});
 	assert.equal(value.shliach.unspentPoints, 3);
 	const publicValue = snapshotPlayer(value);
-	assert.equal(publicValue.shliach.powerRating, 35);
+	assert.equal(publicValue.shliach.powerRating, 76);
 	assert.equal(publicValue.shliach.attributes, undefined);
 	assert.equal(publicValue.wallet, undefined);
 });
@@ -45,7 +42,8 @@ test('allocation changes derived stats without exposing private state', () => {
 	const result = service.allocate(value, 'gevurah', 2);
 	assert.equal(result.attributes.gevurah, 3);
 	assert.equal(result.unspentPoints, 1);
-	assert.equal(result.derived.damageBonus, 6);
+	assert.equal(result.derived.damageBonus, 24);
+	assert.equal(result.derived.diagnostics.duplicateSourceIds.length, 0);
 	assert.throws(
 		() => service.allocate(value, 'binah', 2),
 		error => error.code === 'ATTRIBUTE_POINTS_UNAVAILABLE'
@@ -96,12 +94,7 @@ test('profile route keeps allocation private and status update public', () => {
 
 test('reward replay cannot duplicate XP, points, or Perutas', () => {
 	const value = player();
-	const reward = {
-		id: 'reward-one',
-		mitzvahPoints: 5,
-		perutas: 21,
-		xp: 400
-	};
+	const reward = { id: 'reward-one', mitzvahPoints: 5, perutas: 21, xp: 400 };
 	assert.equal(grantReward(value.progression, reward, value), true);
 	assert.equal(value.progression.level, 3);
 	assert.equal(value.shliach.unspentPoints, 7);

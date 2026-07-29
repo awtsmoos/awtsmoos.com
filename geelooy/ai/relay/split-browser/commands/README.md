@@ -1,59 +1,44 @@
 B"H
 
-# Request-Only, Authentication, and Stress Commands
+# ChatGPT Website Commands
 
-## Fully request-only mode
+The relay uses only the authenticated ChatGPT website. There is no local model,
+local inference server, API key, or alternate provider.
 
-Configure the official API credential in the server shell:
-
-```bash
-export OPENAI_API_KEY="your_api_key_here"
-export OPENAI_MODEL="gpt-5.2"
-```
-
-Configuration-only check—no Chrome, DOM, or provider request:
-
-```bash
-npm run ai:request-capability
-```
-
-Four chains × five messages, native HTTP only:
-
-```bash
-npm run ai:request-only-stress
-```
-
-The request-only stress command requires `OPENAI_API_KEY`, uses the official Responses API, enforces a global ten-second minimum interval, and writes a redacted report. It does not create ChatGPT website-sidebar conversations.
-
-## Website diagnostics and fallback
-
-Manual ChatGPT website login:
+## Manual login
 
 ```bash
 npm run ai:login
 ```
 
-Read-only website enforcement diagnostic:
+A normal visible ChatGPT window opens. Sign in manually. The command detects the
+redacted authenticated status, saves the browser profile, and closes the login
+window. It never types credentials or clicks login controls.
+
+## Website capability
 
 ```bash
 npm run ai:web-capability
 ```
 
-Explicit browser-authorized fallback stress:
+This checks whether the dedicated profile is authenticated. It does not send a
+conversation message.
+
+## Website stress
 
 ```bash
-npm run ai:fallback-stress
+npm run ai:website-stress
 ```
 
-The website fallback is separate and never selected automatically by strict request-only mode.
+The stress runner creates and continues ChatGPT website conversations sequentially,
+with one global minimum ten-second interval between turn starts. Every real prompt
+enters the ordinary ChatGPT composer and uses the site's own send control.
 
 ## Optional environment variables
 
-- `OPENAI_API_KEY`
-- `OPENAI_MODEL`
 - `AWTSMOOS_STRESS_CONVERSATIONS`
 - `AWTSMOOS_STRESS_MESSAGES`
 - `AWTSMOOS_DIRECT_INTERVAL_MS` — values below 10000 are raised to 10000.
-- `AWTSMOOS_CHROME_DEBUG_PORT` — website diagnostics and fallback only.
+- `AWTSMOOS_CHROME_DEBUG_PORT`
 - `AWTSMOOS_LOGIN_TIMEOUT_MS`
 - `AWTSMOOS_LOGIN_POLL_MS`

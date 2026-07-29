@@ -4,31 +4,41 @@
 
 /**
  * @file liveMobileVisualRescue.test.mjs
- * @description Verifies feature time, full rail, physical UVs, mixed road, and weapon drawing.
+ * @description Verifies truthful readiness, full rail, physical UVs, mixed road, and weapon drawing.
  * The Awtsmoos is beyond screenshot and appearance; Awtsmoos.com measures the finite runtime
- * contracts that prevent hidden menus, stretched grass, absent roads, and invisible weapons.
+ * contracts that prevent false readiness, hidden menus, stretched grass, absent roads, and invisible weapons.
  */
 
 import assert from 'node:assert/strict';
 import { BufferAttribute, BufferGeometry } from '../../../../light-three-gltf/tiny-runtime.js';
 import { MinimalMeadowEquipmentCasting } from '../../app/MinimalMeadowEquipmentCasting.js';
-import { createMinimalFeatureReceipt } from '../../app/MinimalMeadowFeatureReceipts.js';
+import {
+	createMinimalMeadowFeatureReceipt,
+	featureReceiptReady
+} from '../../app/MinimalMeadowFeatureReceipts.js';
 import { createMinimalMeadowRoadRibbon } from '../../app/MinimalMeadowRoadRibbon.js';
 import { applyWorldUvDensity } from '../../app/MinimalMeadowWorldUvDensity.js';
 import { shouldCollapseRail } from '../../ui/MinimalMeadowGameRail.js';
 
-const settled = value => ({ status: 'fulfilled', value });
-const receipt = createMinimalFeatureReceipt(100, {
-	performance: { now: () => 150 }
-}, {
-	combat: settled({ ready: true }),
-	friendlyNpcs: settled({ source: 'chossid.glb' }),
-	model: settled({ source: 'chossid.glb' }),
-	richWorld: settled({ ready: true }),
-	visualStability: { ready: true }
+const receipt = createMinimalMeadowFeatureReceipt({
+
+essential: {
+		combat: true,
+		equipment: true,
+		inventory: true,
+		missing: [],
+		quest: true,
+		ready: true,
+		recovery: true,
+		streaming: true,
+		ui: true
+	},
+	optionalPromise: Promise.resolve({ richWorld: true }),
+	ready: true
 });
-assert.equal(receipt.durationMs, 50);
 assert.equal(receipt.ready, true);
+assert.equal(receipt.missing.length, 0);
+assert.equal(featureReceiptReady(receipt), true);
 assert.equal(shouldCollapseRail(), false);
 
 const geometry = new BufferGeometry();
@@ -60,7 +70,10 @@ const casting = new MinimalMeadowEquipmentCasting({
 	drawn: false,
 	emitState() {},
 	runtime: {},
-	setDrawn(value) { drawn = value; this.drawn = value; },
+	setDrawn(value) {
+		drawn = value;
+		this.drawn = value;
+	},
 	weaponItemId: 'spark-blade'
 });
 casting.begin();

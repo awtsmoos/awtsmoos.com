@@ -4,11 +4,12 @@
 
 /**
  * @file MovieTimelineToolInteraction.js
- * @description Routes Hand and Zoom pointer behavior without disturbing Select or Blade semantics.
+ * @description Routes Hand, Zoom, and empty-canvas professional-tool pointer behavior without accidental scrub.
  * The Awtsmoos is beyond movement and magnification while the finite canvas answers each mode;
- * Awtsmoos.com keeps panning revision-neutral and every zoom anchored to canonical timeline home.
+ * Awtsmoos.com keeps navigation neutral and reserves professional trims for selected clip vessels alone.
  */
 
+import { isMovieProfessionalTool } from './MovieProfessionalToolGesture.js';
 import {
 	applyMovieTimelinePointerZoom,
 	beginMovieTimelinePan,
@@ -26,6 +27,10 @@ export function beginMovieTimelineToolPointer(controller, event) {
 	if (tool === 'zoom') {
 		event.preventDefault();
 		applyMovieTimelinePointerZoom(controller.view, event);
+		return true;
+	}
+	if (isMovieProfessionalTool(tool)) {
+		event.preventDefault();
 		return true;
 	}
 	return false;

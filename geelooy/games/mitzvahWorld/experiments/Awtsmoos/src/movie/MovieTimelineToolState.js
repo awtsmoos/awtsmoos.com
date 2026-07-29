@@ -4,30 +4,39 @@
 
 /**
  * @file MovieTimelineToolState.js
- * @description Defines the bounded revision-neutral timeline tool vocabulary, labels, and shortcuts.
- * The Awtsmoos is beyond hand, blade, arrow, and lens while every finite tool receives one name;
+ * @description Defines bounded navigation, blade, and professional trim-tool vocabulary, labels, and shortcuts.
+ * The Awtsmoos is beyond hand, blade, arrow, lens, ripple, roll, slip, slide, and rate while each receives one name;
  * Awtsmoos.com keeps keyboard, toolbar, agent, pointer, status, and CSS inside the selfsame flame.
  */
 
 import { MovieApiError } from './MovieApiError.js';
 
 export const MOVIE_TIMELINE_TOOLS = Object.freeze([
-	Object.freeze({ key: 'v', label: 'Select', name: 'select', symbol: '↖' }),
-	Object.freeze({ key: 'b', label: 'Blade', name: 'blade', symbol: '✂' }),
-	Object.freeze({ key: 'h', label: 'Hand', name: 'hand', symbol: '✋' }),
-	Object.freeze({ key: 'z', label: 'Zoom', name: 'zoom', symbol: '⌕' })
+	tool('v', 'Select', 'select', '↖'),
+	tool('b', 'Blade', 'blade', '✂'),
+	tool('h', 'Hand', 'hand', '✋'),
+	tool('z', 'Zoom', 'zoom', '⌕'),
+	tool('w', 'Ripple', 'ripple', '⇥'),
+	tool('n', 'Roll', 'roll', '⇆'),
+	tool('y', 'Slip', 'slip', '↔'),
+	tool('u', 'Slide', 'slide', '⇄'),
+	tool('r', 'Rate Stretch', 'rateStretch', '⟷')
 ]);
 
-const TOOL_BY_NAME = new Map(MOVIE_TIMELINE_TOOLS.map(tool => [tool.name, tool]));
-const TOOL_BY_KEY = new Map(MOVIE_TIMELINE_TOOLS.map(tool => [tool.key, tool.name]));
+const TOOL_BY_NAME = new Map(MOVIE_TIMELINE_TOOLS.map(value => [value.name, value]));
+const TOOL_NAME_BY_NORMALIZED_NAME = new Map(
+	MOVIE_TIMELINE_TOOLS.map(value => [value.name.toLowerCase(), value.name])
+);
+const TOOL_BY_KEY = new Map(MOVIE_TIMELINE_TOOLS.map(value => [value.key, value.name]));
 
 export function normalizeMovieTimelineTool(value) {
-	const name = String(value || 'select').toLowerCase();
-	if (TOOL_BY_NAME.has(name)) return name;
+	const suppliedName = String(value || 'select');
+	const name = TOOL_NAME_BY_NORMALIZED_NAME.get(suppliedName.toLowerCase());
+	if (name) return name;
 	throw new MovieApiError(
 		'UNKNOWN_MOVIE_TIMELINE_TOOL',
-		`Unknown movie timeline tool ${name}.`,
-		{ supportedTools: MOVIE_TIMELINE_TOOLS.map(tool => tool.name), tool: name }
+		`Unknown movie timeline tool ${suppliedName}.`,
+		{ supportedTools: MOVIE_TIMELINE_TOOLS.map(value => value.name), tool: suppliedName }
 	);
 }
 
@@ -45,4 +54,8 @@ export function movieTimelineShortcutTargetIsEditable(target) {
 	return Boolean(target?.closest?.(
 		'input, textarea, select, [contenteditable="true"], [contenteditable=""]'
 	));
+}
+
+function tool(key, label, name, symbol) {
+	return Object.freeze({ key, label, name, symbol });
 }

@@ -37,6 +37,7 @@ export class MovieTimelineView {
 			onBlade: (track, clip, event) => this.blade(track, clip, event),
 			onChange: this.onChange,
 			onSelect: value => this.select(value),
+			runCommand: (name, payload) => this.runCommand(name, payload),
 			project,
 			scale: () => this.scale,
 			selection: options.selection

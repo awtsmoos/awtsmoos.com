@@ -4,9 +4,9 @@
 
 /**
  * @file MovieAuthoring3dTextureResolver.js
- * @description Resolves local, procedural, and trusted catalog texture records without exposing transport internals.
+ * @description Resolves local, procedural, and trusted catalog texture records into renderer-ready contracts.
  * The Awtsmoos renews every distant color through one guarded road; Awtsmoos.com keeps
- * project JSON portable while runtime material evidence receives a trusted finite URL or procedure.
+ * project JSON portable while runtime materials receive finite URL, repeat, offset, and procedural truth.
  */
 
 import {
@@ -17,31 +17,31 @@ import {
 export function resolveMovieAuthoringTexture(record) {
 	if (!record) return null;
 	if (record.kind === 'procedural') {
-		return {
-			kind: 'procedural',
-			parameters: proceduralParameters(record),
-			type: record.type || 'noise'
-		};
+		return { kind: 'procedural', parameters: proceduralParameters(record), type: record.type || 'noise' };
 	}
 	if (record.kind === 'remoteCatalog') {
 		return {
 			family: record.family || 'craft',
 			filename: record.filename,
 			kind: 'remote',
+			offset: pair(record.offset, [0, 0]),
+			repeat: pair(record.repeat, [1, 1]),
 			url: remoteCatalogUrl(record)
 		};
 	}
 	if (record.kind === 'local') {
-		return { kind: 'local', url: safeLocalUrl(record.url) };
+		return {
+			kind: 'local',
+			offset: pair(record.offset, [0, 0]),
+			repeat: pair(record.repeat, [1, 1]),
+			url: safeLocalUrl(record.url)
+		};
 	}
 	throw new Error(`Unsupported texture source: ${record.kind}`);
 }
 
 export function resolveMovieAuthoringTextures(records = []) {
-	return Object.fromEntries(records.map(record => [
-		record.id,
-		resolveMovieAuthoringTexture(record)
-	]));
+	return Object.fromEntries(records.map(record => [record.id, resolveMovieAuthoringTexture(record)]));
 }
 
 function remoteCatalogUrl(record) {
@@ -65,4 +65,9 @@ function proceduralParameters(record) {
 		seed: Number(record.seed || 613),
 		strength: Number(record.strength || 0.1)
 	};
+}
+
+function pair(value, fallback) {
+	if (!Array.isArray(value)) return [...fallback];
+	return [Number(value[0] ?? fallback[0]), Number(value[1] ?? fallback[1])];
 }

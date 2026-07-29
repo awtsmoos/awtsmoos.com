@@ -6,8 +6,9 @@ const { json, readBody } = require("./http.cjs");
 const { loadDirectService } = require("./directServiceLoader.cjs");
 
 /**
- * Direct routes expose strict native HTTP, transcript retrieval, explicit browser
- * fallback, reset, and health without credentials, provider ids, or stacks.
+ * Direct routes expose only the authenticated ChatGPT website transport, local
+ * opaque continuation keys, health, capability, and reset. No provider selection,
+ * credentials, browser secrets, upstream ids, or stack traces cross this boundary.
  */
 async function handleDirectApi(req, res, path, config = {}) {
 	try {
@@ -20,10 +21,6 @@ async function handleDirectApi(req, res, path, config = {}) {
 		}
 		if (path === "/direct-chat" && req.method === "POST") {
 			return json(res, await service.send(await requestJson(req)));
-		}
-		if (path === "/direct-conversation" && req.method === "POST") {
-			const payload = await requestJson(req);
-			return json(res, service.conversation(payload.conversationKey));
 		}
 		if (path === "/direct-reset" && req.method === "POST") {
 			const payload = await requestJson(req);
@@ -42,51 +39,23 @@ async function requestJson(req) {
 
 function publicStatus(error) {
 	if (error instanceof SyntaxError || error instanceof TypeError) return 400;
-	if (error?.code === "direct_conversation_expired") return 404;
-	if ([
-		"official_api_key_required",
-		"local_model_unavailable",
-		"request_only_provider_unavailable"
-	].includes(error?.code)) return 503;
-	if ([
-		"official_api_request_failed",
-		"official_api_response_invalid",
-		"local_model_request_failed",
-		"local_model_response_invalid"
-	].includes(error?.code)) return 502;
+	if (/expired|not found/i.test(String(error?.message || error))) return 404;
+	if (/authenticated|login|session|Chrome debug browser/i.test(String(error?.message || error))) {
+		return 503;
+	}
 	return 500;
 }
 
 function publicError(error) {
-	if (error?.code === "request_only_provider_unavailable") {
-		return {
-			...fixedError(error.code,
-				"Start the localhost model or configure the server-side OpenAI credential."),
-			capability: error.capability
-		};
-	}
-	if (error?.code === "official_api_key_required") {
-		return fixedError(error.code,
-			"Configure the server-side OpenAI credential or use strict mode with the local model.");
-	}
-	if (error?.code === "local_model_unavailable") {
-		return fixedError(error.code, "Start the localhost model server on port 18080.");
-	}
-	if (error?.code === "direct_conversation_expired") {
-		return fixedError(error.code, "The opaque local conversation key expired or was not found.");
-	}
-	if (/^(official_api|local_model)_(request_failed|response_invalid)$/.test(error?.code || "")) {
-		return fixedError(error.code, "The selected request-only provider did not complete safely.");
-	}
-	const message = String(error?.message || error || "Direct request failed.");
-	const authentication = /authenticated|login|session|composer|socket|debug page/i.test(message);
-	const expired = /expired|not found|belongs to another transport/i.test(message);
+	const message = String(error?.message || error || "ChatGPT website request failed.");
+	const authentication = /authenticated|login|session|Chrome debug browser/i.test(message);
+	const expired = /expired|not found/i.test(message);
 	const invalidMode = /Unsupported direct mode/i.test(message);
 	const code = authentication
-		? "direct_authentication_required"
+		? "chatgpt_login_required"
 		: expired
 			? "direct_conversation_expired"
-			: invalidMode ? "direct_mode_invalid" : "direct_request_failed";
+			: invalidMode ? "direct_mode_invalid" : "chatgpt_website_request_failed";
 	return fixedError(code, safeHint(code));
 }
 
@@ -95,16 +64,14 @@ function fixedError(code, safeHint) {
 }
 
 function safeHint(code) {
-	if (code === "direct_authentication_required") {
-		return "Authenticate the relay debug Chrome profile for explicit browser fallback.";
+	if (code === "chatgpt_login_required") {
+		return "A visible ChatGPT login window will open automatically on the next website turn.";
 	}
 	if (code === "direct_conversation_expired") {
-		return "Start a new conversation because the local continuation key expired.";
+		return "Start a new ChatGPT website conversation because the local key expired.";
 	}
-	if (code === "direct_mode_invalid") {
-		return "Use strict-request-only, official-api-request-only, local-request-only, or page-authorized-fallback.";
-	}
-	return "The direct request did not complete. Check request-only capability and pacing.";
+	if (code === "direct_mode_invalid") return "Use chatgpt-website mode.";
+	return "The ChatGPT website turn did not complete. Check login and retry once.";
 }
 
 module.exports = { handleDirectApi };

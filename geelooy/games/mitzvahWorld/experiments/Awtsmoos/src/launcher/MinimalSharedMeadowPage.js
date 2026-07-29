@@ -4,15 +4,18 @@
 
 /**
  * @file MinimalSharedMeadowPage.js
- * @description Opens creative routes before loading the playable meadow runtime graph.
- * The Awtsmoos renews each doorway before its chamber appears; Awtsmoos.com keeps
- * optional social and distant systems outside the truthful initial-playability gate.
+ * @description Opens named creative routes and otherwise advances directly into playable boot.
+ * The Awtsmoos gives each doorway its own truthful sign; Awtsmoos.com skips every unrelated
+ * chamber, publishes exact boot stages, and preserves visible failure instead of silent waiting.
  */
 
 import { MeadowLoadingScreen } from './MeadowLoadingScreen.js';
 import { installMinimalMeadowOptionalEntries } from './MinimalMeadowOptionalEntries.js';
 import { awaitMinimalMeadowReadiness } from './MinimalMeadowReadiness.js';
-import { openMinimalCreativeRoute } from './MinimalSharedCreativeRoute.js';
+import {
+	isMinimalMovieRequest,
+	openMinimalCreativeRoute
+} from './MinimalSharedCreativeRoute.js';
 import { launchMinimalSharedMeadowRuntime } from './MinimalSharedMeadowRuntimeLaunch.js';
 import { mitzvahWorldSessionMode } from './MitzvahWorldSessionMode.js';
 import {
@@ -25,19 +28,27 @@ export async function bootMinimalSharedMeadow(
 	environment = globalThis,
 	dependencies = {}
 ) {
+	stage(documentValue, 'hosts');
 	const hosts = resolveMinimalMeadowHosts(documentValue);
 	const search = environment.location?.search || '';
 	let loading = null;
 	try {
-		const creative = await openCreative(hosts, search, dependencies);
-		if (creative?.handled) {
-			return publishCreative(creative.value, documentValue, environment);
+		if (isMinimalMovieRequest(search)) {
+			stage(documentValue, 'creative-route');
+			const creative = await openCreative(hosts, search, dependencies);
+			if (creative?.handled) {
+				stage(documentValue, 'creative-ready');
+				return publishCreative(creative.value, documentValue, environment);
+			}
 		}
+		stage(documentValue, 'loading-screen');
 		loading = new MeadowLoadingScreen(documentValue, environment);
 		const parameters = new URLSearchParams(search);
 		const sessionMode = mitzvahWorldSessionMode(parameters);
 		documentValue.documentElement.dataset.awtsmoosSession = sessionMode;
+		stage(documentValue, 'runtime-factory');
 		const runtimeFactory = await loadRuntimeFactory(dependencies);
+		stage(documentValue, 'runtime-launch');
 		const diagnostics = await launchMinimalSharedMeadowRuntime({
 			environment,
 			hosts,
@@ -46,12 +57,14 @@ export async function bootMinimalSharedMeadow(
 			runtimeFactory,
 			sessionMode
 		});
+		stage(documentValue, 'runtime-created');
 		environment.AwtsmoosMitzvahWorld = diagnostics;
 		diagnostics.optionalEntries = installMinimalMeadowOptionalEntries({
 			documentValue,
 			environment,
 			parameters
 		});
+		stage(documentValue, 'readiness');
 		await awaitMinimalMeadowReadiness(
 			diagnostics,
 			loading,
@@ -59,8 +72,10 @@ export async function bootMinimalSharedMeadow(
 			environment
 		);
 		loading.finish();
+		stage(documentValue, 'ready');
 		return diagnostics;
 	} catch (error) {
+		stage(documentValue, 'failed', error);
 		loading?.fail(error);
 		showMinimalMeadowBootFailure(hosts.hud, documentValue, error);
 		throw error;
@@ -84,6 +99,14 @@ async function loadRuntimeFactory(dependencies) {
 	}
 	const module = await import('../app/createMinimalMeadowRuntime.js?rev=20260729-core');
 	return module.createMinimalMeadowRuntime;
+}
+
+function stage(documentValue, value, error = null) {
+	documentValue.documentElement.dataset.awtsmoosBootStage = value;
+	if (error) {
+		documentValue.documentElement.dataset.awtsmoosBootError = error?.message
+		|| String(error);
+	}
 }
 
 if (typeof document !== 'undefined' && globalThis.AwtsmoosDisableAutoBoot !== true) {

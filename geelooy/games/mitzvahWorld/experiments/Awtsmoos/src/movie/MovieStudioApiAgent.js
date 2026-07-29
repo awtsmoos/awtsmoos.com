@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioApiAgent.js
- * @description Exposes contract discovery, deterministic generation, export, apply, and revision waiting.
- * The Awtsmoos renews prompt, project, and witness in one source; Awtsmoos.com lets any
- * JSON-speaking agent create the whole movie, install it once, undo it, and coordinate safely.
+ * @description Exposes contract discovery, literal generation, procedural worlds, plans, recipes, export, and revision waiting.
+ * The Awtsmoos renews prompt, project, plan, and witness in one source; Awtsmoos.com lets any
+ * JSON-speaking agent create the whole movie, inspect consequences, install once, undo, and coordinate safely.
  */
 
 import { compileMovieAgentManifest } from './MovieAgentCompiler.js';
@@ -14,6 +14,7 @@ import { createMovieAgentContract } from './MovieAgentContract.js';
 import { createMovieAgentExample } from './MovieAgentExample.js';
 import { createMovieProjectEnvelope } from './MovieProjectEnvelope.js';
 import { createMovieProjectSnapshot } from './MovieProjectSnapshot.js';
+import { createMovieStudioAgentPlanningDomain } from './MovieStudioApiAgentPlanning.js';
 import {
 	runMovieStudioApiAsyncOperation,
 	runMovieStudioApiOperation
@@ -22,11 +23,8 @@ import { waitForMovieStudioRevision } from './MovieStudioApiAgentWait.js';
 
 export function createMovieStudioAgentDomain(session) {
 	const domain = {
-		apply: (manifest, options = {}) => applyAgentMovie(
-			session,
-			manifest,
-			options
-		),
+		...createMovieStudioAgentPlanningDomain(session),
+		apply: (manifest, options = {}) => applyAgentMovie(session, manifest, options),
 		compile: (manifest, options = {}) => runMovieStudioApiOperation(
 			session,
 			'agent.compile',
@@ -48,19 +46,13 @@ export function createMovieStudioAgentDomain(session) {
 				}
 			))
 		),
-		generate: (manifest, options = {}) => applyAgentMovie(
-			session,
-			manifest,
-			options
-		),
+		generate: (manifest, options = {}) => applyAgentMovie(session, manifest, options),
 		instructions: () => createMovieAgentContract(),
-		waitForRevision: (revision, options = {}) => (
-			runMovieStudioApiAsyncOperation(
-				session,
-				'agent.waitForRevision',
-				options,
-				() => waitForMovieStudioRevision(session, revision, options)
-			)
+		waitForRevision: (revision, options = {}) => runMovieStudioApiAsyncOperation(
+			session,
+			'agent.waitForRevision',
+			options,
+			() => waitForMovieStudioRevision(session, revision, options)
 		)
 	};
 	return Object.freeze(domain);
