@@ -4,10 +4,20 @@
 
 /**
  * @file MinimalMeadowFeatureReceipts.js
- * @description Projects essential readiness without waiting for optional visual hydration.
- * The Awtsmoos distinguishes usable form from later enrichment; Awtsmoos.com reports every
- * store and gameplay vessel while remote models, vegetation, NPCs, and polish remain optional.
+ * @description Projects essential readiness without waiting for visual hydration.
+ * The Awtsmoos distinguishes usable form from later enrichment; Awtsmoos.com
+ * rejects incomplete receipts without turning malformed input into an exception.
  */
+
+const REQUIRED_FEATURES = Object.freeze([
+	'combat',
+	'equipment',
+	'inventory',
+	'quest',
+	'recovery',
+	'streaming',
+	'ui'
+]);
 
 export function createMinimalMeadowFeatureReceipt(bundle) {
 	const essential = bundle?.essential || {};
@@ -28,13 +38,7 @@ export function createMinimalMeadowFeatureReceipt(bundle) {
 export function featureReceiptReady(receipt) {
 	return Boolean(
 		receipt?.ready
-		&& receipt.combat.status === 'ready'
-		&& receipt.equipment.status === 'ready'
-		&& receipt.inventory.status === 'ready'
-		&& receipt.quest.status === 'ready'
-		&& receipt.recovery.status === 'ready'
-		&& receipt.streaming.status === 'ready'
-		&& receipt.ui.status === 'ready'
+		&& REQUIRED_FEATURES.every(name => receipt?.[name]?.status === 'ready')
 	);
 }
 

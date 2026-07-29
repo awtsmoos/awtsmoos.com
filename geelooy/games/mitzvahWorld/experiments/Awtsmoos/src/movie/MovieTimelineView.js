@@ -4,115 +4,50 @@
 
 /**
  * @file MovieTimelineView.js
- * @description Orchestrates rendering, immutable selection sets, commands, snapping, scale, and time.
- * The Awtsmoos renews every moment through one source; Awtsmoos.com lets editor,
- * marker, renderer, interaction, mobile touch, and desktop modifiers serve canonical time together.
+ * @description Constructs one tool-aware timeline view while focused modules own its finite operations.
+ * The Awtsmoos renews one timeline through zoom, hand, blade, selection, and playhead light;
+ * Awtsmoos.com keeps project meaning stable while every interaction remains bounded and right.
  */
 
-import { MovieTimelineClipEditor } from './MovieTimelineClipEditor.js';
 import { clampTimelineScale } from './MovieTimelineGeometry.js';
+import { MovieTimelineClipEditor } from './MovieTimelineClipEditor.js';
 import { MovieTimelineInteractionController } from './MovieTimelineInteractionController.js';
-import {
-	refreshMovieTimelineCommands,
-	renderMovieTimeline,
-	setMovieTimelineTime
-} from './MovieTimelineRenderer.js';
-import { normalizeMovieSelectionSet } from './MovieSelectionSet.js';
-import { fitTimelineScale } from './MovieTimelineViewport.js';
+import { normalizeMovieTimelineTool } from './MovieTimelineToolState.js';
+import { installMovieTimelineViewOperations } from './MovieTimelineViewOperations.js';
 
 export class MovieTimelineView {
 	constructor(project, shell, onSeek, options = {}) {
 		this.project = project;
 		this.shell = shell;
 		this.onSeek = onSeek;
+		this.snapping = options.snapping !== false;
+		this.tool = normalizeMovieTimelineTool(options.tool);
+		this.scale = clampTimelineScale(options.scale);
+		this.currentTime = Number(options.time || 0);
 		this.onChange = options.onChange;
 		this.onSelect = options.onSelect;
 		this.onCommand = options.onCommand;
 		this.getCommandState = options.getCommandState;
-		this.selection = normalizeMovieSelectionSet(options.selection, project);
-		this.snapping = options.snapping !== false;
-		this.scale = clampTimelineScale(options.scale || 34);
-		this.currentTime = Number(options.time || 0);
 		this.zoomAnchor = null;
+		installMovieTimelineViewOperations(this);
+		this.interactions = new MovieTimelineInteractionController(this);
 		this.editor = new MovieTimelineClipEditor({
 			getSnapContext: () => this.snapContext(),
-			onChange: value => this.onChange?.(value),
+			getTool: () => this.tool,
+			onBlade: (track, clip, event) => this.blade(track, clip, event),
+			onChange: this.onChange,
 			onSelect: value => this.select(value),
 			project,
 			scale: () => this.scale,
-			selection: this.selection
+			selection: options.selection
 		});
-		this.interactions = new MovieTimelineInteractionController(this);
+		this.selection = this.editor.selection.primary;
 		this.render();
-	}
-
-	render() {
-		renderMovieTimeline(this);
-		this.editor.setSelection(this.selection);
-	}
-
-	select(value) {
-		this.selection = normalizeMovieSelectionSet(
-			value?.selectionSet || value?.descriptor,
-			this.project
-		);
-		this.editor.setSelection(this.selection);
-		this.onSelect?.({ ...value, selectionSet: this.selection });
-		this.updateCommands();
-	}
-
-	setSelection(value) {
-		this.selection = normalizeMovieSelectionSet(value, this.project);
-		this.editor.setSelection(this.selection);
-		this.updateCommands();
-	}
-
-	runCommand(name, payload = {}) {
-		return this.onCommand?.(name, payload);
-	}
-
-	commandState() {
-		return {
-			canRedo: false,
-			canUndo: false,
-			hasSelection: this.selection.items.length > 0,
-			selectionCount: this.selection.items.length,
-			snapping: this.snapping,
-			...(this.getCommandState?.() || {})
-		};
-	}
-
-	updateCommands() {
-		refreshMovieTimelineCommands(this);
-	}
-
-	snapContext() {
-		return {
-			enabled: this.snapping,
-			playhead: this.currentTime,
-			threshold: Math.max(0.03, 7 / this.scale)
-		};
-	}
-
-	fit() {
-		this.setScale(fitTimelineScale(this.shell, this.project.duration));
-	}
-
-	setScale(value, anchorClientX = null) {
-		this.zoomAnchor = this.interactions.captureZoomAnchor(anchorClientX);
-		this.scale = clampTimelineScale(value);
-		this.render();
-	}
-
-	setTime(time) {
-		setMovieTimelineTime(this, time);
 	}
 
 	destroy() {
+		this.interactions.destroy();
 		this.editor.destroy();
-		this.interactions.unbind();
 		this.shell.replaceChildren();
 	}
 }
-
-export default MovieTimelineView;

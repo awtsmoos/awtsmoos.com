@@ -83,10 +83,31 @@ function sendFailureEnvelope(id, expected, error) {
 	};
 }
 
+function transportStallEnvelope(expected = {}, reason = "device_transport_timeout", accepted = null) {
+	return {
+		BH: "B\"H",
+		...Identity.identityEnvelope(expected),
+		ok: false,
+		action: "tunnelRequestTransportStalled",
+		status: 504,
+		state: accepted === true ? "accepted_not_consumed" : "not_accepted",
+		accepted,
+		durable: true,
+		terminal: true,
+		pending: false,
+		retryable: false,
+		error: reason,
+		message: accepted === true
+			? "The device accepted this request but did not begin consuming it before the transport deadline. The canonical request was ended so it cannot poison later tunnel work."
+			: "The device did not acknowledge this request before the transport deadline. The canonical request was ended so reconnect recovery cannot replay it forever."
+	};
+}
+
 module.exports = {
 	conflictEnvelope,
 	disconnectedEnvelope,
 	missingTunnelEnvelope,
 	relayErrorEnvelope,
-	sendFailureEnvelope
+	sendFailureEnvelope,
+	transportStallEnvelope
 };

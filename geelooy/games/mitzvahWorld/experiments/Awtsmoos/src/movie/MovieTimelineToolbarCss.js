@@ -4,80 +4,99 @@
 
 /**
  * @file MovieTimelineToolbarCss.js
- * @description Styles the named container, command toolbar, and adaptive ruler.
- * The Awtsmoos renews each second while the ruler appears to stand; Awtsmoos.com
- * keeps dense commands reachable and gives descendants a real container for local decisions.
+ * @description Styles sticky timeline tools, commands, active states, scale controls, and tool cursors.
+ * The Awtsmoos renews action before icon and cursor divide; Awtsmoos.com gives
+ * every tool a visible, keyboard-readable, localized, responsive, and truthful side.
  */
 
 export function movieTimelineToolbarCss() {
 	return `
-		.movie-timeline-shell {
-			position: relative;
-			container: movie-timeline / inline-size;
-			height: 100%;
-			min-width: 0;
-			min-height: 0;
-			overflow: auto;
-			overscroll-behavior: contain;
-			touch-action: pan-x pan-y;
-			scrollbar-gutter: stable;
-			border-top: 1px solid var(--movie-border-strong);
-			background: var(--movie-track);
-		}
-		.movie-timeline-shell.is-scrubbing {
-			cursor: ew-resize;
-			user-select: none;
-			touch-action: none;
-		}
-		.movie-timeline-toolbar {
+		.movie-timeline-commands {
 			position: sticky;
 			top: 0;
 			left: 0;
-			z-index: 12;
+			z-index: 30;
 			display: flex;
 			align-items: center;
-			gap: var(--movie-space-2);
-			width: max-content;
-			min-width: 100%;
-			height: 44px;
-			padding: var(--movie-space-1) var(--movie-space-3);
+			gap: 8px;
+			width: max(100%, max-content);
+			min-height: 50px;
+			padding: 7px 10px;
 			border-bottom: 1px solid var(--movie-border);
-			background: color-mix(in srgb, var(--movie-surface-toolbar) 96%, transparent);
-			backdrop-filter: blur(10px);
+			background: color-mix(in srgb, var(--movie-surface-toolbar) 94%, transparent);
+			backdrop-filter: blur(14px);
 		}
-		.movie-timeline-toolbar button {
-			min-width: var(--movie-control-height);
-			min-height: 34px;
+		.movie-timeline-tool-group,
+		.movie-timeline-command-group,
+		.movie-timeline-scale-controls {
+			display: inline-flex;
+			align-items: center;
+			gap: 4px;
+		}
+		.movie-timeline-tool-group {
+			padding-right: 8px;
+			border-right: 1px solid var(--movie-divider-subtle);
+		}
+		.movie-timeline-commands button {
+			min-width: 36px;
+			min-height: 36px;
+			padding: 5px 9px;
+			border: 1px solid transparent;
+			border-radius: var(--movie-radius-sm);
+			background: transparent;
+			color: var(--movie-text-muted);
+			font: 700 12px/1 system-ui, sans-serif;
 			white-space: nowrap;
 		}
-		.movie-timeline-toolbar strong,
-		.movie-timeline-toolbar output {
-			font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-			font-size: 12px;
-			white-space: nowrap;
+		.movie-timeline-commands button:hover:not(:disabled),
+		.movie-timeline-commands button:focus-visible {
+			border-color: var(--movie-border-strong);
+			background: var(--movie-panel-hover);
+			color: var(--movie-text);
 		}
-		.movie-timeline-toolbar > span {
+		.movie-timeline-commands button[data-active="true"],
+		.movie-timeline-commands button[aria-pressed="true"] {
+			border-color: var(--movie-accent);
+			background: color-mix(in srgb, var(--movie-accent) 22%, var(--movie-panel));
+			color: var(--movie-accent-strong);
+			box-shadow: inset 0 -2px 0 var(--movie-accent);
+		}
+		.movie-timeline-commands button:disabled {
+			opacity: .38;
+			cursor: not-allowed;
+		}
+		.movie-timeline-time {
+			min-width: 76px;
 			margin-left: auto;
-			color: var(--movie-text-muted);
-			white-space: nowrap;
+			color: var(--movie-text);
+			font: 700 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+			text-align: center;
 		}
-		.movie-ruler {
-			position: sticky;
-			top: 44px;
-			z-index: 7;
-			height: 30px;
-			margin-left: var(--movie-track-header-width);
-			border-bottom: 1px solid var(--movie-border-strong);
-			background: var(--movie-ruler);
+		.movie-timeline-scale-controls {
+			padding-left: 8px;
+			border-left: 1px solid var(--movie-divider-subtle);
 		}
-		.movie-ruler span {
-			position: absolute;
-			inset-block: 0;
-			padding: 6px 0 0 6px;
-			border-left: 1px solid var(--movie-border-strong);
-			color: var(--movie-text-muted);
-			font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-			font-size: 10px;
+		.movie-timeline-shell[data-tool="blade"],
+		.movie-timeline-shell[data-tool="blade"] .movie-clip {
+			cursor: crosshair;
+		}
+		.movie-timeline-shell[data-tool="hand"],
+		.movie-timeline-shell[data-tool="hand"] .movie-clip {
+			cursor: grab;
+			user-select: none;
+		}
+		.movie-timeline-shell[data-tool="hand"].is-panning,
+		.movie-timeline-shell[data-tool="hand"].is-panning .movie-clip {
+			cursor: grabbing;
+		}
+		.movie-timeline-shell[data-tool="zoom"],
+		.movie-timeline-shell[data-tool="zoom"] .movie-clip {
+			cursor: zoom-in;
+		}
+		@media (max-width: 640px) {
+			.movie-timeline-commands { gap: 6px; padding-inline: 8px; overflow-x: auto; }
+			.movie-timeline-commands button { min-width: 44px; min-height: 44px; }
+			.movie-timeline-time { position: sticky; right: 0; background: var(--movie-surface-toolbar); }
 		}
 	`;
 }

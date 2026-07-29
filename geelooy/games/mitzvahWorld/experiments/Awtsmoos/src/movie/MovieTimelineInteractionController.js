@@ -4,74 +4,86 @@
 
 /**
  * @file MovieTimelineInteractionController.js
- * @description Owns timeline scrubbing, keyboard navigation, and modifier-assisted zoom.
- * The Awtsmoos renews intention before pointer or key can move; Awtsmoos.com anchors
- * each gesture to canonical time, while capture remains a gift rather than a requirement.
+ * @description Owns bounded scrub, listener, hand-pan, zoom-tool, and scroll-restoration lifecycle.
+ * The Awtsmoos renews time beyond pointer and key; Awtsmoos.com keeps every listener
+ * bounded to one timeline view while project edits remain separate from navigation state.
  */
 
 import { captureMoviePointer } from './MoviePointerCapture.js';
 import { timelineTimeAtPixel } from './MovieTimelineGeometry.js';
-import { timelineHeaderWidth } from './MovieTimelineViewport.js';
 import {
-	captureTimelineZoomAnchor,
-	restoreTimelineScroll
-} from './MovieTimelineZoomState.js';
+	handleMovieTimelineKeyDown,
+	handleMovieTimelineWheel
+} from './MovieTimelineInteractionKeys.js';
+import {
+	beginMovieTimelineToolPointer,
+	continueMovieTimelineToolPointer,
+	endMovieTimelineToolPointer
+} from './MovieTimelineToolInteraction.js';
+import { timelineHeaderWidth } from './MovieTimelineViewport.js';
+import { restoreTimelineScroll } from './MovieTimelineZoomState.js';
 
 export class MovieTimelineInteractionController {
 	constructor(view) {
 		this.view = view;
 		this.scrubbing = false;
-		this.pointerDown = event => this.beginScrub(event);
-		this.pointerMove = event => this.continueScrub(event);
-		this.pointerUp = () => this.endScrub();
-		this.keyDown = event => this.onKeyDown(event);
-		this.wheel = event => this.onWheel(event);
+		this.pan = null;
+		this.bound = false;
+		this.handlers = {
+			keydown: event => handleMovieTimelineKeyDown(this, event),
+			pointercancel: () => this.endPointer(),
+			pointerdown: event => this.beginPointer(event),
+			pointermove: event => this.continuePointer(event),
+			pointerup: () => this.endPointer(),
+			wheel: event => handleMovieTimelineWheel(this, event)
+		};
 	}
 
 	bind() {
-		const { shell } = this.view;
-		shell.addEventListener('pointerdown', this.pointerDown);
-		shell.addEventListener('pointermove', this.pointerMove);
-		shell.addEventListener('pointerup', this.pointerUp);
-		shell.addEventListener('pointercancel', this.pointerUp);
-		shell.addEventListener('keydown', this.keyDown);
-		shell.addEventListener('wheel', this.wheel, { passive: false });
+		if (this.bound) return;
+		for (const [name, handler] of Object.entries(this.handlers)) {
+			const options = name === 'wheel' ? { passive: false } : undefined;
+			this.view.shell.addEventListener(name, handler, options);
+		}
+		this.bound = true;
 	}
 
 	unbind() {
-		const { shell } = this.view;
-		shell.removeEventListener('pointerdown', this.pointerDown);
-		shell.removeEventListener('pointermove', this.pointerMove);
-		shell.removeEventListener('pointerup', this.pointerUp);
-		shell.removeEventListener('pointercancel', this.pointerUp);
-		shell.removeEventListener('keydown', this.keyDown);
-		shell.removeEventListener('wheel', this.wheel);
+		if (!this.bound) return;
+		for (const [name, handler] of Object.entries(this.handlers)) {
+			this.view.shell.removeEventListener(name, handler);
+		}
+		this.bound = false;
+		this.scrubbing = false;
+		endMovieTimelineToolPointer(this);
 	}
 
-	beginScrub(event) {
+	beginPointer(event) {
 		if (event.button !== 0) return;
-		if (event.target.closest('.movie-clip,.movie-timeline-toolbar')) return;
+		if (event.target.closest?.('.movie-timeline-commands')) return;
+		if (beginMovieTimelineToolPointer(this, event)) return;
+		if (event.target.closest?.('.movie-clip')) return;
+		event.preventDefault();
 		this.scrubbing = true;
-		this.view.shell.classList.add('is-scrubbing');
 		captureMoviePointer(this.view.shell, event.pointerId);
 		this.seekFromPointer(event);
 	}
 
-	continueScrub(event) {
+	continuePointer(event) {
+		if (continueMovieTimelineToolPointer(this, event)) return;
 		if (this.scrubbing) this.seekFromPointer(event);
 	}
 
-	endScrub() {
+	endPointer() {
 		this.scrubbing = false;
-		this.view.shell.classList.remove('is-scrubbing');
+		endMovieTimelineToolPointer(this);
 	}
 
 	seekFromPointer(event) {
-		const { shell } = this.view;
-		const rectangle = shell.getBoundingClientRect();
+		const rectangle = this.view.shell.getBoundingClientRect();
 		const pixel = event.clientX - rectangle.left
-			+ shell.scrollLeft
-			- timelineHeaderWidth(shell);
+			+ this.view.shell.scrollLeft
+			- timelineHeaderWidth(this.view.shell);
 		this.view.onSeek?.(timelineTimeAtPixel(
 			pixel,
 			this.view.scale,
@@ -79,31 +91,11 @@ export class MovieTimelineInteractionController {
 		));
 	}
 
-	onKeyDown(event) {
-		if (event.key === '+' || event.key === '=') {
-			event.preventDefault();
-			this.view.setScale(this.view.scale * 1.2);
-		}
-		if (event.key === '-') {
-			event.preventDefault();
-			this.view.setScale(this.view.scale / 1.2);
-		}
-		if (event.key === 'Home') this.view.onSeek?.(0);
-		if (event.key === 'End') this.view.onSeek?.(this.view.project.duration);
-	}
-
-	onWheel(event) {
-		if (!event.ctrlKey && !event.metaKey) return;
-		event.preventDefault();
-		const factor = event.deltaY < 0 ? 1.12 : 0.89;
-		this.view.setScale(this.view.scale * factor, event.clientX);
-	}
-
-	captureZoomAnchor(clientX) {
-		return captureTimelineZoomAnchor(this.view, clientX);
-	}
-
 	restoreScroll(previousScroll) {
 		restoreTimelineScroll(this.view, previousScroll);
+	}
+
+	destroy() {
+		this.unbind();
 	}
 }

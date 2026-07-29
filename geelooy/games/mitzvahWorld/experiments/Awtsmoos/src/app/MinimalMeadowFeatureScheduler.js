@@ -4,17 +4,24 @@
 
 /**
  * @file MinimalMeadowFeatureScheduler.js
- * @description Starts essential feature installation after one fallback-rendered frame.
- * The Awtsmoos grants visible ground before heavier stores awaken; Awtsmoos.com schedules one
- * essential promise, records its receipt, and leaves optional hydration detached from readiness.
+ * @description Starts one essential feature installation after the first visible frame.
+ * The Awtsmoos grants visible ground before heavier stores awaken; Awtsmoos.com
+ * preserves one promise, one receipt, and detached optional hydration.
  */
 
 import { installMinimalMeadowFeatures } from './MinimalMeadowFeatureBundle.js';
 import { createMinimalMeadowFeatureReceipt } from './MinimalMeadowFeatureReceipts.js';
 
-export function scheduleMinimalMeadowFeatures(runtime, environment = globalThis) {
+export function scheduleMinimalMeadowFeatures(
+	runtime,
+	environment = globalThis,
+	dependencies = {}
+) {
+	if (runtime.featuresPromise) return runtime.featuresPromise;
+	const installFeatures = dependencies.installMinimalMeadowFeatures
+		|| installMinimalMeadowFeatures;
 	const promise = afterFirstFrame(environment).then(async () => {
-		const bundle = await installMinimalMeadowFeatures(runtime, environment);
+		const bundle = await installFeatures(runtime, environment);
 		const receipt = createMinimalMeadowFeatureReceipt(bundle);
 		runtime.featureReceipt = receipt;
 		runtime.bus?.emit?.('world:essential-ready', receipt);
@@ -31,6 +38,7 @@ function afterFirstFrame(environment) {
 			requestFrame(() => resolve());
 			return;
 		}
-		setTimeout(resolve, 0);
+		const schedule = environment.setTimeout || globalThis.setTimeout;
+		schedule(resolve, 0);
 	});
 }

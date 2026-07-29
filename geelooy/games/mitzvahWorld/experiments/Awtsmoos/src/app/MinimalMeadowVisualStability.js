@@ -33,9 +33,9 @@ function stabilizeHouses(system) {
 		if (!isMesh(object)) return;
 		object.visible = true;
 		object.frustumCulled = false;
-		for (const material of materialsFor(object)) {
-			material.doubleSided = true;
-			material.backfaceCull = false;
+		for (const surface of materialsFor(object)) {
+			surface.doubleSided = true;
+			surface.backfaceCull = false;
 			materials += 1;
 		}
 		meshes += 1;

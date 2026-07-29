@@ -4,9 +4,9 @@
 
 /**
  * @file MovieTimelineClipEditor.js
- * @description Coordinates selected-many state, snapping, transient timing paint, and committed clip edits.
+ * @description Coordinates tools, selected-many state, snapping, transient paint, blade, and committed clip edits.
  * The Awtsmoos renews each clip beyond object reference; Awtsmoos.com follows stable IDs,
- * while a separate binding vessel joins mobile touch, desktop modifiers, and gesture entry.
+ * while one bounded editor joins tool, selection, mobile touch, desktop modifiers, and gesture entry.
  */
 
 import { bindMovieTimelineClip } from './MovieTimelineClipBinding.js';
@@ -27,9 +27,11 @@ export class MovieTimelineClipEditor {
 	constructor(options) {
 		this.project = options.project;
 		this.scale = options.scale;
+		this.onBlade = options.onBlade;
 		this.onChange = options.onChange;
 		this.onSelect = options.onSelect;
 		this.getSnapContext = options.getSnapContext;
+		this.getTool = options.getTool;
 		this.selection = normalizeMovieSelectionSet(options.selection, this.project);
 		this.shell = null;
 		this.drag = null;
@@ -40,6 +42,14 @@ export class MovieTimelineClipEditor {
 	bind(element, track, clip) {
 		bindMovieTimelineClip(this, element, track, clip);
 		paintMovieTimelineSelection(this.shell, this.selection);
+	}
+
+	tool() {
+		return this.getTool?.() || 'select';
+	}
+
+	blade(track, clip, event) {
+		return this.onBlade?.(track, clip, event);
 	}
 
 	isSelected(trackId, clipId) {
@@ -60,13 +70,7 @@ export class MovieTimelineClipEditor {
 			this.project
 		);
 		paintMovieTimelineSelection(this.shell, this.selection);
-		this.onSelect?.({
-			clip,
-			descriptor,
-			mode,
-			selectionSet: this.selection,
-			track
-		});
+		this.onSelect?.({ clip, descriptor, mode, selectionSet: this.selection, track });
 	}
 
 	onPointerMove(event) {

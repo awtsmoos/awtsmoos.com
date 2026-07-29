@@ -4,60 +4,77 @@
 
 /**
  * @file minimalMeadowFeatureScheduler.test.mjs
- * @description Proves rich features wait for the playable gate and retain one bounded fallback.
- * The Awtsmoos lets movement precede ornament without abandoning direct callers; Awtsmoos.com
- * verifies one start, one promise, cancelled fallback, and no duplicate feature installation.
+ * @description Proves one essential promise waits for a visible scheduling gate.
+ * The Awtsmoos lets ground appear before stores awaken; Awtsmoos.com verifies
+ * one install, one receipt, one event, and deterministic fallback scheduling.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {
-	scheduleMinimalMeadowFeatures
-} from '../../app/MinimalMeadowFeatureScheduler.js';
+import { scheduleMinimalMeadowFeatures } from '../../app/MinimalMeadowFeatureScheduler.js';
 
-test('B"H explicit playable gate starts the rich graph exactly once', async () => {
-	const timers = new Map();
-	let timerId = 0;
-	let loads = 0;
-	const environment = {
-		clearTimeout: id => timers.delete(id),
-		setTimeout: callback => {
-			timerId += 1;
-			timers.set(timerId, callback);
-			return timerId;
-		}
-	};
-	const schedule = scheduleMinimalMeadowFeatures(() => {
-		loads += 1;
-		return { ready: true };
-	}, environment);
-	assert.equal(schedule.started, false);
-	assert.equal(loads, 0);
-	const first = schedule.start();
-	const second = schedule.start();
-	assert.equal(first, second);
-	assert.deepEqual(await first, { ready: true });
-	assert.equal(schedule.started, true);
-	assert.equal(loads, 1);
-	assert.equal(timers.size, 0);
+const ESSENTIAL = Object.freeze({
+	combat: true,
+	equipment: true,
+	inventory: true,
+	missing: Object.freeze([]),
+	quest: true,
+	ready: true,
+	recovery: true,
+	streaming: true,
+	ui: true
 });
 
-test('B"H idle fallback protects callers that never cross page readiness', async () => {
-	let idleCallback = null;
+test('B"H visible frame starts one essential graph and publishes one receipt', async () => {
+	let frameCallback = null;
 	let loads = 0;
+	const events = [];
+	const runtime = {
+		bus: { emit: (...values) => events.push(values) }
+	};
 	const environment = {
-		cancelIdleCallback() {},
-		requestIdleCallback: callback => {
-			idleCallback = callback;
+		requestAnimationFrame: callback => {
+			frameCallback = callback;
 			return 7;
 		}
 	};
-	const schedule = scheduleMinimalMeadowFeatures(() => {
-		loads += 1;
-		return 'loaded';
-	}, environment);
+	const dependencies = {
+		installMinimalMeadowFeatures: async () => {
+			loads += 1;
+			return { essential: ESSENTIAL, optionalPromise: Promise.resolve(), ready: true };
+		}
+	};
+	const first = scheduleMinimalMeadowFeatures(runtime, environment, dependencies);
+	const second = scheduleMinimalMeadowFeatures(runtime, environment, dependencies);
+	assert.equal(first, second);
+	assert.equal(runtime.featuresPromise, first);
 	assert.equal(loads, 0);
-	idleCallback();
-	assert.equal(await schedule.promise, 'loaded');
+	frameCallback();
+	const receipt = await first;
+	assert.equal(loads, 1);
+	assert.equal(receipt.ready, true);
+	assert.equal(runtime.featureReceipt, receipt);
+	assert.deepEqual(events, [['world:essential-ready', receipt]]);
+});
+
+test('B"H timer fallback remains deterministic when animation frames are absent', async () => {
+	let timerCallback = null;
+	let loads = 0;
+	const runtime = {};
+	const environment = {
+		setTimeout: callback => {
+			timerCallback = callback;
+			return 9;
+		}
+	};
+	const promise = scheduleMinimalMeadowFeatures(runtime, environment, {
+		installMinimalMeadowFeatures: async () => {
+			loads += 1;
+			return { essential: ESSENTIAL, optionalPromise: null, ready: true };
+		}
+	});
+	assert.equal(loads, 0);
+	timerCallback();
+	assert.equal((await promise).ready, true);
 	assert.equal(loads, 1);
 });

@@ -3,6 +3,8 @@
 // Blessed is He
 
 const Activity = require("./requestActivity.js");
+const Envelopes = require("./envelopes.js");
+const Lifecycle = require("./lifecycle.js");
 const State = require("./state.js");
 
 const DEFAULT_CONSUMER_PROGRESS_MS = Number(
@@ -52,15 +54,29 @@ function armConsumer(context, client, id, record) {
 	record.consumerTimer = setTimeout(() => {
 		if (context.pendingTunnelRequests.get(id) !== record) return;
 		if (Number(record.lastProgressAt || 0) >= record.requestAcceptedAt) return;
-		fence(client, "device_consumer_progress_timeout");
 		Activity.transition(context, record, "action.transport_stalled", {
 			state: "recovering",
 			severity: "error",
 			summary: `${record.activityContext?.action || "action"} accepted but not consumed`,
 			phase: "device_consumer_progress_timeout"
 		});
+		void finishStalledRequest(
+			context,
+			id,
+			record,
+			"device_consumer_progress_timeout"
+		).finally(() => fence(client, "device_consumer_progress_timeout"));
 	}, bounded(DEFAULT_CONSUMER_PROGRESS_MS));
 	record.consumerTimer.unref?.();
+}
+
+function finishStalledRequest(context, id, record, reason) {
+	return Lifecycle.finishPending(
+		context,
+		id,
+		record,
+		Envelopes.transportStallEnvelope(record.expected, reason, true)
+	);
 }
 
 function monitorAccepted(context, client) {
@@ -109,6 +125,7 @@ module.exports = {
 	DEFAULT_CONSUMER_PROGRESS_MS,
 	armConsumer,
 	fence,
+	finishStalledRequest,
 	handleTunnelRequestAck,
 	monitorAccepted
 };

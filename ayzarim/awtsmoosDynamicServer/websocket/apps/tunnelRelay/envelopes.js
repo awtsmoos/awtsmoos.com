@@ -22,5 +22,6 @@ module.exports = {
 	relayErrorEnvelope: Errors.relayErrorEnvelope,
 	retryPayload: Identity.retryPayload,
 	sendFailureEnvelope: Errors.sendFailureEnvelope,
+	transportStallEnvelope: Errors.transportStallEnvelope,
 	timeoutEnvelope: Pending.timeoutEnvelope
 };

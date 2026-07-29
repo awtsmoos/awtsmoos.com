@@ -4,9 +4,9 @@
 
 /**
  * @file MovieTimelineRenderer.js
- * @description Renders command, ruler, marker, track, splitter, scale, and playhead vessels.
+ * @description Renders tool-aware command, ruler, marker, track, splitter, scale, and playhead vessels.
  * The Awtsmoos renews visible form while project meaning remains one; Awtsmoos.com
- * publishes true-second geometry and zoom bands while rebuilding without stale listeners.
+ * publishes true-second geometry and tool state while rebuilding without stale listeners.
  */
 
 import {
@@ -19,6 +19,7 @@ import {
 	createTimelineToolbar,
 	refreshTimelineToolbar
 } from './MovieTimelineToolbar.js';
+import { movieTimelineToolDefinition } from './MovieTimelineToolState.js';
 import { timelineHeaderWidth } from './MovieTimelineViewport.js';
 
 export function renderMovieTimeline(view) {
@@ -30,13 +31,15 @@ export function renderMovieTimeline(view) {
 	view.shell.replaceChildren();
 	view.shell.className = 'movie-timeline-shell';
 	view.shell.dataset.scaleBand = timelineScaleBand(view.scale);
-	view.shell.style.setProperty(
-		'--movie-timeline-second-width',
-		`${view.scale}px`
-	);
+	view.shell.dataset.tool = view.tool;
+	view.shell.style.setProperty('--movie-timeline-second-width', `${view.scale}px`);
 	view.shell.tabIndex = 0;
 	view.shell.setAttribute('role', 'region');
 	view.shell.setAttribute('aria-label', 'Movie timeline editor');
+	view.shell.setAttribute(
+		'aria-description',
+		`${movieTimelineToolDefinition(view.tool).label} timeline tool active`
+	);
 	view.shell.appendChild(createTimelineToolbar(view));
 	view.shell.appendChild(createTimelineRuler(view.project, view.scale));
 	view.shell.appendChild(createTimelineMarkerLane(view));
@@ -54,9 +57,8 @@ export function renderMovieTimeline(view) {
 	view.shell.appendChild(view.playhead);
 	view.interactions.bind();
 	setMovieTimelineTime(view, view.currentTime);
-	requestAnimationFrame(() => {
-		view.interactions.restoreScroll(previousScroll);
-	});
+	refreshMovieTimelineCommands(view);
+	requestAnimationFrame(() => view.interactions.restoreScroll(previousScroll));
 }
 
 export function setMovieTimelineTime(view, time) {

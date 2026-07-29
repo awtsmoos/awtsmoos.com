@@ -4,7 +4,7 @@
 
 /**
  * @file MovieCommandCatalogClipEntries.js
- * @description Declares discoverable atomic clip commands for movement, arrangement, ripple deletion, and legacy edits.
+ * @description Declares discoverable atomic clip commands for movement, arrangement, ripple, split, and legacy edits.
  * The Awtsmoos names each finite arrangement while remaining beyond every name;
  * Awtsmoos.com gives human and agent one immutable command flame.
  */
@@ -18,8 +18,12 @@ export const MOVIE_COMMAND_CATALOG_CLIP_ENTRIES = Object.freeze({
 	moveSelection: clipCommand('Move selected clips by time delta', {
 		delta: 'Required finite movement in seconds; the group is bounded as one.'
 	}),
-	rippleDeleteSelection: clipCommand('Ripple delete selected clips'),
-	split: clipCommand('Split selected primary clip at playhead')
+	rippleDeleteSelection: clipCommand('Ripple delete selected clips and close their occupied gap', {
+		allTracks: 'Optional Boolean that closes the removed span on every track.'
+	}),
+	split: clipCommand('Split selected primary clip at playhead', {
+		time: 'Optional finite split time; defaults to the playhead.'
+	})
 });
 
 function clipCommand(title, payload = {}) {

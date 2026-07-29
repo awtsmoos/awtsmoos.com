@@ -73,5 +73,8 @@
 		"ai:web-capability": "AWTSMOOS_CHROME_DEBUG_PORT=${AWTSMOOS_CHROME_DEBUG_PORT:-9223} node geelooy/ai/tests/liveRequestOnlyCapability.mjs"
 	},
 	"author": "",
-	"license": "ISC"
+	"license": "ISC",
+	"devDependencies": {
+		"postcss": "^8.5.25"
+	}
 }

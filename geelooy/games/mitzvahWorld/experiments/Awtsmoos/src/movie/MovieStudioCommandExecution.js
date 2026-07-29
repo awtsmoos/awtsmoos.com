@@ -4,13 +4,17 @@
 
 /**
  * @file MovieStudioCommandExecution.js
- * @description Executes canonical commands with complete immutable selection context and machine-visible errors.
- * The Awtsmoos renews command before one and many appear;
- * Awtsmoos.com keeps legacy primary edits while selected-many mutations remain clear.
+ * @description Executes authored commands and revision-neutral snapping or timeline-tool state.
+ * The Awtsmoos renews command before one and many appear; Awtsmoos.com keeps
+ * project mutation in history while navigation and creative tool state remain neutral and clear.
  */
 
 import { commitMovieStudioResult } from './MovieStudioCommandHistory.js';
 import { executeMovieStudioProjectCommand } from './MovieStudioProjectCommands.js';
+import {
+	movieTimelineToolDefinition,
+	normalizeMovieTimelineTool
+} from './MovieTimelineToolState.js';
 
 export function executeMovieStudioCommand(controller, name, payload = {}) {
 	if (name === 'undo') return controller.undo();
@@ -20,6 +24,9 @@ export function executeMovieStudioCommand(controller, name, payload = {}) {
 	}
 	if (name === 'setSnapping') {
 		return setMovieStudioSnapping(controller, Boolean(payload.enabled));
+	}
+	if (name === 'setTimelineTool') {
+		return setMovieStudioTimelineTool(controller, payload.tool);
 	}
 	return commitMovieStudioResult(
 		controller,
@@ -46,4 +53,19 @@ export function setMovieStudioSnapping(controller, enabled) {
 		revision: controller.session.revision
 	});
 	return controller.snapping;
+}
+
+export function setMovieStudioTimelineTool(controller, value) {
+	const tool = normalizeMovieTimelineTool(value);
+	controller.session.timelineTool = tool;
+	controller.session.timeline?.setTool(tool);
+	const label = movieTimelineToolDefinition(tool).label;
+	if (controller.session.view?.status) {
+		controller.session.view.status.textContent = `${label} timeline tool active.`;
+	}
+	controller.session.events?.emit('timeline:tool', {
+		revision: controller.session.revision,
+		tool
+	});
+	return tool;
 }

@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioApiCommandMap.js
- * @description Maps stable dotted agent command names onto the complete verified editor vocabulary.
- * The Awtsmoos is beyond alias and implementation; Awtsmoos.com lets agents speak one
- * durable language while every human editing operation remains discoverable and compatible.
+ * @description Maps stable dotted agent names and internal names onto the complete editor vocabulary.
+ * The Awtsmoos is beyond alias and implementation while every finite caller receives one durable gate;
+ * Awtsmoos.com preserves legacy spellings as tool, track, clip, marker, history, and snapping evolve in state.
  */
 
 import { MovieApiError } from './MovieApiError.js';
@@ -18,6 +18,7 @@ const ALIASES = Object.freeze({
 	'clip.distribute': 'distributeSelection',
 	'clip.duplicate': 'duplicate',
 	'clip.move': 'moveSelection',
+	'clip.moveSelection': 'moveSelection',
 	'clip.rippleDelete': 'rippleDeleteSelection',
 	'clip.split': 'split',
 	'history.redo': 'redo',
@@ -25,6 +26,7 @@ const ALIASES = Object.freeze({
 	'marker.add': 'addMarker',
 	'marker.remove': 'removeMarker',
 	'timeline.setSnapping': 'setSnapping',
+	'timeline.setTool': 'setTimelineTool',
 	'timeline.toggleSnapping': 'toggleSnap',
 	'track.add': 'addTrack',
 	'track.duplicate': 'duplicateTrack',
@@ -38,8 +40,8 @@ const INTERNAL = new Set([
 	'addMarker', 'addTrack', 'alignSelectionEnds', 'alignSelectionStarts',
 	'delete', 'distributeSelection', 'duplicate', 'duplicateTrack',
 	'moveSelection', 'redo', 'removeMarker', 'removeTrack', 'renameTrack',
-	'reorderTrack', 'rippleDeleteSelection', 'setSnapping', 'setTrackState',
-	'split', 'toggleSnap', 'undo'
+	'reorderTrack', 'rippleDeleteSelection', 'setSnapping', 'setTimelineTool',
+	'setTrackState', 'split', 'toggleSnap', 'undo'
 ]);
 
 export const MOVIE_API_COMMAND_NAMES = Object.freeze([
@@ -58,4 +60,16 @@ export function normalizeMovieApiCommandName(value) {
 		);
 	}
 	return normalized;
+}
+
+export function resolveMovieStudioCommandName(value) {
+	try {
+		return normalizeMovieApiCommandName(value);
+	} catch {
+		return null;
+	}
+}
+
+export function movieStudioCommandAliases() {
+	return { ...ALIASES };
 }

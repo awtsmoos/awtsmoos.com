@@ -4,9 +4,9 @@
 
 /**
  * @file LocalExpansionAuthority.js
- * @description Mirrors server activity, transition, and elite semantics for explicit solo play.
+ * @description Mirrors server activities, travel, elite, upgrade, bounty, and mastery semantics.
  * The Awtsmoos makes cooperation optional rather than compulsory; Awtsmoos.com keeps cooldown,
- * region, mastery, material, exact-once reward, unlock, and duplicate receipts equal in solo.
+ * region, material, mastery, exact reward, upgrade, and bounty receipts equal in explicit solo.
  */
 
 import {
@@ -15,6 +15,10 @@ import {
 	EXPANSION_REGIONS
 } from './ExpansionCatalog.js';
 import { createLocalExpansionState } from './LocalExpansionState.js';
+import {
+	claimLocalBounty,
+	upgradeLocalEquipment
+} from './LocalExpansionProgression.js';
 import { canonicalEliteId, canonicalRegionId } from './RegionIdentity.js';
 
 export class LocalExpansionAuthority {
@@ -23,25 +27,23 @@ export class LocalExpansionAuthority {
 		this.state = createLocalExpansionState(initialState);
 	}
 
-	progressionSnapshot() {
-		return this.receipt();
-	}
+	progressionSnapshot() { return this.receipt(); }
 
 	performActivity(activityId) {
 		const activity = EXPANSION_ACTIVITIES[activityId];
 		if (!activity) throw new Error('UNKNOWN_ACTIVITY');
-		if (this.state.region.id !== activity.regionId) {
-			throw new Error('ACTIVITY_REGION_MISMATCH');
-		}
+		if (this.state.region.id !== activity.regionId) throw new Error('ACTIVITY_REGION_MISMATCH');
 		const now = this.clock();
 		const previous = this.state.activities[activityId];
 		if (previous && now - previous.completedAt < activity.cooldownMs) {
 			return { ...this.receipt(), duplicate: true };
 		}
-		const count = Number(previous?.count || 0) + 1;
-		this.state.activities[activityId] = { completedAt: now, count };
+		this.state.activities[activityId] = {
+			completedAt: now,
+			count: Number(previous?.count || 0) + 1
+		};
 		this.addMaterial(activity.materialId, activity.quantity);
-		this.state.mastery[activity.masteryId] += 10;
+		this.gainMastery(activity.masteryId, 10);
 		return { ...this.receipt(), duplicate: false };
 	}
 
@@ -59,9 +61,7 @@ export class LocalExpansionAuthority {
 	completeElite(requestedEliteId, completionId) {
 		const eliteId = canonicalEliteId(requestedEliteId);
 		if (eliteId !== EXPANSION_ELITE.id) throw new Error('UNKNOWN_ENCOUNTER');
-		if (this.state.region.id !== EXPANSION_ELITE.regionId) {
-			throw new Error('ENCOUNTER_REGION_MISMATCH');
-		}
+		if (this.state.region.id !== EXPANSION_ELITE.regionId) throw new Error('ENCOUNTER_REGION_MISMATCH');
 		if (this.state.encounters[completionId]
 			|| this.state.rewardIds.includes(EXPANSION_ELITE.rewardId)) {
 			return { ...this.receipt(), duplicate: true };
@@ -78,13 +78,23 @@ export class LocalExpansionAuthority {
 		return { ...this.receipt(), duplicate: false };
 	}
 
-	addMaterial(materialId, quantity) {
-		this.state.materials[materialId] = Number(
-			this.state.materials[materialId] || 0
-		) + quantity;
+	upgradeEquipment(upgradeId) {
+		return { ...this.receipt(), ...upgradeLocalEquipment(this, upgradeId) };
 	}
 
-	receipt() {
-		return { payload: structuredClone(this.state) };
+	claimBounty(bountyId) {
+		return { ...this.receipt(), ...claimLocalBounty(this, bountyId) };
 	}
+
+	gainMastery(masteryId, quantity) {
+		this.state.mastery[masteryId] = Number(this.state.mastery[masteryId] || 0)
+			+ Number(quantity || 0);
+	}
+
+	addMaterial(materialId, quantity) {
+		this.state.materials[materialId] = Number(this.state.materials[materialId] || 0)
+			+ quantity;
+	}
+
+	receipt() { return { payload: structuredClone(this.state) }; }
 }

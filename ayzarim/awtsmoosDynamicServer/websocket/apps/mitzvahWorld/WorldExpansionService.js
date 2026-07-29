@@ -4,59 +4,48 @@
 
 /**
  * @file WorldExpansionService.js
- * @description Composes activity, elite, region, mastery, material, and migration authority.
- * The Awtsmoos unifies many journeys without collapsing their vessels; Awtsmoos.com keeps
- * each focused service small while one snapshot preserves catalog and durable player truth.
+ * @description Composes activities, regions, elite rewards, upgrades, and bounties.
+ * The Awtsmoos joins gathering, travel, combat, and lasting choice beneath one world truth;
+ * Awtsmoos.com keeps every mutation durable, exact-once, inspectable, and solo-compatible.
  */
 
 const { ExpansionActivityService } = require('./ExpansionActivityService.js');
 const { ExpansionEliteService } = require('./ExpansionEliteService.js');
+const { ExpansionProgressionService } = require('./ExpansionProgressionService.js');
 const { ExpansionRegionService } = require('./ExpansionRegionService.js');
-const { ACTIVITIES, ELITE, REGIONS } = require('./GameplayExpansionCatalog.js');
-const { ensureExpansionState } = require('./PlayerExpansionState.js');
+const { expansionSnapshot } = require('./PlayerExpansionState.js');
 
 class WorldExpansionService {
 	constructor(options = {}) {
 		this.activities = new ExpansionActivityService(options);
-		this.elite = new ExpansionEliteService(options);
+		this.elites = new ExpansionEliteService(options);
+		this.progression = new ExpansionProgressionService();
 		this.regions = new ExpansionRegionService(options);
 	}
 
 	snapshot(player) {
-		return clone({
-			catalog: {
-				activities: ACTIVITIES,
-				elite: ELITE,
-				regions: REGIONS
-			},
-			state: ensureExpansionState(player)
-		});
+		return expansionSnapshot(player);
 	}
 
-	performActivity(player, activityId) {
-		return {
-			...this.activities.perform(player, activityId),
-			...this.snapshot(player)
-		};
+	performActivity(player, activityId, completionId) {
+		return this.activities.perform(player, activityId, completionId);
 	}
 
-	transition(player, regionId) {
-		return {
-			...this.regions.transition(player, regionId),
-			...this.snapshot(player)
-		};
+	transitionRegion(player, regionId) {
+		return this.regions.transition(player, regionId);
 	}
 
 	completeElite(player, encounterId, completionId) {
-		return {
-			...this.elite.complete(player, encounterId, completionId),
-			...this.snapshot(player)
-		};
+		return this.elites.complete(player, encounterId, completionId);
 	}
-}
 
-function clone(value) {
-	return JSON.parse(JSON.stringify(value));
+	upgradeEquipment(player, upgradeId) {
+		return this.progression.upgradeEquipment(player, upgradeId);
+	}
+
+	claimBounty(player, bountyId) {
+		return this.progression.claimBounty(player, bountyId);
+	}
 }
 
 module.exports = {

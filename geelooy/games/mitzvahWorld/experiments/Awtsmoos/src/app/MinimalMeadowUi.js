@@ -34,7 +34,7 @@ export function installMinimalMeadowUi(runtime, documentValue, environment = glo
 	const { hosts } = runtime;
 	const bus = runtime.bus || new AwtsmoosEventBus();
 	const inventory = new InventoryStore();
-	Object.assign(runtime, { bus, inventory });
+	Object.assign(runtime, { bus, inventory, inventoryStore: inventory });
 	const equipment = new MinimalMeadowEquipmentRuntime(runtime);
 	runtime.equipment = equipment;
 	equipment.bindModel(runtime.model);

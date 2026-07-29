@@ -35,7 +35,9 @@ export async function mountMinimalMeadowRichWorld(
 			'houses',
 			() => MinimalMeadowHousePopulation.create(runtime)
 		),
-		quest: () => mountMinimalMeadowQuest(runtime, environment),
+		quest: () => runtime.questStore
+			? Promise.resolve({ name: 'quest', status: 'ready' })
+			: mountMinimalMeadowQuest(runtime, environment),
 		tailor: () => mountMinimalMeadowSubsystem(
 			runtime,
 			'clothingMerchant',

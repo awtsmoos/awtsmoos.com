@@ -9,6 +9,7 @@ const Limits = require('./frameLimits.js');
 const Live = require('./clientLiveness.js');
 const { dispatchClientFrame } = require('./frameDispatch.js');
 const { collectTextMessage } = require('./textFragments.js');
+const { initiateCloseHandshake } = require('./closeHandshake.js');
 
 /**
  * @file Owns one bounded socket client, its liveness, fragments, and trusted identity.
@@ -37,6 +38,9 @@ function createSocketClient(socket, metadata = {}) {
 		isAlive: true,
 		lastTransportError: '',
 		socket,
+		close(code = 1000, reason = '') {
+			return initiateCloseHandshake(client, code, reason);
+		},
 		send(message) {
 			const payload = typeof message === 'string'
 				? message

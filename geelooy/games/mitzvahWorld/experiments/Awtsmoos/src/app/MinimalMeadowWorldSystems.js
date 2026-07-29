@@ -18,6 +18,7 @@ import { MinimalMeadowCombat } from './MinimalMeadowCombat.js';
 import { installMinimalMeadowEnemyRuntime } from './MinimalMeadowEnemyRuntimeMount.js';
 import { compileMinimalShadowCreature } from './MinimalMeadowProceduralCreature.js';
 import { MinimalMeadowRegionRuntime } from './MinimalMeadowRegionRuntime.js';
+import { mountMinimalMeadowQuest } from './MinimalMeadowQuestMount.js';
 import { RegionPackageRuntime } from './RegionPackageRuntime.js';
 import { installMinimalMeadowSky } from './MinimalMeadowSky.js';
 import {
@@ -41,6 +42,7 @@ export async function installMinimalMeadowWorldSystems(runtime, environment = gl
 	});
 	runtime.expansionLandmarks = new ExpansionLandmarkPopulation(runtime);
 	runtime.recovery = new GameplayRecoveryCoordinator(runtime);
+	await mountMinimalMeadowQuest(runtime, environment);
 	runtime.updateWorldSystems = deltaSeconds => {
 		return updateMinimalMeadowWorldSystems(runtime, deltaSeconds);
 	};

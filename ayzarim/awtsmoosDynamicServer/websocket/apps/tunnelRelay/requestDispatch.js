@@ -121,18 +121,41 @@ function armAcceptance(context, id, record, tunnel) {
 			record.requestAcceptedAt) {
 			return;
 		}
-		tunnel.connected = false;
-		tunnel.isAlive = false;
-		tunnel.lastTransportError = "device_request_acceptance_timeout";
-		try {
-			if (typeof tunnel.close === "function") {
-				tunnel.close(4002, "device_request_acceptance_timeout");
-			} else {
-				tunnel.socket?.end?.();
-			}
-		} catch {}
+		void finishStalledRequest(
+			context,
+			id,
+			record,
+			"device_request_acceptance_timeout",
+			false
+		).finally(() => fenceAfterSettlement(
+			tunnel,
+			"device_request_acceptance_timeout"
+		));
 	}, bounded(DEFAULT_REQUEST_ACCEPTANCE_MS));
 	record.acceptanceTimer.unref?.();
+}
+
+function finishStalledRequest(context, id, record, reason, accepted) {
+	return Lifecycle.finishPending(
+		context,
+		id,
+		record,
+		Envelopes.transportStallEnvelope(record.expected, reason, accepted)
+	);
+}
+
+function fenceAfterSettlement(tunnel, reason) {
+	if (!tunnel) return false;
+	tunnel.connected = false;
+	tunnel.isAlive = false;
+	tunnel.lastTransportError = reason;
+	try {
+		if (typeof tunnel.close === "function") tunnel.close(4002, reason);
+		else tunnel.socket?.end?.();
+		return true;
+	} catch {
+		return false;
+	}
 }
 
 function bounded(value) {
@@ -146,6 +169,8 @@ module.exports = {
 	DEFAULT_REQUEST_ACCEPTANCE_MS,
 	armAcceptance,
 	dispatch,
+	fenceAfterSettlement,
+	finishStalledRequest,
 	missing,
 	recoverPending
 };

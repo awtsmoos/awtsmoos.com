@@ -4,9 +4,9 @@
 
 /**
  * @file GameplayExpansionRequestHandler.js
- * @description Routes durable activity, elite, region, and progression commands.
- * The Awtsmoos receives many intentions through one gate; Awtsmoos.com validates each
- * identifier before authoritative mutation, checkpoint persistence, and world broadcast.
+ * @description Routes activity, travel, elite, upgrade, bounty, and progression snapshot requests.
+ * The Awtsmoos renews every chosen deed beneath authority; Awtsmoos.com validates stable IDs,
+ * checkpoints durable mutations, and broadcasts only receipts that belong in the shared world.
  */
 
 const { commandPayload, identifier } = require('./CommandValidation.js');
@@ -21,44 +21,40 @@ function handleGameplayExpansionRequest(context, request, room) {
 			room.expansion.snapshot(player)
 		);
 	}
+	const payload = commandPayload(request.payload || {});
 	if (request.type === MESSAGE_TYPES.ACTIVITY_PERFORM) {
-		return activityResult(player, request, room);
+		return mutation(RESPONSE_TYPES.ACTIVITY_COMPLETED, room.expansion.performActivity(
+			player,
+			identifier(payload.activityId, 'Activity id'),
+			identifier(payload.completionId, 'Completion id')
+		));
 	}
 	if (request.type === MESSAGE_TYPES.REGION_TRANSITION) {
-		return regionResult(player, request, room);
+		return mutation(RESPONSE_TYPES.REGION_TRANSITIONED, room.expansion.transitionRegion(
+			player,
+			identifier(payload.regionId, 'Region id')
+		));
 	}
 	if (request.type === MESSAGE_TYPES.ELITE_COMPLETE) {
-		return eliteResult(player, request, room);
+		return mutation(RESPONSE_TYPES.ELITE_COMPLETED, room.expansion.completeElite(
+			player,
+			identifier(payload.encounterId, 'Encounter id'),
+			identifier(payload.completionId, 'Completion id')
+		));
+	}
+	if (request.type === MESSAGE_TYPES.EQUIPMENT_UPGRADE) {
+		return mutation(RESPONSE_TYPES.EQUIPMENT_UPGRADED, room.expansion.upgradeEquipment(
+			player,
+			identifier(payload.upgradeId, 'Upgrade id')
+		));
+	}
+	if (request.type === MESSAGE_TYPES.BOUNTY_CLAIM) {
+		return mutation(RESPONSE_TYPES.BOUNTY_CLAIMED, room.expansion.claimBounty(
+			player,
+			identifier(payload.bountyId, 'Bounty id')
+		));
 	}
 	return null;
-}
-
-function activityResult(player, request, room) {
-	const payload = commandPayload(request.payload);
-	const activityId = identifier(payload.activityId, 'Activity id');
-	return mutation(
-		RESPONSE_TYPES.ACTIVITY_COMPLETED,
-		room.expansion.performActivity(player, activityId)
-	);
-}
-
-function regionResult(player, request, room) {
-	const payload = commandPayload(request.payload);
-	const regionId = identifier(payload.regionId, 'Region id');
-	return mutation(
-		RESPONSE_TYPES.REGION_TRANSITIONED,
-		room.expansion.transition(player, regionId)
-	);
-}
-
-function eliteResult(player, request, room) {
-	const payload = commandPayload(request.payload);
-	const encounterId = identifier(payload.encounterId, 'Encounter id');
-	const completionId = identifier(payload.completionId, 'Completion id');
-	return mutation(
-		RESPONSE_TYPES.ELITE_COMPLETED,
-		room.expansion.completeElite(player, encounterId, completionId)
-	);
 }
 
 function mutation(type, payload) {

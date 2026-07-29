@@ -4,74 +4,62 @@
 
 /**
  * @file PlayerExpansionState.js
- * @description Migrates durable activities, mastery, rewards, materials, region, and unlocks.
- * The Awtsmoos renews identity through changing definitions; Awtsmoos.com preserves earned
- * progress while canonical aliases prevent duplicate rewards or stranded historical saves.
+ * @description Migrates durable activities, bounties, upgrades, encounters, mastery, and region.
+ * The Awtsmoos renews each save without erasing earned history; Awtsmoos.com adds missing
+ * definitions, canonical IDs, exact reward ledgers, and bounded materials through one vessel.
  */
 
-const { canonicalEliteId } = require('./GameplayEliteCatalog.js');
-const { canonicalRegionId } = require('./GameplayRegionCatalog.js');
-
-const VERSION = 3;
+const EXPANSION_VERSION = 3;
 
 function ensureExpansionState(player) {
-	player.expansion ||= {};
-	const state = player.expansion;
+	const state = player.expansion || {};
 	state.activities ||= {};
 	state.bounties ||= {};
 	state.encounters ||= {};
 	state.mastery ||= { defense: 0, staff: 0, sword: 0, torah: 0 };
 	state.materials ||= {};
-	state.region ||= { checkpoint: 'lower-meadow', id: 'lower-meadow' };
+	state.region ||= {
+		checkpoint: 'lower-meadow',
+		id: 'lower-meadow',
+		transitionedAt: null
+	};
 	state.rewardIds ||= [];
 	state.unlocks ||= [];
-	migrateAliases(state);
-	state.version = VERSION;
+	state.upgrades ||= [];
+	state.version = EXPANSION_VERSION;
+	player.expansion = state;
 	return state;
 }
 
-function addMaterial(player, materialId, amount = 1) {
+function expansionSnapshot(player) {
+	return JSON.parse(JSON.stringify(ensureExpansionState(player)));
+}
+
+function addMaterial(player, materialId, quantity) {
 	const state = ensureExpansionState(player);
-	state.materials[materialId] = Math.max(
-		0,
-		Number(state.materials[materialId] || 0) + Number(amount || 0)
-	);
+	state.materials[materialId] = Number(state.materials[materialId] || 0)
+		+ Number(quantity || 0);
 }
 
-function addMastery(player, masteryId, amount) {
+function addMastery(player, masteryId, quantity) {
 	const state = ensureExpansionState(player);
-	state.mastery[masteryId] = Math.max(
-		0,
-		Number(state.mastery[masteryId] || 0) + Number(amount || 0)
-	);
+	state.mastery[masteryId] = Number(state.mastery[masteryId] || 0)
+		+ Number(quantity || 0);
 }
 
-function hasReward(player, rewardId) {
-	return ensureExpansionState(player).rewardIds.includes(rewardId);
-}
-
-function rememberReward(player, rewardId) {
+function grantExpansionReward(player, rewardId, mutation) {
 	const state = ensureExpansionState(player);
-	if (!state.rewardIds.includes(rewardId)) state.rewardIds.push(rewardId);
-}
-
-function migrateAliases(state) {
-	state.region.id = canonicalRegionId(state.region.id || 'lower-meadow');
-	state.region.checkpoint = canonicalRegionId(
-		state.region.checkpoint || state.region.id
-	);
-	for (const encounter of Object.values(state.encounters)) {
-		if (encounter?.encounterId) {
-			encounter.encounterId = canonicalEliteId(encounter.encounterId);
-		}
-	}
+	if (state.rewardIds.includes(rewardId)) return false;
+	mutation(state);
+	state.rewardIds.push(rewardId);
+	return true;
 }
 
 module.exports = {
-	VERSION,
+	EXPANSION_VERSION,
 	addMastery,
 	addMaterial,
 	ensureExpansionState,
-	hasReward,
-	rememberReward
+	expansionSnapshot,
+	grantExpansionReward
 };

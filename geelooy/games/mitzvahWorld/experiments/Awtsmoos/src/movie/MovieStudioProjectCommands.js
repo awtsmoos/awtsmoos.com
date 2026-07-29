@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioProjectCommands.js
- * @description Routes clip, track, marker, and arrangement commands through immutable project operations.
+ * @description Routes clip, track, marker, arrangement, ripple, and pointer-time split commands.
  * The Awtsmoos renews command and document before interface or history;
- * Awtsmoos.com lets legacy edits and professional lifecycle changes share one registry.
+ * Awtsmoos.com lets legacy edits, professional tools, and lifecycle changes share one registry.
  */
 
 import {
@@ -37,7 +37,10 @@ export function executeMovieStudioProjectCommand(
 ) {
 	const selection = normalizeMovieSelectionSet(selectionSource, session.project);
 	const primary = selection.primary;
-	if (name === 'split') return splitMovieClip(session.project, primary, session.time);
+	if (name === 'split') {
+		const time = Object.hasOwn(payload, 'time') ? payload.time : session.time;
+		return splitMovieClip(session.project, primary, time);
+	}
 	if (name === 'duplicate') {
 		return duplicateSelectedMovieClips(session.project, selection)
 			|| duplicateMovieClip(session.project, primary);

@@ -9,7 +9,7 @@
  * combat, quests, recovery, and cells inside readiness while visual enrichment continues.
  */
 
-import { installMinimalMeadowAnimationRuntime } from './MinimalMeadowAnimationRuntime.js';
+import { installMinimalMeadowAnimation } from './MinimalMeadowAnimationState.js';
 import { installMinimalMeadowFriendlyNpcs } from './MinimalMeadowFriendlyNpcs.js';
 import { hydrateMinimalMeadowPlayer } from './MinimalMeadowPlayerHydration.js';
 import { enhanceMinimalMeadowRenderer } from './MinimalMeadowRendererEnhancement.js';
@@ -21,8 +21,12 @@ export async function installMinimalMeadowFeatures(
 	runtime,
 	environment = globalThis
 ) {
-	const ui = installMinimalMeadowUi(runtime);
-	const animation = installMinimalMeadowAnimationRuntime(runtime);
+	const ui = installMinimalMeadowUi(
+		runtime,
+		environment.document || globalThis.document,
+		environment
+	);
+	const animation = installMinimalMeadowAnimation(runtime);
 	const world = await installMinimalMeadowWorldSystems(runtime, environment);
 	const essential = essentialReceipt(runtime, ui, animation, world);
 	if (!essential.ready) {
