@@ -4,9 +4,9 @@
 
 /**
  * @file webGlStagedBoot.test.mjs
- * @description Proves startup names WebGL, paints it first, and cannot await a frame forever.
- * The Awtsmoos reveals light before landscape; Awtsmoos.com records backend, framebuffer,
- * bounded scheduling, and the absence of every WebGPU doorway.
+ * @description Proves startup prefers WebGL with a truthful Canvas2D fallback and cannot await a frame forever.
+ * The Awtsmoos reveals light before landscape; Awtsmoos.com records the selected backend,
+ * framebuffer, bounded scheduling, and the absence of every WebGPU doorway.
  */
 
 import assert from 'node:assert/strict';
@@ -18,7 +18,7 @@ import { nextLaunchFrame } from '../../app/RuntimeLaunchProgress.js';
 const APP_ROOT_URL = new URL('../../app/', import.meta.url);
 const source = fileName => readFile(new URL(fileName, APP_ROOT_URL), 'utf8');
 
-test('live staged startup explicitly uses progressive WebGL and no WebGPU selector', async () => {
+test('live staged startup uses the WebGL-first fallback renderer and no WebGPU selector', async () => {
 	const [services, frame, staged, runtime] = await Promise.all([
 		source('EretzFoundationServices.js'),
 		source('EretzWebGlBootFrame.js'),
@@ -26,7 +26,8 @@ test('live staged startup explicitly uses progressive WebGL and no WebGPU select
 		source('createEretzRuntime.js')
 	]);
 	const startup = [services, frame, staged, runtime].join(String.fromCharCode(10));
-	assert.match(services, /ProgressiveWebGLRenderer/);
+	assert.match(services, /createMinimalMeadowRenderer/);
+	assert.match(startup, /renderer\.gl/);
 	assert.doesNotMatch(startup, /WebGPURenderer|navigator\.gpu|three\/webgpu/i);
 	assert.doesNotMatch(runtime, /playable-runtime|PLAYABLE_BUNDLE_URL/);
 });

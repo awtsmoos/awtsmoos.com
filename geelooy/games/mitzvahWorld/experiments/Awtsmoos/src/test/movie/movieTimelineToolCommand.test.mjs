@@ -55,7 +55,7 @@ test('catalog and aliases expose the bounded tool payload', () => {
 	assert.equal(resolveMovieStudioCommandName('timeline.setTool'), 'setTimelineTool');
 	assert.equal(
 		MOVIE_COMMAND_CATALOG_ENTRIES.setTimelineTool.payload.tool,
-		'Required tool: select, blade, hand, or zoom.'
+		'Required supported timeline tool.'
 	);
 	assert.equal(MOVIE_COMMAND_CATALOG_ENTRIES.setTimelineTool.mutatesProject, false);
 	assert.throws(() => setMovieStudioTimelineTool(controller(), 'paint'), /Unknown movie timeline tool/);

@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioCameraActionCss.js
- * @description Styles localized camera and action controls without leaking into neighboring applications.
- * The Awtsmoos renews cinema on desk and hand alike; Awtsmoos.com gives every lens, duration,
- * target, actor, and action control a complete touch-safe responsive vessel without selector conflict.
+ * @description Styles localized camera controls and the searchable runtime action browser.
+ * The Awtsmoos renews cinema on desk and hand alike; Awtsmoos.com gives every lens, action,
+ * filter, result, status, and preview control a complete touch-safe responsive vessel without conflict.
  */
 
 export function movieStudioCameraActionCss() {
@@ -30,7 +30,8 @@ export function movieStudioCameraActionCss() {
 			color: var(--movie-text-muted);
 			font-size: 11px;
 		}
-		.movie-camera-action-grid {
+		.movie-camera-action-grid,
+		.movie-action-browser-filters {
 			display: grid;
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 			gap: var(--movie-space-2);
@@ -49,6 +50,29 @@ export function movieStudioCameraActionCss() {
 			min-width: 0;
 			min-height: var(--movie-touch-height);
 		}
+		.movie-action-browser {
+			display: grid;
+			gap: var(--movie-space-2);
+			padding: var(--movie-space-3);
+			border: 1px solid var(--movie-border);
+			border-radius: var(--movie-radius);
+			background: var(--movie-surface-raised);
+		}
+		.movie-action-browser > select {
+			min-height: 132px;
+			padding: var(--movie-space-1);
+		}
+		.movie-action-browser-footer {
+			display: grid;
+			grid-template-columns: auto minmax(0, 1fr) auto;
+			align-items: center;
+			gap: var(--movie-space-2);
+			color: var(--movie-text-muted);
+			font-size: 11px;
+		}
+		.movie-action-browser-footer button {
+			width: auto;
+		}
 		.movie-camera-action-buttons {
 			display: grid;
 			grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -56,8 +80,13 @@ export function movieStudioCameraActionCss() {
 		}
 		@media (max-width: 720px) {
 			.movie-camera-action-grid,
+			.movie-action-browser-filters,
+			.movie-action-browser-footer,
 			.movie-camera-action-buttons {
 				grid-template-columns: 1fr;
+			}
+			.movie-action-browser-footer button {
+				width: 100%;
 			}
 		}
 	`;

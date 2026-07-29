@@ -17,13 +17,16 @@ import { GAMEPLAY_STYLESHEETS } from '../../launcher/MitzvahWorldGameplayPresent
 const GAME_ROOT_URL = new URL('../../../../../', import.meta.url);
 const source = relativePath => readFile(new URL(relativePath, GAME_ROOT_URL), 'utf8');
 
-test('native meadow page requests split styles and two explicit entries', async () => {
-	const html = await source('index.html');
-	assert.equal((html.match(/<link\s+rel="stylesheet"/g) || []).length, 15);
-	assert.equal((html.match(/<script\s+type="module"/g) || []).length, 2);
-	assert.match(html, /mitzvah-world-menu-shell\.css/);
-	assert.match(html, /MinimalSharedMeadowPage\.js/);
-	assert.match(html, /MinimalMeadowMobileIntegration\.js/);
+test('native meadow page requests one production stylesheet and one compact entry', async () => {
+	const [html, entry] = await Promise.all([
+		source('index.html'),
+		source('experiments/Awtsmoos/src/mitzvah-world.compact.js')
+	]);
+	assert.equal((html.match(/<link\s+rel="stylesheet"/g) || []).length, 1);
+	assert.equal((html.match(/<script\s+type="module"/g) || []).length, 1);
+	assert.match(html, /mitzvah-world\.production\.css/);
+	assert.match(html, /mitzvah-world\.compact\.js/);
+	assert.match(entry, /MinimalSharedMeadowPage\.js/);
 	assert.doesNotMatch(html, /modulepreload|preload/);
 });
 

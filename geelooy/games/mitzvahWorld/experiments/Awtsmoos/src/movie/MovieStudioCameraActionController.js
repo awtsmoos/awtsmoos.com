@@ -4,11 +4,12 @@
 
 /**
  * @file MovieStudioCameraActionController.js
- * @description Creates explicit camera shots and actor action clips at the current playhead.
+ * @description Creates camera shots and runtime-discovered actor actions at the current playhead.
  * The Awtsmoos renews lens and deed from one cinematic intention; Awtsmoos.com routes
- * captured pose and action through canonical project installation and finite listener cleanup.
+ * captured pose, discovered action, preview, and insertion through canonical project installation.
  */
 
+import { MovieStudioActionBrowser } from './MovieStudioActionBrowser.js';
 import {
 	addMovieActorAction,
 	addMovieCameraShot,
@@ -22,6 +23,12 @@ export class MovieStudioCameraActionController {
 		this.view = view;
 		this.listeners = [];
 		this.capturedPose = null;
+		this.selectedAction = null;
+		this.browser = new MovieStudioActionBrowser(
+			session.runtime,
+			view,
+			record => this.selectAction(record)
+		);
 		this.bind();
 	}
 
@@ -29,6 +36,14 @@ export class MovieStudioCameraActionController {
 		this.listen(this.view.cameraAddShot, 'click', () => this.addShot());
 		this.listen(this.view.cameraAddAction, 'click', () => this.addAction());
 		this.listen(this.view.cameraCapturePose, 'click', () => this.capturePose());
+	}
+
+	selectAction(record) {
+		this.selectedAction = record;
+		if (this.view.cameraActionName) this.view.cameraActionName.value = record.id;
+		if (record.duration && this.view.cameraShotDuration) {
+			this.view.cameraShotDuration.value = String(record.duration);
+		}
 	}
 
 	capturePose() {
@@ -50,14 +65,15 @@ export class MovieStudioCameraActionController {
 	}
 
 	addAction() {
-		const target = String(this.view.cameraActionTarget?.value || 'ari');
+		const target = String(this.view.cameraActionTarget?.value || 'player');
+		const action = String(this.selectedAction?.id || this.view.cameraActionName?.value || 'stand');
 		const project = addMovieActorAction(clone(this.session.project), {
-			action: String(this.view.cameraActionName?.value || 'stand'),
+			action,
 			duration: this.duration(),
 			start: this.session.time,
 			target
 		});
-		this.install(project, `Add ${target} action`);
+		this.install(project, `Add ${target} action ${action}`);
 	}
 
 	duration() {
@@ -80,6 +96,7 @@ export class MovieStudioCameraActionController {
 	}
 
 	destroy() {
+		this.browser.destroy();
 		this.listeners.splice(0).forEach(remove => remove());
 	}
 }

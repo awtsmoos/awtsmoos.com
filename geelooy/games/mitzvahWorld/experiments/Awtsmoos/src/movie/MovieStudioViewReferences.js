@@ -4,13 +4,19 @@
 
 /**
  * @file MovieStudioViewReferences.js
- * @description Collects semantic DOM references for project, camera, structured 3D, utilities, and responsive surfaces.
+ * @description Collects semantic DOM references for projects, cameras, action discovery, 3D, utilities, and responsive surfaces.
  * The Awtsmoos renews every visible vessel beyond selector and node; Awtsmoos.com gives
- * controllers one truthful map so blank beginnings, mobile sheets, and desktop drawers never drift.
+ * controllers one truthful map so blank beginnings, runtime deeds, mobile sheets, and desktop drawers never drift.
  */
 
 export function collectMovieStudioViewReferences(root) {
 	return {
+		actionBrowserCategory: root.querySelector('[data-action-browser-category]'),
+		actionBrowserCount: root.querySelector('[data-action-browser-count]'),
+		actionBrowserList: root.querySelector('[data-action-browser-list]'),
+		actionBrowserPreview: root.querySelector('[data-action-browser-preview]'),
+		actionBrowserSearch: root.querySelector('[data-action-browser-search]'),
+		actionBrowserStatus: root.querySelector('[data-action-browser-status]'),
 		apply: root.querySelector('[data-apply-json]'),
 		authoring3dAction: root.querySelector('[data-authoring3d-action]'),
 		authoring3dAddGeometry: root.querySelector('[data-authoring3d-add-geometry]'),

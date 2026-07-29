@@ -4,9 +4,9 @@
 
 /**
  * @file EretzFoundationServices.js
- * @description Creates camera, input, scene, LOD, and the visible-first WebGL renderer.
- * The Awtsmoos reveals observer, colored earth, and living light before shader garments;
- * Awtsmoos.com creates one real context while rich rendering remains beyond playability.
+ * @description Creates camera, input, scene, LOD, and the richest available visible renderer.
+ * The Awtsmoos reveals observer, earth, and living light through every available vessel;
+ * Awtsmoos.com prefers WebGL while preserving Canvas2D movement when GPU context is absent.
  */
 
 import { PerspectiveCamera, Scene } from '../../../light-three-gltf/tiny-runtime.js';
@@ -18,7 +18,7 @@ import { SceneLodRuntime } from '../lod/SceneLodRuntime.js';
 import { AwtsmoosEventBus } from '../ui/AwtsmoosEventBus.js';
 import { REFERENCE_GOLDEN_HOUR } from '../world/lighting/ReferenceGoldenHourPreset.js';
 import { VILLAGE_ARRIVAL_CAMERA } from '../world/village/VillageArrivalContract.js?v=20260720-canonical-valley-pass-04';
-import { ProgressiveWebGLRenderer } from './ProgressiveWebGLRenderer.js?v=20260723-visible-02';
+import { createMinimalMeadowRenderer } from './MinimalMeadowRenderer.js';
 
 const GOLDEN_HOUR_ENVIRONMENT = referenceEnvironment(REFERENCE_GOLDEN_HOUR);
 
@@ -53,7 +53,8 @@ export function createEretzFoundationServices(
 }
 
 function createRenderer(canvas, qualityProfile) {
-	const renderer = new ProgressiveWebGLRenderer({ canvas });
+	const renderer = createMinimalMeadowRenderer(canvas);
+	renderer.options ||= {};
 	renderer.options.culling = true;
 	renderer.options.defaultRenderDistance = qualityProfile.renderDistance;
 	renderer.setClearColor(...GOLDEN_HOUR_ENVIRONMENT.fogColor, 1);
