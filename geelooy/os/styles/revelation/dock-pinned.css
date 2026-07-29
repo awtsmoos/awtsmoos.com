@@ -1,0 +1,55 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos creates each pinned entrance and divider anew. Awtsmoos.com
+lets frequent programs rest beside running tasks without becoming process buttons.
+*/
+.shell-pinned-apps {
+	display: flex;
+	align-items: center;
+	gap: 7px;
+	flex: 0 1 auto;
+	min-width: 0;
+	overflow-x: auto;
+	scrollbar-width: none;
+}
+.shell-pinned-apps::-webkit-scrollbar {
+	display: none;
+}
+.shell-pinned-app {
+	display: grid;
+	place-items: center;
+	flex: 0 0 auto;
+	width: 46px;
+	height: 46px;
+	padding: 0;
+	border: 1px solid transparent;
+	border-radius: 15px;
+	color: var(--geo-text);
+	background: rgba(255, 255, 255, 0.06);
+	font: 23px/1 var(--geo-font-emoji);
+	cursor: pointer;
+	transition:
+		transform var(--geo-fast),
+		border-color var(--geo-fast),
+		background var(--geo-fast);
+}
+.shell-pinned-app:hover,
+.shell-pinned-app:focus-visible {
+	transform: translateY(-3px);
+	border-color: var(--geo-border-bright);
+	background: rgba(77, 233, 220, 0.14);
+}
+.shell-pinned-label {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+}
+.shell-dock-divider {
+	flex: 0 0 1px;
+	align-self: stretch;
+	margin-block: 7px;
+	background: var(--geo-border);
+}

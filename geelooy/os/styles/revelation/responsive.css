@@ -1,60 +1,58 @@
 /*B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos creates every screen boundary anew. Awtsmoos.com lets the Geelooy
-desktop contract gracefully into a pocket-sized command and window vessel.
+The Awtsmoos creates every tablet boundary anew. Awtsmoos.com contracts crown,
+dock, apps, and settings without hiding any registered program entrance.
 */
-@media (max-width: 760px) {
+@media (max-width: 900px) {
 	:root {
-		--geo-topbar-height: 50px;
-		--geo-dock-height: 64px;
+		--geo-topbar-height: 52px;
+		--geo-dock-height: 66px;
 	}
 	#awtsmoos-shell-topbar {
-		padding-inline: 10px;
 		gap: 8px;
+		padding-inline:
+			max(10px, env(safe-area-inset-left))
+			max(10px, env(safe-area-inset-right));
 	}
-	.shell-brand-copy, #shell-status {
+	.shell-brand-copy,
+	#shell-status {
 		display: none;
 	}
 	.shell-chip {
-		padding-inline: 9px;
+		padding-inline: 10px;
 		font-size: 12px;
 	}
 	.desktop {
-		padding: 8px 8px calc(var(--geo-dock-height) + 24px);
+		padding: 8px 8px calc(var(--geo-dock-height) + 26px);
 	}
 	#start-bar {
 		bottom: max(8px, env(safe-area-inset-bottom));
-		width: calc(100% - 16px);
+		width: calc(
+			100% - 16px - env(safe-area-inset-left) - env(safe-area-inset-right)
+		);
 		height: var(--geo-dock-height);
 		border-radius: 20px;
 	}
 	#start-button {
-		width: 46px;
-		height: 46px;
+		width: 48px;
+		height: 48px;
 		border-radius: 15px;
 	}
-	.window {
-		max-width: calc(100vw - 12px) !important;
-		max-height: calc(100vh - var(--geo-topbar-height) - var(--geo-dock-height) - 28px) !important;
-		border-radius: 16px !important;
+	.shell-pinned-app {
+		width: 42px;
+		height: 42px;
+		border-radius: 13px;
+		font-size: 21px;
 	}
 	.shell-panel {
-		top: calc(var(--geo-topbar-height) + 8px);
-		right: 8px;
+		top: calc(var(--geo-topbar-height) + max(8px, env(safe-area-inset-top)));
+		right: max(8px, env(safe-area-inset-right));
 	}
-	.shell-setting-grid {
-		grid-template-columns: 1fr;
+	.start-menu-results {
+		grid-template-columns: minmax(0, 1.2fr) minmax(190px, 0.8fr);
 	}
-}
-@media (max-width: 420px) {
-	.shell-topbar-actions .shell-chip {
-		display: none;
-	}
-	#start-menu {
-		bottom: calc(var(--geo-dock-height) + 18px);
-	}
-	.shell-command-card {
-		border-radius: 20px;
+	.start-app-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }

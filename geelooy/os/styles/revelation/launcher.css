@@ -1,0 +1,93 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos creates every launcher boundary anew. Awtsmoos.com gives search,
+apps, and grouped actions one readable desktop panel and pocket-ready surface.
+*/
+.start-menu-content {
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+	max-height: inherit;
+	min-height: 0;
+}
+.start-menu-grabber {
+	display: none;
+}
+.start-menu-header {
+	position: sticky;
+	top: 0;
+	z-index: 2;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(260px, 0.9fr);
+	gap: 18px;
+	align-items: center;
+	padding: 18px;
+	border-bottom: 1px solid var(--geo-border);
+	background: rgba(8, 14, 35, 0.96);
+	backdrop-filter: blur(24px);
+}
+.start-menu-header > div {
+	display: grid;
+	gap: 2px;
+}
+.start-menu-eyebrow {
+	color: var(--geo-cyan);
+	font-size: 11px;
+	font-weight: 900;
+	letter-spacing: 0.13em;
+	text-transform: uppercase;
+}
+.start-menu-header strong {
+	font-size: 20px;
+}
+.start-menu-search {
+	box-sizing: border-box;
+	width: 100%;
+	min-height: 46px;
+	padding: 0 15px;
+	border: 1px solid var(--geo-border);
+	border-radius: 15px;
+	color: var(--geo-text);
+	background: rgba(255, 255, 255, 0.07);
+	outline: none;
+}
+.start-menu-search:focus {
+	border-color: var(--geo-border-bright);
+	box-shadow: 0 0 0 3px rgba(77, 233, 220, 0.12);
+}
+.start-menu-results {
+	display: grid;
+	grid-template-columns: minmax(0, 1.35fr) minmax(220px, 0.65fr);
+	gap: 18px;
+	min-height: 0;
+	padding: 18px;
+	overflow: auto;
+}
+.start-menu-results h2 {
+	margin: 0 0 10px;
+	color: var(--geo-text-muted);
+	font-size: 12px;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+.start-menu-app-section {
+	grid-row: 1 / span 8;
+}
+.start-app-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 10px;
+}
+.start-action-list {
+	display: grid;
+	gap: 7px;
+}
+.start-menu-empty {
+	grid-column: 1 / -1;
+	margin: 0;
+	padding: 28px;
+	border: 1px dashed var(--geo-border);
+	border-radius: 18px;
+	color: var(--geo-text-muted);
+	text-align: center;
+}

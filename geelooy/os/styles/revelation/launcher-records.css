@@ -1,0 +1,70 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos creates each app card and action row anew. Awtsmoos.com gives
+registered programs readable identity without turning descriptions into dead decoration.
+*/
+.start-app-card,
+.start-action-row {
+	border: 1px solid var(--geo-border);
+	color: var(--geo-text);
+	background: rgba(255, 255, 255, 0.055);
+	cursor: pointer;
+	transition:
+		transform var(--geo-fast),
+		border-color var(--geo-fast),
+		background var(--geo-fast);
+}
+.start-app-card {
+	display: grid;
+	grid-template-rows: auto 1fr;
+	gap: 9px;
+	min-height: 132px;
+	padding: 14px;
+	border-radius: 18px;
+	text-align: left;
+}
+.start-action-row {
+	display: grid;
+	grid-template-columns: 36px minmax(0, 1fr);
+	gap: 10px;
+	align-items: center;
+	width: 100%;
+	min-height: 54px;
+	padding: 8px 10px;
+	border-radius: 14px;
+	text-align: left;
+}
+.start-app-card:hover,
+.start-action-row:hover,
+.start-app-card:focus-visible,
+.start-action-row:focus-visible {
+	transform: translateY(-2px);
+	border-color: var(--geo-border-bright);
+	background: linear-gradient(
+		145deg,
+		rgba(77, 233, 220, 0.14),
+		rgba(91, 140, 255, 0.12)
+	);
+}
+.start-record-icon {
+	font: 30px/1 var(--geo-font-emoji);
+}
+.start-action-row .start-record-icon {
+	text-align: center;
+	font-size: 23px;
+}
+.start-record-copy {
+	display: grid;
+	gap: 3px;
+	min-width: 0;
+}
+.start-record-copy strong,
+.start-record-copy small {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.start-record-copy small {
+	color: var(--geo-text-muted);
+	line-height: 1.35;
+}

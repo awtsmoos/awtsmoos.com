@@ -1,61 +1,57 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file chromeBars.js
+ * @description
+ * The Awtsmoos keeps account, dock, and context controls inside the phone vessel.
+ * Awtsmoos.com respects every safe edge and gives touch actions measured room.
+ */
 
 export default /* css */ `
 @media (max-width: 720px), (pointer: coarse) and (max-width: 900px) {
-	.taskbar,
-	.start-bar,
-	body > div:has(> button) {
-		width: 100vw !important;
-		max-width: 100vw !important;
+	#awtsmoos-shell-topbar,
+	#start-bar {
 		box-sizing: border-box !important;
-		overflow: hidden !important;
-	}
-
-	.awtsmoos-top-header,
-	.awtsmoos-alias-bar,
-	.alias-bar,
-	.sync-alias-bar,
-	[data-awtsmoos-alias-bar],
-	[data-sync-alias] {
-		min-height: 38px !important;
 		max-width: 100vw !important;
-		overflow-x: auto !important;
 	}
-
+	#awtsmoos-shell-topbar {
+		min-height: calc(var(--geo-topbar-height, 52px) + env(safe-area-inset-top)) !important;
+	}
 	.login-area-container,
 	.login-area,
 	#loginHolder,
 	.awtsmoosDrop,
 	.notLoggedIn,
 	.btn.dropt {
-		max-width: 100vw !important;
+		min-width: 0 !important;
+		max-width: 44vw !important;
 	}
-
 	.contextMenu {
 		position: fixed !important;
-		left: 10px !important;
-		right: 10px !important;
+		left: max(10px, env(safe-area-inset-left)) !important;
+		right: max(10px, env(safe-area-inset-right)) !important;
 		top: auto !important;
-		bottom: calc(env(safe-area-inset-bottom, 0px) + 48px) !important;
-		display: grid;
-		gap: 4px;
+		bottom: calc(env(safe-area-inset-bottom) + var(--geo-dock-height, 66px) + 12px) !important;
+		display: grid !important;
+		gap: 4px !important;
 		width: auto !important;
 		max-width: none !important;
-		border-radius: 18px 18px 22px 22px;
+		padding: 8px !important;
+		border-radius: 20px !important;
 	}
-
 	.contextMenu .menuItem {
-		text-align: center;
-		white-space: normal;
+		min-height: 48px !important;
+		padding: 10px 12px !important;
+		text-align: center !important;
+		white-space: normal !important;
 	}
 }
-
 @media (prefers-reduced-motion: reduce) {
-	.desktop-icon {
-		transition: none !important;
-	}
-
+	.desktop-icon,
 	.desktop-search-overlay {
+		transition: none !important;
 		backdrop-filter: none !important;
 	}
 }

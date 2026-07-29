@@ -1,73 +1,76 @@
 <!--B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos creates desktop, application, command, clock, dock, and every
-responsive boundary anew. Awtsmoos.com keeps the Geelooy vessel joyful,
-truthful, keyboard-reachable, and readable on every screen.
+The Awtsmoos creates shell, app, action, window, and responsive boundary anew.
+Awtsmoos.com gives every registered stub a real entrance on desktop and mobile.
 -->
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-	<meta name="theme-color" content="#050713">
-	<title>Geelooy · Awtsmoos Virtual OS</title>
-	<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect rx='18' width='64' height='64' fill='%23050713'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-size='38'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
-	<link rel="stylesheet" href="styles.css?v=revelation-2">
-	<link rel="stylesheet" href="civilization/styles.css?v=revelation-2">
-	<link rel="stylesheet" href="native-executable-accessibility.css?v=revelation-2">
-	<link rel="stylesheet" href="styles/revelation/tokens.css?v=revelation-2">
-	<link rel="stylesheet" href="styles/revelation/shell.css?v=revelation-2">
-	<link rel="stylesheet" href="styles/revelation/dock.css?v=revelation-2">
-	<link rel="stylesheet" href="styles/revelation/windows.css?v=revelation-2">
-	<link rel="stylesheet" href="styles/revelation/overlays.css?v=revelation-2">
-	<link rel="stylesheet" href="styles/revelation/responsive.css?v=revelation-2">
-	<link rel="stylesheet" href="styles/revelation/accessibility.css?v=revelation-2">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+	<meta name="theme-color" content="#071022">
+	<title>Geelooy OS — Awtsmoos</title>
+	<link rel="stylesheet" href="./styles.css?v=revelation-3">
+	<link rel="stylesheet" href="./civilization/styles.css?v=revelation-3">
+	<link rel="stylesheet" href="./styles/native-executable-accessibility.css?v=revelation-3">
+	<link rel="stylesheet" href="./styles/revelation/tokens.css?v=revelation-3">
+	<link rel="stylesheet" href="./styles/revelation/shell.css?v=revelation-3">
+	<link rel="stylesheet" href="./styles/revelation/dock.css?v=revelation-3">
+	<link rel="stylesheet" href="./styles/revelation/dock-pinned.css?v=revelation-3">
+	<link rel="stylesheet" href="./styles/revelation/windows.css?v=revelation-3">
+	<link rel="stylesheet" href="./styles/revelation/overlays.css?v=revelation-3">
+	<link rel="stylesheet" href="./styles/revelation/command.css?v=revelation-3">
+	<link rel="stylesheet" href="./styles/revelation/launcher.css?v=revelation-3">
+	<link rel="stylesheet" href="./styles/revelation/launcher-records.css?v=revelation-3">
+	<link rel="stylesheet" href="./styles/revelation/responsive.css?v=revelation-3">
+	<link rel="stylesheet" href="./styles/revelation/responsive-mobile.css?v=revelation-3">
+	<link rel="stylesheet" href="./styles/revelation/accessibility.css?v=revelation-3">
 </head>
 <body>
-	<div id="BH">B"H</div>
-	<div class="all awtsmoospage">
-		<main class="main">
-			<header id="awtsmoos-shell-topbar" aria-label="Geelooy system bar">
-				<div class="shell-brand">
-					<span class="shell-brand-mark emoji" aria-hidden="true">✦</span>
-					<span class="shell-brand-copy">Geelooy</span>
-				</div>
-				<div id="loginHolder" class="login-area" aria-label="Awtsmoos account"></div>
-				<div class="shell-topbar-actions">
-					<span id="shell-status" class="shell-chip" aria-live="polite">Starting…</span>
-					<time id="shell-clock" class="shell-chip"></time>
-					<button id="shell-command-button" class="shell-icon-button" type="button" title="Command palette · Ctrl/⌘ Shift K" aria-label="Open command palette">⌘</button>
-					<button id="shell-quick-settings-button" class="shell-icon-button" type="button" title="Quick settings" aria-label="Open quick settings" aria-controls="shell-quick-settings" aria-expanded="false">⚙️</button>
-				</div>
-			</header>
-			<section id="desktop" class="desktop" tabindex="0" aria-label="Geelooy desktop"></section>
-			<nav id="start-bar" aria-label="Geelooy dock">
-				<button id="start-button" type="button" aria-label="Open Start menu" aria-controls="start-menu" aria-expanded="false">Start</button>
-				<div id="task-area" class="task-area" aria-label="Open applications"></div>
-				<section id="start-menu" class="hidden" hidden aria-label="Start menu">
-					<ul id="menu-items"></ul>
-				</section>
-			</nav>
-		</main>
+	<div class="main">
+		<header id="awtsmoos-shell-topbar" aria-label="Geelooy system controls">
+			<div class="shell-brand">
+				<span class="shell-brand-mark" aria-hidden="true">✦</span>
+				<span class="shell-brand-copy">Geelooy OS</span>
+			</div>
+			<span id="shell-status" class="shell-chip" role="status">Starting…</span>
+			<div class="shell-topbar-actions">
+				<button id="shell-command-button" class="shell-chip" type="button">Search <kbd>⌘⇧K</kbd></button>
+				<time id="shell-clock" class="shell-chip">--:--</time>
+				<button id="shell-quick-settings-button" class="shell-icon-button" type="button" aria-label="Quick settings" aria-expanded="false">⚙️</button>
+				<div id="loginHolder" class="login-area"></div>
+			</div>
+		</header>
+		<main id="desktop" class="desktop" aria-label="Geelooy desktop"></main>
+		<nav id="start-bar" aria-label="Applications and running tasks">
+			<button id="start-button" type="button" aria-label="Open Apps" aria-controls="start-menu" aria-expanded="false">
+				<span class="start-button-label">Apps</span>
+			</button>
+			<div id="shell-pinned-apps" class="shell-pinned-apps" aria-label="Pinned applications"></div>
+			<span class="shell-dock-divider" aria-hidden="true"></span>
+			<div id="task-area" aria-label="Running applications"></div>
+		</nav>
 	</div>
+	<section id="start-menu" class="hidden" hidden aria-label="Apps and actions">
+		<div class="start-menu-grabber" aria-hidden="true"></div>
+		<div id="menu-items"></div>
+	</section>
 	<aside id="shell-quick-settings" class="shell-panel" hidden aria-label="Quick settings">
-		<h2>Quick settings</h2>
 		<div class="shell-setting-grid">
-			<button class="shell-setting" type="button" data-shell-setting="highContrast" aria-pressed="false">◐ High contrast</button>
-			<button class="shell-setting" type="button" data-shell-setting="calm" aria-pressed="false">🌙 Calm motion</button>
-			<button class="shell-setting" type="button" data-shell-setting="fullscreen">⛶ Fullscreen</button>
-			<button class="shell-setting" type="button" id="shell-open-code">🧑‍💻 Apps Code</button>
+			<button class="shell-setting" type="button" data-shell-setting="highContrast" aria-pressed="false">◐<span>High contrast</span></button>
+			<button class="shell-setting" type="button" data-shell-setting="calm" aria-pressed="false">≈<span>Calm motion</span></button>
+			<button class="shell-setting" type="button" data-shell-setting="fullscreen">⛶<span>Fullscreen</span></button>
+			<button class="shell-setting" type="button" data-shell-setting="apps-code">⌘<span>Apps Code</span></button>
 		</div>
 	</aside>
-	<section id="shell-command-palette" hidden role="dialog" aria-modal="true" aria-label="Geelooy command palette">
+	<div id="shell-command-palette" hidden role="dialog" aria-modal="true" aria-label="Command palette">
 		<div class="shell-command-card">
-			<input id="shell-command-input" type="search" autocomplete="off" placeholder="Search Geelooy actions…" aria-label="Search commands">
+			<input id="shell-command-input" type="search" autocomplete="off" placeholder="Search apps and actions">
 			<div id="shell-command-results" role="listbox"></div>
 		</div>
-	</section>
+	</div>
 	<div id="shell-live-region" class="shell-live-region" aria-live="polite"></div>
-	<script src="/register.js?v=revelation-2"></script>
-	<script type="module" src="script.js?v=revelation-2"></script>
+	<script type="module" src="./script.js?v=revelation-3"></script>
 </body>
 </html>

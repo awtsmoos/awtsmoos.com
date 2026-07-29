@@ -1,29 +1,89 @@
-// B"H
-import { loadShortcuts } from './shortcuts.js';
-import { notifyDesktop, explainFailure } from './notifications.js';
+//B"H
+//Boruch Hashem
+//Blessed is He
 
-export const USER_HOME_PATH = '/desktop.folder';
+import { APP_CATALOG } from "../shell/appCatalog.js";
+import { launchApp } from "../shell/appLauncher.js";
+import { explainFailure, notifyDesktop } from "./notifications.js";
+import { loadShortcuts } from "./shortcuts.js";
+
+export const USER_HOME_PATH = "/desktop.folder";
+
+/**
+ * @file icons.js
+ * @description
+ * The Awtsmoos lets desktop pages reveal the same registered programs as Start.
+ * Awtsmoos.com removes the dead launcher road and preserves real file worlds.
+ */
 
 export function desktopIcons() {
-  return [
-    icon('desktop-files', 'My Files / Desktop Files', '🖥️', 'folder', USER_HOME_PATH, null, { page:0, pinAllPages:true }),
-    icon('code', 'Code', '🧬', 'tool', USER_HOME_PATH, os => os.addWindow({ title:'Code', path:USER_HOME_PATH, os, programName:'advancedCodeEditor' }), { page:0, badge:'app' }),
-    icon('command', 'Command', '⌨️', 'tool', USER_HOME_PATH, os => os.addWindow({ title:'Command', path:USER_HOME_PATH, os, programName:'awtsmoosCommand' }), { page:0, badge:'shell' }),
-    icon('awtsmoos-home', 'Awtsmoos Home', '🏠', 'folder', USER_HOME_PATH, null, { page:0 }),
-    icon('pulse', 'Pulse', '⚡', 'tool', '/', os => os.addWindow({ title:'Developer Diagnostics', os, programName:'awtsmoosDiagnostics' }), { page:3, pinAllPages:true, badge:'live' }),
-    icon('agents', 'Agents', '🤖', 'remote', '/network', null, { page:1 }),
-    icon('connected-tunnels', 'Connected Tunnels', '🔌', 'remote', '/network', null, { page:1, badge:'vessels' }),
-    icon('virtual-os', 'Awtsmoos Virtual OS', '☁️', 'remote', '/network/awtsmoos-virtual-os', null, { page:1 }),
-    icon('previews', 'Preview Artifacts', '🔭', 'remote', '/system/previews', null, { page:1 }),
-    icon('map', 'Map', '🕸️', 'tool', '/', os => os.addWindow({ title:'Awtsmoos Map', path:'/', os, programName:'graphBrowser' }), { page:2 }),
-    icon('inbox', 'Inbox', '✉️', 'folder', '/inbox', null, { page:2 }),
-    icon('memory', 'Memory', '🧠', 'folder', '/memory', null, { page:2 }),
-    icon('objects', 'Objects', '◇', 'folder', '/objects', null, { page:2 }),
-    icon('reputation', 'Reputation', '✦', 'folder', '/reputation', null, { page:2 }),
-    icon('diagnostics', 'Diagnostics', '🧰', 'tool', null, os => os.addWindow({ title:'Developer Diagnostics', os, programName:'awtsmoosDiagnostics' }), { page:3 }),
-    ...loadShortcuts().map(s => icon(s.id, s.title, s.icon || '🔗', s.kind || 'shortcut', s.path, null, { ...s, badge:s.badge || 'link' }))
-  ];
+	return [
+		...APP_CATALOG.filter(app => app.desktopPage !== null).map(appIcon),
+		folder("agents", "Agents", "🤖", "/network", 1, "remote"),
+		folder("connected-tunnels", "Connected Tunnels", "🔌", "/network", 1, "vessels"),
+		folder("virtual-os", "Awtsmoos Virtual OS", "☁️", "/network/awtsmoos-virtual-os", 1, "remote"),
+		folder("previews", "Preview Artifacts", "🔭", "/system/previews", 1, "artifacts"),
+		folder("inbox", "Inbox", "✉️", "/inbox", 2, "social"),
+		folder("memory", "Memory", "🧠", "/memory", 2, "knowledge"),
+		folder("objects", "Objects", "◇", "/objects", 2, "data"),
+		folder("reputation", "Reputation", "✦", "/reputation", 2, "identity"),
+		...shortcutIcons()
+	];
 }
-function icon(id, title, glyph, kind, path, action, meta = {}) { return { id, title, icon:glyph, kind, path, ...meta, open:action || (os => os.addWindow({ title, path, os, programName:'awtsmoosFileExplorer' })) }; }
-export function openDesktopIcon(os, item) { try { const result = item?.open?.(os); notifyDesktop(os, `Opening ${item?.title || 'desktop item'}`, 'open'); return result; } catch (error) { explainFailure(os, `Open ${item?.title || 'desktop item'}`, error); throw error; } }
-/** B"H: desktop Home now opens the user's files, while network stays explicit. */
+
+export function openDesktopIcon(os, item) {
+	try {
+		const result = item?.open?.(os);
+		notifyDesktop(os, `Opening ${item?.title || "desktop item"}`, "open");
+		return result;
+	} catch (error) {
+		explainFailure(os, `Open ${item?.title || "desktop item"}`, error);
+		throw error;
+	}
+}
+
+function appIcon(app) {
+	return Object.freeze({
+		id: `app-${app.id}`,
+		title: app.title,
+		icon: app.icon,
+		kind: "app",
+		page: app.desktopPage,
+		badge: app.category,
+		path: "",
+		open: os => launchApp(os, app)
+	});
+}
+
+function folder(id, title, glyph, path, page, badge) {
+	return Object.freeze({
+		id,
+		title,
+		icon: glyph,
+		kind: "folder",
+		path,
+		page,
+		badge,
+		open: os => os.addWindow({
+			title,
+			path,
+			os,
+			programName: "awtsmoosFileExplorer"
+		})
+	});
+}
+
+function shortcutIcons() {
+	return loadShortcuts().map(shortcut => Object.freeze({
+		...shortcut,
+		icon: shortcut.icon || "🔗",
+		kind: shortcut.kind || "shortcut",
+		badge: shortcut.badge || "link",
+		open: os => os.addWindow({
+			title: shortcut.title || "Shortcut",
+			path: shortcut.path || "/",
+			os,
+			programName: "awtsmoosFileExplorer"
+		})
+	}));
+}

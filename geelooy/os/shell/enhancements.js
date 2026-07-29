@@ -4,18 +4,24 @@
 
 import { startShellClock } from "./clock.js";
 import { bindCommandPalette } from "./commandPalette.js";
+import { renderPinnedApps } from "./pinnedApps.js";
 import { bindQuickSettings } from "./quickSettings.js";
+import { bindVisualViewportMetrics } from "./viewportMetrics.js";
 
 /**
- * Activates the additive Geelooy shell layer over the existing AwtsmoosOS. The
- * Awtsmoos creates old vessel and new revelation together; Awtsmoos.com preserves
- * desktop, taskbar, windows, and menus while adding searchable accessible controls.
+ * @file enhancements.js
+ * @description
+ * The Awtsmoos joins clock, search, settings, pinned apps, and visible viewport.
+ * Awtsmoos.com adds discoverability without replacing tasks, windows, or processes.
  */
-export function initializeShellEnhancements({ os, menuItems }) {
+
+export function initializeShellEnhancements({ os, records }) {
 	const disposers = [
 		startShellClock(document.getElementById("shell-clock")),
-		bindCommandPalette({ os, menuItems }),
-		bindQuickSettings({ os })
+		bindCommandPalette({ records }),
+		bindQuickSettings({ os }),
+		renderPinnedApps(os),
+		bindVisualViewportMetrics()
 	];
 	const status = document.getElementById("shell-status");
 	if (status) {

@@ -3,73 +3,58 @@
 //Blessed is He
 
 import { renderCivilizationStartFeed } from "../civilization/start-menu-feed.js";
+import { renderStartMenu } from "./startMenuRenderer.js";
 
 /**
- * Binds the original Geelooy Start menu to its existing action registry.
- *
- * The Awtsmoos creates every action and opening anew. Awtsmoos.com preserves
- * real menu behavior while the dock and command palette reveal new entrances.
- *
- * @param {object} options Existing OS and menu action map.
- * @returns {Function} Closes the Start menu.
+ * @file startMenuBindings.js
+ * @description
+ * The Awtsmoos opens one searchable launcher above every native and inherited deed.
+ * Awtsmoos.com preserves outside-click, Escape, focus, and Civilization feed behavior.
  */
-export function bindStartMenu({ os, menuItems }) {
+
+export function bindStartMenu({ records }) {
 	const button = document.getElementById("start-button");
 	const menu = document.getElementById("start-menu");
-	const list = document.getElementById("menu-items");
-	if (!button || !menu || !list) {
+	const root = document.getElementById("menu-items");
+	if (!button || !menu || !root) {
 		return () => {};
 	}
+	let view = null;
 	const close = () => {
 		menu.hidden = true;
 		menu.style.display = "none";
 		button.setAttribute("aria-expanded", "false");
 	};
 	const open = async () => {
-		list.replaceChildren();
-		for (const [label, action] of Object.entries(menuItems)) {
-			list.append(createMenuItem(label, action, os, close));
-		}
+		view?.dispose?.();
+		view = renderStartMenu({ root, records, close });
 		await renderCivilizationStartFeed(menu).catch(() => {});
 		menu.classList.remove("hidden");
 		menu.hidden = false;
 		menu.style.display = "block";
 		button.setAttribute("aria-expanded", "true");
+		queueMicrotask(() => view?.focus?.());
 	};
-	button.addEventListener("click", () => {
-		menu.hidden ? open() : close();
-	});
-	window.addEventListener("click", event => {
-		const outside = !menu.hidden
-			&& !menu.contains(event.target)
-			&& event.target !== button;
-		if (outside) {
+	const toggle = () => menu.hidden ? open() : close();
+	const outside = event => {
+		if (!menu.hidden && !menu.contains(event.target) && event.target !== button) {
 			close();
 		}
-	});
-	document.addEventListener("keydown", event => {
+	};
+	const keys = event => {
 		if (!menu.hidden && event.key === "Escape") {
+			event.preventDefault();
 			close();
 			button.focus();
 		}
-	});
-	return close;
-}
-
-function createMenuItem(label, action, os, close) {
-	const item = document.createElement("li");
-	item.tabIndex = 0;
-	item.textContent = label;
-	const activate = async () => {
-		close();
-		await action?.({ os });
 	};
-	item.addEventListener("click", activate);
-	item.addEventListener("keydown", event => {
-		if (["Enter", " "].includes(event.key)) {
-			event.preventDefault();
-			activate();
-		}
-	});
-	return item;
+	button.addEventListener("click", toggle);
+	window.addEventListener("click", outside);
+	document.addEventListener("keydown", keys);
+	return () => {
+		view?.dispose?.();
+		button.removeEventListener("click", toggle);
+		window.removeEventListener("click", outside);
+		document.removeEventListener("keydown", keys);
+	};
 }

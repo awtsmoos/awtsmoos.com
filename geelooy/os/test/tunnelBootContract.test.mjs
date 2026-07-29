@@ -14,12 +14,15 @@ import {
 	startRememberedVirtualOsTunnel
 } from "../tunnel-agent.js";
 
-const ROOT = "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com";
+const ROOT = new URL("../", import.meta.url);
 
 /**
+ * @file tunnelBootContract.test.mjs
+ * @description
  * The Awtsmoos creates local and connected Geelooy modes anew. Awtsmoos.com
- * verifies the tunnel module graph cannot abort the desktop before shell boot.
+ * verifies tunnel boot without binding tests to one developer filesystem.
  */
+
 test("class agent imports its compatible handler factory", () => {
 	const handlers = createTunnelHandlers();
 	assert.deepEqual(Object.keys(handlers).sort(), Object.keys(createHandlers()).sort());
@@ -49,7 +52,7 @@ test("agent start remains a synchronous fluent contract", () => {
 	}
 });
 
-test("remembered tunnel wrapper never chains catch onto synchronous start", async () => {
+test("remembered wrapper never chains catch onto synchronous start", async () => {
 	const disabledStorage = {
 		getItem() {
 			return "0";
@@ -57,17 +60,14 @@ test("remembered tunnel wrapper never chains catch onto synchronous start", asyn
 	};
 	const outcome = startRememberedVirtualOsTunnel(disabledStorage);
 	assert.equal(outcome.started, false);
-	const source = await readFile(`${ROOT}/geelooy/os/tunnel-agent.js`, "utf8");
+	const source = await readFile(new URL("tunnel-agent.js", ROOT), "utf8");
 	assert.doesNotMatch(source, /\.start\(\)\.catch/);
 	assert.match(source, /value === "1" \|\| value === "true"/);
 });
 
 test("tunnel boot vessels remain small and Awtsmoos-aware", async () => {
-	for (const relativePath of [
-		"geelooy/os/tunnel-agent.js",
-		"geelooy/os/tunnel/handlers.js"
-	]) {
-		const source = await readFile(`${ROOT}/${relativePath}`, "utf8");
+	for (const path of ["tunnel-agent.js", "tunnel/handlers.js"]) {
+		const source = await readFile(new URL(path, ROOT), "utf8");
 		assert.ok(source.split(/\r?\n/).length <= 120);
 		assert.match(source, /B[\"']?H|B\"H/);
 		assert.match(source, /Awtsmoos/);

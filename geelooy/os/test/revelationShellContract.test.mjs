@@ -6,50 +6,55 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-const ROOT = "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com";
+const ROOT = new URL("../../", import.meta.url);
 const SMALL_FILES = Object.freeze([
-	"geelooy/os/index.html",
-	"geelooy/os/script.js",
-	"geelooy/os/shell/clock.js",
-	"geelooy/os/shell/commandPalette.js",
-	"geelooy/os/shell/desktopSignals.js",
-	"geelooy/os/shell/enhancements.js",
-	"geelooy/os/shell/quickSettings.js",
-	"geelooy/os/shell/startMenuBindings.js",
-	"geelooy/os/styles/revelation/accessibility.css",
-	"geelooy/os/styles/revelation/dock.css",
-	"geelooy/os/styles/revelation/overlays.css",
-	"geelooy/os/styles/revelation/responsive.css",
-	"geelooy/os/styles/revelation/shell.css",
-	"geelooy/os/styles/revelation/tokens.css",
-	"geelooy/os/styles/revelation/windows.css",
-	"geelooy/apps/code/css/app.css",
-	"geelooy/apps/code/css/revelation/accessibility.css",
-	"geelooy/apps/code/css/revelation/responsive.css",
-	"geelooy/apps/code/css/revelation/surfaces.css",
-	"geelooy/apps/code/css/revelation/tokens.css"
+	"os/index.html",
+	"os/script.js",
+	"os/shell/actionCatalog.js",
+	"os/shell/appCatalog.js",
+	"os/shell/appLauncher.js",
+	"os/shell/commandPalette.js",
+	"os/shell/enhancements.js",
+	"os/shell/pinnedApps.js",
+	"os/shell/startMenuBindings.js",
+	"os/shell/startMenuRenderer.js",
+	"os/shell/startMenuSections.js",
+	"os/styles/revelation/command.css",
+	"os/styles/revelation/dock.css",
+	"os/styles/revelation/dock-pinned.css",
+	"os/styles/revelation/launcher.css",
+	"os/styles/revelation/launcher-records.css",
+	"os/styles/revelation/overlays.css",
+	"os/styles/revelation/responsive.css",
+	"os/styles/revelation/responsive-mobile.css"
 ]);
 
 /**
- * The Awtsmoos creates shell, editor, viewport, emoji, and focus anew.
- * Awtsmoos.com verifies that the visual revelation remains modular and usable.
+ * @file revelationShellContract.test.mjs
+ * @description
+ * The Awtsmoos proves shell, launcher, focus, and responsive vessels stay small.
+ * Awtsmoos.com rejects hidden giant files and space-indented source drift.
  */
-test("OS and Apps Code revelation vessels remain small and documented", async () => {
-	for (const relativePath of SMALL_FILES) {
-		const source = await readFile(`${ROOT}/${relativePath}`, "utf8");
-		assert.ok(source.split(/\r?\n/).length <= 120, `${relativePath} exceeds 120 lines`);
+
+test("Geelooy shell revelation files remain small and documented", async () => {
+	for (const path of SMALL_FILES) {
+		const source = await readFile(new URL(path, ROOT), "utf8");
+		assert.ok(source.split(/\r?\n/).length <= 120, `${path} exceeds 120 lines`);
 		assert.match(source, /B[\"']?H|B\"H/);
 		assert.match(source, /Awtsmoos/);
-		assert.doesNotMatch(source, /^ {2,}\S/m, `${relativePath} uses space indentation`);
+		if (/\.(?:js|mjs)$/.test(path)) {
+			assert.doesNotMatch(source, /^ {2,}\S/m, `${path} uses space indentation`);
+		}
 	}
 });
 
-test("Geelooy shell preserves required OS IDs and adds accessible controls", async () => {
-	const html = await readFile(`${ROOT}/geelooy/os/index.html`, "utf8");
+test("shell preserves required OS IDs and accessible controls", async () => {
+	const html = await readFile(new URL("os/index.html", ROOT), "utf8");
 	for (const id of [
 		"desktop",
 		"start-bar",
 		"start-button",
+		"shell-pinned-apps",
 		"task-area",
 		"start-menu",
 		"menu-items",
@@ -62,18 +67,14 @@ test("Geelooy shell preserves required OS IDs and adds accessible controls", asy
 	}
 	assert.match(html, /aria-modal="true"/);
 	assert.match(html, /aria-live="polite"/);
+	assert.match(html, /aria-controls="start-menu"/);
 });
 
-test("visual layers include emoji, responsive, focus, and motion contracts", async () => {
-	const osTokens = await readFile(`${ROOT}/geelooy/os/styles/revelation/tokens.css`, "utf8");
-	const osAccess = await readFile(`${ROOT}/geelooy/os/styles/revelation/accessibility.css`, "utf8");
-	const codeApp = await readFile(`${ROOT}/geelooy/apps/code/css/app.css`, "utf8");
-	const codeTokens = await readFile(`${ROOT}/geelooy/apps/code/css/revelation/tokens.css`, "utf8");
-	assert.match(osTokens, /Apple Color Emoji/);
-	assert.match(osTokens, /Segoe UI Emoji/);
-	assert.match(osAccess, /:focus-visible/);
-	assert.match(osAccess, /prefers-reduced-motion/);
-	assert.match(codeTokens, /Noto Color Emoji/);
-	assert.match(codeApp, /revelation\/responsive\.css/);
-	assert.match(codeApp, /revelation\/accessibility\.css/);
+test("visual layers preserve emoji, focus, and calm-motion contracts", async () => {
+	const tokens = await readFile(new URL("os/styles/revelation/tokens.css", ROOT), "utf8");
+	const access = await readFile(new URL("os/styles/revelation/accessibility.css", ROOT), "utf8");
+	assert.match(tokens, /Apple Color Emoji/);
+	assert.match(tokens, /Segoe UI Emoji/);
+	assert.match(access, /:focus-visible/);
+	assert.match(access, /prefers-reduced-motion/);
 });

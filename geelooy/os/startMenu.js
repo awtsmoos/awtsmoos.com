@@ -1,25 +1,91 @@
-///B"H
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+import { sceneJSON } from "./helpers/serialize.js";
+import { openSocialWindow } from "./social/socialPanel.js";
+import { refreshProfileDropdown } from "/profile/auth.js";
+import {
+	copyVirtualOSLauncherSnippet,
+	installVirtualOSTunnelAgent,
+	openVirtualOSLauncher
+} from "./tunnel/launcher.js";
+
 /**
- * @module AwtsmoosStartMenu
- * @description Chapter 603: the Start Menu now opens the Geelooy civilization
- * without page reloads. The Awtsmoos condenses mail, posts, aliases, Heichelos,
- * drafts, saved sparks, and recent pulses into route-safe OS windows.
+ * @file startMenu.js
+ * @description
+ * The Awtsmoos preserves every social, portal, file, and tunnel action.
+ * Awtsmoos.com gives those inherited deeds structured, executable metadata.
  */
-import { loadFiles, importFiles } from '/os/helpers/scripts.js';
-import System from '/os/system.js';
-import { openSocialWindow } from '/os/social/socialPanel.js';
-const TREASURY_LINKS=Object.freeze({'Treasury OS':'/api/tunnel/control/treasury/home','Treasury Budgets':'/api/tunnel/control/treasury/budgets','Treasury Marketplace':'/api/tunnel/control/treasury/marketplace','Treasury Graph':'/api/tunnel/control/treasury/graph',Bank:'/api/tunnel/control/bank','Apps Code':'/apps/code/','Tunnel Control':'/apps/tunnel-control/'});
-function openPortal(path){window.open(path,'_blank','noopener,noreferrer');}
-function toast(os,text,kind='success'){new System({os}).makeToast(text,kind);os?.taskbar?.notify?.(text,kind);}
-function portalAction(label,path){return async({os})=>{openPortal(path);os?.recordGraphEvent?.('portal.open',{label,path});toast(os,`Opened ${label}`);};}
-async function openExplorer(os,title,path){await os.addWindow({title,content:'',path,programName:'awtsmoosFileExplorer',os});}
-async function copySceneJson(os){await navigator.clipboard?.writeText(JSON.stringify(os.scene?.()||{},null,2));toast(os,'Copied scene JSON');}
-async function enableVirtualTunnel(os){await window.VirtualOSTunnelAgent?.start?.();os?.recordGraphEvent?.('tunnel.status',{status:'enabled'});toast(os,'Virtual OS tunnel enabled');}
-async function createFile(os){const title=await new System({os}).prompt('Enter file name:');if(!title)return;await os.createFile({path:'desktop.folder',title,content:`//B"H\n// Content of ${title}`});toast(os,`Created file "${title}"`);}
-async function createFolder(os){const title=await new System({os}).prompt('Enter folder name:');if(!title)return;await os.createFolder({path:'desktop.folder',title});toast(os,`Created folder "${title}"`);}
-async function exportAll(os){const exported={};for(const store of await os.db.getAllStoreNames())exported[store]=await os.db.getAllData(store);const blob=new Blob([JSON.stringify(exported,null,'\t')],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`BH_AwtsmoosOS_Export_${Date.now()}.awtsmoosExport.json`;a.style.display='none';document.body.appendChild(a);a.click();URL.revokeObjectURL(a.href);a.remove();os?.recordGraphEvent?.('file.download',{kind:'full-export'});toast(os,'All files exported successfully!');}
-function parseExportBundle(file,content){if(typeof content!=='string'||!file.name.endsWith('.awtsmoosExport.json'))return null;try{return JSON.parse(content);}catch{return null;}}
-async function importExportedFiles(os){return loadFiles(async file=>{const text=file.type.startsWith('application/')||file.type.startsWith('text/');const content=text?await file.text():await file.arrayBuffer();const bundle=parseExportBundle(file,content);if(!bundle)return os.createFile({path:'desktop.folder',title:file.name,content});return Object.keys(bundle).forEach(path=>bundle[path].forEach(obj=>Object.keys(obj).forEach(key=>os.createFile({path,title:key,content:obj[key]}))));});}
-function social(type){return async({os})=>{await openSocialWindow(os,type);os?.recordGraphEvent?.('geelooy.social.open',{type});};}
-const menu={'Geelooy Command Center':social('command'),'My Mail':social('mail'),'My Posts':social('posts'),'My Notifications':social('notifications'),'My Heichelos':social('heichelos'),'My Aliases':social('aliases'),'Drafts':social('drafts'),'Saved':social('saved'),'Recent Activity':social('recent'),'Inline Message':social('message'),'File Explorer':async({os})=>openExplorer(os,'Home','/'),'Remote Drives':async({os})=>openExplorer(os,'Connected Tunnels','awtsmoos://tunnels'),'Preview Artifacts':async({os})=>openExplorer(os,'Preview Artifacts','awtsmoos://previews'),'Mission Receipts':async({os})=>openExplorer(os,'Receipts','awtsmoos://receipts'),'Developer Diagnostics':async({os})=>os.addWindow({title:'Developer Diagnostics',os,programName:'awtsmoosDiagnostics'}),'Mission Cockpit':portalAction('Mission Cockpit',TREASURY_LINKS['Tunnel Control']),'Fake Desktop Plan':portalAction('Fake Desktop Plan','/apps/tunnel-control/?action=remoteNativeDesktopPlan'),'Tunnel Control':portalAction('Tunnel Control',TREASURY_LINKS['Tunnel Control']),'Apps Code':portalAction('Apps Code',TREASURY_LINKS['Apps Code']),'Treasury OS':portalAction('Treasury OS',TREASURY_LINKS['Treasury OS']),'Treasury Budgets':portalAction('Treasury Budgets',TREASURY_LINKS['Treasury Budgets']),'Treasury Marketplace':portalAction('Treasury Marketplace',TREASURY_LINKS['Treasury Marketplace']),'Treasury Graph':portalAction('Treasury Graph',TREASURY_LINKS['Treasury Graph']),'Treasury Bank':portalAction('Treasury Bank',TREASURY_LINKS.Bank),'Copy Scene JSON':async({os})=>copySceneJson(os),'Enable Virtual OS Tunnel':async({os})=>enableVirtualTunnel(os),'New File':async({os})=>createFile(os),'New Folder':async({os})=>createFolder(os),'Import Files':async({os})=>importFiles({os,path:'desktop.folder'}),'Export All':async({os})=>exportAll(os),'Import Exported Files':async({os})=>importExportedFiles(os)};
-export default menu;export { TREASURY_LINKS };
+
+const DEFINITIONS = Object.freeze([
+	action("My Mail", "social", "✉️", "Read and send messages.", social("mail")),
+	action("My Posts", "social", "📰", "Open your published posts.", social("posts")),
+	action("My Notifications", "social", "🔔", "Review recent notifications.", social("notifications")),
+	action("My Heichelos", "social", "🏛️", "Open your community spaces.", social("heichelos")),
+	action("My Aliases", "social", "🎭", "Manage your public identities.", social("aliases")),
+	action("Drafts", "social", "🗒️", "Continue unfinished social writing.", social("drafts")),
+	action("Saved", "social", "🔖", "Open saved social items.", social("saved")),
+	action("Recent Activity", "social", "🕓", "Review your latest activity.", social("recent")),
+	action("Message Someone", "social", "💬", "Start a direct conversation.", social("message")),
+	action("My Files", "files", "🗂️", "Browse your desktop files.", openFiles("/desktop.folder", "My Files")),
+	action("Remote Drives", "files", "☁️", "Browse mounted network drives.", openFiles("/network", "Remote Drives")),
+	action("Preview Artifacts", "files", "🔭", "Open generated preview artifacts.", openFiles("/system/previews", "Preview Artifacts")),
+	action("Upload Receipts", "files", "🧾", "Inspect upload receipts.", openFiles("/system/receipts", "Upload Receipts")),
+	action("Mission Cockpit", "web", "🧭", "Open the mission planning cockpit.", portal("/apps/missions.html")),
+	action("Tunnel Control", "web", "🔌", "Open live tunnel controls.", portal("/apps/tunnel-control/")),
+	action("Apps Code", "web", "🧬", "Open the standalone code workspace.", portal("/apps/code/")),
+	action("Treasury OS", "web", "💠", "Open Treasury operations.", portal("/apps/treasury/")),
+	action("Treasury Budgets", "web", "📈", "Open Treasury budgets.", portal("/apps/treasury/budgets/")),
+	action("Treasury Marketplace", "web", "🛍️", "Open the Treasury marketplace.", portal("/apps/treasury/marketplace/")),
+	action("Treasury Graph", "web", "🕸️", "Open Treasury relationships.", portal("/apps/treasury/relationships/")),
+	action("Awtsmoos Bank", "web", "🏦", "Open Awtsmoos Bank.", portal("/apps/bank/")),
+	action("Developer Diagnostics", "system", "🧰", "Inspect the living OS graph.", openProgram("awtsmoosDiagnostics", "Developer Diagnostics")),
+	action("Copy Scene JSON", "system", "📋", "Copy the current scene graph.", copyScene),
+	action("Enable Virtual OS Tunnel", "system", "🔗", "Install and open the tunnel launcher.", enableTunnel),
+	action("New File", "files", "📄", "Create a file on the desktop.", ({ os }) => os.createFile()),
+	action("New Folder", "files", "📁", "Create a desktop folder.", ({ os }) => os.createFolder()),
+	action("Import Files", "files", "📥", "Import files into the virtual desktop.", ({ os }) => os.importFiles()),
+	action("Export Desktop", "files", "📤", "Export the desktop folder.", ({ os }) => os.exportFolder("/desktop.folder"))
+]);
+
+export const MENU_ACTION_METADATA = Object.freeze(Object.fromEntries(
+	DEFINITIONS.map(item => [item.label, Object.freeze({ ...item, run: undefined })])
+));
+
+const menu = Object.freeze(Object.fromEntries(
+	DEFINITIONS.map(item => [item.label, item.run])
+));
+
+export default menu;
+
+function action(label, category, icon, description, run) {
+	return Object.freeze({ label, category, icon, description, run });
+}
+
+function social(route) {
+	return ({ os }) => openSocialWindow(os, route);
+}
+
+function openFiles(path, title) {
+	return ({ os }) => os.addWindow({ title, path, os, programName: "awtsmoosFileExplorer" });
+}
+
+function openProgram(programName, title) {
+	return ({ os }) => os.addWindow({ title, os, programName });
+}
+
+function portal(url) {
+	return () => window.open(url, "_blank", "noopener,noreferrer");
+}
+
+async function copyScene() {
+	await navigator.clipboard.writeText(sceneJSON());
+}
+
+async function enableTunnel() {
+	await installVirtualOSTunnelAgent();
+	await copyVirtualOSLauncherSnippet();
+	openVirtualOSLauncher();
+	await refreshProfileDropdown();
+}

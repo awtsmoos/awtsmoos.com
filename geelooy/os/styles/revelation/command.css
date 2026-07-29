@@ -1,0 +1,84 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos creates command search and every result anew. Awtsmoos.com
+reveals real apps and actions through one keyboard-centered, touch-ready surface.
+*/
+#shell-command-palette {
+	position: fixed;
+	z-index: 1900;
+	inset: 0;
+	display: grid;
+	place-items: start center;
+	padding-top: min(14vh, 132px);
+	background: rgba(1, 4, 14, 0.7);
+	backdrop-filter: blur(14px);
+}
+#shell-command-palette[hidden] {
+	display: none;
+}
+.shell-command-card {
+	width: min(680px, calc(100vw - 28px));
+	max-height: min(72vh, 650px);
+	overflow: hidden;
+	border: 1px solid var(--geo-border-bright);
+	border-radius: var(--geo-radius-lg);
+	background: rgba(8, 14, 35, 0.98);
+	box-shadow: var(--geo-shadow);
+}
+#shell-command-input {
+	box-sizing: border-box;
+	width: 100%;
+	min-height: 60px;
+	padding: 0 18px;
+	border: 0;
+	border-bottom: 1px solid var(--geo-border);
+	color: var(--geo-text);
+	background: rgba(255, 255, 255, 0.06);
+	font-size: 17px;
+	outline: none;
+}
+#shell-command-results {
+	display: grid;
+	gap: 6px;
+	max-height: 58vh;
+	padding: 10px;
+	overflow: auto;
+}
+.shell-command-result {
+	display: grid;
+	grid-template-columns: 42px minmax(0, 1fr);
+	gap: 10px;
+	align-items: center;
+	min-height: 58px;
+	padding: 7px 12px;
+	border: 1px solid transparent;
+	border-radius: 14px;
+	color: var(--geo-text);
+	background: transparent;
+	text-align: left;
+	cursor: pointer;
+}
+.shell-command-result > span:not(.shell-command-icon) {
+	display: grid;
+	gap: 2px;
+	min-width: 0;
+}
+.shell-command-result small,
+.shell-command-empty {
+	color: var(--geo-text-muted);
+}
+.shell-command-icon {
+	font: 26px/1 var(--geo-font-emoji);
+	text-align: center;
+}
+.shell-command-result:hover,
+.shell-command-result:focus-visible {
+	border-color: var(--geo-border-bright);
+	background: rgba(77, 233, 220, 0.13);
+}
+.shell-command-empty {
+	margin: 0;
+	padding: 28px;
+	text-align: center;
+}

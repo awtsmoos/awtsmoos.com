@@ -2,12 +2,16 @@
 //Boruch Hashem
 //Blessed is He
 
+import { matchingShellActions } from "./actionCatalog.js";
+
 /**
- * Turns existing Start-menu actions into a searchable keyboard command vessel.
- * The Awtsmoos creates every path and choice anew; Awtsmoos.com reuses real OS
- * actions instead of inventing decorative commands that cannot actually run.
+ * @file commandPalette.js
+ * @description
+ * The Awtsmoos lets keyboard search reveal the same native apps and inherited deeds.
+ * Awtsmoos.com never invents a command that the Start launcher cannot actually run.
  */
-export function bindCommandPalette({ os, menuItems }) {
+
+export function bindCommandPalette({ records }) {
 	const root = document.getElementById("shell-command-palette");
 	const input = document.getElementById("shell-command-input");
 	const results = document.getElementById("shell-command-results");
@@ -16,37 +20,30 @@ export function bindCommandPalette({ os, menuItems }) {
 		return () => {};
 	}
 	let previousFocus = null;
-	const commands = Object.keys(menuItems).map(label => ({
-		label,
-		run: () => menuItems[label]?.({ os })
-	}));
 	const close = () => {
 		root.hidden = true;
 		document.body.classList.remove("shell-modal-open");
 		previousFocus?.focus?.();
 	};
+	const draw = () => renderCommands(
+		matchingShellActions(records, input.value),
+		results,
+		close
+	);
 	const open = () => {
 		previousFocus = document.activeElement;
 		root.hidden = false;
 		document.body.classList.add("shell-modal-open");
 		input.value = "";
-		renderCommands(commands, results, close);
+		draw();
 		queueMicrotask(() => input.focus());
 	};
-	trigger.addEventListener("click", open);
-	input.addEventListener("input", () => {
-		const query = input.value.trim().toLowerCase();
-		const filtered = commands.filter(command => {
-			return command.label.toLowerCase().includes(query);
-		});
-		renderCommands(filtered, results, close);
-	});
-	root.addEventListener("click", event => {
+	const outside = event => {
 		if (event.target === root) {
 			close();
 		}
-	});
-	document.addEventListener("keydown", event => {
+	};
+	const keys = event => {
 		const shortcut = (event.ctrlKey || event.metaKey)
 			&& event.shiftKey
 			&& event.key.toLowerCase() === "k";
@@ -58,28 +55,51 @@ export function bindCommandPalette({ os, menuItems }) {
 			event.preventDefault();
 			close();
 		}
-	});
-	return close;
+	};
+	trigger.addEventListener("click", open);
+	input.addEventListener("input", draw);
+	root.addEventListener("click", outside);
+	document.addEventListener("keydown", keys);
+	return () => {
+		trigger.removeEventListener("click", open);
+		input.removeEventListener("input", draw);
+		root.removeEventListener("click", outside);
+		document.removeEventListener("keydown", keys);
+	};
 }
 
-function renderCommands(commands, results, close) {
-	results.replaceChildren();
-	if (!commands.length) {
+function renderCommands(records, root, close) {
+	root.replaceChildren();
+	if (!records.length) {
 		const empty = document.createElement("p");
 		empty.className = "shell-command-empty";
-		empty.textContent = "No matching Geelooy action";
-		results.append(empty);
+		empty.textContent = "No matching Geelooy app or action.";
+		root.append(empty);
 		return;
 	}
-	for (const command of commands.slice(0, 18)) {
-		const button = document.createElement("button");
-		button.type = "button";
-		button.className = "shell-command-result";
-		button.textContent = command.label;
-		button.addEventListener("click", async () => {
-			close();
-			await command.run();
-		});
-		results.append(button);
+	for (const record of records.slice(0, 24)) {
+		root.append(commandButton(record, close));
 	}
+}
+
+function commandButton(record, close) {
+	const button = document.createElement("button");
+	button.type = "button";
+	button.className = "shell-command-result";
+	const icon = document.createElement("span");
+	icon.className = "shell-command-icon";
+	icon.setAttribute("aria-hidden", "true");
+	icon.textContent = record.icon || "✦";
+	const copy = document.createElement("span");
+	const title = document.createElement("strong");
+	title.textContent = record.title;
+	const description = document.createElement("small");
+	description.textContent = record.description || record.category;
+	copy.append(title, description);
+	button.append(icon, copy);
+	button.addEventListener("click", async () => {
+		close();
+		await record.run?.();
+	});
+	return button;
 }
