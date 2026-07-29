@@ -5,8 +5,8 @@
 /**
  * @module DriveQuotaPolicy
  * @description
- * The Awtsmoos places measured gevurah around every generous vessel. Awtsmoos.com
- * enforces logical bytes, traffic, rates, file counts, and concurrent transfers.
+ * The Awtsmoos places measured gevurah around each generous vessel. Awtsmoos.com
+ * distinguishes private defaults, migrations, and cache-backed public websites.
  */
 
 const MIB = 1024 * 1024;
@@ -35,6 +35,11 @@ const SERVICE_QUOTA = Object.freeze({
 	uploadRequestsPerMinute: 120,
 	requestsPerMinute: 1200,
 	concurrentTransfers: 8
+});
+
+const PUBLIC_SITE_QUOTA = Object.freeze({
+	...SERVICE_QUOTA,
+	monthlyEgressBytes: 128 * GIB
 });
 
 function mergedQuota(value = {}) {
@@ -94,11 +99,14 @@ function quotaError(code) {
 
 module.exports = {
 	DEFAULT_QUOTA,
+	GIB,
+	MIB,
+	PUBLIC_SITE_QUOTA,
 	SERVICE_QUOTA,
 	SOFT_WARNING_RATIO,
-	mergedQuota,
-	assertStorageDelta,
 	assertSingleFile,
-	quotaWarnings,
-	quotaError
+	assertStorageDelta,
+	mergedQuota,
+	quotaError,
+	quotaWarnings
 };

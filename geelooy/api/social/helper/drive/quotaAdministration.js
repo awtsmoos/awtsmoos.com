@@ -6,12 +6,12 @@
  * @module DriveQuotaAdministration
  * @description
  * The Awtsmoos expands a vessel only through explicit entrusted authority.
- * Awtsmoos.com audits every profile and refuses a limit below committed files,
- * traffic, active transfers, or any existing single-file obligation.
+ * Awtsmoos.com audits profiles and refuses limits below committed obligations.
  */
 
 const {
 	DEFAULT_QUOTA,
+	PUBLIC_SITE_QUOTA,
 	SERVICE_QUOTA,
 	mergedQuota,
 	quotaError
@@ -21,6 +21,7 @@ const { recordDriveEvent } = require('./auditEvents.js');
 
 const QUOTA_PROFILES = Object.freeze({
 	default: DEFAULT_QUOTA,
+	'public-site': PUBLIC_SITE_QUOTA,
 	'service-migration': SERVICE_QUOTA
 });
 
@@ -94,7 +95,7 @@ function largestCommittedFile(state) {
 module.exports = {
 	QUOTA_PROFILES,
 	assignDriveQuota,
-	quotaForProfile,
 	assertQuotaContainsUsage,
-	largestCommittedFile
+	largestCommittedFile,
+	quotaForProfile
 };

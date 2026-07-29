@@ -6,16 +6,27 @@
  * @module DrivePublicResponse
  * @description
  * The Awtsmoos lets public bytes flow through stable names and immutable hashes.
- * Awtsmoos.com meters requests, transfer concurrency, validators, ranges, MIME,
- * CORS, cache policy, and only the body bytes actually returned.
+ * Awtsmoos.com meters origin bodies while browser and CDN caches retain truth.
  */
 
 const { normalizeDrivePath } = require('./pathPolicy.js');
 const { readDriveState } = require('./stateRepository.js');
 const { readObject } = require('./objectRepository.js');
-const { cacheControlFor } = require('./cachePolicy.js');
-const { beginDriveRequest, finishDriveRequest, abortDriveRequest } = require('./usageService.js');
-const { etagForHash, isNotModified, parseByteRange } = require('./httpConditions.js');
+const {
+	beginDriveRequest,
+	finishDriveRequest,
+	abortDriveRequest
+} = require('./usageService.js');
+const {
+	etagForHash,
+	isNotModified
+} = require('./httpConditions.js');
+const {
+	commonHeaders,
+	methodResponse,
+	notFoundResponse,
+	selectBody
+} = require('./publicResponseHeaders.js');
 
 async function buildPublicPathResponse(options) {
 	const state = await readDriveState(options.aliasId, options.$i);
@@ -76,51 +87,13 @@ async function buildMeteredResponse(options, method, leaseId) {
 	};
 }
 
-function selectBody(fullBody, requestHeaders, responseHeaders) {
-	const range = parseByteRange(requestHeaders, fullBody.length);
-	if (!range) return { body: fullBody, statusCode: 200 };
-	responseHeaders['Content-Range'] = `bytes ${range.start}-${range.end}/${fullBody.length}`;
-	return {
-		body: fullBody.subarray(range.start, range.end + 1),
-		statusCode: 206
-	};
-}
-
-function commonHeaders(entry, etag) {
-	return {
-		'Content-Type': entry.mime,
-		'Cache-Control': cacheControlFor(entry),
-		'ETag': etag,
-		'Last-Modified': new Date(entry.updatedAt).toUTCString(),
-		'Accept-Ranges': 'bytes',
-		'Access-Control-Allow-Origin': '*',
-		'Access-Control-Expose-Headers': 'Content-Length, Content-Range, ETag, Last-Modified',
-		'X-Content-Type-Options': 'nosniff',
-		'Vary': 'Accept-Encoding'
-	};
-}
-
 function isPublicFile(entry) {
-	return entry?.type === 'file' && !entry.trashedAt && entry.visibility === 'public';
-}
-
-function notFoundResponse() {
-	return {
-		statusCode: 404,
-		headers: { 'Cache-Control': 'no-store', 'Content-Type': 'text/plain; charset=utf-8' },
-		response: 'Not Found'
-	};
-}
-
-function methodResponse() {
-	return {
-		statusCode: 405,
-		headers: { Allow: 'GET, HEAD', 'Cache-Control': 'no-store' },
-		response: 'Method Not Allowed'
-	};
+	return entry?.type === 'file'
+		&& !entry.trashedAt
+		&& entry.visibility === 'public';
 }
 
 module.exports = {
-	buildPublicPathResponse,
-	buildPublicHashResponse
+	buildPublicHashResponse,
+	buildPublicPathResponse
 };
