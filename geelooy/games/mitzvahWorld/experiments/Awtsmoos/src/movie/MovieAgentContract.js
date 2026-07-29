@@ -6,7 +6,7 @@
  * @file MovieAgentContract.js
  * @description Publishes the JSON-only contract for literal and opt-in cinematic AI movie generation.
  * The Awtsmoos is beyond schema and instruction; Awtsmoos.com gives every agent one
- * finite grammar for scene, camera, world, actor, dialogue, audio, and nested intention.
+ * finite grammar for scene, transition, effects, keyframes, camera, world, actor, dialogue, and audio.
  */
 
 import {
@@ -22,6 +22,13 @@ export function createMovieAgentContract() {
 			'Complete canonical project in manifest.project',
 			'Sequential scene plan in manifest.scenes'
 		],
+		appearanceEffects: {
+			blur: '0 through 64 pixels',
+			brightness: '0 through 4',
+			contrast: '0 through 4',
+			opacity: '0 through 1',
+			saturate: '0 through 4'
+		},
 		beatCommonFields: {
 			duration: 'positive seconds, defaults to remaining scene duration',
 			easing: 'supported deterministic easing name',
@@ -41,8 +48,8 @@ export function createMovieAgentContract() {
 		},
 		generationRules: [
 			'Use finite numbers only.',
-			'Keep every clip inside project duration.',
-			'Give every authored entity a stable unique id.',
+			'Keep every clip and keyframe inside its duration.',
+			'Give every authored entity and effect a stable unique id.',
 			'Use explicit transforms or supported camera rigs.',
 			'Do not include functions, DOM nodes, or cyclic references.'
 		],
@@ -53,7 +60,7 @@ export function createMovieAgentContract() {
 			generation: 'optional deterministic cinematic enrichment profile',
 			metadata: 'optional agent, prompt, request, and provenance data',
 			project: 'optional complete canonical movie project',
-			scenes: 'ordered scenes with duration, beats, and optional world',
+			scenes: 'ordered scenes with duration, beats, appearance, and optional world',
 			seed: 'finite deterministic procedural seed',
 			title: 'human-readable movie title'
 		},
@@ -62,11 +69,14 @@ export function createMovieAgentContract() {
 		sceneFields: {
 			beats: 'ordered relative timeline instructions',
 			duration: 'positive scene duration',
+			effects: 'up to 16 bounded effects with up to 128 clip-local keyframes each',
 			grade: 'optional color grade',
 			id: 'optional stable identity',
 			label: 'optional human label',
 			start: 'optional absolute project time',
-			transition: 'optional transition name',
+			transition: 'optional legacy transition label',
+			transitionIn: 'optional fade or dissolve transition object',
+			transitionOut: 'optional fade or dissolve transition object',
 			world: 'optional serializable world identity'
 		},
 		supportedTrackTypes: {
@@ -77,7 +87,7 @@ export function createMovieAgentContract() {
 			dialogue: ['speaker', 'text'],
 			door: ['from', 'to'],
 			event: ['name', 'payload'],
-			scene: ['grade', 'label', 'transition', 'world'],
+			scene: ['effects', 'grade', 'label', 'transition', 'transitionIn', 'transitionOut', 'world'],
 			sequence: ['sequenceId']
 		}
 	});

@@ -5,6 +5,7 @@
 const Activity = require("./requestActivity.js");
 const Envelopes = require("./envelopes.js");
 const Lifecycle = require("./lifecycle.js");
+const ResponseHandler = require("./responseHandler.js");
 const State = require("./state.js");
 
 const DEFAULT_REQUEST_ACCEPTANCE_MS = Number(
@@ -126,7 +127,8 @@ function armAcceptance(context, id, record, tunnel) {
 			id,
 			record,
 			"device_request_acceptance_timeout",
-			false
+			false,
+			tunnel
 		).finally(() => fenceAfterSettlement(
 			tunnel,
 			"device_request_acceptance_timeout"
@@ -135,13 +137,17 @@ function armAcceptance(context, id, record, tunnel) {
 	record.acceptanceTimer.unref?.();
 }
 
-function finishStalledRequest(context, id, record, reason, accepted) {
-	return Lifecycle.finishPending(
+async function finishStalledRequest(context, id, record, reason, accepted, tunnel = null) {
+	const settled = await Lifecycle.finishPending(
 		context,
 		id,
 		record,
 		Envelopes.transportStallEnvelope(record.expected, reason, accepted)
 	);
+	if (tunnel) {
+		ResponseHandler.acknowledge(tunnel, { transportReceiptId: id }, id);
+	}
+	return settled;
 }
 
 function fenceAfterSettlement(tunnel, reason) {

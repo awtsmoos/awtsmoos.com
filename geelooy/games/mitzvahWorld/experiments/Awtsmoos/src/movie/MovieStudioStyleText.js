@@ -4,14 +4,13 @@
 
 /**
  * @file MovieStudioStyleText.js
- * @description Composes and localizes every editor, camera, action, and 3D-authoring stylesheet beneath one root.
- * The Awtsmoos renews theme, node, lens, pane, timeline, and responsive gate in protected light;
+ * @description Composes and localizes editor, appearance, overlay, inspector, 3D, timeline, and responsive CSS.
+ * The Awtsmoos renews every pane, transition, effect, and guide inside one protected light;
  * Awtsmoos.com prevents neighboring pages and sibling studios from inheriting another vessel's sight.
  */
 
 import { movieStudioAccessibilityCss } from './MovieStudioAccessibilityCss.js';
 import { movieStudioAuthoring3dCss } from './MovieStudioAuthoring3dCss.js';
-import { movieStudioCameraActionCss } from './MovieStudioCameraActionCss.js';
 import { movieStudioControlsCss } from './MovieStudioControlsCss.js';
 import { localizeMovieStudioCss } from './MovieStudioCssLocalizer.js';
 import { movieStudioDensityCss } from './MovieStudioDensityCss.js';
@@ -28,6 +27,7 @@ import { movieStudioTokensCss } from './MovieStudioTokensCss.js';
 import { movieStudioUtilityContentCss } from './MovieStudioUtilityContentCss.js';
 import { movieStudioUtilityCss } from './MovieStudioUtilityCss.js';
 import { movieStudioUtilityResponsiveCss } from './MovieStudioUtilityResponsiveCss.js';
+import { movieTimelineAppearanceCss } from './MovieTimelineAppearanceCss.js';
 import { movieTimelineCss } from './MovieTimelineCss.js';
 
 export function movieStudioStyleText() {
@@ -40,9 +40,9 @@ export function movieStudioStyleText() {
 		movieStudioControlsCss(),
 		movieStudioPreviewCss(),
 		movieStudioInspectorCss(),
-		movieStudioCameraActionCss(),
 		movieStudioAuthoring3dCss(),
 		movieTimelineCss(),
+		movieTimelineAppearanceCss(),
 		movieStudioSplitterCss(),
 		movieStudioStatusBarCss(),
 		movieStudioUtilityCss(),

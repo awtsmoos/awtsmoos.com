@@ -47,7 +47,13 @@ function createDirector(runtimeOverrides = {}) {
 			overlay: { draw: () => calls.push('overlay') },
 			runtime,
 			scenes: { apply: () => null },
-			timeline: { snapshot: () => ({ byType: {} }) }
+			timeline: { snapshot: () => ({ byType: {} }) },
+			visuals: {
+				apply: () => {
+					calls.push('visuals');
+					return { opacity: 1 };
+				}
+			}
 		}
 	};
 }
@@ -58,8 +64,9 @@ test('director frame renders when shadows are absent', () => {
 	assert.equal(frame.time, 2);
 	assert.deepEqual(calls, [
 		'actors', 'crowd', 'doors', 'camera',
-		'interactor', 'render', 'overlay'
+		'visuals', 'interactor', 'render', 'overlay'
 	]);
+	assert.deepEqual(frame.appearance, { opacity: 1 });
 });
 
 test('shadow update receives the available runtime vessels', () => {

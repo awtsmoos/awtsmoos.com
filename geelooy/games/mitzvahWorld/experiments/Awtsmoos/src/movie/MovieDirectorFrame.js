@@ -4,9 +4,9 @@
 
 /**
  * @file MovieDirectorFrame.js
- * @description Applies one deterministic timeline sample to required and optional cinematic systems.
- * The Awtsmoos renews each frame beyond its tracks; Awtsmoos.com joins actors, authored geometry,
- * cameras, renderer, and optional shadows without inventing a subsystem absent from the world.
+ * @description Applies one deterministic timeline sample to cast, world, appearance, camera, renderer, and overlay.
+ * The Awtsmoos renews each frame beyond its tracks; Awtsmoos.com joins authored geometry,
+ * visual effects, actors, cameras, renderer, and optional shadows without inventing absent systems.
  */
 
 export function applyMovieDirectorFrame(director, time, deltaTime) {
@@ -17,13 +17,16 @@ export function applyMovieDirectorFrame(director, time, deltaTime) {
 	director.doors.apply(snapshot.byType.door || []);
 	const camera = (snapshot.byType.camera || []).at(-1) || null;
 	director.cameras.apply(camera);
-	const scene = director.scenes.apply((snapshot.byType.scene || []).at(-1) || null);
+	const sceneState = (snapshot.byType.scene || []).at(-1) || null;
+	const scene = director.scenes.apply(sceneState);
+	const appearance = director.visuals.apply(sceneState);
 	const runtime = director.runtime;
 	updateMovieShadows(runtime);
 	runtime.renderer.setInteractor(runtime.state, time);
 	runtime.renderer.render(runtime.scene, runtime.camera);
 	const dialogue = (snapshot.byType.dialogue || []).at(-1)?.clip || null;
 	const frame = {
+		appearance,
 		authoring3d,
 		camera: director.cameras.currentShot,
 		crowd: director.crowd.snapshot(),

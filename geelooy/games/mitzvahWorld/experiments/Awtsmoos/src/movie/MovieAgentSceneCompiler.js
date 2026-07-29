@@ -4,9 +4,9 @@
 
 /**
  * @file MovieAgentSceneCompiler.js
- * @description Converts ordered AI scenes and world identity into deterministic canonical source tracks.
+ * @description Converts ordered AI scenes, appearance, and world identity into deterministic source tracks.
  * The Awtsmoos renews every scene before sequence appears; Awtsmoos.com translates
- * relative intention into bounded absolute time while beat machinery remains its own vessel.
+ * relative intention, transition, effect, and world into bounded absolute time.
  */
 
 import { MovieApiError } from './MovieApiError.js';
@@ -68,11 +68,14 @@ function compileScene(scene, index, state, sceneTrack) {
 function sceneClip(scene, id, start, duration) {
 	return {
 		duration,
+		effects: array(scene.effects),
 		grade: scene.grade,
 		id,
 		label: scene.label || id,
 		start,
 		transition: scene.transition || 'cut',
+		transitionIn: scene.transitionIn || null,
+		transitionOut: scene.transitionOut || null,
 		world: scene.world || null
 	};
 }

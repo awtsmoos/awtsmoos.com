@@ -6,12 +6,13 @@
  * @file MovieStudioApiCommandMap.js
  * @description Maps stable dotted agent names and internal names onto the complete editor vocabulary.
  * The Awtsmoos is beyond alias and implementation while every finite caller receives one durable gate;
- * Awtsmoos.com preserves legacy spellings as tool, track, clip, marker, history, and snapping evolve in state.
+ * Awtsmoos.com preserves legacy spellings as tools, appearance, tracks, clips, markers, and history evolve in state.
  */
 
 import { MovieApiError } from './MovieApiError.js';
 
 const ALIASES = Object.freeze({
+	'clip.addEffectKeyframe': 'addClipEffectKeyframe',
 	'clip.alignEnds': 'alignSelectionEnds',
 	'clip.alignStarts': 'alignSelectionStarts',
 	'clip.delete': 'delete',
@@ -19,8 +20,11 @@ const ALIASES = Object.freeze({
 	'clip.duplicate': 'duplicate',
 	'clip.move': 'moveSelection',
 	'clip.moveSelection': 'moveSelection',
+	'clip.removeEffect': 'removeClipEffect',
 	'clip.rippleDelete': 'rippleDeleteSelection',
+	'clip.setTransition': 'setClipTransition',
 	'clip.split': 'split',
+	'clip.upsertEffect': 'upsertClipEffect',
 	'history.redo': 'redo',
 	'history.undo': 'undo',
 	'marker.add': 'addMarker',
@@ -37,11 +41,13 @@ const ALIASES = Object.freeze({
 });
 
 const INTERNAL = new Set([
-	'addMarker', 'addTrack', 'alignSelectionEnds', 'alignSelectionStarts',
-	'delete', 'distributeSelection', 'duplicate', 'duplicateTrack',
-	'moveSelection', 'redo', 'removeMarker', 'removeTrack', 'renameTrack',
-	'reorderTrack', 'rippleDeleteSelection', 'setSnapping', 'setTimelineTool',
-	'setTrackState', 'split', 'toggleSnap', 'undo'
+	'addClipEffectKeyframe', 'addMarker', 'addTrack', 'alignSelectionEnds',
+	'alignSelectionStarts', 'delete', 'distributeSelection', 'duplicate',
+	'duplicateTrack', 'moveSelection', 'redo', 'removeClipEffect',
+	'removeMarker', 'removeTrack', 'renameTrack', 'reorderTrack',
+	'rippleDeleteSelection', 'setClipTransition', 'setSnapping',
+	'setTimelineTool', 'setTrackState', 'split', 'toggleSnap',
+	'undo', 'upsertClipEffect'
 ]);
 
 export const MOVIE_API_COMMAND_NAMES = Object.freeze([

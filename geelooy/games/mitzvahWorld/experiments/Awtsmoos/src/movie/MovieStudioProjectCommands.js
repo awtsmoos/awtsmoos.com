@@ -4,29 +4,15 @@
 
 /**
  * @file MovieStudioProjectCommands.js
- * @description Routes clip, track, marker, arrangement, ripple, and pointer-time split commands.
+ * @description Routes clip, track, marker, appearance, arrangement, ripple, and pointer-time commands.
  * The Awtsmoos renews command and document before interface or history;
- * Awtsmoos.com lets legacy edits, professional tools, and lifecycle changes share one registry.
+ * Awtsmoos.com lets professional tools and lifecycle changes share one truthful registry.
  */
 
-import {
-	deleteMovieClip,
-	duplicateMovieClip,
-	splitMovieClip
-} from './MovieClipCommands.js';
-import {
-	alignSelectedMovieClips,
-	distributeSelectedMovieClips
-} from './MovieMultiClipArrange.js';
-import {
-	deleteSelectedMovieClips,
-	duplicateSelectedMovieClips
-} from './MovieMultiClipCommands.js';
-import { moveSelectedMovieClips } from './MovieMultiClipMove.js';
 import { addMovieMarker, removeMovieMarker } from './MovieProjectMarkers.js';
 import { resolveMovieSelection } from './MovieProjectSelection.js';
-import { rippleDeleteMovieSelection } from './MovieRippleDelete.js';
 import { normalizeMovieSelectionSet } from './MovieSelectionSet.js';
+import { executeMovieStudioClipCommand } from './MovieStudioClipCommandDispatch.js';
 import { executeMovieStudioTrackCommand } from './MovieStudioTrackCommandDispatch.js';
 
 export function executeMovieStudioProjectCommand(
@@ -36,35 +22,13 @@ export function executeMovieStudioProjectCommand(
 	payload = {}
 ) {
 	const selection = normalizeMovieSelectionSet(selectionSource, session.project);
-	const primary = selection.primary;
-	if (name === 'split') {
-		const time = Object.hasOwn(payload, 'time') ? payload.time : session.time;
-		return splitMovieClip(session.project, primary, time);
-	}
-	if (name === 'duplicate') {
-		return duplicateSelectedMovieClips(session.project, selection)
-			|| duplicateMovieClip(session.project, primary);
-	}
-	if (name === 'delete') {
-		return selection.items.length > 1
-			? deleteSelectedMovieClips(session.project, selection)
-			: deleteMovieClip(session.project, primary);
-	}
-	if (name === 'moveSelection') {
-		return moveSelectedMovieClips(session.project, selection, payload.delta);
-	}
-	if (name === 'alignSelectionStarts') {
-		return alignSelectedMovieClips(session.project, selection, 'start');
-	}
-	if (name === 'alignSelectionEnds') {
-		return alignSelectedMovieClips(session.project, selection, 'end');
-	}
-	if (name === 'distributeSelection') {
-		return distributeSelectedMovieClips(session.project, selection);
-	}
-	if (name === 'rippleDeleteSelection') {
-		return rippleDeleteMovieSelection(session.project, selection);
-	}
+	const clipResult = executeMovieStudioClipCommand(
+		session,
+		selection,
+		name,
+		payload
+	);
+	if (clipResult) return clipResult;
 	const trackResult = executeMovieStudioTrackCommand(
 		session.project,
 		selection,

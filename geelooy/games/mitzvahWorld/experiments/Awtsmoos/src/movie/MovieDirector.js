@@ -4,9 +4,9 @@
 
 /**
  * @file MovieDirector.js
- * @description Owns movie lifecycle, timing, shared cast directors, authored 3D execution, and deterministic seek.
+ * @description Owns movie timing, cast, authored 3D, visual effects, cameras, scenes, overlay, and deterministic seek.
  * The Awtsmoos renews every first-person frame beyond elapsed time; Awtsmoos.com keeps
- * playback, authoring, and export rooted in the same project truth rather than separate realities.
+ * playback, appearance, authoring, and export rooted in one project truth rather than separate realities.
  */
 
 import { MovieActorDirector } from './MovieActorDirector.js';
@@ -18,6 +18,7 @@ import { MovieDoorDirector } from './MovieDoorDirector.js';
 import { MovieOverlay } from './MovieOverlay.js';
 import { MovieSceneDirector } from './MovieSceneDirector.js';
 import { MovieTimeline } from './MovieTimeline.js';
+import { MovieVisualEffectDirector } from './MovieVisualEffectDirector.js';
 
 export class MovieDirector {
 	constructor(runtime, project) {
@@ -30,6 +31,7 @@ export class MovieDirector {
 		this.cameras = new MovieCameraDirector(runtime, project);
 		this.doors = new MovieDoorDirector(runtime);
 		this.scenes = new MovieSceneDirector(runtime);
+		this.visuals = new MovieVisualEffectDirector(runtime);
 		this.overlay = new MovieOverlay(project);
 		this.time = 0;
 		this.playing = false;
@@ -85,6 +87,7 @@ export class MovieDirector {
 
 	destroy() {
 		this.pause();
+		this.visuals.destroy();
 		this.authoring3d.destroy();
 		this.crowd.destroy();
 		this.overlay.canvas.remove();

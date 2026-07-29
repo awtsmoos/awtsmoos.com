@@ -5,6 +5,7 @@
 const Activity = require("./requestActivity.js");
 const Envelopes = require("./envelopes.js");
 const Lifecycle = require("./lifecycle.js");
+const ResponseHandler = require("./responseHandler.js");
 const State = require("./state.js");
 
 const DEFAULT_CONSUMER_PROGRESS_MS = Number(
@@ -64,19 +65,24 @@ function armConsumer(context, client, id, record) {
 			context,
 			id,
 			record,
-			"device_consumer_progress_timeout"
+			"device_consumer_progress_timeout",
+			client
 		).finally(() => fence(client, "device_consumer_progress_timeout"));
 	}, bounded(DEFAULT_CONSUMER_PROGRESS_MS));
 	record.consumerTimer.unref?.();
 }
 
-function finishStalledRequest(context, id, record, reason) {
-	return Lifecycle.finishPending(
+async function finishStalledRequest(context, id, record, reason, client = null) {
+	const settled = await Lifecycle.finishPending(
 		context,
 		id,
 		record,
 		Envelopes.transportStallEnvelope(record.expected, reason, true)
 	);
+	if (client) {
+		ResponseHandler.acknowledge(client, { transportReceiptId: id }, id);
+	}
+	return settled;
 }
 
 function monitorAccepted(context, client) {

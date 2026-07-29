@@ -14,12 +14,14 @@ const State = require("./state.js");
 test("acceptance timeout becomes terminal before the tunnel is fenced", async t => {
 	const fixture = context(t);
 	const record = pending(fixture, "acceptance-request");
+	const transport = connection();
 	await Dispatch.finishStalledRequest(
 		fixture,
 		"acceptance-request",
 		record,
 		"device_request_acceptance_timeout",
-		false
+		false,
+		transport
 	);
 	assert.equal(fixture.pendingTunnelRequests.has("acceptance-request"), false);
 	const durable = await State.hydrate(
@@ -31,16 +33,24 @@ test("acceptance timeout becomes terminal before the tunnel is fenced", async t 
 	assert.equal(durable.data.terminal, true);
 	assert.equal(durable.data.accepted, false);
 	assert.equal(durable.data.error, "device_request_acceptance_timeout");
+	assert.deepEqual(transport.sent, [{
+		id: "acceptance-request",
+		settledAt: transport.sent[0].settledAt,
+		transportReceiptId: "acceptance-request",
+		type: "TUNNEL_RESPONSE_ACK"
+	}]);
 });
 
 test("consumer timeout ends the canonical request so reconnect cannot replay it", async t => {
 	const fixture = context(t);
 	const record = pending(fixture, "consumer-request");
+	const transport = connection();
 	await Ack.finishStalledRequest(
 		fixture,
 		"consumer-request",
 		record,
-		"device_consumer_progress_timeout"
+		"device_consumer_progress_timeout",
+		transport
 	);
 	assert.equal(fixture.pendingTunnelRequests.has("consumer-request"), false);
 	const durable = await State.hydrate(
@@ -53,7 +63,18 @@ test("consumer timeout ends the canonical request so reconnect cannot replay it"
 	assert.equal(durable.data.accepted, true);
 	assert.equal(durable.data.retryable, false);
 	assert.equal(durable.data.error, "device_consumer_progress_timeout");
+	assert.equal(transport.sent[0].transportReceiptId, "consumer-request");
 });
+
+function connection() {
+	return {
+		sent: [],
+		send(value) {
+			this.sent.push(value);
+			return true;
+		}
+	};
+}
 
 function context(t) {
 	const root = fs.mkdtempSync(path.join(os.tmpdir(), "awtsmoos-stall-finalization-"));

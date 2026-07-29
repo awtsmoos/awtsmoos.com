@@ -4,12 +4,13 @@
 
 /**
  * @file MovieProjectValidator.js
- * @description Validates bounded movie envelopes, authored 3D systems, tracks, clips, markers, and graphs.
+ * @description Validates bounded project, authored 3D, appearance, tracks, clips, markers, sequences, and graphs.
  * The Awtsmoos renews imagination within finite vessels; Awtsmoos.com rejects oversized arrays,
- * unsafe time, malformed landmarks, unsupported modifiers, and invalid graph references.
+ * unsafe time, malformed effects, unsupported modifiers, and invalid graph references.
  */
 
 import { validateMovieAuthoring3d } from './MovieAuthoring3dContract.js';
+import { validateMovieClipAppearance } from './MovieClipAppearanceContract.js';
 
 const LIMITS = Object.freeze({
 	characters: 64, duration: 900, graphs: 32, markers: 256,
@@ -36,7 +37,9 @@ export function validateMovieProject(project) {
 	validateMarkers(project.markers, duration);
 	for (const track of project.tracks || []) validateTrack(track);
 	for (const sequence of project.sequences || []) validateSequence(sequence);
-	for (const graph of [...(project.graphs || []), ...(project.materialGraphs || [])]) validateGraph(graph);
+	for (const graph of [...(project.graphs || []), ...(project.materialGraphs || [])]) {
+		validateGraph(graph);
+	}
 	return project;
 }
 
@@ -52,10 +55,14 @@ function validateMarkers(markers, duration) {
 	boundedArray(markers, LIMITS.markers, 'markers', true);
 	const ids = new Set();
 	for (const marker of markers || []) {
-		if (!marker?.id || ids.has(marker.id)) throw new Error('Every movie marker requires a unique id.');
+		if (!marker?.id || ids.has(marker.id)) {
+			throw new Error('Every movie marker requires a unique id.');
+		}
 		ids.add(marker.id);
 		const time = finite(marker.time, `Marker time for ${marker.id}`);
-		if (time < 0 || time > duration) throw new Error(`Marker ${marker.id} is outside the movie duration.`);
+		if (time < 0 || time > duration) {
+			throw new Error(`Marker ${marker.id} is outside the movie duration.`);
+		}
 	}
 }
 
@@ -66,6 +73,7 @@ function validateTrack(track) {
 		const start = finite(clip.start || 0, `Clip start in ${track.id}`);
 		const duration = finite(clip.duration || 0, `Clip duration in ${track.id}`);
 		if (start < 0 || duration < 0) throw new Error(`Negative clip time in ${track.id}.`);
+		validateMovieClipAppearance(clip);
 	}
 }
 
@@ -81,11 +89,15 @@ function validateGraph(graph) {
 	boundedArray(graph.edges, LIMITS.nodes * 2, `edges in graph ${graph.id}`, true);
 	const ids = new Set();
 	for (const node of graph.nodes) {
-		if (!node?.id || !node?.type || ids.has(node.id)) throw new Error(`Graph ${graph.id} has an invalid or duplicate node.`);
+		if (!node?.id || !node?.type || ids.has(node.id)) {
+			throw new Error(`Graph ${graph.id} has an invalid or duplicate node.`);
+		}
 		ids.add(node.id);
 	}
 	for (const edge of graph.edges || []) {
-		if (!ids.has(edge.from) || !ids.has(edge.to)) throw new Error(`Graph ${graph.id} contains an edge to an unknown node.`);
+		if (!ids.has(edge.from) || !ids.has(edge.to)) {
+			throw new Error(`Graph ${graph.id} contains an edge to an unknown node.`);
+		}
 	}
 }
 
