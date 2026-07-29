@@ -1,0 +1,107 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+mitzvah-world-combat-001.css reveals localized style through the Awtsmoos and Awtsmoos.com.
+*/
+
+/* B"H */
+
+/* Boruch Hashem */
+
+/* Blessed is He */
+
+/**
+ * @file mitzvah-world-combat.css
+ * @description Styles the real charged-cast meter, cooldown-aware hotbar, and selected target frame.
+ * The Awtsmoos measures every visible phase without confusion;
+ * Awtsmoos.com lets key, icon, cooldown, charge, health, and impact remain legible on every screen.
+ */
+
+#mitzvah-world-root .Awtsmoos-combat-host {
+	position: fixed;
+	left: 50%;
+	bottom: max(12px, env(safe-area-inset-bottom));
+	z-index: 840;
+	width: max-content;
+	max-width: calc(100vw - 20px);
+	transform: translateX(-50%);
+}
+
+#mitzvah-world-root .Awtsmoos-cast-meter {
+	display: none;
+	width: min(430px, calc(100vw - 32px));
+	margin: 0 auto 7px;
+	padding: 8px 11px;
+	border: 1px solid rgba(255, 205, 91, 0.58);
+	border-radius: 12px;
+	background: rgba(20, 9, 5, 0.94);
+	box-shadow: 0 0 24px rgba(255, 105, 23, 0.22), 0 12px 30px rgba(0, 0, 0, 0.45);
+	color: #fff3c4;
+}
+
+#mitzvah-world-root .Awtsmoos-cast-meter[data-visible="true"] {
+	display: block;
+}
+
+#mitzvah-world-root .Awtsmoos-cast-meter header {
+	display: flex;
+	gap: 12px;
+	justify-content: space-between;
+	font: 700 12px system-ui;
+}
+
+#mitzvah-world-root .Awtsmoos-cast-meter > div {
+	height: 11px;
+	margin: 6px 0 3px;
+	overflow: hidden;
+	border-radius: 99px;
+	background: #2b1010;
+}
+
+#mitzvah-world-root .Awtsmoos-cast-meter i {
+	display: block;
+	width: 0;
+	height: 100%;
+	background: linear-gradient(90deg, #ff4d0a, #ffd75e, #fff8ca);
+	box-shadow: 0 0 14px #ff7a18;
+	transition: width 60ms linear;
+}
+
+#mitzvah-world-root .Awtsmoos-cast-meter small {
+	color: #ffd787;
+	text-align: right;
+}
+
+#mitzvah-world-root .Awtsmoos-combat-bar {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	padding: 6px;
+	border: 1px solid rgba(255, 179, 78, 0.45);
+	border-radius: 15px;
+	background: rgba(4, 14, 11, 0.94);
+	box-shadow: 0 12px 38px rgba(0, 0, 0, 0.52);
+}
+
+#mitzvah-world-root .Awtsmoos-combat-bar button {
+	position: relative;
+	min-width: 50px;
+	height: 50px;
+	padding: 3px 8px;
+	border: 1px solid rgba(255, 255, 255, 0.16);
+	border-radius: 10px;
+	background: linear-gradient(180deg, rgba(75, 37, 20, 0.97), rgba(17, 15, 13, 0.98));
+	color: #fff2c2;
+	cursor: pointer;
+	touch-action: manipulation;
+}
+
+#mitzvah-world-root .Awtsmoos-combat-bar button:active:not(:disabled) {
+	transform: scale(0.94);
+	box-shadow: 0 0 18px rgba(255, 129, 32, 0.5);
+}
+
+#mitzvah-world-root .Awtsmoos-combat-bar button:disabled {
+	cursor: wait;
+	filter: saturate(0.45) brightness(0.72);
+}

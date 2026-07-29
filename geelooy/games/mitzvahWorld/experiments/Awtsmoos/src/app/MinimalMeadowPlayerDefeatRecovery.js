@@ -6,7 +6,7 @@
  * @file MinimalMeadowPlayerDefeatRecovery.js
  * @description Restores checkpoint, resources, animation, camera, and authority exactly once.
  * The Awtsmoos renews the fallen vessel without multiplying authorities; Awtsmoos.com asks
- * deployed multiplayer truth to respawn while solo restores locally and shared enemies remain.
+ * deployed multiplayer truth to respawn while every local return restores one explicit place.
  */
 
 import { clearMinimalMeadowDefeatAnimation } from './MinimalMeadowPlayerDefeatAnimation.js';
@@ -41,7 +41,7 @@ function authoritativeRespawn(runtime) {
 
 function finalizeRecovery(controller, reason) {
 	const runtime = controller.runtime;
-	runtime.movementRecovery?.restore?.(runtime.state, 'player-defeat');
+	const checkpoint = restoreCheckpoint(runtime, controller.state.checkpoint);
 	runtime.playerStats.health = runtime.playerStats.maxHealth;
 	runtime.combatBalance?.resetForRespawn?.();
 	restoreMinimalMeadowPlayer(runtime);
@@ -49,8 +49,33 @@ function finalizeRecovery(controller, reason) {
 	if (!runtime.enemyAuthority) runtime.enemies?.clearAll?.();
 	controller.state.phase = 'active';
 	runtime.bus.emit('profile:state', { ...runtime.playerStats });
-	runtime.bus.emit('player:respawned', controller.payload({ reason }));
+	runtime.bus.emit('player:respawned', controller.payload({ checkpoint, reason }));
 	return true;
+}
+
+function restoreCheckpoint(runtime, checkpoint) {
+	if (runtime.movementRecovery?.restore) {
+		runtime.movementRecovery.restore(runtime.state, 'player-defeat');
+		return runtime.movementRecovery.diagnostics?.().safe || { ...checkpoint };
+	}
+	Object.assign(runtime.state, {
+		facing: checkpoint.facing,
+		groundY: checkpoint.y,
+		grounded: true,
+		renderY: checkpoint.y,
+		velY: 0,
+		x: checkpoint.x,
+		y: checkpoint.y,
+		z: checkpoint.z
+	});
+	runtime.model?.position?.set?.(checkpoint.x, checkpoint.y, checkpoint.z);
+	runtime.cameraRig?.update?.(
+		runtime.camera,
+		runtime.state,
+		runtime.mainOctree,
+		0
+	);
+	return { ...checkpoint };
 }
 
 function failRecovery(controller, error, previousRespawnedCycle) {

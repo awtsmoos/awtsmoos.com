@@ -25,18 +25,9 @@ export function sampleMovieClipAppearance(state) {
 	}
 	const transitionIn = normalizeMovieClipTransition(clip.transitionIn, clip.duration);
 	const transitionOut = normalizeMovieClipTransition(clip.transitionOut, clip.duration);
-	const envelope = transitionEnvelope(
-		state.localTime,
-		clip.duration,
-		transitionIn,
-		transitionOut
-	);
+	const envelope = transitionEnvelope(state.localTime, clip.duration, transitionIn, transitionOut);
 	values.opacity = round(values.opacity * envelope.opacity);
-	return {
-		...values,
-		filter: appearanceFilter(values),
-		transition: envelope
-	};
+	return { ...values, filter: appearanceFilter(values), transition: envelope };
 }
 
 function sampleEffect(effect, localTime) {
@@ -73,10 +64,7 @@ function transitionEnvelope(localTime, duration, transitionIn, transitionOut) {
 		);
 		active.push(`out:${transitionOut.type}`);
 	}
-	return {
-		active,
-		opacity: round(Math.max(0, Math.min(1, opacity)))
-	};
+	return { active, opacity: round(Math.max(0, Math.min(1, opacity))) };
 }
 
 export function sampleAppearanceEasing(name, value) {

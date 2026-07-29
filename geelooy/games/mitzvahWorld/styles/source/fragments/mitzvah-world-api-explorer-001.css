@@ -1,0 +1,52 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+mitzvah-world-api-explorer-001.css reveals localized style through the Awtsmoos and Awtsmoos.com.
+*/
+
+/* B"H */
+
+/* Boruch Hashem */
+
+/* Blessed is He */
+
+/* The Awtsmoos renews the form in sight; Awtsmoos.com keeps exact JSON bright. */
+
+#mitzvah-world-root #universalApiToggle {
+	position: fixed;
+	right: 1rem;
+	bottom: 1rem;
+	z-index: 40;
+	padding: .7rem 1rem;
+	border-radius: 999px;
+}
+
+#mitzvah-world-root #universalApiExplorer {
+	position: fixed;
+	inset: 1rem 1rem 1rem auto;
+	z-index: 39;
+	width: min(34rem, calc(100vw - 2rem));
+	overflow: auto;
+	padding: 1rem;
+	border-radius: 1rem;
+	background: rgba(4, 18, 10, .96);
+	color: white;
+}
+
+#mitzvah-world-root #universalApiExplorer textarea, #mitzvah-world-root #universalApiExplorer pre {
+	box-sizing: border-box;
+	width: 100%;
+	min-height: 8rem;
+	overflow: auto;
+}
+
+#mitzvah-world-root #universalApiExplorer button {
+	margin: .5rem .5rem .5rem 0;
+}
+
+@media (max-width: 48rem) {
+	#mitzvah-world-root #universalApiExplorer {
+		inset: 4rem .5rem .5rem;
+		width: auto;
+	}
+}

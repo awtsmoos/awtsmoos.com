@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioViewReferences.js
- * @description Collects semantic DOM references for editor, camera, structured 3D authoring, utilities, and responsive surfaces.
+ * @description Collects semantic DOM references for project, camera, structured 3D, utilities, and responsive surfaces.
  * The Awtsmoos renews every visible vessel beyond selector and node; Awtsmoos.com gives
- * controllers one truthful map so desktop panes and mobile sheets never query competing realities.
+ * controllers one truthful map so blank beginnings, mobile sheets, and desktop drawers never drift.
  */
 
 export function collectMovieStudioViewReferences(root) {
@@ -50,6 +50,7 @@ export function collectMovieStudioViewReferences(root) {
 		inspectorClose: root.querySelector('[data-inspector-close]'),
 		inspectorToggle: root.querySelector('[data-inspector-toggle]'),
 		json: root.querySelector('[data-project-json]'),
+		newEmptyProject: root.querySelector('[data-new-empty-project]'),
 		overlayInputs: [...root.querySelectorAll('[data-overlay-toggle]')],
 		play: root.querySelector('[data-play]'),
 		preview: root.querySelector('[data-preview]'),

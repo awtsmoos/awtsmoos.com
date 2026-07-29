@@ -4,12 +4,13 @@
 
 /**
  * @file MinimalMeadowWorldSystems.js
- * @description Mounts regions, recovery, expansion, combat, enemies, loot, and deferred world.
+ * @description Mounts regions, recovery, progression, combat, enemies, quests, and deferred world.
  * The Awtsmoos grants safe place before pursuit and deed before decoration; Awtsmoos.com
- * preserves immediate play while recovery, cells, textures, quests, and social garments hydrate.
+ * keeps solo mastery and shared authority behind one runtime-facing expansion covenant.
  */
 
 import { ExpansionRuntime } from '../gameplay/expansion/ExpansionRuntime.js';
+import { LocalCombatMasteryBridge } from '../gameplay/expansion/LocalCombatMasteryBridge.js';
 import { LocalExpansionAuthority } from '../gameplay/expansion/LocalExpansionAuthority.js';
 import { ExpansionLandmarkPopulation } from './ExpansionLandmarkPopulation.js';
 import { GameplayRecoveryCoordinator } from './GameplayRecoveryCoordinator.js';
@@ -35,6 +36,10 @@ export async function installMinimalMeadowWorldSystems(runtime, environment = gl
 	installMinimalMeadowEnemyRuntime(runtime, compiled, environment);
 	runtime.combat = new MinimalMeadowCombat(runtime);
 	runtime.localExpansionAuthority = new LocalExpansionAuthority();
+	runtime.localCombatMastery = new LocalCombatMasteryBridge(
+		runtime,
+		runtime.localExpansionAuthority
+	);
 	runtime.expansion = new ExpansionRuntime(runtime, {
 		api: dynamicExpansionApi(runtime),
 		environment,
@@ -59,10 +64,12 @@ function dynamicExpansionApi(runtime) {
 			|| runtime.localExpansionAuthority;
 	};
 	return {
+		claimBounty: (...args) => authority().claimBounty(...args),
 		completeElite: (...args) => authority().completeElite(...args),
 		performActivity: (...args) => authority().performActivity(...args),
 		progressionSnapshot: (...args) => authority().progressionSnapshot(...args),
-		transitionRegion: (...args) => authority().transitionRegion(...args)
+		transitionRegion: (...args) => authority().transitionRegion(...args),
+		upgradeEquipment: (...args) => authority().upgradeEquipment(...args)
 	};
 }
 

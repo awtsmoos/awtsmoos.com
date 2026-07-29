@@ -6,10 +6,8 @@
  * @file CssSelectorScope.cjs
  * @description Localizes every component selector beneath the canonical game root.
  * The Awtsmoos contains every visible garment without leaking into another chamber;
- * Awtsmoos.com turns document selectors into one stable root and preserves keyframe steps.
+ * Awtsmoos.com scopes top-level selector lists while preserving nested pseudo arguments.
  */
-
-const selectorParser = require('postcss-selector-parser');
 
 const ROOT = '#mitzvah-world-root';
 
@@ -22,28 +20,46 @@ function scopeCssRoot(root) {
 }
 
 function scopeSelector(value) {
-	return selectorParser(selectors => {
-		selectors.each(selector => {
-			let rooted = false;
-			selector.walk(node => {
-				if (node.type === 'id' && node.value === 'mitzvah-world-root') {
-					rooted = true;
-				}
-				if (node.type === 'pseudo' && node.value === ':root') {
-					node.replaceWith(selectorParser.id({ value: 'mitzvah-world-root' }));
-					rooted = true;
-				}
-				if (node.type === 'tag' && ['html', 'body'].includes(node.value)) {
-					node.replaceWith(selectorParser.id({ value: 'mitzvah-world-root' }));
-					rooted = true;
-				}
-			});
-			if (!rooted) {
-				selector.prepend(selectorParser.combinator({ value: ' ' }));
-				selector.prepend(selectorParser.id({ value: 'mitzvah-world-root' }));
-			}
-		});
-	}).processSync(value);
+	return splitSelectorList(value)
+		.map(selector => scopeSingleSelector(selector.trim()))
+		.join(', ');
+}
+
+function scopeSingleSelector(selector) {
+	const rewritten = selector
+		.replace(/(^|[\s>+~,(])(?::root|html|body)(?=$|[\s>+~.#:[,)])/g, `$1${ROOT}`);
+	if (containsCanonicalRoot(rewritten)) return rewritten;
+	return `${ROOT} ${rewritten}`;
+}
+
+function containsCanonicalRoot(selector) {
+	return selector.includes(ROOT);
+}
+
+function splitSelectorList(value) {
+	const selectors = [];
+	let current = '';
+	let quote = null;
+	let depth = 0;
+	for (let index = 0; index < value.length; index += 1) {
+		const character = value[index];
+		if (quote) {
+			current += character;
+			if (character === quote && value[index - 1] !== '\\') quote = null;
+			continue;
+		}
+		if (character === '"' || character === "'") quote = character;
+		if (character === '(' || character === '[') depth += 1;
+		if (character === ')' || character === ']') depth = Math.max(0, depth - 1);
+		if (character === ',' && depth === 0) {
+			selectors.push(current);
+			current = '';
+			continue;
+		}
+		current += character;
+	}
+	selectors.push(current);
+	return selectors.filter(Boolean);
 }
 
 function insideKeyframes(rule) {
@@ -58,5 +74,6 @@ function insideKeyframes(rule) {
 module.exports = {
 	ROOT,
 	scopeCssRoot,
-	scopeSelector
+	scopeSelector,
+	splitSelectorList
 };

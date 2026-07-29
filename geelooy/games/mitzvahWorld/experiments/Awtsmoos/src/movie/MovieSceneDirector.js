@@ -4,10 +4,15 @@
 
 /**
  * @file MovieSceneDirector.js
- * @description Applies scene appearance, visibility, and optional world activation without leaking async objects.
- * The Awtsmoos renews one world before scene and transition receive a name;
- * Awtsmoos.com activates each changed vessel once and keeps frame snapshots finite all the same.
+ * @description Applies scene appearance, visibility, and generated object-world activation without leaking promises.
+ * The Awtsmoos renews one world before scene, package, region, and transition receive a name;
+ * Awtsmoos.com activates each changed vessel once and keeps every frame snapshot finite all the same.
  */
+
+import {
+	movieSceneWorldRequest,
+	movieSceneWorldSnapshot
+} from './MovieSceneWorldIdentity.js';
 
 export class MovieSceneDirector {
 	constructor(runtime) {
@@ -26,29 +31,39 @@ export class MovieSceneDirector {
 			label: clip.label || clip.id,
 			progress: sceneState.progress,
 			transition: clip.transition || 'cut',
-			world: clip.world || null
+			world: movieSceneWorldSnapshot(clip.world)
 		};
 		if (clip.visibility) this.applyVisibility(clip.visibility);
 		return this.current;
 	}
 
 	activateWorld(clip) {
-		const world = clip.world == null ? null : String(clip.world);
-		if (!world || world === this.currentWorld) return;
-		this.currentWorld = world;
+		const request = movieSceneWorldRequest(clip.world, {
+			compileLegacy: Boolean(this.runtime.worldLoader),
+			sceneId: String(clip.id),
+			seed: clip.worldSeed
+		});
+		if (!request || request.identity === this.currentWorld) return;
+		this.currentWorld = request.identity;
 		const context = {
 			sceneId: String(clip.id),
 			transition: String(clip.transition || 'cut'),
-			world
+			world: request.identity,
+			worldSpec: request.spec
 		};
 		this.runtime.events?.emit?.('movie:world-change', context);
-		const activation = this.runtime.worldLoader?.activate?.(world, context);
-		activation?.catch?.(error => {
-			this.runtime.events?.emit?.('movie:world-error', {
-				message: String(error?.message || error),
-				...context
-			});
-		});
+		this.runtime.bus?.emit?.('movie:world-change', context);
+		const activation = this.runtime.worldLoader?.activate?.(request.value, context);
+		activation?.catch?.(error => this.emitWorldError(error, context));
+	}
+
+	emitWorldError(error, context) {
+		const detail = {
+			message: String(error?.message || error),
+			...context
+		};
+		this.runtime.events?.emit?.('movie:world-error', detail);
+		this.runtime.bus?.emit?.('movie:world-error', detail);
 	}
 
 	applyVisibility(visibility) {

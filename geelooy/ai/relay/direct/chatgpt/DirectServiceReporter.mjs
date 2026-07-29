@@ -3,32 +3,32 @@
 // Blessed is He
 
 /**
- * Health and reset reporting stay provider-neutral. The Awtsmoos lets
- * Awtsmoos.com clear opaque local state without exposing remote ids, transcripts,
- * browser identities, local process ids, or provider credentials.
+ * Health reports one website transport only. The Awtsmoos exposes pacing and local
+ * opaque-state counts without browser identities, cookies, account data, prompts,
+ * answers, upstream conversation ids, or authentication values.
  */
 export class DirectServiceReporter {
-	reset({ conversationKey, browserStore, providerRouter }) {
-		const browserDeleted = conversationKey
-			? Number(browserStore.delete(conversationKey))
-			: browserStore.clear();
-		const requestOnlyDeleted = providerRouter.reset(conversationKey).deleted;
-		return { deleted: browserDeleted + Number(requestOnlyDeleted || 0) };
+	reset({ conversationKey, store }) {
+		const deleted = conversationKey
+			? Number(store.delete(conversationKey))
+			: store.clear();
+		return { deleted };
 	}
 
-	status({ preferredPort, pacer, providerRouter, fallbackService, browserStore }) {
+	status({ preferredPort, pacer, websiteService, store }) {
 		return {
 			ok: true,
-			mode: "direct-request-router",
-			defaultChatMode: "strict-request-only",
-			officialApiMode: "official-api-request-only",
-			localMode: "local-request-only",
-			fallbackMode: "page-authorized-fallback",
+			mode: "chatgpt-website",
+			websiteOnly: true,
+			defaultChatMode: "chatgpt-website",
 			preferredDebugPort: preferredPort,
 			minimumIntervalMs: pacer.minimumIntervalMs,
-			providers: providerRouter.status(),
-			...fallbackService.status(),
-			...browserStore.status()
+			submissionTransport: "chatgpt-website-composer",
+			completionTransport: "authenticated-conversation-get",
+			localModelAvailable: false,
+			externalApiAvailable: false,
+			...websiteService.status(),
+			...store.status()
 		};
 	}
 }

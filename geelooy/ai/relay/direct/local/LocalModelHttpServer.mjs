@@ -30,7 +30,8 @@ export class LocalModelHttpServer {
 		});
 	}
 
-	listen() {
+	async listen() {
+		await this.inference.start?.();
 		return new Promise((resolve, reject) => {
 			this.server.once("error", reject);
 			this.server.listen(this.port, this.host, () => {
@@ -40,8 +41,9 @@ export class LocalModelHttpServer {
 		});
 	}
 
-	close() {
-		return new Promise(resolve => this.server.close(() => resolve()));
+	async close() {
+		await new Promise(resolve => this.server.close(() => resolve()));
+		await this.inference.close?.();
 	}
 
 	async handle(request, response) {

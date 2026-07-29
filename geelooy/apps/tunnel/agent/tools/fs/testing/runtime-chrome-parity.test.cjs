@@ -45,7 +45,13 @@ function findChrome() {
 async function simulate(html, entry = "index.html") {
   const { buildRuntimeActions } = requireFromRepo("apps/tunnel/agent/tools/fs/actionGroups/runtimeActions.js");
   return await buildRuntimeActions({
-    payload: { action: "simulateRuntime", runtime: "browser", entry, html },
+    payload: {
+      action: "simulateRuntime",
+      runtime: "browser",
+      engine: "node-dom",
+      entry,
+      html
+    },
     config: config()
   }).simulateRuntime();
 }
@@ -85,7 +91,11 @@ async function assertMerkavaAndHeadlessChromeRenderSameBasicBody() {
   const merkava = await simulate(html);
   assert.equal(merkava.ok, true);
   assert.equal(merkava.score, 100);
-  assert.ok(merkava.domSnapshot.documentElement.textContent.includes("B\"H parity smoke"));
+  assert.ok(
+    merkava.domSnapshot.document.documentElement.textContent.includes(
+      "B\"H parity smoke"
+    )
+  );
 
   const chrome = await runChromeDumpDom(html);
   if (chrome.skipped) return { chromeSkipped: chrome.reason };

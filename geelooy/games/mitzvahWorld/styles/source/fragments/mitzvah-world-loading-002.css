@@ -1,0 +1,9 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+mitzvah-world-loading-002.css reveals localized style through the Awtsmoos and Awtsmoos.com.
+*/
+
+#mitzvah-world-root .Awtsmoos-menu-boot[data-loading-failure="true"] .Awtsmoos-loading-card {
+	border-color: #ff746a;
+}

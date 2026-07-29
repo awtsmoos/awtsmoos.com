@@ -6,7 +6,7 @@
  * @file MinimalMeadowWorldSystemLifecycle.js
  * @description Updates world systems and destroys every listener, actor, panel, and authority.
  * The Awtsmoos sustains many finite systems without confusing cadence; Awtsmoos.com lets
- * nearby cells speak before enemies and closes recovery, UI, authority, and decoration cleanly.
+ * nearby cells speak before enemies and closes mastery, recovery, UI, and decoration cleanly.
  */
 
 export function updateMinimalMeadowWorldSystems(runtime, deltaSeconds) {
@@ -24,6 +24,7 @@ export function updateMinimalMeadowWorldSystems(runtime, deltaSeconds) {
 }
 
 export function destroyMinimalMeadowWorldSystems(runtime) {
+	runtime.localCombatMastery?.destroy?.();
 	runtime.recovery?.destroy?.();
 	runtime.targeting?.destroy?.();
 	runtime.corpseLootPanel?.destroy?.();
@@ -38,7 +39,8 @@ export function destroyMinimalMeadowWorldSystems(runtime) {
 	runtime.regions?.destroy?.();
 	runtime.regionPackages?.destroy?.();
 	runtime.enemies?.group?.parent?.remove(runtime.enemies.group);
-	for (const unsubscribe of runtime.combat?.unsubscribers || []) unsubscribe();
+	runtime.combat?.destroy?.();
+	runtime.localCombatMastery = null;
 	runtime.questHud = null;
 	runtime.questStore = null;
 	runtime.recovery = null;

@@ -16,7 +16,9 @@ const { ensureExpansionState } = require('./PlayerExpansionState.js');
 class EquipmentUpgradeService {
 	upgrade(player, upgradeId) {
 		const definition = equipmentUpgrade(upgradeId);
-		if (!definition) throw error('UNKNOWN_UPGRADE', 'The requested equipment upgrade is unknown.');
+		if (!definition) {
+			throw error('UNKNOWN_UPGRADE', 'The requested equipment upgrade is unknown.');
+		}
 		const state = ensureExpansionState(player);
 		if (state.upgrades.includes(upgradeId)) {
 			return { duplicate: true, upgradeId };
@@ -30,8 +32,9 @@ class EquipmentUpgradeService {
 		requireMaterials(state, definition.materials);
 		consumeMaterials(state, definition.materials);
 		state.upgrades.push(upgradeId);
+		player.passiveStatSources ||= [];
 		const sourceId = `upgrade:${upgradeId}`;
-		if (!(player.passiveStatSources || []).some(source => source.id === sourceId)) {
+		if (!player.passiveStatSources.some(source => source.id === sourceId)) {
 			player.passiveStatSources.push({
 				category: 'passive',
 				id: sourceId,

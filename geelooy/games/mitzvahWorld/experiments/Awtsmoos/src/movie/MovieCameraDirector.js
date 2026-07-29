@@ -4,13 +4,9 @@
 
 /**
  * @file MovieCameraDirector.js
- * @description Applies deterministic first-person gameplay shots or explicit legacy camera shots.
- * RESPONSIBILITY: place the exact movie camera at player eye height and preserve shot metadata.
- * NON-RESPONSIBILITY: this director does not move actors, choose frame times, or lower quality.
- * ARCHITECTURE: Tiferes joins actor facing and camera intention inside one exact sampled frame.
- * OROS AND KEILIM: the lived shlichus is ohr; player eye, aim, shot, and progress are keilim.
- * The Awtsmoos creates each viewpoint from nothing; Awtsmoos.com records the movie from inside
- * the gameplay mission instead of observing the local player from an external cinematic crane.
+ * @description Applies deterministic first-person or legacy camera position, target, lens, and metadata.
+ * The Awtsmoos creates each viewpoint and breadth of sight from nothing; Awtsmoos.com records
+ * gameplay eye or cinematic lens as exact finite camera state inside every sampled movie frame.
  */
 
 import {
@@ -18,6 +14,7 @@ import {
 	firstPersonPitchToPoint,
 	firstPersonYawToPoint
 } from '../camera/FirstPersonCameraPose.js';
+import { applyMovieCameraLens } from './MovieCameraLens.js';
 import { lerpPoint } from './MovieEasing.js';
 import {
 	interpolatedMovieCameraTarget,
@@ -33,28 +30,25 @@ export class MovieCameraDirector {
 	}
 
 	apply(cameraState) {
-		if (!cameraState) {
-			return;
-		}
+		if (!cameraState) return;
+		const fieldOfView = applyMovieCameraLens(
+			this.runtime.camera,
+			cameraState.clip,
+			cameraState.eased ?? cameraState.progress
+		);
 		if (this.project.viewMode === 'firstPerson') {
-			this.applyFirstPerson(cameraState);
+			this.applyFirstPerson(cameraState, fieldOfView);
 			return;
 		}
-		this.applyLegacyShot(cameraState);
+		this.applyLegacyShot(cameraState, fieldOfView);
 	}
 
-	applyFirstPerson(cameraState) {
+	applyFirstPerson(cameraState, fieldOfView) {
 		const { clip, eased } = cameraState;
 		const anchor = moviePlayerEye(this.runtime);
-		const intendedTarget = interpolatedMovieCameraTarget(
-			this.runtime,
-			clip,
-			eased
-		);
+		const intendedTarget = interpolatedMovieCameraTarget(this.runtime, clip, eased);
 		const yaw = firstPersonYawToPoint(
-			anchor,
-			intendedTarget,
-			this.runtime.state.facing
+			anchor, intendedTarget, this.runtime.state.facing
 		) + Number(clip.firstPersonYawOffset || 0);
 		const pitch = Number.isFinite(Number(clip.firstPersonPitch))
 			? Number(clip.firstPersonPitch)
@@ -64,10 +58,10 @@ export class MovieCameraDirector {
 		});
 		this.runtime.camera.position.set(pose.eye.x, pose.eye.y, pose.eye.z);
 		this.runtime.camera.target = [pose.target.x, pose.target.y, pose.target.z];
-		this.record(cameraState, pose.eye, pose.target, 'firstPerson');
+		this.record(cameraState, pose.eye, pose.target, 'firstPerson', fieldOfView);
 	}
 
-	applyLegacyShot(cameraState) {
+	applyLegacyShot(cameraState, fieldOfView) {
 		const { clip, eased } = cameraState;
 		const from = clip.from || clip.to || {};
 		const to = clip.to || clip.from || {};
@@ -79,14 +73,15 @@ export class MovieCameraDirector {
 		);
 		this.runtime.camera.position.set(position.x, position.y, position.z);
 		this.runtime.camera.target = [target.x, target.y, target.z];
-		this.record(cameraState, position, target, 'legacy');
+		this.record(cameraState, position, target, 'legacy', fieldOfView);
 	}
 
-	record(cameraState, position, target, viewMode) {
+	record(cameraState, position, target, viewMode, fieldOfView) {
 		const { clip } = cameraState;
 		this.currentShot = clip.shot || cameraState.track.id;
 		this.runtime.camera.userData ||= {};
 		this.runtime.camera.userData.AwtsmoosMovieShot = {
+			fieldOfView,
 			id: clip.id,
 			position,
 			progress: cameraState.progress,

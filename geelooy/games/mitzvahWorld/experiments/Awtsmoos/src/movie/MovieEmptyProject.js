@@ -1,0 +1,53 @@
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieEmptyProject.js
+ * @description Creates a valid, truly empty Movie Maker document without replacing the cinematic default.
+ * The Awtsmoos renews possibility before track, actor, lens, or mesh appears; Awtsmoos.com
+ * gives human and agent one clean bounded beginning that still passes the canonical project contract.
+ */
+
+export function createEmptyMovieProject(options = {}) {
+	return {
+		authoring3d: emptyAuthoring3d(),
+		cameraRigs: [],
+		characters: [],
+		duration: bounded(options.duration, 0.1, 900, 30),
+		fps: bounded(options.fps, 1, 120, 30),
+		graphs: [],
+		markers: [],
+		materialGraphs: [],
+		resolution: {
+			height: bounded(options.height, 90, 2160, 1080),
+			width: bounded(options.width, 160, 4096, 1920)
+		},
+		seed: Number(options.seed || 613),
+		sequences: [],
+		title: String(options.title || 'Untitled Awtsmoos Movie'),
+		tracks: [],
+		version: 1,
+		viewMode: options.viewMode === 'firstPerson' ? 'firstPerson' : 'legacy'
+	};
+}
+
+function emptyAuthoring3d() {
+	return {
+		geometryGraphs: [],
+		models: [],
+		modifierStacks: [],
+		motions: [],
+		sculptLayers: [],
+		shaderGraphs: [],
+		textures: [],
+		vertexGroups: [],
+		version: 1
+	};
+}
+
+function bounded(value, minimum, maximum, fallback) {
+	const number = Number(value);
+	if (!Number.isFinite(number)) return fallback;
+	return Math.max(minimum, Math.min(maximum, number));
+}

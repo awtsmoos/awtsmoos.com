@@ -1,0 +1,71 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+mitzvah-world-game-rail-001.css reveals localized style through the Awtsmoos and Awtsmoos.com.
+*/
+
+/* B"H */
+
+/* Boruch Hashem */
+
+/* Blessed is He */
+
+/** The Awtsmoos gives optional menus a quiet boundary; Awtsmoos.com separates monitor and mobile density. */
+
+#mitzvah-world-root .Awtsmoos-game-rail-host {
+	position: fixed;
+	right: max(8px, env(safe-area-inset-right));
+	top: 50%;
+	z-index: 830;
+	transform: translateY(-50%);
+}
+
+#mitzvah-world-root .Awtsmoos-game-rail {
+	display: grid;
+	gap: 5px;
+	padding: 6px;
+	border: 1px solid rgba(105, 239, 186, .28);
+	border-radius: 14px;
+	background: rgba(3, 17, 12, .88);
+	box-shadow: 0 12px 36px rgba(0, 0, 0, .42);
+}
+
+#mitzvah-world-root .Awtsmoos-game-rail button {
+	width: 48px;
+	min-height: 43px;
+	border: 1px solid rgba(255, 255, 255, .12);
+	border-radius: 9px;
+	background: rgba(19, 48, 36, .88);
+	color: white;
+	cursor: pointer;
+}
+
+#mitzvah-world-root .Awtsmoos-game-rail button span { display: block; font-size: 18px; }
+
+#mitzvah-world-root .Awtsmoos-game-rail button small { display: block; font-size: 8px; color: #c6eed5; }
+
+#mitzvah-world-root .Awtsmoos-game-rail[data-collapsed="true"] > :not([data-rail-collapse]) { display: none; }
+
+#mitzvah-world-root .Awtsmoos-player-hud-shell { position: fixed; top: 12px; left: 12px; z-index: 805; }
+
+#mitzvah-world-root .Awtsmoos-player-hud-shell > [data-retract-toggle] { position: absolute; top: 4px; right: 4px; z-index: 2; }
+
+#mitzvah-world-root .Awtsmoos-player-hud-shell[data-collapsed="true"] #npcTarget { display: none; }
+
+#mitzvah-world-root button[data-retract-toggle], #mitzvah-world-root [data-target-collapse], #mitzvah-world-root [data-collapse], #mitzvah-world-root [data-rail-collapse] {
+	border: 1px solid rgba(255,255,255,.18);
+	border-radius: 8px;
+	background: rgba(3, 15, 11, .9);
+	color: #e9fff1;
+	cursor: pointer;
+}
+
+@media (min-width: 821px) {
+	#mitzvah-world-root .Awtsmoos-game-rail-host { right: 16px; top: 18px; transform: none; }
+	#mitzvah-world-root .Awtsmoos-game-rail { grid-template-columns: repeat(3, 36px); gap: 4px; padding: 5px; }
+	#mitzvah-world-root .Awtsmoos-game-rail button { width: 36px; min-height: 34px; padding: 2px; }
+	#mitzvah-world-root .Awtsmoos-game-rail button span { font-size: 15px; }
+	#mitzvah-world-root .Awtsmoos-game-rail button small { display: none; }
+	#mitzvah-world-root .Awtsmoos-game-rail button:hover small { display: block; position: absolute; right: 44px; margin-top: -24px; padding: 4px 7px; border-radius: 6px; background: rgba(2,12,8,.96); font-size: 10px; white-space: nowrap; }
+	#mitzvah-world-root .Awtsmoos-player-hud-shell { top: 18px; left: 18px; transform: scale(.88); transform-origin: top left; }
+}

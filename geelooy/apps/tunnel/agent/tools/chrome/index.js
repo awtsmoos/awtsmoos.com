@@ -11,9 +11,7 @@ const READ_ONLY_ACTIONS = new Set([
 	"chromeStatus",
 	"chromeTargets",
 	"chromeLogs",
-	"chromeNetwork",
-	"chromeCookies",
-	"chromeStorage"
+	"chromeNetwork"
 ]);
 
 const ACTIONS = Object.freeze({

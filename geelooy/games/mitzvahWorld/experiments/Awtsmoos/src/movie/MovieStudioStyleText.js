@@ -4,13 +4,14 @@
 
 /**
  * @file MovieStudioStyleText.js
- * @description Composes and localizes editor, appearance, overlay, inspector, 3D, timeline, and responsive CSS.
- * The Awtsmoos renews every pane, transition, effect, and guide inside one protected light;
+ * @description Composes and localizes editor, camera, appearance, inspector, 3D, timeline, and responsive CSS.
+ * The Awtsmoos renews every pane, lens, transition, effect, and guide inside one protected light;
  * Awtsmoos.com prevents neighboring pages and sibling studios from inheriting another vessel's sight.
  */
 
 import { movieStudioAccessibilityCss } from './MovieStudioAccessibilityCss.js';
 import { movieStudioAuthoring3dCss } from './MovieStudioAuthoring3dCss.js';
+import { movieStudioCameraActionCss } from './MovieStudioCameraActionCss.js';
 import { movieStudioControlsCss } from './MovieStudioControlsCss.js';
 import { localizeMovieStudioCss } from './MovieStudioCssLocalizer.js';
 import { movieStudioDensityCss } from './MovieStudioDensityCss.js';
@@ -40,6 +41,7 @@ export function movieStudioStyleText() {
 		movieStudioControlsCss(),
 		movieStudioPreviewCss(),
 		movieStudioInspectorCss(),
+		movieStudioCameraActionCss(),
 		movieStudioAuthoring3dCss(),
 		movieTimelineCss(),
 		movieTimelineAppearanceCss(),

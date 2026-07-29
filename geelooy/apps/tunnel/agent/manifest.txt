@@ -1,5 +1,5 @@
 B"H
-1.0.438
+1.0.441
 main.js
 ai/relay/split-browser/authState.cjs
 ai/relay/split-browser/autoLogin.cjs
@@ -1086,6 +1086,7 @@ recovery/tierCatalog.js
 recovery/versionCatalog.js
 release/manifestArguments.js
 release/manifestDocument.js
+release/manifestVersion.js
 release/runtimeCatalog.js
 release/runtimeFiles.js
 release/runtimePaths.js

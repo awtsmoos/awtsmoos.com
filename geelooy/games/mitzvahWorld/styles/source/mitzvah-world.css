@@ -1,8 +1,7 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos and Awtsmoos.com join every localized source through one canonical entry.
+mitzvah-world.css reveals localized style through the Awtsmoos and Awtsmoos.com.
 */
 
-@import url("./fragments/runtime-state-ownership.css");
-@import url("./fragments/runtime-responsive-accessibility.css");
+@import url("./imports-001.css");

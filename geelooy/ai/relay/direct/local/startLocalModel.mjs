@@ -27,7 +27,7 @@ const child = spawn(process.execPath, [
 	stdio: ["ignore", output, output]
 });
 child.unref();
-for (let attempt = 0; attempt < 100; attempt += 1) {
+for (let attempt = 0; attempt < 2400; attempt += 1) {
 	if (await healthy()) {
 		console.log(JSON.stringify({ status: "ready", browserUsed: false, domUsed: false }));
 		process.exit(0);

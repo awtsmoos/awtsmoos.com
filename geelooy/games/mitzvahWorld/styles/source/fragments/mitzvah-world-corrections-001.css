@@ -1,0 +1,106 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+mitzvah-world-corrections-001.css reveals localized style through the Awtsmoos and Awtsmoos.com.
+*/
+
+/* B"H */
+
+/* Boruch Hashem */
+
+/* Blessed is He */
+
+/**
+ * @file mitzvah-world-corrections.css
+ * @description Establishes one honest pointer hierarchy for canvas, hotbar, panels, and touch input.
+ * The Awtsmoos grants every visible vessel its proper boundary;
+ * Awtsmoos.com prevents transparent shells from stealing camera, targeting, casting, or movement.
+ */
+
+#mitzvah-world-root, #mitzvah-world-root {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	overflow: hidden;
+}
+
+#mitzvah-world-root {
+	position: fixed;
+	inset: 0;
+	background: #6eaed0;
+}
+
+#mitzvah-world-root #AwtsmoosCanvas {
+	position: fixed !important;
+	inset: 0 !important;
+	z-index: 0 !important;
+	display: block !important;
+	width: 100vw !important;
+	height: 100vh !important;
+	max-width: none !important;
+	max-height: none !important;
+	pointer-events: auto !important;
+	touch-action: none !important;
+	cursor: grab;
+}
+
+#mitzvah-world-root #AwtsmoosCanvas:active {
+	cursor: grabbing;
+}
+
+#mitzvah-world-root #menuBoot {
+	pointer-events: none !important;
+}
+
+#mitzvah-world-root #menuBoot[hidden] {
+	display: none !important;
+}
+
+#mitzvah-world-root #hud, #mitzvah-world-root #playerHudShell, #mitzvah-world-root #combatTarget, #mitzvah-world-root #npcDialogue, #mitzvah-world-root #mobileControls, #mitzvah-world-root #actions, #mitzvah-world-root #gameRail, #mitzvah-world-root #combatFx, #mitzvah-world-root #inventory, #mitzvah-world-root #meadowMenu {
+	pointer-events: none !important;
+}
+
+#mitzvah-world-root #playerHudShell button, #mitzvah-world-root #npcDialogue button, #mitzvah-world-root #mobileControls button, #mitzvah-world-root #joy, #mitzvah-world-root #actions button, #mitzvah-world-root #gameRail button, #mitzvah-world-root #inventory button, #mitzvah-world-root #inventory input, #mitzvah-world-root #inventory select, #mitzvah-world-root #inventory textarea, #mitzvah-world-root #meadowMenu button, #mitzvah-world-root #meadowMenu input, #mitzvah-world-root .Awtsmoos-combat-host, #mitzvah-world-root .Awtsmoos-inventory-panel, #mitzvah-world-root .Awtsmoos-meadow-menu, #mitzvah-world-root .Awtsmoos-quest-parchment {
+	pointer-events: auto !important;
+}
+
+#mitzvah-world-root #actions {
+	position: fixed !important;
+	inset: 0 !important;
+	z-index: 840 !important;
+	width: 100vw !important;
+	height: 100vh !important;
+}
+
+#mitzvah-world-root .Awtsmoos-combat-host {
+	pointer-events: auto !important;
+}
+
+#mitzvah-world-root .Awtsmoos-combat-host-container {
+	pointer-events: none !important;
+}
+
+#mitzvah-world-root .Awtsmoos-quest-parchment-backdrop, #mitzvah-world-root .Awtsmoos-quest-parchment-backdrop[data-open], #mitzvah-world-root .Awtsmoos-quest-parchment-backdrop[data-open="true"], #mitzvah-world-root .Awtsmoos-quest-parchment-backdrop[data-open="false"] {
+	pointer-events: none !important;
+}
+
+#mitzvah-world-root .Awtsmoos-quest-parchment-backdrop .Awtsmoos-quest-parchment, #mitzvah-world-root .Awtsmoos-quest-parchment-backdrop .Awtsmoos-quest-parchment button, #mitzvah-world-root .Awtsmoos-quest-parchment-backdrop .Awtsmoos-quest-parchment input, #mitzvah-world-root .Awtsmoos-quest-parchment-backdrop .Awtsmoos-quest-parchment select, #mitzvah-world-root .Awtsmoos-quest-parchment-backdrop .Awtsmoos-quest-parchment textarea {
+	pointer-events: auto !important;
+}
+
+#mitzvah-world-root #combatFx {
+	position: fixed !important;
+	inset: 0 !important;
+	z-index: 830 !important;
+}
+
+#mitzvah-world-root #mobileControls.Awtsmoos-mobile-shell {
+	position: fixed !important;
+	inset: auto 0 0 !important;
+	z-index: 835 !important;
+	display: block !important;
+	width: 100% !important;
+	height: 172px !important;
+	background: transparent !important;
+	border: 0 !important;
+}

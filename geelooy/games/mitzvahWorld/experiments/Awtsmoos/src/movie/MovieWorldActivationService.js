@@ -4,11 +4,12 @@
 
 /**
  * @file MovieWorldActivationService.js
- * @description Activates scene worlds through cancellable staged loading with visible retry and immutable receipts.
- * The Awtsmoos renews every world beyond success, failure, retry, and cancellation;
- * Awtsmoos.com gives each transition one bounded process and one serializable declaration.
+ * @description Activates string or object worlds through cancellable staged loading, retry, and immutable receipts.
+ * The Awtsmoos renews every world beyond success, failure, retry, object, string, and cancellation;
+ * Awtsmoos.com gives each transition one bounded process and preserves legacy snapshot declaration.
  */
 
+import { movieSceneWorldRequest } from './MovieSceneWorldIdentity.js';
 import { loadMovieWorld } from './MovieWorldLoader.js';
 
 export function createMovieWorldActivationService(options = {}) {
@@ -20,41 +21,48 @@ export function createMovieWorldActivationService(options = {}) {
 		activate,
 		cancel,
 		retry,
-		snapshot: () => snapshotState(currentWorld, status)
+		snapshot: () => ({ status, world: currentWorld })
 	};
 	return service;
 
 	async function activate(world, context = {}) {
-		const name = String(world);
-		if (name === currentWorld && status === 'ready') return service.snapshot();
-		lastRequest = { context: clone(context), world: name };
+		const request = movieSceneWorldRequest(world, context);
+		if (!request) return service.snapshot();
+		if (request.identity === currentWorld && status === 'ready') {
+			return service.snapshot();
+		}
+		lastRequest = clone({ context, world: request.value });
 		cancel();
-		active = new AbortController();
+		const controller = new AbortController();
+		active = controller;
 		status = 'loading';
-		const view = options.createView?.(`Loading ${name}`) || null;
+		const view = options.createView?.(`Loading ${request.spec?.label || request.identity}`) || null;
 		bindView(view);
 		try {
 			const result = await loadMovieWorld({
 				fallback: options.fallback,
-				onProgress: state => updateView(view, name, state),
+				onProgress: state => updateView(view, request, state),
 				retries: options.retries,
-				signal: active.signal,
-				stages: resolveStages(name, context)
+				signal: controller.signal,
+				stages: resolveStages(request, context)
 			});
-			currentWorld = name;
+			currentWorld = request.identity;
 			status = 'ready';
-			updateView(view, name, result);
+			updateView(view, request, result);
 			view?.remove?.();
+			options.onActivated?.({ result, world: request.value });
 			return service.snapshot();
 		} catch (error) {
-			status = active?.signal.aborted ? 'cancelled' : 'error';
-			updateView(view, name, {
+			status = controller.signal.aborted ? 'cancelled' : 'error';
+			updateView(view, request, {
 				details: String(error?.message || error),
 				progress: 0,
 				status
 			});
 			if (status === 'cancelled') view?.remove?.();
 			throw error;
+		} finally {
+			if (active === controller) active = null;
 		}
 	}
 
@@ -73,29 +81,27 @@ export function createMovieWorldActivationService(options = {}) {
 		view?.onCancel?.(() => cancel());
 	}
 
-	function resolveStages(world, context) {
-		if (typeof options.stages === 'function') return options.stages(world, context);
+	function resolveStages(request, context) {
+		if (typeof options.stages === 'function') {
+			return options.stages(request.value, context);
+		}
 		if (typeof options.load === 'function') {
 			return [{
 				id: 'world',
-				label: `Loading ${world}`,
-				load: ({ signal }) => options.load(world, context, { signal })
+				label: `Loading ${request.spec?.label || request.identity}`,
+				load: ({ signal }) => options.load(request.value, context, { signal })
 			}];
 		}
 		throw new Error('World activation requires load() or stages().');
 	}
 }
 
-function updateView(view, world, state) {
+function updateView(view, request, state) {
 	view?.update?.({
 		...state,
-		details: state.details || `Preparing ${world}.`,
-		label: state.current || `Loading ${world}`
+		details: state.details || `Preparing ${request.spec?.label || request.identity}.`,
+		label: state.current || `Loading ${request.spec?.label || request.identity}`
 	});
-}
-
-function snapshotState(world, status) {
-	return { status, world };
 }
 
 function clone(value) {

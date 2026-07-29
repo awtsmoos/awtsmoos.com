@@ -3,7 +3,7 @@
 // Blessed is He
 
 const fs = require("node:fs");
-const Version = require("../../../../../scripts/tunnel/manifestVersion.cjs");
+const Version = require("./manifestVersion.js");
 
 /**
  * @file Reads and renders the tunnel manifest as one transparent document.

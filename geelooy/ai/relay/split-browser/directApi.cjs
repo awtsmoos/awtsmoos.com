@@ -6,8 +6,8 @@ const { json, readBody } = require("./http.cjs");
 const { loadDirectService } = require("./directServiceLoader.cjs");
 
 /**
- * Direct routes expose strict native HTTP, explicit browser fallback, reset, and
- * health without credentials, provider ids, transcripts, challenge values, or stacks.
+ * Direct routes expose strict native HTTP, transcript retrieval, explicit browser
+ * fallback, reset, and health without credentials, provider ids, or stacks.
  */
 async function handleDirectApi(req, res, path, config = {}) {
 	try {
@@ -20,6 +20,10 @@ async function handleDirectApi(req, res, path, config = {}) {
 		}
 		if (path === "/direct-chat" && req.method === "POST") {
 			return json(res, await service.send(await requestJson(req)));
+		}
+		if (path === "/direct-conversation" && req.method === "POST") {
+			const payload = await requestJson(req);
+			return json(res, service.conversation(payload.conversationKey));
 		}
 		if (path === "/direct-reset" && req.method === "POST") {
 			const payload = await requestJson(req);
@@ -38,6 +42,7 @@ async function requestJson(req) {
 
 function publicStatus(error) {
 	if (error instanceof SyntaxError || error instanceof TypeError) return 400;
+	if (error?.code === "direct_conversation_expired") return 404;
 	if ([
 		"official_api_key_required",
 		"local_model_unavailable",
@@ -65,7 +70,10 @@ function publicError(error) {
 			"Configure the server-side OpenAI credential or use strict mode with the local model.");
 	}
 	if (error?.code === "local_model_unavailable") {
-		return fixedError(error.code, "Start the localhost llama.cpp server on port 18080.");
+		return fixedError(error.code, "Start the localhost model server on port 18080.");
+	}
+	if (error?.code === "direct_conversation_expired") {
+		return fixedError(error.code, "The opaque local conversation key expired or was not found.");
 	}
 	if (/^(official_api|local_model)_(request_failed|response_invalid)$/.test(error?.code || "")) {
 		return fixedError(error.code, "The selected request-only provider did not complete safely.");

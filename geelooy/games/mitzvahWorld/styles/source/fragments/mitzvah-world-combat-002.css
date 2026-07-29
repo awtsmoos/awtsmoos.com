@@ -1,0 +1,111 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+mitzvah-world-combat-002.css reveals localized style through the Awtsmoos and Awtsmoos.com.
+*/
+
+#mitzvah-world-root .Awtsmoos-combat-bar button b {
+	display: block;
+	font-size: 21px;
+}
+
+#mitzvah-world-root .Awtsmoos-combat-bar button small {
+	color: #f7c86b;
+}
+
+#mitzvah-world-root .Awtsmoos-combat-bar button em {
+	position: absolute;
+	inset: 3px;
+	display: grid;
+	place-items: center;
+	border-radius: 8px;
+	background: rgba(5, 8, 9, 0.7);
+	color: #fff6c6;
+	font: 800 14px system-ui;
+	font-style: normal;
+	pointer-events: none;
+}
+
+#mitzvah-world-root .Awtsmoos-combat-bar button em:empty {
+	display: none;
+}
+
+#mitzvah-world-root .Awtsmoos-combat-bar output {
+	min-width: 126px;
+	color: #d9f6e6;
+	font: 600 10px system-ui;
+}
+
+#mitzvah-world-root .Awtsmoos-combat-bar[data-collapsed="true"] > :not([data-collapse]) {
+	display: none;
+}
+
+#mitzvah-world-root .Awtsmoos-target-frame {
+	position: fixed;
+	top: max(16px, env(safe-area-inset-top));
+	left: 50%;
+	z-index: 825;
+	display: none;
+	align-items: stretch;
+	width: min(430px, calc(100vw - 330px));
+	min-width: 260px;
+	transform: translateX(-50%);
+}
+
+#mitzvah-world-root .Awtsmoos-target-frame[data-visible="true"] {
+	display: flex;
+}
+
+#mitzvah-world-root .Awtsmoos-target-frame section {
+	flex: 1;
+	min-width: 0;
+	padding: 10px 13px;
+	border: 1px solid rgba(255, 96, 125, 0.34);
+	border-radius: 13px;
+	background: rgba(25, 5, 22, 0.94);
+	color: white;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+#mitzvah-world-root .Awtsmoos-target-frame header {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+#mitzvah-world-root .Awtsmoos-target-frame header b {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+#mitzvah-world-root .Awtsmoos-target-frame header small {
+	margin-left: auto;
+	color: #ffb98f;
+}
+
+#mitzvah-world-root .Awtsmoos-target-health {
+	height: 10px;
+	margin: 8px 0;
+	overflow: hidden;
+	border-radius: 99px;
+	background: #280d15;
+}
+
+#mitzvah-world-root .Awtsmoos-target-health i {
+	display: block;
+	height: 100%;
+	background: linear-gradient(90deg, #7b0018, #ff3d32);
+	transition: width 0.22s ease;
+}
+
+#mitzvah-world-root .Awtsmoos-target-frame footer, #mitzvah-world-root .Awtsmoos-target-frame p {
+	margin: 3px 0 0;
+	color: #e7bed2;
+	font: 600 10px system-ui;
+}
+
+#mitzvah-world-root .Awtsmoos-target-frame p {
+	color: #ffd483;
+	text-transform: capitalize;
+}

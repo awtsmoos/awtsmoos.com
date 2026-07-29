@@ -14,6 +14,7 @@ const sandbox = fs.mkdtempSync(path.join(os.tmpdir(), "awts-version-policy-"));
 const root = path.join(sandbox, "runtime");
 const manifest = "B\"H\n1.0.380\nmain.js\n";
 const manifestSha = crypto.createHash("sha256").update(manifest).digest("hex");
+const bundleSha = "b".repeat(64);
 prepareRuntime();
 
 /**
@@ -62,6 +63,7 @@ function prepareRuntime() {
 	fs.writeFileSync(path.join(root, "install-state.txt"), "1.0.380\n");
 	fs.writeFileSync(path.join(root, "installed-manifest.txt"), manifest);
 	fs.writeFileSync(path.join(root, "install-manifest.sha256"), `${manifestSha}\n`);
+	fs.writeFileSync(path.join(root, "install-bundle.sha256"), `${bundleSha}\n`);
 }
 
 function runPolicy(published, sealed) {

@@ -4,11 +4,12 @@
 
 /**
  * @file MovieStudioInteractionController.js
- * @description Binds removable studio actions, utility-first keyboard flow, history, and inspector state.
+ * @description Binds removable studio actions, empty creation, keyboard flow, history, and inspector state.
  * The Awtsmoos renews intention before finger or key can move; Awtsmoos.com lets
- * mobile sheets and desktop drawers answer first, then carries remaining actions through one guarded path.
+ * every new beginning and remaining action travel through one guarded history-aware path.
  */
 
+import { createEmptyMovieProject } from './MovieEmptyProject.js';
 import { applyMovieInspectorState } from './MovieInspectorState.js';
 import { renderExactMovieStudioSession } from './MovieExactRender.js';
 import { handleMovieStudioKey } from './MovieStudioKeyboard.js';
@@ -29,6 +30,7 @@ export class MovieStudioInteractionController {
 		view.copy.addEventListener('click', handlers.copy);
 		view.render.addEventListener('click', handlers.render);
 		view.renderExact.addEventListener('click', handlers.renderExact);
+		view.newEmptyProject?.addEventListener('click', handlers.newEmptyProject);
 		view.inspectorToggle.addEventListener('click', handlers.toggleInspector);
 		view.inspectorClose.addEventListener('click', handlers.closeInspector);
 		document.addEventListener('keydown', handlers.keyDown);
@@ -42,13 +44,18 @@ export class MovieStudioInteractionController {
 
 	applyJson() {
 		try {
-			this.session.commands.commitProject(
-				JSON.parse(this.view.json.value),
-				'Apply project JSON'
-			);
+			this.session.commands.commitProject(JSON.parse(this.view.json.value), 'Apply project JSON');
 		} catch (error) {
 			this.view.status.textContent = `Project error: ${error.message}`;
 		}
+	}
+
+	createEmptyProject() {
+		this.session.director.pause();
+		return this.session.commands.commitProject(
+			createEmptyMovieProject(),
+			'Create empty movie project'
+		);
 	}
 
 	pause() {
@@ -56,13 +63,9 @@ export class MovieStudioInteractionController {
 		this.view.status.textContent = `Paused at ${this.session.time.toFixed(2)}s.`;
 	}
 
-	toggleInspector(
-		open = !this.view.root.classList.contains('is-inspector-open'),
-		restoreFocus = true
-	) {
+	toggleInspector(open = !this.view.root.classList.contains('is-inspector-open'), restoreFocus = true) {
 		return applyMovieInspectorState(this.view, open, {
-			compact: innerWidth <= 980,
-			restoreFocus
+			compact: innerWidth <= 980, restoreFocus
 		});
 	}
 
@@ -80,6 +83,7 @@ export class MovieStudioInteractionController {
 		view.copy.removeEventListener('click', handlers.copy);
 		view.render.removeEventListener('click', handlers.render);
 		view.renderExact.removeEventListener('click', handlers.renderExact);
+		view.newEmptyProject?.removeEventListener('click', handlers.newEmptyProject);
 		view.inspectorToggle.removeEventListener('click', handlers.toggleInspector);
 		view.inspectorClose.removeEventListener('click', handlers.closeInspector);
 		document.removeEventListener('keydown', handlers.keyDown);
@@ -92,11 +96,10 @@ function createHandlers(controller) {
 		closeInspector: () => controller.toggleInspector(false),
 		copy: () => controller.run(() => controller.session.copyUrl()),
 		keyDown: event => controller.onKeyDown(event),
+		newEmptyProject: () => controller.createEmptyProject(),
 		play: () => controller.session.play(),
 		render: () => controller.run(() => controller.session.render()),
-		renderExact: () => controller.run(
-			() => renderExactMovieStudioSession(controller.session)
-		),
+		renderExact: () => controller.run(() => renderExactMovieStudioSession(controller.session)),
 		stop: () => controller.pause(),
 		toggleInspector: () => controller.toggleInspector()
 	};

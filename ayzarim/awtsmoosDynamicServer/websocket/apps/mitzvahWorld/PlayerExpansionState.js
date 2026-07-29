@@ -47,11 +47,20 @@ function addMastery(player, masteryId, quantity) {
 		+ Number(quantity || 0);
 }
 
-function grantExpansionReward(player, rewardId, mutation) {
+function hasReward(player, rewardId) {
+	return ensureExpansionState(player).rewardIds.includes(rewardId);
+}
+
+function rememberReward(player, rewardId) {
 	const state = ensureExpansionState(player);
-	if (state.rewardIds.includes(rewardId)) return false;
-	mutation(state);
-	state.rewardIds.push(rewardId);
+	if (!state.rewardIds.includes(rewardId)) state.rewardIds.push(rewardId);
+	return rewardId;
+}
+
+function grantExpansionReward(player, rewardId, mutation) {
+	if (hasReward(player, rewardId)) return false;
+	mutation(ensureExpansionState(player));
+	rememberReward(player, rewardId);
 	return true;
 }
 
@@ -61,5 +70,7 @@ module.exports = {
 	addMaterial,
 	ensureExpansionState,
 	expansionSnapshot,
-	grantExpansionReward
+	grantExpansionReward,
+	hasReward,
+	rememberReward
 };

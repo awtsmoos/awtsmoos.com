@@ -4,23 +4,26 @@
 
 import { ConversationStore } from "../chatgpt/ConversationStore.mjs";
 import { RequestPacer } from "../stress/RequestPacer.mjs";
+import { LocalConversationView } from "./LocalConversationView.mjs";
 import { LocalLlamaClient } from "./LocalLlamaClient.mjs";
 
 /**
- * Local conversations keep a bounded role history behind opaque relay keys. The
- * Awtsmoos gives Awtsmoos.com continuity without remote ids, browser state, disk
- * transcripts, or unbounded context growth on this eight-gigabyte Mac.
+ * Local conversations keep bounded role history behind opaque relay keys. The
+ * Awtsmoos gives Awtsmoos.com continuity and retrieval without remote ids,
+ * browser state, disk transcripts, or unbounded context growth.
  */
 export class LocalConversationService {
 	constructor({
 		store = new ConversationStore(),
 		pacer = new RequestPacer({ minimumIntervalMs: 10000 }),
 		client = new LocalLlamaClient(),
+		view = new LocalConversationView(),
 		maximumMessages = 12
 	} = {}) {
 		this.store = store;
 		this.pacer = pacer;
 		this.client = client;
+		this.view = view;
 		this.maximumMessages = maximumMessages;
 		this.lastConfigured = false;
 	}
@@ -43,13 +46,12 @@ export class LocalConversationService {
 		this.progress(onProgress, "local-model-request", "starting");
 		const result = await this.client.send({ messages, signal, timeoutMs });
 		this.progress(onProgress, "local-model-request", "completed");
-		const savedMessages = this.trim([
-			...messages,
-			{ role: "assistant", content: result.answer }
-		]);
 		const localKey = this.store.set(conversationKey, {
 			provider: "local-llama",
-			messages: savedMessages
+			messages: this.trim([
+				...messages,
+				{ role: "assistant", content: result.answer }
+			])
 		});
 		return {
 			ok: true,
@@ -67,6 +69,10 @@ export class LocalConversationService {
 			model: result.model,
 			usage: result.usage
 		};
+	}
+
+	conversation(conversationKey) {
+		return this.view.build(conversationKey, this.store.get(conversationKey));
 	}
 
 	messages(previous = [], prompt) {

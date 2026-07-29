@@ -1,0 +1,66 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+mitzvah-world-status-002.css reveals localized style through the Awtsmoos and Awtsmoos.com.
+*/
+
+#mitzvah-world-root #mitzvah-world-root .Awtsmoos-camera-mode-toggle {
+	right: max(10px, env(safe-area-inset-right)) !important;
+	top: 58px !important;
+	display: flex !important;
+	min-width: 0 !important;
+	padding: 6px 8px !important;
+	border-radius: 9px !important;
+	background: rgba(5, 17, 18, 0.94) !important;
+	transform: none !important;
+	opacity: 1 !important;
+	backdrop-filter: none !important;
+}
+
+#mitzvah-world-root .Awtsmoos-camera-mode-toggle span {
+	font-size: 17px !important;
+}
+
+#mitzvah-world-root .Awtsmoos-camera-mode-toggle small {
+	display: none !important;
+}
+
+#mitzvah-world-root .Awtsmoos-hud-minimize {
+	position: absolute !important;
+	right: -5px !important;
+	top: -5px !important;
+	z-index: 20 !important;
+	display: grid !important;
+	place-items: center !important;
+	width: 24px !important;
+	height: 24px !important;
+	min-width: 24px !important;
+	min-height: 24px !important;
+	padding: 0 !important;
+	border: 1px solid rgba(244, 215, 134, 0.72) !important;
+	border-radius: 50% !important;
+	background: #15201d !important;
+	color: #fff2bd !important;
+	font: 900 15px/1 system-ui !important;
+	pointer-events: auto !important;
+}
+
+#mitzvah-world-root [data-awtsmoos-hud-id] {
+	position: fixed;
+}
+
+#mitzvah-world-root [data-awtsmoos-minimized="true"] > :not(.Awtsmoos-hud-minimize) {
+	display: none !important;
+}
+
+#mitzvah-world-root [data-awtsmoos-minimized="true"] {
+	width: 30px !important;
+	height: 30px !important;
+	min-width: 30px !important;
+	min-height: 30px !important;
+	padding: 0 !important;
+	border: 1px solid var(--Awtsmoos-line) !important;
+	border-radius: 9px !important;
+	background: rgba(5, 18, 18, 0.94) !important;
+	overflow: visible !important;
+}

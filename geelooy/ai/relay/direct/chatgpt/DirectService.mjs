@@ -1,100 +1,117 @@
 //B"H
 // Boruch Hashem
 // Blessed is He
+
 import { DebugPortResolver } from "../browser/DebugPortResolver.mjs";
-import { LocalConversationService } from "../local/LocalConversationService.mjs";
-import { RequestOnlyProviderRouter } from "../local/RequestOnlyProviderRouter.mjs";
-import { RequestOnlyApiConversationService } from "../openai/RequestOnlyApiConversationService.mjs";
 import { RequestPacer } from "../stress/RequestPacer.mjs";
 import { ConversationModePolicy } from "./ConversationModePolicy.mjs";
 import { ConversationStore } from "./ConversationStore.mjs";
 import { DirectClient } from "./DirectClient.mjs";
 import { DirectServiceReporter } from "./DirectServiceReporter.mjs";
 import { FallbackConversationService } from "./FallbackConversationService.mjs";
+import { RequestOnlyCapabilityService } from "./RequestOnlyCapabilityService.mjs";
+import { WebsiteLoginCoordinator } from "./WebsiteLoginCoordinator.mjs";
 
 /**
- * Strict mode chooses native HTTP only: official API first, localhost second.
- * The Awtsmoos keeps browser fallback explicit while every continuation remains
- * behind an opaque local key and no provider silently crosses transport boundaries.
+ * Every turn belongs to the authenticated ChatGPT website. The Awtsmoos first tries
+ * the saved browser profile, opens a visible manual login only when authentication
+ * is absent, and never routes to a local model or external API credential.
  */
 export class DirectService {
 	constructor({
 		preferredPort = Number(process.env.AWTSMOOS_CHROME_DEBUG_PORT || 0) || null,
 		minimumIntervalMs = Number(process.env.AWTSMOOS_DIRECT_INTERVAL_MS || 10000),
-		store,
-		pacer,
-		portResolver,
+		store = new ConversationStore(),
+		pacer = new RequestPacer({ minimumIntervalMs }),
+		portResolver = new DebugPortResolver({ preferredPort }),
 		clientFactory,
-		fallbackService,
-		apiService,
-		localService,
-		providerRouter,
+		websiteService,
+		capabilityService,
+		loginCoordinator = new WebsiteLoginCoordinator(),
 		reporter = new DirectServiceReporter()
 	} = {}) {
 		this.preferredPort = preferredPort;
-		this.store = store ?? new ConversationStore();
-		this.pacer = pacer ?? new RequestPacer({ minimumIntervalMs });
-		this.portResolver = portResolver ?? new DebugPortResolver({ preferredPort });
-		this.conversationModePolicy = new ConversationModePolicy();
+		this.store = store;
+		this.pacer = pacer;
+		this.portResolver = portResolver;
+		this.loginCoordinator = loginCoordinator;
 		this.reporter = reporter;
+		this.conversationModePolicy = new ConversationModePolicy();
 		const makeClient = clientFactory ?? (port => new DirectClient({
 			port,
 			minimumIntervalHook: () => this.pacer.enter()
 		}));
-		this.fallbackService = fallbackService ?? new FallbackConversationService({
+		this.websiteService = websiteService ?? new FallbackConversationService({
 			store: this.store,
 			portResolver: this.portResolver,
 			clientFactory: makeClient
 		});
-		this.apiService = apiService ?? new RequestOnlyApiConversationService({ pacer: this.pacer });
-		this.localService = localService ?? new LocalConversationService({ pacer: this.pacer });
-		this.providerRouter = providerRouter ?? new RequestOnlyProviderRouter({
-			apiService: this.apiService,
-			localService: this.localService
+		this.capabilityService = capabilityService ?? new RequestOnlyCapabilityService({
+			preferredPort,
+			portResolver: this.portResolver
 		});
 	}
 
 	async send(options = {}) {
-		const mode = options.mode ?? "strict-request-only";
 		this.validatePrompt(options.prompt);
-		if (["strict-request-only", "official-api-request-only", "local-request-only"].includes(mode)) {
-			if (options.conversationMode != null) {
-				throw new TypeError("conversationMode is unavailable in request-only modes.");
-			}
-			return this.providerRouter.send(options, mode);
-		}
-		if (mode !== "page-authorized-fallback") {
-			throw new TypeError(`Unsupported direct mode: ${mode}.`);
-		}
-		return this.fallbackService.send({
+		this.validateMode(options.mode ?? "chatgpt-website");
+		const request = {
 			...options,
 			conversationMode: this.conversationModePolicy.normalize(options.conversationMode)
-		});
+		};
+		try {
+			return await this.websiteService.send(request);
+		} catch (error) {
+			if (!this.loginCoordinator.shouldAuthenticate(error)) throw error;
+			await this.loginCoordinator.authenticate();
+			this.portResolver.invalidate();
+			await this.websiteService.close();
+			return await this.websiteService.send(request);
+		}
 	}
 
-	async capability() {
-		return this.providerRouter.capability();
+	async capability(options = {}) {
+		try {
+			const capability = await this.capabilityService.inspect(options);
+			return {
+				...capability,
+				mode: "chatgpt-website",
+				websiteOnly: true,
+				loginRequired: !capability.authenticated,
+				submissionTransport: "chatgpt-website-composer",
+				completionTransport: "authenticated-conversation-get",
+				localModelAvailable: false,
+				externalApiAvailable: false
+			};
+		} catch {
+			return {
+				ok: true,
+				mode: "chatgpt-website",
+				websiteOnly: true,
+				authenticated: false,
+				loginRequired: true,
+				submissionTransport: "chatgpt-website-composer",
+				completionTransport: "authenticated-conversation-get",
+				localModelAvailable: false,
+				externalApiAvailable: false
+			};
+		}
 	}
 
 	reset(conversationKey) {
-		return this.reporter.reset({
-			conversationKey,
-			browserStore: this.store,
-			providerRouter: this.providerRouter
-		});
+		return this.reporter.reset({ conversationKey, store: this.store });
 	}
 
 	async close() {
-		await this.fallbackService.close();
+		await this.websiteService.close();
 	}
 
 	status() {
 		return this.reporter.status({
 			preferredPort: this.preferredPort,
 			pacer: this.pacer,
-			providerRouter: this.providerRouter,
-			fallbackService: this.fallbackService,
-			browserStore: this.store
+			websiteService: this.websiteService,
+			store: this.store
 		});
 	}
 
@@ -103,5 +120,11 @@ export class DirectService {
 			throw new TypeError("prompt must be a non-empty string.");
 		}
 	}
+
+	validateMode(mode) {
+		const allowed = ["chatgpt-website", "page-authorized-fallback", "strict-request-only"];
+		if (!allowed.includes(mode)) throw new TypeError(`Unsupported direct mode: ${mode}.`);
+	}
 }
+
 export const directService = new DirectService();

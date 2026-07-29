@@ -11,7 +11,7 @@ import { loadNodeRelaySettings } from "../transport/nodeRelaySettings.js";
 /**
  * The browser speaks only prompt text, opaque continuation keys, explicit mode,
  * bounded model controls, and one validated conversation mode. The Awtsmoos keeps
- * Awtsmoos.com free of credential, header, proof-token, and arbitrary-body fields.
+ * Awtsmoos.com free of credential, proof-token, and arbitrary-body fields.
  */
 export async function sendDirectChat({
 	prompt,
@@ -39,8 +39,28 @@ export async function sendDirectChat({
 	return validateChat(await nodeRelayJson(
 		"/direct-chat",
 		payload,
-		"Direct ChatGPT relay"
+		"Direct AI relay"
 	));
+}
+
+export async function getDirectConversation(conversationKey) {
+	if (typeof conversationKey !== "string" || !conversationKey.trim()) {
+		throw new TypeError("conversationKey must be a non-empty string.");
+	}
+	const extension = globalThis.awtsmoosFetch?.directConversation;
+	const result = typeof extension === "function"
+		? await extension({ conversationKey })
+		: await nodeRelayJson(
+			"/direct-conversation",
+			{ conversationKey },
+			"Direct conversation read"
+		);
+	if (!result?.ok || !Array.isArray(result.messages)) {
+		const error = new Error(result?.safeHint || "Direct conversation could not be read.");
+		error.code = result?.error || "direct_conversation_expired";
+		throw error;
+	}
+	return result;
 }
 
 export async function getDirectCapability() {
@@ -59,7 +79,7 @@ export async function resetDirectChat(conversationKey = null) {
 	return await nodeRelayJson(
 		"/direct-reset",
 		{ conversationKey },
-		"Direct ChatGPT reset"
+		"Direct AI reset"
 	);
 }
 
@@ -69,9 +89,7 @@ export function directRelayUrl() {
 
 function validateChat(result) {
 	if (!result?.ok || typeof result.answer !== "string") {
-		const error = new Error(
-			result?.safeHint || "Direct ChatGPT relay did not return an answer."
-		);
+		const error = new Error(result?.safeHint || "Direct AI relay did not return an answer.");
 		error.code = result?.error || "direct_request_failed";
 		error.capability = result?.capability ?? null;
 		throw error;

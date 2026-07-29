@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioMarkup.js
- * @description Composes the semantic NLE shell with preview, inspector, timeline, utilities, and responsive status.
- * The Awtsmoos renews every panel through one source; Awtsmoos.com gives desktop and mobile
- * the same named vessels while focused markup modules keep each responsibility clear and bounded.
+ * @description Composes the semantic NLE shell with project, preview, inspector, timeline, utilities, and status.
+ * The Awtsmoos renews every panel and beginning through one source; Awtsmoos.com gives desktop
+ * and mobile the same named vessels while cinematic default and empty creation remain distinct choices.
  */
 
 import { movieStudioInspectorMarkup } from './MovieStudioInspectorMarkup.js';
@@ -23,6 +23,10 @@ export function movieStudioMarkup(project) {
 				<strong>B"H MitzvahWorld Movie Maker</strong>
 				<span data-title>${escapeMovieMarkup(project.title)}</span>
 			</div>
+			<button data-new-empty-project title="Create a blank project; the current project can be restored with Undo">
+				<span aria-hidden="true">＋</span>
+				<span class="movie-secondary-label">Empty project</span>
+			</button>
 			${movieStudioUtilityToolbarMarkup()}
 			<button data-inspector-toggle aria-controls="movie-studio-inspector" aria-expanded="true">
 				<span aria-hidden="true">☰</span>
@@ -49,10 +53,8 @@ function moviePreviewMarkup() {
 			<div class="movie-studio-preview-frame" data-preview-frame>
 				<div class="movie-studio-preview" data-preview></div>
 				<div class="movie-preview-overlay" data-preview-overlay aria-hidden="true">
-					<i data-overlay="thirds"></i>
-					<i data-overlay="center"></i>
-					<i data-overlay="titleSafe"></i>
-					<i data-overlay="actionSafe"></i>
+					<i data-overlay="thirds"></i><i data-overlay="center"></i>
+					<i data-overlay="titleSafe"></i><i data-overlay="actionSafe"></i>
 				</div>
 			</div>
 		</div>
@@ -66,10 +68,6 @@ function moviePreviewMarkup() {
 
 function escapeMovieMarkup(value) {
 	return String(value || '').replace(/[&<>"']/g, character => ({
-		'&': '&amp;',
-		'<': '&lt;',
-		'>': '&gt;',
-		'"': '&quot;',
-		"'": '&#39;'
+		'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
 	})[character]);
 }

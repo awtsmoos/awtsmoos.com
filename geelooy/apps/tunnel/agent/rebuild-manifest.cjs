@@ -8,8 +8,7 @@ const Arguments = require("./release/manifestArguments.js");
 const Catalog = require("./release/runtimeCatalog.js");
 const Document = require("./release/manifestDocument.js");
 const SourcePaths = require("./release/sourcePaths.js");
-const Baselines = require("../../../../scripts/tunnel/manifestBaselines.cjs");
-const Version = require("../../../../scripts/tunnel/manifestVersion.cjs");
+const Version = require("./release/manifestVersion.js");
 
 const ROOT = __dirname;
 const OUT = path.join(ROOT, "manifest.txt");
@@ -51,6 +50,9 @@ function writeManifest(options = {}) {
  * @returns {object} Written manifest and baseline evidence.
  */
 function writeNextManifest(options = {}) {
+	const Baselines = require(
+		"../../../../scripts/tunnel/manifestBaselines.cjs"
+	);
 	const output = path.resolve(options.file || OUT);
 	const repoRoot = path.resolve(options.repoRoot || REPOSITORY_ROOT);
 	const forcedVersion = options.version ||

@@ -20,8 +20,25 @@ async function ready(payload = {}) {
   }
 
   const port = Number(payload.port || config.chrome.port || 9222);
-  await ensurePage(port);
+  await ensurePage(port, targetOptions(payload));
   return { config, port };
+}
+
+function targetOptions(payload = {}) {
+  const targetId = payload.chromeTargetId || payload.pageId || payload.targetId || "";
+  return {
+    pageId: targetId,
+    chromeTargetId: targetId,
+    browserSessionId: payload.browserSessionId || "",
+    roomId: payload.roomId || "",
+    missionId: payload.missionId || "",
+    agentSessionId: payload.agentSessionId || "",
+    logicalAgentId: payload.logicalAgentId || "",
+    shared: payload.shared === true,
+    inspectShared: payload.inspectShared === true,
+    force: payload.force === true,
+    timeoutMs: payload.timeoutMs
+  };
 }
 
 /**
@@ -149,7 +166,7 @@ async function chromeStorage(payload = {}) {
   await ready(payload);
 
   const type = payload.storageType === "sessionStorage" ? "sessionStorage" : "localStorage";
-  const expression = `Object.fromEntries(Array.from(${type}).map(([key, value]) => [key, value]))`;
+  const expression = `Object.fromEntries(Array.from({length:${type}.length}, (_, index) => { const key=${type}.key(index); return [key, ${type}.getItem(key)]; }))`;
   const res = await cdpCall("Runtime.evaluate", { expression, returnByValue: true });
 
   return {
@@ -247,11 +264,21 @@ async function chromeSessionImport(payload = {}) {
   }
 
   for (const [key, value] of Object.entries(payload.localStorage || {})) {
-    await chromeStorageSet({ storageType: "localStorage", name: key, value });
+    await chromeStorageSet({
+      ...payload,
+      storageType: "localStorage",
+      name: key,
+      value
+    });
   }
 
   for (const [key, value] of Object.entries(payload.sessionStorage || {})) {
-    await chromeStorageSet({ storageType: "sessionStorage", name: key, value });
+    await chromeStorageSet({
+      ...payload,
+      storageType: "sessionStorage",
+      name: key,
+      value
+    });
   }
 
   return {

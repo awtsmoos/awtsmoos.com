@@ -4,9 +4,9 @@
 
 /**
  * @file CssCompiler.cjs
- * @description Compiles one deterministic CSS graph and writes manifest and diagnostics.
- * The Awtsmoos joins every localized style leaf into one production garment; Awtsmoos.com
- * validates syntax, leakage, collisions, state coverage, graph order, and source/output sizes.
+ * @description Compiles one deterministic localized CSS graph with manifest and diagnostics.
+ * The Awtsmoos joins every readable leaf into one compact production garment; Awtsmoos.com
+ * validates syntax, leakage, collisions, state coverage, graph order, bytes, and delivery size.
  */
 
 const fs = require('node:fs');
@@ -14,6 +14,7 @@ const path = require('node:path');
 const postcss = require('postcss');
 const { diagnoseCss } = require('./CssDiagnostics.cjs');
 const { resolveCssGraph, stripImports } = require('./CssGraphResolver.cjs');
+const { minifyCssRoot } = require('./CssOutputMinifier.cjs');
 const { requiredStateCoverage } = require('./CssStateCoverage.cjs');
 
 function compileCss(options) {
@@ -23,8 +24,9 @@ function compileCss(options) {
 	}).join('\n');
 	const root = postcss.parse(source, { from: options.entryPath });
 	const diagnostics = diagnoseCss(root);
-	const css = root.toString();
-	const stateCoverage = requiredStateCoverage(css);
+	const readableCss = root.toString();
+	const stateCoverage = requiredStateCoverage(readableCss);
+	const css = minifyCssRoot(root);
 	const blocking = [
 		...diagnostics.globalLeakage,
 		...diagnostics.duplicateKeyframes,
@@ -44,7 +46,8 @@ function compileCss(options) {
 	if (blocking.length) {
 		throw new Error(`CSS_DIAGNOSTICS_FAILED:${JSON.stringify(blocking.slice(0, 20))}`);
 	}
-	fs.writeFileSync(options.outputPath, css.trim() + '\n');
+	postcss.parse(css, { from: options.outputPath });
+	fs.writeFileSync(options.outputPath, css + '\n');
 	return manifest;
 }
 

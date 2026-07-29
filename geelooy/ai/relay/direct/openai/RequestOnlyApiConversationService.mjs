@@ -75,6 +75,10 @@ export class RequestOnlyApiConversationService {
 		};
 	}
 
+	conversation() {
+		return null;
+	}
+
 	reset(conversationKey) {
 		return conversationKey
 			? { deleted: this.store.delete(conversationKey) }

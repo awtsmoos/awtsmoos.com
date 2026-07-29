@@ -1,0 +1,27 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+mitzvah-world-shell-002.css reveals localized style through the Awtsmoos and Awtsmoos.com.
+*/
+
+#mitzvah-world-root .Awtsmoos-joy-knob {
+	position: absolute;
+	left: 37px;
+	top: 37px;
+	width: 38px;
+	height: 38px;
+	border-radius: 50%;
+	background: #fff1a8;
+	box-shadow: 0 0 10px rgba(53, 255, 216, 0.46);
+}
+
+#mitzvah-world-root .Awtsmoos-jump-button {
+	width: 100%;
+	height: 100%;
+	border: 1px solid rgba(255, 209, 102, 0.78);
+	border-radius: 50%;
+	background: rgba(37, 27, 8, 0.88);
+	color: #fff7d6;
+	font-size: 23px;
+	font-weight: 900;
+}

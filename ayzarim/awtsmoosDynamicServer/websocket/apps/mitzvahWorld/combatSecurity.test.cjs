@@ -4,9 +4,9 @@
 
 /**
  * @file combatSecurity.test.cjs
- * @description Proves attack intent cannot bypass range, equipment, cooldown, or privacy.
- * The Awtsmoos renews strength beneath restraint; Awtsmoos.com verifies rejected
- * commands leave health and private creature reward metadata outside public responses.
+ * @description Proves valid-shaped attack intent cannot bypass geometry, equipment, or cooldown.
+ * The Awtsmoos renews strength beneath restraint; Awtsmoos.com validates identifiers first,
+ * then trusts the derived-stat receipt while proving rejection never mutates consequence twice.
  */
 
 const assert = require('node:assert/strict');
@@ -15,6 +15,7 @@ const { createMmorpgHarness } = require('./mmorpgTestSupport.cjs');
 
 test('combat rejects forged or premature attacks without mutating target health', async () => {
 	let now = 1_000;
+	let impactSequence = 0;
 	const harness = createMmorpgHarness({ clock: () => now });
 	const flow = harness.flow('combat-security-player');
 	const joined = await flow.join('Combat Guard');
@@ -22,53 +23,27 @@ test('combat rejects forged or premature attacks without mutating target health'
 	const player = room.players.get(joined.payload.playerId);
 	const target = room.creatures.get('dybbuk-1');
 	const startingHealth = target.health;
-
-	await expectError(flow.send('combat.attack', {
-		creatureId: target.id,
-		intent: 'defense',
-		weaponId: 'wooden-staff'
-	}), 'TARGET_OUT_OF_RANGE');
+	await expectError(flow.send('combat.attack', attack(target.id, nextToken())), 'TARGET_OUT_OF_RANGE');
 	assert.equal(target.health, startingHealth);
-
-	player.position = beside(target.position);
+	faceBeside(player, target.position);
 	player.equipment.hand = 'siddur';
-	await expectError(flow.send('combat.attack', {
-		creatureId: target.id,
-		intent: 'defense',
-		weaponId: 'wooden-staff'
-	}), 'WEAPON_NOT_EQUIPPED');
+	await expectError(flow.send('combat.attack', attack(target.id, nextToken())), 'WEAPON_NOT_EQUIPPED');
 	assert.equal(target.health, startingHealth);
-
 	player.equipment.hand = 'wooden-staff';
-	await flow.send('combat.attack', {
-		creatureId: target.id,
-		intent: 'defense',
-		weaponId: 'wooden-staff'
-	});
-	assert.equal(target.health, startingHealth - 18);
-	await expectError(flow.send('combat.attack', {
-		creatureId: target.id,
-		intent: 'defense',
-		weaponId: 'wooden-staff'
-	}), 'ATTACK_COOLDOWN');
-	assert.equal(target.health, startingHealth - 18);
+	const accepted = await flow.send('combat.attack', attack(target.id, nextToken()));
+	assert.equal(accepted.type, 'combat.attacked');
+	assert.equal(target.health, startingHealth - accepted.payload.damage);
+	const healthAfterAccepted = target.health;
+	await expectError(flow.send('combat.attack', attack(target.id, nextToken())), 'ATTACK_COOLDOWN');
+	assert.equal(target.health, healthAfterAccepted);
 	now += 701;
-
-	const interaction = await flow.send('player.interact', {
-		action: 'inspect',
-		targetId: target.id
-	});
+	const interaction = await flow.send('player.interact', { action: 'inspect', targetId: target.id });
 	assert.equal(interaction.payload.target.id, target.id);
 	assert.equal('harvestDrops' in interaction.payload.target, false);
 	assert.equal('kosherEligible' in interaction.payload.target, false);
+	function nextToken() { impactSequence += 1; return `security:${impactSequence}`; }
 });
 
-async function expectError(promise, code) {
-	const response = await promise;
-	assert.equal(response.type, 'error');
-	assert.equal(response.payload.code, code);
-}
-
-function beside(position) {
-	return { x: position.x + 1, y: position.y, z: position.z };
-}
+function attack(creatureId, impactToken) { return { actionId: 'staff-light', creatureId, elapsedSeconds: 0.2, impactToken, intent: 'defense', weaponId: 'wooden-staff' }; }
+function faceBeside(player, position) { player.position = { x: position.x + 1, y: position.y, z: position.z }; player.facing = Math.atan2(position.x - player.position.x, position.z - player.position.z); }
+async function expectError(promise, code) { const response = await promise; assert.equal(response.type, 'error'); assert.equal(response.payload.code, code); }

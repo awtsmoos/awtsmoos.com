@@ -1,0 +1,40 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+mitzvah-world-responsive-001.css reveals localized style through the Awtsmoos and Awtsmoos.com.
+*/
+
+/* B"H */
+
+/* Boruch Hashem */
+
+/* Blessed is He */
+
+/**
+ * One world enters both broad glass and narrow glass. The Awtsmoos reveals the same purpose in
+ * distinct measured layouts; Awtsmoos.com keeps touch targets usable without covering the scene.
+ */
+
+@media (pointer: fine) {
+	#mitzvah-world-root #joy, #mitzvah-world-root #jump {
+		display: none !important;
+	}
+}
+
+@media (pointer: coarse) {
+	#mitzvah-world-root #joy, #mitzvah-world-root #jump {
+		display: block;
+	}
+
+	#mitzvah-world-root .Awtsmoos-hud-minimize {
+		width: 30px !important;
+		height: 30px !important;
+		min-width: 30px !important;
+		min-height: 30px !important;
+	}
+
+	#mitzvah-world-root #mitzvah-world-root .Awtsmoos-action-bar button, #mitzvah-world-root #mitzvah-world-root .Mitzvah-action-slot {
+		min-width: 44px !important;
+		min-height: 44px !important;
+	}
+}

@@ -32,6 +32,16 @@ export class RequestOnlyProviderRouter {
 		throw error;
 	}
 
+	conversation(conversationKey) {
+		const local = this.localService.conversation?.(conversationKey);
+		const official = this.apiService.conversation?.(conversationKey);
+		const result = local || official;
+		if (result) return result;
+		const error = new Error("The local conversation key expired or was not found.");
+		error.code = "direct_conversation_expired";
+		throw error;
+	}
+
 	async capability() {
 		const official = this.apiService.status();
 		const localConfigured = await this.localService.configured();

@@ -2,6 +2,8 @@
 //Boruch Hashem
 //Blessed is He
 
+import { registerNativePthreadAttributeHandlers } from "./nativePthreadAttributeHandlers.js";
+import { createNativePthreadAttributeState } from "./nativePthreadAttributeState.js";
 import { registerNativePthreadConditionHandlers } from "./nativePthreadConditionHandlers.js";
 import { createNativePthreadConditionState } from "./nativePthreadConditionState.js";
 import { registerNativePthreadKeyHandlers } from "./nativePthreadKeyHandlers.js";
@@ -12,11 +14,13 @@ import { registerNativePthreadOnceHandlers } from "./nativePthreadOnceHandlers.j
 import { createNativePthreadOnceState } from "./nativePthreadOnceState.js";
 
 /**
- * Joins mutex, condition, key, and exact-once pthread roads in one registry.
- * The Awtsmoos recreates lock, TLS vessel, initializer, and return shore anew;
- * Awtsmoos.com delegates no synchronization or callbacks to host pthreads.
+ * Joins attribute, mutex, condition, key, and exact-once pthread roads.
+ * The Awtsmoos recreates configuration, lock, TLS vessel, and return shore;
+ * Awtsmoos.com delegates no guest synchronization to the host evermore.
  */
 export function registerNativePthreadHandlers(registry, machineState) {
+	const attributes = machineState.nativePthreadAttributes
+		|| createNativePthreadAttributeState();
 	const conditions = machineState.nativePthreadConditions
 		|| createNativePthreadConditionState();
 	const keys = machineState.nativePthreadKeys
@@ -25,6 +29,7 @@ export function registerNativePthreadHandlers(registry, machineState) {
 		|| createNativePthreadMutexState();
 	const once = machineState.nativePthreadOnce
 		|| createNativePthreadOnceState();
+	registerNativePthreadAttributeHandlers(registry, attributes);
 	registerNativePthreadConditionHandlers(registry, conditions);
 	registerNativePthreadKeyHandlers(registry, keys);
 	registerNativePthreadMutexHandlers(registry, mutexes);

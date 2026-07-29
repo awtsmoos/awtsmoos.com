@@ -1,0 +1,47 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+mitzvah-world-responsive-003.css reveals localized style through the Awtsmoos and Awtsmoos.com.
+*/
+
+@media (max-height: 520px) and (orientation: landscape) {
+	#mitzvah-world-root #mitzvah-world-root .Awtsmoos-status-ribbon {
+		top: max(4px, env(safe-area-inset-top)) !important;
+		max-width: min(54vw, 470px) !important;
+	}
+
+	#mitzvah-world-root #mitzvah-world-root .Mitzvah-combat-host {
+		bottom: max(4px, env(safe-area-inset-bottom)) !important;
+		width: min(68vw, 610px) !important;
+	}
+
+	#mitzvah-world-root #mitzvah-world-root .Awtsmoos-action-host {
+		bottom: max(4px, env(safe-area-inset-bottom)) !important;
+	}
+
+	#mitzvah-world-root #mitzvah-world-root .Awtsmoos-minimap {
+		right: max(6px, env(safe-area-inset-right)) !important;
+		bottom: max(6px, env(safe-area-inset-bottom)) !important;
+	}
+
+	#mitzvah-world-root #joy {
+		bottom: max(10px, env(safe-area-inset-bottom));
+	}
+
+	#mitzvah-world-root #jump {
+		bottom: max(18px, env(safe-area-inset-bottom));
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	#mitzvah-world-root *, #mitzvah-world-root *::before, #mitzvah-world-root *::after {
+		scroll-behavior: auto !important;
+		transition-duration: 0.001ms !important;
+	}
+}
+
+@media (prefers-reduced-transparency: reduce) {
+	#mitzvah-world-root {
+		--Awtsmoos-panel: #071210;
+	}
+}

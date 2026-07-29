@@ -2,22 +2,26 @@
 // Boruch Hashem
 // Blessed is He
 
-import { CarrierPromptInteractor } from "../browser/CarrierPromptInteractor.mjs";
-import { FetchEnvelopeInterceptor } from "../browser/FetchEnvelopeInterceptor.mjs";
-import { ConversationBodyMutator } from "./ConversationBodyMutator.mjs";
+import { WebsitePromptInteractor } from "../browser/WebsitePromptInteractor.mjs";
 import { ConversationCompletionPoller } from "./ConversationCompletionPoller.mjs";
-import { ConversationHandoffParser } from "./ConversationHandoffParser.mjs";
-import { PageContextRequestClient } from "./PageContextRequestClient.mjs";
-import { buildDirectTurnResult } from "./DirectTurnResult.mjs";
+import { ConversationRequestObserver } from "./ConversationRequestObserver.mjs";
+import { ConversationRouteWaiter } from "./ConversationRouteWaiter.mjs";
+import { WebsiteConversationNavigator } from "./WebsiteConversationNavigator.mjs";
 
 /**
- * One transient carrier reveals current enforcement, then the real POST crosses
- * once. The Awtsmoos lets Awtsmoos.com collect completion through authenticated
- * GET requests, using a temporary route observer only when page-request GET fails.
+ * One normal ChatGPT website turn types the actual prompt, clicks the ordinary send
+ * control, and then reads completion through authenticated conversation GETs. No
+ * request is replaced, replayed, suppressed, fabricated, or sent outside ChatGPT.
  */
 export class DirectTurnExecutor {
-	constructor({ minimumIntervalHook } = {}) {
+	constructor({
+		minimumIntervalHook,
+		navigator = new WebsiteConversationNavigator(),
+		routeWaiter = new ConversationRouteWaiter()
+	} = {}) {
 		this.minimumIntervalHook = minimumIntervalHook;
+		this.navigator = navigator;
+		this.routeWaiter = routeWaiter;
 	}
 
 	async execute(options, controller, lease, ledger) {
@@ -27,62 +31,54 @@ export class DirectTurnExecutor {
 		const pacing = await ledger.measure("pacingMs", async () => {
 			return await this.minimumIntervalHook?.() ?? null;
 		});
-		const envelope = await ledger.measure("carrierEnvelopeMs", () => {
-			const carrier = new CarrierPromptInteractor(controller.cdpClient);
-			return new FetchEnvelopeInterceptor(controller.cdpClient).capture(
-				attempt => carrier.submit(
-					"Prepare a transient Awtsmoos relay envelope.",
-					attempt
-				)
-			);
+		await ledger.measure("conversationNavigationMs", () => {
+			return this.navigator.prepare(controller, options.state);
 		});
-		this.progress(options.onProgress, "carrier-envelope", "ready");
-		this.assertNotAborted(options.signal);
-		const request = new ConversationBodyMutator().mutate(envelope, options);
-		const requestStartedAt = Date.now();
-		const response = await ledger.measure("requestPostMs", () => {
-			return new PageContextRequestClient(controller.cdpClient).send(
-				request,
-				options.timeoutMs ?? 180000,
-				options.signal
-			);
+		const startedAt = Date.now();
+		const request = await ledger.measure("websiteSubmissionMs", () => {
+			const observer = new ConversationRequestObserver(controller.cdpClient);
+			const interactor = new WebsitePromptInteractor(controller.cdpClient);
+			return observer.observe(() => interactor.submit(options.prompt));
 		});
-		if (response.status !== 200) {
-			throw new Error(`Direct ChatGPT request failed with ${response.status}.`);
-		}
-		const handoff = new ConversationHandoffParser().parse(response.text);
-		this.progress(options.onProgress, "request", "accepted");
+		this.progress(options.onProgress, "website-submit", "accepted");
+		const conversationId = await ledger.measure("conversationRouteMs", () => {
+			return this.routeWaiter.wait(controller, {
+				expectedId: request.conversationId || options.state?.conversationId || null,
+				timeoutMs: options.timeoutMs ?? 30000
+			});
+		});
 		const poll = await ledger.measure("answerPollingMs", () => {
 			return new ConversationCompletionPoller(controller.cdpClient, {
 				port: controller.debugPort
 			}).poll({
-				conversationId: handoff.conversationId,
-				userMessageId: request.body.messages[0].id,
+				conversationId,
+				userMessageId: request.userMessageId,
 				previousParentMessageId: options.state?.parentMessageId ?? null,
 				timeoutMs: options.timeoutMs ?? 180000,
 				signal: options.signal
 			});
 		});
-		this.progress(options.onProgress, "conversation-get", poll.completionSource);
 		this.assertComplete(poll);
-		const pageAfter = await ledger.measure("continuationCheckMs", () => {
-			return controller.inspector.inspect();
-		});
-		return buildDirectTurnResult({
-			reduced: poll,
-			response,
-			poll,
-			pageAfter,
+		return {
+			answer: poll.answer,
+			state: { conversationId, parentMessageId: poll.parentMessageId },
+			status: 200,
+			done: poll.done,
+			frames: 0,
+			items: poll.itemCount,
+			subscriptionAttempts: poll.pollCount,
+			completionSource: poll.completionSource,
+			requestLatencyMs: Date.now() - startedAt,
 			pacing,
 			hostReuseSource: lease.source,
-			requestLatencyMs: Date.now() - requestStartedAt
-		});
+			navigatedToConversation: true,
+			composerTouched: true,
+			submissionTransport: "chatgpt-website-composer"
+		};
 	}
 
 	assertNotAborted(signal) {
-		if (signal?.aborted) {
-			throw signal.reason || new Error("Direct request was cancelled.");
-		}
+		if (signal?.aborted) throw signal.reason || new Error("Direct request was cancelled.");
 	}
 
 	progress(callback, stage, status) {
