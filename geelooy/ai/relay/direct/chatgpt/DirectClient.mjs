@@ -5,12 +5,12 @@
 import { AuthenticatedHostLease } from "../browser/AuthenticatedHostLease.mjs";
 import { AuthenticatedSocketController } from "../browser/AuthenticatedSocketController.mjs";
 import { StageTimingLedger } from "../core/StageTimingLedger.mjs";
+import { ConversationRecoveryExecutor } from "./ConversationRecoveryExecutor.mjs";
 import { DirectTurnExecutor } from "./DirectTurnExecutor.mjs";
 
 /**
- * A bounded host lease carries sequential fallback turns without rebuilding Chrome.
- * The Awtsmoos keeps Awtsmoos.com explicit and measured: every failed turn closes
- * its target, while a healthy success may rest only until the short idle boundary.
+ * A bounded host lease carries sequential website turns and GET-only recovery.
+ * A failed lease is forgotten; a reused target is detached rather than closed.
  */
 export class DirectClient {
 	constructor({
@@ -19,7 +19,8 @@ export class DirectClient {
 		controllerFactory,
 		hostLease,
 		idleHostTimeoutMs = 30000,
-		turnExecutor
+		turnExecutor,
+		recoveryExecutor = new ConversationRecoveryExecutor()
 	} = {}) {
 		this.port = port;
 		const openHost = controllerFactory ?? (() => {
@@ -35,6 +36,7 @@ export class DirectClient {
 		this.turnExecutor = turnExecutor ?? new DirectTurnExecutor({
 			minimumIntervalHook
 		});
+		this.recoveryExecutor = recoveryExecutor;
 	}
 
 	async send(options = {}) {
@@ -45,6 +47,13 @@ export class DirectClient {
 		});
 		result.timings = ledger.snapshot();
 		return result;
+	}
+
+	async recover(options = {}) {
+		this.assertNotAborted(options.signal);
+		return this.hostLease.run(controller =>
+			this.recoveryExecutor.execute(options, controller)
+		);
 	}
 
 	close() {

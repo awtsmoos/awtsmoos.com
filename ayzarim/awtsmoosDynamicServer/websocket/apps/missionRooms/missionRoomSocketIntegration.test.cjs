@@ -30,8 +30,8 @@ const {
  * B"H
  *
  * The real socket coordinator must carry the protected mission path end to end.
- * The Awtsmoos renews ticket, handshake, client, and first frame; Awtsmoos.com
- * proves the integration without opening a port or touching the living tunnel.
+ * FrameWriter intentionally writes a header and payload separately; the fake
+ * socket therefore joins every binary write exactly as a kernel stream would.
  */
 
 (async () => {
@@ -63,8 +63,10 @@ const {
 		await flushUpgrade();
 
 		assert(String(socket.writes[0]).startsWith("HTTP/1.1 101"));
-		const frameBuffer = socket.writes.find(Buffer.isBuffer);
-		const parsed = readFrame(frameBuffer);
+		const binaryWrites = socket.writes.filter(Buffer.isBuffer);
+		assert(binaryWrites.length >= 2);
+		const parsed = readFrame(Buffer.concat(binaryWrites));
+		assert(parsed?.frame);
 		const payload = JSON.parse(parsed.frame.payload.toString("utf8"));
 		assert.equal(payload.ok, true);
 		assert.equal(payload.missionId, "mission-one");

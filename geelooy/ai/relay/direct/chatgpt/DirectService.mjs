@@ -14,9 +14,9 @@ import { WebsiteCapabilityPresenter } from "./WebsiteCapabilityPresenter.mjs";
 import { WebsiteLoginCoordinator } from "./WebsiteLoginCoordinator.mjs";
 
 /**
- * Every turn belongs to the authenticated ChatGPT website. The Awtsmoos first tries
- * the saved browser profile, opens a visible manual login only when authentication
- * is absent, and never routes to a local model or external API credential.
+ * Every turn belongs to the authenticated ChatGPT website. Interactive callers
+ * may await manual login; mission orchestrators can defer login so the lead keeps
+ * working and later resumes the same private conversation without duplicate POSTs.
  */
 export class DirectService {
 	constructor(options = {}) {
@@ -62,11 +62,49 @@ export class DirectService {
 			return await this.websiteService.send(request);
 		} catch (error) {
 			if (!this.loginCoordinator.shouldAuthenticate(error)) throw error;
-			await this.loginCoordinator.authenticate();
-			this.portResolver.invalidate();
-			await this.websiteService.close();
-			return await this.websiteService.send(request);
+			if (options.loginPolicy === "defer") {
+				await this.requestLogin();
+				throw codedError("chatgpt_login_pending");
+			}
+			await this.loginCoordinator.authenticate({
+				timeoutMs: options.loginTimeoutMs,
+				pollMs: options.loginPollMs
+			});
+			await this.resetBrowserBinding();
+			return this.websiteService.send(request);
 		}
+	}
+
+	async requestLogin() {
+		const opened = await this.loginCoordinator.openForLogin();
+		this.capabilityService.invalidate?.();
+		this.portResolver.invalidate();
+		return opened;
+	}
+
+	async recover(options = {}) {
+		if (!options.conversationKey) {
+			throw codedError("conversation_recovery_key_required");
+		}
+		try {
+			return await this.websiteService.recover(options);
+		} catch (error) {
+			if (!this.loginCoordinator.shouldAuthenticate(error)) throw error;
+			if (options.loginPolicy === "defer") {
+				await this.requestLogin();
+				throw codedError("chatgpt_login_pending");
+			}
+			await this.loginCoordinator.authenticate({
+				timeoutMs: options.loginTimeoutMs,
+				pollMs: options.loginPollMs
+			});
+			await this.resetBrowserBinding();
+			return this.websiteService.recover(options);
+		}
+	}
+
+	async authenticationStatus() {
+		return this.loginCoordinator.status();
 	}
 
 	async capability(options = {}) {
@@ -96,6 +134,12 @@ export class DirectService {
 		});
 	}
 
+	async resetBrowserBinding() {
+		this.capabilityService.invalidate?.();
+		this.portResolver.invalidate();
+		await this.websiteService.close();
+	}
+
 	validatePrompt(prompt) {
 		if (typeof prompt !== "string" || prompt.trim() === "") {
 			throw new TypeError("prompt must be a non-empty string.");
@@ -104,8 +148,16 @@ export class DirectService {
 
 	validateMode(mode) {
 		const allowed = ["chatgpt-website", "page-authorized-fallback", "strict-request-only"];
-		if (!allowed.includes(mode)) throw new TypeError(`Unsupported direct mode: ${mode}.`);
+		if (!allowed.includes(mode)) {
+			throw new TypeError(`Unsupported direct mode: ${mode}.`);
+		}
 	}
+}
+
+function codedError(code) {
+	const error = new Error(code);
+	error.code = code;
+	return error;
 }
 
 export const directService = new DirectService();

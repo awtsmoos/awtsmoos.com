@@ -3,9 +3,8 @@
 // Blessed is He
 
 /**
- * The website service owns stateful ChatGPT execution and one bounded browser host.
- * The Awtsmoos lets Awtsmoos.com continue through an opaque key while ordinary
- * website submission and authenticated GET completion remain tied to one profile.
+ * The website service owns stateful ChatGPT execution and one bounded browser
+ * host. Opaque keys are the only continuation identity exposed to callers.
  */
 export class FallbackConversationService {
 	constructor({ store, portResolver, clientFactory }) {
@@ -27,13 +26,8 @@ export class FallbackConversationService {
 		onProgress = null,
 		timeoutMs = null
 	}) {
-		const previousState = conversationKey ? this.store.get(conversationKey) : null;
-		if (conversationKey && !previousState) {
-			throw new Error("The local ChatGPT conversation key expired or was not found.");
-		}
-		const port = await this.portResolver.resolve();
-		this.lastResolvedPort = port;
-		const client = await this.clientForPort(port);
+		const previousState = this.previousState(conversationKey);
+		const client = await this.resolveClient();
 		const result = await client.send({
 			prompt,
 			state: previousState,
@@ -47,6 +41,43 @@ export class FallbackConversationService {
 		this.assertContinuation(previousState, result);
 		const localKey = this.store.set(conversationKey, result.state);
 		return this.publicResult({ result, localKey, created: !conversationKey });
+	}
+
+	async recover({
+		conversationKey,
+		signal = null,
+		timeoutMs = null
+	} = {}) {
+		if (!conversationKey) {
+			throw codedError("conversation_recovery_key_required");
+		}
+		const previousState = this.previousState(conversationKey);
+		const client = await this.resolveClient();
+		if (typeof client.recover !== "function") {
+			throw codedError("conversation_recovery_not_supported");
+		}
+		const result = await client.recover({
+			state: previousState,
+			signal,
+			timeoutMs
+		});
+		this.assertContinuation(previousState, result);
+		const localKey = this.store.set(conversationKey, result.state);
+		return this.publicResult({ result, localKey, created: false });
+	}
+
+	previousState(conversationKey) {
+		const state = conversationKey ? this.store.get(conversationKey) : null;
+		if (conversationKey && !state) {
+			throw new Error("The local ChatGPT conversation key expired or was not found.");
+		}
+		return state;
+	}
+
+	async resolveClient() {
+		const port = await this.portResolver.resolve();
+		this.lastResolvedPort = port;
+		return this.clientForPort(port);
 	}
 
 	async clientForPort(port) {
@@ -105,4 +136,10 @@ export class FallbackConversationService {
 			client: this.client?.status?.() ?? null
 		};
 	}
+}
+
+function codedError(code) {
+	const error = new Error(code);
+	error.code = code;
+	return error;
 }

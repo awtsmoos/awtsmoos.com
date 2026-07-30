@@ -7,9 +7,15 @@ const { ROOT } = require("../../../../lib/config.js");
 const DIRECTORY = path.join(ROOT, "private", "website-agent-missions");
 
 function create(input = {}) {
-	const id = safe(input.id) || `webmission_${Date.now().toString(36)}_${crypto.randomBytes(5).toString("hex")}`;
+	const id = safe(input.id) ||
+		`webmission_${Date.now().toString(36)}_${crypto.randomBytes(5).toString("hex")}`;
+	if (read(id)) {
+		const error = new Error("website_mission_already_exists");
+		error.code = "website_mission_already_exists";
+		throw error;
+	}
 	const record = {
-		schemaVersion: 1,
+		schemaVersion: 2,
 		id,
 		status: "queued",
 		phase: "planning",
@@ -19,15 +25,20 @@ function create(input = {}) {
 		plan: input.plan,
 		goal: String(input.goal || ""),
 		missionId: String(input.missionId || ""),
-		agents: input.plan.agents.map(agent => ({
-			...agent,
-			status: "queued",
-			round: 0,
-			conversationKey: null,
-			submissionAcceptedAt: null,
-			lastUpdate: "",
-			error: null
-		})),
+		lead: {
+			agentId: "lead",
+			status: "working_locally",
+			instruction: "Continue useful local repository work while website specialists authenticate and run."
+		},
+		authentication: {
+			status: "unchecked",
+			loginOpened: false,
+			lastCheckedAt: null,
+			nextCheckAt: null
+		},
+		roomRevision: 0,
+		lastAgentStartAt: null,
+		agents: input.plan.agents.map(agent => agentState(id, agent)),
 		events: [],
 		cancelRequested: false,
 		error: null
@@ -35,12 +46,60 @@ function create(input = {}) {
 	return save(record);
 }
 
+function agentState(missionId, agent) {
+	return {
+		...agent,
+		agentSessionId: `${missionId}:${agent.id}`,
+		status: "queued",
+		round: 0,
+		continuationTurns: 0,
+		conversationKey: null,
+		submissionAcceptedAt: null,
+		pendingRound: null,
+		lastUpdate: "",
+		lastOutcome: null,
+		roomCursorAt: null,
+		roomDirty: false,
+		pendingRoomMessages: 0,
+		claimId: null,
+		delegationId: null,
+		error: null
+	};
+}
+
 function read(id) {
 	try {
-		return JSON.parse(fs.readFileSync(file(id), "utf8"));
+		return normalize(JSON.parse(fs.readFileSync(file(id), "utf8")));
 	} catch {
 		return null;
 	}
+}
+
+function normalize(record) {
+	if (!record) return null;
+	record.schemaVersion = 2;
+	record.lead ||= {
+		agentId: "lead",
+		status: "working_locally",
+		instruction: "Continue useful local repository work while website specialists run."
+	};
+	record.authentication ||= {
+		status: "unchecked",
+		loginOpened: false,
+		lastCheckedAt: null,
+		nextCheckAt: null
+	};
+	record.roomRevision ||= 0;
+	record.lastAgentStartAt ||= null;
+	record.events ||= [];
+	record.agents = (record.agents || []).map(agent => ({
+		...agentState(record.id, agent),
+		...agent,
+		agentSessionId: agent.agentSessionId || `${record.id}:${agent.id}`,
+		continuationTurns: Number(agent.continuationTurns || 0),
+		pendingRoomMessages: Number(agent.pendingRoomMessages || 0)
+	}));
+	return record;
 }
 
 function save(record) {
@@ -55,6 +114,13 @@ function save(record) {
 	fs.renameSync(temporary, target);
 	fs.chmodSync(target, 0o600);
 	return record;
+}
+
+function update(id, mutator) {
+	const record = read(id);
+	if (!record) return null;
+	const result = mutator(record) || record;
+	return save(result);
 }
 
 function event(record, type, details = {}) {
@@ -97,17 +163,25 @@ function publicRecord(record) {
 		finishedAt: record.finishedAt,
 		missionId: record.missionId,
 		goal: record.goal,
+		lead: record.lead,
+		authentication: record.authentication,
+		roomRevision: record.roomRevision,
 		plan: record.plan,
 		agents: record.agents.map(agent => ({
 			id: agent.id,
+			agentSessionId: agent.agentSessionId,
 			name: agent.name,
 			role: agent.role,
 			focus: agent.focus,
 			scope: agent.scope,
 			status: agent.status,
 			round: agent.round,
+			continuationTurns: agent.continuationTurns,
 			submissionAcceptedAt: agent.submissionAcceptedAt,
+			pendingRound: agent.pendingRound,
 			lastUpdate: agent.lastUpdate,
+			lastOutcome: agent.lastOutcome,
+			pendingRoomMessages: agent.pendingRoomMessages,
 			error: agent.error,
 			hasPrivateContinuation: Boolean(agent.conversationKey)
 		})),
@@ -129,4 +203,14 @@ function now() {
 	return new Date().toISOString();
 }
 
-module.exports = { DIRECTORY, create, event, list, publicRecord, read, remove, save };
+module.exports = {
+	DIRECTORY,
+	create,
+	event,
+	list,
+	publicRecord,
+	read,
+	remove,
+	save,
+	update
+};

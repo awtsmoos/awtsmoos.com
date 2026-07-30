@@ -4,9 +4,9 @@
 
 /**
  * @file PlayerCombatActionValidation.js
- * @description Rejects forged actions, unavailable unlocks, windows, weapons, and replayed impacts.
+ * @description Rejects forged actions, unavailable unlocks, windows, weapons, and replayed instances.
  * The Awtsmoos distinguishes intention from consequence while no old token may return;
- * Awtsmoos.com keeps a bounded memory of resolved impacts so authority remains firm and clear.
+ * Awtsmoos.com keeps bounded memory of resolved attacks and casts so authority remains clear.
  */
 
 const { RealtimeError } = require('../../platform/RealtimeError.js');
@@ -30,12 +30,17 @@ function requirePlayerCombatAction(player, command, weapon, now = Date.now()) {
 	if (!Number.isFinite(elapsed) || elapsed < action.activeStart || elapsed > action.activeEnd) {
 		throw failure('ACTION_WINDOW_REJECTED', 'The combat action is outside its derived active hit window.');
 	}
-	const token = normalizedImpactToken(command.impactToken);
+	requireCombatImpactToken(player, command.impactToken, now);
+	return action;
+}
+
+function requireCombatImpactToken(player, impactToken, now = Date.now()) {
+	const token = normalizedImpactToken(impactToken);
 	if (!token) throw failure('COMBAT_IMPACT_TOKEN_REQUIRED', 'A combat impact token is required.');
 	if (recentImpactLedger(player, now).some(entry => entry.token === token)) {
 		throw failure('DUPLICATE_COMBAT_IMPACT', 'This combat impact was already resolved.');
 	}
-	return action;
+	return token;
 }
 
 function rememberCombatImpact(player, impactToken, now = Date.now()) {
@@ -85,5 +90,6 @@ module.exports = {
 	IMPACT_LEDGER_LIMIT,
 	IMPACT_LEDGER_RETENTION_MS,
 	rememberCombatImpact,
+	requireCombatImpactToken,
 	requirePlayerCombatAction
 };

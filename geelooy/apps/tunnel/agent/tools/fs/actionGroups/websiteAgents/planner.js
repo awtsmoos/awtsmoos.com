@@ -3,18 +3,18 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const ROLES = [
-	["architect", "Architecture and dependency boundaries"],
-	["transport", "Tunnel transport, liveness, reconnect, and receipts"],
-	["runtime", "Runtime queues, workers, commands, and durable state"],
-	["browser", "Chrome, CDP, Playwright, Puppeteer, and preview control"],
-	["security", "Authentication, privacy, permissions, and secret handling"],
-	["frontend", "User flow, responsive UI, accessibility, and CSS"],
-	["testing", "Focused regression and fault-injection tests"],
-	["stress", "Concurrency, soak, overload, and recovery analysis"],
-	["installer", "Installer, upgrades, rollback, and release manifest"],
-	["reviewer", "Cross-area review, race detection, and integration risks"],
-	["docs", "Agent instructions, operator recovery, and observability"],
-	["verifier", "Independent completion and evidence audit"]
+	["architect", "Architecture and dependency boundaries", "write"],
+	["transport", "Tunnel transport, liveness, reconnect, and receipts", "write"],
+	["runtime", "Runtime queues, workers, commands, and durable state", "write"],
+	["browser", "Chrome, CDP, Playwright, Puppeteer, and preview control", "write"],
+	["security", "Authentication, privacy, permissions, and secret handling", "review"],
+	["frontend", "User flow, responsive UI, accessibility, and CSS", "write"],
+	["testing", "Focused regression and fault-injection tests", "write"],
+	["stress", "Concurrency, soak, overload, and recovery analysis", "review"],
+	["installer", "Installer, upgrades, rollback, and release manifest", "write"],
+	["reviewer", "Cross-area review, race detection, and integration risks", "review"],
+	["docs", "Agent instructions, operator recovery, and observability", "write"],
+	["verifier", "Independent completion and evidence audit", "review"]
 ];
 
 function plan(config = {}, input = {}) {
@@ -22,13 +22,14 @@ function plan(config = {}, input = {}) {
 	const count = agentCount(input);
 	const scopes = scopeCandidates(projectRoot, input);
 	const agents = Array.from({ length: count }, (_, index) => {
-		const [role, focus] = ROLES[index % ROLES.length];
+		const [role, focus, claimMode] = ROLES[index % ROLES.length];
 		const ordinal = String(index + 1).padStart(2, "0");
 		return {
 			id: `website_${ordinal}_${role}`,
 			name: `Website ${capitalize(role)} ${ordinal}`,
 			role,
 			focus,
+			claimMode,
 			scope: scopes[index % scopes.length],
 			ordinal: index + 1
 		};
@@ -40,6 +41,8 @@ function plan(config = {}, input = {}) {
 		minimumAgentCount: 3,
 		startSpacingMs: bounded(input.startSpacingMs, 12000, 10000, 60000),
 		collaborationRounds: bounded(input.collaborationRounds, 2, 1, 8),
+		maxContinuationTurns: bounded(input.maxContinuationTurns, 6, 1, 12),
+		authPollMs: bounded(input.authPollMs, 3000, 1000, 30000),
 		agents
 	};
 }
@@ -61,9 +64,8 @@ function scopeCandidates(projectRoot, input = {}) {
 	const values = [...supplied, ...mentioned, ...discovered]
 		.map(value => normalizeScope(projectRoot, value))
 		.filter(Boolean);
-	return [...new Set(values)].slice(0, 48).length
-		? [...new Set(values)].slice(0, 48)
-		: ["."];
+	const unique = [...new Set(values)].slice(0, 48);
+	return unique.length ? unique : ["."];
 }
 
 function pathMentions(text) {

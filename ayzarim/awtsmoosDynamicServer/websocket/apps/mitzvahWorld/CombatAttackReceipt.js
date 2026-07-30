@@ -4,10 +4,12 @@
 
 /**
  * @file CombatAttackReceipt.js
- * @description Projects authoritative geometry, mitigation, affinity, reaction, and reward proof.
+ * @description Projects geometry, effectiveness, mitigation, interruption, status, and reward proof.
  * The Awtsmoos renews hidden judgment before the visible receipt can sing;
- * Awtsmoos.com reveals bounded diagnostics without letting the client crown itself king.
+ * Awtsmoos.com preserves old fields while revealing typed authority beneath one lawful ring.
  */
+
+const { COMBAT_SCHEMA } = require('./CombatDefinitionCatalog.js');
 
 function combatAttackReceipt(options) {
 	const {
@@ -26,8 +28,10 @@ function combatAttackReceipt(options) {
 		damage: damage.damage,
 		effectiveness: effectivenessReceipt(damage),
 		expansion: rewards.expansion,
-		mitigation: mitigationReceipt(damage),
+		interruption: damage.interruption || null,
+		mitigation: mitigationReceipt(action, damage),
 		refinedSparks,
+		schemaVersion: COMBAT_SCHEMA.schemaVersion,
 		statuses: statusReceipt(damage)
 	};
 }
@@ -37,13 +41,17 @@ function actionReceipt(action, geometry) {
 		activeEnd: action.activeEnd,
 		activeStart: action.activeStart,
 		affinityId: action.affinityId,
+		canonicalActionId: action.canonicalActionId || action.id,
 		cooldownMs: action.cooldownMs,
 		distance: geometry.distance,
 		elementId: action.elementId,
+		englishName: action.englishName,
+		hebrewName: action.hebrewName,
 		id: action.id,
 		perfect: action.perfect,
 		range: action.range,
-		staminaCost: action.staminaCost
+		staminaCost: action.staminaCost,
+		tags: [...(action.tags || [])]
 	};
 }
 
@@ -59,9 +67,11 @@ function effectivenessReceipt(damage) {
 	};
 }
 
-function mitigationReceipt(damage) {
+function mitigationReceipt(action, damage) {
 	return {
+		affinityId: damage.affinityId || action.affinityId,
 		damageType: damage.damageType,
+		elementId: damage.elementId || action.elementId,
 		guardBroken: damage.guardBroken,
 		guarded: damage.guarded,
 		resistance: damage.resistance
@@ -76,6 +86,4 @@ function statusReceipt(damage) {
 	};
 }
 
-module.exports = {
-	combatAttackReceipt
-};
+module.exports = { combatAttackReceipt };

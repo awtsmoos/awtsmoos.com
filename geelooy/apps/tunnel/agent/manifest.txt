@@ -1,5 +1,5 @@
 B"H
-1.0.455
+1.0.456
 main.js
 ai/relay/direct/browser/AuthenticatedHostHealth.mjs
 ai/relay/direct/browser/AuthenticatedHostLease.mjs
@@ -19,6 +19,7 @@ ai/relay/direct/chatgpt/ConversationCompletionPoller.mjs
 ai/relay/direct/chatgpt/ConversationGraphPoller.mjs
 ai/relay/direct/chatgpt/ConversationGraphReducer.mjs
 ai/relay/direct/chatgpt/ConversationModePolicy.mjs
+ai/relay/direct/chatgpt/ConversationRecoveryExecutor.mjs
 ai/relay/direct/chatgpt/ConversationRequestObserver.mjs
 ai/relay/direct/chatgpt/ConversationRouteCapture.mjs
 ai/relay/direct/chatgpt/ConversationRoutePoller.mjs
@@ -1331,7 +1332,9 @@ tools/fs/actionGroups/taskRuntimeActions.js
 tools/fs/actionGroups/virtualChromeActions.js
 tools/fs/actionGroups/virtualOsGraphActions.js
 tools/fs/actionGroups/websiteAgentActions.js
+tools/fs/actionGroups/websiteAgents/authentication.js
 tools/fs/actionGroups/websiteAgents/logout.js
+tools/fs/actionGroups/websiteAgents/outcome.js
 tools/fs/actionGroups/websiteAgents/planner.js
 tools/fs/actionGroups/websiteAgents/prompt.js
 tools/fs/actionGroups/websiteAgents/runner.js

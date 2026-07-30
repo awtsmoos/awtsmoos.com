@@ -11,9 +11,11 @@ const Runner = require("../tools/fs/actionGroups/websiteAgents/runner.js");
 
 (async () => {
 	const calls = [];
+	const sleeps = [];
 	const config = {
 		root,
 		tunnelName: "website-test",
+		websiteMissionSleep: async milliseconds => sleeps.push(milliseconds),
 		directService: {
 			async send(options) {
 				calls.push(options);
@@ -23,13 +25,27 @@ const Runner = require("../tools/fs/actionGroups/websiteAgents/runner.js");
 					at: Date.now()
 				});
 				return {
-					answer: `STATUS\ncomplete\nMESSAGE TO ROOM\n${options.prompt.slice(0, 40)}`,
+					answer: [
+						"STATUS",
+						"COMPLETE",
+						"FINDINGS",
+						"Verified scoped work.",
+						"FILES",
+						"none",
+						"MESSAGE TO ROOM",
+						"Scoped work is verified.",
+						"NEXT",
+						"none"
+					].join("\n"),
 					conversationKey: `BH_DIRECT_TEST_${calls.length}`,
 					completionSource: "page-request-get",
 					sameConversation: true,
 					composerTouched: true,
 					submissionTransport: "chatgpt-website-composer"
 				};
+			},
+			reset() {
+				return { deleted: 1 };
 			}
 		}
 	};
@@ -49,20 +65,30 @@ const Runner = require("../tools/fs/actionGroups/websiteAgents/runner.js");
 		});
 		assert.equal(status.mission.status, "complete");
 		assert.equal(calls.length, 3);
+		assert.deepEqual(sleeps, [12000, 12000]);
 		assert.equal(status.room.agents.length, 4);
 		assert.ok(status.room.messages.some(message =>
 			message.kind === "website-agent-update"
 		));
+		assert.equal(status.room.openDelegations.length, 0);
 		assert.ok(status.mission.agents.every(agent =>
 			agent.hasPrivateContinuation && !("conversationKey" in agent)
 		));
+		const forgotten = await Runner.forget(config, {
+			websiteMissionId: started.mission.id
+		});
+		assert.equal(forgotten.ok, true);
+		assert.equal(forgotten.privateContinuationsDeleted, 3);
 		console.log(JSON.stringify({
 			ok: true,
 			suite: "website-agent-mission-runner",
 			agents: calls.length,
 			leadContinuesNonBlocking: true,
 			privateContinuationsRedacted: true,
-			sharedRoomUpdates: true
+			privateContinuationsDeleted: true,
+			sharedRoomUpdates: true,
+			scopesClaimed: true,
+			startSpacingEnforced: true
 		}, null, 2));
 	} finally {
 		fs.rmSync(root, { recursive: true, force: true });

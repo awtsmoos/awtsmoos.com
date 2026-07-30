@@ -4,9 +4,9 @@
 
 /**
  * @file ShliachProfileState.js
- * @description Creates and restores bounded owner-private affinity progression and loadouts.
- * The Awtsmoos renews old and new saves through one lawful vessel without loss;
- * Awtsmoos.com preserves earned attributes while adding affinity choice beneath a bounded cross.
+ * @description Creates, restores, and strictly updates bounded private affinity progression.
+ * The Awtsmoos renews old saves with mercy while live commands meet exact judgment;
+ * Awtsmoos.com preserves earned attributes yet rejects false affinity and action arrangement.
  */
 
 const { createPlayerAttributes } = require('./PlayerAttributeCatalog.js');
@@ -24,7 +24,7 @@ const AFFINITY_IDS = new Set([
 function createShliachState(source = {}) {
 	return {
 		activePowerups: objectClone(source.activePowerups),
-		affinityLoadout: normalizedLoadout(source.affinityLoadout),
+		affinityLoadout: restoredLoadout(source.affinityLoadout),
 		attributes: createPlayerAttributes(source.attributes),
 		mitzvahPoints: nonNegative(source.mitzvahPoints),
 		schemaVersion: PROFILE_SCHEMA_VERSION,
@@ -41,25 +41,38 @@ function restoreShliachState(record, progression = {}) {
 }
 
 function setShliachLoadout(player, affinityId, actionIds) {
-	player.shliach.affinityLoadout = normalizedLoadout({
-		actionIds,
+	if (!AFFINITY_IDS.has(affinityId)) throw new Error('AFFINITY_NOT_FOUND');
+	if (!Array.isArray(actionIds) || actionIds.length > ACTION_LIMIT) {
+		throw new Error('AFFINITY_LOADOUT_LIMIT');
+	}
+	const uniqueActionIds = [...new Set(actionIds)];
+	for (const actionId of uniqueActionIds) requireAffinityAction(actionId, affinityId);
+	player.shliach.affinityLoadout = {
+		actionIds: uniqueActionIds,
 		selectedAffinityId: affinityId
-	});
+	};
 	return clone(player.shliach.affinityLoadout);
 }
 
-function normalizedLoadout(value = {}) {
+function restoredLoadout(value = {}) {
 	const selectedAffinityId = AFFINITY_IDS.has(value.selectedAffinityId)
 		? value.selectedAffinityId
 		: 'chochmah';
 	const actionIds = [...new Set(Array.isArray(value.actionIds) ? value.actionIds : [])]
-		.filter(actionId => permittedAction(actionId, selectedAffinityId))
+		.filter(actionId => affinityAction(actionId, selectedAffinityId))
 		.slice(0, ACTION_LIMIT);
 	return { actionIds, selectedAffinityId };
 }
 
-function permittedAction(actionId, affinityId) {
-	if (typeof actionId !== 'string' || !actionId.trim()) return false;
+function requireAffinityAction(actionId, affinityId) {
+	const action = playerCombatDefinition(actionId);
+	if (!action) throw new Error(`COMBAT_ACTION_NOT_FOUND:${actionId}`);
+	if (action.affinityId !== affinityId) {
+		throw new Error(`ACTION_AFFINITY_MISMATCH:${actionId}:${affinityId}`);
+	}
+}
+
+function affinityAction(actionId, affinityId) {
 	const action = playerCombatDefinition(actionId);
 	return Boolean(action && action.affinityId === affinityId);
 }
