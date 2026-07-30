@@ -34,9 +34,8 @@ function publicEnemyActionSnapshot(creature) {
 function observerEnemyActionSnapshot(creature, observer, now = Date.now()) {
 	const state = ensureEnemyActionState(creature);
 	const stats = derivedPlayerStats(observer);
-	const statusIds = Array.isArray(observer.combatStatuses)
-		? observer.combatStatuses.map(status => status.id)
-		: [];
+	const statusIds = (observer.combat?.combatStatuses || [])
+		.map(status => status.id);
 	const tier = Math.max(
 		Number(stats.daasInsightTier || 0),
 		combatInsightTier(observer.shliach?.attributes?.daas, statusIds)

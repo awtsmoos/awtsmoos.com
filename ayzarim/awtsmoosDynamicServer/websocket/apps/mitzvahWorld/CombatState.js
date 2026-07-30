@@ -4,18 +4,22 @@
 
 /**
  * @file CombatState.js
- * @description Creates and projects bounded health, stamina, guard, defeat, and replay state.
- * The Awtsmoos renews strength and vulnerability while no resolved token grows without end;
+ * @description Creates and projects bounded health, stamina, guard, status, defeat, and replay state.
+ * The Awtsmoos renews strength and vulnerability while no status or token grows without end;
  * Awtsmoos.com keeps combat finite, migratable, inspectable, and ready to mend.
  */
 
-const RECENT_IMPACT_LIMIT = 64;
+const {
+	restoredImpactTokens,
+	restoredStatuses
+} = require('./CombatStateRestore.js');
 
 function createCombatState(options = {}) {
 	const maximumHealth = Number(options.maximumHealth || 100);
 	const maximumStamina = Number(options.maximumStamina || 100);
 	const maximumGuardStamina = Number(options.maximumGuardStamina || 100);
 	return {
+		combatStatuses: [],
 		defeatedAt: null,
 		guardActionId: null,
 		guardBrokenUntil: null,
@@ -40,6 +44,7 @@ function restoreCombatState(combat = {}) {
 	return {
 		...defaults,
 		...combat,
+		combatStatuses: restoredStatuses(combat.combatStatuses),
 		guardStamina: bounded(
 			combat.guardStamina ?? defaults.guardStamina,
 			0,
@@ -52,6 +57,7 @@ function restoreCombatState(combat = {}) {
 }
 
 function reviveCombatState(combat) {
+	combat.combatStatuses = [];
 	combat.defeatedAt = null;
 	combat.guardActionId = null;
 	combat.guardBrokenUntil = null;
@@ -67,7 +73,7 @@ function reviveCombatState(combat) {
 }
 
 function combatSnapshot(combat) {
-	return JSON.parse(JSON.stringify({
+	return clone({
 		defense: {
 			actionId: combat.guardActionId,
 			brokenUntil: combat.guardBrokenUntil,
@@ -79,31 +85,17 @@ function combatSnapshot(combat) {
 		maximumHealth: combat.maximumHealth,
 		maximumStamina: combat.maximumStamina,
 		stamina: combat.stamina,
-		status: combat.status
-	}));
-}
-
-function restoredImpactTokens(combat) {
-	const source = Array.isArray(combat.recentImpactTokens)
-		? combat.recentImpactTokens
-		: legacyImpactTokens(combat);
-	return source
-		.filter(entry => entry && typeof entry.token === 'string')
-		.map(entry => ({
-			at: Number.isFinite(Number(entry.at)) ? Number(entry.at) : 0,
-			token: entry.token.slice(0, 160)
-		}))
-		.slice(-RECENT_IMPACT_LIMIT);
-}
-
-function legacyImpactTokens(combat) {
-	return combat.lastImpactToken
-		? [{ at: Date.now(), token: String(combat.lastImpactToken) }]
-		: [];
+		status: combat.status,
+		statuses: restoredStatuses(combat.combatStatuses)
+	});
 }
 
 function bounded(value, minimum, maximum) {
 	return Math.max(minimum, Math.min(maximum, Number(value)));
+}
+
+function clone(value) {
+	return JSON.parse(JSON.stringify(value));
 }
 
 module.exports = {
