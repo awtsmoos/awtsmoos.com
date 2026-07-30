@@ -1,10 +1,46 @@
 // B"H
+const { fail, packet } = require('./core/json.js');
 const { routeTable } = require('./routes/table.js');
-const { fail } = require('./core/json.js');
-function clean(name) { return String(name || '').split('?')[0].split('#')[0].replace(/^\/+|\/+$/g, ''); }
-async function call($i, name, vars) {
-  const key = clean(name); const handler = routeTable[key] || routeTable[''];
-  if (!handler) return fail('youtube_route_not_found', 404, { route:key, available:Object.keys(routeTable) });
-  try { return await handler($i, vars || {}); } catch (e) { return fail(e.message || 'youtube_route_failed', 500, { stack:e.stack }); }
+
+function clean(value) {
+	return String(value || '').split('?')[0].split('#')[0].replace(/^\/+|\/+$/g, '');
 }
-module.exports = { dynamicRoutes: async $i => { $i.response.setHeader('Access-Control-Allow-Origin', '*'); $i.response.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS'); $i.response.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization'); $i.response.setHeader('Cache-Control', 'no-store'); await $i.use('', v => call($i, '', v)); await $i.use(':a', v => call($i, v.a, v)); await $i.use(':a/:b', v => call($i, `${v.a}/${v.b}`, v)); } };
+
+async function call($i, name, variables) {
+	const route = clean(name);
+	const handler = routeTable[route];
+	if (!handler) return fail('youtube_route_not_found', 404, { route, available: Object.keys(routeTable).sort() });
+	try {
+		return await handler($i, variables || {});
+	} catch (error) {
+		console.error('B"H YouTube route failed', route, error?.code || error?.message);
+		return fail(error, error?.statusCode || 500);
+	}
+}
+
+function options() {
+	return packet({ BH: 'B"H', ok: true }, 204, {
+		Allow: 'GET, POST, PUT, DELETE, OPTIONS',
+		'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+		'Access-Control-Allow-Headers': 'Content-Type'
+	});
+}
+
+module.exports = {
+	dynamicRoutes: async $i => {
+		$i.response.setHeader('Cache-Control', 'private, no-store, max-age=0');
+		$i.response.setHeader('Referrer-Policy', 'same-origin');
+		$i.response.setHeader('X-Content-Type-Options', 'nosniff');
+		if (String($i.request.method || '').toUpperCase() === 'OPTIONS') {
+			await $i.use('', options);
+			await $i.use(':a', options);
+			await $i.use(':a/:b', options);
+			await $i.use(':a/:b/:c', options);
+			return;
+		}
+		await $i.use('', variables => call($i, '', variables));
+		await $i.use(':a', variables => call($i, variables.a, variables));
+		await $i.use(':a/:b', variables => call($i, `${variables.a}/${variables.b}`, variables));
+		await $i.use(':a/:b/:c', variables => call($i, `${variables.a}/${variables.b}/${variables.c}`, variables));
+	}
+};

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Awtsmoos YouTube Manager</title>
+	<link rel="stylesheet" href="youtube.css">
+</head>
+<body>
+	<header>
+		<span>B"H</span>
+		<h1>Awtsmoos YouTube Manager</h1>
+		<p>Connect a channel, upload directly to YouTube, and update owned videos.</p>
+	</header>
+	<main>
+		<section class="card" id="connection-card">
+			<h2>Channel connection</h2>
+			<p id="connection-status">Checking configuration…</p>
+			<div class="actions" id="connection-actions">
+				<a id="connect" class="button" href="/api/youtube/auth/start?mode=read&returnTo=/youtube/">Connect YouTube</a>
+				<a id="enable-upload" class="button" href="/api/youtube/auth/start?mode=upload&returnTo=/youtube/" hidden>Enable uploads</a>
+				<a id="enable-manage" class="button" href="/api/youtube/auth/start?mode=manage&returnTo=/youtube/" hidden>Enable video editing</a>
+				<button id="disconnect" type="button" class="secondary" hidden>Disconnect</button>
+			</div>
+			<div id="channel" class="channel" hidden></div>
+		</section>
+
+		<section class="card upload-protected" hidden>
+			<h2>Upload a video</h2>
+			<form id="upload-form">
+				<label>Video file<input id="video-file" type="file" accept="video/*" required></label>
+				<label>Title<input id="upload-title" maxlength="100" required></label>
+				<label>Description<textarea id="upload-description" maxlength="5000"></textarea></label>
+				<label>Privacy<select id="upload-privacy"><option>private</option><option>unlisted</option><option>public</option></select></label>
+				<label class="check"><input id="upload-kids" type="checkbox"> Made for kids</label>
+				<button type="submit">Start upload</button>
+			</form>
+			<progress id="upload-progress" max="100" value="0"></progress>
+			<p id="upload-message"></p>
+		</section>
+
+		<section class="card manage-protected" hidden>
+			<h2>Update an owned video</h2>
+			<button id="refresh-videos" type="button" class="secondary">Refresh videos</button>
+			<select id="video-picker"><option value="">Choose a video</option></select>
+			<form id="update-form">
+				<label>Video ID<input id="update-id" required></label>
+				<label>New title<input id="update-title" maxlength="100"></label>
+				<label>New description<textarea id="update-description" maxlength="5000"></textarea></label>
+				<label>Privacy<select id="update-privacy"><option value="">Keep current</option><option>private</option><option>unlisted</option><option>public</option></select></label>
+				<button type="submit">Update video</button>
+			</form>
+			<p id="update-message"></p>
+		</section>
+	</main>
+	<script type="module" src="youtube.js"></script>
+</body>
+</html>
