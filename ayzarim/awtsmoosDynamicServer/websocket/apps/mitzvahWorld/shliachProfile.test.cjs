@@ -20,18 +20,20 @@ function player() {
 	return createPlayer({ displayName: 'Test Shliach', id: 'player-test' });
 }
 
-test('new players receive five private attributes, three points, and equipped power', () => {
+test('new players receive seven private attributes, three points, and equipped power', () => {
 	const value = player();
 	assert.deepEqual(value.shliach.attributes, {
 		binah: 1,
 		chochmah: 1,
 		daas: 1,
 		gevurah: 1,
-		haganah: 1
+		haganah: 1,
+		malchus: 1,
+		zeirAnpin: 1
 	});
 	assert.equal(value.shliach.unspentPoints, 3);
 	const publicValue = snapshotPlayer(value);
-	assert.equal(publicValue.shliach.powerRating, 76);
+	assert.equal(publicValue.shliach.powerRating, 86);
 	assert.equal(publicValue.shliach.attributes, undefined);
 	assert.equal(publicValue.wallet, undefined);
 });

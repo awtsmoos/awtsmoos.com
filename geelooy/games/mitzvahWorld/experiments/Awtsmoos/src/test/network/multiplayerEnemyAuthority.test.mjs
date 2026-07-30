@@ -27,8 +27,8 @@ test('B"H deployed enemy authority owns attack, corpse, loot, and visibility', a
 	runtime.enemies.actors.push(actor);
 	const client = {
 		mmorpg: { rpg: {
-			attack: async (creatureId, weaponId, intent) => {
-				calls.push(['attack', creatureId, weaponId, intent]);
+			attack: async (creatureId, action) => {
+				calls.push(['attack', creatureId, action]);
 				return { payload: {
 					adventures: {},
 					creature: creature('defeated', 0, 'available'),
@@ -54,7 +54,12 @@ test('B"H deployed enemy authority owns attack, corpse, loot, and visibility', a
 	assert.equal(bridge.rangeFor(), 4.2);
 	const attacked = await bridge.attack(actor, 'hebrew-fire');
 	assert.equal(attacked.damage, 9);
-	assert.deepEqual(calls[0], ['attack', 'dybbuk-1', 'wooden-staff', 'defense']);
+	assert.equal(calls[0][0], 'attack');
+	assert.equal(calls[0][1], 'dybbuk-1');
+	assert.equal(calls[0][2].actionId, 'hebrew-fire');
+	assert.equal(calls[0][2].weaponId, 'wooden-staff');
+	assert.equal(calls[0][2].intent, 'defense');
+	assert.match(calls[0][2].impactToken, /^player:/);
 	assert.equal(actor.alive, false);
 	assert.equal(dedicatedDefeats, 1);
 	await bridge.claimLoot(actor);

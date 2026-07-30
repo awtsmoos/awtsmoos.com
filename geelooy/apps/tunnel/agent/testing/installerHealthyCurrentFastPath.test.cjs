@@ -59,11 +59,32 @@ try {
 	assert.match(changedWorkspace.stdout, /stop_existing_runtime/);
 	assert.match(changedWorkspace.stdout, /journal:repaired_current/);
 
+	const offlineHealthy = runOffline({ AWTS_TEST_LOCAL_READY: "1" });
+	assert.equal(
+		offlineHealthy.status,
+		0,
+		`${offlineHealthy.stdout}\n${offlineHealthy.stderr}`
+	);
+	assert.match(offlineHealthy.stdout, /journal:verified_current_healthy_offline/);
+	assert.doesNotMatch(offlineHealthy.stdout, /stop_existing_runtime/);
+	assert.match(offlineHealthy.stdout, /candidate_version=8\.8\.8/);
+
+	const offlineStalled = runOffline({ AWTS_TEST_LOCAL_READY: "0" });
+	assert.equal(
+		offlineStalled.status,
+		0,
+		`${offlineStalled.stdout}\n${offlineStalled.stderr}`
+	);
+	assert.match(offlineStalled.stdout, /stop_existing_runtime/);
+	assert.match(offlineStalled.stdout, /journal:repaired_current_offline/);
+
 	console.log(JSON.stringify({
 		ok: true,
 		suite: "installer-healthy-current-fast-path",
 		healthyCurrentPreservesPid: true,
 		newInstallActivationDoesNotInvalidateCurrentRuntime: true,
+		offlineHealthyCurrentPreservesPid: true,
+		offlineStalledCurrentSelfRepairs: true,
 		executorStallRestarts: true,
 		staleReceiptRestarts: true,
 		changedWorkspaceRestarts: true
@@ -113,6 +134,47 @@ printf 'fast_repair_completed=%s\\n' "$FAST_REPAIR_COMPLETED"
 		env: {
 			...process.env,
 			AWTSMOOS_ACTIVATION_ID: "activation-for-new-installer-transaction",
+			...environment
+		}
+	});
+}
+
+function runOffline(environment) {
+	const root = path.join(sandbox, `root-${Math.random().toString(36).slice(2)}`);
+	fs.mkdirSync(root, { recursive: true });
+	fs.writeFileSync(path.join(root, "agent.pid"), "4242\n");
+	fs.writeFileSync(path.join(root, "install-state.txt"), "8.8.8\n");
+	const script = `set -Eeuo pipefail
+ROOT=${shellQuote(root)}
+CANDIDATE_VERSION=
+installed_runtime_self_verified(){ return 0; }
+install_progress(){ :; }
+install_event(){ printf 'event:%s:%s\\n' "$1" "$2"; }
+skip_start_requested(){ return 1; }
+runtime_pid_matches(){ return 0; }
+runtime_registered(){ return 0; }
+local_runtime_action_ready(){ [ "\${AWTS_TEST_LOCAL_READY:-1}" = "1" ]; }
+project_root_receipt_matches_runtime(){ return 0; }
+service_supervision_stable(){ return 0; }
+service_health_summary(){ printf 'supervisors=1 agents=1'; }
+write_activation_journal(){ printf 'journal:%s\\n' "$1"; }
+stop_existing_runtime(){ printf 'stop_existing_runtime\\n'; }
+migrate_runtime_device_state(){ :; }
+write_supervisor(){ :; }
+persist_node_runtime(){ :; }
+clear_runtime_coordination_state(){ :; }
+start_supervisor(){ printf 'start_supervisor\\n'; }
+candidate_is_stably_active(){ return 0; }
+connection_state_name(){ printf registered; }
+project_root_health_summary(){ printf root=ready; }
+source ${shellQuote(fastRepair)}
+repair_self_verified_installed_release
+printf 'fast_repair_completed=%s candidate_version=%s\\n' "$FAST_REPAIR_COMPLETED" "$CANDIDATE_VERSION"
+`;
+	return spawnSync("bash", ["-c", script], {
+		encoding: "utf8",
+		env: {
+			...process.env,
 			...environment
 		}
 	});

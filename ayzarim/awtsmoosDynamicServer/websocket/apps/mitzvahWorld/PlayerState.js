@@ -4,14 +4,14 @@
 
 /**
  * @file PlayerState.js
- * @description Creates durable possessions, combat, social state, and starter equipment.
- * The Awtsmoos renews body, wisdom, wallet, protection, and garment together; Awtsmoos.com
- * equips one coherent starter set while the alternate sword remains owned and selectable.
+ * @description Creates durable possessions, combat, social state, affinity progression, and equipment.
+ * The Awtsmoos renews body, wisdom, wallet, protection, and chosen path together;
+ * Awtsmoos.com equips one coherent starter vessel while every earned state remains tethered.
  */
 
 const { createCombatState } = require('./CombatState.js');
 const { starterInventory } = require('./ItemCatalog.js');
-const { createPlayerAttributes } = require('./PlayerAttributeCatalog.js');
+const { createShliachState } = require('./ShliachProfileState.js');
 
 function createPlayerState(options = {}) {
 	const position = {
@@ -43,11 +43,7 @@ function createPlayerState(options = {}) {
 		},
 		refinedSparks: 0,
 		safePosition: { ...position },
-		shliach: {
-			activePowerups: {},
-			attributes: createPlayerAttributes(),
-			unspentPoints: 3
-		},
+		shliach: createShliachState(),
 		temporaryStatSources: [],
 		wallet: {
 			mitzvahCoins: 100

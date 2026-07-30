@@ -4,9 +4,9 @@
 
 /**
  * @file WorldRoomStateRecord.js
- * @description Captures durable players, creatures, possessions, social truth, and public effects.
- * The Awtsmoos renews courage and repaired crossings beyond process replacement; Awtsmoos.com
- * omits transport and animation while preserving lawful personal, social, and public world results.
+ * @description Captures and restores durable players, creatures, possessions, social truth, and effects.
+ * The Awtsmoos renews courage and affinity beyond process replacement without losing a deed;
+ * Awtsmoos.com omits transport while preserving lawful personal, social, combat, and world seed.
  */
 
 const { restoreCombatState } = require('./CombatState.js');
@@ -15,6 +15,7 @@ const {
 	restoreCreatureState
 } = require('./CreatureStateRecord.js');
 const { createPlayerState } = require('./PlayerState.js');
+const { restoreShliachState } = require('./ShliachProfileState.js');
 const { sanitizeSocialState } = require('./WorldSocialStateFilter.js');
 
 function captureRoomState(room) {
@@ -54,18 +55,21 @@ function restoreRoomState(directory, roomRecord, survivingPlayerIds) {
 
 function restorePlayer(record) {
 	const defaults = createPlayerState(record.position || {});
+	const progression = clone(record.progression || {});
 	return {
 		...defaults,
 		...clone(record),
-		connected: false,
 		adventureQuests: clone(record.adventureQuests || defaults.adventureQuests),
 		combat: restoreCombatState(record.combat || defaults.combat),
+		connected: false,
 		equipment: clone(record.equipment || defaults.equipment),
 		inventory: clone(record.inventory || defaults.inventory),
 		mailbox: clone(record.mailbox || defaults.mailbox),
 		profile: clone(record.profile || defaults.profile),
+		progression,
 		refinedSparks: Math.max(0, Number(record.refinedSparks || 0)),
 		safePosition: clone(record.safePosition || defaults.safePosition),
+		shliach: restoreShliachState(record.shliach || defaults.shliach, progression),
 		wallet: clone(record.wallet || defaults.wallet)
 	};
 }

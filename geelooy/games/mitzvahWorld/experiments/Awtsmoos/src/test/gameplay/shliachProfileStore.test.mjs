@@ -28,9 +28,11 @@ test('local defaults match the authoritative server formulas', () => {
 		chochmah: 1,
 		daas: 1,
 		gevurah: 1,
-		haganah: 1
+		haganah: 1,
+		malchus: 1,
+		zeirAnpin: 1
 	});
-	assert.equal(state.derived.powerRating, 35);
+	assert.equal(state.derived.powerRating, 45);
 	assert.equal(state.derived.armor, 3);
 	assert.equal(state.derived.focusMaximum, 24);
 	assert.equal(state.perutas, 120);
@@ -82,6 +84,6 @@ test('server synchronization replaces private profile truth', () => {
 	const state = profile.snapshot();
 	assert.equal(state.level, 7);
 	assert.equal(state.perutas, 44);
-	assert.equal(state.derived.powerRating, 170);
+	assert.equal(state.derived.powerRating, 180);
 	assert.equal(state.derived.armor, 18);
 });

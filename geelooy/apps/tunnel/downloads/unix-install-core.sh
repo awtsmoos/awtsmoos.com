@@ -91,7 +91,16 @@ cleanup_disposable_state "$(pwd)"
 
 install_progress 21 "Preserving durable identity and browser state"
 migrate_dynamic_state
-load_release_metadata
+if ! load_release_metadata; then
+	if repair_self_verified_installed_release; then
+		install_progress 97 "Current sealed release preserved while the network recovers"
+		complete_install_experience "$(activation_phase)"
+		exit 0
+	fi
+	install_fail "release-metadata" \
+		"Published release metadata is unavailable and no healthy sealed local runtime could be verified." \
+		"origin=$origin root=$ROOT"
+fi
 apply_installed_version_policy
 if version_policy_blocks_replacement; then
 	if repair_matching_release; then

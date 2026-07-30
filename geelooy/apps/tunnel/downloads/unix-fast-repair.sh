@@ -65,3 +65,48 @@ repair_matching_release() {
 	stop_existing_runtime || true
 	return 1
 }
+
+# If Awtsmoos.com is momentarily unreachable, preserve or repair a release that
+# can prove its own committed manifest and complete runtime seal. This does not
+# claim that no newer release exists; it truthfully guarantees that reinstalling
+# never destroys an already healthy tunnel merely because metadata transport
+# suffered a transient reset.
+repair_self_verified_installed_release() {
+	installed_runtime_self_verified || return 1
+	CANDIDATE_VERSION="$(cat "$ROOT/install-state.txt" 2>/dev/null || true)"
+	export CANDIDATE_VERSION
+	install_event "release-metadata" "warning" \
+		"Published metadata is temporarily unavailable; using the locally sealed committed release." \
+		"version=$CANDIDATE_VERSION root=$ROOT"
+	if skip_start_requested; then
+		FAST_REPAIR_COMPLETED=1
+		write_activation_journal "verified_current_offline_start_skipped" "$ROOT" "$ROOT"
+		return 0
+	fi
+	if current_runtime_is_stably_healthy; then
+		FAST_REPAIR_COMPLETED=1
+		write_activation_journal "verified_current_healthy_offline" "$ROOT" "$ROOT"
+		install_event "fast-repair" "passed" \
+			"Locally sealed current release and guardian are healthy; network failure caused no restart." \
+			"version=$CANDIDATE_VERSION $(service_health_summary)"
+		return 0
+	fi
+	stop_existing_runtime
+	migrate_runtime_device_state "$ROOT"
+	write_supervisor
+	persist_node_runtime "$ROOT"
+	clear_runtime_coordination_state
+	start_supervisor
+	if candidate_is_stably_active; then
+		FAST_REPAIR_COMPLETED=1
+		write_activation_journal "repaired_current_offline" "$ROOT" "$ROOT"
+		install_event "fast-repair" "passed" \
+			"Locally sealed current release recovered while published metadata was unavailable." \
+			"version=$CANDIDATE_VERSION $(service_health_summary)"
+		return 0
+	fi
+	install_event "fast-repair" "warning" \
+		"Locally sealed release could not recover inside the bounded readiness window." \
+		"state=$(connection_state_name) $(project_root_health_summary)"
+	return 1
+}
