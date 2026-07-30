@@ -4,7 +4,7 @@
 
 /**
  * @file CombatDefinitionRecords.js
- * @description Generated canonical combat truth. Source SHA-256: d8cebd44d03ac38d4ed8a341ebedc3d4b4fa7fd5ff3249a9c584a0d7239015b2.
+ * @description Generated canonical combat truth. Source SHA-256: b09795d93144ec1ed483a12265e17668c5e826dab7b1d50fddbc072bd1b62bdb.
  * The Awtsmoos renews one source through both vessels; Awtsmoos.com keeps parity whole.
  */
 
@@ -633,6 +633,7 @@ export const ENEMY_ACTION_DEFINITIONS = deepFreeze({
 		"tags": [
 			"melee"
 		],
+		"applyStatusIds": [],
 		"interruptResistance": 10,
 		"danger": "measured",
 		"counterGuidance": "Block toward the creature or step outside its short reach."
@@ -646,6 +647,9 @@ export const ENEMY_ACTION_DEFINITIONS = deepFreeze({
 		"tags": [
 			"melee",
 			"guard-damage"
+		],
+		"applyStatusIds": [
+			"grounded"
 		],
 		"interruptResistance": 34,
 		"danger": "high",
@@ -661,6 +665,9 @@ export const ENEMY_ACTION_DEFINITIONS = deepFreeze({
 			"ranged",
 			"projectile"
 		],
+		"applyStatusIds": [
+			"illuminated"
+		],
 		"interruptResistance": 18,
 		"danger": "measured",
 		"counterGuidance": "Sidestep the ray or use a grounded defense."
@@ -674,6 +681,9 @@ export const ENEMY_ACTION_DEFINITIONS = deepFreeze({
 		"tags": [
 			"area",
 			"wave"
+		],
+		"applyStatusIds": [
+			"soaked"
 		],
 		"interruptResistance": 26,
 		"danger": "high",
@@ -689,6 +699,7 @@ export const ENEMY_ACTION_DEFINITIONS = deepFreeze({
 			"dodge",
 			"movement"
 		],
+		"applyStatusIds": [],
 		"interruptResistance": 0,
 		"danger": "movement",
 		"counterGuidance": "Track the new angle instead of striking the old position."
@@ -702,6 +713,9 @@ export const ENEMY_ACTION_DEFINITIONS = deepFreeze({
 		"tags": [
 			"heal",
 			"channel"
+		],
+		"applyStatusIds": [
+			"flowing"
 		],
 		"interruptResistance": 20,
 		"danger": "support",
@@ -717,6 +731,9 @@ export const ENEMY_ACTION_DEFINITIONS = deepFreeze({
 			"melee",
 			"burn"
 		],
+		"applyStatusIds": [
+			"burning"
+		],
 		"interruptResistance": 16,
 		"danger": "measured",
 		"counterGuidance": "Parry the bright letter-flash before impact."
@@ -730,6 +747,7 @@ export const ENEMY_ACTION_DEFINITIONS = deepFreeze({
 		"tags": [
 			"guard"
 		],
+		"applyStatusIds": [],
 		"interruptResistance": 42,
 		"danger": "defense",
 		"counterGuidance": "Use guard damage or wait for the stone shell to recede."
@@ -744,6 +762,7 @@ export const ENEMY_ACTION_DEFINITIONS = deepFreeze({
 			"summon",
 			"channel"
 		],
+		"applyStatusIds": [],
 		"interruptResistance": 30,
 		"danger": "critical",
 		"counterGuidance": "Interrupt before the final burning letter appears."
@@ -758,6 +777,7 @@ export const ENEMY_ACTION_DEFINITIONS = deepFreeze({
 			"enrage",
 			"phase"
 		],
+		"applyStatusIds": [],
 		"interruptResistance": 50,
 		"danger": "critical",
 		"counterGuidance": "Prepare water and interruption before the phase completes."
@@ -772,6 +792,9 @@ export const ENEMY_ACTION_DEFINITIONS = deepFreeze({
 			"boss",
 			"melee",
 			"area"
+		],
+		"applyStatusIds": [
+			"grounded"
 		],
 		"interruptResistance": 48,
 		"danger": "critical",
@@ -788,6 +811,7 @@ export const ENEMY_ACTION_DEFINITIONS = deepFreeze({
 			"retreat",
 			"movement"
 		],
+		"applyStatusIds": [],
 		"interruptResistance": 0,
 		"danger": "movement",
 		"counterGuidance": "Do not chase into the next telegraph; regain formation."
