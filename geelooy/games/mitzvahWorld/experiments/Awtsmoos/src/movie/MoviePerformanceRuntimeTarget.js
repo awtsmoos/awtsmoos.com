@@ -9,6 +9,7 @@
  * transform, animation, action, capability, and stable identity one truthful cinematic rhyme.
  */
 
+import { applyMoviePerformanceAnimation } from './MoviePerformanceAnimationPlayback.js';
 import { moviePerformanceCapabilitySnapshot } from './MoviePerformanceCapabilities.js';
 import {
 	applyMoviePerformanceTransform,
@@ -36,11 +37,10 @@ export class MoviePerformanceRuntimeTarget {
 	}
 
 	currentAnimation() {
-		if (this.kind === 'player') {
-			return this.runtime.state?.clip || this.runtime.state?.action || 'idle';
-		}
-		return this.actions?.snapshot?.().active?.definitionId
-			|| this.state.movementState
+		return this.player?.current?.name
+			|| this.runtime?.playerAnimation?.player?.current?.name
+			|| this.runtime?.state?.clip
+			|| this.state?.movementState
 			|| 'idle';
 	}
 
@@ -60,14 +60,18 @@ export class MoviePerformanceRuntimeTarget {
 		return applyMoviePerformanceTransform(this, sample);
 	}
 
-	triggerAction(actionId, payload = {}) {
-		const registry = this.actions?.registry || this.runtime?.playerActionRegistry;
-		const definition = registry?.get?.(actionId);
+	applyAnimation(sample) {
+		return applyMoviePerformanceAnimation(this, sample);
+	}
+
+	triggerAction(actionId, payload = {}, phase = 'start') {
+		const definition = this.actionCapabilities().find(item => item.id === actionId);
 		if (!definition) {
-			return { accepted: false, reason: 'ACTION_UNAVAILABLE', actionId };
+			return { accepted: false, actionId, reason: 'ACTION_UNAVAILABLE' };
 		}
 		const message = {
-			payload,
+			...payload,
+			phase,
 			type: definition.messageType
 		};
 		return this.kind === 'player'

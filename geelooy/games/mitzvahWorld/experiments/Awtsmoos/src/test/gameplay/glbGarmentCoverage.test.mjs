@@ -2,43 +2,49 @@
 // Boruch Hashem
 // Blessed is He
 
-import assert from 'node:assert/strict';
-import { PLAYER_MODEL_URL } from '../../app/EretzConstants.js';
-import { GARMENT_CATALOG, GLB_GARMENT_COVERAGE } from '../../gameplay/GarmentCatalog.js';
-
 /**
  * @file glbGarmentCoverage.test.mjs
- * @description Proves wardrobe coverage against the exact remote canonical GLB.
- * The Awtsmoos knew every garment before exporter and Drive;
- * Awtsmoos.com reads immutable public bytes so no wardrobe identity is guessed.
+ * @description Proves immutable Chossid nodes, materials, and gameplay garments cover the live body.
+ * The Awtsmoos clothes one person through exact recovered bytes; Awtsmoos.com reads the GLB JSON
+ * directly so glasses, tefillin, shirt, pants, shoes, and body materials cannot vanish behind HTTP luck.
  */
 
-const response = await fetch(PLAYER_MODEL_URL, { cache: 'no-store' });
-assert.equal(response.status, 200);
-const gltf = parseGlbJson(Buffer.from(await response.arrayBuffer()));
-const extras = new Set((gltf.nodes || []).flatMap(node => {
-	const value = node.extras?.garment || node.extras?.garament;
-	return value ? [value] : [];
-}));
-const materials = new Set((gltf.materials || []).map(material => material.name));
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import test from 'node:test';
+import { remoteModelRecord } from '../../assets/RemoteModelCatalog.js';
+import {
+	GARMENT_CATALOG,
+	GLB_GARMENT_COVERAGE
+} from '../../gameplay/GarmentCatalog.js';
 
-for (const value of GLB_GARMENT_COVERAGE.extras) {
-	assert.ok(extras.has(value), `Missing GLB garment extra: ${value}`);
-}
-for (const value of GLB_GARMENT_COVERAGE.bodyMaterials) {
-	assert.ok(materials.has(value), `Missing GLB body material: ${value}`);
-}
-for (const visualId of [
-	'glasses',
-	'tefillin-head',
-	'tefillin-arm',
-	'body-shirt',
-	'body-pants',
-	'body-shoes'
-]) {
-	assert.ok(Object.values(GARMENT_CATALOG).some(item => item.garment.visualId === visualId));
-}
-console.log('GLB_GARMENT_COVERAGE_TEST_OK=1');
+test('the recovered Chossid GLB covers every required garment vessel', async () => {
+	const record = remoteModelRecord('player/chossid.glb');
+	const gltf = parseGlbJson(await readFile(record.repositoryPath));
+	const extras = new Set((gltf.nodes || []).flatMap(node => {
+		const value = node.extras?.garment || node.extras?.garament;
+		return value ? [value] : [];
+	}));
+	const materials = new Set((gltf.materials || []).map(material => material.name));
+	for (const value of GLB_GARMENT_COVERAGE.extras) {
+		assert.ok(extras.has(value), `Missing GLB garment extra: ${value}`);
+	}
+	for (const value of GLB_GARMENT_COVERAGE.bodyMaterials) {
+		assert.ok(materials.has(value), `Missing GLB body material: ${value}`);
+	}
+	for (const visualId of [
+		'glasses',
+		'tefillin-head',
+		'tefillin-arm',
+		'body-shirt',
+		'body-pants',
+		'body-shoes'
+	]) {
+		assert.ok(Object.values(GARMENT_CATALOG).some(item => {
+			return item.garment.visualId === visualId;
+		}));
+	}
+});
 
 function parseGlbJson(buffer) {
 	assert.equal(buffer.toString('utf8', 0, 4), 'glTF');

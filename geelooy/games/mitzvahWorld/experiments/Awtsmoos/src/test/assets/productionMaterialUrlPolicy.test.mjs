@@ -4,9 +4,9 @@
 
 /**
  * @file productionMaterialUrlPolicy.test.mjs
- * @description Proves textures and models use separate verified remote contracts.
- * The Awtsmoos opens one Drive root with distinct measured gates;
- * Awtsmoos.com rejects local, inline, reduced, preview, and foreign pathways.
+ * @description Proves textures and immutable same-origin models use distinct verified contracts.
+ * The Awtsmoos guides each media family through its truthful gate; Awtsmoos.com rejects inline,
+ * reduced, preview, foreign, and mutable pathways while preserving exact model hashes.
  */
 
 import assert from 'node:assert/strict';
@@ -19,9 +19,7 @@ import {
 	fullResolutionTextureUrl,
 	remoteTexturePathUrl
 } from '../../assets/RemoteTextureTransport.js';
-import {
-	isTrustedRemoteModelUrl
-} from '../../assets/RemoteModelCatalog.js';
+import { isTrustedRemoteModelUrl } from '../../assets/RemoteModelCatalog.js';
 import { flowerModelUrl } from '../../assets/PublicMaterialResolver.js';
 
 const GRASS = fullResolutionTextureUrl('grass 1.png');
@@ -36,10 +34,13 @@ test('documented remote texture URLs are accepted unchanged', () => {
 	assert.deepEqual(productionMaterialFallbacks([GRASS, BARK], 'ground'), [GRASS, BARK]);
 });
 
-test('the flower model uses verified content-addressed Drive truth', () => {
+test('the flower model uses immutable same-origin repository truth', () => {
 	const url = flowerModelUrl();
 	assert.equal(isTrustedRemoteModelUrl(url), true);
-	assert.match(url, /\/assets\/mitzvah-world\/models\/reference-world\/[a-f0-9]{64}\/Flower_4_Clump\.glb$/);
+	assert.match(
+		url,
+		/\/geelooy\/games\/mitzvahWorld\/assets\/models\/reference-world\/[a-f0-9]{64}\/Flower_4_Clump\.glb$/
+	);
 	assert.throws(() => assertProductionMaterialUrl(url, 'model'), /remote HTTPS origin/);
 });
 

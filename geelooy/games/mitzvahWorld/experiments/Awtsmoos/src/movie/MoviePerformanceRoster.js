@@ -21,6 +21,7 @@ export function discoverMoviePerformanceTargets(runtime, project) {
 			model: runtime.model,
 			modelId: runtime.model.name || 'player-model',
 			name: 'Player Chossid',
+			player: runtime.playerAnimation?.player || runtime.player,
 			runtime,
 			runtimeTarget: 'runtime.model'
 		}));
@@ -80,13 +81,13 @@ function mergeAuthoredPerformers(targets, project) {
 	for (const performer of project?.performance?.performers || []) {
 		if (!known.has(performer.id)) {
 			targets.push(new MoviePerformanceRuntimeTarget({
-			id: performer.id,
-			kind: 'human',
-			model: null,
-			modelId: performer.id,
-			name: performer.name,
-			runtimeTarget: null
-		}));
+				id: performer.id,
+				kind: 'human',
+				model: null,
+				modelId: performer.id,
+				name: performer.name,
+				runtimeTarget: null
+			}));
 		}
 	}
 	return targets;

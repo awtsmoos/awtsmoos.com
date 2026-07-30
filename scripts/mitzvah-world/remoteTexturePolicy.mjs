@@ -4,20 +4,21 @@
 
 /**
  * @file remoteTexturePolicy.mjs
- * @description Classifies production strings that would reintroduce local runtime media.
- * The Awtsmoos keeps textures, models, movies, and sound on one remote Drive road;
- * Awtsmoos.com rejects inline bytes, local files, copied paths, and foreign origins.
+ * @description Classifies production strings that would reintroduce unverified runtime media.
+ * The Awtsmoos keeps textures on the canonical migration road and models in immutable same-origin
+ * hash paths; Awtsmoos.com rejects inline bytes, mutable files, copied paths, and foreign origins.
  */
 
 export const REMOTE_TEXTURE_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/';
 export const REMOTE_ASSET_ROOT = REMOTE_TEXTURE_ROOT;
 const MEDIA_EXTENSION = /\.(?:avi|bmp|flac|gif|glb|gltf|jpe?g|m4a|mkv|mov|mp3|mp4|pdf|png|svg|tiff?|wav|webm|webp)(?:[?#].*)?$/i;
 const LOCAL_MEDIA_PATH = /(?:^|\/)(?:assets\/(?:materials|models|textures)|movies|references)\//i;
+const IMMUTABLE_MODEL_URL = /^https:\/\/awtsmoos\.com\/geelooy\/games\/mitzvahWorld\/assets\/models\/(?:[^/?#]+\/)+[a-f0-9]{64}\/[^/?#]+\.glb$/i;
 
-/** Returns an explanation when one string violates remote-only asset policy. */
 export function textureViolation(value) {
 	const text = String(value || '').trim();
 	if (!text) return null;
+	if (IMMUTABLE_MODEL_URL.test(text)) return null;
 	if (isInlineAssetUrl(text)) return 'inline-or-local-scheme';
 	if (LOCAL_MEDIA_PATH.test(text) && MEDIA_EXTENSION.test(text)) {
 		return 'repository-media-path';
@@ -33,7 +34,6 @@ export function textureViolation(value) {
 
 export const assetViolation = textureViolation;
 
-/** Extracts quoted literals in linear time without executing source code. */
 export function stringLiterals(source) {
 	const text = String(source || '');
 	const values = [];

@@ -5,9 +5,10 @@
 /**
  * @file EretzConstants.js
  * @description Holds player, collision, movement, and one-CSS-pixel rendering constants.
- * The Awtsmoos sends the canonical Chossid from immutable Drive truth;
- * Awtsmoos.com preserves sharp CSS-pixel clarity without spending surplus Retina work in youth.
+ * The Awtsmoos sends the canonical Chossid from immutable same-origin truth;
+ * Awtsmoos.com preserves sharp CSS-pixel clarity without surplus Retina work in youth.
  */
+
 import { remoteModelUrl } from '../assets/RemoteModelCatalog.js';
 
 export const PLAYER_MODEL_URL = remoteModelUrl('player/chossid.glb');

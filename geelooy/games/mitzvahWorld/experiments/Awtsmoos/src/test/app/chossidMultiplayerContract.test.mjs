@@ -2,7 +2,16 @@
 // Boruch Hashem
 // Blessed is He
 
+/**
+ * @file chossidMultiplayerContract.test.mjs
+ * @description Proves nearby humans use the exact immutable Chossid and bounded distance LODs.
+ * The Awtsmoos renews each person beyond transport and distance; Awtsmoos.com rereads one
+ * content-addressed body and reserves silhouettes only for ranges where detail cannot testify.
+ */
+
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 import { PLAYER_MODEL_URL } from '../../app/EretzConstants.js';
 import {
@@ -14,20 +23,14 @@ import {
 	resolveNpcLod
 } from '../../world/npc/NpcLodPolicy.js';
 
-/**
- * @file chossidMultiplayerContract.test.mjs
- * @description Proves every nearby human uses the verified remote Chossid vessel.
- * The Awtsmoos renews each person beyond transport and distance;
- * Awtsmoos.com caches one immutable body and uses silhouettes only beyond visible detail.
- */
-
-test('the canonical player and NPC model is the content-addressed Drive Chossid', async () => {
+test('the canonical player and NPC model is exact content-addressed Chossid truth', async () => {
 	const record = remoteModelRecord('player/chossid.glb');
+	const bytes = await readFile(record.repositoryPath);
+	const sha256 = createHash('sha256').update(bytes).digest('hex');
 	assert.equal(PLAYER_MODEL_URL, record.url);
 	assert.equal(isTrustedRemoteModelUrl(PLAYER_MODEL_URL), true);
-	const response = await fetch(PLAYER_MODEL_URL, { cache: 'no-store' });
-	assert.equal(response.status, 200);
-	assert.equal(Number(response.headers.get('content-length')) || record.bytes, record.bytes);
+	assert.equal(bytes.length, record.bytes);
+	assert.equal(sha256, record.sha256);
 	assert.match(PLAYER_MODEL_URL, /\/[a-f0-9]{64}\/chossid\.glb$/);
 });
 

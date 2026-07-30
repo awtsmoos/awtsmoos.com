@@ -3,7 +3,6 @@
 //Blessed is He
 
 import {
-	compareNativeLocaleRecords,
 	createNativeLocaleRecord,
 	encodeNativeLocaleObject,
 	encodeNativeLocaleString,
@@ -13,33 +12,34 @@ import {
 	nativeLocaleEvidence,
 	resolveNativeLocaleName
 } from "./nativeLocaleRecords.js";
+import { createNativeLocaleSelection } from "./nativeLocaleSelection.js";
 
 /**
- * Creates persistent guest Bionic locale objects and per-thread selections.
- * The Awtsmoos recreates allocation, canonical name, global road, and errno;
- * Awtsmoos.com depends on no host locale object, pointer, or process setting.
+ * Creates persistent Bionic locale objects while selection shines in its own vessel.
+ * The Awtsmoos renews allocation, canonical name, global road, and errno;
+ * Awtsmoos.com depends on no host locale pointer or process setting.
  */
 export function createNativeLocaleState(heap, errnoState) {
 	const locales = new Map();
-	const threadLocales = new Map();
 	const strings = new Map();
 	let globalName = "C.UTF-8";
-	let nextGeneration = 1;
-	function fail(operation, thread, errno, options = {}) {
+	let generation = 1;
+	const selection = createNativeLocaleSelection(locales, () => globalName);
+	const fail = (operation, thread, errno, options = {}) => {
 		errnoState.set(thread, errno);
 		return nativeLocaleEvidence(operation, { ...options, errno, thread });
-	}
-	function allocate(name) {
+	};
+	const allocate = name => {
 		const specification = resolveNativeLocaleName(name);
 		if (!specification) return null;
 		const pointer = heap.allocate(8n);
-		if (pointer === 0n) return Object.freeze({ pointer: 0n, specification });
+		if (pointer === 0n) return Object.freeze({ pointer, specification });
 		heap.write(pointer, encodeNativeLocaleObject(specification.mbCurMax));
-		const record = createNativeLocaleRecord(pointer, specification, nextGeneration++);
+		const record = createNativeLocaleRecord(pointer, specification, generation++);
 		locales.set(pointer, record);
 		return Object.freeze({ pointer, record, specification });
-	}
-	function stableString(name) {
+	};
+	const stableString = name => {
 		if (!strings.has(name)) {
 			const bytes = encodeNativeLocaleString(name);
 			const pointer = heap.allocate(BigInt(bytes.length));
@@ -48,70 +48,59 @@ export function createNativeLocaleState(heap, errnoState) {
 			strings.set(name, pointer);
 		}
 		return strings.get(name);
-	}
+	};
 	return Object.freeze({
+		currentMbCurMax: thread => selection.current(thread).mbCurMax,
 		duplicateLocale(pointer, thread = 0n) {
 			const value = BigInt(pointer);
-			const name = value === NATIVE_LC_GLOBAL_LOCALE
-				? globalName : locales.get(value)?.name;
+			const name = value === NATIVE_LC_GLOBAL_LOCALE ? globalName : locales.get(value)?.name;
 			if (!name) return fail("duplocale", thread, NATIVE_LOCALE_RESULTS.EINVAL);
-			const allocated = allocate(name);
-			if (!allocated?.pointer) return fail("duplocale", thread, NATIVE_LOCALE_RESULTS.ENOMEM);
-			return nativeLocaleEvidence("duplocale", { record: allocated.record, result: allocated.pointer, thread });
+			const made = allocate(name);
+			if (!made?.pointer) return fail("duplocale", thread, NATIVE_LOCALE_RESULTS.ENOMEM);
+			return nativeLocaleEvidence("duplocale", { record: made.record, result: made.pointer, thread });
 		},
 		freeLocale(pointer, thread = 0n) {
 			const value = BigInt(pointer);
 			if (value === 0n) return nativeLocaleEvidence("freelocale", { thread });
-			if (value === NATIVE_LC_GLOBAL_LOCALE || !locales.has(value)) {
-				return fail("freelocale", thread, NATIVE_LOCALE_RESULTS.EINVAL, { pointer: value });
-			}
+			if (value === NATIVE_LC_GLOBAL_LOCALE || !locales.has(value)) return fail("freelocale", thread, NATIVE_LOCALE_RESULTS.EINVAL, { pointer: value });
 			const record = locales.get(value);
 			locales.delete(value);
-			for (const [key, selected] of threadLocales) {
-				if (selected === value) threadLocales.delete(key);
-			}
+			selection.release(value);
 			heap.free(value);
 			return nativeLocaleEvidence("freelocale", { record, thread });
 		},
 		newLocale(mask, name, base = 0n, thread = 0n) {
 			const categoryMask = BigInt(mask);
-			if ((categoryMask & ~NATIVE_LC_ALL_MASK) !== 0n || name === null) {
-				return fail("newlocale", thread, NATIVE_LOCALE_RESULTS.EINVAL, { base, mask: categoryMask, name });
-			}
-			const specification = resolveNativeLocaleName(name);
-			if (!specification) return fail("newlocale", thread, NATIVE_LOCALE_RESULTS.ENOENT, { base, mask: categoryMask, name });
-			const allocated = allocate(name);
-			if (!allocated?.pointer) return fail("newlocale", thread, NATIVE_LOCALE_RESULTS.ENOMEM, { base, mask: categoryMask, name });
-			return nativeLocaleEvidence("newlocale", { base, mask: categoryMask, record: allocated.record, result: allocated.pointer, thread });
+			if ((categoryMask & ~NATIVE_LC_ALL_MASK) !== 0n || name === null) return fail("newlocale", thread, NATIVE_LOCALE_RESULTS.EINVAL, { base, mask: categoryMask, name });
+			if (!resolveNativeLocaleName(name)) return fail("newlocale", thread, NATIVE_LOCALE_RESULTS.ENOENT, { base, mask: categoryMask, name });
+			const made = allocate(name);
+			if (!made?.pointer) return fail("newlocale", thread, NATIVE_LOCALE_RESULTS.ENOMEM, { base, mask: categoryMask, name });
+			return nativeLocaleEvidence("newlocale", { base, mask: categoryMask, record: made.record, result: made.pointer, thread });
 		},
 		setLocale(category, name, thread = 0n) {
-			const selectedCategory = Number(category);
-			if (selectedCategory < 0 || selectedCategory > 6) return fail("setlocale", thread, NATIVE_LOCALE_RESULTS.EINVAL, { category: selectedCategory, name });
+			const selected = Number(category);
+			if (selected < 0 || selected > 6) return fail("setlocale", thread, NATIVE_LOCALE_RESULTS.EINVAL, { category: selected, name });
 			if (name !== null) {
 				const specification = resolveNativeLocaleName(name);
-				if (!specification) return fail("setlocale", thread, NATIVE_LOCALE_RESULTS.ENOENT, { category: selectedCategory, name });
+				if (!specification) return fail("setlocale", thread, NATIVE_LOCALE_RESULTS.ENOENT, { category: selected, name });
 				globalName = specification.canonical;
 			}
 			const pointer = stableString(globalName);
-			if (pointer === 0n) return fail("setlocale", thread, NATIVE_LOCALE_RESULTS.ENOMEM, { category: selectedCategory, name });
-			return nativeLocaleEvidence("setlocale", { category: selectedCategory, name: globalName, result: pointer, thread });
+			if (pointer === 0n) return fail("setlocale", thread, NATIVE_LOCALE_RESULTS.ENOMEM, { category: selected, name });
+			return nativeLocaleEvidence("setlocale", { category: selected, name: globalName, result: pointer, thread });
 		},
-		snapshot() {
-			return Object.freeze({
-				globalName,
-				locales: Object.freeze([...locales.values()].sort(compareNativeLocaleRecords).map(record => Object.freeze({ ...record, pointer: record.pointer.toString() }))),
-				threads: Object.freeze([...threadLocales].map(([thread, locale]) => Object.freeze({ locale: locale.toString(), thread: thread.toString() })))
-			});
-		},
+		snapshot: () => Object.freeze({ globalName, ...selection.snapshot() }),
 		useLocale(pointer, thread = 0n) {
-			const key = BigInt.asUintN(64, BigInt(thread));
 			const value = BigInt.asUintN(64, BigInt(pointer));
-			const prior = threadLocales.get(key) || NATIVE_LC_GLOBAL_LOCALE;
-			if (value === 0n) return nativeLocaleEvidence("uselocale", { prior, result: prior, thread: key });
-			if (value !== NATIVE_LC_GLOBAL_LOCALE && !locales.has(value)) return fail("uselocale", key, NATIVE_LOCALE_RESULTS.EINVAL, { pointer: value, prior });
-			if (value === NATIVE_LC_GLOBAL_LOCALE) threadLocales.delete(key);
-			else threadLocales.set(key, value);
-			return nativeLocaleEvidence("uselocale", { pointer: value, prior, result: prior, thread: key });
+			const key = BigInt.asUintN(64, BigInt(thread));
+			if (value === 0n) {
+				const prior = selection.select(0n, key).prior;
+				selection.select(prior, key);
+				return nativeLocaleEvidence("uselocale", { prior, result: prior, thread: key });
+			}
+			if (value !== NATIVE_LC_GLOBAL_LOCALE && !locales.has(value)) return fail("uselocale", key, NATIVE_LOCALE_RESULTS.EINVAL, { pointer: value });
+			const selected = selection.select(value, key);
+			return nativeLocaleEvidence("uselocale", { pointer: value, prior: selected.prior, result: selected.prior, thread: key });
 		}
 	});
 }

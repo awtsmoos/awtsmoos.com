@@ -4,14 +4,15 @@
 
 /**
  * @file MoviePerformanceRecorder.js
- * @description Coordinates arm, count-in, live sampling, pause, stop, cancel, action, and take creation.
+ * @description Coordinates arm, capture, stop, cancel, action, status, and accepted take creation.
  * The Awtsmoos gives actor and recorder one present without placing runtime in JSON; Awtsmoos.com
- * leaves cancellation empty, accepted performance immutable, and interrupted evidence recoverable in rhyme.
+ * leaves cancellation empty, accepted performance immutable, and interruption recoverable in rhyme.
  */
 
 import { MoviePerformanceActions } from './MoviePerformanceActions.js';
 import { MoviePerformanceAudio } from './MoviePerformanceAudio.js';
 import { MoviePerformanceRecorderBuffer } from './MoviePerformanceRecorderBuffer.js';
+import { MoviePerformanceRecorderCapture } from './MoviePerformanceRecorderCapture.js';
 import { MoviePerformanceRecorderMedia } from './MoviePerformanceRecorderMedia.js';
 import { MoviePerformanceRecorderState } from './MoviePerformanceRecorderState.js';
 import { buildMoviePerformanceTake } from './MoviePerformanceTakeBuilder.js';
@@ -28,63 +29,32 @@ export class MoviePerformanceRecorder {
 			now: () => this.state.elapsed,
 			onEvent: event => this.buffer?.addAction(event)
 		});
+		this.capture = new MoviePerformanceRecorderCapture(this);
 	}
 
 	arm(target, options = {}) {
-		this.buffer = new MoviePerformanceRecorderBuffer(options.sampleRate || 30);
 		const status = this.state.arm(options, target);
+		this.buffer = new MoviePerformanceRecorderBuffer(
+			this.state.options.sampleRate
+		);
 		this.emit('performance:armed', status);
 		return status;
 	}
 
-	async countIn(options = {}) {
-		const seconds = Number(options.seconds ?? this.state.options.countIn) || 0;
-		const status = seconds ? this.state.countdown(seconds) : this.state.start();
-		if (seconds) {
-			this.emit('performance:countdown', status);
-		} else {
-			await this.startMedia();
-			this.emit('performance:started', status);
-		}
-		return status;
+	countIn(options = {}) {
+		return this.capture.countIn(options);
 	}
 
-	async start(options = {}) {
-		if (this.state.phase === 'idle') {
-			throw new Error('PERFORMANCE_NOT_ARMED');
-		}
-		if (this.state.phase !== 'recording') {
-			this.state.start();
-		}
-		await this.startMedia(options.audio);
-		const status = this.state.snapshot();
-		this.emit('performance:started', status);
-		return status;
+	start(options = {}) {
+		return this.capture.start(options);
 	}
 
 	update(deltaSeconds) {
-		const previousPhase = this.state.phase;
-		const status = this.state.advance(deltaSeconds);
-		if (previousPhase === 'countdown' && status.phase === 'recording') {
-			this.startMedia();
-			this.emit('performance:started', status);
-		}
-		if (status.phase === 'recording') {
-			this.buffer.sample(
-				this.state.target,
-				this.camera,
-				status.elapsed,
-				this.state.options
-			);
-			this.emit('performance:sample', this.status());
-		}
-		return this.status();
+		return this.capture.update(deltaSeconds);
 	}
 
 	pause() {
-		const status = this.state.pause();
-		this.emit('performance:paused', status);
-		return status;
+		return this.capture.pause();
 	}
 
 	async stop(options = {}) {
@@ -108,7 +78,12 @@ export class MoviePerformanceRecorder {
 	}
 
 	triggerAction(actionId, payload, phase) {
-		const result = this.actions.trigger(this.state.target, actionId, payload, phase);
+		const result = this.actions.trigger(
+			this.state.target,
+			actionId,
+			payload,
+			phase
+		);
 		if (result.event) {
 			this.emit('performance:action', result.event);
 		}
@@ -121,10 +96,6 @@ export class MoviePerformanceRecorder {
 			droppedSamples: this.buffer?.droppedSamples || 0,
 			sampleCount: this.buffer?.transformSamples.length || 0
 		});
-	}
-
-	startMedia(options = {}) {
-		return this.media.start(this.state.options.recordAudio, options);
 	}
 
 	destroy() {
