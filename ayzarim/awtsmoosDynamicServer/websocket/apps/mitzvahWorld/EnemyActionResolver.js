@@ -4,12 +4,17 @@
 
 /**
  * @file EnemyActionResolver.js
- * @description Resolves enemy damage, guard, movement, healing, summons, and enrage.
+ * @description Resolves typed enemy damage, guard, movement, healing, summons, and enrage.
  * The Awtsmoos permits consequence only after revealed preparation; Awtsmoos.com keeps
- * every result server-owned, exact-once, bounded, defensive-aware, and safely cancellable.
+ * every result server-owned, exact-once, bounded, defensive-aware, status-aware, and cancellable.
  */
 
 const { squaredDistance } = require('./CreatureBrain.js');
+const {
+	applyCombatStatus,
+	clearCombatStatuses
+} = require('./CombatStatusRules.js');
+const { resolvePlayerDamage } = require('./PlayerDamageRules.js');
 
 function resolveEnemyAction(options) {
 	const { action, creature, creatures, defense, players, target, now } = options;
@@ -17,7 +22,7 @@ function resolveEnemyAction(options) {
 	if (action.type === 'dodge' || action.type === 'retreat') {
 		return reposition(creature, target, action.type);
 	}
-	if (action.type === 'heal') return heal(creature, action);
+	if (action.type === 'heal') return heal(creature, action, now);
 	if (action.type === 'summon') return summon(creature, creatures, action);
 	if (action.type === 'enrage') return enrage(creature, action);
 	return damagePlayers({ action, creature, defense, players, target, now });
@@ -27,18 +32,42 @@ function damagePlayers({ action, creature, defense, players, target, now }) {
 	const targets = action.type === 'area'
 		? [...players.values()].filter(player => eligible(player, creature, action.range))
 		: [target].filter(player => eligible(player, creature, action.range));
-	for (const player of targets) {
-		const rawDamage = creature.attackDamage
-			* action.damageMultiplier
-			* (creature.damageScale || 1);
-		const outcome = defense.resolve(player, creature, rawDamage, now);
-		player.combat.lastDefenseOutcome = outcome;
-		player.combat.health = Math.max(0, player.combat.health - outcome.damage);
-		if (player.combat.health === 0) defeat(player, now);
-	}
+	const outcomes = targets.map(player => damagePlayer({
+		action,
+		creature,
+		defense,
+		now,
+		player
+	}));
 	return {
 		affectedPlayerIds: targets.map(player => player.id),
+		outcomes,
 		type: action.type
+	};
+}
+
+function damagePlayer({ action, creature, defense, now, player }) {
+	const rawDamage = creature.attackDamage
+		* action.damageMultiplier
+		* (creature.damageScale || 1);
+	const outcome = resolvePlayerDamage({
+		action,
+		creature,
+		defense,
+		now,
+		player,
+		rawDamage
+	});
+	player.combat.lastDefenseOutcome = outcome;
+	player.combat.health = Math.max(0, player.combat.health - outcome.damage);
+	if (player.combat.health === 0) defeat(player, now);
+	return {
+		damage: outcome.damage,
+		effectiveness: outcome.effectiveness,
+		mitigationSource: outcome.mitigationSource,
+		playerId: player.id,
+		reactions: outcome.reactions,
+		statuses: outcome.statuses
 	};
 }
 
@@ -58,26 +87,30 @@ function reposition(creature, target, type) {
 	return { type };
 }
 
-function heal(creature, action) {
-	creature.health = Math.min(
-		creature.maximumHealth,
-		creature.health + action.healing
-	);
+function heal(creature, action, now) {
+	creature.health = Math.min(creature.maximumHealth, creature.health + action.healing);
+	for (const statusId of action.applyStatusIds || []) {
+		applyCombatStatus(creature, statusId, {
+			now,
+			sourceActionId: action.canonicalActionId || action.id,
+			sourceActorId: creature.id
+		});
+	}
 	return { healing: action.healing, type: 'heal' };
 }
 
 function summon(creature, creatures, action) {
-	const creatureIds = creatures.summonShades(
-		creature,
-		action.summonCount
-	);
-	return { creatureIds, type: 'summon' };
+	return {
+		creatureIds: creatures.summonShades(creature, action.summonCount),
+		type: 'summon'
+	};
 }
 
 function enrage(creature, action) {
 	creature.damageScale = action.damageScale;
 	creature.enraged = true;
 	creature.phase = 'burning-letters';
+	creature.phaseAffinityId = action.affinityId;
 	return { phase: creature.phase, type: 'enrage' };
 }
 
@@ -94,12 +127,11 @@ function sameRegion(player, creature) {
 }
 
 function defeat(player, now) {
+	clearCombatStatuses(player.combat);
 	player.combat.defeatedAt = now;
 	player.combat.guardUntil = null;
 	player.combat.parryUntil = null;
 	player.combat.status = 'defeated';
 }
 
-module.exports = {
-	resolveEnemyAction
-};
+module.exports = { resolveEnemyAction };

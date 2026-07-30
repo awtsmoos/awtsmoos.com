@@ -6,7 +6,7 @@
  * @file EnemyActionCatalog.js
  * @description Joins authoritative enemy timelines to canonical typed action identity.
  * The Awtsmoos renews warning before consequence and recovery after strain;
- * Awtsmoos.com keeps every hostile act readable, interruptible, and server-owned in the chain.
+ * Awtsmoos.com keeps every hostile act readable, status-bearing, interruptible, and server-owned.
  */
 
 const {
@@ -34,6 +34,7 @@ function action(id, type, telegraphMs, activeMs, recoveryMs, range, damageMultip
 	return Object.freeze({
 		activeMs,
 		affinityId: combat.affinityId,
+		applyStatusIds: Object.freeze([...(combat.applyStatusIds || [])]),
 		authoritative: true,
 		cancelable: true,
 		canonicalActionId: combat.id,
@@ -47,6 +48,7 @@ function action(id, type, telegraphMs, activeMs, recoveryMs, range, damageMultip
 		interruptResistance: combat.interruptResistance || 0,
 		range,
 		recoveryMs,
+		removeStatusIds: Object.freeze([...(combat.removeStatusIds || [])]),
 		tags: Object.freeze([...(combat.tags || [])]),
 		telegraphMs,
 		type,

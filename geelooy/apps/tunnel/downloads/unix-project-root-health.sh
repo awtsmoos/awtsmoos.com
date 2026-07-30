@@ -48,7 +48,15 @@ NODE
 # workspace while still restarting after a dashboard/root change.
 project_root_receipt_matches_runtime() {
 	local pid="$1"
-	local expected_activation_id="${2:-${AWTSMOOS_ACTIVATION_ID:-}}"
+	local expected_activation_id=""
+	# An explicitly supplied empty second argument means "validate the incumbent
+	# process regardless of the new install transaction." `${2:-fallback}` cannot
+	# express that distinction because it replaces both missing and empty values.
+	if [ "$#" -ge 2 ]; then
+		expected_activation_id="$2"
+	else
+		expected_activation_id="${AWTSMOOS_ACTIVATION_ID:-}"
+	fi
 	node - "$ROOT/config.json" "$(project_root_receipt_path)" "$ROOT/install-state.txt" \
 		"$pid" "$expected_activation_id" <<'NODE'
 const fs = require("node:fs");

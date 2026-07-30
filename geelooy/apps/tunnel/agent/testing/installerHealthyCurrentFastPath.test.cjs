@@ -19,6 +19,10 @@ const fastRepair = path.join(
 	repositoryRoot,
 	"geelooy/apps/tunnel/downloads/unix-fast-repair.sh"
 );
+const projectRootHealth = path.join(
+	repositoryRoot,
+	"geelooy/apps/tunnel/downloads/unix-project-root-health.sh"
+);
 const sandbox = fs.mkdtempSync(path.join(os.tmpdir(), "awts-healthy-current-"));
 
 try {
@@ -78,6 +82,15 @@ try {
 	assert.match(offlineStalled.stdout, /stop_existing_runtime/);
 	assert.match(offlineStalled.stdout, /journal:repaired_current_offline/);
 
+	const explicitEmptyActivation = runProjectRootActivationContract();
+	assert.equal(
+		explicitEmptyActivation.status,
+		0,
+		`${explicitEmptyActivation.stdout}\n${explicitEmptyActivation.stderr}`
+	);
+	assert.match(explicitEmptyActivation.stdout, /explicit_empty=passed/);
+	assert.match(explicitEmptyActivation.stdout, /implicit_new_activation=rejected/);
+
 	console.log(JSON.stringify({
 		ok: true,
 		suite: "installer-healthy-current-fast-path",
@@ -85,6 +98,7 @@ try {
 		newInstallActivationDoesNotInvalidateCurrentRuntime: true,
 		offlineHealthyCurrentPreservesPid: true,
 		offlineStalledCurrentSelfRepairs: true,
+		explicitEmptyActivationValidatesIncumbent: true,
 		executorStallRestarts: true,
 		staleReceiptRestarts: true,
 		changedWorkspaceRestarts: true
@@ -136,6 +150,39 @@ printf 'fast_repair_completed=%s\\n' "$FAST_REPAIR_COMPLETED"
 			AWTSMOOS_ACTIVATION_ID: "activation-for-new-installer-transaction",
 			...environment
 		}
+	});
+}
+
+function runProjectRootActivationContract() {
+	const root = path.join(sandbox, `root-${Math.random().toString(36).slice(2)}`);
+	fs.mkdirSync(root, { recursive: true });
+	fs.writeFileSync(path.join(root, "config.json"), JSON.stringify({
+		root,
+		allowWrite: true
+	}));
+	fs.writeFileSync(path.join(root, "install-state.txt"), "8.8.8\n");
+	fs.writeFileSync(path.join(root, "project-root-state.json"), JSON.stringify({
+		activationId: "incumbent-activation",
+		canonicalRoot: root,
+		pid: 4242,
+		root,
+		runtimeVersion: "8.8.8"
+	}));
+	const script = `set -Eeuo pipefail
+ROOT=${shellQuote(root)}
+AWTSMOOS_ACTIVATION_ID=new-installer-activation
+source ${shellQuote(projectRootHealth)}
+project_root_receipt_matches_runtime 4242 "" &&
+	printf 'explicit_empty=passed\\n'
+if project_root_receipt_matches_runtime 4242; then
+	exit 71
+else
+	printf 'implicit_new_activation=rejected\\n'
+fi
+`;
+	return spawnSync("bash", ["-c", script], {
+		encoding: "utf8",
+		env: process.env
 	});
 }
 

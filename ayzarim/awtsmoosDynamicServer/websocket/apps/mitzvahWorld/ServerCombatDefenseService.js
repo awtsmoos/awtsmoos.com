@@ -4,7 +4,7 @@
 
 /**
  * @file ServerCombatDefenseService.js
- * @description Owns multiplayer guard intent, direction, stamina, break, parry, and resistance.
+ * @description Owns multiplayer guard intent, direction, stamina, break, parry, and fallback resistance.
  * The Awtsmoos renews attacker and guardian without confusion; Awtsmoos.com measures
  * equipped vessel, finite opening, protected arc, spent guard, and bounded consequence.
  */
@@ -34,12 +34,14 @@ class ServerCombatDefenseService {
 		return this.snapshot(player, now);
 	}
 
-	resolve(player, creature, rawDamage, now = this.clock()) {
+	resolve(player, creature, rawDamage, now = this.clock(), options = {}) {
 		this.normalizeGuard(player);
 		const stats = derivedPlayerStats(player);
-		const guarded = active(player.combat.guardUntil, now) && directionProtected(player, creature);
+		const guarded = active(player.combat.guardUntil, now)
+			&& directionProtected(player, creature);
 		const parried = guarded && active(player.combat.parryUntil, now);
 		if (guarded) return this.resolveGuard(player, creature, rawDamage, stats, now, parried);
+		if (options.skipPassiveMitigation) return receipt(rawDamage, 'typed-resistance');
 		const reduced = Math.max(0, rawDamage - stats.armor * 0.45);
 		return receipt(reduced * (1 - stats.physicalResistance), 'physical-resistance');
 	}
@@ -57,13 +59,16 @@ class ServerCombatDefenseService {
 			player.combat.parryUntil = null;
 			return receipt(rawDamage, 'guard-break', { guardBroken: true });
 		}
-		return receipt(rawDamage * (1 - stats.blockStrength), 'physical-guard');
+		return receipt(rawDamage * (1 - stats.blockStrength), 'typed-guard');
 	}
 
 	regenerate(player, amount = 4, now = this.clock()) {
 		this.normalizeGuard(player);
 		if (active(player.combat.guardUntil, now) || active(player.combat.guardBrokenUntil, now)) return;
-		player.combat.guardStamina = Math.min(player.combat.maximumGuardStamina, player.combat.guardStamina + amount);
+		player.combat.guardStamina = Math.min(
+			player.combat.maximumGuardStamina,
+			player.combat.guardStamina + amount
+		);
 	}
 
 	snapshot(player, now = this.clock()) {
@@ -80,24 +85,35 @@ class ServerCombatDefenseService {
 	normalizeGuard(player) {
 		const maximum = derivedPlayerStats(player).guardStamina;
 		player.combat.maximumGuardStamina = maximum;
-		player.combat.guardStamina = Math.min(maximum, Number(player.combat.guardStamina ?? maximum));
+		player.combat.guardStamina = Math.min(
+			maximum,
+			Number(player.combat.guardStamina ?? maximum)
+		);
 	}
 }
 
 function directionProtected(player, creature) {
-	const angle = Math.atan2(creature.position.x - player.position.x, creature.position.z - player.position.z);
+	const angle = Math.atan2(
+		creature.position.x - player.position.x,
+		creature.position.z - player.position.z
+	);
 	return Math.abs(normalize(angle - player.combat.guardFacing)) <= Math.PI * 0.6;
 }
+
 function normalize(value) {
 	return Math.atan2(Math.sin(value), Math.cos(value));
 }
+
 function active(until, now) {
 	return Number.isFinite(until) && now <= until;
 }
+
 function receipt(damage, source, extra = {}) {
 	return { damage: Math.max(0, Math.round(damage)), mitigationSource: source, ...extra };
 }
+
 function error(code, message) {
 	return new RealtimeError(code, message);
 }
+
 module.exports = { ServerCombatDefenseService };
