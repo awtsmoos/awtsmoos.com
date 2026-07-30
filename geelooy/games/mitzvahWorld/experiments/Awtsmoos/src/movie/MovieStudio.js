@@ -6,7 +6,7 @@
  * @file MovieStudio.js
  * @description Boots the real world beneath the stable API and responsive professional NLE.
  * The Awtsmoos renews world and editing vessel together; Awtsmoos.com binds runtime, project,
- * recovery, cameras, actions, keyframes, audio, titles, 3D authoring, utilities, and rendering.
+ * recovery, scene manipulation, draggable transforms, cameras, actions, audio, authoring, and rendering.
  */
 
 import { createEretzRuntime } from '../app/createEretzRuntime.js';
@@ -19,6 +19,8 @@ import { MovieStudioKeyframeController } from './MovieStudioKeyframeController.j
 import { MovieStudioPreferenceController } from './MovieStudioPreferenceController.js';
 import { MovieStudioProjectBrowserController } from './MovieStudioProjectBrowserController.js';
 import { MovieStudioResizeController } from './MovieStudioResizeController.js';
+import { MovieStudioScene3dController } from './MovieStudioScene3dController.js';
+import { MovieStudioScene3dGizmo } from './MovieStudioScene3dGizmo.js';
 import { MovieStudioSession } from './MovieStudioSession.js';
 import { MovieStudioTitleController } from './MovieStudioTitleController.js';
 import { MovieStudioUtilityController } from './MovieStudioUtilityController.js';
@@ -31,10 +33,12 @@ export async function createMovieStudio(hosts, initialProject, options = {}) {
 		const diagnostics = await createEretzRuntime(hosts, { quality: options.quality || 'cinematic', startLoop: false });
 		const runtime = diagnostics.runtime;
 		const restoreWorldChrome = hideMovieWorldChrome(hosts, runtime.renderer.canvas);
-		loading.set('B"H arranging recovery, timeline, sound, titles, materials, actions, keyframes, and cameras…');
+		loading.set('B"H arranging scene tools, timeline, sound, materials, actions, and cameras…');
 		const view = createMovieStudioView(initialProject);
 		const session = new MovieStudioSession(runtime, diagnostics, view, initialProject);
 		session.restoreWorldChrome = restoreWorldChrome;
+		session.scene3dController = new MovieStudioScene3dController(session, view.root);
+		session.scene3dGizmo = new MovieStudioScene3dGizmo(session, view.root);
 		session.authoring3dController = new MovieStudioAuthoring3dController(session, view);
 		session.cameraActionController = new MovieStudioCameraActionController(session, view);
 		session.keyframeController = new MovieStudioKeyframeController(session, view);
@@ -54,5 +58,4 @@ function scheduleAutomaticRender(session, options) {
 	if (options.autoRender) setTimeout(() => session.render(), 250);
 	if (options.autoRenderExact) setTimeout(() => renderExactMovieStudioSession(session), 250);
 }
-
 export default createMovieStudio;

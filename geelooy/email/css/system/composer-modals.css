@@ -1,0 +1,26 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives modal work a focused and honest chamber.
+*/
+.overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 1000;
+	display: grid;
+	place-items: center;
+	padding: 20px;
+	background: rgba(2, 5, 10, .74);
+	backdrop-filter: blur(12px);
+}
+
+.modal-card {
+	width: min(560px, 100%);
+	max-height: 90vh;
+	overflow: auto;
+	padding: 20px;
+	border: 1px solid var(--mail-border-strong);
+	border-radius: 20px;
+	background: var(--mail-panel);
+	box-shadow: 0 24px 70px rgba(0, 0, 0, .38);
+}

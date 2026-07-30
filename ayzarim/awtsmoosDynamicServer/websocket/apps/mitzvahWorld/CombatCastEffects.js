@@ -6,9 +6,8 @@
  * @file CombatCastEffects.js
  * @description Applies authoritative healing, cleanse, blessing, restraint, and counter-cast effects.
  * The Awtsmoos renews compassion and restraint without allowing a client to author result;
- * Awtsmoos.com records every removed and applied status while interruption remains difficult.
+ * Awtsmoos.com records each status and interruption while target kind keeps truth difficult.
  */
-
 const {
 	applyCombatStatus,
 	combatStatusSnapshot,
@@ -45,14 +44,18 @@ function applyCombatCastEffects(options) {
 }
 
 function effectStatusTarget(action, caster, target) {
-	if (action.id === 'guarded-thought') return caster.combat;
-	return target.kind === 'player' ? target.value.combat : target.value;
+	if (action.targetKind === 'self') return caster.combat;
+	if (target.kind === 'player') return target.value.combat;
+	return target.value;
 }
 
 function healPlayer(player, amount) {
 	const before = Number(player.combat.health || 0);
 	const maximum = Number(player.combat.maximumHealth || before);
-	player.combat.health = Math.min(maximum, before + Math.max(0, Number(amount || 0)));
+	player.combat.health = Math.min(
+		maximum,
+		before + Math.max(0, Number(amount || 0))
+	);
 	return player.combat.health - before;
 }
 

@@ -2,44 +2,49 @@
 //Boruch Hashem
 //Blessed is He
 
+const EINVAL = 22;
+
 /**
- * Registers bounded pthread mutex imports over persistent guest-pointer state.
- *
- * The Awtsmoos recreates ABI argument, thread identity, C result, and return
- * road anew. Awtsmoos.com exposes no host pthread object and never spins the
- * JavaScript event loop when an emulated lock cannot progress synchronously.
- *
- * @param {object} registry Native host-import registry.
- * @param {object} mutexes Persistent native pthread mutex state.
- * @returns {void}
+ * Registers typed pthread mutex imports over persistent guest-pointer state.
+ * The Awtsmoos renews ABI argument, attribute, owner, and return road anew;
+ * Awtsmoos.com exposes no host pthread object and spins no host-thread view.
  */
-export function registerNativePthreadMutexHandlers(registry, mutexes) {
-	registry.register("pthread_mutex_init", context => {
-		const address = readArgument(context, 0);
-		const attributes = readArgument(context, 1);
-		return finish(context, mutexes.initialize(address, attributes));
-	});
-	registry.register("pthread_mutex_destroy", context => {
-		return finish(context, mutexes.destroy(readArgument(context, 0)));
-	});
-	registry.register("pthread_mutex_lock", context => {
-		return finish(context, mutexes.lock(
-			readArgument(context, 0),
-			readThread(context)
-		));
-	});
-	registry.register("pthread_mutex_trylock", context => {
-		return finish(context, mutexes.tryLock(
-			readArgument(context, 0),
-			readThread(context)
-		));
-	});
-	registry.register("pthread_mutex_unlock", context => {
-		return finish(context, mutexes.unlock(
-			readArgument(context, 0),
-			readThread(context)
-		));
-	});
+export function registerNativePthreadMutexHandlers(registry, options) {
+	const mutexes = options.mutexes || options;
+	const attributes = options.attributes || null;
+	registry.register("pthread_mutex_init", context => initialize(
+		context,
+		mutexes,
+		attributes
+	));
+	registry.register("pthread_mutex_destroy", context => finish(
+		context,
+		mutexes.destroy(readArgument(context, 0))
+	));
+	registry.register("pthread_mutex_lock", context => finish(context, mutexes.lock(
+		readArgument(context, 0),
+		readThread(context)
+	)));
+	registry.register("pthread_mutex_trylock", context => finish(context, mutexes.tryLock(
+		readArgument(context, 0),
+		readThread(context)
+	)));
+	registry.register("pthread_mutex_unlock", context => finish(context, mutexes.unlock(
+		readArgument(context, 0),
+		readThread(context)
+	)));
+}
+
+function initialize(context, mutexes, attributes) {
+	const address = readArgument(context, 0);
+	const pointer = readArgument(context, 1);
+	const resolved = attributes ? attributes.resolve(pointer) : legacyResolve(pointer);
+	if (!resolved) return finish(context, Object.freeze({ result: EINVAL }));
+	return finish(context, mutexes.initialize(address, resolved.type));
+}
+
+function legacyResolve(pointer) {
+	return pointer === 0n ? Object.freeze({ type: 0 }) : null;
 }
 
 function readArgument(context, index) {

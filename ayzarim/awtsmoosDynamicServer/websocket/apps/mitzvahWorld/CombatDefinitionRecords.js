@@ -4,7 +4,7 @@
 
 /**
  * @file CombatDefinitionRecords.js
- * @description Generated canonical combat truth. Source SHA-256: b09795d93144ec1ed483a12265e17668c5e826dab7b1d50fddbc072bd1b62bdb.
+ * @description Generated canonical combat truth. Source SHA-256: 6f0028fe1453816df98201f9f0ed5e2c7f2a844fb134d1eae9aab0d653645f26.
  * The Awtsmoos renews one source through both vessels; Awtsmoos.com keeps parity whole.
  */
 
@@ -145,6 +145,19 @@ const COMBAT_STATUSES = deepFreeze({
 			"evasionMultiplier": 0.75
 		}
 	},
+	"unbalanced": {
+		"id": "unbalanced",
+		"hebrewName": "בלתי מאוזן",
+		"englishName": "Airborne or Unbalanced",
+		"durationMs": 2400,
+		"tickMs": 0,
+		"maximumStacks": 1,
+		"dispelCategory": "physical",
+		"modifiers": {
+			"airborne": true,
+			"groundingReceivedMultiplier": 1.3
+		}
+	},
 	"burning": {
 		"id": "burning",
 		"hebrewName": "בוער",
@@ -154,7 +167,8 @@ const COMBAT_STATUSES = deepFreeze({
 		"maximumStacks": 4,
 		"dispelCategory": "fire",
 		"modifiers": {
-			"damagePerTick": 4
+			"damagePerTick": 4,
+			"regenerationMultiplier": 0.7
 		}
 	},
 	"soaked": {
@@ -170,6 +184,19 @@ const COMBAT_STATUSES = deepFreeze({
 			"earthReceivedMultiplier": 1.2
 		}
 	},
+	"flowing": {
+		"id": "flowing",
+		"hebrewName": "זורם",
+		"englishName": "Flowing",
+		"durationMs": 8000,
+		"tickMs": 0,
+		"maximumStacks": 3,
+		"dispelCategory": "blessing",
+		"modifiers": {
+			"recoveryMultiplierPerStack": 0.05,
+			"movementCasting": true
+		}
+	},
 	"grounded": {
 		"id": "grounded",
 		"hebrewName": "מקורקע",
@@ -180,7 +207,21 @@ const COMBAT_STATUSES = deepFreeze({
 		"dispelCategory": "earth",
 		"modifiers": {
 			"airborne": false,
-			"interruptResistanceMultiplier": 0.82
+			"interruptResistanceMultiplier": 0.82,
+			"teleportSuppressed": true
+		}
+	},
+	"rooted": {
+		"id": "rooted",
+		"hebrewName": "מושרש",
+		"englishName": "Rooted",
+		"durationMs": 2600,
+		"tickMs": 0,
+		"maximumStacks": 1,
+		"dispelCategory": "earth",
+		"modifiers": {
+			"movementMultiplier": 0,
+			"rooted": true
 		}
 	},
 	"dust-bound": {
@@ -196,16 +237,46 @@ const COMBAT_STATUSES = deepFreeze({
 			"rooted": true
 		}
 	},
-	"flowing": {
-		"id": "flowing",
-		"hebrewName": "זורם",
-		"englishName": "Flowing",
-		"durationMs": 8000,
+	"dust-obscured": {
+		"id": "dust-obscured",
+		"hebrewName": "מעורפל בעפר",
+		"englishName": "Dust-obscured",
+		"durationMs": 4200,
 		"tickMs": 0,
-		"maximumStacks": 3,
-		"dispelCategory": "blessing",
+		"maximumStacks": 1,
+		"dispelCategory": "concealment",
 		"modifiers": {
-			"recoveryMultiplierPerStack": 0.05
+			"precisionMultiplier": 0.72,
+			"targetingClarity": 0.65
+		}
+	},
+	"exposed": {
+		"id": "exposed",
+		"hebrewName": "חשוף",
+		"englishName": "Exposed",
+		"durationMs": 3600,
+		"tickMs": 0,
+		"maximumStacks": 2,
+		"dispelCategory": "physical",
+		"modifiers": {
+			"staggerReceivedMultiplier": 1.25,
+			"weakPointVisible": true
+		}
+	},
+	"disrupted": {
+		"id": "disrupted",
+		"hebrewName": "מופרע",
+		"englishName": "Silenced or Disrupted",
+		"durationMs": 1800,
+		"tickMs": 0,
+		"maximumStacks": 1,
+		"dispelCategory": "ritual",
+		"modifiers": {
+			"castCategoriesSuppressed": [
+				"ritual",
+				"projectile"
+			],
+			"diminishingReturns": true
 		}
 	},
 	"guard-broken": {
@@ -253,7 +324,8 @@ const PLAYER_CAST_DEFINITIONS = deepFreeze({
 		"targetType": "selected-enemy",
 		"tags": [
 			"ranged",
-			"reveal"
+			"reveal",
+			"precision"
 		],
 		"applyStatusIds": [
 			"illuminated"
@@ -276,10 +348,11 @@ const PLAYER_CAST_DEFINITIONS = deepFreeze({
 		"targetType": "selected-enemy",
 		"tags": [
 			"interrupt",
-			"clarity"
+			"clarity",
+			"counter-cast"
 		],
 		"applyStatusIds": [
-			"clarified"
+			"disrupted"
 		],
 		"interruptForce": 28,
 		"danger": "counter",
@@ -299,10 +372,12 @@ const PLAYER_CAST_DEFINITIONS = deepFreeze({
 		"targetType": "ground-point",
 		"tags": [
 			"area",
-			"charged"
+			"charged",
+			"armor-soften"
 		],
 		"applyStatusIds": [
-			"burning"
+			"burning",
+			"exposed"
 		],
 		"interruptForce": 14,
 		"danger": "high",
@@ -320,7 +395,8 @@ const PLAYER_CAST_DEFINITIONS = deepFreeze({
 		"targetType": "cone",
 		"tags": [
 			"channel",
-			"multi-hit"
+			"multi-hit",
+			"detonation"
 		],
 		"applyStatusIds": [
 			"burning"
@@ -343,11 +419,14 @@ const PLAYER_CAST_DEFINITIONS = deepFreeze({
 		"targetType": "chain",
 		"tags": [
 			"chain",
-			"flow"
+			"flow",
+			"slow"
 		],
 		"applyStatusIds": [
-			"flowing",
 			"soaked"
+		],
+		"removeStatusIds": [
+			"burning"
 		],
 		"interruptForce": 9,
 		"danger": "measured",
@@ -367,13 +446,16 @@ const PLAYER_CAST_DEFINITIONS = deepFreeze({
 		"targetType": "selected-ally",
 		"tags": [
 			"cleanse",
-			"healing"
+			"healing",
+			"flow"
 		],
 		"applyStatusIds": [
 			"flowing"
 		],
 		"removeStatusIds": [
-			"burning"
+			"burning",
+			"dust-obscured",
+			"disrupted"
 		],
 		"interruptForce": 0,
 		"danger": "support",
@@ -394,10 +476,12 @@ const PLAYER_CAST_DEFINITIONS = deepFreeze({
 		"targetType": "ground-point",
 		"tags": [
 			"guard",
-			"control"
+			"control",
+			"terrain"
 		],
 		"applyStatusIds": [
-			"grounded"
+			"grounded",
+			"dust-obscured"
 		],
 		"interruptForce": 18,
 		"danger": "control",
@@ -420,7 +504,8 @@ const PLAYER_CAST_DEFINITIONS = deepFreeze({
 			"break-on-damage"
 		],
 		"applyStatusIds": [
-			"dust-bound"
+			"rooted",
+			"grounded"
 		],
 		"interruptForce": 22,
 		"danger": "control",
@@ -440,7 +525,8 @@ const PLAYER_CAST_DEFINITIONS = deepFreeze({
 		"targetType": "self",
 		"tags": [
 			"healing",
-			"renewal"
+			"renewal",
+			"flow"
 		],
 		"applyStatusIds": [
 			"flowing"
@@ -519,7 +605,11 @@ const PLAYER_MELEE_DEFINITIONS = deepFreeze({
 		"kind": "melee",
 		"tags": [
 			"area",
-			"heavy"
+			"heavy",
+			"grounding"
+		],
+		"applyStatusIds": [
+			"unbalanced"
 		],
 		"guardDamage": 28,
 		"stagger": 32,
@@ -540,6 +630,9 @@ const PLAYER_MELEE_DEFINITIONS = deepFreeze({
 			"guard-break",
 			"counter"
 		],
+		"applyStatusIds": [
+			"exposed"
+		],
 		"guardDamage": 44,
 		"stagger": 42,
 		"interruptForce": 38,
@@ -557,7 +650,8 @@ const PLAYER_MELEE_DEFINITIONS = deepFreeze({
 		"kind": "melee",
 		"tags": [
 			"swift",
-			"combo-start"
+			"combo-start",
+			"precision"
 		],
 		"guardDamage": 8,
 		"stagger": 10,
@@ -576,7 +670,8 @@ const PLAYER_MELEE_DEFINITIONS = deepFreeze({
 		"kind": "melee",
 		"tags": [
 			"swift",
-			"combo-follow"
+			"combo-follow",
+			"precision"
 		],
 		"guardDamage": 9,
 		"stagger": 11,
@@ -595,7 +690,11 @@ const PLAYER_MELEE_DEFINITIONS = deepFreeze({
 		"kind": "melee",
 		"tags": [
 			"swift",
-			"finisher"
+			"finisher",
+			"precision"
+		],
+		"applyStatusIds": [
+			"exposed"
 		],
 		"guardDamage": 18,
 		"stagger": 22,
@@ -614,7 +713,12 @@ const PLAYER_MELEE_DEFINITIONS = deepFreeze({
 		"kind": "melee",
 		"tags": [
 			"heavy",
-			"charged"
+			"charged",
+			"armor-soften"
+		],
+		"applyStatusIds": [
+			"burning",
+			"exposed"
 		],
 		"guardDamage": 30,
 		"stagger": 35,
@@ -633,7 +737,9 @@ const ENEMY_ACTION_DEFINITIONS = deepFreeze({
 		"tags": [
 			"melee"
 		],
-		"applyStatusIds": [],
+		"applyStatusIds": [
+			"unbalanced"
+		],
 		"interruptResistance": 10,
 		"danger": "measured",
 		"counterGuidance": "Block toward the creature or step outside its short reach."
@@ -646,10 +752,12 @@ const ENEMY_ACTION_DEFINITIONS = deepFreeze({
 		"elementId": "earth-dust",
 		"tags": [
 			"melee",
-			"guard-damage"
+			"guard-damage",
+			"area"
 		],
 		"applyStatusIds": [
-			"grounded"
+			"grounded",
+			"dust-obscured"
 		],
 		"interruptResistance": 34,
 		"danger": "high",
@@ -663,10 +771,12 @@ const ENEMY_ACTION_DEFINITIONS = deepFreeze({
 		"elementId": "light-air",
 		"tags": [
 			"ranged",
-			"projectile"
+			"projectile",
+			"precision"
 		],
 		"applyStatusIds": [
-			"illuminated"
+			"illuminated",
+			"disrupted"
 		],
 		"interruptResistance": 18,
 		"danger": "measured",
@@ -680,10 +790,15 @@ const ENEMY_ACTION_DEFINITIONS = deepFreeze({
 		"elementId": "water",
 		"tags": [
 			"area",
-			"wave"
+			"wave",
+			"slow"
 		],
 		"applyStatusIds": [
-			"soaked"
+			"soaked",
+			"unbalanced"
+		],
+		"removeStatusIds": [
+			"burning"
 		],
 		"interruptResistance": 26,
 		"danger": "high",
@@ -712,10 +827,15 @@ const ENEMY_ACTION_DEFINITIONS = deepFreeze({
 		"elementId": "water",
 		"tags": [
 			"heal",
-			"channel"
+			"channel",
+			"cleanse"
 		],
 		"applyStatusIds": [
 			"flowing"
+		],
+		"removeStatusIds": [
+			"burning",
+			"disrupted"
 		],
 		"interruptResistance": 20,
 		"danger": "support",
@@ -729,10 +849,12 @@ const ENEMY_ACTION_DEFINITIONS = deepFreeze({
 		"elementId": "fire",
 		"tags": [
 			"melee",
-			"burn"
+			"burn",
+			"armor-soften"
 		],
 		"applyStatusIds": [
-			"burning"
+			"burning",
+			"exposed"
 		],
 		"interruptResistance": 16,
 		"danger": "measured",
@@ -745,9 +867,12 @@ const ENEMY_ACTION_DEFINITIONS = deepFreeze({
 		"affinityId": "malchus",
 		"elementId": "earth-dust",
 		"tags": [
-			"guard"
+			"guard",
+			"projectile-block"
 		],
-		"applyStatusIds": [],
+		"applyStatusIds": [
+			"grounded"
+		],
 		"interruptResistance": 42,
 		"danger": "defense",
 		"counterGuidance": "Use guard damage or wait for the stone shell to recede."
@@ -762,7 +887,9 @@ const ENEMY_ACTION_DEFINITIONS = deepFreeze({
 			"summon",
 			"channel"
 		],
-		"applyStatusIds": [],
+		"applyStatusIds": [
+			"dust-obscured"
+		],
 		"interruptResistance": 30,
 		"danger": "critical",
 		"counterGuidance": "Interrupt before the final burning letter appears."
@@ -775,9 +902,12 @@ const ENEMY_ACTION_DEFINITIONS = deepFreeze({
 		"elementId": "fire",
 		"tags": [
 			"enrage",
-			"phase"
+			"phase",
+			"channel"
 		],
-		"applyStatusIds": [],
+		"applyStatusIds": [
+			"burning"
+		],
 		"interruptResistance": 50,
 		"danger": "critical",
 		"counterGuidance": "Prepare water and interruption before the phase completes."
@@ -794,7 +924,8 @@ const ENEMY_ACTION_DEFINITIONS = deepFreeze({
 			"area"
 		],
 		"applyStatusIds": [
-			"grounded"
+			"grounded",
+			"exposed"
 		],
 		"interruptResistance": 48,
 		"danger": "critical",

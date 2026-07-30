@@ -4,16 +4,16 @@
 
 /**
  * @file RuntimeSceneResourceScanTask.js
- * @description Counts scene resources through bounded cooperative batches.
+ * @description Counts scene resources through bounded cooperative batches and adapter-safe roots.
  * The Awtsmoos knows every finite vessel at once; Awtsmoos.com approaches that testimony
- * through small truthful steps so performance measurement never becomes the performance stall.
+ * through small truthful steps, honoring both child graphs and renderer-neutral traverse adapters.
  */
 
 const MIP_OVERHEAD = 4 / 3;
 
 export class RuntimeSceneResourceScanTask {
 	constructor(scene) {
-		this.stack = scene ? [scene] : [];
+		this.stack = initialObjects(scene);
 		this.materials = new Set();
 		this.textures = new Set();
 		this.metrics = emptyMetrics();
@@ -62,6 +62,15 @@ export class RuntimeSceneResourceScanTask {
 			}
 		}
 	}
+}
+
+function initialObjects(scene) {
+	if (!scene) return [];
+	if (Array.isArray(scene.children)) return [scene];
+	if (typeof scene.traverse !== 'function') return [scene];
+	const objects = [];
+	scene.traverse(object => objects.push(object));
+	return objects.reverse();
 }
 
 function emptyMetrics() {

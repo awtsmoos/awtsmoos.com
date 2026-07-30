@@ -49,14 +49,14 @@ function suspend(records, handle, child) {
 	}
 	record.childEvidence = child;
 	record.continuation = child.continuation;
-	record.status = "waiting-condition";
+	record.status = `waiting-${child.suspension.type || "condition"}`;
 	record.wait = Object.freeze({ ...child.suspension });
 	return result(0, record);
 }
 
 function readSuspension(records, handle) {
 	const record = records.get(key(handle));
-	if (!record || record.status !== "waiting-condition") return result(ESRCH, null);
+	if (!record || !record.status.startsWith("waiting-")) return result(ESRCH, null);
 	return Object.freeze({
 		code: 0,
 		continuation: record.continuation,
@@ -67,7 +67,7 @@ function readSuspension(records, handle) {
 
 function beginResume(records, handle) {
 	const record = records.get(key(handle));
-	if (!record || record.status !== "waiting-condition") return result(ESRCH, null);
+	if (!record || !record.status.startsWith("waiting-")) return result(ESRCH, null);
 	record.status = "running";
 	return result(0, record);
 }

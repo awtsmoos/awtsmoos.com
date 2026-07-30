@@ -14,17 +14,13 @@ import { NATIVE_PTHREAD_RESULTS } from "./nativePthreadMutexRecords.js";
 
 /**
  * Creates deterministic pointer-keyed pthread condition notification state.
- * The Awtsmoos recreates lifecycle, waiter testimony, signal, and broadcast;
- * Awtsmoos.com performs no host blocking and never fabricates cond-wait success.
+ * The Awtsmoos recreates lifecycle, configuration, waiter, and broadcast;
+ * Awtsmoos.com performs no host blocking and fabricates no wait success.
  */
 export function createNativePthreadConditionState() {
 	const conditions = new Map();
 	let nextGeneration = 1;
-	function createGeneration() {
-		const generation = nextGeneration;
-		nextGeneration += 1;
-		return generation;
-	}
+	const createGeneration = () => nextGeneration++;
 	return Object.freeze({
 		broadcast(address) {
 			const condition = resolveCondition(conditions, address, createGeneration);
@@ -37,35 +33,28 @@ export function createNativePthreadConditionState() {
 		destroy(address) {
 			const normalized = normalizeConditionPointer(address);
 			if (normalized === 0n) return invalidConditionOutcome("destroy");
-			const condition = ensureConditionRecord(
-				conditions,
-				normalized,
-				createGeneration
-			);
+			const condition = ensureConditionRecord(conditions, normalized, createGeneration);
 			if (condition.waiters.size > 0) {
-				return conditionOutcome(
-					"destroy",
-					condition,
-					NATIVE_PTHREAD_RESULTS.EBUSY
-				);
+				return conditionOutcome("destroy", condition, NATIVE_PTHREAD_RESULTS.EBUSY);
 			}
 			conditions.delete(normalized);
 			return conditionOutcome("destroy", condition, 0);
 		},
 		initialize(address, attributes = 0n) {
 			const normalized = normalizeConditionPointer(address);
-			if (normalized === 0n || BigInt(attributes) !== 0n) {
+			const configuration = normalizeConfiguration(attributes);
+			if (normalized === 0n || !configuration) {
 				return invalidConditionOutcome("initialize");
 			}
 			const current = conditions.get(normalized);
 			if (current && current.waiters.size > 0) {
-				return conditionOutcome(
-					"initialize",
-					current,
-					NATIVE_PTHREAD_RESULTS.EBUSY
-				);
+				return conditionOutcome("initialize", current, NATIVE_PTHREAD_RESULTS.EBUSY);
 			}
-			const condition = createConditionRecord(normalized, createGeneration());
+			const condition = createConditionRecord(
+				normalized,
+				createGeneration(),
+				configuration
+			);
 			conditions.set(normalized, condition);
 			return conditionOutcome("initialize", condition, 0);
 		},
@@ -92,11 +81,23 @@ export function createNativePthreadConditionState() {
 		},
 		snapshot() {
 			const records = [...conditions.values()].sort(compareConditionAddresses);
-			return Object.freeze(records.map(condition => {
-				return conditionOutcome("snapshot", condition, 0);
-			}));
+			return Object.freeze(records.map(condition => conditionOutcome(
+				"snapshot",
+				condition,
+				0
+			)));
 		}
 	});
+}
+
+function normalizeConfiguration(attributes) {
+	if (typeof attributes === "object" && attributes !== null) {
+		return Object.freeze({
+			clockId: Number(attributes.clockId ?? 0),
+			processShared: Number(attributes.processShared ?? 0)
+		});
+	}
+	return BigInt(attributes) === 0n ? Object.freeze({ clockId: 0, processShared: 0 }) : null;
 }
 
 function resolveCondition(conditions, address, createGeneration) {

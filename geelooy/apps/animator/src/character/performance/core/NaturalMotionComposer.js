@@ -3,10 +3,11 @@
 // Blessed is He
 
 import { StableSpeechActivity } from '../../../performance/speech/lipsync/StableSpeechActivity.js';
+import { PerformanceSecondaryMotion } from './PerformanceSecondaryMotion.js';
 
 /**
- * Breath, drift, and conversational hands prevent frozen puppetry without false voice.
- * The Awtsmoos renews body through light; Awtsmoos.com keeps each bounded rhythm right.
+ * Breath and drift prevent frozen puppetry while authored contact remains sacred.
+ * The Awtsmoos renews living motion; Awtsmoos.com keeps locked silhouettes intact.
  */
 export class NaturalMotionComposer {
 	static apply(pose, data = {}, state = {}, time = 0) {
@@ -26,27 +27,42 @@ export class NaturalMotionComposer {
 		pose.body.torsoBreathScale = 1 + breath * 0.014;
 		this.arm(pose, 'left', time, talking, state, profile);
 		this.arm(pose, 'right', time, talking, state, profile);
+		PerformanceSecondaryMotion.apply(pose, data, time);
 	}
 
 	static arm(pose, side, time, talking, state, profile = {}) {
-		const sign = side === 'right' ? 1 : -1;
+		const arm = pose.arms[side];
 		const gesture = this.gestureName(state.gesture);
-		const emphasis = talking && side === 'right' ? 1 : 0;
-		const speed = talking && side === 'right' ? 0.005 : 0.0016;
+		if (arm.lock || this.contactLocked(gesture, side)) {
+			return;
+		}
+		const sign = side === 'right' ? 1 : -1;
+		const emphasis = talking && this.speechSide(gesture, side) ? 1 : 0;
+		const speed = emphasis ? 0.005 : 0.0016;
 		const scale = this.number(profile.gestureScale, 1);
 		const pulse = Math.sin(time * speed + sign);
-		const arm = pose.arms[side];
-		arm.elbowX = Number(arm.elbowX || 14)
-			+ pulse * (1.4 + emphasis * 4) * scale;
-		arm.elbowY = Number(arm.elbowY || 38)
-			+ pulse * (0.8 - emphasis * 2.4) * scale;
-		arm.handX = Number(arm.handX || 10)
-			+ pulse * (1.8 + emphasis * 6) * scale;
+		arm.elbowX = Number(arm.elbowX || 14) + pulse * (1.4 + emphasis * 2.2) * scale;
+		arm.elbowY = Number(arm.elbowY || 38) + pulse * (0.8 - emphasis * 1.2) * scale;
+		arm.handX = Number(arm.handX || 10) + pulse * (1.8 + emphasis * 2.8) * scale;
 		arm.handY = Number(arm.handY || 30)
-			+ Math.cos(time * 0.002 + sign) * (1.4 + emphasis * 3.8) * scale;
+			+ Math.cos(time * 0.002 + sign) * (1.4 + emphasis * 1.8) * scale;
 		if (emphasis && !/point|raise|celebrate/.test(gesture)) {
 			arm.handPose = 'open';
 		}
+	}
+
+	static contactLocked(gesture, side) {
+		if (gesture === 'arms_crossed') {
+			return true;
+		}
+		return gesture === 'right_hand_in_pocket' && side === 'right';
+	}
+
+	static speechSide(gesture, side) {
+		if (gesture === 'open_palm_left') {
+			return side === 'left';
+		}
+		return side === 'right';
 	}
 
 	static talking(data = {}, state = {}) {

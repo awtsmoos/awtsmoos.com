@@ -79,6 +79,7 @@ function describeFile(file) {
 		listName: manifest.listName || null,
 		count: recordCount(manifest),
 		dimensions: Number(manifest.dimensions || 0),
+		embeddingModel: manifest.embeddingModel || null,
 		vectorEnabled: false,
 		bytes: stat(file)?.size || 0,
 		textFile: textFileFor(file, manifest),

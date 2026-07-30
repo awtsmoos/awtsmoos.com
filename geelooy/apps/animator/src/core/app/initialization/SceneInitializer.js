@@ -1,25 +1,38 @@
-
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+import { PersistentReality } from '../../state/PersistentReality.js';
 import { CharacterManifestRegistry } from './characters/CharacterManifestRegistry.js';
-import { CameraStateInit } from './scene/CameraStateInit.js';
-import { WorldStateInit } from './scene/WorldStateInit.js';
-import { GlobalFlagsInit } from './scene/GlobalFlagsInit.js';
 import { SpeakingCycleManager } from './cycle/SpeakingCycleManager.js';
+import { CameraStateInit } from './scene/CameraStateInit.js';
+import { GlobalFlagsInit } from './scene/GlobalFlagsInit.js';
+import { WorldStateInit } from './scene/WorldStateInit.js';
 
 /**
- * @class SceneInitializer
- * @description
- * THE BUILDER OF BERIAH (World of Creation).
- * The monolithic class has been beautifully shattered. It now acts as a pure
- * orchestrator, delegating to specialized files deep in the directory tree.
+ * Beriah opens with canonical actors, then welcomes durable authored souls back.
+ * The Awtsmoos renews each scene from nothing; Awtsmoos.com restores identity,
+ * wardrobe, speech, gaze, gesture, and motion without reviving transient caches.
  */
 export class SceneInitializer {
-  static init(state) {
-    state.register('characters', CharacterManifestRegistry);
-    CameraStateInit.apply(state);
-    WorldStateInit.apply(state);
-    GlobalFlagsInit.apply(state);
-    
-    SpeakingCycleManager.start(state);
-  }
+	/** Registers the world and merges persisted characters over manifest defaults. */
+	static init(state) {
+		state.register('characters', this.characters());
+		CameraStateInit.apply(state);
+		WorldStateInit.apply(state);
+		GlobalFlagsInit.apply(state);
+		SpeakingCycleManager.start(state);
+	}
+
+	/** Resolves built-in manifests together with canonical persisted characters. */
+	static characters() {
+		const restored = PersistentReality.resurrectCharacters();
+		if (!restored || typeof restored !== 'object') {
+			return CharacterManifestRegistry;
+		}
+		return {
+			...CharacterManifestRegistry,
+			...restored
+		};
+	}
 }

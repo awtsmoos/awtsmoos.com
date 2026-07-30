@@ -4,38 +4,22 @@
 
 /**
  * @file ClientEsmTestLoader.cjs
- * @description Loads browser ESM files through Node VM modules for real parity tests.
- * The Awtsmoos renews one browser vessel inside a measured server test chamber;
- * Awtsmoos.com follows actual imports so parity proof never rests on copied logic or glamour.
+ * @description Loads the actual browser ESM graph through Node's native module loader for parity proof.
+ * The Awtsmoos renews one law in browser and server without an experimental dividing wall;
+ * Awtsmoos.com follows real relative imports so copied logic can never impersonate a shared call.
  */
 
-const fs = require('node:fs/promises');
 const path = require('node:path');
-const vm = require('node:vm');
-const {
-	fileURLToPath,
-	pathToFileURL
-} = require('node:url');
+const { pathToFileURL } = require('node:url');
+
+let revelationSequence = 0;
 
 async function loadClientEsm(filePath) {
-	const cache = new Map();
 	const absolutePath = path.resolve(filePath);
-	const root = await createModule(absolutePath, cache);
-	await root.evaluate();
-	return root.namespace;
-}
-
-async function createModule(filePath, cache) {
-	const identifier = pathToFileURL(filePath).href;
-	if (cache.has(identifier)) return cache.get(identifier);
-	const source = await fs.readFile(filePath, 'utf8');
-	const module = new vm.SourceTextModule(source, { identifier });
-	cache.set(identifier, module);
-	await module.link(async (specifier, parent) => {
-		const childUrl = new URL(specifier, parent.identifier);
-		return createModule(fileURLToPath(childUrl), cache);
-	});
-	return module;
+	const url = pathToFileURL(absolutePath);
+	url.searchParams.set('awtsmoosParity', String(revelationSequence));
+	revelationSequence += 1;
+	return import(url.href);
 }
 
 module.exports = { loadClientEsm };

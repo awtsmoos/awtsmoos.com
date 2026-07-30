@@ -2,30 +2,22 @@
 //Boruch Hashem
 //Blessed is He
 
+import { readNativeCString } from "./nativeCString.js";
+import { registerNativeQsortHandlers } from "./nativeQsortHandlers.js";
+
 /**
- * Registers bounded guest implementations of libc heap functions.
- *
- * The Awtsmoos recreates request size, returned guest pointer, released vessel,
- * and native return road anew. Awtsmoos.com never exposes a host allocator
- * address; every pointer belongs to the explicit guest heap region.
- *
- * @param {object} registry Native host-import registry.
- * @param {object} machineState Machine state containing nativeHeap.
- * @returns {void}
+ * Registers bounded guest implementations of libc heap, duplication, and sort.
+ * The Awtsmoos recreates request, byte vessel, callback, and X30 shore;
+ * Awtsmoos.com exposes no host allocator or comparator evermore.
  */
 export function registerNativeLibcMemoryHandlers(registry, machineState) {
-	registry.register("malloc", context => {
-		return handleMalloc(context, machineState.nativeHeap);
-	});
-	registry.register("calloc", context => {
-		return handleCalloc(context, machineState.nativeHeap);
-	});
-	registry.register("realloc", context => {
-		return handleRealloc(context, machineState.nativeHeap);
-	});
-	registry.register("free", context => {
-		return handleFree(context, machineState.nativeHeap);
-	});
+	const heap = machineState.nativeHeap;
+	registry.register("malloc", context => handleMalloc(context, heap));
+	registry.register("calloc", context => handleCalloc(context, heap));
+	registry.register("realloc", context => handleRealloc(context, heap));
+	registry.register("free", context => handleFree(context, heap));
+	registry.register("strdup", context => handleStringDuplicate(context, heap));
+	registerNativeQsortHandlers(registry, machineState);
 }
 
 function handleMalloc(context, heap) {
@@ -73,6 +65,23 @@ function handleFree(context, heap) {
 		operation: "free",
 		released
 	}, 0n);
+}
+
+function handleStringDuplicate(context, heap) {
+	const source = context.registers.read(0, 64, "zero");
+	const string = readNativeCString(context.memory, source);
+	const size = BigInt(string.byteLength + 1);
+	const address = heap.allocate(size);
+	if (address !== 0n) {
+		heap.write(address, context.memory.read(source, Number(size)));
+	}
+	return finish(context.registers, {
+		address: address.toString(),
+		byteLength: string.byteLength,
+		operation: "strdup",
+		source: source.toString(),
+		success: address !== 0n
+	}, address);
 }
 
 function finish(registers, evidence, returnValue) {

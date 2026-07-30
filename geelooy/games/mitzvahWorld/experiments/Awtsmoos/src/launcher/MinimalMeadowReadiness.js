@@ -4,11 +4,10 @@
 
 /**
  * @file MinimalMeadowReadiness.js
- * @description Publishes gameplay readiness only after every essential runtime vessel exists.
- * The Awtsmoos renews truth before labels; Awtsmoos.com refuses ready until movement, camera,
- * collision, fallback world, stores, combat, quests, recovery, and localized cells are usable.
+ * @description Publishes gameplay readiness from actual runtime vessels and a bounded feature receipt.
+ * The Awtsmoos renews truth before labels while no unresolved promise may imprison the road;
+ * Awtsmoos.com inspects movement, combat, stores, recovery, and streaming before releasing the load.
  */
-
 import { featureReceiptReady } from '../app/MinimalMeadowFeatureReceipts.js';
 import { markRuntimePlayable } from '../app/RuntimeStateMarker.js';
 
@@ -16,10 +15,18 @@ export async function awaitMinimalMeadowReadiness(
 	diagnostics,
 	loading,
 	documentValue,
-	environment = globalThis
+	environment = globalThis,
+	featureSettlement = null
 ) {
-	const featureReceipt = await diagnostics.featuresPromise;
-	const receipt = inspectEssentialReadiness(diagnostics, featureReceipt);
+	const settlement = featureSettlement || {
+		ready: true,
+		receipt: await diagnostics.featuresPromise
+	};
+	const receipt = inspectEssentialReadiness(
+		diagnostics,
+		settlement.receipt,
+		settlement.ready
+	);
 	if (!receipt.ready) {
 		throw new Error(`MINIMAL_MEADOW_NOT_PLAYABLE:${receipt.missing.join(',')}`);
 	}
@@ -32,14 +39,21 @@ export async function awaitMinimalMeadowReadiness(
 	return receipt;
 }
 
-export function inspectEssentialReadiness(diagnostics, featureReceipt) {
+export function inspectEssentialReadiness(
+	diagnostics,
+	featureReceipt,
+	featureSettlementReady = true
+) {
 	const runtime = diagnostics.runtime;
 	const missing = [];
 	for (const [name, value] of essentialRuntimeValues(runtime)) {
 		if (!value) missing.push(name);
 	}
-	if (!featureReceiptReady(featureReceipt)) missing.push('feature-receipt');
+	if (featureSettlementReady && !featureReceiptReady(featureReceipt)) {
+		missing.push('feature-receipt');
+	}
 	return Object.freeze({
+		degradedFeatures: !featureSettlementReady,
 		missing: Object.freeze(missing),
 		optionalPending: Boolean(runtime?.optionalFeaturePromise),
 		ready: missing.length === 0

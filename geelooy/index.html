@@ -1,92 +1,91 @@
 <!-- B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos renews every identity and source inside one edge-to-edge river on Awtsmoos.com.
+The Awtsmoos makes a quiet doorway where one image may dance and every searching spark may advance.
 -->
 <!doctype html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-	<meta name="description" content="Geelooy is a living social knowledge civilization where every post keeps identity, source, provenance, and discussion.">
-	<meta name="theme-color" content="#020611">
-	<title>Geelooy — Home</title>
-	<link rel="stylesheet" href="/style/geelooy-app/index.css?v=interface-dark-011">
-	<link rel="stylesheet" href="/style/geelooy-app/home/composer/index.css?v=social-home-001">
-	<link rel="stylesheet" href="/style/social/home/index.css?v=social-home-001">
-	<link rel="modulepreload" href="/scripts/awtsmoos/social/shell/boot.js">
-	<link rel="modulepreload" href="/scripts/awtsmoos/social/home/dashboard/boot.js">
-	<link rel="modulepreload" href="/scripts/awtsmoos/social/home/visuals/boot.js">
+	<meta name="description" content="Awtsmoos.com — search, discover, create, and play.">
+	<meta name="theme-color" content="#060a12">
+	<title>Awtsmoos</title>
+	<link rel="preload" href="/resources/home/dance-hero.jpg" as="image">
+	<link rel="stylesheet" href="/style/home-simple/base.css?v=5">
+	<link rel="stylesheet" href="/style/home-simple/components.css?v=5">
 </head>
-<body
-	class="geelooy-home-document geelooy-home-shell geelooy-social-surface"
-	data-home-dashboard-page
-	data-home-dashboard
-	data-home-reduced-motion-safe
-	data-geelooy-route="home"
->
-	<canvas class="awtsmoos-cosmic-canvas" data-awtsmoos-cosmic-scene aria-hidden="true"></canvas>
-	<a class="home-skip-link" href="#home-live-region">Skip to the living feed</a>
-	<main class="home-dashboard-page cosmic-home-main geelooy-content-region" aria-labelledby="home-title">
-		<header class="home-stream-header">
-			<div>
-				<p class="home-stream-kicker">Your living network</p>
-				<h1 id="home-title">Home</h1>
-			</div>
-			<a class="home-stream-search" href="/mawgawl/sefarim/" aria-label="Search Torah sources">⌕</a>
-		</header>
-		<nav class="home-stream-tabs" aria-label="Home destinations">
-			<a class="is-active" href="/" aria-current="page">All</a>
-			<a href="/mawgawl/sefarim/">Torah</a>
-			<a href="/heichelos">Communities</a>
-			<a href="/email">Messages</a>
-			<a href="/games">Games</a>
-		</nav>
-		<section class="home-circle-rail" aria-label="Quick circles">
-			<a href="/profile/"><span aria-hidden="true">◎</span><strong>Your profile</strong><small>Identity</small></a>
-			<a href="/mawgawl/sefarim/"><span aria-hidden="true">א</span><strong>Torah</strong><small>Sources</small></a>
-			<a href="/heichelos"><span aria-hidden="true">⌂</span><strong>Heichelos</strong><small>Communities</small></a>
-			<a href="/email"><span aria-hidden="true">✉</span><strong>Messages</strong><small>Conversations</small></a>
-			<a href="/games"><span aria-hidden="true">🎮</span><strong>Games</strong><small>Play</small></a>
-		</section>
-		<section
-			id="home-live-region"
-			class="home-feed-section"
-			aria-labelledby="home-feed-title"
-			data-home-feed-section
-			data-object-inspector
-		>
-			<header class="home-section-heading">
-				<div>
-					<p class="home-stream-kicker">The living feed</p>
-					<h2 id="home-feed-title">All posts</h2>
+<body>
+	<canvas class="particle-sky" data-particle-sky aria-hidden="true"></canvas>
+	<div class="ambient-glow" aria-hidden="true"></div>
+	<header class="site-header">
+		<div class="header-rail">
+			<a class="brand" href="/" aria-label="Awtsmoos home">
+				<span class="brand-mark" aria-hidden="true">א</span>
+				<span>Awtsmoos</span>
+			</a>
+			<nav class="site-nav" aria-label="Primary navigation">
+				<a href="/login">Login</a>
+				<a href="/apps">Apps</a>
+				<a href="/games">Games</a>
+				<div class="menu" data-menu>
+					<button type="button" aria-expanded="false" aria-controls="explore-menu" data-menu-button>
+						Explore
+						<span aria-hidden="true">⌄</span>
+					</button>
+					<div class="menu-panel" id="explore-menu" data-menu-panel>
+						<a class="menu-mobile-link" href="/login">Login</a>
+						<a class="menu-mobile-link" href="/apps">Apps</a>
+						<a class="menu-mobile-link" href="/games">Games</a>
+						<span class="menu-divider menu-mobile-link" aria-hidden="true"></span>
+						<a href="/heichelos">Heichelos</a>
+						<a href="/mawgawl/sefarim/">Torah Search</a>
+						<a href="/social">Social</a>
+						<a href="/os">Awtsmoos OS</a>
+					</div>
 				</div>
-				<a href="/profile/">Manage posts</a>
-			</header>
-			<nav class="home-feed-tabs" aria-label="Feed views">
-				<button type="button" class="active" data-feed-mode="forYou" aria-pressed="true">For you</button>
-				<button type="button" data-feed-mode="following" aria-pressed="false">Following</button>
-				<button type="button" data-feed-mode="recent" aria-pressed="false">Recent</button>
 			</nav>
-			<div class="civilization-state" data-home-empty-state hidden>
-				<strong>The feed is quiet.</strong>
-				<p>Follow an identity or enter a Heichel to begin shaping this view.</p>
+		</div>
+	</header>
+	<main class="home">
+		<section class="hero" aria-labelledby="hero-title">
+			<div class="dance-shell" data-parallax>
+				<div class="dance-orbit" aria-hidden="true"></div>
+				<div class="dance-frame">
+					<span class="frame-corner frame-corner-top" aria-hidden="true"></span>
+					<img src="/resources/home/dance-hero.jpg" alt="A luminous figure dancing in a cosmic scene" width="1024" height="1024" decoding="async">
+					<span class="frame-corner frame-corner-bottom" aria-hidden="true"></span>
+				</div>
+				<div class="image-caption" aria-hidden="true">01 · Living image</div>
 			</div>
-			<div class="civilization-state" data-home-error-state hidden>
-				<strong>The feed could not open.</strong>
-				<p>Retry the route or continue through Heichel discovery.</p>
+			<div class="hero-copy">
+				<p class="eyebrow"><span aria-hidden="true"></span>Everything begins from nothing.</p>
+				<h1 id="hero-title">Search the living world of Awtsmoos.</h1>
+				<p class="hero-summary">Torah, people, projects, games, and worlds—all from one quiet doorway.</p>
+				<form class="search" action="/mawgawl/sefarim/" method="get" role="search">
+					<span class="search-symbol" aria-hidden="true">⌕</span>
+					<label class="sr-only" for="home-search">Search Awtsmoos</label>
+					<input id="home-search" name="q" type="search" placeholder="Search Torah, people, worlds…" autocomplete="off" enterkeyhint="search">
+					<span class="shortcut-key" aria-hidden="true">/</span>
+					<button type="submit" aria-label="Search"><span aria-hidden="true">→</span></button>
+				</form>
+				<div class="quick-links" aria-label="Popular destinations">
+					<span>Explore</span>
+					<a href="/mawgawl/sefarim/">Torah</a>
+					<a href="/apps">Apps</a>
+					<a href="/games">Games</a>
+					<a href="/os">OS</a>
+				</div>
 			</div>
-			<section id="home-feed" class="home-feed-list g-feed-list" data-home-feed aria-live="polite" aria-busy="true">
-				<article class="home-post-card geelooy-feed-card loading-state">
-					<h3>Opening the living feed…</h3>
-					<p class="geelooy-feed-summary">Connecting to real Geelooy posts and communities.</p>
-				</article>
-			</section>
 		</section>
 	</main>
-	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=interface-dark-011"></script>
-	<script type="module" src="/scripts/awtsmoos/social/home/dashboard/index.js?v=social-home-001"></script>
-	<script type="module" src="/scripts/awtsmoos/social/home/visuals/boot.js?v=social-home-001"></script>
-	<script src="/register.js?v=social-home-001"></script>
+	<footer class="site-footer">
+		<div class="footer-line" aria-hidden="true"></div>
+		<div class="footer-content">
+			<p>Awtsmoos.com</p>
+			<div><a href="/about">About</a><a href="/contact">Contact</a><a href="mailto:contact@awtsmoos.com">contact@awtsmoos.com</a></div>
+		</div>
+	</footer>
+	<script type="module" src="/scripts/home-simple/index.js?v=5"></script>
 </body>
 </html>

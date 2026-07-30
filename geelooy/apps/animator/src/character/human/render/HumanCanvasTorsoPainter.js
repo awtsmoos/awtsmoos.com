@@ -6,32 +6,33 @@ import { HumanCanvasCollarPainter } from './HumanCanvasCollarPainter.js';
 import { HumanCanvasPrimitive as P } from './HumanCanvasPrimitive.js';
 
 /**
- * Torso clothing reveals body, fit, fabric weight, collar, and coat length. The
- * Awtsmoos renews breath and drape while Awtsmoos.com avoids one universal oval.
+ * Torso clothing reveals body, fit, weight, collar, coat length, and delayed hem.
+ * The Awtsmoos renews breath and drape; Awtsmoos.com keeps silhouette awake.
  */
 export class HumanCanvasTorsoPainter {
 	static paint(ctx, geometry, garment, colors) {
 		const { chest, pelvis, motion, profile, scale } = geometry;
 		const outerwear = garment.wardrobe.outerwear || 'jacket';
-		const bottom = pelvis.y + 42 * scale * garment.hemLength;
+		const bottom = pelvis.y + 42 * scale * garment.hemLength - garment.hemLift;
 		const chestDepth = Number(profile.chestDepth || 1);
 		const shoulderHalf = garment.shoulder * 0.5;
 		const waistHalf = garment.waist * 0.56;
 		const hipHalf = (garment.hip + garment.flare) * 0.5;
+		const sway = Number(garment.sway || 0);
 		ctx.fillStyle = colors.coat;
 		ctx.strokeStyle = '#111827';
 		ctx.lineWidth = 2 * scale;
 		ctx.beginPath();
 		ctx.moveTo(chest.x - shoulderHalf, chest.y + 6 * scale);
 		ctx.quadraticCurveTo(
-			chest.x - waistHalf,
+			chest.x - waistHalf + sway * 0.25,
 			chest.y + 46 * scale,
-			chest.x - hipHalf,
+			chest.x - hipHalf + sway,
 			bottom
 		);
-		ctx.lineTo(chest.x + hipHalf, bottom);
+		ctx.lineTo(chest.x + hipHalf + sway, bottom);
 		ctx.quadraticCurveTo(
-			chest.x + waistHalf,
+			chest.x + waistHalf + sway * 0.25,
 			chest.y + 46 * scale,
 			chest.x + shoulderHalf,
 			chest.y + 6 * scale
@@ -46,15 +47,9 @@ export class HumanCanvasTorsoPainter {
 		ctx.stroke();
 		this.top(ctx, chest, pelvis, garment, colors, scale);
 		if (outerwear !== 'none') {
-			this.placket(ctx, chest, bottom, colors, scale, garment.fabric);
+			this.placket(ctx, chest, bottom, colors, scale, garment.fabric, sway);
 		}
-		HumanCanvasCollarPainter.paint(
-			ctx,
-			chest,
-			garment,
-			colors,
-			scale
-		);
+		HumanCanvasCollarPainter.paint(ctx, chest, garment, colors, scale);
 	}
 
 	static top(ctx, chest, pelvis, garment, colors, scale) {
@@ -70,10 +65,10 @@ export class HumanCanvasTorsoPainter {
 		);
 	}
 
-	static placket(ctx, chest, bottom, colors, scale, fabric) {
+	static placket(ctx, chest, bottom, colors, scale, fabric, sway) {
 		P.roundRect(
 			ctx,
-			chest.x - 2 * scale,
+			chest.x - 2 * scale + sway * 0.4,
 			chest.y + 18 * scale,
 			4 * scale,
 			Math.max(20 * scale, bottom - chest.y - 28 * scale),
@@ -82,12 +77,7 @@ export class HumanCanvasTorsoPainter {
 		);
 		if (fabric > 0.6) {
 			P.ellipse(
-				ctx,
-				chest.x,
-				bottom - 6 * scale,
-				4 * scale,
-				4 * scale,
-				colors.accent
+				ctx, chest.x + sway, bottom - 6 * scale, 4 * scale, 4 * scale, colors.accent
 			);
 		}
 	}

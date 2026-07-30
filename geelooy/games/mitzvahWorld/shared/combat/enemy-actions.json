@@ -3,23 +3,23 @@
 	"boruchHashem": "Boruch Hashem",
 	"blessedIsHe": "Blessed is He",
 	"poem": "The Awtsmoos reveals warning before consequence and recovery after strain; Awtsmoos.com keeps each hostile action typed so counters are learned, not guessed in vain.",
-	"schemaVersion": 1,
+	"schemaVersion": 2,
 	"actions": {
 		"beast-bite": {
 			"id": "beast-bite", "hebrewName": "נשיכת חיה", "englishName": "Beast Bite", "affinityId": "malchus", "elementId": "physical",
-			"tags": ["melee"], "applyStatusIds": [], "interruptResistance": 10, "danger": "measured", "counterGuidance": "Block toward the creature or step outside its short reach."
+			"tags": ["melee"], "applyStatusIds": ["unbalanced"], "interruptResistance": 10, "danger": "measured", "counterGuidance": "Block toward the creature or step outside its short reach."
 		},
 		"guardian-slam": {
 			"id": "guardian-slam", "hebrewName": "מכת השומר", "englishName": "Guardian Slam", "affinityId": "malchus", "elementId": "earth-dust",
-			"tags": ["melee", "guard-damage"], "applyStatusIds": ["grounded"], "interruptResistance": 34, "danger": "high", "counterGuidance": "Dodge the square impact or interrupt before the final descent."
+			"tags": ["melee", "guard-damage", "area"], "applyStatusIds": ["grounded", "dust-obscured"], "interruptResistance": 34, "danger": "high", "counterGuidance": "Dodge the square impact or interrupt before the final descent."
 		},
 		"letter-bolt": {
 			"id": "letter-bolt", "hebrewName": "חץ אות", "englishName": "Letter Bolt", "affinityId": "chochmah", "elementId": "light-air",
-			"tags": ["ranged", "projectile"], "applyStatusIds": ["illuminated"], "interruptResistance": 18, "danger": "measured", "counterGuidance": "Sidestep the ray or use a grounded defense."
+			"tags": ["ranged", "projectile", "precision"], "applyStatusIds": ["illuminated", "disrupted"], "interruptResistance": 18, "danger": "measured", "counterGuidance": "Sidestep the ray or use a grounded defense."
 		},
 		"letter-wave": {
 			"id": "letter-wave", "hebrewName": "גל אותיות", "englishName": "Letter Wave", "affinityId": "zeir-anpin", "elementId": "water",
-			"tags": ["area", "wave"], "applyStatusIds": ["soaked"], "interruptResistance": 26, "danger": "high", "counterGuidance": "Move through the safe gap or break the channel."
+			"tags": ["area", "wave", "slow"], "applyStatusIds": ["soaked", "unbalanced"], "removeStatusIds": ["burning"], "interruptResistance": 26, "danger": "high", "counterGuidance": "Move through the safe gap or break the channel."
 		},
 		"reposition-step": {
 			"id": "reposition-step", "hebrewName": "צעד מדוד", "englishName": "Measured Reposition", "affinityId": "chochmah", "elementId": "light-air",
@@ -27,27 +27,27 @@
 		},
 		"ritual-heal": {
 			"id": "ritual-heal", "hebrewName": "רפואת טקס", "englishName": "Ritual Healing", "affinityId": "zeir-anpin", "elementId": "water",
-			"tags": ["heal", "channel"], "applyStatusIds": ["flowing"], "interruptResistance": 20, "danger": "support", "counterGuidance": "Interrupt before the water ring closes."
+			"tags": ["heal", "channel", "cleanse"], "applyStatusIds": ["flowing"], "removeStatusIds": ["burning", "disrupted"], "interruptResistance": 20, "danger": "support", "counterGuidance": "Interrupt before the water ring closes."
 		},
 		"shadow-strike": {
 			"id": "shadow-strike", "hebrewName": "מכת צל", "englishName": "Shadow Strike", "affinityId": "binah", "elementId": "fire",
-			"tags": ["melee", "burn"], "applyStatusIds": ["burning"], "interruptResistance": 16, "danger": "measured", "counterGuidance": "Parry the bright letter-flash before impact."
+			"tags": ["melee", "burn", "armor-soften"], "applyStatusIds": ["burning", "exposed"], "interruptResistance": 16, "danger": "measured", "counterGuidance": "Parry the bright letter-flash before impact."
 		},
 		"stone-guard": {
 			"id": "stone-guard", "hebrewName": "שמירת אבן", "englishName": "Stone Guard", "affinityId": "malchus", "elementId": "earth-dust",
-			"tags": ["guard"], "applyStatusIds": [], "interruptResistance": 42, "danger": "defense", "counterGuidance": "Use guard damage or wait for the stone shell to recede."
+			"tags": ["guard", "projectile-block"], "applyStatusIds": ["grounded"], "interruptResistance": 42, "danger": "defense", "counterGuidance": "Use guard damage or wait for the stone shell to recede."
 		},
 		"summon-shades": {
 			"id": "summon-shades", "hebrewName": "זימון צללים", "englishName": "Summon Shades", "affinityId": "binah", "elementId": "fire",
-			"tags": ["summon", "channel"], "applyStatusIds": [], "interruptResistance": 30, "danger": "critical", "counterGuidance": "Interrupt before the final burning letter appears."
+			"tags": ["summon", "channel"], "applyStatusIds": ["dust-obscured"], "interruptResistance": 30, "danger": "critical", "counterGuidance": "Interrupt before the final burning letter appears."
 		},
 		"summit-enrage": {
 			"id": "summit-enrage", "hebrewName": "בערת הפסגה", "englishName": "Summit Enrage", "affinityId": "binah", "elementId": "fire",
-			"tags": ["enrage", "phase"], "applyStatusIds": [], "interruptResistance": 50, "danger": "critical", "counterGuidance": "Prepare water and interruption before the phase completes."
+			"tags": ["enrage", "phase", "channel"], "applyStatusIds": ["burning"], "interruptResistance": 50, "danger": "critical", "counterGuidance": "Prepare water and interruption before the phase completes."
 		},
 		"warden-cleave": {
 			"id": "warden-cleave", "hebrewName": "בקיעת השומר", "englishName": "Warden Cleave", "affinityId": "malchus", "elementId": "earth-dust",
-			"tags": ["boss", "melee", "area"], "applyStatusIds": ["grounded"], "interruptResistance": 48, "danger": "critical", "counterGuidance": "Leave the crowned square or commit a coordinated interrupt."
+			"tags": ["boss", "melee", "area"], "applyStatusIds": ["grounded", "exposed"], "interruptResistance": 48, "danger": "critical", "counterGuidance": "Leave the crowned square or commit a coordinated interrupt."
 		},
 		"warden-retreat": {
 			"id": "warden-retreat", "hebrewName": "נסיגת השומר", "englishName": "Warden Retreat", "affinityId": "chochmah", "elementId": "light-air",

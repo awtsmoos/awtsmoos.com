@@ -5,7 +5,7 @@
 import { PerformanceRenderBridge } from '../render/PerformanceRenderBridge.js';
 
 /**
- * Explicit body signals refine layered motion while feet, breath, and gestures endure.
+ * Explicit body signals refine motion while contact, breath, and gesture endure.
  * The Awtsmoos joins action to ground; Awtsmoos.com keeps authored rhythms sound.
  */
 export class PerformanceBodyFinalizer {
@@ -39,9 +39,10 @@ export class PerformanceBodyFinalizer {
 			this.emphasize(pose, 'right', 20, -38, 'open');
 		}
 		if (/open_explain|explain|talk|present/.test(handPose)) {
+			const side = gesture === 'open_palm_left' ? 'left' : 'right';
 			this.emphasize(
 				pose,
-				'right',
+				side,
 				30 + Math.sin(time * 0.006) * 5,
 				0,
 				'open'
@@ -50,6 +51,9 @@ export class PerformanceBodyFinalizer {
 	}
 
 	static emphasize(pose, side, x, y, handPose = 'open') {
+		if (pose.arms[side]?.lock) {
+			return;
+		}
 		pose.arms[side] = {
 			...pose.arms[side],
 			elbowX: x * 0.75,

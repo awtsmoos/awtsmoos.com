@@ -21,7 +21,7 @@ export class GesturePhaseEngine {
 			return this.result('rest', 0, 0, 0);
 		}
 		const explicitPhase = String(gesture.phase || 'auto');
-		const supplied = Number.isFinite(Number(gesture.progress));
+		const supplied = this.hasProgress(gesture.progress);
 		if (!supplied && explicitPhase === 'auto') {
 			return this.result(
 				'hold',
@@ -46,6 +46,14 @@ export class GesturePhaseEngine {
 		}
 		const local = this.smooth((progress - 0.76) / 0.24);
 		return this.result('settle', 1 - local, 0, (1 - local) * 0.05);
+	}
+
+	/** Distinguishes intentionally absent progress from authored numeric zero. */
+	static hasProgress(value) {
+		return value !== null
+			&& value !== undefined
+			&& value !== ''
+			&& Number.isFinite(Number(value));
 	}
 
 	static result(phase, amount, anticipation, followThrough) {

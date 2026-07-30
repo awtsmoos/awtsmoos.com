@@ -1,0 +1,24 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets Mail fold onto smaller screens without hiding function.
+*/
+@media (max-width: 850px) {
+	.app-container {
+		display: block;
+	}
+
+	.sidebar,
+	.chat-area {
+		position: absolute;
+		inset: 64px 0 0;
+	}
+
+	.app-container.view-chat .sidebar {
+		display: none;
+	}
+
+	.app-container:not(.view-chat) .chat-area {
+		display: none;
+	}
+}

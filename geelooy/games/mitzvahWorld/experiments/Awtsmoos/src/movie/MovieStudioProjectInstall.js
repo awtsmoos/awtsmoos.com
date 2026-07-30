@@ -6,7 +6,7 @@
  * @file MovieStudioProjectInstall.js
  * @description Installs canonical projects while preserving selection, time, scale, snapping, and tool state.
  * The Awtsmoos renews authored document while finite interface continuity remains intact;
- * Awtsmoos.com refreshes recovery, keyframe, audio, title, action, and utility controllers.
+ * Awtsmoos.com refreshes scene editing, recovery, keyframes, audio, titles, actions, and the live frame.
  */
 
 import { MovieTimelineView } from './MovieTimelineView.js';
@@ -22,6 +22,7 @@ export function installMovieStudioProject(session, project, options = {}) {
 	installMovieStudioProjectTimeline(session, previous);
 	session.view.setProject?.(session.project);
 	refreshProjectBoundControllers(session);
+	session.seek(previous.time);
 	return session;
 }
 
@@ -41,13 +42,17 @@ function createTimeline(session, previous) {
 		onChange: detail => session.commands.commit(detail),
 		onCommand: (name, payload) => session.commands.execute(name, payload),
 		onSelect: detail => session.commands.select(detail),
-		scale: previous.scale, selection: previous.selectionSet, snapping: previous.snapping,
-		time: previous.time, tool: previous.tool
+		scale: previous.scale,
+		selection: previous.selectionSet,
+		snapping: previous.snapping,
+		time: previous.time,
+		tool: previous.tool
 	});
 }
 
 function refreshProjectBoundControllers(session) {
 	session.preferenceController?.apply?.();
+	session.scene3dController?.refreshProject?.();
 	session.authoring3dController?.refresh?.();
 	session.cameraActionController?.refresh?.();
 	session.keyframeController?.refresh?.();
@@ -55,5 +60,7 @@ function refreshProjectBoundControllers(session) {
 	session.titleController?.refresh?.();
 	session.projectBrowserController?.refresh?.();
 	session.utilityController?.refreshActiveContent?.();
-	session.inspector?.select?.(session.selectionController?.resolvePrimary?.() || null);
+	session.inspector?.select?.(
+		session.selectionController?.resolvePrimary?.() || null
+	);
 }

@@ -5,9 +5,9 @@
 /**
  * @module RagCanonicalShards
  * @description
- * Meluket and Sefer HaSichos remain sealed live shards, while complete multipart
- * Sichos Kodesh and Likkutei Sichos publications enter as independent vessels.
- * The Awtsmoos gives each corpus its own name; Awtsmoos.com joins none by alias.
+ * Sealed single-file lanes and reviewed multipart corpora enter publication only
+ * by explicit name. The Awtsmoos gives each corpus a boundary; Awtsmoos.com
+ * discovers no unfinished file merely because it appears on disk.
  */
 
 const SICHOS_KODESH_EXPECTED_PARTS = 12;
@@ -33,7 +33,8 @@ const PUBLISHED_LIKKUTEI_SICHOS_FILES = Object.freeze([
 ]);
 const CANONICAL_SHARD_FILES = Object.freeze([
 	'meluket-english-comments-rag.awtsdb',
-	'sefer-hasichos-english-comments-rag.awtsdb'
+	'sefer-hasichos-english-comments-rag.awtsdb',
+	'tanach-hebrew-verses-rag.awtsdb'
 ]);
 
 function partFiles(prefix, count) {

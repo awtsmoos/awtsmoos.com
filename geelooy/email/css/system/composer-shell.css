@@ -1,0 +1,45 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives composition one calm outer vessel.
+*/
+.composer-area {
+	padding: 12px 16px 16px;
+	border-top: 1px solid var(--mail-border);
+	background: rgba(8, 13, 21, .9);
+}
+
+.composer-box {
+	border: 1px solid var(--mail-border);
+	border-radius: 16px;
+	background: rgba(255, 255, 255, .03);
+}
+
+.composer-topbar {
+	padding: 8px 10px;
+	border-bottom: 1px solid var(--mail-border);
+}
+
+.composer-tabs {
+	display: flex;
+	gap: 6px;
+}
+
+.mode-tab,
+.icon-btn,
+.win-ctrl,
+.close-modal {
+	min-width: 40px;
+	min-height: 40px;
+	border: 1px solid transparent;
+	border-radius: 10px;
+	background: transparent;
+	color: var(--mail-text-muted);
+	cursor: pointer;
+}
+
+.mode-tab.active {
+	border-color: var(--mail-border);
+	background: var(--mail-accent-soft);
+	color: var(--mail-text);
+}

@@ -1,0 +1,49 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives writing one immediate and readable surface.
+*/
+.composer-content {
+	padding: 10px;
+}
+
+.subject-input,
+.message-input,
+.styled-input {
+	width: 100%;
+	border: 1px solid var(--mail-border);
+	border-radius: 11px;
+	background: rgba(255, 255, 255, .025);
+	color: var(--mail-text);
+}
+
+.subject-input {
+	padding: 10px 11px;
+	margin-bottom: 8px;
+}
+
+.message-input {
+	min-height: 110px;
+	padding: 12px;
+	outline: none;
+	line-height: 1.55;
+	resize: vertical;
+}
+
+.composer-action-row {
+	display: flex;
+	justify-content: flex-end;
+	padding-top: 9px;
+}
+
+.send-btn,
+.btn-primary {
+	min-height: 42px;
+	padding: 0 16px;
+	border: 1px solid rgba(255, 255, 255, .35);
+	border-radius: 11px;
+	background: #e9f1fd;
+	color: #0b1421;
+	font-weight: 720;
+	cursor: pointer;
+}

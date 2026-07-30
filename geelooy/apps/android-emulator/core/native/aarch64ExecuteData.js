@@ -20,6 +20,7 @@ import { executeAarch64Multiply } from "./aarch64ExecuteMultiply.js";
 import { executeAarch64OneSourceBit } from "./aarch64ExecuteOneSourceBit.js";
 import { executeAarch64SimdAddLongReduction } from "./aarch64ExecuteSimdAddLongReduction.js";
 import { executeAarch64SimdByteUnary } from "./aarch64ExecuteSimdByteUnary.js";
+import { executeAarch64SimdCompareEqual } from "./aarch64ExecuteSimdCompareEqual.js";
 import { executeAarch64SimdElementInsert } from "./aarch64ExecuteSimdElementInsert.js";
 import { executeAarch64SimdGeneralInsert } from "./aarch64ExecuteSimdGeneralInsert.js";
 import { executeAarch64SimdGeneralMove } from "./aarch64ExecuteSimdGeneralMove.js";
@@ -36,6 +37,7 @@ export function executeAarch64Data(instruction, registers) {
 		|| executeAarch64SimdElementInsert(instruction, registers)
 		|| executeAarch64SimdGeneralMove(instruction, registers)
 		|| executeAarch64SimdByteUnary(instruction, registers)
+		|| executeAarch64SimdCompareEqual(instruction, registers)
 		|| executeAarch64SimdAddLongReduction(instruction, registers)
 		|| executeAarch64GeneralSimdMove(instruction, registers)
 		|| executeAarch64FloatToInteger(instruction, registers)

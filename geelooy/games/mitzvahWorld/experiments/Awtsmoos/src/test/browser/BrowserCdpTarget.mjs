@@ -4,11 +4,10 @@
 
 /**
  * @file BrowserCdpTarget.mjs
- * @description Owns CDP HTTP discovery and waits for one debuggable target vessel.
- * The Awtsmoos reveals each page through a stable identity; Awtsmoos.com keeps target
- * creation, lookup, timeout, and JSON transport outside evaluation and navigation logic.
+ * @description Creates already-navigating CDP targets and waits for one debuggable page vessel.
+ * The Awtsmoos opens the destination in the same breath as the vessel appears;
+ * Awtsmoos.com avoids a separate navigation socket whose reply may vanish between browser gears.
  */
-
 import { browserDelay } from './BrowserCdpSocket.mjs';
 
 export class BrowserCdpTarget {
@@ -16,8 +15,9 @@ export class BrowserCdpTarget {
 		this.port = port;
 	}
 
-	async create() {
-		return this.fetchJson('/json/new', { method: 'PUT' });
+	async create(url = 'about:blank') {
+		const encoded = encodeURIComponent(url);
+		return this.fetchJson(`/json/new?${encoded}`, { method: 'PUT' });
 	}
 
 	async wait(targetId, timeoutMs = 10000) {

@@ -4,9 +4,9 @@
 
 /**
  * @file MovieAuthoring3dShaderRuntime.js
- * @description Compiles shader-node intent and binds loaded trusted textures into tiny-renderer materials.
- * The Awtsmoos renews color, fabric, roughness, grain, transparency, and emitted light as one garment;
- * Awtsmoos.com keeps fallback color visible while texture evidence moves from loading to actual rendered map.
+ * @description Compiles shader-node intent and safely binds trusted textures into mutable runtime materials.
+ * The Awtsmoos renews color, roughness, grain, transparency, and emitted light as one garment;
+ * Awtsmoos.com preserves frozen renderer vessels while geometry carries truthful shader evidence.
  */
 
 import { collectTargetMeshes } from './MovieAuthoring3dTargets.js';
@@ -22,13 +22,13 @@ export function applyMovieShaderGraph(target, graph, time, textureRecords = [], 
 	const grainNode = [...nodes.values()].find(node => ['grain', 'noise'].includes(node.type));
 	const baseColor = normalizeColor(colorNode?.value || principled.baseColor || [0.2, 0.25, 0.32, 1]);
 	const grain = grainNode ? grainValue(grainNode, time) : 0;
-	const rendered = baseColor.map((value, index) => index < 3
-		? Math.max(0, Math.min(1, value + grain))
-		: value);
+	const rendered = baseColor.map((value, index) => {
+		return index < 3 ? Math.max(0, Math.min(1, value + grain)) : value;
+	});
 	const texture = textures[textureNode?.textureId] || null;
 	const asset = textureRuntime?.asset?.(textureNode?.textureId) || null;
 	for (const mesh of collectTargetMeshes(target)) {
-		applyMaterial(mesh.material, rendered, principled, graph, texture, asset, textureNode);
+		applyMaterial(mesh, rendered, principled, graph, texture, asset, textureNode);
 	}
 	return {
 		color: rendered,
@@ -38,8 +38,11 @@ export function applyMovieShaderGraph(target, graph, time, textureRecords = [], 
 	};
 }
 
-function applyMaterial(material, color, principled, graph, texture, asset, node = {}) {
-	if (!material) return;
+function applyMaterial(mesh, color, principled, graph, texture, asset, node = {}) {
+	const evidence = shaderEvidence(principled, graph, texture, asset);
+	storeShaderEvidence(mesh, evidence);
+	const material = mesh.material;
+	if (!material || !Object.isExtensible(material)) return;
 	material.color = color;
 	material.opacity = Number(principled.opacity ?? color[3] ?? 1);
 	material.transparent = material.opacity < 1;
@@ -52,14 +55,29 @@ function applyMaterial(material, color, principled, graph, texture, asset, node 
 		material.mapImage = asset.image;
 		material.mapImageFallback = false;
 	}
-	material.userData ||= {};
-	material.userData.movieShaderGraph = {
+	if (!material.userData) material.userData = {};
+	if (Object.isExtensible(material.userData)) {
+		material.userData.movieShaderGraph = evidence;
+	}
+}
+
+function shaderEvidence(principled, graph, texture, asset) {
+	return {
 		emission: principled.emission || null,
 		graphId: graph.id,
 		metallic: Number(principled.metallic || 0),
 		roughness: Number(principled.roughness ?? 0.5),
 		texture: textureEvidence(texture, asset)
 	};
+}
+
+function storeShaderEvidence(mesh, evidence) {
+	const geometry = mesh.geometry;
+	if (!geometry || !Object.isExtensible(geometry)) return;
+	geometry.userData ||= {};
+	if (Object.isExtensible(geometry.userData)) {
+		geometry.userData.movieShaderGraph = evidence;
+	}
 }
 
 function textureEvidence(texture, asset) {

@@ -3,13 +3,12 @@
 // Blessed is He
 /**
  * @module MailWorkspaceLayout
- * @description The Awtsmoos joins sender list and conversation without fake telemetry; Awtsmoos.com renders one honest communication workspace.
+ * @description The Awtsmoos joins sender list and conversation in one honest, functional workspace for Awtsmoos.com.
  */
 import { renderSidebar } from './sidebar.js';
 import { renderChat } from './chat.js';
 import { renderComposeModal, renderLoginOverlay } from './modals.js';
 
-/** Builds the responsive Mail workspace beneath the global Geelooy shell. */
 export function renderAppLayout(ui, root) {
 	renderLoginOverlay(ui, root);
 	renderComposeModal(ui, root);
@@ -46,18 +45,24 @@ export function renderAppLayout(ui, root) {
 	});
 }
 
-/** Describes only verifiable route state rather than invented system health. */
 function workspaceHeader() {
 	return {
 		tag: 'header',
 		classList: ['mail-civilization-status'],
 		children: [
 			{
-				tag: 'div',
+				tag: 'a',
 				classList: ['mail-civilization-brand'],
+				attributes: { href: '/', 'aria-label': 'Return to Awtsmoos home' },
 				children: [
-					{ tag: 'strong', textContent: 'Geelooy Mail' },
-					{ tag: 'small', textContent: 'Alias-aware messages and community correspondence' }
+					{ tag: 'span', classList: ['mail-brand-mark'], textContent: 'א' },
+					{
+						tag: 'span',
+						children: [
+							{ tag: 'strong', textContent: 'Mail' },
+							{ tag: 'small', textContent: 'Awtsmoos correspondence' }
+						]
+					}
 				]
 			},
 			{
@@ -65,7 +70,7 @@ function workspaceHeader() {
 				classList: ['mail-connection-state'],
 				shaym: 'mailConnectionState',
 				attributes: { role: 'status', 'aria-live': 'polite' },
-				textContent: navigator.onLine ? 'Browser online' : 'Browser offline'
+				textContent: navigator.onLine ? 'Online' : 'Offline'
 			}
 		]
 	};

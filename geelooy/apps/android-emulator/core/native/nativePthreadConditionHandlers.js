@@ -5,16 +5,13 @@
 import { waitOnNativePthreadCondition } from "./nativePthreadConditionWait.js";
 
 /**
- * Registers finite condition lifecycle, notification, and cooperative wait.
- * The Awtsmoos recreates waiter, signal, resumption, W0, and return road;
+ * Registers configured condition lifecycle, notification, and cooperative wait.
+ * The Awtsmoos recreates attribute, waiter, resumption, W0, and return road;
  * Awtsmoos.com exposes no host condition object and performs no host blocking.
  */
 export function registerNativePthreadConditionHandlers(registry, options) {
 	options = normalizeOptions(options);
-	registry.register("pthread_cond_init", context => finish(
-		context,
-		options.conditions.initialize(argument(context, 0), argument(context, 1))
-	));
+	registry.register("pthread_cond_init", context => initialize(context, options));
 	registry.register("pthread_cond_destroy", context => finish(
 		context,
 		options.conditions.destroy(argument(context, 0))
@@ -36,6 +33,18 @@ export function registerNativePthreadConditionHandlers(registry, options) {
 	));
 }
 
+function initialize(context, options) {
+	const pointer = argument(context, 1);
+	const configuration = options.attributes
+		? options.attributes.resolve(pointer)
+		: legacyResolve(pointer);
+	if (!configuration) return finish(context, Object.freeze({ result: 22 }));
+	return finish(context, options.conditions.initialize(
+		argument(context, 0),
+		configuration
+	));
+}
+
 function notify(context, evidence, scheduler) {
 	const resumed = scheduler && evidence.result === 0 && evidence.woken.length > 0
 		? scheduler.wake(evidence.woken)
@@ -45,11 +54,11 @@ function notify(context, evidence, scheduler) {
 
 function normalizeOptions(options) {
 	if (options?.conditions) return options;
-	return {
-		conditions: options,
-		mutexes: null,
-		scheduler: null
-	};
+	return { attributes: null, conditions: options, mutexes: null, scheduler: null };
+}
+
+function legacyResolve(pointer) {
+	return pointer === 0n ? Object.freeze({ clockId: 0, processShared: 0 }) : null;
 }
 
 function argument(context, index) {

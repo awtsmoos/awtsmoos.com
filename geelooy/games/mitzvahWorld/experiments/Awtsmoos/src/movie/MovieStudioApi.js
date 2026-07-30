@@ -4,7 +4,7 @@
 
 /**
  * @file MovieStudioApi.js
- * @description Creates one stable facade over project, procedural agents, media, text, 3D, jobs, instances, and UI.
+ * @description Creates one stable facade over project, procedural agents, media, text, scene3d, jobs, instances, and UI.
  * The Awtsmoos renews every project and service while identity remains beyond replacement;
  * Awtsmoos.com gives old callers familiar doors and agents immutable machine contracts for the complete studio.
  */
@@ -17,10 +17,7 @@ import {
 } from './MovieApiConstants.js';
 import { createMovieStudioAgentDomain } from './MovieStudioApiAgent.js';
 import { createMovieStudioAuthoring3dDomain } from './MovieStudioApiAuthoring3d.js';
-import {
-	addMovieStudioCompatibilityApi,
-	createUnsafeMovieStudioApi
-} from './MovieStudioApiCompatibility.js';
+import { addMovieStudioCompatibilityApi, createUnsafeMovieStudioApi } from './MovieStudioApiCompatibility.js';
 import { createMovieStudioCommandsDomain } from './MovieStudioApiCommands.js';
 import { createMovieStudioDiagnosticsDomain } from './MovieStudioApiDiagnostics.js';
 import { createMovieStudioEventsDomain } from './MovieStudioApiEvents.js';
@@ -34,6 +31,7 @@ import { createMovieStudioPluginsDomain } from './MovieStudioApiPlugins.js';
 import { createMovieStudioProjectDomain } from './MovieStudioApiProject.js';
 import { createMovieStudioRenderJobsDomain } from './MovieStudioApiRenderJobs.js';
 import { createMovieStudioRuntimeAdaptersDomain } from './MovieStudioApiRuntimeAdapters.js';
+import { createMovieStudioScene3dDomain } from './MovieStudioApiScene3d.js';
 import { createMovieStudioSchemaDomain } from './MovieStudioApiSchema.js';
 import { createMovieStudioSelectionDomain } from './MovieStudioApiSelection.js';
 import { createMovieStudioTextDomain } from './MovieStudioApiText.js';
@@ -63,13 +61,12 @@ export function createMovieStudioApi(session) {
 		projectSchemaVersion: MOVIE_PROJECT_SCHEMA_VERSION,
 		renderJobs: createMovieStudioRenderJobsDomain(session),
 		runtimeAdapters: createMovieStudioRuntimeAdaptersDomain(session),
+		scene3d: createMovieStudioScene3dDomain(session),
 		schema: createMovieStudioSchemaDomain(session),
 		selection: createMovieStudioSelectionDomain(session),
 		text: createMovieStudioTextDomain(session, commands),
 		timeline: createMovieStudioTimelineDomain(session, commands),
-		transactions: Object.freeze({
-			execute: (batch, options) => commands.executeBatch(batch, options)
-		}),
+		transactions: Object.freeze({ execute: (batch, options) => commands.executeBatch(batch, options) }),
 		ui: createMovieStudioUiDomain(session),
 		unsafe: createUnsafeMovieStudioApi(session)
 	};
@@ -78,7 +75,6 @@ export function createMovieStudioApi(session) {
 }
 
 export const MovieStudioApi = createMovieStudioApi;
-
 export function publishMovieStudioApi(session) {
 	if (session.instanceRegistry) return session.instanceRegistry.publish(session);
 	globalThis.AwtsmoosMovie = session.publicApi;

@@ -4,11 +4,10 @@
 
 /**
  * @file MinimalMeadowEnemyPopulation.js
- * @description Owns nine enemies, distributed updates, two-stage targeting, corpses, and type evidence.
+ * @description Owns nine enemies, distributed updates, targeting, corpses, and bounded diagnostics.
  * The Awtsmoos reveals distinct shadows through one measured population; Awtsmoos.com keeps
- * selected battle immediate while distant idle patrols share finite frame labor without losing time.
+ * selected battle immediate while distant patrols and diagnostic witnesses share finite labor.
  */
-
 import { Group, Vector3 } from '../../../light-three-gltf/tiny-runtime.js';
 import { MinimalMeadowEnemyActor } from './MinimalMeadowEnemyActor.js';
 import {
@@ -21,7 +20,7 @@ import {
 	unwrapMinimalMeadowEnemyActor
 } from './MinimalMeadowEnemyPopulationTargeting.js';
 import { MINIMAL_MEADOW_ENEMY_PROFILES } from './MinimalMeadowEnemyProfiles.js';
-import { buildMinimalMeadowEnemyReceipts } from './MinimalMeadowEnemyReceipts.js';
+import { MinimalMeadowEnemyReceiptCadence } from './MinimalMeadowEnemyReceiptCadence.js';
 import { MinimalMeadowEnemyUpdateBudget } from './MinimalMeadowEnemyUpdateBudget.js';
 
 export class MinimalMeadowEnemyPopulation {
@@ -37,12 +36,13 @@ export class MinimalMeadowEnemyPopulation {
 		for (const actor of this.actors) actor.pack = this;
 		this.selected = null;
 		this.updateBudget = new MinimalMeadowEnemyUpdateBudget(this);
-		this.lastReceipts = buildMinimalMeadowEnemyReceipts(this.actors);
+		this.receiptCadence = new MinimalMeadowEnemyReceiptCadence(this.actors);
+		this.lastReceipts = this.receiptCadence.receipts;
 	}
 
 	update(deltaSeconds) {
 		this.updateBudget.update(deltaSeconds);
-		this.lastReceipts = buildMinimalMeadowEnemyReceipts(this.actors);
+		this.lastReceipts = this.receiptCadence.update(deltaSeconds);
 	}
 
 	candidateFromPointer(event) {
@@ -103,8 +103,10 @@ export class MinimalMeadowEnemyPopulation {
 	}
 
 	diagnostics() {
+		this.lastReceipts = this.receiptCadence.refresh();
 		return {
 			...minimalMeadowEnemyPopulationDiagnostics(this),
+			receiptCadence: this.receiptCadence.diagnostics(),
 			updateBudget: this.updateBudget.diagnostics()
 		};
 	}

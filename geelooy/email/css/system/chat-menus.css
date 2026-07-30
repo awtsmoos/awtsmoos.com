@@ -1,0 +1,30 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives secondary actions a quiet and predictable chamber.
+*/
+.context-menu {
+	position: absolute;
+	z-index: 10;
+	right: 16px;
+	top: 56px;
+	padding: 7px;
+	border: 1px solid var(--mail-border);
+	border-radius: 13px;
+	background: var(--mail-panel);
+}
+
+.ctx-item {
+	display: block;
+	width: 100%;
+	padding: 9px 11px;
+	border: 0;
+	border-radius: 9px;
+	background: transparent;
+	color: var(--mail-text-secondary);
+	text-align: left;
+}
+
+.ctx-item:hover {
+	background: var(--mail-panel-hover);
+}

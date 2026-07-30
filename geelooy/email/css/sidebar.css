@@ -1,4 +1,8 @@
-/* B"H — Quantum sender deck styles arrive through focused modules. */
-@import "./quantum/sidebar/deck.css";
-@import "./quantum/sidebar/filters.css";
-@import "./quantum/sidebar/threads.css";
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos reveals the conversation rail through focused canonical vessels.
+*/
+@import url("./system/sidebar-shell.css");
+@import url("./system/sidebar-controls.css");
+@import url("./system/sidebar-threads.css");

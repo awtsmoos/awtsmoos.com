@@ -5,6 +5,7 @@
 import { snapshotAarch64PairMemoryEvidence } from "./aarch64PairMemoryEvidence.js";
 import { createNativeAarch64VaList } from "./nativeAarch64VaList.js";
 import { handleNativeAndroidLogPrint } from "./nativeAndroidLogPrint.js";
+import { handleNativeAndroidLogWrite } from "./nativeAndroidLogWrite.js";
 import { completeNativeAndroidLog } from "./nativeAndroidLogOutput.js";
 import { readNativeCString } from "./nativeCString.js";
 import { captureNativeMemoryWindow } from "./nativeDiagnosticMemory.js";
@@ -18,6 +19,9 @@ const WINDOW_BYTES = 256;
  * Awtsmoos.com records each line only inside the bounded process logcat vessel.
  */
 export function registerNativeAndroidLogHandlers(registry, machineState) {
+	registry.register("__android_log_write", context => {
+		return handleNativeAndroidLogWrite(context, machineState);
+	});
 	registry.register("__android_log_print", context => {
 		return handleNativeAndroidLogPrint(context, machineState);
 	});

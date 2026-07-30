@@ -4,14 +4,15 @@
 
 /**
  * @file BootstrapRuntimeLoop.js
- * @description Runs visible movement and WebGL through a resilient measured frame scheduler.
- * The Awtsmoos renews time, place, camera, and color together; Awtsmoos.com keeps controls alive
- * in hidden vessels while bounded cadence evidence reveals actual rhythm without growing memory.
+ * @description Runs sixty-hertz movement and rendering while throttling nonvisual HUD publication.
+ * The Awtsmoos renews every visible frame without forcing every written word to race;
+ * Awtsmoos.com keeps input and beauty immediate while ten-hertz text preserves the frame's grace.
  */
-
 import { BootstrapFrameCadence } from './BootstrapFrameCadence.js';
 import { createBootstrapFrameScheduler } from './BootstrapFrameScheduler.js';
 import { BootstrapMovementController } from './BootstrapMovementController.js';
+
+const HUD_REFRESH_INTERVAL_MS = 100;
 
 export function startBootstrapRuntimeLoop(runtime, environment = globalThis) {
 	const movement = new BootstrapMovementController(runtime);
@@ -19,6 +20,7 @@ export function startBootstrapRuntimeLoop(runtime, environment = globalThis) {
 	const scheduler = createBootstrapFrameScheduler(environment);
 	let active = true;
 	let lastTime = now(environment);
+	let lastHudAt = -Infinity;
 	let handle = null;
 	const frame = currentTime => {
 		if (!active) return;
@@ -31,7 +33,10 @@ export function startBootstrapRuntimeLoop(runtime, environment = globalThis) {
 			runtime.renderer.render(runtime.scene, runtime.camera);
 			runtime.bootstrapFrames += 1;
 			runtime.lastFrameAt = currentTime;
-			runtime.bootstrapHud?.refresh?.();
+			if (currentTime - lastHudAt >= HUD_REFRESH_INTERVAL_MS) {
+				runtime.bootstrapHud?.refresh?.();
+				lastHudAt = currentTime;
+			}
 		} catch (error) {
 			runtime.lastFrameError = error?.stack || String(error);
 			environment.AwtsmoosError = runtime.lastFrameError;

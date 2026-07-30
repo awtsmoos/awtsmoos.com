@@ -4,9 +4,9 @@
 
 /**
  * @file MovieAuthoring3dDirector.js
- * @description Applies models, loaded textures, geometry, motion, sculpt, modifiers, and shaders before every frame.
+ * @description Applies models, textures, geometry, motion, sculpt, modifiers, shaders, and durable manual edits.
  * The Awtsmoos renews geometry and garment before the canvas receives their trace; Awtsmoos.com
- * coordinates one private asset director while public JSON remains immutable, portable, and serializable.
+ * coordinates authored automation and persistent object/edit-mode decisions without splitting project truth.
  */
 
 import { applyMovieGeometryGraph } from './MovieAuthoring3dGeometryGraphRuntime.js';
@@ -16,6 +16,7 @@ import { applyMovieSculptLayers } from './MovieAuthoring3dSculptRuntime.js';
 import { applyMovieShaderGraph } from './MovieAuthoring3dShaderRuntime.js';
 import { resolveMovieAuthoring3dTarget } from './MovieAuthoring3dTargets.js';
 import { MovieAuthoring3dTextureRuntime } from './MovieAuthoring3dTextureRuntime.js';
+import { applyMovieScene3dAuthoring } from './MovieScene3dAuthoringRuntime.js';
 
 export class MovieAuthoring3dDirector {
 	constructor(runtime, authoring3d = {}, dependencies = {}) {
@@ -43,19 +44,30 @@ export class MovieAuthoring3dDirector {
 			const sculptLayers = (this.authoring3d.sculptLayers || []).filter(
 				layer => !layer.target || layer.target === model.id
 			);
+			const geometryEvidence = applyMovieGeometryGraph(target, geometry);
+			const modifiers = applyMovieModifierStack(this.runtime, target, stack, time);
+			const motionEvidence = applyMovieAuthoring3dMotion(this.runtime, target, motion, time);
+			const sculpt = applyMovieSculptLayers(
+				target,
+				sculptLayers,
+				this.authoring3d.vertexGroups
+			);
+			const manual = applyMovieScene3dAuthoring(target, model);
+			const shaderEvidence = applyMovieShaderGraph(
+				target,
+				shader,
+				time,
+				this.authoring3d.textures,
+				this.textures
+			);
 			output.push({
-				geometry: applyMovieGeometryGraph(target, geometry),
+				geometry: geometryEvidence,
 				id: model.id,
-				modifiers: applyMovieModifierStack(this.runtime, target, stack, time),
-				motion: applyMovieAuthoring3dMotion(this.runtime, target, motion, time),
-				sculpt: applyMovieSculptLayers(target, sculptLayers, this.authoring3d.vertexGroups),
-				shader: applyMovieShaderGraph(
-					target,
-					shader,
-					time,
-					this.authoring3d.textures,
-					this.textures
-				),
+				manual,
+				modifiers,
+				motion: motionEvidence,
+				sculpt,
+				shader: shaderEvidence,
 				status: 'applied'
 			});
 		}

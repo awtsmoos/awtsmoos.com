@@ -8,7 +8,6 @@
  * The Awtsmoos renews each identity before it enters a runtime gate;
  * Awtsmoos.com traces every affinity, element, status, action, and profile state.
  */
-
 const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -33,7 +32,9 @@ function readCombatSources(sharedRoot) {
 }
 
 function combatSourceDigest(sourceMap) {
-	const joined = SOURCE_FILES.map(fileName => sourceMap[fileName].source).join('\n');
+	const joined = SOURCE_FILES
+		.map(fileName => sourceMap[fileName].source)
+		.join('\n');
 	return crypto.createHash('sha256').update(joined).digest('hex');
 }
 
@@ -59,8 +60,7 @@ function validateCombatRecords(records) {
 	const affinityIds = new Set(Object.keys(records.COMBAT_AFFINITIES));
 	const elementIds = new Set(Object.keys(records.COMBAT_ELEMENTS));
 	const statusIds = new Set(Object.keys(records.COMBAT_STATUSES));
-	const actions = allActions(records);
-	for (const action of Object.values(actions)) {
+	for (const action of Object.values(allActions(records))) {
 		validateAction(action, affinityIds, elementIds, statusIds);
 	}
 	for (const [profileId, profile] of Object.entries(records.ENEMY_AFFINITY_PROFILES)) {
@@ -84,9 +84,14 @@ function validateAction(action, affinityIds, elementIds, statusIds) {
 	if (!elementIds.has(action.elementId)) {
 		throw new Error(`COMBAT_ELEMENT_UNKNOWN:${action.id}`);
 	}
-	for (const statusId of action.applyStatusIds || []) {
+	validateStatusIds(action, action.applyStatusIds, statusIds, 'APPLY');
+	validateStatusIds(action, action.removeStatusIds, statusIds, 'REMOVE');
+}
+
+function validateStatusIds(action, values = [], statusIds, operation) {
+	for (const statusId of values) {
 		if (!statusIds.has(statusId)) {
-			throw new Error(`COMBAT_STATUS_UNKNOWN:${action.id}:${statusId}`);
+			throw new Error(`COMBAT_STATUS_${operation}_UNKNOWN:${action.id}:${statusId}`);
 		}
 	}
 }

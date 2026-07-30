@@ -1,0 +1,89 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos places the dancer in a quiet frame, where beauty remains gentle and never seeks fame.
+*/
+.dance-shell {
+	--tilt-x: 0deg;
+	--tilt-y: 0deg;
+	position: relative;
+	isolation: isolate;
+	transform: perspective(1100px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
+	transition: transform .22s ease-out;
+}
+
+.dance-orbit {
+	position: absolute;
+	inset: -6%;
+	z-index: -1;
+	border-radius: 42%;
+	background: radial-gradient(circle, rgba(104, 137, 190, .13), transparent 70%);
+	filter: blur(24px);
+}
+
+.dance-frame {
+	position: relative;
+	overflow: hidden;
+	border: 1px solid rgba(255, 255, 255, .1);
+	border-radius: 30px;
+	background: #0a1018;
+	box-shadow: 0 40px 110px rgba(0, 0, 0, .5);
+}
+
+.dance-frame::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	background: linear-gradient(145deg, rgba(255, 255, 255, .05), transparent 30%);
+	pointer-events: none;
+}
+
+.dance-frame img {
+	display: block;
+	width: 100%;
+	aspect-ratio: 1;
+	object-fit: cover;
+}
+
+.frame-corner {
+	position: absolute;
+	z-index: 2;
+	width: 34px;
+	height: 34px;
+	pointer-events: none;
+}
+
+.frame-corner-top {
+	top: 14px;
+	left: 14px;
+	border-top: 1px solid rgba(220, 234, 255, .45);
+	border-left: 1px solid rgba(220, 234, 255, .45);
+}
+
+.frame-corner-bottom {
+	right: 14px;
+	bottom: 14px;
+	border-right: 1px solid rgba(220, 234, 255, .35);
+	border-bottom: 1px solid rgba(220, 234, 255, .35);
+}
+
+.image-caption {
+	margin-top: 12px;
+	color: #596679;
+	font-size: .68rem;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+}
+
+@media (max-width: 800px) {
+	.image-caption {
+		text-align: left;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.dance-shell {
+		transform: none !important;
+	}
+}

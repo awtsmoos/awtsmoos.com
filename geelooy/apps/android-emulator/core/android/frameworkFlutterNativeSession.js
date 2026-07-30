@@ -2,22 +2,20 @@
 //Boruch Hashem
 //Blessed is He
 
-import { runAarch64MachineWithImports } from "../native/aarch64MachineWithImports.js";
 import { createFlutterJniImportHandlers } from "../native/flutterJniImportHandlers.js";
 import { createFlutterJniMachineState } from "../native/flutterJniMachineState.js";
 import { createNativeImportAddressSpace } from "../native/nativeImportAddressSpace.js";
+import { relocateNativeImage } from "../native/nativeRelocator.js";
 import { createFrameworkFlutterNativeArrayResolver } from "./frameworkFlutterNativeArrayElements.js";
 import { createFrameworkFlutterNativeStringResolver } from "./frameworkFlutterNativeStringValues.js";
-import { relocateNativeImage } from "../native/nativeRelocator.js";
+import { startFrameworkFlutterNativeLibrary } from "./frameworkFlutterNativeStartup.js";
 import { loadNativeLibraryImage } from "./frameworkNativeLibraryImages.js";
 import { createFrameworkRuntimeJniResolver } from "./frameworkRuntimeJniResolver.js";
 
-const JNI_VERSION_1_4 = 0x00010004n;
-
 /**
- * Creates one lazy persistent libflutter ARM64 session for an Android runtime.
- * The Awtsmoos recreates image, JNI, guest files, logs, heap, and return shore;
- * Awtsmoos.com shares one Promise so concurrent calls initialize only once.
+ * Creates one lazy persistent libflutter session with real ELF initialization.
+ * The Awtsmoos renews constructors, JNI, files, logs, heap, and return shore;
+ * Awtsmoos.com shares one Promise so native dawn occurs exactly once evermore.
  */
 export function getFrameworkFlutterNativeSession(runtime) {
 	if (!runtime.flutterNativeSessionPromise) {
@@ -33,11 +31,7 @@ export function getFrameworkFlutterNativeSession(runtime) {
 async function createFrameworkFlutterNativeSession(runtime) {
 	const library = await loadNativeLibraryImage(runtime, "flutter");
 	const imports = createNativeImportAddressSpace();
-	const relocation = relocateNativeImage(
-		library.image,
-		library.memory,
-		{ imports }
-	);
+	const relocation = relocateNativeImage(library.image, library.memory, { imports });
 	const resolver = createFrameworkRuntimeJniResolver(runtime);
 	const arrayResolver = createFrameworkFlutterNativeArrayResolver(runtime);
 	const stringResolver = createFrameworkFlutterNativeStringResolver(runtime);
@@ -55,33 +49,24 @@ async function createFrameworkFlutterNativeSession(runtime) {
 		resolveMethod: resolver.resolveMethod
 	});
 	const hostImports = createFlutterJniImportHandlers(state);
-	const report = runAarch64MachineWithImports({
-		hostCallLimit: 131072,
-		hostImports,
-		imports,
-		instructionLimit: 60000000,
-		memory: state.memory,
-		registers: state.registers,
-		returnAddress: state.returnAddress,
-		systemRegisters: state.systemRegisters,
-		traceLimit: 16384
-	});
-	validateJniOnLoad(report);
+	const startup = startFrameworkFlutterNativeLibrary({ hostImports, imports, library, state });
 	let callSequence = 0;
 	return Object.freeze({
 		hostImports,
 		imports,
+		initializerReports: startup.initializerReports,
 		library,
 		nextCallNumber() {
 			callSequence += 1;
 			return callSequence;
 		},
-		onLoadReport: report,
+		onLoadReport: startup.onLoadReport,
 		relocation,
 		resolver,
 		snapshot() {
 			return Object.freeze({
 				callSequence,
+				initializerCount: startup.initializerReports.length,
 				jniFieldIds: state.jniFieldIds.snapshot().length,
 				jniMethodIds: state.jniMethodIds.snapshot().length,
 				jniNativeMethods: state.jniNativeMethods.snapshot().length,
@@ -93,18 +78,8 @@ async function createFrameworkFlutterNativeSession(runtime) {
 	});
 }
 
-function validateJniOnLoad(report) {
-	const returned = report.finalReport?.registers?.x?.[0];
-	if (report.reason !== "return") {
-		throw sessionError("ANDROID_FLUTTER_JNI_ONLOAD_BOUNDARY", report.reason);
-	}
-	if (BigInt(returned ?? 0) !== JNI_VERSION_1_4) {
-		throw sessionError("ANDROID_FLUTTER_JNI_ONLOAD_VERSION", returned);
-	}
-}
-
-function sessionError(code, detail = "") {
-	const error = new Error(detail ? `${code}:${detail}` : code);
+function sessionError(code) {
+	const error = new Error(code);
 	error.code = code;
 	return error;
 }

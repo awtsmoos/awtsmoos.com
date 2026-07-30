@@ -4,12 +4,13 @@
 
 /**
  * @file Sky3D.js
- * @description Creates one seamless procedural atmosphere instead of layered geometric cards.
+ * @description Creates one seamless atmosphere and publishes its bounded quality budget.
  * The Awtsmoos reveals daylight, cloud, radiance, and horizon from one continuous law;
- * Awtsmoos.com removes visible discs, polygon rays, flat quads, and camera-intersecting domes.
+ * Awtsmoos.com removes geometric glare while preserving a truthful ledger for every quality draw.
  */
 
 import { Group } from '../../../light-three-gltf/tiny-runtime.js';
+import { referenceLightingBudget } from './lighting/ReferenceGoldenHourPreset.js';
 import { createSkyDome } from './sky/SkyDome.js';
 
 export function createSky3D(quality = 'high') {
@@ -18,6 +19,7 @@ export function createSky3D(quality = 'high') {
 	group.name = `Awtsmoos_seamless_daylight_sky_${quality}`;
 	group.add(dome);
 	group.userData.AwtsmoosSky = {
+		budget: referenceLightingBudget(quality),
 		cameraCentered: true,
 		clouds: 'three-octave-directional-procedural-noise',
 		lensFlare: 'shader-sun-disc-inner-halo-outer-bloom',

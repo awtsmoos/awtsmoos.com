@@ -1,0 +1,65 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives each thread one readable doorway.
+*/
+.thread-list {
+	padding: 6px 8px 18px;
+}
+
+.sender-group-card {
+	margin-bottom: 10px;
+}
+
+.sender-group-head {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 7px 8px;
+	color: var(--mail-text-muted);
+	font-size: .76rem;
+}
+
+.thread-item {
+	width: 100%;
+	margin-bottom: 4px;
+	padding: 11px;
+	border: 1px solid transparent;
+	border-radius: 13px;
+	background: transparent;
+	color: inherit;
+	text-align: left;
+	cursor: pointer;
+}
+
+.thread-item:hover {
+	border-color: var(--mail-border);
+	background: var(--mail-panel-hover);
+}
+
+.thread-item.active {
+	border-color: var(--mail-border-strong);
+	background: var(--mail-accent-soft);
+}
+
+.thread-top {
+	display: flex;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.thread-name {
+	font-weight: 680;
+}
+
+.thread-time,
+.thread-snippet {
+	color: var(--mail-text-muted);
+	font-size: .74rem;
+}
+
+.thread-subject {
+	margin-top: 5px;
+	color: var(--mail-text-secondary);
+	font-size: .83rem;
+}

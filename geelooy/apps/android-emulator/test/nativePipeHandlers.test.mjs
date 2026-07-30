@@ -18,6 +18,17 @@ import { registerNativeTimerFdHandlers } from "../core/native/registerNativeTime
 const RETURN_ADDRESS = 0x7777n;
 const THREAD = 0x5000n;
 
+test("legacy pipe writes descriptors with zero flags", () => {
+	const fixture = createFixture();
+	fixture.registers.write(0, 0x5100n);
+	fixture.registers.write(1, 0xffffffffn);
+	const handled = invoke(fixture, "pipe");
+	assert.equal(handled.result.result, 0);
+	assert.equal(handled.result.flags, 0);
+	assert.equal(readAarch64Integer(fixture.memory, 0x5100n, 32), 0x40010000n);
+	assert.equal(readAarch64Integer(fixture.memory, 0x5104n, 32), 0x40010001n);
+});
+
 test("authentic pipe2 writes two descriptors and preserves ABI", () => {
 	const fixture = createFixture();
 	fixture.registers.write(0, 0x5100n);
@@ -65,10 +76,9 @@ test("empty read, EOF, EPIPE, and EBADF expose POSIX results", () => {
 	assert.equal(invoke(fixture, "close").result.errno, 9);
 });
 
-test("registry exposes pipe2, read, write, and close once", () => {
-	const fixture = createFixture();
-	const names = fixture.registry.snapshot();
-	for (const name of ["pipe2", "read", "write", "close"]) {
+test("registry exposes pipe aliases and descriptor roads once", () => {
+	const names = createFixture().registry.snapshot();
+	for (const name of ["pipe", "pipe2", "read", "write", "close"]) {
 		assert.equal(names.filter(item => item === name).length, 1);
 	}
 });
@@ -80,12 +90,7 @@ function createFixture() {
 	const pipes = createNativePipeState();
 	const state = createNativeTimerFdState({ clock });
 	const registry = createNativeHostImportRegistry();
-	registerNativeTimerFdHandlers(registry, {
-		clock,
-		errnoState,
-		pipeState: pipes,
-		state
-	});
+	registerNativeTimerFdHandlers(registry, { clock, errnoState, pipeState: pipes, state });
 	const registers = createAarch64Registers({ programCounter: 0x9000n });
 	const systemRegisters = createAarch64SystemRegisters({ TPIDR_EL0: THREAD });
 	return { memory, pipes, registers, registry, systemRegisters };

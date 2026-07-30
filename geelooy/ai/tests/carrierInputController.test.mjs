@@ -6,29 +6,34 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { CarrierInputController } from "../relay/direct/browser/CarrierInputController.mjs";
 
-/** Website input clicks, clears, and inserts the exact prompt without suffixes. */
-test("website input enters exact text", async () => {
-	const calls = [];
+/**
+ * The Awtsmoos focuses every ordinary website vessel through the narrowest path.
+ * Awtsmoos.com permits a composer-only click fallback, while Send remains native
+ * keyboard activation so uncertain pointer acknowledgement can never submit twice.
+ */
+test("carrier input falls back to composer click but keyboard-activates Send", async () => {
+	const methods = [];
+	let focusAttempts = 0;
 	const client = {
-		async send(method, params) {
-			calls.push([method, params]);
+		send: async (method) => {
+			methods.push(method);
+			if (method === "DOM.focus" && focusAttempts++ === 0) {
+				throw new Error("Element is not focusable");
+			}
 			if (method === "DOM.getBoxModel") {
-				return { model: { content: [0, 0, 10, 0, 10, 10, 0, 10] } };
+				return { model: { content: [0, 0, 100, 0, 100, 40, 0, 40] } };
 			}
 			return {};
 		}
 	};
 	const controller = new CarrierInputController(client, {
-		selectionModifier: 4,
-		sleep: async () => undefined
+		sleep: async () => undefined,
+		selectionModifier: 4
 	});
-	await controller.focusAndReplace({ backendNodeId: 41 }, "exact prompt");
-	assert.deepEqual(calls[0], ["DOM.getBoxModel", { backendNodeId: 41 }]);
-	assert.equal(calls[1][0], "Input.dispatchMouseEvent");
-	assert.equal(calls[2][0], "Input.dispatchMouseEvent");
-	const insertions = calls.filter(([method]) => method === "Input.insertText");
-	assert.deepEqual(insertions, [["Input.insertText", { text: "exact prompt" }]]);
-	assert.equal(calls.some(([method, params]) => {
-		return method === "Input.dispatchKeyEvent" && params.type === "char";
-	}), false);
+	await controller.focusAndReplace({ nodeId: 7 }, "exact prompt");
+	await controller.activateNode({ nodeId: 9 });
+	assert(methods.includes("Input.insertText"));
+	assert.equal(methods.filter(method => method === "Input.dispatchMouseEvent").length, 2);
+	assert(methods.includes("Input.dispatchKeyEvent"));
+	assert.equal(methods.filter(method => method === "DOM.focus").length, 2);
 });

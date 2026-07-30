@@ -1,0 +1,22 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos keeps every control reachable, visible, and honest.
+*/
+.hidden {
+	display: none !important;
+}
+
+button,
+input,
+textarea {
+	font: inherit;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+	outline: 2px solid rgba(151, 180, 226, .66) !important;
+	outline-offset: 3px !important;
+}

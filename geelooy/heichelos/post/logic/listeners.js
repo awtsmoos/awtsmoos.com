@@ -1,40 +1,45 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 /**
  * @file listeners.js
- * @description
- * Chapter 195: The listener river gains a resize covenant.
- * Controls, sidebar, bookmarks, auto-scroll, active coordinates, and now the
- * draggable chamber edge are awakened from one entry point, each in its own
- * small vessel so the Awtsmoos can repair a single nerve without cutting all.
+ * @description One listener river awakens bounded reader controls. The Awtsmoos
+ * joins every nerve while Awtsmoos.com keeps each responsibility in its vessel.
  */
-
-import { startActiveCoordinateTracker } from "./listeners/ActiveCoordinateTracker.js";
-import { ensureAutoScrollButton } from "./listeners/AutoScrollButton.js";
-import { renderBookmarksPanel } from "./listeners/BookmarksPanel.js";
-import { setupAutoScrollSpeedControl, setupColorControls, setupFontControls, setupResetButton } from "./listeners/ControlBindings.js";
-import { setupGlobalClicks } from "./listeners/PopoverGate.js";
-import { setupSidebarResizeHandle } from "./listeners/SidebarResizeHandle.js";
-import { toggleSidebar } from "./listeners/SidebarGate.js";
+import { startActiveCoordinateTracker } from './listeners/ActiveCoordinateTracker.js';
+import { ensureAutoScrollButton } from './listeners/AutoScrollButton.js';
+import { renderBookmarksPanel } from './listeners/BookmarksPanel.js';
+import {
+	setupAutoScrollSpeedControl,
+	setupColorControls,
+	setupFontControls,
+	setupResetButton
+} from './listeners/ControlBindings.js';
+import { setupHebrewWordActions } from './listeners/HebrewWordActions.js';
+import { setupGlobalClicks } from './listeners/PopoverGate.js';
+import { setupSidebarResizeHandle } from './listeners/SidebarResizeHandle.js';
+import { toggleSidebar } from './listeners/SidebarGate.js';
 
 export { renderBookmarksPanel, toggleSidebar };
 
-/** Binds the central event loop to the user's intent. */
+/** Binds the central event loop once to the reader's current DOM. */
 export function setupUIListeners() {
-    const sidebarStoredState = localStorage.getItem("awtsmoos-sidebar-visible");
-    toggleSidebar(sidebarStoredState === "true");
-    ensureAutoScrollButton();
-    setupSidebarResizeHandle();
-    setupFontControls();
-    setupAutoScrollSpeedControl();
-    setupGlobalClicks(toggleSidebar);
-    setupColorControls();
-    setupResetButton();
+	const storedState = localStorage.getItem('awtsmoos-sidebar-visible');
+	toggleSidebar(storedState === 'true');
+	ensureAutoScrollButton();
+	setupSidebarResizeHandle();
+	setupFontControls();
+	setupAutoScrollSpeedControl();
+	setupGlobalClicks(toggleSidebar);
+	setupColorControls();
+	setupResetButton();
+	setupHebrewWordActions();
 }
 
-/** Starts DOM-dependent reader tracking once verses have been rendered. */
+/** Restarts active-coordinate tracking after verse rendering. */
 export function setupActiveCoordinateTracking() {
-    window.awtsmoosActiveCoordinateCleanup?.();
-    window.awtsmoosActiveCoordinateCleanup = startActiveCoordinateTracker();
+	window.awtsmoosActiveCoordinateCleanup?.();
+	window.awtsmoosActiveCoordinateCleanup = startActiveCoordinateTracker();
 }
 
 window.toggleSidebar = toggleSidebar;

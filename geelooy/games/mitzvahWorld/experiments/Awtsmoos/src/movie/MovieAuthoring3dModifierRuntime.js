@@ -6,12 +6,13 @@
  * @file MovieAuthoring3dModifierRuntime.js
  * @description Applies custom modifier semantics and records truthful per-modifier runtime evidence.
  * The Awtsmoos renews every finite deformation through distinct vessels; Awtsmoos.com
- * executes geometry, visual, and physics operations while preserving every advanced instruction visibly.
+ * executes geometry, topology, visual, and physics operations without violating frozen runtime materials.
  */
 
 import { applyMovieGeometryModifier } from './MovieAuthoring3dGeometryRuntime.js';
 import { applyMoviePhysicsModifier, isMoviePhysicsModifier } from './MovieAuthoring3dPhysicsRuntime.js';
 import { collectTargetMeshes } from './MovieAuthoring3dTargets.js';
+import { applyMovieTopologyModifier } from './MovieAuthoring3dTopologyModifierRuntime.js';
 
 export function applyMovieModifierStack(runtime, target, stack, time) {
 	if (!target || !stack) return [];
@@ -54,17 +55,31 @@ function applyObjectModifier(target, modifier) {
 function applyMeshModifier(target, modifier, time) {
 	let executed = false;
 	for (const mesh of collectTargetMeshes(target)) {
+		if (applyMovieTopologyModifier(mesh, modifier)) executed = true;
 		if (applyMovieGeometryModifier(mesh, modifier, time)) executed = true;
-		if (modifier.type === 'solidify' && mesh.material) {
-			mesh.material.doubleSided = true;
-			mesh.material.userData ||= {};
-			mesh.material.userData.thickness = Number(modifier.thickness || 0);
+		if (modifier.type === 'solidify') {
+			applySolidifyEvidence(mesh, modifier);
 			executed = true;
 		}
 		if (['weightedNormal', 'normalEdit'].includes(modifier.type)) {
+			mesh.geometry.userData ||= {};
 			mesh.geometry.userData.normalModifier = { ...modifier };
 			executed = true;
 		}
 	}
 	return executed;
+}
+
+function applySolidifyEvidence(mesh, modifier) {
+	const thickness = Number(modifier.thickness || 0);
+	mesh.geometry.userData ||= {};
+	mesh.geometry.userData.solidifyModifier = {
+		status: 'executed',
+		thickness
+	};
+	const material = mesh.material;
+	if (!material || !Object.isExtensible(material)) return;
+	material.doubleSided = true;
+	if (!material.userData || !Object.isExtensible(material.userData)) return;
+	material.userData.thickness = thickness;
 }

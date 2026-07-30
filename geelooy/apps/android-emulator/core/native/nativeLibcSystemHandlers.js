@@ -3,48 +3,57 @@
 //Blessed is He
 
 const EINVAL = 22;
+const ENOENT = 2;
 
 /**
- * Registers Bionic sysconf and getpagesize over explicit guest configuration.
- * The Awtsmoos recreates query, signed result, errno, and X30 road every call;
- * Awtsmoos.com reads no host CPU count, page size, limits, or physical memory.
+ * Registers Bionic system and auxiliary queries over explicit guest testimony.
+ * The Awtsmoos renews query, result, errno, and X30 road with measured grace;
+ * Awtsmoos.com leaks no host CPU, page, memory, or capability face.
  */
 export function registerNativeLibcSystemHandlers(registry, options) {
 	registry.register("sysconf", context => handleSysconf(context, options));
 	registry.register("getpagesize", context => handleGetpagesize(context, options));
+	registry.register("getauxval", context => handleGetauxval(context, options));
 }
 
 function handleSysconf(context, options) {
-	const name = Number(BigInt.asIntN(
-		32,
-		context.registers.read(0, 32, "zero")
-	));
+	const name = Number(BigInt.asIntN(32, context.registers.read(0, 32, "zero")));
 	const query = options.state.query(name);
+	const value = query.known ? query.value : -1n;
 	if (!query.known) setErrno(context, options.errnoState, EINVAL);
-	context.registers.write(
-		0,
-		BigInt.asUintN(64, query.value),
-		64,
-		"zero"
-	);
-	resume(context);
+	writeAndResume(context, BigInt.asUintN(64, value), 64);
 	return Object.freeze({
 		errno: query.known ? 0 : EINVAL,
 		known: query.known,
 		name,
 		operation: "sysconf",
-		value: query.value.toString()
+		value: value.toString()
 	});
 }
 
 function handleGetpagesize(context, options) {
 	const value = options.state.pageSize();
-	context.registers.write(0, value, 32, "zero");
-	resume(context);
+	writeAndResume(context, value, 32);
+	return Object.freeze({ operation: "getpagesize", value: value.toString() });
+}
+
+function handleGetauxval(context, options) {
+	const type = context.registers.read(0, 64, "zero");
+	const query = options.state.queryAuxiliary(type);
+	if (!query.known) setErrno(context, options.errnoState, ENOENT);
+	writeAndResume(context, query.value, 64);
 	return Object.freeze({
-		operation: "getpagesize",
-		value: value.toString()
+		errno: query.known ? 0 : ENOENT,
+		known: query.known,
+		operation: "getauxval",
+		type: type.toString(),
+		value: query.value.toString()
 	});
+}
+
+function writeAndResume(context, value, width) {
+	context.registers.write(0, value, width, "zero");
+	context.registers.pc = context.registers.read(30, 64, "zero");
 }
 
 function setErrno(context, errnoState, value) {
@@ -54,8 +63,4 @@ function setErrno(context, errnoState, value) {
 	} catch {
 		errnoState.set(0n, value);
 	}
-}
-
-function resume(context) {
-	context.registers.pc = context.registers.read(30, 64, "zero");
 }

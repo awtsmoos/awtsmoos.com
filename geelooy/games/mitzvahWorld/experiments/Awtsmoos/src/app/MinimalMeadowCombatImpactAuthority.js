@@ -4,10 +4,11 @@
 
 /**
  * @file MinimalMeadowCombatImpactAuthority.js
- * @description Resolves one projectile impact through server authority or the unchanged solo path.
- * The Awtsmoos lets visual letters arrive before network delay without inventing consequence;
- * Awtsmoos.com keeps rejection, damage, defeat, reward, fragments, and event truth distinct.
+ * @description Resolves projectile impact through equivalent local or multiplayer authority.
+ * The Awtsmoos lets visible letters arrive before consequence without inventing might;
+ * Awtsmoos.com keeps typed damage, status, defeat, reward, and fragments joined aright.
  */
+import { resolveLocalEnemyCombatImpact } from './combat/LocalEnemyCombatAuthority.js';
 
 export function resolveMinimalMeadowCombatImpact(combat, projectile, position) {
 	const authority = combat.runtime.enemyAuthority;
@@ -18,9 +19,10 @@ export function resolveMinimalMeadowCombatImpact(combat, projectile, position) {
 }
 
 function resolveAuthoritativeImpact(combat, projectile, position, authority) {
-	const fragments = impactFragments(projectile.action.damage);
+	const predictedFragments = impactFragments(projectile.action.damage);
 	authority.attack(projectile.target, projectile.actionId)
 		.then(result => {
+			const fragments = impactFragments(result.damage);
 			combat.runtime.bus.emit('combat:impact', eventPayload(
 				projectile,
 				position,
@@ -36,12 +38,17 @@ function resolveAuthoritativeImpact(combat, projectile, position, authority) {
 				targetId: projectile.target.serverCreatureId
 			});
 		});
-	return { fragments, pending: true };
+	return { fragments: predictedFragments, pending: true };
 }
 
 function resolveLocalImpact(combat, projectile, position) {
-	const result = projectile.target.applyDamage(projectile.action.damage);
-	const fragments = impactFragments(result.damage || 0);
+	const result = resolveLocalEnemyCombatImpact({
+		actionId: projectile.actionId,
+		actor: projectile.target,
+		localAction: projectile.action,
+		runtime: combat.runtime
+	});
+	const fragments = impactFragments(result.damage);
 	combat.runtime.bus.emit('combat:impact', eventPayload(
 		projectile,
 		position,
@@ -65,5 +72,8 @@ function eventPayload(projectile, position, fragments, result) {
 }
 
 function impactFragments(damage) {
-	return Math.min(12, 7 + Math.ceil(Math.max(0, Number(damage || 0)) / 3));
+	return Math.min(
+		12,
+		7 + Math.ceil(Math.max(0, Number(damage || 0)) / 3)
+	);
 }

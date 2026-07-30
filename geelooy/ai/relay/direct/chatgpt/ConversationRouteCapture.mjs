@@ -5,103 +5,109 @@
 import { CdpClient } from "../browser/CdpClient.mjs";
 
 /**
- * ChatGPT loads its own conversation detail when the exact route opens. The
- * Awtsmoos lets Awtsmoos.com passively capture that authenticated GET response,
- * never executing page fetches and never repeating the conversation POST.
+ * The Awtsmoos lets the existing ChatGPT page reveal its authenticated conversation
+ * GET while Awtsmoos.com pauses only that response long enough to read its body.
+ * No tab is created, no script is evaluated, and no conversation POST can repeat.
  */
 export class ConversationRouteCapture {
 	constructor({
 		port,
 		fetcher = globalThis.fetch?.bind(globalThis),
-		CdpClientClass = CdpClient,
-		sleep = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds))
+		CdpClientClass = CdpClient
 	} = {}) {
 		this.port = port;
 		this.fetcher = fetcher;
 		this.CdpClientClass = CdpClientClass;
-		this.sleep = sleep;
 	}
 
 	async capture({ conversationId, timeoutMs = 90000, signal = null }) {
 		this.assertNotAborted(signal);
-		const target = await this.createTarget();
+		const target = await this.conversationTarget(conversationId);
 		const client = new this.CdpClientClass(target.webSocketDebuggerUrl);
 		await client.connect();
-		const detailUrl = this.detailUrl(conversationId);
-		let removeResponse = () => undefined;
+		let removePaused = () => undefined;
 		let timer = null;
 		try {
-			const detailPromise = new Promise((resolve, reject) => {
-				timer = setTimeout(() => reject(
-					new Error("Conversation route detail response timed out.")
-				), timeoutMs);
-				removeResponse = client.on("Network.responseReceived", params => {
-					if (params.response?.url !== detailUrl) return;
-					if (params.response.status !== 200) return;
-					resolve({ requestId: params.requestId, status: params.response.status });
+			await client.send("Fetch.enable", {
+				patterns: [{
+					urlPattern: "*backend-api*conversation*",
+					requestStage: "Response"
+				}]
+			}, 10000);
+			const captured = new Promise((resolve, reject) => {
+				timer = setTimeout(() => reject(new Error("Conversation GET interception timed out.")), timeoutMs);
+				removePaused = client.on("Fetch.requestPaused", parameters => {
+					void this.handlePaused(client, parameters, conversationId, resolve);
 				});
 			});
-			await client.send("Network.enable", {
-				maxTotalBufferSize: 20000000,
-				maxResourceBufferSize: 5000000
-			}, 10000);
-			await client.send("Network.setCacheDisabled", { cacheDisabled: true }, 10000);
-			await client.send("Page.enable", {}, 10000);
-			await client.send("Page.navigate", {
-				url: this.routeUrl(conversationId)
-			}, 10000);
-			const detail = await detailPromise;
+			await client.send("Page.reload", { ignoreCache: true }, 10000);
+			const response = await captured;
 			this.assertNotAborted(signal);
-			await this.sleep(1250);
-			const payload = await client.send("Network.getResponseBody", {
-				requestId: detail.requestId
-			}, 10000);
-			const text = payload.base64Encoded
-				? Buffer.from(payload.body, "base64").toString("utf8")
-				: payload.body;
-			return { status: detail.status, document: this.parse(text) };
+			return response;
 		} finally {
 			clearTimeout(timer);
-			removeResponse();
+			removePaused();
+			await client.send("Fetch.disable", {}, 10000).catch(() => undefined);
 			client.close();
-			await this.closeTarget(target.id);
 		}
 	}
 
-	async createTarget() {
-		const endpoint = `http://127.0.0.1:${this.port}/json/new?${encodeURIComponent("about:blank")}`;
-		const response = await this.fetcher(endpoint, { method: "PUT" });
-		if (!response.ok) {
-			throw new Error(`Could not create route observer: ${response.status}.`);
+	async handlePaused(client, parameters, conversationId, resolve) {
+		const requestId = parameters.requestId;
+		const matches = this.matches(parameters, conversationId);
+		if (!matches) {
+			await client.send("Fetch.continueRequest", { requestId }, 10000).catch(() => undefined);
+			return;
 		}
-		return response.json();
+		try {
+			const body = await client.send("Fetch.getResponseBody", { requestId }, 10000);
+			const text = body.base64Encoded
+				? Buffer.from(body.body, "base64").toString("utf8")
+				: body.body;
+			resolve({
+				status: parameters.responseStatusCode,
+				document: this.parse(text)
+			});
+		} finally {
+			await client.send("Fetch.continueResponse", { requestId }, 10000).catch(async () => {
+				await client.send("Fetch.continueRequest", { requestId }, 10000).catch(() => undefined);
+			});
+		}
 	}
 
-	async closeTarget(targetId) {
-		await this.fetcher(
-			`http://127.0.0.1:${this.port}/json/close/${targetId}`
-		).catch(() => undefined);
+	matches(parameters, conversationId) {
+		if (parameters.responseStatusCode !== 200) return false;
+		const url = String(parameters.request?.url ?? "");
+		return url.includes("backend-api") && url.includes(conversationId);
 	}
 
-	routeUrl(conversationId) {
-		return `https://chatgpt.com/c/${encodeURIComponent(conversationId)}`;
-	}
-
-	detailUrl(conversationId) {
-		return `https://chatgpt.com/backend-api/conversation/${encodeURIComponent(conversationId)}`;
+	async conversationTarget(conversationId) {
+		const response = await this.fetcher(`http://127.0.0.1:${this.port}/json/list`);
+		if (!response.ok) throw new Error(`Chrome target inventory failed: ${response.status}.`);
+		const targets = await response.json();
+		const target = targets.find(entry => {
+			if (entry.type !== "page") return false;
+			try {
+				const segments = new URL(entry.url).pathname.split("/").filter(Boolean);
+				const index = segments.lastIndexOf("c");
+				return index >= 0 && segments[index + 1] === conversationId;
+			} catch {
+				return false;
+			}
+		});
+		if (!target?.webSocketDebuggerUrl) throw new Error("The visible ChatGPT conversation target was unavailable.");
+		return target;
 	}
 
 	parse(text) {
 		try {
 			return JSON.parse(text);
 		} catch {
-			throw new Error("Conversation route returned invalid JSON.");
+			throw new Error("Conversation GET returned invalid JSON.");
 		}
 	}
 
 	assertNotAborted(signal) {
-		if (signal?.aborted) {
-			throw signal.reason || new Error("Conversation route capture was cancelled.");
-		}
+		if (signal?.aborted) throw signal.reason || new Error("Conversation GET was cancelled.");
 	}
 }

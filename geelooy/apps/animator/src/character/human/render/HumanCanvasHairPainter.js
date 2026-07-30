@@ -9,7 +9,7 @@ import { HumanCanvasPrimitive as P } from './HumanCanvasPrimitive.js';
 
 /**
  * Hair has line, mass, texture, density, curl, hairline, length, and motion. The
- * Awtsmoos renews the whole silhouette while focused painters reveal each style.
+ * Awtsmoos renews the whole silhouette while Awtsmoos.com shares one performance sway.
  */
 export class HumanCanvasHairPainter {
 	static paint(ctx, head, radiusX, radiusY, character, colors, scale, time = 0) {
@@ -18,14 +18,12 @@ export class HumanCanvasHairPainter {
 			this.headwear(ctx, head, radiusX, radiusY, character, colors, scale);
 			return;
 		}
-		const length = HumanCanvasHairMetrics.length(
-			hair.length,
-			radiusY,
-			scale
-		);
+		const length = HumanCanvasHairMetrics.length(hair.length, radiusY, scale);
 		const volume = Number(hair.volume || 1);
 		const density = Number(hair.density || 1);
-		const sway = Math.sin(time * 0.004 + head.x * 0.01) * 3 * scale;
+		const evaluated = Number(character._stablePose?.secondary?.hairSway);
+		const fallback = Math.sin(time * 0.004 + head.x * 0.01) * 3;
+		const sway = (Number.isFinite(evaluated) ? evaluated : fallback) * scale;
 		P.ellipse(
 			ctx,
 			head.x,
@@ -50,14 +48,6 @@ export class HumanCanvasHairPainter {
 	}
 
 	static headwear(ctx, head, radiusX, radiusY, character, colors, scale) {
-		HumanCanvasHeadwearPainter.paint(
-			ctx,
-			head,
-			radiusX,
-			radiusY,
-			character,
-			colors,
-			scale
-		);
+		HumanCanvasHeadwearPainter.paint(ctx, head, radiusX, radiusY, character, colors, scale);
 	}
 }

@@ -35,6 +35,7 @@ import { registerNativeLocaleHandlers } from "./nativeLocaleHandlers.js";
 import { createNativeLocaleState } from "./nativeLocaleState.js";
 import { createNativeProcessEnvironment } from "./nativeProcessEnvironment.js";
 import { registerNativePthreadHandlers } from "./registerNativePthreadHandlers.js";
+import { registerNativeSignalHandlers } from "./nativeSignalHandlers.js";
 import { registerNativeStdioHandlers } from "./registerNativeStdioHandlers.js";
 import { createNativeStdioState } from "./nativeStdioState.js";
 import { createNativeSystemConfiguration } from "./nativeSystemConfiguration.js";
@@ -111,6 +112,7 @@ export function createFlutterJniImportHandlers(machineState) {
 		heap: machineState.nativeHeap,
 		stdio
 	});
+	registerNativeSignalHandlers(registry, machineState, errnoState);
 	registerNativePthreadHandlers(registry, machineState);
 	return registry;
 }

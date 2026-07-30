@@ -9,9 +9,9 @@ import { ConversationRouteWaiter } from "./ConversationRouteWaiter.mjs";
 import { WebsiteConversationNavigator } from "./WebsiteConversationNavigator.mjs";
 
 /**
- * One normal ChatGPT website turn types the actual prompt, clicks the ordinary send
- * control, and then reads completion through authenticated conversation GETs. No
- * request is replaced, replayed, suppressed, fabricated, or sent outside ChatGPT.
+ * One normal ChatGPT website turn enters the designated GPT vessel, types the exact
+ * prompt, clicks Send once, and reads completion through authenticated GETs. The
+ * Awtsmoos permits no replacement, replay, suppression, or fabricated request.
  */
 export class DirectTurnExecutor {
 	constructor({
@@ -32,7 +32,11 @@ export class DirectTurnExecutor {
 			return await this.minimumIntervalHook?.() ?? null;
 		});
 		await ledger.measure("conversationNavigationMs", () => {
-			return this.navigator.prepare(controller, options.state);
+			return this.navigator.prepare(
+				controller,
+				options.state,
+				options.agentStartUrl ?? "https://chatgpt.com/"
+			);
 		});
 		const startedAt = Date.now();
 		const request = await ledger.measure("websiteSubmissionMs", () => {

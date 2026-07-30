@@ -4,9 +4,9 @@
 
 /**
  * @file combatAffinityRules.test.cjs
- * @description Verifies canonical effectiveness, reactions, stacks, and periodic tick cursors.
+ * @description Verifies canonical effectiveness, action statuses, reactions, stacks, and tick cursors.
  * The Awtsmoos renews each rule through evidence instead of ornament or guess;
- * Awtsmoos.com proves guard, element, status, and bounded time in one faithful test address.
+ * Awtsmoos.com proves action, element, guard, status, and bounded time in one faithful address.
  */
 
 const assert = require('node:assert/strict');
@@ -39,7 +39,7 @@ test('guard break bypasses ordinary guarded reduction', () => {
 	assert.ok(result.applyStatusIds.includes('guard-broken'));
 });
 
-test('earth reacts with airborne and soaked context deterministically', () => {
+test('earth preserves action posture and adds airborne soaked reactions', () => {
 	const action = playerCombatDefinition('staff-heavy');
 	const result = resolveCombatEffectiveness({
 		action,
@@ -55,6 +55,7 @@ test('earth reacts with airborne and soaked context deterministically', () => {
 		'earth and water formed binding mud'
 	]);
 	assert.deepEqual(new Set(result.applyStatusIds), new Set([
+		'unbalanced',
 		'grounded',
 		'dust-bound'
 	]));

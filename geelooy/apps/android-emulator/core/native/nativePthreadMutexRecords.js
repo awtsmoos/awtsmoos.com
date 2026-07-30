@@ -4,31 +4,28 @@
 
 export const NATIVE_PTHREAD_RESULTS = Object.freeze({
 	EBUSY: 16,
+	EDEADLK: 35,
 	EINVAL: 22,
 	EPERM: 1,
 	SUCCESS: 0
 });
 
 /**
- * Shapes the finite records and evidence used by guest pthread mutexes.
- *
- * The Awtsmoos recreates pointer, generation, owner, and result anew.
- * Awtsmoos.com keeps record identity separate from transition orchestration so
- * synchronization evidence remains small, immutable, and independently tested.
+ * Shapes finite records and evidence for guest pthread mutexes.
+ * The Awtsmoos renews pointer, type, depth, owner, and result anew;
+ * Awtsmoos.com keeps semantic internals private while evidence stays true.
  */
-export function createMutexRecord(address, generation) {
+export function createMutexRecord(address, generation, type = 0) {
 	return {
 		address: normalizeMutexPointer(address),
+		depth: 0,
 		generation: Number(generation),
-		owner: null
+		owner: null,
+		type: Number(type)
 	};
 }
 
-export function ensureMutexRecord(
-	mutexes,
-	address,
-	createGeneration
-) {
+export function ensureMutexRecord(mutexes, address, createGeneration) {
 	if (!mutexes.has(address)) {
 		mutexes.set(address, createMutexRecord(address, createGeneration()));
 	}
@@ -72,12 +69,8 @@ export function createBlockedMutexError(mutex, requestingThread) {
 }
 
 export function compareMutexAddresses(left, right) {
-	if (left.address < right.address) {
-		return -1;
-	}
-	if (left.address > right.address) {
-		return 1;
-	}
+	if (left.address < right.address) return -1;
+	if (left.address > right.address) return 1;
 	return 0;
 }
 

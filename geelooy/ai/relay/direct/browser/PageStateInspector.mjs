@@ -3,70 +3,76 @@
 // Blessed is He
 
 /**
- * Visible page state and a brief boolean session summary share one inspection.
- * The Awtsmoos never stores the access token value; Awtsmoos.com caches only safe
- * authentication facts so readiness polling does not refetch the session each beat.
+ * The Awtsmoos reveals readiness through the ordinary DOM vessel, never through a
+ * lagging page-script promise. Awtsmoos.com asks Chrome for nodes and geometry only,
+ * preserving credentials, avoiding Runtime.evaluate, and keeping custom GPTs bright.
  */
 export class PageStateInspector {
-	constructor(cdpClient, { sessionTtlMs = 5000 } = {}) {
+	constructor(cdpClient) {
 		this.cdpClient = cdpClient;
-		this.sessionTtlMs = sessionTtlMs;
 	}
 
-	async inspect({ refreshSession = false } = {}) {
-		const expression = `(async () => {
-			const visible = (element) => Boolean(
-				element && (element.offsetWidth || element.offsetHeight || element.getClientRects().length)
-			);
-			const selectors = [
-				'div#prompt-textarea[contenteditable="true"]',
-				'textarea#mobile-composer-prompt',
-				'textarea[aria-label="Chat with ChatGPT"]',
-				'[contenteditable="true"][role="textbox"]'
-			];
-			const composer = selectors.map((selector) => document.querySelector(selector)).find(visible);
-			const loginVisible = [...document.querySelectorAll('button,a')].some((element) => {
-				return visible(element) && element.textContent?.trim() === 'Log in';
-			});
-			if (${refreshSession ? "true" : "false"}) {
-				delete window.__awtsmoosSessionStatusCache;
-			}
-			const cached = window.__awtsmoosSessionStatusCache;
-			let session = cached?.expiresAt > Date.now() ? cached.value : null;
-			if (!session) {
-				session = { status: null, hasUser: false, hasAccessToken: false };
-				try {
-					const response = await fetch('/api/auth/session', { credentials: 'include' });
-					const data = await response.json().catch(() => ({}));
-					session = {
-						status: response.status,
-						hasUser: Boolean(data.user),
-						hasAccessToken: typeof data.accessToken === 'string' && data.accessToken.length > 0
-					};
-				} catch {}
-				window.__awtsmoosSessionStatusCache = {
-					expiresAt: Date.now() + ${this.sessionTtlMs},
-					value: session
-				};
-			}
-			const challenge = document.title.includes('Just a moment');
-			const authenticated = session.status === 200 && session.hasUser && session.hasAccessToken;
-			return {
-				title: document.title,
-				url: location.href,
-				composerVisible: visible(composer),
-				loginVisible,
-				challenge,
-				authenticated,
-				session,
-				mode: challenge ? 'challenge' : authenticated ? 'authenticated' : 'guest'
-			};
-		})()`;
-		const result = await this.cdpClient.send("Runtime.evaluate", {
-			expression,
-			returnByValue: true,
-			awaitPromise: true
+	async inspect() {
+		await this.cdpClient.send("DOM.enable", {}).catch(() => undefined);
+		const document = await this.cdpClient.send("DOM.getDocument", {
+			depth: 1,
+			pierce: true
 		});
-		return result.result.value;
+		const rootNodeId = document.root.nodeId;
+		const composerVisible = await this.firstVisible(rootNodeId, [
+			'div#prompt-textarea[contenteditable="true"]',
+			'textarea#mobile-composer-prompt',
+			'textarea[aria-label="Chat with ChatGPT"]',
+			'[contenteditable="true"][role="textbox"]'
+		]);
+		const loginVisible = await this.firstVisible(rootNodeId, [
+			'[data-testid="login-button"]',
+			'a[href^="/auth/login"]',
+			'a[href*="auth/login"]'
+		]);
+		const challenge = await this.firstVisible(rootNodeId, [
+			'#challenge-form',
+			'[id*="cf-chl"]',
+			'form[action*="challenge"]'
+		]);
+		const target = await this.targetInfo();
+		const authenticated = Boolean(composerVisible && !loginVisible && !challenge);
+		return {
+			title: target.title,
+			url: target.url,
+			composerVisible: Boolean(composerVisible),
+			loginVisible: Boolean(loginVisible),
+			challenge: Boolean(challenge),
+			authenticated,
+			session: {
+				status: authenticated ? 200 : null,
+				hasUser: authenticated,
+				hasAccessToken: authenticated
+			},
+			mode: challenge ? "challenge" : authenticated ? "authenticated" : "guest"
+		};
+	}
+
+	async firstVisible(rootNodeId, selectors) {
+		for (const selector of selectors) {
+			const result = await this.cdpClient.send("DOM.querySelector", {
+				nodeId: rootNodeId,
+				selector
+			}).catch(() => null);
+			if (!result?.nodeId) continue;
+			const box = await this.cdpClient.send("DOM.getBoxModel", {
+				nodeId: result.nodeId
+			}).catch(() => null);
+			if (box?.model) return result.nodeId;
+		}
+		return 0;
+	}
+
+	async targetInfo() {
+		const result = await this.cdpClient.send("Target.getTargetInfo", {});
+		return {
+			title: result.targetInfo?.title ?? "",
+			url: result.targetInfo?.url ?? ""
+		};
 	}
 }

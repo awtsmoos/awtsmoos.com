@@ -1,111 +1,78 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * @module SocialSearchRoutes
- * @description
- * Search engines remain sealed until their own route is invoked. Building the
- * social route table performs no index import, database warm-up, or model load,
- * so Ikar and every unrelated API stay immediately available.
+ * @description Search engines stay sealed until invoked; the Awtsmoos reveals
+ * each bounded lane without warming unrelated Awtsmoos.com storage.
  */
-
 const ROUTE_GROUPS = Object.freeze([
 	{
 		modulePath: './helper/search/routes/exact.js',
 		factoryName: 'exactRoutes',
-		routes: [
-			'/search/exact/hebrew',
-			'/search/exact/hebrew/meta'
-		]
+		routes: ['/search/exact/hebrew', '/search/exact/hebrew/meta']
+	},
+	{
+		modulePath: './helper/search/routes/tanach.js',
+		factoryName: 'tanachRoutes',
+		routes: ['/search/tanach/hebrew']
 	},
 	{
 		modulePath: './helper/search/routes/library.js',
 		factoryName: 'libraryRoutes',
 		routes: [
-			'/search/library/shards',
-			'/search/rag/shards',
-			'/rag/search/shards',
-			'/search/library/query',
-			'/search/rag/query',
-			'/rag/search/query',
+			'/search/library/shards', '/search/rag/shards', '/rag/search/shards',
+			'/search/library/query', '/search/rag/query', '/rag/search/query',
 			'/search/rag/llama/status'
 		]
 	},
 	{
 		modulePath: './helper/search/routes/comments.js',
 		factoryName: 'commentRoutes',
-		routes: [
-			'/search/rag/comments/:comment',
-			'/search/rag/post-comments'
-		]
+		routes: ['/search/rag/comments/:comment', '/search/rag/post-comments']
 	}
 ]);
-
 let searchReadiness = {
 	ok: false,
 	code: 'SEARCH_NOT_WARMED',
 	message: 'Search warm-up has not been requested.'
 };
-
 function lazyHandler(group, route, context) {
 	return async (...argumentsList) => {
 		const factory = require(group.modulePath)[group.factoryName];
-		const handler = factory(context)[route];
-		return handler(...argumentsList);
+		return factory(context)[route](...argumentsList);
 	};
 }
-
 function lazySearchRoutes(context) {
 	const routes = {};
 	for (const group of ROUTE_GROUPS) {
-		for (const route of group.routes) {
-			routes[route] = lazyHandler(group, route, context);
-		}
+		for (const route of group.routes) routes[route] = lazyHandler(group, route, context);
 	}
 	return routes;
 }
-
 function warmSearchRoutes() {
-	const {
-		configuredRoot,
-		warmRagCommentSource
-	} = require('./helper/search/rag/ragStartupWarmup.js');
-	const {
-		assertStorageUnchanged,
-		captureCanonicalStorage
-	} = require('./helper/search/rag/storageInvariant.js');
+	const { configuredRoot, warmRagCommentSource } = require('./helper/search/rag/ragStartupWarmup.js');
+	const { assertStorageUnchanged, captureCanonicalStorage } = require('./helper/search/rag/storageInvariant.js');
 	const $i = { db: { directory: configuredRoot() } };
 	const storageBefore = captureCanonicalStorage($i);
 	const warmup = warmRagCommentSource();
 	assertStorageUnchanged(storageBefore, captureCanonicalStorage($i));
 	return { ok: true, warmup, storage: storageBefore };
 }
-
 function warmSearchRoutesSafely() {
 	try {
 		searchReadiness = warmSearchRoutes();
 	} catch (error) {
-		searchReadiness = {
-			ok: false,
-			code: error.code || 'SEARCH_WARMUP_FAILED',
-			message: error.message
-		};
+		searchReadiness = { ok: false, code: error.code || 'SEARCH_WARMUP_FAILED', message: error.message };
 	}
 	return searchReadiness;
 }
-
-function currentSearchReadiness() {
-	return searchReadiness;
-}
-
 module.exports = (context = {}) => ({
 	...lazySearchRoutes(context),
-	'/search/readiness': async () => ({ success: currentSearchReadiness() }),
+	'/search/readiness': async () => ({ success: searchReadiness }),
 	'/search/readiness/refresh': async () => ({ success: warmSearchRoutesSafely() })
 });
-
-module.exports.currentSearchReadiness = currentSearchReadiness;
+module.exports.currentSearchReadiness = () => searchReadiness;
 module.exports.lazySearchRoutes = lazySearchRoutes;
 module.exports.warmSearchRoutes = warmSearchRoutes;
 module.exports.warmSearchRoutesSafely = warmSearchRoutesSafely;

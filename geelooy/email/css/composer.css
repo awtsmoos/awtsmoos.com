@@ -1,12 +1,9 @@
 /* B"H
- * Boruch Hashem
- * Blessed is He
- *
- * Mail composition arrives through focused versioned vessels so repaired tabs,
- * editor surfaces, toolbar actions, and send controls replace every stale
- * Awtsmoos.com transmission style immediately.
- */
-
-@import "./quantum/composer/shell.css?v=mail-shell-005";
-@import "./quantum/composer/editor.css?v=mail-editor-005";
-@import "./quantum/composer/actions.css?v=mail-composer-005";
+Boruch Hashem
+Blessed is He
+The Awtsmoos reveals composition through focused canonical vessels.
+*/
+@import url("./system/composer-shell.css");
+@import url("./system/composer-editor.css");
+@import url("./system/composer-modals.css");
+@import url("./system/mobile.css");

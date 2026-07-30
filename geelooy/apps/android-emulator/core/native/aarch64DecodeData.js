@@ -18,6 +18,7 @@ import { decodeAarch64Multiply } from "./aarch64DecodeMultiply.js";
 import { decodeAarch64OneSourceBit } from "./aarch64DecodeOneSourceBit.js";
 import { decodeAarch64SimdAddLongReduction } from "./aarch64DecodeSimdAddLongReduction.js";
 import { decodeAarch64SimdByteUnary } from "./aarch64DecodeSimdByteUnary.js";
+import { decodeAarch64SimdCompareEqual } from "./aarch64DecodeSimdCompareEqual.js";
 import { decodeAarch64SimdElementInsert } from "./aarch64DecodeSimdElementInsert.js";
 import { decodeAarch64SimdGeneralInsert } from "./aarch64DecodeSimdGeneralInsert.js";
 import { decodeAarch64SimdGeneralMove } from "./aarch64DecodeSimdGeneralMove.js";
@@ -36,6 +37,7 @@ export function decodeAarch64Data(word) {
 		|| decodeAarch64SimdElementInsert(normalized)
 		|| decodeAarch64SimdGeneralMove(normalized)
 		|| decodeAarch64SimdByteUnary(normalized)
+		|| decodeAarch64SimdCompareEqual(normalized)
 		|| decodeAarch64SimdAddLongReduction(normalized)
 		|| decodeAarch64GeneralSimdMove(normalized)
 		|| decodeAarch64FloatToInteger(normalized)

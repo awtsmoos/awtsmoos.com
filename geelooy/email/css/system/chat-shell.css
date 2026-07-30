@@ -1,0 +1,56 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos shapes the selected conversation as one calm reading chamber.
+*/
+.chat-area {
+	position: relative;
+	display: grid;
+	grid-template-rows: auto 1fr auto;
+	min-width: 0;
+	min-height: 0;
+	background: rgba(7, 11, 18, .72);
+}
+
+.chat-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 14px;
+	padding: 14px 18px;
+	border-bottom: 1px solid var(--mail-border);
+	background: rgba(9, 14, 22, .82);
+	backdrop-filter: blur(18px);
+}
+
+.chat-heading-lockup {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.chat-kicker {
+	margin: 0 0 3px;
+	color: var(--mail-text-muted);
+	font-size: .68rem;
+	text-transform: uppercase;
+}
+
+.chat-title {
+	margin: 0;
+	font-size: 1rem;
+}
+
+.tool-btn,
+.back-button,
+.action-btn {
+	display: grid;
+	place-items: center;
+	min-width: 40px;
+	min-height: 40px;
+	border: 1px solid var(--mail-border);
+	border-radius: 11px;
+	background: rgba(255, 255, 255, .035);
+	color: var(--mail-text-secondary);
+	cursor: pointer;
+}

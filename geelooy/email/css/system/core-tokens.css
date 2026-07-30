@@ -1,0 +1,21 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives Mail one measured palette and spacing covenant.
+*/
+:root {
+	--mail-bg: #070b12;
+	--mail-panel: #0d141f;
+	--mail-panel-soft: rgba(13, 20, 31, .84);
+	--mail-panel-hover: #121c29;
+	--mail-border: rgba(184, 207, 241, .11);
+	--mail-border-strong: rgba(184, 207, 241, .22);
+	--mail-accent: #a9c7f5;
+	--mail-accent-soft: rgba(126, 166, 226, .14);
+	--mail-text: #f3f6fb;
+	--mail-text-secondary: #a0acbd;
+	--mail-text-muted: #6f7c8f;
+	--mail-success: #78c9a4;
+	--mail-danger: #e29a9a;
+	--sidebar-w: clamp(300px, 28vw, 390px);
+}

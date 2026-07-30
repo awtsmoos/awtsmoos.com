@@ -13,6 +13,7 @@ import { createJniGuestReferences } from "./jniGuestReferences.js";
 import { createJniMethodIds } from "./jniMethodIds.js";
 import { createJniNativeMethodRegistry } from "./jniNativeMethodRegistry.js";
 import { createJniPendingException } from "./jniPendingException.js";
+import { createNativeCooperativeRuntime } from "./nativeCooperativeRuntime.js";
 import { createNativeCxaAtexitState } from "./nativeCxaAtexitState.js";
 import { createNativeImportAddressSpace } from "./nativeImportAddressSpace.js";
 import { createNativePthreadMutexState } from "./nativePthreadMutexState.js";
@@ -37,6 +38,7 @@ export function createFlutterJniMachineState(imageMemory, entryPoint, options = 
 		|| createJniNativeMethodRegistry();
 	const jniPendingException = options.jniPendingException
 		|| createJniPendingException();
+	const nativeCooperativeRuntime = options.nativeCooperativeRuntime || createNativeCooperativeRuntime();
 	const nativeCxaAtexit = options.nativeCxaAtexit || createNativeCxaAtexitState();
 	const nativePthreadMutexes = options.nativePthreadMutexes
 		|| createNativePthreadMutexState();
@@ -83,6 +85,7 @@ export function createFlutterJniMachineState(imageMemory, entryPoint, options = 
 		jniReferences,
 		memory: nativeMemory.memory,
 		...nativeFileState,
+		nativeCooperativeRuntime,
 		nativeCxaAtexit,
 		nativeHeap: nativeMemory.nativeHeap,
 		nativeLogcat: options.nativeLogcat || null,

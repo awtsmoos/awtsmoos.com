@@ -1,5 +1,8 @@
-/* B"H — Quantum Mail core enters through small, explicit modules. */
-@import "./quantum/core/tokens.css";
-@import "./quantum/core/base.css";
-@import "./quantum/core/frame.css";
-@import "./quantum/core/modals.css";
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gathers Mail's core through small canonical vessels, one source tree and no layered disguise.
+*/
+@import url("./system/core-tokens.css");
+@import url("./system/core-layout.css");
+@import url("./system/core-accessibility.css");

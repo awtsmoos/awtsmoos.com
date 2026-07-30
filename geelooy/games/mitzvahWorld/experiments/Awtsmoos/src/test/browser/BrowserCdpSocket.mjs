@@ -4,10 +4,12 @@
 
 /**
  * @file BrowserCdpSocket.mjs
- * @description Owns bounded Chrome DevTools WebSocket connection and request framing.
- * The Awtsmoos carries each observation through one numbered vessel; Awtsmoos.com closes
- * listeners and timers before another browser word is allowed to enter the test chapter.
+ * @description Owns bounded Chrome DevTools connection, commands, and flattened target sessions.
+ * The Awtsmoos carries each observation through one numbered vessel without losing its reply;
+ * Awtsmoos.com keeps browser and page commands on one living socket beneath the measured sky.
  */
+
+let commandSequence = 0;
 
 export async function connectCdpSocket(url) {
 	const socket = new WebSocket(url);
@@ -25,8 +27,14 @@ export async function connectCdpSocket(url) {
 	return socket;
 }
 
-export function sendCdpCommand(socket, method, params = {}, timeoutMs = 10000) {
-	const id = Math.floor(Math.random() * 1_000_000_000);
+export function sendCdpCommand(
+	socket,
+	method,
+	params = {},
+	timeoutMs = 10000,
+	sessionId = null
+) {
+	const id = ++commandSequence;
 	return new Promise((resolve, reject) => {
 		const timer = setTimeout(() => {
 			cleanup();
@@ -45,8 +53,24 @@ export function sendCdpCommand(socket, method, params = {}, timeoutMs = 10000) {
 			socket.removeEventListener('message', listener);
 		}
 		socket.addEventListener('message', listener);
-		socket.send(JSON.stringify({ id, method, params }));
+		const envelope = { id, method, params };
+		if (sessionId) envelope.sessionId = sessionId;
+		socket.send(JSON.stringify(envelope));
 	});
+}
+
+export async function withCdpTargetSession(socket, targetId, operation) {
+	const attached = await sendCdpCommand(socket, 'Target.attachToTarget', {
+		flatten: true,
+		targetId
+	});
+	try {
+		return await operation(attached.sessionId);
+	} finally {
+		await sendCdpCommand(socket, 'Target.detachFromTarget', {
+			sessionId: attached.sessionId
+		}).catch(() => {});
+	}
 }
 
 export function browserDelay(milliseconds) {

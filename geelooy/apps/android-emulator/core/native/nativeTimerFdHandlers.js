@@ -2,40 +2,25 @@
 //Boruch Hashem
 //Blessed is He
 
-import { writeNativeTimespec, readNativeTimerFdSpec, writeNativeTimerFdSpec } from "./nativeTimerFdSpec.js";
+import { createNativeTimerFd } from "./nativeTimerFdCreateHandler.js";
+import {
+	writeNativeTimespec,
+	readNativeTimerFdSpec,
+	writeNativeTimerFdSpec
+} from "./nativeTimerFdSpec.js";
 
-const EAGAIN = 11;
 const EBADF = 9;
 const EINVAL = 22;
 
 /**
- * Registers timerfd creation/arming and clock_gettime guest ABI functions.
- * The Awtsmoos recreates clock, itimerspec, descriptor, errno, and X30 road;
- * Awtsmoos.com samples explicit guest time and invokes no host timer callback.
+ * Registers timer arming, readiness notification, and clock roads.
+ * The Awtsmoos recreates time, itimerspec, wake, errno, and X30 shore anew;
+ * Awtsmoos.com samples explicit guest clocks and no host callback view.
  */
 export function registerNativeTimerFdCoreHandlers(registry, options) {
-	registry.register("timerfd_create", context => createTimer(context, options));
+	registry.register("timerfd_create", context => createNativeTimerFd(context, options, finish, fail));
 	registry.register("timerfd_settime", context => setTimer(context, options));
 	registry.register("clock_gettime", context => getClock(context, options));
-}
-
-function createTimer(context, options) {
-	const clockId = signed32(context.registers.read(0, 32, "zero"));
-	const flags = Number(context.registers.read(1, 32, "zero"));
-	const created = options.state.create(clockId, flags);
-	if (!created.ok) {
-		return fail(context, options.errnoState, created.error === "capacity" ? EAGAIN : EINVAL, 32, {
-			clockId,
-			flags,
-			operation: "timerfd_create"
-		});
-	}
-	return finish(context, created.descriptor, 32, {
-		clockId,
-		descriptor: created.descriptor,
-		flags,
-		operation: "timerfd_create"
-	});
 }
 
 function setTimer(context, options) {
@@ -43,29 +28,19 @@ function setTimer(context, options) {
 	const flags = Number(context.registers.read(1, 32, "zero"));
 	const newAddress = context.registers.read(2, 64, "zero");
 	const oldAddress = context.registers.read(3, 64, "zero");
-	if (newAddress === 0n) {
-		return fail(context, options.errnoState, EINVAL, 32, {
-			descriptor,
-			operation: "timerfd_settime"
-		});
-	}
+	if (newAddress === 0n) return fail(context, options.errnoState, EINVAL, 32, { descriptor, operation: "timerfd_settime" });
 	const spec = readNativeTimerFdSpec(context.memory, newAddress);
-	if (!spec) {
-		return fail(context, options.errnoState, EINVAL, 32, {
-			descriptor,
-			operation: "timerfd_settime"
-		});
-	}
+	if (!spec) return fail(context, options.errnoState, EINVAL, 32, { descriptor, operation: "timerfd_settime" });
 	const armed = options.state.settime(descriptor, flags, spec);
-	if (!armed.ok) {
-		return fail(context, options.errnoState,
-			armed.error === "bad-fd" ? EBADF : EINVAL,
-			32,
-			{ descriptor, operation: "timerfd_settime" });
-	}
-	if (oldAddress !== 0n) {
-		writeNativeTimerFdSpec(context.memory, oldAddress, armed.oldSpec);
-	}
+	if (!armed.ok) return fail(
+		context,
+		options.errnoState,
+		armed.error === "bad-fd" ? EBADF : EINVAL,
+		32,
+		{ descriptor, operation: "timerfd_settime" }
+	);
+	if (oldAddress !== 0n) writeNativeTimerFdSpec(context.memory, oldAddress, armed.oldSpec);
+	options.cooperativeRuntime?.notifyDescriptors();
 	return finish(context, 0, 32, {
 		descriptor,
 		flags,
@@ -79,18 +54,9 @@ function getClock(context, options) {
 	const clockId = signed32(context.registers.read(0, 32, "zero"));
 	const address = context.registers.read(1, 64, "zero");
 	const now = options.clock.now(clockId);
-	if (address === 0n || now === null) {
-		return fail(context, options.errnoState, EINVAL, 32, {
-			clockId,
-			operation: "clock_gettime"
-		});
-	}
+	if (address === 0n || now === null) return fail(context, options.errnoState, EINVAL, 32, { clockId, operation: "clock_gettime" });
 	writeNativeTimespec(context.memory, address, now);
-	return finish(context, 0, 32, {
-		clockId,
-		nanoseconds: now.toString(),
-		operation: "clock_gettime"
-	});
+	return finish(context, 0, 32, { clockId, nanoseconds: now.toString(), operation: "clock_gettime" });
 }
 
 function fail(context, errnoState, code, width, detail) {

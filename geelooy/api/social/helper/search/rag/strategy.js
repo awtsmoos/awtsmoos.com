@@ -1,15 +1,11 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * @module LibrarySearchStrategy
- * @description
- * Text-only lanes never awaken embeddings or vector databases. The Awtsmoos sends
- * each request down its truthful road, while Awtsmoos.com rejects vector claims
- * for a corpus whose reviewed publication contains text mirrors alone.
+ * @description Text-only lanes remain light, while vector lanes receive the exact
+ * embedder declared by their manifest beneath the renewing light of the Awtsmoos.
  */
-
 const { textSearchShard } = require('./textSearch.js');
 const { timed } = require('./timer.js');
 
@@ -32,38 +28,23 @@ async function findSource(options) {
 
 function assertTextOnlyRequest(options, strategy) {
 	if (options.requireIndexed !== true && strategy !== 'vector') return;
-	throw codedError(
-		'TEXT_ONLY_LANE',
-		`Lane ${options.shard.id} is published as bounded text mirrors, not vectors.`
-	);
+	throw codedError('TEXT_ONLY_LANE', `Lane ${options.shard.id} is published as bounded text mirrors, not vectors.`);
 }
 
 async function vectorSource(options) {
-	const { embedQuery } = require('./llama.js');
+	const { embedForShard } = require('./queryEmbedder.js');
 	const { searchShard } = require('./sourceSearch.js');
-	const embedding = await timed(
-		'embeddingMs',
-		options.timings,
-		() => embedQuery({
-			$i: options.$i,
-			query: options.query,
-			autoInstall: options.autoInstall === true
-		})
-	);
-	const source = await timed(
-		'searchVectorsMs',
-		options.timings,
-		() => searchShard(
-			options.shard,
-			embedding.vector,
-			options.limit || 10,
-			{ requireIndexed: options.requireIndexed === true }
-		)
-	);
+	const embedding = await timed('embeddingMs', options.timings, () => embedForShard(options));
+	const source = await timed('searchVectorsMs', options.timings, () => searchShard(
+		options.shard,
+		embedding.vector,
+		options.limit || 10,
+		{ requireIndexed: options.requireIndexed === true }
+	));
 	return {
 		...source,
 		mode: 'vector',
-		engine: 'llama-local-vector-rag',
+		engine: 'manifest-matched-local-vector-rag',
 		embedder: embedding.embedder,
 		indexed: source.index?.persisted === true,
 		strictIndexed: options.requireIndexed === true,
@@ -72,15 +53,11 @@ async function vectorSource(options) {
 }
 
 async function textSource(options) {
-	const source = await timed(
-		'searchTextMs',
-		options.timings,
-		() => textSearchShard(
-			options.shard,
-			options.query,
-			options.limit || 10
-		)
-	);
+	const source = await timed('searchTextMs', options.timings, () => textSearchShard(
+		options.shard,
+		options.query,
+		options.limit || 10
+	));
 	return {
 		...source,
 		mode: 'text',
@@ -99,8 +76,4 @@ function codedError(code, message) {
 	return Object.assign(new Error(message), { code });
 }
 
-module.exports = {
-	assertTextOnlyRequest,
-	findSource,
-	textSource
-};
+module.exports = { assertTextOnlyRequest, findSource, textSource };

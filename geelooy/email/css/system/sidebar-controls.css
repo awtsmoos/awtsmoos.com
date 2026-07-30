@@ -1,0 +1,59 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives compose and search clear functional shapes.
+*/
+.fab-compose {
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	align-items: center;
+	gap: 10px;
+	width: calc(100% - 28px);
+	margin: 12px 14px;
+	padding: 10px 12px;
+	border: 1px solid var(--mail-border-strong);
+	border-radius: 14px;
+	background: var(--mail-accent-soft);
+	color: var(--mail-text);
+	font-weight: 680;
+	text-align: left;
+	cursor: pointer;
+}
+
+.fab-compose:hover {
+	background: rgba(126, 166, 226, .2);
+}
+
+.compose-plus {
+	display: grid;
+	place-items: center;
+	width: 28px;
+	height: 28px;
+	border-radius: 9px;
+	background: rgba(255, 255, 255, .08);
+}
+
+.compose-shortcut {
+	color: var(--mail-text-muted);
+	font-size: .7rem;
+}
+
+.mail-search-panel {
+	margin: 0 14px 12px;
+}
+
+.mail-search-panel label {
+	display: block;
+	margin-bottom: 6px;
+	color: var(--mail-text-muted);
+	font-size: .72rem;
+}
+
+.mail-search-panel input {
+	width: 100%;
+	padding: 11px 12px;
+	border: 1px solid var(--mail-border);
+	border-radius: 12px;
+	background: rgba(255, 255, 255, .035);
+	color: var(--mail-text);
+}

@@ -4,11 +4,10 @@
 
 /**
  * @file MovieStudioTitleController.js
- * @description Binds title/lower-third controls and delegates immutable project mutations to focused actions.
- * The Awtsmoos is beyond text and control while every finite title receives one accessible authoring vessel;
- * Awtsmoos.com keeps selection, preview refresh, and status separate from project mutation and history level.
+ * @description Binds the structured title form to immutable title actions and selected timeline clips.
+ * The Awtsmoos renews every word before card or lower third can claim a frame; Awtsmoos.com
+ * keeps visual controls, public agent methods, timeline selection, and canonical history in one covenant.
  */
-
 import {
 	addMovieStudioTitle,
 	findMovieStudioTitleTrack,
@@ -17,97 +16,104 @@ import {
 	requireMovieStudioTitle,
 	updateMovieStudioTitle
 } from './MovieStudioTitleActions.js';
-import { renderMovieStudioTitleEditor } from './MovieStudioTitleEditor.js';
-
+import {
+	applyMovieStudioTitleFormPreset,
+	movieStudioTitleFormPayload,
+	selectedMovieStudioTitle
+} from './MovieStudioTitleForm.js';
+import { collectMovieTitleView, paintMovieTitleClip } from './MovieStudioTitleView.js';
 export class MovieStudioTitleController {
-	constructor(session, view) {
+	constructor(session, studioView) {
 		this.session = session;
-		this.view = view;
+		this.view = collectMovieTitleView(studioView.root);
+		this.listeners = [];
 		this.selectedId = null;
-		this.bound = false;
-		this.handlers = {
-			click: event => this.onClick(event),
-			input: event => this.onInput(event)
-		};
+		this.unsubscribe = session.events?.on?.(
+			'selection:changed',
+			() => this.refresh()
+		);
 		this.bind();
 		this.refresh();
 	}
-
 	bind() {
-		if (this.bound || !this.view.titleEditor) return;
-		this.view.titleEditor.addEventListener('click', this.handlers.click);
-		this.view.titleEditor.addEventListener('input', this.handlers.input);
-		this.bound = true;
+		this.listen(this.view.preset, 'change', () => {
+			applyMovieStudioTitleFormPreset(this.view);
+		});
+		this.listen(this.view.add, 'click', () => this.addFromView());
+		this.listen(this.view.update, 'click', () => this.updateFromView());
+		this.listen(this.view.remove, 'click', () => this.removeSelected());
 	}
-
 	refresh() {
-		const titles = this.list();
-		if (!titles.some(title => title.id === this.selectedId)) {
-			this.selectedId = titles[0]?.id || null;
+		const resolved = selectedMovieStudioTitle(this.session);
+		if (resolved) this.selectedId = resolved.clip.id;
+		if (!this.list().some(title => title.id === this.selectedId)) {
+			this.selectedId = null;
 		}
-		if (this.view.titleEditor) {
-			this.view.titleEditor.innerHTML = renderMovieStudioTitleEditor(
-				titles,
-				this.selectedId
-			);
-		}
+		const title = this.selectedId
+			? requireMovieStudioTitle(this.session.project, this.selectedId)
+			: null;
+		this.view.selection.textContent = title
+			? `${title.id} · ${title.start}s · ${title.duration}s`
+			: 'No selected title';
+		if (title) paintMovieTitleClip(this.view, title);
+		else this.view.start.value = String(this.session.time);
+		this.status(title ? 'Selected title ready.' : 'Ready to add a title.');
 	}
-
 	list() {
 		return [...(findMovieStudioTitleTrack(this.session.project)?.clips || [])]
-			.sort((left, right) => left.start - right.start || left.id.localeCompare(right.id));
+			.sort((left, right) => {
+				return left.start - right.start || left.id.localeCompare(right.id);
+			});
 	}
-
 	select(id) {
 		this.selectedId = requireMovieStudioTitle(this.session.project, id).id;
-		const bounds = movieStudioTitleBounds(this.session.project, id);
-		this.session.seek(bounds.start);
+		this.session.seek(movieStudioTitleBounds(this.session.project, id).start);
 		this.refresh();
 		return id;
 	}
-
 	add(source = {}) {
 		this.selectedId = addMovieStudioTitle(this.session, source);
 		this.refresh();
 		return this.selectedId;
 	}
-
 	update(id, patch = {}) {
 		this.selectedId = updateMovieStudioTitle(this.session, id, patch);
 		this.refresh();
 		return this.selectedId;
 	}
-
 	remove(id) {
 		removeMovieStudioTitle(this.session, id);
 		if (this.selectedId === id) this.selectedId = null;
 		this.refresh();
 		return id;
 	}
-
-	onClick(event) {
-		const action = event.target.closest?.('[data-title-action]')?.dataset?.titleAction;
-		const id = event.target.closest?.('[data-title-id]')?.dataset?.titleId;
-		if (action === 'add') this.add();
-		if (action === 'select' && id) this.select(id);
-		if (action === 'remove' && id) this.remove(id);
+	addFromView() {
+		return this.add(movieStudioTitleFormPayload(
+			this.view,
+			this.session.time
+		));
 	}
-
-	onInput(event) {
-		const field = event.target.dataset?.titleField;
-		const id = event.target.closest?.('[data-title-id]')?.dataset?.titleId;
-		if (!field || !id) return;
-		this.update(id, { [field]: field === 'start' || field === 'duration'
-			? Number(event.target.value)
-			: event.target.value });
+	updateFromView() {
+		if (!this.selectedId) return this.status('Select a title first.');
+		return this.update(
+			this.selectedId,
+			movieStudioTitleFormPayload(this.view, this.session.time)
+		);
 	}
-
+	removeSelected() {
+		if (!this.selectedId) return this.status('Select a title first.');
+		return this.remove(this.selectedId);
+	}
+	status(message) {
+		if (this.view.status) this.view.status.textContent = message;
+	}
+	listen(target, type, listener) {
+		target?.addEventListener?.(type, listener);
+		this.listeners.push(() => target?.removeEventListener?.(type, listener));
+	}
 	destroy() {
-		if (!this.bound || !this.view.titleEditor) return;
-		this.view.titleEditor.removeEventListener('click', this.handlers.click);
-		this.view.titleEditor.removeEventListener('input', this.handlers.input);
-		this.bound = false;
+		this.unsubscribe?.();
+		this.listeners.splice(0).forEach(remove => remove());
 	}
 }
-
 export default MovieStudioTitleController;

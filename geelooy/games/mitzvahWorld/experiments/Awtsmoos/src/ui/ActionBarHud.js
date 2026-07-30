@@ -4,20 +4,18 @@
 
 /**
  * @file ActionBarHud.js
- * @description Composes one dormant, bounded HUD for Torah and physical actions.
- * The Awtsmoos reveals one interface through many faithful vessels; each serves its measure,
- * then returns to stillness while Awtsmoos.com preserves readiness, rhythm, and player treasure.
+ * @description Composes one bounded HUD for Torah actions, cooldowns, casts, statuses, and insight.
+ * The Awtsmoos reveals one interface through many faithful vessels, each serving its measure;
+ * Awtsmoos.com preserves readiness, hostile warning, rhythm, and player treasure.
  */
-
 import { actionBarActionDefinition } from '../gameplay/actionbar/ActionBarActionCatalog.js';
+import { ActionBarCombatDisplays } from './ActionBarCombatDisplays.js';
 import { ActionBarCooldownPresenter } from './ActionBarCooldownPresenter.js';
 import { ActionBarHudMarkup } from './ActionBarHudMarkup.js';
 import { ActionBarInputController } from './ActionBarInputController.js';
 import { ActionBarMetaPresenter } from './ActionBarMetaPresenter.js';
 import { ActionBarSlotPresenter } from './ActionBarSlotPresenter.js';
 import { installActionBarStyles } from './ActionBarStyles.js';
-import { CastBarHud } from './CastBarHud.js';
-import { StatusEffectHud } from './StatusEffectHud.js';
 import { TorahAbilityTooltip } from './TorahAbilityTooltip.js';
 
 export class ActionBarHud {
@@ -28,13 +26,11 @@ export class ActionBarHud {
 		this.ownsHost = !options.host;
 		this.elements = ActionBarHudMarkup(options.host);
 		this.tooltip = new TorahAbilityTooltip(document.body);
-		this.castBar = new CastBarHud(this.elements.frame, bus);
-		this.statusEffects = new StatusEffectHud(
+		this.displays = new ActionBarCombatDisplays(
 			this.elements.frame,
 			bus,
-			runtime.statuses,
-			options.playerId || 'player',
-			{ refreshMilliseconds: options.statusEffectRefreshMilliseconds }
+			runtime,
+			options
 		);
 		this.meta = new ActionBarMetaPresenter(this.elements, { clock: this.clock });
 		this.cooldowns = new ActionBarCooldownPresenter(runtime, this.elements.grid, {
@@ -68,8 +64,7 @@ export class ActionBarHud {
 		if (this.elements.root.hidden) return false;
 		this.meta.updateFocus(this.runtime.combat.snapshot().focus);
 		this.cooldowns.update(now);
-		this.castBar.update(now);
-		this.statusEffects.update(now);
+		this.displays.update(now);
 		this.meta.update(now);
 		return true;
 	}
@@ -96,12 +91,11 @@ export class ActionBarHud {
 
 	snapshot() {
 		return {
-			castBar: this.castBar.snapshot(),
+			...this.displays.snapshot(),
 			cooldowns: this.cooldowns.snapshot(),
 			input: this.input.snapshot(),
 			meta: this.meta.snapshot(),
-			slots: this.slots.snapshot(),
-			statusEffects: this.statusEffects.snapshot()
+			slots: this.slots.snapshot()
 		};
 	}
 
@@ -111,8 +105,7 @@ export class ActionBarHud {
 		this.slots.destroy();
 		this.cooldowns.destroy();
 		this.tooltip.destroy();
-		this.castBar.destroy();
-		this.statusEffects.destroy();
+		this.displays.destroy();
 		if (this.ownsHost) this.elements.root.remove();
 		else this.elements.root.replaceChildren();
 	}

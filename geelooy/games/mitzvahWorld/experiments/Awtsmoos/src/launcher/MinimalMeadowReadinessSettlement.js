@@ -4,12 +4,12 @@
 
 /**
  * @file MinimalMeadowReadinessSettlement.js
- * @description Awaits gameplay features and two paint opportunities before releasing the veil.
- * The Awtsmoos does not call descent complete while garments remain between worlds;
- * Awtsmoos.com prefers real animation frames yet survives suspended tabs and bounded simulators.
+ * @description Bounds cold feature settlement and waits for two real paint opportunities.
+ * The Awtsmoos does not let optional delay imprison the traveler beyond a measured gate;
+ * Awtsmoos.com grants cold module graphs twenty seconds, then marks truthful degraded state.
  */
 
-const FEATURE_TIMEOUT_MS = 45000;
+const FEATURE_TIMEOUT_MS = 20000;
 const PAINT_FALLBACK_MS = 80;
 
 export async function settleMinimalMeadowFeatures(diagnostics, documentValue) {
@@ -63,7 +63,6 @@ function bounded(promise, milliseconds, message) {
 function nextPaintOpportunity(environment) {
 	return new Promise(resolve => {
 		let settled = false;
-		let frameId = null;
 		const setTimer = environment.setTimeout?.bind(environment) || setTimeout;
 		const clearTimer = environment.clearTimeout?.bind(environment) || clearTimeout;
 		const finish = () => {
@@ -74,10 +73,9 @@ function nextPaintOpportunity(environment) {
 		};
 		const timerId = setTimer(finish, PAINT_FALLBACK_MS);
 		if (typeof environment.requestAnimationFrame === 'function') {
-			frameId = environment.requestAnimationFrame(finish);
+			environment.requestAnimationFrame(finish);
+			return;
 		}
-		if (frameId === null && typeof environment.requestAnimationFrame !== 'function') {
-			setTimer(finish, 0);
-		}
+		setTimer(finish, 0);
 	});
 }

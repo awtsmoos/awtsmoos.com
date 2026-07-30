@@ -3,86 +3,84 @@
 	"boruchHashem": "Boruch Hashem",
 	"blessedIsHe": "Blessed is He",
 	"poem": "The Awtsmoos renews each bounded change and lets no stack become a sea; Awtsmoos.com records source, expiry, cleanse, and limit faithfully.",
-	"schemaVersion": 1,
+	"schemaVersion": 2,
 	"maximumActivePerTarget": 24,
 	"statuses": {
 		"illuminated": {
-			"id": "illuminated",
-			"hebrewName": "מואר",
-			"englishName": "Illuminated",
-			"durationMs": 7000,
-			"tickMs": 0,
-			"maximumStacks": 1,
+			"id": "illuminated", "hebrewName": "מואר", "englishName": "Illuminated",
+			"durationMs": 7000, "tickMs": 0, "maximumStacks": 1,
 			"dispelCategory": "concealment",
 			"modifiers": { "revealsHidden": true, "evasionMultiplier": 0.75 }
 		},
+		"unbalanced": {
+			"id": "unbalanced", "hebrewName": "בלתי מאוזן", "englishName": "Airborne or Unbalanced",
+			"durationMs": 2400, "tickMs": 0, "maximumStacks": 1,
+			"dispelCategory": "physical",
+			"modifiers": { "airborne": true, "groundingReceivedMultiplier": 1.3 }
+		},
 		"burning": {
-			"id": "burning",
-			"hebrewName": "בוער",
-			"englishName": "Burning",
-			"durationMs": 6500,
-			"tickMs": 1000,
-			"maximumStacks": 4,
+			"id": "burning", "hebrewName": "בוער", "englishName": "Burning",
+			"durationMs": 6500, "tickMs": 1000, "maximumStacks": 4,
 			"dispelCategory": "fire",
-			"modifiers": { "damagePerTick": 4 }
+			"modifiers": { "damagePerTick": 4, "regenerationMultiplier": 0.7 }
 		},
 		"soaked": {
-			"id": "soaked",
-			"hebrewName": "רטוב",
-			"englishName": "Soaked",
-			"durationMs": 6000,
-			"tickMs": 0,
-			"maximumStacks": 1,
+			"id": "soaked", "hebrewName": "רטוב", "englishName": "Soaked",
+			"durationMs": 6000, "tickMs": 0, "maximumStacks": 1,
 			"dispelCategory": "water",
 			"modifiers": { "fireReceivedMultiplier": 0.72, "earthReceivedMultiplier": 1.2 }
 		},
+		"flowing": {
+			"id": "flowing", "hebrewName": "זורם", "englishName": "Flowing",
+			"durationMs": 8000, "tickMs": 0, "maximumStacks": 3,
+			"dispelCategory": "blessing",
+			"modifiers": { "recoveryMultiplierPerStack": 0.05, "movementCasting": true }
+		},
 		"grounded": {
-			"id": "grounded",
-			"hebrewName": "מקורקע",
-			"englishName": "Grounded",
-			"durationMs": 5000,
-			"tickMs": 0,
-			"maximumStacks": 1,
+			"id": "grounded", "hebrewName": "מקורקע", "englishName": "Grounded",
+			"durationMs": 5000, "tickMs": 0, "maximumStacks": 1,
 			"dispelCategory": "earth",
-			"modifiers": { "airborne": false, "interruptResistanceMultiplier": 0.82 }
+			"modifiers": { "airborne": false, "interruptResistanceMultiplier": 0.82, "teleportSuppressed": true }
+		},
+		"rooted": {
+			"id": "rooted", "hebrewName": "מושרש", "englishName": "Rooted",
+			"durationMs": 2600, "tickMs": 0, "maximumStacks": 1,
+			"dispelCategory": "earth",
+			"modifiers": { "movementMultiplier": 0, "rooted": true }
 		},
 		"dust-bound": {
-			"id": "dust-bound",
-			"hebrewName": "קשור בעפר",
-			"englishName": "Dust Bound",
-			"durationMs": 3200,
-			"tickMs": 0,
-			"maximumStacks": 1,
+			"id": "dust-bound", "hebrewName": "קשור בעפר", "englishName": "Dust Bound",
+			"durationMs": 3200, "tickMs": 0, "maximumStacks": 1,
 			"dispelCategory": "earth",
 			"modifiers": { "movementMultiplier": 0.58, "rooted": true }
 		},
-		"flowing": {
-			"id": "flowing",
-			"hebrewName": "זורם",
-			"englishName": "Flowing",
-			"durationMs": 8000,
-			"tickMs": 0,
-			"maximumStacks": 3,
-			"dispelCategory": "blessing",
-			"modifiers": { "recoveryMultiplierPerStack": 0.05 }
+		"dust-obscured": {
+			"id": "dust-obscured", "hebrewName": "מעורפל בעפר", "englishName": "Dust-obscured",
+			"durationMs": 4200, "tickMs": 0, "maximumStacks": 1,
+			"dispelCategory": "concealment",
+			"modifiers": { "precisionMultiplier": 0.72, "targetingClarity": 0.65 }
+		},
+		"exposed": {
+			"id": "exposed", "hebrewName": "חשוף", "englishName": "Exposed",
+			"durationMs": 3600, "tickMs": 0, "maximumStacks": 2,
+			"dispelCategory": "physical",
+			"modifiers": { "staggerReceivedMultiplier": 1.25, "weakPointVisible": true }
+		},
+		"disrupted": {
+			"id": "disrupted", "hebrewName": "מופרע", "englishName": "Silenced or Disrupted",
+			"durationMs": 1800, "tickMs": 0, "maximumStacks": 1,
+			"dispelCategory": "ritual",
+			"modifiers": { "castCategoriesSuppressed": ["ritual", "projectile"], "diminishingReturns": true }
 		},
 		"guard-broken": {
-			"id": "guard-broken",
-			"hebrewName": "מגן שבור",
-			"englishName": "Guard Broken",
-			"durationMs": 1400,
-			"tickMs": 0,
-			"maximumStacks": 1,
+			"id": "guard-broken", "hebrewName": "מגן שבור", "englishName": "Guard Broken",
+			"durationMs": 1400, "tickMs": 0, "maximumStacks": 1,
 			"dispelCategory": "physical",
 			"modifiers": { "guardDisabled": true, "staggered": true }
 		},
 		"clarified": {
-			"id": "clarified",
-			"hebrewName": "מבואר",
-			"englishName": "Clarified",
-			"durationMs": 5500,
-			"tickMs": 0,
-			"maximumStacks": 1,
+			"id": "clarified", "hebrewName": "מבואר", "englishName": "Clarified",
+			"durationMs": 5500, "tickMs": 0, "maximumStacks": 1,
 			"dispelCategory": "blessing",
 			"modifiers": { "interruptAccuracy": 0.16, "insightTierBonus": 1 }
 		}

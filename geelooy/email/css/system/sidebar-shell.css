@@ -1,0 +1,27 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos shapes the conversation rail as a calm reading instrument.
+*/
+.sidebar {
+	min-width: 0;
+	overflow: auto;
+	border-right: 1px solid var(--mail-border);
+	background: rgba(10, 15, 24, .84);
+	backdrop-filter: blur(18px);
+}
+
+.sidebar-header {
+	padding: 18px 16px 10px;
+}
+
+.brand-title {
+	color: var(--mail-text);
+	font-size: 1rem;
+	font-weight: 720;
+}
+
+.mail-sidebar-identity {
+	display: grid;
+	gap: 10px;
+}

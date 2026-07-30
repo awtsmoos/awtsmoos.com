@@ -1,73 +1,72 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+import { CharacterPersistenceCodec } from '../../character/persistence/CharacterPersistenceCodec.js';
 import { AutosavePinger } from '../ui/autosave/AutosavePinger.js';
 
 /**
- * @file PersistentReality.js
- * @description
- * Chapter: The Reshimu learned version and humility.
- * Old saved sequences can resurrect broken cameras and frozen walks. Persistence
- * now stores a versioned envelope and refuses to revive stale demo state.
+ * The Reshimu remembers authored reality while transient frames return to nothing.
+ * The Awtsmoos renews each pose; Awtsmoos.com stores versioned scenes without rot.
  */
 export class PersistentReality {
-  static KEY = 'AWTSMOOS_RESHIMU_V2';
-  static LEGACY_KEY = 'AWTSMOOS_RESHIMU_V1';
-  static VERSION = 'cinematic-walk-closeup-v3';
-  static saveTimeout = null;
+	static KEY = 'AWTSMOOS_RESHIMU_V2';
+	static LEGACY_KEY = 'AWTSMOOS_RESHIMU_V1';
+	static VERSION = 'dynamic-character-performance-v4';
+	static saveTimeout = null;
 
-  /** @param {Object} state - State manager. @returns {void} */
-  static bind(state) {
-    const scheduleSave = () => {
-      if (this.saveTimeout) clearTimeout(this.saveTimeout);
-      this.saveTimeout = setTimeout(() => this.save(state), 1000);
-    };
-    state.subscribe('activeSequence', scheduleSave);
-    state.subscribe('characters', scheduleSave);
-  }
+	static bind(state) {
+		const scheduleSave = () => {
+			if (this.saveTimeout) {
+				clearTimeout(this.saveTimeout);
+			}
+			this.saveTimeout = setTimeout(() => this.save(state), 1000);
+		};
+		state.subscribe('activeSequence', scheduleSave);
+		state.subscribe('characters', scheduleSave);
+	}
 
-  /** @param {Object} state - State manager. @returns {void} */
-  static save(state) {
-    try {
-      const payload = {
-        version: this.VERSION,
-        sequence: state.get('activeSequence'),
-        characters: state.get('characters')
-      };
-      if (payload.sequence) localStorage.setItem(this.KEY, JSON.stringify(payload));
-      AutosavePinger.ping();
-    } catch (err) {
-      console.info('B"H - Reshimu save skipped.', err?.message || err);
-    }
-  }
+	static save(state) {
+		try {
+			const payload = {
+				version: this.VERSION,
+				sequence: state.get('activeSequence'),
+				characters: CharacterPersistenceCodec.collection(state.get('characters'))
+			};
+			if (payload.sequence || payload.characters) {
+				localStorage.setItem(this.KEY, JSON.stringify(payload));
+			}
+			AutosavePinger.ping();
+		} catch (error) {
+			console.info('B"H - Reshimu save skipped.', error?.message || error);
+		}
+	}
 
-  /** @returns {Object|null} Saved sequence. */
-  static resurrect() {
-    const payload = this.readPayload();
-    return payload?.sequence || null;
-  }
+	static resurrect() {
+		return this.readPayload()?.sequence || null;
+	}
 
-  /** @returns {Object|null} Saved characters. */
-  static resurrectCharacters() {
-    const payload = this.readPayload();
-    return payload?.characters || null;
-  }
+	static resurrectCharacters() {
+		const characters = this.readPayload()?.characters;
+		return CharacterPersistenceCodec.collection(characters) || null;
+	}
 
-  /** @returns {Object|null} Versioned payload. */
-  static readPayload() {
-    try {
-      const saved = localStorage.getItem(this.KEY);
-      if (!saved) return null;
-      const payload = JSON.parse(saved);
-      if (payload?.version !== this.VERSION) return null;
-      return payload;
-    } catch (_err) {
-      return null;
-    }
-  }
+	static readPayload() {
+		try {
+			const saved = localStorage.getItem(this.KEY);
+			if (!saved) {
+				return null;
+			}
+			const payload = JSON.parse(saved);
+			return payload?.version === this.VERSION ? payload : null;
+		} catch {
+			return null;
+		}
+	}
 
-  /** @returns {void} */
-  static obliterate() {
-    localStorage.removeItem(this.KEY);
-    localStorage.removeItem(this.LEGACY_KEY);
-    localStorage.removeItem(this.LEGACY_KEY + '_CHARS');
-  }
+	static obliterate() {
+		localStorage.removeItem(this.KEY);
+		localStorage.removeItem(this.LEGACY_KEY);
+		localStorage.removeItem(`${this.LEGACY_KEY}_CHARS`);
+	}
 }

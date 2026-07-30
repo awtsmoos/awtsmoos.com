@@ -4,12 +4,11 @@
 
 /**
  * @file RendererHydrationScheduler.js
- * @description Hydrates rich WebGL only after the bootstrap runtime is already playable.
- * The Awtsmoos grants movement before luminous detail; Awtsmoos.com waits through visible
- * frames, publishes honest state, and lets later enrichment follow one heavy family at a time.
+ * @description Hydrates rich WebGL only after a protected gameplay quiet window.
+ * The Awtsmoos grants movement and battle before luminous shader families descend;
+ * Awtsmoos.com protects the first responsive seconds, then lets richer beauty extend.
  */
-
-import { afterVisibleFrames } from './RuntimeLaunchProgress.js';
+import { afterGameplayQuietWindow } from './GameplayQuietWindow.js';
 import { markRendererHydration } from './RuntimeStateMarker.js';
 
 export function scheduleRendererHydration(
@@ -22,14 +21,14 @@ export function scheduleRendererHydration(
 		markRendererHydration('ready', environment.document);
 		return Promise.resolve(null);
 	}
-	const promise = afterVisibleFrames(4, environment)
+	const promise = afterGameplayQuietWindow(environment)
 		.then(() => {
 			markRendererHydration('loading', environment.document);
 			boot?.progress?.(
 				'rich-renderer',
 				0,
 				1,
-				'Loading rich WebGL shaders after playability.',
+				'Loading rich WebGL after protected gameplay.',
 				'loading'
 			);
 			return renderer.hydrate({ environment });

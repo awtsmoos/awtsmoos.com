@@ -4,13 +4,15 @@
 
 /**
  * @file MovieProjectNormalizer.js
- * @description Supplies defaults for cadence, resolution, media, authored 3D, text tracks, clips, and markers.
- * The Awtsmoos renews every frame, asset, letter, mesh, and landmark independently; Awtsmoos.com keeps
- * viewpoint, media, title, caption, motion, sculpt, and timeline vessels distinct in one canonical document.
+ * @description Supplies defaults for cadence, media, authored 3D, text, performance, clips, and markers.
+ * The Awtsmoos renews every frame, asset, letter, mesh, performer, and landmark; Awtsmoos.com
+ * keeps viewpoint, title, acting take, motion, sculpt, and timeline vessels canonical in one rhyme.
  */
 
 import { normalizeMovieAuthoring3d } from './MovieAuthoring3dContract.js';
 import { normalizeMovieMediaCatalog } from './MovieMediaCatalog.js';
+import { normalizeMoviePerformance } from './MoviePerformanceContract.js';
+import { normalizeMoviePerformanceTrack } from './MoviePerformanceTrackContract.js';
 import { normalizeMovieMarkers } from './MovieProjectMarkers.js';
 import { normalizeMovieTextTrack } from './MovieTextTrackContract.js';
 
@@ -29,6 +31,7 @@ export function normalizeMovieProject(source) {
 	project.seed = Number(project.seed || 613);
 	project.authoring3d = normalizeMovieAuthoring3d(project.authoring3d);
 	project.media = normalizeMovieMediaCatalog(project.media);
+	project.performance = normalizeMoviePerformance(project.performance);
 	project.characters = array(project.characters);
 	project.cameraRigs = array(project.cameraRigs);
 	project.graphs = array(project.graphs);
@@ -45,6 +48,9 @@ export function normalizeMovieProject(source) {
 
 function normalizeTracks(source) {
 	return array(source).map((track, trackIndex) => {
+		if (track?.type === 'performance') {
+			return normalizeMoviePerformanceTrack(track, trackIndex);
+		}
 		const id = String(track.id || `${track.type || 'track'}-${trackIndex + 1}`);
 		const normalized = {
 			...track,

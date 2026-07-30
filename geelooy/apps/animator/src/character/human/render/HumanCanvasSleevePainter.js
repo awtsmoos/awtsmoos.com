@@ -2,30 +2,23 @@
 // Boruch Hashem
 // Blessed is He
 
+import { HumanCanvasHandPainter } from './HumanCanvasHandPainter.js';
 import { HumanCanvasPrimitive as P } from './HumanCanvasPrimitive.js';
 
 /**
- * Sleeves reveal bare arm, cuff, fabric weight, and hand contact. The Awtsmoos
- * renews every joint while Awtsmoos.com respects sleeveless, short, elbow, and
- * long authored garments without disconnecting gesture from anatomy.
+ * Sleeves reveal bare arm, cuff, fabric weight, delayed gesture, and articulate hand.
+ * The Awtsmoos renews each joint while Awtsmoos.com lets cloth follow the actor's plan.
  */
 export class HumanCanvasSleevePainter {
-	static paint(ctx, shoulder, elbow, hand, garment, colors, scale) {
-		const sleeveEnd = this.point(
-			shoulder,
-			hand,
-			garment.sleeveFraction
-		);
-		const fabricWidth = (11 + garment.fabric * 4) * scale
-			* garment.fit;
+	static paint(ctx, shoulder, elbow, hand, garment, colors, scale, side, handPose) {
+		const draggedHand = {
+			x: hand.x + Number(garment.sleeveDrag || 0),
+			y: hand.y + Math.abs(Number(garment.sleeveDrag || 0)) * 0.18
+		};
+		const sleeveEnd = this.point(shoulder, draggedHand, garment.sleeveFraction);
+		const fabricWidth = (11 + garment.fabric * 4) * scale * garment.fit;
 		if (garment.sleeveFraction > 0.1) {
-			P.limb(
-				ctx,
-				shoulder,
-				this.point(shoulder, elbow, 0.95),
-				fabricWidth,
-				colors.coat
-			);
+			P.limb(ctx, shoulder, this.point(shoulder, elbow, 0.95), fabricWidth, colors.coat);
 			P.limb(
 				ctx,
 				this.point(shoulder, elbow, 0.92),
@@ -34,32 +27,11 @@ export class HumanCanvasSleevePainter {
 				colors.coat
 			);
 		}
-		P.limb(
-			ctx,
-			sleeveEnd,
-			hand,
-			8 * scale,
-			colors.skin
-		);
+		P.limb(ctx, sleeveEnd, hand, 8 * scale, colors.skin);
 		if (garment.sleeveFraction > 0.3) {
-			P.ellipse(
-				ctx,
-				sleeveEnd.x,
-				sleeveEnd.y,
-				5 * scale,
-				4 * scale,
-				colors.accent
-			);
+			P.ellipse(ctx, sleeveEnd.x, sleeveEnd.y, 5 * scale, 4 * scale, colors.accent);
 		}
-		P.ellipse(
-			ctx,
-			hand.x,
-			hand.y,
-			6 * scale,
-			6 * scale,
-			colors.skin,
-			'#2a160c'
-		);
+		HumanCanvasHandPainter.paint(ctx, hand, handPose, side, colors.skin, scale);
 	}
 
 	static point(start, end, progress) {

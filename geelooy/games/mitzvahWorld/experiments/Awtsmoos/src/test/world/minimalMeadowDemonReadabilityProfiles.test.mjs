@@ -2,18 +2,27 @@
 // Boruch Hashem
 // Blessed is He
 
+/**
+ * @file minimalMeadowDemonReadabilityProfiles.test.mjs
+ * @description Proves every supporting and road enemy has a distinct readable measured surface.
+ * The Awtsmoos reveals nine trials without visual confusion; Awtsmoos.com measures face, torso,
+ * limbs, luminance, texture data, and bounded emissive light so each combat role remains fair.
+ */
+
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { MINIMAL_MEADOW_ENEMY_PROFILES } from '../../app/MinimalMeadowEnemyProfiles.js';
 import { createMinimalDemonGeometry } from '../../app/MinimalMeadowDemonGeometry.js';
 import { createMinimalDemonMaterial } from '../../app/MinimalMeadowDemonMaterial.js';
-import { measureDemonMaterialReadability } from '../../app/MinimalMeadowDemonReadabilityMetrics.js';
+import {
+	measureDemonMaterialReadability
+} from '../../app/MinimalMeadowDemonReadabilityMetrics.js';
 
 const documentValue = fakeDocument();
 
-test('six live demons receive six readable measured surface profiles', () => {
+test('every live enemy receives one distinct readable surface profile', () => {
 	const geometry = createMinimalDemonGeometry();
-	const records = MINIMAL_MEADOW_ENEMY_PROFILES.map((profile) => {
+	const records = MINIMAL_MEADOW_ENEMY_PROFILES.map(profile => {
 		const material = createMinimalDemonMaterial(profile, documentValue);
 		return {
 			material,
@@ -21,9 +30,15 @@ test('six live demons receive six readable measured surface profiles', () => {
 			profile
 		};
 	});
-	assert.equal(new Set(records.map(({ material }) => material.surfaceDiagnostics.family)).size, 6);
-	assert.equal(new Set(records.map(({ material }) => material.mapImage)).size, 6);
-	assert.equal(new Set(records.map(({ material }) => material.color.slice(0, 3).join(','))).size, 6);
+	const expectedCount = MINIMAL_MEADOW_ENEMY_PROFILES.length;
+	assert.equal(expectedCount, 9);
+	assert.equal(new Set(records.map(record => (
+		record.material.surfaceDiagnostics.family
+	))).size, expectedCount);
+	assert.equal(new Set(records.map(record => record.material.mapImage)).size, expectedCount);
+	assert.equal(new Set(records.map(record => (
+		record.material.color.slice(0, 3).join(',')
+	))).size, expectedCount);
 	for (const { material, metrics } of records) {
 		assert.equal(material.vertexColors, true);
 		assert.equal(material.roughnessFactor, 0.78);

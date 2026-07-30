@@ -4,22 +4,19 @@
 
 /**
  * @file BrowserCdpHarness.mjs
- * @description Creates, explicitly navigates, evaluates, and semantically waits on CDP pages.
- * The Awtsmoos renews observation after every crossing; Awtsmoos.com refuses about:blank
- * races, stale contexts, and arbitrary sleeps when truthful page state can be requested.
+ * @description Keeps one explicit page session per target for navigation, evaluation, and waiting.
+ * The Awtsmoos holds one enduring channel while the page changes from blankness into play;
+ * Awtsmoos.com prevents transient attachment replies from scattering browser truth away.
  */
-
-import {
-	browserDelay,
-	connectCdpSocket,
-	sendCdpCommand
-} from './BrowserCdpSocket.mjs';
+import { browserDelay, connectCdpSocket, sendCdpCommand } from './BrowserCdpSocket.mjs';
+import { BrowserCdpPageSession } from './BrowserCdpPageSession.mjs';
 import { BrowserCdpTarget } from './BrowserCdpTarget.mjs';
 
 export class BrowserCdpHarness {
 	constructor(port) {
 		this.port = port;
 		this.browser = null;
+		this.sessions = new Map();
 		this.targets = new BrowserCdpTarget(port);
 	}
 
@@ -31,6 +28,7 @@ export class BrowserCdpHarness {
 
 	async createTarget(url) {
 		const target = await this.targets.create();
+		await this.session(target.id);
 		await this.navigateTarget(target.id, url);
 		await this.waitFor(target.id, `({
 			href: location.href,
@@ -38,43 +36,50 @@ export class BrowserCdpHarness {
 		})`, {
 			intervalMs: 50,
 			label: 'TARGET_DOCUMENT',
-			timeoutMs: 15000
+			timeoutMs: 30000
 		});
 		return target.id;
 	}
 
 	async navigateTarget(targetId, url) {
-		const target = await this.targets.wait(targetId);
-		const socket = await connectCdpSocket(target.webSocketDebuggerUrl);
+		const session = await this.session(targetId);
+		await session.send('Page.enable');
 		try {
-			await sendCdpCommand(socket, 'Page.enable');
-			await sendCdpCommand(socket, 'Page.navigate', { url }, 15000);
-		} finally {
-			socket.close();
+			await session.send('Page.navigate', { url }, 2000);
+		} catch (error) {
+			if (error?.message !== 'Page.navigate_TIMEOUT') throw error;
 		}
 	}
 
 	async closeTarget(targetId) {
+		await this.sessions.get(targetId)?.stop();
+		this.sessions.delete(targetId);
 		await sendCdpCommand(this.browser, 'Target.closeTarget', { targetId });
 	}
 
 	async evaluate(targetId, expression, options = {}) {
-		await sendCdpCommand(this.browser, 'Target.activateTarget', { targetId });
-		const target = await this.targets.wait(targetId);
-		const socket = await connectCdpSocket(target.webSocketDebuggerUrl);
-		try {
-			const result = await sendCdpCommand(socket, 'Runtime.evaluate', {
-				awaitPromise: options.awaitPromise === true,
-				expression,
-				returnByValue: true
-			}, options.timeoutMs || 20000);
-			if (result.exceptionDetails) {
-				throw new Error(JSON.stringify(result.exceptionDetails));
-			}
-			return result.result?.value;
-		} finally {
-			socket.close();
+		const session = await this.session(targetId);
+		await session.send('Runtime.enable');
+		const result = await session.send('Runtime.evaluate', {
+			awaitPromise: options.awaitPromise === true,
+			expression,
+			returnByValue: true
+		}, options.timeoutMs || 20000);
+		if (result.exceptionDetails) {
+			throw new Error(JSON.stringify(result.exceptionDetails));
 		}
+		return result.result?.value;
+	}
+
+	async session(targetId) {
+		if (!this.sessions.has(targetId)) {
+			const session = await new BrowserCdpPageSession(
+				this.browser,
+				targetId
+			).start();
+			this.sessions.set(targetId, session);
+		}
+		return this.sessions.get(targetId);
 	}
 
 	async waitFor(targetId, expression, options = {}) {
@@ -93,6 +98,8 @@ export class BrowserCdpHarness {
 	}
 
 	async stop() {
+		for (const session of this.sessions.values()) await session.stop();
+		this.sessions.clear();
 		this.browser?.close();
 		this.browser = null;
 	}

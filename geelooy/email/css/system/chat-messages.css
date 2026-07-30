@@ -1,0 +1,56 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives messages room to breathe and remain readable.
+*/
+.messages-scroll {
+	min-height: 0;
+	overflow: auto;
+	padding: 22px clamp(14px, 4vw, 42px);
+	scrollbar-color: rgba(151, 180, 226, .24) transparent;
+}
+
+.msg-row {
+	display: flex;
+	margin-bottom: 14px;
+}
+
+.msg-row.me {
+	justify-content: flex-end;
+}
+
+.msg-bubble {
+	max-width: min(720px, 82%);
+	padding: 13px 15px;
+	border: 1px solid var(--mail-border);
+	border-radius: 16px;
+	background: var(--mail-panel);
+}
+
+.msg-row.me .msg-bubble {
+	border-color: rgba(151, 180, 226, .2);
+	background: rgba(86, 122, 177, .13);
+}
+
+.msg-subject {
+	margin-bottom: 7px;
+	font-weight: 700;
+}
+
+.msg-content {
+	color: var(--mail-text-secondary);
+	line-height: 1.62;
+}
+
+.msg-footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	margin-top: 9px;
+}
+
+.msg-time {
+	color: var(--mail-text-muted);
+	font-size: .7rem;
+}

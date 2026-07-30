@@ -1,4 +1,8 @@
-/* B"H — Quantum conversation styles arrive through focused modules. */
-@import "./quantum/chat/deck.css";
-@import "./quantum/chat/messages.css";
-@import "./quantum/chat/tools.css";
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos reveals the reading chamber through focused canonical vessels.
+*/
+@import url("./system/chat-shell.css");
+@import url("./system/chat-messages.css");
+@import url("./system/chat-menus.css");

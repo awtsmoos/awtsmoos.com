@@ -8,22 +8,22 @@ The Awtsmoos reveals each stored source beneath the one living Awtsmoos.com crow
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-	<meta name="description" content="Search indexed Torah source text, inspect provenance, and reopen precise source-comment windows.">
+	<meta name="description" content="Search indexed Torah source text and exact Hebrew Tanach words with provenance.">
 	<meta name="theme-color" content="#050811">
 	<title>Search the Living Library — Geelooy</title>
-	<link rel="stylesheet" href="/style/civilization/core-tokens.css?v=living-search-003">
-	<link rel="stylesheet" href="/style/civilization/core-base.css?v=living-search-003">
-	<link rel="stylesheet" href="/style/civilization/core-components.css?v=living-search-003">
-	<link rel="stylesheet" href="./styles/shell.css?v=living-search-003">
-	<link rel="stylesheet" href="./styles/hero.css?v=living-search-003">
-	<link rel="stylesheet" href="./styles/layout.css?v=living-search-003">
-	<link rel="stylesheet" href="./styles/form.css?v=living-search-003">
-	<link rel="stylesheet" href="./styles/discovery.css?v=living-search-003">
-	<link rel="stylesheet" href="./styles/results.css?v=living-search-003">
-	<link rel="stylesheet" href="./styles/comments.css?v=living-search-003">
-	<link rel="stylesheet" href="./styles/comment-actions.css?v=living-search-003">
-	<link rel="stylesheet" href="./styles/responsive.css?v=living-search-003">
-	<link rel="stylesheet" href="./styles/mobile.css?v=living-search-003">
+	<link rel="stylesheet" href="/style/civilization/core-tokens.css?v=living-search-004">
+	<link rel="stylesheet" href="/style/civilization/core-base.css?v=living-search-004">
+	<link rel="stylesheet" href="/style/civilization/core-components.css?v=living-search-004">
+	<link rel="stylesheet" href="./styles/shell.css?v=living-search-004">
+	<link rel="stylesheet" href="./styles/hero.css?v=living-search-004">
+	<link rel="stylesheet" href="./styles/layout.css?v=living-search-004">
+	<link rel="stylesheet" href="./styles/form.css?v=living-search-004">
+	<link rel="stylesheet" href="./styles/discovery.css?v=living-search-004">
+	<link rel="stylesheet" href="./styles/results.css?v=living-search-004">
+	<link rel="stylesheet" href="./styles/comments.css?v=living-search-004">
+	<link rel="stylesheet" href="./styles/comment-actions.css?v=living-search-004">
+	<link rel="stylesheet" href="./styles/responsive.css?v=living-search-004">
+	<link rel="stylesheet" href="./styles/mobile.css?v=living-search-004">
 	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=living-search-shell-001"></script>
 </head>
 <body data-sefarim-search-page data-geelooy-route="search">
@@ -33,40 +33,32 @@ The Awtsmoos reveals each stored source beneath the one living Awtsmoos.com crow
 			<div class="library-hero-copy">
 				<p class="library-kicker">Living source graph</p>
 				<h1 id="search-title">Find the exact source.</h1>
-				<p>Search the real indexed library in ordinary language. Every result keeps its source identity, relevance, stored text, and linked comment window.</p>
-				<div class="library-truth-row" aria-label="Search guarantees">
-					<span>Stored text only</span><span>Real provenance</span><span>No invented rankings</span>
-				</div>
+				<p>Search stored library text or exact Hebrew words and phrases across Tanach.</p>
+				<div class="library-truth-row" aria-label="Search guarantees"><span>Stored text only</span><span>Real provenance</span><span>Exact coordinates</span></div>
 			</div>
 			<div class="library-hero-mark" aria-hidden="true"><span>א</span><i></i><i></i><i></i></div>
 		</section>
 		<form id="searchForm" class="library-search-form" role="search" action="/mawgawl/sefarim" method="get">
-			<label class="library-query-field" for="query"><span>Question or source phrase</span><input id="query" name="q" type="search" required autofocus autocomplete="off" placeholder="What does the source say about…?"></label>
-			<label for="series"><span>Search lane</span><select id="series" name="lane"><option value="">Best available library</option></select></label>
+			<label class="library-query-field" for="query"><span>Question or Hebrew word or phrase</span><input id="query" name="q" type="search" required autofocus autocomplete="off" placeholder="What does the source say about…?"></label>
+			<label for="searchMode"><span>Search mode</span><select id="searchMode" name="mode"><option value="library">Read / library search</option><option value="tanach">Tanach Hebrew Word Search</option></select></label>
+			<label id="laneField" for="series"><span>Search lane</span><select id="series" name="lane"><option value="">Best available library</option></select></label>
+			<label id="bookField" for="book" hidden><span>Tanach book (optional)</span><input id="book" name="book" autocomplete="off" placeholder="בראשית or bereishis"></label>
 			<button class="library-search-button" type="submit"><span aria-hidden="true">⌕</span><span class="library-search-label">Search sources</span></button>
 		</form>
-		<nav class="library-scope-nav" aria-label="Search and discovery scopes">
-			<a class="is-active" href="/mawgawl/sefarim/" aria-current="page">Sources</a>
-			<a href="/heichelos">Heichelos</a>
-			<a href="/?view=feed">Posts</a>
-			<a href="/profile/">Aliases</a>
-			<a href="/heichelos/ikar?view=series">Series</a>
-		</nav>
+		<nav class="library-scope-nav" aria-label="Search and discovery scopes"><a class="is-active" href="/mawgawl/sefarim/" aria-current="page">Sources</a><a href="/heichelos">Heichelos</a><a href="/?view=feed">Posts</a><a href="/profile/">Aliases</a><a href="/heichelos/ikar?view=series">Series</a></nav>
 		<div class="library-workspace">
 			<section class="library-result-column" aria-labelledby="results-title">
 				<header class="library-section-heading"><div><p>Search results</p><h2 id="results-title">Sources worth opening</h2></div><a href="/heichelos/ikar?view=series">Browse library</a></header>
 				<p id="status" class="library-status" role="status" aria-live="polite">Enter a question to search stored source text.</p>
-				<section id="results" class="library-results" aria-live="polite" aria-label="Search results">
-					<article class="library-empty library-empty-intro"><span aria-hidden="true">⌕</span><div><strong>Begin with a phrase, question, or teaching.</strong><p>The library will reveal only results supplied by the live search index.</p></div></article>
-				</section>
+				<section id="results" class="library-results" aria-live="polite" aria-label="Search results"><article class="library-empty library-empty-intro"><span aria-hidden="true">⌕</span><div><strong>Begin with a phrase, question, or teaching.</strong><p>The library reveals only results supplied by a live persisted index.</p></div></article></section>
 			</section>
 			<aside class="library-discovery-rail" aria-label="Search context">
 				<section class="library-rail-card"><header><div><p>Available libraries</p><h2>Indexed lanes</h2></div><span id="laneCount" aria-live="polite">Loading</span></header><div id="laneDirectory" class="library-lane-directory" aria-live="polite"></div></section>
 				<section class="library-rail-card"><header><div><p>Your browser</p><h2>Recently explored</h2></div><button id="clearHistory" type="button">Clear</button></header><div id="recentSearches" class="library-recent-searches"><p>No local searches yet.</p></div></section>
-				<section class="library-rail-card library-tip-card"><p>Search with context</p><h2>Ask for a teaching, phrase, or idea.</h2><ul><li>Use Hebrew or English.</li><li>Choose a lane for a narrower source set.</li><li>Open linked comments to continue in the real Heichel.</li></ul></section>
+				<section class="library-rail-card library-tip-card"><p>Search with context</p><h2>Ask for a teaching, phrase, or idea.</h2><ul><li>Use Hebrew or English.</li><li>Choose a lane or Tanach mode.</li><li>Open exact linked sources.</li></ul></section>
 			</aside>
 		</div>
 	</main>
-	<script type="module" src="./script.js?v=living-search-003"></script>
+	<script type="module" src="./script.js?v=living-search-004"></script>
 </body>
 </html>

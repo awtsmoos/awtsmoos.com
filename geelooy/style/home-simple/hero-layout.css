@@ -1,0 +1,31 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos arranges image and word in a measured field, where silence becomes structure and balance is revealed.
+*/
+.home {
+	display: grid;
+	place-items: center;
+	padding: 38px 20px 72px;
+}
+
+.hero {
+	display: grid;
+	grid-template-columns: minmax(300px, 470px) minmax(330px, 500px);
+	align-items: center;
+	gap: clamp(54px, 8vw, 112px);
+	width: min(1080px, 100%);
+}
+
+@media (max-width: 800px) {
+	.hero {
+		grid-template-columns: 1fr;
+		width: min(520px, 100%);
+		text-align: center;
+	}
+
+	.hero-copy {
+		display: grid;
+		justify-items: center;
+	}
+}

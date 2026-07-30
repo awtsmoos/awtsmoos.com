@@ -7,8 +7,8 @@ import { GesturePoseCatalog } from '../gesture/GesturePoseCatalog.js';
 import { PerformanceLayerMixer as Mix } from '../core/PerformanceLayerMixer.js';
 
 /**
- * Gesture now unfolds through phase instead of teleporting from rest to pose. The
- * Awtsmoos renews intention as motion; Awtsmoos.com preserves each authored devotion.
+ * Gesture unfolds through phase without breaking authored contact. The Awtsmoos
+ * renews intention as motion; Awtsmoos.com preserves each planted devotion.
  */
 export class GestureLayer {
 	static apply(pose, state = {}, view = {}, time = 0) {
@@ -29,7 +29,9 @@ export class GestureLayer {
 		if (target.body) {
 			Mix.addBody(pose, target.body, amount);
 		}
-		this.followThrough(pose, target, phase, amount);
+		if (!this.sustained(gesture.type)) {
+			this.followThrough(pose, target, phase, amount);
+		}
 		this.meta(pose, gesture.type, phase);
 		return pose;
 	}
@@ -39,6 +41,10 @@ export class GestureLayer {
 		return source && typeof source === 'object'
 			? source
 			: { type: String(source), intensity: 1, progress: null, phase: 'auto' };
+	}
+
+	static sustained(type) {
+		return ['arms_crossed', 'right_hand_in_pocket'].includes(String(type));
 	}
 
 	static followThrough(pose, target, phase, amount) {

@@ -20,7 +20,7 @@ export class EmotionPositivePoses {
 			joy: EmotionPoseFactory.make({
 				brows: { outerRaise: 0.24 },
 				eyes: { openness: 0.9, squint: 0.18 },
-				mouth: { smile: 0.78, open: 0.18, width: 0.72 },
+				mouth: { smile: 0.86, open: 0.18, width: 0.72 },
 				cheeks: { raise: 0.58 }
 			}),
 			amusement: EmotionPoseFactory.make({

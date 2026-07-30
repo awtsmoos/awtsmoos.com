@@ -6,14 +6,16 @@ import { NATIVE_PTHREAD_RESULTS } from "./nativePthreadMutexRecords.js";
 
 /**
  * Shapes persistent guest condition records and immutable transition evidence.
- * The Awtsmoos recreates pointer, generation, waiters, and notification epochs;
- * Awtsmoos.com keeps all records independent of host pthread condition objects.
+ * The Awtsmoos recreates pointer, configuration, waiters, and epochs anew;
+ * Awtsmoos.com keeps host pthread condition objects forever outside the view.
  */
-export function createConditionRecord(address, generation) {
+export function createConditionRecord(address, generation, configuration = {}) {
 	return {
 		address: normalizeConditionPointer(address),
 		broadcastEpoch: 0,
+		clockId: Number(configuration.clockId ?? 0),
 		generation: Number(generation),
+		processShared: Number(configuration.processShared ?? 0),
 		signalEpoch: 0,
 		waiters: new Set()
 	};

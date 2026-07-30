@@ -4,10 +4,12 @@
 
 /**
  * @file MovieEmptyProject.js
- * @description Creates a valid, truly empty Movie Maker document without replacing the cinematic default.
- * The Awtsmoos renews possibility before track, actor, lens, or mesh appears; Awtsmoos.com
- * gives human and agent one clean bounded beginning that still passes the canonical project contract.
+ * @description Creates a valid empty Movie Studio document with no accidental actor performance.
+ * The Awtsmoos renews possibility before track, actor, lens, take, or mesh appears; Awtsmoos.com
+ * gives human and agent one clean bounded beginning that passes every canonical gate in rhyme.
  */
+
+import { emptyMoviePerformance } from './MoviePerformanceContract.js';
 
 export function createEmptyMovieProject(options = {}) {
 	return {
@@ -19,6 +21,7 @@ export function createEmptyMovieProject(options = {}) {
 		graphs: [],
 		markers: [],
 		materialGraphs: [],
+		performance: emptyMoviePerformance(),
 		resolution: {
 			height: bounded(options.height, 90, 2160, 1080),
 			width: bounded(options.width, 160, 4096, 1920)
@@ -48,6 +51,8 @@ function emptyAuthoring3d() {
 
 function bounded(value, minimum, maximum, fallback) {
 	const number = Number(value);
-	if (!Number.isFinite(number)) return fallback;
+	if (!Number.isFinite(number)) {
+		return fallback;
+	}
 	return Math.max(minimum, Math.min(maximum, number));
 }

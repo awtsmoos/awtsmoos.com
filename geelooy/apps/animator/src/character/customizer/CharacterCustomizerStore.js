@@ -2,13 +2,13 @@
 // Boruch Hashem
 // Blessed is He
 
+import { CharacterPersistenceCodec } from '../persistence/CharacterPersistenceCodec.js';
 import { CharacterDesignAdapter } from './CharacterDesignAdapter.js';
 import { CharacterDesignSchema } from './CharacterDesignSchema.js';
 
 /**
- * A designed identity must survive beyond one click. The Awtsmoos renews every
- * instant; Awtsmoos.com preserves approved designs in scene state and a local
- * library while never confusing an unapproved AI proposal with user authorship.
+ * A designed identity survives beyond one click. The Awtsmoos renews every
+ * instant; Awtsmoos.com preserves approved canonical designs without frame caches.
  */
 export class CharacterCustomizerStore {
 	static key = 'awtsmoos.character.library.v1';
@@ -18,10 +18,17 @@ export class CharacterCustomizerStore {
 	}
 
 	apply(input) {
-		const design = CharacterDesignSchema.assert({ ...input, ai: { ...(input.ai || {}), approved: true } });
+		const design = CharacterDesignSchema.assert({
+			...input,
+			ai: { ...(input.ai || {}), approved: true }
+		});
 		const character = CharacterDesignAdapter.toHuman(design);
 		const characters = this.app?.state?.get?.('characters') || {};
-		this.app?.state?.set?.('characters', { ...characters, [character.id]: character }, true);
+		this.app?.state?.set?.(
+			'characters',
+			{ ...characters, [character.id]: character },
+			true
+		);
 		this.save(design);
 		return character;
 	}
@@ -29,13 +36,21 @@ export class CharacterCustomizerStore {
 	save(input) {
 		const design = CharacterDesignSchema.assert(input);
 		const library = this.library();
-		localStorage.setItem(this.constructor.key, JSON.stringify({ ...library, [design.id]: design }));
+		const encoded = CharacterPersistenceCodec.encode(design);
+		localStorage.setItem(
+			this.constructor.key,
+			JSON.stringify({ ...library, [design.id]: encoded })
+		);
 		return design;
 	}
 
 	library() {
-		try { return JSON.parse(localStorage.getItem(this.constructor.key) || '{}'); }
-		catch { return {}; }
+		try {
+			const raw = JSON.parse(localStorage.getItem(this.constructor.key) || '{}');
+			return CharacterPersistenceCodec.collection(raw) || {};
+		} catch {
+			return {};
+		}
 	}
 
 	remove(id) {

@@ -2,43 +2,32 @@
 // Boruch Hashem
 // Blessed is He
 
+import { NaturalMotionComposer } from './core/NaturalMotionComposer.js';
+import { PerformanceLayerCatalog } from './core/PerformanceLayerCatalog.js';
 import { PerformanceLayerRunner } from './core/PerformanceLayerRunner.js';
 import { PerformancePoseFinalizer } from './core/PerformancePoseFinalizer.js';
 import { PoseDefaults } from './core/PoseDefaults.js';
-import { NaturalMotionComposer } from './core/NaturalMotionComposer.js';
 import { FacingResolver } from './facing/FacingResolver.js';
-import { EmotionLayer } from './layers/EmotionLayer.js';
-import { FaceLayer } from './layers/FaceLayer.js';
-import { GestureLayer } from './layers/GestureLayer.js';
-import { LocomotionLayer } from './layers/LocomotionLayer.js';
-import { SpeechLayer } from './layers/SpeechLayer.js';
 import { PerformanceStateNormalizer } from './state/PerformanceStateNormalizer.js';
-
-const PERFORMANCE_LAYERS = [
-	LocomotionLayer,
-	GestureLayer,
-	SpeechLayer,
-	EmotionLayer,
-	FaceLayer
-];
 
 /**
  * Stable identity receives layered acting instead of pose replacement. The
- * Awtsmoos renews locomotion, gesture, speech, emotion, face, and reaction together.
+ * Awtsmoos renews every channel in measure; Awtsmoos.com guards the living treasure.
  */
 export class CharacterPerformanceComposer {
 	/** Composes one complete renderer-facing performance pose. */
 	static compose(data = {}, view = {}, time = 0, world = {}) {
 		const state = this.normalizeState(data);
-		const pose = this.basePose(data, state, view, time, world);
+		const pose = this.basePose(state, view, time, world);
 		pose.facing = FacingResolver.resolve(data, state, world);
-		for (const layer of PERFORMANCE_LAYERS) {
+		for (const layer of PerformanceLayerCatalog.ordered()) {
 			PerformanceLayerRunner.run(layer, pose, state, view, time, world);
 		}
-		this.naturalMotion(pose, data, state, time);
-		this.faceGuarantees(pose, data, state, time);
-		this.bodyPerformance(pose, data, state, time);
-		this.aliases(pose);
+		NaturalMotionComposer.apply(pose, data, state, time);
+		const talking = NaturalMotionComposer.talking(data, state);
+		PerformancePoseFinalizer.face(pose, data, time, talking);
+		PerformancePoseFinalizer.body(pose, data, state, time, talking);
+		PerformancePoseFinalizer.aliases(pose);
 		return pose;
 	}
 
@@ -63,7 +52,7 @@ export class CharacterPerformanceComposer {
 	}
 
 	/** Creates the neutral vessel required by every performance layer. */
-	static basePose(data, state, view, time, world) {
+	static basePose(state, view, time, world) {
 		let pose = {};
 		try {
 			pose = PoseDefaults.create();
@@ -78,35 +67,20 @@ export class CharacterPerformanceComposer {
 		pose.arms.right ||= {};
 		pose.legs.left ||= {};
 		pose.legs.right ||= {};
-		pose.meta = { action: state.action, gesture: state.gesture, emotion: state.emotion, speech: state.speech, time, view, world };
+		pose.meta = {
+			action: state.action,
+			gesture: state.gesture,
+			emotion: state.emotion,
+			speech: state.speech,
+			time,
+			view,
+			world
+		};
 		return pose;
 	}
 
-	static naturalMotion(pose, data, state, time) {
-		NaturalMotionComposer.apply(pose, data, state, time);
-	}
-
-	static armIdle(pose, side, time, talking, state) {
-		NaturalMotionComposer.arm(pose, side, time, talking, state);
-	}
-
-	static faceGuarantees(pose, data, state, time) {
-		PerformancePoseFinalizer.face(pose, data, time, this.talking(data, state));
-	}
-
-	static bodyPerformance(pose, data, state, time) {
-		PerformancePoseFinalizer.body(pose, data, state, time, this.talking(data, state));
-	}
-
+	/** Preserves the public emphasis helper for authored gesture callers. */
 	static emphasize(pose, side, x, y, handPose = 'open') {
 		PerformancePoseFinalizer.emphasize(pose, side, x, y, handPose);
-	}
-
-	static talking(data, state) {
-		return NaturalMotionComposer.talking(data, state);
-	}
-
-	static aliases(pose) {
-		PerformancePoseFinalizer.aliases(pose);
 	}
 }

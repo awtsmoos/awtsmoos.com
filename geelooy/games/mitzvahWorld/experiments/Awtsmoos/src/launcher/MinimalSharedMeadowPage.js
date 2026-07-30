@@ -4,14 +4,13 @@
 
 /**
  * @file MinimalSharedMeadowPage.js
- * @description Opens named creative routes and otherwise advances directly into playable boot.
- * The Awtsmoos gives each doorway its own truthful sign; Awtsmoos.com skips every unrelated
- * chamber, publishes exact boot stages, and preserves visible failure instead of silent waiting.
+ * @description Opens creative routes or advances through playable and bounded full readiness.
+ * The Awtsmoos gives each doorway its truthful sign while movement arrives before ornament;
+ * Awtsmoos.com publishes exact boot stages and preserves visible failure instead of silent torment.
  */
-
 import { MeadowLoadingScreen } from './MeadowLoadingScreen.js';
 import { installMinimalMeadowOptionalEntries } from './MinimalMeadowOptionalEntries.js';
-import { awaitMinimalMeadowReadiness } from './MinimalMeadowReadiness.js';
+import { runMinimalSharedMeadowReadiness } from './MinimalSharedMeadowReadinessFlow.js';
 import {
 	isMinimalMovieRequest,
 	openMinimalCreativeRoute
@@ -65,13 +64,12 @@ export async function bootMinimalSharedMeadow(
 			parameters
 		});
 		stage(documentValue, 'readiness');
-		await awaitMinimalMeadowReadiness(
+		diagnostics.readinessFlow = await runMinimalSharedMeadowReadiness({
 			diagnostics,
-			loading,
 			documentValue,
-			environment
-		);
-		loading.finish();
+			environment,
+			loading
+		});
 		stage(documentValue, 'ready');
 		return diagnostics;
 	} catch (error) {
@@ -97,7 +95,7 @@ async function loadRuntimeFactory(dependencies) {
 	if (typeof dependencies.createMinimalMeadowRuntime === 'function') {
 		return dependencies.createMinimalMeadowRuntime;
 	}
-	const module = await import('../app/createMinimalMeadowRuntime.js?rev=20260729-core');
+	const module = await import('../app/createMinimalMeadowRuntime.js?rev=20260730-speed');
 	return module.createMinimalMeadowRuntime;
 }
 

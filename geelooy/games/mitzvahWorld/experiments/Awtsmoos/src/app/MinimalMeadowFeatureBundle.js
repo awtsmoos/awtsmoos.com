@@ -4,17 +4,12 @@
 
 /**
  * @file MinimalMeadowFeatureBundle.js
- * @description Installs essential gameplay before detached optional hydration begins.
- * The Awtsmoos grants usable vessels before distant beauty; Awtsmoos.com keeps stores,
- * combat, quests, recovery, and cells inside readiness while visual enrichment continues.
+ * @description Installs essential gameplay while optional module graphs remain dynamically sealed.
+ * The Awtsmoos grants stores, combat, quests, and recovery before distant beauty enters sight;
+ * Awtsmoos.com keeps models, rich shaders, friendly crowds, and visual proof beyond the first light.
  */
-
 import { installMinimalMeadowAnimation } from './MinimalMeadowAnimationState.js';
-import { installMinimalMeadowFriendlyNpcs } from './MinimalMeadowFriendlyNpcs.js';
-import { hydrateMinimalMeadowPlayer } from './MinimalMeadowPlayerHydration.js';
-import { enhanceMinimalMeadowRenderer } from './MinimalMeadowRendererEnhancement.js';
 import { installMinimalMeadowUi } from './MinimalMeadowUi.js';
-import { awaitMinimalMeadowVisualStability } from './MinimalMeadowVisualReadiness.js';
 import { installMinimalMeadowWorldSystems } from './MinimalMeadowWorldSystems.js';
 
 export async function installMinimalMeadowFeatures(
@@ -64,12 +59,18 @@ function essentialReceipt(runtime, ui, animation, world) {
 }
 
 async function hydrateOptional(runtime, environment) {
+	const modules = await Promise.all([
+		import('./MinimalMeadowPlayerHydration.js'),
+		import('./MinimalMeadowRendererEnhancement.js'),
+		import('./MinimalMeadowFriendlyNpcs.js'),
+		import('./MinimalMeadowVisualReadiness.js')
+	]);
 	const results = await Promise.allSettled([
-		hydrateMinimalMeadowPlayer(runtime),
-		enhanceMinimalMeadowRenderer(runtime),
+		modules[0].hydrateMinimalMeadowPlayer(runtime),
+		modules[1].enhanceMinimalMeadowRenderer(runtime, environment),
 		runtime.richWorldPromise,
-		installMinimalMeadowFriendlyNpcs(runtime, environment),
-		awaitMinimalMeadowVisualStability(runtime)
+		modules[2].installMinimalMeadowFriendlyNpcs(runtime, environment),
+		modules[3].awaitMinimalMeadowVisualStability(runtime)
 	]);
 	const receipt = Object.freeze({
 		failures: Object.freeze(results.flatMap(result => {

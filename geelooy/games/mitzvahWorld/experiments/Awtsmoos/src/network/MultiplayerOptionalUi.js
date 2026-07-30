@@ -4,10 +4,11 @@
 
 /**
  * @file MultiplayerOptionalUi.js
- * @description Loads and owns shared chat only after a truthful multiplayer connection exists.
- * The Awtsmoos lets the meadow arrive before unopened conversation; Awtsmoos.com guards
- * disconnect races, transport adaptation, panel destruction, and optional import failure.
+ * @description Mounts shared chat after connection and a protected minute of responsive gameplay.
+ * The Awtsmoos joins distant travelers without making conversation steal the first stride;
+ * Awtsmoos.com delays unopened panels, then reveals chat when the living frame has settled inside.
  */
+import { afterGameplayQuietWindow } from '../app/GameplayQuietWindow.js';
 
 export class MultiplayerOptionalUi {
 	constructor(options = {}) {
@@ -17,10 +18,19 @@ export class MultiplayerOptionalUi {
 		this.panel = null;
 		this.chat = null;
 		this.error = null;
+		this.promise = null;
 	}
-	async start(client, transport) {
+
+	start(client, transport) {
 		this.stop();
 		const generation = this.generation;
+		this.promise = afterGameplayQuietWindow(this.environment)
+			.then(() => this.mount(client, transport, generation));
+		return this.promise;
+	}
+
+	async mount(client, transport, generation) {
+		if (generation !== this.generation) return null;
 		try {
 			const [factoryModule, panelModule] = await Promise.all([
 				this.importer('./SharedChatClientFactory.js'),
@@ -46,22 +56,29 @@ export class MultiplayerOptionalUi {
 			return panel;
 		} catch (error) {
 			this.error = error;
-			this.environment.console?.warn?.('[MitzvahWorld] Optional chat unavailable.', error);
+			this.environment.console?.warn?.(
+				'[MitzvahWorld] Optional chat unavailable.',
+				error
+			);
 			return null;
 		}
 	}
+
 	stop() {
 		this.generation += 1;
 		this.panel?.destroy?.();
 		this.chat?.destroy?.();
 		this.panel = null;
 		this.chat = null;
+		this.promise = null;
 	}
+
 	diagnostics() {
 		return {
 			error: this.error?.message || null,
 			mounted: Boolean(this.panel),
-			open: this.panel?.root?.dataset?.open === 'true'
+			open: this.panel?.root?.dataset?.open === 'true',
+			scheduled: Boolean(this.promise && !this.panel)
 		};
 	}
 }

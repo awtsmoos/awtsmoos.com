@@ -13,6 +13,7 @@ import { StableReferenceEars2D } from './StableReferenceEars2D.js';
  * dynamic acting, blink, persistence, preview, and export on one shared path.
  */
 export class FaceFrontRenderer {
+	/** Builds the complete front-facing facial vessel. */
 	static build(kind, data, colors, metrics, view, legacyBeard) {
 		const mood = this.mood(data);
 		return S.group(`${kind}_face_front`, {
@@ -22,18 +23,12 @@ export class FaceFrontRenderer {
 			StableFaceShape2D.build(kind, data, colors, metrics, view),
 			...StableReferenceEars2D.build(kind, data, colors, metrics, view),
 			StableFaceFeatureGroup.build(
-				kind,
-				data,
-				colors,
-				metrics,
-				view,
-				mood,
-				this.blink(data),
-				legacyBeard
+				kind, data, colors, metrics, view, mood, this.blink(data), legacyBeard
 			)
 		]);
 	}
 
+	/** Resolves expression channels without changing identity landmarks. */
 	static mood(data = {}) {
 		const pose = data._stablePose?.face || {};
 		const face = data.renderPerformance?.face || {};
@@ -50,23 +45,23 @@ export class FaceFrontRenderer {
 			mouthAsymmetry: Number(pose.mouthAsymmetry ?? face.mouthAsymmetry ?? 0),
 			cheekLift: Number(pose.cheekLift ?? face.cheekRaiseAmount ?? 0),
 			blush: Number(face.blushAmount || 0),
-			upperLid: Number(face.upperLidAmount || 0),
-			lowerLid: Number(face.lowerLidAmount || 0),
-			eyeAsymmetry: Number(face.eyeAsymmetry || 0)
+			upperLid: Number(pose.upperLid ?? face.upperLidAmount ?? 0),
+			lowerLid: Number(pose.lowerLid ?? face.lowerLidAmount ?? 0),
+			eyeAsymmetry: Number(pose.eyeAsymmetry ?? face.eyeAsymmetry ?? 0)
 		};
 	}
 
+	/** Converts evaluated openness into one deterministic blink amount. */
 	static blink(data = {}) {
-		const amount = Number(data.renderPerformance?.face?.blinkAmount || 0);
-		if (amount > 0) {
-			return amount;
-		}
-		const time = Number(data._renderTime || 0);
-		const phase = (
-			time * 0.0017
-			+ 0.72
-			+ Number(data._index || 0) * 1.61
-		) % 5.4;
-		return phase < 0.11 ? 0.82 : 0;
+		const pose = data._stablePose?.face || {};
+		const face = data.renderPerformance?.face || {};
+		const explicit = Number(pose.blink ?? face.blinkAmount ?? 0);
+		const openness = Number(pose.eyeOpen ?? face.eyeOpenAmount ?? 1);
+		return this.clamp(Math.max(explicit, 1 - openness), 0, 1);
+	}
+
+	/** Bounds renderer-facing face values. */
+	static clamp(value, minimum, maximum) {
+		return Math.max(minimum, Math.min(maximum, Number(value || 0)));
 	}
 }

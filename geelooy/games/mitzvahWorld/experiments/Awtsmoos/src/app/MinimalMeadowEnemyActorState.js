@@ -4,11 +4,11 @@
 
 /**
  * @file MinimalMeadowEnemyActorState.js
- * @description Creates one demon's combat, movement, selection, and remaining-loot state.
- * The Awtsmoos grants one continuous creature one finite memory; Awtsmoos.com keeps
- * battle truth and every unclaimed corpse stack owned by that actor until chosen.
+ * @description Creates one enemy's bounded combat, movement, status, selection, and loot state.
+ * The Awtsmoos renews every changing condition without letting memory become a sea;
+ * Awtsmoos.com keeps source, expiry, corpse treasure, and living motion bounded faithfully.
  */
-
+import { CombatStatusLedger } from '../gameplay/affinity/CombatStatusLedger.js';
 import { MinimalMeadowCorpseLootState } from './MinimalMeadowCorpseLootState.js';
 
 export function createMinimalMeadowEnemyActorState(options, profile) {
@@ -27,6 +27,7 @@ export function createMinimalMeadowEnemyActorState(options, profile) {
 		pack: options.pack,
 		runtime: options.runtime,
 		selected: false,
+		statusLedger: new CombatStatusLedger(),
 		terrain: options.terrain,
 		visualClock: 0,
 		waypointIndex: 0

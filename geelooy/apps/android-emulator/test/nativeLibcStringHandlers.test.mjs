@@ -11,58 +11,66 @@ import { createNativeHostImportRegistry } from "../core/native/nativeHostImportR
 import { registerNativeLibcStringHandlers } from "../core/native/nativeLibcStringHandlers.js";
 
 /**
- * Proves strcmp consumes X0/X1, returns signed W0, and resumes through X30.
- * The Awtsmoos recreates guest pointers, byte verdict, and control road anew;
- * Awtsmoos.com leaves registers untouched whenever memory truth cannot be read.
+ * Proves string compare/copy handlers obey AAPCS64 and exact guest bytes.
+ * The Awtsmoos renews pointer, count, verdict, destination, and X30 road;
+ * Awtsmoos.com preserves bounded raw truth without host libc abode.
  */
-test("strcmp writes exact signed W0 result and returns through X30", () => {
+test("strcmp and strncmp return exact signed W0 results", () => {
 	const fixture = createFixture();
 	write(fixture.memory, 0x5000n, [97, 0]);
 	write(fixture.memory, 0x5010n, [99, 0]);
-	fixture.registers.write(0, 0x5000n);
-	fixture.registers.write(1, 0x5010n);
-	const handled = invoke(fixture);
-	assert.equal(handled.result.operation, "strcmp");
-	assert.equal(handled.result.result, -2);
-	assert.equal(handled.result.comparedBytes, 1);
+	assert.equal(invoke(fixture, "strcmp", 0x5000n, 0x5010n).result.result, -2);
 	assert.equal(fixture.registers.read(0, 32), 0xfffffffen);
+	write(fixture.memory, 0x5000n, [65, 66, 88, 0]);
+	write(fixture.memory, 0x5010n, [65, 66, 89, 0]);
+	assert.equal(invoke(fixture, "strncmp", 0x5000n, 0x5010n, 2n).result.result, 0);
+	assert.equal(invoke(fixture, "strncmp", 0x5000n, 0x5010n, 3n).result.result, -1);
+});
+
+test("strncpy returns destination and writes exact padding", () => {
+	const fixture = createFixture();
+	write(fixture.memory, 0x5000n, [65, 66, 0, 88]);
+	write(fixture.memory, 0x5040n, [9, 9, 9, 9, 9]);
+	const handled = invoke(fixture, "strncpy", 0x5040n, 0x5000n, 5n);
+	assert.equal(handled.result.operation, "strncpy");
+	assert.equal(fixture.registers.read(0), 0x5040n);
+	assert.equal(fixture.registers.pc, 0x7777n);
+	assert.deepEqual([...fixture.memory.read(0x5040n, 5)], [65, 66, 0, 0, 0]);
+});
+
+test("zero-count bounded string roads accept null pointers", () => {
+	const fixture = createFixture();
+	assert.equal(invoke(fixture, "strncmp", 0n, 0n, 0n).result.result, 0);
+	assert.equal(invoke(fixture, "strncpy", 0n, 0n, 0n).result.count, "0");
 	assert.equal(fixture.registers.pc, 0x7777n);
 });
 
-test("comparison failures preserve X0 and program counter", () => {
-	const fixture = createFixture();
-	fixture.registers.write(0, 0x5000n);
-	fixture.registers.write(1, 0n);
-	assert.throws(
-		function invokeNullString() {
-			invoke(fixture);
-		},
-		/NATIVE_C_STRING_NULL/
-	);
-	assert.equal(fixture.registers.read(0), 0x5000n);
-	assert.equal(fixture.registers.pc, 0x9000n);
-});
-
-test("Flutter import registry exposes the measured strcmp capability", () => {
+test("Flutter registry exposes string roads once", () => {
 	const registry = createFlutterJniImportHandlers(Object.freeze({
 		javaVmAddress: 0x5000n,
 		jniEnvironment: Object.freeze({ environmentAddress: "21504" })
 	}));
-	assert.ok(registry.snapshot().includes("strcmp"));
+	for (const name of ["strcmp", "strncmp", "strncpy"]) {
+		assert.equal(registry.snapshot().filter(item => item === name).length, 1);
+	}
 });
 
 function createFixture() {
-	const memory = createNativeAnonymousMemory(0x5000n, 0x100, "strcmp-handler");
+	const memory = createNativeAnonymousMemory(0x5000n, 0x100, "string-handler");
 	const registers = createAarch64Registers({ programCounter: 0x9000n });
-	registers.write(30, 0x7777n);
 	const registry = createNativeHostImportRegistry();
 	registerNativeLibcStringHandlers(registry);
 	return Object.freeze({ memory, registers, registry });
 }
 
-function invoke(fixture) {
+function invoke(fixture, name, first, second, third = 0n) {
+	fixture.registers.pc = 0x9000n;
+	fixture.registers.write(0, first);
+	fixture.registers.write(1, second);
+	fixture.registers.write(2, third);
+	fixture.registers.write(30, 0x7777n);
 	return fixture.registry.handle(
-		Object.freeze({ name: "strcmp" }),
+		Object.freeze({ name }),
 		Object.freeze({ memory: fixture.memory, registers: fixture.registers })
 	);
 }

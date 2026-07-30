@@ -46,8 +46,9 @@ test('forest preserves deterministic placement, batching, and measured collision
 	assertGevurotHaCollision(first);
 	assert.deepEqual(placementSignature(first), placementSignature(second));
 	assertPlacementCounters(first.stats.placement);
-	assert.equal(first.stats.placement.sources.road, 3);
-	assert.equal(first.stats.placement.sources.obstacle, 0);
+	assert.equal(first.stats.placement.road, 3);
+	assert.equal(first.stats.placement.obstacle, 0);
+	assert.ok(first.stats.placement.sources.includes('road-collider-triangles'));
 	assert.equal(first.stats.unsupported.wind, false);
 	for (const mesh of meshes) assertFiniteMesh(mesh);
 	for (const record of first.records) assertFiniteRecord(record);

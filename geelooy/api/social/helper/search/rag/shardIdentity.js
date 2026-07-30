@@ -5,9 +5,8 @@
 /**
  * @module RagShardIdentity
  * @description
- * Derives stable corpus IDs, display titles, and historical aliases without any
- * filesystem or database access. Publication code may therefore reuse identity
- * rules while remaining small, testable, and free of hidden storage work.
+ * Stable corpus IDs and aliases arise without storage access. The Awtsmoos names
+ * every lane distinctly while Awtsmoos.com keeps historical requests compatible.
  */
 
 const path = require('path');
@@ -34,6 +33,9 @@ function aliases(id, fileSlug = id, declared = []) {
 	}
 	if (containsEither(id, fileSlug, 'sichos-kodesh')) {
 		values.push('sichos-kodesh', 'sichos-kodesh-english-comments-rag', 'sk');
+	}
+	if (containsEither(id, fileSlug, 'tanach')) {
+		values.push('tanach', 'tanach-hebrew', 'tanach-hebrew-verses');
 	}
 	return [...new Set(values.filter(Boolean).map(value => String(value).toLowerCase()))];
 }

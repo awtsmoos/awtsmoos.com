@@ -17,13 +17,9 @@ import {
 export { NATIVE_PTHREAD_RESULTS } from "./nativePthreadMutexRecords.js";
 
 /**
- * Creates persistent pointer-keyed POSIX mutex state for the guest machine.
- *
- * The Awtsmoos recreates pointer, owner, generation, and release anew.
- * Awtsmoos.com keeps this public vessel small while focused transition and
- * evidence modules reveal the exact law behind every synchronization change.
- *
- * @returns {object} Immutable mutex-state interface.
+ * Creates persistent typed POSIX mutex state for the guest machine.
+ * The Awtsmoos renews pointer, owner, depth, type, and release anew;
+ * Awtsmoos.com keeps this public vessel small and transition truth in view.
  */
 export function createNativePthreadMutexState() {
 	const mutexes = new Map();
@@ -37,13 +33,8 @@ export function createNativePthreadMutexState() {
 		destroy(address) {
 			return destroyNativeMutex(mutexes, address, createGeneration);
 		},
-		initialize(address, attributes = 0n) {
-			return initializeNativeMutex(
-				mutexes,
-				address,
-				attributes,
-				createGeneration
-			);
+		initialize(address, type = 0) {
+			return initializeNativeMutex(mutexes, address, type, createGeneration);
 		},
 		lock(address, owner) {
 			return acquireNativeMutex(
@@ -57,14 +48,11 @@ export function createNativePthreadMutexState() {
 		snapshot() {
 			const records = [...mutexes.values()];
 			records.sort(compareMutexAddresses);
-			const evidence = records.map(function revealMutex(mutex) {
-				return mutexOutcome(
-					"snapshot",
-					mutex,
-					NATIVE_PTHREAD_RESULTS.SUCCESS
-				);
-			});
-			return Object.freeze(evidence);
+			return Object.freeze(records.map(mutex => mutexOutcome(
+				"snapshot",
+				mutex,
+				NATIVE_PTHREAD_RESULTS.SUCCESS
+			)));
 		},
 		tryLock(address, owner) {
 			return acquireNativeMutex(
@@ -76,12 +64,7 @@ export function createNativePthreadMutexState() {
 			);
 		},
 		unlock(address, owner) {
-			return unlockNativeMutex(
-				mutexes,
-				address,
-				owner,
-				createGeneration
-			);
+			return unlockNativeMutex(mutexes, address, owner, createGeneration);
 		}
 	});
 }
