@@ -13,6 +13,10 @@ const {
 	combatStatusDefinition,
 	COMBAT_STATUS_LIMIT
 } = require('./CombatDefinitionCatalog.js');
+const {
+	createCombatStatusInstance,
+	normalizedCombatStatus
+} = require('./CombatStatusRecord.js');
 
 function applyCombatStatus(target, statusId, context = {}) {
 	const definition = combatStatusDefinition(statusId);
@@ -20,18 +24,7 @@ function applyCombatStatus(target, statusId, context = {}) {
 	const statuses = activeCombatStatuses(target, context.now);
 	const now = Number(context.now ?? Date.now());
 	const current = statuses.find(status => status.id === statusId);
-	const stacks = Math.min(
-		definition.maximumStacks,
-		Number(current?.stacks || 0) + Math.max(1, Number(context.stacks || 1))
-	);
-	const instance = {
-		expiresAt: now + Math.max(0, Number(context.durationMs ?? definition.durationMs)),
-		id: statusId,
-		sourceActionId: context.sourceActionId || null,
-		sourceActorId: context.sourceActorId || null,
-		startedAt: current?.startedAt ?? now,
-		stacks
-	};
+	const instance = createCombatStatusInstance(definition, current, context, now);
 	target.combatStatuses = statuses.filter(status => status.id !== statusId);
 	target.combatStatuses.push(instance);
 	enforceStatusLimit(target);
@@ -59,7 +52,7 @@ function activeCombatStatuses(target, now = Date.now()) {
 	const current = Array.isArray(target.combatStatuses) ? target.combatStatuses : [];
 	target.combatStatuses = current
 		.filter(status => Number(status.expiresAt) > Number(now))
-		.map(status => normalizedStatus(status));
+		.map(status => normalizedCombatStatus(status));
 	return target.combatStatuses;
 }
 
@@ -82,17 +75,6 @@ function enforceStatusLimit(target) {
 	while (target.combatStatuses.length > COMBAT_STATUS_LIMIT) {
 		target.combatStatuses.shift();
 	}
-}
-
-function normalizedStatus(status) {
-	return {
-		expiresAt: Number(status.expiresAt || 0),
-		id: String(status.id || ''),
-		sourceActionId: status.sourceActionId || null,
-		sourceActorId: status.sourceActorId || null,
-		startedAt: Number(status.startedAt || 0),
-		stacks: Math.max(1, Number(status.stacks || 1))
-	};
 }
 
 module.exports = {
