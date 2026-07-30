@@ -7,51 +7,51 @@
 	"actions": {
 		"beast-bite": {
 			"id": "beast-bite", "hebrewName": "נשיכת חיה", "englishName": "Beast Bite", "affinityId": "malchus", "elementId": "physical",
-			"tags": ["melee"], "interruptResistance": 10, "danger": "measured", "counterGuidance": "Block toward the creature or step outside its short reach."
+			"tags": ["melee"], "applyStatusIds": [], "interruptResistance": 10, "danger": "measured", "counterGuidance": "Block toward the creature or step outside its short reach."
 		},
 		"guardian-slam": {
 			"id": "guardian-slam", "hebrewName": "מכת השומר", "englishName": "Guardian Slam", "affinityId": "malchus", "elementId": "earth-dust",
-			"tags": ["melee", "guard-damage"], "interruptResistance": 34, "danger": "high", "counterGuidance": "Dodge the square impact or interrupt before the final descent."
+			"tags": ["melee", "guard-damage"], "applyStatusIds": ["grounded"], "interruptResistance": 34, "danger": "high", "counterGuidance": "Dodge the square impact or interrupt before the final descent."
 		},
 		"letter-bolt": {
 			"id": "letter-bolt", "hebrewName": "חץ אות", "englishName": "Letter Bolt", "affinityId": "chochmah", "elementId": "light-air",
-			"tags": ["ranged", "projectile"], "interruptResistance": 18, "danger": "measured", "counterGuidance": "Sidestep the ray or use a grounded defense."
+			"tags": ["ranged", "projectile"], "applyStatusIds": ["illuminated"], "interruptResistance": 18, "danger": "measured", "counterGuidance": "Sidestep the ray or use a grounded defense."
 		},
 		"letter-wave": {
 			"id": "letter-wave", "hebrewName": "גל אותיות", "englishName": "Letter Wave", "affinityId": "zeir-anpin", "elementId": "water",
-			"tags": ["area", "wave"], "interruptResistance": 26, "danger": "high", "counterGuidance": "Move through the safe gap or break the channel."
+			"tags": ["area", "wave"], "applyStatusIds": ["soaked"], "interruptResistance": 26, "danger": "high", "counterGuidance": "Move through the safe gap or break the channel."
 		},
 		"reposition-step": {
 			"id": "reposition-step", "hebrewName": "צעד מדוד", "englishName": "Measured Reposition", "affinityId": "chochmah", "elementId": "light-air",
-			"tags": ["dodge", "movement"], "interruptResistance": 0, "danger": "movement", "counterGuidance": "Track the new angle instead of striking the old position."
+			"tags": ["dodge", "movement"], "applyStatusIds": [], "interruptResistance": 0, "danger": "movement", "counterGuidance": "Track the new angle instead of striking the old position."
 		},
 		"ritual-heal": {
 			"id": "ritual-heal", "hebrewName": "רפואת טקס", "englishName": "Ritual Healing", "affinityId": "zeir-anpin", "elementId": "water",
-			"tags": ["heal", "channel"], "interruptResistance": 20, "danger": "support", "counterGuidance": "Interrupt before the water ring closes."
+			"tags": ["heal", "channel"], "applyStatusIds": ["flowing"], "interruptResistance": 20, "danger": "support", "counterGuidance": "Interrupt before the water ring closes."
 		},
 		"shadow-strike": {
 			"id": "shadow-strike", "hebrewName": "מכת צל", "englishName": "Shadow Strike", "affinityId": "binah", "elementId": "fire",
-			"tags": ["melee", "burn"], "interruptResistance": 16, "danger": "measured", "counterGuidance": "Parry the bright letter-flash before impact."
+			"tags": ["melee", "burn"], "applyStatusIds": ["burning"], "interruptResistance": 16, "danger": "measured", "counterGuidance": "Parry the bright letter-flash before impact."
 		},
 		"stone-guard": {
 			"id": "stone-guard", "hebrewName": "שמירת אבן", "englishName": "Stone Guard", "affinityId": "malchus", "elementId": "earth-dust",
-			"tags": ["guard"], "interruptResistance": 42, "danger": "defense", "counterGuidance": "Use guard damage or wait for the stone shell to recede."
+			"tags": ["guard"], "applyStatusIds": [], "interruptResistance": 42, "danger": "defense", "counterGuidance": "Use guard damage or wait for the stone shell to recede."
 		},
 		"summon-shades": {
 			"id": "summon-shades", "hebrewName": "זימון צללים", "englishName": "Summon Shades", "affinityId": "binah", "elementId": "fire",
-			"tags": ["summon", "channel"], "interruptResistance": 30, "danger": "critical", "counterGuidance": "Interrupt before the final burning letter appears."
+			"tags": ["summon", "channel"], "applyStatusIds": [], "interruptResistance": 30, "danger": "critical", "counterGuidance": "Interrupt before the final burning letter appears."
 		},
 		"summit-enrage": {
 			"id": "summit-enrage", "hebrewName": "בערת הפסגה", "englishName": "Summit Enrage", "affinityId": "binah", "elementId": "fire",
-			"tags": ["enrage", "phase"], "interruptResistance": 50, "danger": "critical", "counterGuidance": "Prepare water and interruption before the phase completes."
+			"tags": ["enrage", "phase"], "applyStatusIds": [], "interruptResistance": 50, "danger": "critical", "counterGuidance": "Prepare water and interruption before the phase completes."
 		},
 		"warden-cleave": {
 			"id": "warden-cleave", "hebrewName": "בקיעת השומר", "englishName": "Warden Cleave", "affinityId": "malchus", "elementId": "earth-dust",
-			"tags": ["boss", "melee", "area"], "interruptResistance": 48, "danger": "critical", "counterGuidance": "Leave the crowned square or commit a coordinated interrupt."
+			"tags": ["boss", "melee", "area"], "applyStatusIds": ["grounded"], "interruptResistance": 48, "danger": "critical", "counterGuidance": "Leave the crowned square or commit a coordinated interrupt."
 		},
 		"warden-retreat": {
 			"id": "warden-retreat", "hebrewName": "נסיגת השומר", "englishName": "Warden Retreat", "affinityId": "chochmah", "elementId": "light-air",
-			"tags": ["boss", "retreat", "movement"], "interruptResistance": 0, "danger": "movement", "counterGuidance": "Do not chase into the next telegraph; regain formation."
+			"tags": ["boss", "retreat", "movement"], "applyStatusIds": [], "interruptResistance": 0, "danger": "movement", "counterGuidance": "Do not chase into the next telegraph; regain formation."
 		}
 	}
 }
