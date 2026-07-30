@@ -4,20 +4,44 @@
 # Blessed is He
 
 FAST_REPAIR_COMPLETED=0
+CURRENT_RUNTIME_HEALTH_FAILURE=""
 
 current_runtime_is_stably_healthy() {
 	local pid="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
-	local receipt_max_age_ms="${AWTSMOOS_HEALTHY_CURRENT_RECEIPT_MAX_AGE_MS:-45000}"
-	[ -n "$pid" ] &&
-		runtime_pid_matches "$pid" &&
-		runtime_registered "$pid" "$receipt_max_age_ms" &&
-		local_runtime_action_ready &&
+	local receipt_max_age_ms="${AWTSMOOS_HEALTHY_CURRENT_RECEIPT_MAX_AGE_MS:-180000}"
+	CURRENT_RUNTIME_HEALTH_FAILURE=""
+	[ -n "$pid" ] || {
+		CURRENT_RUNTIME_HEALTH_FAILURE="agent_pid_missing"
+		return 1
+	}
+	runtime_pid_matches "$pid" || {
+		CURRENT_RUNTIME_HEALTH_FAILURE="agent_pid_identity_mismatch"
+		return 1
+	}
+	# Inbound transport activity is normally checkpointed every ten seconds. A
+	# three-minute ceiling tolerates laptop scheduling and slow metadata fetches,
+	# while the real local action below independently rejects a wedged executor.
+	runtime_registered "$pid" "$receipt_max_age_ms" || {
+		CURRENT_RUNTIME_HEALTH_FAILURE="registration_receipt_stale_or_mismatched"
+		return 1
+	}
+	local_runtime_action_ready || {
+		CURRENT_RUNTIME_HEALTH_FAILURE="local_executor_probe_failed"
+		return 1
+	}
 		# The current process belongs to the preceding successful activation.
 		# A reinstall creates a fresh transaction id before this check, so binding
 		# the live receipt to that new id would force every healthy no-op to restart.
-		project_root_receipt_matches_runtime "$pid" "" &&
-		service_supervision_stable "$pid" \
-			"${AWTSMOOS_HEALTHY_CURRENT_STABILITY_SAMPLES:-2}" 8
+	project_root_receipt_matches_runtime "$pid" "" || {
+		CURRENT_RUNTIME_HEALTH_FAILURE="project_root_receipt_mismatch"
+		return 1
+	}
+	service_supervision_stable "$pid" \
+		"${AWTSMOOS_HEALTHY_CURRENT_STABILITY_SAMPLES:-2}" 8 || {
+		CURRENT_RUNTIME_HEALTH_FAILURE="guardian_singleton_unstable"
+		return 1
+	}
+	return 0
 }
 
 # The Awtsmoos renews the already-current runtime without redownloading its bundle.
@@ -45,6 +69,11 @@ repair_matching_release() {
 			"version=$CANDIDATE_VERSION $(service_health_summary)"
 		return 0
 	fi
+	install_event "fast-repair" "warning" \
+		"Current release requires bounded runtime repair." \
+		"reason=${CURRENT_RUNTIME_HEALTH_FAILURE:-unknown} $(runtime_health_summary "$(
+			cat "$ROOT/agent.pid" 2>/dev/null || true
+		)") $(service_health_summary)"
 	stop_existing_runtime
 	migrate_runtime_device_state "$ROOT"
 	write_supervisor
@@ -91,6 +120,11 @@ repair_self_verified_installed_release() {
 			"version=$CANDIDATE_VERSION $(service_health_summary)"
 		return 0
 	fi
+	install_event "fast-repair" "warning" \
+		"Locally sealed release requires bounded runtime repair." \
+		"reason=${CURRENT_RUNTIME_HEALTH_FAILURE:-unknown} $(runtime_health_summary "$(
+			cat "$ROOT/agent.pid" 2>/dev/null || true
+		)") $(service_health_summary)"
 	stop_existing_runtime
 	migrate_runtime_device_state "$ROOT"
 	write_supervisor

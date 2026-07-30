@@ -4,19 +4,19 @@
 
 /**
  * @file CreatureSnapshot.js
- * @description Projects public creature life, affinity, status, role, phase, action, and loot state.
+ * @description Projects public creature life, affinity, status, role, phase, warning, and loot state.
  * The Awtsmoos reveals enough warning for fair response while private judgment stays concealed;
- * Awtsmoos.com exposes bounded statuses and readable affinity without leaking every hidden field.
+ * Awtsmoos.com exposes bounded statuses and affinity without leaking resistance or counter fields.
  */
 
 const { combatStatusSnapshot } = require('./CombatStatusRules.js');
-const { enemyActionSnapshot } = require('./EnemyActionState.js');
+const { publicEnemyActionSnapshot } = require('./EnemyActionPresentation.js');
 const { enemyRole } = require('./EnemyRoleCatalog.js');
 
 function creatureSnapshot(creature) {
 	const role = enemyRole(creature.speciesId);
 	return clone({
-		action: enemyActionSnapshot(creature),
+		action: publicEnemyActionSnapshot(creature),
 		affinityId: creature.phaseAffinityId || creature.affinityId || null,
 		enraged: Boolean(creature.enraged),
 		health: creature.health,
@@ -27,14 +27,12 @@ function creatureSnapshot(creature) {
 		phase: creature.phase || null,
 		position: creature.position,
 		regionId: creature.regionId || 'lower-meadow',
-		resistances: role.resistances,
 		role: role.id,
 		speciesId: creature.speciesId,
 		status: creature.status,
 		statuses: combatStatusSnapshot(creature),
 		summonCount: Number(creature.summonCount || 0),
-		temperament: creature.temperament,
-		weaknesses: role.weaknesses
+		temperament: creature.temperament
 	});
 }
 
