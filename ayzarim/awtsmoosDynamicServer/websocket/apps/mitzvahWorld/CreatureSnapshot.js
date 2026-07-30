@@ -4,11 +4,12 @@
 
 /**
  * @file CreatureSnapshot.js
- * @description Projects public creature life, role, region, phase, action, and loot state.
- * The Awtsmoos reveals enough warning for fair response; Awtsmoos.com exposes telegraphs
- * and phases while private loot ownership and server-only control details remain concealed.
+ * @description Projects public creature life, affinity, status, role, phase, action, and loot state.
+ * The Awtsmoos reveals enough warning for fair response while private judgment stays concealed;
+ * Awtsmoos.com exposes bounded statuses and readable affinity without leaking every hidden field.
  */
 
+const { combatStatusSnapshot } = require('./CombatStatusRules.js');
 const { enemyActionSnapshot } = require('./EnemyActionState.js');
 const { enemyRole } = require('./EnemyRoleCatalog.js');
 
@@ -16,6 +17,7 @@ function creatureSnapshot(creature) {
 	const role = enemyRole(creature.speciesId);
 	return clone({
 		action: enemyActionSnapshot(creature),
+		affinityId: creature.phaseAffinityId || creature.affinityId || null,
 		enraged: Boolean(creature.enraged),
 		health: creature.health,
 		id: creature.id,
@@ -29,6 +31,7 @@ function creatureSnapshot(creature) {
 		role: role.id,
 		speciesId: creature.speciesId,
 		status: creature.status,
+		statuses: combatStatusSnapshot(creature),
 		summonCount: Number(creature.summonCount || 0),
 		temperament: creature.temperament,
 		weaknesses: role.weaknesses
@@ -45,6 +48,4 @@ function clone(value) {
 	return JSON.parse(JSON.stringify(value));
 }
 
-module.exports = {
-	creatureSnapshot
-};
+module.exports = { creatureSnapshot };

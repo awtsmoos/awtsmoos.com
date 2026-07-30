@@ -58,6 +58,7 @@ function orderedRules() {
 function matchesRule(rule, action, actionTags, targetTags, statusIds, contextTags) {
 	if (rule.elementId && rule.elementId !== action.elementId) return false;
 	if (rule.requiredActionTag && !actionTags.has(rule.requiredActionTag)) return false;
+	if (rule.excludedActionTag && actionTags.has(rule.excludedActionTag)) return false;
 	if (rule.requiredTargetTag && !targetTags.has(rule.requiredTargetTag)) return false;
 	if (rule.requiredStatusId && !statusIds.has(rule.requiredStatusId)) return false;
 	if (rule.requiredContextTag && !contextTags.has(rule.requiredContextTag)) return false;

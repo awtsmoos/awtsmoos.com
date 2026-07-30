@@ -6,13 +6,14 @@
  * @file CombatAttackService.js
  * @description Resolves one derived authoritative player attack from intent through reward.
  * The Awtsmoos renews intention and consequence without confusion; Awtsmoos.com verifies
- * equipment, timing, geometry, cost, target defense, defeat, and exact-once reward in order.
+ * equipment, timing, geometry, cost, typed damage, interruption, defeat, and reward in order.
  */
 
 const { requireCombatGeometry } = require('./CombatAttackGeometry.js');
 const { combatAttackReceipt } = require('./CombatAttackReceipt.js');
 const { requireAttackReady, requireWeapon } = require('./CombatAttackRequirements.js');
 const { grantCombatDefeatRewards } = require('./CombatDefeatRewards.js');
+const { resolveEnemyInterrupt } = require('./CombatInterruptRules.js');
 const { combatSnapshot } = require('./CombatState.js');
 const {
 	rememberCombatImpact,
@@ -29,10 +30,10 @@ class CombatAttackService {
 	}
 
 	attack(player, command) {
+		const now = this.clock();
 		const creature = this.creatures.get(command.creatureId);
 		const weapon = requireWeapon(player, this.inventory, command.weaponId);
-		const action = requirePlayerCombatAction(player, command, weapon);
-		const now = this.clock();
+		const action = requirePlayerCombatAction(player, command, weapon, now);
 		requireAttackReady({
 			action,
 			creature,
@@ -45,12 +46,21 @@ class CombatAttackService {
 		const geometry = requireCombatGeometry(player, creature, action);
 		player.combat.lastAttackAt = now;
 		player.combat.stamina -= action.staminaCost;
-		rememberCombatImpact(player, command.impactToken);
-		const damage = this.creatures.damage(creature.id, action.damage, {
+		rememberCombatImpact(player, command.impactToken, now);
+		const damageOutcome = this.creatures.damage(creature.id, action.damage, {
+			action,
 			actionId: action.id,
 			kind: action.kind,
-			now
+			now,
+			serverContextTags: [],
+			sourceActorId: player.id
 		});
+		const interruption = resolveEnemyInterrupt(creature, action, now, player.id);
+		const damage = {
+			...damageOutcome,
+			creature: this.creatures.snapshot(creature),
+			interruption
+		};
 		const rewards = isDefeated(damage.creature)
 			? grantCombatDefeatRewards({
 				adventures: this.adventures,
@@ -75,6 +85,4 @@ function isDefeated(snapshot) {
 		|| snapshot.status === 'harvestable';
 }
 
-module.exports = {
-	CombatAttackService
-};
+module.exports = { CombatAttackService };

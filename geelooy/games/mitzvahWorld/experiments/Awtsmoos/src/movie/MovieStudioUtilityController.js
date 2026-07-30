@@ -54,8 +54,7 @@ export class MovieStudioUtilityController {
 		this.listen(this.view.utilityBackdrop, 'click', () => this.close());
 		this.listen(window, 'resize', () => this.state.sync());
 		this.disposers.push(this.session.events.on('*', event => {
-			if (!CONTENT_EVENTS.has(event.type)) return;
-			this.refreshActiveContent();
+			if (CONTENT_EVENTS.has(event.type)) this.refreshActiveContent();
 		}));
 	}
 
@@ -106,6 +105,7 @@ export class MovieStudioUtilityController {
 
 	destroy() {
 		this.palette.destroy();
+		this.content.destroy();
 		this.status.destroy();
 		this.state.destroy();
 		for (const dispose of this.disposers.splice(0)) dispose?.();

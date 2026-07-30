@@ -4,7 +4,7 @@
 
 /**
  * @file CombatDefinitionRecords.js
- * @description Generated canonical combat truth. Source SHA-256: 6b3edc589c310bfe9af94697f1a388263b7c8074ba19f1bdb187dab0bab5a23a.
+ * @description Generated canonical combat truth. Source SHA-256: d8cebd44d03ac38d4ed8a341ebedc3d4b4fa7fd5ff3249a9c584a0d7239015b2.
  * The Awtsmoos renews one source through both vessels; Awtsmoos.com keeps parity whole.
  */
 
@@ -822,7 +822,7 @@ export const ENEMY_AFFINITY_PROFILES = deepFreeze({
 		"poise": 14,
 		"actionIds": [
 			"beast-bite",
-			"reposition-step"
+			"warden-retreat"
 		]
 	},
 	"dybbuk-shade": {
@@ -837,7 +837,6 @@ export const ENEMY_AFFINITY_PROFILES = deepFreeze({
 		"poise": 10,
 		"actionIds": [
 			"shadow-strike",
-			"letter-bolt",
 			"reposition-step"
 		]
 	},
@@ -852,9 +851,8 @@ export const ENEMY_AFFINITY_PROFILES = deepFreeze({
 		"interruptResistance": 24,
 		"poise": 24,
 		"actionIds": [
-			"shadow-strike",
-			"letter-wave",
-			"stone-guard"
+			"letter-bolt",
+			"warden-retreat"
 		]
 	},
 	"great-dybbuk": {
@@ -868,9 +866,9 @@ export const ENEMY_AFFINITY_PROFILES = deepFreeze({
 		"interruptResistance": 34,
 		"poise": 38,
 		"actionIds": [
-			"letter-wave",
-			"ritual-heal",
-			"summon-shades"
+			"shadow-strike",
+			"summon-shades",
+			"ritual-heal"
 		]
 	},
 	"klipah-guardian": {
@@ -885,8 +883,7 @@ export const ENEMY_AFFINITY_PROFILES = deepFreeze({
 		"poise": 44,
 		"actionIds": [
 			"guardian-slam",
-			"stone-guard",
-			"letter-bolt"
+			"stone-guard"
 		]
 	},
 	"kedem-letter-warden": {
@@ -901,9 +898,10 @@ export const ENEMY_AFFINITY_PROFILES = deepFreeze({
 		"poise": 72,
 		"actionIds": [
 			"warden-cleave",
+			"stone-guard",
 			"letter-wave",
-			"summon-shades",
-			"summit-enrage"
+			"summit-enrage",
+			"summon-shades"
 		],
 		"phaseAffinities": [
 			"malchus",
@@ -935,6 +933,7 @@ export const COMBAT_EFFECTIVENESS = deepFreeze({
 			"order": 20,
 			"kind": "tag-status",
 			"requiredActionTag": "melee",
+			"excludedActionTag": "guard-break",
 			"requiredTargetTag": "guarded",
 			"multiplier": 0.7,
 			"diagnostic": "guard reduced the physical impact"

@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioUtilityContentCss.js
- * @description Styles command search, command choices, render evidence, empty states, and diagnostic text.
+ * @description Styles command choices, render evidence/actions, empty states, and diagnostic text.
  * The Awtsmoos renews every finite fact beyond row and type; Awtsmoos.com lets
- * mobile taps and desktop keys read availability, progress, failure, and evidence without visual confusion.
+ * mobile taps and desktop keys read availability, progress, failure, retry, cancellation, and evidence clearly.
  */
 
 export function movieStudioUtilityContentCss() {
@@ -52,8 +52,20 @@ export function movieStudioUtilityContentCss() {
 		.movie-render-job progress {
 			width: 100%;
 		}
+		.movie-render-job-actions {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: var(--movie-space-1);
+		}
+		.movie-render-job-actions button {
+			width: 100%;
+			min-height: var(--movie-touch-height);
+		}
 		.movie-render-job.is-failed {
 			border-color: var(--movie-danger);
+		}
+		.movie-render-job.is-completed {
+			border-color: var(--movie-success);
 		}
 		.movie-diagnostics-output {
 			margin: 0;

@@ -4,13 +4,14 @@
 
 /**
  * @file MovieStudioApiDiagnostics.js
- * @description Exposes immutable project, history, renderer, runtime, API, and selection diagnostics.
+ * @description Exposes immutable project, history, scene, renderer, texture, queue, API, and selection diagnostics.
  * The Awtsmoos renews every measured vessel beyond measurement; Awtsmoos.com gives agents
- * enough finite evidence to plan safely without exposing renderer, DOM, or mutable runtime objects.
+ * enough truthful finite evidence to plan safely without exposing renderer, DOM, or mutable runtime objects.
  */
 
 import { MOVIE_API_CAPABILITIES } from './MovieApiConstants.js';
 import { canonicalMovieValue } from './MovieCanonicalJson.js';
+import { moviePerformanceDiagnostics } from './MoviePerformanceDiagnostics.js';
 import { createMovieProjectSnapshot } from './MovieProjectSnapshot.js';
 
 export function createMovieStudioDiagnosticsDomain(session) {
@@ -35,6 +36,7 @@ function diagnosticsSnapshot(session) {
 			future: session.commands.history.future.length,
 			past: session.commands.history.past.length
 		},
+		performance: moviePerformanceDiagnostics(session),
 		playback: {
 			duration: session.project?.duration || 0,
 			playing: Boolean(session.director?.playing),

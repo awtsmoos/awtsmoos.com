@@ -15,6 +15,10 @@ process_command() {
 	ps -p "$1" -o command= 2>/dev/null || true
 }
 
+process_parent_pid() {
+	ps -p "$1" -o ppid= 2>/dev/null | tr -d ' ' || true
+}
+
 command_contains() {
 	local pid="$1"
 	local expected="$2"
@@ -44,6 +48,17 @@ supervisor_process_matches() {
 		command_matches_script "$command" "sh" "$ROOT/awtsmoos-supervisor.sh"
 }
 
+# Bash subshells inherit the supervisor's visible command line while performing
+# bounded health work. Only the outer leader owns supervision; counting its
+# descendants as duplicate supervisors causes healthy installs to restart.
+supervisor_leader_matches() {
+	local pid="$1"
+	local parent=""
+	supervisor_process_matches "$pid" || return 1
+	parent="$(process_parent_pid "$pid")"
+	[ -z "$parent" ] || ! supervisor_process_matches "$parent"
+}
+
 process_table() {
 	LC_ALL=C LANG=C ps axww -o pid= -o command= 2>/dev/null || true
 }
@@ -69,8 +84,9 @@ find_supervisor_pids() {
 	local pid=""
 	find_path_candidate_pids "$ROOT/awtsmoos-supervisor.sh" | sort -n -u |
 		while IFS= read -r pid; do
-			supervisor_process_matches "$pid" && printf '%s\n' "$pid"
+			supervisor_leader_matches "$pid" && printf '%s\n' "$pid"
 		done
+	return 0
 }
 
 exact_root_process_count() {

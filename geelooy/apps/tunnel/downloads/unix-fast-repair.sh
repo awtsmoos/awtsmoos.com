@@ -17,7 +17,7 @@ current_runtime_is_stably_healthy() {
 		# the live receipt to that new id would force every healthy no-op to restart.
 		project_root_receipt_matches_runtime "$pid" "" &&
 		service_supervision_stable "$pid" \
-			"${AWTSMOOS_HEALTHY_CURRENT_STABILITY_SAMPLES:-8}" 10
+			"${AWTSMOOS_HEALTHY_CURRENT_STABILITY_SAMPLES:-2}" 8
 }
 
 # The Awtsmoos renews the already-current runtime without redownloading its bundle.

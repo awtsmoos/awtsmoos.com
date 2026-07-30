@@ -13,7 +13,8 @@
 		},
 		{
 			"id": "guarded-physical", "order": 20, "kind": "tag-status",
-			"requiredActionTag": "melee", "requiredTargetTag": "guarded", "multiplier": 0.7,
+			"requiredActionTag": "melee", "excludedActionTag": "guard-break",
+			"requiredTargetTag": "guarded", "multiplier": 0.7,
 			"diagnostic": "guard reduced the physical impact"
 		},
 		{

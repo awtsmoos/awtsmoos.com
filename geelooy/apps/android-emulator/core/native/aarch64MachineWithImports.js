@@ -100,7 +100,7 @@ function finish(reason, report, totalSteps, hostCalls) {
 function normalizeLimit(value, fallback, label) {
 	const limit = Number(value ?? fallback);
 	if (!Number.isInteger(limit) || limit <= 0) {
-		throw elf64Error("NATIVE_IMPORT_LIMIT", `${label}:${value}`);
+		throw elf64Error("AARCH64_IMPORT_LIMIT", `${label}:${value}`);
 	}
 	return limit;
 }
