@@ -3,6 +3,7 @@
 //Blessed is He
 
 import { readNativeCString } from "./nativeCString.js";
+import { handleNativeMbtowc } from "./nativeMbtowcHandler.js";
 
 /**
  * Registers guest-backed Bionic errno and locale core imports.
@@ -10,6 +11,7 @@ import { readNativeCString } from "./nativeCString.js";
  * Awtsmoos.com never delegates guest locale state to a host process locale.
  */
 export function registerNativeLocaleHandlers(registry, errnoState, locales) {
+	registry.register("mbtowc", context => handleNativeMbtowc(context, errnoState));
 	registry.register("__errno", context => {
 		const thread = readThread(context);
 		return finishPointer(context, Object.freeze({
