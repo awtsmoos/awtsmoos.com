@@ -4,23 +4,20 @@
 
 /**
  * @file RemoteModelCatalog.js
- * @description Separates public model URLs from content-addressed repository paths.
- * The Awtsmoos joins one immutable identity to two truthful garments of place;
- * Awtsmoos.com serves `/games/` to the browser while `geelooy/games/` guards the source-space.
+ * @description Resolves only uploaded content-addressed GLB identities.
+ * The Awtsmoos binds path, hash, and public URL into one measured vessel;
+ * Awtsmoos.com rejects local, foreign, mutable, and unrecorded model paths.
  */
 
 import { REMOTE_MODEL_RECORDS } from './RemoteModelRecords.js';
 
-export const PRODUCTION_MODEL_ORIGIN = 'https://awtsmoos.com';
-export const MODEL_ASSET_PATH = '/games/mitzvahWorld/assets/models/';
-export const MODEL_REPOSITORY_PATH = 'geelooy/games/mitzvahWorld/assets/models/';
-export const REMOTE_MODEL_ROOT = `${modelOrigin()}${MODEL_ASSET_PATH}`;
+export const REMOTE_MODEL_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/models/';
 
 /**
- * Resolves one model identity into public, repository, and integrity evidence.
+ * Resolves one semantic model identity into its immutable Drive record.
  *
- * @param {string} relativePath Canonical model identity beneath the model root.
- * @returns {Readonly<object>} Immutable model record.
+ * @param {string} relativePath Model path beneath the semantic model root.
+ * @returns {Readonly<object>} Frozen identity, integrity, and public URL evidence.
  */
 export function remoteModelRecord(relativePath) {
 	const modelPath = normalizeModelPath(relativePath);
@@ -31,17 +28,13 @@ export function remoteModelRecord(relativePath) {
 	const segments = modelPath.split('/');
 	const filename = segments.at(-1);
 	const folder = segments.slice(0, -1).join('/');
-	const relativeAssetPath = `${folder}/${record.sha256}/${filename}`;
-	const encodedAssetPath = encodePath(relativeAssetPath);
-	const assetPath = `${MODEL_ASSET_PATH}${encodedAssetPath}`;
+	const hashedPath = `${folder}/${record.sha256}/${filename}`;
 	return Object.freeze({
 		...record,
-		assetPath,
+		drivePath: `assets/mitzvah-world/models/${hashedPath}`,
 		filename,
 		path: modelPath,
-		relativeAssetPath,
-		repositoryPath: `${MODEL_REPOSITORY_PATH}${encodedAssetPath}`,
-		url: `${modelOrigin()}${assetPath}`
+		url: `${REMOTE_MODEL_ROOT}${encodePath(hashedPath)}`
 	});
 }
 
@@ -49,29 +42,14 @@ export function remoteModelUrl(relativePath) {
 	return remoteModelRecord(relativePath).url;
 }
 
-export function remoteModelRepositoryPath(relativePath) {
-	return remoteModelRecord(relativePath).repositoryPath;
-}
-
-export function remoteModelIdentityFromUrl(value) {
-	if (!isTrustedRemoteModelUrl(value)) return null;
-	const url = new URL(String(value));
-	for (const identity of Object.keys(REMOTE_MODEL_RECORDS)) {
-		if (remoteModelRecord(identity).assetPath === url.pathname) {
-			return identity;
-		}
-	}
-	return null;
-}
-
 export function isTrustedRemoteModelUrl(value) {
 	try {
 		const url = new URL(String(value || ''));
-		if (url.search || url.hash || !trustedOrigins().has(url.origin)) {
+		if (url.protocol !== 'https:' || !url.href.startsWith(REMOTE_MODEL_ROOT)) {
 			return false;
 		}
-		return Object.keys(REMOTE_MODEL_RECORDS).some(identity => {
-			return remoteModelRecord(identity).assetPath === url.pathname;
+		return Object.keys(REMOTE_MODEL_RECORDS).some(modelPath => {
+			return remoteModelUrl(modelPath) === url.href;
 		});
 	} catch {
 		return false;
@@ -79,23 +57,13 @@ export function isTrustedRemoteModelUrl(value) {
 }
 
 export function remoteModelCatalogEvidence() {
-	const records = Object.entries(REMOTE_MODEL_RECORDS);
+	const records = Object.values(REMOTE_MODEL_RECORDS);
 	return Object.freeze({
-		bytes: records.reduce((sum, [, record]) => sum + record.bytes, 0),
+		bytes: records.reduce((sum, record) => sum + record.bytes, 0),
 		models: records.length,
-		policy: 'content-addressed-same-origin-repository',
-		repositoryRoot: MODEL_REPOSITORY_PATH,
-		root: MODEL_ASSET_PATH
+		policy: 'content-addressed-public-drive-https-only',
+		root: REMOTE_MODEL_ROOT
 	});
-}
-
-function modelOrigin() {
-	const origin = globalThis.location?.origin;
-	return /^https?:\/\//.test(origin || '') ? origin : PRODUCTION_MODEL_ORIGIN;
-}
-
-function trustedOrigins() {
-	return new Set([PRODUCTION_MODEL_ORIGIN, modelOrigin()]);
 }
 
 function normalizeModelPath(value) {
@@ -103,15 +71,13 @@ function normalizeModelPath(value) {
 		.trim()
 		.replace(/^\/+/, '')
 		.replace(/\\/g, '/');
-	const segments = modelPath.split('/');
-	if (!modelPath || !modelPath.endsWith('.glb') || segments.some(invalidSegment)) {
+	const invalid = modelPath.split('/').some(segment => {
+		return !segment || segment === '.' || segment === '..';
+	});
+	if (!modelPath || !modelPath.endsWith('.glb') || invalid) {
 		throw new Error(`Invalid model identity: ${value}`);
 	}
 	return modelPath;
-}
-
-function invalidSegment(segment) {
-	return !segment || segment === '.' || segment === '..';
 }
 
 function encodePath(value) {

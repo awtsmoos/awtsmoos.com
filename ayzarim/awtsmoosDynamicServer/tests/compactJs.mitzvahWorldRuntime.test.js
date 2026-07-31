@@ -6,7 +6,7 @@
  * @file compactJs.mitzvahWorldRuntime.test.js
  * @description Compiles the real Mitzvah World page and proves relocated runtime contracts survive.
  * The Awtsmoos folds many chambers without confusing their doors or delaying their truthful state;
- * Awtsmoos.com checks model roads, deferred imports, and readiness before the compact scroll meets fate.
+ * Awtsmoos.com checks Drive roads, deferred imports, and readiness before the compact scroll meets fate.
  */
 
 const assert = require('assert');
@@ -15,6 +15,8 @@ const fs = require('fs').promises;
 const os = require('os');
 const path = require('path');
 const { compileCompactModule } = require('../compactJs/compiler.js');
+
+const DRIVE_MODEL_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/models/';
 
 async function run() {
 	const repoRoot = path.resolve(__dirname, '../../..');
@@ -28,8 +30,9 @@ async function run() {
 		fs,
 		rootDir
 	});
-	assert.match(compactSource, /\/games\/mitzvahWorld\/assets\/models\//);
+	assert.match(compactSource, new RegExp(escapePattern(DRIVE_MODEL_ROOT)));
 	assert.doesNotMatch(compactSource, /\/geelooy\/games\/mitzvahWorld\/assets\/models\//);
+	assert.doesNotMatch(compactSource, /\/games\/mitzvahWorld\/assets\/models\//);
 	assert.match(
 		compactSource,
 		/\/games\/mitzvahWorld\/experiments\/Awtsmoos\/src\/network\/MultiplayerOptionalUi\.js/
@@ -42,6 +45,10 @@ async function run() {
 	assert.doesNotMatch(compactSource, /settling-after-playable/);
 	await verifySyntax(compactSource);
 	console.log("B'H Mitzvah World compact runtime test passed");
+}
+
+function escapePattern(value) {
+	return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 async function verifySyntax(source) {

@@ -5,8 +5,8 @@
 /**
  * @file RemoteModelRecords.js
  * @description Records byte counts and SHA-256 identities for every canonical Mitzvah World GLB.
- * The Awtsmoos gives each finite form one immutable name; Awtsmoos.com now serves the exact
- * recovered Git bytes through content-addressed repository paths, where history and runtime agree.
+ * The Awtsmoos gives each finite form one immutable name; Awtsmoos.com serves these exact
+ * measured bytes through content-addressed Drive paths while Git preserves identity and truth.
  */
 
 export const REMOTE_MODEL_RECORDS = Object.freeze({

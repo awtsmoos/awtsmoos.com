@@ -3,14 +3,16 @@
 // Blessed is He
 
 /**
- * The Awtsmoos renews every command and world from nothing in ordered light.
- * Awtsmoos.com reveals deterministic vessels where exact JSON becomes editable life.
+ * @file mitzvahWorldDefinitions.js
+ * @description Defines semantic Mitzvah World resources without owning deployment URLs.
+ * The Awtsmoos names each garment by enduring identity while another vessel finds its stream;
+ * Awtsmoos.com keeps universal documents portable beyond one host, route, or deployment dream.
  */
 
 import { IDENTIFIED_OBJECT_SCHEMA } from "./commonSchemas.js";
 import { createResource } from "../resourceOperations.js";
 
-const CHOSSID_PATH = "/games/mitzvahWorld/assets/models/player/chossid.glb";
+export const CHOSSID_MODEL_ID = "player/chossid.glb";
 
 function creator(id, bucket, type, defaults = {}) {
 	return {
@@ -38,11 +40,15 @@ function creator(id, bucket, type, defaults = {}) {
 	};
 }
 
-/** First domain bridges layered over the generic resource/runtime foundation. */
+/**
+ * Creates portable domain definitions whose model fields contain identities, never transport URLs.
+ *
+ * @returns {Array<object>} Universal API method definitions for Mitzvah World resources.
+ */
 export function createMitzvahWorldDefinitions() {
 	const human = creator("humans.create", "humans", "human", {
-		model: { assetId: "chossid.glb", source: CHOSSID_PATH },
-		transform: { position: [0, 0, 0], rotation: [0, 0, 0], scale: [1, 1, 1] },
+		model: chossidModel(),
+		transform: defaultTransform(),
 		rig: { type: "humanoid" },
 		actions: [],
 		behavior: {}
@@ -50,8 +56,8 @@ export function createMitzvahWorldDefinitions() {
 	human.execute = (context, params) => createResource(context, "humans", {
 		model: params.modelId
 			? { assetId: params.modelId }
-			: { assetId: "chossid.glb", source: CHOSSID_PATH },
-		transform: { position: [0, 0, 0], rotation: [0, 0, 0], scale: [1, 1, 1] },
+			: chossidModel(),
+		transform: defaultTransform(),
 		rig: { type: "humanoid" },
 		actions: [],
 		behavior: {},
@@ -62,20 +68,8 @@ export function createMitzvahWorldDefinitions() {
 		human,
 		creator("trees.create", "trees", "tree", { seed: 613, species: "oak" }),
 		creator("houses.create", "houses", "house", { floors: 1 }),
-		creator("water.create", "waters", "water", {
-			waterType: "lake",
-			material: {
-				source: "procedural-fallback",
-				reason: "No repository water normal was available in the audited in-root registry."
-			}
-		}),
-		creator("water.createRiver", "waters", "water", {
-			waterType: "river",
-			material: {
-				source: "procedural-fallback",
-				reason: "No repository water normal was available in the audited in-root registry."
-			}
-		})
+		creator("water.create", "waters", "water", waterDefaults("lake")),
+		creator("water.createRiver", "waters", "water", waterDefaults("river"))
 	];
 }
 
@@ -97,3 +91,21 @@ export const MITZVAH_WORLD_TEXTURE_SEED = Object.freeze([
 		tags: ["coin", "gold", "existing", "game"]
 	}
 ]);
+
+function chossidModel() {
+	return { assetId: CHOSSID_MODEL_ID };
+}
+
+function defaultTransform() {
+	return { position: [0, 0, 0], rotation: [0, 0, 0], scale: [1, 1, 1] };
+}
+
+function waterDefaults(waterType) {
+	return {
+		waterType,
+		material: {
+			source: "procedural-fallback",
+			reason: "No repository water normal was available in the audited in-root registry."
+		}
+	};
+}
