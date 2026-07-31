@@ -124,6 +124,7 @@ searchPacked/
 # Images, audio, video, documents, and 3D models are denied unless a source root opens them.
 *.png
 *.jpg
+!geelooy/resources/home/restored-awtsmoos-hero.jpg
 *.jpeg
 *.gif
 *.webp
