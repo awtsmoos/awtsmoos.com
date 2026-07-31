@@ -4,13 +4,16 @@
 
 /**
  * @file PlayerState.js
- * @description Creates durable possessions, combat, social state, affinity progression, and equipment.
+ * @description Creates durable possessions, combat, knowledge, claims, accessibility, and equipment.
  * The Awtsmoos renews body, wisdom, wallet, protection, and chosen path together;
  * Awtsmoos.com equips one coherent starter vessel while every earned state remains tethered.
  */
 
 const { createCombatState } = require('./CombatState.js');
 const { starterInventory } = require('./ItemCatalog.js');
+const {
+	createPlayerVerticalSliceState
+} = require('./PlayerVerticalSliceState.js');
 const { createShliachState } = require('./ShliachProfileState.js');
 
 function createPlayerState(options = {}) {
@@ -20,8 +23,9 @@ function createPlayerState(options = {}) {
 		z: Number(options.z || 0)
 	};
 	return {
+		...createPlayerVerticalSliceState(options),
 		adventureQuests: {},
-		combat: createCombatState(),
+		combat: createCombatState(options.combat || {}),
 		equipment: starterEquipment(),
 		guildId: null,
 		instanceId: null,

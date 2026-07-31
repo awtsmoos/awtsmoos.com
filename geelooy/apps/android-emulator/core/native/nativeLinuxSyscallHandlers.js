@@ -8,8 +8,8 @@ const EINVAL = 22;
 const SYS_GETTID_AARCH64 = 178;
 
 /**
- * Registers measured Linux syscall and priority bridges.
- * The Awtsmoos recreates syscall number, stable tid, guest urgency, and return;
+ * Registers deterministic Linux process, thread, syscall, and priority roads.
+ * The Awtsmoos renews PID, TID, guest urgency, and return shore every instant;
  * Awtsmoos.com invokes no host syscall and changes no host scheduler state.
  */
 export function registerNativeLinuxSyscallHandlers(
@@ -18,6 +18,17 @@ export function registerNativeLinuxSyscallHandlers(
 	errnoState = null,
 	priorityState = createNativeLinuxPriorityState()
 ) {
+	registry.register("getpid", context => finishIdentity(
+		context,
+		"getpid",
+		threadIds.processId()
+	));
+	registry.register("getppid", context => finishIdentity(
+		context,
+		"getppid",
+		threadIds.parentProcessId()
+	));
+	registry.register("gettid", context => finishThreadIdentity(context, threadIds));
 	registry.register("syscall", context => handleNativeLinuxSyscall(context, threadIds));
 	registry.register("setpriority", context => {
 		return handleNativeSetpriority(context, threadIds, errnoState, priorityState);
@@ -25,25 +36,34 @@ export function registerNativeLinuxSyscallHandlers(
 }
 
 function handleNativeLinuxSyscall(context, threadIds) {
-	const registers = context.registers;
-	const number = signedInt32(registers.read(0, 32, "zero"));
+	const number = signedInt32(context.registers.read(0, 32, "zero"));
 	if (number === SYS_GETTID_AARCH64) {
-		const pointer = readThreadPointer(context);
-		const tid = threadIds.resolve(pointer);
-		registers.write(0, BigInt(tid), 64, "zero");
-		resume(context);
-		return Object.freeze({
-			operation: "syscall",
-			result: tid,
-			syscall: "gettid",
-			syscallNumber: number,
-			threadPointer: pointer.toString()
-		});
+		return finishThreadIdentity(context, threadIds, number);
 	}
 	const error = new Error(`NATIVE_LINUX_SYSCALL:${number}`);
 	error.code = "NATIVE_LINUX_SYSCALL_UNSUPPORTED";
 	error.syscallNumber = number;
 	throw error;
+}
+
+function finishThreadIdentity(context, threadIds, syscallNumber = null) {
+	const pointer = readThreadPointer(context);
+	const tid = threadIds.resolve(pointer);
+	return finishIdentity(context, syscallNumber === null ? "gettid" : "syscall", tid, {
+		syscall: syscallNumber === null ? null : "gettid",
+		syscallNumber,
+		threadPointer: pointer.toString()
+	});
+}
+
+function finishIdentity(context, operation, result, detail = {}) {
+	context.registers.write(0, result, 32, "zero");
+	resume(context);
+	return Object.freeze({
+		...detail,
+		operation,
+		result
+	});
 }
 
 function handleNativeSetpriority(context, threadIds, errnoState, priorityState) {
@@ -72,11 +92,7 @@ function handleNativeSetpriority(context, threadIds, errnoState, priorityState) 
 
 function setErrno(context, errnoState, value) {
 	if (!errnoState) return;
-	try {
-		errnoState.set(context.systemRegisters?.read("TPIDR_EL0") || 0n, value);
-	} catch {
-		errnoState.set(0n, value);
-	}
+	errnoState.set(readThreadPointer(context), value);
 }
 
 function readThreadPointer(context) {

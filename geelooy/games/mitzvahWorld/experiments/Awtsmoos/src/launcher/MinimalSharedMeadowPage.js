@@ -5,9 +5,11 @@
 /**
  * @file MinimalSharedMeadowPage.js
  * @description Opens creative routes or advances through playable and bounded full readiness.
- * The Awtsmoos gives each doorway its truthful sign while movement arrives before ornament;
- * Awtsmoos.com publishes exact boot stages and preserves visible failure instead of silent torment.
+ * The Awtsmoos gives each doorway its truthful sign while essential code remains present;
+ * Awtsmoos.com publishes exact boot stages and preserves visible failure instead of a cold import race.
  */
+
+import { createMinimalMeadowRuntime } from '../app/createMinimalMeadowRuntime.js';
 import { MeadowLoadingScreen } from './MeadowLoadingScreen.js';
 import { installMinimalMeadowOptionalEntries } from './MinimalMeadowOptionalEntries.js';
 import { runMinimalSharedMeadowReadiness } from './MinimalSharedMeadowReadinessFlow.js';
@@ -46,7 +48,7 @@ export async function bootMinimalSharedMeadow(
 		const sessionMode = mitzvahWorldSessionMode(parameters);
 		documentValue.documentElement.dataset.awtsmoosSession = sessionMode;
 		stage(documentValue, 'runtime-factory');
-		const runtimeFactory = await loadRuntimeFactory(dependencies);
+		const runtimeFactory = resolveRuntimeFactory(dependencies);
 		stage(documentValue, 'runtime-launch');
 		const diagnostics = await launchMinimalSharedMeadowRuntime({
 			environment,
@@ -91,12 +93,10 @@ function publishCreative(value, documentValue, environment) {
 	return value;
 }
 
-async function loadRuntimeFactory(dependencies) {
-	if (typeof dependencies.createMinimalMeadowRuntime === 'function') {
-		return dependencies.createMinimalMeadowRuntime;
-	}
-	const module = await import('../app/createMinimalMeadowRuntime.js?rev=20260730-speed');
-	return module.createMinimalMeadowRuntime;
+function resolveRuntimeFactory(dependencies) {
+	return typeof dependencies.createMinimalMeadowRuntime === 'function'
+		? dependencies.createMinimalMeadowRuntime
+		: createMinimalMeadowRuntime;
 }
 
 function stage(documentValue, value, error = null) {
@@ -107,7 +107,8 @@ function stage(documentValue, value, error = null) {
 	}
 }
 
-if (typeof document !== 'undefined' && globalThis.AwtsmoosDisableAutoBoot !== true) {
+if (typeof document !== 'undefined'
+	&& globalThis.AwtsmoosDisableAutoBoot !== true) {
 	globalThis.AwtsmoosMitzvahWorldBoot = bootMinimalSharedMeadow().catch(error => {
 		console.error('[MitzvahWorld] compact boot failed.', error);
 		throw error;

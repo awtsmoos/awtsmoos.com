@@ -4,25 +4,34 @@
 
 /**
  * @file MovieMediaCatalog.js
- * @description Normalizes JSON-only audio, video, image, model, and document assets for the project media bin.
- * The Awtsmoos is beyond file and reference while every finite asset needs stable identity and honest metadata;
- * Awtsmoos.com keeps relinking, proxies, thumbnails, folders, tags, usage, and portability inside one data schema.
+ * @description Normalizes large JSON-only audio, video, image, model, and document catalogs.
+ * The Awtsmoos is beyond file and reference while every finite asset needs stable identity;
+ * Awtsmoos.com keeps relinking, proxies, folders, tags, scale, and portability in one schema.
  */
 
 import { MovieApiError } from './MovieApiError.js';
 import { createMovieProjectSnapshot } from './MovieProjectSnapshot.js';
+
+export const MOVIE_MEDIA_CATALOG_LIMIT = 100000;
 
 const MEDIA_KINDS = new Set(['audio', 'document', 'image', 'model', 'video']);
 
 export function normalizeMovieMediaCatalog(source) {
 	const ids = new Set();
 	const items = array(source).map((item, index) => normalizeMovieMediaItem(item, index));
-	if (items.length > 2048) {
-		throw new MovieApiError('MOVIE_MEDIA_LIMIT', 'Movie project supports at most 2048 media items.');
+	if (items.length > MOVIE_MEDIA_CATALOG_LIMIT) {
+		throw new MovieApiError(
+			'MOVIE_MEDIA_LIMIT',
+			`Movie project supports at most ${MOVIE_MEDIA_CATALOG_LIMIT} media items.`,
+			{ limit: MOVIE_MEDIA_CATALOG_LIMIT }
+		);
 	}
 	for (const item of items) {
 		if (ids.has(item.id)) {
-			throw new MovieApiError('DUPLICATE_MOVIE_MEDIA_ID', `Duplicate movie media id ${item.id}.`);
+			throw new MovieApiError(
+				'DUPLICATE_MOVIE_MEDIA_ID',
+				`Duplicate movie media id ${item.id}.`
+			);
 		}
 		ids.add(item.id);
 	}
@@ -32,7 +41,10 @@ export function normalizeMovieMediaCatalog(source) {
 export function normalizeMovieMediaItem(source = {}, index = 0) {
 	const kind = String(source.kind || inferMediaKind(source.url));
 	if (!MEDIA_KINDS.has(kind)) {
-		throw new MovieApiError('UNKNOWN_MOVIE_MEDIA_KIND', `Unknown movie media kind ${kind}.`);
+		throw new MovieApiError(
+			'UNKNOWN_MOVIE_MEDIA_KIND',
+			`Unknown movie media kind ${kind}.`
+		);
 	}
 	const id = String(source.id || `media-${index + 1}`);
 	return {

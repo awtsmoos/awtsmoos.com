@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioApi.js
- * @description Creates one stable facade over project, procedural agents, media, text, scene3d, jobs, instances, and UI.
+ * @description Creates one stable facade over project, agents, media, text, performance, jobs, instances, and UI.
  * The Awtsmoos renews every project and service while identity remains beyond replacement;
- * Awtsmoos.com gives old callers familiar doors and agents immutable machine contracts for the complete studio.
+ * Awtsmoos.com gives old callers familiar doors and agents immutable contracts for the complete studio.
  */
 
 import {
@@ -25,6 +25,7 @@ import { createMovieStudioHistoryDomain } from './MovieStudioApiHistory.js';
 import { createMovieStudioInstancesDomain } from './MovieStudioApiInstances.js';
 import { createMovieStudioMediaDomain } from './MovieStudioApiMedia.js';
 import { createMovieStudioPatchDomain } from './MovieStudioApiPatch.js';
+import { createMovieStudioPerformanceDomain } from './MovieStudioApiPerformance.js';
 import { createMovieStudioPersistenceDomain } from './MovieStudioApiPersistence.js';
 import { createMovieStudioPlaybackDomain } from './MovieStudioApiPlayback.js';
 import { createMovieStudioPluginsDomain } from './MovieStudioApiPlugins.js';
@@ -54,6 +55,7 @@ export function createMovieStudioApi(session) {
 		instances: createMovieStudioInstancesDomain(session),
 		media: createMovieStudioMediaDomain(session, commands),
 		patch: createMovieStudioPatchDomain(session),
+		performance: createMovieStudioPerformanceDomain(session),
 		persistence: createMovieStudioPersistenceDomain(session),
 		playback: createMovieStudioPlaybackDomain(session),
 		plugins: createMovieStudioPluginsDomain(session),
@@ -66,7 +68,9 @@ export function createMovieStudioApi(session) {
 		selection: createMovieStudioSelectionDomain(session),
 		text: createMovieStudioTextDomain(session, commands),
 		timeline: createMovieStudioTimelineDomain(session, commands),
-		transactions: Object.freeze({ execute: (batch, options) => commands.executeBatch(batch, options) }),
+		transactions: Object.freeze({
+			execute: (batch, options) => commands.executeBatch(batch, options)
+		}),
 		ui: createMovieStudioUiDomain(session),
 		unsafe: createUnsafeMovieStudioApi(session)
 	};
@@ -75,8 +79,11 @@ export function createMovieStudioApi(session) {
 }
 
 export const MovieStudioApi = createMovieStudioApi;
+
 export function publishMovieStudioApi(session) {
-	if (session.instanceRegistry) return session.instanceRegistry.publish(session);
+	if (session.instanceRegistry) {
+		return session.instanceRegistry.publish(session);
+	}
 	globalThis.AwtsmoosMovie = session.publicApi;
 	return session.publicApi;
 }

@@ -9,7 +9,7 @@
  * announce its name, seek when activated, and depart through one recoverable command.
  */
 
-import { escapeTimelineHtml } from './MovieTimelineClipElement.js';
+import { escapeTimelineHtml } from './MovieTimelineEscape.js';
 
 export function createTimelineMarkerLane(view) {
 	const lane = document.createElement('div');
@@ -37,7 +37,9 @@ function createMarker(view, marker) {
 		view.onSeek?.(marker.time);
 	});
 	button.addEventListener('keydown', event => {
-		if (!['Delete', 'Backspace'].includes(event.key)) return;
+		if (!['Delete', 'Backspace'].includes(event.key)) {
+			return;
+		}
 		event.preventDefault();
 		event.stopPropagation();
 		view.runCommand('removeMarker', { markerId: marker.id });

@@ -4,84 +4,73 @@
 
 /**
  * @file MinimalMeadowEnemyActionFlow.js
- * @description Owns wind-up, singular impact or launch, recovery, and animation progress.
- * The Awtsmoos separates desire from deed; Awtsmoos.com lets finite timing reach one
- * truthful consequence before cooldown returns the enemy to continued pressure.
+ * @description Begins deterministic role actions and owns cancellation across one stable API.
+ * The Awtsmoos gives hostile intention a finite beginning and truthful ending;
+ * Awtsmoos.com delegates progression while identity, concealment, slot, and receipts remain clear.
  */
 
 import {
-	beginEnemyMeleeStrike,
-	executeEnemyMeleeImpact,
-	finishEnemyAttack,
-	launchEnemyRangedAttack
-} from './MinimalMeadowEnemyAttackExecution.js';
-import { minimalEnemyActionDuration } from './MinimalMeadowEnemyCombatDecision.js';
+	advanceMinimalEnemySelectedAction,
+	completeMinimalEnemyRecovery
+} from './MinimalMeadowEnemyActionAdvance.js';
+import {
+	selectMinimalEnemyAction
+} from './MinimalMeadowEnemyActionPolicy.js';
+import {
+	minimalEnemyActionReceipt
+} from './MinimalMeadowEnemyActionReceipt.js';
+
+export function beginMinimalEnemyAction(combat, proposedState) {
+	combat.currentAction = selectMinimalEnemyAction(combat, proposedState);
+	const state = combat.currentAction.state;
+	combat.session.transition(state, `begin-${combat.currentAction.id}`);
+	combat.action = combat.currentAction.id;
+	combat.actionTime = 0;
+	combat.struck = false;
+	combat.launched = false;
+	combat.attackCount += 1;
+	combat.actor.action = state;
+	combat.actor.actionProgress = 0;
+	combat.runtime.bus.emit(
+		'enemy:action',
+		minimalEnemyActionReceipt(combat)
+	);
+	if (state === 'cast-windup') {
+		combat.runtime.bus.emit(
+			'enemy:cast',
+			minimalEnemyActionReceipt(combat)
+		);
+	}
+	return true;
+}
 
 export function advanceMinimalEnemyAction(combat) {
-	const state = combat.session.state;
-	combat.actor.actionProgress = actionProgress(combat);
-	combat.actor.action = combat.action;
-	combat.actor.moving = false;
-	if (state === 'melee-windup') return advanceMeleeWindup(combat);
-	if (state === 'melee-impact') return advanceMeleeImpact(combat);
-	if (state === 'cast-windup') return advanceCastWindup(combat);
+	const advanced = advanceMinimalEnemySelectedAction(combat);
+	if (advanced) return true;
+	cancelEnemyAction(combat, 'cast-line-of-sight-lost');
+	combat.session.transition('pursue', 'cast-line-of-sight-lost');
 	return true;
 }
 
 export function advanceMinimalEnemyRecovery(combat) {
-	combat.actor.action = 'idle';
-	combat.actor.moving = false;
-	if (combat.session.stateTime >= minimalEnemyActionDuration('recovery')) {
-		const next = combat.session.role === 'caster' ? 'reposition' : 'approach';
-		combat.session.transition(next, 'recovery-complete');
-	}
-	return true;
+	return completeMinimalEnemyRecovery(combat);
 }
 
-export function beginMinimalEnemyAction(combat, state) {
-	combat.session.transition(state, 'attack-ready');
-	combat.action = state === 'cast-windup' ? 'ranged-cast' : 'melee-windup';
-	combat.actionTime = 0;
+export function cancelEnemyAction(combat, reason = 'cancelled') {
+	if (!combat.currentAction) return false;
+	if (combat.session.state === 'cast-windup') {
+		combat.runtime.bus.emit('enemy:cast-cancelled', {
+			...minimalEnemyActionReceipt(combat),
+			reason
+		});
+	}
+	combat.currentAction = null;
+	combat.action = null;
 	combat.struck = false;
 	combat.launched = false;
-	combat.actor.action = combat.action;
 	combat.actor.actionProgress = 0;
-	combat.runtime.bus.emit('enemy:cast', {
-		action: combat.action,
-		duration: minimalEnemyActionDuration(state),
-		enemyId: combat.actor.profile.id,
-		letters: state === 'cast-windup' ? 'דין' : 'מכה',
-		role: combat.session.role
-	});
 	return true;
 }
 
-function advanceMeleeWindup(combat) {
-	if (combat.session.stateTime < minimalEnemyActionDuration('melee-windup')) return true;
-	return beginEnemyMeleeStrike(combat);
-}
-
-function advanceMeleeImpact(combat) {
-	if (combat.session.stateTime >= 0.16) executeEnemyMeleeImpact(combat);
-	if (combat.session.stateTime >= minimalEnemyActionDuration('melee-impact')) {
-		finishEnemyAttack(combat, 1.08);
-	}
-	return true;
-}
-
-function advanceCastWindup(combat) {
-	if (!combat.lineOfSight) {
-		combat.action = null;
-		combat.session.transition('pursue', 'cast-line-of-sight-lost');
-		return true;
-	}
-	if (combat.session.stateTime >= minimalEnemyActionDuration('cast-windup')) {
-		launchEnemyRangedAttack(combat);
-	}
-	return true;
-}
-
-function actionProgress(combat) {
-	const duration = Math.max(0.001, minimalEnemyActionDuration(combat.session.state));
-	return Math.min(1, combat.session.stateTime / duration);
-}
+export const beginEnemyAction = beginMinimalEnemyAction;
+export const updateEnemyAction = advanceMinimalEnemyAction;

@@ -4,19 +4,17 @@
 
 /**
  * @file MinimalMeadowEnemyActor.js
- * @description Makes one profile-driven enemy live, fight, fall, persist, and expose chosen loot.
- * The Awtsmoos grants darkness no independent throne; Awtsmoos.com keeps one continuous body
- * while archetype proportions distinguish broad warden, lean skirmisher, and tall cantor.
+ * @description Exposes one profile-driven enemy across motion, combat, posture, loot, and authority.
+ * The Awtsmoos grants darkness no independent throne; Awtsmoos.com keeps one body
+ * while role, geometry, movement, status, selection, health, and treasure remain aligned.
  */
 
-import { createMinimalShadowCreatureMesh } from './MinimalMeadowCreatureMesh.js';
-import { MinimalMeadowEnemyCombat } from './MinimalMeadowEnemyCombat.js';
 import {
 	updateMinimalMeadowEnemyActor
 } from './MinimalMeadowEnemyActorMotion.js';
 import {
-	createMinimalMeadowEnemyActorState
-} from './MinimalMeadowEnemyActorState.js';
+	initializeMinimalMeadowEnemyActor
+} from './MinimalMeadowEnemyActorSetup.js';
 import {
 	clearMinimalEnemy,
 	damageMinimalEnemy,
@@ -30,10 +28,6 @@ import {
 	takeMinimalEnemyCorpseItem
 } from './MinimalMeadowEnemyLoot.js';
 import {
-	minimalShadowEnemyProfile,
-	minimalShadowWaypoints
-} from './MinimalMeadowEnemyProfile.js';
-import {
 	minimalEnemyGround,
 	minimalEnemyPayload,
 	minimalEnemyTargetHints
@@ -41,69 +35,62 @@ import {
 
 export class MinimalMeadowEnemyActor {
 	constructor(options) {
-		this.profile = minimalShadowEnemyProfile(options.compiled, options.profile);
-		Object.assign(this, createMinimalMeadowEnemyActorState(options, this.profile));
-		this.group = createMinimalShadowCreatureMesh(options.compiled, this.profile);
-		this.waypoints = minimalShadowWaypoints(this.profile);
-		this.health = this.profile.maxHealth;
-		this.combat = new MinimalMeadowEnemyCombat(this, this.runtime);
-		applyEnemyBodyScale(this.group, this.profile);
-		this.group.position.set(
-			this.profile.x,
-			this.ground(this.profile.x, this.profile.z),
-			this.profile.z
-		);
+		initializeMinimalMeadowEnemyActor(this, options);
 	}
+
 	update(deltaSeconds) {
 		updateMinimalMeadowEnemyActor(this, deltaSeconds);
 	}
+
 	hitPointer(event) {
 		return minimalEnemyPointerHit(this, event);
 	}
+
 	target() {
 		return targetMinimalEnemy(this);
 	}
+
 	interact() {
 		return interactWithMinimalEnemy(this);
 	}
+
 	clear(silent = false) {
 		clearMinimalEnemy(this, silent);
 	}
-	applyDamage(amount) {
-		return damageMinimalEnemy(this, amount);
+
+	applyDamage(amount, detail = {}) {
+		return damageMinimalEnemy(this, amount, detail);
 	}
+
 	defeat() {
-		defeatMinimalEnemy(this);
+		return defeatMinimalEnemy(this);
 	}
+
 	lootPreview() {
 		return this.lootState.snapshot();
 	}
+
 	takeLootItem(itemId) {
 		return takeMinimalEnemyCorpseItem(this, itemId);
 	}
+
 	takeAllLoot() {
 		return lootAllMinimalEnemyCorpse(this);
 	}
+
 	payload() {
 		return minimalEnemyPayload(this);
 	}
+
 	targetHint() {
 		return this.targetHints()[1];
 	}
+
 	targetHints() {
 		return minimalEnemyTargetHints(this);
 	}
+
 	ground(x, z) {
 		return minimalEnemyGround(this, x, z);
 	}
-}
-
-function applyEnemyBodyScale(group, profile) {
-	const body = profile.bodyScale || [1, 1, 1];
-	const visual = Number(profile.visualScale) || 1;
-	group.scale.set(
-		visual * body[0],
-		visual * body[1],
-		visual * body[2]
-	);
 }

@@ -4,12 +4,17 @@
 
 /**
  * @file MinimalSharedMeadowReadinessFlow.js
- * @description Bounds feature settlement, publishes essential play, then settles rich readiness.
- * The Awtsmoos opens the road before every distant garment has descended in light;
- * Awtsmoos.com inspects real vessels after a bounded wait, then names the final state aright.
+ * @description Publishes essential play and releases the veil before bounded rich feature settlement.
+ * The Awtsmoos opens the road while distant systems continue taking form; Awtsmoos.com
+ * gives movement, combat, inventory, quests, and recovery the first paint without hiding later truth.
  */
-import { beginMinimalMeadowFullReadiness } from './MinimalMeadowFullReadiness.js';
-import { awaitMinimalMeadowReadiness } from './MinimalMeadowReadiness.js';
+
+import {
+	beginMinimalMeadowFullReadiness
+} from './MinimalMeadowFullReadiness.js';
+import {
+	awaitMinimalMeadowReadiness
+} from './MinimalMeadowReadiness.js';
 import {
 	awaitMinimalMeadowPaint,
 	settleMinimalMeadowFeatures
@@ -22,7 +27,7 @@ export async function runMinimalSharedMeadowReadiness(options) {
 		environment,
 		loading
 	} = options;
-	const featureSettlement = await settleMinimalMeadowFeatures(
+	const featureSettlementPromise = settleMinimalMeadowFeatures(
 		diagnostics,
 		documentValue
 	);
@@ -31,21 +36,30 @@ export async function runMinimalSharedMeadowReadiness(options) {
 		loading,
 		documentValue,
 		environment,
-		featureSettlement
+		pendingFeatureSettlement()
 	);
 	loading.finish();
 	await awaitMinimalMeadowPaint(environment);
 	const fullReceipt = await beginMinimalMeadowFullReadiness({
 		diagnostics,
 		environment,
-		featureSettlement: Promise.resolve(featureSettlement),
+		featureSettlement: featureSettlementPromise,
 		loading,
-		rendererPromise: diagnostics.rendererHydrationPromise || Promise.resolve(null),
+		rendererPromise: diagnostics.rendererHydrationPromise
+			|| Promise.resolve(null),
 		root: documentValue.documentElement,
 		runtime: diagnostics.runtime
 	});
 	return Object.freeze({
 		essential: essentialReceipt,
 		full: fullReceipt
+	});
+}
+
+function pendingFeatureSettlement() {
+	return Object.freeze({
+		ready: false,
+		reason: 'settling-after-playable',
+		receipt: null
 	});
 }

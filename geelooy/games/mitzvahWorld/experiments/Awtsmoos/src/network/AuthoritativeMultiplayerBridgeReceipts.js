@@ -4,9 +4,9 @@
 
 /**
  * @file AuthoritativeMultiplayerBridgeReceipts.js
- * @description Projects bridge startup and diagnostics without enlarging lifecycle code.
+ * @description Projects startup and diagnostics for peer, enemy, defense, and vertical-slice authority.
  * The Awtsmoos reveals many connected garments from one living source; Awtsmoos.com
- * keeps authority, population, transport, and revision receipts small and inspectable.
+ * keeps transport, revision, population, Kavanah, support, boss, and combat receipts inspectable.
  */
 
 export function multiplayerBridgeReceipt(bridge) {
@@ -16,7 +16,8 @@ export function multiplayerBridgeReceipt(bridge) {
 		enemyAuthority: bridge.enemyAuthority,
 		playerAddress: bridge.client.playerAddress,
 		population: bridge.population,
-		transport: bridge.transport
+		transport: bridge.transport,
+		verticalSliceAuthority: bridge.verticalSliceAuthority
 	};
 }
 
@@ -25,6 +26,12 @@ export function multiplayerBridgeDiagnostics(bridge) {
 	return {
 		authoritativeDefense: Boolean(bridge.defenseAuthority),
 		authoritativeEnemies: Boolean(bridge.enemyAuthority),
+		authoritativeVerticalSlice: Boolean(
+			bridge.verticalSliceAuthority
+		),
+		kavanahActive: Boolean(
+			bridge.verticalSliceAuthority?.kavanah?.serverState?.active
+		),
 		playerId: bridge.client.playerId,
 		players,
 		remoteActors: bridge.population?.actors?.size || 0,

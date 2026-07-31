@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudio.js
- * @description Boots the real world beneath the stable API and responsive professional NLE.
+ * @description Boots the real world beneath the stable API, Character Performance Mode, and professional NLE.
  * The Awtsmoos renews world and editing vessel together; Awtsmoos.com binds runtime, project,
- * recovery, scene manipulation, draggable transforms, cameras, actions, audio, authoring, and rendering.
+ * recovery, performance, scene manipulation, cameras, actions, audio, authoring, and rendering.
  */
 
 import { createEretzRuntime } from '../app/createEretzRuntime.js';
@@ -16,6 +16,7 @@ import { MovieStudioAudioMixerController } from './MovieStudioAudioMixerControll
 import { MovieStudioCameraActionController } from './MovieStudioCameraActionController.js';
 import { MovieStudioInteractionController } from './MovieStudioInteractionController.js';
 import { MovieStudioKeyframeController } from './MovieStudioKeyframeController.js';
+import { MovieStudioPerformanceController } from './MovieStudioPerformanceController.js';
 import { MovieStudioPreferenceController } from './MovieStudioPreferenceController.js';
 import { MovieStudioProjectBrowserController } from './MovieStudioProjectBrowserController.js';
 import { MovieStudioResizeController } from './MovieStudioResizeController.js';
@@ -30,10 +31,13 @@ import { hideMovieWorldChrome } from './MovieWorldChrome.js';
 export async function createMovieStudio(hosts, initialProject, options = {}) {
 	const loading = showMovieLoading();
 	try {
-		const diagnostics = await createEretzRuntime(hosts, { quality: options.quality || 'cinematic', startLoop: false });
+		const diagnostics = await createEretzRuntime(hosts, {
+			quality: options.quality || 'cinematic',
+			startLoop: false
+		});
 		const runtime = diagnostics.runtime;
 		const restoreWorldChrome = hideMovieWorldChrome(hosts, runtime.renderer.canvas);
-		loading.set('B"H arranging scene tools, timeline, sound, materials, actions, and cameras…');
+		loading.set('B"H arranging scene tools, performances, timeline, sound, actions, and cameras…');
 		const view = createMovieStudioView(initialProject);
 		const session = new MovieStudioSession(runtime, diagnostics, view, initialProject);
 		session.restoreWorldChrome = restoreWorldChrome;
@@ -46,16 +50,26 @@ export async function createMovieStudio(hosts, initialProject, options = {}) {
 		session.titleController = new MovieStudioTitleController(session, view);
 		session.projectBrowserController = new MovieStudioProjectBrowserController(session, view.root);
 		session.utilityController = new MovieStudioUtilityController(session, view);
+		session.performanceController = new MovieStudioPerformanceController(session, {
+			environment: options.environment || globalThis
+		});
 		session.interactions = new MovieStudioInteractionController(session, view);
 		session.preferenceController = new MovieStudioPreferenceController(session, view);
 		session.resizeController = new MovieStudioResizeController(session, view);
 		scheduleAutomaticRender(session, options);
 		return session.publicApi;
-	} finally { loading.remove(); }
+	} finally {
+		loading.remove();
+	}
 }
 
 function scheduleAutomaticRender(session, options) {
-	if (options.autoRender) setTimeout(() => session.render(), 250);
-	if (options.autoRenderExact) setTimeout(() => renderExactMovieStudioSession(session), 250);
+	if (options.autoRender) {
+		setTimeout(() => session.render(), 250);
+	}
+	if (options.autoRenderExact) {
+		setTimeout(() => renderExactMovieStudioSession(session), 250);
+	}
 }
+
 export default createMovieStudio;

@@ -4,9 +4,9 @@
 
 /**
  * @file InventoryPanelActionRunner.js
- * @description Executes real Bag actions, contextual selection, positioning, and focus-safe openness.
+ * @description Executes real Bag actions, async effects, contextual selection, and focus-safe openness.
  * The Awtsmoos joins intention to consequence without invisible blockers; Awtsmoos.com keeps
- * every touch and keyboard action connected to store truth, equipment events, and restored focus.
+ * touch and keyboard actions connected to store truth, authority receipts, events, and restored focus.
  */
 
 import { combinedInventoryStack } from './InventoryPanelState.js';
@@ -21,7 +21,7 @@ export function selectInventoryPanelItem(panel, itemId, button) {
 	positionMenu(panel.menu, button.getBoundingClientRect());
 }
 
-export function runInventoryPanelAction(panel, action) {
+export async function runInventoryPanelAction(panel, action) {
 	const state = panel.store.snapshot();
 	const item = combinedInventoryStack(state, panel.selectedItemId)?.definition;
 	if (!item) return;
@@ -30,6 +30,7 @@ export function runInventoryPanelAction(panel, action) {
 	if (action === 'draw') panel.bus.emit('equipment:draw');
 	if (action === 'sheath') panel.bus.emit('equipment:sheath');
 	if (action === 'drop') panel.store.remove(item.id, 1);
+	if (action === 'use') await requireUseHandler(panel)(item.id);
 	if (action === 'open' && item.category === 'book') panel.bus.emit('torah:toggle');
 	if (action === 'open' && item.id === 'quest-scroll') panel.bus.emit('questlog:toggle');
 	if (action === 'pin' && item.category === 'book') panel.store.toggleBookPin(item.id);
@@ -50,6 +51,13 @@ export function setInventoryPanelOpen(panel, open) {
 		panel.lastFocusedElement?.focus?.();
 	}
 	panel.bus.emit('inventory:state', { open: panel.open });
+}
+
+function requireUseHandler(panel) {
+	if (typeof panel.onUse !== 'function') {
+		throw new Error('This runtime cannot use consumable items.');
+	}
+	return panel.onUse;
 }
 
 function positionMenu(menu, rectangle) {

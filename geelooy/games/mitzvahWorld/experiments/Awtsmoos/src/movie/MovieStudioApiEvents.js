@@ -4,43 +4,30 @@
 
 /**
  * @file MovieStudioApiEvents.js
- * @description Exposes subscriptions, monotonic sequence discovery, and bounded structured event waiting.
+ * @description Exposes subscriptions, sequence discovery, bounded waits, and complete acting event types.
  * The Awtsmoos renews every event beyond ownership and delay; Awtsmoos.com gives agents
- * named finite streams, immutable detail, timeout, abort, and cleanup while emission authority stays local.
+ * named immutable streams, range, loop, voice, failure, timeout, abort, and cleanup in rhyme.
  */
 
 import { waitForMovieEvent } from './MovieEventWait.js';
 import { runMovieStudioApiAsyncOperation } from './MovieStudioApiOperation.js';
+import { MOVIE_STUDIO_PERFORMANCE_EVENTS } from './MovieStudioApiPerformanceSchemaEvents.js';
+
+const CORE_EVENT_TYPES = Object.freeze([
+	'agent:applied', 'autosave:saved', 'error', 'history:changed',
+	'instance:activated', 'instance:registered', 'instance:unregistered',
+	'persistence:loaded', 'persistence:removed', 'persistence:saved',
+	'playback:state', 'playback:time', 'plugin:registered', 'plugin:unregistered',
+	'project:changed', 'render:cancelled', 'render:completed', 'render:progress',
+	'render:state', 'runtimeAdapter:invoked', 'runtimeAdapter:registered',
+	'runtimeAdapter:unregistered', 'selection:changed', 'session:destroyed',
+	'timeline:scale', 'timeline:snapping', 'ui:preferences'
+]);
 
 const EVENT_TYPES = Object.freeze([
-	'agent:applied',
-	'autosave:saved',
-	'error',
-	'history:changed',
-	'instance:activated',
-	'instance:registered',
-	'instance:unregistered',
-	'persistence:loaded',
-	'persistence:removed',
-	'persistence:saved',
-	'playback:state',
-	'playback:time',
-	'plugin:registered',
-	'plugin:unregistered',
-	'project:changed',
-	'render:cancelled',
-	'render:completed',
-	'render:progress',
-	'render:state',
-	'runtimeAdapter:invoked',
-	'runtimeAdapter:registered',
-	'runtimeAdapter:unregistered',
-	'selection:changed',
-	'session:destroyed',
-	'timeline:scale',
-	'timeline:snapping',
-	'ui:preferences'
-]);
+	...CORE_EVENT_TYPES,
+	...MOVIE_STUDIO_PERFORMANCE_EVENTS
+].sort());
 
 export function createMovieStudioEventsDomain(session) {
 	return Object.freeze({
@@ -73,10 +60,6 @@ function movieEventWaitSource(query, options) {
 }
 
 function movieEventOperationOptions(options) {
-	const {
-		signal,
-		timeoutMs,
-		...operationOptions
-	} = options;
+	const { signal, timeoutMs, ...operationOptions } = options;
 	return operationOptions;
 }

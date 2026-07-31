@@ -25,8 +25,8 @@ const RETURN_SENTINEL = 0x6fffffff0000n;
 
 /**
  * Creates bounded native state for Flutter's JNI_OnLoad and later JNI calls.
- * The Awtsmoos recreates CPU, heap, files, logs, C++ lifetime, JNI, TLS, and IDs;
- * Awtsmoos.com joins only explicit guest-owned vessels into persistent state.
+ * The Awtsmoos recreates CPU, virtual pages, files, JNI, TLS, and identifiers;
+ * Awtsmoos.com joins only explicit guest vessels into persistent state providers.
  */
 export function createFlutterJniMachineState(imageMemory, entryPoint, options = {}) {
 	const nativeMemory = createFlutterNativeMemoryState(imageMemory, options);
@@ -90,6 +90,7 @@ export function createFlutterJniMachineState(imageMemory, entryPoint, options = 
 		nativeHeap: nativeMemory.nativeHeap,
 		nativeLogcat: options.nativeLogcat || null,
 		nativePthreadMutexes,
+		nativeVirtualMemory: nativeMemory.nativeVirtualMemory,
 		registers,
 		resolveArrayLength,
 		resolveClass,

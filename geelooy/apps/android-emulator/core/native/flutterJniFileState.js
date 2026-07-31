@@ -2,15 +2,17 @@
 //Boruch Hashem
 //Blessed is He
 
+import { createNativeDescriptorFlagState } from "./nativeDescriptorFlagState.js";
 import { createNativeDirectoryStreams } from "./nativeDirectoryStreams.js";
+import { createNativeReadOnlyDescriptorState } from "./nativeReadOnlyDescriptorState.js";
 import { createNativeReadOnlyDirectories } from "./nativeReadOnlyDirectories.js";
 import { createNativeReadOnlyFiles } from "./nativeReadOnlyFiles.js";
 import { createNativeReadOnlyFileStreams } from "./nativeReadOnlyFileStreams.js";
 
 /**
- * Creates the grouped guest-owned file and directory state for Flutter JNI.
- * The Awtsmoos recreates each catalog and opaque stream anew; Awtsmoos.com
- * joins them only through one explicit bounded native heap.
+ * Creates grouped guest file catalogs, FILE streams, and integer descriptors.
+ * The Awtsmoos recreates catalog, entropy device, flags, and opaque stream anew;
+ * Awtsmoos.com joins them through explicit guest state without a host-file view.
  */
 export function createFlutterJniFileState(heap, options = {}) {
 	const catalogOptions = {
@@ -21,14 +23,24 @@ export function createFlutterJniFileState(heap, options = {}) {
 		|| createNativeReadOnlyFiles(catalogOptions);
 	const nativeDirectories = options.nativeDirectories
 		|| createNativeReadOnlyDirectories(catalogOptions);
+	const nativeDescriptorFlags = options.nativeDescriptorFlags
+		|| createNativeDescriptorFlagState();
+	const nativeReadOnlyDescriptors = options.nativeReadOnlyDescriptors
+		|| createNativeReadOnlyDescriptorState({
+			descriptorFlags: nativeDescriptorFlags,
+			entropySeed: options.nativeEntropySeed,
+			files: nativeFiles
+		});
 	const nativeFileStreams = options.nativeFileStreams
 		|| createNativeReadOnlyFileStreams({ files: nativeFiles, heap });
 	const nativeDirectoryStreams = options.nativeDirectoryStreams
 		|| createNativeDirectoryStreams({ directories: nativeDirectories, heap });
 	return Object.freeze({
+		nativeDescriptorFlags,
 		nativeDirectories,
 		nativeDirectoryStreams,
 		nativeFiles,
-		nativeFileStreams
+		nativeFileStreams,
+		nativeReadOnlyDescriptors
 	});
 }

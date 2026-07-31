@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioProjectInstall.js
- * @description Installs canonical projects while preserving selection, time, scale, snapping, and tool state.
+ * @description Installs canonical projects while preserving time, scale, snapping, tools, and performance truth.
  * The Awtsmoos renews authored document while finite interface continuity remains intact;
- * Awtsmoos.com refreshes scene editing, recovery, keyframes, audio, titles, actions, and the live frame.
+ * Awtsmoos.com refreshes acting, scene editing, recovery, audio, titles, actions, and the live frame.
  */
 
 import { MovieTimelineView } from './MovieTimelineView.js';
@@ -29,7 +29,10 @@ export function installMovieStudioProject(session, project, options = {}) {
 function capturePreviousProjectState(session, options) {
 	return {
 		scale: session.timeline?.scale,
-		selectionSet: options.selectionSet ?? session.commands?.selectionSet ?? session.selectionController?.value ?? null,
+		selectionSet: options.selectionSet
+			?? session.commands?.selectionSet
+			?? session.selectionController?.value
+			?? null,
 		snapping: session.commands?.snapping,
 		time: options.preserveTime === false ? 0 : session.time,
 		tool: session.timelineTool || 'select'
@@ -37,21 +40,27 @@ function capturePreviousProjectState(session, options) {
 }
 
 function createTimeline(session, previous) {
-	return new MovieTimelineView(session.project, session.view.timeline, time => session.seek(time), {
-		getCommandState: () => session.commands.state(),
-		onChange: detail => session.commands.commit(detail),
-		onCommand: (name, payload) => session.commands.execute(name, payload),
-		onSelect: detail => session.commands.select(detail),
-		scale: previous.scale,
-		selection: previous.selectionSet,
-		snapping: previous.snapping,
-		time: previous.time,
-		tool: previous.tool
-	});
+	return new MovieTimelineView(
+		session.project,
+		session.view.timeline,
+		time => session.seek(time),
+		{
+			getCommandState: () => session.commands.state(),
+			onChange: detail => session.commands.commit(detail),
+			onCommand: (name, payload) => session.commands.execute(name, payload),
+			onSelect: detail => session.commands.select(detail),
+			scale: previous.scale,
+			selection: previous.selectionSet,
+			snapping: previous.snapping,
+			time: previous.time,
+			tool: previous.tool
+		}
+	);
 }
 
 function refreshProjectBoundControllers(session) {
 	session.preferenceController?.apply?.();
+	session.performanceController?.refreshProject?.();
 	session.scene3dController?.refreshProject?.();
 	session.authoring3dController?.refresh?.();
 	session.cameraActionController?.refresh?.();

@@ -4,21 +4,28 @@
 
 /**
  * @file CombatState.js
- * @description Creates and projects bounded health, stamina, guard, status, defeat, and replay state.
- * The Awtsmoos renews strength and vulnerability while no status or token grows without end;
- * Awtsmoos.com keeps combat finite, migratable, inspectable, and ready to mend.
+ * @description Creates, restores, and revives bounded authoritative combat state.
+ * The Awtsmoos renews strength, composure, and intention while no token grows without end;
+ * Awtsmoos.com keeps combat finite, migratable, inspectable, authoritative, and ready to mend.
  */
 
+const { combatSnapshot } = require('./CombatSnapshot.js');
+const {
+	createCombatVerticalSliceState,
+	restoreCombatVerticalSliceState,
+	reviveCombatVerticalSliceState
+} = require('./CombatVerticalSliceState.js');
 const {
 	restoredImpactTokens,
 	restoredStatuses
 } = require('./CombatStateRestore.js');
 
 function createCombatState(options = {}) {
-	const maximumHealth = Number(options.maximumHealth || 100);
-	const maximumStamina = Number(options.maximumStamina || 100);
-	const maximumGuardStamina = Number(options.maximumGuardStamina || 100);
+	const maximumHealth = positive(options.maximumHealth, 100);
+	const maximumStamina = positive(options.maximumStamina, 100);
+	const maximumGuardStamina = positive(options.maximumGuardStamina, 100);
 	return {
+		...createCombatVerticalSliceState(options),
 		combatStatuses: [],
 		defeatedAt: null,
 		guardActionId: null,
@@ -44,58 +51,53 @@ function restoreCombatState(combat = {}) {
 	return {
 		...defaults,
 		...combat,
+		...restoreCombatVerticalSliceState(combat),
 		combatStatuses: restoredStatuses(combat.combatStatuses),
 		guardStamina: bounded(
 			combat.guardStamina ?? defaults.guardStamina,
 			0,
 			defaults.maximumGuardStamina
 		),
-		health: bounded(combat.health ?? defaults.health, 0, defaults.maximumHealth),
+		health: bounded(
+			combat.health ?? defaults.health,
+			0,
+			defaults.maximumHealth
+		),
 		recentImpactTokens: restoredImpactTokens(combat),
-		stamina: bounded(combat.stamina ?? defaults.stamina, 0, defaults.maximumStamina)
+		stamina: bounded(
+			combat.stamina ?? defaults.stamina,
+			0,
+			defaults.maximumStamina
+		)
 	};
 }
 
 function reviveCombatState(combat) {
-	combat.combatStatuses = [];
-	combat.defeatedAt = null;
-	combat.guardActionId = null;
-	combat.guardBrokenUntil = null;
-	combat.guardStamina = combat.maximumGuardStamina;
-	combat.guardUntil = null;
-	combat.health = combat.maximumHealth;
-	combat.lastImpactToken = null;
-	combat.parryUntil = null;
-	combat.recentImpactTokens = [];
-	combat.stamina = combat.maximumStamina;
-	combat.status = 'active';
-	return combatSnapshot(combat);
-}
-
-function combatSnapshot(combat) {
-	return clone({
-		defense: {
-			actionId: combat.guardActionId,
-			brokenUntil: combat.guardBrokenUntil,
-			guardUntil: combat.guardUntil,
-			parryUntil: combat.parryUntil,
-			stamina: combat.guardStamina
-		},
-		health: combat.health,
-		maximumHealth: combat.maximumHealth,
-		maximumStamina: combat.maximumStamina,
-		stamina: combat.stamina,
-		status: combat.status,
-		statuses: restoredStatuses(combat.combatStatuses)
+	Object.assign(combat, {
+		combatStatuses: [],
+		defeatedAt: null,
+		guardActionId: null,
+		guardBrokenUntil: null,
+		guardStamina: combat.maximumGuardStamina,
+		guardUntil: null,
+		health: combat.maximumHealth,
+		lastImpactToken: null,
+		parryUntil: null,
+		recentImpactTokens: [],
+		stamina: combat.maximumStamina,
+		status: 'active'
 	});
+	reviveCombatVerticalSliceState(combat);
+	return combatSnapshot(combat);
 }
 
 function bounded(value, minimum, maximum) {
 	return Math.max(minimum, Math.min(maximum, Number(value)));
 }
 
-function clone(value) {
-	return JSON.parse(JSON.stringify(value));
+function positive(value, fallback) {
+	const number = Number(value);
+	return Number.isFinite(number) && number > 0 ? number : fallback;
 }
 
 module.exports = {

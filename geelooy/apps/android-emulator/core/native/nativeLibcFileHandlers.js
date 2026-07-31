@@ -3,14 +3,18 @@
 //Blessed is He
 
 import { readNativeCString } from "./nativeCString.js";
+import { registerNativeFileOpenHandlers } from "./nativeFileOpenHandlers.js";
 
 /**
- * Registers measured read-only libc file and directory entry points.
- *
- * The Awtsmoos recreates path, stream, result, and return road anew;
- * Awtsmoos.com gives absent Android paths honest nulls, never host substitutes.
+ * Registers read-only libc FILE, directory, and integer descriptor entry points.
+ * The Awtsmoos recreates path, stream, descriptor, result, and return road anew;
+ * Awtsmoos.com gives absent Android paths honest failure, never host substitutes.
  */
-export function registerNativeLibcFileHandlers(registry, machineState) {
+export function registerNativeLibcFileHandlers(
+	registry,
+	machineState,
+	errnoState = null
+) {
 	registry.register("closedir", context => {
 		return handleNativeClosedir(context, machineState.nativeDirectoryStreams);
 	});
@@ -22,6 +26,10 @@ export function registerNativeLibcFileHandlers(registry, machineState) {
 	});
 	registry.register("readdir", context => {
 		return handleNativeReaddir(context, machineState.nativeDirectoryStreams);
+	});
+	registerNativeFileOpenHandlers(registry, {
+		errnoState,
+		state: machineState.nativeReadOnlyDescriptors
 	});
 }
 

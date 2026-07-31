@@ -10,6 +10,7 @@
  */
 
 import { MOVIE_PERFORMANCE_LIMITS } from './MoviePerformanceConstants.js';
+import { normalizeMoviePerformanceTakeMetadata } from './MoviePerformanceTakeMetadata.js';
 import {
 	moviePerformanceArray,
 	moviePerformanceBounded,
@@ -43,7 +44,7 @@ export function normalizeMoviePerformanceTake(source = {}, index = 0) {
 		duration,
 		id: moviePerformanceText(source.id, `performance-take-${index + 1}`),
 		interactionEvents: events(source.interactionEvents),
-		metadata: metadata(source.metadata),
+		metadata: normalizeMoviePerformanceTakeMetadata(source.metadata),
 		modelId: moviePerformanceText(source.modelId, source.characterId || 'player'),
 		movementMode: moviePerformanceText(source.movementMode, 'gameplay-collision'),
 		name: moviePerformanceText(source.name, `Take ${index + 1}`),
@@ -104,14 +105,4 @@ function cameras(source) {
 			time: moviePerformanceNonnegative(sample?.time)
 		}))
 		.sort(moviePerformanceTimeSort);
-}
-
-function metadata(source = {}) {
-	return {
-		favorite: Boolean(source.favorite),
-		notes: moviePerformanceText(source.notes),
-		rating: moviePerformanceBounded(source.rating, 0, 0, 5),
-		rawSampleCount: moviePerformanceNonnegative(source.rawSampleCount),
-		warning: moviePerformanceNullableText(source.warning)
-	};
 }

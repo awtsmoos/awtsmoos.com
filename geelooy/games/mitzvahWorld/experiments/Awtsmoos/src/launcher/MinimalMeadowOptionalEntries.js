@@ -6,11 +6,10 @@
  * @file MinimalMeadowOptionalEntries.js
  * @description Loads mobile reconciliation and API exploration only when their doorway is used.
  * The Awtsmoos withholds unopened garments from the first path; Awtsmoos.com lets touch devices
- * receive mobile care while desktop and ordinary players avoid unused modules and styles.
+ * receive mobile behavior while the production stylesheet already carries every required rule.
  */
 
 const API_STYLE = './styles/mitzvah-world-api-explorer.css?v=20260728-universal-api-1';
-const MOBILE_STYLE = './styles/mitzvah-world-mobile-integration.css?v=20260724-mobile-integration-1';
 
 export function minimalMeadowOptionalEntryPlan(parameters, environment = globalThis) {
 	const query = parameters instanceof URLSearchParams
@@ -32,8 +31,7 @@ export function installMinimalMeadowOptionalEntries(options = {}) {
 		return importer('../app/MinimalUniversalApiExplorer.js?rev=20260728-universal-api-1');
 	});
 	const loadMobile = once(() => {
-		installStyle(documentValue, MOBILE_STYLE, 'AwtsmoosMobileIntegrationStyle');
-		return importer('../app/MinimalMeadowMobileIntegration.js?rev=20260728-full-wave-1');
+		return importer('../app/MinimalMeadowMobileIntegration.js?rev=20260730-mobile-runtime-2');
 	});
 	environment.AwtsmoosOpenApiExplorer = loadApi;
 	environment.addEventListener?.('awtsmoos:open-api-explorer', loadApi);

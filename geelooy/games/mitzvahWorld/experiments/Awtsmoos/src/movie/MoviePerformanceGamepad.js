@@ -4,16 +4,19 @@
 
 /**
  * @file MoviePerformanceGamepad.js
- * @description Polls one assigned controller into movement, run, jump, action, and look intent.
+ * @description Polls one controller without clearing keyboard, touch, or API movement intent.
  * The Awtsmoos creates analog measure between stillness and stride; Awtsmoos.com keeps
- * dead zones, assignment, edge-triggered buttons, and disconnected release in deterministic rhyme.
+ * dead zones, assignment, edge-triggered buttons, and source-owned release in deterministic rhyme.
  */
+
+const GAMEPAD_SOURCE = 'gamepad';
 
 export class MoviePerformanceGamepad {
 	constructor(options) {
 		Object.assign(this, options);
 		this.index = options.index ?? 0;
 		this.buttons = [];
+		this.connected = false;
 	}
 
 	update() {
@@ -24,11 +27,14 @@ export class MoviePerformanceGamepad {
 		if (!gamepad?.connected) {
 			return this.release('disconnected');
 		}
+		this.connected = true;
 		const forward = -axis(gamepad.axes[1]);
 		const strafe = axis(gamepad.axes[0]);
 		const run = pressed(gamepad, 10) || pressed(gamepad, 1);
-		this.input.setIntent({ forward, run, strafe });
-		this.edge(gamepad, 0, () => this.input.setIntent({ jump: true }));
+		this.input.setIntent({ forward, run, strafe }, GAMEPAD_SOURCE);
+		this.edge(gamepad, 0, () => (
+			this.input.setIntent({ jump: true }, GAMEPAD_SOURCE)
+		));
 		this.edge(gamepad, 2, () => this.onAction?.('interact', {}));
 		this.edge(gamepad, 9, () => this.onRecordToggle?.());
 		this.onLook?.({
@@ -47,7 +53,10 @@ export class MoviePerformanceGamepad {
 
 	release(reason = 'manual') {
 		this.buttons = [];
-		this.input.reset(`gamepad-${reason}`);
+		if (this.connected) {
+			this.input.clearSource(GAMEPAD_SOURCE, `gamepad-${reason}`);
+		}
+		this.connected = false;
 		this.onLook?.({ x: 0, y: 0 });
 		return { connected: false, reason };
 	}

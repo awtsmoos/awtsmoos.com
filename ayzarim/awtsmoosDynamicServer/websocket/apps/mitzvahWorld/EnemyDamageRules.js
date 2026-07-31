@@ -4,28 +4,43 @@
 
 /**
  * @file EnemyDamageRules.js
- * @description Resolves typed elemental damage, legacy damage, guard, and bounded reactions.
+ * @description Resolves canonical damage, guard, affinity, statuses, Kavanah control, posture, and payoff.
  * The Awtsmoos renews every strike through context that the server alone may see;
- * Awtsmoos.com keeps resistance, guard, status, and diagnostics authoritative and free.
+ * Awtsmoos.com keeps resistance, setup, duration, guard, composure, and diagnostics authoritative.
  */
 
 const {
 	enemyAffinityProfile,
 	playerCombatDefinition
 } = require('./CombatDefinitionCatalog.js');
-const { resolveCombatEffectiveness } = require('./CombatEffectivenessResolver.js');
+const {
+	resolveCombatEffectiveness
+} = require('./CombatEffectivenessResolver.js');
 const {
 	applyCombatReactions,
 	combatStatusIds,
 	combatStatusSnapshot
 } = require('./CombatStatusRules.js');
-const { enemyRole } = require('./EnemyRoleCatalog.js');
+const {
+	kavanahStatusDuration
+} = require('./CombatAttackKavanah.js');
+const {
+	resolveEnemyVerticalSliceDamage
+} = require('./EnemyDamageVerticalSlice.js');
+const {
+	breakLegacyGuard,
+	legacyGuardActive,
+	resolveLegacyEnemyDamage
+} = require('./EnemyLegacyDamageRules.js');
 
 function resolveEnemyDamage(creature, rawDamage, context = {}) {
-	const action = context.action || playerCombatDefinition(context.actionId);
-	if (!action) return resolveLegacyDamage(creature, rawDamage, context);
+	const action = context.action
+		|| playerCombatDefinition(context.actionId);
+	if (!action) {
+		return resolveLegacyEnemyDamage(creature, rawDamage, context);
+	}
 	const now = Number(context.now ?? Date.now());
-	const guarded = guardActive(creature, now);
+	const guarded = legacyGuardActive(creature, now);
 	const profile = enemyAffinityProfile(creature.speciesId);
 	const effectiveness = resolveCombatEffectiveness({
 		action,
@@ -35,44 +50,42 @@ function resolveEnemyDamage(creature, rawDamage, context = {}) {
 		targetResistances: profile?.resistances,
 		targetTags: targetTags(creature, guarded)
 	});
-	const guardBroken = guarded && action.tags?.includes('guard-break');
-	if (guardBroken) breakGuard(creature, now);
+	const guardBroken = guarded
+		&& action.tags?.includes('guard-break');
+	if (guardBroken) breakLegacyGuard(creature, now);
 	const reactions = applyCombatReactions(creature, effectiveness, {
+		durationMs: kavanahStatusDuration(
+			effectiveness.applyStatusIds,
+			context.kavanah
+		),
 		now,
 		sourceActionId: action.canonicalActionId || action.id,
 		sourceActorId: context.sourceActorId
 	});
+	const vertical = resolveEnemyVerticalSliceDamage(
+		creature,
+		action,
+		rawDamage,
+		context
+	);
 	return Object.freeze({
 		affinityId: action.affinityId,
-		damage: effectiveness.damage,
-		damageType: action.kind === 'cast' ? 'spiritual' : 'physical',
+		damage: Math.max(
+			0,
+			Math.round(effectiveness.damage * vertical.damageMultiplier)
+		),
+		damageType: action.kind === 'cast'
+			? 'spiritual'
+			: 'physical',
 		effectiveness,
 		elementId: action.elementId,
 		guardBroken,
 		guarded,
+		posture: vertical.posture,
+		reaction: vertical.reaction,
 		reactions,
 		resistance: effectiveness.resistance,
 		statuses: combatStatusSnapshot(creature, now)
-	});
-}
-
-function resolveLegacyDamage(creature, rawDamage, context) {
-	const role = enemyRole(creature.speciesId);
-	const damageType = context.kind === 'cast' ? 'spiritual' : 'physical';
-	const resistance = Number(role.resistances[damageType] || 0);
-	const guardBreak = context.actionId === 'staff-shove';
-	const guarded = !guardBreak && guardActive(creature, context.now);
-	let multiplier = 1 - resistance;
-	if (guarded) multiplier *= 1 - Number(creature.guardStrength || 0);
-	if (guardBreak) multiplier *= 1 + Number(role.weaknesses.guardBreak || 0);
-	const damage = Math.max(0, Math.round(Number(rawDamage || 0) * multiplier));
-	if (guardBreak) breakGuard(creature, context.now);
-	return Object.freeze({
-		damage,
-		damageType,
-		guardBroken: guardBreak,
-		guarded,
-		resistance
 	});
 }
 
@@ -84,18 +97,10 @@ function targetTags(creature, guarded) {
 	if (['telegraph', 'active'].includes(creature.actionState?.phase)) {
 		tags.push('channeling');
 	}
+	if (creature.posture?.value === 0) tags.push('posture-broken');
 	return tags;
 }
 
-function guardActive(creature, now) {
-	return Number.isFinite(creature.guardUntil)
-		&& Number(now) <= creature.guardUntil;
-}
-
-function breakGuard(creature, now) {
-	creature.guardStrength = 0;
-	creature.guardUntil = null;
-	creature.staggeredUntil = Number(now) + 900;
-}
-
-module.exports = { resolveEnemyDamage };
+module.exports = {
+	resolveEnemyDamage
+};

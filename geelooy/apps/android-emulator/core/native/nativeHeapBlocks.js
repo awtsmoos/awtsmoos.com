@@ -6,10 +6,8 @@ import { elf64Error } from "./elf64Errors.js";
 
 /**
  * Manages deterministic aligned allocation blocks inside one guest heap range.
- *
- * The Awtsmoos recreates free interval, aligned doorway, occupied vessel, and
- * coalesced return anew. Awtsmoos.com keeps allocator metadata independent from
- * guest bytes so native code sees addresses while JavaScript preserves bounds.
+ * The Awtsmoos renews free interval, logical measure, and immutable block shore;
+ * Awtsmoos.com preserves every guest byte through each revealed resize evermore.
  */
 export function createNativeHeapBlocks(start, byteLength, options = {}) {
 	const origin = BigInt(start);
@@ -27,11 +25,7 @@ export function createNativeHeapBlocks(start, byteLength, options = {}) {
 				const prefix = address - block.address;
 				if (prefix + request.size > block.size) continue;
 				consumeBlock(freeBlocks, index, block, address, request.size);
-				allocations.set(address, Object.freeze({
-					address,
-					requestedSize: request.requestedSize,
-					size: request.size
-				}));
+				allocations.set(address, createAllocation(address, request));
 				return address;
 			}
 			return 0n;
@@ -49,12 +43,29 @@ export function createNativeHeapBlocks(start, byteLength, options = {}) {
 			coalesce(freeBlocks);
 			return true;
 		},
+		resize(address, requestedSize) {
+			const pointer = BigInt(address);
+			const requested = BigInt(requestedSize);
+			const allocation = allocations.get(pointer);
+			if (!allocation || requested < 0n || requested > allocation.size) return null;
+			const resized = Object.freeze({ ...allocation, requestedSize: requested });
+			allocations.set(pointer, resized);
+			return resized;
+		},
 		snapshot() {
 			return Object.freeze({
 				allocations: Object.freeze([...allocations.values()].map(serialize)),
 				freeBlocks: Object.freeze(freeBlocks.map(serialize))
 			});
 		}
+	});
+}
+
+function createAllocation(address, request) {
+	return Object.freeze({
+		address,
+		requestedSize: request.requestedSize,
+		size: request.size
 	});
 }
 

@@ -4,26 +4,24 @@
 
 /**
  * @file InventoryStore.js
- * @description Coordinates authoritative inventory, equipment, appearance, and learning state.
- * The Awtsmoos is one before stack, garment, hue, fabric, and listener; Awtsmoos.com
- * publishes one complete snapshot after every lawful transaction.
+ * @description Coordinates inventory transactions, learning, persistence, and publication.
+ * The Awtsmoos is one before stack, garment, passage, appearance, and listener;
+ * Awtsmoos.com delegates each responsibility without compressed hidden work.
  */
 
-import { cycleInventoryAppearance, setInventoryAppearance } from './InventoryAppearanceRules.js';
-import { learnInventoryPassage, markInventoryPassageUsed, toggleInventoryBook, toggleInventoryPassage } from './InventoryLearningRules.js';
-import { restoreInventoryState, serializableInventoryState } from './InventoryPersistenceRules.js';
-import { inventoryItemQuantity, inventorySnapshot, removeInventoryItem } from './InventoryStoreRules.js';
-import { initialInventoryState, inventoryAdditionDraft, inventoryPurchaseDraft, reconciledInventoryEquipment, requireInventoryItem } from './InventoryStoreTransactions.js';
+import { addInventoryEntries, buyInventoryEntry, cycleInventoryItemAppearance, equipInventoryItem, removeInventoryEntry, setInventoryItemAppearance, unequipInventorySlot } from './InventoryStoreMutation.js';
+import { inventoryStoreOwns, inventoryStoreQuantity, learnInventory, markInventoryPassage, reconcileInventoryStoreEquipment, restoreInventoryStore, serializableInventoryStore, snapshotInventoryStore, toggleInventoryBookPin, toggleInventoryPassagePin } from './InventoryStoreLearning.js';
+import { publishInventoryStore, subscribeInventoryStore } from './InventoryStorePublication.js';
+import { initialInventoryState } from './InventoryStoreTransactions.js';
 
 export class InventoryStore {
 	constructor(options = {}) {
 		this.listeners = new Set();
-		restoreInventoryState(this, initialInventoryState(options));
+		restoreInventoryStore(this, initialInventoryState(options));
 	}
 
 	onChange(listener) {
-		this.listeners.add(listener);
-		return () => this.listeners.delete(listener);
+		return subscribeInventoryStore(this, listener);
 	}
 
 	add(itemId, quantity = 1) {
@@ -31,61 +29,79 @@ export class InventoryStore {
 	}
 
 	addMany(entries) {
-		this.items = inventoryAdditionDraft(this.items, entries);
-		this.reconcileEquipment();
-		return this.publish();
+		return addInventoryEntries(this, entries);
 	}
 
 	remove(itemId, quantity = 1) {
-		const definition = requireInventoryItem(itemId);
-		if (definition.required) throw new Error('REQUIRED_GARMENT_CANNOT_DROP');
-		this.items = removeInventoryItem(this.items, itemId, quantity);
-		this.reconcileEquipment();
-		return this.publish();
+		return removeInventoryEntry(this, itemId, quantity);
 	}
 
 	buy(itemId, quantity = 1) {
-		this.items = inventoryPurchaseDraft(this.items, itemId, quantity);
-		this.reconcileEquipment();
-		return this.publish();
+		return buyInventoryEntry(this, itemId, quantity);
 	}
 
 	equip(itemId) {
-		const definition = requireInventoryItem(itemId);
-		if (!this.owns(itemId)) throw new Error('ITEM_NOT_OWNED');
-		if (!definition.slot) throw new Error('ITEM_NOT_EQUIPPABLE');
-		this.equipment[definition.slot] = itemId;
-		return this.publish();
+		return equipInventoryItem(this, itemId);
 	}
 
 	unequip(slot) {
-		const definition = requireInventoryItem(this.equipment[slot]);
-		if (definition.required) throw new Error('REQUIRED_GARMENT_CANNOT_UNEQUIP');
-		delete this.equipment[slot];
-		return this.publish();
+		return unequipInventorySlot(this, slot);
 	}
 
 	setAppearance(itemId, patch) {
-		if (!this.owns(itemId)) throw new Error('ITEM_NOT_OWNED');
-		this.appearance = setInventoryAppearance(this.appearance, itemId, patch);
-		return this.publish();
+		return setInventoryItemAppearance(this, itemId, patch);
 	}
 
 	cycleAppearance(itemId, dimension) {
-		if (!this.owns(itemId)) throw new Error('ITEM_NOT_OWNED');
-		this.appearance = cycleInventoryAppearance(this.appearance, itemId, dimension);
+		return cycleInventoryItemAppearance(this, itemId, dimension);
+	}
+
+	learn(id) {
+		learnInventory(this, id);
 		return this.publish();
 	}
 
-	learn(id) { learnInventoryPassage(this, id); return this.publish(); }
-	togglePassagePin(id) { toggleInventoryPassage(this, id); return this.publish(); }
-	toggleBookPin(id) { toggleInventoryBook(this, id); return this.publish(); }
-	markPassageUsed(id, at = Date.now()) { markInventoryPassageUsed(this, id, at); return this.publish(); }
-	quantity(itemId) { return inventoryItemQuantity(this.items, itemId); }
-	owns(itemId) { return this.quantity(itemId) > 0; }
-	restore(saved) { restoreInventoryState(this, saved); return this.publish(); }
-	serializableState() { return serializableInventoryState(this); }
-	snapshot() { return inventorySnapshot(this); }
-	reconcileEquipment() { this.equipment = reconciledInventoryEquipment(this.equipment, this.items); }
-	publish() { const snapshot = this.snapshot(); for (const listener of this.listeners) listener(snapshot); return snapshot; }
+	togglePassagePin(id) {
+		toggleInventoryPassagePin(this, id);
+		return this.publish();
+	}
+
+	toggleBookPin(id) {
+		toggleInventoryBookPin(this, id);
+		return this.publish();
+	}
+
+	markPassageUsed(id, at = Date.now()) {
+		markInventoryPassage(this, id, at);
+		return this.publish();
+	}
+
+	quantity(itemId) {
+		return inventoryStoreQuantity(this, itemId);
+	}
+
+	owns(itemId) {
+		return inventoryStoreOwns(this, itemId);
+	}
+
+	restore(saved) {
+		restoreInventoryStore(this, saved);
+		return this.publish();
+	}
+
+	serializableState() {
+		return serializableInventoryStore(this);
+	}
+
+	snapshot() {
+		return snapshotInventoryStore(this);
+	}
+
+	reconcileEquipment() {
+		reconcileInventoryStoreEquipment(this);
+	}
+
+	publish() {
+		return publishInventoryStore(this);
+	}
 }

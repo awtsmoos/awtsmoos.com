@@ -3,9 +3,9 @@
 //Blessed is He
 
 /**
- * Executes measured AArch64 three-source multiply families with exact BigInt.
- * The Awtsmoos recreates product, accumulator, modulo shore, and XZR meaning;
- * Awtsmoos.com preserves SP and NZCV beside every transformation.
+ * Executes exact AArch64 multiply-add, widening, and upper-half products.
+ * The Awtsmoos recreates product, accumulator, high shore, and XZR meaning;
+ * Awtsmoos.com preserves SP and NZCV beside every measured multiplying.
  */
 export function executeAarch64Multiply(instruction, registers) {
 	if (instruction.family === "multiply-add") {
@@ -15,27 +15,38 @@ export function executeAarch64Multiply(instruction, registers) {
 		|| instruction.family === "unsigned-multiply-add-long") {
 		return executeMultiplyLong(instruction, registers);
 	}
+	if (instruction.family === "signed-multiply-high"
+		|| instruction.family === "unsigned-multiply-high") {
+		return executeMultiplyHigh(instruction, registers);
+	}
 	return false;
 }
 
 function executeMultiplyAdd(instruction, registers) {
 	const left = registers.read(instruction.source, instruction.width, "zero");
 	const right = registers.read(instruction.secondSource, instruction.width, "zero");
-	return writeResult(instruction, registers, left * right);
+	return writeAccumulatedResult(instruction, registers, left * right);
 }
 
 function executeMultiplyLong(instruction, registers) {
 	const signedSources = instruction.family === "signed-multiply-add-long";
 	const left = wideningSource(registers, instruction.source, signedSources);
-	const right = wideningSource(
-		registers,
-		instruction.secondSource,
-		signedSources
-	);
-	return writeResult(instruction, registers, left * right);
+	const right = wideningSource(registers, instruction.secondSource, signedSources);
+	return writeAccumulatedResult(instruction, registers, left * right);
 }
 
-function writeResult(instruction, registers, product) {
+function executeMultiplyHigh(instruction, registers) {
+	const signedSources = instruction.family === "signed-multiply-high";
+	const rawLeft = registers.read(instruction.source, 64, "zero");
+	const rawRight = registers.read(instruction.secondSource, 64, "zero");
+	const left = signedSources ? BigInt.asIntN(64, rawLeft) : rawLeft;
+	const right = signedSources ? BigInt.asIntN(64, rawRight) : rawRight;
+	const high = BigInt.asUintN(64, (left * right) >> 64n);
+	registers.write(instruction.destination, high, 64, "zero");
+	return true;
+}
+
+function writeAccumulatedResult(instruction, registers, product) {
 	const accumulator = registers.read(
 		instruction.accumulator,
 		instruction.width,

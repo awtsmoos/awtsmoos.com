@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowEnemyProfileFactory.js
- * @description Compiles immutable enemy identities with safe spawns and archetype silhouettes.
- * The Awtsmoos grants each finite shadow one measured address and garment; Awtsmoos.com keeps
- * spawn, patrol, combat type, body proportions, loot, biome, and reward inside the enlarged field.
+ * @description Compiles immutable enemy identity, combat role, posture, threat, and presentation.
+ * The Awtsmoos grants each finite shadow one measured address and readable garment;
+ * Awtsmoos.com keeps spawn, patrol, weakness, phases, loot, network fields, and budget together.
  */
 
 import {
@@ -18,37 +18,74 @@ import {
 
 export function createMinimalMeadowEnemyProfile(specification) {
 	if (!minimalMeadowPointIsSafe(specification.x, specification.z)) {
-		throw new RangeError(`Enemy spawn outside safe meadow: ${specification.id}`);
+		throw new RangeError(
+			`Enemy spawn outside safe meadow: ${specification.id}`
+		);
 	}
-	const archetypePolicy = minimalEnemyArchetypePolicy(specification);
-	const bodyScale = specification.bodyScale || archetypePolicy.bodyScale;
+	const policy = minimalEnemyArchetypePolicy(specification);
+	const bodyScale = specification.bodyScale || policy.bodyScale;
 	const maxHealth = positive(specification.maxHealth, 96);
 	return Object.freeze({
-		archetype: specification.archetype || specification.temperament || 'balanced',
+		actionDeck: frozenList(specification.actionDeck),
+		antiStunlockMilliseconds: nonnegative(
+			specification.antiStunlockMilliseconds,
+			1800
+		),
+		archetype: specification.archetype
+			|| specification.temperament
+			|| 'balanced',
 		armor: nonnegative(specification.armor, 4),
 		attackLetters: specification.attackLetters || 'דין',
 		biome: specification.biome || 'inner-meadow',
-		bodyScale: Object.freeze([...bodyScale]),
+		bodyScale: frozenList(bodyScale),
+		boss: Boolean(specification.boss),
+		counterOpportunity: specification.counterOpportunity || 'after-commitment',
 		groundOffset: positive(specification.groundOffset, 0.56),
+		guardStrength: nonnegative(specification.guardStrength, 0),
 		height: positive(specification.height, 2.4 * bodyScale[1]),
 		id: specification.id,
 		leashRange: positive(specification.leashRange, 34),
 		level: positive(specification.level, 2),
-		loot: Object.freeze((specification.loot || defaultLoot(maxHealth)).map(item => {
-			return Object.freeze({ ...item });
-		})),
+		loot: frozenList(specification.loot || defaultLoot(maxHealth)),
+		lootIdentity: specification.lootIdentity || 'shadow-remnant',
 		maxHealth,
+		movementProfile: frozenObject(specification.movementProfile),
 		name: specification.name,
-		patrolRadius: positive(specification.patrolRadius, 4.5 + specification.speed),
-		projectileTint: Object.freeze([
-			...(specification.projectileTint || specification.tint)
-		]),
+		networkFields: frozenObject(specification.networkFields),
+		patrolRadius: positive(
+			specification.patrolRadius,
+			4.5 + specification.speed
+		),
+		performanceBudget: frozenObject(
+			specification.performanceBudget,
+			{ effects: 18, updatesPerSecond: 30 }
+		),
+		phaseSet: frozenList(specification.phaseSet),
+		postureMaximum: positive(
+			specification.postureMaximum,
+			Math.round(maxHealth * 0.62)
+		),
+		projectileTint: frozenList(
+			specification.projectileTint || specification.tint
+		),
+		role: specification.role || 'Wanderer',
 		speed: positive(specification.speed, 1.2),
+		telegraphVocabulary: frozenObject(
+			specification.telegraphVocabulary
+		),
 		temperament: specification.temperament || 'balanced',
-		tint: Object.freeze([...specification.tint]),
-		visualScale: positive(specification.visualScale, 0.7 + maxHealth / 900),
+		threatProfile: frozenObject(specification.threatProfile),
+		tint: frozenList(specification.tint),
+		visualScale: positive(
+			specification.visualScale,
+			0.7 + maxHealth / 900
+		),
+		weakness: specification.weakness || 'observed-counter',
 		x: Number(specification.x),
-		xpReward: positive(specification.xpReward, 42 + Math.round(maxHealth / 3)),
+		xpReward: positive(
+			specification.xpReward,
+			42 + Math.round(maxHealth / 3)
+		),
 		z: Number(specification.z)
 	});
 }
@@ -58,6 +95,16 @@ function defaultLoot(maxHealth) {
 		{ itemId: 'perutas', quantity: 8 + Math.round(maxHealth / 20) },
 		{ itemId: 'prepared-hide', quantity: 1 }
 	];
+}
+
+function frozenList(value = []) {
+	return Object.freeze(value.map(item => {
+		return typeof item === 'object' ? Object.freeze({ ...item }) : item;
+	}));
+}
+
+function frozenObject(value, fallback = {}) {
+	return Object.freeze({ ...(value || fallback) });
 }
 
 function positive(value, fallback) {

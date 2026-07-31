@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowLoop.js
- * @description Advances simulation every guarded cycle while rendering and HUD work stay paint-bound.
- * The Awtsmoos renews motion and display without redundant labor; Awtsmoos.com keeps world truth
- * continuous while expensive DOM refreshes occur only at measured visual cadence.
+ * @description Advances movement, core mechanics, animation, and world truth before paint-bound work.
+ * The Awtsmoos renews motion and display without redundant labor; Awtsmoos.com keeps
+ * dodge, lock, consumables, pickup, saves, world systems, and rendering in one explicit cadence.
  */
 
 import { BootstrapMovementController } from './BootstrapMovementController.js';
@@ -20,6 +20,7 @@ export function startMinimalMeadowLoop(runtime, environment = globalThis) {
 	const scheduler = createMinimalMeadowFrameScheduler(environment, (timeValue, source) => {
 		const deltaSeconds = scheduler.consumeDelta(timeValue);
 		movement.update(deltaSeconds);
+		runtime.coreMechanics?.update?.(deltaSeconds);
 		updateMinimalMeadowAnimation(runtime, deltaSeconds);
 		runtime.updateWorldSystems?.(deltaSeconds);
 		if (source === 'animation-frame') render(runtime);
@@ -30,7 +31,10 @@ export function startMinimalMeadowLoop(runtime, environment = globalThis) {
 	scheduler.start();
 	return {
 		controller: movement,
-		scheduler: () => ({ ...scheduler.diagnostics(), cadence: cadence.diagnostics() }),
+		scheduler: () => ({
+			...scheduler.diagnostics(),
+			cadence: cadence.diagnostics()
+		}),
 		snapshot: () => movement.snapshot(),
 		stop: () => scheduler.stop()
 	};

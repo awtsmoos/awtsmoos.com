@@ -4,10 +4,12 @@
 
 /**
  * @file MoviePerformanceRecorderCapture.js
- * @description Runs count-in, media start, cadence sampling, and pause for one armed performer.
- * The Awtsmoos creates anticipation and acted time through distinct instants; Awtsmoos.com
- * keeps microphone, camera, transform, countdown, and sample evidence moving in measured rhyme.
+ * @description Runs count-in, roll phases, cadence sampling, loop archiving, pause, and completion request.
+ * The Awtsmoos creates anticipation, action, repetition, and release through distinct instants;
+ * Awtsmoos.com keeps microphone, camera, sample, loop, and clock evidence moving in measured rhyme.
  */
+
+import { emitMoviePerformanceClockEvents } from './MoviePerformanceRecorderEvents.js';
 
 export class MoviePerformanceRecorderCapture {
 	constructor(owner) {
@@ -15,54 +17,57 @@ export class MoviePerformanceRecorderCapture {
 	}
 
 	async countIn(options = {}) {
-		const { owner } = this;
 		const seconds = Number(
-			options.seconds ?? owner.state.options.countIn
+			options.seconds ?? this.owner.state.options.countIn
 		) || 0;
 		const status = seconds
-			? owner.state.countdown(seconds)
-			: owner.state.start();
-		if (seconds) {
-			owner.emit('performance:countdown', status);
-		} else {
+			? this.owner.state.countdown(seconds)
+			: this.owner.state.start();
+		emitMoviePerformanceClockEvents(this.owner);
+		if (!seconds) {
 			await this.startMedia();
-			owner.emit('performance:started', status);
 		}
+		this.owner.emit(
+			seconds ? 'performance:countdown' : 'performance:started',
+			status
+		);
 		return status;
 	}
 
 	async start(options = {}) {
-		const { owner } = this;
-		if (owner.state.phase === 'idle') {
+		if (this.owner.state.phase === 'idle') {
 			throw new Error('PERFORMANCE_NOT_ARMED');
 		}
-		if (owner.state.phase !== 'recording') {
-			owner.state.start();
+		if (!['recording', 'preRoll'].includes(this.owner.state.phase)) {
+			this.owner.state.start();
 		}
 		await this.startMedia(options.audio);
-		const status = owner.state.snapshot();
-		owner.emit('performance:started', status);
+		emitMoviePerformanceClockEvents(this.owner);
+		const status = this.owner.state.snapshot();
+		this.owner.emit('performance:started', status);
 		return status;
 	}
 
 	update(deltaSeconds) {
-		const { owner } = this;
-		const previousPhase = owner.state.phase;
-		const status = owner.state.advance(deltaSeconds);
-		if (previousPhase === 'countdown' && status.phase === 'recording') {
+		const formerPhase = this.owner.state.phase;
+		let status = this.owner.state.advance(deltaSeconds);
+		if (formerPhase === 'countdown'
+			&& ['preRoll', 'recording'].includes(status.phase)) {
 			this.startMedia();
-			owner.emit('performance:started', status);
+			this.owner.emit('performance:started', status);
 		}
-		if (status.phase === 'recording') {
-			owner.buffer.sample(
-				owner.state.target,
-				owner.camera,
-				status.elapsed,
-				owner.state.options
-			);
-			owner.emit('performance:sample', owner.status());
+		if (['recording', 'loopComplete'].includes(status.phase)) {
+			this.sample(status);
 		}
-		return owner.status();
+		if (status.phase === 'loopComplete') {
+			this.owner.completeLoop();
+			status = this.owner.state.snapshot();
+		}
+		emitMoviePerformanceClockEvents(this.owner);
+		if (status.phase === 'readyToStop') {
+			this.owner.requestAutomaticStop = true;
+		}
+		return this.owner.status();
 	}
 
 	pause() {
@@ -71,7 +76,21 @@ export class MoviePerformanceRecorderCapture {
 		return status;
 	}
 
+	sample(status) {
+		this.owner.archive.current.sample(
+			this.owner.state.target,
+			this.owner.camera,
+			status.elapsed,
+			this.owner.state.options
+		);
+		this.owner.emit('performance:sample', this.owner.status());
+	}
+
 	startMedia(options = {}) {
+		if (this.owner.mediaStarted) {
+			return Promise.resolve({ enabled: false, repeated: true });
+		}
+		this.owner.mediaStarted = true;
 		return this.owner.media.start(
 			this.owner.state.options.recordAudio,
 			options

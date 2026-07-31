@@ -1,0 +1,33 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives search motion and mobile shape their own small responsive vessel.
+*/
+@keyframes search-flight {
+	to {
+		transform: translateX(4px);
+	}
+}
+
+@keyframes search-nudge {
+	50% {
+		transform: translateX(3px);
+	}
+}
+
+@media (max-width: 480px) {
+	.search {
+		grid-template-columns: auto minmax(0, 1fr) auto;
+	}
+
+	.shortcut-key,
+	.search-button-label {
+		display: none;
+	}
+
+	.search button {
+		width: 44px;
+		min-width: 44px;
+		padding: 0;
+	}
+}

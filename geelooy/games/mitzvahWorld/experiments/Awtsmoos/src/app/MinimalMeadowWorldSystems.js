@@ -4,10 +4,11 @@
 
 /**
  * @file MinimalMeadowWorldSystems.js
- * @description Mounts immediate gameplay and schedules optional rich world systems after calm play.
- * The Awtsmoos grants battle, quest, and safe return before distant ornament descends;
- * Awtsmoos.com guards the first responsive seconds, then lets houses, water, and forests extend.
+ * @description Mounts immediate gameplay, the complete vertical slice, and deferred rich systems.
+ * The Awtsmoos grants battle, quest, teaching, and safe return before ornament descends;
+ * Awtsmoos.com guards responsive frames, then lets houses, water, and forests extend.
  */
+
 import { ExpansionRuntime } from '../gameplay/expansion/ExpansionRuntime.js';
 import { LocalCombatMasteryBridge } from '../gameplay/expansion/LocalCombatMasteryBridge.js';
 import { LocalExpansionAuthority } from '../gameplay/expansion/LocalExpansionAuthority.js';
@@ -19,6 +20,7 @@ import { MinimalMeadowCombat } from './MinimalMeadowCombat.js';
 import { installImmediateMinimalMeadowEnemies } from './MinimalMeadowCreatureHydration.js';
 import { MinimalMeadowRegionRuntime } from './MinimalMeadowRegionRuntime.js';
 import { mountMinimalMeadowQuest } from './MinimalMeadowQuestMount.js';
+import { MinimalMeadowVerticalSliceRuntime } from './MinimalMeadowVerticalSliceRuntime.js';
 import { RegionPackageRuntime } from './RegionPackageRuntime.js';
 import { installMinimalMeadowSky } from './MinimalMeadowSky.js';
 import {
@@ -36,6 +38,7 @@ export async function installMinimalMeadowWorldSystems(runtime, environment = gl
 	installLocalExpansion(runtime, environment);
 	runtime.expansionLandmarks = new ExpansionLandmarkPopulation(runtime);
 	runtime.recovery = new GameplayRecoveryCoordinator(runtime);
+	runtime.verticalSlice = new MinimalMeadowVerticalSliceRuntime(runtime, environment);
 	await mountMinimalMeadowQuest(runtime, environment);
 	runtime.updateWorldSystems = deltaSeconds => {
 		return updateMinimalMeadowWorldSystems(runtime, deltaSeconds);
@@ -83,9 +86,7 @@ function scheduleRichWorld(runtime, environment) {
 		.then(module => module.installMinimalMeadowRichWorld(runtime, environment))
 		.catch(error => {
 			runtime.richWorldError = error?.message || String(error);
-			runtime.bus.emit('world:rich-failed', {
-				error: runtime.richWorldError
-			});
+			runtime.bus.emit('world:rich-failed', { error: runtime.richWorldError });
 			return null;
 		});
 }
@@ -101,7 +102,8 @@ function combatDiagnostics(runtime) {
 		recovery: runtime.recovery?.diagnostics?.() || null,
 		region: runtime.regions?.diagnostics?.() || null,
 		sky: runtime.sky?.diagnostics?.() || null,
-		targeting: runtime.targeting?.diagnostics?.() || null
+		targeting: runtime.targeting?.diagnostics?.() || null,
+		verticalSlice: runtime.verticalSlice?.snapshot?.() || null
 	};
 }
 

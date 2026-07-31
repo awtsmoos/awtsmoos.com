@@ -4,7 +4,7 @@
 
 /**
  * @file WorldRoomComposition.js
- * @description Composes movement, combat, expansion, social, and economy domain owners.
+ * @description Composes movement, combat, healing, expansion, social, and economy domain owners.
  * The Awtsmoos renews many powers within one world; Awtsmoos.com gives each domain a vessel
  * while one player map, clock, inventory, party, effect directory, and journal preserve truth.
  */
@@ -17,6 +17,7 @@ const { CraftingService } = require('./CraftingService.js');
 const { CreatureDirectory } = require('./CreatureDirectory.js');
 const { EconomyService } = require('./EconomyService.js');
 const { GuildDirectory } = require('./GuildDirectory.js');
+const { HealingAmuletService } = require('./HealingAmuletService.js');
 const { InstanceDirectory } = require('./InstanceDirectory.js');
 const { InventoryService } = require('./InventoryService.js');
 const { MailService } = require('./MailService.js');
@@ -46,10 +47,7 @@ function createWorldRoomComposition(room, options = {}) {
 	const creatures = new CreatureDirectory(players, { clock });
 	const expansion = new WorldExpansionService({ clock });
 	const effects = new WorldEffectDirectory({ clock });
-	const bots = new WorldBotRoster(
-		players,
-		prefix => room.entityId(prefix)
-	);
+	const bots = new WorldBotRoster(players, prefix => room.entityId(prefix));
 	const combat = new CombatService({
 		adventures,
 		clock,
@@ -73,6 +71,7 @@ function createWorldRoomComposition(room, options = {}) {
 		expansion,
 		guilds: new GuildDirectory(players),
 		harvesting: new AnimalHarvestService({ adventures, creatures, inventory }),
+		healingAmulets: new HealingAmuletService(inventory),
 		instances: new InstanceDirectory(players),
 		interest: new WorldInterestIndex(options),
 		inventory,

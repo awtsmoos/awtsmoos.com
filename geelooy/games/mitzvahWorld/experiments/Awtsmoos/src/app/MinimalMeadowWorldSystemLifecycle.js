@@ -4,12 +4,14 @@
 
 /**
  * @file MinimalMeadowWorldSystemLifecycle.js
- * @description Updates world systems and destroys every listener, actor, panel, and authority.
- * The Awtsmoos sustains many finite systems without confusing cadence; Awtsmoos.com lets
- * nearby cells speak before enemies and closes mastery, recovery, UI, and decoration cleanly.
+ * @description Updates world systems while bounded hit-stop scales only enemy and combat cadence.
+ * The Awtsmoos sustains many finite systems without confusing clocks; Awtsmoos.com lets
+ * movement, saves, networking, and recovery continue while impact briefly measures battle presentation.
  */
 
 export function updateMinimalMeadowWorldSystems(runtime, deltaSeconds) {
+	const combatDelta = runtime.combatImpact?.scaleCombatDelta?.(deltaSeconds)
+		?? deltaSeconds;
 	runtime.adaptiveQuality?.update?.(deltaSeconds);
 	runtime.expansion?.update?.();
 	runtime.expansionLandmarks?.update?.();
@@ -19,11 +21,14 @@ export function updateMinimalMeadowWorldSystems(runtime, deltaSeconds) {
 	runtime.trees?.update?.(deltaSeconds);
 	runtime.vegetation?.update?.(deltaSeconds);
 	runtime.houses?.update?.(deltaSeconds);
-	runtime.enemies?.update?.(deltaSeconds);
-	runtime.combat?.update?.(deltaSeconds);
+	runtime.enemies?.update?.(combatDelta);
+	runtime.combat?.update?.(combatDelta);
+	runtime.verticalSlice?.update?.(deltaSeconds);
 }
 
 export function destroyMinimalMeadowWorldSystems(runtime) {
+	runtime.coreMechanics?.destroy?.();
+	runtime.verticalSlice?.destroy?.();
 	runtime.localCombatMastery?.destroy?.();
 	runtime.recovery?.destroy?.();
 	runtime.targeting?.destroy?.();
@@ -44,6 +49,7 @@ export function destroyMinimalMeadowWorldSystems(runtime) {
 	runtime.questHud = null;
 	runtime.questStore = null;
 	runtime.recovery = null;
+	runtime.verticalSlice = null;
 }
 
 function enrichmentSystems(runtime) {

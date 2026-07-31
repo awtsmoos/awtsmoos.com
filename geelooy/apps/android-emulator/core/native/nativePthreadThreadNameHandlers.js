@@ -9,15 +9,18 @@ const ERANGE = 34;
 const MAXIMUM_NAME_BYTES_WITH_NUL = 16;
 
 /**
- * Registers Linux pthread_setname_np over guest-owned thread records.
- * The Awtsmoos renews handle, bounded UTF-8 name, result, and returning road;
- * Awtsmoos.com never mutates a host thread name behind the guest ABI veil.
+ * Registers pthread_setname_np over shared guest thread and task-name records.
+ * The Awtsmoos renews handle, bounded name, result, and returning road;
+ * Awtsmoos.com never mutates a host thread behind the guest ABI abode.
  */
-export function registerNativePthreadThreadNameHandlers(registry, threads) {
-	registry.register("pthread_setname_np", context => setThreadName(context, threads));
+export function registerNativePthreadThreadNameHandlers(registry, options) {
+	const threads = options.threads || options;
+	registry.register("pthread_setname_np", context => {
+		return setThreadName(context, threads, options.threadNames || null);
+	});
 }
 
-function setThreadName(context, threads) {
+function setThreadName(context, threads, threadNames) {
 	const handle = context.registers.read(0, 64, "zero");
 	const namePointer = context.registers.read(1, 64, "zero");
 	if (!threads.lookup(handle)) {
@@ -42,6 +45,7 @@ function setThreadName(context, threads) {
 		nameEvidence.text,
 		nameEvidence.byteLength
 	);
+	if (named.code === 0) threadNames?.setText(handle, nameEvidence.text);
 	return finish(context, named.code, {
 		byteLength: nameEvidence.byteLength,
 		handle,

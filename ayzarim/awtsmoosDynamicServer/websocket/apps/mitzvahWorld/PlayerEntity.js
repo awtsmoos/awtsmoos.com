@@ -4,13 +4,19 @@
 
 /**
  * @file PlayerEntity.js
- * @description Defines identity, derived movement, public combat, social state, and power.
+ * @description Defines identity, derived movement, public combat, earned knowledge, and power.
  * The Awtsmoos renews body, courage, wisdom, and equipment together; Awtsmoos.com reveals
- * bounded public strength while inventory, source diagnostics, wallet, and powerups stay private.
+ * bounded public strength while private inventory, wallet, hidden truth, and diagnostics stay veiled.
  */
 
 const { combatSnapshot } = require('./CombatState.js');
 const { derivedPlayerStats } = require('./PlayerAttributeCatalog.js');
+const {
+	playerVerticalSliceSnapshot
+} = require('./PlayerVerticalSliceState.js');
+const {
+	verticalSliceMovementMultiplier
+} = require('./PlayerVerticalSliceMovement.js');
 const { createProgression } = require('./Progression.js');
 const { createPlayerState } = require('./PlayerState.js');
 
@@ -38,9 +44,9 @@ function createPlayer(options) {
 
 function applyPlayerInput(player, input) {
 	const derived = derivedPlayerStats(player);
-	const speed = player.combat?.status === 'defeated'
-		? 0
-		: 0.35 * derived.movementMultiplier;
+	const speed = 0.35
+		* derived.movementMultiplier
+		* verticalSliceMovementMultiplier(player);
 	const sine = Math.sin(input.facing);
 	const cosine = Math.cos(input.facing);
 	const x = input.strafe * cosine + input.forward * sine;
@@ -74,7 +80,8 @@ function snapshotPlayer(player) {
 		quests: player.quests,
 		refinedSparks: player.refinedSparks || 0,
 		shliach: publicShliachProjection(player),
-		velocity: player.velocity
+		velocity: player.velocity,
+		verticalSlice: playerVerticalSliceSnapshot(player)
 	});
 }
 

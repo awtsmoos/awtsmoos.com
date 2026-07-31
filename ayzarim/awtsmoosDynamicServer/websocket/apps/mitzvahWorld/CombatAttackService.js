@@ -4,12 +4,16 @@
 
 /**
  * @file CombatAttackService.js
- * @description Resolves one derived authoritative player attack from intent through reward.
+ * @description Resolves one authoritative attack through validation, Kavanah, damage, and reward.
  * The Awtsmoos renews intention and consequence without confusion; Awtsmoos.com verifies
- * equipment, timing, geometry, cost, typed damage, interruption, defeat, and reward in order.
+ * equipment, timing, geometry, cost, control, typed damage, interruption, posture, phase, and reward.
  */
 
 const { requireCombatGeometry } = require('./CombatAttackGeometry.js');
+const {
+	consumeAttackKavanah,
+	requireAttackKavanah
+} = require('./CombatAttackKavanah.js');
 const { combatAttackReceipt } = require('./CombatAttackReceipt.js');
 const { requireAttackReady, requireWeapon } = require('./CombatAttackRequirements.js');
 const { grantCombatDefeatRewards } = require('./CombatDefeatRewards.js');
@@ -27,6 +31,7 @@ class CombatAttackService {
 		this.creatures = options.creatures;
 		this.expansion = options.expansion;
 		this.inventory = options.inventory;
+		this.vertical = options.vertical;
 	}
 
 	attack(player, command) {
@@ -44,18 +49,26 @@ class CombatAttackService {
 			weaponId: command.weaponId
 		});
 		const geometry = requireCombatGeometry(player, creature, action);
+		const preparedKavanah = requireAttackKavanah(player, action);
 		player.combat.lastAttackAt = now;
 		player.combat.stamina -= action.staminaCost;
 		rememberCombatImpact(player, command.impactToken, now);
 		const damageOutcome = this.creatures.damage(creature.id, action.damage, {
 			action,
 			actionId: action.id,
+			kavanah: preparedKavanah,
 			kind: action.kind,
 			now,
 			serverContextTags: [],
 			sourceActorId: player.id
 		});
-		const interruption = resolveEnemyInterrupt(creature, action, now, player.id);
+		const kavanah = consumeAttackKavanah(player, preparedKavanah, now);
+		const interruption = resolveEnemyInterrupt(
+			creature,
+			action,
+			now,
+			player.id
+		);
 		const damage = {
 			...damageOutcome,
 			creature: this.creatures.snapshot(creature),
@@ -69,13 +82,22 @@ class CombatAttackService {
 				player
 			})
 			: { adventures: [], expansion: null };
+		const verticalSlice = this.vertical.afterAttack(
+			player,
+			creature,
+			action,
+			damage,
+			command
+		);
 		return combatAttackReceipt({
 			action,
 			combat: combatSnapshot(player.combat),
 			damage,
 			geometry,
+			kavanah,
 			refinedSparks: player.refinedSparks,
-			rewards
+			rewards,
+			verticalSlice
 		});
 	}
 }
@@ -85,4 +107,6 @@ function isDefeated(snapshot) {
 		|| snapshot.status === 'harvestable';
 }
 
-module.exports = { CombatAttackService };
+module.exports = {
+	CombatAttackService
+};

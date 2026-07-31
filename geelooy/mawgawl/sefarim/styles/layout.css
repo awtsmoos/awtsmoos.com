@@ -1,85 +1,116 @@
 /* B"H
- * The Awtsmoos arranges source, context, and action as one mature library rather than a generic search box.
+ * The Awtsmoos arranges search, results, and discovery as one calm reading workspace.
  */
 .library-page {
 	display: grid;
-	gap: 1rem;
+	gap: .85rem;
+	width: min(100%, 88rem);
 	margin: 0 auto;
-	padding: clamp(.75rem, 2vw, 1.5rem) clamp(.65rem, 2vw, 1.5rem) 5rem;
-	width: min(100%, 92rem);
+	padding: clamp(.7rem, 1.8vw, 1.3rem) clamp(.6rem, 1.8vw, 1.3rem) 5rem;
 }
+
 .library-workspace {
 	display: grid;
-	gap: 1rem;
-	grid-template-columns: minmax(0, 1fr) minmax(19rem, 24rem);
+	grid-template-columns: minmax(0, 1fr) minmax(17rem, 21rem);
+	gap: .85rem;
 }
+
 .library-result-column,
-.library-discovery-rail { min-width: 0; }
+.library-discovery-rail {
+	min-width: 0;
+}
+
 .library-result-column {
-	align-content: start;
 	display: grid;
-	gap: .75rem;
+	align-content: start;
+	gap: .65rem;
 }
+
 .library-section-heading {
-	align-items: end;
 	display: flex;
-	gap: 1rem;
+	align-items: end;
 	justify-content: space-between;
-	padding: .35rem .2rem;
+	gap: 1rem;
+	padding: .25rem .15rem;
 }
+
+.library-section-heading p {
+	margin: 0;
+	color: #74869c;
+	font-size: .72rem;
+	font-weight: 800;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+
 .library-section-heading h2 {
-	font-size: 1.35rem;
-	margin: .2rem 0 0;
+	margin: .18rem 0 0;
+	font-size: clamp(1.2rem, 2.3vw, 1.6rem);
 }
+
 .library-section-heading a {
-	color: #67d6ea;
-	min-height: 2.75rem;
-	padding: .65rem;
+	min-height: 2.5rem;
+	padding: .55rem .65rem;
+	color: #7cdced;
 	text-decoration: none;
 }
+
 .library-status {
-	background: #0a111c;
-	border: 1px solid rgba(151, 178, 205, .14);
-	border-radius: .8rem;
-	color: #aebdce;
 	margin: 0;
-	min-height: 3rem;
-	padding: .8rem .95rem;
+	min-height: 2.75rem;
+	padding: .72rem .85rem;
+	border: 1px solid rgba(151, 178, 205, .12);
+	border-radius: .75rem;
+	background: rgba(10, 17, 28, .82);
+	color: #95a6ba;
+	font-size: .82rem;
 }
+
 .library-results {
 	display: grid;
-	gap: .75rem;
+	gap: .65rem;
 }
+
 .library-empty,
 .library-error {
-	align-items: center;
-	background: #0a111c;
-	border: 1px dashed rgba(151, 178, 205, .24);
-	border-radius: .9rem;
-	color: #cbd6e3;
 	display: grid;
+	grid-template-columns: 2.7rem minmax(0, 1fr);
+	align-items: center;
 	gap: .8rem;
-	grid-template-columns: 2.8rem minmax(0, 1fr);
-	min-height: 8rem;
+	min-height: 7rem;
 	padding: 1rem;
+	border: 1px dashed rgba(151, 178, 205, .2);
+	border-radius: .85rem;
+	background: #0a111c;
+	color: #cbd6e3;
 }
+
 .library-empty > span,
 .library-error > span {
-	align-items: center;
+	display: grid;
+	place-items: center;
+	width: 2.7rem;
+	height: 2.7rem;
+	border-radius: .72rem;
 	background: #101c29;
-	border-radius: .75rem;
 	color: #64d5e9;
-	display: flex;
-	font-size: 1.25rem;
-	height: 2.8rem;
-	justify-content: center;
-	width: 2.8rem;
+	font-size: 1.2rem;
 }
+
 .library-empty strong,
-.library-error strong { color: #f4f1e8; }
+.library-error strong {
+	color: #f4f1e8;
+}
+
 .library-empty p,
-.library-error p { margin: .2rem 0 0; }
+.library-error p {
+	margin: .2rem 0 0;
+}
+
 .library-error {
 	border-color: rgba(244, 119, 130, .35);
 }
-.library-error > span { color: #f47782; }
+
+.library-error > span {
+	color: #f47782;
+}

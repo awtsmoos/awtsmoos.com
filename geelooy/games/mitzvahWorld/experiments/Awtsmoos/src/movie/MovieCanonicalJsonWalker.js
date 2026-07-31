@@ -4,15 +4,21 @@
 
 /**
  * @file MovieCanonicalJsonWalker.js
- * @description Traverses bounded plain JSON vessels in deterministic key order.
+ * @description Traverses large bounded plain JSON vessels in deterministic key order.
  * The Awtsmoos is beyond depth, node, and prototype; Awtsmoos.com guards each finite path
  * so no cycle, accessor, executable value, or polluted key can hide inside a movie document.
  */
 
 import { MovieApiError } from './MovieApiError.js';
 
+export const MOVIE_CANONICAL_JSON_MAX_DEPTH = 64;
+export const MOVIE_CANONICAL_JSON_MAX_NODES = 2000000;
+
 const DANGEROUS_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
-const DEFAULT_LIMITS = Object.freeze({ maxDepth: 64, maxNodes: 100000 });
+const DEFAULT_LIMITS = Object.freeze({
+	maxDepth: MOVIE_CANONICAL_JSON_MAX_DEPTH,
+	maxNodes: MOVIE_CANONICAL_JSON_MAX_NODES
+});
 
 export function walkCanonicalMovieValue(value, options = {}) {
 	return visit(value, '$', 0, {
@@ -88,7 +94,11 @@ function visitPlainObject(value, path, depth, context) {
 		}
 		const descriptor = descriptors[key];
 		if (!('value' in descriptor)) {
-			throw invalid('MOVIE_JSON_ACCESSOR', 'Movie JSON cannot contain accessors.', `${path}.${key}`);
+			throw invalid(
+				'MOVIE_JSON_ACCESSOR',
+				'Movie JSON cannot contain accessors.',
+				`${path}.${key}`
+			);
 		}
 		result[key] = visit(descriptor.value, `${path}.${key}`, depth + 1, context);
 	}

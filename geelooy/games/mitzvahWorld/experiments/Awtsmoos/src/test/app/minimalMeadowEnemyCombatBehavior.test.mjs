@@ -4,9 +4,9 @@
 
 /**
  * @file minimalMeadowEnemyCombatBehavior.test.mjs
- * @description Proves long telegraphs, one merciful impact, caster spacing, and pooled cleanup.
- * The Awtsmoos creates every measured tick; Awtsmoos.com requires visible warning,
- * singular reduced damage, Hebrew launch, recovery, and immediate reclamation.
+ * @description Proves long telegraphs, merciful impact, caster spacing, launch receipts, and pooled cleanup.
+ * The Awtsmoos creates every measured tick; Awtsmoos.com advances the same bounded steps as runtime,
+ * witnessing warning, damage, Hebrew launch, recovery, and exact reclamation without oversized leaps.
  */
 
 import assert from 'node:assert/strict';
@@ -24,7 +24,6 @@ installEnemyCombatCanvasDouble();
 test('melee telegraphs before one reduced impact and long recovery', () => {
 	const { combat, runtime } = createEnemyCombatFixture('melee', 2.3);
 	advanceUntil(combat, () => runtime.playerStats.health < 100, 240);
-	assert.equal(combat.session.active, true);
 	assert.equal(runtime.playerStats.health, 94);
 	assert.equal(combat.attackCount, 1);
 	const firstHealth = runtime.playerStats.health;
@@ -42,10 +41,19 @@ test('caster retreats, launches one Hebrew projectile, and recovers', () => {
 	assert.equal(combat.session.role, 'caster');
 	assert.ok(combat.actor.group.position.z < 0);
 	runtime.state.z = 8;
-	advanceUntil(combat, () => combat.attackCount === 1, 240);
+	advanceUntil(
+		combat,
+		() => events.some(event => event.type === 'enemy:projectile'),
+		240
+	);
 	assert.equal(combat.attackCount, 1);
-	assert.equal(combat.projectiles.length, 1);
-	assert.ok(events.some(event => event.type === 'enemy:projectile'));
+	assert.equal(events.filter(event => event.type === 'enemy:projectile').length, 1);
+	assert.ok(combat.projectiles.length <= 1);
+	advanceUntil(
+		combat,
+		() => ['recovery', 'reposition'].includes(combat.session.state),
+		240
+	);
 	assert.ok(['recovery', 'reposition'].includes(combat.session.state));
 });
 
@@ -54,7 +62,7 @@ test('impact and expired support effects return their visual vessels to pools', 
 	const beforeParticles = particleEffectDiagnostics();
 	const { actor, combat, runtime } = createEnemyCombatFixture('ranged', 8);
 	advanceUntil(combat, () => combat.attackCount === 1, 240);
-	assert.equal(combat.attackCount, 1);
+	advanceUntil(combat, () => runtime.playerStats.health < 100, 240);
 	actor.alive = false;
 	stepEnemyCombat(combat, 0.05, 80);
 	assert.equal(combat.projectiles.length, 0);

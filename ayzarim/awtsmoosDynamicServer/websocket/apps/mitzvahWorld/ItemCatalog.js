@@ -4,17 +4,19 @@
 
 /**
  * @file ItemCatalog.js
- * @description Joins canonical core and equipment items and declares the starter inventory.
- * The Awtsmoos renews possession without duplicate shadow; Awtsmoos.com grants every
- * starter vessel once while leaving one chosen hand weapon equipped at a time.
+ * @description Joins canonical core, equipment, and fictional healing-amalgam items.
+ * The Awtsmoos renews possession without duplicate shadow; Awtsmoos.com grants starter vessels
+ * once while expert-certified stock remains earnable, priced, bounded, and absent from free creation.
  */
 
+const { HEALING_AMULETS } = require('./HealingAmuletCatalog.js');
 const { CORE_ITEMS } = require('./ItemCatalogCore.js');
 const { EQUIPMENT_ITEMS } = require('./ItemCatalogEquipment.js');
 
 const ITEMS = Object.freeze({
 	...CORE_ITEMS,
-	...EQUIPMENT_ITEMS
+	...EQUIPMENT_ITEMS,
+	...HEALING_AMULETS
 });
 
 const STARTER_ITEM_IDS = Object.freeze([

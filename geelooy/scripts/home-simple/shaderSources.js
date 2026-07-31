@@ -1,7 +1,7 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-// The Awtsmoos clothes points and letters in a veil of light, subtle by day and breathing by night.
+// The Awtsmoos clothes real points and Hebrew letters in visible but gentle light.
 
 export const STAR_VERTEX_SHADER = `
 	attribute vec3 a_position;
@@ -10,9 +10,10 @@ export const STAR_VERTEX_SHADER = `
 
 	void main() {
 		vec3 point = a_position;
-		point.y += sin(u_time * 0.000055 + point.x * 7.0) * 0.006;
+		point.y += sin(u_time * 0.00006 + point.x * 7.0) * 0.008;
+		point.x += cos(u_time * 0.000035 + point.y * 6.0) * 0.004;
 		gl_Position = vec4(point, 1.0);
-		gl_PointSize = a_size;
+		gl_PointSize = a_size * 1.35;
 	}
 `;
 
@@ -21,8 +22,10 @@ export const STAR_FRAGMENT_SHADER = `
 
 	void main() {
 		float distanceToCenter = distance(gl_PointCoord, vec2(0.5));
-		float alpha = smoothstep(0.48, 0.04, distanceToCenter) * 0.24;
-		gl_FragColor = vec4(0.58, 0.70, 0.92, alpha);
+		float core = smoothstep(0.48, 0.04, distanceToCenter);
+		float glow = smoothstep(0.5, 0.0, distanceToCenter) * 0.28;
+		float alpha = core * 0.58 + glow;
+		gl_FragColor = vec4(0.66, 0.79, 1.0, alpha);
 	}
 `;
 
@@ -35,10 +38,10 @@ export const GLYPH_VERTEX_SHADER = `
 
 	void main() {
 		vec3 point = a_position;
-		point.x += cos(u_time * 0.000025 + point.y * 5.0) * 0.008;
-		point.y += sin(u_time * 0.000028 + point.x * 4.0) * 0.007;
+		point.x += cos(u_time * 0.000026 + point.y * 5.0) * 0.01;
+		point.y += sin(u_time * 0.00003 + point.x * 4.0) * 0.009;
 		gl_Position = vec4(point, 1.0);
-		gl_PointSize = a_scale;
+		gl_PointSize = a_scale * 1.16;
 		v_glyph = a_glyph;
 	}
 `;
@@ -55,7 +58,7 @@ export const GLYPH_FRAGMENT_SHADER = `
 		vec2 atlasUv = (
 			vec2(column, row) + vec2(gl_PointCoord.x, 1.0 - gl_PointCoord.y)
 		) / u_grid;
-		float alpha = texture2D(u_atlas, atlasUv).a * 0.075;
-		gl_FragColor = vec4(0.66, 0.76, 0.94, alpha);
+		float alpha = texture2D(u_atlas, atlasUv).a * 0.22;
+		gl_FragColor = vec4(0.72, 0.83, 1.0, alpha);
 	}
 `;

@@ -4,13 +4,16 @@
 
 /**
  * @file CreatureRecordFactory.js
- * @description Creates complete persistent creature records from species, spawn, and affinity truth.
+ * @description Creates persistent creature life, affinity, posture, boss, action, and loot state.
  * The Awtsmoos renews each creature beyond mesh and role in every measured breath;
- * Awtsmoos.com initializes bounded status, poise, affinity, action, life, and death.
+ * Awtsmoos.com initializes bounded status, composure, phase, affinity, life, and death.
  */
 
 const { enemyAffinityProfile } = require('./CombatDefinitionCatalog.js');
 const { creatureDefinition } = require('./CombatantCatalog.js');
+const {
+	createCreatureVerticalSliceState
+} = require('./CreatureVerticalSliceState.js');
 const { ensureEnemyActionState } = require('./EnemyActionState.js');
 
 function createCreatureEntry(spawn) {
@@ -21,6 +24,7 @@ function createCreatureEntry(spawn) {
 	const affinity = enemyAffinityProfile(spawn.speciesId);
 	const creature = {
 		...definition,
+		...createCreatureVerticalSliceState(spawn, definition),
 		affinityId: affinity?.affinityId || null,
 		baseMaximumHealth: definition.maximumHealth,
 		caredBy: [],
@@ -62,4 +66,6 @@ function stableSeed(value) {
 	}, 2166136261);
 }
 
-module.exports = { createCreatureEntry };
+module.exports = {
+	createCreatureEntry
+};

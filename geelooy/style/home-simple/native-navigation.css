@@ -1,0 +1,107 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos entrusts Explore to native details and summary behavior, removing the fragile custom state machine.
+*/
+.navigation-hub {
+	position: relative;
+}
+
+.navigation-hub summary {
+	display: inline-flex;
+	align-items: center;
+	gap: .38rem;
+	padding: .5rem .75rem;
+	border-radius: 999px;
+	color: #aab4c5;
+	cursor: pointer;
+	list-style: none;
+	user-select: none;
+}
+
+.navigation-hub summary::-webkit-details-marker {
+	display: none;
+}
+
+.navigation-hub summary:hover,
+.navigation-hub summary:focus-visible,
+.navigation-hub[open] summary {
+	background: rgba(126, 166, 226, .13);
+	color: #fff;
+	outline: none;
+}
+
+.navigation-grid {
+	position: absolute;
+	top: calc(100% + .65rem);
+	right: 0;
+	z-index: 800;
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: .5rem;
+	width: min(28rem, calc(100vw - 1rem));
+	padding: .65rem;
+	border: 1px solid rgba(93, 218, 255, .24);
+	border-radius: 1.15rem;
+	background: linear-gradient(180deg, rgba(8, 14, 25, .99), rgba(5, 9, 18, .99));
+	box-shadow: 0 32px 90px rgba(0, 0, 0, .72);
+}
+
+.navigation-card {
+	display: grid;
+	grid-template-columns: 2.65rem minmax(0, 1fr);
+	grid-template-rows: auto auto;
+	align-items: center;
+	gap: .1rem .62rem;
+	min-height: 4.15rem;
+	padding: .65rem;
+	border: 1px solid rgba(255, 255, 255, .06);
+	border-radius: .9rem;
+	background: rgba(255, 255, 255, .025);
+}
+
+.navigation-card > span {
+	display: grid;
+	grid-row: 1 / 3;
+	width: 2.55rem;
+	height: 2.55rem;
+	place-items: center;
+	border: 1px solid rgba(111, 214, 255, .3);
+	border-radius: 50%;
+	background: radial-gradient(circle at 35% 28%, rgba(136, 219, 255, .36), rgba(25, 47, 88, .74) 45%, rgba(5, 8, 18, .98) 78%);
+	font-size: 1.12rem;
+}
+
+.navigation-card strong {
+	font-size: .84rem;
+}
+
+.navigation-card small {
+	color: #8594a9;
+	font-size: .68rem;
+}
+
+.navigation-card:hover,
+.navigation-card:focus-visible {
+	border-color: rgba(133, 210, 255, .34);
+	background: rgba(96, 143, 210, .11);
+	outline: none;
+}
+
+@media (max-width: 680px) {
+	.navigation-grid {
+		position: fixed;
+		top: calc(env(safe-area-inset-top) + 4.6rem);
+		right: .5rem;
+		left: .5rem;
+		width: auto;
+		max-height: calc(100dvh - 9.8rem - env(safe-area-inset-bottom));
+		overflow: auto;
+	}
+}
+
+@media (max-width: 390px) {
+	.navigation-grid {
+		grid-template-columns: 1fr;
+	}
+}

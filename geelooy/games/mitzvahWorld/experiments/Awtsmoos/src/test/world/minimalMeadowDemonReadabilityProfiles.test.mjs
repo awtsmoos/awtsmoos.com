@@ -4,9 +4,9 @@
 
 /**
  * @file minimalMeadowDemonReadabilityProfiles.test.mjs
- * @description Proves every supporting and road enemy has a distinct readable measured surface.
- * The Awtsmoos reveals nine trials without visual confusion; Awtsmoos.com measures face, torso,
- * limbs, luminance, texture data, and bounded emissive light so each combat role remains fair.
+ * @description Proves every live enemy receives a distinct readable measured surface.
+ * The Awtsmoos reveals ten trials without visual confusion; Awtsmoos.com measures face, torso,
+ * limbs, luminance, texture data, and bounded emissive light for every current combat identity.
  */
 
 import assert from 'node:assert/strict';
@@ -14,9 +14,7 @@ import test from 'node:test';
 import { MINIMAL_MEADOW_ENEMY_PROFILES } from '../../app/MinimalMeadowEnemyProfiles.js';
 import { createMinimalDemonGeometry } from '../../app/MinimalMeadowDemonGeometry.js';
 import { createMinimalDemonMaterial } from '../../app/MinimalMeadowDemonMaterial.js';
-import {
-	measureDemonMaterialReadability
-} from '../../app/MinimalMeadowDemonReadabilityMetrics.js';
+import { measureDemonMaterialReadability } from '../../app/MinimalMeadowDemonReadabilityMetrics.js';
 
 const documentValue = fakeDocument();
 
@@ -31,7 +29,8 @@ test('every live enemy receives one distinct readable surface profile', () => {
 		};
 	});
 	const expectedCount = MINIMAL_MEADOW_ENEMY_PROFILES.length;
-	assert.equal(expectedCount, 9);
+	assert.equal(expectedCount, 10);
+	assert.equal(new Set(records.map(record => record.profile.id)).size, expectedCount);
 	assert.equal(new Set(records.map(record => (
 		record.material.surfaceDiagnostics.family
 	))).size, expectedCount);

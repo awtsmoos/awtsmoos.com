@@ -4,9 +4,9 @@
 
 /**
  * @file EconomyRequestHandler.js
- * @description Handles private wallet, vendor, recipe, and crafting commands.
- * The Awtsmoos renews value through lawful exchange; Awtsmoos.com returns private
- * economic state only to its owner while every durable mutation is checkpointed.
+ * @description Handles private wallet, provenance-aware vendor, recipe, and crafting commands.
+ * The Awtsmoos renews value through lawful exchange; Awtsmoos.com returns private economic state
+ * only to its owner while vendor identity and every durable mutation are checked and checkpointed.
  */
 
 const {
@@ -19,14 +19,18 @@ const { commandResult, queryResult } = require('./WorldCommandResult.js');
 function handleEconomyRequest(context, request, room) {
 	const player = room.playerFor(context.client);
 	if (request.type === MESSAGE_TYPES.ECONOMY_BALANCE) {
-		return queryResult(RESPONSE_TYPES.ECONOMY_BALANCE, room.economy.balance(player));
+		return queryResult(
+			RESPONSE_TYPES.ECONOMY_BALANCE,
+			room.economy.balance(player)
+		);
 	}
 	if (request.type === MESSAGE_TYPES.VENDOR_BUY) {
 		const payload = commandPayload(request.payload);
 		return privateMutation(RESPONSE_TYPES.VENDOR_BOUGHT, room.economy.buy(
 			player,
 			identifier(payload.itemId, 'Item id'),
-			quantity(payload.quantity)
+			quantity(payload.quantity),
+			optionalIdentifier(payload.vendorId)
 		));
 	}
 	if (request.type === MESSAGE_TYPES.VENDOR_SELL) {
@@ -62,8 +66,11 @@ function privateMutation(type, payload) {
 
 function quantity(value) {
 	const number = Number(value ?? 1);
-	if (!Number.isSafeInteger(number)) return Number.NaN;
-	return number;
+	return Number.isSafeInteger(number) ? number : Number.NaN;
+}
+
+function optionalIdentifier(value) {
+	return value == null ? null : identifier(value, 'Vendor id');
 }
 
 module.exports = {

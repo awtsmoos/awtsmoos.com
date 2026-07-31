@@ -4,51 +4,44 @@
 
 /**
  * @file MinimalMeadowParticleEffects.js
- * @description Supplies pooled restrained trails and impact fragments around primary Hebrew glyphs.
- * The Awtsmoos reveals consequence without visual waste; Awtsmoos.com bounds each supporting
- * spark by shared geometry, shared material, deterministic motion, lifetime, and reclamation.
+ * @description Runs pooled trails and layered impacts with adaptive density and quaternion motion.
+ * The Awtsmoos sends each letter through a bounded garden of light; Awtsmoos.com reveals impact
+ * through pulse, spiral, stretch, and fading rings while every borrowed spark returns before night.
  */
 
 import { Group } from '../../../light-three-gltf/tiny-runtime.js';
-import { creatureSphereGeometry } from './MinimalMeadowCreatureGeometry.js';
-import { creatureMaterial, creaturePart } from './MinimalMeadowCreaturePart.js';
+import { fillParticleEffectVessel, particleMaterialCount } from './MinimalMeadowParticleFactory.js';
+import { coreEnvelope, particleEnvelope, particleMotion } from './MinimalMeadowParticleMotion.js';
+import { particleQualityProfile } from './MinimalMeadowParticleQuality.js';
 import { MinimalMeadowProjectileVisualPool } from './MinimalMeadowProjectileVisualPool.js';
 
-const trailPool = new MinimalMeadowProjectileVisualPool(32);
-const impactPool = new MinimalMeadowProjectileVisualPool(10);
-const materialCache = new Map();
+const trailPool = new MinimalMeadowProjectileVisualPool(36);
+const impactPool = new MinimalMeadowProjectileVisualPool(12);
 
 export function createProjectileTrail(position, color) {
-	const key = `trail:${colorKey(color)}`;
-	return trailPool.acquire(key, () => buildEffect('trail', color, 3), effect => {
-		resetEffect(effect, position, 0.36);
+	const quality = particleQualityProfile();
+	const key = `trail:${quality.trailCount}:${colorKey(color)}`;
+	return trailPool.acquire(key, () => createEffect('trail', color, quality.trailCount), effect => {
+		resetEffect(effect, position, quality.trailDuration);
 	});
 }
 
 export function createImpactExplosion(position, color, count = 12) {
-	const boundedCount = Math.max(6, Math.min(12, Math.round(count)));
-	const key = `impact:${boundedCount}:${colorKey(color)}`;
-	return impactPool.acquire(key, () => buildEffect('impact', color, boundedCount), effect => {
-		resetEffect(effect, position, 0.72);
+	const quality = particleQualityProfile(count);
+	const key = `impact:${quality.impactCount}:${colorKey(color)}`;
+	return impactPool.acquire(key, () => createEffect('impact', color, quality.impactCount), effect => {
+		resetEffect(effect, position, quality.impactDuration);
 	});
 }
 
 export function updateParticleEffect(effect, deltaSeconds) {
 	(effect.kind === 'trail' ? trailPool : impactPool).markMounted(effect);
-	effect.elapsed += deltaSeconds;
+	effect.elapsed += Math.min(0.05, Math.max(0, deltaSeconds));
 	const progress = Math.min(1, effect.elapsed / effect.duration);
-	for (const particle of effect.particles) {
-		particle.velocity.y -= deltaSeconds * effect.gravity;
-		particle.mesh.position.x += particle.velocity.x * deltaSeconds;
-		particle.mesh.position.y += particle.velocity.y * deltaSeconds;
-		particle.mesh.position.z += particle.velocity.z * deltaSeconds;
-		const scale = Math.max(0.008, particle.baseScale * (1 - progress));
-		particle.mesh.scale.set(scale, scale, scale);
-	}
-	if (effect.core) {
-		const coreScale = Math.max(0.01, Math.sin(progress * Math.PI) * 0.42);
-		effect.core.scale.set(coreScale, coreScale, coreScale);
-	}
+	effect.particles.forEach((particle, index) => {
+		updateParticle(effect, particle, index, progress, deltaSeconds);
+	});
+	if (effect.core) updateCores(effect, progress, deltaSeconds);
 	return progress >= 1;
 }
 
@@ -57,60 +50,67 @@ export function releaseParticleEffect(effect) {
 }
 
 export function particleEffectDiagnostics() {
-	return { impact: impactPool.diagnostics(), materials: materialCache.size, trail: trailPool.diagnostics() };
+	return {
+		impact: impactPool.diagnostics(),
+		materials: particleMaterialCount(),
+		trail: trailPool.diagnostics()
+	};
 }
 
-function buildEffect(kind, color, count) {
-	const group = new Group();
-	const material = sharedMaterial(kind, color);
-	const particles = [];
-	for (let index = 0; index < count; index += 1) {
-		const mesh = creaturePart(`${kind}_supporting_fragment_${index}`, creatureSphereGeometry(6, 4), material, [0, 0, 0], [0.05, 0.05, 0.05]);
-		group.add(mesh);
-		particles.push({ baseScale: kind === 'trail' ? 0.045 : 0.07, mesh, velocity: { x: 0, y: 0, z: 0 } });
-	}
-	let core = null;
-	if (kind === 'impact') {
-		core = creaturePart('impact_supporting_flash', creatureSphereGeometry(8, 6), material, [0, 0, 0], [0.01, 0.01, 0.01]);
-		group.add(core);
-	}
-	return { core, duration: 0, elapsed: 0, gravity: kind === 'trail' ? 0.55 : 1.7, group, kind, particles };
+function createEffect(kind, color, count) {
+	return fillParticleEffectVessel(new Group(), kind, color, count);
 }
 
 function resetEffect(effect, position, duration) {
 	effect.duration = duration;
 	effect.elapsed = 0;
+	effect.waveAngle = 0;
 	effect.group.name = `Awtsmoos_hebrew_${effect.kind}_effect`;
 	effect.group.position.set(position.x, position.y, position.z);
 	effect.group.quaternion.set(0, 0, 0, 1);
 	effect.group.userData = { effectType: effect.kind, supportingParticles: true };
-	effect.particles.forEach((particle, index) => resetParticle(particle, index, effect.particles.length, effect.kind));
-	if (effect.core) {
-		effect.core.position.set(0, 0, 0);
-		effect.core.scale.set(0.01, 0.01, 0.01);
-	}
+	effect.particles.forEach((particle, index) => {
+		resetParticle(particle, index, effect.particles.length, effect.kind);
+	});
 }
 
 function resetParticle(particle, index, count, kind) {
-	const angle = index / count * Math.PI * 2 + (index % 3) * 0.23;
-	const speed = kind === 'trail' ? 0.24 + index * 0.05 : 1.25 + (index % 4) * 0.32;
+	const motion = particleMotion(kind, index, count);
+	particle.angle = 0;
 	particle.mesh.position.set(0, 0, 0);
+	particle.mesh.quaternion.set(0, 0, 0, 1);
 	particle.mesh.scale.set(particle.baseScale, particle.baseScale, particle.baseScale);
-	particle.velocity.x = Math.cos(angle) * speed;
-	particle.velocity.y = kind === 'trail' ? 0.08 + index * 0.035 : 0.45 + (index % 5) * 0.16;
-	particle.velocity.z = Math.sin(angle) * speed;
+	particle.spin = motion.spin;
+	particle.velocity ||= { x: 0, y: 0, z: 0 };
+	Object.assign(particle.velocity, motion.velocity);
 }
 
-function sharedMaterial(kind, color) {
-	const key = `${kind}:${colorKey(color)}`;
-	if (!materialCache.has(key)) {
-		const material = creatureMaterial(`Awtsmoos_${kind}_supporting_light`, color, null, true);
-		Object.assign(material, { alphaMode: 'BLEND', opacity: kind === 'trail' ? 0.48 : 0.7, transparent: true });
-		materialCache.set(key, material);
-	}
-	return materialCache.get(key);
+function updateParticle(effect, particle, index, progress, deltaSeconds) {
+	particle.velocity.y -= deltaSeconds * effect.gravity;
+	particle.mesh.position.x += particle.velocity.x * deltaSeconds;
+	particle.mesh.position.y += particle.velocity.y * deltaSeconds;
+	particle.mesh.position.z += particle.velocity.z * deltaSeconds;
+	particle.angle += particle.spin * deltaSeconds;
+	setYAxisQuaternion(particle.mesh, particle.angle);
+	const envelope = particleEnvelope(effect.kind, progress, particle.baseScale, index);
+	particle.mesh.scale.set(envelope.scaleX, envelope.scaleY, envelope.scaleZ);
+}
+
+function updateCores(effect, progress, deltaSeconds) {
+	const envelope = coreEnvelope(progress);
+	effect.core.inner.scale.set(envelope.inner, envelope.inner, envelope.inner);
+	effect.core.outer.scale.set(envelope.outer, envelope.outer * 0.22, envelope.outer);
+	effect.waveAngle += deltaSeconds * 3.6;
+	setYAxisQuaternion(effect.core.outer, effect.waveAngle);
+}
+
+function setYAxisQuaternion(object, angle) {
+	const halfAngle = angle * 0.5;
+	object.quaternion.set(0, Math.sin(halfAngle), 0, Math.cos(halfAngle));
 }
 
 function colorKey(color) {
-	return color.slice(0, 4).map(value => Math.round(Math.max(0, Math.min(1, value)) * 255)).join('-');
+	return color.slice(0, 4).map(value => {
+		return Math.round(Math.max(0, Math.min(1, value)) * 255);
+	}).join('-');
 }

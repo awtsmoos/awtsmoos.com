@@ -8,15 +8,16 @@
  * The Awtsmoos sends intention outward and measured consequence home in light;
  * Awtsmoos.com keeps prediction responsive while authority alone decides the fight.
  */
-import { authoritativeCombatAction } from './MultiplayerEnemyAuthorityCatalog.js';
-import { multiplayerCombatAuthorityCommand } from './MultiplayerCombatAuthorityCommand.js';
-import { multiplayerCombatAuthorityReceipt } from './MultiplayerCombatAuthorityReceipt.js';
-import { claimAuthoritativeEnemyLoot } from './MultiplayerEnemyAuthorityLoot.js';
-import { applyAuthoritativeAdventures } from './MultiplayerEnemyAuthorityReceipts.js';
+
 import {
-	applyMultiplayerEnemyCreature,
-	authoritativeEnemyReceipt
-} from './MultiplayerEnemyAuthorityState.js';
+	authoritativeCombatAction
+} from './MultiplayerEnemyAuthorityCatalog.js';
+import {
+	attackAuthoritativeEnemy
+} from './MultiplayerEnemyAuthorityAttack.js';
+import {
+	claimAuthoritativeEnemyLoot
+} from './MultiplayerEnemyAuthorityLoot.js';
 import {
 	applyAuthoritativeWorldCreatures,
 	bindAuthoritativeEnemyActors,
@@ -34,7 +35,10 @@ export class MultiplayerEnemyAuthorityBridge {
 	}
 
 	controls(actor) {
-		return Boolean(actor?.authoritative && actor.serverCreatureId);
+		return Boolean(
+			actor?.authoritative
+			&& actor.serverCreatureId
+		);
 	}
 
 	rangeFor(actionId = 'hebrew-fire') {
@@ -52,41 +56,18 @@ export class MultiplayerEnemyAuthorityBridge {
 		if (this.world) this.applyWorld();
 	}
 
-	async attack(actor, actionInput) {
-		const creatureId = actor.serverCreatureId;
-		this.requireAvailable(actor, this.pendingAttacks, 'ENEMY_NOT_SERVER_OWNED', 'ATTACK_PENDING');
-		this.pendingAttacks.add(creatureId);
-		try {
-			this.impactSequence += 1;
-			const action = multiplayerCombatAuthorityCommand({
-				input: actionInput,
-				playerId: this.client.playerId,
-				sequence: this.impactSequence
-			});
-			const response = await this.client.mmorpg.rpg.attack(creatureId, action);
-			return this.applyAttackResponse(actor, response.payload || {});
-		} finally {
-			this.pendingAttacks.delete(creatureId);
-		}
-	}
-
-	applyAttackResponse(actor, payload) {
-		applyMultiplayerEnemyCreature(actor, payload.creature);
-		applyAuthoritativeAdventures(this.runtime, payload.adventures);
-		const authority = multiplayerCombatAuthorityReceipt(payload);
-		const receipt = {
-			...authoritativeEnemyReceipt(actor, payload.creature),
-			authority,
-			damage: authority.damage,
-			refinedSparks: authority.refinedSparks
-		};
-		this.runtime.bus?.emit?.('combat:authority', receipt);
-		return receipt;
+	attack(actor, actionInput) {
+		return attackAuthoritativeEnemy(this, actor, actionInput);
 	}
 
 	async claimLoot(actor) {
 		const creatureId = actor.serverCreatureId;
-		this.requireAvailable(actor, this.pendingLoot, 'CORPSE_NOT_SERVER_OWNED', 'LOOT_PENDING');
+		this.requireAvailable(
+			actor,
+			this.pendingLoot,
+			'CORPSE_NOT_SERVER_OWNED',
+			'LOOT_PENDING'
+		);
 		this.pendingLoot.add(creatureId);
 		try {
 			return claimAuthoritativeEnemyLoot({
@@ -100,21 +81,33 @@ export class MultiplayerEnemyAuthorityBridge {
 	}
 
 	stop() {
-		releaseAuthoritativeEnemyActors(this.runtime, actor => this.controls(actor));
+		releaseAuthoritativeEnemyActors(
+			this.runtime,
+			actor => this.controls(actor)
+		);
 		this.pendingAttacks.clear();
 		this.pendingLoot.clear();
 	}
 
 	bindActors() {
-		bindAuthoritativeEnemyActors(this.runtime, actor => this.controls(actor));
+		bindAuthoritativeEnemyActors(
+			this.runtime,
+			actor => this.controls(actor)
+		);
 	}
 
 	applyWorld() {
-		applyAuthoritativeWorldCreatures(this.runtime, this.world, actor => this.controls(actor));
+		applyAuthoritativeWorldCreatures(
+			this.runtime,
+			this.world,
+			actor => this.controls(actor)
+		);
 	}
 
 	requireAvailable(actor, pending, ownerCode, pendingCode) {
 		if (!this.controls(actor)) throw new Error(ownerCode);
-		if (pending.has(actor.serverCreatureId)) throw new Error(pendingCode);
+		if (pending.has(actor.serverCreatureId)) {
+			throw new Error(pendingCode);
+		}
 	}
 }

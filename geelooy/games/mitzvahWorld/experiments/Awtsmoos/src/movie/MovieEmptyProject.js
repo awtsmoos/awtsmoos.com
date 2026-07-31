@@ -4,8 +4,8 @@
 
 /**
  * @file MovieEmptyProject.js
- * @description Creates a valid empty Movie Studio document with no accidental actor performance.
- * The Awtsmoos renews possibility before track, actor, lens, take, or mesh appears; Awtsmoos.com
+ * @description Creates a valid empty Movie Studio document with editorial and performance foundations.
+ * The Awtsmoos renews possibility before track, actor, lens, source mark, take, or mesh appears; Awtsmoos.com
  * gives human and agent one clean bounded beginning that passes every canonical gate in rhyme.
  */
 
@@ -21,6 +21,8 @@ export function createEmptyMovieProject(options = {}) {
 		graphs: [],
 		markers: [],
 		materialGraphs: [],
+		media: [],
+		mediaWorkspace: emptyMediaWorkspace(),
 		performance: emptyMoviePerformance(),
 		resolution: {
 			height: bounded(options.height, 90, 2160, 1080),
@@ -45,6 +47,18 @@ function emptyAuthoring3d() {
 		shaderGraphs: [],
 		textures: [],
 		vertexGroups: [],
+		version: 1
+	};
+}
+
+function emptyMediaWorkspace() {
+	return {
+		savedSearches: [],
+		source: {
+			inPoint: 0,
+			mediaId: null,
+			outPoint: 0
+		},
 		version: 1
 	};
 }

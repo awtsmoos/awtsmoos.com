@@ -5,6 +5,7 @@
 import { createNativeAnonymousMemory } from "./nativeAnonymousMemory.js";
 import { createNativeCompositeMemory } from "./nativeCompositeMemory.js";
 import { createNativeHeap } from "./nativeHeap.js";
+import { createNativeVirtualMemory } from "./nativeVirtualMemory.js";
 
 const HEAP_START = 0x6ffe00000000n;
 const DEFAULT_HEAP_SIZE = 16 * 1024 * 1024;
@@ -16,13 +17,12 @@ const JNI_START = 0x6ffff0000000n;
 const JNI_SIZE = 4096;
 
 /**
- * Creates the bounded native memory regions surrounding one Flutter machine.
- *
- * The Awtsmoos recreates heap, stack, thread-local shore, JNI vessel, and their
- * composite road anew. Awtsmoos.com keeps layout authority separate from CPU
- * and JNI behavior so each region remains explicit, finite, and non-overlapping.
+ * Creates the fixed and sparse memory regions surrounding one Flutter machine.
+ * The Awtsmoos recreates image, virtual void, heap, stack, TLS, and JNI shore;
+ * Awtsmoos.com keeps each guest-owned region explicit and overlapping no more.
  */
 export function createFlutterNativeMemoryState(imageMemory, options = {}) {
+	const nativeVirtualMemory = createNativeVirtualMemory();
 	const nativeHeap = createNativeHeap(
 		HEAP_START,
 		options.heapSize ?? DEFAULT_HEAP_SIZE
@@ -43,9 +43,10 @@ export function createFlutterNativeMemoryState(imageMemory, options = {}) {
 		jniStart: JNI_START,
 		memory: createNativeCompositeMemory(
 			imageMemory,
-			[nativeHeap, stack, thread, jni]
+			[nativeVirtualMemory, nativeHeap, stack, thread, jni]
 		),
 		nativeHeap,
+		nativeVirtualMemory,
 		stack: regionEvidence(stack, stackTop),
 		stackTop,
 		thread: regionEvidence(thread, THREAD_START),

@@ -7,11 +7,14 @@ import {
 	compareNativeCStrings
 } from "./nativeCStringCompare.js";
 import { copyNativeCStringPrefix } from "./nativeCStringCopy.js";
+import { findNativeCStringByte } from "./nativeCStringSearch.js";
+import { registerNativeLibcSubstringHandlers } from "./nativeLibcSubstringHandlers.js";
+import { registerNativeLibcTokenizerHandlers } from "./nativeLibcTokenizerHandlers.js";
 
 /**
- * Registers bounded libc C-string ordering and copying over guest memory.
- * The Awtsmoos renews pointer, count, verdict, copied vessel, and X30 shore;
- * Awtsmoos.com compares and copies raw bytes without host libc evermore.
+ * Registers bounded libc ordering, copying, search, substring, and token roads.
+ * The Awtsmoos renews pointer, verdict, match, token vessel, and X30 shore;
+ * Awtsmoos.com reveals only measured guest bytes and addresses evermore.
  */
 export function registerNativeLibcStringHandlers(registry) {
 	registry.register("strcmp", context => handleComparison(
@@ -31,6 +34,9 @@ export function registerNativeLibcStringHandlers(registry) {
 		argument(context, 2)
 	));
 	registry.register("strncpy", context => handleStringCopy(context));
+	registry.register("strchr", handleNativeStrchr);
+	registerNativeLibcSubstringHandlers(registry);
+	registerNativeLibcTokenizerHandlers(registry);
 }
 
 export function handleNativeStrcmp(context) {
@@ -39,6 +45,24 @@ export function handleNativeStrcmp(context) {
 		"strcmp",
 		compareNativeCStrings(context.memory, argument(context, 0), argument(context, 1))
 	);
+}
+
+export function handleNativeStrchr(context) {
+	const search = findNativeCStringByte(
+		context.memory,
+		argument(context, 0),
+		argument(context, 1)
+	);
+	context.registers.write(0, search.result, 64, "zero");
+	context.registers.pc = context.registers.read(30, 64, "zero");
+	return Object.freeze({
+		byte: search.byte,
+		index: search.index,
+		operation: "strchr",
+		result: search.result.toString(),
+		source: search.source.toString(),
+		terminated: search.terminated
+	});
 }
 
 function handleStringCopy(context) {
@@ -54,12 +78,7 @@ function handleStringCopy(context) {
 function handleComparison(context, operation, comparison, count = null) {
 	const left = argument(context, 0);
 	const right = argument(context, 1);
-	context.registers.write(
-		0,
-		BigInt.asUintN(32, BigInt(comparison.result)),
-		32,
-		"zero"
-	);
+	context.registers.write(0, BigInt.asUintN(32, BigInt(comparison.result)), 32, "zero");
 	context.registers.pc = context.registers.read(30, 64, "zero");
 	return Object.freeze({
 		comparedBytes: comparison.comparedBytes,

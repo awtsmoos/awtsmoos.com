@@ -17,26 +17,41 @@ import { createNativeTimerFdState } from "./nativeTimerFdState.js";
 import { registerNativeTimerFdHandlers } from "./registerNativeTimerFdHandlers.js";
 
 /**
- * Joins Android platform roads with cooperative guest descriptor machinery.
+ * Joins Android roads with persistent guest descriptor machinery.
  * The Awtsmoos recreates each platform gate through one bounded registry call;
- * Awtsmoos.com keeps device, epoll, and descriptor identity outside the host.
+ * Awtsmoos.com keeps files, devices, epoll, and timers outside the host.
  */
 export function registerNativeAndroidHandlers(registry, machineState, errnoState) {
-	const callbacks = machineState.nativeAndroidLooperCallbacks || createNativeAndroidLooperCallbackState();
-	const clock = machineState.nativeLinuxClock || createNativeLinuxClock(machineState.nativeLinuxClockOptions);
-	const descriptorFlags = machineState.nativeDescriptorFlags || createNativeDescriptorFlagState();
+	const callbacks = machineState.nativeAndroidLooperCallbacks
+		|| createNativeAndroidLooperCallbackState();
+	const clock = machineState.nativeLinuxClock
+		|| createNativeLinuxClock(machineState.nativeLinuxClockOptions);
+	const descriptorFlags = machineState.nativeDescriptorFlags
+		|| createNativeDescriptorFlagState();
 	const epollState = machineState.nativeEpollState || createNativeEpollState();
 	const pipes = machineState.nativePipes || createNativePipeState();
+	const readOnlyState = machineState.nativeReadOnlyDescriptors || null;
 	const timers = machineState.nativeTimerFds || createNativeTimerFdState({ clock });
-	const descriptorEvents = descriptor => timers.events(descriptor) | pipes.events(descriptor);
-	machineState.nativeCooperativeRuntime?.bindDescriptors({ descriptorEvents, epollState });
-	const loopers = machineState.nativeAndroidLoopers || createNativeAndroidLooperState({ descriptorEvents });
-	const properties = machineState.nativeAndroidProperties || createNativeAndroidPropertyState({
-		apiLevel: machineState.androidApiLevel ?? 35,
-		overrides: machineState.nativeAndroidPropertyOverrides
+	const descriptorEvents = descriptor => timers.events(descriptor)
+		| pipes.events(descriptor)
+		| (readOnlyState?.events(descriptor) || 0);
+	machineState.nativeCooperativeRuntime?.bindDescriptors({
+		descriptorEvents,
+		epollState
 	});
+	const loopers = machineState.nativeAndroidLoopers
+		|| createNativeAndroidLooperState({ descriptorEvents });
+	const properties = machineState.nativeAndroidProperties
+		|| createNativeAndroidPropertyState({
+			apiLevel: machineState.androidApiLevel ?? 35,
+			overrides: machineState.nativeAndroidPropertyOverrides
+		});
 	registerNativeAndroidLogHandlers(registry, machineState);
-	registerNativeAndroidLooperHandlers(registry, { callbacks, imports: machineState.imports, state: loopers });
+	registerNativeAndroidLooperHandlers(registry, {
+		callbacks,
+		imports: machineState.imports,
+		state: loopers
+	});
 	registerNativeTimerFdHandlers(registry, {
 		clock,
 		cooperativeRuntime: machineState.nativeCooperativeRuntime,
@@ -45,6 +60,7 @@ export function registerNativeAndroidHandlers(registry, machineState, errnoState
 		epollState,
 		errnoState: errnoState || machineState.nativeErrno,
 		pipeState: pipes,
+		readOnlyState,
 		state: timers
 	});
 	registerNativeAndroidTraceHandlers(registry);

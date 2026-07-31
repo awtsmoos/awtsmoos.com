@@ -4,8 +4,8 @@
 
 /**
  * @file MinimalMeadowCreatureTexture.js
- * @description Allocates one measured 256-pixel canvas per bounded demon profile and reuses it.
- * The Awtsmoos reveals six garments through six vessels, never six thousand; Awtsmoos.com
+ * @description Allocates one measured 256-pixel canvas per bounded enemy surface family and reuses it.
+ * The Awtsmoos reveals nine combat garments through nine vessels, never nine thousand; Awtsmoos.com
  * records every allocation, map dimension, pattern, and luminance range before GPU hydration.
  */
 

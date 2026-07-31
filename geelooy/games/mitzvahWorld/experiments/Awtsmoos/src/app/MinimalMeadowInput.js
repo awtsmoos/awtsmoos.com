@@ -5,14 +5,15 @@
 /**
  * @file MinimalMeadowInput.js
  * @description Owns non-sticky keyboard, jump, and camera-relative joystick intention.
- * The Awtsmoos gives every key a beginning and end; Awtsmoos.com makes A/D and Q/E strafe while
- * blur, page loss, and hidden-document transitions release all movement without exception.
+ * The Awtsmoos gives every key a beginning and end; Awtsmoos.com keeps ordinary Space for jump,
+ * reserves Shift+Space for dodge, and releases all movement on blur, page loss, or hidden documents.
  */
 
-const CONTROL_CODES = new Set([
-	'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'KeyA', 'KeyD',
-	'KeyE', 'KeyQ', 'KeyS', 'KeyW', 'ShiftLeft', 'ShiftRight', 'Space'
-]);
+import {
+	MINIMAL_MEADOW_CONTROL_CODES,
+	minimalMeadowInputAxis,
+	minimalMeadowInputIsTextEntry
+} from './MinimalMeadowInputSupport.js';
 
 export class MinimalMeadowInput {
 	constructor(environment = globalThis, jumpHost = null, joystick = null) {
@@ -35,15 +36,10 @@ export class MinimalMeadowInput {
 	}
 
 	axis() {
-		const joystick = this.joystick?.vector || { magnitude: 0, x: 0, y: 0 };
-		return {
-			forward: sign(this.keys, ['KeyW', 'ArrowUp'], ['KeyS', 'ArrowDown']),
-			joystickForward: clamp(-joystick.y),
-			joystickMagnitude: clampMagnitude(joystick.magnitude),
-			joystickStrafe: clamp(joystick.x),
-			strafe: sign(this.keys, ['KeyD', 'KeyE'], ['KeyA', 'KeyQ']),
-			turn: sign(this.keys, ['ArrowRight'], ['ArrowLeft'])
-		};
+		return minimalMeadowInputAxis(
+			this.keys,
+			this.joystick?.vector
+		);
 	}
 
 	consumeJump() {
@@ -53,18 +49,27 @@ export class MinimalMeadowInput {
 	}
 
 	runRequested() {
-		return this.keys.has('ShiftLeft') || this.keys.has('ShiftRight');
+		return this.keys.has('ShiftLeft')
+			|| this.keys.has('ShiftRight');
 	}
 
 	handleKeyDown(event) {
-		if (isTextEntry(event.target)) return;
-		if (CONTROL_CODES.has(event.code)) event.preventDefault?.();
+		if (minimalMeadowInputIsTextEntry(event.target)) return;
+		if (MINIMAL_MEADOW_CONTROL_CODES.has(event.code)) {
+			event.preventDefault?.();
+		}
 		this.keys.add(event.code);
-		if (event.code === 'Space' && !event.repeat) this.jumpRequested = true;
+		if (event.code === 'Space'
+			&& !event.repeat
+			&& !event.shiftKey) {
+			this.jumpRequested = true;
+		}
 	}
 
 	handleKeyUp(event) {
-		if (CONTROL_CODES.has(event.code)) event.preventDefault?.();
+		if (MINIMAL_MEADOW_CONTROL_CODES.has(event.code)) {
+			event.preventDefault?.();
+		}
 		this.keys.delete(event.code);
 	}
 
@@ -85,7 +90,10 @@ export class MinimalMeadowInput {
 		this.environment.addEventListener?.('keyup', this.onKeyUp);
 		this.environment.addEventListener?.('blur', this.onBlur);
 		this.environment.addEventListener?.('pagehide', this.onPageHide);
-		this.document?.addEventListener?.('visibilitychange', this.onVisibility);
+		this.document?.addEventListener?.(
+			'visibilitychange',
+			this.onVisibility
+		);
 		this.jumpHost?.addEventListener?.('pointerdown', this.onJump);
 	}
 
@@ -94,22 +102,11 @@ export class MinimalMeadowInput {
 		this.environment.removeEventListener?.('keyup', this.onKeyUp);
 		this.environment.removeEventListener?.('blur', this.onBlur);
 		this.environment.removeEventListener?.('pagehide', this.onPageHide);
-		this.document?.removeEventListener?.('visibilitychange', this.onVisibility);
+		this.document?.removeEventListener?.(
+			'visibilitychange',
+			this.onVisibility
+		);
 		this.jumpHost?.removeEventListener?.('pointerdown', this.onJump);
 		this.joystick?.destroy?.();
 	}
-}
-
-function sign(keys, positiveCodes, negativeCodes) {
-	return Number(positiveCodes.some(code => keys.has(code)))
-		- Number(negativeCodes.some(code => keys.has(code)));
-}
-function clamp(value) {
-	return Math.max(-1, Math.min(1, Number(value) || 0));
-}
-function clampMagnitude(value) {
-	return Math.max(0, Math.min(1, Number(value) || 0));
-}
-function isTextEntry(target) {
-	return Boolean(target?.closest?.('input,textarea,select,[contenteditable="true"]'));
 }

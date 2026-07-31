@@ -4,16 +4,19 @@
 
 /**
  * @file minimalMeadowFeatureScheduler.test.mjs
- * @description Proves one essential promise waits for a visible scheduling gate.
- * The Awtsmoos lets ground appear before stores awaken; Awtsmoos.com verifies
- * one install, one receipt, one event, and deterministic fallback scheduling.
+ * @description Proves immediate bootstrap readiness and atomic background rich-feature handoff.
+ * The Awtsmoos opens the road without a paint gate while fuller garments approach;
+ * Awtsmoos.com verifies one promise, one receipt, uninterrupted play, cleanup, and failure preservation.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { scheduleMinimalMeadowFeatures } from '../../app/MinimalMeadowFeatureScheduler.js';
+import {
+	scheduleMinimalMeadowFeatures
+} from '../../app/MinimalMeadowFeatureScheduler.js';
 
 const ESSENTIAL = Object.freeze({
+	animation: true,
 	combat: true,
 	equipment: true,
 	inventory: true,
@@ -22,59 +25,90 @@ const ESSENTIAL = Object.freeze({
 	ready: true,
 	recovery: true,
 	streaming: true,
-	ui: true
+	ui: true,
+	world: true
 });
 
-test('B"H visible frame starts one essential graph and publishes one receipt', async () => {
-	let frameCallback = null;
-	let loads = 0;
+test('B"H bootstrap remains active until rich hydration succeeds', async () => {
 	const events = [];
+	const state = lifecycleState();
+	let resolveRich;
+	const richGate = new Promise(resolve => {
+		resolveRich = resolve;
+	});
 	const runtime = {
 		bus: { emit: (...values) => events.push(values) }
 	};
-	const environment = {
-		requestAnimationFrame: callback => {
-			frameCallback = callback;
-			return 7;
-		}
-	};
-	const dependencies = {
-		installMinimalMeadowFeatures: async () => {
-			loads += 1;
-			return { essential: ESSENTIAL, optionalPromise: Promise.resolve(), ready: true };
-		}
-	};
-	const first = scheduleMinimalMeadowFeatures(runtime, environment, dependencies);
-	const second = scheduleMinimalMeadowFeatures(runtime, environment, dependencies);
+	const dependencies = dependenciesFor(state, async () => richGate);
+	const first = scheduleMinimalMeadowFeatures(runtime, {}, dependencies);
+	const second = scheduleMinimalMeadowFeatures(runtime, {}, dependencies);
 	assert.equal(first, second);
-	assert.equal(runtime.featuresPromise, first);
-	assert.equal(loads, 0);
-	frameCallback();
 	const receipt = await first;
-	assert.equal(loads, 1);
 	assert.equal(receipt.ready, true);
-	assert.equal(runtime.featureReceipt, receipt);
-	assert.deepEqual(events, [['world:essential-ready', receipt]]);
+	assert.equal(runtime.featureStage, 'ready');
+	assert.equal(state.bootstrapInstalls, 1);
+	assert.equal(state.suspends, 0);
+	assert.equal(state.destroys, 0);
+	assert.equal(events[0][0], 'world:essential-ready');
+	resolveRich({ ready: true });
+	const richReceipt = await runtime.optionalFeaturePromise;
+	assert.equal(richReceipt.ready, true);
+	assert.equal(runtime.richFeatureStage, 'ready');
+	assert.equal(state.suspends, 1);
+	assert.equal(state.destroys, 1);
 });
 
-test('B"H timer fallback remains deterministic when animation frames are absent', async () => {
-	let timerCallback = null;
-	let loads = 0;
-	const runtime = {};
-	const environment = {
-		setTimeout: callback => {
-			timerCallback = callback;
-			return 9;
-		}
+test('B"H failed rich hydration preserves uninterrupted bootstrap play', async () => {
+	const events = [];
+	const state = lifecycleState();
+	const runtime = {
+		bus: { emit: (...values) => events.push(values) }
 	};
-	const promise = scheduleMinimalMeadowFeatures(runtime, environment, {
-		installMinimalMeadowFeatures: async () => {
-			loads += 1;
-			return { essential: ESSENTIAL, optionalPromise: null, ready: true };
-		}
+	const dependencies = dependenciesFor(state, async () => {
+		throw new Error('RICH_INSTALL_FAILED');
 	});
-	assert.equal(loads, 0);
-	timerCallback();
-	assert.equal((await promise).ready, true);
-	assert.equal(loads, 1);
+	const receipt = await scheduleMinimalMeadowFeatures(
+		runtime,
+		{},
+		dependencies
+	);
+	assert.equal(receipt.ready, true);
+	const richReceipt = await runtime.optionalFeaturePromise;
+	assert.equal(richReceipt.ready, false);
+	assert.equal(richReceipt.bootstrapPreserved, true);
+	assert.equal(runtime.richFeatureStage, 'failed');
+	assert.equal(state.suspends, 0);
+	assert.equal(state.resumes, 0);
+	assert.equal(state.destroys, 0);
+	assert.equal(events.at(-1)[0], 'world:rich-features-failed');
 });
+
+function dependenciesFor(state, installRich) {
+	return {
+		installMinimalMeadowBootstrapFeatures() {
+			state.bootstrapInstalls += 1;
+			return {
+				destroy() {
+					state.destroys += 1;
+				},
+				essential: ESSENTIAL,
+				resume() {
+					state.resumes += 1;
+				},
+				suspend() {
+					state.suspends += 1;
+				}
+			};
+		},
+		installMinimalMeadowFeatures: installRich
+	};
+}
+
+function lifecycleState() {
+	return {
+		bootstrapInstalls: 0,
+		destroys: 0,
+		resumes: 0,
+		suspends: 0
+	};
+}

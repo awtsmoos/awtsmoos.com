@@ -15,7 +15,7 @@ import test from 'node:test';
 import { GAMEPLAY_STYLESHEETS } from '../../launcher/MitzvahWorldGameplayPresentation.js';
 
 const GAME_ROOT_URL = new URL('../../../../../', import.meta.url);
-const source = relativePath => readFile(new URL(relativePath, GAME_ROOT_URL), 'utf8');
+const source = (relativePath) => readFile(new URL(relativePath, GAME_ROOT_URL), 'utf8');
 
 test('native meadow page requests one production stylesheet and one compact entry', async () => {
 	const [html, entry] = await Promise.all([
@@ -45,11 +45,14 @@ test('gameplay styles remain outside the HTML threshold', () => {
 	assert.equal(new Set(GAMEPLAY_STYLESHEETS).size, 6);
 });
 
-test('runtime opens staged startup and keeps heavy systems explicitly deferred', async () => {
+test('runtime rebases deferred startup and keeps heavy systems explicit', async () => {
 	const runtime = await source(
 		'experiments/Awtsmoos/src/app/createEretzRuntime.js'
 	);
-	assert.match(runtime, /STAGED_RUNTIME_URL/);
+	assert.match(runtime, /resolveDeferredAppModuleUrl/);
+	assert.match(runtime, /BootPhaseTracker\.js\?v=20260722-boot-text-01/);
+	assert.match(runtime, /EretzStagedRuntime\.js\?v=20260723-stream-21/);
+	assert.match(runtime, /import\(TRACKER_URL\)/);
 	assert.match(runtime, /import\(STAGED_RUNTIME_URL\)/);
 	assert.match(runtime, /deferredSystems/);
 	assert.match(runtime, /authoredTerrain:\s*'district-streaming-required'/);

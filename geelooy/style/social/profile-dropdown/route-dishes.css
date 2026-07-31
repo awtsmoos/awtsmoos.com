@@ -1,58 +1,61 @@
 /* B"H
- * Boruch Hashem
- * Blessed is He
- * The Awtsmoos arranges canonical route souls as luminous dishes of Malchus.
- */
+Boruch Hashem
+Blessed is He
+The Awtsmoos arranges canonical destinations as luminous UFO dishes orbiting one identity center.
+*/
 .awtsmoosDrop .profile-route-dishes {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
-	gap: .5rem;
-	padding: .15rem 0;
+	gap: .56rem;
+	padding: .08rem 0;
 }
 
 .awtsmoosDrop .profile-route-dish {
 	position: relative;
 	display: grid;
-	grid-template-columns: 2.4rem minmax(0, 1fr);
+	grid-template-columns: 2.75rem minmax(0, 1fr);
 	align-items: center;
-	gap: .55rem;
-	min-height: 3.75rem;
-	padding: .58rem .65rem;
+	gap: .62rem;
+	min-height: 4.2rem;
+	padding: .68rem;
 	overflow: hidden;
-	border: 1px solid rgba(80, 215, 255, .2);
-	border-radius: .75rem 1.05rem .75rem 1.05rem;
-	background: linear-gradient(135deg, rgba(12, 28, 52, .94), rgba(8, 10, 25, .96));
+	border: 1px solid rgba(102, 205, 255, .18);
+	border-radius: .95rem;
+	background: rgba(255, 255, 255, .025);
 	color: #f8fbff;
 	text-decoration: none;
-	transition: border-color 140ms ease, transform 140ms ease, box-shadow 140ms ease;
-}
-
-.awtsmoosDrop .profile-route-dish::after {
-	position: absolute;
-	inset: auto 12% 0;
-	height: 1px;
-	background: linear-gradient(90deg, transparent, #50d7ff, transparent);
-	content: "";
-	opacity: .42;
+	transition: border-color 150ms ease, transform 150ms ease, background 150ms ease;
 }
 
 .awtsmoosDrop .profile-route-dish:hover,
 .awtsmoosDrop .profile-route-dish:focus-visible {
-	border-color: rgba(80, 215, 255, .7);
-	box-shadow: 0 0 1.2rem rgba(52, 155, 255, .18);
-	transform: translateY(-1px);
+	border-color: rgba(101, 220, 255, .48);
+	background: rgba(96, 143, 210, .11);
+	outline: none;
+	transform: translateY(-2px);
 }
 
 .awtsmoosDrop .profile-route-dish-icon {
+	position: relative;
 	display: grid;
-	width: 2.35rem;
-	height: 2.35rem;
+	width: 2.58rem;
+	height: 2.58rem;
 	place-items: center;
-	border: 1px solid rgba(80, 215, 255, .32);
-	border-radius: .75rem;
-	background: radial-gradient(circle, rgba(52, 155, 255, .3), rgba(4, 4, 12, .96) 72%);
-	font-size: 1.15rem;
-	filter: drop-shadow(0 0 .5rem rgba(80, 215, 255, .4));
+	border: 1px solid rgba(101, 220, 255, .34);
+	border-radius: 50%;
+	background: radial-gradient(circle at 38% 32%, rgba(137, 220, 255, .4), rgba(25, 47, 92, .72) 42%, rgba(3, 5, 14, .98) 74%);
+	font-size: 1.2rem;
+	box-shadow: 0 0 .9rem rgba(80, 190, 255, .22), inset 0 0 .7rem rgba(140, 100, 255, .16);
+}
+
+.awtsmoosDrop .profile-route-dish-icon::after {
+	position: absolute;
+	inset: 50% -16% auto;
+	height: .38rem;
+	border: 1px solid rgba(115, 224, 255, .3);
+	border-radius: 50%;
+	content: "";
+	transform: translateY(-50%) rotate(-8deg);
 }
 
 .awtsmoosDrop .profile-route-dish-copy {
@@ -62,38 +65,27 @@
 }
 
 .awtsmoosDrop .profile-route-dish-copy strong {
-	font-size: .82rem;
+	font-size: .84rem;
 	font-weight: 900;
 }
 
 .awtsmoosDrop .profile-route-dish-copy small {
 	display: -webkit-box;
 	overflow: hidden;
-	color: #9fb2d0;
-	font-size: .62rem;
+	color: #8797ad;
+	font-size: .64rem;
 	line-height: 1.3;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 2;
 }
 
 .awtsmoosDrop .profile-route-dish[href="/games"] {
-	border-color: rgba(218, 97, 194, .54);
-	background: linear-gradient(135deg, rgba(84, 58, 165, .42), rgba(12, 20, 44, .95), rgba(203, 82, 177, .22));
-}
-
-.awtsmoosDrop .profile-route-dish[href="/games"]::after {
-	background: linear-gradient(90deg, transparent, #da61c2, #50d7ff, transparent);
-	opacity: .85;
+	border-color: rgba(218, 97, 194, .28);
+	background: linear-gradient(135deg, rgba(84, 58, 165, .18), rgba(203, 82, 177, .08));
 }
 
 @media (max-width: 28rem) {
 	.awtsmoosDrop .profile-route-dishes {
 		grid-template-columns: 1fr;
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	.awtsmoosDrop .profile-route-dish {
-		transition: none;
 	}
 }

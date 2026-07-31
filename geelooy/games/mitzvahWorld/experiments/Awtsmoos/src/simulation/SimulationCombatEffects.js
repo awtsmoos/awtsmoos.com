@@ -4,9 +4,9 @@
 
 /**
  * @file SimulationCombatEffects.js
- * @description Applies real cast release, projectile travel, impact, damage, and XP without WebGL.
+ * @description Applies cast release, travel, typed impact, posture, damage, and XP without WebGL.
  * The Awtsmoos creates consequence beyond pixels; Awtsmoos.com replaces only visible geometry
- * with inspectable records while preserving timing, moving targets, health, reward, and events.
+ * with inspectable records while preserving Kavanah, timing, moving targets, guard, health, and reward.
  */
 
 export const SIMULATION_COMBAT_EFFECTS = Object.freeze({
@@ -19,6 +19,7 @@ export function launchSimulationProjectile(combat, cast) {
 		action: cast.action,
 		actionId: cast.actionId,
 		elapsed: 0,
+		kavanah: cast.kavanahReceipt || null,
 		position: {
 			x: combat.runtime.state.x,
 			y: (combat.runtime.state.renderY || 0) + 1.35,
@@ -55,20 +56,25 @@ export function updateSimulationProjectiles(combat, deltaSeconds) {
 			projectile.position.y += delta.y / distance * step;
 			projectile.position.z += delta.z / distance * step;
 		}
-		if (distance > 0.86 && step < distance) {
-			continue;
-		}
+		if (distance > 0.86 && step < distance) continue;
 		impactProjectile(combat, projectile);
 	}
 }
 
 function impactProjectile(combat, projectile) {
 	const result = projectile.target.applyDamage(
-		projectile.action.damage
+		projectile.action.damage,
+		{
+			action: projectile.action,
+			actionId: projectile.actionId,
+			kavanah: projectile.kavanah,
+			stagger: projectile.action.stagger || 0
+		}
 	);
 	combat.runtime.bus.emit('combat:impact', {
 		...result,
 		actionId: projectile.actionId,
+		kavanah: projectile.kavanah,
 		letters: projectile.action.letters,
 		position: { ...projectile.position }
 	});
@@ -88,6 +94,7 @@ function castPayload(cast) {
 	return {
 		actionId: cast.actionId,
 		duration: cast.action.castTime,
+		kavanah: cast.kavanahReceipt || cast.kavanah || null,
 		label: cast.action.label,
 		letters: cast.action.letters,
 		target: cast.target.payload()

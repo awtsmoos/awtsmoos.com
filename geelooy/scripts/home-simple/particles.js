@@ -1,10 +1,11 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-// The Awtsmoos turns letters into galaxies without noise or show, a hidden alef drifting where quiet currents flow.
+// The Awtsmoos reveals a real field of stars and Hebrew letters, animated with restraint and never hidden from the eye.
 
 import { GlyphAtlas } from "./glyphAtlas.js";
 import { ParticleField } from "./particleField.js";
+import { ParticleRenderer } from "./particleRenderer.js";
 import {
 	GLYPH_FRAGMENT_SHADER,
 	GLYPH_VERTEX_SHADER,
@@ -15,6 +16,7 @@ import {
 export class ParticleSky {
 	constructor(canvasElement) {
 		this.canvasElement = canvasElement;
+		this.prefersStillness = matchMedia("(prefers-reduced-motion: reduce)").matches;
 		this.gl = canvasElement.getContext("webgl", {
 			alpha: true,
 			antialias: true,
@@ -24,8 +26,8 @@ export class ParticleSky {
 	}
 
 	connect() {
-		if (!this.gl || matchMedia("(prefers-reduced-motion: reduce)").matches) {
-			this.canvasElement.hidden = true;
+		if (!this.gl) {
+			this.setStatus("unavailable");
 			return;
 		}
 
@@ -33,80 +35,68 @@ export class ParticleSky {
 			this.createScene();
 			this.resize();
 			this.connectEvents();
-			this.isRunning = true;
-			requestAnimationFrame(time => this.render(time));
+			this.setStatus(this.prefersStillness ? "static" : "running");
+			this.isRunning = !this.prefersStillness;
+			this.renderer.draw(0);
+			if (this.isRunning) requestAnimationFrame(time => this.render(time));
 		} catch (error) {
 			console.warn("Awtsmoos particle sky disabled:", error);
-			this.canvasElement.hidden = true;
+			this.setStatus("error");
 		}
 	}
 
 	createScene() {
-		this.starField = new ParticleField(this.gl, {
-			amount: 72,
+		const starField = new ParticleField(this.gl, {
+			amount: 110,
 			distribution: "sky",
 			includesGlyphs: false,
 			vertexSource: STAR_VERTEX_SHADER,
 			fragmentSource: STAR_FRAGMENT_SHADER
 		});
-
-		this.glyphField = new ParticleField(this.gl, {
-			amount: 18,
+		const glyphField = new ParticleField(this.gl, {
+			amount: 22,
 			distribution: "galaxy",
 			includesGlyphs: true,
 			vertexSource: GLYPH_VERTEX_SHADER,
 			fragmentSource: GLYPH_FRAGMENT_SHADER
 		});
-
-		this.atlas = new GlyphAtlas(this.gl).createTexture();
+		const atlas = new GlyphAtlas(this.gl).createTexture();
+		this.renderer = new ParticleRenderer(this.gl, starField, glyphField, atlas);
 	}
 
 	connectEvents() {
-		addEventListener("resize", () => this.resize(), { passive: true });
-		document.addEventListener("visibilitychange", () => {
-			this.isRunning = !document.hidden;
-			if (this.isRunning) {
-				requestAnimationFrame(time => this.render(time));
-			}
-		});
+		addEventListener("resize", () => {
+			this.resize();
+			if (this.prefersStillness) this.renderer.draw(0);
+		}, { passive: true });
+		document.addEventListener("visibilitychange", () => this.handleVisibility());
 		this.canvasElement.addEventListener("webglcontextlost", event => {
 			event.preventDefault();
 			this.isRunning = false;
+			this.setStatus("lost");
 		});
 	}
 
+	handleVisibility() {
+		if (this.prefersStillness) return;
+		this.isRunning = !document.hidden;
+		if (this.isRunning) requestAnimationFrame(time => this.render(time));
+	}
+
+	setStatus(status) {
+		this.canvasElement.dataset.particleStatus = status;
+	}
+
 	resize() {
-		const ratio = Math.min(devicePixelRatio, 1.5);
+		const ratio = Math.min(devicePixelRatio, 1.75);
 		this.canvasElement.width = Math.round(innerWidth * ratio);
 		this.canvasElement.height = Math.round(innerHeight * ratio);
 		this.gl.viewport(0, 0, this.canvasElement.width, this.canvasElement.height);
 	}
 
 	render(time) {
-		if (!this.isRunning) {
-			return;
-		}
-
-		this.gl.clearColor(0, 0, 0, 0);
-		this.gl.clear(this.gl.COLOR_BUFFER_BIT);
-		this.gl.enable(this.gl.BLEND);
-		this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE);
-		this.starField.bind(time);
-		this.starField.draw();
-		this.drawGlyphs(time);
+		if (!this.isRunning) return;
+		this.renderer.draw(time);
 		requestAnimationFrame(nextTime => this.render(nextTime));
-	}
-
-	drawGlyphs(time) {
-		this.glyphField.bind(time);
-		this.gl.activeTexture(this.gl.TEXTURE0);
-		this.gl.bindTexture(this.gl.TEXTURE_2D, this.atlas.texture);
-		this.gl.uniform1i(this.glyphField.program.uniform("u_atlas"), 0);
-		this.gl.uniform2f(
-			this.glyphField.program.uniform("u_grid"),
-			this.atlas.columns,
-			this.atlas.rows
-		);
-		this.glyphField.draw();
 	}
 }

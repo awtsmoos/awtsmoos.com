@@ -4,9 +4,9 @@
 
 /**
  * @file minimalMeadowHebrewProjectileVisual.test.mjs
- * @description Proves solid Hebrew geometry, configured vocabulary, pooling, motion, and cleanup.
- * The Awtsmoos renews every tested stroke and finite path; Awtsmoos.com asks evidence to show
- * that Hebrew—not circles or textures—is primary, readable, reusable, and renderer-safe.
+ * @description Proves solid Hebrew geometry, fixed-step motion, pooling, impact, and cleanup.
+ * The Awtsmoos renews every tested stroke and finite path; Awtsmoos.com advances the same
+ * bounded simulation ticks as runtime so readable Hebrew and reusable particles remain truthful.
  */
 
 import assert from 'node:assert/strict';
@@ -60,7 +60,7 @@ test('projectile tracks target, impacts, and reuses its visual vessel', () => {
 	const scene = new Group();
 	const first = createHebrewProjectile({ x: 0, y: 1, z: 0 }, target, action);
 	scene.add(first.group);
-	const state = updateHebrewProjectile(first, 0.5);
+	const state = advanceProjectile(first);
 	assert.ok(first.group.position.x > 0);
 	assert.equal(state.impact, true);
 	assert.equal(hebrewProjectileDiagnostics(first).glyphViews, 3);
@@ -76,8 +76,8 @@ test('supporting particles remain bounded and reusable', () => {
 	const impact = createImpactExplosion({ x: 1, y: 2, z: 3 }, action.color, 99);
 	assert.equal(trail.particles.length, 3);
 	assert.equal(impact.particles.length, 12);
-	assert.equal(updateParticleEffect(trail, 0.5), true);
-	assert.equal(updateParticleEffect(impact, 0.8), true);
+	assert.equal(advanceEffect(trail), true);
+	assert.equal(advanceEffect(impact), true);
 	releaseParticleEffect(trail);
 	releaseParticleEffect(impact);
 	const reused = createProjectileTrail({ x: 0, y: 0, z: 0 }, action.color);
@@ -85,3 +85,18 @@ test('supporting particles remain bounded and reusable', () => {
 	assert.ok(particleEffectDiagnostics().trail.reused >= 1);
 	releaseParticleEffect(reused);
 });
+
+function advanceProjectile(projectile) {
+	let state = { impact: false };
+	for (let step = 0; step < 30 && !state.impact; step += 1) {
+		state = updateHebrewProjectile(projectile, 0.05);
+	}
+	return state;
+}
+
+function advanceEffect(effect) {
+	for (let step = 0; step < 30; step += 1) {
+		if (updateParticleEffect(effect, 0.05)) return true;
+	}
+	return false;
+}

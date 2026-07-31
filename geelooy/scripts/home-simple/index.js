@@ -1,30 +1,19 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-// The Awtsmoos joins motion, menu, and search in one gentle stream, where every small interaction awakens from the dream.
+// The Awtsmoos keeps only the behaviors that truly need JavaScript; navigation itself belongs to native browser truth.
 
+import createProfileDropdown from "/scripts/awtsmoos/social/profileDropdown.js?v=4";
 import { AmbientParallax } from "./ambient.js";
-import { MenuController } from "./menu.js";
 import { ParticleSky } from "./particles.js";
 import { SearchController } from "./search.js";
 
-const menuElement = document.querySelector("[data-menu]");
 const canvasElement = document.querySelector("[data-particle-sky]");
 const parallaxElement = document.querySelector("[data-parallax]");
 const searchElement = document.querySelector("form[role='search']");
+const profileMount = document.querySelector("[data-profile-mount]");
 
-if (menuElement) {
-	new MenuController(menuElement).connect();
-}
-
-if (canvasElement) {
-	new ParticleSky(canvasElement).connect();
-}
-
-if (parallaxElement) {
-	new AmbientParallax(parallaxElement).connect();
-}
-
-if (searchElement) {
-	new SearchController(searchElement).connect();
-}
+if (canvasElement) new ParticleSky(canvasElement).connect();
+if (parallaxElement) new AmbientParallax(parallaxElement).connect();
+if (searchElement) new SearchController(searchElement).connect();
+if (profileMount) createProfileDropdown(profileMount);

@@ -16,6 +16,10 @@ import { dispatchMoviePerformanceEvents } from './MoviePerformancePlaybackDispat
 import { MoviePerformancePlaybackState } from './MoviePerformancePlaybackState.js';
 import { resolveMoviePerformanceEvents } from './MoviePerformanceEventResolver.js';
 import { discoverMoviePerformanceTargets } from './MoviePerformanceRoster.js';
+import {
+	applyMoviePerformanceCamera,
+	moviePerformanceCameraSnapshot
+} from './MoviePerformanceCameraValue.js';
 
 export class MoviePerformanceDirector {
 	constructor(runtime, project, options = {}) {
@@ -24,7 +28,16 @@ export class MoviePerformanceDirector {
 		this.resolveObject = options.resolveObject || resolveRuntimeObject(runtime);
 		this.state = new MoviePerformancePlaybackState();
 		this.previousTime = 0;
+		this.cameraBaseline = null;
 		this.refreshTargets();
+	}
+
+	beginFrame() {
+		this.state.restoreAll(this.targets);
+		if (this.cameraBaseline) {
+			applyMoviePerformanceCamera(this.runtime.camera, this.cameraBaseline);
+			this.cameraBaseline = null;
+		}
 	}
 
 	refreshTargets() {
@@ -34,25 +47,17 @@ export class MoviePerformanceDirector {
 	}
 
 	apply(time) {
-		this.state.refreshAppliedBaselines(this.targets);
 		const entries = resolveMoviePerformanceClips(this.project, time);
-		const activeIds = new Set();
-		const actorEntries = strongestEntries(entries);
 		const actors = [];
-		for (const entry of actorEntries.values()) {
+		for (const entry of strongestEntries(entries).values()) {
 			const target = this.targets.get(entry.track.target);
 			if (!target?.model) {
-				actors.push({
-					applied: false,
-					warning: `PERFORMANCE_TARGET_MISSING:${entry.track.target}`
-				});
+				actors.push(missingTarget(entry));
 				continue;
 			}
-			activeIds.add(target.id);
 			const baseline = this.state.capture(target);
 			actors.push(applyMoviePerformanceEntry(entry, target, baseline));
 		}
-		this.state.restoreInactive(this.targets, activeIds);
 		const events = resolveMoviePerformanceEvents(
 			this.project,
 			this.previousTime,
@@ -63,20 +68,23 @@ export class MoviePerformanceDirector {
 			this.targets,
 			this.resolveObject
 		);
+		this.cameraBaseline = entries.some(entry => entry.take.cameraSamples?.length)
+			? moviePerformanceCameraSnapshot(this.runtime.camera, time)
+			: null;
 		const camera = applyMoviePerformanceRecordedCamera(entries, this.runtime.camera);
 		this.previousTime = time;
 		return { actors, camera, dispatched, entries, time };
 	}
 
 	setProject(project) {
-		this.state.restoreAll(this.targets);
+		this.beginFrame();
 		this.project = project;
 		this.previousTime = 0;
 		this.refreshTargets();
 	}
 
 	destroy() {
-		this.state.restoreAll(this.targets);
+		this.beginFrame();
 		this.state.clear();
 		this.targets.clear();
 	}
@@ -88,6 +96,13 @@ function strongestEntries(entries) {
 		map.set(entry.track.target, entry);
 	}
 	return map;
+}
+
+function missingTarget(entry) {
+	return {
+		applied: false,
+		warning: `PERFORMANCE_TARGET_MISSING:${entry.track.target}`
+	};
 }
 
 function attachTrackTarget(event, project) {

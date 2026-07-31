@@ -1,11 +1,11 @@
 {
 	"deterministic": true,
 	"entry": "experiments/Awtsmoos/src/MinimalMeadowCompactBootstrap.js",
-	"inputBytes": 1014,
+	"inputBytes": 407,
 	"moduleCount": 1,
 	"modules": [],
 	"optionalModulesBundled": [],
-	"outputBytes": 2660,
-	"outputHash": "845f676f92183aae4401d4011ef46a04bee3305619e66e78278094882450496d",
+	"outputBytes": 5169202,
+	"outputHash": "a1792f64dfa2ab747909b893b68cac29954c85fae017f09c7b48655543795d14",
 	"sourceMap": false
 }

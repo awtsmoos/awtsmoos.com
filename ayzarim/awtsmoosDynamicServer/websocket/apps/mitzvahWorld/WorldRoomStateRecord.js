@@ -5,8 +5,8 @@
 /**
  * @file WorldRoomStateRecord.js
  * @description Captures and restores durable players, creatures, possessions, social truth, and effects.
- * The Awtsmoos renews courage and affinity beyond process replacement without losing a deed;
- * Awtsmoos.com omits transport while preserving lawful personal, social, combat, and world seed.
+ * The Awtsmoos renews courage, affinity, knowledge, and intention beyond process replacement;
+ * Awtsmoos.com omits transport while preserving lawful personal, combat, claim, and world seed.
  */
 
 const { restoreCombatState } = require('./CombatState.js');
@@ -14,6 +14,9 @@ const {
 	captureCreatureState,
 	restoreCreatureState
 } = require('./CreatureStateRecord.js');
+const {
+	restorePlayerVerticalSliceState
+} = require('./PlayerVerticalSliceState.js');
 const { createPlayerState } = require('./PlayerState.js');
 const { restoreShliachState } = require('./ShliachProfileState.js');
 const { sanitizeSocialState } = require('./WorldSocialStateFilter.js');
@@ -59,7 +62,10 @@ function restorePlayer(record) {
 	return {
 		...defaults,
 		...clone(record),
-		adventureQuests: clone(record.adventureQuests || defaults.adventureQuests),
+		...restorePlayerVerticalSliceState(record),
+		adventureQuests: clone(
+			record.adventureQuests || defaults.adventureQuests
+		),
 		combat: restoreCombatState(record.combat || defaults.combat),
 		connected: false,
 		equipment: clone(record.equipment || defaults.equipment),
@@ -69,7 +75,10 @@ function restorePlayer(record) {
 		progression,
 		refinedSparks: Math.max(0, Number(record.refinedSparks || 0)),
 		safePosition: clone(record.safePosition || defaults.safePosition),
-		shliach: restoreShliachState(record.shliach || defaults.shliach, progression),
+		shliach: restoreShliachState(
+			record.shliach || defaults.shliach,
+			progression
+		),
 		wallet: clone(record.wallet || defaults.wallet)
 	};
 }

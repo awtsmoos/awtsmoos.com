@@ -1,0 +1,43 @@
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieStudioMediaWorkspaceCss.js
+ * @description Styles the media bin and source monitor for desktop drawers and mobile sheets.
+ * The Awtsmoos renews every visible boundary; Awtsmoos.com keeps search, preview, marks,
+ * track targeting, and edit actions readable without hiding any accessible control.
+ */
+
+export function movieStudioMediaWorkspaceCss() {
+	return `
+		.movie-media-workspace { display: grid; gap: var(--movie-space-3); padding-bottom: var(--movie-space-4); border-bottom: 1px solid var(--movie-divider-subtle); }
+		.movie-media-workspace-heading,
+		.movie-source-monitor header { display: flex; align-items: center; justify-content: space-between; gap: var(--movie-space-2); }
+		.movie-media-workspace-heading h3,
+		.movie-source-monitor h4 { margin: 0; }
+		.movie-media-workspace-heading output,
+		.movie-source-monitor output { color: var(--movie-text-muted); font-size: 11px; }
+		.movie-media-workspace-filters,
+		.movie-media-workspace-searches,
+		.movie-source-monitor-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--movie-space-2); }
+		.movie-media-workspace-check { display: flex !important; align-items: center; gap: var(--movie-space-2) !important; }
+		.movie-media-workspace-check input { width: auto; }
+		.movie-media-workspace-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--movie-space-1); align-items: end; }
+		.movie-media-workspace-list { display: grid; gap: var(--movie-space-1); max-height: 240px; overflow: auto; }
+		.movie-media-workspace-item { display: grid; gap: 2px; text-align: left; padding: var(--movie-space-2); border: 1px solid var(--movie-divider-subtle); }
+		.movie-media-workspace-item[aria-selected="true"] { outline: 2px solid var(--movie-accent); outline-offset: -2px; }
+		.movie-media-workspace-item small { color: var(--movie-text-muted); }
+		.movie-source-monitor { display: grid; gap: var(--movie-space-2); padding: var(--movie-space-3); border: 1px solid var(--movie-divider-subtle); border-radius: var(--movie-radius); background: var(--movie-panel); }
+		.movie-source-monitor-preview { display: grid; place-items: center; min-height: 140px; overflow: hidden; background: var(--movie-canvas); }
+		.movie-source-monitor-preview video,
+		.movie-source-monitor-preview audio,
+		.movie-source-monitor-preview img { width: 100%; max-height: 260px; object-fit: contain; }
+		@media (max-width: 720px) {
+			.movie-media-workspace-filters,
+			.movie-media-workspace-searches,
+			.movie-source-monitor-fields,
+			.movie-media-workspace-actions { grid-template-columns: 1fr; }
+		}
+	`;
+}

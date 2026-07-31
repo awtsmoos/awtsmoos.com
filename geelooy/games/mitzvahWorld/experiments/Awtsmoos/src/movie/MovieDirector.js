@@ -4,9 +4,9 @@
 
 /**
  * @file MovieDirector.js
- * @description Owns movie timing, cast, authored 3D, visual effects, cameras, scenes, overlay, and deterministic seek.
- * The Awtsmoos renews every first-person frame beyond elapsed time; Awtsmoos.com keeps
- * playback, appearance, authoring, and export rooted in one project truth rather than separate realities.
+ * @description Owns timing, cast, authored 3D, performance, effects, cameras, scenes, and seek.
+ * The Awtsmoos renews every cinematic frame beyond elapsed time; Awtsmoos.com keeps
+ * playback, acting, appearance, authoring, and export rooted in one project truth and rhyme.
  */
 
 import { MovieActorDirector } from './MovieActorDirector.js';
@@ -16,6 +16,7 @@ import { MovieCrowdDirector } from './MovieCrowdDirector.js';
 import { applyMovieDirectorFrame } from './MovieDirectorFrame.js';
 import { MovieDoorDirector } from './MovieDoorDirector.js';
 import { MovieOverlay } from './MovieOverlay.js';
+import { MoviePerformanceDirector } from './MoviePerformanceDirector.js';
 import { MovieSceneDirector } from './MovieSceneDirector.js';
 import { MovieTimeline } from './MovieTimeline.js';
 import { MovieVisualEffectDirector } from './MovieVisualEffectDirector.js';
@@ -32,6 +33,7 @@ export class MovieDirector {
 		this.doors = new MovieDoorDirector(runtime);
 		this.scenes = new MovieSceneDirector(runtime);
 		this.visuals = new MovieVisualEffectDirector(runtime);
+		this.performance = new MoviePerformanceDirector(runtime, project);
 		this.overlay = new MovieOverlay(project);
 		this.time = 0;
 		this.playing = false;
@@ -61,7 +63,9 @@ export class MovieDirector {
 		const started = performance.now() - startAt * 1000;
 		let previous = startAt;
 		const frame = now => {
-			if (!this.playing) return;
+			if (!this.playing) {
+				return;
+			}
 			const time = Math.min(this.project.duration, (now - started) / 1000);
 			const delta = Math.max(0.001, Math.min(0.1, time - previous || 1 / this.project.fps));
 			previous = time;
@@ -80,13 +84,16 @@ export class MovieDirector {
 
 	pause() {
 		this.playing = false;
-		if (this.animationFrame) cancelAnimationFrame(this.animationFrame);
+		if (this.animationFrame) {
+			cancelAnimationFrame(this.animationFrame);
+		}
 		this.animationFrame = 0;
 		return this;
 	}
 
 	destroy() {
 		this.pause();
+		this.performance.destroy();
 		this.visuals.destroy();
 		this.authoring3d.destroy();
 		this.crowd.destroy();

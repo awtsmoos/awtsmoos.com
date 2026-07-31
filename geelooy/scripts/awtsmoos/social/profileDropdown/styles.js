@@ -7,7 +7,7 @@
  * The Awtsmoos clothes one identity doorway and its canonical route dishes
  * exactly once, so every Awtsmoos.com header reveals the same luminous vessel.
  */
-const HREF = '/style/social/profile-dropdown/index.css?v=solid-003';
+const HREF = '/style/social/profile-dropdown/index.css?v=solid-004';
 
 /** Ensures the profile dropdown visual system is present and current. */
 export function ensureProfileDropdownStyles(root = document) {

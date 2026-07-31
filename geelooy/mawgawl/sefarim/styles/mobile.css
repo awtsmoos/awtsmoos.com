@@ -1,20 +1,16 @@
 /* B"H
- * Boruch Hashem
- * Blessed is He
- *
- * The Awtsmoos lets handheld Torah search breathe beneath the shared dock,
- * while every source and comment remains readable inside Awtsmoos.com.
+ * The Awtsmoos lets handheld Torah search breathe beneath the shared shell while keeping source cards compact and readable.
  */
-
 @media (max-width: 42rem) {
 	.library-page {
-		padding: .55rem .55rem calc(6rem + env(safe-area-inset-bottom));
+		gap: .65rem;
+		padding: .5rem .5rem calc(5.5rem + env(safe-area-inset-bottom));
 	}
 
 	.library-hero {
 		grid-template-columns: 1fr;
 		min-height: 0;
-		padding: 1.15rem;
+		padding: 1rem;
 	}
 
 	.library-hero-mark {
@@ -22,21 +18,22 @@
 	}
 
 	.library-hero h1 {
-		font-size: clamp(2.25rem, 13vw, 3.8rem);
+		font-size: clamp(2rem, 11vw, 3.35rem);
 	}
 
 	.library-truth-row {
-		gap: .4rem;
-		margin-top: 1rem;
+		gap: .35rem;
+		margin-top: .8rem;
 	}
 
 	.library-truth-row span {
-		font-size: .72rem;
+		font-size: .68rem;
 	}
 
 	.library-search-form {
 		grid-template-columns: 1fr;
-		padding: .7rem;
+		gap: .6rem;
+		padding: .65rem;
 	}
 
 	.library-search-button {
@@ -54,18 +51,19 @@
 	}
 
 	.library-scope-nav a {
-		flex: 0 0 7rem;
+		flex: 0 0 6.5rem;
 	}
 
 	.library-section-heading {
 		align-items: start;
 		flex-direction: column;
-		gap: .25rem;
+		gap: .2rem;
 	}
 
 	.library-section-heading a {
-		align-items: center;
 		display: flex;
+		align-items: center;
+		min-height: 2rem;
 		padding-inline: 0;
 	}
 
@@ -77,13 +75,26 @@
 		grid-column: auto;
 	}
 
+	.result {
+		padding: .82rem;
+	}
+
 	.resultTop {
-		grid-template-columns: 2.75rem minmax(0, 1fr);
+		grid-template-columns: 2.35rem minmax(0, 1fr);
+	}
+
+	.rank {
+		width: 2.35rem;
+		height: 2.35rem;
 	}
 
 	.score {
 		grid-column: 1 / -1;
 		justify-self: start;
+	}
+
+	.rangeMeta {
+		font-size: .68rem;
 	}
 
 	.rangeComment {
@@ -97,19 +108,10 @@
 
 @media (max-width: 22rem) {
 	.library-hero-copy > p:not(.library-kicker) {
-		font-size: .95rem;
+		font-size: .92rem;
 	}
 
 	.library-truth-row span {
 		width: 100%;
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	*,
-	*::before,
-	*::after {
-		scroll-behavior: auto !important;
-		transition-duration: .01ms !important;
 	}
 }

@@ -1,7 +1,7 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos prepares a quiet vessel, dark and clear, where every spark may appear without noise or fear.
+The Awtsmoos keeps the entire home inside the visual viewport while menus rise above every later-painted layer.
 */
 :root {
 	color-scheme: dark;
@@ -14,18 +14,19 @@ The Awtsmoos prepares a quiet vessel, dark and clear, where every spark may appe
 	box-sizing: border-box;
 }
 
-html {
-	min-height: 100%;
+html,
+body {
+	width: 100%;
+	height: 100%;
+	height: 100dvh;
+	margin: 0;
+	overflow: hidden;
 	background: #060a12;
 }
 
 body {
-	min-height: 100vh;
-	margin: 0;
 	display: grid;
-	grid-template-rows: auto 1fr auto;
-	overflow-x: hidden;
-	background: #060a12;
+	grid-template-rows: auto minmax(0, 1fr) auto;
 }
 
 a {
@@ -42,33 +43,38 @@ input {
 .home,
 .site-footer {
 	position: relative;
-	z-index: 2;
 }
 
 .site-header {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	width: min(1160px, calc(100% - 40px));
+	z-index: 100;
+	width: min(1180px, calc(100% - 28px));
 	margin: 0 auto;
-	padding: 22px 0;
+	padding: 10px 0 7px;
+}
+
+.home {
+	z-index: 4;
+}
+
+.site-footer {
+	z-index: 4;
 }
 
 .site-nav {
 	display: flex;
 	align-items: center;
-	gap: 6px;
+	gap: 5px;
+	min-width: 0;
 }
 
 .site-nav > a,
 .menu > button {
-	padding: 9px 13px;
+	padding: 8px 12px;
 	border: 0;
 	border-radius: 999px;
 	background: transparent;
 	color: #aab4c5;
 	cursor: pointer;
-	transition: color .16s ease, background .16s ease, transform .16s ease;
 }
 
 .site-nav > a:hover,
@@ -76,13 +82,8 @@ input {
 .menu > button:hover,
 .menu > button:focus-visible {
 	outline: none;
-	background: rgba(255, 255, 255, .055);
+	background: rgba(255, 255, 255, .06);
 	color: #fff;
-}
-
-.site-nav > a:active,
-.menu > button:active {
-	transform: scale(.97);
 }
 
 .sr-only {
@@ -95,8 +96,8 @@ input {
 
 @media (max-width: 680px) {
 	.site-header {
-		width: min(100% - 24px, 1160px);
-		padding-top: 15px;
+		width: min(100% - 16px, 1180px);
+		padding-top: 8px;
 	}
 
 	.site-nav > a {

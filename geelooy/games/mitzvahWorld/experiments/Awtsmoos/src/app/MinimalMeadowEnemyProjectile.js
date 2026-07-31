@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowEnemyProjectile.js
- * @description Creates readable hostile Hebrew projectiles with archetype-owned speed and color.
+ * @description Creates readable hostile Hebrew projectiles carrying exact action and phase identity.
  * The Awtsmoos is constant while finite letters travel at measured rates; Awtsmoos.com lets
- * the cantor cast slowly and clearly without changing shared collision, pooling, or prediction.
+ * role, danger, concealment, shape, damage, owner, prediction, pooling, and collision remain explicit.
  */
 
 import * as HebrewProjectile from './MinimalMeadowHebrewProjectile.js';
@@ -17,20 +17,35 @@ import {
 const BASE_SPEED = 7.4;
 const DEFAULT_COLOR = Object.freeze([1, 0.06, 0.08, 1]);
 
-export function createEnemyHebrewProjectile(actor, runtime) {
+export function createEnemyHebrewProjectile(actor, runtime, selectedAction = {}) {
 	const origin = actor.targetHint();
-	const target = { targetHint: () => predictedPlayer(runtime) };
+	const target = {
+		targetHint: () => predictedPlayer(runtime)
+	};
 	const behavior = minimalEnemyArchetypePolicy(actor.profile);
 	const action = Object.freeze({
 		color: actor.profile.projectileTint || DEFAULT_COLOR,
-		letters: actor.profile.attackLetters || 'דין',
+		letters: selectedAction.letters || actor.profile.attackLetters || 'דין',
 		speed: BASE_SPEED * behavior.projectileSpeedScale
 	});
-	const projectile = HebrewProjectile.createHebrewProjectile(origin, target, action);
+	const projectile = HebrewProjectile.createHebrewProjectile(
+		origin,
+		target,
+		action
+	);
 	projectile.group.name = `Awtsmoos_hostile_hebrew_projectile_${action.letters}`;
-	projectile.damage = 14;
-	projectile.ownerId = actor.profile.id;
-	projectile.archetype = actor.profile.archetype;
+	Object.assign(projectile, {
+		action,
+		actionId: selectedAction.id || 'letter-bolt',
+		archetype: actor.profile.archetype,
+		concealed: Boolean(selectedAction.concealed),
+		damage: 14,
+		danger: selectedAction.danger || 'medium',
+		ownerId: actor.profile.id,
+		phase: Number(selectedAction.phase || 1),
+		role: actor.profile.role,
+		shape: selectedAction.shape || 'glyph'
+	});
 	return projectile;
 }
 
@@ -58,11 +73,9 @@ function predictedPlayer(runtime) {
 }
 
 function finite(primary, secondary) {
-	return Number.isFinite(primary)
-		? primary
-		: Number.isFinite(secondary)
-			? secondary
-			: 0;
+	if (Number.isFinite(primary)) return primary;
+	if (Number.isFinite(secondary)) return secondary;
+	return 0;
 }
 
 function clamp(value, minimum, maximum) {

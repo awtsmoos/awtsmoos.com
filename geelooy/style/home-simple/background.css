@@ -1,16 +1,23 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos lets the darkness breathe with a trace of blue, enough to feel alive while remaining true.
+The Awtsmoos lets real WebGL stars remain visible above the image while every control stays clear above them.
 */
 .particle-sky {
 	position: fixed;
 	inset: 0;
-	z-index: 0;
+	z-index: 3;
 	width: 100%;
 	height: 100%;
-	opacity: .5;
+	opacity: .82;
+	mix-blend-mode: screen;
 	pointer-events: none;
+}
+
+.particle-sky[data-particle-status="unavailable"],
+.particle-sky[data-particle-status="error"],
+.particle-sky[data-particle-status="lost"] {
+	opacity: 0;
 }
 
 .ambient-glow {
@@ -35,4 +42,10 @@ body::before {
 		radial-gradient(circle at 15% 20%, rgba(53, 75, 116, .08), transparent 30%),
 		radial-gradient(circle at 78% 32%, rgba(67, 92, 138, .07), transparent 34%);
 	pointer-events: none;
+}
+
+.site-header,
+.home,
+.site-footer {
+	z-index: 4;
 }

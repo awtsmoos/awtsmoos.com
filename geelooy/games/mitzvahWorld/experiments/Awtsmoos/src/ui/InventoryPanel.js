@@ -4,9 +4,9 @@
 
 /**
  * @file InventoryPanel.js
- * @description Coordinates Bag truth inside an exact-once modal interaction boundary.
- * The Awtsmoos renews touch, keyboard, focus, action, and result as one truthful path;
- * Awtsmoos.com lets the Bag silence the world, retain its close deed, and restore prior HUD state once.
+ * @description Coordinates Bag truth and asynchronous item effects inside one modal boundary.
+ * The Awtsmoos renews touch, keyboard, focus, action, and receipt as one truthful path;
+ * Awtsmoos.com lets the Bag await authority, silence the world, and restore prior HUD state once.
  */
 
 import { InventoryModalController } from './InventoryModalController.js';
@@ -27,9 +27,8 @@ export class InventoryPanel {
 		this.host = host || createInventoryModalHost();
 		this.bus = bus;
 		this.store = options.store;
-		if (!this.store) {
-			throw new Error('InventoryPanel requires an InventoryStore.');
-		}
+		this.onUse = options.onUse || null;
+		if (!this.store) throw new Error('InventoryPanel requires an InventoryStore.');
 		this.document = this.host.ownerDocument || globalThis.document;
 		this.open = false;
 		this.selectedItemId = null;
@@ -66,9 +65,7 @@ export class InventoryPanel {
 	}
 
 	handleKeyDown(event) {
-		if (event.key !== 'Escape' || !this.open) {
-			return;
-		}
+		if (event.key !== 'Escape' || !this.open) return;
 		event.preventDefault();
 		this.setOpen(false);
 	}
@@ -82,9 +79,9 @@ export class InventoryPanel {
 		selectInventoryPanelItem(this, itemId, button);
 	}
 
-	runAction(action) {
+	async runAction(action) {
 		try {
-			runInventoryPanelAction(this, action);
+			await runInventoryPanelAction(this, action);
 		} catch (error) {
 			this.card.hidden = false;
 			this.card.textContent = error.message;
@@ -93,23 +90,15 @@ export class InventoryPanel {
 
 	setOpen(open) {
 		const nextOpen = Boolean(open);
-		if (nextOpen === this.open) {
-			return false;
-		}
-		if (nextOpen) {
-			this.modal.activate();
-		}
+		if (nextOpen === this.open) return false;
+		if (nextOpen) this.modal.activate();
 		setInventoryPanelOpen(this, nextOpen);
-		if (!nextOpen) {
-			this.modal.deactivate();
-		}
+		if (!nextOpen) this.modal.deactivate();
 		return true;
 	}
 
 	destroy() {
-		for (const unsubscribe of this.unsubscribers) {
-			unsubscribe();
-		}
+		for (const unsubscribe of this.unsubscribers) unsubscribe();
 		this.panel.removeEventListener('click', this.onPanelClick);
 		this.document.removeEventListener('keydown', this.onKeyDown);
 		this.modal.destroy();

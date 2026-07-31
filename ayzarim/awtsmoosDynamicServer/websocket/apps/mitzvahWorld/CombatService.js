@@ -4,25 +4,31 @@
 
 /**
  * @file CombatService.js
- * @description Composes authoritative player attacks, defense intent, and hostile timelines.
- * The Awtsmoos joins offense and protection without collapsing their laws; Awtsmoos.com
- * keeps focused services beneath one stable room-facing combat contract.
+ * @description Composes attacks, defense, hostile timelines, Kavanah, support, Daas, threat, and boss law.
+ * The Awtsmoos joins offense, protection, intention, and knowledge without collapsing them;
+ * Awtsmoos.com keeps focused services beneath one stable room-facing authoritative contract.
  */
 
 const { CombatAttackService } = require('./CombatAttackService.js');
 const { combatSnapshot } = require('./CombatState.js');
 const { HostileCombatService } = require('./HostileCombatService.js');
 const { ServerCombatDefenseService } = require('./ServerCombatDefenseService.js');
+const { VerticalSliceCombatService } = require('./VerticalSliceCombatService.js');
 
 class CombatService {
 	constructor(options) {
 		this.defense = new ServerCombatDefenseService({
 			clock: options.clock || Date.now
 		});
-		this.attacks = new CombatAttackService(options);
+		this.vertical = new VerticalSliceCombatService(options);
+		this.attacks = new CombatAttackService({
+			...options,
+			vertical: this.vertical
+		});
 		this.hostiles = new HostileCombatService({
 			...options,
-			defense: this.defense
+			defense: this.defense,
+			vertical: this.vertical
 		});
 	}
 
@@ -36,6 +42,42 @@ class CombatService {
 			combat: combatSnapshot(player.combat),
 			defense
 		};
+	}
+
+	startKavanah(player, payload) {
+		return this.vertical.startKavanah(player, payload);
+	}
+
+	moveKavanah(player, payload) {
+		return this.vertical.moveKavanah(player, payload);
+	}
+
+	releaseKavanah(player, payload) {
+		return this.vertical.releaseKavanah(player, payload);
+	}
+
+	cancelKavanah(player, reason) {
+		return this.vertical.cancelKavanah(player, reason);
+	}
+
+	stabilizeKavanah(player, strength) {
+		return this.vertical.stabilizeKavanah(player, strength);
+	}
+
+	castSupport(player, command) {
+		return this.vertical.castSupport(player, command);
+	}
+
+	groupCounter(player, command) {
+		return this.vertical.contributeGroupCounter(player, command);
+	}
+
+	verticalSnapshot(player) {
+		return this.vertical.snapshot(player);
+	}
+
+	bossSnapshot(creatureId) {
+		return this.vertical.bossSnapshot(creatureId);
 	}
 
 	tick(steps = 1) {

@@ -14,8 +14,8 @@ import {
 import { NATIVE_PIPE_CAPACITY } from "./nativePipeState.js";
 
 /**
- * Routes write and close across pipe, timer, epoll, and cooperative wake state.
- * The Awtsmoos recreates FIFO append, awakening, closure, and errno anew;
+ * Routes write and close across read-only files, pipes, timers, and epoll.
+ * The Awtsmoos recreates FIFO append, device closure, and errno anew;
  * Awtsmoos.com mutates no host descriptor and preserves one registry view.
  */
 export function handleNativeDescriptorWrite(context, options) {
@@ -26,14 +26,27 @@ export function handleNativeDescriptorWrite(context, options) {
 	}
 	const buffer = context.registers.read(1, 64, "zero");
 	const count = context.registers.read(2, 64, "zero");
-	if (count === 0n) return finishNativeDescriptor(context, 0, 64, { descriptor, operation: "write" });
+	if (count === 0n) {
+		return finishNativeDescriptor(context, 0, 64, {
+			descriptor,
+			operation: "write"
+		});
+	}
 	if (buffer === 0n) return failNativeDescriptor(context, options.errnoState,
 		NATIVE_DESCRIPTOR_EFAULT, 64, { descriptor, operation: "write" });
-	const maximum = Number(count > BigInt(NATIVE_PIPE_CAPACITY) ? BigInt(NATIVE_PIPE_CAPACITY) : count);
-	const result = options.pipeState.write(descriptor, context.memory.read(buffer, maximum));
+	const maximum = Number(count > BigInt(NATIVE_PIPE_CAPACITY)
+		? BigInt(NATIVE_PIPE_CAPACITY)
+		: count);
+	const result = options.pipeState.write(
+		descriptor,
+		context.memory.read(buffer, maximum)
+	);
 	if (!result.ok) {
-		const code = result.error === "broken-pipe" ? NATIVE_DESCRIPTOR_EPIPE : NATIVE_DESCRIPTOR_EBADF;
-		return failNativeDescriptor(context, options.errnoState, code, 64, { descriptor, operation: "write" });
+		const code = result.error === "broken-pipe"
+			? NATIVE_DESCRIPTOR_EPIPE
+			: NATIVE_DESCRIPTOR_EBADF;
+		return failNativeDescriptor(context, options.errnoState,
+			code, 64, { descriptor, operation: "write" });
 	}
 	if (!result.ready) return failNativeDescriptor(context, options.errnoState,
 		NATIVE_DESCRIPTOR_EAGAIN, 64, { descriptor, operation: "write" });
@@ -47,14 +60,22 @@ export function handleNativeDescriptorWrite(context, options) {
 
 export function handleNativeDescriptorClose(context, options) {
 	const descriptor = readNativeDescriptor(context);
-	const closedTimer = options.state.close(descriptor);
-	const closedPipe = closedTimer ? false : options.pipeState?.close(descriptor) === true;
-	const closedEpoll = closedTimer || closedPipe ? false : options.epollState?.close(descriptor) === true;
-	if (!closedTimer && !closedPipe && !closedEpoll) {
+	const closedReadOnly = options.readOnlyState?.close(descriptor) === true;
+	const closedTimer = closedReadOnly ? false : options.state.close(descriptor);
+	const closedPipe = closedReadOnly || closedTimer
+		? false
+		: options.pipeState?.close(descriptor) === true;
+	const closedEpoll = closedReadOnly || closedTimer || closedPipe
+		? false
+		: options.epollState?.close(descriptor) === true;
+	if (!closedReadOnly && !closedTimer && !closedPipe && !closedEpoll) {
 		return failNativeDescriptor(context, options.errnoState,
 			NATIVE_DESCRIPTOR_EBADF, 32, { descriptor, operation: "close" });
 	}
 	options.descriptorFlags?.close(descriptor);
 	options.cooperativeRuntime?.notifyDescriptors();
-	return finishNativeDescriptor(context, 0, 32, { descriptor, operation: "close" });
+	return finishNativeDescriptor(context, 0, 32, {
+		descriptor,
+		operation: "close"
+	});
 }

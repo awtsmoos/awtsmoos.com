@@ -4,19 +4,26 @@
 
 /**
  * @file CombatStatusRuntime.js
- * @description Applies periodic status damage to authoritative players and creatures.
- * The Awtsmoos renews every tick without allowing a reconnect to multiply flame;
- * Awtsmoos.com routes bounded status consequence through defeat laws and creature state by name.
+ * @description Applies periodic status damage, Kavanah disruption, defeat, protected boss finish, and phase updates.
+ * The Awtsmoos renews every tick without allowing reconnect to multiply flame;
+ * Awtsmoos.com routes bounded consequence through defeat, concentration, Kedem sequence, and creature state.
  */
 
-const { tickCombatStatuses } = require('./CombatStatusTickRules.js');
+const {
+	applyCombatStatusCreatureDamage
+} = require('./CombatStatusCreatureDamage.js');
+const {
+	finalizeEnemyVerticalSliceDamage
+} = require('./EnemyDamageVerticalSlice.js');
 const { defeatPlayer } = require('./PlayerDefeatRules.js');
+const { tickCombatStatuses } = require('./CombatStatusTickRules.js');
 
 class CombatStatusRuntime {
 	constructor(options) {
 		this.clock = options.clock || Date.now;
 		this.creatures = options.creatures;
 		this.players = options.players;
+		this.vertical = options.vertical;
 	}
 
 	tick() {
@@ -30,14 +37,26 @@ class CombatStatusRuntime {
 	tickPlayers(now) {
 		const events = [];
 		for (const player of this.players.values()) {
-			if (player.kind !== 'human' || player.combat.status !== 'active') continue;
+			if (!eligiblePlayer(player)) continue;
 			const ticks = tickCombatStatuses(player.combat, now);
-			const damage = ticks.reduce((sum, event) => sum + event.damage, 0);
+			const damage = totalTickDamage(ticks);
+			let kavanah = null;
 			if (damage > 0) {
-				player.combat.health = Math.max(0, player.combat.health - damage);
+				player.combat.health = Math.max(
+					0,
+					player.combat.health - damage
+				);
+				kavanah = this.vertical?.disruptKavanah(player, damage) || null;
 				if (player.combat.health === 0) defeatPlayer(player, now);
 			}
-			if (ticks.length) events.push({ damage, playerId: player.id, ticks });
+			if (ticks.length) {
+				events.push({
+					damage,
+					kavanah,
+					playerId: player.id,
+					ticks
+				});
+			}
 		}
 		return events;
 	}
@@ -47,15 +66,53 @@ class CombatStatusRuntime {
 		for (const creature of this.creatures.creatures.values()) {
 			if (creature.status !== 'active') continue;
 			const ticks = tickCombatStatuses(creature, now);
-			const damage = ticks.reduce((sum, event) => sum + event.damage, 0);
-			if (damage > 0) {
-				creature.health = Math.max(0, creature.health - damage);
-				if (creature.health === 0) this.creatures.defeat(creature, now);
+			const requestedDamage = totalTickDamage(ticks);
+			let damage = null;
+			let verticalSlice = null;
+			if (requestedDamage > 0) {
+				damage = applyCombatStatusCreatureDamage(
+					this.creatures,
+					creature,
+					requestedDamage,
+					now
+				);
+				verticalSlice = finalizeEnemyVerticalSliceDamage(
+					creature,
+					connectedPlayerCount(this.players)
+				);
 			}
-			if (ticks.length) events.push({ creatureId: creature.id, damage, ticks });
+			if (ticks.length) {
+				events.push({
+					creatureId: creature.id,
+					damage,
+					requestedDamage,
+					ticks,
+					verticalSlice
+				});
+			}
 		}
 		return events;
 	}
 }
 
-module.exports = { CombatStatusRuntime };
+function eligiblePlayer(player) {
+	return player.kind === 'human'
+		&& player.combat.status === 'active';
+}
+
+function totalTickDamage(ticks) {
+	return ticks.reduce((sum, event) => {
+		return sum + Number(event.damage || 0);
+	}, 0);
+}
+
+function connectedPlayerCount(players) {
+	return [...players.values()].filter(player => {
+		return player.kind === 'human'
+			&& player.connected !== false;
+	}).length || 1;
+}
+
+module.exports = {
+	CombatStatusRuntime
+};

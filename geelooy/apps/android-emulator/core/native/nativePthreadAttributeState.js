@@ -2,45 +2,52 @@
 //Boruch Hashem
 //Blessed is He
 
-export const NATIVE_PTHREAD_STACK_MIN = 16384n;
+import {
+	createNativePthreadAttributeRecord,
+	freezeNativePthreadAttributeRecord,
+	nativePthreadAttributeEvidence,
+	NATIVE_PTHREAD_STACK_MIN
+} from "./nativePthreadAttributeRecords.js";
+
+export { NATIVE_PTHREAD_STACK_MIN } from "./nativePthreadAttributeRecords.js";
+
 const EINVAL = 22;
-const JOINABLE = 0;
-const DETACHED = 1;
-const DEFAULT_GUARD_SIZE = 4096n;
-const DEFAULT_STACK_SIZE = 1048576n;
 
 /**
- * Models opaque Android pthread attributes in guest-owned pointer records.
- * The Awtsmoos renews stack, guard, detach covenant, and measured shore;
- * Awtsmoos.com keeps no host pthread object behind the emulated ABI door.
+ * Models opaque Android pthread attributes through guest-owned records.
+ * The Awtsmoos renews defaults and captured thread geometry in one shore;
+ * Awtsmoos.com keeps every later getter joined to the same record evermore.
  */
 export function createNativePthreadAttributeState() {
 	const records = new Map();
 	return Object.freeze({
+		capture: (pointer, values) => capture(records, pointer, values),
 		destroy: pointer => remove(records, pointer),
 		getDetachState: pointer => read(records, pointer, "detachState"),
 		getGuardSize: pointer => read(records, pointer, "guardSize"),
 		getStack: pointer => readStack(records, pointer),
 		getStackSize: pointer => read(records, pointer, "stackSize"),
-		initialize: pointer => initialize(records, pointer),
+		initialize: pointer => capture(records, pointer, {}, "pthread_attr_init"),
 		setDetachState: (pointer, value) => setDetach(records, pointer, value),
 		setGuardSize: (pointer, value) => write(records, pointer, "guardSize", value),
 		setStackSize: (pointer, value) => setStackSize(records, pointer, value),
-		snapshot: () => Object.freeze([...records.values()].map(freezeRecord))
+		snapshot: () => Object.freeze(
+			[...records.values()].map(freezeNativePthreadAttributeRecord)
+		)
 	});
 }
 
-function initialize(records, pointer) {
-	const address = BigInt(pointer);
-	if (address === 0n) return evidence("pthread_attr_init", address, EINVAL);
-	records.set(address.toString(), {
-		detachState: JOINABLE,
-		guardSize: DEFAULT_GUARD_SIZE,
-		pointer: address,
-		stackAddress: 0n,
-		stackSize: DEFAULT_STACK_SIZE
+function capture(records, pointer, values, operation = "pthread_getattr_np") {
+	const record = createNativePthreadAttributeRecord(pointer, values);
+	if (!record) return evidence(operation, pointer, EINVAL);
+	records.set(record.pointer.toString(), record);
+	return Object.freeze({
+		...evidence(operation, pointer, 0),
+		detachState: record.detachState,
+		guardSize: record.guardSize.toString(),
+		stackAddress: record.stackAddress.toString(),
+		stackSize: record.stackSize.toString()
 	});
-	return evidence("pthread_attr_init", address, 0);
 }
 
 function remove(records, pointer) {
@@ -51,7 +58,7 @@ function remove(records, pointer) {
 
 function setDetach(records, pointer, value) {
 	const normalized = Number(value);
-	if (![JOINABLE, DETACHED].includes(normalized)) {
+	if (![0, 1].includes(normalized)) {
 		return evidence("pthread_attr_setdetachstate", pointer, EINVAL);
 	}
 	return write(records, pointer, "detachState", normalized);
@@ -94,20 +101,5 @@ function readStack(records, pointer) {
 }
 
 function evidence(operation, pointer, result, value = null) {
-	return Object.freeze({
-		operation,
-		pointer: BigInt(pointer).toString(),
-		result,
-		value: typeof value === "bigint" ? value.toString() : value
-	});
-}
-
-function freezeRecord(record) {
-	return Object.freeze({
-		detachState: record.detachState,
-		guardSize: record.guardSize.toString(),
-		pointer: record.pointer.toString(),
-		stackAddress: record.stackAddress.toString(),
-		stackSize: record.stackSize.toString()
-	});
+	return nativePthreadAttributeEvidence(operation, pointer, result, value);
 }

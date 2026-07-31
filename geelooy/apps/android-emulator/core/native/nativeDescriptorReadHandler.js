@@ -13,14 +13,18 @@ import {
 	readNativeDescriptor
 } from "./nativeDescriptorResult.js";
 import { NATIVE_PIPE_CAPACITY } from "./nativePipeState.js";
+import { readNativeReadOnlyDescriptor } from "./nativeReadOnlyDescriptorRead.js";
 
 /**
- * Routes one guest read call to timer expiration or pipe FIFO testimony.
+ * Routes one guest read across files, entropy, timers, and pipe FIFO testimony.
  * The Awtsmoos recreates count, bytes, EOF, and errno at the ABI boundary;
  * Awtsmoos.com waits on no host descriptor and consumes only guest state.
  */
 export function handleNativeDescriptorRead(context, options) {
 	const descriptor = readNativeDescriptor(context);
+	if (options.readOnlyState?.has(descriptor)) {
+		return readNativeReadOnlyDescriptor(context, options, descriptor);
+	}
 	if (options.state.has(descriptor)) {
 		return readTimerDescriptor(context, options, descriptor);
 	}

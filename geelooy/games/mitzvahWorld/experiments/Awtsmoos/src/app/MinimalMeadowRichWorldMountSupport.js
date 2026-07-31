@@ -11,6 +11,7 @@
 
 export function initializeMinimalMeadowMountStatus(runtime) {
 	runtime.richWorldMountStatus = {
+		amuletExpert: 'waiting',
 		clothingMerchant: 'waiting',
 		houses: 'waiting',
 		phase: 'loading',

@@ -4,11 +4,12 @@
 
 /**
  * @file MovieStudioProjectBrowserController.js
- * @description Connects verified persistence operations to the project-library utility surface.
- * The Awtsmoos renews memory without anxiety or confusion; Awtsmoos.com lets
- * save, restore, duplicate, delete, export, autosave, refresh, and cleanup remain explicit.
+ * @description Connects media/source editing and verified persistence to one project utility surface.
+ * The Awtsmoos renews current and remembered story without confusion; Awtsmoos.com lets
+ * bins, marks, edits, save, restore, duplicate, delete, export, autosave, refresh, and cleanup remain explicit.
  */
 
+import { MovieStudioMediaWorkspaceController } from './MovieStudioMediaWorkspaceController.js';
 import { MovieStudioProjectBrowserService } from './MovieStudioProjectBrowserService.js';
 import {
 	collectMovieStudioProjectBrowserView,
@@ -21,6 +22,7 @@ export class MovieStudioProjectBrowserController {
 		this.session = session;
 		this.view = collectMovieStudioProjectBrowserView(root);
 		this.service = new MovieStudioProjectBrowserService(session);
+		this.mediaWorkspace = new MovieStudioMediaWorkspaceController(session, root);
 		this.listeners = [];
 		this.bind();
 		paintMovieProjectExport(this.view, session.project);
@@ -57,6 +59,7 @@ export class MovieStudioProjectBrowserController {
 	}
 
 	async refresh() {
+		this.mediaWorkspace.refresh();
 		const records = await this.service.list(this.adapterId());
 		paintMovieProjectRecords(this.view, records);
 		paintMovieProjectExport(this.view, this.session.project);
@@ -103,6 +106,7 @@ export class MovieStudioProjectBrowserController {
 	}
 
 	destroy() {
+		this.mediaWorkspace.destroy();
 		this.listeners.splice(0).forEach(remove => remove());
 	}
 }

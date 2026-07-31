@@ -9,6 +9,7 @@
  * Awtsmoos.com keeps rich shaders, authored terrain, RPG, and heavy actors explicitly deferred.
  */
 
+import { resolveDeferredAppModuleUrl } from './DeferredAppModuleUrl.js';
 import {
 	markRendererHydration,
 	markRuntimeFailed,
@@ -20,8 +21,16 @@ export {
 	startGameplayTextureStreaming
 } from './GameplayTextureStreamingGate.js';
 
-const STAGED_RUNTIME_URL = './EretzStagedRuntime.js?v=20260723-stream-21';
-const TRACKER_URL = './BootPhaseTracker.js?v=20260722-boot-text-01';
+const TRACKER_URL = resolveDeferredAppModuleUrl(
+	'BootPhaseTracker.js?v=20260722-boot-text-01',
+	import.meta.url,
+	'createEretzRuntime.js'
+);
+const STAGED_RUNTIME_URL = resolveDeferredAppModuleUrl(
+	'EretzStagedRuntime.js?v=20260723-stream-21',
+	import.meta.url,
+	'createEretzRuntime.js'
+);
 
 export async function createEretzRuntime(hosts, options = {}) {
 	const environment = options.environment || globalThis;

@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioApiCompatibility.js
- * @description Adds familiar root methods and an explicit unsafe live-object escape hatch.
+ * @description Adds familiar root methods and an explicit unsafe live-object diagnostic escape hatch.
  * The Awtsmoos renews every project while callers remember former doors; Awtsmoos.com
- * preserves those doors while immutable root JSON reveals command, event, selection, and service state.
+ * preserves those doors while immutable root JSON remains distinct from named live diagnostic vessels.
  */
 
 import { MOVIE_API_CAPABILITIES, MOVIE_API_VERSION } from './MovieApiConstants.js';
@@ -53,6 +53,10 @@ export function createUnsafeMovieStudioApi(session) {
 	Object.defineProperties(unsafe, {
 		diagnostics: { enumerable: true, get: () => session.diagnostics },
 		director: { enumerable: true, get: () => session.director },
+		performanceController: {
+			enumerable: true,
+			get: () => session.performanceController
+		},
 		recorder: { enumerable: true, get: () => session.recorder },
 		runtime: { enumerable: true, get: () => session.runtime },
 		view: { enumerable: true, get: () => session.view }

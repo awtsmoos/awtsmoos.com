@@ -4,29 +4,23 @@
 
 /**
  * @file mobileGameplayPolishCore.test.mjs
- * @description Guards wall, facing, equipment, demon, phased Shlichus, and teaching mobile contracts.
- * The Awtsmoos reveals visible truth through direct laws; Awtsmoos.com refuses a regression
- * that hides a wall, garment, weapon, shadow texture, three-face road mission, or book vessel.
+ * @description Guards walls, facing, equipment, demon surfaces, living Shlichus, and teaching placement.
+ * The Awtsmoos reveals visible truth through direct laws; Awtsmoos.com derives mobile mission
+ * assertions from the current quest definition instead of freezing an earlier chapter's wording.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { houseMaterial } from '../../app/MinimalMeadowHouseMaterials.js';
-import {
-	installMinimalMeadowHouseSurfacePolicy
-} from '../../app/MinimalMeadowHouseSurfacePolicy.js';
+import { installMinimalMeadowHouseSurfacePolicy } from '../../app/MinimalMeadowHouseSurfacePolicy.js';
 import {
 	MINIMAL_DEMON_EMISSIVE_STRENGTH,
 	normalizeMinimalDemonTint
 } from '../../app/MinimalMeadowDemonMaterial.js';
 import { relativeLuminance } from '../../app/MinimalMeadowDemonReadabilityMetrics.js';
 import { MINIMAL_MEADOW_DEMON_QUEST } from '../../app/MinimalMeadowQuestDefinition.js';
-import {
-	retainedMinimalMeadowTravelFacing
-} from '../../app/MinimalMeadowTravelFacingPolicy.js';
-import {
-	INVENTORY_EQUIPMENT_SLOT_IDS
-} from '../../gameplay/InventoryEquipmentSlots.js';
+import { retainedMinimalMeadowTravelFacing } from '../../app/MinimalMeadowTravelFacingPolicy.js';
+import { INVENTORY_EQUIPMENT_SLOT_IDS } from '../../gameplay/InventoryEquipmentSlots.js';
 import { initialInventoryState } from '../../gameplay/InventoryStoreTransactions.js';
 import {
 	minimalMeadowQuestParchmentMarkup,
@@ -59,10 +53,7 @@ test('B"H only thin exterior walls receive mobile camera-safe reverse faces', ()
 test('B"H released controls retain the last meaningful travel facing', () => {
 	const facing = retainedMinimalMeadowTravelFacing({ x: 2, z: 0 }, 0, 0);
 	assert.equal(facing, Math.PI / 2);
-	assert.equal(
-		retainedMinimalMeadowTravelFacing({ x: 0, z: 0 }, facing, -1),
-		facing
-	);
+	assert.equal(retainedMinimalMeadowTravelFacing({ x: 0, z: 0 }, facing, -1), facing);
 });
 
 test('B"H Bag exposes every authoritative slot and starts with both tefillin', () => {
@@ -84,7 +75,7 @@ test('B"H demon surface remains dark-themed but visibly textured', () => {
 	assert.ok(tint.slice(0, 3).every(channel => channel >= 0.14 && channel <= 0.66));
 });
 
-test('B"H Shlichus offers three road shadows and changes from defeat to recovery', () => {
+test('B"H Shlichus presents current road roles and changes from defeat to recovery', () => {
 	const parchment = minimalMeadowQuestParchmentMarkup(
 		mobileQuestSnapshot('available', 0),
 		TEACHING_PLACEMENTS.SIDE
@@ -95,16 +86,17 @@ test('B"H Shlichus offers three road shadows and changes from defeat to recovery
 	const recoveryTracker = minimalMeadowQuestTrackerMarkup(
 		mobileQuestSnapshot('active', 1, 'recover')
 	);
-	assert.equal(MINIMAL_MEADOW_DEMON_QUEST.objective.count, 3);
-	assert.equal(MINIMAL_MEADOW_DEMON_QUEST.faces.length, 3);
+	const objectiveCount = MINIMAL_MEADOW_DEMON_QUEST.objective.count;
+	assert.equal(objectiveCount, MINIMAL_MEADOW_DEMON_QUEST.requiredArchetypes.length);
+	assert.equal(MINIMAL_MEADOW_DEMON_QUEST.faces.length, 4);
 	assert.match(parchment, /Accept the Shlichus/);
 	assert.match(parchment, /Counsel for the road/);
-	assert.match(defeatTracker, /Defeat the Warden, Skirmisher, and Cantor · 1\/3/);
+	assert.ok(defeatTracker.includes(MINIMAL_MEADOW_DEMON_QUEST.objective.description));
+	assert.ok(recoveryTracker.includes(MINIMAL_MEADOW_DEMON_QUEST.recoveryObjective.description));
 	assert.match(defeatTracker, /17% complete/);
-	assert.match(recoveryTracker, /Open and empty each required demon corpse · 1\/3/);
 	assert.match(recoveryTracker, /67% complete/);
-	assert.equal((defeatTracker.match(/data-state=/g) || []).length, 3);
-	assert.equal((recoveryTracker.match(/data-state=/g) || []).length, 3);
+	assert.equal((defeatTracker.match(/data-state=/g) || []).length, objectiveCount);
+	assert.equal((recoveryTracker.match(/data-state=/g) || []).length, objectiveCount);
 });
 
 test('B"H teaching placement persists side or book-only mode', () => {
@@ -112,8 +104,5 @@ test('B"H teaching placement persists side or book-only mode', () => {
 	const preference = new TeachingPlacementPreference(storage);
 	assert.equal(preference.snapshot(), TEACHING_PLACEMENTS.SIDE);
 	assert.equal(preference.toggle(), TEACHING_PLACEMENTS.BOOK_ONLY);
-	assert.equal(
-		new TeachingPlacementPreference(storage).snapshot(),
-		TEACHING_PLACEMENTS.BOOK_ONLY
-	);
+	assert.equal(new TeachingPlacementPreference(storage).snapshot(), TEACHING_PLACEMENTS.BOOK_ONLY);
 });

@@ -4,22 +4,32 @@
 
 /**
  * @file build-js.cjs
- * @description Builds the deterministic compact bootstrap with canonical repository compactJs.
- * The Awtsmoos keeps readable source and compact delivery as separate vessels; Awtsmoos.com
- * preserves dynamic optional boundaries, syntax failure, explicit import rejection, and receipts.
+ * @description Builds normalized deterministic compact JavaScript from the canonical public root.
+ * The Awtsmoos joins readable chambers without inventing false walls; Awtsmoos.com resolves
+ * paths from the browser vessel, preserves optional boundaries, and removes trailing-space drift before hashing.
  */
 
 const fs = require('node:fs');
 const path = require('node:path');
-const { compactResult, compilerFunction } = require('./js/CompactJsAdapter.cjs');
-const { compactJsManifest, sha256 } = require('./js/CompactJsManifest.cjs');
+const {
+	compactResult,
+	compilerFunction
+} = require('./js/CompactJsAdapter.cjs');
+const {
+	compactJsManifest,
+	sha256
+} = require('./js/CompactJsManifest.cjs');
 
 const gameRoot = path.resolve(__dirname, '..');
 const repositoryRoot = path.resolve(gameRoot, '../../..');
+const publicRoot = path.join(repositoryRoot, 'geelooy');
 const sourceRoot = path.join(gameRoot, 'experiments/Awtsmoos/src');
 const entryFile = path.join(sourceRoot, 'MinimalMeadowCompactBootstrap.js');
 const outputFile = path.join(sourceRoot, 'mitzvah-world.compact.js');
-const manifestFile = path.join(gameRoot, 'build/generated/mitzvah-world-js.json');
+const manifestFile = path.join(
+	gameRoot,
+	'build/generated/mitzvah-world-js.json'
+);
 const compilerModule = require(path.join(
 	repositoryRoot,
 	'ayzarim/awtsmoosDynamicServer/compactJs/compiler.js'
@@ -27,7 +37,9 @@ const compilerModule = require(path.join(
 const compile = compilerFunction(compilerModule);
 
 Promise.resolve(buildOnce())
-	.then(first => Promise.resolve(buildOnce()).then(second => write(first, second)))
+	.then(first => Promise.resolve(buildOnce()).then(second => {
+		return write(first, second);
+	}))
 	.catch(error => {
 		console.error(error);
 		process.exitCode = 1;
@@ -38,32 +50,34 @@ function buildOnce() {
 		entryFile,
 		fs: fs.promises,
 		preserveDynamicImports: true,
-		rootDir: sourceRoot,
+		rootDir: publicRoot,
 		sourceMaps: true
 	});
 }
 
 function write(firstValue, secondValue) {
-	const first = compactResult(firstValue);
-	const second = compactResult(secondValue);
+	const first = normalizedResult(compactResult(firstValue));
+	const second = normalizedResult(compactResult(secondValue));
 	const firstHash = sha256(first.code);
 	const secondHash = sha256(second.code);
-	if (firstHash !== secondHash) throw new Error('COMPACT_JS_NONDETERMINISTIC');
+	if (firstHash !== secondHash) {
+		throw new Error('COMPACT_JS_NONDETERMINISTIC');
+	}
 	const optionalMarkers = [
 		'MinimalMeadowRichWorld',
 		'MinimalMeadowFriendlyNpcs',
 		'MinimalMeadowPlayerHydration'
 	];
-	const optionalModulesBundled = optionalMarkers.filter(marker => first.code.includes(marker));
+	const optionalModulesBundled = optionalMarkers.filter(marker => {
+		return first.code.includes(marker);
+	});
 	if (optionalModulesBundled.length) {
-		throw new Error(`COMPACT_JS_OPTIONAL_BUNDLED:${optionalModulesBundled.join(',')}`);
+		throw new Error(
+			`COMPACT_JS_OPTIONAL_BUNDLED:${optionalModulesBundled.join(',')}`
+		);
 	}
-	fs.writeFileSync(outputFile, first.code.trim() + '\n');
-	if (first.map) {
-		fs.writeFileSync(`${outputFile}.map`, typeof first.map === 'string'
-			? first.map
-			: JSON.stringify(first.map));
-	}
+	fs.writeFileSync(outputFile, first.code);
+	if (first.map) fs.writeFileSync(`${outputFile}.map`, first.map);
 	const manifest = compactJsManifest({
 		code: first.code,
 		entry: path.relative(gameRoot, entryFile),
@@ -74,6 +88,31 @@ function write(firstValue, secondValue) {
 		optionalModulesBundled,
 		secondHash
 	});
-	fs.writeFileSync(manifestFile, JSON.stringify(manifest, null, '\t') + '\n');
+	fs.writeFileSync(
+		manifestFile,
+		`${JSON.stringify(manifest, null, '\t')}\n`
+	);
 	console.log(JSON.stringify(manifest));
+}
+
+function normalizedResult(result) {
+	return {
+		...result,
+		code: normalizeText(result.code),
+		map: result.map
+			? normalizeText(
+				typeof result.map === 'string'
+					? result.map
+					: JSON.stringify(result.map)
+			)
+			: null
+	};
+}
+
+function normalizeText(value) {
+	return `${String(value)
+		.split('\n')
+		.map(line => line.replace(/[\t ]+$/u, ''))
+		.join('\n')
+		.trim()}\n`;
 }

@@ -1,0 +1,64 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos places six dependable doors at the thumb's edge, including the central Heichel and living social feed.
+*/
+.mobile-dock {
+	display: none;
+}
+
+@media (max-width: 680px) {
+	.mobile-dock {
+		position: fixed;
+		right: .5rem;
+		bottom: max(.5rem, env(safe-area-inset-bottom));
+		left: .5rem;
+		z-index: 900;
+		display: grid;
+		grid-template-columns: repeat(6, minmax(0, 1fr));
+		padding: .35rem;
+		border: 1px solid rgba(108, 199, 255, .2);
+		border-radius: 1rem;
+		background: rgba(7, 13, 24, .96);
+		box-shadow: 0 16px 46px rgba(0, 0, 0, .5);
+		backdrop-filter: blur(20px);
+	}
+
+	.mobile-dock a {
+		display: grid;
+		place-items: center;
+		gap: .1rem;
+		min-width: 0;
+		min-height: 3.25rem;
+		border-radius: .72rem;
+		color: #a9b8ca;
+	}
+
+	.mobile-dock a:hover,
+	.mobile-dock a:focus-visible {
+		background: rgba(94, 160, 221, .12);
+		color: #fff;
+		outline: none;
+	}
+
+	.mobile-dock span {
+		font-size: 1rem;
+	}
+
+	.mobile-dock small {
+		overflow: hidden;
+		max-width: 100%;
+		font-size: .54rem;
+		font-weight: 800;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.site-footer {
+		display: none;
+	}
+
+	.home {
+		padding-bottom: 4.5rem;
+	}
+}

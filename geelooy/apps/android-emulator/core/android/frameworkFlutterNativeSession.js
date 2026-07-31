@@ -4,17 +4,18 @@
 
 import { createFlutterJniImportHandlers } from "../native/flutterJniImportHandlers.js";
 import { createFlutterJniMachineState } from "../native/flutterJniMachineState.js";
+import { createNativeDynamicLibraryState } from "../native/nativeDynamicLibraryState.js";
+import { createNativeDynamicLinkerState } from "../native/nativeDynamicLinkerState.js";
 import { createNativeImportAddressSpace } from "../native/nativeImportAddressSpace.js";
-import { relocateNativeImage } from "../native/nativeRelocator.js";
 import { createFrameworkFlutterNativeArrayResolver } from "./frameworkFlutterNativeArrayElements.js";
+import { prepareFrameworkFlutterNativeLibraries } from "./frameworkFlutterNativeLibraries.js";
 import { createFrameworkFlutterNativeStringResolver } from "./frameworkFlutterNativeStringValues.js";
 import { startFrameworkFlutterNativeLibrary } from "./frameworkFlutterNativeStartup.js";
-import { loadNativeLibraryImage } from "./frameworkNativeLibraryImages.js";
 import { createFrameworkRuntimeJniResolver } from "./frameworkRuntimeJniResolver.js";
 
 /**
- * Creates one lazy persistent libflutter session with real ELF initialization.
- * The Awtsmoos renews constructors, JNI, files, logs, heap, and return shore;
+ * Creates one persistent Flutter session with mapped engine and app ELF images.
+ * The Awtsmoos renews constructors, snapshots, JNI, task name, and linker shore;
  * Awtsmoos.com shares one Promise so native dawn occurs exactly once evermore.
  */
 export function getFrameworkFlutterNativeSession(runtime) {
@@ -29,15 +30,14 @@ export function getFrameworkFlutterNativeSession(runtime) {
 }
 
 async function createFrameworkFlutterNativeSession(runtime) {
-	const library = await loadNativeLibraryImage(runtime, "flutter");
 	const imports = createNativeImportAddressSpace();
-	const relocation = relocateNativeImage(library.image, library.memory, { imports });
+	const libraries = await prepareFrameworkFlutterNativeLibraries(runtime, imports);
 	const resolver = createFrameworkRuntimeJniResolver(runtime);
 	const arrayResolver = createFrameworkFlutterNativeArrayResolver(runtime);
 	const stringResolver = createFrameworkFlutterNativeStringResolver(runtime);
-	const entry = library.image.findSymbol("JNI_OnLoad");
+	const entry = libraries.flutter.image.findSymbol("JNI_OnLoad");
 	if (!entry) throw sessionError("ANDROID_FLUTTER_JNI_ONLOAD_MISSING");
-	const state = createFlutterJniMachineState(library.memory, entry.value, {
+	const baseState = createFlutterJniMachineState(libraries.memory, entry.value, {
 		...arrayResolver,
 		...stringResolver,
 		imports,
@@ -48,20 +48,39 @@ async function createFrameworkFlutterNativeSession(runtime) {
 		resolveField: resolver.resolveField,
 		resolveMethod: resolver.resolveMethod
 	});
+	const nativeDynamicLinker = createNativeDynamicLinkerState(baseState.nativeHeap);
+	const nativeDynamicLibraries = createNativeDynamicLibraryState({
+		errors: nativeDynamicLinker,
+		imports,
+		mappedLibraries: libraries.mappedLibraries
+	});
+	const state = Object.freeze({
+		...baseState,
+		nativeDynamicLibraries,
+		nativeDynamicLinker,
+		nativeProcessName: runtime.packageSet.packageName
+	});
 	const hostImports = createFlutterJniImportHandlers(state);
-	const startup = startFrameworkFlutterNativeLibrary({ hostImports, imports, library, state });
+	const startup = startFrameworkFlutterNativeLibrary({
+		hostImports,
+		imports,
+		library: libraries.flutter,
+		state
+	});
 	let callSequence = 0;
 	return Object.freeze({
+		appLibrary: libraries.app,
+		appRelocation: libraries.appRelocation,
 		hostImports,
 		imports,
 		initializerReports: startup.initializerReports,
-		library,
+		library: libraries.flutter,
 		nextCallNumber() {
 			callSequence += 1;
 			return callSequence;
 		},
 		onLoadReport: startup.onLoadReport,
-		relocation,
+		relocation: libraries.flutterRelocation,
 		resolver,
 		snapshot() {
 			return Object.freeze({
@@ -71,7 +90,7 @@ async function createFrameworkFlutterNativeSession(runtime) {
 				jniMethodIds: state.jniMethodIds.snapshot().length,
 				jniNativeMethods: state.jniNativeMethods.snapshot().length,
 				jniReferences: state.jniReferences.snapshot().length,
-				nativeFileStreams: state.nativeFileStreams.snapshot().length
+				mappedLibraries: nativeDynamicLibraries.mappedSnapshot()
 			});
 		},
 		state

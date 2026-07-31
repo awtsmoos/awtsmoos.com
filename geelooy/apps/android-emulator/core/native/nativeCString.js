@@ -3,6 +3,7 @@
 //Blessed is He
 
 import { elf64Error } from "./elf64Errors.js";
+import { MAXIMUM_NATIVE_C_STRING_BYTES } from "./nativeCStringLimits.js";
 
 const DEFAULT_MAX_BYTES = 4096;
 
@@ -20,7 +21,9 @@ const DEFAULT_MAX_BYTES = 4096;
  */
 export function readNativeCString(memory, address, options = {}) {
 	const origin = BigInt(address);
-	if (origin === 0n) throw elf64Error("NATIVE_C_STRING_NULL");
+	if (origin === 0n) {
+		throw elf64Error("NATIVE_C_STRING_NULL");
+	}
 	const maximum = normalizeMaximum(options.maxBytes);
 	const bytes = [];
 	for (let offset = 0; offset < maximum; offset += 1) {
@@ -40,7 +43,9 @@ export function readNativeCString(memory, address, options = {}) {
 
 function normalizeMaximum(value) {
 	const maximum = Number(value ?? DEFAULT_MAX_BYTES);
-	if (!Number.isInteger(maximum) || maximum <= 0 || maximum > 1048576) {
+	const exceedsSharedCeiling = Number.isInteger(maximum)
+		&& BigInt(maximum) > MAXIMUM_NATIVE_C_STRING_BYTES;
+	if (!Number.isInteger(maximum) || maximum <= 0 || exceedsSharedCeiling) {
 		throw elf64Error("NATIVE_C_STRING_LIMIT", value);
 	}
 	return maximum;

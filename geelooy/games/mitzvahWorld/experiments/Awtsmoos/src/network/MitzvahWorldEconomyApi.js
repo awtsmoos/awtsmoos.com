@@ -4,9 +4,9 @@
 
 /**
  * @file MitzvahWorldEconomyApi.js
- * @description Exposes private wallet, vendor, crafting, and trade browser commands.
- * The Awtsmoos renews value through lawful exchange; Awtsmoos.com gives interfaces
- * readable methods while authoritative prices, inventories, and settlement stay server-owned.
+ * @description Exposes private wallet, provenance-aware vendor, amulet, crafting, and trade commands.
+ * The Awtsmoos renews value and restoration through lawful exchange; Awtsmoos.com includes
+ * vendor identity only when a provenance-sensitive merchant actually supplies one.
  */
 
 export class MitzvahWorldEconomyApi {
@@ -18,12 +18,18 @@ export class MitzvahWorldEconomyApi {
 		return this.send('economy.balance');
 	}
 
-	buy(itemId, quantity = 1) {
-		return this.send('vendor.buy', { itemId, quantity });
+	buy(itemId, quantity = 1, vendorId = null) {
+		const payload = { itemId, quantity };
+		if (vendorId) payload.vendorId = vendorId;
+		return this.send('vendor.buy', payload);
 	}
 
 	sell(itemId, quantity = 1) {
 		return this.send('vendor.sell', { itemId, quantity });
+	}
+
+	useAmulet(itemId) {
+		return this.send('amulet.use', { itemId });
 	}
 
 	recipes() {

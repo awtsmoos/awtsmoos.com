@@ -4,15 +4,30 @@
 
 /**
  * @file AuthoritativeMultiplayerBridge.js
- * @description Bridges runtime truth into peers, server enemies, and authoritative defense.
+ * @description Bridges runtime truth into peers, enemies, defense, Kavanah, support, and boss authority.
  * The Awtsmoos gives distant traveler and hostile one present form; Awtsmoos.com imports
  * authority only after connection while local-tab and solo truth retain their own garments.
  */
 
-import { installMultiplayerAuthorities } from './AuthoritativeMultiplayerBridgeAuthority.js';
-import { multiplayerBridgeDiagnostics, multiplayerBridgeReceipt } from './AuthoritativeMultiplayerBridgeReceipts.js';
-import { RemoteChossidPopulation } from './RemoteChossidPopulation.js';
-import { currentMovementIntent, runtimePlayerSnapshot } from './RuntimePlayerSnapshot.js';
+import {
+	installMultiplayerAuthorities
+} from './AuthoritativeMultiplayerBridgeAuthority.js';
+import {
+	shouldAuthoritativeBridgeHeartbeat,
+	stopAuthoritativeBridgeSystems,
+	updateAuthoritativeBridgeSystems
+} from './AuthoritativeMultiplayerBridgeLifecycle.js';
+import {
+	multiplayerBridgeDiagnostics,
+	multiplayerBridgeReceipt
+} from './AuthoritativeMultiplayerBridgeReceipts.js';
+import {
+	RemoteChossidPopulation
+} from './RemoteChossidPopulation.js';
+import {
+	currentMovementIntent,
+	runtimePlayerSnapshot
+} from './RuntimePlayerSnapshot.js';
 
 export { runtimePlayerSnapshot };
 
@@ -31,7 +46,8 @@ export class AuthoritativeMultiplayerBridge {
 			runtime,
 			stateElapsed: 0,
 			transport,
-			unsubscribe: null
+			unsubscribe: null,
+			verticalSliceAuthority: null
 		});
 	}
 
@@ -45,8 +61,11 @@ export class AuthoritativeMultiplayerBridge {
 		if (this.transport !== 'local-tab') {
 			installMultiplayerAuthorities(this);
 		}
-		this.unsubscribe = this.client.onWorld(world => this.applyWorld(world));
-		if (this.client.world && this.runtime.state.multiplayer !== this.client.world) {
+		this.unsubscribe = this.client.onWorld(world => {
+			this.applyWorld(world);
+		});
+		if (this.client.world
+			&& this.runtime.state.multiplayer !== this.client.world) {
 			this.applyWorld(this.client.world);
 		}
 		this.publishRuntimeState();
@@ -64,13 +83,15 @@ export class AuthoritativeMultiplayerBridge {
 		if (!this.population) return;
 		this.stateElapsed += deltaSeconds;
 		this.heartbeatElapsed += deltaSeconds;
-		this.population.update(deltaSeconds);
-		this.enemyAuthority?.update();
+		updateAuthoritativeBridgeSystems(this, deltaSeconds);
 		if (this.stateElapsed >= STATE_INTERVAL_SECONDS) {
 			this.publishRuntimeState();
 			this.stateElapsed %= STATE_INTERVAL_SECONDS;
 		}
-		if (this.shouldHeartbeat()) {
+		if (shouldAuthoritativeBridgeHeartbeat(
+			this,
+			SERVER_HEARTBEAT_INTERVAL_SECONDS
+		)) {
 			this.client.heartbeat().catch(() => {});
 			this.heartbeatElapsed %= SERVER_HEARTBEAT_INTERVAL_SECONDS;
 		}
@@ -90,25 +111,10 @@ export class AuthoritativeMultiplayerBridge {
 	}
 
 	stop() {
-		this.unsubscribe?.();
-		this.unsubscribe = null;
-		this.defenseAuthority?.stop();
-		this.defenseAuthority = null;
-		this.enemyAuthority?.stop();
-		this.enemyAuthority = null;
-		this.runtime.enemyAuthority = null;
-		this.population?.dispose?.();
-		this.population = null;
-		this.runtime.state.multiplayer = null;
-		this.runtime.state.multiplayerLocalPlayerId = null;
+		stopAuthoritativeBridgeSystems(this);
 	}
 
 	diagnostics() {
 		return multiplayerBridgeDiagnostics(this);
-	}
-
-	shouldHeartbeat() {
-		return this.transport !== 'local-tab'
-			&& this.heartbeatElapsed >= SERVER_HEARTBEAT_INTERVAL_SECONDS;
 	}
 }

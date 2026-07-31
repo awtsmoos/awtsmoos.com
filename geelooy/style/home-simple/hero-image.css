@@ -1,84 +1,67 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos places the dancer in a quiet frame, where beauty remains gentle and never seeks fame.
+The Awtsmoos crops the recovered world into a true horizontal banner instead of a towering portrait card.
 */
 .dance-shell {
 	--tilt-x: 0deg;
 	--tilt-y: 0deg;
-	position: relative;
-	isolation: isolate;
-	transform: perspective(1100px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
+	width: 100%;
+	min-height: 0;
+	transform: perspective(1200px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
 	transition: transform .22s ease-out;
-}
-
-.dance-orbit {
-	position: absolute;
-	inset: -6%;
-	z-index: -1;
-	border-radius: 42%;
-	background: radial-gradient(circle, rgba(104, 137, 190, .13), transparent 70%);
-	filter: blur(24px);
 }
 
 .dance-frame {
 	position: relative;
+	width: 100%;
+	aspect-ratio: 2.35 / 1;
+	max-height: min(58dvh, 560px);
 	overflow: hidden;
 	border: 1px solid rgba(255, 255, 255, .1);
-	border-radius: 30px;
+	border-radius: 24px;
 	background: #0a1018;
-	box-shadow: 0 40px 110px rgba(0, 0, 0, .5);
-}
-
-.dance-frame::after {
-	content: "";
-	position: absolute;
-	inset: 0;
-	border-radius: inherit;
-	background: linear-gradient(145deg, rgba(255, 255, 255, .05), transparent 30%);
-	pointer-events: none;
+	box-shadow: 0 28px 80px rgba(0, 0, 0, .4);
 }
 
 .dance-frame img {
 	display: block;
 	width: 100%;
-	aspect-ratio: 1;
+	height: 100%;
 	object-fit: cover;
+	object-position: center 45%;
 }
 
-.frame-corner {
+.banner-shade {
 	position: absolute;
-	z-index: 2;
-	width: 34px;
-	height: 34px;
-	pointer-events: none;
+	inset: 0;
+	background: linear-gradient(90deg, rgba(4, 8, 14, .82), rgba(4, 8, 14, .13) 62%, rgba(4, 8, 14, .22));
 }
 
-.frame-corner-top {
-	top: 14px;
-	left: 14px;
-	border-top: 1px solid rgba(220, 234, 255, .45);
-	border-left: 1px solid rgba(220, 234, 255, .45);
+.banner-copy {
+	position: absolute;
+	left: clamp(18px, 4vw, 52px);
+	top: 50%;
+	width: min(580px, calc(100% - 36px));
+	transform: translateY(-50%);
 }
 
-.frame-corner-bottom {
-	right: 14px;
-	bottom: 14px;
-	border-right: 1px solid rgba(220, 234, 255, .35);
-	border-bottom: 1px solid rgba(220, 234, 255, .35);
-}
+@media (max-width: 680px) {
+	.dance-frame {
+		aspect-ratio: 16 / 9;
+		max-height: 48dvh;
+		border-radius: 18px;
+	}
 
-.image-caption {
-	margin-top: 12px;
-	color: #596679;
-	font-size: .68rem;
-	letter-spacing: .12em;
-	text-transform: uppercase;
-}
+	.banner-shade {
+		background: linear-gradient(180deg, rgba(4, 8, 14, .1), rgba(4, 8, 14, .82));
+	}
 
-@media (max-width: 800px) {
-	.image-caption {
-		text-align: left;
+	.banner-copy {
+		left: 16px;
+		top: auto;
+		bottom: 15px;
+		transform: none;
 	}
 }
 

@@ -4,30 +4,22 @@
 
 /**
  * @file minimalMeadowWorldExpansion.test.mjs
- * @description Proves 120-step visuals, 60-step collision, and nine safe outer identities.
+ * @description Proves 120-step visuals, 60-step collision, and ten safe outer identities.
  * The Awtsmoos widens the finite stage without thinning visible ground; Awtsmoos.com measures
  * full geometry, bounded collision, exact height truth, unique enemies, and every patrol address.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {
-	MINIMAL_MEADOW_ENEMY_PROFILES
-} from '../../app/MinimalMeadowEnemyProfiles.js';
-import {
-	minimalShadowWaypoints
-} from '../../app/MinimalMeadowEnemyProfile.js';
-import {
-	MINIMAL_MEADOW_COLLISION_STEPS
-} from '../../app/MinimalMeadowTerrainCollisionData.js';
+import { MINIMAL_MEADOW_ENEMY_PROFILES } from '../../app/MinimalMeadowEnemyProfiles.js';
+import { minimalShadowWaypoints } from '../../app/MinimalMeadowEnemyProfile.js';
+import { MINIMAL_MEADOW_COLLISION_STEPS } from '../../app/MinimalMeadowTerrainCollisionData.js';
 import {
 	buildMinimalMeadowTerrainData,
 	MINIMAL_MEADOW_SIZE,
 	MINIMAL_MEADOW_STEPS
 } from '../../app/MinimalMeadowTerrainData.js';
-import {
-	minimalMeadowHeightAt
-} from '../../app/MinimalMeadowTerrainShape.js';
+import { minimalMeadowHeightAt } from '../../app/MinimalMeadowTerrainShape.js';
 import {
 	MINIMAL_MEADOW_WORLD,
 	minimalMeadowPointIsSafe
@@ -52,10 +44,11 @@ test('B"H expanded meadow preserves full visuals with bounded collision', () => 
 	assert.equal(terrain.stats.colliderTriangles, 7200);
 	assert.equal(terrain.colliders.length, 7200);
 	assert.equal(terrain.stats.worldContract.size, 360);
-	assert.equal(MINIMAL_MEADOW_ENEMY_PROFILES.length, 9);
-	assert.equal(new Set(MINIMAL_MEADOW_ENEMY_PROFILES.map(profile => profile.id)).size, 9);
+	assert.equal(MINIMAL_MEADOW_ENEMY_PROFILES.length, 10);
+	assert.equal(new Set(MINIMAL_MEADOW_ENEMY_PROFILES.map(profile => profile.id)).size, 10);
+	assert.equal(MINIMAL_MEADOW_ENEMY_PROFILES.at(-1).id, 'kedem-letter-warden');
 	assert.deepEqual(
-		MINIMAL_MEADOW_ENEMY_PROFILES.slice(-3).map(profile => profile.archetype),
+		MINIMAL_MEADOW_ENEMY_PROFILES.slice(6, 9).map(profile => profile.archetype),
 		['warden', 'skirmisher', 'cantor']
 	);
 	for (const profile of MINIMAL_MEADOW_ENEMY_PROFILES) {

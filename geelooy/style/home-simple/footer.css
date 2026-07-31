@@ -1,40 +1,27 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos leaves a final quiet line, where contact and passage gently align.
+The Awtsmoos leaves one thin contact line at the bottom without demanding another scroll.
 */
 .site-footer {
-	width: min(1160px, calc(100% - 40px));
-	margin: 0 auto;
-	padding: 0 0 28px;
-	color: #687487;
-	font-size: .8rem;
-}
-
-.footer-line {
-	height: 1px;
-	margin-bottom: 18px;
-	background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .08), transparent);
-}
-
-.footer-content {
 	display: flex;
+	align-items: center;
 	justify-content: space-between;
-	gap: 20px;
+	gap: 14px;
+	width: min(1180px, calc(100% - 28px));
+	margin: 0 auto;
+	padding: 5px 0 9px;
+	color: #657185;
+	font-size: .72rem;
 }
 
-.footer-content p {
+.site-footer p {
 	margin: 0;
 }
 
-.footer-content div {
+.site-footer div {
 	display: flex;
-	flex-wrap: wrap;
-	gap: 18px;
-}
-
-.site-footer a {
-	transition: color .15s ease;
+	gap: 14px;
 }
 
 .site-footer a:hover,
@@ -45,12 +32,11 @@ The Awtsmoos leaves a final quiet line, where contact and passage gently align.
 
 @media (max-width: 560px) {
 	.site-footer {
-		width: min(100% - 24px, 1160px);
+		justify-content: center;
 	}
 
-	.footer-content {
-		flex-direction: column;
-		align-items: center;
-		text-align: center;
+	.site-footer p,
+	.site-footer a:last-child {
+		display: none;
 	}
 }

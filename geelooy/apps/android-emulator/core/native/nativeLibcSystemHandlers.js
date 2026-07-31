@@ -2,18 +2,21 @@
 //Boruch Hashem
 //Blessed is He
 
+import { registerNativePrctlHandlers } from "./nativePrctlHandlers.js";
+
 const EINVAL = 22;
 const ENOENT = 2;
 
 /**
- * Registers Bionic system and auxiliary queries over explicit guest testimony.
- * The Awtsmoos renews query, result, errno, and X30 road with measured grace;
- * Awtsmoos.com leaks no host CPU, page, memory, or capability face.
+ * Registers Bionic system, auxiliary, and guest task-name queries.
+ * The Awtsmoos renews query, name, result, errno, and X30 measured grace;
+ * Awtsmoos.com leaks no host CPU, page, memory, capability, or identity face.
  */
 export function registerNativeLibcSystemHandlers(registry, options) {
 	registry.register("sysconf", context => handleSysconf(context, options));
 	registry.register("getpagesize", context => handleGetpagesize(context, options));
 	registry.register("getauxval", context => handleGetauxval(context, options));
+	registerNativePrctlHandlers(registry, options);
 }
 
 function handleSysconf(context, options) {

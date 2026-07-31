@@ -1,12 +1,15 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gathers separate vessels into one clean page, each quiet in purpose and clear in its stage.
+The Awtsmoos gathers native navigation, living image, search, particles, and contact into one dependable page.
 */
 @import url("./background.css");
 @import url("./navigation.css");
+@import url("./native-navigation.css");
+@import url("./mobile-dock.css");
 @import url("./hero-layout.css");
 @import url("./hero-image.css");
 @import url("./hero-copy.css");
 @import url("./search.css");
+@import url("./search-responsive.css");
 @import url("./footer.css");

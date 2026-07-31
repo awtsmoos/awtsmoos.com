@@ -4,9 +4,9 @@
 
 /**
  * @file MoviePerformanceKeyboard.js
- * @description Claims remappable performance keys only while acting owns focus and movement.
- * The Awtsmoos grants every key a beginning and release; Awtsmoos.com prevents
- * stuck motion, browser scroll, typing theft, and unsafe mode conflict in accessible rhyme.
+ * @description Claims remappable performance keys without erasing touch, gamepad, or API intent.
+ * The Awtsmoos grants every key a beginning and release; Awtsmoos.com keeps
+ * keyboard ownership distinct while blur, visibility, and destruction clear only its rhyme.
  */
 
 import {
@@ -15,6 +15,8 @@ import {
 	moviePerformanceCommandFor,
 	moviePerformanceEditableTarget
 } from './MoviePerformanceBindingLookup.js';
+
+const KEYBOARD_SOURCE = 'keyboard';
 
 export class MoviePerformanceKeyboard {
 	constructor(options) {
@@ -59,7 +61,7 @@ export class MoviePerformanceKeyboard {
 
 	oneShot(command, event) {
 		if (command === 'jump') {
-			this.input.setIntent({ jump: true });
+			this.input.setIntent({ jump: true }, KEYBOARD_SOURCE);
 		} else if (command === 'action') {
 			this.onAction?.('interact', {});
 		} else if (command === 'record') {
@@ -91,12 +93,12 @@ export class MoviePerformanceKeyboard {
 				bindings.turnRight,
 				bindings.turnLeft
 			)
-		});
+		}, KEYBOARD_SOURCE);
 	}
 
 	release(reason = 'manual') {
 		this.pressed.clear();
-		this.input.reset(reason);
+		this.input.clearSource(KEYBOARD_SOURCE, reason);
 	}
 
 	install() {

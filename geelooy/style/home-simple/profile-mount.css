@@ -1,0 +1,61 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives identity a compact trigger and a mobile panel that always clears the header and fills the visible screen correctly.
+*/
+.profile-mount {
+	position: relative;
+	min-width: 0;
+}
+
+.profile-mount .profile-trigger {
+	min-height: 38px;
+	max-width: 180px;
+	padding-block: 4px;
+}
+
+.profile-mount .awtsmoosDrop .dropdown-content:not(.alias-switcher) {
+	z-index: 620;
+}
+
+.profile-mount .awtsmoos-dropdown-backdrop {
+	z-index: 600;
+}
+
+@media (max-width: 680px) {
+	.profile-mount .awtsmoosDrop .dropdown-content:not(.alias-switcher) {
+		position: fixed;
+		top: calc(env(safe-area-inset-top) + 74px);
+		right: 8px;
+		bottom: 8px;
+		left: 8px;
+		width: auto;
+		max-height: none;
+		border-radius: 20px;
+		transform-origin: top right;
+	}
+
+	.profile-mount .profile-trigger-copy small {
+		display: none;
+	}
+
+	.profile-mount .profile-trigger-copy strong {
+		max-width: 74px;
+	}
+}
+
+@media (max-width: 430px) {
+	.profile-mount .profile-trigger-copy {
+		display: none;
+	}
+
+	.profile-mount .profile-trigger {
+		width: 42px;
+		min-width: 42px;
+		padding: 4px;
+	}
+
+	.profile-mount .profile-chevron {
+		display: none;
+	}
+}

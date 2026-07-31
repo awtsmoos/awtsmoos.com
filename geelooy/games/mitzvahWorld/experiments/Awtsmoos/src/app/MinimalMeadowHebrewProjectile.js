@@ -4,18 +4,16 @@
 
 /**
  * @file MinimalMeadowHebrewProjectile.js
- * @description Moves solid readable Hebrew geometry with restrained halo, motes, and real collision.
+ * @description Moves solid Hebrew geometry with restrained halo, motes, and real collision.
  * The Awtsmoos carries each configured letter through measured space; Awtsmoos.com keeps the
- * phrase primary, circles secondary, targets moving, and every visual vessel reusable and bounded.
+ * phrase primary, color lawful, circles secondary, targets moving, and every vessel reusable.
  */
 
 import { Group } from '../../../light-three-gltf/tiny-runtime.js';
+import { minimalMeadowActionVisualColor } from './MinimalMeadowActionVisualColor.js';
 import { creatureSphereGeometry } from './MinimalMeadowCreatureGeometry.js';
 import { creatureMaterial, creaturePart } from './MinimalMeadowCreaturePart.js';
-import {
-	createHebrewGlyphCards,
-	setYAxisRotation
-} from './MinimalMeadowHebrewGlyphGeometry.js';
+import { createHebrewGlyphCards, setYAxisRotation } from './MinimalMeadowHebrewGlyphGeometry.js';
 import {
 	createHebrewGlyphMaterial,
 	hebrewGlyphVisualKey,
@@ -27,9 +25,10 @@ const projectilePool = new MinimalMeadowProjectileVisualPool(5);
 
 export function createHebrewProjectile(origin, target, action) {
 	const letters = normalizeHebrewPhrase(action.letters);
-	const key = hebrewGlyphVisualKey(letters, action.color);
-	return projectilePool.acquire(key, () => buildProjectile(letters, action.color), projectile => {
-		resetProjectile(projectile, origin, target, action, letters);
+	const visualAction = { ...action, color: minimalMeadowActionVisualColor(action) };
+	const key = hebrewGlyphVisualKey(letters, visualAction.color);
+	return projectilePool.acquire(key, () => buildProjectile(letters, visualAction.color), projectile => {
+		resetProjectile(projectile, origin, target, visualAction, letters);
 	});
 }
 
@@ -49,9 +48,7 @@ export function updateHebrewProjectile(projectile, deltaSeconds) {
 	}
 	animateProjectile(projectile);
 	const emitTrail = projectile.trailClock >= 0.07;
-	if (emitTrail) {
-		projectile.trailClock = 0;
-	}
+	if (emitTrail) projectile.trailClock = 0;
 	return {
 		emitTrail,
 		impact: distance <= projectile.impactRadius || step >= distance,

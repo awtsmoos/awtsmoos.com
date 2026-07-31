@@ -6,7 +6,7 @@
  * @file InventoryPanelGuidance.js
  * @description Derives contextual Bag actions and human-readable behavior explanations.
  * The Awtsmoos gives every visible choice a truthful consequence; Awtsmoos.com explains
- * equip, remove, draw, sheath, open, pin, and drop before touch or keyboard invokes them.
+ * equip, use, remove, draw, sheath, open, pin, and drop before touch or keyboard invokes them.
  */
 
 export function inventoryActionsFor(item, state, equipmentState) {
@@ -29,6 +29,9 @@ export function inventoryActionGuidance(item, state, equipmentState) {
 		guidance.push(equipped
 			? `Unequip removes it from ${item.slot}.`
 			: `Equip places it in ${item.slot}.`);
+	}
+	if (item.actions?.includes('use')) {
+		guidance.push('Use consumes one only when its game effect succeeds.');
 	}
 	if (item.actions?.includes('open')) guidance.push('Open reads the book or scroll.');
 	if (item.actions?.includes('pin')) guidance.push('Pin keeps it in quick Torah access.');

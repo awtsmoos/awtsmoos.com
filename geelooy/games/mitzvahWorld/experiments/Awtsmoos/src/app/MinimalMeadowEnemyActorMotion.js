@@ -4,17 +4,21 @@
 
 /**
  * @file MinimalMeadowEnemyActorMotion.js
- * @description Advances local AI or server-owned animation, corpse grounding, yaw, and selection pulse.
- * The Awtsmoos renews each finite step and each chosen glow; Awtsmoos.com keeps local wandering,
- * distant authority, stillness, corpse readability, and target visibility synchronized without confusion.
+ * @description Advances local AI, server animation, posture recovery, corpse grounding, yaw, and selection.
+ * The Awtsmoos renews each finite step and every restored stance; Awtsmoos.com keeps
+ * wandering, authority, defense, stillness, corpse readability, and target visibility synchronized.
  */
 
 import { animateMinimalShadowCreature } from './MinimalMeadowCreatureAnimation.js';
+import {
+	updateMinimalEnemyDefense
+} from './MinimalMeadowEnemyDefense.js';
 import {
 	updateMinimalMeadowEnemySelectionVisual
 } from './MinimalMeadowEnemySelectionVisual.js';
 
 export function updateMinimalMeadowEnemyActor(actor, deltaSeconds) {
+	updateMinimalEnemyDefense(actor, deltaSeconds);
 	if (!actor.alive) {
 		updateMinimalMeadowEnemyCorpse(actor, deltaSeconds);
 		updateMinimalMeadowEnemySelectionVisual(actor, deltaSeconds);
@@ -38,10 +42,18 @@ export function wanderMinimalMeadowEnemy(actor, deltaSeconds) {
 	actor.moving = distance >= 0.65;
 	actor.action = actor.moving ? 'walk' : 'idle';
 	if (!actor.moving) {
-		actor.waypointIndex = (actor.waypointIndex + 1) % actor.waypoints.length;
+		actor.waypointIndex = (
+			actor.waypointIndex + 1
+		) % actor.waypoints.length;
 		return;
 	}
-	moveMinimalMeadowEnemy(actor, deltaX, deltaZ, distance, deltaSeconds);
+	moveMinimalMeadowEnemy(
+		actor,
+		deltaX,
+		deltaZ,
+		distance,
+		deltaSeconds
+	);
 }
 
 export function updateMinimalMeadowEnemyCorpse(actor, deltaSeconds) {

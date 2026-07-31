@@ -1,7 +1,7 @@
 <!-- B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos makes a quiet doorway where one image may dance and every searching spark may advance.
+The Awtsmoos replaces fragile custom navigation with native doors that open by the browser's own dependable covenant.
 -->
 <!doctype html>
 <html lang="en">
@@ -12,8 +12,8 @@ The Awtsmoos makes a quiet doorway where one image may dance and every searching
 	<meta name="theme-color" content="#060a12">
 	<title>Awtsmoos</title>
 	<link rel="preload" href="/resources/home/dance-hero.jpg" as="image">
-	<link rel="stylesheet" href="/style/home-simple/base.css?v=5">
-	<link rel="stylesheet" href="/style/home-simple/components.css?v=5">
+	<link rel="stylesheet" href="/style/home-simple/base.css?v=15">
+	<link rel="stylesheet" href="/style/home-simple/components.css?v=15">
 </head>
 <body>
 	<canvas class="particle-sky" data-particle-sky aria-hidden="true"></canvas>
@@ -25,67 +25,63 @@ The Awtsmoos makes a quiet doorway where one image may dance and every searching
 				<span>Awtsmoos</span>
 			</a>
 			<nav class="site-nav" aria-label="Primary navigation">
-				<a href="/login">Login</a>
 				<a href="/apps">Apps</a>
 				<a href="/games">Games</a>
-				<div class="menu" data-menu>
-					<button type="button" aria-expanded="false" aria-controls="explore-menu" data-menu-button>
-						Explore
-						<span aria-hidden="true">⌄</span>
-					</button>
-					<div class="menu-panel" id="explore-menu" data-menu-panel>
-						<a class="menu-mobile-link" href="/login">Login</a>
-						<a class="menu-mobile-link" href="/apps">Apps</a>
-						<a class="menu-mobile-link" href="/games">Games</a>
-						<span class="menu-divider menu-mobile-link" aria-hidden="true"></span>
-						<a href="/heichelos">Heichelos</a>
-						<a href="/mawgawl/sefarim/">Torah Search</a>
-						<a href="/social">Social</a>
-						<a href="/os">Awtsmoos OS</a>
+				<details class="navigation-hub">
+					<summary><span aria-hidden="true">✦</span><span>Explore</span></summary>
+					<div class="navigation-grid" aria-label="Explore Awtsmoos">
+						<a class="navigation-card" href="/apps"><span>🧩</span><strong>Apps</strong><small>Tools and worlds</small></a>
+						<a class="navigation-card" href="/games"><span>🎮</span><strong>Games</strong><small>Play and discover</small></a>
+						<a class="navigation-card" href="/heichelos/ikar"><span>🏛️</span><strong>Ikar</strong><small>The central Heichel</small></a>
+						<a class="navigation-card" href="/heichelos"><span>🌌</span><strong>Spaces</strong><small>Living communities</small></a>
+						<a class="navigation-card" href="/mawgawl/sefarim/"><span>📖</span><strong>Torah</strong><small>Search sefarim</small></a>
+						<a class="navigation-card" href="/social-hub/"><span>📰</span><strong>Social Feed</strong><small>Posts, activity, and people</small></a>
+						<a class="navigation-card" href="/social/"><span>🌐</span><strong>Social</strong><small>Community and profiles</small></a>
+						<a class="navigation-card" href="/email/"><span>✉️</span><strong>Mail</strong><small>Conversations</small></a>
+						<a class="navigation-card" href="/profile"><span>👤</span><strong>Profile</strong><small>Aliases and identity</small></a>
+						<a class="navigation-card" href="/os"><span>🛸</span><strong>OS</strong><small>Awtsmoos system</small></a>
 					</div>
-				</div>
+				</details>
+				<div class="profile-mount" data-profile-mount aria-label="Account and profile"></div>
 			</nav>
 		</div>
 	</header>
 	<main class="home">
 		<section class="hero" aria-labelledby="hero-title">
 			<div class="dance-shell" data-parallax>
-				<div class="dance-orbit" aria-hidden="true"></div>
 				<div class="dance-frame">
-					<span class="frame-corner frame-corner-top" aria-hidden="true"></span>
-					<img src="/resources/home/dance-hero.jpg" alt="A luminous figure dancing in a cosmic scene" width="1024" height="1024" decoding="async">
-					<span class="frame-corner frame-corner-bottom" aria-hidden="true"></span>
+					<img src="/resources/home/dance-hero.jpg" alt="A luminous world beneath a rainbow and cosmic sky" width="1024" height="1024" decoding="async">
+					<div class="banner-shade" aria-hidden="true"></div>
+					<div class="banner-copy">
+						<p class="eyebrow">Everything begins from nothing.</p>
+						<h1 id="hero-title">Search the living world of Awtsmoos.</h1>
+					</div>
 				</div>
-				<div class="image-caption" aria-hidden="true">01 · Living image</div>
 			</div>
-			<div class="hero-copy">
-				<p class="eyebrow"><span aria-hidden="true"></span>Everything begins from nothing.</p>
-				<h1 id="hero-title">Search the living world of Awtsmoos.</h1>
-				<p class="hero-summary">Torah, people, projects, games, and worlds—all from one quiet doorway.</p>
+			<div class="action-panel">
 				<form class="search" action="/mawgawl/sefarim/" method="get" role="search">
 					<span class="search-symbol" aria-hidden="true">⌕</span>
 					<label class="sr-only" for="home-search">Search Awtsmoos</label>
 					<input id="home-search" name="q" type="search" placeholder="Search Torah, people, worlds…" autocomplete="off" enterkeyhint="search">
 					<span class="shortcut-key" aria-hidden="true">/</span>
-					<button type="submit" aria-label="Search"><span aria-hidden="true">→</span></button>
+					<button type="submit" aria-label="Search the living library"><span class="search-button-label">Search</span><span class="search-button-arrow" aria-hidden="true">→</span></button>
 				</form>
-				<div class="quick-links" aria-label="Popular destinations">
-					<span>Explore</span>
-					<a href="/mawgawl/sefarim/">Torah</a>
-					<a href="/apps">Apps</a>
-					<a href="/games">Games</a>
-					<a href="/os">OS</a>
-				</div>
+				<div class="home-status"><span>Torah</span><span>People</span><span>Projects</span><span>Games</span></div>
 			</div>
 		</section>
 	</main>
+	<nav class="mobile-dock" aria-label="Mobile navigation">
+		<a href="/"><span>🏠</span><small>Home</small></a>
+		<a href="/heichelos/ikar"><span>🏛️</span><small>Ikar</small></a>
+		<a href="/social-hub/"><span>📰</span><small>Feed</small></a>
+		<a href="/mawgawl/sefarim/"><span>🔎</span><small>Search</small></a>
+		<a href="/games"><span>🎮</span><small>Games</small></a>
+		<a href="/profile"><span>👤</span><small>Profile</small></a>
+	</nav>
 	<footer class="site-footer">
-		<div class="footer-line" aria-hidden="true"></div>
-		<div class="footer-content">
-			<p>Awtsmoos.com</p>
-			<div><a href="/about">About</a><a href="/contact">Contact</a><a href="mailto:contact@awtsmoos.com">contact@awtsmoos.com</a></div>
-		</div>
+		<p>Awtsmoos.com</p>
+		<div><a href="/about">About</a><a href="/contact/">Contact</a></div>
 	</footer>
-	<script type="module" src="/scripts/home-simple/index.js?v=5"></script>
+	<script type="module" src="/scripts/home-simple/index.js?v=15"></script>
 </body>
 </html>

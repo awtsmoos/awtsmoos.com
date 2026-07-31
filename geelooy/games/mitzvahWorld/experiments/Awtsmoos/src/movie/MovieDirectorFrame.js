@@ -4,12 +4,13 @@
 
 /**
  * @file MovieDirectorFrame.js
- * @description Applies one deterministic sample to cast, world, appearance, text, camera, renderer, and overlay.
- * The Awtsmoos renews each frame beyond its tracks; Awtsmoos.com joins authored geometry,
- * titles, captions, visual effects, actors, cameras, renderer, and optional shadows without inventing absent systems.
+ * @description Applies base, authored, performance, render, and overlay precedence to one frame.
+ * The Awtsmoos renews each layer without confusing its authority; Awtsmoos.com joins
+ * world, actors, geometry, camera, performance, manual overrides, renderer, and text in rhyme.
  */
 
 export function applyMovieDirectorFrame(director, time, deltaTime) {
+	director.performance?.beginFrame?.();
 	const snapshot = director.timeline.snapshot(time);
 	director.actors.apply(snapshot.byType.actor || [], deltaTime);
 	const authoring3d = director.authoring3d?.apply?.(time) || [];
@@ -20,16 +21,18 @@ export function applyMovieDirectorFrame(director, time, deltaTime) {
 	const sceneState = (snapshot.byType.scene || []).at(-1) || null;
 	const scene = director.scenes.apply(sceneState);
 	const appearance = director.visuals?.apply?.(sceneState) || null;
+	const performance = director.performance?.apply?.(time) || null;
 	const runtime = director.runtime;
 	updateMovieShadows(runtime);
 	runtime.renderer.setInteractor(runtime.state, time);
 	runtime.renderer.render(runtime.scene, runtime.camera);
 	const frame = {
 		authoring3d,
-		camera: director.cameras.currentShot,
+		camera: performance?.camera || director.cameras.currentShot,
 		caption: activeClip(snapshot, 'caption'),
 		crowd: director.crowd.snapshot(),
 		dialogue: activeClip(snapshot, 'dialogue'),
+		performance,
 		renderer: runtime.renderer.stats,
 		scene,
 		shot: director.cameras.currentShot,
@@ -37,7 +40,9 @@ export function applyMovieDirectorFrame(director, time, deltaTime) {
 		time,
 		title: activeClip(snapshot, 'title')
 	};
-	if (appearance) frame.appearance = appearance;
+	if (appearance) {
+		frame.appearance = appearance;
+	}
 	director.overlay.draw(runtime.renderer.canvas, frame);
 	return frame;
 }

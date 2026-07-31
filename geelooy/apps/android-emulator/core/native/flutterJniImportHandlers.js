@@ -18,6 +18,15 @@ import { createNativeCxaAtexitState } from "./nativeCxaAtexitState.js";
 import { createNativeDynamicLibraryState } from "./nativeDynamicLibraryState.js";
 import { registerNativeDynamicLinkerHandlers } from "./nativeDynamicLinkerHandlers.js";
 import { createNativeDynamicLinkerState } from "./nativeDynamicLinkerState.js";
+import { registerNativeEglConfigHandlers } from "./nativeEglConfigHandlers.js";
+import { createNativeEglConfigState } from "./nativeEglConfigState.js";
+import { registerNativeEglContextHandlers } from "./nativeEglContextHandlers.js";
+import { getNativeEglContextState } from "./nativeEglContextState.js";
+import { registerNativeEglDisplayHandlers } from "./nativeEglDisplayHandlers.js";
+import { getNativeEglDisplayState } from "./nativeEglDisplayState.js";
+import { registerNativeEglProcAddressHandlers } from "./nativeEglProcAddressHandlers.js";
+import { registerNativeEglSurfaceHandlers } from "./nativeEglSurfaceHandlers.js";
+import { getNativeEglSurfaceState } from "./nativeEglSurfaceState.js";
 import { createNativeErrnoState } from "./nativeErrnoState.js";
 import { registerNativeIntegerConversionHandlers } from "./nativeIntegerConversionHandlers.js";
 import { registerNativeLibcByteHandlers } from "./nativeLibcByteHandlers.js";
@@ -39,80 +48,65 @@ import { registerNativeSignalHandlers } from "./nativeSignalHandlers.js";
 import { registerNativeStdioHandlers } from "./registerNativeStdioHandlers.js";
 import { createNativeStdioState } from "./nativeStdioState.js";
 import { createNativeSystemConfiguration } from "./nativeSystemConfiguration.js";
+import { createNativeThreadIdentityState } from "./nativeThreadIdentityState.js";
 
 /**
- * Reveals JNI, Android, libc, loader, locale, stdio, and pthread roads.
+ * Reveals JNI, Android, EGL, libc, loader, locale, stdio, and pthread roads.
  * The Awtsmoos recreates each guest-owned crossing and return road anew;
  * Awtsmoos.com keeps every handler explicit, bounded, and independently tested.
  */
 export function createFlutterJniImportHandlers(machineState) {
+	const runtimeState = createNativeThreadIdentityState(machineState);
 	const registry = createNativeHostImportRegistry();
-	const cxaAtexit = machineState.nativeCxaAtexit || createNativeCxaAtexitState();
-	const dynamicLinker = machineState.nativeDynamicLinker
-		|| createNativeDynamicLinkerState(machineState.nativeHeap);
-	const dynamicLibraries = machineState.nativeDynamicLibraries
-		|| createNativeDynamicLibraryState({
-			errors: dynamicLinker,
-			imports: machineState.imports
-		});
-	const environment = machineState.nativeProcessEnvironment
-		|| createNativeProcessEnvironment({
-			entries: machineState.nativeEnvironmentEntries,
-			heap: machineState.nativeHeap
-		});
-	const threadIds = machineState.nativeLinuxThreadIds
-		|| createNativeLinuxThreadIds();
-	const errnoState = machineState.nativeErrno
-		|| createNativeErrnoState(machineState.nativeHeap);
-	const locales = machineState.nativeLocales
-		|| createNativeLocaleState(machineState.nativeHeap, errnoState);
-	const stdio = machineState.nativeStdio || createNativeStdioState({
-		fileStreams: machineState.nativeFileStreams
-	});
-	const systemConfiguration = machineState.nativeSystemConfiguration
-		|| createNativeSystemConfiguration(machineState.nativeSystemConfigurationOptions);
-	registry.register("JNIInvokeInterface.GetEnv", context => {
-		return handleFlutterJniGetEnv(context, machineState);
-	});
-	registry.register("JNINativeInterface.FindClass", context => {
-		return handleFlutterJniFindClass(context, machineState);
-	});
-	registry.register("JNINativeInterface.RegisterNatives", context => {
-		return handleFlutterJniRegisterNatives(context, machineState);
-	});
-	registerFlutterJniArrayHandlers(registry, machineState);
-	registerFlutterJniObjectArrayHandlers(registry, machineState);
-	registerFlutterJniStringHandlers(registry, machineState);
-	registerFlutterJniFieldIdHandlers(registry, machineState);
-	registerFlutterJniMethodIdHandlers(registry, machineState);
-	registerFlutterJniExceptionHandlers(registry, machineState);
-	registerFlutterJniReferenceHandlers(registry, machineState);
-	registerNativeAndroidHandlers(registry, machineState, errnoState);
+	const cxaAtexit = runtimeState.nativeCxaAtexit || createNativeCxaAtexitState();
+	const dynamicLinker = runtimeState.nativeDynamicLinker
+		|| createNativeDynamicLinkerState(runtimeState.nativeHeap);
+	const dynamicLibraries = runtimeState.nativeDynamicLibraries
+		|| createNativeDynamicLibraryState({ errors: dynamicLinker, imports: runtimeState.imports });
+	const environment = runtimeState.nativeProcessEnvironment
+		|| createNativeProcessEnvironment({ entries: runtimeState.nativeEnvironmentEntries, heap: runtimeState.nativeHeap });
+	const processThreadPointer = runtimeState.systemRegisters?.read("TPIDR_EL0") || 0n;
+	const threadIds = runtimeState.nativeLinuxThreadIds || createNativeLinuxThreadIds({ processThreadPointer });
+	const errnoState = runtimeState.nativeErrno || createNativeErrnoState(runtimeState.nativeHeap);
+	const locales = runtimeState.nativeLocales || createNativeLocaleState(runtimeState.nativeHeap, errnoState);
+	const stdio = runtimeState.nativeStdio || createNativeStdioState({ fileStreams: runtimeState.nativeFileStreams });
+	const systemConfiguration = runtimeState.nativeSystemConfiguration
+		|| createNativeSystemConfiguration(runtimeState.nativeSystemConfigurationOptions);
+	const eglDisplay = getNativeEglDisplayState(runtimeState);
+	const eglConfig = createNativeEglConfigState(eglDisplay);
+	const eglContext = getNativeEglContextState(runtimeState, eglDisplay, eglConfig);
+	const eglSurface = getNativeEglSurfaceState(runtimeState, eglDisplay, eglConfig, eglContext);
+	registry.register("JNIInvokeInterface.GetEnv", context => handleFlutterJniGetEnv(context, runtimeState));
+	registry.register("JNINativeInterface.FindClass", context => handleFlutterJniFindClass(context, runtimeState));
+	registry.register("JNINativeInterface.RegisterNatives", context => handleFlutterJniRegisterNatives(context, runtimeState));
+	registerFlutterJniArrayHandlers(registry, runtimeState);
+	registerFlutterJniObjectArrayHandlers(registry, runtimeState);
+	registerFlutterJniStringHandlers(registry, runtimeState);
+	registerFlutterJniFieldIdHandlers(registry, runtimeState);
+	registerFlutterJniMethodIdHandlers(registry, runtimeState);
+	registerFlutterJniExceptionHandlers(registry, runtimeState);
+	registerFlutterJniReferenceHandlers(registry, runtimeState);
+	registerNativeAndroidHandlers(registry, runtimeState, errnoState);
+	registerNativeEglDisplayHandlers(registry, eglDisplay);
+	registerNativeEglConfigHandlers(registry, { configState: eglConfig, displayState: eglDisplay });
+	registerNativeEglContextHandlers(registry, eglContext);
+	registerNativeEglProcAddressHandlers(registry, runtimeState.imports);
+	registerNativeEglSurfaceHandlers(registry, eglSurface);
 	registerNativeCxaAtexitHandlers(registry, cxaAtexit);
-	registerNativeDynamicLinkerHandlers(registry, {
-		errors: dynamicLinker,
-		libraries: dynamicLibraries
-	});
-	registerNativeLibcMemoryHandlers(registry, machineState);
+	registerNativeDynamicLinkerHandlers(registry, { errors: dynamicLinker, libraries: dynamicLibraries });
+	registerNativeLibcMemoryHandlers(registry, runtimeState, errnoState);
 	registerNativeLibcByteHandlers(registry);
 	registerNativeLibcCopyHandlers(registry);
 	registerNativeLibcStringHandlers(registry);
 	registerNativeLibcStringLengthHandlers(registry);
 	registerNativeLibcEnvironmentHandlers(registry, environment);
-	registerNativeLibcSystemHandlers(registry, {
-		errnoState,
-		state: systemConfiguration
-	});
-	registerNativeLibcFileHandlers(registry, machineState);
+	registerNativeLibcSystemHandlers(registry, { errnoState, state: systemConfiguration, threadNames: runtimeState.nativeThreadNames });
+	registerNativeLibcFileHandlers(registry, runtimeState, errnoState);
 	registerNativeLinuxSyscallHandlers(registry, threadIds, errnoState);
 	registerNativeLocaleHandlers(registry, errnoState, locales);
 	registerNativeIntegerConversionHandlers(registry, errnoState);
-	registerNativeStdioHandlers(registry, {
-		errnoState,
-		heap: machineState.nativeHeap,
-		stdio
-	});
-	registerNativeSignalHandlers(registry, machineState, errnoState);
-	registerNativePthreadHandlers(registry, machineState);
+	registerNativeStdioHandlers(registry, { errnoState, heap: runtimeState.nativeHeap, stdio });
+	registerNativeSignalHandlers(registry, runtimeState, errnoState);
+	registerNativePthreadHandlers(registry, runtimeState);
 	return registry;
 }

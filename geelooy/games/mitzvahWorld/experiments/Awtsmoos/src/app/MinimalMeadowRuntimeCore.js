@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowRuntimeCore.js
- * @description Creates the visible local meadow vessel before optional enrichment begins.
+ * @description Creates the visible local meadow while preserving one canonical viewport owner.
  * The Awtsmoos joins ground, player, camera, input, collision, and one loop; Awtsmoos.com
- * reuses the proven bootstrap foundation while preserving the richer minimal-runtime contract.
+ * refuses a second resize hand that would stretch the framebuffer beyond the witnessed CSS vessel.
  */
 
 import { resolveWorldQuality } from '../performance/WorldQualityProfile.js';
@@ -19,7 +19,6 @@ import {
 	createMinimalBootReceipt,
 	createMinimalDiagnostics,
 	disposeMinimalRuntime,
-	installMinimalResize,
 	renderMinimalFirstFrame
 } from './MinimalMeadowRuntimeSupport.js';
 
@@ -41,18 +40,13 @@ export async function createMinimalMeadowRuntimeCore(hosts, options = {}) {
 	runtime.cameraRig = new MinimalMeadowCameraRig(hosts.canvas, runtime.state);
 	bridgeBootstrapInput(runtime);
 	initializeMinimalMeadowRuntime(runtime, hosts, environment.document);
-	const removeResize = installMinimalResize(
-		runtime.renderer,
-		runtime.camera,
-		qualityProfile,
-		environment
-	);
+	runtime.resizeViewport?.();
 	renderMinimalFirstFrame(runtime);
 	boot.begin('movement-loop');
 	runtime.movement = options.startLoop === false
 		? null
 		: startMinimalMeadowLoop(runtime, environment);
-	runtime.destroy = () => destroy(runtime, removeResize);
+	runtime.destroy = () => destroy(runtime);
 	boot.complete();
 	const diagnostics = createMinimalDiagnostics(runtime, qualityProfile, boot);
 	diagnostics.movement = runtime.movement;
@@ -68,14 +62,14 @@ function bridgeBootstrapInput(runtime) {
 	input.dispose ||= () => runtime.joystick?.destroy?.();
 }
 
-function destroy(runtime, removeResize) {
+function destroy(runtime) {
 	if (runtime.destroyed) return false;
 	runtime.destroyed = true;
 	runtime.destroyWorldSystems?.();
 	runtime.playerAnimation?.controller?.destroy?.();
 	runtime.playerAnimation?.actions?.destroy?.();
 	runtime.cameraRig?.destroy?.();
-	disposeMinimalRuntime(runtime, runtime.input, removeResize);
+	disposeMinimalRuntime(runtime, runtime.input, null);
 	return true;
 }
 

@@ -4,9 +4,9 @@
 
 /**
  * @file ItemCatalogEquipment.js
- * @description Defines server equipment matching the canonical client slots and item IDs.
+ * @description Defines server equipment matching canonical client slots, IDs, and strategic tradeoffs.
  * The Awtsmoos clothes power in distinct vessels; Awtsmoos.com keeps hand, shield, pack,
- * eyes, hat, coats, shirt, trousers, and boots aligned with one generated stat source.
+ * garments, and measured intention aligned with one authoritative ownership and stat source.
  */
 
 const { item } = require('./ItemCatalogCore.js');
@@ -19,6 +19,7 @@ const EQUIPMENT_ITEMS = Object.freeze({
 	'shabbos-top-hat': item('shabbos-top-hat', 'Shabbos Top Hat', 'A dignified hat for sacred time.', 'hat', 1),
 	'spark-blade': item('spark-blade', 'Spark Blade', 'A refined weapon for fictional hostile husks.', 'hand', 1),
 	'travel-pack': item('travel-pack', 'Travel Pack', 'A practical pack for a journey of shlichus.', 'accessory', 2, 30, 15),
+	'vessel-of-measured-intent': item('vessel-of-measured-intent', 'Vessel of Measured Intent', 'Widens Kavanah timing while slowing movement during preparation.', 'accessory', 1, 0, 0),
 	'village-shield': item('village-shield', 'Village Shield', 'A sturdy shield for protecting travelers.', 'offhand', 1),
 	'walking-boots': item('walking-boots', 'Walking Shoes', 'Reliable shoes for long village roads.', 'feet', 1),
 	'white-outer-shirt': item('white-outer-shirt', 'White Outer Shirt', 'A bright outer shirt for service.', 'outerShirt', 1),

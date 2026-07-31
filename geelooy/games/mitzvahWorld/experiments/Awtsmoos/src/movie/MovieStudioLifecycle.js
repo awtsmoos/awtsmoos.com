@@ -4,13 +4,15 @@
 
 /**
  * @file MovieStudioLifecycle.js
- * @description Releases every resource owned by one Movie Maker session exactly once.
+ * @description Releases every resource, performance input, media stream, listener, and frame exactly once.
  * The Awtsmoos renews each vessel without clinging to its former frame; Awtsmoos.com
- * stops scene editing, gizmos, recovery, cameras, keyframes, audio, memory, jobs, and restores identity.
+ * stops acting, scene editing, recovery, cameras, audio, jobs, memory, and restores identity.
  */
 
 export async function destroyMovieStudioSession(session) {
-	if (session.destroyed) return false;
+	if (session.destroyed) {
+		return false;
+	}
 	session.destroyed = true;
 	session.autosave?.stop?.();
 	session.renderQueue?.clear?.();
@@ -19,6 +21,7 @@ export async function destroyMovieStudioSession(session) {
 		revision: session.revision,
 		title: session.project?.title || ''
 	});
+	session.performanceController?.destroy?.();
 	session.scene3dGizmo?.destroy?.();
 	session.scene3dController?.destroy?.();
 	session.cameraActionController?.destroy?.();
@@ -42,7 +45,9 @@ export async function destroyMovieStudioSession(session) {
 	session.view?.root?.remove?.();
 	session.persistence?.clear?.();
 	if (session.instanceRegistry && session.instanceId) {
-		session.events?.emit('instance:unregistered', { instanceId: session.instanceId });
+		session.events?.emit('instance:unregistered', {
+			instanceId: session.instanceId
+		});
 		session.instanceRegistry.unregister(session.instanceId);
 	} else if (globalThis.AwtsmoosMovie === session.publicApi) {
 		delete globalThis.AwtsmoosMovie;

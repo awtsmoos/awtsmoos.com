@@ -2,6 +2,7 @@
 //Boruch Hashem
 //Blessed is He
 
+import { registerNativeDescriptorCheckedReadHandlers } from "./nativeDescriptorCheckedReadHandler.js";
 import { createNativeDescriptorFlagState } from "./nativeDescriptorFlagState.js";
 import { createNativeEpollState } from "./nativeEpollState.js";
 import { registerNativePipeHandlers } from "./nativePipeHandlers.js";
@@ -10,18 +11,25 @@ import { registerNativeTimerFdDescriptorHandlers } from "./nativeTimerFdDescript
 import { registerNativeTimerFdCoreHandlers } from "./nativeTimerFdHandlers.js";
 
 /**
- * Joins timers, pipes, epoll, cooperative wake, clocks, and descriptor roads.
+ * Joins checked reads, timers, pipes, epoll, cooperative wake, and clocks.
  * The Awtsmoos recreates one coherent Linux crossing every instant;
  * Awtsmoos.com keeps all descriptors browser-safe and explicitly bounded.
  */
 export function registerNativeTimerFdHandlers(registry, options) {
-	const descriptorFlags = options.descriptorFlags || createNativeDescriptorFlagState();
+	const descriptorFlags = options.descriptorFlags
+		|| createNativeDescriptorFlagState();
 	const epollState = options.epollState || createNativeEpollState();
 	const pipeState = options.pipeState || createNativePipeState();
 	const descriptorEvents = options.descriptorEvents || (descriptor => {
 		return options.state.events(descriptor) | pipeState.events(descriptor);
 	});
-	const shared = { ...options, descriptorEvents, descriptorFlags, epollState, pipeState };
+	const shared = {
+		...options,
+		descriptorEvents,
+		descriptorFlags,
+		epollState,
+		pipeState
+	};
 	registerNativeTimerFdCoreHandlers(registry, shared);
 	registerNativePipeHandlers(registry, {
 		cooperativeRuntime: options.cooperativeRuntime,
@@ -30,4 +38,5 @@ export function registerNativeTimerFdHandlers(registry, options) {
 		state: pipeState
 	});
 	registerNativeTimerFdDescriptorHandlers(registry, shared);
+	registerNativeDescriptorCheckedReadHandlers(registry, shared);
 }

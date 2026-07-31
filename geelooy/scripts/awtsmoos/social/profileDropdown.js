@@ -10,7 +10,7 @@
 import { bindProfileAuth } from './profileDropdown/auth.js';
 import { hydrateProfileIdentity } from './profileDropdown/identity.js';
 import { bindProfileMenus } from './profileDropdown/menus.js';
-import { ensureProfileDropdownStyles } from './profileDropdown/styles.js';
+import { ensureProfileDropdownStyles } from './profileDropdown/styles.js?v=4';
 import { buildProfileDropdown } from './profileDropdown/template.js';
 
 let mountSequence = 0;

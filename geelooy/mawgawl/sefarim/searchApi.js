@@ -1,22 +1,29 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * @module LivingLibraryApi
- * @description
- * The Awtsmoos carries a search request through one honest transport vessel.
- * The browser trusts the bounded metadata-comment default instead of requesting
- * the full mutable comment database for every public search.
+ * @description The Awtsmoos carries bounded search requests through an honest transport with explicit timeout and readable failure states.
  */
+const REQUEST_TIMEOUT_MS = 20000;
 
 export async function requestJson(url) {
-	const response = await fetch(url, {
-		credentials: 'same-origin',
-		headers: {
-			accept: 'application/json'
-		}
-	});
+	const controller = new AbortController();
+	const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+	let response;
+	try {
+		response = await fetch(url, {
+			credentials: 'same-origin',
+			headers: { accept: 'application/json' },
+			signal: controller.signal
+		});
+	} catch (error) {
+		if (error.name === 'AbortError') throw new Error('Search took too long. Please try again.');
+		throw new Error('Search could not reach the library service.');
+	} finally {
+		clearTimeout(timeout);
+	}
+
 	const text = await response.text();
 	let payload;
 	try {
@@ -24,9 +31,7 @@ export async function requestJson(url) {
 	} catch {
 		throw new Error(`Search returned unreadable data (${response.status}).`);
 	}
-	if (!response.ok || payload?.error) {
-		throw new Error(errorMessage(payload, response.status));
-	}
+	if (!response.ok || payload?.error) throw new Error(errorMessage(payload, response.status));
 	return payload;
 }
 
@@ -36,28 +41,16 @@ export async function fetchLibraryLanes() {
 }
 
 export async function searchLibrary({ query, lane }) {
-	const parameters = new URLSearchParams({
-		q: query,
-		limit: '20',
-		autoInstall: 'false'
-	});
-	if (lane) {
-		parameters.set('lane', lane);
-	}
+	const parameters = new URLSearchParams({ q: query, limit: '20', autoInstall: 'false' });
+	if (lane) parameters.set('lane', lane);
 	const payload = await requestJson(`/api/social/search/library/query?${parameters}`);
 	return payload?.success || {};
 }
 
 function errorMessage(payload, statusCode) {
 	const error = payload?.error;
-	if (typeof error === 'string') {
-		return error;
-	}
-	if (error?.message) {
-		return error.message;
-	}
-	if (payload?.message) {
-		return payload.message;
-	}
+	if (typeof error === 'string') return error;
+	if (error?.message) return error.message;
+	if (payload?.message) return payload.message;
 	return `Search request failed (${statusCode}).`;
 }

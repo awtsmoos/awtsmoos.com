@@ -4,9 +4,9 @@
 
 /**
  * @file InventoryItemDefinition.js
- * @description Creates immutable inventory definitions with rarity, legacy, and spiritual attributes.
- * The Awtsmoos renews name, icon, value, rarity, slot, model, and consequence together;
- * Awtsmoos.com prevents one panel from inventing facts another runtime cannot enforce.
+ * @description Creates immutable inventory definitions with rarity, effects, and spiritual attributes.
+ * The Awtsmoos renews name, icon, value, rarity, model, action, and consequence together;
+ * Awtsmoos.com prevents one panel from inventing an effect another runtime cannot enforce.
  */
 
 import { inventoryRarity } from './InventoryRarity.js';
@@ -24,6 +24,7 @@ export function inventoryItem(options) {
 		appearance: freezeAppearance(options.appearance),
 		category: options.category,
 		description: options.description || `${options.name} is a real ${options.category} vessel.`,
+		effect: freezeEffect(options.effect),
 		garment: options.garment ? Object.freeze({ ...options.garment }) : null,
 		icon: options.icon,
 		id: options.id,
@@ -47,4 +48,8 @@ function freezeAppearance(value) {
 		defaultFabric: value.defaultFabric || value.fabrics?.[0] || 'plain',
 		fabrics: Object.freeze([...(value.fabrics || [])])
 	});
+}
+
+function freezeEffect(value) {
+	return value ? Object.freeze({ ...value }) : null;
 }

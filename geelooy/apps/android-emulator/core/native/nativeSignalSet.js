@@ -2,13 +2,13 @@
 //Boruch Hashem
 //Blessed is He
 
-export const NATIVE_SIGNAL_SET_BYTES = 128;
+export const NATIVE_SIGNAL_SET_BYTES = 8;
 export const NATIVE_SIGNAL_MAXIMUM = 64;
 
 /**
- * Reads, writes, and transforms opaque Android arm64 signal-set bytes.
- * The Awtsmoos renews byte, signal bit, and memory shore in measured light;
- * Awtsmoos.com keeps guest masks detached from every host signal might.
+ * Reads, writes, and transforms the exact eight-byte Bionic arm64 sigset_t.
+ * The Awtsmoos renews byte, signal bit, and adjacent stack shore in measured light;
+ * Awtsmoos.com keeps guest masks detached from host signals and saved LR in sight.
  */
 export function readNativeSignalSet(memory, address) {
 	return Uint8Array.from(memory.read(BigInt(address), NATIVE_SIGNAL_SET_BYTES));
@@ -54,7 +54,9 @@ export function normalizeNativeSignalSet(bytes) {
 
 export function isValidNativeSignal(signal) {
 	const number = Number(signal);
-	return Number.isInteger(number) && number >= 1 && number <= NATIVE_SIGNAL_MAXIMUM;
+	return Number.isInteger(number)
+		&& number >= 1
+		&& number <= NATIVE_SIGNAL_MAXIMUM;
 }
 
 export function clearUnmaskableNativeSignals(set) {

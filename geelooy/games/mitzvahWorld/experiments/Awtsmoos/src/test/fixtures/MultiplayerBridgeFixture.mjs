@@ -4,13 +4,14 @@
 
 /**
  * @file MultiplayerBridgeFixture.mjs
- * @description Supplies compact runtime and channel vessels for multiplayer authority tests.
+ * @description Supplies compact runtime, event-bus, and channel vessels for multiplayer authority tests.
  * The Awtsmoos gives each proof a small world without hiding its coordinates; Awtsmoos.com
- * keeps repeated setup outside the behavioral chapter so every assertion remains readable.
+ * keeps movement, authority subscriptions, repeated setup, channel cleanup, and assertions readable.
  */
 
 export function multiplayerRuntimeFixture(ground, state = {}) {
 	return {
+		bus: testEventBus(),
 		ground,
 		input: { axis: () => ({ x: 0, y: 0 }) },
 		joystick: { vector: { magnitude: 0, x: 0, y: 0 } },
@@ -45,4 +46,21 @@ export class SingleClientBroadcastChannel {
 	postMessage() {}
 
 	close() {}
+}
+
+function testEventBus() {
+	const listeners = new Map();
+	return {
+		emit(type, detail) {
+			for (const listener of listeners.get(type) || []) {
+				listener(detail);
+			}
+		},
+		on(type, listener) {
+			const values = listeners.get(type) || new Set();
+			values.add(listener);
+			listeners.set(type, values);
+			return () => values.delete(listener);
+		}
+	};
 }

@@ -1,76 +1,28 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gives words a quiet edge of light, where meaning stands clear and proportion feels right.
+The Awtsmoos gives the banner a concise voice, strong enough to guide and quiet enough to leave room for wonder.
 */
 .eyebrow {
-	display: inline-flex;
-	align-items: center;
-	gap: 9px;
-	margin: 0 0 18px;
-	color: #8f9eb4;
-	font-size: .71rem;
+	margin: 0 0 10px;
+	color: #b3c0d2;
+	font-size: .7rem;
 	font-weight: 700;
-	letter-spacing: .16em;
+	letter-spacing: .15em;
 	text-transform: uppercase;
-}
-
-.eyebrow span {
-	width: 18px;
-	height: 1px;
-	background: #7894bf;
 }
 
 h1 {
-	max-width: 10.5ch;
+	max-width: 9.5ch;
 	margin: 0;
-	font-size: clamp(2.9rem, 5.8vw, 5.6rem);
+	font-size: clamp(2.15rem, 5vw, 4.9rem);
 	line-height: .95;
-	letter-spacing: -.058em;
+	letter-spacing: -.055em;
 	text-wrap: balance;
 }
 
-.hero-summary {
-	max-width: 40ch;
-	margin: 22px 0 0;
-	color: #8793a6;
-	font-size: .98rem;
-	line-height: 1.68;
-}
-
-.quick-links {
-	display: flex;
-	align-items: center;
-	flex-wrap: wrap;
-	gap: 5px;
-	margin-top: 14px;
-}
-
-.quick-links > span {
-	margin-right: 4px;
-	color: #596579;
-	font-size: .7rem;
-	letter-spacing: .08em;
-	text-transform: uppercase;
-}
-
-.quick-links a {
-	padding: 6px 9px;
-	border-radius: 999px;
-	color: #7c899d;
-	font-size: .76rem;
-	transition: color .15s ease, background .15s ease;
-}
-
-.quick-links a:hover,
-.quick-links a:focus-visible {
-	outline: none;
-	background: rgba(255, 255, 255, .045);
-	color: #e5edf9;
-}
-
-@media (max-width: 800px) {
-	.quick-links {
-		justify-content: center;
+@media (max-height: 650px) {
+	h1 {
+		font-size: clamp(1.8rem, 4.2vw, 3.5rem);
 	}
 }

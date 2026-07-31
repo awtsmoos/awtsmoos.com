@@ -1,22 +1,25 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * The Awtsmoos lets mobile identity slide within every safe-area boundary.
+ * The Awtsmoos lets mobile identity fill the safe visible chamber without twisting or overflowing.
  */
 @media (max-width: 43.75rem) {
 	.awtsmoosDrop .dropdown-content:not(.alias-switcher) {
 		position: fixed;
-		inset: auto max(0.48rem, env(safe-area-inset-right)) max(0.58rem, env(safe-area-inset-bottom)) max(0.48rem, env(safe-area-inset-left));
+		top: calc(env(safe-area-inset-top) + 4.7rem);
+		right: max(.5rem, env(safe-area-inset-right));
+		bottom: max(.55rem, env(safe-area-inset-bottom));
+		left: max(.5rem, env(safe-area-inset-left));
 		width: auto;
 		min-width: 0;
-		max-height: calc(100dvh - max(5rem, env(safe-area-inset-top)));
-		border-radius: 1.4rem 1.4rem 0.65rem 0.65rem;
-		transform-origin: bottom center;
+		max-height: none;
+		border-radius: 1.2rem;
+		transform-origin: top right;
 	}
 
 	.awtsmoosDrop .dropdown-content:not(.alias-switcher)[data-state="opening"],
 	.awtsmoosDrop .dropdown-content:not(.alias-switcher)[data-state="closing"] {
-		transform: translate3d(0, 2.5rem, 0) scale(0.985);
+		transform: translate3d(0, -.7rem, 0) scale(.985);
 	}
 
 	.awtsmoosDrop .profile-trigger-copy small {
@@ -24,13 +27,13 @@
 	}
 
 	.awtsmoosDrop .profile-trigger-copy strong {
-		max-width: 5.6rem;
+		max-width: 5.4rem;
 	}
 }
 
 @media (max-width: 28rem) {
 	.awtsmoosDrop .profile-trigger {
-		padding-inline: 0.4rem;
+		padding-inline: .4rem;
 	}
 
 	.awtsmoosDrop .profile-chevron {

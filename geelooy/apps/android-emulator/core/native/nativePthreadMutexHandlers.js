@@ -5,13 +5,14 @@
 const EINVAL = 22;
 
 /**
- * Registers typed pthread mutex imports over persistent guest-pointer state.
- * The Awtsmoos renews ABI argument, attribute, owner, and return road anew;
- * Awtsmoos.com exposes no host pthread object and spins no host-thread view.
+ * Registers typed mutex imports and releases deferred condition waiters.
+ * The Awtsmoos renews owner, final unlock, queued traveler, and return road;
+ * Awtsmoos.com wakes one guest thread only when the mutex sheds its load.
  */
 export function registerNativePthreadMutexHandlers(registry, options) {
-	const mutexes = options.mutexes || options;
-	const attributes = options.attributes || null;
+	const mutexes = options?.mutexes || options;
+	const attributes = options?.attributes || null;
+	const scheduler = options?.scheduler || null;
 	registry.register("pthread_mutex_init", context => initialize(
 		context,
 		mutexes,
@@ -29,10 +30,11 @@ export function registerNativePthreadMutexHandlers(registry, options) {
 		readArgument(context, 0),
 		readThread(context)
 	)));
-	registry.register("pthread_mutex_unlock", context => finish(context, mutexes.unlock(
-		readArgument(context, 0),
-		readThread(context)
-	)));
+	registry.register("pthread_mutex_unlock", context => unlock(
+		context,
+		mutexes,
+		scheduler
+	));
 }
 
 function initialize(context, mutexes, attributes) {
@@ -41,6 +43,16 @@ function initialize(context, mutexes, attributes) {
 	const resolved = attributes ? attributes.resolve(pointer) : legacyResolve(pointer);
 	if (!resolved) return finish(context, Object.freeze({ result: EINVAL }));
 	return finish(context, mutexes.initialize(address, resolved.type));
+}
+
+function unlock(context, mutexes, scheduler) {
+	const address = readArgument(context, 0);
+	const evidence = mutexes.unlock(address, readThread(context));
+	if (!scheduler || evidence.result !== 0 || evidence.locked) {
+		return finish(context, evidence);
+	}
+	const resumed = scheduler.wakeMutex(address);
+	return finish(context, Object.freeze({ ...evidence, resumed }));
 }
 
 function legacyResolve(pointer) {

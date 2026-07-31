@@ -4,15 +4,18 @@
 
 /**
  * @file CreatureStateRecord.js
- * @description Captures and restores authoritative creature outcomes across restart.
+ * @description Captures and restores authoritative creature life, posture, phase, care, and loot.
  * The Awtsmoos renews each animal and fictional husk beyond process boundaries;
- * Awtsmoos.com preserves health, care, defeat, and harvest without transport state.
+ * Awtsmoos.com preserves health, composure, boss truth, and harvest without transport state.
  */
 
 const { creatureDefinition } = require('./CombatantCatalog.js');
+const {
+	restoreCreatureVerticalSliceState
+} = require('./CreatureVerticalSliceState.js');
 
 function captureCreatureState(directory) {
-	return [...directory.creatures.values()].map((creature) => clone(creature));
+	return [...directory.creatures.values()].map(creature => clone(creature));
 }
 
 function restoreCreatureState(directory, records) {
@@ -24,7 +27,11 @@ function restoreCreatureState(directory, records) {
 		directory.creatures.set(record.id, {
 			...definition,
 			...clone(record),
-			caredBy: Array.isArray(record.caredBy) ? [...new Set(record.caredBy)] : [],
+			...restoreCreatureVerticalSliceState(record, definition),
+			caredBy: Array.isArray(record.caredBy)
+				? [...new Set(record.caredBy)]
+				: [],
+			health: bounded(record.health, 0, definition.maximumHealth),
 			homePosition: finitePosition(record.homePosition),
 			position: finitePosition(record.position)
 		});
@@ -37,6 +44,11 @@ function finitePosition(position = {}) {
 		y: finite(position.y),
 		z: finite(position.z)
 	};
+}
+
+function bounded(value, minimum, maximum) {
+	const number = finite(value);
+	return Math.max(minimum, Math.min(maximum, number));
 }
 
 function finite(value) {

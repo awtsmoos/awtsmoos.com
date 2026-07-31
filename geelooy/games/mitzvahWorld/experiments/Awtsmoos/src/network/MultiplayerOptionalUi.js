@@ -4,10 +4,11 @@
 
 /**
  * @file MultiplayerOptionalUi.js
- * @description Mounts shared chat after connection and a protected minute of responsive gameplay.
+ * @description Mounts shared chat after an abortable protected minute of responsive gameplay.
  * The Awtsmoos joins distant travelers without making conversation steal the first stride;
- * Awtsmoos.com delays unopened panels, then reveals chat when the living frame has settled inside.
+ * Awtsmoos.com cancels the unopened chapter when connection ends, releasing timer and imports inside.
  */
+
 import { afterGameplayQuietWindow } from '../app/GameplayQuietWindow.js';
 
 export class MultiplayerOptionalUi {
@@ -19,13 +20,20 @@ export class MultiplayerOptionalUi {
 		this.chat = null;
 		this.error = null;
 		this.promise = null;
+		this.quietWindowController = null;
 	}
 
 	start(client, transport) {
 		this.stop();
 		const generation = this.generation;
-		this.promise = afterGameplayQuietWindow(this.environment)
-			.then(() => this.mount(client, transport, generation));
+		this.quietWindowController = createAbortController(this.environment);
+		this.promise = afterGameplayQuietWindow(
+			this.environment,
+			undefined,
+			this.quietWindowController?.signal
+		).then(ready => {
+			return ready ? this.mount(client, transport, generation) : null;
+		});
 		return this.promise;
 	}
 
@@ -66,6 +74,8 @@ export class MultiplayerOptionalUi {
 
 	stop() {
 		this.generation += 1;
+		this.quietWindowController?.abort?.();
+		this.quietWindowController = null;
 		this.panel?.destroy?.();
 		this.chat?.destroy?.();
 		this.panel = null;
@@ -81,4 +91,9 @@ export class MultiplayerOptionalUi {
 			scheduled: Boolean(this.promise && !this.panel)
 		};
 	}
+}
+
+function createAbortController(environment) {
+	const Controller = environment.AbortController || globalThis.AbortController;
+	return typeof Controller === 'function' ? new Controller() : null;
 }

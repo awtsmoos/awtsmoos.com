@@ -4,15 +4,14 @@
 
 /**
  * @file RealGameplayCdpInteractions.mjs
- * @description Drives movement, target selection, melee, and Torah casting through CDP page input.
- * The Awtsmoos joins one intention to one witnessed consequence; Awtsmoos.com makes the protocol
- * walk through the same keyboard gates as the player, never through a hidden authority shortcut.
+ * @description Proves movement, targeting, melee, and Torah casting through real keyboard input.
+ * The Awtsmoos joins one intention to one witnessed consequence; Awtsmoos.com openly places one
+ * disposable target while every strike, cast, cooldown, damage, defeat, and reward follows runtime law.
  */
 
-import {
-	keyExpression,
-	snapshotExpression
-} from './RealGameplayProofExpressions.mjs';
+import { targetFixtureExpression } from './RealGameplayFixtureExpressions.mjs';
+import { keyExpression } from './RealGameplayProofExpressions.mjs';
+import { snapshotExpression } from './RealGameplaySnapshotExpression.mjs';
 
 export async function runCdpInteractions(browser, targetId) {
 	const before = await snapshot(browser, targetId);
@@ -23,41 +22,48 @@ export async function runCdpInteractions(browser, targetId) {
 	const afterMovement = await snapshot(browser, targetId);
 	await tap(browser, targetId, 'Tab', 'Tab');
 	await delay(120);
+	const selected = await snapshot(browser, targetId);
+	const meleeFixture = await applyFixture(browser, targetId);
+	await delay(100);
 	const targeted = await snapshot(browser, targetId);
 	await tap(browser, targetId, 'KeyF', 'f');
-	await delay(120);
-	const meleeStarted = await snapshot(browser, targetId);
-	await delay(900);
-	const meleeSettled = await snapshot(browser, targetId);
-	await tap(browser, targetId, 'Digit1', '1');
 	await delay(180);
+	const meleeStarted = await snapshot(browser, targetId);
+	await delay(1400);
+	const meleeSettled = await snapshot(browser, targetId);
+	const castFixture = await applyFixture(browser, targetId);
+	await delay(100);
+	const beforeCast = await snapshot(browser, targetId);
+	await tap(browser, targetId, 'Digit1', '1');
+	await delay(280);
 	const castStarted = await snapshot(browser, targetId);
-	await delay(1800);
+	await delay(2700);
 	const castSettled = await snapshot(browser, targetId);
 	return {
 		afterMovement,
 		before,
+		beforeCast,
 		cameraMoved: distance(before.camera, afterMovement.camera) > 0.05,
-		castObserved: Boolean(
-			castStarted.combat?.cast
-			|| castStarted.combat?.casting
-			|| castSettled.combat?.lastCompletedAction
-		),
+		castFixture,
+		castObserved: observedCast(castStarted, castSettled),
 		castSettled,
 		castStarted,
 		damageObserved: healthReduced(targeted.target, meleeSettled.target)
-			|| healthReduced(meleeSettled.target, castSettled.target),
+			|| healthReduced(beforeCast.target, castSettled.target),
 		keyReleased: !afterMovement.inputKeys.includes('KeyW'),
-		meleeObserved: Boolean(
-			meleeStarted.combat?.melee
-			|| meleeSettled.combat?.lastCompletedAction
-		),
+		meleeFixture,
+		meleeObserved: observedMelee(meleeStarted, meleeSettled),
 		meleeSettled,
 		meleeStarted,
 		moved: distance(before.player, afterMovement.player) > 0.05,
-		targetAcquired: Boolean(targeted.target?.id),
+		selected,
+		targetAcquired: Boolean(selected.target?.id),
 		targeted
 	};
+}
+
+function applyFixture(browser, targetId) {
+	return browser.evaluate(targetId, targetFixtureExpression());
 }
 
 async function tap(browser, targetId, code, keyValue) {
@@ -71,6 +77,21 @@ function key(browser, targetId, type, code, keyValue) {
 
 function snapshot(browser, targetId) {
 	return browser.evaluate(targetId, snapshotExpression());
+}
+
+function observedCast(started, settled) {
+	return Boolean(
+		started.combat?.casting === 'hebrew-fire'
+		|| settled.combat?.lastCompletedAction === 'hebrew-fire'
+		|| Number(settled.combat?.cooldowns?.['hebrew-fire'] || 0) > 0
+	);
+}
+
+function observedMelee(started, settled) {
+	return Boolean(
+		started.combat?.melee?.actionId === 'staff-light'
+		|| settled.combat?.lastCompletedAction === 'staff-light'
+	);
 }
 
 function healthReduced(before, after) {

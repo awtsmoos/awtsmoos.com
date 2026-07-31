@@ -4,15 +4,16 @@
 
 /**
  * @file MovieStudioInspectorMarkup.js
- * @description Defines transform, scene edit, camera, keyframe, audio, title, 3D, project, appearance, and mobile controls.
+ * @description Defines transform, performance, scene, camera, keyframe, audio, title, 3D, and project controls.
  * The Awtsmoos renews detail without separating it from the whole; Awtsmoos.com gives
- * desktop side pane and mobile sheet one semantic inspector whose controls stay named and bounded.
+ * desktop side pane and mobile sheet one semantic inspector whose acting controls remain bounded.
  */
 
 import { movieStudioAuthoring3dMarkup } from './MovieStudioAuthoring3dMarkup.js';
 import { movieStudioAudioMixerMarkup } from './MovieStudioAudioMixerMarkup.js';
 import { movieStudioCameraActionMarkup } from './MovieStudioCameraActionMarkup.js';
 import { movieStudioKeyframeMarkup } from './MovieStudioKeyframeMarkup.js';
+import { movieStudioPerformanceInspectorMarkup } from './MovieStudioPerformanceMarkup.js';
 import { movieStudioScene3dMarkup } from './MovieStudioScene3dMarkup.js';
 import { movieStudioTitleMarkup } from './MovieStudioTitleMarkup.js';
 
@@ -22,6 +23,7 @@ export function movieStudioInspectorMarkup() {
 			<header class="movie-inspector-heading"><strong>Inspector</strong><button data-inspector-close aria-label="Close inspector">×</button></header>
 			<div class="movie-inspector-body">
 				<div data-transform></div>
+				${movieStudioPerformanceInspectorMarkup()}
 				${movieStudioScene3dMarkup()}
 				${movieStudioCameraActionMarkup()}
 				${movieStudioKeyframeMarkup()}

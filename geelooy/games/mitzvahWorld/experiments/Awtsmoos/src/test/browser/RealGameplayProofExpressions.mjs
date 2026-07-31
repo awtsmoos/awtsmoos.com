@@ -4,9 +4,9 @@
 
 /**
  * @file RealGameplayProofExpressions.mjs
- * @description Builds bounded CDP expressions from the same metrics used by the visible proof.
- * The Awtsmoos lets one truth shine through page and protocol; Awtsmoos.com avoids twin formulas
- * whose drifting percentiles could make one browser pass while another vessel falsely falls.
+ * @description Builds bounded boot, keyboard, and frame-measurement expressions for CDP proof.
+ * The Awtsmoos lets one truth shine through protocol and page; Awtsmoos.com keeps every expression
+ * readable and names each readiness gate so a timeout reveals its actual unfinished vessel.
  */
 
 import { summarizeFrameGaps } from './RealGameplayFrameMetrics.js';
@@ -14,40 +14,50 @@ import { summarizeFrameGaps } from './RealGameplayFrameMetrics.js';
 export function bootExpression() {
 	return `(() => {
 		const root = document.documentElement;
-		const runtime = globalThis.AwtsmoosMitzvahWorld?.runtime;
+		const diagnostics = globalThis.AwtsmoosMitzvahWorld;
+		const runtime = diagnostics?.runtime;
 		const canvas = document.querySelector('#AwtsmoosCanvas');
-		const readiness = root.dataset.awtsmoosReadiness || null;
+		const navigation = performance.getEntriesByType('navigation')[0];
 		return {
 			bootError: root.dataset.awtsmoosBootError || null,
+			bootPhases: diagnostics?.bootPhases?.() || globalThis.AwtsmoosBootPhases || null,
+			bootStage: root.dataset.awtsmoosBootStage || null,
 			canvasHeight: canvas?.clientHeight || 0,
 			canvasWidth: canvas?.clientWidth || 0,
 			combat: Boolean(runtime?.combat),
+			features: root.dataset.awtsmoosFeatures || null,
+			featureReceipt: runtime?.featureReceipt || null,
+			featuresPromise: promiseState(runtime?.featuresPromise),
+			focused: document.hasFocus(),
 			gameplay: root.dataset.awtsmoosGameplay || null,
 			href: location.href,
-			productionEntry: [...document.scripts].some(script => script.src.includes('mitzvah-world.compact.js')),
-			readiness,
-			ready: Boolean(runtime && canvas?.clientWidth > 0 && root.dataset.awtsmoosGameplay === 'true'),
-			renderer: runtime?.renderer?.backend || runtime?.renderer?.constructor?.name || null
+			navigation: navigation ? {
+				domContentLoadedMs: navigation.domContentLoadedEventEnd,
+				loadMs: navigation.loadEventEnd,
+				responseEndMs: navigation.responseEnd,
+				startTime: navigation.startTime
+			} : null,
+			productionEntry: [...document.scripts].some(script => (
+				script.src.includes('mitzvah-world.compact.js')
+			)),
+			readiness: root.dataset.awtsmoosReadiness || null,
+			readinessFlow: promiseState(diagnostics?.readinessFlow),
+			ready: Boolean(
+				runtime
+				&& canvas?.clientWidth > 0
+				&& root.dataset.awtsmoosGameplay === 'true'
+			),
+			renderer: runtime?.renderer?.backend
+				|| runtime?.renderer?.constructor?.name
+				|| null,
+			rendererHydration: root.dataset.awtsmoosRendererHydration || null,
+			runtimeState: root.dataset.awtsmoosRuntimeState || null,
+			visibility: document.visibilityState
 		};
-	})()`;
-}
-
-export function snapshotExpression() {
-	return `(() => {
-		const runtime = globalThis.AwtsmoosMitzvahWorld?.runtime;
-		const target = runtime?.enemies?.selected;
-		const canvas = document.querySelector('#AwtsmoosCanvas');
-		return {
-			camera: { x: Number(runtime?.camera?.position?.x || 0), y: Number(runtime?.camera?.position?.y || 0), z: Number(runtime?.camera?.position?.z || 0) },
-			canvas: { cssHeight: canvas?.clientHeight || 0, cssWidth: canvas?.clientWidth || 0, renderHeight: canvas?.height || 0, renderWidth: canvas?.width || 0 },
-			combat: runtime?.combat?.diagnostics?.() || null,
-			dpr: Number(devicePixelRatio || 1),
-			inputKeys: [...(runtime?.input?.keys || [])].sort(),
-			player: { x: Number(runtime?.state?.x || 0), y: Number(runtime?.state?.y || 0), z: Number(runtime?.state?.z || 0) },
-			renderer: { backend: runtime?.renderer?.backend || runtime?.renderer?.constructor?.name || null, renderDpr: runtime?.terrain?.stats?.renderDpr || null, renderScale: runtime?.terrain?.stats?.renderScale || null },
-			runtimeError: runtime?.lastFrameError || document.documentElement.dataset.awtsmoosRuntimeError || null,
-			target: target ? { alive: Boolean(target.alive), health: Number(target.health ?? target.profile?.health ?? 0), id: target.profile?.id || target.id || null } : null
-		};
+		function promiseState(value) {
+			if (!value || typeof value.then !== 'function') return value ? 'value' : 'absent';
+			return 'pending-or-settled-promise';
+		}
 	})()`;
 }
 
@@ -73,7 +83,10 @@ export function frameExpression(count = 180) {
 		const sample = now => {
 			values.push(now - prior);
 			prior = now;
-			if (values.length < ${Number(count)}) return requestAnimationFrame(sample);
+			if (values.length < ${Number(count)}) {
+				requestAnimationFrame(sample);
+				return;
+			}
 			resolve(summarize(values));
 		};
 		requestAnimationFrame(sample);

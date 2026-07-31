@@ -1,31 +1,58 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos arranges image and word in a measured field, where silence becomes structure and balance is revealed.
+The Awtsmoos fits banner, search, and destinations into one visual viewport without a hidden lower page.
 */
 .home {
+	min-height: 0;
 	display: grid;
 	place-items: center;
-	padding: 38px 20px 72px;
+	padding: 0 14px 7px;
+	overflow: hidden;
 }
 
 .hero {
 	display: grid;
-	grid-template-columns: minmax(300px, 470px) minmax(330px, 500px);
-	align-items: center;
-	gap: clamp(54px, 8vw, 112px);
-	width: min(1080px, 100%);
+	grid-template-rows: minmax(0, auto) auto;
+	gap: 9px;
+	width: min(1180px, 100%);
+	min-height: 0;
+	max-height: 100%;
 }
 
-@media (max-width: 800px) {
-	.hero {
-		grid-template-columns: 1fr;
-		width: min(520px, 100%);
-		text-align: center;
+.action-panel {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 16px;
+}
+
+.home-status {
+	display: flex;
+	gap: 5px;
+}
+
+.home-status span {
+	padding: 6px 9px;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, .035);
+	color: #68758a;
+	font-size: .7rem;
+}
+
+@media (max-width: 720px) {
+	.action-panel {
+		display: grid;
+		gap: 5px;
 	}
 
-	.hero-copy {
-		display: grid;
-		justify-items: center;
+	.home-status {
+		justify-content: center;
+	}
+}
+
+@media (max-height: 650px) {
+	.home-status {
+		display: none;
 	}
 }

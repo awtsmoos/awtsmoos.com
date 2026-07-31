@@ -1,7 +1,7 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/** @module LivingLibrarySearchController @description The Awtsmoos preserves Read as default while Tanach appears by explicit choice. */
+/** @module LivingLibrarySearchController @description The Awtsmoos starts the requested search immediately while library metadata loads independently. */
 import { fetchLibraryLanes, searchLibrary } from './searchApi.js';
 import { searchTanach } from './tanachApi.js';
 import { renderTanach } from './tanachView.js';
@@ -23,16 +23,15 @@ const laneDirectory = document.getElementById('laneDirectory');
 const laneCount = document.getElementById('laneCount');
 const recentSearches = document.getElementById('recentSearches');
 const clearHistoryButton = document.getElementById('clearHistory');
-let lanes = [];
 
-async function loadLanes() {
+async function loadLanes(selectedLane = '') {
 	try {
-		lanes = await fetchLibraryLanes();
+		const lanes = await fetchLibraryLanes();
 		lanes.forEach(lane => addLane(series, lane));
+		if (selectedLane) series.value = selectedLane;
 		renderLaneDirectory({ lanes, container: laneDirectory, count: laneCount, onChoose: chooseLane });
 	} catch (error) {
 		laneCount.textContent = 'Unavailable';
-		status.textContent = `Library list unavailable: ${error.message}`;
 	}
 }
 
@@ -63,6 +62,7 @@ function chooseLane(lane) {
 	input.focus();
 	if (input.value.trim()) runSearch(input.value);
 }
+
 function chooseHistory(entry) {
 	mode.value = LIBRARY_MODE;
 	input.value = entry.query;
@@ -70,10 +70,12 @@ function chooseHistory(entry) {
 	configureMode(mode, laneField, bookField);
 	runSearch(entry.query);
 }
+
 function renderHistory(entries = readSearchHistory()) {
 	renderRecentSearches({ entries, container: recentSearches, onChoose: chooseHistory });
 	clearHistoryButton.disabled = entries.length === 0;
 }
+
 function updateLocation(query) {
 	const values = new URLSearchParams({ q: query });
 	if (mode.value !== LIBRARY_MODE) values.set('mode', mode.value);
@@ -81,13 +83,15 @@ function updateLocation(query) {
 	if (mode.value === TANACH_MODE && book.value.trim()) values.set('book', book.value.trim());
 	history.replaceState(null, '', `${location.pathname}?${values}`);
 }
+
 function hydrateFromUrl() {
 	const values = new URLSearchParams(location.search);
 	input.value = values.get('q') || '';
 	mode.value = modeFromUrl(values);
-	series.value = values.get('lane') || '';
 	book.value = values.get('book') || '';
 	configureMode(mode, laneField, bookField);
+	const selectedLane = values.get('lane') || '';
+	loadLanes(selectedLane);
 	if (input.value) runSearch(input.value);
 }
 
@@ -95,5 +99,4 @@ form.addEventListener('submit', event => { event.preventDefault(); runSearch(inp
 mode.addEventListener('change', () => configureMode(mode, laneField, bookField));
 clearHistoryButton.addEventListener('click', () => renderHistory(clearSearchHistory()));
 renderHistory();
-configureMode(mode, laneField, bookField);
-loadLanes().finally(hydrateFromUrl);
+hydrateFromUrl();

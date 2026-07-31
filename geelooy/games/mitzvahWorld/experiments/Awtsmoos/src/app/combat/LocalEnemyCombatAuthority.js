@@ -4,25 +4,27 @@
 
 /**
  * @file LocalEnemyCombatAuthority.js
- * @description Resolves solo enemy impacts through canonical affinity, resistance, and status truth.
+ * @description Resolves solo impacts through canonical affinity, statuses, guard, posture, and health.
  * The Awtsmoos renews one law beneath connected and solitary play alike;
  * Awtsmoos.com lets local consequence mirror authority without accepting a forged strike.
  */
+
 import {
 	enemyAffinityProfile,
 	playerCombatDefinition
 } from '../../gameplay/affinity/CombatDefinitionCatalog.js';
-import { resolveCombatEffectiveness } from '../../gameplay/affinity/CombatEffectivenessResolver.js';
+import {
+	resolveCombatEffectiveness
+} from '../../gameplay/affinity/CombatEffectivenessResolver.js';
 
 export function resolveLocalEnemyCombatImpact(options) {
 	const action = playerCombatDefinition(options.actionId);
 	if (!action) throw new Error('UNKNOWN_COMBAT_ACTION');
 	const actor = options.actor;
 	const profile = enemyAffinityProfile(profileId(actor));
-	const baseDamage = localBaseDamage(options.runtime, options.localAction);
 	const effectiveness = resolveCombatEffectiveness({
 		action,
-		baseDamage,
+		baseDamage: localBaseDamage(options.runtime, options.localAction),
 		contextTags: contextTags(actor),
 		statusIds: actor.statusLedger?.ids?.() || [],
 		targetResistances: profile?.resistances || {},
@@ -37,21 +39,17 @@ export function resolveLocalEnemyCombatImpact(options) {
 			sourceActorId: options.sourceActorId || 'player'
 		}))
 		.filter(Boolean);
-	const damageResult = actor.applyDamage(effectiveness.damage);
+	const damageResult = actor.applyDamage(effectiveness.damage, {
+		action,
+		actionId: action.id,
+		effectiveness,
+		localAction: options.localAction,
+		stagger: options.localAction?.stagger
+	});
 	return {
 		...damageResult,
-		action: {
-			affinityId: action.affinityId,
-			elementId: action.elementId,
-			id: action.id
-		},
-		effectiveness: {
-			baseDamage: effectiveness.baseDamage,
-			criticalInteraction: effectiveness.criticalInteraction,
-			diagnostics: [...effectiveness.diagnostics],
-			finalDamage: effectiveness.damage,
-			multiplier: effectiveness.multiplier
-		},
+		action: actionReceipt(action),
+		effectiveness: effectivenessReceipt(effectiveness),
 		statuses: {
 			applied,
 			current: actor.statusLedger?.snapshot?.() || [],
@@ -78,8 +76,27 @@ function profileId(actor) {
 
 function contextTags(actor) {
 	const tags = [];
-	if (actor.action === 'cast') tags.push('channeling');
+	if (/cast/.test(actor.action || '')) tags.push('channeling');
 	if (actor.airborne) tags.push('airborne');
 	if (actor.hidden) tags.push('hidden');
+	if (actor.defense?.value === 0) tags.push('posture-broken');
 	return tags;
+}
+
+function actionReceipt(action) {
+	return {
+		affinityId: action.affinityId,
+		elementId: action.elementId,
+		id: action.id
+	};
+}
+
+function effectivenessReceipt(value) {
+	return {
+		baseDamage: value.baseDamage,
+		criticalInteraction: value.criticalInteraction,
+		diagnostics: [...value.diagnostics],
+		finalDamage: value.damage,
+		multiplier: value.multiplier
+	};
 }

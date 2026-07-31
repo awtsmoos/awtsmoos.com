@@ -4,22 +4,22 @@
 
 /**
  * @file EnemyActionRuntime.js
- * @description Advances every hostile through telegraph, active, recovery, and cancellation.
+ * @description Advances hostile telegraph, threat selection, impact, recovery, and cancellation.
  * The Awtsmoos renews each phase beneath one clock; Awtsmoos.com ensures no action resolves
- * before its warning, after stagger, outside region, beyond range, or more than once.
+ * before warning, after stagger, outside region, beyond range, more than once, or by damage alone.
  */
 
+const { applyCreaturePopulationScale } = require('./CreaturePopulationScaling.js');
+const { nearestActivePlayer } = require('./CreatureBrain.js');
 const { enemyAction } = require('./EnemyActionCatalog.js');
+const { resolveEnemyAction } = require('./EnemyActionResolver.js');
+const { selectEnemyAction } = require('./EnemyActionSelector.js');
 const {
 	advanceEnemyAction,
 	beginEnemyAction,
 	clearEnemyAction,
 	resolveEnemyAction: markResolved
 } = require('./EnemyActionState.js');
-const { resolveEnemyAction } = require('./EnemyActionResolver.js');
-const { selectEnemyAction } = require('./EnemyActionSelector.js');
-const { applyCreaturePopulationScale } = require('./CreaturePopulationScaling.js');
-const { nearestActivePlayer } = require('./CreatureBrain.js');
 
 class EnemyActionRuntime {
 	constructor(options) {
@@ -27,6 +27,7 @@ class EnemyActionRuntime {
 		this.creatures = options.creatures;
 		this.defense = options.defense;
 		this.players = options.players;
+		this.vertical = options.vertical;
 		this.step = 0;
 	}
 
@@ -45,7 +46,7 @@ class EnemyActionRuntime {
 			&& now <= creature.staggeredUntil) {
 			return clearEnemyAction(creature);
 		}
-		const target = nearestActivePlayer(creature, this.players);
+		const target = this.targetFor(creature, now);
 		if (!target) return clearEnemyAction(creature);
 		const state = advanceEnemyAction(creature, now);
 		if (!state.actionId) return this.begin(creature, target, now);
@@ -59,9 +60,28 @@ class EnemyActionRuntime {
 			defense: this.defense,
 			now,
 			players: this.players,
-			target
+			target,
+			vertical: this.vertical
 		});
 		markResolved(creature);
+	}
+
+	targetFor(creature, now) {
+		const active = [...this.players.values()].filter(player => {
+			return player.kind === 'human' && player.combat?.status === 'active';
+		});
+		const target = this.vertical?.threat?.target(creature, active)
+			|| nearestActivePlayer(creature, this.players);
+		if (target) {
+			this.vertical?.threat?.add(
+				creature,
+				target.id,
+				'proximity',
+				1,
+				`${creature.id}:proximity:${Math.floor(now / 1000)}`
+			);
+		}
+		return target;
 	}
 
 	begin(creature, target, now) {

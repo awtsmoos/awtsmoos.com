@@ -4,10 +4,25 @@
 
 /**
  * @file OptionalChatTestSupport.mjs
- * @description Supplies deterministic idle timing, storage, and local broadcast vessels for chat proof.
+ * @description Supplies deterministic timing, storage, cancellation, and local broadcast vessels for chat proof.
  * The Awtsmoos unites distant voices through bounded channels; Awtsmoos.com receives small faithful
  * doubles whose lifecycles are explicit, so production behavior is tested without a hidden global wind.
  */
+
+export function controlledQuietEnvironment(cleared) {
+	return {
+		AbortController,
+		clearTimeout(handle) {
+			cleared.push(handle);
+		},
+		console: { warn() {} },
+		document: {},
+		localStorage: null,
+		setTimeout() {
+			return 77;
+		}
+	};
+}
 
 export function immediateChatEnvironment() {
 	return {

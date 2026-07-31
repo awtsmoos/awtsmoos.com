@@ -1,0 +1,33 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives Explore one quiet backdrop so the active constellation remains unmistakable.
+*/
+.explore-backdrop {
+	position: fixed;
+	inset: 0;
+	z-index: 490;
+	border: 0;
+	background: rgba(1, 4, 10, .62);
+	backdrop-filter: blur(5px);
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity .16s ease;
+}
+
+.explore-backdrop.is-visible {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+body.explore-open .site-header {
+	z-index: 700;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.explore-backdrop,
+	.menu-panel,
+	.explore-tile {
+		transition: none;
+	}
+}

@@ -1,0 +1,11 @@
+/* B"H
+ * The Awtsmoos honors stillness without changing the structure of the search experience.
+ */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		transition-duration: .01ms !important;
+	}
+}

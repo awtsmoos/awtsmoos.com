@@ -4,9 +4,9 @@
 
 /**
  * @file productionBuild.test.cjs
- * @description Proves deterministic compact JS, complete scoped CSS, and singular HTML entries.
- * The Awtsmoos joins readable sources into one production gate; Awtsmoos.com witnesses graph,
- * state coverage, localization, optional boundaries, bytes, hashes, and exact delivery ownership.
+ * @description Proves deterministic compact JS, complete scoped CSS, and rebased lazy imports.
+ * The Awtsmoos joins readable sources into one production gate while keeping future garments light;
+ * Awtsmoos.com witnesses graph closure, optional boundaries, bytes, hashes, and delivery paths right.
  */
 
 const assert = require('node:assert/strict');
@@ -16,16 +16,19 @@ const test = require('node:test');
 
 const root = path.resolve(__dirname, '..');
 
+/** Reads one UTF-8 production artifact. */
+function text(relativePath) {
+	return fs.readFileSync(path.join(root, relativePath), 'utf8');
+}
+
+/** Reads one JSON production artifact. */
 function json(relativePath) {
-	return JSON.parse(fs.readFileSync(path.join(root, relativePath), 'utf8'));
+	return JSON.parse(text(relativePath));
 }
 
 test('production CSS contains the complete localized source graph', () => {
 	const manifest = json('styles/generated/mitzvah-world.manifest.json');
-	const css = fs.readFileSync(
-		path.join(root, 'styles/generated/mitzvah-world.production.css'),
-		'utf8'
-	);
+	const css = text('styles/generated/mitzvah-world.production.css');
 	assert.equal(manifest.blocking.length, 0);
 	assert.equal(manifest.stateCoverage.ready, true);
 	assert.ok(manifest.files.length >= 30);
@@ -42,8 +45,23 @@ test('compact JS is deterministic and excludes optional hydration modules', () =
 	assert.equal(manifest.outputHash.length, 64);
 });
 
+test('compact JS rebases boot-critical imports without bundling them', () => {
+	const compact = text('experiments/Awtsmoos/src/mitzvah-world.compact.js');
+	assert.match(compact, /resolveDeferredAppModuleUrl/);
+	assert.match(compact, /new URL\('\.\/app\/', sourceUrl\)/);
+	assert.match(compact, /BootPhaseTracker\.js\?v=20260722-boot-text-01/);
+	assert.match(compact, /EretzStagedRuntime\.js\?v=20260723-stream-21/);
+	assert.match(compact, /MinimalMeadowFeatureScheduler\.js/);
+	assert.match(compact, /import\(TRACKER_URL\)/);
+	assert.match(compact, /import\(STAGED_RUNTIME_URL\)/);
+	assert.match(compact, /import\(FEATURE_SCHEDULER_URL\)/);
+	assert.doesNotMatch(compact, /@file BootPhaseTracker\.js/);
+	assert.doesNotMatch(compact, /@file EretzStagedRuntime\.js/);
+	assert.doesNotMatch(compact, /@file MinimalMeadowFeatureScheduler\.js/);
+});
+
 test('HTML owns exactly one production stylesheet and compact module entry', () => {
-	const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+	const html = text('index.html');
 	assert.equal([...html.matchAll(/<link[^>]+stylesheet/g)].length, 1);
 	assert.equal([...html.matchAll(/<script[^>]+type="module"/g)].length, 1);
 	assert.match(html, /mitzvah-world\.production\.css/);

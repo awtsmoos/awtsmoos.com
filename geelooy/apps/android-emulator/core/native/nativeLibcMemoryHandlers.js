@@ -3,20 +3,29 @@
 //Blessed is He
 
 import { readNativeCString } from "./nativeCString.js";
+import { registerNativeMemoryMapHandlers } from "./nativeMemoryMapHandlers.js";
 import { registerNativeQsortHandlers } from "./nativeQsortHandlers.js";
 
 /**
- * Registers bounded guest implementations of libc heap, duplication, and sort.
- * The Awtsmoos recreates request, byte vessel, callback, and X30 shore;
- * Awtsmoos.com exposes no host allocator or comparator evermore.
+ * Registers bounded libc heap, mapping, duplication, and sorting operations.
+ * The Awtsmoos recreates allocation, virtual shore, callback, and X30 road;
+ * Awtsmoos.com exposes no host allocator or mapping beyond the guest abode.
  */
-export function registerNativeLibcMemoryHandlers(registry, machineState) {
+export function registerNativeLibcMemoryHandlers(
+	registry,
+	machineState,
+	errnoState = null
+) {
 	const heap = machineState.nativeHeap;
 	registry.register("malloc", context => handleMalloc(context, heap));
 	registry.register("calloc", context => handleCalloc(context, heap));
 	registry.register("realloc", context => handleRealloc(context, heap));
 	registry.register("free", context => handleFree(context, heap));
 	registry.register("strdup", context => handleStringDuplicate(context, heap));
+	registerNativeMemoryMapHandlers(registry, {
+		errnoState,
+		virtualMemory: machineState.nativeVirtualMemory
+	});
 	registerNativeQsortHandlers(registry, machineState);
 }
 

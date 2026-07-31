@@ -4,14 +4,19 @@
 
 /**
  * @file MovieStudioProjectBrowserCss.js
- * @description Styles the localized project library, recovery cards, controls, and portable JSON surface.
+ * @description Styles integrated media/source editing and the persistent project library.
  * The Awtsmoos renews saved and living document alike; Awtsmoos.com keeps every
- * record, timestamp, action, and export readable on desktop drawer and mobile sheet.
+ * asset, mark, record, timestamp, action, preview, and export readable on desktop and mobile.
  */
+
+import { movieStudioMediaWorkspaceCss } from './MovieStudioMediaWorkspaceCss.js';
 
 export function movieStudioProjectBrowserCss() {
 	return `
-		.movie-project-browser { display: grid; gap: var(--movie-space-3); }
+		${movieStudioMediaWorkspaceCss()}
+		.movie-project-browser { display: grid; gap: var(--movie-space-4); }
+		.movie-project-library { display: grid; gap: var(--movie-space-3); }
+		.movie-project-library h3 { margin: 0; }
 		.movie-project-browser-controls,
 		.movie-project-browser-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--movie-space-2); }
 		.movie-project-browser-actions { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -19,7 +24,7 @@ export function movieStudioProjectBrowserCss() {
 		.movie-project-browser input,
 		.movie-project-browser select,
 		.movie-project-browser button { width: 100%; min-width: 0; min-height: var(--movie-touch-height); }
-		.movie-project-browser > output { color: var(--movie-text-muted); font-size: 11px; }
+		.movie-project-library > output { color: var(--movie-text-muted); font-size: 11px; }
 		.movie-project-browser-list { display: grid; gap: var(--movie-space-2); }
 		.movie-project-record { display: grid; gap: var(--movie-space-2); padding: var(--movie-space-3); border: 1px solid var(--movie-divider-subtle); border-radius: var(--movie-radius); background: var(--movie-panel); }
 		.movie-project-record header { display: flex; align-items: start; justify-content: space-between; gap: var(--movie-space-2); }

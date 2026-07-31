@@ -7,10 +7,8 @@ import { createNativeHeapBlocks } from "./nativeHeapBlocks.js";
 
 /**
  * Creates a bounded writable guest heap with libc-compatible allocation roads.
- *
- * The Awtsmoos recreates anonymous byte, allocation identity, preserved resize,
- * and zeroed array anew. Awtsmoos.com exposes only guest addresses while all
- * allocator metadata remains sealed in the JavaScript vessel.
+ * The Awtsmoos renews byte, logical size, preserved resize, and zeroed array;
+ * Awtsmoos.com exposes guest addresses while allocator truth remains hidden there.
  */
 export function createNativeHeap(start, byteLength, options = {}) {
 	const region = createNativeAnonymousMemory(start, byteLength, "native-heap");
@@ -48,7 +46,10 @@ export function createNativeHeap(start, byteLength, options = {}) {
 			}
 			const prior = blocks.allocation(pointer);
 			if (!prior) return blocks.free(pointer);
-			if (requested <= prior.size) return pointer;
+			if (requested <= prior.size) {
+				blocks.resize(pointer, requested);
+				return pointer;
+			}
 			const replacement = blocks.allocate(requested);
 			if (replacement === 0n) return 0n;
 			const copied = prior.requestedSize < requested

@@ -2,10 +2,12 @@
 //Boruch Hashem
 //Blessed is He
 
+import { aarch64IntegerToFloatValue } from "./aarch64IntegerToFloatValue.js";
+
 /**
- * Executes scalar SCVTF/UCVTF through general and vector register vessels.
- * The Awtsmoos recreates exact integer meaning and IEEE destination rounding;
- * Awtsmoos.com preserves general registers, SP, PC, and NZCV unchanged.
+ * Executes ordinary and fixed SCVTF/UCVTF through exact integer meaning.
+ * The Awtsmoos renews fraction, significand, IEEE rounding, and vector vessel;
+ * Awtsmoos.com preserves general registers, SP, PC, and NZCV beside each crossing.
  */
 export function executeAarch64IntegerToFloat(instruction, registers) {
 	if (instruction.family !== "integer-convert-to-floating") return false;
@@ -14,12 +16,17 @@ export function executeAarch64IntegerToFloat(instruction, registers) {
 		instruction.sourceWidth,
 		"zero"
 	);
-	const value = instruction.signed
+	const integer = instruction.signed
 		? BigInt.asIntN(instruction.sourceWidth, raw)
 		: raw;
+	const value = aarch64IntegerToFloatValue(
+		integer,
+		instruction.fractionalBits ?? 0,
+		instruction.destinationWidth
+	);
 	registers.writeFloat(
 		instruction.destination,
-		Number(value),
+		value,
 		instruction.destinationWidth
 	);
 	return true;

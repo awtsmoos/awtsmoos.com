@@ -21,7 +21,9 @@ import { executeAarch64OneSourceBit } from "./aarch64ExecuteOneSourceBit.js";
 import { executeAarch64SimdAddLongReduction } from "./aarch64ExecuteSimdAddLongReduction.js";
 import { executeAarch64SimdByteUnary } from "./aarch64ExecuteSimdByteUnary.js";
 import { executeAarch64SimdCompareEqual } from "./aarch64ExecuteSimdCompareEqual.js";
+import { executeAarch64SimdElementDuplicate } from "./aarch64ExecuteSimdElementDuplicate.js";
 import { executeAarch64SimdElementInsert } from "./aarch64ExecuteSimdElementInsert.js";
+import { executeAarch64SimdGeneralDuplicate } from "./aarch64ExecuteSimdGeneralDuplicate.js";
 import { executeAarch64SimdGeneralInsert } from "./aarch64ExecuteSimdGeneralInsert.js";
 import { executeAarch64SimdGeneralMove } from "./aarch64ExecuteSimdGeneralMove.js";
 import { executeAarch64SimdModifiedImmediate } from "./aarch64ExecuteSimdModifiedImmediate.js";
@@ -33,7 +35,9 @@ import { executeAarch64VariableShift } from "./aarch64ExecuteVariableShift.js";
  * lane and one-source bit transformations before broader arithmetic families.
  */
 export function executeAarch64Data(instruction, registers) {
-	return executeAarch64SimdGeneralInsert(instruction, registers)
+	return executeAarch64SimdGeneralDuplicate(instruction, registers)
+		|| executeAarch64SimdElementDuplicate(instruction, registers)
+		|| executeAarch64SimdGeneralInsert(instruction, registers)
 		|| executeAarch64SimdElementInsert(instruction, registers)
 		|| executeAarch64SimdGeneralMove(instruction, registers)
 		|| executeAarch64SimdByteUnary(instruction, registers)

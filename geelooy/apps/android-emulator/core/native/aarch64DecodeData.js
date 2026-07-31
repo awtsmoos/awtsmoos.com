@@ -19,7 +19,9 @@ import { decodeAarch64OneSourceBit } from "./aarch64DecodeOneSourceBit.js";
 import { decodeAarch64SimdAddLongReduction } from "./aarch64DecodeSimdAddLongReduction.js";
 import { decodeAarch64SimdByteUnary } from "./aarch64DecodeSimdByteUnary.js";
 import { decodeAarch64SimdCompareEqual } from "./aarch64DecodeSimdCompareEqual.js";
+import { decodeAarch64SimdElementDuplicate } from "./aarch64DecodeSimdElementDuplicate.js";
 import { decodeAarch64SimdElementInsert } from "./aarch64DecodeSimdElementInsert.js";
+import { decodeAarch64SimdGeneralDuplicate } from "./aarch64DecodeSimdGeneralDuplicate.js";
 import { decodeAarch64SimdGeneralInsert } from "./aarch64DecodeSimdGeneralInsert.js";
 import { decodeAarch64SimdGeneralMove } from "./aarch64DecodeSimdGeneralMove.js";
 import { decodeAarch64SimdModifiedImmediate } from "./aarch64DecodeSimdModifiedImmediate.js";
@@ -33,7 +35,9 @@ import { aarch64Bits } from "./aarch64InstructionBits.js";
  */
 export function decodeAarch64Data(word) {
 	const normalized = Number(word) >>> 0;
-	return decodeAarch64SimdGeneralInsert(normalized)
+	return decodeAarch64SimdGeneralDuplicate(normalized)
+		|| decodeAarch64SimdElementDuplicate(normalized)
+		|| decodeAarch64SimdGeneralInsert(normalized)
 		|| decodeAarch64SimdElementInsert(normalized)
 		|| decodeAarch64SimdGeneralMove(normalized)
 		|| decodeAarch64SimdByteUnary(normalized)

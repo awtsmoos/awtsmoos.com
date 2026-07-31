@@ -6,13 +6,29 @@
  * @file MoviePerformanceCommands.js
  * @description Exposes one canonical immutable command surface for manual and agent direction.
  * The Awtsmoos is one while many project commands reveal distinct vessels; Awtsmoos.com
- * keeps take, recovery, preference, performer, cue, and timeline edits in one shared rhyme.
+ * keeps take, path, recovery, performer, cue, aid, preference, and timeline edits in shared rhyme.
  */
 
+export {
+	addMoviePerformanceAid,
+	addMoviePerformanceCue,
+	removeMoviePerformanceAid,
+	removeMoviePerformanceCue,
+	updateMoviePerformanceAid,
+	updateMoviePerformanceCue,
+	updateMoviePerformancePerformer
+} from './MoviePerformanceAuthoringCommands.js';
+export { executeMoviePerformancePathOperation } from './MoviePerformancePathCommands.js';
 export {
 	deleteMoviePerformanceTake,
 	restoreMoviePerformanceTake
 } from './MoviePerformanceRecovery.js';
+export {
+	combineMoviePerformanceTakes,
+	copyMoviePerformanceTake,
+	noteMoviePerformanceTake,
+	rateMoviePerformanceTake
+} from './MoviePerformanceTakeAdvancedCommands.js';
 export {
 	addMoviePerformanceTake,
 	duplicateMoviePerformanceTake,

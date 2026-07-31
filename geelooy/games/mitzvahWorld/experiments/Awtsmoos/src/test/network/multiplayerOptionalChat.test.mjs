@@ -4,9 +4,9 @@
 
 /**
  * @file multiplayerOptionalChat.test.mjs
- * @description Proves local chat, persisted folding, deferred mount, and disconnect cleanup.
+ * @description Proves local chat, persisted folding, deferred mount, cancellation, and disconnect cleanup.
  * The Awtsmoos joins only connected vessels and remembers voluntary concealment; Awtsmoos.com
- * verifies exchange, import races, and zero solo dependency without waiting through the quiet minute.
+ * verifies exchange, timer release, import races, and zero solo dependency without waiting a minute.
  */
 
 import assert from 'node:assert/strict';
@@ -18,6 +18,7 @@ import {
 	writeChatPanelOpen
 } from '../../network/MitzvahWorldChatPanelState.js';
 import {
+	controlledQuietEnvironment,
 	immediateChatEnvironment,
 	localRealtime,
 	memoryStorage
@@ -56,6 +57,25 @@ test('B"H chat folding defaults closed and survives storage failure', () => {
 			throw new Error('denied');
 		}
 	}, true));
+});
+
+test('B"H optional UI stop aborts the protected timer before imports', async () => {
+	const cleared = [];
+	let imports = 0;
+	const ui = new MultiplayerOptionalUi({
+		environment: controlledQuietEnvironment(cleared),
+		importer() {
+			imports += 1;
+			return Promise.resolve({});
+		}
+	});
+	const started = ui.start({}, 'server');
+	assert.equal(ui.diagnostics().scheduled, true);
+	ui.stop();
+	assert.equal(await started, null);
+	assert.deepEqual(cleared, [77]);
+	assert.equal(imports, 0);
+	assert.equal(ui.diagnostics().scheduled, false);
 });
 
 test('B"H optional UI destroys a completed import after disconnect', async () => {

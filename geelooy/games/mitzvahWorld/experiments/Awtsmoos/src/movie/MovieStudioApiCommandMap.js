@@ -6,10 +6,14 @@
  * @file MovieStudioApiCommandMap.js
  * @description Maps stable dotted agent names and internal names onto the complete editor vocabulary.
  * The Awtsmoos is beyond alias and implementation while every finite caller receives one durable gate;
- * Awtsmoos.com preserves legacy spellings as tools, appearance, trims, media, text, tracks, and history evolve.
+ * Awtsmoos.com preserves legacy spellings as tools, edits, media, text, tracks, and history evolve.
  */
 
 import { MovieApiError } from './MovieApiError.js';
+import {
+	MOVIE_EDITORIAL_COMMAND_ALIASES,
+	MOVIE_EDITORIAL_INTERNAL_COMMAND_NAMES
+} from './MovieStudioApiEditorialCommandNames.js';
 
 const ALIASES = Object.freeze({
 	'clip.addEffectKeyframe': 'addClipEffectKeyframe',
@@ -39,6 +43,7 @@ const ALIASES = Object.freeze({
 	'media.remove': 'removeMedia',
 	'media.replaceReferences': 'replaceMediaReferences',
 	'media.update': 'updateMedia',
+	...MOVIE_EDITORIAL_COMMAND_ALIASES,
 	'text.addCaption': 'addCaption',
 	'text.addTitle': 'addTitle',
 	'text.importCaptions': 'importCaptions',
@@ -67,7 +72,8 @@ const INTERNAL = new Set([
 	'rippleDeleteSelection', 'rippleTrimClip', 'rollClip', 'setClipTransition',
 	'setSnapping', 'setTimelineTool', 'setTrackState', 'slideClip', 'slipClip',
 	'split', 'toggleSnap', 'undo', 'updateCaption', 'updateMedia', 'updateTitle',
-	'upsertClipEffect'
+	'upsertClipEffect',
+	...MOVIE_EDITORIAL_INTERNAL_COMMAND_NAMES
 ]);
 
 export const MOVIE_API_COMMAND_NAMES = Object.freeze([

@@ -4,18 +4,21 @@
 
 /**
  * @file CreatureDirectory.js
- * @description Owns creature life, damage, care, movement, summoning, and snapshots.
+ * @description Owns creature lookup, damage delegation, care, movement, summoning, and snapshots.
  * The Awtsmoos renews each creature beyond its visible mesh; Awtsmoos.com coordinates
- * focused services while defeat, loot privacy, actions, and movement remain authoritative.
+ * focused services while defeat, posture, phase, loot privacy, actions, and movement remain authoritative.
  */
 
 const { RealtimeError } = require('../../platform/RealtimeError.js');
 const { nextCreaturePosition } = require('./CreatureBrain.js');
 const { careForCreature, CARE_RADIUS } = require('./CreatureCareService.js');
+const {
+	damageCreature,
+	defeatCreature
+} = require('./CreatureDamageResolution.js');
 const { createCreatureEntry } = require('./CreatureRecordFactory.js');
-const { CreatureSummonService } = require('./CreatureSummonService.js');
-const { resolveEnemyDamage } = require('./EnemyDamageRules.js');
 const { creatureSnapshot } = require('./CreatureSnapshot.js');
+const { CreatureSummonService } = require('./CreatureSummonService.js');
 const { SPAWNS } = require('./CreatureSpawnCatalog.js');
 
 class CreatureDirectory {
@@ -39,20 +42,7 @@ class CreatureDirectory {
 	}
 
 	damage(creatureId, rawDamage, context = {}) {
-		const creature = this.get(creatureId);
-		if (creature.status !== 'active') {
-			throw new RealtimeError(
-				'CREATURE_DEFEATED',
-				'The creature is already defeated.'
-			);
-		}
-		const outcome = resolveEnemyDamage(creature, rawDamage, context);
-		creature.health = Math.max(0, creature.health - outcome.damage);
-		if (creature.health === 0) this.defeat(creature, context.now);
-		return {
-			...outcome,
-			creature: this.snapshot(creature)
-		};
+		return damageCreature(this, creatureId, rawDamage, context);
 	}
 
 	care(player, creatureId) {
@@ -102,10 +92,7 @@ class CreatureDirectory {
 	}
 
 	defeat(creature, now) {
-		creature.defeatedAt = Number(now || this.clock());
-		creature.status = creature.kosherEligible
-			? 'harvestable'
-			: 'defeated';
+		return defeatCreature(this, creature, now);
 	}
 }
 

@@ -4,14 +4,15 @@
 
 /**
  * @file MinimalMeadowRichWorldMounts.js
- * @description Starts every independent rich-world system together and gathers named receipts.
- * The Awtsmoos renews river, forest, home, neighbor, and market in one appointed moment;
- * Awtsmoos.com keeps the coordinator small while each subsystem preserves its own covenant.
+ * @description Starts independent rich-world systems, then mounts update-wrapping merchants in order.
+ * The Awtsmoos renews river, forest, home, neighbor, market, and expert in one appointed chapter;
+ * Awtsmoos.com keeps concurrent foundations fast while wrapper ownership remains deterministic.
  */
 
 import {
 	runMinimalMeadowConcurrentMountPlan
 } from './MinimalMeadowConcurrentMountPlan.js';
+import { MinimalMeadowAmuletExpertPopulation } from './MinimalMeadowAmuletExpertPopulation.js';
 import { MinimalMeadowClothingMerchantPopulation } from './MinimalMeadowClothingMerchantPopulation.js';
 import { MinimalMeadowHousePopulation } from './MinimalMeadowHousePopulation.js';
 import { mountMinimalMeadowQuest } from './MinimalMeadowQuestMount.js';
@@ -38,14 +39,6 @@ export async function mountMinimalMeadowRichWorld(
 		quest: () => runtime.questStore
 			? Promise.resolve({ name: 'quest', status: 'ready' })
 			: mountMinimalMeadowQuest(runtime, environment),
-		tailor: () => mountMinimalMeadowSubsystem(
-			runtime,
-			'clothingMerchant',
-			() => MinimalMeadowClothingMerchantPopulation.create(
-				runtime,
-				environment
-			)
-		),
 		trees: () => mountMinimalMeadowSubsystem(
 			runtime,
 			'trees',
@@ -62,6 +55,16 @@ export async function mountMinimalMeadowRichWorld(
 			() => MinimalMeadowWaterSystem.create(runtime)
 		)
 	});
+	mounts.tailor = await mountMinimalMeadowSubsystem(
+		runtime,
+		'clothingMerchant',
+		() => MinimalMeadowClothingMerchantPopulation.create(runtime, environment)
+	);
+	mounts.amuletExpert = await mountMinimalMeadowSubsystem(
+		runtime,
+		'amuletExpert',
+		() => MinimalMeadowAmuletExpertPopulation.create(runtime, environment)
+	);
 	mounts.targeting = replaceMinimalMeadowWorldTargeting(runtime);
 	runtime.richWorldMountStatus.phase = 'settled';
 	return mounts;

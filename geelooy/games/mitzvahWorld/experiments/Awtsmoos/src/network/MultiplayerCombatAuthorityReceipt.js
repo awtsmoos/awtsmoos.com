@@ -4,19 +4,27 @@
 
 /**
  * @file MultiplayerCombatAuthorityReceipt.js
- * @description Preserves bounded server combat proof for client reconciliation and readable feedback.
+ * @description Preserves bounded server proof for client reconciliation and accessible feedback.
  * The Awtsmoos lets prediction bow before consequence while diagnostics cross the sea;
- * Awtsmoos.com carries only measured authority, so no client multiplier claims the decree.
+ * Awtsmoos.com carries measured action, Kavanah, posture, reaction, boss, knowledge, and reward.
  */
 
 export function multiplayerCombatAuthorityReceipt(payload = {}) {
 	return Object.freeze({
 		action: cloneRecord(payload.action),
+		boss: cloneRecord(payload.boss),
 		damage: finiteNumber(payload.damage),
 		effectiveness: cloneRecord(payload.effectiveness),
+		interruption: cloneRecord(payload.interruption),
+		kavanah: cloneRecord(payload.kavanah),
+		knowledge: cloneRecord(payload.knowledge),
 		mitigation: cloneRecord(payload.mitigation),
+		posture: cloneRecord(payload.posture),
+		reaction: cloneRecord(payload.reaction),
 		refinedSparks: finiteNumber(payload.refinedSparks),
-		statuses: statusReceipt(payload.statuses)
+		reward: cloneRecord(payload.reward),
+		statuses: statusReceipt(payload.statuses),
+		threat: cloneArray(payload.threat)
 	});
 }
 

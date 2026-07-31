@@ -4,7 +4,9 @@
 
 /**
  * @file EretzRuntimeLoop.js
- * @description Advances input, gameplay, pose, residency, diagnostics, and rendering in order.
+ * @description Advances movement, core mechanics, gameplay, pose, residency, diagnostics, and rendering in order.
+ * The Awtsmoos renews the rich world without abandoning the first-control covenant;
+ * Awtsmoos.com keeps dodge, lock, consumables, pickup, impact, saves, and village systems in one cadence.
  */
 
 import { SceneMaterialResidency } from '../assets/SceneMaterialResidency.js';
@@ -29,9 +31,15 @@ export function startEretzRuntime(runtime, diagnostics) {
 		const costs = new RuntimeFrameCostSample();
 		lastTime = now;
 		try {
-			costs.measure('streaming', () => updateStreaming(runtime, cadence, residency, now));
-			costs.measure('gameplay', () => updateGameplay(runtime, movement, cadence, deltaTime, now));
-			costs.measure('animation', () => updateEretzAnimationFrame(runtime, deltaTime, costs));
+			costs.measure('streaming', () => {
+				updateStreaming(runtime, cadence, residency, now);
+			});
+			costs.measure('gameplay', () => {
+				updateGameplay(runtime, movement, cadence, deltaTime, now);
+			});
+			costs.measure('animation', () => {
+				updateEretzAnimationFrame(runtime, deltaTime, costs);
+			});
 			costs.measure('water', () => runtime.lava.update(
 				runtime.state,
 				runtime.ground,
@@ -47,12 +55,20 @@ export function startEretzRuntime(runtime, diagnostics) {
 			costs.measure('render', () => renderWorld(runtime, now));
 			if (cadence.due('combatHud', now)) runtime.combatActionBar?.update(now);
 			if (cadence.due('hud', now)) refreshStatusHud(runtime);
-			if (cadence.due('diagnostics', now)) refreshWorldDiagnostics(diagnostics, runtime);
-			if (cadence.due('villageLifeLogs', now)) villageLifeLogger.update(runtime, now);
+			if (cadence.due('diagnostics', now)) {
+				refreshWorldDiagnostics(diagnostics, runtime);
+			}
+			if (cadence.due('villageLifeLogs', now)) {
+				villageLifeLogger.update(runtime, now);
+			}
 		} catch (error) {
 			window.AwtsmoosError = error?.stack || String(error);
 		} finally {
-			runtime.performanceMonitor?.record(intervalMilliseconds, now, costs.finish());
+			runtime.performanceMonitor?.record(
+				intervalMilliseconds,
+				now,
+				costs.finish()
+			);
 			requestAnimationFrame(frame);
 		}
 	};
@@ -71,10 +87,15 @@ function updateStreaming(runtime, cadence, residency, now) {
 
 function updateGameplay(runtime, movement, cadence, deltaTime, now) {
 	movement.update(deltaTime);
+	runtime.coreMechanics?.update?.(deltaTime);
 	runtime.gameplayUi?.actionBar.update(now);
 	runtime.multiplayerBridge?.update(deltaTime, runtime.state, now);
-	if (cadence.due('minimap', now)) runtime.gameplayUi?.updatePosition(runtime.state);
-	if (cadence.due('houseVisibility', now)) runtime.houseVisibility.update(runtime.state);
+	if (cadence.due('minimap', now)) {
+		runtime.gameplayUi?.updatePosition(runtime.state);
+	}
+	if (cadence.due('houseVisibility', now)) {
+		runtime.houseVisibility.update(runtime.state);
+	}
 }
 
 function updateShadows(runtime) {

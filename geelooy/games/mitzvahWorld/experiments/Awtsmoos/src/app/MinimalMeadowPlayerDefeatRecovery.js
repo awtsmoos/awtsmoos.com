@@ -4,23 +4,42 @@
 
 /**
  * @file MinimalMeadowPlayerDefeatRecovery.js
- * @description Restores checkpoint, resources, animation, camera, and authority exactly once.
- * The Awtsmoos renews the fallen vessel without multiplying authorities; Awtsmoos.com asks
- * deployed multiplayer truth to respawn while every local return restores one explicit place.
+ * @description Restores resources, checkpoint, animation, controls, camera, and authority exactly once.
+ * The Awtsmoos renews the fallen vessel without multiplying authorities; Awtsmoos.com
+ * requests deployed truth when present and otherwise returns through one explicit local checkpoint.
  */
 
-import { clearMinimalMeadowDefeatAnimation } from './MinimalMeadowPlayerDefeatAnimation.js';
-import { restoreMinimalMeadowPlayer } from './MinimalMeadowPlayerDefeatLocks.js';
+import {
+	clearMinimalMeadowDefeatAnimation
+} from './MinimalMeadowPlayerDefeatAnimation.js';
+import {
+	setMinimalMeadowCombatBarDisabled
+} from './MinimalMeadowPlayerDefeatCombatBar.js';
+import {
+	restoreMinimalMeadowDefeatCheckpoint
+} from './MinimalMeadowPlayerDefeatCheckpoint.js';
+import {
+	restoreMinimalMeadowPlayer
+} from './MinimalMeadowPlayerDefeatLocks.js';
 
 export function recoverMinimalMeadowPlayer(controller, reason) {
 	const cycle = controller.state.cycle;
-	if (!controller.isDefeated() || controller.state.respawnedCycle === cycle) return false;
+	if (!controller.isDefeated()
+		|| controller.state.respawnedCycle === cycle) {
+		return false;
+	}
 	const previousRespawnedCycle = controller.state.respawnedCycle;
 	controller.clearTimer();
 	controller.state.respawnedCycle = cycle;
 	controller.state.phase = 'recovering';
-	controller.runtime.bus.emit('combat:cancel-all', { reason: 'PLAYER_DEFEATED' });
-	controller.runtime.bus.emit('player:recovery', controller.payload({ reason }));
+	controller.runtime.bus.emit(
+		'combat:cancel-all',
+		{ reason: 'PLAYER_DEFEATED' }
+	);
+	controller.runtime.bus.emit(
+		'player:recovery',
+		controller.payload({ reason })
+	);
 	const request = authoritativeRespawn(controller.runtime);
 	if (!request) return finalizeRecovery(controller, reason);
 	return request
@@ -36,46 +55,34 @@ function authoritativeRespawn(runtime) {
 	if (!runtime.enemyAuthority) return null;
 	const method = runtime.multiplayerBridge?.client?.mmorpg?.respawn;
 	if (typeof method !== 'function') return null;
-	return Promise.resolve(method.call(runtime.multiplayerBridge.client.mmorpg));
+	return Promise.resolve(
+		method.call(runtime.multiplayerBridge.client.mmorpg)
+	);
 }
 
 function finalizeRecovery(controller, reason) {
 	const runtime = controller.runtime;
-	const checkpoint = restoreCheckpoint(runtime, controller.state.checkpoint);
+	const checkpoint = restoreMinimalMeadowDefeatCheckpoint(
+		runtime,
+		controller.state.checkpoint
+	);
 	runtime.playerStats.health = runtime.playerStats.maxHealth;
+	if (Number.isFinite(runtime.playerStats.maxStamina)) {
+		runtime.playerStats.stamina = runtime.playerStats.maxStamina;
+	}
 	runtime.combatBalance?.resetForRespawn?.();
 	restoreMinimalMeadowPlayer(runtime);
+	setMinimalMeadowCombatBarDisabled(runtime, false);
 	clearMinimalMeadowDefeatAnimation(runtime);
 	if (!runtime.enemyAuthority) runtime.enemies?.clearAll?.();
 	controller.state.phase = 'active';
+	controller.state.reason = null;
 	runtime.bus.emit('profile:state', { ...runtime.playerStats });
-	runtime.bus.emit('player:respawned', controller.payload({ checkpoint, reason }));
-	return true;
-}
-
-function restoreCheckpoint(runtime, checkpoint) {
-	if (runtime.movementRecovery?.restore) {
-		runtime.movementRecovery.restore(runtime.state, 'player-defeat');
-		return runtime.movementRecovery.diagnostics?.().safe || { ...checkpoint };
-	}
-	Object.assign(runtime.state, {
-		facing: checkpoint.facing,
-		groundY: checkpoint.y,
-		grounded: true,
-		renderY: checkpoint.y,
-		velY: 0,
-		x: checkpoint.x,
-		y: checkpoint.y,
-		z: checkpoint.z
-	});
-	runtime.model?.position?.set?.(checkpoint.x, checkpoint.y, checkpoint.z);
-	runtime.cameraRig?.update?.(
-		runtime.camera,
-		runtime.state,
-		runtime.mainOctree,
-		0
+	runtime.bus.emit(
+		'player:respawned',
+		controller.payload({ checkpoint, reason })
 	);
-	return { ...checkpoint };
+	return true;
 }
 
 function failRecovery(controller, error, previousRespawnedCycle) {
@@ -87,6 +94,6 @@ function failRecovery(controller, error, previousRespawnedCycle) {
 		reason: error?.message || 'RESPAWN_FAILED',
 		success: false
 	});
-	controller.scheduleRespawn?.();
+	controller.scheduleRespawn();
 	return false;
 }
