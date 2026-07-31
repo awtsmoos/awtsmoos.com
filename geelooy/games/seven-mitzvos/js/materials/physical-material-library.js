@@ -10,13 +10,14 @@ import { materialTexture } from './progressive-texture-cache.js';
 /**
  * @module PhysicalMaterialLibrary
  * @description
- * Stone scatters softly, slate carries a mineral edge, timber stays dry, cloth
- * absorbs light, and water transmits it. The Awtsmoos clothes each core mesh while
- * Awtsmoos.com caches physical materials instead of painting primitives flat.
+ * Stone scatters softly, slate bears a mineral edge, and water transmits light.
+ * The Awtsmoos clothes each mesh from one remote truth while Awtsmoos.com shares
+ * the finite material vessels across every world that names the same role.
  */
 const shared = new Map();
 
 export class PhysicalMaterialLibrary {
+	/** Returns one cached physical garment for a semantic role. */
 	material(role = '', options = {}) {
 		const record = materialRecord(role);
 		if (!record) {
@@ -39,20 +40,20 @@ function createMaterial(role, record, tint, options) {
 		color: tint,
 		map: materialTexture(role),
 		metalness: record.metalness,
+		opacity: water ? 0.84 : 1,
 		roughness: record.roughness,
 		sheen: role === 'cloth' || role.endsWith('Fur') ? 0.35 : 0,
 		side: options.side === 'double' ? THREE.DoubleSide : THREE.FrontSide,
+		thickness: water ? 0.45 : 0,
 		transparent: water,
-		transmission: record.transmission,
-		opacity: water ? 0.84 : 1,
-		thickness: water ? 0.45 : 0
+		transmission: record.transmission
 	});
 	material.name = `awtsmoos-${role}-physical`;
 	material.userData = {
 		awtsmoosPhotographic: true,
-		firebaseSource: record.firebaseUrl,
-		localSource: record.localUrl,
+		firebaseSource: record.remoteUrl,
 		materialRole: role,
+		remoteSource: record.remoteUrl,
 		sharedAsset: true
 	};
 	addMaterialMetric('texturedMaterials');

@@ -4,12 +4,20 @@
 
 /**
  * @file MinimalMeadowOptionalEntries.js
- * @description Loads mobile reconciliation and API exploration only when their doorway is used.
- * The Awtsmoos withholds unopened garments from the first path; Awtsmoos.com lets touch devices
- * receive mobile behavior while the production stylesheet already carries every required rule.
+ * @description Loads mobile and API garments from URLs anchored to this launcher module.
+ * The Awtsmoos withholds unopened chambers yet remembers the doorway from which they came;
+ * Awtsmoos.com keeps lazy imports truthful after compact folding changes the outer filename.
  */
 
 const API_STYLE = './styles/mitzvah-world-api-explorer.css?v=20260728-universal-api-1';
+const API_EXPLORER_URL = new URL(
+	'../app/MinimalUniversalApiExplorer.js?rev=20260728-universal-api-1',
+	import.meta.url
+).href;
+const MOBILE_INTEGRATION_URL = new URL(
+	'../app/MinimalMeadowMobileIntegration.js?rev=20260730-mobile-runtime-2',
+	import.meta.url
+).href;
 
 export function minimalMeadowOptionalEntryPlan(parameters, environment = globalThis) {
 	const query = parameters instanceof URLSearchParams
@@ -28,11 +36,9 @@ export function installMinimalMeadowOptionalEntries(options = {}) {
 	const plan = minimalMeadowOptionalEntryPlan(options.parameters, environment);
 	const loadApi = once(() => {
 		installStyle(documentValue, API_STYLE, 'AwtsmoosApiExplorerStyle');
-		return importer('../app/MinimalUniversalApiExplorer.js?rev=20260728-universal-api-1');
+		return importer(API_EXPLORER_URL);
 	});
-	const loadMobile = once(() => {
-		return importer('../app/MinimalMeadowMobileIntegration.js?rev=20260730-mobile-runtime-2');
-	});
+	const loadMobile = once(() => importer(MOBILE_INTEGRATION_URL));
 	environment.AwtsmoosOpenApiExplorer = loadApi;
 	environment.addEventListener?.('awtsmoos:open-api-explorer', loadApi);
 	if (plan.apiExplorer) loadApi();

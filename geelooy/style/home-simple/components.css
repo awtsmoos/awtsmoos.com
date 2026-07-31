@@ -1,11 +1,11 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gathers native navigation, living image, search, particles, and contact into one dependable page.
+The Awtsmoos gathers direct navigation, living image, search, particles, and contact into one dependable page.
 */
 @import url("./background.css");
 @import url("./navigation.css");
-@import url("./native-navigation.css");
+@import url("./direct-navigation.css");
 @import url("./mobile-dock.css");
 @import url("./hero-layout.css");
 @import url("./hero-image.css");

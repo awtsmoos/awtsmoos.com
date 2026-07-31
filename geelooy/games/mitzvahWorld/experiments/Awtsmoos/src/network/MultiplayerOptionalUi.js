@@ -4,12 +4,21 @@
 
 /**
  * @file MultiplayerOptionalUi.js
- * @description Mounts shared chat after an abortable protected minute of responsive gameplay.
- * The Awtsmoos joins distant travelers without making conversation steal the first stride;
- * Awtsmoos.com cancels the unopened chapter when connection ends, releasing timer and imports inside.
+ * @description Mounts deferred shared chat with module URLs anchored to this source chamber.
+ * The Awtsmoos joins distant travelers without letting compaction erase the doorway's place;
+ * Awtsmoos.com preserves each network path while abort and disconnect still release every trace.
  */
 
 import { afterGameplayQuietWindow } from '../app/GameplayQuietWindow.js';
+
+const SHARED_CHAT_FACTORY_URL = new URL(
+	'./SharedChatClientFactory.js',
+	import.meta.url
+).href;
+const CHAT_PANEL_URL = new URL(
+	'./MitzvahWorldChatPanel.js',
+	import.meta.url
+).href;
 
 export class MultiplayerOptionalUi {
 	constructor(options = {}) {
@@ -41,8 +50,8 @@ export class MultiplayerOptionalUi {
 		if (generation !== this.generation) return null;
 		try {
 			const [factoryModule, panelModule] = await Promise.all([
-				this.importer('./SharedChatClientFactory.js'),
-				this.importer('./MitzvahWorldChatPanel.js')
+				this.importer(SHARED_CHAT_FACTORY_URL),
+				this.importer(CHAT_PANEL_URL)
 			]);
 			const chat = factoryModule.createSharedChatClient(client, transport);
 			if (!chat || generation !== this.generation) {

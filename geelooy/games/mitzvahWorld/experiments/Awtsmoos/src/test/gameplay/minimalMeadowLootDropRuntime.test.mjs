@@ -4,7 +4,7 @@
 
 /**
  * @file minimalMeadowLootDropRuntime.test.mjs
- * @description Proves local and server corpse pickup, range, reconciliation, retry, and exact-once claims.
+ * @description Proves local and opaque server corpse pickup, reconciliation, retry, and exact-once claims.
  * The Awtsmoos joins fallen body and recoverable vessel through one truthful owner;
  * Awtsmoos.com verifies deliberate reach, awaited authority, one mutation, rejected retry, and memory.
  */
@@ -40,6 +40,17 @@ function lootActor(id, x) {
 	return actor;
 }
 
+function authoritativeLootActor(id, x) {
+	const actor = lootActor(id, x);
+	actor.authoritative = true;
+	actor.serverCreatureId = `creature-${id}`;
+	actor.authoritativeCreature = {
+		lootStatus: 'available',
+		status: 'defeated'
+	};
+	return actor;
+}
+
 test('B"H nearby local corpse pickup commits once', async () => {
 	const actor = lootActor('fallen-one', 2);
 	const runtime = coreRuntimeFixture();
@@ -55,9 +66,7 @@ test('B"H nearby local corpse pickup commits once', async () => {
 });
 
 test('B"H authoritative pickup awaits reconciled server truth', async () => {
-	const actor = lootActor('server-one', 2);
-	actor.authoritative = true;
-	actor.serverCreatureId = 'creature-one';
+	const actor = authoritativeLootActor('server-one', 2);
 	const runtime = coreRuntimeFixture();
 	runtime.enemies = { actors: [actor] };
 	let calls = 0;
@@ -76,7 +85,7 @@ test('B"H authoritative pickup awaits reconciled server truth', async () => {
 		}
 	};
 	const loot = new MinimalMeadowLootDropRuntime(runtime);
-	loot.update();
+	assert.equal(loot.update().quantity, 0);
 	const receipt = await loot.pickupNearest();
 	assert.equal(receipt.accepted, true);
 	assert.equal(receipt.dropId, 'corpse:server-one');
@@ -86,9 +95,7 @@ test('B"H authoritative pickup awaits reconciled server truth', async () => {
 });
 
 test('B"H rejected authority leaves corpse retryable', async () => {
-	const actor = lootActor('server-retry', 2);
-	actor.authoritative = true;
-	actor.serverCreatureId = 'creature-retry';
+	const actor = authoritativeLootActor('server-retry', 2);
 	const runtime = coreRuntimeFixture();
 	runtime.enemies = { actors: [actor] };
 	runtime.enemyAuthority = {

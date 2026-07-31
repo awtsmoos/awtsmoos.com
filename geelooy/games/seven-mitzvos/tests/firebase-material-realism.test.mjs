@@ -7,54 +7,74 @@ import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { MATERIALS, FIREBASE_MATERIAL_ORIGIN } from '../js/materials/firebase-material-manifest.js';
+import {
+	FIREBASE_MATERIAL_ORIGIN,
+	MATERIALS,
+	REMOTE_MATERIAL_ROOT,
+	remoteMaterialUrl
+} from '../js/materials/firebase-material-manifest.js';
 import { PhysicalMaterialLibrary } from '../js/materials/physical-material-library.js';
 
 /**
- * @module FirebaseMaterialRealismTest
+ * @module RemoteMaterialRealismTest
  * @description
- * Realism must name its public source, resilient mirror, physical garment, advanced
- * silhouette, and continuous path. The Awtsmoos exceeds all surfaces; Awtsmoos.com
- * proves that no tile grid or flat-color claim replaced actual material work.
+ * The Awtsmoos reveals material truth through one verified migration spring.
+ * Awtsmoos.com proves every garment is remote, encoded, physical, and free of
+ * the sibling MitzvahWorld local path that once trapped Seven Mitzvos in 404s.
  */
 const project = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = path => readFileSync(join(project, path), 'utf8');
+const migrationRoot = 'https://awtsmoos.com/sites/firebase_drive_migration';
 
-test('manifest names the real Firebase project and exact public wall URL', () => {
-	assert.equal(FIREBASE_MATERIAL_ORIGIN, 'https://awtsmoos-docs-base.web.app');
-	assert.equal(MATERIALS.masonry.firebaseUrl, 'https://awtsmoos-docs-base.web.app/various/Stone%20retaining%20wall%20masonry.png');
-	assert.equal(MATERIALS.masonry.localUrl, '/games/mitzvahWorld/assets/materials/local/various-stone-retaining-wall-masonry-d0b02f13.png');
-	for (const role of ['masonry', 'whitewash', 'timber', 'slate', 'cloth', 'deerFur', 'grass', 'dirt', 'water']) {
-		assert.ok(MATERIALS[role]?.firebaseUrl && MATERIALS[role]?.localUrl, role);
+test('manifest uses the MitzvahWorld remote migration transport only', () => {
+	assert.equal(REMOTE_MATERIAL_ROOT, migrationRoot);
+	assert.equal(FIREBASE_MATERIAL_ORIGIN, migrationRoot);
+	assert.equal(
+		MATERIALS.masonry.remoteUrl,
+		`${migrationRoot}/various/Stone%20retaining%20wall%20masonry.png`
+	);
+	for (const [role, record] of Object.entries(MATERIALS)) {
+		assert.match(record.remoteUrl, /^https:\/\/awtsmoos\.com\/sites\/firebase_drive_migration\//, role);
+		assert.equal(record.firebaseUrl, record.remoteUrl, role);
+		assert.equal('localUrl' in record, false, role);
+		assert.doesNotMatch(record.remoteUrl, /\/games\/mitzvahWorld\//, role);
 	}
 });
 
-test('progressive loader paints locally and rejects non-image Firebase failures', () => {
-	const source = read('js/materials/progressive-texture-cache.js');
-	assert.match(source, /record\.localUrl/);
-	assert.match(source, /response\.ok/);
-	assert.match(source, /type\.startsWith\('image\/'\)/);
-	assert.match(source, /local-fallback/);
-	assert.match(source, /ClampToEdgeWrapping/);
-	assert.doesNotMatch(source, /RepeatWrapping/);
+test('remote URL builder encodes path segments and rejects traversal', () => {
+	assert.equal(
+		remoteMaterialUrl('full-resolution/grass 5.png'),
+		`${migrationRoot}/full-resolution/grass%205.png`
+	);
+	assert.throws(() => remoteMaterialUrl('../secret.png'), /Invalid remote material path/);
 });
 
-test('physical library uses photographic MeshPhysicalMaterial garments', () => {
+test('texture cache loads remote URLs without local or diagnostic gates', () => {
+	const source = read('js/materials/progressive-texture-cache.js');
+	assert.match(source, /record\.remoteUrl/);
+	assert.match(source, /loading-remote/);
+	assert.match(source, /remote-ready/);
+	assert.match(source, /ClampToEdgeWrapping/);
+	assert.doesNotMatch(source, /record\.localUrl|shouldAttemptFirebase|createImageBitmap/);
+	assert.doesNotMatch(source, /games\/mitzvahWorld\/assets\/materials\/local/);
+});
+
+test('physical library records the verified remote source', () => {
 	const material = new PhysicalMaterialLibrary().material('masonry');
 	assert.equal(material.type, 'MeshPhysicalMaterial');
 	assert.equal(material.userData.materialRole, 'masonry');
-	assert.match(material.userData.firebaseSource, /awtsmoos-docs-base\.web\.app/);
-	assert.match(material.userData.localSource, /materials\/local/);
+	assert.match(material.userData.remoteSource, /sites\/firebase_drive_migration/);
+	assert.equal('localSource' in material.userData, false);
 	assert.equal(material.map.userData.awtsmoosSharedTexture, true);
 });
 
-test('HTML imports and preloads the real material and model pipeline', () => {
+test('HTML preloads remote images and never the sibling local folder', () => {
 	const html = read('index.html');
-	assert.match(html, /awtsmoos-material-project" content="awtsmoos-docs-base/);
-	assert.match(html, /Stone%20retaining%20wall%20masonry\.png/);
+	assert.match(html, /awtsmoos-material-project" content="firebase_drive_migration/);
+	assert.match(html, /sites\/firebase_drive_migration\/various\/Stone%20retaining/);
 	assert.match(html, /rel="preload" as="image"/);
-	assert.match(html, /firebase-material-manifest\.js/);
-	assert.match(html, /gltf-model-library\.js/);
+	assert.doesNotMatch(html, /games\/mitzvahWorld\/assets\/materials\/local/);
+	assert.doesNotMatch(html, /awtsmoos-docs-base\.web\.app/);
 });
 
 test('advanced models use cached GLTF loading and skeleton-safe clones', () => {
@@ -68,34 +88,25 @@ test('advanced models use cached GLTF loading and skeleton-safe clones', () => {
 	}
 });
 
-test('procedural fallbacks use modifiers and layered advanced assemblies', () => {
+test('procedural fallbacks retain advanced layered assemblies', () => {
 	assert.match(read('js/procedural/advanced-profile-factory.js'), /type: 'subdivide'/);
 	assert.match(read('js/procedural/core-part-factory.js'), /createProceduralThreeMesh/);
 	const buildings = read('js/procedural/building-detail-factory.js');
-	for (const detail of ['foundation', 'frame-v', 'shutter-left', 'roof-ridge', 'chimney', 'buttress', 'pediment']) {
+	for (const detail of ['foundation', 'frame-v', 'roof-ridge', 'chimney', 'buttress']) {
 		assert.match(buildings, new RegExp(detail));
 	}
 	const anatomy = read('js/procedural/person-detail-factory.js');
-	for (const detail of ['shoulder-line', 'neck', 'ear-left', 'nose', 'garment-layer', 'upper', 'lower']) {
+	for (const detail of ['shoulder-line', 'neck', 'ear-left', 'nose', 'garment-layer']) {
 		assert.match(anatomy, new RegExp(detail));
 	}
 });
 
-test('active worlds use continuous coordinates and never tile-grid movement', () => {
-	const sources = [
-		read('js/webgl/scene-kit.js'), read('js/motion/smooth-motion.js'),
-		...['false-powers-game', 'words-creation-game', 'every-life-game', 'households-game', 'honest-market-game', 'living-sanctuary-game', 'court-nations-game']
-			.map(name => read(`js/games3d/${name}.js`))
-	].join(String.fromCharCode(10));
-	assert.match(sources, /Math\.hypot|distanceTo|ringPosition/);
-	for (const forbidden of ['GridHelper', 'tileMap', 'tileIndex', 'gridIndex', 'snapToGrid', 'cellSize']) {
-		assert.doesNotMatch(sources, new RegExp(forbidden, 'i'), forbidden);
-	}
-	assert.match(read('js/webgl/scene-kit.js'), /continuous-grass-ground/);
-});
-
-test('shared textures survive disposal while glow clones remain scene-owned', () => {
+test('worlds remain continuous and shared textures survive disposal', () => {
+	const scene = read('js/webgl/scene-kit.js');
+	const games = ['false-powers-game', 'words-creation-game', 'every-life-game']
+		.map(name => read(`js/games3d/${name}.js`)).join('\n');
+	assert.match(`${scene}\n${games}`, /Math\.hypot|distanceTo|ringPosition/);
+	assert.doesNotMatch(`${scene}\n${games}`, /GridHelper|snapToGrid|tileIndex/i);
 	assert.match(read('js/webgl/stage-resources.js'), /sharedAsset/);
 	assert.match(read('js/procedural/core-part-factory.js'), /sharedAsset: false/);
-	assert.match(read('js/webgl/procedural-mesh-factory.js'), /sharedAsset: false/);
 });

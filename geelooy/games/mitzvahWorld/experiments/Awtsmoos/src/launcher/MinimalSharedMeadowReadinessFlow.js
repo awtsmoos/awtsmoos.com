@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalSharedMeadowReadinessFlow.js
- * @description Publishes essential play and releases the veil before bounded rich feature settlement.
- * The Awtsmoos opens the road while distant systems continue taking form; Awtsmoos.com
- * gives movement, combat, inventory, quests, and recovery the first paint without hiding later truth.
+ * @description Settles bootstrap mechanics before truthfully publishing essential play.
+ * The Awtsmoos lets first paint arrive without racing the vessels that make play real;
+ * Awtsmoos.com awaits the bounded bootstrap receipt, then opens the meadow with an honest seal.
  */
 
 import {
@@ -17,9 +17,17 @@ import {
 } from './MinimalMeadowReadiness.js';
 import {
 	awaitMinimalMeadowPaint,
-	settleMinimalMeadowFeatures
+	settleMinimalMeadowFeatures,
+	throwMinimalMeadowFeatureFailure
 } from './MinimalMeadowReadinessSettlement.js';
 
+/**
+ * Waits for lightweight bootstrap systems, publishes playable state, then records full readiness.
+ * Rich renderer and terrain hydration remain progressive and never imprison the first honest stride.
+ *
+ * @param {object} options Readiness dependencies and runtime diagnostics.
+ * @returns {Promise<object>} Frozen essential and full readiness receipts.
+ */
 export async function runMinimalSharedMeadowReadiness(options) {
 	const {
 		diagnostics,
@@ -27,23 +35,24 @@ export async function runMinimalSharedMeadowReadiness(options) {
 		environment,
 		loading
 	} = options;
-	const featureSettlementPromise = settleMinimalMeadowFeatures(
+	const featureSettlement = await settleMinimalMeadowFeatures(
 		diagnostics,
 		documentValue
 	);
+	throwMinimalMeadowFeatureFailure(featureSettlement);
 	const essentialReceipt = await awaitMinimalMeadowReadiness(
 		diagnostics,
 		loading,
 		documentValue,
 		environment,
-		pendingFeatureSettlement()
+		featureSettlement
 	);
 	loading.finish();
 	await awaitMinimalMeadowPaint(environment);
 	const fullReceipt = await beginMinimalMeadowFullReadiness({
 		diagnostics,
 		environment,
-		featureSettlement: featureSettlementPromise,
+		featureSettlement,
 		loading,
 		rendererPromise: diagnostics.rendererHydrationPromise
 			|| Promise.resolve(null),
@@ -53,13 +62,5 @@ export async function runMinimalSharedMeadowReadiness(options) {
 	return Object.freeze({
 		essential: essentialReceipt,
 		full: fullReceipt
-	});
-}
-
-function pendingFeatureSettlement() {
-	return Object.freeze({
-		ready: false,
-		reason: 'settling-after-playable',
-		receipt: null
 	});
 }

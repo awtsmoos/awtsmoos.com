@@ -4,22 +4,26 @@
 
 /**
  * @file MinimalMeadowLootDropState.js
- * @description Projects visible lootable corpses into serializable nearby-drop records and distances.
- * The Awtsmoos joins fallen body and recoverable vessel without creating a second treasure truth;
- * Awtsmoos.com keeps source actor, immutable identity, position, quantity, range, and claim status aligned.
+ * @description Projects local item corpses or opaque server-available corpses into physical drop records.
+ * The Awtsmoos joins fallen body and reward without inventing hidden treasure;
+ * Awtsmoos.com exposes local contents only when locally known and leaves authoritative contents to the server claim.
  */
 
 const PICKUP_RANGE = 4.25;
 
 export function createMinimalMeadowLootDrop(actor) {
-	const items = actor?.lootState?.snapshot?.() || [];
-	if (!actor || actor.alive || actor.looted || !items.length) return null;
+	if (!actor || actor.alive || actor.looted) return null;
+	const items = localLootItems(actor);
+	const authoritativeAvailable = authoritativeLootAvailable(actor);
+	if (!items.length && !authoritativeAvailable) return null;
 	const enemyId = actor.profile?.id || actor.serverCreatureId;
 	const position = actor.group?.position || {};
 	return Object.freeze({
+		authoritative: Boolean(actor.authoritative),
 		enemyId,
 		id: `corpse:${enemyId}`,
 		items: Object.freeze(items.map(item => Object.freeze({ ...item }))),
+		lootStatus: actor.authoritativeCreature?.lootStatus || 'local',
 		position: Object.freeze({
 			x: finite(position.x),
 			y: finite(position.y),
@@ -48,6 +52,20 @@ export function minimalMeadowLootActor(runtime, enemyId) {
 	return runtime.enemies?.actors?.find(actor => {
 		return (actor.profile?.id || actor.serverCreatureId) === enemyId;
 	}) || null;
+}
+
+function authoritativeLootAvailable(actor) {
+	return Boolean(
+		actor.authoritative
+		&& actor.authoritativeCreature?.status !== 'active'
+		&& actor.authoritativeCreature?.lootStatus === 'available'
+	);
+}
+
+function localLootItems(actor) {
+	if (actor.authoritative) return [];
+	const items = actor.lootState?.snapshot?.();
+	return Array.isArray(items) ? items : [];
 }
 
 function finite(value) {
