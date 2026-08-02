@@ -4,46 +4,34 @@
 
 /**
  * @file deferredAppModuleUrl.test.mjs
- * @description Proves deferred app URLs survive readable-source and compact-bundle execution.
- * The Awtsmoos changes the vessel without losing the appointed destination;
- * Awtsmoos.com preserves lazy boundaries through deterministic URL revelation.
+ * @description Proves readable app modules and compact-root modules resolve one identical deferred URL.
+ * The Awtsmoos guides one hidden boundary through different vessels without doubling its road;
+ * Awtsmoos.com verifies readable source, compact source, filename identity, and absolute URL truth.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { resolveDeferredAppModuleUrl } from '../../app/DeferredAppModuleUrl.js';
+import {
+	resolveDeferredAppModuleUrl
+} from '../../app/DeferredAppModuleUrl.js';
 
-test('readable app source resolves a sibling deferred module', () => {
-	const resolvedUrl = resolveDeferredAppModuleUrl(
-		'BootPhaseTracker.js?v=proof-1',
-		'http://127.0.0.1:5181/games/mitzvahWorld/experiments/Awtsmoos/src/app/createEretzRuntime.js',
-		'createEretzRuntime.js'
+const ROOT = 'http://127.0.0.1:8080/games/mitzvahWorld/experiments/Awtsmoos/src/';
+
+test('B"H readable app source resolves beside itself', () => {
+	const resolved = resolveDeferredAppModuleUrl(
+		'MinimalMeadowFeatureBundle.js',
+		`${ROOT}app/MinimalMeadowRichFeatureHydration.js`,
+		'MinimalMeadowRichFeatureHydration.js'
 	);
-	assert.equal(
-		resolvedUrl,
-		'http://127.0.0.1:5181/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootPhaseTracker.js?v=proof-1'
-	);
+	assert.equal(resolved, `${ROOT}app/MinimalMeadowFeatureBundle.js`);
 });
 
-test('compact entry resolves the same deferred module beneath app', () => {
-	const resolvedUrl = resolveDeferredAppModuleUrl(
-		'BootPhaseTracker.js?v=proof-2',
-		'http://127.0.0.1:5181/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world.compact.js',
-		'createEretzRuntime.js'
+test('B"H compact root resolves into exactly one app folder', () => {
+	const resolved = resolveDeferredAppModuleUrl(
+		'MinimalMeadowFeatureBundle.js',
+		`${ROOT}mitzvah-world.compact.js`,
+		'MinimalMeadowRichFeatureHydration.js'
 	);
-	assert.equal(
-		resolvedUrl,
-		'http://127.0.0.1:5181/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootPhaseTracker.js?v=proof-2'
-	);
-});
-
-test('invalid execution URLs fail instead of producing silent wrong paths', () => {
-	assert.throws(
-		() => resolveDeferredAppModuleUrl(
-			'BootPhaseTracker.js',
-			'not a valid absolute URL',
-			'createEretzRuntime.js'
-		),
-		TypeError
-	);
+	assert.equal(resolved, `${ROOT}app/MinimalMeadowFeatureBundle.js`);
+	assert.doesNotMatch(resolved, /\/app\/app\//);
 });

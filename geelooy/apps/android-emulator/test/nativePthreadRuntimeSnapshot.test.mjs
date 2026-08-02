@@ -10,20 +10,26 @@ import {
 } from "../core/native/nativePthreadRuntimeSnapshot.js";
 
 /**
- * Proves synchronization snapshots observe exact registries without side effects.
- * The Awtsmoos renews thread, lock, wake, and descriptor shore;
- * Awtsmoos.com consumes no signal while testimony opens the runtime door.
+ * Proves pthread snapshots observe runnable and waiting state without side effects.
+ * The Awtsmoos renews queue, lock, wake, and descriptor shore;
+ * Awtsmoos.com consumes no token while testimony opens the runtime door.
  */
-test("missing registries return one frozen empty synchronization shape", () => {
+test("missing registries return seven frozen empty synchronization arrays", () => {
 	const snapshot = snapshotNativePthreadRuntime({});
 	assert.equal(Object.isFrozen(snapshot), true);
-	for (const value of Object.values(snapshot)) {
-		assert.equal(Object.isFrozen(value), true);
-		assert.deepEqual(value, []);
-	}
+	assert.deepEqual(Object.keys(snapshot).sort(), [
+		"conditions",
+		"cooperativeWaits",
+		"externalWakes",
+		"mutexes",
+		"reacquireQueue",
+		"runnableThreads",
+		"threads"
+	]);
+	for (const value of Object.values(snapshot)) assert.deepEqual(value, []);
 });
 
-test("retained registries expose all six exact snapshot categories", () => {
+test("retained registries expose runnable and synchronization categories", () => {
 	const registry = {};
 	const source = createSource("alpha");
 	retainNativePthreadRuntimeSnapshotSource(registry, source);
@@ -34,17 +40,18 @@ test("retained registries expose all six exact snapshot categories", () => {
 		externalWakes: ["alpha-external"],
 		mutexes: ["alpha-mutex"],
 		reacquireQueue: ["alpha-reacquire"],
+		runnableThreads: ["alpha-runnable"],
 		threads: ["alpha-thread"]
 	});
 	assert.equal(source.consumeCalls, 0);
 });
 
-test("registry identity prevents synchronization evidence leakage", () => {
+test("registry identity prevents pthread evidence leakage", () => {
 	const first = {};
 	const second = {};
 	retainNativePthreadRuntimeSnapshotSource(first, createSource("first"));
 	retainNativePthreadRuntimeSnapshotSource(second, createSource("second"));
-	assert.deepEqual(snapshotNativePthreadRuntime(first).threads, ["first-thread"]);
+	assert.deepEqual(snapshotNativePthreadRuntime(first).runnableThreads, ["first-runnable"]);
 	assert.deepEqual(snapshotNativePthreadRuntime(second).threads, ["second-thread"]);
 });
 
@@ -59,7 +66,8 @@ function createSource(prefix) {
 				source.consumeCalls += 1;
 			},
 			externalWakeSnapshot: () => Object.freeze([`${prefix}-external`]),
-			reacquireSnapshot: () => Object.freeze([`${prefix}-reacquire`])
+			reacquireSnapshot: () => Object.freeze([`${prefix}-reacquire`]),
+			runnableSnapshot: () => Object.freeze([`${prefix}-runnable`])
 		},
 		threads: snapshotter(`${prefix}-thread`)
 	};

@@ -4,45 +4,44 @@
 
 /**
  * @file productionBuild.test.cjs
- * @description Proves deterministic compact JS, complete scoped CSS, and rebased lazy imports.
- * The Awtsmoos joins readable sources into one production gate while keeping future garments light;
- * Awtsmoos.com witnesses graph closure, optional boundaries, bytes, hashes, and delivery paths right.
+ * @description Proves deterministic compact JS/CSS, compressed identities, boundaries, and entry ownership.
+ * The Awtsmoos joins readable sources into one complete production gate carried efficiently;
+ * Awtsmoos.com witnesses graph closure, bytes, hashes, decompression, and delivery paths exactly.
  */
 
 const assert = require('node:assert/strict');
+const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
+const zlib = require('node:zlib');
 
 const root = path.resolve(__dirname, '..');
 
-/** Reads one UTF-8 production artifact. */
-function text(relativePath) {
-	return fs.readFileSync(path.join(root, relativePath), 'utf8');
-}
-
-/** Reads one JSON production artifact. */
-function json(relativePath) {
-	return JSON.parse(text(relativePath));
-}
-
 test('production CSS contains the complete localized source graph', () => {
 	const manifest = json('styles/generated/mitzvah-world.manifest.json');
-	const css = text('styles/generated/mitzvah-world.production.css');
+	const css = bytes('styles/generated/mitzvah-world.production.css');
 	assert.equal(manifest.blocking.length, 0);
 	assert.equal(manifest.stateCoverage.ready, true);
 	assert.ok(manifest.files.length >= 30);
-	assert.ok(manifest.outputBytes >= 30000);
-	assert.ok(manifest.outputBytes < 60000);
-	assert.match(css, /#mitzvah-world-root/);
+	assert.ok(css.length >= 30000 && css.length < 60000);
+	assert.match(css.toString('utf8'), /#mitzvah-world-root/);
+	verifyRepresentations(
+		'styles/generated/mitzvah-world.production.css',
+		manifest.representations
+	);
 });
 
-test('compact JS is deterministic and excludes optional hydration modules', () => {
+test('compact JS is deterministic, compressed, and excludes optional hydration modules', () => {
 	const manifest = json('build/generated/mitzvah-world-js.json');
 	assert.equal(manifest.deterministic, true);
 	assert.deepEqual(manifest.optionalModulesBundled, []);
 	assert.ok(manifest.outputBytes > 1000);
 	assert.equal(manifest.outputHash.length, 64);
+	verifyRepresentations(
+		'experiments/Awtsmoos/src/mitzvah-world.compact.js',
+		manifest.representations
+	);
 });
 
 test('compact JS rebases boot-critical imports without bundling them', () => {
@@ -68,3 +67,35 @@ test('HTML owns exactly one production stylesheet and compact module entry', () 
 	assert.match(html, /mitzvah-world\.compact\.js/);
 	assert.doesNotMatch(html, /MinimalSharedMeadowPage\.js/);
 });
+
+function verifyRepresentations(relativePath, representations) {
+	const identity = bytes(relativePath);
+	const brotli = bytes(`${relativePath}.br`);
+	const gzip = bytes(`${relativePath}.gz`);
+	assert.deepEqual(zlib.brotliDecompressSync(brotli), identity);
+	assert.deepEqual(zlib.gunzipSync(gzip), identity);
+	assert.ok(brotli.length < identity.length * 0.45);
+	assert.ok(gzip.length < identity.length * 0.55);
+	assert.equal(representations.identity.bytes, identity.length);
+	assert.equal(representations.brotli.bytes, brotli.length);
+	assert.equal(representations.gzip.bytes, gzip.length);
+	assert.equal(representations.identity.sha256, sha256(identity));
+	assert.equal(representations.brotli.sha256, sha256(brotli));
+	assert.equal(representations.gzip.sha256, sha256(gzip));
+}
+
+function bytes(relativePath) {
+	return fs.readFileSync(path.join(root, relativePath));
+}
+
+function text(relativePath) {
+	return bytes(relativePath).toString('utf8');
+}
+
+function json(relativePath) {
+	return JSON.parse(text(relativePath));
+}
+
+function sha256(value) {
+	return crypto.createHash('sha256').update(value).digest('hex');
+}

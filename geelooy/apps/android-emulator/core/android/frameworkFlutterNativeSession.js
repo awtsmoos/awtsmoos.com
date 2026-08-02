@@ -2,6 +2,7 @@
 //Boruch Hashem
 //Blessed is He
 
+import { snapshotNativeDescriptorRuntime } from "../native/nativeDescriptorRuntimeSnapshot.js";
 import { createFlutterJniImportHandlers } from "../native/flutterJniImportHandlers.js";
 import { createFlutterJniMachineState } from "../native/flutterJniMachineState.js";
 import { createNativeDynamicLibraryState } from "../native/nativeDynamicLibraryState.js";
@@ -86,6 +87,7 @@ async function createFrameworkFlutterNativeSession(runtime) {
 		snapshot() {
 			return Object.freeze({
 				callSequence,
+				descriptors: snapshotNativeDescriptorRuntime(hostImports),
 				initializerCount: startup.initializerReports.length,
 				jniFieldIds: state.jniFieldIds.snapshot().length,
 				jniMethodIds: state.jniMethodIds.snapshot().length,

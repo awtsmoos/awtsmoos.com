@@ -10,6 +10,7 @@ import { registerNativeAndroidPropertyHandlers } from "./nativeAndroidPropertyHa
 import { createNativeAndroidPropertyState } from "./nativeAndroidPropertyState.js";
 import { registerNativeAndroidTraceHandlers } from "./nativeAndroidTraceHandlers.js";
 import { createNativeDescriptorFlagState } from "./nativeDescriptorFlagState.js";
+import { retainNativeDescriptorRuntimeSnapshotSource } from "./nativeDescriptorRuntimeSnapshot.js";
 import { createNativeEpollState } from "./nativeEpollState.js";
 import { createNativeLinuxClock } from "./nativeLinuxClock.js";
 import { createNativePipeState } from "./nativePipeState.js";
@@ -35,6 +36,14 @@ export function registerNativeAndroidHandlers(registry, machineState, errnoState
 	const descriptorEvents = descriptor => timers.events(descriptor)
 		| pipes.events(descriptor)
 		| (readOnlyState?.events(descriptor) || 0);
+	retainNativeDescriptorRuntimeSnapshotSource(registry, {
+		descriptorEvents,
+		descriptorFlags,
+		epollState,
+		pipes,
+		readOnlyState,
+		timers
+	});
 	machineState.nativeCooperativeRuntime?.bindDescriptors({
 		descriptorEvents,
 		epollState

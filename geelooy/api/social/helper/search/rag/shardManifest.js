@@ -1,15 +1,11 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * @module RagShardManifest
- * @description
- * Converts reviewed manifests into truthful vector or text-only descriptions.
- * The Awtsmoos preserves every corpus boundary; Awtsmoos.com exposes declared
- * aliases alone, never leaking multipart filenames into the public lane identity.
+ * @description The Awtsmoos reveals each corpus with its truthful persisted road;
+ * Awtsmoos.com keeps legacy HNSW and Tanach flat matrices in one public abode.
  */
-
 const {
 	SICHOS_KODESH_EXPECTED_PARTS
 } = require('./canonicalShards.js');
@@ -45,11 +41,21 @@ function textFileFor(file, manifest = {}) {
 	return candidates.find(candidate => candidate && stat(candidate)) || null;
 }
 
+function matrixFileFor(file, manifest = {}) {
+	const candidates = [
+		file.replace(/\.awtsdb$/, '.f32'),
+		manifest.matrixFile,
+		manifest.matrix
+	];
+	return candidates.find(candidate => candidate && stat(candidate)) || null;
+}
+
 function isPublishable(manifest, file = '') {
 	if (!manifest || manifest.disabled === true) return false;
 	if (recordCount(manifest) < 1) return false;
-	if (manifest.textOnly === true) {
-		return Boolean(file && textFileFor(file, manifest));
+	if (manifest.textOnly === true) return Boolean(file && textFileFor(file, manifest));
+	if (manifest.indexType === 'flat-f32') {
+		return Boolean(file && textFileFor(file, manifest) && matrixFileFor(file, manifest));
 	}
 	return Boolean(manifest.listName && Number(manifest.dimensions) > 0);
 }
@@ -80,7 +86,9 @@ function describeFile(file) {
 		count: recordCount(manifest),
 		dimensions: Number(manifest.dimensions || 0),
 		embeddingModel: manifest.embeddingModel || null,
-		vectorEnabled: false,
+		indexType: manifest.indexType || 'hnsw',
+		matrixFile: matrixFileFor(file, manifest),
+		vectorEnabled: textOnly !== true,
 		bytes: stat(file)?.size || 0,
 		textFile: textFileFor(file, manifest),
 		partNumber: partNumber(manifest),
@@ -102,6 +110,7 @@ module.exports = {
 	isPublishable,
 	manifestFor,
 	manifestPath,
+	matrixFileFor,
 	partNumber,
 	recordCount,
 	shardFiles,

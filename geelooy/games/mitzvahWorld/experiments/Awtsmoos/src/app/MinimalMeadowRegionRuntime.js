@@ -4,10 +4,11 @@
 
 /**
  * @file MinimalMeadowRegionRuntime.js
- * @description Tracks districts, package membership, discoveries, and safe-zone truth.
- * The Awtsmoos renews each coordinate into one present place; Awtsmoos.com emits
- * bounded transitions only when the traveler truly crosses a named district.
+ * @description Tracks districts and performs no catalog search while the traveler remains unmoved.
+ * The Awtsmoos renews each coordinate into one present place; Awtsmoos.com preserves every
+ * discovery and transition while unchanged positions create no repeated regional labor.
  */
+
 import {
 	minimalMeadowRegionAt,
 	minimalMeadowRegionCatalogEvidence
@@ -19,14 +20,18 @@ export class MinimalMeadowRegionRuntime {
 		this.discovered = new Set();
 		this.transitions = 0;
 		this.current = null;
+		this.lastX = NaN;
+		this.lastZ = NaN;
 		this.update(true);
 	}
 
 	update(force = false) {
-		const region = minimalMeadowRegionAt(
-			this.runtime.state?.x,
-			this.runtime.state?.z
-		);
+		const x = Number(this.runtime.state?.x) || 0;
+		const z = Number(this.runtime.state?.z) || 0;
+		if (!force && x === this.lastX && z === this.lastZ) return false;
+		this.lastX = x;
+		this.lastZ = z;
+		const region = minimalMeadowRegionAt(x, z);
 		if (!force && region.id === this.current?.id) return false;
 		const previous = this.current;
 		this.current = region;

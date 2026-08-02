@@ -4,34 +4,51 @@
 
 /**
  * @file MinimalMeadowHouseMaintenance.js
- * @description Updates doors and periodically restores house geometry, visibility, and surface law.
- * The Awtsmoos renews every wall from nothing without burdening every frame; Awtsmoos.com keeps
- * bounds, collision-only helpers, rebuilt doors, and uncullable two-sided masonry truthful at 8 Hz.
+ * @description Updates every door each frame but revalidates full house geometry only after real change.
+ * The Awtsmoos renews wall and threshold without demanding needless witnesses;
+ * Awtsmoos.com preserves exact colliders, surfaces, bounds, and visibility while idle houses stay quiet.
  */
 
-import { enforceMinimalMeadowCollisionOnlyVisibility } from './MinimalMeadowHouseCollisionVisibility.js';
-import { installMinimalMeadowHouseGeometryContract } from './MinimalMeadowHouseGeometryContract.js';
-import { installMinimalMeadowHouseSurfacePolicy } from './MinimalMeadowHouseSurfacePolicy.js';
+import {
+	enforceMinimalMeadowCollisionOnlyVisibility
+} from './MinimalMeadowHouseCollisionVisibility.js';
+import {
+	installMinimalMeadowHouseGeometryContract
+} from './MinimalMeadowHouseGeometryContract.js';
+import {
+	installMinimalMeadowHouseSurfacePolicy
+} from './MinimalMeadowHouseSurfacePolicy.js';
 
 const MAINTENANCE_INTERVAL = 0.125;
 
 export function createMinimalMeadowHouseMaintenanceState() {
-	return { elapsed: MAINTENANCE_INTERVAL, refreshes: 0 };
+	return {
+		dirty: true,
+		elapsed: MAINTENANCE_INTERVAL,
+		refreshes: 0
+	};
 }
 
 export function updateMinimalMeadowHouseMaintenance(owner, deltaSeconds) {
+	let changed = false;
 	for (const house of owner.houses) {
-		for (const door of house.doors) door.update(deltaSeconds);
+		for (const door of house.doors) {
+			changed = door.update(deltaSeconds) || changed;
+		}
 	}
+	owner.maintenance.dirty ||= changed || owner.pendingPostMountRefresh;
+	if (!owner.maintenance.dirty) return false;
 	owner.maintenance.elapsed += Math.max(0, Number(deltaSeconds) || 0);
-	if (!owner.pendingPostMountRefresh && owner.maintenance.elapsed < MAINTENANCE_INTERVAL) {
-		return false;
-	}
+	if (owner.maintenance.elapsed < MAINTENANCE_INTERVAL) return false;
 	owner.maintenance.elapsed = 0;
+	owner.maintenance.dirty = false;
 	owner.pendingPostMountRefresh = false;
 	for (const house of owner.houses) {
 		for (const door of house.doors) {
-			installMinimalMeadowHouseGeometryContract(door.group, [door.definition()]);
+			installMinimalMeadowHouseGeometryContract(
+				door.group,
+				[door.definition()]
+			);
 		}
 	}
 	restoreMinimalMeadowHouseSurfacePolicy(owner.group);
@@ -42,6 +59,7 @@ export function updateMinimalMeadowHouseMaintenance(owner, deltaSeconds) {
 
 export function minimalMeadowHouseMaintenanceDiagnostics(owner) {
 	return Object.freeze({
+		dirty: owner.maintenance.dirty,
 		interval: MAINTENANCE_INTERVAL,
 		refreshes: owner.maintenance.refreshes
 	});

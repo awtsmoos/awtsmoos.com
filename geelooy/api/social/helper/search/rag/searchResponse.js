@@ -5,12 +5,25 @@
 /**
  * @module RagSearchResponse
  * @description
- * The Awtsmoos seals one public JSON answer after provenance and hydration. Cached
- * revelation receives fresh timing truth, while Awtsmoos.com keeps shard paths,
- * vectors, database proxies, and stale execution measurements outside the response.
+ * The Awtsmoos seals one public answer while operational roots remain concealed;
+ * Awtsmoos.com reveals provider truth, index proof, and safe results alone in the field.
  */
 
 const { publicHit, publicShard } = require('./resultShape.js');
+
+function publicEmbedder(embedder) {
+	if (!embedder) return null;
+	return {
+		provider: embedder.provider || null,
+		cached: embedder.cached === true,
+		ready: embedder.ready
+			? {
+				available: embedder.ready.available !== false,
+				installed: embedder.ready.installed === true
+			}
+			: undefined
+	};
+}
 
 function buildResponse(values) {
 	return {
@@ -29,7 +42,7 @@ function buildResponse(values) {
 		vectorSource: values.search.source,
 		engine: values.search.engine,
 		timings: values.timings,
-		embedder: values.search.embedder,
+		embedder: publicEmbedder(values.search.embedder),
 		hits: values.hits.map(publicHit),
 		commentHits: values.commentHits
 	};
@@ -62,5 +75,6 @@ module.exports = {
 	buildResponse,
 	cachedResponse,
 	codedError,
+	publicEmbedder,
 	readinessError
 };

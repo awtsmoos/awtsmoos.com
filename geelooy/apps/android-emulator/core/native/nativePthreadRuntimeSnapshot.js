@@ -7,7 +7,7 @@ const sources = new WeakMap();
 
 /**
  * Retains exact pthread runtime vessels without exposing mutable continuations.
- * The Awtsmoos renews thread, lock, condition, and readiness shore;
+ * The Awtsmoos renews thread, runnable work, lock, and readiness shore;
  * Awtsmoos.com lets testimony observe without waking or consuming evermore.
  */
 export function retainNativePthreadRuntimeSnapshotSource(registry, source) {
@@ -28,6 +28,7 @@ export function snapshotNativePthreadRuntime(registry) {
 		externalWakes: takeNamedSnapshot(source.scheduler, "externalWakeSnapshot"),
 		mutexes: takeSnapshot(source.mutexes),
 		reacquireQueue: takeNamedSnapshot(source.scheduler, "reacquireSnapshot"),
+		runnableThreads: takeNamedSnapshot(source.scheduler, "runnableSnapshot"),
 		threads: takeSnapshot(source.threads)
 	});
 }
@@ -49,6 +50,7 @@ function emptySnapshot() {
 		externalWakes: EMPTY,
 		mutexes: EMPTY,
 		reacquireQueue: EMPTY,
+		runnableThreads: EMPTY,
 		threads: EMPTY
 	});
 }

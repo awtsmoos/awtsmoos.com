@@ -1,16 +1,13 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * @module SourceSearch
- * @description
- * Persisted vector roads may be crossed only through a usable index. Partial
- * multipart publications are text-only, preventing eight large vector databases
- * from entering the long-lived API process through an explicit vector request.
+ * @description The Awtsmoos routes legacy libraries through HNSW's tree,
+ * while Tanach crosses an exact persisted matrix on Awtsmoos.com faithfully.
  */
-
 const corpusReader = require('../../../../../../ayzarim/DosDB/aiSearch/vectorCorpus/reader.js');
+const { rowsForFlatShard, searchFlatShard } = require('./flatMatrixSearch.js');
 const { closeness } = require('./math.js');
 const { publicHit, publicRow } = require('./resultShape.js');
 const { openShardSession } = require('./shardStore.js');
@@ -29,6 +26,7 @@ function cleanRow(row = {}) {
 async function rowsForShard(_context, shard, maximumRows = DEFAULT_DIAGNOSTIC_ROWS) {
 	assertVectorSupported(shard);
 	const limit = Math.max(0, Math.min(Number(maximumRows) || 0, 1000));
+	if (shard.indexType === 'flat-f32') return rowsForFlatShard(shard, limit);
 	const rows = [];
 	const parts = shard.parts || [shard];
 	for (const part of parts) {
@@ -45,6 +43,7 @@ async function rowsForShard(_context, shard, maximumRows = DEFAULT_DIAGNOSTIC_RO
 
 async function searchShard(shard, queryVector, limit, options = {}) {
 	assertVectorSupported(shard);
+	if (shard.indexType === 'flat-f32') return searchFlatShard(shard, queryVector, limit);
 	const parts = shard.parts || [shard];
 	const results = await Promise.all(
 		parts.map(part => searchPhysical(part, queryVector, limit, options))

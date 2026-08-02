@@ -53,11 +53,16 @@ test('B"H reset reuses one receipt and clears every previous value', () => {
 });
 
 test('B"H compatibility measure still records callback duration', () => {
-	const ticks = [0, 3, 8];
-	let index = 0;
-	const costs = new RuntimeFrameCostSample(() => ticks[index++]);
-	costs.measure('render', () => 'complete');
-	const result = costs.finish();
+	let now = 0;
+	const costs = new RuntimeFrameCostSample(() => now);
+	costs.reset(0);
+	const value = costs.measure('render', () => {
+		now = 3;
+		return 'complete';
+	});
+	now = 8;
+	const result = costs.finish(8);
+	assert.equal(value, 'complete');
 	assert.equal(result.renderSubmissionMilliseconds, 3);
 	assert.equal(result.cpuFrameMilliseconds, 8);
 });

@@ -4,9 +4,9 @@
 
 /**
  * @file minimalMeadowNativeBootContract.test.mjs
- * @description Locks one compact visible entry and two explicit deferred gameplay boundaries.
- * The Awtsmoos reveals the visible road before every fuller garment descends;
- * Awtsmoos.com proves entry ownership, first-paint scheduling, bootstrap play, and optional richness.
+ * @description Locks one compact entry and truthful staged boundaries for every fuller quality graph.
+ * The Awtsmoos reveals the visible road before every complete garment descends;
+ * Awtsmoos.com proves entry, first control, parallel presentation, world handoff, and optional quality.
  */
 
 import assert from 'node:assert/strict';
@@ -62,26 +62,42 @@ test('B"H launcher conditionally owns mobile and API entries', () => {
 	assert.match(optional, /AwtsmoosOpenApiExplorer/);
 });
 
-test('B"H scheduler opens bootstrap play and defers the rich installer', () => {
+test('B"H scheduler opens bootstrap play before parallel full-quality graphs', () => {
 	const scheduler = source(
 		'experiments/Awtsmoos/src/app/MinimalMeadowFeatureScheduler.js'
+	);
+	const hydration = source(
+		'experiments/Awtsmoos/src/app/MinimalMeadowRichFeatureHydration.js'
+	);
+	const timing = source(
+		'experiments/Awtsmoos/src/app/MinimalMeadowRichHydrationScheduler.js'
 	);
 	const bundle = source(
 		'experiments/Awtsmoos/src/app/MinimalMeadowFeatureBundle.js'
 	);
-	assert.match(scheduler, /installMinimalMeadowBootstrapFeatures/);
-	assert.match(scheduler, /RICH_FEATURE_BUNDLE_URL/);
-	assert.match(scheduler, /resolveDeferredAppModuleUrl/);
-	assert.match(scheduler, /importer\(RICH_FEATURE_BUNDLE_URL\)/);
-	assert.match(scheduler, /optionalFeaturePromise/);
-	assert.doesNotMatch(
-		scheduler,
-		/from '\.\/MinimalMeadowFeatureBundle\.js'/
+	const presentation = source(
+		'experiments/Awtsmoos/src/app/MinimalMeadowPresentationHydration.js'
 	);
-	assert.doesNotMatch(scheduler, /requestAnimationFrame/);
-	assert.match(bundle, /import\('\.\/MinimalMeadowPlayerHydration\.js'\)/);
-	assert.match(bundle, /import\('\.\/MinimalMeadowFriendlyNpcs\.js'\)/);
-	assert.match(bundle, /MinimalMeadowWorldSystems\.js/);
+	const optional = source(
+		'experiments/Awtsmoos/src/app/MinimalMeadowOptionalHydration.js'
+	);
+	assert.match(scheduler, /installMinimalMeadowBootstrapFeatures/);
+	assert.match(scheduler, /scheduleMinimalMeadowRichHydration/);
+	assert.match(hydration, /RICH_FEATURE_BUNDLE_URL/);
+	assert.match(hydration, /richFeatureHandoffPromise/);
+	assert.match(timing, /requestAnimationFrame/);
+	assert.match(timing, /requestIdleCallback/);
+	assert.match(timing, /HYDRATION_FALLBACK_MILLISECONDS/);
+	assert.match(bundle, /hydrateMinimalMeadowPresentation/);
+	assert.match(bundle, /hydrateMinimalMeadowOptionalFeatures/);
+	assert.match(bundle, /import\('\.\/MinimalMeadowWorldSystems\.js'\)/);
+	assert.doesNotMatch(bundle, /MinimalMeadowPlayerHydration\.js/);
+	assert.match(presentation, /MinimalMeadowUi\.js/);
+	assert.match(presentation, /MinimalMeadowAnimationState\.js/);
+	assert.match(optional, /MinimalMeadowPlayerHydration\.js/);
+	assert.match(optional, /MinimalMeadowRendererEnhancement\.js/);
+	assert.match(optional, /MinimalMeadowFriendlyNpcs\.js/);
+	assert.match(optional, /MinimalMeadowVisualReadiness\.js/);
 });
 
 test('B"H native facade remains an explicit-binding module contract', () => {

@@ -4,9 +4,9 @@
 
 /**
  * @file minimalSharedMeadowReadinessFlow.test.mjs
- * @description Proves bootstrap vessels settle before playable state while rich work remains optional.
- * The Awtsmoos orders promise before proclamation and keeps distant beauty free to grow;
- * Awtsmoos.com verifies the six mechanics exist before the loading veil may go.
+ * @description Proves playable readiness returns while full renderer and optional beauty remain pending.
+ * The Awtsmoos opens the near road before distant garments finish descending;
+ * Awtsmoos.com verifies essential mechanics, loading release, paint, and continuing full-quality truth.
  */
 
 import assert from 'node:assert/strict';
@@ -15,12 +15,13 @@ import {
 	runMinimalSharedMeadowReadiness
 } from '../../launcher/MinimalSharedMeadowReadinessFlow.js';
 
-test('B"H readiness awaits bootstrap and ignores unresolved rich hydration', async () => {
+test('B"H readiness publishes play without awaiting full renderer settlement', async () => {
 	const order = [];
 	const optionalPromise = new Promise(() => {});
+	const rendererPromise = new Promise(() => {});
 	const runtime = coreRuntime();
 	const diagnostics = {
-		rendererHydrationPromise: Promise.resolve(null),
+		rendererHydrationPromise: rendererPromise,
 		runtime
 	};
 	diagnostics.featuresPromise = Promise.resolve().then(() => {
@@ -28,21 +29,26 @@ test('B"H readiness awaits bootstrap and ignores unresolved rich hydration', asy
 		order.push('bootstrap-settled');
 		return readyFeatureReceipt(optionalPromise);
 	});
-	const root = {
-		dataset: {},
-		setAttribute() {}
-	};
+	const root = { dataset: {}, setAttribute() {} };
 	const receipt = await runMinimalSharedMeadowReadiness({
 		diagnostics,
 		documentValue: { documentElement: root },
 		environment: immediatePaintEnvironment(),
 		loading: loadingLedger(order)
 	});
-	assert.deepEqual(order.slice(0, 2), ['bootstrap-settled', 'loading-finished']);
+	assert.deepEqual(order.slice(0, 2), [
+		'bootstrap-settled',
+		'loading-finished'
+	]);
 	assert.equal(receipt.essential.ready, true);
 	assert.equal(receipt.essential.optionalPending, true);
+	assert.ok(receipt.fullPromise instanceof Promise);
+	assert.equal(diagnostics.fullReadinessPromise, receipt.fullPromise);
 	assert.equal(root.dataset.awtsmoosRuntimeState, 'playable');
-	assert.equal(diagnostics.featureSettlement.receipt.optionalPromise, optionalPromise);
+	assert.equal(
+		diagnostics.featureSettlement.receipt.optionalPromise,
+		optionalPromise
+	);
 });
 
 function coreRuntime() {
@@ -62,13 +68,15 @@ function coreRuntime() {
 }
 
 function installBootstrap(runtime) {
-	runtime.combat = {};
-	runtime.equipment = {};
-	runtime.inventoryStore = {};
-	runtime.questStore = {};
-	runtime.recovery = {};
+	Object.assign(runtime, {
+		combat: {},
+		equipment: {},
+		inventoryStore: {},
+		optionalFeaturePromise: Promise.resolve(null),
+		questStore: {},
+		recovery: {}
+	});
 	runtime.expansion.streaming = {};
-	runtime.optionalFeaturePromise = Promise.resolve(null);
 }
 
 function readyFeatureReceipt(optionalPromise) {
@@ -99,9 +107,7 @@ function immediatePaintEnvironment() {
 
 function loadingLedger(order) {
 	return {
-		finish() {
-			order.push('loading-finished');
-		},
+		finish() { order.push('loading-finished'); },
 		stage() {},
 		world() {}
 	};

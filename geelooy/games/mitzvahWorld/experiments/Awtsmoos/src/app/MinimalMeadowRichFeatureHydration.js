@@ -4,16 +4,16 @@
 
 /**
  * @file MinimalMeadowRichFeatureHydration.js
- * @description Imports and installs the full world after first-control readiness while preserving fallback.
- * The Awtsmoos lets the complete garment arrive without stealing the first breath;
- * Awtsmoos.com keeps source resolution, install stages, bootstrap ownership, recovery, and events explicit.
+ * @description Declares rich presentation ready before atomically replacing bootstrap world authority.
+ * The Awtsmoos lets the fuller garment appear without removing the first playable ground;
+ * Awtsmoos.com keeps ready, handoff, bootstrap ownership, failure recovery, and receipts explicit.
  */
 
 import {
 	resolveDeferredAppModuleUrl
 } from './DeferredAppModuleUrl.js';
 
-export const RICH_FEATURE_BUNDLE_URL = resolveDeferredAppModuleUrl(
+const RICH_FEATURE_BUNDLE_URL = resolveDeferredAppModuleUrl(
 	'MinimalMeadowFeatureBundle.js',
 	import.meta.url,
 	'MinimalMeadowRichFeatureHydration.js'
@@ -30,12 +30,20 @@ export async function hydrateMinimalMeadowRichFeatures(
 		const installFeatures = await resolveRichInstaller(dependencies);
 		runtime.richFeatureStage = 'installing';
 		const receipt = await installFeatures(runtime, environment);
-		bootstrap.suspend();
-		bootstrap.destroy();
-		runtime.bootstrapFeatures = null;
 		runtime.richFeatureReceipt = receipt;
 		runtime.richFeatureStage = 'ready';
 		runtime.bus?.emit?.('world:rich-features-ready', receipt);
+		if (receipt?.handoffPromise) {
+			runtime.richFeatureHandoffStage = 'waiting';
+			runtime.richFeatureHandoffPromise = Promise.resolve(
+				receipt.handoffPromise
+			)
+				.then(() => completeRichHandoff(runtime, bootstrap))
+				.catch(error => failRichHandoff(runtime, error));
+		} else {
+			const handoff = completeRichHandoff(runtime, bootstrap);
+			runtime.richFeatureHandoffPromise = Promise.resolve(handoff);
+		}
 		return receipt;
 	} catch (error) {
 		runtime.richFeatureStage = 'failed';
@@ -58,6 +66,31 @@ export function richFeatureErrorReceipt(error) {
 		name: error?.name || 'Error',
 		stack: error?.stack || null
 	});
+}
+
+function completeRichHandoff(runtime, bootstrap) {
+	if (runtime.bootstrapFeatures && runtime.bootstrapFeatures !== bootstrap) {
+		return Object.freeze({ ready: false, reason: 'SUPERSEDED' });
+	}
+	bootstrap.suspend();
+	bootstrap.destroy();
+	runtime.bootstrapFeatures = null;
+	runtime.richFeatureHandoffStage = 'ready';
+	const receipt = Object.freeze({ ready: true });
+	runtime.bus?.emit?.('world:rich-handoff-ready', receipt);
+	return receipt;
+}
+
+function failRichHandoff(runtime, error) {
+	runtime.richFeatureHandoffStage = 'failed';
+	runtime.richFeatureHandoffError = richFeatureErrorReceipt(error);
+	const receipt = Object.freeze({
+		bootstrapPreserved: true,
+		error: runtime.richFeatureHandoffError,
+		ready: false
+	});
+	runtime.bus?.emit?.('world:rich-handoff-failed', receipt);
+	return receipt;
 }
 
 async function resolveRichInstaller(dependencies) {

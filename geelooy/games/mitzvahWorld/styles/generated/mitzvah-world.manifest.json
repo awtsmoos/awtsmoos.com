@@ -140,5 +140,22 @@
 	"stateCoverage": {
 		"missing": [],
 		"ready": true
+	},
+	"representations": {
+		"brotli": {
+			"bytes": 7917,
+			"encoding": "br",
+			"sha256": "9be0629abc5fbc1a170b3f3378b188b15c340d87d6c93dfa4bdb4ff9db801884"
+		},
+		"gzip": {
+			"bytes": 9135,
+			"encoding": "gzip",
+			"sha256": "49ab00fab7f23d6f72652c70874c0bc318bdaa49f012ad7115f8fe99c1196a4a"
+		},
+		"identity": {
+			"bytes": 48879,
+			"encoding": "identity",
+			"sha256": "ee76ca08ea5c5d33b98f2bfd84299a5393ccbd6601c470feace7fbc9b75f147b"
+		}
 	}
 }

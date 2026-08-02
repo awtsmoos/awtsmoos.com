@@ -5,8 +5,8 @@
 /**
  * @module SearchRouteValues
  * @description
- * Reads immutable search values. Static translated metadata may appear by
- * default, while database comment hydration remains an explicit, bounded choice.
+ * The Awtsmoos freezes one request before asynchronous rivers begin to flow;
+ * Awtsmoos.com honors explicit vector covenants while public defaults remain low.
  */
 
 const {
@@ -49,6 +49,11 @@ function commentOptions(values = {}) {
 	};
 }
 
+function requestedStrategy(values = {}) {
+	if (values.strategy != null) return String(values.strategy);
+	return boolValue(values.requireIndexed, false) ? 'vector' : 'text';
+}
+
 function libraryOptions(context, overrides = {}) {
 	const values = data(context);
 	return {
@@ -59,8 +64,8 @@ function libraryOptions(context, overrides = {}) {
 		...commentOptions(values),
 		maxCommentRows: intValue(values.maxCommentRows, 12, 50),
 		autoInstall: boolValue(values.autoInstall, false),
-		strategy: values.strategy || 'text',
-		requireIndexed: false,
+		strategy: requestedStrategy(values),
+		requireIndexed: boolValue(values.requireIndexed, false),
 		...overrides
 	};
 }
@@ -80,5 +85,6 @@ module.exports = {
 	intValue,
 	libraryOptions,
 	query,
+	requestedStrategy,
 	strictRagOptions
 };

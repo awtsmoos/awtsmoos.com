@@ -4,9 +4,9 @@
 
 /**
  * @file worldQualityProfile.test.mjs
- * @description Proves desktop, mobile, URL, and explicit quality resolution contracts.
- * The Awtsmoos renews one world through unequal devices; Awtsmoos.com verifies that
- * mobile DPR bends while gameplay density, quests, landmarks, and overrides remain.
+ * @description Proves published defaults retain full density while lower schedules remain explicit choices.
+ * The Awtsmoos reveals the complete village without judging a device by synthetic numbers;
+ * Awtsmoos.com verifies high defaults, named overrides, preserved gameplay layers, and cinematic horizon.
  */
 
 import assert from 'node:assert/strict';
@@ -15,70 +15,47 @@ import {
 	resolveWorldQuality,
 	worldQualityProfile
 } from '../../performance/WorldQualityProfile.js';
-import { createVillageWorldDefinitions } from '../../world/village/VillageWorldSystem.js';
+import {
+	createVillageWorldDefinitions
+} from '../../world/village/VillageWorldSystem.js';
 
-function environment(overrides = {}) {
-	return {
-		innerWidth: 1440,
-		location: { search: '' },
-		navigator: {
-			deviceMemory: 8,
-			hardwareConcurrency: 8,
-			maxTouchPoints: 0
-		},
-		...overrides
-	};
-}
-
-function sampler() {
-	return {
-		heightAt(x, z) {
-			return { y: 0.5 + x * 0.001 + z * 0.002 };
-		},
-		sample(x, z) {
-			return {
-				height: 0.5 + x * 0.001 + z * 0.002,
-				x,
-				z
-			};
-		}
-	};
-}
-
-test('balanced desktop and touch mobile choose deterministic defaults', () => {
-	assert.equal(resolveWorldQuality({}, environment()).quality, 'medium');
-	const mobile = environment({
-		innerWidth: 390,
-		navigator: {
-			deviceMemory: 4,
-			hardwareConcurrency: 4,
-			maxTouchPoints: 5
-		}
-	});
-	assert.equal(resolveWorldQuality({}, mobile).quality, 'low');
+test('B"H every unqualified publication defaults to full high density', () => {
+	for (const environment of [
+		environmentFixture(),
+		environmentFixture({
+			innerWidth: 390,
+			navigator: { deviceMemory: 2, hardwareConcurrency: 2, maxTouchPoints: 5 }
+		}),
+		environmentFixture({
+			navigator: { deviceMemory: 8, hardwareConcurrency: 2, maxTouchPoints: 0 }
+		})
+	]) {
+		const result = resolveWorldQuality({}, environment);
+		assert.equal(result.quality, 'high');
+		assert.equal(result.explicit, false);
+		assert.equal(result.reason, 'full-quality-default');
+	}
 });
 
-test('option and URL overrides remain explicit and reproducible', () => {
-	const cinematic = resolveWorldQuality(
-		{ quality: 'cinematic' },
-		environment()
-	);
-	assert.equal(cinematic.quality, 'cinematic');
-	assert.equal(cinematic.explicit, true);
-	const high = resolveWorldQuality(
-		{},
-		environment({ location: { search: '?quality=high' } })
-	);
-	assert.equal(high.quality, 'high');
-	assert.equal(high.explicit, true);
+test('B"H option and URL overrides remain explicit and reproducible', () => {
+	for (const quality of ['low', 'medium', 'high', 'cinematic']) {
+		const option = resolveWorldQuality({ quality }, environmentFixture());
+		assert.equal(option.quality, quality);
+		assert.equal(option.explicit, true);
+		const query = resolveWorldQuality({}, environmentFixture({
+			location: { search: `?quality=${quality}` }
+		}));
+		assert.equal(query.quality, quality);
+		assert.equal(query.explicit, true);
+	}
 });
 
-test('gameplay profiles preserve density while cinematic expands the horizon', () => {
+test('B"H profiles preserve sharp gameplay contracts while cinematic expands horizon', () => {
 	const low = worldQualityProfile('low');
 	const medium = worldQualityProfile('medium');
 	const high = worldQualityProfile('high');
 	const cinematic = worldQualityProfile('cinematic');
-	assert.ok(low.maxDpr < medium.maxDpr);
+	assert.ok(low.maxDpr < high.maxDpr);
 	assert.equal(medium.maxDpr, high.maxDpr);
 	assert.equal(cinematic.maxDpr, high.maxDpr);
 	assert.equal(low.renderDistance, high.renderDistance);
@@ -86,10 +63,10 @@ test('gameplay profiles preserve density while cinematic expands the horizon', (
 	assert.ok(cinematic.renderDistance > high.renderDistance);
 });
 
-test('all tiers preserve the river village gameplay layer contract', () => {
+test('B"H every explicit tier preserves the river village gameplay layers', () => {
 	const counts = {};
 	for (const quality of ['low', 'medium', 'high', 'cinematic']) {
-		const world = createVillageWorldDefinitions(sampler(), quality);
+		const world = createVillageWorldDefinitions(terrainSampler(), quality);
 		counts[quality] = world.definitions.length;
 		assert.ok(world.stats.layers.includes('water'));
 		assert.ok(world.stats.layers.includes('animated-chossid-population'));
@@ -100,3 +77,21 @@ test('all tiers preserve the river village gameplay layer contract', () => {
 	assert.ok(counts.medium < counts.high);
 	assert.ok(counts.high < counts.cinematic);
 });
+
+function environmentFixture(overrides = {}) {
+	return {
+		innerWidth: 1440,
+		location: { search: '' },
+		navigator: { deviceMemory: 8, hardwareConcurrency: 8, maxTouchPoints: 0 },
+		...overrides
+	};
+}
+
+function terrainSampler() {
+	return {
+		heightAt(x, z) { return { y: 0.5 + x * 0.001 + z * 0.002 }; },
+		sample(x, z) {
+			return { height: 0.5 + x * 0.001 + z * 0.002, x, z };
+		}
+	};
+}

@@ -4,10 +4,12 @@
 
 import { waitOnNativePthreadCondition } from "./nativePthreadConditionWait.js";
 
+const EMPTY = Object.freeze([]);
+
 /**
- * Registers configured condition lifecycle, notification, and cooperative wait.
- * The Awtsmoos recreates attribute, waiter, resumption, W0, and return road;
- * Awtsmoos.com exposes no host condition object and performs no host blocking.
+ * Registers condition lifecycle, fair runnable progress, notification, and wait.
+ * The Awtsmoos renews worker, waiter, wake, W0, and returning road;
+ * Awtsmoos.com schedules no invalid call and fabricates no condition load.
  */
 export function registerNativePthreadConditionHandlers(registry, options) {
 	options = normalizeOptions(options);
@@ -23,13 +25,13 @@ export function registerNativePthreadConditionHandlers(registry, options) {
 	}
 	registry.register("pthread_cond_signal", context => notify(
 		context,
-		options.conditions.signal(argument(context, 0)),
-		options.scheduler
+		options,
+		"signal"
 	));
 	registry.register("pthread_cond_broadcast", context => notify(
 		context,
-		options.conditions.broadcast(argument(context, 0)),
-		options.scheduler
+		options,
+		"broadcast"
 	));
 }
 
@@ -45,11 +47,21 @@ function initialize(context, options) {
 	));
 }
 
-function notify(context, evidence, scheduler) {
-	const resumed = scheduler && evidence.result === 0 && evidence.woken.length > 0
-		? scheduler.wake(evidence.woken)
-		: Object.freeze([]);
-	return finish(context, Object.freeze({ ...evidence, resumed }));
+function notify(context, options, operation) {
+	const address = argument(context, 0);
+	if (address === 0n) {
+		return finish(context, options.conditions[operation](address));
+	}
+	const runnableResults = options.scheduler?.runRunnable?.() || EMPTY;
+	const evidence = options.conditions[operation](address);
+	const resumed = options.scheduler && evidence.result === 0 && evidence.woken.length > 0
+		? options.scheduler.wake(evidence.woken)
+		: EMPTY;
+	return finish(context, Object.freeze({
+		...evidence,
+		resumed,
+		runnableResults
+	}));
 }
 
 function normalizeOptions(options) {

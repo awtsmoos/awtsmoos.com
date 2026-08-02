@@ -17,9 +17,16 @@ test('gameplay presentation preserves six base styles and defers the creative do
 	assert.equal(GAMEPLAY_STYLESHEETS.length, 6);
 	assert.match(CREATIVE_DOCK_STYLESHEET, /mitzvah-world-creative-dock\.css/);
 	const source = await readFile(`${sourceRoot}launcher/MitzvahWorldGameplayPresentation.js`, 'utf8');
-	assert.match(source, /loadStylesheet\(documentValue, CREATIVE_DOCK_STYLESHEET/);
+	assert.match(source, /prepareCreativeDockPresentation/);
 	assert.match(source, /installMitzvahWorldCreativeDock/);
 	assert.match(source, /AwtsmoosCreativeDock/);
+});
+
+test('direct worlds install only the lightweight creative dock after runtime readiness', async () => {
+	const source = await readFile(`${sourceRoot}launcher/MitzvahWorldModeLoaders.js`, 'utf8');
+	assert.match(source, /prepareCreativeDockPresentation/);
+	assert.match(source, /await startCreativeDock\(environment\)/);
+	assert.match(source, /prepareGameplayPresentation/);
 });
 
 test('creative movie loader imports gameplay provenance only for explicit handoff', async () => {

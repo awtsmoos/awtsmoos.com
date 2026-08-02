@@ -4,13 +4,13 @@
 
 /**
  * @file MitzvahWorldModeLoaders.js
- * @description Loads direct visible worlds without menu presentation or heavy HUD families.
- * The Awtsmoos opens control before ornament; Awtsmoos.com keeps cinema, rich panels,
- * authored districts, and creative presentation beyond their chosen doorways.
+ * @description Loads direct worlds, lightweight cinematic controls, and explicit creative routes.
+ * The Awtsmoos opens control before ornament; Awtsmoos.com keeps direct worlds lean while every
+ * completed runtime still receives one bounded, reversible doorway into the canonical Movie Studio.
  */
 
-const PRESENTATION_URL = './MitzvahWorldGameplayPresentation.js?v=20260722-menu-stream-01';
-const CREATIVE_URL = './MitzvahWorldCreativeModeLoaders.js?v=20260723-webgl-stage-11';
+const PRESENTATION_URL = './MitzvahWorldGameplayPresentation.js?v=20260802-game-studio-bridge-02';
+const CREATIVE_URL = './MitzvahWorldCreativeModeLoaders.js?v=20260802-game-studio-bridge-02';
 
 export function createMitzvahWorldModeLoaders(environment = globalThis) {
 	return Object.freeze({
@@ -59,6 +59,7 @@ async function openSinglePlayer(hosts, options = {}, environment = globalThis) {
 		state: 'singleplayer',
 		transport: 'none'
 	});
+	await startCreativeDock(environment);
 	return diagnostics;
 }
 
@@ -67,7 +68,7 @@ async function openMultiplayer(hosts, options = {}, environment = globalThis) {
 	const { createMultiplayerEretzRuntime } = await import(
 		'../network/MultiplayerEretzRuntime.js?v=20260723-stream-20'
 	);
-	return createMultiplayerEretzRuntime(hosts, {
+	const diagnostics = await createMultiplayerEretzRuntime(hosts, {
 		WebSocketClass: environment.WebSocket,
 		displayName: options.displayName,
 		environment,
@@ -79,10 +80,12 @@ async function openMultiplayer(hosts, options = {}, environment = globalThis) {
 		url: options.realtimeUrl,
 		worldId: options.worldId
 	});
+	await startCreativeDock(environment);
+	return diagnostics;
 }
 
 async function openCreative(method, hosts, search, environment) {
-	await startPresentation(hosts, environment);
+	await startFullPresentation(hosts, environment);
 	const module = await import(CREATIVE_URL);
 	return module[method](hosts, search);
 }
@@ -91,16 +94,24 @@ function report(options, message) {
 	options.onProgress?.({ message, progress: 0.04 });
 }
 
-async function startPresentation(hosts, environment) {
+async function startFullPresentation(hosts, environment) {
+	return startPresentationMethod('prepareGameplayPresentation', hosts, environment);
+}
+
+async function startCreativeDock(environment) {
+	return startPresentationMethod('prepareCreativeDockPresentation', null, environment);
+}
+
+async function startPresentationMethod(method, hosts, environment) {
 	try {
 		const module = await import(PRESENTATION_URL);
-		return module.prepareGameplayPresentation(
-			hosts,
-			environment.document,
-			environment
-		);
+		const presentation = method === 'prepareGameplayPresentation'
+			? module[method](hosts, environment.document, environment)
+			: module[method](environment.document, environment);
+		await presentation?.ready;
+		return presentation;
 	} catch (error) {
-		console.warn('[MitzvahWorld] Creative presentation degraded.', error);
+		console.warn(`[MitzvahWorld] ${method} degraded.`, error);
 		return null;
 	}
 }

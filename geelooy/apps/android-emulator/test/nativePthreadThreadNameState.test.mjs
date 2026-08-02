@@ -6,6 +6,11 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { createNativePthreadThreadState } from "../core/native/nativePthreadThreadState.js";
 
+/**
+ * Proves bounded naming testimony preserves the deferred runnable lifecycle.
+ * The Awtsmoos renews name, byte length, handle, and waiting shore;
+ * Awtsmoos.com lets no naming call begin execution before the scheduler door.
+ */
 test("thread state stores bounded name testimony without changing lifecycle", () => {
 	const state = createNativePthreadThreadState();
 	const handle = 0x6000n;
@@ -21,6 +26,6 @@ test("thread state stores bounded name testimony without changing lifecycle", ()
 	assert.equal(state.setName(handle, "io.worker", 9).code, 0);
 	assert.equal(state.lookup(handle).name, "io.worker");
 	assert.equal(state.lookup(handle).nameByteLength, 9);
-	assert.equal(state.lookup(handle).status, "running");
+	assert.equal(state.lookup(handle).status, "runnable");
 	assert.equal(state.setName(0x9999n, "lost", 4).code, 3);
 });

@@ -6,36 +6,63 @@ import {
 	resumeNativePthreadCondition,
 	resumeNativePthreadMutex
 } from "./nativePthreadConditionResume.js";
-import { runNativePthreadChildMachine } from "./nativePthreadChildMachine.js";
 import { createNativePthreadExternalWakeState } from "./nativePthreadExternalWakeState.js";
 import { createNativePthreadReacquireQueue } from "./nativePthreadReacquireQueue.js";
+import { createNativePthreadRunnableQueue } from "./nativePthreadRunnableQueue.js";
+import {
+	resumeNativePthreadExecution,
+	runNativePthreadStartup
+} from "./nativePthreadSchedulerExecution.js";
 import {
 	NATIVE_EPOLL_EVENT_BYTES,
 	writeNativeEpollEvent
 } from "./nativeEpollEvent.js";
-
 /**
- * Resumes condition and epoll pthreads over retained AArch64 state.
- * The Awtsmoos renews deferred mutex, event bytes, and returning ray;
- * Awtsmoos.com lets each owner unlock before the waiting thread may sway.
+ * Schedules runnable and suspended pthreads over one deterministic guest world.
+ * The Awtsmoos renews queue, condition, epoll, mutex, and returning ray;
+ * Awtsmoos.com lets parent and child advance only at explicit cooperative gates.
  */
 export function createNativePthreadScheduler(options) {
 	const externalWakes = createNativePthreadExternalWakeState();
 	const reacquireQueue = createNativePthreadReacquireQueue();
+	const runnable = createNativePthreadRunnableQueue();
+	let draining = false;
+	const suspend = (handle, child) => suspendThread(handle, child, options);
+	const executionOptions = Object.freeze({ ...options, suspend });
 	const resumeOptions = Object.freeze({
 		...options,
 		reacquireQueue,
-		runContinuation: (handle, suspended) => runContinuation(handle, suspended, options)
+		runContinuation: (handle, suspended) => {
+			return resumeNativePthreadExecution(handle, suspended, executionOptions);
+		}
 	});
 	return Object.freeze({
 		consumeExternalWake: handle => externalWakes.consume(handle),
 		externalWakeSnapshot: () => externalWakes.snapshot(),
 		reacquireSnapshot: () => reacquireQueue.snapshot(),
-		suspend(handle, child) {
-			const stored = options.threads.suspend(handle, child);
-			if (stored.code === 0) options.runtime?.track(handle, child.suspension);
-			return stored;
+		runRunnable() {
+			if (draining) return Object.freeze([]);
+			draining = true;
+			const results = [];
+			try {
+				let startup = runnable.takeNext();
+				while (startup) {
+					results.push(runNativePthreadStartup(startup, executionOptions));
+					startup = runnable.takeNext();
+				}
+			} finally {
+				draining = false;
+			}
+			return Object.freeze(results);
 		},
+		runThread(handle) {
+			if (draining) return null;
+			const startup = runnable.take(handle);
+			return startup ? runNativePthreadStartup(startup, executionOptions) : null;
+		},
+		runnableSnapshot: () => runnable.snapshot(),
+		schedule: startup => runnable.schedule(startup),
+		suspend,
 		wake(handles) {
 			return Object.freeze(handles.map(handle => {
 				if (!options.threads.lookup(BigInt(handle))) {
@@ -45,14 +72,19 @@ export function createNativePthreadScheduler(options) {
 			}));
 		},
 		wakeEpoll(handle, events) {
-			return resumeEpoll(handle, events, options);
+			return resumeEpoll(handle, events, options, executionOptions);
 		},
 		wakeMutex(address) {
 			return resumeNativePthreadMutex(address, resumeOptions);
 		}
 	});
 }
-function resumeEpoll(handleValue, events, options) {
+function suspendThread(handle, child, options) {
+	const stored = options.threads.suspend(handle, child);
+	if (stored.code === 0) options.runtime?.track(handle, child.suspension);
+	return stored;
+}
+function resumeEpoll(handleValue, events, options, executionOptions) {
 	const handle = BigInt(handleValue);
 	const suspended = requireSuspension(handle, options);
 	if (suspended.wait.type !== "epoll") {
@@ -66,7 +98,7 @@ function resumeEpoll(handleValue, events, options) {
 	));
 	suspended.continuation.registers.write(0, BigInt(events.length), 32, "zero");
 	options.runtime?.untrack(handle);
-	return runContinuation(handle, suspended, options);
+	return resumeNativePthreadExecution(handle, suspended, executionOptions);
 }
 function requireSuspension(handle, options) {
 	const suspended = options.threads.suspension(handle);
@@ -75,44 +107,10 @@ function requireSuspension(handle, options) {
 	}
 	return suspended;
 }
-function runContinuation(handle, suspended, options) {
-	const begun = options.threads.beginResume(handle);
-	if (begun.code !== 0) throw schedulerError("NATIVE_PTHREAD_RESUME_STATE", handle, begun);
-	const child = runNativePthreadChildMachine({
-		hostImports: options.registry,
-		imports: options.machineState.imports,
-		memory: options.machineState.memory,
-		registers: suspended.continuation.registers,
-		systemRegisters: suspended.continuation.systemRegisters
-	});
-	if (child.report.reason === "return") {
-		options.threads.complete(handle, child);
-		return schedulerEvidence(handle, "completed", child);
-	}
-	if (child.report.reason === "pthread-suspended") {
-		createNativePthreadScheduler(options).suspend(handle, child);
-		return schedulerEvidence(handle, waitingStatus(child), child);
-	}
-	options.threads.fail(handle, child);
-	throw childBoundaryError(child, handle);
-}
-function waitingStatus(child) {
-	return `waiting-${child.suspension?.type || "condition"}`;
-}
-function schedulerEvidence(handle, status, child = null) {
-	return Object.freeze({ child, handle: handle.toString(), operation: "pthread-resume", result: 0, status });
-}
 function schedulerError(code, handle, evidence) {
 	const error = new Error(`${code}:${handle}`);
 	error.code = code;
 	error.evidence = evidence;
-	error.threadHandle = handle.toString();
-	return error;
-}
-function childBoundaryError(child, handle) {
-	const error = new Error(`NATIVE_PTHREAD_CHILD_BOUNDARY:${child.report.reason}`);
-	error.code = "NATIVE_PTHREAD_CHILD_BOUNDARY";
-	error.childEvidence = child;
 	error.threadHandle = handle.toString();
 	return error;
 }

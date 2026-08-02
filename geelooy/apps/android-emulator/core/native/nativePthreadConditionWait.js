@@ -5,9 +5,9 @@
 import { createNativeMachineStop } from "./nativeMachineControl.js";
 
 /**
- * Atomically releases the mutex and admits only a real guest condition signal.
- * The Awtsmoos renews waiter, child wake, reacquisition, and resting shore;
- * Awtsmoos.com never returns before notification and mutex ownership restore.
+ * Releases the mutex, runs eligible children, and admits only a real signal.
+ * The Awtsmoos renews waiter, runnable child, reacquisition, and resting shore;
+ * Awtsmoos.com returns only after guest notification and mutex ownership restore.
  */
 export function waitOnNativePthreadCondition(context, options) {
 	const condition = argument(context, 0);
@@ -23,6 +23,7 @@ export function waitOnNativePthreadCondition(context, options) {
 	context.registers.write(0, 0n, 32, "zero");
 	context.registers.pc = context.registers.read(30, 64, "zero");
 	const mutexWake = options.scheduler?.wakeMutex(mutex) || null;
+	const runnableResults = options.scheduler?.runRunnable?.() || Object.freeze([]);
 	const signalReceived = options.scheduler?.consumeExternalWake(thread) || false;
 	if (signalReceived) {
 		const reacquired = options.mutexes.tryLock(mutex, thread);
@@ -33,20 +34,30 @@ export function waitOnNativePthreadCondition(context, options) {
 				operation: "pthread_cond_wait",
 				reacquired,
 				result: 0,
+				runnableResults,
 				signalReceived: true
 			});
 		}
-		return suspended(condition, mutex, thread, mutexWake, true, reacquired);
+		return suspended(condition, mutex, thread, {
+			mutexWake,
+			reacquired,
+			runnableResults,
+			signalReceived: true
+		});
 	}
-	return suspended(condition, mutex, thread, mutexWake, false, null);
-}
-function suspended(condition, mutex, thread, mutexWake, signalReceived, reacquired) {
-	return createNativeMachineStop("pthread-suspended", {
+	return suspended(condition, mutex, thread, {
 		mutexWake,
+		reacquired: null,
+		runnableResults,
+		signalReceived: false
+	});
+}
+
+function suspended(condition, mutex, thread, detail) {
+	return createNativeMachineStop("pthread-suspended", {
+		...detail,
 		operation: "pthread_cond_wait",
-		reacquired,
 		result: 0,
-		signalReceived,
 		suspension: Object.freeze({
 			condition: condition.toString(),
 			mutex: mutex.toString(),
@@ -54,9 +65,11 @@ function suspended(condition, mutex, thread, mutexWake, signalReceived, reacquir
 		})
 	});
 }
+
 function argument(context, index) {
 	return context.registers.read(index, 64, "zero");
 }
+
 function finish(context, evidence) {
 	context.registers.write(0, BigInt(evidence.result), 32, "zero");
 	context.registers.pc = context.registers.read(30, 64, "zero");

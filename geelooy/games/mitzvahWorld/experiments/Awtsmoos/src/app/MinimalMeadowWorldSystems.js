@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowWorldSystems.js
- * @description Mounts immediate gameplay, the complete vertical slice, and deferred rich systems.
- * The Awtsmoos grants battle, quest, teaching, and safe return before ornament descends;
- * Awtsmoos.com guards responsive frames, then lets houses, water, and forests extend.
+ * @description Mounts immediate combat and quest truth while full visual systems hydrate separately.
+ * The Awtsmoos grants battle, purpose, teaching, and safe return before distant garments descend;
+ * Awtsmoos.com preserves every system while keeping GLB, forest, water, and house latency off readiness.
  */
 
 import { ExpansionRuntime } from '../gameplay/expansion/ExpansionRuntime.js';
@@ -39,7 +39,7 @@ export async function installMinimalMeadowWorldSystems(runtime, environment = gl
 	runtime.expansionLandmarks = new ExpansionLandmarkPopulation(runtime);
 	runtime.recovery = new GameplayRecoveryCoordinator(runtime);
 	runtime.verticalSlice = new MinimalMeadowVerticalSliceRuntime(runtime, environment);
-	await mountMinimalMeadowQuest(runtime, environment);
+	runtime.questMountReceipt = mountMinimalMeadowQuest(runtime, environment);
 	runtime.updateWorldSystems = deltaSeconds => {
 		return updateMinimalMeadowWorldSystems(runtime, deltaSeconds);
 	};

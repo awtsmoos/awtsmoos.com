@@ -5,10 +5,8 @@
 /**
  * @module SocialLibrarySearch
  * @description
- * One bounded query proves canonical storage, resolves one shard, chooses one
- * explicit strategy, enriches static metadata safely, and returns provenance.
- * The Awtsmoos remembers immutable public answers; Awtsmoos.com never caches
- * mutable database hydration, because the cache covenant rejects that request.
+ * The Awtsmoos proves one persisted road without confusing its vessel with its truth;
+ * Awtsmoos.com accepts HNSW and exact flat matrices when both bear verified fruit.
  */
 
 const { resolveShard } = require('./shards.js');
@@ -90,14 +88,16 @@ function assertStrictIndexed(options, shard, search) {
 	if (options.requireIndexed !== true) return;
 	const valid = search.strictIndexed === true
 		&& search.indexed === true
-		&& search.source === 'awtsdb-hnsw-persisted'
-		&& search.index?.persisted === true;
+		&& search.index?.persisted === true
+		&& typeof search.source === 'string'
+		&& search.source.includes('persisted');
 	if (valid) return;
 	throw readinessError(
 		'STRICT_INDEX_PROVENANCE_MISSING',
-		'Strict RAG did not return persisted HNSW provenance.',
+		'Strict RAG did not return persisted vector-index provenance.',
 		{
 			shardId: shard.id,
+			indexType: shard.indexType || null,
 			vectorSource: search.source || null,
 			index: search.index || null
 		}

@@ -5,7 +5,24 @@
 	"moduleCount": 1,
 	"modules": [],
 	"optionalModulesBundled": [],
-	"outputBytes": 5358916,
-	"outputHash": "770895d1dc4447ec02e75b9a21ccb175a99e993573e390bbe42e3ed8340c38c6",
+	"outputBytes": 5410286,
+	"outputHash": "91e91c51e726a3bf45f8633d20c09d201e9064708f9d6de49263d33eb1169690",
+	"representations": {
+		"brotli": {
+			"bytes": 898277,
+			"encoding": "br",
+			"sha256": "2b27eae2345a82a8c179bd52f759dfbe71c07d92bfa4341b589c022ff8d797e5"
+		},
+		"gzip": {
+			"bytes": 1174729,
+			"encoding": "gzip",
+			"sha256": "76a14c77c86fb410099a5c28fa54019b69627f6ebabb547b95962982536c4932"
+		},
+		"identity": {
+			"bytes": 5410286,
+			"encoding": "identity",
+			"sha256": "91e91c51e726a3bf45f8633d20c09d201e9064708f9d6de49263d33eb1169690"
+		}
+	},
 	"sourceMap": false
 }

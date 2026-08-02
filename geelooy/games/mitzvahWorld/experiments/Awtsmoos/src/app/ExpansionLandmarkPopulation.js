@@ -4,9 +4,9 @@
 
 /**
  * @file ExpansionLandmarkPopulation.js
- * @description Owns the lower-meadow gateway and lazy Kedem interaction landmarks.
- * The Awtsmoos joins valley and ridge through one visible threshold; Awtsmoos.com keeps
- * touch, pointer, controller study, mission, activity, return, and elite invocation unified.
+ * @description Owns gateway and highland landmarks while discovering each scene root exactly once.
+ * The Awtsmoos joins valley and ridge through one visible threshold; Awtsmoos.com preserves every
+ * interaction while repeated frames never retraverse an already witnessed highland tree.
  */
 
 import { Group } from '../../../light-three-gltf/tiny-runtime.js';
@@ -21,16 +21,25 @@ export class ExpansionLandmarkPopulation {
 		this.group.name = 'Awtsmoos_expansion_landmark_population';
 		this.actors = [];
 		this.knownMeshes = new Set();
+		this.discoveredRoots = new WeakSet();
 		this.gateway = createGateway(runtime);
 		this.group.add(this.gateway);
 		runtime.scene.add(this.group);
 		this.addActor(this.gateway, 'region:kedem-highlands');
+		this.gatewayVisible = this.gateway.visible;
 	}
 
 	update() {
-		this.gateway.visible = this.runtime.expansion?.regionId === 'lower-meadow';
+		const gatewayVisible = this.runtime.expansion?.regionId === 'lower-meadow';
+		if (gatewayVisible !== this.gatewayVisible) {
+			this.gateway.visible = gatewayVisible;
+			this.gatewayVisible = gatewayVisible;
+		}
 		const highlands = this.runtime.regionPackages?.highlands;
-		if (highlands) this.discover(highlands);
+		if (highlands && !this.discoveredRoots.has(highlands)) {
+			this.discover(highlands);
+			this.discoveredRoots.add(highlands);
+		}
 	}
 
 	discover(root) {

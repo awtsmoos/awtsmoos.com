@@ -4,49 +4,65 @@
 
 /**
  * @file MinimalMeadowFeatureBundle.js
- * @description Installs essential gameplay while optional module graphs remain dynamically sealed.
- * The Awtsmoos grants stores, combat, quests, and recovery before distant beauty enters sight;
- * Awtsmoos.com keeps models, rich shaders, friendly crowds, and visual proof beyond the first light.
+ * @description Starts rich presentation and full world authority in parallel without blocking play.
+ * The Awtsmoos lets every complete garment arrive beyond the first usable breath;
+ * Awtsmoos.com preserves UI, animation, systems, models, shaders, NPCs, proof, and atomic handoff.
  */
-import { installMinimalMeadowAnimation } from './MinimalMeadowAnimationState.js';
-import { installMinimalMeadowUi } from './MinimalMeadowUi.js';
-import { installMinimalMeadowWorldSystems } from './MinimalMeadowWorldSystems.js';
 
-export async function installMinimalMeadowFeatures(
+import {
+	hydrateMinimalMeadowOptionalFeatures
+} from './MinimalMeadowOptionalHydration.js';
+import {
+	hydrateMinimalMeadowPresentation
+} from './MinimalMeadowPresentationHydration.js';
+
+export function installMinimalMeadowFeatures(
 	runtime,
-	environment = globalThis
+	environment = globalThis,
+	dependencies = {}
 ) {
-	const ui = installMinimalMeadowUi(
-		runtime,
-		environment.document || globalThis.document,
-		environment
-	);
-	const animation = installMinimalMeadowAnimation(runtime);
-	const world = await installMinimalMeadowWorldSystems(runtime, environment);
-	const essential = essentialReceipt(runtime, ui, animation, world);
-	if (!essential.ready) {
-		throw new Error(`MINIMAL_MEADOW_ESSENTIAL_MISSING:${essential.missing.join(',')}`);
-	}
-	const optionalPromise = hydrateOptional(runtime, environment);
-	runtime.optionalFeaturePromise = optionalPromise;
+	const hydratePresentation = dependencies.hydratePresentation
+		|| hydrateMinimalMeadowPresentation;
+	const installWorldSystems = dependencies.installWorldSystems
+		|| defaultWorldInstaller;
+	const hydrateOptional = dependencies.hydrateOptional
+		|| hydrateMinimalMeadowOptionalFeatures;
+	const presentationPromise = Promise.resolve().then(() => {
+		return hydratePresentation(runtime, environment, dependencies.presentation);
+	});
+	const handoffPromise = Promise.resolve().then(() => {
+		return installWorldSystems(runtime, environment);
+	});
+	const optionalPromise = Promise.resolve().then(() => {
+		return hydrateOptional(runtime, environment, {
+			handoffPromise,
+			importer: dependencies.importer,
+			modules: dependencies.optionalModules
+		});
+	});
+	Object.assign(runtime, {
+		optionalFeaturePromise: optionalPromise,
+		richPresentationPromise: presentationPromise
+	});
 	return Object.freeze({
-		essential,
+		essential: bootstrapEssentialReceipt(runtime),
+		handoffPromise,
 		optionalPromise,
+		presentationPromise,
 		ready: true
 	});
 }
 
-function essentialReceipt(runtime, ui, animation, world) {
+function bootstrapEssentialReceipt(runtime) {
 	const values = {
-		animation: Boolean(animation),
 		combat: Boolean(runtime.combat),
 		equipment: Boolean(runtime.equipment),
 		inventory: Boolean(runtime.inventoryStore),
 		quest: Boolean(runtime.questStore || runtime.quest),
 		recovery: Boolean(runtime.recovery),
 		streaming: Boolean(runtime.expansion?.streaming),
-		ui: Boolean(ui),
-		world: Boolean(world)
+		ui: Boolean(runtime.ui),
+		world: Boolean(runtime.scene && runtime.state)
 	};
 	const missing = Object.entries(values)
 		.filter(([, ready]) => !ready)
@@ -58,29 +74,7 @@ function essentialReceipt(runtime, ui, animation, world) {
 	});
 }
 
-async function hydrateOptional(runtime, environment) {
-	const modules = await Promise.all([
-		import('./MinimalMeadowPlayerHydration.js'),
-		import('./MinimalMeadowRendererEnhancement.js'),
-		import('./MinimalMeadowFriendlyNpcs.js'),
-		import('./MinimalMeadowVisualReadiness.js')
-	]);
-	const results = await Promise.allSettled([
-		modules[0].hydrateMinimalMeadowPlayer(runtime),
-		modules[1].enhanceMinimalMeadowRenderer(runtime, environment),
-		runtime.richWorldPromise,
-		modules[2].installMinimalMeadowFriendlyNpcs(runtime, environment),
-		modules[3].awaitMinimalMeadowVisualStability(runtime)
-	]);
-	const receipt = Object.freeze({
-		failures: Object.freeze(results.flatMap(result => {
-			return result.status === 'rejected'
-				? [result.reason?.message || String(result.reason)]
-				: [];
-		})),
-		ready: true,
-		results: Object.freeze(results.map(result => result.status))
-	});
-	runtime.bus?.emit?.('world:optional-ready', receipt);
-	return receipt;
+async function defaultWorldInstaller(runtime, environment) {
+	const module = await import('./MinimalMeadowWorldSystems.js');
+	return module.installMinimalMeadowWorldSystems(runtime, environment);
 }

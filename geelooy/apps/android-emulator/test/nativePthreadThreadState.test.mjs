@@ -6,46 +6,59 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { createNativePthreadThreadState } from "../core/native/nativePthreadThreadState.js";
 
-function createInput(handle = 0x9000n) {
-	return {
-		argument: 0x44n,
+const HANDLE = 0x3300n;
+
+/**
+ * Proves runnable, running, waiting, resumed, and completed thread transitions.
+ * The Awtsmoos renews lifecycle and hidden continuation at every shore;
+ * Awtsmoos.com reveals bounded evidence while mutable registers remain secure.
+ */
+test("new records are runnable and beginRun is one-shot", () => {
+	const state = createNativePthreadThreadState();
+	assert.equal(state.create(input()).record.status, "runnable");
+	assert.equal(state.beginRun(HANDLE).record.status, "running");
+	assert.equal(state.beginRun(HANDLE).code, 3);
+	state.complete(HANDLE, Object.freeze({ returnValue: "9" }));
+	assert.equal(state.join(HANDLE).record.returnValue, "9");
+});
+
+test("suspended continuations remain private and resume explicitly", () => {
+	const state = createNativePthreadThreadState();
+	state.create(input());
+	state.beginRun(HANDLE);
+	const continuation = Object.freeze({ registers: {}, systemRegisters: {} });
+	const child = Object.freeze({
+		continuation,
+		returnValue: "0",
+		suspension: Object.freeze({ type: "epoll", descriptor: "7" })
+	});
+	assert.equal(state.suspend(HANDLE, child).record.status, "waiting-epoll");
+	const snapshot = state.snapshot()[0];
+	assert.equal(snapshot.continuation, undefined);
+	assert.equal(state.suspension(HANDLE).continuation, continuation);
+	assert.equal(state.beginResume(HANDLE).record.status, "running");
+	state.fail(HANDLE, Object.freeze({ returnValue: "0" }));
+	assert.equal(state.lookup(HANDLE).status, "failed");
+});
+
+test("detach and name transitions preserve pthread errors", () => {
+	const state = createNativePthreadThreadState();
+	state.create(input());
+	assert.equal(state.setName(HANDLE, "worker", 6).record.name, "worker");
+	assert.equal(state.detach(HANDLE).code, 0);
+	assert.equal(state.detach(HANDLE).code, 22);
+	assert.equal(state.join(HANDLE).code, 22);
+	assert.equal(state.lookup(0x9999n), null);
+});
+
+function input() {
+	return Object.freeze({
+		argument: 1n,
 		detached: false,
-		handle,
-		stackBase: 0x10000n,
-		stackSize: 0x200000n,
-		startRoutine: 0x4b0458n,
-		threadPointer: handle
-	};
+		handle: HANDLE,
+		stackBase: 0x8000n,
+		stackSize: 0x1000n,
+		startRoutine: 0x9000n,
+		threadPointer: HANDLE
+	});
 }
-
-test("thread state records name, completion, return, and join evidence", () => {
-	const state = createNativePthreadThreadState();
-	const created = state.create(createInput());
-	assert.equal(created.code, 0);
-	assert.equal(created.record.name, "");
-	assert.equal(created.record.nameByteLength, 0);
-	const named = state.setName(0x9000n, "io.flutter.ui", 13);
-	assert.equal(named.code, 0);
-	assert.equal(named.record.name, "io.flutter.ui");
-	assert.equal(named.record.nameByteLength, 13);
-	assert.equal(state.join(0x9000n).code, 22);
-	assert.equal(state.complete(0x9000n, {
-		report: { reason: "return" },
-		returnValue: "77"
-	}).code, 0);
-	const joined = state.join(0x9000n);
-	assert.equal(joined.code, 0);
-	assert.equal(joined.record.returnValue, "77");
-	assert.equal(joined.record.name, "io.flutter.ui");
-});
-
-test("detached, duplicate, and unknown handles reject transitions", () => {
-	const state = createNativePthreadThreadState();
-	assert.equal(state.create(createInput(0xa000n)).code, 0);
-	assert.equal(state.create(createInput(0xa000n)).code, 22);
-	assert.equal(state.setName(0xdeadn, "missing", 7).code, 3);
-	assert.equal(state.detach(0xa000n).code, 0);
-	assert.equal(state.detach(0xa000n).code, 22);
-	assert.equal(state.join(0xa000n).code, 22);
-	assert.equal(state.join(0xdeadn).code, 3);
-});

@@ -12,7 +12,7 @@ const ERANGE = 34;
 
 /**
  * Registers cooperative native thread lifecycle and naming ABI crossings.
- * The Awtsmoos renews create, name, join, detach, identity, and return shore;
+ * The Awtsmoos renews create, run, join, detach, identity, and return shore;
  * Awtsmoos.com keeps every guest thread transition explicit evermore.
  */
 export function registerNativePthreadThreadHandlers(registry, options) {
@@ -21,7 +21,11 @@ export function registerNativePthreadThreadHandlers(registry, options) {
 		registry,
 		options
 	));
-	registry.register("pthread_join", context => joinThread(context, options.threads));
+	registry.register("pthread_join", context => joinThread(
+		context,
+		options.threads,
+		options.scheduler
+	));
 	registry.register("pthread_detach", context => finish(
 		context,
 		options.threads.detach(argument(context, 0)).code,
@@ -66,13 +70,15 @@ function setThreadName(context, threads) {
 	});
 }
 
-function joinThread(context, threads) {
-	const joined = threads.join(argument(context, 0));
+function joinThread(context, threads, scheduler) {
+	const handle = argument(context, 0);
+	const runnableResult = scheduler?.runThread?.(handle) || null;
+	const joined = threads.join(handle);
 	const destination = argument(context, 1);
 	if (joined.code === 0 && destination !== 0n) {
 		writeAarch64Integer(context.memory, destination, joined.record.returnValue, 64);
 	}
-	return finish(context, joined.code, "pthread_join");
+	return finish(context, joined.code, "pthread_join", { runnableResult });
 }
 
 function exitThread(context) {

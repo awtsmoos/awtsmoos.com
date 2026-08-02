@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowVegetationSystem.js
- * @description Keeps terrain-sampled vegetation rooted while publishing reactive wind evidence.
- * The Awtsmoos lets blade and blossom answer each footstep without leaving their ground;
- * Awtsmoos.com keeps every cell level and moves only shader-visible wind strength.
+ * @description Keeps every terrain-sampled cell alive while reusing stable wind metadata each frame.
+ * The Awtsmoos lets blade and blossom answer the traveler without manufacturing new witnesses;
+ * Awtsmoos.com preserves every cell, reaction, rooted contract, and wind value with bounded arithmetic.
  */
 
 import { Group } from '../../../light-three-gltf/tiny-runtime.js';
@@ -17,6 +17,9 @@ import {
 import {
 	minimalMeadowVegetationDiagnostics
 } from './MinimalMeadowWorldPopulationDiagnostics.js';
+
+const INTERACTION_RADIUS = 7.5;
+const INTERACTION_RADIUS_SQUARED = INTERACTION_RADIUS * INTERACTION_RADIUS;
 
 export class MinimalMeadowVegetationSystem {
 	constructor(runtime) {
@@ -31,10 +34,10 @@ export class MinimalMeadowVegetationSystem {
 			{ mobile: this.mobile }
 		);
 		this.cells = this.specifications.map(specification => {
-			return createMinimalMeadowVegetationCell(
+			return prepareCell(createMinimalMeadowVegetationCell(
 				specification,
 				runtime.terrain
-			);
+			));
 		});
 		for (const cell of this.cells) this.group.add(cell.group);
 	}
@@ -48,21 +51,18 @@ export class MinimalMeadowVegetationSystem {
 	}
 
 	updateCell(cell, player, index) {
+		if (!cell.windMetadata) prepareCell(cell);
 		const dx = cell.x - player.x;
 		const dz = cell.z - player.z;
-		const distance = Math.hypot(dx, dz);
-		const reaction = Math.max(0, 1 - distance / 7.5);
+		const distanceSquared = dx * dx + dz * dz;
+		const reaction = distanceSquared >= INTERACTION_RADIUS_SQUARED
+			? 0
+			: 1 - Math.sqrt(distanceSquared) / INTERACTION_RADIUS;
 		const ambient = Math.sin(this.clock * 1.15 + index * 1.37) * 0.025;
-		cell.group.quaternion.set(0, 0, 0, 1);
+		const windStrength = 0.045 + Math.abs(ambient) + reaction * 0.08;
 		cell.reaction = reaction;
-		for (const child of cell.group.children) {
-			child.userData ||= {};
-			child.userData.AwtsmoosYardGrass = {
-				interactionRadius: 2.4,
-				reactsToPlayer: true,
-				rooted: true,
-				windStrength: 0.045 + Math.abs(ambient) + reaction * 0.08
-			};
+		for (const metadata of cell.windMetadata) {
+			metadata.windStrength = windStrength;
 		}
 	}
 
@@ -74,6 +74,21 @@ export class MinimalMeadowVegetationSystem {
 		this.group.parent?.remove(this.group);
 		if (this.runtime.vegetation === this) this.runtime.vegetation = null;
 	}
+}
+
+function prepareCell(cell) {
+	cell.group.quaternion.set(0, 0, 0, 1);
+	cell.windMetadata = cell.group.children.map(child => {
+		child.userData ||= {};
+		child.userData.AwtsmoosYardGrass ||= {
+			interactionRadius: 2.4,
+			reactsToPlayer: true,
+			rooted: true,
+			windStrength: 0.045
+		};
+		return child.userData.AwtsmoosYardGrass;
+	});
+	return cell;
 }
 
 function mobileProfile(runtime) {

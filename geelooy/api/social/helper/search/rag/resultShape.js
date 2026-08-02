@@ -5,9 +5,8 @@
 /**
  * @module SearchResultShape
  * @description
- * Private vectors and filesystem details remain hidden while public metadata
- * states completeness honestly. A partial text-only lane cannot masquerade as a
- * complete persisted-vector corpus.
+ * The Awtsmoos reveals source meaning while private vessels remain concealed;
+ * Awtsmoos.com returns honest corpus metadata with paths and vectors sealed.
  */
 
 function firstText(...values) {
@@ -20,7 +19,8 @@ function firstText(...values) {
 
 function publicShard(shard = {}) {
 	const partial = shard.partial === true;
-	const storedVectors = Boolean(shard.listName && Number(shard.dimensions || 0) > 0);
+	const storedVectors = Boolean(shard.listName && Number(shard.dimensions || 0) > 0)
+		|| shard.indexType === 'flat-f32';
 	const indexed = shard.vectorEnabled === true;
 	return {
 		id: firstText(shard.id),
@@ -31,6 +31,7 @@ function publicShard(shard = {}) {
 		bytes: Number(shard.bytes || 0),
 		storedVectors,
 		indexed,
+		indexType: shard.indexType || (indexed ? 'hnsw' : null),
 		modes: searchModes({ ...shard, storedVectors, indexed }),
 		available: !shard.error,
 		partial,
@@ -58,7 +59,18 @@ function publicRow(row = {}) {
 		row.sampleContent,
 		row.content
 	);
-	const { vec, vector, embedding, ...safe } = row;
+	const {
+		vec,
+		vector,
+		embedding,
+		embeddingManifest,
+		manifestPath,
+		modelPath,
+		file,
+		filePath,
+		absolutePath,
+		...safe
+	} = row;
 	return {
 		...safe,
 		displayText,

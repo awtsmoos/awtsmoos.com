@@ -4,28 +4,21 @@
 
 /**
  * @file MovieStudioUtilityController.js
- * @description Coordinates responsive project, command, render, diagnostic surfaces, shortcuts, and cleanup.
- * The Awtsmoos renews tool and workspace without collision; Awtsmoos.com gives desktop drawers
- * and mobile sheets one lifecycle whose listeners, focus, recovery, evidence, and backdrop depart cleanly.
+ * @description Coordinates four utility drawers, complete API parity, shortcuts, and cleanup.
+ * The Awtsmoos renews tool and workspace without collision; Awtsmoos.com keeps project browser,
+ * command palette, render evidence, diagnostics, API mirror, focus, and backdrop in one lifecycle.
  */
 
+import { MovieStudioApiExplorerController } from './MovieStudioApiExplorerController.js';
 import { MovieStudioCommandPalette } from './MovieStudioCommandPalette.js';
 import { MovieStudioStatusController } from './MovieStudioStatusController.js';
 import { MovieStudioUtilityContent } from './MovieStudioUtilityContent.js';
 import { MovieStudioUtilityState } from './MovieStudioUtilityState.js';
 
 const CONTENT_EVENTS = new Set([
-	'autosave:saved',
-	'error',
-	'history:changed',
-	'persistence:loaded',
-	'persistence:removed',
-	'persistence:saved',
-	'project:changed',
-	'render:cancelled',
-	'render:progress',
-	'render:state',
-	'selection:changed'
+	'autosave:saved', 'error', 'history:changed', 'persistence:loaded',
+	'persistence:removed', 'persistence:saved', 'project:changed',
+	'render:cancelled', 'render:progress', 'render:state', 'selection:changed'
 ]);
 
 export class MovieStudioUtilityController {
@@ -35,11 +28,9 @@ export class MovieStudioUtilityController {
 		this.state = new MovieStudioUtilityState(view);
 		this.status = new MovieStudioStatusController(session, view);
 		this.content = new MovieStudioUtilityContent(session, view);
-		this.palette = new MovieStudioCommandPalette(
-			session,
-			view,
-			() => this.close()
-		);
+		this.palette = new MovieStudioCommandPalette(session, view, () => this.close());
+		this.apiExplorer = new MovieStudioApiExplorerController(session, view);
+		session.apiExplorerController = this.apiExplorer;
 		this.disposers = [];
 		this.bind();
 	}
@@ -48,9 +39,7 @@ export class MovieStudioUtilityController {
 		for (const [name, toggle] of Object.entries(this.view.utilityToggles)) {
 			this.listen(toggle, 'click', () => this.toggle(name, toggle));
 		}
-		for (const button of this.view.utilityCloseButtons) {
-			this.listen(button, 'click', () => this.close());
-		}
+		for (const button of this.view.utilityCloseButtons) this.listen(button, 'click', () => this.close());
 		this.listen(this.view.utilityBackdrop, 'click', () => this.close());
 		this.listen(window, 'resize', () => this.state.sync());
 		this.disposers.push(this.session.events.on('*', event => {
@@ -76,9 +65,11 @@ export class MovieStudioUtilityController {
 
 	refresh(name) {
 		if (name === 'projects') return this.session.projectBrowserController?.refresh?.();
-		if (name === 'commands') return this.palette.render(
-			this.view.commandSearch?.value || ''
-		);
+		if (name === 'commands') return this.palette.render(this.view.commandSearch?.value || '');
+		if (name === 'diagnostics') {
+			this.content.refresh(name);
+			return this.apiExplorer.render();
+		}
 		return this.content.refresh(name);
 	}
 
@@ -93,9 +84,7 @@ export class MovieStudioUtilityController {
 			return true;
 		}
 		if (this.state.onKeyDown(event)) return true;
-		if (event.key === 'Enter'
-			&& document.activeElement === this.view.commandSearch
-			&& this.state.activeName === 'commands') {
+		if (event.key === 'Enter' && document.activeElement === this.view.commandSearch && this.state.activeName === 'commands') {
 			event.preventDefault();
 			this.palette.executeFirst();
 			return true;
@@ -104,6 +93,7 @@ export class MovieStudioUtilityController {
 	}
 
 	destroy() {
+		this.apiExplorer.destroy();
 		this.palette.destroy();
 		this.content.destroy();
 		this.status.destroy();

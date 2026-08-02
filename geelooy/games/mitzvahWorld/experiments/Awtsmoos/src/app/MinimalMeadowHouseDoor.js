@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowHouseDoor.js
- * @description Animates one locally aligned hinged door and replaces its exact octree colliders.
+ * @description Animates one exact hinged door and reports whether geometry truly changed this frame.
  * The Awtsmoos opens passage without stale resistance; Awtsmoos.com lets one progress value
- * govern panel, hinge, state, target hint, and collision for front, side, and interior doorways.
+ * govern panel, hinge, state, target hint, collision, and change-driven maintenance.
  */
 
 import { Group } from '../../../light-three-gltf/tiny-runtime.js';
@@ -36,7 +36,7 @@ export class MinimalMeadowHouseDoor {
 	}
 
 	update(deltaSeconds) {
-		if (this.progress === this.target) return;
+		if (this.progress === this.target) return false;
 		const direction = Math.sign(this.target - this.progress);
 		const previousStep = Math.round(this.progress * 18);
 		this.progress = clamp(this.progress + direction * deltaSeconds * 1.7);
@@ -44,11 +44,13 @@ export class MinimalMeadowHouseDoor {
 			this.progress = this.target;
 		}
 		const changedStep = Math.round(this.progress * 18) !== previousStep;
-		if (changedStep || this.progress === this.target) this.rebuild();
-		if (this.progress === this.target) {
+		const completed = this.progress === this.target;
+		if (changedStep || completed) this.rebuild();
+		if (completed) {
 			this.state = this.target ? 'open' : 'closed';
 			this.bus.emit('door:state', this.payload());
 		}
+		return changedStep || completed;
 	}
 
 	rebuild() {

@@ -13,7 +13,7 @@ const EINVAL = 22;
 const ESRCH = 3;
 
 /**
- * Preserves cooperative pthread identity, suspension, completion, and names.
+ * Preserves cooperative pthread identity, runnable work, waits, and completion.
  * The Awtsmoos renews handle and lifecycle from hidden source to visible shore;
  * Awtsmoos.com keeps mutable continuations private from serialized evidence.
  */
@@ -21,6 +21,7 @@ export function createNativePthreadThreadState() {
 	const records = new Map();
 	return Object.freeze({
 		beginResume: handle => beginResume(records, handle),
+		beginRun: handle => beginRun(records, handle),
 		complete: (handle, child) => transition(records, handle, "completed", child),
 		create: input => createRecord(records, input),
 		detach: handle => detach(records, handle),
@@ -33,7 +34,6 @@ export function createNativePthreadThreadState() {
 		suspension: handle => readSuspension(records, handle)
 	});
 }
-
 function createRecord(records, input) {
 	const handle = BigInt(input.handle);
 	if (handle === 0n || records.has(key(handle))) return result(EINVAL, null);
@@ -41,19 +41,21 @@ function createRecord(records, input) {
 	records.set(key(handle), record);
 	return result(0, record);
 }
-
+function beginRun(records, handle) {
+	const record = records.get(key(handle));
+	if (!record || record.status !== "runnable") return result(ESRCH, null);
+	record.status = "running";
+	return result(0, record);
+}
 function suspend(records, handle, child) {
 	const record = records.get(key(handle));
-	if (!record || !child?.continuation || !child?.suspension) {
-		return result(EINVAL, null);
-	}
+	if (!record || !child?.continuation || !child?.suspension) return result(EINVAL, null);
 	record.childEvidence = child;
 	record.continuation = child.continuation;
 	record.status = `waiting-${child.suspension.type || "condition"}`;
 	record.wait = Object.freeze({ ...child.suspension });
 	return result(0, record);
 }
-
 function readSuspension(records, handle) {
 	const record = records.get(key(handle));
 	if (!record || !record.status.startsWith("waiting-")) return result(ESRCH, null);
@@ -64,14 +66,12 @@ function readSuspension(records, handle) {
 		wait: record.wait
 	});
 }
-
 function beginResume(records, handle) {
 	const record = records.get(key(handle));
 	if (!record || !record.status.startsWith("waiting-")) return result(ESRCH, null);
 	record.status = "running";
 	return result(0, record);
 }
-
 function transition(records, handle, status, child) {
 	const record = records.get(key(handle));
 	if (!record) return result(ESRCH, null);
@@ -82,7 +82,6 @@ function transition(records, handle, status, child) {
 	record.wait = null;
 	return result(0, record);
 }
-
 function setName(records, handle, name, byteLength) {
 	const record = records.get(key(handle));
 	if (!record) return result(ESRCH, null);
@@ -90,25 +89,21 @@ function setName(records, handle, name, byteLength) {
 	record.nameByteLength = Number(byteLength);
 	return result(0, record);
 }
-
 function detach(records, handle) {
 	const record = records.get(key(handle));
 	if (!record || record.detached) return result(EINVAL, null);
 	record.detached = true;
 	return result(0, record);
 }
-
 function join(records, handle) {
 	const record = records.get(key(handle));
 	if (!record) return result(ESRCH, null);
 	if (record.detached || record.status !== "completed") return result(EINVAL, null);
 	return result(0, record);
 }
-
 function result(code, record) {
 	return nativePthreadThreadResult(code, record);
 }
-
 function key(handle) {
 	return nativePthreadThreadKey(handle);
 }

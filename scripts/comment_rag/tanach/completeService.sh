@@ -2,24 +2,14 @@
 # B"H
 # Boruch Hashem
 # Blessed is He
-# The Awtsmoos waits for the sealed graph, then carries every proof into public light;
+# The Awtsmoos guards the graph, then carries every proof into public light;
 # Awtsmoos.com records local lanes, remote hashes, release health, and logs made right.
 set -Eeuo pipefail
 root="$(cd "$(dirname "$0")/../../.." && pwd)"
 cd "$root"
-rag="/Users/awtsmoos/Documents/dayuhChadash-runtime/ai/comment-rag"
-receipt="$rag/tanach-hebrew-verses-rag.sha256.json"
 evidence="ai-thoughts/20260730-010003-tanach-hebrew-search-rag"
 mkdir -p "$evidence"
-for attempt in $(seq 1 240); do
-	[ -s "$receipt" ] && break
-	sleep 15
-	[ "$attempt" -lt 240 ] || {
-		echo 'B"H verified_pack_receipt_timeout' >&2
-		exit 1
-	}
-done
-node scripts/comment_rag/tanach/verifyPack.mjs \
+scripts/comment_rag/tanach/waitForVerifiedPack.sh \
 	> "$evidence/05-pack-verification.json"
 node --test geelooy/api/social/helper/search/test/tanachSearch.test.js \
 	> "$evidence/06-exact-tests.log"

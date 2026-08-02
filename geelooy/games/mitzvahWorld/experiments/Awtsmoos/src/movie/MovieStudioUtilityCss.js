@@ -4,15 +4,23 @@
 
 /**
  * @file MovieStudioUtilityCss.js
- * @description Styles utility toolbar, command geometry, recovery/render/diagnostic drawers, headers, and scroll vessels.
- * The Awtsmoos renews every tool beyond panel and shadow; Awtsmoos.com gives desktop and tablet
- * bounded non-blocking surfaces whose focus, border, elevation, and overflow remain clear.
+ * @description Styles utility toolbar, command geometry, diagnostic/API drawer, headers, and scroll vessels.
+ * The Awtsmoos renews every tool beyond panel and shadow; Awtsmoos.com gives four bounded
+ * non-blocking surfaces whose focus, parity, border, elevation, and overflow remain clear.
  */
 
 export function movieStudioUtilityCss() {
 	return `
-		.movie-utility-toolbar { display: flex; align-items: center; gap: var(--movie-space-1); }
-		.movie-utility-toolbar button { display: inline-flex; align-items: center; gap: var(--movie-space-1); }
+		.movie-utility-toolbar {
+			display: flex;
+			align-items: center;
+			gap: var(--movie-space-1);
+		}
+		.movie-utility-toolbar button {
+			display: inline-flex;
+			align-items: center;
+			gap: var(--movie-space-1);
+		}
 		.movie-utility-backdrop { display: none; }
 		.movie-utility-panel {
 			position: absolute;
@@ -50,12 +58,19 @@ export function movieStudioUtilityCss() {
 			padding: var(--movie-space-3);
 			border-bottom: 1px solid var(--movie-divider-subtle);
 		}
-		.movie-utility-panel-header h2 { margin: 0; font-size: 15px; }
+		.movie-utility-panel-header h2 {
+			margin: 0;
+			font-size: 15px;
+		}
 		.movie-utility-panel-body {
 			min-height: 0;
 			padding: var(--movie-space-3);
 			overflow: auto;
 			overscroll-behavior: contain;
+		}
+		.movie-command-palette {
+			display: grid;
+			gap: var(--movie-space-2);
 		}
 	`;
 }

@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowSky.js
- * @description Owns one camera-centered procedural atmosphere with realistic sun and clouds.
- * The Awtsmoos renews the ceiling wherever the traveler stands; Awtsmoos.com keeps the full
- * sphere centered on sight so no edge, wall, seam, or false nearby disc can enter the frame.
+ * @description Owns one complete procedural atmosphere and moves it only when the camera truly moves.
+ * The Awtsmoos renews the ceiling wherever the traveler stands; Awtsmoos.com preserves the full
+ * sphere, sun, and clouds while unchanged frames perform no redundant transform publication.
  */
 
 import { createSky3D } from '../world/Sky3D.js?v=20260723-meadow-11';
@@ -14,7 +14,8 @@ import { createSky3D } from '../world/Sky3D.js?v=20260723-meadow-11';
 export function installMinimalMeadowSky(scene, camera, quality = 'high') {
 	const sky = createSky3D(quality);
 	scene.add(sky);
-	const update = () => centerSky(sky, camera);
+	const state = { x: NaN, y: NaN, z: NaN };
+	const update = () => centerSky(sky, camera, state);
 	update();
 	return {
 		diagnostics: () => ({ ...sky.userData.AwtsmoosSky }),
@@ -23,11 +24,15 @@ export function installMinimalMeadowSky(scene, camera, quality = 'high') {
 	};
 }
 
-function centerSky(sky, camera) {
+function centerSky(sky, camera, state) {
 	const position = camera?.position || {};
-	sky.position.set(
-		Number(position.x) || 0,
-		Number(position.y) || 0,
-		Number(position.z) || 0
-	);
+	const x = Number(position.x) || 0;
+	const y = Number(position.y) || 0;
+	const z = Number(position.z) || 0;
+	if (state.x === x && state.y === y && state.z === z) return false;
+	state.x = x;
+	state.y = y;
+	state.z = z;
+	sky.position.set(x, y, z);
+	return true;
 }

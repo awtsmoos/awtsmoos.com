@@ -4,13 +4,14 @@
 
 /**
  * @file MovieStudioStyleText.js
- * @description Composes every committed NLE contract with cinema-first, professional, adaptive, and inclusive polish.
- * The Awtsmoos renews panel, monitor, timeline, touch sheet, and accessible path in one light;
+ * @description Composes every NLE contract with cinema-first, API-parity, adaptive, and inclusive polish.
+ * The Awtsmoos renews panel, monitor, timeline, method mirror, touch sheet, and accessible path in one light;
  * Awtsmoos.com joins each bounded vessel while the living 3D frame receives first revelation.
  */
 
 import { movieStudioAccessibilityCss } from './MovieStudioAccessibilityCss.js';
 import { movieStudioAdaptiveCss } from './MovieStudioAdaptiveCss.js';
+import { movieStudioApiExplorerCss } from './MovieStudioApiExplorerCss.js';
 import { movieStudioAuthoring3dCss } from './MovieStudioAuthoring3dCss.js';
 import { movieStudioAudioMixerCss } from './MovieStudioAudioMixerCss.js';
 import { movieStudioCameraActionCss } from './MovieStudioCameraActionCss.js';
@@ -48,19 +49,42 @@ import { movieTimelineProfessionalCss } from './MovieTimelineProfessionalCss.js'
 
 export function movieStudioStyleText() {
 	const fragments = [
-		movieStudioLoadingCss(), movieStudioTokensCss(), movieStudioThemeCss(),
-		movieStudioSantoCss(), movieStudioLayoutCss(), movieStudioControlsCss(),
-		movieStudioPreviewCss(), movieStudioTransportCss(), movieStudioInspectorCss(),
-		movieStudioCompositionCss(), MOVIE_STUDIO_PERFORMANCE_CSS,
-		movieStudioPerformanceOverlayCss(), movieStudioScene3dCss(),
-		movieStudioCameraActionCss(), movieStudioKeyframeCss(),
-		movieStudioAudioMixerCss(), movieStudioTitleCss(), movieStudioAuthoring3dCss(),
-		movieTimelineCss(), movieTimelineAppearanceCss(), movieStudioSplitterCss(),
-		movieStudioStatusBarCss(), movieStudioUtilityCss(), movieStudioUtilityContentCss(),
-		movieStudioProjectBrowserCss(), movieStudioDensityCss(), movieStudioResponsiveCss(),
-		movieStudioUtilityResponsiveCss(), movieStudioAccessibilityCss(),
-		movieStudioProfessionalCss(), movieStudioProgramCss(), movieTimelineProfessionalCss(),
-		movieStudioAdaptiveCss(), movieStudioInclusiveCss(), movieStudioCinemaCss()
+		movieStudioLoadingCss(),
+		movieStudioTokensCss(),
+		movieStudioThemeCss(),
+		movieStudioSantoCss(),
+		movieStudioLayoutCss(),
+		movieStudioControlsCss(),
+		movieStudioPreviewCss(),
+		movieStudioTransportCss(),
+		movieStudioInspectorCss(),
+		movieStudioCompositionCss(),
+		MOVIE_STUDIO_PERFORMANCE_CSS,
+		movieStudioPerformanceOverlayCss(),
+		movieStudioScene3dCss(),
+		movieStudioCameraActionCss(),
+		movieStudioKeyframeCss(),
+		movieStudioAudioMixerCss(),
+		movieStudioTitleCss(),
+		movieStudioAuthoring3dCss(),
+		movieTimelineCss(),
+		movieTimelineAppearanceCss(),
+		movieStudioSplitterCss(),
+		movieStudioStatusBarCss(),
+		movieStudioUtilityCss(),
+		movieStudioUtilityContentCss(),
+		movieStudioApiExplorerCss(),
+		movieStudioProjectBrowserCss(),
+		movieStudioDensityCss(),
+		movieStudioResponsiveCss(),
+		movieStudioUtilityResponsiveCss(),
+		movieStudioAccessibilityCss(),
+		movieStudioProfessionalCss(),
+		movieStudioProgramCss(),
+		movieTimelineProfessionalCss(),
+		movieStudioAdaptiveCss(),
+		movieStudioInclusiveCss(),
+		movieStudioCinemaCss()
 	];
 	return localizeMovieStudioCss(fragments.join('\n'));
 }

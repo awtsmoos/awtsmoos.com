@@ -17,7 +17,7 @@ export function createNativePthreadThreadRecord(input) {
 		nameByteLength: 0,
 		returnValue: 0n,
 		startRoutine: BigInt(input.startRoutine),
-		status: "running",
+		status: "runnable",
 		wait: null
 	};
 }

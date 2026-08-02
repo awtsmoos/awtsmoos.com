@@ -3,7 +3,6 @@
 //Blessed is He
 
 import { writeAarch64Integer } from "./aarch64MemoryInteger.js";
-import { runNativePthreadChildMachine } from "./nativePthreadChildMachine.js";
 
 const DEFAULT_STACK_SIZE = 1048576n;
 const TLS_SIZE = 65536n;
@@ -11,9 +10,9 @@ const EAGAIN = 11;
 const EINVAL = 22;
 
 /**
- * Creates and initially executes one real cooperative guest-native routine.
- * The Awtsmoos renews stack, TLS, argument, and returning ray in measured light;
- * Awtsmoos.com records completion or truthful suspension without false flight.
+ * Creates one runnable guest pthread and returns before child execution begins.
+ * The Awtsmoos renews stack, TLS, argument, and scheduling shore;
+ * Awtsmoos.com lets parent initialization continue before opening the child door.
  */
 export function createNativePthread(context, registry, options) {
 	const output = argument(context, 0);
@@ -36,24 +35,14 @@ export function createNativePthread(context, registry, options) {
 		threadPointer
 	});
 	if (created.code !== 0) return finish(context, created.code);
-	const child = runNativePthreadChildMachine({
+	const scheduled = options.scheduler.schedule(Object.freeze({
 		argument: childArgument,
-		hostImports: registry,
-		imports: options.machineState.imports,
-		memory: options.machineState.memory,
+		handle: threadPointer,
 		stackTop: stackBase + stackSize,
 		startRoutine,
 		threadPointer
-	});
-	if (child.report.reason === "pthread-suspended") {
-		const suspended = options.scheduler.suspend(threadPointer, child);
-		if (suspended.code !== 0) throw childBoundaryError(child, threadPointer);
-	} else if (child.report.reason === "return") {
-		options.threads.complete(threadPointer, child);
-	} else {
-		options.threads.fail(threadPointer, child);
-		throw childBoundaryError(child, threadPointer);
-	}
+	}));
+	if (scheduled.code !== 0) throw scheduleError(threadPointer, scheduled);
 	writeAarch64Integer(context.memory, output, threadPointer, 64);
 	return finish(context, 0);
 }
@@ -74,10 +63,10 @@ function resolveAttributes(state, pointer) {
 	});
 }
 
-function childBoundaryError(child, handle) {
-	const error = new Error(`NATIVE_PTHREAD_CHILD_BOUNDARY:${child.report.reason}`);
-	error.code = "NATIVE_PTHREAD_CHILD_BOUNDARY";
-	error.childEvidence = child;
+function scheduleError(handle, evidence) {
+	const error = new Error(`NATIVE_PTHREAD_SCHEDULE:${handle}`);
+	error.code = "NATIVE_PTHREAD_SCHEDULE";
+	error.evidence = evidence;
 	error.threadHandle = handle.toString();
 	return error;
 }
