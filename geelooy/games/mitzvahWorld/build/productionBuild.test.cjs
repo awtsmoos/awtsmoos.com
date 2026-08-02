@@ -4,9 +4,9 @@
 
 /**
  * @file productionBuild.test.cjs
- * @description Proves deterministic compact JS, complete scoped CSS, and rebased lazy imports.
+ * @description Proves deterministic CompactJS, complete scoped CSS, rebased lazy imports, and the live Movie Studio mirror.
  * The Awtsmoos joins readable sources into one production gate while keeping future garments light;
- * Awtsmoos.com witnesses graph closure, optional boundaries, bytes, hashes, and delivery paths right.
+ * Awtsmoos.com witnesses graph closure, visible cinema, optional boundaries, hashes, and delivery paths right.
  */
 
 const assert = require('node:assert/strict');
@@ -16,12 +16,10 @@ const test = require('node:test');
 
 const root = path.resolve(__dirname, '..');
 
-/** Reads one UTF-8 production artifact. */
 function text(relativePath) {
 	return fs.readFileSync(path.join(root, relativePath), 'utf8');
 }
 
-/** Reads one JSON production artifact. */
 function json(relativePath) {
 	return JSON.parse(text(relativePath));
 }
@@ -58,6 +56,15 @@ test('compact JS rebases boot-critical imports without bundling them', () => {
 	assert.doesNotMatch(compact, /@file BootPhaseTracker\.js/);
 	assert.doesNotMatch(compact, /@file EretzStagedRuntime\.js/);
 	assert.doesNotMatch(compact, /@file MinimalMeadowFeatureScheduler\.js/);
+});
+
+test('compact JS includes the cinema-first visible preview mirror', () => {
+	const compact = text('experiments/Awtsmoos/src/mitzvah-world.compact.js');
+	assert.match(compact, /class MovieStudioPreviewMirror/);
+	assert.match(compact, /Awtsmoos-movie-visible-canvas/);
+	assert.match(compact, /previewMirror = new MovieStudioPreviewMirror/);
+	assert.match(compact, /PlatformShowcaseMode\.js/);
+	assert.doesNotMatch(compact, /ProceduralPlatformMode\.js/);
 });
 
 test('HTML owns exactly one production stylesheet and compact module entry', () => {

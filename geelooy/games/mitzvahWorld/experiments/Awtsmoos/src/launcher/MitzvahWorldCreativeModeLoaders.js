@@ -4,8 +4,8 @@
 
 /**
  * @file MitzvahWorldCreativeModeLoaders.js
- * @description Opens diagnostics and Movie Studio through bounded dynamic creative routes.
- * The Awtsmoos renews tool, movie, and remembered gameplay beneath one explicit threshold;
+ * @description Opens diagnostics, platform showcase, and Movie Studio through bounded dynamic creative routes.
+ * The Awtsmoos renews tool, showcase, movie, and remembered gameplay beneath one explicit threshold;
  * Awtsmoos.com loads only the chosen surface and enriches cinema without bypassing project truth.
  */
 
@@ -15,8 +15,8 @@ export async function openMaterialsMode(hosts) {
 }
 
 export async function openPlatformMode(hosts) {
-	const { runProceduralPlatformMode } = await import('../diagnostics/ProceduralPlatformMode.js');
-	return runProceduralPlatformMode(hosts);
+	const { launchPlatformShowcase } = await import('../world/platform/PlatformShowcaseMode.js');
+	return launchPlatformShowcase(hosts);
 }
 
 export async function openMovieMode(hosts, search = '') {
