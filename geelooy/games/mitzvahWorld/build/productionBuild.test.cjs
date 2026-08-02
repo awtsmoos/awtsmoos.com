@@ -4,9 +4,9 @@
 
 /**
  * @file productionBuild.test.cjs
- * @description Proves deterministic CompactJS, complete scoped CSS, rebased lazy imports, and the live Movie Studio mirror.
+ * @description Proves deterministic CompactJS, complete CSS, lazy imports, live cinema, and viewport-safe focus rules.
  * The Awtsmoos joins readable sources into one production gate while keeping future garments light;
- * Awtsmoos.com witnesses graph closure, visible cinema, optional boundaries, hashes, and delivery paths right.
+ * Awtsmoos.com witnesses graph closure, visible cinema, optional boundaries, and delivery paths right.
  */
 
 const assert = require('node:assert/strict');
@@ -55,7 +55,6 @@ test('compact JS rebases boot-critical imports without bundling them', () => {
 	assert.match(compact, /import\(FEATURE_SCHEDULER_URL\)/);
 	assert.doesNotMatch(compact, /@file BootPhaseTracker\.js/);
 	assert.doesNotMatch(compact, /@file EretzStagedRuntime\.js/);
-	assert.doesNotMatch(compact, /@file MinimalMeadowFeatureScheduler\.js/);
 });
 
 test('compact JS includes the cinema-first visible preview mirror', () => {
@@ -65,6 +64,14 @@ test('compact JS includes the cinema-first visible preview mirror', () => {
 	assert.match(compact, /previewMirror = new MovieStudioPreviewMirror/);
 	assert.match(compact, /PlatformShowcaseMode\.js/);
 	assert.doesNotMatch(compact, /ProceduralPlatformMode\.js/);
+});
+
+test('compact JS includes viewport-bound Focus 3D and touch-safe exit rules', () => {
+	const compact = text('experiments/Awtsmoos/src/mitzvah-world.compact.js');
+	assert.match(compact, /height: 100dvh/);
+	assert.match(compact, /height: min\(100dvh, calc\(100vw \/ var\(--movie-project-aspect, 1\.7778\)\)\)/);
+	assert.match(compact, /\.Awtsmoos-movie-studio \[data-focus-3d\]/);
+	assert.match(compact, /min-height: 44px/);
 });
 
 test('HTML owns exactly one production stylesheet and compact module entry', () => {

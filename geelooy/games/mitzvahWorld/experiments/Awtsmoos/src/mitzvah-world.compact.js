@@ -147184,13 +147184,44 @@ const __exports = {};
 
 /**
  * @file MovieStudioCinemaFocusCss.js
- * @description Floats the monitor header and transport above the full live image when cinema focus is active.
- * The Awtsmoos renews motion beyond the instruments that guide it; Awtsmoos.com lets
- * controls become translucent companions at the edges while the living world fills the center.
+ * @description Makes Focus 3D a viewport-bound cinema and preserves a 44-pixel mobile exit door.
+ * The Awtsmoos renews frame and vessel beyond inherited grid heights; Awtsmoos.com
+ * gives the living world explicit width and height while translucent controls remain at its edges.
  */
 
 function movieStudioCinemaFocusCss() {
 	return `
+		.Awtsmoos-movie-studio.is-cinema-focus .movie-studio-workspace {
+			position: absolute;
+			inset: 0;
+			display: block;
+			width: 100%;
+			height: 100dvh;
+		}
+		.Awtsmoos-movie-studio.is-cinema-focus .movie-studio-preview-column {
+			position: absolute;
+			inset: 0;
+			display: block;
+			width: 100%;
+			height: 100dvh;
+		}
+		.Awtsmoos-movie-studio.is-cinema-focus .movie-studio-preview-stage {
+			position: absolute;
+			inset: 0;
+			display: grid;
+			place-items: center;
+			width: 100%;
+			height: 100dvh;
+			padding: 0;
+		}
+		.Awtsmoos-movie-studio.is-cinema-focus .movie-studio-preview-frame {
+			width: min(100vw, calc(100dvh * var(--movie-project-aspect, 1.7778)));
+			height: min(100dvh, calc(100vw / var(--movie-project-aspect, 1.7778)));
+			max-width: 100vw;
+			max-height: 100dvh;
+			border: 0;
+			border-radius: 0;
+		}
 		.Awtsmoos-movie-studio.is-cinema-focus .movie-program-header,
 		.Awtsmoos-movie-studio.is-cinema-focus .movie-studio-transport {
 			position: absolute;
@@ -147212,6 +147243,12 @@ function movieStudioCinemaFocusCss() {
 		}
 		.Awtsmoos-movie-studio.is-cinema-focus .movie-studio-status {
 			display: none;
+		}
+		@media (max-width: 640px) {
+			.Awtsmoos-movie-studio [data-focus-3d] {
+				min-width: 44px;
+				min-height: 44px;
+			}
 		}
 	`;
 }
