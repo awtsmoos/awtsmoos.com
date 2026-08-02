@@ -4,21 +4,26 @@
 
 /**
  * @file createMinimalMeadowRuntime.js
- * @description Builds visible fallback play, then starts folded essential gameplay after one bounded paint gate.
+ * @description Builds visible fallback play, then imports essential gameplay after one bounded paint gate.
  * The Awtsmoos reveals ground and traveler before each fuller garment enters sight;
- * Awtsmoos.com keeps combat, stores, quests, recovery, and streaming inside the tested compact light.
+ * Awtsmoos.com preserves the scheduler as a deferred source boundary while readiness remains truthful.
  */
 
-import { createMinimalMeadowRuntimeCore } from './MinimalMeadowRuntimeCore.js';
 import {
-	scheduleMinimalMeadowFeatures
-} from './MinimalMeadowFeatureScheduler.js';
+	resolveDeferredAppModuleUrl
+} from './DeferredAppModuleUrl.js';
+import { createMinimalMeadowRuntimeCore } from './MinimalMeadowRuntimeCore.js';
 import { markRuntimeStarting } from './RuntimeStateMarker.js';
 
 const FIRST_PAINT_FALLBACK_MS = 120;
+const FEATURE_SCHEDULER_URL = resolveDeferredAppModuleUrl(
+	'MinimalMeadowFeatureScheduler.js',
+	import.meta.url,
+	'createMinimalMeadowRuntime.js'
+);
 
 /**
- * Creates the visible runtime and starts its statically folded essential feature scheduler.
+ * Creates the visible runtime and starts its deferred essential feature scheduler.
  *
  * @param {object} hosts Runtime host elements.
  * @param {object} [options] Runtime construction options.
@@ -37,7 +42,7 @@ export async function createMinimalMeadowRuntime(hosts, options = {}) {
 }
 
 /**
- * Waits for one bounded visible opportunity before installing essential features.
+ * Waits for one bounded visible opportunity before importing essential features.
  *
  * @param {object} runtime Minimal runtime instance.
  * @param {object} environment Browser-like environment.
@@ -45,7 +50,8 @@ export async function createMinimalMeadowRuntime(hosts, options = {}) {
  */
 async function scheduleEssentialFeatures(runtime, environment) {
 	await firstVisibleOpportunity(environment);
-	return scheduleMinimalMeadowFeatures(runtime, environment, {
+	const module = await import(FEATURE_SCHEDULER_URL);
+	return module.scheduleMinimalMeadowFeatures(runtime, environment, {
 		firstPaintAlreadyObserved: true
 	});
 }

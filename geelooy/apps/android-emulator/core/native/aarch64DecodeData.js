@@ -25,6 +25,7 @@ import { decodeAarch64SimdGeneralDuplicate } from "./aarch64DecodeSimdGeneralDup
 import { decodeAarch64SimdGeneralInsert } from "./aarch64DecodeSimdGeneralInsert.js";
 import { decodeAarch64SimdGeneralMove } from "./aarch64DecodeSimdGeneralMove.js";
 import { decodeAarch64SimdModifiedImmediate } from "./aarch64DecodeSimdModifiedImmediate.js";
+import { decodeAarch64SimdShiftLong } from "./aarch64DecodeSimdShiftLong.js";
 import { decodeAarch64VariableShift } from "./aarch64DecodeVariableShift.js";
 import { aarch64Bits } from "./aarch64InstructionBits.js";
 
@@ -43,6 +44,7 @@ export function decodeAarch64Data(word) {
 		|| decodeAarch64SimdByteUnary(normalized)
 		|| decodeAarch64SimdCompareEqual(normalized)
 		|| decodeAarch64SimdAddLongReduction(normalized)
+		|| decodeAarch64SimdShiftLong(normalized)
 		|| decodeAarch64GeneralSimdMove(normalized)
 		|| decodeAarch64FloatToInteger(normalized)
 		|| decodeAarch64IntegerToFloat(normalized)

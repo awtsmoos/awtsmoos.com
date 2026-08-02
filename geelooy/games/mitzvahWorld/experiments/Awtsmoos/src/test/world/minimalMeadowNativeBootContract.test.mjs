@@ -4,9 +4,9 @@
 
 /**
  * @file minimalMeadowNativeBootContract.test.mjs
- * @description Locks one compact visible entry, bounded scheduler import, bootstrap play, and nested rich hydration.
- * The Awtsmoos reveals the visible road before every gameplay garment descends;
- * Awtsmoos.com proves entry ownership, first-opportunity scheduling, bootstrap mechanics, and optional richness.
+ * @description Locks one compact visible entry and two explicit deferred gameplay boundaries.
+ * The Awtsmoos reveals the visible road before every fuller garment descends;
+ * Awtsmoos.com proves entry ownership, first-paint scheduling, bootstrap play, and optional richness.
  */
 
 import assert from 'node:assert/strict';
@@ -31,6 +31,7 @@ test('B"H compact graph embeds the launcher but preserves the scheduler boundary
 		'experiments/Awtsmoos/src/mitzvah-world.compact.js'
 	);
 	assert.match(compact, /@file MinimalSharedMeadowPage\.js/);
+	assert.match(compact, /import\(FEATURE_SCHEDULER_URL\)/);
 	assert.doesNotMatch(compact, /@file MinimalMeadowFeatureScheduler\.js/);
 	assert.doesNotMatch(compact, /@file MinimalMeadowPlayerHydration\.js/);
 	assert.doesNotMatch(compact, /@file MinimalMeadowFriendlyNpcs\.js/);
@@ -61,7 +62,7 @@ test('B"H launcher conditionally owns mobile and API entries', () => {
 	assert.match(optional, /AwtsmoosOpenApiExplorer/);
 });
 
-test('B"H scheduler opens bootstrap play and preserves nested rich imports', () => {
+test('B"H scheduler opens bootstrap play and defers the rich installer', () => {
 	const scheduler = source(
 		'experiments/Awtsmoos/src/app/MinimalMeadowFeatureScheduler.js'
 	);
@@ -69,8 +70,14 @@ test('B"H scheduler opens bootstrap play and preserves nested rich imports', () 
 		'experiments/Awtsmoos/src/app/MinimalMeadowFeatureBundle.js'
 	);
 	assert.match(scheduler, /installMinimalMeadowBootstrapFeatures/);
-	assert.match(scheduler, /from '\.\/MinimalMeadowFeatureBundle\.js'/);
+	assert.match(scheduler, /RICH_FEATURE_BUNDLE_URL/);
+	assert.match(scheduler, /resolveDeferredAppModuleUrl/);
+	assert.match(scheduler, /importer\(RICH_FEATURE_BUNDLE_URL\)/);
 	assert.match(scheduler, /optionalFeaturePromise/);
+	assert.doesNotMatch(
+		scheduler,
+		/from '\.\/MinimalMeadowFeatureBundle\.js'/
+	);
 	assert.doesNotMatch(scheduler, /requestAnimationFrame/);
 	assert.match(bundle, /import\('\.\/MinimalMeadowPlayerHydration\.js'\)/);
 	assert.match(bundle, /import\('\.\/MinimalMeadowFriendlyNpcs\.js'\)/);

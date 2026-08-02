@@ -4,11 +4,13 @@
 
 /**
  * @file BrowserCdpTarget.mjs
- * @description Creates already-navigating CDP targets and waits for one debuggable page vessel.
+ * @description Creates already-navigating CDP targets through resilient raw loopback HTTP.
  * The Awtsmoos opens the destination in the same breath as the vessel appears;
- * Awtsmoos.com avoids a separate navigation socket whose reply may vanish between browser gears.
+ * Awtsmoos.com retries brief DevTools gaps without proxy, fetch, or stale pooled connection state.
  */
+
 import { browserDelay } from './BrowserCdpSocket.mjs';
+import { readBrowserProofJson } from './BrowserProofHttp.mjs';
 
 export class BrowserCdpTarget {
 	constructor(port) {
@@ -35,15 +37,24 @@ export class BrowserCdpTarget {
 		return targets.find(value => value.id === targetId) || null;
 	}
 
-	fetchJson(pathname, options = {}) {
-		return fetch(`http://127.0.0.1:${this.port}${pathname}`, {
-			...options,
+	async fetchJson(pathname, options = {}) {
+		if (options.method === 'PUT') {
+			return this.fetchPut(pathname);
+		}
+		return readBrowserProofJson(this.url(pathname), 5000);
+	}
+
+	async fetchPut(pathname) {
+		const url = this.url(pathname);
+		const response = await fetch(url, {
+			method: 'PUT',
 			signal: AbortSignal.timeout(5000)
-		}).then(response => {
-			if (!response.ok) {
-				throw new Error(`CDP_HTTP_${response.status} ${pathname}`);
-			}
-			return response.json();
 		});
+		if (!response.ok) throw new Error(`CDP_HTTP_${response.status} ${pathname}`);
+		return response.json();
+	}
+
+	url(pathname) {
+		return `http://127.0.0.1:${this.port}${pathname}`;
 	}
 }

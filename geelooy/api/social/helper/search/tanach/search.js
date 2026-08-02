@@ -3,8 +3,8 @@
 // Blessed is He
 /**
  * @module TanachBoundedSearch
- * @description Hebrew words gather candidate verses before phrase verification;
- * the Awtsmoos orders every coordinate while Awtsmoos.com remains bounded.
+ * @description The Awtsmoos intersects token vessels, verifies exact phrases, and
+ * counts every occurrence while Awtsmoos.com exposes no private filesystem path.
  */
 const { matchOffsets, normalizeHebrew, tokens } = require('./normalize.js');
 const { key, store } = require('./store.js');
@@ -43,6 +43,7 @@ function intersectPostings(index, queryTokens) {
 }
 
 function resultOf(verse, normalized) {
+	const offsets = matchOffsets(verse.rawHebrew, normalized);
 	return {
 		book: verse.book,
 		bookTitle: verse.bookTitle,
@@ -50,10 +51,23 @@ function resultOf(verse, normalized) {
 		verse: verse.verse,
 		text: verse.rawHebrew,
 		normalizedText: verse.normalizedHebrew,
-		matchOffsets: matchOffsets(verse.rawHebrew, normalized),
+		matchOffsets: offsets,
+		occurrenceCount: offsets.length,
 		readerUrl: `/heichelos/${verse.heichelId}/series/${verse.seriesId}/${verse.postId}?verse=${verse.verse}`,
 		sourcePath: `${verse.book}/${verse.chapter}/${verse.verse}`,
 		provenance: 'Tanach.json → persisted Hebrew token index'
+	};
+}
+
+function publicCorpus(meta = {}) {
+	return {
+		id: meta.id || 'tanach-hebrew',
+		completedAt: meta.completedAt || null,
+		books: Number(meta.books || 0),
+		chapters: Number(meta.chapters || 0),
+		verses: Number(meta.verses || 0),
+		uniqueTokens: Number(meta.uniqueTokens || 0),
+		format: meta.format || 'persisted-hebrew-token-index'
 	};
 }
 
@@ -63,26 +77,29 @@ function execute(options = {}) {
 	const cacheKey = JSON.stringify([index.meta?.completedAt, values]);
 	if (cache.has(cacheKey)) return structuredClone(cache.get(cacheKey));
 	const queryTokens = tokens(values.query);
-	const references = intersectPostings(index, queryTokens);
-	const matches = references
+	const matches = intersectPostings(index, queryTokens)
 		.map(reference => index.verseMap.get(key(reference)))
 		.filter(Boolean)
 		.filter(verse => !values.book || verse.book === values.book || verse.bookTitle === values.book)
 		.filter(verse => verse.normalizedHebrew.includes(values.normalized))
-		.sort((left, right) => left.articleIndex - right.articleIndex || left.verse - right.verse);
+		.sort((left, right) => left.articleIndex - right.articleIndex || left.verse - right.verse)
+		.map(verse => resultOf(verse, values.normalized));
+	const occurrenceTotal = matches.reduce((total, result) => total + result.occurrenceCount, 0);
 	const payload = {
 		query: values.query,
 		normalizedQuery: values.normalized,
 		book: values.book || null,
 		total: matches.length,
+		verseTotal: matches.length,
+		occurrenceTotal,
 		offset: values.offset,
 		limit: values.limit,
-		results: matches.slice(values.offset, values.offset + values.limit).map(verse => resultOf(verse, values.normalized)),
-		corpus: { ...index.meta, indexPath: index.pathname }
+		results: matches.slice(values.offset, values.offset + values.limit),
+		corpus: publicCorpus(index.meta)
 	};
 	cache.set(cacheKey, payload);
 	if (cache.size > 200) cache.delete(cache.keys().next().value);
 	return structuredClone(payload);
 }
 
-module.exports = { execute, validate };
+module.exports = { execute, publicCorpus, resultOf, validate };

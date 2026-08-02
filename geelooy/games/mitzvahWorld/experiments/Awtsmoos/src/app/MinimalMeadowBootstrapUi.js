@@ -4,10 +4,14 @@
 
 /**
  * @file MinimalMeadowBootstrapUi.js
- * @description Mounts a touch-friendly action bar and truthful bootstrap status until rich UI replaces it.
- * The Awtsmoos lets the traveler act before every ornate panel descends;
- * Awtsmoos.com keeps keyboard, touch, status, accessibility, suspension, and teardown in one bounded shell.
+ * @description Mounts essential actions and a deferred real minimap until rich UI replaces them.
+ * The Awtsmoos lets the traveler act and recognize nearby souls before ornate panels descend;
+ * Awtsmoos.com keeps keyboard, touch, status, map handoff, suspension, and teardown bounded.
  */
+
+import {
+	createMinimalMeadowBootstrapMinimap
+} from './MinimalMeadowBootstrapMinimap.js';
 
 const ACTIONS = Object.freeze([
 	['hebrew-fire', '1', '🔥', 'Hebrew Fire'],
@@ -31,6 +35,7 @@ export class MinimalMeadowBootstrapUi {
 		this.status.textContent = 'Movement and essential actions are ready.';
 		this.root.append(...this.buttons, this.status);
 		runtime.hosts.actionHost.appendChild(this.root);
+		this.minimap = createMinimalMeadowBootstrapMinimap(runtime, documentValue);
 		this.keyListener = event => this.onKey(event);
 		documentValue.addEventListener('keydown', this.keyListener);
 		this.unsubscribe = runtime.bus.on('combat:bootstrap-action', receipt => {
@@ -62,14 +67,20 @@ export class MinimalMeadowBootstrapUi {
 
 	refresh() {
 		this.status.textContent = `Health ${Math.round(this.runtime.playerStats.health)} · Stamina ${Math.round(this.runtime.playerStats.stamina)}`;
+		this.minimap.refresh();
 	}
 
 	diagnostics() {
 		return Object.freeze({
 			bootstrap: true,
 			buttons: this.buttons.length,
+			minimap: this.minimap.diagnostics(),
 			suspended: this.root.dataset.suspended === 'true'
 		});
+	}
+
+	releaseMinimap() {
+		this.minimap.release();
 	}
 
 	suspend() {
@@ -84,6 +95,7 @@ export class MinimalMeadowBootstrapUi {
 
 	destroy() {
 		this.unsubscribe?.();
+		this.minimap.destroy();
 		this.documentValue.removeEventListener('keydown', this.keyListener);
 		this.root.remove();
 	}

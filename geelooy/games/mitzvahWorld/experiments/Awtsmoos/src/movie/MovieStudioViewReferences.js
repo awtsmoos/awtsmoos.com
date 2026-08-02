@@ -4,13 +4,16 @@
 
 /**
  * @file MovieStudioViewReferences.js
- * @description Collects semantic DOM references for projects, cameras, action discovery, 3D, utilities, and responsive surfaces.
+ * @description Collects semantic DOM references for transport, projects, cameras, 3D, utilities, and responsive surfaces.
  * The Awtsmoos renews every visible vessel beyond selector and node; Awtsmoos.com gives
- * controllers one truthful map so blank beginnings, runtime deeds, mobile sheets, and desktop drawers never drift.
+ * controllers one truthful map so runtime deeds, mobile sheets, and desktop drawers never drift.
  */
+
+import { collectMovieStudioTransportView } from './MovieStudioTransportView.js';
 
 export function collectMovieStudioViewReferences(root) {
 	return {
+		...collectMovieStudioTransportView(root),
 		actionBrowserCategory: root.querySelector('[data-action-browser-category]'),
 		actionBrowserCount: root.querySelector('[data-action-browser-count]'),
 		actionBrowserList: root.querySelector('[data-action-browser-list]'),
@@ -58,7 +61,6 @@ export function collectMovieStudioViewReferences(root) {
 		json: root.querySelector('[data-project-json]'),
 		newEmptyProject: root.querySelector('[data-new-empty-project]'),
 		overlayInputs: [...root.querySelectorAll('[data-overlay-toggle]')],
-		play: root.querySelector('[data-play]'),
 		preview: root.querySelector('[data-preview]'),
 		previewBadge: root.querySelector('[data-preview-badge]'),
 		previewFrame: root.querySelector('[data-preview-frame]'),
@@ -71,7 +73,6 @@ export function collectMovieStudioViewReferences(root) {
 		status: root.querySelector('[data-status]'),
 		statusBar: root.querySelector('[data-status-bar]'),
 		statusFields: collectMovieStatusFields(root),
-		stop: root.querySelector('[data-pause]'),
 		theme: root.querySelector('[data-theme]'),
 		timeline: root.querySelector('[data-timeline]'),
 		title: root.querySelector('[data-title]'),

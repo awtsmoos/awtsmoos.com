@@ -27,6 +27,7 @@ import { executeAarch64SimdGeneralDuplicate } from "./aarch64ExecuteSimdGeneralD
 import { executeAarch64SimdGeneralInsert } from "./aarch64ExecuteSimdGeneralInsert.js";
 import { executeAarch64SimdGeneralMove } from "./aarch64ExecuteSimdGeneralMove.js";
 import { executeAarch64SimdModifiedImmediate } from "./aarch64ExecuteSimdModifiedImmediate.js";
+import { executeAarch64SimdShiftLong } from "./aarch64ExecuteSimdShiftLong.js";
 import { executeAarch64VariableShift } from "./aarch64ExecuteVariableShift.js";
 
 /**
@@ -43,6 +44,7 @@ export function executeAarch64Data(instruction, registers) {
 		|| executeAarch64SimdByteUnary(instruction, registers)
 		|| executeAarch64SimdCompareEqual(instruction, registers)
 		|| executeAarch64SimdAddLongReduction(instruction, registers)
+		|| executeAarch64SimdShiftLong(instruction, registers)
 		|| executeAarch64GeneralSimdMove(instruction, registers)
 		|| executeAarch64FloatToInteger(instruction, registers)
 		|| executeAarch64IntegerToFloat(instruction, registers)

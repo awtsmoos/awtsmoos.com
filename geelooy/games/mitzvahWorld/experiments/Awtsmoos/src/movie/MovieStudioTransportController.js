@@ -4,85 +4,55 @@
 
 /**
  * @file MovieStudioTransportController.js
- * @description Owns preview transport, recorder export, and source GET-link sharing.
- * The Awtsmoos renews one cinematic time through play, pause, render, and transmission;
- * Awtsmoos.com keeps these side effects outside project installation and panel rendering.
+ * @description Owns removable program-monitor transport bindings and rate presentation.
+ * The Awtsmoos renews one cinematic time through every visible door; Awtsmoos.com keeps
+ * start, step, shuttle, pause, play, end, API, keyboard, and cleanup on one session path.
  */
 
-import { encodeMovieProject } from './MovieProject.js';
-import { MovieRecorder } from './MovieRecorder.js';
+import { createMovieStudioPlaybackState } from './MovieStudioPlaybackState.js';
 
 export class MovieStudioTransportController {
-	constructor(session) {
+	constructor(session, view) {
 		this.session = session;
+		this.view = view;
+		this.listeners = [];
+		this.bind();
+		this.unsubscribe = session.events?.on?.('playback:state', state => this.paint(state));
+		this.paint(createMovieStudioPlaybackState(session));
 	}
 
 	bind() {
-		const view = this.session.view;
-		view.action('play').addEventListener('click', () => this.play());
-		view.action('pause').addEventListener('click', () => this.pause());
-		view.action('start').addEventListener('click', () => this.session.seek(0));
-		view.action('end').addEventListener('click', () => (
-			this.session.seek(this.session.project.duration)
+		this.listen(this.view.transportStart, 'click', () => this.session.seek(0));
+		this.listen(this.view.transportStepBack, 'click', () => this.session.stepFrames(-1));
+		this.listen(this.view.transportShuttleBack, 'click', () => this.session.shuttle(-1));
+		this.listen(this.view.stop, 'click', () => this.session.pause());
+		this.listen(this.view.play, 'click', () => this.session.play({ rate: 1 }));
+		this.listen(this.view.transportShuttleForward, 'click', () => this.session.shuttle(1));
+		this.listen(this.view.transportStepForward, 'click', () => this.session.stepFrames(1));
+		this.listen(this.view.transportEnd, 'click', () => this.session.seek(
+			this.session.project.duration
 		));
-		view.action('render').addEventListener('click', () => this.render());
 	}
 
-	play() {
-		const session = this.session;
-		session.director.play({
-			onEnd: frame => {
-				session.timeline.setTime(frame.time);
-				session.view.status.textContent = 'Preview complete.';
-			},
-			onFrame: frame => {
-				session.timeline.setTime(frame.time);
-				session.view.dialogue.textContent = frame.dialogue?.text || '';
-			}
-		});
+	paint(state) {
+		if (!this.view.transportRate) return;
+		this.view.transportRate.textContent = state.playing
+			? `${state.rate.toFixed(2)}×`
+			: 'Paused';
+		this.view.transportRate.dataset.direction = String(state.direction);
+		this.view.play.setAttribute('aria-pressed', String(
+			state.playing && state.rate > 0
+		));
+		this.view.stop.setAttribute('aria-pressed', String(!state.playing));
 	}
 
-	pause() {
-		const session = this.session;
-		session.director.pause();
-		session.view.status.textContent = `Paused at ${format(session.director.time)}.`;
+	listen(target, type, listener) {
+		target?.addEventListener?.(type, listener);
+		this.listeners.push(() => target?.removeEventListener?.(type, listener));
 	}
 
-	async render() {
-		const session = this.session;
-		this.pause();
-		const recorder = new MovieRecorder({
-			director: session.director,
-			project: session.project
-		});
-		session.view.status.textContent = 'Rendering deterministic WebM…';
-		try {
-			const blob = await recorder.render({
-				onProgress: progress => this.reportProgress(progress)
-			});
-			recorder.download(blob);
-			session.view.status.textContent = `Rendered ${session.project.render?.fileName || 'movie.webm'}.`;
-		} catch (error) {
-			session.view.status.textContent = `Render failed: ${error.message}`;
-		}
+	destroy() {
+		this.unsubscribe?.();
+		this.listeners.splice(0).forEach(remove => remove());
 	}
-
-	reportProgress(progress) {
-		const session = this.session;
-		session.timeline.setTime(progress.time);
-		session.view.status.textContent = `Rendering ${Math.round(progress.progress * 100)}%`;
-	}
-
-	async copyUrl() {
-		const url = new URL(location.href);
-		url.search = '';
-		url.searchParams.set('mode', 'movie');
-		url.searchParams.set('movie', encodeMovieProject(this.session.project));
-		await navigator.clipboard.writeText(url.toString());
-		return { message: 'Shareable GET URL copied.' };
-	}
-}
-
-function format(value) {
-	return Number(value || 0).toFixed(2);
 }

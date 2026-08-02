@@ -4,69 +4,60 @@
 
 /**
  * @file MovieStudioApiPlayback.js
- * @description Exposes structured play, pause, toggle, stop, and serializable playback state.
+ * @description Exposes seek, frame-step, shuttle, rate, play, pause, toggle, stop, and state.
  * The Awtsmoos renews motion and stillness without opposition; Awtsmoos.com lets agents
- * direct preview transport while every state transition remains observable and finite.
+ * direct professional preview transport while every transition remains observable and finite.
  */
 
-import { createMovieProjectSnapshot } from './MovieProjectSnapshot.js';
+import { createMovieStudioPlaybackState } from './MovieStudioPlaybackState.js';
 import { runMovieStudioApiOperation } from './MovieStudioApiOperation.js';
 
 export function createMovieStudioPlaybackDomain(session) {
 	return Object.freeze({
-		pause: options => playbackOperation(
-			session,
-			'pause',
-			options,
-			() => session.director.pause()
+		pause: options => operation(session, 'pause', options, () => session.pause()),
+		play: (payload = {}, options) => operation(
+			session, 'play', options, () => session.play(payload)
 		),
-		play: options => playbackOperation(
-			session,
-			'play',
-			options,
-			() => session.play()
+		seek: (time, options) => operation(
+			session, 'seek', options, () => session.seek(time)
 		),
-		state: () => playbackState(session),
-		stop: options => playbackOperation(
-			session,
-			'stop',
-			options,
-			() => {
-				session.director.pause();
-				session.seek(0);
-			}
+		setRate: (rate, options) => operation(
+			session, 'setRate', options, () => session.setPlaybackRate(rate)
 		),
-		toggle: options => playbackOperation(
+		shuttleLeft: options => operation(
+			session, 'shuttleLeft', options, () => session.shuttle(-1)
+		),
+		shuttleRight: options => operation(
+			session, 'shuttleRight', options, () => session.shuttle(1)
+		),
+		state: () => createMovieStudioPlaybackState(session),
+		step: (frames = 1, options) => operation(
+			session, 'step', options, () => session.stepFrames(frames)
+		),
+		stepBackward: (frames = 1, options) => operation(
+			session, 'stepBackward', options, () => session.stepFrames(-Math.abs(frames))
+		),
+		stepForward: (frames = 1, options) => operation(
+			session, 'stepForward', options, () => session.stepFrames(Math.abs(frames))
+		),
+		stop: options => operation(session, 'stop', options, () => session.stop()),
+		toggle: options => operation(
 			session,
 			'toggle',
 			options,
-			() => {
-				if (session.director.playing) session.director.pause();
-				else session.play();
-			}
+			() => session.director.playing ? session.pause() : session.play()
 		)
 	});
 }
 
-function playbackOperation(session, name, options, action) {
+function operation(session, name, options, action) {
 	return runMovieStudioApiOperation(
 		session,
 		`playback.${name}`,
 		options,
 		() => {
 			action();
-			const state = playbackState(session);
-			session.events.emit('playback:state', state);
-			return state;
+			return createMovieStudioPlaybackState(session);
 		}
 	);
-}
-
-function playbackState(session) {
-	return createMovieProjectSnapshot({
-		duration: session.project.duration,
-		playing: Boolean(session.director?.playing),
-		revision: session.revision,
-		time: session.time
-	});
 }

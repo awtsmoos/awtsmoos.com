@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioInteractionController.js
- * @description Binds removable studio actions, recovery-protected replacement, keyboard flow, history, and inspector state.
+ * @description Binds removable non-transport actions, guarded replacement, keyboard flow, history, and inspector state.
  * The Awtsmoos renews intention before finger or key can move; Awtsmoos.com lets
- * every new beginning and destructive replacement travel through one guarded recovery-aware path.
+ * project replacement, rendering, recovery, and panels travel through one guarded path.
  */
 
 import { createEmptyMovieProject } from './MovieEmptyProject.js';
@@ -25,8 +25,6 @@ export class MovieStudioInteractionController {
 
 	bind() {
 		const { handlers, view } = this;
-		view.play.addEventListener('click', handlers.play);
-		view.stop.addEventListener('click', handlers.stop);
 		view.apply.addEventListener('click', handlers.apply);
 		view.copy.addEventListener('click', handlers.copy);
 		view.render.addEventListener('click', handlers.render);
@@ -46,30 +44,20 @@ export class MovieStudioInteractionController {
 	async applyJson() {
 		const project = JSON.parse(this.view.json.value);
 		await commitMovieProjectWithRecovery(
-			this.session,
-			project,
-			'Apply project JSON'
+			this.session, project, 'Apply project JSON'
 		);
 	}
 
 	async createEmptyProject() {
-		this.session.director.pause();
+		this.session.pause();
 		return commitMovieProjectWithRecovery(
-			this.session,
-			createEmptyMovieProject(),
-			'Create empty movie project'
+			this.session, createEmptyMovieProject(), 'Create empty movie project'
 		);
-	}
-
-	pause() {
-		this.session.director.pause();
-		this.view.status.textContent = `Paused at ${this.session.time.toFixed(2)}s.`;
 	}
 
 	toggleInspector(open = !this.view.root.classList.contains('is-inspector-open'), restoreFocus = true) {
 		return applyMovieInspectorState(this.view, open, {
-			compact: innerWidth <= 980,
-			restoreFocus
+			compact: innerWidth <= 980, restoreFocus
 		});
 	}
 
@@ -81,8 +69,6 @@ export class MovieStudioInteractionController {
 
 	destroy() {
 		const { handlers, view } = this;
-		view.play.removeEventListener('click', handlers.play);
-		view.stop.removeEventListener('click', handlers.stop);
 		view.apply.removeEventListener('click', handlers.apply);
 		view.copy.removeEventListener('click', handlers.copy);
 		view.render.removeEventListener('click', handlers.render);
@@ -101,10 +87,8 @@ function createHandlers(controller) {
 		copy: () => controller.run(() => controller.session.copyUrl()),
 		keyDown: event => controller.onKeyDown(event),
 		newEmptyProject: () => controller.run(() => controller.createEmptyProject()),
-		play: () => controller.session.play(),
 		render: () => controller.run(() => controller.session.render()),
 		renderExact: () => controller.run(() => renderExactMovieStudioSession(controller.session)),
-		stop: () => controller.pause(),
 		toggleInspector: () => controller.toggleInspector()
 	};
 }

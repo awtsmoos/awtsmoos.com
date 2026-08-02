@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowUi.js
- * @description Creates shared UI state, mounts focused components, and exposes one lifecycle contract.
- * The Awtsmoos joins visible controls to living runtime state without crowding one vessel;
- * Awtsmoos.com keeps inventory, equipment, accessibility, combat guidance, refresh, and teardown aligned.
+ * @description Creates shared UI state, releases bootstrap map ownership, and mounts rich components.
+ * The Awtsmoos joins visible controls to living runtime state without duplicate garments;
+ * Awtsmoos.com hands one map from compact light to full interface before mounting the later owner.
  */
 
 import { InventoryStore } from '../gameplay/InventoryStore.js';
@@ -24,6 +24,7 @@ export function installMinimalMeadowUi(
 	documentValue,
 	environment = globalThis
 ) {
+	runtime.ui?.releaseMinimap?.();
 	const bus = runtime.bus || new AwtsmoosEventBus();
 	const inventory = new InventoryStore();
 	Object.assign(runtime, {

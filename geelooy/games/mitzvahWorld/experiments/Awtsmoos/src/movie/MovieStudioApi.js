@@ -19,6 +19,7 @@ import { createMovieStudioAgentDomain } from './MovieStudioApiAgent.js';
 import { createMovieStudioAuthoring3dDomain } from './MovieStudioApiAuthoring3d.js';
 import { addMovieStudioCompatibilityApi, createUnsafeMovieStudioApi } from './MovieStudioApiCompatibility.js';
 import { createMovieStudioCommandsDomain } from './MovieStudioApiCommands.js';
+import { createMovieStudioCreativeCapabilitiesDomain } from './MovieStudioApiCreativeCapabilities.js';
 import { createMovieStudioDiagnosticsDomain } from './MovieStudioApiDiagnostics.js';
 import { createMovieStudioEventsDomain } from './MovieStudioApiEvents.js';
 import { createMovieStudioHistoryDomain } from './MovieStudioApiHistory.js';
@@ -49,6 +50,7 @@ export function createMovieStudioApi(session) {
 		authoring3d: createMovieStudioAuthoring3dDomain(session),
 		capabilities: createMovieProjectSnapshot(MOVIE_API_CAPABILITIES),
 		commands,
+		creativeCapabilities: createMovieStudioCreativeCapabilitiesDomain(),
 		diagnostics: createMovieStudioDiagnosticsDomain(session),
 		events: createMovieStudioEventsDomain(session),
 		history: createMovieStudioHistoryDomain(session, commands),

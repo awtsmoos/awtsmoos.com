@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalSharedMeadowReadinessFlow.js
- * @description Settles bootstrap mechanics before truthfully publishing essential play.
- * The Awtsmoos lets first paint arrive without racing the vessels that make play real;
- * Awtsmoos.com awaits the bounded bootstrap receipt, then opens the meadow with an honest seal.
+ * @description Waits only for compact essential features, releases the veil, then settles full readiness.
+ * The Awtsmoos opens the road when its near vessels are truly present while distant richness continues;
+ * Awtsmoos.com awaits combat, UI, quest, recovery, and streaming without awaiting the optional world dream.
  */
 
 import {
@@ -17,13 +17,11 @@ import {
 } from './MinimalMeadowReadiness.js';
 import {
 	awaitMinimalMeadowPaint,
-	settleMinimalMeadowFeatures,
-	throwMinimalMeadowFeatureFailure
+	settleMinimalMeadowFeatures
 } from './MinimalMeadowReadinessSettlement.js';
 
 /**
- * Waits for lightweight bootstrap systems, publishes playable state, then records full readiness.
- * Rich renderer and terrain hydration remain progressive and never imprison the first honest stride.
+ * Publishes compact essential play before optional rich feature hydration.
  *
  * @param {object} options Readiness dependencies and runtime diagnostics.
  * @returns {Promise<object>} Frozen essential and full readiness receipts.
@@ -39,7 +37,6 @@ export async function runMinimalSharedMeadowReadiness(options) {
 		diagnostics,
 		documentValue
 	);
-	throwMinimalMeadowFeatureFailure(featureSettlement);
 	const essentialReceipt = await awaitMinimalMeadowReadiness(
 		diagnostics,
 		loading,
@@ -52,7 +49,7 @@ export async function runMinimalSharedMeadowReadiness(options) {
 	const fullReceipt = await beginMinimalMeadowFullReadiness({
 		diagnostics,
 		environment,
-		featureSettlement,
+		featureSettlement: Promise.resolve(featureSettlement),
 		loading,
 		rendererPromise: diagnostics.rendererHydrationPromise
 			|| Promise.resolve(null),

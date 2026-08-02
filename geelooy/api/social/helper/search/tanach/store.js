@@ -3,10 +3,9 @@
 // Blessed is He
 /**
  * @module TanachIndexStore
- * @description One immutable index opens once; the Awtsmoos renews every request
- * without reopening the ark or scanning all verses across Awtsmoos.com.
+ * @description One immutable read-only index opens once; the Awtsmoos renews each
+ * request without writer locks, sidecars, or rescans across Awtsmoos.com.
  */
-const path = require('path');
 const DosDB = require('../../../../../../ayzarim/DosDB/index.js');
 const { indexPath } = require('./paths.js');
 
@@ -28,7 +27,10 @@ function shardNumber(token) {
 
 function loadStore() {
 	const pathname = indexPath();
-	const database = DosDB.awtsmoosDb(pathname, { compression: false });
+	const database = DosDB.awtsmoosDb(pathname, {
+		compression: false,
+		readOnly: true
+	});
 	database.fs.ready();
 	try {
 		const meta = readJson(database, `${ROOT}/meta.json`, null);
@@ -37,13 +39,13 @@ function loadStore() {
 		const verseMap = new Map(verses.map(verse => [key(verse), verse]));
 		return {
 			meta,
-			pathname,
 			verseMap,
 			posting(token) {
 				const shard = shardNumber(token);
 				if (!shards.has(shard)) {
 					const name = String(shard).padStart(2, '0');
-					shards.set(shard, readJson(database, `${ROOT}/token_shards/${name}.json`, {}));
+					const source = `${ROOT}/token_shards/${name}.json`;
+					shards.set(shard, readJson(database, source, {}));
 				}
 				return shards.get(shard)?.tokens?.[token] || [];
 			}

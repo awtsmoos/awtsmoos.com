@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudio.js
- * @description Boots the real world beneath the stable API, Character Performance Mode, and professional NLE.
+ * @description Boots the real world beneath the stable API, professional transport, performance, and NLE.
  * The Awtsmoos renews world and editing vessel together; Awtsmoos.com binds runtime, project,
- * recovery, performance, scene manipulation, cameras, actions, audio, authoring, and rendering.
+ * recovery, source, program transport, cameras, audio, authoring, utilities, and rendering.
  */
 
 import { createEretzRuntime } from '../app/createEretzRuntime.js';
@@ -24,6 +24,7 @@ import { MovieStudioScene3dController } from './MovieStudioScene3dController.js'
 import { MovieStudioScene3dGizmo } from './MovieStudioScene3dGizmo.js';
 import { MovieStudioSession } from './MovieStudioSession.js';
 import { MovieStudioTitleController } from './MovieStudioTitleController.js';
+import { MovieStudioTransportController } from './MovieStudioTransportController.js';
 import { MovieStudioUtilityController } from './MovieStudioUtilityController.js';
 import { createMovieStudioView, showMovieLoading } from './MovieStudioView.js';
 import { hideMovieWorldChrome } from './MovieWorldChrome.js';
@@ -37,7 +38,7 @@ export async function createMovieStudio(hosts, initialProject, options = {}) {
 		});
 		const runtime = diagnostics.runtime;
 		const restoreWorldChrome = hideMovieWorldChrome(hosts, runtime.renderer.canvas);
-		loading.set('B"H arranging scene tools, performances, timeline, sound, actions, and cameras…');
+		loading.set('B"H arranging transport, scenes, performance, sound, actions, and cameras…');
 		const view = createMovieStudioView(initialProject);
 		const session = new MovieStudioSession(runtime, diagnostics, view, initialProject);
 		session.restoreWorldChrome = restoreWorldChrome;
@@ -53,6 +54,7 @@ export async function createMovieStudio(hosts, initialProject, options = {}) {
 		session.performanceController = new MovieStudioPerformanceController(session, {
 			environment: options.environment || globalThis
 		});
+		session.transportController = new MovieStudioTransportController(session, view);
 		session.interactions = new MovieStudioInteractionController(session, view);
 		session.preferenceController = new MovieStudioPreferenceController(session, view);
 		session.resizeController = new MovieStudioResizeController(session, view);
@@ -64,9 +66,7 @@ export async function createMovieStudio(hosts, initialProject, options = {}) {
 }
 
 function scheduleAutomaticRender(session, options) {
-	if (options.autoRender) {
-		setTimeout(() => session.render(), 250);
-	}
+	if (options.autoRender) setTimeout(() => session.render(), 250);
 	if (options.autoRenderExact) {
 		setTimeout(() => renderExactMovieStudioSession(session), 250);
 	}

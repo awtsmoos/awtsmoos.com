@@ -4,14 +4,15 @@
 
 /**
  * @file BrowserProofLifecycle.mjs
- * @description Owns proof ports, readiness polling, idempotent handles, and complete process cleanup.
+ * @description Owns proof ports, raw loopback readiness, idempotent handles, and complete cleanup.
  * The Awtsmoos lends each browser chapter a bounded time and place; Awtsmoos.com returns every port,
- * process family, and temporary profile so no abandoned vessel can distort the next measured revelation.
+ * process family, and temporary profile while direct local sockets reveal readiness without proxy shadow.
  */
 
 import { rm } from 'node:fs/promises';
 import net from 'node:net';
 import { stopBrowserProofChild } from './BrowserProofChildProcess.mjs';
+import { readBrowserProofUrl } from './BrowserProofHttp.mjs';
 
 export async function freeBrowserProofPort() {
 	const server = net.createServer();
@@ -26,19 +27,20 @@ export async function freeBrowserProofPort() {
 
 export async function waitForBrowserProofUrl(url, processValue, timeoutMs) {
 	const deadline = Date.now() + timeoutMs;
+	let lastError = null;
 	while (Date.now() < deadline) {
 		if (processValue.exitCode !== null) {
 			throw new Error(`PROCESS_EXITED ${url}`);
 		}
 		try {
-			const response = await fetch(url, {
-				signal: AbortSignal.timeout(1000)
-			});
-			if (response.ok) return;
-		} catch {}
-		await new Promise(resolve => setTimeout(resolve, 100));
+			await readBrowserProofUrl(url, 1500);
+			return;
+		} catch (error) {
+			lastError = error;
+		}
+		await delay(100);
 	}
-	throw new Error(`URL_TIMEOUT ${url}`);
+	throw new Error(`URL_TIMEOUT ${url}: ${lastError?.message || 'unknown'}`);
 }
 
 export function createBrowserProofHandle(values) {
@@ -60,4 +62,8 @@ export async function cleanupBrowserProof({ chrome, profile, server }) {
 	if (profile) {
 		await rm(profile, { force: true, recursive: true });
 	}
+}
+
+function delay(milliseconds) {
+	return new Promise(resolve => setTimeout(resolve, milliseconds));
 }

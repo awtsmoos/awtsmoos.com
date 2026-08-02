@@ -4,8 +4,8 @@
 
 /**
  * @file MovieStudioSession.js
- * @description Owns stable identity, canonical installation, preview time, capture, and release.
- * The Awtsmoos renews every cut, schema, memory, and extension beyond editor state;
+ * @description Owns stable identity, canonical installation, professional transport, capture, and release.
+ * The Awtsmoos renews every cut, speed, schema, memory, and extension beyond editor state;
  * Awtsmoos.com keeps one session while focused service vessels evolve independently.
  */
 
@@ -16,6 +16,15 @@ import {
 	renderMovieStudioSession
 } from './MovieStudioSessionActions.js';
 import { initializeMovieStudioSessionServices } from './MovieStudioSessionServices.js';
+import {
+	pauseMovieStudioSession,
+	playMovieStudioSession,
+	seekMovieStudioSession,
+	setMovieStudioPlaybackRate,
+	shuttleMovieStudioSession,
+	stepMovieStudioSession,
+	stopMovieStudioSession
+} from './MovieStudioSessionTransport.js';
 
 export class MovieStudioSession {
 	constructor(runtime, diagnostics, view, source) {
@@ -23,6 +32,7 @@ export class MovieStudioSession {
 		this.diagnostics = diagnostics;
 		this.view = view;
 		this.time = 0;
+		this.playbackRate = 0;
 		this.revision = 0;
 		this.destroyed = false;
 		initializeMovieStudioSessionServices(this);
@@ -30,54 +40,37 @@ export class MovieStudioSession {
 	}
 
 	installProject(source, options = {}) {
-		return installMovieStudioProject(this, source, options);
+		const result = installMovieStudioProject(this, source, options);
+		this.time = Math.min(this.time, this.project.duration);
+		return result;
 	}
 
 	seek(time) {
-		this.time = Math.max(0, Math.min(
-			this.project.duration,
-			Number(time) || 0
-		));
-		const frame = this.director.seek(this.time);
-		this.timeline?.setTime(frame.time);
-		this.view.status.textContent = `${frame.time.toFixed(2)} / ${
-			this.project.duration.toFixed(2)
-		}s · ${frame.shot}`;
-		this.events.emit('playback:time', {
-			revision: this.revision,
-			shot: frame.shot,
-			time: frame.time
-		});
-		return frame;
+		return seekMovieStudioSession(this, time);
 	}
 
-	play() {
-		this.events.emit('playback:state', {
-			playing: true,
-			revision: this.revision,
-			time: this.time
-		});
-		this.director.play({
-			onEnd: () => this.onPlaybackEnd(),
-			onFrame: frame => this.onPlaybackFrame(frame)
-		});
+	play(options = {}) {
+		return playMovieStudioSession(this, options);
 	}
 
-	onPlaybackEnd() {
-		this.view.status.textContent = 'Preview complete.';
-		this.events.emit('playback:state', {
-			playing: false,
-			revision: this.revision,
-			time: this.time
-		});
+	pause() {
+		return pauseMovieStudioSession(this);
 	}
 
-	onPlaybackFrame(frame) {
-		this.time = frame.time;
-		this.timeline.setTime(frame.time);
-		this.view.status.textContent = `Preview ${
-			frame.time.toFixed(2)
-		} / ${this.project.duration.toFixed(2)}s`;
+	stop() {
+		return stopMovieStudioSession(this);
+	}
+
+	stepFrames(frames = 1) {
+		return stepMovieStudioSession(this, frames);
+	}
+
+	shuttle(direction) {
+		return shuttleMovieStudioSession(this, direction);
+	}
+
+	setPlaybackRate(rate) {
+		return setMovieStudioPlaybackRate(this, rate);
 	}
 
 	render() {

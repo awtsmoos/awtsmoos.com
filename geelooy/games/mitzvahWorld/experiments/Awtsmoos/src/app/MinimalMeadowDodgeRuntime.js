@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowDodgeRuntime.js
- * @description Owns one directional dodge, bounded stamina, cooldown, immunity, receipts, and teardown.
+ * @description Owns one collision-aware dodge with bounded stamina, cooldown, direction, and immunity.
  * The Awtsmoos gives finite flight no independent throne; Awtsmoos.com keeps
- * activation, measured immunity, collision motion, completion, and diagnostics explicit.
+ * activation, timing, rejection, damage immunity, motion, receipts, and teardown explicit.
  */
 
 import {
@@ -14,27 +14,27 @@ import {
 	minimalMeadowCoreNow
 } from './MinimalMeadowCoreClock.js';
 import {
-	minimalMeadowDodgeBlocksDetails,
-	minimalMeadowDodgeDirection
+	resolveMinimalMeadowDodgeDirection
 } from './MinimalMeadowDodgeDirection.js';
 import {
-	applyMinimalMeadowDodgeMotion
+	updateMinimalMeadowDodgeMotion
 } from './MinimalMeadowDodgeMotion.js';
 import {
 	normalizeMinimalMeadowDodgePolicy
 } from './MinimalMeadowDodgePolicy.js';
-import {
-	createMinimalMeadowDodgeState,
-	minimalMeadowDodgeRejection,
-	rejectMinimalMeadowDodge
-} from './MinimalMeadowDodgeState.js';
 
 export class MinimalMeadowDodgeRuntime {
 	constructor(runtime, environment = globalThis, policy = {}) {
 		this.runtime = runtime;
 		this.environment = environment;
 		this.policy = normalizeMinimalMeadowDodgePolicy(policy);
-		this.state = createMinimalMeadowDodgeState();
+		this.state = {
+			activeUntil: 0,
+			cooldownUntil: 0,
+			direction: { x: 0, z: 1 },
+			invulnerableUntil: 0,
+			remainingDistance: 0
+		};
 		this.unsubscribe = runtime.bus.on('core:dodge', detail => {
 			this.activate(detail);
 		});
@@ -42,10 +42,10 @@ export class MinimalMeadowDodgeRuntime {
 
 	activate(detail = {}) {
 		const now = minimalMeadowCoreNow(this.environment);
-		const reason = minimalMeadowDodgeRejection(this, now);
-		if (reason) return rejectMinimalMeadowDodge(this, reason);
+		const reason = this.rejection(now);
+		if (reason) return this.reject(reason);
 		this.runtime.playerStats.stamina -= this.policy.staminaCost;
-		this.state.direction = minimalMeadowDodgeDirection(
+		this.state.direction = resolveMinimalMeadowDodgeDirection(
 			this.runtime,
 			detail.direction
 		);
@@ -54,29 +54,25 @@ export class MinimalMeadowDodgeRuntime {
 		this.state.cooldownUntil = now + this.policy.cooldownSeconds;
 		this.state.remainingDistance = this.policy.distance;
 		this.runtime.bus.emit('combat:cancel-all', { reason: 'player-dodge' });
-		this.runtime.bus.emit('core:dodge-start', this.snapshot());
-		return Object.freeze({ accepted: true, ...this.snapshot() });
+		const receipt = Object.freeze({ accepted: true, ...this.snapshot() });
+		this.runtime.bus.emit('core:dodge-start', receipt);
+		return receipt;
 	}
 
 	update(deltaSeconds) {
-		const now = minimalMeadowCoreNow(this.environment);
-		if (now >= this.state.activeUntil
-			|| this.state.remainingDistance <= 0) {
-			return this.finish(now);
-		}
-		applyMinimalMeadowDodgeMotion(
+		return updateMinimalMeadowDodgeMotion(
 			this.runtime,
 			this.state,
 			this.policy,
-			deltaSeconds
+			deltaSeconds,
+			minimalMeadowCoreNow(this.environment)
 		);
-		return true;
 	}
 
 	blocksIncoming(details = {}) {
-		return minimalMeadowDodgeBlocksDetails(details)
-			&& minimalMeadowCoreNow(this.environment)
-				< this.state.invulnerableUntil;
+		if (isEnvironmental(details)) return false;
+		return minimalMeadowCoreNow(this.environment)
+			< this.state.invulnerableUntil;
 	}
 
 	snapshot() {
@@ -87,7 +83,7 @@ export class MinimalMeadowDodgeRuntime {
 				this.state.cooldownUntil,
 				now
 			),
-			direction: this.state.direction,
+			direction: Object.freeze({ ...this.state.direction }),
 			invulnerable: now < this.state.invulnerableUntil,
 			remainingDistance: this.state.remainingDistance
 		});
@@ -97,13 +93,25 @@ export class MinimalMeadowDodgeRuntime {
 		this.unsubscribe?.();
 	}
 
-	finish(now) {
-		if (!this.state.activeUntil) return false;
-		if (now < this.state.activeUntil
-			&& this.state.remainingDistance > 0) return false;
-		this.state.activeUntil = 0;
-		this.state.remainingDistance = 0;
-		this.runtime.bus.emit('core:dodge-complete', this.snapshot());
-		return false;
+	rejection(now) {
+		if (this.runtime.playerDefeat?.isDefeated?.()) return 'PLAYER_DEFEATED';
+		if (now < this.state.activeUntil) return 'DODGE_ACTIVE';
+		if (now < this.state.cooldownUntil) return 'DODGE_COOLDOWN';
+		if (this.runtime.playerStats.stamina < this.policy.staminaCost) {
+			return 'STAMINA_REQUIRED';
+		}
+		return null;
 	}
+
+	reject(reason) {
+		const receipt = Object.freeze({ accepted: false, reason });
+		this.runtime.bus.emit('core:dodge-rejected', receipt);
+		return receipt;
+	}
+}
+
+function isEnvironmental(details) {
+	return details.mode === 'environment'
+		|| details.damageType === 'fall'
+		|| details.tags?.includes?.('environmental');
 }

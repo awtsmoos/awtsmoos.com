@@ -4,13 +4,12 @@
 
 /**
  * @file BrowserCdpPageSession.mjs
- * @description Carries page-domain commands through Chrome's explicit target-message channel.
- * The Awtsmoos numbers the inner word and the outer vessel without letting either reply depart;
- * Awtsmoos.com keeps navigation, evaluation, input, and cleanup joined through one enduring heart.
+ * @description Carries page-domain commands through one flattened Chrome target session.
+ * The Awtsmoos joins browser vessel and page word without nesting one reply inside another;
+ * Awtsmoos.com uses Chrome's current flattened protocol so navigation and evaluation cannot lose replies.
  */
-import { sendCdpCommand } from './BrowserCdpSocket.mjs';
 
-let pageCommandSequence = 0;
+import { sendCdpCommand } from './BrowserCdpSocket.mjs';
 
 export class BrowserCdpPageSession {
 	constructor(browserSocket, targetId) {
@@ -23,59 +22,34 @@ export class BrowserCdpPageSession {
 		const attached = await sendCdpCommand(
 			this.browserSocket,
 			'Target.attachToTarget',
-			{ flatten: false, targetId: this.targetId }
+			{
+				flatten: true,
+				targetId: this.targetId
+			}
 		);
 		this.sessionId = attached.sessionId;
 		return this;
 	}
 
 	send(method, params = {}, timeoutMs = 10000) {
-		const innerId = ++pageCommandSequence;
-		return new Promise((resolve, reject) => {
-			const timer = setTimeout(() => {
-				cleanup();
-				reject(new Error(`${method}_TIMEOUT`));
-			}, timeoutMs);
-			const listener = event => {
-				const outer = JSON.parse(event.data);
-				if (
-					outer.method !== 'Target.receivedMessageFromTarget'
-					|| outer.params?.sessionId !== this.sessionId
-				) return;
-				const inner = JSON.parse(outer.params.message);
-				if (inner.id !== innerId) return;
-				cleanup();
-				inner.error
-					? reject(new Error(JSON.stringify(inner.error)))
-					: resolve(inner.result);
-			};
-			const cleanup = () => {
-				clearTimeout(timer);
-				this.browserSocket.removeEventListener('message', listener);
-			};
-			this.browserSocket.addEventListener('message', listener);
-			const message = JSON.stringify({
-				id: innerId,
-				method,
-				params
-			});
-			sendCdpCommand(
-				this.browserSocket,
-				'Target.sendMessageToTarget',
-				{ message, sessionId: this.sessionId },
-				timeoutMs
-			).catch(error => {
-				cleanup();
-				reject(error);
-			});
-		});
+		if (!this.sessionId) {
+			return Promise.reject(new Error(`PAGE_SESSION_MISSING ${method}`));
+		}
+		return sendCdpCommand(
+			this.browserSocket,
+			method,
+			params,
+			timeoutMs,
+			this.sessionId
+		);
 	}
 
 	async stop() {
 		if (!this.sessionId) return;
-		await sendCdpCommand(this.browserSocket, 'Target.detachFromTarget', {
-			sessionId: this.sessionId
-		}).catch(() => {});
+		const sessionId = this.sessionId;
 		this.sessionId = null;
+		await sendCdpCommand(this.browserSocket, 'Target.detachFromTarget', {
+			sessionId
+		}).catch(() => {});
 	}
 }

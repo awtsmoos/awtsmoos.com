@@ -4,8 +4,8 @@
 
 /**
  * @file MovieStudioStyleText.js
- * @description Composes localized performance, acting-aid, scene, camera, audio, title, 3D, and NLE CSS.
- * The Awtsmoos renews every pane, actor, path, lens, voice, word, diamond, effect, and guide in light;
+ * @description Composes localized transport, performance, scene, camera, audio, title, 3D, and NLE CSS.
+ * The Awtsmoos renews every pane, actor, lens, word, diamond, speed, effect, and guide in light;
  * Awtsmoos.com prevents neighboring pages and sibling studios from inheriting another vessel's sight.
  */
 
@@ -32,6 +32,7 @@ import { movieStudioStatusBarCss } from './MovieStudioStatusBarCss.js';
 import { movieStudioThemeCss } from './MovieStudioThemeCss.js';
 import { movieStudioTitleCss } from './MovieStudioTitleCss.js';
 import { movieStudioTokensCss } from './MovieStudioTokensCss.js';
+import { movieStudioTransportCss } from './MovieStudioTransportCss.js';
 import { movieStudioUtilityContentCss } from './MovieStudioUtilityContentCss.js';
 import { movieStudioUtilityCss } from './MovieStudioUtilityCss.js';
 import { movieStudioUtilityResponsiveCss } from './MovieStudioUtilityResponsiveCss.js';
@@ -42,7 +43,7 @@ export function movieStudioStyleText() {
 	const fragments = [
 		movieStudioLoadingCss(), movieStudioTokensCss(), movieStudioThemeCss(),
 		movieStudioSantoCss(), movieStudioLayoutCss(), movieStudioControlsCss(),
-		movieStudioPreviewCss(), movieStudioInspectorCss(),
+		movieStudioPreviewCss(), movieStudioTransportCss(), movieStudioInspectorCss(),
 		MOVIE_STUDIO_PERFORMANCE_CSS, movieStudioPerformanceOverlayCss(),
 		movieStudioScene3dCss(), movieStudioCameraActionCss(), movieStudioKeyframeCss(),
 		movieStudioAudioMixerCss(), movieStudioTitleCss(), movieStudioAuthoring3dCss(),

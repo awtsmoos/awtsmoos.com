@@ -4,26 +4,18 @@
 
 /**
  * @file MinimalMeadowDodgeDirection.js
- * @description Resolves supplied, movement-axis, or facing fallback into one normalized dodge direction.
- * The Awtsmoos gives every finite vector one measured relation; Awtsmoos.com keeps
- * keyboard, joystick, camera-facing, and stillness fallback aligned without inventing teleportation.
+ * @description Resolves supplied, movement-axis, or facing fallback direction into one normalized vector.
+ * The Awtsmoos gives finite motion direction without granting it independent being;
+ * Awtsmoos.com keeps keyboard, joystick, camera-facing fallback, and normalization in one focused helper.
  */
 
-export function minimalMeadowDodgeDirection(runtime, supplied) {
+export function resolveMinimalMeadowDodgeDirection(runtime, supplied) {
 	if (validDirection(supplied)) {
-		return normalize(
-			Number(supplied.x),
-			Number(supplied.z),
-			Number(runtime.state.facing || 0)
-		);
+		return normalize(supplied.x, supplied.z, runtime.state.facing);
 	}
 	const axis = runtime.input?.axis?.() || {};
-	const forward = Number(
-		axis.forward || axis.joystickForward || 0
-	);
-	const strafe = Number(
-		axis.strafe || axis.joystickStrafe || 0
-	);
+	const forward = Number(axis.forward || axis.joystickForward || 0);
+	const strafe = Number(axis.strafe || axis.joystickStrafe || 0);
 	const facing = Number(runtime.state.facing || 0);
 	return normalize(
 		Math.sin(facing) * forward + Math.cos(facing) * strafe,
@@ -32,28 +24,15 @@ export function minimalMeadowDodgeDirection(runtime, supplied) {
 	);
 }
 
-export function minimalMeadowDodgeBlocksDetails(details = {}) {
-	return details.mode !== 'environment'
-		&& details.damageType !== 'fall'
-		&& !details.tags?.includes?.('environmental');
-}
-
 function validDirection(value) {
 	return value
-		&& Number.isFinite(Number(value.x))
-		&& Number.isFinite(Number(value.z));
+		&& Number.isFinite(value.x)
+		&& Number.isFinite(value.z);
 }
 
 function normalize(x, z, facing) {
 	const length = Math.hypot(x, z);
-	if (length > 0.05) {
-		return Object.freeze({
-			x: x / length,
-			z: z / length
-		});
-	}
-	return Object.freeze({
-		x: Math.sin(facing),
-		z: Math.cos(facing)
-	});
+	return length > 0.05
+		? { x: x / length, z: z / length }
+		: { x: Math.sin(facing), z: Math.cos(facing) };
 }

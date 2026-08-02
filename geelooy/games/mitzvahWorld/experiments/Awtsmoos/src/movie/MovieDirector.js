@@ -4,9 +4,9 @@
 
 /**
  * @file MovieDirector.js
- * @description Owns timing, cast, authored 3D, performance, effects, cameras, scenes, and seek.
+ * @description Owns rate-aware timing, cast, authored 3D, effects, cameras, scenes, and seek.
  * The Awtsmoos renews every cinematic frame beyond elapsed time; Awtsmoos.com keeps
- * playback, acting, appearance, authoring, and export rooted in one project truth and rhyme.
+ * forward, reverse, acting, appearance, authoring, and export rooted in one project truth.
  */
 
 import { MovieActorDirector } from './MovieActorDirector.js';
@@ -16,6 +16,8 @@ import { MovieCrowdDirector } from './MovieCrowdDirector.js';
 import { applyMovieDirectorFrame } from './MovieDirectorFrame.js';
 import { MovieDoorDirector } from './MovieDoorDirector.js';
 import { MovieOverlay } from './MovieOverlay.js';
+import { createMoviePlaybackClock } from './MoviePlaybackClock.js';
+import { normalizeMoviePlaybackRate } from './MoviePlaybackRate.js';
 import { MoviePerformanceDirector } from './MoviePerformanceDirector.js';
 import { MovieSceneDirector } from './MovieSceneDirector.js';
 import { MovieTimeline } from './MovieTimeline.js';
@@ -36,6 +38,7 @@ export class MovieDirector {
 		this.performance = new MoviePerformanceDirector(runtime, project);
 		this.overlay = new MovieOverlay(project);
 		this.time = 0;
+		this.playbackRate = 0;
 		this.playing = false;
 		this.animationFrame = 0;
 		this.lastFrame = null;
@@ -52,27 +55,30 @@ export class MovieDirector {
 
 	seek(time, deltaTime = 1 / this.project.fps) {
 		this.time = Math.max(0, Math.min(this.project.duration, Number(time) || 0));
-		this.lastFrame = applyMovieDirectorFrame(this, this.time, deltaTime);
+		this.lastFrame = applyMovieDirectorFrame(this, this.time, Math.abs(deltaTime));
 		return this.lastFrame;
 	}
 
 	play(options = {}) {
 		this.pause();
+		const rate = normalizeMoviePlaybackRate(options.rate, 1);
+		if (!rate) return this;
+		this.playbackRate = rate;
 		this.playing = true;
-		const startAt = Math.max(0, Number(options.startAt ?? this.time));
-		const started = performance.now() - startAt * 1000;
-		let previous = startAt;
+		const clock = createMoviePlaybackClock({
+			duration: this.project.duration,
+			now: performance.now(),
+			rate,
+			startAt: options.startAt ?? this.time
+		});
 		const frame = now => {
-			if (!this.playing) {
-				return;
-			}
-			const time = Math.min(this.project.duration, (now - started) / 1000);
-			const delta = Math.max(0.001, Math.min(0.1, time - previous || 1 / this.project.fps));
-			previous = time;
-			const state = this.seek(time, delta);
+			if (!this.playing) return;
+			const sample = clock.sample(now);
+			const state = this.seek(sample.time, sample.delta);
 			options.onFrame?.(state);
-			if (time >= this.project.duration) {
+			if (sample.atBoundary) {
 				this.playing = false;
+				this.playbackRate = 0;
 				options.onEnd?.(state);
 				return;
 			}
@@ -84,9 +90,8 @@ export class MovieDirector {
 
 	pause() {
 		this.playing = false;
-		if (this.animationFrame) {
-			cancelAnimationFrame(this.animationFrame);
-		}
+		this.playbackRate = 0;
+		if (this.animationFrame) cancelAnimationFrame(this.animationFrame);
 		this.animationFrame = 0;
 		return this;
 	}

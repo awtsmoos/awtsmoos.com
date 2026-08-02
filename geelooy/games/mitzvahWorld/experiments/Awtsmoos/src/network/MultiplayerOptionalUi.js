@@ -4,21 +4,16 @@
 
 /**
  * @file MultiplayerOptionalUi.js
- * @description Mounts deferred shared chat with module URLs anchored to this source chamber.
- * The Awtsmoos joins distant travelers without letting compaction erase the doorway's place;
- * Awtsmoos.com preserves each network path while abort and disconnect still release every trace.
+ * @description Mounts local-tab chat immediately and server chat after a short abortable quiet window.
+ * The Awtsmoos joins nearby tabs without timer-throttled silence while distant servers receive one breath;
+ * Awtsmoos.com preserves deferred imports, cancellation, disconnect, diagnostics, and exact cleanup.
  */
 
 import { afterGameplayQuietWindow } from '../app/GameplayQuietWindow.js';
 
-const SHARED_CHAT_FACTORY_URL = new URL(
-	'./SharedChatClientFactory.js',
-	import.meta.url
-).href;
-const CHAT_PANEL_URL = new URL(
-	'./MitzvahWorldChatPanel.js',
-	import.meta.url
-).href;
+const OPTIONAL_CHAT_DELAY_MS = 2500;
+const SHARED_CHAT_FACTORY_URL = new URL('./SharedChatClientFactory.js', import.meta.url).href;
+const CHAT_PANEL_URL = new URL('./MitzvahWorldChatPanel.js', import.meta.url).href;
 
 export class MultiplayerOptionalUi {
 	constructor(options = {}) {
@@ -35,14 +30,16 @@ export class MultiplayerOptionalUi {
 	start(client, transport) {
 		this.stop();
 		const generation = this.generation;
+		if (transport === 'local-tab') {
+			this.promise = this.mount(client, transport, generation);
+			return this.promise;
+		}
 		this.quietWindowController = createAbortController(this.environment);
 		this.promise = afterGameplayQuietWindow(
 			this.environment,
-			undefined,
+			OPTIONAL_CHAT_DELAY_MS,
 			this.quietWindowController?.signal
-		).then(ready => {
-			return ready ? this.mount(client, transport, generation) : null;
-		});
+		).then(ready => ready ? this.mount(client, transport, generation) : null);
 		return this.promise;
 	}
 
@@ -73,10 +70,7 @@ export class MultiplayerOptionalUi {
 			return panel;
 		} catch (error) {
 			this.error = error;
-			this.environment.console?.warn?.(
-				'[MitzvahWorld] Optional chat unavailable.',
-				error
-			);
+			this.environment.console?.warn?.('[MitzvahWorld] Optional chat unavailable.', error);
 			return null;
 		}
 	}
@@ -94,6 +88,7 @@ export class MultiplayerOptionalUi {
 
 	diagnostics() {
 		return {
+			delayMilliseconds: OPTIONAL_CHAT_DELAY_MS,
 			error: this.error?.message || null,
 			mounted: Boolean(this.panel),
 			open: this.panel?.root?.dataset?.open === 'true',
