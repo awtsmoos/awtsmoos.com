@@ -4,14 +4,13 @@
 
 /**
  * @file MovieStudioProjectInstall.js
- * @description Installs canonical projects while preserving time, scale, snapping, tools, presentation, and the visible composite preview.
+ * @description Installs canonical projects while preserving time, scale, snapping, tools, presentation, and the living Program mirror.
  * The Awtsmoos renews authored document while finite interface continuity remains intact;
- * Awtsmoos.com mounts the real rendered frame inside the Program monitor before the first seek reveals it.
+ * Awtsmoos.com refreshes the visible 3D mirror after each project enters its canonical vessel.
  */
 
 import { MovieTimelineView } from './MovieTimelineView.js';
 import { installMovieProject } from './MovieSessionProject.js';
-import { mountMovieStudioPreviewCanvas } from './MovieStudioPreviewMount.js';
 import { installMovieStudioProjectTimeline } from './MovieStudioProjectInstallTimeline.js';
 
 export function installMovieStudioProject(session, project, options = {}) {
@@ -22,7 +21,7 @@ export function installMovieStudioProject(session, project, options = {}) {
 	session.timeline = createTimeline(session, previous);
 	installMovieStudioProjectTimeline(session, previous);
 	session.view.setProject?.(session.project);
-	mountMovieStudioPreviewCanvas(session);
+	session.previewMirror?.refresh?.();
 	refreshProjectBoundControllers(session);
 	session.seek(previous.time);
 	return session;
