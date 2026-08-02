@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioPreviewCss.js
- * @description Fits the program frame and its authored overlay while preserving deliberate pixel zoom.
+ * @description Fits the live 3D frame to the largest available monitor area while preserving explicit pixel zoom.
  * The Awtsmoos reveals one authored world through every measured window; Awtsmoos.com
- * keeps canvas, guides, overlay, and frame proportional while explicit pixel inspection remains scrollable.
+ * lets canvas and guides fill the vessel before surrounding controls may claim its light.
  */
 
 export function movieStudioPreviewCss() {
@@ -16,22 +16,23 @@ export function movieStudioPreviewCss() {
 			place-items: center;
 			min-width: 0;
 			min-height: 0;
-			padding: var(--movie-space-4);
-			overflow: auto;
+			padding: 8px;
+			overflow: hidden;
 			overscroll-behavior: contain;
-			background: var(--movie-surface-canvas);
+			background: #020305;
 		}
 		.movie-studio-preview-frame {
 			position: relative;
-			width: min(100%, calc((100% - 2px) * 1));
-			max-width: calc((100vh - 220px) * var(--movie-aspect-ratio, 1.777777));
+			width: min(100%, calc((100dvh - 190px) * var(--movie-aspect-ratio, 1.777777)));
+			max-width: 100%;
+			max-height: 100%;
 			aspect-ratio: var(--movie-aspect-ratio, 16 / 9);
 			flex: 0 0 auto;
 			overflow: hidden;
-			border: 1px solid var(--movie-border-strong);
+			border: 1px solid rgb(255 255 255 / .16);
 			border-radius: var(--movie-radius-lg);
 			background: #000;
-			box-shadow: var(--movie-shadow);
+			box-shadow: 0 20px 64px rgb(0 0 0 / .48);
 		}
 		.movie-studio-preview {
 			position: absolute;
@@ -39,9 +40,11 @@ export function movieStudioPreviewCss() {
 			overflow: hidden;
 		}
 		.movie-preview-canvas,
-		.movie-preview-canvas canvas {
+		.movie-preview-canvas canvas,
+		.movie-studio-preview > canvas {
 			position: absolute;
 			inset: 0;
+			display: block;
 			width: 100%;
 			height: 100%;
 		}
@@ -53,7 +56,17 @@ export function movieStudioPreviewCss() {
 			place-items: center;
 			pointer-events: none;
 			color: var(--movie-text);
-			text-shadow: 0 1px 3px rgb(0 0 0 / 0.9);
+			text-shadow: 0 1px 3px rgb(0 0 0 / .9);
+		}
+		.Awtsmoos-movie-studio.is-cinema-focus .movie-studio-preview-stage {
+			padding: 0;
+		}
+		.Awtsmoos-movie-studio.is-cinema-focus .movie-studio-preview-frame {
+			width: min(100%, calc(100dvh * var(--movie-aspect-ratio, 1.777777)));
+			max-width: 100%;
+			max-height: 100dvh;
+			border: 0;
+			border-radius: 0;
 		}
 		.Awtsmoos-movie-studio[data-preview-zoom="100%"] .movie-studio-preview-frame {
 			width: var(--movie-project-width, 1920px);

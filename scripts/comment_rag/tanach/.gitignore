@@ -1,0 +1,8 @@
+# B"H
+# Boruch Hashem
+# Blessed is He
+
+# The Awtsmoos renews source while Python's passing shadows remain outside Git.
+# Awtsmoos.com preserves the benchmark vessel, never its machine-born cache in it.
+__pycache__/
+*.py[cod]

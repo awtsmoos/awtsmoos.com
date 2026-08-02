@@ -4,9 +4,9 @@
 
 /**
  * @file compactJs.mitzvahWorldRuntime.test.js
- * @description Compiles the real page and proves compact bootstrap remains light while rich systems stay deferred.
- * The Awtsmoos folds each required gameplay vessel before the first truthful readiness seal;
- * Awtsmoos.com leaves the richer world beyond the compact gate so first play remains swift and real.
+ * @description Proves compact bootstrap imports the scheduler while the rich bundle remains outside the graph.
+ * The Awtsmoos folds each first-control vessel before the truthful readiness seal;
+ * Awtsmoos.com keeps scheduler identity explicit and leaves the richer installer beyond the compact gate.
  */
 
 const assert = require('assert');
@@ -29,11 +29,15 @@ async function run() {
 	assert.match(compactSource, new RegExp(escapePattern(DRIVE_MODEL_ROOT)));
 	assert.doesNotMatch(compactSource, /\/geelooy\/games\/mitzvahWorld\/assets\/models\//);
 	assert.doesNotMatch(compactSource, /\/games\/mitzvahWorld\/assets\/models\//);
-	assert.match(compactSource, /function scheduleMinimalMeadowFeatures\(/);
+	assert.match(
+		compactSource,
+		/module\.scheduleMinimalMeadowFeatures\(runtime, environment, \{/
+	);
+	assert.match(compactSource, /MinimalMeadowFeatureScheduler\.js/);
 	assert.match(compactSource, /function resolveDeferredAppModuleUrl\(/);
-	assert.match(compactSource, /MinimalMeadowFeatureBundle\.js/);
+	assert.match(compactSource, /FEATURE_SCHEDULER_URL/);
+	assert.doesNotMatch(compactSource, /MinimalMeadowFeatureBundle\.js/);
 	assert.doesNotMatch(compactSource, /async function installMinimalMeadowFeatures\(/);
-	assert.doesNotMatch(compactSource, /FEATURE_SCHEDULER_URL/);
 	assert.match(
 		compactSource,
 		/\/games\/mitzvahWorld\/experiments\/Awtsmoos\/src\/network\/MultiplayerOptionalUi\.js/

@@ -20,8 +20,8 @@ const GENERATED_ROOTS = new Set([
 	"inspection-shared-world"
 ]);
 const GENERATED_SEGMENTS = new Set([
-	".ai-thoughts", ".cache", ".logs", ".reports", "coverage", "logs",
-	"node_modules", "reports", "review-output", "screenshots",
+	".ai-thoughts", ".cache", ".logs", ".reports", "__pycache__", "coverage",
+	"logs", "node_modules", "reports", "review-output", "screenshots",
 	"simulator-results", "temp", "tmp"
 ]);
 const GENERATED_PREFIXES = [
@@ -33,8 +33,8 @@ const GENERATED_PREFIXES = [
 ];
 const FORBIDDEN_SUFFIXES = [
 	".aif", ".aiff", ".apk", ".bak", ".cache", ".err", ".log", ".map",
-	".out", ".rar", ".swp", ".tar", ".tar.gz", ".tgz", ".tmp", ".7z",
-	".zip"
+	".out", ".pyc", ".pyo", ".rar", ".swp", ".tar", ".tar.gz", ".tgz",
+	".tmp", ".7z", ".zip"
 ];
 const MEDIA_EXTENSIONS = new Set([
 	".aif", ".aiff", ".avi", ".bmp", ".flac", ".gif", ".glb", ".gltf",

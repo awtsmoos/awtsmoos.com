@@ -81,6 +81,7 @@ geelooy/.data/
 **/.parcel-cache/
 **/.vite/
 **/.nyc_output/
+**/__pycache__/
 **/coverage/
 **/node_modules/
 **/runtime-cache/
@@ -88,6 +89,8 @@ geelooy/.data/
 **/tmp/
 **/temp/
 command-output/
+*.pyc
+*.pyo
 *.log
 *.out
 *.err

@@ -4,9 +4,9 @@
 
 /**
  * @file BrowserCdpHarness.mjs
- * @description Creates deterministic targets and focuses each page before foreground interaction.
- * The Awtsmoos grants every finite page its appointed moment before the visible throne;
- * Awtsmoos.com attaches once, enables domains once, navigates explicitly, and foregrounds by command.
+ * @description Creates deterministic targets and proves navigation by page reality.
+ * The Awtsmoos grants each finite page its appointed moment beneath the visible throne;
+ * Awtsmoos.com trusts the witnessed URL when a delivered CDP command loses its reply alone.
  */
 
 import {
@@ -34,17 +34,7 @@ export class BrowserCdpHarness {
 	async createTarget(url) {
 		const created = await this.targets.create('about:blank');
 		const target = await this.targets.wait(created.id, 15000);
-		const session = await this.session(target.id);
-		await session.enablePage();
-		await session.send('Page.navigate', { url }, 15000);
-		await this.waitFor(target.id, `({
-			href: location.href,
-			ready: location.href === ${JSON.stringify(url)}
-		})`, {
-			intervalMs: 50,
-			label: 'TARGET_DOCUMENT',
-			timeoutMs: 30000
-		});
+		await this.navigateAndWitness(target.id, url);
 		return target.id;
 	}
 
@@ -54,9 +44,23 @@ export class BrowserCdpHarness {
 	}
 
 	async navigateTarget(targetId, url) {
+		await this.navigateAndWitness(targetId, url);
+	}
+
+	async navigateAndWitness(targetId, url) {
 		const session = await this.session(targetId);
 		await session.enablePage();
-		await session.send('Page.navigate', { url }, 15000);
+		await session.send('Page.navigate', { url }, 15000).catch(error => {
+			if (error.message !== 'Page.navigate_TIMEOUT') throw error;
+		});
+		return this.waitFor(targetId, `({
+			href: location.href,
+			ready: location.href === ${JSON.stringify(url)}
+		})`, {
+			intervalMs: 50,
+			label: 'TARGET_DOCUMENT',
+			timeoutMs: 30000
+		});
 	}
 
 	async closeTarget(targetId) {

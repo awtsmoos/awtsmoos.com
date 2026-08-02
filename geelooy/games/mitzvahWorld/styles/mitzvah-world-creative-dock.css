@@ -1,0 +1,113 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos renews the visible world while Awtsmoos.com keeps cinematic controls reachable. */
+
+html[data-awtsmoos-gameplay="true"] .Awtsmoos-creative-dock {
+	position: fixed;
+	right: max(14px, env(safe-area-inset-right));
+	bottom: max(14px, env(safe-area-inset-bottom));
+	z-index: 46;
+	display: grid;
+	gap: 6px;
+	max-width: min(320px, calc(100vw - 28px));
+	padding: 8px;
+	border: 1px solid rgb(137 201 177 / .45);
+	border-radius: 14px;
+	background: rgb(6 18 15 / .9);
+	box-shadow: 0 16px 44px rgb(0 0 0 / .38);
+	backdrop-filter: blur(14px);
+	color: #f4fff9;
+}
+
+.Awtsmoos-creative-dock__controls {
+	display: flex;
+	gap: 6px;
+	flex-wrap: wrap;
+}
+
+.Awtsmoos-creative-dock button {
+	min-height: 42px;
+	padding: 0 13px;
+	border: 1px solid rgb(137 201 177 / .45);
+	border-radius: 10px;
+	background: linear-gradient(180deg, #214c3d, #123227);
+	color: #f4fff9;
+	font: 700 13px/1 system-ui, sans-serif;
+	cursor: pointer;
+}
+
+.Awtsmoos-creative-dock button:hover,
+.Awtsmoos-creative-dock button:focus-visible {
+	border-color: #b8ffe2;
+	background: #285c49;
+	outline: 2px solid #b8ffe2;
+	outline-offset: 2px;
+}
+
+.Awtsmoos-creative-dock button[aria-pressed="true"] {
+	background: #f2c66d;
+	color: #241700;
+}
+
+.Awtsmoos-creative-dock__status {
+	max-width: 280px;
+	color: #b9cfc5;
+	font: 11px/1.35 system-ui, sans-serif;
+}
+
+html[data-awtsmoos-gameplay="true"][data-awtsmoos-cinematic="true"] :is(
+	#hud,
+	#playerHudShell,
+	#mobileControls,
+	#actions,
+	#gameRail,
+	#combatTarget,
+	#npcDialogue,
+	#inventory,
+	#meadowMenu,
+	#universalApiToggle,
+	#universalApiExplorer
+) {
+	opacity: 0 !important;
+	visibility: hidden !important;
+	pointer-events: none !important;
+}
+
+html[data-awtsmoos-cinematic="true"] .Awtsmoos-creative-dock {
+	padding: 6px;
+	background: rgb(4 12 10 / .68);
+}
+
+html[data-awtsmoos-cinematic="true"] .Awtsmoos-creative-dock [data-creative-studio],
+html[data-awtsmoos-cinematic="true"] .Awtsmoos-creative-dock__status {
+	display: none;
+}
+
+@media (max-width: 640px) {
+	html[data-awtsmoos-gameplay="true"] .Awtsmoos-creative-dock {
+		right: max(8px, env(safe-area-inset-right));
+		bottom: max(8px, env(safe-area-inset-bottom));
+		left: max(8px, env(safe-area-inset-left));
+	}
+
+	.Awtsmoos-creative-dock__controls > button {
+		flex: 1 1 130px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.Awtsmoos-creative-dock,
+	.Awtsmoos-creative-dock * {
+		transition: none !important;
+	}
+}
+
+@media (forced-colors: active) {
+	.Awtsmoos-creative-dock,
+	.Awtsmoos-creative-dock button {
+		border-color: ButtonText;
+		background: Canvas;
+		color: CanvasText;
+	}
+}

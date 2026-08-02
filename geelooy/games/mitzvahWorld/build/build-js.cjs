@@ -4,21 +4,19 @@
 
 /**
  * @file build-js.cjs
- * @description Builds normalized deterministic compact JavaScript from the canonical public root.
- * The Awtsmoos joins readable chambers without inventing false walls; Awtsmoos.com resolves
- * paths from the browser vessel, preserves optional boundaries, and removes trailing-space drift before hashing.
+ * @description Builds deterministic CompactJS plus precompressed production representations.
+ * The Awtsmoos joins readable chambers without false walls; Awtsmoos.com preserves
+ * deferred boundaries while emitting identity, Brotli, gzip, hashes, and manifest truth.
  */
 
 const fs = require('node:fs');
 const path = require('node:path');
 const {
-	compactResult,
 	compilerFunction
 } = require('./js/CompactJsAdapter.cjs');
 const {
-	compactJsManifest,
-	sha256
-} = require('./js/CompactJsManifest.cjs');
+	writeCompactJsBuild
+} = require('./js/CompactJsBuildWriter.cjs');
 
 const gameRoot = path.resolve(__dirname, '..');
 const repositoryRoot = path.resolve(gameRoot, '../../..');
@@ -37,8 +35,16 @@ const compilerModule = require(path.join(
 const compile = compilerFunction(compilerModule);
 
 Promise.resolve(buildOnce())
-	.then(first => Promise.resolve(buildOnce()).then(second => {
-		return write(first, second);
+	.then(firstValue => Promise.resolve(buildOnce()).then(secondValue => {
+		const manifest = writeCompactJsBuild({
+			entryFile,
+			firstValue,
+			gameRoot,
+			manifestFile,
+			outputFile,
+			secondValue
+		});
+		console.log(JSON.stringify(manifest));
 	}))
 	.catch(error => {
 		console.error(error);
@@ -53,66 +59,4 @@ function buildOnce() {
 		rootDir: publicRoot,
 		sourceMaps: true
 	});
-}
-
-function write(firstValue, secondValue) {
-	const first = normalizedResult(compactResult(firstValue));
-	const second = normalizedResult(compactResult(secondValue));
-	const firstHash = sha256(first.code);
-	const secondHash = sha256(second.code);
-	if (firstHash !== secondHash) {
-		throw new Error('COMPACT_JS_NONDETERMINISTIC');
-	}
-	const optionalMarkers = [
-		'MinimalMeadowRichWorld',
-		'MinimalMeadowFriendlyNpcs',
-		'MinimalMeadowPlayerHydration'
-	];
-	const optionalModulesBundled = optionalMarkers.filter(marker => {
-		return first.code.includes(marker);
-	});
-	if (optionalModulesBundled.length) {
-		throw new Error(
-			`COMPACT_JS_OPTIONAL_BUNDLED:${optionalModulesBundled.join(',')}`
-		);
-	}
-	fs.writeFileSync(outputFile, first.code);
-	if (first.map) fs.writeFileSync(`${outputFile}.map`, first.map);
-	const manifest = compactJsManifest({
-		code: first.code,
-		entry: path.relative(gameRoot, entryFile),
-		firstHash,
-		inputBytes: fs.statSync(entryFile).size,
-		map: first.map,
-		modules: first.modules,
-		optionalModulesBundled,
-		secondHash
-	});
-	fs.writeFileSync(
-		manifestFile,
-		`${JSON.stringify(manifest, null, '\t')}\n`
-	);
-	console.log(JSON.stringify(manifest));
-}
-
-function normalizedResult(result) {
-	return {
-		...result,
-		code: normalizeText(result.code),
-		map: result.map
-			? normalizeText(
-				typeof result.map === 'string'
-					? result.map
-					: JSON.stringify(result.map)
-			)
-			: null
-	};
-}
-
-function normalizeText(value) {
-	return `${String(value)
-		.split('\n')
-		.map(line => line.replace(/[\t ]+$/u, ''))
-		.join('\n')
-		.trim()}\n`;
 }

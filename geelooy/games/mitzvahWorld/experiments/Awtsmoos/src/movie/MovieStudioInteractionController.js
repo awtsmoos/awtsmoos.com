@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioInteractionController.js
- * @description Binds removable non-transport actions, guarded replacement, keyboard flow, history, and inspector state.
+ * @description Binds removable non-transport actions, guarded replacement, keyboard flow, history, inspector, and cinema priority.
  * The Awtsmoos renews intention before finger or key can move; Awtsmoos.com lets
- * project replacement, rendering, recovery, and panels travel through one guarded path.
+ * project replacement, rendering, recovery, and focused viewing travel through one guarded path.
  */
 
 import { createEmptyMovieProject } from './MovieEmptyProject.js';
@@ -33,11 +33,12 @@ export class MovieStudioInteractionController {
 		view.inspectorToggle.addEventListener('click', handlers.toggleInspector);
 		view.inspectorClose.addEventListener('click', handlers.closeInspector);
 		document.addEventListener('keydown', handlers.keyDown);
-		this.toggleInspector(matchMedia('(min-width: 981px)').matches, false);
+		this.toggleInspector(false, false);
 	}
 
 	onKeyDown(event) {
 		if (this.session.utilityController?.onKeyDown(event)) return true;
+		if (this.session.presentationController?.onKeyDown(event)) return true;
 		return handleMovieStudioKey(this, event);
 	}
 

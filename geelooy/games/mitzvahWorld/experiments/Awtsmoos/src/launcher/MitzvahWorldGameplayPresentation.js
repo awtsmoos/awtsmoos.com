@@ -4,12 +4,14 @@
 
 /**
  * @file MitzvahWorldGameplayPresentation.js
- * @description Opens gameplay CSS and HUD behavior only after a mode has been selected.
- * The Awtsmoos clothes the chosen world in its proper vessels at the proper instant; Awtsmoos.com
- * does not burden the menu with panels, inventory, action bars, or responsive gameplay geometry.
+ * @description Opens gameplay CSS, HUD behavior, and cinematic creation only after selection.
+ * The Awtsmoos clothes the chosen world at the proper instant; Awtsmoos.com keeps menu startup
+ * light while gameplay later receives panels, responsive geometry, minimization, and studio passage.
  */
 
 const STYLE_ATTRIBUTE = 'data-awtsmoos-gameplay-style';
+export const CREATIVE_DOCK_STYLESHEET =
+	'./styles/mitzvah-world-creative-dock.css?v=20260802-game-studio-bridge-01';
 
 export const GAMEPLAY_STYLESHEETS = Object.freeze([
 	'./styles/mitzvah-world-shell.css?v=20260722-menu-stream-01',
@@ -20,49 +22,33 @@ export const GAMEPLAY_STYLESHEETS = Object.freeze([
 	'./styles/mitzvah-world-responsive.css?v=20260722-menu-stream-01'
 ]);
 
+let creativeDockPromise = null;
 let hudControllerPromise = null;
 let stylesheetReadiness = null;
 
-/**
- * Activates gameplay hosts immediately, starts stylesheet requests, and defers HUD enhancement.
- * The returned readiness promise is diagnostic only and never blocks the selected runtime.
- *
- * @param {Record<string, HTMLElement>} hosts - Semantic gameplay hosts.
- * @param {Document} documentValue - Browser document receiving stylesheet links.
- * @param {typeof globalThis} environment - Runtime used for idle scheduling.
- * @returns {{ready: Promise<unknown>, stylesheets: readonly string[]}} Presentation diagnostics.
- */
 export function prepareGameplayPresentation(
 	hosts,
 	documentValue = globalThis.document,
 	environment = globalThis
 ) {
 	if (!documentValue) {
-		return {
-			ready: Promise.resolve(),
-			stylesheets: GAMEPLAY_STYLESHEETS
-		};
+		return { ready: Promise.resolve(), stylesheets: GAMEPLAY_STYLESHEETS };
 	}
 	documentValue.documentElement.dataset.awtsmoosGameplay = 'true';
-	for (const host of Object.values(hosts || {})) {
-		host?.style?.removeProperty('visibility');
-	}
+	for (const host of Object.values(hosts || {})) host?.style?.removeProperty('visibility');
 	stylesheetReadiness ||= Promise.allSettled(
 		GAMEPLAY_STYLESHEETS.map((href, index) => loadStylesheet(documentValue, href, index))
 	);
-	scheduleHudController(documentValue, environment, stylesheetReadiness);
+	scheduleEnhancements(documentValue, environment, stylesheetReadiness);
 	return {
-		ready: stylesheetReadiness,
+		ready: Promise.all([stylesheetReadiness, hudControllerPromise, creativeDockPromise]),
 		stylesheets: GAMEPLAY_STYLESHEETS
 	};
 }
 
-function loadStylesheet(documentValue, href, index) {
-	const id = `gameplay-${index}`;
+function loadStylesheet(documentValue, href, id) {
 	const existing = documentValue.querySelector(`link[${STYLE_ATTRIBUTE}="${id}"]`);
-	if (existing) {
-		return Promise.resolve(existing);
-	}
+	if (existing) return Promise.resolve(existing);
 	return new Promise((resolve, reject) => {
 		const link = documentValue.createElement('link');
 		link.rel = 'stylesheet';
@@ -76,20 +62,32 @@ function loadStylesheet(documentValue, href, index) {
 	});
 }
 
-function scheduleHudController(documentValue, environment, stylesReady) {
-	if (hudControllerPromise) {
-		return;
-	}
-	hudControllerPromise = stylesReady.then(() => new Promise(resolve => {
-		const reveal = async () => {
-			const { HudMinimizeController } = await import('../ui/HudMinimizeController.js');
-			environment.AwtsmoosHud ||= new HudMinimizeController(documentValue).install();
-			resolve(environment.AwtsmoosHud);
-		};
+function scheduleEnhancements(documentValue, environment, stylesReady) {
+	hudControllerPromise ||= stylesReady.then(() => schedule(environment, async () => {
+		const { HudMinimizeController } = await import('../ui/HudMinimizeController.js');
+		environment.AwtsmoosHud ||= new HudMinimizeController(documentValue).install();
+		return environment.AwtsmoosHud;
+	}));
+	creativeDockPromise ||= stylesReady.then(async () => {
+		await loadStylesheet(documentValue, CREATIVE_DOCK_STYLESHEET, 'creative-dock');
+		return schedule(environment, async () => {
+			const { installMitzvahWorldCreativeDock } = await import('./MitzvahWorldCreativeDock.js');
+			environment.AwtsmoosCreativeDock ||= installMitzvahWorldCreativeDock(
+				documentValue,
+				environment
+			);
+			return environment.AwtsmoosCreativeDock;
+		});
+	});
+}
+
+function schedule(environment, operation) {
+	return new Promise(resolve => {
+		const run = async () => resolve(await operation());
 		if (typeof environment.requestIdleCallback === 'function') {
-			environment.requestIdleCallback(reveal, { timeout: 1200 });
+			environment.requestIdleCallback(run, { timeout: 1200 });
 			return;
 		}
-		environment.setTimeout?.(reveal, 0) ?? reveal();
-	}));
+		environment.setTimeout?.(run, 0) ?? run();
+	});
 }

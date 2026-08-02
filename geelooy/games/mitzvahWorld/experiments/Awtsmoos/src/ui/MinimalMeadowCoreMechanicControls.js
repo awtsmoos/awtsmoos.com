@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowCoreMechanicControls.js
- * @description Mounts one persistent keyboard/mobile surface for dodge, lock, consumable, and pickup.
+ * @description Mounts one persistent action surface and projects only changed live mechanic state.
  * The Awtsmoos joins intention and touch without multiplying authorities;
- * Awtsmoos.com remounts one existing root after rich host composition without duplicating listeners.
+ * Awtsmoos.com preserves remounting, accessibility, exact events, and quiet unchanged frames.
  */
 
 import {
@@ -23,6 +23,7 @@ export class MinimalMeadowCoreMechanicControls {
 	constructor(runtime, documentValue) {
 		this.runtime = runtime;
 		this.document = documentValue;
+		this.projected = Object.create(null);
 		installMinimalMeadowCoreMechanicStyles(documentValue);
 		this.root = documentValue.createElement('section');
 		this.root.className = 'Awtsmoos-core-mechanics';
@@ -75,12 +76,19 @@ export class MinimalMeadowCoreMechanicControls {
 
 	refresh() {
 		this.mount();
-		const consumable = this.runtime.consumables?.snapshot?.();
-		this.root.dataset.lootNearby = String(Boolean(
-			this.runtime.lootDrops?.nearestDrop?.()
-		));
-		this.root.dataset.locked = String(Boolean(this.runtime.lockOn?.targetId));
-		this.root.dataset.consumable = consumable?.selectedItemId || 'none';
+		this.project('lootNearby', String(Boolean(this.runtime.lootDrops?.nearbyId)));
+		this.project('locked', String(Boolean(this.runtime.lockOn?.targetId)));
+		this.project(
+			'consumable',
+			this.runtime.consumables?.selectedItemId || 'none'
+		);
+	}
+
+	project(name, value) {
+		if (this.projected[name] === value) return false;
+		this.projected[name] = value;
+		this.root.dataset[name] = value;
+		return true;
 	}
 
 	diagnostics() {

@@ -4,19 +4,22 @@
 
 /**
  * @file MovieStudioStyleText.js
- * @description Composes transport, performance, composition, scene, camera, audio, title, 3D, and NLE CSS.
- * The Awtsmoos renews every pane, canvas, actor, lens, word, diamond, speed, effect, and guide;
- * Awtsmoos.com prevents neighboring pages and sibling studios from inheriting another vessel's sight.
+ * @description Composes every committed NLE contract with cinema-first, professional, adaptive, and inclusive polish.
+ * The Awtsmoos renews panel, monitor, timeline, touch sheet, and accessible path in one light;
+ * Awtsmoos.com joins each bounded vessel while the living 3D frame receives first revelation.
  */
 
 import { movieStudioAccessibilityCss } from './MovieStudioAccessibilityCss.js';
+import { movieStudioAdaptiveCss } from './MovieStudioAdaptiveCss.js';
 import { movieStudioAuthoring3dCss } from './MovieStudioAuthoring3dCss.js';
 import { movieStudioAudioMixerCss } from './MovieStudioAudioMixerCss.js';
 import { movieStudioCameraActionCss } from './MovieStudioCameraActionCss.js';
+import { movieStudioCinemaCss } from './MovieStudioCinemaCss.js';
 import { movieStudioCompositionCss } from './MovieStudioCompositionCss.js';
 import { movieStudioControlsCss } from './MovieStudioControlsCss.js';
 import { localizeMovieStudioCss } from './MovieStudioCssLocalizer.js';
 import { movieStudioDensityCss } from './MovieStudioDensityCss.js';
+import { movieStudioInclusiveCss } from './MovieStudioInclusiveCss.js';
 import { movieStudioInspectorCss } from './MovieStudioInspectorCss.js';
 import { movieStudioKeyframeCss } from './MovieStudioKeyframeCss.js';
 import { movieStudioLayoutCss } from './MovieStudioLayoutCss.js';
@@ -24,6 +27,8 @@ import { movieStudioLoadingCss } from './MovieStudioLoadingCss.js';
 import { MOVIE_STUDIO_PERFORMANCE_CSS } from './MovieStudioPerformanceCss.js';
 import { movieStudioPerformanceOverlayCss } from './MovieStudioPerformanceOverlayCss.js';
 import { movieStudioPreviewCss } from './MovieStudioPreviewCss.js';
+import { movieStudioProfessionalCss } from './MovieStudioProfessionalCss.js';
+import { movieStudioProgramCss } from './MovieStudioProgramCss.js';
 import { movieStudioProjectBrowserCss } from './MovieStudioProjectBrowserCss.js';
 import { movieStudioResponsiveCss } from './MovieStudioResponsiveCss.js';
 import { movieStudioSantoCss } from './MovieStudioSantoCss.js';
@@ -39,6 +44,7 @@ import { movieStudioUtilityCss } from './MovieStudioUtilityCss.js';
 import { movieStudioUtilityResponsiveCss } from './MovieStudioUtilityResponsiveCss.js';
 import { movieTimelineAppearanceCss } from './MovieTimelineAppearanceCss.js';
 import { movieTimelineCss } from './MovieTimelineCss.js';
+import { movieTimelineProfessionalCss } from './MovieTimelineProfessionalCss.js';
 
 export function movieStudioStyleText() {
 	const fragments = [
@@ -47,12 +53,14 @@ export function movieStudioStyleText() {
 		movieStudioPreviewCss(), movieStudioTransportCss(), movieStudioInspectorCss(),
 		movieStudioCompositionCss(), MOVIE_STUDIO_PERFORMANCE_CSS,
 		movieStudioPerformanceOverlayCss(), movieStudioScene3dCss(),
-		movieStudioCameraActionCss(), movieStudioKeyframeCss(), movieStudioAudioMixerCss(),
-		movieStudioTitleCss(), movieStudioAuthoring3dCss(), movieTimelineCss(),
-		movieTimelineAppearanceCss(), movieStudioSplitterCss(), movieStudioStatusBarCss(),
-		movieStudioUtilityCss(), movieStudioUtilityContentCss(), movieStudioProjectBrowserCss(),
-		movieStudioDensityCss(), movieStudioResponsiveCss(), movieStudioUtilityResponsiveCss(),
-		movieStudioAccessibilityCss()
+		movieStudioCameraActionCss(), movieStudioKeyframeCss(),
+		movieStudioAudioMixerCss(), movieStudioTitleCss(), movieStudioAuthoring3dCss(),
+		movieTimelineCss(), movieTimelineAppearanceCss(), movieStudioSplitterCss(),
+		movieStudioStatusBarCss(), movieStudioUtilityCss(), movieStudioUtilityContentCss(),
+		movieStudioProjectBrowserCss(), movieStudioDensityCss(), movieStudioResponsiveCss(),
+		movieStudioUtilityResponsiveCss(), movieStudioAccessibilityCss(),
+		movieStudioProfessionalCss(), movieStudioProgramCss(), movieTimelineProfessionalCss(),
+		movieStudioAdaptiveCss(), movieStudioInclusiveCss(), movieStudioCinemaCss()
 	];
 	return localizeMovieStudioCss(fragments.join('\n'));
 }

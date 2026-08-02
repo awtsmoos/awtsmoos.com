@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudio.js
- * @description Boots the real world beneath the stable API, compositions, performance, transport, and NLE.
+ * @description Boots the real world beneath the cinema-first professional Movie Studio API and workspaces.
  * The Awtsmoos renews world and editing vessel together; Awtsmoos.com binds runtime, project,
- * nested canvases, recovery, source, program transport, cameras, audio, authoring, and rendering.
+ * nested canvases, recovery, performance, sound, focused presentation, and deterministic rendering.
  */
 
 import { createEretzRuntime } from '../app/createEretzRuntime.js';
@@ -19,6 +19,7 @@ import { MovieStudioInteractionController } from './MovieStudioInteractionContro
 import { MovieStudioKeyframeController } from './MovieStudioKeyframeController.js';
 import { MovieStudioPerformanceController } from './MovieStudioPerformanceController.js';
 import { MovieStudioPreferenceController } from './MovieStudioPreferenceController.js';
+import { MovieStudioPresentationController } from './MovieStudioPresentationController.js';
 import { MovieStudioProjectBrowserController } from './MovieStudioProjectBrowserController.js';
 import { MovieStudioResizeController } from './MovieStudioResizeController.js';
 import { MovieStudioScene3dController } from './MovieStudioScene3dController.js';
@@ -28,6 +29,7 @@ import { MovieStudioTitleController } from './MovieStudioTitleController.js';
 import { MovieStudioTransportController } from './MovieStudioTransportController.js';
 import { MovieStudioUtilityController } from './MovieStudioUtilityController.js';
 import { createMovieStudioView, showMovieLoading } from './MovieStudioView.js';
+import { MovieStudioWorkspaceModeController } from './MovieStudioWorkspaceModeController.js';
 import { hideMovieWorldChrome } from './MovieWorldChrome.js';
 
 export async function createMovieStudio(hosts, initialProject, options = {}) {
@@ -39,10 +41,11 @@ export async function createMovieStudio(hosts, initialProject, options = {}) {
 		});
 		const runtime = diagnostics.runtime;
 		const restoreWorldChrome = hideMovieWorldChrome(hosts, runtime.renderer.canvas);
-		loading.set('B"H arranging transport, compositions, performance, sound, actions, and cameras…');
+		loading.set('B"H arranging the live 3D cinema and professional tools…');
 		const view = createMovieStudioView(initialProject);
 		const session = new MovieStudioSession(runtime, diagnostics, view, initialProject);
 		session.restoreWorldChrome = restoreWorldChrome;
+		session.workspaceModeController = new MovieStudioWorkspaceModeController(session, view);
 		session.scene3dController = new MovieStudioScene3dController(session, view.root);
 		session.scene3dGizmo = new MovieStudioScene3dGizmo(session, view.root);
 		session.authoring3dController = new MovieStudioAuthoring3dController(session, view);
@@ -58,6 +61,7 @@ export async function createMovieStudio(hosts, initialProject, options = {}) {
 		});
 		session.transportController = new MovieStudioTransportController(session, view);
 		session.interactions = new MovieStudioInteractionController(session, view);
+		session.presentationController = new MovieStudioPresentationController(session, view);
 		session.preferenceController = new MovieStudioPreferenceController(session, view);
 		session.resizeController = new MovieStudioResizeController(session, view);
 		scheduleAutomaticRender(session, options);

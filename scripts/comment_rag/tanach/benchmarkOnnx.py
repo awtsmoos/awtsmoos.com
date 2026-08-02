@@ -32,6 +32,13 @@ def normalized_mean(hidden, attention):
 	return pooled / np.clip(np.linalg.norm(pooled, axis=1, keepdims=True), 1e-9, None)
 
 
+def session_inputs(session, encoded):
+	values = dict(encoded)
+	if "token_type_ids" not in values:
+		values["token_type_ids"] = np.zeros_like(values["input_ids"], dtype=np.int64)
+	return {item.name: values[item.name].astype(np.int64) for item in session.get_inputs()}
+
+
 def main():
 	rows = read_rows()
 	texts = [f"passage: {row['text']}" for row in rows]
@@ -52,7 +59,7 @@ def main():
 		sess_options=options,
 		providers=["CPUExecutionProvider"]
 	)
-	inputs = {item.name: encoded[item.name] for item in session.get_inputs()}
+	inputs = session_inputs(session, encoded)
 	session.run(None, inputs)
 	started = time.perf_counter()
 	hidden = session.run(None, inputs)[0]

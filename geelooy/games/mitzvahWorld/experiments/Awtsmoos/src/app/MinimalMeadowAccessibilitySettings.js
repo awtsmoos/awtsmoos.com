@@ -28,7 +28,7 @@ export function normalizeMinimalMeadowAccessibilitySettings(value = {}) {
 			1
 		),
 		flashMultiplier: bounded(value.flashMultiplier, 0, 1, 1),
-		textScale: bounded(value.textScale, 1, 1.5, 1),
+		textScale: bounded(value.textScale, 1, 2, 1),
 		timingWindowMultiplier: bounded(
 			value.timingWindowMultiplier,
 			1,

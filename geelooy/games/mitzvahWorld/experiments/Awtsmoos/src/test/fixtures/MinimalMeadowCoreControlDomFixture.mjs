@@ -4,18 +4,24 @@
 
 /**
  * @file MinimalMeadowCoreControlDomFixture.mjs
- * @description Supplies a small parent-aware DOM and bus for exact control remount tests.
- * The Awtsmoos gives finite hosts and children no hidden persistence;
- * Awtsmoos.com keeps append, replacement, removal, attributes, events, and parent identity inspectable.
+ * @description Supplies a parent-aware DOM, mutation ledger, and bus for control projection tests.
+ * The Awtsmoos gives hosts, children, and attributes no hidden persistence;
+ * Awtsmoos.com keeps append, replacement, dataset writes, events, and parent identity inspectable.
  */
 
 export function coreControlDomFixture() {
+	const datasetWrites = [];
 	const elementsById = new Map();
 	const documentListeners = new Map();
+	const create = tagName => createElement(
+		tagName,
+		elementsById,
+		datasetWrites
+	);
 	const documentValue = {
-		createElement: tagName => createElement(tagName, elementsById),
+		createElement: create,
 		getElementById: id => elementsById.get(id) || null,
-		head: createElement('head', elementsById),
+		head: create('head'),
 		addEventListener(type, listener) {
 			documentListeners.set(type, listener);
 		},
@@ -23,28 +29,34 @@ export function coreControlDomFixture() {
 			documentListeners.delete(type);
 		}
 	};
-	const actionHost = createElement('div', elementsById);
+	const actionHost = create('div');
 	return {
 		actionHost,
+		datasetWrites,
 		documentValue,
 		runtime: {
 			bus: eventBusFixture(),
-			consumables: {
-				snapshot: () => ({ selectedItemId: 'healing-broth' })
-			},
+			consumables: { selectedItemId: 'healing-broth' },
 			hosts: { actionHost },
 			lockOn: { targetId: null },
-			lootDrops: { nearestDrop: () => null }
+			lootDrops: { nearbyId: null }
 		}
 	};
 }
 
-function createElement(tagName, elementsById) {
+function createElement(tagName, elementsById, datasetWrites) {
 	const listeners = new Map();
+	const dataset = new Proxy({}, {
+		set(target, name, value) {
+			datasetWrites.push({ name: String(name), value: String(value) });
+			target[name] = String(value);
+			return true;
+		}
+	});
 	const element = {
 		children: [],
 		className: '',
-		dataset: {},
+		dataset,
 		innerHTML: '',
 		parentNode: null,
 		tagName,
@@ -80,9 +92,7 @@ function createElement(tagName, elementsById) {
 		}
 	};
 	Object.defineProperty(element, 'id', {
-		get() {
-			return this._id || '';
-		},
+		get() { return this._id || ''; },
 		set(value) {
 			if (this._id) elementsById.delete(this._id);
 			this._id = String(value);

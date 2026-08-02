@@ -4,9 +4,9 @@
 
 /**
  * @file RuntimeFrameCostSample.js
- * @description Measures named synchronous frame and animation tasks without inventing GPU time.
- * The Awtsmoos renews the whole pulse beyond clocks; Awtsmoos.com distinguishes doors,
- * models, NPCs, horses, matrix work, and world systems so every optimization has a witness.
+ * @description Reuses one frame-cost vessel while preserving named CPU timing evidence.
+ * The Awtsmoos renews the whole pulse beyond clocks; Awtsmoos.com keeps every measured
+ * subsystem, animation family, frame total, reset, compatibility measure, and receipt stable.
  */
 
 const COST_NAMES = Object.freeze([
@@ -15,7 +15,9 @@ const COST_NAMES = Object.freeze([
 	'animationDoors',
 	'animationWorldModels',
 	'animationNpcs',
+	'animationHostiles',
 	'animationHorses',
+	'animationPlayerPose',
 	'animationPlayerMatrix',
 	'water',
 	'gameplay',
@@ -27,39 +29,84 @@ const COST_NAMES = Object.freeze([
 export class RuntimeFrameCostSample {
 	constructor(clock = defaultClock) {
 		this.clock = clock;
-		this.startedAt = clock();
 		this.costs = Object.fromEntries(COST_NAMES.map(name => [name, 0]));
+		this.animationBreakdown = createAnimationBreakdown();
+		this.receipt = createReceipt(this.animationBreakdown);
+		this.reset();
+	}
+
+	reset(startedAt = this.clock()) {
+		this.startedAt = startedAt;
+		for (const name of COST_NAMES) this.costs[name] = 0;
+		return this;
+	}
+
+	begin() {
+		return this.clock();
+	}
+
+	end(name, startedAt) {
+		this.costs[name] += this.clock() - startedAt;
 	}
 
 	measure(name, callback) {
-		const startedAt = this.clock();
+		const startedAt = this.begin();
 		try {
 			return callback();
 		} finally {
-			this.costs[name] = (this.costs[name] || 0) + this.clock() - startedAt;
+			this.end(name, startedAt);
 		}
 	}
 
-	finish() {
-		return {
-			animationBreakdown: {
-				doorsMilliseconds: this.costs.animationDoors,
-				horsesMilliseconds: this.costs.animationHorses,
-				npcsMilliseconds: this.costs.animationNpcs,
-				playerMatrixMilliseconds: this.costs.animationPlayerMatrix,
-				worldModelsMilliseconds: this.costs.animationWorldModels
-			},
-			animationMilliseconds: this.costs.animation,
-			cameraMilliseconds: this.costs.camera,
-			cpuFrameMilliseconds: this.clock() - this.startedAt,
-			gameplayMilliseconds: this.costs.gameplay,
-			renderSubmissionMilliseconds: this.costs.render,
-			shadowMilliseconds: this.costs.shadows,
-			streamingMilliseconds: this.costs.streaming,
-			vegetationMilliseconds: null,
-			waterMilliseconds: this.costs.water
-		};
+	finish(finishedAt = this.clock()) {
+		projectAnimation(this.animationBreakdown, this.costs);
+		projectReceipt(this.receipt, this.costs, finishedAt - this.startedAt);
+		return this.receipt;
 	}
+}
+
+function createAnimationBreakdown() {
+	return {
+		doorsMilliseconds: 0,
+		horsesMilliseconds: 0,
+		npcsMilliseconds: 0,
+		playerMatrixMilliseconds: 0,
+		worldModelsMilliseconds: 0
+	};
+}
+
+function createReceipt(animationBreakdown) {
+	return {
+		animationBreakdown,
+		animationMilliseconds: 0,
+		cameraMilliseconds: 0,
+		cpuFrameMilliseconds: 0,
+		gameplayMilliseconds: 0,
+		renderSubmissionMilliseconds: 0,
+		shadowMilliseconds: 0,
+		streamingMilliseconds: 0,
+		vegetationMilliseconds: null,
+		waterMilliseconds: 0
+	};
+}
+
+function projectAnimation(target, costs) {
+	target.doorsMilliseconds = costs.animationDoors;
+	target.horsesMilliseconds = costs.animationHorses;
+	target.npcsMilliseconds = costs.animationNpcs + costs.animationHostiles;
+	target.playerMatrixMilliseconds = costs.animationPlayerMatrix;
+	target.worldModelsMilliseconds = costs.animationWorldModels;
+}
+
+function projectReceipt(target, costs, total) {
+	target.animationMilliseconds = costs.animation;
+	target.cameraMilliseconds = costs.camera;
+	target.cpuFrameMilliseconds = total;
+	target.gameplayMilliseconds = costs.gameplay;
+	target.renderSubmissionMilliseconds = costs.render;
+	target.shadowMilliseconds = costs.shadows;
+	target.streamingMilliseconds = costs.streaming;
+	target.waterMilliseconds = costs.water;
 }
 
 function defaultClock() {

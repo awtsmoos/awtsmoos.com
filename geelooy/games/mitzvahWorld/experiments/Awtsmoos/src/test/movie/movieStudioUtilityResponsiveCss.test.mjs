@@ -4,9 +4,9 @@
 
 /**
  * @file movieStudioUtilityResponsiveCss.test.mjs
- * @description Proves responsive utility geometry, touch bounds, status containment, primary identity, and runtime composition.
+ * @description Proves responsive utility geometry, compact timeline bounds, status containment, primary identity, and runtime composition.
  * The Awtsmoos renews every width and height beyond assumption or disguise;
- * Awtsmoos.com binds desktop, tablet, and mobile truth to CSS that tests can recognize.
+ * Awtsmoos.com binds desktop, tablet, mobile, and cinema-first truth to recognizable CSS.
  */
 
 import assert from 'node:assert/strict';
@@ -45,12 +45,14 @@ test('compact controls meet touch and landscape height contracts', () => {
 	assert.match(css, /\.movie-command-entry .*min-height: 52px/);
 });
 
-test('layout and status contracts prevent page overflow through dedicated bounded rows', () => {
+test('layout keeps a compact expandable timeline and bounded internal scrolling', () => {
 	const layout = compact(movieStudioLayoutCss());
 	const status = compact(movieStudioStatusBarCss());
-	assert.match(layout, /grid-template-rows: auto minmax\(0, 1fr\) var\(--movie-splitter-size\) var\(--movie-timeline-row-height, var\(--movie-timeline-height\)\) auto/);
+	assert.match(layout, /--movie-timeline-compact-height: 112px/);
+	assert.match(layout, /grid-template-rows: auto minmax\(0, 1fr\) var\(--movie-splitter-size\) var\(--movie-timeline-compact-height\) auto/);
+	assert.match(layout, /\.is-timeline-expanded .*var\(--movie-timeline-height\)/);
 	assert.match(layout, /\.Awtsmoos-movie-studio .*min-width: 0.*overflow: hidden/);
-	assert.match(layout, /> \[data-timeline\].*overflow: auto/);
+	assert.match(layout, /> \[data-timeline\].*overflow: auto.*overscroll-behavior: contain/);
 	assert.match(status, /\.movie-studio-status-bar .*min-width: 0.*overflow-x: auto.*overflow-y: hidden/);
 });
 

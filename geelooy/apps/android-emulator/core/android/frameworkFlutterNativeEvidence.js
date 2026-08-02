@@ -15,6 +15,7 @@ export function createFlutterNativeInvocationEvidence(
 	address,
 	placement,
 	report,
+	runtimeSnapshot,
 	scope
 ) {
 	return Object.freeze({
@@ -26,6 +27,7 @@ export function createFlutterNativeInvocationEvidence(
 		placement,
 		reason: report.reason,
 		references: scope.snapshot(),
+		runtime: runtimeSnapshot,
 		totalSteps: report.totalSteps
 	});
 }

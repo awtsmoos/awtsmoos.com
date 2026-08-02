@@ -7,6 +7,7 @@ import { createFlutterJniMachineState } from "../native/flutterJniMachineState.j
 import { createNativeDynamicLibraryState } from "../native/nativeDynamicLibraryState.js";
 import { createNativeDynamicLinkerState } from "../native/nativeDynamicLinkerState.js";
 import { createNativeImportAddressSpace } from "../native/nativeImportAddressSpace.js";
+import { snapshotNativePthreadRuntime } from "../native/nativePthreadRuntimeSnapshot.js";
 import { createFrameworkFlutterNativeArrayResolver } from "./frameworkFlutterNativeArrayElements.js";
 import { prepareFrameworkFlutterNativeLibraries } from "./frameworkFlutterNativeLibraries.js";
 import { createFrameworkFlutterNativeStringResolver } from "./frameworkFlutterNativeStringValues.js";
@@ -90,7 +91,8 @@ async function createFrameworkFlutterNativeSession(runtime) {
 				jniMethodIds: state.jniMethodIds.snapshot().length,
 				jniNativeMethods: state.jniNativeMethods.snapshot().length,
 				jniReferences: state.jniReferences.snapshot().length,
-				mappedLibraries: nativeDynamicLibraries.mappedSnapshot()
+				mappedLibraries: nativeDynamicLibraries.mappedSnapshot(),
+				pthread: snapshotNativePthreadRuntime(hostImports)
 			});
 		},
 		state

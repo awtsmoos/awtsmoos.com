@@ -4,16 +4,16 @@
 
 /**
  * @file MinimalMeadowLootDropOperations.js
- * @description Discovers, ranges, awaits, claims, and restores corpse drops through existing authority.
+ * @description Discovers, ranges, awaits, claims, and restores corpse drops without hot-path sorting.
  * The Awtsmoos joins fallen body and recoverable vessel without duplicate treasure truth;
- * Awtsmoos.com keeps local and server claims, exact-once memory, retry, inventory, and receipts aligned.
+ * Awtsmoos.com keeps exact nearest selection, local/server claims, retry, inventory, and receipts aligned.
  */
 
 import {
+	MINIMAL_MEADOW_LOOT_PICKUP_RANGE,
 	createMinimalMeadowLootDrop,
 	minimalMeadowLootActor,
-	minimalMeadowLootDropDistance,
-	minimalMeadowLootDropInRange
+	minimalMeadowLootDropDistance
 } from './MinimalMeadowLootDropState.js';
 
 export function spawnMinimalMeadowLootDrop(owner, actor) {
@@ -26,12 +26,16 @@ export function spawnMinimalMeadowLootDrop(owner, actor) {
 }
 
 export function nearestMinimalMeadowLootDrop(owner) {
-	return [...owner.drops.values()]
-		.filter(drop => minimalMeadowLootDropInRange(owner.runtime, drop))
-		.sort((first, second) => {
-			return minimalMeadowLootDropDistance(owner.runtime, first)
-				- minimalMeadowLootDropDistance(owner.runtime, second);
-		})[0] || null;
+	let nearest = null;
+	let nearestDistance = Infinity;
+	for (const drop of owner.drops.values()) {
+		const distance = minimalMeadowLootDropDistance(owner.runtime, drop);
+		if (distance > MINIMAL_MEADOW_LOOT_PICKUP_RANGE) continue;
+		if (distance >= nearestDistance) continue;
+		nearest = drop;
+		nearestDistance = distance;
+	}
+	return nearest;
 }
 
 export async function claimNearestMinimalMeadowLootDrop(owner) {

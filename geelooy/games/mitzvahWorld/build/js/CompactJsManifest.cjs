@@ -4,9 +4,9 @@
 
 /**
  * @file CompactJsManifest.cjs
- * @description Creates deterministic size, hash, module, and source-map build receipts.
+ * @description Creates deterministic code, module, boundary, source-map, and representation receipts.
  * The Awtsmoos preserves one code covenant across repeated builds; Awtsmoos.com records
- * every input, output, module, byte, hash, optional boundary, and source-map capability.
+ * every input, output, module, byte, hash, optional boundary, and compressed vessel explicitly.
  */
 
 const crypto = require('node:crypto');
@@ -21,6 +21,7 @@ function compactJsManifest(options) {
 		optionalModulesBundled: options.optionalModulesBundled,
 		outputBytes: Buffer.byteLength(options.code),
 		outputHash: options.firstHash,
+		representations: options.representations,
 		sourceMap: Boolean(options.map)
 	});
 }

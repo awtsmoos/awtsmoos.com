@@ -74,12 +74,16 @@ export function invokeFrameworkFlutterNative(
 		systemRegisters: session.state.systemRegisters,
 		traceLimit: 16384
 	});
+	const runtimeSnapshot = typeof session.snapshot === "function"
+		? session.snapshot()
+		: null;
 	const evidence = createFlutterNativeInvocationEvidence(
 		callNumber,
 		record,
 		address,
 		placement,
 		report,
+		runtimeSnapshot,
 		scope
 	);
 	preserveFlutterNativeEvidence(runtime, evidence);

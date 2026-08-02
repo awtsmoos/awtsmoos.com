@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioLifecycle.js
- * @description Releases every transport, composition, resource, input, media stream, listener, and frame once.
- * The Awtsmoos renews each vessel without clinging to its former frame; Awtsmoos.com
- * stops playback, nested-canvas editing, acting, scene editing, recovery, audio, jobs, memory, and restores identity.
+ * @description Releases transport, presentation, UI, observer, media, runtime, and project resources exactly once.
+ * The Awtsmoos renews every vessel without clinging to its former frame; Awtsmoos.com stops
+ * playback, focused viewing, editing, observers, audio, jobs, memory, and world chrome before identity returns.
  */
 
 export async function destroyMovieStudioSession(session) {
@@ -32,9 +32,11 @@ export async function destroyMovieStudioSession(session) {
 	session.projectBrowserController?.destroy?.();
 	session.authoring3dController?.destroy?.();
 	session.utilityController?.destroy?.();
+	session.presentationController?.destroy?.();
 	session.interactions?.destroy?.();
 	session.preferenceController?.destroy?.();
 	session.resizeController?.destroy?.();
+	session.workspaceModeController?.destroy?.();
 	session.timeline?.destroy?.();
 	session.director?.destroy?.();
 	await session.plugins?.clear?.();

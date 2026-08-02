@@ -4,12 +4,12 @@
 
 /**
  * @file MinimalMeadowLootDropState.js
- * @description Projects local item corpses or opaque server-available corpses into physical drop records.
+ * @description Projects local or authoritative corpses into exact physical drop and range records.
  * The Awtsmoos joins fallen body and reward without inventing hidden treasure;
- * Awtsmoos.com exposes local contents only when locally known and leaves authoritative contents to the server claim.
+ * Awtsmoos.com keeps pickup range, local contents, authoritative opacity, position, and identity explicit.
  */
 
-const PICKUP_RANGE = 4.25;
+export const MINIMAL_MEADOW_LOOT_PICKUP_RANGE = 4.25;
 
 export function createMinimalMeadowLootDrop(actor) {
 	if (!actor || actor.alive || actor.looted) return null;
@@ -45,7 +45,8 @@ export function minimalMeadowLootDropDistance(runtime, drop) {
 }
 
 export function minimalMeadowLootDropInRange(runtime, drop) {
-	return minimalMeadowLootDropDistance(runtime, drop) <= PICKUP_RANGE;
+	return minimalMeadowLootDropDistance(runtime, drop)
+		<= MINIMAL_MEADOW_LOOT_PICKUP_RANGE;
 }
 
 export function minimalMeadowLootActor(runtime, enemyId) {

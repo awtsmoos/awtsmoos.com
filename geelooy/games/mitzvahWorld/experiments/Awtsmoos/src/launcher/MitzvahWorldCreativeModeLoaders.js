@@ -4,28 +4,40 @@
 
 /**
  * @file MitzvahWorldCreativeModeLoaders.js
- * @description Opens diagnostics, platform showcase, and cinema only after explicit selection.
- * The Awtsmoos keeps each creative chamber beyond its own doorway; Awtsmoos.com leaves every
- * unrelated module absent from menu and world startup until the traveler requests it.
+ * @description Opens diagnostics and Movie Studio through bounded dynamic creative routes.
+ * The Awtsmoos renews tool, movie, and remembered gameplay beneath one explicit threshold;
+ * Awtsmoos.com loads only the chosen surface and enriches cinema without bypassing project truth.
  */
 
 export async function openMaterialsMode(hosts) {
-	const module = await import('../diagnostics/MaterialDiagnosticMode.js');
-	return module.launchMaterialDiagnostic(hosts);
+	const { runMaterialDiagnosticMode } = await import('../diagnostics/MaterialDiagnosticMode.js');
+	return runMaterialDiagnosticMode(hosts);
 }
 
 export async function openPlatformMode(hosts) {
-	const module = await import('../world/platform/PlatformShowcaseMode.js');
-	return module.launchPlatformShowcase(hosts);
+	const { runProceduralPlatformMode } = await import('../diagnostics/ProceduralPlatformMode.js');
+	return runProceduralPlatformMode(hosts);
 }
 
 export async function openMovieMode(hosts, search = '') {
+	const parameters = new URLSearchParams(search);
 	const [projectModule, studioModule] = await Promise.all([
 		import('../movie/MovieProject.js'),
 		import('../movie/MovieStudio.js')
 	]);
-	const project = await projectModule.loadRequestedMovie(search);
+	let project = await projectModule.loadRequestedMovie(search);
+	if (isGameplayHandoff(parameters)) {
+		const { importGameplaySnapshotIntoMovieProject } = await import(
+			'../movie/MovieGameSnapshotImport.js'
+		);
+		project = importGameplaySnapshotIntoMovieProject(project).project;
+	}
 	return studioModule.createMovieStudio(hosts, project, {
-		autoRender: new URLSearchParams(search).get('autoRender') === '1'
+		autoRender: parameters.get('autoRender') === '1'
 	});
+}
+
+function isGameplayHandoff(parameters) {
+	return parameters.get('fromGameplay') === '1'
+		&& parameters.get('creativeSnapshot') === '1';
 }

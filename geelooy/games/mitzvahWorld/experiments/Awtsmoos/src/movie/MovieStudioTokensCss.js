@@ -4,70 +4,82 @@
 
 /**
  * @file MovieStudioTokensCss.js
- * @description Defines semantic surfaces, density geometry, track colors, and shared studio tokens.
- * The Awtsmoos renews each shade and measure without division; Awtsmoos.com gathers those
- * sparks into named vessels so themes, tracks, panes, and controls differ without losing unity.
+ * @description Defines the complete semantic visual language for the MitzvahWorld Movie Studio.
+ * The Awtsmoos renews color, measure, rhythm, and edge from nothing; Awtsmoos.com names
+ * those sparks so every monitor, track, inspector, button, and mobile sheet shares one truth.
  */
 
 export function movieStudioTokensCss() {
 	return `
 		.Awtsmoos-movie-studio {
-			--movie-bg-deep: #070a10;
-			--movie-bg: #0b1018;
-			--movie-panel: #111925;
-			--movie-panel-raised: #182333;
-			--movie-panel-hover: #202e41;
-			--movie-surface-canvas: #030508;
-			--movie-surface-toolbar: #0b1018;
-			--movie-surface-inspector: #111925;
-			--movie-surface-floating: #182333;
-			--movie-surface-track-even: #0e1622;
-			--movie-surface-track-odd: #101a28;
-			--movie-text: #f2f6fb;
-			--movie-text-muted: #9babbe;
-			--movie-border: #2b3a4e;
-			--movie-border-strong: #415775;
-			--movie-divider-subtle: #243247;
-			--movie-divider-strong: #526c91;
-			--movie-accent: #62d8b3;
-			--movie-accent-strong: #8ff0d1;
-			--movie-accent-ink: #052018;
-			--movie-danger: #ff7d86;
-			--movie-warning: #ffc76a;
-			--movie-success: #75e2aa;
-			--movie-focus: #b6ffe8;
-			--movie-ruler: #162235;
-			--movie-track: #0e1622;
-			--movie-playhead: #ffcf5f;
-			--movie-track-actor: #9d7cff;
-			--movie-track-audio: #54c889;
-			--movie-track-camera: #5b9dff;
-			--movie-track-crowd: #c77dff;
-			--movie-track-dialogue: #f3b95f;
-			--movie-track-door: #ff8e5b;
-			--movie-track-event: #f0669a;
-			--movie-track-scene: #4fc9c1;
-			--movie-track-sequence: #8a9bb5;
-			--movie-shadow: 0 18px 48px rgb(0 0 0 / 0.34);
+			--movie-bg-deep: #05070b;
+			--movie-bg: #090e16;
+			--movie-panel: #101923;
+			--movie-panel-raised: #172434;
+			--movie-panel-hover: #203248;
+			--movie-panel-glass: rgb(15 24 35 / .94);
+			--movie-surface-canvas: #020407;
+			--movie-surface-toolbar: #0a1018;
+			--movie-surface-inspector: #101923;
+			--movie-surface-floating: #18283a;
+			--movie-surface-track-even: #0c1520;
+			--movie-surface-track-odd: #101a27;
+			--movie-text: #f4f8fc;
+			--movie-text-muted: #a8b7ca;
+			--movie-text-subtle: #788ba3;
+			--movie-border: #293b51;
+			--movie-border-strong: #47617e;
+			--movie-divider-subtle: #203147;
+			--movie-divider-strong: #5e789b;
+			--movie-accent: #60ddb2;
+			--movie-accent-strong: #9af2d5;
+			--movie-accent-ink: #041d15;
+			--movie-selection: #b5ffe9;
+			--movie-selection-soft: rgb(96 221 178 / .19);
+			--movie-danger: #ff808c;
+			--movie-warning: #ffcd70;
+			--movie-success: #7ae2ad;
+			--movie-focus: #c4ffed;
+			--movie-ruler: #132034;
+			--movie-track: #0d1723;
+			--movie-playhead: #ffd262;
+			--movie-track-actor: #a88cff;
+			--movie-track-audio: #58d094;
+			--movie-track-camera: #67a6ff;
+			--movie-track-crowd: #cd86ff;
+			--movie-track-dialogue: #f5bd69;
+			--movie-track-door: #ff9668;
+			--movie-track-event: #f274a5;
+			--movie-track-scene: #55cdc5;
+			--movie-track-sequence: #94a8c4;
+			--movie-shadow-sm: 0 5px 16px rgb(0 0 0 / .24);
+			--movie-shadow: 0 18px 52px rgb(0 0 0 / .42);
+			--movie-shadow-lg: 0 30px 80px rgb(0 0 0 / .58);
 			--movie-space-1: 4px;
 			--movie-space-2: 8px;
 			--movie-space-3: 12px;
 			--movie-space-4: 16px;
 			--movie-space-5: 24px;
+			--movie-space-6: 32px;
 			--movie-radius-sm: 6px;
 			--movie-radius: 10px;
 			--movie-radius-lg: 16px;
-			--movie-control-height: 40px;
-			--movie-touch-height: 44px;
-			--movie-header-height: 58px;
-			--movie-track-height: 52px;
-			--movie-clip-height: 36px;
+			--movie-radius-xl: 22px;
+			--movie-control-height: 38px;
+			--movie-touch-height: 46px;
+			--movie-header-height: 60px;
+			--movie-program-header-height: 42px;
+			--movie-ruler-height: 32px;
+			--movie-track-height: 54px;
+			--movie-clip-height: 38px;
 			--movie-clip-offset: 8px;
-			--movie-trim-width: 12px;
+			--movie-trim-width: 14px;
 			--movie-splitter-size: 8px;
-			--movie-timeline-height: 340px;
-			--movie-track-header-width: 148px;
-			--movie-inspector-width: 340px;
+			--movie-timeline-height: 360px;
+			--movie-track-header-width: 172px;
+			--movie-inspector-width: 360px;
+			--movie-transition-fast: 90ms;
+			--movie-transition: 170ms;
 			--movie-safe-top: env(safe-area-inset-top, 0px);
 			--movie-safe-right: env(safe-area-inset-right, 0px);
 			--movie-safe-bottom: env(safe-area-inset-bottom, 0px);

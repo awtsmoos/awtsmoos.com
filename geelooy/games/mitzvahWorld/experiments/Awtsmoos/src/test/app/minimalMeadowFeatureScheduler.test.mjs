@@ -4,9 +4,9 @@
 
 /**
  * @file minimalMeadowFeatureScheduler.test.mjs
- * @description Proves essential readiness resolves while the rich module boundary remains pending.
- * The Awtsmoos grants the traveler six usable vessels before distant garments arrive;
- * Awtsmoos.com keeps optional beauty from holding essential play captive.
+ * @description Proves essential readiness precedes scheduled rich hydration and preserves fallback play.
+ * The Awtsmoos grants usable vessels before fuller garments enter;
+ * Awtsmoos.com keeps scheduling, bootstrap ownership, success, failure, events, and receipts explicit.
  */
 
 import assert from 'node:assert/strict';
@@ -15,60 +15,89 @@ import {
 	scheduleMinimalMeadowFeatures
 } from '../../app/MinimalMeadowFeatureScheduler.js';
 
-test('B"H essential receipt resolves before the rich importer', async () => {
-	const events = [];
-	const runtime = {
-		bus: {
-			emit(name) {
-				events.push(name);
-			}
-		}
-	};
-	const neverSettlingImport = new Promise(() => {});
+test('B"H essential receipt resolves before scheduled rich hydration', async () => {
+	const fixture = schedulerFixture();
 	const receipt = await scheduleMinimalMeadowFeatures(
-		runtime,
+		fixture.runtime,
 		{},
-		{
-			importer: () => neverSettlingImport,
-			installMinimalMeadowBootstrapFeatures: () => bootstrapHandle()
-		}
+		fixture.dependencies
 	);
 	assert.equal(receipt.ready, true);
-	assert.equal(runtime.featureStage, 'ready');
-	assert.equal(runtime.richFeatureStage, 'loading');
-	assert.equal(runtime.optionalFeaturePromise instanceof Promise, true);
-	assert.deepEqual(events, ['world:essential-ready']);
+	assert.equal(fixture.runtime.featureStage, 'ready');
+	assert.equal(fixture.runtime.richFeatureStage, 'scheduled');
+	assert.deepEqual(fixture.events, ['world:essential-ready']);
+	assert.equal(fixture.installCount(), 0);
+	await fixture.runHydration();
+	await fixture.runtime.optionalFeaturePromise;
+	assert.equal(fixture.installCount(), 1);
+	assert.equal(fixture.runtime.richFeatureStage, 'ready');
+	assert.equal(fixture.bootstrap.suspended, 1);
+	assert.equal(fixture.bootstrap.destroyed, 1);
 });
 
-test('B"H rich failure preserves bootstrap play', async () => {
-	const runtime = { bus: { emit() {} } };
-	await scheduleMinimalMeadowFeatures(runtime, {}, {
-		importer: async () => {
-			throw new Error('rich boundary unavailable');
-		},
-		installMinimalMeadowBootstrapFeatures: () => bootstrapHandle()
-	});
-	const optionalReceipt = await runtime.optionalFeaturePromise;
-	assert.equal(runtime.featureStage, 'ready');
-	assert.equal(runtime.richFeatureStage, 'failed');
-	assert.equal(optionalReceipt.bootstrapPreserved, true);
+test('B"H rich failure preserves bootstrap play after readiness', async () => {
+	const fixture = schedulerFixture({ failRich: true });
+	await scheduleMinimalMeadowFeatures(
+		fixture.runtime,
+		{},
+		fixture.dependencies
+	);
+	await fixture.runHydration();
+	const result = await fixture.runtime.optionalFeaturePromise;
+	assert.equal(fixture.runtime.featureStage, 'ready');
+	assert.equal(fixture.runtime.richFeatureStage, 'failed');
+	assert.equal(result.bootstrapPreserved, true);
+	assert.equal(fixture.bootstrap.suspended, 0);
+	assert.equal(fixture.bootstrap.destroyed, 0);
 });
+
+function schedulerFixture(options = {}) {
+	const events = [];
+	const bootstrap = bootstrapHandle();
+	let installCount = 0;
+	let releaseHydration;
+	const runtime = {
+		bus: { emit(name) { events.push(name); } }
+	};
+	const dependencies = {
+		installMinimalMeadowBootstrapFeatures: () => bootstrap,
+		installMinimalMeadowFeatures: async () => {
+			installCount += 1;
+			if (options.failRich) throw new Error('rich boundary unavailable');
+			return Object.freeze({ ready: true });
+		},
+		scheduleMinimalMeadowRichHydration: (environment, callback) => {
+			return new Promise(resolve => {
+				releaseHydration = async () => resolve(await callback());
+			});
+		}
+	};
+	return {
+		bootstrap,
+		dependencies,
+		events,
+		installCount: () => installCount,
+		runtime,
+		runHydration: () => releaseHydration()
+	};
+}
 
 function bootstrapHandle() {
-	const ready = true;
 	return {
-		destroy() {},
+		destroyed: 0,
 		essential: {
-			combat: ready,
-			equipment: ready,
-			inventory: ready,
+			combat: true,
+			equipment: true,
+			inventory: true,
 			missing: [],
-			quest: ready,
-			ready,
-			recovery: ready,
-			streaming: ready,
-			ui: ready
+			quest: true,
+			ready: true,
+			recovery: true,
+			streaming: true,
+			ui: true
 		},
-		suspend() {}
+		suspended: 0,
+		destroy() { this.destroyed += 1; },
+		suspend() { this.suspended += 1; }
 	};
 }

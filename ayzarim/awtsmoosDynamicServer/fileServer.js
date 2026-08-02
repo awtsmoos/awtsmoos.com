@@ -1,115 +1,82 @@
+// B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
- * B"H
- *
- * Chapter 402: The river of files learned two kinds of gathering. Compact JS
- * folds imports into one module flame; bundle ZIP folds installer files into a
- * few compressed scrolls. Both remain explicit GET modes, both obey real parsed
- * query params, and old static serving remains untouched.
+ * @file fileServer.js
+ * @description Orchestrates templates, static representations, compact modules, and explicit bundles.
+ * The Awtsmoos lets one path reveal HTML, bytes, Brotli, gzip, or a folded module without confusion;
+ * Awtsmoos.com preserves status checks, MIME truth, validators, templates, and old query modes.
  */
-var getProperContent = require("./getProperContent.js");
-var { errorMessage } = require("./utils.js");
-var { isCompactFlag } = require("./compactJs/flags.js");
-var { compileCompactModule } = require("./compactJs/compiler.js");
-var { maybeSendBundle } = require("./zipBundles/bundleRoute.js");
+
+const { errorMessage } = require('./utils.js');
+const { compileCompactModule } = require('./compactJs/compiler.js');
+const { maybeSendBundle } = require('./zipBundles/bundleRoute.js');
+const {
+	prepareIdentityContent,
+	setProperContent
+} = require('./static/FileResponseContent.js');
+const {
+	getRequestParams,
+	isJavaScriptContentType,
+	shouldCompileCompactJs
+} = require('./static/FileResponseModes.js');
+const {
+	readStaticAsset
+} = require('./static/StaticAssetRepresentation.js');
 
 async function doFileResponse(context) {
-	var {
-		fs,
-		request,
-		response,
-		template,
-		binaryMimeTypes,
-		fetchAwtsmoos
-	} = context.dependencies;
-
+	const dependencies = context.dependencies;
+	const { request, response } = dependencies;
 	try {
 		if (await maybeSendBundle(context)) return;
-		if (request.method == "GET" && request.isAwtsmoosFileStatusRequest) {
-			try {
-				const stats = await fs.stat(context.filePath);
-				const result = { dataModified: stats.mtime.getTime() };
-				response.setHeader('Awtsmoos-File-Status', 'true');
-				response.setHeader('Content-Type', 'application/json; charset=utf-8');
-				response.end(JSON.stringify(result));
-				return;
-			} catch (error) {
-				console.error("Error getting file stats for static file:", error);
-				return errorMessage(context, { message: "Could not get file status for static resource.", code: "STATIC_STAT_ERROR" });
-			}
+		if (request.method === 'GET' && request.isAwtsmoosFileStatusRequest) {
+			return sendFileStatus(context);
 		}
 		let content;
-
 		if (shouldCompileCompactJs(context)) {
-			content = await compileCompactModule({ fs, entryFile: context.filePath, rootDir: context.dependencies.parentPath });
-		} else if (binaryMimeTypes.includes(context.contentType)) {
-			content = await fs.readFile(context.filePath);
-			context.isBinary = true;
+			content = await compileCompactModule({
+				entryFile: context.filePath,
+				fs: dependencies.fs,
+				rootDir: dependencies.parentPath
+			});
 		} else {
-			var textContent = await fs.readFile(context.filePath, 'utf-8');
-			var last = context.filePath.split("\\").join("/").split("/").pop();
-			var ext = last.split(".")[1];
-			if (!(ext == "html" || context.isDirectoryWithIndex)) {
-				content = textContent;
-			} else {
-				var ei = request.yeser;
-				if (!(typeof (ei) == "object" && ei)) ei = {};
-				ei.fetchAwtsmoos = fetchAwtsmoos;
-				var temp = await template(textContent, ei);
-				content = temp;
+			const asset = await readStaticAsset(context);
+			if (asset.handled) return;
+			if (asset.encoding !== 'identity') {
+				setProperContent(context, asset.content, context.contentType, true);
+				response.end(asset.content);
+				return;
 			}
+			content = await prepareIdentityContent(context, asset.content);
 		}
-
-		content = setProperContent(context, content, context.contentType, context.isBinary);
+		content = setProperContent(
+			context,
+			content,
+			context.contentType,
+			context.isBinary
+		);
 		response.end(content);
-		return;
 	} catch (errors) {
 		console.error(errors);
 		return errorMessage(context, errors);
 	}
 }
 
-/**
- * B"H
- * Guards the compact-JS path so old server behavior remains sealed and
- * untouched: GET only, explicit compact flag only, JavaScript MIME only, real
- * files only.
- */
-function shouldCompileCompactJs(context) {
-	var request = context.dependencies.request;
-	var params = getRequestParams(context);
-	if (!request || request.method !== "GET") return false;
-	if (!params || !isCompactFlag(params.compact)) return false;
-	if (context.isBinary) return false;
-	if (context.isDirectoryWithIndex) return false;
-	if (!isJavaScriptContentType(context.contentType)) return false;
-	return String(context.filePath || "").toLowerCase().endsWith(".js");
-}
-
-/**
- * B"H
- * The old vessel `request.yeser` and the newer `paramKinds.GET` are merged
- * instead of one blindly hiding the other.
- */
-function getRequestParams(context) {
-	var request = context.dependencies.request;
-	var kinds = context.dependencies.paramKinds;
-	var legacy = request && typeof request.yeser == "object" && request.yeser ? request.yeser : null;
-	var parsed = kinds && typeof kinds.GET == "object" && kinds.GET ? kinds.GET : null;
-	if (legacy && parsed) return Object.assign({}, legacy, parsed);
-	return parsed || legacy || null;
-}
-
-function isJavaScriptContentType(contentType) {
-	return contentType === "application/javascript" || contentType === "text/javascript";
-}
-
-function setProperContent(context, content, contentType, isBinary = false) {
-	var { response } = context.dependencies;
-	var cnt = getProperContent(content, contentType, isBinary);
-	if (cnt.contentType) {
-		try { response.setHeader('Content-Type', cnt.contentType + (isBinary ? '' : '; charset=utf-8')); } catch (e) {}
+async function sendFileStatus(context) {
+	const { fs, response } = context.dependencies;
+	try {
+		const stats = await fs.stat(context.filePath);
+		response.setHeader('Awtsmoos-File-Status', 'true');
+		response.setHeader('Content-Type', 'application/json; charset=utf-8');
+		response.end(JSON.stringify({ dataModified: stats.mtime.getTime() }));
+	} catch (error) {
+		console.error('Error getting file stats for static file:', error);
+		return errorMessage(context, {
+			code: 'STATIC_STAT_ERROR',
+			message: 'Could not get file status for static resource.'
+		});
 	}
-	return cnt.content;
 }
 
 module.exports = doFileResponse;

@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowVerticalUiBundle.js
- * @description Mounts accessibility, bounded audio, subtitles, and the vertical-slice HUD together.
- * The Awtsmoos joins presentation mercy with truthful combat guidance without crowding core UI;
- * Awtsmoos.com keeps media, sound, live text, diagnostics, persistence, and teardown in one vessel.
+ * @description Reuses first-ready accessibility while mounting bounded audio, subtitles, and vertical HUD.
+ * The Awtsmoos joins presentation mercy with truthful combat guidance without duplicate listeners;
+ * Awtsmoos.com keeps shared ownership, sound, live text, diagnostics, and teardown explicit.
  */
 
 import {
@@ -24,11 +24,15 @@ export function installMinimalMeadowVerticalUi(
 	documentValue,
 	environment = globalThis
 ) {
-	const accessibility = new MinimalMeadowAccessibilityRuntime(
-		runtime,
-		documentValue,
-		environment
-	);
+	const existingAccessibility = runtime.accessibilityRuntime;
+	const accessibility = existingAccessibility
+		|| new MinimalMeadowAccessibilityRuntime(
+			runtime,
+			documentValue,
+			environment
+		);
+	const ownsAccessibility = !existingAccessibility;
+	if (ownsAccessibility) runtime.accessibilityRuntime = accessibility;
 	const audio = new MinimalMeadowAudioRuntime(runtime, environment);
 	const hud = new MinimalMeadowVerticalSliceHud(
 		documentValue.body,
@@ -41,13 +45,17 @@ export function installMinimalMeadowVerticalUi(
 		destroy() {
 			hud.destroy();
 			audio.destroy();
-			accessibility.destroy();
+			if (ownsAccessibility) {
+				accessibility.destroy();
+				delete runtime.accessibilityRuntime;
+			}
 		},
 		diagnostics() {
 			return {
 				accessibility: accessibility.snapshot(),
 				audio: audio.diagnostics(),
-				hud: hud.diagnostics()
+				hud: hud.diagnostics(),
+				sharedAccessibility: !ownsAccessibility
 			};
 		},
 		hud

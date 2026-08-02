@@ -17,6 +17,7 @@ import { registerNativePthreadMutexHandlers } from "./nativePthreadMutexHandlers
 import { createNativePthreadMutexState } from "./nativePthreadMutexState.js";
 import { registerNativePthreadOnceHandlers } from "./nativePthreadOnceHandlers.js";
 import { createNativePthreadOnceState } from "./nativePthreadOnceState.js";
+import { retainNativePthreadRuntimeSnapshotSource } from "./nativePthreadRuntimeSnapshot.js";
 import { createNativePthreadScheduler } from "./nativePthreadScheduler.js";
 import { registerNativePthreadThreadHandlers } from "./nativePthreadThreadHandlers.js";
 import { registerNativePthreadThreadNameHandlers } from "./nativePthreadThreadNameHandlers.js";
@@ -44,6 +45,13 @@ export function registerNativePthreadHandlers(registry, machineState) {
 		threads
 	});
 	machineState.nativeCooperativeRuntime?.bindScheduler(scheduler);
+	retainNativePthreadRuntimeSnapshotSource(registry, {
+		conditions,
+		cooperativeRuntime: machineState.nativeCooperativeRuntime,
+		mutexes,
+		scheduler,
+		threads
+	});
 	registerNativePthreadAttributeHandlers(registry, attributes);
 	registerNativePthreadGetattrHandlers(registry, { attributes, machineState, threads });
 	registerNativePthreadConditionAttributeHandlers(registry, conditionAttributes);

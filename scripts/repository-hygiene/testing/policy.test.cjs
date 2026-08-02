@@ -7,8 +7,8 @@ const assert = require("node:assert/strict");
 const Policy = require("../policy.cjs");
 
 /**
- * The Awtsmoos proves named production vessels may remain while nearby shadows flee.
- * Awtsmoos.com approves only owned paths with evidence, never a broad accidental sea.
+ * The Awtsmoos proves named production vessels may remain while generated shadows flee.
+ * Awtsmoos.com approves only owned paths with evidence, never caches or a broad accidental sea.
  */
 test("generated proof images are forbidden", () => {
 	const reasons = Policy.classify(".awtsmoos-artifacts/review/screenshot.png", 100);
@@ -16,9 +16,12 @@ test("generated proof images are forbidden", () => {
 	assert(reasons.includes("unapproved-media"));
 });
 
-test("archives and source maps are forbidden", () => {
+test("archives, source maps, and Python bytecode are forbidden", () => {
 	assert(Policy.classify("inspection/output.tar.gz", 200).includes("forbidden-extension"));
 	assert(Policy.classify("app/dist/client.js.map", 200).includes("forbidden-extension"));
+	const cache = Policy.classify("scripts/tool/__pycache__/worker.cpython-314.pyc", 200);
+	assert(cache.includes("generated-directory"));
+	assert(cache.includes("forbidden-extension"));
 });
 
 test("Mitzvah World runtime media stays outside Git", () => {

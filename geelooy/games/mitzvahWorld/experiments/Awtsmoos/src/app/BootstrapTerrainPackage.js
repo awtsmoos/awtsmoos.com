@@ -4,28 +4,69 @@
 
 /**
  * @file BootstrapTerrainPackage.js
- * @description Creates a visible golden-valley package without authored-world imports.
- * The Awtsmoos reveals green earth, a golden path, and distant ridges before village detail;
- * Awtsmoos.com preserves every terrain contract while eleven tiny meshes remain the whole scene.
+ * @description Creates visible golden-valley earth with deferred canonical remote hydration.
+ * The Awtsmoos reveals green ground before distant images arrive, then clothes that same vessel;
+ * Awtsmoos.com preserves collision and geometry while exposing truthful remote-source authority.
  */
 
+import {
+	createBootstrapTerrainHydration
+} from './BootstrapTerrainHydration.js';
 import { createBootstrapVisibleWorld } from './BootstrapVisibleWorld.js';
 
-export function createBootstrapTerrainPackage() {
+export function createBootstrapTerrainPackage(options = {}) {
 	const group = createBootstrapVisibleWorld();
 	const forest = createForestState();
 	const textLandmark = createLandmarkState();
-	const stats = {
+	const stats = createStats(group, forest);
+	const hydration = createBootstrapTerrainHydration(
+		group,
+		stats,
+		options.importer
+	);
+	const worldMetadata = createWorldMetadata(stats, forest, textLandmark);
+	return {
+		colliders: [],
+		deferredTerrainContext: terrainContext(forest, textLandmark),
+		forest,
+		group,
+		heightAt: () => 0,
+		materialDiagnostics: {
+			materials: group.userData.meshCount,
+			mode: 'colored-bootstrap'
+		},
+		roadStats: { colliders: 0, status: 'visible-path' },
+		signTexturePromise: Promise.resolve({ status: 'dormant' }),
+		startTextureHydration: hydration.start,
+		stats,
+		textLandmark,
+		textureHydration: hydration,
+		village: {
+			definitions: [],
+			stats: { status: 'visible-bootstrap-gate' }
+		},
+		worldMetadata
+	};
+}
+
+function createStats(group, forest) {
+	return {
 		bootstrap: true,
-		deferredTerrainEnrichment: 'authored-valley-dormant',
+		deferredTerrainEnrichment: 'canonical-remote-scheduled',
 		forestStats: forest.stats,
 		groundSampler: 'bootstrap-flat-ground',
 		meshCount: group.userData.meshCount,
 		quality: 'visible-bootstrap',
 		renderDpr: 1,
-		terrainPreparation: { mode: 'golden-valley-bootstrap', steps: 1 }
+		terrainPreparation: {
+			mode: 'golden-valley-bootstrap',
+			steps: 1
+		}
 	};
-	const worldMetadata = {
+}
+
+function createWorldMetadata(stats, forest, textLandmark) {
+	return {
 		bootstrap: true,
 		deferredTerrainEnrichment: true,
 		forest: forest.stats,
@@ -37,28 +78,18 @@ export function createBootstrapTerrainPackage() {
 		textLandmark: textLandmark.stats,
 		village: { status: 'visible-bootstrap-gate' }
 	};
+}
+
+function terrainContext(forest, textLandmark) {
 	return {
-		colliders: [],
-		deferredTerrainContext: {
-			colliderStore: [],
-			forest,
-			groundSampler: null,
-			halfSize: 1024,
-			obstacleTriangles: [],
-			quality: 'visible-bootstrap',
-			roadTriangles: [],
-			textLandmark
-		},
+		colliderStore: [],
 		forest,
-		group,
-		heightAt: () => 0,
-		materialDiagnostics: { materials: group.userData.meshCount, mode: 'colored-bootstrap' },
-		roadStats: { colliders: 0, status: 'visible-path' },
-		signTexturePromise: Promise.resolve({ status: 'dormant' }),
-		stats,
-		textLandmark,
-		village: { definitions: [], stats: { status: 'visible-bootstrap-gate' } },
-		worldMetadata
+		groundSampler: null,
+		halfSize: 1024,
+		obstacleTriangles: [],
+		quality: 'visible-bootstrap',
+		roadTriangles: [],
+		textLandmark
 	};
 }
 

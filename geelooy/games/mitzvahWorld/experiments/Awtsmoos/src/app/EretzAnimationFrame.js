@@ -4,37 +4,45 @@
 
 /**
  * @file EretzAnimationFrame.js
- * @description Advances every animated family in render-ready dependency order.
- * The Awtsmoos renews motion before form is measured; Awtsmoos.com samples the Chossid's
- * living pose first, then propagates his matrices, so no frame can upload a stale T-pose.
+ * @description Advances every animated family in dependency order with allocation-free timing marks.
+ * The Awtsmoos renews motion before form is measured; Awtsmoos.com samples each living family
+ * without creating per-frame callbacks, then uploads the Chossid's final matrix without stale pose.
  */
 
 import { updatePlayerPresentation } from './EretzAnimationMotion.js';
 
 export function updateEretzAnimationFrame(runtime, deltaTime, costs) {
-	costs.measure('animationDoors', () => updateDoors(runtime, deltaTime));
-	costs.measure('animationWorldModels', () => {
-		runtime.worldModels?.update(deltaTime, runtime.state);
-	});
-	costs.measure('animationNpcs', () => updateNpcs(runtime, deltaTime));
-	costs.measure('animationHostiles', () => {
-		runtime.hostileNpcs?.update(deltaTime, runtime.state);
-	});
-	costs.measure('animationHorses', () => {
-		runtime.horses?.update(deltaTime);
-	});
-	costs.measure('animationPlayerPose', () => {
-		updatePlayerPresentation(runtime, deltaTime);
-	});
-	costs.measure('animationPlayerMatrix', () => {
-		runtime.model.updateWorldMatrix();
-	});
+	let startedAt = costs.begin();
+	updateDoors(runtime, deltaTime);
+	costs.end('animationDoors', startedAt);
+
+	startedAt = costs.begin();
+	runtime.worldModels?.update(deltaTime, runtime.state);
+	costs.end('animationWorldModels', startedAt);
+
+	startedAt = costs.begin();
+	updateNpcs(runtime, deltaTime);
+	costs.end('animationNpcs', startedAt);
+
+	startedAt = costs.begin();
+	runtime.hostileNpcs?.update(deltaTime, runtime.state);
+	costs.end('animationHostiles', startedAt);
+
+	startedAt = costs.begin();
+	runtime.horses?.update(deltaTime);
+	costs.end('animationHorses', startedAt);
+
+	startedAt = costs.begin();
+	updatePlayerPresentation(runtime, deltaTime);
+	costs.end('animationPlayerPose', startedAt);
+
+	startedAt = costs.begin();
+	runtime.model.updateWorldMatrix();
+	costs.end('animationPlayerMatrix', startedAt);
 }
 
 function updateDoors(runtime, deltaTime) {
-	for (const door of runtime.doors) {
-		door.update(deltaTime);
-	}
+	for (const door of runtime.doors) door.update(deltaTime);
 }
 
 function updateNpcs(runtime, deltaTime) {

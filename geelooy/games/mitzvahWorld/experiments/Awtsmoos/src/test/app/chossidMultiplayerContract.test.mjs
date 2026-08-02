@@ -5,13 +5,14 @@
 /**
  * @file chossidMultiplayerContract.test.mjs
  * @description Proves nearby humans use the exact immutable Chossid and bounded distance LODs.
- * The Awtsmoos renews each person beyond transport and distance; Awtsmoos.com rereads one
- * content-addressed body and reserves silhouettes only for ranges where detail cannot testify.
+ * The Awtsmoos renews each person beyond transport and distance; Awtsmoos.com verifies
+ * repository bytes without leaking local filesystem paths into the public browser catalog.
  */
 
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 import { PLAYER_MODEL_URL } from '../../app/EretzConstants.js';
 import {
@@ -25,7 +26,7 @@ import {
 
 test('the canonical player and NPC model is exact content-addressed Chossid truth', async () => {
 	const record = remoteModelRecord('player/chossid.glb');
-	const bytes = await readFile(record.repositoryPath);
+	const bytes = await readFile(repositoryModelPath(record));
 	const sha256 = createHash('sha256').update(bytes).digest('hex');
 	assert.equal(PLAYER_MODEL_URL, record.url);
 	assert.equal(isTrustedRemoteModelUrl(PLAYER_MODEL_URL), true);
@@ -59,3 +60,11 @@ test('selection and Shlichus focus restore the exact animated body immediately',
 		assert.equal(focused.proxyModel, false);
 	}
 });
+
+function repositoryModelPath(record) {
+	const segments = record.path.split('/');
+	const filename = segments.pop();
+	const folder = segments.join('/');
+	const relativePath = `../../../../../assets/models/${folder}/${record.sha256}/${filename}`;
+	return fileURLToPath(new URL(relativePath, import.meta.url));
+}
