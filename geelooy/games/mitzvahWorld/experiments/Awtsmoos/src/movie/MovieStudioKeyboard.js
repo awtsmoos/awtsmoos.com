@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioKeyboard.js
- * @description Routes guarded J/K/L shuttle, frame-step, transport, history, edit, marker, and snapping shortcuts.
+ * @description Routes guarded editing and transport shortcuts across live and compatibility hosts.
  * The Awtsmoos renews intention before any key appears; Awtsmoos.com protects text entry
- * while giving reversible creative commands one explicit, preventable, accessible path.
+ * while one bounded bridge lets old controllers and new sessions share reversible motion.
  */
 
 export function handleMovieStudioKey(controller, event) {
@@ -24,33 +24,48 @@ export function handleMovieStudioKey(controller, event) {
 	if (['delete', 'backspace'].includes(key)) return runCommand(event, controller, 'delete');
 	if (!command && !event.altKey && key === 'm') return runCommand(event, controller, 'addMarker');
 	if (!command && !event.altKey && key === 's') return runCommand(event, controller, 'toggleSnap');
-	if (!command && !event.altKey && key === 'j') return runTransport(event, () => controller.session.shuttle(-1));
-	if (!command && !event.altKey && key === 'k') return runTransport(event, () => controller.session.pause());
-	if (!command && !event.altKey && key === 'l') return runTransport(event, () => controller.session.shuttle(1));
+	if (!command && !event.altKey && key === 'j') return runTransport(
+		event, () => invokeMovieTransport(controller, 'shuttle', -1)
+	);
+	if (!command && !event.altKey && key === 'k') return runTransport(
+		event, () => invokeMovieTransport(controller, 'pause')
+	);
+	if (!command && !event.altKey && key === 'l') return runTransport(
+		event, () => invokeMovieTransport(controller, 'shuttle', 1)
+	);
 	if (event.key === 'ArrowLeft') return runTransport(
-		event, () => controller.session.stepFrames(event.shiftKey ? -10 : -1)
+		event, () => invokeMovieTransport(controller, 'stepFrames', event.shiftKey ? -10 : -1)
 	);
 	if (event.key === 'ArrowRight') return runTransport(
-		event, () => controller.session.stepFrames(event.shiftKey ? 10 : 1)
+		event, () => invokeMovieTransport(controller, 'stepFrames', event.shiftKey ? 10 : 1)
 	);
 	if (event.key === 'Escape') {
 		controller.toggleInspector(false);
 		return true;
 	}
-	if (event.code === 'Space') return runTransport(event, () => (
-		controller.session.director.playing
-			? controller.session.pause()
-			: controller.session.play()
+	if (event.code === 'Space') return runTransport(event, () => invokeMovieTransport(
+		controller,
+		controller.session.director.playing ? 'pause' : 'play'
 	));
-	if (event.key === 'Home') return runTransport(event, () => controller.session.seek(0));
+	if (event.key === 'Home') return runTransport(
+		event, () => invokeMovieTransport(controller, 'seek', 0)
+	);
 	if (event.key === 'End') return runTransport(
-		event, () => controller.session.seek(controller.session.project.duration)
+		event, () => invokeMovieTransport(controller, 'seek', controller.session.project.duration)
 	);
 	return false;
 }
 
 export function isMovieTextEntry(target) {
 	return Boolean(target?.closest?.('input, textarea, select, [contenteditable="true"]'));
+}
+
+export function invokeMovieTransport(controller, method, ...args) {
+	const sessionMethod = controller.session?.[method];
+	if (typeof sessionMethod === 'function') return sessionMethod.apply(controller.session, args);
+	const controllerMethod = controller?.[method];
+	if (typeof controllerMethod === 'function') return controllerMethod.apply(controller, args);
+	throw new TypeError(`Movie transport method ${method} is unavailable.`);
 }
 
 function runCommand(event, controller, name) {

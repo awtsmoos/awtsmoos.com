@@ -4,7 +4,7 @@
 
 /**
  * @file MovieStudioMediaWorkspaceController.js
- * @description Coordinates project-backed bins, source marks, preview, and sequence edits.
+ * @description Coordinates project-backed bins, source transport, marks, preview, and sequence edits.
  * The Awtsmoos renews project and interface through one history; Awtsmoos.com
  * lets every editorial action remain visible, recoverable, persistent, and free of parallel state.
  */
@@ -18,6 +18,7 @@ import { MovieStudioMediaSavedSearchController } from './MovieStudioMediaSavedSe
 import { MovieStudioMediaWorkspaceInteraction } from './MovieStudioMediaWorkspaceInteraction.js';
 import { paintMovieStudioMediaWorkspace } from './MovieStudioMediaWorkspacePresenter.js';
 import { collectMovieStudioMediaWorkspaceView } from './MovieStudioMediaWorkspaceView.js';
+import { MovieStudioSourceTransportController } from './MovieStudioSourceTransportController.js';
 
 export class MovieStudioMediaWorkspaceController {
 	constructor(session, root) {
@@ -25,6 +26,7 @@ export class MovieStudioMediaWorkspaceController {
 		this.filter = { folder: '', kind: '', query: '', recursive: false };
 		this.view = collectMovieStudioMediaWorkspaceView(root);
 		this.savedSearches = new MovieStudioMediaSavedSearchController(this);
+		this.sourceTransport = new MovieStudioSourceTransportController(this);
 		this.interaction = new MovieStudioMediaWorkspaceInteraction(this);
 		this.unsubscribe = session.events?.on?.('project:changed', () => this.refresh());
 		this.refresh();
@@ -42,17 +44,9 @@ export class MovieStudioMediaWorkspaceController {
 		}
 	}
 
-	saveSearch() {
-		return this.savedSearches.save();
-	}
-
-	applySavedSearch() {
-		return this.savedSearches.apply();
-	}
-
-	removeSavedSearch() {
-		return this.savedSearches.remove();
-	}
+	saveSearch() { return this.savedSearches.save(); }
+	applySavedSearch() { return this.savedSearches.apply(); }
+	removeSavedSearch() { return this.savedSearches.remove(); }
 
 	sourceTime(fallback) {
 		return currentMovieStudioMediaPreviewTime(this.view, fallback);
@@ -63,38 +57,32 @@ export class MovieStudioMediaWorkspaceController {
 			duration: Number(this.view.duration.value || 5),
 			time: this.session.time
 		};
-		if (this.view.track.value) {
-			payload.trackId = this.view.track.value;
-		}
+		if (this.view.track.value) payload.trackId = this.view.track.value;
 		return payload;
 	}
 
 	workspace() {
 		return normalizeMovieMediaWorkspace(
-			this.session.project.mediaWorkspace,
-			this.session.project.media
+			this.session.project.mediaWorkspace, this.session.project.media
 		);
 	}
 
 	refresh() {
-		if (!this.view.scope) {
-			return null;
-		}
-		return paintMovieStudioMediaWorkspace(
-			this.view,
-			this.session.project,
-			this.filter
+		if (!this.view.scope) return null;
+		const workspace = paintMovieStudioMediaWorkspace(
+			this.view, this.session.project, this.filter
 		);
+		this.sourceTransport.paint();
+		return workspace;
 	}
 
 	status(value) {
-		if (this.view.status) {
-			this.view.status.textContent = value;
-		}
+		if (this.view.status) this.view.status.textContent = value;
 	}
 
 	destroy() {
 		this.unsubscribe?.();
+		this.sourceTransport.destroy();
 		this.interaction.destroy();
 		releaseMovieStudioMediaPreview(this.view);
 	}

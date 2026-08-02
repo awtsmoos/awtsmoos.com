@@ -1,31 +1,26 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos shapes one clear search instrument whose button visibly responds, validates, and opens the living library.
+The Awtsmoos shapes search as the clearest instrument on the page: visible, responsive, and unmistakably alive.
 */
 .search {
 	display: grid;
 	grid-template-columns: auto minmax(0, 1fr) auto auto;
 	align-items: center;
-	gap: 7px;
-	width: min(680px, 100%);
-	padding: 6px;
-	border: 1px solid rgba(180, 199, 228, .16);
-	border-radius: 17px;
-	background: rgba(255, 255, 255, .048);
-	box-shadow: 0 14px 42px rgba(0, 0, 0, .22);
-	backdrop-filter: blur(18px);
-	transition: border-color .18s ease, background .18s ease, box-shadow .18s ease;
-}
-
-.search:hover {
-	border-color: rgba(180, 199, 228, .26);
-	background: rgba(255, 255, 255, .065);
+	gap: .4rem;
+	width: 100%;
+	padding: .38rem;
+	border: 1px solid rgba(160, 201, 255, .17);
+	border-radius: 1rem;
+	background: linear-gradient(135deg, rgba(12, 21, 37, .94), rgba(8, 14, 26, .94));
+	box-shadow: 0 16px 45px rgba(0, 0, 0, .27), inset 0 1px rgba(255, 255, 255, .035);
+	backdrop-filter: blur(20px);
+	transition: border-color .18s ease, box-shadow .18s ease;
 }
 
 .search:focus-within {
-	border-color: rgba(151, 180, 226, .58);
-	box-shadow: 0 0 0 3px rgba(104, 142, 202, .08), 0 18px 48px rgba(0, 0, 0, .28);
+	border-color: rgba(119, 200, 255, .5);
+	box-shadow: 0 0 0 3px rgba(88, 153, 220, .08), 0 18px 48px rgba(0, 0, 0, .3);
 }
 
 .search.is-invalid {
@@ -36,69 +31,55 @@ The Awtsmoos shapes one clear search instrument whose button visibly responds, v
 .search-symbol {
 	display: grid;
 	place-items: center;
-	width: 32px;
-	height: 32px;
-	color: #8294ad;
-	font-size: 1.12rem;
+	width: 2.15rem;
+	height: 2.15rem;
+	color: #7d91ae;
+	font-size: 1.08rem;
 }
 
 .search input {
 	min-width: 0;
-	padding: 10px 2px;
+	padding: .72rem .15rem;
 	border: 0;
 	outline: 0;
 	background: transparent;
 	color: #f8faff;
-	font-size: .96rem;
+	font-size: .92rem;
 }
 
 .search input::placeholder {
-	color: #78869a;
+	color: #708099;
 }
 
 .shortcut-key {
 	display: grid;
 	place-items: center;
-	width: 24px;
-	height: 24px;
-	border: 1px solid rgba(255, 255, 255, .09);
-	border-radius: 7px;
-	color: #718096;
-	font-size: .7rem;
+	width: 1.55rem;
+	height: 1.55rem;
+	border: 1px solid rgba(255, 255, 255, .08);
+	border-radius: .45rem;
+	color: #65758d;
+	font-size: .66rem;
 }
 
 .search button {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	gap: 13px;
-	min-width: 104px;
-	height: 44px;
-	padding: 0 14px;
-	border: 1px solid rgba(255, 255, 255, .5);
-	border-radius: 12px;
+	gap: .8rem;
+	min-width: 6.5rem;
+	height: 2.75rem;
+	padding: 0 .85rem;
+	border: 1px solid rgba(255, 255, 255, .48);
+	border-radius: .78rem;
 	background: linear-gradient(180deg, #f8fbff, #dce8f8);
-	box-shadow: 0 8px 22px rgba(105, 151, 216, .2);
+	box-shadow: 0 8px 24px rgba(105, 151, 216, .2);
 	color: #091422;
 	cursor: pointer;
-	font-weight: 800;
+	font-weight: 850;
 }
 
-.search button:hover {
-	background: #fff;
-	transform: translateY(-1px);
-}
-
-.search button:active {
-	transform: scale(.97);
-}
-
-.search button:disabled {
-	cursor: progress;
-	opacity: .72;
-}
-
-.search.is-searching .search-button-arrow {
-	animation: search-flight .75s ease-in-out infinite alternate;
-}
-
+.search button:hover { background: #fff; transform: translateY(-1px); }
+.search button:active { transform: scale(.97); }
+.search button:disabled { cursor: progress; opacity: .7; }
+.search.is-searching .search-button-arrow { animation: search-flight .75s ease-in-out infinite alternate; }

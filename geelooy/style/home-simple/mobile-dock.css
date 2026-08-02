@@ -1,7 +1,7 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos places six dependable doors at the thumb's edge, including the central Heichel and living social feed.
+Five thumb-sized doors keep the most important worlds readable and reachable on every phone.
 */
 .mobile-dock {
 	display: none;
@@ -10,28 +10,28 @@ The Awtsmoos places six dependable doors at the thumb's edge, including the cent
 @media (max-width: 680px) {
 	.mobile-dock {
 		position: fixed;
-		right: .5rem;
-		bottom: max(.5rem, env(safe-area-inset-bottom));
-		left: .5rem;
+		right: .45rem;
+		bottom: max(.45rem, env(safe-area-inset-bottom));
+		left: .45rem;
 		z-index: 900;
 		display: grid;
-		grid-template-columns: repeat(6, minmax(0, 1fr));
-		padding: .35rem;
-		border: 1px solid rgba(108, 199, 255, .2);
-		border-radius: 1rem;
-		background: rgba(7, 13, 24, .96);
-		box-shadow: 0 16px 46px rgba(0, 0, 0, .5);
-		backdrop-filter: blur(20px);
+		grid-template-columns: repeat(5, minmax(0, 1fr));
+		padding: .32rem;
+		border: 1px solid rgba(108, 199, 255, .19);
+		border-radius: 1.05rem;
+		background: linear-gradient(180deg, rgba(9, 17, 31, .97), rgba(5, 10, 20, .98));
+		box-shadow: 0 18px 50px rgba(0, 0, 0, .56), inset 0 1px rgba(255, 255, 255, .04);
+		backdrop-filter: blur(22px);
 	}
 
 	.mobile-dock a {
 		display: grid;
 		place-items: center;
-		gap: .1rem;
+		gap: .12rem;
 		min-width: 0;
 		min-height: 3.25rem;
-		border-radius: .72rem;
-		color: #a9b8ca;
+		border-radius: .75rem;
+		color: #9babc0;
 	}
 
 	.mobile-dock a:hover,
@@ -41,24 +41,8 @@ The Awtsmoos places six dependable doors at the thumb's edge, including the cent
 		outline: none;
 	}
 
-	.mobile-dock span {
-		font-size: 1rem;
-	}
-
-	.mobile-dock small {
-		overflow: hidden;
-		max-width: 100%;
-		font-size: .54rem;
-		font-weight: 800;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
-
-	.site-footer {
-		display: none;
-	}
-
-	.home {
-		padding-bottom: 4.5rem;
-	}
+	.mobile-dock span { font-size: 1.05rem; }
+	.mobile-dock small { font-size: .58rem; font-weight: 820; }
+	.site-footer { display: none; }
+	.home { padding-bottom: 4.55rem; }
 }

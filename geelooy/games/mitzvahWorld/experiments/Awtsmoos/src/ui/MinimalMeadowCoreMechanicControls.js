@@ -6,14 +6,14 @@
  * @file MinimalMeadowCoreMechanicControls.js
  * @description Mounts one persistent keyboard/mobile surface for dodge, lock, consumable, and pickup.
  * The Awtsmoos joins intention and touch without multiplying authorities;
- * Awtsmoos.com remounts one existing root after rich host composition without duplicating listeners or buttons.
+ * Awtsmoos.com remounts one existing root after rich host composition without duplicating listeners.
  */
 
 import {
 	MINIMAL_MEADOW_CORE_ACTIONS,
-	installMinimalMeadowCoreControlFeedback,
 	minimalMeadowCoreActionForKey,
-	minimalMeadowCoreControlTextEntry
+	minimalMeadowCoreTextEntry,
+	subscribeMinimalMeadowCoreFeedback
 } from './MinimalMeadowCoreMechanicControlSupport.js';
 import {
 	installMinimalMeadowCoreMechanicStyles
@@ -38,11 +38,9 @@ export class MinimalMeadowCoreMechanicControls {
 		this.mount();
 		this.onKeyDown = event => this.handleKey(event);
 		documentValue.addEventListener('keydown', this.onKeyDown);
-		this.unsubscribers = installMinimalMeadowCoreControlFeedback(
+		this.unsubscribers = subscribeMinimalMeadowCoreFeedback(
 			runtime,
-			message => {
-				this.status.textContent = message;
-			}
+			message => { this.status.textContent = message; }
 		);
 	}
 
@@ -62,7 +60,7 @@ export class MinimalMeadowCoreMechanicControls {
 	}
 
 	handleKey(event) {
-		if (event.repeat || minimalMeadowCoreControlTextEntry(event.target)) return;
+		if (event.repeat || minimalMeadowCoreTextEntry(event.target)) return;
 		const eventName = minimalMeadowCoreActionForKey(event);
 		if (!eventName) return;
 		event.preventDefault?.();
@@ -78,8 +76,9 @@ export class MinimalMeadowCoreMechanicControls {
 	refresh() {
 		this.mount();
 		const consumable = this.runtime.consumables?.snapshot?.();
-		const drop = this.runtime.lootDrops?.nearestDrop?.();
-		this.root.dataset.lootNearby = String(Boolean(drop));
+		this.root.dataset.lootNearby = String(Boolean(
+			this.runtime.lootDrops?.nearestDrop?.()
+		));
 		this.root.dataset.locked = String(Boolean(this.runtime.lockOn?.targetId));
 		this.root.dataset.consumable = consumable?.selectedItemId || 'none';
 	}

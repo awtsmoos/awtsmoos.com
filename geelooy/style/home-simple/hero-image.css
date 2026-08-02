@@ -1,67 +1,90 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos crops the recovered world into a true horizontal banner instead of a towering portrait card.
+The recovered rainbow world becomes a cinematic portal through depth, light, and careful masking.
 */
 .dance-shell {
 	--tilt-x: 0deg;
 	--tilt-y: 0deg;
 	width: 100%;
 	min-height: 0;
-	transform: perspective(1200px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
+	transform: perspective(1400px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
 	transition: transform .22s ease-out;
 }
 
 .dance-frame {
 	position: relative;
 	width: 100%;
-	aspect-ratio: 2.35 / 1;
-	max-height: min(58dvh, 560px);
+	aspect-ratio: 2.42 / 1;
+	max-height: min(51dvh, 550px);
 	overflow: hidden;
-	border: 1px solid rgba(255, 255, 255, .1);
-	border-radius: 24px;
-	background: #0a1018;
-	box-shadow: 0 28px 80px rgba(0, 0, 0, .4);
+	border: 1px solid rgba(132, 194, 255, .16);
+	border-radius: 1.55rem;
+	background: #09101b;
+	box-shadow: 0 30px 90px rgba(0, 0, 0, .46), 0 0 50px rgba(55, 107, 185, .08);
+}
+
+.dance-frame::before {
+	position: absolute;
+	inset: -7%;
+	background: url("/resources/home/restored-awtsmoos-hero.jpg") center / cover;
+	content: "";
+	filter: blur(24px) saturate(1.2);
+	opacity: .42;
+	transform: scale(1.1);
 }
 
 .dance-frame img {
+	position: relative;
 	display: block;
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	object-position: center 45%;
+	object-position: center 48%;
+	filter: saturate(1.08) contrast(1.03) brightness(.9);
 }
 
 .banner-shade {
 	position: absolute;
 	inset: 0;
-	background: linear-gradient(90deg, rgba(4, 8, 14, .82), rgba(4, 8, 14, .13) 62%, rgba(4, 8, 14, .22));
+	background:
+		linear-gradient(90deg, rgba(3, 7, 14, .88), rgba(3, 7, 14, .34) 52%, rgba(3, 7, 14, .08)),
+		linear-gradient(180deg, transparent 55%, rgba(2, 6, 12, .32));
 }
 
-.banner-copy {
+.hero-orbit {
 	position: absolute;
-	left: clamp(18px, 4vw, 52px);
-	top: 50%;
-	width: min(580px, calc(100% - 36px));
-	transform: translateY(-50%);
+	right: 7%;
+	top: 14%;
+	width: clamp(7rem, 15vw, 12rem);
+	aspect-ratio: 1;
+	border: 1px solid rgba(153, 218, 255, .13);
+	border-radius: 50%;
+	box-shadow: inset 0 0 3rem rgba(85, 136, 220, .08);
 }
+
+.hero-orbit i {
+	position: absolute;
+	width: .38rem;
+	height: .38rem;
+	border-radius: 50%;
+	background: #a5dcff;
+	box-shadow: 0 0 1rem rgba(110, 204, 255, .8);
+}
+
+.hero-orbit i:nth-child(1) { left: 8%; top: 48%; }
+.hero-orbit i:nth-child(2) { right: 16%; top: 20%; }
+.hero-orbit i:nth-child(3) { right: 28%; bottom: 8%; }
 
 @media (max-width: 680px) {
 	.dance-frame {
 		aspect-ratio: 16 / 9;
-		max-height: 48dvh;
-		border-radius: 18px;
+		max-height: 45dvh;
+		border-radius: 1.15rem;
 	}
 
-	.banner-shade {
-		background: linear-gradient(180deg, rgba(4, 8, 14, .1), rgba(4, 8, 14, .82));
-	}
-
-	.banner-copy {
-		left: 16px;
-		top: auto;
-		bottom: 15px;
-		transform: none;
+	.hero-orbit {
+		display: none;
 	}
 }
 

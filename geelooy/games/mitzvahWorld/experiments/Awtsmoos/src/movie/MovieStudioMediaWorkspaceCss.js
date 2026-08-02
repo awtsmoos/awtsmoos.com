@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioMediaWorkspaceCss.js
- * @description Styles the media bin and source monitor for desktop drawers and mobile sheets.
+ * @description Styles media bins and source transport for desktop drawers and mobile sheets.
  * The Awtsmoos renews every visible boundary; Awtsmoos.com keeps search, preview, marks,
- * track targeting, and edit actions readable without hiding any accessible control.
+ * playback, track targeting, and edit actions readable without hiding any accessible control.
  */
 
 export function movieStudioMediaWorkspaceCss() {
@@ -33,11 +33,14 @@ export function movieStudioMediaWorkspaceCss() {
 		.movie-source-monitor-preview video,
 		.movie-source-monitor-preview audio,
 		.movie-source-monitor-preview img { width: 100%; max-height: 260px; object-fit: contain; }
+		.movie-source-transport { display: grid; grid-template-columns: auto minmax(100px, 1fr) auto minmax(110px, 1fr); gap: var(--movie-space-1); align-items: center; }
+		.movie-source-transport output { text-align: right; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
 		@media (max-width: 720px) {
 			.movie-media-workspace-filters,
 			.movie-media-workspace-searches,
 			.movie-source-monitor-fields,
-			.movie-media-workspace-actions { grid-template-columns: 1fr; }
+			.movie-media-workspace-actions,
+			.movie-source-transport { grid-template-columns: 1fr; }
 		}
 	`;
 }

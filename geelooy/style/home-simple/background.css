@@ -1,15 +1,15 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos lets real WebGL stars remain visible above the image while every control stays clear above them.
+The Awtsmoos lets a real WebGL sky float through a deep layered cosmos without overpowering the living controls.
 */
 .particle-sky {
 	position: fixed;
 	inset: 0;
-	z-index: 3;
+	z-index: 2;
 	width: 100%;
 	height: 100%;
-	opacity: .82;
+	opacity: .74;
 	mix-blend-mode: screen;
 	pointer-events: none;
 }
@@ -22,30 +22,36 @@ The Awtsmoos lets real WebGL stars remain visible above the image while every co
 
 .ambient-glow {
 	position: fixed;
-	top: 18%;
-	left: 42%;
+	inset: 8% auto auto 50%;
 	z-index: 0;
-	width: min(52vw, 680px);
-	aspect-ratio: 1;
+	width: min(70vw, 900px);
+	aspect-ratio: 1.5;
 	border-radius: 50%;
-	background: radial-gradient(circle, rgba(75, 105, 155, .075), transparent 68%);
-	filter: blur(34px);
+	background: radial-gradient(circle, rgba(78, 116, 199, .14), rgba(99, 57, 160, .06) 42%, transparent 72%);
+	filter: blur(55px);
+	transform: translateX(-50%);
+	pointer-events: none;
+}
+
+body::before,
+body::after {
+	position: fixed;
+	inset: 0;
+	z-index: 0;
+	content: "";
 	pointer-events: none;
 }
 
 body::before {
-	content: "";
-	position: fixed;
-	inset: 0;
-	z-index: 0;
 	background:
-		radial-gradient(circle at 15% 20%, rgba(53, 75, 116, .08), transparent 30%),
-		radial-gradient(circle at 78% 32%, rgba(67, 92, 138, .07), transparent 34%);
-	pointer-events: none;
+		radial-gradient(circle at 12% 24%, rgba(66, 114, 180, .11), transparent 27%),
+		radial-gradient(circle at 82% 34%, rgba(110, 64, 165, .09), transparent 29%),
+		linear-gradient(180deg, #070c18, #030711 74%);
 }
 
-.site-header,
-.home,
-.site-footer {
-	z-index: 4;
+body::after {
+	opacity: .32;
+	background-image: radial-gradient(circle, rgba(188, 219, 255, .78) 0 1px, transparent 1.4px);
+	background-size: 67px 67px;
+	mask-image: linear-gradient(180deg, transparent, #000 18%, #000 82%, transparent);
 }

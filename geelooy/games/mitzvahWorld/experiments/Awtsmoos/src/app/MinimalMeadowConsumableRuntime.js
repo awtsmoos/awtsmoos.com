@@ -4,25 +4,20 @@
 
 /**
  * @file MinimalMeadowConsumableRuntime.js
- * @description Owns quick selection, active windup, cooldown memory, subscriptions, restore, and snapshots.
+ * @description Owns quick selection, deliberate windup, interruption, cooldown, and exact inventory commit.
  * The Awtsmoos joins intention and recovery without letting repeated input duplicate a carried vessel;
- * Awtsmoos.com delegates mutation while one runtime keeps identity, time, interruption, and teardown coherent.
+ * Awtsmoos.com preserves quantity until completion and gives every rejection one reason.
  */
 
+import { DEFAULT_MINIMAL_MEADOW_CONSUMABLE, minimalMeadowConsumable } from './MinimalMeadowConsumableCatalog.js';
+import { applyMinimalMeadowConsumable } from './MinimalMeadowConsumableEffects.js';
+import { minimalMeadowCoreNow } from './MinimalMeadowCoreClock.js';
 import {
-	DEFAULT_MINIMAL_MEADOW_CONSUMABLE,
-	minimalMeadowConsumable
-} from './MinimalMeadowConsumableCatalog.js';
-import {
-	activateMinimalMeadowConsumable,
-	cycleMinimalMeadowConsumable,
-	interruptMinimalMeadowConsumable,
-	updateMinimalMeadowConsumable
-} from './MinimalMeadowConsumableOperations.js';
-import {
-	minimalMeadowCoreDelayRemaining,
-	minimalMeadowCoreNow
-} from './MinimalMeadowCoreClock.js';
+	minimalMeadowConsumableRejection,
+	nextMinimalMeadowConsumable,
+	restoreMinimalMeadowConsumable,
+	snapshotMinimalMeadowConsumable
+} from './MinimalMeadowConsumableState.js';
 
 export class MinimalMeadowConsumableRuntime {
 	constructor(runtime, environment = globalThis) {
@@ -31,45 +26,72 @@ export class MinimalMeadowConsumableRuntime {
 		this.selectedItemId = DEFAULT_MINIMAL_MEADOW_CONSUMABLE;
 		this.active = null;
 		this.cooldowns = new Map();
-		this.unsubscribers = createSubscriptions(this);
+		this.unsubscribers = [
+			runtime.bus.on('core:consume', detail => this.activate(detail?.itemId)),
+			runtime.bus.on('core:consumable-cycle', () => this.cycle()),
+			runtime.bus.on('core:dodge-start', () => this.interrupt('DODGE_STARTED')),
+			runtime.bus.on('enemy:attack', event => {
+				if (event?.accepted !== false) this.interrupt('PLAYER_DAMAGED');
+			}),
+			runtime.bus.on('player:defeated', () => this.interrupt('PLAYER_DEFEATED'))
+		];
 	}
 
 	activate(itemId = this.selectedItemId) {
-		return activateMinimalMeadowConsumable(this, itemId);
+		const definition = minimalMeadowConsumable(itemId);
+		const reason = minimalMeadowConsumableRejection(
+			this.runtime, this.active, this.cooldowns, definition, this.environment
+		);
+		if (reason) return this.reject(reason);
+		const now = minimalMeadowCoreNow(this.environment);
+		this.selectedItemId = definition.itemId;
+		this.active = Object.freeze({
+			completesAt: now + definition.useSeconds,
+			itemId: definition.itemId,
+			startedAt: now
+		});
+		const receipt = Object.freeze({ accepted: true, definition, ...this.active });
+		this.runtime.bus.emit('core:consumable-started', receipt);
+		return receipt;
 	}
 
 	update() {
-		return updateMinimalMeadowConsumable(this);
+		if (!this.active) return null;
+		const now = minimalMeadowCoreNow(this.environment);
+		if (now < this.active.completesAt) return this.active;
+		const definition = minimalMeadowConsumable(this.active.itemId);
+		this.active = null;
+		const receipt = applyMinimalMeadowConsumable(this.runtime, definition);
+		if (receipt.accepted) {
+			this.cooldowns.set(definition.itemId, now + definition.cooldownSeconds);
+		}
+		return receipt;
 	}
 
 	interrupt(reason = 'INTERRUPTED') {
-		return interruptMinimalMeadowConsumable(this, reason);
+		if (!this.active) return false;
+		const receipt = Object.freeze({ accepted: false, itemId: this.active.itemId, reason });
+		this.active = null;
+		this.runtime.bus.emit('core:consumable-interrupted', receipt);
+		return receipt;
 	}
 
 	cycle() {
-		return cycleMinimalMeadowConsumable(this);
+		this.selectedItemId = nextMinimalMeadowConsumable(this.selectedItemId);
+		const receipt = Object.freeze({
+			definition: minimalMeadowConsumable(this.selectedItemId),
+			selectedItemId: this.selectedItemId
+		});
+		this.runtime.bus.emit('core:consumable-selected', receipt);
+		return receipt;
 	}
 
 	restore(value = {}) {
-		if (minimalMeadowConsumable(value.selectedItemId)) {
-			this.selectedItemId = value.selectedItemId;
-		}
-		return this.snapshot();
+		return restoreMinimalMeadowConsumable(this, value);
 	}
 
 	snapshot() {
-		const now = minimalMeadowCoreNow(this.environment);
-		return Object.freeze({
-			active: this.active ? Object.freeze({ ...this.active }) : null,
-			cooldownRemaining: minimalMeadowCoreDelayRemaining(
-				this.cooldowns.get(this.selectedItemId),
-				now
-			),
-			quantity: this.runtime.inventory?.quantity?.(
-				this.selectedItemId
-			) || 0,
-			selectedItemId: this.selectedItemId
-		});
+		return snapshotMinimalMeadowConsumable(this);
 	}
 
 	destroy() {
@@ -77,25 +99,10 @@ export class MinimalMeadowConsumableRuntime {
 		for (const unsubscribe of this.unsubscribers) unsubscribe();
 		this.unsubscribers = [];
 	}
-}
 
-function createSubscriptions(controller) {
-	const runtime = controller.runtime;
-	return [
-		runtime.bus.on('core:consume', detail => {
-			controller.activate(detail?.itemId);
-		}),
-		runtime.bus.on('core:consumable-cycle', () => controller.cycle()),
-		runtime.bus.on('core:dodge-start', () => {
-			controller.interrupt('DODGE_STARTED');
-		}),
-		runtime.bus.on('enemy:attack', event => {
-			if (event?.accepted !== false) {
-				controller.interrupt('PLAYER_DAMAGED');
-			}
-		}),
-		runtime.bus.on('player:defeated', () => {
-			controller.interrupt('PLAYER_DEFEATED');
-		})
-	];
+	reject(reason) {
+		const receipt = Object.freeze({ accepted: false, reason });
+		this.runtime.bus.emit('core:consumable-rejected', receipt);
+		return receipt;
+	}
 }

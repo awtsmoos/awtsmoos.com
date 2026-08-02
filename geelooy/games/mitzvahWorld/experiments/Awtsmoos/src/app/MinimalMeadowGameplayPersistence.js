@@ -4,21 +4,16 @@
 
 /**
  * @file MinimalMeadowGameplayPersistence.js
- * @description Restores once, rebinds after rich hydration, coalesces interval writes, and flushes stable state.
+ * @description Restores once, rebinds after rich hydration, coalesces writes, and flushes stable state.
  * The Awtsmoos recreates all continuity without being bound by memory; Awtsmoos.com keeps
- * position, checkpoint, stats, inventory, consumables, loot claims, and vertical memory in one witness.
+ * position, checkpoint, stats, inventory, consumables, loot claims, and vertical memory joined.
  */
 
+import { MINIMAL_MEADOW_PERSISTENCE_EVENTS } from './MinimalMeadowGameplayPersistenceEvents.js';
 import {
 	applyMinimalMeadowGameplaySave,
 	createMinimalMeadowGameplaySave
 } from './MinimalMeadowGameplaySaveSchema.js';
-import {
-	bindMinimalMeadowPersistenceInventory,
-	destroyMinimalMeadowPersistenceBindings,
-	installMinimalMeadowPersistenceBindings,
-	minimalMeadowPersistenceStorage
-} from './MinimalMeadowGameplayPersistenceBindings.js';
 import {
 	loadMinimalMeadowGameplaySave,
 	storeMinimalMeadowGameplaySave
@@ -31,17 +26,21 @@ export class MinimalMeadowGameplayPersistence {
 		this.runtime = runtime;
 		this.coreMechanics = coreMechanics;
 		this.environment = environment;
-		this.storage = minimalMeadowPersistenceStorage(environment);
+		this.storage = environment.localStorage;
 		this.elapsed = 0;
-		this.lastSave = null;
-		this.source = 'empty';
-		this.inventoryUnsubscribe = null;
-		this.unsubscribers = [];
 		const loaded = loadMinimalMeadowGameplaySave(this.storage);
 		this.lastSave = loaded.record;
 		this.source = loaded.source;
 		if (loaded.record) this.restore('full');
-		installMinimalMeadowPersistenceBindings(this);
+		this.bindInventory();
+		this.unsubscribers = MINIMAL_MEADOW_PERSISTENCE_EVENTS.map(eventName => {
+			return runtime.bus.on(eventName, () => this.save(eventName));
+		});
+		this.unsubscribers.push(
+			runtime.bus.on('world:rich-features-ready', () => this.onRichReady())
+		);
+		this.onPageHide = () => this.save('pagehide');
+		environment.addEventListener?.('pagehide', this.onPageHide);
 	}
 
 	update(deltaSeconds) {
@@ -52,20 +51,10 @@ export class MinimalMeadowGameplayPersistence {
 	}
 
 	save(reason = 'manual') {
-		const record = createMinimalMeadowGameplaySave(
-			this.runtime,
-			this.coreMechanics
-		);
-		const stored = storeMinimalMeadowGameplaySave(
-			this.storage,
-			record
-		);
+		const record = createMinimalMeadowGameplaySave(this.runtime, this.coreMechanics);
+		const stored = storeMinimalMeadowGameplaySave(this.storage, record);
 		if (stored) this.lastSave = record;
-		const receipt = Object.freeze({
-			reason,
-			savedAt: record.savedAt,
-			stored
-		});
+		const receipt = Object.freeze({ reason, savedAt: record.savedAt, stored });
 		this.runtime.bus.emit('gameplay:save-receipt', receipt);
 		return receipt;
 	}
@@ -86,21 +75,30 @@ export class MinimalMeadowGameplayPersistence {
 		return restored;
 	}
 
-	bindInventory() {
-		bindMinimalMeadowPersistenceInventory(this);
-	}
-
 	snapshot() {
 		return Object.freeze({
 			hasSave: Boolean(this.lastSave),
 			lastSavedAt: this.lastSave?.savedAt || null,
-			source: this.source,
-			storageAvailable: Boolean(this.storage)
+			source: this.source
 		});
 	}
 
 	destroy() {
 		this.save('destroy');
-		destroyMinimalMeadowPersistenceBindings(this);
+		this.inventoryUnsubscribe?.();
+		for (const unsubscribe of this.unsubscribers) unsubscribe();
+		this.environment.removeEventListener?.('pagehide', this.onPageHide);
+	}
+
+	onRichReady() {
+		this.bindInventory();
+		this.restore('handoff');
+	}
+
+	bindInventory() {
+		this.inventoryUnsubscribe?.();
+		this.inventoryUnsubscribe = this.runtime.inventory?.onChange?.(() => {
+			this.save('inventory-change');
+		}) || null;
 	}
 }

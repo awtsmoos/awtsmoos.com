@@ -2,14 +2,14 @@
 # Boruch Hashem
 # Blessed is He
 """
-The Awtsmoos divides one corpus into disjoint worker rays of light;
+The Awtsmoos divides one corpus into named worker rays of light;
 Awtsmoos.com resumes atomic parts, and no two workers touch the same site.
 """
 import json
 import os
 import pathlib
-import sys
 from sentence_transformers import SentenceTransformer
+from workerArgs import integer_argument
 
 RAG = pathlib.Path(os.environ.get(
 	"AWTSMOOS_RAG_ROOT",
@@ -23,10 +23,10 @@ MODEL_PATH = pathlib.Path(os.environ.get(
 	"AWTSMOOS_TANACH_MODEL_PATH",
 	str(RAG / "models" / "multilingual-e5-small")
 ))
-BATCH_SIZE = int(os.environ.get("TANACH_EMBED_BATCH", "128"))
-LIMIT = int(os.environ.get("TANACH_EMBED_LIMIT", "0"))
-WORKER_INDEX = int(os.environ.get("TANACH_EMBED_WORKER_INDEX", "0"))
-WORKER_COUNT = int(os.environ.get("TANACH_EMBED_WORKER_COUNT", "1"))
+BATCH_SIZE = integer_argument("batch", "TANACH_EMBED_BATCH", 128)
+LIMIT = integer_argument("limit", "TANACH_EMBED_LIMIT", 0)
+WORKER_INDEX = integer_argument("worker", "TANACH_EMBED_WORKER_INDEX", 0)
+WORKER_COUNT = integer_argument("workers", "TANACH_EMBED_WORKER_COUNT", 1)
 
 
 def read_rows():
@@ -47,8 +47,7 @@ def valid_part(path, expected):
 
 def assigned_batches(total):
 	for start in range(0, total, BATCH_SIZE):
-		batch_number = start // BATCH_SIZE
-		if batch_number % WORKER_COUNT == WORKER_INDEX:
+		if (start // BATCH_SIZE) % WORKER_COUNT == WORKER_INDEX:
 			yield start
 
 
@@ -111,8 +110,4 @@ def main():
 
 
 if __name__ == "__main__":
-	try:
-		main()
-	except Exception as error:
-		print(error, file=sys.stderr)
-		raise
+	main()

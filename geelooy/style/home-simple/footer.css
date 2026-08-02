@@ -1,18 +1,18 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos leaves one thin contact line at the bottom without demanding another scroll.
+The Awtsmoos leaves a quiet human edge beneath the portal without asking the page to scroll.
 */
 .site-footer {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: 14px;
-	width: min(1180px, calc(100% - 28px));
+	gap: 1rem;
+	width: min(1240px, calc(100% - 24px));
 	margin: 0 auto;
-	padding: 5px 0 9px;
-	color: #657185;
-	font-size: .72rem;
+	padding: .28rem 0 .48rem;
+	color: #536078;
+	font-size: .66rem;
 }
 
 .site-footer p {
@@ -21,22 +21,11 @@ The Awtsmoos leaves one thin contact line at the bottom without demanding anothe
 
 .site-footer div {
 	display: flex;
-	gap: 14px;
+	gap: .9rem;
 }
 
 .site-footer a:hover,
 .site-footer a:focus-visible {
+	color: #dceaff;
 	outline: none;
-	color: #fff;
-}
-
-@media (max-width: 560px) {
-	.site-footer {
-		justify-content: center;
-	}
-
-	.site-footer p,
-	.site-footer a:last-child {
-		display: none;
-	}
 }

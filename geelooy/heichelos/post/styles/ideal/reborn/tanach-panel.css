@@ -1,0 +1,110 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos surrounds each searched verse with a calm, accessible light;
+ * Awtsmoos.com keeps desktop and mobile vessels readable by day and night.
+ */
+.awtsmoos-tanach-backdrop {
+	position: fixed;
+	inset: 0;
+	z-index: 100000;
+	display: grid;
+	place-items: center;
+	padding: 1rem;
+	background: rgb(0 0 0 / 55%);
+}
+
+.awtsmoos-tanach-panel {
+	width: min(48rem, 100%);
+	max-height: min(88vh, 52rem);
+	overflow: auto;
+	padding: 1rem;
+	border-radius: 1rem;
+	background: var(--reader-surface, #fff);
+	color: var(--reader-text, #171717);
+	box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 35%);
+}
+
+.awtsmoos-tanach-panel header {
+	display: flex;
+	align-items: start;
+	justify-content: space-between;
+	gap: 1rem;
+	position: sticky;
+	top: -1rem;
+	z-index: 2;
+	padding: 1rem 0 .75rem;
+	background: inherit;
+}
+
+.awtsmoos-tanach-panel h2 {
+	margin: 0;
+	font-size: 1.25rem;
+}
+
+.awtsmoos-tanach-close,
+.awtsmoos-tanach-more {
+	min-height: 2.75rem;
+	border: 1px solid currentColor;
+	border-radius: .7rem;
+	background: transparent;
+	color: inherit;
+	cursor: pointer;
+}
+
+.awtsmoos-tanach-close {
+	min-width: 2.75rem;
+	font-size: 1.75rem;
+	line-height: 1;
+}
+
+.awtsmoos-tanach-status {
+	margin: 0 0 .75rem;
+}
+
+.awtsmoos-tanach-results {
+	display: grid;
+	gap: .75rem;
+}
+
+.awtsmoos-tanach-result {
+	display: grid;
+	gap: .35rem;
+	padding: .85rem;
+	border: 1px solid rgb(127 127 127 / 35%);
+	border-radius: .75rem;
+	color: inherit;
+	text-decoration: none;
+}
+
+.awtsmoos-tanach-result:hover,
+.awtsmoos-tanach-result:focus-visible {
+	outline: 3px solid rgb(45 110 220 / 45%);
+	outline-offset: 1px;
+}
+
+.awtsmoos-tanach-result span {
+	font-size: 1.08rem;
+	line-height: 1.75;
+}
+
+.awtsmoos-tanach-result small {
+	opacity: .72;
+}
+
+.awtsmoos-tanach-more {
+	width: 100%;
+	margin-top: 1rem;
+}
+
+@media (max-width: 40rem) {
+	.awtsmoos-tanach-backdrop {
+		align-items: end;
+		padding: 0;
+	}
+
+	.awtsmoos-tanach-panel {
+		max-height: 92dvh;
+		border-radius: 1rem 1rem 0 0;
+	}
+}

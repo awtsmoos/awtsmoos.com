@@ -1,56 +1,68 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos shapes one compact rail where the site name never masquerades as the active alias.
+The Awtsmoos joins brand, living signal, and identity in one calm luminous command rail.
 */
 .header-rail {
-	display: flex;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto auto;
 	align-items: center;
-	justify-content: space-between;
 	gap: 10px;
 	width: 100%;
-	padding: 6px 7px 6px 10px;
-	border: 1px solid rgba(255, 255, 255, .07);
-	border-radius: 16px;
-	background: rgba(9, 14, 23, .9);
-	box-shadow: 0 12px 34px rgba(0, 0, 0, .24);
-	backdrop-filter: blur(18px);
+	padding: 7px 8px 7px 10px;
+	border: 1px solid rgba(130, 191, 255, .15);
+	border-radius: 18px;
+	background: linear-gradient(135deg, rgba(10, 18, 33, .94), rgba(7, 12, 23, .92));
+	box-shadow: 0 14px 38px rgba(0, 0, 0, .3), inset 0 1px rgba(255, 255, 255, .035);
+	backdrop-filter: blur(24px);
 }
 
 .brand {
 	display: inline-flex;
 	align-items: center;
-	gap: 9px;
+	gap: 10px;
 	min-width: 0;
-	font-size: .96rem;
-	font-weight: 760;
-}
-
-.brand > span:last-child {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
 }
 
 .brand-mark {
 	display: grid;
 	place-items: center;
 	flex: 0 0 auto;
-	width: 30px;
-	height: 30px;
-	border: 1px solid rgba(180, 207, 247, .16);
-	border-radius: 9px;
-	background: rgba(255, 255, 255, .05);
-	color: #dce8fb;
+	width: 34px;
+	height: 34px;
+	border: 1px solid rgba(133, 210, 255, .24);
+	border-radius: 11px;
+	background: radial-gradient(circle at 35% 25%, rgba(112, 205, 255, .25), rgba(17, 30, 58, .9));
+	box-shadow: 0 0 18px rgba(77, 175, 255, .12);
+	color: #eaf5ff;
 }
 
-@media (max-width: 430px) {
+.brand-copy {
+	display: grid;
+	min-width: 0;
+	gap: 1px;
+}
+
+.brand-copy strong {
+	font-size: .96rem;
+	letter-spacing: -.015em;
+}
+
+.brand-copy small {
+	color: #7588a4;
+	font-size: .58rem;
+	font-weight: 750;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+
+@media (max-width: 480px) {
 	.header-rail {
-		gap: 6px;
-		padding-left: 7px;
+		grid-template-columns: minmax(0, 1fr) auto;
 	}
 
-	.brand > span:last-child {
+	.brand-copy small,
+	.system-signal {
 		display: none;
 	}
 }

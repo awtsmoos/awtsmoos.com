@@ -1,0 +1,43 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos marks the living system with one quiet pulse rather than noisy decoration.
+*/
+.system-signal {
+	display: inline-flex;
+	align-items: center;
+	gap: .45rem;
+	padding: .42rem .62rem;
+	border: 1px solid rgba(111, 220, 180, .12);
+	border-radius: 999px;
+	background: rgba(37, 119, 88, .07);
+	color: #8bb7a7;
+	font-size: .62rem;
+	font-weight: 800;
+	letter-spacing: .06em;
+	text-transform: uppercase;
+}
+
+.system-signal i,
+.portal-status i {
+	width: .42rem;
+	height: .42rem;
+	border-radius: 50%;
+	background: #62dfaa;
+	box-shadow: 0 0 .8rem rgba(98, 223, 170, .7);
+	animation: signal-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes signal-pulse {
+	50% {
+		opacity: .45;
+		transform: scale(.78);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.system-signal i,
+	.portal-status i {
+		animation: none;
+	}
+}

@@ -4,36 +4,16 @@
 
 /**
  * @file MinimalMeadowCoreMechanicControlSupport.js
- * @description Declares core control actions, key routing, text-entry safety, and feedback subscriptions.
- * The Awtsmoos joins key, touch, and spoken status without multiplying authorities;
- * Awtsmoos.com keeps labels, events, accessibility, and listener cleanup in one focused vessel.
+ * @description Defines core actions, keyboard mapping, text-entry safety, and concise live feedback.
+ * The Awtsmoos joins key and touch without multiplying authorities; Awtsmoos.com keeps
+ * dodge, lock, recovery, pickup, impact, and accessibility through one shared presentation contract.
  */
 
 export const MINIMAL_MEADOW_CORE_ACTIONS = Object.freeze([
-	Object.freeze({
-		event: 'core:dodge',
-		icon: '↯',
-		key: 'Shift+Space',
-		label: 'Dodge'
-	}),
-	Object.freeze({
-		event: 'core:lock-toggle',
-		icon: '◎',
-		key: 'Tab',
-		label: 'Lock target'
-	}),
-	Object.freeze({
-		event: 'core:consume',
-		icon: '🥣',
-		key: 'R',
-		label: 'Use consumable'
-	}),
-	Object.freeze({
-		event: 'core:pickup',
-		icon: '✋',
-		key: 'F',
-		label: 'Pick up loot'
-	})
+	Object.freeze({ event: 'core:dodge', icon: '↯', key: 'Shift+Space', label: 'Dodge' }),
+	Object.freeze({ event: 'core:lock-toggle', icon: '◎', key: 'Tab', label: 'Lock target' }),
+	Object.freeze({ event: 'core:consume', icon: '🥣', key: 'R', label: 'Use consumable' }),
+	Object.freeze({ event: 'core:pickup', icon: '✋', key: 'F', label: 'Pick up loot' })
 ]);
 
 export function minimalMeadowCoreActionForKey(event) {
@@ -44,15 +24,16 @@ export function minimalMeadowCoreActionForKey(event) {
 	return null;
 }
 
-export function installMinimalMeadowCoreControlFeedback(
-	runtime,
-	announce
-) {
+export function minimalMeadowCoreTextEntry(target) {
+	return Boolean(target?.closest?.(
+		'input,textarea,select,[contenteditable="true"]'
+	));
+}
+
+export function subscribeMinimalMeadowCoreFeedback(runtime, announce) {
 	return [
 		runtime.bus.on('core:dodge-start', () => announce('Dodge committed.')),
-		runtime.bus.on('core:lock-changed', event => {
-			announce(lockMessage(event));
-		}),
+		runtime.bus.on('core:lock-changed', event => announce(lockMessage(event))),
 		runtime.bus.on('core:consumable-started', event => {
 			announce(`Using ${event.definition.label}.`);
 		}),
@@ -67,12 +48,6 @@ export function installMinimalMeadowCoreControlFeedback(
 			if (event.kind === 'player-hit') announce('You were struck.');
 		})
 	];
-}
-
-export function minimalMeadowCoreControlTextEntry(target) {
-	return Boolean(target?.closest?.(
-		'input,textarea,select,[contenteditable="true"]'
-	));
 }
 
 function lockMessage(event = {}) {

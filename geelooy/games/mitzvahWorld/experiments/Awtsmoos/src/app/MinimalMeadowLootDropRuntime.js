@@ -4,22 +4,19 @@
 
 /**
  * @file MinimalMeadowLootDropRuntime.js
- * @description Owns visible corpse-drop state, exact claim memory, subscriptions, restore, and teardown.
+ * @description Owns corpse-drop state, nearby feedback, exact-once pickup events, restore, and teardown.
  * The Awtsmoos joins fallen body and recoverable vessel without hidden vacuuming;
- * Awtsmoos.com delegates mutation while one runtime keeps discovery, nearby status, claims, and persistence coherent.
+ * Awtsmoos.com keeps deliberate pickup, claim memory, corpse visibility, and one lifecycle explicit.
  */
 
+import { minimalMeadowLootActor } from './MinimalMeadowLootDropState.js';
 import {
-	applyRestoredMinimalMeadowLootClaims,
+	applyMinimalMeadowLootClaims,
+	claimNearestMinimalMeadowLootDrop,
 	discoverMinimalMeadowLootDrops,
-	markMinimalMeadowLooted,
 	nearestMinimalMeadowLootDrop,
-	pickupNearestMinimalMeadowLootDrop,
 	spawnMinimalMeadowLootDrop
 } from './MinimalMeadowLootDropOperations.js';
-import {
-	minimalMeadowLootActor
-} from './MinimalMeadowLootDropState.js';
 
 export class MinimalMeadowLootDropRuntime {
 	constructor(runtime) {
@@ -29,19 +26,15 @@ export class MinimalMeadowLootDropRuntime {
 		this.claiming = new Set();
 		this.nearbyId = null;
 		this.unsubscribers = [
-			runtime.bus.on('enemy:defeated', event => {
-				this.spawnFromEvent(event);
-			}),
+			runtime.bus.on('enemy:defeated', event => this.spawnFromEvent(event)),
 			runtime.bus.on('core:pickup', () => this.pickupNearest()),
-			runtime.bus.on('enemy:looted', event => {
-				markMinimalMeadowLooted(this, event);
-			})
+			runtime.bus.on('enemy:looted', event => this.onLooted(event))
 		];
 	}
 
 	update() {
 		discoverMinimalMeadowLootDrops(this);
-		applyRestoredMinimalMeadowLootClaims(this);
+		applyMinimalMeadowLootClaims(this);
 		const nearby = this.nearestDrop();
 		const nextId = nearby?.id || null;
 		if (nextId !== this.nearbyId) {
@@ -53,9 +46,7 @@ export class MinimalMeadowLootDropRuntime {
 
 	spawnFromEvent(event = {}) {
 		const enemyId = event.id || event.enemyId || event.profileId;
-		return this.spawn(
-			minimalMeadowLootActor(this.runtime, enemyId)
-		);
+		return this.spawn(minimalMeadowLootActor(this.runtime, enemyId));
 	}
 
 	spawn(actor) {
@@ -63,7 +54,7 @@ export class MinimalMeadowLootDropRuntime {
 	}
 
 	pickupNearest() {
-		return pickupNearestMinimalMeadowLootDrop(this);
+		return claimNearestMinimalMeadowLootDrop(this);
 	}
 
 	nearestDrop() {
@@ -72,11 +63,9 @@ export class MinimalMeadowLootDropRuntime {
 
 	restore(value = {}) {
 		this.claimed = new Set(
-			Array.isArray(value.claimedDropIds)
-				? value.claimedDropIds
-				: []
+			Array.isArray(value.claimedDropIds) ? value.claimedDropIds : []
 		);
-		applyRestoredMinimalMeadowLootClaims(this);
+		applyMinimalMeadowLootClaims(this);
 		return this.snapshot();
 	}
 
@@ -93,5 +82,19 @@ export class MinimalMeadowLootDropRuntime {
 		this.unsubscribers = [];
 		this.drops.clear();
 		this.claiming.clear();
+	}
+
+	onLooted(event = {}) {
+		const enemyId = event.id || event.enemyId || event.profileId;
+		if (!enemyId) return;
+		const dropId = `corpse:${enemyId}`;
+		this.claimed.add(dropId);
+		this.drops.delete(dropId);
+	}
+
+	reject(reason) {
+		const receipt = Object.freeze({ accepted: false, reason });
+		this.runtime.bus.emit('loot:pickup-rejected', receipt);
+		return receipt;
 	}
 }

@@ -1,0 +1,46 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos closes the portal with a truthful line of living capabilities and one direct human signal.
+*/
+.portal-status {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: .8rem;
+	min-height: 1.8rem;
+	color: #62728a;
+	font-size: .6rem;
+	font-weight: 750;
+	letter-spacing: .055em;
+	text-transform: uppercase;
+}
+
+.portal-status span,
+.portal-status a {
+	display: inline-flex;
+	align-items: center;
+	gap: .38rem;
+}
+
+.portal-status span + span::before,
+.portal-status a::before {
+	color: #344158;
+	content: "•";
+}
+
+.portal-status a {
+	color: #8195b2;
+}
+
+.portal-status a:hover,
+.portal-status a:focus-visible {
+	color: #dceaff;
+	outline: none;
+}
+
+@media (max-width: 680px) {
+	.portal-status {
+		display: none;
+	}
+}

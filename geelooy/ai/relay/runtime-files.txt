@@ -1,13 +1,14 @@
 # B"H
 # Boruch Hashem
 # Blessed is He
-# The Awtsmoos gathers every Awtsmoos.com relay vessel into one audited manifest.
+# The Awtsmoos reveals every runtime vessel consumed by both installers.
 direct/browser/AuthenticatedHostHealth.mjs
 direct/browser/AuthenticatedHostLease.mjs
 direct/browser/AuthenticatedSocketController.mjs
 direct/browser/CarrierControlGate.mjs
 direct/browser/CarrierInputController.mjs
 direct/browser/CarrierNodeFinder.mjs
+direct/browser/CarrierTextController.mjs
 direct/browser/CdpClient.mjs
 direct/browser/ChatGptTargetSelector.mjs
 direct/browser/ChromeDiscovery.mjs
@@ -20,6 +21,7 @@ direct/chatgpt/ConversationCompletionPoller.mjs
 direct/chatgpt/ConversationGraphPoller.mjs
 direct/chatgpt/ConversationGraphReducer.mjs
 direct/chatgpt/ConversationModePolicy.mjs
+direct/chatgpt/ConversationRecoveryExecutor.mjs
 direct/chatgpt/ConversationRequestObserver.mjs
 direct/chatgpt/ConversationRouteCapture.mjs
 direct/chatgpt/ConversationRoutePoller.mjs
@@ -71,6 +73,7 @@ split-browser/browserShim.cjs
 split-browser/cdpChrome.cjs
 split-browser/clientDiagnostics.cjs
 split-browser/clientState.cjs
+split-browser/commands/BrowserSessionStatus.cjs
 split-browser/commands/ManualLoginGate.cjs
 split-browser/commands/loginAndStress.cjs
 split-browser/commands/loginOnly.cjs
@@ -82,6 +85,7 @@ split-browser/debugChromeCookies.cjs
 split-browser/debugChromeDiscovery.cjs
 split-browser/debugChromeFrames.cjs
 split-browser/debugChromeLauncher.cjs
+split-browser/debugChromeProcessRecovery.cjs
 split-browser/debugChromeWebSocket.cjs
 split-browser/debugClient.cjs
 split-browser/directApi.cjs

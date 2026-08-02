@@ -4,11 +4,16 @@
 
 /**
  * @file BrowserCdpHarness.mjs
- * @description Keeps one explicit page session per target for navigation, evaluation, and waiting.
- * The Awtsmoos holds one enduring channel while the page changes from blankness into play;
- * Awtsmoos.com prevents transient attachment replies from scattering browser truth away.
+ * @description Creates the final navigating target before attaching one stable flattened page session.
+ * The Awtsmoos joins destination and vessel before observation begins; Awtsmoos.com avoids attaching
+ * to blankness that Chrome may replace during cross-origin navigation, preserving every later reply.
  */
-import { browserDelay, connectCdpSocket, sendCdpCommand } from './BrowserCdpSocket.mjs';
+
+import {
+	browserDelay,
+	connectCdpSocket,
+	sendCdpCommand
+} from './BrowserCdpSocket.mjs';
 import { BrowserCdpPageSession } from './BrowserCdpPageSession.mjs';
 import { BrowserCdpTarget } from './BrowserCdpTarget.mjs';
 
@@ -27,9 +32,9 @@ export class BrowserCdpHarness {
 	}
 
 	async createTarget(url) {
-		const target = await this.targets.create();
+		const created = await this.targets.create(url);
+		const target = await this.targets.wait(created.id, 15000);
 		await this.session(target.id);
-		await this.navigateTarget(target.id, url);
 		await this.waitFor(target.id, `({
 			href: location.href,
 			ready: location.href === ${JSON.stringify(url)}
@@ -44,11 +49,7 @@ export class BrowserCdpHarness {
 	async navigateTarget(targetId, url) {
 		const session = await this.session(targetId);
 		await session.send('Page.enable');
-		try {
-			await session.send('Page.navigate', { url }, 2000);
-		} catch (error) {
-			if (error?.message !== 'Page.navigate_TIMEOUT') throw error;
-		}
+		await session.send('Page.navigate', { url }, 5000);
 	}
 
 	async closeTarget(targetId) {
@@ -94,7 +95,9 @@ export class BrowserCdpHarness {
 			}
 			await browserDelay(options.intervalMs || 100);
 		}
-		throw new Error(`${options.label || 'BROWSER_WAIT'}_TIMEOUT ${JSON.stringify(last)}`);
+		throw new Error(
+			`${options.label || 'BROWSER_WAIT'}_TIMEOUT ${JSON.stringify(last)}`
+		);
 	}
 
 	async stop() {

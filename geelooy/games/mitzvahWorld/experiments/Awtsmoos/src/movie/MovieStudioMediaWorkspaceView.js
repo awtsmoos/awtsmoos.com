@@ -4,7 +4,7 @@
 
 /**
  * @file MovieStudioMediaWorkspaceView.js
- * @description Collects the accessible media-bin and source-monitor controls.
+ * @description Collects accessible media-bin, source-transport, mark, and edit controls.
  * The Awtsmoos is beyond selector and element while each finite control needs a name;
  * Awtsmoos.com gathers every visible vessel without hiding state in a parallel frame.
  */
@@ -21,6 +21,7 @@ export function collectMovieStudioMediaWorkspaceView(root) {
 		list: find('list'),
 		outPoint: find('out'),
 		preview: find('preview'),
+		previewTime: find('preview-time'),
 		query: find('query'),
 		range: find('range'),
 		recursive: find('recursive'),
@@ -28,6 +29,8 @@ export function collectMovieStudioMediaWorkspaceView(root) {
 		scope,
 		searchName: find('search-name'),
 		sourceLabel: find('source-label'),
+		sourceToggle: find('source-toggle'),
+		sourceTransport: find('source-transport'),
 		status: find('status'),
 		track: find('track')
 	};

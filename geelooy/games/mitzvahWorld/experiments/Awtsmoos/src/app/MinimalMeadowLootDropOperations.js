@@ -4,16 +4,11 @@
 
 /**
  * @file MinimalMeadowLootDropOperations.js
- * @description Discovers corpses and commits exact local or authoritative pickup transactions.
- * The Awtsmoos joins fallen body and recoverable vessel through one truthful owner;
- * Awtsmoos.com waits for reconciled consequence before claim memory, visibility, and persistence advance.
+ * @description Discovers, ranges, awaits, claims, and restores corpse drops through existing authority.
+ * The Awtsmoos joins fallen body and recoverable vessel without duplicate treasure truth;
+ * Awtsmoos.com keeps local and server claims, exact-once memory, retry, inventory, and receipts aligned.
  */
 
-import {
-	claimMinimalMeadowLootActor,
-	minimalMeadowLootClaimAccepted,
-	minimalMeadowLootClaimFailure
-} from './MinimalMeadowLootClaimAuthority.js';
 import {
 	createMinimalMeadowLootDrop,
 	minimalMeadowLootActor,
@@ -21,93 +16,78 @@ import {
 	minimalMeadowLootDropInRange
 } from './MinimalMeadowLootDropState.js';
 
-export function spawnMinimalMeadowLootDrop(controller, actor) {
+export function spawnMinimalMeadowLootDrop(owner, actor) {
 	const drop = createMinimalMeadowLootDrop(actor);
-	if (!drop || controller.claimed.has(drop.id)) return null;
-	controller.drops.set(drop.id, drop);
+	if (!drop || owner.claimed.has(drop.id)) return null;
+	owner.drops.set(drop.id, drop);
 	actor.group.userData.AwtsmoosLootDrop = drop;
-	controller.runtime.bus.emit('loot:drop-spawned', drop);
+	owner.runtime.bus.emit('loot:drop-spawned', drop);
 	return drop;
 }
 
-export async function pickupNearestMinimalMeadowLootDrop(controller) {
-	if (controller.runtime.playerDefeat?.isDefeated?.()) {
-		return rejectMinimalMeadowLootDrop(controller, 'PLAYER_DEFEATED');
-	}
-	const drop = nearestMinimalMeadowLootDrop(controller);
-	if (!drop) return rejectMinimalMeadowLootDrop(controller, 'LOOT_OUT_OF_RANGE');
-	if (controller.claimed.has(drop.id) || controller.claiming.has(drop.id)) {
-		return rejectMinimalMeadowLootDrop(controller, 'LOOT_ALREADY_CLAIMED');
-	}
-	const actor = minimalMeadowLootActor(controller.runtime, drop.enemyId);
-	if (!actor || actor.looted) {
-		return rejectMinimalMeadowLootDrop(controller, 'LOOT_SOURCE_STALE');
-	}
-	controller.claiming.add(drop.id);
-	controller.runtime.bus.emit('loot:pickup-pending', drop);
-	try {
-		const receipt = await claimMinimalMeadowLootActor(controller.runtime, actor);
-		if (!minimalMeadowLootClaimAccepted(actor, receipt)) {
-			return rejectMinimalMeadowLootDrop(controller, 'LOOT_NOT_RECONCILED');
-		}
-		controller.claimed.add(drop.id);
-		controller.drops.delete(drop.id);
-		const committed = Object.freeze({
-			...receipt,
-			accepted: true,
-			dropId: drop.id
-		});
-		controller.runtime.bus.emit('loot:drop-claimed', committed);
-		return committed;
-	} catch (error) {
-		return rejectMinimalMeadowLootDrop(
-			controller,
-			minimalMeadowLootClaimFailure(error)
-		);
-	} finally {
-		controller.claiming.delete(drop.id);
-	}
-}
-
-export function nearestMinimalMeadowLootDrop(controller) {
-	return [...controller.drops.values()]
-		.filter(drop => minimalMeadowLootDropInRange(controller.runtime, drop))
+export function nearestMinimalMeadowLootDrop(owner) {
+	return [...owner.drops.values()]
+		.filter(drop => minimalMeadowLootDropInRange(owner.runtime, drop))
 		.sort((first, second) => {
-			return minimalMeadowLootDropDistance(controller.runtime, first)
-				- minimalMeadowLootDropDistance(controller.runtime, second);
+			return minimalMeadowLootDropDistance(owner.runtime, first)
+				- minimalMeadowLootDropDistance(owner.runtime, second);
 		})[0] || null;
 }
 
-export function discoverMinimalMeadowLootDrops(controller) {
-	for (const actor of controller.runtime.enemies?.actors || []) {
-		spawnMinimalMeadowLootDrop(controller, actor);
+export async function claimNearestMinimalMeadowLootDrop(owner) {
+	if (owner.runtime.playerDefeat?.isDefeated?.()) {
+		return owner.reject('PLAYER_DEFEATED');
+	}
+	const drop = nearestMinimalMeadowLootDrop(owner);
+	if (!drop) return owner.reject('LOOT_OUT_OF_RANGE');
+	if (owner.claimed.has(drop.id) || owner.claiming.has(drop.id)) {
+		return owner.reject('LOOT_ALREADY_CLAIMED');
+	}
+	const actor = minimalMeadowLootActor(owner.runtime, drop.enemyId);
+	if (!actor || actor.looted) return owner.reject('LOOT_SOURCE_STALE');
+	owner.claiming.add(drop.id);
+	try {
+		const receipt = await claimThroughAuthority(owner.runtime, actor);
+		if (!receipt?.accepted) {
+			return owner.reject(receipt?.reason || 'LOOT_FAILED');
+		}
+		owner.claimed.add(drop.id);
+		owner.drops.delete(drop.id);
+		const reconciled = Object.freeze({ ...receipt, dropId: drop.id });
+		owner.runtime.bus.emit('loot:drop-claimed', reconciled);
+		return reconciled;
+	} catch (error) {
+		return owner.reject(error?.code || error?.message || 'LOOT_FAILED');
+	} finally {
+		owner.claiming.delete(drop.id);
 	}
 }
 
-export function applyRestoredMinimalMeadowLootClaims(controller) {
-	for (const dropId of controller.claimed) {
-		const enemyId = dropId.replace(/^corpse:/, '');
-		const actor = minimalMeadowLootActor(controller.runtime, enemyId);
+export function discoverMinimalMeadowLootDrops(owner) {
+	for (const actor of owner.runtime.enemies?.actors || []) {
+		spawnMinimalMeadowLootDrop(owner, actor);
+	}
+}
+
+export function applyMinimalMeadowLootClaims(owner) {
+	for (const dropId of owner.claimed) {
+		const actor = minimalMeadowLootActor(
+			owner.runtime,
+			dropId.replace(/^corpse:/, '')
+		);
 		if (!actor || actor.alive || actor.looted) continue;
-		if (actor.authoritative) continue;
 		actor.lootState?.takeAll?.();
 		actor.looted = true;
 		actor.group.visible = false;
-		controller.drops.delete(dropId);
+		owner.drops.delete(dropId);
 	}
 }
 
-export function markMinimalMeadowLooted(controller, event = {}) {
-	if (event.looted === false) return;
-	const enemyId = event.id || event.enemyId || event.profileId;
-	if (!enemyId) return;
-	const dropId = `corpse:${enemyId}`;
-	controller.claimed.add(dropId);
-	controller.drops.delete(dropId);
-}
-
-export function rejectMinimalMeadowLootDrop(controller, reason) {
-	const receipt = Object.freeze({ accepted: false, reason });
-	controller.runtime.bus.emit('loot:pickup-rejected', receipt);
-	return receipt;
+async function claimThroughAuthority(runtime, actor) {
+	const authority = runtime.enemyAuthority;
+	if (authority?.controls?.(actor)) {
+		const receipt = await authority.claimLoot(actor);
+		return Object.freeze({ accepted: true, ...receipt });
+	}
+	return actor.takeAllLoot();
 }

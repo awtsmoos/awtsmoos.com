@@ -4,22 +4,19 @@
 
 /**
  * @file MinimalMeadowCombatImpactRuntime.js
- * @description Owns bounded hit-stop clocks, post-hit protection, impact receipts, snapshots, and teardown.
- * The Awtsmoos is beyond force and interruption; Awtsmoos.com slows only combat presentation
- * while movement, persistence, networking, recovery, and every longer clock continue in truthful order.
+ * @description Owns bounded hit-stop, damage direction, feedback, and short anti-chain protection.
+ * The Awtsmoos is beyond force and interruption; Awtsmoos.com slows battle presentation
+ * without freezing movement, persistence, networking, consumables, dodge, or respawn clocks.
  */
 
-import {
-	minimalMeadowCoreDelayRemaining,
-	minimalMeadowCoreNow
-} from './MinimalMeadowCoreClock.js';
+import { minimalMeadowCoreDelayRemaining, minimalMeadowCoreNow } from './MinimalMeadowCoreClock.js';
 import {
 	MINIMAL_MEADOW_ENEMY_HIT_STOP,
 	MINIMAL_MEADOW_PLAYER_HIT_STOP,
 	MINIMAL_MEADOW_POST_HIT_PROTECTION,
-	minimalMeadowDamageDirection,
-	minimalMeadowImpactBlocksDetails,
-	minimalMeadowImpactDuration
+	minimalMeadowImpactDirection,
+	minimalMeadowImpactDuration,
+	minimalMeadowImpactEnvironmental
 } from './MinimalMeadowCombatImpactPolicy.js';
 
 export class MinimalMeadowCombatImpactRuntime {
@@ -35,10 +32,8 @@ export class MinimalMeadowCombatImpactRuntime {
 	}
 
 	blockedReason(details = {}) {
-		if (!minimalMeadowImpactBlocksDetails(details)) return null;
-		if (this.runtime.dodge?.blocksIncoming?.(details)) {
-			return 'DODGE_INVULNERABLE';
-		}
+		if (minimalMeadowImpactEnvironmental(details)) return null;
+		if (this.runtime.dodge?.blocksIncoming?.(details)) return 'DODGE_INVULNERABLE';
 		if (minimalMeadowCoreNow(this.environment) < this.postHitUntil) {
 			return 'POST_HIT_PROTECTION';
 		}
@@ -46,18 +41,14 @@ export class MinimalMeadowCombatImpactRuntime {
 	}
 
 	onPlayerHit(receipt = {}) {
-		if (receipt.accepted === false
-			|| Number(receipt.damage || 0) <= 0) return null;
+		if (receipt.accepted === false || Number(receipt.damage || 0) <= 0) return null;
 		const now = minimalMeadowCoreNow(this.environment);
 		this.postHitUntil = Math.max(
 			this.postHitUntil,
 			now + MINIMAL_MEADOW_POST_HIT_PROTECTION
 		);
 		this.extendHitStop(now, MINIMAL_MEADOW_PLAYER_HIT_STOP);
-		this.lastDirection = minimalMeadowDamageDirection(
-			this.runtime,
-			receipt
-		);
+		this.lastDirection = minimalMeadowImpactDirection(this.runtime, receipt);
 		const feedback = Object.freeze({
 			damage: receipt.damage,
 			direction: this.lastDirection,
@@ -81,23 +72,17 @@ export class MinimalMeadowCombatImpactRuntime {
 	}
 
 	scaleCombatDelta(deltaSeconds) {
-		const now = minimalMeadowCoreNow(this.environment);
-		if (now >= this.hitStopUntil) return deltaSeconds;
-		return Math.max(0, Number(deltaSeconds) || 0) * 0.12;
+		return minimalMeadowCoreNow(this.environment) < this.hitStopUntil
+			? Math.max(0, Number(deltaSeconds) || 0) * 0.12
+			: deltaSeconds;
 	}
 
 	snapshot() {
 		const now = minimalMeadowCoreNow(this.environment);
 		return Object.freeze({
-			hitStopRemaining: minimalMeadowCoreDelayRemaining(
-				this.hitStopUntil,
-				now
-			),
-			lastDirection: this.lastDirection,
-			postHitProtectionRemaining: minimalMeadowCoreDelayRemaining(
-				this.postHitUntil,
-				now
-			)
+			hitStopRemaining: minimalMeadowCoreDelayRemaining(this.hitStopUntil, now),
+			lastDirection: this.lastDirection ? Object.freeze({ ...this.lastDirection }) : null,
+			postHitProtectionRemaining: minimalMeadowCoreDelayRemaining(this.postHitUntil, now)
 		});
 	}
 
@@ -106,13 +91,7 @@ export class MinimalMeadowCombatImpactRuntime {
 	}
 
 	extendHitStop(now, duration) {
-		this.hitStopUntil = Math.max(
-			this.hitStopUntil,
-			now + minimalMeadowImpactDuration(
-				this.runtime,
-				this.environment,
-				duration
-			)
-		);
+		const bounded = minimalMeadowImpactDuration(this.runtime, this.environment, duration);
+		this.hitStopUntil = Math.max(this.hitStopUntil, now + bounded);
 	}
 }
