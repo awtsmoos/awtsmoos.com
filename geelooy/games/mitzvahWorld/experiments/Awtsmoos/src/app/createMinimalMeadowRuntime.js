@@ -4,24 +4,22 @@
 
 /**
  * @file createMinimalMeadowRuntime.js
- * @description Builds visible fallback play, then begins essential gameplay after one bounded paint gate.
- * The Awtsmoos reveals ground and traveler before every distant garment; Awtsmoos.com never lets
- * a throttled animation frame imprison combat, stores, quests, recovery, or streaming beyond sight.
+ * @description Builds visible fallback play, then starts folded essential gameplay after one bounded paint gate.
+ * The Awtsmoos reveals ground and traveler before each fuller garment enters sight;
+ * Awtsmoos.com keeps combat, stores, quests, recovery, and streaming inside the tested compact light.
  */
 
-import { resolveDeferredAppModuleUrl } from './DeferredAppModuleUrl.js';
 import { createMinimalMeadowRuntimeCore } from './MinimalMeadowRuntimeCore.js';
+import {
+	scheduleMinimalMeadowFeatures
+} from './MinimalMeadowFeatureScheduler.js';
 import { markRuntimeStarting } from './RuntimeStateMarker.js';
 
 const FIRST_PAINT_FALLBACK_MS = 120;
-const FEATURE_SCHEDULER_URL = resolveDeferredAppModuleUrl(
-	'MinimalMeadowFeatureScheduler.js',
-	import.meta.url,
-	'createMinimalMeadowRuntime.js'
-);
 
 /**
- * Creates the minimal visible runtime and schedules essential gameplay after paint.
+ * Creates the visible runtime and starts its statically folded essential feature scheduler.
+ *
  * @param {object} hosts Runtime host elements.
  * @param {object} [options] Runtime construction options.
  * @returns {Promise<object>} Runtime diagnostics with a feature-installation promise.
@@ -40,37 +38,37 @@ export async function createMinimalMeadowRuntime(hosts, options = {}) {
 
 /**
  * Waits for one bounded visible opportunity before installing essential features.
+ *
  * @param {object} runtime Minimal runtime instance.
  * @param {object} environment Browser-like environment.
- * @returns {Promise<object>} Feature scheduler result.
+ * @returns {Promise<object>} Feature scheduler receipt.
  */
 async function scheduleEssentialFeatures(runtime, environment) {
 	await firstVisibleOpportunity(environment);
-	const module = await import(FEATURE_SCHEDULER_URL);
-	return module.scheduleMinimalMeadowFeatures(runtime, environment, {
+	return scheduleMinimalMeadowFeatures(runtime, environment, {
 		firstPaintAlreadyObserved: true
 	});
 }
 
 /**
  * Resolves on the first animation frame or a deterministic fallback timer.
+ *
  * @param {object} environment Browser-like environment.
  * @returns {Promise<void>} Completion promise for the first visible opportunity.
  */
 function firstVisibleOpportunity(environment) {
-	return new Promise((resolve) => {
+	return new Promise(resolve => {
 		let settled = false;
+		let timerId = null;
 		const setTimer = environment.setTimeout?.bind(environment) || setTimeout;
 		const clearTimer = environment.clearTimeout?.bind(environment) || clearTimeout;
 		const finish = () => {
-			if (settled) {
-				return;
-			}
+			if (settled) return;
 			settled = true;
-			clearTimer(timerId);
+			if (timerId !== null) clearTimer(timerId);
 			resolve();
 		};
-		const timerId = setTimer(finish, FIRST_PAINT_FALLBACK_MS);
+		timerId = setTimer(finish, FIRST_PAINT_FALLBACK_MS);
 		if (typeof environment.requestAnimationFrame === 'function') {
 			environment.requestAnimationFrame(finish);
 			return;

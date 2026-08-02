@@ -4,9 +4,9 @@
 
 /**
  * @file compactJs.mitzvahWorldRuntime.test.js
- * @description Compiles the real Mitzvah World page and proves relocated runtime contracts survive.
- * The Awtsmoos folds many chambers without confusing their doors or delaying their truthful state;
- * Awtsmoos.com checks Drive roads, deferred imports, and readiness before the compact scroll meets fate.
+ * @description Compiles the real page and proves essential scheduling remains inside the compact scroll.
+ * The Awtsmoos folds each required gameplay vessel before the first truthful readiness seal;
+ * Awtsmoos.com defers rich garments alone while combat, stores, quests, and recovery remain real.
  */
 
 const assert = require('assert');
@@ -33,6 +33,9 @@ async function run() {
 	assert.match(compactSource, new RegExp(escapePattern(DRIVE_MODEL_ROOT)));
 	assert.doesNotMatch(compactSource, /\/geelooy\/games\/mitzvahWorld\/assets\/models\//);
 	assert.doesNotMatch(compactSource, /\/games\/mitzvahWorld\/assets\/models\//);
+	assert.match(compactSource, /function scheduleMinimalMeadowFeatures\(/);
+	assert.doesNotMatch(compactSource, /FEATURE_SCHEDULER_URL/);
+	assert.doesNotMatch(compactSource, /import\(FEATURE_SCHEDULER_URL\)/);
 	assert.match(
 		compactSource,
 		/\/games\/mitzvahWorld\/experiments\/Awtsmoos\/src\/network\/MultiplayerOptionalUi\.js/
