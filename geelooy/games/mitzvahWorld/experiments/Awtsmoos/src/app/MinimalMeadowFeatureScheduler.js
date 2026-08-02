@@ -4,20 +4,26 @@
 
 /**
  * @file MinimalMeadowFeatureScheduler.js
- * @description Opens truthful bootstrap play immediately and later invokes the bundled rich installer.
- * The Awtsmoos grants the road through small vessels while fuller garments approach;
- * Awtsmoos.com bundles essential installer code, preserves nested optional imports, and swaps only after success.
+ * @description Installs compact bootstrap play immediately while rich systems cross a deferred source boundary.
+ * The Awtsmoos keeps the six required vessels near and sends fuller garments through a later stream;
+ * Awtsmoos.com lets readiness become true before distant world systems finish their dream.
  */
 
+import {
+	resolveDeferredAppModuleUrl
+} from './DeferredAppModuleUrl.js';
 import {
 	installMinimalMeadowBootstrapFeatures
 } from './MinimalMeadowBootstrapFeatures.js';
 import {
-	installMinimalMeadowFeatures
-} from './MinimalMeadowFeatureBundle.js';
-import {
 	createMinimalMeadowFeatureReceipt
 } from './MinimalMeadowFeatureReceipts.js';
+
+const RICH_FEATURE_BUNDLE_URL = resolveDeferredAppModuleUrl(
+	'MinimalMeadowFeatureBundle.js',
+	import.meta.url,
+	'MinimalMeadowFeatureScheduler.js'
+);
 
 export function scheduleMinimalMeadowFeatures(
 	runtime,
@@ -63,8 +69,7 @@ async function hydrateRichFeatures(
 ) {
 	try {
 		runtime.richFeatureStage = 'loading';
-		const installFeatures = dependencies.installMinimalMeadowFeatures
-			|| installMinimalMeadowFeatures;
+		const installFeatures = await resolveRichInstaller(dependencies);
 		runtime.richFeatureStage = 'installing';
 		const receipt = await installFeatures(runtime, environment);
 		bootstrap.suspend();
@@ -87,6 +92,15 @@ async function hydrateRichFeatures(
 			ready: false
 		});
 	}
+}
+
+async function resolveRichInstaller(dependencies) {
+	if (dependencies.installMinimalMeadowFeatures) {
+		return dependencies.installMinimalMeadowFeatures;
+	}
+	const importer = dependencies.importer || (specifier => import(specifier));
+	const module = await importer(RICH_FEATURE_BUNDLE_URL);
+	return module.installMinimalMeadowFeatures;
 }
 
 function errorReceipt(error) {

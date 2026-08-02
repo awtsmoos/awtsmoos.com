@@ -4,9 +4,9 @@
 
 /**
  * @file compactJs.mitzvahWorldRuntime.test.js
- * @description Compiles the real page and proves essential scheduling remains inside the compact scroll.
+ * @description Compiles the real page and proves compact bootstrap remains light while rich systems stay deferred.
  * The Awtsmoos folds each required gameplay vessel before the first truthful readiness seal;
- * Awtsmoos.com defers rich garments alone while combat, stores, quests, and recovery remain real.
+ * Awtsmoos.com leaves the richer world beyond the compact gate so first play remains swift and real.
  */
 
 const assert = require('assert');
@@ -25,17 +25,15 @@ async function run() {
 		rootDir,
 		'games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPage.js'
 	);
-	const compactSource = await compileCompactModule({
-		entryFile,
-		fs,
-		rootDir
-	});
+	const compactSource = await compileCompactModule({ entryFile, fs, rootDir });
 	assert.match(compactSource, new RegExp(escapePattern(DRIVE_MODEL_ROOT)));
 	assert.doesNotMatch(compactSource, /\/geelooy\/games\/mitzvahWorld\/assets\/models\//);
 	assert.doesNotMatch(compactSource, /\/games\/mitzvahWorld\/assets\/models\//);
 	assert.match(compactSource, /function scheduleMinimalMeadowFeatures\(/);
+	assert.match(compactSource, /function resolveDeferredAppModuleUrl\(/);
+	assert.match(compactSource, /MinimalMeadowFeatureBundle\.js/);
+	assert.doesNotMatch(compactSource, /async function installMinimalMeadowFeatures\(/);
 	assert.doesNotMatch(compactSource, /FEATURE_SCHEDULER_URL/);
-	assert.doesNotMatch(compactSource, /import\(FEATURE_SCHEDULER_URL\)/);
 	assert.match(
 		compactSource,
 		/\/games\/mitzvahWorld\/experiments\/Awtsmoos\/src\/network\/MultiplayerOptionalUi\.js/

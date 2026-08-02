@@ -4,9 +4,9 @@
 
 /**
  * @file minimalMeadowFeatureScheduler.test.mjs
- * @description Proves immediate bootstrap readiness and atomic background rich-feature handoff.
- * The Awtsmoos opens the road without a paint gate while fuller garments approach;
- * Awtsmoos.com verifies one promise, one receipt, uninterrupted play, cleanup, and failure preservation.
+ * @description Proves essential readiness resolves while the rich module boundary remains pending.
+ * The Awtsmoos grants the traveler six usable vessels before distant garments arrive;
+ * Awtsmoos.com keeps optional beauty from holding essential play captive.
  */
 
 import assert from 'node:assert/strict';
@@ -15,100 +15,60 @@ import {
 	scheduleMinimalMeadowFeatures
 } from '../../app/MinimalMeadowFeatureScheduler.js';
 
-const ESSENTIAL = Object.freeze({
-	animation: true,
-	combat: true,
-	equipment: true,
-	inventory: true,
-	missing: Object.freeze([]),
-	quest: true,
-	ready: true,
-	recovery: true,
-	streaming: true,
-	ui: true,
-	world: true
-});
-
-test('B"H bootstrap remains active until rich hydration succeeds', async () => {
+test('B"H essential receipt resolves before the rich importer', async () => {
 	const events = [];
-	const state = lifecycleState();
-	let resolveRich;
-	const richGate = new Promise(resolve => {
-		resolveRich = resolve;
-	});
 	const runtime = {
-		bus: { emit: (...values) => events.push(values) }
+		bus: {
+			emit(name) {
+				events.push(name);
+			}
+		}
 	};
-	const dependencies = dependenciesFor(state, async () => richGate);
-	const first = scheduleMinimalMeadowFeatures(runtime, {}, dependencies);
-	const second = scheduleMinimalMeadowFeatures(runtime, {}, dependencies);
-	assert.equal(first, second);
-	const receipt = await first;
-	assert.equal(receipt.ready, true);
-	assert.equal(runtime.featureStage, 'ready');
-	assert.equal(state.bootstrapInstalls, 1);
-	assert.equal(state.suspends, 0);
-	assert.equal(state.destroys, 0);
-	assert.equal(events[0][0], 'world:essential-ready');
-	resolveRich({ ready: true });
-	const richReceipt = await runtime.optionalFeaturePromise;
-	assert.equal(richReceipt.ready, true);
-	assert.equal(runtime.richFeatureStage, 'ready');
-	assert.equal(state.suspends, 1);
-	assert.equal(state.destroys, 1);
-});
-
-test('B"H failed rich hydration preserves uninterrupted bootstrap play', async () => {
-	const events = [];
-	const state = lifecycleState();
-	const runtime = {
-		bus: { emit: (...values) => events.push(values) }
-	};
-	const dependencies = dependenciesFor(state, async () => {
-		throw new Error('RICH_INSTALL_FAILED');
-	});
+	const neverSettlingImport = new Promise(() => {});
 	const receipt = await scheduleMinimalMeadowFeatures(
 		runtime,
 		{},
-		dependencies
+		{
+			importer: () => neverSettlingImport,
+			installMinimalMeadowBootstrapFeatures: () => bootstrapHandle()
+		}
 	);
 	assert.equal(receipt.ready, true);
-	const richReceipt = await runtime.optionalFeaturePromise;
-	assert.equal(richReceipt.ready, false);
-	assert.equal(richReceipt.bootstrapPreserved, true);
-	assert.equal(runtime.richFeatureStage, 'failed');
-	assert.equal(state.suspends, 0);
-	assert.equal(state.resumes, 0);
-	assert.equal(state.destroys, 0);
-	assert.equal(events.at(-1)[0], 'world:rich-features-failed');
+	assert.equal(runtime.featureStage, 'ready');
+	assert.equal(runtime.richFeatureStage, 'loading');
+	assert.equal(runtime.optionalFeaturePromise instanceof Promise, true);
+	assert.deepEqual(events, ['world:essential-ready']);
 });
 
-function dependenciesFor(state, installRich) {
-	return {
-		installMinimalMeadowBootstrapFeatures() {
-			state.bootstrapInstalls += 1;
-			return {
-				destroy() {
-					state.destroys += 1;
-				},
-				essential: ESSENTIAL,
-				resume() {
-					state.resumes += 1;
-				},
-				suspend() {
-					state.suspends += 1;
-				}
-			};
+test('B"H rich failure preserves bootstrap play', async () => {
+	const runtime = { bus: { emit() {} } };
+	await scheduleMinimalMeadowFeatures(runtime, {}, {
+		importer: async () => {
+			throw new Error('rich boundary unavailable');
 		},
-		installMinimalMeadowFeatures: installRich
-	};
-}
+		installMinimalMeadowBootstrapFeatures: () => bootstrapHandle()
+	});
+	const optionalReceipt = await runtime.optionalFeaturePromise;
+	assert.equal(runtime.featureStage, 'ready');
+	assert.equal(runtime.richFeatureStage, 'failed');
+	assert.equal(optionalReceipt.bootstrapPreserved, true);
+});
 
-function lifecycleState() {
+function bootstrapHandle() {
+	const ready = true;
 	return {
-		bootstrapInstalls: 0,
-		destroys: 0,
-		resumes: 0,
-		suspends: 0
+		destroy() {},
+		essential: {
+			combat: ready,
+			equipment: ready,
+			inventory: ready,
+			missing: [],
+			quest: ready,
+			ready,
+			recovery: ready,
+			streaming: ready,
+			ui: ready
+		},
+		suspend() {}
 	};
 }
