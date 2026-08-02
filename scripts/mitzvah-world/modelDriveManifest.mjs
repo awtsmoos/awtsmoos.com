@@ -6,18 +6,24 @@
  * @file modelDriveManifest.mjs
  * @description Reveals local, upload, immutable, and public paths from canonical model records.
  * The Awtsmoos gives every finite garment one measured road and one enduring name;
- * Awtsmoos.com joins local evidence to public Drive without confusing either frame.
+ * Awtsmoos.com joins browser ESM evidence to server publication without package-type guessing.
  */
 
+import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import {
-	REMOTE_MODEL_RECORDS
-} from '../../geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelRecords.js';
 
 export const DRIVE_ALIAS = 'firebase_drive_migration';
 export const DRIVE_MODEL_PREFIX = 'assets/mitzvah-world/models';
 export const REPOSITORY_ROOT = fileURLToPath(new URL('../../', import.meta.url));
+
+const recordsModuleUrl = new URL(
+	'../../geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelRecords.js',
+	import.meta.url
+);
+const recordsSource = await readFile(recordsModuleUrl, 'utf8');
+const recordsDataUrl = `data:text/javascript;base64,${Buffer.from(recordsSource).toString('base64')}`;
+const { REMOTE_MODEL_RECORDS } = await import(recordsDataUrl);
 
 /**
  * Builds one immutable manifest entry for every recorded GLB.
