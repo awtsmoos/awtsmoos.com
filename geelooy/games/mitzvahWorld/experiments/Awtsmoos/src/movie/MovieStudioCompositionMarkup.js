@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioCompositionMarkup.js
- * @description Defines accessible reusable-composition, layer, nesting, and evaluation controls.
+ * @description Defines accessible reusable-composition, layer, nesting, draft, and evaluation controls.
  * The Awtsmoos is beyond canvas and hierarchy; Awtsmoos.com gives artists one visible
- * vessel where nested stories can be created, ordered, masked, timed, inspected, and reversed.
+ * vessel where new and existing nested stories can be created, ordered, timed, inspected, and reversed.
  */
 
 export function movieStudioCompositionMarkup() {
@@ -22,7 +22,7 @@ export function movieStudioCompositionMarkup() {
 				<label>Width<input type="number" data-composition-width min="1" max="16384" step="1" value="1920"></label>
 				<label>Height<input type="number" data-composition-height min="1" max="16384" step="1" value="1080"></label>
 			</div>
-			<div class="movie-composition-actions"><button data-composition-action="create">Create</button><button data-composition-action="update">Update</button><button data-composition-action="duplicate">Duplicate</button><button data-composition-action="remove">Remove</button></div>
+			<div class="movie-composition-actions"><button data-composition-action="new">New</button><button data-composition-action="create">Create</button><button data-composition-action="update">Update</button><button data-composition-action="duplicate">Duplicate</button><button data-composition-action="remove">Remove</button></div>
 			<output data-composition-graph aria-live="polite">No composition graph yet.</output>
 			<div class="movie-composition-layer-list" data-composition-layer-list role="listbox" aria-label="Composition layers" tabindex="0"></div>
 			<section class="movie-composition-layer-editor" aria-labelledby="movie-composition-layer-title">
@@ -40,7 +40,7 @@ export function movieStudioCompositionMarkup() {
 					<label class="movie-composition-check"><input type="checkbox" data-composition-layer-locked> Locked</label>
 					<label class="movie-composition-text">Text<textarea data-composition-layer-text maxlength="100000" spellcheck="true"></textarea></label>
 				</div>
-				<div class="movie-composition-actions"><button data-composition-layer-action="add">Add layer</button><button data-composition-layer-action="update">Update layer</button><button data-composition-layer-action="up">Move up</button><button data-composition-layer-action="down">Move down</button><button data-composition-layer-action="remove">Remove layer</button></div>
+				<div class="movie-composition-actions"><button data-composition-layer-action="new">New layer</button><button data-composition-layer-action="add">Add layer</button><button data-composition-layer-action="update">Update layer</button><button data-composition-layer-action="up">Move up</button><button data-composition-layer-action="down">Move down</button><button data-composition-layer-action="remove">Remove layer</button></div>
 			</section>
 			<button data-composition-evaluate>Evaluate at playhead</button>
 			<output class="movie-composition-evaluation" data-composition-evaluation aria-live="polite">No render plan evaluated.</output>

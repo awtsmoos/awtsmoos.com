@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioCompositionActions.js
- * @description Executes visible composition and layer actions through the stable public API.
+ * @description Executes visible draft, composition, and layer actions through the stable public API.
  * The Awtsmoos is beyond command and result; Awtsmoos.com lets finite authoring gestures
- * share agent validation while locked layers remain guarded except for one explicit unlock transition.
+ * share agent validation while blank drafts avoid collisions and locked layers remain guarded.
  */
 
 import {
@@ -20,6 +20,7 @@ export class MovieStudioCompositionActions {
 	}
 
 	composition(action) {
+		if (action === 'new') return this.controller.beginComposition();
 		const payload = movieStudioCompositionPayload(this.controller.view);
 		const id = this.controller.selectedCompositionId;
 		if (action === 'create') {
@@ -43,6 +44,7 @@ export class MovieStudioCompositionActions {
 	}
 
 	layer(action) {
+		if (action === 'new') return this.controller.beginLayer();
 		const compositionId = this.controller.selectedCompositionId;
 		const layerId = this.controller.selectedLayerId;
 		if (!compositionId) return this.controller.status('Select a composition first.');

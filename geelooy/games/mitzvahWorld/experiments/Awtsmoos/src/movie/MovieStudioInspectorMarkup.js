@@ -25,7 +25,7 @@ export function movieStudioInspectorMarkup() {
 			<div class="movie-inspector-heading"><strong>Inspector</strong><button data-inspector-close aria-label="Close inspector">×</button></div>
 			<div class="movie-inspector-body">
 				<p data-selection>No selection</p>
-				<div data-transform-fields></div>
+				<section data-transform data-transform-fields aria-label="Transform inspector"></section>
 				${movieStudioPerformanceInspectorMarkup()}
 				${movieStudioScene3dMarkup()}
 				${movieStudioCameraActionMarkup()}

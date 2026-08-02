@@ -4,25 +4,25 @@
 
 /**
  * @file MovieStudioCompositionController.js
- * @description Owns visible composition selection, refresh, evaluation, and lifecycle state.
+ * @description Coordinates visible composition selection, refresh, evaluation, and lifecycle services.
  * The Awtsmoos renews interface and document without parallel authority; Awtsmoos.com lets
- * human gestures and agent calls share one nested-canvas contract, revision, undo, and failure truth.
+ * blank intention and existing nested canvases share one revisioned contract without identity collision.
  */
 
 import { MovieStudioCompositionActions } from './MovieStudioCompositionActions.js';
+import { evaluateMovieStudioCompositionSelection } from './MovieStudioCompositionEvaluation.js';
 import { MovieStudioCompositionInteraction } from './MovieStudioCompositionInteraction.js';
-import {
-	paintMovieStudioCompositionEvaluation,
-	paintMovieStudioCompositionWorkspace
-} from './MovieStudioCompositionPresenter.js';
+import { MovieStudioCompositionLifecycle } from './MovieStudioCompositionLifecycle.js';
+import { paintMovieStudioCompositionWorkspace } from './MovieStudioCompositionPresenter.js';
+import { MovieStudioCompositionSelection } from './MovieStudioCompositionSelection.js';
 import { collectMovieStudioCompositionView } from './MovieStudioCompositionView.js';
 
 export class MovieStudioCompositionController {
 	constructor(session, root) {
 		this.session = session;
 		this.view = collectMovieStudioCompositionView(root);
-		this.selectedCompositionId = null;
-		this.selectedLayerId = null;
+		this.selection = new MovieStudioCompositionSelection();
+		this.lifecycle = new MovieStudioCompositionLifecycle(this);
 		this.actions = new MovieStudioCompositionActions(this);
 		this.interaction = new MovieStudioCompositionInteraction(this);
 		this.unsubscribe = session.events?.on?.('project:changed', () => this.refresh());
@@ -33,32 +33,41 @@ export class MovieStudioCompositionController {
 		return this.session.publicApi.compositions;
 	}
 
+	get selectedCompositionId() {
+		return this.selection.compositionId;
+	}
+
+	get selectedLayerId() {
+		return this.selection.layerId;
+	}
+
 	refresh() {
 		if (!this.view.scope) return null;
 		const compositions = this.api.list();
-		if (!compositions.some(item => item.id === this.selectedCompositionId)) {
-			this.selectedCompositionId = compositions[0]?.id || null;
-		}
-		const selected = compositions.find(item => item.id === this.selectedCompositionId);
-		if (!selected?.layers.some(item => item.id === this.selectedLayerId)) {
-			this.selectedLayerId = selected?.layers[0]?.id || null;
-		}
+		this.selection.reconcile(compositions);
 		return paintMovieStudioCompositionWorkspace(
 			this.view,
 			compositions,
-			this.selectedCompositionId,
-			this.selectedLayerId
+			this.selection.compositionId,
+			this.selection.layerId
 		);
 	}
 
+	beginComposition() {
+		return this.lifecycle.beginComposition();
+	}
+
+	beginLayer() {
+		return this.lifecycle.beginLayer();
+	}
+
 	selectComposition(compositionId) {
-		this.selectedCompositionId = compositionId || null;
-		this.selectedLayerId = null;
+		this.selection.selectComposition(compositionId);
 		return this.refresh();
 	}
 
 	selectLayer(layerId) {
-		this.selectedLayerId = layerId || null;
+		this.selection.selectLayer(layerId);
 		return this.refresh();
 	}
 
@@ -71,36 +80,15 @@ export class MovieStudioCompositionController {
 	}
 
 	evaluate() {
-		if (!this.selectedCompositionId) return this.status('Select a composition first.');
-		try {
-			const composition = this.api.get(this.selectedCompositionId);
-			const lastFrame = Math.max(0, composition.duration - (1 / composition.fps));
-			const plan = this.api.evaluate(
-				this.selectedCompositionId,
-				Math.max(0, Math.min(this.session.time, lastFrame))
-			);
-			paintMovieStudioCompositionEvaluation(this.view, plan);
-			this.status('Composition render plan evaluated.');
-			return plan;
-		} catch (error) {
-			this.status(`Composition evaluation error: ${error.message}`);
-			return null;
-		}
+		return evaluateMovieStudioCompositionSelection(this);
 	}
 
 	finish(result, compositionId = this.selectedCompositionId, layerId = this.selectedLayerId) {
-		if (!result?.ok) {
-			return this.status(`Composition error: ${result?.error?.message || 'Unknown failure.'}`);
-		}
-		this.selectedCompositionId = compositionId;
-		this.selectedLayerId = layerId;
-		this.status('Composition project updated.');
-		return this.refresh();
+		return this.lifecycle.finish(result, compositionId, layerId);
 	}
 
 	status(message) {
-		if (this.view.status) this.view.status.textContent = message;
-		return null;
+		return this.lifecycle.status(message);
 	}
 
 	destroy() {
