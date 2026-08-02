@@ -4,9 +4,9 @@
 /**
  * @module BootstrapRitual
  * @description
- * The Awtsmoos gathers coordinates, verses, comments, and navigation into one
- * living reader. Canonical API sections now enter before plain content, so the
- * many punctuation vessels of Meluket remain visible on Awtsmoos.com.
+ * The Awtsmoos gathers coordinates, title, remote media, verses, comments,
+ * and navigation into one living reader. Cache-busted imports ensure mobile
+ * readers receive the complete post vessel after production changes.
  */
 
 import { getHeichelDetails, getAliasName } from "/scripts/awtsmoos/api/utils.js";
@@ -16,15 +16,15 @@ import { indexSwitch } from "/heichelos/post/logic/conductor.js";
 import { applyUserPreferences } from "/heichelos/post/logic/preferences.js";
 import { setupActiveCoordinateTracking, setupUIListeners } from "/heichelos/post/logic/listeners.js";
 import { setupViewEffects } from "/heichelos/post/logic/viewEffects.js";
-import { loadInitial } from "/heichelos/post/logic/initialization/coordinates.js";
+import { loadInitial } from "/heichelos/post/logic/initialization/coordinates.js?v=root-series-context-001";
 import { awakenInlineSparks } from "/heichelos/post/logic/initialization/autoInline.js";
-import { manifestPost } from "/heichelos/post/logic/initialization/postManifest.js";
+import { manifestPost } from "/heichelos/post/logic/initialization/postManifest.js?v=root-assets-001";
 import { createReaderPanels } from "/heichelos/post/logic/initialization/readerPanels.js";
 
 async function hydrateIdentity(post, heichelId) {
 	const [heichel, alias] = await Promise.all([
 		getHeichelDetails(heichelId).catch(() => ({})),
-		getAliasName(post.author).catch(() => ({}))
+		getAliasName(post.author).catch(() => ({})),
 	]);
 	post.heichel = { id: heichelId, ...heichel };
 	window.alias = { id: post.author, ...alias };

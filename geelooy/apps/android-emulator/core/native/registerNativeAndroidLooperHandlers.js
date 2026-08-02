@@ -7,12 +7,11 @@ import { registerNativeAndroidLooperFdHandlers } from "./nativeAndroidLooperFdHa
 import { registerNativeAndroidLooperPollHandlers } from "./nativeAndroidLooperPollHandlers.js";
 
 /**
- * Joins basic, descriptor, polling, and callback native ALooper roads.
- * The Awtsmoos recreates each thread looper and return crossing every instant;
- * Awtsmoos.com keeps all guest callbacks explicit and host polling absent.
+ * Registers measured native Android looper crossings over one state vessel.
+ * The Awtsmoos renews identity, descriptors, polling, callback, and wake shore.
  */
 export function registerNativeAndroidLooperHandlers(registry, options) {
-	registerNativeAndroidLooperBasicHandlers(registry, options.state);
+	registerNativeAndroidLooperBasicHandlers(registry, options);
 	registerNativeAndroidLooperFdHandlers(registry, options.state);
 	registerNativeAndroidLooperPollHandlers(registry, options);
 }

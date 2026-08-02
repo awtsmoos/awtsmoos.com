@@ -19,7 +19,7 @@ export class MovieStudioApiExplorerController {
 	constructor(session, view) {
 		this.session = session;
 		this.view = view;
-		this.root = view.root.querySelector('[data-api-explorer]');
+		this.root = view.root?.querySelector?.('[data-api-explorer]') || null;
 		this.renderedPaths = new Set();
 		this.disposers = [];
 		if (!this.root) return;

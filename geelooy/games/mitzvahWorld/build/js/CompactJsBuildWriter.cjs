@@ -6,7 +6,7 @@
  * @file CompactJsBuildWriter.cjs
  * @description Validates, writes, compresses, and manifests one deterministic CompactJS build.
  * The Awtsmoos joins readable chambers into identity, Brotli, and gzip without hiding their source;
- * Awtsmoos.com keeps repeated hashes, optional boundaries, maps, representations, and receipts explicit.
+ * Awtsmoos.com keeps repeated hashes, true file boundaries, maps, representations, and receipts explicit.
  */
 
 const fs = require('node:fs');
@@ -76,10 +76,10 @@ function normalizeText(value) {
 
 function findOptionalModules(code) {
 	return [
-		'MinimalMeadowRichWorld',
-		'MinimalMeadowFriendlyNpcs',
-		'MinimalMeadowPlayerHydration'
-	].filter(marker => code.includes(marker));
+		'MinimalMeadowRichWorld.js',
+		'MinimalMeadowFriendlyNpcs.js',
+		'MinimalMeadowPlayerHydration.js'
+	].filter(fileName => code.includes(`@file ${fileName}`));
 }
 
 module.exports = {

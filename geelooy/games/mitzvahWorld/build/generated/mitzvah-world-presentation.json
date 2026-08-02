@@ -1,0 +1,26 @@
+{
+	"deterministic": true,
+	"entry": "experiments/Awtsmoos/src/app/MinimalMeadowPresentationBundle.js",
+	"moduleCount": 1,
+	"modules": [],
+	"name": "presentation",
+	"outputBytes": 674950,
+	"outputHash": "f6463d14739a8432ccd95cc7eab710c517d97609ba248c4952b1be8a042d3c80",
+	"representations": {
+		"brotli": {
+			"bytes": 128545,
+			"encoding": "br",
+			"sha256": "8ce32a3c5d956736fff25dc3d70b561dab7a4fb9830cf1860e875f7edd9de341"
+		},
+		"gzip": {
+			"bytes": 155839,
+			"encoding": "gzip",
+			"sha256": "cc95913b9a2b39b64faadb2e3de0b004dd1af37bf6f9ce4b008d65c90ff50d47"
+		},
+		"identity": {
+			"bytes": 674950,
+			"encoding": "identity",
+			"sha256": "f6463d14739a8432ccd95cc7eab710c517d97609ba248c4952b1be8a042d3c80"
+		}
+	}
+}

@@ -18,9 +18,9 @@ import { createNativeTimerFdState } from "./nativeTimerFdState.js";
 import { registerNativeTimerFdHandlers } from "./registerNativeTimerFdHandlers.js";
 
 /**
- * Joins Android roads with persistent guest descriptor machinery.
- * The Awtsmoos recreates each platform gate through one bounded registry call;
- * Awtsmoos.com keeps files, devices, epoll, and timers outside the host.
+ * Joins Android roads with persistent descriptor and looper machinery.
+ * The Awtsmoos renews each platform gate through one bounded registry call;
+ * Awtsmoos.com keeps guest waits outside host threads, files, and timers all.
  */
 export function registerNativeAndroidHandlers(registry, machineState, errnoState) {
 	const callbacks = machineState.nativeAndroidLooperCallbacks
@@ -44,12 +44,15 @@ export function registerNativeAndroidHandlers(registry, machineState, errnoState
 		readOnlyState,
 		timers
 	});
-	machineState.nativeCooperativeRuntime?.bindDescriptors({
-		descriptorEvents,
-		epollState
-	});
+	const cooperativeRuntime = machineState.nativeCooperativeRuntime;
+	cooperativeRuntime?.bindDescriptors({ descriptorEvents, epollState });
 	const loopers = machineState.nativeAndroidLoopers
 		|| createNativeAndroidLooperState({ descriptorEvents });
+	cooperativeRuntime?.bindLoopers({
+		callbacks,
+		imports: machineState.imports,
+		state: loopers
+	});
 	const properties = machineState.nativeAndroidProperties
 		|| createNativeAndroidPropertyState({
 			apiLevel: machineState.androidApiLevel ?? 35,
@@ -58,12 +61,13 @@ export function registerNativeAndroidHandlers(registry, machineState, errnoState
 	registerNativeAndroidLogHandlers(registry, machineState);
 	registerNativeAndroidLooperHandlers(registry, {
 		callbacks,
+		cooperativeRuntime,
 		imports: machineState.imports,
 		state: loopers
 	});
 	registerNativeTimerFdHandlers(registry, {
 		clock,
-		cooperativeRuntime: machineState.nativeCooperativeRuntime,
+		cooperativeRuntime,
 		descriptorEvents,
 		descriptorFlags,
 		epollState,

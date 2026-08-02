@@ -2,97 +2,201 @@
  * B"H
  * @module HeichelRouteGate
  * @description
- * Chapter 579: The global submit gate is no longer mistaken for a Heichel.
- * Specific gates stand before dynamic realms, so `/heichelos/submit` opens the
- * launch console while `/heichelos/:heichel` still opens a living palace.
+ * Chapter 580: A public link arrives with one final name, and the gate no
+ * longer mistakes that living post ID for a numbered place in the series.
+ * Numeric endings still open indexed entries; named endings open the post.
  */
 module.exports = async $i => {
-    await $i.use({
-        "/": async () => await $i.$ga("_awtsmoos.index.html"),
-        "/submit": async () => await renderGlobalSubmit(),
-        "/:heichel/series/root/error": async vars => await renderHeichelShell(vars.heichel),
-        "/:heichel/series/:series/index": async vars => await renderHeichelShell(vars.heichel),
-        "/:heichel/series/:series": async vars => await renderHeichelShell(vars.heichel),
-        "/:heichel/delete": async v => await renderDelete(v),
-        "/:heichel/edit": async () => await $i.$ga("_awtsmoos.submitToHeichel.html"),
-        "/:heichel/submit": async v => await renderSubmit(v.heichel),
-        "/:heichel/submitPost": async v => await $i.$ga("./heichel/submit/_awtsmoos.post.html", { heichel: v.heichel }),
-        "/:heichel/post/:post": async vars => await renderPost(vars),
-        "/:heichel/series/:series/post/:post": async vars => await renderSeriesPost(vars),
-        "/:heichel/series/:series/:index": async vars => await renderIndexedPost(vars),
-        "/:heichel": async v => await renderHeichelShell(v.heichel)
-    });
+	await $i.use({
+		"/": async () => await $i.$ga("_awtsmoos.index.html"),
+		"/submit": async () => await renderGlobalSubmit(),
+		"/:heichel/series/root/error": async vars => await renderHeichelShell(vars.heichel),
+		"/:heichel/series/:series/index": async vars => await renderHeichelShell(vars.heichel),
+		"/:heichel/series/:series": async vars => await renderHeichelShell(vars.heichel),
+		"/:heichel/delete": async vars => await renderDelete(vars),
+		"/:heichel/edit": async () => await $i.$ga("_awtsmoos.submitToHeichel.html"),
+		"/:heichel/submit": async vars => await renderSubmit(vars.heichel),
+		"/:heichel/submitPost": async vars => await $i.$ga("./heichel/submit/_awtsmoos.post.html", {
+			heichel: vars.heichel
+		}),
+		"/:heichel/post/:post": async vars => await renderPost(vars),
+		"/:heichel/series/:series/post/:post": async vars => await renderSeriesPost(vars),
+		"/:heichel/series/:series/:entry": async vars => await renderSeriesEntry(vars),
+		"/:heichel": async vars => await renderHeichelShell(vars.heichel)
+	});
 
-    function qp(mapName, map) { return new URLSearchParams({ [mapName]: JSON.stringify(map) }).toString(); }
-    function heichelFields() { return qp("propertyMap", { id: true, name: true, title: true, description: true, author: true, createdAt: true, dayuh: true }); }
-    function postFields() { return qp("propertyMap", { id: true, title: true, content: true, author: true, parentSeriesId: true, seriesId: true, createdAt: true, dayuh: true }); }
+	function queryMap(mapName, map) {
+		return new URLSearchParams({ [mapName]: JSON.stringify(map) }).toString();
+	}
 
-    async function getHeichel(heichelId) {
-        const hch = await $i.fetchAwtsmoos(`/api/social/alias/itDoesntEvenMatter/heichelos/${encodeURIComponent(heichelId)}?${heichelFields()}`);
-        if (hch && !hch.error) hch.id = heichelId;
-        return hch;
-    }
+	function heichelFields() {
+		return queryMap("propertyMap", {
+			id: true,
+			name: true,
+			title: true,
+			description: true,
+			author: true,
+			createdAt: true,
+			dayuh: true
+		});
+	}
 
-    async function renderHeichelShell(heichelId) {
-        const hch = await getHeichel(heichelId);
-        if (hch) return await $i.$ga("./heichel/_awtsmoos.heichel.html", { heichel: hch });
-        return await $i.$ga("_awtsmoos.heichelNotFound.html");
-    }
+	function postFields() {
+		return queryMap("propertyMap", {
+			id: true,
+			title: true,
+			content: true,
+			author: true,
+			parentSeriesId: true,
+			seriesId: true,
+			createdAt: true,
+			dayuh: true
+		});
+	}
 
-    async function renderGlobalSubmit() {
-        const target = $i.$_GET.heichel || $i.$_GET.heichelId || "ikar";
-        return await renderSubmit(target);
-    }
+	async function getHeichel(heichelId) {
+		const heichel = await $i.fetchAwtsmoos(
+			`/api/social/alias/itDoesntEvenMatter/heichelos/${encodeURIComponent(heichelId)}?${heichelFields()}`
+		);
+		if (heichel && !heichel.error) {
+			heichel.id = heichelId;
+		}
+		return heichel;
+	}
 
-    async function renderDelete(v) {
-        const al = $i.$_GET.editingAlias;
-        const doesOwn = await $i.fetchAwtsmoos(`/api/social/aliases/${al}/ownership`);
-        if (!doesOwn || doesOwn.no) return `You don't own the alias ${al}, which is needed.`;
-        const $sd = getDetails();
-        $sd.parentSeriesId = $i.$_GET.parentSeriesId;
-        $sd.contentID = $i.$_GET.id;
-        $sd.type = $i.$_GET.type;
-        $sd.baseE = `/api/social/heichelos/${v.heichel}`;
-        $sd.id = $i.$_GET.id;
-        $sd.aliasID = al;
-        $sd.heichel = v.heichel;
-        return await $i.$ga("_awtsmoos.deleteEntry.html", { heichel: v.heichel, aliasID: al, seriesId: $sd.parentSeriesId, $$sd: $sd });
-    }
+	async function renderHeichelShell(heichelId) {
+		const heichel = await getHeichel(heichelId);
+		if (heichel) {
+			return await $i.$ga("./heichel/_awtsmoos.heichel.html", { heichel });
+		}
+		return await $i.$ga("_awtsmoos.heichelNotFound.html");
+	}
 
-    async function renderSubmit(heichelId) {
-        const $sd = getDetails();
-        const zr = $i.$_GET.series || $i.$_GET.seriesId;
-        const n = $sd.type === "comment" ? "comments" : $sd.type === "post" ? "posts" : $sd.type === "series" ? "addNewSeries" : "n";
-        $sd.endpoint = `/api/social/heichelos/${heichelId}/${n}`;
-        $sd.method = "POST";
-        return await $i.$ga("_awtsmoos.submitToHeichel.html", { heichel: heichelId, series: zr || "root", $$sd: $sd, endpointType: n });
-    }
+	async function renderGlobalSubmit() {
+		const target = $i.$_GET.heichel || $i.$_GET.heichelId || "ikar";
+		return await renderSubmit(target);
+	}
 
-    async function renderPost(vars) {
-        const post = await $i.fetchAwtsmoos(`/api/social/heichelos/${vars.heichel}/post/${encodeURIComponent(vars.post)}?${postFields()}`);
-        const heichelDetails = await $i.fetchAwtsmoos(`/api/social/heichelos/${encodeURIComponent(vars.heichel)}?${heichelFields()}`);
-        const aliasDetails = post?.author ? await $i.fetchAwtsmoos(`/api/social/aliases/${encodeURIComponent(post.author)}?${qp("propertyMap", { id: true, name: true, title: true, description: true })}`) : null;
-        if (aliasDetails && post?.author) aliasDetails.id = post.author;
-        if (heichelDetails) heichelDetails.id = vars.heichel;
-        if (post) { post.id = vars.post; post.heichel = heichelDetails; }
-        return await $i.$ga("./post/_awtsmoos.post.html", { heichel: heichelDetails, post, alias: aliasDetails });
-    }
+	async function renderDelete(vars) {
+		const aliasId = $i.$_GET.editingAlias;
+		const ownership = await $i.fetchAwtsmoos(`/api/social/aliases/${aliasId}/ownership`);
+		if (!ownership || ownership.no) {
+			return `You don't own the alias ${aliasId}, which is needed.`;
+		}
+		const details = getDetails();
+		details.parentSeriesId = $i.$_GET.parentSeriesId;
+		details.contentID = $i.$_GET.id;
+		details.type = $i.$_GET.type;
+		details.baseE = `/api/social/heichelos/${vars.heichel}`;
+		details.id = $i.$_GET.id;
+		details.aliasID = aliasId;
+		details.heichel = vars.heichel;
+		return await $i.$ga("_awtsmoos.deleteEntry.html", {
+			heichel: vars.heichel,
+			aliasID: aliasId,
+			seriesId: details.parentSeriesId,
+			$$sd: details
+		});
+	}
 
-    async function renderSeriesPost(vars) {
-        return await $i.$ga("./post/_awtsmoos.post.html", { heichel: vars.heichel, parentSeries: vars.series, postId: vars.post });
-    }
+	async function renderSubmit(heichelId) {
+		const details = getDetails();
+		const seriesId = $i.$_GET.series || $i.$_GET.seriesId;
+		const endpointType = details.type === "comment"
+			? "comments"
+			: details.type === "post"
+				? "posts"
+				: details.type === "series"
+					? "addNewSeries"
+					: "n";
+		details.endpoint = `/api/social/heichelos/${heichelId}/${endpointType}`;
+		details.method = "POST";
+		return await $i.$ga("_awtsmoos.submitToHeichel.html", {
+			heichel: heichelId,
+			series: seriesId || "root",
+			$$sd: details,
+			endpointType
+		});
+	}
 
-    async function renderIndexedPost(vars) {
-        if (vars.series === "root" && vars.index === "error") return await renderHeichelShell(vars.heichel);
-        return await $i.$ga("./post/_awtsmoos.post.html", { heichel: vars.heichel, parentSeries: vars.series, indexInSeries: vars.index });
-    }
+	async function renderPost(vars) {
+		const post = await $i.fetchAwtsmoos(
+			`/api/social/heichelos/${vars.heichel}/post/${encodeURIComponent(vars.post)}?${postFields()}`
+		);
+		const heichelDetails = await $i.fetchAwtsmoos(
+			`/api/social/heichelos/${encodeURIComponent(vars.heichel)}?${heichelFields()}`
+		);
+		const aliasDetails = post?.author
+			? await $i.fetchAwtsmoos(
+				`/api/social/aliases/${encodeURIComponent(post.author)}?${queryMap("propertyMap", {
+					id: true,
+					name: true,
+					title: true,
+					description: true
+				})}`
+			)
+			: null;
+		if (aliasDetails && post?.author) {
+			aliasDetails.id = post.author;
+		}
+		if (heichelDetails) {
+			heichelDetails.id = vars.heichel;
+		}
+		if (post) {
+			post.id = vars.post;
+			post.heichel = heichelDetails;
+		}
+		return await $i.$ga("./post/_awtsmoos.post.html", {
+			heichel: heichelDetails,
+			post,
+			alias: aliasDetails
+		});
+	}
 
-    function getDetails() {
-        const t = $i.$_GET.type;
-        const alias = $i.$_GET.editingAlias;
-        const $sd = { alias, returnURL: $i.$_GET.returnURL };
-        if (t === "post" || t === "series") { $sd.type = t; $sd.ttitle = t[0].toUpperCase() + t.substring(1); $sd.tdesc = t === "post" ? "content" : "description"; }
-        else if (t === "comment") { $sd.parentType = $i.$_GET.parentType; $sd.parentId = $i.$_GET.parentId; $sd.type = "comment"; $sd.ttitle = "Comment"; $sd.tdesc = "content"; }
-        return $sd;
-    }
+	async function renderSeriesPost(vars) {
+		return await $i.$ga("./post/_awtsmoos.post.html", {
+			heichel: vars.heichel,
+			parentSeries: vars.series,
+			postId: vars.post
+		});
+	}
+
+	async function renderSeriesEntry(vars) {
+		if (vars.series === "root" && vars.entry === "error") {
+			return await renderHeichelShell(vars.heichel);
+		}
+		if (/^\d+$/.test(vars.entry)) {
+			return await $i.$ga("./post/_awtsmoos.post.html", {
+				heichel: vars.heichel,
+				parentSeries: vars.series,
+				indexInSeries: vars.entry
+			});
+		}
+		return await $i.$ga("./post/_awtsmoos.post.html", {
+			heichel: vars.heichel,
+			parentSeries: vars.series,
+			postId: vars.entry
+		});
+	}
+
+	function getDetails() {
+		const type = $i.$_GET.type;
+		const alias = $i.$_GET.editingAlias;
+		const details = {
+			alias,
+			returnURL: $i.$_GET.returnURL
+		};
+		if (type === "post" || type === "series") {
+			details.type = type;
+			details.ttitle = type[0].toUpperCase() + type.substring(1);
+			details.tdesc = type === "post" ? "content" : "description";
+		} else if (type === "comment") {
+			details.parentType = $i.$_GET.parentType;
+			details.parentId = $i.$_GET.parentId;
+			details.type = "comment";
+			details.ttitle = "Comment";
+			details.tdesc = "content";
+		}
+		return details;
+	}
 };

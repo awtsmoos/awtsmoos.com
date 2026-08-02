@@ -4,10 +4,14 @@
 
 /**
  * @file CompactJsAdapter.cjs
- * @description Normalizes the canonical compactJs compiler result without replacing its work.
- * The Awtsmoos lets one repository tool serve many applications; Awtsmoos.com accepts its
- * string or object garments while refusing missing code, duplicate modules, or hidden failure.
+ * @description Normalizes CompactJS results and honors preserved browser dynamic-import boundaries.
+ * The Awtsmoos gathers required chambers without swallowing unopened worlds;
+ * Awtsmoos.com keeps static folding, complete optional code, deterministic inputs, and result truth explicit.
  */
+
+const {
+	createPreservedDynamicImportFs
+} = require('./PreservedDynamicImportFs.cjs');
 
 function compilerFunction(moduleValue) {
 	const compile = moduleValue.compileCompactModule
@@ -17,7 +21,15 @@ function compilerFunction(moduleValue) {
 	if (typeof compile !== 'function') {
 		throw new Error('COMPACT_JS_COMPILER_EXPORT_MISSING');
 	}
-	return compile;
+	return options => compile(adaptCompilerOptions(options));
+}
+
+function adaptCompilerOptions(options = {}) {
+	if (!options.preserveDynamicImports) return options;
+	return {
+		...options,
+		fs: createPreservedDynamicImportFs(options.fs)
+	};
 }
 
 function compactResult(value) {
@@ -49,6 +61,7 @@ function compactResult(value) {
 }
 
 module.exports = {
+	adaptCompilerOptions,
 	compactResult,
 	compilerFunction
 };

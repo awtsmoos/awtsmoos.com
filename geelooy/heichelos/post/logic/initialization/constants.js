@@ -1,34 +1,46 @@
-//B"H
+// B"H
 /**
  * @file constants.js
  * @description
- * The route covenant for the post reader. The backend's live post reader API is
- * series-contextual: `/heichelos/:heichel/series/:series/post/:post`. Older
- * direct paths like `/heichelos/:heichel/post/:post` are invalid in the current
- * router, so this module refuses to mint them quietly.
+ * The reader's route covenant keeps every post inside its real series vessel.
+ * The root series is a genuine series, not missing context; only an empty
+ * series identity is a rupture. Thus old shorthand links and explicit
+ * `/post/:postId` links may both resolve through the same contextual API.
  */
 
 /**
- * Constructs the URL to fetch a Series.
- * Must include `/details` for the reader index -> postId map.
+ * Constructs the contextual URL used to fetch one series.
+ *
+ * @param {string} heichelId - The heichel identity.
+ * @param {string} seriesId - The series identity, including `root`.
+ * @returns {string} The series-details API URL.
  */
 export function constructSeriesDetailsUrl(heichelId, seriesId) {
-    return `/api/social/heichelos/${encodeURIComponent(heichelId)}/series/${encodeURIComponent(seriesId)}/details`;
+	return `/api/social/heichelos/${encodeURIComponent(heichelId)}/series/${encodeURIComponent(seriesId)}/details`;
 }
 
 /**
- * Constructs the canonical contextual URL to fetch a Post.
+ * Constructs the contextual URL used to fetch one post.
+ *
+ * @param {string} heichelId - The heichel identity.
+ * @param {string} seriesId - The real series identity, including `root`.
+ * @param {string} postId - The post identity.
+ * @returns {string} The contextual post API URL.
  */
 export function constructPostUrl(heichelId, seriesId, postId) {
-    if (!seriesId || seriesId === "root") {
-        throw new Error("POST_READER_REQUIRES_SERIES_CONTEXT");
-    }
-    return `/api/social/heichelos/${encodeURIComponent(heichelId)}/series/${encodeURIComponent(seriesId)}/post/${encodeURIComponent(postId)}`;
+	if (!seriesId) {
+		throw new Error("POST_READER_REQUIRES_SERIES_CONTEXT");
+	}
+	return `/api/social/heichelos/${encodeURIComponent(heichelId)}/series/${encodeURIComponent(seriesId)}/post/${encodeURIComponent(postId)}`;
 }
 
 /**
- * Constructs the URL for Breadcrumbs.
+ * Constructs the contextual breadcrumb URL.
+ *
+ * @param {string} heichelId - The heichel identity.
+ * @param {string} seriesId - The series identity, including `root`.
+ * @returns {string} The breadcrumb API URL.
  */
 export function constructBreadcrumbUrl(heichelId, seriesId) {
-    return `/api/social/heichelos/${encodeURIComponent(heichelId)}/series/${encodeURIComponent(seriesId)}/breadcrumb`;
+	return `/api/social/heichelos/${encodeURIComponent(heichelId)}/series/${encodeURIComponent(seriesId)}/breadcrumb`;
 }

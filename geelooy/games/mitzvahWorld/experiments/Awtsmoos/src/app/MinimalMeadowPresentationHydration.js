@@ -4,10 +4,20 @@
 
 /**
  * @file MinimalMeadowPresentationHydration.js
- * @description Loads the full rich UI and animation graph without blocking first-control readiness.
- * The Awtsmoos lets the playable ground remain while its complete visible garment arrives;
- * Awtsmoos.com keeps parallel imports, install order, stage truth, receipts, and failure recovery explicit.
+ * @description Loads complete rich presentation through one deterministic compressed runtime chunk.
+ * The Awtsmoos lets the playable ground remain while its full visible garment arrives as one vessel;
+ * Awtsmoos.com preserves every UI and animation system without a native module waterfall.
  */
+
+import {
+	resolveGeneratedRuntimeChunkUrl
+} from './GeneratedRuntimeChunkUrl.js';
+
+const PRESENTATION_CHUNK_URL = resolveGeneratedRuntimeChunkUrl(
+	'mitzvah-world-presentation.compact.js',
+	import.meta.url,
+	'MinimalMeadowPresentationHydration.js'
+);
 
 export async function hydrateMinimalMeadowPresentation(
 	runtime,
@@ -16,19 +26,9 @@ export async function hydrateMinimalMeadowPresentation(
 ) {
 	runtime.richPresentationStage = 'loading';
 	try {
-		const modules = await resolvePresentationModules(dependencies);
+		const installer = await resolveInstaller(dependencies);
 		runtime.richPresentationStage = 'installing';
-		const ui = modules.ui.installMinimalMeadowUi(
-			runtime,
-			environment.document || globalThis.document,
-			environment
-		);
-		const animation = modules.animation.installMinimalMeadowAnimation(runtime);
-		const receipt = Object.freeze({
-			animation: Boolean(animation),
-			ready: Boolean(ui && animation),
-			ui: Boolean(ui)
-		});
+		const receipt = installer(runtime, environment);
 		runtime.richPresentationReceipt = receipt;
 		runtime.richPresentationStage = receipt.ready ? 'ready' : 'failed';
 		runtime.bus?.emit?.('world:rich-presentation-ready', receipt);
@@ -48,17 +48,11 @@ export async function hydrateMinimalMeadowPresentation(
 	}
 }
 
-async function resolvePresentationModules(dependencies) {
-	if (dependencies.ui && dependencies.animation) {
-		return {
-			animation: dependencies.animation,
-			ui: dependencies.ui
-		};
+async function resolveInstaller(dependencies) {
+	if (dependencies.installMinimalMeadowPresentationBundle) {
+		return dependencies.installMinimalMeadowPresentationBundle;
 	}
 	const importer = dependencies.importer || (specifier => import(specifier));
-	const [ui, animation] = await Promise.all([
-		importer('./MinimalMeadowUi.js'),
-		importer('./MinimalMeadowAnimationState.js')
-	]);
-	return { animation, ui };
+	const module = await importer(PRESENTATION_CHUNK_URL);
+	return module.installMinimalMeadowPresentationBundle;
 }

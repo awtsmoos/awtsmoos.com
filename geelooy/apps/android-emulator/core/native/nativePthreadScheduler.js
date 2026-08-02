@@ -14,13 +14,13 @@ import {
 	runNativePthreadStartup
 } from "./nativePthreadSchedulerExecution.js";
 import {
-	NATIVE_EPOLL_EVENT_BYTES,
-	writeNativeEpollEvent
-} from "./nativeEpollEvent.js";
+	resumeNativePthreadEpoll,
+	resumeNativePthreadLooper
+} from "./nativePthreadSchedulerWaitResume.js";
 /**
  * Schedules runnable and suspended pthreads over one deterministic guest world.
- * The Awtsmoos renews queue, condition, epoll, mutex, and returning ray;
- * Awtsmoos.com lets parent and child advance only at explicit cooperative gates.
+ * The Awtsmoos renews queue, condition, epoll, looper, and returning ray;
+ * Awtsmoos.com lets parent and child advance only at cooperative gates.
  */
 export function createNativePthreadScheduler(options) {
 	const externalWakes = createNativePthreadExternalWakeState();
@@ -72,7 +72,16 @@ export function createNativePthreadScheduler(options) {
 			}));
 		},
 		wakeEpoll(handle, events) {
-			return resumeEpoll(handle, events, options, executionOptions);
+			return resumeNativePthreadEpoll(handle, events, options, executionOptions);
+		},
+		wakeLooper(handle, polled, environment) {
+			return resumeNativePthreadLooper(
+				handle,
+				polled,
+				environment,
+				options,
+				executionOptions
+			);
 		},
 		wakeMutex(address) {
 			return resumeNativePthreadMutex(address, resumeOptions);
@@ -83,34 +92,4 @@ function suspendThread(handle, child, options) {
 	const stored = options.threads.suspend(handle, child);
 	if (stored.code === 0) options.runtime?.track(handle, child.suspension);
 	return stored;
-}
-function resumeEpoll(handleValue, events, options, executionOptions) {
-	const handle = BigInt(handleValue);
-	const suspended = requireSuspension(handle, options);
-	if (suspended.wait.type !== "epoll") {
-		throw schedulerError("NATIVE_PTHREAD_EPOLL_WAIT_MISMATCH", handle, suspended.wait);
-	}
-	const address = BigInt(suspended.wait.address);
-	events.forEach((event, index) => writeNativeEpollEvent(
-		options.machineState.memory,
-		address + BigInt(index * NATIVE_EPOLL_EVENT_BYTES),
-		event
-	));
-	suspended.continuation.registers.write(0, BigInt(events.length), 32, "zero");
-	options.runtime?.untrack(handle);
-	return resumeNativePthreadExecution(handle, suspended, executionOptions);
-}
-function requireSuspension(handle, options) {
-	const suspended = options.threads.suspension(handle);
-	if (suspended.code !== 0) {
-		throw schedulerError("NATIVE_PTHREAD_RESUME_MISSING", handle, suspended);
-	}
-	return suspended;
-}
-function schedulerError(code, handle, evidence) {
-	const error = new Error(`${code}:${handle}`);
-	error.code = code;
-	error.evidence = evidence;
-	error.threadHandle = handle.toString();
-	return error;
 }

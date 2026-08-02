@@ -4,17 +4,26 @@
 
 /**
  * @file MinimalMeadowFeatureBundle.js
- * @description Starts rich presentation and full world authority in parallel without blocking play.
+ * @description Starts compressed presentation, world authority, and optional quality chunks in parallel.
  * The Awtsmoos lets every complete garment arrive beyond the first usable breath;
- * Awtsmoos.com preserves UI, animation, systems, models, shaders, NPCs, proof, and atomic handoff.
+ * Awtsmoos.com preserves all systems while each later graph crosses one deterministic doorway.
  */
 
+import {
+	resolveGeneratedRuntimeChunkUrl
+} from './GeneratedRuntimeChunkUrl.js';
 import {
 	hydrateMinimalMeadowOptionalFeatures
 } from './MinimalMeadowOptionalHydration.js';
 import {
 	hydrateMinimalMeadowPresentation
 } from './MinimalMeadowPresentationHydration.js';
+
+const WORLD_CHUNK_URL = resolveGeneratedRuntimeChunkUrl(
+	'mitzvah-world-world.compact.js',
+	import.meta.url,
+	'MinimalMeadowFeatureBundle.js'
+);
 
 export function installMinimalMeadowFeatures(
 	runtime,
@@ -24,7 +33,7 @@ export function installMinimalMeadowFeatures(
 	const hydratePresentation = dependencies.hydratePresentation
 		|| hydrateMinimalMeadowPresentation;
 	const installWorldSystems = dependencies.installWorldSystems
-		|| defaultWorldInstaller;
+		|| ((target, host) => defaultWorldInstaller(target, host, dependencies));
 	const hydrateOptional = dependencies.hydrateOptional
 		|| hydrateMinimalMeadowOptionalFeatures;
 	const presentationPromise = Promise.resolve().then(() => {
@@ -74,7 +83,8 @@ function bootstrapEssentialReceipt(runtime) {
 	});
 }
 
-async function defaultWorldInstaller(runtime, environment) {
-	const module = await import('./MinimalMeadowWorldSystems.js');
+async function defaultWorldInstaller(runtime, environment, dependencies) {
+	const importer = dependencies.importer || (specifier => import(specifier));
+	const module = await importer(WORLD_CHUNK_URL);
 	return module.installMinimalMeadowWorldSystems(runtime, environment);
 }

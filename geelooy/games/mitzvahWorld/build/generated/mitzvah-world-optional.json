@@ -1,0 +1,26 @@
+{
+	"deterministic": true,
+	"entry": "experiments/Awtsmoos/src/app/MinimalMeadowOptionalBundle.js",
+	"moduleCount": 1,
+	"modules": [],
+	"name": "optional",
+	"outputBytes": 513926,
+	"outputHash": "87f62abd0014f4cadfd4ba62d810961c17da809e2c5b121b9377d2ce966b60ee",
+	"representations": {
+		"brotli": {
+			"bytes": 99960,
+			"encoding": "br",
+			"sha256": "f29a8d500e63407b8e8ad8ce8b1f85a5bb7def18b268e18c1093639c38488906"
+		},
+		"gzip": {
+			"bytes": 120574,
+			"encoding": "gzip",
+			"sha256": "f388657a54910ad2ebcc72c024d447bd3e9acb95328b671c82d2922aea155901"
+		},
+		"identity": {
+			"bytes": 513926,
+			"encoding": "identity",
+			"sha256": "87f62abd0014f4cadfd4ba62d810961c17da809e2c5b121b9377d2ce966b60ee"
+		}
+	}
+}

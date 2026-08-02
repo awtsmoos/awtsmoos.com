@@ -4,26 +4,18 @@
 
 /**
  * @file createMinimalMeadowRuntime.js
- * @description Builds visible fallback play, then imports essential gameplay after one bounded paint gate.
+ * @description Builds visible fallback play, then starts folded essential gameplay after one paint gate.
  * The Awtsmoos reveals ground and traveler before each fuller garment enters sight;
- * Awtsmoos.com preserves the scheduler as a deferred source boundary while readiness remains truthful.
+ * Awtsmoos.com preserves readable modules while production folds required orchestration into first control.
  */
 
-import {
-	resolveDeferredAppModuleUrl
-} from './DeferredAppModuleUrl.js';
 import { createMinimalMeadowRuntimeCore } from './MinimalMeadowRuntimeCore.js';
 import { markRuntimeStarting } from './RuntimeStateMarker.js';
 
 const FIRST_PAINT_FALLBACK_MS = 120;
-const FEATURE_SCHEDULER_URL = resolveDeferredAppModuleUrl(
-	'MinimalMeadowFeatureScheduler.js',
-	import.meta.url,
-	'createMinimalMeadowRuntime.js'
-);
 
 /**
- * Creates the visible runtime and starts its deferred essential feature scheduler.
+ * Creates the visible runtime and starts its essential feature scheduler.
  *
  * @param {object} hosts Runtime host elements.
  * @param {object} [options] Runtime construction options.
@@ -42,7 +34,7 @@ export async function createMinimalMeadowRuntime(hosts, options = {}) {
 }
 
 /**
- * Waits for one bounded visible opportunity before importing essential features.
+ * Waits for one bounded visible opportunity before importing folded essential features.
  *
  * @param {object} runtime Minimal runtime instance.
  * @param {object} environment Browser-like environment.
@@ -50,18 +42,13 @@ export async function createMinimalMeadowRuntime(hosts, options = {}) {
  */
 async function scheduleEssentialFeatures(runtime, environment) {
 	await firstVisibleOpportunity(environment);
-	const module = await import(FEATURE_SCHEDULER_URL);
+	const module = await import('./MinimalMeadowFeatureScheduler.js');
 	return module.scheduleMinimalMeadowFeatures(runtime, environment, {
 		firstPaintAlreadyObserved: true
 	});
 }
 
-/**
- * Resolves on the first animation frame or a deterministic fallback timer.
- *
- * @param {object} environment Browser-like environment.
- * @returns {Promise<void>} Completion promise for the first visible opportunity.
- */
+/** Resolves on the first animation frame or deterministic fallback timer. */
 function firstVisibleOpportunity(environment) {
 	return new Promise(resolve => {
 		let settled = false;

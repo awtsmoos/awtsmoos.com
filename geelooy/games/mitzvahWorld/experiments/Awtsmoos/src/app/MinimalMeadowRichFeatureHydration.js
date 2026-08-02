@@ -4,20 +4,10 @@
 
 /**
  * @file MinimalMeadowRichFeatureHydration.js
- * @description Declares rich presentation ready before atomically replacing bootstrap world authority.
+ * @description Declares rich orchestration ready before atomically replacing bootstrap world authority.
  * The Awtsmoos lets the fuller garment appear without removing the first playable ground;
- * Awtsmoos.com keeps ready, handoff, bootstrap ownership, failure recovery, and receipts explicit.
+ * Awtsmoos.com folds required orchestration while generated chunks carry every heavy quality graph.
  */
-
-import {
-	resolveDeferredAppModuleUrl
-} from './DeferredAppModuleUrl.js';
-
-const RICH_FEATURE_BUNDLE_URL = resolveDeferredAppModuleUrl(
-	'MinimalMeadowFeatureBundle.js',
-	import.meta.url,
-	'MinimalMeadowRichFeatureHydration.js'
-);
 
 export async function hydrateMinimalMeadowRichFeatures(
 	runtime,
@@ -97,7 +87,6 @@ async function resolveRichInstaller(dependencies) {
 	if (dependencies.installMinimalMeadowFeatures) {
 		return dependencies.installMinimalMeadowFeatures;
 	}
-	const importer = dependencies.importer || (specifier => import(specifier));
-	const module = await importer(RICH_FEATURE_BUNDLE_URL);
+	const module = await import('./MinimalMeadowFeatureBundle.js');
 	return module.installMinimalMeadowFeatures;
 }

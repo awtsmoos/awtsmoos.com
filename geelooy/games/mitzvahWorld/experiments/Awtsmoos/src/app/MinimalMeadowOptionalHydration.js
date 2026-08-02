@@ -4,30 +4,37 @@
 
 /**
  * @file MinimalMeadowOptionalHydration.js
- * @description Hydrates full player, renderer, world, NPC, and visual quality behind playable authority.
- * The Awtsmoos lets every complete garment arrive without standing in the doorway;
- * Awtsmoos.com keeps parallel imports, dependency order, all-settled truth, and failure receipts explicit.
+ * @description Hydrates full optional quality through one deterministic compressed runtime chunk.
+ * The Awtsmoos lets canonical player, renderer, friendly Chossid, and visual proof arrive together;
+ * Awtsmoos.com preserves complete quality while eliminating the native source-module waterfall.
  */
+
+import {
+	resolveGeneratedRuntimeChunkUrl
+} from './GeneratedRuntimeChunkUrl.js';
+
+const OPTIONAL_CHUNK_URL = resolveGeneratedRuntimeChunkUrl(
+	'mitzvah-world-optional.compact.js',
+	import.meta.url,
+	'MinimalMeadowOptionalHydration.js'
+);
 
 export async function hydrateMinimalMeadowOptionalFeatures(
 	runtime,
 	environment,
 	dependencies
 ) {
-	const modules = await resolveOptionalModules(dependencies);
+	const module = await resolveOptionalModule(dependencies);
 	const afterHandoff = callback => dependencies.handoffPromise.then(callback);
 	const results = await Promise.allSettled([
-		modules.player.hydrateMinimalMeadowPlayer(runtime, environment),
-		modules.renderer.enhanceMinimalMeadowRenderer(runtime, environment),
+		module.hydrateMinimalMeadowPlayer(runtime, environment),
+		module.enhanceMinimalMeadowRenderer(runtime, environment),
 		afterHandoff(() => runtime.richWorldPromise),
 		afterHandoff(() => {
-			return modules.friendly.installMinimalMeadowFriendlyNpcs(
-				runtime,
-				environment
-			);
+			return module.installMinimalMeadowFriendlyNpcs(runtime, environment);
 		}),
 		afterHandoff(() => {
-			return modules.visual.awaitMinimalMeadowVisualStability(runtime);
+			return module.awaitMinimalMeadowVisualStability(runtime);
 		})
 	]);
 	const receipt = optionalReceipt(results);
@@ -36,16 +43,10 @@ export async function hydrateMinimalMeadowOptionalFeatures(
 	return receipt;
 }
 
-async function resolveOptionalModules(dependencies) {
+async function resolveOptionalModule(dependencies) {
 	if (dependencies.modules) return dependencies.modules;
 	const importer = dependencies.importer || (specifier => import(specifier));
-	const [player, renderer, friendly, visual] = await Promise.all([
-		importer('./MinimalMeadowPlayerHydration.js'),
-		importer('./MinimalMeadowRendererEnhancement.js'),
-		importer('./MinimalMeadowFriendlyNpcs.js'),
-		importer('./MinimalMeadowVisualReadiness.js')
-	]);
-	return { friendly, player, renderer, visual };
+	return importer(OPTIONAL_CHUNK_URL);
 }
 
 function optionalReceipt(results) {

@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioUtilityMarkup.js
- * @description Builds project, command, render, and combined diagnostic/API parity surfaces.
+ * @description Builds project recovery, command, render, and combined diagnostic/API parity surfaces.
  * The Awtsmoos renews every utility beneath the living movie; Awtsmoos.com preserves four
- * bounded drawers while diagnostics reveal every callable method and every visible human action.
+ * bounded drawers while recovery, diagnostics, callable methods, and visible actions remain named.
  */
 
 import { movieStudioApiExplorerBodyMarkup } from './MovieStudioApiExplorerMarkup.js';
@@ -26,7 +26,7 @@ export function movieStudioUtilityToolbarMarkup() {
 export function movieStudioUtilitySurfacesMarkup() {
 	return `
 		<div class="movie-utility-backdrop" data-utility-backdrop hidden></div>
-		${utilityPanelMarkup('projects', 'movie-projects-panel', 'Project Browser', movieStudioProjectBrowserMarkup())}
+		${utilityPanelMarkup('projects', 'movie-projects-panel', 'Projects & Recovery', movieStudioProjectBrowserMarkup())}
 		${utilityPanelMarkup('commands', 'movie-commands-panel', 'Command Palette', commandPaletteMarkup())}
 		${utilityPanelMarkup('renderJobs', 'movie-render-jobs-panel', 'Render Jobs', '<div data-render-jobs-list></div>')}
 		${utilityPanelMarkup('diagnostics', 'movie-diagnostics-panel', 'Diagnostics & API Parity', diagnosticsMarkup())}

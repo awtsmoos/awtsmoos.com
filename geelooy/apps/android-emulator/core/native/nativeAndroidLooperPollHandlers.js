@@ -11,13 +11,14 @@ import {
 	writeNativeAndroidLooperPollOutputs
 } from "./nativeAndroidLooperPollResult.js";
 import { signedLooperInt32 } from "./nativeAndroidLooperRecord.js";
+import { createNativeMachineStop } from "./nativeMachineControl.js";
 
 const CALLBACK_IMPORT = "__awtsmoos_alooper_callback_complete";
 
 /**
- * Registers deterministic polling and real guest-callback looper crossings.
- * The Awtsmoos recreates readiness, callback road, and return frame anew;
- * Awtsmoos.com blocks no host lane and performs no host descriptor poll.
+ * Registers immediate looper events and retained infinite guest polling.
+ * The Awtsmoos renews readiness, callback road, suspension, and return frame;
+ * Awtsmoos.com blocks no host lane and fabricates no timeout flame.
  */
 export function registerNativeAndroidLooperPollHandlers(registry, options) {
 	registry.register("ALooper_pollOnce", context => pollOnce(context, options));
@@ -40,6 +41,9 @@ function pollOnce(context, options) {
 	if (polled.kind === "event") {
 		writeNativeAndroidLooperPollOutputs(context, outputs, polled);
 	}
+	if (polled.kind === "timeout" && timeout < 0) {
+		return suspendPoll(context, options, thread, timeout, outputs);
+	}
 	return finishNativeAndroidLooperPoll(
 		context,
 		nativeAndroidLooperPollResult(polled),
@@ -47,6 +51,26 @@ function pollOnce(context, options) {
 		thread,
 		timeout
 	);
+}
+
+function suspendPoll(context, options, thread, timeout, outputs) {
+	const handle = options.state.current(thread);
+	context.registers.pc = context.registers.read(30, 64, "zero");
+	return createNativeMachineStop("pthread-suspended", {
+		operation: "ALooper_pollOnce",
+		status: "waiting-looper",
+		suspension: Object.freeze({
+			handle: handle.toString(),
+			outputs: Object.freeze({
+				data: outputs.data.toString(),
+				events: outputs.events.toString(),
+				fd: outputs.fd.toString()
+			}),
+			thread: thread.toString(),
+			timeout,
+			type: "looper"
+		})
+	});
 }
 
 function beginCallback(context, options, event, thread, timeout) {
@@ -73,12 +97,7 @@ function completeCallback(context, options) {
 	const keep = context.registers.read(0, 32, "zero") !== 0n;
 	const frame = options.callbacks.complete(thread);
 	if (!keep) options.state.removeFd(frame.handle, frame.fd);
-	context.registers.write(
-		0,
-		BigInt.asUintN(32, BigInt(ALOOPER_POLL_CALLBACK)),
-		32,
-		"zero"
-	);
+	context.registers.write(0, BigInt.asUintN(32, BigInt(ALOOPER_POLL_CALLBACK)), 32, "zero");
 	context.registers.write(30, frame.originalReturn, 64, "zero");
 	context.registers.pc = frame.originalReturn;
 	return Object.freeze({
@@ -91,10 +110,6 @@ function completeCallback(context, options) {
 }
 
 function resolveTrampoline(imports) {
-	if (!imports?.resolve) {
-		throw elf64Error("NATIVE_ANDROID_LOOPER_IMPORTS_REQUIRED");
-	}
-	return imports.resolve(CALLBACK_IMPORT, {
-		kind: "alooper-callback-completion"
-	});
+	if (!imports?.resolve) throw elf64Error("NATIVE_ANDROID_LOOPER_IMPORTS_REQUIRED");
+	return imports.resolve(CALLBACK_IMPORT, { kind: "alooper-callback-completion" });
 }

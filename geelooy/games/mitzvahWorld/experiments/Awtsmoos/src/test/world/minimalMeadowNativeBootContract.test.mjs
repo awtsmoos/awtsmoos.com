@@ -4,9 +4,9 @@
 
 /**
  * @file minimalMeadowNativeBootContract.test.mjs
- * @description Locks one compact entry and truthful staged boundaries for every fuller quality graph.
- * The Awtsmoos reveals the visible road before every complete garment descends;
- * Awtsmoos.com proves entry, first control, parallel presentation, world handoff, and optional quality.
+ * @description Locks one folded boot entry, three generated quality chunks, and creative-only deferral.
+ * The Awtsmoos reveals the playable road before every complete garment descends;
+ * Awtsmoos.com proves critical folding, chunk identity, atomic handoff, and unopened creative doors.
  */
 
 import assert from 'node:assert/strict';
@@ -15,64 +15,32 @@ import test from 'node:test';
 
 const GAME_ROOT = 'geelooy/games/mitzvahWorld';
 
-test('B"H production index eagerly loads only the compact entry', () => {
+test('B"H production index eagerly owns one compact entry', () => {
 	const index = source('index.html');
 	const scripts = [...index.matchAll(
 		/<script type="module"[^>]+src="([^"]+)"/g
 	)].map(match => match[1]);
-	assert.equal(scripts.length, 1);
-	assert.match(scripts[0], /mitzvah-world\.compact\.js/);
-	assert.doesNotMatch(index, /MinimalMeadowMobileIntegration\.js/);
-	assert.doesNotMatch(index, /MinimalUniversalApiExplorer\.js/);
+	assert.deepEqual(scripts, [
+		'./experiments/Awtsmoos/src/mitzvah-world.compact.js'
+	]);
+	assert.equal([...index.matchAll(/<link[^>]+stylesheet/g)].length, 1);
 });
 
-test('B"H compact graph embeds the launcher but preserves the scheduler boundary', () => {
-	const compact = source(
-		'experiments/Awtsmoos/src/mitzvah-world.compact.js'
-	);
-	assert.match(compact, /@file MinimalSharedMeadowPage\.js/);
-	assert.match(compact, /import\(FEATURE_SCHEDULER_URL\)/);
-	assert.doesNotMatch(compact, /@file MinimalMeadowFeatureScheduler\.js/);
-	assert.doesNotMatch(compact, /@file MinimalMeadowPlayerHydration\.js/);
-	assert.doesNotMatch(compact, /@file MinimalMeadowFriendlyNpcs\.js/);
-	assert.doesNotMatch(compact, /@file MinimalMeadowRichWorld\.js/);
-});
-
-test('B"H runtime begins features after one bounded visible opportunity', () => {
+test('B"H required scheduler and feature orchestration use foldable imports', () => {
 	const runtime = source(
 		'experiments/Awtsmoos/src/app/createMinimalMeadowRuntime.js'
-	);
-	assert.match(runtime, /FIRST_PAINT_FALLBACK_MS/);
-	assert.match(runtime, /firstVisibleOpportunity/);
-	assert.match(runtime, /FEATURE_SCHEDULER_URL/);
-	assert.match(runtime, /import\(FEATURE_SCHEDULER_URL\)/);
-	assert.doesNotMatch(runtime, /installMinimalMeadowFeatures/);
-});
-
-test('B"H launcher conditionally owns mobile and API entries', () => {
-	const launcher = source(
-		'experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPage.js'
-	);
-	const optional = source(
-		'experiments/Awtsmoos/src/launcher/MinimalMeadowOptionalEntries.js'
-	);
-	assert.match(launcher, /installMinimalMeadowOptionalEntries/);
-	assert.match(optional, /MinimalMeadowMobileIntegration\.js/);
-	assert.match(optional, /MinimalUniversalApiExplorer\.js/);
-	assert.match(optional, /AwtsmoosOpenApiExplorer/);
-});
-
-test('B"H scheduler opens bootstrap play before parallel full-quality graphs', () => {
-	const scheduler = source(
-		'experiments/Awtsmoos/src/app/MinimalMeadowFeatureScheduler.js'
 	);
 	const hydration = source(
 		'experiments/Awtsmoos/src/app/MinimalMeadowRichFeatureHydration.js'
 	);
-	const timing = source(
-		'experiments/Awtsmoos/src/app/MinimalMeadowRichHydrationScheduler.js'
-	);
-	const bundle = source(
+	assert.match(runtime, /import\('\.\/MinimalMeadowFeatureScheduler\.js'\)/);
+	assert.doesNotMatch(runtime, /FEATURE_SCHEDULER_URL/);
+	assert.match(hydration, /import\('\.\/MinimalMeadowFeatureBundle\.js'\)/);
+	assert.doesNotMatch(hydration, /RICH_FEATURE_BUNDLE_URL/);
+});
+
+test('B"H feature orchestration names exactly three generated chunks', () => {
+	const feature = source(
 		'experiments/Awtsmoos/src/app/MinimalMeadowFeatureBundle.js'
 	);
 	const presentation = source(
@@ -81,23 +49,41 @@ test('B"H scheduler opens bootstrap play before parallel full-quality graphs', (
 	const optional = source(
 		'experiments/Awtsmoos/src/app/MinimalMeadowOptionalHydration.js'
 	);
-	assert.match(scheduler, /installMinimalMeadowBootstrapFeatures/);
-	assert.match(scheduler, /scheduleMinimalMeadowRichHydration/);
-	assert.match(hydration, /RICH_FEATURE_BUNDLE_URL/);
-	assert.match(hydration, /richFeatureHandoffPromise/);
-	assert.match(timing, /requestAnimationFrame/);
-	assert.match(timing, /requestIdleCallback/);
-	assert.match(timing, /HYDRATION_FALLBACK_MILLISECONDS/);
-	assert.match(bundle, /hydrateMinimalMeadowPresentation/);
-	assert.match(bundle, /hydrateMinimalMeadowOptionalFeatures/);
-	assert.match(bundle, /import\('\.\/MinimalMeadowWorldSystems\.js'\)/);
-	assert.doesNotMatch(bundle, /MinimalMeadowPlayerHydration\.js/);
-	assert.match(presentation, /MinimalMeadowUi\.js/);
-	assert.match(presentation, /MinimalMeadowAnimationState\.js/);
-	assert.match(optional, /MinimalMeadowPlayerHydration\.js/);
-	assert.match(optional, /MinimalMeadowRendererEnhancement\.js/);
-	assert.match(optional, /MinimalMeadowFriendlyNpcs\.js/);
-	assert.match(optional, /MinimalMeadowVisualReadiness\.js/);
+	assert.match(feature, /mitzvah-world-world\.compact\.js/);
+	assert.match(presentation, /mitzvah-world-presentation\.compact\.js/);
+	assert.match(optional, /mitzvah-world-optional\.compact\.js/);
+	assert.match(feature, /handoffPromise/);
+	assert.match(feature, /presentationPromise/);
+	assert.match(feature, /optionalPromise/);
+});
+
+test('B"H generated chunk entries preserve complete installer surfaces', () => {
+	const presentation = source(
+		'experiments/Awtsmoos/src/app/MinimalMeadowPresentationBundle.js'
+	);
+	const world = source(
+		'experiments/Awtsmoos/src/app/MinimalMeadowWorldBundle.js'
+	);
+	const optional = source(
+		'experiments/Awtsmoos/src/app/MinimalMeadowOptionalBundle.js'
+	);
+	assert.match(presentation, /installMinimalMeadowUi/);
+	assert.match(presentation, /installMinimalMeadowAnimation/);
+	assert.match(world, /installMinimalMeadowWorldSystems/);
+	for (const name of [
+		'hydrateMinimalMeadowPlayer',
+		'enhanceMinimalMeadowRenderer',
+		'installMinimalMeadowFriendlyNpcs',
+		'awaitMinimalMeadowVisualStability'
+	]) assert.match(optional, new RegExp(name));
+});
+
+test('B"H only creative mode owners are authorized for preserved imports', () => {
+	const preservation = source('build/js/PreservedDynamicImportFs.cjs');
+	assert.match(preservation, /MitzvahWorldCreativeModeLoaders\.js/);
+	assert.match(preservation, /MitzvahWorldModeLoaders\.js/);
+	assert.doesNotMatch(preservation, /EretzStagedRuntime\.js/);
+	assert.doesNotMatch(preservation, /MinimalMeadowFeatureScheduler\.js/);
 });
 
 test('B"H native facade remains an explicit-binding module contract', () => {
