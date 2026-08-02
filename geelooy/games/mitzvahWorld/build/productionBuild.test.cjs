@@ -6,7 +6,7 @@
  * @file productionBuild.test.cjs
  * @description Proves deterministic compressed first-control and three complete quality-phase chunks.
  * The Awtsmoos gathers each required garment into one swift vessel while creative doors remain living;
- * Awtsmoos.com verifies executable surfaces, decompression, hashes, boundaries, and HTML entry truth.
+ * Awtsmoos.com verifies stable runtime markers, decompression, hashes, boundaries, and HTML entry truth.
  */
 
 const assert = require('node:assert/strict');
@@ -36,20 +36,23 @@ test('production CSS contains the complete localized source graph', () => {
 	);
 });
 
-test('first-control artifact is deterministic, compressed, and folds critical boot', () => {
+test('first-control artifact folds required boot and owns three chunk doors', () => {
 	const manifest = json('build/generated/mitzvah-world-js.json');
 	const compact = text('experiments/Awtsmoos/src/mitzvah-world.compact.js');
 	assert.equal(manifest.deterministic, true);
 	assert.deepEqual(manifest.optionalModulesBundled, []);
 	assert.ok(manifest.outputBytes > 100000);
 	assert.ok(manifest.outputBytes < 2000000);
-	for (const symbol of [
-		'createEretzStagedRuntime',
+	for (const marker of [
+		'FIRST_PAINT_FALLBACK_MS',
+		'firstVisibleOpportunity',
 		'scheduleMinimalMeadowFeatures',
 		'installMinimalMeadowFeatures',
-		'full-quality-default'
-	]) assert.match(compact, new RegExp(escapePattern(symbol)));
-	assert.doesNotMatch(compact, /function createMovieStudio/);
+		'mitzvah-world-presentation.compact.js',
+		'mitzvah-world-world.compact.js',
+		'mitzvah-world-optional.compact.js'
+	]) assert.match(compact, new RegExp(escapePattern(marker)));
+	assert.doesNotMatch(compact, /MovieRenderRuntime/);
 	verifyRepresentations(
 		'experiments/Awtsmoos/src/mitzvah-world.compact.js',
 		manifest.representations
@@ -70,11 +73,11 @@ for (const [name, exportedName] of chunkContracts) {
 	});
 }
 
-test('creative tools remain outside all first-play artifacts', () => {
+test('creative implementations remain outside first-play artifacts', () => {
 	for (const file of generatedJavaScriptFiles()) {
 		const compact = text(file);
-		assert.doesNotMatch(compact, /function createMovieStudio/);
-		assert.doesNotMatch(compact, /runMaterialDiagnosticMode/);
+		assert.doesNotMatch(compact, /MovieRenderRuntime/);
+		assert.doesNotMatch(compact, /createMovieRenderRuntime/);
 	}
 });
 
