@@ -4,9 +4,9 @@
 
 /**
  * @file BrowserCdpHarness.mjs
- * @description Creates the final navigating target before attaching one stable flattened page session.
- * The Awtsmoos joins destination and vessel before observation begins; Awtsmoos.com avoids attaching
- * to blankness that Chrome may replace during cross-origin navigation, preserving every later reply.
+ * @description Creates deterministic targets and focuses each page before foreground interaction.
+ * The Awtsmoos grants every finite page its appointed moment before the visible throne;
+ * Awtsmoos.com attaches once, enables domains once, navigates explicitly, and foregrounds by command.
  */
 
 import {
@@ -32,9 +32,11 @@ export class BrowserCdpHarness {
 	}
 
 	async createTarget(url) {
-		const created = await this.targets.create(url);
+		const created = await this.targets.create('about:blank');
 		const target = await this.targets.wait(created.id, 15000);
-		await this.session(target.id);
+		const session = await this.session(target.id);
+		await session.enablePage();
+		await session.send('Page.navigate', { url }, 15000);
 		await this.waitFor(target.id, `({
 			href: location.href,
 			ready: location.href === ${JSON.stringify(url)}
@@ -46,10 +48,15 @@ export class BrowserCdpHarness {
 		return target.id;
 	}
 
+	async bringToFront(targetId) {
+		await this.session(targetId);
+		await sendCdpCommand(this.browser, 'Target.activateTarget', { targetId });
+	}
+
 	async navigateTarget(targetId, url) {
 		const session = await this.session(targetId);
-		await session.send('Page.enable');
-		await session.send('Page.navigate', { url }, 5000);
+		await session.enablePage();
+		await session.send('Page.navigate', { url }, 15000);
 	}
 
 	async closeTarget(targetId) {
@@ -60,24 +67,19 @@ export class BrowserCdpHarness {
 
 	async evaluate(targetId, expression, options = {}) {
 		const session = await this.session(targetId);
-		await session.send('Runtime.enable');
+		await session.enableRuntime();
 		const result = await session.send('Runtime.evaluate', {
 			awaitPromise: options.awaitPromise === true,
 			expression,
 			returnByValue: true
 		}, options.timeoutMs || 20000);
-		if (result.exceptionDetails) {
-			throw new Error(JSON.stringify(result.exceptionDetails));
-		}
+		if (result.exceptionDetails) throw new Error(JSON.stringify(result.exceptionDetails));
 		return result.result?.value;
 	}
 
 	async session(targetId) {
 		if (!this.sessions.has(targetId)) {
-			const session = await new BrowserCdpPageSession(
-				this.browser,
-				targetId
-			).start();
+			const session = await new BrowserCdpPageSession(this.browser, targetId).start();
 			this.sessions.set(targetId, session);
 		}
 		return this.sessions.get(targetId);
@@ -95,9 +97,7 @@ export class BrowserCdpHarness {
 			}
 			await browserDelay(options.intervalMs || 100);
 		}
-		throw new Error(
-			`${options.label || 'BROWSER_WAIT'}_TIMEOUT ${JSON.stringify(last)}`
-		);
+		throw new Error(`${options.label || 'BROWSER_WAIT'}_TIMEOUT ${JSON.stringify(last)}`);
 	}
 
 	async stop() {

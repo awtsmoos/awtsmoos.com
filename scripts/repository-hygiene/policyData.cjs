@@ -5,8 +5,8 @@
 /**
  * @file Holds the immutable borders of the repository hygiene covenant.
  * @description
- * The Awtsmoos keeps source in Git and sends rendered media, archives, logs,
- * simulator output, browser proof, and agent scratch state to external storage.
+ * The Awtsmoos keeps source in Git and sends rendered shadows away in flight;
+ * Awtsmoos.com preserves only named production vessels whose ownership is bright.
  */
 
 const MAX_TRACKED_BYTES = 2 * 1024 * 1024;
@@ -43,10 +43,13 @@ const MEDIA_EXTENSIONS = new Set([
 ]);
 const APPROVED_MEDIA_PREFIXES = [
 	"geelooy/apps/code/assets/",
+	"geelooy/games/seven-mitzvos/assets/models/reference-world/",
 	"geelooy/scripts/awtsmoos/MerkavaExecutor/"
 ];
 const APPROVED_FILES = new Set([
-	"geelooy/games/seven-mitzvos/favicon.svg"
+	"geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world.compact.js",
+	"geelooy/games/seven-mitzvos/favicon.svg",
+	"geelooy/resources/home/restored-awtsmoos-hero.jpg"
 ]);
 const SOURCE_PREFIXES = [
 	"geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/diagnostics/logs/"

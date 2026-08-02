@@ -4,11 +4,14 @@
 
 /**
  * @file MinimalSharedMeadowReadinessFlow.js
- * @description Waits only for compact essential features, releases the veil, then settles full readiness.
- * The Awtsmoos opens the road when its near vessels are truly present while distant richness continues;
- * Awtsmoos.com awaits combat, UI, quest, recovery, and streaming without awaiting the optional world dream.
+ * @description Confirms essential play, schedules deferred terrain, releases the veil, then settles richness.
+ * The Awtsmoos opens the near road and appoints the distant garment in the same truthful chapter;
+ * Awtsmoos.com creates terrain's quiet-window handle before optional renderer settlement can delay it.
  */
 
+import {
+	scheduleMinimalMeadowTerrainHydration
+} from '../app/MinimalMeadowTerrainHydrationSchedule.js';
 import {
 	beginMinimalMeadowFullReadiness
 } from './MinimalMeadowFullReadiness.js';
@@ -44,6 +47,11 @@ export async function runMinimalSharedMeadowReadiness(options) {
 		environment,
 		featureSettlement
 	);
+	const terrainSchedule = scheduleMinimalMeadowTerrainHydration(
+		diagnostics.runtime,
+		environment
+	);
+	diagnostics.terrainHydrationSchedule = terrainSchedule;
 	loading.finish();
 	await awaitMinimalMeadowPaint(environment);
 	const fullReceipt = await beginMinimalMeadowFullReadiness({
@@ -58,6 +66,7 @@ export async function runMinimalSharedMeadowReadiness(options) {
 	});
 	return Object.freeze({
 		essential: essentialReceipt,
-		full: fullReceipt
+		full: fullReceipt,
+		terrainScheduled: Boolean(terrainSchedule)
 	});
 }

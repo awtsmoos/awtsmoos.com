@@ -4,43 +4,56 @@
 
 /**
  * @file MovieStudioInspectorMarkup.js
- * @description Defines transform, performance, scene, camera, keyframe, audio, title, 3D, and project controls.
- * The Awtsmoos renews detail without separating it from the whole; Awtsmoos.com gives
- * desktop side pane and mobile sheet one semantic inspector whose acting controls remain bounded.
+ * @description Composes transform, performance, scene, camera, keyframe, audio, title, composition, 3D, and project controls.
+ * The Awtsmoos renews each finite inspector vessel through one source; Awtsmoos.com keeps
+ * acting, scene editing, nested canvases, authoring, media, titles, sound, and project history coherent.
  */
 
-import { movieStudioAuthoring3dMarkup } from './MovieStudioAuthoring3dMarkup.js';
 import { movieStudioAudioMixerMarkup } from './MovieStudioAudioMixerMarkup.js';
+import { movieStudioAuthoring3dMarkup } from './MovieStudioAuthoring3dMarkup.js';
 import { movieStudioCameraActionMarkup } from './MovieStudioCameraActionMarkup.js';
+import { movieStudioCompositionMarkup } from './MovieStudioCompositionMarkup.js';
 import { movieStudioKeyframeMarkup } from './MovieStudioKeyframeMarkup.js';
 import { movieStudioPerformanceInspectorMarkup } from './MovieStudioPerformanceMarkup.js';
+import { movieStudioProjectBrowserMarkup } from './MovieStudioProjectBrowserMarkup.js';
 import { movieStudioScene3dMarkup } from './MovieStudioScene3dMarkup.js';
 import { movieStudioTitleMarkup } from './MovieStudioTitleMarkup.js';
 
 export function movieStudioInspectorMarkup() {
 	return `
-		<aside class="movie-studio-inspector" id="movie-studio-inspector" data-inspector aria-label="Movie inspector">
-			<header class="movie-inspector-heading"><strong>Inspector</strong><button data-inspector-close aria-label="Close inspector">×</button></header>
+		<aside id="movie-studio-inspector" class="movie-studio-inspector" data-inspector aria-label="Movie inspector">
+			<div class="movie-inspector-heading"><strong>Inspector</strong><button data-inspector-close aria-label="Close inspector">×</button></div>
 			<div class="movie-inspector-body">
-				<div data-transform></div>
+				<p data-selection>No selection</p>
+				<div data-transform-fields></div>
 				${movieStudioPerformanceInspectorMarkup()}
 				${movieStudioScene3dMarkup()}
 				${movieStudioCameraActionMarkup()}
 				${movieStudioKeyframeMarkup()}
 				${movieStudioAudioMixerMarkup()}
 				${movieStudioTitleMarkup()}
+				${movieStudioCompositionMarkup()}
 				${movieStudioAuthoring3dMarkup()}
-				${movieProjectJsonMarkup()}
-				${movieAppearanceMarkup()}
+				${movieStudioProjectBrowserMarkup()}
+				${appearanceMarkup()}
+				${projectJsonMarkup()}
 			</div>
 		</aside>
 	`;
 }
 
-function movieProjectJsonMarkup() {
-	return `<div class="movie-project-json-panel"><label for="movie-project-json">Project JSON</label><textarea id="movie-project-json" data-project-json spellcheck="false"></textarea><div class="movie-project-json-actions"><button data-apply-json>Apply JSON</button><button data-render>Render</button><button data-render-exact>Render Exact</button><button data-copy-url>Copy URL</button></div></div>`;
+function appearanceMarkup() {
+	return `
+		<section class="movie-appearance-panel" data-appearance-panel><div class="movie-appearance-heading"><h3>Clip Appearance</h3><output data-appearance-selection>No visual clip selected</output></div>
+			<label>Opacity <input type="range" min="0" max="1" step="0.01" value="1" data-appearance-opacity></label>
+			<label>Filter <select data-appearance-filter><option value="none">None</option><option value="grayscale(1)">Grayscale</option><option value="sepia(1)">Sepia</option><option value="contrast(1.35)">High contrast</option><option value="saturate(1.5)">Saturated</option></select></label>
+			<div class="movie-overlay-options"><label><input type="checkbox" data-overlay-option="thirds"> Rule of thirds</label><label><input type="checkbox" data-overlay-option="center"> Center crosshair</label><label><input type="checkbox" data-overlay-option="titleSafe"> Title safe</label><label><input type="checkbox" data-overlay-option="actionSafe"> Action safe</label></div>
+		</section>`;
 }
 
-function movieAppearanceMarkup() {
-	return `<section class="movie-appearance-panel" aria-label="Editor appearance"><header class="movie-appearance-heading"><h3>Appearance</h3><output data-preview-badge aria-live="polite">Fit preview</output></header><label>Theme<select data-theme><option value="awtsmoos-dark">Awtsmoos Dark</option><option value="neutral-dark">Neutral Dark</option><option value="light">Light</option><option value="high-contrast">High Contrast</option></select></label><label>Density<select data-density><option value="compact">Compact</option><option value="comfortable">Comfortable</option><option value="touch">Touch</option></select></label><label>Preview<select data-preview-zoom><option value="fit">Fit</option><option value="1">100%</option><option value="1.5">150%</option><option value="2">200%</option></select></label><div class="movie-overlay-options" data-overlay-options><label><input type="checkbox" data-overlay-toggle="thirds"> Thirds</label><label><input type="checkbox" data-overlay-toggle="center"> Center</label><label><input type="checkbox" data-overlay-toggle="titleSafe"> Title safe</label><label><input type="checkbox" data-overlay-toggle="actionSafe"> Action safe</label></div><button data-reset-preferences>Reset appearance</button></section>`;
+function projectJsonMarkup() {
+	return `
+		<section class="movie-project-json-panel" aria-label="Project JSON"><textarea data-project-json aria-label="Movie project JSON"></textarea>
+			<div class="movie-project-json-actions"><button data-project-copy>Copy JSON</button><button data-project-apply>Apply JSON</button></div>
+		</section>`;
 }

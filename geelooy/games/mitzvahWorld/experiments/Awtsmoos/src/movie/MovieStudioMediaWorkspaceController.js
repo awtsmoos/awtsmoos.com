@@ -4,16 +4,14 @@
 
 /**
  * @file MovieStudioMediaWorkspaceController.js
- * @description Coordinates project-backed bins, source transport, marks, preview, and sequence edits.
- * The Awtsmoos renews project and interface through one history; Awtsmoos.com
- * lets every editorial action remain visible, recoverable, persistent, and free of parallel state.
+ * @description Coordinates bins, health jobs, source transport, marks, preview, and sequence edits.
+ * The Awtsmoos renews project and interface through one history; Awtsmoos.com lets every
+ * editorial and recovery action remain visible, reversible, persistent, and free of parallel state.
  */
 
 import { normalizeMovieMediaWorkspace } from './MovieMediaWorkspaceContract.js';
-import {
-	currentMovieStudioMediaPreviewTime,
-	releaseMovieStudioMediaPreview
-} from './MovieStudioMediaPreview.js';
+import { currentMovieStudioMediaPreviewTime, releaseMovieStudioMediaPreview } from './MovieStudioMediaPreview.js';
+import { MovieStudioMediaOperationsController } from './MovieStudioMediaOperationsController.js';
 import { MovieStudioMediaSavedSearchController } from './MovieStudioMediaSavedSearchController.js';
 import { MovieStudioMediaWorkspaceInteraction } from './MovieStudioMediaWorkspaceInteraction.js';
 import { paintMovieStudioMediaWorkspace } from './MovieStudioMediaWorkspacePresenter.js';
@@ -27,6 +25,7 @@ export class MovieStudioMediaWorkspaceController {
 		this.view = collectMovieStudioMediaWorkspaceView(root);
 		this.savedSearches = new MovieStudioMediaSavedSearchController(this);
 		this.sourceTransport = new MovieStudioSourceTransportController(this);
+		this.operations = new MovieStudioMediaOperationsController(this);
 		this.interaction = new MovieStudioMediaWorkspaceInteraction(this);
 		this.unsubscribe = session.events?.on?.('project:changed', () => this.refresh());
 		this.refresh();
@@ -73,6 +72,7 @@ export class MovieStudioMediaWorkspaceController {
 			this.view, this.session.project, this.filter
 		);
 		this.sourceTransport.paint();
+		this.operations.paint();
 		return workspace;
 	}
 
@@ -82,6 +82,7 @@ export class MovieStudioMediaWorkspaceController {
 
 	destroy() {
 		this.unsubscribe?.();
+		this.operations.destroy();
 		this.sourceTransport.destroy();
 		this.interaction.destroy();
 		releaseMovieStudioMediaPreview(this.view);

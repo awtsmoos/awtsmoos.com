@@ -582,9 +582,9 @@ var __awtsmoosModule_540;
 var __awtsmoosModule_2;
 var __awtsmoosModule_542;
 var __awtsmoosModule_543;
-var __awtsmoosModule_547;
 var __awtsmoosModule_546;
 var __awtsmoosModule_545;
+var __awtsmoosModule_547;
 var __awtsmoosModule_549;
 var __awtsmoosModule_548;
 var __awtsmoosModule_550;
@@ -1504,587 +1504,633 @@ var __awtsmoosModule_1465;
 var __awtsmoosModule_1468;
 var __awtsmoosModule_1467;
 var __awtsmoosModule_1470;
-var __awtsmoosModule_1473;
 var __awtsmoosModule_1472;
-var __awtsmoosModule_1471;
-var __awtsmoosModule_1469;
+var __awtsmoosModule_1475;
 var __awtsmoosModule_1474;
-var __awtsmoosModule_1479;
+var __awtsmoosModule_1473;
+var __awtsmoosModule_1471;
 var __awtsmoosModule_1478;
 var __awtsmoosModule_1477;
+var __awtsmoosModule_1479;
 var __awtsmoosModule_1476;
-var __awtsmoosModule_1481;
+var __awtsmoosModule_1469;
 var __awtsmoosModule_1480;
-var __awtsmoosModule_1475;
-var __awtsmoosModule_1482;
-var __awtsmoosModule_1483;
-var __awtsmoosModule_1484;
-var __awtsmoosModule_1466;
-var __awtsmoosModule_1487;
-var __awtsmoosModule_1488;
-var __awtsmoosModule_1489;
+var __awtsmoosModule_1481;
 var __awtsmoosModule_1486;
 var __awtsmoosModule_1485;
-var __awtsmoosModule_1464;
-var __awtsmoosModule_1493;
+var __awtsmoosModule_1484;
+var __awtsmoosModule_1483;
+var __awtsmoosModule_1488;
+var __awtsmoosModule_1487;
+var __awtsmoosModule_1482;
+var __awtsmoosModule_1489;
+var __awtsmoosModule_1490;
+var __awtsmoosModule_1491;
+var __awtsmoosModule_1466;
 var __awtsmoosModule_1494;
-var __awtsmoosModule_1497;
-var __awtsmoosModule_1496;
 var __awtsmoosModule_1495;
-var __awtsmoosModule_1498;
-var __awtsmoosModule_1499;
-var __awtsmoosModule_1500;
+var __awtsmoosModule_1496;
+var __awtsmoosModule_1493;
 var __awtsmoosModule_1492;
+var __awtsmoosModule_1464;
+var __awtsmoosModule_1500;
 var __awtsmoosModule_1501;
-var __awtsmoosModule_1503;
-var __awtsmoosModule_1505;
 var __awtsmoosModule_1504;
+var __awtsmoosModule_1503;
+var __awtsmoosModule_1502;
+var __awtsmoosModule_1505;
 var __awtsmoosModule_1506;
 var __awtsmoosModule_1507;
-var __awtsmoosModule_1509;
-var __awtsmoosModule_1510;
+var __awtsmoosModule_1499;
 var __awtsmoosModule_1508;
-var __awtsmoosModule_1511;
+var __awtsmoosModule_1510;
 var __awtsmoosModule_1512;
-var __awtsmoosModule_1502;
+var __awtsmoosModule_1511;
 var __awtsmoosModule_1513;
-var __awtsmoosModule_1516;
-var __awtsmoosModule_1515;
 var __awtsmoosModule_1514;
-var __awtsmoosModule_1518;
+var __awtsmoosModule_1516;
 var __awtsmoosModule_1517;
+var __awtsmoosModule_1515;
+var __awtsmoosModule_1518;
+var __awtsmoosModule_1519;
+var __awtsmoosModule_1509;
 var __awtsmoosModule_1520;
 var __awtsmoosModule_1523;
-var __awtsmoosModule_1527;
-var __awtsmoosModule_1526;
-var __awtsmoosModule_1528;
-var __awtsmoosModule_1530;
-var __awtsmoosModule_1529;
-var __awtsmoosModule_1533;
-var __awtsmoosModule_1534;
-var __awtsmoosModule_1532;
-var __awtsmoosModule_1531;
-var __awtsmoosModule_1525;
-var __awtsmoosModule_1535;
-var __awtsmoosModule_1524;
-var __awtsmoosModule_1538;
-var __awtsmoosModule_1537;
-var __awtsmoosModule_1541;
-var __awtsmoosModule_1540;
-var __awtsmoosModule_1539;
-var __awtsmoosModule_1542;
-var __awtsmoosModule_1536;
-var __awtsmoosModule_1547;
-var __awtsmoosModule_1548;
-var __awtsmoosModule_1551;
-var __awtsmoosModule_1550;
-var __awtsmoosModule_1549;
-var __awtsmoosModule_1546;
-var __awtsmoosModule_1545;
-var __awtsmoosModule_1552;
-var __awtsmoosModule_1554;
-var __awtsmoosModule_1553;
-var __awtsmoosModule_1544;
-var __awtsmoosModule_1555;
-var __awtsmoosModule_1543;
 var __awtsmoosModule_1522;
-var __awtsmoosModule_1559;
-var __awtsmoosModule_1560;
-var __awtsmoosModule_1562;
-var __awtsmoosModule_1561;
+var __awtsmoosModule_1521;
+var __awtsmoosModule_1525;
+var __awtsmoosModule_1524;
+var __awtsmoosModule_1527;
+var __awtsmoosModule_1530;
+var __awtsmoosModule_1534;
+var __awtsmoosModule_1533;
+var __awtsmoosModule_1535;
+var __awtsmoosModule_1537;
+var __awtsmoosModule_1536;
+var __awtsmoosModule_1540;
+var __awtsmoosModule_1541;
+var __awtsmoosModule_1539;
+var __awtsmoosModule_1538;
+var __awtsmoosModule_1532;
+var __awtsmoosModule_1542;
+var __awtsmoosModule_1531;
+var __awtsmoosModule_1545;
+var __awtsmoosModule_1544;
+var __awtsmoosModule_1548;
+var __awtsmoosModule_1547;
+var __awtsmoosModule_1546;
+var __awtsmoosModule_1549;
+var __awtsmoosModule_1543;
+var __awtsmoosModule_1554;
+var __awtsmoosModule_1555;
 var __awtsmoosModule_1558;
-var __awtsmoosModule_1565;
+var __awtsmoosModule_1557;
+var __awtsmoosModule_1556;
+var __awtsmoosModule_1553;
+var __awtsmoosModule_1552;
+var __awtsmoosModule_1559;
+var __awtsmoosModule_1561;
+var __awtsmoosModule_1560;
+var __awtsmoosModule_1551;
+var __awtsmoosModule_1562;
+var __awtsmoosModule_1550;
+var __awtsmoosModule_1529;
 var __awtsmoosModule_1566;
-var __awtsmoosModule_1564;
 var __awtsmoosModule_1567;
 var __awtsmoosModule_1569;
-var __awtsmoosModule_1570;
-var __awtsmoosModule_1571;
 var __awtsmoosModule_1568;
-var __awtsmoosModule_1573;
+var __awtsmoosModule_1565;
 var __awtsmoosModule_1572;
-var __awtsmoosModule_1575;
+var __awtsmoosModule_1573;
+var __awtsmoosModule_1571;
 var __awtsmoosModule_1574;
 var __awtsmoosModule_1576;
-var __awtsmoosModule_1579;
-var __awtsmoosModule_1578;
 var __awtsmoosModule_1577;
-var __awtsmoosModule_1563;
-var __awtsmoosModule_1581;
-var __awtsmoosModule_1582;
+var __awtsmoosModule_1578;
+var __awtsmoosModule_1575;
 var __awtsmoosModule_1580;
-var __awtsmoosModule_1585;
-var __awtsmoosModule_1586;
-var __awtsmoosModule_1584;
-var __awtsmoosModule_1587;
+var __awtsmoosModule_1579;
+var __awtsmoosModule_1582;
+var __awtsmoosModule_1581;
 var __awtsmoosModule_1583;
+var __awtsmoosModule_1586;
+var __awtsmoosModule_1585;
+var __awtsmoosModule_1584;
+var __awtsmoosModule_1570;
 var __awtsmoosModule_1588;
 var __awtsmoosModule_1589;
+var __awtsmoosModule_1587;
 var __awtsmoosModule_1592;
 var __awtsmoosModule_1593;
 var __awtsmoosModule_1591;
+var __awtsmoosModule_1594;
 var __awtsmoosModule_1590;
 var __awtsmoosModule_1595;
-var __awtsmoosModule_1597;
-var __awtsmoosModule_1598;
 var __awtsmoosModule_1596;
-var __awtsmoosModule_1600;
-var __awtsmoosModule_1601;
 var __awtsmoosModule_1599;
+var __awtsmoosModule_1600;
+var __awtsmoosModule_1598;
+var __awtsmoosModule_1597;
 var __awtsmoosModule_1602;
-var __awtsmoosModule_1603;
-var __awtsmoosModule_1605;
+var __awtsmoosModule_1601;
 var __awtsmoosModule_1604;
-var __awtsmoosModule_1608;
+var __awtsmoosModule_1606;
+var __awtsmoosModule_1607;
+var __awtsmoosModule_1605;
 var __awtsmoosModule_1609;
 var __awtsmoosModule_1610;
-var __awtsmoosModule_1607;
-var __awtsmoosModule_1606;
-var __awtsmoosModule_1594;
-var __awtsmoosModule_1615;
+var __awtsmoosModule_1608;
+var __awtsmoosModule_1611;
+var __awtsmoosModule_1612;
+var __awtsmoosModule_1614;
+var __awtsmoosModule_1613;
+var __awtsmoosModule_1617;
 var __awtsmoosModule_1618;
 var __awtsmoosModule_1619;
-var __awtsmoosModule_1617;
 var __awtsmoosModule_1616;
-var __awtsmoosModule_1614;
-var __awtsmoosModule_1620;
-var __awtsmoosModule_1621;
-var __awtsmoosModule_1622;
-var __awtsmoosModule_1623;
-var __awtsmoosModule_1613;
-var __awtsmoosModule_1612;
-var __awtsmoosModule_1611;
+var __awtsmoosModule_1615;
+var __awtsmoosModule_1603;
 var __awtsmoosModule_1624;
 var __awtsmoosModule_1627;
+var __awtsmoosModule_1628;
 var __awtsmoosModule_1626;
 var __awtsmoosModule_1625;
-var __awtsmoosModule_1557;
+var __awtsmoosModule_1623;
 var __awtsmoosModule_1629;
 var __awtsmoosModule_1630;
-var __awtsmoosModule_1634;
-var __awtsmoosModule_1633;
-var __awtsmoosModule_1632;
-var __awtsmoosModule_1635;
-var __awtsmoosModule_1636;
 var __awtsmoosModule_1631;
-var __awtsmoosModule_1637;
-var __awtsmoosModule_1628;
-var __awtsmoosModule_1556;
+var __awtsmoosModule_1632;
+var __awtsmoosModule_1622;
+var __awtsmoosModule_1621;
+var __awtsmoosModule_1620;
+var __awtsmoosModule_1633;
+var __awtsmoosModule_1636;
+var __awtsmoosModule_1635;
+var __awtsmoosModule_1634;
+var __awtsmoosModule_1564;
 var __awtsmoosModule_1638;
-var __awtsmoosModule_1521;
 var __awtsmoosModule_1639;
-var __awtsmoosModule_1644;
-var __awtsmoosModule_1645;
-var __awtsmoosModule_1646;
 var __awtsmoosModule_1643;
 var __awtsmoosModule_1642;
 var __awtsmoosModule_1641;
+var __awtsmoosModule_1644;
+var __awtsmoosModule_1645;
+var __awtsmoosModule_1640;
+var __awtsmoosModule_1646;
+var __awtsmoosModule_1637;
+var __awtsmoosModule_1563;
 var __awtsmoosModule_1647;
-var __awtsmoosModule_1649;
-var __awtsmoosModule_1650;
+var __awtsmoosModule_1528;
+var __awtsmoosModule_1648;
+var __awtsmoosModule_1653;
+var __awtsmoosModule_1654;
+var __awtsmoosModule_1655;
 var __awtsmoosModule_1652;
 var __awtsmoosModule_1651;
-var __awtsmoosModule_1648;
-var __awtsmoosModule_1654;
-var __awtsmoosModule_1653;
-var __awtsmoosModule_1657;
-var __awtsmoosModule_1658;
+var __awtsmoosModule_1650;
 var __awtsmoosModule_1656;
-var __awtsmoosModule_1660;
+var __awtsmoosModule_1658;
 var __awtsmoosModule_1659;
-var __awtsmoosModule_1655;
+var __awtsmoosModule_1661;
+var __awtsmoosModule_1660;
+var __awtsmoosModule_1657;
 var __awtsmoosModule_1663;
 var __awtsmoosModule_1662;
-var __awtsmoosModule_1664;
-var __awtsmoosModule_1661;
 var __awtsmoosModule_1666;
+var __awtsmoosModule_1667;
 var __awtsmoosModule_1665;
-var __awtsmoosModule_1670;
-var __awtsmoosModule_1673;
+var __awtsmoosModule_1669;
+var __awtsmoosModule_1668;
+var __awtsmoosModule_1664;
 var __awtsmoosModule_1672;
 var __awtsmoosModule_1671;
-var __awtsmoosModule_1669;
+var __awtsmoosModule_1673;
+var __awtsmoosModule_1670;
 var __awtsmoosModule_1675;
 var __awtsmoosModule_1674;
-var __awtsmoosModule_1676;
-var __awtsmoosModule_1680;
+var __awtsmoosModule_1679;
+var __awtsmoosModule_1682;
 var __awtsmoosModule_1681;
+var __awtsmoosModule_1680;
+var __awtsmoosModule_1678;
+var __awtsmoosModule_1684;
 var __awtsmoosModule_1683;
 var __awtsmoosModule_1685;
-var __awtsmoosModule_1684;
-var __awtsmoosModule_1688;
-var __awtsmoosModule_1690;
 var __awtsmoosModule_1689;
-var __awtsmoosModule_1687;
-var __awtsmoosModule_1691;
-var __awtsmoosModule_1686;
-var __awtsmoosModule_1693;
+var __awtsmoosModule_1690;
+var __awtsmoosModule_1692;
 var __awtsmoosModule_1694;
-var __awtsmoosModule_1695;
-var __awtsmoosModule_1696;
+var __awtsmoosModule_1693;
+var __awtsmoosModule_1697;
 var __awtsmoosModule_1699;
 var __awtsmoosModule_1698;
+var __awtsmoosModule_1696;
 var __awtsmoosModule_1700;
-var __awtsmoosModule_1701;
+var __awtsmoosModule_1695;
 var __awtsmoosModule_1702;
 var __awtsmoosModule_1703;
-var __awtsmoosModule_1697;
 var __awtsmoosModule_1704;
-var __awtsmoosModule_1692;
-var __awtsmoosModule_1707;
-var __awtsmoosModule_1706;
-var __awtsmoosModule_1708;
 var __awtsmoosModule_1705;
-var __awtsmoosModule_1711;
-var __awtsmoosModule_1710;
+var __awtsmoosModule_1708;
+var __awtsmoosModule_1707;
 var __awtsmoosModule_1709;
-var __awtsmoosModule_1682;
-var __awtsmoosModule_1679;
-var __awtsmoosModule_1678;
-var __awtsmoosModule_1714;
-var __awtsmoosModule_1717;
-var __awtsmoosModule_1718;
+var __awtsmoosModule_1710;
+var __awtsmoosModule_1711;
+var __awtsmoosModule_1712;
+var __awtsmoosModule_1706;
+var __awtsmoosModule_1713;
+var __awtsmoosModule_1701;
 var __awtsmoosModule_1716;
 var __awtsmoosModule_1715;
-var __awtsmoosModule_1719;
-var __awtsmoosModule_1713;
-var __awtsmoosModule_1712;
+var __awtsmoosModule_1717;
+var __awtsmoosModule_1714;
 var __awtsmoosModule_1720;
-var __awtsmoosModule_1721;
-var __awtsmoosModule_1677;
-var __awtsmoosModule_1722;
-var __awtsmoosModule_1668;
+var __awtsmoosModule_1719;
+var __awtsmoosModule_1718;
+var __awtsmoosModule_1691;
+var __awtsmoosModule_1688;
+var __awtsmoosModule_1687;
 var __awtsmoosModule_1723;
+var __awtsmoosModule_1726;
+var __awtsmoosModule_1727;
+var __awtsmoosModule_1725;
 var __awtsmoosModule_1724;
 var __awtsmoosModule_1728;
+var __awtsmoosModule_1722;
+var __awtsmoosModule_1721;
 var __awtsmoosModule_1729;
 var __awtsmoosModule_1730;
-var __awtsmoosModule_1727;
-var __awtsmoosModule_1732;
+var __awtsmoosModule_1686;
 var __awtsmoosModule_1731;
-var __awtsmoosModule_1726;
-var __awtsmoosModule_1734;
-var __awtsmoosModule_1735;
+var __awtsmoosModule_1677;
+var __awtsmoosModule_1732;
 var __awtsmoosModule_1733;
-var __awtsmoosModule_1725;
 var __awtsmoosModule_1737;
-var __awtsmoosModule_1736;
-var __awtsmoosModule_1739;
-var __awtsmoosModule_1740;
 var __awtsmoosModule_1738;
+var __awtsmoosModule_1739;
+var __awtsmoosModule_1736;
 var __awtsmoosModule_1741;
-var __awtsmoosModule_1742;
-var __awtsmoosModule_1744;
-var __awtsmoosModule_1745;
+var __awtsmoosModule_1740;
+var __awtsmoosModule_1735;
 var __awtsmoosModule_1743;
+var __awtsmoosModule_1744;
+var __awtsmoosModule_1742;
+var __awtsmoosModule_1734;
 var __awtsmoosModule_1748;
 var __awtsmoosModule_1747;
-var __awtsmoosModule_1750;
-var __awtsmoosModule_1749;
-var __awtsmoosModule_1751;
 var __awtsmoosModule_1746;
+var __awtsmoosModule_1749;
+var __awtsmoosModule_1750;
+var __awtsmoosModule_1753;
+var __awtsmoosModule_1752;
+var __awtsmoosModule_1751;
+var __awtsmoosModule_1745;
 var __awtsmoosModule_1756;
+var __awtsmoosModule_1757;
+var __awtsmoosModule_1758;
 var __awtsmoosModule_1755;
+var __awtsmoosModule_1754;
 var __awtsmoosModule_1760;
 var __awtsmoosModule_1759;
 var __awtsmoosModule_1762;
-var __awtsmoosModule_1761;
-var __awtsmoosModule_1758;
 var __awtsmoosModule_1763;
-var __awtsmoosModule_1757;
-var __awtsmoosModule_1765;
+var __awtsmoosModule_1761;
 var __awtsmoosModule_1764;
-var __awtsmoosModule_1769;
-var __awtsmoosModule_1768;
+var __awtsmoosModule_1765;
 var __awtsmoosModule_1767;
-var __awtsmoosModule_1766;
+var __awtsmoosModule_1768;
+var __awtsmoosModule_1769;
 var __awtsmoosModule_1770;
-var __awtsmoosModule_1754;
-var __awtsmoosModule_1772;
-var __awtsmoosModule_1773;
 var __awtsmoosModule_1771;
-var __awtsmoosModule_1753;
-var __awtsmoosModule_1774;
-var __awtsmoosModule_1776;
+var __awtsmoosModule_1772;
+var __awtsmoosModule_1766;
 var __awtsmoosModule_1775;
+var __awtsmoosModule_1774;
 var __awtsmoosModule_1777;
-var __awtsmoosModule_1779;
+var __awtsmoosModule_1776;
 var __awtsmoosModule_1778;
-var __awtsmoosModule_1781;
-var __awtsmoosModule_1780;
+var __awtsmoosModule_1773;
 var __awtsmoosModule_1783;
 var __awtsmoosModule_1782;
-var __awtsmoosModule_1752;
-var __awtsmoosModule_1784;
-var __awtsmoosModule_1785;
-var __awtsmoosModule_1786;
-var __awtsmoosModule_1788;
-var __awtsmoosModule_1790;
-var __awtsmoosModule_1789;
-var __awtsmoosModule_1791;
 var __awtsmoosModule_1787;
+var __awtsmoosModule_1786;
+var __awtsmoosModule_1789;
+var __awtsmoosModule_1788;
+var __awtsmoosModule_1785;
+var __awtsmoosModule_1790;
+var __awtsmoosModule_1784;
 var __awtsmoosModule_1792;
-var __awtsmoosModule_1793;
-var __awtsmoosModule_1795;
+var __awtsmoosModule_1791;
 var __awtsmoosModule_1796;
+var __awtsmoosModule_1795;
 var __awtsmoosModule_1794;
+var __awtsmoosModule_1793;
 var __awtsmoosModule_1797;
-var __awtsmoosModule_1798;
+var __awtsmoosModule_1781;
 var __awtsmoosModule_1799;
 var __awtsmoosModule_1800;
+var __awtsmoosModule_1798;
+var __awtsmoosModule_1780;
 var __awtsmoosModule_1801;
-var __awtsmoosModule_1667;
 var __awtsmoosModule_1803;
-var __awtsmoosModule_1804;
-var __awtsmoosModule_1805;
-var __awtsmoosModule_1806;
-var __awtsmoosModule_1807;
 var __awtsmoosModule_1802;
+var __awtsmoosModule_1804;
+var __awtsmoosModule_1806;
+var __awtsmoosModule_1805;
 var __awtsmoosModule_1808;
+var __awtsmoosModule_1807;
 var __awtsmoosModule_1810;
 var __awtsmoosModule_1809;
-var __awtsmoosModule_1812;
+var __awtsmoosModule_1779;
 var __awtsmoosModule_1811;
-var __awtsmoosModule_1814;
 var __awtsmoosModule_1813;
-var __awtsmoosModule_1640;
-var __awtsmoosModule_1519;
-var __awtsmoosModule_1491;
+var __awtsmoosModule_1812;
+var __awtsmoosModule_1814;
 var __awtsmoosModule_1816;
-var __awtsmoosModule_1815;
 var __awtsmoosModule_1818;
-var __awtsmoosModule_1819;
 var __awtsmoosModule_1817;
-var __awtsmoosModule_1822;
+var __awtsmoosModule_1819;
+var __awtsmoosModule_1815;
+var __awtsmoosModule_1820;
 var __awtsmoosModule_1821;
 var __awtsmoosModule_1823;
-var __awtsmoosModule_1820;
+var __awtsmoosModule_1824;
+var __awtsmoosModule_1822;
 var __awtsmoosModule_1825;
 var __awtsmoosModule_1826;
 var __awtsmoosModule_1827;
-var __awtsmoosModule_1824;
-var __awtsmoosModule_1830;
-var __awtsmoosModule_1831;
+var __awtsmoosModule_1828;
 var __awtsmoosModule_1829;
+var __awtsmoosModule_1676;
+var __awtsmoosModule_1831;
+var __awtsmoosModule_1832;
 var __awtsmoosModule_1833;
 var __awtsmoosModule_1834;
-var __awtsmoosModule_1832;
-var __awtsmoosModule_1828;
+var __awtsmoosModule_1835;
+var __awtsmoosModule_1830;
 var __awtsmoosModule_1836;
-var __awtsmoosModule_1837;
-var __awtsmoosModule_1839;
-var __awtsmoosModule_1841;
-var __awtsmoosModule_1840;
 var __awtsmoosModule_1838;
+var __awtsmoosModule_1837;
+var __awtsmoosModule_1840;
+var __awtsmoosModule_1842;
 var __awtsmoosModule_1843;
 var __awtsmoosModule_1844;
-var __awtsmoosModule_1845;
-var __awtsmoosModule_1847;
-var __awtsmoosModule_1848;
+var __awtsmoosModule_1841;
+var __awtsmoosModule_1839;
 var __awtsmoosModule_1846;
-var __awtsmoosModule_1850;
+var __awtsmoosModule_1845;
+var __awtsmoosModule_1649;
+var __awtsmoosModule_1847;
+var __awtsmoosModule_1526;
+var __awtsmoosModule_1498;
 var __awtsmoosModule_1849;
+var __awtsmoosModule_1848;
 var __awtsmoosModule_1851;
 var __awtsmoosModule_1852;
-var __awtsmoosModule_1856;
+var __awtsmoosModule_1850;
 var __awtsmoosModule_1855;
 var __awtsmoosModule_1854;
-var __awtsmoosModule_1857;
-var __awtsmoosModule_1858;
+var __awtsmoosModule_1856;
 var __awtsmoosModule_1853;
-var __awtsmoosModule_1842;
 var __awtsmoosModule_1859;
+var __awtsmoosModule_1858;
 var __awtsmoosModule_1860;
 var __awtsmoosModule_1861;
+var __awtsmoosModule_1862;
+var __awtsmoosModule_1857;
 var __awtsmoosModule_1864;
 var __awtsmoosModule_1865;
-var __awtsmoosModule_1863;
 var __awtsmoosModule_1866;
-var __awtsmoosModule_1862;
-var __awtsmoosModule_1868;
-var __awtsmoosModule_1870;
+var __awtsmoosModule_1863;
 var __awtsmoosModule_1869;
+var __awtsmoosModule_1870;
+var __awtsmoosModule_1868;
 var __awtsmoosModule_1872;
-var __awtsmoosModule_1871;
 var __awtsmoosModule_1873;
+var __awtsmoosModule_1871;
+var __awtsmoosModule_1867;
 var __awtsmoosModule_1875;
 var __awtsmoosModule_1876;
 var __awtsmoosModule_1878;
-var __awtsmoosModule_1881;
-var __awtsmoosModule_1882;
 var __awtsmoosModule_1880;
 var __awtsmoosModule_1879;
-var __awtsmoosModule_1884;
-var __awtsmoosModule_1885;
-var __awtsmoosModule_1883;
 var __awtsmoosModule_1877;
+var __awtsmoosModule_1882;
+var __awtsmoosModule_1883;
+var __awtsmoosModule_1884;
 var __awtsmoosModule_1886;
-var __awtsmoosModule_1888;
+var __awtsmoosModule_1887;
+var __awtsmoosModule_1885;
 var __awtsmoosModule_1889;
+var __awtsmoosModule_1888;
 var __awtsmoosModule_1890;
-var __awtsmoosModule_1892;
-var __awtsmoosModule_1893;
+var __awtsmoosModule_1891;
 var __awtsmoosModule_1895;
 var __awtsmoosModule_1894;
-var __awtsmoosModule_1891;
-var __awtsmoosModule_1887;
-var __awtsmoosModule_1874;
-var __awtsmoosModule_1867;
+var __awtsmoosModule_1893;
 var __awtsmoosModule_1896;
+var __awtsmoosModule_1897;
+var __awtsmoosModule_1892;
+var __awtsmoosModule_1881;
+var __awtsmoosModule_1898;
 var __awtsmoosModule_1899;
 var __awtsmoosModule_1900;
-var __awtsmoosModule_1898;
-var __awtsmoosModule_1897;
-var __awtsmoosModule_1835;
-var __awtsmoosModule_1901;
-var __awtsmoosModule_1904;
-var __awtsmoosModule_1905;
-var __awtsmoosModule_1906;
-var __awtsmoosModule_1907;
-var __awtsmoosModule_1908;
 var __awtsmoosModule_1903;
-var __awtsmoosModule_1909;
-var __awtsmoosModule_1910;
+var __awtsmoosModule_1904;
 var __awtsmoosModule_1902;
-var __awtsmoosModule_1912;
-var __awtsmoosModule_1913;
+var __awtsmoosModule_1905;
+var __awtsmoosModule_1901;
+var __awtsmoosModule_1907;
+var __awtsmoosModule_1909;
+var __awtsmoosModule_1908;
 var __awtsmoosModule_1911;
+var __awtsmoosModule_1910;
+var __awtsmoosModule_1912;
 var __awtsmoosModule_1914;
-var __awtsmoosModule_1916;
 var __awtsmoosModule_1915;
-var __awtsmoosModule_1918;
+var __awtsmoosModule_1917;
 var __awtsmoosModule_1920;
 var __awtsmoosModule_1921;
 var __awtsmoosModule_1919;
-var __awtsmoosModule_1917;
-var __awtsmoosModule_1924;
+var __awtsmoosModule_1918;
 var __awtsmoosModule_1923;
-var __awtsmoosModule_1926;
+var __awtsmoosModule_1924;
+var __awtsmoosModule_1922;
+var __awtsmoosModule_1916;
 var __awtsmoosModule_1925;
 var __awtsmoosModule_1927;
-var __awtsmoosModule_1929;
 var __awtsmoosModule_1928;
-var __awtsmoosModule_1922;
-var __awtsmoosModule_1933;
-var __awtsmoosModule_1934;
-var __awtsmoosModule_1935;
-var __awtsmoosModule_1936;
-var __awtsmoosModule_1937;
-var __awtsmoosModule_1938;
-var __awtsmoosModule_1932;
-var __awtsmoosModule_1941;
-var __awtsmoosModule_1940;
-var __awtsmoosModule_1939;
+var __awtsmoosModule_1929;
 var __awtsmoosModule_1931;
+var __awtsmoosModule_1932;
+var __awtsmoosModule_1934;
+var __awtsmoosModule_1933;
+var __awtsmoosModule_1930;
+var __awtsmoosModule_1926;
+var __awtsmoosModule_1913;
+var __awtsmoosModule_1906;
+var __awtsmoosModule_1935;
+var __awtsmoosModule_1938;
+var __awtsmoosModule_1939;
+var __awtsmoosModule_1937;
+var __awtsmoosModule_1936;
+var __awtsmoosModule_1874;
+var __awtsmoosModule_1940;
+var __awtsmoosModule_1943;
 var __awtsmoosModule_1944;
 var __awtsmoosModule_1945;
 var __awtsmoosModule_1946;
 var __awtsmoosModule_1947;
 var __awtsmoosModule_1948;
 var __awtsmoosModule_1949;
+var __awtsmoosModule_1942;
 var __awtsmoosModule_1950;
 var __awtsmoosModule_1951;
-var __awtsmoosModule_1952;
+var __awtsmoosModule_1941;
 var __awtsmoosModule_1953;
 var __awtsmoosModule_1954;
+var __awtsmoosModule_1952;
 var __awtsmoosModule_1955;
-var __awtsmoosModule_1956;
 var __awtsmoosModule_1957;
+var __awtsmoosModule_1956;
 var __awtsmoosModule_1959;
-var __awtsmoosModule_1958;
-var __awtsmoosModule_1960;
 var __awtsmoosModule_1961;
 var __awtsmoosModule_1962;
+var __awtsmoosModule_1960;
+var __awtsmoosModule_1958;
 var __awtsmoosModule_1963;
-var __awtsmoosModule_1964;
-var __awtsmoosModule_1965;
 var __awtsmoosModule_1966;
-var __awtsmoosModule_1967;
+var __awtsmoosModule_1965;
 var __awtsmoosModule_1968;
+var __awtsmoosModule_1967;
 var __awtsmoosModule_1969;
-var __awtsmoosModule_1970;
 var __awtsmoosModule_1971;
-var __awtsmoosModule_1973;
-var __awtsmoosModule_1974;
-var __awtsmoosModule_1976;
-var __awtsmoosModule_1978;
-var __awtsmoosModule_1977;
-var __awtsmoosModule_1979;
+var __awtsmoosModule_1970;
+var __awtsmoosModule_1964;
 var __awtsmoosModule_1975;
-var __awtsmoosModule_1972;
-var __awtsmoosModule_1943;
-var __awtsmoosModule_1942;
+var __awtsmoosModule_1976;
+var __awtsmoosModule_1977;
+var __awtsmoosModule_1978;
+var __awtsmoosModule_1979;
+var __awtsmoosModule_1981;
 var __awtsmoosModule_1980;
 var __awtsmoosModule_1982;
-var __awtsmoosModule_1981;
-var __awtsmoosModule_1930;
 var __awtsmoosModule_1983;
-var __awtsmoosModule_1490;
-var __awtsmoosModule_552;
-var __awtsmoosModule_551;
-var __awtsmoosModule_1985;
+var __awtsmoosModule_1974;
+var __awtsmoosModule_1984;
+var __awtsmoosModule_1973;
+var __awtsmoosModule_1987;
+var __awtsmoosModule_1988;
+var __awtsmoosModule_1989;
+var __awtsmoosModule_1990;
 var __awtsmoosModule_1991;
 var __awtsmoosModule_1992;
-var __awtsmoosModule_1990;
-var __awtsmoosModule_1989;
+var __awtsmoosModule_1993;
 var __awtsmoosModule_1994;
+var __awtsmoosModule_1995;
 var __awtsmoosModule_1996;
 var __awtsmoosModule_1997;
+var __awtsmoosModule_1998;
 var __awtsmoosModule_1999;
 var __awtsmoosModule_2000;
 var __awtsmoosModule_2001;
 var __awtsmoosModule_2003;
+var __awtsmoosModule_2002;
 var __awtsmoosModule_2004;
 var __awtsmoosModule_2005;
-var __awtsmoosModule_2002;
-var __awtsmoosModule_1998;
 var __awtsmoosModule_2006;
 var __awtsmoosModule_2007;
-var __awtsmoosModule_1995;
 var __awtsmoosModule_2008;
-var __awtsmoosModule_1993;
-var __awtsmoosModule_1988;
 var __awtsmoosModule_2009;
 var __awtsmoosModule_2010;
 var __awtsmoosModule_2011;
+var __awtsmoosModule_2012;
 var __awtsmoosModule_2013;
 var __awtsmoosModule_2014;
-var __awtsmoosModule_2012;
 var __awtsmoosModule_2015;
 var __awtsmoosModule_2016;
+var __awtsmoosModule_2018;
 var __awtsmoosModule_2019;
 var __awtsmoosModule_2021;
 var __awtsmoosModule_2023;
-var __awtsmoosModule_2024;
-var __awtsmoosModule_2025;
-var __awtsmoosModule_2026;
-var __awtsmoosModule_2028;
-var __awtsmoosModule_2029;
-var __awtsmoosModule_2027;
 var __awtsmoosModule_2022;
-var __awtsmoosModule_2030;
-var __awtsmoosModule_2031;
+var __awtsmoosModule_2024;
 var __awtsmoosModule_2020;
-var __awtsmoosModule_2035;
-var __awtsmoosModule_2034;
-var __awtsmoosModule_2033;
-var __awtsmoosModule_2036;
-var __awtsmoosModule_2032;
-var __awtsmoosModule_2018;
+var __awtsmoosModule_2017;
+var __awtsmoosModule_1986;
+var __awtsmoosModule_1985;
+var __awtsmoosModule_2026;
+var __awtsmoosModule_2025;
+var __awtsmoosModule_2028;
+var __awtsmoosModule_2027;
+var __awtsmoosModule_1972;
+var __awtsmoosModule_2029;
+var __awtsmoosModule_1497;
+var __awtsmoosModule_552;
+var __awtsmoosModule_551;
+var __awtsmoosModule_2031;
 var __awtsmoosModule_2037;
 var __awtsmoosModule_2038;
-var __awtsmoosModule_2041;
-var __awtsmoosModule_2042;
+var __awtsmoosModule_2036;
+var __awtsmoosModule_2035;
 var __awtsmoosModule_2040;
-var __awtsmoosModule_2044;
-var __awtsmoosModule_2045;
+var __awtsmoosModule_2042;
 var __awtsmoosModule_2043;
-var __awtsmoosModule_2039;
-var __awtsmoosModule_2017;
-var __awtsmoosModule_1987;
-var __awtsmoosModule_1986;
-var __awtsmoosModule_1984;
+var __awtsmoosModule_2045;
 var __awtsmoosModule_2046;
+var __awtsmoosModule_2047;
+var __awtsmoosModule_2049;
+var __awtsmoosModule_2050;
+var __awtsmoosModule_2051;
+var __awtsmoosModule_2048;
+var __awtsmoosModule_2044;
+var __awtsmoosModule_2052;
+var __awtsmoosModule_2053;
+var __awtsmoosModule_2041;
+var __awtsmoosModule_2054;
+var __awtsmoosModule_2039;
+var __awtsmoosModule_2034;
+var __awtsmoosModule_2055;
+var __awtsmoosModule_2056;
+var __awtsmoosModule_2057;
+var __awtsmoosModule_2059;
+var __awtsmoosModule_2060;
+var __awtsmoosModule_2058;
+var __awtsmoosModule_2061;
+var __awtsmoosModule_2062;
+var __awtsmoosModule_2065;
+var __awtsmoosModule_2067;
+var __awtsmoosModule_2069;
+var __awtsmoosModule_2070;
+var __awtsmoosModule_2071;
+var __awtsmoosModule_2072;
+var __awtsmoosModule_2074;
+var __awtsmoosModule_2075;
+var __awtsmoosModule_2073;
+var __awtsmoosModule_2068;
+var __awtsmoosModule_2076;
+var __awtsmoosModule_2077;
+var __awtsmoosModule_2066;
+var __awtsmoosModule_2081;
+var __awtsmoosModule_2080;
+var __awtsmoosModule_2079;
+var __awtsmoosModule_2082;
+var __awtsmoosModule_2078;
+var __awtsmoosModule_2064;
+var __awtsmoosModule_2083;
+var __awtsmoosModule_2084;
+var __awtsmoosModule_2087;
+var __awtsmoosModule_2088;
+var __awtsmoosModule_2086;
+var __awtsmoosModule_2090;
+var __awtsmoosModule_2091;
+var __awtsmoosModule_2089;
+var __awtsmoosModule_2085;
+var __awtsmoosModule_2063;
+var __awtsmoosModule_2033;
+var __awtsmoosModule_2032;
+var __awtsmoosModule_2030;
+var __awtsmoosModule_2092;
 var __awtsmoosModule_1;
 var __awtsmoosModule_0;
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/DeferredAppModuleUrl.js */
@@ -44735,7 +44781,7 @@ function once(callback) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/GameplayQuietWindow.js */
-__awtsmoosModule_547 = (() => {
+__awtsmoosModule_546 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -44847,7 +44893,7 @@ __exports.gameplayQuietWindowPolicy = gameplayQuietWindowPolicy;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainHydrationSchedule.js */
-__awtsmoosModule_546 = (() => {
+__awtsmoosModule_545 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -44859,7 +44905,7 @@ const __exports = {};
  * The Awtsmoos lets movement, combat, quests, and UI breathe before distant garments arrive;
  * Awtsmoos.com preserves responsive play, then lets textured earth awaken and thrive.
  */
-var afterGameplayQuietWindow = __awtsmoosModule_547.afterGameplayQuietWindow;
+var afterGameplayQuietWindow = __awtsmoosModule_546.afterGameplayQuietWindow;
 
 function scheduleMinimalMeadowTerrainHydration(
 	runtime,
@@ -44890,7 +44936,7 @@ __exports.scheduleMinimalMeadowTerrainHydration = scheduleMinimalMeadowTerrainHy
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalMeadowFullReadiness.js */
-__awtsmoosModule_545 = (() => {
+__awtsmoosModule_547 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -44903,7 +44949,7 @@ const __exports = {};
  * records renderer and feature truth first, then starts remote enrichment after a quiet window.
  */
 
-var scheduleMinimalMeadowTerrainHydration = __awtsmoosModule_546.scheduleMinimalMeadowTerrainHydration;
+var scheduleMinimalMeadowTerrainHydration = __awtsmoosModule_545.scheduleMinimalMeadowTerrainHydration;
 
 function beginMinimalMeadowFullReadiness(options) {
 	const {
@@ -45236,12 +45282,13 @@ const __exports = {};
 
 /**
  * @file MinimalSharedMeadowReadinessFlow.js
- * @description Waits only for compact essential features, releases the veil, then settles full readiness.
- * The Awtsmoos opens the road when its near vessels are truly present while distant richness continues;
- * Awtsmoos.com awaits combat, UI, quest, recovery, and streaming without awaiting the optional world dream.
+ * @description Confirms essential play, schedules deferred terrain, releases the veil, then settles richness.
+ * The Awtsmoos opens the near road and appoints the distant garment in the same truthful chapter;
+ * Awtsmoos.com creates terrain's quiet-window handle before optional renderer settlement can delay it.
  */
 
-var beginMinimalMeadowFullReadiness = __awtsmoosModule_545.beginMinimalMeadowFullReadiness;
+var scheduleMinimalMeadowTerrainHydration = __awtsmoosModule_545.scheduleMinimalMeadowTerrainHydration;
+var beginMinimalMeadowFullReadiness = __awtsmoosModule_547.beginMinimalMeadowFullReadiness;
 var awaitMinimalMeadowReadiness = __awtsmoosModule_548.awaitMinimalMeadowReadiness;
 var awaitMinimalMeadowPaint = __awtsmoosModule_550.awaitMinimalMeadowPaint;
 var settleMinimalMeadowFeatures = __awtsmoosModule_550.settleMinimalMeadowFeatures;
@@ -45270,6 +45317,11 @@ async function runMinimalSharedMeadowReadiness(options) {
 		environment,
 		featureSettlement
 	);
+	const terrainSchedule = scheduleMinimalMeadowTerrainHydration(
+		diagnostics.runtime,
+		environment
+	);
+	diagnostics.terrainHydrationSchedule = terrainSchedule;
 	loading.finish();
 	await awaitMinimalMeadowPaint(environment);
 	const fullReceipt = await beginMinimalMeadowFullReadiness({
@@ -45284,7 +45336,8 @@ async function runMinimalSharedMeadowReadiness(options) {
 	});
 	return Object.freeze({
 		essential: essentialReceipt,
-		full: fullReceipt
+		full: fullReceipt,
+		terrainScheduled: Boolean(terrainSchedule)
 	});
 }
 
@@ -103811,8 +103864,67 @@ function vector(value, label) {
 }
 return Object.freeze(__exports);
 })();
-/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieApiError.js */
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCompositionConstants.js */
 __awtsmoosModule_1470 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieCompositionConstants.js
+ * @description Declares bounded composition vocabulary shared by authoring, validation, and rendering.
+ * The Awtsmoos contains every possible image without boundary; Awtsmoos.com gives each
+ * finite composition measured layers, masks, blend vessels, and nesting shores that remain safe.
+ */
+
+const MOVIE_COMPOSITION_SCHEMA_VERSION = 1;
+__exports.MOVIE_COMPOSITION_SCHEMA_VERSION = MOVIE_COMPOSITION_SCHEMA_VERSION;
+
+
+const MOVIE_COMPOSITION_LIMITS = Object.freeze({
+	compositions: 128,
+	layers: 256,
+	masksPerLayer: 32,
+	nestingDepth: 16,
+	pointsPerMask: 128
+});
+__exports.MOVIE_COMPOSITION_LIMITS = MOVIE_COMPOSITION_LIMITS;
+
+
+const MOVIE_COMPOSITION_BLEND_MODES = Object.freeze([
+	'normal',
+	'multiply',
+	'screen',
+	'overlay',
+	'add',
+	'subtract',
+	'darken',
+	'lighten'
+]);
+__exports.MOVIE_COMPOSITION_BLEND_MODES = MOVIE_COMPOSITION_BLEND_MODES;
+
+
+const MOVIE_COMPOSITION_LAYER_KINDS = Object.freeze([
+	'composition',
+	'media',
+	'track',
+	'solid',
+	'text'
+]);
+__exports.MOVIE_COMPOSITION_LAYER_KINDS = MOVIE_COMPOSITION_LAYER_KINDS;
+
+
+const MOVIE_COMPOSITION_MASK_MODES = Object.freeze([
+	'add',
+	'subtract',
+	'intersect'
+]);
+__exports.MOVIE_COMPOSITION_MASK_MODES = MOVIE_COMPOSITION_MASK_MODES;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieApiError.js */
+__awtsmoosModule_1472 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -103894,7 +104006,7 @@ function safeDetails(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCanonicalJsonWalker.js */
-__awtsmoosModule_1473 = (() => {
+__awtsmoosModule_1475 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -103907,7 +104019,7 @@ const __exports = {};
  * so no cycle, accessor, executable value, or polluted key can hide inside a movie document.
  */
 
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
 
 const MOVIE_CANONICAL_JSON_MAX_DEPTH = 64;
 __exports.MOVIE_CANONICAL_JSON_MAX_DEPTH = MOVIE_CANONICAL_JSON_MAX_DEPTH;
@@ -104015,7 +104127,7 @@ function invalid(code, message, path) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCanonicalJson.js */
-__awtsmoosModule_1472 = (() => {
+__awtsmoosModule_1474 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -104028,8 +104140,8 @@ const __exports = {};
  * while the guarded walker inspects every finite path for hidden executable behavior.
  */
 
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var walkCanonicalMovieValue = __awtsmoosModule_1473.walkCanonicalMovieValue;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var walkCanonicalMovieValue = __awtsmoosModule_1475.walkCanonicalMovieValue;
 
 function canonicalMovieValue(value, options = {}) {
 	return walkCanonicalMovieValue(value, options);
@@ -104073,7 +104185,7 @@ __exports.movieJsonChecksum = movieJsonChecksum;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProjectSnapshot.js */
-__awtsmoosModule_1471 = (() => {
+__awtsmoosModule_1473 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -104086,7 +104198,7 @@ const __exports = {};
  * gives agents a truthful immutable witness so mutations must return through explicit commands.
  */
 
-var canonicalMovieValue = __awtsmoosModule_1472.canonicalMovieValue;
+var canonicalMovieValue = __awtsmoosModule_1474.canonicalMovieValue;
 
 function createMovieProjectSnapshot(project) {
 	return freezeMovieSnapshot(canonicalMovieValue(project));
@@ -104109,8 +104221,560 @@ function freezeMovieSnapshot(value) {
 }
 return Object.freeze(__exports);
 })();
-/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieMediaCatalog.js */
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCompositionGraph.js */
+__awtsmoosModule_1471 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieCompositionGraph.js
+ * @description Validates nested composition references and exposes deterministic dependency queries.
+ * The Awtsmoos includes every level without recursion or lack; Awtsmoos.com guards finite
+ * nesting from missing vessels and cycles while revealing each reusable composition relationship.
+ */
+
+var MOVIE_COMPOSITION_LIMITS = __awtsmoosModule_1470.MOVIE_COMPOSITION_LIMITS;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+
+function validateMovieCompositionGraph(compositions) {
+	const graph = prepareGraph(compositions);
+	for (const id of graph.byId.keys()) visitGraph(id, graph, [], new Set());
+	return true;
+}
+
+
+__exports.validateMovieCompositionGraph = validateMovieCompositionGraph;
+function createMovieCompositionGraph(compositions) {
+	const graph = prepareGraph(compositions);
+	for (const id of graph.byId.keys()) visitGraph(id, graph, [], new Set());
+	return createMovieProjectSnapshot({
+		edges: [...graph.references].flatMap(([from, targets]) => (
+			[...targets].map(to => ({ from, to }))
+		)),
+		nodes: [...graph.byId.values()].map(item => ({
+			id: item.id,
+			layerCount: item.layers.length,
+			name: item.name
+		}))
+	});
+}
+
+
+__exports.createMovieCompositionGraph = createMovieCompositionGraph;
+function findMovieCompositionDependencies(compositions, compositionId) {
+	const graph = prepareGraph(compositions);
+	requireComposition(graph, compositionId);
+	const found = new Set();
+	const visit = id => graph.references.get(id).forEach(target => {
+		if (found.has(target)) return;
+		found.add(target);
+		visit(target);
+	});
+	visit(String(compositionId));
+	return createMovieProjectSnapshot([...found]);
+}
+
+
+__exports.findMovieCompositionDependencies = findMovieCompositionDependencies;
+function findMovieCompositionUsages(compositions, compositionId) {
+	const graph = prepareGraph(compositions);
+	const id = String(compositionId);
+	requireComposition(graph, id);
+	return createMovieProjectSnapshot([...graph.references]
+		.filter(([, targets]) => targets.has(id))
+		.map(([source]) => source));
+}
+
+
+__exports.findMovieCompositionUsages = findMovieCompositionUsages;
+function prepareGraph(compositions) {
+	const byId = new Map(compositions.map(item => [item.id, item]));
+	const references = new Map();
+	for (const composition of compositions) {
+		const targets = new Set(composition.layers
+			.filter(layer => layer.kind === 'composition')
+			.map(layer => layer.sourceId));
+		for (const target of targets) requireComposition({ byId }, target, composition.id);
+		references.set(composition.id, targets);
+	}
+	return { byId, references };
+}
+
+function visitGraph(id, graph, path, complete) {
+	if (path.includes(id)) {
+		throw new MovieApiError(
+			'MOVIE_COMPOSITION_CYCLE',
+			`Composition cycle: ${[...path, id].join(' -> ')}.`
+		);
+	}
+	if (complete.has(id)) return;
+	const nextPath = [...path, id];
+	if (nextPath.length > MOVIE_COMPOSITION_LIMITS.nestingDepth) {
+		throw new MovieApiError(
+			'MOVIE_COMPOSITION_NESTING_LIMIT',
+			`Composition nesting exceeds ${MOVIE_COMPOSITION_LIMITS.nestingDepth} levels.`
+		);
+	}
+	graph.references.get(id).forEach(target => visitGraph(target, graph, nextPath, complete));
+	complete.add(id);
+}
+
+function requireComposition(graph, compositionId, ownerId = null) {
+	const id = String(compositionId || '');
+	if (graph.byId.has(id)) return graph.byId.get(id);
+	throw new MovieApiError(
+		'MOVIE_COMPOSITION_NOT_FOUND',
+		`Composition ${id || '(empty)'} referenced${ownerId ? ` by ${ownerId}` : ''} was not found.`,
+		{ compositionId: id, ownerId }
+	);
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCompositionValues.js */
+__awtsmoosModule_1478 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieCompositionValues.js
+ * @description Normalizes identifiers, finite numbers, colors, and closed vocabularies.
+ * The Awtsmoos is beyond number, name, and hue; Awtsmoos.com gives each finite value
+ * a canonical shore so compositions remain deterministic, portable, and safe to inspect.
+ */
+
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+
+const ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,95}$/;
+const COLOR_PATTERN = /^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$/;
+
+function movieCompositionError(code, message, details = {}) {
+	throw new MovieApiError(code, message, details);
+}
+
+
+__exports.movieCompositionError = movieCompositionError;
+function normalizeMovieCompositionId(value, label = 'composition id') {
+	const id = String(value || '').trim();
+	if (!ID_PATTERN.test(id)) {
+		movieCompositionError(
+			'INVALID_MOVIE_COMPOSITION_ID',
+			`${label} must be 1-96 safe identifier characters.`,
+			{ value: id }
+		);
+	}
+	return id;
+}
+
+
+__exports.normalizeMovieCompositionId = normalizeMovieCompositionId;
+function normalizeMovieCompositionNumber(
+	value,
+	minimum,
+	maximum,
+	fallback,
+	label
+) {
+	if (value == null || value === '') return round(fallback);
+	const number = Number(value);
+	if (!Number.isFinite(number)) {
+		movieCompositionError(
+			'INVALID_MOVIE_COMPOSITION_NUMBER',
+			`${label} must be finite.`,
+			{ value }
+		);
+	}
+	return round(Math.max(minimum, Math.min(maximum, number)));
+}
+
+
+__exports.normalizeMovieCompositionNumber = normalizeMovieCompositionNumber;
+function normalizeMovieCompositionColor(value, fallback = '#00000000') {
+	const color = String(value || fallback);
+	if (!COLOR_PATTERN.test(color)) {
+		movieCompositionError(
+			'INVALID_MOVIE_COMPOSITION_COLOR',
+			`Composition color ${color} must be #RRGGBB or #RRGGBBAA.`
+		);
+	}
+	return color.toLowerCase();
+}
+
+
+__exports.normalizeMovieCompositionColor = normalizeMovieCompositionColor;
+function normalizeMovieCompositionChoice(value, allowed, fallback, label) {
+	const choice = String(value || fallback);
+	if (!allowed.includes(choice)) {
+		movieCompositionError(
+			'UNKNOWN_MOVIE_COMPOSITION_CHOICE',
+			`Unknown ${label} ${choice}.`,
+			{ allowed, value: choice }
+		);
+	}
+	return choice;
+}
+
+
+__exports.normalizeMovieCompositionChoice = normalizeMovieCompositionChoice;
+function assertUniqueMovieCompositionIds(items, label) {
+	const ids = new Set();
+	for (const item of items) {
+		if (ids.has(item.id)) {
+			movieCompositionError(
+				'DUPLICATE_MOVIE_COMPOSITION_ID',
+				`Duplicate ${label} ${item.id}.`
+			);
+		}
+		ids.add(item.id);
+	}
+}
+
+
+__exports.assertUniqueMovieCompositionIds = assertUniqueMovieCompositionIds;
+function round(value) {
+	return Number(Number(value).toFixed(6));
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCompositionMaskContract.js */
+__awtsmoosModule_1477 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieCompositionMaskContract.js
+ * @description Normalizes bounded polygon masks for reusable composition layers.
+ * The Awtsmoos is beyond concealment and revelation; Awtsmoos.com gives each finite mask
+ * named points, feather, mode, and opacity so compositing remains inspectable and deterministic.
+ */
+
+var MOVIE_COMPOSITION_LIMITS = __awtsmoosModule_1470.MOVIE_COMPOSITION_LIMITS;
+var MOVIE_COMPOSITION_MASK_MODES = __awtsmoosModule_1470.MOVIE_COMPOSITION_MASK_MODES;
+var assertUniqueMovieCompositionIds = __awtsmoosModule_1478.assertUniqueMovieCompositionIds;
+var movieCompositionError = __awtsmoosModule_1478.movieCompositionError;
+var normalizeMovieCompositionChoice = __awtsmoosModule_1478.normalizeMovieCompositionChoice;
+var normalizeMovieCompositionId = __awtsmoosModule_1478.normalizeMovieCompositionId;
+var normalizeMovieCompositionNumber = __awtsmoosModule_1478.normalizeMovieCompositionNumber;
+
+function normalizeMovieCompositionMasks(source) {
+	const masks = array(source).map((mask, index) => normalizeMask(mask, index));
+	if (masks.length > MOVIE_COMPOSITION_LIMITS.masksPerLayer) {
+		movieCompositionError(
+			'TOO_MANY_MOVIE_COMPOSITION_MASKS',
+			`A composition layer supports at most ${MOVIE_COMPOSITION_LIMITS.masksPerLayer} masks.`
+		);
+	}
+	assertUniqueMovieCompositionIds(masks, 'composition mask id');
+	return masks;
+}
+
+
+__exports.normalizeMovieCompositionMasks = normalizeMovieCompositionMasks;
+function normalizeMask(source, index) {
+	const points = array(source?.points).map((point, pointIndex) => ({
+		x: normalizeMovieCompositionNumber(
+			point?.x, -100000, 100000, 0, `Mask point ${pointIndex + 1} x`
+		),
+		y: normalizeMovieCompositionNumber(
+			point?.y, -100000, 100000, 0, `Mask point ${pointIndex + 1} y`
+		)
+	}));
+	if (points.length < 3 || points.length > MOVIE_COMPOSITION_LIMITS.pointsPerMask) {
+		movieCompositionError(
+			'INVALID_MOVIE_COMPOSITION_MASK_POINTS',
+			`A composition mask requires 3-${MOVIE_COMPOSITION_LIMITS.pointsPerMask} points.`
+		);
+	}
+	return {
+		feather: normalizeMovieCompositionNumber(
+			source?.feather, 0, 10000, 0, 'Mask feather'
+		),
+		id: normalizeMovieCompositionId(source?.id || `mask-${index + 1}`, 'mask id'),
+		inverted: Boolean(source?.inverted),
+		mode: normalizeMovieCompositionChoice(
+			source?.mode,
+			MOVIE_COMPOSITION_MASK_MODES,
+			'add',
+			'mask mode'
+		),
+		name: String(source?.name || `Mask ${index + 1}`).slice(0, 160),
+		opacity: normalizeMovieCompositionNumber(
+			source?.opacity, 0, 1, 1, 'Mask opacity'
+		),
+		points
+	};
+}
+
+function array(value) {
+	return Array.isArray(value) ? value : [];
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCompositionTransformContract.js */
+__awtsmoosModule_1479 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieCompositionTransformContract.js
+ * @description Normalizes finite two-and-a-half-dimensional layer transforms.
+ * The Awtsmoos is beyond position, scale, anchor, and turning; Awtsmoos.com gives each
+ * finite layer one explicit transform vessel ready for preview, nesting, and exact evaluation.
+ */
+
+var normalizeMovieCompositionNumber = __awtsmoosModule_1478.normalizeMovieCompositionNumber;
+
+function normalizeMovieCompositionTransform(source = {}) {
+	return {
+		anchorX: number(source.anchorX, -100000, 100000, 0, 'Transform anchor x'),
+		anchorY: number(source.anchorY, -100000, 100000, 0, 'Transform anchor y'),
+		opacity: number(source.opacity, 0, 1, 1, 'Transform opacity'),
+		rotation: number(source.rotation, -360000, 360000, 0, 'Transform rotation'),
+		scaleX: number(source.scaleX, -1000, 1000, 1, 'Transform scale x'),
+		scaleY: number(source.scaleY, -1000, 1000, 1, 'Transform scale y'),
+		x: number(source.x, -100000, 100000, 0, 'Transform x'),
+		y: number(source.y, -100000, 100000, 0, 'Transform y'),
+		z: number(source.z, -100000, 100000, 0, 'Transform z')
+	};
+}
+
+
+__exports.normalizeMovieCompositionTransform = normalizeMovieCompositionTransform;
+function combineMovieCompositionTransforms(parent, child) {
+	return {
+		anchorX: child.anchorX,
+		anchorY: child.anchorY,
+		opacity: number(
+			parent.opacity * child.opacity,
+			0,
+			1,
+			1,
+			'Combined transform opacity'
+		),
+		rotation: parent.rotation + child.rotation,
+		scaleX: parent.scaleX * child.scaleX,
+		scaleY: parent.scaleY * child.scaleY,
+		x: parent.x + (child.x * parent.scaleX),
+		y: parent.y + (child.y * parent.scaleY),
+		z: parent.z + child.z
+	};
+}
+
+
+__exports.combineMovieCompositionTransforms = combineMovieCompositionTransforms;
+function identityMovieCompositionTransform() {
+	return normalizeMovieCompositionTransform();
+}
+
+
+__exports.identityMovieCompositionTransform = identityMovieCompositionTransform;
+function number(value, minimum, maximum, fallback, label) {
+	return normalizeMovieCompositionNumber(value, minimum, maximum, fallback, label);
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCompositionLayerContract.js */
+__awtsmoosModule_1476 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieCompositionLayerContract.js
+ * @description Normalizes timed, masked, transformed, reusable composition layers.
+ * The Awtsmoos is beyond foreground and background; Awtsmoos.com orders finite vessels
+ * with one source, one timing window, and transparent properties a renderer can faithfully reveal.
+ */
+
+var MOVIE_COMPOSITION_BLEND_MODES = __awtsmoosModule_1470.MOVIE_COMPOSITION_BLEND_MODES;
+var MOVIE_COMPOSITION_LAYER_KINDS = __awtsmoosModule_1470.MOVIE_COMPOSITION_LAYER_KINDS;
+var normalizeMovieCompositionMasks = __awtsmoosModule_1477.normalizeMovieCompositionMasks;
+var normalizeMovieCompositionTransform = __awtsmoosModule_1479.normalizeMovieCompositionTransform;
+var movieCompositionError = __awtsmoosModule_1478.movieCompositionError;
+var normalizeMovieCompositionChoice = __awtsmoosModule_1478.normalizeMovieCompositionChoice;
+var normalizeMovieCompositionColor = __awtsmoosModule_1478.normalizeMovieCompositionColor;
+var normalizeMovieCompositionId = __awtsmoosModule_1478.normalizeMovieCompositionId;
+var normalizeMovieCompositionNumber = __awtsmoosModule_1478.normalizeMovieCompositionNumber;
+
+const REFERENCED_KINDS = new Set(['composition', 'media', 'track']);
+
+function normalizeMovieCompositionLayer(source, index, compositionDuration) {
+	const kind = normalizeMovieCompositionChoice(
+		source?.kind,
+		MOVIE_COMPOSITION_LAYER_KINDS,
+		'solid',
+		'composition layer kind'
+	);
+	const sourceId = normalizeSourceId(source?.sourceId, kind);
+	const start = number(source?.start, 0, compositionDuration, 0, 'Layer start');
+	return {
+		audioEnabled: source?.audioEnabled !== false,
+		blendMode: normalizeMovieCompositionChoice(
+			source?.blendMode,
+			MOVIE_COMPOSITION_BLEND_MODES,
+			'normal',
+			'composition blend mode'
+		),
+		color: normalizeMovieCompositionColor(source?.color, '#ffffffff'),
+		duration: number(
+			source?.duration,
+			0.001,
+			Math.max(0.001, compositionDuration - start),
+			Math.max(0.001, compositionDuration - start),
+			'Layer duration'
+		),
+		enabled: source?.enabled !== false,
+		id: normalizeMovieCompositionId(source?.id || `layer-${index + 1}`, 'layer id'),
+		kind,
+		locked: Boolean(source?.locked),
+		loop: Boolean(source?.loop),
+		masks: normalizeMovieCompositionMasks(source?.masks),
+		name: String(source?.name || `Layer ${index + 1}`).slice(0, 160),
+		opacity: number(source?.opacity, 0, 1, 1, 'Layer opacity'),
+		playbackRate: number(source?.playbackRate, 0.01, 100, 1, 'Layer playback rate'),
+		sourceId,
+		sourceStart: number(source?.sourceStart, 0, 1000000, 0, 'Layer source start'),
+		start,
+		text: String(source?.text || '').slice(0, 100000),
+		transform: normalizeMovieCompositionTransform(source?.transform)
+	};
+}
+
+
+__exports.normalizeMovieCompositionLayer = normalizeMovieCompositionLayer;
+function normalizeSourceId(value, kind) {
+	const sourceId = value == null ? null : String(value).trim();
+	if (REFERENCED_KINDS.has(kind) && !sourceId) {
+		movieCompositionError(
+			'MOVIE_COMPOSITION_SOURCE_REQUIRED',
+			`Composition layer kind ${kind} requires sourceId.`
+		);
+	}
+	if (sourceId && sourceId.length > 256) {
+		movieCompositionError(
+			'INVALID_MOVIE_COMPOSITION_SOURCE',
+			'Composition layer sourceId must not exceed 256 characters.'
+		);
+	}
+	return sourceId;
+}
+
+function number(value, minimum, maximum, fallback, label) {
+	return normalizeMovieCompositionNumber(value, minimum, maximum, fallback, label);
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCompositionContract.js */
 __awtsmoosModule_1469 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieCompositionContract.js
+ * @description Normalizes reusable compositions and validates their complete nesting graph.
+ * The Awtsmoos is beyond frame, duration, and hierarchy; Awtsmoos.com gives finite films
+ * reusable canvases whose layers, work areas, cadence, and references remain canonical in every host.
+ */
+
+var MOVIE_COMPOSITION_LIMITS = __awtsmoosModule_1470.MOVIE_COMPOSITION_LIMITS;
+var MOVIE_COMPOSITION_SCHEMA_VERSION = __awtsmoosModule_1470.MOVIE_COMPOSITION_SCHEMA_VERSION;
+var validateMovieCompositionGraph = __awtsmoosModule_1471.validateMovieCompositionGraph;
+var normalizeMovieCompositionLayer = __awtsmoosModule_1476.normalizeMovieCompositionLayer;
+var assertUniqueMovieCompositionIds = __awtsmoosModule_1478.assertUniqueMovieCompositionIds;
+var movieCompositionError = __awtsmoosModule_1478.movieCompositionError;
+var normalizeMovieCompositionColor = __awtsmoosModule_1478.normalizeMovieCompositionColor;
+var normalizeMovieCompositionId = __awtsmoosModule_1478.normalizeMovieCompositionId;
+var normalizeMovieCompositionNumber = __awtsmoosModule_1478.normalizeMovieCompositionNumber;
+
+function normalizeMovieCompositionCatalog(source) {
+	const compositions = array(source).map((item, index) => (
+		normalizeMovieComposition(item, index)
+	));
+	if (compositions.length > MOVIE_COMPOSITION_LIMITS.compositions) {
+		movieCompositionError(
+			'TOO_MANY_MOVIE_COMPOSITIONS',
+			`A project supports at most ${MOVIE_COMPOSITION_LIMITS.compositions} compositions.`
+		);
+	}
+	assertUniqueMovieCompositionIds(compositions, 'composition id');
+	validateMovieCompositionGraph(compositions);
+	return compositions;
+}
+
+
+__exports.normalizeMovieCompositionCatalog = normalizeMovieCompositionCatalog;
+function normalizeMovieComposition(source = {}, index = 0) {
+	const duration = number(source.duration, 0.001, 86400, 10, 'Composition duration');
+	const layers = array(source.layers).map((layer, layerIndex) => (
+		normalizeMovieCompositionLayer(layer, layerIndex, duration)
+	));
+	if (layers.length > MOVIE_COMPOSITION_LIMITS.layers) {
+		movieCompositionError(
+			'TOO_MANY_MOVIE_COMPOSITION_LAYERS',
+			`A composition supports at most ${MOVIE_COMPOSITION_LIMITS.layers} layers.`
+		);
+	}
+	assertUniqueMovieCompositionIds(layers, 'composition layer id');
+	return {
+		audioEnabled: source.audioEnabled !== false,
+		backgroundColor: normalizeMovieCompositionColor(
+			source.backgroundColor,
+			'#00000000'
+		),
+		duration,
+		fps: number(source.fps, 1, 240, 30, 'Composition fps'),
+		height: number(source.height, 1, 16384, 1080, 'Composition height'),
+		id: normalizeMovieCompositionId(
+			source.id || `composition-${index + 1}`,
+			'composition id'
+		),
+		layers,
+		name: String(source.name || `Composition ${index + 1}`).slice(0, 200),
+		pixelAspectRatio: number(
+			source.pixelAspectRatio,
+			0.1,
+			10,
+			1,
+			'Composition pixel aspect ratio'
+		),
+		version: MOVIE_COMPOSITION_SCHEMA_VERSION,
+		width: number(source.width, 1, 16384, 1920, 'Composition width'),
+		workArea: normalizeWorkArea(source.workArea, duration)
+	};
+}
+
+
+__exports.normalizeMovieComposition = normalizeMovieComposition;
+function normalizeWorkArea(source = {}, duration) {
+	const start = number(source?.start, 0, duration, 0, 'Composition work area start');
+	return {
+		end: number(source?.end, start, duration, duration, 'Composition work area end'),
+		start
+	};
+}
+
+function number(value, minimum, maximum, fallback, label) {
+	return normalizeMovieCompositionNumber(value, minimum, maximum, fallback, label);
+}
+
+function array(value) {
+	return Array.isArray(value) ? value : [];
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieMediaCatalog.js */
+__awtsmoosModule_1480 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -104123,8 +104787,8 @@ const __exports = {};
  * Awtsmoos.com keeps relinking, proxies, folders, tags, scale, and portability in one schema.
  */
 
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 const MOVIE_MEDIA_CATALOG_LIMIT = 100000;
 __exports.MOVIE_MEDIA_CATALOG_LIMIT = MOVIE_MEDIA_CATALOG_LIMIT;
@@ -104222,7 +104886,7 @@ function array(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieMediaWorkspaceContract.js */
-__awtsmoosModule_1474 = (() => {
+__awtsmoosModule_1481 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -104328,7 +104992,7 @@ function round(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformancePreferenceValues.js */
-__awtsmoosModule_1479 = (() => {
+__awtsmoosModule_1486 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -104442,7 +105106,7 @@ function finite(value, fallback, minimum, maximum) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceConstants.js */
-__awtsmoosModule_1478 = (() => {
+__awtsmoosModule_1485 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -104455,7 +105119,7 @@ const __exports = {};
  * every key, lens, take, cue, pace, and recovery vessel one accessible project rhyme.
  */
 
-var moviePerformancePreferenceValues = __awtsmoosModule_1479.moviePerformancePreferenceValues;
+var moviePerformancePreferenceValues = __awtsmoosModule_1486.moviePerformancePreferenceValues;
 
 const MOVIE_PERFORMANCE_VERSION = 1;
 __exports.MOVIE_PERFORMANCE_VERSION = MOVIE_PERFORMANCE_VERSION;
@@ -104542,7 +105206,7 @@ function normalizeBindings(source = {}) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceValue.js */
-__awtsmoosModule_1477 = (() => {
+__awtsmoosModule_1484 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -104555,7 +105219,7 @@ const __exports = {};
  * text, number, list, object, vector, and clone remain readable while their meanings rhyme.
  */
 
-var MOVIE_PERFORMANCE_LIMITS = __awtsmoosModule_1478.MOVIE_PERFORMANCE_LIMITS;
+var MOVIE_PERFORMANCE_LIMITS = __awtsmoosModule_1485.MOVIE_PERFORMANCE_LIMITS;
 
 function moviePerformanceArray(value, maximum) {
 	if (!Array.isArray(value)) {
@@ -104632,7 +105296,7 @@ __exports.moviePerformanceTimeSort = moviePerformanceTimeSort;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceAuthoringContract.js */
-__awtsmoosModule_1476 = (() => {
+__awtsmoosModule_1483 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -104645,11 +105309,11 @@ const __exports = {};
  * Awtsmoos.com keeps every aid stable, bounded, serializable, agent-readable, and bright in rhyme.
  */
 
-var moviePerformanceNonnegative = __awtsmoosModule_1477.moviePerformanceNonnegative;
-var moviePerformanceNullableText = __awtsmoosModule_1477.moviePerformanceNullableText;
-var moviePerformanceObject = __awtsmoosModule_1477.moviePerformanceObject;
-var moviePerformanceText = __awtsmoosModule_1477.moviePerformanceText;
-var moviePerformanceVector = __awtsmoosModule_1477.moviePerformanceVector;
+var moviePerformanceNonnegative = __awtsmoosModule_1484.moviePerformanceNonnegative;
+var moviePerformanceNullableText = __awtsmoosModule_1484.moviePerformanceNullableText;
+var moviePerformanceObject = __awtsmoosModule_1484.moviePerformanceObject;
+var moviePerformanceText = __awtsmoosModule_1484.moviePerformanceText;
+var moviePerformanceVector = __awtsmoosModule_1484.moviePerformanceVector;
 
 function normalizeMoviePerformancePerformer(source = {}, index = 0) {
 	return {
@@ -104703,7 +105367,7 @@ __exports.normalizeMoviePerformanceAid = normalizeMoviePerformanceAid;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceTakeMetadata.js */
-__awtsmoosModule_1481 = (() => {
+__awtsmoosModule_1488 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -104716,11 +105380,11 @@ const __exports = {};
  * keeps favorite, mapping, source, raw count, warning, and director memory serializable in rhyme.
  */
 
-var moviePerformanceBounded = __awtsmoosModule_1477.moviePerformanceBounded;
-var moviePerformanceNonnegative = __awtsmoosModule_1477.moviePerformanceNonnegative;
-var moviePerformanceNullableText = __awtsmoosModule_1477.moviePerformanceNullableText;
-var moviePerformanceObject = __awtsmoosModule_1477.moviePerformanceObject;
-var moviePerformanceText = __awtsmoosModule_1477.moviePerformanceText;
+var moviePerformanceBounded = __awtsmoosModule_1484.moviePerformanceBounded;
+var moviePerformanceNonnegative = __awtsmoosModule_1484.moviePerformanceNonnegative;
+var moviePerformanceNullableText = __awtsmoosModule_1484.moviePerformanceNullableText;
+var moviePerformanceObject = __awtsmoosModule_1484.moviePerformanceObject;
+var moviePerformanceText = __awtsmoosModule_1484.moviePerformanceText;
 
 function normalizeMoviePerformanceTakeMetadata(source = {}) {
 	const extra = moviePerformanceObject(source);
@@ -104753,7 +105417,7 @@ function stringArray(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceTakeContract.js */
-__awtsmoosModule_1480 = (() => {
+__awtsmoosModule_1487 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -104766,17 +105430,17 @@ const __exports = {};
  * transform, animation, action, camera, and audio witnesses serializable in measured rhyme.
  */
 
-var MOVIE_PERFORMANCE_LIMITS = __awtsmoosModule_1478.MOVIE_PERFORMANCE_LIMITS;
-var normalizeMoviePerformanceTakeMetadata = __awtsmoosModule_1481.normalizeMoviePerformanceTakeMetadata;
-var moviePerformanceArray = __awtsmoosModule_1477.moviePerformanceArray;
-var moviePerformanceBounded = __awtsmoosModule_1477.moviePerformanceBounded;
-var moviePerformanceFinite = __awtsmoosModule_1477.moviePerformanceFinite;
-var moviePerformanceNonnegative = __awtsmoosModule_1477.moviePerformanceNonnegative;
-var moviePerformanceNullableText = __awtsmoosModule_1477.moviePerformanceNullableText;
-var moviePerformanceObject = __awtsmoosModule_1477.moviePerformanceObject;
-var moviePerformanceText = __awtsmoosModule_1477.moviePerformanceText;
-var moviePerformanceTimeSort = __awtsmoosModule_1477.moviePerformanceTimeSort;
-var moviePerformanceVector = __awtsmoosModule_1477.moviePerformanceVector;
+var MOVIE_PERFORMANCE_LIMITS = __awtsmoosModule_1485.MOVIE_PERFORMANCE_LIMITS;
+var normalizeMoviePerformanceTakeMetadata = __awtsmoosModule_1488.normalizeMoviePerformanceTakeMetadata;
+var moviePerformanceArray = __awtsmoosModule_1484.moviePerformanceArray;
+var moviePerformanceBounded = __awtsmoosModule_1484.moviePerformanceBounded;
+var moviePerformanceFinite = __awtsmoosModule_1484.moviePerformanceFinite;
+var moviePerformanceNonnegative = __awtsmoosModule_1484.moviePerformanceNonnegative;
+var moviePerformanceNullableText = __awtsmoosModule_1484.moviePerformanceNullableText;
+var moviePerformanceObject = __awtsmoosModule_1484.moviePerformanceObject;
+var moviePerformanceText = __awtsmoosModule_1484.moviePerformanceText;
+var moviePerformanceTimeSort = __awtsmoosModule_1484.moviePerformanceTimeSort;
+var moviePerformanceVector = __awtsmoosModule_1484.moviePerformanceVector;
 
 function normalizeMoviePerformanceTake(source = {}, index = 0) {
 	const samples = moviePerformanceArray(
@@ -104868,7 +105532,7 @@ function cameras(source) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceContract.js */
-__awtsmoosModule_1475 = (() => {
+__awtsmoosModule_1482 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -104881,16 +105545,16 @@ const __exports = {};
  * older projects awaken empty and newer projects remain bounded beneath one light.
  */
 
-var normalizeMoviePerformanceAid = __awtsmoosModule_1476.normalizeMoviePerformanceAid;
-var normalizeMoviePerformanceCue = __awtsmoosModule_1476.normalizeMoviePerformanceCue;
-var normalizeMoviePerformancePerformer = __awtsmoosModule_1476.normalizeMoviePerformancePerformer;
-var MOVIE_PERFORMANCE_LIMITS = __awtsmoosModule_1478.MOVIE_PERFORMANCE_LIMITS;
-var MOVIE_PERFORMANCE_VERSION = __awtsmoosModule_1478.MOVIE_PERFORMANCE_VERSION;
-var createMoviePerformancePreferences = __awtsmoosModule_1478.createMoviePerformancePreferences;
-var normalizeMoviePerformanceTake = __awtsmoosModule_1480.normalizeMoviePerformanceTake;
-var moviePerformanceArray = __awtsmoosModule_1477.moviePerformanceArray;
-var moviePerformanceClone = __awtsmoosModule_1477.moviePerformanceClone;
-var moviePerformanceText = __awtsmoosModule_1477.moviePerformanceText;
+var normalizeMoviePerformanceAid = __awtsmoosModule_1483.normalizeMoviePerformanceAid;
+var normalizeMoviePerformanceCue = __awtsmoosModule_1483.normalizeMoviePerformanceCue;
+var normalizeMoviePerformancePerformer = __awtsmoosModule_1483.normalizeMoviePerformancePerformer;
+var MOVIE_PERFORMANCE_LIMITS = __awtsmoosModule_1485.MOVIE_PERFORMANCE_LIMITS;
+var MOVIE_PERFORMANCE_VERSION = __awtsmoosModule_1485.MOVIE_PERFORMANCE_VERSION;
+var createMoviePerformancePreferences = __awtsmoosModule_1485.createMoviePerformancePreferences;
+var normalizeMoviePerformanceTake = __awtsmoosModule_1487.normalizeMoviePerformanceTake;
+var moviePerformanceArray = __awtsmoosModule_1484.moviePerformanceArray;
+var moviePerformanceClone = __awtsmoosModule_1484.moviePerformanceClone;
+var moviePerformanceText = __awtsmoosModule_1484.moviePerformanceText;
 
 function normalizeMoviePerformance(source = {}) {
 	return {
@@ -104930,7 +105594,7 @@ function normalizeRecovery(source = {}, index = 0) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceTrackContract.js */
-__awtsmoosModule_1482 = (() => {
+__awtsmoosModule_1489 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -104943,10 +105607,10 @@ const __exports = {};
  * keeps loop, blend, offset, speed, lock, mute, label, and take identity in cinematic rhyme.
  */
 
-var moviePerformanceBounded = __awtsmoosModule_1477.moviePerformanceBounded;
-var moviePerformanceNonnegative = __awtsmoosModule_1477.moviePerformanceNonnegative;
-var moviePerformanceNullableText = __awtsmoosModule_1477.moviePerformanceNullableText;
-var moviePerformanceText = __awtsmoosModule_1477.moviePerformanceText;
+var moviePerformanceBounded = __awtsmoosModule_1484.moviePerformanceBounded;
+var moviePerformanceNonnegative = __awtsmoosModule_1484.moviePerformanceNonnegative;
+var moviePerformanceNullableText = __awtsmoosModule_1484.moviePerformanceNullableText;
+var moviePerformanceText = __awtsmoosModule_1484.moviePerformanceText;
 
 function normalizeMoviePerformanceTrack(track, trackIndex = 0) {
 	const id = moviePerformanceText(track?.id, `performance-${trackIndex + 1}`);
@@ -104993,7 +105657,7 @@ function normalizeClip(clip = {}, trackId, index) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProjectMarkers.js */
-__awtsmoosModule_1483 = (() => {
+__awtsmoosModule_1490 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -105074,7 +105738,7 @@ function clone(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTextTrackContract.js */
-__awtsmoosModule_1484 = (() => {
+__awtsmoosModule_1491 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -105087,7 +105751,7 @@ const __exports = {};
  * Awtsmoos.com keeps captions and titles JSON-only, bounded, accessible, and consistent from timeline to platform.
  */
 
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
 
 const TITLE_VARIANTS = new Set(['card', 'lower-third', 'title']);
 const POSITIONS = new Set(['bottom', 'center', 'top']);
@@ -105196,18 +105860,19 @@ const __exports = {};
 
 /**
  * @file MovieProjectNormalizer.js
- * @description Supplies defaults for cadence, media workspace, authored 3D, text, performance, clips, and markers.
- * The Awtsmoos renews every frame, asset, letter, mesh, performer, and landmark; Awtsmoos.com
- * keeps source marks, searches, titles, acting takes, motion, sculpt, and timeline vessels canonical in rhyme.
+ * @description Supplies defaults for cadence, compositions, media, authored 3D, text, performance, clips, and markers.
+ * The Awtsmoos renews every frame, nested canvas, asset, letter, mesh, performer, and landmark; Awtsmoos.com
+ * keeps compositions, source marks, searches, titles, acting takes, motion, sculpt, and timeline vessels canonical.
  */
 
 var normalizeMovieAuthoring3d = __awtsmoosModule_1467.normalizeMovieAuthoring3d;
-var normalizeMovieMediaCatalog = __awtsmoosModule_1469.normalizeMovieMediaCatalog;
-var normalizeMovieMediaWorkspace = __awtsmoosModule_1474.normalizeMovieMediaWorkspace;
-var normalizeMoviePerformance = __awtsmoosModule_1475.normalizeMoviePerformance;
-var normalizeMoviePerformanceTrack = __awtsmoosModule_1482.normalizeMoviePerformanceTrack;
-var normalizeMovieMarkers = __awtsmoosModule_1483.normalizeMovieMarkers;
-var normalizeMovieTextTrack = __awtsmoosModule_1484.normalizeMovieTextTrack;
+var normalizeMovieCompositionCatalog = __awtsmoosModule_1469.normalizeMovieCompositionCatalog;
+var normalizeMovieMediaCatalog = __awtsmoosModule_1480.normalizeMovieMediaCatalog;
+var normalizeMovieMediaWorkspace = __awtsmoosModule_1481.normalizeMovieMediaWorkspace;
+var normalizeMoviePerformance = __awtsmoosModule_1482.normalizeMoviePerformance;
+var normalizeMoviePerformanceTrack = __awtsmoosModule_1489.normalizeMoviePerformanceTrack;
+var normalizeMovieMarkers = __awtsmoosModule_1490.normalizeMovieMarkers;
+var normalizeMovieTextTrack = __awtsmoosModule_1491.normalizeMovieTextTrack;
 
 const DEFAULT_FPS = 60;
 const DEFAULT_RESOLUTION = Object.freeze({ height: 1080, width: 1920 });
@@ -105223,6 +105888,7 @@ function normalizeMovieProject(source) {
 	project.viewMode = VALID_VIEW_MODES.has(project.viewMode) ? project.viewMode : 'legacy';
 	project.seed = Number(project.seed || 613);
 	project.authoring3d = normalizeMovieAuthoring3d(project.authoring3d);
+	project.compositions = normalizeMovieCompositionCatalog(project.compositions);
 	project.media = normalizeMovieMediaCatalog(project.media);
 	project.mediaWorkspace = normalizeMovieMediaWorkspace(
 		project.mediaWorkspace,
@@ -105282,7 +105948,7 @@ function clone(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieDefaultAuthoring3d.js */
-__awtsmoosModule_1487 = (() => {
+__awtsmoosModule_1494 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -105397,7 +106063,7 @@ function sculptLayer() {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieDefaultCameraRigs.js */
-__awtsmoosModule_1488 = (() => {
+__awtsmoosModule_1495 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -105437,7 +106103,7 @@ function rig(id, name, position, target, fieldOfView) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieDefaultCharacters.js */
-__awtsmoosModule_1489 = (() => {
+__awtsmoosModule_1496 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -105479,7 +106145,7 @@ function character(id, name, role, clothingColor, skinColor, outfit, accessory) 
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieDefaultProject.js */
-__awtsmoosModule_1486 = (() => {
+__awtsmoosModule_1493 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -105492,9 +106158,9 @@ const __exports = {};
  * a complete village reel from tiny reusable references so richness and speed become one vessel.
  */
 
-var createDefaultMovieAuthoring3d = __awtsmoosModule_1487.createDefaultMovieAuthoring3d;
-var createDefaultCameraRigs = __awtsmoosModule_1488.createDefaultCameraRigs;
-var createDefaultMovieCharacters = __awtsmoosModule_1489.createDefaultMovieCharacters;
+var createDefaultMovieAuthoring3d = __awtsmoosModule_1494.createDefaultMovieAuthoring3d;
+var createDefaultCameraRigs = __awtsmoosModule_1495.createDefaultCameraRigs;
+var createDefaultMovieCharacters = __awtsmoosModule_1496.createDefaultMovieCharacters;
 
 const SHOTS = [
 	['dawn-wide', 0, 4, 'establishing-wide', 'Village at dawn'],
@@ -105555,7 +106221,7 @@ function actorTrack(target, start, duration) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProjectQueryLoader.js */
-__awtsmoosModule_1485 = (() => {
+__awtsmoosModule_1492 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -105568,7 +106234,7 @@ const __exports = {};
  * opens its default reel synchronously while still guarding remote documents and unsafe schemes.
  */
 
-var createDefaultMovieProject = __awtsmoosModule_1486.createDefaultMovieProject;
+var createDefaultMovieProject = __awtsmoosModule_1493.createDefaultMovieProject;
 var decodeMovieProject = __awtsmoosModule_1465.decodeMovieProject;
 var parseMovieJson = __awtsmoosModule_1465.parseMovieJson;
 
@@ -105657,8 +106323,8 @@ const __exports = {};
 
 var encodeMovieSource = __awtsmoosModule_1465.encodeMovieSource;
 var normalizeMovieProject = __awtsmoosModule_1466.normalizeMovieProject;
-var hasMovieQuery = __awtsmoosModule_1485.hasMovieQuery;
-var loadMovieProjectSource = __awtsmoosModule_1485.loadMovieProjectSource;
+var hasMovieQuery = __awtsmoosModule_1492.hasMovieQuery;
+var loadMovieProjectSource = __awtsmoosModule_1492.loadMovieProjectSource;
 
 __exports.normalizeMovieProject = normalizeMovieProject;
 
@@ -105710,7 +106376,7 @@ __exports.loadRequestedMovie = loadRequestedMovie;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieExactEncoderConfig.js */
-__awtsmoosModule_1493 = (() => {
+__awtsmoosModule_1500 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -105795,7 +106461,7 @@ function positiveInteger(value, label) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieExactEncoderSupport.js */
-__awtsmoosModule_1494 = (() => {
+__awtsmoosModule_1501 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -105873,7 +106539,7 @@ __exports.assertExactRenderActive = assertExactRenderActive;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieIvfHeader.js */
-__awtsmoosModule_1497 = (() => {
+__awtsmoosModule_1504 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -105951,7 +106617,7 @@ function writeAscii(bytes, offset, text) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieIvfWriter.js */
-__awtsmoosModule_1496 = (() => {
+__awtsmoosModule_1503 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -105968,8 +106634,8 @@ const __exports = {};
  * indexes intact when a long movie is divided into smaller memory-safe vessels.
  */
 
-var createIvfFileHeader = __awtsmoosModule_1497.createIvfFileHeader;
-var createIvfFrameHeader = __awtsmoosModule_1497.createIvfFrameHeader;
+var createIvfFileHeader = __awtsmoosModule_1504.createIvfFileHeader;
+var createIvfFrameHeader = __awtsmoosModule_1504.createIvfFrameHeader;
 
 const MICROSECONDS_PER_SECOND = 1000000;
 
@@ -106070,7 +106736,7 @@ __exports.default = MovieIvfWriter;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieExactSegmentEncoder.js */
-__awtsmoosModule_1495 = (() => {
+__awtsmoosModule_1502 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -106087,12 +106753,12 @@ const __exports = {};
  * frozen images or repeated timestamps merely to satisfy a numerical frame receipt.
  */
 
-var exactFrameTiming = __awtsmoosModule_1493.exactFrameTiming;
-var assertExactRenderActive = __awtsmoosModule_1494.assertExactRenderActive;
-var createExactProgress = __awtsmoosModule_1494.createExactProgress;
-var createExactVideoEncoder = __awtsmoosModule_1494.createExactVideoEncoder;
-var throwExactEncodingError = __awtsmoosModule_1494.throwExactEncodingError;
-var MovieIvfWriter = __awtsmoosModule_1496.MovieIvfWriter;
+var exactFrameTiming = __awtsmoosModule_1500.exactFrameTiming;
+var assertExactRenderActive = __awtsmoosModule_1501.assertExactRenderActive;
+var createExactProgress = __awtsmoosModule_1501.createExactProgress;
+var createExactVideoEncoder = __awtsmoosModule_1501.createExactVideoEncoder;
+var throwExactEncodingError = __awtsmoosModule_1501.throwExactEncodingError;
+var MovieIvfWriter = __awtsmoosModule_1503.MovieIvfWriter;
 
 const MAXIMUM_ENCODE_QUEUE = 12;
 
@@ -106169,7 +106835,7 @@ __exports.default = MovieExactSegmentEncoder;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieExactSegmentPlan.js */
-__awtsmoosModule_1498 = (() => {
+__awtsmoosModule_1505 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -106229,7 +106895,7 @@ function positiveInteger(value, label) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieFrameCadence.js */
-__awtsmoosModule_1499 = (() => {
+__awtsmoosModule_1506 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -106337,7 +107003,7 @@ __exports.default = MovieFrameCadence;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieIvfSegmentMerger.js */
-__awtsmoosModule_1500 = (() => {
+__awtsmoosModule_1507 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -106354,7 +107020,7 @@ const __exports = {};
  * memory remains bounded and every global timestamp survives without synthetic frames.
  */
 
-var createIvfFileHeader = __awtsmoosModule_1497.createIvfFileHeader;
+var createIvfFileHeader = __awtsmoosModule_1504.createIvfFileHeader;
 
 /** Validates and joins body-only IVF segments into one exact video artifact. */
 function mergeMovieIvfSegments(options) {
@@ -106421,7 +107087,7 @@ function segmentSummary(segment) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieExactEncoder.js */
-__awtsmoosModule_1492 = (() => {
+__awtsmoosModule_1499 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -106438,13 +107104,13 @@ const __exports = {};
  * their global indexes while bounding encoder queues and copied payload collections.
  */
 
-var createExactEncoderConfig = __awtsmoosModule_1493.createExactEncoderConfig;
-var supportedExactEncoderConfig = __awtsmoosModule_1493.supportedExactEncoderConfig;
-var createExactEncodedResult = __awtsmoosModule_1494.createExactEncodedResult;
-var MovieExactSegmentEncoder = __awtsmoosModule_1495.MovieExactSegmentEncoder;
-var createExactSegmentPlan = __awtsmoosModule_1498.createExactSegmentPlan;
-var MovieFrameCadence = __awtsmoosModule_1499.MovieFrameCadence;
-var mergeMovieIvfSegments = __awtsmoosModule_1500.mergeMovieIvfSegments;
+var createExactEncoderConfig = __awtsmoosModule_1500.createExactEncoderConfig;
+var supportedExactEncoderConfig = __awtsmoosModule_1500.supportedExactEncoderConfig;
+var createExactEncodedResult = __awtsmoosModule_1501.createExactEncodedResult;
+var MovieExactSegmentEncoder = __awtsmoosModule_1502.MovieExactSegmentEncoder;
+var createExactSegmentPlan = __awtsmoosModule_1505.createExactSegmentPlan;
+var MovieFrameCadence = __awtsmoosModule_1506.MovieFrameCadence;
+var mergeMovieIvfSegments = __awtsmoosModule_1507.mergeMovieIvfSegments;
 
 /** Encodes a real MovieDirector into a bounded exact VP8/IVF timeline. */
 class MovieExactEncoder {
@@ -106499,7 +107165,7 @@ __exports.default = MovieExactEncoder;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieExactRecordingResult.js */
-__awtsmoosModule_1501 = (() => {
+__awtsmoosModule_1508 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -106554,7 +107220,7 @@ __exports.exactMovieFileName = exactMovieFileName;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieFrameScheduler.js */
-__awtsmoosModule_1503 = (() => {
+__awtsmoosModule_1510 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -106616,7 +107282,7 @@ __exports.default = MovieFrameScheduler;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/audio/MovieAudioKindProfile.js */
-__awtsmoosModule_1505 = (() => {
+__awtsmoosModule_1512 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -106690,7 +107356,7 @@ function profile(values) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/audio/MovieAudioClip.js */
-__awtsmoosModule_1504 = (() => {
+__awtsmoosModule_1511 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -106703,7 +107369,7 @@ const __exports = {};
  * validates time, volume, frequency, pan, mute, and solo before live or exact sound may emerge.
  */
 
-var movieAudioKindProfile = __awtsmoosModule_1505.movieAudioKindProfile;
+var movieAudioKindProfile = __awtsmoosModule_1512.movieAudioKindProfile;
 
 class MovieAudioClip {
 	constructor(source, context) {
@@ -106791,7 +107457,7 @@ __exports.default = MovieAudioClip;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/audio/MovieExactAudioContract.js */
-__awtsmoosModule_1506 = (() => {
+__awtsmoosModule_1513 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -106848,7 +107514,7 @@ function positiveNumber(value, label) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/audio/MovieAudioRenderMetrics.js */
-__awtsmoosModule_1507 = (() => {
+__awtsmoosModule_1514 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -106912,7 +107578,7 @@ __exports.default = MovieAudioRenderMetrics;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/audio/MovieAudioEnvelope.js */
-__awtsmoosModule_1509 = (() => {
+__awtsmoosModule_1516 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -106931,7 +107597,7 @@ const __exports = {};
 
 /**
  * Evaluates an attack-sustain-release envelope from immutable clip data.
- * @param {Promise.resolve(__awtsmoosModule_1504).MovieAudioClip} clip Validated audio clip.
+ * @param {Promise.resolve(__awtsmoosModule_1511).MovieAudioClip} clip Validated audio clip.
  * @param {number} localTime Seconds elapsed since the clip began.
  * @returns {number} A finite amplitude multiplier between zero and one.
  */
@@ -106957,7 +107623,7 @@ __exports.default = movieAudioEnvelope;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/audio/MovieAudioNoise.js */
-__awtsmoosModule_1510 = (() => {
+__awtsmoosModule_1517 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -106999,7 +107665,7 @@ __exports.default = movieAudioNoise;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/audio/MovieAudioSampleSynthesizer.js */
-__awtsmoosModule_1508 = (() => {
+__awtsmoosModule_1515 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -107012,8 +107678,8 @@ const __exports = {};
  * explicit authored pan with stable fallback placement so live preview and exact export agree.
  */
 
-var movieAudioEnvelope = __awtsmoosModule_1509.movieAudioEnvelope;
-var movieAudioNoise = __awtsmoosModule_1510.movieAudioNoise;
+var movieAudioEnvelope = __awtsmoosModule_1516.movieAudioEnvelope;
+var movieAudioNoise = __awtsmoosModule_1517.movieAudioNoise;
 
 const TWO_PI = Math.PI * 2;
 
@@ -107087,7 +107753,7 @@ __exports.default = MovieAudioSampleSynthesizer;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/audio/MoviePcm16BlockRenderer.js */
-__awtsmoosModule_1511 = (() => {
+__awtsmoosModule_1518 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -107114,8 +107780,8 @@ const MINIMUM_PCM16 = -32768;
  * @param {number} options.startFrame Absolute first sample-frame index.
  * @param {number} options.frameCount Number of sample frames to render.
  * @param {number} options.channels Number of interleaved output channels.
- * @param {Promise.resolve(__awtsmoosModule_1508).MovieAudioSampleSynthesizer} options.synthesizer Pure sample source.
- * @param {Promise.resolve(__awtsmoosModule_1507).MovieAudioRenderMetrics} options.metrics Telemetry collector.
+ * @param {Promise.resolve(__awtsmoosModule_1515).MovieAudioSampleSynthesizer} options.synthesizer Pure sample source.
+ * @param {Promise.resolve(__awtsmoosModule_1514).MovieAudioRenderMetrics} options.metrics Telemetry collector.
  * @returns {Uint8Array} Little-endian interleaved PCM16 bytes.
  */
 function renderMoviePcm16Block(options) {
@@ -107154,7 +107820,7 @@ __exports.toPcm16 = toPcm16;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/audio/MovieWaveWriter.js */
-__awtsmoosModule_1512 = (() => {
+__awtsmoosModule_1519 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -107254,7 +107920,7 @@ __exports.default = MovieWaveWriter;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/audio/MovieExactAudioRenderer.js */
-__awtsmoosModule_1502 = (() => {
+__awtsmoosModule_1509 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -107271,15 +107937,15 @@ const __exports = {};
  * Awtsmoos.com is remembered where a long mission becomes exact through faithful blocks.
  */
 
-var MovieFrameScheduler = __awtsmoosModule_1503.MovieFrameScheduler;
-var MovieAudioClip = __awtsmoosModule_1504.MovieAudioClip;
-var EXACT_AUDIO_CHANNELS = __awtsmoosModule_1506.EXACT_AUDIO_CHANNELS;
-var EXACT_AUDIO_SAMPLE_RATE = __awtsmoosModule_1506.EXACT_AUDIO_SAMPLE_RATE;
-var exactAudioSampleFrames = __awtsmoosModule_1506.exactAudioSampleFrames;
-var MovieAudioRenderMetrics = __awtsmoosModule_1507.MovieAudioRenderMetrics;
-var MovieAudioSampleSynthesizer = __awtsmoosModule_1508.MovieAudioSampleSynthesizer;
-var renderMoviePcm16Block = __awtsmoosModule_1511.renderMoviePcm16Block;
-var MovieWaveWriter = __awtsmoosModule_1512.MovieWaveWriter;
+var MovieFrameScheduler = __awtsmoosModule_1510.MovieFrameScheduler;
+var MovieAudioClip = __awtsmoosModule_1511.MovieAudioClip;
+var EXACT_AUDIO_CHANNELS = __awtsmoosModule_1513.EXACT_AUDIO_CHANNELS;
+var EXACT_AUDIO_SAMPLE_RATE = __awtsmoosModule_1513.EXACT_AUDIO_SAMPLE_RATE;
+var exactAudioSampleFrames = __awtsmoosModule_1513.exactAudioSampleFrames;
+var MovieAudioRenderMetrics = __awtsmoosModule_1514.MovieAudioRenderMetrics;
+var MovieAudioSampleSynthesizer = __awtsmoosModule_1515.MovieAudioSampleSynthesizer;
+var renderMoviePcm16Block = __awtsmoosModule_1518.renderMoviePcm16Block;
+var MovieWaveWriter = __awtsmoosModule_1519.MovieWaveWriter;
 
 const DEFAULT_BLOCK_FRAMES = 65536;
 
@@ -107371,7 +108037,7 @@ __exports.default = MovieExactAudioRenderer;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/audio/MovieExactAudioResult.js */
-__awtsmoosModule_1513 = (() => {
+__awtsmoosModule_1520 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -107433,7 +108099,7 @@ __exports.exactAudioFileName = exactAudioFileName;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieRecordingFormat.js */
-__awtsmoosModule_1516 = (() => {
+__awtsmoosModule_1523 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -107496,7 +108162,7 @@ function format(mimeType, extension, codec) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieRecordingResult.js */
-__awtsmoosModule_1515 = (() => {
+__awtsmoosModule_1522 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -107509,7 +108175,7 @@ const __exports = {};
  * container truth together with the finite frame cadence actually submitted.
  */
 
-var movieFileName = __awtsmoosModule_1516.movieFileName;
+var movieFileName = __awtsmoosModule_1523.movieFileName;
 
 /**
  * Creates a serializable receipt for one completed browser recording.
@@ -107572,7 +108238,7 @@ __exports.stopMovieRecorder = stopMovieRecorder;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/package/MovieExactPackageDownloader.js */
-__awtsmoosModule_1514 = (() => {
+__awtsmoosModule_1521 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -107589,7 +108255,7 @@ const __exports = {};
  * Awtsmoos.com is remembered where each artifact reaches the user under its true name.
  */
 
-var downloadMovieBlob = __awtsmoosModule_1515.downloadMovieBlob;
+var downloadMovieBlob = __awtsmoosModule_1522.downloadMovieBlob;
 
 const DOWNLOAD_SPACING_MS = 120;
 
@@ -107618,7 +108284,7 @@ __exports.default = downloadMovieExactPackage;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/package/MovieExactPackageManifest.js */
-__awtsmoosModule_1518 = (() => {
+__awtsmoosModule_1525 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -107704,7 +108370,7 @@ function videoSummary(video) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/package/MovieExactPackageResult.js */
-__awtsmoosModule_1517 = (() => {
+__awtsmoosModule_1524 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -107721,8 +108387,8 @@ const __exports = {};
  * one package may contain difference without pretending the browser output is already MP4.
  */
 
-var createMovieExactPackageManifest = __awtsmoosModule_1518.createMovieExactPackageManifest;
-var exactPackageManifestFileName = __awtsmoosModule_1518.exactPackageManifestFileName;
+var createMovieExactPackageManifest = __awtsmoosModule_1525.createMovieExactPackageManifest;
+var exactPackageManifestFileName = __awtsmoosModule_1525.exactPackageManifestFileName;
 
 /** Builds a browser-visible exact package result and JSON manifest blob. */
 function createMovieExactPackageResult(project, video, audio) {
@@ -107756,7 +108422,7 @@ __exports.createMovieExactPackageResult = createMovieExactPackageResult;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioLifecycle.js */
-__awtsmoosModule_1520 = (() => {
+__awtsmoosModule_1527 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -107764,16 +108430,15 @@ const __exports = {};
 
 /**
  * @file MovieStudioLifecycle.js
- * @description Releases every resource, performance input, media stream, listener, and frame exactly once.
+ * @description Releases every transport, composition, resource, input, media stream, listener, and frame once.
  * The Awtsmoos renews each vessel without clinging to its former frame; Awtsmoos.com
- * stops acting, scene editing, recovery, cameras, audio, jobs, memory, and restores identity.
+ * stops playback, nested-canvas editing, acting, scene editing, recovery, audio, jobs, memory, and restores identity.
  */
 
 async function destroyMovieStudioSession(session) {
-	if (session.destroyed) {
-		return false;
-	}
+	if (session.destroyed) return false;
 	session.destroyed = true;
+	session.pause?.();
 	session.autosave?.stop?.();
 	session.renderQueue?.clear?.();
 	session.events?.emit('session:destroyed', {
@@ -107781,6 +108446,7 @@ async function destroyMovieStudioSession(session) {
 		revision: session.revision,
 		title: session.project?.title || ''
 	});
+	session.transportController?.destroy?.();
 	session.performanceController?.destroy?.();
 	session.scene3dGizmo?.destroy?.();
 	session.scene3dController?.destroy?.();
@@ -107788,6 +108454,7 @@ async function destroyMovieStudioSession(session) {
 	session.keyframeController?.destroy?.();
 	session.audioMixerController?.destroy?.();
 	session.titleController?.destroy?.();
+	session.compositionController?.destroy?.();
 	session.projectBrowserController?.destroy?.();
 	session.authoring3dController?.destroy?.();
 	session.utilityController?.destroy?.();
@@ -107805,9 +108472,7 @@ async function destroyMovieStudioSession(session) {
 	session.view?.root?.remove?.();
 	session.persistence?.clear?.();
 	if (session.instanceRegistry && session.instanceId) {
-		session.events?.emit('instance:unregistered', {
-			instanceId: session.instanceId
-		});
+		session.events?.emit('instance:unregistered', { instanceId: session.instanceId });
 		session.instanceRegistry.unregister(session.instanceId);
 	} else if (globalThis.AwtsmoosMovie === session.publicApi) {
 		delete globalThis.AwtsmoosMovie;
@@ -107820,7 +108485,7 @@ __exports.destroyMovieStudioSession = destroyMovieStudioSession;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineGeometry.js */
-__awtsmoosModule_1523 = (() => {
+__awtsmoosModule_1530 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -107924,7 +108589,7 @@ function round(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePointerCapture.js */
-__awtsmoosModule_1527 = (() => {
+__awtsmoosModule_1534 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -107950,7 +108615,7 @@ __exports.captureMoviePointer = captureMoviePointer;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProfessionalToolGesture.js */
-__awtsmoosModule_1526 = (() => {
+__awtsmoosModule_1533 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -107963,7 +108628,7 @@ const __exports = {};
  * Awtsmoos.com previews seconds without mutating project truth and commits one undoable operation at completion.
  */
 
-var captureMoviePointer = __awtsmoosModule_1527.captureMoviePointer;
+var captureMoviePointer = __awtsmoosModule_1534.captureMoviePointer;
 
 const COMMANDS = Object.freeze({
 	rateStretch: 'rateStretchClip',
@@ -108058,7 +108723,7 @@ function round(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineClipGesture.js */
-__awtsmoosModule_1528 = (() => {
+__awtsmoosModule_1535 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -108071,7 +108736,7 @@ const __exports = {};
  * listener ownership and visual cleanup outside the stable selection and edit coordinator.
  */
 
-var captureMoviePointer = __awtsmoosModule_1527.captureMoviePointer;
+var captureMoviePointer = __awtsmoosModule_1534.captureMoviePointer;
 
 function beginMovieTimelineClipGesture(
 	editor,
@@ -108108,7 +108773,7 @@ __exports.releaseMovieTimelineClipGesture = releaseMovieTimelineClipGesture;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineSnapping.js */
-__awtsmoosModule_1530 = (() => {
+__awtsmoosModule_1537 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -108217,7 +108882,7 @@ function round(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineClipDrag.js */
-__awtsmoosModule_1529 = (() => {
+__awtsmoosModule_1536 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -108230,9 +108895,9 @@ const __exports = {};
  * calculation apart from listeners while exact start, end, and duration remain visible.
  */
 
-var moveMovieClip = __awtsmoosModule_1523.moveMovieClip;
-var trimMovieClip = __awtsmoosModule_1523.trimMovieClip;
-var snapMovieClip = __awtsmoosModule_1530.snapMovieClip;
+var moveMovieClip = __awtsmoosModule_1530.moveMovieClip;
+var trimMovieClip = __awtsmoosModule_1530.trimMovieClip;
+var snapMovieClip = __awtsmoosModule_1537.snapMovieClip;
 
 function nextMovieTimelineClip(drag, clientX, scale, context) {
 	const deltaSeconds = (clientX - drag.originX) / scale;
@@ -108276,7 +108941,7 @@ __exports.movieClipTimingLabel = movieClipTimingLabel;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProjectSelection.js */
-__awtsmoosModule_1533 = (() => {
+__awtsmoosModule_1540 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -108320,7 +108985,7 @@ __exports.allMovieClipIds = allMovieClipIds;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieSelectionContract.js */
-__awtsmoosModule_1534 = (() => {
+__awtsmoosModule_1541 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -108333,7 +108998,7 @@ const __exports = {};
  * rejects partial names and unbounded many while preserving exact mobile, desktop, and agent intent.
  */
 
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
 
 const MAX_MOVIE_SELECTION_ITEMS = 2048;
 __exports.MAX_MOVIE_SELECTION_ITEMS = MAX_MOVIE_SELECTION_ITEMS;
@@ -108400,7 +109065,7 @@ __exports.normalizeMovieSelectionRange = normalizeMovieSelectionRange;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieSelectionSet.js */
-__awtsmoosModule_1532 = (() => {
+__awtsmoosModule_1539 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -108413,14 +109078,14 @@ const __exports = {};
  * every selected clip named by stable identity while the primary vessel serves legacy editing.
  */
 
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var resolveMovieSelection = __awtsmoosModule_1533.resolveMovieSelection;
-var isMovieSelectionDescriptor = __awtsmoosModule_1534.isMovieSelectionDescriptor;
-var MAX_MOVIE_SELECTION_ITEMS = __awtsmoosModule_1534.MAX_MOVIE_SELECTION_ITEMS;
-var normalizeMovieSelectionDescriptor = __awtsmoosModule_1534.normalizeMovieSelectionDescriptor;
-var normalizeMovieSelectionRange = __awtsmoosModule_1534.normalizeMovieSelectionRange;
-var validateMovieSelectionSource = __awtsmoosModule_1534.validateMovieSelectionSource;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var resolveMovieSelection = __awtsmoosModule_1540.resolveMovieSelection;
+var isMovieSelectionDescriptor = __awtsmoosModule_1541.isMovieSelectionDescriptor;
+var MAX_MOVIE_SELECTION_ITEMS = __awtsmoosModule_1541.MAX_MOVIE_SELECTION_ITEMS;
+var normalizeMovieSelectionDescriptor = __awtsmoosModule_1541.normalizeMovieSelectionDescriptor;
+var normalizeMovieSelectionRange = __awtsmoosModule_1541.normalizeMovieSelectionRange;
+var validateMovieSelectionSource = __awtsmoosModule_1541.validateMovieSelectionSource;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 function createEmptyMovieSelectionSet() {
 	return createMovieProjectSnapshot({
@@ -108456,7 +109121,7 @@ function normalizeMovieSelectionSet(source, project = null) {
 
 
 __exports.normalizeMovieSelectionSet = normalizeMovieSelectionSet;
-__exports.normalizeMovieSelectionDescriptor = __awtsmoosModule_1534.normalizeMovieSelectionDescriptor;
+__exports.normalizeMovieSelectionDescriptor = __awtsmoosModule_1541.normalizeMovieSelectionDescriptor;
 
 function movieSelectionSetContains(source, descriptor) {
 	const target = normalizeMovieSelectionDescriptor(descriptor);
@@ -108496,7 +109161,7 @@ function matchingDescriptor(items, source) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineSelectionPaint.js */
-__awtsmoosModule_1531 = (() => {
+__awtsmoosModule_1538 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -108509,8 +109174,8 @@ const __exports = {};
  * mobile taps and desktop modifiers reveal the same immutable selection truth without stale classes.
  */
 
-var normalizeMovieSelectionSet = __awtsmoosModule_1532.normalizeMovieSelectionSet;
-var movieSelectionSetContains = __awtsmoosModule_1532.movieSelectionSetContains;
+var normalizeMovieSelectionSet = __awtsmoosModule_1539.normalizeMovieSelectionSet;
+var movieSelectionSetContains = __awtsmoosModule_1539.movieSelectionSetContains;
 
 function movieTimelineSelectionMode(event) {
 	if (event?.metaKey || event?.ctrlKey) return 'toggle';
@@ -108545,7 +109210,7 @@ __exports.paintMovieTimelineSelection = paintMovieTimelineSelection;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineClipBinding.js */
-__awtsmoosModule_1525 = (() => {
+__awtsmoosModule_1532 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -108558,11 +109223,11 @@ const __exports = {};
  * selection, blade, ripple, roll, slip, slide, rate, and navigation pass through one truthful gate.
  */
 
-var beginMovieProfessionalToolGesture = __awtsmoosModule_1526.beginMovieProfessionalToolGesture;
-var isMovieProfessionalTool = __awtsmoosModule_1526.isMovieProfessionalTool;
-var beginMovieTimelineClipGesture = __awtsmoosModule_1528.beginMovieTimelineClipGesture;
-var paintMovieTimelineClip = __awtsmoosModule_1529.paintMovieTimelineClip;
-var movieTimelineSelectionMode = __awtsmoosModule_1531.movieTimelineSelectionMode;
+var beginMovieProfessionalToolGesture = __awtsmoosModule_1533.beginMovieProfessionalToolGesture;
+var isMovieProfessionalTool = __awtsmoosModule_1533.isMovieProfessionalTool;
+var beginMovieTimelineClipGesture = __awtsmoosModule_1535.beginMovieTimelineClipGesture;
+var paintMovieTimelineClip = __awtsmoosModule_1536.paintMovieTimelineClip;
+var movieTimelineSelectionMode = __awtsmoosModule_1538.movieTimelineSelectionMode;
 
 function bindMovieTimelineClip(editor, element, track, clip) {
 	editor.shell = element.closest?.('.movie-timeline-shell') || editor.shell;
@@ -108611,7 +109276,7 @@ function onClipPointer(editor, element, track, clip, event) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieSelectionSetOperations.js */
-__awtsmoosModule_1535 = (() => {
+__awtsmoosModule_1542 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -108624,10 +109289,10 @@ const __exports = {};
  * every finite operation as one immutable set so desktop modifiers and mobile actions agree.
  */
 
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var normalizeMovieSelectionDescriptor = __awtsmoosModule_1532.normalizeMovieSelectionDescriptor;
-var normalizeMovieSelectionSet = __awtsmoosModule_1532.normalizeMovieSelectionSet;
-var movieSelectionSetContains = __awtsmoosModule_1532.movieSelectionSetContains;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var normalizeMovieSelectionDescriptor = __awtsmoosModule_1539.normalizeMovieSelectionDescriptor;
+var normalizeMovieSelectionSet = __awtsmoosModule_1539.normalizeMovieSelectionSet;
+var movieSelectionSetContains = __awtsmoosModule_1539.movieSelectionSetContains;
 
 const MODES = new Set(['add', 'remove', 'replace', 'toggle']);
 
@@ -108699,7 +109364,7 @@ function removeMovieSelectionDescriptor(source, target, project) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineClipEditor.js */
-__awtsmoosModule_1524 = (() => {
+__awtsmoosModule_1531 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -108712,18 +109377,18 @@ const __exports = {};
  * while one bounded editor joins touch, modifiers, trim, ripple, roll, slip, slide, rate, and gesture entry.
  */
 
-var bindMovieTimelineClip = __awtsmoosModule_1525.bindMovieTimelineClip;
-var releaseMovieTimelineClipGesture = __awtsmoosModule_1528.releaseMovieTimelineClipGesture;
-var nextMovieTimelineClip = __awtsmoosModule_1529.nextMovieTimelineClip;
-var paintMovieTimelineClip = __awtsmoosModule_1529.paintMovieTimelineClip;
-var finishMovieProfessionalToolGesture = __awtsmoosModule_1526.finishMovieProfessionalToolGesture;
-var releaseMovieProfessionalToolGesture = __awtsmoosModule_1526.releaseMovieProfessionalToolGesture;
-var updateMovieProfessionalToolGesture = __awtsmoosModule_1526.updateMovieProfessionalToolGesture;
-var movieSelectionDescriptor = __awtsmoosModule_1533.movieSelectionDescriptor;
-var normalizeMovieSelectionSet = __awtsmoosModule_1532.normalizeMovieSelectionSet;
-var movieSelectionSetContains = __awtsmoosModule_1532.movieSelectionSetContains;
-var updateMovieSelectionSet = __awtsmoosModule_1535.updateMovieSelectionSet;
-var paintMovieTimelineSelection = __awtsmoosModule_1531.paintMovieTimelineSelection;
+var bindMovieTimelineClip = __awtsmoosModule_1532.bindMovieTimelineClip;
+var releaseMovieTimelineClipGesture = __awtsmoosModule_1535.releaseMovieTimelineClipGesture;
+var nextMovieTimelineClip = __awtsmoosModule_1536.nextMovieTimelineClip;
+var paintMovieTimelineClip = __awtsmoosModule_1536.paintMovieTimelineClip;
+var finishMovieProfessionalToolGesture = __awtsmoosModule_1533.finishMovieProfessionalToolGesture;
+var releaseMovieProfessionalToolGesture = __awtsmoosModule_1533.releaseMovieProfessionalToolGesture;
+var updateMovieProfessionalToolGesture = __awtsmoosModule_1533.updateMovieProfessionalToolGesture;
+var movieSelectionDescriptor = __awtsmoosModule_1540.movieSelectionDescriptor;
+var normalizeMovieSelectionSet = __awtsmoosModule_1539.normalizeMovieSelectionSet;
+var movieSelectionSetContains = __awtsmoosModule_1539.movieSelectionSetContains;
+var updateMovieSelectionSet = __awtsmoosModule_1542.updateMovieSelectionSet;
+var paintMovieTimelineSelection = __awtsmoosModule_1538.paintMovieTimelineSelection;
 
 class MovieTimelineClipEditor {
 	constructor(options) {
@@ -108820,7 +109485,7 @@ __exports.MovieTimelineClipEditor = MovieTimelineClipEditor;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineToolState.js */
-__awtsmoosModule_1538 = (() => {
+__awtsmoosModule_1545 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -108833,7 +109498,7 @@ const __exports = {};
  * Awtsmoos.com keeps keyboard, toolbar, agent, pointer, status, and CSS inside the selfsame flame.
  */
 
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
 
 const MOVIE_TIMELINE_TOOLS = Object.freeze([
 	tool('v', 'Select', 'select', '↖'),
@@ -108896,7 +109561,7 @@ function tool(key, label, name, symbol) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineInteractionKeys.js */
-__awtsmoosModule_1537 = (() => {
+__awtsmoosModule_1544 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -108909,7 +109574,7 @@ const __exports = {};
  * Awtsmoos.com ignores editable vessels and keeps project history separate from navigation state.
  */
 
-var movieTimelineToolFromKey = __awtsmoosModule_1538.movieTimelineToolFromKey;
+var movieTimelineToolFromKey = __awtsmoosModule_1545.movieTimelineToolFromKey;
 
 function handleMovieTimelineWheel(controller, event) {
 	if (!(event.ctrlKey || event.metaKey)) return;
@@ -108949,7 +109614,7 @@ __exports.handleMovieTimelineKeyDown = handleMovieTimelineKeyDown;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineViewport.js */
-__awtsmoosModule_1541 = (() => {
+__awtsmoosModule_1548 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -108962,7 +109627,7 @@ const __exports = {};
  * revealed track header and available span, so zoom and seeking remain honest exchanges.
  */
 
-var clampTimelineScale = __awtsmoosModule_1523.clampTimelineScale;
+var clampTimelineScale = __awtsmoosModule_1530.clampTimelineScale;
 
 function timelineHeaderWidth(shell) {
 	const measured = shell.querySelector('.movie-track-label')
@@ -108986,7 +109651,7 @@ __exports.fitTimelineScale = fitTimelineScale;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineToolPointer.js */
-__awtsmoosModule_1540 = (() => {
+__awtsmoosModule_1547 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -108999,9 +109664,9 @@ const __exports = {};
  * Awtsmoos.com anchors every lens and pan to measured timeline geometry and home.
  */
 
-var captureMoviePointer = __awtsmoosModule_1527.captureMoviePointer;
-var timelineTimeAtPixel = __awtsmoosModule_1523.timelineTimeAtPixel;
-var timelineHeaderWidth = __awtsmoosModule_1541.timelineHeaderWidth;
+var captureMoviePointer = __awtsmoosModule_1534.captureMoviePointer;
+var timelineTimeAtPixel = __awtsmoosModule_1530.timelineTimeAtPixel;
+var timelineHeaderWidth = __awtsmoosModule_1548.timelineHeaderWidth;
 
 function movieTimelineTimeFromClientX(view, clientX) {
 	const rectangle = view.shell.getBoundingClientRect();
@@ -109055,7 +109720,7 @@ __exports.applyMovieTimelinePointerZoom = applyMovieTimelinePointerZoom;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineToolInteraction.js */
-__awtsmoosModule_1539 = (() => {
+__awtsmoosModule_1546 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -109068,11 +109733,11 @@ const __exports = {};
  * Awtsmoos.com keeps navigation neutral and reserves professional trims for selected clip vessels alone.
  */
 
-var isMovieProfessionalTool = __awtsmoosModule_1526.isMovieProfessionalTool;
-var applyMovieTimelinePointerZoom = __awtsmoosModule_1540.applyMovieTimelinePointerZoom;
-var beginMovieTimelinePan = __awtsmoosModule_1540.beginMovieTimelinePan;
-var continueMovieTimelinePan = __awtsmoosModule_1540.continueMovieTimelinePan;
-var endMovieTimelinePan = __awtsmoosModule_1540.endMovieTimelinePan;
+var isMovieProfessionalTool = __awtsmoosModule_1533.isMovieProfessionalTool;
+var applyMovieTimelinePointerZoom = __awtsmoosModule_1547.applyMovieTimelinePointerZoom;
+var beginMovieTimelinePan = __awtsmoosModule_1547.beginMovieTimelinePan;
+var continueMovieTimelinePan = __awtsmoosModule_1547.continueMovieTimelinePan;
+var endMovieTimelinePan = __awtsmoosModule_1547.endMovieTimelinePan;
 
 function beginMovieTimelineToolPointer(controller, event) {
 	const tool = controller.view.tool;
@@ -109109,7 +109774,7 @@ __exports.endMovieTimelineToolPointer = endMovieTimelineToolPointer;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineZoomState.js */
-__awtsmoosModule_1542 = (() => {
+__awtsmoosModule_1549 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -109122,8 +109787,8 @@ const __exports = {};
  * keeps the chosen instant beneath the pointer, so scale may change without stealing control.
  */
 
-var timelinePixelAtTime = __awtsmoosModule_1523.timelinePixelAtTime;
-var timelineHeaderWidth = __awtsmoosModule_1541.timelineHeaderWidth;
+var timelinePixelAtTime = __awtsmoosModule_1530.timelinePixelAtTime;
+var timelineHeaderWidth = __awtsmoosModule_1548.timelineHeaderWidth;
 
 function captureTimelineZoomAnchor(view, clientX) {
 	if (!Number.isFinite(clientX)) return null;
@@ -109158,7 +109823,7 @@ __exports.restoreTimelineScroll = restoreTimelineScroll;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineInteractionController.js */
-__awtsmoosModule_1536 = (() => {
+__awtsmoosModule_1543 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -109171,15 +109836,15 @@ const __exports = {};
  * bounded to one timeline view while project edits remain separate from navigation state.
  */
 
-var captureMoviePointer = __awtsmoosModule_1527.captureMoviePointer;
-var timelineTimeAtPixel = __awtsmoosModule_1523.timelineTimeAtPixel;
-var handleMovieTimelineKeyDown = __awtsmoosModule_1537.handleMovieTimelineKeyDown;
-var handleMovieTimelineWheel = __awtsmoosModule_1537.handleMovieTimelineWheel;
-var beginMovieTimelineToolPointer = __awtsmoosModule_1539.beginMovieTimelineToolPointer;
-var continueMovieTimelineToolPointer = __awtsmoosModule_1539.continueMovieTimelineToolPointer;
-var endMovieTimelineToolPointer = __awtsmoosModule_1539.endMovieTimelineToolPointer;
-var timelineHeaderWidth = __awtsmoosModule_1541.timelineHeaderWidth;
-var restoreTimelineScroll = __awtsmoosModule_1542.restoreTimelineScroll;
+var captureMoviePointer = __awtsmoosModule_1534.captureMoviePointer;
+var timelineTimeAtPixel = __awtsmoosModule_1530.timelineTimeAtPixel;
+var handleMovieTimelineKeyDown = __awtsmoosModule_1544.handleMovieTimelineKeyDown;
+var handleMovieTimelineWheel = __awtsmoosModule_1544.handleMovieTimelineWheel;
+var beginMovieTimelineToolPointer = __awtsmoosModule_1546.beginMovieTimelineToolPointer;
+var continueMovieTimelineToolPointer = __awtsmoosModule_1546.continueMovieTimelineToolPointer;
+var endMovieTimelineToolPointer = __awtsmoosModule_1546.endMovieTimelineToolPointer;
+var timelineHeaderWidth = __awtsmoosModule_1548.timelineHeaderWidth;
+var restoreTimelineScroll = __awtsmoosModule_1549.restoreTimelineScroll;
 
 class MovieTimelineInteractionController {
 	constructor(view) {
@@ -109262,7 +109927,7 @@ __exports.MovieTimelineInteractionController = MovieTimelineInteractionControlle
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineAppearanceMarkup.js */
-__awtsmoosModule_1547 = (() => {
+__awtsmoosModule_1554 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -109313,7 +109978,7 @@ __exports.applyMovieTimelineAppearanceData = applyMovieTimelineAppearanceData;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineEscape.js */
-__awtsmoosModule_1548 = (() => {
+__awtsmoosModule_1555 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -109340,7 +110005,7 @@ __exports.escapeTimelineHtml = escapeTimelineHtml;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceSamples.js */
-__awtsmoosModule_1551 = (() => {
+__awtsmoosModule_1558 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -109415,7 +110080,7 @@ function clamp(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelinePerformanceSummary.js */
-__awtsmoosModule_1550 = (() => {
+__awtsmoosModule_1557 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -109428,7 +110093,7 @@ const __exports = {};
  * turns recorded body, facing, deed, voice, lens, and warning into one deterministic NLE rhyme.
  */
 
-var vectorDistance = __awtsmoosModule_1551.vectorDistance;
+var vectorDistance = __awtsmoosModule_1558.vectorDistance;
 
 function summarizeMovieTimelinePerformance(project, track, clip) {
 	const take = project.performance?.takes?.find(item => item.id === clip.takeId);
@@ -109534,7 +110199,7 @@ function missingSummary(track, clip, performer) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelinePerformanceMarkup.js */
-__awtsmoosModule_1549 = (() => {
+__awtsmoosModule_1556 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -109547,8 +110212,8 @@ const __exports = {};
  * Awtsmoos.com lets motion, facing, deeds, camera, voice, preference, and warning sing in rhyme.
  */
 
-var escapeTimelineHtml = __awtsmoosModule_1548.escapeTimelineHtml;
-var summarizeMovieTimelinePerformance = __awtsmoosModule_1550.summarizeMovieTimelinePerformance;
+var escapeTimelineHtml = __awtsmoosModule_1555.escapeTimelineHtml;
+var summarizeMovieTimelinePerformance = __awtsmoosModule_1557.summarizeMovieTimelinePerformance;
 
 function createMovieTimelinePerformancePresentation(project, track, clip) {
 	if (track.type !== 'performance') {
@@ -109622,7 +110287,7 @@ function performanceTitle(summary, clip) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineClipElement.js */
-__awtsmoosModule_1546 = (() => {
+__awtsmoosModule_1553 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -109635,10 +110300,10 @@ const __exports = {};
  * clip, actor, take, curve, transition, effect, keyframe, touch, keyboard, and agent evidence agree.
  */
 
-var applyMovieTimelineAppearanceData = __awtsmoosModule_1547.applyMovieTimelineAppearanceData;
-var movieTimelineAppearanceMarkup = __awtsmoosModule_1547.movieTimelineAppearanceMarkup;
-var escapeTimelineHtml = __awtsmoosModule_1548.escapeTimelineHtml;
-var createMovieTimelinePerformancePresentation = __awtsmoosModule_1549.createMovieTimelinePerformancePresentation;
+var applyMovieTimelineAppearanceData = __awtsmoosModule_1554.applyMovieTimelineAppearanceData;
+var movieTimelineAppearanceMarkup = __awtsmoosModule_1554.movieTimelineAppearanceMarkup;
+var escapeTimelineHtml = __awtsmoosModule_1555.escapeTimelineHtml;
+var createMovieTimelinePerformancePresentation = __awtsmoosModule_1556.createMovieTimelinePerformancePresentation;
 
 const TRACK_COLORS = Object.freeze({
 	actor: '#315f9d',
@@ -109704,7 +110369,7 @@ function clipTitle(label, clip) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineElements.js */
-__awtsmoosModule_1545 = (() => {
+__awtsmoosModule_1552 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -109717,9 +110382,9 @@ const __exports = {};
  * its purpose while clip, escape, toolbar, and marker vessels remain independently clear.
  */
 
-var createTimelineClipElement = __awtsmoosModule_1546.createTimelineClipElement;
-var escapeTimelineHtml = __awtsmoosModule_1548.escapeTimelineHtml;
-var timelineRulerStep = __awtsmoosModule_1523.timelineRulerStep;
+var createTimelineClipElement = __awtsmoosModule_1553.createTimelineClipElement;
+var escapeTimelineHtml = __awtsmoosModule_1555.escapeTimelineHtml;
+var timelineRulerStep = __awtsmoosModule_1530.timelineRulerStep;
 
 function createTimelineRuler(project, scale) {
 	const ruler = document.createElement('div');
@@ -109772,7 +110437,7 @@ function rulerMark(seconds, scale) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineMarkers.js */
-__awtsmoosModule_1552 = (() => {
+__awtsmoosModule_1559 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -109785,7 +110450,7 @@ const __exports = {};
  * announce its name, seek when activated, and depart through one recoverable command.
  */
 
-var escapeTimelineHtml = __awtsmoosModule_1548.escapeTimelineHtml;
+var escapeTimelineHtml = __awtsmoosModule_1555.escapeTimelineHtml;
 
 function createTimelineMarkerLane(view) {
 	const lane = document.createElement('div');
@@ -109827,7 +110492,7 @@ function createMarker(view, marker) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineToolbarGroups.js */
-__awtsmoosModule_1554 = (() => {
+__awtsmoosModule_1561 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -109840,7 +110505,7 @@ const __exports = {};
  * Awtsmoos.com reveals cut, ripple, alignment, distribution, navigation, and zoom without hiding command truth.
  */
 
-var MOVIE_TIMELINE_TOOLS = __awtsmoosModule_1538.MOVIE_TIMELINE_TOOLS;
+var MOVIE_TIMELINE_TOOLS = __awtsmoosModule_1545.MOVIE_TIMELINE_TOOLS;
 
 function createTimelineToolGroup(view) {
 	const group = timelineGroup('movie-timeline-tool-group', 'Timeline editing tools');
@@ -109931,7 +110596,7 @@ function timelineCommandButton(label, title) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineToolbar.js */
-__awtsmoosModule_1553 = (() => {
+__awtsmoosModule_1560 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -109944,11 +110609,11 @@ const __exports = {};
  * gives pointer, keyboard, mobile tap, and agent command one truthful control surface.
  */
 
-var createTimelineEditGroup = __awtsmoosModule_1554.createTimelineEditGroup;
-var createTimelineScaleGroup = __awtsmoosModule_1554.createTimelineScaleGroup;
-var createTimelineTimeOutput = __awtsmoosModule_1554.createTimelineTimeOutput;
-var createTimelineToolGroup = __awtsmoosModule_1554.createTimelineToolGroup;
-var MOVIE_TIMELINE_TOOLS = __awtsmoosModule_1538.MOVIE_TIMELINE_TOOLS;
+var createTimelineEditGroup = __awtsmoosModule_1561.createTimelineEditGroup;
+var createTimelineScaleGroup = __awtsmoosModule_1561.createTimelineScaleGroup;
+var createTimelineTimeOutput = __awtsmoosModule_1561.createTimelineTimeOutput;
+var createTimelineToolGroup = __awtsmoosModule_1561.createTimelineToolGroup;
+var MOVIE_TIMELINE_TOOLS = __awtsmoosModule_1545.MOVIE_TIMELINE_TOOLS;
 
 function createTimelineToolbar(view) {
 	const toolbar = document.createElement('div');
@@ -109994,7 +110659,7 @@ function setDisabled(view, name, disabled) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineRenderer.js */
-__awtsmoosModule_1544 = (() => {
+__awtsmoosModule_1551 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -110007,14 +110672,14 @@ const __exports = {};
  * publishes true-second geometry and tool state while rebuilding without stale listeners.
  */
 
-var createTimelineRuler = __awtsmoosModule_1545.createTimelineRuler;
-var createTimelineTrack = __awtsmoosModule_1545.createTimelineTrack;
-var timelinePixelAtTime = __awtsmoosModule_1523.timelinePixelAtTime;
-var createTimelineMarkerLane = __awtsmoosModule_1552.createTimelineMarkerLane;
-var createTimelineToolbar = __awtsmoosModule_1553.createTimelineToolbar;
-var refreshTimelineToolbar = __awtsmoosModule_1553.refreshTimelineToolbar;
-var movieTimelineToolDefinition = __awtsmoosModule_1538.movieTimelineToolDefinition;
-var timelineHeaderWidth = __awtsmoosModule_1541.timelineHeaderWidth;
+var createTimelineRuler = __awtsmoosModule_1552.createTimelineRuler;
+var createTimelineTrack = __awtsmoosModule_1552.createTimelineTrack;
+var timelinePixelAtTime = __awtsmoosModule_1530.timelinePixelAtTime;
+var createTimelineMarkerLane = __awtsmoosModule_1559.createTimelineMarkerLane;
+var createTimelineToolbar = __awtsmoosModule_1560.createTimelineToolbar;
+var refreshTimelineToolbar = __awtsmoosModule_1560.refreshTimelineToolbar;
+var movieTimelineToolDefinition = __awtsmoosModule_1545.movieTimelineToolDefinition;
+var timelineHeaderWidth = __awtsmoosModule_1548.timelineHeaderWidth;
 
 function renderMovieTimeline(view) {
 	const previousScroll = {
@@ -110100,7 +110765,7 @@ function timelineScaleBand(scale) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineToolActions.js */
-__awtsmoosModule_1555 = (() => {
+__awtsmoosModule_1562 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -110113,10 +110778,10 @@ const __exports = {};
  * Awtsmoos.com lets state remain neutral while one clicked blade becomes an authored cut inside.
  */
 
-var movieSelectionDescriptor = __awtsmoosModule_1533.movieSelectionDescriptor;
-var movieTimelineTimeFromClientX = __awtsmoosModule_1540.movieTimelineTimeFromClientX;
-var movieTimelineToolDefinition = __awtsmoosModule_1538.movieTimelineToolDefinition;
-var normalizeMovieTimelineTool = __awtsmoosModule_1538.normalizeMovieTimelineTool;
+var movieSelectionDescriptor = __awtsmoosModule_1540.movieSelectionDescriptor;
+var movieTimelineTimeFromClientX = __awtsmoosModule_1547.movieTimelineTimeFromClientX;
+var movieTimelineToolDefinition = __awtsmoosModule_1545.movieTimelineToolDefinition;
+var normalizeMovieTimelineTool = __awtsmoosModule_1545.normalizeMovieTimelineTool;
 
 function setMovieTimelineViewTool(view, value) {
 	const tool = normalizeMovieTimelineTool(value);
@@ -110150,7 +110815,7 @@ __exports.bladeMovieTimelineClip = bladeMovieTimelineClip;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineViewOperations.js */
-__awtsmoosModule_1543 = (() => {
+__awtsmoosModule_1550 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -110163,14 +110828,14 @@ const __exports = {};
  * Awtsmoos.com keeps the view constructor small and every timeline behavior explicit in grace.
  */
 
-var clampTimelineScale = __awtsmoosModule_1523.clampTimelineScale;
-var refreshMovieTimelineCommands = __awtsmoosModule_1544.refreshMovieTimelineCommands;
-var renderMovieTimeline = __awtsmoosModule_1544.renderMovieTimeline;
-var setMovieTimelineTime = __awtsmoosModule_1544.setMovieTimelineTime;
-var bladeMovieTimelineClip = __awtsmoosModule_1555.bladeMovieTimelineClip;
-var setMovieTimelineViewTool = __awtsmoosModule_1555.setMovieTimelineViewTool;
-var fitTimelineScale = __awtsmoosModule_1541.fitTimelineScale;
-var captureTimelineZoomAnchor = __awtsmoosModule_1542.captureTimelineZoomAnchor;
+var clampTimelineScale = __awtsmoosModule_1530.clampTimelineScale;
+var refreshMovieTimelineCommands = __awtsmoosModule_1551.refreshMovieTimelineCommands;
+var renderMovieTimeline = __awtsmoosModule_1551.renderMovieTimeline;
+var setMovieTimelineTime = __awtsmoosModule_1551.setMovieTimelineTime;
+var bladeMovieTimelineClip = __awtsmoosModule_1562.bladeMovieTimelineClip;
+var setMovieTimelineViewTool = __awtsmoosModule_1562.setMovieTimelineViewTool;
+var fitTimelineScale = __awtsmoosModule_1548.fitTimelineScale;
+var captureTimelineZoomAnchor = __awtsmoosModule_1549.captureTimelineZoomAnchor;
 
 function installMovieTimelineViewOperations(view) {
 	view.render = function render() {
@@ -110228,7 +110893,7 @@ __exports.installMovieTimelineViewOperations = installMovieTimelineViewOperation
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineView.js */
-__awtsmoosModule_1522 = (() => {
+__awtsmoosModule_1529 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -110241,11 +110906,11 @@ const __exports = {};
  * Awtsmoos.com keeps project meaning stable while every interaction remains bounded, command-driven, and right.
  */
 
-var clampTimelineScale = __awtsmoosModule_1523.clampTimelineScale;
-var MovieTimelineClipEditor = __awtsmoosModule_1524.MovieTimelineClipEditor;
-var MovieTimelineInteractionController = __awtsmoosModule_1536.MovieTimelineInteractionController;
-var normalizeMovieTimelineTool = __awtsmoosModule_1538.normalizeMovieTimelineTool;
-var installMovieTimelineViewOperations = __awtsmoosModule_1543.installMovieTimelineViewOperations;
+var clampTimelineScale = __awtsmoosModule_1530.clampTimelineScale;
+var MovieTimelineClipEditor = __awtsmoosModule_1531.MovieTimelineClipEditor;
+var MovieTimelineInteractionController = __awtsmoosModule_1543.MovieTimelineInteractionController;
+var normalizeMovieTimelineTool = __awtsmoosModule_1545.normalizeMovieTimelineTool;
+var installMovieTimelineViewOperations = __awtsmoosModule_1550.installMovieTimelineViewOperations;
 
 class MovieTimelineView {
 	constructor(project, shell, onSeek, options = {}) {
@@ -110289,7 +110954,7 @@ __exports.MovieTimelineView = MovieTimelineView;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieFloorResolver.js */
-__awtsmoosModule_1559 = (() => {
+__awtsmoosModule_1566 = (() => {
 const __exports = {};
 // B"H
 /**
@@ -110334,7 +110999,7 @@ __exports.movieFloorAt = movieFloorAt;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieActorRuntime.js */
-__awtsmoosModule_1560 = (() => {
+__awtsmoosModule_1567 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -110383,7 +111048,7 @@ __exports.updateMovieActorRuntime = updateMovieActorRuntime;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieEasing.js */
-__awtsmoosModule_1562 = (() => {
+__awtsmoosModule_1569 = (() => {
 const __exports = {};
 // B"H
 /**
@@ -110428,7 +111093,7 @@ __exports.MOVIE_EASING_NAMES = MOVIE_EASING_NAMES;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieActorState.js */
-__awtsmoosModule_1561 = (() => {
+__awtsmoosModule_1568 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -110441,10 +111106,10 @@ const __exports = {};
  * these pure decisions apart from runtime mutation, so each cinematic vessel stays clear.
  */
 
-var lerpPoint = __awtsmoosModule_1562.lerpPoint;
-var movieFloorAt = __awtsmoosModule_1559.movieFloorAt;
-var hasMovieNpc = __awtsmoosModule_1560.hasMovieNpc;
-var movieActorPlayer = __awtsmoosModule_1560.movieActorPlayer;
+var lerpPoint = __awtsmoosModule_1569.lerpPoint;
+var movieFloorAt = __awtsmoosModule_1566.movieFloorAt;
+var hasMovieNpc = __awtsmoosModule_1567.hasMovieNpc;
+var movieActorPlayer = __awtsmoosModule_1567.movieActorPlayer;
 
 function resolveMovieActorAnimation(runtime, target, requested) {
 	const player = movieActorPlayer(runtime, target);
@@ -110508,7 +111173,7 @@ __exports.setMovieActorYaw = setMovieActorYaw;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieActorDirector.js */
-__awtsmoosModule_1558 = (() => {
+__awtsmoosModule_1565 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -110521,16 +111186,16 @@ const __exports = {};
  * Awtsmoos.com honors every real runtime vessel without inventing powers in its name.
  */
 
-var movieFloorAt = __awtsmoosModule_1559.movieFloorAt;
-var hasMovieNpc = __awtsmoosModule_1560.hasMovieNpc;
-var movieActorModel = __awtsmoosModule_1560.movieActorModel;
-var movieActorPlayer = __awtsmoosModule_1560.movieActorPlayer;
-var updateMovieActorRuntime = __awtsmoosModule_1560.updateMovieActorRuntime;
-var resolveMovieActorAnimation = __awtsmoosModule_1561.resolveMovieActorAnimation;
-var resolveMovieActorFacing = __awtsmoosModule_1561.resolveMovieActorFacing;
-var resolveMovieActorPoint = __awtsmoosModule_1561.resolveMovieActorPoint;
-var resolveMovieNpcFootOffset = __awtsmoosModule_1561.resolveMovieNpcFootOffset;
-var setMovieActorYaw = __awtsmoosModule_1561.setMovieActorYaw;
+var movieFloorAt = __awtsmoosModule_1566.movieFloorAt;
+var hasMovieNpc = __awtsmoosModule_1567.hasMovieNpc;
+var movieActorModel = __awtsmoosModule_1567.movieActorModel;
+var movieActorPlayer = __awtsmoosModule_1567.movieActorPlayer;
+var updateMovieActorRuntime = __awtsmoosModule_1567.updateMovieActorRuntime;
+var resolveMovieActorAnimation = __awtsmoosModule_1568.resolveMovieActorAnimation;
+var resolveMovieActorFacing = __awtsmoosModule_1568.resolveMovieActorFacing;
+var resolveMovieActorPoint = __awtsmoosModule_1568.resolveMovieActorPoint;
+var resolveMovieNpcFootOffset = __awtsmoosModule_1568.resolveMovieNpcFootOffset;
+var setMovieActorYaw = __awtsmoosModule_1568.setMovieActorYaw;
 
 class MovieActorDirector {
 	constructor(runtime) {
@@ -110618,7 +111283,7 @@ __exports.movieNpcCapability = movieNpcCapability;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieAuthoring3dBufferOperations.js */
-__awtsmoosModule_1565 = (() => {
+__awtsmoosModule_1572 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -110736,7 +111401,7 @@ function bounded(value, minimum, maximum, fallback) { const number = Number(valu
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieAuthoring3dTargets.js */
-__awtsmoosModule_1566 = (() => {
+__awtsmoosModule_1573 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -110786,7 +111451,7 @@ function isCanonicalChossid(model) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieAuthoring3dGeometryGraphRuntime.js */
-__awtsmoosModule_1564 = (() => {
+__awtsmoosModule_1571 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -110799,9 +111464,9 @@ const __exports = {};
  * transform, instance, distribution, position, scale, bevel, extrude, subdivision, and deletion become visible.
  */
 
-var applyMovieBufferOperation = __awtsmoosModule_1565.applyMovieBufferOperation;
-var movieBufferOperationSupported = __awtsmoosModule_1565.movieBufferOperationSupported;
-var collectTargetMeshes = __awtsmoosModule_1566.collectTargetMeshes;
+var applyMovieBufferOperation = __awtsmoosModule_1572.applyMovieBufferOperation;
+var movieBufferOperationSupported = __awtsmoosModule_1572.movieBufferOperationSupported;
+var collectTargetMeshes = __awtsmoosModule_1573.collectTargetMeshes;
 
 function applyMovieGeometryGraph(target, graph) {
 	if (!target || !graph) return null;
@@ -110889,7 +111554,7 @@ function nodeEvidence(node, status) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieAuthoring3dMotion.js */
-__awtsmoosModule_1567 = (() => {
+__awtsmoosModule_1574 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -110974,7 +111639,7 @@ function applyManualRuntimeState(runtime, target) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieAuthoring3dGeometryRuntime.js */
-__awtsmoosModule_1569 = (() => {
+__awtsmoosModule_1576 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -111047,7 +111712,7 @@ function applyCentroidSmooth(output, base, modifier) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieAuthoring3dPhysicsRuntime.js */
-__awtsmoosModule_1570 = (() => {
+__awtsmoosModule_1577 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -111110,7 +111775,7 @@ function physicsParameters(modifier) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieAuthoring3dTopologyModifierRuntime.js */
-__awtsmoosModule_1571 = (() => {
+__awtsmoosModule_1578 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -111123,7 +111788,7 @@ const __exports = {};
  * bevel, subdivision surface, and decimation reveal change while repeated frames remain stable.
  */
 
-var applyMovieBufferOperation = __awtsmoosModule_1565.applyMovieBufferOperation;
+var applyMovieBufferOperation = __awtsmoosModule_1572.applyMovieBufferOperation;
 
 function applyMovieTopologyModifier(mesh, modifier) {
 	const node = topologyNode(modifier);
@@ -111183,7 +111848,7 @@ function topologyNode(modifier) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieAuthoring3dModifierRuntime.js */
-__awtsmoosModule_1568 = (() => {
+__awtsmoosModule_1575 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -111196,11 +111861,11 @@ const __exports = {};
  * executes geometry, topology, visual, and physics operations without violating frozen runtime materials.
  */
 
-var applyMovieGeometryModifier = __awtsmoosModule_1569.applyMovieGeometryModifier;
-var applyMoviePhysicsModifier = __awtsmoosModule_1570.applyMoviePhysicsModifier;
-var isMoviePhysicsModifier = __awtsmoosModule_1570.isMoviePhysicsModifier;
-var collectTargetMeshes = __awtsmoosModule_1566.collectTargetMeshes;
-var applyMovieTopologyModifier = __awtsmoosModule_1571.applyMovieTopologyModifier;
+var applyMovieGeometryModifier = __awtsmoosModule_1576.applyMovieGeometryModifier;
+var applyMoviePhysicsModifier = __awtsmoosModule_1577.applyMoviePhysicsModifier;
+var isMoviePhysicsModifier = __awtsmoosModule_1577.isMoviePhysicsModifier;
+var collectTargetMeshes = __awtsmoosModule_1573.collectTargetMeshes;
+var applyMovieTopologyModifier = __awtsmoosModule_1578.applyMovieTopologyModifier;
 
 function applyMovieModifierStack(runtime, target, stack, time) {
 	if (!target || !stack) return [];
@@ -111276,7 +111941,7 @@ function applySolidifyEvidence(mesh, modifier) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieAuthoring3dVertexGroups.js */
-__awtsmoosModule_1573 = (() => {
+__awtsmoosModule_1580 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -111329,7 +111994,7 @@ function clamp(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieAuthoring3dSculptRuntime.js */
-__awtsmoosModule_1572 = (() => {
+__awtsmoosModule_1579 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -111342,8 +112007,8 @@ const __exports = {};
  * inflate, crease, flatten, grab, and mask gestures remain serializable and reproducible.
  */
 
-var collectTargetMeshes = __awtsmoosModule_1566.collectTargetMeshes;
-var movieVertexWeights = __awtsmoosModule_1573.movieVertexWeights;
+var collectTargetMeshes = __awtsmoosModule_1573.collectTargetMeshes;
+var movieVertexWeights = __awtsmoosModule_1580.movieVertexWeights;
 
 function applyMovieSculptLayers(target, layers = [], vertexGroups = []) {
 	let strokeCount = 0;
@@ -111403,7 +112068,7 @@ function matchesTarget(target, id) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieAuthoring3dTextureResolver.js */
-__awtsmoosModule_1575 = (() => {
+__awtsmoosModule_1582 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -111483,7 +112148,7 @@ function pair(value, fallback) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieAuthoring3dShaderRuntime.js */
-__awtsmoosModule_1574 = (() => {
+__awtsmoosModule_1581 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -111496,8 +112161,8 @@ const __exports = {};
  * Awtsmoos.com preserves frozen renderer vessels while geometry carries truthful shader evidence.
  */
 
-var collectTargetMeshes = __awtsmoosModule_1566.collectTargetMeshes;
-var resolveMovieAuthoringTextures = __awtsmoosModule_1575.resolveMovieAuthoringTextures;
+var collectTargetMeshes = __awtsmoosModule_1573.collectTargetMeshes;
+var resolveMovieAuthoringTextures = __awtsmoosModule_1582.resolveMovieAuthoringTextures;
 
 function applyMovieShaderGraph(target, graph, time, textureRecords = [], textureRuntime = null) {
 	if (!target || !graph) return null;
@@ -111602,7 +112267,7 @@ function pair(value, fallback) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieAuthoring3dTextureRuntime.js */
-__awtsmoosModule_1576 = (() => {
+__awtsmoosModule_1583 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -111616,7 +112281,7 @@ const __exports = {};
  */
 
 var loadPublicMaterialUrl = __awtsmoosModule_204.loadPublicMaterialUrl;
-var resolveMovieAuthoringTextures = __awtsmoosModule_1575.resolveMovieAuthoringTextures;
+var resolveMovieAuthoringTextures = __awtsmoosModule_1582.resolveMovieAuthoringTextures;
 
 class MovieAuthoring3dTextureRuntime {
 	constructor(records = [], dependencies = {}) {
@@ -111693,7 +112358,7 @@ __exports.MovieAuthoring3dTextureRuntime = MovieAuthoring3dTextureRuntime;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieScene3dMath.js */
-__awtsmoosModule_1579 = (() => {
+__awtsmoosModule_1586 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -111760,7 +112425,7 @@ __exports.movieScene3dQuaternionToEuler = movieScene3dQuaternionToEuler;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieScene3dAuthoringState.js */
-__awtsmoosModule_1578 = (() => {
+__awtsmoosModule_1585 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -111773,9 +112438,9 @@ const __exports = {};
  * automatic transforms and vertices beneath durable manual authoring so undo can reveal them exactly.
  */
 
-var movieScene3dQuaternionToEuler = __awtsmoosModule_1579.movieScene3dQuaternionToEuler;
-var movieScene3dVectorSnapshot = __awtsmoosModule_1579.movieScene3dVectorSnapshot;
-var setMovieScene3dQuaternionFromEuler = __awtsmoosModule_1579.setMovieScene3dQuaternionFromEuler;
+var movieScene3dQuaternionToEuler = __awtsmoosModule_1586.movieScene3dQuaternionToEuler;
+var movieScene3dVectorSnapshot = __awtsmoosModule_1586.movieScene3dVectorSnapshot;
+var setMovieScene3dQuaternionFromEuler = __awtsmoosModule_1586.setMovieScene3dQuaternionFromEuler;
 
 const RUNTIME_STATES = new WeakMap();
 
@@ -111847,7 +112512,7 @@ __exports.movieScene3dVertexKey = movieScene3dVertexKey;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieScene3dAuthoringRuntime.js */
-__awtsmoosModule_1577 = (() => {
+__awtsmoosModule_1584 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -111860,15 +112525,15 @@ const __exports = {};
  * survive playback and rendering, then lets undo reveal the automatic frame beneath it.
  */
 
-var collectTargetMeshes = __awtsmoosModule_1566.collectTargetMeshes;
-var movieScene3dAuthoringIndex = __awtsmoosModule_1578.movieScene3dAuthoringIndex;
-var movieScene3dAuthoringState = __awtsmoosModule_1578.movieScene3dAuthoringState;
-var movieScene3dTransformSnapshot = __awtsmoosModule_1578.movieScene3dTransformSnapshot;
-var movieScene3dVertexKey = __awtsmoosModule_1578.movieScene3dVertexKey;
-var readMovieScene3dVertex = __awtsmoosModule_1578.readMovieScene3dVertex;
-var sameMovieScene3dTransform = __awtsmoosModule_1578.sameMovieScene3dTransform;
-var sameMovieScene3dVector = __awtsmoosModule_1578.sameMovieScene3dVector;
-var writeMovieScene3dTransform = __awtsmoosModule_1578.writeMovieScene3dTransform;
+var collectTargetMeshes = __awtsmoosModule_1573.collectTargetMeshes;
+var movieScene3dAuthoringIndex = __awtsmoosModule_1585.movieScene3dAuthoringIndex;
+var movieScene3dAuthoringState = __awtsmoosModule_1585.movieScene3dAuthoringState;
+var movieScene3dTransformSnapshot = __awtsmoosModule_1585.movieScene3dTransformSnapshot;
+var movieScene3dVertexKey = __awtsmoosModule_1585.movieScene3dVertexKey;
+var readMovieScene3dVertex = __awtsmoosModule_1585.readMovieScene3dVertex;
+var sameMovieScene3dTransform = __awtsmoosModule_1585.sameMovieScene3dTransform;
+var sameMovieScene3dVector = __awtsmoosModule_1585.sameMovieScene3dVector;
+var writeMovieScene3dTransform = __awtsmoosModule_1585.writeMovieScene3dTransform;
 
 function applyMovieScene3dAuthoring(target, model) {
 	if (!target || !model) return null;
@@ -111958,7 +112623,7 @@ function restoreVertex(meshes, key, state) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieAuthoring3dDirector.js */
-__awtsmoosModule_1563 = (() => {
+__awtsmoosModule_1570 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -111971,14 +112636,14 @@ const __exports = {};
  * coordinates authored automation and persistent object/edit-mode decisions without splitting project truth.
  */
 
-var applyMovieGeometryGraph = __awtsmoosModule_1564.applyMovieGeometryGraph;
-var applyMovieAuthoring3dMotion = __awtsmoosModule_1567.applyMovieAuthoring3dMotion;
-var applyMovieModifierStack = __awtsmoosModule_1568.applyMovieModifierStack;
-var applyMovieSculptLayers = __awtsmoosModule_1572.applyMovieSculptLayers;
-var applyMovieShaderGraph = __awtsmoosModule_1574.applyMovieShaderGraph;
-var resolveMovieAuthoring3dTarget = __awtsmoosModule_1566.resolveMovieAuthoring3dTarget;
-var MovieAuthoring3dTextureRuntime = __awtsmoosModule_1576.MovieAuthoring3dTextureRuntime;
-var applyMovieScene3dAuthoring = __awtsmoosModule_1577.applyMovieScene3dAuthoring;
+var applyMovieGeometryGraph = __awtsmoosModule_1571.applyMovieGeometryGraph;
+var applyMovieAuthoring3dMotion = __awtsmoosModule_1574.applyMovieAuthoring3dMotion;
+var applyMovieModifierStack = __awtsmoosModule_1575.applyMovieModifierStack;
+var applyMovieSculptLayers = __awtsmoosModule_1579.applyMovieSculptLayers;
+var applyMovieShaderGraph = __awtsmoosModule_1581.applyMovieShaderGraph;
+var resolveMovieAuthoring3dTarget = __awtsmoosModule_1573.resolveMovieAuthoring3dTarget;
+var MovieAuthoring3dTextureRuntime = __awtsmoosModule_1583.MovieAuthoring3dTextureRuntime;
+var applyMovieScene3dAuthoring = __awtsmoosModule_1584.applyMovieScene3dAuthoring;
 
 class MovieAuthoring3dDirector {
 	constructor(runtime, authoring3d = {}, dependencies = {}) {
@@ -112065,7 +112730,7 @@ function findGeometryGraph(records = [], model) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCameraLens.js */
-__awtsmoosModule_1581 = (() => {
+__awtsmoosModule_1588 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -112105,7 +112770,7 @@ function clamp(value, minimum, maximum) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCameraTarget.js */
-__awtsmoosModule_1582 = (() => {
+__awtsmoosModule_1589 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -112122,7 +112787,7 @@ const __exports = {};
  * independent from camera placement so exact frame logic remains small and auditable.
  */
 
-var lerpPoint = __awtsmoosModule_1562.lerpPoint;
+var lerpPoint = __awtsmoosModule_1569.lerpPoint;
 
 function moviePlayerEye(runtime) {
 	return {
@@ -112173,7 +112838,7 @@ __exports.interpolatedMovieCameraTarget = interpolatedMovieCameraTarget;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCameraDirector.js */
-__awtsmoosModule_1580 = (() => {
+__awtsmoosModule_1587 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -112189,11 +112854,11 @@ const __exports = {};
 var firstPersonCameraPose = __awtsmoosModule_47.firstPersonCameraPose;
 var firstPersonPitchToPoint = __awtsmoosModule_47.firstPersonPitchToPoint;
 var firstPersonYawToPoint = __awtsmoosModule_47.firstPersonYawToPoint;
-var applyMovieCameraLens = __awtsmoosModule_1581.applyMovieCameraLens;
-var lerpPoint = __awtsmoosModule_1562.lerpPoint;
-var interpolatedMovieCameraTarget = __awtsmoosModule_1582.interpolatedMovieCameraTarget;
-var movieCameraEndpointTarget = __awtsmoosModule_1582.movieCameraEndpointTarget;
-var moviePlayerEye = __awtsmoosModule_1582.moviePlayerEye;
+var applyMovieCameraLens = __awtsmoosModule_1588.applyMovieCameraLens;
+var lerpPoint = __awtsmoosModule_1569.lerpPoint;
+var interpolatedMovieCameraTarget = __awtsmoosModule_1589.interpolatedMovieCameraTarget;
+var movieCameraEndpointTarget = __awtsmoosModule_1589.movieCameraEndpointTarget;
+var moviePlayerEye = __awtsmoosModule_1589.moviePlayerEye;
 
 class MovieCameraDirector {
 	constructor(runtime, project = {}) {
@@ -112271,7 +112936,7 @@ __exports.default = MovieCameraDirector;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCrowdFigure.js */
-__awtsmoosModule_1585 = (() => {
+__awtsmoosModule_1592 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -112339,7 +113004,7 @@ function part(id, shape, position, size, color, textureUrl) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieQuaternionRotation.js */
-__awtsmoosModule_1586 = (() => {
+__awtsmoosModule_1593 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -112396,7 +113061,7 @@ function finiteAngle(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCrowdActorSource.js */
-__awtsmoosModule_1584 = (() => {
+__awtsmoosModule_1591 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -112409,9 +113074,9 @@ const __exports = {};
  * loaded bones, geometry, textures, and wardrobe while preserving a cheap extra fallback.
  */
 
-var createMovieCrowdFigure = __awtsmoosModule_1585.createMovieCrowdFigure;
-var movieFloorAt = __awtsmoosModule_1559.movieFloorAt;
-var setMovieObjectYaw = __awtsmoosModule_1586.setMovieObjectYaw;
+var createMovieCrowdFigure = __awtsmoosModule_1592.createMovieCrowdFigure;
+var movieFloorAt = __awtsmoosModule_1566.movieFloorAt;
+var setMovieObjectYaw = __awtsmoosModule_1593.setMovieObjectYaw;
 
 function createMovieCrowdActor(runtime, character, index) {
 	const actor = character.source === 'friendlyNpc'
@@ -112499,7 +113164,7 @@ function floorHeight(runtime, position) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCrowdAnimation.js */
-__awtsmoosModule_1587 = (() => {
+__awtsmoosModule_1594 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -112512,7 +113177,7 @@ const __exports = {};
  * motion only from project progress so seeking, preview, and final capture remain identical.
  */
 
-var setMovieObjectPitch = __awtsmoosModule_1586.setMovieObjectPitch;
+var setMovieObjectPitch = __awtsmoosModule_1593.setMovieObjectPitch;
 
 function applyMovieCrowdAnimation(record, action, progress, clipDuration) {
 	record.figure.userData.AwtsmoosMovieCharacter.action = action || 'stand';
@@ -112578,7 +113243,7 @@ function setPartPitch(figure, name, radians) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCrowdDirector.js */
-__awtsmoosModule_1583 = (() => {
+__awtsmoosModule_1590 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -112591,13 +113256,13 @@ const __exports = {};
  * Awtsmoos.com keeps cinematic motion deterministic and editor reinstalls leak-free.
  */
 
-var createMovieCrowdActor = __awtsmoosModule_1584.createMovieCrowdActor;
-var destroyMovieCrowdActor = __awtsmoosModule_1584.destroyMovieCrowdActor;
-var placeMovieCrowdActor = __awtsmoosModule_1584.placeMovieCrowdActor;
-var applyMovieCrowdAnimation = __awtsmoosModule_1587.applyMovieCrowdAnimation;
-var lerpPoint = __awtsmoosModule_1562.lerpPoint;
-var movieObjectYaw = __awtsmoosModule_1586.movieObjectYaw;
-var setMovieObjectYaw = __awtsmoosModule_1586.setMovieObjectYaw;
+var createMovieCrowdActor = __awtsmoosModule_1591.createMovieCrowdActor;
+var destroyMovieCrowdActor = __awtsmoosModule_1591.destroyMovieCrowdActor;
+var placeMovieCrowdActor = __awtsmoosModule_1591.placeMovieCrowdActor;
+var applyMovieCrowdAnimation = __awtsmoosModule_1594.applyMovieCrowdAnimation;
+var lerpPoint = __awtsmoosModule_1569.lerpPoint;
+var movieObjectYaw = __awtsmoosModule_1593.movieObjectYaw;
+var setMovieObjectYaw = __awtsmoosModule_1593.setMovieObjectYaw;
 
 class MovieCrowdDirector {
 	constructor(runtime, characters = []) {
@@ -112693,7 +113358,7 @@ __exports.default = MovieCrowdDirector;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieDirectorFrame.js */
-__awtsmoosModule_1588 = (() => {
+__awtsmoosModule_1595 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -112763,7 +113428,7 @@ function activeClip(snapshot, type) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieDoorDirector.js */
-__awtsmoosModule_1589 = (() => {
+__awtsmoosModule_1596 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -112776,7 +113441,7 @@ const __exports = {};
  * a real door when revealed and leaves an absent doorway silent rather than inventing one.
  */
 
-var lerp = __awtsmoosModule_1562.lerp;
+var lerp = __awtsmoosModule_1569.lerp;
 
 class MovieDoorDirector {
 	constructor(runtime) {
@@ -112813,7 +113478,7 @@ __exports.default = MovieDoorDirector;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieOverlayTextLayout.js */
-__awtsmoosModule_1592 = (() => {
+__awtsmoosModule_1599 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -112918,7 +113583,7 @@ function movieOverlayPositionY(canvasHeight, position, height, variant) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieOverlayTextPaint.js */
-__awtsmoosModule_1593 = (() => {
+__awtsmoosModule_1600 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -112931,7 +113596,7 @@ const __exports = {};
  * Awtsmoos.com keeps exact canvas paint separate so title and caption renderers remain small and revealed.
  */
 
-var movieOverlayFont = __awtsmoosModule_1592.movieOverlayFont;
+var movieOverlayFont = __awtsmoosModule_1599.movieOverlayFont;
 
 function prepareMovieOverlayText(context, style) {
 	context.textAlign = style.align;
@@ -112980,7 +113645,7 @@ __exports.drawMovieOverlayLines = drawMovieOverlayLines;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieOverlayTextRenderer.js */
-__awtsmoosModule_1591 = (() => {
+__awtsmoosModule_1598 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -112993,14 +113658,14 @@ const __exports = {};
  * Awtsmoos.com joins authored style, safe placement, wrapping, subtitle, and speaker without confusing their name.
  */
 
-var movieOverlayCaptionBox = __awtsmoosModule_1592.movieOverlayCaptionBox;
-var movieOverlayFont = __awtsmoosModule_1592.movieOverlayFont;
-var movieOverlayTextStyle = __awtsmoosModule_1592.movieOverlayTextStyle;
-var movieOverlayTitleBox = __awtsmoosModule_1592.movieOverlayTitleBox;
-var movieOverlayWrappedLines = __awtsmoosModule_1592.movieOverlayWrappedLines;
-var drawMovieOverlayLines = __awtsmoosModule_1593.drawMovieOverlayLines;
-var drawMovieOverlayTextBox = __awtsmoosModule_1593.drawMovieOverlayTextBox;
-var prepareMovieOverlayText = __awtsmoosModule_1593.prepareMovieOverlayText;
+var movieOverlayCaptionBox = __awtsmoosModule_1599.movieOverlayCaptionBox;
+var movieOverlayFont = __awtsmoosModule_1599.movieOverlayFont;
+var movieOverlayTextStyle = __awtsmoosModule_1599.movieOverlayTextStyle;
+var movieOverlayTitleBox = __awtsmoosModule_1599.movieOverlayTitleBox;
+var movieOverlayWrappedLines = __awtsmoosModule_1599.movieOverlayWrappedLines;
+var drawMovieOverlayLines = __awtsmoosModule_1600.drawMovieOverlayLines;
+var drawMovieOverlayTextBox = __awtsmoosModule_1600.drawMovieOverlayTextBox;
+var prepareMovieOverlayText = __awtsmoosModule_1600.prepareMovieOverlayText;
 
 function drawMovieOverlayTitle(overlay, title) {
 	if (!title) return;
@@ -113093,7 +113758,7 @@ __exports.drawMovieOverlayDialogue = drawMovieOverlayDialogue;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieOverlay.js */
-__awtsmoosModule_1590 = (() => {
+__awtsmoosModule_1597 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -113106,9 +113771,9 @@ const __exports = {};
  * Awtsmoos.com keeps exact canvas output, title cards, lower thirds, captions, and scene transition at one border.
  */
 
-var drawMovieOverlayCaption = __awtsmoosModule_1591.drawMovieOverlayCaption;
-var drawMovieOverlayDialogue = __awtsmoosModule_1591.drawMovieOverlayDialogue;
-var drawMovieOverlayTitle = __awtsmoosModule_1591.drawMovieOverlayTitle;
+var drawMovieOverlayCaption = __awtsmoosModule_1598.drawMovieOverlayCaption;
+var drawMovieOverlayDialogue = __awtsmoosModule_1598.drawMovieOverlayDialogue;
+var drawMovieOverlayTitle = __awtsmoosModule_1598.drawMovieOverlayTitle;
 
 class MovieOverlay {
 	constructor(project) {
@@ -113197,8 +113862,127 @@ function rounded(context, x, y, width, height, radius) {
 __exports.default = MovieOverlay;
 return Object.freeze(__exports);
 })();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePlaybackRate.js */
+__awtsmoosModule_1602 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MoviePlaybackRate.js
+ * @description Normalizes bounded transport rates, shuttle ladders, frame steps, and endpoints.
+ * The Awtsmoos is beyond speed and direction while every finite preview needs a measured path;
+ * Awtsmoos.com keeps forward, reverse, stillness, and frame precision inside one explicit covenant.
+ */
+
+const MOVIE_SHUTTLE_RATES = Object.freeze([1, 2, 4, 8, 16]);
+__exports.MOVIE_SHUTTLE_RATES = MOVIE_SHUTTLE_RATES;
+
+const MOVIE_MAX_PLAYBACK_RATE = 16;
+__exports.MOVIE_MAX_PLAYBACK_RATE = MOVIE_MAX_PLAYBACK_RATE;
+
+
+function normalizeMoviePlaybackRate(value, fallback = 1) {
+	const number = Number(value);
+	const resolved = Number.isFinite(number) ? number : Number(fallback);
+	if (!Number.isFinite(resolved)) {
+		throw new Error('Movie playback rate must be a finite number.');
+	}
+	return Math.max(-MOVIE_MAX_PLAYBACK_RATE, Math.min(MOVIE_MAX_PLAYBACK_RATE, resolved));
+}
+
+
+__exports.normalizeMoviePlaybackRate = normalizeMoviePlaybackRate;
+function nextMovieShuttleRate(currentRate, direction) {
+	const sign = Math.sign(Number(direction));
+	if (!sign) {
+		return 0;
+	}
+	const current = normalizeMoviePlaybackRate(currentRate, 0);
+	if (Math.sign(current) !== sign) {
+		return sign;
+	}
+	const magnitude = Math.abs(current);
+	const next = MOVIE_SHUTTLE_RATES.find(rate => rate > magnitude);
+	return sign * (next || MOVIE_SHUTTLE_RATES.at(-1));
+}
+
+
+__exports.nextMovieShuttleRate = nextMovieShuttleRate;
+function movieFrameDuration(fps) {
+	const value = Number(fps);
+	if (!Number.isFinite(value) || value <= 0) {
+		throw new Error('Movie frame rate must be a positive finite number.');
+	}
+	return 1 / value;
+}
+
+
+__exports.movieFrameDuration = movieFrameDuration;
+function stepMoviePlaybackTime(time, frames, fps, duration) {
+	const target = Number(time || 0) + Number(frames || 0) * movieFrameDuration(fps);
+	return boundMoviePlaybackTime(target, duration);
+}
+
+
+__exports.stepMoviePlaybackTime = stepMoviePlaybackTime;
+function boundMoviePlaybackTime(time, duration) {
+	const maximum = Math.max(0, Number(duration || 0));
+	const value = Number(time);
+	if (!Number.isFinite(value)) {
+		throw new Error('Movie playback time must be a finite number.');
+	}
+	return Number(Math.max(0, Math.min(maximum, value)).toFixed(6));
+}
+
+__exports.boundMoviePlaybackTime = boundMoviePlaybackTime;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePlaybackClock.js */
+__awtsmoosModule_1601 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MoviePlaybackClock.js
+ * @description Samples deterministic forward or reverse timeline time from one measured origin.
+ * The Awtsmoos renews every now without inheriting a former second; Awtsmoos.com turns
+ * elapsed browser time into bounded cinematic time while runtime deltas remain positive and safe.
+ */
+
+var boundMoviePlaybackTime = __awtsmoosModule_1602.boundMoviePlaybackTime;
+var normalizeMoviePlaybackRate = __awtsmoosModule_1602.normalizeMoviePlaybackRate;
+
+function createMoviePlaybackClock(options = {}) {
+	const duration = Math.max(0, Number(options.duration || 0));
+	const rate = normalizeMoviePlaybackRate(options.rate, 1);
+	const startedAt = Number(options.now || 0);
+	const startAt = boundMoviePlaybackTime(options.startAt || 0, duration);
+	let previousTime = startAt;
+	return {
+		rate,
+		sample(now) {
+			const elapsed = Math.max(0, (Number(now) - startedAt) / 1000);
+			const time = boundMoviePlaybackTime(startAt + elapsed * rate, duration);
+			const rawDelta = Math.abs(time - previousTime);
+			previousTime = time;
+			return {
+				atBoundary: rate > 0 ? time >= duration : time <= 0,
+				delta: Math.max(0.001, Math.min(0.1, rawDelta || 0.001)),
+				time
+			};
+		}
+	};
+}
+
+__exports.createMoviePlaybackClock = createMoviePlaybackClock;
+return Object.freeze(__exports);
+})();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceClipResolver.js */
-__awtsmoosModule_1595 = (() => {
+__awtsmoosModule_1604 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -113287,7 +114071,7 @@ function clipActive(clip, time) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceCameraInterpolation.js */
-__awtsmoosModule_1597 = (() => {
+__awtsmoosModule_1606 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -113300,7 +114084,7 @@ const __exports = {};
  * lets editable camera samples become smooth cinematic direction while their recorded meanings rhyme.
  */
 
-var moviePerformanceClone = __awtsmoosModule_1477.moviePerformanceClone;
+var moviePerformanceClone = __awtsmoosModule_1484.moviePerformanceClone;
 
 function sampleMoviePerformanceCamera(samples = [], time = 0) {
 	if (!samples.length) {
@@ -113340,7 +114124,7 @@ function interpolate(left, right, progress) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceCameraValue.js */
-__awtsmoosModule_1598 = (() => {
+__awtsmoosModule_1607 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -113353,7 +114137,7 @@ const __exports = {};
  * keeps position, target, rotation, field of view, and look intention in a recordable rhyme.
  */
 
-var moviePerformanceVector = __awtsmoosModule_1477.moviePerformanceVector;
+var moviePerformanceVector = __awtsmoosModule_1484.moviePerformanceVector;
 
 function moviePerformanceCameraSnapshot(camera, time = 0) {
 	if (!camera?.position) {
@@ -113432,7 +114216,7 @@ function finite(value, fallback = 0) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformancePlaybackCamera.js */
-__awtsmoosModule_1596 = (() => {
+__awtsmoosModule_1605 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -113445,8 +114229,8 @@ const __exports = {};
  * Awtsmoos.com samples position, target, rotation, and lens from project JSON in deterministic rhyme.
  */
 
-var sampleMoviePerformanceCamera = __awtsmoosModule_1597.sampleMoviePerformanceCamera;
-var applyMoviePerformanceCamera = __awtsmoosModule_1598.applyMoviePerformanceCamera;
+var sampleMoviePerformanceCamera = __awtsmoosModule_1606.sampleMoviePerformanceCamera;
+var applyMoviePerformanceCamera = __awtsmoosModule_1607.applyMoviePerformanceCamera;
 
 function applyMoviePerformanceRecordedCamera(entries, camera) {
 	const entry = [...entries].reverse().find(item => (
@@ -113474,7 +114258,7 @@ __exports.applyMoviePerformanceRecordedCamera = applyMoviePerformanceRecordedCam
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformancePlaybackBlend.js */
-__awtsmoosModule_1600 = (() => {
+__awtsmoosModule_1609 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -113521,7 +114305,7 @@ function angle(left, right, amount) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceInterpolation.js */
-__awtsmoosModule_1601 = (() => {
+__awtsmoosModule_1610 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -113534,7 +114318,7 @@ const __exports = {};
  * gives position, scale, and wrapped rotation a measured bridge where acted moments rhyme.
  */
 
-var moviePerformanceClone = __awtsmoosModule_1477.moviePerformanceClone;
+var moviePerformanceClone = __awtsmoosModule_1484.moviePerformanceClone;
 
 function sampleMoviePerformanceTake(take, time) {
 	const samples = take?.transformSamples || [];
@@ -113607,7 +114391,7 @@ function interpolateAngle(left, right, progress) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformancePlaybackApply.js */
-__awtsmoosModule_1599 = (() => {
+__awtsmoosModule_1608 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -113620,9 +114404,9 @@ const __exports = {};
  * lets the strongest active clip guide body and animation while capability truth remains in rhyme.
  */
 
-var blendMoviePerformanceSample = __awtsmoosModule_1600.blendMoviePerformanceSample;
-var sampleMoviePerformanceState = __awtsmoosModule_1601.sampleMoviePerformanceState;
-var sampleMoviePerformanceTake = __awtsmoosModule_1601.sampleMoviePerformanceTake;
+var blendMoviePerformanceSample = __awtsmoosModule_1609.blendMoviePerformanceSample;
+var sampleMoviePerformanceState = __awtsmoosModule_1610.sampleMoviePerformanceState;
+var sampleMoviePerformanceTake = __awtsmoosModule_1610.sampleMoviePerformanceTake;
 
 function applyMoviePerformanceEntry(entry, target, baseline) {
 	const sample = sampleMoviePerformanceTake(entry.take, entry.localTime);
@@ -113657,7 +114441,7 @@ __exports.applyMoviePerformanceEntry = applyMoviePerformanceEntry;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformancePlaybackDispatch.js */
-__awtsmoosModule_1602 = (() => {
+__awtsmoosModule_1611 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -113714,7 +114498,7 @@ function warning(event, message) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformancePlaybackState.js */
-__awtsmoosModule_1603 = (() => {
+__awtsmoosModule_1612 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -113758,7 +114542,7 @@ __exports.MoviePerformancePlaybackState = MoviePerformancePlaybackState;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformancePlaybackEvents.js */
-__awtsmoosModule_1605 = (() => {
+__awtsmoosModule_1614 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -113833,7 +114617,7 @@ function withinClip(clip, movieTime) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceEventResolver.js */
-__awtsmoosModule_1604 = (() => {
+__awtsmoosModule_1613 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -113846,7 +114630,7 @@ const __exports = {};
  * seek, playback, loop, speed, mute, solo, and stable ordering from losing an event rhyme.
  */
 
-var moviePerformanceEventsForRange = __awtsmoosModule_1605.moviePerformanceEventsForRange;
+var moviePerformanceEventsForRange = __awtsmoosModule_1614.moviePerformanceEventsForRange;
 
 function resolveMoviePerformanceEvents(project, fromTime, toTime) {
 	if (toTime < fromTime) {
@@ -113903,7 +114687,7 @@ function clipEnabled(clip, fromTime, toTime) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceAnimationPlayback.js */
-__awtsmoosModule_1608 = (() => {
+__awtsmoosModule_1617 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -113984,7 +114768,7 @@ function expressionFor(state = '') {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceCapabilities.js */
-__awtsmoosModule_1609 = (() => {
+__awtsmoosModule_1618 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -113997,7 +114781,7 @@ const __exports = {};
  * every supported and absent cinematic power be named honestly while capabilities rhyme.
  */
 
-var moviePerformanceClone = __awtsmoosModule_1477.moviePerformanceClone;
+var moviePerformanceClone = __awtsmoosModule_1484.moviePerformanceClone;
 
 function moviePerformanceCapabilities(target = {}) {
 	const names = animationNames(target);
@@ -114082,7 +114866,7 @@ function match(names, expression) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceTargetTransform.js */
-__awtsmoosModule_1610 = (() => {
+__awtsmoosModule_1619 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -114176,7 +114960,7 @@ function finite(value, fallback = 0) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceRuntimeTarget.js */
-__awtsmoosModule_1607 = (() => {
+__awtsmoosModule_1616 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -114189,12 +114973,12 @@ const __exports = {};
  * transform, animation, action, capability, and stable identity one truthful cinematic rhyme.
  */
 
-var applyMoviePerformanceAnimation = __awtsmoosModule_1608.applyMoviePerformanceAnimation;
-var moviePerformanceCapabilitySnapshot = __awtsmoosModule_1609.moviePerformanceCapabilitySnapshot;
-var applyMoviePerformanceTransform = __awtsmoosModule_1610.applyMoviePerformanceTransform;
-var moviePerformanceGrounded = __awtsmoosModule_1610.moviePerformanceGrounded;
-var moviePerformanceMovementState = __awtsmoosModule_1610.moviePerformanceMovementState;
-var moviePerformanceTransformSnapshot = __awtsmoosModule_1610.moviePerformanceTransformSnapshot;
+var applyMoviePerformanceAnimation = __awtsmoosModule_1617.applyMoviePerformanceAnimation;
+var moviePerformanceCapabilitySnapshot = __awtsmoosModule_1618.moviePerformanceCapabilitySnapshot;
+var applyMoviePerformanceTransform = __awtsmoosModule_1619.applyMoviePerformanceTransform;
+var moviePerformanceGrounded = __awtsmoosModule_1619.moviePerformanceGrounded;
+var moviePerformanceMovementState = __awtsmoosModule_1619.moviePerformanceMovementState;
+var moviePerformanceTransformSnapshot = __awtsmoosModule_1619.moviePerformanceTransformSnapshot;
 
 class MoviePerformanceRuntimeTarget {
 	constructor(options) {
@@ -114277,7 +115061,7 @@ function createActorState(model) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceRoster.js */
-__awtsmoosModule_1606 = (() => {
+__awtsmoosModule_1615 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -114290,8 +115074,8 @@ const __exports = {};
  * Awtsmoos.com gives each stable identity and capability evidence in a director-readable rhyme.
  */
 
-var MoviePerformanceRuntimeTarget = __awtsmoosModule_1607.MoviePerformanceRuntimeTarget;
-var moviePerformanceClone = __awtsmoosModule_1477.moviePerformanceClone;
+var MoviePerformanceRuntimeTarget = __awtsmoosModule_1616.MoviePerformanceRuntimeTarget;
+var moviePerformanceClone = __awtsmoosModule_1484.moviePerformanceClone;
 
 function discoverMoviePerformanceTargets(runtime, project) {
 	const targets = [];
@@ -114388,7 +115172,7 @@ function friendlyName(id) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceDirector.js */
-__awtsmoosModule_1594 = (() => {
+__awtsmoosModule_1603 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -114401,15 +115185,15 @@ const __exports = {};
  * restores authored state, orders simultaneous deeds, and reveals deterministic acting in cinematic rhyme.
  */
 
-var resolveMoviePerformanceClips = __awtsmoosModule_1595.resolveMoviePerformanceClips;
-var applyMoviePerformanceRecordedCamera = __awtsmoosModule_1596.applyMoviePerformanceRecordedCamera;
-var applyMoviePerformanceEntry = __awtsmoosModule_1599.applyMoviePerformanceEntry;
-var dispatchMoviePerformanceEvents = __awtsmoosModule_1602.dispatchMoviePerformanceEvents;
-var MoviePerformancePlaybackState = __awtsmoosModule_1603.MoviePerformancePlaybackState;
-var resolveMoviePerformanceEvents = __awtsmoosModule_1604.resolveMoviePerformanceEvents;
-var discoverMoviePerformanceTargets = __awtsmoosModule_1606.discoverMoviePerformanceTargets;
-var applyMoviePerformanceCamera = __awtsmoosModule_1598.applyMoviePerformanceCamera;
-var moviePerformanceCameraSnapshot = __awtsmoosModule_1598.moviePerformanceCameraSnapshot;
+var resolveMoviePerformanceClips = __awtsmoosModule_1604.resolveMoviePerformanceClips;
+var applyMoviePerformanceRecordedCamera = __awtsmoosModule_1605.applyMoviePerformanceRecordedCamera;
+var applyMoviePerformanceEntry = __awtsmoosModule_1608.applyMoviePerformanceEntry;
+var dispatchMoviePerformanceEvents = __awtsmoosModule_1611.dispatchMoviePerformanceEvents;
+var MoviePerformancePlaybackState = __awtsmoosModule_1612.MoviePerformancePlaybackState;
+var resolveMoviePerformanceEvents = __awtsmoosModule_1613.resolveMoviePerformanceEvents;
+var discoverMoviePerformanceTargets = __awtsmoosModule_1615.discoverMoviePerformanceTargets;
+var applyMoviePerformanceCamera = __awtsmoosModule_1607.applyMoviePerformanceCamera;
+var moviePerformanceCameraSnapshot = __awtsmoosModule_1607.moviePerformanceCameraSnapshot;
 
 class MoviePerformanceDirector {
 	constructor(runtime, project, options = {}) {
@@ -114510,7 +115294,7 @@ function resolveRuntimeObject(runtime) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowQuestEncounterContract.js */
-__awtsmoosModule_1615 = (() => {
+__awtsmoosModule_1624 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -114616,7 +115400,7 @@ function objective(id, description, count, progress, phase) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryRarity.js */
-__awtsmoosModule_1618 = (() => {
+__awtsmoosModule_1627 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -114681,7 +115465,7 @@ function materialRarity(options) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/SpiritualStats.js */
-__awtsmoosModule_1619 = (() => {
+__awtsmoosModule_1628 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -114745,7 +115529,7 @@ function finiteStat(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryItemDefinition.js */
-__awtsmoosModule_1617 = (() => {
+__awtsmoosModule_1626 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -114758,8 +115542,8 @@ const __exports = {};
  * Awtsmoos.com prevents one panel from inventing an effect another runtime cannot enforce.
  */
 
-var inventoryRarity = __awtsmoosModule_1618.inventoryRarity;
-var spiritualStats = __awtsmoosModule_1619.spiritualStats;
+var inventoryRarity = __awtsmoosModule_1627.inventoryRarity;
+var spiritualStats = __awtsmoosModule_1628.spiritualStats;
 
 function inventoryItem(options) {
 	const spiritual = spiritualStats(options.spiritual);
@@ -114807,7 +115591,7 @@ function freezeEffect(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryRewardCatalog.js */
-__awtsmoosModule_1616 = (() => {
+__awtsmoosModule_1625 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -114820,7 +115604,7 @@ const __exports = {};
  * widens deliberate release while slowing preparation movement through visible lawful cost.
  */
 
-var inventoryItem = __awtsmoosModule_1617.inventoryItem;
+var inventoryItem = __awtsmoosModule_1626.inventoryItem;
 
 const MEASURED_INTENT_REWARD_ID = 'vessel-of-measured-intent';
 __exports.MEASURED_INTENT_REWARD_ID = MEASURED_INTENT_REWARD_ID;
@@ -114849,7 +115633,7 @@ __exports.INVENTORY_REWARD_CATALOG = INVENTORY_REWARD_CATALOG;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowQuestDefinition.js */
-__awtsmoosModule_1614 = (() => {
+__awtsmoosModule_1623 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -114862,8 +115646,8 @@ const __exports = {};
  * Awtsmoos.com teaches the living grammar through enemies rather than repetitive counting.
  */
 
-var MINIMAL_MEADOW_REQUIRED_ARCHETYPES = __awtsmoosModule_1615.MINIMAL_MEADOW_REQUIRED_ARCHETYPES;
-var MEASURED_INTENT_REWARD_ID = __awtsmoosModule_1616.MEASURED_INTENT_REWARD_ID;
+var MINIMAL_MEADOW_REQUIRED_ARCHETYPES = __awtsmoosModule_1624.MINIMAL_MEADOW_REQUIRED_ARCHETYPES;
+var MEASURED_INTENT_REWARD_ID = __awtsmoosModule_1625.MEASURED_INTENT_REWARD_ID;
 
 const MINIMAL_MEADOW_DEMON_QUEST = Object.freeze({
 	description: 'Reb Mendel asks you to reclaim the eastern road by learning its three combat roles: move around the Sentinel, read and counter the Scribe, redirect the Pursuer, recover each stolen vessel, then face the Kedem Warden.',
@@ -114939,7 +115723,7 @@ function optional(id, description, count, bonus) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRegionCatalog.js */
-__awtsmoosModule_1620 = (() => {
+__awtsmoosModule_1629 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -115021,7 +115805,7 @@ function region(id, name, icon, x, z, radius, safe, ambient, packageId = 'lower-
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProceduralSeed.js */
-__awtsmoosModule_1621 = (() => {
+__awtsmoosModule_1630 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -115105,7 +115889,7 @@ function boundedProbability(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieWorldPromptHeuristics.js */
-__awtsmoosModule_1622 = (() => {
+__awtsmoosModule_1631 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -115183,7 +115967,7 @@ __exports.hasMovieWorldWords = hasMovieWorldWords;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieWorldSpec.js */
-__awtsmoosModule_1623 = (() => {
+__awtsmoosModule_1632 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -115196,8 +115980,8 @@ const __exports = {};
  * Awtsmoos.com keeps the finite decree canonical so agents, loaders, events, and snapshots speak the same.
  */
 
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
-var hashMovieProceduralText = __awtsmoosModule_1621.hashMovieProceduralText;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+var hashMovieProceduralText = __awtsmoosModule_1630.hashMovieProceduralText;
 
 const MOVIE_WORLD_SPEC_KIND = 'awtsmoos.movie.world-spec';
 __exports.MOVIE_WORLD_SPEC_KIND = MOVIE_WORLD_SPEC_KIND;
@@ -115309,7 +116093,7 @@ function finiteSeed(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieWorldPromptCompiler.js */
-__awtsmoosModule_1613 = (() => {
+__awtsmoosModule_1622 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -115322,18 +116106,18 @@ const __exports = {};
  * Awtsmoos.com joins prompt, seed, region catalog, quest pressure, ambience, population, and camera.
  */
 
-var MINIMAL_MEADOW_DEMON_QUEST = __awtsmoosModule_1614.MINIMAL_MEADOW_DEMON_QUEST;
-var MINIMAL_MEADOW_REGIONS = __awtsmoosModule_1620.MINIMAL_MEADOW_REGIONS;
-var createMovieProceduralRandom = __awtsmoosModule_1621.createMovieProceduralRandom;
-var hashMovieProceduralText = __awtsmoosModule_1621.hashMovieProceduralText;
-var hasMovieWorldWords = __awtsmoosModule_1622.hasMovieWorldWords;
-var movieWorldAmbience = __awtsmoosModule_1622.movieWorldAmbience;
-var movieWorldAssets = __awtsmoosModule_1622.movieWorldAssets;
-var movieWorldCameraRigs = __awtsmoosModule_1622.movieWorldCameraRigs;
-var movieWorldTimeOfDay = __awtsmoosModule_1622.movieWorldTimeOfDay;
-var movieWorldVegetation = __awtsmoosModule_1622.movieWorldVegetation;
-var movieWorldWeather = __awtsmoosModule_1622.movieWorldWeather;
-var normalizeMovieWorldSpec = __awtsmoosModule_1623.normalizeMovieWorldSpec;
+var MINIMAL_MEADOW_DEMON_QUEST = __awtsmoosModule_1623.MINIMAL_MEADOW_DEMON_QUEST;
+var MINIMAL_MEADOW_REGIONS = __awtsmoosModule_1629.MINIMAL_MEADOW_REGIONS;
+var createMovieProceduralRandom = __awtsmoosModule_1630.createMovieProceduralRandom;
+var hashMovieProceduralText = __awtsmoosModule_1630.hashMovieProceduralText;
+var hasMovieWorldWords = __awtsmoosModule_1631.hasMovieWorldWords;
+var movieWorldAmbience = __awtsmoosModule_1631.movieWorldAmbience;
+var movieWorldAssets = __awtsmoosModule_1631.movieWorldAssets;
+var movieWorldCameraRigs = __awtsmoosModule_1631.movieWorldCameraRigs;
+var movieWorldTimeOfDay = __awtsmoosModule_1631.movieWorldTimeOfDay;
+var movieWorldVegetation = __awtsmoosModule_1631.movieWorldVegetation;
+var movieWorldWeather = __awtsmoosModule_1631.movieWorldWeather;
+var normalizeMovieWorldSpec = __awtsmoosModule_1632.normalizeMovieWorldSpec;
 
 const REGION_HINTS = Object.freeze({
 	'cedar-terraces': ['cedar', 'forest', 'wood', 'trees'],
@@ -115404,7 +116188,7 @@ function chooseRegion(text, random) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieSceneWorldIdentity.js */
-__awtsmoosModule_1612 = (() => {
+__awtsmoosModule_1621 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -115417,9 +116201,9 @@ const __exports = {};
  * Awtsmoos.com keeps events, loaders, retries, and frame snapshots stable across the compatibility space.
  */
 
-var compileMovieWorldPrompt = __awtsmoosModule_1613.compileMovieWorldPrompt;
-var isMovieWorldSpec = __awtsmoosModule_1623.isMovieWorldSpec;
-var normalizeMovieWorldSpec = __awtsmoosModule_1623.normalizeMovieWorldSpec;
+var compileMovieWorldPrompt = __awtsmoosModule_1622.compileMovieWorldPrompt;
+var isMovieWorldSpec = __awtsmoosModule_1632.isMovieWorldSpec;
+var normalizeMovieWorldSpec = __awtsmoosModule_1632.normalizeMovieWorldSpec;
 
 function movieSceneWorldRequest(value, context = {}) {
 	if (value == null || value === '') return null;
@@ -115459,7 +116243,7 @@ __exports.movieSceneWorldSnapshot = movieSceneWorldSnapshot;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieSceneDirector.js */
-__awtsmoosModule_1611 = (() => {
+__awtsmoosModule_1620 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -115472,8 +116256,8 @@ const __exports = {};
  * Awtsmoos.com activates each changed vessel once and keeps every frame snapshot finite all the same.
  */
 
-var movieSceneWorldRequest = __awtsmoosModule_1612.movieSceneWorldRequest;
-var movieSceneWorldSnapshot = __awtsmoosModule_1612.movieSceneWorldSnapshot;
+var movieSceneWorldRequest = __awtsmoosModule_1621.movieSceneWorldRequest;
+var movieSceneWorldSnapshot = __awtsmoosModule_1621.movieSceneWorldSnapshot;
 
 class MovieSceneDirector {
 	constructor(runtime) {
@@ -115541,14 +116325,14 @@ __exports.default = MovieSceneDirector;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimeline.js */
-__awtsmoosModule_1624 = (() => {
+__awtsmoosModule_1633 = (() => {
 const __exports = {};
 // B"H
 /**
  * @file MovieTimeline.js
  * @description Samples normalized NLE clips at deterministic movie time.
  */
-var ease = __awtsmoosModule_1562.ease;
+var ease = __awtsmoosModule_1569.ease;
 
 function clipState(track, clip, time) {
 	const raw = (time - clip.start) / clip.duration;
@@ -115611,7 +116395,7 @@ __exports.MovieTimeline = MovieTimeline;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieClipAppearanceContract.js */
-__awtsmoosModule_1627 = (() => {
+__awtsmoosModule_1636 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -115624,7 +116408,7 @@ const __exports = {};
  * Awtsmoos.com rejects undefined appearance and preserves only canonical values a renderer can faithfully explore.
  */
 
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
 
 const MOVIE_APPEARANCE_EFFECT_BOUNDS = Object.freeze({
 	blur: Object.freeze({ defaultValue: 0, maximum: 64, minimum: 0 }),
@@ -115732,7 +116516,7 @@ function appearanceError(code, message) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieClipAppearanceSampler.js */
-__awtsmoosModule_1626 = (() => {
+__awtsmoosModule_1635 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -115745,9 +116529,9 @@ const __exports = {};
  * Awtsmoos.com binds opacity and color channels into one JSON snapshot the live canvas may anoint.
  */
 
-var MOVIE_APPEARANCE_EFFECT_BOUNDS = __awtsmoosModule_1627.MOVIE_APPEARANCE_EFFECT_BOUNDS;
-var normalizeMovieClipEffects = __awtsmoosModule_1627.normalizeMovieClipEffects;
-var normalizeMovieClipTransition = __awtsmoosModule_1627.normalizeMovieClipTransition;
+var MOVIE_APPEARANCE_EFFECT_BOUNDS = __awtsmoosModule_1636.MOVIE_APPEARANCE_EFFECT_BOUNDS;
+var normalizeMovieClipEffects = __awtsmoosModule_1636.normalizeMovieClipEffects;
+var normalizeMovieClipTransition = __awtsmoosModule_1636.normalizeMovieClipTransition;
 
 function sampleMovieClipAppearance(state) {
 	if (!state?.clip) return defaultAppearance();
@@ -115850,7 +116634,7 @@ function round(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieVisualEffectDirector.js */
-__awtsmoosModule_1625 = (() => {
+__awtsmoosModule_1634 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -115863,7 +116647,7 @@ const __exports = {};
  * Awtsmoos.com keeps every applied channel deterministic, serializable, and reversible in balance.
  */
 
-var sampleMovieClipAppearance = __awtsmoosModule_1626.sampleMovieClipAppearance;
+var sampleMovieClipAppearance = __awtsmoosModule_1635.sampleMovieClipAppearance;
 
 class MovieVisualEffectDirector {
 	constructor(runtime) {
@@ -115897,7 +116681,7 @@ __exports.default = MovieVisualEffectDirector;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieDirector.js */
-__awtsmoosModule_1557 = (() => {
+__awtsmoosModule_1564 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -115905,22 +116689,24 @@ const __exports = {};
 
 /**
  * @file MovieDirector.js
- * @description Owns timing, cast, authored 3D, performance, effects, cameras, scenes, and seek.
+ * @description Owns rate-aware timing, cast, authored 3D, effects, cameras, scenes, and seek.
  * The Awtsmoos renews every cinematic frame beyond elapsed time; Awtsmoos.com keeps
- * playback, acting, appearance, authoring, and export rooted in one project truth and rhyme.
+ * forward, reverse, acting, appearance, authoring, and export rooted in one project truth.
  */
 
-var MovieActorDirector = __awtsmoosModule_1558.MovieActorDirector;
-var MovieAuthoring3dDirector = __awtsmoosModule_1563.MovieAuthoring3dDirector;
-var MovieCameraDirector = __awtsmoosModule_1580.MovieCameraDirector;
-var MovieCrowdDirector = __awtsmoosModule_1583.MovieCrowdDirector;
-var applyMovieDirectorFrame = __awtsmoosModule_1588.applyMovieDirectorFrame;
-var MovieDoorDirector = __awtsmoosModule_1589.MovieDoorDirector;
-var MovieOverlay = __awtsmoosModule_1590.MovieOverlay;
-var MoviePerformanceDirector = __awtsmoosModule_1594.MoviePerformanceDirector;
-var MovieSceneDirector = __awtsmoosModule_1611.MovieSceneDirector;
-var MovieTimeline = __awtsmoosModule_1624.MovieTimeline;
-var MovieVisualEffectDirector = __awtsmoosModule_1625.MovieVisualEffectDirector;
+var MovieActorDirector = __awtsmoosModule_1565.MovieActorDirector;
+var MovieAuthoring3dDirector = __awtsmoosModule_1570.MovieAuthoring3dDirector;
+var MovieCameraDirector = __awtsmoosModule_1587.MovieCameraDirector;
+var MovieCrowdDirector = __awtsmoosModule_1590.MovieCrowdDirector;
+var applyMovieDirectorFrame = __awtsmoosModule_1595.applyMovieDirectorFrame;
+var MovieDoorDirector = __awtsmoosModule_1596.MovieDoorDirector;
+var MovieOverlay = __awtsmoosModule_1597.MovieOverlay;
+var createMoviePlaybackClock = __awtsmoosModule_1601.createMoviePlaybackClock;
+var normalizeMoviePlaybackRate = __awtsmoosModule_1602.normalizeMoviePlaybackRate;
+var MoviePerformanceDirector = __awtsmoosModule_1603.MoviePerformanceDirector;
+var MovieSceneDirector = __awtsmoosModule_1620.MovieSceneDirector;
+var MovieTimeline = __awtsmoosModule_1633.MovieTimeline;
+var MovieVisualEffectDirector = __awtsmoosModule_1634.MovieVisualEffectDirector;
 
 class MovieDirector {
 	constructor(runtime, project) {
@@ -115937,6 +116723,7 @@ class MovieDirector {
 		this.performance = new MoviePerformanceDirector(runtime, project);
 		this.overlay = new MovieOverlay(project);
 		this.time = 0;
+		this.playbackRate = 0;
 		this.playing = false;
 		this.animationFrame = 0;
 		this.lastFrame = null;
@@ -115953,27 +116740,30 @@ class MovieDirector {
 
 	seek(time, deltaTime = 1 / this.project.fps) {
 		this.time = Math.max(0, Math.min(this.project.duration, Number(time) || 0));
-		this.lastFrame = applyMovieDirectorFrame(this, this.time, deltaTime);
+		this.lastFrame = applyMovieDirectorFrame(this, this.time, Math.abs(deltaTime));
 		return this.lastFrame;
 	}
 
 	play(options = {}) {
 		this.pause();
+		const rate = normalizeMoviePlaybackRate(options.rate, 1);
+		if (!rate) return this;
+		this.playbackRate = rate;
 		this.playing = true;
-		const startAt = Math.max(0, Number(options.startAt ?? this.time));
-		const started = performance.now() - startAt * 1000;
-		let previous = startAt;
+		const clock = createMoviePlaybackClock({
+			duration: this.project.duration,
+			now: performance.now(),
+			rate,
+			startAt: options.startAt ?? this.time
+		});
 		const frame = now => {
-			if (!this.playing) {
-				return;
-			}
-			const time = Math.min(this.project.duration, (now - started) / 1000);
-			const delta = Math.max(0.001, Math.min(0.1, time - previous || 1 / this.project.fps));
-			previous = time;
-			const state = this.seek(time, delta);
+			if (!this.playing) return;
+			const sample = clock.sample(now);
+			const state = this.seek(sample.time, sample.delta);
 			options.onFrame?.(state);
-			if (time >= this.project.duration) {
+			if (sample.atBoundary) {
 				this.playing = false;
+				this.playbackRate = 0;
 				options.onEnd?.(state);
 				return;
 			}
@@ -115985,9 +116775,8 @@ class MovieDirector {
 
 	pause() {
 		this.playing = false;
-		if (this.animationFrame) {
-			cancelAnimationFrame(this.animationFrame);
-		}
+		this.playbackRate = 0;
+		if (this.animationFrame) cancelAnimationFrame(this.animationFrame);
 		this.animationFrame = 0;
 		return this;
 	}
@@ -116008,7 +116797,7 @@ __exports.default = MovieDirector;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCameraRigCompiler.js */
-__awtsmoosModule_1629 = (() => {
+__awtsmoosModule_1638 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -116109,7 +116898,7 @@ __exports.MOVIE_CAMERA_RIG_PRESETS = MOVIE_CAMERA_RIG_PRESETS;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieMaterialGraphCompiler.js */
-__awtsmoosModule_1630 = (() => {
+__awtsmoosModule_1639 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -116187,7 +116976,7 @@ function incomingEdges(edges) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceAuthoringValidation.js */
-__awtsmoosModule_1634 = (() => {
+__awtsmoosModule_1643 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -116294,7 +117083,7 @@ function problem(code, message) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceValidation.js */
-__awtsmoosModule_1633 = (() => {
+__awtsmoosModule_1642 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -116307,8 +117096,8 @@ const __exports = {};
  * sample, event, recovery, cue, aid, and performer finite, ordered, named, and bright.
  */
 
-var validateMoviePerformanceAuthoring = __awtsmoosModule_1634.validateMoviePerformanceAuthoring;
-var MOVIE_PERFORMANCE_LIMITS = __awtsmoosModule_1478.MOVIE_PERFORMANCE_LIMITS;
+var validateMoviePerformanceAuthoring = __awtsmoosModule_1643.validateMoviePerformanceAuthoring;
+var MOVIE_PERFORMANCE_LIMITS = __awtsmoosModule_1485.MOVIE_PERFORMANCE_LIMITS;
 
 function validateMoviePerformance(performance, projectDuration = Infinity) {
 	const issues = [];
@@ -116403,7 +117192,7 @@ function problem(code, message) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceProjectValidation.js */
-__awtsmoosModule_1632 = (() => {
+__awtsmoosModule_1641 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -116416,7 +117205,7 @@ const __exports = {};
  * rejects dangling takes, incompatible actors, broken markers, and reversed deeds in rhyme.
  */
 
-var validateMoviePerformance = __awtsmoosModule_1633.validateMoviePerformance;
+var validateMoviePerformance = __awtsmoosModule_1642.validateMoviePerformance;
 
 function validateMoviePerformanceProject(project) {
 	const issues = validateMoviePerformance(project.performance, project.duration);
@@ -116488,7 +117277,7 @@ function hasTimedDeeds(take) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProjectContentValidator.js */
-__awtsmoosModule_1635 = (() => {
+__awtsmoosModule_1644 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -116501,9 +117290,9 @@ const __exports = {};
  * Awtsmoos.com separates content validation so the core validator remains small and truthful in structure.
  */
 
-var normalizeMovieMediaCatalog = __awtsmoosModule_1469.normalizeMovieMediaCatalog;
-var normalizeMovieMediaWorkspace = __awtsmoosModule_1474.normalizeMovieMediaWorkspace;
-var normalizeMovieTextTrack = __awtsmoosModule_1484.normalizeMovieTextTrack;
+var normalizeMovieMediaCatalog = __awtsmoosModule_1480.normalizeMovieMediaCatalog;
+var normalizeMovieMediaWorkspace = __awtsmoosModule_1481.normalizeMovieMediaWorkspace;
+var normalizeMovieTextTrack = __awtsmoosModule_1491.normalizeMovieTextTrack;
 
 function validateMovieProjectContent(project) {
 	const media = normalizeMovieMediaCatalog(project.media);
@@ -116529,7 +117318,7 @@ function validateMovieTextTrack(track) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProjectStructureValidation.js */
-__awtsmoosModule_1636 = (() => {
+__awtsmoosModule_1645 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -116542,7 +117331,7 @@ const __exports = {};
  * Awtsmoos.com keeps graph, marker, and clip constraints separate so the project gate remains clear in validation.
  */
 
-var validateMovieClipAppearance = __awtsmoosModule_1627.validateMovieClipAppearance;
+var validateMovieClipAppearance = __awtsmoosModule_1636.validateMovieClipAppearance;
 
 function validateMovieProjectMarkers(markers, duration, maximum) {
 	boundedMovieArray(markers, maximum, 'markers', true);
@@ -116639,7 +117428,7 @@ __exports.finiteMovieValue = finiteMovieValue;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProjectValidator.js */
-__awtsmoosModule_1631 = (() => {
+__awtsmoosModule_1640 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -116653,14 +117442,14 @@ const __exports = {};
  */
 
 var validateMovieAuthoring3d = __awtsmoosModule_1467.validateMovieAuthoring3d;
-var validateMoviePerformanceProject = __awtsmoosModule_1632.validateMoviePerformanceProject;
-var validateMovieProjectContent = __awtsmoosModule_1635.validateMovieProjectContent;
-var boundedMovieArray = __awtsmoosModule_1636.boundedMovieArray;
-var finiteMovieValue = __awtsmoosModule_1636.finiteMovieValue;
-var validateMovieProjectGraph = __awtsmoosModule_1636.validateMovieProjectGraph;
-var validateMovieProjectMarkers = __awtsmoosModule_1636.validateMovieProjectMarkers;
-var validateMovieProjectSequence = __awtsmoosModule_1636.validateMovieProjectSequence;
-var validateMovieProjectTrack = __awtsmoosModule_1636.validateMovieProjectTrack;
+var validateMoviePerformanceProject = __awtsmoosModule_1641.validateMoviePerformanceProject;
+var validateMovieProjectContent = __awtsmoosModule_1644.validateMovieProjectContent;
+var boundedMovieArray = __awtsmoosModule_1645.boundedMovieArray;
+var finiteMovieValue = __awtsmoosModule_1645.finiteMovieValue;
+var validateMovieProjectGraph = __awtsmoosModule_1645.validateMovieProjectGraph;
+var validateMovieProjectMarkers = __awtsmoosModule_1645.validateMovieProjectMarkers;
+var validateMovieProjectSequence = __awtsmoosModule_1645.validateMovieProjectSequence;
+var validateMovieProjectTrack = __awtsmoosModule_1645.validateMovieProjectTrack;
 
 const LIMITS = Object.freeze({
 	characters: 64,
@@ -116721,7 +117510,7 @@ function validateResolution(resolution) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieSequenceCompiler.js */
-__awtsmoosModule_1637 = (() => {
+__awtsmoosModule_1646 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -116808,7 +117597,7 @@ function clone(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProjectCompiler.js */
-__awtsmoosModule_1628 = (() => {
+__awtsmoosModule_1637 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -116821,11 +117610,11 @@ const __exports = {};
  * Awtsmoos.com records source documents and deterministic runtime products together.
  */
 
-var compileMovieCameraRigs = __awtsmoosModule_1629.compileMovieCameraRigs;
-var compileMovieMaterialGraphs = __awtsmoosModule_1630.compileMovieMaterialGraphs;
+var compileMovieCameraRigs = __awtsmoosModule_1638.compileMovieCameraRigs;
+var compileMovieMaterialGraphs = __awtsmoosModule_1639.compileMovieMaterialGraphs;
 var normalizeMovieProject = __awtsmoosModule_1466.normalizeMovieProject;
-var validateStrictMovieProject = __awtsmoosModule_1631.validateMovieProject;
-var compileMovieSequences = __awtsmoosModule_1637.compileMovieSequences;
+var validateStrictMovieProject = __awtsmoosModule_1640.validateMovieProject;
+var compileMovieSequences = __awtsmoosModule_1646.compileMovieSequences;
 
 function compileMovieProject(source) {
 	const normalized = normalizeMovieProject(source);
@@ -116865,7 +117654,7 @@ function clone(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieSessionProject.js */
-__awtsmoosModule_1556 = (() => {
+__awtsmoosModule_1563 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -116878,9 +117667,9 @@ const __exports = {};
  * Awtsmoos.com replaces each finite director cleanly and publishes one stable revision-level.
  */
 
-var MovieDirector = __awtsmoosModule_1557.MovieDirector;
-var compileMovieProject = __awtsmoosModule_1628.compileMovieProject;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var MovieDirector = __awtsmoosModule_1564.MovieDirector;
+var compileMovieProject = __awtsmoosModule_1637.compileMovieProject;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 function installMovieProject(session, source, options = {}) {
 	const compiled = compileMovieProject(source);
@@ -116907,7 +117696,7 @@ __exports.installMovieProject = installMovieProject;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioProjectInstallTimeline.js */
-__awtsmoosModule_1638 = (() => {
+__awtsmoosModule_1647 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -116920,7 +117709,7 @@ const __exports = {};
  * Awtsmoos.com seeks only inside the new duration and lets unavailable selections dissolve honestly.
  */
 
-var normalizeMovieSelectionSet = __awtsmoosModule_1532.normalizeMovieSelectionSet;
+var normalizeMovieSelectionSet = __awtsmoosModule_1539.normalizeMovieSelectionSet;
 
 function installMovieStudioProjectTimeline(session, previous = {}) {
 	const selectionSet = normalizeMovieSelectionSet(
@@ -116941,7 +117730,7 @@ __exports.installMovieStudioProjectTimeline = installMovieStudioProjectTimeline;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioProjectInstall.js */
-__awtsmoosModule_1521 = (() => {
+__awtsmoosModule_1528 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -116949,14 +117738,14 @@ const __exports = {};
 
 /**
  * @file MovieStudioProjectInstall.js
- * @description Installs canonical projects while preserving time, scale, snapping, tools, and performance truth.
+ * @description Installs canonical projects while preserving time, scale, snapping, tools, composition, and performance truth.
  * The Awtsmoos renews authored document while finite interface continuity remains intact;
- * Awtsmoos.com refreshes acting, scene editing, recovery, audio, titles, actions, and the live frame.
+ * Awtsmoos.com refreshes nested canvases, acting, scene editing, recovery, audio, titles, actions, and the live frame.
  */
 
-var MovieTimelineView = __awtsmoosModule_1522.MovieTimelineView;
-var installMovieProject = __awtsmoosModule_1556.installMovieProject;
-var installMovieStudioProjectTimeline = __awtsmoosModule_1638.installMovieStudioProjectTimeline;
+var MovieTimelineView = __awtsmoosModule_1529.MovieTimelineView;
+var installMovieProject = __awtsmoosModule_1563.installMovieProject;
+var installMovieStudioProjectTimeline = __awtsmoosModule_1647.installMovieStudioProjectTimeline;
 
 function installMovieStudioProject(session, project, options = {}) {
 	const previous = capturePreviousProjectState(session, options);
@@ -117014,6 +117803,7 @@ function refreshProjectBoundControllers(session) {
 	session.keyframeController?.refresh?.();
 	session.audioMixerController?.refresh?.();
 	session.titleController?.refresh?.();
+	session.compositionController?.refresh?.();
 	session.projectBrowserController?.refresh?.();
 	session.utilityController?.refreshActiveContent?.();
 	session.inspector?.select?.(
@@ -117023,7 +117813,7 @@ function refreshProjectBoundControllers(session) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioSessionActions.js */
-__awtsmoosModule_1639 = (() => {
+__awtsmoosModule_1648 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -117101,7 +117891,7 @@ function applyRenderProgress(session, progress) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieApiConstants.js */
-__awtsmoosModule_1644 = (() => {
+__awtsmoosModule_1653 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -117191,7 +117981,7 @@ __exports.MOVIE_API_CAPABILITIES = MOVIE_API_CAPABILITIES;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProjectEnvelope.js */
-__awtsmoosModule_1645 = (() => {
+__awtsmoosModule_1654 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -117204,17 +117994,17 @@ const __exports = {};
  * agent verify kind, schema, revision, metadata, checksum, and project before installation.
  */
 
-var MOVIE_API_VERSION = __awtsmoosModule_1644.MOVIE_API_VERSION;
-var MOVIE_ENVELOPE_VERSION = __awtsmoosModule_1644.MOVIE_ENVELOPE_VERSION;
-var MOVIE_PROJECT_ENVELOPE_KIND = __awtsmoosModule_1644.MOVIE_PROJECT_ENVELOPE_KIND;
-var MOVIE_PROJECT_SCHEMA_VERSION = __awtsmoosModule_1644.MOVIE_PROJECT_SCHEMA_VERSION;
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var canonicalMovieValue = __awtsmoosModule_1472.canonicalMovieValue;
-var movieJsonChecksum = __awtsmoosModule_1472.movieJsonChecksum;
-var parseCanonicalMovieJson = __awtsmoosModule_1472.parseCanonicalMovieJson;
-var stringifyCanonicalMovieJson = __awtsmoosModule_1472.stringifyCanonicalMovieJson;
+var MOVIE_API_VERSION = __awtsmoosModule_1653.MOVIE_API_VERSION;
+var MOVIE_ENVELOPE_VERSION = __awtsmoosModule_1653.MOVIE_ENVELOPE_VERSION;
+var MOVIE_PROJECT_ENVELOPE_KIND = __awtsmoosModule_1653.MOVIE_PROJECT_ENVELOPE_KIND;
+var MOVIE_PROJECT_SCHEMA_VERSION = __awtsmoosModule_1653.MOVIE_PROJECT_SCHEMA_VERSION;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var canonicalMovieValue = __awtsmoosModule_1474.canonicalMovieValue;
+var movieJsonChecksum = __awtsmoosModule_1474.movieJsonChecksum;
+var parseCanonicalMovieJson = __awtsmoosModule_1474.parseCanonicalMovieJson;
+var stringifyCanonicalMovieJson = __awtsmoosModule_1474.stringifyCanonicalMovieJson;
 var normalizeMovieProject = __awtsmoosModule_1466.normalizeMovieProject;
-var validateMovieProject = __awtsmoosModule_1631.validateMovieProject;
+var validateMovieProject = __awtsmoosModule_1640.validateMovieProject;
 
 function createMovieProjectEnvelope(project, options = {}) {
 	const canonicalProject = validProject(project);
@@ -117309,7 +118099,7 @@ function revision(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPreferenceState.js */
-__awtsmoosModule_1646 = (() => {
+__awtsmoosModule_1655 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -117322,8 +118112,8 @@ const __exports = {};
  * keeps density, theme, panes, overlays, and zoom finite, portable, and independent of edits.
  */
 
-var canonicalMovieValue = __awtsmoosModule_1472.canonicalMovieValue;
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
+var canonicalMovieValue = __awtsmoosModule_1474.canonicalMovieValue;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
 
 const MOVIE_STUDIO_PREFERENCE_VERSION = 1;
 __exports.MOVIE_STUDIO_PREFERENCE_VERSION = MOVIE_STUDIO_PREFERENCE_VERSION;
@@ -117400,7 +118190,7 @@ function choice(value, choices, fallback) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePersistenceRecord.js */
-__awtsmoosModule_1643 = (() => {
+__awtsmoosModule_1652 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -117413,17 +118203,17 @@ const __exports = {};
  * nested verified project envelope and one bounded interface document, never live session state.
  */
 
-var MOVIE_PERSISTENCE_RECORD_KIND = __awtsmoosModule_1644.MOVIE_PERSISTENCE_RECORD_KIND;
-var MOVIE_PERSISTENCE_RECORD_VERSION = __awtsmoosModule_1644.MOVIE_PERSISTENCE_RECORD_VERSION;
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var canonicalMovieValue = __awtsmoosModule_1472.canonicalMovieValue;
-var movieJsonChecksum = __awtsmoosModule_1472.movieJsonChecksum;
-var parseCanonicalMovieJson = __awtsmoosModule_1472.parseCanonicalMovieJson;
-var stringifyCanonicalMovieJson = __awtsmoosModule_1472.stringifyCanonicalMovieJson;
-var createMovieProjectEnvelope = __awtsmoosModule_1645.createMovieProjectEnvelope;
-var parseMovieProjectEnvelope = __awtsmoosModule_1645.parseMovieProjectEnvelope;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
-var normalizeMovieStudioPreferences = __awtsmoosModule_1646.normalizeMovieStudioPreferences;
+var MOVIE_PERSISTENCE_RECORD_KIND = __awtsmoosModule_1653.MOVIE_PERSISTENCE_RECORD_KIND;
+var MOVIE_PERSISTENCE_RECORD_VERSION = __awtsmoosModule_1653.MOVIE_PERSISTENCE_RECORD_VERSION;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var canonicalMovieValue = __awtsmoosModule_1474.canonicalMovieValue;
+var movieJsonChecksum = __awtsmoosModule_1474.movieJsonChecksum;
+var parseCanonicalMovieJson = __awtsmoosModule_1474.parseCanonicalMovieJson;
+var stringifyCanonicalMovieJson = __awtsmoosModule_1474.stringifyCanonicalMovieJson;
+var createMovieProjectEnvelope = __awtsmoosModule_1654.createMovieProjectEnvelope;
+var parseMovieProjectEnvelope = __awtsmoosModule_1654.parseMovieProjectEnvelope;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+var normalizeMovieStudioPreferences = __awtsmoosModule_1655.normalizeMovieStudioPreferences;
 
 function createMoviePersistenceRecord(project, ui, options = {}) {
 	const core = canonicalMovieValue({
@@ -117503,7 +118293,7 @@ function validateHeader(record) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePersistenceOperations.js */
-__awtsmoosModule_1642 = (() => {
+__awtsmoosModule_1651 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -117516,8 +118306,8 @@ const __exports = {};
  * restores story through one undoable revision and restores UI outside project history.
  */
 
-var createMoviePersistenceRecord = __awtsmoosModule_1643.createMoviePersistenceRecord;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var createMoviePersistenceRecord = __awtsmoosModule_1652.createMoviePersistenceRecord;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 async function saveMovieStudioPersistence(session, options = {}) {
 	const adapterId = options.adapterId || session.persistence.activeId;
@@ -117601,7 +118391,7 @@ __exports.removeMovieStudioPersistence = removeMovieStudioPersistence;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieAutosaveController.js */
-__awtsmoosModule_1641 = (() => {
+__awtsmoosModule_1650 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -117614,9 +118404,9 @@ const __exports = {};
  * edits into one bounded save, exposes its state, and releases timers and subscriptions on command.
  */
 
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
-var saveMovieStudioPersistence = __awtsmoosModule_1642.saveMovieStudioPersistence;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+var saveMovieStudioPersistence = __awtsmoosModule_1651.saveMovieStudioPersistence;
 
 class MovieAutosaveController {
 	constructor(session) {
@@ -117727,7 +118517,7 @@ function boundedDelay(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieEventBus.js */
-__awtsmoosModule_1647 = (() => {
+__awtsmoosModule_1656 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -117740,8 +118530,8 @@ const __exports = {};
  * one finite stream whose payloads cannot mutate the session or silence later subscribers.
  */
 
-var canonicalMovieValue = __awtsmoosModule_1472.canonicalMovieValue;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var canonicalMovieValue = __awtsmoosModule_1474.canonicalMovieValue;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 class MovieEventBus {
 	constructor() {
@@ -117812,7 +118602,7 @@ __exports.MovieEventBus = MovieEventBus;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieLocalStoragePersistenceAdapter.js */
-__awtsmoosModule_1649 = (() => {
+__awtsmoosModule_1658 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -117825,10 +118615,10 @@ const __exports = {};
  * only when granted, names each key explicitly, and returns detached verified records.
  */
 
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var parseMoviePersistenceRecord = __awtsmoosModule_1643.parseMoviePersistenceRecord;
-var serializeMoviePersistenceRecord = __awtsmoosModule_1643.serializeMoviePersistenceRecord;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var parseMoviePersistenceRecord = __awtsmoosModule_1652.parseMoviePersistenceRecord;
+var serializeMoviePersistenceRecord = __awtsmoosModule_1652.serializeMoviePersistenceRecord;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 class MovieLocalStoragePersistenceAdapter {
 	constructor(options = {}) {
@@ -117923,7 +118713,7 @@ function resolveStorage() {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieMemoryPersistenceAdapter.js */
-__awtsmoosModule_1650 = (() => {
+__awtsmoosModule_1659 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -117936,10 +118726,10 @@ const __exports = {};
  * gives tests, agents, and embedded studios a complete adapter whose records remain detached.
  */
 
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var parseMoviePersistenceRecord = __awtsmoosModule_1643.parseMoviePersistenceRecord;
-var serializeMoviePersistenceRecord = __awtsmoosModule_1643.serializeMoviePersistenceRecord;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var parseMoviePersistenceRecord = __awtsmoosModule_1652.parseMoviePersistenceRecord;
+var serializeMoviePersistenceRecord = __awtsmoosModule_1652.serializeMoviePersistenceRecord;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 class MovieMemoryPersistenceAdapter {
 	constructor(id = 'memory') {
@@ -118011,7 +118801,7 @@ __exports.MovieMemoryPersistenceAdapter = MovieMemoryPersistenceAdapter;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePersistenceAdapterContract.js */
-__awtsmoosModule_1652 = (() => {
+__awtsmoosModule_1661 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -118024,9 +118814,9 @@ const __exports = {};
  * finite serializable capability while executable storage methods remain local and guarded.
  */
 
-var canonicalMovieValue = __awtsmoosModule_1472.canonicalMovieValue;
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var canonicalMovieValue = __awtsmoosModule_1474.canonicalMovieValue;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 const REQUIRED_METHODS = Object.freeze([
 	'list',
@@ -118070,7 +118860,7 @@ __exports.validateMoviePersistenceAdapter = validateMoviePersistenceAdapter;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePersistenceRegistry.js */
-__awtsmoosModule_1651 = (() => {
+__awtsmoosModule_1660 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -118083,10 +118873,10 @@ const __exports = {};
  * discover finite adapter capabilities while load, save, list, and remove functions remain local.
  */
 
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var normalizeMoviePersistenceManifest = __awtsmoosModule_1652.normalizeMoviePersistenceManifest;
-var validateMoviePersistenceAdapter = __awtsmoosModule_1652.validateMoviePersistenceAdapter;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var normalizeMoviePersistenceManifest = __awtsmoosModule_1661.normalizeMoviePersistenceManifest;
+var validateMoviePersistenceAdapter = __awtsmoosModule_1661.validateMoviePersistenceAdapter;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 class MoviePersistenceRegistry {
 	constructor() {
@@ -118168,7 +118958,7 @@ __exports.MoviePersistenceRegistry = MoviePersistenceRegistry;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePersistenceDefaults.js */
-__awtsmoosModule_1648 = (() => {
+__awtsmoosModule_1657 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -118181,9 +118971,9 @@ const __exports = {};
  * deterministic memory first while advertising optional browser persistence without requiring it.
  */
 
-var MovieLocalStoragePersistenceAdapter = __awtsmoosModule_1649.MovieLocalStoragePersistenceAdapter;
-var MovieMemoryPersistenceAdapter = __awtsmoosModule_1650.MovieMemoryPersistenceAdapter;
-var MoviePersistenceRegistry = __awtsmoosModule_1651.MoviePersistenceRegistry;
+var MovieLocalStoragePersistenceAdapter = __awtsmoosModule_1658.MovieLocalStoragePersistenceAdapter;
+var MovieMemoryPersistenceAdapter = __awtsmoosModule_1659.MovieMemoryPersistenceAdapter;
+var MoviePersistenceRegistry = __awtsmoosModule_1660.MoviePersistenceRegistry;
 
 function createDefaultMoviePersistenceRegistry() {
 	const registry = new MoviePersistenceRegistry();
@@ -118209,7 +118999,7 @@ __exports.createDefaultMoviePersistenceRegistry = createDefaultMoviePersistenceR
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProjectMigrationTools.js */
-__awtsmoosModule_1654 = (() => {
+__awtsmoosModule_1663 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -118222,9 +119012,9 @@ const __exports = {};
  * arithmetic and pure finite transformation separate from registry ownership and execution order.
  */
 
-var canonicalMovieValue = __awtsmoosModule_1472.canonicalMovieValue;
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var canonicalMovieValue = __awtsmoosModule_1474.canonicalMovieValue;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 function normalizeMovieMigrationManifest(source) {
 	const value = canonicalMovieValue(source);
@@ -118281,7 +119071,7 @@ function plainMetadata(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProjectMigrations.js */
-__awtsmoosModule_1653 = (() => {
+__awtsmoosModule_1662 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -118294,13 +119084,13 @@ const __exports = {};
  * walks explicit finite steps while manifest and version mechanics remain their own vessel.
  */
 
-var MOVIE_PROJECT_SCHEMA_VERSION = __awtsmoosModule_1644.MOVIE_PROJECT_SCHEMA_VERSION;
-var canonicalMovieValue = __awtsmoosModule_1472.canonicalMovieValue;
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var migrateMovieProjectSchemaOneToTwo = __awtsmoosModule_1654.migrateMovieProjectSchemaOneToTwo;
-var normalizeMovieMigrationManifest = __awtsmoosModule_1654.normalizeMovieMigrationManifest;
-var resolveMovieProjectSchemaVersion = __awtsmoosModule_1654.resolveMovieProjectSchemaVersion;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var MOVIE_PROJECT_SCHEMA_VERSION = __awtsmoosModule_1653.MOVIE_PROJECT_SCHEMA_VERSION;
+var canonicalMovieValue = __awtsmoosModule_1474.canonicalMovieValue;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var migrateMovieProjectSchemaOneToTwo = __awtsmoosModule_1663.migrateMovieProjectSchemaOneToTwo;
+var normalizeMovieMigrationManifest = __awtsmoosModule_1663.normalizeMovieMigrationManifest;
+var resolveMovieProjectSchemaVersion = __awtsmoosModule_1663.resolveMovieProjectSchemaVersion;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 class MovieProjectMigrationRegistry {
 	constructor() {
@@ -118388,7 +119178,7 @@ __exports.createDefaultMovieProjectMigrationRegistry = createDefaultMovieProject
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePluginContext.js */
-__awtsmoosModule_1657 = (() => {
+__awtsmoosModule_1666 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -118401,8 +119191,8 @@ const __exports = {};
  * through explicit permissions while every subscription, command, exporter, and adapter is tracked.
  */
 
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 function createMoviePluginContext(registry, entry) {
 	return Object.freeze({
@@ -118466,7 +119256,7 @@ function requirePermission(entry, permission) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePluginManifest.js */
-__awtsmoosModule_1658 = (() => {
+__awtsmoosModule_1667 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -118479,11 +119269,11 @@ const __exports = {};
  * manifest while every executable handler remains local, trusted, removable, and unpersisted.
  */
 
-var MOVIE_PLUGIN_MANIFEST_KIND = __awtsmoosModule_1644.MOVIE_PLUGIN_MANIFEST_KIND;
-var MOVIE_PLUGIN_MANIFEST_VERSION = __awtsmoosModule_1644.MOVIE_PLUGIN_MANIFEST_VERSION;
-var canonicalMovieValue = __awtsmoosModule_1472.canonicalMovieValue;
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var MOVIE_PLUGIN_MANIFEST_KIND = __awtsmoosModule_1653.MOVIE_PLUGIN_MANIFEST_KIND;
+var MOVIE_PLUGIN_MANIFEST_VERSION = __awtsmoosModule_1653.MOVIE_PLUGIN_MANIFEST_VERSION;
+var canonicalMovieValue = __awtsmoosModule_1474.canonicalMovieValue;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 const MOVIE_PLUGIN_PERMISSIONS = Object.freeze([
 	'commands.execute',
@@ -118535,7 +119325,7 @@ __exports.normalizeMoviePluginManifest = normalizeMoviePluginManifest;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePluginLifecycle.js */
-__awtsmoosModule_1656 = (() => {
+__awtsmoosModule_1665 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -118548,9 +119338,9 @@ const __exports = {};
  * visible only after success and guarantees rollback of listeners, commands, exporters, and adapters.
  */
 
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var createMoviePluginContext = __awtsmoosModule_1657.createMoviePluginContext;
-var normalizeMoviePluginManifest = __awtsmoosModule_1658.normalizeMoviePluginManifest;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var createMoviePluginContext = __awtsmoosModule_1666.createMoviePluginContext;
+var normalizeMoviePluginManifest = __awtsmoosModule_1667.normalizeMoviePluginManifest;
 
 async function registerMoviePlugin(
 	registry,
@@ -118634,7 +119424,7 @@ __exports.validateMoviePluginImplementation = validateMoviePluginImplementation;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePluginResourceMap.js */
-__awtsmoosModule_1660 = (() => {
+__awtsmoosModule_1669 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -118647,9 +119437,9 @@ const __exports = {};
  * local map so commands and exporters share strict IDs, ownership, invocation, and cleanup.
  */
 
-var canonicalMovieValue = __awtsmoosModule_1472.canonicalMovieValue;
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var canonicalMovieValue = __awtsmoosModule_1474.canonicalMovieValue;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 const ID_PATTERN = /^[a-z0-9][a-z0-9._-]{1,127}$/;
 
@@ -118740,7 +119530,7 @@ function safeId(value, kind) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePluginResources.js */
-__awtsmoosModule_1659 = (() => {
+__awtsmoosModule_1668 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -118753,8 +119543,8 @@ const __exports = {};
  * maps share discovery, invocation, ownership cleanup, and lifecycle without duplicated machinery.
  */
 
-var MoviePluginResourceMap = __awtsmoosModule_1660.MoviePluginResourceMap;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var MoviePluginResourceMap = __awtsmoosModule_1669.MoviePluginResourceMap;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 class MoviePluginResources {
 	constructor() {
@@ -118800,7 +119590,7 @@ __exports.MoviePluginResources = MoviePluginResources;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePluginRegistry.js */
-__awtsmoosModule_1655 = (() => {
+__awtsmoosModule_1664 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -118813,11 +119603,11 @@ const __exports = {};
  * registry small while lifecycle and resource modules own activation, rollback, handlers, and cleanup.
  */
 
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var registerMoviePlugin = __awtsmoosModule_1656.registerMoviePlugin;
-var unregisterMoviePlugin = __awtsmoosModule_1656.unregisterMoviePlugin;
-var MoviePluginResources = __awtsmoosModule_1659.MoviePluginResources;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var registerMoviePlugin = __awtsmoosModule_1665.registerMoviePlugin;
+var unregisterMoviePlugin = __awtsmoosModule_1665.unregisterMoviePlugin;
+var MoviePluginResources = __awtsmoosModule_1668.MoviePluginResources;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 class MoviePluginRegistry {
 	constructor(session, runtimeAdapters) {
@@ -118898,7 +119688,7 @@ function pluginIdFromResource(id) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieRenderJobState.js */
-__awtsmoosModule_1663 = (() => {
+__awtsmoosModule_1672 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -118911,10 +119701,10 @@ const __exports = {};
  * serializable and separate from promise, abort controller, executor, and mutable queue machinery.
  */
 
-var MOVIE_RENDER_JOB_KIND = __awtsmoosModule_1644.MOVIE_RENDER_JOB_KIND;
-var MOVIE_RENDER_JOB_SNAPSHOT_VERSION = __awtsmoosModule_1644.MOVIE_RENDER_JOB_SNAPSHOT_VERSION;
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var MOVIE_RENDER_JOB_KIND = __awtsmoosModule_1653.MOVIE_RENDER_JOB_KIND;
+var MOVIE_RENDER_JOB_SNAPSHOT_VERSION = __awtsmoosModule_1653.MOVIE_RENDER_JOB_SNAPSHOT_VERSION;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 const TERMINAL_STATES = new Set(['cancelled', 'completed', 'failed']);
 
@@ -118976,7 +119766,7 @@ __exports.requireMovieRenderExecutor = requireMovieRenderExecutor;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieRenderJob.js */
-__awtsmoosModule_1662 = (() => {
+__awtsmoosModule_1671 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -118989,12 +119779,12 @@ const __exports = {};
  * gives agents stable job identity while executor, abort controller, and promises remain local.
  */
 
-var canonicalMovieValue = __awtsmoosModule_1472.canonicalMovieValue;
-var createMovieRenderJobSnapshot = __awtsmoosModule_1663.createMovieRenderJobSnapshot;
-var isTerminalMovieRenderState = __awtsmoosModule_1663.isTerminalMovieRenderState;
-var movieRenderError = __awtsmoosModule_1663.movieRenderError;
-var normalizeMovieRenderProgress = __awtsmoosModule_1663.normalizeMovieRenderProgress;
-var requireMovieRenderExecutor = __awtsmoosModule_1663.requireMovieRenderExecutor;
+var canonicalMovieValue = __awtsmoosModule_1474.canonicalMovieValue;
+var createMovieRenderJobSnapshot = __awtsmoosModule_1672.createMovieRenderJobSnapshot;
+var isTerminalMovieRenderState = __awtsmoosModule_1672.isTerminalMovieRenderState;
+var movieRenderError = __awtsmoosModule_1672.movieRenderError;
+var normalizeMovieRenderProgress = __awtsmoosModule_1672.normalizeMovieRenderProgress;
+var requireMovieRenderExecutor = __awtsmoosModule_1672.requireMovieRenderExecutor;
 
 class MovieRenderJob {
 	constructor(id, request, events) {
@@ -119098,7 +119888,7 @@ __exports.MovieRenderJob = MovieRenderJob;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieRuntimeId.js */
-__awtsmoosModule_1664 = (() => {
+__awtsmoosModule_1673 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -119125,7 +119915,7 @@ __exports.createMovieRuntimeId = createMovieRuntimeId;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieRenderQueue.js */
-__awtsmoosModule_1661 = (() => {
+__awtsmoosModule_1670 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -119138,11 +119928,11 @@ const __exports = {};
  * active work and recent terminal history queryable while pruning only completed old vessels.
  */
 
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var MovieRenderJob = __awtsmoosModule_1662.MovieRenderJob;
-var isTerminalMovieRenderState = __awtsmoosModule_1663.isTerminalMovieRenderState;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
-var createMovieRuntimeId = __awtsmoosModule_1664.createMovieRuntimeId;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var MovieRenderJob = __awtsmoosModule_1671.MovieRenderJob;
+var isTerminalMovieRenderState = __awtsmoosModule_1672.isTerminalMovieRenderState;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+var createMovieRuntimeId = __awtsmoosModule_1673.createMovieRuntimeId;
 
 class MovieRenderQueue {
 	constructor(events, options = {}) {
@@ -119239,7 +120029,7 @@ __exports.MovieRenderQueue = MovieRenderQueue;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieRuntimeAdapterManifest.js */
-__awtsmoosModule_1666 = (() => {
+__awtsmoosModule_1675 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -119252,11 +120042,11 @@ const __exports = {};
  * only finite adapter evidence while live methods and runtime objects remain local and unsafe.
  */
 
-var MOVIE_RUNTIME_ADAPTER_MANIFEST_KIND = __awtsmoosModule_1644.MOVIE_RUNTIME_ADAPTER_MANIFEST_KIND;
-var MOVIE_RUNTIME_ADAPTER_MANIFEST_VERSION = __awtsmoosModule_1644.MOVIE_RUNTIME_ADAPTER_MANIFEST_VERSION;
-var canonicalMovieValue = __awtsmoosModule_1472.canonicalMovieValue;
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var MOVIE_RUNTIME_ADAPTER_MANIFEST_KIND = __awtsmoosModule_1653.MOVIE_RUNTIME_ADAPTER_MANIFEST_KIND;
+var MOVIE_RUNTIME_ADAPTER_MANIFEST_VERSION = __awtsmoosModule_1653.MOVIE_RUNTIME_ADAPTER_MANIFEST_VERSION;
+var canonicalMovieValue = __awtsmoosModule_1474.canonicalMovieValue;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 const ID_PATTERN = /^[a-z0-9][a-z0-9._-]{1,127}$/;
 const TYPE_PATTERN = /^[a-z][a-z0-9._-]{1,63}$/;
@@ -119297,7 +120087,7 @@ __exports.normalizeMovieRuntimeAdapterManifest = normalizeMovieRuntimeAdapterMan
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieRuntimeAdapterRegistry.js */
-__awtsmoosModule_1665 = (() => {
+__awtsmoosModule_1674 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -119310,10 +120100,10 @@ const __exports = {};
  * live methods local while agents discover, invoke, and remove only explicitly named vessels.
  */
 
-var canonicalMovieValue = __awtsmoosModule_1472.canonicalMovieValue;
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var normalizeMovieRuntimeAdapterManifest = __awtsmoosModule_1666.normalizeMovieRuntimeAdapterManifest;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var canonicalMovieValue = __awtsmoosModule_1474.canonicalMovieValue;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var normalizeMovieRuntimeAdapterManifest = __awtsmoosModule_1675.normalizeMovieRuntimeAdapterManifest;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 class MovieRuntimeAdapterRegistry {
 	constructor() {
@@ -119424,7 +120214,7 @@ function validateAdapter(adapter, manifest) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieAgentCinematicProfile.js */
-__awtsmoosModule_1670 = (() => {
+__awtsmoosModule_1679 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -119521,7 +120311,7 @@ function array(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieAgentTextBeatCompiler.js */
-__awtsmoosModule_1673 = (() => {
+__awtsmoosModule_1682 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -119557,7 +120347,7 @@ __exports.compileMovieAgentTextBeat = compileMovieAgentTextBeat;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieAgentBeatCompiler.js */
-__awtsmoosModule_1672 = (() => {
+__awtsmoosModule_1681 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -119570,8 +120360,8 @@ const __exports = {};
  * guards type, identity, duration, text fields, and relative time while scene orchestration remains small.
  */
 
-var compileMovieAgentTextBeat = __awtsmoosModule_1673.compileMovieAgentTextBeat;
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
+var compileMovieAgentTextBeat = __awtsmoosModule_1682.compileMovieAgentTextBeat;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
 
 const TRACK_TYPES = new Set([
 	'actor', 'audio', 'camera', 'caption', 'crowd',
@@ -119686,7 +120476,7 @@ function movieAgentSlug(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieAgentSceneCompiler.js */
-__awtsmoosModule_1671 = (() => {
+__awtsmoosModule_1680 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -119699,12 +120489,12 @@ const __exports = {};
  * relative intention, transition, effect, and world into bounded absolute time without empty placeholders.
  */
 
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var compileMovieAgentBeat = __awtsmoosModule_1672.compileMovieAgentBeat;
-var movieAgentNonNegative = __awtsmoosModule_1672.movieAgentNonNegative;
-var movieAgentPositive = __awtsmoosModule_1672.movieAgentPositive;
-var movieAgentTrack = __awtsmoosModule_1672.movieAgentTrack;
-var movieAgentUniqueId = __awtsmoosModule_1672.movieAgentUniqueId;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var compileMovieAgentBeat = __awtsmoosModule_1681.compileMovieAgentBeat;
+var movieAgentNonNegative = __awtsmoosModule_1681.movieAgentNonNegative;
+var movieAgentPositive = __awtsmoosModule_1681.movieAgentPositive;
+var movieAgentTrack = __awtsmoosModule_1681.movieAgentTrack;
+var movieAgentUniqueId = __awtsmoosModule_1681.movieAgentUniqueId;
 
 function compileMovieAgentScenes(manifest) {
 	const scenes = array(manifest.scenes);
@@ -119800,7 +120590,7 @@ function array(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieAgentCompiler.js */
-__awtsmoosModule_1669 = (() => {
+__awtsmoosModule_1678 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -119813,15 +120603,15 @@ const __exports = {};
  * JSON-only manifest, enriches only by decree, compiles its source, and returns no live objects.
  */
 
-var MOVIE_AGENT_MANIFEST_KIND = __awtsmoosModule_1644.MOVIE_AGENT_MANIFEST_KIND;
-var MOVIE_AGENT_MANIFEST_VERSION = __awtsmoosModule_1644.MOVIE_AGENT_MANIFEST_VERSION;
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var canonicalMovieValue = __awtsmoosModule_1472.canonicalMovieValue;
-var parseCanonicalMovieJson = __awtsmoosModule_1472.parseCanonicalMovieJson;
-var enrichMovieAgentManifest = __awtsmoosModule_1670.enrichMovieAgentManifest;
-var compileMovieAgentScenes = __awtsmoosModule_1671.compileMovieAgentScenes;
-var compileMovieProject = __awtsmoosModule_1628.compileMovieProject;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var MOVIE_AGENT_MANIFEST_KIND = __awtsmoosModule_1653.MOVIE_AGENT_MANIFEST_KIND;
+var MOVIE_AGENT_MANIFEST_VERSION = __awtsmoosModule_1653.MOVIE_AGENT_MANIFEST_VERSION;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var canonicalMovieValue = __awtsmoosModule_1474.canonicalMovieValue;
+var parseCanonicalMovieJson = __awtsmoosModule_1474.parseCanonicalMovieJson;
+var enrichMovieAgentManifest = __awtsmoosModule_1679.enrichMovieAgentManifest;
+var compileMovieAgentScenes = __awtsmoosModule_1680.compileMovieAgentScenes;
+var compileMovieProject = __awtsmoosModule_1637.compileMovieProject;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 function parseMovieAgentManifest(source) {
 	const manifest = typeof source === 'string'
@@ -119862,7 +120652,7 @@ __exports.compileMovieAgentManifest = compileMovieAgentManifest;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieAgentContractCapabilities.js */
-__awtsmoosModule_1675 = (() => {
+__awtsmoosModule_1684 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -119918,7 +120708,7 @@ __exports.movieAgentAdvancedCapabilities = movieAgentAdvancedCapabilities;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieAgentContract.js */
-__awtsmoosModule_1674 = (() => {
+__awtsmoosModule_1683 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -119931,11 +120721,11 @@ const __exports = {};
  * finite grammar for worlds, plans, recipes, media, text, effects, camera, actors, dialogue, and sound.
  */
 
-var MOVIE_AGENT_MANIFEST_KIND = __awtsmoosModule_1644.MOVIE_AGENT_MANIFEST_KIND;
-var MOVIE_AGENT_MANIFEST_VERSION = __awtsmoosModule_1644.MOVIE_AGENT_MANIFEST_VERSION;
-var MOVIE_PROJECT_SCHEMA_VERSION = __awtsmoosModule_1644.MOVIE_PROJECT_SCHEMA_VERSION;
-var movieAgentAdvancedCapabilities = __awtsmoosModule_1675.movieAgentAdvancedCapabilities;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var MOVIE_AGENT_MANIFEST_KIND = __awtsmoosModule_1653.MOVIE_AGENT_MANIFEST_KIND;
+var MOVIE_AGENT_MANIFEST_VERSION = __awtsmoosModule_1653.MOVIE_AGENT_MANIFEST_VERSION;
+var MOVIE_PROJECT_SCHEMA_VERSION = __awtsmoosModule_1653.MOVIE_PROJECT_SCHEMA_VERSION;
+var movieAgentAdvancedCapabilities = __awtsmoosModule_1684.movieAgentAdvancedCapabilities;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 function createMovieAgentContract() {
 	return createMovieProjectSnapshot({
@@ -120016,7 +120806,7 @@ __exports.createMovieAgentContract = createMovieAgentContract;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieAgentExample.js */
-__awtsmoosModule_1676 = (() => {
+__awtsmoosModule_1685 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -120029,9 +120819,9 @@ const __exports = {};
  * living pattern from which camera, actor, dialogue, door, audio, marker, and scene may unfold.
  */
 
-var MOVIE_AGENT_MANIFEST_KIND = __awtsmoosModule_1644.MOVIE_AGENT_MANIFEST_KIND;
-var MOVIE_AGENT_MANIFEST_VERSION = __awtsmoosModule_1644.MOVIE_AGENT_MANIFEST_VERSION;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var MOVIE_AGENT_MANIFEST_KIND = __awtsmoosModule_1653.MOVIE_AGENT_MANIFEST_KIND;
+var MOVIE_AGENT_MANIFEST_VERSION = __awtsmoosModule_1653.MOVIE_AGENT_MANIFEST_VERSION;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 function createMovieAgentExample() {
 	return createMovieProjectSnapshot({
@@ -120129,7 +120919,7 @@ __exports.createMovieAgentExample = createMovieAgentExample;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieEditPlan.js */
-__awtsmoosModule_1680 = (() => {
+__awtsmoosModule_1689 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -120142,8 +120932,8 @@ const __exports = {};
  * Awtsmoos.com rejects hidden steps and gives every edit a title, reason, payload, risk, and revision math.
  */
 
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 const MOVIE_EDIT_PLAN_KIND = 'awtsmoos.movie.edit-plan';
 __exports.MOVIE_EDIT_PLAN_KIND = MOVIE_EDIT_PLAN_KIND;
@@ -120224,7 +121014,7 @@ function array(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProjectDelta.js */
-__awtsmoosModule_1681 = (() => {
+__awtsmoosModule_1690 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -120237,7 +121027,7 @@ const __exports = {};
  * Awtsmoos.com gives agents and humans one JSON receipt of assets, additions, removals, duration, and structure improved.
  */
 
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 function createMovieProjectDelta(before, after) {
 	const beforeIndex = indexProject(before);
@@ -120348,7 +121138,7 @@ function stable(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieMediaCommands.js */
-__awtsmoosModule_1683 = (() => {
+__awtsmoosModule_1692 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -120361,11 +121151,11 @@ const __exports = {};
  * Awtsmoos.com keeps media-bin edits undoable and returns explicit usage receipts for every project contact.
  */
 
-var findMovieMediaReferences = __awtsmoosModule_1469.findMovieMediaReferences;
-var normalizeMovieMediaCatalog = __awtsmoosModule_1469.normalizeMovieMediaCatalog;
-var normalizeMovieMediaItem = __awtsmoosModule_1469.normalizeMovieMediaItem;
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var cloneMovieProjectSnapshot = __awtsmoosModule_1471.cloneMovieProjectSnapshot;
+var findMovieMediaReferences = __awtsmoosModule_1480.findMovieMediaReferences;
+var normalizeMovieMediaCatalog = __awtsmoosModule_1480.normalizeMovieMediaCatalog;
+var normalizeMovieMediaItem = __awtsmoosModule_1480.normalizeMovieMediaItem;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var cloneMovieProjectSnapshot = __awtsmoosModule_1473.cloneMovieProjectSnapshot;
 
 const MEDIA_COMMANDS = new Set([
 	'addMedia',
@@ -120470,7 +121260,7 @@ function result(project, label, detail) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieMediaWorkspaceMutations.js */
-__awtsmoosModule_1685 = (() => {
+__awtsmoosModule_1694 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -120483,7 +121273,7 @@ const __exports = {};
  * Awtsmoos.com keeps source, search, and error behavior explicit in one focused treasure.
  */
 
-var normalizeMovieSavedSearch = __awtsmoosModule_1474.normalizeMovieSavedSearch;
+var normalizeMovieSavedSearch = __awtsmoosModule_1481.normalizeMovieSavedSearch;
 
 function selectMovieSourceMedia(project, mediaId) {
 	const media = (project.media || []).find(item => item.id === String(mediaId || ''));
@@ -120555,7 +121345,7 @@ function round(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieMediaWorkspaceCommands.js */
-__awtsmoosModule_1684 = (() => {
+__awtsmoosModule_1693 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -120568,12 +121358,12 @@ const __exports = {};
  * preserves every source boundary and search as project truth with a recoverable name.
  */
 
-var normalizeMovieMediaWorkspace = __awtsmoosModule_1474.normalizeMovieMediaWorkspace;
-var clearMovieSourceMarks = __awtsmoosModule_1685.clearMovieSourceMarks;
-var markMovieSource = __awtsmoosModule_1685.markMovieSource;
-var removeMovieMediaSearch = __awtsmoosModule_1685.removeMovieMediaSearch;
-var saveMovieMediaSearch = __awtsmoosModule_1685.saveMovieMediaSearch;
-var selectMovieSourceMedia = __awtsmoosModule_1685.selectMovieSourceMedia;
+var normalizeMovieMediaWorkspace = __awtsmoosModule_1481.normalizeMovieMediaWorkspace;
+var clearMovieSourceMarks = __awtsmoosModule_1694.clearMovieSourceMarks;
+var markMovieSource = __awtsmoosModule_1694.markMovieSource;
+var removeMovieMediaSearch = __awtsmoosModule_1694.removeMovieMediaSearch;
+var saveMovieMediaSearch = __awtsmoosModule_1694.saveMovieMediaSearch;
+var selectMovieSourceMedia = __awtsmoosModule_1694.selectMovieSourceMedia;
 
 const COMMANDS = Object.freeze({
 	clearSourceMarks: { label: 'Clear source marks', run: clearMovieSourceMarks },
@@ -120613,7 +121403,7 @@ function clone(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieClipCommands.js */
-__awtsmoosModule_1688 = (() => {
+__awtsmoosModule_1697 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -120626,8 +121416,8 @@ const __exports = {};
  * each finite command a unique ID, recoverable result, and stable selection descriptor.
  */
 
-var allMovieClipIds = __awtsmoosModule_1533.allMovieClipIds;
-var resolveMovieSelection = __awtsmoosModule_1533.resolveMovieSelection;
+var allMovieClipIds = __awtsmoosModule_1540.allMovieClipIds;
+var resolveMovieSelection = __awtsmoosModule_1540.resolveMovieSelection;
 
 const MINIMUM_CLIP_DURATION = 0.05;
 
@@ -120721,7 +121511,7 @@ function clone(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieSourceEditProjectClone.js */
-__awtsmoosModule_1690 = (() => {
+__awtsmoosModule_1699 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -120770,7 +121560,7 @@ function array(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieSourceEditContext.js */
-__awtsmoosModule_1689 = (() => {
+__awtsmoosModule_1698 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -120783,9 +121573,9 @@ const __exports = {};
  * gives every professional edit a bounded context, stable vessel, and truthful decision.
  */
 
-var uniqueMovieClipId = __awtsmoosModule_1688.uniqueMovieClipId;
-var resolveMovieSourceRange = __awtsmoosModule_1474.resolveMovieSourceRange;
-var cloneMovieSourceEditProject = __awtsmoosModule_1690.cloneMovieSourceEditProject;
+var uniqueMovieClipId = __awtsmoosModule_1697.uniqueMovieClipId;
+var resolveMovieSourceRange = __awtsmoosModule_1481.resolveMovieSourceRange;
+var cloneMovieSourceEditProject = __awtsmoosModule_1699.cloneMovieSourceEditProject;
 
 const EDITABLE_MEDIA_KINDS = new Set(['audio', 'image', 'video']);
 
@@ -120890,7 +121680,7 @@ function round(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieSourceInsertEdit.js */
-__awtsmoosModule_1687 = (() => {
+__awtsmoosModule_1696 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -120903,8 +121693,8 @@ const __exports = {};
  * lets one source enter while every later vessel advances in deterministic movement.
  */
 
-var uniqueMovieClipId = __awtsmoosModule_1688.uniqueMovieClipId;
-var createMovieSourceEditContext = __awtsmoosModule_1689.createMovieSourceEditContext;
+var uniqueMovieClipId = __awtsmoosModule_1697.uniqueMovieClipId;
+var createMovieSourceEditContext = __awtsmoosModule_1698.createMovieSourceEditContext;
 
 function insertMovieSourceEdit(projectSource, payload = {}) {
 	const context = createMovieSourceEditContext(projectSource, payload);
@@ -120960,7 +121750,7 @@ function round(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieSourceOverwriteEdit.js */
-__awtsmoosModule_1691 = (() => {
+__awtsmoosModule_1700 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -120973,8 +121763,8 @@ const __exports = {};
  * trims, splits, and restores each surviving side through one deterministic command.
  */
 
-var uniqueMovieClipId = __awtsmoosModule_1688.uniqueMovieClipId;
-var createMovieSourceEditContext = __awtsmoosModule_1689.createMovieSourceEditContext;
+var uniqueMovieClipId = __awtsmoosModule_1697.uniqueMovieClipId;
+var createMovieSourceEditContext = __awtsmoosModule_1698.createMovieSourceEditContext;
 
 function overwriteMovieSourceEdit(projectSource, payload = {}) {
 	const context = createMovieSourceEditContext(projectSource, payload);
@@ -121031,7 +121821,7 @@ function round(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieSourceEditCommands.js */
-__awtsmoosModule_1686 = (() => {
+__awtsmoosModule_1695 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -121044,8 +121834,8 @@ const __exports = {};
  * Awtsmoos.com keeps insertion and replacement small, explicit, and safe.
  */
 
-var insertMovieSourceEdit = __awtsmoosModule_1687.insertMovieSourceEdit;
-var overwriteMovieSourceEdit = __awtsmoosModule_1691.overwriteMovieSourceEdit;
+var insertMovieSourceEdit = __awtsmoosModule_1696.insertMovieSourceEdit;
+var overwriteMovieSourceEdit = __awtsmoosModule_1700.overwriteMovieSourceEdit;
 
 function executeMovieSourceEditCommand(project, name, payload = {}) {
 	if (name === 'insertSourceEdit') {
@@ -121061,7 +121851,7 @@ __exports.executeMovieSourceEditCommand = executeMovieSourceEditCommand;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieClipAppearanceCommands.js */
-__awtsmoosModule_1693 = (() => {
+__awtsmoosModule_1702 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -121074,12 +121864,12 @@ const __exports = {};
  * Awtsmoos.com returns canonical project and selection values so history, agents, and humans share one tree.
  */
 
-var normalizeMovieClipEffect = __awtsmoosModule_1627.normalizeMovieClipEffect;
-var normalizeMovieClipEffects = __awtsmoosModule_1627.normalizeMovieClipEffects;
-var normalizeMovieClipTransition = __awtsmoosModule_1627.normalizeMovieClipTransition;
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var resolveMovieSelection = __awtsmoosModule_1533.resolveMovieSelection;
-var cloneMovieProjectSnapshot = __awtsmoosModule_1471.cloneMovieProjectSnapshot;
+var normalizeMovieClipEffect = __awtsmoosModule_1636.normalizeMovieClipEffect;
+var normalizeMovieClipEffects = __awtsmoosModule_1636.normalizeMovieClipEffects;
+var normalizeMovieClipTransition = __awtsmoosModule_1636.normalizeMovieClipTransition;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var resolveMovieSelection = __awtsmoosModule_1540.resolveMovieSelection;
+var cloneMovieProjectSnapshot = __awtsmoosModule_1473.cloneMovieProjectSnapshot;
 
 const APPEARANCE_COMMANDS = new Set([
 	'addClipEffectKeyframe',
@@ -121169,7 +121959,7 @@ function appearanceCommandError(code, message) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieMultiClipArrange.js */
-__awtsmoosModule_1694 = (() => {
+__awtsmoosModule_1703 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -121182,8 +121972,8 @@ const __exports = {};
  * Awtsmoos.com preserves identity and duration as measured positions are recast.
  */
 
-var resolveMovieSelection = __awtsmoosModule_1533.resolveMovieSelection;
-var normalizeMovieSelectionSet = __awtsmoosModule_1532.normalizeMovieSelectionSet;
+var resolveMovieSelection = __awtsmoosModule_1540.resolveMovieSelection;
+var normalizeMovieSelectionSet = __awtsmoosModule_1539.normalizeMovieSelectionSet;
 
 function alignSelectedMovieClips(project, source, edge) {
 	const context = arrangementContext(project, source);
@@ -121279,7 +122069,7 @@ function round(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieMultiClipCommands.js */
-__awtsmoosModule_1695 = (() => {
+__awtsmoosModule_1704 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -121292,9 +122082,9 @@ const __exports = {};
  * Awtsmoos.com preserves relative time while every copied vessel receives a stable root.
  */
 
-var uniqueMovieClipId = __awtsmoosModule_1688.uniqueMovieClipId;
-var resolveMovieSelection = __awtsmoosModule_1533.resolveMovieSelection;
-var normalizeMovieSelectionSet = __awtsmoosModule_1532.normalizeMovieSelectionSet;
+var uniqueMovieClipId = __awtsmoosModule_1697.uniqueMovieClipId;
+var resolveMovieSelection = __awtsmoosModule_1540.resolveMovieSelection;
+var normalizeMovieSelectionSet = __awtsmoosModule_1539.normalizeMovieSelectionSet;
 
 function deleteSelectedMovieClips(project, source) {
 	const selection = normalizeRequiredSelection(source, project);
@@ -121373,7 +122163,7 @@ function clone(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieMultiClipMove.js */
-__awtsmoosModule_1696 = (() => {
+__awtsmoosModule_1705 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -121386,8 +122176,8 @@ const __exports = {};
  * Awtsmoos.com preserves their distance while unchosen clips remain outside.
  */
 
-var resolveMovieSelection = __awtsmoosModule_1533.resolveMovieSelection;
-var normalizeMovieSelectionSet = __awtsmoosModule_1532.normalizeMovieSelectionSet;
+var resolveMovieSelection = __awtsmoosModule_1540.resolveMovieSelection;
+var normalizeMovieSelectionSet = __awtsmoosModule_1539.normalizeMovieSelectionSet;
 
 function moveSelectedMovieClips(project, source, delta) {
 	const selection = normalizeMovieSelectionSet(source, project);
@@ -121451,7 +122241,7 @@ function round(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieAdjacentClipEdit.js */
-__awtsmoosModule_1699 = (() => {
+__awtsmoosModule_1708 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -121464,9 +122254,9 @@ const __exports = {};
  * Awtsmoos.com keeps stable identities and returns one immutable editing context for each professional pledge.
  */
 
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var resolveMovieSelection = __awtsmoosModule_1533.resolveMovieSelection;
-var cloneMovieProjectSnapshot = __awtsmoosModule_1471.cloneMovieProjectSnapshot;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var resolveMovieSelection = __awtsmoosModule_1540.resolveMovieSelection;
+var cloneMovieProjectSnapshot = __awtsmoosModule_1473.cloneMovieProjectSnapshot;
 
 function createMovieAdjacentClipEdit(project, selection) {
 	const nextProject = cloneMovieProjectSnapshot(project);
@@ -121545,7 +122335,7 @@ function compareClips(left, right) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieRateStretch.js */
-__awtsmoosModule_1698 = (() => {
+__awtsmoosModule_1707 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -121558,11 +122348,11 @@ const __exports = {};
  * Awtsmoos.com preserves source span, records playback rate, and rejects impossible temporal pressure.
  */
 
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var createMovieAdjacentClipEdit = __awtsmoosModule_1699.createMovieAdjacentClipEdit;
-var finalizeMovieAdjacentClipEdit = __awtsmoosModule_1699.finalizeMovieAdjacentClipEdit;
-var finiteMovieEditValue = __awtsmoosModule_1699.finiteMovieEditValue;
-var minimumMovieClipDuration = __awtsmoosModule_1699.minimumMovieClipDuration;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var createMovieAdjacentClipEdit = __awtsmoosModule_1708.createMovieAdjacentClipEdit;
+var finalizeMovieAdjacentClipEdit = __awtsmoosModule_1708.finalizeMovieAdjacentClipEdit;
+var finiteMovieEditValue = __awtsmoosModule_1708.finiteMovieEditValue;
+var minimumMovieClipDuration = __awtsmoosModule_1708.minimumMovieClipDuration;
 
 function rateStretchMovieClip(project, selection, payload = {}) {
 	const context = createMovieAdjacentClipEdit(project, selection);
@@ -121613,7 +122403,7 @@ function round(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieRippleTrim.js */
-__awtsmoosModule_1700 = (() => {
+__awtsmoosModule_1709 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -121626,11 +122416,11 @@ const __exports = {};
  * Awtsmoos.com keeps start nonnegative, duration positive, and the following timeline continuously restored.
  */
 
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var createMovieAdjacentClipEdit = __awtsmoosModule_1699.createMovieAdjacentClipEdit;
-var finalizeMovieAdjacentClipEdit = __awtsmoosModule_1699.finalizeMovieAdjacentClipEdit;
-var finiteMovieEditValue = __awtsmoosModule_1699.finiteMovieEditValue;
-var minimumMovieClipDuration = __awtsmoosModule_1699.minimumMovieClipDuration;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var createMovieAdjacentClipEdit = __awtsmoosModule_1708.createMovieAdjacentClipEdit;
+var finalizeMovieAdjacentClipEdit = __awtsmoosModule_1708.finalizeMovieAdjacentClipEdit;
+var finiteMovieEditValue = __awtsmoosModule_1708.finiteMovieEditValue;
+var minimumMovieClipDuration = __awtsmoosModule_1708.minimumMovieClipDuration;
 
 function rippleTrimMovieClip(project, selection, payload = {}) {
 	const context = createMovieAdjacentClipEdit(project, selection);
@@ -121679,7 +122469,7 @@ function round(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieRollEdit.js */
-__awtsmoosModule_1701 = (() => {
+__awtsmoosModule_1710 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -121692,11 +122482,11 @@ const __exports = {};
  * Awtsmoos.com preserves total duration and clamps both neighboring vessels above the minimum soul.
  */
 
-var createMovieAdjacentClipEdit = __awtsmoosModule_1699.createMovieAdjacentClipEdit;
-var finalizeMovieAdjacentClipEdit = __awtsmoosModule_1699.finalizeMovieAdjacentClipEdit;
-var finiteMovieEditValue = __awtsmoosModule_1699.finiteMovieEditValue;
-var minimumMovieClipDuration = __awtsmoosModule_1699.minimumMovieClipDuration;
-var requireMovieClipNeighbor = __awtsmoosModule_1699.requireMovieClipNeighbor;
+var createMovieAdjacentClipEdit = __awtsmoosModule_1708.createMovieAdjacentClipEdit;
+var finalizeMovieAdjacentClipEdit = __awtsmoosModule_1708.finalizeMovieAdjacentClipEdit;
+var finiteMovieEditValue = __awtsmoosModule_1708.finiteMovieEditValue;
+var minimumMovieClipDuration = __awtsmoosModule_1708.minimumMovieClipDuration;
+var requireMovieClipNeighbor = __awtsmoosModule_1708.requireMovieClipNeighbor;
 
 function rollMovieClipEdit(project, selection, payload = {}) {
 	const context = createMovieAdjacentClipEdit(project, selection);
@@ -121723,7 +122513,7 @@ function round(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieSlideEdit.js */
-__awtsmoosModule_1702 = (() => {
+__awtsmoosModule_1711 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -121736,11 +122526,11 @@ const __exports = {};
  * Awtsmoos.com keeps the middle clip whole and clamps both neighboring durations so the arrangement stays right.
  */
 
-var createMovieAdjacentClipEdit = __awtsmoosModule_1699.createMovieAdjacentClipEdit;
-var finalizeMovieAdjacentClipEdit = __awtsmoosModule_1699.finalizeMovieAdjacentClipEdit;
-var finiteMovieEditValue = __awtsmoosModule_1699.finiteMovieEditValue;
-var minimumMovieClipDuration = __awtsmoosModule_1699.minimumMovieClipDuration;
-var requireMovieClipNeighbor = __awtsmoosModule_1699.requireMovieClipNeighbor;
+var createMovieAdjacentClipEdit = __awtsmoosModule_1708.createMovieAdjacentClipEdit;
+var finalizeMovieAdjacentClipEdit = __awtsmoosModule_1708.finalizeMovieAdjacentClipEdit;
+var finiteMovieEditValue = __awtsmoosModule_1708.finiteMovieEditValue;
+var minimumMovieClipDuration = __awtsmoosModule_1708.minimumMovieClipDuration;
+var requireMovieClipNeighbor = __awtsmoosModule_1708.requireMovieClipNeighbor;
 
 function slideMovieClipEdit(project, selection, payload = {}) {
 	const context = createMovieAdjacentClipEdit(project, selection);
@@ -121770,7 +122560,7 @@ function round(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieSlipEdit.js */
-__awtsmoosModule_1703 = (() => {
+__awtsmoosModule_1712 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -121783,9 +122573,9 @@ const __exports = {};
  * Awtsmoos.com keeps timeline geometry still and bounds source offset whenever source duration joins the plan.
  */
 
-var createMovieAdjacentClipEdit = __awtsmoosModule_1699.createMovieAdjacentClipEdit;
-var finalizeMovieAdjacentClipEdit = __awtsmoosModule_1699.finalizeMovieAdjacentClipEdit;
-var finiteMovieEditValue = __awtsmoosModule_1699.finiteMovieEditValue;
+var createMovieAdjacentClipEdit = __awtsmoosModule_1708.createMovieAdjacentClipEdit;
+var finalizeMovieAdjacentClipEdit = __awtsmoosModule_1708.finalizeMovieAdjacentClipEdit;
+var finiteMovieEditValue = __awtsmoosModule_1708.finiteMovieEditValue;
 
 function slipMovieClipEdit(project, selection, payload = {}) {
 	const context = createMovieAdjacentClipEdit(project, selection);
@@ -121810,7 +122600,7 @@ function round(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProfessionalEditDispatch.js */
-__awtsmoosModule_1697 = (() => {
+__awtsmoosModule_1706 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -121823,11 +122613,11 @@ const __exports = {};
  * Awtsmoos.com keeps dispatcher truth small and lets UI, keyboard, command palette, recipes, and agents share state.
  */
 
-var rateStretchMovieClip = __awtsmoosModule_1698.rateStretchMovieClip;
-var rippleTrimMovieClip = __awtsmoosModule_1700.rippleTrimMovieClip;
-var rollMovieClipEdit = __awtsmoosModule_1701.rollMovieClipEdit;
-var slideMovieClipEdit = __awtsmoosModule_1702.slideMovieClipEdit;
-var slipMovieClipEdit = __awtsmoosModule_1703.slipMovieClipEdit;
+var rateStretchMovieClip = __awtsmoosModule_1707.rateStretchMovieClip;
+var rippleTrimMovieClip = __awtsmoosModule_1709.rippleTrimMovieClip;
+var rollMovieClipEdit = __awtsmoosModule_1710.rollMovieClipEdit;
+var slideMovieClipEdit = __awtsmoosModule_1711.slideMovieClipEdit;
+var slipMovieClipEdit = __awtsmoosModule_1712.slipMovieClipEdit;
 
 function executeMovieProfessionalEdit(
 	project,
@@ -121857,7 +122647,7 @@ __exports.executeMovieProfessionalEdit = executeMovieProfessionalEdit;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieRippleDelete.js */
-__awtsmoosModule_1704 = (() => {
+__awtsmoosModule_1713 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -121870,8 +122660,8 @@ const __exports = {};
  * Awtsmoos.com shifts every later vessel together and rejects ambiguous intersection.
  */
 
-var resolveMovieSelection = __awtsmoosModule_1533.resolveMovieSelection;
-var normalizeMovieSelectionSet = __awtsmoosModule_1532.normalizeMovieSelectionSet;
+var resolveMovieSelection = __awtsmoosModule_1540.resolveMovieSelection;
+var normalizeMovieSelectionSet = __awtsmoosModule_1539.normalizeMovieSelectionSet;
 
 function rippleDeleteMovieSelection(project, source) {
 	const selection = normalizeMovieSelectionSet(source, project);
@@ -121951,7 +122741,7 @@ function round(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioClipCommandDispatch.js */
-__awtsmoosModule_1692 = (() => {
+__awtsmoosModule_1701 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -121964,17 +122754,17 @@ const __exports = {};
  * Awtsmoos.com keeps the project-command shell small while every operation remains bounded and right.
  */
 
-var executeMovieClipAppearanceCommand = __awtsmoosModule_1693.executeMovieClipAppearanceCommand;
-var deleteMovieClip = __awtsmoosModule_1688.deleteMovieClip;
-var duplicateMovieClip = __awtsmoosModule_1688.duplicateMovieClip;
-var splitMovieClip = __awtsmoosModule_1688.splitMovieClip;
-var alignSelectedMovieClips = __awtsmoosModule_1694.alignSelectedMovieClips;
-var distributeSelectedMovieClips = __awtsmoosModule_1694.distributeSelectedMovieClips;
-var deleteSelectedMovieClips = __awtsmoosModule_1695.deleteSelectedMovieClips;
-var duplicateSelectedMovieClips = __awtsmoosModule_1695.duplicateSelectedMovieClips;
-var moveSelectedMovieClips = __awtsmoosModule_1696.moveSelectedMovieClips;
-var executeMovieProfessionalEdit = __awtsmoosModule_1697.executeMovieProfessionalEdit;
-var rippleDeleteMovieSelection = __awtsmoosModule_1704.rippleDeleteMovieSelection;
+var executeMovieClipAppearanceCommand = __awtsmoosModule_1702.executeMovieClipAppearanceCommand;
+var deleteMovieClip = __awtsmoosModule_1697.deleteMovieClip;
+var duplicateMovieClip = __awtsmoosModule_1697.duplicateMovieClip;
+var splitMovieClip = __awtsmoosModule_1697.splitMovieClip;
+var alignSelectedMovieClips = __awtsmoosModule_1703.alignSelectedMovieClips;
+var distributeSelectedMovieClips = __awtsmoosModule_1703.distributeSelectedMovieClips;
+var deleteSelectedMovieClips = __awtsmoosModule_1704.deleteSelectedMovieClips;
+var duplicateSelectedMovieClips = __awtsmoosModule_1704.duplicateSelectedMovieClips;
+var moveSelectedMovieClips = __awtsmoosModule_1705.moveSelectedMovieClips;
+var executeMovieProfessionalEdit = __awtsmoosModule_1706.executeMovieProfessionalEdit;
+var rippleDeleteMovieSelection = __awtsmoosModule_1713.rippleDeleteMovieSelection;
 
 function executeMovieStudioClipCommand(
 	session,
@@ -122032,7 +122822,7 @@ __exports.executeMovieStudioClipCommand = executeMovieStudioClipCommand;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCaptionCodec.js */
-__awtsmoosModule_1707 = (() => {
+__awtsmoosModule_1716 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -122045,8 +122835,8 @@ const __exports = {};
  * Awtsmoos.com keeps import and export reversible, bounded, newline-safe, and ready for agent or human business.
  */
 
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var normalizeMovieCaptionClip = __awtsmoosModule_1484.normalizeMovieCaptionClip;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var normalizeMovieCaptionClip = __awtsmoosModule_1491.normalizeMovieCaptionClip;
 
 function parseMovieCaptions(source, options = {}) {
 	const text = String(source || '').replace(/\r\n?/g, '\n').trim();
@@ -122149,7 +122939,7 @@ function pad(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCaptionCommands.js */
-__awtsmoosModule_1706 = (() => {
+__awtsmoosModule_1715 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -122162,10 +122952,10 @@ const __exports = {};
  * Awtsmoos.com preserves timing, language, style, identity, and portable text without mutating another state.
  */
 
-var parseMovieCaptions = __awtsmoosModule_1707.parseMovieCaptions;
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var normalizeMovieCaptionClip = __awtsmoosModule_1484.normalizeMovieCaptionClip;
-var cloneMovieProjectSnapshot = __awtsmoosModule_1471.cloneMovieProjectSnapshot;
+var parseMovieCaptions = __awtsmoosModule_1716.parseMovieCaptions;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var normalizeMovieCaptionClip = __awtsmoosModule_1491.normalizeMovieCaptionClip;
+var cloneMovieProjectSnapshot = __awtsmoosModule_1473.cloneMovieProjectSnapshot;
 
 const CAPTION_COMMANDS = new Set([
 	'addCaption',
@@ -122271,7 +123061,7 @@ function result(project, label, track, clipIds) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTitleCommands.js */
-__awtsmoosModule_1708 = (() => {
+__awtsmoosModule_1717 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -122284,9 +123074,9 @@ const __exports = {};
  * Awtsmoos.com keeps readable style, subtitle, placement, timing, and undo inside ordinary project reality.
  */
 
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var normalizeMovieTitleClip = __awtsmoosModule_1484.normalizeMovieTitleClip;
-var cloneMovieProjectSnapshot = __awtsmoosModule_1471.cloneMovieProjectSnapshot;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var normalizeMovieTitleClip = __awtsmoosModule_1491.normalizeMovieTitleClip;
+var cloneMovieProjectSnapshot = __awtsmoosModule_1473.cloneMovieProjectSnapshot;
 
 const TITLE_COMMANDS = new Set(['addTitle', 'removeTitle', 'updateTitle']);
 
@@ -122369,7 +123159,7 @@ function result(project, label, track, clipId) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTextCommandDispatch.js */
-__awtsmoosModule_1705 = (() => {
+__awtsmoosModule_1714 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -122382,8 +123172,8 @@ const __exports = {};
  * Awtsmoos.com keeps titles and captions independent in contract yet unified for command and agent state.
  */
 
-var executeMovieCaptionCommand = __awtsmoosModule_1706.executeMovieCaptionCommand;
-var executeMovieTitleCommand = __awtsmoosModule_1708.executeMovieTitleCommand;
+var executeMovieCaptionCommand = __awtsmoosModule_1715.executeMovieCaptionCommand;
+var executeMovieTitleCommand = __awtsmoosModule_1717.executeMovieTitleCommand;
 
 function executeMovieTextCommand(project, name, payload = {}) {
 	return executeMovieCaptionCommand(project, name, payload)
@@ -122395,7 +123185,7 @@ __exports.executeMovieTextCommand = executeMovieTextCommand;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTrackCommandValues.js */
-__awtsmoosModule_1711 = (() => {
+__awtsmoosModule_1720 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -122477,7 +123267,7 @@ __exports.reserveMovieIdentity = reserveMovieIdentity;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTrackCommands.js */
-__awtsmoosModule_1710 = (() => {
+__awtsmoosModule_1719 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -122490,14 +123280,14 @@ const __exports = {};
  * Awtsmoos.com gives each track stable identity and bounded state in sight.
  */
 
-var cloneMovieTrackValue = __awtsmoosModule_1711.cloneMovieTrackValue;
-var movieProjectClipIdentitySet = __awtsmoosModule_1711.movieProjectClipIdentitySet;
-var movieTrackExactIndex = __awtsmoosModule_1711.movieTrackExactIndex;
-var movieTrackInsertionIndex = __awtsmoosModule_1711.movieTrackInsertionIndex;
-var requiredMovieTrack = __awtsmoosModule_1711.requiredMovieTrack;
-var requiredMovieTrackText = __awtsmoosModule_1711.requiredMovieTrackText;
-var reserveMovieIdentity = __awtsmoosModule_1711.reserveMovieIdentity;
-var uniqueMovieTrackId = __awtsmoosModule_1711.uniqueMovieTrackId;
+var cloneMovieTrackValue = __awtsmoosModule_1720.cloneMovieTrackValue;
+var movieProjectClipIdentitySet = __awtsmoosModule_1720.movieProjectClipIdentitySet;
+var movieTrackExactIndex = __awtsmoosModule_1720.movieTrackExactIndex;
+var movieTrackInsertionIndex = __awtsmoosModule_1720.movieTrackInsertionIndex;
+var requiredMovieTrack = __awtsmoosModule_1720.requiredMovieTrack;
+var requiredMovieTrackText = __awtsmoosModule_1720.requiredMovieTrackText;
+var reserveMovieIdentity = __awtsmoosModule_1720.reserveMovieIdentity;
+var uniqueMovieTrackId = __awtsmoosModule_1720.uniqueMovieTrackId;
 
 function addMovieTrack(project, payload = {}) {
 	const next = cloneMovieTrackValue(project);
@@ -122590,7 +123380,7 @@ function trackResult(project, label, detail) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioTrackCommandDispatch.js */
-__awtsmoosModule_1709 = (() => {
+__awtsmoosModule_1718 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -122603,12 +123393,12 @@ const __exports = {};
  * Awtsmoos.com keeps harmless track changes outside selection concerns and parts.
  */
 
-var addMovieTrack = __awtsmoosModule_1710.addMovieTrack;
-var duplicateMovieTrack = __awtsmoosModule_1710.duplicateMovieTrack;
-var removeMovieTrack = __awtsmoosModule_1710.removeMovieTrack;
-var renameMovieTrack = __awtsmoosModule_1710.renameMovieTrack;
-var reorderMovieTrack = __awtsmoosModule_1710.reorderMovieTrack;
-var setMovieTrackState = __awtsmoosModule_1710.setMovieTrackState;
+var addMovieTrack = __awtsmoosModule_1719.addMovieTrack;
+var duplicateMovieTrack = __awtsmoosModule_1719.duplicateMovieTrack;
+var removeMovieTrack = __awtsmoosModule_1719.removeMovieTrack;
+var renameMovieTrack = __awtsmoosModule_1719.renameMovieTrack;
+var reorderMovieTrack = __awtsmoosModule_1719.reorderMovieTrack;
+var setMovieTrackState = __awtsmoosModule_1719.setMovieTrackState;
 
 const OPERATIONS = Object.freeze({
 	addTrack: addMovieTrack,
@@ -122639,7 +123429,7 @@ __exports.executeMovieStudioTrackCommand = executeMovieStudioTrackCommand;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioProjectCommands.js */
-__awtsmoosModule_1682 = (() => {
+__awtsmoosModule_1691 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -122652,16 +123442,16 @@ const __exports = {};
  * source monitors, edits, media, captions, titles, and lifecycle changes share one registry.
  */
 
-var executeMovieMediaCommand = __awtsmoosModule_1683.executeMovieMediaCommand;
-var executeMovieMediaWorkspaceCommand = __awtsmoosModule_1684.executeMovieMediaWorkspaceCommand;
-var addMovieMarker = __awtsmoosModule_1483.addMovieMarker;
-var removeMovieMarker = __awtsmoosModule_1483.removeMovieMarker;
-var resolveMovieSelection = __awtsmoosModule_1533.resolveMovieSelection;
-var normalizeMovieSelectionSet = __awtsmoosModule_1532.normalizeMovieSelectionSet;
-var executeMovieSourceEditCommand = __awtsmoosModule_1686.executeMovieSourceEditCommand;
-var executeMovieStudioClipCommand = __awtsmoosModule_1692.executeMovieStudioClipCommand;
-var executeMovieTextCommand = __awtsmoosModule_1705.executeMovieTextCommand;
-var executeMovieStudioTrackCommand = __awtsmoosModule_1709.executeMovieStudioTrackCommand;
+var executeMovieMediaCommand = __awtsmoosModule_1692.executeMovieMediaCommand;
+var executeMovieMediaWorkspaceCommand = __awtsmoosModule_1693.executeMovieMediaWorkspaceCommand;
+var addMovieMarker = __awtsmoosModule_1490.addMovieMarker;
+var removeMovieMarker = __awtsmoosModule_1490.removeMovieMarker;
+var resolveMovieSelection = __awtsmoosModule_1540.resolveMovieSelection;
+var normalizeMovieSelectionSet = __awtsmoosModule_1539.normalizeMovieSelectionSet;
+var executeMovieSourceEditCommand = __awtsmoosModule_1695.executeMovieSourceEditCommand;
+var executeMovieStudioClipCommand = __awtsmoosModule_1701.executeMovieStudioClipCommand;
+var executeMovieTextCommand = __awtsmoosModule_1714.executeMovieTextCommand;
+var executeMovieStudioTrackCommand = __awtsmoosModule_1718.executeMovieStudioTrackCommand;
 
 function executeMovieStudioProjectCommand(
 	session,
@@ -122728,7 +123518,7 @@ function movieMarkerCommandTime(session, payload) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieEditDryRun.js */
-__awtsmoosModule_1679 = (() => {
+__awtsmoosModule_1688 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -122741,12 +123531,12 @@ const __exports = {};
  * Awtsmoos.com runs ordinary commands without touching session history and reports every resulting direction.
  */
 
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var createMovieEditPlan = __awtsmoosModule_1680.createMovieEditPlan;
-var createMovieProjectDelta = __awtsmoosModule_1681.createMovieProjectDelta;
-var normalizeMovieSelectionSet = __awtsmoosModule_1532.normalizeMovieSelectionSet;
-var executeMovieStudioProjectCommand = __awtsmoosModule_1682.executeMovieStudioProjectCommand;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var createMovieEditPlan = __awtsmoosModule_1689.createMovieEditPlan;
+var createMovieProjectDelta = __awtsmoosModule_1690.createMovieProjectDelta;
+var normalizeMovieSelectionSet = __awtsmoosModule_1539.normalizeMovieSelectionSet;
+var executeMovieStudioProjectCommand = __awtsmoosModule_1691.executeMovieStudioProjectCommand;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 function dryRunMovieEditPlan(project, source, options = {}) {
 	const plan = createMovieEditPlan(source);
@@ -122819,7 +123609,7 @@ function collectWarnings(plan, project) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieEditPlanExecutor.js */
-__awtsmoosModule_1678 = (() => {
+__awtsmoosModule_1687 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -122832,7 +123622,7 @@ const __exports = {};
  * Awtsmoos.com keeps many proposed steps inside one undoable project replacement and immutable event level.
  */
 
-var dryRunMovieEditPlan = __awtsmoosModule_1679.dryRunMovieEditPlan;
+var dryRunMovieEditPlan = __awtsmoosModule_1688.dryRunMovieEditPlan;
 
 function previewMovieEditPlan(session, plan, options = {}) {
 	return dryRunMovieEditPlan(session.project, plan, {
@@ -122866,7 +123656,7 @@ __exports.applyMovieEditPlan = applyMovieEditPlan;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePromptIntent.js */
-__awtsmoosModule_1714 = (() => {
+__awtsmoosModule_1723 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -122879,8 +123669,8 @@ const __exports = {};
  * Awtsmoos.com turns free language into explicit JSON choices without pretending hidden certainty is settled.
  */
 
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
-var hashMovieProceduralText = __awtsmoosModule_1621.hashMovieProceduralText;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+var hashMovieProceduralText = __awtsmoosModule_1630.hashMovieProceduralText;
 
 const TONES = Object.freeze({
 	contemplative: ['prayer', 'quiet', 'reflect', 'wisdom', 'peace'],
@@ -122986,7 +123776,7 @@ function finiteSeed(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProceduralActionBeats.js */
-__awtsmoosModule_1717 = (() => {
+__awtsmoosModule_1726 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -123045,7 +123835,7 @@ __exports.createProceduralActorBeat = createProceduralActorBeat;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProceduralDialogue.js */
-__awtsmoosModule_1718 = (() => {
+__awtsmoosModule_1727 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -123079,7 +123869,7 @@ __exports.proceduralDialogueForPurpose = proceduralDialogueForPurpose;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProceduralSceneBeats.js */
-__awtsmoosModule_1716 = (() => {
+__awtsmoosModule_1725 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -123092,10 +123882,10 @@ const __exports = {};
  * Awtsmoos.com keeps beat construction small so world and story orchestration remain clear in generation.
  */
 
-var createProceduralActorBeat = __awtsmoosModule_1717.createProceduralActorBeat;
-var createProceduralCrowdBeat = __awtsmoosModule_1717.createProceduralCrowdBeat;
-var createProceduralEventBeat = __awtsmoosModule_1717.createProceduralEventBeat;
-var proceduralDialogueForPurpose = __awtsmoosModule_1718.proceduralDialogueForPurpose;
+var createProceduralActorBeat = __awtsmoosModule_1726.createProceduralActorBeat;
+var createProceduralCrowdBeat = __awtsmoosModule_1726.createProceduralCrowdBeat;
+var createProceduralEventBeat = __awtsmoosModule_1726.createProceduralEventBeat;
+var proceduralDialogueForPurpose = __awtsmoosModule_1727.proceduralDialogueForPurpose;
 
 function createProceduralSceneBeats(scene, world, characters, random) {
 	const protagonist = characters[0];
@@ -123180,7 +123970,7 @@ function dialogueBeat(scene, protagonist, companion) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProceduralScenePlanner.js */
-__awtsmoosModule_1715 = (() => {
+__awtsmoosModule_1724 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -123193,11 +123983,11 @@ const __exports = {};
  * Awtsmoos.com joins story, world, beats, and appearance without hiding live objects inside authored levels.
  */
 
-var createMovieProceduralRandom = __awtsmoosModule_1621.createMovieProceduralRandom;
-var createProceduralSceneBeats = __awtsmoosModule_1716.createProceduralSceneBeats;
-var proceduralSceneAppearance = __awtsmoosModule_1716.proceduralSceneAppearance;
-var proceduralSceneGrade = __awtsmoosModule_1716.proceduralSceneGrade;
-var compileMovieWorldPrompt = __awtsmoosModule_1613.compileMovieWorldPrompt;
+var createMovieProceduralRandom = __awtsmoosModule_1630.createMovieProceduralRandom;
+var createProceduralSceneBeats = __awtsmoosModule_1725.createProceduralSceneBeats;
+var proceduralSceneAppearance = __awtsmoosModule_1725.proceduralSceneAppearance;
+var proceduralSceneGrade = __awtsmoosModule_1725.proceduralSceneGrade;
+var compileMovieWorldPrompt = __awtsmoosModule_1622.compileMovieWorldPrompt;
 
 function planProceduralMovieScene(intent, arcScene) {
 	const random = createMovieProceduralRandom(intent.seed, arcScene.id);
@@ -123250,7 +124040,7 @@ __exports.proceduralTransitionDuration = proceduralTransitionDuration;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProceduralStoryPlanner.js */
-__awtsmoosModule_1719 = (() => {
+__awtsmoosModule_1728 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -123263,8 +124053,8 @@ const __exports = {};
  * Awtsmoos.com distributes time across revelation, challenge, choice, deed, and transformed landscape.
  */
 
-var createMovieProceduralRandom = __awtsmoosModule_1621.createMovieProceduralRandom;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var createMovieProceduralRandom = __awtsmoosModule_1630.createMovieProceduralRandom;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 const ARC_PURPOSES = Object.freeze([
 	'establish-world',
@@ -123345,7 +124135,7 @@ function tensionForPurpose(purpose) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProceduralManifest.js */
-__awtsmoosModule_1713 = (() => {
+__awtsmoosModule_1722 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -123358,12 +124148,12 @@ const __exports = {};
  * Awtsmoos.com publishes the ordinary manifest so agents may validate, edit, serialize, replay, and abridge.
  */
 
-var MOVIE_AGENT_MANIFEST_KIND = __awtsmoosModule_1644.MOVIE_AGENT_MANIFEST_KIND;
-var MOVIE_AGENT_MANIFEST_VERSION = __awtsmoosModule_1644.MOVIE_AGENT_MANIFEST_VERSION;
-var parseMoviePromptIntent = __awtsmoosModule_1714.parseMoviePromptIntent;
-var planProceduralMovieScene = __awtsmoosModule_1715.planProceduralMovieScene;
-var planProceduralMovieStory = __awtsmoosModule_1719.planProceduralMovieStory;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var MOVIE_AGENT_MANIFEST_KIND = __awtsmoosModule_1653.MOVIE_AGENT_MANIFEST_KIND;
+var MOVIE_AGENT_MANIFEST_VERSION = __awtsmoosModule_1653.MOVIE_AGENT_MANIFEST_VERSION;
+var parseMoviePromptIntent = __awtsmoosModule_1723.parseMoviePromptIntent;
+var planProceduralMovieScene = __awtsmoosModule_1724.planProceduralMovieScene;
+var planProceduralMovieStory = __awtsmoosModule_1728.planProceduralMovieStory;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 function createProceduralMovieManifest(prompt, options = {}) {
 	const intent = parseMoviePromptIntent(prompt, options);
@@ -123412,7 +124202,7 @@ __exports.explainProceduralMovieManifest = explainProceduralMovieManifest;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProceduralCompiler.js */
-__awtsmoosModule_1712 = (() => {
+__awtsmoosModule_1721 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -123425,10 +124215,10 @@ const __exports = {};
  * Awtsmoos.com returns project, manifest, and explanation without live objects, functions, or hidden pause.
  */
 
-var compileMovieAgentManifest = __awtsmoosModule_1669.compileMovieAgentManifest;
-var createProceduralMovieManifest = __awtsmoosModule_1713.createProceduralMovieManifest;
-var explainProceduralMovieManifest = __awtsmoosModule_1713.explainProceduralMovieManifest;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var compileMovieAgentManifest = __awtsmoosModule_1678.compileMovieAgentManifest;
+var createProceduralMovieManifest = __awtsmoosModule_1722.createProceduralMovieManifest;
+var explainProceduralMovieManifest = __awtsmoosModule_1722.explainProceduralMovieManifest;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 function compileProceduralMovie(prompt, options = {}) {
 	const manifest = createProceduralMovieManifest(prompt, options);
@@ -123450,7 +124240,7 @@ __exports.compileProceduralMovieProject = compileProceduralMovieProject;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieRecipeCompiler.js */
-__awtsmoosModule_1720 = (() => {
+__awtsmoosModule_1729 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -123463,8 +124253,8 @@ const __exports = {};
  * Awtsmoos.com keeps generation deterministic and mutation atomic so agents may preview before histories accept.
  */
 
-var createMovieEditPlan = __awtsmoosModule_1680.createMovieEditPlan;
-var compileProceduralMovieProject = __awtsmoosModule_1712.compileProceduralMovieProject;
+var createMovieEditPlan = __awtsmoosModule_1689.createMovieEditPlan;
+var compileProceduralMovieProject = __awtsmoosModule_1721.compileProceduralMovieProject;
 
 function compileMovieRecipe(recipe = {}, context = {}) {
 	const steps = [];
@@ -123549,7 +124339,7 @@ function array(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiOperation.js */
-__awtsmoosModule_1721 = (() => {
+__awtsmoosModule_1730 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -123562,9 +124352,9 @@ const __exports = {};
  * a stable request identity and revision boundary while errors remain visible to subscribers.
  */
 
-var assertMovieRevision = __awtsmoosModule_1470.assertMovieRevision;
-var movieApiFailure = __awtsmoosModule_1470.movieApiFailure;
-var movieApiSuccess = __awtsmoosModule_1470.movieApiSuccess;
+var assertMovieRevision = __awtsmoosModule_1472.assertMovieRevision;
+var movieApiFailure = __awtsmoosModule_1472.movieApiFailure;
+var movieApiSuccess = __awtsmoosModule_1472.movieApiSuccess;
 
 function runMovieStudioApiOperation(
 	session,
@@ -123639,7 +124429,7 @@ function emitMovieApiError(session, operation, options, error) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiAgentPlanning.js */
-__awtsmoosModule_1677 = (() => {
+__awtsmoosModule_1686 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -123652,13 +124442,13 @@ const __exports = {};
  * Awtsmoos.com lets JSON callers generate living worlds, preview consequences, and commit one guarded project ridge.
  */
 
-var applyMovieEditPlan = __awtsmoosModule_1678.applyMovieEditPlan;
-var previewMovieEditPlan = __awtsmoosModule_1678.previewMovieEditPlan;
-var compileProceduralMovie = __awtsmoosModule_1712.compileProceduralMovie;
-var compileMovieRecipe = __awtsmoosModule_1720.compileMovieRecipe;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
-var runMovieStudioApiOperation = __awtsmoosModule_1721.runMovieStudioApiOperation;
-var compileMovieWorldPrompt = __awtsmoosModule_1613.compileMovieWorldPrompt;
+var applyMovieEditPlan = __awtsmoosModule_1687.applyMovieEditPlan;
+var previewMovieEditPlan = __awtsmoosModule_1687.previewMovieEditPlan;
+var compileProceduralMovie = __awtsmoosModule_1721.compileProceduralMovie;
+var compileMovieRecipe = __awtsmoosModule_1729.compileMovieRecipe;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+var runMovieStudioApiOperation = __awtsmoosModule_1730.runMovieStudioApiOperation;
+var compileMovieWorldPrompt = __awtsmoosModule_1622.compileMovieWorldPrompt;
 
 function createMovieStudioAgentPlanningDomain(session) {
 	return {
@@ -123748,7 +124538,7 @@ function operation(session, name, options, action) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiAgentWait.js */
-__awtsmoosModule_1722 = (() => {
+__awtsmoosModule_1731 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -123761,8 +124551,8 @@ const __exports = {};
  * a cancellable threshold and timeout so cooperation needs no polling or mutable shared object.
  */
 
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 function waitForMovieStudioRevision(session, targetRevision, options = {}) {
 	const target = Number(targetRevision);
@@ -123813,7 +124603,7 @@ function boundedTimeout(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiAgent.js */
-__awtsmoosModule_1668 = (() => {
+__awtsmoosModule_1677 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -123826,15 +124616,15 @@ const __exports = {};
  * JSON-speaking agent create the whole movie, inspect consequences, install once, undo, and coordinate safely.
  */
 
-var compileMovieAgentManifest = __awtsmoosModule_1669.compileMovieAgentManifest;
-var createMovieAgentContract = __awtsmoosModule_1674.createMovieAgentContract;
-var createMovieAgentExample = __awtsmoosModule_1676.createMovieAgentExample;
-var createMovieProjectEnvelope = __awtsmoosModule_1645.createMovieProjectEnvelope;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
-var createMovieStudioAgentPlanningDomain = __awtsmoosModule_1677.createMovieStudioAgentPlanningDomain;
-var runMovieStudioApiAsyncOperation = __awtsmoosModule_1721.runMovieStudioApiAsyncOperation;
-var runMovieStudioApiOperation = __awtsmoosModule_1721.runMovieStudioApiOperation;
-var waitForMovieStudioRevision = __awtsmoosModule_1722.waitForMovieStudioRevision;
+var compileMovieAgentManifest = __awtsmoosModule_1678.compileMovieAgentManifest;
+var createMovieAgentContract = __awtsmoosModule_1683.createMovieAgentContract;
+var createMovieAgentExample = __awtsmoosModule_1685.createMovieAgentExample;
+var createMovieProjectEnvelope = __awtsmoosModule_1654.createMovieProjectEnvelope;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+var createMovieStudioAgentPlanningDomain = __awtsmoosModule_1686.createMovieStudioAgentPlanningDomain;
+var runMovieStudioApiAsyncOperation = __awtsmoosModule_1730.runMovieStudioApiAsyncOperation;
+var runMovieStudioApiOperation = __awtsmoosModule_1730.runMovieStudioApiOperation;
+var waitForMovieStudioRevision = __awtsmoosModule_1731.waitForMovieStudioRevision;
 
 function createMovieStudioAgentDomain(session) {
 	const domain = {
@@ -123903,7 +124693,7 @@ function applyAgentMovie(session, manifest, options) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiAuthoring3d.js */
-__awtsmoosModule_1723 = (() => {
+__awtsmoosModule_1732 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -123919,8 +124709,8 @@ const __exports = {};
 var normalizeMovieAuthoring3d = __awtsmoosModule_1467.normalizeMovieAuthoring3d;
 var validateMovieAuthoring3d = __awtsmoosModule_1467.validateMovieAuthoring3d;
 var movieModifierCatalog = __awtsmoosModule_1468.movieModifierCatalog;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
-var runMovieStudioApiOperation = __awtsmoosModule_1721.runMovieStudioApiOperation;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+var runMovieStudioApiOperation = __awtsmoosModule_1730.runMovieStudioApiOperation;
 
 function createMovieStudioAuthoring3dDomain(session) {
 	return Object.freeze({
@@ -123975,7 +124765,7 @@ function sculptBrushes() {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiCompatibility.js */
-__awtsmoosModule_1724 = (() => {
+__awtsmoosModule_1733 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -123988,12 +124778,12 @@ const __exports = {};
  * preserves those doors while immutable root JSON remains distinct from named live diagnostic vessels.
  */
 
-var MOVIE_API_CAPABILITIES = __awtsmoosModule_1644.MOVIE_API_CAPABILITIES;
-var MOVIE_API_VERSION = __awtsmoosModule_1644.MOVIE_API_VERSION;
-var renderExactMovieStudioSession = __awtsmoosLiveImport(() => __awtsmoosModule_1491, "renderExactMovieStudioSession");
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
-var copyMovieStudioUrl = __awtsmoosModule_1639.copyMovieStudioUrl;
-var renderMovieStudioSession = __awtsmoosModule_1639.renderMovieStudioSession;
+var MOVIE_API_CAPABILITIES = __awtsmoosModule_1653.MOVIE_API_CAPABILITIES;
+var MOVIE_API_VERSION = __awtsmoosModule_1653.MOVIE_API_VERSION;
+var renderExactMovieStudioSession = __awtsmoosLiveImport(() => __awtsmoosModule_1498, "renderExactMovieStudioSession");
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+var copyMovieStudioUrl = __awtsmoosModule_1648.copyMovieStudioUrl;
+var renderMovieStudioSession = __awtsmoosModule_1648.renderMovieStudioSession;
 
 function addMovieStudioCompatibilityApi(api, session) {
 	Object.assign(api, {
@@ -124074,7 +124864,7 @@ function createMovieStudioApiSnapshot(session) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCommandCatalogClipEntries.js */
-__awtsmoosModule_1728 = (() => {
+__awtsmoosModule_1737 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -124150,7 +124940,7 @@ function clipCommand(title, payload = {}) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCommandCatalogMediaTextEntries.js */
-__awtsmoosModule_1729 = (() => {
+__awtsmoosModule_1738 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -124234,7 +125024,7 @@ function entry(category, title, payload) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCommandCatalogTrackEntries.js */
-__awtsmoosModule_1730 = (() => {
+__awtsmoosModule_1739 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -124298,7 +125088,7 @@ function trackCommand(title, payload) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCommandCatalogEntries.js */
-__awtsmoosModule_1727 = (() => {
+__awtsmoosModule_1736 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -124311,9 +125101,9 @@ const __exports = {};
  * Awtsmoos.com keeps each focused module small, truthful, agent-readable, and right.
  */
 
-var MOVIE_COMMAND_CATALOG_CLIP_ENTRIES = __awtsmoosModule_1728.MOVIE_COMMAND_CATALOG_CLIP_ENTRIES;
-var MOVIE_COMMAND_CATALOG_MEDIA_TEXT_ENTRIES = __awtsmoosModule_1729.MOVIE_COMMAND_CATALOG_MEDIA_TEXT_ENTRIES;
-var MOVIE_COMMAND_CATALOG_TRACK_ENTRIES = __awtsmoosModule_1730.MOVIE_COMMAND_CATALOG_TRACK_ENTRIES;
+var MOVIE_COMMAND_CATALOG_CLIP_ENTRIES = __awtsmoosModule_1737.MOVIE_COMMAND_CATALOG_CLIP_ENTRIES;
+var MOVIE_COMMAND_CATALOG_MEDIA_TEXT_ENTRIES = __awtsmoosModule_1738.MOVIE_COMMAND_CATALOG_MEDIA_TEXT_ENTRIES;
+var MOVIE_COMMAND_CATALOG_TRACK_ENTRIES = __awtsmoosModule_1739.MOVIE_COMMAND_CATALOG_TRACK_ENTRIES;
 
 const MOVIE_COMMAND_CATALOG_ENTRIES = Object.freeze({
 	...MOVIE_COMMAND_CATALOG_CLIP_ENTRIES,
@@ -124383,7 +125173,7 @@ function commandEntry(source) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiEditorialCommandNames.js */
-__awtsmoosModule_1732 = (() => {
+__awtsmoosModule_1741 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -124423,7 +125213,7 @@ __exports.MOVIE_EDITORIAL_INTERNAL_COMMAND_NAMES = MOVIE_EDITORIAL_INTERNAL_COMM
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiCommandMap.js */
-__awtsmoosModule_1731 = (() => {
+__awtsmoosModule_1740 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -124436,9 +125226,9 @@ const __exports = {};
  * Awtsmoos.com preserves legacy spellings as tools, edits, media, text, tracks, and history evolve.
  */
 
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var MOVIE_EDITORIAL_COMMAND_ALIASES = __awtsmoosModule_1732.MOVIE_EDITORIAL_COMMAND_ALIASES;
-var MOVIE_EDITORIAL_INTERNAL_COMMAND_NAMES = __awtsmoosModule_1732.MOVIE_EDITORIAL_INTERNAL_COMMAND_NAMES;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var MOVIE_EDITORIAL_COMMAND_ALIASES = __awtsmoosModule_1741.MOVIE_EDITORIAL_COMMAND_ALIASES;
+var MOVIE_EDITORIAL_INTERNAL_COMMAND_NAMES = __awtsmoosModule_1741.MOVIE_EDITORIAL_INTERNAL_COMMAND_NAMES;
 
 const ALIASES = Object.freeze({
 	'clip.addEffectKeyframe': 'addClipEffectKeyframe',
@@ -124541,7 +125331,7 @@ __exports.movieStudioCommandAliases = movieStudioCommandAliases;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCommandCatalog.js */
-__awtsmoosModule_1726 = (() => {
+__awtsmoosModule_1735 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -124554,11 +125344,11 @@ const __exports = {};
  * discover one finite command truth while familiar vocabulary remains stable across interfaces.
  */
 
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var MOVIE_COMMAND_CATALOG_ENTRIES = __awtsmoosModule_1727.MOVIE_COMMAND_CATALOG_ENTRIES;
-var MOVIE_API_COMMAND_NAMES = __awtsmoosModule_1731.MOVIE_API_COMMAND_NAMES;
-var normalizeMovieApiCommandName = __awtsmoosModule_1731.normalizeMovieApiCommandName;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var MOVIE_COMMAND_CATALOG_ENTRIES = __awtsmoosModule_1736.MOVIE_COMMAND_CATALOG_ENTRIES;
+var MOVIE_API_COMMAND_NAMES = __awtsmoosModule_1740.MOVIE_API_COMMAND_NAMES;
+var normalizeMovieApiCommandName = __awtsmoosModule_1740.normalizeMovieApiCommandName;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 function listMovieCommandCatalog() {
 	return createMovieProjectSnapshot(
@@ -124616,7 +125406,7 @@ __exports.validateMovieCommandRequest = validateMovieCommandRequest;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioCommandHistory.js */
-__awtsmoosModule_1734 = (() => {
+__awtsmoosModule_1743 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -124698,7 +125488,7 @@ function emitMovieHistoryChanged(controller, label) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiCommandHelpers.js */
-__awtsmoosModule_1735 = (() => {
+__awtsmoosModule_1744 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -124711,9 +125501,9 @@ const __exports = {};
  * aliases, options, payload, availability, primary selection, and the selected many in one grammar.
  */
 
-var canonicalMovieValue = __awtsmoosModule_1472.canonicalMovieValue;
-var normalizeMovieApiCommandName = __awtsmoosModule_1731.normalizeMovieApiCommandName;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var canonicalMovieValue = __awtsmoosModule_1474.canonicalMovieValue;
+var normalizeMovieApiCommandName = __awtsmoosModule_1740.normalizeMovieApiCommandName;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 function normalizeMovieStudioCommandRequest(request, options = {}) {
 	const source = typeof request === 'string'
@@ -124768,7 +125558,7 @@ __exports.canExecuteMovieStudioApiCommand = canExecuteMovieStudioApiCommand;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiCommandBatch.js */
-__awtsmoosModule_1733 = (() => {
+__awtsmoosModule_1742 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -124781,12 +125571,12 @@ const __exports = {};
  * finite command first, then installs one project and one selected-many truth or changes nothing.
  */
 
-var canonicalMovieValue = __awtsmoosModule_1472.canonicalMovieValue;
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var commitMovieStudioResult = __awtsmoosModule_1734.commitMovieStudioResult;
-var executeMovieStudioProjectCommand = __awtsmoosModule_1682.executeMovieStudioProjectCommand;
-var normalizeMovieStudioCommandRequest = __awtsmoosModule_1735.normalizeMovieStudioCommandRequest;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var canonicalMovieValue = __awtsmoosModule_1474.canonicalMovieValue;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var commitMovieStudioResult = __awtsmoosModule_1743.commitMovieStudioResult;
+var executeMovieStudioProjectCommand = __awtsmoosModule_1691.executeMovieStudioProjectCommand;
+var normalizeMovieStudioCommandRequest = __awtsmoosModule_1744.normalizeMovieStudioCommandRequest;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 const FORBIDDEN = new Set(['redo', 'setSnapping', 'toggleSnap', 'undo']);
 
@@ -124851,7 +125641,7 @@ function compileMovieStudioApiBatch(session, requests) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiCommands.js */
-__awtsmoosModule_1725 = (() => {
+__awtsmoosModule_1734 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -124864,16 +125654,16 @@ const __exports = {};
  * legacy receipts while public aliases, nested options, revision guards, and coded errors remain explicit.
  */
 
-var describeMovieCommand = __awtsmoosModule_1726.describeMovieCommand;
-var listMovieCommandCatalog = __awtsmoosModule_1726.listMovieCommandCatalog;
-var validateMovieCommandRequest = __awtsmoosModule_1726.validateMovieCommandRequest;
-var executeMovieStudioApiBatch = __awtsmoosModule_1733.executeMovieStudioApiBatch;
-var canExecuteMovieStudioCommand = __awtsmoosModule_1735.canExecuteMovieStudioCommand;
-var createMovieStudioCommandSummary = __awtsmoosModule_1735.createMovieStudioCommandSummary;
-var normalizeMovieStudioCommandRequest = __awtsmoosModule_1735.normalizeMovieStudioCommandRequest;
-var MOVIE_API_COMMAND_NAMES = __awtsmoosModule_1731.MOVIE_API_COMMAND_NAMES;
-var runMovieStudioApiOperation = __awtsmoosModule_1721.runMovieStudioApiOperation;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var describeMovieCommand = __awtsmoosModule_1735.describeMovieCommand;
+var listMovieCommandCatalog = __awtsmoosModule_1735.listMovieCommandCatalog;
+var validateMovieCommandRequest = __awtsmoosModule_1735.validateMovieCommandRequest;
+var executeMovieStudioApiBatch = __awtsmoosModule_1742.executeMovieStudioApiBatch;
+var canExecuteMovieStudioCommand = __awtsmoosModule_1744.canExecuteMovieStudioCommand;
+var createMovieStudioCommandSummary = __awtsmoosModule_1744.createMovieStudioCommandSummary;
+var normalizeMovieStudioCommandRequest = __awtsmoosModule_1744.normalizeMovieStudioCommandRequest;
+var MOVIE_API_COMMAND_NAMES = __awtsmoosModule_1740.MOVIE_API_COMMAND_NAMES;
+var runMovieStudioApiOperation = __awtsmoosModule_1730.runMovieStudioApiOperation;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 function createMovieStudioCommandsDomain(session) {
 	return Object.freeze({
@@ -124939,8 +125729,1118 @@ function movieCommandOperationOptions(request, options) {
 }
 return Object.freeze(__exports);
 })();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCompositionProject.js */
+__awtsmoosModule_1748 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieCompositionProject.js
+ * @description Supplies canonical project cloning, lookup, replacement, and mutation receipts.
+ * The Awtsmoos renews document and identity in one present source; Awtsmoos.com lets
+ * finite composition edits remain pure before history installs their complete project witness.
+ */
+
+var normalizeMovieCompositionCatalog = __awtsmoosModule_1469.normalizeMovieCompositionCatalog;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+
+function cloneMovieCompositionProject(project) {
+	return typeof structuredClone === 'function'
+		? structuredClone(project || {})
+		: JSON.parse(JSON.stringify(project || {}));
+}
+
+
+__exports.cloneMovieCompositionProject = cloneMovieCompositionProject;
+function replaceMovieCompositionCatalog(project, compositions) {
+	const next = cloneMovieCompositionProject(project);
+	next.compositions = normalizeMovieCompositionCatalog(compositions);
+	return next;
+}
+
+
+__exports.replaceMovieCompositionCatalog = replaceMovieCompositionCatalog;
+function requireMovieComposition(project, compositionId) {
+	const id = String(compositionId || '');
+	const composition = (project.compositions || []).find(item => item.id === id);
+	if (composition) return composition;
+	throw new MovieApiError(
+		'MOVIE_COMPOSITION_NOT_FOUND',
+		`Composition ${id || '(empty)'} was not found.`,
+		{ compositionId: id }
+	);
+}
+
+
+__exports.requireMovieComposition = requireMovieComposition;
+function requireMovieCompositionLayer(composition, layerId) {
+	const id = String(layerId || '');
+	const layer = composition.layers.find(item => item.id === id);
+	if (layer) return layer;
+	throw new MovieApiError(
+		'MOVIE_COMPOSITION_LAYER_NOT_FOUND',
+		`Layer ${id || '(empty)'} was not found in composition ${composition.id}.`,
+		{ compositionId: composition.id, layerId: id }
+	);
+}
+
+
+__exports.requireMovieCompositionLayer = requireMovieCompositionLayer;
+function createMovieCompositionMutation(
+	project,
+	label,
+	compositionId,
+	layerId = null
+) {
+	return {
+		compositionId,
+		label,
+		layerId,
+		project
+	};
+}
+
+__exports.createMovieCompositionMutation = createMovieCompositionMutation;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCompositionLayerRemoval.js */
+__awtsmoosModule_1747 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieCompositionLayerRemoval.js
+ * @description Removes and reorders composition layers while honoring locks and valid indices.
+ * The Awtsmoos is beyond absence and order; Awtsmoos.com lets finite layers leave or move
+ * through complete canonical projects without bypassing authored protection or graph validation.
+ */
+
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var createMovieCompositionMutation = __awtsmoosModule_1748.createMovieCompositionMutation;
+var replaceMovieCompositionCatalog = __awtsmoosModule_1748.replaceMovieCompositionCatalog;
+var requireMovieComposition = __awtsmoosModule_1748.requireMovieComposition;
+var requireMovieCompositionLayer = __awtsmoosModule_1748.requireMovieCompositionLayer;
+
+function removeMovieCompositionLayer(project, compositionId, layerId, options = {}) {
+	const current = requireMovieComposition(project, compositionId);
+	const layer = requireMovieCompositionLayer(current, layerId);
+	assertMovieCompositionLayerEditable(layer, options);
+	const next = replaceMovieCompositionCatalog(
+		project,
+		replaceComposition(project, current.id, {
+			...current,
+			layers: current.layers.filter(item => item.id !== layer.id)
+		})
+	);
+	return createMovieCompositionMutation(
+		next,
+		`Remove layer ${layer.name}`,
+		current.id,
+		layer.id
+	);
+}
+
+
+__exports.removeMovieCompositionLayer = removeMovieCompositionLayer;
+function reorderMovieCompositionLayer(
+	project,
+	compositionId,
+	layerId,
+	index,
+	options = {}
+) {
+	const current = requireMovieComposition(project, compositionId);
+	const layer = requireMovieCompositionLayer(current, layerId);
+	assertMovieCompositionLayerEditable(layer, options);
+	const target = Number(index);
+	if (!Number.isInteger(target) || target < 0 || target >= current.layers.length) {
+		throw new MovieApiError(
+			'INVALID_MOVIE_COMPOSITION_LAYER_INDEX',
+			`Layer index must be an integer from 0 to ${current.layers.length - 1}.`
+		);
+	}
+	const layers = current.layers.filter(item => item.id !== layer.id);
+	layers.splice(target, 0, layer);
+	const next = replaceMovieCompositionCatalog(
+		project,
+		replaceComposition(project, current.id, { ...current, layers })
+	);
+	return createMovieCompositionMutation(
+		next,
+		`Reorder layer ${layer.name}`,
+		current.id,
+		layer.id
+	);
+}
+
+
+__exports.reorderMovieCompositionLayer = reorderMovieCompositionLayer;
+function assertMovieCompositionLayerEditable(layer, options) {
+	if (!layer.locked || options.force) return;
+	throw new MovieApiError(
+		'MOVIE_COMPOSITION_LAYER_LOCKED',
+		`Layer ${layer.id} is locked.`,
+		{ layerId: layer.id }
+	);
+}
+
+
+__exports.assertMovieCompositionLayerEditable = assertMovieCompositionLayerEditable;
+function replaceComposition(project, compositionId, replacement) {
+	return (project.compositions || []).map(item => (
+		item.id === compositionId ? replacement : item
+	));
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCompositionLayerMutations.js */
+__awtsmoosModule_1746 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieCompositionLayerMutations.js
+ * @description Adds and updates composition layers through canonical project replacement.
+ * The Awtsmoos is beyond addition and refinement; Awtsmoos.com lets finite layers enter
+ * and change through pure complete projects while lock, identity, masks, and graph remain guarded.
+ */
+
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var assertMovieCompositionLayerEditable = __awtsmoosModule_1747.assertMovieCompositionLayerEditable;
+var createMovieCompositionMutation = __awtsmoosModule_1748.createMovieCompositionMutation;
+var replaceMovieCompositionCatalog = __awtsmoosModule_1748.replaceMovieCompositionCatalog;
+var requireMovieComposition = __awtsmoosModule_1748.requireMovieComposition;
+var requireMovieCompositionLayer = __awtsmoosModule_1748.requireMovieCompositionLayer;
+
+function addMovieCompositionLayer(project, compositionId, source) {
+	const current = requireMovieComposition(project, compositionId);
+	const next = replaceMovieCompositionCatalog(
+		project,
+		replaceComposition(project, current.id, {
+			...current,
+			layers: [...current.layers, source]
+		})
+	);
+	const added = requireMovieComposition(next, current.id).layers.at(-1);
+	return createMovieCompositionMutation(
+		next,
+		`Add layer ${added.name}`,
+		current.id,
+		added.id
+	);
+}
+
+
+__exports.addMovieCompositionLayer = addMovieCompositionLayer;
+function updateMovieCompositionLayer(
+	project,
+	compositionId,
+	layerId,
+	patch = {},
+	options = {}
+) {
+	const current = requireMovieComposition(project, compositionId);
+	const layer = requireMovieCompositionLayer(current, layerId);
+	assertMovieCompositionLayerEditable(layer, options);
+	if (patch.id != null && String(patch.id) !== layer.id) {
+		throw new MovieApiError(
+			'MOVIE_COMPOSITION_LAYER_ID_IMMUTABLE',
+			'Composition layer ids are immutable.'
+		);
+	}
+	const layers = current.layers.map(item => (
+		item.id === layer.id ? { ...item, ...patch, id: item.id } : item
+	));
+	const next = replaceMovieCompositionCatalog(
+		project,
+		replaceComposition(project, current.id, { ...current, layers })
+	);
+	return createMovieCompositionMutation(
+		next,
+		`Update layer ${layer.name}`,
+		current.id,
+		layer.id
+	);
+}
+
+
+__exports.updateMovieCompositionLayer = updateMovieCompositionLayer;
+function replaceComposition(project, compositionId, replacement) {
+	return (project.compositions || []).map(item => (
+		item.id === compositionId ? replacement : item
+	));
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCompositionMutations.js */
+__awtsmoosModule_1749 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieCompositionMutations.js
+ * @description Creates, updates, duplicates, and safely removes reusable compositions.
+ * The Awtsmoos renews identity without collision or loss; Awtsmoos.com lets finite canvases
+ * be born, refined, copied, and removed while references remain explicit and history-ready.
+ */
+
+var normalizeMovieComposition = __awtsmoosModule_1469.normalizeMovieComposition;
+var findMovieCompositionUsages = __awtsmoosModule_1471.findMovieCompositionUsages;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var createMovieCompositionMutation = __awtsmoosModule_1748.createMovieCompositionMutation;
+var replaceMovieCompositionCatalog = __awtsmoosModule_1748.replaceMovieCompositionCatalog;
+var requireMovieComposition = __awtsmoosModule_1748.requireMovieComposition;
+
+function createMovieComposition(project, source) {
+	const composition = normalizeMovieComposition(source, (project.compositions || []).length);
+	const next = replaceMovieCompositionCatalog(
+		project,
+		[...(project.compositions || []), composition]
+	);
+	return createMovieCompositionMutation(
+		next,
+		`Create composition ${composition.name}`,
+		composition.id
+	);
+}
+
+
+__exports.createMovieComposition = createMovieComposition;
+function updateMovieComposition(project, compositionId, patch = {}) {
+	const current = requireMovieComposition(project, compositionId);
+	assertStableId(current.id, patch.id);
+	const compositions = (project.compositions || []).map(item => (
+		item.id === current.id ? { ...item, ...patch, id: current.id } : item
+	));
+	const next = replaceMovieCompositionCatalog(project, compositions);
+	const updated = requireMovieComposition(next, current.id);
+	return createMovieCompositionMutation(
+		next,
+		`Update composition ${updated.name}`,
+		updated.id
+	);
+}
+
+
+__exports.updateMovieComposition = updateMovieComposition;
+function duplicateMovieComposition(project, compositionId, source = {}) {
+	const current = requireMovieComposition(project, compositionId);
+	const duplicate = normalizeMovieComposition({
+		...current,
+		...source,
+		id: source.id,
+		name: source.name || `${current.name} Copy`
+	}, (project.compositions || []).length);
+	const next = replaceMovieCompositionCatalog(
+		project,
+		[...(project.compositions || []), duplicate]
+	);
+	return createMovieCompositionMutation(
+		next,
+		`Duplicate composition ${current.name}`,
+		duplicate.id
+	);
+}
+
+
+__exports.duplicateMovieComposition = duplicateMovieComposition;
+function removeMovieComposition(project, compositionId, options = {}) {
+	const current = requireMovieComposition(project, compositionId);
+	const usages = findMovieCompositionUsages(project.compositions || [], current.id);
+	if (usages.length && !options.force) {
+		throw new MovieApiError(
+			'MOVIE_COMPOSITION_IN_USE',
+			`Composition ${current.id} is used by ${usages.join(', ')}.`,
+			{ compositionId: current.id, usages }
+		);
+	}
+	const compositions = (project.compositions || [])
+		.filter(item => item.id !== current.id)
+		.map(item => options.force ? {
+			...item,
+			layers: item.layers.filter(layer => !(
+				layer.kind === 'composition' && layer.sourceId === current.id
+			))
+		} : item);
+	const next = replaceMovieCompositionCatalog(project, compositions);
+	return createMovieCompositionMutation(
+		next,
+		`Remove composition ${current.name}`,
+		current.id
+	);
+}
+
+
+__exports.removeMovieComposition = removeMovieComposition;
+function assertStableId(currentId, candidateId) {
+	if (candidateId == null || String(candidateId) === currentId) return;
+	throw new MovieApiError(
+		'MOVIE_COMPOSITION_ID_IMMUTABLE',
+		'Composition ids are immutable; duplicate the composition to create a new identity.'
+	);
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiCompositionMutation.js */
+__awtsmoosModule_1750 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieStudioApiCompositionMutation.js
+ * @description Commits pure composition mutations through revision-guarded Studio history.
+ * The Awtsmoos renews before and after without division; Awtsmoos.com lets finite edits
+ * cross one canonical gate where events, revision, undo, redo, and immutable receipts agree.
+ */
+
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+var runMovieStudioApiOperation = __awtsmoosModule_1730.runMovieStudioApiOperation;
+
+function runMovieStudioCompositionMutation(
+	session,
+	operation,
+	options,
+	createMutation
+) {
+	return runMovieStudioApiOperation(session, operation, options, () => {
+		const mutation = createMutation();
+		session.commands.commitProject(
+			mutation.project,
+			options?.label || mutation.label
+		);
+		const composition = (session.project.compositions || []).find(item => (
+			item.id === mutation.compositionId
+		)) || null;
+		const layer = composition?.layers.find(item => item.id === mutation.layerId) || null;
+		return createMovieProjectSnapshot({
+			composition,
+			compositionId: mutation.compositionId,
+			layer,
+			layerId: mutation.layerId,
+			revision: session.revision
+		});
+	});
+}
+
+__exports.runMovieStudioCompositionMutation = runMovieStudioCompositionMutation;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCompositionEvaluationPlan.js */
+__awtsmoosModule_1753 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieCompositionEvaluationPlan.js
+ * @description Creates immutable-ready leaf records and shared nested evaluation state.
+ * The Awtsmoos is beyond path, order, and appearance; Awtsmoos.com gathers each finite
+ * layer's authored journey into one transparent witness for preview and exact rendering.
+ */
+
+var identityMovieCompositionTransform = __awtsmoosModule_1479.identityMovieCompositionTransform;
+
+function createMovieCompositionLeafPlan(
+	layer,
+	compositionId,
+	sourceTime,
+	state
+) {
+	return {
+		audioEnabled: state.audioEnabled,
+		blendMode: layer.blendMode,
+		blendModeChain: state.blendModes,
+		color: layer.color,
+		compositionId,
+		kind: layer.kind,
+		layerId: layer.id,
+		maskChain: state.maskChain,
+		name: layer.name,
+		opacity: state.transform.opacity,
+		order: state.order,
+		path: state.path,
+		sourceId: layer.sourceId,
+		sourceTime: Number(sourceTime.toFixed(6)),
+		text: layer.text,
+		transform: state.transform
+	};
+}
+
+
+__exports.createMovieCompositionLeafPlan = createMovieCompositionLeafPlan;
+function createMovieCompositionEvaluationState() {
+	return {
+		audioEnabled: true,
+		blendModes: [],
+		maskChain: [],
+		order: [],
+		path: [],
+		transform: identityMovieCompositionTransform()
+	};
+}
+
+
+__exports.createMovieCompositionEvaluationState = createMovieCompositionEvaluationState;
+function positiveMovieCompositionModulo(value, divisor) {
+	return ((value % divisor) + divisor) % divisor;
+}
+
+__exports.positiveMovieCompositionModulo = positiveMovieCompositionModulo;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCompositionEvaluator.js */
+__awtsmoosModule_1752 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieCompositionEvaluator.js
+ * @description Flattens nested composition layers into an immutable deterministic render plan.
+ * The Awtsmoos is beyond inner and outer time; Awtsmoos.com carries each finite layer through
+ * nested clocks, masks, transforms, blend vessels, and audio gates without losing its authored path.
+ */
+
+var normalizeMovieCompositionCatalog = __awtsmoosModule_1469.normalizeMovieCompositionCatalog;
+var createMovieCompositionEvaluationState = __awtsmoosModule_1753.createMovieCompositionEvaluationState;
+var createMovieCompositionLeafPlan = __awtsmoosModule_1753.createMovieCompositionLeafPlan;
+var positiveMovieCompositionModulo = __awtsmoosModule_1753.positiveMovieCompositionModulo;
+var combineMovieCompositionTransforms = __awtsmoosModule_1479.combineMovieCompositionTransforms;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+
+function evaluateMovieComposition(source, compositionId, time = 0) {
+	const compositions = normalizeMovieCompositionCatalog(source);
+	const byId = new Map(compositions.map(item => [item.id, item]));
+	const root = requireComposition(byId, compositionId);
+	const rootTime = finiteTime(time, root.duration);
+	return createMovieProjectSnapshot({
+		backgroundColor: root.backgroundColor,
+		compositionId: root.id,
+		duration: root.duration,
+		fps: root.fps,
+		height: root.height,
+		layers: flattenComposition(
+			root,
+			rootTime,
+			byId,
+			createMovieCompositionEvaluationState()
+		),
+		pixelAspectRatio: root.pixelAspectRatio,
+		time: rootTime,
+		width: root.width
+	});
+}
+
+
+__exports.evaluateMovieComposition = evaluateMovieComposition;
+function flattenComposition(composition, time, byId, state) {
+	if (time < 0 || time >= composition.duration) return [];
+	return composition.layers.flatMap((layer, index) => (
+		flattenLayer(composition, layer, index, time, byId, state)
+	));
+}
+
+function flattenLayer(composition, layer, index, time, byId, state) {
+	if (!layer.enabled || time < layer.start || time >= layer.start + layer.duration) {
+		return [];
+	}
+	const sourceTime = layer.sourceStart + ((time - layer.start) * layer.playbackRate);
+	const transform = combineMovieCompositionTransforms(state.transform, {
+		...layer.transform,
+		opacity: layer.transform.opacity * layer.opacity
+	});
+	const nextState = {
+		audioEnabled: state.audioEnabled && composition.audioEnabled && layer.audioEnabled,
+		blendModes: [...state.blendModes, layer.blendMode],
+		maskChain: layer.masks.length
+			? [...state.maskChain, { layerId: layer.id, masks: layer.masks }]
+			: state.maskChain,
+		order: [...state.order, index],
+		path: [...state.path, { compositionId: composition.id, layerId: layer.id }],
+		transform
+	};
+	if (layer.kind !== 'composition') {
+		return [createMovieCompositionLeafPlan(
+			layer,
+			composition.id,
+			sourceTime,
+			nextState
+		)];
+	}
+	const nested = requireComposition(byId, layer.sourceId);
+	const nestedTime = layer.loop
+		? positiveMovieCompositionModulo(sourceTime, nested.duration)
+		: sourceTime;
+	return flattenComposition(nested, nestedTime, byId, nextState);
+}
+
+function requireComposition(byId, compositionId) {
+	const item = byId.get(String(compositionId));
+	if (item) return item;
+	throw new MovieApiError(
+		'MOVIE_COMPOSITION_NOT_FOUND',
+		`Composition ${compositionId || '(empty)'} was not found.`
+	);
+}
+
+function finiteTime(value, duration) {
+	const number = Number(value);
+	if (!Number.isFinite(number) || number < 0 || number > duration) {
+		throw new MovieApiError(
+			'INVALID_MOVIE_COMPOSITION_TIME',
+			`Composition time must be between 0 and ${duration}.`
+		);
+	}
+	return Number(number.toFixed(6));
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiCompositionQueries.js */
+__awtsmoosModule_1751 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieStudioApiCompositionQueries.js
+ * @description Exposes immutable composition catalogs, graphs, dependencies, schemas, and render plans.
+ * The Awtsmoos knows every layer without changing it; Awtsmoos.com gives artists and agents
+ * read-only witnesses of nested time, finite capability, and the exact plan a renderer receives.
+ */
+
+var normalizeMovieCompositionCatalog = __awtsmoosModule_1469.normalizeMovieCompositionCatalog;
+var MOVIE_COMPOSITION_BLEND_MODES = __awtsmoosModule_1470.MOVIE_COMPOSITION_BLEND_MODES;
+var MOVIE_COMPOSITION_LAYER_KINDS = __awtsmoosModule_1470.MOVIE_COMPOSITION_LAYER_KINDS;
+var MOVIE_COMPOSITION_LIMITS = __awtsmoosModule_1470.MOVIE_COMPOSITION_LIMITS;
+var MOVIE_COMPOSITION_MASK_MODES = __awtsmoosModule_1470.MOVIE_COMPOSITION_MASK_MODES;
+var MOVIE_COMPOSITION_SCHEMA_VERSION = __awtsmoosModule_1470.MOVIE_COMPOSITION_SCHEMA_VERSION;
+var evaluateMovieComposition = __awtsmoosModule_1752.evaluateMovieComposition;
+var createMovieCompositionGraph = __awtsmoosModule_1471.createMovieCompositionGraph;
+var findMovieCompositionDependencies = __awtsmoosModule_1471.findMovieCompositionDependencies;
+var findMovieCompositionUsages = __awtsmoosModule_1471.findMovieCompositionUsages;
+var requireMovieComposition = __awtsmoosModule_1748.requireMovieComposition;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+
+function createMovieStudioCompositionQueries(session) {
+	const catalog = () => normalizeMovieCompositionCatalog(session.project.compositions);
+	return Object.freeze({
+		dependencies: compositionId => findMovieCompositionDependencies(
+			catalog(),
+			compositionId
+		),
+		evaluate: (compositionId, time) => evaluateMovieComposition(
+			catalog(),
+			compositionId,
+			time
+		),
+		get: compositionId => createMovieProjectSnapshot(requireMovieComposition(
+			{ compositions: catalog() },
+			compositionId
+		)),
+		graph: () => createMovieCompositionGraph(catalog()),
+		list: () => createMovieProjectSnapshot(catalog()),
+		schema: () => createMovieProjectSnapshot({
+			blendModes: MOVIE_COMPOSITION_BLEND_MODES,
+			layerKinds: MOVIE_COMPOSITION_LAYER_KINDS,
+			limits: MOVIE_COMPOSITION_LIMITS,
+			maskModes: MOVIE_COMPOSITION_MASK_MODES,
+			version: MOVIE_COMPOSITION_SCHEMA_VERSION
+		}),
+		usages: compositionId => findMovieCompositionUsages(catalog(), compositionId)
+	});
+}
+
+__exports.createMovieStudioCompositionQueries = createMovieStudioCompositionQueries;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiCompositions.js */
+__awtsmoosModule_1745 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieStudioApiCompositions.js
+ * @description Exposes revisioned composition and layer authoring beside immutable graph queries.
+ * The Awtsmoos renews canvas and edit before API or interface; Awtsmoos.com joins finite
+ * creation, nesting, masking, timing, undo, and evaluation through one stable public domain.
+ */
+
+var addMovieCompositionLayer = __awtsmoosModule_1746.addMovieCompositionLayer;
+var updateMovieCompositionLayer = __awtsmoosModule_1746.updateMovieCompositionLayer;
+var removeMovieCompositionLayer = __awtsmoosModule_1747.removeMovieCompositionLayer;
+var reorderMovieCompositionLayer = __awtsmoosModule_1747.reorderMovieCompositionLayer;
+var createMovieComposition = __awtsmoosModule_1749.createMovieComposition;
+var duplicateMovieComposition = __awtsmoosModule_1749.duplicateMovieComposition;
+var removeMovieComposition = __awtsmoosModule_1749.removeMovieComposition;
+var updateMovieComposition = __awtsmoosModule_1749.updateMovieComposition;
+var runMovieStudioCompositionMutation = __awtsmoosModule_1750.runMovieStudioCompositionMutation;
+var createMovieStudioCompositionQueries = __awtsmoosModule_1751.createMovieStudioCompositionQueries;
+
+function createMovieStudioCompositionsDomain(session) {
+	const mutate = (operation, options, action) => runMovieStudioCompositionMutation(
+		session,
+		operation,
+		options,
+		action
+	);
+	const layers = createLayersDomain(session, mutate);
+	return Object.freeze({
+		...createMovieStudioCompositionQueries(session),
+		create: (source, options = {}) => mutate(
+			'compositions.create',
+			options,
+			() => createMovieComposition(session.project, source)
+		),
+		duplicate: (compositionId, source = {}, options = {}) => mutate(
+			'compositions.duplicate',
+			options,
+			() => duplicateMovieComposition(session.project, compositionId, source)
+		),
+		layers,
+		remove: (compositionId, options = {}) => mutate(
+			'compositions.remove',
+			options,
+			() => removeMovieComposition(session.project, compositionId, options)
+		),
+		update: (compositionId, patch, options = {}) => mutate(
+			'compositions.update',
+			options,
+			() => updateMovieComposition(session.project, compositionId, patch)
+		)
+	});
+}
+
+
+__exports.createMovieStudioCompositionsDomain = createMovieStudioCompositionsDomain;
+function createLayersDomain(session, mutate) {
+	return Object.freeze({
+		add: (compositionId, source, options = {}) => mutate(
+			'compositions.layers.add',
+			options,
+			() => addMovieCompositionLayer(session.project, compositionId, source)
+		),
+		remove: (compositionId, layerId, options = {}) => mutate(
+			'compositions.layers.remove',
+			options,
+			() => removeMovieCompositionLayer(
+				session.project,
+				compositionId,
+				layerId,
+				options
+			)
+		),
+		reorder: (compositionId, layerId, index, options = {}) => mutate(
+			'compositions.layers.reorder',
+			options,
+			() => reorderMovieCompositionLayer(
+				session.project,
+				compositionId,
+				layerId,
+				index,
+				options
+			)
+		),
+		update: (compositionId, layerId, patch, options = {}) => mutate(
+			'compositions.layers.update',
+			options,
+			() => updateMovieCompositionLayer(
+				session.project,
+				compositionId,
+				layerId,
+				patch,
+				options
+			)
+		)
+	});
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCreativeCapabilityCatalog.js */
+__awtsmoosModule_1756 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieCreativeCapabilityCatalog.js
+ * @description Declares an evidence-bound map of the Studio's present creative surface.
+ * The Awtsmoos creates every tool anew while truth refuses borrowed crowns; Awtsmoos.com
+ * records what works, what is partial, and what still waits beyond the visible editor.
+ */
+
+const MOVIE_CREATIVE_CAPABILITY_CATALOG = Object.freeze([
+	capability('editing.timeline', 'editing', 'Professional timeline editing', 'verified', {
+		owners: ['MovieStudioApiTimeline.js', 'MovieProfessionalEdits.js'],
+		tests: ['movieProfessionalEdits.test.mjs', 'movieStudioEditorialApi.test.mjs']
+	}),
+	capability('editing.media-workspace', 'editing', 'Media workspace and catalog', 'partial', {
+		missing: ['proxy generation', 'multicamera editing'],
+		owners: ['MovieStudioApiMedia.js', 'MovieMediaCatalog.js', 'MovieMediaHealth.js'],
+		tests: ['movieMediaHealth.test.mjs', 'movieStudioApiMediaHealth.test.mjs']
+	}),
+	capability('performance.capture', 'animation', 'Character performance capture', 'verified', {
+		browser: ['browser-keyboard-movement-frame-synced.json', 'browser-loop-range-pass.json'],
+		owners: ['MovieStudioPerformanceController.js'],
+		tests: ['moviePerformanceRecorder.test.mjs', 'moviePerformanceApiContract.test.mjs']
+	}),
+	capability('compositing.nested-compositions', 'compositing', 'Nested composition authoring and evaluation', 'verified', {
+		owners: ['MovieStudioApiCompositions.js', 'MovieStudioCompositionController.js'],
+		tests: ['movieCompositionContract.test.mjs', 'movieCompositionEvaluator.test.mjs', 'movieStudioApiCompositions.test.mjs']
+	}),
+	capability('compositing.effects', 'compositing', 'Clip appearance and visual effects', 'partial', {
+		missing: ['pixel-layer compositor', 'animated mask paths', 'tracking and rotoscoping'],
+		owners: ['MovieVisualEffectDirector.js'],
+		tests: ['movieVisualEffectDirector.test.mjs', 'movieClipAppearance.test.mjs']
+	}),
+	capability('vector.symbol-authoring', 'vector-animation', 'Vector symbols and nested timelines', 'unavailable', {
+		missing: ['vector drawing tools', 'symbols', 'shape tweening', 'interactive publishing']
+	}),
+	capability('three-dimensional.authoring', 'three-dimensional', '3D scene and object authoring', 'partial', {
+		missing: ['complete topology tools', 'UV editor', 'armature authoring', 'simulation baking'],
+		owners: ['MovieStudioAuthoring3dController.js'],
+		tests: ['movieAuthoring3dIntegration.test.mjs', 'movieAuthoring3dVisibleTopology.test.mjs']
+	}),
+	capability('audio.mixing', 'audio', 'Clip audio mixing and synthesis', 'partial', {
+		missing: ['buses', 'sends', 'automation lanes', 'loudness workflow'],
+		owners: ['MovieStudioAudioMixerController.js'],
+		tests: ['movieAudioMixer.test.mjs', 'movieExactAudioRenderer.test.mjs']
+	}),
+	capability('delivery.exact-render', 'delivery', 'Deterministic exact rendering', 'verified', {
+		owners: ['MovieExactRender.js'],
+		tests: ['exactPackageContract.test.mjs', 'movieExactPackageManifest.test.mjs']
+	}),
+	capability('realtime.world-runtime', 'real-time', 'Real-time world playback and direction', 'partial', {
+		missing: ['visual gameplay scripting', 'network authoring', 'world partition', 'deployment cooking'],
+		owners: ['MovieSceneWorldDirector.js'],
+		tests: ['movieSceneWorldDirector.test.mjs', 'movieWorldActivationService.test.mjs']
+	}),
+	capability('platform.plugins', 'platform', 'Trusted plugins and runtime adapters', 'verified', {
+		owners: ['MovieStudioApiPlugins.js', 'MovieStudioApiRuntimeAdapters.js'],
+		tests: ['movieStudioApiPlugins.test.mjs', 'movieRuntimeAdapterRegistry.test.mjs']
+	}),
+	capability('platform.capability-truth', 'platform', 'Evidence-bound capability discovery', 'verified', {
+		owners: ['MovieCreativeCapabilityRegistry.js', 'MovieStudioApiCreativeCapabilities.js'],
+		tests: ['movieCreativeCapabilityRegistry.test.mjs', 'movieStudioApiCreativeCapabilities.test.mjs']
+	})
+]);
+__exports.MOVIE_CREATIVE_CAPABILITY_CATALOG = MOVIE_CREATIVE_CAPABILITY_CATALOG;
+
+
+const MOVIE_CREATIVE_WORKFLOWS = Object.freeze([
+	workflow('professional-editing', ['editing.timeline', 'editing.media-workspace', 'audio.mixing', 'delivery.exact-render']),
+	workflow('motion-compositing', ['editing.timeline', 'compositing.nested-compositions', 'compositing.effects', 'delivery.exact-render']),
+	workflow('vector-animation', ['vector.symbol-authoring', 'compositing.nested-compositions', 'audio.mixing', 'delivery.exact-render']),
+	workflow('three-dimensional-production', ['three-dimensional.authoring', 'compositing.nested-compositions', 'audio.mixing', 'delivery.exact-render']),
+	workflow('real-time-world-production', ['three-dimensional.authoring', 'realtime.world-runtime', 'platform.plugins'])
+]);
+__exports.MOVIE_CREATIVE_WORKFLOWS = MOVIE_CREATIVE_WORKFLOWS;
+
+
+function capability(id, category, title, status, evidence) {
+	return Object.freeze({ category, dependencies: [], evidence, id, status, title });
+}
+
+function workflow(id, capabilities) {
+	return Object.freeze({ capabilities: Object.freeze(capabilities), id });
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCreativeCapabilityStatus.js */
+__awtsmoosModule_1757 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieCreativeCapabilityStatus.js
+ * @description Defines truthful completion states for every creative capability.
+ * The Awtsmoos renews each finite tool without confusing a doorway for a palace;
+ * Awtsmoos.com lets artists and agents distinguish evidence, experiment, contract, and absence.
+ */
+
+const MOVIE_CREATIVE_CAPABILITY_STATUSES = Object.freeze([
+	'verified',
+	'partial',
+	'experimental',
+	'contract-only',
+	'unavailable'
+]);
+__exports.MOVIE_CREATIVE_CAPABILITY_STATUSES = MOVIE_CREATIVE_CAPABILITY_STATUSES;
+
+
+const MOVIE_CREATIVE_CAPABILITY_SCHEMA_VERSION = 1;
+__exports.MOVIE_CREATIVE_CAPABILITY_SCHEMA_VERSION = MOVIE_CREATIVE_CAPABILITY_SCHEMA_VERSION;
+
+
+const STATUS_RANK = Object.freeze({
+	unavailable: 0,
+	'contract-only': 1,
+	experimental: 2,
+	partial: 3,
+	verified: 4
+});
+
+/**
+ * Returns a validated capability status.
+ *
+ * @param {unknown} value Candidate status.
+ * @returns {string} Canonical status.
+ */
+function validateMovieCreativeCapabilityStatus(value) {
+	const status = String(value || '');
+	if (!MOVIE_CREATIVE_CAPABILITY_STATUSES.includes(status)) {
+		throw new TypeError(`Unknown movie creative capability status: ${status}`);
+	}
+	return status;
+}
+
+
+__exports.validateMovieCreativeCapabilityStatus = validateMovieCreativeCapabilityStatus;
+/**
+ * Compares two statuses from least to most complete.
+ *
+ * @param {string} left First status.
+ * @param {string} right Second status.
+ * @returns {number} Comparison result.
+ */
+function compareMovieCreativeCapabilityStatus(left, right) {
+	return STATUS_RANK[validateMovieCreativeCapabilityStatus(left)]
+		- STATUS_RANK[validateMovieCreativeCapabilityStatus(right)];
+}
+
+__exports.compareMovieCreativeCapabilityStatus = compareMovieCreativeCapabilityStatus;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCreativeCapabilityValidation.js */
+__awtsmoosModule_1758 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieCreativeCapabilityValidation.js
+ * @description Normalizes capability graphs and rejects duplicate, missing, or cyclic declarations.
+ * The Awtsmoos joins all possibilities without contradiction; Awtsmoos.com guards each
+ * finite dependency so custom catalogs remain isolated, deterministic, and truthful.
+ */
+
+var validateMovieCreativeCapabilityStatus = __awtsmoosModule_1757.validateMovieCreativeCapabilityStatus;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+
+/**
+ * Prepares a validated immutable capability graph.
+ *
+ * @param {Array<object>} catalog Capability declarations.
+ * @param {Array<object>} workflows Workflow declarations.
+ * @returns {object} Catalog, lookup map, and workflows.
+ */
+function prepareMovieCreativeCapabilityGraph(catalog, workflows) {
+	const normalizedCatalog = catalog.map(normalizeCapability);
+	const byId = new Map(normalizedCatalog.map(item => [item.id, item]));
+	if (byId.size !== normalizedCatalog.length) {
+		throw new TypeError('Duplicate creative capability id');
+	}
+	const normalizedWorkflows = workflows.map(normalizeWorkflow);
+	validateReferences(normalizedCatalog, normalizedWorkflows, byId);
+	validateCycles(normalizedCatalog, byId);
+	return { byId, catalog: normalizedCatalog, workflows: normalizedWorkflows };
+}
+
+
+__exports.prepareMovieCreativeCapabilityGraph = prepareMovieCreativeCapabilityGraph;
+function normalizeCapability(value) {
+	return createMovieProjectSnapshot({
+		category: String(value.category),
+		dependencies: [...(value.dependencies || [])].map(String),
+		evidence: value.evidence || {},
+		id: String(value.id),
+		status: validateMovieCreativeCapabilityStatus(value.status),
+		title: String(value.title)
+	});
+}
+
+function normalizeWorkflow(value) {
+	return createMovieProjectSnapshot({
+		capabilities: [...(value.capabilities || [])].map(String),
+		id: String(value.id)
+	});
+}
+
+function validateReferences(catalog, workflows, byId) {
+	const requireId = id => {
+		if (!byId.has(id)) throw new RangeError(`Unknown creative capability: ${id}`);
+	};
+	catalog.forEach(item => item.dependencies.forEach(requireId));
+	workflows.forEach(item => item.capabilities.forEach(requireId));
+}
+
+function validateCycles(catalog, byId) {
+	const visiting = new Set();
+	const visited = new Set();
+	const visit = id => {
+		if (visiting.has(id)) throw new TypeError(`Creative capability dependency cycle: ${id}`);
+		if (visited.has(id)) return;
+		visiting.add(id);
+		byId.get(id).dependencies.forEach(visit);
+		visiting.delete(id);
+		visited.add(id);
+	};
+	catalog.forEach(item => visit(item.id));
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCreativeCapabilityRegistry.js */
+__awtsmoosModule_1755 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieCreativeCapabilityRegistry.js
+ * @description Queries immutable capability evidence, dependency closure, and workflow readiness.
+ * The Awtsmoos contains every possibility while finite dependencies must remain honest;
+ * Awtsmoos.com freezes each witness so no caller can repaint an unfinished bridge as complete.
+ */
+
+var MOVIE_CREATIVE_CAPABILITY_CATALOG = __awtsmoosModule_1756.MOVIE_CREATIVE_CAPABILITY_CATALOG;
+var MOVIE_CREATIVE_WORKFLOWS = __awtsmoosModule_1756.MOVIE_CREATIVE_WORKFLOWS;
+var MOVIE_CREATIVE_CAPABILITY_SCHEMA_VERSION = __awtsmoosModule_1757.MOVIE_CREATIVE_CAPABILITY_SCHEMA_VERSION;
+var MOVIE_CREATIVE_CAPABILITY_STATUSES = __awtsmoosModule_1757.MOVIE_CREATIVE_CAPABILITY_STATUSES;
+var validateMovieCreativeCapabilityStatus = __awtsmoosModule_1757.validateMovieCreativeCapabilityStatus;
+var prepareMovieCreativeCapabilityGraph = __awtsmoosModule_1758.prepareMovieCreativeCapabilityGraph;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+
+class MovieCreativeCapabilityRegistry {
+	constructor(
+		catalog = MOVIE_CREATIVE_CAPABILITY_CATALOG,
+		workflows = catalog === MOVIE_CREATIVE_CAPABILITY_CATALOG ? MOVIE_CREATIVE_WORKFLOWS : []
+	) {
+		const graph = prepareMovieCreativeCapabilityGraph(catalog, workflows);
+		this.catalog = graph.catalog;
+		this.byId = graph.byId;
+		this.workflowsCatalog = graph.workflows;
+	}
+
+	categories() {
+		return createMovieProjectSnapshot([...new Set(this.catalog.map(item => item.category))].sort());
+	}
+
+	dependencies(capabilityId) {
+		const found = new Set();
+		const visit = id => this.getInternal(id).dependencies.forEach(dependency => {
+			if (found.has(dependency)) return;
+			found.add(dependency);
+			visit(dependency);
+		});
+		visit(String(capabilityId));
+		return createMovieProjectSnapshot([...found]);
+	}
+
+	get(capabilityId) {
+		return createMovieProjectSnapshot(this.getInternal(capabilityId));
+	}
+
+	list(query = {}) {
+		const search = String(query.search || '').trim().toLowerCase();
+		const status = query.status ? validateMovieCreativeCapabilityStatus(query.status) : null;
+		return createMovieProjectSnapshot(this.catalog.filter(item => (
+			(!query.category || item.category === query.category)
+			&& (!status || item.status === status)
+			&& (!search || `${item.id} ${item.title} ${item.category}`.toLowerCase().includes(search))
+		)));
+	}
+
+	schema() {
+		return createMovieProjectSnapshot({
+			evidenceFields: ['accessibility', 'browser', 'missing', 'owners', 'scale', 'tests'],
+			statuses: MOVIE_CREATIVE_CAPABILITY_STATUSES,
+			version: MOVIE_CREATIVE_CAPABILITY_SCHEMA_VERSION
+		});
+	}
+
+	workflow(workflowId) {
+		const workflow = this.workflowsCatalog.find(item => item.id === String(workflowId));
+		if (!workflow) throw new RangeError(`Unknown creative workflow: ${workflowId}`);
+		const capabilities = workflow.capabilities.map(id => this.getInternal(id));
+		const blockers = capabilities.filter(item => item.status !== 'verified').map(item => item.id);
+		return createMovieProjectSnapshot({ ...workflow, blockers, capabilities, ready: blockers.length === 0 });
+	}
+
+	workflows() {
+		return createMovieProjectSnapshot(this.workflowsCatalog.map(item => this.workflow(item.id)));
+	}
+
+	getInternal(capabilityId) {
+		const item = this.byId.get(String(capabilityId));
+		if (!item) throw new RangeError(`Unknown creative capability: ${capabilityId}`);
+		return item;
+	}
+}
+
+
+__exports.MovieCreativeCapabilityRegistry = MovieCreativeCapabilityRegistry;
+const movieCreativeCapabilityRegistry = new MovieCreativeCapabilityRegistry();
+__exports.movieCreativeCapabilityRegistry = movieCreativeCapabilityRegistry;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiCreativeCapabilities.js */
+__awtsmoosModule_1754 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieStudioApiCreativeCapabilities.js
+ * @description Exposes immutable capability evidence and workflow readiness through the stable API.
+ * The Awtsmoos is beyond every finite comparison, yet each vessel must tell the truth;
+ * Awtsmoos.com lets artists and agents inspect what is ready without touching live Studio state.
+ */
+
+var movieCreativeCapabilityRegistry = __awtsmoosModule_1755.movieCreativeCapabilityRegistry;
+
+/**
+ * Creates the public creative-capability discovery domain.
+ *
+ * @returns {Readonly<object>} Stable immutable domain.
+ */
+function createMovieStudioCreativeCapabilitiesDomain() {
+	return Object.freeze({
+		categories: () => movieCreativeCapabilityRegistry.categories(),
+		dependencies: capabilityId => movieCreativeCapabilityRegistry.dependencies(capabilityId),
+		get: capabilityId => movieCreativeCapabilityRegistry.get(capabilityId),
+		list: query => movieCreativeCapabilityRegistry.list(query),
+		schema: () => movieCreativeCapabilityRegistry.schema(),
+		workflow: workflowId => movieCreativeCapabilityRegistry.workflow(workflowId),
+		workflows: () => movieCreativeCapabilityRegistry.workflows()
+	});
+}
+
+__exports.createMovieStudioCreativeCapabilitiesDomain = createMovieStudioCreativeCapabilitiesDomain;
+return Object.freeze(__exports);
+})();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceDiagnostics.js */
-__awtsmoosModule_1737 = (() => {
+__awtsmoosModule_1760 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -125067,7 +126967,7 @@ function safeObject(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiDiagnostics.js */
-__awtsmoosModule_1736 = (() => {
+__awtsmoosModule_1759 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -125080,10 +126980,10 @@ const __exports = {};
  * enough truthful finite evidence to plan safely without exposing renderer, DOM, or mutable runtime objects.
  */
 
-var MOVIE_API_CAPABILITIES = __awtsmoosModule_1644.MOVIE_API_CAPABILITIES;
-var canonicalMovieValue = __awtsmoosModule_1472.canonicalMovieValue;
-var moviePerformanceDiagnostics = __awtsmoosModule_1737.moviePerformanceDiagnostics;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var MOVIE_API_CAPABILITIES = __awtsmoosModule_1653.MOVIE_API_CAPABILITIES;
+var canonicalMovieValue = __awtsmoosModule_1474.canonicalMovieValue;
+var moviePerformanceDiagnostics = __awtsmoosModule_1760.moviePerformanceDiagnostics;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 function createMovieStudioDiagnosticsDomain(session) {
 	return Object.freeze({
@@ -125140,7 +127040,7 @@ function safeRendererStats(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieEventWait.js */
-__awtsmoosModule_1739 = (() => {
+__awtsmoosModule_1762 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -125153,8 +127053,8 @@ const __exports = {};
  * finite agents wait without polling while no timeout, abort hook, or subscription remains behind.
  */
 
-var canonicalMovieValue = __awtsmoosModule_1472.canonicalMovieValue;
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
+var canonicalMovieValue = __awtsmoosModule_1474.canonicalMovieValue;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
 
 function waitForMovieEvent(session, source = {}, options = {}) {
 	const query = normalizeMovieEventWait(source, session.events.sequence);
@@ -125250,7 +127150,7 @@ function movieEventAbortError(reason) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiPerformanceSchemaEvents.js */
-__awtsmoosModule_1740 = (() => {
+__awtsmoosModule_1763 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -125302,7 +127202,7 @@ __exports.MOVIE_STUDIO_PERFORMANCE_EVENTS = MOVIE_STUDIO_PERFORMANCE_EVENTS;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiEvents.js */
-__awtsmoosModule_1738 = (() => {
+__awtsmoosModule_1761 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -125315,9 +127215,9 @@ const __exports = {};
  * named immutable streams, range, loop, voice, failure, timeout, abort, and cleanup in rhyme.
  */
 
-var waitForMovieEvent = __awtsmoosModule_1739.waitForMovieEvent;
-var runMovieStudioApiAsyncOperation = __awtsmoosModule_1721.runMovieStudioApiAsyncOperation;
-var MOVIE_STUDIO_PERFORMANCE_EVENTS = __awtsmoosModule_1740.MOVIE_STUDIO_PERFORMANCE_EVENTS;
+var waitForMovieEvent = __awtsmoosModule_1762.waitForMovieEvent;
+var runMovieStudioApiAsyncOperation = __awtsmoosModule_1730.runMovieStudioApiAsyncOperation;
+var MOVIE_STUDIO_PERFORMANCE_EVENTS = __awtsmoosModule_1763.MOVIE_STUDIO_PERFORMANCE_EVENTS;
 
 const CORE_EVENT_TYPES = Object.freeze([
 	'agent:applied', 'autosave:saved', 'error', 'history:changed',
@@ -125374,7 +127274,7 @@ function movieEventOperationOptions(options) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiHistory.js */
-__awtsmoosModule_1741 = (() => {
+__awtsmoosModule_1764 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -125387,7 +127287,7 @@ const __exports = {};
  * lets agents inspect labels and counts while full private project snapshots remain concealed.
  */
 
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 function createMovieStudioHistoryDomain(session, commandsDomain) {
 	return Object.freeze({
@@ -125424,7 +127324,7 @@ function historyState(session) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiInstances.js */
-__awtsmoosModule_1742 = (() => {
+__awtsmoosModule_1765 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -125437,8 +127337,8 @@ const __exports = {};
  * choose one local active vessel while session objects and other API implementations remain hidden.
  */
 
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
-var runMovieStudioApiOperation = __awtsmoosModule_1721.runMovieStudioApiOperation;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+var runMovieStudioApiOperation = __awtsmoosModule_1730.runMovieStudioApiOperation;
 
 function createMovieStudioInstancesDomain(session) {
 	return Object.freeze({
@@ -125472,8 +127372,272 @@ function currentMetadata(session) {
 }
 return Object.freeze(__exports);
 })();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieMediaCollectionManifest.js */
+__awtsmoosModule_1767 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieMediaCollectionManifest.js
+ * @description Creates deterministic all-media or referenced-only project collection manifests.
+ * The Awtsmoos gathers every finite dependency before path and package are named; Awtsmoos.com
+ * reveals source, proxy, folder, kind, and timeline references without copying hidden browser state.
+ */
+
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+
+function createMovieMediaCollectionManifest(project = {}, options = {}) {
+	const referencedOnly = options.referencedOnly === true;
+	const references = createReferenceIndex(project);
+	const items = (project.media || []).map(item => ({
+		folder: item.folder || '',
+		hasProxy: Boolean(item.proxyUrl),
+		hasSource: Boolean(item.url),
+		id: item.id,
+		kind: item.kind,
+		label: item.label,
+		proxyUrl: item.proxyUrl || null,
+		references: references.get(item.id) || [],
+		status: item.status,
+		url: item.url || null
+	})).filter(item => !referencedOnly || item.references.length > 0);
+	return createMovieProjectSnapshot({
+		counts: {
+			proxyAssets: items.filter(item => item.hasProxy).length,
+			referencedAssets: items.filter(item => item.references.length).length,
+			sourceAssets: items.filter(item => item.hasSource).length,
+			total: items.length
+		},
+		items,
+		projectTitle: String(project.title || ''),
+		referencedOnly,
+		schemaVersion: 1
+	});
+}
+
+
+__exports.createMovieMediaCollectionManifest = createMovieMediaCollectionManifest;
+function createReferenceIndex(project) {
+	const index = new Map();
+	for (const track of project.tracks || []) {
+		for (const clip of track.clips || []) {
+			for (const field of ['mediaId', 'sourceMediaId']) {
+				const mediaId = String(clip[field] || '');
+				if (!mediaId) continue;
+				const values = index.get(mediaId) || [];
+				values.push({ clipId: clip.id, field, trackId: track.id });
+				index.set(mediaId, values);
+			}
+		}
+	}
+	return index;
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieMediaHealth.js */
+__awtsmoosModule_1768 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieMediaHealth.js
+ * @description Audits source, proxy, usage, dangling references, and atomic relink plans.
+ * The Awtsmoos is present before path and file separate; Awtsmoos.com reveals every broken
+ * finite link so a production may be repaired deliberately instead of failing during delivery.
+ */
+
+var normalizeMovieMediaCatalog = __awtsmoosModule_1480.normalizeMovieMediaCatalog;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+
+function createMovieMediaHealthReport(project = {}) {
+	const media = normalizeMovieMediaCatalog(project.media);
+	const known = new Set(media.map(item => item.id));
+	const references = createReferenceIndex(project);
+	const offline = media.filter(item => item.status === 'offline' || !item.url);
+	const proxyOnly = offline.filter(item => Boolean(item.proxyUrl));
+	const danglingReferences = findDanglingReferences(project, known);
+	const items = media.map(item => healthItem(item, references));
+	const referencedFullyOffline = items.filter(item => (
+		item.availability === 'fully-offline' && item.referenceCount > 0
+	));
+	return createMovieProjectSnapshot({
+		blocking: offline.length > 0 || danglingReferences.length > 0,
+		counts: {
+			danglingReferences: danglingReferences.length,
+			offline: offline.length,
+			online: media.length - offline.length,
+			proxyOnly: proxyOnly.length,
+			total: media.length
+		},
+		danglingReferences,
+		deliveryBlocking: danglingReferences.length > 0 || referencedFullyOffline.length > 0,
+		items,
+		productionCounts: {
+			fullyOffline: offline.length - proxyOnly.length,
+			proxyReady: proxyOnly.length,
+			referenced: items.filter(item => item.referenceCount > 0).length,
+			referencedFullyOffline: referencedFullyOffline.length,
+			sourceOnline: media.length - offline.length,
+			unused: items.filter(item => item.referenceCount === 0).length
+		}
+	});
+}
+
+
+__exports.createMovieMediaHealthReport = createMovieMediaHealthReport;
+function planMovieMediaRelinks(project = {}, candidates = []) {
+	const media = normalizeMovieMediaCatalog(project.media);
+	const byId = new Map(media.map(item => [item.id, item]));
+	const seen = new Set();
+	const commands = candidates.map((candidate, index) => {
+		const mediaId = String(candidate?.mediaId || '');
+		if (!byId.has(mediaId)) throw apiError('MOVIE_MEDIA_NOT_FOUND', `Movie media ${mediaId || '(empty)'} was not found.`);
+		if (seen.has(mediaId)) throw apiError('DUPLICATE_MOVIE_MEDIA_RELINK', `Duplicate relink candidate ${mediaId}.`);
+		seen.add(mediaId);
+		const url = String(candidate?.url || '');
+		if (!url) throw apiError('MOVIE_MEDIA_RELINK_URL_REQUIRED', `Relink candidate ${index + 1} requires a URL.`);
+		return {
+			payload: {
+				mediaId,
+				proxyUrl: candidate.proxyUrl === undefined ? byId.get(mediaId).proxyUrl : candidate.proxyUrl,
+				url
+			},
+			type: 'media.relink'
+		};
+	});
+	const planned = new Set(commands.map(command => command.payload.mediaId));
+	const unresolved = media
+		.filter(item => (item.status === 'offline' || !item.url) && !planned.has(item.id))
+		.map(item => item.id);
+	return createMovieProjectSnapshot({ commands, ready: unresolved.length === 0, unresolved });
+}
+
+
+__exports.planMovieMediaRelinks = planMovieMediaRelinks;
+function healthItem(item, references) {
+	const referenceCount = (references.get(item.id) || []).length;
+	const sourceOnline = item.status !== 'offline' && Boolean(item.url);
+	return {
+		availability: sourceOnline ? 'source-online' : item.proxyUrl ? 'proxy-ready' : 'fully-offline',
+		id: item.id,
+		kind: item.kind,
+		label: item.label,
+		proxyOnly: !sourceOnline && Boolean(item.proxyUrl),
+		referenceCount,
+		status: sourceOnline ? 'online' : 'offline'
+	};
+}
+
+function createReferenceIndex(project) {
+	const index = new Map();
+	for (const track of project.tracks || []) for (const clip of track.clips || []) {
+		for (const field of ['mediaId', 'sourceMediaId']) {
+			const mediaId = String(clip[field] || '');
+			if (!mediaId) continue;
+			const values = index.get(mediaId) || [];
+			values.push({ clipId: clip.id, field, trackId: track.id });
+			index.set(mediaId, values);
+		}
+	}
+	return index;
+}
+
+function findDanglingReferences(project, known) {
+	const output = [];
+	for (const track of project.tracks || []) for (const clip of track.clips || []) {
+		for (const field of ['mediaId', 'sourceMediaId']) {
+			const mediaId = String(clip[field] || '');
+			if (mediaId && !known.has(mediaId)) output.push({ clipId: clip.id, field, mediaId, trackId: track.id });
+		}
+	}
+	return output;
+}
+
+function apiError(code, message) {
+	return new MovieApiError(code, message);
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieMediaRelinkSuggestions.js */
+__awtsmoosModule_1769 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieMediaRelinkSuggestions.js
+ * @description Scores candidate URLs against offline media without committing uncertain matches.
+ * The Awtsmoos knows identity beyond filename and extension; Awtsmoos.com offers finite clues
+ * as ranked suggestions, never transforming a heuristic resemblance into an automatic decree.
+ */
+
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+
+function suggestMovieMediaRelinks(project = {}, candidates = [], options = {}) {
+	const limit = Math.max(1, Math.min(20, Number(options.limit || 5)));
+	const normalized = candidates.map(normalizeCandidate).filter(item => item.url);
+	const suggestions = (project.media || [])
+		.filter(item => item.status === 'offline' || !item.url)
+		.map(item => ({
+			mediaId: item.id,
+			matches: normalized
+				.map(candidate => scoreCandidate(item, candidate))
+				.filter(match => match.score > 0)
+				.sort((left, right) => right.score - left.score || left.url.localeCompare(right.url))
+				.slice(0, limit)
+		}));
+	return createMovieProjectSnapshot(suggestions);
+}
+
+
+__exports.suggestMovieMediaRelinks = suggestMovieMediaRelinks;
+function normalizeCandidate(value) {
+	const url = String(value?.url || value || '').trim();
+	const label = String(value?.label || filename(url));
+	return {
+		extension: extension(url),
+		kind: String(value?.kind || ''),
+		label,
+		stem: stem(label),
+		url
+	};
+}
+
+function scoreCandidate(item, candidate) {
+	const itemLabel = String(item.label || item.id);
+	const itemName = filename(item.url || itemLabel).toLowerCase();
+	const itemStem = stem(item.url || itemLabel);
+	let score = 0;
+	if (itemName && itemName === filename(candidate.url).toLowerCase()) score += 100;
+	if (itemStem && itemStem === candidate.stem) score += 70;
+	if (extension(item.url || '') === candidate.extension && candidate.extension) score += 15;
+	if (stem(itemLabel) === candidate.stem) score += 20;
+	if (candidate.kind && candidate.kind === item.kind) score += 10;
+	return { label: candidate.label, score: Math.min(100, score), url: candidate.url };
+}
+
+function filename(value) {
+	return String(value || '').split(/[?#]/)[0].split('/').pop() || '';
+}
+
+function extension(value) {
+	const match = filename(value).toLowerCase().match(/\.([a-z0-9]+)$/);
+	return match?.[1] || '';
+}
+
+function stem(value) {
+	return filename(value).toLowerCase().replace(/\.[^.]+$/, '').replace(/[^a-z0-9]+/g, '');
+}
+return Object.freeze(__exports);
+})();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieMediaSearch.js */
-__awtsmoosModule_1744 = (() => {
+__awtsmoosModule_1770 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -125486,7 +127650,7 @@ const __exports = {};
  * gives editors one deterministic lens through labels, metadata, bins, and timeline kin.
  */
 
-var findMovieMediaReferences = __awtsmoosModule_1469.findMovieMediaReferences;
+var findMovieMediaReferences = __awtsmoosModule_1480.findMovieMediaReferences;
 
 function searchMovieMedia(project, query = '', filter = {}) {
 	const needle = String(query || filter.query || '').trim().toLowerCase();
@@ -125560,8 +127724,76 @@ function searchableMediaText(item) {
 }
 return Object.freeze(__exports);
 })();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProjectPreflight.js */
+__awtsmoosModule_1771 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieProjectPreflight.js
+ * @description Produces immutable delivery blockers, warnings, readiness, and project counts.
+ * The Awtsmoos is beyond readiness and failure while every finite production needs an honest gate;
+ * Awtsmoos.com joins media, timeline, duration, frame rate, and resolution into one visible verdict.
+ */
+
+var createMovieMediaHealthReport = __awtsmoosModule_1768.createMovieMediaHealthReport;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+
+function createMovieProjectPreflight(project = {}) {
+	const blockers = [];
+	const warnings = [];
+	const tracks = project.tracks || [];
+	const clips = tracks.flatMap(track => track.clips || []);
+	const health = createMovieMediaHealthReport(project);
+	const duration = Number(project.duration);
+	const fps = Number(project.fps);
+	const width = Number(project.resolution?.width);
+	const height = Number(project.resolution?.height);
+	if (!Number.isFinite(duration) || duration <= 0) add(blockers, 'INVALID_DURATION', 'Project duration must be positive.');
+	if (!Number.isFinite(fps) || fps <= 0 || fps > 240) add(blockers, 'INVALID_FRAME_RATE', 'Frame rate must be greater than zero and at most 240.');
+	if (!Number.isFinite(width) || width <= 0 || !Number.isFinite(height) || height <= 0) {
+		add(blockers, 'INVALID_RESOLUTION', 'Resolution requires positive width and height.');
+	}
+	if (!tracks.length) add(blockers, 'NO_TRACKS', 'Project requires at least one track.');
+	if (!clips.length) add(warnings, 'NO_CLIPS', 'Project timeline contains no clips.');
+	if (!health.counts.total) add(warnings, 'NO_MEDIA', 'Project media catalog is empty.');
+	if (health.danglingReferences.length) add(
+		blockers, 'DANGLING_MEDIA_REFERENCES', 'Timeline contains missing media references.',
+		{ count: health.danglingReferences.length }
+	);
+	if (health.productionCounts?.referencedFullyOffline) add(
+		blockers, 'REFERENCED_MEDIA_OFFLINE', 'Referenced media has neither source nor proxy.',
+		{ count: health.productionCounts.referencedFullyOffline }
+	);
+	if (health.productionCounts?.proxyReady) add(
+		warnings, 'PROXY_ONLY_MEDIA', 'Some media is available only through proxies.',
+		{ count: health.productionCounts.proxyReady }
+	);
+	if (health.productionCounts?.unused) add(
+		warnings, 'UNUSED_MEDIA', 'The media catalog contains unused assets.',
+		{ count: health.productionCounts.unused }
+	);
+	return createMovieProjectSnapshot({
+		blockers,
+		counts: { clips: clips.length, media: health.counts.total, tracks: tracks.length },
+		grade: blockers.length ? 'blocked' : warnings.length ? 'warning' : 'ready',
+		health,
+		ready: blockers.length === 0,
+		warnings
+	});
+}
+
+
+__exports.createMovieProjectPreflight = createMovieProjectPreflight;
+function add(collection, code, message, details = {}) {
+	collection.push({ code, details, message });
+}
+return Object.freeze(__exports);
+})();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiEditorialMedia.js */
-__awtsmoosModule_1745 = (() => {
+__awtsmoosModule_1772 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -125574,10 +127806,10 @@ const __exports = {};
  * gives humans and agents one immutable professional editorial jurisdiction.
  */
 
-var listMovieMediaFolders = __awtsmoosModule_1744.listMovieMediaFolders;
-var searchMovieMedia = __awtsmoosModule_1744.searchMovieMedia;
-var normalizeMovieMediaWorkspace = __awtsmoosModule_1474.normalizeMovieMediaWorkspace;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var listMovieMediaFolders = __awtsmoosModule_1770.listMovieMediaFolders;
+var searchMovieMedia = __awtsmoosModule_1770.searchMovieMedia;
+var normalizeMovieMediaWorkspace = __awtsmoosModule_1481.normalizeMovieMediaWorkspace;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 function createMovieStudioEditorialMediaDomain(session, commands) {
 	return Object.freeze({
@@ -125670,7 +127902,7 @@ function execute(commands, type, payload, options) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiMedia.js */
-__awtsmoosModule_1743 = (() => {
+__awtsmoosModule_1766 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -125678,52 +127910,65 @@ const __exports = {};
 
 /**
  * @file MovieStudioApiMedia.js
- * @description Exposes immutable media-bin, source-monitor, search, relink, and edit operations.
+ * @description Exposes catalog, health, preflight, collection, relink, proxy, job, search, and edit operations.
  * The Awtsmoos is beyond asset and location while every finite project needs portable references;
- * Awtsmoos.com lets agents and humans organize and edit media through JSON-safe evidence.
+ * Awtsmoos.com lets agents discover, validate, collect, proxy, repair, and edit through one API.
  */
 
-var findMovieMediaReferences = __awtsmoosModule_1469.findMovieMediaReferences;
-var searchMovieMedia = __awtsmoosModule_1744.searchMovieMedia;
-var createMovieStudioEditorialMediaDomain = __awtsmoosModule_1745.createMovieStudioEditorialMediaDomain;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var createMovieMediaCollectionManifest = __awtsmoosModule_1767.createMovieMediaCollectionManifest;
+var findMovieMediaReferences = __awtsmoosModule_1480.findMovieMediaReferences;
+var createMovieMediaHealthReport = __awtsmoosModule_1768.createMovieMediaHealthReport;
+var planMovieMediaRelinks = __awtsmoosModule_1768.planMovieMediaRelinks;
+var suggestMovieMediaRelinks = __awtsmoosModule_1769.suggestMovieMediaRelinks;
+var searchMovieMedia = __awtsmoosModule_1770.searchMovieMedia;
+var createMovieProjectPreflight = __awtsmoosModule_1771.createMovieProjectPreflight;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+var createMovieStudioEditorialMediaDomain = __awtsmoosModule_1772.createMovieStudioEditorialMediaDomain;
 
 function createMovieStudioMediaDomain(session, commands) {
 	return Object.freeze({
 		add: (media, options = {}) => execute(commands, 'media.add', { media }, options),
+		attachProxy: (mediaId, proxyUrl, request = {}) => session.renderQueue.start({
+			...request, mediaId, mode: 'media-proxy-attach', proxyUrl
+		}),
+		clearProxy: (mediaId, options = {}) => execute(
+			commands, 'media.update', { mediaId, patch: { proxyUrl: null } }, options
+		),
+		collection: options => createMovieMediaCollectionManifest(session.project, options),
 		find: mediaId => createMovieProjectSnapshot(
 			(session.project.media || []).find(item => item.id === String(mediaId)) || null
 		),
+		health: () => createMovieMediaHealthReport(session.project),
 		list: (filter = {}) => createMovieProjectSnapshot(
 			searchMovieMedia(session.project, filter.query || '', filter)
 		),
+		planRelinks: candidates => planMovieMediaRelinks(session.project, candidates),
+		preflight: () => createMovieProjectPreflight(session.project),
 		references: mediaId => createMovieProjectSnapshot(
 			findMovieMediaReferences(session.project, String(mediaId))
 		),
 		relink: (mediaId, url, options = {}) => execute(
-			commands,
-			'media.relink',
-			{ mediaId, proxyUrl: options.proxyUrl, url },
-			options
+			commands, 'media.relink', { mediaId, proxyUrl: options.proxyUrl, url }, options
 		),
+		relinkBatch: (candidates, options = {}) => {
+			const plan = planMovieMediaRelinks(session.project, candidates);
+			return commands.executeBatch(plan.commands, options);
+		},
 		remove: (mediaId, options = {}) => execute(
-			commands,
-			'media.remove',
-			{ force: options.force, mediaId },
-			options
+			commands, 'media.remove', { force: options.force, mediaId }, options
 		),
 		replaceReferences: (fromMediaId, toMediaId, options = {}) => execute(
-			commands,
-			'media.replaceReferences',
-			{ fromMediaId, toMediaId },
-			options
+			commands, 'media.replaceReferences', { fromMediaId, toMediaId }, options
+		),
+		suggestRelinks: (candidates, options) => (
+			suggestMovieMediaRelinks(session.project, candidates, options)
 		),
 		update: (mediaId, patch, options = {}) => execute(
-			commands,
-			'media.update',
-			{ mediaId, patch },
-			options
+			commands, 'media.update', { mediaId, patch }, options
 		),
+		validateAvailability: (request = {}) => session.renderQueue.start({
+			...request, mode: 'media-availability'
+		}),
 		...createMovieStudioEditorialMediaDomain(session, commands)
 	});
 }
@@ -125736,7 +127981,7 @@ function execute(commands, type, payload, options) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieJsonPointer.js */
-__awtsmoosModule_1748 = (() => {
+__awtsmoosModule_1775 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -125749,7 +127994,7 @@ const __exports = {};
  * malformed escapes so patches can traverse plain finite vessels without touching prototypes.
  */
 
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
 
 const DANGEROUS = new Set(['__proto__', 'constructor', 'prototype']);
 
@@ -125844,7 +128089,7 @@ function pointerError(code, pointer) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProjectDiff.js */
-__awtsmoosModule_1747 = (() => {
+__awtsmoosModule_1774 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -125857,9 +128102,9 @@ const __exports = {};
  * sorted plain objects and treats changed arrays as one vessel so patches stay stable and clear.
  */
 
-var canonicalMovieValue = __awtsmoosModule_1472.canonicalMovieValue;
-var stringifyCanonicalMovieJson = __awtsmoosModule_1472.stringifyCanonicalMovieJson;
-var encodeMovieJsonPointer = __awtsmoosModule_1748.encodeMovieJsonPointer;
+var canonicalMovieValue = __awtsmoosModule_1474.canonicalMovieValue;
+var stringifyCanonicalMovieJson = __awtsmoosModule_1474.stringifyCanonicalMovieJson;
+var encodeMovieJsonPointer = __awtsmoosModule_1775.encodeMovieJsonPointer;
 
 function diffMovieProjects(before, after) {
 	const left = canonicalMovieValue(before);
@@ -125922,7 +128167,7 @@ function isPlainObject(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProjectPatchOperation.js */
-__awtsmoosModule_1750 = (() => {
+__awtsmoosModule_1777 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -125935,11 +128180,11 @@ const __exports = {};
  * array, object, root, missing-path, and inverse mechanics separate from public patch validation.
  */
 
-var canonicalMovieValue = __awtsmoosModule_1472.canonicalMovieValue;
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var encodeMovieJsonPointer = __awtsmoosModule_1748.encodeMovieJsonPointer;
-var movieJsonPointerParent = __awtsmoosModule_1748.movieJsonPointerParent;
-var parseMovieJsonPointer = __awtsmoosModule_1748.parseMovieJsonPointer;
+var canonicalMovieValue = __awtsmoosModule_1474.canonicalMovieValue;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var encodeMovieJsonPointer = __awtsmoosModule_1775.encodeMovieJsonPointer;
+var movieJsonPointerParent = __awtsmoosModule_1775.movieJsonPointerParent;
+var parseMovieJsonPointer = __awtsmoosModule_1775.parseMovieJsonPointer;
 
 function applyMovieProjectPatchOperation(project, operation) {
 	if (operation.path === '') return applyRoot(project, operation);
@@ -126037,7 +128282,7 @@ function invalidIndex(key) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProjectPatch.js */
-__awtsmoosModule_1749 = (() => {
+__awtsmoosModule_1776 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -126050,10 +128295,10 @@ const __exports = {};
  * validates the entire command vessel before one cloned project may change.
  */
 
-var canonicalMovieValue = __awtsmoosModule_1472.canonicalMovieValue;
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var parseMovieJsonPointer = __awtsmoosModule_1748.parseMovieJsonPointer;
-var applyMovieProjectPatchOperation = __awtsmoosModule_1750.applyMovieProjectPatchOperation;
+var canonicalMovieValue = __awtsmoosModule_1474.canonicalMovieValue;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var parseMovieJsonPointer = __awtsmoosModule_1775.parseMovieJsonPointer;
+var applyMovieProjectPatchOperation = __awtsmoosModule_1777.applyMovieProjectPatchOperation;
 
 const OPERATIONS = new Set(['add', 'remove', 'replace']);
 
@@ -126120,7 +128365,7 @@ function normalizeOperation(operation, index) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiProjectTools.js */
-__awtsmoosModule_1751 = (() => {
+__awtsmoosModule_1778 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -126133,12 +128378,12 @@ const __exports = {};
  * compatibility reads immutable while replacement filters surviving selected identities in one transaction.
  */
 
-var canonicalMovieValue = __awtsmoosModule_1472.canonicalMovieValue;
-var compileMovieProject = __awtsmoosModule_1628.compileMovieProject;
+var canonicalMovieValue = __awtsmoosModule_1474.canonicalMovieValue;
+var compileMovieProject = __awtsmoosModule_1637.compileMovieProject;
 var normalizeMovieProject = __awtsmoosModule_1464.normalizeMovieProject;
 var validateMovieProject = __awtsmoosModule_1464.validateMovieProject;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
-var commitMovieStudioResult = __awtsmoosModule_1734.commitMovieStudioResult;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+var commitMovieStudioResult = __awtsmoosModule_1743.commitMovieStudioResult;
 
 function createMovieProjectDomainProxy(session, domain) {
 	return new Proxy(domain, {
@@ -126202,7 +128447,7 @@ __exports.replaceMovieStudioProject = replaceMovieStudioProject;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiPatch.js */
-__awtsmoosModule_1746 = (() => {
+__awtsmoosModule_1773 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -126215,13 +128460,13 @@ const __exports = {};
  * transport precise changes while validation and canonical installation remain indivisible.
  */
 
-var diffMovieProjects = __awtsmoosModule_1747.diffMovieProjects;
-var applyMovieProjectPatch = __awtsmoosModule_1749.applyMovieProjectPatch;
-var applyMovieProjectPatchWithInverse = __awtsmoosModule_1749.applyMovieProjectPatchWithInverse;
-var invertMovieProjectPatch = __awtsmoosModule_1749.invertMovieProjectPatch;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
-var runMovieStudioApiOperation = __awtsmoosModule_1721.runMovieStudioApiOperation;
-var validateMovieProjectSnapshot = __awtsmoosModule_1751.validateMovieProjectSnapshot;
+var diffMovieProjects = __awtsmoosModule_1774.diffMovieProjects;
+var applyMovieProjectPatch = __awtsmoosModule_1776.applyMovieProjectPatch;
+var applyMovieProjectPatchWithInverse = __awtsmoosModule_1776.applyMovieProjectPatchWithInverse;
+var invertMovieProjectPatch = __awtsmoosModule_1776.invertMovieProjectPatch;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+var runMovieStudioApiOperation = __awtsmoosModule_1730.runMovieStudioApiOperation;
+var validateMovieProjectSnapshot = __awtsmoosModule_1778.validateMovieProjectSnapshot;
 
 function createMovieStudioPatchDomain(session) {
 	return Object.freeze({
@@ -126261,7 +128506,7 @@ function applyPatch(session, patch, options) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceProject.js */
-__awtsmoosModule_1756 = (() => {
+__awtsmoosModule_1783 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -126274,8 +128519,8 @@ const __exports = {};
  * gives take, performer, track, and clip one searchable vessel where truthful edits rhyme.
  */
 
-var normalizeMoviePerformance = __awtsmoosModule_1475.normalizeMoviePerformance;
-var moviePerformanceClone = __awtsmoosModule_1477.moviePerformanceClone;
+var normalizeMoviePerformance = __awtsmoosModule_1482.normalizeMoviePerformance;
+var moviePerformanceClone = __awtsmoosModule_1484.moviePerformanceClone;
 
 function cloneMoviePerformanceProject(project) {
 	const next = moviePerformanceClone(project);
@@ -126339,7 +128584,7 @@ __exports.nextMoviePerformanceId = nextMoviePerformanceId;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceAuthoringCommands.js */
-__awtsmoosModule_1755 = (() => {
+__awtsmoosModule_1782 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -126352,11 +128597,11 @@ const __exports = {};
  * Awtsmoos.com keeps every authored aid undoable, recoverable through history, and clear in rhyme.
  */
 
-var normalizeMoviePerformanceAid = __awtsmoosModule_1476.normalizeMoviePerformanceAid;
-var normalizeMoviePerformanceCue = __awtsmoosModule_1476.normalizeMoviePerformanceCue;
-var normalizeMoviePerformancePerformer = __awtsmoosModule_1476.normalizeMoviePerformancePerformer;
-var cloneMoviePerformanceProject = __awtsmoosModule_1756.cloneMoviePerformanceProject;
-var nextMoviePerformanceId = __awtsmoosModule_1756.nextMoviePerformanceId;
+var normalizeMoviePerformanceAid = __awtsmoosModule_1483.normalizeMoviePerformanceAid;
+var normalizeMoviePerformanceCue = __awtsmoosModule_1483.normalizeMoviePerformanceCue;
+var normalizeMoviePerformancePerformer = __awtsmoosModule_1483.normalizeMoviePerformancePerformer;
+var cloneMoviePerformanceProject = __awtsmoosModule_1783.cloneMoviePerformanceProject;
+var nextMoviePerformanceId = __awtsmoosModule_1783.nextMoviePerformanceId;
 
 function updateMoviePerformancePerformer(project, performerId, changes) {
 	const next = cloneMoviePerformanceProject(project);
@@ -126439,7 +128684,7 @@ function removeRecord(project, listName, id, errorCode) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceCompression.js */
-__awtsmoosModule_1760 = (() => {
+__awtsmoosModule_1787 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -126452,9 +128697,9 @@ const __exports = {};
  * raw evidence beside the simplified path so feet, faces, and timing continue to rhyme.
  */
 
-var moviePerformanceSampleChanged = __awtsmoosModule_1551.moviePerformanceSampleChanged;
-var vectorDistance = __awtsmoosModule_1551.vectorDistance;
-var moviePerformanceClone = __awtsmoosModule_1477.moviePerformanceClone;
+var moviePerformanceSampleChanged = __awtsmoosModule_1558.moviePerformanceSampleChanged;
+var vectorDistance = __awtsmoosModule_1558.vectorDistance;
+var moviePerformanceClone = __awtsmoosModule_1484.moviePerformanceClone;
 
 function simplifyMoviePerformanceTake(take, options = {}) {
 	const source = take.transformSamples || [];
@@ -126549,7 +128794,7 @@ function dot(left, right) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformancePath.js */
-__awtsmoosModule_1759 = (() => {
+__awtsmoosModule_1786 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -126562,9 +128807,9 @@ const __exports = {};
  * lets director and performer refine blocking while action timing remains explicit in rhyme.
  */
 
-var simplifyMoviePerformanceSamples = __awtsmoosModule_1760.simplifyMoviePerformanceSamples;
-var moviePerformanceClone = __awtsmoosModule_1477.moviePerformanceClone;
-var moviePerformanceVector = __awtsmoosModule_1477.moviePerformanceVector;
+var simplifyMoviePerformanceSamples = __awtsmoosModule_1787.simplifyMoviePerformanceSamples;
+var moviePerformanceClone = __awtsmoosModule_1484.moviePerformanceClone;
+var moviePerformanceVector = __awtsmoosModule_1484.moviePerformanceVector;
 
 function moveMoviePerformancePoint(take, index, position) {
 	return updateSamples(take, samples => samples.map((sample, sampleIndex) => (
@@ -126657,7 +128902,7 @@ function updateSamples(take, operation) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformancePathTiming.js */
-__awtsmoosModule_1762 = (() => {
+__awtsmoosModule_1789 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -126715,7 +128960,7 @@ function timedFields() {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformancePathExtended.js */
-__awtsmoosModule_1761 = (() => {
+__awtsmoosModule_1788 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -126728,10 +128973,10 @@ const __exports = {};
  * keeps point, stop, time, velocity, marker, action boundary, and director intention in rhyme.
  */
 
-var sampleMoviePerformanceTake = __awtsmoosModule_1601.sampleMoviePerformanceTake;
-var retimeMoviePerformanceTimedValues = __awtsmoosModule_1762.retimeMoviePerformanceTimedValues;
-var shiftMoviePerformanceTimedValues = __awtsmoosModule_1762.shiftMoviePerformanceTimedValues;
-var moviePerformanceClone = __awtsmoosModule_1477.moviePerformanceClone;
+var sampleMoviePerformanceTake = __awtsmoosModule_1610.sampleMoviePerformanceTake;
+var retimeMoviePerformanceTimedValues = __awtsmoosModule_1789.retimeMoviePerformanceTimedValues;
+var shiftMoviePerformanceTimedValues = __awtsmoosModule_1789.shiftMoviePerformanceTimedValues;
+var moviePerformanceClone = __awtsmoosModule_1484.moviePerformanceClone;
 
 function insertMoviePerformancePoint(take, time, position = null) {
 	const next = moviePerformanceClone(take);
@@ -126827,7 +129072,7 @@ __exports.snapMoviePerformancePointToAid = snapMoviePerformancePointToAid;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformancePathOperations.js */
-__awtsmoosModule_1758 = (() => {
+__awtsmoosModule_1785 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -126840,16 +129085,16 @@ const __exports = {};
  * gives insertion, stop, speed, smooth, simplify, facing, retime, deletion, and snapping clear rhyme.
  */
 
-var deleteMoviePerformancePoint = __awtsmoosModule_1759.deleteMoviePerformancePoint;
-var moveMoviePerformancePoint = __awtsmoosModule_1759.moveMoviePerformancePoint;
-var retimeMoviePerformanceTake = __awtsmoosModule_1759.retimeMoviePerformanceTake;
-var setMoviePerformanceFacing = __awtsmoosModule_1759.setMoviePerformanceFacing;
-var simplifyMoviePerformancePath = __awtsmoosModule_1759.simplifyMoviePerformancePath;
-var smoothMoviePerformancePath = __awtsmoosModule_1759.smoothMoviePerformancePath;
-var addMoviePerformanceStop = __awtsmoosModule_1761.addMoviePerformanceStop;
-var insertMoviePerformancePoint = __awtsmoosModule_1761.insertMoviePerformancePoint;
-var setMoviePerformanceSegmentSpeed = __awtsmoosModule_1761.setMoviePerformanceSegmentSpeed;
-var snapMoviePerformancePointToAid = __awtsmoosModule_1761.snapMoviePerformancePointToAid;
+var deleteMoviePerformancePoint = __awtsmoosModule_1786.deleteMoviePerformancePoint;
+var moveMoviePerformancePoint = __awtsmoosModule_1786.moveMoviePerformancePoint;
+var retimeMoviePerformanceTake = __awtsmoosModule_1786.retimeMoviePerformanceTake;
+var setMoviePerformanceFacing = __awtsmoosModule_1786.setMoviePerformanceFacing;
+var simplifyMoviePerformancePath = __awtsmoosModule_1786.simplifyMoviePerformancePath;
+var smoothMoviePerformancePath = __awtsmoosModule_1786.smoothMoviePerformancePath;
+var addMoviePerformanceStop = __awtsmoosModule_1788.addMoviePerformanceStop;
+var insertMoviePerformancePoint = __awtsmoosModule_1788.insertMoviePerformancePoint;
+var setMoviePerformanceSegmentSpeed = __awtsmoosModule_1788.setMoviePerformanceSegmentSpeed;
+var snapMoviePerformancePointToAid = __awtsmoosModule_1788.snapMoviePerformancePointToAid;
 
 function addStopOperation(take, options) {
 	return addMoviePerformanceStop(take, options.index, options.duration);
@@ -126922,7 +129167,7 @@ __exports.snapToAidOperation = snapToAidOperation;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceTakeCommands.js */
-__awtsmoosModule_1763 = (() => {
+__awtsmoosModule_1790 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -126935,13 +129180,13 @@ const __exports = {};
  * lets retake and refinement arrive without erasing the earlier cinematic rhyme.
  */
 
-var MOVIE_PERFORMANCE_LIMITS = __awtsmoosModule_1478.MOVIE_PERFORMANCE_LIMITS;
-var cloneMoviePerformanceProject = __awtsmoosModule_1756.cloneMoviePerformanceProject;
-var nextMoviePerformanceId = __awtsmoosModule_1756.nextMoviePerformanceId;
-var requireMoviePerformanceTake = __awtsmoosModule_1756.requireMoviePerformanceTake;
-var normalizeMoviePerformanceTake = __awtsmoosModule_1480.normalizeMoviePerformanceTake;
-var moviePerformanceClone = __awtsmoosModule_1477.moviePerformanceClone;
-var moviePerformanceText = __awtsmoosModule_1477.moviePerformanceText;
+var MOVIE_PERFORMANCE_LIMITS = __awtsmoosModule_1485.MOVIE_PERFORMANCE_LIMITS;
+var cloneMoviePerformanceProject = __awtsmoosModule_1783.cloneMoviePerformanceProject;
+var nextMoviePerformanceId = __awtsmoosModule_1783.nextMoviePerformanceId;
+var requireMoviePerformanceTake = __awtsmoosModule_1783.requireMoviePerformanceTake;
+var normalizeMoviePerformanceTake = __awtsmoosModule_1487.normalizeMoviePerformanceTake;
+var moviePerformanceClone = __awtsmoosModule_1484.moviePerformanceClone;
+var moviePerformanceText = __awtsmoosModule_1484.moviePerformanceText;
 
 function addMoviePerformanceTake(project, source, options = {}) {
 	const next = cloneMoviePerformanceProject(project);
@@ -127052,7 +129297,7 @@ function ensurePerformer(project, take) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformancePathCommands.js */
-__awtsmoosModule_1757 = (() => {
+__awtsmoosModule_1784 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -127065,18 +129310,18 @@ const __exports = {};
  * move, insert, delete, smooth, simplify, retime, facing, speed, stop, and snap undoable in rhyme.
  */
 
-var addStopOperation = __awtsmoosModule_1758.addStopOperation;
-var deletePointOperation = __awtsmoosModule_1758.deletePointOperation;
-var insertPointOperation = __awtsmoosModule_1758.insertPointOperation;
-var movePointOperation = __awtsmoosModule_1758.movePointOperation;
-var retimeOperation = __awtsmoosModule_1758.retimeOperation;
-var setFacingOperation = __awtsmoosModule_1758.setFacingOperation;
-var setSegmentSpeedOperation = __awtsmoosModule_1758.setSegmentSpeedOperation;
-var simplifyOperation = __awtsmoosModule_1758.simplifyOperation;
-var smoothOperation = __awtsmoosModule_1758.smoothOperation;
-var snapToAidOperation = __awtsmoosModule_1758.snapToAidOperation;
-var requireMoviePerformanceTake = __awtsmoosModule_1756.requireMoviePerformanceTake;
-var updateMoviePerformanceTake = __awtsmoosModule_1763.updateMoviePerformanceTake;
+var addStopOperation = __awtsmoosModule_1785.addStopOperation;
+var deletePointOperation = __awtsmoosModule_1785.deletePointOperation;
+var insertPointOperation = __awtsmoosModule_1785.insertPointOperation;
+var movePointOperation = __awtsmoosModule_1785.movePointOperation;
+var retimeOperation = __awtsmoosModule_1785.retimeOperation;
+var setFacingOperation = __awtsmoosModule_1785.setFacingOperation;
+var setSegmentSpeedOperation = __awtsmoosModule_1785.setSegmentSpeedOperation;
+var simplifyOperation = __awtsmoosModule_1785.simplifyOperation;
+var smoothOperation = __awtsmoosModule_1785.smoothOperation;
+var snapToAidOperation = __awtsmoosModule_1785.snapToAidOperation;
+var requireMoviePerformanceTake = __awtsmoosModule_1783.requireMoviePerformanceTake;
+var updateMoviePerformanceTake = __awtsmoosModule_1790.updateMoviePerformanceTake;
 
 const OPERATIONS = Object.freeze({
 	addStop: addStopOperation,
@@ -127118,7 +129363,7 @@ __exports.executeMoviePerformancePathOperation = executeMoviePerformancePathOper
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceRecoveryPlacement.js */
-__awtsmoosModule_1765 = (() => {
+__awtsmoosModule_1792 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -127131,7 +129376,7 @@ const __exports = {};
  * clip and track memory together so recovery returns the acted rhythm in honest rhyme.
  */
 
-var moviePerformanceClone = __awtsmoosModule_1477.moviePerformanceClone;
+var moviePerformanceClone = __awtsmoosModule_1484.moviePerformanceClone;
 
 function removeMoviePerformancePlacements(tracks = [], takeId) {
 	const placements = [];
@@ -127177,7 +129422,7 @@ function cloneTrackWithoutClips(track) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceRecovery.js */
-__awtsmoosModule_1764 = (() => {
+__awtsmoosModule_1791 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -127190,13 +129435,13 @@ const __exports = {};
  * take and timeline vessels in bounded recovery until the director restores their rhyme.
  */
 
-var MOVIE_PERFORMANCE_LIMITS = __awtsmoosModule_1478.MOVIE_PERFORMANCE_LIMITS;
-var cloneMoviePerformanceProject = __awtsmoosModule_1756.cloneMoviePerformanceProject;
-var nextMoviePerformanceId = __awtsmoosModule_1756.nextMoviePerformanceId;
-var requireMoviePerformanceTake = __awtsmoosModule_1756.requireMoviePerformanceTake;
-var removeMoviePerformancePlacements = __awtsmoosModule_1765.removeMoviePerformancePlacements;
-var restoreMoviePerformancePlacements = __awtsmoosModule_1765.restoreMoviePerformancePlacements;
-var moviePerformanceClone = __awtsmoosModule_1477.moviePerformanceClone;
+var MOVIE_PERFORMANCE_LIMITS = __awtsmoosModule_1485.MOVIE_PERFORMANCE_LIMITS;
+var cloneMoviePerformanceProject = __awtsmoosModule_1783.cloneMoviePerformanceProject;
+var nextMoviePerformanceId = __awtsmoosModule_1783.nextMoviePerformanceId;
+var requireMoviePerformanceTake = __awtsmoosModule_1783.requireMoviePerformanceTake;
+var removeMoviePerformancePlacements = __awtsmoosModule_1792.removeMoviePerformancePlacements;
+var restoreMoviePerformancePlacements = __awtsmoosModule_1792.restoreMoviePerformancePlacements;
+var moviePerformanceClone = __awtsmoosModule_1484.moviePerformanceClone;
 
 function deleteMoviePerformanceTake(project, takeId, reason = 'deleted') {
 	const next = cloneMoviePerformanceProject(project);
@@ -127260,7 +129505,7 @@ function clearPreferredTake(performers, takeId) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceSegmentBoundary.js */
-__awtsmoosModule_1769 = (() => {
+__awtsmoosModule_1796 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -127273,8 +129518,8 @@ const __exports = {};
  * keeps segment starts, endings, grounding, velocity, facing, and duration continuous in rhyme.
  */
 
-var sampleMoviePerformanceTake = __awtsmoosModule_1601.sampleMoviePerformanceTake;
-var moviePerformanceClone = __awtsmoosModule_1477.moviePerformanceClone;
+var sampleMoviePerformanceTake = __awtsmoosModule_1610.sampleMoviePerformanceTake;
+var moviePerformanceClone = __awtsmoosModule_1484.moviePerformanceClone;
 
 function moviePerformanceSegmentTransforms(take, start, end) {
 	const values = take.transformSamples
@@ -127316,7 +129561,7 @@ function uniqueTimes(values) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceSegmentAppend.js */
-__awtsmoosModule_1768 = (() => {
+__awtsmoosModule_1795 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -127329,8 +129574,8 @@ const __exports = {};
  * keeps body, animation, deed, interaction, camera, offset, and duration ordered in rhyme.
  */
 
-var moviePerformanceSegmentEvents = __awtsmoosModule_1769.moviePerformanceSegmentEvents;
-var moviePerformanceSegmentTransforms = __awtsmoosModule_1769.moviePerformanceSegmentTransforms;
+var moviePerformanceSegmentEvents = __awtsmoosModule_1796.moviePerformanceSegmentEvents;
+var moviePerformanceSegmentTransforms = __awtsmoosModule_1796.moviePerformanceSegmentTransforms;
 
 function appendMoviePerformanceSegment(combined, item) {
 	const offset = combined.duration;
@@ -127367,7 +129612,7 @@ function appendValues(target, values, start, offset) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceTakeSegments.js */
-__awtsmoosModule_1767 = (() => {
+__awtsmoosModule_1794 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -127380,8 +129625,8 @@ const __exports = {};
  * boundary pose, actor identity, compatibility, duration, provenance, and copied motion in rhyme.
  */
 
-var appendMoviePerformanceSegment = __awtsmoosModule_1768.appendMoviePerformanceSegment;
-var moviePerformanceClone = __awtsmoosModule_1477.moviePerformanceClone;
+var appendMoviePerformanceSegment = __awtsmoosModule_1795.appendMoviePerformanceSegment;
+var moviePerformanceClone = __awtsmoosModule_1484.moviePerformanceClone;
 
 function combineMoviePerformanceTakeSegments(takes, segments, options = {}) {
 	if (!segments?.length) {
@@ -127466,7 +129711,7 @@ function assertCompatible(takes, options) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceTakeAdvancedCommands.js */
-__awtsmoosModule_1766 = (() => {
+__awtsmoosModule_1793 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -127479,11 +129724,11 @@ const __exports = {};
  * checks character, model, mapping, event order, identity, recovery, and authored memory in rhyme.
  */
 
-var combineMoviePerformanceTakeSegments = __awtsmoosModule_1767.combineMoviePerformanceTakeSegments;
-var copyMoviePerformanceTakeToCharacter = __awtsmoosModule_1767.copyMoviePerformanceTakeToCharacter;
-var addMoviePerformanceTake = __awtsmoosModule_1763.addMoviePerformanceTake;
-var updateMoviePerformanceTake = __awtsmoosModule_1763.updateMoviePerformanceTake;
-var requireMoviePerformanceTake = __awtsmoosModule_1756.requireMoviePerformanceTake;
+var combineMoviePerformanceTakeSegments = __awtsmoosModule_1794.combineMoviePerformanceTakeSegments;
+var copyMoviePerformanceTakeToCharacter = __awtsmoosModule_1794.copyMoviePerformanceTakeToCharacter;
+var addMoviePerformanceTake = __awtsmoosModule_1790.addMoviePerformanceTake;
+var updateMoviePerformanceTake = __awtsmoosModule_1790.updateMoviePerformanceTake;
+var requireMoviePerformanceTake = __awtsmoosModule_1783.requireMoviePerformanceTake;
 
 function combineMoviePerformanceTakes(project, segments, options = {}) {
 	const take = combineMoviePerformanceTakeSegments(
@@ -127541,7 +129786,7 @@ __exports.noteMoviePerformanceTake = noteMoviePerformanceTake;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceTimelineCommands.js */
-__awtsmoosModule_1770 = (() => {
+__awtsmoosModule_1797 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -127554,10 +129799,10 @@ const __exports = {};
  * gives each take a movable, trimmable, recoverable clip whose metadata continues to rhyme.
  */
 
-var cloneMoviePerformanceProject = __awtsmoosModule_1756.cloneMoviePerformanceProject;
-var nextMoviePerformanceId = __awtsmoosModule_1756.nextMoviePerformanceId;
-var requireMoviePerformanceClip = __awtsmoosModule_1756.requireMoviePerformanceClip;
-var requireMoviePerformanceTake = __awtsmoosModule_1756.requireMoviePerformanceTake;
+var cloneMoviePerformanceProject = __awtsmoosModule_1783.cloneMoviePerformanceProject;
+var nextMoviePerformanceId = __awtsmoosModule_1783.nextMoviePerformanceId;
+var requireMoviePerformanceClip = __awtsmoosModule_1783.requireMoviePerformanceClip;
+var requireMoviePerformanceTake = __awtsmoosModule_1783.requireMoviePerformanceTake;
 
 function insertMoviePerformanceTake(project, takeId, options = {}) {
 	const next = cloneMoviePerformanceProject(project);
@@ -127666,7 +129911,7 @@ function newTrack(project, take, options) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceCommands.js */
-__awtsmoosModule_1754 = (() => {
+__awtsmoosModule_1781 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -127679,32 +129924,32 @@ const __exports = {};
  * keeps take, path, recovery, performer, cue, aid, preference, and timeline edits in shared rhyme.
  */
 
-__exports.addMoviePerformanceAid = __awtsmoosModule_1755.addMoviePerformanceAid;
-__exports.addMoviePerformanceCue = __awtsmoosModule_1755.addMoviePerformanceCue;
-__exports.removeMoviePerformanceAid = __awtsmoosModule_1755.removeMoviePerformanceAid;
-__exports.removeMoviePerformanceCue = __awtsmoosModule_1755.removeMoviePerformanceCue;
-__exports.updateMoviePerformanceAid = __awtsmoosModule_1755.updateMoviePerformanceAid;
-__exports.updateMoviePerformanceCue = __awtsmoosModule_1755.updateMoviePerformanceCue;
-__exports.updateMoviePerformancePerformer = __awtsmoosModule_1755.updateMoviePerformancePerformer;
-__exports.executeMoviePerformancePathOperation = __awtsmoosModule_1757.executeMoviePerformancePathOperation;
-__exports.deleteMoviePerformanceTake = __awtsmoosModule_1764.deleteMoviePerformanceTake;
-__exports.restoreMoviePerformanceTake = __awtsmoosModule_1764.restoreMoviePerformanceTake;
-__exports.combineMoviePerformanceTakes = __awtsmoosModule_1766.combineMoviePerformanceTakes;
-__exports.copyMoviePerformanceTake = __awtsmoosModule_1766.copyMoviePerformanceTake;
-__exports.noteMoviePerformanceTake = __awtsmoosModule_1766.noteMoviePerformanceTake;
-__exports.rateMoviePerformanceTake = __awtsmoosModule_1766.rateMoviePerformanceTake;
-__exports.addMoviePerformanceTake = __awtsmoosModule_1763.addMoviePerformanceTake;
-__exports.duplicateMoviePerformanceTake = __awtsmoosModule_1763.duplicateMoviePerformanceTake;
-__exports.renameMoviePerformanceTake = __awtsmoosModule_1763.renameMoviePerformanceTake;
-__exports.setPreferredMoviePerformanceTake = __awtsmoosModule_1763.setPreferredMoviePerformanceTake;
-__exports.updateMoviePerformanceTake = __awtsmoosModule_1763.updateMoviePerformanceTake;
-__exports.insertMoviePerformanceTake = __awtsmoosModule_1770.insertMoviePerformanceTake;
-__exports.replaceMoviePerformanceClipTake = __awtsmoosModule_1770.replaceMoviePerformanceClipTake;
-__exports.setMoviePerformanceTrackState = __awtsmoosModule_1770.setMoviePerformanceTrackState;
+__exports.addMoviePerformanceAid = __awtsmoosModule_1782.addMoviePerformanceAid;
+__exports.addMoviePerformanceCue = __awtsmoosModule_1782.addMoviePerformanceCue;
+__exports.removeMoviePerformanceAid = __awtsmoosModule_1782.removeMoviePerformanceAid;
+__exports.removeMoviePerformanceCue = __awtsmoosModule_1782.removeMoviePerformanceCue;
+__exports.updateMoviePerformanceAid = __awtsmoosModule_1782.updateMoviePerformanceAid;
+__exports.updateMoviePerformanceCue = __awtsmoosModule_1782.updateMoviePerformanceCue;
+__exports.updateMoviePerformancePerformer = __awtsmoosModule_1782.updateMoviePerformancePerformer;
+__exports.executeMoviePerformancePathOperation = __awtsmoosModule_1784.executeMoviePerformancePathOperation;
+__exports.deleteMoviePerformanceTake = __awtsmoosModule_1791.deleteMoviePerformanceTake;
+__exports.restoreMoviePerformanceTake = __awtsmoosModule_1791.restoreMoviePerformanceTake;
+__exports.combineMoviePerformanceTakes = __awtsmoosModule_1793.combineMoviePerformanceTakes;
+__exports.copyMoviePerformanceTake = __awtsmoosModule_1793.copyMoviePerformanceTake;
+__exports.noteMoviePerformanceTake = __awtsmoosModule_1793.noteMoviePerformanceTake;
+__exports.rateMoviePerformanceTake = __awtsmoosModule_1793.rateMoviePerformanceTake;
+__exports.addMoviePerformanceTake = __awtsmoosModule_1790.addMoviePerformanceTake;
+__exports.duplicateMoviePerformanceTake = __awtsmoosModule_1790.duplicateMoviePerformanceTake;
+__exports.renameMoviePerformanceTake = __awtsmoosModule_1790.renameMoviePerformanceTake;
+__exports.setPreferredMoviePerformanceTake = __awtsmoosModule_1790.setPreferredMoviePerformanceTake;
+__exports.updateMoviePerformanceTake = __awtsmoosModule_1790.updateMoviePerformanceTake;
+__exports.insertMoviePerformanceTake = __awtsmoosModule_1797.insertMoviePerformanceTake;
+__exports.replaceMoviePerformanceClipTake = __awtsmoosModule_1797.replaceMoviePerformanceClipTake;
+__exports.setMoviePerformanceTrackState = __awtsmoosModule_1797.setMoviePerformanceTrackState;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceAudioProject.js */
-__awtsmoosModule_1772 = (() => {
+__awtsmoosModule_1799 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -127717,8 +129962,8 @@ const __exports = {};
  * keeps media, track, clip, latency, waveform, performer, take, and recovery identity in rhyme.
  */
 
-var cloneMoviePerformanceProject = __awtsmoosModule_1756.cloneMoviePerformanceProject;
-var nextMoviePerformanceId = __awtsmoosModule_1756.nextMoviePerformanceId;
+var cloneMoviePerformanceProject = __awtsmoosModule_1783.cloneMoviePerformanceProject;
+var nextMoviePerformanceId = __awtsmoosModule_1783.nextMoviePerformanceId;
 
 function attachMoviePerformanceAudio(
 	project,
@@ -127815,7 +130060,7 @@ function maximumTakeDuration(project, takeIds) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceMutationCatalog.js */
-__awtsmoosModule_1773 = (() => {
+__awtsmoosModule_1800 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -127828,14 +130073,14 @@ const __exports = {};
  * keeps delete, copy, insert, rename, replace, restore, prefer, and update in coherent rhyme.
  */
 
-var deleteMoviePerformanceTake = __awtsmoosModule_1754.deleteMoviePerformanceTake;
-var duplicateMoviePerformanceTake = __awtsmoosModule_1754.duplicateMoviePerformanceTake;
-var insertMoviePerformanceTake = __awtsmoosModule_1754.insertMoviePerformanceTake;
-var renameMoviePerformanceTake = __awtsmoosModule_1754.renameMoviePerformanceTake;
-var replaceMoviePerformanceClipTake = __awtsmoosModule_1754.replaceMoviePerformanceClipTake;
-var restoreMoviePerformanceTake = __awtsmoosModule_1754.restoreMoviePerformanceTake;
-var setPreferredMoviePerformanceTake = __awtsmoosModule_1754.setPreferredMoviePerformanceTake;
-var updateMoviePerformanceTake = __awtsmoosModule_1754.updateMoviePerformanceTake;
+var deleteMoviePerformanceTake = __awtsmoosModule_1781.deleteMoviePerformanceTake;
+var duplicateMoviePerformanceTake = __awtsmoosModule_1781.duplicateMoviePerformanceTake;
+var insertMoviePerformanceTake = __awtsmoosModule_1781.insertMoviePerformanceTake;
+var renameMoviePerformanceTake = __awtsmoosModule_1781.renameMoviePerformanceTake;
+var replaceMoviePerformanceClipTake = __awtsmoosModule_1781.replaceMoviePerformanceClipTake;
+var restoreMoviePerformanceTake = __awtsmoosModule_1781.restoreMoviePerformanceTake;
+var setPreferredMoviePerformanceTake = __awtsmoosModule_1781.setPreferredMoviePerformanceTake;
+var updateMoviePerformanceTake = __awtsmoosModule_1781.updateMoviePerformanceTake;
 
 function createMovieStudioPerformanceMutations(commit) {
 	return Object.freeze({
@@ -127904,7 +130149,7 @@ __exports.createMovieStudioPerformanceMutations = createMovieStudioPerformanceMu
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceProject.js */
-__awtsmoosModule_1771 = (() => {
+__awtsmoosModule_1798 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -127917,11 +130162,11 @@ const __exports = {};
  * Awtsmoos.com gives takes, clips, media, preference, validation, autosave, undo, and event one rhyme.
  */
 
-var attachMoviePerformanceAudio = __awtsmoosModule_1772.attachMoviePerformanceAudio;
-var addMoviePerformanceTake = __awtsmoosModule_1754.addMoviePerformanceTake;
-var insertMoviePerformanceTake = __awtsmoosModule_1754.insertMoviePerformanceTake;
-var setPreferredMoviePerformanceTake = __awtsmoosModule_1754.setPreferredMoviePerformanceTake;
-var createMovieStudioPerformanceMutations = __awtsmoosModule_1773.createMovieStudioPerformanceMutations;
+var attachMoviePerformanceAudio = __awtsmoosModule_1799.attachMoviePerformanceAudio;
+var addMoviePerformanceTake = __awtsmoosModule_1781.addMoviePerformanceTake;
+var insertMoviePerformanceTake = __awtsmoosModule_1781.insertMoviePerformanceTake;
+var setPreferredMoviePerformanceTake = __awtsmoosModule_1781.setPreferredMoviePerformanceTake;
+var createMovieStudioPerformanceMutations = __awtsmoosModule_1800.createMovieStudioPerformanceMutations;
 
 function commitMovieStudioPerformanceTake(session, take, options = {}) {
 	return commitMovieStudioPerformanceTakes(
@@ -128032,7 +130277,7 @@ function emit(session, name, detail) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiPerformanceAdvancedTakes.js */
-__awtsmoosModule_1753 = (() => {
+__awtsmoosModule_1780 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -128045,12 +130290,12 @@ const __exports = {};
  * keeps compatibility, provenance, director judgment, notes, recovery, and immutable evidence in rhyme.
  */
 
-var combineMoviePerformanceTakes = __awtsmoosModule_1754.combineMoviePerformanceTakes;
-var copyMoviePerformanceTake = __awtsmoosModule_1754.copyMoviePerformanceTake;
-var noteMoviePerformanceTake = __awtsmoosModule_1754.noteMoviePerformanceTake;
-var rateMoviePerformanceTake = __awtsmoosModule_1754.rateMoviePerformanceTake;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
-var mutateMovieStudioPerformance = __awtsmoosModule_1771.mutateMovieStudioPerformance;
+var combineMoviePerformanceTakes = __awtsmoosModule_1781.combineMoviePerformanceTakes;
+var copyMoviePerformanceTake = __awtsmoosModule_1781.copyMoviePerformanceTake;
+var noteMoviePerformanceTake = __awtsmoosModule_1781.noteMoviePerformanceTake;
+var rateMoviePerformanceTake = __awtsmoosModule_1781.rateMoviePerformanceTake;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+var mutateMovieStudioPerformance = __awtsmoosModule_1798.mutateMovieStudioPerformance;
 
 function createMovieStudioPerformanceAdvancedTakesDomain(session) {
 	return Object.freeze({
@@ -128123,7 +130368,7 @@ function change(session, operation, label) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiPerformanceAuthoring.js */
-__awtsmoosModule_1774 = (() => {
+__awtsmoosModule_1801 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -128136,15 +130381,15 @@ const __exports = {};
  * keeps every mark, target, path, cue, note, color, mute, solo, and identity undoable in rhyme.
  */
 
-var addMoviePerformanceAid = __awtsmoosModule_1754.addMoviePerformanceAid;
-var addMoviePerformanceCue = __awtsmoosModule_1754.addMoviePerformanceCue;
-var removeMoviePerformanceAid = __awtsmoosModule_1754.removeMoviePerformanceAid;
-var removeMoviePerformanceCue = __awtsmoosModule_1754.removeMoviePerformanceCue;
-var updateMoviePerformanceAid = __awtsmoosModule_1754.updateMoviePerformanceAid;
-var updateMoviePerformanceCue = __awtsmoosModule_1754.updateMoviePerformanceCue;
-var updateMoviePerformancePerformer = __awtsmoosModule_1754.updateMoviePerformancePerformer;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
-var mutateMovieStudioPerformance = __awtsmoosModule_1771.mutateMovieStudioPerformance;
+var addMoviePerformanceAid = __awtsmoosModule_1781.addMoviePerformanceAid;
+var addMoviePerformanceCue = __awtsmoosModule_1781.addMoviePerformanceCue;
+var removeMoviePerformanceAid = __awtsmoosModule_1781.removeMoviePerformanceAid;
+var removeMoviePerformanceCue = __awtsmoosModule_1781.removeMoviePerformanceCue;
+var updateMoviePerformanceAid = __awtsmoosModule_1781.updateMoviePerformanceAid;
+var updateMoviePerformanceCue = __awtsmoosModule_1781.updateMoviePerformanceCue;
+var updateMoviePerformancePerformer = __awtsmoosModule_1781.updateMoviePerformancePerformer;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+var mutateMovieStudioPerformance = __awtsmoosModule_1798.mutateMovieStudioPerformance;
 
 function createMovieStudioPerformanceAuthoringDomain(session) {
 	return Object.freeze({
@@ -128206,7 +130451,7 @@ function snapshot(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiPerformanceResult.js */
-__awtsmoosModule_1776 = (() => {
+__awtsmoosModule_1803 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -128219,7 +130464,7 @@ const __exports = {};
  * gives agents size, type, latency, error, take, and status witnesses in a serializable rhyme.
  */
 
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 async function snapshotMovieStudioPerformanceResult(operation) {
 	const result = await operation;
@@ -128248,7 +130493,7 @@ function sanitize(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiPerformanceControl.js */
-__awtsmoosModule_1775 = (() => {
+__awtsmoosModule_1802 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -128261,8 +130506,8 @@ const __exports = {};
  * keeps API intent independently clearable while every live command remains truthful in cinematic rhyme.
  */
 
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
-var snapshotMovieStudioPerformanceResult = __awtsmoosModule_1776.snapshotMovieStudioPerformanceResult;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+var snapshotMovieStudioPerformanceResult = __awtsmoosModule_1803.snapshotMovieStudioPerformanceResult;
 
 const API_INPUT_SOURCE = 'api';
 
@@ -128341,7 +130586,7 @@ function snapshot(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiPerformancePath.js */
-__awtsmoosModule_1777 = (() => {
+__awtsmoosModule_1804 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -128354,9 +130599,9 @@ const __exports = {};
  * point, stop, facing, speed, smooth, simplify, retime, snap, recovery, history, and events in rhyme.
  */
 
-var executeMoviePerformancePathOperation = __awtsmoosModule_1754.executeMoviePerformancePathOperation;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
-var mutateMovieStudioPerformance = __awtsmoosModule_1771.mutateMovieStudioPerformance;
+var executeMoviePerformancePathOperation = __awtsmoosModule_1781.executeMoviePerformancePathOperation;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+var mutateMovieStudioPerformance = __awtsmoosModule_1798.mutateMovieStudioPerformance;
 
 function createMovieStudioPerformancePathDomain(session) {
 	return Object.freeze({
@@ -128405,7 +130650,7 @@ function snapshot(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformancePreferences.js */
-__awtsmoosModule_1779 = (() => {
+__awtsmoosModule_1806 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -128418,9 +130663,9 @@ const __exports = {};
  * keeps manual and agent preference edits validated, undoable, autosaved, and shared in one rhyme.
  */
 
-var createMoviePerformancePreferences = __awtsmoosModule_1478.createMoviePerformancePreferences;
-var cloneMoviePerformanceProject = __awtsmoosModule_1756.cloneMoviePerformanceProject;
-var mutateMovieStudioPerformance = __awtsmoosModule_1771.mutateMovieStudioPerformance;
+var createMoviePerformancePreferences = __awtsmoosModule_1485.createMoviePerformancePreferences;
+var cloneMoviePerformanceProject = __awtsmoosModule_1783.cloneMoviePerformanceProject;
+var mutateMovieStudioPerformance = __awtsmoosModule_1798.mutateMovieStudioPerformance;
 
 function updateMovieStudioPerformancePreferences(session, changes = {}) {
 	return mutateMovieStudioPerformance(
@@ -128461,7 +130706,7 @@ function updatePreferences(project, changes) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiPerformancePreferences.js */
-__awtsmoosModule_1778 = (() => {
+__awtsmoosModule_1805 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -128474,10 +130719,10 @@ const __exports = {};
  * key, action, punch, roll, loop, voice, lens, pace, and unsupported requests truthful in rhyme.
  */
 
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
-var setMovieStudioPerformanceBindings = __awtsmoosModule_1779.setMovieStudioPerformanceBindings;
-var updateMovieStudioPerformancePreferences = __awtsmoosModule_1779.updateMovieStudioPerformancePreferences;
-var requireMovieStudioPerformanceController = __awtsmoosModule_1775.requireMovieStudioPerformanceController;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+var setMovieStudioPerformanceBindings = __awtsmoosModule_1806.setMovieStudioPerformanceBindings;
+var updateMovieStudioPerformancePreferences = __awtsmoosModule_1806.updateMovieStudioPerformancePreferences;
+var requireMovieStudioPerformanceController = __awtsmoosModule_1802.requireMovieStudioPerformanceController;
 
 const RECORDER_FIELDS = Object.freeze([
 	'activeLoop', 'countIn', 'loopCount', 'metronome', 'postRoll', 'preRoll',
@@ -128549,7 +130794,7 @@ function snapshot(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiPerformanceSchemaMethods.js */
-__awtsmoosModule_1781 = (() => {
+__awtsmoosModule_1808 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -128592,7 +130837,7 @@ __exports.MOVIE_STUDIO_PERFORMANCE_METHODS = MOVIE_STUDIO_PERFORMANCE_METHODS;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiPerformanceSchema.js */
-__awtsmoosModule_1780 = (() => {
+__awtsmoosModule_1807 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -128605,14 +130850,14 @@ const __exports = {};
  * gives actor, intent, range, loop, sample, action, camera, voice, take, and event contracts one rhyme.
  */
 
-var MOVIE_PERFORMANCE_CAMERA_MODES = __awtsmoosModule_1478.MOVIE_PERFORMANCE_CAMERA_MODES;
-var MOVIE_PERFORMANCE_LIMITS = __awtsmoosModule_1478.MOVIE_PERFORMANCE_LIMITS;
-var MOVIE_PERFORMANCE_MOVEMENT_REFERENCES = __awtsmoosModule_1478.MOVIE_PERFORMANCE_MOVEMENT_REFERENCES;
-var MOVIE_PERFORMANCE_SAMPLE_RATES = __awtsmoosModule_1478.MOVIE_PERFORMANCE_SAMPLE_RATES;
-var MOVIE_PERFORMANCE_VERSION = __awtsmoosModule_1478.MOVIE_PERFORMANCE_VERSION;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
-var MOVIE_STUDIO_PERFORMANCE_EVENTS = __awtsmoosModule_1740.MOVIE_STUDIO_PERFORMANCE_EVENTS;
-var MOVIE_STUDIO_PERFORMANCE_METHODS = __awtsmoosModule_1781.MOVIE_STUDIO_PERFORMANCE_METHODS;
+var MOVIE_PERFORMANCE_CAMERA_MODES = __awtsmoosModule_1485.MOVIE_PERFORMANCE_CAMERA_MODES;
+var MOVIE_PERFORMANCE_LIMITS = __awtsmoosModule_1485.MOVIE_PERFORMANCE_LIMITS;
+var MOVIE_PERFORMANCE_MOVEMENT_REFERENCES = __awtsmoosModule_1485.MOVIE_PERFORMANCE_MOVEMENT_REFERENCES;
+var MOVIE_PERFORMANCE_SAMPLE_RATES = __awtsmoosModule_1485.MOVIE_PERFORMANCE_SAMPLE_RATES;
+var MOVIE_PERFORMANCE_VERSION = __awtsmoosModule_1485.MOVIE_PERFORMANCE_VERSION;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+var MOVIE_STUDIO_PERFORMANCE_EVENTS = __awtsmoosModule_1763.MOVIE_STUDIO_PERFORMANCE_EVENTS;
+var MOVIE_STUDIO_PERFORMANCE_METHODS = __awtsmoosModule_1808.MOVIE_STUDIO_PERFORMANCE_METHODS;
 
 function movieStudioPerformanceSchema() {
 	return createMovieProjectSnapshot({
@@ -128656,7 +130901,7 @@ __exports.movieStudioPerformanceSchema = movieStudioPerformanceSchema;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiPerformanceTakeQuery.js */
-__awtsmoosModule_1783 = (() => {
+__awtsmoosModule_1810 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -128716,7 +130961,7 @@ function booleanNumber(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiPerformanceTakes.js */
-__awtsmoosModule_1782 = (() => {
+__awtsmoosModule_1809 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -128729,12 +130974,12 @@ const __exports = {};
  * keeps every agent mutation inside canonical project history while returned witnesses remain in rhyme.
  */
 
-var addMoviePerformanceTake = __awtsmoosModule_1763.addMoviePerformanceTake;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
-var requireMovieStudioPerformanceController = __awtsmoosModule_1775.requireMovieStudioPerformanceController;
-var queryMovieStudioPerformanceTakes = __awtsmoosModule_1783.queryMovieStudioPerformanceTakes;
-var movieStudioPerformanceMutations = __awtsmoosModule_1771.movieStudioPerformanceMutations;
-var mutateMovieStudioPerformance = __awtsmoosModule_1771.mutateMovieStudioPerformance;
+var addMoviePerformanceTake = __awtsmoosModule_1790.addMoviePerformanceTake;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+var requireMovieStudioPerformanceController = __awtsmoosModule_1802.requireMovieStudioPerformanceController;
+var queryMovieStudioPerformanceTakes = __awtsmoosModule_1810.queryMovieStudioPerformanceTakes;
+var movieStudioPerformanceMutations = __awtsmoosModule_1798.movieStudioPerformanceMutations;
+var mutateMovieStudioPerformance = __awtsmoosModule_1798.mutateMovieStudioPerformance;
 
 function createMovieStudioPerformanceTakesDomain(session) {
 	return Object.freeze({
@@ -128826,7 +131071,7 @@ function snapshot(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiPerformance.js */
-__awtsmoosModule_1752 = (() => {
+__awtsmoosModule_1779 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -128839,14 +131084,14 @@ const __exports = {};
  * gives human and autonomous director one discoverable cinematic doorway whose operations rhyme.
  */
 
-var createMovieStudioPerformanceAdvancedTakesDomain = __awtsmoosModule_1753.createMovieStudioPerformanceAdvancedTakesDomain;
-var createMovieStudioPerformanceAuthoringDomain = __awtsmoosModule_1774.createMovieStudioPerformanceAuthoringDomain;
-var createMovieStudioPerformanceControlDomain = __awtsmoosModule_1775.createMovieStudioPerformanceControlDomain;
-var createMovieStudioPerformancePathDomain = __awtsmoosModule_1777.createMovieStudioPerformancePathDomain;
-var createMovieStudioPerformancePreferencesDomain = __awtsmoosModule_1778.createMovieStudioPerformancePreferencesDomain;
-var movieStudioPerformanceSchema = __awtsmoosModule_1780.movieStudioPerformanceSchema;
-var createMovieStudioPerformanceTakesDomain = __awtsmoosModule_1782.createMovieStudioPerformanceTakesDomain;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var createMovieStudioPerformanceAdvancedTakesDomain = __awtsmoosModule_1780.createMovieStudioPerformanceAdvancedTakesDomain;
+var createMovieStudioPerformanceAuthoringDomain = __awtsmoosModule_1801.createMovieStudioPerformanceAuthoringDomain;
+var createMovieStudioPerformanceControlDomain = __awtsmoosModule_1802.createMovieStudioPerformanceControlDomain;
+var createMovieStudioPerformancePathDomain = __awtsmoosModule_1804.createMovieStudioPerformancePathDomain;
+var createMovieStudioPerformancePreferencesDomain = __awtsmoosModule_1805.createMovieStudioPerformancePreferencesDomain;
+var movieStudioPerformanceSchema = __awtsmoosModule_1807.movieStudioPerformanceSchema;
+var createMovieStudioPerformanceTakesDomain = __awtsmoosModule_1809.createMovieStudioPerformanceTakesDomain;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 function createMovieStudioPerformanceDomain(session) {
 	return Object.freeze({
@@ -128888,7 +131133,7 @@ function capabilities(session) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiPersistence.js */
-__awtsmoosModule_1784 = (() => {
+__awtsmoosModule_1811 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -128901,12 +131146,12 @@ const __exports = {};
  * restore verified records while adapter functions remain local and autosave lifecycle stays explicit.
  */
 
-var listMovieStudioPersistence = __awtsmoosModule_1642.listMovieStudioPersistence;
-var loadMovieStudioPersistence = __awtsmoosModule_1642.loadMovieStudioPersistence;
-var removeMovieStudioPersistence = __awtsmoosModule_1642.removeMovieStudioPersistence;
-var saveMovieStudioPersistence = __awtsmoosModule_1642.saveMovieStudioPersistence;
-var runMovieStudioApiAsyncOperation = __awtsmoosModule_1721.runMovieStudioApiAsyncOperation;
-var runMovieStudioApiOperation = __awtsmoosModule_1721.runMovieStudioApiOperation;
+var listMovieStudioPersistence = __awtsmoosModule_1651.listMovieStudioPersistence;
+var loadMovieStudioPersistence = __awtsmoosModule_1651.loadMovieStudioPersistence;
+var removeMovieStudioPersistence = __awtsmoosModule_1651.removeMovieStudioPersistence;
+var saveMovieStudioPersistence = __awtsmoosModule_1651.saveMovieStudioPersistence;
+var runMovieStudioApiAsyncOperation = __awtsmoosModule_1730.runMovieStudioApiAsyncOperation;
+var runMovieStudioApiOperation = __awtsmoosModule_1730.runMovieStudioApiOperation;
 
 function createMovieStudioPersistenceDomain(session) {
 	return Object.freeze({
@@ -128973,8 +131218,48 @@ function createMovieStudioPersistenceDomain(session) {
 __exports.createMovieStudioPersistenceDomain = createMovieStudioPersistenceDomain;
 return Object.freeze(__exports);
 })();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPlaybackState.js */
+__awtsmoosModule_1813 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieStudioPlaybackState.js
+ * @description Creates and publishes one immutable program-transport state contract.
+ * The Awtsmoos is beyond motion, stillness, and witness; Awtsmoos.com gives humans and
+ * agents the same finite rate, direction, frame, revision, duration, and playing truth.
+ */
+
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+
+function createMovieStudioPlaybackState(session) {
+	const rate = Number(session.playbackRate || 0);
+	return createMovieProjectSnapshot({
+		direction: Math.sign(rate),
+		duration: Number(session.project?.duration || 0),
+		fps: Number(session.project?.fps || 1),
+		playing: Boolean(session.director?.playing),
+		rate,
+		revision: Number(session.revision || 0),
+		time: Number(session.time || 0)
+	});
+}
+
+
+__exports.createMovieStudioPlaybackState = createMovieStudioPlaybackState;
+function publishMovieStudioPlaybackState(session) {
+	const state = createMovieStudioPlaybackState(session);
+	session.events?.emit('playback:state', state);
+	return state;
+}
+
+__exports.publishMovieStudioPlaybackState = publishMovieStudioPlaybackState;
+return Object.freeze(__exports);
+})();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiPlayback.js */
-__awtsmoosModule_1785 = (() => {
+__awtsmoosModule_1812 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -128982,78 +131267,69 @@ const __exports = {};
 
 /**
  * @file MovieStudioApiPlayback.js
- * @description Exposes structured play, pause, toggle, stop, and serializable playback state.
+ * @description Exposes seek, frame-step, shuttle, rate, play, pause, toggle, stop, and state.
  * The Awtsmoos renews motion and stillness without opposition; Awtsmoos.com lets agents
- * direct preview transport while every state transition remains observable and finite.
+ * direct professional preview transport while every transition remains observable and finite.
  */
 
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
-var runMovieStudioApiOperation = __awtsmoosModule_1721.runMovieStudioApiOperation;
+var createMovieStudioPlaybackState = __awtsmoosModule_1813.createMovieStudioPlaybackState;
+var runMovieStudioApiOperation = __awtsmoosModule_1730.runMovieStudioApiOperation;
 
 function createMovieStudioPlaybackDomain(session) {
 	return Object.freeze({
-		pause: options => playbackOperation(
-			session,
-			'pause',
-			options,
-			() => session.director.pause()
+		pause: options => operation(session, 'pause', options, () => session.pause()),
+		play: (payload = {}, options) => operation(
+			session, 'play', options, () => session.play(payload)
 		),
-		play: options => playbackOperation(
-			session,
-			'play',
-			options,
-			() => session.play()
+		seek: (time, options) => operation(
+			session, 'seek', options, () => session.seek(time)
 		),
-		state: () => playbackState(session),
-		stop: options => playbackOperation(
-			session,
-			'stop',
-			options,
-			() => {
-				session.director.pause();
-				session.seek(0);
-			}
+		setRate: (rate, options) => operation(
+			session, 'setRate', options, () => session.setPlaybackRate(rate)
 		),
-		toggle: options => playbackOperation(
+		shuttleLeft: options => operation(
+			session, 'shuttleLeft', options, () => session.shuttle(-1)
+		),
+		shuttleRight: options => operation(
+			session, 'shuttleRight', options, () => session.shuttle(1)
+		),
+		state: () => createMovieStudioPlaybackState(session),
+		step: (frames = 1, options) => operation(
+			session, 'step', options, () => session.stepFrames(frames)
+		),
+		stepBackward: (frames = 1, options) => operation(
+			session, 'stepBackward', options, () => session.stepFrames(-Math.abs(frames))
+		),
+		stepForward: (frames = 1, options) => operation(
+			session, 'stepForward', options, () => session.stepFrames(Math.abs(frames))
+		),
+		stop: options => operation(session, 'stop', options, () => session.stop()),
+		toggle: options => operation(
 			session,
 			'toggle',
 			options,
-			() => {
-				if (session.director.playing) session.director.pause();
-				else session.play();
-			}
+			() => session.director.playing ? session.pause() : session.play()
 		)
 	});
 }
 
 
 __exports.createMovieStudioPlaybackDomain = createMovieStudioPlaybackDomain;
-function playbackOperation(session, name, options, action) {
+function operation(session, name, options, action) {
 	return runMovieStudioApiOperation(
 		session,
 		`playback.${name}`,
 		options,
 		() => {
 			action();
-			const state = playbackState(session);
-			session.events.emit('playback:state', state);
-			return state;
+			return createMovieStudioPlaybackState(session);
 		}
 	);
-}
-
-function playbackState(session) {
-	return createMovieProjectSnapshot({
-		duration: session.project.duration,
-		playing: Boolean(session.director?.playing),
-		revision: session.revision,
-		time: session.time
-	});
 }
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiPlugins.js */
-__awtsmoosModule_1786 = (() => {
+__awtsmoosModule_1814 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -129066,7 +131342,7 @@ const __exports = {};
  * in immutable discovery and structured results while registration remains explicit and removable.
  */
 
-var runMovieStudioApiAsyncOperation = __awtsmoosModule_1721.runMovieStudioApiAsyncOperation;
+var runMovieStudioApiAsyncOperation = __awtsmoosModule_1730.runMovieStudioApiAsyncOperation;
 
 function createMovieStudioPluginsDomain(session) {
 	return Object.freeze({
@@ -129114,7 +131390,7 @@ __exports.createMovieStudioPluginsDomain = createMovieStudioPluginsDomain;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieEmptyProject.js */
-__awtsmoosModule_1788 = (() => {
+__awtsmoosModule_1816 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -129122,18 +131398,19 @@ const __exports = {};
 
 /**
  * @file MovieEmptyProject.js
- * @description Creates a valid empty Movie Studio document with editorial and performance foundations.
- * The Awtsmoos renews possibility before track, actor, lens, source mark, take, or mesh appears; Awtsmoos.com
- * gives human and agent one clean bounded beginning that passes every canonical gate in rhyme.
+ * @description Creates a valid empty Movie Studio document with composition, editorial, and performance foundations.
+ * The Awtsmoos renews possibility before composition, track, actor, lens, source mark, take, or mesh appears;
+ * Awtsmoos.com gives human and agent one clean bounded beginning that passes every canonical gate.
  */
 
-var emptyMoviePerformance = __awtsmoosModule_1475.emptyMoviePerformance;
+var emptyMoviePerformance = __awtsmoosModule_1482.emptyMoviePerformance;
 
 function createEmptyMovieProject(options = {}) {
 	return {
 		authoring3d: emptyAuthoring3d(),
 		cameraRigs: [],
 		characters: [],
+		compositions: [],
 		duration: bounded(options.duration, 0.1, 900, 30),
 		fps: bounded(options.fps, 1, 120, 30),
 		graphs: [],
@@ -129193,7 +131470,7 @@ function bounded(value, minimum, maximum, fallback) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProjectQueryContract.js */
-__awtsmoosModule_1790 = (() => {
+__awtsmoosModule_1818 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -129206,9 +131483,9 @@ const __exports = {};
  * finite query explicit so agents cannot turn discovery into unbounded traversal or mutation.
  */
 
-var canonicalMovieValue = __awtsmoosModule_1472.canonicalMovieValue;
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var canonicalMovieValue = __awtsmoosModule_1474.canonicalMovieValue;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 const MAX_QUERY_RESULTS = 500;
 const ENTITY_TYPES = new Set(['all', 'clip', 'track']);
@@ -129265,7 +131542,7 @@ function optionalString(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProjectQuery.js */
-__awtsmoosModule_1789 = (() => {
+__awtsmoosModule_1817 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -129278,8 +131555,8 @@ const __exports = {};
  * finite agents receive stable metadata while sibling clips and mutable project objects remain hidden.
  */
 
-var normalizeMovieProjectQuery = __awtsmoosModule_1790.normalizeMovieProjectQuery;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var normalizeMovieProjectQuery = __awtsmoosModule_1818.normalizeMovieProjectQuery;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 function queryMovieProject(project, source = {}) {
 	const query = normalizeMovieProjectQuery(source);
@@ -129363,7 +131640,7 @@ function movieSearchableText(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProjectReferences.js */
-__awtsmoosModule_1791 = (() => {
+__awtsmoosModule_1819 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -129376,10 +131653,10 @@ const __exports = {};
  * agents inspect finite dependency paths without mistaking labels, types, or coincidental text for identity.
  */
 
-var canonicalMovieValue = __awtsmoosModule_1472.canonicalMovieValue;
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var encodeMovieJsonPointer = __awtsmoosModule_1748.encodeMovieJsonPointer;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var canonicalMovieValue = __awtsmoosModule_1474.canonicalMovieValue;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var encodeMovieJsonPointer = __awtsmoosModule_1775.encodeMovieJsonPointer;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 const MAX_REFERENCE_RESULTS = 1000;
 const MAX_REFERENCE_DEPTH = 64;
@@ -129465,7 +131742,7 @@ function movieReferencePathCarriesIdentity(path) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiProject.js */
-__awtsmoosModule_1787 = (() => {
+__awtsmoosModule_1815 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -129473,24 +131750,25 @@ const __exports = {};
 
 /**
  * @file MovieStudioApiProject.js
- * @description Exposes immutable project data plus empty creation, compile, envelope, query, import, and replace operations.
+ * @description Exposes immutable project data, preflight, empty creation, compile, query, import, and replace operations.
  * The Awtsmoos renews living project beyond every public witness; Awtsmoos.com lets agents
- * inspect, begin empty, and mutate through one revision-guarded canonical gate.
+ * inspect, gate delivery, begin empty, and mutate through one revision-guarded canonical path.
  */
 
-var MOVIE_PROJECT_SCHEMA_VERSION = __awtsmoosModule_1644.MOVIE_PROJECT_SCHEMA_VERSION;
-var createEmptyMovieProject = __awtsmoosModule_1788.createEmptyMovieProject;
-var createMovieProjectEnvelope = __awtsmoosModule_1645.createMovieProjectEnvelope;
-var parseMovieProjectEnvelope = __awtsmoosModule_1645.parseMovieProjectEnvelope;
-var serializeMovieProjectEnvelope = __awtsmoosModule_1645.serializeMovieProjectEnvelope;
-var queryMovieProject = __awtsmoosModule_1789.queryMovieProject;
-var findMovieProjectReferences = __awtsmoosModule_1791.findMovieProjectReferences;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
-var runMovieStudioApiOperation = __awtsmoosModule_1721.runMovieStudioApiOperation;
-var compileMovieProjectSnapshot = __awtsmoosModule_1751.compileMovieProjectSnapshot;
-var createMovieProjectDomainProxy = __awtsmoosModule_1751.createMovieProjectDomainProxy;
-var replaceMovieStudioProject = __awtsmoosModule_1751.replaceMovieStudioProject;
-var validateMovieProjectSnapshot = __awtsmoosModule_1751.validateMovieProjectSnapshot;
+var MOVIE_PROJECT_SCHEMA_VERSION = __awtsmoosModule_1653.MOVIE_PROJECT_SCHEMA_VERSION;
+var createEmptyMovieProject = __awtsmoosModule_1816.createEmptyMovieProject;
+var createMovieProjectEnvelope = __awtsmoosModule_1654.createMovieProjectEnvelope;
+var parseMovieProjectEnvelope = __awtsmoosModule_1654.parseMovieProjectEnvelope;
+var serializeMovieProjectEnvelope = __awtsmoosModule_1654.serializeMovieProjectEnvelope;
+var createMovieProjectPreflight = __awtsmoosModule_1771.createMovieProjectPreflight;
+var queryMovieProject = __awtsmoosModule_1817.queryMovieProject;
+var findMovieProjectReferences = __awtsmoosModule_1819.findMovieProjectReferences;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+var runMovieStudioApiOperation = __awtsmoosModule_1730.runMovieStudioApiOperation;
+var compileMovieProjectSnapshot = __awtsmoosModule_1778.compileMovieProjectSnapshot;
+var createMovieProjectDomainProxy = __awtsmoosModule_1778.createMovieProjectDomainProxy;
+var replaceMovieStudioProject = __awtsmoosModule_1778.replaceMovieStudioProject;
+var validateMovieProjectSnapshot = __awtsmoosModule_1778.validateMovieProjectSnapshot;
 
 function createMovieStudioProjectDomain(session) {
 	const domain = {
@@ -129505,6 +131783,7 @@ function createMovieStudioProjectDomain(session) {
 		import: (source, options = {}) => operation(session, 'project.import', options, () => replaceMovieStudioProject(
 			session, parseMovieProjectEnvelope(source).project, options.label || 'Import movie project'
 		)),
+		preflight: () => createMovieProjectPreflight(session.project),
 		query: source => queryMovieProject(session.project, source),
 		references: (id, options) => findMovieProjectReferences(session.project, id, options),
 		replace: (source, options = {}) => operation(session, 'project.replace', options, () => replaceMovieStudioProject(
@@ -129532,7 +131811,7 @@ function operation(session, name, options, action) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiRenderJobs.js */
-__awtsmoosModule_1792 = (() => {
+__awtsmoosModule_1820 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -129545,8 +131824,8 @@ const __exports = {};
  * gives agents immutable job receipts while local executors and abort controllers remain private.
  */
 
-var runMovieStudioApiAsyncOperation = __awtsmoosModule_1721.runMovieStudioApiAsyncOperation;
-var runMovieStudioApiOperation = __awtsmoosModule_1721.runMovieStudioApiOperation;
+var runMovieStudioApiAsyncOperation = __awtsmoosModule_1730.runMovieStudioApiAsyncOperation;
+var runMovieStudioApiOperation = __awtsmoosModule_1730.runMovieStudioApiOperation;
 
 function createMovieStudioRenderJobsDomain(session) {
 	return Object.freeze({
@@ -129580,7 +131859,7 @@ __exports.createMovieStudioRenderJobsDomain = createMovieStudioRenderJobsDomain;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiRuntimeAdapters.js */
-__awtsmoosModule_1793 = (() => {
+__awtsmoosModule_1821 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -129593,8 +131872,8 @@ const __exports = {};
  * inspect declared methods while immutable events announce each bounded lifecycle revelation.
  */
 
-var runMovieStudioApiAsyncOperation = __awtsmoosModule_1721.runMovieStudioApiAsyncOperation;
-var runMovieStudioApiOperation = __awtsmoosModule_1721.runMovieStudioApiOperation;
+var runMovieStudioApiAsyncOperation = __awtsmoosModule_1730.runMovieStudioApiAsyncOperation;
+var runMovieStudioApiOperation = __awtsmoosModule_1730.runMovieStudioApiOperation;
 
 function createMovieStudioRuntimeAdaptersDomain(session) {
 	return Object.freeze({
@@ -129666,7 +131945,7 @@ function unregisterMovieRuntimeAdapter(session, adapterId) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieScene3dProject.js */
-__awtsmoosModule_1795 = (() => {
+__awtsmoosModule_1823 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -129771,7 +132050,7 @@ function vertexKey(meshIndex, vertexIndex) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieScene3dRuntime.js */
-__awtsmoosModule_1796 = (() => {
+__awtsmoosModule_1824 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -129784,13 +132063,13 @@ const __exports = {};
  * gives position, rotation, scale, mesh, and vertex edits one truthful runtime covenant.
  */
 
-var collectTargetMeshes = __awtsmoosModule_1566.collectTargetMeshes;
-var resolveMovieAuthoring3dTarget = __awtsmoosModule_1566.resolveMovieAuthoring3dTarget;
-var movieScene3dIndex = __awtsmoosModule_1579.movieScene3dIndex;
-var movieScene3dQuaternionToEuler = __awtsmoosModule_1579.movieScene3dQuaternionToEuler;
-var movieScene3dVector = __awtsmoosModule_1579.movieScene3dVector;
-var movieScene3dVectorSnapshot = __awtsmoosModule_1579.movieScene3dVectorSnapshot;
-var setMovieScene3dQuaternionFromEuler = __awtsmoosModule_1579.setMovieScene3dQuaternionFromEuler;
+var collectTargetMeshes = __awtsmoosModule_1573.collectTargetMeshes;
+var resolveMovieAuthoring3dTarget = __awtsmoosModule_1573.resolveMovieAuthoring3dTarget;
+var movieScene3dIndex = __awtsmoosModule_1586.movieScene3dIndex;
+var movieScene3dQuaternionToEuler = __awtsmoosModule_1586.movieScene3dQuaternionToEuler;
+var movieScene3dVector = __awtsmoosModule_1586.movieScene3dVector;
+var movieScene3dVectorSnapshot = __awtsmoosModule_1586.movieScene3dVectorSnapshot;
+var setMovieScene3dQuaternionFromEuler = __awtsmoosModule_1586.setMovieScene3dQuaternionFromEuler;
 
 function movieScene3dState(session) {
 	session.scene3dState ||= {
@@ -129912,7 +132191,7 @@ __exports.moveMovieScene3dVertices = moveMovieScene3dVertices;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiScene3d.js */
-__awtsmoosModule_1794 = (() => {
+__awtsmoosModule_1822 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -129924,14 +132203,14 @@ const __exports = {};
  * The Awtsmoos renews hand, history, and agent through one document truth; Awtsmoos.com lets
  * manual controls and scripts move the same object and vertices with autosave, export, undo, and redo.
  */
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
-var moveMovieScene3dProjectVertices = __awtsmoosModule_1795.moveMovieScene3dProjectVertices;
-var setMovieScene3dProjectTransform = __awtsmoosModule_1795.setMovieScene3dProjectTransform;
-var setMovieScene3dProjectVertices = __awtsmoosModule_1795.setMovieScene3dProjectVertices;
-var movieScene3dModels = __awtsmoosModule_1796.movieScene3dModels;
-var movieScene3dObjectSnapshot = __awtsmoosModule_1796.movieScene3dObjectSnapshot;
-var movieScene3dState = __awtsmoosModule_1796.movieScene3dState;
-var movieScene3dVertices = __awtsmoosModule_1796.movieScene3dVertices;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+var moveMovieScene3dProjectVertices = __awtsmoosModule_1823.moveMovieScene3dProjectVertices;
+var setMovieScene3dProjectTransform = __awtsmoosModule_1823.setMovieScene3dProjectTransform;
+var setMovieScene3dProjectVertices = __awtsmoosModule_1823.setMovieScene3dProjectVertices;
+var movieScene3dModels = __awtsmoosModule_1824.movieScene3dModels;
+var movieScene3dObjectSnapshot = __awtsmoosModule_1824.movieScene3dObjectSnapshot;
+var movieScene3dState = __awtsmoosModule_1824.movieScene3dState;
+var movieScene3dVertices = __awtsmoosModule_1824.movieScene3dVertices;
 
 function createMovieStudioScene3dDomain(session) {
 	return Object.freeze({
@@ -130014,7 +132293,7 @@ function snapshot(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiSchema.js */
-__awtsmoosModule_1797 = (() => {
+__awtsmoosModule_1825 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -130027,10 +132306,10 @@ const __exports = {};
  * inspect pure finite migration results while executable handlers remain local and explicit.
  */
 
-var MOVIE_PROJECT_SCHEMA_VERSION = __awtsmoosModule_1644.MOVIE_PROJECT_SCHEMA_VERSION;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
-var runMovieStudioApiOperation = __awtsmoosModule_1721.runMovieStudioApiOperation;
-var validateMovieProjectSnapshot = __awtsmoosModule_1751.validateMovieProjectSnapshot;
+var MOVIE_PROJECT_SCHEMA_VERSION = __awtsmoosModule_1653.MOVIE_PROJECT_SCHEMA_VERSION;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+var runMovieStudioApiOperation = __awtsmoosModule_1730.runMovieStudioApiOperation;
+var validateMovieProjectSnapshot = __awtsmoosModule_1778.validateMovieProjectSnapshot;
 
 function createMovieStudioSchemaDomain(session) {
 	return Object.freeze({
@@ -130070,7 +132349,7 @@ function applyMigration(session, source, options) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiSelection.js */
-__awtsmoosModule_1798 = (() => {
+__awtsmoosModule_1826 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -130083,9 +132362,9 @@ const __exports = {};
  * lets desktop, mobile, human, and agent share immutable selected identities outside project history.
  */
 
-var queryMovieProject = __awtsmoosModule_1789.queryMovieProject;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
-var runMovieStudioApiOperation = __awtsmoosModule_1721.runMovieStudioApiOperation;
+var queryMovieProject = __awtsmoosModule_1817.queryMovieProject;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+var runMovieStudioApiOperation = __awtsmoosModule_1730.runMovieStudioApiOperation;
 
 function createMovieStudioSelectionDomain(session) {
 	return Object.freeze({
@@ -130177,7 +132456,7 @@ function selectionState(session) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiText.js */
-__awtsmoosModule_1799 = (() => {
+__awtsmoosModule_1827 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -130190,8 +132469,8 @@ const __exports = {};
  * Awtsmoos.com gives agents and humans one domain for authored text, interchange, timing, and style business.
  */
 
-var serializeMovieCaptions = __awtsmoosModule_1707.serializeMovieCaptions;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var serializeMovieCaptions = __awtsmoosModule_1716.serializeMovieCaptions;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 function createMovieStudioTextDomain(session, commands) {
 	return Object.freeze({
@@ -130277,7 +132556,7 @@ function execute(commands, type, payload, options) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiTimeline.js */
-__awtsmoosModule_1800 = (() => {
+__awtsmoosModule_1828 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -130290,9 +132569,9 @@ const __exports = {};
  * agents navigate finite time and select professional tools while authored revision remains neutral.
  */
 
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
-var runMovieStudioApiOperation = __awtsmoosModule_1721.runMovieStudioApiOperation;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+var runMovieStudioApiOperation = __awtsmoosModule_1730.runMovieStudioApiOperation;
 
 function createMovieStudioTimelineDomain(session, commandsDomain) {
 	return Object.freeze({
@@ -130386,7 +132665,7 @@ function timelineState(session) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApiUi.js */
-__awtsmoosModule_1801 = (() => {
+__awtsmoosModule_1829 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -130399,7 +132678,7 @@ const __exports = {};
  * revision-neutral interface control whose bounded values persist outside canonical movie history.
  */
 
-var runMovieStudioApiOperation = __awtsmoosModule_1721.runMovieStudioApiOperation;
+var runMovieStudioApiOperation = __awtsmoosModule_1730.runMovieStudioApiOperation;
 
 function createMovieStudioUiDomain(session) {
 	return Object.freeze({
@@ -130463,7 +132742,7 @@ function setPreferences(session, value, operation, options) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioApi.js */
-__awtsmoosModule_1667 = (() => {
+__awtsmoosModule_1676 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -130471,40 +132750,42 @@ const __exports = {};
 
 /**
  * @file MovieStudioApi.js
- * @description Creates one stable facade over project, agents, media, text, performance, jobs, instances, and UI.
+ * @description Creates one stable facade over project, compositions, agents, media, performance, jobs, and UI.
  * The Awtsmoos renews every project and service while identity remains beyond replacement;
  * Awtsmoos.com gives old callers familiar doors and agents immutable contracts for the complete studio.
  */
 
-var MOVIE_AGENT_MANIFEST_VERSION = __awtsmoosModule_1644.MOVIE_AGENT_MANIFEST_VERSION;
-var MOVIE_API_CAPABILITIES = __awtsmoosModule_1644.MOVIE_API_CAPABILITIES;
-var MOVIE_API_VERSION = __awtsmoosModule_1644.MOVIE_API_VERSION;
-var MOVIE_PROJECT_SCHEMA_VERSION = __awtsmoosModule_1644.MOVIE_PROJECT_SCHEMA_VERSION;
-var createMovieStudioAgentDomain = __awtsmoosModule_1668.createMovieStudioAgentDomain;
-var createMovieStudioAuthoring3dDomain = __awtsmoosModule_1723.createMovieStudioAuthoring3dDomain;
-var addMovieStudioCompatibilityApi = __awtsmoosModule_1724.addMovieStudioCompatibilityApi;
-var createUnsafeMovieStudioApi = __awtsmoosModule_1724.createUnsafeMovieStudioApi;
-var createMovieStudioCommandsDomain = __awtsmoosModule_1725.createMovieStudioCommandsDomain;
-var createMovieStudioDiagnosticsDomain = __awtsmoosModule_1736.createMovieStudioDiagnosticsDomain;
-var createMovieStudioEventsDomain = __awtsmoosModule_1738.createMovieStudioEventsDomain;
-var createMovieStudioHistoryDomain = __awtsmoosModule_1741.createMovieStudioHistoryDomain;
-var createMovieStudioInstancesDomain = __awtsmoosModule_1742.createMovieStudioInstancesDomain;
-var createMovieStudioMediaDomain = __awtsmoosModule_1743.createMovieStudioMediaDomain;
-var createMovieStudioPatchDomain = __awtsmoosModule_1746.createMovieStudioPatchDomain;
-var createMovieStudioPerformanceDomain = __awtsmoosModule_1752.createMovieStudioPerformanceDomain;
-var createMovieStudioPersistenceDomain = __awtsmoosModule_1784.createMovieStudioPersistenceDomain;
-var createMovieStudioPlaybackDomain = __awtsmoosModule_1785.createMovieStudioPlaybackDomain;
-var createMovieStudioPluginsDomain = __awtsmoosModule_1786.createMovieStudioPluginsDomain;
-var createMovieStudioProjectDomain = __awtsmoosModule_1787.createMovieStudioProjectDomain;
-var createMovieStudioRenderJobsDomain = __awtsmoosModule_1792.createMovieStudioRenderJobsDomain;
-var createMovieStudioRuntimeAdaptersDomain = __awtsmoosModule_1793.createMovieStudioRuntimeAdaptersDomain;
-var createMovieStudioScene3dDomain = __awtsmoosModule_1794.createMovieStudioScene3dDomain;
-var createMovieStudioSchemaDomain = __awtsmoosModule_1797.createMovieStudioSchemaDomain;
-var createMovieStudioSelectionDomain = __awtsmoosModule_1798.createMovieStudioSelectionDomain;
-var createMovieStudioTextDomain = __awtsmoosModule_1799.createMovieStudioTextDomain;
-var createMovieStudioTimelineDomain = __awtsmoosModule_1800.createMovieStudioTimelineDomain;
-var createMovieStudioUiDomain = __awtsmoosModule_1801.createMovieStudioUiDomain;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var MOVIE_AGENT_MANIFEST_VERSION = __awtsmoosModule_1653.MOVIE_AGENT_MANIFEST_VERSION;
+var MOVIE_API_CAPABILITIES = __awtsmoosModule_1653.MOVIE_API_CAPABILITIES;
+var MOVIE_API_VERSION = __awtsmoosModule_1653.MOVIE_API_VERSION;
+var MOVIE_PROJECT_SCHEMA_VERSION = __awtsmoosModule_1653.MOVIE_PROJECT_SCHEMA_VERSION;
+var createMovieStudioAgentDomain = __awtsmoosModule_1677.createMovieStudioAgentDomain;
+var createMovieStudioAuthoring3dDomain = __awtsmoosModule_1732.createMovieStudioAuthoring3dDomain;
+var addMovieStudioCompatibilityApi = __awtsmoosModule_1733.addMovieStudioCompatibilityApi;
+var createUnsafeMovieStudioApi = __awtsmoosModule_1733.createUnsafeMovieStudioApi;
+var createMovieStudioCommandsDomain = __awtsmoosModule_1734.createMovieStudioCommandsDomain;
+var createMovieStudioCompositionsDomain = __awtsmoosModule_1745.createMovieStudioCompositionsDomain;
+var createMovieStudioCreativeCapabilitiesDomain = __awtsmoosModule_1754.createMovieStudioCreativeCapabilitiesDomain;
+var createMovieStudioDiagnosticsDomain = __awtsmoosModule_1759.createMovieStudioDiagnosticsDomain;
+var createMovieStudioEventsDomain = __awtsmoosModule_1761.createMovieStudioEventsDomain;
+var createMovieStudioHistoryDomain = __awtsmoosModule_1764.createMovieStudioHistoryDomain;
+var createMovieStudioInstancesDomain = __awtsmoosModule_1765.createMovieStudioInstancesDomain;
+var createMovieStudioMediaDomain = __awtsmoosModule_1766.createMovieStudioMediaDomain;
+var createMovieStudioPatchDomain = __awtsmoosModule_1773.createMovieStudioPatchDomain;
+var createMovieStudioPerformanceDomain = __awtsmoosModule_1779.createMovieStudioPerformanceDomain;
+var createMovieStudioPersistenceDomain = __awtsmoosModule_1811.createMovieStudioPersistenceDomain;
+var createMovieStudioPlaybackDomain = __awtsmoosModule_1812.createMovieStudioPlaybackDomain;
+var createMovieStudioPluginsDomain = __awtsmoosModule_1814.createMovieStudioPluginsDomain;
+var createMovieStudioProjectDomain = __awtsmoosModule_1815.createMovieStudioProjectDomain;
+var createMovieStudioRenderJobsDomain = __awtsmoosModule_1820.createMovieStudioRenderJobsDomain;
+var createMovieStudioRuntimeAdaptersDomain = __awtsmoosModule_1821.createMovieStudioRuntimeAdaptersDomain;
+var createMovieStudioScene3dDomain = __awtsmoosModule_1822.createMovieStudioScene3dDomain;
+var createMovieStudioSchemaDomain = __awtsmoosModule_1825.createMovieStudioSchemaDomain;
+var createMovieStudioSelectionDomain = __awtsmoosModule_1826.createMovieStudioSelectionDomain;
+var createMovieStudioTextDomain = __awtsmoosModule_1827.createMovieStudioTextDomain;
+var createMovieStudioTimelineDomain = __awtsmoosModule_1828.createMovieStudioTimelineDomain;
+var createMovieStudioUiDomain = __awtsmoosModule_1829.createMovieStudioUiDomain;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 function createMovieStudioApi(session) {
 	const commands = createMovieStudioCommandsDomain(session);
@@ -130515,6 +132796,8 @@ function createMovieStudioApi(session) {
 		authoring3d: createMovieStudioAuthoring3dDomain(session),
 		capabilities: createMovieProjectSnapshot(MOVIE_API_CAPABILITIES),
 		commands,
+		compositions: createMovieStudioCompositionsDomain(session),
+		creativeCapabilities: createMovieStudioCreativeCapabilitiesDomain(),
 		diagnostics: createMovieStudioDiagnosticsDomain(session),
 		events: createMovieStudioEventsDomain(session),
 		history: createMovieStudioHistoryDomain(session, commands),
@@ -130562,7 +132845,7 @@ __exports.publishMovieStudioApi = publishMovieStudioApi;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioCommandState.js */
-__awtsmoosModule_1803 = (() => {
+__awtsmoosModule_1831 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -130575,7 +132858,7 @@ const __exports = {};
  * history, selection, snapping, timeline tool, and project revision independently truthful.
  */
 
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 function createMovieStudioCommandState(controller) {
 	const selectionSet = controller.selectionSet || {
@@ -130616,7 +132899,7 @@ function canUndo(controller) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioCommandExecution.js */
-__awtsmoosModule_1804 = (() => {
+__awtsmoosModule_1832 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -130629,10 +132912,10 @@ const __exports = {};
  * project mutation in history while navigation and creative tool state remain neutral and clear.
  */
 
-var commitMovieStudioResult = __awtsmoosModule_1734.commitMovieStudioResult;
-var executeMovieStudioProjectCommand = __awtsmoosModule_1682.executeMovieStudioProjectCommand;
-var movieTimelineToolDefinition = __awtsmoosModule_1538.movieTimelineToolDefinition;
-var normalizeMovieTimelineTool = __awtsmoosModule_1538.normalizeMovieTimelineTool;
+var commitMovieStudioResult = __awtsmoosModule_1743.commitMovieStudioResult;
+var executeMovieStudioProjectCommand = __awtsmoosModule_1691.executeMovieStudioProjectCommand;
+var movieTimelineToolDefinition = __awtsmoosModule_1545.movieTimelineToolDefinition;
+var normalizeMovieTimelineTool = __awtsmoosModule_1545.normalizeMovieTimelineTool;
 
 function executeMovieStudioCommand(controller, name, payload = {}) {
 	if (name === 'undo') return controller.undo();
@@ -130696,7 +132979,7 @@ __exports.setMovieStudioTimelineTool = setMovieStudioTimelineTool;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioEditTransactions.js */
-__awtsmoosModule_1805 = (() => {
+__awtsmoosModule_1833 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -130709,10 +132992,10 @@ const __exports = {};
  * Awtsmoos.com reconstructs the departing clip while every surrounding selected identity remains known.
  */
 
-var commitMovieStudioResult = __awtsmoosModule_1734.commitMovieStudioResult;
-var cloneMovieProject = __awtsmoosModule_1682.cloneMovieProject;
-var previousMovieProjectWithClip = __awtsmoosModule_1682.previousMovieProjectWithClip;
-var movieSelectionDescriptor = __awtsmoosModule_1533.movieSelectionDescriptor;
+var commitMovieStudioResult = __awtsmoosModule_1743.commitMovieStudioResult;
+var cloneMovieProject = __awtsmoosModule_1691.cloneMovieProject;
+var previousMovieProjectWithClip = __awtsmoosModule_1691.previousMovieProjectWithClip;
+var movieSelectionDescriptor = __awtsmoosModule_1540.movieSelectionDescriptor;
 
 function commitMovieTimelineEdit(controller, value) {
 	controller.session.view.setProject(controller.session.project);
@@ -130750,7 +133033,7 @@ __exports.commitMovieTransformEdit = commitMovieTransformEdit;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProjectHistory.js */
-__awtsmoosModule_1806 = (() => {
+__awtsmoosModule_1834 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -130839,7 +133122,7 @@ function clone(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioSelectionController.js */
-__awtsmoosModule_1807 = (() => {
+__awtsmoosModule_1835 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -130852,13 +133135,13 @@ const __exports = {};
  * stable identities, visible focus, mobile actions, and agent state united without project mutation.
  */
 
-var movieSelectionDescriptor = __awtsmoosModule_1533.movieSelectionDescriptor;
-var resolveMovieSelection = __awtsmoosModule_1533.resolveMovieSelection;
-var createEmptyMovieSelectionSet = __awtsmoosModule_1532.createEmptyMovieSelectionSet;
-var normalizeMovieSelectionSet = __awtsmoosModule_1532.normalizeMovieSelectionSet;
-var replaceMovieSelectionItems = __awtsmoosModule_1535.replaceMovieSelectionItems;
-var setMovieSelectionRange = __awtsmoosModule_1535.setMovieSelectionRange;
-var updateMovieSelectionSet = __awtsmoosModule_1535.updateMovieSelectionSet;
+var movieSelectionDescriptor = __awtsmoosModule_1540.movieSelectionDescriptor;
+var resolveMovieSelection = __awtsmoosModule_1540.resolveMovieSelection;
+var createEmptyMovieSelectionSet = __awtsmoosModule_1539.createEmptyMovieSelectionSet;
+var normalizeMovieSelectionSet = __awtsmoosModule_1539.normalizeMovieSelectionSet;
+var replaceMovieSelectionItems = __awtsmoosModule_1542.replaceMovieSelectionItems;
+var setMovieSelectionRange = __awtsmoosModule_1542.setMovieSelectionRange;
+var updateMovieSelectionSet = __awtsmoosModule_1542.updateMovieSelectionSet;
 
 class MovieStudioSelectionController {
 	constructor(session) {
@@ -130941,7 +133224,7 @@ __exports.MovieStudioSelectionController = MovieStudioSelectionController;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioCommands.js */
-__awtsmoosModule_1802 = (() => {
+__awtsmoosModule_1830 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -130954,14 +133237,14 @@ const __exports = {};
  * separates machine execution, human status, history, and selection without duplicating command truth.
  */
 
-var commitMovieStudioResult = __awtsmoosModule_1734.commitMovieStudioResult;
-var restoreMovieStudioHistory = __awtsmoosModule_1734.restoreMovieStudioHistory;
-var createMovieStudioCommandState = __awtsmoosModule_1803.createMovieStudioCommandState;
-var executeMovieStudioCommand = __awtsmoosModule_1804.executeMovieStudioCommand;
-var commitMovieTimelineEdit = __awtsmoosModule_1805.commitMovieTimelineEdit;
-var commitMovieTransformEdit = __awtsmoosModule_1805.commitMovieTransformEdit;
-var MovieProjectHistory = __awtsmoosModule_1806.MovieProjectHistory;
-var MovieStudioSelectionController = __awtsmoosModule_1807.MovieStudioSelectionController;
+var commitMovieStudioResult = __awtsmoosModule_1743.commitMovieStudioResult;
+var restoreMovieStudioHistory = __awtsmoosModule_1743.restoreMovieStudioHistory;
+var createMovieStudioCommandState = __awtsmoosModule_1831.createMovieStudioCommandState;
+var executeMovieStudioCommand = __awtsmoosModule_1832.executeMovieStudioCommand;
+var commitMovieTimelineEdit = __awtsmoosModule_1833.commitMovieTimelineEdit;
+var commitMovieTransformEdit = __awtsmoosModule_1833.commitMovieTransformEdit;
+var MovieProjectHistory = __awtsmoosModule_1834.MovieProjectHistory;
+var MovieStudioSelectionController = __awtsmoosModule_1835.MovieStudioSelectionController;
 
 class MovieStudioCommands {
 	constructor(session) {
@@ -131062,7 +133345,7 @@ __exports.MovieStudioCommands = MovieStudioCommands;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioInstanceRegistry.js */
-__awtsmoosModule_1808 = (() => {
+__awtsmoosModule_1836 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -131075,9 +133358,9 @@ const __exports = {};
  * finite studios coexist while only one active convenience alias points to a trusted local API.
  */
 
-var MovieApiError = __awtsmoosModule_1470.MovieApiError;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
-var createMovieRuntimeId = __awtsmoosModule_1664.createMovieRuntimeId;
+var MovieApiError = __awtsmoosModule_1472.MovieApiError;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+var createMovieRuntimeId = __awtsmoosModule_1673.createMovieRuntimeId;
 
 class MovieStudioInstanceRegistry {
 	constructor() {
@@ -131189,7 +133472,7 @@ function instanceMetadata(session, activeId) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPreferenceStorage.js */
-__awtsmoosModule_1810 = (() => {
+__awtsmoosModule_1838 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -131202,10 +133485,10 @@ const __exports = {};
  * the browser permits it and remain fully usable when privacy, sandbox, or quota refuses storage.
  */
 
-var stringifyCanonicalMovieJson = __awtsmoosModule_1472.stringifyCanonicalMovieJson;
-var DEFAULT_MOVIE_STUDIO_PREFERENCES = __awtsmoosModule_1646.DEFAULT_MOVIE_STUDIO_PREFERENCES;
-var MOVIE_STUDIO_PREFERENCE_STORAGE_KEY = __awtsmoosModule_1646.MOVIE_STUDIO_PREFERENCE_STORAGE_KEY;
-var normalizeMovieStudioPreferences = __awtsmoosModule_1646.normalizeMovieStudioPreferences;
+var stringifyCanonicalMovieJson = __awtsmoosModule_1474.stringifyCanonicalMovieJson;
+var DEFAULT_MOVIE_STUDIO_PREFERENCES = __awtsmoosModule_1655.DEFAULT_MOVIE_STUDIO_PREFERENCES;
+var MOVIE_STUDIO_PREFERENCE_STORAGE_KEY = __awtsmoosModule_1655.MOVIE_STUDIO_PREFERENCE_STORAGE_KEY;
+var normalizeMovieStudioPreferences = __awtsmoosModule_1655.normalizeMovieStudioPreferences;
 
 function resolveMovieStudioPreferenceStorage() {
 	try {
@@ -131250,7 +133533,7 @@ __exports.saveMovieStudioPreferences = saveMovieStudioPreferences;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPreferences.js */
-__awtsmoosModule_1809 = (() => {
+__awtsmoosModule_1837 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -131263,15 +133546,15 @@ const __exports = {};
  * density, theme, overlay, and zoom choices survive safely outside project history.
  */
 
-var parseCanonicalMovieJson = __awtsmoosModule_1472.parseCanonicalMovieJson;
-var stringifyCanonicalMovieJson = __awtsmoosModule_1472.stringifyCanonicalMovieJson;
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
-var DEFAULT_MOVIE_STUDIO_PREFERENCES = __awtsmoosModule_1646.DEFAULT_MOVIE_STUDIO_PREFERENCES;
-var normalizeMovieStudioPreferences = __awtsmoosModule_1646.normalizeMovieStudioPreferences;
-var validateMovieStudioOverlayName = __awtsmoosModule_1646.validateMovieStudioOverlayName;
-var loadMovieStudioPreferences = __awtsmoosModule_1810.loadMovieStudioPreferences;
-var resolveMovieStudioPreferenceStorage = __awtsmoosModule_1810.resolveMovieStudioPreferenceStorage;
-var saveMovieStudioPreferences = __awtsmoosModule_1810.saveMovieStudioPreferences;
+var parseCanonicalMovieJson = __awtsmoosModule_1474.parseCanonicalMovieJson;
+var stringifyCanonicalMovieJson = __awtsmoosModule_1474.stringifyCanonicalMovieJson;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
+var DEFAULT_MOVIE_STUDIO_PREFERENCES = __awtsmoosModule_1655.DEFAULT_MOVIE_STUDIO_PREFERENCES;
+var normalizeMovieStudioPreferences = __awtsmoosModule_1655.normalizeMovieStudioPreferences;
+var validateMovieStudioOverlayName = __awtsmoosModule_1655.validateMovieStudioOverlayName;
+var loadMovieStudioPreferences = __awtsmoosModule_1838.loadMovieStudioPreferences;
+var resolveMovieStudioPreferenceStorage = __awtsmoosModule_1838.resolveMovieStudioPreferenceStorage;
+var saveMovieStudioPreferences = __awtsmoosModule_1838.saveMovieStudioPreferences;
 
 class MovieStudioPreferences {
 	constructor(root, events, storage = resolveMovieStudioPreferenceStorage()) {
@@ -131351,7 +133634,7 @@ function overlayClass(name) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieRenderResult.js */
-__awtsmoosModule_1812 = (() => {
+__awtsmoosModule_1840 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -131364,7 +133647,7 @@ const __exports = {};
  * Awtsmoos.com preserves names, sizes, types, hashes, and finite fields while refusing executable values.
  */
 
-var canonicalMovieValue = __awtsmoosModule_1472.canonicalMovieValue;
+var canonicalMovieValue = __awtsmoosModule_1474.canonicalMovieValue;
 
 function serializeMovieRenderResult(result) {
 	if (result == null) return null;
@@ -131394,8 +133677,296 @@ function blobSummary(blob) {
 }
 return Object.freeze(__exports);
 })();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieMediaJobBatch.js */
+__awtsmoosModule_1842 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieMediaJobBatch.js
+ * @description Runs ordered media work with bounded concurrency, progress, and cancellation.
+ * The Awtsmoos renews every apparent parallel act from one source; Awtsmoos.com lets
+ * catalogs move swiftly while finite memory, ordering, progress, and abort truth remain bounded.
+ */
+
+async function runMovieMediaJobBatch(items, worker, options = {}) {
+	const source = [...(items || [])];
+	const concurrency = Math.max(1, Math.min(16, Number(options.concurrency || 4)));
+	const results = new Array(source.length);
+	let cursor = 0;
+	let completed = 0;
+	const run = async () => {
+		while (cursor < source.length) {
+			throwIfAborted(options.signal);
+			const index = cursor++;
+			results[index] = await worker(source[index], index);
+			completed += 1;
+			options.onProgress?.(completed / Math.max(1, source.length));
+		}
+	};
+	await Promise.all(Array.from(
+		{ length: Math.min(concurrency, Math.max(1, source.length)) },
+		() => run()
+	));
+	throwIfAborted(options.signal);
+	return results;
+}
+
+
+__exports.runMovieMediaJobBatch = runMovieMediaJobBatch;
+function throwIfMovieMediaJobAborted(signal) {
+	throwIfAborted(signal);
+}
+
+
+__exports.throwIfMovieMediaJobAborted = throwIfMovieMediaJobAborted;
+function throwIfAborted(signal) {
+	if (!signal?.aborted) return;
+	throw new Error(String(signal.reason || 'Movie media job cancelled.'));
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieMediaJobUrl.js */
+__awtsmoosModule_1843 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieMediaJobUrl.js
+ * @description Validates and probes bounded media URLs with cancellation and timeout support.
+ * The Awtsmoos is beyond path and response while every finite job must reject dangerous doors;
+ * Awtsmoos.com permits media schemes, measures availability, and closes each response body.
+ */
+
+const ALLOWED_PROTOCOLS = new Set(['blob:', 'data:', 'http:', 'https:']);
+
+function normalizeMovieMediaJobUrl(value, baseUrl = defaultBaseUrl()) {
+	const source = String(value || '').trim();
+	if (!source) throw new Error('Movie media URL is required.');
+	const url = new URL(source, baseUrl);
+	if (!ALLOWED_PROTOCOLS.has(url.protocol)) {
+		throw new Error(`Movie media URL protocol ${url.protocol} is not allowed.`);
+	}
+	return { absoluteUrl: url.href, source };
+}
+
+
+__exports.normalizeMovieMediaJobUrl = normalizeMovieMediaJobUrl;
+async function probeMovieMediaUrl(value, options = {}) {
+	const normalized = normalizeMovieMediaJobUrl(value, options.baseUrl);
+	const controller = new AbortController();
+	const stopRelay = relayAbort(options.signal, controller);
+	const timeout = setTimeout(
+		() => controller.abort('Movie media probe timed out.'),
+		Math.max(250, Number(options.timeoutMs || 10000))
+	);
+	try {
+		const fetchValue = options.fetchImpl || globalThis.fetch;
+		if (typeof fetchValue !== 'function') throw new Error('Fetch is unavailable.');
+		let response = await attempt(fetchValue, normalized.absoluteUrl, 'HEAD', controller.signal);
+		if (!response?.ok) {
+			await response?.body?.cancel?.();
+			response = await attempt(fetchValue, normalized.absoluteUrl, 'GET', controller.signal);
+		}
+		const result = {
+			contentLength: finiteHeader(response, 'content-length'),
+			contentType: response?.headers?.get?.('content-type') || null,
+			ok: Boolean(response?.ok),
+			status: Number(response?.status || 0),
+			url: normalized.source
+		};
+		await response?.body?.cancel?.();
+		return result;
+	} finally {
+		clearTimeout(timeout);
+		stopRelay();
+	}
+}
+
+
+__exports.probeMovieMediaUrl = probeMovieMediaUrl;
+async function attempt(fetchValue, url, method, signal) {
+	try {
+		return await fetchValue(url, {
+			headers: method === 'GET' ? { Range: 'bytes=0-0' } : undefined,
+			method,
+			signal
+		});
+	} catch (error) {
+		if (signal.aborted) throw error;
+		return null;
+	}
+}
+
+function relayAbort(signal, controller) {
+	if (!signal) return () => {};
+	const abort = () => controller.abort(signal.reason || 'Movie media job cancelled.');
+	if (signal.aborted) abort();
+	else signal.addEventListener('abort', abort, { once: true });
+	return () => signal.removeEventListener?.('abort', abort);
+}
+
+function finiteHeader(response, name) {
+	const value = Number(response?.headers?.get?.(name));
+	return Number.isFinite(value) && value >= 0 ? value : null;
+}
+
+function defaultBaseUrl() {
+	return globalThis.location?.href || 'http://127.0.0.1/';
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioMediaJobProject.js */
+__awtsmoosModule_1844 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieStudioMediaJobProject.js
+ * @description Commits one media-job patch set through a single reversible project transaction.
+ * The Awtsmoos joins many finite availability witnesses within one remembered act; Awtsmoos.com
+ * preserves the large immutable project while copying only media and metadata vessels that change.
+ */
+
+function commitMovieMediaJobPatches(session, patches, label) {
+	if (!patches.size) return session.project;
+	const media = (session.project.media || []).map(item => {
+		const patch = patches.get(item.id);
+		if (!patch) return item;
+		return {
+			...item,
+			...patch,
+			metadata: {
+				...(item.metadata || {}),
+				...(patch.metadata || {})
+			}
+		};
+	});
+	return session.commands.commitProject({ ...session.project, media }, label);
+}
+
+__exports.commitMovieMediaJobPatches = commitMovieMediaJobPatches;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioMediaJobExecutors.js */
+__awtsmoosModule_1841 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieStudioMediaJobExecutors.js
+ * @description Registers cancellable availability and proxy-attachment media job executors.
+ * The Awtsmoos renews every network witness before project status can change; Awtsmoos.com
+ * validates first, cancels honestly, reports progress, and commits one reversible project act.
+ */
+
+var runMovieMediaJobBatch = __awtsmoosModule_1842.runMovieMediaJobBatch;
+var throwIfMovieMediaJobAborted = __awtsmoosModule_1842.throwIfMovieMediaJobAborted;
+var probeMovieMediaUrl = __awtsmoosModule_1843.probeMovieMediaUrl;
+var commitMovieMediaJobPatches = __awtsmoosModule_1844.commitMovieMediaJobPatches;
+
+function registerMovieStudioMediaJobExecutors(session, options = {}) {
+	session.renderQueue.registerExecutor('media-availability', context => (
+		runAvailabilityJob(session, context, options)
+	));
+	session.renderQueue.registerExecutor('media-proxy-attach', context => (
+		runProxyAttachJob(session, context, options)
+	));
+	return session.renderQueue;
+}
+
+
+__exports.registerMovieStudioMediaJobExecutors = registerMovieStudioMediaJobExecutors;
+async function runAvailabilityJob(session, context, options = {}) {
+	const targets = selectTargets(session.project.media, context.request.mediaId);
+	const checkedAt = String(context.request.checkedAt || new Date().toISOString());
+	const checks = await runMovieMediaJobBatch(targets, async item => {
+		const source = await safeProbe(item.url, context.signal, options);
+		const proxy = await safeProbe(item.proxyUrl, context.signal, options);
+		return { mediaId: item.id, proxy, source };
+	}, {
+		concurrency: context.request.concurrency,
+		onProgress: context.onProgress,
+		signal: context.signal
+	});
+	throwIfMovieMediaJobAborted(context.signal);
+	const patches = new Map(checks.map(check => [check.mediaId, {
+		metadata: { availability: { checkedAt, proxy: check.proxy, source: check.source } },
+		status: check.source.ok ? 'online' : 'offline'
+	}]));
+	commitMovieMediaJobPatches(session, patches, 'Validate movie media availability');
+	return summarizeChecks(checks);
+}
+
+
+__exports.runAvailabilityJob = runAvailabilityJob;
+async function runProxyAttachJob(session, context, options = {}) {
+	const mediaId = String(context.request.mediaId || '');
+	const item = (session.project.media || []).find(media => media.id === mediaId);
+	if (!item) throw new Error(`Movie media ${mediaId || '(empty)'} was not found.`);
+	context.onProgress(0.1);
+	const validation = await probeMovieMediaUrl(context.request.proxyUrl, {
+		baseUrl: options.baseUrl,
+		fetchImpl: options.fetchImpl,
+		signal: context.signal,
+		timeoutMs: context.request.timeoutMs
+	});
+	if (!validation.ok) throw new Error(`Movie proxy validation failed (${validation.status || 'network failure'}).`);
+	throwIfMovieMediaJobAborted(context.signal);
+	const revision = Number(item.metadata?.proxyRevision || 0) + 1;
+	commitMovieMediaJobPatches(session, new Map([[mediaId, {
+		metadata: {
+			proxyAttachedAt: String(context.request.checkedAt || new Date().toISOString()),
+			proxyRevision: revision,
+			proxyValidation: validation
+		},
+		proxyUrl: String(context.request.proxyUrl)
+	}]]), 'Attach movie media proxy');
+	context.onProgress(1);
+	return { mediaId, proxyUrl: String(context.request.proxyUrl), revision, validation };
+}
+
+
+__exports.runProxyAttachJob = runProxyAttachJob;
+function selectTargets(media, mediaId) {
+	if (!mediaId) return [...(media || [])];
+	const target = (media || []).find(item => item.id === String(mediaId));
+	if (!target) throw new Error(`Movie media ${mediaId} was not found.`);
+	return [target];
+}
+
+async function safeProbe(url, signal, options) {
+	if (!url) return { ok: false, status: 0, url: null };
+	try {
+		return await probeMovieMediaUrl(url, {
+			baseUrl: options.baseUrl, fetchImpl: options.fetchImpl, signal
+		});
+	} catch (error) {
+		if (signal?.aborted) throw error;
+		return { error: error.message, ok: false, status: 0, url: String(url) };
+	}
+}
+
+function summarizeChecks(checks) {
+	return {
+		checked: checks.length,
+		checks,
+		proxyReady: checks.filter(check => check.proxy.ok).length,
+		sourceOnline: checks.filter(check => check.source.ok).length
+	};
+}
+return Object.freeze(__exports);
+})();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioRenderExecutors.js */
-__awtsmoosModule_1811 = (() => {
+__awtsmoosModule_1839 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -131403,15 +133974,16 @@ const __exports = {};
 
 /**
  * @file MovieStudioRenderExecutors.js
- * @description Registers live capture and deterministic exact-package render executors.
- * The Awtsmoos renews every rendered vessel beyond local browser objects; Awtsmoos.com
- * passes progress and cancellation intent while jobs retain only finite serializable evidence.
+ * @description Registers live, exact, availability, and proxy-validation job executors.
+ * The Awtsmoos renews every rendered and repaired vessel beyond browser objects; Awtsmoos.com
+ * joins progress, cancellation, delivery, and media recovery through one serializable queue.
  */
 
-var renderExactMovieStudioSession = __awtsmoosLiveImport(() => __awtsmoosModule_1491, "renderExactMovieStudioSession");
-var serializeMovieRenderResult = __awtsmoosModule_1812.serializeMovieRenderResult;
+var renderExactMovieStudioSession = __awtsmoosLiveImport(() => __awtsmoosModule_1498, "renderExactMovieStudioSession");
+var serializeMovieRenderResult = __awtsmoosModule_1840.serializeMovieRenderResult;
+var registerMovieStudioMediaJobExecutors = __awtsmoosModule_1841.registerMovieStudioMediaJobExecutors;
 
-function registerMovieStudioRenderExecutors(session) {
+function registerMovieStudioRenderExecutors(session, options = {}) {
 	session.renderQueue.registerExecutor('live', async context => {
 		const result = await session.recorder.render({
 			download: context.request.download === true,
@@ -131430,6 +134002,7 @@ function registerMovieStudioRenderExecutors(session) {
 		context.onProgress(1);
 		return serializeMovieRenderResult(result);
 	});
+	registerMovieStudioMediaJobExecutors(session, options.mediaJobs);
 	return session.renderQueue;
 }
 
@@ -131437,7 +134010,7 @@ __exports.registerMovieStudioRenderExecutors = registerMovieStudioRenderExecutor
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieClipTransform.js */
-__awtsmoosModule_1814 = (() => {
+__awtsmoosModule_1846 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -131517,7 +134090,7 @@ function pushVector(paths, clip, prefix, label) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTransformInspector.js */
-__awtsmoosModule_1813 = (() => {
+__awtsmoosModule_1845 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -131530,10 +134103,10 @@ const __exports = {};
  * departing clip before finite values change, so inspector edits enter the same honest history.
  */
 
-var movieClipTransformPaths = __awtsmoosModule_1814.movieClipTransformPaths;
-var readMovieClipNumber = __awtsmoosModule_1814.readMovieClipNumber;
-var writeMovieClipNumber = __awtsmoosModule_1814.writeMovieClipNumber;
-var movieSelectionDescriptor = __awtsmoosModule_1533.movieSelectionDescriptor;
+var movieClipTransformPaths = __awtsmoosModule_1846.movieClipTransformPaths;
+var readMovieClipNumber = __awtsmoosModule_1846.readMovieClipNumber;
+var writeMovieClipNumber = __awtsmoosModule_1846.writeMovieClipNumber;
+var movieSelectionDescriptor = __awtsmoosModule_1540.movieSelectionDescriptor;
 
 const EASINGS = Object.freeze([
 	'linear',
@@ -131641,7 +134214,7 @@ function escapeHtml(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioSessionServices.js */
-__awtsmoosModule_1640 = (() => {
+__awtsmoosModule_1649 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -131654,19 +134227,19 @@ const __exports = {};
  * memory, extensions, jobs, preferences, commands, API, and instance identity local.
  */
 
-var MovieAutosaveController = __awtsmoosModule_1641.MovieAutosaveController;
-var MovieEventBus = __awtsmoosModule_1647.MovieEventBus;
-var createDefaultMoviePersistenceRegistry = __awtsmoosModule_1648.createDefaultMoviePersistenceRegistry;
-var createDefaultMovieProjectMigrationRegistry = __awtsmoosModule_1653.createDefaultMovieProjectMigrationRegistry;
-var MoviePluginRegistry = __awtsmoosModule_1655.MoviePluginRegistry;
-var MovieRenderQueue = __awtsmoosModule_1661.MovieRenderQueue;
-var MovieRuntimeAdapterRegistry = __awtsmoosModule_1665.MovieRuntimeAdapterRegistry;
-var createMovieStudioApi = __awtsmoosModule_1667.createMovieStudioApi;
-var MovieStudioCommands = __awtsmoosModule_1802.MovieStudioCommands;
-var movieStudioInstanceRegistry = __awtsmoosModule_1808.movieStudioInstanceRegistry;
-var MovieStudioPreferences = __awtsmoosModule_1809.MovieStudioPreferences;
-var registerMovieStudioRenderExecutors = __awtsmoosModule_1811.registerMovieStudioRenderExecutors;
-var MovieTransformInspector = __awtsmoosModule_1813.MovieTransformInspector;
+var MovieAutosaveController = __awtsmoosModule_1650.MovieAutosaveController;
+var MovieEventBus = __awtsmoosModule_1656.MovieEventBus;
+var createDefaultMoviePersistenceRegistry = __awtsmoosModule_1657.createDefaultMoviePersistenceRegistry;
+var createDefaultMovieProjectMigrationRegistry = __awtsmoosModule_1662.createDefaultMovieProjectMigrationRegistry;
+var MoviePluginRegistry = __awtsmoosModule_1664.MoviePluginRegistry;
+var MovieRenderQueue = __awtsmoosModule_1670.MovieRenderQueue;
+var MovieRuntimeAdapterRegistry = __awtsmoosModule_1674.MovieRuntimeAdapterRegistry;
+var createMovieStudioApi = __awtsmoosModule_1676.createMovieStudioApi;
+var MovieStudioCommands = __awtsmoosModule_1830.MovieStudioCommands;
+var movieStudioInstanceRegistry = __awtsmoosModule_1836.movieStudioInstanceRegistry;
+var MovieStudioPreferences = __awtsmoosModule_1837.MovieStudioPreferences;
+var registerMovieStudioRenderExecutors = __awtsmoosModule_1839.registerMovieStudioRenderExecutors;
+var MovieTransformInspector = __awtsmoosModule_1845.MovieTransformInspector;
 
 function initializeMovieStudioSessionServices(session) {
 	session.events = new MovieEventBus();
@@ -131693,8 +134266,133 @@ function initializeMovieStudioSessionServices(session) {
 __exports.initializeMovieStudioSessionServices = initializeMovieStudioSessionServices;
 return Object.freeze(__exports);
 })();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioSessionTransport.js */
+__awtsmoosModule_1847 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieStudioSessionTransport.js
+ * @description Owns bounded seek, play, pause, stop, frame-step, shuttle, and rate transitions.
+ * The Awtsmoos joins every transport intention to one session; Awtsmoos.com ensures
+ * timeline, director, status, event bus, and public state never describe different motion.
+ */
+
+var boundMoviePlaybackTime = __awtsmoosModule_1602.boundMoviePlaybackTime;
+var nextMovieShuttleRate = __awtsmoosModule_1602.nextMovieShuttleRate;
+var normalizeMoviePlaybackRate = __awtsmoosModule_1602.normalizeMoviePlaybackRate;
+var stepMoviePlaybackTime = __awtsmoosModule_1602.stepMoviePlaybackTime;
+var publishMovieStudioPlaybackState = __awtsmoosModule_1813.publishMovieStudioPlaybackState;
+
+function seekMovieStudioSession(session, time) {
+	session.time = boundMoviePlaybackTime(time, session.project.duration);
+	const frame = session.director.seek(session.time);
+	session.timeline?.setTime(frame.time);
+	session.view.status.textContent = `${frame.time.toFixed(2)} / ${session.project.duration.toFixed(2)}s · ${frame.shot}`;
+	session.events.emit('playback:time', {
+		revision: session.revision,
+		shot: frame.shot,
+		time: frame.time
+	});
+	return frame;
+}
+
+
+__exports.seekMovieStudioSession = seekMovieStudioSession;
+function playMovieStudioSession(session, options = {}) {
+	const rate = normalizeMoviePlaybackRate(options.rate, session.playbackRate || 1);
+	if (!rate) {
+		return pauseMovieStudioSession(session);
+	}
+	const boundaryStart = rate > 0 ? 0 : session.project.duration;
+	const atBoundary = rate > 0
+		? session.time >= session.project.duration
+		: session.time <= 0;
+	session.time = Object.hasOwn(options, 'startAt')
+		? boundMoviePlaybackTime(options.startAt, session.project.duration)
+		: atBoundary ? boundaryStart : session.time;
+	session.playbackRate = rate;
+	session.director.play({
+		onEnd: frame => finishMovieStudioPlayback(session, frame),
+		onFrame: frame => applyMovieStudioPlaybackFrame(session, frame),
+		rate,
+		startAt: session.time
+	});
+	return publishMovieStudioPlaybackState(session);
+}
+
+
+__exports.playMovieStudioSession = playMovieStudioSession;
+function pauseMovieStudioSession(session) {
+	session.director.pause();
+	session.playbackRate = 0;
+	session.view.status.textContent = `Paused at ${session.time.toFixed(2)}s.`;
+	return publishMovieStudioPlaybackState(session);
+}
+
+
+__exports.pauseMovieStudioSession = pauseMovieStudioSession;
+function stopMovieStudioSession(session) {
+	pauseMovieStudioSession(session);
+	seekMovieStudioSession(session, 0);
+	return publishMovieStudioPlaybackState(session);
+}
+
+
+__exports.stopMovieStudioSession = stopMovieStudioSession;
+function stepMovieStudioSession(session, frames = 1) {
+	pauseMovieStudioSession(session);
+	seekMovieStudioSession(session, stepMoviePlaybackTime(
+		session.time, frames, session.project.fps, session.project.duration
+	));
+	return publishMovieStudioPlaybackState(session);
+}
+
+
+__exports.stepMovieStudioSession = stepMovieStudioSession;
+function shuttleMovieStudioSession(session, direction) {
+	const rate = nextMovieShuttleRate(session.playbackRate, direction);
+	return playMovieStudioSession(session, { rate });
+}
+
+
+__exports.shuttleMovieStudioSession = shuttleMovieStudioSession;
+function setMovieStudioPlaybackRate(session, rate) {
+	const normalized = normalizeMoviePlaybackRate(rate, 0);
+	return normalized
+		? playMovieStudioSession(session, { rate: normalized })
+		: pauseMovieStudioSession(session);
+}
+
+
+__exports.setMovieStudioPlaybackRate = setMovieStudioPlaybackRate;
+function applyMovieStudioPlaybackFrame(session, frame) {
+	session.time = frame.time;
+	session.timeline.setTime(frame.time);
+	session.view.status.textContent = `Preview ${frame.time.toFixed(2)} / ${session.project.duration.toFixed(2)}s · ${formatRate(session.playbackRate)}`;
+	session.events.emit('playback:time', {
+		revision: session.revision,
+		shot: frame.shot,
+		time: frame.time
+	});
+}
+
+function finishMovieStudioPlayback(session, frame) {
+	applyMovieStudioPlaybackFrame(session, frame);
+	session.playbackRate = 0;
+	session.view.status.textContent = 'Preview boundary reached.';
+	publishMovieStudioPlaybackState(session);
+}
+
+function formatRate(rate) {
+	return `${Number(rate || 0).toFixed(2)}×`;
+}
+return Object.freeze(__exports);
+})();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioSession.js */
-__awtsmoosModule_1519 = (() => {
+__awtsmoosModule_1526 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -131702,16 +134400,23 @@ const __exports = {};
 
 /**
  * @file MovieStudioSession.js
- * @description Owns stable identity, canonical installation, preview time, capture, and release.
- * The Awtsmoos renews every cut, schema, memory, and extension beyond editor state;
+ * @description Owns stable identity, canonical installation, professional transport, capture, and release.
+ * The Awtsmoos renews every cut, speed, schema, memory, and extension beyond editor state;
  * Awtsmoos.com keeps one session while focused service vessels evolve independently.
  */
 
-var destroyMovieStudioSession = __awtsmoosModule_1520.destroyMovieStudioSession;
-var installMovieStudioProject = __awtsmoosModule_1521.installMovieStudioProject;
-var copyMovieStudioUrl = __awtsmoosModule_1639.copyMovieStudioUrl;
-var renderMovieStudioSession = __awtsmoosModule_1639.renderMovieStudioSession;
-var initializeMovieStudioSessionServices = __awtsmoosModule_1640.initializeMovieStudioSessionServices;
+var destroyMovieStudioSession = __awtsmoosModule_1527.destroyMovieStudioSession;
+var installMovieStudioProject = __awtsmoosModule_1528.installMovieStudioProject;
+var copyMovieStudioUrl = __awtsmoosModule_1648.copyMovieStudioUrl;
+var renderMovieStudioSession = __awtsmoosModule_1648.renderMovieStudioSession;
+var initializeMovieStudioSessionServices = __awtsmoosModule_1649.initializeMovieStudioSessionServices;
+var pauseMovieStudioSession = __awtsmoosModule_1847.pauseMovieStudioSession;
+var playMovieStudioSession = __awtsmoosModule_1847.playMovieStudioSession;
+var seekMovieStudioSession = __awtsmoosModule_1847.seekMovieStudioSession;
+var setMovieStudioPlaybackRate = __awtsmoosModule_1847.setMovieStudioPlaybackRate;
+var shuttleMovieStudioSession = __awtsmoosModule_1847.shuttleMovieStudioSession;
+var stepMovieStudioSession = __awtsmoosModule_1847.stepMovieStudioSession;
+var stopMovieStudioSession = __awtsmoosModule_1847.stopMovieStudioSession;
 
 class MovieStudioSession {
 	constructor(runtime, diagnostics, view, source) {
@@ -131719,6 +134424,7 @@ class MovieStudioSession {
 		this.diagnostics = diagnostics;
 		this.view = view;
 		this.time = 0;
+		this.playbackRate = 0;
 		this.revision = 0;
 		this.destroyed = false;
 		initializeMovieStudioSessionServices(this);
@@ -131726,54 +134432,37 @@ class MovieStudioSession {
 	}
 
 	installProject(source, options = {}) {
-		return installMovieStudioProject(this, source, options);
+		const result = installMovieStudioProject(this, source, options);
+		this.time = Math.min(this.time, this.project.duration);
+		return result;
 	}
 
 	seek(time) {
-		this.time = Math.max(0, Math.min(
-			this.project.duration,
-			Number(time) || 0
-		));
-		const frame = this.director.seek(this.time);
-		this.timeline?.setTime(frame.time);
-		this.view.status.textContent = `${frame.time.toFixed(2)} / ${
-			this.project.duration.toFixed(2)
-		}s · ${frame.shot}`;
-		this.events.emit('playback:time', {
-			revision: this.revision,
-			shot: frame.shot,
-			time: frame.time
-		});
-		return frame;
+		return seekMovieStudioSession(this, time);
 	}
 
-	play() {
-		this.events.emit('playback:state', {
-			playing: true,
-			revision: this.revision,
-			time: this.time
-		});
-		this.director.play({
-			onEnd: () => this.onPlaybackEnd(),
-			onFrame: frame => this.onPlaybackFrame(frame)
-		});
+	play(options = {}) {
+		return playMovieStudioSession(this, options);
 	}
 
-	onPlaybackEnd() {
-		this.view.status.textContent = 'Preview complete.';
-		this.events.emit('playback:state', {
-			playing: false,
-			revision: this.revision,
-			time: this.time
-		});
+	pause() {
+		return pauseMovieStudioSession(this);
 	}
 
-	onPlaybackFrame(frame) {
-		this.time = frame.time;
-		this.timeline.setTime(frame.time);
-		this.view.status.textContent = `Preview ${
-			frame.time.toFixed(2)
-		} / ${this.project.duration.toFixed(2)}s`;
+	stop() {
+		return stopMovieStudioSession(this);
+	}
+
+	stepFrames(frames = 1) {
+		return stepMovieStudioSession(this, frames);
+	}
+
+	shuttle(direction) {
+		return shuttleMovieStudioSession(this, direction);
+	}
+
+	setPlaybackRate(rate) {
+		return setMovieStudioPlaybackRate(this, rate);
 	}
 
 	render() {
@@ -131793,7 +134482,7 @@ __exports.MovieStudioSession = MovieStudioSession;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieExactRender.js */
-__awtsmoosModule_1491 = (() => {
+__awtsmoosModule_1498 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -131810,16 +134499,16 @@ const __exports = {};
  * Awtsmoos.com is remembered where unity is served through truthful boundaries, never illusion.
  */
 
-var MovieExactEncoder = __awtsmoosModule_1492.MovieExactEncoder;
-var createMovieExactRecordingResult = __awtsmoosModule_1501.createMovieExactRecordingResult;
-var MovieExactAudioRenderer = __awtsmoosModule_1502.MovieExactAudioRenderer;
-var createMovieExactAudioResult = __awtsmoosModule_1513.createMovieExactAudioResult;
-var downloadMovieExactPackage = __awtsmoosModule_1514.downloadMovieExactPackage;
-var createMovieExactPackageResult = __awtsmoosModule_1517.createMovieExactPackageResult;
+var MovieExactEncoder = __awtsmoosModule_1499.MovieExactEncoder;
+var createMovieExactRecordingResult = __awtsmoosModule_1508.createMovieExactRecordingResult;
+var MovieExactAudioRenderer = __awtsmoosModule_1509.MovieExactAudioRenderer;
+var createMovieExactAudioResult = __awtsmoosModule_1520.createMovieExactAudioResult;
+var downloadMovieExactPackage = __awtsmoosModule_1521.downloadMovieExactPackage;
+var createMovieExactPackageResult = __awtsmoosModule_1524.createMovieExactPackageResult;
 
 /**
  * Renders exact IVF video and WAV audio from one real studio project.
- * @param {Promise.resolve(__awtsmoosModule_1519).MovieStudioSession} session Active studio session.
+ * @param {Promise.resolve(__awtsmoosModule_1526).MovieStudioSession} session Active studio session.
  * @param {object} [options] Download, progress, completion, and cancellation callbacks.
  * @returns {Promise<object>} Exact package result containing video, audio, and manifest artifacts.
  * @throws {Error} When video/audio encoding fails or cancellation is requested.
@@ -131903,7 +134592,7 @@ __exports.default = renderExactMovieStudioSession;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioAuthoring3dProject.js */
-__awtsmoosModule_1816 = (() => {
+__awtsmoosModule_1849 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -132018,7 +134707,7 @@ function uniqueId(prefix) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioAuthoring3dController.js */
-__awtsmoosModule_1815 = (() => {
+__awtsmoosModule_1848 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -132031,12 +134720,12 @@ const __exports = {};
  * keeps listeners finite and routes every durable change through one visible canonical JSON vessel.
  */
 
-var addMovieGeometryNode = __awtsmoosModule_1816.addMovieGeometryNode;
-var addMovieModifier = __awtsmoosModule_1816.addMovieModifier;
-var addMovieRemoteTexture = __awtsmoosModule_1816.addMovieRemoteTexture;
-var addMovieSculptStroke = __awtsmoosModule_1816.addMovieSculptStroke;
-var addMovieShaderNode = __awtsmoosModule_1816.addMovieShaderNode;
-var addMovieVertexGroup = __awtsmoosModule_1816.addMovieVertexGroup;
+var addMovieGeometryNode = __awtsmoosModule_1849.addMovieGeometryNode;
+var addMovieModifier = __awtsmoosModule_1849.addMovieModifier;
+var addMovieRemoteTexture = __awtsmoosModule_1849.addMovieRemoteTexture;
+var addMovieSculptStroke = __awtsmoosModule_1849.addMovieSculptStroke;
+var addMovieShaderNode = __awtsmoosModule_1849.addMovieShaderNode;
+var addMovieVertexGroup = __awtsmoosModule_1849.addMovieVertexGroup;
 
 class MovieStudioAuthoring3dController {
 	constructor(session, view) {
@@ -132143,7 +134832,7 @@ __exports.MovieStudioAuthoring3dController = MovieStudioAuthoring3dController;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieAudioMixerProject.js */
-__awtsmoosModule_1818 = (() => {
+__awtsmoosModule_1851 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -132156,7 +134845,7 @@ const __exports = {};
  * keeps mixer edits bounded, serializable, and compatible with live and exact rendering.
  */
 
-var resolveMovieSelection = __awtsmoosModule_1533.resolveMovieSelection;
+var resolveMovieSelection = __awtsmoosModule_1540.resolveMovieSelection;
 
 function selectedMovieAudioClip(project, descriptor) {
 	const resolved = resolveMovieSelection(project, descriptor);
@@ -132197,7 +134886,7 @@ function clone(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieAudioWaveform.js */
-__awtsmoosModule_1819 = (() => {
+__awtsmoosModule_1852 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -132210,8 +134899,8 @@ const __exports = {};
  * reveal a finite silent picture without introducing a second audio interpretation.
  */
 
-var MovieAudioClip = __awtsmoosModule_1504.MovieAudioClip;
-var MovieAudioSampleSynthesizer = __awtsmoosModule_1508.MovieAudioSampleSynthesizer;
+var MovieAudioClip = __awtsmoosModule_1511.MovieAudioClip;
+var MovieAudioSampleSynthesizer = __awtsmoosModule_1515.MovieAudioSampleSynthesizer;
 
 function movieAudioWaveform(project, descriptor, pointCount = 72) {
 	const clip = MovieAudioClip.fromProject(project).find(record => (
@@ -132265,7 +134954,7 @@ function point(x, y) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioAudioMixerController.js */
-__awtsmoosModule_1817 = (() => {
+__awtsmoosModule_1850 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -132278,10 +134967,10 @@ const __exports = {};
  * every bounded clip and track change through canonical history while listeners depart cleanly.
  */
 
-var selectedMovieAudioClip = __awtsmoosModule_1818.selectedMovieAudioClip;
-var updateMovieAudioClip = __awtsmoosModule_1818.updateMovieAudioClip;
-var movieAudioWaveform = __awtsmoosModule_1819.movieAudioWaveform;
-var movieAudioWaveformPath = __awtsmoosModule_1819.movieAudioWaveformPath;
+var selectedMovieAudioClip = __awtsmoosModule_1851.selectedMovieAudioClip;
+var updateMovieAudioClip = __awtsmoosModule_1851.updateMovieAudioClip;
+var movieAudioWaveform = __awtsmoosModule_1852.movieAudioWaveform;
+var movieAudioWaveformPath = __awtsmoosModule_1852.movieAudioWaveformPath;
 
 class MovieStudioAudioMixerController {
 	constructor(session, studioView) {
@@ -132388,7 +135077,7 @@ function collectView(root) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieActionCatalog.js */
-__awtsmoosModule_1822 = (() => {
+__awtsmoosModule_1855 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -132476,7 +135165,7 @@ function animationCategory(name) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioActionBrowser.js */
-__awtsmoosModule_1821 = (() => {
+__awtsmoosModule_1854 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -132489,9 +135178,9 @@ const __exports = {};
  * keeps preview, filtering, selection, and cleanup finite while the canonical clip writer remains separate.
  */
 
-var filterMovieActionCatalog = __awtsmoosModule_1822.filterMovieActionCatalog;
-var movieActionCatalog = __awtsmoosModule_1822.movieActionCatalog;
-var previewMovieAction = __awtsmoosModule_1822.previewMovieAction;
+var filterMovieActionCatalog = __awtsmoosModule_1855.filterMovieActionCatalog;
+var movieActionCatalog = __awtsmoosModule_1855.movieActionCatalog;
+var previewMovieAction = __awtsmoosModule_1855.previewMovieAction;
 
 class MovieStudioActionBrowser {
 	constructor(runtime, view, onSelect) {
@@ -132569,7 +135258,7 @@ function escape(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioCameraActionProject.js */
-__awtsmoosModule_1823 = (() => {
+__awtsmoosModule_1856 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -132662,7 +135351,7 @@ function uniqueId(prefix) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioCameraActionController.js */
-__awtsmoosModule_1820 = (() => {
+__awtsmoosModule_1853 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -132675,11 +135364,11 @@ const __exports = {};
  * captured pose, discovered action, preview, and insertion through canonical project installation.
  */
 
-var MovieStudioActionBrowser = __awtsmoosModule_1821.MovieStudioActionBrowser;
-var addMovieActorAction = __awtsmoosModule_1823.addMovieActorAction;
-var addMovieCameraShot = __awtsmoosModule_1823.addMovieCameraShot;
-var boundedMovieNumber = __awtsmoosModule_1823.boundedMovieNumber;
-var captureMovieCameraPose = __awtsmoosModule_1823.captureMovieCameraPose;
+var MovieStudioActionBrowser = __awtsmoosModule_1854.MovieStudioActionBrowser;
+var addMovieActorAction = __awtsmoosModule_1856.addMovieActorAction;
+var addMovieCameraShot = __awtsmoosModule_1856.addMovieCameraShot;
+var boundedMovieNumber = __awtsmoosModule_1856.boundedMovieNumber;
+var captureMovieCameraPose = __awtsmoosModule_1856.captureMovieCameraPose;
 
 class MovieStudioCameraActionController {
 	constructor(session, view) {
@@ -132772,8 +135461,522 @@ function clone(value) {
 }
 return Object.freeze(__exports);
 })();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioCompositionForm.js */
+__awtsmoosModule_1859 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieStudioCompositionForm.js
+ * @description Reads and paints bounded composition and layer authoring forms.
+ * The Awtsmoos is beyond form and value; Awtsmoos.com lets each finite field become
+ * canonical project intent without hiding identity, timing, nesting, opacity, or protection.
+ */
+
+function movieStudioCompositionPayload(view) {
+	return {
+		duration: number(view.duration, 10),
+		fps: number(view.fps, 30),
+		height: number(view.height, 1080),
+		id: text(view.id),
+		name: text(view.name),
+		width: number(view.width, 1920)
+	};
+}
+
+
+__exports.movieStudioCompositionPayload = movieStudioCompositionPayload;
+function movieStudioCompositionLayerPayload(view) {
+	const kind = view.layerKind.value;
+	const sourceId = ['composition', 'media', 'track'].includes(kind)
+		? text(view.layerSource)
+		: null;
+	return {
+		blendMode: view.layerBlend.value,
+		duration: number(view.layerDuration, 5),
+		id: text(view.layerId),
+		kind,
+		locked: view.layerLocked.checked,
+		loop: view.layerLoop.checked,
+		name: text(view.layerName),
+		opacity: number(view.layerOpacity, 1),
+		sourceId,
+		start: number(view.layerStart, 0),
+		text: view.layerText.value
+	};
+}
+
+
+__exports.movieStudioCompositionLayerPayload = movieStudioCompositionLayerPayload;
+function paintMovieStudioCompositionForm(view, composition) {
+	view.id.value = composition?.id || '';
+	view.name.value = composition?.name || '';
+	view.duration.value = String(composition?.duration ?? 10);
+	view.fps.value = String(composition?.fps ?? 30);
+	view.width.value = String(composition?.width ?? 1920);
+	view.height.value = String(composition?.height ?? 1080);
+	view.id.readOnly = Boolean(composition);
+}
+
+
+__exports.paintMovieStudioCompositionForm = paintMovieStudioCompositionForm;
+function paintMovieStudioCompositionLayerForm(view, layer) {
+	view.layerId.value = layer?.id || '';
+	view.layerName.value = layer?.name || '';
+	view.layerKind.value = layer?.kind || 'solid';
+	view.layerSource.value = layer?.sourceId || '';
+	view.layerStart.value = String(layer?.start ?? 0);
+	view.layerDuration.value = String(layer?.duration ?? 5);
+	view.layerBlend.value = layer?.blendMode || 'normal';
+	view.layerOpacity.value = String(layer?.opacity ?? 1);
+	view.layerLoop.checked = Boolean(layer?.loop);
+	view.layerLocked.checked = Boolean(layer?.locked);
+	view.layerText.value = layer?.text || '';
+	view.layerId.readOnly = Boolean(layer);
+}
+
+
+__exports.paintMovieStudioCompositionLayerForm = paintMovieStudioCompositionLayerForm;
+function number(input, fallback) {
+	const value = Number(input?.value);
+	return Number.isFinite(value) ? value : fallback;
+}
+
+function text(input) {
+	return String(input?.value || '').trim();
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioCompositionActions.js */
+__awtsmoosModule_1858 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieStudioCompositionActions.js
+ * @description Executes visible composition and layer actions through the stable public API.
+ * The Awtsmoos is beyond command and result; Awtsmoos.com lets finite authoring gestures
+ * share agent validation while locked layers remain guarded except for one explicit unlock transition.
+ */
+
+var movieStudioCompositionLayerPayload = __awtsmoosModule_1859.movieStudioCompositionLayerPayload;
+var movieStudioCompositionPayload = __awtsmoosModule_1859.movieStudioCompositionPayload;
+
+class MovieStudioCompositionActions {
+	constructor(controller) {
+		this.controller = controller;
+	}
+
+	composition(action) {
+		const payload = movieStudioCompositionPayload(this.controller.view);
+		const id = this.controller.selectedCompositionId;
+		if (action === 'create') {
+			return this.controller.finish(this.controller.api.create(payload), payload.id);
+		}
+		if (!id) return this.controller.status('Select a composition first.');
+		if (action === 'update') {
+			return this.controller.finish(this.controller.api.update(id, payload));
+		}
+		if (action === 'duplicate') {
+			const duplicateId = this.uniqueId(`${id}-copy`);
+			return this.controller.finish(this.controller.api.duplicate(id, {
+				id: duplicateId,
+				name: `${payload.name || id} Copy`
+			}), duplicateId);
+		}
+		if (action === 'remove') {
+			return this.controller.finish(this.controller.api.remove(id), null, null);
+		}
+		return null;
+	}
+
+	layer(action) {
+		const compositionId = this.controller.selectedCompositionId;
+		const layerId = this.controller.selectedLayerId;
+		if (!compositionId) return this.controller.status('Select a composition first.');
+		const payload = movieStudioCompositionLayerPayload(this.controller.view);
+		if (action === 'add') {
+			return this.controller.finish(
+				this.controller.api.layers.add(compositionId, payload),
+				compositionId,
+				payload.id
+			);
+		}
+		if (!layerId) return this.controller.status('Select a layer first.');
+		if (action === 'update') return this.updateLayer(compositionId, layerId, payload);
+		if (action === 'remove') {
+			return this.controller.finish(
+				this.controller.api.layers.remove(compositionId, layerId),
+				compositionId,
+				null
+			);
+		}
+		if (action === 'up' || action === 'down') {
+			return this.reorderLayer(compositionId, layerId, action);
+		}
+		return null;
+	}
+
+	updateLayer(compositionId, layerId, payload) {
+		const current = this.controller.api.get(compositionId)
+			.layers.find(item => item.id === layerId);
+		const options = current?.locked && payload.locked === false
+			? { force: true }
+			: {};
+		return this.controller.finish(
+			this.controller.api.layers.update(compositionId, layerId, payload, options)
+		);
+	}
+
+	reorderLayer(compositionId, layerId, direction) {
+		const composition = this.controller.api.get(compositionId);
+		const index = composition.layers.findIndex(item => item.id === layerId);
+		const target = Math.max(0, Math.min(
+			composition.layers.length - 1,
+			index + (direction === 'up' ? -1 : 1)
+		));
+		return this.controller.finish(
+			this.controller.api.layers.reorder(compositionId, layerId, target)
+		);
+	}
+
+	uniqueId(base) {
+		const ids = new Set(this.controller.api.list().map(item => item.id));
+		let id = base;
+		let suffix = 2;
+		while (ids.has(id)) id = `${base}-${suffix++}`;
+		return id;
+	}
+}
+
+__exports.MovieStudioCompositionActions = MovieStudioCompositionActions;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioCompositionInteraction.js */
+__awtsmoosModule_1860 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieStudioCompositionInteraction.js
+ * @description Binds composition workspace controls and releases every listener deterministically.
+ * The Awtsmoos is beyond click and selection; Awtsmoos.com lets finite gestures enter
+ * one controller while destruction removes every doorway without residue or duplicate action.
+ */
+
+class MovieStudioCompositionInteraction {
+	constructor(controller) {
+		this.controller = controller;
+		this.listeners = [];
+		this.bind();
+	}
+
+	bind() {
+		const view = this.controller.view;
+		this.listen(view.select, 'change', () => this.controller.selectComposition(view.select.value));
+		this.listen(view.layerList, 'click', event => {
+			const target = event.target.closest?.('[data-composition-layer-select]');
+			if (target) this.controller.selectLayer(target.dataset.compositionLayerSelect);
+		});
+		this.listen(view.actions, 'click', event => {
+			const compositionAction = event.target.closest?.('[data-composition-action]');
+			if (compositionAction) this.controller.runCompositionAction(compositionAction.dataset.compositionAction);
+			const layerAction = event.target.closest?.('[data-composition-layer-action]');
+			if (layerAction) this.controller.runLayerAction(layerAction.dataset.compositionLayerAction);
+		});
+		this.listen(view.evaluate, 'click', () => this.controller.evaluate());
+	}
+
+	listen(target, type, listener) {
+		target?.addEventListener?.(type, listener);
+		this.listeners.push(() => target?.removeEventListener?.(type, listener));
+	}
+
+	destroy() {
+		this.listeners.splice(0).forEach(remove => remove());
+	}
+}
+
+__exports.MovieStudioCompositionInteraction = MovieStudioCompositionInteraction;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioCompositionPresenter.js */
+__awtsmoosModule_1861 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieStudioCompositionPresenter.js
+ * @description Paints composition choices, layer cards, graph status, and evaluation summaries safely.
+ * The Awtsmoos is beyond list and rendered witness; Awtsmoos.com reveals finite nesting
+ * through DOM text and attributes only, never executable project markup or hidden parallel state.
+ */
+
+var paintMovieStudioCompositionForm = __awtsmoosModule_1859.paintMovieStudioCompositionForm;
+var paintMovieStudioCompositionLayerForm = __awtsmoosModule_1859.paintMovieStudioCompositionLayerForm;
+
+function paintMovieStudioCompositionWorkspace(
+	view,
+	compositions,
+	selectedCompositionId,
+	selectedLayerId
+) {
+	const composition = compositions.find(item => item.id === selectedCompositionId) || null;
+	paintOptions(view.select, compositions, selectedCompositionId, 'No compositions');
+	paintOptions(
+		view.layerSource,
+		compositions.filter(item => item.id !== selectedCompositionId),
+		composition?.layers.find(item => item.id === selectedLayerId)?.sourceId,
+		'Choose source'
+	);
+	paintMovieStudioCompositionForm(view, composition);
+	const layer = composition?.layers.find(item => item.id === selectedLayerId) || null;
+	paintMovieStudioCompositionLayerForm(view, layer);
+	paintLayerList(view.layerList, composition, selectedLayerId);
+	paintGraph(view.graph, compositions, composition);
+	return { composition, layer };
+}
+
+
+__exports.paintMovieStudioCompositionWorkspace = paintMovieStudioCompositionWorkspace;
+function paintMovieStudioCompositionEvaluation(view, plan) {
+	if (!plan) {
+		view.evaluation.textContent = 'No render plan evaluated.';
+		return;
+	}
+	view.evaluation.textContent = [
+		`${plan.compositionId} at ${plan.time.toFixed(3)}s`,
+		`${plan.layers.length} visible leaf layer${plan.layers.length === 1 ? '' : 's'}`,
+		`${plan.width}×${plan.height} · ${plan.fps} fps`
+	].join(' · ');
+}
+
+
+__exports.paintMovieStudioCompositionEvaluation = paintMovieStudioCompositionEvaluation;
+function paintOptions(select, items, selectedId, emptyLabel) {
+	const options = [];
+	const empty = document.createElement('option');
+	empty.value = '';
+	empty.textContent = emptyLabel;
+	options.push(empty);
+	for (const item of items) {
+		const option = document.createElement('option');
+		option.value = item.id;
+		option.textContent = `${item.name} · ${item.id}`;
+		options.push(option);
+	}
+	select.replaceChildren(...options);
+	select.value = selectedId || '';
+}
+
+function paintLayerList(list, composition, selectedLayerId) {
+	list.replaceChildren();
+	if (!composition?.layers.length) {
+		const empty = document.createElement('p');
+		empty.className = 'movie-composition-empty';
+		empty.textContent = composition ? 'No layers yet.' : 'Create or select a composition.';
+		list.append(empty);
+		return;
+	}
+	composition.layers.forEach((layer, index) => {
+		const button = document.createElement('button');
+		button.type = 'button';
+		button.dataset.compositionLayerSelect = layer.id;
+		button.setAttribute('role', 'option');
+		button.setAttribute('aria-selected', String(layer.id === selectedLayerId));
+		button.className = 'movie-composition-layer-card';
+		button.textContent = [
+			`${index + 1}. ${layer.name}`,
+			layer.kind,
+			`${layer.start.toFixed(3)}–${(layer.start + layer.duration).toFixed(3)}s`,
+			layer.locked ? 'locked' : 'editable'
+		].join(' · ');
+		list.append(button);
+	});
+}
+
+function paintGraph(output, compositions, selected) {
+	const nested = selected?.layers.filter(layer => layer.kind === 'composition') || [];
+	output.textContent = selected
+		? `${compositions.length} composition${compositions.length === 1 ? '' : 's'} · ${selected.layers.length} layers · ${nested.length} nested references`
+		: `${compositions.length} composition${compositions.length === 1 ? '' : 's'} in project`;
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioCompositionView.js */
+__awtsmoosModule_1862 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieStudioCompositionView.js
+ * @description Collects semantic composition controls without creating parallel project state.
+ * The Awtsmoos is beyond selector and visible vessel; Awtsmoos.com gathers finite controls
+ * so nested canvases, layers, graphs, and render plans remain accessible to one controller.
+ */
+
+function collectMovieStudioCompositionView(root) {
+	const scope = root.querySelector('[data-composition-workspace]');
+	const find = name => scope?.querySelector(`[data-composition-${name}]`);
+	return {
+		actions: scope,
+		duration: find('duration'),
+		evaluate: find('evaluate'),
+		evaluation: find('evaluation'),
+		fps: find('fps'),
+		graph: find('graph'),
+		height: find('height'),
+		id: find('id'),
+		layerBlend: find('layer-blend'),
+		layerDuration: find('layer-duration'),
+		layerId: find('layer-id'),
+		layerKind: find('layer-kind'),
+		layerList: find('layer-list'),
+		layerLocked: find('layer-locked'),
+		layerLoop: find('layer-loop'),
+		layerName: find('layer-name'),
+		layerOpacity: find('layer-opacity'),
+		layerSource: find('layer-source'),
+		layerStart: find('layer-start'),
+		layerText: find('layer-text'),
+		name: find('name'),
+		scope,
+		select: find('select'),
+		status: find('status'),
+		width: find('width')
+	};
+}
+
+__exports.collectMovieStudioCompositionView = collectMovieStudioCompositionView;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioCompositionController.js */
+__awtsmoosModule_1857 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieStudioCompositionController.js
+ * @description Owns visible composition selection, refresh, evaluation, and lifecycle state.
+ * The Awtsmoos renews interface and document without parallel authority; Awtsmoos.com lets
+ * human gestures and agent calls share one nested-canvas contract, revision, undo, and failure truth.
+ */
+
+var MovieStudioCompositionActions = __awtsmoosModule_1858.MovieStudioCompositionActions;
+var MovieStudioCompositionInteraction = __awtsmoosModule_1860.MovieStudioCompositionInteraction;
+var paintMovieStudioCompositionEvaluation = __awtsmoosModule_1861.paintMovieStudioCompositionEvaluation;
+var paintMovieStudioCompositionWorkspace = __awtsmoosModule_1861.paintMovieStudioCompositionWorkspace;
+var collectMovieStudioCompositionView = __awtsmoosModule_1862.collectMovieStudioCompositionView;
+
+class MovieStudioCompositionController {
+	constructor(session, root) {
+		this.session = session;
+		this.view = collectMovieStudioCompositionView(root);
+		this.selectedCompositionId = null;
+		this.selectedLayerId = null;
+		this.actions = new MovieStudioCompositionActions(this);
+		this.interaction = new MovieStudioCompositionInteraction(this);
+		this.unsubscribe = session.events?.on?.('project:changed', () => this.refresh());
+		this.refresh();
+	}
+
+	get api() {
+		return this.session.publicApi.compositions;
+	}
+
+	refresh() {
+		if (!this.view.scope) return null;
+		const compositions = this.api.list();
+		if (!compositions.some(item => item.id === this.selectedCompositionId)) {
+			this.selectedCompositionId = compositions[0]?.id || null;
+		}
+		const selected = compositions.find(item => item.id === this.selectedCompositionId);
+		if (!selected?.layers.some(item => item.id === this.selectedLayerId)) {
+			this.selectedLayerId = selected?.layers[0]?.id || null;
+		}
+		return paintMovieStudioCompositionWorkspace(
+			this.view,
+			compositions,
+			this.selectedCompositionId,
+			this.selectedLayerId
+		);
+	}
+
+	selectComposition(compositionId) {
+		this.selectedCompositionId = compositionId || null;
+		this.selectedLayerId = null;
+		return this.refresh();
+	}
+
+	selectLayer(layerId) {
+		this.selectedLayerId = layerId || null;
+		return this.refresh();
+	}
+
+	runCompositionAction(action) {
+		return this.actions.composition(action);
+	}
+
+	runLayerAction(action) {
+		return this.actions.layer(action);
+	}
+
+	evaluate() {
+		if (!this.selectedCompositionId) return this.status('Select a composition first.');
+		try {
+			const composition = this.api.get(this.selectedCompositionId);
+			const lastFrame = Math.max(0, composition.duration - (1 / composition.fps));
+			const plan = this.api.evaluate(
+				this.selectedCompositionId,
+				Math.max(0, Math.min(this.session.time, lastFrame))
+			);
+			paintMovieStudioCompositionEvaluation(this.view, plan);
+			this.status('Composition render plan evaluated.');
+			return plan;
+		} catch (error) {
+			this.status(`Composition evaluation error: ${error.message}`);
+			return null;
+		}
+	}
+
+	finish(result, compositionId = this.selectedCompositionId, layerId = this.selectedLayerId) {
+		if (!result?.ok) {
+			return this.status(`Composition error: ${result?.error?.message || 'Unknown failure.'}`);
+		}
+		this.selectedCompositionId = compositionId;
+		this.selectedLayerId = layerId;
+		this.status('Composition project updated.');
+		return this.refresh();
+	}
+
+	status(message) {
+		if (this.view.status) this.view.status.textContent = message;
+		return null;
+	}
+
+	destroy() {
+		this.unsubscribe?.();
+		this.interaction.destroy();
+	}
+}
+
+__exports.MovieStudioCompositionController = MovieStudioCompositionController;
+return Object.freeze(__exports);
+})();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieInspectorState.js */
-__awtsmoosModule_1825 = (() => {
+__awtsmoosModule_1864 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -132816,7 +136019,7 @@ function focusMovieInspectorClose(view) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProjectReplacementRecovery.js */
-__awtsmoosModule_1826 = (() => {
+__awtsmoosModule_1865 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -132829,7 +136032,7 @@ const __exports = {};
  * browser persistence first refusal, memory fallback, canonical history, and explicit recovery evidence.
  */
 
-var saveMovieStudioPersistence = __awtsmoosModule_1642.saveMovieStudioPersistence;
+var saveMovieStudioPersistence = __awtsmoosModule_1651.saveMovieStudioPersistence;
 
 async function commitMovieProjectWithRecovery(session, project, label) {
 	const recovery = await preserveMovieProjectBeforeReplacement(session, label);
@@ -132883,7 +136086,7 @@ function recoveryKey(session, reason) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioKeyboard.js */
-__awtsmoosModule_1827 = (() => {
+__awtsmoosModule_1866 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -132891,9 +136094,9 @@ const __exports = {};
 
 /**
  * @file MovieStudioKeyboard.js
- * @description Routes guarded transport, history, edit, marker, and snapping shortcuts.
+ * @description Routes guarded editing and transport shortcuts across live and compatibility hosts.
  * The Awtsmoos renews intention before any key appears; Awtsmoos.com protects text entry
- * while giving reversible creative commands one explicit, preventable, accessible path.
+ * while one bounded bridge lets old controllers and new sessions share reversible motion.
  */
 
 function handleMovieStudioKey(controller, event) {
@@ -132908,51 +136111,74 @@ function handleMovieStudioKey(controller, event) {
 	if (event.ctrlKey && key === 'y') return runCommand(event, controller, 'redo');
 	if (command && key === 'b') return runCommand(event, controller, 'split');
 	if (command && key === 'd') return runCommand(event, controller, 'duplicate');
-	if (['delete', 'backspace'].includes(key)) {
-		return runCommand(event, controller, 'delete');
-	}
-	if (!command && !event.altKey && key === 'm') {
-		return runCommand(event, controller, 'addMarker');
-	}
-	if (!command && !event.altKey && key === 's') {
-		return runCommand(event, controller, 'toggleSnap');
-	}
+	if (['delete', 'backspace'].includes(key)) return runCommand(event, controller, 'delete');
+	if (!command && !event.altKey && key === 'm') return runCommand(event, controller, 'addMarker');
+	if (!command && !event.altKey && key === 's') return runCommand(event, controller, 'toggleSnap');
+	if (!command && !event.altKey && key === 'j') return runTransport(
+		event, () => invokeMovieTransport(controller, 'shuttle', -1)
+	);
+	if (!command && !event.altKey && key === 'k') return runTransport(
+		event, () => invokeMovieTransport(controller, 'pause')
+	);
+	if (!command && !event.altKey && key === 'l') return runTransport(
+		event, () => invokeMovieTransport(controller, 'shuttle', 1)
+	);
+	if (event.key === 'ArrowLeft') return runTransport(
+		event, () => invokeMovieTransport(controller, 'stepFrames', event.shiftKey ? -10 : -1)
+	);
+	if (event.key === 'ArrowRight') return runTransport(
+		event, () => invokeMovieTransport(controller, 'stepFrames', event.shiftKey ? 10 : 1)
+	);
 	if (event.key === 'Escape') {
 		controller.toggleInspector(false);
 		return true;
 	}
-	if (event.code === 'Space') {
-		event.preventDefault();
-		if (controller.session.director.playing) controller.pause();
-		else controller.session.play();
-		return true;
-	}
-	if (event.key === 'Home') controller.session.seek(0);
-	if (event.key === 'End') {
-		controller.session.seek(controller.session.project.duration);
-	}
+	if (event.code === 'Space') return runTransport(event, () => invokeMovieTransport(
+		controller,
+		controller.session.director.playing ? 'pause' : 'play'
+	));
+	if (event.key === 'Home') return runTransport(
+		event, () => invokeMovieTransport(controller, 'seek', 0)
+	);
+	if (event.key === 'End') return runTransport(
+		event, () => invokeMovieTransport(controller, 'seek', controller.session.project.duration)
+	);
 	return false;
 }
 
 
 __exports.handleMovieStudioKey = handleMovieStudioKey;
 function isMovieTextEntry(target) {
-	return Boolean(target?.closest?.(
-		'input, textarea, select, [contenteditable="true"]'
-	));
+	return Boolean(target?.closest?.('input, textarea, select, [contenteditable="true"]'));
 }
 
 
 __exports.isMovieTextEntry = isMovieTextEntry;
+function invokeMovieTransport(controller, method, ...args) {
+	const sessionMethod = controller.session?.[method];
+	if (typeof sessionMethod === 'function') return sessionMethod.apply(controller.session, args);
+	const controllerMethod = controller?.[method];
+	if (typeof controllerMethod === 'function') return controllerMethod.apply(controller, args);
+	throw new TypeError(`Movie transport method ${method} is unavailable.`);
+}
+
+
+__exports.invokeMovieTransport = invokeMovieTransport;
 function runCommand(event, controller, name) {
 	event.preventDefault();
 	controller.session.commands.run(name);
 	return true;
 }
+
+function runTransport(event, action) {
+	event.preventDefault();
+	action();
+	return true;
+}
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioInteractionController.js */
-__awtsmoosModule_1824 = (() => {
+__awtsmoosModule_1863 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -132960,16 +136186,16 @@ const __exports = {};
 
 /**
  * @file MovieStudioInteractionController.js
- * @description Binds removable studio actions, recovery-protected replacement, keyboard flow, history, and inspector state.
+ * @description Binds removable non-transport actions, guarded replacement, keyboard flow, history, and inspector state.
  * The Awtsmoos renews intention before finger or key can move; Awtsmoos.com lets
- * every new beginning and destructive replacement travel through one guarded recovery-aware path.
+ * project replacement, rendering, recovery, and panels travel through one guarded path.
  */
 
-var createEmptyMovieProject = __awtsmoosModule_1788.createEmptyMovieProject;
-var applyMovieInspectorState = __awtsmoosModule_1825.applyMovieInspectorState;
-var commitMovieProjectWithRecovery = __awtsmoosModule_1826.commitMovieProjectWithRecovery;
-var renderExactMovieStudioSession = __awtsmoosModule_1491.renderExactMovieStudioSession;
-var handleMovieStudioKey = __awtsmoosModule_1827.handleMovieStudioKey;
+var createEmptyMovieProject = __awtsmoosModule_1816.createEmptyMovieProject;
+var applyMovieInspectorState = __awtsmoosModule_1864.applyMovieInspectorState;
+var commitMovieProjectWithRecovery = __awtsmoosModule_1865.commitMovieProjectWithRecovery;
+var renderExactMovieStudioSession = __awtsmoosModule_1498.renderExactMovieStudioSession;
+var handleMovieStudioKey = __awtsmoosModule_1866.handleMovieStudioKey;
 
 class MovieStudioInteractionController {
 	constructor(session, view) {
@@ -132981,8 +136207,6 @@ class MovieStudioInteractionController {
 
 	bind() {
 		const { handlers, view } = this;
-		view.play.addEventListener('click', handlers.play);
-		view.stop.addEventListener('click', handlers.stop);
 		view.apply.addEventListener('click', handlers.apply);
 		view.copy.addEventListener('click', handlers.copy);
 		view.render.addEventListener('click', handlers.render);
@@ -133002,30 +136226,20 @@ class MovieStudioInteractionController {
 	async applyJson() {
 		const project = JSON.parse(this.view.json.value);
 		await commitMovieProjectWithRecovery(
-			this.session,
-			project,
-			'Apply project JSON'
+			this.session, project, 'Apply project JSON'
 		);
 	}
 
 	async createEmptyProject() {
-		this.session.director.pause();
+		this.session.pause();
 		return commitMovieProjectWithRecovery(
-			this.session,
-			createEmptyMovieProject(),
-			'Create empty movie project'
+			this.session, createEmptyMovieProject(), 'Create empty movie project'
 		);
-	}
-
-	pause() {
-		this.session.director.pause();
-		this.view.status.textContent = `Paused at ${this.session.time.toFixed(2)}s.`;
 	}
 
 	toggleInspector(open = !this.view.root.classList.contains('is-inspector-open'), restoreFocus = true) {
 		return applyMovieInspectorState(this.view, open, {
-			compact: innerWidth <= 980,
-			restoreFocus
+			compact: innerWidth <= 980, restoreFocus
 		});
 	}
 
@@ -133037,8 +136251,6 @@ class MovieStudioInteractionController {
 
 	destroy() {
 		const { handlers, view } = this;
-		view.play.removeEventListener('click', handlers.play);
-		view.stop.removeEventListener('click', handlers.stop);
 		view.apply.removeEventListener('click', handlers.apply);
 		view.copy.removeEventListener('click', handlers.copy);
 		view.render.removeEventListener('click', handlers.render);
@@ -133059,17 +136271,15 @@ function createHandlers(controller) {
 		copy: () => controller.run(() => controller.session.copyUrl()),
 		keyDown: event => controller.onKeyDown(event),
 		newEmptyProject: () => controller.run(() => controller.createEmptyProject()),
-		play: () => controller.session.play(),
 		render: () => controller.run(() => controller.session.render()),
 		renderExact: () => controller.run(() => renderExactMovieStudioSession(controller.session)),
-		stop: () => controller.pause(),
 		toggleInspector: () => controller.toggleInspector()
 	};
 }
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieAuthoringKeyframeProject.js */
-__awtsmoosModule_1830 = (() => {
+__awtsmoosModule_1869 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -133154,7 +136364,7 @@ function finite(value, fallback) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieAuthoringKeyframeView.js */
-__awtsmoosModule_1831 = (() => {
+__awtsmoosModule_1870 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -133211,7 +136421,7 @@ function escapeHtml(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioAuthoringKeyframeEditor.js */
-__awtsmoosModule_1829 = (() => {
+__awtsmoosModule_1868 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -133224,10 +136434,10 @@ const __exports = {};
  * 3D records separate from clip effects while project truth and rendered view remain one covenant.
  */
 
-var movieAuthoringKeyframes = __awtsmoosModule_1830.movieAuthoringKeyframes;
-var removeMovieAuthoringKeyframe = __awtsmoosModule_1830.removeMovieAuthoringKeyframe;
-var updateMovieAuthoringKeyframe = __awtsmoosModule_1830.updateMovieAuthoringKeyframe;
-var paintMovieAuthoringKeyframes = __awtsmoosModule_1831.paintMovieAuthoringKeyframes;
+var movieAuthoringKeyframes = __awtsmoosModule_1869.movieAuthoringKeyframes;
+var removeMovieAuthoringKeyframe = __awtsmoosModule_1869.removeMovieAuthoringKeyframe;
+var updateMovieAuthoringKeyframe = __awtsmoosModule_1869.updateMovieAuthoringKeyframe;
+var paintMovieAuthoringKeyframes = __awtsmoosModule_1870.paintMovieAuthoringKeyframes;
 
 class MovieStudioAuthoringKeyframeEditor {
 	constructor(session, view) {
@@ -133306,7 +136516,7 @@ function finite(value, fallback) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioKeyframeProject.js */
-__awtsmoosModule_1833 = (() => {
+__awtsmoosModule_1872 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -133319,8 +136529,8 @@ const __exports = {};
  * keeps lane discovery and edits pure so controller, agent, and future graph view share one finite truth.
  */
 
-var MOVIE_APPEARANCE_EFFECT_BOUNDS = __awtsmoosModule_1627.MOVIE_APPEARANCE_EFFECT_BOUNDS;
-var resolveMovieSelection = __awtsmoosModule_1533.resolveMovieSelection;
+var MOVIE_APPEARANCE_EFFECT_BOUNDS = __awtsmoosModule_1636.MOVIE_APPEARANCE_EFFECT_BOUNDS;
+var resolveMovieSelection = __awtsmoosModule_1540.resolveMovieSelection;
 
 function selectedMovieKeyframeClip(project, selection) {
 	return resolveMovieSelection(project, selection) || null;
@@ -133397,7 +136607,7 @@ function bounded(value, minimum, maximum, fallback) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioKeyframeView.js */
-__awtsmoosModule_1834 = (() => {
+__awtsmoosModule_1873 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -133466,7 +136676,7 @@ function escape(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioEffectKeyframeEditor.js */
-__awtsmoosModule_1832 = (() => {
+__awtsmoosModule_1871 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -133478,14 +136688,14 @@ const __exports = {};
  * The Awtsmoos renews every visible value before time divides it into points; Awtsmoos.com
  * keeps clip-effect editing focused, bounded, history-aware, and separate from authored 3D records.
  */
-var movieEffectBounds = __awtsmoosModule_1833.movieEffectBounds;
-var movieKeyframeLanes = __awtsmoosModule_1833.movieKeyframeLanes;
-var removeMovieEffectKeyframe = __awtsmoosModule_1833.removeMovieEffectKeyframe;
-var selectedMovieKeyframeClip = __awtsmoosModule_1833.selectedMovieKeyframeClip;
-var upsertMovieEffectKeyframe = __awtsmoosModule_1833.upsertMovieEffectKeyframe;
-var collectMovieStudioKeyframeView = __awtsmoosModule_1834.collectMovieStudioKeyframeView;
-var paintMovieKeyframeLanes = __awtsmoosModule_1834.paintMovieKeyframeLanes;
-var paintMovieKeyframeSelection = __awtsmoosModule_1834.paintMovieKeyframeSelection;
+var movieEffectBounds = __awtsmoosModule_1872.movieEffectBounds;
+var movieKeyframeLanes = __awtsmoosModule_1872.movieKeyframeLanes;
+var removeMovieEffectKeyframe = __awtsmoosModule_1872.removeMovieEffectKeyframe;
+var selectedMovieKeyframeClip = __awtsmoosModule_1872.selectedMovieKeyframeClip;
+var upsertMovieEffectKeyframe = __awtsmoosModule_1872.upsertMovieEffectKeyframe;
+var collectMovieStudioKeyframeView = __awtsmoosModule_1873.collectMovieStudioKeyframeView;
+var paintMovieKeyframeLanes = __awtsmoosModule_1873.paintMovieKeyframeLanes;
+var paintMovieKeyframeSelection = __awtsmoosModule_1873.paintMovieKeyframeSelection;
 
 class MovieStudioEffectKeyframeEditor {
 	constructor(session, root) {
@@ -133584,7 +136794,7 @@ __exports.MovieStudioEffectKeyframeEditor = MovieStudioEffectKeyframeEditor;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioKeyframeController.js */
-__awtsmoosModule_1828 = (() => {
+__awtsmoosModule_1867 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -133597,8 +136807,8 @@ const __exports = {};
  * diamonds and authored records share a stable public controller without sharing responsibilities.
  */
 
-var MovieStudioAuthoringKeyframeEditor = __awtsmoosModule_1829.MovieStudioAuthoringKeyframeEditor;
-var MovieStudioEffectKeyframeEditor = __awtsmoosModule_1832.MovieStudioEffectKeyframeEditor;
+var MovieStudioAuthoringKeyframeEditor = __awtsmoosModule_1868.MovieStudioAuthoringKeyframeEditor;
+var MovieStudioEffectKeyframeEditor = __awtsmoosModule_1871.MovieStudioEffectKeyframeEditor;
 
 class MovieStudioKeyframeController {
 	constructor(session, studioView) {
@@ -133648,7 +136858,7 @@ __exports.MovieStudioKeyframeController = MovieStudioKeyframeController;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceCameraRig.js */
-__awtsmoosModule_1836 = (() => {
+__awtsmoosModule_1875 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -133661,7 +136871,7 @@ const __exports = {};
  * keeps follow, eye, shoulder, distance, sensitivity, and damping explicit in cinematic rhyme.
  */
 
-var setMoviePerformanceCameraPose = __awtsmoosModule_1598.setMoviePerformanceCameraPose;
+var setMoviePerformanceCameraPose = __awtsmoosModule_1607.setMoviePerformanceCameraPose;
 
 class MoviePerformanceCameraRig {
 	constructor(camera) {
@@ -133754,7 +136964,7 @@ function positionArray(position) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceInputState.js */
-__awtsmoosModule_1837 = (() => {
+__awtsmoosModule_1876 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -133767,7 +136977,7 @@ const __exports = {};
  * Awtsmoos.com lets release clear one source while global lifecycle gates clear every devotion.
  */
 
-var normalizeMoviePerformanceIntent = __awtsmoosModule_1551.normalizeMoviePerformanceIntent;
+var normalizeMoviePerformanceIntent = __awtsmoosModule_1558.normalizeMoviePerformanceIntent;
 
 class MoviePerformanceInputState {
 	constructor() {
@@ -133870,7 +137080,7 @@ function strongestAxis(values, field) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceActorMovement.js */
-__awtsmoosModule_1839 = (() => {
+__awtsmoosModule_1878 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -133966,7 +137176,7 @@ function finite(value, fallback) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceInputAdapter.js */
-__awtsmoosModule_1841 = (() => {
+__awtsmoosModule_1880 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -134025,7 +137235,7 @@ __exports.MoviePerformanceInputAdapter = MoviePerformanceInputAdapter;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformancePlayerMovement.js */
-__awtsmoosModule_1840 = (() => {
+__awtsmoosModule_1879 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -134040,7 +137250,7 @@ const __exports = {};
 
 var BootstrapMovementController = __awtsmoosModule_484.BootstrapMovementController;
 var updateMinimalMeadowAnimation = __awtsmoosModule_494.updateMinimalMeadowAnimation;
-var MoviePerformanceInputAdapter = __awtsmoosModule_1841.MoviePerformanceInputAdapter;
+var MoviePerformanceInputAdapter = __awtsmoosModule_1880.MoviePerformanceInputAdapter;
 
 class MoviePerformancePlayerMovement {
 	constructor(target, input) {
@@ -134082,7 +137292,7 @@ function boundedDelta(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceMovement.js */
-__awtsmoosModule_1838 = (() => {
+__awtsmoosModule_1877 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -134095,8 +137305,8 @@ const __exports = {};
  * keeps movement ownership isolated per actor so armed hands alone can move and record their rhyme.
  */
 
-var MoviePerformanceActorMovement = __awtsmoosModule_1839.MoviePerformanceActorMovement;
-var MoviePerformancePlayerMovement = __awtsmoosModule_1840.MoviePerformancePlayerMovement;
+var MoviePerformanceActorMovement = __awtsmoosModule_1878.MoviePerformanceActorMovement;
+var MoviePerformancePlayerMovement = __awtsmoosModule_1879.MoviePerformancePlayerMovement;
 
 class MoviePerformanceMovement {
 	constructor(input) {
@@ -134144,7 +137354,7 @@ __exports.MoviePerformanceMovement = MoviePerformanceMovement;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceActions.js */
-__awtsmoosModule_1843 = (() => {
+__awtsmoosModule_1882 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -134157,7 +137367,7 @@ const __exports = {};
  * preserves exact action boundaries and authored target identities so playback remains in rhyme.
  */
 
-var moviePerformanceClone = __awtsmoosModule_1477.moviePerformanceClone;
+var moviePerformanceClone = __awtsmoosModule_1484.moviePerformanceClone;
 
 class MoviePerformanceActions {
 	constructor(options = {}) {
@@ -134233,7 +137443,7 @@ function normalizePayload(payload) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceAudio.js */
-__awtsmoosModule_1844 = (() => {
+__awtsmoosModule_1883 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -134357,7 +137567,7 @@ __exports.MoviePerformanceAudio = MoviePerformanceAudio;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceAudioFailure.js */
-__awtsmoosModule_1845 = (() => {
+__awtsmoosModule_1884 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -134425,7 +137635,7 @@ function failure(code, kind, message, phase) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceRecorderBuffer.js */
-__awtsmoosModule_1847 = (() => {
+__awtsmoosModule_1886 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -134438,9 +137648,9 @@ const __exports = {};
  * counts skipped cadence, collapses redundant stillness, and preserves exact action events in rhyme.
  */
 
-var moviePerformanceCameraSnapshot = __awtsmoosModule_1598.moviePerformanceCameraSnapshot;
-var createMoviePerformanceSample = __awtsmoosModule_1551.createMoviePerformanceSample;
-var moviePerformanceSampleChanged = __awtsmoosModule_1551.moviePerformanceSampleChanged;
+var moviePerformanceCameraSnapshot = __awtsmoosModule_1607.moviePerformanceCameraSnapshot;
+var createMoviePerformanceSample = __awtsmoosModule_1558.createMoviePerformanceSample;
+var moviePerformanceSampleChanged = __awtsmoosModule_1558.moviePerformanceSampleChanged;
 
 class MoviePerformanceRecorderBuffer {
 	constructor(sampleRate) {
@@ -134511,7 +137721,7 @@ __exports.MoviePerformanceRecorderBuffer = MoviePerformanceRecorderBuffer;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceTakeBuilder.js */
-__awtsmoosModule_1848 = (() => {
+__awtsmoosModule_1887 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -134524,8 +137734,8 @@ const __exports = {};
  * Awtsmoos.com keeps source counts, warnings, camera, audio linkage, and actor identity in rhyme.
  */
 
-var simplifyMoviePerformanceTake = __awtsmoosModule_1760.simplifyMoviePerformanceTake;
-var normalizeMoviePerformanceTake = __awtsmoosModule_1480.normalizeMoviePerformanceTake;
+var simplifyMoviePerformanceTake = __awtsmoosModule_1787.simplifyMoviePerformanceTake;
+var normalizeMoviePerformanceTake = __awtsmoosModule_1487.normalizeMoviePerformanceTake;
 
 function buildMoviePerformanceTake(state, buffer, options = {}) {
 	const duration = Math.max(
@@ -134568,7 +137778,7 @@ __exports.buildMoviePerformanceTake = buildMoviePerformanceTake;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceRecorderArchive.js */
-__awtsmoosModule_1846 = (() => {
+__awtsmoosModule_1885 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -134581,8 +137791,8 @@ const __exports = {};
  * keeps loop identity, local duration, raw samples, warnings, camera, and actions in separate rhyme.
  */
 
-var MoviePerformanceRecorderBuffer = __awtsmoosModule_1847.MoviePerformanceRecorderBuffer;
-var buildMoviePerformanceTake = __awtsmoosModule_1848.buildMoviePerformanceTake;
+var MoviePerformanceRecorderBuffer = __awtsmoosModule_1886.MoviePerformanceRecorderBuffer;
+var buildMoviePerformanceTake = __awtsmoosModule_1887.buildMoviePerformanceTake;
 
 class MoviePerformanceRecorderArchive {
 	constructor(sampleRate) {
@@ -134645,7 +137855,7 @@ __exports.MoviePerformanceRecorderArchive = MoviePerformanceRecorderArchive;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceRecorderEvents.js */
-__awtsmoosModule_1850 = (() => {
+__awtsmoosModule_1889 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -134685,7 +137895,7 @@ __exports.emitMoviePerformanceClockEvents = emitMoviePerformanceClockEvents;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceRecorderCapture.js */
-__awtsmoosModule_1849 = (() => {
+__awtsmoosModule_1888 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -134698,7 +137908,7 @@ const __exports = {};
  * Awtsmoos.com keeps microphone, camera, sample, loop, and clock evidence moving in measured rhyme.
  */
 
-var emitMoviePerformanceClockEvents = __awtsmoosModule_1850.emitMoviePerformanceClockEvents;
+var emitMoviePerformanceClockEvents = __awtsmoosModule_1889.emitMoviePerformanceClockEvents;
 
 class MoviePerformanceRecorderCapture {
 	constructor(owner) {
@@ -134791,7 +138001,7 @@ __exports.MoviePerformanceRecorderCapture = MoviePerformanceRecorderCapture;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceRecorderMedia.js */
-__awtsmoosModule_1851 = (() => {
+__awtsmoosModule_1890 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -134804,7 +138014,7 @@ const __exports = {};
  * permission, device, recorder, and unsupported failures speak while the actor may still rhyme.
  */
 
-var emitMoviePerformanceAudioFailure = __awtsmoosModule_1845.emitMoviePerformanceAudioFailure;
+var emitMoviePerformanceAudioFailure = __awtsmoosModule_1884.emitMoviePerformanceAudioFailure;
 
 class MoviePerformanceRecorderMedia {
 	constructor(audio, emit = () => {}) {
@@ -134859,7 +138069,7 @@ __exports.MoviePerformanceRecorderMedia = MoviePerformanceRecorderMedia;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceRecorderOperations.js */
-__awtsmoosModule_1852 = (() => {
+__awtsmoosModule_1891 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -134918,7 +138128,7 @@ __exports.MoviePerformanceRecorderOperations = MoviePerformanceRecorderOperation
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceRecordingClockPhases.js */
-__awtsmoosModule_1856 = (() => {
+__awtsmoosModule_1895 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -135025,7 +138235,7 @@ function emitMetronome(clock, former, current) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceRecordingClockFlow.js */
-__awtsmoosModule_1855 = (() => {
+__awtsmoosModule_1894 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -135038,11 +138248,11 @@ const __exports = {};
  * pre-roll, recording, loop, post-roll, beat, and ready state deterministic in rhyme.
  */
 
-var advanceMoviePerformanceCountdown = __awtsmoosModule_1856.advanceMoviePerformanceCountdown;
-var advanceMoviePerformancePostRoll = __awtsmoosModule_1856.advanceMoviePerformancePostRoll;
-var advanceMoviePerformancePreRoll = __awtsmoosModule_1856.advanceMoviePerformancePreRoll;
-var advanceMoviePerformanceRecording = __awtsmoosModule_1856.advanceMoviePerformanceRecording;
-var enterMoviePerformanceRoll = __awtsmoosModule_1856.enterMoviePerformanceRoll;
+var advanceMoviePerformanceCountdown = __awtsmoosModule_1895.advanceMoviePerformanceCountdown;
+var advanceMoviePerformancePostRoll = __awtsmoosModule_1895.advanceMoviePerformancePostRoll;
+var advanceMoviePerformancePreRoll = __awtsmoosModule_1895.advanceMoviePerformancePreRoll;
+var advanceMoviePerformanceRecording = __awtsmoosModule_1895.advanceMoviePerformanceRecording;
+var enterMoviePerformanceRoll = __awtsmoosModule_1895.enterMoviePerformanceRoll;
 
 function beginMoviePerformanceClock(clock, countIn = 0) {
 	const seconds = Math.max(0, Number(countIn) || 0);
@@ -135124,7 +138334,7 @@ __exports.moviePerformanceClockTime = moviePerformanceClockTime;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceRecordingClock.js */
-__awtsmoosModule_1854 = (() => {
+__awtsmoosModule_1893 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -135137,10 +138347,10 @@ const __exports = {};
  * keeps director time, take-local time, loop identity, beat, and completion deterministic in rhyme.
  */
 
-var advanceMoviePerformanceClock = __awtsmoosModule_1855.advanceMoviePerformanceClock;
-var beginMoviePerformanceClock = __awtsmoosModule_1855.beginMoviePerformanceClock;
-var completeMoviePerformanceLoop = __awtsmoosModule_1855.completeMoviePerformanceLoop;
-var moviePerformanceClockTime = __awtsmoosModule_1855.moviePerformanceClockTime;
+var advanceMoviePerformanceClock = __awtsmoosModule_1894.advanceMoviePerformanceClock;
+var beginMoviePerformanceClock = __awtsmoosModule_1894.beginMoviePerformanceClock;
+var completeMoviePerformanceLoop = __awtsmoosModule_1894.completeMoviePerformanceLoop;
+var moviePerformanceClockTime = __awtsmoosModule_1894.moviePerformanceClockTime;
 
 class MoviePerformanceRecordingClock {
 	configure(options = {}) {
@@ -135216,7 +138426,7 @@ __exports.MoviePerformanceRecordingClock = MoviePerformanceRecordingClock;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceRecorderOptions.js */
-__awtsmoosModule_1857 = (() => {
+__awtsmoosModule_1896 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -135286,7 +138496,7 @@ function enumValue(value, values, fallback) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceRecorderPhase.js */
-__awtsmoosModule_1858 = (() => {
+__awtsmoosModule_1897 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -135338,7 +138548,7 @@ __exports.requireMoviePerformanceRecorderPhase = requireMoviePerformanceRecorder
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceRecorderState.js */
-__awtsmoosModule_1853 = (() => {
+__awtsmoosModule_1892 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -135351,11 +138561,11 @@ const __exports = {};
  * Awtsmoos.com keeps live target outside JSON and immutable status inside a bounded cinematic rhyme.
  */
 
-var MoviePerformanceRecordingClock = __awtsmoosModule_1854.MoviePerformanceRecordingClock;
-var normalizeMoviePerformanceRecorderOptions = __awtsmoosModule_1857.normalizeMoviePerformanceRecorderOptions;
-var moviePerformanceRecorderCanStop = __awtsmoosModule_1858.moviePerformanceRecorderCanStop;
-var requireMoviePerformanceRecorderPhase = __awtsmoosModule_1858.requireMoviePerformanceRecorderPhase;
-var moviePerformanceClone = __awtsmoosModule_1477.moviePerformanceClone;
+var MoviePerformanceRecordingClock = __awtsmoosModule_1893.MoviePerformanceRecordingClock;
+var normalizeMoviePerformanceRecorderOptions = __awtsmoosModule_1896.normalizeMoviePerformanceRecorderOptions;
+var moviePerformanceRecorderCanStop = __awtsmoosModule_1897.moviePerformanceRecorderCanStop;
+var requireMoviePerformanceRecorderPhase = __awtsmoosModule_1897.requireMoviePerformanceRecorderPhase;
+var moviePerformanceClone = __awtsmoosModule_1484.moviePerformanceClone;
 
 class MoviePerformanceRecorderState {
 	constructor() {
@@ -135462,7 +138672,7 @@ __exports.MoviePerformanceRecorderState = MoviePerformanceRecorderState;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceRecorder.js */
-__awtsmoosModule_1842 = (() => {
+__awtsmoosModule_1881 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -135475,14 +138685,14 @@ const __exports = {};
  * leaves cancellation empty, loop performances distinct, and accepted evidence recoverable in rhyme.
  */
 
-var MoviePerformanceActions = __awtsmoosModule_1843.MoviePerformanceActions;
-var MoviePerformanceAudio = __awtsmoosModule_1844.MoviePerformanceAudio;
-var emitMoviePerformanceAudioFailure = __awtsmoosModule_1845.emitMoviePerformanceAudioFailure;
-var MoviePerformanceRecorderArchive = __awtsmoosModule_1846.MoviePerformanceRecorderArchive;
-var MoviePerformanceRecorderCapture = __awtsmoosModule_1849.MoviePerformanceRecorderCapture;
-var MoviePerformanceRecorderMedia = __awtsmoosModule_1851.MoviePerformanceRecorderMedia;
-var MoviePerformanceRecorderOperations = __awtsmoosModule_1852.MoviePerformanceRecorderOperations;
-var MoviePerformanceRecorderState = __awtsmoosModule_1853.MoviePerformanceRecorderState;
+var MoviePerformanceActions = __awtsmoosModule_1882.MoviePerformanceActions;
+var MoviePerformanceAudio = __awtsmoosModule_1883.MoviePerformanceAudio;
+var emitMoviePerformanceAudioFailure = __awtsmoosModule_1884.emitMoviePerformanceAudioFailure;
+var MoviePerformanceRecorderArchive = __awtsmoosModule_1885.MoviePerformanceRecorderArchive;
+var MoviePerformanceRecorderCapture = __awtsmoosModule_1888.MoviePerformanceRecorderCapture;
+var MoviePerformanceRecorderMedia = __awtsmoosModule_1890.MoviePerformanceRecorderMedia;
+var MoviePerformanceRecorderOperations = __awtsmoosModule_1891.MoviePerformanceRecorderOperations;
+var MoviePerformanceRecorderState = __awtsmoosModule_1892.MoviePerformanceRecorderState;
 
 class MoviePerformanceRecorder extends MoviePerformanceRecorderOperations {
 	constructor(options = {}) {
@@ -135573,7 +138783,7 @@ __exports.MoviePerformanceRecorder = MoviePerformanceRecorder;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceActions.js */
-__awtsmoosModule_1859 = (() => {
+__awtsmoosModule_1898 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -135586,7 +138796,7 @@ const __exports = {};
  * Awtsmoos.com joins manual buttons and public agents to one selection and action rhyme.
  */
 
-var updateMovieStudioPerformancePreferences = __awtsmoosModule_1779.updateMovieStudioPerformancePreferences;
+var updateMovieStudioPerformancePreferences = __awtsmoosModule_1806.updateMovieStudioPerformancePreferences;
 
 class MovieStudioPerformanceActions {
 	constructor(controller) {
@@ -135675,7 +138885,7 @@ __exports.MovieStudioPerformanceActions = MovieStudioPerformanceActions;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceDelegates.js */
-__awtsmoosModule_1860 = (() => {
+__awtsmoosModule_1899 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -135762,7 +138972,7 @@ __exports.MovieStudioPerformanceDelegates = MovieStudioPerformanceDelegates;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceModel.js */
-__awtsmoosModule_1861 = (() => {
+__awtsmoosModule_1900 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -135775,9 +138985,9 @@ const __exports = {};
  * Awtsmoos.com gives selection, capability, recording, recovery, voice, and settings one readable rhyme.
  */
 
-var catalogMoviePerformanceCharacters = __awtsmoosModule_1606.catalogMoviePerformanceCharacters;
-var discoverMoviePerformanceTargets = __awtsmoosModule_1606.discoverMoviePerformanceTargets;
-var moviePerformanceClone = __awtsmoosModule_1477.moviePerformanceClone;
+var catalogMoviePerformanceCharacters = __awtsmoosModule_1615.catalogMoviePerformanceCharacters;
+var discoverMoviePerformanceTargets = __awtsmoosModule_1615.discoverMoviePerformanceTargets;
+var moviePerformanceClone = __awtsmoosModule_1484.moviePerformanceClone;
 
 function refreshMovieStudioPerformanceModel(controller) {
 	const phase = controller.recorder.status().phase;
@@ -135852,7 +139062,7 @@ __exports.movieStudioPerformanceStatus = movieStudioPerformanceStatus;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceAudioAsset.js */
-__awtsmoosModule_1864 = (() => {
+__awtsmoosModule_1903 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -135956,7 +139166,7 @@ function fallback(warning) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceRecordingOptions.js */
-__awtsmoosModule_1865 = (() => {
+__awtsmoosModule_1904 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -136023,7 +139233,7 @@ function boundedIndex(value, length) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceRecordingAcceptance.js */
-__awtsmoosModule_1863 = (() => {
+__awtsmoosModule_1902 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -136036,9 +139246,9 @@ const __exports = {};
  * Awtsmoos.com keeps voice, preferred choice, history, autosave, and stable take identity in grace.
  */
 
-var prepareMoviePerformanceAudioAsset = __awtsmoosModule_1864.prepareMoviePerformanceAudioAsset;
-var selectMovieStudioPerformanceLoopIndex = __awtsmoosModule_1865.selectMovieStudioPerformanceLoopIndex;
-var commitMovieStudioPerformanceTakes = __awtsmoosModule_1771.commitMovieStudioPerformanceTakes;
+var prepareMoviePerformanceAudioAsset = __awtsmoosModule_1903.prepareMoviePerformanceAudioAsset;
+var selectMovieStudioPerformanceLoopIndex = __awtsmoosModule_1904.selectMovieStudioPerformanceLoopIndex;
+var commitMovieStudioPerformanceTakes = __awtsmoosModule_1798.commitMovieStudioPerformanceTakes;
 
 async function acceptMovieStudioPerformanceRecording(
 	controller,
@@ -136077,7 +139287,7 @@ __exports.acceptMovieStudioPerformanceRecording = acceptMovieStudioPerformanceRe
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceRecordingFlow.js */
-__awtsmoosModule_1866 = (() => {
+__awtsmoosModule_1905 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -136164,7 +139374,7 @@ function activeStopPhase(phase) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceRecording.js */
-__awtsmoosModule_1862 = (() => {
+__awtsmoosModule_1901 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -136177,10 +139387,10 @@ const __exports = {};
  * keeps cancellation empty and loop takes, selected clip, voice, history, autosave, and frame in one rhyme.
  */
 
-var acceptMovieStudioPerformanceRecording = __awtsmoosModule_1863.acceptMovieStudioPerformanceRecording;
-var createMovieStudioPerformanceRecorderOptions = __awtsmoosModule_1865.createMovieStudioPerformanceRecorderOptions;
-var toggleMovieStudioPerformanceRecording = __awtsmoosModule_1866.toggleMovieStudioPerformanceRecording;
-var updateMovieStudioPerformanceRecording = __awtsmoosModule_1866.updateMovieStudioPerformanceRecording;
+var acceptMovieStudioPerformanceRecording = __awtsmoosModule_1902.acceptMovieStudioPerformanceRecording;
+var createMovieStudioPerformanceRecorderOptions = __awtsmoosModule_1904.createMovieStudioPerformanceRecorderOptions;
+var toggleMovieStudioPerformanceRecording = __awtsmoosModule_1905.toggleMovieStudioPerformanceRecording;
+var updateMovieStudioPerformanceRecording = __awtsmoosModule_1905.updateMovieStudioPerformanceRecording;
 
 class MovieStudioPerformanceRecording {
 	constructor(controller) {
@@ -136271,7 +139481,7 @@ __exports.MovieStudioPerformanceRecording = MovieStudioPerformanceRecording;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceGamepad.js */
-__awtsmoosModule_1868 = (() => {
+__awtsmoosModule_1907 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -136363,7 +139573,7 @@ function pressed(gamepad, index) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceBindingLookup.js */
-__awtsmoosModule_1870 = (() => {
+__awtsmoosModule_1909 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -136414,7 +139624,7 @@ function moviePerformanceBindingValues(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceKeyboard.js */
-__awtsmoosModule_1869 = (() => {
+__awtsmoosModule_1908 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -136427,10 +139637,10 @@ const __exports = {};
  * keyboard ownership distinct while blur, visibility, and destruction clear only its rhyme.
  */
 
-var moviePerformanceBindingAxis = __awtsmoosModule_1870.moviePerformanceBindingAxis;
-var moviePerformanceBindingHeld = __awtsmoosModule_1870.moviePerformanceBindingHeld;
-var moviePerformanceCommandFor = __awtsmoosModule_1870.moviePerformanceCommandFor;
-var moviePerformanceEditableTarget = __awtsmoosModule_1870.moviePerformanceEditableTarget;
+var moviePerformanceBindingAxis = __awtsmoosModule_1909.moviePerformanceBindingAxis;
+var moviePerformanceBindingHeld = __awtsmoosModule_1909.moviePerformanceBindingHeld;
+var moviePerformanceCommandFor = __awtsmoosModule_1909.moviePerformanceCommandFor;
+var moviePerformanceEditableTarget = __awtsmoosModule_1909.moviePerformanceEditableTarget;
 
 const KEYBOARD_SOURCE = 'keyboard';
 
@@ -136537,7 +139747,7 @@ __exports.MoviePerformanceKeyboard = MoviePerformanceKeyboard;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieRecordedAudioResolver.js */
-__awtsmoosModule_1872 = (() => {
+__awtsmoosModule_1911 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -136605,7 +139815,7 @@ function clipEnabled(clip, time) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieRecordedAudioDirector.js */
-__awtsmoosModule_1871 = (() => {
+__awtsmoosModule_1910 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -136618,7 +139828,7 @@ const __exports = {};
  * keeps seek, play, pause, mute, solo, latency, reload, replacement, and cleanup audible in rhyme.
  */
 
-var resolveMovieRecordedAudio = __awtsmoosModule_1872.resolveMovieRecordedAudio;
+var resolveMovieRecordedAudio = __awtsmoosModule_1911.resolveMovieRecordedAudio;
 
 const PLAYBACK_DRIFT_TOLERANCE = 0.18;
 
@@ -136731,7 +139941,7 @@ __exports.MovieRecordedAudioDirector = MovieRecordedAudioDirector;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceLoop.js */
-__awtsmoosModule_1873 = (() => {
+__awtsmoosModule_1912 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -136809,7 +140019,7 @@ __exports.MovieStudioPerformanceLoop = MovieStudioPerformanceLoop;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformancePointerLook.js */
-__awtsmoosModule_1875 = (() => {
+__awtsmoosModule_1914 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -136895,7 +140105,7 @@ __exports.MoviePerformancePointerLook = MoviePerformancePointerLook;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceMarkup.js */
-__awtsmoosModule_1876 = (() => {
+__awtsmoosModule_1915 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -136988,7 +140198,7 @@ __exports.movieStudioPerformanceTouchMarkup = movieStudioPerformanceTouchMarkup;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceOverlayElements.js */
-__awtsmoosModule_1878 = (() => {
+__awtsmoosModule_1917 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -137104,7 +140314,7 @@ function setAttributes(element, attributes) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceProjection.js */
-__awtsmoosModule_1881 = (() => {
+__awtsmoosModule_1920 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -137205,7 +140415,7 @@ function worldPoint(vector) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceOverlayState.js */
-__awtsmoosModule_1882 = (() => {
+__awtsmoosModule_1921 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -137261,7 +140471,7 @@ __exports.movieStudioPerformanceOverlayRecordingActive = movieStudioPerformanceO
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceOverlayDrag.js */
-__awtsmoosModule_1880 = (() => {
+__awtsmoosModule_1919 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -137274,9 +140484,9 @@ const __exports = {};
  * Awtsmoos.com keeps preview apart from canonical mutation, so one completed drag reveals one undoable view.
  */
 
-var unprojectMoviePerformanceGround = __awtsmoosModule_1881.unprojectMoviePerformanceGround;
-var movieStudioPerformanceOverlayRecordingActive = __awtsmoosModule_1882.movieStudioPerformanceOverlayRecordingActive;
-var movieStudioPerformanceOverlaySample = __awtsmoosModule_1882.movieStudioPerformanceOverlaySample;
+var unprojectMoviePerformanceGround = __awtsmoosModule_1920.unprojectMoviePerformanceGround;
+var movieStudioPerformanceOverlayRecordingActive = __awtsmoosModule_1921.movieStudioPerformanceOverlayRecordingActive;
+var movieStudioPerformanceOverlaySample = __awtsmoosModule_1921.movieStudioPerformanceOverlaySample;
 
 class MovieStudioPerformanceOverlayDrag {
 	constructor(overlay) {
@@ -137373,7 +140583,7 @@ __exports.MovieStudioPerformanceOverlayDrag = MovieStudioPerformanceOverlayDrag;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceOverlayInteraction.js */
-__awtsmoosModule_1879 = (() => {
+__awtsmoosModule_1918 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -137386,7 +140596,7 @@ const __exports = {};
  * deletion, listener cleanup, and canonical history meet beneath one clear orchestration mask.
  */
 
-var MovieStudioPerformanceOverlayDrag = __awtsmoosModule_1880.MovieStudioPerformanceOverlayDrag;
+var MovieStudioPerformanceOverlayDrag = __awtsmoosModule_1919.MovieStudioPerformanceOverlayDrag;
 
 class MovieStudioPerformanceOverlayInteraction {
 	constructor(overlay) {
@@ -137439,7 +140649,7 @@ __exports.MovieStudioPerformanceOverlayInteraction = MovieStudioPerformanceOverl
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceOverlayPaths.js */
-__awtsmoosModule_1884 = (() => {
+__awtsmoosModule_1923 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -137452,9 +140662,9 @@ const __exports = {};
  * Awtsmoos.com keeps world path, ghost, point index, take identity, touch reach, and drag preview in rhyme.
  */
 
-var projectMoviePerformancePoint = __awtsmoosModule_1881.projectMoviePerformancePoint;
-var performanceOverlayPath = __awtsmoosModule_1878.performanceOverlayPath;
-var performanceOverlayPoint = __awtsmoosModule_1878.performanceOverlayPoint;
+var projectMoviePerformancePoint = __awtsmoosModule_1920.projectMoviePerformancePoint;
+var performanceOverlayPath = __awtsmoosModule_1917.performanceOverlayPath;
+var performanceOverlayPoint = __awtsmoosModule_1917.performanceOverlayPoint;
 
 function movieStudioPerformanceOverlayPaths(
 	overlay,
@@ -137548,7 +140758,7 @@ function ghostTake(controller, selected) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceOverlayScene.js */
-__awtsmoosModule_1885 = (() => {
+__awtsmoosModule_1924 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -137561,11 +140771,11 @@ const __exports = {};
  * Awtsmoos.com keeps actor, ground, pace, aid, cue, title-safe, and action-safe evidence in rhyme.
  */
 
-var projectMoviePerformancePoint = __awtsmoosModule_1881.projectMoviePerformancePoint;
-var performanceOverlayCue = __awtsmoosModule_1878.performanceOverlayCue;
-var performanceOverlayLabel = __awtsmoosModule_1878.performanceOverlayLabel;
-var performanceOverlayPoint = __awtsmoosModule_1878.performanceOverlayPoint;
-var performanceOverlaySafeAreas = __awtsmoosModule_1878.performanceOverlaySafeAreas;
+var projectMoviePerformancePoint = __awtsmoosModule_1920.projectMoviePerformancePoint;
+var performanceOverlayCue = __awtsmoosModule_1917.performanceOverlayCue;
+var performanceOverlayLabel = __awtsmoosModule_1917.performanceOverlayLabel;
+var performanceOverlayPoint = __awtsmoosModule_1917.performanceOverlayPoint;
+var performanceOverlaySafeAreas = __awtsmoosModule_1917.performanceOverlaySafeAreas;
 
 function movieStudioPerformanceOverlayScene(
 	overlay,
@@ -137666,7 +140876,7 @@ function actorText(name, velocity, grounded) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceOverlayRender.js */
-__awtsmoosModule_1883 = (() => {
+__awtsmoosModule_1922 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -137679,8 +140889,8 @@ const __exports = {};
  * Awtsmoos.com joins path, ghost, actor, mark, cue, state, and safe areas in one bounded rhyme.
  */
 
-var movieStudioPerformanceOverlayPaths = __awtsmoosModule_1884.movieStudioPerformanceOverlayPaths;
-var movieStudioPerformanceOverlayScene = __awtsmoosModule_1885.movieStudioPerformanceOverlayScene;
+var movieStudioPerformanceOverlayPaths = __awtsmoosModule_1923.movieStudioPerformanceOverlayPaths;
+var movieStudioPerformanceOverlayScene = __awtsmoosModule_1924.movieStudioPerformanceOverlayScene;
 
 function renderMovieStudioPerformanceOverlay(overlay, snapshot) {
 	const preview = overlay.controller.session.view.preview;
@@ -137713,7 +140923,7 @@ __exports.renderMovieStudioPerformanceOverlay = renderMovieStudioPerformanceOver
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceOverlay.js */
-__awtsmoosModule_1877 = (() => {
+__awtsmoosModule_1916 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -137726,9 +140936,9 @@ const __exports = {};
  * Awtsmoos.com pairs visual projection, canonical editing, selection, and cleanup in one rhyme.
  */
 
-var createPerformanceOverlaySvg = __awtsmoosModule_1878.createPerformanceOverlaySvg;
-var MovieStudioPerformanceOverlayInteraction = __awtsmoosModule_1879.MovieStudioPerformanceOverlayInteraction;
-var renderMovieStudioPerformanceOverlay = __awtsmoosModule_1883.renderMovieStudioPerformanceOverlay;
+var createPerformanceOverlaySvg = __awtsmoosModule_1917.createPerformanceOverlaySvg;
+var MovieStudioPerformanceOverlayInteraction = __awtsmoosModule_1918.MovieStudioPerformanceOverlayInteraction;
+var renderMovieStudioPerformanceOverlay = __awtsmoosModule_1922.renderMovieStudioPerformanceOverlay;
 
 class MovieStudioPerformanceOverlay {
 	constructor(controller, preview) {
@@ -137758,7 +140968,7 @@ __exports.MovieStudioPerformanceOverlay = MovieStudioPerformanceOverlay;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceTouch.js */
-__awtsmoosModule_1886 = (() => {
+__awtsmoosModule_1925 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -137866,7 +141076,7 @@ __exports.MovieStudioPerformanceTouch = MovieStudioPerformanceTouch;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceViewBindings.js */
-__awtsmoosModule_1888 = (() => {
+__awtsmoosModule_1927 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -137942,7 +141152,7 @@ function preferenceElements(view) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceViewOptions.js */
-__awtsmoosModule_1889 = (() => {
+__awtsmoosModule_1928 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -138035,7 +141245,7 @@ function bounded(value, minimum, maximum, fallback) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceViewRefs.js */
-__awtsmoosModule_1890 = (() => {
+__awtsmoosModule_1929 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -138095,7 +141305,7 @@ __exports.collectMovieStudioPerformanceView = collectMovieStudioPerformanceView;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceSettingsRender.js */
-__awtsmoosModule_1892 = (() => {
+__awtsmoosModule_1931 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -138136,7 +141346,7 @@ function nullableValue(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceStatusText.js */
-__awtsmoosModule_1893 = (() => {
+__awtsmoosModule_1932 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -138190,7 +141400,7 @@ __exports.movieStudioPerformanceStatusParts = movieStudioPerformanceStatusParts;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceTakeEvidence.js */
-__awtsmoosModule_1895 = (() => {
+__awtsmoosModule_1934 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -138223,7 +141433,7 @@ __exports.movieStudioPerformanceTakeEvidence = movieStudioPerformanceTakeEvidenc
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceTakeRender.js */
-__awtsmoosModule_1894 = (() => {
+__awtsmoosModule_1933 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -138236,7 +141446,7 @@ const __exports = {};
  * Awtsmoos.com keeps rating, favorite, preference, warning, provenance, and action controls in sight.
  */
 
-var movieStudioPerformanceTakeEvidence = __awtsmoosModule_1895.movieStudioPerformanceTakeEvidence;
+var movieStudioPerformanceTakeEvidence = __awtsmoosModule_1934.movieStudioPerformanceTakeEvidence;
 
 function renderMovieStudioPerformanceTakes(
 	root,
@@ -138343,7 +141553,7 @@ function createButton(root, label, action, id) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceViewRender.js */
-__awtsmoosModule_1891 = (() => {
+__awtsmoosModule_1930 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -138356,10 +141566,10 @@ const __exports = {};
  * keeps every performer, preference, warning, action, take, and recovery readable in rhyme.
  */
 
-var renderMovieStudioPerformanceSettings = __awtsmoosModule_1892.renderMovieStudioPerformanceSettings;
-var movieStudioPerformanceStatusParts = __awtsmoosModule_1893.movieStudioPerformanceStatusParts;
-var renderMovieStudioPerformanceRecovery = __awtsmoosModule_1894.renderMovieStudioPerformanceRecovery;
-var renderMovieStudioPerformanceTakes = __awtsmoosModule_1894.renderMovieStudioPerformanceTakes;
+var renderMovieStudioPerformanceSettings = __awtsmoosModule_1931.renderMovieStudioPerformanceSettings;
+var movieStudioPerformanceStatusParts = __awtsmoosModule_1932.movieStudioPerformanceStatusParts;
+var renderMovieStudioPerformanceRecovery = __awtsmoosModule_1933.renderMovieStudioPerformanceRecovery;
+var renderMovieStudioPerformanceTakes = __awtsmoosModule_1933.renderMovieStudioPerformanceTakes;
 
 function renderMovieStudioPerformanceView(view, snapshot) {
 	renderCharacters(view.character, snapshot.characters, snapshot.selectedCharacterId);
@@ -138421,7 +141631,7 @@ function renderStatus(view, snapshot) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceView.js */
-__awtsmoosModule_1887 = (() => {
+__awtsmoosModule_1926 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -138434,11 +141644,11 @@ const __exports = {};
  * keeps every range, record, action, take, filter, and preference operation in canonical rhyme.
  */
 
-var bindMovieStudioPerformanceView = __awtsmoosModule_1888.bindMovieStudioPerformanceView;
-var readMovieStudioPerformancePreferenceChanges = __awtsmoosModule_1889.readMovieStudioPerformancePreferenceChanges;
-var readMovieStudioPerformanceRecordingOptions = __awtsmoosModule_1889.readMovieStudioPerformanceRecordingOptions;
-var collectMovieStudioPerformanceView = __awtsmoosModule_1890.collectMovieStudioPerformanceView;
-var renderMovieStudioPerformanceView = __awtsmoosModule_1891.renderMovieStudioPerformanceView;
+var bindMovieStudioPerformanceView = __awtsmoosModule_1927.bindMovieStudioPerformanceView;
+var readMovieStudioPerformancePreferenceChanges = __awtsmoosModule_1928.readMovieStudioPerformancePreferenceChanges;
+var readMovieStudioPerformanceRecordingOptions = __awtsmoosModule_1928.readMovieStudioPerformanceRecordingOptions;
+var collectMovieStudioPerformanceView = __awtsmoosModule_1929.collectMovieStudioPerformanceView;
+var renderMovieStudioPerformanceView = __awtsmoosModule_1930.renderMovieStudioPerformanceView;
 
 class MovieStudioPerformanceView {
 	constructor(controller, root) {
@@ -138510,7 +141720,7 @@ __exports.MovieStudioPerformanceView = MovieStudioPerformanceView;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceVisualSetup.js */
-__awtsmoosModule_1874 = (() => {
+__awtsmoosModule_1913 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -138523,11 +141733,11 @@ const __exports = {};
  * Awtsmoos.com creates touch before discovery, then pairs panel, path, cue, and cleanup in rhyme.
  */
 
-var MoviePerformancePointerLook = __awtsmoosModule_1875.MoviePerformancePointerLook;
-var movieStudioPerformanceTouchMarkup = __awtsmoosModule_1876.movieStudioPerformanceTouchMarkup;
-var MovieStudioPerformanceOverlay = __awtsmoosModule_1877.MovieStudioPerformanceOverlay;
-var MovieStudioPerformanceTouch = __awtsmoosModule_1886.MovieStudioPerformanceTouch;
-var MovieStudioPerformanceView = __awtsmoosModule_1887.MovieStudioPerformanceView;
+var MoviePerformancePointerLook = __awtsmoosModule_1914.MoviePerformancePointerLook;
+var movieStudioPerformanceTouchMarkup = __awtsmoosModule_1915.movieStudioPerformanceTouchMarkup;
+var MovieStudioPerformanceOverlay = __awtsmoosModule_1916.MovieStudioPerformanceOverlay;
+var MovieStudioPerformanceTouch = __awtsmoosModule_1925.MovieStudioPerformanceTouch;
+var MovieStudioPerformanceView = __awtsmoosModule_1926.MovieStudioPerformanceView;
 
 function installMovieStudioPerformanceVisuals(
 	controller,
@@ -138585,7 +141795,7 @@ function createTouchRoot(preview, document) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceSetup.js */
-__awtsmoosModule_1867 = (() => {
+__awtsmoosModule_1906 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -138598,12 +141808,12 @@ const __exports = {};
  * Awtsmoos.com pairs installation and destruction so no voice, listener, key, frame, or guide remains.
  */
 
-var MoviePerformanceGamepad = __awtsmoosModule_1868.MoviePerformanceGamepad;
-var MoviePerformanceKeyboard = __awtsmoosModule_1869.MoviePerformanceKeyboard;
-var MovieRecordedAudioDirector = __awtsmoosModule_1871.MovieRecordedAudioDirector;
-var MovieStudioPerformanceLoop = __awtsmoosModule_1873.MovieStudioPerformanceLoop;
-var destroyMovieStudioPerformanceVisuals = __awtsmoosModule_1874.destroyMovieStudioPerformanceVisuals;
-var installMovieStudioPerformanceVisuals = __awtsmoosModule_1874.installMovieStudioPerformanceVisuals;
+var MoviePerformanceGamepad = __awtsmoosModule_1907.MoviePerformanceGamepad;
+var MoviePerformanceKeyboard = __awtsmoosModule_1908.MoviePerformanceKeyboard;
+var MovieRecordedAudioDirector = __awtsmoosModule_1910.MovieRecordedAudioDirector;
+var MovieStudioPerformanceLoop = __awtsmoosModule_1912.MovieStudioPerformanceLoop;
+var destroyMovieStudioPerformanceVisuals = __awtsmoosModule_1913.destroyMovieStudioPerformanceVisuals;
+var installMovieStudioPerformanceVisuals = __awtsmoosModule_1913.installMovieStudioPerformanceVisuals;
 
 function installMovieStudioPerformanceAdapters(
 	controller,
@@ -138669,7 +141879,7 @@ function triggerKeyAction(controller, action) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceState.js */
-__awtsmoosModule_1896 = (() => {
+__awtsmoosModule_1935 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -138682,7 +141892,7 @@ const __exports = {};
  * selection, arming, input, camera, and capability truth explicit in cinematic rhyme.
  */
 
-var moviePerformanceClone = __awtsmoosModule_1477.moviePerformanceClone;
+var moviePerformanceClone = __awtsmoosModule_1484.moviePerformanceClone;
 
 class MovieStudioPerformanceState {
 	constructor() {
@@ -138745,7 +141955,7 @@ __exports.MovieStudioPerformanceState = MovieStudioPerformanceState;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceTakeJudgment.js */
-__awtsmoosModule_1899 = (() => {
+__awtsmoosModule_1938 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -138758,9 +141968,9 @@ const __exports = {};
  * Awtsmoos.com keeps score, affection, and note undoable, validated, autosaved, and level.
  */
 
-var noteMoviePerformanceTake = __awtsmoosModule_1754.noteMoviePerformanceTake;
-var rateMoviePerformanceTake = __awtsmoosModule_1754.rateMoviePerformanceTake;
-var mutateMovieStudioPerformance = __awtsmoosModule_1771.mutateMovieStudioPerformance;
+var noteMoviePerformanceTake = __awtsmoosModule_1781.noteMoviePerformanceTake;
+var rateMoviePerformanceTake = __awtsmoosModule_1781.rateMoviePerformanceTake;
+var mutateMovieStudioPerformance = __awtsmoosModule_1798.mutateMovieStudioPerformance;
 
 function judgeMovieStudioPerformanceTake(
 	controller,
@@ -138796,7 +142006,7 @@ __exports.noteMovieStudioPerformanceTake = noteMovieStudioPerformanceTake;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceTakePrompt.js */
-__awtsmoosModule_1900 = (() => {
+__awtsmoosModule_1939 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -138846,7 +142056,7 @@ __exports.cancelMovieStudioPerformanceTakePrompt = cancelMovieStudioPerformanceT
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceTakeMetadataActions.js */
-__awtsmoosModule_1898 = (() => {
+__awtsmoosModule_1937 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -138859,12 +142069,12 @@ const __exports = {};
  * keeps prompts capability-aware and every accepted answer undoable, validated, autosaved, and whole.
  */
 
-var movieStudioPerformanceMutations = __awtsmoosModule_1771.movieStudioPerformanceMutations;
-var judgeMovieStudioPerformanceTake = __awtsmoosModule_1899.judgeMovieStudioPerformanceTake;
-var noteMovieStudioPerformanceTake = __awtsmoosModule_1899.noteMovieStudioPerformanceTake;
-var cancelMovieStudioPerformanceTakePrompt = __awtsmoosModule_1900.cancelMovieStudioPerformanceTakePrompt;
-var promptMovieStudioPerformanceTake = __awtsmoosModule_1900.promptMovieStudioPerformanceTake;
-var requireMovieStudioPerformanceTake = __awtsmoosModule_1900.requireMovieStudioPerformanceTake;
+var movieStudioPerformanceMutations = __awtsmoosModule_1798.movieStudioPerformanceMutations;
+var judgeMovieStudioPerformanceTake = __awtsmoosModule_1938.judgeMovieStudioPerformanceTake;
+var noteMovieStudioPerformanceTake = __awtsmoosModule_1938.noteMovieStudioPerformanceTake;
+var cancelMovieStudioPerformanceTakePrompt = __awtsmoosModule_1939.cancelMovieStudioPerformanceTakePrompt;
+var promptMovieStudioPerformanceTake = __awtsmoosModule_1939.promptMovieStudioPerformanceTake;
+var requireMovieStudioPerformanceTake = __awtsmoosModule_1939.requireMovieStudioPerformanceTake;
 
 class MovieStudioPerformanceTakeMetadataActions {
 	constructor(controller) {
@@ -138962,7 +142172,7 @@ __exports.MovieStudioPerformanceTakeMetadataActions = MovieStudioPerformanceTake
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceTakeActions.js */
-__awtsmoosModule_1897 = (() => {
+__awtsmoosModule_1936 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -138975,8 +142185,8 @@ const __exports = {};
  * Awtsmoos.com keeps every decision joined to history, validation, autosave, recovery, and timeline rhyme.
  */
 
-var movieStudioPerformanceMutations = __awtsmoosModule_1771.movieStudioPerformanceMutations;
-var MovieStudioPerformanceTakeMetadataActions = __awtsmoosModule_1898.MovieStudioPerformanceTakeMetadataActions;
+var movieStudioPerformanceMutations = __awtsmoosModule_1798.movieStudioPerformanceMutations;
+var MovieStudioPerformanceTakeMetadataActions = __awtsmoosModule_1937.MovieStudioPerformanceTakeMetadataActions;
 
 class MovieStudioPerformanceTakeActions {
 	constructor(controller) {
@@ -139062,7 +142272,7 @@ __exports.MovieStudioPerformanceTakeActions = MovieStudioPerformanceTakeActions;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceController.js */
-__awtsmoosModule_1835 = (() => {
+__awtsmoosModule_1874 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -139075,23 +142285,23 @@ const __exports = {};
  * keyboard, touch, gamepad, microphone, timeline, and agent reveal one cinematic rhyme.
  */
 
-var MoviePerformanceCameraRig = __awtsmoosModule_1836.MoviePerformanceCameraRig;
-var MoviePerformanceInputState = __awtsmoosModule_1837.MoviePerformanceInputState;
-var MoviePerformanceMovement = __awtsmoosModule_1838.MoviePerformanceMovement;
-var MoviePerformanceRecorder = __awtsmoosModule_1842.MoviePerformanceRecorder;
-var MovieStudioPerformanceActions = __awtsmoosModule_1859.MovieStudioPerformanceActions;
-var MovieStudioPerformanceDelegates = __awtsmoosModule_1860.MovieStudioPerformanceDelegates;
-var movieStudioPerformanceActions = __awtsmoosModule_1861.movieStudioPerformanceActions;
-var movieStudioPerformanceCharacters = __awtsmoosModule_1861.movieStudioPerformanceCharacters;
-var movieStudioPerformanceStatus = __awtsmoosModule_1861.movieStudioPerformanceStatus;
-var movieStudioPerformanceTarget = __awtsmoosModule_1861.movieStudioPerformanceTarget;
-var refreshMovieStudioPerformanceModel = __awtsmoosModule_1861.refreshMovieStudioPerformanceModel;
-var MovieStudioPerformanceRecording = __awtsmoosModule_1862.MovieStudioPerformanceRecording;
-var destroyMovieStudioPerformanceAdapters = __awtsmoosModule_1867.destroyMovieStudioPerformanceAdapters;
-var installMovieStudioPerformanceAdapters = __awtsmoosModule_1867.installMovieStudioPerformanceAdapters;
-var MovieStudioPerformanceState = __awtsmoosModule_1896.MovieStudioPerformanceState;
-var MovieStudioPerformanceTakeActions = __awtsmoosModule_1897.MovieStudioPerformanceTakeActions;
-var moviePerformanceClone = __awtsmoosModule_1477.moviePerformanceClone;
+var MoviePerformanceCameraRig = __awtsmoosModule_1875.MoviePerformanceCameraRig;
+var MoviePerformanceInputState = __awtsmoosModule_1876.MoviePerformanceInputState;
+var MoviePerformanceMovement = __awtsmoosModule_1877.MoviePerformanceMovement;
+var MoviePerformanceRecorder = __awtsmoosModule_1881.MoviePerformanceRecorder;
+var MovieStudioPerformanceActions = __awtsmoosModule_1898.MovieStudioPerformanceActions;
+var MovieStudioPerformanceDelegates = __awtsmoosModule_1899.MovieStudioPerformanceDelegates;
+var movieStudioPerformanceActions = __awtsmoosModule_1900.movieStudioPerformanceActions;
+var movieStudioPerformanceCharacters = __awtsmoosModule_1900.movieStudioPerformanceCharacters;
+var movieStudioPerformanceStatus = __awtsmoosModule_1900.movieStudioPerformanceStatus;
+var movieStudioPerformanceTarget = __awtsmoosModule_1900.movieStudioPerformanceTarget;
+var refreshMovieStudioPerformanceModel = __awtsmoosModule_1900.refreshMovieStudioPerformanceModel;
+var MovieStudioPerformanceRecording = __awtsmoosModule_1901.MovieStudioPerformanceRecording;
+var destroyMovieStudioPerformanceAdapters = __awtsmoosModule_1906.destroyMovieStudioPerformanceAdapters;
+var installMovieStudioPerformanceAdapters = __awtsmoosModule_1906.installMovieStudioPerformanceAdapters;
+var MovieStudioPerformanceState = __awtsmoosModule_1935.MovieStudioPerformanceState;
+var MovieStudioPerformanceTakeActions = __awtsmoosModule_1936.MovieStudioPerformanceTakeActions;
+var moviePerformanceClone = __awtsmoosModule_1484.moviePerformanceClone;
 
 class MovieStudioPerformanceController extends MovieStudioPerformanceDelegates {
 	constructor(session, options = {}) {
@@ -139173,7 +142383,7 @@ __exports.MovieStudioPerformanceController = MovieStudioPerformanceController;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPreferenceController.js */
-__awtsmoosModule_1901 = (() => {
+__awtsmoosModule_1940 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -139261,7 +142471,7 @@ function createHandlers(controller) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioMediaPreview.js */
-__awtsmoosModule_1904 = (() => {
+__awtsmoosModule_1943 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -139269,34 +142479,29 @@ const __exports = {};
 
 /**
  * @file MovieStudioMediaPreview.js
- * @description Paints safe native source previews and releases replaced playback resources.
+ * @description Paints, transports, reports, and releases safe native source previews.
  * The Awtsmoos gives no URL independent power, yet every finite image and sound may testify;
  * Awtsmoos.com previews without autoplay and cleans each old vessel before the next can arise.
  */
 
+var movieFrameDuration = __awtsmoosModule_1602.movieFrameDuration;
+
 function paintMovieStudioMediaPreview(view, media, inPoint = 0) {
 	const mediaId = String(media?.id || '');
-	if (view.preview.dataset.previewMediaId === mediaId && view.preview.childNodes.length) {
-		return;
-	}
+	if (view.preview.dataset.previewMediaId === mediaId && view.preview.childNodes.length) return;
 	releaseMovieStudioMediaPreview(view);
 	view.preview.dataset.previewMediaId = mediaId;
 	const documentValue = view.preview.ownerDocument;
-	if (!media) {
-		view.preview.append(message(documentValue, 'Select media to preview.'));
-		return;
-	}
+	if (!media) return appendMessage(view, 'Select media to preview.');
 	const url = String(media.proxyUrl || media.url || '');
-	if (!url) {
-		view.preview.append(message(documentValue, 'Media is offline or has no URL.'));
-		return;
-	}
+	if (!url) return appendMessage(view, 'Media is offline or has no URL.');
 	if (media.kind === 'image') {
 		const image = documentValue.createElement('img');
 		image.alt = String(media.label || 'Source image');
 		image.decoding = 'async';
 		image.src = url;
 		view.preview.append(image);
+		emitSourcePreviewState(view);
 		return;
 	}
 	if (media.kind === 'video' || media.kind === 'audio') {
@@ -139304,49 +142509,217 @@ function paintMovieStudioMediaPreview(view, media, inPoint = 0) {
 		player.controls = true;
 		player.preload = 'metadata';
 		player.src = url;
+		for (const type of ['timeupdate', 'play', 'pause', 'ended']) {
+			player.addEventListener(type, () => emitSourcePreviewState(view));
+		}
 		player.addEventListener('loadedmetadata', () => {
-			player.currentTime = Math.min(Number(inPoint || 0), player.duration || 0);
+			player.currentTime = Math.min(Number(inPoint || 0), finiteDuration(player));
+			emitSourcePreviewState(view);
 		}, { once: true });
 		view.preview.append(player);
 		return;
 	}
-	view.preview.append(message(documentValue, `${media.kind} preview is not available.`));
+	appendMessage(view, `${media.kind} preview is not available.`);
 }
 
 
 __exports.paintMovieStudioMediaPreview = paintMovieStudioMediaPreview;
 function currentMovieStudioMediaPreviewTime(view, fallback = 0) {
-	const player = view.preview.querySelector('video, audio');
-	const value = Number(player?.currentTime);
+	const value = Number(player(view)?.currentTime);
 	return Number.isFinite(value) ? value : Number(fallback || 0);
 }
 
 
 __exports.currentMovieStudioMediaPreviewTime = currentMovieStudioMediaPreviewTime;
+function toggleMovieStudioMediaPreview(view) {
+	const mediaPlayer = player(view);
+	if (!mediaPlayer) return sourcePreviewState(view);
+	if (mediaPlayer.paused) mediaPlayer.play().catch(() => emitSourcePreviewState(view));
+	else mediaPlayer.pause();
+	return sourcePreviewState(view);
+}
+
+
+__exports.toggleMovieStudioMediaPreview = toggleMovieStudioMediaPreview;
+function stepMovieStudioMediaPreview(view, frames, fps) {
+	const mediaPlayer = player(view);
+	if (!mediaPlayer) return sourcePreviewState(view);
+	mediaPlayer.pause();
+	const target = mediaPlayer.currentTime + Number(frames || 0) * movieFrameDuration(fps);
+	mediaPlayer.currentTime = Math.max(0, Math.min(finiteDuration(mediaPlayer), target));
+	emitSourcePreviewState(view);
+	return sourcePreviewState(view);
+}
+
+
+__exports.stepMovieStudioMediaPreview = stepMovieStudioMediaPreview;
+function sourcePreviewState(view) {
+	const mediaPlayer = player(view);
+	return {
+		duration: mediaPlayer ? finiteDuration(mediaPlayer) : 0,
+		playing: Boolean(mediaPlayer && !mediaPlayer.paused),
+		time: currentMovieStudioMediaPreviewTime(view, 0)
+	};
+}
+
+
+__exports.sourcePreviewState = sourcePreviewState;
 function releaseMovieStudioMediaPreview(view) {
-	for (const player of view.preview?.querySelectorAll?.('video, audio') || []) {
-		player.pause();
-		player.removeAttribute('src');
-		player.load();
+	for (const mediaPlayer of view.preview?.querySelectorAll?.('video, audio') || []) {
+		mediaPlayer.pause();
+		mediaPlayer.removeAttribute('src');
+		mediaPlayer.load();
 	}
 	view.preview?.replaceChildren?.();
-	if (view.preview?.dataset) {
-		delete view.preview.dataset.previewMediaId;
-	}
+	if (view.preview?.dataset) delete view.preview.dataset.previewMediaId;
 }
 
 
 __exports.releaseMovieStudioMediaPreview = releaseMovieStudioMediaPreview;
-function message(documentValue, value) {
-	const node = documentValue.createElement('p');
+function emitSourcePreviewState(view) {
+	view.preview.dispatchEvent(new CustomEvent('movie-source-preview-state', {
+		bubbles: true, detail: sourcePreviewState(view)
+	}));
+}
+
+function appendMessage(view, value) {
+	const node = view.preview.ownerDocument.createElement('p');
 	node.className = 'movie-utility-empty';
 	node.textContent = value;
-	return node;
+	view.preview.append(node);
+}
+
+function finiteDuration(mediaPlayer) {
+	return Number.isFinite(mediaPlayer.duration) ? mediaPlayer.duration : 0;
+}
+
+function player(view) {
+	return view.preview?.querySelector?.('video, audio') || null;
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioMediaOperationsController.js */
+__awtsmoosModule_1944 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieStudioMediaOperationsController.js
+ * @description Owns visible health, preflight, availability, proxy, progress, and cancellation actions.
+ * The Awtsmoos is beyond health and repair while every finite editor needs an honest witness;
+ * Awtsmoos.com joins selected source, background work, undoable changes, and delivery readiness.
+ */
+
+var createMovieMediaHealthReport = __awtsmoosModule_1768.createMovieMediaHealthReport;
+var createMovieProjectPreflight = __awtsmoosModule_1771.createMovieProjectPreflight;
+
+class MovieStudioMediaOperationsController {
+	constructor(controller) {
+		this.controller = controller;
+		this.session = controller.session;
+		this.view = controller.view;
+		this.activeJobId = null;
+		this.onClick = event => this.handleClick(event);
+		this.view.operations?.addEventListener('click', this.onClick);
+		this.paint();
+	}
+
+	handleClick(event) {
+		const action = event.target.closest?.('[data-media-operation]')?.dataset.mediaOperation;
+		if (!action) return;
+		if (action === 'validate-all') this.runJob({ mode: 'media-availability' });
+		if (action === 'validate-selected') this.validateSelected();
+		if (action === 'attach-proxy') this.attachProxy();
+		if (action === 'clear-proxy') this.clearProxy();
+		if (action === 'cancel-job') this.cancelJob();
+		if (action === 'preflight') this.paint(true);
+	}
+
+	selectedMediaId() {
+		return String(this.controller.workspace().source.mediaId || '');
+	}
+
+	validateSelected() {
+		const mediaId = this.selectedMediaId();
+		if (!mediaId) return this.controller.status('Select media before validation.');
+		this.runJob({ mediaId, mode: 'media-availability' });
+	}
+
+	attachProxy() {
+		const mediaId = this.selectedMediaId();
+		const proxyUrl = String(this.view.proxyUrl?.value || '').trim();
+		if (!mediaId || !proxyUrl) return this.controller.status('Select media and enter a proxy URL.');
+		this.runJob({ mediaId, mode: 'media-proxy-attach', proxyUrl });
+	}
+
+	clearProxy() {
+		const mediaId = this.selectedMediaId();
+		if (!mediaId) return this.controller.status('Select media before clearing its proxy.');
+		this.controller.execute(
+			'media.update',
+			{ mediaId, patch: { proxyUrl: null } },
+			`Cleared proxy for ${mediaId}.`
+		);
+	}
+
+	async runJob(request) {
+		try {
+			const job = this.session.renderQueue.start(request);
+			this.activeJobId = job.id;
+			this.paintJob(`Running ${request.mode}…`);
+			const result = await this.session.renderQueue.wait(job.id);
+			this.paintJob(`${request.mode}: ${result.state}.`);
+			this.activeJobId = null;
+			this.controller.refresh();
+		} catch (error) {
+			this.activeJobId = null;
+			this.paintJob(`Media job failed: ${error.message}`);
+		}
+	}
+
+	cancelJob() {
+		if (!this.activeJobId) return this.paintJob('No active media job.');
+		this.session.renderQueue.cancel(this.activeJobId, 'Cancelled from media workspace.');
+	}
+
+	paint(announce = false) {
+		const health = createMovieMediaHealthReport(this.session.project);
+		const preflight = createMovieProjectPreflight(this.session.project);
+		if (this.view.health) this.view.health.textContent = healthText(health);
+		if (this.view.preflight) this.view.preflight.textContent = preflightText(preflight);
+		const media = (this.session.project.media || []).find(item => item.id === this.selectedMediaId());
+		if (this.view.proxyUrl && this.view.proxyUrl !== this.view.proxyUrl.ownerDocument.activeElement) {
+			this.view.proxyUrl.value = media?.proxyUrl || '';
+		}
+		if (announce) this.controller.status(preflightText(preflight));
+	}
+
+	paintJob(value) {
+		if (this.view.job) this.view.job.textContent = value;
+		this.controller.status(value);
+	}
+
+	destroy() {
+		this.view.operations?.removeEventListener('click', this.onClick);
+	}
+}
+
+
+__exports.MovieStudioMediaOperationsController = MovieStudioMediaOperationsController;
+function healthText(health) {
+	const counts = health.productionCounts;
+	return `${counts.sourceOnline} source online · ${counts.proxyReady} proxy ready · ${counts.fullyOffline} fully offline`;
+}
+
+function preflightText(preflight) {
+	return `Preflight ${preflight.grade}: ${preflight.blockers.length} blockers · ${preflight.warnings.length} warnings`;
 }
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioMediaSavedSearchController.js */
-__awtsmoosModule_1905 = (() => {
+__awtsmoosModule_1945 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -139431,7 +142804,7 @@ function uniqueSearchId(searches, label) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioMediaWorkspaceInteraction.js */
-__awtsmoosModule_1906 = (() => {
+__awtsmoosModule_1946 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -139551,7 +142924,7 @@ __exports.MovieStudioMediaWorkspaceInteraction = MovieStudioMediaWorkspaceIntera
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioMediaWorkspacePresenter.js */
-__awtsmoosModule_1907 = (() => {
+__awtsmoosModule_1947 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -139564,10 +142937,10 @@ const __exports = {};
  * identities and native previews so no imported metadata becomes executable atmosphere.
  */
 
-var listMovieMediaFolders = __awtsmoosModule_1744.listMovieMediaFolders;
-var searchMovieMedia = __awtsmoosModule_1744.searchMovieMedia;
-var normalizeMovieMediaWorkspace = __awtsmoosModule_1474.normalizeMovieMediaWorkspace;
-var paintMovieStudioMediaPreview = __awtsmoosModule_1904.paintMovieStudioMediaPreview;
+var listMovieMediaFolders = __awtsmoosModule_1770.listMovieMediaFolders;
+var searchMovieMedia = __awtsmoosModule_1770.searchMovieMedia;
+var normalizeMovieMediaWorkspace = __awtsmoosModule_1481.normalizeMovieMediaWorkspace;
+var paintMovieStudioMediaPreview = __awtsmoosModule_1943.paintMovieStudioMediaPreview;
 
 function paintMovieStudioMediaWorkspace(view, project, filter = {}) {
 	const workspace = normalizeMovieMediaWorkspace(project.mediaWorkspace, project.media);
@@ -139660,7 +143033,7 @@ function seconds(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioMediaWorkspaceView.js */
-__awtsmoosModule_1908 = (() => {
+__awtsmoosModule_1948 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -139668,7 +143041,7 @@ const __exports = {};
 
 /**
  * @file MovieStudioMediaWorkspaceView.js
- * @description Collects the accessible media-bin and source-monitor controls.
+ * @description Collects accessible media, health, proxy, source-transport, mark, and edit controls.
  * The Awtsmoos is beyond selector and element while each finite control needs a name;
  * Awtsmoos.com gathers every visible vessel without hiding state in a parallel frame.
  */
@@ -139680,11 +143053,17 @@ function collectMovieStudioMediaWorkspaceView(root) {
 		actions: scope,
 		duration: find('duration'),
 		folder: find('folder'),
+		health: find('health'),
 		inPoint: find('in'),
+		job: find('job'),
 		kind: find('kind'),
 		list: find('list'),
+		operations: find('operations'),
 		outPoint: find('out'),
+		preflight: find('preflight'),
 		preview: find('preview'),
+		previewTime: find('preview-time'),
+		proxyUrl: find('proxy-url'),
 		query: find('query'),
 		range: find('range'),
 		recursive: find('recursive'),
@@ -139692,6 +143071,8 @@ function collectMovieStudioMediaWorkspaceView(root) {
 		scope,
 		searchName: find('search-name'),
 		sourceLabel: find('source-label'),
+		sourceToggle: find('source-toggle'),
+		sourceTransport: find('source-transport'),
 		status: find('status'),
 		track: find('track')
 	};
@@ -139700,8 +143081,79 @@ function collectMovieStudioMediaWorkspaceView(root) {
 __exports.collectMovieStudioMediaWorkspaceView = collectMovieStudioMediaWorkspaceView;
 return Object.freeze(__exports);
 })();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioSourceTransportController.js */
+__awtsmoosModule_1949 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieStudioSourceTransportController.js
+ * @description Owns removable native source play, pause, frame-step, and time presentation.
+ * The Awtsmoos is beyond source and program while each finite monitor needs its own witness;
+ * Awtsmoos.com keeps source transport local, bounded, accessible, and cleanly releasable.
+ */
+
+var sourcePreviewState = __awtsmoosModule_1943.sourcePreviewState;
+var stepMovieStudioMediaPreview = __awtsmoosModule_1943.stepMovieStudioMediaPreview;
+var toggleMovieStudioMediaPreview = __awtsmoosModule_1943.toggleMovieStudioMediaPreview;
+
+class MovieStudioSourceTransportController {
+	constructor(workspaceController) {
+		this.controller = workspaceController;
+		this.view = workspaceController.view;
+		this.listeners = [];
+		this.bind();
+		this.paint(sourcePreviewState(this.view));
+	}
+
+	bind() {
+		this.listen(this.view.sourceTransport, 'click', event => {
+			const action = event.target.closest?.('[data-source-transport-action]')
+				?.dataset.sourceTransportAction;
+			if (action === 'toggle') toggleMovieStudioMediaPreview(this.view);
+			if (action === 'back') this.step(-1);
+			if (action === 'forward') this.step(1);
+		});
+		this.listen(this.view.preview, 'movie-source-preview-state', event => {
+			this.paint(event.detail);
+		});
+	}
+
+	step(frames) {
+		const state = stepMovieStudioMediaPreview(
+			this.view, frames, this.controller.session.project.fps
+		);
+		this.paint(state);
+	}
+
+	paint(state = sourcePreviewState(this.view)) {
+		if (!this.view.previewTime) return;
+		this.view.previewTime.textContent = `${format(state.time)} / ${format(state.duration)}`;
+		this.view.sourceToggle?.setAttribute('aria-pressed', String(state.playing));
+		if (this.view.sourceToggle) this.view.sourceToggle.textContent = state.playing ? 'Pause source' : 'Play source';
+	}
+
+	listen(target, type, listener) {
+		target?.addEventListener?.(type, listener);
+		this.listeners.push(() => target?.removeEventListener?.(type, listener));
+	}
+
+	destroy() {
+		this.listeners.splice(0).forEach(remove => remove());
+	}
+}
+
+
+__exports.MovieStudioSourceTransportController = MovieStudioSourceTransportController;
+function format(value) {
+	return `${Number(value || 0).toFixed(3)}s`;
+}
+return Object.freeze(__exports);
+})();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioMediaWorkspaceController.js */
-__awtsmoosModule_1903 = (() => {
+__awtsmoosModule_1942 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -139709,18 +143161,20 @@ const __exports = {};
 
 /**
  * @file MovieStudioMediaWorkspaceController.js
- * @description Coordinates project-backed bins, source marks, preview, and sequence edits.
- * The Awtsmoos renews project and interface through one history; Awtsmoos.com
- * lets every editorial action remain visible, recoverable, persistent, and free of parallel state.
+ * @description Coordinates bins, health jobs, source transport, marks, preview, and sequence edits.
+ * The Awtsmoos renews project and interface through one history; Awtsmoos.com lets every
+ * editorial and recovery action remain visible, reversible, persistent, and free of parallel state.
  */
 
-var normalizeMovieMediaWorkspace = __awtsmoosModule_1474.normalizeMovieMediaWorkspace;
-var currentMovieStudioMediaPreviewTime = __awtsmoosModule_1904.currentMovieStudioMediaPreviewTime;
-var releaseMovieStudioMediaPreview = __awtsmoosModule_1904.releaseMovieStudioMediaPreview;
-var MovieStudioMediaSavedSearchController = __awtsmoosModule_1905.MovieStudioMediaSavedSearchController;
-var MovieStudioMediaWorkspaceInteraction = __awtsmoosModule_1906.MovieStudioMediaWorkspaceInteraction;
-var paintMovieStudioMediaWorkspace = __awtsmoosModule_1907.paintMovieStudioMediaWorkspace;
-var collectMovieStudioMediaWorkspaceView = __awtsmoosModule_1908.collectMovieStudioMediaWorkspaceView;
+var normalizeMovieMediaWorkspace = __awtsmoosModule_1481.normalizeMovieMediaWorkspace;
+var currentMovieStudioMediaPreviewTime = __awtsmoosModule_1943.currentMovieStudioMediaPreviewTime;
+var releaseMovieStudioMediaPreview = __awtsmoosModule_1943.releaseMovieStudioMediaPreview;
+var MovieStudioMediaOperationsController = __awtsmoosModule_1944.MovieStudioMediaOperationsController;
+var MovieStudioMediaSavedSearchController = __awtsmoosModule_1945.MovieStudioMediaSavedSearchController;
+var MovieStudioMediaWorkspaceInteraction = __awtsmoosModule_1946.MovieStudioMediaWorkspaceInteraction;
+var paintMovieStudioMediaWorkspace = __awtsmoosModule_1947.paintMovieStudioMediaWorkspace;
+var collectMovieStudioMediaWorkspaceView = __awtsmoosModule_1948.collectMovieStudioMediaWorkspaceView;
+var MovieStudioSourceTransportController = __awtsmoosModule_1949.MovieStudioSourceTransportController;
 
 class MovieStudioMediaWorkspaceController {
 	constructor(session, root) {
@@ -139728,6 +143182,8 @@ class MovieStudioMediaWorkspaceController {
 		this.filter = { folder: '', kind: '', query: '', recursive: false };
 		this.view = collectMovieStudioMediaWorkspaceView(root);
 		this.savedSearches = new MovieStudioMediaSavedSearchController(this);
+		this.sourceTransport = new MovieStudioSourceTransportController(this);
+		this.operations = new MovieStudioMediaOperationsController(this);
 		this.interaction = new MovieStudioMediaWorkspaceInteraction(this);
 		this.unsubscribe = session.events?.on?.('project:changed', () => this.refresh());
 		this.refresh();
@@ -139745,17 +143201,9 @@ class MovieStudioMediaWorkspaceController {
 		}
 	}
 
-	saveSearch() {
-		return this.savedSearches.save();
-	}
-
-	applySavedSearch() {
-		return this.savedSearches.apply();
-	}
-
-	removeSavedSearch() {
-		return this.savedSearches.remove();
-	}
+	saveSearch() { return this.savedSearches.save(); }
+	applySavedSearch() { return this.savedSearches.apply(); }
+	removeSavedSearch() { return this.savedSearches.remove(); }
 
 	sourceTime(fallback) {
 		return currentMovieStudioMediaPreviewTime(this.view, fallback);
@@ -139766,38 +143214,34 @@ class MovieStudioMediaWorkspaceController {
 			duration: Number(this.view.duration.value || 5),
 			time: this.session.time
 		};
-		if (this.view.track.value) {
-			payload.trackId = this.view.track.value;
-		}
+		if (this.view.track.value) payload.trackId = this.view.track.value;
 		return payload;
 	}
 
 	workspace() {
 		return normalizeMovieMediaWorkspace(
-			this.session.project.mediaWorkspace,
-			this.session.project.media
+			this.session.project.mediaWorkspace, this.session.project.media
 		);
 	}
 
 	refresh() {
-		if (!this.view.scope) {
-			return null;
-		}
-		return paintMovieStudioMediaWorkspace(
-			this.view,
-			this.session.project,
-			this.filter
+		if (!this.view.scope) return null;
+		const workspace = paintMovieStudioMediaWorkspace(
+			this.view, this.session.project, this.filter
 		);
+		this.sourceTransport.paint();
+		this.operations.paint();
+		return workspace;
 	}
 
 	status(value) {
-		if (this.view.status) {
-			this.view.status.textContent = value;
-		}
+		if (this.view.status) this.view.status.textContent = value;
 	}
 
 	destroy() {
 		this.unsubscribe?.();
+		this.operations.destroy();
+		this.sourceTransport.destroy();
 		this.interaction.destroy();
 		releaseMovieStudioMediaPreview(this.view);
 	}
@@ -139807,7 +143251,7 @@ __exports.MovieStudioMediaWorkspaceController = MovieStudioMediaWorkspaceControl
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioProjectBrowserService.js */
-__awtsmoosModule_1909 = (() => {
+__awtsmoosModule_1950 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -139820,11 +143264,11 @@ const __exports = {};
  * checksums, adapters, undoable restoration, and detached duplication inside one service boundary.
  */
 
-var listMovieStudioPersistence = __awtsmoosModule_1642.listMovieStudioPersistence;
-var loadMovieStudioPersistence = __awtsmoosModule_1642.loadMovieStudioPersistence;
-var removeMovieStudioPersistence = __awtsmoosModule_1642.removeMovieStudioPersistence;
-var saveMovieStudioPersistence = __awtsmoosModule_1642.saveMovieStudioPersistence;
-var createMoviePersistenceRecord = __awtsmoosModule_1643.createMoviePersistenceRecord;
+var listMovieStudioPersistence = __awtsmoosModule_1651.listMovieStudioPersistence;
+var loadMovieStudioPersistence = __awtsmoosModule_1651.loadMovieStudioPersistence;
+var removeMovieStudioPersistence = __awtsmoosModule_1651.removeMovieStudioPersistence;
+var saveMovieStudioPersistence = __awtsmoosModule_1651.saveMovieStudioPersistence;
+var createMoviePersistenceRecord = __awtsmoosModule_1652.createMoviePersistenceRecord;
 
 class MovieStudioProjectBrowserService {
 	constructor(session) {
@@ -139911,7 +143355,7 @@ function uniqueCopyKey(key, records) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioProjectBrowserView.js */
-__awtsmoosModule_1910 = (() => {
+__awtsmoosModule_1951 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -140000,7 +143444,7 @@ function movieProjectBrowserMessage(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioProjectBrowserController.js */
-__awtsmoosModule_1902 = (() => {
+__awtsmoosModule_1941 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -140013,11 +143457,11 @@ const __exports = {};
  * bins, marks, edits, save, restore, duplicate, delete, export, autosave, refresh, and cleanup remain explicit.
  */
 
-var MovieStudioMediaWorkspaceController = __awtsmoosModule_1903.MovieStudioMediaWorkspaceController;
-var MovieStudioProjectBrowserService = __awtsmoosModule_1909.MovieStudioProjectBrowserService;
-var collectMovieStudioProjectBrowserView = __awtsmoosModule_1910.collectMovieStudioProjectBrowserView;
-var paintMovieProjectExport = __awtsmoosModule_1910.paintMovieProjectExport;
-var paintMovieProjectRecords = __awtsmoosModule_1910.paintMovieProjectRecords;
+var MovieStudioMediaWorkspaceController = __awtsmoosModule_1942.MovieStudioMediaWorkspaceController;
+var MovieStudioProjectBrowserService = __awtsmoosModule_1950.MovieStudioProjectBrowserService;
+var collectMovieStudioProjectBrowserView = __awtsmoosModule_1951.collectMovieStudioProjectBrowserView;
+var paintMovieProjectExport = __awtsmoosModule_1951.paintMovieProjectExport;
+var paintMovieProjectRecords = __awtsmoosModule_1951.paintMovieProjectRecords;
 
 class MovieStudioProjectBrowserController {
 	constructor(session, root) {
@@ -140117,7 +143561,7 @@ __exports.MovieStudioProjectBrowserController = MovieStudioProjectBrowserControl
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioResizeGeometry.js */
-__awtsmoosModule_1912 = (() => {
+__awtsmoosModule_1953 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -140206,7 +143650,7 @@ function clamp(value, definition) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioResizeTargets.js */
-__awtsmoosModule_1913 = (() => {
+__awtsmoosModule_1954 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -140237,7 +143681,7 @@ __exports.updateMovieStudioSplitterValue = updateMovieStudioSplitterValue;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioResizeController.js */
-__awtsmoosModule_1911 = (() => {
+__awtsmoosModule_1952 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -140250,12 +143694,12 @@ const __exports = {};
  * reshape finite panes while one final serializable preference commit preserves arrangement.
  */
 
-var captureMoviePointer = __awtsmoosModule_1527.captureMoviePointer;
-var movieStudioKeyboardResize = __awtsmoosModule_1912.movieStudioKeyboardResize;
-var movieStudioPointerResize = __awtsmoosModule_1912.movieStudioPointerResize;
-var movieStudioResetResize = __awtsmoosModule_1912.movieStudioResetResize;
-var movieStudioResizeBounds = __awtsmoosModule_1913.movieStudioResizeBounds;
-var updateMovieStudioSplitterValue = __awtsmoosModule_1913.updateMovieStudioSplitterValue;
+var captureMoviePointer = __awtsmoosModule_1534.captureMoviePointer;
+var movieStudioKeyboardResize = __awtsmoosModule_1953.movieStudioKeyboardResize;
+var movieStudioPointerResize = __awtsmoosModule_1953.movieStudioPointerResize;
+var movieStudioResetResize = __awtsmoosModule_1953.movieStudioResetResize;
+var movieStudioResizeBounds = __awtsmoosModule_1954.movieStudioResizeBounds;
+var updateMovieStudioSplitterValue = __awtsmoosModule_1954.updateMovieStudioSplitterValue;
 
 class MovieStudioResizeController {
 	constructor(session, view) {
@@ -140356,7 +143800,7 @@ function createHandlers(controller) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioScene3dController.js */
-__awtsmoosModule_1914 = (() => {
+__awtsmoosModule_1955 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -140470,7 +143914,7 @@ function readIndices(value) { return [...new Set(String(value).split(',').map(it
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieScene3dGizmoMath.js */
-__awtsmoosModule_1916 = (() => {
+__awtsmoosModule_1957 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -140511,7 +143955,7 @@ __exports.movieScene3dGizmoPatch = movieScene3dGizmoPatch;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioScene3dGizmo.js */
-__awtsmoosModule_1915 = (() => {
+__awtsmoosModule_1956 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -140524,8 +143968,8 @@ const __exports = {};
  * artists drag translation, rotation, or scale without flooding history or corrupting the undo baseline.
  */
 
-var movieScene3dGizmoPatch = __awtsmoosModule_1916.movieScene3dGizmoPatch;
-var setMovieScene3dTransform = __awtsmoosModule_1796.setMovieScene3dTransform;
+var movieScene3dGizmoPatch = __awtsmoosModule_1957.movieScene3dGizmoPatch;
+var setMovieScene3dTransform = __awtsmoosModule_1824.setMovieScene3dTransform;
 
 class MovieStudioScene3dGizmo {
 	constructor(session, root) {
@@ -140625,7 +144069,7 @@ __exports.MovieStudioScene3dGizmo = MovieStudioScene3dGizmo;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioTitleActions.js */
-__awtsmoosModule_1918 = (() => {
+__awtsmoosModule_1959 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -140638,7 +144082,7 @@ const __exports = {};
  * Awtsmoos.com keeps the UI controller small and lets project identity, timing, and normalization remain straight.
  */
 
-var normalizeMovieTitleClip = __awtsmoosModule_1484.normalizeMovieTitleClip;
+var normalizeMovieTitleClip = __awtsmoosModule_1491.normalizeMovieTitleClip;
 
 function addMovieStudioTitle(session, source = {}) {
 	const project = cloneProject(session.project);
@@ -140745,7 +144189,7 @@ function cloneProject(project) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTitleEditorProject.js */
-__awtsmoosModule_1920 = (() => {
+__awtsmoosModule_1961 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -140758,8 +144202,8 @@ const __exports = {};
  * keeps title creation and update payloads bounded, portable, and identical to command truth.
  */
 
-var resolveMovieSelection = __awtsmoosModule_1533.resolveMovieSelection;
-var normalizeMovieTitleClip = __awtsmoosModule_1484.normalizeMovieTitleClip;
+var resolveMovieSelection = __awtsmoosModule_1540.resolveMovieSelection;
+var normalizeMovieTitleClip = __awtsmoosModule_1491.normalizeMovieTitleClip;
 
 function selectedMovieTitleClip(project, descriptor) {
 	const resolved = resolveMovieSelection(project, descriptor);
@@ -140809,7 +144253,7 @@ function number(value, fallback) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioTitleView.js */
-__awtsmoosModule_1921 = (() => {
+__awtsmoosModule_1962 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -140897,7 +144341,7 @@ function camel(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioTitleForm.js */
-__awtsmoosModule_1919 = (() => {
+__awtsmoosModule_1960 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -140910,9 +144354,9 @@ const __exports = {};
  * keeps payload projection and selected-title discovery pure while the controller guards history and listeners.
  */
 
-var movieTitlePayload = __awtsmoosModule_1920.movieTitlePayload;
-var movieTitlePreset = __awtsmoosModule_1920.movieTitlePreset;
-var movieTitleViewValues = __awtsmoosModule_1921.movieTitleViewValues;
+var movieTitlePayload = __awtsmoosModule_1961.movieTitlePayload;
+var movieTitlePreset = __awtsmoosModule_1961.movieTitlePreset;
+var movieTitleViewValues = __awtsmoosModule_1962.movieTitleViewValues;
 
 function movieStudioTitleFormPayload(view, start) {
 	return movieTitlePayload(movieTitleViewValues(view), start);
@@ -140948,7 +144392,7 @@ __exports.selectedMovieStudioTitle = selectedMovieStudioTitle;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioTitleController.js */
-__awtsmoosModule_1917 = (() => {
+__awtsmoosModule_1958 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -140960,17 +144404,17 @@ const __exports = {};
  * The Awtsmoos renews every word before card or lower third can claim a frame; Awtsmoos.com
  * keeps visual controls, public agent methods, timeline selection, and canonical history in one covenant.
  */
-var addMovieStudioTitle = __awtsmoosModule_1918.addMovieStudioTitle;
-var findMovieStudioTitleTrack = __awtsmoosModule_1918.findMovieStudioTitleTrack;
-var movieStudioTitleBounds = __awtsmoosModule_1918.movieStudioTitleBounds;
-var removeMovieStudioTitle = __awtsmoosModule_1918.removeMovieStudioTitle;
-var requireMovieStudioTitle = __awtsmoosModule_1918.requireMovieStudioTitle;
-var updateMovieStudioTitle = __awtsmoosModule_1918.updateMovieStudioTitle;
-var applyMovieStudioTitleFormPreset = __awtsmoosModule_1919.applyMovieStudioTitleFormPreset;
-var movieStudioTitleFormPayload = __awtsmoosModule_1919.movieStudioTitleFormPayload;
-var selectedMovieStudioTitle = __awtsmoosModule_1919.selectedMovieStudioTitle;
-var collectMovieTitleView = __awtsmoosModule_1921.collectMovieTitleView;
-var paintMovieTitleClip = __awtsmoosModule_1921.paintMovieTitleClip;
+var addMovieStudioTitle = __awtsmoosModule_1959.addMovieStudioTitle;
+var findMovieStudioTitleTrack = __awtsmoosModule_1959.findMovieStudioTitleTrack;
+var movieStudioTitleBounds = __awtsmoosModule_1959.movieStudioTitleBounds;
+var removeMovieStudioTitle = __awtsmoosModule_1959.removeMovieStudioTitle;
+var requireMovieStudioTitle = __awtsmoosModule_1959.requireMovieStudioTitle;
+var updateMovieStudioTitle = __awtsmoosModule_1959.updateMovieStudioTitle;
+var applyMovieStudioTitleFormPreset = __awtsmoosModule_1960.applyMovieStudioTitleFormPreset;
+var movieStudioTitleFormPayload = __awtsmoosModule_1960.movieStudioTitleFormPayload;
+var selectedMovieStudioTitle = __awtsmoosModule_1960.selectedMovieStudioTitle;
+var collectMovieTitleView = __awtsmoosModule_1962.collectMovieTitleView;
+var paintMovieTitleClip = __awtsmoosModule_1962.paintMovieTitleClip;
 class MovieStudioTitleController {
 	constructor(session, studioView) {
 		this.session = session;
@@ -141070,8 +144514,73 @@ __exports.MovieStudioTitleController = MovieStudioTitleController;
 __exports.default = MovieStudioTitleController;
 return Object.freeze(__exports);
 })();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioTransportController.js */
+__awtsmoosModule_1963 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieStudioTransportController.js
+ * @description Owns removable program-monitor transport bindings and rate presentation.
+ * The Awtsmoos renews one cinematic time through every visible door; Awtsmoos.com keeps
+ * start, step, shuttle, pause, play, end, API, keyboard, and cleanup on one session path.
+ */
+
+var createMovieStudioPlaybackState = __awtsmoosModule_1813.createMovieStudioPlaybackState;
+
+class MovieStudioTransportController {
+	constructor(session, view) {
+		this.session = session;
+		this.view = view;
+		this.listeners = [];
+		this.bind();
+		this.unsubscribe = session.events?.on?.('playback:state', state => this.paint(state));
+		this.paint(createMovieStudioPlaybackState(session));
+	}
+
+	bind() {
+		this.listen(this.view.transportStart, 'click', () => this.session.seek(0));
+		this.listen(this.view.transportStepBack, 'click', () => this.session.stepFrames(-1));
+		this.listen(this.view.transportShuttleBack, 'click', () => this.session.shuttle(-1));
+		this.listen(this.view.stop, 'click', () => this.session.pause());
+		this.listen(this.view.play, 'click', () => this.session.play({ rate: 1 }));
+		this.listen(this.view.transportShuttleForward, 'click', () => this.session.shuttle(1));
+		this.listen(this.view.transportStepForward, 'click', () => this.session.stepFrames(1));
+		this.listen(this.view.transportEnd, 'click', () => this.session.seek(
+			this.session.project.duration
+		));
+	}
+
+	paint(state) {
+		if (!this.view.transportRate) return;
+		this.view.transportRate.textContent = state.playing
+			? `${state.rate.toFixed(2)}×`
+			: 'Paused';
+		this.view.transportRate.dataset.direction = String(state.direction);
+		this.view.play.setAttribute('aria-pressed', String(
+			state.playing && state.rate > 0
+		));
+		this.view.stop.setAttribute('aria-pressed', String(!state.playing));
+	}
+
+	listen(target, type, listener) {
+		target?.addEventListener?.(type, listener);
+		this.listeners.push(() => target?.removeEventListener?.(type, listener));
+	}
+
+	destroy() {
+		this.unsubscribe?.();
+		this.listeners.splice(0).forEach(remove => remove());
+	}
+}
+
+__exports.MovieStudioTransportController = MovieStudioTransportController;
+return Object.freeze(__exports);
+})();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieCommandPaletteEntries.js */
-__awtsmoosModule_1924 = (() => {
+__awtsmoosModule_1966 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -141084,7 +144593,7 @@ const __exports = {};
  * and mobile taps discover one finite command while payload and selection requirements remain honest.
  */
 
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 function prepareMovieCommandPaletteEntries(
 	catalog,
@@ -141147,7 +144656,7 @@ function movieCommandEntryText(entry) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioCommandPalette.js */
-__awtsmoosModule_1923 = (() => {
+__awtsmoosModule_1965 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -141160,7 +144669,7 @@ const __exports = {};
  * reveal title, category, availability, and consequence without HTML injection or hidden payload guesses.
  */
 
-var prepareMovieCommandPaletteEntries = __awtsmoosModule_1924.prepareMovieCommandPaletteEntries;
+var prepareMovieCommandPaletteEntries = __awtsmoosModule_1966.prepareMovieCommandPaletteEntries;
 
 class MovieStudioCommandPalette {
 	constructor(session, view, close) {
@@ -141240,7 +144749,7 @@ function movieCommandText(className, value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioStatusModel.js */
-__awtsmoosModule_1926 = (() => {
+__awtsmoosModule_1968 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -141253,7 +144762,7 @@ const __exports = {};
  * only finite truth so mobile and desktop status never claim saving, rendering, or selection without evidence.
  */
 
-var createMovieProjectSnapshot = __awtsmoosModule_1471.createMovieProjectSnapshot;
+var createMovieProjectSnapshot = __awtsmoosModule_1473.createMovieProjectSnapshot;
 
 function createMovieStudioStatusModel(session) {
 	const commandState = session.commands.state();
@@ -141288,7 +144797,7 @@ __exports.createMovieStudioStatusModel = createMovieStudioStatusModel;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioStatusController.js */
-__awtsmoosModule_1925 = (() => {
+__awtsmoosModule_1967 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -141301,7 +144810,7 @@ const __exports = {};
  * mobile and desktop informed without repainting on every playback frame or leaving subscriptions behind.
  */
 
-var createMovieStudioStatusModel = __awtsmoosModule_1926.createMovieStudioStatusModel;
+var createMovieStudioStatusModel = __awtsmoosModule_1968.createMovieStudioStatusModel;
 
 const STATUS_EVENTS = new Set([
 	'autosave:saved',
@@ -141346,7 +144855,7 @@ __exports.MovieStudioStatusController = MovieStudioStatusController;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioUtilityContent.js */
-__awtsmoosModule_1927 = (() => {
+__awtsmoosModule_1969 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -141359,7 +144868,7 @@ const __exports = {};
  * reveals finite evidence safely while retry and cancellation remain truthful queue operations.
  */
 
-var isTerminalMovieRenderState = __awtsmoosModule_1663.isTerminalMovieRenderState;
+var isTerminalMovieRenderState = __awtsmoosModule_1672.isTerminalMovieRenderState;
 
 class MovieStudioUtilityContent {
 	constructor(session, view) {
@@ -141463,7 +144972,7 @@ function movieUtilityMessage(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioUtilityFocus.js */
-__awtsmoosModule_1929 = (() => {
+__awtsmoosModule_1971 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -141529,7 +145038,7 @@ __exports.movieUtilityFocusableElements = movieUtilityFocusableElements;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioUtilityState.js */
-__awtsmoosModule_1928 = (() => {
+__awtsmoosModule_1970 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -141542,8 +145051,8 @@ const __exports = {};
  * desktop drawers remain free while mobile sheets become one bounded modal vessel with no residue.
  */
 
-var focusMovieUtilityPanel = __awtsmoosModule_1929.focusMovieUtilityPanel;
-var trapMovieUtilityFocus = __awtsmoosModule_1929.trapMovieUtilityFocus;
+var focusMovieUtilityPanel = __awtsmoosModule_1971.focusMovieUtilityPanel;
+var trapMovieUtilityFocus = __awtsmoosModule_1971.trapMovieUtilityFocus;
 
 class MovieStudioUtilityState {
 	constructor(view, options = {}) {
@@ -141638,7 +145147,7 @@ __exports.MovieStudioUtilityState = MovieStudioUtilityState;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioUtilityController.js */
-__awtsmoosModule_1922 = (() => {
+__awtsmoosModule_1964 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -141651,10 +145160,10 @@ const __exports = {};
  * and mobile sheets one lifecycle whose listeners, focus, recovery, evidence, and backdrop depart cleanly.
  */
 
-var MovieStudioCommandPalette = __awtsmoosModule_1923.MovieStudioCommandPalette;
-var MovieStudioStatusController = __awtsmoosModule_1925.MovieStudioStatusController;
-var MovieStudioUtilityContent = __awtsmoosModule_1927.MovieStudioUtilityContent;
-var MovieStudioUtilityState = __awtsmoosModule_1928.MovieStudioUtilityState;
+var MovieStudioCommandPalette = __awtsmoosModule_1965.MovieStudioCommandPalette;
+var MovieStudioStatusController = __awtsmoosModule_1967.MovieStudioStatusController;
+var MovieStudioUtilityContent = __awtsmoosModule_1969.MovieStudioUtilityContent;
+var MovieStudioUtilityState = __awtsmoosModule_1970.MovieStudioUtilityState;
 
 const CONTENT_EVENTS = new Set([
 	'autosave:saved',
@@ -141762,8 +145271,48 @@ class MovieStudioUtilityController {
 __exports.MovieStudioUtilityController = MovieStudioUtilityController;
 return Object.freeze(__exports);
 })();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioAudioMixerMarkup.js */
+__awtsmoosModule_1975 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieStudioAudioMixerMarkup.js
+ * @description Defines selected-audio waveform, clip controls, and track mute/solo controls.
+ * The Awtsmoos renews pulse and silence within one cinematic vessel; Awtsmoos.com gives
+ * each selected sound a visible waveform and bounded faders without requiring project JSON.
+ */
+
+function movieStudioAudioMixerMarkup() {
+	return `
+		<section class="movie-audio-mixer" data-audio-mixer aria-labelledby="movie-audio-mixer-title">
+			<header class="movie-audio-mixer-heading">
+				<h3 id="movie-audio-mixer-title">Audio Mixer</h3>
+				<output data-audio-mixer-status aria-live="polite">Select an audio clip.</output>
+			</header>
+			<output class="movie-audio-selection" data-audio-selection>No selected audio clip</output>
+			<svg class="movie-audio-waveform" data-audio-waveform viewBox="0 0 640 120" role="img" aria-label="Selected audio waveform"><path data-audio-waveform-path></path></svg>
+			<div class="movie-audio-controls">
+				<label>Volume<input data-audio-volume type="range" min="0" max="1" step="0.01" value="0.04"></label>
+				<label>Frequency<input data-audio-frequency type="number" min="20" max="20000" step="1" value="110"></label>
+				<label>Pan<input data-audio-pan type="range" min="-1" max="1" step="0.01" value="0"></label>
+			</div>
+			<div class="movie-audio-actions">
+				<button data-audio-apply>Apply clip mix</button>
+				<button data-audio-mute aria-pressed="false">Mute track</button>
+				<button data-audio-solo aria-pressed="false">Solo track</button>
+			</div>
+		</section>
+	`;
+}
+
+__exports.movieStudioAudioMixerMarkup = movieStudioAudioMixerMarkup;
+return Object.freeze(__exports);
+})();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioAuthoring3dMarkup.js */
-__awtsmoosModule_1933 = (() => {
+__awtsmoosModule_1976 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -141814,48 +145363,8 @@ function movieStudioAuthoring3dMarkup() {
 __exports.movieStudioAuthoring3dMarkup = movieStudioAuthoring3dMarkup;
 return Object.freeze(__exports);
 })();
-/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioAudioMixerMarkup.js */
-__awtsmoosModule_1934 = (() => {
-const __exports = {};
-// B"H
-// Boruch Hashem
-// Blessed is He
-
-/**
- * @file MovieStudioAudioMixerMarkup.js
- * @description Defines selected-audio waveform, clip controls, and track mute/solo controls.
- * The Awtsmoos renews pulse and silence within one cinematic vessel; Awtsmoos.com gives
- * each selected sound a visible waveform and bounded faders without requiring project JSON.
- */
-
-function movieStudioAudioMixerMarkup() {
-	return `
-		<section class="movie-audio-mixer" data-audio-mixer aria-labelledby="movie-audio-mixer-title">
-			<header class="movie-audio-mixer-heading">
-				<h3 id="movie-audio-mixer-title">Audio Mixer</h3>
-				<output data-audio-mixer-status aria-live="polite">Select an audio clip.</output>
-			</header>
-			<output class="movie-audio-selection" data-audio-selection>No selected audio clip</output>
-			<svg class="movie-audio-waveform" data-audio-waveform viewBox="0 0 640 120" role="img" aria-label="Selected audio waveform"><path data-audio-waveform-path></path></svg>
-			<div class="movie-audio-controls">
-				<label>Volume<input data-audio-volume type="range" min="0" max="1" step="0.01" value="0.04"></label>
-				<label>Frequency<input data-audio-frequency type="number" min="20" max="20000" step="1" value="110"></label>
-				<label>Pan<input data-audio-pan type="range" min="-1" max="1" step="0.01" value="0"></label>
-			</div>
-			<div class="movie-audio-actions">
-				<button data-audio-apply>Apply clip mix</button>
-				<button data-audio-mute aria-pressed="false">Mute track</button>
-				<button data-audio-solo aria-pressed="false">Solo track</button>
-			</div>
-		</section>
-	`;
-}
-
-__exports.movieStudioAudioMixerMarkup = movieStudioAudioMixerMarkup;
-return Object.freeze(__exports);
-})();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioCameraActionMarkup.js */
-__awtsmoosModule_1935 = (() => {
+__awtsmoosModule_1977 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -141903,8 +145412,64 @@ function movieStudioCameraActionMarkup() {
 __exports.movieStudioCameraActionMarkup = movieStudioCameraActionMarkup;
 return Object.freeze(__exports);
 })();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioCompositionMarkup.js */
+__awtsmoosModule_1978 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieStudioCompositionMarkup.js
+ * @description Defines accessible reusable-composition, layer, nesting, and evaluation controls.
+ * The Awtsmoos is beyond canvas and hierarchy; Awtsmoos.com gives artists one visible
+ * vessel where nested stories can be created, ordered, masked, timed, inspected, and reversed.
+ */
+
+function movieStudioCompositionMarkup() {
+	return `
+		<section class="movie-composition-workspace" data-composition-workspace aria-labelledby="movie-composition-title">
+			<header><h3 id="movie-composition-title">Compositions &amp; Layers</h3><output data-composition-status aria-live="polite">Composition workspace ready.</output></header>
+			<div class="movie-composition-grid">
+				<label>Composition<select data-composition-select aria-label="Selected composition"></select></label>
+				<label>ID<input data-composition-id maxlength="96" autocomplete="off" placeholder="main-comp"></label>
+				<label>Name<input data-composition-name maxlength="200" autocomplete="off" placeholder="Main composition"></label>
+				<label>Duration<input type="number" data-composition-duration min="0.001" max="86400" step="0.001" value="10"></label>
+				<label>FPS<input type="number" data-composition-fps min="1" max="240" step="1" value="30"></label>
+				<label>Width<input type="number" data-composition-width min="1" max="16384" step="1" value="1920"></label>
+				<label>Height<input type="number" data-composition-height min="1" max="16384" step="1" value="1080"></label>
+			</div>
+			<div class="movie-composition-actions"><button data-composition-action="create">Create</button><button data-composition-action="update">Update</button><button data-composition-action="duplicate">Duplicate</button><button data-composition-action="remove">Remove</button></div>
+			<output data-composition-graph aria-live="polite">No composition graph yet.</output>
+			<div class="movie-composition-layer-list" data-composition-layer-list role="listbox" aria-label="Composition layers" tabindex="0"></div>
+			<section class="movie-composition-layer-editor" aria-labelledby="movie-composition-layer-title">
+				<h4 id="movie-composition-layer-title">Layer Editor</h4>
+				<div class="movie-composition-grid">
+					<label>Kind<select data-composition-layer-kind><option value="solid">Solid</option><option value="text">Text</option><option value="composition">Nested composition</option></select></label>
+					<label>ID<input data-composition-layer-id maxlength="96" autocomplete="off" placeholder="layer-1"></label>
+					<label>Name<input data-composition-layer-name maxlength="160" autocomplete="off" placeholder="Layer 1"></label>
+					<label>Nested source<select data-composition-layer-source aria-label="Nested composition source"></select></label>
+					<label>Start<input type="number" data-composition-layer-start min="0" step="0.001" value="0"></label>
+					<label>Duration<input type="number" data-composition-layer-duration min="0.001" step="0.001" value="5"></label>
+					<label>Blend<select data-composition-layer-blend><option value="normal">Normal</option><option value="multiply">Multiply</option><option value="screen">Screen</option><option value="overlay">Overlay</option><option value="add">Add</option><option value="subtract">Subtract</option><option value="darken">Darken</option><option value="lighten">Lighten</option></select></label>
+					<label>Opacity<input type="number" data-composition-layer-opacity min="0" max="1" step="0.01" value="1"></label>
+					<label class="movie-composition-check"><input type="checkbox" data-composition-layer-loop> Loop source</label>
+					<label class="movie-composition-check"><input type="checkbox" data-composition-layer-locked> Locked</label>
+					<label class="movie-composition-text">Text<textarea data-composition-layer-text maxlength="100000" spellcheck="true"></textarea></label>
+				</div>
+				<div class="movie-composition-actions"><button data-composition-layer-action="add">Add layer</button><button data-composition-layer-action="update">Update layer</button><button data-composition-layer-action="up">Move up</button><button data-composition-layer-action="down">Move down</button><button data-composition-layer-action="remove">Remove layer</button></div>
+			</section>
+			<button data-composition-evaluate>Evaluate at playhead</button>
+			<output class="movie-composition-evaluation" data-composition-evaluation aria-live="polite">No render plan evaluated.</output>
+		</section>
+	`;
+}
+
+__exports.movieStudioCompositionMarkup = movieStudioCompositionMarkup;
+return Object.freeze(__exports);
+})();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioKeyframeMarkup.js */
-__awtsmoosModule_1936 = (() => {
+__awtsmoosModule_1979 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -141944,8 +145509,103 @@ function movieStudioKeyframeMarkup() {
 __exports.movieStudioKeyframeMarkup = movieStudioKeyframeMarkup;
 return Object.freeze(__exports);
 })();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioMediaWorkspaceMarkup.js */
+__awtsmoosModule_1981 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieStudioMediaWorkspaceMarkup.js
+ * @description Defines media bins, health, preflight, proxy jobs, source transport, marks, and edits.
+ * The Awtsmoos is one before source and program divide; Awtsmoos.com gives the editor
+ * a visible vessel where assets are found, validated, repaired, played, bounded, and placed.
+ */
+
+function movieStudioMediaWorkspaceMarkup() {
+	return `
+		<section class="movie-media-workspace" data-media-workspace aria-labelledby="movie-media-workspace-title">
+			<header class="movie-media-workspace-heading"><h3 id="movie-media-workspace-title">Media &amp; Source Monitor</h3><output data-media-workspace-status aria-live="polite">Media workspace ready.</output></header>
+			<div class="movie-media-workspace-filters">
+				<label>Search<input type="search" data-media-workspace-query autocomplete="off" placeholder="Label, tag, metadata…"></label>
+				<label>Folder<select data-media-workspace-folder></select></label>
+				<label>Kind<select data-media-workspace-kind><option value="">All media</option><option value="video">Video</option><option value="audio">Audio</option><option value="image">Image</option></select></label>
+				<label class="movie-media-workspace-check"><input type="checkbox" data-media-workspace-recursive>Include subfolders</label>
+			</div>
+			<div class="movie-media-workspace-searches">
+				<label>Search name<input data-media-workspace-search-name maxlength="80" autocomplete="off"></label>
+				<label>Saved search<select data-media-workspace-saved></select></label>
+				<div class="movie-media-workspace-actions"><button data-media-workspace-action="save-search">Save search</button><button data-media-workspace-action="apply-search">Apply</button><button data-media-workspace-action="remove-search">Delete</button></div>
+			</div>
+			<div class="movie-media-workspace-list" data-media-workspace-list role="listbox" aria-label="Media bin" tabindex="0"></div>
+			<section class="movie-media-operations" data-media-workspace-operations aria-labelledby="movie-media-operations-title">
+				<header><h4 id="movie-media-operations-title">Media Health &amp; Delivery</h4><output data-media-workspace-job aria-live="polite">No media job running.</output></header>
+				<output data-media-workspace-health>Media health pending.</output>
+				<output data-media-workspace-preflight>Preflight pending.</output>
+				<label>Selected proxy URL<input type="url" data-media-workspace-proxy-url placeholder="https://… or project-relative path" autocomplete="off"></label>
+				<div class="movie-media-workspace-actions"><button data-media-operation="validate-all">Validate all</button><button data-media-operation="validate-selected">Validate selected</button><button data-media-operation="preflight">Run preflight</button><button data-media-operation="attach-proxy">Validate &amp; attach proxy</button><button data-media-operation="clear-proxy">Clear proxy</button><button data-media-operation="cancel-job">Cancel job</button></div>
+			</section>
+			<section class="movie-source-monitor" aria-labelledby="movie-source-monitor-title">
+				<header><h4 id="movie-source-monitor-title">Source Monitor</h4><strong data-media-workspace-source-label>No source selected</strong></header>
+				<div class="movie-source-monitor-preview" data-media-workspace-preview></div>
+				<div class="movie-source-transport" data-media-workspace-source-transport aria-label="Source playback controls"><button data-source-transport-action="back" aria-label="Step source back one frame">◀|</button><button data-source-transport-action="toggle" data-media-workspace-source-toggle aria-pressed="false">Play source</button><button data-source-transport-action="forward" aria-label="Step source forward one frame">|▶</button><output data-media-workspace-preview-time aria-live="polite">0.000s / 0.000s</output></div>
+				<output data-media-workspace-range>In 0.000 · Out 0.000</output>
+				<div class="movie-source-monitor-fields"><label>In<input type="number" min="0" step="0.001" data-media-workspace-in></label><label>Out<input type="number" min="0" step="0.001" data-media-workspace-out></label><label>Target track<select data-media-workspace-track></select></label><label>Still duration<input type="number" min="0.001" step="0.001" value="5" data-media-workspace-duration></label></div>
+				<div class="movie-media-workspace-actions"><button data-media-workspace-action="mark-in">Mark In at player</button><button data-media-workspace-action="mark-out">Mark Out at player</button><button data-media-workspace-action="clear-marks">Clear marks</button><button data-media-workspace-action="insert">Insert at playhead</button><button data-media-workspace-action="overwrite">Overwrite at playhead</button></div>
+			</section>
+		</section>
+	`;
+}
+
+__exports.movieStudioMediaWorkspaceMarkup = movieStudioMediaWorkspaceMarkup;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioProjectBrowserMarkup.js */
+__awtsmoosModule_1980 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieStudioProjectBrowserMarkup.js
+ * @description Defines professional media/source editing beside persistent project save and recovery controls.
+ * The Awtsmoos renews living and remembered story in one project; Awtsmoos.com gives
+ * artists bins, marks, edits, restore, export, and autosave without crossing disconnected applications.
+ */
+
+var movieStudioMediaWorkspaceMarkup = __awtsmoosModule_1981.movieStudioMediaWorkspaceMarkup;
+
+function movieStudioProjectBrowserMarkup() {
+	return `
+		<div class="movie-project-browser" data-project-browser>
+			${movieStudioMediaWorkspaceMarkup()}
+			<section class="movie-project-library" aria-labelledby="movie-project-library-title">
+				<h3 id="movie-project-library-title">Project Library</h3>
+				<div class="movie-project-browser-controls">
+					<label>Storage<select data-project-browser-adapter><option value="localStorage">Browser storage</option><option value="memory">Session memory</option></select></label>
+					<label>Save name<input data-project-browser-key value="my-movie" maxlength="120" autocomplete="off"></label>
+				</div>
+				<div class="movie-project-browser-actions">
+					<button data-project-browser-save>Save now</button>
+					<button data-project-browser-autosave>Start autosave</button>
+					<button data-project-browser-refresh>Refresh library</button>
+				</div>
+				<output data-project-browser-status aria-live="polite">Project library ready.</output>
+				<div class="movie-project-browser-list" data-project-browser-list aria-live="polite"></div>
+				<label class="movie-project-browser-export-label">Canonical project JSON<textarea data-project-browser-export readonly spellcheck="false"></textarea></label>
+				<button data-project-browser-copy>Copy project JSON</button>
+			</section>
+		</div>
+	`;
+}
+
+__exports.movieStudioProjectBrowserMarkup = movieStudioProjectBrowserMarkup;
+return Object.freeze(__exports);
+})();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioScene3dMarkup.js */
-__awtsmoosModule_1937 = (() => {
+__awtsmoosModule_1982 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -142010,7 +145670,7 @@ function vectorInputs(prefix, value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioTitleMarkup.js */
-__awtsmoosModule_1938 = (() => {
+__awtsmoosModule_1983 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -142052,7 +145712,7 @@ __exports.movieStudioTitleMarkup = movieStudioTitleMarkup;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioInspectorMarkup.js */
-__awtsmoosModule_1932 = (() => {
+__awtsmoosModule_1974 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -142060,34 +145720,39 @@ const __exports = {};
 
 /**
  * @file MovieStudioInspectorMarkup.js
- * @description Defines transform, performance, scene, camera, keyframe, audio, title, 3D, and project controls.
- * The Awtsmoos renews detail without separating it from the whole; Awtsmoos.com gives
- * desktop side pane and mobile sheet one semantic inspector whose acting controls remain bounded.
+ * @description Composes transform, performance, scene, camera, keyframe, audio, title, composition, 3D, and project controls.
+ * The Awtsmoos renews each finite inspector vessel through one source; Awtsmoos.com keeps
+ * acting, scene editing, nested canvases, authoring, media, titles, sound, and project history coherent.
  */
 
-var movieStudioAuthoring3dMarkup = __awtsmoosModule_1933.movieStudioAuthoring3dMarkup;
-var movieStudioAudioMixerMarkup = __awtsmoosModule_1934.movieStudioAudioMixerMarkup;
-var movieStudioCameraActionMarkup = __awtsmoosModule_1935.movieStudioCameraActionMarkup;
-var movieStudioKeyframeMarkup = __awtsmoosModule_1936.movieStudioKeyframeMarkup;
-var movieStudioPerformanceInspectorMarkup = __awtsmoosModule_1876.movieStudioPerformanceInspectorMarkup;
-var movieStudioScene3dMarkup = __awtsmoosModule_1937.movieStudioScene3dMarkup;
-var movieStudioTitleMarkup = __awtsmoosModule_1938.movieStudioTitleMarkup;
+var movieStudioAudioMixerMarkup = __awtsmoosModule_1975.movieStudioAudioMixerMarkup;
+var movieStudioAuthoring3dMarkup = __awtsmoosModule_1976.movieStudioAuthoring3dMarkup;
+var movieStudioCameraActionMarkup = __awtsmoosModule_1977.movieStudioCameraActionMarkup;
+var movieStudioCompositionMarkup = __awtsmoosModule_1978.movieStudioCompositionMarkup;
+var movieStudioKeyframeMarkup = __awtsmoosModule_1979.movieStudioKeyframeMarkup;
+var movieStudioPerformanceInspectorMarkup = __awtsmoosModule_1915.movieStudioPerformanceInspectorMarkup;
+var movieStudioProjectBrowserMarkup = __awtsmoosModule_1980.movieStudioProjectBrowserMarkup;
+var movieStudioScene3dMarkup = __awtsmoosModule_1982.movieStudioScene3dMarkup;
+var movieStudioTitleMarkup = __awtsmoosModule_1983.movieStudioTitleMarkup;
 
 function movieStudioInspectorMarkup() {
 	return `
-		<aside class="movie-studio-inspector" id="movie-studio-inspector" data-inspector aria-label="Movie inspector">
-			<header class="movie-inspector-heading"><strong>Inspector</strong><button data-inspector-close aria-label="Close inspector">×</button></header>
+		<aside id="movie-studio-inspector" class="movie-studio-inspector" data-inspector aria-label="Movie inspector">
+			<div class="movie-inspector-heading"><strong>Inspector</strong><button data-inspector-close aria-label="Close inspector">×</button></div>
 			<div class="movie-inspector-body">
-				<div data-transform></div>
+				<p data-selection>No selection</p>
+				<div data-transform-fields></div>
 				${movieStudioPerformanceInspectorMarkup()}
 				${movieStudioScene3dMarkup()}
 				${movieStudioCameraActionMarkup()}
 				${movieStudioKeyframeMarkup()}
 				${movieStudioAudioMixerMarkup()}
 				${movieStudioTitleMarkup()}
+				${movieStudioCompositionMarkup()}
 				${movieStudioAuthoring3dMarkup()}
-				${movieProjectJsonMarkup()}
-				${movieAppearanceMarkup()}
+				${movieStudioProjectBrowserMarkup()}
+				${appearanceMarkup()}
+				${projectJsonMarkup()}
 			</div>
 		</aside>
 	`;
@@ -142095,122 +145760,25 @@ function movieStudioInspectorMarkup() {
 
 
 __exports.movieStudioInspectorMarkup = movieStudioInspectorMarkup;
-function movieProjectJsonMarkup() {
-	return `<div class="movie-project-json-panel"><label for="movie-project-json">Project JSON</label><textarea id="movie-project-json" data-project-json spellcheck="false"></textarea><div class="movie-project-json-actions"><button data-apply-json>Apply JSON</button><button data-render>Render</button><button data-render-exact>Render Exact</button><button data-copy-url>Copy URL</button></div></div>`;
-}
-
-function movieAppearanceMarkup() {
-	return `<section class="movie-appearance-panel" aria-label="Editor appearance"><header class="movie-appearance-heading"><h3>Appearance</h3><output data-preview-badge aria-live="polite">Fit preview</output></header><label>Theme<select data-theme><option value="awtsmoos-dark">Awtsmoos Dark</option><option value="neutral-dark">Neutral Dark</option><option value="light">Light</option><option value="high-contrast">High Contrast</option></select></label><label>Density<select data-density><option value="compact">Compact</option><option value="comfortable">Comfortable</option><option value="touch">Touch</option></select></label><label>Preview<select data-preview-zoom><option value="fit">Fit</option><option value="1">100%</option><option value="1.5">150%</option><option value="2">200%</option></select></label><div class="movie-overlay-options" data-overlay-options><label><input type="checkbox" data-overlay-toggle="thirds"> Thirds</label><label><input type="checkbox" data-overlay-toggle="center"> Center</label><label><input type="checkbox" data-overlay-toggle="titleSafe"> Title safe</label><label><input type="checkbox" data-overlay-toggle="actionSafe"> Action safe</label></div><button data-reset-preferences>Reset appearance</button></section>`;
-}
-return Object.freeze(__exports);
-})();
-/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioMediaWorkspaceMarkup.js */
-__awtsmoosModule_1941 = (() => {
-const __exports = {};
-// B"H
-// Boruch Hashem
-// Blessed is He
-
-/**
- * @file MovieStudioMediaWorkspaceMarkup.js
- * @description Defines media bins, saved searches, source preview, marks, and edit controls.
- * The Awtsmoos is one before source and program divide; Awtsmoos.com gives the editor
- * a visible vessel where assets are found, previewed, bounded, and placed side by side.
- */
-
-function movieStudioMediaWorkspaceMarkup() {
+function appearanceMarkup() {
 	return `
-		<section class="movie-media-workspace" data-media-workspace aria-labelledby="movie-media-workspace-title">
-			<header class="movie-media-workspace-heading">
-				<h3 id="movie-media-workspace-title">Media &amp; Source Monitor</h3>
-				<output data-media-workspace-status aria-live="polite">Media workspace ready.</output>
-			</header>
-			<div class="movie-media-workspace-filters">
-				<label>Search<input type="search" data-media-workspace-query autocomplete="off" placeholder="Label, tag, metadata…"></label>
-				<label>Folder<select data-media-workspace-folder></select></label>
-				<label>Kind<select data-media-workspace-kind><option value="">All media</option><option value="video">Video</option><option value="audio">Audio</option><option value="image">Image</option></select></label>
-				<label class="movie-media-workspace-check"><input type="checkbox" data-media-workspace-recursive>Include subfolders</label>
-			</div>
-			<div class="movie-media-workspace-searches">
-				<label>Search name<input data-media-workspace-search-name maxlength="80" autocomplete="off"></label>
-				<label>Saved search<select data-media-workspace-saved></select></label>
-				<div class="movie-media-workspace-actions">
-					<button data-media-workspace-action="save-search">Save search</button>
-					<button data-media-workspace-action="apply-search">Apply</button>
-					<button data-media-workspace-action="remove-search">Delete</button>
-				</div>
-			</div>
-			<div class="movie-media-workspace-list" data-media-workspace-list role="listbox" aria-label="Media bin" tabindex="0"></div>
-			<section class="movie-source-monitor" aria-labelledby="movie-source-monitor-title">
-				<header><h4 id="movie-source-monitor-title">Source Monitor</h4><strong data-media-workspace-source-label>No source selected</strong></header>
-				<div class="movie-source-monitor-preview" data-media-workspace-preview></div>
-				<output data-media-workspace-range>In 0.000 · Out 0.000</output>
-				<div class="movie-source-monitor-fields">
-					<label>In<input type="number" min="0" step="0.001" data-media-workspace-in></label>
-					<label>Out<input type="number" min="0" step="0.001" data-media-workspace-out></label>
-					<label>Target track<select data-media-workspace-track></select></label>
-					<label>Still duration<input type="number" min="0.001" step="0.001" value="5" data-media-workspace-duration></label>
-				</div>
-				<div class="movie-media-workspace-actions">
-					<button data-media-workspace-action="mark-in">Mark In at player</button>
-					<button data-media-workspace-action="mark-out">Mark Out at player</button>
-					<button data-media-workspace-action="clear-marks">Clear marks</button>
-					<button data-media-workspace-action="insert">Insert at playhead</button>
-					<button data-media-workspace-action="overwrite">Overwrite at playhead</button>
-				</div>
-			</section>
-		</section>
-	`;
+		<section class="movie-appearance-panel" data-appearance-panel><div class="movie-appearance-heading"><h3>Clip Appearance</h3><output data-appearance-selection>No visual clip selected</output></div>
+			<label>Opacity <input type="range" min="0" max="1" step="0.01" value="1" data-appearance-opacity></label>
+			<label>Filter <select data-appearance-filter><option value="none">None</option><option value="grayscale(1)">Grayscale</option><option value="sepia(1)">Sepia</option><option value="contrast(1.35)">High contrast</option><option value="saturate(1.5)">Saturated</option></select></label>
+			<div class="movie-overlay-options"><label><input type="checkbox" data-overlay-option="thirds"> Rule of thirds</label><label><input type="checkbox" data-overlay-option="center"> Center crosshair</label><label><input type="checkbox" data-overlay-option="titleSafe"> Title safe</label><label><input type="checkbox" data-overlay-option="actionSafe"> Action safe</label></div>
+		</section>`;
 }
 
-__exports.movieStudioMediaWorkspaceMarkup = movieStudioMediaWorkspaceMarkup;
-return Object.freeze(__exports);
-})();
-/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioProjectBrowserMarkup.js */
-__awtsmoosModule_1940 = (() => {
-const __exports = {};
-// B"H
-// Boruch Hashem
-// Blessed is He
-
-/**
- * @file MovieStudioProjectBrowserMarkup.js
- * @description Defines professional media/source editing beside persistent project save and recovery controls.
- * The Awtsmoos renews living and remembered story in one project; Awtsmoos.com gives
- * artists bins, marks, edits, restore, export, and autosave without crossing disconnected applications.
- */
-
-var movieStudioMediaWorkspaceMarkup = __awtsmoosModule_1941.movieStudioMediaWorkspaceMarkup;
-
-function movieStudioProjectBrowserMarkup() {
+function projectJsonMarkup() {
 	return `
-		<div class="movie-project-browser" data-project-browser>
-			${movieStudioMediaWorkspaceMarkup()}
-			<section class="movie-project-library" aria-labelledby="movie-project-library-title">
-				<h3 id="movie-project-library-title">Project Library</h3>
-				<div class="movie-project-browser-controls">
-					<label>Storage<select data-project-browser-adapter><option value="localStorage">Browser storage</option><option value="memory">Session memory</option></select></label>
-					<label>Save name<input data-project-browser-key value="my-movie" maxlength="120" autocomplete="off"></label>
-				</div>
-				<div class="movie-project-browser-actions">
-					<button data-project-browser-save>Save now</button>
-					<button data-project-browser-autosave>Start autosave</button>
-					<button data-project-browser-refresh>Refresh library</button>
-				</div>
-				<output data-project-browser-status aria-live="polite">Project library ready.</output>
-				<div class="movie-project-browser-list" data-project-browser-list aria-live="polite"></div>
-				<label class="movie-project-browser-export-label">Canonical project JSON<textarea data-project-browser-export readonly spellcheck="false"></textarea></label>
-				<button data-project-browser-copy>Copy project JSON</button>
-			</section>
-		</div>
-	`;
+		<section class="movie-project-json-panel" aria-label="Project JSON"><textarea data-project-json aria-label="Movie project JSON"></textarea>
+			<div class="movie-project-json-actions"><button data-project-copy>Copy JSON</button><button data-project-apply>Apply JSON</button></div>
+		</section>`;
 }
-
-__exports.movieStudioProjectBrowserMarkup = movieStudioProjectBrowserMarkup;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioUtilityMarkup.js */
-__awtsmoosModule_1939 = (() => {
+__awtsmoosModule_1984 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -142223,7 +145791,7 @@ const __exports = {};
  * desktop drawers and mobile sheets names, focus doors, live facts, and retractable bounded bodies.
  */
 
-var movieStudioProjectBrowserMarkup = __awtsmoosModule_1940.movieStudioProjectBrowserMarkup;
+var movieStudioProjectBrowserMarkup = __awtsmoosModule_1980.movieStudioProjectBrowserMarkup;
 
 function movieStudioUtilityToolbarMarkup() {
 	return `
@@ -142287,7 +145855,7 @@ function utilityPanelMarkup(name, id, title, body) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioMarkup.js */
-__awtsmoosModule_1931 = (() => {
+__awtsmoosModule_1973 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -142295,37 +145863,26 @@ const __exports = {};
 
 /**
  * @file MovieStudioMarkup.js
- * @description Composes the semantic NLE shell with project, preview, inspector, timeline, utilities, and status.
- * The Awtsmoos renews every panel and beginning through one source; Awtsmoos.com gives desktop
- * and mobile the same named vessels while cinematic default and empty creation remain distinct choices.
+ * @description Composes the semantic NLE shell with professional transport and utility surfaces.
+ * The Awtsmoos renews every panel and beginning through one source; Awtsmoos.com gives
+ * desktop and mobile the same program monitor, frame doors, shuttle rhythm, and project vessels.
  */
 
-var movieStudioInspectorMarkup = __awtsmoosModule_1932.movieStudioInspectorMarkup;
-var movieStudioStatusBarMarkup = __awtsmoosModule_1939.movieStudioStatusBarMarkup;
-var movieStudioUtilitySurfacesMarkup = __awtsmoosModule_1939.movieStudioUtilitySurfacesMarkup;
-var movieStudioUtilityToolbarMarkup = __awtsmoosModule_1939.movieStudioUtilityToolbarMarkup;
+var movieStudioInspectorMarkup = __awtsmoosModule_1974.movieStudioInspectorMarkup;
+var movieStudioStatusBarMarkup = __awtsmoosModule_1984.movieStudioStatusBarMarkup;
+var movieStudioUtilitySurfacesMarkup = __awtsmoosModule_1984.movieStudioUtilitySurfacesMarkup;
+var movieStudioUtilityToolbarMarkup = __awtsmoosModule_1984.movieStudioUtilityToolbarMarkup;
 
 function movieStudioMarkup(project) {
 	return `
 		<header class="movie-studio-bar">
-			<div class="movie-studio-brand">
-				<strong>B"H MitzvahWorld Movie Maker</strong>
-				<span data-title>${escapeMovieMarkup(project.title)}</span>
-			</div>
-			<button data-new-empty-project title="Create a blank project; the current project can be restored with Undo">
-				<span aria-hidden="true">＋</span>
-				<span class="movie-secondary-label">Empty project</span>
-			</button>
+			<div class="movie-studio-brand"><strong>B"H MitzvahWorld Movie Maker</strong><span data-title>${escapeMovieMarkup(project.title)}</span></div>
+			<button data-new-empty-project title="Create a blank project; the current project can be restored with Undo"><span aria-hidden="true">＋</span><span class="movie-secondary-label">Empty project</span></button>
 			${movieStudioUtilityToolbarMarkup()}
-			<button data-inspector-toggle aria-controls="movie-studio-inspector" aria-expanded="true">
-				<span aria-hidden="true">☰</span>
-				<span class="movie-secondary-label">Inspector</span>
-			</button>
+			<button data-inspector-toggle aria-controls="movie-studio-inspector" aria-expanded="true"><span aria-hidden="true">☰</span><span class="movie-secondary-label">Inspector</span></button>
 		</header>
 		<main class="movie-studio-workspace" data-workspace>
-			<section class="movie-studio-preview-column" aria-label="Program monitor">
-				${moviePreviewMarkup()}
-			</section>
+			<section class="movie-studio-preview-column" aria-label="Program monitor">${moviePreviewMarkup()}</section>
 			<div class="movie-studio-splitter movie-studio-splitter-inspector" data-inspector-splitter role="separator" aria-label="Resize inspector" aria-orientation="vertical" tabindex="0"></div>
 			${movieStudioInspectorMarkup()}
 		</main>
@@ -142340,18 +145897,20 @@ function movieStudioMarkup(project) {
 __exports.movieStudioMarkup = movieStudioMarkup;
 function moviePreviewMarkup() {
 	return `
-		<div class="movie-studio-preview-stage" data-preview-stage>
-			<div class="movie-studio-preview-frame" data-preview-frame>
-				<div class="movie-studio-preview" data-preview></div>
-				<div class="movie-preview-overlay" data-preview-overlay aria-hidden="true">
-					<i data-overlay="thirds"></i><i data-overlay="center"></i>
-					<i data-overlay="titleSafe"></i><i data-overlay="actionSafe"></i>
-				</div>
-			</div>
-		</div>
-		<div class="movie-studio-transport" aria-label="Playback controls">
-			<button data-play aria-label="Play preview">▶</button>
-			<button data-pause aria-label="Pause preview">Ⅱ</button>
+		<div class="movie-studio-preview-stage" data-preview-stage><div class="movie-studio-preview-frame" data-preview-frame>
+			<div class="movie-studio-preview" data-preview></div>
+			<div class="movie-preview-overlay" data-preview-overlay aria-hidden="true"><i data-overlay="thirds"></i><i data-overlay="center"></i><i data-overlay="titleSafe"></i><i data-overlay="actionSafe"></i></div>
+		</div></div>
+		<div class="movie-studio-transport" aria-label="Program playback controls">
+			<button data-transport-start aria-label="Go to start" title="Home">|◀</button>
+			<button data-transport-step-back aria-label="Step back one frame" title="Left Arrow">◀|</button>
+			<button data-transport-shuttle-back aria-label="Shuttle backward" title="J">◀◀</button>
+			<button data-pause aria-label="Pause preview" title="K">Ⅱ</button>
+			<button data-play aria-label="Play forward" title="L or Space">▶</button>
+			<button data-transport-shuttle-forward aria-label="Shuttle forward" title="L">▶▶</button>
+			<button data-transport-step-forward aria-label="Step forward one frame" title="Right Arrow">|▶</button>
+			<button data-transport-end aria-label="Go to end" title="End">▶|</button>
+			<output class="movie-transport-rate" data-transport-rate aria-live="polite">Paused</output>
 		</div>
 		<div class="movie-studio-status" data-status role="status" aria-live="polite">Ready.</div>
 	`;
@@ -142365,7 +145924,7 @@ function escapeMovieMarkup(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioAccessibilityCss.js */
-__awtsmoosModule_1944 = (() => {
+__awtsmoosModule_1987 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -142459,7 +146018,7 @@ __exports.movieStudioAccessibilityCss = movieStudioAccessibilityCss;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioAuthoring3dCss.js */
-__awtsmoosModule_1945 = (() => {
+__awtsmoosModule_1988 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -142561,7 +146120,7 @@ __exports.movieStudioAuthoring3dCss = movieStudioAuthoring3dCss;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioAudioMixerCss.js */
-__awtsmoosModule_1946 = (() => {
+__awtsmoosModule_1989 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -142641,7 +146200,7 @@ __exports.movieStudioAudioMixerCss = movieStudioAudioMixerCss;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioCameraActionCss.js */
-__awtsmoosModule_1947 = (() => {
+__awtsmoosModule_1990 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -142740,8 +146299,129 @@ function movieStudioCameraActionCss() {
 __exports.movieStudioCameraActionCss = movieStudioCameraActionCss;
 return Object.freeze(__exports);
 })();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioCompositionCss.js */
+__awtsmoosModule_1991 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieStudioCompositionCss.js
+ * @description Styles accessible composition, layer, graph, and evaluation authoring surfaces.
+ * The Awtsmoos is beyond surface and spacing; Awtsmoos.com gives finite nested canvases
+ * clear touch-safe controls, readable hierarchy, and responsive lanes without leaking styles outward.
+ */
+
+function movieStudioCompositionCss() {
+	return `
+		.movie-composition-workspace {
+			display: grid;
+			gap: var(--movie-space-3);
+			padding-block: var(--movie-space-4);
+			border-top: 1px solid var(--movie-divider-subtle);
+		}
+		.movie-composition-workspace > header,
+		.movie-composition-layer-editor > h4 {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: var(--movie-space-2);
+			margin: 0;
+		}
+		.movie-composition-workspace h3,
+		.movie-composition-workspace h4 {
+			margin: 0;
+		}
+		.movie-composition-workspace output {
+			color: var(--movie-text-muted);
+			font-size: 11px;
+		}
+		.movie-composition-grid {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: var(--movie-space-2);
+		}
+		.movie-composition-grid label {
+			display: grid;
+			gap: var(--movie-space-1);
+			min-width: 0;
+			color: var(--movie-text-muted);
+			font-size: 12px;
+		}
+		.movie-composition-grid input,
+		.movie-composition-grid select,
+		.movie-composition-grid textarea {
+			width: 100%;
+			min-height: var(--movie-control-height);
+			padding-inline: var(--movie-space-2);
+		}
+		.movie-composition-grid textarea {
+			min-height: 72px;
+			padding-block: var(--movie-space-2);
+			resize: vertical;
+		}
+		.movie-composition-check {
+			grid-template-columns: auto 1fr !important;
+			align-items: center;
+		}
+		.movie-composition-check input {
+			width: auto;
+		}
+		.movie-composition-text {
+			grid-column: 1 / -1;
+		}
+		.movie-composition-actions {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(92px, 1fr));
+			gap: var(--movie-space-2);
+		}
+		.movie-composition-layer-list {
+			display: grid;
+			gap: var(--movie-space-2);
+			max-height: 240px;
+			overflow: auto;
+		}
+		.movie-composition-layer-card {
+			justify-content: flex-start;
+			min-height: 44px;
+			text-align: left;
+			white-space: normal;
+		}
+		.movie-composition-layer-card[aria-selected="true"] {
+			outline: 2px solid var(--movie-accent);
+			outline-offset: -2px;
+		}
+		.movie-composition-layer-editor {
+			display: grid;
+			gap: var(--movie-space-3);
+			padding: var(--movie-space-3);
+			border: 1px solid var(--movie-border);
+			border-radius: var(--movie-radius-medium);
+		}
+		.movie-composition-evaluation,
+		.movie-composition-empty {
+			display: block;
+			padding: var(--movie-space-2);
+			border-radius: var(--movie-radius-small);
+			background: var(--movie-surface-raised);
+		}
+		@media (max-width: 420px) {
+			.movie-composition-grid {
+				grid-template-columns: 1fr;
+			}
+			.movie-composition-text {
+				grid-column: auto;
+			}
+		}
+	`;
+}
+
+__exports.movieStudioCompositionCss = movieStudioCompositionCss;
+return Object.freeze(__exports);
+})();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioControlsCss.js */
-__awtsmoosModule_1948 = (() => {
+__awtsmoosModule_1992 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -142826,7 +146506,7 @@ __exports.movieStudioControlsCss = movieStudioControlsCss;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioCssLocalizer.js */
-__awtsmoosModule_1949 = (() => {
+__awtsmoosModule_1993 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -142926,7 +146606,7 @@ function findClosingBrace(source, opening) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioDensityCss.js */
-__awtsmoosModule_1950 = (() => {
+__awtsmoosModule_1994 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -143000,7 +146680,7 @@ __exports.movieStudioDensityCss = movieStudioDensityCss;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioInspectorCss.js */
-__awtsmoosModule_1951 = (() => {
+__awtsmoosModule_1995 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -143114,7 +146794,7 @@ __exports.movieStudioInspectorCss = movieStudioInspectorCss;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioKeyframeCss.js */
-__awtsmoosModule_1952 = (() => {
+__awtsmoosModule_1996 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -143209,7 +146889,7 @@ __exports.movieStudioKeyframeCss = movieStudioKeyframeCss;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioLayoutCss.js */
-__awtsmoosModule_1953 = (() => {
+__awtsmoosModule_1997 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -143306,7 +146986,7 @@ __exports.movieStudioLayoutCss = movieStudioLayoutCss;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioLoadingCss.js */
-__awtsmoosModule_1954 = (() => {
+__awtsmoosModule_1998 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -143397,7 +147077,7 @@ __exports.movieStudioLoadingCss = movieStudioLoadingCss;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceCss.js */
-__awtsmoosModule_1955 = (() => {
+__awtsmoosModule_1999 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -143436,7 +147116,7 @@ __exports.MOVIE_STUDIO_PERFORMANCE_CSS = MOVIE_STUDIO_PERFORMANCE_CSS;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPerformanceOverlayCss.js */
-__awtsmoosModule_1956 = (() => {
+__awtsmoosModule_2000 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -143470,7 +147150,7 @@ __exports.movieStudioPerformanceOverlayCss = movieStudioPerformanceOverlayCss;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioPreviewCss.js */
-__awtsmoosModule_1957 = (() => {
+__awtsmoosModule_2001 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -143548,7 +147228,7 @@ __exports.movieStudioPreviewCss = movieStudioPreviewCss;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioMediaWorkspaceCss.js */
-__awtsmoosModule_1959 = (() => {
+__awtsmoosModule_2003 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -143556,19 +147236,22 @@ const __exports = {};
 
 /**
  * @file MovieStudioMediaWorkspaceCss.js
- * @description Styles the media bin and source monitor for desktop drawers and mobile sheets.
- * The Awtsmoos renews every visible boundary; Awtsmoos.com keeps search, preview, marks,
- * track targeting, and edit actions readable without hiding any accessible control.
+ * @description Styles media bins, delivery health, proxy jobs, and source transport responsively.
+ * The Awtsmoos renews every visible boundary; Awtsmoos.com keeps search, health, repair,
+ * playback, marks, track targeting, and edit actions readable without hiding any control.
  */
 
 function movieStudioMediaWorkspaceCss() {
 	return `
 		.movie-media-workspace { display: grid; gap: var(--movie-space-3); padding-bottom: var(--movie-space-4); border-bottom: 1px solid var(--movie-divider-subtle); }
 		.movie-media-workspace-heading,
+		.movie-media-operations header,
 		.movie-source-monitor header { display: flex; align-items: center; justify-content: space-between; gap: var(--movie-space-2); }
 		.movie-media-workspace-heading h3,
+		.movie-media-operations h4,
 		.movie-source-monitor h4 { margin: 0; }
 		.movie-media-workspace-heading output,
+		.movie-media-operations output,
 		.movie-source-monitor output { color: var(--movie-text-muted); font-size: 11px; }
 		.movie-media-workspace-filters,
 		.movie-media-workspace-searches,
@@ -143580,16 +147263,19 @@ function movieStudioMediaWorkspaceCss() {
 		.movie-media-workspace-item { display: grid; gap: 2px; text-align: left; padding: var(--movie-space-2); border: 1px solid var(--movie-divider-subtle); }
 		.movie-media-workspace-item[aria-selected="true"] { outline: 2px solid var(--movie-accent); outline-offset: -2px; }
 		.movie-media-workspace-item small { color: var(--movie-text-muted); }
+		.movie-media-operations,
 		.movie-source-monitor { display: grid; gap: var(--movie-space-2); padding: var(--movie-space-3); border: 1px solid var(--movie-divider-subtle); border-radius: var(--movie-radius); background: var(--movie-panel); }
+		.movie-media-operations > output { display: block; padding: var(--movie-space-2); background: var(--movie-canvas); border-radius: calc(var(--movie-radius) / 2); }
 		.movie-source-monitor-preview { display: grid; place-items: center; min-height: 140px; overflow: hidden; background: var(--movie-canvas); }
 		.movie-source-monitor-preview video,
 		.movie-source-monitor-preview audio,
 		.movie-source-monitor-preview img { width: 100%; max-height: 260px; object-fit: contain; }
+		.movie-source-transport { display: grid; grid-template-columns: auto minmax(100px, 1fr) auto minmax(110px, 1fr); gap: var(--movie-space-1); align-items: center; }
+		.movie-source-transport output { text-align: right; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
 		@media (max-width: 720px) {
-			.movie-media-workspace-filters,
-			.movie-media-workspace-searches,
-			.movie-source-monitor-fields,
-			.movie-media-workspace-actions { grid-template-columns: 1fr; }
+			.movie-media-workspace-filters, .movie-media-workspace-searches,
+			.movie-source-monitor-fields, .movie-media-workspace-actions,
+			.movie-source-transport { grid-template-columns: 1fr; }
 		}
 	`;
 }
@@ -143598,7 +147284,7 @@ __exports.movieStudioMediaWorkspaceCss = movieStudioMediaWorkspaceCss;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioProjectBrowserCss.js */
-__awtsmoosModule_1958 = (() => {
+__awtsmoosModule_2002 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -143611,7 +147297,7 @@ const __exports = {};
  * asset, mark, record, timestamp, action, preview, and export readable on desktop and mobile.
  */
 
-var movieStudioMediaWorkspaceCss = __awtsmoosModule_1959.movieStudioMediaWorkspaceCss;
+var movieStudioMediaWorkspaceCss = __awtsmoosModule_2003.movieStudioMediaWorkspaceCss;
 
 function movieStudioProjectBrowserCss() {
 	return `
@@ -143645,7 +147331,7 @@ __exports.movieStudioProjectBrowserCss = movieStudioProjectBrowserCss;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioResponsiveCss.js */
-__awtsmoosModule_1960 = (() => {
+__awtsmoosModule_2004 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -143753,7 +147439,7 @@ __exports.movieStudioResponsiveCss = movieStudioResponsiveCss;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioSantoCss.js */
-__awtsmoosModule_1961 = (() => {
+__awtsmoosModule_2005 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -143806,7 +147492,7 @@ __exports.movieStudioSantoCss = movieStudioSantoCss;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioScene3dCss.js */
-__awtsmoosModule_1962 = (() => {
+__awtsmoosModule_2006 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -143847,7 +147533,7 @@ __exports.movieStudioScene3dCss = movieStudioScene3dCss;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioSplitterCss.js */
-__awtsmoosModule_1963 = (() => {
+__awtsmoosModule_2007 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -143926,7 +147612,7 @@ __exports.movieStudioSplitterCss = movieStudioSplitterCss;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioStatusBarCss.js */
-__awtsmoosModule_1964 = (() => {
+__awtsmoosModule_2008 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -143974,7 +147660,7 @@ __exports.movieStudioStatusBarCss = movieStudioStatusBarCss;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioThemeCss.js */
-__awtsmoosModule_1965 = (() => {
+__awtsmoosModule_2009 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -144059,7 +147745,7 @@ __exports.movieStudioThemeCss = movieStudioThemeCss;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioTitleCss.js */
-__awtsmoosModule_1966 = (() => {
+__awtsmoosModule_2010 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -144092,7 +147778,7 @@ __exports.movieStudioTitleCss = movieStudioTitleCss;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioTokensCss.js */
-__awtsmoosModule_1967 = (() => {
+__awtsmoosModule_2011 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -144180,8 +147866,54 @@ function movieStudioTokensCss() {
 __exports.movieStudioTokensCss = movieStudioTokensCss;
 return Object.freeze(__exports);
 })();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioTransportCss.js */
+__awtsmoosModule_2012 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieStudioTransportCss.js
+ * @description Styles professional transport controls, shuttle direction, rate, and mobile wrapping.
+ * The Awtsmoos is beyond button and velocity while every finite screen needs a clear rhythm;
+ * Awtsmoos.com keeps frame doors, rate witness, touch targets, and focus visible at every width.
+ */
+
+function movieStudioTransportCss() {
+	return `
+		.movie-studio-transport {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			justify-content: center;
+			gap: var(--movie-space-1);
+		}
+		.movie-studio-transport button {
+			min-width: 38px;
+			min-height: 36px;
+		}
+		.movie-transport-rate {
+			min-width: 64px;
+			padding: 0 var(--movie-space-2);
+			color: var(--movie-text-muted);
+			font: 600 12px/1 ui-monospace, SFMono-Regular, Consolas, monospace;
+			text-align: center;
+		}
+		.movie-transport-rate[data-direction="-1"]::before { content: "◀ "; }
+		.movie-transport-rate[data-direction="1"]::before { content: "▶ "; }
+		@media (max-width: 640px) {
+			.movie-studio-transport button { flex: 1 1 38px; }
+			.movie-transport-rate { flex: 1 0 100%; order: 9; }
+		}
+	`;
+}
+
+__exports.movieStudioTransportCss = movieStudioTransportCss;
+return Object.freeze(__exports);
+})();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioUtilityContentCss.js */
-__awtsmoosModule_1968 = (() => {
+__awtsmoosModule_2013 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -144265,7 +147997,7 @@ __exports.movieStudioUtilityContentCss = movieStudioUtilityContentCss;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioUtilityCss.js */
-__awtsmoosModule_1969 = (() => {
+__awtsmoosModule_2014 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -144333,7 +148065,7 @@ __exports.movieStudioUtilityCss = movieStudioUtilityCss;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioUtilityResponsiveCss.js */
-__awtsmoosModule_1970 = (() => {
+__awtsmoosModule_2015 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -144449,7 +148181,7 @@ __exports.movieStudioUtilityResponsiveCss = movieStudioUtilityResponsiveCss;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineAppearanceCss.js */
-__awtsmoosModule_1971 = (() => {
+__awtsmoosModule_2016 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -144537,7 +148269,7 @@ __exports.movieTimelineAppearanceCss = movieTimelineAppearanceCss;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineClipCss.js */
-__awtsmoosModule_1973 = (() => {
+__awtsmoosModule_2018 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -144648,7 +148380,7 @@ __exports.movieTimelineClipCss = movieTimelineClipCss;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelinePerformanceCss.js */
-__awtsmoosModule_1974 = (() => {
+__awtsmoosModule_2019 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -144687,7 +148419,7 @@ __exports.movieTimelinePerformanceCss = movieTimelinePerformanceCss;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineCommandCss.js */
-__awtsmoosModule_1976 = (() => {
+__awtsmoosModule_2021 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -144791,7 +148523,7 @@ __exports.movieTimelineCommandCss = movieTimelineCommandCss;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineToolCursorCss.js */
-__awtsmoosModule_1978 = (() => {
+__awtsmoosModule_2023 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -144851,7 +148583,7 @@ __exports.movieTimelineToolCursorCss = movieTimelineToolCursorCss;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineToolbarCss.js */
-__awtsmoosModule_1977 = (() => {
+__awtsmoosModule_2022 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -144864,7 +148596,7 @@ const __exports = {};
  * every tool a visible, keyboard-readable, localized, responsive, and truthful side.
  */
 
-var movieTimelineToolCursorCss = __awtsmoosModule_1978.movieTimelineToolCursorCss;
+var movieTimelineToolCursorCss = __awtsmoosModule_2023.movieTimelineToolCursorCss;
 
 function movieTimelineToolbarCss() {
 	return `
@@ -144943,7 +148675,7 @@ __exports.movieTimelineToolbarCss = movieTimelineToolbarCss;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineTrackCss.js */
-__awtsmoosModule_1979 = (() => {
+__awtsmoosModule_2024 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -145025,7 +148757,7 @@ __exports.movieTimelineTrackCss = movieTimelineTrackCss;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineShellCss.js */
-__awtsmoosModule_1975 = (() => {
+__awtsmoosModule_2020 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -145038,9 +148770,9 @@ const __exports = {};
  * lets focused styles stay small while their ordered union makes the timeline whole.
  */
 
-var movieTimelineCommandCss = __awtsmoosModule_1976.movieTimelineCommandCss;
-var movieTimelineToolbarCss = __awtsmoosModule_1977.movieTimelineToolbarCss;
-var movieTimelineTrackCss = __awtsmoosModule_1979.movieTimelineTrackCss;
+var movieTimelineCommandCss = __awtsmoosModule_2021.movieTimelineCommandCss;
+var movieTimelineToolbarCss = __awtsmoosModule_2022.movieTimelineToolbarCss;
+var movieTimelineTrackCss = __awtsmoosModule_2024.movieTimelineTrackCss;
 
 function movieTimelineShellCss() {
 	return [
@@ -145054,7 +148786,7 @@ __exports.movieTimelineShellCss = movieTimelineShellCss;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieTimelineCss.js */
-__awtsmoosModule_1972 = (() => {
+__awtsmoosModule_2017 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -145067,9 +148799,9 @@ const __exports = {};
  * lets each stylesheet guard one duty while their ordered union keeps cinematic editing right.
  */
 
-var movieTimelineClipCss = __awtsmoosModule_1973.movieTimelineClipCss;
-var movieTimelinePerformanceCss = __awtsmoosModule_1974.movieTimelinePerformanceCss;
-var movieTimelineShellCss = __awtsmoosModule_1975.movieTimelineShellCss;
+var movieTimelineClipCss = __awtsmoosModule_2018.movieTimelineClipCss;
+var movieTimelinePerformanceCss = __awtsmoosModule_2019.movieTimelinePerformanceCss;
+var movieTimelineShellCss = __awtsmoosModule_2020.movieTimelineShellCss;
 
 function movieTimelineCss() {
 	return [
@@ -145083,7 +148815,7 @@ __exports.movieTimelineCss = movieTimelineCss;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioStyleText.js */
-__awtsmoosModule_1943 = (() => {
+__awtsmoosModule_1986 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -145091,52 +148823,55 @@ const __exports = {};
 
 /**
  * @file MovieStudioStyleText.js
- * @description Composes localized performance, acting-aid, scene, camera, audio, title, 3D, and NLE CSS.
- * The Awtsmoos renews every pane, actor, path, lens, voice, word, diamond, effect, and guide in light;
+ * @description Composes transport, performance, composition, scene, camera, audio, title, 3D, and NLE CSS.
+ * The Awtsmoos renews every pane, canvas, actor, lens, word, diamond, speed, effect, and guide;
  * Awtsmoos.com prevents neighboring pages and sibling studios from inheriting another vessel's sight.
  */
 
-var movieStudioAccessibilityCss = __awtsmoosModule_1944.movieStudioAccessibilityCss;
-var movieStudioAuthoring3dCss = __awtsmoosModule_1945.movieStudioAuthoring3dCss;
-var movieStudioAudioMixerCss = __awtsmoosModule_1946.movieStudioAudioMixerCss;
-var movieStudioCameraActionCss = __awtsmoosModule_1947.movieStudioCameraActionCss;
-var movieStudioControlsCss = __awtsmoosModule_1948.movieStudioControlsCss;
-var localizeMovieStudioCss = __awtsmoosModule_1949.localizeMovieStudioCss;
-var movieStudioDensityCss = __awtsmoosModule_1950.movieStudioDensityCss;
-var movieStudioInspectorCss = __awtsmoosModule_1951.movieStudioInspectorCss;
-var movieStudioKeyframeCss = __awtsmoosModule_1952.movieStudioKeyframeCss;
-var movieStudioLayoutCss = __awtsmoosModule_1953.movieStudioLayoutCss;
-var movieStudioLoadingCss = __awtsmoosModule_1954.movieStudioLoadingCss;
-var MOVIE_STUDIO_PERFORMANCE_CSS = __awtsmoosModule_1955.MOVIE_STUDIO_PERFORMANCE_CSS;
-var movieStudioPerformanceOverlayCss = __awtsmoosModule_1956.movieStudioPerformanceOverlayCss;
-var movieStudioPreviewCss = __awtsmoosModule_1957.movieStudioPreviewCss;
-var movieStudioProjectBrowserCss = __awtsmoosModule_1958.movieStudioProjectBrowserCss;
-var movieStudioResponsiveCss = __awtsmoosModule_1960.movieStudioResponsiveCss;
-var movieStudioSantoCss = __awtsmoosModule_1961.movieStudioSantoCss;
-var movieStudioScene3dCss = __awtsmoosModule_1962.movieStudioScene3dCss;
-var movieStudioSplitterCss = __awtsmoosModule_1963.movieStudioSplitterCss;
-var movieStudioStatusBarCss = __awtsmoosModule_1964.movieStudioStatusBarCss;
-var movieStudioThemeCss = __awtsmoosModule_1965.movieStudioThemeCss;
-var movieStudioTitleCss = __awtsmoosModule_1966.movieStudioTitleCss;
-var movieStudioTokensCss = __awtsmoosModule_1967.movieStudioTokensCss;
-var movieStudioUtilityContentCss = __awtsmoosModule_1968.movieStudioUtilityContentCss;
-var movieStudioUtilityCss = __awtsmoosModule_1969.movieStudioUtilityCss;
-var movieStudioUtilityResponsiveCss = __awtsmoosModule_1970.movieStudioUtilityResponsiveCss;
-var movieTimelineAppearanceCss = __awtsmoosModule_1971.movieTimelineAppearanceCss;
-var movieTimelineCss = __awtsmoosModule_1972.movieTimelineCss;
+var movieStudioAccessibilityCss = __awtsmoosModule_1987.movieStudioAccessibilityCss;
+var movieStudioAuthoring3dCss = __awtsmoosModule_1988.movieStudioAuthoring3dCss;
+var movieStudioAudioMixerCss = __awtsmoosModule_1989.movieStudioAudioMixerCss;
+var movieStudioCameraActionCss = __awtsmoosModule_1990.movieStudioCameraActionCss;
+var movieStudioCompositionCss = __awtsmoosModule_1991.movieStudioCompositionCss;
+var movieStudioControlsCss = __awtsmoosModule_1992.movieStudioControlsCss;
+var localizeMovieStudioCss = __awtsmoosModule_1993.localizeMovieStudioCss;
+var movieStudioDensityCss = __awtsmoosModule_1994.movieStudioDensityCss;
+var movieStudioInspectorCss = __awtsmoosModule_1995.movieStudioInspectorCss;
+var movieStudioKeyframeCss = __awtsmoosModule_1996.movieStudioKeyframeCss;
+var movieStudioLayoutCss = __awtsmoosModule_1997.movieStudioLayoutCss;
+var movieStudioLoadingCss = __awtsmoosModule_1998.movieStudioLoadingCss;
+var MOVIE_STUDIO_PERFORMANCE_CSS = __awtsmoosModule_1999.MOVIE_STUDIO_PERFORMANCE_CSS;
+var movieStudioPerformanceOverlayCss = __awtsmoosModule_2000.movieStudioPerformanceOverlayCss;
+var movieStudioPreviewCss = __awtsmoosModule_2001.movieStudioPreviewCss;
+var movieStudioProjectBrowserCss = __awtsmoosModule_2002.movieStudioProjectBrowserCss;
+var movieStudioResponsiveCss = __awtsmoosModule_2004.movieStudioResponsiveCss;
+var movieStudioSantoCss = __awtsmoosModule_2005.movieStudioSantoCss;
+var movieStudioScene3dCss = __awtsmoosModule_2006.movieStudioScene3dCss;
+var movieStudioSplitterCss = __awtsmoosModule_2007.movieStudioSplitterCss;
+var movieStudioStatusBarCss = __awtsmoosModule_2008.movieStudioStatusBarCss;
+var movieStudioThemeCss = __awtsmoosModule_2009.movieStudioThemeCss;
+var movieStudioTitleCss = __awtsmoosModule_2010.movieStudioTitleCss;
+var movieStudioTokensCss = __awtsmoosModule_2011.movieStudioTokensCss;
+var movieStudioTransportCss = __awtsmoosModule_2012.movieStudioTransportCss;
+var movieStudioUtilityContentCss = __awtsmoosModule_2013.movieStudioUtilityContentCss;
+var movieStudioUtilityCss = __awtsmoosModule_2014.movieStudioUtilityCss;
+var movieStudioUtilityResponsiveCss = __awtsmoosModule_2015.movieStudioUtilityResponsiveCss;
+var movieTimelineAppearanceCss = __awtsmoosModule_2016.movieTimelineAppearanceCss;
+var movieTimelineCss = __awtsmoosModule_2017.movieTimelineCss;
 
 function movieStudioStyleText() {
 	const fragments = [
 		movieStudioLoadingCss(), movieStudioTokensCss(), movieStudioThemeCss(),
 		movieStudioSantoCss(), movieStudioLayoutCss(), movieStudioControlsCss(),
-		movieStudioPreviewCss(), movieStudioInspectorCss(),
-		MOVIE_STUDIO_PERFORMANCE_CSS, movieStudioPerformanceOverlayCss(),
-		movieStudioScene3dCss(), movieStudioCameraActionCss(), movieStudioKeyframeCss(),
-		movieStudioAudioMixerCss(), movieStudioTitleCss(), movieStudioAuthoring3dCss(),
-		movieTimelineCss(), movieTimelineAppearanceCss(), movieStudioSplitterCss(),
-		movieStudioStatusBarCss(), movieStudioUtilityCss(), movieStudioUtilityContentCss(),
-		movieStudioProjectBrowserCss(), movieStudioDensityCss(), movieStudioResponsiveCss(),
-		movieStudioUtilityResponsiveCss(), movieStudioAccessibilityCss()
+		movieStudioPreviewCss(), movieStudioTransportCss(), movieStudioInspectorCss(),
+		movieStudioCompositionCss(), MOVIE_STUDIO_PERFORMANCE_CSS,
+		movieStudioPerformanceOverlayCss(), movieStudioScene3dCss(),
+		movieStudioCameraActionCss(), movieStudioKeyframeCss(), movieStudioAudioMixerCss(),
+		movieStudioTitleCss(), movieStudioAuthoring3dCss(), movieTimelineCss(),
+		movieTimelineAppearanceCss(), movieStudioSplitterCss(), movieStudioStatusBarCss(),
+		movieStudioUtilityCss(), movieStudioUtilityContentCss(), movieStudioProjectBrowserCss(),
+		movieStudioDensityCss(), movieStudioResponsiveCss(), movieStudioUtilityResponsiveCss(),
+		movieStudioAccessibilityCss()
 	];
 	return localizeMovieStudioCss(fragments.join('\n'));
 }
@@ -145145,7 +148880,7 @@ __exports.movieStudioStyleText = movieStudioStyleText;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioStyles.js */
-__awtsmoosModule_1942 = (() => {
+__awtsmoosModule_1985 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -145158,7 +148893,7 @@ const __exports = {};
  * installation separate from the readable CSS document that defines the editing vessel.
  */
 
-var movieStudioStyleText = __awtsmoosModule_1943.movieStudioStyleText;
+var movieStudioStyleText = __awtsmoosModule_1986.movieStudioStyleText;
 
 const STYLE_ID = 'Awtsmoos-movie-studio-style';
 
@@ -145173,8 +148908,39 @@ function installMovieStudioStyles() {
 __exports.installMovieStudioStyles = installMovieStudioStyles;
 return Object.freeze(__exports);
 })();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioTransportView.js */
+__awtsmoosModule_2026 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MovieStudioTransportView.js
+ * @description Collects semantic program-monitor transport controls.
+ * The Awtsmoos is beyond selector and speed while every finite controller needs a truthful map;
+ * Awtsmoos.com names each frame, shuttle, boundary, play, pause, and rate vessel exactly once.
+ */
+
+function collectMovieStudioTransportView(root) {
+	return {
+		play: root.querySelector('[data-play]'),
+		stop: root.querySelector('[data-pause]'),
+		transportEnd: root.querySelector('[data-transport-end]'),
+		transportRate: root.querySelector('[data-transport-rate]'),
+		transportShuttleBack: root.querySelector('[data-transport-shuttle-back]'),
+		transportShuttleForward: root.querySelector('[data-transport-shuttle-forward]'),
+		transportStart: root.querySelector('[data-transport-start]'),
+		transportStepBack: root.querySelector('[data-transport-step-back]'),
+		transportStepForward: root.querySelector('[data-transport-step-forward]')
+	};
+}
+
+__exports.collectMovieStudioTransportView = collectMovieStudioTransportView;
+return Object.freeze(__exports);
+})();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioViewReferences.js */
-__awtsmoosModule_1980 = (() => {
+__awtsmoosModule_2025 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -145182,13 +148948,16 @@ const __exports = {};
 
 /**
  * @file MovieStudioViewReferences.js
- * @description Collects semantic DOM references for projects, cameras, action discovery, 3D, utilities, and responsive surfaces.
+ * @description Collects semantic DOM references for transport, projects, cameras, 3D, utilities, and responsive surfaces.
  * The Awtsmoos renews every visible vessel beyond selector and node; Awtsmoos.com gives
- * controllers one truthful map so blank beginnings, runtime deeds, mobile sheets, and desktop drawers never drift.
+ * controllers one truthful map so runtime deeds, mobile sheets, and desktop drawers never drift.
  */
+
+var collectMovieStudioTransportView = __awtsmoosModule_2026.collectMovieStudioTransportView;
 
 function collectMovieStudioViewReferences(root) {
 	return {
+		...collectMovieStudioTransportView(root),
 		actionBrowserCategory: root.querySelector('[data-action-browser-category]'),
 		actionBrowserCount: root.querySelector('[data-action-browser-count]'),
 		actionBrowserList: root.querySelector('[data-action-browser-list]'),
@@ -145236,7 +149005,6 @@ function collectMovieStudioViewReferences(root) {
 		json: root.querySelector('[data-project-json]'),
 		newEmptyProject: root.querySelector('[data-new-empty-project]'),
 		overlayInputs: [...root.querySelectorAll('[data-overlay-toggle]')],
-		play: root.querySelector('[data-play]'),
 		preview: root.querySelector('[data-preview]'),
 		previewBadge: root.querySelector('[data-preview-badge]'),
 		previewFrame: root.querySelector('[data-preview-frame]'),
@@ -145249,7 +149017,6 @@ function collectMovieStudioViewReferences(root) {
 		status: root.querySelector('[data-status]'),
 		statusBar: root.querySelector('[data-status-bar]'),
 		statusFields: collectMovieStatusFields(root),
-		stop: root.querySelector('[data-pause]'),
 		theme: root.querySelector('[data-theme]'),
 		timeline: root.querySelector('[data-timeline]'),
 		title: root.querySelector('[data-title]'),
@@ -145286,7 +149053,7 @@ function collectNamedElements(root, selector) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieWorldLoadingMarkup.js */
-__awtsmoosModule_1982 = (() => {
+__awtsmoosModule_2028 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -145323,7 +149090,7 @@ __exports.movieWorldLoadingMarkup = movieWorldLoadingMarkup;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieWorldLoadingView.js */
-__awtsmoosModule_1981 = (() => {
+__awtsmoosModule_2027 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -145336,7 +149103,7 @@ const __exports = {};
  * Awtsmoos.com reveals no control until a real handler enters the localized loading side.
  */
 
-var movieWorldLoadingMarkup = __awtsmoosModule_1982.movieWorldLoadingMarkup;
+var movieWorldLoadingMarkup = __awtsmoosModule_2028.movieWorldLoadingMarkup;
 
 function createMovieWorldLoadingView(message) {
 	const template = document.createElement('template');
@@ -145416,7 +149183,7 @@ function statusMessage(status) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudioView.js */
-__awtsmoosModule_1930 = (() => {
+__awtsmoosModule_1972 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -145429,10 +149196,10 @@ const __exports = {};
  * inspector, utilities, loading, status, and authored JSON distinct finite vessels.
  */
 
-var movieStudioMarkup = __awtsmoosModule_1931.movieStudioMarkup;
-var installMovieStudioStyles = __awtsmoosModule_1942.installMovieStudioStyles;
-var collectMovieStudioViewReferences = __awtsmoosModule_1980.collectMovieStudioViewReferences;
-var createMovieWorldLoadingView = __awtsmoosModule_1981.createMovieWorldLoadingView;
+var movieStudioMarkup = __awtsmoosModule_1973.movieStudioMarkup;
+var installMovieStudioStyles = __awtsmoosModule_1985.installMovieStudioStyles;
+var collectMovieStudioViewReferences = __awtsmoosModule_2025.collectMovieStudioViewReferences;
+var createMovieWorldLoadingView = __awtsmoosModule_2027.createMovieWorldLoadingView;
 
 const LOADING_SELECTOR = '[data-movie-studio-loading]';
 
@@ -145494,7 +149261,7 @@ function setOptionalMovieText(root, name, value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieWorldChrome.js */
-__awtsmoosModule_1983 = (() => {
+__awtsmoosModule_2029 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -145533,7 +149300,7 @@ __exports.hideMovieWorldChrome = hideMovieWorldChrome;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieStudio.js */
-__awtsmoosModule_1490 = (() => {
+__awtsmoosModule_1497 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -145541,30 +149308,32 @@ const __exports = {};
 
 /**
  * @file MovieStudio.js
- * @description Boots the real world beneath the stable API, Character Performance Mode, and professional NLE.
+ * @description Boots the real world beneath the stable API, compositions, performance, transport, and NLE.
  * The Awtsmoos renews world and editing vessel together; Awtsmoos.com binds runtime, project,
- * recovery, performance, scene manipulation, cameras, actions, audio, authoring, and rendering.
+ * nested canvases, recovery, source, program transport, cameras, audio, authoring, and rendering.
  */
 
 var createEretzRuntime = __awtsmoosModule_556.createEretzRuntime;
-var renderExactMovieStudioSession = __awtsmoosModule_1491.renderExactMovieStudioSession;
-var MovieStudioAuthoring3dController = __awtsmoosModule_1815.MovieStudioAuthoring3dController;
-var MovieStudioAudioMixerController = __awtsmoosModule_1817.MovieStudioAudioMixerController;
-var MovieStudioCameraActionController = __awtsmoosModule_1820.MovieStudioCameraActionController;
-var MovieStudioInteractionController = __awtsmoosModule_1824.MovieStudioInteractionController;
-var MovieStudioKeyframeController = __awtsmoosModule_1828.MovieStudioKeyframeController;
-var MovieStudioPerformanceController = __awtsmoosModule_1835.MovieStudioPerformanceController;
-var MovieStudioPreferenceController = __awtsmoosModule_1901.MovieStudioPreferenceController;
-var MovieStudioProjectBrowserController = __awtsmoosModule_1902.MovieStudioProjectBrowserController;
-var MovieStudioResizeController = __awtsmoosModule_1911.MovieStudioResizeController;
-var MovieStudioScene3dController = __awtsmoosModule_1914.MovieStudioScene3dController;
-var MovieStudioScene3dGizmo = __awtsmoosModule_1915.MovieStudioScene3dGizmo;
-var MovieStudioSession = __awtsmoosModule_1519.MovieStudioSession;
-var MovieStudioTitleController = __awtsmoosModule_1917.MovieStudioTitleController;
-var MovieStudioUtilityController = __awtsmoosModule_1922.MovieStudioUtilityController;
-var createMovieStudioView = __awtsmoosModule_1930.createMovieStudioView;
-var showMovieLoading = __awtsmoosModule_1930.showMovieLoading;
-var hideMovieWorldChrome = __awtsmoosModule_1983.hideMovieWorldChrome;
+var renderExactMovieStudioSession = __awtsmoosModule_1498.renderExactMovieStudioSession;
+var MovieStudioAuthoring3dController = __awtsmoosModule_1848.MovieStudioAuthoring3dController;
+var MovieStudioAudioMixerController = __awtsmoosModule_1850.MovieStudioAudioMixerController;
+var MovieStudioCameraActionController = __awtsmoosModule_1853.MovieStudioCameraActionController;
+var MovieStudioCompositionController = __awtsmoosModule_1857.MovieStudioCompositionController;
+var MovieStudioInteractionController = __awtsmoosModule_1863.MovieStudioInteractionController;
+var MovieStudioKeyframeController = __awtsmoosModule_1867.MovieStudioKeyframeController;
+var MovieStudioPerformanceController = __awtsmoosModule_1874.MovieStudioPerformanceController;
+var MovieStudioPreferenceController = __awtsmoosModule_1940.MovieStudioPreferenceController;
+var MovieStudioProjectBrowserController = __awtsmoosModule_1941.MovieStudioProjectBrowserController;
+var MovieStudioResizeController = __awtsmoosModule_1952.MovieStudioResizeController;
+var MovieStudioScene3dController = __awtsmoosModule_1955.MovieStudioScene3dController;
+var MovieStudioScene3dGizmo = __awtsmoosModule_1956.MovieStudioScene3dGizmo;
+var MovieStudioSession = __awtsmoosModule_1526.MovieStudioSession;
+var MovieStudioTitleController = __awtsmoosModule_1958.MovieStudioTitleController;
+var MovieStudioTransportController = __awtsmoosModule_1963.MovieStudioTransportController;
+var MovieStudioUtilityController = __awtsmoosModule_1964.MovieStudioUtilityController;
+var createMovieStudioView = __awtsmoosModule_1972.createMovieStudioView;
+var showMovieLoading = __awtsmoosModule_1972.showMovieLoading;
+var hideMovieWorldChrome = __awtsmoosModule_2029.hideMovieWorldChrome;
 
 async function createMovieStudio(hosts, initialProject, options = {}) {
 	const loading = showMovieLoading();
@@ -145575,7 +149344,7 @@ async function createMovieStudio(hosts, initialProject, options = {}) {
 		});
 		const runtime = diagnostics.runtime;
 		const restoreWorldChrome = hideMovieWorldChrome(hosts, runtime.renderer.canvas);
-		loading.set('B"H arranging scene tools, performances, timeline, sound, actions, and cameras…');
+		loading.set('B"H arranging transport, compositions, performance, sound, actions, and cameras…');
 		const view = createMovieStudioView(initialProject);
 		const session = new MovieStudioSession(runtime, diagnostics, view, initialProject);
 		session.restoreWorldChrome = restoreWorldChrome;
@@ -145586,11 +149355,13 @@ async function createMovieStudio(hosts, initialProject, options = {}) {
 		session.keyframeController = new MovieStudioKeyframeController(session, view);
 		session.audioMixerController = new MovieStudioAudioMixerController(session, view);
 		session.titleController = new MovieStudioTitleController(session, view);
+		session.compositionController = new MovieStudioCompositionController(session, view.root);
 		session.projectBrowserController = new MovieStudioProjectBrowserController(session, view.root);
 		session.utilityController = new MovieStudioUtilityController(session, view);
 		session.performanceController = new MovieStudioPerformanceController(session, {
 			environment: options.environment || globalThis
 		});
+		session.transportController = new MovieStudioTransportController(session, view);
 		session.interactions = new MovieStudioInteractionController(session, view);
 		session.preferenceController = new MovieStudioPreferenceController(session, view);
 		session.resizeController = new MovieStudioResizeController(session, view);
@@ -145604,9 +149375,7 @@ async function createMovieStudio(hosts, initialProject, options = {}) {
 
 __exports.createMovieStudio = createMovieStudio;
 function scheduleAutomaticRender(session, options) {
-	if (options.autoRender) {
-		setTimeout(() => session.render(), 250);
-	}
+	if (options.autoRender) setTimeout(() => session.render(), 250);
 	if (options.autoRenderExact) {
 		setTimeout(() => renderExactMovieStudioSession(session), 250);
 	}
@@ -145646,7 +149415,7 @@ __exports.openPlatformMode = openPlatformMode;
 async function openMovieMode(hosts, search = '') {
 	const [projectModule, studioModule] = await Promise.all([
 		Promise.resolve(__awtsmoosModule_1464),
-		Promise.resolve(__awtsmoosModule_1490)
+		Promise.resolve(__awtsmoosModule_1497)
 	]);
 	const project = await projectModule.loadRequestedMovie(search);
 	return studioModule.createMovieStudio(hosts, project, {
@@ -145693,7 +149462,7 @@ __exports.openMinimalCreativeRoute = openMinimalCreativeRoute;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPageSupport.js */
-__awtsmoosModule_1985 = (() => {
+__awtsmoosModule_2031 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -145759,7 +149528,7 @@ __exports.showMinimalMeadowBootFailure = showMinimalMeadowBootFailure;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/LocalTabIdentity.js */
-__awtsmoosModule_1991 = (() => {
+__awtsmoosModule_2037 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -145851,7 +149620,7 @@ function safeSet(storage, key, value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/LocalTabWorldState.js */
-__awtsmoosModule_1992 = (() => {
+__awtsmoosModule_2038 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -146055,7 +149824,7 @@ function clonePlayer(player) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/LocalTabRealtimeClient.js */
-__awtsmoosModule_1990 = (() => {
+__awtsmoosModule_2036 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -146068,10 +149837,10 @@ const __exports = {};
  * ordering, heartbeat, explicit leave, and stale cleanup behind one normalized client.
  */
 
-var localTabChannelName = __awtsmoosModule_1991.localTabChannelName;
-var localTabPlayerAddress = __awtsmoosModule_1991.localTabPlayerAddress;
-var localTabPlayerId = __awtsmoosModule_1991.localTabPlayerId;
-var LocalTabWorldState = __awtsmoosModule_1992.LocalTabWorldState;
+var localTabChannelName = __awtsmoosModule_2037.localTabChannelName;
+var localTabPlayerAddress = __awtsmoosModule_2037.localTabPlayerAddress;
+var localTabPlayerId = __awtsmoosModule_2037.localTabPlayerId;
+var LocalTabWorldState = __awtsmoosModule_2038.LocalTabWorldState;
 
 const DEFAULT_HEARTBEAT_MS = 2000;
 
@@ -146315,7 +150084,7 @@ function finite(value, fallback) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/LocalTabManagedConnection.js */
-__awtsmoosModule_1989 = (() => {
+__awtsmoosModule_2035 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -146328,7 +150097,7 @@ const __exports = {};
  * the local authority the same lifecycle doorway as the deployed websocket authority.
  */
 
-var LocalTabRealtimeClient = __awtsmoosModule_1990.LocalTabRealtimeClient;
+var LocalTabRealtimeClient = __awtsmoosModule_2036.LocalTabRealtimeClient;
 
 class LocalTabManagedConnection {
 	constructor(options = {}) {
@@ -146369,7 +150138,7 @@ __exports.LocalTabManagedConnection = LocalTabManagedConnection;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldBackoff.js */
-__awtsmoosModule_1994 = (() => {
+__awtsmoosModule_2040 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -146405,7 +150174,7 @@ __exports.MitzvahWorldBackoff = MitzvahWorldBackoff;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldJoinKey.js */
-__awtsmoosModule_1996 = (() => {
+__awtsmoosModule_2042 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -146436,7 +150205,7 @@ __exports.createMitzvahWorldJoinKey = createMitzvahWorldJoinKey;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldEventHub.js */
-__awtsmoosModule_1997 = (() => {
+__awtsmoosModule_2043 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -146474,7 +150243,7 @@ __exports.MitzvahWorldEventHub = MitzvahWorldEventHub;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldCommunityApi.js */
-__awtsmoosModule_1999 = (() => {
+__awtsmoosModule_2045 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -146569,7 +150338,7 @@ __exports.MitzvahWorldCommunityApi = MitzvahWorldCommunityApi;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldEconomyApi.js */
-__awtsmoosModule_2000 = (() => {
+__awtsmoosModule_2046 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -146638,7 +150407,7 @@ __exports.MitzvahWorldEconomyApi = MitzvahWorldEconomyApi;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldProfileApi.js */
-__awtsmoosModule_2001 = (() => {
+__awtsmoosModule_2047 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -146689,7 +150458,7 @@ __exports.MitzvahWorldProfileApi = MitzvahWorldProfileApi;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldAdventureApi.js */
-__awtsmoosModule_2003 = (() => {
+__awtsmoosModule_2049 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -146726,7 +150495,7 @@ __exports.createMitzvahWorldAdventureApi = createMitzvahWorldAdventureApi;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldCombatApi.js */
-__awtsmoosModule_2004 = (() => {
+__awtsmoosModule_2050 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -146803,7 +150572,7 @@ __exports.createMitzvahWorldCombatApi = createMitzvahWorldCombatApi;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldExpansionApi.js */
-__awtsmoosModule_2005 = (() => {
+__awtsmoosModule_2051 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -146852,7 +150621,7 @@ __exports.createMitzvahWorldExpansionApi = createMitzvahWorldExpansionApi;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldRpgApi.js */
-__awtsmoosModule_2002 = (() => {
+__awtsmoosModule_2048 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -146865,9 +150634,9 @@ const __exports = {};
  * Awtsmoos.com keeps the historic direct facade while focused command vessels remain small.
  */
 
-var createMitzvahWorldAdventureApi = __awtsmoosModule_2003.createMitzvahWorldAdventureApi;
-var createMitzvahWorldCombatApi = __awtsmoosModule_2004.createMitzvahWorldCombatApi;
-var createMitzvahWorldExpansionApi = __awtsmoosModule_2005.createMitzvahWorldExpansionApi;
+var createMitzvahWorldAdventureApi = __awtsmoosModule_2049.createMitzvahWorldAdventureApi;
+var createMitzvahWorldCombatApi = __awtsmoosModule_2050.createMitzvahWorldCombatApi;
+var createMitzvahWorldExpansionApi = __awtsmoosModule_2051.createMitzvahWorldExpansionApi;
 
 class MitzvahWorldRpgApi {
 	constructor(send) {
@@ -146885,7 +150654,7 @@ __exports.MitzvahWorldRpgApi = MitzvahWorldRpgApi;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldMmorpgApi.js */
-__awtsmoosModule_1998 = (() => {
+__awtsmoosModule_2044 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -146898,10 +150667,10 @@ const __exports = {};
  * every historic facade stable while focused nested APIs hold expanding domains.
  */
 
-var MitzvahWorldCommunityApi = __awtsmoosModule_1999.MitzvahWorldCommunityApi;
-var MitzvahWorldEconomyApi = __awtsmoosModule_2000.MitzvahWorldEconomyApi;
-var MitzvahWorldProfileApi = __awtsmoosModule_2001.MitzvahWorldProfileApi;
-var MitzvahWorldRpgApi = __awtsmoosModule_2002.MitzvahWorldRpgApi;
+var MitzvahWorldCommunityApi = __awtsmoosModule_2045.MitzvahWorldCommunityApi;
+var MitzvahWorldEconomyApi = __awtsmoosModule_2046.MitzvahWorldEconomyApi;
+var MitzvahWorldProfileApi = __awtsmoosModule_2047.MitzvahWorldProfileApi;
+var MitzvahWorldRpgApi = __awtsmoosModule_2048.MitzvahWorldRpgApi;
 
 class MitzvahWorldMmorpgApi {
 	constructor(send) {
@@ -147005,7 +150774,7 @@ __exports.MitzvahWorldMmorpgApi = MitzvahWorldMmorpgApi;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldTransport.js */
-__awtsmoosModule_2006 = (() => {
+__awtsmoosModule_2052 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -147118,7 +150887,7 @@ __exports.MitzvahWorldTransport = MitzvahWorldTransport;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/WorldDeltaStore.js */
-__awtsmoosModule_2007 = (() => {
+__awtsmoosModule_2053 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -147167,7 +150936,7 @@ function clone(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldRealtimeClient.js */
-__awtsmoosModule_1995 = (() => {
+__awtsmoosModule_2041 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -147180,11 +150949,11 @@ const __exports = {};
  * private resume token, world state, and a transport that cannot wait without end.
  */
 
-var createMitzvahWorldJoinKey = __awtsmoosModule_1996.createMitzvahWorldJoinKey;
-var MitzvahWorldEventHub = __awtsmoosModule_1997.MitzvahWorldEventHub;
-var MitzvahWorldMmorpgApi = __awtsmoosModule_1998.MitzvahWorldMmorpgApi;
-var MitzvahWorldTransport = __awtsmoosModule_2006.MitzvahWorldTransport;
-var applyWorldDelta = __awtsmoosModule_2007.applyWorldDelta;
+var createMitzvahWorldJoinKey = __awtsmoosModule_2042.createMitzvahWorldJoinKey;
+var MitzvahWorldEventHub = __awtsmoosModule_2043.MitzvahWorldEventHub;
+var MitzvahWorldMmorpgApi = __awtsmoosModule_2044.MitzvahWorldMmorpgApi;
+var MitzvahWorldTransport = __awtsmoosModule_2052.MitzvahWorldTransport;
+var applyWorldDelta = __awtsmoosModule_2053.applyWorldDelta;
 
 class MitzvahWorldRealtimeClient {
 	constructor(socket, options = {}) {
@@ -147274,7 +151043,7 @@ __exports.MitzvahWorldRealtimeClient = MitzvahWorldRealtimeClient;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldSocketOpen.js */
-__awtsmoosModule_2008 = (() => {
+__awtsmoosModule_2054 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -147337,7 +151106,7 @@ __exports.waitForMitzvahWorldSocketOpen = waitForMitzvahWorldSocketOpen;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldManagedConnection.js */
-__awtsmoosModule_1993 = (() => {
+__awtsmoosModule_2039 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -147350,9 +151119,9 @@ const __exports = {};
  * making both opening and joining finite so shared-world entry can always continue locally.
  */
 
-var MitzvahWorldBackoff = __awtsmoosModule_1994.MitzvahWorldBackoff;
-var MitzvahWorldRealtimeClient = __awtsmoosModule_1995.MitzvahWorldRealtimeClient;
-var waitForMitzvahWorldSocketOpen = __awtsmoosModule_2008.waitForMitzvahWorldSocketOpen;
+var MitzvahWorldBackoff = __awtsmoosModule_2040.MitzvahWorldBackoff;
+var MitzvahWorldRealtimeClient = __awtsmoosModule_2041.MitzvahWorldRealtimeClient;
+var waitForMitzvahWorldSocketOpen = __awtsmoosModule_2054.waitForMitzvahWorldSocketOpen;
 
 class MitzvahWorldManagedConnection {
 	constructor(options) {
@@ -147449,7 +151218,7 @@ __exports.MitzvahWorldManagedConnection = MitzvahWorldManagedConnection;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerConnectionFactory.js */
-__awtsmoosModule_1988 = (() => {
+__awtsmoosModule_2034 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -147465,10 +151234,10 @@ const __exports = {};
 async function createMultiplayerConnection(options = {}) {
 	const location = options.location || globalThis.location;
 	if (shouldUseLocalTabs(location)) {
-		const { LocalTabManagedConnection } = await Promise.resolve(__awtsmoosModule_1989);
+		const { LocalTabManagedConnection } = await Promise.resolve(__awtsmoosModule_2035);
 		return new LocalTabManagedConnection(options.localOptions);
 	}
-	const { MitzvahWorldManagedConnection } = await Promise.resolve(__awtsmoosModule_1993);
+	const { MitzvahWorldManagedConnection } = await Promise.resolve(__awtsmoosModule_2039);
 	return new MitzvahWorldManagedConnection({
 		...(options.serverOptions || {}),
 		WebSocketClass: options.WebSocketClass,
@@ -147491,7 +151260,7 @@ __exports.shouldUseLocalTabs = shouldUseLocalTabs;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerOptionalUi.js */
-__awtsmoosModule_2009 = (() => {
+__awtsmoosModule_2055 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -147504,7 +151273,7 @@ const __exports = {};
  * Awtsmoos.com preserves deferred imports, cancellation, disconnect, diagnostics, and exact cleanup.
  */
 
-var afterGameplayQuietWindow = __awtsmoosModule_547.afterGameplayQuietWindow;
+var afterGameplayQuietWindow = __awtsmoosModule_546.afterGameplayQuietWindow;
 
 const OPTIONAL_CHAT_DELAY_MS = 2500;
 const SHARED_CHAT_FACTORY_URL = new URL('./SharedChatClientFactory.js', new URL("/games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerOptionalUi.js", globalThis.location?.origin || import.meta.url).href).href;
@@ -147601,7 +151370,7 @@ function createAbortController(environment) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerEretzSessionLifecycle.js */
-__awtsmoosModule_2010 = (() => {
+__awtsmoosModule_2056 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -147639,7 +151408,7 @@ __exports.stopMultiplayerResources = stopMultiplayerResources;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerStatusReceipt.js */
-__awtsmoosModule_2011 = (() => {
+__awtsmoosModule_2057 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -147687,7 +151456,7 @@ __exports.revealMultiplayerDiagnostics = revealMultiplayerDiagnostics;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerStatusBadgeCopy.js */
-__awtsmoosModule_2013 = (() => {
+__awtsmoosModule_2059 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -147764,7 +151533,7 @@ function transportLabel(transport) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerStatusBadgeStyle.js */
-__awtsmoosModule_2014 = (() => {
+__awtsmoosModule_2060 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -147857,7 +151626,7 @@ __exports.installMultiplayerStatusStyle = installMultiplayerStatusStyle;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerStatusBadge.js */
-__awtsmoosModule_2012 = (() => {
+__awtsmoosModule_2058 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -147870,11 +151639,11 @@ const __exports = {};
  * separate from copy and style so every connection state can be tested without a browser.
  */
 
-var multiplayerDetailLabel = __awtsmoosModule_2013.multiplayerDetailLabel;
-var multiplayerStateLabel = __awtsmoosModule_2013.multiplayerStateLabel;
-var multiplayerStatusIsHealthy = __awtsmoosModule_2013.multiplayerStatusIsHealthy;
-var normalizeMultiplayerStatus = __awtsmoosModule_2013.normalizeMultiplayerStatus;
-var installMultiplayerStatusStyle = __awtsmoosModule_2014.installMultiplayerStatusStyle;
+var multiplayerDetailLabel = __awtsmoosModule_2059.multiplayerDetailLabel;
+var multiplayerStateLabel = __awtsmoosModule_2059.multiplayerStateLabel;
+var multiplayerStatusIsHealthy = __awtsmoosModule_2059.multiplayerStatusIsHealthy;
+var normalizeMultiplayerStatus = __awtsmoosModule_2059.normalizeMultiplayerStatus;
+var installMultiplayerStatusStyle = __awtsmoosModule_2060.installMultiplayerStatusStyle;
 
 const BADGE_ID = 'AwtsmoosRealtimeStatus';
 const STYLE_ID = 'AwtsmoosRealtimeStatusStyle';
@@ -147957,7 +151726,7 @@ __exports.installSinglePlayerStatusBadge = installSinglePlayerStatusBadge;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerTransportIdentity.js */
-__awtsmoosModule_2015 = (() => {
+__awtsmoosModule_2061 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -147970,7 +151739,7 @@ const __exports = {};
  * Awtsmoos.com reuses one canonical selector, so status and transport always rhyme.
  */
 
-var shouldUseLocalTabs = __awtsmoosModule_1988.shouldUseLocalTabs;
+var shouldUseLocalTabs = __awtsmoosModule_2034.shouldUseLocalTabs;
 
 /** Returns the deterministic public identity of the already-selected transport. */
 function revealMultiplayerTransport(location = globalThis.location) {
@@ -147981,7 +151750,7 @@ __exports.revealMultiplayerTransport = revealMultiplayerTransport;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/RuntimePlayerSnapshot.js */
-__awtsmoosModule_2016 = (() => {
+__awtsmoosModule_2062 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -148032,7 +151801,7 @@ function finite(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerDefenseAuthority.js */
-__awtsmoosModule_2019 = (() => {
+__awtsmoosModule_2065 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -148087,7 +151856,7 @@ __exports.MultiplayerDefenseAuthority = MultiplayerDefenseAuthority;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerEnemyAuthorityCatalog.js */
-__awtsmoosModule_2021 = (() => {
+__awtsmoosModule_2067 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -148143,7 +151912,7 @@ function record(profileId, creatureId, speciesId) { return Object.freeze({ creat
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerCombatAuthorityCommand.js */
-__awtsmoosModule_2023 = (() => {
+__awtsmoosModule_2069 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -148155,7 +151924,7 @@ const __exports = {};
  * The Awtsmoos renews intention before consequence can descend into the land;
  * Awtsmoos.com names the weapon and token, while final judgment stays in the server hand.
  */
-var authoritativeCombatAction = __awtsmoosModule_2021.authoritativeCombatAction;
+var authoritativeCombatAction = __awtsmoosModule_2067.authoritativeCombatAction;
 
 function multiplayerCombatAuthorityCommand(options) {
 	const requested = typeof options.input === 'string'
@@ -148182,7 +151951,7 @@ function finiteElapsed(requested, fallback) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerCombatAuthorityEvents.js */
-__awtsmoosModule_2024 = (() => {
+__awtsmoosModule_2070 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -148230,7 +151999,7 @@ __exports.publishMultiplayerCombatAuthority = publishMultiplayerCombatAuthority;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerCombatAuthorityReceipt.js */
-__awtsmoosModule_2025 = (() => {
+__awtsmoosModule_2071 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -148294,7 +152063,7 @@ function finiteNumber(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerEnemyAuthorityReceipts.js */
-__awtsmoosModule_2026 = (() => {
+__awtsmoosModule_2072 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -148336,7 +152105,7 @@ __exports.applyAuthoritativeAdventures = applyAuthoritativeAdventures;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerEnemyAuthorityLife.js */
-__awtsmoosModule_2028 = (() => {
+__awtsmoosModule_2074 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -148374,7 +152143,7 @@ __exports.reviveAuthoritativeEnemy = reviveAuthoritativeEnemy;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerEnemyAuthorityProjection.js */
-__awtsmoosModule_2029 = (() => {
+__awtsmoosModule_2075 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -148445,7 +152214,7 @@ function progressSignature(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerEnemyAuthorityState.js */
-__awtsmoosModule_2027 = (() => {
+__awtsmoosModule_2073 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -148458,12 +152227,12 @@ const __exports = {};
  * impact while preserving readable action warnings, role, phase, animation, and exact defeat.
  */
 
-var defeatAuthoritativeEnemy = __awtsmoosModule_2028.defeatAuthoritativeEnemy;
-var reviveAuthoritativeEnemy = __awtsmoosModule_2028.reviveAuthoritativeEnemy;
-var applyAuthoritativeEnemyAction = __awtsmoosModule_2029.applyAuthoritativeEnemyAction;
-var applyAuthoritativeEnemyPosition = __awtsmoosModule_2029.applyAuthoritativeEnemyPosition;
-var authoritativeEnemyStateSignature = __awtsmoosModule_2029.authoritativeEnemyStateSignature;
-var publishAuthoritativeEnemyState = __awtsmoosModule_2029.publishAuthoritativeEnemyState;
+var defeatAuthoritativeEnemy = __awtsmoosModule_2074.defeatAuthoritativeEnemy;
+var reviveAuthoritativeEnemy = __awtsmoosModule_2074.reviveAuthoritativeEnemy;
+var applyAuthoritativeEnemyAction = __awtsmoosModule_2075.applyAuthoritativeEnemyAction;
+var applyAuthoritativeEnemyPosition = __awtsmoosModule_2075.applyAuthoritativeEnemyPosition;
+var authoritativeEnemyStateSignature = __awtsmoosModule_2075.authoritativeEnemyStateSignature;
+var publishAuthoritativeEnemyState = __awtsmoosModule_2075.publishAuthoritativeEnemyState;
 
 function bindMultiplayerEnemyActor(actor, record) {
 	actor.authoritative = true;
@@ -148541,7 +152310,7 @@ __exports.authoritativeEnemyReceipt = authoritativeEnemyReceipt;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerEnemyAuthorityAttack.js */
-__awtsmoosModule_2022 = (() => {
+__awtsmoosModule_2068 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -148554,12 +152323,12 @@ const __exports = {};
  * Awtsmoos.com keeps unique tokens, pending guards, creature truth, adventures, and feedback aligned.
  */
 
-var multiplayerCombatAuthorityCommand = __awtsmoosModule_2023.multiplayerCombatAuthorityCommand;
-var publishMultiplayerCombatAuthority = __awtsmoosModule_2024.publishMultiplayerCombatAuthority;
-var multiplayerCombatAuthorityReceipt = __awtsmoosModule_2025.multiplayerCombatAuthorityReceipt;
-var applyAuthoritativeAdventures = __awtsmoosModule_2026.applyAuthoritativeAdventures;
-var applyMultiplayerEnemyCreature = __awtsmoosModule_2027.applyMultiplayerEnemyCreature;
-var authoritativeEnemyReceipt = __awtsmoosModule_2027.authoritativeEnemyReceipt;
+var multiplayerCombatAuthorityCommand = __awtsmoosModule_2069.multiplayerCombatAuthorityCommand;
+var publishMultiplayerCombatAuthority = __awtsmoosModule_2070.publishMultiplayerCombatAuthority;
+var multiplayerCombatAuthorityReceipt = __awtsmoosModule_2071.multiplayerCombatAuthorityReceipt;
+var applyAuthoritativeAdventures = __awtsmoosModule_2072.applyAuthoritativeAdventures;
+var applyMultiplayerEnemyCreature = __awtsmoosModule_2073.applyMultiplayerEnemyCreature;
+var authoritativeEnemyReceipt = __awtsmoosModule_2073.authoritativeEnemyReceipt;
 
 async function attackAuthoritativeEnemy(bridge, actor, actionInput) {
 	const creatureId = actor.serverCreatureId;
@@ -148622,7 +152391,7 @@ function requireAttackAvailable(bridge, actor) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerEnemyAuthorityLoot.js */
-__awtsmoosModule_2030 = (() => {
+__awtsmoosModule_2076 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -148634,10 +152403,10 @@ const __exports = {};
  * The Awtsmoos renews reward only after consequence has reached its truthful end;
  * Awtsmoos.com guards exact-once treasure while the client receives what authority may send.
  */
-var applyAuthoritativeAdventures = __awtsmoosModule_2026.applyAuthoritativeAdventures;
-var reconcileAuthoritativeLoot = __awtsmoosModule_2026.reconcileAuthoritativeLoot;
-var applyMultiplayerEnemyCreature = __awtsmoosModule_2027.applyMultiplayerEnemyCreature;
-var authoritativeEnemyReceipt = __awtsmoosModule_2027.authoritativeEnemyReceipt;
+var applyAuthoritativeAdventures = __awtsmoosModule_2072.applyAuthoritativeAdventures;
+var reconcileAuthoritativeLoot = __awtsmoosModule_2072.reconcileAuthoritativeLoot;
+var applyMultiplayerEnemyCreature = __awtsmoosModule_2073.applyMultiplayerEnemyCreature;
+var authoritativeEnemyReceipt = __awtsmoosModule_2073.authoritativeEnemyReceipt;
 
 async function claimAuthoritativeEnemyLoot(options) {
 	const response = await options.client.mmorpg.rpg.loot(options.actor.serverCreatureId);
@@ -148657,7 +152426,7 @@ __exports.claimAuthoritativeEnemyLoot = claimAuthoritativeEnemyLoot;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerEnemyAuthoritySync.js */
-__awtsmoosModule_2031 = (() => {
+__awtsmoosModule_2077 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -148669,10 +152438,10 @@ const __exports = {};
  * The Awtsmoos renews one creature before many screens while distance cannot divide;
  * Awtsmoos.com joins actor and server record, then lets sleeping cells gently hide.
  */
-var multiplayerEnemyRecord = __awtsmoosModule_2021.multiplayerEnemyRecord;
-var applyMultiplayerEnemyCreature = __awtsmoosModule_2027.applyMultiplayerEnemyCreature;
-var bindMultiplayerEnemyActor = __awtsmoosModule_2027.bindMultiplayerEnemyActor;
-var releaseMultiplayerEnemyActor = __awtsmoosModule_2027.releaseMultiplayerEnemyActor;
+var multiplayerEnemyRecord = __awtsmoosModule_2067.multiplayerEnemyRecord;
+var applyMultiplayerEnemyCreature = __awtsmoosModule_2073.applyMultiplayerEnemyCreature;
+var bindMultiplayerEnemyActor = __awtsmoosModule_2073.bindMultiplayerEnemyActor;
+var releaseMultiplayerEnemyActor = __awtsmoosModule_2073.releaseMultiplayerEnemyActor;
 
 function bindAuthoritativeEnemyActors(runtime, controls) {
 	for (const actor of runtime.enemies?.actors || []) {
@@ -148708,7 +152477,7 @@ __exports.releaseAuthoritativeEnemyActors = releaseAuthoritativeEnemyActors;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerEnemyAuthorityBridge.js */
-__awtsmoosModule_2020 = (() => {
+__awtsmoosModule_2066 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -148721,12 +152490,12 @@ const __exports = {};
  * Awtsmoos.com keeps prediction responsive while authority alone decides the fight.
  */
 
-var authoritativeCombatAction = __awtsmoosModule_2021.authoritativeCombatAction;
-var attackAuthoritativeEnemy = __awtsmoosModule_2022.attackAuthoritativeEnemy;
-var claimAuthoritativeEnemyLoot = __awtsmoosModule_2030.claimAuthoritativeEnemyLoot;
-var applyAuthoritativeWorldCreatures = __awtsmoosModule_2031.applyAuthoritativeWorldCreatures;
-var bindAuthoritativeEnemyActors = __awtsmoosModule_2031.bindAuthoritativeEnemyActors;
-var releaseAuthoritativeEnemyActors = __awtsmoosModule_2031.releaseAuthoritativeEnemyActors;
+var authoritativeCombatAction = __awtsmoosModule_2067.authoritativeCombatAction;
+var attackAuthoritativeEnemy = __awtsmoosModule_2068.attackAuthoritativeEnemy;
+var claimAuthoritativeEnemyLoot = __awtsmoosModule_2076.claimAuthoritativeEnemyLoot;
+var applyAuthoritativeWorldCreatures = __awtsmoosModule_2077.applyAuthoritativeWorldCreatures;
+var bindAuthoritativeEnemyActors = __awtsmoosModule_2077.bindAuthoritativeEnemyActors;
+var releaseAuthoritativeEnemyActors = __awtsmoosModule_2077.releaseAuthoritativeEnemyActors;
 
 class MultiplayerEnemyAuthorityBridge {
 	constructor(client, runtime) {
@@ -148820,7 +152589,7 @@ __exports.MultiplayerEnemyAuthorityBridge = MultiplayerEnemyAuthorityBridge;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerKavanahReceipt.js */
-__awtsmoosModule_2035 = (() => {
+__awtsmoosModule_2081 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -148861,7 +152630,7 @@ __exports.failMultiplayerKavanah = failMultiplayerKavanah;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerKavanahMovement.js */
-__awtsmoosModule_2034 = (() => {
+__awtsmoosModule_2080 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -148874,8 +152643,8 @@ const __exports = {};
  * Awtsmoos.com samples axes at a measured cadence and reconciles server stability by receipt.
  */
 
-var acceptMultiplayerKavanah = __awtsmoosModule_2035.acceptMultiplayerKavanah;
-var failMultiplayerKavanah = __awtsmoosModule_2035.failMultiplayerKavanah;
+var acceptMultiplayerKavanah = __awtsmoosModule_2081.acceptMultiplayerKavanah;
+var failMultiplayerKavanah = __awtsmoosModule_2081.failMultiplayerKavanah;
 
 function updateMultiplayerKavanahMovement(
 	authority,
@@ -148913,7 +152682,7 @@ __exports.updateMultiplayerKavanahMovement = updateMultiplayerKavanahMovement;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerKavanahAuthority.js */
-__awtsmoosModule_2033 = (() => {
+__awtsmoosModule_2079 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -148926,9 +152695,9 @@ const __exports = {};
  * Awtsmoos.com serializes cast identity, bounded motion, release, failure, and waiting deeds.
  */
 
-var updateMultiplayerKavanahMovement = __awtsmoosModule_2034.updateMultiplayerKavanahMovement;
-var acceptMultiplayerKavanah = __awtsmoosModule_2035.acceptMultiplayerKavanah;
-var failMultiplayerKavanah = __awtsmoosModule_2035.failMultiplayerKavanah;
+var updateMultiplayerKavanahMovement = __awtsmoosModule_2080.updateMultiplayerKavanahMovement;
+var acceptMultiplayerKavanah = __awtsmoosModule_2081.acceptMultiplayerKavanah;
+var failMultiplayerKavanah = __awtsmoosModule_2081.failMultiplayerKavanah;
 
 const MOVEMENT_INTERVAL_SECONDS = 0.2;
 const DELIBERATE_ACTIONS = new Set([
@@ -149031,7 +152800,7 @@ __exports.MultiplayerKavanahAuthority = MultiplayerKavanahAuthority;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerSupportAuthority.js */
-__awtsmoosModule_2036 = (() => {
+__awtsmoosModule_2082 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -149118,7 +152887,7 @@ __exports.MultiplayerSupportAuthority = MultiplayerSupportAuthority;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerVerticalSliceAuthority.js */
-__awtsmoosModule_2032 = (() => {
+__awtsmoosModule_2078 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -149131,8 +152900,8 @@ const __exports = {};
  * Awtsmoos.com gives the runtime one small covenant for deliberate combat and reconciliation.
  */
 
-var MultiplayerKavanahAuthority = __awtsmoosModule_2033.MultiplayerKavanahAuthority;
-var MultiplayerSupportAuthority = __awtsmoosModule_2036.MultiplayerSupportAuthority;
+var MultiplayerKavanahAuthority = __awtsmoosModule_2079.MultiplayerKavanahAuthority;
+var MultiplayerSupportAuthority = __awtsmoosModule_2082.MultiplayerSupportAuthority;
 
 class MultiplayerVerticalSliceAuthority {
 	constructor(client, runtime) {
@@ -149185,7 +152954,7 @@ __exports.MultiplayerVerticalSliceAuthority = MultiplayerVerticalSliceAuthority;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/AuthoritativeMultiplayerBridgeAuthority.js */
-__awtsmoosModule_2018 = (() => {
+__awtsmoosModule_2064 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -149198,9 +152967,9 @@ const __exports = {};
  * keeps hostile consequence, player protection, and deliberate combat beneath one session covenant.
  */
 
-var MultiplayerDefenseAuthority = __awtsmoosModule_2019.MultiplayerDefenseAuthority;
-var MultiplayerEnemyAuthorityBridge = __awtsmoosModule_2020.MultiplayerEnemyAuthorityBridge;
-var MultiplayerVerticalSliceAuthority = __awtsmoosModule_2032.MultiplayerVerticalSliceAuthority;
+var MultiplayerDefenseAuthority = __awtsmoosModule_2065.MultiplayerDefenseAuthority;
+var MultiplayerEnemyAuthorityBridge = __awtsmoosModule_2066.MultiplayerEnemyAuthorityBridge;
+var MultiplayerVerticalSliceAuthority = __awtsmoosModule_2078.MultiplayerVerticalSliceAuthority;
 
 function installMultiplayerAuthorities(bridge) {
 	bridge.verticalSliceAuthority = new MultiplayerVerticalSliceAuthority(
@@ -149223,7 +152992,7 @@ __exports.installMultiplayerAuthorities = installMultiplayerAuthorities;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/AuthoritativeMultiplayerBridgeLifecycle.js */
-__awtsmoosModule_2037 = (() => {
+__awtsmoosModule_2083 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -149272,7 +153041,7 @@ __exports.stopAuthoritativeBridgeSystems = stopAuthoritativeBridgeSystems;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/AuthoritativeMultiplayerBridgeReceipts.js */
-__awtsmoosModule_2038 = (() => {
+__awtsmoosModule_2084 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -149323,7 +153092,7 @@ __exports.multiplayerBridgeDiagnostics = multiplayerBridgeDiagnostics;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/ChossidConsolidationGeometry.js */
-__awtsmoosModule_2041 = (() => {
+__awtsmoosModule_2087 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -149446,7 +153215,7 @@ function indexArray(indices) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/ChossidConsolidationGrouping.js */
-__awtsmoosModule_2042 = (() => {
+__awtsmoosModule_2088 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -149527,7 +153296,7 @@ function groupKey(mesh, anchor, skinned) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/ChossidMeshConsolidator.js */
-__awtsmoosModule_2040 = (() => {
+__awtsmoosModule_2086 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -149540,8 +153309,8 @@ const __exports = {};
  * accessories, colors, joints, and weights while nine body draws become one skinned garment.
  */
 
-var buildChossidConsolidatedMesh = __awtsmoosModule_2041.buildChossidConsolidatedMesh;
-var collectChossidConsolidationGroups = __awtsmoosModule_2042.collectChossidConsolidationGroups;
+var buildChossidConsolidatedMesh = __awtsmoosModule_2087.buildChossidConsolidatedMesh;
+var collectChossidConsolidationGroups = __awtsmoosModule_2088.collectChossidConsolidationGroups;
 
 function consolidateChossidMeshes(root) {
 	if (!root?.traverse) return emptyStats();
@@ -149592,7 +153361,7 @@ function emptyStats() {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzPlayerStateFactory.js */
-__awtsmoosModule_2044 = (() => {
+__awtsmoosModule_2090 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -149655,7 +153424,7 @@ __exports.createEretzPlayerState = createEretzPlayerState;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/GroundRay.js */
-__awtsmoosModule_2045 = (() => {
+__awtsmoosModule_2091 = (() => {
 const __exports = {};
 // B"H
 /** GroundRay: one beginning ray, so the soles kiss Eretz and do not float. */
@@ -149690,7 +153459,7 @@ __exports.findMinWorldY = findMinWorldY;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/RemoteChossidActor.js */
-__awtsmoosModule_2043 = (() => {
+__awtsmoosModule_2089 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -149704,8 +153473,8 @@ const __exports = {};
  */
 
 var TinyAnimationPlayer = __awtsmoosModule_192.TinyAnimationPlayer;
-var PLAYER_SPAWN = __awtsmoosModule_2044.PLAYER_SPAWN;
-var alignModelFeetToGround = __awtsmoosModule_2045.alignModelFeetToGround;
+var PLAYER_SPAWN = __awtsmoosModule_2090.PLAYER_SPAWN;
+var alignModelFeetToGround = __awtsmoosModule_2091.alignModelFeetToGround;
 
 const POSITION_RESPONSE = 12;
 const FACING_RESPONSE = 16;
@@ -149829,7 +153598,7 @@ function animationClips(names) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/RemoteChossidPopulation.js */
-__awtsmoosModule_2039 = (() => {
+__awtsmoosModule_2085 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -149845,9 +153614,9 @@ const __exports = {};
 var Group = __awtsmoosModule_8.Group;
 var loadIsolatedGltf = __awtsmoosModule_189.loadIsolatedGltf;
 var applyChossidOutfit = __awtsmoosModule_202.applyChossidOutfit;
-var consolidateChossidMeshes = __awtsmoosModule_2040.consolidateChossidMeshes;
+var consolidateChossidMeshes = __awtsmoosModule_2086.consolidateChossidMeshes;
 var PLAYER_MODEL_URL = __awtsmoosModule_154.PLAYER_MODEL_URL;
-var RemoteChossidActor = __awtsmoosModule_2043.RemoteChossidActor;
+var RemoteChossidActor = __awtsmoosModule_2089.RemoteChossidActor;
 
 const MAX_RETRY_DELAY_MS = 30000;
 const RETRY_BASE_DELAY_MS = 1500;
@@ -149958,7 +153727,7 @@ function isHumanPlayer(player) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/AuthoritativeMultiplayerBridge.js */
-__awtsmoosModule_2017 = (() => {
+__awtsmoosModule_2063 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -149971,15 +153740,15 @@ const __exports = {};
  * authority only after connection while local-tab and solo truth retain their own garments.
  */
 
-var installMultiplayerAuthorities = __awtsmoosModule_2018.installMultiplayerAuthorities;
-var shouldAuthoritativeBridgeHeartbeat = __awtsmoosModule_2037.shouldAuthoritativeBridgeHeartbeat;
-var stopAuthoritativeBridgeSystems = __awtsmoosModule_2037.stopAuthoritativeBridgeSystems;
-var updateAuthoritativeBridgeSystems = __awtsmoosModule_2037.updateAuthoritativeBridgeSystems;
-var multiplayerBridgeDiagnostics = __awtsmoosModule_2038.multiplayerBridgeDiagnostics;
-var multiplayerBridgeReceipt = __awtsmoosModule_2038.multiplayerBridgeReceipt;
-var RemoteChossidPopulation = __awtsmoosModule_2039.RemoteChossidPopulation;
-var currentMovementIntent = __awtsmoosModule_2016.currentMovementIntent;
-var runtimePlayerSnapshot = __awtsmoosModule_2016.runtimePlayerSnapshot;
+var installMultiplayerAuthorities = __awtsmoosModule_2064.installMultiplayerAuthorities;
+var shouldAuthoritativeBridgeHeartbeat = __awtsmoosModule_2083.shouldAuthoritativeBridgeHeartbeat;
+var stopAuthoritativeBridgeSystems = __awtsmoosModule_2083.stopAuthoritativeBridgeSystems;
+var updateAuthoritativeBridgeSystems = __awtsmoosModule_2083.updateAuthoritativeBridgeSystems;
+var multiplayerBridgeDiagnostics = __awtsmoosModule_2084.multiplayerBridgeDiagnostics;
+var multiplayerBridgeReceipt = __awtsmoosModule_2084.multiplayerBridgeReceipt;
+var RemoteChossidPopulation = __awtsmoosModule_2085.RemoteChossidPopulation;
+var currentMovementIntent = __awtsmoosModule_2062.currentMovementIntent;
+var runtimePlayerSnapshot = __awtsmoosModule_2062.runtimePlayerSnapshot;
 
 __exports.runtimePlayerSnapshot = runtimePlayerSnapshot;
 
@@ -150075,7 +153844,7 @@ __exports.AuthoritativeMultiplayerBridge = AuthoritativeMultiplayerBridge;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerEretzSession.js */
-__awtsmoosModule_1987 = (() => {
+__awtsmoosModule_2033 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -150086,15 +153855,15 @@ const __exports = {};
  * The Awtsmoos joins distant windows without delaying the first local step; Awtsmoos.com
  * mounts conversation only after connection and destroys it for offline, stopped, or replaced worlds.
  */
-var createMultiplayerConnection = __awtsmoosModule_1988.createMultiplayerConnection;
-var MultiplayerOptionalUi = __awtsmoosModule_2009.MultiplayerOptionalUi;
-var multiplayerConnectionOptions = __awtsmoosModule_2010.multiplayerConnectionOptions;
-var stopMultiplayerResources = __awtsmoosModule_2010.stopMultiplayerResources;
-var revealMultiplayerDiagnostics = __awtsmoosModule_2011.revealMultiplayerDiagnostics;
-var revealMultiplayerStatus = __awtsmoosModule_2011.revealMultiplayerStatus;
-var MultiplayerStatusBadge = __awtsmoosModule_2012.MultiplayerStatusBadge;
-var revealMultiplayerTransport = __awtsmoosModule_2015.revealMultiplayerTransport;
-var runtimePlayerSnapshot = __awtsmoosModule_2016.runtimePlayerSnapshot;
+var createMultiplayerConnection = __awtsmoosModule_2034.createMultiplayerConnection;
+var MultiplayerOptionalUi = __awtsmoosModule_2055.MultiplayerOptionalUi;
+var multiplayerConnectionOptions = __awtsmoosModule_2056.multiplayerConnectionOptions;
+var stopMultiplayerResources = __awtsmoosModule_2056.stopMultiplayerResources;
+var revealMultiplayerDiagnostics = __awtsmoosModule_2057.revealMultiplayerDiagnostics;
+var revealMultiplayerStatus = __awtsmoosModule_2057.revealMultiplayerStatus;
+var MultiplayerStatusBadge = __awtsmoosModule_2058.MultiplayerStatusBadge;
+var revealMultiplayerTransport = __awtsmoosModule_2061.revealMultiplayerTransport;
+var runtimePlayerSnapshot = __awtsmoosModule_2062.runtimePlayerSnapshot;
 const STATUS_REFRESH_SECONDS = 0.25;
 
 class MultiplayerEretzRuntime {
@@ -150142,7 +153911,7 @@ class MultiplayerEretzRuntime {
 				this.refreshStatus('offline-local');
 				return null;
 			}
-			const { AuthoritativeMultiplayerBridge } = await Promise.resolve(__awtsmoosModule_2017);
+			const { AuthoritativeMultiplayerBridge } = await Promise.resolve(__awtsmoosModule_2063);
 			this.bridge = new AuthoritativeMultiplayerBridge({
 				client: this.client,
 				runtime: this.runtime,
@@ -150194,7 +153963,7 @@ __exports.MultiplayerEretzRuntime = MultiplayerEretzRuntime;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerEretzBootstrap.js */
-__awtsmoosModule_1986 = (() => {
+__awtsmoosModule_2032 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -150207,7 +153976,7 @@ const __exports = {};
  * Awtsmoos.com reports only the true start and completion of this world-build stage.
  */
 
-var MultiplayerEretzRuntime = __awtsmoosModule_1987.MultiplayerEretzRuntime;
+var MultiplayerEretzRuntime = __awtsmoosModule_2033.MultiplayerEretzRuntime;
 
 async function createMultiplayerEretzRuntime(hosts, options = {}) {
 	const runtimeFactory = options.runtimeFactory || (await Promise.resolve(__awtsmoosModule_556)).createEretzRuntime;
@@ -150250,7 +154019,7 @@ __exports.default = createMultiplayerEretzRuntime;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalSharedMeadowRuntimeLaunch.js */
-__awtsmoosModule_1984 = (() => {
+__awtsmoosModule_2030 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -150263,13 +154032,13 @@ const __exports = {};
  * keeps network imports outside solo startup while preserving multiplayer as policy default.
  */
 
-var inferMinimalMeadowRealtimeUrl = __awtsmoosModule_1985.inferMinimalMeadowRealtimeUrl;
+var inferMinimalMeadowRealtimeUrl = __awtsmoosModule_2031.inferMinimalMeadowRealtimeUrl;
 
 async function launchMinimalSharedMeadowRuntime(options) {
 	if (options.sessionMode !== 'multiplayer') {
 		return options.runtimeFactory(options.hosts, runtimeOptions(options));
 	}
-	const module = await Promise.resolve(__awtsmoosModule_1986);
+	const module = await Promise.resolve(__awtsmoosModule_2032);
 	return module.createMultiplayerEretzRuntime(options.hosts, {
 		...runtimeOptions(options),
 		WebSocketClass: options.environment.WebSocket,
@@ -150294,7 +154063,7 @@ function runtimeOptions(options) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MitzvahWorldSessionMode.js */
-__awtsmoosModule_2046 = (() => {
+__awtsmoosModule_2092 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -150333,10 +154102,10 @@ var installMinimalMeadowOptionalEntries = __awtsmoosModule_543.installMinimalMea
 var runMinimalSharedMeadowReadiness = __awtsmoosModule_544.runMinimalSharedMeadowReadiness;
 var isMinimalMovieRequest = __awtsmoosModule_551.isMinimalMovieRequest;
 var openMinimalCreativeRoute = __awtsmoosModule_551.openMinimalCreativeRoute;
-var launchMinimalSharedMeadowRuntime = __awtsmoosModule_1984.launchMinimalSharedMeadowRuntime;
-var mitzvahWorldSessionMode = __awtsmoosModule_2046.mitzvahWorldSessionMode;
-var resolveMinimalMeadowHosts = __awtsmoosModule_1985.resolveMinimalMeadowHosts;
-var showMinimalMeadowBootFailure = __awtsmoosModule_1985.showMinimalMeadowBootFailure;
+var launchMinimalSharedMeadowRuntime = __awtsmoosModule_2030.launchMinimalSharedMeadowRuntime;
+var mitzvahWorldSessionMode = __awtsmoosModule_2092.mitzvahWorldSessionMode;
+var resolveMinimalMeadowHosts = __awtsmoosModule_2031.resolveMinimalMeadowHosts;
+var showMinimalMeadowBootFailure = __awtsmoosModule_2031.showMinimalMeadowBootFailure;
 
 async function bootMinimalSharedMeadow(
 	documentValue = document,

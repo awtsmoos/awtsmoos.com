@@ -4,9 +4,9 @@
 
 /**
  * @file BrowserCdpPageSession.mjs
- * @description Carries page-domain commands through one flattened Chrome target session.
- * The Awtsmoos joins browser vessel and page word without nesting one reply inside another;
- * Awtsmoos.com uses Chrome's current flattened protocol so navigation and evaluation cannot lose replies.
+ * @description Carries page commands through one flattened session with idempotent domain activation.
+ * The Awtsmoos opens Runtime and Page once for each attached vessel; Awtsmoos.com does not ask
+ * Chrome to reopen the same gate on every polling breath, preserving long-lived proof sessions.
  */
 
 import { sendCdpCommand } from './BrowserCdpSocket.mjs';
@@ -16,6 +16,8 @@ export class BrowserCdpPageSession {
 		this.browserSocket = browserSocket;
 		this.targetId = targetId;
 		this.sessionId = null;
+		this.pageEnabled = false;
+		this.runtimeEnabled = false;
 	}
 
 	async start() {
@@ -28,7 +30,21 @@ export class BrowserCdpPageSession {
 			}
 		);
 		this.sessionId = attached.sessionId;
+		this.pageEnabled = false;
+		this.runtimeEnabled = false;
 		return this;
+	}
+
+	async enablePage() {
+		if (this.pageEnabled) return;
+		await this.send('Page.enable');
+		this.pageEnabled = true;
+	}
+
+	async enableRuntime() {
+		if (this.runtimeEnabled) return;
+		await this.send('Runtime.enable');
+		this.runtimeEnabled = true;
 	}
 
 	send(method, params = {}, timeoutMs = 10000) {
@@ -48,6 +64,8 @@ export class BrowserCdpPageSession {
 		if (!this.sessionId) return;
 		const sessionId = this.sessionId;
 		this.sessionId = null;
+		this.pageEnabled = false;
+		this.runtimeEnabled = false;
 		await sendCdpCommand(this.browserSocket, 'Target.detachFromTarget', {
 			sessionId
 		}).catch(() => {});

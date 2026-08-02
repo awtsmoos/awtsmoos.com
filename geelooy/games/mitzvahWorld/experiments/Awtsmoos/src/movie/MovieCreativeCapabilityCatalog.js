@@ -15,17 +15,21 @@ export const MOVIE_CREATIVE_CAPABILITY_CATALOG = Object.freeze([
 		tests: ['movieProfessionalEdits.test.mjs', 'movieStudioEditorialApi.test.mjs']
 	}),
 	capability('editing.media-workspace', 'editing', 'Media workspace and catalog', 'partial', {
-		missing: ['proxy generation', 'offline relinking', 'multicamera editing'],
-		owners: ['MovieStudioApiMedia.js', 'MovieMediaCatalog.js'],
-		tests: ['movieMediaWorkspaceContract.test.mjs', 'movieMediaCatalogScale.test.mjs']
+		missing: ['proxy generation', 'multicamera editing'],
+		owners: ['MovieStudioApiMedia.js', 'MovieMediaCatalog.js', 'MovieMediaHealth.js'],
+		tests: ['movieMediaHealth.test.mjs', 'movieStudioApiMediaHealth.test.mjs']
 	}),
 	capability('performance.capture', 'animation', 'Character performance capture', 'verified', {
 		browser: ['browser-keyboard-movement-frame-synced.json', 'browser-loop-range-pass.json'],
 		owners: ['MovieStudioPerformanceController.js'],
 		tests: ['moviePerformanceRecorder.test.mjs', 'moviePerformanceApiContract.test.mjs']
 	}),
+	capability('compositing.nested-compositions', 'compositing', 'Nested composition authoring and evaluation', 'verified', {
+		owners: ['MovieStudioApiCompositions.js', 'MovieStudioCompositionController.js'],
+		tests: ['movieCompositionContract.test.mjs', 'movieCompositionEvaluator.test.mjs', 'movieStudioApiCompositions.test.mjs']
+	}),
 	capability('compositing.effects', 'compositing', 'Clip appearance and visual effects', 'partial', {
-		missing: ['arbitrary layer compositor', 'masks and mattes', 'tracking and rotoscoping'],
+		missing: ['pixel-layer compositor', 'animated mask paths', 'tracking and rotoscoping'],
 		owners: ['MovieVisualEffectDirector.js'],
 		tests: ['movieVisualEffectDirector.test.mjs', 'movieClipAppearance.test.mjs']
 	}),
@@ -63,9 +67,9 @@ export const MOVIE_CREATIVE_CAPABILITY_CATALOG = Object.freeze([
 
 export const MOVIE_CREATIVE_WORKFLOWS = Object.freeze([
 	workflow('professional-editing', ['editing.timeline', 'editing.media-workspace', 'audio.mixing', 'delivery.exact-render']),
-	workflow('motion-compositing', ['editing.timeline', 'compositing.effects', 'delivery.exact-render']),
-	workflow('vector-animation', ['vector.symbol-authoring', 'audio.mixing', 'delivery.exact-render']),
-	workflow('three-dimensional-production', ['three-dimensional.authoring', 'audio.mixing', 'delivery.exact-render']),
+	workflow('motion-compositing', ['editing.timeline', 'compositing.nested-compositions', 'compositing.effects', 'delivery.exact-render']),
+	workflow('vector-animation', ['vector.symbol-authoring', 'compositing.nested-compositions', 'audio.mixing', 'delivery.exact-render']),
+	workflow('three-dimensional-production', ['three-dimensional.authoring', 'compositing.nested-compositions', 'audio.mixing', 'delivery.exact-render']),
 	workflow('real-time-world-production', ['three-dimensional.authoring', 'realtime.world-runtime', 'platform.plugins'])
 ]);
 

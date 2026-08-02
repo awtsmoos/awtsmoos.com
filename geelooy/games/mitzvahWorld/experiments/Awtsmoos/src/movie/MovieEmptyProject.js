@@ -4,9 +4,9 @@
 
 /**
  * @file MovieEmptyProject.js
- * @description Creates a valid empty Movie Studio document with editorial and performance foundations.
- * The Awtsmoos renews possibility before track, actor, lens, source mark, take, or mesh appears; Awtsmoos.com
- * gives human and agent one clean bounded beginning that passes every canonical gate in rhyme.
+ * @description Creates a valid empty Movie Studio document with composition, editorial, and performance foundations.
+ * The Awtsmoos renews possibility before composition, track, actor, lens, source mark, take, or mesh appears;
+ * Awtsmoos.com gives human and agent one clean bounded beginning that passes every canonical gate.
  */
 
 import { emptyMoviePerformance } from './MoviePerformanceContract.js';
@@ -16,6 +16,7 @@ export function createEmptyMovieProject(options = {}) {
 		authoring3d: emptyAuthoring3d(),
 		cameraRigs: [],
 		characters: [],
+		compositions: [],
 		duration: bounded(options.duration, 0.1, 900, 30),
 		fps: bounded(options.fps, 1, 120, 30),
 		graphs: [],

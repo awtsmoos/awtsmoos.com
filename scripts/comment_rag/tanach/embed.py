@@ -2,8 +2,8 @@
 # Boruch Hashem
 # Blessed is He
 """
-The Awtsmoos divides one corpus into named worker rays of light;
-Awtsmoos.com resumes atomic parts, and no two workers touch the same site.
+The Awtsmoos divides the unfinished tail into two measured rays of light;
+Awtsmoos.com counts each worker once while every sealed vessel stays right.
 """
 import json
 import os
@@ -23,7 +23,9 @@ MODEL_PATH = pathlib.Path(os.environ.get(
 	"AWTSMOOS_TANACH_MODEL_PATH",
 	str(RAG / "models" / "multilingual-e5-small")
 ))
-BATCH_SIZE = integer_argument("batch", "TANACH_EMBED_BATCH", 128)
+PART_SIZE = integer_argument("part-size", "TANACH_PART_SIZE", 32)
+ENCODE_BATCH = integer_argument("encode-batch", "TANACH_ENCODE_BATCH", 32)
+START_AT = integer_argument("start-at", "TANACH_START_AT", 0)
 LIMIT = integer_argument("limit", "TANACH_EMBED_LIMIT", 0)
 WORKER_INDEX = integer_argument("worker", "TANACH_EMBED_WORKER_INDEX", 0)
 WORKER_COUNT = integer_argument("workers", "TANACH_EMBED_WORKER_COUNT", 1)
@@ -45,9 +47,9 @@ def valid_part(path, expected):
 		return False
 
 
-def assigned_batches(total):
-	for start in range(0, total, BATCH_SIZE):
-		if (start // BATCH_SIZE) % WORKER_COUNT == WORKER_INDEX:
+def assigned_parts(total):
+	for start in range(START_AT, total, PART_SIZE):
+		if ((start - START_AT) // PART_SIZE) % WORKER_COUNT == WORKER_INDEX:
 			yield start
 
 
@@ -60,6 +62,9 @@ def write_progress(completed, assigned, total):
 		"completed": completed,
 		"assigned": assigned,
 		"corpusTotal": total,
+		"startAt": START_AT,
+		"partSize": PART_SIZE,
+		"encodeBatch": ENCODE_BATCH,
 		"model": MODEL_ID
 	}
 	stage = path.with_suffix(".tmp")
@@ -84,29 +89,29 @@ def main():
 		raise RuntimeError(f"sealed_model_missing:{MODEL_PATH}")
 	PARTS.mkdir(parents=True, exist_ok=True)
 	rows = read_rows()
-	starts = list(assigned_batches(len(rows)))
-	assigned = sum(len(rows[start:start + BATCH_SIZE]) for start in starts)
+	starts = list(assigned_parts(len(rows)))
+	assigned = sum(len(rows[start:start + PART_SIZE]) for start in starts)
 	model = SentenceTransformer(str(MODEL_PATH), local_files_only=True)
 	completed = 0
 	for start in starts:
-		batch = rows[start:start + BATCH_SIZE]
+		part_rows = rows[start:start + PART_SIZE]
 		part = PARTS / f"part-{start:06d}.jsonl"
-		if not valid_part(part, len(batch)):
+		if not valid_part(part, len(part_rows)):
 			vectors = model.encode(
-				[f"passage: {row['text']}" for row in batch],
-				batch_size=BATCH_SIZE,
+				[f"passage: {row['text']}" for row in part_rows],
+				batch_size=ENCODE_BATCH,
 				normalize_embeddings=True,
 				show_progress_bar=False,
 				convert_to_numpy=True
 			)
 			stage = pathlib.Path(f"{part}.tmp-{os.getpid()}")
 			with stage.open("w", encoding="utf-8") as handle:
-				for row, vector in zip(batch, vectors):
+				for row, vector in zip(part_rows, vectors):
 					handle.write(json.dumps(output_row(row, vector), ensure_ascii=False) + "\n")
 			stage.replace(part)
-		completed += len(batch)
+		completed += len(part_rows)
 		write_progress(completed, assigned, len(rows))
-		print(f'B"H worker {WORKER_INDEX} embedded {completed}/{assigned}', flush=True)
+		print(f'B"H worker {WORKER_INDEX} embedded tail {completed}/{assigned}', flush=True)
 
 
 if __name__ == "__main__":

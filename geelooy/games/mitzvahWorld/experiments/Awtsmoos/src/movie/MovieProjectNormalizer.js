@@ -4,12 +4,13 @@
 
 /**
  * @file MovieProjectNormalizer.js
- * @description Supplies defaults for cadence, media workspace, authored 3D, text, performance, clips, and markers.
- * The Awtsmoos renews every frame, asset, letter, mesh, performer, and landmark; Awtsmoos.com
- * keeps source marks, searches, titles, acting takes, motion, sculpt, and timeline vessels canonical in rhyme.
+ * @description Supplies defaults for cadence, compositions, media, authored 3D, text, performance, clips, and markers.
+ * The Awtsmoos renews every frame, nested canvas, asset, letter, mesh, performer, and landmark; Awtsmoos.com
+ * keeps compositions, source marks, searches, titles, acting takes, motion, sculpt, and timeline vessels canonical.
  */
 
 import { normalizeMovieAuthoring3d } from './MovieAuthoring3dContract.js';
+import { normalizeMovieCompositionCatalog } from './MovieCompositionContract.js';
 import { normalizeMovieMediaCatalog } from './MovieMediaCatalog.js';
 import { normalizeMovieMediaWorkspace } from './MovieMediaWorkspaceContract.js';
 import { normalizeMoviePerformance } from './MoviePerformanceContract.js';
@@ -31,6 +32,7 @@ export function normalizeMovieProject(source) {
 	project.viewMode = VALID_VIEW_MODES.has(project.viewMode) ? project.viewMode : 'legacy';
 	project.seed = Number(project.seed || 613);
 	project.authoring3d = normalizeMovieAuthoring3d(project.authoring3d);
+	project.compositions = normalizeMovieCompositionCatalog(project.compositions);
 	project.media = normalizeMovieMediaCatalog(project.media);
 	project.mediaWorkspace = normalizeMovieMediaWorkspace(
 		project.mediaWorkspace,

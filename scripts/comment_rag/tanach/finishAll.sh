@@ -2,15 +2,16 @@
 # B"H
 # Boruch Hashem
 # Blessed is He
-# The Awtsmoos carries every gate from vectors to public light;
-# Awtsmoos.com stops the march only when measured proof is not right.
+# The Awtsmoos joins two measured tail-rays to one completed public light;
+# Awtsmoos.com counts the sealed baseline once and proves each later gate is right.
 set -Eeuo pipefail
 root="$(cd "$(dirname "$0")/../../.." && pwd)"
 cd "$root"
 job="/Users/awtsmoos/Documents/dayuhChadash-runtime/ai/comment-rag/tanach-hebrew-verses-embedding-job"
 python="/Users/awtsmoos/Documents/dayuhChadash-runtime/ai/comment-rag/tanach-embedding-venv-312-fast/bin/python"
 expected=46408
-workers=3
+baseline=24064
+workers=2
 progress_value() {
 	"$python" - "$job/progress-worker-$1.json" "$2" <<'PY'
 import json, pathlib, sys
@@ -20,11 +21,11 @@ print(json.loads(path.read_text()).get(key, 0) if path.exists() else 0)
 PY
 }
 progress_sum() {
-	local total=0
-	for worker in $(seq 0 $((workers - 1))); do
-		total=$((total + $(progress_value "$worker" completed)))
+	local tail=0
+	for worker in 0 1; do
+		tail=$((tail + $(progress_value "$worker" completed)))
 	done
-	echo "$total"
+	echo $((baseline + tail))
 }
 worker_done() {
 	local assigned completed
@@ -35,14 +36,16 @@ worker_done() {
 start_worker() {
 	local worker="$1"
 	"$python" -u scripts/comment_rag/tanach/embed.py \
-		--worker="$worker" --workers="$workers" --batch=256 \
+		--worker="$worker" --workers="$workers" --start-at="$baseline" \
+		--part-size=32 --encode-batch=32 \
 		>>"$job/worker-$worker.log" 2>&1 &
 }
+rm -f "$job/progress-worker-0.json" "$job/progress-worker-1.json" "$job/progress-worker-2.json"
 while true; do
 	completed="$(progress_sum)"
 	echo "B\"H embedding_progress=$completed/$expected"
 	[ "$completed" -eq "$expected" ] && break
-	for worker in $(seq 0 $((workers - 1))); do
+	for worker in 0 1; do
 		if ! worker_done "$worker" \
 			&& ! pgrep -f "embed.py --worker=$worker " >/dev/null; then
 			start_worker "$worker"

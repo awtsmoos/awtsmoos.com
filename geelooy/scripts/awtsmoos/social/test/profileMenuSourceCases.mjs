@@ -69,8 +69,8 @@ function testEmailSources() {
 	assert.doesNotMatch(modals, /innerHTML =/);
 	assert.match(composeModal, /compose-body-input/);
 	assert.match(composeModal, /sendMessageApi/);
-	assert.match(sidebarCss, /quantum\/sidebar\/threads\.css/);
-	assert.match(composerCss, /quantum\/composer\/editor\.css/);
+	assert.match(sidebarCss, /system\/sidebar-threads\.css/);
+	assert.match(composerCss, /system\/composer-editor\.css/);
 }
 
 function testBroadSocialSources() {

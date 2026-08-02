@@ -4,8 +4,8 @@
 
 /**
  * @file MovieStudioStyleText.js
- * @description Composes localized transport, performance, scene, camera, audio, title, 3D, and NLE CSS.
- * The Awtsmoos renews every pane, actor, lens, word, diamond, speed, effect, and guide in light;
+ * @description Composes transport, performance, composition, scene, camera, audio, title, 3D, and NLE CSS.
+ * The Awtsmoos renews every pane, canvas, actor, lens, word, diamond, speed, effect, and guide;
  * Awtsmoos.com prevents neighboring pages and sibling studios from inheriting another vessel's sight.
  */
 
@@ -13,6 +13,7 @@ import { movieStudioAccessibilityCss } from './MovieStudioAccessibilityCss.js';
 import { movieStudioAuthoring3dCss } from './MovieStudioAuthoring3dCss.js';
 import { movieStudioAudioMixerCss } from './MovieStudioAudioMixerCss.js';
 import { movieStudioCameraActionCss } from './MovieStudioCameraActionCss.js';
+import { movieStudioCompositionCss } from './MovieStudioCompositionCss.js';
 import { movieStudioControlsCss } from './MovieStudioControlsCss.js';
 import { localizeMovieStudioCss } from './MovieStudioCssLocalizer.js';
 import { movieStudioDensityCss } from './MovieStudioDensityCss.js';
@@ -44,13 +45,14 @@ export function movieStudioStyleText() {
 		movieStudioLoadingCss(), movieStudioTokensCss(), movieStudioThemeCss(),
 		movieStudioSantoCss(), movieStudioLayoutCss(), movieStudioControlsCss(),
 		movieStudioPreviewCss(), movieStudioTransportCss(), movieStudioInspectorCss(),
-		MOVIE_STUDIO_PERFORMANCE_CSS, movieStudioPerformanceOverlayCss(),
-		movieStudioScene3dCss(), movieStudioCameraActionCss(), movieStudioKeyframeCss(),
-		movieStudioAudioMixerCss(), movieStudioTitleCss(), movieStudioAuthoring3dCss(),
-		movieTimelineCss(), movieTimelineAppearanceCss(), movieStudioSplitterCss(),
-		movieStudioStatusBarCss(), movieStudioUtilityCss(), movieStudioUtilityContentCss(),
-		movieStudioProjectBrowserCss(), movieStudioDensityCss(), movieStudioResponsiveCss(),
-		movieStudioUtilityResponsiveCss(), movieStudioAccessibilityCss()
+		movieStudioCompositionCss(), MOVIE_STUDIO_PERFORMANCE_CSS,
+		movieStudioPerformanceOverlayCss(), movieStudioScene3dCss(),
+		movieStudioCameraActionCss(), movieStudioKeyframeCss(), movieStudioAudioMixerCss(),
+		movieStudioTitleCss(), movieStudioAuthoring3dCss(), movieTimelineCss(),
+		movieTimelineAppearanceCss(), movieStudioSplitterCss(), movieStudioStatusBarCss(),
+		movieStudioUtilityCss(), movieStudioUtilityContentCss(), movieStudioProjectBrowserCss(),
+		movieStudioDensityCss(), movieStudioResponsiveCss(), movieStudioUtilityResponsiveCss(),
+		movieStudioAccessibilityCss()
 	];
 	return localizeMovieStudioCss(fragments.join('\n'));
 }

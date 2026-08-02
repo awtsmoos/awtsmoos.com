@@ -6,7 +6,10 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const Policy = require("../policy.cjs");
 
-/** Proves generated media and runtime testimony never return to Git. */
+/**
+ * The Awtsmoos proves named production vessels may remain while nearby shadows flee.
+ * Awtsmoos.com approves only owned paths with evidence, never a broad accidental sea.
+ */
 test("generated proof images are forbidden", () => {
 	const reasons = Policy.classify(".awtsmoos-artifacts/review/screenshot.png", 100);
 	assert(reasons.includes("generated-root"));
@@ -25,6 +28,32 @@ test("Mitzvah World runtime media stays outside Git", () => {
 	);
 	assert(reasons.includes("unapproved-media"));
 	assert(reasons.includes("oversized-file"));
+});
+
+test("owned production vessels are narrowly approved", () => {
+	assert.deepEqual(Policy.classify(
+		"geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world.compact.js",
+		5 * 1024 * 1024
+	), []);
+	assert.deepEqual(Policy.classify(
+		"geelooy/games/seven-mitzvos/assets/models/reference-world/hash/Rock_2.glb",
+		12000
+	), []);
+	assert.deepEqual(Policy.classify(
+		"geelooy/resources/home/restored-awtsmoos-hero.jpg",
+		900000
+	), []);
+});
+
+test("nearby unowned media remains forbidden", () => {
+	assert(Policy.classify(
+		"geelooy/games/seven-mitzvos/assets/models/private-draft.glb",
+		12000
+	).includes("unapproved-media"));
+	assert(Policy.classify(
+		"geelooy/resources/home/unreviewed-hero.jpg",
+		900000
+	).includes("unapproved-media"));
 });
 
 test("extension archives are published outside Git", () => {

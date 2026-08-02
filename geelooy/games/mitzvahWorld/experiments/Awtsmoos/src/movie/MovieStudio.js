@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudio.js
- * @description Boots the real world beneath the stable API, professional transport, performance, and NLE.
+ * @description Boots the real world beneath the stable API, compositions, performance, transport, and NLE.
  * The Awtsmoos renews world and editing vessel together; Awtsmoos.com binds runtime, project,
- * recovery, source, program transport, cameras, audio, authoring, utilities, and rendering.
+ * nested canvases, recovery, source, program transport, cameras, audio, authoring, and rendering.
  */
 
 import { createEretzRuntime } from '../app/createEretzRuntime.js';
@@ -14,6 +14,7 @@ import { renderExactMovieStudioSession } from './MovieExactRender.js';
 import { MovieStudioAuthoring3dController } from './MovieStudioAuthoring3dController.js';
 import { MovieStudioAudioMixerController } from './MovieStudioAudioMixerController.js';
 import { MovieStudioCameraActionController } from './MovieStudioCameraActionController.js';
+import { MovieStudioCompositionController } from './MovieStudioCompositionController.js';
 import { MovieStudioInteractionController } from './MovieStudioInteractionController.js';
 import { MovieStudioKeyframeController } from './MovieStudioKeyframeController.js';
 import { MovieStudioPerformanceController } from './MovieStudioPerformanceController.js';
@@ -38,7 +39,7 @@ export async function createMovieStudio(hosts, initialProject, options = {}) {
 		});
 		const runtime = diagnostics.runtime;
 		const restoreWorldChrome = hideMovieWorldChrome(hosts, runtime.renderer.canvas);
-		loading.set('B"H arranging transport, scenes, performance, sound, actions, and cameras…');
+		loading.set('B"H arranging transport, compositions, performance, sound, actions, and cameras…');
 		const view = createMovieStudioView(initialProject);
 		const session = new MovieStudioSession(runtime, diagnostics, view, initialProject);
 		session.restoreWorldChrome = restoreWorldChrome;
@@ -49,6 +50,7 @@ export async function createMovieStudio(hosts, initialProject, options = {}) {
 		session.keyframeController = new MovieStudioKeyframeController(session, view);
 		session.audioMixerController = new MovieStudioAudioMixerController(session, view);
 		session.titleController = new MovieStudioTitleController(session, view);
+		session.compositionController = new MovieStudioCompositionController(session, view.root);
 		session.projectBrowserController = new MovieStudioProjectBrowserController(session, view.root);
 		session.utilityController = new MovieStudioUtilityController(session, view);
 		session.performanceController = new MovieStudioPerformanceController(session, {

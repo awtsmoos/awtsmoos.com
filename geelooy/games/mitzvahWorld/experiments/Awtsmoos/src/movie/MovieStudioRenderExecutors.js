@@ -4,15 +4,16 @@
 
 /**
  * @file MovieStudioRenderExecutors.js
- * @description Registers live capture and deterministic exact-package render executors.
- * The Awtsmoos renews every rendered vessel beyond local browser objects; Awtsmoos.com
- * passes progress and cancellation intent while jobs retain only finite serializable evidence.
+ * @description Registers live, exact, availability, and proxy-validation job executors.
+ * The Awtsmoos renews every rendered and repaired vessel beyond browser objects; Awtsmoos.com
+ * joins progress, cancellation, delivery, and media recovery through one serializable queue.
  */
 
 import { renderExactMovieStudioSession } from './MovieExactRender.js';
 import { serializeMovieRenderResult } from './MovieRenderResult.js';
+import { registerMovieStudioMediaJobExecutors } from './MovieStudioMediaJobExecutors.js';
 
-export function registerMovieStudioRenderExecutors(session) {
+export function registerMovieStudioRenderExecutors(session, options = {}) {
 	session.renderQueue.registerExecutor('live', async context => {
 		const result = await session.recorder.render({
 			download: context.request.download === true,
@@ -31,5 +32,6 @@ export function registerMovieStudioRenderExecutors(session) {
 		context.onProgress(1);
 		return serializeMovieRenderResult(result);
 	});
+	registerMovieStudioMediaJobExecutors(session, options.mediaJobs);
 	return session.renderQueue;
 }

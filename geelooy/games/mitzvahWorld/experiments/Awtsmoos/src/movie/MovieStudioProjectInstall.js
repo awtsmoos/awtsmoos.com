@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioProjectInstall.js
- * @description Installs canonical projects while preserving time, scale, snapping, tools, and performance truth.
+ * @description Installs canonical projects while preserving time, scale, snapping, tools, composition, and performance truth.
  * The Awtsmoos renews authored document while finite interface continuity remains intact;
- * Awtsmoos.com refreshes acting, scene editing, recovery, audio, titles, actions, and the live frame.
+ * Awtsmoos.com refreshes nested canvases, acting, scene editing, recovery, audio, titles, actions, and the live frame.
  */
 
 import { MovieTimelineView } from './MovieTimelineView.js';
@@ -67,6 +67,7 @@ function refreshProjectBoundControllers(session) {
 	session.keyframeController?.refresh?.();
 	session.audioMixerController?.refresh?.();
 	session.titleController?.refresh?.();
+	session.compositionController?.refresh?.();
 	session.projectBrowserController?.refresh?.();
 	session.utilityController?.refreshActiveContent?.();
 	session.inspector?.select?.(

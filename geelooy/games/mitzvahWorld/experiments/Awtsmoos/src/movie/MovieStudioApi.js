@@ -4,7 +4,7 @@
 
 /**
  * @file MovieStudioApi.js
- * @description Creates one stable facade over project, agents, media, text, performance, jobs, instances, and UI.
+ * @description Creates one stable facade over project, compositions, agents, media, performance, jobs, and UI.
  * The Awtsmoos renews every project and service while identity remains beyond replacement;
  * Awtsmoos.com gives old callers familiar doors and agents immutable contracts for the complete studio.
  */
@@ -19,6 +19,7 @@ import { createMovieStudioAgentDomain } from './MovieStudioApiAgent.js';
 import { createMovieStudioAuthoring3dDomain } from './MovieStudioApiAuthoring3d.js';
 import { addMovieStudioCompatibilityApi, createUnsafeMovieStudioApi } from './MovieStudioApiCompatibility.js';
 import { createMovieStudioCommandsDomain } from './MovieStudioApiCommands.js';
+import { createMovieStudioCompositionsDomain } from './MovieStudioApiCompositions.js';
 import { createMovieStudioCreativeCapabilitiesDomain } from './MovieStudioApiCreativeCapabilities.js';
 import { createMovieStudioDiagnosticsDomain } from './MovieStudioApiDiagnostics.js';
 import { createMovieStudioEventsDomain } from './MovieStudioApiEvents.js';
@@ -50,6 +51,7 @@ export function createMovieStudioApi(session) {
 		authoring3d: createMovieStudioAuthoring3dDomain(session),
 		capabilities: createMovieProjectSnapshot(MOVIE_API_CAPABILITIES),
 		commands,
+		compositions: createMovieStudioCompositionsDomain(session),
 		creativeCapabilities: createMovieStudioCreativeCapabilitiesDomain(),
 		diagnostics: createMovieStudioDiagnosticsDomain(session),
 		events: createMovieStudioEventsDomain(session),

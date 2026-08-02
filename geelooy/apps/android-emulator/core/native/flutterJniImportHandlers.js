@@ -36,6 +36,8 @@ import { registerNativeLocaleHandlers } from "./nativeLocaleHandlers.js";
 import { createNativeLocaleState } from "./nativeLocaleState.js";
 import { createNativeProcessEnvironment } from "./nativeProcessEnvironment.js";
 import { registerNativePthreadHandlers } from "./registerNativePthreadHandlers.js";
+import { registerNativeSemaphoreHandlers } from "./nativeSemaphoreHandlers.js";
+import { createNativeSemaphoreState } from "./nativeSemaphoreState.js";
 import { registerNativeSignalHandlers } from "./nativeSignalHandlers.js";
 import { registerNativeStdioHandlers } from "./registerNativeStdioHandlers.js";
 import { createNativeStdioState } from "./nativeStdioState.js";
@@ -60,6 +62,7 @@ export function createFlutterJniImportHandlers(machineState) {
 	const processThreadPointer = runtimeState.systemRegisters?.read("TPIDR_EL0") || 0n;
 	const threadIds = runtimeState.nativeLinuxThreadIds || createNativeLinuxThreadIds({ processThreadPointer });
 	const errnoState = runtimeState.nativeErrno || createNativeErrnoState(runtimeState.nativeHeap);
+	const semaphores = runtimeState.nativeSemaphores || createNativeSemaphoreState();
 	const locales = runtimeState.nativeLocales || createNativeLocaleState(runtimeState.nativeHeap, errnoState);
 	const stdio = runtimeState.nativeStdio || createNativeStdioState({ fileStreams: runtimeState.nativeFileStreams });
 	const systemConfiguration = runtimeState.nativeSystemConfiguration
@@ -100,5 +103,6 @@ export function createFlutterJniImportHandlers(machineState) {
 	});
 	registerNativeSignalHandlers(registry, runtimeState, errnoState);
 	registerNativePthreadHandlers(registry, runtimeState);
+	registerNativeSemaphoreHandlers(registry, { errnoState, semaphores });
 	return registry;
 }

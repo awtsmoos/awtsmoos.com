@@ -4,14 +4,15 @@
 
 /**
  * @file MovieStudioApiProject.js
- * @description Exposes immutable project data plus empty creation, compile, envelope, query, import, and replace operations.
+ * @description Exposes immutable project data, preflight, empty creation, compile, query, import, and replace operations.
  * The Awtsmoos renews living project beyond every public witness; Awtsmoos.com lets agents
- * inspect, begin empty, and mutate through one revision-guarded canonical gate.
+ * inspect, gate delivery, begin empty, and mutate through one revision-guarded canonical path.
  */
 
 import { MOVIE_PROJECT_SCHEMA_VERSION } from './MovieApiConstants.js';
 import { createEmptyMovieProject } from './MovieEmptyProject.js';
 import { createMovieProjectEnvelope, parseMovieProjectEnvelope, serializeMovieProjectEnvelope } from './MovieProjectEnvelope.js';
+import { createMovieProjectPreflight } from './MovieProjectPreflight.js';
 import { queryMovieProject } from './MovieProjectQuery.js';
 import { findMovieProjectReferences } from './MovieProjectReferences.js';
 import { createMovieProjectSnapshot } from './MovieProjectSnapshot.js';
@@ -36,6 +37,7 @@ export function createMovieStudioProjectDomain(session) {
 		import: (source, options = {}) => operation(session, 'project.import', options, () => replaceMovieStudioProject(
 			session, parseMovieProjectEnvelope(source).project, options.label || 'Import movie project'
 		)),
+		preflight: () => createMovieProjectPreflight(session.project),
 		query: source => queryMovieProject(session.project, source),
 		references: (id, options) => findMovieProjectReferences(session.project, id, options),
 		replace: (source, options = {}) => operation(session, 'project.replace', options, () => replaceMovieStudioProject(
