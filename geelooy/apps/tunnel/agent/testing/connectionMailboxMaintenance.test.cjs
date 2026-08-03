@@ -6,13 +6,17 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
+const Health = require("../lib/connection-vessel/mailbox-health.js");
 const Mailbox = require("../lib/connection-vessel/mailbox.js");
 const Paths = require("../lib/connection-vessel/mailbox-paths.js");
 
 /**
-	* @file Proves mailbox health, redacted export, quarantine, and exact acknowledgment.
-	* @description The Awtsmoos reveals pressure without silently deleting accepted work.
-	*/
+ * @file Proves capacity, settlement age, evidence, quarantine, and exact ACK.
+ * @description
+ * The Awtsmoos reveals pressure and delay without silently deleting accepted work.
+ * Awtsmoos.com calls an ancient receipt stalled, preserves its testimony, and lets
+ * a verified exact acknowledgment remove only the finite deed that truly settled.
+ */
 const sandbox = fs.mkdtempSync(path.join(os.tmpdir(), "awts-mailbox-maintenance-"));
 const config = {
 	deviceStateRoot: path.join(sandbox, "state"),
@@ -34,6 +38,24 @@ try {
 		error => error.code === "CONNECTION_MAILBOX_FULL" &&
 			error.healthImpact === "transport_backpressure"
 	);
+
+	const now = Date.parse("2026-08-03T08:00:00.000Z");
+	const stalled = Health.lane([
+		{
+			bytes: 32,
+			updatedAt: new Date(now - Health.DEFAULT_STALLED_AGE_MS - 1).toISOString()
+		}
+	], {
+		maxBytes: 8192,
+		maxCount: 5
+	}, "inbox", now);
+	assert.equal(stalled.state, "stalled");
+	assert.equal(stalled.healthy, false);
+	assert.equal(
+		stalled.nextActions.some(action => action.includes("inspect_stalled_inbox")),
+		true
+	);
+
 	const redacted = mailbox.evidence(false);
 	assert.equal(redacted.inbox[0].value, undefined);
 	assert.ok(mailbox.evidence(true).inbox[0].value.secret);
@@ -41,16 +63,19 @@ try {
 		inbox: true,
 		outbox: false
 	});
+
 	const corrupt = path.join(Paths.lane(config, "outbox"), "corrupt.json");
 	fs.mkdirSync(path.dirname(corrupt), { recursive: true });
 	fs.writeFileSync(corrupt, "not-json");
 	const quarantined = mailbox.quarantineInvalid();
 	assert.equal(quarantined.outbox.length, 1);
 	assert.equal(fs.existsSync(corrupt), false);
+
 	console.log(JSON.stringify({
 		ok: true,
 		suite: "connection-mailbox-maintenance",
 		degradedAtEightyPercent: true,
+		stalledAgeVisible: true,
 		fullBackpressureExplicit: true,
 		evidenceRedactedByDefault: true,
 		exactAcknowledge: true,

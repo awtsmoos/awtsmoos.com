@@ -14,6 +14,7 @@ const ENTROPY_PATHS = new Set(["/dev/random", "/dev/urandom"]);
 const DEVICE_ID = 1n;
 const ENTROPY_DEVICE_ID = 0x109n;
 const BLOCK_SIZE = 4096;
+const TYPE_MASK = 0o170000;
 const textEncoder = new TextEncoder();
 
 /**
@@ -23,7 +24,7 @@ const textEncoder = new TextEncoder();
  */
 export function nativeStatMetadataFromDescriptor(state, descriptorValue) {
 	const record = state?.nativeReadOnlyDescriptors?.metadata(descriptorValue);
-	return record ? createMetadata(record.kind, record.path, record.size) : null;
+	return record ? nativeStatMetadataFromPath(state, record.path) : null;
 }
 
 export function nativeStatMetadataFromPath(state, pathValue, options = {}) {
@@ -41,17 +42,18 @@ export function nativeStatMetadataFromPath(state, pathValue, options = {}) {
 		if (target === path) return null;
 		return nativeStatMetadataFromPath(state, target, { followLinks: true });
 	}
-	if (state?.nativeDirectories?.entries(path)) {
-		return createMetadata("directory", path, 0n);
+	const directory = state?.nativeDirectories?.metadata(path);
+	if (directory?.type === "directory") {
+		return createMetadata("directory", path, 0n, directory.mode);
 	}
 	if (ENTROPY_PATHS.has(path)) return createMetadata("entropy", path, 0n);
 	const bytes = state?.nativeFiles?.read(path);
 	return bytes ? createMetadata("file", path, BigInt(bytes.length)) : null;
 }
 
-function createMetadata(kind, path, sizeValue) {
+function createMetadata(kind, path, sizeValue, permissions = null) {
 	const size = BigInt(sizeValue || 0n);
-	const characteristics = kindCharacteristics(kind);
+	const characteristics = kindCharacteristics(kind, permissions);
 	return Object.freeze({
 		blockSize: BLOCK_SIZE,
 		blocks: size === 0n ? 0n : (size + 511n) / 512n,
@@ -68,9 +70,14 @@ function createMetadata(kind, path, sizeValue) {
 	});
 }
 
-function kindCharacteristics(kind) {
+function kindCharacteristics(kind, permissions) {
 	if (kind === "directory") {
-		return { links: 2, mode: NATIVE_STAT_MODE_DIRECTORY, specialDevice: 0n };
+		return {
+			links: 2,
+			mode: (NATIVE_STAT_MODE_DIRECTORY & TYPE_MASK)
+				| (Number(permissions ?? 0o555) & 0o7777),
+			specialDevice: 0n
+		};
 	}
 	if (kind === "entropy") {
 		return {

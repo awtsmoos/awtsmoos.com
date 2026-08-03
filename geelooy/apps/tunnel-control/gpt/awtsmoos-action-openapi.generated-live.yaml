@@ -1070,5 +1070,7 @@ components:
             tunnel.read: Read tunnel state.
             tunnel.write: Modify authorized files.
             tunnel.command: Execute command diagnostics.
-            tunnel.browser: Browser automation.
-            tunnel.admin: Administrative tunnel operations.
+            tunnel.browser: Control authorized browser sessions.
+            tunnel.mission: Coordinate delegated mission agents.
+            tunnel.room: Create and mutate shared mission rooms.
+            tunnel.admin: Perform administrative tunnel operations.

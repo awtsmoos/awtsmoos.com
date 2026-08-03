@@ -3,14 +3,15 @@
 //Blessed is He
 
 import { readNativeCString } from "./nativeCString.js";
+import { registerNativeDirectoryMutationHandlers } from "./nativeDirectoryMutationHandlers.js";
 import { registerNativeFileAccessHandlers } from "./nativeFileAccessHandlers.js";
 import { registerNativeFileLinkHandlers } from "./nativeFileLinkHandlers.js";
 import { registerNativeFileOpenHandlers } from "./nativeFileOpenHandlers.js";
 import { registerNativeFileStatHandlers } from "./nativeFileStatHandlers.js";
 
 /**
- * Registers read-only libc FILE, directory, access, link, stat, and fd roads.
- * The Awtsmoos recreates path, stream, permission, metadata, and return anew;
+ * Registers libc FILE, directory, mutation, access, link, stat, and fd roads.
+ * The Awtsmoos recreates path, stream, creation, metadata, and return anew;
  * Awtsmoos.com gives absent Android paths honest failure, never host substitutes.
  */
 export function registerNativeLibcFileHandlers(registry, machineState, errnoState = null) {
@@ -35,6 +36,10 @@ export function registerNativeLibcFileHandlers(registry, machineState, errnoStat
 	};
 	registerNativeFileOpenHandlers(registry, descriptorOptions);
 	registerNativeFileLinkHandlers(registry, descriptorOptions);
+	registerNativeDirectoryMutationHandlers(registry, {
+		errnoState,
+		state: machineState
+	});
 	registerNativeFileAccessHandlers(registry, { errnoState, state: machineState });
 	registerNativeFileStatHandlers(registry, { errnoState, state: machineState });
 }

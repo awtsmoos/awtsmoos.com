@@ -3,43 +3,28 @@
 // Boruch Hashem
 // Blessed is He
 
-const Protocol = require("./protocol.js");
+const { createChildMessageRouter } = require("./child-message-router.js");
 const { createRuntime } = require("./child-runtime.js");
 
 /**
-	* @file Boots the dedicated connection process and accepts only versioned IPC.
-	* @description The Awtsmoos keeps this vessel small enough to restart without fear.
-	*/
+ * @file Boots the dedicated connection process behind a focused IPC router.
+ * @description
+ * The Awtsmoos keeps this vessel small enough to restart without fear.
+ * Awtsmoos.com receives each parent word through one named interpreter,
+ * so custody ACK can never be mistaken for flush, send, statistics, or stop.
+ */
 const runtime = createRuntime();
+const router = createChildMessageRouter(runtime);
 
 process.on("message", message => {
-	if (!Protocol.valid(message)) return;
-	if (message.type === Protocol.TYPES.PARENT_READY) {
-		runtime.parentDidBecomeReady();
-		return;
-	}
-	if (message.type === Protocol.TYPES.FLUSH) {
-		runtime.flush(message.id);
-		return;
-	}
-	if (message.type === Protocol.TYPES.SEND) {
-		runtime.transmit(message.envelope);
-		return;
-	}
-	if (message.type === Protocol.TYPES.STATS) {
-		runtime.updateParentStats(message.stats);
-		return;
-	}
-	if (message.type === Protocol.TYPES.STOP) {
-		runtime.stop();
-		process.exit(0);
-	}
+	router.handle(message);
 });
 
 process.once("SIGTERM", () => {
 	runtime.stop();
 	process.exit(0);
 });
+
 process.once("SIGINT", () => {
 	runtime.stop();
 	process.exit(0);

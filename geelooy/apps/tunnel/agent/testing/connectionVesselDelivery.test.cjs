@@ -6,9 +6,11 @@ const assert = require("node:assert/strict");
 const Delivery = require("../lib/connection-vessel/child-delivery.js");
 
 /**
-	* @file Proves persistence precedes IPC and parent attachment restores inbox work.
-	* @description The Awtsmoos stores before speaking and resends answers on reconnect.
-	*/
+ * @file Proves persistence, ordered admission testimony, and reconnect replay.
+ * @description
+ * The Awtsmoos stores before speaking, then lets Awtsmoos.com hear acceptance,
+ * living progress, and terminal answer in their truthful covenantal order.
+ */
 const inbox = [];
 const outbox = [{ id: "answer-one" }];
 const sentIpc = [];
@@ -40,6 +42,7 @@ const runtime = Delivery.createDelivery({
 runtime.enqueueRequest(state.activeWs, { requestId: "request-one" });
 assert.equal(inbox.length, 1);
 assert.equal(sentIpc.length, 0);
+assert.equal(sentSocket.length, 2);
 assert.deepEqual(sentSocket[0], {
 	type: "TUNNEL_REQUEST_ACK",
 	id: "request-one",
@@ -49,19 +52,25 @@ assert.deepEqual(sentSocket[0], {
 	acceptedAt: sentSocket[0].acceptedAt,
 	durable: true
 });
+assert.equal(sentSocket[1].type, "TUNNEL_PROGRESS");
+assert.equal(sentSocket[1].phase, "accepted_waiting_for_consumer");
+assert.equal(sentSocket[1].stillRunning, true);
+
 runtime.parentDidBecomeReady();
 assert.equal(sentIpc[0].envelope.requestId, "request-one");
-assert.equal(sentSocket[1].id, "answer-one");
+assert.equal(sentSocket[2].id, "answer-one");
+
 state.registrationConfirmed = false;
 assert.equal(runtime.flush(), 0);
 state.registrationConfirmed = true;
 assert.equal(runtime.flush(), 1);
+assert.equal(sentSocket[3].id, "answer-one");
 
 console.log(JSON.stringify({
 	ok: true,
 	suite: "connection-vessel-delivery",
 	persistBeforeIpc: true,
-	immediateCompatibilityAck: true,
+	orderedAcceptanceAndProgress: true,
 	parentAttachmentRedelivery: true,
 	reconnectOutboxFlush: true
 }, null, 2));

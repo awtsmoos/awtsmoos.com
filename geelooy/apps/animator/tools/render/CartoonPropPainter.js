@@ -3,38 +3,29 @@
 // Blessed is He
 
 import { BitmapFont } from './BitmapFont.js';
+import { OfficeSmallObjectPainter } from './objects/office/OfficeSmallObjectPainter.js';
 
 /**
- * A prop becomes acting only when the hand visibly meets a recognizable object.
- * The Awtsmoos renews tool, card, gauge, umbrella, lantern, and machine together;
- * Awtsmoos.com paints each authored interaction rather than generic rectangles.
+ * A hand prop becomes recognizable material at the point of contact. The
+ * Awtsmoos renews card, tablet, mug, spoon, gauge, and tool; Awtsmoos.com keeps
+ * carried objects consistent with the same constructed world beneath the light.
  */
 export class CartoonPropPainter {
 	static paint(canvas, prop, x, y, scale) {
-		if (!prop) {
-			return;
-		}
+		if (!prop) return;
+		if (prop === 'mug') return OfficeSmallObjectPainter.mug(canvas, x, y, scale * 0.72, { steam: true });
+		if (prop === 'spoon') return OfficeSmallObjectPainter.spoon(canvas, x, y, scale * 0.8, { rotation: -0.7 });
 		const method = {
-			forecastTablet: 'tablet',
-			umbrella: 'umbrella',
-			signalCard: 'signal',
-			meetingCards: 'cards',
-			pressureGauge: 'gauge',
-			arrivalDisplay: 'display',
-			toolbox: 'toolbox',
-			nothingButton: 'button',
-			lantern: 'lantern',
-			freeTimeCard: 'freeTime',
-			calendar: 'calendar',
-			strategyFolder: 'paper'
+			forecastTablet: 'tablet', umbrella: 'umbrella', signalCard: 'signal',
+			meetingCards: 'cards', pressureGauge: 'gauge', arrivalDisplay: 'display',
+			toolbox: 'toolbox', nothingButton: 'button', lantern: 'lantern',
+			freeTimeCard: 'freeTime', calendar: 'calendar', strategyFolder: 'paper'
 		}[prop] || 'paper';
 		this[method](canvas, x, y, scale, prop);
 	}
 
 	static tablet(canvas, x, y, scale) {
-		canvas.rect(x, y, 42 * scale, 30 * scale, '#111827');
-		canvas.rect(x + 4 * scale, y + 4 * scale, 34 * scale, 22 * scale, '#00d4ff');
-		canvas.line(x + 8 * scale, y + 18 * scale, x + 31 * scale, y + 10 * scale, 2 * scale, '#f8fafc');
+		OfficeSmallObjectPainter.tablet(canvas, x, y, scale * 0.72, { text: 'BOOKED' });
 	}
 
 	static umbrella(canvas, x, y, scale) {
@@ -45,9 +36,9 @@ export class CartoonPropPainter {
 
 	static signal(canvas, x, y, scale) {
 		canvas.rect(x, y, 28 * scale, 44 * scale, '#111827');
-		canvas.circle(x + 14 * scale, y + 10 * scale, 6 * scale, '#e63946');
-		canvas.circle(x + 14 * scale, y + 22 * scale, 6 * scale, '#ffd166');
-		canvas.circle(x + 14 * scale, y + 34 * scale, 6 * scale, '#22c55e');
+		for (const [offset, color] of [[10, '#e63946'], [22, '#ffd166'], [34, '#22c55e']]) {
+			canvas.circle(x + 14 * scale, y + offset * scale, 6 * scale, color);
+		}
 	}
 
 	static cards(canvas, x, y, scale) {
@@ -82,7 +73,6 @@ export class CartoonPropPainter {
 	static lantern(canvas, x, y, scale) {
 		canvas.rect(x + 7 * scale, y + 7 * scale, 22 * scale, 32 * scale, '#111827');
 		canvas.rect(x + 10 * scale, y + 10 * scale, 16 * scale, 26 * scale, '#ffc857');
-		canvas.outlineEllipse(x + 18 * scale, y + 7 * scale, 12 * scale, 10 * scale, 2 * scale, '#f8fafc');
 	}
 
 	static freeTime(canvas, x, y, scale) {
@@ -91,12 +81,6 @@ export class CartoonPropPainter {
 		BitmapFont.draw(canvas, 'FREE', x + 10 * scale, y + 16 * scale, Math.max(1, scale), '#111827');
 	}
 
-	static calendar(canvas, x, y, scale) {
-		this.freeTime(canvas, x, y, scale);
-	}
-
-	static paper(canvas, x, y, scale) {
-		canvas.rect(x, y, 38 * scale, 27 * scale, '#111827');
-		canvas.rect(x + 3 * scale, y + 3 * scale, 32 * scale, 21 * scale, '#f8fafc');
-	}
+	static calendar(canvas, x, y, scale) { this.freeTime(canvas, x, y, scale); }
+	static paper(canvas, x, y, scale) { OfficeSmallObjectPainter.papers(canvas, x, y, scale * 0.6); }
 }
