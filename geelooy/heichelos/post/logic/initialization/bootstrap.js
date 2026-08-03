@@ -4,21 +4,27 @@
 /**
  * @module BootstrapRitual
  * @description
- * The Awtsmoos gathers title, media, text, navigation, and community into one
- * reader; Awtsmoos.com reveals the teaching and its living conversation.
+ * The Awtsmoos gathers title, media, text, canonical navigation, and community
+ * through one versioned river, so Awtsmoos.com never mixes old and new light.
  */
 import { getHeichelDetails, getAliasName } from "/scripts/awtsmoos/api/utils.js";
-import { loadFontSize, scrollToActiveEl } from "/heichelos/post/postFunctions.js";
+import {
+	loadFontSize,
+	scrollToActiveEl
+} from "/heichelos/post/postFunctions.js?v=social-reborn-002";
 import { updateCommentHeader } from "/heichelos/post/comments/panel.js";
-import { indexSwitch } from "/heichelos/post/logic/conductor.js";
+import { indexSwitch } from "/heichelos/post/logic/conductor.js?v=social-reborn-002";
 import { applyUserPreferences } from "/heichelos/post/logic/preferences.js";
-import { setupActiveCoordinateTracking, setupUIListeners } from "/heichelos/post/logic/listeners.js";
+import {
+	setupActiveCoordinateTracking,
+	setupUIListeners
+} from "/heichelos/post/logic/listeners.js";
 import { setupViewEffects } from "/heichelos/post/logic/viewEffects.js";
-import { loadInitial } from "/heichelos/post/logic/initialization/coordinates.js?v=root-series-context-001";
+import { loadInitial } from "/heichelos/post/logic/initialization/coordinates.js?v=social-reborn-002";
 import { awakenInlineSparks } from "/heichelos/post/logic/initialization/autoInline.js";
-import { manifestPost } from "/heichelos/post/logic/initialization/postManifest.js?v=root-assets-001";
+import { manifestPost } from "/heichelos/post/logic/initialization/postManifest.js?v=social-reborn-002";
 import { createReaderPanels } from "/heichelos/post/logic/initialization/readerPanels.js";
-import { mountDiscussion } from "/heichelos/post/social/discussion.js?v=social-reborn-001";
+import { mountDiscussion } from "/heichelos/post/social/discussion.js?v=social-reborn-002";
 
 async function hydrateIdentity(post, heichelId) {
 	const [heichel, alias] = await Promise.all([

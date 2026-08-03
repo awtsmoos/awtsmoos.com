@@ -67,9 +67,11 @@ paths:
               - aiAgentSetProviderKey
               - aiAgentSpawnNovel
               - aiAgentSpawnTask
+              - aiAgentSpawnWebsiteMission
               - aiAgentTaskList
               - aiAgentTaskResult
               - aiAgentTaskStatus
+              - aiAgentWebsiteMissionStatus
               - aiCommandBatch
               - aiContextPack
               - aiTemplateGet
@@ -104,7 +106,9 @@ paths:
               - browserActionStream
               - browserConsoleTriage
               - browserDoctor
+              - browserInspect
               - browserReplay
+              - browserTrace
               - bugReproPack
               - buildRunner
               - bulk
@@ -151,24 +155,41 @@ paths:
               - chatgptSessionStatus
               - chatgptSessionStop
               - chatgptStatus
+              - chatgptWebsiteLogout
+              - chromeAccessibilitySnapshot
               - chromeClick
               - chromeClosePage
               - chromeCloseTabs
+              - chromeCookieDelete
+              - chromeCookies
+              - chromeCookieSet
+              - chromeDoctor
               - chromeEval
               - chromeEvalSlim
               - chromeFind
               - chromeLaunch
               - chromeLogs
               - chromeNavigate
+              - chromeNetwork
               - chromeNewPage
               - chromeRunScript
               - chromeScreenshot
+              - chromeSessionExport
+              - chromeSessionImport
               - chromeSnapshot
               - chromeSnapshotScoped
               - chromeStatus
+              - chromeStop
+              - chromeStorage
+              - chromeStorageDelete
+              - chromeStorageSet
+              - chromeTargetAcquire
+              - chromeTargetRelease
               - chromeTargets
               - chromeTargetSelector
+              - chromeTestUrl
               - chromeType
+              - chromeUseHttpCookies
               - chromeWaitForSelector
               - command
               - commandBatch
@@ -312,6 +333,7 @@ paths:
               - httpRequest
               - httpSessionClear
               - httpTrace
+              - httpUseChromeCookies
               - imageWrite
               - importResolverExplain
               - inferArchitecture
@@ -856,6 +878,12 @@ paths:
               - waitForPort
               - waitForUrl
               - watchTestOnce
+              - websiteAgentMissionForget
+              - websiteAgentMissionList
+              - websiteAgentMissionMessage
+              - websiteAgentMissionStart
+              - websiteAgentMissionStatus
+              - websiteAgentMissionStop
               - windowsExeSmokeTest
               - workerActionStream
               - workflowGet

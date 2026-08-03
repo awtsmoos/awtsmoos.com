@@ -5,13 +5,12 @@
 import { b64Text } from "../lib/base64.js";
 
 /**
- * @file Encodes the public AI-agent payload carried through tunnel URLs.
- * @description
- * The Awtsmoos renews message and provider without leaking unrelated browser state.
- * Awtsmoos.com selects an explicit allowlist, then carries the testimony as one
- * bounded base64 field through the same guarded request gate.
+ * Carries provider delegates and website missions through one bounded JSON
+ * vessel. Without these exact fields a pretty roster can never address its
+ * backend record, so the allowlist is tested as part of the live URL contract.
  */
 const AI_ACTIONS = new Set([
+	"agent",
 	"aiAgentList",
 	"aiAgentSetProviderKey",
 	"aiAgentRemoveProviderKey",
@@ -21,43 +20,32 @@ const AI_ACTIONS = new Set([
 	"aiAgentTaskStatus",
 	"aiAgentTaskResult",
 	"aiAgentTaskList",
-	"aiAgentConfigSet"
+	"aiAgentConfigSet",
+	"aiAgentSpawnWebsiteMission",
+	"aiAgentWebsiteMissionStatus",
+	"websiteAgentMissionStart",
+	"websiteAgentMissionList",
+	"websiteAgentMissionStatus",
+	"websiteAgentMissionMessage",
+	"websiteAgentMissionStop",
+	"websiteAgentMissionForget",
+	"chatgptWebsiteLogout"
 ]);
 
 const PUBLIC_KEYS = [
-	"provider",
-	"providerId",
-	"agent",
-	"agentId",
-	"model",
-	"taskId",
-	"kind",
-	"title",
-	"outputDir",
-	"fileName",
-	"message",
-	"prompt",
-	"system",
-	"stream",
-	"maxDepth",
-	"maxChildrenPerTask",
-	"maxTotalTasks",
-	"minimumInnovationWindowMs",
-	"minimumProductiveCycles",
-	"minimumProductiveMs",
-	"allowRecursiveSpawn",
-	"pollIntervalMs",
-	"promotionCycles",
-	"agentCycles",
-	"chapterCycles",
-	"providerTimeoutMs",
-	"limit",
-	"apiKey",
-	"saveToAccount",
-	"saveProviderKeyToAccount",
-	"remoteSaveAccount",
-	"storeProviderKeyRemotely",
-	"targetVessel"
+	"mode", "agentMode", "defaultMode", "provider", "providerId", "agent",
+	"agentId", "model", "taskId", "websiteMissionId", "missionId", "kind",
+	"title", "projectRoot", "outputDir", "fileName", "message", "body",
+	"text", "prompt", "goal", "system", "stream", "agentCount", "count",
+	"scopes", "paths", "directories", "startSpacingMs",
+	"collaborationRounds", "maxContinuationTurns", "authPollMs",
+	"refreshAuthentication", "toAgent", "reuseExisting", "automatic",
+	"maxDepth", "maxChildrenPerTask", "maxTotalTasks",
+	"minimumInnovationWindowMs", "minimumProductiveCycles",
+	"minimumProductiveMs", "allowRecursiveSpawn", "pollIntervalMs",
+	"promotionCycles", "agentCycles", "chapterCycles", "providerTimeoutMs",
+	"limit", "apiKey", "saveToAccount", "saveProviderKeyToAccount",
+	"remoteSaveAccount", "storeProviderKeyRemotely", "targetVessel"
 ];
 
 export function isAiAction(action) {
@@ -65,11 +53,9 @@ export function isAiAction(action) {
 }
 
 export function publicAiPayload(options = {}) {
-	return Object.fromEntries(
-		PUBLIC_KEYS
-			.filter((key) => hasValue(options[key]))
-			.map((key) => [key, options[key]])
-	);
+	return Object.fromEntries(PUBLIC_KEYS
+		.filter(key => hasValue(options[key]))
+		.map(key => [key, options[key]]));
 }
 
 export function attachAiPayload(url, options = {}) {
@@ -82,3 +68,5 @@ export function attachAiPayload(url, options = {}) {
 function hasValue(value) {
 	return value !== undefined && value !== null && value !== "";
 }
+
+export { AI_ACTIONS, PUBLIC_KEYS };

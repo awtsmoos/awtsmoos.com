@@ -1,5 +1,5 @@
 B"H
-1.0.456
+1.0.457
 main.js
 ai/relay/direct/browser/AuthenticatedHostHealth.mjs
 ai/relay/direct/browser/AuthenticatedHostLease.mjs
@@ -7,6 +7,7 @@ ai/relay/direct/browser/AuthenticatedSocketController.mjs
 ai/relay/direct/browser/CarrierControlGate.mjs
 ai/relay/direct/browser/CarrierInputController.mjs
 ai/relay/direct/browser/CarrierNodeFinder.mjs
+ai/relay/direct/browser/CarrierTextController.mjs
 ai/relay/direct/browser/CdpClient.mjs
 ai/relay/direct/browser/ChatGptTargetSelector.mjs
 ai/relay/direct/browser/ChromeDiscovery.mjs
@@ -72,6 +73,7 @@ ai/relay/split-browser/browserShim.cjs
 ai/relay/split-browser/cdpChrome.cjs
 ai/relay/split-browser/clientDiagnostics.cjs
 ai/relay/split-browser/clientState.cjs
+ai/relay/split-browser/commands/BrowserSessionStatus.cjs
 ai/relay/split-browser/commands/loginAndStress.cjs
 ai/relay/split-browser/commands/loginOnly.cjs
 ai/relay/split-browser/commands/ManualLoginGate.cjs
@@ -84,6 +86,7 @@ ai/relay/split-browser/debugChromeCookies.cjs
 ai/relay/split-browser/debugChromeDiscovery.cjs
 ai/relay/split-browser/debugChromeFrames.cjs
 ai/relay/split-browser/debugChromeLauncher.cjs
+ai/relay/split-browser/debugChromeProcessRecovery.cjs
 ai/relay/split-browser/debugChromeWebSocket.cjs
 ai/relay/split-browser/debugClient.cjs
 ai/relay/split-browser/directApi.cjs
@@ -1130,6 +1133,7 @@ recovery/healthyTransition.js
 recovery/integrity.js
 recovery/recoveryDecision.js
 recovery/recoveryLog.js
+recovery/registrationFailurePolicy.js
 recovery/registrationFailureTransition.js
 recovery/stateStore.js
 recovery/stateTransitions.js

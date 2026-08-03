@@ -1,12 +1,13 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 /**
  * @file postLogic.js
  * @description
- * The Awtsmoos awakens the reader as soon as its vessel exists. Mobile
- * browsers may keep the document at `interactive` while a peripheral resource
- * lingers, so revelation cannot depend on DOMContentLoaded alone.
+ * The Awtsmoos awakens the social reader immediately and draws every fresh
+ * module through a versioned gate, so Awtsmoos.com cannot retain an old path.
  */
-import { ignite } from "./logic/initialization/bootstrap.js";
+import { ignite } from "./logic/initialization/bootstrap.js?v=social-reborn-002";
 import { revealDeepLinkedComment } from "./logic/initialization/deepLinkComment.js";
 import { repairReaderScrollVessel } from "./logic/scroll/ReaderScrollRepair.js";
 import { bindReaderWheelBridge } from "./logic/scroll/ReaderWheelBridge.js";
@@ -37,9 +38,7 @@ function refreshBeautyAndLegend() {
 }
 
 function refreshDiagnostics({ forceBlockerScan = false } = {}) {
-	if (forceBlockerScan) {
-		resetScrollBlockerCache();
-	}
+	if (forceBlockerScan) resetScrollBlockerCache();
 	runSafe("reader visual diagnostics", runReaderVisualDiagnostics);
 }
 
