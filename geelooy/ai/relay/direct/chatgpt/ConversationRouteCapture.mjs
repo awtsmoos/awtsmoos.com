@@ -40,7 +40,13 @@ export class ConversationRouteCapture {
 					void this.handlePaused(client, parameters, conversationId, resolve);
 				});
 			});
-			await client.send("Page.reload", { ignoreCache: true }, 10000);
+			if (this.matchesTarget(target, conversationId)) {
+				await client.send("Page.reload", { ignoreCache: true }, 20000);
+			} else {
+				await client.send("Page.navigate", {
+					url: `https://chatgpt.com/c/${encodeURIComponent(conversationId)}`
+				}, 20000);
+			}
 			const response = await captured;
 			this.assertNotAborted(signal);
 			return response;
@@ -85,18 +91,24 @@ export class ConversationRouteCapture {
 		const response = await this.fetcher(`http://127.0.0.1:${this.port}/json/list`);
 		if (!response.ok) throw new Error(`Chrome target inventory failed: ${response.status}.`);
 		const targets = await response.json();
-		const target = targets.find(entry => {
-			if (entry.type !== "page") return false;
-			try {
-				const segments = new URL(entry.url).pathname.split("/").filter(Boolean);
-				const index = segments.lastIndexOf("c");
-				return index >= 0 && segments[index + 1] === conversationId;
-			} catch {
-				return false;
-			}
-		});
+		const pages = targets.filter(entry => entry.type === "page" && entry.webSocketDebuggerUrl);
+		const target = pages.find(entry => this.matchesTarget(entry, conversationId))
+			|| pages.find(entry => {
+				try { return new URL(entry.url).hostname === "chatgpt.com"; }
+				catch { return false; }
+			});
 		if (!target?.webSocketDebuggerUrl) throw new Error("The visible ChatGPT conversation target was unavailable.");
 		return target;
+	}
+
+	matchesTarget(target, conversationId) {
+		try {
+			const segments = new URL(target.url).pathname.split("/").filter(Boolean);
+			const index = segments.lastIndexOf("c");
+			return index >= 0 && segments[index + 1] === conversationId;
+		} catch {
+			return false;
+		}
 	}
 
 	parse(text) {

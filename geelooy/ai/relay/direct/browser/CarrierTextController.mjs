@@ -13,15 +13,35 @@ export class CarrierTextController {
 	}
 
 	async replace(locator, text, { prepareCharacterFallback = null } = {}) {
-		await this.insertText(text);
-		if (await this.contains(locator, text)) return;
+		let insertError = null;
+		try {
+			await this.insertText(text);
+		} catch (error) {
+			insertError = error;
+		}
+		if (await this.containsEventually(locator, text)) return;
 		if (typeof prepareCharacterFallback !== "function") {
-			throw new Error("The exact prompt did not enter the ChatGPT composer.");
+			throw insertError || new Error("The exact prompt did not enter the ChatGPT composer.");
 		}
 		await prepareCharacterFallback(await this.currentLocator(locator));
 		await this.dispatchCharacters(text);
-		if (await this.contains(locator, text)) return;
+		if (await this.containsEventually(locator, text)) return;
 		throw new Error("The exact prompt did not enter the ChatGPT composer.");
+	}
+
+	async containsEventually(locator, text) {
+		let lastError = null;
+		for (let attempt = 0; attempt < 3; attempt += 1) {
+			try {
+				if (await this.contains(locator, text)) return true;
+				lastError = null;
+			} catch (error) {
+				lastError = error;
+			}
+			await new Promise(resolve => setTimeout(resolve, 250));
+		}
+		if (lastError) throw lastError;
+		return false;
 	}
 
 	async insertText(text) {
