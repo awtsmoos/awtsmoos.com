@@ -17,7 +17,7 @@ function create(input = {}) {
 		throw error;
 	}
 	const record = {
-		schemaVersion: 2,
+		schemaVersion: 3,
 		id,
 		status: "queued",
 		phase: "planning",
@@ -40,6 +40,8 @@ function create(input = {}) {
 		},
 		roomRevision: 0,
 		lastAgentStartAt: null,
+		spawnRegistry: {},
+		spawnPayloadRegistry: {},
 		agents: input.plan.agents.map(agent => agentState(id, agent)),
 		events: [],
 		cancelRequested: false,
@@ -52,6 +54,16 @@ function agentState(missionId, agent) {
 	return {
 		...agent,
 		agentSessionId: `${missionId}:${agent.id}`,
+		parentAgentId: agent.parentAgentId || null,
+		depth: Number(agent.depth || 0),
+		rootAgentId: agent.rootAgentId || agent.id,
+		spawnRequestKey: agent.spawnRequestKey || null,
+		assignmentPrompt: agent.assignmentPrompt || null,
+		spawnPrompt: agent.spawnPrompt || agent.assignmentPrompt || null,
+		singleUse: agent.singleUse === true,
+		childAgentIds: Array.isArray(agent.childAgentIds) ? agent.childAgentIds : [],
+		spawnedChildCount: Number(agent.spawnedChildCount || 0),
+		roomSeeded: agent.roomSeeded !== false,
 		status: "queued",
 		round: 0,
 		continuationTurns: 0,
@@ -79,7 +91,7 @@ function read(id) {
 
 function normalize(record) {
 	if (!record) return null;
-	record.schemaVersion = 2;
+	record.schemaVersion = 3;
 	record.lead ||= {
 		agentId: "lead",
 		status: "working_locally",
@@ -93,11 +105,23 @@ function normalize(record) {
 	};
 	record.roomRevision ||= 0;
 	record.lastAgentStartAt ||= null;
+	record.spawnRegistry ||= {};
+	record.spawnPayloadRegistry ||= {};
 	record.events ||= [];
 	record.agents = (record.agents || []).map(agent => ({
 		...agentState(record.id, agent),
 		...agent,
 		agentSessionId: agent.agentSessionId || `${record.id}:${agent.id}`,
+		parentAgentId: agent.parentAgentId || null,
+		depth: Number(agent.depth || 0),
+		rootAgentId: agent.rootAgentId || agent.id,
+		spawnRequestKey: agent.spawnRequestKey || null,
+		assignmentPrompt: agent.assignmentPrompt || null,
+		spawnPrompt: agent.spawnPrompt || agent.assignmentPrompt || null,
+		singleUse: agent.singleUse === true,
+		childAgentIds: Array.isArray(agent.childAgentIds) ? agent.childAgentIds : [],
+		spawnedChildCount: Number(agent.spawnedChildCount || 0),
+		roomSeeded: agent.roomSeeded !== false,
 		continuationTurns: Number(agent.continuationTurns || 0),
 		pendingRoomMessages: Number(agent.pendingRoomMessages || 0)
 	}));
@@ -207,6 +231,15 @@ function publicRecord(record) {
 			role: agent.role,
 			focus: agent.focus,
 			scope: agent.scope,
+			parentAgentId: agent.parentAgentId,
+			depth: agent.depth,
+			rootAgentId: agent.rootAgentId,
+			spawnRequestKey: agent.spawnRequestKey,
+			assignmentPrompt: agent.assignmentPrompt,
+			spawnPrompt: agent.spawnPrompt,
+			singleUse: agent.singleUse,
+			spawnedChildCount: agent.spawnedChildCount,
+			childAgentIds: agent.childAgentIds,
 			status: agent.status,
 			round: agent.round,
 			continuationTurns: agent.continuationTurns,
@@ -239,6 +272,7 @@ function now() {
 module.exports = {
 	DIRECTORY,
 	LEGACY_DIRECTORY,
+	agentState,
 	create,
 	ensureDirectory,
 	event,

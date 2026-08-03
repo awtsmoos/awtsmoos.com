@@ -4,16 +4,26 @@
 
 /**
  * @file villageBotanicalBudget.test.mjs
- * @description Proves deterministic gardens remain six batches and policy-budget bounded.
+ * @description Proves richer featured gardens remain six batches and policy-budget bounded.
  * The Awtsmoos renews every named plant within few material vessels; Awtsmoos.com preserves
- * canonical species while measured triangle growth stays monotonic and below every ceiling.
+ * canonical species while geometry fidelity and measured triangle growth remain explicit.
  */
 
 import assert from 'node:assert/strict';
-import { villageBotanicalQuality } from '../../world/botany/VillageBotanicalQuality.js';
-import { createVillageBotanicalBatchDefinitions } from '../../world/village/VillageBotanicalBatchGeometry.js';
+import {
+	villageBotanicalQuality
+} from '../../world/botany/VillageBotanicalQuality.js';
+import {
+	createVillageBotanicalBatchDefinitions
+} from '../../world/village/VillageBotanicalBatchGeometry.js';
 
 const qualities = ['low', 'medium', 'high', 'cinematic'];
+const expectedGeometry = Object.freeze({
+	cinematic: 'high',
+	high: 'medium',
+	low: 'low',
+	medium: 'low'
+});
 const stats = {};
 for (const quality of qualities) {
 	const policy = villageBotanicalQuality(quality);
@@ -27,7 +37,7 @@ for (const quality of qualities) {
 		definition.userData.AwtsmoosLod.className === 'vegetation'
 	)));
 	assert.deepEqual(definitions.stats.renderPolicy, {
-		geometryQuality: 'low',
+		geometryQuality: expectedGeometry[quality],
 		maxClusterCount: 2
 	});
 	stats[quality] = definitions.stats;
@@ -38,7 +48,8 @@ assert.equal(stats.low.catalogSpecies, 67);
 for (const quality of ['medium', 'high', 'cinematic']) {
 	assert.equal(stats[quality].catalogSpecies, 123);
 }
-assert.ok(stats.high.triangles >= 16000);
+assert.ok(stats.high.triangles >= 20000);
+assert.ok(stats.cinematic.triangles > stats.high.triangles);
 assert.ok(stats.low.triangles < stats.medium.triangles);
 assert.ok(stats.medium.triangles < stats.high.triangles);
 assert.ok(stats.high.triangles < stats.cinematic.triangles);

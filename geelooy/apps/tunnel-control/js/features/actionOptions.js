@@ -50,8 +50,13 @@ function websiteMissionStartOptions() {
   return {
 	mode: "website-mission",
     prompt: $("websiteMissionPrompt")?.value || "",
-    agentCount: $("websiteAgentCount")?.value || 12,
-    startSpacingMs: $("websiteStartSpacing")?.value || 12000
+    agentCount: $("websiteAgentCount")?.value || 8,
+	startSpacingMs: $("websiteStartSpacing")?.value || 12000,
+	allowRecursiveSubagents: $("websiteRecursiveSpawn")?.checked !== false,
+	maxSubagentDepth: $("websiteMaxSubagentDepth")?.value || 4,
+	maxSubagentsPerAgent: $("websiteMaxSubagents")?.value || 32,
+	maxTotalWebsiteAgents: $("websiteMaxTotalAgents")?.value || 256,
+	subagentStartSpacingMs: $("websiteSubagentSpacing")?.value || 12000
   };
 }
 function websiteMissionMessageOptions() {

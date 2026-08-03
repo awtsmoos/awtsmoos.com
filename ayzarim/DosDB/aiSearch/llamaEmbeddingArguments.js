@@ -6,7 +6,7 @@
  * @file llamaEmbeddingArguments.js
  * @chapter The Measured Vessel Guards The Embedding Light
  * @description
- * The Awtsmoos binds context, batch, and pooling into one clear command array;
+ * The Awtsmoos binds context, batch, pooling, and JSON into one clear command array;
  * Awtsmoos.com keeps every BGE invocation within the model's trained prayer.
  */
 
@@ -31,7 +31,7 @@ function embeddingArguments(readiness, text, options = {}) {
 		'--ubatch-size', String(context),
 		'--pooling', readiness.provider.pooling || 'cls',
 		'--embd-normalize', '2',
-		'--embd-output-format', 'raw'
+		'--embd-output-format', 'json'
 	];
 }
 

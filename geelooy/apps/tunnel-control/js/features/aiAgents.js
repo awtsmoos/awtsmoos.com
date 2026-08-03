@@ -14,6 +14,8 @@ import {
 } from "./websiteMissionRegistry.js";
 
 const MODEL_MEMORY = "awtAiAgentModelChoice";
+export const AWTSMOOS_SHLIACH_NAME = "Awtsmoos Shliach";
+export const AWTSMOOS_SHLIACH_URL = "https://chatgpt.com/g/g-6a03feea8398819192067ae3dbfa449c-awtsmoos-shliach-agent";
 export const AI_PROVIDER_OPTIONS = Object.freeze([
 	{ value: "openrouter", text: "OpenRouter" },
 	{ value: "minimax", text: "MiniMax" },
@@ -59,18 +61,23 @@ function websiteMissionPanel() {
 			h("p", { className: "eyebrow", text: "CHATGPT WEBSITE TEAM" }),
 			h("h3", { text: "Authenticated website-agent mission" }),
 			h("p", {
-				text: "Start several scoped agents through the saved ChatGPT website session. The lead remains non-blocking while a visible login waits."
+				text: "Start a paced hierarchy through the saved ChatGPT website session. Every agent may delegate bounded independent work, publish progress, and leave a durable handoff."
 			})
 		]),
+		h("div", {
+			id: "websiteMissionTargetSummary",
+			className: "notice success",
+			text: `Custom GPT target: ${AWTSMOOS_SHLIACH_NAME}`
+		}),
 		h("div", { className: "form-grid" }, [
 			field("websiteMissionProjectRoot", "Repository root", {
 				placeholder: "/absolute/path/to/repository"
 			}),
-			field("websiteMissionAgentCount", "Website agents", {
+			field("websiteMissionAgentCount", "Website agents (3–96; ordinary default 8)", {
 				type: "number",
-				value: "12",
+				value: "8",
 				min: "3",
-				max: "24"
+				max: "96"
 			}),
 			field("websiteMissionStartSpacing", "Start spacing (ms)", {
 				type: "number",
@@ -82,7 +89,49 @@ function websiteMissionPanel() {
 				value: "2",
 				min: "1",
 				max: "8"
-			})
+			}),
+			field("websiteMissionCustomGptName", "Custom GPT name", {
+				value: AWTSMOOS_SHLIACH_NAME,
+				readOnly: true
+			}),
+			field("websiteMissionAgentStartUrl", "Custom GPT URL", {
+				type: "url",
+				value: AWTSMOOS_SHLIACH_URL,
+				placeholder: AWTSMOOS_SHLIACH_URL,
+				readOnly: true
+			}),
+			field("websiteMissionMaxSubagents", "Children per website agent (1–96)", {
+				type: "number",
+				value: "32",
+				min: "1",
+				max: "96"
+			}),
+			field("websiteMissionMaxSubagentDepth", "Recursive helper depth (1–8)", {
+				type: "number",
+				value: "4",
+				min: "1",
+				max: "8"
+			}),
+			field("websiteMissionMaxTotalAgents", "Total recursive mission budget (3–512)", {
+				type: "number",
+				value: "256",
+				min: "3",
+				max: "512"
+			}),
+			field("websiteMissionSubagentSpacing", "Child prompt spacing (ms)", {
+				type: "number",
+				value: "12000",
+				min: "10000",
+				max: "60000"
+			}),
+			h("label", { className: "notice success" }, [
+				h("input", {
+					id: "websiteMissionAllowRecursive",
+					type: "checkbox",
+					checked: true
+				}),
+				" Allow every website agent to spawn paced, bounded subagents"
+			])
 		]),
 		area(
 			"websiteMissionScopes",
@@ -121,6 +170,11 @@ function websiteMissionPanel() {
 		h("div", {
 			id: "websiteMissionRoster",
 			className: "awt-agent-channel-grid"
+		}),
+		h("h4", { text: "Live mission progress" }),
+		h("div", {
+			id: "websiteMissionProgress",
+			className: "awt-room-list awt-room-card-grid"
 		}),
 		area(
 			"websiteMissionMessage",
@@ -485,7 +539,14 @@ async function startWebsiteMission(getTunnelName) {
 		agentCount: $("websiteMissionAgentCount").value,
 		scopes: $("websiteMissionScopes").value,
 		startSpacingMs: $("websiteMissionStartSpacing").value,
-		collaborationRounds: $("websiteMissionRounds").value
+		collaborationRounds: $("websiteMissionRounds").value,
+		customGptName: $("websiteMissionCustomGptName").value,
+		agentStartUrl: $("websiteMissionAgentStartUrl").value,
+		allowRecursiveSubagents: $("websiteMissionAllowRecursive").checked,
+		maxSubagentDepth: $("websiteMissionMaxSubagentDepth").value,
+		maxSubagentsPerAgent: $("websiteMissionMaxSubagents").value,
+		maxTotalWebsiteAgents: $("websiteMissionMaxTotalAgents").value,
+		subagentStartSpacingMs: $("websiteMissionSubagentSpacing").value
 	});
 	const got = await callWebsite(getTunnelName, payload);
 	if (got?.ok !== false && got?.mission?.id) {
@@ -633,10 +694,12 @@ function renderWebsiteMissionList() {
 	}, [
 		h("strong", { text: record.goal || record.id || "Website mission" }),
 		h("small", { text: record.id || record.websiteMissionId || "unknown id" }),
-		h("div", { className: "awt-room-card-metrics" }, [
+			h("div", { className: "awt-room-card-metrics" }, [
 			chip(record.status || "unknown"),
 			chip(`${record.agents?.length || record.agentCount || 0} agents`),
-			chip(record.authentication?.status || record.authenticationStatus || "auth unchecked")
+			chip(record.authentication?.status || record.authenticationStatus || "auth unchecked"),
+			chip(record.plan?.customGptName || AWTSMOOS_SHLIACH_NAME),
+			chip(websiteMissionPolicySummary(record.plan).compact)
 		])
 	])));
 }
@@ -652,12 +715,25 @@ function renderWebsiteMissionSummary(record) {
 	if (!record) {
 		setAuthenticationNotice({ status: "unchecked" });
 		renderWebsiteRoster([]);
+		renderWebsiteMissionProgress([]);
+		setWebsiteMissionTarget();
 		return;
 	}
+	setWebsiteMissionTarget(record.plan);
 	setAuthenticationNotice(record.authentication || {
 		status: record.authenticationStatus || "unchecked"
 	});
 	renderWebsiteRoster(record.agents || []);
+	renderWebsiteMissionProgress(record.events || []);
+}
+
+function setWebsiteMissionTarget(plan = {}) {
+	const root = $("websiteMissionTargetSummary");
+	if (!root) return;
+	const name = String(plan.customGptName || AWTSMOOS_SHLIACH_NAME);
+	const url = String(plan.agentStartUrl || AWTSMOOS_SHLIACH_URL);
+	const policy = websiteMissionPolicySummary(plan);
+	root.textContent = `Custom GPT target: ${name} · ${url} · ${plan.agentCount || 8} initial agents (8/16/32/64 automatic; explicit 3–96) · ${policy.long}`;
 }
 
 function setAuthenticationNotice(authentication = {}) {
@@ -675,26 +751,71 @@ function setAuthenticationNotice(authentication = {}) {
 function renderWebsiteRoster(agents = []) {
 	const root = $("websiteMissionRoster");
 	if (!root) return;
-	if (!agents.length) {
+	const entries = websiteMissionRosterEntries(agents);
+	if (!entries.length) {
 		root.replaceChildren(h("p", {
 			className: "empty-state",
 			text: "Select or start a mission to see its website agents."
 		}));
 		return;
 	}
-	root.replaceChildren(...agents.map(agent => h("article", {
-		className: `panel awt-agent-channel is-${agent.status || "unknown"}`,
-		data: { websiteAgentId: agent.id || "" }
+	root.replaceChildren(...entries.map(agent => h("article", {
+		className: `panel awt-agent-channel is-${agent.status || "unknown"} ${agent.depth > 0 ? "is-subagent" : "is-root-agent"}`,
+		data: {
+			websiteAgentId: agent.id || "",
+			parentAgentId: agent.parentAgentId || "",
+			agentDepth: agent.depth
+		}
 	}, [
-		h("strong", { text: agent.name || agent.id || "website agent" }),
+		h("strong", { text: agent.displayName }),
 		h("small", { text: `${agent.role || "agent"} · ${agent.scope || "."}` }),
 		h("div", { className: "awt-room-card-metrics" }, [
 			chip(agent.status || "queued"),
 			chip(`round ${agent.round || 0}`),
+			chip(`depth ${agent.depth}`),
+			chip(agent.parentAgentId ? `parent ${agent.parentAgentId}` : "root agent"),
+			chip(`${agent.spawnedChildCount} spawned children`),
 			chip(`${agent.pendingRoomMessages || 0} messages`)
 		]),
 		agent.lastUpdate ? h("p", { text: agent.lastUpdate }) : null,
+		agent.spawnPrompt ? h("details", {}, [
+			h("summary", { text: "Delegated starting prompt" }),
+			h("p", { text: agent.spawnPrompt })
+		]) : null,
+		agent.childAgentIds.length ? h("p", {
+			text: `Children: ${agent.childAgentIds.join(", ")}`
+		}) : null,
+		agent.lastOutcome ? h("details", {}, [
+			h("summary", { text: "Latest handoff" }),
+			agent.lastOutcome.roomMessage || agent.lastOutcome.findings
+				? h("p", { text: agent.lastOutcome.roomMessage || agent.lastOutcome.findings })
+				: null,
+			h("p", { text: `NEXT: ${agent.lastOutcome.next || "none"}` }),
+			agent.lastOutcome.files?.length
+				? h("p", { text: `FILES: ${agent.lastOutcome.files.join(", ")}` })
+				: null
+		]) : null,
 		agent.error ? h("p", { className: "notice danger", text: agent.error }) : null
+	])));
+}
+
+function renderWebsiteMissionProgress(events = []) {
+	const root = $("websiteMissionProgress");
+	if (!root) return;
+	const recent = websiteMissionProgressEntries(events);
+	if (!recent.length) {
+		root.replaceChildren(h("p", {
+			className: "empty-state",
+			text: "Mission events will appear here as agents plan, submit, hand off, and finish."
+		}));
+		return;
+	}
+	root.replaceChildren(...recent.map(entry => h("article", {
+		className: "awt-room-card"
+	}, [
+		h("strong", { text: entry.label }),
+		h("small", { text: entry.at }),
+		h("p", { text: entry.detail })
 	])));
 }
 
@@ -762,10 +883,114 @@ export function websiteMissionStartPayload(input = {}) {
 		mode: "website-mission",
 		prompt: String(input.prompt || "").trim(),
 		projectRoot: String(input.projectRoot || "").trim(),
-		agentCount: boundedNumber(input.agentCount, 12, 3, 24),
+		agentCount: boundedNumber(input.agentCount, 8, 3, 96),
 		scopes: splitLines(input.scopes),
 		startSpacingMs: boundedNumber(input.startSpacingMs, 12000, 10000, 60000),
-		collaborationRounds: boundedNumber(input.collaborationRounds, 2, 1, 8)
+		collaborationRounds: boundedNumber(input.collaborationRounds, 2, 1, 8),
+		customGptName: AWTSMOOS_SHLIACH_NAME,
+		agentStartUrl: normalizeCustomGptUrl(input.agentStartUrl),
+		allowRecursiveSubagents: input.allowRecursiveSubagents !== false,
+		maxSubagentDepth: boundedNumber(input.maxSubagentDepth, 4, 1, 8),
+		maxSubagentsPerAgent: boundedNumber(input.maxSubagentsPerAgent, 32, 1, 96),
+		maxTotalWebsiteAgents: boundedNumber(input.maxTotalWebsiteAgents, 256, 3, 512),
+		subagentStartSpacingMs: boundedNumber(
+			input.subagentStartSpacingMs,
+			12000,
+			10000,
+			60000
+		)
+	};
+}
+
+/** Allows only ordinary authenticated chatgpt.com custom-GPT destinations. */
+export function normalizeCustomGptUrl(value = AWTSMOOS_SHLIACH_URL) {
+	let url;
+	try {
+		url = new URL(String(value || AWTSMOOS_SHLIACH_URL).trim());
+	} catch {
+		throw new Error("invalid_chatgpt_custom_gpt_url");
+	}
+	url.search = "";
+	url.hash = "";
+	url.pathname = url.pathname.replace(/\/c\/[^/]+\/?$/, "").replace(/\/$/, "");
+	const normalized = url.toString().replace(/\/$/, "");
+	if (normalized !== AWTSMOOS_SHLIACH_URL) {
+		throw new Error("invalid_chatgpt_custom_gpt_url");
+	}
+	return AWTSMOOS_SHLIACH_URL;
+}
+
+/** Produces a bounded, newest-first progress view without leaking private keys. */
+export function websiteMissionProgressEntries(events = []) {
+	return (Array.isArray(events) ? events : []).slice(-20).reverse().map(item => ({
+		at: String(item?.at || "time unavailable"),
+		label: String(item?.agentId || "mission"),
+		detail: [item?.type, item?.stage, item?.status, item?.message]
+			.filter(Boolean).map(String).join(" · ") || "mission update"
+	}));
+}
+
+/** Keeps the bounded 512-agent recursive roster redacted and render-safe. */
+export function websiteMissionRosterEntries(agents = []) {
+	return (Array.isArray(agents) ? agents : []).slice(0, 512).map(agent => {
+		const depth = boundedNumber(agent?.depth, 0, 0, 8);
+		const childCount = boundedNumber(
+			agent?.spawnedChildCount ?? agent?.childAgentIds?.length,
+			0,
+			0,
+			96
+		);
+		return {
+		id: String(agent?.id || ""),
+		name: String(agent?.name || ""),
+		displayName: `${"↳ ".repeat(Math.min(4, depth))}${String(agent?.name || agent?.id || "website agent")}`,
+		role: String(agent?.role || ""),
+		scope: String(agent?.scope || ""),
+		status: String(agent?.status || "queued"),
+		round: Number(agent?.round || 0),
+		parentAgentId: String(agent?.parentAgentId || ""),
+		depth,
+		spawnedChildCount: childCount,
+		childAgentIds: (Array.isArray(agent?.childAgentIds) ? agent.childAgentIds : [])
+			.slice(0, 96).map(id => String(id).slice(0, 160)),
+		spawnPrompt: String(agent?.spawnPrompt || "").slice(0, 1200),
+		pendingRoomMessages: Number(agent?.pendingRoomMessages || 0),
+		lastUpdate: String(agent?.lastUpdate || "").slice(0, 1200),
+		error: String(agent?.error || "").slice(0, 600),
+		lastOutcome: agent?.lastOutcome ? {
+			roomMessage: String(agent.lastOutcome.roomMessage || "").slice(0, 1200),
+			findings: String(agent.lastOutcome.findings || "").slice(0, 1200),
+			next: String(agent.lastOutcome.next || "").slice(0, 600),
+			files: (Array.isArray(agent.lastOutcome.files) ? agent.lastOutcome.files : [])
+				.slice(0, 20).map(file => String(file).slice(0, 240))
+		} : null
+	};
+	});
+}
+
+/** Redacted recursive policy summary used by mission cards and the live header. */
+export function websiteMissionPolicySummary(plan = {}) {
+	const source = plan?.subagentPolicy || plan || {};
+	const allow = source.allowRecursiveSubagents !== false;
+	const depth = boundedNumber(source.maxSubagentDepth, 4, 1, 8);
+	const perParent = boundedNumber(
+		source.maxSubagentsPerAgent ?? source.maxHelpersPerAgent,
+		32,
+		1,
+		96
+	);
+	const total = boundedNumber(source.maxTotalWebsiteAgents, 256, 3, 512);
+	const spacing = boundedNumber(source.subagentStartSpacingMs, 12000, 10000, 60000);
+	return {
+		allowRecursiveSubagents: allow,
+		maxSubagentDepth: depth,
+		maxSubagentsPerAgent: perParent,
+		maxTotalWebsiteAgents: total,
+		subagentStartSpacingMs: spacing,
+		compact: allow ? `recursive ≤${depth} deep / ≤${total} total` : "recursive off",
+		long: allow
+			? `recursive delegation on; depth ≤${depth}, children per parent ≤${perParent}, global agents ≤${total}, child starts spaced ≥${spacing} ms`
+			: "recursive delegation off"
 	};
 }
 

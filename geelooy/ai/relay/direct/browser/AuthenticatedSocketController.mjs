@@ -2,9 +2,13 @@
 // Boruch Hashem
 // Blessed is He
 
+import { createRequire } from "node:module";
 import { CdpClient } from "./CdpClient.mjs";
 import { ChatGptTargetSelector } from "./ChatGptTargetSelector.mjs";
 import { OwnedHostInspector } from "./OwnedHostInspector.mjs";
+
+const require = createRequire(import.meta.url);
+const { configuredAgentStartUrl } = require("../../split-browser/config.cjs");
 
 /**
  * One accessible existing tab carries authenticated ChatGPT turns whenever possible.
@@ -44,7 +48,7 @@ export class AuthenticatedSocketController {
 			if (source !== "existing-chatgpt") {
 				await cdpClient.send(
 					"Page.navigate",
-					{ url: "https://chatgpt.com/" },
+					{ url: configuredAgentStartUrl() },
 					30000
 				);
 			}

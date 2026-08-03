@@ -4,6 +4,8 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { ConversationDomPoller } from "../relay/direct/chatgpt/ConversationDomPoller.mjs";
 
+const customUrl = "https://chatgpt.com/g/g-6a03feea8398819192067ae3dbfa449c-awtsmoos-shliach-agent";
+
 test("authenticated route GET yields exact native-DOM continuation state", async () => {
 	const calls = [];
 	const client = {
@@ -34,7 +36,8 @@ test("authenticated route GET yields exact native-DOM continuation state", async
 	assert.equal(result.done, true);
 	assert.equal(result.answer, "BH COMPLETE & SAFE");
 	assert.equal(result.parentMessageId, "assistant-1");
-	assert(calls.some(call => call.method === "Page.navigate"));
+	assert(calls.some(call => call.method === "Page.navigate"
+		&& call.params.url === `${customUrl}/c/conversation-1`));
 	assert(!calls.some(call => call.method === "Runtime.evaluate"));
 });
 

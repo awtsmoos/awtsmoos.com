@@ -35,16 +35,20 @@ test("custom GPT continuation preserves the custom agent route", async () => {
 	assert.deepEqual(navigations, [continuationUrl]);
 });
 
-test("standard continuation remains on the standard route", async () => {
-	const navigations = [];
-	const continuationUrl = "https://chatgpt.com/c/conversation-2";
-	await new WebsiteConversationNavigator().prepare(
-		fixture(continuationUrl, navigations),
-		{ conversationId: "conversation-2" },
-		"https://chatgpt.com/",
-		1000
+test("generic ChatGPT cannot silently replace the configured custom GPT", () => {
+	const navigator = new WebsiteConversationNavigator();
+	assert.throws(
+		() => navigator.normalizeStartUrl("https://chatgpt.com/"),
+		/custom GPT/
 	);
-	assert.deepEqual(navigations, [continuationUrl]);
+	assert.equal(
+		navigator.isReady({
+			authenticated: true,
+			composerVisible: true,
+			url: "https://chatgpt.com/c/conversation-2"
+		}, "conversation-2", customUrl),
+		false
+	);
 });
 
 function fixture(visibleUrl, navigations) {

@@ -4,14 +4,17 @@
 
 /**
  * @file MinimalMeadowOptionalHydration.js
- * @description Hydrates every full-quality branch and waits for terrain pixels before declaring completion.
- * The Awtsmoos lets canonical player, renderer, earth, friendly Chossid, and visual proof arrive together;
+ * @description Waits for every full-quality branch, settled terrain, and steady-state measurement readiness.
+ * The Awtsmoos lets player, renderer, earth, Chossid, world, proof, and measured pulse arrive together;
  * Awtsmoos.com preserves the quiet window while optional readiness tells the whole settled truth.
  */
 
 import {
 	resolveGeneratedRuntimeChunkUrl
 } from './GeneratedRuntimeChunkUrl.js';
+import {
+	scheduleMinimalMeadowPerformanceMonitor
+} from './MinimalMeadowPerformanceHydration.js';
 import {
 	scheduleMinimalMeadowTerrainHydration
 } from './MinimalMeadowTerrainHydrationSchedule.js';
@@ -42,6 +45,9 @@ export async function hydrateMinimalMeadowOptionalFeatures(
 		}),
 		afterHandoff(() => {
 			return module.awaitMinimalMeadowVisualStability(runtime);
+		}),
+		afterHandoff(() => {
+			return scheduleMinimalMeadowPerformanceMonitor(runtime, environment);
 		}),
 		terrainSchedule?.promise || Promise.resolve({ phase: 'unavailable' })
 	]);

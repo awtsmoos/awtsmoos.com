@@ -2,6 +2,9 @@
 const fs = require("node:fs");
 const path = require("node:path");
 
+const AWTSMOOS_SHLIACH_URL = "https://chatgpt.com/g/g-6a03feea8398819192067ae3dbfa449c-awtsmoos-shliach-agent";
+const AWTSMOOS_SHLIACH_NAME = "Awtsmoos Shliach";
+
 const ROLES = [
 	["architect", "Architecture and dependency boundaries", "write"],
 	["transport", "Tunnel transport, liveness, reconnect, and receipts", "write"],
@@ -19,8 +22,23 @@ const ROLES = [
 
 function plan(config = {}, input = {}) {
 	const projectRoot = path.resolve(input.projectRoot || config.root || process.cwd());
-	const count = agentCount(input);
+	const scale = promptScale(input);
+	const count = agentCount(input, scale);
 	const scopes = scopeCandidates(projectRoot, input);
+	const target = customGptTarget(input);
+	const startSpacingMs = bounded(input.startSpacingMs, 12000, 10000, 60000);
+	const maxTotalWebsiteAgents = bounded(
+		input.maxTotalWebsiteAgents,
+		256,
+		count,
+		512
+	);
+	const maxSubagentsPerAgent = bounded(
+		input.maxSubagentsPerAgent ?? input.maxHelpersPerAgent,
+		32,
+		1,
+		96
+	);
 	const agents = Array.from({ length: count }, (_, index) => {
 		const [role, focus, claimMode] = ROLES[index % ROLES.length];
 		const ordinal = String(index + 1).padStart(2, "0");
@@ -36,10 +54,34 @@ function plan(config = {}, input = {}) {
 	});
 	return {
 		projectRoot,
+		agentStartUrl: target.url,
+		customGptName: target.name,
 		requestedCount: input.agentCount ?? input.count ?? null,
 		agentCount: count,
 		minimumAgentCount: 3,
-		startSpacingMs: bounded(input.startSpacingMs, 12000, 10000, 60000),
+		fanOutTier: scale,
+		subagentPolicy: {
+			mode: "bounded-single-use",
+			priority: ["large", "enormous"].includes(scale)
+				? "required-when-available"
+				: "preferred",
+			allowRecursiveSubagents: input.allowRecursiveSubagents !== false &&
+				input.allowRecursiveSubagents !== "false",
+			maxSubagentDepth: bounded(input.maxSubagentDepth, 4, 1, 8),
+			maxSubagentsPerAgent,
+			maxHelpersPerAgent: maxSubagentsPerAgent,
+			maxTotalWebsiteAgents,
+			subagentStartSpacingMs: bounded(
+				input.subagentStartSpacingMs,
+				startSpacingMs,
+				10000,
+				60000
+			),
+			recursiveFanOut: "independent-scoped-work-with-stable-request-keys",
+			handoffRequired: true,
+			roomUpdates: ["plan", "progress", "handoff", "completion"]
+		},
+		startSpacingMs,
 		collaborationRounds: bounded(input.collaborationRounds, 2, 1, 8),
 		maxContinuationTurns: bounded(input.maxContinuationTurns, 6, 1, 12),
 		authPollMs: bounded(input.authPollMs, 3000, 1000, 30000),
@@ -47,14 +89,61 @@ function plan(config = {}, input = {}) {
 	};
 }
 
-function agentCount(input = {}) {
+function customGptTarget(input = {}) {
+	const raw = String(
+		input.agentStartUrl || input.customGptUrl || input.gptUrl || AWTSMOOS_SHLIACH_URL
+	).trim();
+	let url;
+	try {
+		url = new URL(raw);
+	} catch {
+		throw invalidTarget();
+	}
+	url.search = "";
+	url.hash = "";
+	url.pathname = url.pathname.replace(/\/c\/[^/]+\/?$/, "").replace(/\/$/, "");
+	const normalized = url.toString().replace(/\/$/, "");
+	if (normalized !== AWTSMOOS_SHLIACH_URL) throw invalidTarget();
+	return {
+		name: AWTSMOOS_SHLIACH_NAME,
+		url: AWTSMOOS_SHLIACH_URL
+	};
+}
+
+function invalidTarget() {
+	const error = new Error("invalid_chatgpt_custom_gpt_url");
+	error.code = "invalid_chatgpt_custom_gpt_url";
+	return error;
+}
+
+function agentCount(input = {}, scale = promptScale(input)) {
 	const explicit = Number(input.agentCount ?? input.count);
-	if (Number.isFinite(explicit)) return Math.max(3, Math.min(24, Math.floor(explicit)));
+	if (Number.isFinite(explicit)) return Math.max(3, Math.min(96, Math.floor(explicit)));
+	return {
+		small: 8,
+		medium: 16,
+		large: 32,
+		enormous: 64
+	}[scale] || 8;
+}
+
+function promptScale(input = {}) {
 	const prompt = String(input.prompt || input.goal || input.message || "");
-	const big = prompt.length >= 900 ||
-		/\b(entire|everything|massive|large|big|fully|all areas|whole repo|many agents)\b/i.test(prompt);
-	const medium = prompt.length >= 350 || /\b(multiple|several|cross[- ]?cutting)\b/i.test(prompt);
-	return big ? 12 : medium ? 6 : 3;
+	const pageMatch = prompt.match(/\b([\d,]{3,})\s*[- ]?\s*pages?\b/i);
+	const pageCount = Number(String(pageMatch?.[1] || "0").replaceAll(",", ""));
+	if (pageCount >= 1000 || prompt.length >= 4000 ||
+		/\b(thousands? of pages|book[- ]length translation|complete translation of (?:the )?(?:entire|whole)|dozens? of agents|scores? of agents|(?:huge|complex) (?:software|system|application|codebase))\b/i.test(prompt)) {
+		return "enormous";
+	}
+	if (prompt.length >= 900 ||
+		/\b(entire|everything|massive|fully|all areas|whole repo|many agents|enterprise software|entire software|whole software|full software platform|large monorepo|massive (?:software|system|application|codebase))\b/i.test(prompt)) {
+		return "large";
+	}
+	if (prompt.length >= 350 ||
+		/\b(multiple|several|cross[- ]?cutting|multi[- ]?area)\b/i.test(prompt)) {
+		return "medium";
+	}
+	return "small";
 }
 
 function scopeCandidates(projectRoot, input = {}) {
@@ -115,4 +204,13 @@ function capitalize(value) {
 	return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
-module.exports = { ROLES, agentCount, plan, scopeCandidates };
+module.exports = {
+	AWTSMOOS_SHLIACH_NAME,
+	AWTSMOOS_SHLIACH_URL,
+	ROLES,
+	agentCount,
+	customGptTarget,
+	plan,
+	promptScale,
+	scopeCandidates
+};

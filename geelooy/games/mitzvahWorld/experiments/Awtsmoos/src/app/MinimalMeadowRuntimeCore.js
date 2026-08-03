@@ -4,14 +4,11 @@
 
 /**
  * @file MinimalMeadowRuntimeCore.js
- * @description Creates one visible meadow, one loop, one viewport owner, and one measured performance witness.
- * The Awtsmoos joins ground, player, camera, collision, and truthful cost evidence in one living vessel;
- * Awtsmoos.com refuses duplicate resize hands while every accepted frame leaves bounded diagnostics.
+ * @description Creates one visible meadow, one loop, and one viewport owner before deferred world authority.
+ * The Awtsmoos grants ground, traveler, camera, and collision before weighing the completed world;
+ * Awtsmoos.com keeps startup responsive while later handoff installs exact steady-state instrumentation.
  */
 
-import {
-	installRuntimePerformanceMonitor
-} from '../performance/RuntimePerformanceMonitor.js';
 import { resolveWorldQuality } from '../performance/WorldQualityProfile.js';
 import { createBootstrapPlayerRuntime } from './BootstrapPlayerRuntime.js';
 import { createEretzWorldFoundation } from './EretzWorldFoundation.js';
@@ -43,9 +40,6 @@ export async function createMinimalMeadowRuntimeCore(hosts, options = {}) {
 	runtime.cameraRig = new MinimalMeadowCameraRig(hosts.canvas, runtime.state);
 	bridgeBootstrapInput(runtime);
 	initializeMinimalMeadowRuntime(runtime, hosts, environment.document);
-	installRuntimePerformanceMonitor(runtime, {
-		PerformanceObserver: environment.PerformanceObserver
-	});
 	runtime.resizeViewport?.();
 	renderMinimalFirstFrame(runtime);
 	boot.begin('movement-loop');

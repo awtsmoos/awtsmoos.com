@@ -10,6 +10,7 @@ import { executeAarch64Division } from "./aarch64ExecuteDivision.js";
 import { executeAarch64Extract } from "./aarch64ExecuteExtract.js";
 import { executeAarch64FloatingArithmetic } from "./aarch64ExecuteFloatingArithmetic.js";
 import { executeAarch64FloatingCompare } from "./aarch64ExecuteFloatingCompare.js";
+import { executeAarch64FloatingConditionalCompare } from "./aarch64ExecuteFloatingConditionalCompare.js";
 import { executeAarch64FloatingImmediate } from "./aarch64ExecuteFloatingImmediate.js";
 import { executeAarch64FloatToInteger } from "./aarch64ExecuteFloatToInteger.js";
 import { executeAarch64GeneralSimdMove } from "./aarch64ExecuteGeneralSimdMove.js";
@@ -51,6 +52,7 @@ export function executeAarch64Data(instruction, registers) {
 		|| executeAarch64IntegerToFloat(instruction, registers)
 		|| executeAarch64FloatingImmediate(instruction, registers)
 		|| executeAarch64FloatingArithmetic(instruction, registers)
+		|| executeAarch64FloatingConditionalCompare(instruction, registers)
 		|| executeAarch64FloatingCompare(instruction, registers)
 		|| executeAarch64SimdModifiedImmediate(instruction, registers)
 		|| executeAarch64Extract(instruction, registers)

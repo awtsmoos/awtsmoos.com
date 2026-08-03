@@ -5,11 +5,12 @@
 /**
  * @module LocalSnapshotFiles
  * @description
- * The Awtsmoos gathers tracked source and reviewed new code alone;
+ * The Awtsmoos gathers tracked source, reviewed new code, and named runtime roots alone;
  * Awtsmoos.com excludes caches, databases, generated evidence, and every unknown stone.
  */
 
 import fs from 'node:fs';
+import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 
 const excludedPrefixes = [
@@ -41,6 +42,9 @@ const untrackedSourceRoots = [
 	'tests/',
 	'docs/'
 ];
+const reviewedIgnoredRoots = [
+	'geelooy/scripts/awtsmoos/'
+];
 const maximumUntrackedBytes = 5 * 1024 * 1024;
 
 function gitFiles(argumentsList) {
@@ -55,10 +59,29 @@ function excluded(file) {
 		|| excludedSuffixes.some(suffix => file.endsWith(suffix));
 }
 
+function reviewedSource(file) {
+	if (excluded(file) || !fs.existsSync(file)) return false;
+	const status = fs.statSync(file);
+	return status.isFile() && status.size <= maximumUntrackedBytes;
+}
+
 function reviewedUntracked(file) {
-	if (excluded(file)) return false;
-	if (!untrackedSourceRoots.some(root => file.startsWith(root))) return false;
-	return fs.statSync(file).size <= maximumUntrackedBytes;
+	return untrackedSourceRoots.some(root => file.startsWith(root))
+		&& reviewedSource(file);
+}
+
+function walkFiles(root) {
+	if (!fs.existsSync(root)) return [];
+	return fs.readdirSync(root, { withFileTypes: true }).flatMap(entry => {
+		const file = path.posix.join(root, entry.name);
+		return entry.isDirectory() ? walkFiles(`${file}/`) : [file];
+	});
+}
+
+function reviewedIgnoredFiles() {
+	return reviewedIgnoredRoots
+		.flatMap(walkFiles)
+		.filter(reviewedSource);
 }
 
 export function snapshotFiles() {
@@ -70,5 +93,9 @@ export function snapshotFiles() {
 		'--exclude-standard',
 		'-z'
 	]).filter(reviewedUntracked);
-	return [...new Set([...tracked, ...untracked])].sort();
+	return [...new Set([
+		...tracked,
+		...untracked,
+		...reviewedIgnoredFiles()
+	])].sort();
 }

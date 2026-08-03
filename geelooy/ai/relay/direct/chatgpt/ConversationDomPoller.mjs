@@ -1,6 +1,13 @@
 // B"H
 
 import { AbortSignalRace } from "../core/AbortSignalRace.mjs";
+import { createRequire } from "node:module";
+
+const require = createRequire(import.meta.url);
+const {
+	configuredAgentStartUrl,
+	requireConfiguredAgentStartUrl
+} = require("../../split-browser/config.cjs");
 
 /**
  * Current ChatGPT conversation routes load through an authenticated document GET
@@ -21,9 +28,9 @@ export class ConversationDomPoller {
 	}
 
 	async poll({ conversationId, userMessageId = null, previousParentMessageId = null,
-		timeoutMs = 180000, signal = null } = {}) {
+		agentStartUrl = configuredAgentStartUrl(), timeoutMs = 180000, signal = null } = {}) {
 		if (!conversationId) throw new TypeError("conversationId is required for DOM polling.");
-		await this.navigate(conversationId);
+		await this.navigate(conversationId, agentStartUrl);
 		const deadline = this.now() + timeoutMs;
 		let pollCount = 0;
 		let lastTransientError = null;
@@ -54,9 +61,9 @@ export class ConversationDomPoller {
 		throw error;
 	}
 
-	async navigate(conversationId) {
+	async navigate(conversationId, agentStartUrl = configuredAgentStartUrl()) {
 		const target = await this.cdpClient.send("Target.getTargetInfo", {}, 10000);
-		const wanted = `https://chatgpt.com/c/${encodeURIComponent(conversationId)}`;
+		const wanted = `${requireConfiguredAgentStartUrl(agentStartUrl)}/c/${encodeURIComponent(conversationId)}`;
 		if (String(target.targetInfo?.url || "").split(/[?#]/)[0] === wanted) {
 			await this.cdpClient.send("Page.reload", { ignoreCache: true }, 20000);
 			return;

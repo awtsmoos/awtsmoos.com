@@ -2,11 +2,15 @@
 // Boruch Hashem
 // Blessed is He
 
+import { createRequire } from "node:module";
 import { WebsitePromptInteractor } from "../browser/WebsitePromptInteractor.mjs";
 import { ConversationCompletionPoller } from "./ConversationCompletionPoller.mjs";
 import { ConversationRequestObserver } from "./ConversationRequestObserver.mjs";
 import { ConversationRouteWaiter } from "./ConversationRouteWaiter.mjs";
 import { WebsiteConversationNavigator } from "./WebsiteConversationNavigator.mjs";
+
+const require = createRequire(import.meta.url);
+const { configuredAgentStartUrl } = require("../../split-browser/config.cjs");
 
 /**
  * One normal ChatGPT website turn enters the designated GPT vessel, types the exact
@@ -25,6 +29,7 @@ export class DirectTurnExecutor {
 	}
 
 	async execute(options, controller, lease, ledger) {
+		const agentStartUrl = options.agentStartUrl ?? configuredAgentStartUrl();
 		ledger.record("hostOpenMs", lease.acquireMs);
 		this.assertNotAborted(options.signal);
 		this.progress(options.onProgress, "host", lease.source);
@@ -35,7 +40,7 @@ export class DirectTurnExecutor {
 			return this.navigator.prepare(
 				controller,
 				options.state,
-				options.agentStartUrl ?? "https://chatgpt.com/"
+				agentStartUrl
 			);
 		});
 		const startedAt = Date.now();
@@ -48,6 +53,7 @@ export class DirectTurnExecutor {
 		const conversationId = await ledger.measure("conversationRouteMs", () => {
 			return this.routeWaiter.wait(controller, {
 				expectedId: request.conversationId || options.state?.conversationId || null,
+				agentStartUrl,
 				timeoutMs: options.timeoutMs ?? 30000
 			});
 		});
@@ -56,6 +62,7 @@ export class DirectTurnExecutor {
 				port: controller.debugPort
 			}).poll({
 				conversationId,
+				agentStartUrl,
 				userMessageId: request.userMessageId,
 				previousParentMessageId: options.state?.parentMessageId ?? null,
 				timeoutMs: options.timeoutMs ?? 180000,

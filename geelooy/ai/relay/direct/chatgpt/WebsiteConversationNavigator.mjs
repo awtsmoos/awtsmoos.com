@@ -2,6 +2,14 @@
 // Boruch Hashem
 // Blessed is He
 
+import { createRequire } from "node:module";
+
+const require = createRequire(import.meta.url);
+const {
+	configuredAgentStartUrl,
+	requireConfiguredAgentStartUrl
+} = require("../../split-browser/config.cjs");
+
 /**
  * Each owned tab enters either the requested custom GPT or the exact stored website
  * conversation before submission. The Awtsmoos waits through React's final renewal,
@@ -18,7 +26,7 @@ export class WebsiteConversationNavigator {
 		this.stabilizationMs = stabilizationMs;
 	}
 
-	async prepare(controller, state, startUrl = "https://chatgpt.com/", timeoutMs = 45000) {
+	async prepare(controller, state, startUrl = configuredAgentStartUrl(), timeoutMs = 45000) {
 		const conversationId = state?.conversationId ?? null;
 		const normalizedStartUrl = this.normalizeStartUrl(startUrl);
 		const navigationUrl = conversationId
@@ -40,18 +48,13 @@ export class WebsiteConversationNavigator {
 
 	isReady(page, conversationId, startUrl) {
 		const routeReady = conversationId
-			? this.conversationId(page.url) === conversationId
+			? this.continuationRouteReady(page.url, startUrl, conversationId)
 			: this.freshRouteReady(page.url, startUrl);
 		return Boolean(page.authenticated && page.composerVisible && routeReady);
 	}
 
 	normalizeStartUrl(startUrl) {
-		const parsed = new URL(startUrl || "https://chatgpt.com/");
-		if (parsed.origin !== "https://chatgpt.com") {
-			throw new Error("Fresh conversation start URL must use authenticated chatgpt.com.");
-		}
-		parsed.pathname = parsed.pathname.replace(/\/$/, "") || "/";
-		return parsed.href.replace(/\/$/, parsed.pathname === "/" ? "/" : "");
+		return requireConfiguredAgentStartUrl(startUrl || configuredAgentStartUrl());
 	}
 
 	continuationUrl(startUrl, conversationId) {
@@ -65,10 +68,25 @@ export class WebsiteConversationNavigator {
 			const actual = new URL(actualUrl);
 			const expected = new URL(expectedUrl);
 			return actual.origin === expected.origin
-				&& (actual.pathname === expected.pathname || Boolean(this.conversationId(actual.href)));
+				&& this.normalizedPath(actual.pathname) === this.normalizedPath(expected.pathname);
 		} catch {
 			return false;
 		}
+	}
+
+	continuationRouteReady(actualUrl, startUrl, conversationId) {
+		try {
+			const actual = new URL(actualUrl);
+			const expected = new URL(this.continuationUrl(startUrl, conversationId));
+			return actual.origin === expected.origin
+				&& this.normalizedPath(actual.pathname) === this.normalizedPath(expected.pathname);
+		} catch {
+			return false;
+		}
+	}
+
+	normalizedPath(value) {
+		return String(value || "/").replace(/\/+$/, "") || "/";
 	}
 
 	conversationId(url) {

@@ -9,13 +9,18 @@ import { ConversationCompletionPoller } from "../relay/direct/chatgpt/Conversati
 /** A successful authenticated route GET never opens the legacy fallbacks. */
 test("completion prefers authenticated route native DOM", async () => {
 	let routeCalls = 0;
+	let domOptions = null;
 	const poller = new ConversationCompletionPoller(null, {
-		domPoller: { async poll() { return { done: true, pollCount: 2 }; } },
+		domPoller: { async poll(options) { domOptions = options; return { done: true, pollCount: 2 }; } },
 		graphPoller: { async poll() { throw new Error("legacy graph should not run"); } },
 		routePoller: { async poll() { routeCalls += 1; } }
 	});
-	const result = await poller.poll({ timeoutMs: 60000 });
+	const result = await poller.poll({
+		timeoutMs: 60000,
+		agentStartUrl: "https://chatgpt.com/g/g-test"
+	});
 	assert.equal(result.completionSource, "authenticated-route-get-dom");
+	assert.equal(domOptions.agentStartUrl, "https://chatgpt.com/g/g-test");
 	assert.equal(routeCalls, 0);
 });
 

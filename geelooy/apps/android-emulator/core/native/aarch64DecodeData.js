@@ -10,6 +10,7 @@ import { decodeAarch64Division } from "./aarch64DecodeDivision.js";
 import { decodeAarch64Extract } from "./aarch64DecodeExtract.js";
 import { decodeAarch64FloatingArithmetic } from "./aarch64DecodeFloatingArithmetic.js";
 import { decodeAarch64FloatingCompare } from "./aarch64DecodeFloatingCompare.js";
+import { decodeAarch64FloatingConditionalCompare } from "./aarch64DecodeFloatingConditionalCompare.js";
 import { decodeAarch64FloatingImmediate } from "./aarch64DecodeFloatingImmediate.js";
 import { decodeAarch64FloatToInteger } from "./aarch64DecodeFloatToInteger.js";
 import { decodeAarch64GeneralSimdMove } from "./aarch64DecodeGeneralSimdMove.js";
@@ -51,6 +52,7 @@ export function decodeAarch64Data(word) {
 		|| decodeAarch64IntegerToFloat(normalized)
 		|| decodeAarch64FloatingImmediate(normalized)
 		|| decodeAarch64FloatingArithmetic(normalized)
+		|| decodeAarch64FloatingConditionalCompare(normalized)
 		|| decodeAarch64FloatingCompare(normalized)
 		|| decodeAarch64SimdModifiedImmediate(normalized)
 		|| decodeAarch64Extract(normalized)

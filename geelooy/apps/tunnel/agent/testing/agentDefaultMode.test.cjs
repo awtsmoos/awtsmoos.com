@@ -74,4 +74,13 @@ test("public config and tool schema truthfully expose website delegation", () =>
 	assert.equal(schema.properties.agentCount.type, "integer");
 	assert.equal(schema.properties.scopes.type, "array");
 	assert.equal(schema.properties.websiteMissionId.type, "string");
+	assert.equal(schema.properties.allowRecursiveSubagents.type, "boolean");
+	for (const field of [
+		"maxSubagentDepth",
+		"maxSubagentsPerAgent",
+		"maxTotalWebsiteAgents",
+		"subagentStartSpacingMs"
+	]) {
+		assert.equal(schema.properties[field].type, "integer", `${field} is public`);
+	}
 });

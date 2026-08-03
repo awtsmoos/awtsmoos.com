@@ -141,6 +141,11 @@ async function unfinishedContinuationAndRoomWake() {
 		assert.equal(agentCalls.length, 2);
 		assert.equal(agentCalls[1].conversationKey, `BH_CONTINUE_${id}`);
 		assert.match(agentCalls[1].prompt, /Recovery\/continuation turn/);
+		assert.match(agentCalls[1].prompt, /Durable prior context/);
+		assert.match(agentCalls[1].prompt, /Recorded NEXT: Run the remaining verification/);
+		assert.match(agentCalls[1].prompt, /bounded-single-use/);
+		assert.match(agentCalls[1].prompt, /Durable team handoffs/);
+		assert.match(agentCalls[1].prompt, /website_\d+_[a-z]+ \[(?:complete|active|working|submitting)\]/);
 	}
 	const delivered = await Runner.message(config, {
 		websiteMissionId: started.mission.id,

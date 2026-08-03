@@ -8,11 +8,14 @@ const Prompt = require("./prompt.js");
 const Outcome = require("./outcome.js");
 const Authentication = require("./authentication.js");
 const Store = require("./store.js");
+const Spawning = require("./spawning.js");
 const ActionStream = require("../../../../lib/runtime/action-stream.js");
 
 const active = new Map();
 const wakeTimers = new Map();
 const missionLocks = new Map();
+let globalWebsiteStartLane = Promise.resolve();
+let hasStartedWebsiteTurn = false;
 
 async function start(config, input = {}) {
 	const goal = String(input.prompt || input.goal || input.message || "").trim();
@@ -84,6 +87,7 @@ async function run(config, id) {
 		return current;
 	});
 	await recoverAcceptedTurns(config, id, service);
+	await seedPendingChildren(config, id);
 	if (Store.read(id)?.agents.some(agent => agent.status === "waiting_for_login")) {
 		return pauseForLogin(config, id);
 	}
@@ -93,15 +97,19 @@ async function run(config, id) {
 		if (!record || record.cancelRequested) return cancel(record);
 		const agents = record.agents.filter(agent =>
 			agent.round < round &&
+			agent.roomSeeded !== false &&
+			!(agent.singleUse && agent.status === "complete") &&
 			!["awaiting_recovery", "failed", "waiting_for_login", "claim_conflict"].includes(agent.status)
 		);
 		await runPacedBatch(config, id, agents, round, service, false);
+		await drainSpawnQueue(config, id, service);
 		if (Store.read(id)?.agents.some(agent => agent.status === "waiting_for_login")) {
 			return pauseForLogin(config, id);
 		}
 	}
 
 	for (let cycle = 0; cycle < record.plan.maxContinuationTurns; cycle += 1) {
+		await drainSpawnQueue(config, id, service);
 		record = Store.read(id);
 		if (!record || record.cancelRequested) return cancel(record);
 		const agents = record.agents.filter(agent =>
@@ -110,6 +118,7 @@ async function run(config, id) {
 		);
 		if (!agents.length) break;
 		await runPacedBatch(config, id, agents, null, service, true);
+		await drainSpawnQueue(config, id, service);
 		if (Store.read(id)?.agents.some(agent => agent.status === "waiting_for_login")) {
 			return pauseForLogin(config, id);
 		}
@@ -130,7 +139,9 @@ async function recoverAcceptedTurns(config, id, service) {
 				loginPolicy: "defer",
 				timeoutMs: 180000
 			});
-			const outcome = Outcome.analyze(result.answer);
+			const outcome = Outcome.analyze(result.answer, {
+				maxSpawnRequests: spawnRequestLimit(record, agent)
+			});
 			const updated = Store.update(id, current => {
 				const target = current.agents.find(item => item.id === agent.id);
 				target.conversationKey = result.conversationKey;
@@ -141,7 +152,7 @@ async function recoverAcceptedTurns(config, id, service) {
 				target.submissionAcceptedAt = null;
 				target.error = null;
 				target.status = outcome.complete &&
-					target.round >= current.plan.collaborationRounds
+					(target.singleUse || target.round >= current.plan.collaborationRounds)
 					? "complete"
 					: "active";
 				current.events.push(event("agent_turn_recovered_by_get", {
@@ -173,6 +184,7 @@ async function recoverAcceptedTurns(config, id, service) {
 					});
 				}
 			});
+			await processSpawnOutcome(config, id, target.id, outcome);
 		} catch (error) {
 			Store.update(id, current => {
 				const target = current.agents.find(item => item.id === agent.id);
@@ -248,9 +260,6 @@ function pauseForLogin(config, id) {
 async function runPacedBatch(config, id, agents, round, service, continuation) {
 	const turns = [];
 	for (let index = 0; index < agents.length; index += 1) {
-		if (index > 0) {
-			await sleep(config, Store.read(id)?.plan?.startSpacingMs || 12000);
-		}
 		const current = Store.read(id)?.agents.find(item => item.id === agents[index].id);
 		if (!current || ["submitting", "awaiting_recovery", "waiting_for_login"].includes(current.status)) {
 			continue;
@@ -259,6 +268,201 @@ async function runPacedBatch(config, id, agents, round, service, continuation) {
 		turns.push(runTurn(config, id, current.id, turnRound, service, continuation));
 	}
 	await Promise.allSettled(turns);
+}
+
+async function drainSpawnQueue(config, id, service) {
+	const maxPasses = Number(Store.read(id)?.plan?.subagentPolicy?.maxTotalWebsiteAgents || 96);
+	for (let pass = 0; pass < maxPasses; pass += 1) {
+		await seedPendingChildren(config, id);
+		const record = Store.read(id);
+		if (!record || record.cancelRequested) return;
+		const queued = Spawning.pending(record);
+		if (!queued.length) return;
+		await runPacedBatch(config, id, queued, 1, service, false);
+		if (Store.read(id)?.agents.some(agent => agent.status === "waiting_for_login")) return;
+	}
+}
+
+async function processSpawnOutcome(config, id, parentAgentId, outcome = {}) {
+	const requests = Array.isArray(outcome.spawnRequests) ? outcome.spawnRequests : [];
+	const diagnostics = Array.isArray(outcome.spawnDiagnostics) ? outcome.spawnDiagnostics : [];
+	if (!requests.length && !diagnostics.length) return;
+	const diagnosticCounts = diagnostics.reduce((counts, item) => {
+		const code = String(item?.code || "unknown_spawn_diagnostic").slice(0, 120);
+		counts[code] = Number(counts[code] || 0) + 1;
+		return counts;
+	}, {});
+	if (diagnostics.length) {
+		Store.update(id, record => {
+			record.events.push(event("subagent_spawn_diagnostics", {
+				parentAgentId,
+				counts: diagnosticCounts,
+				total: diagnostics.length
+			}));
+			return record;
+		});
+	}
+	const admission = Spawning.admit(id, parentAgentId, requests);
+	await seedPendingChildren(config, id);
+	if (!admission.accepted.length && !admission.rejected.length && !diagnostics.length) return;
+	const record = Store.read(id);
+	const parent = record?.agents.find(agent => agent.id === parentAgentId);
+	if (!record || !parent) return;
+	await withMission(config, record.missionId, mission => {
+		C.message(mission, {
+			agentId: parent.id,
+			agentName: parent.name,
+			role: parent.role,
+			toAgent: "all",
+			kind: "website-subagent-spawn-result",
+			subject: `${admission.accepted.length} sub-agent request(s) admitted`,
+			body: [
+				`PLAN: fan out ${admission.accepted.length} independent scoped request(s).`,
+				`PROGRESS: stable children ${admission.accepted.map(item => item.childAgentId).join(", ") || "none"}.`,
+				`HANDOFF: ${admission.rejected.map(item => `${item.requestKey || "invalid"}:${item.reason}`).join(", ") || "no rejected requests"}; diagnostics=${JSON.stringify(diagnosticCounts)}.`,
+				"COMPLETION: each admitted child must publish its own verified completion or exact NEXT handoff."
+			].join("\n"),
+			references: admission.accepted.map(item => item.scope)
+		});
+		return C.status(mission);
+	});
+}
+
+function spawnRequestLimit(record = {}, agent = {}) {
+	const policy = record.plan?.subagentPolicy || {};
+	if (policy.allowRecursiveSubagents === false) return 0;
+	const perParent = Math.max(0, Number(policy.maxSubagentsPerAgent || 32) -
+		Number(agent.childAgentIds?.length || 0));
+	const globalRemaining = Math.max(0, Number(policy.maxTotalWebsiteAgents || 256) -
+		Number(record.agents?.length || 0));
+	return Math.min(96, perParent, globalRemaining);
+}
+
+async function seedPendingChildren(config, id) {
+	const pending = (Store.read(id)?.agents || []).filter(agent =>
+		agent.parentAgentId && agent.roomSeeded === false
+	);
+	for (const child of pending) {
+		let delegationId = `spawn_delegation_${child.id}`;
+		let claimId = null;
+		await withMission(config, Store.read(id).missionId, mission => {
+			const alreadyJoined = Boolean(mission.collaboration?.agents?.[child.id]);
+			if (!alreadyJoined) {
+				M.roomJoin(mission, {
+					agentId: child.id,
+					name: child.name,
+					role: child.role,
+					capabilities: ["chatgpt-website", "shared-room", "recursive-subagent", child.focus]
+				});
+				C.join(mission, {
+					agentId: child.id,
+					agentName: child.name,
+					role: child.role,
+					projectRoot: Store.read(id).plan.projectRoot,
+					capabilities: ["chatgpt-website", "shared-room", "recursive-subagent", child.focus]
+				});
+			}
+			const existingDelegation = mission.collaboration?.delegations?.find(item =>
+				item.id === delegationId
+			);
+			const delegated = existingDelegation
+				? { delegation: existingDelegation }
+				: C.delegate(mission, {
+					agentId: child.parentAgentId,
+					toAgent: child.id,
+					delegationId,
+					title: `${child.role}: ${child.scope}`,
+					body: child.assignmentPrompt,
+					files: [child.scope]
+				});
+			delegationId = delegated.delegation.id;
+			if (child.claimMode === "write") {
+				const deterministicClaimId = `spawn_claim_${child.id}`;
+				const existingClaim = mission.collaboration?.claims?.find(item =>
+					item.id === deterministicClaimId
+				);
+				const claimed = existingClaim
+					? { claim: existingClaim }
+					: C.claim(mission, {
+						agentId: child.id,
+						claimId: deterministicClaimId,
+						delegationId,
+						title: `${child.role} child owns ${child.scope}`,
+						filesToTouch: [child.scope]
+					});
+				claimId = claimed.claim.id;
+			}
+			const createdSubject = `${child.id} created at depth ${child.depth}`;
+			if (!mission.collaboration?.messages?.some(message =>
+				message.kind === "website-subagent-created" && message.subject === createdSubject
+			)) {
+				C.message(mission, {
+					agentId: child.parentAgentId,
+					toAgent: "all",
+					kind: "website-subagent-created",
+					subject: createdSubject,
+					body: [
+						`PLAN: ${child.assignmentPrompt}`,
+						"PROGRESS: child admitted and queued for the paced website start lane.",
+						`HANDOFF: parent=${child.parentAgentId}; scope=${child.scope}; request=${child.spawnRequestKey}.`,
+						"COMPLETION: pending child evidence."
+					].join("\n"),
+					references: [child.scope]
+				});
+			}
+			C.heartbeat(mission, {
+				agentId: child.id,
+				agentName: child.name,
+				role: child.role,
+				status: "queued",
+				currentAction: "Waiting for paced website turn",
+				files: [child.scope],
+				note: `Spawned by ${child.parentAgentId} at depth ${child.depth}.`
+			});
+			return C.status(mission);
+		});
+		Store.update(id, record => {
+			const target = record.agents.find(agent => agent.id === child.id);
+			if (target) {
+				target.delegationId = delegationId;
+				target.claimId = claimId;
+				target.roomSeeded = true;
+			}
+			record.events.push(event("subagent_room_seeded", {
+				parentAgentId: child.parentAgentId,
+				childAgentId: child.id,
+				depth: child.depth
+			}));
+			return record;
+		});
+	}
+}
+
+function paceWebsiteStart(config, id, agent) {
+	const previous = globalWebsiteStartLane;
+	let release;
+	globalWebsiteStartLane = new Promise(resolve => {
+		release = resolve;
+	});
+	return previous.catch(() => undefined).then(async () => {
+		const record = Store.read(id);
+		const spacing = agent.parentAgentId
+			? record?.plan?.subagentPolicy?.subagentStartSpacingMs
+			: record?.plan?.startSpacingMs;
+		if (hasStartedWebsiteTurn || record?.lastAgentStartAt) {
+			await sleep(config, Number(spacing) || 12000);
+		}
+		hasStartedWebsiteTurn = true;
+		Store.update(id, current => {
+			current.lastAgentStartAt = new Date().toISOString();
+			current.events.push(event("website_start_lane_released", {
+				agentId: agent.id,
+				parentAgentId: agent.parentAgentId || null,
+				spacingMs: Number(spacing) || 12000
+			}));
+			return current;
+		});
+	}).finally(release);
 }
 
 async function runTurn(config, id, agentId, round, service, continuation) {
@@ -270,7 +474,6 @@ async function runTurn(config, id, agentId, round, service, continuation) {
 		agent.error = null;
 		agent.roomDirty = false;
 		agent.pendingRoomMessages = 0;
-		current.lastAgentStartAt = new Date().toISOString();
 		current.events.push(event("agent_turn_started", {
 			agentId,
 			round,
@@ -282,6 +485,18 @@ async function runTurn(config, id, agentId, round, service, continuation) {
 	let agent = record.agents.find(item => item.id === agentId);
 	const room = await withMission(config, record.missionId, mission => {
 		heartbeat(mission, agent, "working", `Starting website turn ${round}.`);
+		C.message(mission, {
+			agentId: agent.id,
+			agentName: agent.name,
+			role: agent.role,
+			toAgent: "all",
+			kind: continuation ? "website-agent-handoff-resume" : "website-agent-plan",
+			subject: continuation
+				? `Resuming unfinished work: ${agent.scope}`
+				: `Plan for turn ${round}: ${agent.scope}`,
+			body: turnPlanMessage(agent, round, continuation),
+			references: [agent.scope, ...(agent.lastOutcome?.files || [])]
+		});
 		return C.status(mission);
 	});
 	const latestMessage = room.messages?.[room.messages.length - 1];
@@ -297,24 +512,30 @@ async function runTurn(config, id, agentId, round, service, continuation) {
 		if (target) target.roomCursorAt = latestMessage?.at || target.roomCursorAt;
 		return current;
 	});
+	await paceWebsiteStart(config, id, agent);
 	try {
 		const result = await service.send({
 			prompt,
 			conversationKey: agent.conversationKey,
+			agentStartUrl: record.plan.agentStartUrl,
 			mode: "chatgpt-website",
 			loginPolicy: "defer",
 			timeoutMs: 240000,
 			onProgress: progressEvent =>
 				progress(config, id, agentId, round, progressEvent)
 		});
-		const outcome = Outcome.analyze(result.answer);
+		const outcome = Outcome.analyze(result.answer, {
+			maxSpawnRequests: spawnRequestLimit(record, agent)
+		});
 		record = Store.update(id, current => {
 			const target = current.agents.find(item => item.id === agentId);
 			target.conversationKey = result.conversationKey;
 			target.round = Math.max(target.round, round);
 			target.continuationTurns += continuation ? 1 : 0;
 			target.status = outcome.complete &&
-				round >= current.plan.collaborationRounds ? "complete" : "active";
+				(target.singleUse || round >= current.plan.collaborationRounds)
+				? "complete"
+				: "active";
 			target.lastUpdate = outcome.answerPreview;
 			target.lastOutcome = outcome;
 			target.error = null;
@@ -359,6 +580,7 @@ async function runTurn(config, id, agentId, round, service, continuation) {
 				});
 			}
 		});
+		await processSpawnOutcome(config, id, agent.id, outcome);
 	} catch (error) {
 		record = Store.update(id, current => {
 			const target = current.agents.find(item => item.id === agentId);
@@ -379,6 +601,23 @@ async function runTurn(config, id, agentId, round, service, continuation) {
 			await Authentication.open(service).catch(() => undefined);
 		}
 	}
+}
+
+function turnPlanMessage(agent, round, continuation) {
+	if (continuation) {
+		return [
+			`PLAN: verify current state, preserve completed work, and resume ${agent.scope}.`,
+			`PROGRESS: starting continuation turn ${round}.`,
+			`HANDOFF: prior NEXT is ${agent.lastOutcome?.next || "inspect durable room context and locate unfinished work"}.`,
+			"COMPLETION: pending focused verification."
+		].join("\n");
+	}
+	return [
+		`PLAN: inspect ${agent.scope}; execute ${agent.focus}; verify bounded evidence.`,
+		`PROGRESS: starting website turn ${round}.`,
+		"HANDOFF: files, evidence, remaining work, and helper results will be published to this room.",
+		"COMPLETION: pending verification."
+	].join("\n");
 }
 
 function progress(config, id, agentId, round, progressEvent = {}) {

@@ -3,6 +3,13 @@
 // Blessed is He
 
 import { CdpClient } from "../browser/CdpClient.mjs";
+import { createRequire } from "node:module";
+
+const require = createRequire(import.meta.url);
+const {
+	configuredAgentStartUrl,
+	requireConfiguredAgentStartUrl
+} = require("../../split-browser/config.cjs");
 
 /**
  * The Awtsmoos lets the existing ChatGPT page reveal its authenticated conversation
@@ -20,9 +27,14 @@ export class ConversationRouteCapture {
 		this.CdpClientClass = CdpClientClass;
 	}
 
-	async capture({ conversationId, timeoutMs = 90000, signal = null }) {
+	async capture({
+		conversationId,
+		agentStartUrl = configuredAgentStartUrl(),
+		timeoutMs = 90000,
+		signal = null
+	}) {
 		this.assertNotAborted(signal);
-		const target = await this.conversationTarget(conversationId);
+		const target = await this.conversationTarget(conversationId, agentStartUrl);
 		const client = new this.CdpClientClass(target.webSocketDebuggerUrl);
 		await client.connect();
 		let removePaused = () => undefined;
@@ -40,11 +52,11 @@ export class ConversationRouteCapture {
 					void this.handlePaused(client, parameters, conversationId, resolve);
 				});
 			});
-			if (this.matchesTarget(target, conversationId)) {
+			if (this.matchesTarget(target, conversationId, agentStartUrl)) {
 				await client.send("Page.reload", { ignoreCache: true }, 20000);
 			} else {
 				await client.send("Page.navigate", {
-					url: `https://chatgpt.com/c/${encodeURIComponent(conversationId)}`
+					url: this.conversationUrl(agentStartUrl, conversationId)
 				}, 20000);
 			}
 			const response = await captured;
@@ -87,12 +99,12 @@ export class ConversationRouteCapture {
 		return url.includes("backend-api") && url.includes(conversationId);
 	}
 
-	async conversationTarget(conversationId) {
+	async conversationTarget(conversationId, agentStartUrl = configuredAgentStartUrl()) {
 		const response = await this.fetcher(`http://127.0.0.1:${this.port}/json/list`);
 		if (!response.ok) throw new Error(`Chrome target inventory failed: ${response.status}.`);
 		const targets = await response.json();
 		const pages = targets.filter(entry => entry.type === "page" && entry.webSocketDebuggerUrl);
-		const target = pages.find(entry => this.matchesTarget(entry, conversationId))
+		const target = pages.find(entry => this.matchesTarget(entry, conversationId, agentStartUrl))
 			|| pages.find(entry => {
 				try { return new URL(entry.url).hostname === "chatgpt.com"; }
 				catch { return false; }
@@ -101,14 +113,23 @@ export class ConversationRouteCapture {
 		return target;
 	}
 
-	matchesTarget(target, conversationId) {
+	matchesTarget(target, conversationId, agentStartUrl = configuredAgentStartUrl()) {
 		try {
-			const segments = new URL(target.url).pathname.split("/").filter(Boolean);
-			const index = segments.lastIndexOf("c");
-			return index >= 0 && segments[index + 1] === conversationId;
+			const actual = new URL(target.url);
+			const expected = new URL(this.conversationUrl(agentStartUrl, conversationId));
+			return actual.origin === expected.origin
+				&& this.normalizedPath(actual.pathname) === this.normalizedPath(expected.pathname);
 		} catch {
 			return false;
 		}
+	}
+
+	conversationUrl(agentStartUrl, conversationId) {
+		return `${requireConfiguredAgentStartUrl(agentStartUrl)}/c/${encodeURIComponent(conversationId)}`;
+	}
+
+	normalizedPath(value) {
+		return String(value || "/").replace(/\/+$/, "") || "/";
 	}
 
 	parse(text) {

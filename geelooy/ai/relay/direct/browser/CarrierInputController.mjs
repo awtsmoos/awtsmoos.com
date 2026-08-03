@@ -44,8 +44,27 @@ export class CarrierInputController {
 	}
 
 	async activateNode(locator) {
-		await this.focusComposer(locator);
-		await this.pressKey({ key: "Enter", code: "Enter", keyCode: 13 });
+		let lastError = null;
+		let focused = false;
+		for (let attempt = 0; attempt < 3; attempt += 1) {
+			try {
+				const current = attempt === 0
+					? locator
+					: await this.textController.currentLocator(locator);
+				await this.focusNode(current);
+				focused = true;
+				break;
+			} catch (error) {
+				lastError = error;
+				if (!this.pointerFallbackAllowed(error)) throw error;
+				await this.sleep(100);
+			}
+		}
+		if (focused) {
+			await this.pressKey({ key: "Enter", code: "Enter", keyCode: 13 });
+			return;
+		}
+		await this.clickVisibleCenterRenewed(locator, lastError);
 	}
 
 	async submitFocusedComposer() {
@@ -72,23 +91,25 @@ export class CarrierInputController {
 	}
 
 	async focusComposer(locator) {
-		let current = await this.textController.currentLocator(locator);
+		let current = locator;
 		try {
 			await this.focusNode(current);
 		} catch (error) {
+			let fallbackError = error;
 			current = await this.textController.currentLocator(locator);
 			try {
 				await this.focusNode(current);
 				return;
 			} catch (renewedError) {
 				if (!this.pointerFallbackAllowed(renewedError)) throw renewedError;
+				fallbackError = renewedError;
 			}
-			await this.clickVisibleCenter(await this.textController.currentLocator(locator));
+			await this.clickVisibleCenterRenewed(locator, fallbackError);
 		}
 	}
 
 	pointerFallbackAllowed(error) {
-		return /not focusable|box model|node with given id|node was unavailable/i
+		return /not focusable|box model|node with given id|node was unavailable|document|context|detached/i
 			.test(String(error?.message || error));
 	}
 
@@ -111,6 +132,22 @@ export class CarrierInputController {
 		for (const type of ["mousePressed", "mouseReleased"]) {
 			await this.dispatchSafeComposerClick({ type, x, y });
 		}
+	}
+
+	async clickVisibleCenterRenewed(locator, previousError = null) {
+		let lastError = previousError;
+		for (let attempt = 0; attempt < 4; attempt += 1) {
+			try {
+				const current = await this.textController.currentLocator(locator);
+				await this.clickVisibleCenter(current);
+				return;
+			} catch (error) {
+				lastError = error;
+				if (!this.pointerFallbackAllowed(error)) throw error;
+				await this.sleep(100);
+			}
+		}
+		throw lastError || new Error("The visible website control was unavailable.");
 	}
 
 	async dispatchSafeComposerClick({ type, x, y }) {

@@ -9,13 +9,16 @@ export const NUMBER_KEYS = [
 	"maxDepth", "maxChildrenPerTask", "maxTotalTasks",
 	"minimumInnovationWindowMs", "minimumProductiveCycles",
 	"minimumProductiveMs", "agentCount", "count", "startSpacingMs",
-	"collaborationRounds", "maxContinuationTurns", "authPollMs"
+	"collaborationRounds", "maxContinuationTurns", "authPollMs",
+	"maxSubagentDepth", "maxSubagentsPerAgent", "maxTotalWebsiteAgents",
+	"subagentStartSpacingMs"
 ];
 
 export const BOOLEAN_KEYS = [
 	"regex", "replaceAll", "allowWrite", "allowSecrets",
 	"enableLocalHttpProxy", "allowCommands", "stream",
-	"refreshAuthentication", "reuseExisting", "automatic"
+	"refreshAuthentication", "reuseExisting", "automatic",
+	"allowRecursiveSubagents"
 ];
 
 export const TEXT64_KEYS = [
@@ -39,5 +42,6 @@ export const SCALAR_KEYS = [
 	"conversationId", "conversationName", "jobId", "taskId",
 	"websiteMissionId", "stream", "missionId", "agentId", "toAgent",
 	"role", "capabilities", "projectRoot", "status", "currentAction",
-	"note", "goal", "targetVessel"
+	"note", "goal", "targetVessel", "agentStartUrl", "customGptUrl",
+	"customGptName", "gptName"
 ];

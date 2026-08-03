@@ -1,5 +1,5 @@
 B"H
-1.0.464
+1.0.465
 main.js
 ai/relay/direct/browser/AuthenticatedHostHealth.mjs
 ai/relay/direct/browser/AuthenticatedHostLease.mjs
@@ -1344,6 +1344,7 @@ tools/fs/actionGroups/websiteAgents/outcome.js
 tools/fs/actionGroups/websiteAgents/planner.js
 tools/fs/actionGroups/websiteAgents/prompt.js
 tools/fs/actionGroups/websiteAgents/runner.js
+tools/fs/actionGroups/websiteAgents/spawning.js
 tools/fs/actionGroups/websiteAgents/store.js
 tools/fs/actionGroups/workflowActions.js
 tools/fs/actionGroups/writeActions.js

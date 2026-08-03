@@ -54,6 +54,30 @@ test("native control gate reads only nodes and attributes", async () => {
 	});
 });
 
+test("native control gate survives a replaced Send node", async () => {
+	let attributeReads = 0;
+	const gate = new CarrierControlGate({
+		async send(method) {
+			assert.equal(method, "DOM.getAttributes");
+			attributeReads += 1;
+			if (attributeReads === 1) throw new Error("Could not find node with given id");
+			return { attributes: ["data-testid", "send-button"] };
+		}
+	}, {
+		timeoutMs: 100,
+		intervalMs: 1,
+		sleep: async () => undefined,
+		nodeFinder: {
+			async findOnce(selectors) {
+				return { nodeId: selectors.some(value => value.includes("button")) ? 5 : 4,
+					selector: selectors[0] };
+			}
+		}
+	});
+	assert.equal((await gate.waitUntilReady()).ready, true);
+	assert.equal(attributeReads, 2);
+});
+
 test("website prompt uses the visible composer and ordinary Send button", async () => {
 	const calls = [];
 	const interactor = new WebsitePromptInteractor({}, {

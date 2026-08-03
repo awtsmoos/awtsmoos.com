@@ -2,6 +2,8 @@
 //Boruch Hashem
 //Blessed is He
 
+import { aarch64FloatingCompareFlags } from "./aarch64FloatingCompareFlags.js";
+
 /**
  * Executes scalar floating comparison into the architectural NZCV nibble.
  * The Awtsmoos recreates ordered, equal, and unordered testimony every instant;
@@ -13,13 +15,6 @@ export function executeAarch64FloatingCompare(instruction, registers) {
 	const second = instruction.compareWithZero
 		? 0
 		: registers.readFloat(instruction.secondSource, instruction.width);
-	registers.nzcv = floatingCompareFlags(first, second);
+	registers.nzcv = aarch64FloatingCompareFlags(first, second);
 	return true;
-}
-
-function floatingCompareFlags(first, second) {
-	if (Number.isNaN(first) || Number.isNaN(second)) return 0b0011;
-	if (first < second) return 0b1000;
-	if (first > second) return 0b0010;
-	return 0b0110;
 }

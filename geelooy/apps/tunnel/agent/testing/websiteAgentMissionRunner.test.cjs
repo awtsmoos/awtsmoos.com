@@ -3,6 +3,7 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
+const Planner = require("../tools/fs/actionGroups/websiteAgents/planner.js");
 
 const root = fs.mkdtempSync(path.join(os.tmpdir(), "awts-web-mission-"));
 process.env.AWTSMOOS_INSTALL_ROOT = path.join(root, "install");
@@ -65,6 +66,10 @@ const Runner = require("../tools/fs/actionGroups/websiteAgents/runner.js");
 		});
 		assert.equal(status.mission.status, "complete");
 		assert.equal(calls.length, 3);
+		assert.ok(calls.every(call =>
+			call.agentStartUrl === Planner.AWTSMOOS_SHLIACH_URL
+		));
+		assert.equal(status.mission.plan.customGptName, Planner.AWTSMOOS_SHLIACH_NAME);
 		assert.deepEqual(sleeps, [12000, 12000]);
 		assert.equal(status.room.agents.length, 4);
 		assert.ok(status.room.messages.some(message =>
@@ -76,6 +81,16 @@ const Runner = require("../tools/fs/actionGroups/websiteAgents/runner.js");
 			).length,
 			3
 		);
+		assert.equal(
+			status.room.messages.filter(message =>
+				message.kind === "website-agent-plan"
+			).length,
+			3
+		);
+		assert.ok(calls.every(call =>
+			call.prompt.includes("bounded-single-use") &&
+			call.prompt.includes("PLAN, PROGRESS, HANDOFF, and COMPLETION")
+		));
 		assert.equal(status.room.openDelegations.length, 0);
 		assert.ok(status.mission.agents.every(agent =>
 			agent.hasPrivateContinuation && !("conversationKey" in agent)

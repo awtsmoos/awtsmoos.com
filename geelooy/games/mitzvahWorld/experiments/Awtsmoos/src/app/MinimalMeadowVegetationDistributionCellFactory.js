@@ -4,34 +4,56 @@
 
 /**
  * @file MinimalMeadowVegetationDistributionCellFactory.js
- * @description Mounts grass and flowers separately with shared ecological material families.
- * The Awtsmoos gathers blade and blossom without dropping either vessel; Awtsmoos.com keeps
- * collision absent, triangles measured, and each moist or dry patch readable on the real scene.
+ * @description Mounts one ecology-driven grass mesh and one species-aware flower mesh per cell.
+ * The Awtsmoos gathers blade and blossom without multiplying draw calls;
+ * Awtsmoos.com keeps species, fertility, density, triangles, and every visual role readable.
  */
 
 import { Group } from '../../../light-three-gltf/tiny-runtime.js';
 import { createPrimitiveMesh } from '../world/Box3D.js';
-import { createMinimalMeadowFlowerCellGeometry } from './MinimalMeadowFlowerClumpGeometry.js?v=20260724-meadow-21';
-import { minimalMeadowVegetationMaterial } from './MinimalMeadowVegetationDistributionMaterials.js';
+import {
+	createMinimalMeadowFlowerCellGeometry
+} from './MinimalMeadowFlowerClumpGeometry.js';
+import {
+	minimalMeadowVegetationMaterial
+} from './MinimalMeadowVegetationDistributionMaterials.js';
 
 export function createMinimalMeadowVegetationCell(specification, terrain) {
 	const geometry = createMinimalMeadowFlowerCellGeometry({
 		center: specification,
 		clumps: specification.clumps,
+		seed: specification.seed,
+		species: specification.species,
 		terrain
 	});
 	const group = new Group();
 	group.name = specification.id;
 	group.position.set(specification.x, specification.y, specification.z);
-	const grass = manualMesh('grass', geometry.grass, '#4f8f39', geometry.clumps);
-	const flowers = manualMesh('flowers', geometry.petals, specification.color, geometry.clumps);
+	const grass = manualMesh(
+		'grass',
+		geometry.grass,
+		specification.grassColor || '#4f8f39',
+		geometry.clumps
+	);
+	const flowers = manualMesh(
+		'flowers',
+		geometry.petals,
+		specification.color,
+		geometry.flowers
+	);
 	group.add(grass);
 	group.add(flowers);
-	group.userData.AwtsmoosVegetationCell = {
+	group.userData.AwtsmoosVegetationCell = Object.freeze({
 		clumps: geometry.clumps,
+		fertility: specification.fertility,
+		flowerDensity: specification.flowerDensity,
+		flowers: geometry.flowers,
+		grassDensity: specification.grassDensity,
 		moisture: specification.moisture,
+		petalCount: geometry.petalCount,
+		species: geometry.speciesId,
 		zone: specification.zone
-	};
+	});
 	return {
 		clumps: geometry.clumps,
 		directionX: 0,

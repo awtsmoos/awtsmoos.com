@@ -92,3 +92,29 @@ test("character fallback clears partial input before entering the exact prompt",
 	assert.equal(backspaces, 2);
 	assert.equal(composerText, "exact prompt");
 });
+
+test("stale Send geometry is renewed and submits with exactly one pointer gesture", async () => {
+	const methods = [];
+	let boxes = 0;
+	const client = {
+		async send(method) {
+			methods.push(method);
+			if (method === "DOM.getDocument") return { root: { nodeId: 1 } };
+			if (method === "DOM.querySelector") return { nodeId: 21 };
+			if (method === "DOM.focus") throw new Error("Node with given id was unavailable");
+			if (method === "DOM.getBoxModel") {
+				boxes += 1;
+				if (boxes === 1) throw new Error("Could not compute box model.");
+				return { model: { content: [0, 0, 100, 0, 100, 40, 0, 40] } };
+			}
+			return {};
+		}
+	};
+	const controller = new CarrierInputController(client, {
+		sleep: async () => undefined
+	});
+	await controller.activateNode({ nodeId: 9, selector: "button[data-testid='send-button']" });
+	assert.equal(boxes, 2);
+	assert.equal(methods.filter(method => method === "Input.dispatchMouseEvent").length, 2);
+	assert.equal(methods.filter(method => method === "Input.dispatchKeyEvent").length, 0);
+});

@@ -7,23 +7,32 @@ import test from "node:test";
 import { OwnedHostInspector } from "../relay/direct/browser/OwnedHostInspector.mjs";
 import { AuthenticatedHostHealth } from "../relay/direct/browser/AuthenticatedHostHealth.mjs";
 
-/** Readiness uses one synchronous expression and no session or socket dependency. */
-test("owned host inspector remains synchronous and network-free", async () => {
-	let request = null;
+/** Readiness uses native DOM inspection and no page script or network dependency. */
+test("owned host inspector remains page-script-free and network-free", async () => {
+	const requests = [];
 	const inspector = new OwnedHostInspector({
 		async send(method, params, timeoutMs) {
-			request = { method, params, timeoutMs };
-			return { result: { value: { authenticated: true, composerVisible: true } } };
+			requests.push({ method, params, timeoutMs });
+			if (method === "DOM.getDocument") return { root: { nodeId: 1 } };
+			if (method === "DOM.querySelector") {
+				return { nodeId: params.selector.includes("prompt-textarea") ? 7 : 0 };
+			}
+			if (method === "DOM.getBoxModel") {
+				return { model: { content: [0, 0, 100, 0, 100, 40, 0, 40] } };
+			}
+			if (method === "Target.getTargetInfo") {
+				return { targetInfo: { title: "Awtsmoos Shliach", url: "https://chatgpt.com/g/agent" } };
+			}
+			return {};
 		}
 	});
 	const state = await inspector.inspect();
 	assert.equal(state.authenticated, true);
-	assert.equal(request.method, "Runtime.evaluate");
-	assert.equal(request.params.awaitPromise, undefined);
-	assert.doesNotMatch(request.params.expression, /fetch\s*\(/);
-	assert.doesNotMatch(request.params.expression, /api\/auth\/session/);
-	assert.doesNotMatch(request.params.expression, /WebSocket/);
-	assert.equal(request.timeoutMs, 4000);
+	assert.equal(state.composerVisible, true);
+	assert.equal(requests.some(request => request.method === "Runtime.evaluate"), false);
+	assert.equal(requests.some(request => request.method.startsWith("Network.")), false);
+	assert.ok(requests.some(request => request.method === "DOM.getDocument"));
+	assert.ok(requests.some(request => request.method === "DOM.getBoxModel"));
 });
 
 /** Reuse health requires an authenticated composer and rejects a challenge. */

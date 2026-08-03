@@ -5,6 +5,10 @@
 import { AbortSignalRace } from "../core/AbortSignalRace.mjs";
 import { ConversationGraphReducer } from "./ConversationGraphReducer.mjs";
 import { ConversationRouteCapture } from "./ConversationRouteCapture.mjs";
+import { createRequire } from "node:module";
+
+const require = createRequire(import.meta.url);
+const { configuredAgentStartUrl } = require("../../split-browser/config.cjs");
 
 /**
  * Each slow observation is a normal authenticated route GET. The Awtsmoos lets
@@ -31,6 +35,7 @@ export class ConversationRoutePoller {
 		conversationId,
 		userMessageId,
 		previousParentMessageId = null,
+		agentStartUrl = configuredAgentStartUrl(),
 		timeoutMs = 180000,
 		signal = null
 	}) {
@@ -41,6 +46,7 @@ export class ConversationRoutePoller {
 			const remainingMs = Math.max(5000, deadline - this.now());
 			const captured = await this.capture.capture({
 				conversationId,
+				agentStartUrl,
 				timeoutMs: Math.min(90000, remainingMs),
 				signal
 			});

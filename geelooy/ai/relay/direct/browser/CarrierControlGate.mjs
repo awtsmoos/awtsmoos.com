@@ -39,11 +39,23 @@ export class CarrierControlGate {
 		const deadline = Date.now() + this.timeoutMs;
 		let state = null;
 		while (Date.now() < deadline) {
-			state = await this.inspect();
+			try {
+				state = await this.inspect();
+			} catch (error) {
+				state = this.state(false, null, this.transientReason(error));
+			}
 			if (state.ready) return state;
 			await this.sleep(this.intervalMs);
 		}
 		throw new Error(`Website Send did not become ready: ${state?.reason || "unknown"}.`);
+	}
+
+	transientReason(error) {
+		const message = String(error?.message || error);
+		if (/box model|node with given id|document|attributes|timeout/i.test(message)) {
+			return "dom_replaced";
+		}
+		throw error;
 	}
 
 	async inspect() {

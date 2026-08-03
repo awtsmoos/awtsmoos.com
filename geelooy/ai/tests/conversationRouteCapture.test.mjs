@@ -4,6 +4,8 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { ConversationRouteCapture } from "../relay/direct/chatgpt/ConversationRouteCapture.mjs";
 
+const customUrl = "https://chatgpt.com/g/g-6a03feea8398819192067ae3dbfa449c-awtsmoos-shliach-agent";
+
 test("conversation capture reuses a root ChatGPT tab for GET-only recovery", async () => {
 	const calls = [];
 	class FakeCdpClient {
@@ -38,7 +40,8 @@ test("conversation capture reuses a root ChatGPT tab for GET-only recovery", asy
 	});
 	const result = await capture.capture({ conversationId: "conversation-id", timeoutMs: 1000 });
 	assert.equal(result.document.current_node, "assistant-node");
-	assert(calls.some(call => call.method === "Page.navigate" && call.params.url.endsWith("/c/conversation-id")));
+	assert(calls.some(call => call.method === "Page.navigate"
+		&& call.params.url === `${customUrl}/c/conversation-id`));
 	assert(!calls.some(call => call.method === "Page.reload"));
 });
 
@@ -66,7 +69,7 @@ test("conversation capture reloads an already matching conversation tab", async 
 		port: 9223,
 		fetcher: async () => response([{
 			type: "page",
-			url: "https://chatgpt.com/c/conversation-id",
+			url: `${customUrl}/c/conversation-id`,
 			webSocketDebuggerUrl: "ws://matching-target"
 		}]),
 		CdpClientClass: FakeCdpClient

@@ -73,7 +73,7 @@ export class CdpClient extends DomemFoundation {
 				this.pending.delete(id);
 				reject(new Error(`CDP timeout for ${method}.`));
 			}, timeoutMs);
-			this.pending.set(id, { resolve, reject, timeout });
+			this.pending.set(id, { resolve, reject, timeout, method });
 		});
 		this.socket.send(JSON.stringify({ id, method, params }));
 		return responsePromise;
@@ -112,7 +112,9 @@ export class CdpClient extends DomemFoundation {
 		clearTimeout(pending.timeout);
 		this.pending.delete(message.id);
 		if (message.error) {
-			pending.reject(new Error(message.error.message));
+			pending.reject(new Error(
+				`CDP ${pending.method || "request"} failed: ${message.error.message}`
+			));
 		} else {
 			pending.resolve(message.result);
 		}

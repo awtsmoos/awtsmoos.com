@@ -4,23 +4,22 @@
 
 /**
  * @file MinimalMeadowTreeSystem.js
- * @description Mounts an immediate idempotent forest and reports only its actual scene children.
- * The Awtsmoos reveals trunk and canopy before optional networks answer; Awtsmoos.com keeps one
- * scene group, moves no geometry per frame, and exposes every live count instead of silent intent.
+ * @description Mounts one ecology-aware procedural forest with rooted, species-specific wind.
+ * The Awtsmoos reveals trunk, crown, role, and breeze before optional networks answer;
+ * Awtsmoos.com keeps shared geometry, one scene group, zero frame allocations, and truthful counts.
  */
 
 import { Group } from '../../../light-three-gltf/tiny-runtime.js';
 import { createMinimalMeadowTree } from './MinimalMeadowTreeFactory.js';
 import { createMinimalMeadowTreeMaterials } from './MinimalMeadowTreeMaterialSources.js';
 import { createMinimalMeadowTreePlacements } from './MinimalMeadowTreePlacements.js';
+import { animateMinimalMeadowTree } from './MinimalMeadowTreeWind.js';
 import { minimalMeadowTreeDiagnostics } from './MinimalMeadowWorldPopulationDiagnostics.js';
 import { beginMinimalMeadowTreeHydration } from './MinimalMeadowWorldPopulationHydration.js';
 
 export class MinimalMeadowTreeSystem {
 	static async create(runtime) {
-		if (runtime.trees?.group) {
-			return runtime.trees;
-		}
+		if (runtime.trees?.group) return runtime.trees;
 		const system = new MinimalMeadowTreeSystem(runtime);
 		if (runtime.environment?.disablePublicAssets !== true) {
 			beginMinimalMeadowTreeHydration(system);
@@ -31,23 +30,34 @@ export class MinimalMeadowTreeSystem {
 	constructor(runtime) {
 		this.runtime = runtime;
 		this.group = new Group();
-		this.group.name = 'Awtsmoos_canonical_procedural_core_forest';
+		this.group.name = 'Awtsmoos_canonical_procedural_ecology_forest';
 		this.mobile = mobileProfile(runtime);
 		this.records = [];
 		this.hydrationState = 'procedural-visible';
 		this.materials = createMinimalMeadowTreeMaterials([], runtime.environment?.document);
-		this.placements = createMinimalMeadowTreePlacements(runtime.terrain, { mobile: this.mobile });
+		this.placements = createMinimalMeadowTreePlacements(runtime.terrain, {
+			mobile: this.mobile
+		});
 		this.errors = [];
 		this.trees = this.placements.flatMap(placement => this.createTree(placement));
-		for (const tree of this.trees) {
-			this.group.add(tree);
-		}
+		for (const tree of this.trees) this.group.add(tree);
 		this.clock = 0;
 	}
 
 	createTree(placement) {
 		try {
-			return [createMinimalMeadowTree(placement, this.materials)];
+			const tree = createMinimalMeadowTree(placement, this.materials);
+			tree.userData ||= {};
+			tree.userData.AwtsmoosTreeEcology = Object.freeze({
+				canopyDensity: placement.canopyDensity,
+				ecologyZone: placement.ecologyZone,
+				preset: placement.preset,
+				role: placement.role,
+				windPhase: placement.windPhase,
+				windSpeed: placement.windSpeed,
+				windStrength: placement.windStrength
+			});
+			return [tree];
 		} catch (error) {
 			this.errors.push({ id: placement.id, message: error.message });
 			return [];
@@ -57,7 +67,12 @@ export class MinimalMeadowTreeSystem {
 	update(deltaSeconds) {
 		this.clock += deltaSeconds;
 		for (let index = 0; index < this.trees.length; index += 1) {
-			this.trees[index].quaternion.z = Math.sin(this.clock * 0.48 + index * 1.37) * 0.0045;
+			animateMinimalMeadowTree(
+				this.trees[index],
+				this.clock,
+				index,
+				this.runtime.state
+			);
 		}
 	}
 
@@ -67,9 +82,7 @@ export class MinimalMeadowTreeSystem {
 
 	destroy() {
 		this.group.parent?.remove(this.group);
-		if (this.runtime.trees === this) {
-			this.runtime.trees = null;
-		}
+		if (this.runtime.trees === this) this.runtime.trees = null;
 	}
 }
 

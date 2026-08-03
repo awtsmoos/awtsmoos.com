@@ -45,6 +45,11 @@ for (const id of [
 	"websiteMissionId",
 	"websiteAgentCount",
 	"websiteStartSpacing",
+	"websiteMaxSubagentDepth",
+	"websiteMaxSubagents",
+	"websiteMaxTotalAgents",
+	"websiteSubagentSpacing",
+	"websiteRecursiveSpawn",
 	"websiteMessageTarget",
 	"websiteMissionPrompt",
 	"websiteMissionMessage"
@@ -54,4 +59,16 @@ for (const id of [
 assert(nodes.some(node => node.dataset?.action === "missionAutopilot"), "missionAutopilot card exists");
 assert(nodes.some(node => node.dataset?.action === "agent"), "canonical website mission start card exists");
 assert(nodes.some(node => node.dataset?.search?.includes("Mission")), "mission cards are searchable");
+const websiteCount = nodes.find(node => node.id === "websiteAgentCount" || node.attrs?.id === "websiteAgentCount");
+assert.equal(websiteCount.value, "8");
+assert.equal(websiteCount.min, "3");
+assert.equal(websiteCount.max, "96");
+const recursiveSpawn = nodes.find(node => node.id === "websiteRecursiveSpawn" || node.attrs?.id === "websiteRecursiveSpawn");
+assert.equal(recursiveSpawn.checked, "true");
+const totalAgents = nodes.find(node => node.id === "websiteMaxTotalAgents" || node.attrs?.id === "websiteMaxTotalAgents");
+assert.equal(totalAgents.value, "256");
+assert.equal(totalAgents.max, "512");
+const recursiveDepth = nodes.find(node => node.id === "websiteMaxSubagentDepth" || node.attrs?.id === "websiteMaxSubagentDepth");
+assert.equal(recursiveDepth.value, "4");
+assert.equal(recursiveDepth.max, "8");
 console.log("BHY usage mission action render tests passed");

@@ -28,7 +28,7 @@ function setValue(id, value) { const node = $(id); if (node) node.value = value;
 function setText(id, value) { const node = $(id); if (node) node.textContent = value; }
 function mute(id, muted = true) { $(id)?.closest("label")?.classList.toggle("is-muted", muted); }
 function toggleAdvancedFields(defaults) {
-  for (const id of ["writeContent", "bulkPaths", "bulkWriteJson", "missionGoal", "missionId", "missionRounds", "selfEmail", "missionAnswer", "websiteMissionId", "websiteAgentCount", "websiteStartSpacing", "websiteMessageTarget", "websiteMissionPrompt", "websiteMissionMessage"]) mute(id, true);
+  for (const id of ["writeContent", "bulkPaths", "bulkWriteJson", "missionGoal", "missionId", "missionRounds", "selfEmail", "missionAnswer", "websiteMissionId", "websiteAgentCount", "websiteStartSpacing", "websiteMaxSubagentDepth", "websiteMaxSubagents", "websiteMaxTotalAgents", "websiteSubagentSpacing", "websiteRecursiveSpawn", "websiteMessageTarget", "websiteMissionPrompt", "websiteMissionMessage"]) mute(id, true);
   if (defaults.needsContent) mute("writeContent", false);
   if (defaults.needsBulk) mute("bulkPaths", false);
   if (defaults.needsBulkWrite) mute("bulkWriteJson", false);
@@ -41,6 +41,11 @@ function toggleAdvancedFields(defaults) {
     mute("websiteMissionPrompt", false);
     mute("websiteAgentCount", false);
     mute("websiteStartSpacing", false);
+	 mute("websiteMaxSubagentDepth", false);
+	 mute("websiteMaxSubagents", false);
+	 mute("websiteMaxTotalAgents", false);
+	 mute("websiteSubagentSpacing", false);
+	 mute("websiteRecursiveSpawn", false);
   }
   if (defaults.needsWebsiteMissionMessage) {
     mute("websiteMissionMessage", false);

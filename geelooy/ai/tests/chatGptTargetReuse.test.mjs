@@ -7,6 +7,8 @@ import test from "node:test";
 import { AuthenticatedSocketController } from "../relay/direct/browser/AuthenticatedSocketController.mjs";
 import { ChatGptTargetSelector } from "../relay/direct/browser/ChatGptTargetSelector.mjs";
 
+const customUrl = "https://chatgpt.com/g/g-6a03feea8398819192067ae3dbfa449c-awtsmoos-shliach-agent";
+
 /** Existing ChatGPT beats blank and target creation. */
 test("target selector reuses an existing ChatGPT page", async () => {
 	let fetchCalls = 0;
@@ -30,6 +32,27 @@ test("target selector reuses an existing ChatGPT page", async () => {
 	assert.equal(acquired.owned, false);
 	assert.equal(acquired.source, "existing-chatgpt");
 	assert.equal(fetchCalls, 0);
+});
+
+test("target selector prefers the named Shliach over generic and lookalike pages", async () => {
+	const selector = new ChatGptTargetSelector({
+		port: 9223,
+		discovery: {
+			async listTargets() {
+				return [
+					page("lookalike", "https://example.test/?next=chatgpt.com"),
+					page("generic", "https://chatgpt.com/"),
+					page("shliach", `${customUrl}/c/private-conversation`)
+				];
+			}
+		},
+		fetcher: async () => {
+			throw new Error("A new target must not be requested.");
+		}
+	});
+	const acquired = await selector.acquire();
+	assert.equal(acquired.target.id, "shliach");
+	assert.equal(selector.isChatGptPage(page("lookalike", "https://example.test/?next=chatgpt.com")), false);
 });
 
 /** Closing a reused controller detaches CDP but leaves the user's tab open. */

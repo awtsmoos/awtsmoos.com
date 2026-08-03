@@ -5,7 +5,10 @@
 import { createRequire } from "node:module";
 
 const require = createRequire(import.meta.url);
-const { loadConfig } = require("../../split-browser/config.cjs");
+const {
+	loadConfig,
+	configuredAgentStartUrl
+} = require("../../split-browser/config.cjs");
 const { openDebugChrome } = require("../../split-browser/cdpChrome.cjs");
 const {
 	ManualLoginGate,
@@ -47,7 +50,7 @@ export class WebsiteLoginCoordinator {
 		const reopened = await this.openBrowser({
 			...config,
 			debugPort: login.debugPort,
-			launchUrl: config.targetOrigin || "https://chatgpt.com"
+			launchUrl: config.agentStartUrl || configuredAgentStartUrl()
 		});
 		if (!reopened.ok) {
 			throw codedError("authenticated_profile_reopen_failed");
@@ -78,7 +81,7 @@ export class WebsiteLoginCoordinator {
 			debugPort: this.lastDebugPort ||
 				Number(process.env.AWTSMOOS_CHROME_DEBUG_PORT || 0) ||
 				undefined,
-			launchUrl: config.targetOrigin || "https://chatgpt.com"
+			launchUrl: config.agentStartUrl || configuredAgentStartUrl()
 		});
 		if (!opened.ok) throw codedError("debug_chrome_open_failed");
 		this.lastDebugPort = opened.debugPort;

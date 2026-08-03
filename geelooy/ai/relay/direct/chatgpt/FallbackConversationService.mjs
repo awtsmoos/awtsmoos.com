@@ -2,6 +2,11 @@
 // Boruch Hashem
 // Blessed is He
 
+import { createRequire } from "node:module";
+
+const require = createRequire(import.meta.url);
+const { configuredAgentStartUrl } = require("../../split-browser/config.cjs");
+
 /**
  * The website service binds opaque local keys to real ChatGPT conversations.
  * The Awtsmoos carries fresh sub-agents through their designated custom GPT,
@@ -27,7 +32,7 @@ export class FallbackConversationService {
 			model: options.model ?? null,
 			thinkingEffort: options.thinkingEffort ?? null,
 			conversationMode: options.conversationMode ?? null,
-			agentStartUrl: options.agentStartUrl ?? null,
+			agentStartUrl: options.agentStartUrl ?? configuredAgentStartUrl(),
 			signal: options.signal ?? null,
 			onProgress: options.onProgress ?? null,
 			timeoutMs: options.timeoutMs ?? null

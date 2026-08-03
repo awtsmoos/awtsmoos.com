@@ -53,12 +53,26 @@ export class CarrierTextController {
 	}
 
 	async contains(locator, text) {
+		let originalError = null;
 		try {
-			const current = await this.currentLocator(locator);
-			const result = await this.cdpClient.send("DOM.getOuterHTML", current, 20000);
+			const result = await this.cdpClient.send(
+				"DOM.getOuterHTML",
+				this.nativeLocator(locator),
+				5000
+			);
 			return this.composerText(result.outerHTML) === this.normalizeText(text);
 		} catch (error) {
-			throw this.stageError("DOM.getOuterHTML", error);
+			originalError = error;
+		}
+		try {
+			const current = await this.currentLocator(locator);
+			const result = await this.cdpClient.send("DOM.getOuterHTML", current, 5000);
+			return this.composerText(result.outerHTML) === this.normalizeText(text);
+		} catch (error) {
+			throw this.stageError(
+				"DOM.getOuterHTML",
+				new Error(`${String(originalError?.message || originalError)}; ${String(error?.message || error)}`)
+			);
 		}
 	}
 
@@ -67,11 +81,11 @@ export class CarrierTextController {
 		const document = await this.cdpClient.send("DOM.getDocument", {
 			depth: 1,
 			pierce: true
-		}, 20000);
+		}, 5000);
 		const queried = await this.cdpClient.send("DOM.querySelector", {
 			nodeId: document.root.nodeId,
 			selector: locator.selector
-		}, 20000);
+		}, 5000);
 		if (!queried.nodeId) throw new Error("The renewed composer node was unavailable.");
 		return { nodeId: queried.nodeId };
 	}

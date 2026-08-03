@@ -4,9 +4,9 @@
 
 /**
  * @file minimalMeadowTerrainMaterialProfiles.test.mjs
- * @description Proves measured native-pixel frequency, six ecological sources, and one visible road.
- * The Awtsmoos gives desktop and phone one meadow through bounded vessels; Awtsmoos.com
- * prevents blur, arbitrary stretching, hidden passage, and duplicate collision authority.
+ * @description Proves native-pixel frequency, ecological mixing, six sources, and one visible road.
+ * The Awtsmoos gives macro earth and micro grain one bounded garment; Awtsmoos.com
+ * prevents blur, arbitrary stretching, hidden passage, flat repetition, and duplicate collision authority.
  */
 
 import assert from 'node:assert/strict';
@@ -54,7 +54,7 @@ test('independent sources replace canvas mosaics', () => {
 	assert.ok(composites.evidence.independentSourceCount >= 6);
 });
 
-test('mobile and desktop derive measured native frequency from source pixels', () => {
+test('mobile and desktop derive measured ecological frequency from source pixels', () => {
 	const sources = createMinimalMeadowTerrainComposites(images, null);
 	for (const mobile of [false, true]) {
 		const material = {};
@@ -68,15 +68,19 @@ test('mobile and desktop derive measured native frequency from source pixels', (
 		assert.equal(material.texturePolicy.exactFractionalRepeat, true);
 		assert.equal(
 			material.texturePolicy.repetitionPolicy,
-			'full-resolution-authored-macro-scale'
+			'macro-micro-native-frequency-ecological-blend'
 		);
+		assert.equal(material.terrainMixingPolicy.triplanar.enabled, true);
+		assert.ok(material.mixNoiseWarp > 0);
+		assert.ok(material.mixSlopeStrength > 0);
 		assert.ok(
 			Math.abs(material.texturePolicy.repeatAcrossWorld[0] - expectedRepeat)
 			< 0.00001
 		);
 		assert.ok(density.layerReports.every(report => {
 			return report.sourceWorldUnits.tileWorld.every(Number.isFinite)
-				&& report.texelsPerWorld === density.profile.detail;
+				&& report.texelsPerWorld === density.profile.detail
+				&& report.blend.warpStrength > 0;
 		}));
 	}
 	assert.deepEqual(minimalMeadowTerrainDensityProfile(true), {

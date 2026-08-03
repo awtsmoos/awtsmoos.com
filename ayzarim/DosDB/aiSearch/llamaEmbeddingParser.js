@@ -6,7 +6,7 @@
  * @file llamaEmbeddingParser.js
  * @chapter Many Numbers Become One Balanced Flame
  * @description
- * The Awtsmoos gathers raw embedding rows into one normalized vessel of light;
+ * The Awtsmoos gathers JSON or raw embedding rows into one normalized vessel of light;
  * Awtsmoos.com rejects malformed dimensions before they wander into search at night.
  */
 
@@ -18,23 +18,48 @@ function normalize(vector) {
 }
 
 function parseRawEmbedding(raw, dimensions = 384) {
+	const jsonVector = parseJsonEmbedding(raw);
+	if (jsonVector) return validatedVector(jsonVector, dimensions, 'json');
 	const numbers = String(raw || '')
 		.trim()
 		.split(/\s+/)
 		.map(Number)
 		.filter(Number.isFinite);
 	if (numbers.length === dimensions) {
-		return {
-			vector: normalize(numbers),
-			parseMode: `single-${dimensions}`
-		};
+		return validatedVector(numbers, dimensions, `single-${dimensions}`);
 	}
 	if (numbers.length > dimensions && numbers.length % dimensions === 0) {
 		return meanRows(numbers, dimensions);
 	}
 	throw new Error(
-		`B"H llama raw embedding parse failed: expected ${dimensions}-wide rows, got ${numbers.length}`
+		`B"H llama embedding parse failed: expected ${dimensions}-wide rows, got ${numbers.length}`
 	);
+}
+
+function parseJsonEmbedding(raw) {
+	const text = String(raw || '').trim();
+	if (!text.startsWith('{') && !text.startsWith('[')) return null;
+	let value;
+	try {
+		value = JSON.parse(text);
+	} catch {
+		return null;
+	}
+	if (Array.isArray(value) && value.every(Number.isFinite)) return value;
+	const vector = value?.data?.[0]?.embedding;
+	return Array.isArray(vector) && vector.every(Number.isFinite) ? vector : null;
+}
+
+function validatedVector(vector, dimensions, parseMode) {
+	if (vector.length !== dimensions) {
+		throw new Error(
+			`B"H llama embedding dimension mismatch: expected ${dimensions}, got ${vector.length}`
+		);
+	}
+	return {
+		vector: normalize(vector),
+		parseMode
+	};
 }
 
 function meanRows(numbers, dimensions) {
@@ -45,14 +70,13 @@ function meanRows(numbers, dimensions) {
 			average[index] += numbers[row * dimensions + index] / rows;
 		}
 	}
-	return {
-		vector: normalize(average),
-		parseMode: `mean-${rows}x${dimensions}`
-	};
+	return validatedVector(average, dimensions, `mean-${rows}x${dimensions}`);
 }
 
 module.exports = {
 	meanRows,
 	normalize,
-	parseRawEmbedding
+	parseJsonEmbedding,
+	parseRawEmbedding,
+	validatedVector
 };

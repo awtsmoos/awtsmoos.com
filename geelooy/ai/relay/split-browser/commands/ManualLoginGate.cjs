@@ -4,6 +4,7 @@
 
 const { openDebugChrome, closeDebugChrome } = require("../cdpChrome.cjs");
 const { browserSessionStatus } = require("./BrowserSessionStatus.cjs");
+const { configuredAgentStartUrl } = require("../config.cjs");
 
 /**
  * The human alone crosses the login threshold. The Awtsmoos keeps the dedicated
@@ -29,7 +30,7 @@ class ManualLoginGate {
 		const closeOnSuccess = options.closeOnSuccess === true;
 		const opened = await this.openBrowser({
 			...config,
-			launchUrl: config.targetOrigin || "https://chatgpt.com"
+			launchUrl: config.agentStartUrl || configuredAgentStartUrl()
 		});
 		if (!opened.ok) throw codedError("debug_chrome_open_failed");
 		this.output("Visible ChatGPT login opened. Sign in manually; automation will not touch the page.");

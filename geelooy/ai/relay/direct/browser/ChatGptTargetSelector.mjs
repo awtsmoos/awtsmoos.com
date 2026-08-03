@@ -3,6 +3,13 @@
 // Blessed is He
 
 import { ChromeDiscovery } from "./ChromeDiscovery.mjs";
+import { createRequire } from "node:module";
+
+const require = createRequire(import.meta.url);
+const {
+	configuredAgentStartUrl,
+	requireConfiguredAgentStartUrl
+} = require("../../split-browser/config.cjs");
 
 /**
  * Existing accessible tabs are preferred over creation. The Awtsmoos first reuses
@@ -12,10 +19,12 @@ import { ChromeDiscovery } from "./ChromeDiscovery.mjs";
 export class ChatGptTargetSelector {
 	constructor({
 		port,
+		agentStartUrl = configuredAgentStartUrl(),
 		discovery = new ChromeDiscovery(port),
 		fetcher = globalThis.fetch?.bind(globalThis)
 	} = {}) {
 		this.port = port;
+		this.agentStartUrl = requireConfiguredAgentStartUrl(agentStartUrl);
 		this.discovery = discovery;
 		this.fetcher = fetcher;
 	}
@@ -26,7 +35,8 @@ export class ChatGptTargetSelector {
 			await this.closeChatGptTargets(targets);
 			targets = await this.discovery.listTargets();
 		}
-		const chatGpt = targets.find(target => this.isChatGptPage(target));
+		const chatGpt = targets.find(target => this.isMissionPage(target))
+			?? targets.find(target => this.isChatGptPage(target));
 		if (chatGpt) return this.describe(chatGpt, false, "existing-chatgpt");
 		const blank = targets.find(target => this.isReusableBlank(target));
 		if (blank) return this.describe(blank, false, "existing-blank");
@@ -34,9 +44,27 @@ export class ChatGptTargetSelector {
 	}
 
 	isChatGptPage(target) {
-		return target?.type === "page"
-			&& typeof target.webSocketDebuggerUrl === "string"
-			&& String(target.url || "").includes("chatgpt.com");
+		if (target?.type !== "page" || typeof target.webSocketDebuggerUrl !== "string") {
+			return false;
+		}
+		try {
+			return new URL(target.url).hostname === "chatgpt.com";
+		} catch {
+			return false;
+		}
+	}
+
+	isMissionPage(target) {
+		if (!this.isChatGptPage(target)) return false;
+		try {
+			const actual = new URL(target.url);
+			const mission = new URL(this.agentStartUrl);
+			const basePath = mission.pathname.replace(/\/+$/, "");
+			return actual.pathname === basePath
+				|| actual.pathname.startsWith(`${basePath}/c/`);
+		} catch {
+			return false;
+		}
 	}
 
 	isReusableBlank(target) {

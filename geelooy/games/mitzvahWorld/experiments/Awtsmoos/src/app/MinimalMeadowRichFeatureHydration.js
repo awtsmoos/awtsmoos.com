@@ -4,10 +4,14 @@
 
 /**
  * @file MinimalMeadowRichFeatureHydration.js
- * @description Declares rich orchestration ready before atomically replacing bootstrap world authority.
- * The Awtsmoos lets the fuller garment appear without removing the first playable ground;
- * Awtsmoos.com folds required orchestration while generated chunks carry every heavy quality graph.
+ * @description Declares orchestration ready, completes atomic handoff, then starts steady-state measurement.
+ * The Awtsmoos lets the fuller garment become whole before weighing its living pulse;
+ * Awtsmoos.com preserves bootstrap safety, generated chunks, exact handoff, and responsive construction.
  */
+
+import {
+	scheduleMinimalMeadowPerformanceMonitor
+} from './MinimalMeadowPerformanceHydration.js';
 
 export async function hydrateMinimalMeadowRichFeatures(
 	runtime,
@@ -23,25 +27,29 @@ export async function hydrateMinimalMeadowRichFeatures(
 		runtime.richFeatureReceipt = receipt;
 		runtime.richFeatureStage = 'ready';
 		runtime.bus?.emit?.('world:rich-features-ready', receipt);
+		const schedulePerformance = dependencies.schedulePerformanceMonitor
+			|| scheduleMinimalMeadowPerformanceMonitor;
+		const complete = () => completeRichHandoff(
+			runtime,
+			bootstrap,
+			environment,
+			schedulePerformance
+		);
 		if (receipt?.handoffPromise) {
 			runtime.richFeatureHandoffStage = 'waiting';
 			runtime.richFeatureHandoffPromise = Promise.resolve(
 				receipt.handoffPromise
 			)
-				.then(() => completeRichHandoff(runtime, bootstrap))
+				.then(complete)
 				.catch(error => failRichHandoff(runtime, error));
 		} else {
-			const handoff = completeRichHandoff(runtime, bootstrap);
-			runtime.richFeatureHandoffPromise = Promise.resolve(handoff);
+			runtime.richFeatureHandoffPromise = Promise.resolve(complete());
 		}
 		return receipt;
 	} catch (error) {
 		runtime.richFeatureStage = 'failed';
 		runtime.richFeatureError = richFeatureErrorReceipt(error);
-		runtime.bus?.emit?.(
-			'world:rich-features-failed',
-			runtime.richFeatureError
-		);
+		runtime.bus?.emit?.('world:rich-features-failed', runtime.richFeatureError);
 		return Object.freeze({
 			bootstrapPreserved: true,
 			error: runtime.richFeatureError,
@@ -58,7 +66,12 @@ export function richFeatureErrorReceipt(error) {
 	});
 }
 
-function completeRichHandoff(runtime, bootstrap) {
+function completeRichHandoff(
+	runtime,
+	bootstrap,
+	environment,
+	schedulePerformance
+) {
 	if (runtime.bootstrapFeatures && runtime.bootstrapFeatures !== bootstrap) {
 		return Object.freeze({ ready: false, reason: 'SUPERSEDED' });
 	}
@@ -68,6 +81,8 @@ function completeRichHandoff(runtime, bootstrap) {
 	runtime.richFeatureHandoffStage = 'ready';
 	const receipt = Object.freeze({ ready: true });
 	runtime.bus?.emit?.('world:rich-handoff-ready', receipt);
+	const performancePromise = schedulePerformance(runtime, environment);
+	performancePromise?.catch?.(() => null);
 	return receipt;
 }
 

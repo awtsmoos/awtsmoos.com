@@ -4,9 +4,9 @@
 
 /**
  * @file minimalMeadowOptionalTerrainSettlement.test.mjs
- * @description Proves optional readiness remains pending until deferred terrain hydration settles.
- * The Awtsmoos lets earth awaken after the quiet window without calling unfinished pixels complete;
- * Awtsmoos.com verifies six fulfilled branches, exact waiting, receipt publication, and no failures.
+ * @description Proves optional readiness waits for deferred terrain and post-handoff measurement readiness.
+ * The Awtsmoos lets earth and measured pulse awaken without calling unfinished truth complete;
+ * Awtsmoos.com verifies seven fulfilled branches, exact waiting, receipt publication, and no failures.
  */
 
 import assert from 'node:assert/strict';
@@ -31,13 +31,14 @@ test('B"H optional readiness waits for terrain settlement', async () => {
 	const receipt = await promise;
 	assert.equal(receipt.ready, true);
 	assert.deepEqual(receipt.failures, []);
-	assert.deepEqual(receipt.results, Array(6).fill('fulfilled'));
+	assert.deepEqual(receipt.results, Array(7).fill('fulfilled'));
 	assert.equal(runtime.optionalFeatureReceipt, receipt);
 });
 
 function runtimeFixture(terrainPromise) {
 	return {
 		bus: { emit() {} },
+		performanceMonitor: {},
 		richWorldPromise: Promise.resolve({ ready: true }),
 		terrainTextureSchedule: {
 			promise: terrainPromise,
