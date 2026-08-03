@@ -12,11 +12,13 @@ import { CarrierTextController } from "./CarrierTextController.mjs";
 export class CarrierInputController {
 	constructor(cdpClient, {
 		selectionModifier = process.platform === "darwin" ? 4 : 2,
+		commandTimeoutMs = 20000,
 		sleep = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds)),
 		textController = new CarrierTextController(cdpClient)
 	} = {}) {
 		this.cdpClient = cdpClient;
 		this.selectionModifier = selectionModifier;
+		this.commandTimeoutMs = commandTimeoutMs;
 		this.sleep = sleep;
 		this.textController = textController;
 	}
@@ -42,7 +44,7 @@ export class CarrierInputController {
 	}
 
 	async activateNode(locator) {
-		await this.focusNode(locator);
+		await this.focusComposer(locator);
 		await this.pressKey({ key: "Enter", code: "Enter", keyCode: 13 });
 	}
 
@@ -56,34 +58,50 @@ export class CarrierInputController {
 		await this.cdpClient.send("Input.dispatchKeyEvent", {
 			type: "rawKeyDown",
 			...event
-		}, 5000);
+		}, this.commandTimeoutMs);
 		await this.cdpClient.send("Input.dispatchKeyEvent", {
 			type: "char",
 			text: "\r",
 			unmodifiedText: "\r",
 			...event
-		}, 5000);
+		}, this.commandTimeoutMs);
 		await this.cdpClient.send("Input.dispatchKeyEvent", {
 			type: "keyUp",
 			...event
-		}, 5000);
+		}, this.commandTimeoutMs);
 	}
 
 	async focusComposer(locator) {
+		let current = await this.textController.currentLocator(locator);
 		try {
-			await this.focusNode(locator);
+			await this.focusNode(current);
 		} catch (error) {
-			if (!String(error?.message).includes("not focusable")) throw error;
-			await this.clickVisibleCenter(locator);
+			current = await this.textController.currentLocator(locator);
+			try {
+				await this.focusNode(current);
+				return;
+			} catch (renewedError) {
+				if (!this.pointerFallbackAllowed(renewedError)) throw renewedError;
+			}
+			await this.clickVisibleCenter(await this.textController.currentLocator(locator));
 		}
 	}
 
+	pointerFallbackAllowed(error) {
+		return /not focusable|box model|node with given id|node was unavailable/i
+			.test(String(error?.message || error));
+	}
+
 	async focusNode(locator) {
-		await this.cdpClient.send("DOM.focus", this.locator(locator), 5000);
+		await this.cdpClient.send("DOM.focus", this.locator(locator), this.commandTimeoutMs);
 	}
 
 	async clickVisibleCenter(locator) {
-		const model = await this.cdpClient.send("DOM.getBoxModel", this.locator(locator), 5000);
+		const model = await this.cdpClient.send(
+			"DOM.getBoxModel",
+			this.locator(locator),
+			this.commandTimeoutMs
+		);
 		const content = model.model?.content;
 		if (!Array.isArray(content) || content.length !== 8) {
 			throw new Error("The visible composer geometry was unavailable.");
@@ -103,7 +121,7 @@ export class CarrierInputController {
 				y,
 				button: "left",
 				clickCount: 1
-			}, 5000);
+			}, this.commandTimeoutMs);
 		} catch (error) {
 			if (!String(error?.message).includes("timeout")) throw error;
 		}
@@ -122,7 +140,15 @@ export class CarrierInputController {
 
 	async pressKey({ key, code, keyCode, modifiers = 0 }) {
 		const event = { key, code, windowsVirtualKeyCode: keyCode, nativeVirtualKeyCode: keyCode, modifiers };
-		await this.cdpClient.send("Input.dispatchKeyEvent", { type: "keyDown", ...event }, 5000);
-		await this.cdpClient.send("Input.dispatchKeyEvent", { type: "keyUp", ...event }, 5000);
+		await this.cdpClient.send(
+			"Input.dispatchKeyEvent",
+			{ type: "keyDown", ...event },
+			this.commandTimeoutMs
+		);
+		await this.cdpClient.send(
+			"Input.dispatchKeyEvent",
+			{ type: "keyUp", ...event },
+			this.commandTimeoutMs
+		);
 	}
 }

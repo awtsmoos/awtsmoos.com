@@ -4,18 +4,18 @@
 
 /**
  * @file BootstrapTerrainHydration.js
- * @description Publishes folded canonical terrain identity before optional remote pixels settle.
- * The Awtsmoos reveals the road and every garment's name without scattering source scrolls;
- * Awtsmoos.com preserves deferred decoding, injectable tests, transport truth, and exact evidence.
+ * @description Publishes terrain identity immediately and binds the first verified remote image progressively.
+ * The Awtsmoos reveals real pixels before distant abundance completes its procession;
+ * Awtsmoos.com keeps fallback play instant while every later garment enriches the same creation.
  */
 
 import {
 	createMinimalMeadowTerrainSourceSnapshot,
 	loadMinimalMeadowTerrainSources
-} from './MinimalMeadowTerrainSources.js?v=20260729-drive-1';
+} from './MinimalMeadowTerrainSources.js?v=20260803-progressive-1';
 
 const TERRAIN_SOURCES_URL = new URL(
-	'./MinimalMeadowTerrainSources.js?v=20260729-drive-1',
+	'./MinimalMeadowTerrainSources.js?v=20260803-progressive-1',
 	import.meta.url
 ).href;
 const FOLDED_TERRAIN_MODULE = Object.freeze({
@@ -23,18 +23,9 @@ const FOLDED_TERRAIN_MODULE = Object.freeze({
 	loadMinimalMeadowTerrainSources
 });
 
-export function createBootstrapTerrainHydration(
-	group,
-	stats,
-	importer = null
-) {
+export function createBootstrapTerrainHydration(group, stats, importer = null) {
 	let promise = null;
-	const state = {
-		error: null,
-		failed: 0,
-		loaded: 0,
-		phase: 'deferred'
-	};
+	const state = { error: null, failed: 0, loaded: 0, phase: 'deferred' };
 	stats.textureSources = deferredSourceEvidence();
 	const diagnostics = () => Object.freeze({ ...state });
 	const start = () => {
@@ -52,14 +43,18 @@ async function hydrate(group, stats, state, importer) {
 	state.phase = 'loading';
 	const module = await resolveTerrainModule(importer);
 	publishImmediateCatalog(stats, module);
-	const sources = await module.loadMinimalMeadowTerrainSources();
+	const sources = await module.loadMinimalMeadowTerrainSources({
+		onTextureSettled(record) {
+			applySettledRemoteImage(group, record);
+		}
+	});
 	stats.textureSources = sourceEvidence(sources);
 	applyFirstRemoteImage(group, sources.images);
 	state.error = null;
 	state.failed = sources.failed || 0;
 	state.loaded = sources.loaded || 0;
 	state.phase = sources.mode || (state.loaded ? 'partial' : 'degraded');
-	return diagnosticsSnapshot(state);
+	return Object.freeze({ ...state });
 }
 
 function resolveTerrainModule(importer) {
@@ -68,8 +63,7 @@ function resolveTerrainModule(importer) {
 
 function publishImmediateCatalog(stats, module) {
 	const snapshot = module.createMinimalMeadowTerrainSourceSnapshot?.();
-	if (!snapshot) return;
-	stats.textureSources = sourceEvidence(snapshot);
+	if (snapshot) stats.textureSources = sourceEvidence(snapshot);
 }
 
 function sourceEvidence(sources) {
@@ -81,13 +75,29 @@ function sourceEvidence(sources) {
 	});
 }
 
-function applyFirstRemoteImage(group, images = {}) {
-	const image = Object.values(images).find(Boolean);
+function applySettledRemoteImage(group, record) {
+	if (!record?.ok || !record.image) return;
 	const material = group.children?.[0]?.material;
-	if (!image || !material) return;
+	if (!material || usableImage(material.mapImage)) return;
+	bindImage(material, record.image, record.url || record.primaryUrl || null);
+}
+
+function applyFirstRemoteImage(group, images = {}) {
+	const image = Object.values(images).find(usableImage);
+	const material = group.children?.[0]?.material;
+	if (image && material) bindImage(material, image, image.src || null);
+}
+
+function bindImage(material, image, textureUrl) {
+	material.map = image;
 	material.mapImage = image;
+	material.textureUrl = textureUrl;
 	material.color = [1, 1, 1, 1];
 	material.needsUpdate = true;
+}
+
+function usableImage(image) {
+	return Boolean(image) && Number(image.naturalWidth || image.width || 0) > 0;
 }
 
 function deferredSourceEvidence() {
@@ -97,8 +107,4 @@ function deferredSourceEvidence() {
 		transport: null,
 		urls: Object.freeze([])
 	});
-}
-
-function diagnosticsSnapshot(state) {
-	return Object.freeze({ ...state });
 }

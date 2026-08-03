@@ -4,14 +4,17 @@
 
 /**
  * @file MinimalMeadowOptionalHydration.js
- * @description Hydrates full optional quality through one deterministic compressed runtime chunk.
- * The Awtsmoos lets canonical player, renderer, friendly Chossid, and visual proof arrive together;
- * Awtsmoos.com preserves complete quality while eliminating the native source-module waterfall.
+ * @description Hydrates every full-quality branch and waits for terrain pixels before declaring completion.
+ * The Awtsmoos lets canonical player, renderer, earth, friendly Chossid, and visual proof arrive together;
+ * Awtsmoos.com preserves the quiet window while optional readiness tells the whole settled truth.
  */
 
 import {
 	resolveGeneratedRuntimeChunkUrl
 } from './GeneratedRuntimeChunkUrl.js';
+import {
+	scheduleMinimalMeadowTerrainHydration
+} from './MinimalMeadowTerrainHydrationSchedule.js';
 
 const OPTIONAL_CHUNK_URL = resolveGeneratedRuntimeChunkUrl(
 	'mitzvah-world-optional.compact.js',
@@ -25,6 +28,10 @@ export async function hydrateMinimalMeadowOptionalFeatures(
 	dependencies
 ) {
 	const module = await resolveOptionalModule(dependencies);
+	const terrainSchedule = scheduleMinimalMeadowTerrainHydration(
+		runtime,
+		environment
+	);
 	const afterHandoff = callback => dependencies.handoffPromise.then(callback);
 	const results = await Promise.allSettled([
 		module.hydrateMinimalMeadowPlayer(runtime, environment),
@@ -35,7 +42,8 @@ export async function hydrateMinimalMeadowOptionalFeatures(
 		}),
 		afterHandoff(() => {
 			return module.awaitMinimalMeadowVisualStability(runtime);
-		})
+		}),
+		terrainSchedule?.promise || Promise.resolve({ phase: 'unavailable' })
 	]);
 	const receipt = optionalReceipt(results);
 	runtime.optionalFeatureReceipt = receipt;

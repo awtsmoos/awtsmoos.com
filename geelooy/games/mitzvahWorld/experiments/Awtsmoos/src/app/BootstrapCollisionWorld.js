@@ -4,9 +4,9 @@
 
 /**
  * @file BootstrapCollisionWorld.js
- * @description Supplies an octree-compatible empty collision authority for first movement.
- * The Awtsmoos grants open ground before distant walls; Awtsmoos.com preserves every query,
- * raycast, bounds, and diagnostics contract without inventing collision that is not loaded.
+ * @description Starts open, then owns every dynamic rich-world collider that arrives after first control.
+ * The Awtsmoos grants unobstructed movement before houses descend, then remembers each truthful wall;
+ * Awtsmoos.com preserves insertion, removal, query, raycast, bounds, and diagnostics in one authority.
  */
 
 export class BootstrapCollisionWorld {
@@ -20,24 +20,45 @@ export class BootstrapCollisionWorld {
 			}
 		});
 		this.bootstrap = true;
+		this.colliders = new Set();
+	}
+
+	insert(collider) {
+		if (collider) this.colliders.add(collider);
+		return collider;
+	}
+
+	remove(collider) {
+		return this.colliders.delete(collider);
 	}
 
 	all() {
-		return [];
+		return [...this.colliders];
 	}
 
 	query() {
-		return [];
+		return this.all();
 	}
 
-	raycast() {
-		return null;
+	raycast(origin, direction, maximumDistance = Infinity) {
+		let nearest = null;
+		for (const collider of this.colliders) {
+			const result = collider?.raycast?.(origin, direction, maximumDistance);
+			if (!result) continue;
+			if (!nearest || Number(result.distance) < Number(nearest.distance)) {
+				nearest = result;
+			}
+		}
+		return nearest;
 	}
 
 	diagnostics() {
 		return Object.freeze({
 			bootstrap: true,
-			status: 'open-flat-world',
+			dynamicColliders: this.colliders.size,
+			status: this.colliders.size
+				? 'open-world-with-rich-colliders'
+				: 'open-flat-world',
 			triangles: 0
 		});
 	}

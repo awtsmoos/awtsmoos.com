@@ -18,7 +18,7 @@ test("carrier input falls back to composer click but keyboard-activates Send", a
 	const client = {
 		send: async (method, params = {}) => {
 			methods.push(method);
-			if (method === "DOM.focus" && focusAttempts++ === 0) {
+			if (method === "DOM.focus" && focusAttempts++ < 2) {
 				throw new Error("Element is not focusable");
 			}
 			if (method === "Input.insertText") composerText = params.text;
@@ -42,7 +42,7 @@ test("carrier input falls back to composer click but keyboard-activates Send", a
 	assert(methods.includes("Input.insertText"));
 	assert.equal(methods.filter(method => method === "Input.dispatchMouseEvent").length, 2);
 	assert(methods.includes("Input.dispatchKeyEvent"));
-	assert.equal(methods.filter(method => method === "DOM.focus").length, 2);
+	assert.equal(methods.filter(method => method === "DOM.focus").length, 3);
 	assert(methods.includes("DOM.querySelector"));
 });
 
