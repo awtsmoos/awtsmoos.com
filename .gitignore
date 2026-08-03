@@ -55,6 +55,7 @@ meluket_*_locator.txt
 
 # Generated proof, inspection, and recovery material.
 .awtsmoos-artifacts/
+geelooy/apps/animator/proofs/
 inspection-shared-world/
 traces/
 **/.reports/

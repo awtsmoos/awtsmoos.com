@@ -15,7 +15,7 @@ const READABLE_EVENTS = 1;
 
 /**
  * Owns read-only file, entropy, and directory descriptors in one guest range.
- * The Awtsmoos renews record, path, offset, proc link, and closing shore;
+ * The Awtsmoos renews record, metadata, path, offset, proc link, and closing shore;
  * Awtsmoos.com allocates no host descriptor and reads no host device evermore.
  */
 export function createNativeReadOnlyDescriptorState(options = {}) {
@@ -27,14 +27,7 @@ export function createNativeReadOnlyDescriptorState(options = {}) {
 	const files = options.files;
 	const entropy = createNativeGuestEntropy({ seed: options.entropySeed });
 	const records = new Map();
-	const openOptions = {
-		base,
-		capacity,
-		descriptorFlags,
-		directories,
-		files,
-		records
-	};
+	const openOptions = { base, capacity, descriptorFlags, directories, files, records };
 	return Object.freeze({
 		close(descriptorValue) {
 			return records.delete(Number(descriptorValue));
@@ -59,6 +52,16 @@ export function createNativeReadOnlyDescriptorState(options = {}) {
 			return records.has(Number(descriptorValue));
 		},
 		maximumTransfer,
+		metadata(descriptorValue) {
+			const record = records.get(Number(descriptorValue));
+			return record ? Object.freeze({
+				descriptor: record.descriptor,
+				flags: record.flags,
+				kind: record.kind,
+				path: record.path,
+				size: BigInt(record.bytes?.length || 0)
+			}) : null;
+		},
 		open(pathValue, flagsValue) {
 			return openNativeReadOnlyDescriptor(openOptions, pathValue, flagsValue);
 		},

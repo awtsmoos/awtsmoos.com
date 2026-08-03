@@ -4,10 +4,11 @@
 
 /**
  * @file BootstrapRuntimeLoop.js
- * @description Runs sixty-hertz movement and rendering while throttling nonvisual HUD publication.
- * The Awtsmoos renews every visible frame without forcing every written word to race;
- * Awtsmoos.com keeps input and beauty immediate while ten-hertz text preserves the frame's grace.
+ * @description Drives one progressively enriched world through display frames and timer-backed rescue.
+ * The Awtsmoos renews traveler, forest, river, blossom, battle, and visible light in one measured stream;
+ * Awtsmoos.com lets rich systems awaken in place while every fallback pulse preserves the living dream.
  */
+
 import { BootstrapFrameCadence } from './BootstrapFrameCadence.js';
 import { createBootstrapFrameScheduler } from './BootstrapFrameScheduler.js';
 import { BootstrapMovementController } from './BootstrapMovementController.js';
@@ -22,17 +23,23 @@ export function startBootstrapRuntimeLoop(runtime, environment = globalThis) {
 	let lastTime = now(environment);
 	let lastHudAt = -Infinity;
 	let handle = null;
-	const frame = currentTime => {
+	const frame = (currentTime, source = 'unknown') => {
 		if (!active) return;
 		const gap = Math.max(1, currentTime - lastTime);
+		const deltaSeconds = frameDelta(gap);
 		lastTime = currentTime;
 		cadence.record(gap);
 		try {
-			movement.update(frameDelta(gap));
+			movement.update(deltaSeconds);
+			runtime.coreMechanics?.update?.(deltaSeconds);
+			runtime.updateWorldSystems?.(deltaSeconds);
 			runtime.renderer.setInteractor(runtime.state, currentTime / 1000);
 			runtime.renderer.render(runtime.scene, runtime.camera);
 			runtime.bootstrapFrames += 1;
+			if (runtime.updateWorldSystems) runtime.enrichedFrames += 1;
 			runtime.lastFrameAt = currentTime;
+			runtime.runtimeFrameSource = source;
+			runtime.lastFrameError = null;
 			if (currentTime - lastHudAt >= HUD_REFRESH_INTERVAL_MS) {
 				runtime.bootstrapHud?.refresh?.();
 				lastHudAt = currentTime;
@@ -43,10 +50,7 @@ export function startBootstrapRuntimeLoop(runtime, environment = globalThis) {
 		}
 		handle = scheduler.schedule(frame);
 	};
-	runtime.bootstrapFrames = 0;
-	runtime.frameCadence = cadence;
-	runtime.lastFrameAt = null;
-	runtime.lastFrameError = null;
+	publishLoopState(runtime, cadence, scheduler);
 	movement.update(0.001);
 	runtime.renderer.setInteractor(runtime.state, lastTime / 1000);
 	runtime.renderer.render(runtime.scene, runtime.camera);
@@ -55,7 +59,21 @@ export function startBootstrapRuntimeLoop(runtime, environment = globalThis) {
 		active = false;
 		handle?.cancel?.();
 	};
+	movement.scheduler = () => ({
+		active,
+		frameSource: runtime.runtimeFrameSource
+	});
 	return movement;
+}
+
+function publishLoopState(runtime, cadence, scheduler) {
+	runtime.bootstrapFrames = 0;
+	runtime.enrichedFrames = 0;
+	runtime.frameCadence = cadence;
+	runtime.frameScheduler = scheduler;
+	runtime.lastFrameAt = null;
+	runtime.lastFrameError = null;
+	runtime.runtimeFrameSource = 'starting';
 }
 
 function now(environment) {

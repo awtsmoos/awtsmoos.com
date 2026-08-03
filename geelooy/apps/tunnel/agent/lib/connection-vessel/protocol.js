@@ -42,6 +42,7 @@ function valid(value) {
 function requestId(envelope = {}) {
 	return String(
 		envelope.id ||
+		envelope.requestId ||
 		envelope.transportReceiptId ||
 		envelope.controlRequestId ||
 		""

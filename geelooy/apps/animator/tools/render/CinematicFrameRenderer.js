@@ -10,9 +10,9 @@ import { CinematicSetPainter } from './CinematicSetPainter.js';
 import { PixelCanvas } from './PixelCanvas.js';
 
 /**
- * One frame joins story time, camera intention, environmental light, blocking,
- * acting, action objects, and readable dialogue. The Awtsmoos renews this whole
- * world each instant while Awtsmoos.com keeps every source editable as JSON.
+ * One frame joins story time, camera, light, acting, title, and spoken text. The
+ * Awtsmoos renews the whole visible world each instant while Awtsmoos.com keeps
+ * preview and final export on this single evaluated production path.
  */
 export class CinematicFrameRenderer {
 	constructor(plan) {
@@ -27,56 +27,50 @@ export class CinematicFrameRenderer {
 			return this.canvas.buffer;
 		}
 		CinematicSetPainter.paint(
-			this.canvas,
-			context.sequence,
-			context.camera,
-			timeMs
+			this.canvas, context.sequence, context.camera, timeMs
 		);
 		CinematicCastPainter.paint(
-			this.canvas,
-			this.plan,
-			context.shot,
-			context.camera,
-			context.dialogue,
-			timeMs,
-			context.lighting
+			this.canvas, this.plan, context.shot, context.camera,
+			context.dialogue, timeMs, context.lighting
 		);
 		this.weatherFlash(context.lighting);
-		if (context.dialogue?.bubble) {
-			CinematicOverlayPainter.bubble(
-				this.canvas,
-				context.dialogue,
-				this.plan.settings
-			);
+		if (context.titleCard) {
+			CinematicOverlayPainter.titleCard(this.canvas, context.titleCard);
+			return this.canvas.buffer;
 		}
-		CinematicOverlayPainter.slate(
-			this.canvas,
-			context.sequence,
-			context.shot,
-			timeMs
-		);
+		if (context.dialogue?.bubble) {
+			CinematicOverlayPainter.bubble(this.canvas, context.dialogue, this.plan.settings);
+		}
+		if (context.textBox) {
+			CinematicOverlayPainter.textBox(this.canvas, context.textBox);
+		}
+		if (this.plan.settings.editorSlate !== false) {
+			CinematicOverlayPainter.slate(this.canvas, context.sequence, context.shot, timeMs);
+		}
 		return this.canvas.buffer;
 	}
 
 	context(timeMs) {
 		const shot = this.active(this.plan.shots, timeMs);
 		const sequence = shot
-			? this.plan.sequences.find((item) => item.id === shot.sequenceId)
+			? this.plan.sequences.find(item => item.id === shot.sequenceId)
 			: this.active(this.plan.sequences, timeMs);
-		const dialogue = (this.plan.dialogue || []).find((line) => {
+		const dialogue = (this.plan.dialogue || []).find(line => {
 			return timeMs >= line.start && timeMs < line.start + line.duration;
 		}) || null;
-		const camera = shot
-			? CinematicCameraResolver.resolve(shot, timeMs)
-			: null;
+		const camera = shot ? CinematicCameraResolver.resolve(shot, timeMs) : null;
 		const lighting = sequence && shot
 			? CinematicLightingResolver.resolve(sequence, shot, timeMs)
 			: {};
-		return { shot, sequence, dialogue, camera, lighting };
+		return {
+			shot, sequence, dialogue, camera, lighting,
+			titleCard: this.active(this.plan.titleCards, timeMs),
+			textBox: this.active(this.plan.textBoxes, timeMs)
+		};
 	}
 
 	active(items, timeMs) {
-		return (items || []).find((item) => {
+		return (items || []).find(item => {
 			return timeMs >= item.start && timeMs < item.start + item.duration;
 		}) || null;
 	}
@@ -84,14 +78,7 @@ export class CinematicFrameRenderer {
 	weatherFlash(lighting) {
 		if (!lighting.flash) return;
 		for (let index = 0; index < 18; index += 1) {
-			this.canvas.line(
-				0,
-				index * 20,
-				this.canvas.width,
-				index * 20,
-				1,
-				'#eaf7ff'
-			);
+			this.canvas.line(0, index * 20, this.canvas.width, index * 20, 1, '#eaf7ff');
 		}
 	}
 }

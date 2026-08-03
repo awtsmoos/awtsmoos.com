@@ -37,12 +37,21 @@ const runtime = Delivery.createDelivery({
 	state
 });
 
-runtime.enqueueRequest(null, { id: "request-one" });
+runtime.enqueueRequest(state.activeWs, { requestId: "request-one" });
 assert.equal(inbox.length, 1);
 assert.equal(sentIpc.length, 0);
+assert.deepEqual(sentSocket[0], {
+	type: "TUNNEL_REQUEST_ACK",
+	id: "request-one",
+	requestId: "request-one",
+	controlRequestId: "request-one",
+	transportReceiptId: "request-one",
+	acceptedAt: sentSocket[0].acceptedAt,
+	durable: true
+});
 runtime.parentDidBecomeReady();
-assert.equal(sentIpc[0].envelope.id, "request-one");
-assert.equal(sentSocket[0].id, "answer-one");
+assert.equal(sentIpc[0].envelope.requestId, "request-one");
+assert.equal(sentSocket[1].id, "answer-one");
 state.registrationConfirmed = false;
 assert.equal(runtime.flush(), 0);
 state.registrationConfirmed = true;
@@ -52,6 +61,7 @@ console.log(JSON.stringify({
 	ok: true,
 	suite: "connection-vessel-delivery",
 	persistBeforeIpc: true,
+	immediateCompatibilityAck: true,
 	parentAttachmentRedelivery: true,
 	reconnectOutboxFlush: true
 }, null, 2));

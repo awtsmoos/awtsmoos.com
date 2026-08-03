@@ -21063,26 +21063,21 @@ return Object.freeze(__exports);
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/ProceduralPrimitiveMeshes.js */
 __awtsmoosModule_224 = (() => {
 const __exports = {};
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
-	* @file ProceduralPrimitiveMeshes.js
-	* @description Creates local-space meshes without renderer allocation.
-	* From the Awtsmoos, cube and sphere, prism and cylinder receive one source;
-	* Awtsmoos.com preserves their shared geometry as bounded reusable vessels.
-	*/
+ * @file ProceduralPrimitiveMeshes.js
+ * @description Creates local-space primitive and authored manual meshes without renderer allocation.
+ * The Awtsmoos gives point, face, UV, and color one measured source;
+ * Awtsmoos.com preserves multicolor flowers and every bounded procedural course.
+ */
 
 var cubeMesh = __awtsmoosModule_225.cubeMesh;
 var sphereMesh = __awtsmoosModule_225.sphereMesh;
 var createBooleanDoorwayMesh = __awtsmoosModule_263.createBooleanDoorwayMesh;
 
-/**
-	* Selects the local-space mesh for an authored primitive definition.
-	* @param {object} definition primitive definition.
-	* @returns {{positions: ArrayLike<number>, indices: ArrayLike<number>, colors?: ArrayLike<number>, uvs?: ArrayLike<number>}}
-	*/
 function createPrimitiveMesh(definition) {
 	if (definition.shape === 'manual') return manualMesh(definition);
 	if (definition.shape === 'doorway') return createBooleanDoorwayMesh(definition);
@@ -21090,29 +21085,25 @@ function createPrimitiveMesh(definition) {
 	if (definition.shape === 'triPrism') return createTriPrismMesh(definition);
 	if (definition.shape === 'sphere') {
 		return sphereMesh({
+			color: definition.rgba,
 			radius: definition.radius || 1,
 			rings: 10,
-			segments: 20,
-			color: definition.rgba
+			segments: 20
 		});
 	}
 	return cubeMesh({
-		size: [1, 1, 1],
-		color: definition.rgba || [0.7, 0.7, 0.7, 1]
+		color: definition.rgba || [0.7, 0.7, 0.7, 1],
+		size: [1, 1, 1]
 	});
 }
 
 
 __exports.createPrimitiveMesh = createPrimitiveMesh;
-/**
-	* Preserves authored vertices, faces, indices, and UV coordinates.
-	* @param {object} definition manual mesh definition.
-	* @returns {{positions: number[], indices: number[], uvs: number[] | null}}
-	*/
-function manualMesh({ vertices = [], faces = [], indices = [], uvs = [] }) {
+function manualMesh({ vertices = [], faces = [], indices = [], uvs = [], colors = [] }) {
 	return {
-		positions: vertices.flatMap(toPointArray),
+		colors: normalizeColors(colors, vertices.length),
 		indices: indices.length ? [...indices] : faces.flatMap(triangulateFace),
+		positions: vertices.flatMap(toPointArray),
 		uvs: uvs.length === vertices.length * 2 ? [...uvs] : null
 	};
 }
@@ -21129,10 +21120,7 @@ function createTriPrismMesh(definition) {
 			[-halfX, -halfY, halfZ], [halfX, -halfY, halfZ], [0, halfY, halfZ],
 			[-halfX, -halfY, -halfZ], [halfX, -halfY, -halfZ], [0, halfY, -halfZ]
 		],
-		faces: [
-			[0, 1, 2], [4, 3, 5], [0, 3, 4, 1],
-			[1, 4, 5, 2], [2, 5, 3, 0]
-		]
+		faces: [[0, 1, 2], [4, 3, 5], [0, 3, 4, 1], [1, 4, 5, 2], [2, 5, 3, 0]]
 	});
 }
 
@@ -21160,16 +21148,19 @@ function createCylinderMesh(definition) {
 	return mesh;
 }
 
+function normalizeColors(colors, vertexCount) {
+	if (!Array.isArray(colors) || !colors.length) return [];
+	const flat = colors.flatMap(value => Array.isArray(value) ? value : [value]);
+	return flat.length === vertexCount * 4 ? flat : [];
+}
+
 function toPointArray(value) {
-	if (Array.isArray(value)) return [value[0], value[1], value[2]];
-	return [value.x || 0, value.y || 0, value.z || 0];
+	return Array.isArray(value) ? [value[0], value[1], value[2]] : [value.x || 0, value.y || 0, value.z || 0];
 }
 
 function triangulateFace(face) {
 	const triangles = [];
-	for (let index = 1; index < face.length - 1; index += 1) {
-		triangles.push(face[0], face[index], face[index + 1]);
-	}
+	for (let index = 1; index < face.length - 1; index += 1) triangles.push(face[0], face[index], face[index + 1]);
 	return triangles;
 }
 
@@ -21625,9 +21616,9 @@ const __exports = {};
 
 /**
  * @file PrimitiveGeometryBuffers.js
- * @description Converts world geometry into exact renderer buffers and smooth-safe normals.
- * The Awtsmoos gathers finite points into one visible decree; Awtsmoos.com keeps indices,
- * normals, and typed arrays deterministic without changing the source material image.
+ * @description Converts world geometry, colors, indices, and smooth normals into exact renderer arrays.
+ * The Awtsmoos gathers finite points and hues into one visible decree;
+ * Awtsmoos.com keeps every typed array deterministic while botanical palettes remain free.
  */
 
 var triangleNormal = __awtsmoosModule_221.triangleNormal;
@@ -21639,6 +21630,13 @@ function flattenPrimitiveVertices(vertices) {
 
 
 __exports.flattenPrimitiveVertices = flattenPrimitiveVertices;
+function primitiveColorArray(colors, vertexCount) {
+	if (!Array.isArray(colors) || colors.length !== vertexCount * 4) return null;
+	return new Float32Array(colors.map(value => Math.max(0, Math.min(1, Number(value) || 0))));
+}
+
+
+__exports.primitiveColorArray = primitiveColorArray;
 function primitiveIndexArray(indices) {
 	return Math.max(0, ...indices) > 65535
 		? new Uint32Array(indices)
@@ -21650,11 +21648,7 @@ __exports.primitiveIndexArray = primitiveIndexArray;
 function createPrimitiveVertexNormals(data) {
 	const normals = Array.from({ length: data.vertices.length }, () => v());
 	for (let index = 0; index < data.indices.length; index += 3) {
-		const face = [
-			data.indices[index],
-			data.indices[index + 1],
-			data.indices[index + 2]
-		];
+		const face = [data.indices[index], data.indices[index + 1], data.indices[index + 2]];
 		const normal = triangleNormal(
 			data.vertices[face[0]],
 			data.vertices[face[1]],
@@ -22387,9 +22381,9 @@ const __exports = {};
 
 /**
  * @file Box3D.js
- * @description Orchestrates primitive geometry, material, collision, UVs, and ecological masks.
- * The Awtsmoos reveals one world through focused responsibilities; Awtsmoos.com keeps original
- * pixels untouched while measured surfaces carry only the layered meaning they genuinely need.
+ * @description Orchestrates primitive geometry, vertex color, material, collision, UV, and ecology masks.
+ * The Awtsmoos reveals one world through focused vessels; Awtsmoos.com keeps original pixels
+ * and authored botanical hues while measured surfaces carry only the meaning they need.
  */
 
 var BufferAttribute = __awtsmoosModule_7.BufferAttribute;
@@ -22400,6 +22394,7 @@ var createPrimitiveGeometryData = __awtsmoosModule_222.createPrimitiveGeometryDa
 var isProceduralShape = __awtsmoosModule_222.isProceduralShape;
 var createPrimitiveVertexNormals = __awtsmoosModule_281.createPrimitiveVertexNormals;
 var flattenPrimitiveVertices = __awtsmoosModule_281.flattenPrimitiveVertices;
+var primitiveColorArray = __awtsmoosModule_281.primitiveColorArray;
 var primitiveIndexArray = __awtsmoosModule_281.primitiveIndexArray;
 var createPrimitiveMaterial = __awtsmoosModule_282.createPrimitiveMaterial;
 var primitiveUsesNativeDensity = __awtsmoosModule_283.primitiveUsesNativeDensity;
@@ -22413,14 +22408,11 @@ const WORLD_UV_BASIS = Object.freeze([1, 1]);
 function createPrimitiveMesh(definition) {
 	const sourceData = createPrimitiveGeometryData(definition);
 	const normals = createPrimitiveVertexNormals(sourceData);
-	const authoredUvs = sourceData.uvs
-		|| projectPrimitiveUvs(sourceData.vertices, normals, definition);
+	const authoredUvs = sourceData.uvs || projectPrimitiveUvs(sourceData.vertices, normals, definition);
 	const measuredData = { ...sourceData, uvs: authoredUvs };
 	const measuredUnits = measureUvUnitsPerWorld(measuredData);
 	const physical = Boolean(primitiveUsesNativeDensity(definition) && measuredUnits);
-	const uvs = physical
-		? normalizePrimitiveUvsToWorld(authoredUvs, measuredUnits)
-		: authoredUvs;
+	const uvs = physical ? normalizePrimitiveUvsToWorld(authoredUvs, measuredUnits) : authoredUvs;
 	const data = { ...sourceData, uvs };
 	const textureBasis = physical ? WORLD_UV_BASIS : measuredUnits;
 	const geometry = createBufferGeometry(data, normals, definition);
@@ -22439,11 +22431,7 @@ function primitiveColliders(definition) {
 	if (definition.solid === false) return [];
 	const data = createPrimitiveGeometryData(definition);
 	const floor = definition.walkable === true ? undefined : false;
-	return trianglesFromIndexed(data.vertices, data.indices, {
-		floor,
-		kind: definition.id,
-		solid: true
-	});
+	return trianglesFromIndexed(data.vertices, data.indices, { floor, kind: definition.id, solid: true });
 }
 
 
@@ -22454,11 +22442,10 @@ function primitiveUserData(definition, material, measuredUnits, textureBasis, ge
 		AwtsmoosLayeredMaterial: {
 			layerCount: material.textureLayers?.length || 0,
 			shader: material.texturePolicy?.shader || 'standard',
+			vertexColor: Boolean(geometry.attributes.color),
 			zoneAttribute: Boolean(geometry.attributes.zone)
 		},
-		AwtsmoosMaterialEnforcement: material.mapImage
-			? 'real-mapImage-bound'
-			: 'url-only-not-yet-loaded',
+		AwtsmoosMaterialEnforcement: material.mapImage ? 'real-mapImage-bound' : 'url-only-not-yet-loaded',
 		AwtsmoosTextureDensity: {
 			bakedWorldUv: material.texturePolicy.nativeTexelDensity,
 			measuredUnits,
@@ -22473,16 +22460,12 @@ function primitiveUserData(definition, material, measuredUnits, textureBasis, ge
 
 function createBufferGeometry(data, normals, definition) {
 	const geometry = new BufferGeometry();
-	geometry.setAttribute('position', new BufferAttribute(new Float32Array(
-		flattenPrimitiveVertices(data.vertices)
-	), 3));
+	geometry.setAttribute('position', new BufferAttribute(new Float32Array(flattenPrimitiveVertices(data.vertices)), 3));
 	geometry.setAttribute('normal', new BufferAttribute(new Float32Array(normals), 3));
 	geometry.setAttribute('uv', new BufferAttribute(new Float32Array(data.uvs), 2));
-	const zones = primitiveZoneWeights(
-		data.zones,
-		data.vertices.length,
-		Boolean(definition.textureLayers?.length)
-	);
+	const colors = primitiveColorArray(data.colors, data.vertices.length);
+	if (colors) geometry.setAttribute('color', new BufferAttribute(colors, 4));
+	const zones = primitiveZoneWeights(data.zones, data.vertices.length, Boolean(definition.textureLayers?.length));
 	if (zones) geometry.setAttribute('zone', new BufferAttribute(new Float32Array(zones), 4));
 	geometry.setIndex(new BufferAttribute(primitiveIndexArray(data.indices), 1));
 	return geometry;
@@ -41822,9 +41805,9 @@ const __exports = {};
 
 /**
  * @file MinimalMeadowLoop.js
- * @description Advances every gameplay system and records measured frame costs before each visible paint.
- * The Awtsmoos renews motion and display without hiding labor; Awtsmoos.com preserves
- * gameplay, animation, streaming, rendering, cadence, and bounded percentile evidence together.
+ * @description Advances and paints the enriched meadow on display frames and timer-backed rescue.
+ * The Awtsmoos renews traveler, forest, river, blossom, battle, and visible light through one stream;
+ * Awtsmoos.com keeps real rendering alive when finite paint bells pause, preserving the living dream.
  */
 
 var BootstrapMovementController = __awtsmoosModule_489.BootstrapMovementController;
@@ -41835,31 +41818,15 @@ var MinimalMeadowLoopCadence = __awtsmoosModule_526.MinimalMeadowLoopCadence;
 function startMinimalMeadowLoop(runtime, environment = globalThis) {
 	const movement = new BootstrapMovementController(runtime);
 	const cadence = new MinimalMeadowLoopCadence();
-	const now = () => environment.performance?.now?.() ?? Date.now();
+	const clock = () => environment.performance?.now?.() ?? Date.now();
 	const scheduler = createMinimalMeadowFrameScheduler(environment, (timeValue, source) => {
-		const deltaSeconds = scheduler.consumeDelta(timeValue);
-		const frameStartedAt = now();
-		movement.update(deltaSeconds);
-		runtime.coreMechanics?.update?.(deltaSeconds);
-		const gameplayEndedAt = now();
-		updateMinimalMeadowAnimation(runtime, deltaSeconds);
-		const animationEndedAt = now();
-		runtime.updateWorldSystems?.(deltaSeconds);
-		const streamingEndedAt = now();
-		if (source === 'animation-frame') render(runtime);
-		const renderEndedAt = now();
-		cadence.refresh(runtime, timeValue, source);
-		recordPerformance(runtime, {
-			animationEndedAt,
-			frameStartedAt,
-			gameplayEndedAt,
-			intervalMilliseconds: deltaSeconds * 1000,
-			renderEndedAt,
-			streamingEndedAt,
+		advanceMinimalMeadowFrame(runtime, movement, cadence, scheduler, {
+			clock,
+			source,
 			timeValue
 		});
 	});
-	runtime.frameCadence = cadence;
+	publishLoopState(runtime, cadence, scheduler);
 	render(runtime);
 	scheduler.start();
 	return {
@@ -41875,6 +41842,58 @@ function startMinimalMeadowLoop(runtime, environment = globalThis) {
 
 
 __exports.startMinimalMeadowLoop = startMinimalMeadowLoop;
+function advanceMinimalMeadowFrame(runtime, movement, cadence, scheduler, frame) {
+	const deltaSeconds = scheduler.consumeDelta(frame.timeValue);
+	const frameStartedAt = frame.clock();
+	try {
+		movement.update(deltaSeconds);
+		runtime.coreMechanics?.update?.(deltaSeconds);
+		const gameplayEndedAt = frame.clock();
+		updateMinimalMeadowAnimation(runtime, deltaSeconds);
+		const animationEndedAt = frame.clock();
+		runtime.updateWorldSystems?.(deltaSeconds);
+		const streamingEndedAt = frame.clock();
+		render(runtime);
+		const renderEndedAt = frame.clock();
+		publishFrameEvidence(runtime, frame);
+		cadence.refresh(runtime, frame.timeValue, frame.source);
+		recordPerformance(runtime, {
+			animationEndedAt,
+			frameStartedAt,
+			gameplayEndedAt,
+			intervalMilliseconds: deltaSeconds * 1000,
+			renderEndedAt,
+			streamingEndedAt,
+			timeValue: frame.timeValue
+		});
+	} catch (error) {
+		runtime.lastFrameError = error?.stack || String(error);
+		environmentError(runtime, error);
+	}
+}
+
+function publishLoopState(runtime, cadence, scheduler) {
+	runtime.bootstrapFrames = 0;
+	runtime.enrichedFrames = 0;
+	runtime.frameCadence = cadence;
+	runtime.frameScheduler = scheduler;
+	runtime.lastFrameAt = null;
+	runtime.lastFrameError = null;
+	runtime.runtimeFrameSource = 'starting';
+}
+
+function publishFrameEvidence(runtime, frame) {
+	runtime.bootstrapFrames += 1;
+	runtime.enrichedFrames += runtime.updateWorldSystems ? 1 : 0;
+	runtime.lastFrameAt = frame.timeValue;
+	runtime.lastFrameError = null;
+	runtime.runtimeFrameSource = frame.source;
+}
+
+function environmentError(runtime, error) {
+	globalThis.AwtsmoosError = runtime.lastFrameError || error?.message || String(error);
+}
+
 function recordPerformance(runtime, marks) {
 	const monitor = runtime.performanceMonitor;
 	if (!monitor) return;

@@ -21,10 +21,16 @@ current_runtime_is_stably_healthy() {
 	# Inbound transport activity is normally checkpointed every ten seconds. A
 	# three-minute ceiling tolerates laptop scheduling and slow metadata fetches,
 	# while the real local action below independently rejects a wedged executor.
-	runtime_registered "$pid" "$receipt_max_age_ms" || {
-		CURRENT_RUNTIME_HEALTH_FAILURE="registration_receipt_stale_or_mismatched"
-		return 1
-	}
+	# A live websocket can briefly publish `connecting` while it renews the same
+	# authenticated route. Give that exact incumbent process a small bounded grace
+	# window before replacing it; a genuinely stale receipt still reaches repair.
+	if ! runtime_registered "$pid" "$receipt_max_age_ms"; then
+		wait_for_registration "$pid" \
+			"${AWTSMOOS_HEALTHY_CURRENT_REGISTRATION_GRACE_SECONDS:-8}" || {
+			CURRENT_RUNTIME_HEALTH_FAILURE="registration_receipt_stale_or_mismatched"
+			return 1
+		}
+	fi
 	local_runtime_action_ready || {
 		CURRENT_RUNTIME_HEALTH_FAILURE="local_executor_probe_failed"
 		return 1

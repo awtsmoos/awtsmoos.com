@@ -19,10 +19,13 @@ function createDelivery(options = {}) {
 
 	function enqueueRequest(ws, envelope) {
 		options.mailbox.putInbox(envelope);
+		const requestId = Protocol.requestId(envelope);
 		transmit({
 			type: "TUNNEL_REQUEST_ACK",
-			id: Protocol.requestId(envelope),
-			transportReceiptId: Protocol.requestId(envelope),
+			id: requestId,
+			requestId,
+			controlRequestId: requestId,
+			transportReceiptId: requestId,
 			acceptedAt: new Date().toISOString(),
 			durable: true
 		}, ws);

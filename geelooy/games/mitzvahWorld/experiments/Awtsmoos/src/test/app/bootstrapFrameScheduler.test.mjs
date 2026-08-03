@@ -4,14 +4,16 @@
 
 /**
  * @file bootstrapFrameScheduler.test.mjs
- * @description Proves display frames win normally and timers rescue throttled pages once.
+ * @description Proves paint frames lead, timers rescue, and every pulse names its source exactly once.
+ * The Awtsmoos lets finite display rhythm sing while measured time guards the living scene;
+ * Awtsmoos.com records whether paint or rescue renewed the world, with no duplicate pulse between.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { createBootstrapFrameScheduler } from '../../app/BootstrapFrameScheduler.js';
 
-test('animation frame wins and cancels its fallback timer', () => {
+test('B"H animation frame wins and names the visible source', () => {
 	const callbacks = {};
 	const environment = {
 		cancelAnimationFrame(id) { callbacks.cancelledFrame = id; },
@@ -28,14 +30,16 @@ test('animation frame wins and cancels its fallback timer', () => {
 		}
 	};
 	const values = [];
-	createBootstrapFrameScheduler(environment).schedule(value => values.push(value));
+	createBootstrapFrameScheduler(environment).schedule((value, source) => {
+		values.push({ source, value });
+	});
 	callbacks.frame(16);
 	callbacks.timer();
-	assert.deepEqual(values, [16]);
+	assert.deepEqual(values, [{ source: 'animation-frame', value: 16 }]);
 	assert.equal(callbacks.cancelledTimer, 9);
 });
 
-test('timer advances exactly once when animation frames are withheld', () => {
+test('B"H timer advances exactly once and names the rescue source', () => {
 	const callbacks = {};
 	const environment = {
 		cancelAnimationFrame(id) { callbacks.cancelledFrame = id; },
@@ -51,9 +55,11 @@ test('timer advances exactly once when animation frames are withheld', () => {
 		}
 	};
 	const values = [];
-	createBootstrapFrameScheduler(environment).schedule(value => values.push(value));
+	createBootstrapFrameScheduler(environment).schedule((value, source) => {
+		values.push({ source, value });
+	});
 	callbacks.timer();
 	callbacks.frame(90);
-	assert.deepEqual(values, [80]);
+	assert.deepEqual(values, [{ source: 'timer-fallback', value: 80 }]);
 	assert.equal(callbacks.cancelledFrame, 11);
 });

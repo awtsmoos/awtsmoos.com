@@ -51,6 +51,16 @@ try {
 	assert.equal(staleReceipt.status, 0, `${staleReceipt.stdout}\n${staleReceipt.stderr}`);
 	assert.match(staleReceipt.stdout, /stop_existing_runtime/);
 
+	const transientReceipt = run({
+		AWTS_TEST_LOCAL_READY: "1",
+		AWTS_TEST_RECEIPT_READY: "0",
+		AWTS_TEST_RECEIPT_RECOVERS: "1"
+	});
+	assert.equal(transientReceipt.status, 0, `${transientReceipt.stdout}\n${transientReceipt.stderr}`);
+	assert.match(transientReceipt.stdout, /wait_for_registration/);
+	assert.doesNotMatch(transientReceipt.stdout, /stop_existing_runtime/);
+	assert.match(transientReceipt.stdout, /journal:verified_current_healthy/);
+
 	const changedWorkspace = run({
 		AWTS_TEST_LOCAL_READY: "1",
 		AWTS_TEST_ROOT_CURRENT: "0"
@@ -101,6 +111,7 @@ try {
 		explicitEmptyActivationValidatesIncumbent: true,
 		executorStallRestarts: true,
 		staleReceiptRestarts: true,
+		transientReceiptAvoidsRestart: true,
 		changedWorkspaceRestarts: true
 	}, null, 2));
 } finally {
@@ -120,6 +131,10 @@ install_event(){ printf 'event:%s:%s\\n' "$1" "$2"; }
 skip_start_requested(){ return 1; }
 runtime_pid_matches(){ return 0; }
 runtime_registered(){ [ "\${AWTS_TEST_RECEIPT_READY:-1}" = "1" ]; }
+wait_for_registration(){
+	printf 'wait_for_registration\n'
+	[ "\${AWTS_TEST_RECEIPT_RECOVERS:-0}" = "1" ]
+}
 service_supervision_ready(){ return 0; }
 local_runtime_action_ready(){ [ "\${AWTS_TEST_LOCAL_READY:-1}" = "1" ]; }
 project_root_receipt_matches_runtime(){

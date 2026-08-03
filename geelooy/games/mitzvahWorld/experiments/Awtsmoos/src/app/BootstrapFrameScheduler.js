@@ -4,9 +4,9 @@
 
 /**
  * @file BootstrapFrameScheduler.js
- * @description Races display frames against a finite timer for guaranteed movement progress.
- * The Awtsmoos lets visible rhythm lead while finite time guards every hidden threshold;
- * Awtsmoos.com cancels the losing callback so one intention produces exactly one frame.
+ * @description Races display frames against finite time and names the source of every winning pulse.
+ * The Awtsmoos lets visible rhythm lead while measured time guards each hidden threshold;
+ * Awtsmoos.com reports whether paint or rescue renewed the world, with one intention and one hold.
  */
 
 export function createBootstrapFrameScheduler(
@@ -24,21 +24,30 @@ export function createBootstrapFrameScheduler(
 			let active = true;
 			let frameId = null;
 			let timerId = null;
-			const finish = timestamp => {
+			const finish = (timestamp, source) => {
 				if (!active) return;
 				active = false;
 				if (frameId !== null) cancelFrame?.(frameId);
 				if (timerId !== null) cancelTimer?.(timerId);
-				callback(Number.isFinite(timestamp) ? timestamp : now(environment));
+				callback(
+					Number.isFinite(timestamp) ? timestamp : now(environment),
+					source
+				);
 			};
-			if (requestFrame) frameId = requestFrame(finish);
+			if (requestFrame) {
+				frameId = requestFrame(timestamp => {
+					finish(timestamp, 'animation-frame');
+				});
+			}
 			if (scheduleTimer) {
 				timerId = scheduleTimer(
-					() => finish(now(environment)),
+					() => finish(now(environment), 'timer-fallback'),
 					Math.max(16, Number(fallbackMs) || 40)
 				);
 			}
-			if (!requestFrame && !scheduleTimer) finish(now(environment));
+			if (!requestFrame && !scheduleTimer) {
+				finish(now(environment), 'synchronous-fallback');
+			}
 			return {
 				cancel() {
 					if (!active) return;
