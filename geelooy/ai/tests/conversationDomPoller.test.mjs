@@ -37,3 +37,41 @@ test("authenticated route GET yields exact native-DOM continuation state", async
 	assert(calls.some(call => call.method === "Page.navigate"));
 	assert(!calls.some(call => call.method === "Runtime.evaluate"));
 });
+
+test("document replacement during navigation is retried without another GET navigation", async () => {
+	let documents = 0;
+	let navigations = 0;
+	const client = {
+		async send(method, params = {}) {
+			if (method === "Target.getTargetInfo") return { targetInfo: { url: "https://chatgpt.com/" } };
+			if (method === "Page.navigate") { navigations += 1; return {}; }
+			if (method === "DOM.getDocument") {
+				documents += 1;
+				if (documents === 1) throw new Error("Could not find node with given id");
+				return { root: { nodeId: 1 } };
+			}
+			if (method === "DOM.querySelectorAll") {
+				return params.selector.includes('"user"') ? { nodeIds: [10] } : { nodeIds: [20] };
+			}
+			if (method === "DOM.getAttributes") {
+				return { attributes: ["data-message-id", params.nodeId === 10 ? "rewritten-user" : "assistant-2"] };
+			}
+			if (method === "DOM.querySelector" && params.selector.includes("stop-button")) return { nodeId: 0 };
+			if (method === "DOM.querySelector") return { nodeId: 21 };
+			if (method === "DOM.getOuterHTML") return { outerHTML: "<div><p data-is-last-node>COMPLETE</p></div>" };
+			return {};
+		}
+	};
+	const result = await new ConversationDomPoller(client, {
+		intervalMs: 1,
+		sleep: async () => undefined
+	}).poll({
+		conversationId: "conversation-2",
+		userMessageId: "original-user",
+		timeoutMs: 5000
+	});
+	assert.equal(result.answer, "COMPLETE");
+	assert.equal(result.userMessageObserved, false);
+	assert.equal(navigations, 1);
+	assert.equal(documents, 2);
+});

@@ -26,11 +26,19 @@ export class ConversationDomPoller {
 		await this.navigate(conversationId);
 		const deadline = this.now() + timeoutMs;
 		let pollCount = 0;
+		let lastTransientError = null;
 		while (this.now() < deadline) {
 			this.assertNotAborted(signal);
 			pollCount += 1;
-			const state = await this.inspect({ userMessageId, previousParentMessageId });
-			if (state.done) {
+			let state = null;
+			try {
+				state = await this.inspect({ userMessageId, previousParentMessageId });
+				lastTransientError = null;
+			} catch (error) {
+				if (!this.transient(error)) throw error;
+				lastTransientError = error;
+			}
+			if (state?.done) {
 				return {
 					...state,
 					conversationId,
@@ -41,7 +49,9 @@ export class ConversationDomPoller {
 			}
 			await AbortSignalRace.run(signal, this.sleep(this.intervalMs));
 		}
-		throw new Error("Authenticated conversation DOM polling timed out.");
+		const error = new Error("Authenticated conversation DOM polling timed out.");
+		if (lastTransientError) error.cause = lastTransientError;
+		throw error;
 	}
 
 	async navigate(conversationId) {
@@ -51,7 +61,11 @@ export class ConversationDomPoller {
 			await this.cdpClient.send("Page.reload", { ignoreCache: true }, 20000);
 			return;
 		}
-		await this.cdpClient.send("Page.navigate", { url: wanted }, 20000);
+		try {
+			await this.cdpClient.send("Page.navigate", { url: wanted }, 20000);
+		} catch (error) {
+			if (!this.transient(error)) throw error;
+		}
 	}
 
 	async inspect({ userMessageId, previousParentMessageId }) {
@@ -141,5 +155,10 @@ export class ConversationDomPoller {
 
 	assertNotAborted(signal) {
 		if (signal?.aborted) throw signal.reason || new Error("DOM polling was cancelled.");
+	}
+
+	transient(error) {
+		return /timeout|node with given id|box model|execution context|frame was detached|document/i
+			.test(String(error?.message || error));
 	}
 }

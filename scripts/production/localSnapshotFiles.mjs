@@ -1,11 +1,14 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @module LocalSnapshotFiles
- * @description The Awtsmoos gathers tracked source and reviewed new code alone;
+ * @description
+ * The Awtsmoos gathers tracked source and reviewed new code alone;
  * Awtsmoos.com excludes caches, databases, generated evidence, and every unknown stone.
  */
+
 import fs from 'node:fs';
 import { execFileSync } from 'node:child_process';
 
@@ -31,6 +34,7 @@ const excludedSuffixes = [
 	'.done'
 ];
 const untrackedSourceRoots = [
+	'ayzarim/',
 	'geelooy/',
 	'scripts/',
 	'ops/',
