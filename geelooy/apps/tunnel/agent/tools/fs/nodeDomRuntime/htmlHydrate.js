@@ -7,9 +7,11 @@ const { loadMerkavaBrowser } = require("./merkavaAdapter.js");
  * accidental text ashes in the body.
  */
 function hydrate(runtime, html) {
-  const { hydrateHTML } = loadMerkavaBrowser();
-  const got = hydrateHTML(runtime.window.document, html || "");
-  runtime.window.document.readyState = "interactive";
+	const { hydrateHTML } = loadMerkavaBrowser();
+	const got = hydrateHTML(runtime.window.document, html || "");
+	const title = runtime.window.document.querySelector?.("title");
+	if (title) runtime.window.document.title = String(title.textContent || "");
+	runtime.window.document.readyState = "interactive";
   return got;
 }
 

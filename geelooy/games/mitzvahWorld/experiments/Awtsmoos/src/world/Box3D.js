@@ -4,20 +4,18 @@
 
 /**
  * @file Box3D.js
- * @description Orchestrates primitive geometry, material, collision, UVs, and ecological masks.
- * The Awtsmoos reveals one world through focused responsibilities; Awtsmoos.com keeps original
- * pixels untouched while measured surfaces carry only the layered meaning they genuinely need.
+ * @description Orchestrates primitive geometry, vertex color, material, collision, UV, and ecology masks.
+ * The Awtsmoos reveals one world through focused vessels; Awtsmoos.com keeps original pixels
+ * and authored botanical hues while measured surfaces carry only the meaning they need.
  */
 
 import { BufferAttribute, BufferGeometry, Mesh } from '../../../light-three-gltf/tiny-runtime.js';
 import { trianglesFromIndexed } from '../collision/TriangleCollider.js';
-import {
-	createPrimitiveGeometryData,
-	isProceduralShape
-} from './primitives/PrimitiveGeometryFactory.js';
+import { createPrimitiveGeometryData, isProceduralShape } from './primitives/PrimitiveGeometryFactory.js';
 import {
 	createPrimitiveVertexNormals,
 	flattenPrimitiveVertices,
+	primitiveColorArray,
 	primitiveIndexArray
 } from './primitives/PrimitiveGeometryBuffers.js';
 import { createPrimitiveMaterial } from './primitives/PrimitiveMaterialFactory.js';
@@ -34,14 +32,11 @@ const WORLD_UV_BASIS = Object.freeze([1, 1]);
 export function createPrimitiveMesh(definition) {
 	const sourceData = createPrimitiveGeometryData(definition);
 	const normals = createPrimitiveVertexNormals(sourceData);
-	const authoredUvs = sourceData.uvs
-		|| projectPrimitiveUvs(sourceData.vertices, normals, definition);
+	const authoredUvs = sourceData.uvs || projectPrimitiveUvs(sourceData.vertices, normals, definition);
 	const measuredData = { ...sourceData, uvs: authoredUvs };
 	const measuredUnits = measureUvUnitsPerWorld(measuredData);
 	const physical = Boolean(primitiveUsesNativeDensity(definition) && measuredUnits);
-	const uvs = physical
-		? normalizePrimitiveUvsToWorld(authoredUvs, measuredUnits)
-		: authoredUvs;
+	const uvs = physical ? normalizePrimitiveUvsToWorld(authoredUvs, measuredUnits) : authoredUvs;
 	const data = { ...sourceData, uvs };
 	const textureBasis = physical ? WORLD_UV_BASIS : measuredUnits;
 	const geometry = createBufferGeometry(data, normals, definition);
@@ -58,11 +53,7 @@ export function primitiveColliders(definition) {
 	if (definition.solid === false) return [];
 	const data = createPrimitiveGeometryData(definition);
 	const floor = definition.walkable === true ? undefined : false;
-	return trianglesFromIndexed(data.vertices, data.indices, {
-		floor,
-		kind: definition.id,
-		solid: true
-	});
+	return trianglesFromIndexed(data.vertices, data.indices, { floor, kind: definition.id, solid: true });
 }
 
 function primitiveUserData(definition, material, measuredUnits, textureBasis, geometry) {
@@ -71,11 +62,10 @@ function primitiveUserData(definition, material, measuredUnits, textureBasis, ge
 		AwtsmoosLayeredMaterial: {
 			layerCount: material.textureLayers?.length || 0,
 			shader: material.texturePolicy?.shader || 'standard',
+			vertexColor: Boolean(geometry.attributes.color),
 			zoneAttribute: Boolean(geometry.attributes.zone)
 		},
-		AwtsmoosMaterialEnforcement: material.mapImage
-			? 'real-mapImage-bound'
-			: 'url-only-not-yet-loaded',
+		AwtsmoosMaterialEnforcement: material.mapImage ? 'real-mapImage-bound' : 'url-only-not-yet-loaded',
 		AwtsmoosTextureDensity: {
 			bakedWorldUv: material.texturePolicy.nativeTexelDensity,
 			measuredUnits,
@@ -90,16 +80,12 @@ function primitiveUserData(definition, material, measuredUnits, textureBasis, ge
 
 function createBufferGeometry(data, normals, definition) {
 	const geometry = new BufferGeometry();
-	geometry.setAttribute('position', new BufferAttribute(new Float32Array(
-		flattenPrimitiveVertices(data.vertices)
-	), 3));
+	geometry.setAttribute('position', new BufferAttribute(new Float32Array(flattenPrimitiveVertices(data.vertices)), 3));
 	geometry.setAttribute('normal', new BufferAttribute(new Float32Array(normals), 3));
 	geometry.setAttribute('uv', new BufferAttribute(new Float32Array(data.uvs), 2));
-	const zones = primitiveZoneWeights(
-		data.zones,
-		data.vertices.length,
-		Boolean(definition.textureLayers?.length)
-	);
+	const colors = primitiveColorArray(data.colors, data.vertices.length);
+	if (colors) geometry.setAttribute('color', new BufferAttribute(colors, 4));
+	const zones = primitiveZoneWeights(data.zones, data.vertices.length, Boolean(definition.textureLayers?.length));
 	if (zones) geometry.setAttribute('zone', new BufferAttribute(new Float32Array(zones), 4));
 	geometry.setIndex(new BufferAttribute(primitiveIndexArray(data.indices), 1));
 	return geometry;

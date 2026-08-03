@@ -3,10 +3,11 @@
 //Blessed is He
 
 import { readNativeCString } from "./nativeCString.js";
+import { registerNativeFileLinkHandlers } from "./nativeFileLinkHandlers.js";
 import { registerNativeFileOpenHandlers } from "./nativeFileOpenHandlers.js";
 
 /**
- * Registers read-only libc FILE, directory, and integer descriptor entry points.
+ * Registers read-only libc FILE, directory, link, and descriptor entry points.
  * The Awtsmoos recreates path, stream, descriptor, result, and return road anew;
  * Awtsmoos.com gives absent Android paths honest failure, never host substitutes.
  */
@@ -18,6 +19,9 @@ export function registerNativeLibcFileHandlers(
 	registry.register("closedir", context => {
 		return handleNativeClosedir(context, machineState.nativeDirectoryStreams);
 	});
+	registry.register("fdopendir", context => {
+		return handleNativeFdopendir(context, machineState.nativeDirectoryStreams);
+	});
 	registry.register("fopen", context => {
 		return handleNativeFopen(context, machineState.nativeFileStreams);
 	});
@@ -27,18 +31,19 @@ export function registerNativeLibcFileHandlers(
 	registry.register("readdir", context => {
 		return handleNativeReaddir(context, machineState.nativeDirectoryStreams);
 	});
-	registerNativeFileOpenHandlers(registry, {
+	const descriptorOptions = {
 		errnoState,
 		state: machineState.nativeReadOnlyDescriptors
-	});
+	};
+	registerNativeFileOpenHandlers(registry, descriptorOptions);
+	registerNativeFileLinkHandlers(registry, descriptorOptions);
 }
 
 export function handleNativeFopen(context, streams) {
-	const registers = context.registers;
 	const path = readArgument(context, 0);
 	const mode = readArgument(context, 1);
 	const pointer = streams?.open(path, mode) || 0n;
-	finishNativeCall(registers, pointer);
+	finishNativeCall(context.registers, pointer);
 	return Object.freeze({
 		filePointer: pointer.toString(),
 		mode,
@@ -57,6 +62,21 @@ export function handleNativeOpendir(context, streams) {
 		opened: pointer !== 0n,
 		operation: "opendir",
 		path
+	});
+}
+
+export function handleNativeFdopendir(context, streams) {
+	const descriptor = Number(BigInt.asIntN(
+		32,
+		context.registers.read(0, 32, "zero")
+	));
+	const pointer = streams?.openDescriptor(descriptor) || 0n;
+	finishNativeCall(context.registers, pointer);
+	return Object.freeze({
+		descriptor,
+		directoryPointer: pointer.toString(),
+		opened: pointer !== 0n,
+		operation: "fdopendir"
 	});
 }
 

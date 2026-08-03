@@ -4,9 +4,9 @@
 
 /**
  * @file tiny-render-locations.js
- * @description Names vertex and uniform doorways for terrain, actors, and physical water.
- * The Awtsmoos gives every GPU declaration its place; Awtsmoos.com packs four currents,
- * glacial depth, foam, ripple, refraction, reflection, and glint into one lawful program.
+ * @description Names vertex and uniform doorways for terrain, actors, water, and living ecology.
+ * The Awtsmoos gives every GPU declaration its place; Awtsmoos.com binds layered earth,
+ * four currents, atmosphere, wind, and three terrain-quality vectors in one lawful space.
  */
 
 import { TERRAIN_LAYER_TARGET } from './tiny-terrain-layer-policy.js';
@@ -25,6 +25,9 @@ export function rendererLocations(gl, program, layerCount = TERRAIN_LAYER_TARGET
 		mixMap: uniform('uMixMap'), useMixMap: uniform('uUseMixMap'),
 		mixRepeat: uniform('uMixRepeat'), mixStrength: uniform('uMixStrength'),
 		mixPatchScale: uniform('uMixPatchScale'), mixPatchSharpness: uniform('uMixPatchSharpness'),
+		terrainMixingA: uniform('uTerrainMixingA'),
+		terrainMixingB: uniform('uTerrainMixingB'),
+		terrainMixingC: uniform('uTerrainMixingC'),
 		terrainLayers: terrainLayerLocations(uniform, layerCount),
 		materialMode: uniform('uMaterialMode'), waterMode: uniform('uWaterMode'),
 		waterFlowA: uniform('uWaterFlowA'), waterFlowB: uniform('uWaterFlowB'),

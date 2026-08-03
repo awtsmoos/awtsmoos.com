@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowTerrainSources.js
- * @description Exposes cached remote terrain roles and deferred Awtsmoos Drive hydration.
- * The Awtsmoos reveals visible earth before distant images decode; Awtsmoos.com preserves
- * canonical remote identity while recording cached, deferred, loaded, and failed source truth.
+ * @description Exposes cached remote terrain roles, resilient ecological fallbacks, and deferred hydration.
+ * The Awtsmoos reveals six terrains before every distant image can appear;
+ * Awtsmoos.com preserves canonical identity while partial caches still clothe dry, lush, wet, and clear.
  */
 
 import { cachedTextureImage } from '../assets/PublicMaterialCache.js';
@@ -16,9 +16,7 @@ import {
 	minimalMeadowTextureTransportEvidence,
 	minimalMeadowTextureUrls
 } from './MinimalMeadowAwtsmoosDriveTextures.js?v=20260729-drive-1';
-import {
-	loadMinimalMeadowTextureBatch
-} from './MinimalMeadowTextureBatchLoader.js';
+import { loadMinimalMeadowTextureBatch } from './MinimalMeadowTextureBatchLoader.js';
 
 export function createMinimalMeadowTerrainSourceSnapshot() {
 	const entries = minimalMeadowTextureEntries();
@@ -55,18 +53,22 @@ export async function loadMinimalMeadowTerrainSources(options = {}) {
 
 export function minimalMeadowTerrainSourceRoles(images = {}) {
 	return {
-		dry: images.dirtGrassSix,
-		lush: images.grassEight,
-		main: images.grassFour,
-		marsh: images.marshGrass,
-		mud: images.soilDark,
-		path: images.roadCobblestone || images.cobblestone,
-		pathEdge: images.dirtGrassThree,
-		secondary: images.grassFive,
-		soil: images.soilDark,
-		soilLight: images.soilLight,
-		tilled: images.tilledSoil
+		dry: first(images.dirtGrassSix, images.dirtGrassOne, images.soilLight),
+		lush: first(images.grassEight, images.grassSeven, images.grassOne),
+		main: first(images.grassFour, images.grassOne, images.grassFive),
+		marsh: first(images.marshGrass, images.grassSeven, images.grassEight),
+		mud: first(images.soilDark, images.tilledSoil, images.soilLight),
+		path: first(images.roadCobblestone, images.cobblestone, images.pathCenter),
+		pathEdge: first(images.dirtGrassThree, images.dirtGrassOne, images.soilLight),
+		secondary: first(images.grassFive, images.grassOne, images.grassSeven),
+		soil: first(images.soilDark, images.tilledSoil, images.soilLight),
+		soilLight: first(images.soilLight, images.tilledSoil, images.soilDark),
+		tilled: first(images.tilledSoil, images.soilLight, images.soilDark)
 	};
+}
+
+function first(...sources) {
+	return sources.find(Boolean) || null;
 }
 
 function imagesForEntries(entries) {
@@ -79,7 +81,9 @@ function availableCount(images) {
 
 function recordMap(entries, fallbackStatus, records = []) {
 	return Object.fromEntries(entries.map(([role, url]) => {
-		const record = records.find(candidate => candidate?.url === url || candidate?.primaryUrl === url);
+		const record = records.find(candidate => {
+			return candidate?.url === url || candidate?.primaryUrl === url;
+		});
 		return [role, Object.freeze({
 			attempts: record?.batchAttempts || [],
 			error: record?.error || null,

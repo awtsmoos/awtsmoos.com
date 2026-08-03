@@ -10,8 +10,10 @@ import {
 
 const O_ACCESS_MODE = 0x3;
 const O_LARGEFILE = 0x8000;
+export const NATIVE_OPEN_DIRECTORY = 0x4000;
 const ALLOWED_FLAGS = NATIVE_DESCRIPTOR_NONBLOCK
 	| NATIVE_DESCRIPTOR_CLOEXEC_CREATE
+	| NATIVE_OPEN_DIRECTORY
 	| O_LARGEFILE;
 
 /**
@@ -27,11 +29,7 @@ export function validateNativeReadOnlyOpenFlags(flagsValue) {
 	return (flags & ~(ALLOWED_FLAGS | O_ACCESS_MODE)) === 0 ? null : "invalid";
 }
 
-export function allocateNativeReadOnlyDescriptor(
-	records,
-	base,
-	capacity
-) {
+export function allocateNativeReadOnlyDescriptor(records, base, capacity) {
 	for (let offset = 0; offset < capacity; offset += 1) {
 		const descriptor = base + offset;
 		if (!records.has(descriptor)) return descriptor;
@@ -49,12 +47,7 @@ export function nativeReadOnlyFailure(error) {
 	return Object.freeze({ error, ok: false });
 }
 
-export function nativeReadOnlyReadEvidence(
-	record,
-	bytes,
-	eof,
-	requested
-) {
+export function nativeReadOnlyReadEvidence(record, bytes, eof, requested) {
 	return Object.freeze({
 		bytes,
 		eof,

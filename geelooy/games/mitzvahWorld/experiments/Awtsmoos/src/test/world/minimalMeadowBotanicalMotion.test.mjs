@@ -4,15 +4,16 @@
 
 /**
  * @file minimalMeadowBotanicalMotion.test.mjs
- * @description Proves rooted ecology-driven tree motion and deterministic species-aware meadow geometry.
+ * @description Proves rooted tree motion and deterministic multicolor botanical communities.
  * The Awtsmoos keeps roots still while crown, blade, and blossom move in measured light;
- * Awtsmoos.com verifies species wind, varied abundance, petal truth, and stable geometry remain right.
+ * Awtsmoos.com verifies wind, abundance, palette truth, and stable geometry remain right.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { animateMinimalMeadowTree } from '../../app/MinimalMeadowTreeWind.js';
 import { createMinimalMeadowFlowerCellGeometry } from '../../app/MinimalMeadowFlowerClumpGeometry.js';
+import { selectMinimalMeadowFlowerCommunity } from '../../app/MinimalMeadowFlowerSpecies.js';
+import { animateMinimalMeadowTree } from '../../app/MinimalMeadowTreeWind.js';
 
 function treeVessel() {
 	return {
@@ -22,22 +23,23 @@ function treeVessel() {
 		userData: {
 			AwtsmoosTree: { windPhase: 0.4 },
 			AwtsmoosTreeEcology: {
-				canopyDensity: 1.18,
-				ecologyZone: 'dry-upland',
-				role: 'windbreak',
-				windPhase: 0.7,
-				windSpeed: 0.74,
-				windStrength: 0.0062
+				canopyDensity: 1.18, ecologyZone: 'dry-upland', role: 'windbreak',
+				windPhase: 0.7, windSpeed: 0.74, windStrength: 0.0062
 			}
 		}
 	};
 }
 
 function botanicalGeometry(seed = 0) {
+	const ecology = { flowerDensity: 0.8, zone: 'mixed-meadow' };
+	const community = selectMinimalMeadowFlowerCommunity(ecology, 0.31);
 	return createMinimalMeadowFlowerCellGeometry({
 		center: { x: 0, y: 0, z: 0 },
-		clumps: 2,
+		clumps: 3,
+		grassColor: '#568f3c',
 		seed,
+		species: community[0],
+		speciesCommunity: community,
 		terrain: { heightAt: () => 0 }
 	});
 }
@@ -56,14 +58,16 @@ test('B"H species wind moves canopy more than bark while root remains fixed', ()
 	assert.equal(evidence.role, 'windbreak');
 });
 
-test('B"H species-aware clumps preserve deterministic abundance and petal truth', () => {
+test('B"H mixed clumps preserve deterministic abundance and palette truth', () => {
 	const first = botanicalGeometry(613);
 	const repeated = botanicalGeometry(613);
 	const alternate = botanicalGeometry(614);
 	assert.deepEqual(first, repeated);
 	assert.ok(first.flowers >= first.clumps * 2);
 	assert.ok(first.flowers <= first.clumps * 5);
-	assert.equal(first.petals.faces.length, first.flowers * first.petalCount);
+	assert.ok(first.speciesIds.length >= 2);
 	assert.equal(first.grass.uvs.length, first.grass.faces.length * 8);
+	assert.equal(first.petals.colors.length, first.petals.vertices.length);
+	assert.ok(new Set(first.petals.colors.map(color => color.join(','))).size >= 3);
 	assert.notDeepEqual(first.grass.vertices, alternate.grass.vertices);
 });

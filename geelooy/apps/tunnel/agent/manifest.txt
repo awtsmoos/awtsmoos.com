@@ -1,5 +1,5 @@
 B"H
-1.0.466
+1.0.467
 main.js
 ai/relay/direct/browser/AuthenticatedHostHealth.mjs
 ai/relay/direct/browser/AuthenticatedHostLease.mjs

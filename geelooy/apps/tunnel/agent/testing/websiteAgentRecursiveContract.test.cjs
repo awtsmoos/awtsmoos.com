@@ -188,6 +188,10 @@ function recognizesVerifiedDurableCompletion() {
 }
 
 function promptPublishesTheExactContract() {
+	assert.match(
+		Prompt.fanOutInstruction({ plan: { subagentPolicy: {} } }),
+		/at most 32 single-use helpers.*default 32; hard maximum 96/
+	);
 	const text = Prompt.firstTurn({
 		missionId: "mission_recursive_contract",
 		goal: "Complete a large repository task.",

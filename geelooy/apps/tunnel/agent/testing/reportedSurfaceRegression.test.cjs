@@ -93,6 +93,9 @@ async function run() {
 		assert.equal(fsSchema("nodeCheckMany").properties.files.type, "string");
 		assert.equal(fsSchema("portKillSafe").properties.confirm.type, "boolean");
 		assert.equal(chromeSchema("chromeEval").properties.command.type, "string");
+		assert.equal(chromeSchema("chromeEval").properties.engine.type, "string");
+		assert.equal(chromeSchema("chromeEval").properties.html.type, "string");
+		assert.equal(chromeSchema("chromeEval").properties.virtualDom.type, "boolean");
 		assert.equal(chromeSchema("chromeNavigate").properties.href.type, "string");
 
 		console.log(JSON.stringify({

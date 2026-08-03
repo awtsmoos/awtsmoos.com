@@ -107,9 +107,12 @@ function responseContract() {
 
 function fanOutInstruction(record = {}) {
 	const policy = record.plan?.subagentPolicy || {};
+	const maxHelpers = Number(
+		policy.maxSubagentsPerAgent ?? policy.maxHelpersPerAgent ?? 32
+	);
 	return [
 		`Fan-out policy: ${policy.priority || "preferred"}; mode ${policy.mode || "bounded-single-use"}.`,
-		`Use at most ${Number(policy.maxHelpersPerAgent || 3)} single-use helpers at once, only for independent scoped work.`,
+		`Use at most ${maxHelpers} single-use helpers at once, only for independent scoped work (default 32; hard maximum 96).`,
 		"Request website children through SPAWN; never open tabs, resend, or self-start them outside that contract.",
 		"The tunnel spaces child starts to prevent request bursts and ignores duplicate requestIds.",
 		"Each helper must return files inspected/changed, evidence, remaining work, and a handoff; do not recursively delegate the same scope.",

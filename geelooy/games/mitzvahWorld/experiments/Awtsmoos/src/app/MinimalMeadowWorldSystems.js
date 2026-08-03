@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowWorldSystems.js
- * @description Mounts immediate combat and quest truth while full visual systems hydrate separately.
+ * @description Mounts immediate combat and quest truth while rich procedural systems schedule separately.
  * The Awtsmoos grants battle, purpose, teaching, and safe return before distant garments descend;
- * Awtsmoos.com preserves every system while keeping GLB, forest, water, and house latency off readiness.
+ * Awtsmoos.com separates schedule from mount so forest, water, homes, and flowers truly ascend.
  */
 
 import { ExpansionRuntime } from '../gameplay/expansion/ExpansionRuntime.js';
@@ -48,7 +48,9 @@ export async function installMinimalMeadowWorldSystems(runtime, environment = gl
 	};
 	const receipt = combatDiagnostics(runtime);
 	runtime.bus.emit('world:combat-ready', receipt);
-	runtime.richWorldPromise = scheduleRichWorld(runtime, environment);
+	const schedule = scheduleRichWorld(runtime, environment);
+	runtime.richWorldSchedulePromise = schedule;
+	runtime.richWorldPromise = schedule;
 	return receipt;
 }
 

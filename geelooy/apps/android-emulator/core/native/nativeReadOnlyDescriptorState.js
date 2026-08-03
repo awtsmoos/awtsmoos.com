@@ -3,40 +3,54 @@
 //Blessed is He
 
 import { createNativeGuestEntropy } from "./nativeGuestEntropy.js";
-import { NATIVE_DESCRIPTOR_ACCESS } from "./nativeDescriptorFlagState.js";
-import {
-	allocateNativeReadOnlyDescriptor,
-	nativeReadOnlyFailure,
-	nativeReadOnlyReadEvidence,
-	normalizeNativeReadOnlyTransfer,
-	snapshotNativeReadOnlyRecord,
-	validateNativeReadOnlyOpenFlags
-} from "./nativeReadOnlyDescriptorRecords.js";
+import { nativeProcSelfFdTarget } from "./nativeProcSelfFdEntries.js";
+import { openNativeReadOnlyDescriptor } from "./nativeReadOnlyDescriptorOpen.js";
+import { snapshotNativeReadOnlyRecord } from "./nativeReadOnlyDescriptorRecords.js";
+import { readNativeReadOnlyRecord } from "./nativeReadOnlyRecordRead.js";
 
 const DEFAULT_DESCRIPTOR_BASE = 0x40020000;
 const DEFAULT_CAPACITY = 1024;
 const DEFAULT_MAXIMUM_TRANSFER = 1048576;
-const RANDOM_PATHS = new Set(["/dev/random", "/dev/urandom"]);
 const READABLE_EVENTS = 1;
 
 /**
- * Owns read-only file and entropy descriptors in one persistent guest range.
- * The Awtsmoos renews open record, file offset, random byte, and closing shore;
+ * Owns read-only file, entropy, and directory descriptors in one guest range.
+ * The Awtsmoos renews record, path, offset, proc link, and closing shore;
  * Awtsmoos.com allocates no host descriptor and reads no host device evermore.
  */
 export function createNativeReadOnlyDescriptorState(options = {}) {
 	const base = Number(options.descriptorBase ?? DEFAULT_DESCRIPTOR_BASE);
 	const capacity = Number(options.capacity ?? DEFAULT_CAPACITY);
-	const maximumTransfer = Number(
-		options.maximumTransfer ?? DEFAULT_MAXIMUM_TRANSFER
-	);
+	const maximumTransfer = Number(options.maximumTransfer ?? DEFAULT_MAXIMUM_TRANSFER);
 	const descriptorFlags = options.descriptorFlags;
+	const directories = options.directories;
 	const files = options.files;
 	const entropy = createNativeGuestEntropy({ seed: options.entropySeed });
 	const records = new Map();
+	const openOptions = {
+		base,
+		capacity,
+		descriptorFlags,
+		directories,
+		files,
+		records
+	};
 	return Object.freeze({
 		close(descriptorValue) {
 			return records.delete(Number(descriptorValue));
+		},
+		directory(descriptorValue) {
+			const record = directoryRecord(records, descriptorValue);
+			if (!record) return null;
+			const entries = directories?.entries(record.path);
+			return entries ? Object.freeze({
+				descriptor: record.descriptor,
+				entries,
+				path: record.path
+			}) : null;
+		},
+		directoryPath(descriptorValue) {
+			return directoryRecord(records, descriptorValue)?.path || null;
 		},
 		events(descriptorValue) {
 			return records.has(Number(descriptorValue)) ? READABLE_EVENTS : 0;
@@ -46,67 +60,38 @@ export function createNativeReadOnlyDescriptorState(options = {}) {
 		},
 		maximumTransfer,
 		open(pathValue, flagsValue) {
-			const path = String(pathValue);
-			const flags = Number(flagsValue) >>> 0;
-			const validation = validateNativeReadOnlyOpenFlags(flags);
-			if (validation) return nativeReadOnlyFailure(validation);
-			const kind = RANDOM_PATHS.has(path) ? "entropy" : "file";
-			const bytes = kind === "file" ? files?.read(path) : null;
-			if (kind === "file" && !bytes) {
-				return nativeReadOnlyFailure("not-found");
-			}
-			const descriptor = allocateNativeReadOnlyDescriptor(
-				records,
-				base,
-				capacity
-			);
-			if (descriptor === null) return nativeReadOnlyFailure("capacity");
-			records.set(descriptor, {
-				bytes: bytes ? Uint8Array.from(bytes) : null,
-				descriptor,
-				flags,
-				kind,
-				offset: 0,
-				path
-			});
-			descriptorFlags?.create(descriptor, {
-				accessMode: NATIVE_DESCRIPTOR_ACCESS.READ_ONLY,
-				flags
-			});
-			return Object.freeze({ descriptor, flags, kind, ok: true, path });
+			return openNativeReadOnlyDescriptor(openOptions, pathValue, flagsValue);
 		},
 		read(descriptorValue, maximumValue) {
-			const record = records.get(Number(descriptorValue));
-			if (!record) return nativeReadOnlyFailure("bad-fd");
-			const requested = normalizeNativeReadOnlyTransfer(
+			return readNativeReadOnlyRecord(
+				records,
+				entropy,
+				descriptorValue,
 				maximumValue,
 				maximumTransfer
 			);
-			if (record.kind === "entropy") {
-				return nativeReadOnlyReadEvidence(
-					record,
-					entropy.fill(requested),
-					false,
-					requested
-				);
-			}
-			const end = Math.min(record.offset + requested, record.bytes.length);
-			const bytes = record.bytes.slice(record.offset, end);
-			record.offset = end;
-			return nativeReadOnlyReadEvidence(
-				record,
-				bytes,
-				end >= record.bytes.length,
-				requested
-			);
+		},
+		readLink(pathValue) {
+			return nativeProcSelfFdTarget(pathValue, {
+				snapshot: () => snapshotRecords(records, entropy)
+			});
 		},
 		snapshot() {
-			return Object.freeze({
-				entropy: entropy.snapshot(),
-				records: Object.freeze([...records.values()]
-					.sort((left, right) => left.descriptor - right.descriptor)
-					.map(snapshotNativeReadOnlyRecord))
-			});
+			return snapshotRecords(records, entropy);
 		}
+	});
+}
+
+function directoryRecord(records, descriptorValue) {
+	const record = records.get(Number(descriptorValue));
+	return record?.kind === "directory" ? record : null;
+}
+
+function snapshotRecords(records, entropy) {
+	return Object.freeze({
+		entropy: entropy.snapshot(),
+		records: Object.freeze([...records.values()]
+			.sort((left, right) => left.descriptor - right.descriptor)
+			.map(snapshotNativeReadOnlyRecord))
 	});
 }

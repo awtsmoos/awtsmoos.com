@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowTreeGeometrySupport.js
- * @description Builds stable bark and authored-alpha leaf parts without green color distortion.
+ * @description Builds stable bark and authored-alpha leaves through six shared botanical color families.
  * The Awtsmoos clothes branch and canopy through bounded helpers; Awtsmoos.com lets uploaded
- * species pixels keep their own hue while two-sided alpha, depth, and index truth remain explicit.
+ * species pixels keep their own hue while bark age, leaf warmth, depth, and winding remain explicit.
  */
 
 import {
@@ -17,8 +17,22 @@ import {
 	createPrimitiveMaterial
 } from '../world/primitives/PrimitiveMaterialFactory.js';
 
-const BARK_COLORS = Object.freeze(['#745039', '#825b3d', '#5f4938']);
-const LEAF_COLORS = Object.freeze(['#f7fff2', '#fffbe8', '#eef9ff']);
+const BARK_COLORS = Object.freeze([
+	'#745039',
+	'#825b3d',
+	'#5f4938',
+	'#8d6a4d',
+	'#514338',
+	'#96745a'
+]);
+const LEAF_COLORS = Object.freeze([
+	'#f7fff2',
+	'#fffbe8',
+	'#eef9ff',
+	'#f4ffe5',
+	'#eaf3dc',
+	'#fff4db'
+]);
 
 export function minimalMeadowTreePart(data, definition, partName) {
 	const geometry = new BufferGeometry();
@@ -34,32 +48,37 @@ export function minimalMeadowTreePart(data, definition, partName) {
 }
 
 export function minimalMeadowBarkDefinition(material, variant) {
+	const index = normalizedVariant(variant);
 	return {
 		...material,
 		anisotropy: 8,
 		backfaceCull: false,
-		color: BARK_COLORS[variant],
+		color: BARK_COLORS[index],
 		doubleSided: true,
-		id: `Awtsmoos_procedural_tree_bark_${variant}`,
-		mapRepeat: [2, 5]
+		id: `Awtsmoos_procedural_tree_bark_${index}`,
+		mapRepeat: [2.2 + index * 0.08, 5.2 + index * 0.16],
+		roughness: 0.86
 	};
 }
 
 export function minimalMeadowLeafDefinition(material, variant) {
+	const index = normalizedVariant(variant);
 	return {
 		...material,
-		alphaCutoff: 0.18,
+		alphaCutoff: 0.16,
 		alphaMode: 'MASK',
 		anisotropy: 8,
 		backfaceCull: false,
-		color: LEAF_COLORS[variant],
+		color: LEAF_COLORS[index],
 		doubleSided: true,
-		id: `Awtsmoos_procedural_tree_leaves_${variant}`,
+		id: `Awtsmoos_procedural_tree_leaves_${index}`,
 		mapRepeat: [1, 1],
+		roughness: 0.72,
 		texturePolicy: {
 			...(material.texturePolicy || {}),
 			authoredAlphaPreserved: true,
-			colorTintPolicy: 'near-neutral-species-preserving'
+			colorTintPolicy: 'near-neutral-species-preserving',
+			transmissionHint: 0.12 + index * 0.018
 		}
 	};
 }
@@ -72,4 +91,8 @@ function indexArray(values) {
 	let maximum = 0;
 	for (const value of values) maximum = Math.max(maximum, value);
 	return maximum > 65535 ? new Uint32Array(values) : new Uint16Array(values);
+}
+
+function normalizedVariant(value) {
+	return Math.abs(Number(value) || 0) % BARK_COLORS.length;
 }

@@ -4,43 +4,32 @@
 
 /**
  * @file MinimalMeadowVegetationDistributionCellFactory.js
- * @description Mounts one ecology-driven grass mesh and one species-aware flower mesh per cell.
- * The Awtsmoos gathers blade and blossom without multiplying draw calls;
- * Awtsmoos.com keeps species, fertility, density, triangles, and every visual role readable.
+ * @description Mounts one vertex-colored grass mesh and one mixed-species flower mesh per cell.
+ * The Awtsmoos gathers blade, leaf, stem, blossom, and seed without multiplying calls;
+ * Awtsmoos.com keeps palette, fertility, community, triangles, and visual roles readable to all.
  */
 
 import { Group } from '../../../light-three-gltf/tiny-runtime.js';
 import { createPrimitiveMesh } from '../world/Box3D.js';
-import {
-	createMinimalMeadowFlowerCellGeometry
-} from './MinimalMeadowFlowerClumpGeometry.js';
-import {
-	minimalMeadowVegetationMaterial
-} from './MinimalMeadowVegetationDistributionMaterials.js';
+import { createMinimalMeadowFlowerCellGeometry } from './MinimalMeadowFlowerClumpGeometry.js';
+import { minimalMeadowVegetationMaterial } from './MinimalMeadowVegetationDistributionMaterials.js';
 
 export function createMinimalMeadowVegetationCell(specification, terrain) {
 	const geometry = createMinimalMeadowFlowerCellGeometry({
+		budget: specification.budget,
 		center: specification,
 		clumps: specification.clumps,
+		grassColor: specification.grassColor,
 		seed: specification.seed,
 		species: specification.species,
+		speciesCommunity: specification.speciesCommunity,
 		terrain
 	});
 	const group = new Group();
 	group.name = specification.id;
 	group.position.set(specification.x, specification.y, specification.z);
-	const grass = manualMesh(
-		'grass',
-		geometry.grass,
-		specification.grassColor || '#4f8f39',
-		geometry.clumps
-	);
-	const flowers = manualMesh(
-		'flowers',
-		geometry.petals,
-		specification.color,
-		geometry.flowers
-	);
+	const grass = manualMesh('grass', geometry.grass, geometry.clumps);
+	const flowers = manualMesh('flowers', geometry.petals, geometry.flowers);
 	group.add(grass);
 	group.add(flowers);
 	group.userData.AwtsmoosVegetationCell = Object.freeze({
@@ -51,10 +40,14 @@ export function createMinimalMeadowVegetationCell(specification, terrain) {
 		grassDensity: specification.grassDensity,
 		moisture: specification.moisture,
 		petalCount: geometry.petalCount,
+		quality: specification.budget?.quality || 'high',
 		species: geometry.speciesId,
+		speciesCommunity: Object.freeze(geometry.speciesIds),
+		vertexColors: true,
 		zone: specification.zone
 	});
 	return {
+		budget: specification.budget,
 		clumps: geometry.clumps,
 		directionX: 0,
 		directionZ: 0,
@@ -66,18 +59,19 @@ export function createMinimalMeadowVegetationCell(specification, terrain) {
 	};
 }
 
-function manualMesh(role, geometry, color, instances) {
+function manualMesh(role, geometry, instances) {
 	const mesh = createPrimitiveMesh({
-		color,
+		color: '#ffffff',
 		doubleSided: true,
 		...geometry,
 		id: `Awtsmoos_${role}_baked_instances`,
 		shape: 'manual',
 		solid: false,
 		transparent: false,
-		userData: { instanceCount: instances, role }
+		userData: { instanceCount: instances, role, vertexColors: true }
 	});
-	mesh.material = minimalMeadowVegetationMaterial(role, color);
+	mesh.material = minimalMeadowVegetationMaterial(role, '#ffffff');
+	mesh.frustumCulled = true;
 	return mesh;
 }
 

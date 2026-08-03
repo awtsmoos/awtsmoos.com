@@ -46,6 +46,26 @@ const BROWSER_ACTIONS = Object.freeze([
 	"httpUseChromeCookies",
 	"chromeUseHttpCookies"
 ]);
+const VIRTUAL_BROWSER_ACTIONS = Object.freeze([
+	"chromeFind",
+	"chromeLaunch",
+	"chromeStop",
+	"chromeStatus",
+	"chromeTargets",
+	"chromeTargetSelector",
+	"chromeNewPage",
+	"chromeClosePage",
+	"chromeCloseTabs",
+	"chromeNavigate",
+	"chromeEval",
+	"chromeWaitForSelector",
+	"chromeClick",
+	"chromeType",
+	"chromeLogs",
+	"chromeSnapshot",
+	"chromeNetwork",
+	"chromeRunScript"
+]);
 
 /**
  * @file registration.js
@@ -111,8 +131,10 @@ function nativeCapabilities(config = {}) {
 		command: commandEnabled(config),
 		nodeScript: tools.nodeScript !== false
 			&& config.allowCommands !== false,
-		chrome: browserEnabled(config),
+		chrome: nativeBrowserEnabled(config),
 		browser: browserEnabled(config),
+		browserEngine: nativeBrowserEnabled(config) ? "chrome" :
+			virtualBrowserEnabled(config) ? "node-dom" : "none",
 		relay: tools.relay !== false,
 		streaming: tools.streaming !== false,
 		storage: "native-filesystem"
@@ -159,7 +181,7 @@ function nativeCapabilityProfile(config = {}) {
 				"simulateRuntime",
 				"runtimeWorkflow"
 			]),
-			"browser.control": capability(canBrowse, BROWSER_ACTIONS),
+			"browser.control": capability(canBrowse, browserActions(config)),
 			"native.access": capability(true),
 			"process.manage": capability(canCommand, [
 				"processList",
@@ -179,10 +201,27 @@ function commandEnabled(config = {}) {
 }
 
 function browserEnabled(config = {}) {
+	return nativeBrowserEnabled(config) || virtualBrowserEnabled(config);
+}
+
+function nativeBrowserEnabled(config = {}) {
 	const tools = config.tools || {};
 	return tools.chrome !== false
 		&& tools.browser !== false
 		&& config.chrome?.enabled !== false;
+}
+
+function virtualBrowserEnabled(config = {}) {
+	const tools = config.tools || {};
+	return tools.browser !== false
+		&& tools.nodeDom !== false
+		&& tools.nodeScript !== false
+		&& config.allowCommands !== false;
+}
+
+function browserActions(config = {}) {
+	return nativeBrowserEnabled(config) ? BROWSER_ACTIONS :
+		virtualBrowserEnabled(config) ? VIRTUAL_BROWSER_ACTIONS : [];
 }
 
 function capability(enabled, actions = []) {
@@ -194,11 +233,15 @@ function capability(enabled, actions = []) {
 
 module.exports = {
 	BROWSER_ACTIONS,
+	VIRTUAL_BROWSER_ACTIONS,
 	NATIVE_TARGET_VESSEL,
 	NATIVE_VESSEL_TYPE,
 	browserEnabled,
+	browserActions,
 	commandEnabled,
 	nativeCapabilities,
+	nativeBrowserEnabled,
 	nativeCapabilityProfile,
-	nativeRegistrationPacket
+	nativeRegistrationPacket,
+	virtualBrowserEnabled
 };

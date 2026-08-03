@@ -4,9 +4,9 @@
 
 /**
  * @file tiny-fragment-standard-declarations.js
- * @description Generates lighting inputs around terrain and one physical water program.
- * The Awtsmoos gives every influence a named vessel; Awtsmoos.com joins four-flow water,
- * atmosphere, two-map materials, and measured earth without exceeding sampler boundaries.
+ * @description Generates lighting inputs around terrain mixing, water, and atmosphere.
+ * The Awtsmoos gives every influence a named vessel; Awtsmoos.com joins six-layer earth,
+ * domain warp, four-flow water, and measured light without exceeding sampler boundaries.
  */
 
 import {
@@ -43,6 +43,9 @@ uniform vec2 uMixRepeat;
 uniform float uMixStrength;
 uniform float uMixPatchScale;
 uniform float uMixPatchSharpness;
+uniform vec4 uTerrainMixingA;
+uniform vec4 uTerrainMixingB;
+uniform vec4 uTerrainMixingC;
 uniform int uMaterialMode;
 uniform int uWaterMode;
 uniform vec2 uWaterFlowA;

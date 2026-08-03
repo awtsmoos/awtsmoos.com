@@ -4,15 +4,13 @@
 
 /**
  * @file MinimalMeadowTreeGeometry.js
- * @description Adapts canonical tree buffers into stable shared bark and canopy templates.
+ * @description Adapts canonical tree buffers into six shared bark and canopy template families.
  * The Awtsmoos branches endlessly without waste; Awtsmoos.com reuses finite vessels while
- * two-sided bark and cutout leaves remain whole through imperfect procedural winding.
+ * frustum culling, cutout leaves, age color, and procedural winding remain whole.
  */
 
 import { Mesh } from '../../../light-three-gltf/tiny-runtime.js';
-import {
-	generateTreeProceduralData
-} from './MinimalMeadowTreeCoreFacade.js';
+import { generateTreeProceduralData } from './MinimalMeadowTreeCoreFacade.js';
 import {
 	minimalMeadowBarkDefinition,
 	minimalMeadowLeafDefinition,
@@ -20,16 +18,13 @@ import {
 } from './MinimalMeadowTreeGeometrySupport.js';
 
 const templates = new Map();
-const VARIANT_COUNT = 3;
+const VARIANT_COUNT = 6;
 
 export function minimalMeadowTreeTemplate(preset, materials, variant = 0) {
 	const normalizedVariant = Math.abs(Number(variant) || 0) % VARIANT_COUNT;
 	const key = `${preset}|${materials.cacheKey}|${normalizedVariant}`;
 	if (!templates.has(key)) {
-		templates.set(
-			key,
-			buildTemplate(preset, materials, normalizedVariant, key)
-		);
+		templates.set(key, buildTemplate(preset, materials, normalizedVariant, key));
 	}
 	return templates.get(key);
 }
@@ -41,7 +36,7 @@ export function clearMinimalMeadowTreeTemplates() {
 export function createTreePart(templatePart, name) {
 	const mesh = new Mesh(templatePart.geometry, templatePart.material);
 	mesh.name = name;
-	mesh.frustumCulled = false;
+	mesh.frustumCulled = true;
 	mesh.userData = {
 		part: templatePart.part,
 		proceduralCore: true,

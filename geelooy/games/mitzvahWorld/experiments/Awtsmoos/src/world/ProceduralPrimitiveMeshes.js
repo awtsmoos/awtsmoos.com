@@ -1,25 +1,17 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
-	* @file ProceduralPrimitiveMeshes.js
-	* @description Creates local-space meshes without renderer allocation.
-	* From the Awtsmoos, cube and sphere, prism and cylinder receive one source;
-	* Awtsmoos.com preserves their shared geometry as bounded reusable vessels.
-	*/
+ * @file ProceduralPrimitiveMeshes.js
+ * @description Creates local-space primitive and authored manual meshes without renderer allocation.
+ * The Awtsmoos gives point, face, UV, and color one measured source;
+ * Awtsmoos.com preserves multicolor flowers and every bounded procedural course.
+ */
 
-import {
-	cubeMesh,
-	sphereMesh
-} from '../../../../../../libs/awtsmoos-procedural/src/index.js';
+import { cubeMesh, sphereMesh } from '../../../../../../libs/awtsmoos-procedural/src/index.js';
 import { createBooleanDoorwayMesh } from './BooleanDoorwayGeometry.js';
 
-/**
-	* Selects the local-space mesh for an authored primitive definition.
-	* @param {object} definition primitive definition.
-	* @returns {{positions: ArrayLike<number>, indices: ArrayLike<number>, colors?: ArrayLike<number>, uvs?: ArrayLike<number>}}
-	*/
 export function createPrimitiveMesh(definition) {
 	if (definition.shape === 'manual') return manualMesh(definition);
 	if (definition.shape === 'doorway') return createBooleanDoorwayMesh(definition);
@@ -27,27 +19,23 @@ export function createPrimitiveMesh(definition) {
 	if (definition.shape === 'triPrism') return createTriPrismMesh(definition);
 	if (definition.shape === 'sphere') {
 		return sphereMesh({
+			color: definition.rgba,
 			radius: definition.radius || 1,
 			rings: 10,
-			segments: 20,
-			color: definition.rgba
+			segments: 20
 		});
 	}
 	return cubeMesh({
-		size: [1, 1, 1],
-		color: definition.rgba || [0.7, 0.7, 0.7, 1]
+		color: definition.rgba || [0.7, 0.7, 0.7, 1],
+		size: [1, 1, 1]
 	});
 }
 
-/**
-	* Preserves authored vertices, faces, indices, and UV coordinates.
-	* @param {object} definition manual mesh definition.
-	* @returns {{positions: number[], indices: number[], uvs: number[] | null}}
-	*/
-export function manualMesh({ vertices = [], faces = [], indices = [], uvs = [] }) {
+export function manualMesh({ vertices = [], faces = [], indices = [], uvs = [], colors = [] }) {
 	return {
-		positions: vertices.flatMap(toPointArray),
+		colors: normalizeColors(colors, vertices.length),
 		indices: indices.length ? [...indices] : faces.flatMap(triangulateFace),
+		positions: vertices.flatMap(toPointArray),
 		uvs: uvs.length === vertices.length * 2 ? [...uvs] : null
 	};
 }
@@ -62,10 +50,7 @@ function createTriPrismMesh(definition) {
 			[-halfX, -halfY, halfZ], [halfX, -halfY, halfZ], [0, halfY, halfZ],
 			[-halfX, -halfY, -halfZ], [halfX, -halfY, -halfZ], [0, halfY, -halfZ]
 		],
-		faces: [
-			[0, 1, 2], [4, 3, 5], [0, 3, 4, 1],
-			[1, 4, 5, 2], [2, 5, 3, 0]
-		]
+		faces: [[0, 1, 2], [4, 3, 5], [0, 3, 4, 1], [1, 4, 5, 2], [2, 5, 3, 0]]
 	});
 }
 
@@ -93,16 +78,19 @@ function createCylinderMesh(definition) {
 	return mesh;
 }
 
+function normalizeColors(colors, vertexCount) {
+	if (!Array.isArray(colors) || !colors.length) return [];
+	const flat = colors.flatMap(value => Array.isArray(value) ? value : [value]);
+	return flat.length === vertexCount * 4 ? flat : [];
+}
+
 function toPointArray(value) {
-	if (Array.isArray(value)) return [value[0], value[1], value[2]];
-	return [value.x || 0, value.y || 0, value.z || 0];
+	return Array.isArray(value) ? [value[0], value[1], value[2]] : [value.x || 0, value.y || 0, value.z || 0];
 }
 
 function triangulateFace(face) {
 	const triangles = [];
-	for (let index = 1; index < face.length - 1; index += 1) {
-		triangles.push(face[0], face[index], face[index + 1]);
-	}
+	for (let index = 1; index < face.length - 1; index += 1) triangles.push(face[0], face[index], face[index + 1]);
 	return triangles;
 }
 

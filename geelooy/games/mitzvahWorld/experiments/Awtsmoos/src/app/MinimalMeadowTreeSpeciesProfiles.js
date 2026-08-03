@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowTreeSpeciesProfiles.js
- * @description Chooses recognizable tree presets, age, crown, and wind character from meadow ecology.
+ * @description Chooses recognizable species, age, crown density, silhouette, and wind from ecology.
  * The Awtsmoos lets birch, pine, ash, and oak answer distinct earth while remaining one forest;
- * Awtsmoos.com preserves canonical procedural presets, deterministic fallback, and traversal-safe scale.
+ * Awtsmoos.com preserves canonical presets, deterministic fallback, and traversal-safe scale.
  */
 
 const GROUPS = Object.freeze({
@@ -21,19 +21,20 @@ export function selectMinimalMeadowTreeProfile(ecology, availablePresets, unit =
 	const available = new Set(availablePresets);
 	const preferred = (GROUPS[ecology.zone] || GROUPS['mixed-meadow'])
 		.filter(name => available.has(name));
-	const fallback = [...available];
-	const candidates = preferred.length ? preferred : fallback;
-	if (!candidates.length) {
-		throw new Error('NO_PROCEDURAL_TREE_PRESETS');
-	}
-	const index = Math.min(candidates.length - 1, Math.floor(clamp(unit) * candidates.length));
+	const candidates = preferred.length ? preferred : [...available];
+	if (!candidates.length) throw new Error('NO_PROCEDURAL_TREE_PRESETS');
+	const normalized = clamp(unit);
+	const index = Math.min(candidates.length - 1, Math.floor(normalized * candidates.length));
+	const presetName = candidates[index];
 	const age = 0.72 + ecology.treeAffinity * 0.56;
 	return Object.freeze({
 		age,
 		canopyDensity: 0.78 + ecology.fertility * 0.42,
 		crownScale: 0.88 + ecology.fertility * 0.3,
-		presetName: candidates[index],
+		materialVariation: normalized,
+		presetName,
 		role: treeRole(ecology.zone),
+		silhouetteVariation: clamp(ecology.exposure * 0.54 + normalized * 0.46),
 		windSpeed: 0.36 + ecology.exposure * 0.42,
 		windStrength: 0.0028 + ecology.exposure * 0.0042
 	});

@@ -271,7 +271,7 @@ async function runPacedBatch(config, id, agents, round, service, continuation) {
 }
 
 async function drainSpawnQueue(config, id, service) {
-	const maxPasses = Number(Store.read(id)?.plan?.subagentPolicy?.maxTotalWebsiteAgents || 96);
+	const maxPasses = Number(Store.read(id)?.plan?.subagentPolicy?.maxTotalWebsiteAgents || 256);
 	for (let pass = 0; pass < maxPasses; pass += 1) {
 		await seedPendingChildren(config, id);
 		const record = Store.read(id);
@@ -304,7 +304,8 @@ async function processSpawnOutcome(config, id, parentAgentId, outcome = {}) {
 	}
 	const admission = Spawning.admit(id, parentAgentId, requests);
 	await seedPendingChildren(config, id);
-	if (!admission.accepted.length && !admission.rejected.length && !diagnostics.length) return;
+	if (!admission.accepted.length && !admission.duplicates.length &&
+		!admission.rejected.length && !diagnostics.length) return;
 	const record = Store.read(id);
 	const parent = record?.agents.find(agent => agent.id === parentAgentId);
 	if (!record || !parent) return;
@@ -315,10 +316,10 @@ async function processSpawnOutcome(config, id, parentAgentId, outcome = {}) {
 			role: parent.role,
 			toAgent: "all",
 			kind: "website-subagent-spawn-result",
-			subject: `${admission.accepted.length} sub-agent request(s) admitted`,
+			subject: `${admission.accepted.length} sub-agent request(s) admitted; ${admission.duplicates.length} duplicate(s) suppressed`,
 			body: [
 				`PLAN: fan out ${admission.accepted.length} independent scoped request(s).`,
-				`PROGRESS: stable children ${admission.accepted.map(item => item.childAgentId).join(", ") || "none"}.`,
+				`PROGRESS: stable children ${admission.accepted.map(item => item.childAgentId).join(", ") || "none"}; duplicate requests safely suppressed=${admission.duplicates.map(item => item.requestKey).join(", ") || "none"}.`,
 				`HANDOFF: ${admission.rejected.map(item => `${item.requestKey || "invalid"}:${item.reason}`).join(", ") || "no rejected requests"}; diagnostics=${JSON.stringify(diagnosticCounts)}.`,
 				"COMPLETION: each admitted child must publish its own verified completion or exact NEXT handoff."
 			].join("\n"),

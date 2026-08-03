@@ -6,6 +6,7 @@ const assert = require("node:assert/strict");
 const test = require("node:test");
 const {
 	BROWSER_ACTIONS,
+	VIRTUAL_BROWSER_ACTIONS,
 	nativeCapabilityProfile,
 	nativeRegistrationPacket
 } = require("../lib/registration.js");
@@ -74,8 +75,21 @@ test("disabled browser tools remain truthfully unsupported", () => {
 	assert.deepEqual(profile.capabilities["browser.control"].actions, []);
 });
 
-test("disabled Chrome runtime remains truthfully unsupported", () => {
+test("disabled native Chrome truthfully advertises node-dom browser control", () => {
 	const profile = nativeCapabilityProfile(config({
+		chrome: { enabled: false, port: 9339 }
+	}));
+	assert.equal(profile.capabilities["browser.control"].state, "supported");
+	assert.deepEqual(
+		profile.capabilities["browser.control"].actions,
+		[...VIRTUAL_BROWSER_ACTIONS]
+	);
+	assert.equal(profile.capabilities["browser.control"].actions.includes("chromeScreenshot"), false);
+});
+
+test("virtual browser is disabled when browser authority or runtime execution is denied", () => {
+	const profile = nativeCapabilityProfile(config({
+		allowCommands: false,
 		chrome: { enabled: false, port: 9339 }
 	}));
 	assert.equal(profile.capabilities["browser.control"].state, "unsupported");

@@ -13,6 +13,7 @@ let lastPageId = "";
 
 const callbacks = new Map();
 const targetLeases = new Map();
+const managedTargets = new Set();
 const MAX_HTTP_BYTES = Number(
 	process.env.AWTSMOOS_CDP_HTTP_MAX_BYTES || 2 * 1024 * 1024
 );
@@ -98,15 +99,19 @@ async function pages(port) {
 }
 
 async function newPage(port, url = "about:blank") {
-	return getJson(
+	const page = await getJson(
 		`http://127.0.0.1:${port}/json/new?${encodeURIComponent(url)}`
 	);
+	if (page?.id) managedTargets.add(page.id);
+	return page;
 }
 
 async function closePage(port, targetId) {
-	return getJson(
+	const result = await getJson(
 		`http://127.0.0.1:${port}/json/close/${encodeURIComponent(targetId)}`
 	);
+	managedTargets.delete(targetId);
+	return result;
 }
 
 function wireSocket(socket) {
@@ -229,19 +234,30 @@ async function ensurePage(port = 9222, options = {}) {
 		&& pagePort === requestedPort
 		&& !options.forceReconnect
 		&& targetOk(options)
+		&& (!options.createNewIfUnbound || currentTargetBound(options))
 	) {
 		return pageWs;
 	}
 	if (pageWs) closeCurrent("Chrome DevTools reconnect requested.");
 	const list = await pageList(requestedPort);
-	const preferred = choosePage(list, options);
+	const explicitTarget = options.chromeTargetId
+		|| options.pageId
+		|| options.targetId;
+	const scopeKey = targetScopeKey(options);
+	const lastLease = lastPageId ? targetLeases.get(lastPageId) : null;
+	const lastTargetBoundToRequest = lastPageId
+		&& (scopeKey ? lastLease?.scopeKey === scopeKey : managedTargets.has(lastPageId))
+		&& list.some(page => page.id === lastPageId && canUseTarget(page.id, options));
+	const boundTargetAvailable = explicitTarget
+		|| scopeKey && list.some(page => targetLeases.get(page.id)?.scopeKey === scopeKey)
+		|| lastTargetBoundToRequest;
+	const preferred = options.createNewIfUnbound && !boundTargetAvailable
+		? null
+		: choosePage(list, options);
 	if (preferred) {
 		leaseTarget(preferred.id, options);
 		return connectPageWs(requestedPort, preferred, options.timeoutMs);
 	}
-	const explicitTarget = options.chromeTargetId
-		|| options.pageId
-		|| options.targetId;
 	if (explicitTarget) {
 		throw new Error(
 			`Chrome target unavailable or lease mismatch: ${explicitTarget}`
@@ -256,6 +272,23 @@ async function ensurePage(port = 9222, options = {}) {
 	}
 	leaseTarget(page.id, options);
 	return connectPageWs(requestedPort, page, options.timeoutMs);
+}
+
+function currentTargetBound(options = {}) {
+	const explicit = options.chromeTargetId || options.pageId || options.targetId;
+	if (explicit) return explicit === lastPageId && canUseTarget(lastPageId, options);
+	const scopeKey = targetScopeKey(options);
+	if (scopeKey) return targetLeases.get(lastPageId)?.scopeKey === scopeKey;
+	return managedTargets.has(lastPageId);
+}
+
+function markManagedTarget(targetId) {
+	if (targetId) managedTargets.add(targetId);
+	return targetId || "";
+}
+
+function managedTargetSnapshot() {
+	return [...managedTargets];
 }
 
 function targetOk(options) {
@@ -399,6 +432,10 @@ async function navigateAndWait(
 ) {
 	const limit = timeoutOf(timeoutMs);
 	const startedAt = Date.now();
+	const explicitTargetId = options.chromeTargetId
+		|| options.pageId
+		|| options.targetId
+		|| "";
 	await ensurePage(port, {
 		...options,
 		forceReconnect: true,
@@ -406,31 +443,66 @@ async function navigateAndWait(
 		preferUrl: url,
 		timeoutMs: Math.min(limit, 15000)
 	});
-	let navigation = await safeNavigate(url, limit);
-	let ready = navigation.ok
-		? await waitReady(startedAt, limit, url)
-		: navigation;
-	if (ready.ok && !looksNavigated(ready.href, url)) {
-		ready = await freshTargetNavigate(
-			url,
-			limit,
-			port,
-			options,
-			startedAt,
-			ready
-		);
+	const initialTargetId = lastPageId;
+	const initialHref = await currentHref().catch(() => "");
+	const firstDeadline = Math.min(
+		startedAt + limit,
+		Date.now() + Math.max(1000, Math.floor(limit * 0.45))
+	);
+	const first = await navigateAttempt({
+		url,
+		limit,
+		deadlineAt: firstDeadline,
+		initialHref,
+		attempt: 1
+	});
+	if (first.ok) return first;
+
+	const sameTarget = await retrySameTargetNavigate({
+		url,
+		limit,
+		port,
+		options,
+		startedAt,
+		initialHref,
+		initialTargetId,
+		previous: first,
+		deadlineAt: explicitTargetId
+			? startedAt + limit
+			: Math.min(startedAt + limit, Date.now() + Math.max(1000, Math.floor(limit * 0.35)))
+	});
+	if (sameTarget.ok || explicitTargetId || Date.now() >= startedAt + limit) {
+		return sameTarget;
 	}
-	return ready;
+	return freshTargetNavigate(
+		url,
+		limit,
+		port,
+		options,
+		startedAt,
+		sameTarget,
+		initialHref,
+		initialTargetId
+	);
 }
 
 async function safeNavigate(url, limit) {
 	try {
-		await cdpCall(
+		const response = await cdpCall(
 			"Page.navigate",
 			{ url },
 			Math.min(limit, 30000)
 		);
-		return { ok: true };
+		if (response?.errorText) {
+			return {
+				ok: false,
+				readyState: "navigate_error",
+				error: response.errorText,
+				response,
+				durationMs: 0
+			};
+		}
+		return { ok: true, response };
 	} catch (error) {
 		return {
 			ok: false,
@@ -441,29 +513,103 @@ async function safeNavigate(url, limit) {
 	}
 }
 
+async function navigateAttempt(input) {
+	const navigation = await safeNavigate(input.url, input.limit);
+	if (!navigation.ok) {
+		return {
+			...navigation,
+			attempt: input.attempt,
+			chromeTargetId: lastPageId
+		};
+	}
+	const ready = await waitReady({
+		deadlineAt: input.deadlineAt,
+		startedAt: Date.now(),
+		expectedUrl: input.url,
+		initialHref: input.initialHref
+	});
+	return {
+		...ready,
+		attempt: input.attempt,
+		navigationResponse: navigation.response
+	};
+}
+
+async function retrySameTargetNavigate(input) {
+	if (!input.initialTargetId || Date.now() >= input.startedAt + input.limit) {
+		return { ...input.previous, retriedSameTarget: false };
+	}
+	try {
+		closeCurrent("retrying navigation on the exact Chrome target");
+		await ensurePage(input.port, {
+			...input.options,
+			forceReconnect: true,
+			force: true,
+			chromeTargetId: input.initialTargetId,
+			timeoutMs: Math.min(
+				15000,
+				Math.max(1000, input.startedAt + input.limit - Date.now())
+			)
+		});
+		const ready = await navigateAttempt({
+			url: input.url,
+			limit: Math.max(1000, input.startedAt + input.limit - Date.now()),
+			deadlineAt: input.deadlineAt,
+			initialHref: input.initialHref,
+			attempt: 2
+		});
+		return {
+			...ready,
+			retriedSameTarget: true,
+			previous: input.previous,
+			exactTargetPreserved: lastPageId === input.initialTargetId
+		};
+	} catch (error) {
+		return {
+			ok: false,
+			readyState: "same_target_retry_error",
+			error: error.message,
+			chromeTargetId: input.initialTargetId,
+			retriedSameTarget: true,
+			previous: input.previous,
+			exactTargetPreserved: true
+		};
+	}
+}
+
 async function freshTargetNavigate(
 	url,
 	limit,
 	port,
 	options,
 	startedAt,
-	previous
+	previous,
+	initialHref,
+	initialTargetId
 ) {
 	closeCurrent("navigation stuck on old target");
 	const page = await newPage(port, url);
 	await connectPageWs(port, page, Math.min(limit, 15000));
 	leaseTarget(page.id, options);
-	await safeNavigate(url, limit);
-	const ready = await waitReady(startedAt, limit, url);
+	const ready = await navigateAttempt({
+		url,
+		limit: Math.max(1000, startedAt + limit - Date.now()),
+		deadlineAt: startedAt + limit,
+		initialHref,
+		attempt: 3
+	});
 	return {
 		...ready,
 		retriedFreshTarget: true,
+		previousChromeTargetId: initialTargetId,
 		previous
 	};
 }
 
-async function waitReady(startedAt, limit, expectedUrl = "") {
-	while (Date.now() - startedAt < limit) {
+async function waitReady(input = {}) {
+	const startedAt = Number(input.startedAt || Date.now());
+	const deadlineAt = Number(input.deadlineAt || startedAt + 30000);
+	while (Date.now() < deadlineAt) {
 		try {
 			const result = await cdpCall("Runtime.evaluate", {
 				expression: "({readyState:document.readyState,href:location.href,title:document.title})",
@@ -472,7 +618,11 @@ async function waitReady(startedAt, limit, expectedUrl = "") {
 			const value = result.result?.value || {};
 			if (
 				["complete", "interactive"].includes(value.readyState)
-				&& looksNavigated(value.href, expectedUrl)
+				&& navigationLocationMatches(
+					value.href,
+					input.expectedUrl,
+					input.initialHref
+				)
 			) {
 				return {
 					ok: true,
@@ -484,7 +634,7 @@ async function waitReady(startedAt, limit, expectedUrl = "") {
 				};
 			}
 		} catch (error) {
-			if (!isSocketFailure(error)) {
+			if (!isSocketFailure(error) && !isTransientNavigationError(error)) {
 				return {
 					ok: false,
 					readyState: "eval_error",
@@ -501,8 +651,39 @@ async function waitReady(startedAt, limit, expectedUrl = "") {
 		href: await currentHref().catch(() => ""),
 		chromeTargetId: lastPageId,
 		durationMs: Date.now() - startedAt,
-		timeoutMs: limit
+		timeoutMs: Math.max(0, deadlineAt - startedAt)
 	};
+}
+
+function isTransientNavigationError(error) {
+	return /execution context|cannot find context|inspected target navigated|context was destroyed|target closed while navigating/i.test(
+		String(error?.message || error)
+	);
+}
+
+function navigationLocationMatches(href = "", expected = "", initialHref = "") {
+	const current = String(href || "");
+	if (!current || /^about:blank/i.test(current) && !/^about:blank/i.test(String(expected))) {
+		return false;
+	}
+	if (sameLocation(current, expected)) return true;
+	if (initialHref && !sameLocation(current, initialHref)) return true;
+	return !initialHref && looksNavigated(current, expected);
+}
+
+function sameLocation(left, right) {
+	if (!left || !right) return false;
+	try {
+		const a = new URL(left);
+		const b = new URL(right);
+		const normalizedPath = value => value.pathname.replace(/\/+$/, "") || "/";
+		return a.protocol === b.protocol
+			&& a.host === b.host
+			&& normalizedPath(a) === normalizedPath(b)
+			&& a.search === b.search;
+	} catch {
+		return String(left).replace(/#.*$/, "") === String(right).replace(/#.*$/, "");
+	}
 }
 
 function looksNavigated(href = "", expected = "") {
@@ -524,6 +705,10 @@ async function currentHref() {
 		returnByValue: true
 	}, 3000);
 	return result.result?.value || "";
+}
+
+function currentTargetId() {
+	return lastPageId || "";
 }
 
 function targetScopeKey(input = {}) {
@@ -590,12 +775,18 @@ module.exports = {
 	closeCurrent,
 	closePage,
 	connectPageWs,
+	currentTargetId,
 	currentHref,
+	currentTargetBound,
 	dropCurrentSocket,
 	ensurePage,
 	isSocketFailure,
+	isTransientNavigationError,
 	leaseTarget,
 	looksNavigated,
+	managedTargetSnapshot,
+	markManagedTarget,
+	navigationLocationMatches,
 	methodOf,
 	navigateAndWait,
 	newPage,

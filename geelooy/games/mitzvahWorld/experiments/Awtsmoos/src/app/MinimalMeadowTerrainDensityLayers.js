@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowTerrainDensityLayers.js
- * @description Converts ecological sources into exact native-frequency shader layer records.
- * The Awtsmoos clothes every source at its truthful scale; Awtsmoos.com carries real pixels,
- * world frequency, slope, height, and ecological authorship without arbitrary reference ratios.
+ * @description Converts ecological sources into native-frequency layers with truthful habitat envelopes.
+ * The Awtsmoos clothes every source at its own scale, height, slope, angle, and wetness;
+ * Awtsmoos.com preserves real pixels while macro and micro frequencies dissolve visible repetition.
  */
 
 import {
@@ -44,11 +44,11 @@ export function minimalMeadowDensityLayer(definition, context) {
 	return {
 		...definition,
 		density: plan,
-		height: [-20, 40],
+		height: [...definition.height],
+		macroRepeat: scaled(plan.frequency, MACRO_SCALE),
+		microRepeat: scaled(plan.frequency, MICRO_SCALE),
 		repeat: [...plan.frequency],
-		slope: definition.role === 'open-soil'
-			? [0.05, 0.92]
-			: [0, 0.82],
+		slope: [...definition.slope],
 		texturePolicy: minimalMeadowDensityPolicy(
 			plan,
 			context.texelsPerWorld,
@@ -62,6 +62,7 @@ export function minimalMeadowDensityPolicy(plan, texelsPerWorld, role) {
 		densityPlan: plan,
 		exactFractionalRepeat: true,
 		fullResolution: true,
+		macroMicro: true,
 		nativeTexelDensity: true,
 		projection: 'world-native-frequency-mirror',
 		repeatAcrossWorld: [...plan.repeat],
@@ -83,4 +84,8 @@ export function minimalMeadowSourceWorldUnits(plan) {
 
 export function minimalMeadowRepeatRatio(_reference, candidate) {
 	return [...candidate.frequency];
+}
+
+function scaled(values, scale) {
+	return values.map(value => Number(value) * scale);
 }

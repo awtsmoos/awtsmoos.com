@@ -1,23 +1,10 @@
 // B"H
 const Chrome = require("../../chrome/index.js");
 const { wantsVirtualChrome, virtualChrome } = require("./virtualChromeActions.js");
+const { VIRTUAL_BROWSER_ACTIONS } = require("../../../lib/registration.js");
 
 const ACTIONS = Object.keys(Chrome.ACTIONS);
-const VIRTUAL_SAFE = new Set([
-	"chromeFind",
-	"chromeLaunch",
-	"chromeStatus",
-	"chromeTargets",
-	"chromeTargetSelector",
-	"chromeNewPage",
-	"chromeNavigate",
-	"chromeEval",
-	"chromeWaitForSelector",
-	"chromeClick",
-	"chromeType",
-	"chromeSnapshot",
-	"chromeRunScript"
-]);
+const VIRTUAL_SAFE = new Set(VIRTUAL_BROWSER_ACTIONS);
 
 /**
  * The native action surface is generated from the same authoritative Chrome
@@ -37,7 +24,7 @@ async function execute(action, payload) {
 	if (!wantsVirtualChrome(payload)) {
 		return Chrome.handleChrome({ ...payload, action });
 	}
-	if (action === "chromeStop") {
+	if (action === "chromeStop" || action === "chromeClosePage") {
 		return { ok: true, action, engine: "node-dom", alreadyStopped: true };
 	}
 	if (action === "chromeCloseTabs") {

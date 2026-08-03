@@ -4,9 +4,9 @@
 
 /**
  * @file tiny-render-textures.js
- * @description Binds base, mix, and ecological textures while exposing GPU residency evidence.
- * The Awtsmoos remains one through every material garment; Awtsmoos.com records skipped state,
- * real image uploads, and terrain-layer capacity so missing cottage maps cannot hide in silence.
+ * @description Binds base, mix, ecological textures, and terrain-quality vectors with residency evidence.
+ * The Awtsmoos remains one through every material garment; Awtsmoos.com sends warp, distance,
+ * wetness, chroma, and six source images to the GPU without repeated uploads or hidden silence.
  */
 
 import { GpuTextureCache } from './tiny-gpu-texture-cache.js';
@@ -42,6 +42,7 @@ export class MaterialTextureBinder {
 		stats.textureStateUploads = (stats.textureStateUploads || 0) + 1;
 		this.bindMap(locations, material, state);
 		this.bindMix(locations, material, state);
+		this.bindTerrainMixing(locations, state);
 		this.layers.bind(locations, material, state.layers, stats);
 	}
 
@@ -66,6 +67,13 @@ export class MaterialTextureBinder {
 		if (locations.mixPatchSharpness) {
 			this.gl.uniform1f(locations.mixPatchSharpness, state.patchSharpness);
 		}
+	}
+
+	bindTerrainMixing(locations, state) {
+		const mixing = state.terrainMixing;
+		if (locations.terrainMixingA) this.gl.uniform4fv(locations.terrainMixingA, mixing.a);
+		if (locations.terrainMixingB) this.gl.uniform4fv(locations.terrainMixingB, mixing.b);
+		if (locations.terrainMixingC) this.gl.uniform4fv(locations.terrainMixingC, mixing.c);
 	}
 
 	diagnostics() {

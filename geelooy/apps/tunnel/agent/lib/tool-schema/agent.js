@@ -59,7 +59,7 @@ function aiAgentSchema(name) {
 		count: integer("Agent-count alias, bounded from 3 through 96."),
 		allowRecursiveSubagents: bool("Allow every authenticated website agent to request bounded child agents."),
 		maxSubagentDepth: integer("Maximum website-agent descendant depth, from 1 through 8; default 4."),
-		maxSubagentsPerAgent: integer("Maximum bounded child agents each website agent may request, from 1 through 96."),
+		maxSubagentsPerAgent: integer("Maximum bounded child agents each website agent may request, from 1 through 96; default 32."),
 		maxTotalWebsiteAgents: integer("Global initial-plus-child website-agent cap, from 3 through 512; default 256."),
 		subagentStartSpacingMs: integer("Minimum delay between child website prompt starts, at least 10000 ms."),
 		scopes: array(string("Repository scope assigned to a website sub-agent.")),

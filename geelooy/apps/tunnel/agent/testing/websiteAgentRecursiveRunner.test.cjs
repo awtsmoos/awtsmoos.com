@@ -47,7 +47,8 @@ const Spawning = require("../tools/fs/actionGroups/websiteAgents/spawning.js");
 					requests: [
 						request("leaf.one", "leaf verifier", "tests/one", "Verify leaf one and publish evidence."),
 						request("leaf.two", "leaf verifier", "tests/two", "Verify leaf two and publish evidence."),
-						request("leaf.excess", "leaf verifier", "tests/excess", "This request must be bounded by the remaining global cap.")
+						request("leaf.three", "leaf verifier", "tests/three", "Verify leaf three and publish evidence."),
+						request("INVALID ID", "invalid verifier", "tests/invalid", "This malformed request must be rejected and reported.")
 					]
 				});
 			}
@@ -68,7 +69,7 @@ const Spawning = require("../tools/fs/actionGroups/websiteAgents/spawning.js");
 		directService: service
 	};
 	try {
-		for (const directory of ["runtime", "tests", "tests/one", "tests/two", "tests/excess"]) {
+		for (const directory of ["runtime", "tests", "tests/one", "tests/two", "tests/three", "tests/invalid"]) {
 			fs.mkdirSync(path.join(root, directory), { recursive: true });
 		}
 		const started = await Runner.start(config, {
@@ -79,7 +80,7 @@ const Spawning = require("../tools/fs/actionGroups/websiteAgents/spawning.js");
 			maxContinuationTurns: 2,
 			maxSubagentDepth: 4,
 			maxSubagentsPerAgent: 12,
-			maxTotalWebsiteAgents: 6,
+			maxTotalWebsiteAgents: 8,
 			startSpacingMs: 10000,
 			subagentStartSpacingMs: 10000,
 			projectRoot: root
@@ -87,7 +88,7 @@ const Spawning = require("../tools/fs/actionGroups/websiteAgents/spawning.js");
 		await Runner.active.get(started.mission.id);
 		const status = await Runner.status(config, { websiteMissionId: started.mission.id });
 		assert.equal(status.mission.status, "complete");
-		assert.equal(status.mission.agents.length, 6);
+		assert.equal(status.mission.agents.length, 7);
 
 		const parent = status.mission.agents.find(agent => agent.id === "website_01_architect");
 		assert.equal(parent.depth, 0);
@@ -100,8 +101,8 @@ const Spawning = require("../tools/fs/actionGroups/websiteAgents/spawning.js");
 		assert.equal(child.spawnRequestKey, "runtime.child");
 		assert.equal(child.spawnPrompt, "Inspect runtime independently and return exact bounded evidence.");
 		assert.equal(child.singleUse, true);
-		assert.equal(child.spawnedChildCount, 2);
-		assert.equal(child.childAgentIds.length, 2);
+		assert.equal(child.spawnedChildCount, 3);
+		assert.equal(child.childAgentIds.length, 3);
 		for (const childId of child.childAgentIds) {
 			const leaf = status.mission.agents.find(agent => agent.id === childId);
 			assert.equal(leaf.parentAgentId, child.id);
@@ -110,9 +111,9 @@ const Spawning = require("../tools/fs/actionGroups/websiteAgents/spawning.js");
 			assert.equal(leaf.status, "complete");
 		}
 
-		assert.equal(calls.length, 7);
+		assert.equal(calls.length, 8);
 		assert.equal(calls.filter(call => call.id === parent.id).length, 2);
-		assert.equal(new Set(calls.map(call => call.id)).size, 6);
+		assert.equal(new Set(calls.map(call => call.id)).size, 7);
 		assert.equal(sleeps.length, calls.length - 1);
 		assert.ok(sleeps.every(milliseconds => milliseconds >= 10000));
 		assert.match(calls.find(call => call.id === child.id).prompt, /Parent website agent:/);
@@ -127,7 +128,7 @@ const Spawning = require("../tools/fs/actionGroups/websiteAgents/spawning.js");
 		assert.equal(admittedAgain.accepted.length, 0);
 		assert.equal(admittedAgain.duplicates.length, 1);
 		assert.equal(admittedAgain.duplicates[0].childAgentId, child.id);
-		assert.equal(admittedAgain.record.agents.length, 6);
+		assert.equal(admittedAgain.record.agents.length, 7);
 		const duplicatePayload = Spawning.admit(started.mission.id, parent.id, [request(
 			"runtime.child.renamed",
 			"runtime child",
@@ -138,15 +139,15 @@ const Spawning = require("../tools/fs/actionGroups/websiteAgents/spawning.js");
 		assert.equal(duplicatePayload.duplicates.length, 1);
 		assert.equal(duplicatePayload.duplicates[0].status, "duplicate_payload");
 		assert.equal(duplicatePayload.duplicates[0].childAgentId, child.id);
-		assert.equal(duplicatePayload.record.agents.length, 6);
+		assert.equal(duplicatePayload.record.agents.length, 7);
 
 		assert.ok(status.mission.events.some(item =>
 			item.type === "subagent_spawn_diagnostics" &&
-			item.counts?.spawn_request_limit_exceeded === 1
+			item.counts?.invalid_spawn_request_id === 1
 		));
 		assert.equal(
 			status.room.messages.filter(message => message.kind === "website-subagent-created").length,
-			3
+			4
 		);
 		assert.ok(status.room.messages.some(message =>
 			message.kind === "website-subagent-spawn-result" &&
@@ -155,6 +156,13 @@ const Spawning = require("../tools/fs/actionGroups/websiteAgents/spawning.js");
 			message.body.includes("HANDOFF:") &&
 			message.body.includes("COMPLETION:")
 		));
+		assert.ok(status.room.messages.some(message =>
+			message.kind === "website-subagent-spawn-result" &&
+			message.subject.includes("1 duplicate(s) suppressed") &&
+			message.body.includes("duplicate requests safely suppressed=runtime.child")
+		), JSON.stringify(status.room.messages.filter(message =>
+			message.kind === "website-subagent-spawn-result"
+		), null, 2));
 
 		console.log(JSON.stringify({
 			ok: true,
@@ -163,7 +171,7 @@ const Spawning = require("../tools/fs/actionGroups/websiteAgents/spawning.js");
 			maximumDepthObserved: 2,
 			duplicateChildSuppressed: true,
 			duplicatePayloadAcrossTurnsSuppressed: true,
-			globalCapAppliedBeforeAdmission: true,
+			malformedRequestReportedBeforeAdmission: true,
 			globalSequentialStartSpacing: true,
 			durableRoomLifecycle: true
 		}, null, 2));

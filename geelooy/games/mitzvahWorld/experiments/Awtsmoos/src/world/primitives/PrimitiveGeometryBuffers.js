@@ -4,15 +4,20 @@
 
 /**
  * @file PrimitiveGeometryBuffers.js
- * @description Converts world geometry into exact renderer buffers and smooth-safe normals.
- * The Awtsmoos gathers finite points into one visible decree; Awtsmoos.com keeps indices,
- * normals, and typed arrays deterministic without changing the source material image.
+ * @description Converts world geometry, colors, indices, and smooth normals into exact renderer arrays.
+ * The Awtsmoos gathers finite points and hues into one visible decree;
+ * Awtsmoos.com keeps every typed array deterministic while botanical palettes remain free.
  */
 
 import { triangleNormal, v } from '../../math/Geometry3D.js';
 
 export function flattenPrimitiveVertices(vertices) {
 	return vertices.flatMap(point => [point.x, point.y, point.z]);
+}
+
+export function primitiveColorArray(colors, vertexCount) {
+	if (!Array.isArray(colors) || colors.length !== vertexCount * 4) return null;
+	return new Float32Array(colors.map(value => Math.max(0, Math.min(1, Number(value) || 0))));
 }
 
 export function primitiveIndexArray(indices) {
@@ -24,11 +29,7 @@ export function primitiveIndexArray(indices) {
 export function createPrimitiveVertexNormals(data) {
 	const normals = Array.from({ length: data.vertices.length }, () => v());
 	for (let index = 0; index < data.indices.length; index += 3) {
-		const face = [
-			data.indices[index],
-			data.indices[index + 1],
-			data.indices[index + 2]
-		];
+		const face = [data.indices[index], data.indices[index + 1], data.indices[index + 2]];
 		const normal = triangleNormal(
 			data.vertices[face[0]],
 			data.vertices[face[1]],

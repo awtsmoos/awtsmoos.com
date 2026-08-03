@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowVegetationDistribution.js
- * @description Distributes ecology-driven grass and flower cells from one deterministic meadow seed.
- * The Awtsmoos scatters wet-bank blossoms, dry-upland restraint, and fertile abundance without sameness;
- * Awtsmoos.com preserves playable bounds, paths, spacing, quadrants, and bounded high-quality density.
+ * @description Distributes quality-budgeted ecological cells from one deterministic meadow seed.
+ * The Awtsmoos scatters wet-bank blossom, dry restraint, and fertile abundance without sameness;
+ * Awtsmoos.com preserves paths, spacing, quadrants, playable bounds, and explicit density budgets.
  */
 
 import {
@@ -14,26 +14,24 @@ import {
 	MINIMAL_MEADOW_POPULATION_SEED,
 	MINIMAL_MEADOW_VEGETATION_ANCHORS
 } from './MinimalMeadowWorldPopulationConfig.js';
-import {
-	minimalMeadowPopulationAllows
-} from './MinimalMeadowWorldPopulationExclusions.js';
+import { minimalMeadowPopulationAllows } from './MinimalMeadowWorldPopulationExclusions.js';
 import {
 	minimalMeadowHasSpacing,
 	minimalMeadowSeededUnit
 } from './MinimalMeadowWorldPopulationMath.js';
 import { minimalMeadowRiverSample } from './MinimalMeadowRiverPath.js';
-import {
-	createMinimalMeadowVegetationCellProfile
-} from './MinimalMeadowVegetationCellProfile.js';
+import { createMinimalMeadowVegetationCellProfile } from './MinimalMeadowVegetationCellProfile.js';
+import { minimalMeadowVegetationBudget } from './MinimalMeadowVegetationQualityBudget.js';
 
 const CELL_EXTENT = 4.5;
 
 export function createMinimalMeadowVegetationDistribution(terrain, options = {}) {
-	const target = options.mobile ? 30 : 48;
+	const budget = minimalMeadowVegetationBudget(options);
 	const cells = [];
-	appendAnchors(cells, terrain, options);
-	appendRiverBanks(cells, terrain, options.mobile ? 12 : 20, options);
-	for (let attempt = 0; attempt < 2200 && cells.length < target; attempt += 1) {
+	const context = { ...options, budget };
+	appendAnchors(cells, terrain, context);
+	appendRiverBanks(cells, terrain, budget.riverCells, context);
+	for (let attempt = 0; attempt < 2800 && cells.length < budget.cells; attempt += 1) {
 		appendCell(
 			cells,
 			terrain,
@@ -42,11 +40,12 @@ export function createMinimalMeadowVegetationDistribution(terrain, options = {})
 			attempt + 500,
 			'seeded-meadow',
 			'vegetation',
-			options
+			context
 		);
 	}
-	return cells.slice(0, target).map((cell, index) => Object.freeze({
+	return cells.slice(0, budget.cells).map((cell, index) => Object.freeze({
 		...cell,
+		budget,
 		id: `meadow-vegetation-cell-${index + 1}`
 	}));
 }
@@ -83,7 +82,8 @@ function appendRiverBanks(cells, terrain, count, options) {
 
 function appendCell(cells, terrain, x, z, key, source, role, options) {
 	if (!insidePlayableCell(x, z) || !minimalMeadowPopulationAllows(x, z, role)) return;
-	if (!minimalMeadowHasSpacing(cells, x, z, 5.4)) return;
+	const spacing = options.mobile ? 6.2 : 4.9;
+	if (!minimalMeadowHasSpacing(cells, x, z, spacing)) return;
 	const profile = createMinimalMeadowVegetationCellProfile(terrain, x, z, key, options);
 	if (!profile) return;
 	cells.push({

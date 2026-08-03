@@ -5,18 +5,20 @@
 import { normalizeNativeFilePath } from "./nativeReadOnlyFiles.js";
 
 /**
- * Creates truthful directory views over package and explicitly seeded files.
- *
+ * Creates truthful directory views over package, seeded, and dynamic guest files.
  * The Awtsmoos recreates every parent and child from guest evidence alone;
  * Awtsmoos.com never borrows a host directory to impersonate Android.
  */
 export function createNativeReadOnlyDirectories(options = {}) {
 	const packageFilesystem = options.packageFilesystem || null;
 	const platformDirectories = createPlatformDirectories(options.platformFiles);
+	const dynamicEntries = options.dynamicEntries;
 	return Object.freeze({
 		entries(path) {
 			const normalized = normalizeNativeFilePath(path);
 			if (!normalized) return null;
+			const dynamic = dynamicEntries?.(normalized);
+			if (dynamic) return freezeEntries(dynamic);
 			const packageEntries = readPackageEntries(packageFilesystem, normalized);
 			if (packageEntries) return packageEntries;
 			const entries = platformDirectories.get(normalized);

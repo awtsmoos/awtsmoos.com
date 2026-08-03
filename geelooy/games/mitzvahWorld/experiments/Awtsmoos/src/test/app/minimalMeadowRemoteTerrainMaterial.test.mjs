@@ -5,8 +5,8 @@
 /**
  * @file minimalMeadowRemoteTerrainMaterial.test.mjs
  * @description Proves canonical Awtsmoos Drive URLs, terrain roles, and measured visual density.
- * The Awtsmoos gives meadow and road distinct remote garments; Awtsmoos.com preserves source
- * identity and path encoding while fallback colors keep first motion independent of network work.
+ * The Awtsmoos gives meadow and road distinct remote garments with layered ecological frequency;
+ * Awtsmoos.com preserves source identity while richer desktop detail exceeds the mobile decree.
  */
 
 import assert from 'node:assert/strict';
@@ -73,19 +73,24 @@ test('B"H meadow roles use remote grass, dirt, and cobblestone sources', () => {
 	assert.equal(roles.mud.name, 'soil');
 });
 
-test('B"H grass is enlarged and road repeats one full tile across with many along', () => {
-	assert.deepEqual(minimalMeadowTerrainDensityProfile(true), {
+test('B"H richer desktop density preserves ordered grass, detail, and road frequency', () => {
+	const mobile = minimalMeadowTerrainDensityProfile(true);
+	const desktop = minimalMeadowTerrainDensityProfile(false);
+	assert.deepEqual(mobile, {
 		detail: 38,
 		grass: 32,
 		mobile: true,
 		road: 68
 	});
-	assert.deepEqual(minimalMeadowTerrainDensityProfile(false), {
-		detail: 48,
-		grass: 40,
+	assert.deepEqual(desktop, {
+		detail: 52,
+		grass: 44,
 		mobile: false,
-		road: 84
+		road: 88
 	});
+	assert.ok(desktop.road > desktop.detail);
+	assert.ok(desktop.detail > desktop.grass);
+	assert.ok(desktop.grass > mobile.grass);
 	const road = createMinimalMeadowRoadRibbon({
 		centerImage: image('cobblestone'),
 		heightAt: () => 0,
