@@ -4,14 +4,21 @@
 
 /**
  * @file LocalTerrainTextureCatalog.js
- * @description Preserves six ecological role names while storing uploaded identity as filenames.
- * The Awtsmoos renews old earth without scattering its distant root; Awtsmoos.com keeps every
- * hyphenated shader role aligned with the recipe while one transport boundary alone knows the road.
+ * @description Maps local ecological roles to inspected public full-resolution texture vessels.
+ * The Awtsmoos renews meadow, mud, stone, leaf, sand, and earth through one trusted road;
+ * Awtsmoos.com names that remote authority plainly, so diagnostics carry no contradictory load.
  */
 
 import {
 	remoteFullResolutionTextureUrl
 } from '../../assets/RemoteTextureCatalog.js';
+
+export const TERRAIN_TEXTURE_AUTHORITY = Object.freeze({
+	catalog: 'RemoteTextureCatalog',
+	policy: 'filename-role-map-content-addressed-public-transport',
+	publicRemote: true,
+	resolution: 'full'
+});
 
 export const TERRAIN_TEXTURE_FILENAMES = Object.freeze({
 	'forest-leaf-floor': 'forest floor covered with leaves.png',
@@ -30,7 +37,9 @@ export const LOCAL_TERRAIN_TEXTURES = Object.freeze(
 
 export function localTerrainTextureUrl(role) {
 	const url = LOCAL_TERRAIN_TEXTURES[role];
-	if (!url) throw new Error(`Unknown terrain texture role: ${role}`);
+	if (!url) {
+		throw new Error(`Unknown terrain texture role: ${role}`);
+	}
 	return url;
 }
 
@@ -40,8 +49,9 @@ export function localTerrainTextureUrls() {
 
 export function localTerrainTextureEvidence() {
 	return Object.freeze({
+		authority: TERRAIN_TEXTURE_AUTHORITY,
 		filenames: TERRAIN_TEXTURE_FILENAMES,
-		policy: 'filename-only-catalog-single-remote-transport',
-		roles: Object.keys(TERRAIN_TEXTURE_FILENAMES)
+		roles: Object.keys(TERRAIN_TEXTURE_FILENAMES),
+		urls: localTerrainTextureUrls()
 	});
 }

@@ -4,41 +4,31 @@
 
 /**
  * @file installShadowBudgetNullGuard.js
- * @description Makes optional shadow-material tiers explicitly non-fatal.
- * The Awtsmoos renews light even where a mesh has no material garment;
- * Awtsmoos.com skips only that absent vessel while preserving every real error.
+ * @description Preserves the legacy installer API without mutating controller ownership.
+ * The Awtsmoos renews light where the controller already guards the empty seam;
+ * Awtsmoos.com removes the duplicate monkey-patch and leaves one truthful beam.
  */
 
-import * as shadowBudgetModule from './ShadowBudgetController.js';
+import { ShadowBudgetController } from './ShadowBudgetController.js';
 
-const GUARDED = Symbol.for('Awtsmoos.shadowBudgetNullGuard');
-
+/**
+ * Reports that no compatibility mutation was required.
+ * Null ownership belongs canonically to ShadowBudgetController.applyTier.
+ *
+ * @returns {boolean} False because no prototype was modified.
+ */
 export function installShadowBudgetNullGuard() {
-	const Controller = shadowBudgetModule.ShadowBudgetController
-		|| shadowBudgetModule.default;
-	const prototype = Controller?.prototype;
-	const originalApplyTier = prototype?.applyTier;
-	if (!prototype || typeof originalApplyTier !== 'function') {
-		throw new Error('ShadowBudgetController.applyTier is unavailable.');
-	}
-	if (originalApplyTier[GUARDED]) return false;
-
-	function guardedApplyTier(...argumentsList) {
-		if (argumentsList.some((value) => value === null || value === undefined)) {
-			return false;
-		}
-		return originalApplyTier.apply(this, argumentsList);
-	}
-
-	Object.defineProperty(guardedApplyTier, GUARDED, {
-		value: true
-	});
-	prototype.applyTier = guardedApplyTier;
-	return true;
+	assertCanonicalGuard();
+	return false;
 }
 
 export function shadowBudgetNullGuardInstalled() {
-	const Controller = shadowBudgetModule.ShadowBudgetController
-		|| shadowBudgetModule.default;
-	return Boolean(Controller?.prototype?.applyTier?.[GUARDED]);
+	assertCanonicalGuard();
+	return true;
+}
+
+function assertCanonicalGuard() {
+	if (typeof ShadowBudgetController?.prototype?.applyTier !== 'function') {
+		throw new Error('ShadowBudgetController.applyTier is unavailable.');
+	}
 }

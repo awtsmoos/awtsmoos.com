@@ -4,114 +4,111 @@
 
 /**
  * @file UiEventSystem.js
- * @description Converts keyboard and pointer intent into turn, strafe, and forward axes.
- * The Awtsmoos renews direction before distance; Awtsmoos.com now gives A the positive turn and
- * D the negative turn, while arrows, Q/E, W/S, mouse, and touch retain their established vessels.
+ * @description Converts removable world input into movement axes while yielding to editable UI.
+ * The Awtsmoos renews direction without stealing speech from chat, dialogue, or search;
+ * Awtsmoos.com clears every listener and stale key so finite controls never overreach.
  */
 
+import { createInputAxes, createInputState } from './InputAxisState.js';
+import { createInputPointer, emptyInputPointer } from './InputPointerState.js';
+import { isEditableTarget, isGameplayUiTarget } from './InputTargetPolicy.js';
+import { installUiEventBindings } from './UiEventBindings.js';
+
 export class UiEventSystem {
-	constructor(target = window) {
+	constructor(target = globalThis.window) {
 		this.target = target;
 		this.keys = new Set();
 		this.buttons = 0;
-		this.pointer = emptyPointer();
+		this.pointer = emptyInputPointer();
+		this.bus = null;
+		this.teardown = null;
+		this.onKeyDown = event => this.key(event, true);
+		this.onKeyUp = event => this.key(event, false);
+		this.onPointerDown = event => this.pointerEvent(event, true);
+		this.onPointerMove = event => this.pointerEvent(event, this.pointer.down);
+		this.onPointerUp = event => this.pointerEvent(event, false);
+		this.onContextMenu = event => this.contextMenu(event);
+		this.onBlur = () => this.reset();
 	}
 
 	install(bus) {
-		addEventListener('keydown', event => this.key(event, true, bus));
-		addEventListener('keyup', event => this.key(event, false, bus));
-		this.target.addEventListener('contextmenu', event => event.preventDefault());
-		this.target.addEventListener('pointerdown', event => this.pointerEvent(event, true, bus));
-		this.target.addEventListener('pointermove', event => {
-			this.pointerEvent(event, this.pointer.down, bus);
-		});
-		this.target.addEventListener('pointerup', event => this.pointerEvent(event, false, bus));
-		this.target.addEventListener('pointercancel', event => this.pointerEvent(event, false, bus));
+		if (this.teardown) {
+			return this;
+		}
+		this.bus = bus;
+		this.teardown = installUiEventBindings(this);
 		return this;
 	}
 
-	key(event, down, bus) {
+	key(event, down) {
+		if (isEditableTarget(event.target)) {
+			if (!down && this.keys.delete(event.code)) {
+				this.publishKey();
+			}
+			return;
+		}
 		if (down) {
 			this.keys.add(event.code);
 		} else {
 			this.keys.delete(event.code);
 		}
-		bus.emit('input:key', this.state());
+		this.publishKey();
 	}
 
-	pointerEvent(event, down, bus) {
-		this.buttons = event.buttons ?? (down ? 1 << (event.button || 0) : 0);
-		const previous = this.pointer;
-		const left = (this.buttons & 1) !== 0;
-		const right = (this.buttons & 2) !== 0;
-		const middle = (this.buttons & 4) !== 0;
-		this.pointer = {
-			bothMain: left && right,
-			down: down || this.buttons !== 0,
-			left,
-			middle,
-			mode: pointerMode(left, right, middle),
-			movementX: event.movementX ?? event.clientX - previous.x,
-			movementY: event.movementY ?? event.clientY - previous.y,
-			right,
-			x: event.clientX,
-			y: event.clientY
-		};
-		bus.emit('input:pointer', this.pointer);
+	pointerEvent(event, down) {
+		if (isGameplayUiTarget(event.target)) {
+			if (!down && this.pointer.down) {
+				this.clearPointer();
+			}
+			return;
+		}
+		const state = createInputPointer(event, down, this.pointer);
+		this.buttons = state.buttons;
+		this.pointer = state.pointer;
+		this.bus?.emit('input:pointer', this.pointer);
+	}
+
+	contextMenu(event) {
+		if (!isGameplayUiTarget(event.target)) {
+			event.preventDefault();
+		}
 	}
 
 	axis() {
-		return {
-			turn: keySign(this.keys, 'KeyA', 'KeyD')
-				+ keySign(this.keys, 'ArrowRight', 'ArrowLeft'),
-			x: keySign(this.keys, 'KeyE', 'KeyQ'),
-			y: keySign(this.keys, 'KeyS', 'KeyW') + (this.pointer.bothMain ? -1 : 0)
-		};
+		return this.axes();
+	}
+
+	axes() {
+		return createInputAxes(this.keys, this.pointer);
 	}
 
 	state() {
-		return {
-			axis: this.axis(),
-			controlScheme: {
-				look: 'mouse, touch, reversed A/D, or left/right arrows',
-				move: 'W/S forward and backward',
-				pointerLock: 'double-click the world',
-				strafe: 'Q/E'
-			},
-			keys: [...this.keys],
-			pointer: this.pointer
-		};
+		return createInputState(this.keys, this.pointer);
 	}
-}
 
-function emptyPointer() {
-	return {
-		bothMain: false,
-		down: false,
-		left: false,
-		middle: false,
-		mode: 'hover',
-		movementX: 0,
-		movementY: 0,
-		right: false,
-		x: 0,
-		y: 0
-	};
-}
+	publishKey() {
+		this.bus?.emit('input:key', this.state());
+	}
 
-function pointerMode(left, right, middle) {
-	if (left && right) {
-		return 'forward-look';
+	clearPointer() {
+		this.buttons = 0;
+		this.pointer = emptyInputPointer();
+		this.bus?.emit('input:pointer', this.pointer);
 	}
-	if (left || right) {
-		return 'first-person-look';
-	}
-	if (middle) {
-		return 'auxiliary';
-	}
-	return 'hover';
-}
 
-function keySign(keys, positive, negative) {
-	return (keys.has(positive) ? 1 : 0) - (keys.has(negative) ? 1 : 0);
+	reset() {
+		this.keys.clear();
+		this.publishKey();
+		this.clearPointer();
+	}
+
+	destroy() {
+		if (!this.teardown) {
+			return;
+		}
+		this.teardown();
+		this.teardown = null;
+		this.reset();
+		this.bus = null;
+	}
 }

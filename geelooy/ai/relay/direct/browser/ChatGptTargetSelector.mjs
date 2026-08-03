@@ -12,9 +12,11 @@ const {
 } = require("../../split-browser/config.cjs");
 
 /**
- * Existing accessible tabs are preferred over creation. The Awtsmoos first reuses
- * ChatGPT itself, then a harmless blank/new tab, and opens a new target only when
- * the authenticated debug profile offers no reusable page at all.
+ * @file Selects either a reusable human tab or a disposable agent-owned target.
+ * @description
+ * The Awtsmoos assigns every website agent a private temporary vessel. When strict
+ * ownership is requested, Awtsmoos.com never borrows an existing ChatGPT tab and
+ * therefore can close the exact created target immediately after the result.
  */
 export class ChatGptTargetSelector {
 	constructor({
@@ -29,7 +31,10 @@ export class ChatGptTargetSelector {
 		this.fetcher = fetcher;
 	}
 
-	async acquire({ replaceChatGptTabs = false } = {}) {
+	async acquire({ replaceChatGptTabs = false, forceNewTarget = false } = {}) {
+		if (forceNewTarget) {
+			return this.describe(await this.createTarget(), true, "created-owned-turn");
+		}
 		let targets = await this.discovery.listTargets();
 		if (replaceChatGptTabs) {
 			await this.closeChatGptTargets(targets);
@@ -47,11 +52,8 @@ export class ChatGptTargetSelector {
 		if (target?.type !== "page" || typeof target.webSocketDebuggerUrl !== "string") {
 			return false;
 		}
-		try {
-			return new URL(target.url).hostname === "chatgpt.com";
-		} catch {
-			return false;
-		}
+		try { return new URL(target.url).hostname === "chatgpt.com"; }
+		catch { return false; }
 	}
 
 	isMissionPage(target) {
@@ -60,8 +62,7 @@ export class ChatGptTargetSelector {
 			const actual = new URL(target.url);
 			const mission = new URL(this.agentStartUrl);
 			const basePath = mission.pathname.replace(/\/+$/, "");
-			return actual.pathname === basePath
-				|| actual.pathname.startsWith(`${basePath}/c/`);
+			return actual.pathname === basePath || actual.pathname.startsWith(`${basePath}/c/`);
 		} catch {
 			return false;
 		}
@@ -74,9 +75,7 @@ export class ChatGptTargetSelector {
 		return ["about:blank", "chrome://newtab/"].includes(String(target.url || ""));
 	}
 
-	describe(target, owned, source) {
-		return { target, owned, source };
-	}
+	describe(target, owned, source) { return { target, owned, source }; }
 
 	async closeChatGptTargets(targets) {
 		const chatTargets = targets.filter(target => this.isChatGptPage(target));

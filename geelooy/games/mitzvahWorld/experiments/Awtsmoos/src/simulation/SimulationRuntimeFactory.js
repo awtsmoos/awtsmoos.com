@@ -22,6 +22,7 @@ import { SimulationEnemyPopulation } from './SimulationEnemyPopulation.js';
 import { createSimulationFriendlyActors } from './SimulationFriendlyActors.js';
 import { SimulationImportedAnimationState } from './SimulationImportedAnimationState.js';
 import { SimulationInput } from './SimulationInput.js';
+import { attachSimulationLifecycle } from './SimulationLifecycleCommands.js';
 import {
 	createSimulationCamera,
 	createSimulationPlayerDefense,
@@ -53,6 +54,7 @@ export async function createSimulationRuntime(options) {
 	});
 	runtime.movement = new BootstrapMovementController(runtime);
 	runtime.combat = new MinimalMeadowCombat(runtime);
+	attachSimulationLifecycle(runtime);
 	runtime.friendlyActors = createSimulationFriendlyActors(manifest, scene);
 	runtime.step = deltaSeconds => stepSimulationRuntime(runtime, deltaSeconds);
 	return runtime;

@@ -3,14 +3,17 @@
 // Blessed is He
 
 import { createRequire } from "node:module";
+import { codedError } from "./DirectServiceRequest.mjs";
+import { publicConversationResult } from "./FallbackConversationResult.mjs";
 
 const require = createRequire(import.meta.url);
 const { configuredAgentStartUrl } = require("../../split-browser/config.cjs");
 
 /**
- * The website service binds opaque local keys to real ChatGPT conversations.
+ * @file Binds opaque local keys to website conversations and their tab receipts.
+ * @description
  * The Awtsmoos carries fresh sub-agents through their designated custom GPT,
- * while Awtsmoos.com continues existing conversations without changing identity.
+ * closes each temporary page, and preserves only an opaque continuation key.
  */
 export class FallbackConversationService {
 	constructor({ store, portResolver, clientFactory }) {
@@ -23,6 +26,7 @@ export class FallbackConversationService {
 			client: null
 		});
 	}
+
 	async send(options = {}) {
 		const previousState = this.previousState(options.conversationKey);
 		const client = await this.resolveClient();
@@ -35,22 +39,40 @@ export class FallbackConversationService {
 			agentStartUrl: options.agentStartUrl ?? configuredAgentStartUrl(),
 			signal: options.signal ?? null,
 			onProgress: options.onProgress ?? null,
-			timeoutMs: options.timeoutMs ?? null
+			timeoutMs: options.timeoutMs ?? null,
+			closeAfterTurn: options.closeAfterTurn !== false
 		});
-		this.assertContinuation(previousState, result);
-		const localKey = this.store.set(options.conversationKey, result.state);
-		return this.publicResult({ result, localKey, created: !options.conversationKey });
+		return this.commit(options.conversationKey, previousState, result);
 	}
-	async recover({ conversationKey, signal = null, timeoutMs = null } = {}) {
-		if (!conversationKey) throw codedError("conversation_recovery_key_required");
-		const previousState = this.previousState(conversationKey);
+
+	async recover(options = {}) {
+		if (!options.conversationKey) {
+			throw codedError("conversation_recovery_key_required");
+		}
+		const previousState = this.previousState(options.conversationKey);
 		const client = await this.resolveClient();
-		if (typeof client.recover !== "function") throw codedError("conversation_recovery_not_supported");
-		const result = await client.recover({ state: previousState, signal, timeoutMs });
+		if (typeof client.recover !== "function") {
+			throw codedError("conversation_recovery_not_supported");
+		}
+		const result = await client.recover({
+			state: previousState,
+			signal: options.signal ?? null,
+			timeoutMs: options.timeoutMs ?? null,
+			closeAfterTurn: options.closeAfterTurn !== false
+		});
+		return this.commit(options.conversationKey, previousState, result);
+	}
+
+	commit(conversationKey, previousState, result) {
 		this.assertContinuation(previousState, result);
 		const localKey = this.store.set(conversationKey, result.state);
-		return this.publicResult({ result, localKey, created: false });
+		return publicConversationResult({
+			result,
+			localKey,
+			created: !conversationKey
+		});
 	}
+
 	previousState(conversationKey) {
 		const state = conversationKey ? this.store.get(conversationKey) : null;
 		if (conversationKey && !state) {
@@ -58,6 +80,7 @@ export class FallbackConversationService {
 		}
 		return state;
 	}
+
 	async resolveClient() {
 		const port = await this.portResolver.resolve();
 		this.lastResolvedPort = port;
@@ -67,42 +90,24 @@ export class FallbackConversationService {
 		this.clientPort = port;
 		return this.client;
 	}
+
 	assertContinuation(previousState, result) {
 		const sameConversation = previousState
 			? result.state.conversationId === previousState.conversationId
 			: true;
-		if (!sameConversation) throw new Error("ChatGPT continuation returned a different conversation.");
+		if (!sameConversation) {
+			throw new Error("ChatGPT continuation returned a different conversation.");
+		}
 		result.sameConversation = sameConversation;
 	}
-	publicResult({ result, localKey, created }) {
-		return {
-			ok: true,
-			mode: "chatgpt-website",
-			answer: result.answer,
-			conversationKey: localKey,
-			created,
-			status: result.status,
-			done: result.done,
-			frames: result.frames,
-			items: result.items,
-			subscriptionAttempts: result.subscriptionAttempts,
-			completionSource: result.completionSource,
-			requestLatencyMs: result.requestLatencyMs,
-			pacing: result.pacing,
-			hostReuseSource: result.hostReuseSource,
-			sameConversation: result.sameConversation,
-			navigatedToConversation: result.navigatedToConversation,
-			composerTouched: result.composerTouched === true,
-			submissionTransport: result.submissionTransport,
-			timings: result.timings
-		};
-	}
+
 	async close() {
 		const client = this.client;
 		this.client = null;
 		this.clientPort = null;
 		await client?.close?.();
 	}
+
 	status() {
 		return {
 			lastResolvedPort: this.lastResolvedPort,
@@ -110,10 +115,4 @@ export class FallbackConversationService {
 			client: this.client?.status?.() ?? null
 		};
 	}
-}
-
-function codedError(code) {
-	const error = new Error(code);
-	error.code = code;
-	return error;
 }

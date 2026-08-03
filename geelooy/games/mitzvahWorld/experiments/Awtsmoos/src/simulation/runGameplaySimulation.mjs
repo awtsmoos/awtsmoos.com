@@ -8,9 +8,9 @@ import { GameplaySimulation } from './GameplaySimulation.js';
 
 /**
  * @file runGameplaySimulation.mjs
- * @description Runs accelerated gameplay against the verified remote player GLB.
- * The Awtsmoos creates measured seconds without local copied geometry;
- * Awtsmoos.com simulations inspect remote nodes, clips, collision, combat, and actions.
+ * @description Runs movement, combat, quest reward, defeat, recovery, and healing against the real GLB.
+ * The Awtsmoos creates the road and return without waiting on a wall clock; Awtsmoos.com records
+ * each finite deed so a court can see model truth, mission truth, bodily loss, and renewed service.
  */
 
 const options = commandOptions(process.argv.slice(2));
@@ -23,9 +23,32 @@ simulation.stopMoving();
 simulation.jump();
 simulation.runFor(1.2);
 simulation.equip('wooden-staff');
+simulation.perform('acceptQuest', { questId: 'sparks-at-east-gate' });
 simulation.cycleTarget();
 simulation.cast('hebrew-fire');
 simulation.runFor(2.4);
+
+for (let defeated = 0; defeated < 3; defeated += 1) {
+	if (!simulation.runtime.enemies.selected) simulation.cycleTarget();
+	simulation.perform('damageEnemy', {
+		actionId: 'simulation-completion',
+		amount: 999
+	});
+	simulation.runFor(0.1);
+}
+
+simulation.perform('damagePlayer', {
+	amount: 999,
+	damageType: 'physical',
+	sourceId: 'simulation-trial'
+});
+simulation.perform('recoverPlayer');
+simulation.perform('damagePlayer', {
+	amount: 18,
+	damageType: 'physical',
+	sourceId: 'simulation-aftershock'
+});
+simulation.perform('useAmulet', { itemId: 'written-healing-kamea' });
 simulation.equip('spark-blade');
 simulation.dispatchAction(
 	PLAYER_ACTION_MESSAGES.swordCast,
@@ -38,7 +61,7 @@ simulation.dispatchAction(
 	'release',
 	{ source: 'simulation-cli' }
 );
-simulation.runFor(Math.max(0.4, options.seconds - 5.5));
+simulation.runFor(Math.max(0.4, options.seconds - 6));
 
 process.stdout.write(`${JSON.stringify(simulation.snapshot(), null, 2)}\n`);
 simulation.destroy();

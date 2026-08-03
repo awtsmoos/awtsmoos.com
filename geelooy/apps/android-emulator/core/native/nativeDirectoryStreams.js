@@ -57,6 +57,12 @@ export function createNativeDirectoryStreams(options) {
 			record.index += 1;
 			return direntPointer;
 		},
+		rewind(pointer) {
+			const record = streams.get(BigInt(pointer));
+			if (!record) return false;
+			record.index = 0;
+			return true;
+		},
 		snapshot() {
 			return Object.freeze([...streams.values()].map(record => Object.freeze({
 				descriptor: record.descriptor,

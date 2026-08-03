@@ -4,21 +4,24 @@
 
 /**
  * @file TerrainMaterialFactory.js
- * @description Creates visible opaque alpine terrain before local images finish hydrating.
- * The Awtsmoos clothes the valley in immediate earth and later detail; Awtsmoos.com keeps
- * visibility, opacity, and transparency explicit while ecological source pixels arrive.
+ * @description Creates alpine terrain and opens the live real-nature bridge from a guaranteed seam.
+ * The Awtsmoos clothes the valley before each distant pixel reaches the eye;
+ * Awtsmoos.com records the texture road and calls real root and blossom from the same living sky.
  */
 
 import { MeshStandardMaterial } from '../../../../light-three-gltf/tiny-runtime.js';
 import { cachedTextureImage } from '../../assets/PublicMaterialCache.js';
 import { REPEAT_HOOKS, terrainRepeat, textureSize } from '../../assets/TextureRepeat.js';
 import { materialStackDiagnostics } from '../materials/MaterialStackRecipe.js';
+import { scheduleLiveRealNatureBridge } from '../nature/LiveRealNatureBridge.js';
+import { TERRAIN_TEXTURE_AUTHORITY } from './LocalTerrainTextureCatalog.js';
 import { terrainLayerRecipe } from './TerrainLayerRecipe.js';
 
 const TERRAIN_SOURCE_TINT = Object.freeze([1, 1, 1, 1]);
 const TERRAIN_UV_UNITS_PER_WORLD = Object.freeze([0.035, 0.035]);
 
 export function createTerrainMaterial(options) {
+	scheduleBrowserNatureBridge();
 	const recipe = terrainLayerRecipe(options.quality);
 	const grassImage = options.grassImage || cachedTextureImage(recipe.baseUrl);
 	const dirtImage = options.dirtImage || cachedTextureImage(recipe.dirtUrl);
@@ -57,19 +60,26 @@ function hydratableLayer(layer) {
 	};
 }
 
+function scheduleBrowserNatureBridge() {
+	if (typeof document !== 'undefined') {
+		scheduleLiveRealNatureBridge(globalThis);
+	}
+}
+
 function terrainTexturePolicy(recipe, grassImage, dirtImage, textureUrl) {
 	return {
-		baseSource: 'trusted-local-high-resolution-meadow',
+		baseSource: 'trusted-public-full-resolution-meadow',
 		fullResolutionEcologicalLayers: true,
-		hydration: grassImage && dirtImage ? 'ready-at-construction' : 'local-preload-required',
+		hydration: grassImage && dirtImage ? 'ready-at-construction' : 'public-preload-required',
 		layerCount: recipe.layers.length,
 		logicalLayerCount: recipe.logicalLayerCount,
 		materialStackDiagnostics: materialStackDiagnostics(recipe.stack, 10),
 		mix: 'base-meadow-earth-plus-zone-slope-height-wetness',
 		nativeTexelDensity: true,
-		publicFirebase: false,
+		publicFirebase: TERRAIN_TEXTURE_AUTHORITY.publicRemote,
 		realBaseImage: Boolean(grassImage),
 		realMixImage: Boolean(dirtImage),
+		remoteAuthority: TERRAIN_TEXTURE_AUTHORITY,
 		repeatMode: 'fractional-mirror-original-pixel-density',
 		shader: recipe.shader,
 		sourcePixels: textureSize(grassImage),

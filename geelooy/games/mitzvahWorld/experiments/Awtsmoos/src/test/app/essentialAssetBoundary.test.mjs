@@ -4,37 +4,35 @@
 
 /**
  * @file essentialAssetBoundary.test.mjs
- * @description Proves the blocking asset wave contains one local player and no rich catalogs.
- * The Awtsmoos grants motion before ornament; Awtsmoos.com verifies legacy keys, deferred
- * hydration, null-safe materials, and a first-wave import graph free of distant families.
+ * @description Proves boot loads one real local player while rich catalogs remain deferred.
+ * The Awtsmoos grants the traveler a true garment before ornament; Awtsmoos.com keeps later worlds lazy.
  */
 
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
+import { Group } from '../../../../light-three-gltf/tiny-runtime.js';
 import { loadEretzEssentialAssets } from '../../app/EretzEssentialAssetLoader.js';
 
 const APP_URL = new URL('../../app/', import.meta.url);
 const source = file => readFile(new URL(file, APP_URL), 'utf8');
 
-test('essential loader returns one local player and null-safe asset contracts', async () => {
+test('essential loader requests one verified Chossid and preserves null-safe contracts', async () => {
 	const progress = [];
+	const scene = new Group();
+	scene.userData.isolatedModelLoad = { resolvedUrl: '/games/mitzvahWorld/assets/models/player/test/chossid.glb' };
 	const loaded = await loadEretzEssentialAssets({
 		boot: {
 			begin: phase => progress.push(['begin', phase]),
 			progress: (...detail) => progress.push(['progress', ...detail])
-		}
+		},
+		playerLoader: async () => ({ animations: [], scene, userData: { fallback: false } })
 	});
-	assert.ok(loaded.playerGltf?.scene);
-	assert.ok(loaded.npcGltf?.scene);
-	assert.equal(loaded.npcGltfs.length, 1);
-	assert.deepEqual(loaded.npcProfiles, []);
-	assert.equal(loaded.grassImage, null);
+	assert.equal(loaded.playerGltf.scene, scene);
+	assert.equal(loaded.actorAssetStats.playerBlockingRequests, 1);
+	assert.equal(loaded.importedModelMaterials.player.fallback, false);
 	assert.equal(loaded.assets.terrainMixImage, null);
-	assert.equal(loaded.assets.yellowBrickImage, null);
 	assert.equal(loaded.assets.publicMaterialStreaming.status, 'waiting-for-gameplay');
-	assert.equal(loaded.actorHydration.status, 'fallback-stable');
-	assert.equal(loaded.actorAssetStats.playerBlockingRequests, 0);
 	assert.ok(progress.some(item => item.includes('essential-local-player')));
 });
 
@@ -45,10 +43,7 @@ test('essential first-wave source contains no rich catalog imports', async () =>
 		source('EretzWorldFoundation.js')
 	]);
 	const firstWave = [loader, record].join(String.fromCharCode(10));
-	assert.doesNotMatch(
-		firstWave,
-		/HouseAssets|FriendlyNpcProfiles|AdventureCatalog|TextureCatalog|RuntimeMaterialManifest/
-	);
+	assert.doesNotMatch(firstWave, /HouseAssets|FriendlyNpcProfiles|AdventureCatalog|TextureCatalog|RuntimeMaterialManifest/);
 	assert.match(foundation, /EretzEssentialAssetLoader\.js/);
 	assert.doesNotMatch(foundation, /EretzAssetLoader\.js/);
 });

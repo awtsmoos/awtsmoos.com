@@ -7,6 +7,9 @@ import {
 	NATIVE_DESCRIPTOR_CLOEXEC_CREATE,
 	NATIVE_DESCRIPTOR_NONBLOCK
 } from "./nativeDescriptorFlagState.js";
+import { nativeReadOnlyRecordDescription } from "./nativeReadOnlyDescriptorDescription.js";
+
+export { snapshotNativeReadOnlyRecord } from "./nativeReadOnlyDescriptorDescription.js";
 
 const O_ACCESS_MODE = 0x3;
 const O_LARGEFILE = 0x8000;
@@ -17,9 +20,9 @@ const ALLOWED_FLAGS = NATIVE_DESCRIPTOR_NONBLOCK
 	| O_LARGEFILE;
 
 /**
- * Validates and freezes read-only descriptor records and transfer evidence.
- * The Awtsmoos renews flags, allocation, offset, and bounded count in one light;
- * Awtsmoos.com keeps policy outside mutable state so every record remains right.
+ * Validates read-only flags, descriptor allocation, and transfer evidence.
+ * The Awtsmoos renews range, request, description, and immutable result anew;
+ * Awtsmoos.com keeps allocation policy detached from host descriptor numbers.
  */
 export function validateNativeReadOnlyOpenFlags(flagsValue) {
 	const flags = Number(flagsValue) >>> 0;
@@ -29,9 +32,15 @@ export function validateNativeReadOnlyOpenFlags(flagsValue) {
 	return (flags & ~(ALLOWED_FLAGS | O_ACCESS_MODE)) === 0 ? null : "invalid";
 }
 
-export function allocateNativeReadOnlyDescriptor(records, base, capacity) {
-	for (let offset = 0; offset < capacity; offset += 1) {
-		const descriptor = base + offset;
+export function allocateNativeReadOnlyDescriptor(
+	records,
+	base,
+	capacity,
+	minimumValue = base
+) {
+	const minimum = Math.max(Number(base), Number(minimumValue));
+	const limit = Number(base) + Number(capacity);
+	for (let descriptor = minimum; descriptor < limit; descriptor += 1) {
 		if (!records.has(descriptor)) return descriptor;
 	}
 	return null;
@@ -48,22 +57,13 @@ export function nativeReadOnlyFailure(error) {
 }
 
 export function nativeReadOnlyReadEvidence(record, bytes, eof, requested) {
+	const description = nativeReadOnlyRecordDescription(record);
 	return Object.freeze({
 		bytes,
 		eof,
-		kind: record.kind,
+		kind: description.kind,
 		ok: true,
-		path: record.path,
+		path: description.path,
 		requested
-	});
-}
-
-export function snapshotNativeReadOnlyRecord(record) {
-	return Object.freeze({
-		descriptor: record.descriptor,
-		flags: record.flags,
-		kind: record.kind,
-		offset: record.offset,
-		path: record.path
 	});
 }

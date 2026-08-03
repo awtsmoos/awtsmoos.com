@@ -2,61 +2,65 @@
 // Boruch Hashem
 // Blessed is He
 
+import {
+	failedCloseOutcome,
+	normalizeCloseOutcome
+} from "./AuthenticatedHostCloseOutcome.mjs";
 import { AuthenticatedHostHealth } from "./AuthenticatedHostHealth.mjs";
+import { authenticatedHostLeaseStatus } from "./AuthenticatedHostLeaseStatus.mjs";
 
 /**
- * One authenticated host rests for a bounded idle breath between real turns.
- * The Awtsmoos lets Awtsmoos.com reuse only a living composer and topic socket;
- * every failure, stale check, and idle expiry closes the owned target completely.
+ * @file Owns one authenticated browser target for a bounded exclusive turn.
+ * @description
+ * The Awtsmoos gives every target one appointed life. Website-agent turns close
+ * their owned target before returning, and an unverified close remains visible so
+ * the global queue can refuse to multiply unfinished tabs.
  */
 export class AuthenticatedHostLease {
-	constructor({
-		openHost,
-		idleTimeoutMs = 30000,
-		healthCheck,
-		setTimer = setTimeout,
-		clearTimer = clearTimeout,
-		now = () => Date.now()
-	} = {}) {
-		if (typeof openHost !== "function") {
+	constructor(options = {}) {
+		if (typeof options.openHost !== "function") {
 			throw new TypeError("openHost must be a function.");
 		}
 		const health = new AuthenticatedHostHealth();
-		this.openHost = openHost;
-		this.idleTimeoutMs = idleTimeoutMs;
-		this.healthCheck = healthCheck ?? (host => health.inspect(host));
-		this.setTimer = setTimer;
-		this.clearTimer = clearTimer;
-		this.now = now;
+		this.openHost = options.openHost;
+		this.idleTimeoutMs = options.idleTimeoutMs || 30000;
+		this.healthCheck = options.healthCheck || (host => health.inspect(host));
+		this.setTimer = options.setTimer || setTimeout;
+		this.clearTimer = options.clearTimer || clearTimeout;
+		this.now = options.now || (() => Date.now());
 		this.host = null;
 		this.idleTimer = null;
 		this.queue = Promise.resolve();
 		this.opens = 0;
 		this.reuses = 0;
 		this.closes = 0;
+		this.lastClose = null;
 	}
-	run(task) {
-		const operation = this.queue.then(() => this.runExclusive(task));
+
+	run(task, options = {}) {
+		const operation = this.queue.then(() => this.runExclusive(task, options));
 		this.queue = operation.catch(() => undefined);
 		return operation;
 	}
-	async runExclusive(task) {
+
+	async runExclusive(task, options = {}) {
 		this.clearIdleTimer();
 		const startedAt = this.now();
 		const acquired = await this.acquire();
-		const lease = {
-			source: acquired.source,
-			acquireMs: Math.max(0, this.now() - startedAt)
-		};
+		const lease = { source: acquired.source, acquireMs: this.now() - startedAt };
 		try {
 			const result = await task(acquired.host, lease);
-			this.scheduleIdleClose();
-			return result;
+			if (options.closeAfterTask !== true) {
+				this.scheduleIdleClose();
+				return result;
+			}
+			return { ...result, tabClose: await this.invalidate() };
 		} catch (error) {
-			await this.invalidate().catch(() => undefined);
+			error.tabClose = await this.invalidate().catch(failedCloseOutcome);
 			throw error;
 		}
 	}
+
 	async acquire() {
 		if (this.host && await this.isHealthy(this.host)) {
 			this.reuses += 1;
@@ -67,12 +71,10 @@ export class AuthenticatedHostLease {
 		this.opens += 1;
 		return { host: this.host, source: "fresh" };
 	}
+
 	async isHealthy(host) {
-		try {
-			return Boolean(await this.healthCheck(host));
-		} catch {
-			return false;
-		}
+		try { return Boolean(await this.healthCheck(host)); }
+		catch { return false; }
 	}
 
 	async invalidate() {
@@ -80,10 +82,16 @@ export class AuthenticatedHostLease {
 		const host = this.host;
 		this.host = null;
 		if (!host) {
-			return;
+			return this.recordClose({ closed: true, verified: true, reason: "no_host" });
 		}
 		this.closes += 1;
-		await host.close();
+		try { return this.recordClose(await host.close()); }
+		catch { return this.recordClose(failedCloseOutcome()); }
+	}
+
+	recordClose(outcome) {
+		this.lastClose = normalizeCloseOutcome(outcome);
+		return { ...this.lastClose };
 	}
 
 	close() {
@@ -100,20 +108,10 @@ export class AuthenticatedHostLease {
 	}
 
 	clearIdleTimer() {
-		if (this.idleTimer === null) {
-			return;
-		}
+		if (this.idleTimer === null) return;
 		this.clearTimer(this.idleTimer);
 		this.idleTimer = null;
 	}
 
-	status() {
-		return {
-			active: Boolean(this.host),
-			idleTimeoutMs: this.idleTimeoutMs,
-			opens: this.opens,
-			reuses: this.reuses,
-			closes: this.closes
-		};
-	}
+	status() { return authenticatedHostLeaseStatus(this); }
 }

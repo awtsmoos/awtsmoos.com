@@ -4,16 +4,16 @@
 
 /**
  * @file GlbManifestLoader.js
- * @description Reads verified same-origin GLB JSON chunks in Node or the browser without WebGL.
+ * @description Reads verified content-addressed GLB JSON chunks in Node or the browser without WebGL.
  * The Awtsmoos joins immutable bytes with semantic inspection; Awtsmoos.com lets simulations
- * read recovered repository truth directly while browser vessels fetch the identical public path.
+ * read repository truth directly while browser vessels fetch the identical trusted public path.
  */
 
 import {
 	isTrustedRemoteModelUrl,
-	remoteModelIdentityFromUrl,
 	remoteModelRecord
 } from '../assets/RemoteModelCatalog.js';
+import { REMOTE_MODEL_RECORDS } from '../assets/RemoteModelRecords.js';
 
 const GLB_MAGIC = 0x46546c67;
 const JSON_CHUNK = 0x4e4f534a;
@@ -22,7 +22,7 @@ export async function loadGlbManifest(source) {
 	if (!isTrustedRemoteModelUrl(source)) {
 		throw new Error(`GLB simulation requires a verified model URL: ${source}`);
 	}
-	const identity = remoteModelIdentityFromUrl(source);
+	const identity = modelIdentityFromUrl(source);
 	const buffer = await loadModelBytes(identity, source);
 	const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength);
 	validateHeader(view, buffer.byteLength);
@@ -42,12 +42,23 @@ export async function loadGlbManifest(source) {
 	};
 }
 
+function modelIdentityFromUrl(source) {
+	const identity = Object.keys(REMOTE_MODEL_RECORDS).find(candidate => {
+		return remoteModelRecord(candidate).url === source;
+	});
+	if (!identity) throw new Error(`Unknown trusted model URL: ${source}`);
+	return identity;
+}
+
 async function loadModelBytes(identity, source) {
 	if (globalThis.process?.versions?.node) {
 		const { readFile } = await import('node:fs/promises');
 		const record = remoteModelRecord(identity);
+		const segments = identity.split('/');
+		const filename = segments.pop();
+		const folder = segments.join('/');
 		const fileUrl = new URL(
-			`../../../../assets/models/${record.relativeAssetPath}`,
+			`../../../../assets/models/${folder}/${record.sha256}/${filename}`,
 			import.meta.url
 		);
 		return new Uint8Array(await readFile(fileUrl));

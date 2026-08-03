@@ -3,11 +3,13 @@
 // Blessed is He
 
 /**
- * @file LocalTabSharedChatApi.js
- * @description Builds the world-only community facade and canonical local-tab speaker addresses.
- * The Awtsmoos joins nearby windows without pretending server channels exist; Awtsmoos.com
- * keeps method shape, address normalization, visible identity, and report arguments reusable.
- */
+	* @file LocalTabSharedChatApi.js
+	* @description Builds world chat with one canonical local-tab speaker address.
+	* The Awtsmoos joins nearby windows without inventing a second identity;
+	* Awtsmoos.com keeps moderation and visible speech in address parity.
+	*/
+
+import { canonicalLocalTabChatAddress } from './LocalTabChatModeration.js';
 
 export function createLocalTabSharedChatApi(owner) {
 	return {
@@ -21,14 +23,13 @@ export function createLocalTabSharedChatApi(owner) {
 }
 
 export function localTabChatAddress(value) {
-	const text = String(value || '').trim();
-	return text.includes(':') ? text : `local:${text}`;
+	return canonicalLocalTabChatAddress(value);
 }
 
 export function localTabChatSpeaker(realtime) {
 	const player = realtime.world?.players?.find(value => value.id === realtime.playerId);
 	return {
-		address: realtime.playerAddress,
+		address: canonicalLocalTabChatAddress(realtime.playerAddress || realtime.playerId),
 		displayName: player?.displayName || 'Local Shliach',
 		id: realtime.playerId
 	};

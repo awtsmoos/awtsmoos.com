@@ -4,9 +4,8 @@
 
 /**
  * @file chossidMultiplayerContract.test.mjs
- * @description Proves nearby humans use the exact immutable Chossid and bounded distance LODs.
- * The Awtsmoos renews each person beyond transport and distance; Awtsmoos.com verifies
- * repository bytes without leaking local filesystem paths into the public browser catalog.
+ * @description Proves local and nearby human models share the exact content-addressed Chossid.
+ * The Awtsmoos renews every person beyond distance; Awtsmoos.com verifies bytes and bounded LODs.
  */
 
 import assert from 'node:assert/strict';
@@ -15,27 +14,21 @@ import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 import { PLAYER_MODEL_URL } from '../../app/EretzConstants.js';
-import {
-	isTrustedRemoteModelUrl,
-	remoteModelRecord
-} from '../../assets/RemoteModelCatalog.js';
-import {
-	npcLodTiers,
-	resolveNpcLod
-} from '../../world/npc/NpcLodPolicy.js';
+import { isTrustedModelUrl, remoteModelRecord } from '../../assets/RemoteModelCatalog.js';
+import { npcLodTiers, resolveNpcLod } from '../../world/npc/NpcLodPolicy.js';
 
-test('the canonical player and NPC model is exact content-addressed Chossid truth', async () => {
+test('the canonical player and NPC model is exact local-first Chossid truth', async () => {
 	const record = remoteModelRecord('player/chossid.glb');
 	const bytes = await readFile(repositoryModelPath(record));
 	const sha256 = createHash('sha256').update(bytes).digest('hex');
-	assert.equal(PLAYER_MODEL_URL, record.url);
-	assert.equal(isTrustedRemoteModelUrl(PLAYER_MODEL_URL), true);
+	assert.equal(PLAYER_MODEL_URL, record.localUrl);
+	assert.equal(isTrustedModelUrl(PLAYER_MODEL_URL), true);
 	assert.equal(bytes.length, record.bytes);
 	assert.equal(sha256, record.sha256);
 	assert.match(PLAYER_MODEL_URL, /\/[a-f0-9]{64}\/chossid\.glb$/);
 });
 
-test('near keeps the complete body while mid and distant use one proxy vessel', () => {
+test('near keeps the complete body while distant tiers use bounded proxies', () => {
 	const tiers = npcLodTiers();
 	assert.equal(tiers.near.fullModel, true);
 	assert.equal(tiers.near.proxyModel, false);
@@ -48,7 +41,7 @@ test('near keeps the complete body while mid and distant use one proxy vessel', 
 	assert.equal(tiers.dormant.proxyModel, false);
 });
 
-test('selection and Shlichus focus restore the exact animated body immediately', () => {
+test('selection and Shlichus focus restore the exact animated body', () => {
 	assert.equal(resolveNpcLod(5).id, 'near');
 	assert.equal(resolveNpcLod(50).id, 'mid');
 	assert.equal(resolveNpcLod(120).id, 'distant');

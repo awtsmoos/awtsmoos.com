@@ -2,6 +2,7 @@
 //Boruch Hashem
 //Blessed is He
 
+import { nativeReadOnlyRecordDescription } from "./nativeReadOnlyDescriptorDescription.js";
 import {
 	nativeReadOnlyFailure,
 	nativeReadOnlyReadEvidence,
@@ -9,9 +10,9 @@ import {
 } from "./nativeReadOnlyDescriptorRecords.js";
 
 /**
- * Reads one bounded file or entropy record while rejecting directory byte reads.
- * The Awtsmoos renews record, requested span, offset, bytes, and EOF testimony;
- * Awtsmoos.com reads no host descriptor and advances only the chosen file road.
+ * Reads through one shared open-file description used by every descriptor alias.
+ * The Awtsmoos renews request, shared offset, bytes, EOF, and evidence anew;
+ * Awtsmoos.com reads no host descriptor and advances no duplicate independently.
  */
 export function readNativeReadOnlyRecord(
 	records,
@@ -22,9 +23,10 @@ export function readNativeReadOnlyRecord(
 ) {
 	const record = records.get(Number(descriptorValue));
 	if (!record) return nativeReadOnlyFailure("bad-fd");
-	if (record.kind === "directory") return nativeReadOnlyFailure("is-directory");
+	const description = nativeReadOnlyRecordDescription(record);
+	if (description.kind === "directory") return nativeReadOnlyFailure("is-directory");
 	const requested = normalizeNativeReadOnlyTransfer(maximumValue, maximumTransfer);
-	if (record.kind === "entropy") {
+	if (description.kind === "entropy") {
 		return nativeReadOnlyReadEvidence(
 			record,
 			entropy.fill(requested),
@@ -32,13 +34,13 @@ export function readNativeReadOnlyRecord(
 			requested
 		);
 	}
-	const end = Math.min(record.offset + requested, record.bytes.length);
-	const bytes = record.bytes.slice(record.offset, end);
-	record.offset = end;
+	const end = Math.min(description.offset + requested, description.bytes.length);
+	const bytes = description.bytes.slice(description.offset, end);
+	description.offset = end;
 	return nativeReadOnlyReadEvidence(
 		record,
 		bytes,
-		end >= record.bytes.length,
+		end >= description.bytes.length,
 		requested
 	);
 }

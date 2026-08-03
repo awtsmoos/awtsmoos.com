@@ -4,10 +4,12 @@
 
 /**
  * @file bootMitzvahWorldPage.js
- * @description Reveals the tiny route entry before importing any selected mode.
- * The Awtsmoos creates the threshold before the valley; Awtsmoos.com permits one paint while
- * a finite timer prevents a throttled animation frame from sealing the doorway forever.
+ * @description Reveals one paint, one launcher, and one retryable production promise.
+ * The Awtsmoos creates the threshold before the valley can gleam;
+ * Awtsmoos.com keeps failure visible and duplicate ownership outside the stream.
  */
+
+import { ensureMitzvahWorldBoot } from './BootPromiseRegistry.js';
 
 const HOST_IDS = Object.freeze({
 	actionHost: 'actions',
@@ -19,7 +21,18 @@ const HOST_IDS = Object.freeze({
 	jumpHost: 'jump',
 	npcHost: 'npcTarget'
 });
-const LAUNCHER_URL = './MitzvahWorldLauncher.js?v=20260723-webgl-stage-11';
+const LAUNCHER_URL = './MitzvahWorldLauncher.js?v=20260803-a04-boot-01';
+const FAILURE_LISTENER_KEY = 'AwtsmoosMitzvahWorldFailureListeners';
+
+export function ensureMitzvahWorldPageBoot(
+	documentValue = document,
+	environment = globalThis
+) {
+	return ensureMitzvahWorldBoot(
+		() => bootMitzvahWorldPage(documentValue, environment),
+		environment
+	);
+}
 
 export async function bootMitzvahWorldPage(
 	documentValue = document,
@@ -27,7 +40,9 @@ export async function bootMitzvahWorldPage(
 ) {
 	const hosts = resolveHosts(documentValue);
 	installFailureListeners(hosts.hud, environment);
+	setBootState(documentValue, 'painting');
 	await firstPaint(environment);
+	setBootState(documentValue, 'launching');
 	try {
 		const { launchMitzvahWorld } = await import(LAUNCHER_URL);
 		const launched = await launchMitzvahWorld(
@@ -35,6 +50,7 @@ export async function bootMitzvahWorldPage(
 			environment.location?.search || '',
 			{ environment }
 		);
+		setBootState(documentValue, 'ready');
 		documentValue.documentElement.dataset.awtsmoosMenuReady = 'true';
 		environment.AwtsmoosMitzvahWorld = launched;
 		return launched;
@@ -64,16 +80,14 @@ function firstPaint(environment) {
 			if (timer !== null) environment.clearTimeout?.(timer);
 			resolve();
 		};
-		if (typeof environment.requestAnimationFrame === 'function') {
-			timer = environment.setTimeout?.(finish, 48) ?? null;
-			environment.requestAnimationFrame(finish);
-			return;
-		}
-		environment.setTimeout?.(finish, 0) ?? finish();
+		timer = environment.setTimeout?.(finish, 64) ?? null;
+		environment.requestAnimationFrame?.(finish) ?? finish();
 	});
 }
 
 function installFailureListeners(hud, environment) {
+	if (environment[FAILURE_LISTENER_KEY]) return;
+	environment[FAILURE_LISTENER_KEY] = true;
 	environment.addEventListener?.('error', event => {
 		showFailure(hud, environment.document, event.error || event.message);
 	});
@@ -82,12 +96,15 @@ function installFailureListeners(hud, environment) {
 	});
 }
 
+function setBootState(documentValue, state) {
+	documentValue.documentElement.dataset.awtsmoosBootStage = state;
+}
+
 function showFailure(hud, documentValue, error) {
 	const message = error?.message || String(error);
-	documentValue?.documentElement?.setAttribute('data-awtsmoos-menu-ready', 'true');
+	setBootState(documentValue, 'failed');
+	documentValue.documentElement.dataset.awtsmoosMenuReady = 'true';
 	hud.textContent = `B"H startup failed: ${message}`;
 	hud.dataset.bootFailure = error?.stack || message;
 	console.error(error);
 }
-
-if (typeof document !== 'undefined') await bootMitzvahWorldPage();

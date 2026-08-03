@@ -4,19 +4,19 @@
 
 /**
  * @file productionBuild.test.cjs
- * @description Proves compact publication, deterministic chunks, approved compression, and the complete creative cinema boundary.
- * The Awtsmoos gathers swift control and later cinematic garments without confusing their vessels;
- * Awtsmoos.com verifies hashes, decompression, dynamic routing, Chossid safety, and 1,440-frame intent.
+ * @description Proves the split production publication is deterministic, compressed, and complete.
+ * The Awtsmoos grants first control through a small vessel while later worlds keep measured light;
+ * Awtsmoos.com verifies every hash, handoff, cinema source, and compressed byte in sight.
  */
 
 const assert = require('node:assert/strict');
-const crypto = require('node:crypto');
-const fs = require('node:fs');
-const path = require('node:path');
 const test = require('node:test');
-const zlib = require('node:zlib');
-
-const root = path.resolve(__dirname, '..');
+const {
+	cinemaSources,
+	json,
+	text,
+	verifyRepresentations
+} = require('./ProductionBuildProof.cjs');
 const chunks = Object.freeze([
 	['presentation', 'installMinimalMeadowPresentationBundle'],
 	['world', 'installMinimalMeadowWorldSystems'],
@@ -30,28 +30,27 @@ test('B"H production page selects compact publication by default', () => {
 	assert.equal([...html.matchAll(/<script[^>]+type="module"/g)].length, 1);
 	assert.match(html, /MitzvahWorldProductionEntry\.js/);
 	assert.match(entry, /parameters\.get\('readable'\) === '1'/);
-	assert.match(entry, /: '\.\/mitzvah-world\.compact\.js'/);
+	assert.match(entry, /mitzvah-world\.compact\.js/);
 });
 
-test('B"H production CSS is complete with approved identity and Brotli vessels', () => {
+test('B"H production CSS is complete and every representation is verified', () => {
 	const manifest = json('styles/generated/mitzvah-world.manifest.json');
 	assert.equal(manifest.blocking.length, 0);
 	assert.equal(manifest.stateCoverage.ready, true);
 	assert.ok(manifest.files.length >= 30);
-	verifyIdentityAndBrotli('styles/generated/mitzvah-world.production.css', manifest.representations);
-	assert.equal(fs.existsSync(path.join(root, 'styles/generated/mitzvah-world.production.css.gz')), false);
+	verifyRepresentations('styles/generated/mitzvah-world.production.css', manifest.representations);
 });
 
-test('B"H first-control artifact is deterministic and bounded', () => {
+test('B"H first-control artifact is deterministic, tiny, and hands off canonically', () => {
 	const manifest = json('build/generated/mitzvah-world-js.json');
 	const compact = text('experiments/Awtsmoos/src/mitzvah-world.compact.js');
 	assert.equal(manifest.deterministic, true);
 	assert.deepEqual(manifest.optionalModulesBundled, []);
-	assert.ok(manifest.outputBytes > 100000);
-	assert.ok(manifest.outputBytes < 2500000);
-	for (const marker of ['FIRST_PAINT_FALLBACK_MS', 'mitzvah-world-presentation.compact.js', 'mitzvah-world-world.compact.js']) {
-		assert.match(compact, new RegExp(escapePattern(marker)));
+	assert.ok(manifest.outputBytes >= 1000 && manifest.outputBytes <= 20000);
+	for (const marker of ['PAGE_BOOT_URL', 'RUNTIME_BOOT_URL', 'bootCanonicalMitzvahWorldPage']) {
+		assert.match(compact, new RegExp(marker));
 	}
+	assert.doesNotMatch(compact, /MitzvahWorldCreativeModeLoaders/);
 	verifyRepresentations('experiments/Awtsmoos/src/mitzvah-world.compact.js', manifest.representations);
 });
 
@@ -59,56 +58,26 @@ for (const [name, exportedName] of chunks) {
 	test(`B"H ${name} chunk is deterministic and complete`, () => {
 		const relative = `experiments/Awtsmoos/src/mitzvah-world-${name}.compact.js`;
 		const manifest = json(`build/generated/mitzvah-world-${name}.json`);
-		const compact = text(relative);
 		assert.equal(manifest.deterministic, true);
 		assert.equal(manifest.name, name);
-		assert.match(compact, new RegExp(exportedName));
+		assert.match(text(relative), new RegExp(exportedName));
 		verifyRepresentations(relative, manifest.representations);
 	});
 }
 
-test('B"H compact route preserves the complete served cinema source graph', () => {
-	const compact = text('experiments/Awtsmoos/src/mitzvah-world.compact.js');
+test('B"H deferred creative mode preserves the complete served cinema graph', () => {
 	const loader = text('experiments/Awtsmoos/src/launcher/MitzvahWorldCreativeModeLoaders.js');
 	const api = text('experiments/Awtsmoos/src/movie/MovieStudioApi.js');
 	const cinema = cinemaSources();
-	assert.match(compact, /MitzvahWorldCreativeModeLoaders\.js/);
 	assert.match(loader, /import\('\.\.\/movie\/MovieStudio\.js'\)/);
 	assert.match(api, /createMovieStudioCinemaDomain/);
 	for (const marker of [
-		'createMovieCinemaFlagship', 'one-minute-chassidic-village',
-		'assets/models/player/chossid.glb', 'MOVIE_CINEMA_VIDEO_PROGRESS_WEIGHT',
+		'createMovieCinemaFlagship',
+		'one-minute-chassidic-village',
+		'assets/models/player/chossid.glb',
+		'MOVIE_CINEMA_VIDEO_PROGRESS_WEIGHT',
 		'UNSAFE_CINEMA_HUMAN'
-	]) assert.match(cinema, new RegExp(escapePattern(marker)), marker);
-});
-
-function cinemaSources() {
-	return fs.readdirSync(path.join(root, 'experiments/Awtsmoos/src/movie'))
-		.filter(name => /^Movie(?:Cinema|StudioApiCinema)/.test(name) && name.endsWith('.js'))
-		.sort()
-		.map(name => text(`experiments/Awtsmoos/src/movie/${name}`))
-		.join('\n');
-}
-
-function verifyIdentityAndBrotli(relativePath, representations) {
-	const identity = bytes(relativePath);
-	const brotli = bytes(`${relativePath}.br`);
-	assert.deepEqual(zlib.brotliDecompressSync(brotli), identity);
-	for (const [name, value] of Object.entries({ identity, brotli })) {
-		assert.equal(representations[name].bytes, value.length);
-		assert.equal(representations[name].sha256, sha256(value));
+	]) {
+		assert.match(cinema, new RegExp(marker), marker);
 	}
-}
-
-function verifyRepresentations(relativePath, representations) {
-	verifyIdentityAndBrotli(relativePath, representations);
-	const gzip = bytes(`${relativePath}.gz`);
-	assert.deepEqual(zlib.gunzipSync(gzip), bytes(relativePath));
-	assert.equal(representations.gzip.sha256, sha256(gzip));
-}
-
-function bytes(relativePath) { return fs.readFileSync(path.join(root, relativePath)); }
-function text(relativePath) { return bytes(relativePath).toString('utf8'); }
-function json(relativePath) { return JSON.parse(text(relativePath)); }
-function sha256(value) { return crypto.createHash('sha256').update(value).digest('hex'); }
-function escapePattern(value) { return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+});

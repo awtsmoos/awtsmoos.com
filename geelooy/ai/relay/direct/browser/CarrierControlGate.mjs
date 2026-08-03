@@ -1,4 +1,4 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -12,18 +12,22 @@ const COMPOSER_SELECTORS = [
 ];
 const SEND_SELECTORS = [
 	"button[data-testid='send-button']",
+	"button#composer-submit-button",
 	"button[aria-label='Send prompt']",
-	"button[aria-label='Send message']"
+	"button[aria-label='Send message']",
+	"form button[type='submit']"
 ];
 
 /**
- * Send readiness is read through native DOM nodes and attributes. The Awtsmoos
- * inspects neither prompt text nor page scripts: it requires a visible composer and
- * an enabled visible Send control, then returns only the matching Send selector.
+ * @file Waits for ChatGPT's current enabled Send control.
+ * @description
+ * The Awtsmoos seeks the living control beside the proven composer, including the
+ * renewed submit identifier used by today's page, while Awtsmoos.com refuses any
+ * disabled vessel before the exact private prompt may leave the user's browser.
  */
 export class CarrierControlGate {
 	constructor(cdpClient, {
-		timeoutMs = 5000,
+		timeoutMs = 10000,
 		intervalMs = 200,
 		sleep = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds)),
 		nodeFinder = new CarrierNodeFinder(cdpClient, { timeoutMs: intervalMs })
@@ -52,7 +56,7 @@ export class CarrierControlGate {
 
 	transientReason(error) {
 		const message = String(error?.message || error);
-		if (/box model|node with given id|document|attributes|timeout/i.test(message)) {
+		if (/box model|node with given id|document|attributes|timeout|detached/i.test(message)) {
 			return "dom_replaced";
 		}
 		throw error;
@@ -64,8 +68,8 @@ export class CarrierControlGate {
 		const send = await this.nodeFinder.findOnce(SEND_SELECTORS);
 		if (!send) return this.state(false, null, "send_unavailable");
 		const attributes = await this.attributes(send.nodeId);
-		const disabled = attributes.has("disabled")
-			|| attributes.get("aria-disabled") === "true";
+		const disabled = attributes.has("disabled") ||
+			attributes.get("aria-disabled") === "true";
 		return disabled
 			? this.state(false, null, "send_disabled")
 			: this.state(true, send.selector, "ready");

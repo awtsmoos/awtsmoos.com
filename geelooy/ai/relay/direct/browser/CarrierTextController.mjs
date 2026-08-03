@@ -1,15 +1,24 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
+import { CarrierComposerReader } from "./CarrierComposerReader.mjs";
+
 /**
- * The Awtsmoos verifies each exact letter in the newest composer node after React
- * renews the page. Awtsmoos.com keeps the prompt private, re-queries stale vessels,
- * and falls back to one native character event per code point before Send may arise.
+ * @file Places and verifies the exact private prompt in ChatGPT's live composer.
+ * @description
+ * The Awtsmoos measures the living value, not the textarea's empty outer shell.
+ * Awtsmoos.com therefore accepts fast native insertion when its exact letters are
+ * present and reserves character fallback only for a genuinely rejected input.
  */
 export class CarrierTextController {
-	constructor(cdpClient) {
+	constructor(cdpClient, {
+		reader = new CarrierComposerReader(cdpClient),
+		sleep = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds))
+	} = {}) {
 		this.cdpClient = cdpClient;
+		this.reader = reader;
+		this.sleep = sleep;
 	}
 
 	async replace(locator, text, { prepareCharacterFallback = null } = {}) {
@@ -23,7 +32,8 @@ export class CarrierTextController {
 		if (typeof prepareCharacterFallback !== "function") {
 			throw insertError || new Error("The exact prompt did not enter the ChatGPT composer.");
 		}
-		await prepareCharacterFallback(await this.currentLocator(locator));
+		const current = await this.currentLocator(locator);
+		await prepareCharacterFallback(current);
 		await this.dispatchCharacters(text);
 		if (await this.containsEventually(locator, text)) return;
 		throw new Error("The exact prompt did not enter the ChatGPT composer.");
@@ -31,14 +41,14 @@ export class CarrierTextController {
 
 	async containsEventually(locator, text) {
 		let lastError = null;
-		for (let attempt = 0; attempt < 3; attempt += 1) {
+		for (let attempt = 0; attempt < 4; attempt += 1) {
 			try {
 				if (await this.contains(locator, text)) return true;
 				lastError = null;
 			} catch (error) {
 				lastError = error;
 			}
-			await new Promise(resolve => setTimeout(resolve, 250));
+			await this.sleep(250);
 		}
 		if (lastError) throw lastError;
 		return false;
@@ -53,48 +63,12 @@ export class CarrierTextController {
 	}
 
 	async contains(locator, text) {
-		let originalError = null;
-		try {
-			const result = await this.cdpClient.send(
-				"DOM.getOuterHTML",
-				this.nativeLocator(locator),
-				5000
-			);
-			return this.composerText(result.outerHTML) === this.normalizeText(text);
-		} catch (error) {
-			originalError = error;
-		}
-		try {
-			const current = await this.currentLocator(locator);
-			const result = await this.cdpClient.send("DOM.getOuterHTML", current, 5000);
-			return this.composerText(result.outerHTML) === this.normalizeText(text);
-		} catch (error) {
-			throw this.stageError(
-				"DOM.getOuterHTML",
-				new Error(`${String(originalError?.message || originalError)}; ${String(error?.message || error)}`)
-			);
-		}
+		const actual = await this.reader.text(locator);
+		return actual === this.reader.normalize(text);
 	}
 
 	async currentLocator(locator) {
-		if (!locator?.selector) return this.nativeLocator(locator);
-		const document = await this.cdpClient.send("DOM.getDocument", {
-			depth: 1,
-			pierce: true
-		}, 5000);
-		const queried = await this.cdpClient.send("DOM.querySelector", {
-			nodeId: document.root.nodeId,
-			selector: locator.selector
-		}, 5000);
-		if (!queried.nodeId) throw new Error("The renewed composer node was unavailable.");
-		return { nodeId: queried.nodeId };
-	}
-
-	nativeLocator(locator) {
-		if (Number.isInteger(locator)) return { nodeId: locator };
-		if (Number.isInteger(locator?.backendNodeId)) return { backendNodeId: locator.backendNodeId };
-		if (Number.isInteger(locator?.nodeId)) return { nodeId: locator.nodeId };
-		throw new TypeError("A native composer locator is required.");
+		return this.reader.currentLocator(locator);
 	}
 
 	async dispatchCharacters(text) {
@@ -109,39 +83,6 @@ export class CarrierTextController {
 				throw this.stageError("Input.dispatchKeyEvent(char)", error);
 			}
 		}
-	}
-
-	composerText(outerHtml) {
-		const html = String(outerHtml ?? "");
-		const openingEnd = html.indexOf(">");
-		const closingStart = html.lastIndexOf("</");
-		const inner = openingEnd >= 0 && closingStart > openingEnd
-			? html.slice(openingEnd + 1, closingStart)
-			: html;
-		return this.normalizeText(inner
-			.replace(/<br\s*\/?>/gi, "\n")
-			.replace(/<\/(?:p|div|li)>/gi, "\n")
-			.replace(/<[^>]+>/g, "")
-			.replace(/\n$/, ""));
-	}
-
-	normalizeText(value) {
-		return String(value ?? "")
-			.replaceAll("&quot;", '"')
-			.replaceAll("&#x27;", "'")
-			.replaceAll("&#39;", "'")
-			.replaceAll("&lt;", "<")
-			.replaceAll("&gt;", ">")
-			.replaceAll("&nbsp;", " ")
-			.replace(/&#x([0-9a-f]+);/gi, (_match, hex) => {
-				return String.fromCodePoint(Number.parseInt(hex, 16));
-			})
-			.replace(/&#([0-9]+);/g, (_match, decimal) => {
-				return String.fromCodePoint(Number.parseInt(decimal, 10));
-			})
-			.replaceAll("&amp;", "&")
-			.replace(/\r\n?/g, "\n")
-			.replaceAll("\u00a0", " ");
 	}
 
 	stageError(stage, error) {

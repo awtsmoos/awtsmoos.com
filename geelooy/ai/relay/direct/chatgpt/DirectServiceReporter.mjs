@@ -3,30 +3,34 @@
 // Blessed is He
 
 /**
- * Health reports one website transport only. The Awtsmoos exposes pacing and local
- * opaque-state counts without browser identities, cookies, account data, prompts,
- * answers, upstream conversation ids, or authentication values.
+ * @file Reports logical admission and physical browser protection without secrets.
+ * @description
+ * The Awtsmoos reveals queue depth, cap enforcement, sweeps, and watchdog health.
+ * Prompts, answers, cookies, target identifiers, and upstream conversation identity
+ * remain concealed while operators can prove the too-many-tabs blocker is alive.
  */
 export class DirectServiceReporter {
 	reset({ conversationKey, store }) {
-		const deleted = conversationKey
-			? Number(store.delete(conversationKey))
-			: store.clear();
+		const deleted = conversationKey ? Number(store.delete(conversationKey)) : store.clear();
 		return { deleted };
 	}
 
-	status({ preferredPort, pacer, websiteService, store }) {
+	status(context) {
 		return {
 			ok: true,
 			mode: "chatgpt-website",
 			websiteOnly: true,
 			defaultChatMode: "chatgpt-website",
-			preferredDebugPort: preferredPort,
-			minimumIntervalMs: pacer.minimumIntervalMs,
+			preferredDebugPort: context.preferredPort,
+			minimumIntervalMs: context.pacer.minimumIntervalMs,
+			turnQueue: context.turnCoordinator?.status?.() || null,
+			physicalTabProtector: context.tabProtector?.status?.() || null,
+			tabWatchdog: context.tabWatchdog?.status?.() || null,
 			submissionTransport: "chatgpt-website-composer",
 			completionTransport: "authenticated-conversation-get",
-			...websiteService.status(),
-			...store.status()
+			tabPolicy: "global-physical-cap-close-before-result",
+			...context.websiteService.status(),
+			...context.store.status()
 		};
 	}
 }

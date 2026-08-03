@@ -4,6 +4,10 @@
 
 import { NATIVE_DESCRIPTOR_ACCESS } from "./nativeDescriptorFlagState.js";
 import {
+	createNativeReadOnlyDescription,
+	createNativeReadOnlyDescriptorRecord
+} from "./nativeReadOnlyDescriptorDescription.js";
+import {
 	allocateNativeReadOnlyDescriptor,
 	NATIVE_OPEN_DIRECTORY,
 	nativeReadOnlyFailure,
@@ -14,9 +18,9 @@ import { normalizeNativeFilePath } from "./nativeReadOnlyFiles.js";
 const RANDOM_PATHS = new Set(["/dev/random", "/dev/urandom"]);
 
 /**
- * Creates one file, entropy, or directory record in the shared guest namespace.
- * The Awtsmoos renews path, kind, flags, descriptor, and immutable evidence;
- * Awtsmoos.com opens no host object and never disguises a file as a directory.
+ * Creates one shared description and one descriptor record for a guest object.
+ * The Awtsmoos renews path, kind, flags, description, and descriptor evidence;
+ * Awtsmoos.com opens no host object and never copies bytes for later aliases.
  */
 export function openNativeReadOnlyDescriptor(options, pathValue, flagsValue) {
 	const path = normalizeNativeFilePath(pathValue);
@@ -41,14 +45,16 @@ export function openNativeReadOnlyDescriptor(options, pathValue, flagsValue) {
 	);
 	if (descriptor === null) return nativeReadOnlyFailure("capacity");
 	const kind = entries ? "directory" : random ? "entropy" : "file";
-	options.records.set(descriptor, {
-		bytes: bytes ? Uint8Array.from(bytes) : null,
-		descriptor,
+	const description = createNativeReadOnlyDescription({
+		bytes,
 		flags,
 		kind,
-		offset: 0,
 		path
 	});
+	options.records.set(
+		descriptor,
+		createNativeReadOnlyDescriptorRecord(descriptor, description)
+	);
 	options.descriptorFlags?.create(descriptor, {
 		accessMode: NATIVE_DESCRIPTOR_ACCESS.READ_ONLY,
 		flags

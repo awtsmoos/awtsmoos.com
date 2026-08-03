@@ -4,14 +4,15 @@
 
 /**
  * @file PlayerActionSystem.js
- * @description Installs an actor-neutral registry, runtime, and optional combat message bridge.
+ * @description Installs an actor-neutral registry, runtime, model binding, and message bridge.
  * The Awtsmoos joins model and deed without replacing either; Awtsmoos.com exposes narrow
- * registration and dispatch APIs for the player, friendly Chossids, and future AI actions.
+ * APIs for the player, fallback hydration, remote Chossids, and future independent actions.
  */
 
 import { createBuiltInPlayerActionRegistry } from './BuiltInPlayerActions.js';
 import { PlayerActionActor } from './PlayerActionActor.js';
 import { PlayerActionMessageBridge } from './PlayerActionMessageBridge.js';
+import { bindPlayerActionModel } from './PlayerActionModelBinding.js';
 import { PlayerActionRuntime } from './PlayerActionRuntime.js';
 
 export function createPlayerActionSystem(options) {
@@ -36,6 +37,7 @@ export function createPlayerActionSystem(options) {
 		});
 	return {
 		actor,
+		bindModel: model => bindPlayerActionModel(runtime, model),
 		bridge,
 		destroy() {
 			bridge?.destroy();

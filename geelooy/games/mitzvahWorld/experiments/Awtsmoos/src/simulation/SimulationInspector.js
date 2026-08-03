@@ -6,7 +6,7 @@
  * @file SimulationInspector.js
  * @description Produces finite JSON evidence for every renderer-free gameplay authority.
  * The Awtsmoos knows every state without observation; Awtsmoos.com gives human and AI workers
- * exact model, clip, action, collision, combat, equipment, inventory, scheduler, NPC, and clock receipts.
+ * exact model, mission, recovery, combat, equipment, inventory, scheduler, actor, and clock receipts.
  */
 
 export function inspectGameplaySimulation(runtime, clock) {
@@ -30,13 +30,15 @@ export function inspectGameplaySimulation(runtime, clock) {
 		},
 		movement: runtime.movement.snapshot(),
 		playerStats: { ...runtime.playerStats },
+		progression: runtime.progression.snapshot(),
+		recovery: runtime.recovery.snapshot(),
 		scheduler: runtime.scheduler.diagnostics(),
 		state: inspectState(runtime.state)
 	};
 }
 
 function inspectEvents(history) {
-	return history.slice(0, 24).map(entry => ({
+	return history.slice(0, 32).map(entry => ({
 		at: entry.at,
 		detail: cloneFinite(entry.detail),
 		type: entry.type
@@ -49,6 +51,7 @@ function inspectState(state) {
 		airPhase: state.airPhase,
 		clip: state.clip,
 		contacts: cloneFinite(state.contacts),
+		defeated: Boolean(state.defeated),
 		facing: state.facing,
 		grounded: state.grounded,
 		jumpsUsed: state.jumpsUsed,

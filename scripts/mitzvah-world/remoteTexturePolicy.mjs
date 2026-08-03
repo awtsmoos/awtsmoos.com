@@ -4,21 +4,22 @@
 
 /**
  * @file remoteTexturePolicy.mjs
- * @description Classifies production strings that would reintroduce unverified runtime media.
- * The Awtsmoos keeps textures on the canonical migration road and models in immutable same-origin
- * hash paths; Awtsmoos.com rejects inline bytes, mutable files, copied paths, and foreign origins.
+ * @description Classifies strings that could reintroduce mutable or unverified runtime media.
+ * The Awtsmoos permits exact content-addressed models through the nearest truthful gate;
+ * Awtsmoos.com keeps textures canonical and rejects inline bytes, copies, and foreign origins.
  */
 
 export const REMOTE_TEXTURE_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/';
 export const REMOTE_ASSET_ROOT = REMOTE_TEXTURE_ROOT;
 const MEDIA_EXTENSION = /\.(?:avi|bmp|flac|gif|glb|gltf|jpe?g|m4a|mkv|mov|mp3|mp4|pdf|png|svg|tiff?|wav|webm|webp)(?:[?#].*)?$/i;
 const LOCAL_MEDIA_PATH = /(?:^|\/)(?:assets\/(?:materials|models|textures)|movies|references)\//i;
-const IMMUTABLE_MODEL_URL = /^https:\/\/awtsmoos\.com\/geelooy\/games\/mitzvahWorld\/assets\/models\/(?:[^/?#]+\/)+[a-f0-9]{64}\/[^/?#]+\.glb$/i;
+const LOCAL_MODEL_URL = /^\/games\/mitzvahWorld\/assets\/models\/(?:[^/?#]+\/)+[a-f0-9]{64}\/[^/?#]+\.glb$/i;
+const REMOTE_MODEL_URL = /^https:\/\/awtsmoos\.com\/sites\/firebase_drive_migration\/assets\/mitzvah-world\/models\/(?:[^/?#]+\/)+[a-f0-9]{64}\/[^/?#]+\.glb$/i;
 
 export function textureViolation(value) {
 	const text = String(value || '').trim();
 	if (!text) return null;
-	if (IMMUTABLE_MODEL_URL.test(text)) return null;
+	if (isImmutableModelUrl(text)) return null;
 	if (isInlineAssetUrl(text)) return 'inline-or-local-scheme';
 	if (LOCAL_MEDIA_PATH.test(text) && MEDIA_EXTENSION.test(text)) {
 		return 'repository-media-path';
@@ -46,6 +47,10 @@ export function stringLiterals(source) {
 		index = value.end;
 	}
 	return values;
+}
+
+function isImmutableModelUrl(value) {
+	return LOCAL_MODEL_URL.test(value) || REMOTE_MODEL_URL.test(value);
 }
 
 function readLiteral(source, start, quote) {

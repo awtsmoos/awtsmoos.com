@@ -4,9 +4,9 @@
 
 /**
  * @file ProceduralForestSystem.js
- * @description Reveals one procedural-core forest through one renderer and collision covenant.
+ * @description Reveals one quality-bounded forest through one renderer and collision covenant.
  * From one Etz Chaim the many species rise, each branch retaining its name;
- * one Heichal merges their material light, one ledger measures the flame.
+ * Awtsmoos.com measures the vessel first, so mobile earth receives a living, lighter flame.
  */
 
 import {
@@ -18,28 +18,32 @@ import { createForestColliders } from './ForestCollision.js';
 import { createMergedForestGeometry } from './ForestGeometry.js';
 import { createForestPlacements } from './ForestPlacement.js';
 import { createForestPolicy, createReferenceForestPolicy } from './ForestPolicy.js';
+import {
+	forestQualityBudget,
+	selectForestRepresentatives
+} from './ForestQualityBudget.js';
 import { buildForestRecord } from './ForestRecordFactory.js';
 import { createForestSystemStats } from './ForestSystemStats.js';
 
-const PRESET_POPULATION = 54;
 const FOREST_SEED = 613;
 
-export function createProceduralForest(options) {
+export function createProceduralForest(options = {}) {
 	const reshimuHaStart = now();
 	const sederHaPresets = listTreePresets();
-	const kelimHaPolicies = createPolicies(sederHaPresets);
-	const netivotHaPlacement = createForestPlacements(kelimHaPolicies, {
+	const kelimHaBudget = forestQualityBudget(options.quality);
+	const olamHaPopulation = createPolicies(
+		sederHaPresets,
+		REFERENCE_TREE_SPECIES,
+		kelimHaBudget
+	);
+	const netivotHaPlacement = createForestPlacements(olamHaPopulation.policies, {
 		groundSampler: options.groundSampler,
 		halfSize: options.halfSize,
 		obstacleTriangles: options.obstacleTriangles,
 		roadTriangles: options.roadTriangles,
 		seed: FOREST_SEED
 	});
-	if (netivotHaPlacement.placements.length !== kelimHaPolicies.length) {
-		throw new Error(
-			`Forest placement accepted ${netivotHaPlacement.placements.length}/${kelimHaPolicies.length} trees.`
-		);
-	}
+	assertCompletePlacement(netivotHaPlacement, olamHaPopulation.policies.length);
 	const nitzotzRecords = netivotHaPlacement.placements.map(buildForestRecord);
 	const heichalHaRendering = createMergedForestGeometry(nitzotzRecords);
 	const gevurotHaCollision = createForestColliders(nitzotzRecords);
@@ -50,13 +54,19 @@ export function createProceduralForest(options) {
 		collision: gevurotHaCollision.stats,
 		generationMilliseconds: now() - reshimuHaStart,
 		placement: netivotHaPlacement,
-		presetNames: sederHaPresets,
+		presetNames: olamHaPopulation.presetNames,
 		records: nitzotzRecords,
-		referenceSpecies: REFERENCE_TREE_SPECIES,
+		referenceSpecies: olamHaPopulation.referenceSpecies,
 		rendering: heichalHaRendering.stats,
 		seed: FOREST_SEED
 	});
 	seferHaStats.generatorAuthority = 'awtsmoos-procedural-core';
+	seferHaStats.quality = kelimHaBudget.name;
+	seferHaStats.qualityBudget = Object.freeze({
+		...kelimHaBudget,
+		availablePresetCount: sederHaPresets.length,
+		availableReferenceCount: REFERENCE_TREE_SPECIES.length
+	});
 	olamHaForest.userData.AwtsmoosForest = seferHaStats;
 	return {
 		colliders: gevurotHaCollision.colliders,
@@ -66,15 +76,30 @@ export function createProceduralForest(options) {
 	};
 }
 
-function createPolicies(presetNames) {
-	const presetCount = Math.max(presetNames.length, PRESET_POPULATION);
-	const presets = Array.from({ length: presetCount }, (_, index) => {
-		return createForestPolicy(presetNames[index % presetNames.length], index);
+function createPolicies(presetNames, referenceSpecies, budget) {
+	const selectedPresets = selectForestRepresentatives(presetNames, budget.presetCount);
+	const selectedReferences = selectForestRepresentatives(
+		referenceSpecies,
+		budget.referenceCount
+	);
+	const presets = selectedPresets.map((name, index) => {
+		return createForestPolicy(name, index);
 	});
-	const references = REFERENCE_TREE_SPECIES.map((species, offset) => {
-		return createReferenceForestPolicy(species, presetCount + offset);
+	const references = selectedReferences.map((species, offset) => {
+		return createReferenceForestPolicy(species, presets.length + offset);
 	});
-	return [...presets, ...references];
+	return {
+		policies: [...presets, ...references],
+		presetNames: selectedPresets,
+		referenceSpecies: selectedReferences
+	};
+}
+
+function assertCompletePlacement(placement, expectedCount) {
+	if (placement.placements.length === expectedCount) return;
+	throw new Error(
+		`Forest placement accepted ${placement.placements.length}/${expectedCount} trees.`
+	);
 }
 
 function now() {

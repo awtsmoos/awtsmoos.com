@@ -4,112 +4,54 @@
 
 /**
  * @file DeferredVillageBotanicalEnrichment.js
- * @description Installs visual-only village botany after movement becomes available.
- * The Awtsmoos lets the shliach enter before every petal is revealed; Awtsmoos.com
- * preserves exactly-once installation, cancellation, cleanup, and bounded diagnostics.
+ * @description Reveals procedural gardens first and bounded real nature second.
+ * The Awtsmoos opens the path before every blossom has entered the light;
+ * Awtsmoos.com keeps each installer cancellable, truthful, and ordered right.
  */
 
-import { createPrimitiveMesh } from '../Box3D.js';
+import { BotanicalEnrichmentController } from './BotanicalEnrichmentController.js';
+import {
+	installProceduralGarden,
+	installRealGarden
+} from './VillageBotanicalInstaller.js';
 
-export class DeferredVillageBotanicalEnrichment {
-	constructor(options = {}) {
-		this.group = options.group;
-		this.groundSampler = options.groundSampler;
-		this.quality = options.quality || 'high';
-		this.loader = options.loader || loadBotanicalModule;
-		this.meshFactory = options.meshFactory || createPrimitiveMesh;
-		this.schedule = options.schedule || scheduleIdle;
-		this.cancel = options.cancel || cancelIdle;
-		this.state = 'cold';
-		this.generation = 0;
-		this.handle = null;
-		this.meshes = [];
-		this.stats = null;
-		this.promise = null;
-	}
-
-	start() {
-		if (this.promise) return this.promise;
-		const generation = ++this.generation;
-		this.state = 'scheduled';
-		this.promise = new Promise((resolve) => {
-			this.handle = this.schedule(() => {
-				this.handle = null;
-				this.loadAndInstall(generation).then(resolve);
-			});
-		});
-		return this.promise;
-	}
-
+export class DeferredVillageBotanicalEnrichment extends BotanicalEnrichmentController {
 	async loadAndInstall(generation) {
-		if (!this.isCurrent(generation)) return this.snapshot();
-		this.state = 'loading';
 		try {
-			const module = await this.loader();
-			if (!this.isCurrent(generation)) return this.snapshot();
-			const packageValue = module.createVillageBotanicalEnrichmentDefinitions(
-				this.groundSampler,
-				this.quality
-			);
-			for (const definition of packageValue.definitions) {
-				const mesh = this.meshFactory(definition);
-				this.group.add(mesh);
-				this.meshes.push(mesh);
+			this.lifecycle.name = 'procedural-loading';
+			const procedural = await installProceduralGarden(this.installOptions(generation));
+			if (!this.isCurrent(generation)) {
+				return this.snapshot();
 			}
-			this.stats = { ...packageValue.stats };
-			this.state = 'complete';
+			this.lifecycle.setProcedural(procedural);
+			this.lifecycle.name = 'real-loading';
+			await this.installReal(generation);
+			if (this.isCurrent(generation)) {
+				this.lifecycle.complete();
+			}
 		} catch (error) {
-			this.state = 'failed';
-			this.stats = { error: error?.message || String(error) };
+			if (this.isCurrent(generation)) {
+				this.lifecycle.fail(error);
+			}
 		}
 		return this.snapshot();
 	}
 
-	destroy() {
-		this.generation += 1;
-		if (this.handle !== null) this.cancel(this.handle);
-		this.handle = null;
-		for (const mesh of this.meshes) removeMesh(this.group, mesh);
-		this.meshes.length = 0;
-		this.state = 'destroyed';
-	}
-
-	snapshot() {
-		return Object.freeze({
-			installedMeshes: this.meshes.length,
-			quality: this.quality,
-			state: this.state,
-			stats: this.stats ? { ...this.stats } : null
-		});
-	}
-
-	isCurrent(generation) {
-		return this.state !== 'destroyed' && generation === this.generation;
+	async installReal(generation) {
+		try {
+			const system = await installRealGarden({
+				...this.installOptions(generation),
+				loadModule: this.loadReal
+			});
+			if (this.isCurrent(generation)) {
+				this.lifecycle.setReal(system);
+			}
+		} catch (error) {
+			this.lifecycle.setRealError(error);
+		}
 	}
 }
 
 export function createDeferredVillageBotanicalEnrichment(options) {
 	return new DeferredVillageBotanicalEnrichment(options);
-}
-
-function loadBotanicalModule() {
-	return import('../village/VillageBotanicalEnrichmentSystem.js');
-}
-
-function scheduleIdle(callback) {
-	if (typeof requestIdleCallback === 'function') {
-		return requestIdleCallback(callback, { timeout: 1400 });
-	}
-	return setTimeout(callback, 32);
-}
-
-function cancelIdle(handle) {
-	if (typeof cancelIdleCallback === 'function') return cancelIdleCallback(handle);
-	clearTimeout(handle);
-}
-
-function removeMesh(group, mesh) {
-	if (typeof group?.remove === 'function') return group.remove(mesh);
-	const index = group?.children?.indexOf(mesh) ?? -1;
-	if (index >= 0) group.children.splice(index, 1);
 }

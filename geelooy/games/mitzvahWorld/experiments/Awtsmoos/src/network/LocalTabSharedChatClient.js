@@ -3,33 +3,35 @@
 // Blessed is He
 
 /**
- * @file LocalTabSharedChatClient.js
- * @description Gives localhost multiplayer world chat with personal moderation and reports.
- * The Awtsmoos joins nearby tabs without pretending they possess server guild or private law;
- * Awtsmoos.com preserves identity, history, protection, evidence, census, and explicit closure.
- */
+	* @file LocalTabSharedChatClient.js
+	* @description Gives localhost multiplayer ordered world chat and personal protection.
+	* The Awtsmoos joins nearby tabs without pretending they possess server law;
+	* Awtsmoos.com preserves identity, bounded history, evidence, and explicit closure.
+	*/
 
-import {
-	createLocalTabSharedChatApi,
-	localTabChatAddress,
-	localTabChatSpeaker
-} from './LocalTabSharedChatApi.js';
+import { LocalTabChatModeration } from './LocalTabChatModeration.js';
+import { createLocalTabSharedChatApi, localTabChatSpeaker } from './LocalTabSharedChatApi.js';
 import { localTabChannelName } from './LocalTabIdentity.js';
+
+const MAX_HISTORY = 100;
 
 export class LocalTabSharedChatClient {
 	constructor(realtime) {
 		this.realtime = realtime;
+		this.now = realtime.now || (() => Date.now());
 		this.listeners = new Map();
 		this.messages = [];
-		this.blocked = new Set();
-		this.muted = new Set();
-		this.reports = [];
+		this.moderation = new LocalTabChatModeration(this.now);
+		this.blocked = this.moderation.blocked;
+		this.muted = this.moderation.muted;
+		this.reports = this.moderation.reports;
 		this.receiveBound = event => this.receive(event.data);
 		this.channel = new realtime.BroadcastChannelClass(
 			`${localTabChannelName(realtime.worldState.worldId)}:chat`
 		);
 		this.channel.addEventListener('message', this.receiveBound);
 		this.mmorpg = { community: createLocalTabSharedChatApi(this) };
+		this.sentSequence = 0;
 	}
 
 	census() {
@@ -39,7 +41,9 @@ export class LocalTabSharedChatClient {
 	}
 
 	on(type, listener) {
-		if (!this.listeners.has(type)) this.listeners.set(type, new Set());
+		if (!this.listeners.has(type)) {
+			this.listeners.set(type, new Set());
+		}
 		this.listeners.get(type).add(listener);
 		return () => this.listeners.get(type)?.delete(listener);
 	}
@@ -48,15 +52,21 @@ export class LocalTabSharedChatClient {
 		if (scope !== 'world') {
 			return Promise.reject(new Error('Local-tab chat supports World only.'));
 		}
+		const text = String(message || '').trim();
+		if (!text) {
+			return Promise.reject(new Error('A chat message is required.'));
+		}
+		this.sentSequence += 1;
 		const payload = {
 			from: localTabChatSpeaker(this.realtime),
-			id: `${this.realtime.playerId}:${Date.now()}:${this.messages.length}`,
-			message,
+			id: `${this.realtime.connectionId}:${this.sentSequence}`,
+			message: text,
 			scope: 'world',
-			sentAt: Date.now()
+			sentAt: this.now()
 		};
-		this.channel.postMessage({ payload, type: 'chat.message' });
-		this.receive({ payload, type: 'chat.message' });
+		const envelope = { payload, type: 'chat.message' };
+		this.channel.postMessage(envelope);
+		this.receive(envelope);
 		return Promise.resolve({ payload, type: 'chat.sent' });
 	}
 
@@ -65,55 +75,46 @@ export class LocalTabSharedChatClient {
 	}
 
 	moderate(action, targetPlayerId) {
-		const target = localTabChatAddress(targetPlayerId);
-		const values = action.endsWith('block') ? this.blocked : this.muted;
-		if (action.startsWith('un')) values.delete(target);
-		else values.add(target);
-		return Promise.resolve({ payload: this.moderationSnapshot() });
+		return Promise.resolve({ payload: this.moderation.moderate(action, targetPlayerId) });
 	}
 
 	report(targetPlayerId, reason, messageId = null) {
-		const payload = {
-			createdAt: Date.now(),
-			id: `local-report-${this.reports.length + 1}`,
-			messageId,
-			reason,
-			targetAddress: localTabChatAddress(targetPlayerId)
-		};
-		this.reports.push(payload);
+		const payload = this.moderation.report(targetPlayerId, reason, messageId);
 		return Promise.resolve({ payload, type: 'chat.reported' });
 	}
 
 	moderationSnapshot() {
-		return {
-			blockedPlayerAddresses: [...this.blocked],
-			moderator: false,
-			mutedPlayerAddresses: [...this.muted]
-		};
+		return this.moderation.snapshot();
 	}
 
 	receive(envelope) {
-		if (envelope?.type !== 'chat.message' || !envelope.payload) return;
-		this.messages.push(envelope.payload);
-		if (this.messages.length > 100) this.messages.shift();
-		if (this.hidden(envelope.payload)) return;
+		if (envelope?.type !== 'chat.message') {
+			return;
+		}
+		const message = this.moderation.acceptMessage(envelope.payload);
+		if (!message) {
+			return;
+		}
+		this.messages.push(message);
+		if (this.messages.length > MAX_HISTORY) {
+			this.messages.shift();
+		}
+		if (this.moderation.hidden(message)) {
+			return;
+		}
 		for (const listener of this.listeners.get('chat.message') || []) {
-			listener(envelope.payload);
+			listener(message);
 		}
 	}
 
 	visibleMessages() {
-		return this.messages.filter(message => !this.hidden(message));
-	}
-
-	hidden(message) {
-		const address = message.from?.address;
-		return this.blocked.has(address) || this.muted.has(address);
+		return this.messages.filter(message => !this.moderation.hidden(message));
 	}
 
 	destroy() {
-		this.channel.removeEventListener?.('message', this.receiveBound);
-		this.channel.close();
+		this.channel?.removeEventListener?.('message', this.receiveBound);
+		this.channel?.close?.();
+		this.channel = null;
 		this.listeners.clear();
 	}
 }

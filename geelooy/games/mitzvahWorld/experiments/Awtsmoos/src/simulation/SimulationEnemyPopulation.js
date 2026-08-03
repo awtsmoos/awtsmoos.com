@@ -4,18 +4,17 @@
 
 /**
  * @file SimulationEnemyPopulation.js
- * @description Supplies inspectable target actors for the real combat coordinator.
- * The Awtsmoos creates opposition and repair within one simulation; Awtsmoos.com keeps
- * health, selection, damage, payload, and reward finite without requiring rendered demons.
+ * @description Supplies unique inspectable actors with canonical quest target identities.
+ * The Awtsmoos creates opposition and refinement within one simulation; Awtsmoos.com keeps
+ * actor, target, health, selection, damage, and reward distinct without rendering a false body.
  */
 
+import { SIMULATION_ENEMY_DEFINITIONS } from './SimulationEnemyCatalog.js';
 import { SimulationSceneNode } from './SimulationSceneNode.js';
 
 export class SimulationEnemyPopulation {
-	constructor(definitions = defaultEnemies()) {
-		this.actors = definitions.map(definition =>
-			new SimulationEnemyActor(definition)
-		);
+	constructor(definitions = SIMULATION_ENEMY_DEFINITIONS) {
+		this.actors = definitions.map(definition => new SimulationEnemyActor(definition));
 		this.selected = null;
 		this.cycleIndex = -1;
 	}
@@ -32,15 +31,14 @@ export class SimulationEnemyPopulation {
 	}
 
 	update() {
-		if (this.selected && !this.selected.alive) {
-			this.selected = null;
-		}
+		if (this.selected && !this.selected.alive) this.selected = null;
 	}
 
 	diagnostics() {
 		return {
 			actors: this.actors.map(actor => actor.payload()),
 			living: this.actors.filter(actor => actor.alive).length,
+			selectedActorId: this.selected?.profile.actorId || null,
 			selectedId: this.selected?.profile.id || null
 		};
 	}
@@ -49,13 +47,12 @@ export class SimulationEnemyPopulation {
 export class SimulationEnemyActor {
 	constructor(definition) {
 		this.profile = {
-			id: definition.id,
+			actorId: definition.id,
+			id: definition.targetId || definition.id,
 			label: definition.label || definition.id,
 			xpReward: definition.xpReward || 10
 		};
-		this.group = new SimulationSceneNode(
-			`simulation-enemy-${definition.id}`
-		);
+		this.group = new SimulationSceneNode(`simulation-enemy-${definition.id}`);
 		this.group.position.set(
 			definition.position.x,
 			definition.position.y || 0,
@@ -79,6 +76,7 @@ export class SimulationEnemyActor {
 		this.health = Math.max(0, this.health - damage);
 		this.alive = this.health > 0;
 		return {
+			actorId: this.profile.actorId,
 			damage,
 			defeated: !this.alive,
 			health: this.health,
@@ -89,6 +87,7 @@ export class SimulationEnemyActor {
 
 	payload() {
 		return {
+			actorId: this.profile.actorId,
 			alive: this.alive,
 			health: this.health,
 			id: this.profile.id,
@@ -97,21 +96,4 @@ export class SimulationEnemyActor {
 			position: this.targetHint()
 		};
 	}
-}
-
-function defaultEnemies() {
-	return [
-		{
-			health: 90,
-			id: 'simulation-demon-one',
-			position: { x: 0, y: 0, z: 7 },
-			xpReward: 12
-		},
-		{
-			health: 130,
-			id: 'simulation-demon-two',
-			position: { x: 6, y: 0, z: 9 },
-			xpReward: 18
-		}
-	];
 }

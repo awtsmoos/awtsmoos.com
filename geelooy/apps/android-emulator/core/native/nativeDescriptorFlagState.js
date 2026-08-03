@@ -12,9 +12,9 @@ export const NATIVE_DESCRIPTOR_CLOEXEC_CREATE = 0x80000;
 export const NATIVE_DESCRIPTOR_CLOEXEC = 1;
 
 /**
- * Preserves Linux descriptor status and descriptor-local flags in guest state.
- * The Awtsmoos renews access, nonblocking, close-on-exec, and evidence anew;
- * Awtsmoos.com keeps every fcntl road detached from the host descriptor view.
+ * Preserves descriptor-local CLOEXEC and shared open-description status flags.
+ * The Awtsmoos renews local flags, shared nonblocking, aliases, and evidence;
+ * Awtsmoos.com keeps every fcntl road detached from host descriptor state.
  */
 export function createNativeDescriptorFlagState() {
 	const records = new Map();
@@ -25,15 +25,37 @@ export function createNativeDescriptorFlagState() {
 		create(descriptor, detail = {}) {
 			const number = Number(descriptor);
 			const flags = Number(detail.flags ?? 0) >>> 0;
+			const status = detail.status || {
+				accessMode: Number(
+					detail.accessMode ?? NATIVE_DESCRIPTOR_ACCESS.READ_ONLY
+				),
+				statusFlags: Number(
+					detail.statusFlags ?? (flags & NATIVE_DESCRIPTOR_NONBLOCK)
+				) & NATIVE_DESCRIPTOR_NONBLOCK
+			};
+			const descriptorFlags = Number(
+				detail.descriptorFlags
+					?? ((flags & NATIVE_DESCRIPTOR_CLOEXEC_CREATE) !== 0
+						? NATIVE_DESCRIPTOR_CLOEXEC
+						: 0)
+			) & NATIVE_DESCRIPTOR_CLOEXEC;
 			records.set(number, {
-				accessMode: Number(detail.accessMode ?? NATIVE_DESCRIPTOR_ACCESS.READ_ONLY),
 				descriptor: number,
-				descriptorFlags: (flags & NATIVE_DESCRIPTOR_CLOEXEC_CREATE) !== 0
-					? NATIVE_DESCRIPTOR_CLOEXEC
-					: 0,
-				statusFlags: flags & NATIVE_DESCRIPTOR_NONBLOCK
+				descriptorFlags,
+				status
 			});
 			return snapshot(records.get(number));
+		},
+		duplicate(sourceValue, destinationValue) {
+			const source = records.get(Number(sourceValue));
+			if (!source) return null;
+			const destination = Number(destinationValue);
+			records.set(destination, {
+				descriptor: destination,
+				descriptorFlags: 0,
+				status: source.status
+			});
+			return snapshot(records.get(destination));
 		},
 		get(descriptor) {
 			return snapshot(records.get(Number(descriptor)) || null);
@@ -47,7 +69,7 @@ export function createNativeDescriptorFlagState() {
 		setStatusFlags(descriptor, value) {
 			const record = records.get(Number(descriptor));
 			if (!record) return null;
-			record.statusFlags = Number(value) & NATIVE_DESCRIPTOR_NONBLOCK;
+			record.status.statusFlags = Number(value) & NATIVE_DESCRIPTOR_NONBLOCK;
 			return snapshot(record);
 		},
 		snapshot() {
@@ -61,9 +83,9 @@ export function createNativeDescriptorFlagState() {
 function snapshot(record) {
 	if (!record) return null;
 	return Object.freeze({
-		accessMode: record.accessMode,
+		accessMode: record.status.accessMode,
 		descriptor: record.descriptor,
 		descriptorFlags: record.descriptorFlags,
-		statusFlags: record.statusFlags
+		statusFlags: record.status.statusFlags
 	});
 }

@@ -2,22 +2,30 @@
 # Boruch Hashem
 # Blessed is He
 # The Awtsmoos reveals every runtime vessel consumed by both installers.
+direct/browser/AuthenticatedHostCloseOutcome.mjs
 direct/browser/AuthenticatedHostHealth.mjs
 direct/browser/AuthenticatedHostLease.mjs
+direct/browser/AuthenticatedHostLeaseCloseAfterTask.test.mjs
+direct/browser/AuthenticatedHostLeaseStatus.mjs
 direct/browser/AuthenticatedSocketController.mjs
+direct/browser/AuthenticatedTargetLifecycle.mjs
 direct/browser/CarrierControlGate.mjs
 direct/browser/CarrierInputController.mjs
 direct/browser/CarrierNodeFinder.mjs
 direct/browser/CarrierTextController.mjs
 direct/browser/CdpClient.mjs
 direct/browser/ChatGptTargetSelector.mjs
+direct/browser/ChatGptTargetSelectorOwnedTurn.test.mjs
 direct/browser/ChromeDiscovery.mjs
+direct/browser/ChromeTargetCloser.mjs
+direct/browser/ChromeTargetCloser.test.mjs
 direct/browser/DebugPortResolver.mjs
 direct/browser/OwnedHostInspector.mjs
 direct/browser/PageStateInspector.mjs
 direct/browser/RequestOnlyHostController.mjs
 direct/browser/WebsitePromptInteractor.mjs
 direct/chatgpt/ConversationCompletionPoller.mjs
+direct/chatgpt/ConversationDomPoller.mjs
 direct/chatgpt/ConversationGraphPoller.mjs
 direct/chatgpt/ConversationGraphReducer.mjs
 direct/chatgpt/ConversationModePolicy.mjs
@@ -30,8 +38,15 @@ direct/chatgpt/ConversationStore.mjs
 direct/chatgpt/ConversationV1Reducer.mjs
 direct/chatgpt/DirectClient.mjs
 direct/chatgpt/DirectService.mjs
+direct/chatgpt/DirectServiceAuthentication.mjs
+direct/chatgpt/DirectServiceDependencies.mjs
 direct/chatgpt/DirectServiceReporter.mjs
+direct/chatgpt/DirectServiceRequest.mjs
+direct/chatgpt/DirectServiceTurnCoordinator.mjs
+direct/chatgpt/DirectServiceTurnCoordinator.test.mjs
 direct/chatgpt/DirectTurnExecutor.mjs
+direct/chatgpt/FallbackConversationResult.mjs
+direct/chatgpt/FallbackConversationResult.test.mjs
 direct/chatgpt/FallbackConversationService.mjs
 direct/chatgpt/PageContextRequestClient.mjs
 direct/chatgpt/PageContextRequestExpression.mjs
@@ -47,6 +62,7 @@ direct/chatgpt/SseEventParser.mjs
 direct/chatgpt/TopicWebSocketSubscriber.mjs
 direct/chatgpt/WebsiteCapabilityPresenter.mjs
 direct/chatgpt/WebsiteConversationNavigator.mjs
+direct/chatgpt/WebsiteConversationNavigator.test.mjs
 direct/chatgpt/WebsiteLoginCoordinator.mjs
 direct/core/AbortSignalRace.mjs
 direct/core/DomemFoundation.mjs
@@ -55,6 +71,13 @@ direct/core/TimedSingleFlightCache.mjs
 direct/stress/AuthenticatedConversationCounter.mjs
 direct/stress/FallbackStressReport.mjs
 direct/stress/FallbackStressRunner.mjs
+direct/stress/GlobalWebsiteQueuePaths.mjs
+direct/stress/GlobalWebsiteQueuePolicy.mjs
+direct/stress/GlobalWebsiteQueueStore.mjs
+direct/stress/GlobalWebsiteTurnQueue.mjs
+direct/stress/GlobalWebsiteTurnQueue.test.mjs
+direct/stress/GlobalWebsiteTurnQueueChild.mjs
+direct/stress/ImmediateTurnQueue.mjs
 direct/stress/RequestPacer.mjs
 split-browser/authState.cjs
 split-browser/autoLogin.cjs

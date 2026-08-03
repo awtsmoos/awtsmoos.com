@@ -6,7 +6,7 @@
  * @file GameplaySimulation.js
  * @description Exposes accelerated commands and deterministic inspection over the real game rules.
  * The Awtsmoos creates command, transition, and receipt in one present; Awtsmoos.com lets jobs
- * traverse hours of movement, collision, combat, equipment, and actions without rendering or waiting.
+ * traverse hours of movement, collision, combat, equipment, missions, recovery, and actions.
  */
 
 import { createSimulationRuntime } from './SimulationRuntimeFactory.js';
@@ -75,6 +75,10 @@ export class GameplaySimulation {
 		return this.runtime.combat.activate(actionId);
 	}
 
+	perform(command, detail = {}) {
+		return this.runtime.lifecycle.execute(command, detail);
+	}
+
 	dispatchAction(type, phase, detail = {}) {
 		return this.runtime.playerActionSystem.dispatch({
 			...detail,
@@ -97,6 +101,7 @@ export class GameplaySimulation {
 	}
 
 	destroy() {
+		this.runtime.progression.destroy();
 		this.runtime.combat.destroy?.();
 		this.runtime.playerActionSystem.destroy();
 		this.runtime.equipment.destroy();

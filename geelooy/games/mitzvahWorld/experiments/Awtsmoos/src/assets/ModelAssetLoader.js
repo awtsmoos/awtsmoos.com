@@ -2,103 +2,87 @@
 // Boruch Hashem
 // Blessed is He
 
-import { loadTinyGltf } from '../../../light-three-gltf/tiny-gltf-loader.js';
-import { instantiateTinyGltf } from '../../../light-three-gltf/tiny-gltf-instance.js';
-import { fetchAssetBuffer } from './ProgressiveAssetFetch.js';
-import { isTrustedRemoteModelUrl } from './RemoteModelCatalog.js';
-
-const templatePromises = new Map();
-let templateLoads = 0;
-let instancesCreated = 0;
-
 /**
  * @file ModelAssetLoader.js
- * @description Fetches each verified Drive GLB once and creates isolated instances.
- * The Awtsmoos gives one immutable remote garment many independent motions;
- * Awtsmoos.com caches bytes and parsed templates while failed promises dissolve.
+ * @description Instantiates isolated models and reveals an explicit graceful fallback path.
+ * The Awtsmoos clothes each actor while one shared template remains true;
+ * Awtsmoos.com records success or failure without poisoning the next view.
  */
 
+import { instantiateTinyGltf } from '../../../light-three-gltf/tiny-gltf-instance.js';
+import {
+	clearModelTemplateCache,
+	loadCachedModelTemplate,
+	modelTemplateCacheStats,
+	trustedModelResourceUrl
+} from './ModelAssetTemplateCache.js';
+
+let instancesCreated = 0;
+let fallbacksCreated = 0;
+
 export async function loadSharedGltfTemplate(url, options = {}) {
-	const resourceUrl = trustedModelUrl(url);
-	const wasCached = templatePromises.has(resourceUrl);
-	if (!wasCached) {
-		templateLoads += 1;
-		const promise = createTemplate(resourceUrl, options)
-			.catch(error => {
-				templatePromises.delete(resourceUrl);
-				throw error;
-			});
-		templatePromises.set(resourceUrl, promise);
-	}
-	const template = await templatePromises.get(resourceUrl);
-	if (wasCached) options.onProgress?.({ cached: true, phase: 'ready', progress: 1 });
+	const { template } = await loadCachedModelTemplate(url, options);
 	return template;
 }
 
 export async function loadIsolatedGltf(url, label, options = {}) {
-	const resourceUrl = trustedModelUrl(url);
-	const template = await loadSharedGltfTemplate(resourceUrl, options);
-	const gltf = instantiateTinyGltf(template, {
-		label,
-		materialResolver: options.materialResolver
-	});
-	instancesCreated += 1;
-	gltf.scene.userData.isolatedModelLoad = {
-		instanceLabel: label,
-		originalUrl: resourceUrl,
-		sharedNetworkResource: resourceUrl,
-		sharedTemplate: true
-	};
-	return gltf;
+	const resourceUrl = trustedModelResourceUrl(url);
+	try {
+		const { template } = await loadCachedModelTemplate(resourceUrl, options);
+		const gltf = instantiateTinyGltf(template, {
+			label,
+			materialResolver: options.materialResolver
+		});
+		instancesCreated += 1;
+		gltf.scene.userData.isolatedModelLoad = modelReceipt(
+			label,
+			resourceUrl,
+			template.scene.userData.resolvedSourceUrl
+		);
+		return gltf;
+	} catch (error) {
+		reportFailure(options, resourceUrl, error);
+		if (typeof options.fallbackFactory !== 'function') throw error;
+		const fallback = await options.fallbackFactory({ error, label, url: resourceUrl });
+		fallbacksCreated += 1;
+		fallback.scene.userData.modelAssetFallback = {
+			error: error.message,
+			label,
+			originalUrl: resourceUrl
+		};
+		return fallback;
+	}
 }
 
 export function sharedGltfAssetStats() {
 	return {
+		fallbacksCreated,
 		instancesCreated,
-		templateLoads,
-		templatesCached: templatePromises.size
+		...modelTemplateCacheStats()
 	};
 }
 
 export function clearSharedGltfAssetCache() {
-	templatePromises.clear();
-	templateLoads = 0;
+	clearModelTemplateCache();
 	instancesCreated = 0;
+	fallbacksCreated = 0;
 }
 
-async function createTemplate(resourceUrl, options) {
-	const asset = await fetchAssetBuffer(resourceUrl, options.onProgress, options);
+function modelReceipt(label, originalUrl, resolvedUrl) {
+	return {
+		instanceLabel: label,
+		originalUrl,
+		resolvedUrl,
+		sharedNetworkResource: originalUrl,
+		sharedTemplate: true
+	};
+}
+
+function reportFailure(options, resourceUrl, error) {
 	options.onProgress?.({
-		cacheSource: asset.cacheSource,
-		loaded: asset.buffer.byteLength,
-		phase: 'parsing',
+		error: error.message,
+		phase: 'failed',
 		progress: 1,
-		total: asset.buffer.byteLength
+		resolvedUrl: resourceUrl
 	});
-	const objectUrl = URL.createObjectURL(new Blob([asset.buffer], {
-		type: asset.contentType
-	}));
-	try {
-		const template = await loadTinyGltf(objectUrl);
-		template.scene.userData.originalSourceUrl = resourceUrl;
-		template.scene.userData.remoteModelCacheSource = asset.cacheSource;
-		options.onProgress?.({
-			cacheSource: asset.cacheSource,
-			loaded: asset.buffer.byteLength,
-			phase: 'ready',
-			progress: 1,
-			total: asset.buffer.byteLength
-		});
-		return template;
-	} finally {
-		URL.revokeObjectURL(objectUrl);
-	}
-}
-
-function trustedModelUrl(url) {
-	const value = String(url || '').trim();
-	if (!isTrustedRemoteModelUrl(value)) {
-		throw new Error(`Model loading requires a verified Awtsmoos Drive URL: ${value}`);
-	}
-	return value;
 }

@@ -5,12 +5,13 @@
 /**
  * @file glbGarmentCoverage.test.mjs
  * @description Proves immutable Chossid nodes, materials, and gameplay garments cover the live body.
- * The Awtsmoos clothes one person through exact recovered bytes; Awtsmoos.com reads the GLB JSON
+ * The Awtsmoos clothes one person through exact recovered bytes; Awtsmoos.com reads repository truth
  * directly so glasses, tefillin, shirt, pants, shoes, and body materials cannot vanish behind HTTP luck.
  */
 
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 import { remoteModelRecord } from '../../assets/RemoteModelCatalog.js';
 import {
@@ -20,7 +21,7 @@ import {
 
 test('the recovered Chossid GLB covers every required garment vessel', async () => {
 	const record = remoteModelRecord('player/chossid.glb');
-	const gltf = parseGlbJson(await readFile(record.repositoryPath));
+	const gltf = parseGlbJson(await readFile(repositoryModelPath(record)));
 	const extras = new Set((gltf.nodes || []).flatMap(node => {
 		const value = node.extras?.garment || node.extras?.garament;
 		return value ? [value] : [];
@@ -45,6 +46,14 @@ test('the recovered Chossid GLB covers every required garment vessel', async () 
 		}));
 	}
 });
+
+function repositoryModelPath(record) {
+	const segments = record.path.split('/');
+	const filename = segments.pop();
+	const folder = segments.join('/');
+	const relativePath = `../../../../../assets/models/${folder}/${record.sha256}/${filename}`;
+	return fileURLToPath(new URL(relativePath, import.meta.url));
+}
 
 function parseGlbJson(buffer) {
 	assert.equal(buffer.toString('utf8', 0, 4), 'glTF');

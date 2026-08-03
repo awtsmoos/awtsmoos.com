@@ -1,7 +1,6 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
-
 import { createRequire } from "node:module";
 
 const require = createRequire(import.meta.url);
@@ -11,9 +10,11 @@ const {
 } = require("../../split-browser/config.cjs");
 
 /**
- * Each owned tab enters either the requested custom GPT or the exact stored website
- * conversation before submission. The Awtsmoos waits through React's final renewal,
- * while Awtsmoos.com verifies the same route and composer twice before letters enter.
+ * @file Keeps one authenticated website turn inside its appointed GPT route.
+ * @description
+ * The Awtsmoos does not tear down a ready vessel merely to arrive where it already
+ * stands. Awtsmoos.com inspects first, navigates only when the route differs, and
+ * verifies the stable composer twice before any private letters enter.
  */
 export class WebsiteConversationNavigator {
 	constructor({
@@ -32,21 +33,44 @@ export class WebsiteConversationNavigator {
 		const navigationUrl = conversationId
 			? this.continuationUrl(normalizedStartUrl, conversationId)
 			: normalizedStartUrl;
-		await controller.cdpClient.send("Page.navigate", { url: navigationUrl });
+		const currentPage = await this.safeInspect(controller);
+		if (!this.isReady(currentPage, conversationId, normalizedStartUrl)) {
+			await controller.cdpClient.send("Page.navigate", { url: navigationUrl });
+		}
+		return this.waitForStableRoute(
+			controller,
+			conversationId,
+			normalizedStartUrl,
+			timeoutMs
+		);
+	}
+
+	async waitForStableRoute(controller, conversationId, startUrl, timeoutMs) {
 		const deadline = Date.now() + timeoutMs;
 		while (Date.now() < deadline) {
-			const page = await controller.inspector.inspect();
-			if (this.isReady(page, conversationId, normalizedStartUrl)) {
+			const page = await this.safeInspect(controller);
+			if (this.isReady(page, conversationId, startUrl)) {
 				await this.sleep(this.stabilizationMs);
-				const stablePage = await controller.inspector.inspect();
-				if (this.isReady(stablePage, conversationId, normalizedStartUrl)) return stablePage;
+				const stablePage = await this.safeInspect(controller);
+				if (this.isReady(stablePage, conversationId, startUrl)) {
+					return stablePage;
+				}
 			}
 			await this.sleep(this.intervalMs);
 		}
 		throw new Error("ChatGPT conversation route did not become ready.");
 	}
 
+	async safeInspect(controller) {
+		try {
+			return await controller.inspector.inspect();
+		} catch {
+			return null;
+		}
+	}
+
 	isReady(page, conversationId, startUrl) {
+		if (!page) return false;
 		const routeReady = conversationId
 			? this.continuationRouteReady(page.url, startUrl, conversationId)
 			: this.freshRouteReady(page.url, startUrl);
@@ -67,8 +91,8 @@ export class WebsiteConversationNavigator {
 		try {
 			const actual = new URL(actualUrl);
 			const expected = new URL(expectedUrl);
-			return actual.origin === expected.origin
-				&& this.normalizedPath(actual.pathname) === this.normalizedPath(expected.pathname);
+			return actual.origin === expected.origin &&
+				this.normalizedPath(actual.pathname) === this.normalizedPath(expected.pathname);
 		} catch {
 			return false;
 		}
@@ -78,8 +102,8 @@ export class WebsiteConversationNavigator {
 		try {
 			const actual = new URL(actualUrl);
 			const expected = new URL(this.continuationUrl(startUrl, conversationId));
-			return actual.origin === expected.origin
-				&& this.normalizedPath(actual.pathname) === this.normalizedPath(expected.pathname);
+			return actual.origin === expected.origin &&
+				this.normalizedPath(actual.pathname) === this.normalizedPath(expected.pathname);
 		} catch {
 			return false;
 		}

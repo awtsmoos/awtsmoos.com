@@ -15,18 +15,19 @@ import test from 'node:test';
 import { GAMEPLAY_STYLESHEETS } from '../../launcher/MitzvahWorldGameplayPresentation.js';
 
 const GAME_ROOT_URL = new URL('../../../../../', import.meta.url);
-const source = (relativePath) => readFile(new URL(relativePath, GAME_ROOT_URL), 'utf8');
+const source = relativePath => readFile(new URL(relativePath, GAME_ROOT_URL), 'utf8');
 
-test('native meadow page requests one production stylesheet and one compact entry', async () => {
+test('native meadow page requests one stylesheet and the production module entry', async () => {
 	const [html, entry] = await Promise.all([
 		source('index.html'),
-		source('experiments/Awtsmoos/src/mitzvah-world.compact.js')
+		source('experiments/Awtsmoos/src/MitzvahWorldProductionEntry.js')
 	]);
 	assert.equal((html.match(/<link\s+rel="stylesheet"/g) || []).length, 1);
 	assert.equal((html.match(/<script\s+type="module"/g) || []).length, 1);
 	assert.match(html, /mitzvah-world\.production\.css/);
-	assert.match(html, /mitzvah-world\.compact\.js/);
-	assert.match(entry, /MinimalSharedMeadowPage\.js/);
+	assert.match(html, /MitzvahWorldProductionEntry\.js/);
+	assert.match(entry, /mitzvah-world\.compact\.js/);
+	assert.match(entry, /MinimalMeadowCompactBootstrap\.js/);
 	assert.doesNotMatch(html, /modulepreload|preload/);
 });
 
@@ -35,7 +36,7 @@ test('boot opens only the small launcher through a finite frame gate', async () 
 		'experiments/Awtsmoos/src/launcher/bootMitzvahWorldPage.js'
 	);
 	assert.match(boot, /requestAnimationFrame/);
-	assert.match(boot, /setTimeout\?\.\(finish, 48\)/);
+	assert.match(boot, /setTimeout\?\.\(finish, 64\)/);
 	assert.match(boot, /import\(LAUNCHER_URL\)/);
 	assert.doesNotMatch(boot, /createEretzRuntime|HudMinimizeController/);
 });

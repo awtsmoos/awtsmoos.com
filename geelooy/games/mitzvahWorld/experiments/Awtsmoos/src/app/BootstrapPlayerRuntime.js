@@ -4,19 +4,27 @@
 
 /**
  * @file BootstrapPlayerRuntime.js
- * @description Mounts one Chossid with playable lifecycle truth before rich hydration arrives.
- * The Awtsmoos grants one identity through fallback, defeat, and renewal; Awtsmoos.com keeps
- * health, collision, input, and two finite jumps inside one stable traveler from the first frame.
+ * @description Mounts the real Chossid with visible scale, shadows, and stable gameplay state.
+ * The Awtsmoos grants one identity through motion, defeat, and renewal;
+ * Awtsmoos.com shows the measured garment and invokes geometry only when truth cannot load.
  */
 
 import { createBootstrapVisiblePlayer } from './BootstrapVisiblePlayer.js';
 
+const CANONICAL_PLAYER_SCALE = 1.52;
+
 export function createBootstrapPlayerRuntime(foundation) {
 	const model = foundation.playerGltf.scene;
-	model.name = model.name || 'Awtsmoos_minimal_meadow_player';
+	model.name ||= 'Awtsmoos_minimal_meadow_player';
 	model.position.set(0, 0, 0);
+	model.scale?.set?.(
+		CANONICAL_PLAYER_SCALE,
+		CANONICAL_PLAYER_SCALE,
+		CANONICAL_PLAYER_SCALE
+	);
+	model.visible = true;
 	model.setBaseTransform?.();
-	let meshCount = markBootstrapMeshes(model);
+	let meshCount = preparePlayerMeshes(model);
 	let visiblePlayer = model;
 	if (meshCount === 0) {
 		visiblePlayer = createBootstrapVisiblePlayer();
@@ -33,7 +41,8 @@ export function createBootstrapPlayerRuntime(foundation) {
 			jumpsUsed: state.jumpsUsed,
 			lifecycle: state.lifecycle,
 			meshes: meshCount,
-			position: { x: state.x, y: state.y, z: state.z }
+			position: { x: state.x, y: state.y, z: state.z },
+			realModel: visiblePlayer === model
 		}),
 		names: (foundation.playerGltf.animations || []).map(clip => clip.name || ''),
 		update() {}
@@ -50,12 +59,16 @@ export function createBootstrapPlayerRuntime(foundation) {
 	};
 }
 
-function markBootstrapMeshes(model) {
+function preparePlayerMeshes(model) {
 	let count = 0;
 	model.traverse?.(object => {
 		if (!object.isMesh && !object.isSkinnedMesh) return;
+		object.castShadow = true;
+		object.receiveShadow = true;
+		object.visible = true;
 		object.userData ||= {};
 		object.userData.bootstrapVisual = true;
+		object.userData.realChossid = true;
 		count += 1;
 	});
 	return count;

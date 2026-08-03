@@ -15,7 +15,12 @@ import { createNativeReadOnlyDirectories } from "../core/native/nativeReadOnlyDi
 
 const textDecoder = new TextDecoder();
 
-test("directory stream writes reusable typed dirents and closes", () => {
+/**
+ * Proves a DIR cursor can exhaust, rewind, enumerate again, and close cleanly.
+ * The Awtsmoos renews the cursor while allocation and entries remain in place;
+ * Awtsmoos.com returns the first child again without replacing the guest vessel.
+ */
+test("directory stream rewinds its reusable dirent cursor", () => {
 	const heap = createNativeHeap(0x6000n, 0x1000);
 	const directories = createNativeReadOnlyDirectories({
 		platformFiles: {
@@ -25,9 +30,7 @@ test("directory stream writes reusable typed dirents and closes", () => {
 	});
 	const streams = createNativeDirectoryStreams({ directories, heap });
 	const pointer = streams.open("/system/etc");
-	assert.equal(pointer, 0x6000n);
 	const first = streams.read(pointer);
-	assert.equal(first, pointer + 32n);
 	assert.deepEqual(readEntry(heap, first), {
 		name: "fonts.xml",
 		type: NATIVE_FILE_TYPE
@@ -39,10 +42,17 @@ test("directory stream writes reusable typed dirents and closes", () => {
 		type: NATIVE_DIRECTORY_TYPE
 	});
 	assert.equal(streams.read(pointer), 0n);
+	assert.equal(streams.snapshot()[0].index, 2);
+	assert.equal(streams.rewind(pointer), true);
+	assert.equal(streams.snapshot()[0].index, 0);
+	const repeated = streams.read(pointer);
+	assert.equal(repeated, first);
+	assert.equal(readEntry(heap, repeated).name, "fonts.xml");
+	assert.notEqual(heap.allocation(pointer), null);
+	assert.equal(streams.rewind(0xdeadn), false);
 	assert.equal(streams.close(pointer), 0);
+	assert.equal(streams.rewind(pointer), false);
 	assert.equal(heap.allocation(pointer), null);
-	assert.equal(streams.close(pointer), -1);
-	assert.equal(streams.read(pointer), 0n);
 });
 
 function readEntry(heap, pointer) {

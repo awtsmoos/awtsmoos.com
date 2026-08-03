@@ -2,47 +2,63 @@
 // Boruch Hashem
 // Blessed is He
 
-import { isTrustedRemoteModelUrl } from './RemoteModelCatalog.js';
+/**
+ * @file ProgressiveAssetFetch.js
+ * @description Streams verified local GLBs first and falls back to their immutable remote mirror.
+ * The Awtsmoos draws every measured byte through the nearest honest gate;
+ * Awtsmoos.com remembers each vessel and reveals the mirror only when local service must wait.
+ */
+
+import {
+	isTrustedModelUrl,
+	modelUrlCandidates
+} from './RemoteModelCatalog.js';
 import { cachedModelResponse } from './RemoteModelResponseCache.js';
 
 const GLB_MAGIC = 0x46546c67;
 const GLB_HEADER_BYTES = 12;
 
-/**
- * @file ProgressiveAssetFetch.js
- * @description Streams trusted Drive GLBs through persistent browser caching.
- * The Awtsmoos reveals every measured byte while the browser remembers its vessel;
- * Awtsmoos.com rejects local model paths before download or parsing begins.
- */
-
 export async function fetchAssetBuffer(url, onProgress = () => {}, dependencies = {}) {
-	if (!isTrustedRemoteModelUrl(url)) throw new Error(`Untrusted remote model URL: ${url}`);
+	if (!isTrustedModelUrl(url)) throw new Error(`Untrusted model URL: ${url}`);
+	const candidates = modelUrlCandidates(url);
+	const failures = [];
+	for (const candidate of candidates) {
+		try {
+			return await fetchCandidate(candidate, onProgress, dependencies);
+		} catch (error) {
+			failures.push(`${candidate}: ${error.message}`);
+		}
+	}
+	throw new Error(`Every verified model source failed. ${failures.join(' | ')}`);
+}
+
+async function fetchCandidate(url, onProgress, dependencies) {
 	const cached = await cachedModelResponse(url, dependencies);
 	const response = cached.response;
-	if (!response.ok) throw new Error(`HTTP ${response.status} for ${url}`);
+	if (!response.ok) throw new Error(`HTTP ${response.status}`);
 	let total = Number(response.headers.get('content-length')) || 0;
 	const reader = response.body?.getReader?.();
 	if (!reader) {
 		const buffer = await response.arrayBuffer();
 		total = total || glbLength(new Uint8Array(buffer)) || buffer.byteLength;
-		report(onProgress, buffer.byteLength, total, cached.source);
-		return receipt(response, buffer, cached.source);
+		report(onProgress, buffer.byteLength, total, cached.source, url);
+		return receipt(response, buffer, cached.source, url);
 	}
 	const chunks = [];
 	let loaded = 0;
-	report(onProgress, loaded, total, cached.source);
+	report(onProgress, loaded, total, cached.source, url);
 	while (true) {
 		const { done, value } = await reader.read();
 		if (done) break;
 		chunks.push(value);
 		loaded += value.byteLength;
 		if (!total && loaded >= GLB_HEADER_BYTES) total = glbLength(firstBytes(chunks, GLB_HEADER_BYTES));
-		report(onProgress, loaded, total, cached.source);
+		report(onProgress, loaded, total, cached.source, url);
 	}
 	const bytes = mergeChunks(chunks, loaded);
-	total = total || bytes.byteLength;
-	report(onProgress, loaded, total, cached.source);
-	return receipt(response, bytes.buffer, cached.source);
+	total ||= bytes.byteLength;
+	report(onProgress, loaded, total, cached.source, url);
+	return receipt(response, bytes.buffer, cached.source, url);
 }
 
 function glbLength(bytes) {
@@ -73,12 +89,17 @@ function mergeChunks(chunks, loaded) {
 	return bytes;
 }
 
-function receipt(response, buffer, cacheSource) {
-	return { buffer, cacheSource, contentType: response.headers.get('content-type') || 'model/gltf-binary' };
+function receipt(response, buffer, cacheSource, resolvedUrl) {
+	return {
+		buffer,
+		cacheSource,
+		contentType: response.headers.get('content-type') || 'model/gltf-binary',
+		resolvedUrl
+	};
 }
 
-function report(onProgress, loaded, total, cacheSource) {
-	onProgress({ cacheSource, lengthComputable: total > 0, loaded, phase: 'download', progress: total > 0 ? loaded / total : null, total });
+function report(onProgress, loaded, total, cacheSource, resolvedUrl) {
+	onProgress({ cacheSource, lengthComputable: total > 0, loaded, phase: 'download', progress: total > 0 ? loaded / total : null, resolvedUrl, total });
 }
 
 export default fetchAssetBuffer;

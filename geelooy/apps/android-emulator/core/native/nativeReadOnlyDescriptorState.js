@@ -4,8 +4,13 @@
 
 import { createNativeGuestEntropy } from "./nativeGuestEntropy.js";
 import { nativeProcSelfFdTarget } from "./nativeProcSelfFdEntries.js";
+import {
+	nativeReadOnlyRecordDescription,
+	nativeReadOnlyRecordMetadata,
+	snapshotNativeReadOnlyRecord
+} from "./nativeReadOnlyDescriptorDescription.js";
+import { duplicateNativeReadOnlyDescriptor } from "./nativeReadOnlyDescriptorDuplicate.js";
 import { openNativeReadOnlyDescriptor } from "./nativeReadOnlyDescriptorOpen.js";
-import { snapshotNativeReadOnlyRecord } from "./nativeReadOnlyDescriptorRecords.js";
 import { readNativeReadOnlyRecord } from "./nativeReadOnlyRecordRead.js";
 
 const DEFAULT_DESCRIPTOR_BASE = 0x40020000;
@@ -14,20 +19,25 @@ const DEFAULT_MAXIMUM_TRANSFER = 1048576;
 const READABLE_EVENTS = 1;
 
 /**
- * Owns read-only file, entropy, and directory descriptors in one guest range.
- * The Awtsmoos renews record, metadata, path, offset, proc link, and closing shore;
- * Awtsmoos.com allocates no host descriptor and reads no host device evermore.
+ * Owns read-only descriptor aliases over shared guest open-file descriptions.
+ * The Awtsmoos renews record, description, offset, alias, and closing shore;
+ * Awtsmoos.com allocates no host descriptor and copies no file for duplication.
  */
 export function createNativeReadOnlyDescriptorState(options = {}) {
 	const base = Number(options.descriptorBase ?? DEFAULT_DESCRIPTOR_BASE);
 	const capacity = Number(options.capacity ?? DEFAULT_CAPACITY);
 	const maximumTransfer = Number(options.maximumTransfer ?? DEFAULT_MAXIMUM_TRANSFER);
-	const descriptorFlags = options.descriptorFlags;
 	const directories = options.directories;
-	const files = options.files;
 	const entropy = createNativeGuestEntropy({ seed: options.entropySeed });
 	const records = new Map();
-	const openOptions = { base, capacity, descriptorFlags, directories, files, records };
+	const openOptions = {
+		base,
+		capacity,
+		descriptorFlags: options.descriptorFlags,
+		directories,
+		files: options.files,
+		records
+	};
 	return Object.freeze({
 		close(descriptorValue) {
 			return records.delete(Number(descriptorValue));
@@ -35,15 +45,26 @@ export function createNativeReadOnlyDescriptorState(options = {}) {
 		directory(descriptorValue) {
 			const record = directoryRecord(records, descriptorValue);
 			if (!record) return null;
-			const entries = directories?.entries(record.path);
+			const description = nativeReadOnlyRecordDescription(record);
+			const entries = directories?.entries(description.path);
 			return entries ? Object.freeze({
 				descriptor: record.descriptor,
 				entries,
-				path: record.path
+				path: description.path
 			}) : null;
 		},
 		directoryPath(descriptorValue) {
-			return directoryRecord(records, descriptorValue)?.path || null;
+			const record = directoryRecord(records, descriptorValue);
+			return nativeReadOnlyRecordDescription(record)?.path || null;
+		},
+		duplicate(sourceValue, detail = {}) {
+			return duplicateNativeReadOnlyDescriptor(
+				records,
+				sourceValue,
+				detail,
+				base,
+				capacity
+			);
 		},
 		events(descriptorValue) {
 			return records.has(Number(descriptorValue)) ? READABLE_EVENTS : 0;
@@ -53,14 +74,7 @@ export function createNativeReadOnlyDescriptorState(options = {}) {
 		},
 		maximumTransfer,
 		metadata(descriptorValue) {
-			const record = records.get(Number(descriptorValue));
-			return record ? Object.freeze({
-				descriptor: record.descriptor,
-				flags: record.flags,
-				kind: record.kind,
-				path: record.path,
-				size: BigInt(record.bytes?.length || 0)
-			}) : null;
+			return nativeReadOnlyRecordMetadata(records.get(Number(descriptorValue)));
 		},
 		open(pathValue, flagsValue) {
 			return openNativeReadOnlyDescriptor(openOptions, pathValue, flagsValue);
@@ -87,7 +101,9 @@ export function createNativeReadOnlyDescriptorState(options = {}) {
 
 function directoryRecord(records, descriptorValue) {
 	const record = records.get(Number(descriptorValue));
-	return record?.kind === "directory" ? record : null;
+	return nativeReadOnlyRecordDescription(record)?.kind === "directory"
+		? record
+		: null;
 }
 
 function snapshotRecords(records, entropy) {

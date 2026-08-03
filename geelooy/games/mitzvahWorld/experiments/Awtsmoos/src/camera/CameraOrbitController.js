@@ -4,14 +4,14 @@
 
 /**
  * @file CameraOrbitController.js
- * @description Preserves one camera API with responsive orbit and cached collision truth.
+ * @description Preserves one camera API with responsive orbit, first-person sight, and disposal.
  * The Awtsmoos creates observer and scene anew; Awtsmoos.com follows the traveler every frame
- * while a bounded cache prevents one unchanged wall from demanding the same octree answer again.
+ * while cached collision truth and complete listener release keep the finite vessel clean.
  */
 
 import { CameraClipCache } from './CameraClipCache.js';
+import { applyFirstPersonCamera } from './CameraFirstPersonRuntime.js';
 import { CameraGestureController } from './CameraGestureController.js';
-import { firstPersonCameraPose } from './FirstPersonCameraPose.js';
 import { applyLegacyOrbitCamera } from './LegacyOrbitCameraPose.js';
 import { resolveCameraContext } from './CameraProfileSystem.js';
 
@@ -76,24 +76,17 @@ export class CameraOrbitController {
 	}
 
 	applyFirstPerson(camera, target, context) {
-		const pose = firstPersonCameraPose(target, this.yaw, this.pitch, {
-			forwardOffset: this.eyeForward
-		});
-		camera.position.set(pose.eye.x, pose.eye.y, pose.eye.z);
-		camera.target = [pose.target.x, pose.target.y, pose.target.z];
-		this.currentDistance = this.eyeForward;
-		this.currentTargetLift = 0;
-		this.stats = {
-			activeFloor: context.activeFloor,
-			activeHouse: context.activeHouse,
-			distance: this.eyeForward,
-			mode: 'first-person',
+		const result = applyFirstPersonCamera({
+			camera,
+			context,
+			forwardOffset: this.eyeForward,
 			pitch: this.pitch,
-			position: pose.eye,
-			stairId: context.stairId,
-			target: pose.target,
+			target,
 			yaw: this.yaw
-		};
+		});
+		this.currentDistance = result.currentDistance;
+		this.currentTargetLift = result.currentTargetLift;
+		this.stats = result.stats;
 	}
 
 	applyOrbit(camera, target, octree, deltaTime, context) {
@@ -113,5 +106,10 @@ export class CameraOrbitController {
 		this.currentDistance = result.currentDistance;
 		this.currentTargetLift = result.currentTargetLift;
 		this.stats = { ...result.stats, mode: 'third-person' };
+	}
+
+	destroy() {
+		this.gestures.destroy();
+		this.clipCache.clear();
 	}
 }

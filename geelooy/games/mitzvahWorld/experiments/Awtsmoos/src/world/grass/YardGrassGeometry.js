@@ -4,23 +4,25 @@
 
 /**
  * @file YardGrassGeometry.js
- * @description Reveals one dense species-rich yard through a single merged reactive manual mesh.
- * The Awtsmoos gathers fescue, rye, vernal grass, seed wisps, and blossoms into one garment;
- * Awtsmoos.com preserves house-local patches, ground contact, player reaction, and zero colliders.
+ * @description Reveals one merged yard whose blades obey the shared mobile nature budget.
+ * The Awtsmoos gathers fescue, rye, seed wisps, and blossoms into one measured garment;
+ * Awtsmoos.com keeps one mesh, zero colliders, and honest static wind beneath the tiny firmament.
  */
 
 import { localToWorld } from '../house/HouseSpec.js';
-import {
-	appendYardGrassTuft
-} from './YardGrassMeshBuilder.js';
+import { natureQualityBudget } from '../nature/NatureQualityBudget.js';
+import { sharedWindEvidence } from '../nature/SharedWindField.js';
+import { appendYardGrassTuft } from './YardGrassMeshBuilder.js';
 import {
 	createYardGrassTuftProfile,
 	yardGrassRandom
 } from './YardGrassTuftProfile.js';
 
-export function createYardGrassDefinition(spec, patches, groundSampler) {
+export function createYardGrassDefinition(spec, patches, groundSampler, requestedQuality) {
+	const quality = requestedQuality || spec.natureQuality || 'medium';
+	const budget = natureQualityBudget(quality);
 	const mesh = { faces: [], uvs: [], vertices: [] };
-	const tuftCount = Math.max(190, Math.round((spec.width + spec.depth) * 2.8));
+	const tuftCount = Math.max(72, Math.floor(budget.grassBlades / 4));
 	const species = new Set();
 	let bladeCount = 0;
 	let flowerCount = 0;
@@ -52,13 +54,21 @@ export function createYardGrassDefinition(spec, patches, groundSampler) {
 		shape: 'manual',
 		solid: false,
 		userData: {
+			AwtsmoosLod: {
+				className: 'vegetation',
+				cullDistance: budget.cullDistance,
+				fadeStart: budget.fadeStart
+			},
+			AwtsmoosWind: sharedWindEvidence(quality),
 			AwtsmoosYardGrass: {
+				bladeBudget: budget.grassBlades,
 				bladeCount,
 				flowerCount,
 				houseId: spec.id,
 				insideFenceOnly: true,
 				patches,
 				performance: 'one-manual-mesh-per-yard-no-collider',
+				quality,
 				reactsToPlayer: true,
 				seed: `${spec.id}-613-yard-life`,
 				seedHeadCount,

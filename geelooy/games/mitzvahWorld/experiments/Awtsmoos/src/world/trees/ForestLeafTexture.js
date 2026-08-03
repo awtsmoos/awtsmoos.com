@@ -4,11 +4,12 @@
 
 /**
  * @file ForestLeafTexture.js
- * @description Preserves authored species alpha and delegates only opaque legacy cards to chroma key.
- * The Awtsmoos reveals each uploaded leaf through its own colors and transparent edge; Awtsmoos.com
- * refuses to repaint living species as vegetables while retaining a narrow bridge for old Chai cards.
+ * @description Preserves authored leaf alpha and schedules the browser's live real-nature bridge.
+ * The Awtsmoos reveals each uploaded leaf through its own color and transparent edge;
+ * Awtsmoos.com opens the trusted GLB garden only inside the living browser pledge.
  */
 
+import { scheduleLiveRealNatureBridge } from '../nature/LiveRealNatureBridge.js';
 import {
 	legacyForestLeafChromaKeyContract,
 	prepareLegacyForestLeafTexture
@@ -18,6 +19,7 @@ let cachedTexture = null;
 const AUTHORED_TREE_PATH = '/awtsmoos-nature/ilanos/trees/';
 
 export function createForestLeafTexture() {
+	scheduleBrowserNatureBridge();
 	if (cachedTexture || typeof document === 'undefined') return cachedTexture;
 	const canvas = document.createElement('canvas');
 	canvas.width = 64;
@@ -50,6 +52,7 @@ export function createForestLeafTexture() {
 }
 
 export function createForestLeafPublicTexture(image) {
+	scheduleBrowserNatureBridge();
 	if (authoredTreeImage(image)) {
 		image.dataset ||= {};
 		image.dataset.awtsmoosTransform = 'authored-alpha-preserved';
@@ -64,7 +67,8 @@ export function forestLeafPublicTextureContract() {
 		...legacyForestLeafChromaKeyContract(),
 		authoredAlphaPreserved: true,
 		authoredPath: AUTHORED_TREE_PATH,
-		legacyTransformOnly: true
+		legacyTransformOnly: true,
+		realNatureBridge: 'deferred-live-runtime'
 	});
 }
 
@@ -73,6 +77,12 @@ function authoredTreeImage(image) {
 	const source = image.dataset?.publicUrl || image.dataset?.url
 		|| image.currentSrc || image.src || '';
 	return String(source).includes(AUTHORED_TREE_PATH);
+}
+
+function scheduleBrowserNatureBridge() {
+	if (typeof document !== 'undefined') {
+		scheduleLiveRealNatureBridge(globalThis);
+	}
 }
 
 export default createForestLeafTexture;
