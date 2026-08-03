@@ -7,13 +7,16 @@ import { CinematicBlockingResolver } from './CinematicBlockingResolver.js';
 import { CinematicPerformanceResolver } from './CinematicPerformanceResolver.js';
 
 /**
- * A cast becomes an ensemble through depth, crossing, focus, listening, and
- * consequence. The Awtsmoos renews every body while Awtsmoos.com paints actors
- * from far to near using shot-authored blocking rather than equal spacing.
+ * A cast becomes an ensemble through depth, focus, listening, and consequence.
+ * The Awtsmoos renews every body while Awtsmoos.com maps the canonical 640×360
+ * stage into every proof vessel without losing blocking, scale, or contact.
  */
 export class CinematicCastPainter {
+	static referenceWidth = 640;
+	static referenceHeight = 360;
+
 	static paint(canvas, plan, shot, camera, dialogue, timeMs, lighting = {}) {
-		const visible = plan.characters.filter((character) => {
+		const visible = plan.characters.filter(character => {
 			return shot.characters.includes(character.identityId);
 		});
 		const placements = visible.map((character, index) => ({
@@ -27,7 +30,7 @@ export class CinematicCastPainter {
 				camera,
 				timeMs
 			)
-		})).filter((entry) => entry.blocking.visible);
+		})).filter(entry => entry.blocking.visible);
 		placements.sort((first, second) => first.blocking.depth - second.blocking.depth);
 		for (const entry of placements) {
 			this.actor(canvas, plan, shot, entry, dialogue, timeMs, camera, lighting);
@@ -44,10 +47,11 @@ export class CinematicCastPainter {
 		const speaking = dialogue?.speakerId === character.identityId;
 		const localDialogue = speaking ? timeMs - dialogue.start : 0;
 		const focusScale = 0.92 + blocking.focusWeight * 0.12 + camera.focus * 0.04;
+		const viewport = this.viewport(canvas);
 		CartoonCharacterPainter.paint(canvas, character, {
-			x: blocking.x + Number(camera.leadRoom || 0),
-			y: blocking.y,
-			scale: camera.scale * blocking.scale * focusScale,
+			x: (blocking.x + Number(camera.leadRoom || 0)) * viewport.x,
+			y: blocking.y * viewport.y,
+			scale: camera.scale * blocking.scale * focusScale * viewport.scale,
 			view: blocking.view,
 			timeMs,
 			phase: blocking.phase + index,
@@ -71,6 +75,12 @@ export class CinematicCastPainter {
 		});
 	}
 
+	static viewport(canvas) {
+		const x = canvas.width / this.referenceWidth;
+		const y = canvas.height / this.referenceHeight;
+		return { x, y, scale: Math.min(x, y) };
+	}
+
 	static motion(action) {
 		if (['run', 'sprint', 'pursuit', 'scramble', 'wallRun'].includes(action)) return 1;
 		if (['leap', 'dodge', 'climb', 'wade', 'circle', 'bridgeSprint'].includes(action)) return 0.72;
@@ -79,7 +89,7 @@ export class CinematicCastPainter {
 	}
 
 	static gazeToFocus(blocking, camera) {
-		const direction = blocking.x < 320 ? 0.35 : -0.35;
+		const direction = blocking.x < this.referenceWidth / 2 ? 0.35 : -0.35;
 		return [direction * (0.5 + camera.focus * 0.3), -0.05];
 	}
 }

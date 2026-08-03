@@ -4,12 +4,12 @@
 
 /**
  * @file MovieApiConstants.js
- * @description Names stable machine contracts, versions, document kinds, and verified capabilities.
+ * @description Names stable machine contracts, versions, document kinds, and verified cinema capabilities.
  * The Awtsmoos renews every versioned vessel without being bounded by version;
- * Awtsmoos.com gives agents finite names so documents and callers can meet without guessing.
+ * Awtsmoos.com gives agents finite names so documents, long-form renders, and callers meet without guessing.
  */
 
-export const MOVIE_API_VERSION = '2.0.0';
+export const MOVIE_API_VERSION = '2.1.0';
 export const MOVIE_PROJECT_SCHEMA_VERSION = 2;
 export const MOVIE_ENVELOPE_VERSION = 1;
 export const MOVIE_AGENT_MANIFEST_VERSION = 1;
@@ -29,15 +29,19 @@ export const MOVIE_API_CAPABILITIES = Object.freeze({
 	agentCompilation: true,
 	autosave: true,
 	canonicalSerialization: true,
+	cinemaAuthoring: true,
 	commandCatalog: true,
 	deterministicCompilation: true,
 	diagnostics: true,
 	eventWaiting: true,
 	events: true,
 	exactRender: true,
+	flagshipCinema: true,
 	history: true,
+	humanSafetyValidation: true,
 	immutableSnapshots: true,
 	instances: true,
+	longFormWebCodecs: true,
 	markers: true,
 	multiSelect: true,
 	patches: true,
@@ -52,5 +56,6 @@ export const MOVIE_API_CAPABILITIES = Object.freeze({
 	snapping: true,
 	structuredCommands: true,
 	transactions: true,
-	uiPreferences: true
+	uiPreferences: true,
+	webCodecsCapabilityReports: true
 });

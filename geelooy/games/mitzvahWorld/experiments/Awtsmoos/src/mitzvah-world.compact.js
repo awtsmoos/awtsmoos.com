@@ -1791,7 +1791,7 @@ function resetTreeToBase(root) {
 
 
 __exports.resetTreeToBase = resetTreeToBase;
-const __awtsmoosDefault_1w2urep = {
+const __awtsmoosDefault_1kr0uzg = {
 	Bone,
 	BufferAttribute,
 	BufferGeometry,
@@ -1804,7 +1804,7 @@ const __awtsmoosDefault_1w2urep = {
 	Scene,
 	Vector3
 };
-__exports.default = __awtsmoosDefault_1w2urep;
+__exports.default = __awtsmoosDefault_1kr0uzg;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapCubeGeometry.js */
@@ -15873,8 +15873,8 @@ __exports.loadTinyGltf = loadTinyGltf;
 const loadTinyGlb = loadTinyGltf;
 __exports.loadTinyGlb = loadTinyGlb;
 
-const __awtsmoosDefault_1ep8c8g = { loadTinyGltf, loadTinyGlb };
-__exports.default = __awtsmoosDefault_1ep8c8g;
+const __awtsmoosDefault_12z2jnv = { loadTinyGltf, loadTinyGlb };
+__exports.default = __awtsmoosDefault_12z2jnv;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-instance.js */
@@ -16013,24 +16013,23 @@ __exports.REMOTE_MODEL_CACHE_NAME = REMOTE_MODEL_CACHE_NAME;
 
 /**
  * @file RemoteModelResponseCache.js
- * @description Persists verified Drive GLB responses beneath parsed-template caching.
- * The Awtsmoos sends each measured form once and lets the browser remember its bytes;
- * Awtsmoos.com keeps immutable content-addressed models beyond repository weight.
+ * @description Persists verified GLBs and retries bounded transient storage throttling.
+ * The Awtsmoos sends one measured form and lets the browser remember its vessel;
+ * Awtsmoos.com honors Retry-After without multiplying requests or disguising permanent failure.
  */
+
+const RETRYABLE_STATUS = new Set([429, 502, 503, 504]);
 
 async function cachedModelResponse(url, options = {}) {
 	const fetchFunction = options.fetchFunction || globalThis.fetch;
 	if (typeof fetchFunction !== 'function') throw new Error('Remote model fetch is unavailable.');
-	const cacheStorage = Object.hasOwn(options, 'cacheStorage') ? options.cacheStorage : globalThis.caches;
+	const cacheStorage = Object.hasOwn(options, 'cacheStorage')
+		? options.cacheStorage
+		: globalThis.caches;
 	const cache = await openCache(cacheStorage, options.cacheName);
 	const cached = await cache?.match?.(url);
 	if (cached) return { response: cached, source: 'cache-storage' };
-	const response = await fetchFunction(url, {
-		cache: 'force-cache',
-		credentials: 'omit',
-		mode: 'cors',
-		signal: options.signal
-	});
+	const response = await fetchWithRetry(url, fetchFunction, options);
 	if (response?.ok && isGlbResponse(response)) await cache?.put?.(url, response.clone());
 	return { response, source: 'network' };
 }
@@ -16044,6 +16043,57 @@ function isGlbResponse(response) {
 
 
 __exports.isGlbResponse = isGlbResponse;
+async function fetchWithRetry(url, fetchFunction, options) {
+	const retries = nonnegative(options.transientRetries, 2);
+	for (let attempt = 0; attempt <= retries; attempt += 1) {
+		assertNotAborted(options.signal);
+		const response = await fetchFunction(url, fetchOptions(options.signal));
+		if (!RETRYABLE_STATUS.has(response?.status) || attempt === retries) return response;
+		const delayMs = retryDelay(response, options, attempt);
+		options.onRetry?.({ attempt: attempt + 1, delayMs, status: response.status, url });
+		await waitForRetry(delayMs, options);
+	}
+	throw new Error('Remote model retry loop ended unexpectedly.');
+}
+
+function fetchOptions(signal) {
+	return {
+		cache: 'force-cache',
+		credentials: 'omit',
+		mode: 'cors',
+		signal
+	};
+}
+
+function retryDelay(response, options, attempt) {
+	const retryAfter = String(response?.headers?.get?.('retry-after') || '').trim();
+	const seconds = Number(retryAfter);
+	const requested = Number.isFinite(seconds) && seconds >= 0
+		? seconds * 1000
+		: Math.min(30000, 1000 * (2 ** attempt));
+	const maximum = positive(options.maximumRetryAfterMs, 65000);
+	return Math.min(maximum, Math.max(0, Math.round(requested)));
+}
+
+function waitForRetry(milliseconds, options) {
+	const waitFunction = options.waitFunction || defaultWait;
+	return waitFunction(milliseconds, options.signal);
+}
+
+function defaultWait(milliseconds, signal) {
+	return new Promise((resolve, reject) => {
+		const timer = setTimeout(resolve, milliseconds);
+		signal?.addEventListener?.('abort', () => {
+			clearTimeout(timer);
+			reject(signal.reason || new DOMException('Aborted', 'AbortError'));
+		}, { once: true });
+	});
+}
+
+function assertNotAborted(signal) {
+	if (signal?.aborted) throw signal.reason || new DOMException('Aborted', 'AbortError');
+}
+
 async function openCache(cacheStorage, cacheName = REMOTE_MODEL_CACHE_NAME) {
 	if (!cacheStorage || typeof cacheStorage.open !== 'function') return null;
 	try {
@@ -16051,6 +16101,16 @@ async function openCache(cacheStorage, cacheName = REMOTE_MODEL_CACHE_NAME) {
 	} catch {
 		return null;
 	}
+}
+
+function nonnegative(value, fallback) {
+	const number = Number(value);
+	return Number.isFinite(number) && number >= 0 ? Math.floor(number) : fallback;
+}
+
+function positive(value, fallback) {
+	const number = Number(value);
+	return Number.isFinite(number) && number > 0 ? number : fallback;
 }
 return Object.freeze(__exports);
 })();
@@ -41805,9 +41865,9 @@ const __exports = {};
 
 /**
  * @file MinimalMeadowLoop.js
- * @description Advances and paints the enriched meadow on display frames and timer-backed rescue.
- * The Awtsmoos renews traveler, forest, river, blossom, battle, and visible light through one stream;
- * Awtsmoos.com keeps real rendering alive when finite paint bells pause, preserving the living dream.
+ * @description Advances every gameplay system and records measured frame costs before each visible paint.
+ * The Awtsmoos renews motion and display without hiding labor; Awtsmoos.com preserves
+ * gameplay, animation, streaming, rendering, cadence, and bounded percentile evidence together.
  */
 
 var BootstrapMovementController = __awtsmoosModule_489.BootstrapMovementController;
@@ -41818,15 +41878,31 @@ var MinimalMeadowLoopCadence = __awtsmoosModule_526.MinimalMeadowLoopCadence;
 function startMinimalMeadowLoop(runtime, environment = globalThis) {
 	const movement = new BootstrapMovementController(runtime);
 	const cadence = new MinimalMeadowLoopCadence();
-	const clock = () => environment.performance?.now?.() ?? Date.now();
+	const now = () => environment.performance?.now?.() ?? Date.now();
 	const scheduler = createMinimalMeadowFrameScheduler(environment, (timeValue, source) => {
-		advanceMinimalMeadowFrame(runtime, movement, cadence, scheduler, {
-			clock,
-			source,
+		const deltaSeconds = scheduler.consumeDelta(timeValue);
+		const frameStartedAt = now();
+		movement.update(deltaSeconds);
+		runtime.coreMechanics?.update?.(deltaSeconds);
+		const gameplayEndedAt = now();
+		updateMinimalMeadowAnimation(runtime, deltaSeconds);
+		const animationEndedAt = now();
+		runtime.updateWorldSystems?.(deltaSeconds);
+		const streamingEndedAt = now();
+		if (source === 'animation-frame') render(runtime);
+		const renderEndedAt = now();
+		cadence.refresh(runtime, timeValue, source);
+		recordPerformance(runtime, {
+			animationEndedAt,
+			frameStartedAt,
+			gameplayEndedAt,
+			intervalMilliseconds: deltaSeconds * 1000,
+			renderEndedAt,
+			streamingEndedAt,
 			timeValue
 		});
 	});
-	publishLoopState(runtime, cadence, scheduler);
+	runtime.frameCadence = cadence;
 	render(runtime);
 	scheduler.start();
 	return {
@@ -41842,58 +41918,6 @@ function startMinimalMeadowLoop(runtime, environment = globalThis) {
 
 
 __exports.startMinimalMeadowLoop = startMinimalMeadowLoop;
-function advanceMinimalMeadowFrame(runtime, movement, cadence, scheduler, frame) {
-	const deltaSeconds = scheduler.consumeDelta(frame.timeValue);
-	const frameStartedAt = frame.clock();
-	try {
-		movement.update(deltaSeconds);
-		runtime.coreMechanics?.update?.(deltaSeconds);
-		const gameplayEndedAt = frame.clock();
-		updateMinimalMeadowAnimation(runtime, deltaSeconds);
-		const animationEndedAt = frame.clock();
-		runtime.updateWorldSystems?.(deltaSeconds);
-		const streamingEndedAt = frame.clock();
-		render(runtime);
-		const renderEndedAt = frame.clock();
-		publishFrameEvidence(runtime, frame);
-		cadence.refresh(runtime, frame.timeValue, frame.source);
-		recordPerformance(runtime, {
-			animationEndedAt,
-			frameStartedAt,
-			gameplayEndedAt,
-			intervalMilliseconds: deltaSeconds * 1000,
-			renderEndedAt,
-			streamingEndedAt,
-			timeValue: frame.timeValue
-		});
-	} catch (error) {
-		runtime.lastFrameError = error?.stack || String(error);
-		environmentError(runtime, error);
-	}
-}
-
-function publishLoopState(runtime, cadence, scheduler) {
-	runtime.bootstrapFrames = 0;
-	runtime.enrichedFrames = 0;
-	runtime.frameCadence = cadence;
-	runtime.frameScheduler = scheduler;
-	runtime.lastFrameAt = null;
-	runtime.lastFrameError = null;
-	runtime.runtimeFrameSource = 'starting';
-}
-
-function publishFrameEvidence(runtime, frame) {
-	runtime.bootstrapFrames += 1;
-	runtime.enrichedFrames += runtime.updateWorldSystems ? 1 : 0;
-	runtime.lastFrameAt = frame.timeValue;
-	runtime.lastFrameError = null;
-	runtime.runtimeFrameSource = frame.source;
-}
-
-function environmentError(runtime, error) {
-	globalThis.AwtsmoosError = runtime.lastFrameError || error?.message || String(error);
-}
-
 function recordPerformance(runtime, marks) {
 	const monitor = runtime.performanceMonitor;
 	if (!monitor) return;

@@ -1281,7 +1281,7 @@ function resetTreeToBase(root) {
 
 
 __exports.resetTreeToBase = resetTreeToBase;
-const __awtsmoosDefault_1w2urep = {
+const __awtsmoosDefault_1kr0uzg = {
 	Bone,
 	BufferAttribute,
 	BufferGeometry,
@@ -1294,7 +1294,7 @@ const __awtsmoosDefault_1w2urep = {
 	Scene,
 	Vector3
 };
-__exports.default = __awtsmoosDefault_1w2urep;
+__exports.default = __awtsmoosDefault_1kr0uzg;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-accessors.js */

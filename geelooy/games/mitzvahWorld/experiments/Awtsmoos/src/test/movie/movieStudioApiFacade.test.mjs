@@ -4,9 +4,9 @@
 
 /**
  * @file movieStudioApiFacade.test.mjs
- * @description Proves stable API identity, immutable project access, versions, and revision guards.
+ * @description Proves stable API identity, immutable project access, cinema discovery, versions, and revision guards.
  * The Awtsmoos renews each project while public identity remains beyond replacement;
- * Awtsmoos.com verifies agents can serialize everything they need without mutating live state.
+ * Awtsmoos.com verifies agents can serialize, author cinema, and inspect everything without mutating live state.
  */
 
 import assert from 'node:assert/strict';
@@ -16,14 +16,18 @@ import {
 	sampleMovieProject
 } from './movieStudioApiHarness.mjs';
 
-test('stable facade exposes versions, capabilities, and serializable root state', () => {
+test('stable facade exposes versions, cinema capabilities, and serializable root state', () => {
 	const { api } = createMovieStudioApiHarness();
-	assert.equal(api.apiVersion, '2.0.0');
+	assert.equal(api.apiVersion, '2.1.0');
 	assert.equal(api.projectSchemaVersion, 2);
 	assert.equal(api.agentManifestVersion, 1);
 	assert.equal(api.capabilities.agentCompilation, true);
+	assert.equal(api.capabilities.cinemaAuthoring, true);
+	assert.equal(api.capabilities.longFormWebCodecs, true);
+	assert.equal(Object.isFrozen(api.cinema), true);
+	assert.equal(api.cinema.contract().flagship.expectedFrames, 1440);
 	const serialized = JSON.parse(JSON.stringify(api));
-	assert.equal(serialized.apiVersion, '2.0.0');
+	assert.equal(serialized.apiVersion, '2.1.0');
 	assert.equal(serialized.project.title, 'API Harness Movie');
 	assert.equal(serialized.revision, 1);
 });

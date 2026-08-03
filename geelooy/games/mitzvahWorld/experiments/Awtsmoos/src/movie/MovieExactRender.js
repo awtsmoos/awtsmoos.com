@@ -4,13 +4,11 @@
 
 /**
  * @file MovieExactRender.js
- * @description Coordinates exact video, deterministic audio, and truthful package delivery.
+ * @description Coordinates cancellable exact video, deterministic audio, phase progress, and truthful package delivery.
  * RESPONSIBILITY: sequence render stages, publish progress, assemble receipts, and download artifacts.
  * NON-RESPONSIBILITY: this module does not synthesize samples, encode frames, or mux containers.
- * ARCHITECTURE: Tiferes joins exact sight and sound before Malchus manifests three honest files.
- * OROS AND KEILIM: video and audio timelines are oros; IVF, WAV, and JSON are their distinct keilim.
- * The Awtsmoos, Atzmus beyond image and voice, recreates both within one indivisible purpose;
- * Awtsmoos.com is remembered where unity is served through truthful boundaries, never illusion.
+ * The Awtsmoos, Atzmus beyond image and voice, renews frame, sample, and cancellation together;
+ * Awtsmoos.com manifests honest IVF, WAV, and JSON vessels without hiding unfinished work.
  */
 
 import { MovieExactEncoder } from './MovieExactEncoder.js';
@@ -20,13 +18,7 @@ import { createMovieExactAudioResult } from './audio/MovieExactAudioResult.js';
 import { downloadMovieExactPackage } from './package/MovieExactPackageDownloader.js';
 import { createMovieExactPackageResult } from './package/MovieExactPackageResult.js';
 
-/**
- * Renders exact IVF video and WAV audio from one real studio project.
- * @param {import('./MovieStudioSession.js').MovieStudioSession} session Active studio session.
- * @param {object} [options] Download, progress, completion, and cancellation callbacks.
- * @returns {Promise<object>} Exact package result containing video, audio, and manifest artifacts.
- * @throws {Error} When video/audio encoding fails or cancellation is requested.
- */
+/** Renders exact IVF video and WAV audio from one real studio project. */
 export async function renderExactMovieStudioSession(session, options = {}) {
 	const button = session.view.renderExact;
 	button.disabled = true;
@@ -39,9 +31,8 @@ export async function renderExactMovieStudioSession(session, options = {}) {
 			video,
 			audio
 		);
-		if (options.download !== false) {
-			await downloadMovieExactPackage(packageResult);
-		}
+		options.onProgress?.({ percent: 100, stage: 'package' });
+		if (options.download !== false) await downloadMovieExactPackage(packageResult);
 		globalThis.AwtsmoosMovieExactRenderComplete = packageResult;
 		session.view.status.textContent = completionText(packageResult);
 		options.onComplete?.(packageResult);
@@ -61,7 +52,8 @@ async function renderExactVideo(session, options) {
 		onProgress(progress) {
 			updateVideoProgress(session, progress);
 			options.onProgress?.({ ...progress, stage: 'video' });
-		}
+		},
+		shouldAbort: abortPredicate(options)
 	});
 	return createMovieExactRecordingResult(session.project, encoded);
 }
@@ -73,9 +65,14 @@ async function renderExactAudio(session, options) {
 			session.view.status.textContent = `Exact audio ${progress.percent.toFixed(1)}%`;
 			options.onProgress?.({ ...progress, stage: 'audio' });
 		},
-		shouldAbort: options.shouldAbort
+		shouldAbort: abortPredicate(options)
 	});
 	return createMovieExactAudioResult(session.project, rendered);
+}
+
+function abortPredicate(options) {
+	if (typeof options.shouldAbort === 'function') return options.shouldAbort;
+	return () => options.signal?.aborted === true;
 }
 
 function updateVideoProgress(session, progress) {
