@@ -2761,7 +2761,7 @@ function resetTreeToBase(root) {
 
 
 __exports.resetTreeToBase = resetTreeToBase;
-const __awtsmoosDefault_1w2urep = {
+const __awtsmoosDefault_1kr0uzg = {
 	Bone,
 	BufferAttribute,
 	BufferGeometry,
@@ -2774,7 +2774,7 @@ const __awtsmoosDefault_1w2urep = {
 	Scene,
 	Vector3
 };
-__exports.default = __awtsmoosDefault_1w2urep;
+__exports.default = __awtsmoosDefault_1kr0uzg;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzFallbackBoxMesh.js */
@@ -35036,8 +35036,8 @@ __exports.loadTinyGltf = loadTinyGltf;
 const loadTinyGlb = loadTinyGltf;
 __exports.loadTinyGlb = loadTinyGlb;
 
-const __awtsmoosDefault_1ep8c8g = { loadTinyGltf, loadTinyGlb };
-__exports.default = __awtsmoosDefault_1ep8c8g;
+const __awtsmoosDefault_12z2jnv = { loadTinyGltf, loadTinyGlb };
+__exports.default = __awtsmoosDefault_12z2jnv;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-instance.js */
@@ -35176,24 +35176,23 @@ __exports.REMOTE_MODEL_CACHE_NAME = REMOTE_MODEL_CACHE_NAME;
 
 /**
  * @file RemoteModelResponseCache.js
- * @description Persists verified Drive GLB responses beneath parsed-template caching.
- * The Awtsmoos sends each measured form once and lets the browser remember its bytes;
- * Awtsmoos.com keeps immutable content-addressed models beyond repository weight.
+ * @description Persists verified GLBs and retries bounded transient storage throttling.
+ * The Awtsmoos sends one measured form and lets the browser remember its vessel;
+ * Awtsmoos.com honors Retry-After without multiplying requests or disguising permanent failure.
  */
+
+const RETRYABLE_STATUS = new Set([429, 502, 503, 504]);
 
 async function cachedModelResponse(url, options = {}) {
 	const fetchFunction = options.fetchFunction || globalThis.fetch;
 	if (typeof fetchFunction !== 'function') throw new Error('Remote model fetch is unavailable.');
-	const cacheStorage = Object.hasOwn(options, 'cacheStorage') ? options.cacheStorage : globalThis.caches;
+	const cacheStorage = Object.hasOwn(options, 'cacheStorage')
+		? options.cacheStorage
+		: globalThis.caches;
 	const cache = await openCache(cacheStorage, options.cacheName);
 	const cached = await cache?.match?.(url);
 	if (cached) return { response: cached, source: 'cache-storage' };
-	const response = await fetchFunction(url, {
-		cache: 'force-cache',
-		credentials: 'omit',
-		mode: 'cors',
-		signal: options.signal
-	});
+	const response = await fetchWithRetry(url, fetchFunction, options);
 	if (response?.ok && isGlbResponse(response)) await cache?.put?.(url, response.clone());
 	return { response, source: 'network' };
 }
@@ -35207,6 +35206,57 @@ function isGlbResponse(response) {
 
 
 __exports.isGlbResponse = isGlbResponse;
+async function fetchWithRetry(url, fetchFunction, options) {
+	const retries = nonnegative(options.transientRetries, 2);
+	for (let attempt = 0; attempt <= retries; attempt += 1) {
+		assertNotAborted(options.signal);
+		const response = await fetchFunction(url, fetchOptions(options.signal));
+		if (!RETRYABLE_STATUS.has(response?.status) || attempt === retries) return response;
+		const delayMs = retryDelay(response, options, attempt);
+		options.onRetry?.({ attempt: attempt + 1, delayMs, status: response.status, url });
+		await waitForRetry(delayMs, options);
+	}
+	throw new Error('Remote model retry loop ended unexpectedly.');
+}
+
+function fetchOptions(signal) {
+	return {
+		cache: 'force-cache',
+		credentials: 'omit',
+		mode: 'cors',
+		signal
+	};
+}
+
+function retryDelay(response, options, attempt) {
+	const retryAfter = String(response?.headers?.get?.('retry-after') || '').trim();
+	const seconds = Number(retryAfter);
+	const requested = Number.isFinite(seconds) && seconds >= 0
+		? seconds * 1000
+		: Math.min(30000, 1000 * (2 ** attempt));
+	const maximum = positive(options.maximumRetryAfterMs, 65000);
+	return Math.min(maximum, Math.max(0, Math.round(requested)));
+}
+
+function waitForRetry(milliseconds, options) {
+	const waitFunction = options.waitFunction || defaultWait;
+	return waitFunction(milliseconds, options.signal);
+}
+
+function defaultWait(milliseconds, signal) {
+	return new Promise((resolve, reject) => {
+		const timer = setTimeout(resolve, milliseconds);
+		signal?.addEventListener?.('abort', () => {
+			clearTimeout(timer);
+			reject(signal.reason || new DOMException('Aborted', 'AbortError'));
+		}, { once: true });
+	});
+}
+
+function assertNotAborted(signal) {
+	if (signal?.aborted) throw signal.reason || new DOMException('Aborted', 'AbortError');
+}
+
 async function openCache(cacheStorage, cacheName = REMOTE_MODEL_CACHE_NAME) {
 	if (!cacheStorage || typeof cacheStorage.open !== 'function') return null;
 	try {
@@ -35214,6 +35264,16 @@ async function openCache(cacheStorage, cacheName = REMOTE_MODEL_CACHE_NAME) {
 	} catch {
 		return null;
 	}
+}
+
+function nonnegative(value, fallback) {
+	const number = Number(value);
+	return Number.isFinite(number) && number >= 0 ? Math.floor(number) : fallback;
+}
+
+function positive(value, fallback) {
+	const number = Number(value);
+	return Number.isFinite(number) && number > 0 ? number : fallback;
 }
 return Object.freeze(__exports);
 })();
@@ -49271,18 +49331,19 @@ const __exports = {};
  */
 
 const SPECIES = Object.freeze([
-	species('meadow-daisy', '#fff7df', 10, 0.052, 0.3, ['flower-meadow', 'mixed-meadow'], 2, '#e7b73f', 0.78, 0.08),
-	species('cornflower', '#4779d8', 8, 0.05, 0.38, ['dry-upland', 'mixed-meadow'], 2, '#32427f', 0.64, 0.16),
-	species('buttercup', '#ffd84a', 6, 0.043, 0.24, ['wet-meadow', 'flower-meadow'], 1, '#b78018', 0.72, 0.06),
-	species('clover-bloom', '#e79bcf', 12, 0.038, 0.2, ['wet-meadow', 'path-edge'], 2, '#8b476f', 0.84, 0.12),
-	species('wild-lupine', '#8768d8', 7, 0.046, 0.46, ['dry-upland', 'flower-meadow'], 3, '#473b7b', 0.7, 0.22),
-	species('chamomile', '#fffdf0', 12, 0.04, 0.28, ['path-edge', 'mixed-meadow'], 1, '#d3a22d', 0.76, 0.1),
-	species('marsh-star', '#d8f0ff', 7, 0.052, 0.34, ['wet-meadow'], 2, '#6f94a8', 0.86, 0.05),
-	species('golden-yarrow', '#e7c95b', 9, 0.035, 0.42, ['dry-upland', 'path-edge'], 2, '#8c7934', 0.62, 0.28)
+	species('meadow-daisy', '#fff7df', 8, 0.052, 0.3, ['flower-meadow', 'mixed-meadow'], 2, '#e7b73f', '#4f8f39', 0.78, 0.08),
+	species('cornflower', '#4779d8', 7, 0.05, 0.38, ['dry-upland', 'mixed-meadow'], 2, '#32427f', '#527a3a', 0.64, 0.16),
+	species('buttercup', '#ffd84a', 6, 0.043, 0.24, ['wet-meadow', 'flower-meadow'], 1, '#b78018', '#448a40', 0.72, 0.06),
+	species('clover-bloom', '#e79bcf', 8, 0.038, 0.2, ['wet-meadow', 'path-edge'], 2, '#8b476f', '#3d8240', 0.84, 0.12),
+	species('wild-lupine', '#8768d8', 7, 0.046, 0.46, ['dry-upland', 'flower-meadow'], 3, '#473b7b', '#486f39', 0.7, 0.22),
+	species('chamomile', '#fffdf0', 8, 0.04, 0.28, ['path-edge', 'mixed-meadow'], 1, '#d3a22d', '#57843d', 0.76, 0.1),
+	species('marsh-star', '#d8f0ff', 7, 0.052, 0.34, ['wet-meadow'], 2, '#6f94a8', '#397d4a', 0.86, 0.05),
+	species('golden-yarrow', '#e7c95b', 8, 0.035, 0.42, ['dry-upland', 'path-edge'], 2, '#8c7934', '#657a37', 0.62, 0.28)
 ]);
 
 function selectMinimalMeadowFlowerSpecies(ecology, unit = 0) {
-	return candidatesFor(ecology)[speciesIndex(candidatesFor(ecology), unit)];
+	const candidates = candidatesFor(ecology);
+	return candidates[speciesIndex(candidates, unit)];
 }
 
 
@@ -49313,18 +49374,10 @@ function speciesIndex(candidates, unit) {
 	return Math.min(candidates.length - 1, Math.floor(clamp(unit) * candidates.length));
 }
 
-function species(id, color, petalCount, petalRadius, height, zones, petalLayers, centerColor, leafChance, seedHeadChance) {
+function species(id, color, petalCount, petalRadius, height, zones, petalLayers, centerColor, leafColor, leafChance, seedHeadChance) {
 	return Object.freeze({
-		centerColor,
-		color,
-		height,
-		id,
-		leafChance,
-		petalCount,
-		petalLayers,
-		petalRadius,
-		seedHeadChance,
-		stemWidth: 0.012 + petalRadius * 0.08,
+		centerColor, color, height, id, leafChance, leafColor, petalCount, petalLayers,
+		petalRadius, seedHeadChance, stemWidth: 0.012 + petalRadius * 0.08,
 		zones: Object.freeze(zones)
 	});
 }
@@ -49965,9 +50018,9 @@ const __exports = {};
 
 /**
  * @file MinimalMeadowVegetationDistributionCellFactory.js
- * @description Mounts one grass mesh and one mixed-species flower mesh per ecological cell.
+ * @description Mounts one vertex-colored grass mesh and one mixed-species flower mesh per cell.
  * The Awtsmoos gathers blade, leaf, stem, blossom, and seed without multiplying calls;
- * Awtsmoos.com keeps quality, fertility, community, triangles, and visual roles readable to all.
+ * Awtsmoos.com keeps palette, fertility, community, triangles, and visual roles readable to all.
  */
 
 var Group = __awtsmoosModule_18.Group;
@@ -49980,6 +50033,7 @@ function createMinimalMeadowVegetationCell(specification, terrain) {
 		budget: specification.budget,
 		center: specification,
 		clumps: specification.clumps,
+		grassColor: specification.grassColor,
 		seed: specification.seed,
 		species: specification.species,
 		speciesCommunity: specification.speciesCommunity,
@@ -49988,18 +50042,8 @@ function createMinimalMeadowVegetationCell(specification, terrain) {
 	const group = new Group();
 	group.name = specification.id;
 	group.position.set(specification.x, specification.y, specification.z);
-	const grass = manualMesh(
-		'grass',
-		geometry.grass,
-		specification.grassColor || '#4f8f39',
-		geometry.clumps
-	);
-	const flowers = manualMesh(
-		'flowers',
-		geometry.petals,
-		specification.color,
-		geometry.flowers
-	);
+	const grass = manualMesh('grass', geometry.grass, geometry.clumps);
+	const flowers = manualMesh('flowers', geometry.petals, geometry.flowers);
 	group.add(grass);
 	group.add(flowers);
 	group.userData.AwtsmoosVegetationCell = Object.freeze({
@@ -50013,6 +50057,7 @@ function createMinimalMeadowVegetationCell(specification, terrain) {
 		quality: specification.budget?.quality || 'high',
 		species: geometry.speciesId,
 		speciesCommunity: Object.freeze(geometry.speciesIds),
+		vertexColors: true,
 		zone: specification.zone
 	});
 	return {
@@ -50030,18 +50075,18 @@ function createMinimalMeadowVegetationCell(specification, terrain) {
 
 
 __exports.createMinimalMeadowVegetationCell = createMinimalMeadowVegetationCell;
-function manualMesh(role, geometry, color, instances) {
+function manualMesh(role, geometry, instances) {
 	const mesh = createPrimitiveMesh({
-		color,
+		color: '#ffffff',
 		doubleSided: true,
 		...geometry,
 		id: `Awtsmoos_${role}_baked_instances`,
 		shape: 'manual',
 		solid: false,
 		transparent: false,
-		userData: { instanceCount: instances, role }
+		userData: { instanceCount: instances, role, vertexColors: true }
 	});
-	mesh.material = minimalMeadowVegetationMaterial(role, color);
+	mesh.material = minimalMeadowVegetationMaterial(role, '#ffffff');
 	mesh.frustumCulled = true;
 	return mesh;
 }
@@ -51379,44 +51424,53 @@ const __exports = {};
 
 /**
  * @file MinimalMeadowRichWorld.js
- * @description Mounts the complete rich meadow once and persists its exact terminal receipt.
- * The Awtsmoos gathers river, forest, homes, vegetation, merchants, quest, and targeting in one chapter;
- * Awtsmoos.com preserves one promise, one receipt, exact failure evidence, and idempotent ownership.
+ * @description Owns one actual rich-world mount independently from its quiet-window schedule.
+ * The Awtsmoos gathers river, forest, home, blossom, and neighbor without a promise chasing its tail;
+ * Awtsmoos.com separates appointed scheduling from the living mount so every finite garden may prevail.
  */
 
 var mountMinimalMeadowRichWorld = __awtsmoosModule_557.mountMinimalMeadowRichWorld;
 
 function installMinimalMeadowRichWorld(
 	runtime,
-	environment = globalThis
+	environment = globalThis,
+	mount = mountMinimalMeadowRichWorld
 ) {
-	if (runtime.richWorldPromise) return runtime.richWorldPromise;
+	if (runtime.richWorldMountPromise) {
+		return runtime.richWorldMountPromise;
+	}
 	runtime.richWorldStage = 'mounting';
-	runtime.richWorldPromise = Promise.resolve()
-		.then(() => mountMinimalMeadowRichWorld(runtime, environment))
-		.then(mounts => {
-			const receipt = Object.freeze({
-				mounts,
-				ready: true,
-				status: runtime.richWorldMountStatus || null
-			});
-			runtime.richWorldReceipt = receipt;
-			runtime.richWorldStage = 'ready';
-			runtime.bus?.emit?.('world:rich-world-ready', receipt);
-			return receipt;
-		})
-		.catch(error => {
-			runtime.richWorldStage = 'failed';
-			runtime.richWorldError = Object.freeze({
-				message: error?.message || String(error),
-				name: error?.name || 'Error'
-			});
-			throw error;
-		});
-	return runtime.richWorldPromise;
+	const promise = Promise.resolve()
+		.then(() => mount(runtime, environment))
+		.then(mounts => publishRichWorld(runtime, mounts))
+		.catch(error => failRichWorld(runtime, error));
+	runtime.richWorldMountPromise = promise;
+	runtime.richWorldPromise = promise;
+	return promise;
 }
 
+
 __exports.installMinimalMeadowRichWorld = installMinimalMeadowRichWorld;
+function publishRichWorld(runtime, mounts) {
+	const receipt = Object.freeze({
+		mounts,
+		ready: true,
+		status: runtime.richWorldMountStatus || null
+	});
+	runtime.richWorldReceipt = receipt;
+	runtime.richWorldStage = 'ready';
+	runtime.bus?.emit?.('world:rich-world-ready', receipt);
+	return receipt;
+}
+
+function failRichWorld(runtime, error) {
+	runtime.richWorldStage = 'failed';
+	runtime.richWorldError = Object.freeze({
+		message: error?.message || String(error),
+		name: error?.name || 'Error'
+	});
+	throw error;
+}
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldSystems.js */
@@ -51428,9 +51482,9 @@ const __exports = {};
 
 /**
  * @file MinimalMeadowWorldSystems.js
- * @description Mounts immediate combat and quest truth while full visual systems hydrate separately.
+ * @description Mounts immediate combat and quest truth while rich procedural systems schedule separately.
  * The Awtsmoos grants battle, purpose, teaching, and safe return before distant garments descend;
- * Awtsmoos.com preserves every system while keeping GLB, forest, water, and house latency off readiness.
+ * Awtsmoos.com separates schedule from mount so forest, water, homes, and flowers truly ascend.
  */
 
 var ExpansionRuntime = __awtsmoosModule_2.ExpansionRuntime;
@@ -51470,7 +51524,9 @@ async function installMinimalMeadowWorldSystems(runtime, environment = globalThi
 	};
 	const receipt = combatDiagnostics(runtime);
 	runtime.bus.emit('world:combat-ready', receipt);
-	runtime.richWorldPromise = scheduleRichWorld(runtime, environment);
+	const schedule = scheduleRichWorld(runtime, environment);
+	runtime.richWorldSchedulePromise = schedule;
+	runtime.richWorldPromise = schedule;
 	return receipt;
 }
 

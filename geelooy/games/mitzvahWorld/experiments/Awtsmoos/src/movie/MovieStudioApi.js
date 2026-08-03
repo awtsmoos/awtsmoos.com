@@ -4,7 +4,7 @@
 
 /**
  * @file MovieStudioApi.js
- * @description Creates one stable facade over project, compositions, agents, media, performance, jobs, and UI.
+ * @description Creates one stable facade over cinema, project, compositions, agents, media, performance, jobs, and UI.
  * The Awtsmoos renews every project and service while identity remains beyond replacement;
  * Awtsmoos.com gives old callers familiar doors and agents immutable contracts for the complete studio.
  */
@@ -17,6 +17,7 @@ import {
 } from './MovieApiConstants.js';
 import { createMovieStudioAgentDomain } from './MovieStudioApiAgent.js';
 import { createMovieStudioAuthoring3dDomain } from './MovieStudioApiAuthoring3d.js';
+import { createMovieStudioCinemaDomain } from './MovieStudioApiCinema.js';
 import { addMovieStudioCompatibilityApi, createUnsafeMovieStudioApi } from './MovieStudioApiCompatibility.js';
 import { createMovieStudioCommandsDomain } from './MovieStudioApiCommands.js';
 import { createMovieStudioCompositionsDomain } from './MovieStudioApiCompositions.js';
@@ -50,6 +51,7 @@ export function createMovieStudioApi(session) {
 		apiVersion: MOVIE_API_VERSION,
 		authoring3d: createMovieStudioAuthoring3dDomain(session),
 		capabilities: createMovieProjectSnapshot(MOVIE_API_CAPABILITIES),
+		cinema: createMovieStudioCinemaDomain(session),
 		commands,
 		compositions: createMovieStudioCompositionsDomain(session),
 		creativeCapabilities: createMovieStudioCreativeCapabilitiesDomain(),
@@ -85,9 +87,7 @@ export function createMovieStudioApi(session) {
 export const MovieStudioApi = createMovieStudioApi;
 
 export function publishMovieStudioApi(session) {
-	if (session.instanceRegistry) {
-		return session.instanceRegistry.publish(session);
-	}
+	if (session.instanceRegistry) return session.instanceRegistry.publish(session);
 	globalThis.AwtsmoosMovie = session.publicApi;
 	return session.publicApi;
 }
