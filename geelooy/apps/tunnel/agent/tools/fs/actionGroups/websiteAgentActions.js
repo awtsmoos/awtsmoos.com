@@ -4,7 +4,6 @@ const Logout = require("./websiteAgents/logout.js");
 
 function buildWebsiteAgentActions(ctx) {
 	const { config, payload = {} } = ctx;
-	Runner.recover(config);
 	return {
 		async websiteAgentMissionStart() { return Runner.start(config, payload); },
 		async websiteAgentMissionStatus() { return Runner.status(config, payload); },

@@ -1,6 +1,8 @@
 // B"H
 const assert = require("node:assert/strict");
 const Executor = require("../tools/fs/executor/index.js");
+const MissionRunner = require("../tools/fs/actionGroups/websiteAgents/runner.js");
+const WebsiteActions = require("../tools/fs/actionGroups/websiteAgentActions.js");
 const originalExecute = Executor.execute;
 let offloads = 0;
 Executor.execute = async payload => {
@@ -35,6 +37,13 @@ assert.equal(PROCESS_OWNED_ACTIONS.has("commandRun"), false);
 
 (async () => {
 	try {
+		const originalRecover = MissionRunner.recover;
+		let buildRecoveries = 0;
+		MissionRunner.recover = () => { buildRecoveries += 1; };
+		WebsiteActions.buildWebsiteAgentActions({ config: {}, payload: {} });
+		MissionRunner.recover = originalRecover;
+		assert.equal(buildRecoveries, 0, "building an action catalog must not mutate mission state");
+
 		const status = await handleFs({
 			action: "websiteAgentMissionStatus",
 			websiteMissionId: "missing-process-owner-proof"
@@ -50,6 +59,7 @@ assert.equal(PROCESS_OWNED_ACTIONS.has("commandRun"), false);
 			ok: true,
 			suite: "website-mission-process-ownership",
 			processOwnedActions: required.length,
+			actionCatalogBuildIsPure: true,
 			missionStateNeverCrossesExecutorProcesses: true,
 			isolatedFilesystemActionsUnaffected: true
 		}, null, 2));
