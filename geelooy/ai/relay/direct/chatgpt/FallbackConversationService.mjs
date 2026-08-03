@@ -1,4 +1,4 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -10,10 +10,11 @@ const require = createRequire(import.meta.url);
 const { configuredAgentStartUrl } = require("../../split-browser/config.cjs");
 
 /**
- * @file Binds opaque local keys to website conversations and their tab receipts.
+ * @file Preserves opaque conversation state while forwarding verified-close hooks.
  * @description
- * The Awtsmoos carries fresh sub-agents through their designated custom GPT,
- * closes each temporary page, and preserves only an opaque continuation key.
+ * The Awtsmoos lets the public service see only an opaque local key. Private cookies
+ * remain in the local store, while the close callback travels to DirectClient so the
+ * global eighteen-second gate begins at the exact verified disappearance instant.
  */
 export class FallbackConversationService {
 	constructor({ store, portResolver, clientFactory }) {
@@ -39,8 +40,8 @@ export class FallbackConversationService {
 			agentStartUrl: options.agentStartUrl ?? configuredAgentStartUrl(),
 			signal: options.signal ?? null,
 			onProgress: options.onProgress ?? null,
-			timeoutMs: options.timeoutMs ?? null,
-			closeAfterTurn: options.closeAfterTurn !== false
+			onTabClosed: options.onTabClosed ?? null,
+			timeoutMs: options.timeoutMs ?? null
 		});
 		return this.commit(options.conversationKey, previousState, result);
 	}
@@ -57,8 +58,7 @@ export class FallbackConversationService {
 		const result = await client.recover({
 			state: previousState,
 			signal: options.signal ?? null,
-			timeoutMs: options.timeoutMs ?? null,
-			closeAfterTurn: options.closeAfterTurn !== false
+			timeoutMs: options.timeoutMs ?? null
 		});
 		return this.commit(options.conversationKey, previousState, result);
 	}

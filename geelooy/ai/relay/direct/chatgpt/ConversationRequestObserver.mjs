@@ -1,47 +1,70 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
-const CONVERSATION_PATHS = new Set([
-	"/backend-api/f/conversation",
-	"/backend-api/conversation"
-]);
+import { ConversationPostDescription } from "./ConversationPostDescription.mjs";
 
 /**
- * The observer watches the normal website POST without intercepting or altering it.
- * The Awtsmoos keeps only the message and parent ids needed for authenticated GET
- * completion, while the request proceeds through ChatGPT's own browser lifecycle.
+ * @file Verifies the exact website conversation POST reached an accepted response.
+ * @description
+ * The Awtsmoos witnesses both the ordinary Send request and its HTTP acceptance.
+ * A late UI error cannot repeat an already observed POST; Awtsmoos.com continues
+ * waiting for that request's response and closes only after accepted testimony.
  */
 export class ConversationRequestObserver {
-	constructor(cdpClient, { timeoutMs = 30000 } = {}) {
+	constructor(cdpClient, options = {}) {
 		this.cdpClient = cdpClient;
-		this.timeoutMs = timeoutMs;
+		this.timeoutMs = Math.max(5000, Number(options.timeoutMs || 30000));
+		this.description = options.description || new ConversationPostDescription(cdpClient);
 	}
 
 	async observe(trigger) {
 		await this.cdpClient.send("Network.enable");
-		let timer = null;
+		let claimedId = null;
+		let description = null;
+		let response = null;
 		let settled = false;
-		let claimed = false;
-		let removeListener = () => {};
-		let rejectObserved = () => {};
+		let timer = null;
+		let resolveObserved = null;
+		let rejectObserved = null;
 		const observed = new Promise((resolve, reject) => {
-			const settle = (action, value) => {
-				if (settled) return;
-				settled = true;
-				action(value);
-			};
-			rejectObserved = error => settle(reject, error);
-			removeListener = this.cdpClient.on("Network.requestWillBeSent", event => {
-				if (claimed || !this.matches(event.request)) return;
-				claimed = true;
-				this.describe(event).then(
-					value => settle(resolve, value),
-					error => settle(reject, error)
-				);
-			});
+			resolveObserved = resolve;
+			rejectObserved = reject;
 		});
-		observed.catch(() => undefined);
+		const settle = (callback, value) => {
+			if (settled) return;
+			settled = true;
+			callback(value);
+		};
+		const maybeFinish = () => {
+			if (!description || !response) return;
+			if (response.status < 200 || response.status >= 400) {
+				settle(rejectObserved, codedError(`conversation_post_${response.status}`));
+				return;
+			}
+			settle(resolveObserved, {
+				...description,
+				responseStatus: response.status,
+				responseUrl: response.url,
+				acceptedAt: Date.now()
+			});
+		};
+		const removeRequest = this.cdpClient.on("Network.requestWillBeSent", event => {
+			if (claimedId || !this.description.matches(event.request)) return;
+			claimedId = event.requestId;
+			this.description.read(event).then(value => {
+				description = value;
+				maybeFinish();
+			}, error => settle(rejectObserved, error));
+		});
+		const removeResponse = this.cdpClient.on("Network.responseReceived", event => {
+			if (!claimedId || event.requestId !== claimedId) return;
+			response = {
+				status: Number(event.response?.status || 0),
+				url: event.response?.url || ""
+			};
+			maybeFinish();
+		});
 		try {
 			let triggerError = null;
 			try {
@@ -49,58 +72,22 @@ export class ConversationRequestObserver {
 			} catch (error) {
 				triggerError = error;
 			}
-			if (triggerError && !claimed) throw triggerError;
-			if (!settled) {
-				timer = setTimeout(() => {
-					const error = new Error(
-						"Timed out observing the ChatGPT conversation request."
-					);
-					if (triggerError) error.cause = triggerError;
-					rejectObserved(error);
-				}, this.timeoutMs);
-			}
+			if (triggerError && !claimedId) throw triggerError;
+			timer = setTimeout(() => settle(
+				rejectObserved,
+				codedError("conversation_post_acceptance_timeout")
+			), this.timeoutMs);
 			return await observed;
 		} finally {
 			clearTimeout(timer);
-			removeListener();
+			removeRequest();
+			removeResponse();
 		}
 	}
+}
 
-	matches(request) {
-		if (request?.method !== "POST") return false;
-		try {
-			return CONVERSATION_PATHS.has(new URL(request.url).pathname);
-		} catch {
-			return false;
-		}
-	}
-
-	async describe(event) {
-		const postData = await this.postData(event);
-		let body = null;
-		try {
-			body = JSON.parse(postData || "{}");
-		} catch {
-			throw new Error("ChatGPT created an unreadable conversation request.");
-		}
-		const message = body?.messages?.[0];
-		if (typeof message?.id !== "string") {
-			throw new Error("ChatGPT conversation request omitted the user message id.");
-		}
-		return {
-			userMessageId: message.id,
-			parentMessageId: body.parent_message_id ?? null,
-			conversationId: body.conversation_id ?? null,
-			method: event.request.method,
-			url: event.request.url
-		};
-	}
-
-	async postData(event) {
-		if (typeof event.request?.postData === "string") return event.request.postData;
-		const result = await this.cdpClient.send("Network.getRequestPostData", {
-			requestId: event.requestId
-		});
-		return result?.postData ?? "";
-	}
+function codedError(code) {
+	const error = new Error(code);
+	error.code = code;
+	return error;
 }
