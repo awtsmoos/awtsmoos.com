@@ -9,6 +9,18 @@ const LIVE_HISTORY_ACTIONS = new Set([
 	"actionHistoryList",
 	"actionHistorySearch"
 ]);
+const PROCESS_OWNED_ACTIONS = new Set([
+	"agent",
+	"aiAgentSpawnWebsiteMission",
+	"aiAgentWebsiteMissionStatus",
+	"websiteAgentMissionStart",
+	"websiteAgentMissionStatus",
+	"websiteAgentMissionList",
+	"websiteAgentMissionMessage",
+	"websiteAgentMissionStop",
+	"websiteAgentMissionForget",
+	"chatgptWebsiteLogout"
+]);
 
 /**
  * Keeps blocking filesystem and mission work outside the relay event loop.
@@ -20,6 +32,9 @@ async function handleFs(payload = {}, webSocket) {
 		return handleFsAction(payload, null);
 	}
 	if (SOCKET_ACTIONS.has(String(payload.action || ""))) {
+		return handleFsAction(payload, webSocket);
+	}
+	if (PROCESS_OWNED_ACTIONS.has(String(payload.action || ""))) {
 		return handleFsAction(payload, webSocket);
 	}
 	if (
@@ -37,6 +52,7 @@ async function handleFs(payload = {}, webSocket) {
 
 module.exports = {
 	LIVE_HISTORY_ACTIONS,
+	PROCESS_OWNED_ACTIONS,
 	SOCKET_ACTIONS,
 	handleFs
 };
