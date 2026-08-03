@@ -382,18 +382,20 @@ async function runTurn(config, id, agentId, round, service, continuation) {
 }
 
 function progress(config, id, agentId, round, progressEvent = {}) {
+	const stage = String(progressEvent.stage || "");
+	const status = String(progressEvent.status || "");
 	const record = Store.update(id, current => {
 		const agent = current.agents.find(item => item.id === agentId);
 		if (!agent) return current;
-		if (progressEvent.stage === "website-submit" && progressEvent.status === "accepted") {
+		if (stage === "website-submit" && status === "accepted") {
 			agent.submissionAcceptedAt = new Date(progressEvent.at || Date.now()).toISOString();
 			agent.pendingRound = round;
 		}
 		current.events.push(event("agent_progress", {
 			agentId,
 			round,
-			stage: String(progressEvent.stage || ""),
-			status: String(progressEvent.status || ""),
+			stage,
+			status,
 			message: String(progressEvent.message || "").slice(0, 500)
 		}));
 		return current;
@@ -402,10 +404,43 @@ function progress(config, id, agentId, round, progressEvent = {}) {
 	if (record && agent) {
 		emit(config, record, agent, "website-agent.progress", {
 			round,
-			stage: String(progressEvent.stage || ""),
-			status: String(progressEvent.status || "")
+			stage,
+			status
 		});
+		publishProgressToRoom(config, record, agent, round, stage, status);
 	}
+}
+
+function publishProgressToRoom(config, record, agent, round, stage, status) {
+	void withMission(config, record.missionId, mission => {
+		heartbeat(
+			mission,
+			agent,
+			"working",
+			`Website turn ${round}: ${stage || "progress"} ${status || "observed"}.`
+		);
+		if (stage === "website-submit" && status === "accepted") {
+			C.message(mission, {
+				agentId: agent.id,
+				agentName: agent.name,
+				role: agent.role,
+				toAgent: "all",
+				kind: "website-agent-progress",
+				subject: `Website turn ${round} accepted`,
+				body: "The ordinary ChatGPT website composer accepted this agent turn. Completion will be read through authenticated GET without resubmitting.",
+				references: [agent.scope]
+			});
+		}
+	}).catch(error => {
+		Store.update(record.id, current => {
+			current.events.push(event("agent_progress_room_update_failed", {
+				agentId: agent.id,
+				round,
+				error: String(error?.message || error).slice(0, 1000)
+			}));
+			return current;
+		});
+	});
 }
 
 async function status(config, input = {}) {

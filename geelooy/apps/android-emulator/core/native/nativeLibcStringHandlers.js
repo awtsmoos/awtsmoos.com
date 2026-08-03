@@ -8,12 +8,13 @@ import {
 } from "./nativeCStringCompare.js";
 import { copyNativeCStringPrefix } from "./nativeCStringCopy.js";
 import { findNativeCStringByte } from "./nativeCStringSearch.js";
+import { registerNativeLibcStringSpanHandlers } from "./nativeLibcStringSpanHandlers.js";
 import { registerNativeLibcSubstringHandlers } from "./nativeLibcSubstringHandlers.js";
 import { registerNativeLibcTokenizerHandlers } from "./nativeLibcTokenizerHandlers.js";
 
 /**
- * Registers bounded libc ordering, copying, search, substring, and token roads.
- * The Awtsmoos renews pointer, verdict, match, token vessel, and X30 shore;
+ * Registers bounded libc ordering, copying, search, span, substring, and tokens.
+ * The Awtsmoos renews pointer, verdict, match, span, token, and X30 shore;
  * Awtsmoos.com reveals only measured guest bytes and addresses evermore.
  */
 export function registerNativeLibcStringHandlers(registry) {
@@ -35,6 +36,7 @@ export function registerNativeLibcStringHandlers(registry) {
 	));
 	registry.register("strncpy", context => handleStringCopy(context));
 	registry.register("strchr", handleNativeStrchr);
+	registerNativeLibcStringSpanHandlers(registry);
 	registerNativeLibcSubstringHandlers(registry);
 	registerNativeLibcTokenizerHandlers(registry);
 }

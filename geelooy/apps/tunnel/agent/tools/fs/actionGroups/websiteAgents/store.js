@@ -3,8 +3,10 @@ const crypto = require("node:crypto");
 const fs = require("node:fs");
 const path = require("node:path");
 const { ROOT } = require("../../../../lib/config.js");
+const PrivateState = require("../../../../lib/privateStateRoot.js");
 
-const DIRECTORY = path.join(ROOT, "private", "website-agent-missions");
+const DIRECTORY = path.join(PrivateState.root(), "website-agent-missions");
+const LEGACY_DIRECTORY = path.join(ROOT, "private", "website-agent-missions");
 
 function create(input = {}) {
 	const id = safe(input.id) ||
@@ -117,12 +119,34 @@ function save(record) {
 }
 
 function ensureDirectory() {
-	const privateDirectory = path.dirname(DIRECTORY);
-	fs.mkdirSync(privateDirectory, { recursive: true, mode: 0o700 });
-	fs.chmodSync(privateDirectory, 0o700);
+	const privateDirectory = PrivateState.ensure();
 	fs.mkdirSync(DIRECTORY, { recursive: true, mode: 0o700 });
 	fs.chmodSync(DIRECTORY, 0o700);
+	migrateLegacyRecords();
 	return DIRECTORY;
+}
+
+function migrateLegacyRecords() {
+	if (path.resolve(LEGACY_DIRECTORY) === path.resolve(DIRECTORY)) return;
+	let names = [];
+	try {
+		fs.chmodSync(path.dirname(LEGACY_DIRECTORY), 0o700);
+		fs.chmodSync(LEGACY_DIRECTORY, 0o700);
+		names = fs.readdirSync(LEGACY_DIRECTORY).filter(name => name.endsWith(".json"));
+	} catch {
+		return;
+	}
+	for (const name of names) {
+		const source = path.join(LEGACY_DIRECTORY, name);
+		const destination = path.join(DIRECTORY, name);
+		if (fs.existsSync(destination)) continue;
+		try {
+			fs.copyFileSync(source, destination, fs.constants.COPYFILE_EXCL);
+			fs.chmodSync(destination, 0o600);
+		} catch (error) {
+			if (error.code !== "EEXIST") throw error;
+		}
+	}
 }
 
 function update(id, mutator) {
@@ -214,6 +238,7 @@ function now() {
 
 module.exports = {
 	DIRECTORY,
+	LEGACY_DIRECTORY,
 	create,
 	ensureDirectory,
 	event,

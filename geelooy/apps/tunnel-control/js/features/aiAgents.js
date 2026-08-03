@@ -23,6 +23,10 @@ export const AI_PROVIDER_OPTIONS = Object.freeze([
 
 let council = { agents: [], providers: [], config: {} };
 let websiteMissions = [];
+let websiteMissionPollTimer = 0;
+let websiteMissionPollBusy = false;
+let websiteMissionPaneListenerBound = false;
+let websiteMissionPaneActive = false;
 
 /** Creates the complete AI control surface, including authenticated website missions. */
 export function aiAgents() {
@@ -298,6 +302,7 @@ export function mountAiAgents(getTunnelName) {
 	refreshWebsiteMissions(getTunnelName, true).catch(error =>
 		showWebsiteError(error)
 	);
+	bindWebsiteMissionPolling(getTunnelName);
 }
 
 function bindProviderControls(getTunnelName) {
@@ -364,6 +369,51 @@ function bindWebsiteMissionControls(getTunnelName) {
 		);
 		if (cached) renderWebsiteMissionSummary(cached);
 	};
+}
+
+function bindWebsiteMissionPolling(getTunnelName) {
+	if (!websiteMissionPaneListenerBound) {
+		websiteMissionPaneListenerBound = true;
+		document.addEventListener("awt:pane-change", event => {
+			websiteMissionPaneActive = event.detail?.pane === "aiAgents";
+			if (websiteMissionPaneActive) {
+				scheduleWebsiteMissionPoll(getTunnelName, 250);
+			} else {
+				clearTimeout(websiteMissionPollTimer);
+				websiteMissionPollTimer = 0;
+			}
+		});
+	}
+	const pane = $("websiteMissionRoster")?.closest?.("[data-pane='aiAgents']");
+	websiteMissionPaneActive = Boolean(pane?.classList?.contains("active"));
+	if (websiteMissionPaneActive) {
+		scheduleWebsiteMissionPoll(getTunnelName, 2500);
+	}
+}
+
+function scheduleWebsiteMissionPoll(getTunnelName, delayMs = 3000) {
+	if (!websiteMissionPaneActive) return;
+	clearTimeout(websiteMissionPollTimer);
+	websiteMissionPollTimer = setTimeout(async () => {
+		if (websiteMissionPollBusy) {
+			return scheduleWebsiteMissionPoll(getTunnelName, 1000);
+		}
+		websiteMissionPollBusy = true;
+		try {
+			if (selectedWebsiteMissionId()) {
+				await refreshWebsiteMissionStatus(getTunnelName, false, true);
+			} else {
+				await refreshWebsiteMissions(getTunnelName, true);
+			}
+		} catch (error) {
+			showWebsiteError(error);
+		} finally {
+			websiteMissionPollBusy = false;
+			if (websiteMissionPaneActive) {
+				scheduleWebsiteMissionPoll(getTunnelName, 3000);
+			}
+		}
+	}, Math.max(250, Number(delayMs) || 3000));
 }
 
 function bindWebsiteButton(id, handler) {
@@ -454,10 +504,15 @@ async function refreshWebsiteMissions(getTunnelName, quiet = false) {
 	return got;
 }
 
-async function refreshWebsiteMissionStatus(getTunnelName, refreshAuthentication) {
+async function refreshWebsiteMissionStatus(
+	getTunnelName,
+	refreshAuthentication,
+	quiet = false
+) {
 	const got = await callWebsite(
 		getTunnelName,
-		websiteMissionStatusPayload(currentWebsiteMissionId(), refreshAuthentication)
+		websiteMissionStatusPayload(requireWebsiteMissionId(), refreshAuthentication),
+		quiet
 	);
 	acceptWebsiteResponse(got);
 	return got;
@@ -465,7 +520,7 @@ async function refreshWebsiteMissionStatus(getTunnelName, refreshAuthentication)
 
 async function messageWebsiteMission(getTunnelName) {
 	const got = await callWebsite(getTunnelName, websiteMissionMessagePayload({
-		websiteMissionId: currentWebsiteMissionId(),
+		websiteMissionId: requireWebsiteMissionId(),
 		toAgent: $("websiteMissionToAgent").value,
 		body: $("websiteMissionMessage").value
 	}));
@@ -479,14 +534,14 @@ async function stopWebsiteMission(getTunnelName) {
 	if (!confirmAction("Stop this website-agent mission after its active turn?")) return null;
 	const got = await callWebsite(getTunnelName, {
 		action: "websiteAgentMissionStop",
-		websiteMissionId: currentWebsiteMissionId()
+		websiteMissionId: requireWebsiteMissionId()
 	});
 	acceptWebsiteResponse(got);
 	return got;
 }
 
 async function forgetWebsiteMission(getTunnelName) {
-	const id = currentWebsiteMissionId();
+	const id = requireWebsiteMissionId();
 	if (!confirmAction("Delete this mission record and its private continuation mappings?")) {
 		return null;
 	}
@@ -536,12 +591,22 @@ function acceptWebsiteResponse(got, options = {}) {
 	rememberWebsiteMissions(
 		Array.isArray(got.missions) ? got.missions : got.mission ? [got.mission] : []
 	);
-	if (Array.isArray(got.missions)) websiteMissions = got.missions;
+	if (Array.isArray(got.missions)) {
+		websiteMissions = got.missions;
+		const selected = preferredWebsiteMission(
+			websiteMissions,
+			selectedWebsiteMissionId()
+		);
+		if (selected) {
+			$("websiteMissionId").value = selected.id || selected.websiteMissionId || "";
+			renderWebsiteMissionSummary(selected);
+		}
+	}
 	if (got.mission) {
 		const index = websiteMissions.findIndex(record => record.id === got.mission.id);
 		if (index >= 0) websiteMissions[index] = got.mission;
 		else websiteMissions.unshift(got.mission);
-		if (!options.preserveCurrent || !currentWebsiteMissionId()) {
+		if (!options.preserveCurrent || !selectedWebsiteMissionId()) {
 			$("websiteMissionId").value = got.mission.id;
 		}
 		renderWebsiteMissionSummary(got.mission);
@@ -561,7 +626,7 @@ function renderWebsiteMissionList() {
 		return;
 	}
 	root.replaceChildren(...records.map(record => h("button", {
-		className: `awt-room-card ${record.id === currentWebsiteMissionId() ? "is-active" : ""}`,
+		className: `awt-room-card ${(record.id || record.websiteMissionId) === selectedWebsiteMissionId() ? "is-active" : ""}`,
 		type: "button",
 		data: { websiteMissionId: record.id || record.websiteMissionId || "" },
 		on: { click: () => selectWebsiteMission(record) }
@@ -634,7 +699,7 @@ function renderWebsiteRoster(agents = []) {
 }
 
 function openWebsiteMissionRoom() {
-	const id = currentWebsiteMissionId();
+	const id = requireWebsiteMissionId();
 	const record = websiteMissions.find(item =>
 		(item.id || item.websiteMissionId) === id
 	);
@@ -652,8 +717,12 @@ function openWebsiteMissionRoom() {
 	}
 }
 
-function currentWebsiteMissionId() {
-	const id = String($("websiteMissionId")?.value || "").trim();
+function selectedWebsiteMissionId() {
+	return String($("websiteMissionId")?.value || "").trim();
+}
+
+function requireWebsiteMissionId() {
+	const id = selectedWebsiteMissionId();
 	if (!id) throw new Error("website_mission_id_required");
 	return id;
 }
@@ -717,6 +786,15 @@ export function websiteMissionMessagePayload(input = {}) {
 		toAgent: String(input.toAgent || "all").trim() || "all",
 		body: String(input.body || "").trim()
 	};
+}
+
+/** Keeps a selected mission when present and otherwise reveals the newest roster. */
+export function preferredWebsiteMission(records = [], selectedId = "") {
+	const missions = Array.isArray(records) ? records : [];
+	const id = String(selectedId || "").trim();
+	return missions.find(record =>
+		String(record?.id || record?.websiteMissionId || "") === id
+	) || missions[0] || null;
 }
 
 function boundedNumber(value, fallback, minimum, maximum) {

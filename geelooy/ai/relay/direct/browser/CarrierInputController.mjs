@@ -27,8 +27,23 @@ export class CarrierInputController {
 		await this.sleep(150);
 		await this.selectAll();
 		await this.pressKey({ key: "Backspace", code: "Backspace", keyCode: 8 });
-		await this.textController.replace(this.locator(locator), text);
+		await this.textController.replace(locator, text, {
+			prepareCharacterFallback: async renewedLocator => {
+				await this.focusComposer(renewedLocator);
+				await this.selectAll();
+				await this.pressKey({
+					key: "Backspace",
+					code: "Backspace",
+					keyCode: 8
+				});
+			}
+		});
 		await this.sleep(300);
+	}
+
+	async activateNode(locator) {
+		await this.focusNode(locator);
+		await this.pressKey({ key: "Enter", code: "Enter", keyCode: 13 });
 	}
 
 	async submitFocusedComposer() {

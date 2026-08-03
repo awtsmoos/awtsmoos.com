@@ -18,7 +18,8 @@ const cases = [
 	[{ message: "HTTP/1.1 502 Bad Gateway" }, "proxy"],
 	[{ code: "CERT_HAS_EXPIRED", message: "certificate expired" }, "certificate"],
 	[{ code: "websocket_accept_mismatch", message: "protocol mismatch" }, "protocol"],
-	[{ code: "event_loop_stall", message: "scheduler stall" }, "liveness"]
+	[{ code: "event_loop_stall", message: "scheduler stall" }, "liveness"],
+	[{ message: "invalid_device_credential" }, "authentication"]
 ];
 const failures = cases.map(([error, category]) => {
 	const result = Failure.classify(error, "connect");
@@ -29,9 +30,14 @@ const history = failures.reduce((items, failure) => History.append(items, failur
 assert.equal(history.length, 5);
 const summary = History.summary(history);
 assert.equal(summary.count, 5);
-assert.equal(summary.last.category, "liveness");
+assert.equal(summary.last.category, "authentication");
 assert.equal(Failure.classify(new Error("HTTP 502 Bad Gateway")).upstreamLikely, true);
 assert.equal(Failure.classify({ code: "event_loop_stall" }).localLikely, true);
+const rejectedCredential = Failure.classify("invalid_device_credential", "registration");
+assert.equal(rejectedCredential.category, "authentication");
+assert.equal(rejectedCredential.phase, "registration");
+assert.equal(rejectedCredential.code, "invalid_device_credential");
+assert.equal(rejectedCredential.retryable, true);
 
 console.log(JSON.stringify({
 	ok: true,

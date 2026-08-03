@@ -26,7 +26,14 @@ function createRuntime() {
 	});
 
 	function send(message) {
-		try { process.send?.(message); return true; }
+		if (!process.connected || typeof process.send !== "function") return false;
+		try {
+			process.send(message, error => {
+				if (!error) return;
+				if (error.code === "ERR_IPC_CHANNEL_CLOSED") terminal = true;
+			});
+			return true;
+		}
 		catch { return false; }
 	}
 

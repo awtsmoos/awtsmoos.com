@@ -16,13 +16,16 @@ export class ConversationStore {
 	constructor({
 		ttlMs = 1000 * 60 * 60 * 24 * 7,
 		maximumEntries = 500,
-		storagePath = defaultStoragePath()
+		storagePath = defaultStoragePath(),
+		legacyStoragePath = defaultLegacyStoragePath()
 	} = {}) {
 		this.ttlMs = ttlMs;
 		this.maximumEntries = maximumEntries;
 		this.storagePath = storagePath === false ? null : storagePath;
+		this.legacyStoragePath = legacyStoragePath === false ? null : legacyStoragePath;
 		this.entries = new Map();
 		this.ensurePrivateDirectory();
+		this.migrateLegacyStorage();
 		this.load();
 	}
 
@@ -136,10 +139,45 @@ export class ConversationStore {
 		fs.chmodSync(directory, 0o700);
 		return directory;
 	}
+
+	migrateLegacyStorage() {
+		if (!this.storagePath || !this.legacyStoragePath) return false;
+		if (path.resolve(this.storagePath) === path.resolve(this.legacyStoragePath)) return false;
+		if (fs.existsSync(this.storagePath) || !fs.existsSync(this.legacyStoragePath)) return false;
+		try {
+			fs.chmodSync(path.dirname(this.legacyStoragePath), 0o700);
+			fs.chmodSync(this.legacyStoragePath, 0o600);
+			fs.copyFileSync(this.legacyStoragePath, this.storagePath, fs.constants.COPYFILE_EXCL);
+			fs.chmodSync(this.storagePath, 0o600);
+			return true;
+		} catch {
+			return false;
+		}
+	}
 }
 
-function defaultStoragePath() {
-	const root = process.env.AWTSMOOS_INSTALL_ROOT
-		|| path.join(os.homedir(), ".awtsmoos-tunnel");
-	return path.join(root, "private", "chatgpt-conversations.json");
+export function defaultPrivateStateRoot(environment = process.env) {
+	if (environment.AWTSMOOS_PRIVATE_STATE_ROOT) {
+		return path.resolve(environment.AWTSMOOS_PRIVATE_STATE_ROOT);
+	}
+	const installRoot = path.resolve(
+		environment.AWTSMOOS_INSTALL_ROOT ||
+		path.join(os.homedir(), ".awtsmoos-tunnel")
+	);
+	const recoveryRoot = path.resolve(
+		environment.AWTSMOOS_RECOVERY_ROOT || `${installRoot}-recovery`
+	);
+	return path.join(recoveryRoot, "state", "private");
+}
+
+export function defaultStoragePath(environment = process.env) {
+	return path.join(defaultPrivateStateRoot(environment), "chatgpt-conversations.json");
+}
+
+export function defaultLegacyStoragePath(environment = process.env) {
+	const installRoot = path.resolve(
+		environment.AWTSMOOS_INSTALL_ROOT ||
+		path.join(os.homedir(), ".awtsmoos-tunnel")
+	);
+	return path.join(installRoot, "private", "chatgpt-conversations.json");
 }

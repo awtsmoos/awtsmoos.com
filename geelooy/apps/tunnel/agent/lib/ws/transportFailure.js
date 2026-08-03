@@ -18,7 +18,7 @@ function classify(input, phase = "unknown") {
 		at: new Date().toISOString(),
 		category,
 		phase: phaseFor(category, phase),
-		code: code || codeFor(category),
+		code: code || codeFor(category, normalized),
 		message: message.slice(0, 500),
 		retryable: !["configuration", "certificate", "protocol"].includes(category),
 		upstreamLikely: ["dns", "network", "proxy", "reset", "timeout"].includes(category),
@@ -27,6 +27,7 @@ function classify(input, phase = "unknown") {
 }
 
 function categoryFor(value, phase) {
+	if (/invalid_device_credential/.test(value)) return "authentication";
 	if (/enotfound|eai_again|dns/.test(value)) return "dns";
 	if (/cert_|err_tls_|certificate|self signed/.test(value)) return "certificate";
 	if (/502|503|504|bad gateway|service unavailable|gateway timeout/.test(value)) return "proxy";
@@ -42,6 +43,7 @@ function categoryFor(value, phase) {
 }
 
 function phaseFor(category, fallback) {
+	if (category === "authentication") return "registration";
 	if (category === "dns") return "dns";
 	if (category === "certificate") return "tls";
 	if (category === "proxy" || category === "protocol") return "websocket_handshake";
@@ -49,8 +51,10 @@ function phaseFor(category, fallback) {
 	if (category === "liveness") return "liveness";
 	return fallback;
 }
-
-function codeFor(category) {
+function codeFor(category, value = "") {
+	if (category === "authentication" && /invalid_device_credential/.test(value)) {
+		return "invalid_device_credential";
+	}
 	return `transport_${category}`;
 }
 

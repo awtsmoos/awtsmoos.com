@@ -1,5 +1,5 @@
 B"H
-1.0.460
+1.0.461
 main.js
 ai/relay/direct/browser/AuthenticatedHostHealth.mjs
 ai/relay/direct/browser/AuthenticatedHostLease.mjs
@@ -870,6 +870,7 @@ lib/local-api.js
 lib/local-browser-relay.js
 lib/log.js
 lib/open.js
+lib/privateStateRoot.js
 lib/registration.js
 lib/remoteNativeDesktop/input/keyboard.js
 lib/remoteNativeDesktop/input/pointer.js

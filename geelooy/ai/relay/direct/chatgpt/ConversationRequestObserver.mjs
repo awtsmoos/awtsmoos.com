@@ -22,26 +22,43 @@ export class ConversationRequestObserver {
 		await this.cdpClient.send("Network.enable");
 		let timer = null;
 		let settled = false;
+		let claimed = false;
 		let removeListener = () => {};
+		let rejectObserved = () => {};
 		const observed = new Promise((resolve, reject) => {
 			const settle = (action, value) => {
 				if (settled) return;
 				settled = true;
 				action(value);
 			};
+			rejectObserved = error => settle(reject, error);
 			removeListener = this.cdpClient.on("Network.requestWillBeSent", event => {
-				if (!this.matches(event.request)) return;
+				if (claimed || !this.matches(event.request)) return;
+				claimed = true;
 				this.describe(event).then(
 					value => settle(resolve, value),
 					error => settle(reject, error)
 				);
 			});
-			timer = setTimeout(() => {
-				settle(reject, new Error("Timed out observing the ChatGPT conversation request."));
-			}, this.timeoutMs);
 		});
+		observed.catch(() => undefined);
 		try {
-			await trigger();
+			let triggerError = null;
+			try {
+				await trigger();
+			} catch (error) {
+				triggerError = error;
+			}
+			if (triggerError && !claimed) throw triggerError;
+			if (!settled) {
+				timer = setTimeout(() => {
+					const error = new Error(
+						"Timed out observing the ChatGPT conversation request."
+					);
+					if (triggerError) error.cause = triggerError;
+					rejectObserved(error);
+				}, this.timeoutMs);
+			}
 			return await observed;
 		} finally {
 			clearTimeout(timer);

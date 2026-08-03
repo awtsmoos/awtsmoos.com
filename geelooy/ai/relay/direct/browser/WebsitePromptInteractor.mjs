@@ -3,6 +3,7 @@
 // Blessed is He
 
 import { CarrierInputController } from "./CarrierInputController.mjs";
+import { CarrierControlGate } from "./CarrierControlGate.mjs";
 import { CarrierNodeFinder } from "./CarrierNodeFinder.mjs";
 
 const COMPOSER_SELECTORS = [
@@ -20,10 +21,12 @@ const COMPOSER_SELECTORS = [
 export class WebsitePromptInteractor {
 	constructor(cdpClient, {
 		nodeFinder = new CarrierNodeFinder(cdpClient),
-		inputController = new CarrierInputController(cdpClient)
+		inputController = new CarrierInputController(cdpClient),
+		controlGate = new CarrierControlGate(cdpClient)
 	} = {}) {
 		this.nodeFinder = nodeFinder;
 		this.inputController = inputController;
+		this.controlGate = controlGate;
 	}
 
 	async submit(prompt) {
@@ -33,11 +36,14 @@ export class WebsitePromptInteractor {
 		const composer = await this.nodeFinder.findFirst(COMPOSER_SELECTORS);
 		if (!composer) throw new Error("The ChatGPT composer was not visible.");
 		await this.inputController.focusAndReplace(composer, prompt);
-		await this.inputController.submitFocusedComposer();
+		const ready = await this.controlGate.waitUntilReady();
+		const send = await this.nodeFinder.findFirst([ready.sendSelector]);
+		if (!send) throw new Error("The ordinary ChatGPT Send button was not visible.");
+		await this.inputController.activateNode(send);
 		return {
 			composerTouched: true,
 			sendActivated: true,
-			submissionGesture: "composer-enter"
+			submissionGesture: "send-button-keyboard"
 		};
 	}
 }

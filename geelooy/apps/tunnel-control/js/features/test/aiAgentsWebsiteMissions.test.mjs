@@ -38,6 +38,7 @@ globalThis.document = {
 
 const {
 	aiAgents,
+	preferredWebsiteMission,
 	websiteMissionMessagePayload,
 	websiteMissionStartPayload,
 	websiteMissionStatusPayload
@@ -100,6 +101,14 @@ assert.deepEqual(websiteMissionMessagePayload({
 	toAgent: "website_03_browser",
 	body: "Continue and report."
 });
+
+const missions = [
+	{ id: "web_new", missionId: "mission_new", agents: [{ id: "agent_1" }] },
+	{ id: "web_old", missionId: "mission_old", agents: [{ id: "agent_2" }] }
+];
+assert.equal(preferredWebsiteMission(missions, "web_old").id, "web_old");
+assert.equal(preferredWebsiteMission(missions, "").id, "web_new");
+assert.equal(preferredWebsiteMission([], "web_old"), null);
 
 function walk(node, output = []) {
 	if (!node || typeof node !== "object") return output;

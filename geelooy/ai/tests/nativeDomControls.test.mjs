@@ -6,6 +6,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { CarrierControlGate } from "../relay/direct/browser/CarrierControlGate.mjs";
 import { CarrierNodeFinder } from "../relay/direct/browser/CarrierNodeFinder.mjs";
+import { WebsitePromptInteractor } from "../relay/direct/browser/WebsitePromptInteractor.mjs";
 
 /** Native node discovery queries the DOM domain and verifies a visible box. */
 test("native node finder avoids page-context evaluation", async () => {
@@ -51,4 +52,37 @@ test("native control gate reads only nodes and attributes", async () => {
 		sendSelector: "button[data-testid='send-button']",
 		reason: "ready"
 	});
+});
+
+test("website prompt uses the visible composer and ordinary Send button", async () => {
+	const calls = [];
+	const interactor = new WebsitePromptInteractor({}, {
+		nodeFinder: {
+			async findFirst(selectors) {
+				calls.push(["find", selectors]);
+				return calls.filter(([kind]) => kind === "find").length === 1
+					? { nodeId: 7, selector: "#prompt-textarea" }
+					: { nodeId: 9, selector: "button[data-testid='send-button']" };
+			}
+		},
+		inputController: {
+			async focusAndReplace(locator, text) {
+				calls.push(["replace", locator, text]);
+			},
+			async activateNode(locator) {
+				calls.push(["activate", locator]);
+			}
+		},
+		controlGate: {
+			async waitUntilReady() {
+				calls.push(["ready"]);
+				return { sendSelector: "button[data-testid='send-button']" };
+			}
+		}
+	});
+	const result = await interactor.submit("B\"H exact prompt");
+	assert.equal(result.submissionGesture, "send-button-keyboard");
+	assert.deepEqual(calls.map(([kind]) => kind), [
+		"find", "replace", "ready", "find", "activate"
+	]);
 });

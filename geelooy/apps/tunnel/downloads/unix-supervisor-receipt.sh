@@ -60,6 +60,59 @@ try {
 NODE
 }
 
+# Returns one shell-safe, bounded recovery reason instead of embedding the JSON
+# diagnostic produced by supervisor_receipt_state() in a command-line argument.
+supervisor_receipt_failure_reason() {
+	local pid="$1"
+	local max_age_ms="${2:-$(supervisor_receipt_stale_ms)}"
+	node - "$ROOT/connection-state.json" "$pid" "$(supervisor_expected_tunnel)" \
+		"$max_age_ms" "${AWTSMOOS_ACTIVATION_ID:-}" "$(supervisor_expected_version)" <<'NODE'
+const fs = require("node:fs");
+const [file, expectedPid, expectedName, maximumAge, activationId, version] = process.argv.slice(2);
+
+function token(value, fallback = "unknown") {
+	const normalized = String(value || "").trim().toLowerCase()
+		.replace(/[^a-z0-9_.:-]+/g, "_")
+		.replace(/^_+|_+$/g, "")
+		.slice(0, 120);
+	return normalized || fallback;
+}
+
+function output(reason) {
+	process.stdout.write(`registration_${token(reason)}`);
+}
+
+let receipt;
+try {
+	receipt = JSON.parse(fs.readFileSync(file, "utf8"));
+} catch (error) {
+	output(error?.code === "ENOENT" ? "receipt_missing" : "receipt_invalid");
+	process.exit(0);
+}
+
+if (receipt.state !== "registered") {
+	output(receipt.reason || receipt.state || "unknown");
+} else if (Number(receipt.pid) !== Number(expectedPid)) {
+	output("receipt_pid_mismatch");
+} else if (receipt.tunnelName !== expectedName) {
+	output("tunnel_name_mismatch");
+} else if (!String(receipt.tunnelId || "").startsWith("tun_")) {
+	output("tunnel_id_missing");
+} else if (activationId && receipt.activationId !== activationId) {
+	output("activation_mismatch");
+} else if (receipt.runtimeVersion !== version) {
+	output("runtime_version_mismatch");
+} else {
+	const timestamp = Date.parse(receipt.lastServerMessageAt || receipt.updatedAt || "");
+	const ageMs = Date.now() - timestamp;
+	if (!Number.isFinite(timestamp)) output("receipt_timestamp_invalid");
+	else if (ageMs < 0) output("receipt_timestamp_future");
+	else if (ageMs > Number(maximumAge)) output("receipt_stale");
+	else output("stability_timeout");
+}
+NODE
+}
+
 supervisor_receipt_summary() {
 	local pid="$1"
 	node - "$ROOT/connection-state.json" "$pid" "$(supervisor_expected_tunnel)" \

@@ -12,9 +12,13 @@ export class CarrierTextController {
 		this.cdpClient = cdpClient;
 	}
 
-	async replace(locator, text) {
+	async replace(locator, text, { prepareCharacterFallback = null } = {}) {
 		await this.insertText(text);
 		if (await this.contains(locator, text)) return;
+		if (typeof prepareCharacterFallback !== "function") {
+			throw new Error("The exact prompt did not enter the ChatGPT composer.");
+		}
+		await prepareCharacterFallback(await this.currentLocator(locator));
 		await this.dispatchCharacters(text);
 		if (await this.contains(locator, text)) return;
 		throw new Error("The exact prompt did not enter the ChatGPT composer.");
@@ -32,7 +36,7 @@ export class CarrierTextController {
 		try {
 			const current = await this.currentLocator(locator);
 			const result = await this.cdpClient.send("DOM.getOuterHTML", current, 10000);
-			return this.normalize(result.outerHTML).includes(this.normalize(text));
+			return this.composerText(result.outerHTML) === this.normalizeText(text);
 		} catch (error) {
 			throw this.stageError("DOM.getOuterHTML", error);
 		}
@@ -73,14 +77,37 @@ export class CarrierTextController {
 		}
 	}
 
-	normalize(value) {
+	composerText(outerHtml) {
+		const html = String(outerHtml ?? "");
+		const openingEnd = html.indexOf(">");
+		const closingStart = html.lastIndexOf("</");
+		const inner = openingEnd >= 0 && closingStart > openingEnd
+			? html.slice(openingEnd + 1, closingStart)
+			: html;
+		return this.normalizeText(inner
+			.replace(/<br\s*\/?>/gi, "\n")
+			.replace(/<\/(?:p|div|li)>/gi, "\n")
+			.replace(/<[^>]+>/g, "")
+			.replace(/\n$/, ""));
+	}
+
+	normalizeText(value) {
 		return String(value ?? "")
 			.replaceAll("&quot;", '"')
-			.replaceAll("&amp;", "&")
+			.replaceAll("&#x27;", "'")
 			.replaceAll("&#39;", "'")
-			.replace(/<[^>]+>/g, "")
-			.replace(/\s+/g, " ")
-			.trim();
+			.replaceAll("&lt;", "<")
+			.replaceAll("&gt;", ">")
+			.replaceAll("&nbsp;", " ")
+			.replace(/&#x([0-9a-f]+);/gi, (_match, hex) => {
+				return String.fromCodePoint(Number.parseInt(hex, 16));
+			})
+			.replace(/&#([0-9]+);/g, (_match, decimal) => {
+				return String.fromCodePoint(Number.parseInt(decimal, 10));
+			})
+			.replaceAll("&amp;", "&")
+			.replace(/\r\n?/g, "\n")
+			.replaceAll("\u00a0", " ");
 	}
 
 	stageError(stage, error) {

@@ -26,14 +26,14 @@ const Store = require("../tools/fs/actionGroups/websiteAgents/store.js");
 			fs.statSync(path.join(process.env.AWTSMOOS_INSTALL_ROOT, "private")).mode & 0o777,
 			0o700
 		);
-		assert.equal(
-			fs.statSync(path.join(
-				process.env.AWTSMOOS_INSTALL_ROOT,
-				"private",
-				"website-agent-missions"
-			)).mode & 0o777,
-			0o700
-		);
+			assert.equal(
+				fs.statSync(path.dirname(Store.DIRECTORY)).mode & 0o777,
+				0o700
+			);
+			assert.equal(
+				fs.statSync(Store.DIRECTORY).mode & 0o777,
+				0o700
+			);
 		console.log(JSON.stringify({
 			ok: true,
 			suite: "website-agent-mission-lifecycle",

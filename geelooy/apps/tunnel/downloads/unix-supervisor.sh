@@ -71,7 +71,7 @@ while true; do
 	fi
 
 	if ! wait_child_registration; then
-		report_registration_failure "registration_$(supervisor_receipt_state)"
+		report_registration_failure "$(supervisor_receipt_failure_reason "$CHILD_PID")"
 		stop_managed_child
 		record_child_exit "$START_SECONDS" 70
 		BACKOFF_SECONDS=$(( BACKOFF_SECONDS * 2 ))

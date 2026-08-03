@@ -70,6 +70,12 @@ const Runner = require("../tools/fs/actionGroups/websiteAgents/runner.js");
 		assert.ok(status.room.messages.some(message =>
 			message.kind === "website-agent-update"
 		));
+		assert.equal(
+			status.room.messages.filter(message =>
+				message.kind === "website-agent-progress"
+			).length,
+			3
+		);
 		assert.equal(status.room.openDelegations.length, 0);
 		assert.ok(status.mission.agents.every(agent =>
 			agent.hasPrivateContinuation && !("conversationKey" in agent)
