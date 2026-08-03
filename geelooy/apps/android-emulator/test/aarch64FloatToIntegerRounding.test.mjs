@@ -73,9 +73,17 @@ test("rounding preserves saturation, NaN, infinity, and zero destination", () =>
 	assert.equal(registers.sp, 0x9000n);
 });
 
-test("fixed-point and reserved rounding subopcodes remain unknown", () => {
+test("fixed-point bit overlaps legal FCCMP while reserved words stay unknown", () => {
 	const base = encode({ subopcode: SUBOPCODES.fcvtps });
-	for (const word of [base | (1 << 10), encode({ subopcode: 10 }), 0x00000000]) {
+	const overlap = decodeAarch64Instruction((base | (1 << 10)) >>> 0);
+	assert.equal(overlap.family, "floating-conditional-compare");
+	assert.equal(overlap.mnemonic, "fccmp");
+	assert.equal(overlap.width, 32);
+	assert.equal(overlap.firstSource, 1);
+	assert.equal(overlap.secondSource, 8);
+	assert.equal(overlap.conditionName, "eq");
+	assert.equal(overlap.fallbackNzcv, 2);
+	for (const word of [encode({ subopcode: 10 }), 0x00000000]) {
 		assert.equal(decodeAarch64Instruction(word >>> 0).family, "unknown");
 	}
 });

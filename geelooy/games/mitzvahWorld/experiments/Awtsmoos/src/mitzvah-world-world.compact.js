@@ -676,33 +676,41 @@ var __awtsmoosModule_639;
 var __awtsmoosModule_638;
 var __awtsmoosModule_640;
 var __awtsmoosModule_637;
-var __awtsmoosModule_642;
+var __awtsmoosModule_645;
 var __awtsmoosModule_644;
 var __awtsmoosModule_643;
-var __awtsmoosModule_645;
-var __awtsmoosModule_641;
 var __awtsmoosModule_646;
 var __awtsmoosModule_647;
-var __awtsmoosModule_598;
+var __awtsmoosModule_648;
+var __awtsmoosModule_642;
 var __awtsmoosModule_650;
 var __awtsmoosModule_649;
+var __awtsmoosModule_641;
+var __awtsmoosModule_651;
 var __awtsmoosModule_652;
 var __awtsmoosModule_653;
-var __awtsmoosModule_651;
-var __awtsmoosModule_648;
+var __awtsmoosModule_598;
+var __awtsmoosModule_658;
+var __awtsmoosModule_657;
 var __awtsmoosModule_656;
 var __awtsmoosModule_655;
-var __awtsmoosModule_659;
-var __awtsmoosModule_658;
 var __awtsmoosModule_660;
 var __awtsmoosModule_661;
-var __awtsmoosModule_657;
-var __awtsmoosModule_662;
-var __awtsmoosModule_664;
-var __awtsmoosModule_665;
-var __awtsmoosModule_663;
+var __awtsmoosModule_659;
 var __awtsmoosModule_654;
+var __awtsmoosModule_664;
+var __awtsmoosModule_663;
+var __awtsmoosModule_667;
 var __awtsmoosModule_666;
+var __awtsmoosModule_668;
+var __awtsmoosModule_669;
+var __awtsmoosModule_665;
+var __awtsmoosModule_670;
+var __awtsmoosModule_672;
+var __awtsmoosModule_673;
+var __awtsmoosModule_671;
+var __awtsmoosModule_662;
+var __awtsmoosModule_674;
 var __awtsmoosModule_557;
 var __awtsmoosModule_556;
 var __awtsmoosModule_1;
@@ -47818,8 +47826,382 @@ function diagnostics(records, barkFallback, leafFallback) {
 }
 return Object.freeze(__exports);
 })();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainNoise.js */
+__awtsmoosModule_645 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowTerrainNoise.js
+ * @description Supplies deterministic, continuous low-frequency variation for the unified meadow.
+ * The Awtsmoos renews every point without cutting creation into squares; Awtsmoos.com lets each
+ * lattice corner pour softly into the next until broad earth, moss, and grass become one field.
+ */
+
+/**
+ * Returns continuous value noise in the inclusive range zero through one.
+ *
+ * @param {number} x World-space X coordinate.
+ * @param {number} z World-space Z coordinate.
+ * @param {number} scale World-to-noise frequency.
+ * @param {number} seed Deterministic variation seed.
+ * @returns {number} Smooth noise value.
+ */
+function minimalMeadowValueNoise(x, z, scale = 1, seed = 0) {
+	const pointX = finite(x) * positive(scale);
+	const pointZ = finite(z) * positive(scale);
+	const cellX = Math.floor(pointX);
+	const cellZ = Math.floor(pointZ);
+	const localX = smooth(pointX - cellX);
+	const localZ = smooth(pointZ - cellZ);
+	const low = mix(
+		hash(cellX, cellZ, seed),
+		hash(cellX + 1, cellZ, seed),
+		localX
+	);
+	const high = mix(
+		hash(cellX, cellZ + 1, seed),
+		hash(cellX + 1, cellZ + 1, seed),
+		localX
+	);
+	return mix(low, high, localZ);
+}
+
+
+__exports.minimalMeadowValueNoise = minimalMeadowValueNoise;
+/**
+ * Joins several broad octaves without introducing coordinate discontinuities.
+ *
+ * @param {number} x World-space X coordinate.
+ * @param {number} z World-space Z coordinate.
+ * @param {object} options Frequency, octave, persistence, and seed controls.
+ * @returns {number} Normalized fractal noise.
+ */
+function minimalMeadowFractalNoise(x, z, options = {}) {
+	const octaves = Math.max(1, Math.floor(finite(options.octaves, 3)));
+	const persistence = clamp(finite(options.persistence, 0.52));
+	let frequency = positive(options.scale, 0.018);
+	let amplitude = 1;
+	let total = 0;
+	let weight = 0;
+	for (let octave = 0; octave < octaves; octave += 1) {
+		total += minimalMeadowValueNoise(x, z, frequency, finite(options.seed) + octave * 37) * amplitude;
+		weight += amplitude;
+		amplitude *= persistence;
+		frequency *= 2.07;
+	}
+	return weight ? total / weight : 0;
+}
+
+
+__exports.minimalMeadowFractalNoise = minimalMeadowFractalNoise;
+function hash(x, z, seed) {
+	const value = Math.sin(x * 127.1 + z * 311.7 + finite(seed) * 74.7) * 43758.5453123;
+	return value - Math.floor(value);
+}
+
+function smooth(value) {
+	return value * value * (3 - 2 * value);
+}
+
+function mix(left, right, amount) {
+	return left + (right - left) * amount;
+}
+
+function positive(value, fallback = 1) {
+	const number = finite(value, fallback);
+	return number > 0 ? number : fallback;
+}
+
+function finite(value, fallback = 0) {
+	const number = Number(value);
+	return Number.isFinite(number) ? number : fallback;
+}
+
+function clamp(value) {
+	return Math.max(0, Math.min(1, value));
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainBlendModel.js */
+__awtsmoosModule_644 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowTerrainBlendModel.js
+ * @description Models continuous ecological and road weights over the full meadow in world space.
+ * The Awtsmoos reveals stone, shoulder, moss, soil, and grass as interwoven lights; Awtsmoos.com
+ * preserves each source while smooth masks let no finite cell pretend to be a separate landscape.
+ */
+
+var minimalMeadowRoadWeights = __awtsmoosModule_278.minimalMeadowRoadWeights;
+var minimalMeadowFractalNoise = __awtsmoosModule_645.minimalMeadowFractalNoise;
+
+const DISPLAY_COLORS = Object.freeze({
+	dry: Object.freeze([0.48, 0.45, 0.23]),
+	lush: Object.freeze([0.18, 0.43, 0.16]),
+	moss: Object.freeze([0.22, 0.34, 0.16]),
+	roadCenter: Object.freeze([0.53, 0.45, 0.34]),
+	roadShoulder: Object.freeze([0.42, 0.34, 0.23]),
+	soil: Object.freeze([0.31, 0.24, 0.15])
+});
+
+/**
+ * Samples normalized meadow and road material weights at one world point.
+ *
+ * @param {object} input World coordinates plus height, slope, and moisture.
+ * @returns {object} Continuous factors, nearest road data, and normalized weights.
+ */
+function sampleMinimalMeadowTerrainBlend(input = {}) {
+	const x = finite(input.x);
+	const z = finite(input.z);
+	const slope = clamp(input.slope);
+	const height = clamp((finite(input.height) + 18) / 58);
+	const moisture = clamp(input.moisture ?? inferredMoisture(x, z, height));
+	const macro = minimalMeadowFractalNoise(x, z, { scale: 0.009, seed: 13 });
+	const detail = minimalMeadowFractalNoise(x, z, { scale: 0.027, seed: 71 });
+	const road = normalizedRoadWeights(x, z, input.centerWidth, input.shoulderWidth);
+	const meadow = normalizedMeadowWeights({ detail, height, macro, moisture, slope }, road.grass);
+	const weights = Object.freeze({
+		...meadow,
+		roadCenter: road.center,
+		roadShoulder: road.shoulder
+	});
+	return Object.freeze({
+		color: Object.freeze(minimalMeadowBlendColor(weights)),
+		factors: Object.freeze({ detail, height, macro, moisture, slope }),
+		nearestRoad: road.nearest,
+		weights
+	});
+}
+
+
+__exports.sampleMinimalMeadowTerrainBlend = sampleMinimalMeadowTerrainBlend;
+/**
+ * Converts normalized material weights into a deterministic analytical color sample.
+ *
+ * @param {object} weights Material weights.
+ * @returns {number[]} Linear RGB triplet.
+ */
+function minimalMeadowBlendColor(weights = {}) {
+	return [0, 1, 2].map(channel => Object.entries(DISPLAY_COLORS).reduce(
+		(total, [role, color]) => total + finite(weights[role]) * color[channel],
+		0
+	));
+}
+
+
+__exports.minimalMeadowBlendColor = minimalMeadowBlendColor;
+/**
+ * Samples a large deterministic world grid for acceptance evidence.
+ *
+ * @param {object} options Bounds, spacing, and optional environmental sampler.
+ * @returns {object[]} Frozen material samples.
+ */
+function sampleMinimalMeadowBlendGrid(options = {}) {
+	const minimum = finite(options.minimum, -110);
+	const maximum = finite(options.maximum, 110);
+	const spacing = Math.max(0.25, finite(options.spacing, 5));
+	const environment = options.environment || (() => ({}));
+	const samples = [];
+	for (let z = minimum; z <= maximum + spacing * 0.25; z += spacing) {
+		for (let x = minimum; x <= maximum + spacing * 0.25; x += spacing) {
+			samples.push({ x, z, ...sampleMinimalMeadowTerrainBlend({ x, z, ...environment(x, z) }) });
+		}
+	}
+	return Object.freeze(samples);
+}
+
+
+__exports.sampleMinimalMeadowBlendGrid = sampleMinimalMeadowBlendGrid;
+function normalizedRoadWeights(x, z, centerWidth, shoulderWidth) {
+	const road = minimalMeadowRoadWeights(x, z, centerWidth, shoulderWidth);
+	const total = Math.max(0.000001, road.center + road.shoulder + road.grass);
+	return {
+		center: road.center / total,
+		grass: road.grass / total,
+		nearest: road.nearest,
+		shoulder: road.shoulder / total
+	};
+}
+
+function normalizedMeadowWeights(factors, meadowWeight) {
+	const raw = {
+		dry: (0.42 + (1 - factors.moisture) * 1.2) * (0.55 + 1 - factors.macro),
+		lush: (0.52 + factors.moisture * 1.25) * (0.62 + factors.macro),
+		moss: (0.18 + factors.moisture * 1.5) * (0.5 + factors.detail),
+		soil: (0.22 + factors.slope * 1.15 + (1 - factors.height) * 0.28) * (0.55 + 1 - factors.detail)
+	};
+	const total = Object.values(raw).reduce((sum, value) => sum + value, 0) || 1;
+	return Object.fromEntries(Object.entries(raw).map(([role, value]) => [role, value / total * meadowWeight]));
+}
+
+function inferredMoisture(x, z, height) {
+	const broad = minimalMeadowFractalNoise(x + 41, z - 23, { scale: 0.007, seed: 29 });
+	return clamp(broad * 0.78 + (1 - height) * 0.22);
+}
+
+function finite(value, fallback = 0) {
+	const number = Number(value);
+	return Number.isFinite(number) ? number : fallback;
+}
+
+function clamp(value) {
+	return Math.max(0, Math.min(1, finite(value)));
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEcologyField.js */
+__awtsmoosModule_643 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowEcologyField.js
+ * @description Derives grass, flower, tree, soil, moisture, and exposure fields from one terrain blend.
+ * The Awtsmoos lets every root and petal answer the same interwoven earth;
+ * Awtsmoos.com keeps roads clear, wet ground fertile, slopes sparse, and all variation deterministic.
+ */
+
+var sampleMinimalMeadowTerrainBlend = __awtsmoosModule_644.sampleMinimalMeadowTerrainBlend;
+
+function sampleMinimalMeadowEcology(terrain, x, z, options = {}) {
+	const height = finite(options.height, terrain?.heightAt?.(x, z));
+	const slope = clamp(options.slope ?? estimateSlope(terrain, x, z));
+	const blend = sampleMinimalMeadowTerrainBlend({
+		height,
+		moisture: options.moisture,
+		slope,
+		x,
+		z
+	});
+	const road = clamp(blend.weights.roadCenter + blend.weights.roadShoulder * 0.72);
+	const meadow = 1 - road;
+	const moisture = blend.factors.moisture;
+	const fertility = clamp(
+		blend.weights.lush * 1.2
+		+ blend.weights.moss * 0.92
+		+ blend.weights.soil * 0.36
+		- slope * 0.34
+	);
+	const exposure = clamp(
+		blend.weights.dry * 0.9
+		+ slope * 0.72
+		+ blend.factors.height * 0.28
+	);
+	return Object.freeze({
+		blend,
+		exposure,
+		fertility,
+		flowerDensity: clamp(meadow * fertility * (0.42 + moisture * 0.78)),
+		grassDensity: clamp(meadow * (0.52 + fertility * 0.64 - slope * 0.22)),
+		height,
+		moisture,
+		road,
+		slope,
+		treeAffinity: clamp(meadow * (0.3 + fertility * 0.86 - slope * 0.44)),
+		zone: ecologyZone({ exposure, fertility, moisture, road, slope })
+	});
+}
+
+
+__exports.sampleMinimalMeadowEcology = sampleMinimalMeadowEcology;
+function estimateSlope(terrain, x, z) {
+	if (!terrain?.heightAt) return 0;
+	const span = 1.5;
+	const left = finite(terrain.heightAt(x - span, z));
+	const right = finite(terrain.heightAt(x + span, z));
+	const back = finite(terrain.heightAt(x, z - span));
+	const front = finite(terrain.heightAt(x, z + span));
+	return clamp(Math.hypot(right - left, front - back) / (span * 5));
+}
+
+function ecologyZone(value) {
+	if (value.road > 0.3) return 'path-edge';
+	if (value.moisture > 0.67 && value.slope < 0.42) return 'wet-meadow';
+	if (value.exposure > 0.62) return 'dry-upland';
+	if (value.fertility > 0.58) return 'flower-meadow';
+	return 'mixed-meadow';
+}
+
+function finite(value, fallback = 0) {
+	const number = Number(value);
+	return Number.isFinite(number) ? number : fallback;
+}
+
+function clamp(value) {
+	return Math.max(0, Math.min(1, finite(value)));
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeSpeciesProfiles.js */
+__awtsmoosModule_646 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowTreeSpeciesProfiles.js
+ * @description Chooses recognizable tree presets, age, crown, and wind character from meadow ecology.
+ * The Awtsmoos lets birch, pine, ash, and oak answer distinct earth while remaining one forest;
+ * Awtsmoos.com preserves canonical procedural presets, deterministic fallback, and traversal-safe scale.
+ */
+
+const GROUPS = Object.freeze({
+	'dry-upland': Object.freeze(['Pine Small', 'Birch Small', 'Oak Small']),
+	'flower-meadow': Object.freeze(['Oak Small', 'Ash Small', 'Birch Small']),
+	'mixed-meadow': Object.freeze(['Ash Small', 'Oak Small', 'Pine Small', 'Birch Small']),
+	'path-edge': Object.freeze(['Birch Small', 'Ash Small']),
+	'wet-meadow': Object.freeze(['Ash Small', 'Birch Small', 'Oak Small'])
+});
+
+function selectMinimalMeadowTreeProfile(ecology, availablePresets, unit = 0) {
+	const available = new Set(availablePresets);
+	const preferred = (GROUPS[ecology.zone] || GROUPS['mixed-meadow'])
+		.filter(name => available.has(name));
+	const fallback = [...available];
+	const candidates = preferred.length ? preferred : fallback;
+	if (!candidates.length) {
+		throw new Error('NO_PROCEDURAL_TREE_PRESETS');
+	}
+	const index = Math.min(candidates.length - 1, Math.floor(clamp(unit) * candidates.length));
+	const age = 0.72 + ecology.treeAffinity * 0.56;
+	return Object.freeze({
+		age,
+		canopyDensity: 0.78 + ecology.fertility * 0.42,
+		crownScale: 0.88 + ecology.fertility * 0.3,
+		presetName: candidates[index],
+		role: treeRole(ecology.zone),
+		windSpeed: 0.36 + ecology.exposure * 0.42,
+		windStrength: 0.0028 + ecology.exposure * 0.0042
+	});
+}
+
+
+__exports.selectMinimalMeadowTreeProfile = selectMinimalMeadowTreeProfile;
+function treeRole(zone) {
+	if (zone === 'wet-meadow') return 'riparian-canopy';
+	if (zone === 'dry-upland') return 'windbreak';
+	if (zone === 'path-edge') return 'wayfinding-tree';
+	if (zone === 'flower-meadow') return 'meadow-anchor';
+	return 'mixed-grove';
+}
+
+function clamp(value) {
+	return Math.max(0, Math.min(0.999999, Number(value) || 0));
+}
+return Object.freeze(__exports);
+})();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldPopulationConfig.js */
-__awtsmoosModule_642 = (() => {
+__awtsmoosModule_647 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -47880,8 +48262,138 @@ function grove(id, x, z, radius, count, climate) {
 }
 return Object.freeze(__exports);
 })();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldPopulationMath.js */
+__awtsmoosModule_648 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowWorldPopulationMath.js
+ * @description Supplies seeded variation, finite bounds, spacing, and quadrant evidence.
+ * The Awtsmoos is one beyond number while finite seeds reveal repeatable difference; Awtsmoos.com
+ * measures every scattered vessel so beauty never becomes an unverifiable or wandering accident.
+ */
+
+function minimalMeadowSeededUnit(seed, index, salt = 0) {
+	let value = (seed ^ Math.imul(index + 1, 0x9e3779b1) ^ Math.imul(salt + 1, 0x85ebca6b)) >>> 0;
+	value ^= value >>> 16;
+	value = Math.imul(value, 0x7feb352d);
+	value ^= value >>> 15;
+	value = Math.imul(value, 0x846ca68b);
+	value ^= value >>> 16;
+	return (value >>> 0) / 0x100000000;
+}
+
+
+__exports.minimalMeadowSeededUnit = minimalMeadowSeededUnit;
+function minimalMeadowPopulationBounds(items, extentSelector = () => 0) {
+	if (!items.length) {
+		return Object.freeze({ finite: true, maxX: 0, maxY: 0, maxZ: 0, minX: 0, minY: 0, minZ: 0 });
+	}
+	const bounds = {
+		maxX: -Infinity,
+		maxY: -Infinity,
+		maxZ: -Infinity,
+		minX: Infinity,
+		minY: Infinity,
+		minZ: Infinity
+	};
+	for (const item of items) {
+		const extent = Math.max(0, Number(extentSelector(item)) || 0);
+		bounds.minX = Math.min(bounds.minX, item.x - extent);
+		bounds.maxX = Math.max(bounds.maxX, item.x + extent);
+		bounds.minY = Math.min(bounds.minY, Number(item.y) || 0);
+		bounds.maxY = Math.max(bounds.maxY, (Number(item.y) || 0) + extent * 3);
+		bounds.minZ = Math.min(bounds.minZ, item.z - extent);
+		bounds.maxZ = Math.max(bounds.maxZ, item.z + extent);
+	}
+	bounds.finite = Object.values(bounds).every(Number.isFinite);
+	return Object.freeze(bounds);
+}
+
+
+__exports.minimalMeadowPopulationBounds = minimalMeadowPopulationBounds;
+function minimalMeadowQuadrantCounts(items) {
+	const counts = { northeast: 0, northwest: 0, southeast: 0, southwest: 0 };
+	for (const item of items) {
+		const vertical = item.z >= 0 ? 'north' : 'south';
+		const horizontal = item.x >= 0 ? 'east' : 'west';
+		counts[`${vertical}${horizontal}`] += 1;
+	}
+	return Object.freeze(counts);
+}
+
+
+__exports.minimalMeadowQuadrantCounts = minimalMeadowQuadrantCounts;
+function minimalMeadowHasSpacing(items, x, z, minimum) {
+	return items.every(item => Math.hypot(item.x - x, item.z - z) >= minimum);
+}
+
+__exports.minimalMeadowHasSpacing = minimalMeadowHasSpacing;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreePlacementFactory.js */
+__awtsmoosModule_642 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowTreePlacementFactory.js
+ * @description Builds one ecology-aware procedural tree specification from canonical presets.
+ * The Awtsmoos lets age, crown, climate, species, and wind answer one rooted coordinate;
+ * Awtsmoos.com preserves deterministic scale, material variation, playable radius, and terrain contact.
+ */
+
+var sampleMinimalMeadowEcology = __awtsmoosModule_643.sampleMinimalMeadowEcology;
+var selectMinimalMeadowTreeProfile = __awtsmoosModule_646.selectMinimalMeadowTreeProfile;
+var MINIMAL_MEADOW_POPULATION_SEED = __awtsmoosModule_647.MINIMAL_MEADOW_POPULATION_SEED;
+var minimalMeadowSeededUnit = __awtsmoosModule_648.minimalMeadowSeededUnit;
+
+function createMinimalMeadowTreeSpecification(input) {
+	const ecology = sampleMinimalMeadowEcology(input.terrain, input.x, input.z);
+	if (ecology.road > 0.18 || ecology.treeAffinity < 0.2) return null;
+	const unit = seeded(input.key, 67);
+	const profile = selectMinimalMeadowTreeProfile(ecology, input.presets, unit);
+	const base = 0.74 + profile.age * 0.18 + seeded(input.key, 37) * 0.2;
+	const breadth = profile.crownScale * (0.86 + seeded(input.key, 41) * 0.22);
+	const scaleX = base * breadth;
+	const scaleY = base * (0.88 + profile.age * 0.22 + seeded(input.key, 43) * 0.2);
+	const scaleZ = base * profile.crownScale * (0.84 + seeded(input.key, 47) * 0.24);
+	return {
+		canopyDensity: profile.canopyDensity,
+		climate: input.grove.climate,
+		ecologyZone: ecology.zone,
+		groveId: input.grove.id,
+		materialVariant: (input.key + input.groveIndex) % 3,
+		preset: profile.presetName,
+		radius: Math.max(scaleX, scaleZ) * 3.8,
+		role: profile.role,
+		scaleX,
+		scaleY,
+		scaleZ,
+		windPhase: seeded(input.key, 59) * Math.PI * 2,
+		windSpeed: profile.windSpeed,
+		windStrength: profile.windStrength,
+		x: input.x,
+		y: input.terrain.heightAt(input.x, input.z),
+		yaw: seeded(input.key, 53) * Math.PI * 2,
+		z: input.z
+	};
+}
+
+
+__exports.createMinimalMeadowTreeSpecification = createMinimalMeadowTreeSpecification;
+function seeded(key, salt) {
+	return minimalMeadowSeededUnit(MINIMAL_MEADOW_POPULATION_SEED, key, salt);
+}
+return Object.freeze(__exports);
+})();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRiverPath.js */
-__awtsmoosModule_644 = (() => {
+__awtsmoosModule_650 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -48007,7 +48519,7 @@ function clamp(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldPopulationExclusions.js */
-__awtsmoosModule_643 = (() => {
+__awtsmoosModule_649 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -48022,11 +48534,11 @@ const __exports = {};
 
 var minimalMeadowRoadDistance = __awtsmoosModule_278.minimalMeadowRoadDistance;
 var MINIMAL_MEADOW_HOUSE_PROFILES = __awtsmoosModule_595.MINIMAL_MEADOW_HOUSE_PROFILES;
-var MINIMAL_MEADOW_COMBAT_CLEARINGS = __awtsmoosModule_642.MINIMAL_MEADOW_COMBAT_CLEARINGS;
-var MINIMAL_MEADOW_PLAYABLE_HALF_SIZE = __awtsmoosModule_642.MINIMAL_MEADOW_PLAYABLE_HALF_SIZE;
-var MINIMAL_MEADOW_QUEST_ACCESS = __awtsmoosModule_642.MINIMAL_MEADOW_QUEST_ACCESS;
-var minimalMeadowLakeDistance = __awtsmoosModule_644.minimalMeadowLakeDistance;
-var minimalMeadowRiverNearest = __awtsmoosModule_644.minimalMeadowRiverNearest;
+var MINIMAL_MEADOW_COMBAT_CLEARINGS = __awtsmoosModule_647.MINIMAL_MEADOW_COMBAT_CLEARINGS;
+var MINIMAL_MEADOW_PLAYABLE_HALF_SIZE = __awtsmoosModule_647.MINIMAL_MEADOW_PLAYABLE_HALF_SIZE;
+var MINIMAL_MEADOW_QUEST_ACCESS = __awtsmoosModule_647.MINIMAL_MEADOW_QUEST_ACCESS;
+var minimalMeadowLakeDistance = __awtsmoosModule_650.minimalMeadowLakeDistance;
+var minimalMeadowRiverNearest = __awtsmoosModule_650.minimalMeadowRiverNearest;
 
 const POLICIES = Object.freeze({
 	'bank-vegetation': Object.freeze({ house: 2.5, lake: 1.04, quest: 7, road: 6.2 }),
@@ -48114,78 +48626,6 @@ function circleClearance(x, z, circles) {
 }
 return Object.freeze(__exports);
 })();
-/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldPopulationMath.js */
-__awtsmoosModule_645 = (() => {
-const __exports = {};
-// B"H
-// Boruch Hashem
-// Blessed is He
-
-/**
- * @file MinimalMeadowWorldPopulationMath.js
- * @description Supplies seeded variation, finite bounds, spacing, and quadrant evidence.
- * The Awtsmoos is one beyond number while finite seeds reveal repeatable difference; Awtsmoos.com
- * measures every scattered vessel so beauty never becomes an unverifiable or wandering accident.
- */
-
-function minimalMeadowSeededUnit(seed, index, salt = 0) {
-	let value = (seed ^ Math.imul(index + 1, 0x9e3779b1) ^ Math.imul(salt + 1, 0x85ebca6b)) >>> 0;
-	value ^= value >>> 16;
-	value = Math.imul(value, 0x7feb352d);
-	value ^= value >>> 15;
-	value = Math.imul(value, 0x846ca68b);
-	value ^= value >>> 16;
-	return (value >>> 0) / 0x100000000;
-}
-
-
-__exports.minimalMeadowSeededUnit = minimalMeadowSeededUnit;
-function minimalMeadowPopulationBounds(items, extentSelector = () => 0) {
-	if (!items.length) {
-		return Object.freeze({ finite: true, maxX: 0, maxY: 0, maxZ: 0, minX: 0, minY: 0, minZ: 0 });
-	}
-	const bounds = {
-		maxX: -Infinity,
-		maxY: -Infinity,
-		maxZ: -Infinity,
-		minX: Infinity,
-		minY: Infinity,
-		minZ: Infinity
-	};
-	for (const item of items) {
-		const extent = Math.max(0, Number(extentSelector(item)) || 0);
-		bounds.minX = Math.min(bounds.minX, item.x - extent);
-		bounds.maxX = Math.max(bounds.maxX, item.x + extent);
-		bounds.minY = Math.min(bounds.minY, Number(item.y) || 0);
-		bounds.maxY = Math.max(bounds.maxY, (Number(item.y) || 0) + extent * 3);
-		bounds.minZ = Math.min(bounds.minZ, item.z - extent);
-		bounds.maxZ = Math.max(bounds.maxZ, item.z + extent);
-	}
-	bounds.finite = Object.values(bounds).every(Number.isFinite);
-	return Object.freeze(bounds);
-}
-
-
-__exports.minimalMeadowPopulationBounds = minimalMeadowPopulationBounds;
-function minimalMeadowQuadrantCounts(items) {
-	const counts = { northeast: 0, northwest: 0, southeast: 0, southwest: 0 };
-	for (const item of items) {
-		const vertical = item.z >= 0 ? 'north' : 'south';
-		const horizontal = item.x >= 0 ? 'east' : 'west';
-		counts[`${vertical}${horizontal}`] += 1;
-	}
-	return Object.freeze(counts);
-}
-
-
-__exports.minimalMeadowQuadrantCounts = minimalMeadowQuadrantCounts;
-function minimalMeadowHasSpacing(items, x, z, minimum) {
-	return items.every(item => Math.hypot(item.x - x, item.z - z) >= minimum);
-}
-
-__exports.minimalMeadowHasSpacing = minimalMeadowHasSpacing;
-return Object.freeze(__exports);
-})();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreePlacements.js */
 __awtsmoosModule_641 = (() => {
 const __exports = {};
@@ -48195,33 +48635,32 @@ const __exports = {};
 
 /**
  * @file MinimalMeadowTreePlacements.js
- * @description Grows deterministic irregular groves with full-crown playable and access clearances.
- * The Awtsmoos gathers distinct trunks without a dead grid; Awtsmoos.com gives each tree its own
- * turn, height, crown breadth, bark tone, climate, and finite rooted proof inside the meadow.
+ * @description Grows deterministic ecology-aware groves with full-crown traversal clearances.
+ * The Awtsmoos gathers distinct species, ages, climates, and winds without a dead grid;
+ * Awtsmoos.com keeps canonical presets, exclusions, spacing, quadrants, and finite rooted proof.
  */
 
 var listTreePresets = __awtsmoosModule_601.listTreePresets;
-var MINIMAL_MEADOW_GROVES = __awtsmoosModule_642.MINIMAL_MEADOW_GROVES;
-var MINIMAL_MEADOW_PLAYABLE_HALF_SIZE = __awtsmoosModule_642.MINIMAL_MEADOW_PLAYABLE_HALF_SIZE;
-var MINIMAL_MEADOW_POPULATION_SEED = __awtsmoosModule_642.MINIMAL_MEADOW_POPULATION_SEED;
-var minimalMeadowPopulationAllows = __awtsmoosModule_643.minimalMeadowPopulationAllows;
-var minimalMeadowHasSpacing = __awtsmoosModule_645.minimalMeadowHasSpacing;
-var minimalMeadowSeededUnit = __awtsmoosModule_645.minimalMeadowSeededUnit;
+var createMinimalMeadowTreeSpecification = __awtsmoosModule_642.createMinimalMeadowTreeSpecification;
+var MINIMAL_MEADOW_GROVES = __awtsmoosModule_647.MINIMAL_MEADOW_GROVES;
+var MINIMAL_MEADOW_PLAYABLE_HALF_SIZE = __awtsmoosModule_647.MINIMAL_MEADOW_PLAYABLE_HALF_SIZE;
+var MINIMAL_MEADOW_POPULATION_SEED = __awtsmoosModule_647.MINIMAL_MEADOW_POPULATION_SEED;
+var minimalMeadowPopulationAllows = __awtsmoosModule_649.minimalMeadowPopulationAllows;
+var minimalMeadowHasSpacing = __awtsmoosModule_648.minimalMeadowHasSpacing;
+var minimalMeadowSeededUnit = __awtsmoosModule_648.minimalMeadowSeededUnit;
 
 const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5));
-const PROFILES = Object.freeze(['Oak Small', 'Ash Small', 'Birch Small', 'Pine Small']);
 
 function createMinimalMeadowTreePlacements(terrain, options = {}) {
-	const available = new Set(listTreePresets());
-	const presets = PROFILES.filter(name => available.has(name));
+	const presets = listTreePresets();
 	if (!presets.length) {
 		throw new Error('B"H | canonical procedural tree presets are unavailable.');
 	}
-	const groveLists = MINIMAL_MEADOW_GROVES.map((grove, groveIndex) => {
+	const groves = MINIMAL_MEADOW_GROVES.map((grove, groveIndex) => {
 		return buildGrove(terrain, grove, groveIndex, presets);
 	});
-	const limit = options.mobile ? 22 : 32;
-	return interleave(groveLists, limit).map((placement, index) => Object.freeze({
+	const limit = options.mobile ? 26 : 40;
+	return interleave(groves, limit).map((placement, index) => Object.freeze({
 		...placement,
 		id: `meadow-procedural-tree-${index + 1}`
 	}));
@@ -48231,46 +48670,28 @@ function createMinimalMeadowTreePlacements(terrain, options = {}) {
 __exports.createMinimalMeadowTreePlacements = createMinimalMeadowTreePlacements;
 function buildGrove(terrain, grove, groveIndex, presets) {
 	const placements = [];
-	for (let attempt = 0; attempt < 160 && placements.length < grove.count; attempt += 1) {
+	const desired = grove.count + 3;
+	for (let attempt = 0; attempt < 220 && placements.length < desired; attempt += 1) {
 		const key = groveIndex * 211 + attempt;
-		const radial = grove.radius * Math.sqrt(minimalMeadowSeededUnit(MINIMAL_MEADOW_POPULATION_SEED, key, 11));
-		const angle = attempt * GOLDEN_ANGLE + minimalMeadowSeededUnit(MINIMAL_MEADOW_POPULATION_SEED, key, 23);
+		const radial = grove.radius * Math.sqrt(unit(key, 11));
+		const angle = attempt * GOLDEN_ANGLE + unit(key, 23);
 		const x = grove.x + Math.cos(angle) * radial;
 		const z = grove.z + Math.sin(angle) * radial;
-		if (!minimalMeadowPopulationAllows(x, z, 'tree')) {
-			continue;
-		}
-		const specification = treeSpecification(terrain, grove, groveIndex, key, presets, x, z);
-		if (!insidePlayableCrown(specification)) {
-			continue;
-		}
-		if (!minimalMeadowHasSpacing(placements, x, z, 6.2)) {
-			continue;
-		}
+		if (!minimalMeadowPopulationAllows(x, z, 'tree')) continue;
+		const specification = createMinimalMeadowTreeSpecification({
+			grove,
+			groveIndex,
+			key,
+			presets,
+			terrain,
+			x,
+			z
+		});
+		if (!specification || !insidePlayableCrown(specification)) continue;
+		if (!minimalMeadowHasSpacing(placements, x, z, 6.4)) continue;
 		placements.push(specification);
 	}
 	return placements;
-}
-
-function treeSpecification(terrain, grove, groveIndex, key, presets, x, z) {
-	const base = 0.82 + minimalMeadowSeededUnit(MINIMAL_MEADOW_POPULATION_SEED, key, 37) * 0.28;
-	const scaleX = base * (0.84 + minimalMeadowSeededUnit(MINIMAL_MEADOW_POPULATION_SEED, key, 41) * 0.24);
-	const scaleY = base * (0.9 + minimalMeadowSeededUnit(MINIMAL_MEADOW_POPULATION_SEED, key, 43) * 0.32);
-	const scaleZ = base * (0.84 + minimalMeadowSeededUnit(MINIMAL_MEADOW_POPULATION_SEED, key, 47) * 0.24);
-	return {
-		climate: grove.climate,
-		groveId: grove.id,
-		materialVariant: (key + groveIndex) % 3,
-		preset: presets[(key + groveIndex) % presets.length],
-		radius: Math.max(scaleX, scaleZ) * 3.8,
-		scaleX,
-		scaleY,
-		scaleZ,
-		x,
-		y: terrain.heightAt(x, z),
-		yaw: minimalMeadowSeededUnit(MINIMAL_MEADOW_POPULATION_SEED, key, 53) * Math.PI * 2,
-		z
-	};
 }
 
 function insidePlayableCrown(tree) {
@@ -48283,21 +48704,94 @@ function interleave(groups, limit) {
 	for (let round = 0; output.length < limit; round += 1) {
 		let added = false;
 		for (const group of groups) {
-			if (group[round] && output.length < limit) {
-				output.push(group[round]);
-				added = true;
-			}
+			if (!group[round] || output.length >= limit) continue;
+			output.push(group[round]);
+			added = true;
 		}
-		if (!added) {
-			break;
-		}
+		if (!added) break;
 	}
 	return output;
+}
+
+function unit(key, salt) {
+	return minimalMeadowSeededUnit(MINIMAL_MEADOW_POPULATION_SEED, key, salt);
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeWind.js */
+__awtsmoosModule_651 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowTreeWind.js
+ * @description Applies ecology-driven wind to bark and canopy while the tree root remains fixed.
+ * The Awtsmoos anchors every root while crown and leaf answer their meadow breeze;
+ * Awtsmoos.com preserves species character, player nearness, and measured motion among the trees.
+ */
+
+const BARK_RATIO = 0.22;
+const CANOPY_RATIO = 1.55;
+const FLUTTER_RATIO = 0.42;
+const PLAYER_RADIUS = 11;
+
+/**
+ * Reveals one rooted tree's current wind state from its ecology profile.
+ *
+ * @param {object} tree Procedural tree group with bark and canopy children.
+ * @param {number} clock Shared forest clock in seconds.
+ * @param {number} index Stable tree index.
+ * @param {object} player Runtime player state.
+ * @returns {object} Immutable evidence describing the applied movement.
+ */
+function animateMinimalMeadowTree(tree, clock, index, player = {}) {
+	const ecology = tree.userData?.AwtsmoosTreeEcology || {};
+	const fallbackPhase = Number(tree.userData?.AwtsmoosTree?.windPhase || 0);
+	const phase = Number(ecology.windPhase ?? fallbackPhase) + index * 1.37;
+	const speed = Math.max(0.08, Number(ecology.windSpeed || 0.42));
+	const strength = Math.max(0.001, Number(ecology.windStrength || 0.004));
+	const canopyDensity = Math.max(0.45, Number(ecology.canopyDensity || 1));
+	const playerPulse = proximityPulse(tree, player) * strength * 1.65;
+	const breath = Math.sin(clock * speed + phase);
+	const flutter = Math.sin(clock * speed * 2.35 + phase * 1.83);
+	const bark = tree.children?.[0];
+	const canopy = tree.children?.[1];
+	if (bark?.quaternion) {
+		bark.quaternion.z = breath * strength * BARK_RATIO;
+	}
+	if (canopy?.quaternion) {
+		canopy.quaternion.z = breath * strength * CANOPY_RATIO * canopyDensity + playerPulse;
+		canopy.quaternion.x = flutter * strength * FLUTTER_RATIO;
+	}
+	const evidence = Object.freeze({
+		canopySway: Math.abs(canopy?.quaternion?.z || 0),
+		ecologyZone: ecology.ecologyZone || 'unknown',
+		playerPulse,
+		role: ecology.role || 'tree',
+		rootRotation: Number(tree.quaternion?.z || 0),
+		trunkSway: Math.abs(bark?.quaternion?.z || 0),
+		windSpeed: speed,
+		windStrength: strength
+	});
+	tree.userData.AwtsmoosTree.windEvidence = evidence;
+	return evidence;
+}
+
+
+__exports.animateMinimalMeadowTree = animateMinimalMeadowTree;
+function proximityPulse(tree, player) {
+	const distance = Math.hypot(
+		Number(tree.position?.x || 0) - Number(player.x || 0),
+		Number(tree.position?.z || 0) - Number(player.z || 0)
+	);
+	return Math.max(0, 1 - distance / PLAYER_RADIUS);
 }
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldPopulationDiagnostics.js */
-__awtsmoosModule_646 = (() => {
+__awtsmoosModule_652 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -48310,8 +48804,8 @@ const __exports = {};
  * records actual materials, geometry, bounds, triangles, quadrants, and zones after real mounting.
  */
 
-var minimalMeadowPopulationBounds = __awtsmoosModule_645.minimalMeadowPopulationBounds;
-var minimalMeadowQuadrantCounts = __awtsmoosModule_645.minimalMeadowQuadrantCounts;
+var minimalMeadowPopulationBounds = __awtsmoosModule_648.minimalMeadowPopulationBounds;
+var minimalMeadowQuadrantCounts = __awtsmoosModule_648.minimalMeadowQuadrantCounts;
 
 function minimalMeadowTreeDiagnostics(system) {
 	const meshes = system.trees.flatMap(tree => tree.children);
@@ -48379,7 +48873,7 @@ __exports.minimalMeadowMeshMetrics = minimalMeadowMeshMetrics;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldPopulationHydration.js */
-__awtsmoosModule_647 = (() => {
+__awtsmoosModule_653 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -48427,23 +48921,22 @@ const __exports = {};
 
 /**
  * @file MinimalMeadowTreeSystem.js
- * @description Mounts an immediate idempotent forest and reports only its actual scene children.
- * The Awtsmoos reveals trunk and canopy before optional networks answer; Awtsmoos.com keeps one
- * scene group, moves no geometry per frame, and exposes every live count instead of silent intent.
+ * @description Mounts one ecology-aware procedural forest with rooted, species-specific wind.
+ * The Awtsmoos reveals trunk, crown, role, and breeze before optional networks answer;
+ * Awtsmoos.com keeps shared geometry, one scene group, zero frame allocations, and truthful counts.
  */
 
 var Group = __awtsmoosModule_18.Group;
 var createMinimalMeadowTree = __awtsmoosModule_599.createMinimalMeadowTree;
 var createMinimalMeadowTreeMaterials = __awtsmoosModule_637.createMinimalMeadowTreeMaterials;
 var createMinimalMeadowTreePlacements = __awtsmoosModule_641.createMinimalMeadowTreePlacements;
-var minimalMeadowTreeDiagnostics = __awtsmoosModule_646.minimalMeadowTreeDiagnostics;
-var beginMinimalMeadowTreeHydration = __awtsmoosModule_647.beginMinimalMeadowTreeHydration;
+var animateMinimalMeadowTree = __awtsmoosModule_651.animateMinimalMeadowTree;
+var minimalMeadowTreeDiagnostics = __awtsmoosModule_652.minimalMeadowTreeDiagnostics;
+var beginMinimalMeadowTreeHydration = __awtsmoosModule_653.beginMinimalMeadowTreeHydration;
 
 class MinimalMeadowTreeSystem {
 	static async create(runtime) {
-		if (runtime.trees?.group) {
-			return runtime.trees;
-		}
+		if (runtime.trees?.group) return runtime.trees;
 		const system = new MinimalMeadowTreeSystem(runtime);
 		if (runtime.environment?.disablePublicAssets !== true) {
 			beginMinimalMeadowTreeHydration(system);
@@ -48454,23 +48947,34 @@ class MinimalMeadowTreeSystem {
 	constructor(runtime) {
 		this.runtime = runtime;
 		this.group = new Group();
-		this.group.name = 'Awtsmoos_canonical_procedural_core_forest';
+		this.group.name = 'Awtsmoos_canonical_procedural_ecology_forest';
 		this.mobile = mobileProfile(runtime);
 		this.records = [];
 		this.hydrationState = 'procedural-visible';
 		this.materials = createMinimalMeadowTreeMaterials([], runtime.environment?.document);
-		this.placements = createMinimalMeadowTreePlacements(runtime.terrain, { mobile: this.mobile });
+		this.placements = createMinimalMeadowTreePlacements(runtime.terrain, {
+			mobile: this.mobile
+		});
 		this.errors = [];
 		this.trees = this.placements.flatMap(placement => this.createTree(placement));
-		for (const tree of this.trees) {
-			this.group.add(tree);
-		}
+		for (const tree of this.trees) this.group.add(tree);
 		this.clock = 0;
 	}
 
 	createTree(placement) {
 		try {
-			return [createMinimalMeadowTree(placement, this.materials)];
+			const tree = createMinimalMeadowTree(placement, this.materials);
+			tree.userData ||= {};
+			tree.userData.AwtsmoosTreeEcology = Object.freeze({
+				canopyDensity: placement.canopyDensity,
+				ecologyZone: placement.ecologyZone,
+				preset: placement.preset,
+				role: placement.role,
+				windPhase: placement.windPhase,
+				windSpeed: placement.windSpeed,
+				windStrength: placement.windStrength
+			});
+			return [tree];
 		} catch (error) {
 			this.errors.push({ id: placement.id, message: error.message });
 			return [];
@@ -48480,7 +48984,12 @@ class MinimalMeadowTreeSystem {
 	update(deltaSeconds) {
 		this.clock += deltaSeconds;
 		for (let index = 0; index < this.trees.length; index += 1) {
-			this.trees[index].quaternion.z = Math.sin(this.clock * 0.48 + index * 1.37) * 0.0045;
+			animateMinimalMeadowTree(
+				this.trees[index],
+				this.clock,
+				index,
+				this.runtime.state
+			);
 		}
 	}
 
@@ -48490,9 +48999,7 @@ class MinimalMeadowTreeSystem {
 
 	destroy() {
 		this.group.parent?.remove(this.group);
-		if (this.runtime.trees === this) {
-			this.runtime.trees = null;
-		}
+		if (this.runtime.trees === this) this.runtime.trees = null;
 	}
 }
 
@@ -48505,8 +49012,127 @@ function mobileProfile(runtime) {
 }
 return Object.freeze(__exports);
 })();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowFlowerSpecies.js */
+__awtsmoosModule_658 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowFlowerSpecies.js
+ * @description Curates deterministic meadow flowers with distinct petals, heights, palettes, and habitats.
+ * The Awtsmoos reveals one life through many blossoms; Awtsmoos.com lets wet banks, fertile fields,
+ * dry ridges, and path edges carry recognizable species without multiplying draw calls per cell.
+ */
+
+const SPECIES = Object.freeze([
+	profile('marsh-iris', '#8c79d8', 6, 0.32, 0.055, ['wet-meadow']),
+	profile('forget-me-not', '#6fa8dc', 5, 0.2, 0.036, ['wet-meadow', 'flower-meadow']),
+	profile('meadow-daisy', '#f4f0d7', 8, 0.24, 0.045, ['flower-meadow', 'mixed-meadow']),
+	profile('buttercup', '#f5d75b', 5, 0.22, 0.042, ['flower-meadow', 'mixed-meadow']),
+	profile('clover-pink', '#e58bb6', 6, 0.19, 0.048, ['flower-meadow', 'path-edge']),
+	profile('wild-lupine', '#a891e4', 7, 0.35, 0.041, ['mixed-meadow', 'dry-upland']),
+	profile('field-poppy', '#e66a5b', 5, 0.29, 0.052, ['dry-upland', 'flower-meadow']),
+	profile('alyssum', '#fff4dc', 4, 0.16, 0.032, ['path-edge', 'mixed-meadow'])
+]);
+
+function selectMinimalMeadowFlowerSpecies(ecology, seedUnit = 0) {
+	const matching = SPECIES.filter(species => species.zones.includes(ecology.zone));
+	const candidates = matching.length ? matching : SPECIES;
+	const index = Math.min(candidates.length - 1, Math.floor(clamp(seedUnit) * candidates.length));
+	return candidates[index];
+}
+
+
+__exports.selectMinimalMeadowFlowerSpecies = selectMinimalMeadowFlowerSpecies;
+function listMinimalMeadowFlowerSpecies() {
+	return [...SPECIES];
+}
+
+
+__exports.listMinimalMeadowFlowerSpecies = listMinimalMeadowFlowerSpecies;
+function profile(id, color, petalCount, height, petalRadius, zones) {
+	return Object.freeze({
+		color,
+		height,
+		id,
+		petalCount,
+		petalRadius,
+		stemWidth: 0.014 + petalRadius * 0.08,
+		zones: Object.freeze(zones)
+	});
+}
+
+function clamp(value) {
+	return Math.max(0, Math.min(0.999999, Number(value) || 0));
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationCellProfile.js */
+__awtsmoosModule_657 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowVegetationCellProfile.js
+ * @description Converts one terrain ecology sample into deterministic grass and flower cell identity.
+ * The Awtsmoos lets density, hue, species, and clump count answer one earth;
+ * Awtsmoos.com preserves road clearance, wet fertility, dry restraint, and repeatable variation.
+ */
+
+var sampleMinimalMeadowEcology = __awtsmoosModule_643.sampleMinimalMeadowEcology;
+var selectMinimalMeadowFlowerSpecies = __awtsmoosModule_658.selectMinimalMeadowFlowerSpecies;
+var minimalMeadowSeededUnit = __awtsmoosModule_648.minimalMeadowSeededUnit;
+
+const GRASS_COLORS = Object.freeze({
+	'dry-upland': '#7f9343',
+	'flower-meadow': '#4f963c',
+	'mixed-meadow': '#568e3d',
+	'path-edge': '#6d8440',
+	'wet-meadow': '#3f8247'
+});
+
+function createMinimalMeadowVegetationCellProfile(
+	terrain,
+	x,
+	z,
+	key,
+	options = {}
+) {
+	const ecology = sampleMinimalMeadowEcology(terrain, x, z, options);
+	if (ecology.road > 0.34 || ecology.slope > 0.86) return null;
+	const speciesUnit = unit(key, 97);
+	const species = selectMinimalMeadowFlowerSpecies(ecology, speciesUnit);
+	const richness = ecology.grassDensity * 0.62 + ecology.flowerDensity * 0.72;
+	const mobileScale = options.mobile ? 0.72 : 1;
+	const base = 5 + richness * 11 * mobileScale;
+	return Object.freeze({
+		clumps: Math.max(4, Math.round(base + unit(key, 89) * 4)),
+		color: species.color,
+		ecology,
+		fertility: ecology.fertility,
+		flowerDensity: ecology.flowerDensity,
+		grassColor: GRASS_COLORS[ecology.zone] || GRASS_COLORS['mixed-meadow'],
+		grassDensity: ecology.grassDensity,
+		moisture: ecology.moisture,
+		seed: key * 101 + 178,
+		species,
+		zone: ecology.zone
+	});
+}
+
+
+__exports.createMinimalMeadowVegetationCellProfile = createMinimalMeadowVegetationCellProfile;
+function unit(key, salt) {
+	return minimalMeadowSeededUnit(178, key, salt);
+}
+return Object.freeze(__exports);
+})();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationDistribution.js */
-__awtsmoosModule_650 = (() => {
+__awtsmoosModule_656 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -48514,31 +49140,38 @@ const __exports = {};
 
 /**
  * @file MinimalMeadowVegetationDistribution.js
- * @description Distributes bounded irregular dry, moist, meadow, and riverbank cells from one seed.
- * The Awtsmoos scatters abundance without sameness; Awtsmoos.com lets water invite reeds, ridges
- * remain sparse, quadrants retain life, and every full clump remain inside the playable vessel.
+ * @description Distributes ecology-driven grass and flower cells from one deterministic meadow seed.
+ * The Awtsmoos scatters wet-bank blossoms, dry-upland restraint, and fertile abundance without sameness;
+ * Awtsmoos.com preserves playable bounds, paths, spacing, quadrants, and bounded high-quality density.
  */
 
-var MINIMAL_MEADOW_PLAYABLE_HALF_SIZE = __awtsmoosModule_642.MINIMAL_MEADOW_PLAYABLE_HALF_SIZE;
-var MINIMAL_MEADOW_POPULATION_SEED = __awtsmoosModule_642.MINIMAL_MEADOW_POPULATION_SEED;
-var MINIMAL_MEADOW_VEGETATION_ANCHORS = __awtsmoosModule_642.MINIMAL_MEADOW_VEGETATION_ANCHORS;
-var minimalMeadowPopulationAllows = __awtsmoosModule_643.minimalMeadowPopulationAllows;
-var minimalMeadowPopulationClearance = __awtsmoosModule_643.minimalMeadowPopulationClearance;
-var minimalMeadowHasSpacing = __awtsmoosModule_645.minimalMeadowHasSpacing;
-var minimalMeadowSeededUnit = __awtsmoosModule_645.minimalMeadowSeededUnit;
-var minimalMeadowRiverSample = __awtsmoosModule_644.minimalMeadowRiverSample;
+var MINIMAL_MEADOW_PLAYABLE_HALF_SIZE = __awtsmoosModule_647.MINIMAL_MEADOW_PLAYABLE_HALF_SIZE;
+var MINIMAL_MEADOW_POPULATION_SEED = __awtsmoosModule_647.MINIMAL_MEADOW_POPULATION_SEED;
+var MINIMAL_MEADOW_VEGETATION_ANCHORS = __awtsmoosModule_647.MINIMAL_MEADOW_VEGETATION_ANCHORS;
+var minimalMeadowPopulationAllows = __awtsmoosModule_649.minimalMeadowPopulationAllows;
+var minimalMeadowHasSpacing = __awtsmoosModule_648.minimalMeadowHasSpacing;
+var minimalMeadowSeededUnit = __awtsmoosModule_648.minimalMeadowSeededUnit;
+var minimalMeadowRiverSample = __awtsmoosModule_650.minimalMeadowRiverSample;
+var createMinimalMeadowVegetationCellProfile = __awtsmoosModule_657.createMinimalMeadowVegetationCellProfile;
 
 const CELL_EXTENT = 4.5;
-const COLORS = Object.freeze(['#f5d75b', '#f6a3c0', '#b99bf2', '#f4f0d7']);
 
 function createMinimalMeadowVegetationDistribution(terrain, options = {}) {
-	const target = options.mobile ? 28 : 42;
+	const target = options.mobile ? 30 : 48;
 	const cells = [];
-	appendAnchors(cells, terrain);
-	appendRiverBanks(cells, terrain, options.mobile ? 12 : 18);
-	for (let attempt = 0; attempt < 1800 && cells.length < target; attempt += 1) {
-		appendCell(cells, terrain, coordinate(attempt, 71), coordinate(attempt, 79),
-			attempt + 500, 'seeded-meadow', 'vegetation');
+	appendAnchors(cells, terrain, options);
+	appendRiverBanks(cells, terrain, options.mobile ? 12 : 20, options);
+	for (let attempt = 0; attempt < 2200 && cells.length < target; attempt += 1) {
+		appendCell(
+			cells,
+			terrain,
+			coordinate(attempt, 71),
+			coordinate(attempt, 79),
+			attempt + 500,
+			'seeded-meadow',
+			'vegetation',
+			options
+		);
 	}
 	return cells.slice(0, target).map((cell, index) => Object.freeze({
 		...cell,
@@ -48548,14 +49181,15 @@ function createMinimalMeadowVegetationDistribution(terrain, options = {}) {
 
 
 __exports.createMinimalMeadowVegetationDistribution = createMinimalMeadowVegetationDistribution;
-function appendAnchors(cells, terrain) {
+function appendAnchors(cells, terrain, options) {
 	for (let index = 0; index < MINIMAL_MEADOW_VEGETATION_ANCHORS.length; index += 1) {
 		const anchor = MINIMAL_MEADOW_VEGETATION_ANCHORS[index];
-		appendCell(cells, terrain, anchor.x, anchor.z, index, 'quadrant-anchor', 'vegetation');
+		appendCell(cells, terrain, anchor.x, anchor.z, index,
+			'quadrant-anchor', 'vegetation', options);
 	}
 }
 
-function appendRiverBanks(cells, terrain, count) {
+function appendRiverBanks(cells, terrain, count, options) {
 	for (let index = 0; index < count; index += 1) {
 		const t = 0.06 + index / Math.max(1, count - 1) * 0.86;
 		const sample = minimalMeadowRiverSample(t);
@@ -48563,39 +49197,31 @@ function appendRiverBanks(cells, terrain, count) {
 		const after = minimalMeadowRiverSample(Math.min(1, t + 0.01));
 		const length = Math.max(0.001, Math.hypot(after.x - before.x, after.z - before.z));
 		const side = index % 2 ? -1 : 1;
-		const offset = sample.width + 3.1
-			+ minimalMeadowSeededUnit(MINIMAL_MEADOW_POPULATION_SEED, index, 83) * 2.4;
-		appendCell(cells, terrain,
+		const offset = sample.width + 3.1 + unit(index, 83) * 2.4;
+		appendCell(
+			cells,
+			terrain,
 			sample.x - (after.z - before.z) / length * offset * side,
 			sample.z + (after.x - before.x) / length * offset * side,
-			index + 100, 'river-bank', 'bank-vegetation');
+			index + 100,
+			'river-bank',
+			'bank-vegetation',
+			options
+		);
 	}
 }
 
-function appendCell(cells, terrain, x, z, key, source, role) {
-	if (!insidePlayableCell(x, z) || !minimalMeadowPopulationAllows(x, z, role)) {
-		return;
-	}
-	if (!minimalMeadowHasSpacing(cells, x, z, 5.8)) {
-		return;
-	}
-	const evidence = minimalMeadowPopulationClearance(x, z);
-	const moisture = Math.max(0, Math.min(1, 1 - evidence.riverGap / 28));
-	const drySignal = Math.sin(x * 0.071) + Math.cos(z * 0.063);
-	const zone = source === 'river-bank'
-		? 'river-bank'
-		: moisture > 0.45 ? 'moist-meadow' : drySignal > 0.85 ? 'dry-meadow' : 'grass-meadow';
-	const sparse = zone === 'dry-meadow';
+function appendCell(cells, terrain, x, z, key, source, role, options) {
+	if (!insidePlayableCell(x, z) || !minimalMeadowPopulationAllows(x, z, role)) return;
+	if (!minimalMeadowHasSpacing(cells, x, z, 5.4)) return;
+	const profile = createMinimalMeadowVegetationCellProfile(terrain, x, z, key, options);
+	if (!profile) return;
 	cells.push({
-		clumps: (sparse ? 5 : 9)
-			+ Math.floor(minimalMeadowSeededUnit(MINIMAL_MEADOW_POPULATION_SEED, key, 89) * (sparse ? 4 : 8)),
-		color: COLORS[Math.floor(minimalMeadowSeededUnit(MINIMAL_MEADOW_POPULATION_SEED, key, 97) * COLORS.length)],
-		moisture,
+		...profile,
 		source,
 		x,
 		y: terrain.heightAt(x, z),
-		z,
-		zone
+		z
 	});
 }
 
@@ -48605,13 +49231,16 @@ function insidePlayableCell(x, z) {
 }
 
 function coordinate(index, salt) {
-	return (minimalMeadowSeededUnit(MINIMAL_MEADOW_POPULATION_SEED, index, salt) * 2 - 1)
-		* MINIMAL_MEADOW_PLAYABLE_HALF_SIZE;
+	return (unit(index, salt) * 2 - 1) * MINIMAL_MEADOW_PLAYABLE_HALF_SIZE;
+}
+
+function unit(index, salt) {
+	return minimalMeadowSeededUnit(MINIMAL_MEADOW_POPULATION_SEED, index, salt);
 }
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationCells.js */
-__awtsmoosModule_649 = (() => {
+__awtsmoosModule_655 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -48624,7 +49253,7 @@ const __exports = {};
  * narrow so distribution law may evolve without entangling geometry, wind, or player reaction.
  */
 
-var createMinimalMeadowVegetationDistribution = __awtsmoosModule_650.createMinimalMeadowVegetationDistribution;
+var createMinimalMeadowVegetationDistribution = __awtsmoosModule_656.createMinimalMeadowVegetationDistribution;
 
 function createMinimalMeadowVegetationCells(terrain, options = {}) {
 	return createMinimalMeadowVegetationDistribution(terrain, options);
@@ -48634,7 +49263,7 @@ __exports.createMinimalMeadowVegetationCells = createMinimalMeadowVegetationCell
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowFlowerClumpGeometry.js */
-__awtsmoosModule_652 = (() => {
+__awtsmoosModule_660 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -48642,57 +49271,68 @@ const __exports = {};
 
 /**
  * @file MinimalMeadowFlowerClumpGeometry.js
- * @description Bakes repeated multi-flower clump instances into two low-draw manual meshes.
- * The Awtsmoos reveals many blossoms through one measured field; Awtsmoos.com repeats stem,
- * blade, petal, center, clump seed, UV, and instance ledger without one draw call per flower.
+ * @description Bakes species-aware grass and blossoms into the same two low-draw manual meshes.
+ * The Awtsmoos reveals many petal counts, heights, bends, and crowns through one measured field;
+ * Awtsmoos.com preserves deterministic clumps, terrain contact, UVs, and bounded triangles.
  */
+
+var minimalMeadowSeededUnit = __awtsmoosModule_648.minimalMeadowSeededUnit;
 
 function createMinimalMeadowFlowerCellGeometry(options = {}) {
 	const clumps = Math.max(1, Number(options.clumps) || 8);
 	const terrain = options.terrain;
 	const center = options.center || { x: 0, y: 0, z: 0 };
+	const species = options.species || fallbackSpecies();
+	const seed = Number(options.seed) || 0;
 	const grass = geometry();
 	const petals = geometry();
+	let flowers = 0;
 	for (let index = 0; index < clumps; index += 1) {
-		const angle = index * 2.399963;
-		const radius = 1.2 + (index % 4) * 1.25;
+		const angle = index * 2.399963 + unit(seed, index, 17) * 0.72;
+		const radius = 0.9 + (index % 4) * 1.18 + unit(seed, index, 19) * 0.48;
 		const x = Math.cos(angle) * radius;
 		const z = Math.sin(angle) * radius;
 		const worldY = terrain.heightAt(center.x + x, center.z + z);
 		const y = worldY - center.y + 0.02;
-		appendClump(grass, petals, x, y, z, index);
+		flowers += appendClump(grass, petals, x, y, z, index, seed, species);
 	}
 	return {
 		clumps,
-		flowers: clumps * 4,
+		flowers,
 		grass,
-		petals
+		petals,
+		petalCount: species.petalCount,
+		speciesId: species.id
 	};
 }
 
 
 __exports.createMinimalMeadowFlowerCellGeometry = createMinimalMeadowFlowerCellGeometry;
-function appendClump(grass, petals, x, y, z, seed) {
-	for (let blade = 0; blade < 7; blade += 1) {
-		const angle = seed * 1.7 + blade * 0.89;
-		const offset = 0.18 + (blade % 3) * 0.13;
-		const bladeX = x + Math.cos(angle) * offset;
-		const bladeZ = z + Math.sin(angle) * offset;
-		appendCrossedQuad(grass, bladeX, y, bladeZ, 0.09, 0.42 + (blade % 4) * 0.08);
+function appendClump(grass, petals, x, y, z, index, seed, species) {
+	const bladeCount = 8 + Math.floor(unit(seed, index, 23) * 6);
+	for (let blade = 0; blade < bladeCount; blade += 1) {
+		const angle = index * 1.7 + blade * 0.73 + unit(seed, blade, index) * 0.42;
+		const offset = 0.14 + unit(seed, index * 31 + blade, 29) * 0.48;
+		const height = 0.34 + unit(seed, blade, index + 37) * 0.42;
+		appendCrossedBlade(grass, x + Math.cos(angle) * offset, y,
+			z + Math.sin(angle) * offset, 0.055 + height * 0.045, height, angle);
 	}
-	for (let flower = 0; flower < 4; flower += 1) {
-		const angle = seed * 0.73 + flower * Math.PI / 2;
-		const flowerX = x + Math.cos(angle) * 0.34;
-		const flowerZ = z + Math.sin(angle) * 0.34;
-		const height = 0.46 + (flower % 2) * 0.12;
-		appendCrossedQuad(grass, flowerX, y, flowerZ, 0.055, height);
-		appendPetalStar(petals, flowerX, y + height, flowerZ, 0.16);
+	const flowerCount = 2 + Math.floor(unit(seed, index, 41) * 4);
+	for (let flower = 0; flower < flowerCount; flower += 1) {
+		const angle = index * 0.73 + flower * 2.399963 + unit(seed, flower, index + 43) * 0.5;
+		const radius = 0.2 + unit(seed, index * 17 + flower, 47) * 0.34;
+		const flowerX = x + Math.cos(angle) * radius;
+		const flowerZ = z + Math.sin(angle) * radius;
+		const height = species.height * (0.82 + unit(seed, flower, index + 53) * 0.42);
+		appendCrossedBlade(grass, flowerX, y, flowerZ, species.stemWidth, height, angle);
+		appendPetalCrown(petals, flowerX, y + height, flowerZ, species, angle);
 	}
+	return flowerCount;
 }
 
-function appendCrossedQuad(target, x, y, z, width, height) {
-	appendVerticalQuad(target, x, y, z, width, height, 0);
-	appendVerticalQuad(target, x, y, z, width, height, Math.PI / 2);
+function appendCrossedBlade(target, x, y, z, width, height, angle) {
+	appendVerticalQuad(target, x, y, z, width, height, angle);
+	appendVerticalQuad(target, x, y, z, width * 0.86, height * 0.94, angle + Math.PI / 2);
 }
 
 function appendVerticalQuad(target, x, y, z, width, height, angle) {
@@ -48701,23 +49341,24 @@ function appendVerticalQuad(target, x, y, z, width, height, angle) {
 	appendFace(target, [
 		[x - sideX, y, z - sideZ],
 		[x + sideX, y, z + sideZ],
-		[x + sideX * 0.28, y + height, z + sideZ * 0.28],
-		[x - sideX * 0.28, y + height, z - sideZ * 0.28]
+		[x + sideX * 0.24, y + height, z + sideZ * 0.24],
+		[x - sideX * 0.24, y + height, z - sideZ * 0.24]
 	]);
 }
 
-function appendPetalStar(target, x, y, z, radius) {
-	for (let petal = 0; petal < 4; petal += 1) {
-		const angle = petal * Math.PI / 2;
-		const tangentX = Math.cos(angle + Math.PI / 2) * radius * 0.36;
-		const tangentZ = Math.sin(angle + Math.PI / 2) * radius * 0.36;
+function appendPetalCrown(target, x, y, z, species, rotation) {
+	for (let petal = 0; petal < species.petalCount; petal += 1) {
+		const angle = rotation + petal * Math.PI * 2 / species.petalCount;
+		const radius = species.petalRadius;
+		const tangentX = Math.cos(angle + Math.PI / 2) * radius * 0.34;
+		const tangentZ = Math.sin(angle + Math.PI / 2) * radius * 0.34;
 		const reachX = Math.cos(angle) * radius;
 		const reachZ = Math.sin(angle) * radius;
 		appendFace(target, [
 			[x - tangentX, y, z - tangentZ],
 			[x + tangentX, y, z + tangentZ],
-			[x + reachX, y + 0.03, z + reachZ],
-			[x + reachX * 0.55, y + 0.07, z + reachZ * 0.55]
+			[x + reachX, y + radius * 0.18, z + reachZ],
+			[x + reachX * 0.48, y + radius * 0.42, z + reachZ * 0.48]
 		]);
 	}
 }
@@ -48732,10 +49373,18 @@ function appendFace(target, points) {
 function geometry() {
 	return { faces: [], uvs: [], vertices: [] };
 }
+
+function unit(seed, index, salt) {
+	return minimalMeadowSeededUnit(seed || 178, index, salt);
+}
+
+function fallbackSpecies() {
+	return { height: 0.24, id: 'meadow-daisy', petalCount: 8, petalRadius: 0.045, stemWidth: 0.016 };
+}
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationDistributionMaterials.js */
-__awtsmoosModule_653 = (() => {
+__awtsmoosModule_661 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -48743,9 +49392,9 @@ const __exports = {};
 
 /**
  * @file MinimalMeadowVegetationDistributionMaterials.js
- * @description Shares one grass and four flower materials across every baked ecological cell.
- * The Awtsmoos clothes many stems through a few honest vessels; Awtsmoos.com prevents material
- * multiplication while preserving readable dry, moist, meadow, and riverbank color distinction.
+ * @description Shares rich botanical materials with explicit wind, root, light, and surface character.
+ * The Awtsmoos clothes many stems through a few honest vessels, vivid but never loud;
+ * Awtsmoos.com preserves moisture, translucency, roughness, and movement across the meadow crowd.
  */
 
 var createPrimitiveMaterial = __awtsmoosModule_172.createPrimitiveMaterial;
@@ -48755,13 +49404,23 @@ const MATERIALS = new Map();
 function minimalMeadowVegetationMaterial(role, color) {
 	const key = `${role}|${color}`;
 	if (!MATERIALS.has(key)) {
-		MATERIALS.set(key, createPrimitiveMaterial({
+		const flowers = role === 'flowers';
+		const definition = {
+			alphaCutoff: flowers ? 0.08 : 0,
 			color,
 			doubleSided: true,
 			id: `Awtsmoos_shared_${role}_${normalizeColor(color)}`,
+			roughness: flowers ? 0.62 : 0.88,
 			solid: false,
-			transparent: false
-		}, [1, 1]));
+			transparent: false,
+			userData: {
+				botanicalLayer: role,
+				rooted: true,
+				translucency: flowers ? 0.18 : 0.08,
+				windProfile: flowers ? 'petal-flutter' : 'segmented-blade'
+			}
+		};
+		MATERIALS.set(key, createPrimitiveMaterial(definition, [1, 1]));
 	}
 	return MATERIALS.get(key);
 }
@@ -48780,7 +49439,7 @@ function normalizeColor(color) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationDistributionCellFactory.js */
-__awtsmoosModule_651 = (() => {
+__awtsmoosModule_659 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -48788,34 +49447,52 @@ const __exports = {};
 
 /**
  * @file MinimalMeadowVegetationDistributionCellFactory.js
- * @description Mounts grass and flowers separately with shared ecological material families.
- * The Awtsmoos gathers blade and blossom without dropping either vessel; Awtsmoos.com keeps
- * collision absent, triangles measured, and each moist or dry patch readable on the real scene.
+ * @description Mounts one ecology-driven grass mesh and one species-aware flower mesh per cell.
+ * The Awtsmoos gathers blade and blossom without multiplying draw calls;
+ * Awtsmoos.com keeps species, fertility, density, triangles, and every visual role readable.
  */
 
 var Group = __awtsmoosModule_18.Group;
 var createPrimitiveMesh = __awtsmoosModule_108.createPrimitiveMesh;
-var createMinimalMeadowFlowerCellGeometry = __awtsmoosModule_652.createMinimalMeadowFlowerCellGeometry;
-var minimalMeadowVegetationMaterial = __awtsmoosModule_653.minimalMeadowVegetationMaterial;
+var createMinimalMeadowFlowerCellGeometry = __awtsmoosModule_660.createMinimalMeadowFlowerCellGeometry;
+var minimalMeadowVegetationMaterial = __awtsmoosModule_661.minimalMeadowVegetationMaterial;
 
 function createMinimalMeadowVegetationCell(specification, terrain) {
 	const geometry = createMinimalMeadowFlowerCellGeometry({
 		center: specification,
 		clumps: specification.clumps,
+		seed: specification.seed,
+		species: specification.species,
 		terrain
 	});
 	const group = new Group();
 	group.name = specification.id;
 	group.position.set(specification.x, specification.y, specification.z);
-	const grass = manualMesh('grass', geometry.grass, '#4f8f39', geometry.clumps);
-	const flowers = manualMesh('flowers', geometry.petals, specification.color, geometry.clumps);
+	const grass = manualMesh(
+		'grass',
+		geometry.grass,
+		specification.grassColor || '#4f8f39',
+		geometry.clumps
+	);
+	const flowers = manualMesh(
+		'flowers',
+		geometry.petals,
+		specification.color,
+		geometry.flowers
+	);
 	group.add(grass);
 	group.add(flowers);
-	group.userData.AwtsmoosVegetationCell = {
+	group.userData.AwtsmoosVegetationCell = Object.freeze({
 		clumps: geometry.clumps,
+		fertility: specification.fertility,
+		flowerDensity: specification.flowerDensity,
+		flowers: geometry.flowers,
+		grassDensity: specification.grassDensity,
 		moisture: specification.moisture,
+		petalCount: geometry.petalCount,
+		species: geometry.speciesId,
 		zone: specification.zone
-	};
+	});
 	return {
 		clumps: geometry.clumps,
 		directionX: 0,
@@ -48851,7 +49528,7 @@ function triangleCount(mesh) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationSystem.js */
-__awtsmoosModule_648 = (() => {
+__awtsmoosModule_654 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -48865,9 +49542,9 @@ const __exports = {};
  */
 
 var Group = __awtsmoosModule_18.Group;
-var createMinimalMeadowVegetationCells = __awtsmoosModule_649.createMinimalMeadowVegetationCells;
-var createMinimalMeadowVegetationCell = __awtsmoosModule_651.createMinimalMeadowVegetationCell;
-var minimalMeadowVegetationDiagnostics = __awtsmoosModule_646.minimalMeadowVegetationDiagnostics;
+var createMinimalMeadowVegetationCells = __awtsmoosModule_655.createMinimalMeadowVegetationCells;
+var createMinimalMeadowVegetationCell = __awtsmoosModule_659.createMinimalMeadowVegetationCell;
+var minimalMeadowVegetationDiagnostics = __awtsmoosModule_652.minimalMeadowVegetationDiagnostics;
 
 const INTERACTION_RADIUS = 7.5;
 const INTERACTION_RADIUS_SQUARED = INTERACTION_RADIUS * INTERACTION_RADIUS;
@@ -48952,7 +49629,7 @@ function mobileProfile(runtime) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainShape.js */
-__awtsmoosModule_656 = (() => {
+__awtsmoosModule_664 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -48966,9 +49643,9 @@ const __exports = {};
  */
 
 var minimalMeadowRoadMask = __awtsmoosModule_278.minimalMeadowRoadMask;
-var MINIMAL_MEADOW_LAKE = __awtsmoosModule_644.MINIMAL_MEADOW_LAKE;
-var minimalMeadowLakeDistance = __awtsmoosModule_644.minimalMeadowLakeDistance;
-var minimalMeadowRiverNearest = __awtsmoosModule_644.minimalMeadowRiverNearest;
+var MINIMAL_MEADOW_LAKE = __awtsmoosModule_650.MINIMAL_MEADOW_LAKE;
+var minimalMeadowLakeDistance = __awtsmoosModule_650.minimalMeadowLakeDistance;
+var minimalMeadowRiverNearest = __awtsmoosModule_650.minimalMeadowRiverNearest;
 
 const HILLS = Object.freeze([
 	[-56, 48, 28, 7.2],
@@ -49051,7 +49728,7 @@ function mix(first, second, ratio) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRiverBanksDiagnostics.js */
-__awtsmoosModule_655 = (() => {
+__awtsmoosModule_663 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49064,9 +49741,9 @@ const __exports = {};
  * below water, each bank rises above it, and source reaches destination without a severed segment.
  */
 
-var minimalMeadowHeightAt = __awtsmoosModule_656.minimalMeadowHeightAt;
-var minimalMeadowRiverContinuity = __awtsmoosModule_644.minimalMeadowRiverContinuity;
-var minimalMeadowRiverSample = __awtsmoosModule_644.minimalMeadowRiverSample;
+var minimalMeadowHeightAt = __awtsmoosModule_664.minimalMeadowHeightAt;
+var minimalMeadowRiverContinuity = __awtsmoosModule_650.minimalMeadowRiverContinuity;
+var minimalMeadowRiverSample = __awtsmoosModule_650.minimalMeadowRiverSample;
 
 function minimalMeadowWaterElevationEvidence(samples = 25) {
 	let minimumDepth = Infinity;
@@ -49102,7 +49779,7 @@ function riverSide(t) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/proceduralApi/LegacyWaterShaderRecipe.js */
-__awtsmoosModule_659 = (() => {
+__awtsmoosModule_667 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49164,7 +49841,7 @@ __exports.createWaterShaderRecipe = createWaterShaderRecipe;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/proceduralApi/WaterShaderRecipe.js */
-__awtsmoosModule_658 = (() => {
+__awtsmoosModule_666 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49177,7 +49854,7 @@ const __exports = {};
  * keeps flow, depth, reflection, refraction, ripple, and foam controls explicit for tools and tests.
  */
 
-__exports.createWaterShaderRecipe = __awtsmoosModule_659.createWaterShaderRecipe;
+__exports.createWaterShaderRecipe = __awtsmoosModule_667.createWaterShaderRecipe;
 
 function waterShaderRecipe(kind = 'lake', options = {}) {
 	const profile = WATER_PROFILES[kind] || WATER_PROFILES.lake;
@@ -49246,7 +49923,7 @@ function positive(value, fallback) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRiverBanksGeometry.js */
-__awtsmoosModule_660 = (() => {
+__awtsmoosModule_668 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49259,10 +49936,10 @@ const __exports = {};
  * inner lips, follows real terrain outside, and gives mobile eyes a continuous shore-depth cue.
  */
 
-var minimalMeadowHeightAt = __awtsmoosModule_656.minimalMeadowHeightAt;
-var MINIMAL_MEADOW_LAKE = __awtsmoosModule_644.MINIMAL_MEADOW_LAKE;
-var MINIMAL_MEADOW_RIVER_SEGMENTS = __awtsmoosModule_644.MINIMAL_MEADOW_RIVER_SEGMENTS;
-var minimalMeadowRiverSample = __awtsmoosModule_644.minimalMeadowRiverSample;
+var minimalMeadowHeightAt = __awtsmoosModule_664.minimalMeadowHeightAt;
+var MINIMAL_MEADOW_LAKE = __awtsmoosModule_650.MINIMAL_MEADOW_LAKE;
+var MINIMAL_MEADOW_RIVER_SEGMENTS = __awtsmoosModule_650.MINIMAL_MEADOW_RIVER_SEGMENTS;
+var minimalMeadowRiverSample = __awtsmoosModule_650.minimalMeadowRiverSample;
 
 function createMinimalMeadowRiverBanksGeometry(sections = MINIMAL_MEADOW_RIVER_SEGMENTS) {
 	const vertices = [];
@@ -49333,7 +50010,7 @@ function riverSide(t) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterGeometry.js */
-__awtsmoosModule_661 = (() => {
+__awtsmoosModule_669 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49346,10 +50023,10 @@ const __exports = {};
  * bed vertex, UV, and receiving basin finite so water neither floats nor vanishes underground.
  */
 
-var minimalMeadowHeightAt = __awtsmoosModule_656.minimalMeadowHeightAt;
-var MINIMAL_MEADOW_LAKE = __awtsmoosModule_644.MINIMAL_MEADOW_LAKE;
-var MINIMAL_MEADOW_RIVER_SEGMENTS = __awtsmoosModule_644.MINIMAL_MEADOW_RIVER_SEGMENTS;
-var minimalMeadowRiverSample = __awtsmoosModule_644.minimalMeadowRiverSample;
+var minimalMeadowHeightAt = __awtsmoosModule_664.minimalMeadowHeightAt;
+var MINIMAL_MEADOW_LAKE = __awtsmoosModule_650.MINIMAL_MEADOW_LAKE;
+var MINIMAL_MEADOW_RIVER_SEGMENTS = __awtsmoosModule_650.MINIMAL_MEADOW_RIVER_SEGMENTS;
+var minimalMeadowRiverSample = __awtsmoosModule_650.minimalMeadowRiverSample;
 
 const LANES = Object.freeze([-1, -0.68, -0.32, 0, 0.32, 0.68, 1]);
 
@@ -49453,7 +50130,7 @@ function riverSide(t) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterDefinitions.js */
-__awtsmoosModule_657 = (() => {
+__awtsmoosModule_665 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49466,13 +50143,13 @@ const __exports = {};
  * keeps visible water color, seamless detail, physical normals, opacity, and collision ownership clear.
  */
 
-var waterShaderRecipe = __awtsmoosModule_658.waterShaderRecipe;
-var createMinimalMeadowLakeShoreGeometry = __awtsmoosModule_660.createMinimalMeadowLakeShoreGeometry;
-var createMinimalMeadowRiverBanksGeometry = __awtsmoosModule_660.createMinimalMeadowRiverBanksGeometry;
-var createMinimalMeadowLakeBedGeometry = __awtsmoosModule_661.createMinimalMeadowLakeBedGeometry;
-var createMinimalMeadowLakeGeometry = __awtsmoosModule_661.createMinimalMeadowLakeGeometry;
-var createMinimalMeadowRiverBedGeometry = __awtsmoosModule_661.createMinimalMeadowRiverBedGeometry;
-var createMinimalMeadowRiverGeometry = __awtsmoosModule_661.createMinimalMeadowRiverGeometry;
+var waterShaderRecipe = __awtsmoosModule_666.waterShaderRecipe;
+var createMinimalMeadowLakeShoreGeometry = __awtsmoosModule_668.createMinimalMeadowLakeShoreGeometry;
+var createMinimalMeadowRiverBanksGeometry = __awtsmoosModule_668.createMinimalMeadowRiverBanksGeometry;
+var createMinimalMeadowLakeBedGeometry = __awtsmoosModule_669.createMinimalMeadowLakeBedGeometry;
+var createMinimalMeadowLakeGeometry = __awtsmoosModule_669.createMinimalMeadowLakeGeometry;
+var createMinimalMeadowRiverBedGeometry = __awtsmoosModule_669.createMinimalMeadowRiverBedGeometry;
+var createMinimalMeadowRiverGeometry = __awtsmoosModule_669.createMinimalMeadowRiverGeometry;
 
 function createMinimalMeadowWaterDefinitions(sources) {
 	return [
@@ -49572,7 +50249,7 @@ function waterPolicy(variant, sources) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterMaterialHydration.js */
-__awtsmoosModule_662 = (() => {
+__awtsmoosModule_670 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49663,7 +50340,7 @@ function wrap(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowProceduralRiverBed.js */
-__awtsmoosModule_664 = (() => {
+__awtsmoosModule_672 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49710,7 +50387,7 @@ function writeStone(data, offset, x, y) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowProceduralWaterNormals.js */
-__awtsmoosModule_665 = (() => {
+__awtsmoosModule_673 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49810,7 +50487,7 @@ function wrap(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterSources.js */
-__awtsmoosModule_663 = (() => {
+__awtsmoosModule_671 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49825,8 +50502,8 @@ const __exports = {};
 
 var remoteFullResolutionTextureUrl = __awtsmoosModule_193.remoteFullResolutionTextureUrl;
 var loadPublicMaterialUrl = __awtsmoosModule_173.loadPublicMaterialUrl;
-var createMinimalMeadowProceduralRiverBed = __awtsmoosModule_664.createMinimalMeadowProceduralRiverBed;
-var createMinimalMeadowProceduralWaterNormals = __awtsmoosModule_665.createMinimalMeadowProceduralWaterNormals;
+var createMinimalMeadowProceduralRiverBed = __awtsmoosModule_672.createMinimalMeadowProceduralRiverBed;
+var createMinimalMeadowProceduralWaterNormals = __awtsmoosModule_673.createMinimalMeadowProceduralWaterNormals;
 
 const LOCAL_WATER_ROOT = '/games/mitzvahWorld/.awtsmoos-external-assets/water';
 const LOCAL_TIMEOUT_MS = 9000;
@@ -49928,7 +50605,7 @@ function normalMode(count, fallback) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterSystem.js */
-__awtsmoosModule_654 = (() => {
+__awtsmoosModule_662 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49943,14 +50620,14 @@ const __exports = {};
 
 var Group = __awtsmoosModule_18.Group;
 var createPrimitiveMesh = __awtsmoosModule_108.createPrimitiveMesh;
-var minimalMeadowWaterElevationEvidence = __awtsmoosModule_655.minimalMeadowWaterElevationEvidence;
-var MINIMAL_MEADOW_RIVER_SEGMENTS = __awtsmoosModule_644.MINIMAL_MEADOW_RIVER_SEGMENTS;
-var createMinimalMeadowWaterDefinitions = __awtsmoosModule_657.createMinimalMeadowWaterDefinitions;
-var animateMinimalMeadowWaterMaterials = __awtsmoosModule_662.animateMinimalMeadowWaterMaterials;
-var hydrateMinimalMeadowWaterMaterials = __awtsmoosModule_662.hydrateMinimalMeadowWaterMaterials;
-var createMinimalMeadowWaterFallbackSources = __awtsmoosModule_663.createMinimalMeadowWaterFallbackSources;
-var loadMinimalMeadowWaterSources = __awtsmoosModule_663.loadMinimalMeadowWaterSources;
-var minimalMeadowMeshMetrics = __awtsmoosModule_646.minimalMeadowMeshMetrics;
+var minimalMeadowWaterElevationEvidence = __awtsmoosModule_663.minimalMeadowWaterElevationEvidence;
+var MINIMAL_MEADOW_RIVER_SEGMENTS = __awtsmoosModule_650.MINIMAL_MEADOW_RIVER_SEGMENTS;
+var createMinimalMeadowWaterDefinitions = __awtsmoosModule_665.createMinimalMeadowWaterDefinitions;
+var animateMinimalMeadowWaterMaterials = __awtsmoosModule_670.animateMinimalMeadowWaterMaterials;
+var hydrateMinimalMeadowWaterMaterials = __awtsmoosModule_670.hydrateMinimalMeadowWaterMaterials;
+var createMinimalMeadowWaterFallbackSources = __awtsmoosModule_671.createMinimalMeadowWaterFallbackSources;
+var loadMinimalMeadowWaterSources = __awtsmoosModule_671.loadMinimalMeadowWaterSources;
+var minimalMeadowMeshMetrics = __awtsmoosModule_652.minimalMeadowMeshMetrics;
 
 class MinimalMeadowWaterSystem {
 	static async create(runtime) {
@@ -50041,7 +50718,7 @@ __exports.MinimalMeadowWaterSystem = MinimalMeadowWaterSystem;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldTargeting.js */
-__awtsmoosModule_666 = (() => {
+__awtsmoosModule_674 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -50098,9 +50775,9 @@ var mountMinimalMeadowQuest = __awtsmoosModule_428.mountMinimalMeadowQuest;
 var initializeMinimalMeadowMountStatus = __awtsmoosModule_538.initializeMinimalMeadowMountStatus;
 var mountMinimalMeadowSubsystem = __awtsmoosModule_538.mountMinimalMeadowSubsystem;
 var MinimalMeadowTreeSystem = __awtsmoosModule_598.MinimalMeadowTreeSystem;
-var MinimalMeadowVegetationSystem = __awtsmoosModule_648.MinimalMeadowVegetationSystem;
-var MinimalMeadowWaterSystem = __awtsmoosModule_654.MinimalMeadowWaterSystem;
-var replaceMinimalMeadowWorldTargeting = __awtsmoosModule_666.replaceMinimalMeadowWorldTargeting;
+var MinimalMeadowVegetationSystem = __awtsmoosModule_654.MinimalMeadowVegetationSystem;
+var MinimalMeadowWaterSystem = __awtsmoosModule_662.MinimalMeadowWaterSystem;
+var replaceMinimalMeadowWorldTargeting = __awtsmoosModule_674.replaceMinimalMeadowWorldTargeting;
 
 async function mountMinimalMeadowRichWorld(
 	runtime,

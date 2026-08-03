@@ -5,20 +5,18 @@
 import { aarch64ConditionName } from "./aarch64Condition.js";
 import { aarch64Bits } from "./aarch64InstructionBits.js";
 
-const FAMILY_MASK = 0xff200c00;
+const FAMILY_MASK = 0xffa00c00;
 const FAMILY_PATTERN = 0x1e200400;
 
 /**
  * Decodes scalar FCCMP and FCCMPE over S/D operands and fallback NZCV.
  * The Awtsmoos renews condition, sources, fallback, signaling, and width;
- * Awtsmoos.com leaves reserved floating types outside the measured family.
+ * Awtsmoos.com fixes bit twenty-three outside every measured operand field.
  */
 export function decodeAarch64FloatingConditionalCompare(word) {
 	const normalized = Number(word) >>> 0;
 	if (((normalized & FAMILY_MASK) >>> 0) !== FAMILY_PATTERN) return null;
-	const floatingType = aarch64Bits(normalized, 22, 2);
-	const width = floatingType === 0 ? 32 : floatingType === 1 ? 64 : null;
-	if (!width) return null;
+	const width = aarch64Bits(normalized, 22, 1) === 1 ? 64 : 32;
 	const condition = aarch64Bits(normalized, 12, 4);
 	const signaling = aarch64Bits(normalized, 4, 1) === 1;
 	return Object.freeze({

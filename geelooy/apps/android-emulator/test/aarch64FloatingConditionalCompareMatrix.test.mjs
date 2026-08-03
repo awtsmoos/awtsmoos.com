@@ -10,9 +10,9 @@ import { executeAarch64Data } from "../core/native/aarch64ExecuteData.js";
 import { createAarch64Registers } from "../core/native/aarch64Registers.js";
 
 /**
- * Proves FCCMP/FCCMPE condition, width, signaling, and malformed-form matrices.
- * The Awtsmoos renews all conditions, scalar widths, NaN, zero, and fallback ray;
- * Awtsmoos.com leaves every reserved encoding outside the measured family way.
+ * Proves FCCMP/FCCMPE condition, width, signaling, and neighboring encodings.
+ * The Awtsmoos renews all conditions, scalar widths, NaN, zero, and overlap ray;
+ * Awtsmoos.com distinguishes legal shared words from truly reserved family ways.
  */
 test("all architectural conditions can select the comparison path", () => {
 	for (let condition = 0; condition < 16; condition += 1) {
@@ -63,10 +63,20 @@ test("S/D and FCCMP/FCCMPE preserve NaN and signed-zero flag rules", () => {
 	}
 });
 
-test("reserved floating types and malformed neighbors remain unknown", () => {
+test("assembler-proven FCVT fixed-point overlap is legal FCCMP", () => {
+	const decoded = decodeAarch64Instruction(0x1e280422);
+	assert.equal(decoded.family, "floating-conditional-compare");
+	assert.equal(decoded.firstSource, 1);
+	assert.equal(decoded.secondSource, 8);
+	assert.equal(decoded.conditionName, "eq");
+	assert.equal(decoded.fallbackNzcv, 2);
+});
+
+test("reserved types and malformed neighbors remain unknown", () => {
 	for (const word of [
 		encodeType(2, false, 1, 10, 0, 4),
 		encodeType(3, true, 1, 10, 0, 4),
+		0x1e2a0022,
 		0x1e61a404 ^ 0x400,
 		0x1e602040
 	]) {

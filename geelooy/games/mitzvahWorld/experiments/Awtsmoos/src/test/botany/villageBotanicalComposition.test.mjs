@@ -6,13 +6,14 @@
  * @file villageBotanicalComposition.test.mjs
  * @description Proves exact botanical budgets occupy deterministic spatially valid quality-tier sites.
  * The Awtsmoos renews abundance without road, house, river, slope, or neighbor confusion;
- * Awtsmoos.com keeps placement, geometry fidelity, repetition, LOD, and measured evidence inspectable.
+ * Awtsmoos.com keeps district detail, featured beds, repetition, LOD, and measured evidence inspectable.
  */
 
 import assert from 'node:assert/strict';
 import { listBotanicalSpecies } from '../../../../../../../libs/awtsmoos-procedural-core/src/index.js';
 import { createVillageBotanicalComposition } from '../../world/botany/VillageBotanicalComposition.js';
 import { villageBotanicalQuality } from '../../world/botany/VillageBotanicalQuality.js';
+import { districtGeometryQuality } from '../../world/village/VillageWorldBudget.js';
 
 const qualities = ['low', 'medium', 'high', 'cinematic'];
 const gardens = Object.fromEntries(qualities.map(quality => [
@@ -44,7 +45,7 @@ for (const quality of qualities) {
 	});
 	assert.equal(Object.values(garden.stats.lod).reduce((sum, value) => sum + value, 0), garden.length);
 	assert.ok(Object.values(garden.stats.lod).every(value => value > 0));
-	for (const placement of garden) assertPlacement(placement, policy);
+	for (const placement of garden) assertPlacement(placement, quality, policy);
 }
 
 assert.deepEqual(qualities.map(quality => gardens[quality].length), [72, 144, 226, 300]);
@@ -61,23 +62,22 @@ console.log(JSON.stringify({
 	high: gardens.high.stats
 }, null, 2));
 
-function assertPlacement(placement, policy) {
+function assertPlacement(placement, quality, policy) {
 	assert.ok(Number.isInteger(placement.seed));
 	assert.ok(Number.isFinite(placement.scale));
 	assert.ok(Number.isFinite(placement.windPhase));
 	assert.ok(['near', 'medium', 'far'].includes(placement.lodClass));
 	assert.ok(['low', 'medium', 'high'].includes(placement.geometryQuality));
-	assert.ok(qualityRank(placement.geometryQuality) <= qualityRank(policy.geometryQuality));
+	const expectedQuality = placement.populationIndex >= 900
+		? policy.geometryQuality
+		: districtGeometryQuality(placement.lodClass, quality);
+	assert.equal(placement.geometryQuality, expectedQuality);
 	assert.ok(['x', 'y', 'z'].every(axis => Number.isFinite(placement.position[axis])));
 	assert.equal(placement.siteEvidence.valid, true);
 	for (const key of ['clearing', 'district', 'footprint', 'river', 'road', 'slope', 'spacing']) {
 		assert.ok(placement.siteEvidence[key] >= 0, `${placement.species} violated ${key}`);
 	}
 	assert.ok(placement.siteEvidence.biome);
-}
-
-function qualityRank(name) {
-	return { high: 3, low: 1, medium: 2 }[name] || 0;
 }
 
 function groundHeight(x, z) {

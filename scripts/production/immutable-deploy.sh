@@ -17,6 +17,11 @@ previous_name="$(basename "$previous")"
 previous_commit="${previous_name#awtsmoos-}"
 allowed_legacy="${AWTSMOOS_PRODUCTION_ALLOW_LEGACY_PREDECESSOR:-}"
 legacy_predecessor=0
+legacy_name_allowed=0
+if [[ "$previous_name" =~ ^awtsmoos-hotfix-[A-Za-z0-9._-]+-[0-9a-f]{20,40}$ ]] \
+	|| [[ "$previous_name" =~ ^awtsmoos-local-[0-9a-f]{64}$ ]]; then
+	legacy_name_allowed=1
+fi
 stage="$target.stage-$$"
 next_link="$releases/current.next-$$"
 user_link=""
@@ -29,7 +34,7 @@ trap cleanup EXIT
 
 if ! git -C "$repo" cat-file -e "$previous_commit^{commit}" 2>/dev/null; then
 	if [ "$allowed_legacy" != "$previous_name" ] \
-		|| [[ ! "$previous_name" =~ ^awtsmoos-hotfix-[A-Za-z0-9._-]+-[0-9a-f]{20,40}$ ]] \
+		|| [ "$legacy_name_allowed" -ne 1 ] \
 		|| [ ! -f "$previous/index.js" ] \
 		|| [ ! -L "$previous/users" ]; then
 		printf 'B"H immutable deploy refused unknown predecessor: %s\n' "$previous" >&2
