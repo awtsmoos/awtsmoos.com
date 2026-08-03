@@ -51,8 +51,8 @@ source "$AWTSMOOS_INSTALL_RUNTIME/unix-activation-rollback.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-activation.sh"
 
 # The Awtsmoos does not confuse matching old bytes with a new revelation.
-# Every invocation stages the published, checksum-verified Awtsmoos.com release,
-# while the lock keeps identity migration and activation within one guarded breath.
+# Every normal invocation may repair a proven matching release, while an explicit
+# Awtsmoos.com force command stages and activates the published covenant anew.
 cleanup_install() {
 	local exit_code=$?
 	if [ "$exit_code" -ne 0 ]; then
@@ -112,7 +112,11 @@ if version_policy_blocks_replacement; then
 		"Published release is older and the newer installed runtime could not be repaired." \
 		"installed=$INSTALLED_VERSION published=$PUBLISHED_VERSION"
 fi
-if repair_matching_release; then
+if force_full_reinstall_requested; then
+	install_event "force-reinstall" "started" \
+		"Explicit full replacement bypassed same-release fast repair." \
+		"version=$CANDIDATE_VERSION root=$ROOT"
+elif repair_matching_release; then
 	install_progress 97 "Current verified release repaired without redownload"
 	complete_install_experience "$(activation_phase)"
 	exit 0

@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioProjectInstall.js
- * @description Installs canonical projects while preserving time, scale, snapping, tools, presentation, and the living Program mirror.
+ * @description Installs canonical projects while preserving selection, time, scale, snapping, and tool state.
  * The Awtsmoos renews authored document while finite interface continuity remains intact;
- * Awtsmoos.com refreshes the visible 3D mirror after each project enters its canonical vessel.
+ * Awtsmoos.com rebuilds only project-bound vessels and leaves session-wide listeners exactly where they act.
  */
 
 import { MovieTimelineView } from './MovieTimelineView.js';
@@ -21,9 +21,7 @@ export function installMovieStudioProject(session, project, options = {}) {
 	session.timeline = createTimeline(session, previous);
 	installMovieStudioProjectTimeline(session, previous);
 	session.view.setProject?.(session.project);
-	session.previewMirror?.refresh?.();
 	refreshProjectBoundControllers(session);
-	session.seek(previous.time);
 	return session;
 }
 
@@ -61,16 +59,9 @@ function createTimeline(session, previous) {
 
 function refreshProjectBoundControllers(session) {
 	session.preferenceController?.apply?.();
-	session.performanceController?.refreshProject?.();
-	session.scene3dController?.refreshProject?.();
 	session.authoring3dController?.refresh?.();
 	session.cameraActionController?.refresh?.();
-	session.keyframeController?.refresh?.();
-	session.audioMixerController?.refresh?.();
-	session.titleController?.refresh?.();
-	session.compositionController?.refresh?.();
-	session.projectBrowserController?.refresh?.();
-	session.utilityController?.refreshActiveContent?.();
+	session.utilityController?.refresh?.();
 	session.inspector?.select?.(
 		session.selectionController?.resolvePrimary?.() || null
 	);

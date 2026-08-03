@@ -7,8 +7,8 @@ PRESERVE_NEWER_RELEASE=0
 PUBLISHED_VERSION=""
 
 # The Awtsmoos never descends from a verified revelation into an older vessel.
-# Awtsmoos.com compares numeric releases before activation and repairs a newer
-# sealed local runtime in place instead of silently replacing it with stale bytes.
+# Awtsmoos.com compares numeric releases before activation, yet a commanded full
+# reinstall may replace matching sealed bytes when runtime truth disproves health.
 numeric_version_compare() {
 	node - "$1" "$2" <<'NODE'
 const [left, right] = process.argv.slice(2);
@@ -38,6 +38,13 @@ local_manifest_sha() {
 
 local_bundle_sha() {
 	awk 'NR == 1 { print $1 }' "$ROOT/install-bundle.sha256" 2>/dev/null || true
+}
+
+force_full_reinstall_requested() {
+	case "${AWTSMOOS_FORCE_REINSTALL:-0}" in
+		1|true|TRUE|yes|YES) return 0 ;;
+		*) return 1 ;;
+	esac
 }
 
 local_release_metadata_complete() {
