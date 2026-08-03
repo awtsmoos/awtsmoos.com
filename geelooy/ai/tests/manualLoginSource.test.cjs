@@ -11,6 +11,7 @@ const ROOT = path.resolve(__dirname, "../../..");
 const FILES = [
 	"geelooy/ai/relay/split-browser/cdpChrome.cjs",
 	"geelooy/ai/relay/split-browser/debugChromeCookies.cjs",
+	"geelooy/ai/relay/split-browser/commands/BrowserSessionStatus.cjs",
 	"geelooy/ai/relay/split-browser/commands/ManualLoginGate.cjs",
 	"geelooy/ai/relay/split-browser/commands/loginOnly.cjs"
 ];

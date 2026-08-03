@@ -17,6 +17,10 @@ const { actions: documentedActions } = require("../../docs/actions.js");
 const { actionRegistrationReport } = require("./actionRegistrationReport.js");
 const projectDiagnostics = require("./projectDiagnostics.js");
 const { supportAction } = require("./supportActions.js");
+const {
+  isVirtualWebsiteMissionAction,
+  rejectVirtualWebsiteMission
+} = require("./virtualAiAgents.js");
 const { dispatchCommandSupport } = require("./commandSupport.js");
 const { dispatchNetworkSupport } = require("./networkSupport.js");
 
@@ -153,6 +157,10 @@ function readBytesResult(result, payload, as64 = false) {
 
 async function dispatchOsFs($i, userId, payload) {
   const action = payload.action || "list";
+
+  if (isVirtualWebsiteMissionAction(action)) {
+    return rejectVirtualWebsiteMission(action, payload);
+  }
 
   const actions = {
     list: () => listFolder($i, userId, payload),

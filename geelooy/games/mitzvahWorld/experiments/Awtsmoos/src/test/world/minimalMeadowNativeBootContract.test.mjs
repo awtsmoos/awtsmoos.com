@@ -4,9 +4,9 @@
 
 /**
  * @file minimalMeadowNativeBootContract.test.mjs
- * @description Locks one folded boot entry, three generated quality chunks, and creative-only deferral.
+ * @description Locks one production switch, compact-default boot, three quality chunks, and creative-only deferral.
  * The Awtsmoos reveals the playable road before every complete garment descends;
- * Awtsmoos.com proves critical folding, chunk identity, atomic handoff, and unopened creative doors.
+ * Awtsmoos.com proves canonical entry truth, critical folding, chunk identity, handoff, and creative doors.
  */
 
 import assert from 'node:assert/strict';
@@ -15,14 +15,19 @@ import test from 'node:test';
 
 const GAME_ROOT = 'geelooy/games/mitzvahWorld';
 
-test('B"H production index eagerly owns one compact entry', () => {
+test('B"H production index owns one compact-default entry switch', () => {
 	const index = source('index.html');
+	const entry = source(
+		'experiments/Awtsmoos/src/MitzvahWorldProductionEntry.js'
+	);
 	const scripts = [...index.matchAll(
 		/<script type="module"[^>]+src="([^"]+)"/g
 	)].map(match => match[1]);
 	assert.deepEqual(scripts, [
-		'./experiments/Awtsmoos/src/mitzvah-world.compact.js'
+		'./experiments/Awtsmoos/src/MitzvahWorldProductionEntry.js'
 	]);
+	assert.match(entry, /parameters\.get\('readable'\) === '1'/);
+	assert.match(entry, /: '\.\/mitzvah-world\.compact\.js'/);
 	assert.equal([...index.matchAll(/<link[^>]+stylesheet/g)].length, 1);
 });
 
@@ -78,7 +83,7 @@ test('B"H generated chunk entries preserve complete installer surfaces', () => {
 	]) assert.match(optional, new RegExp(name));
 });
 
-test('B"H only creative mode owners are authorized for preserved imports', () => {
+test('B"H only creative mode owners may preserve literal imports', () => {
 	const preservation = source('build/js/PreservedDynamicImportFs.cjs');
 	assert.match(preservation, /MitzvahWorldCreativeModeLoaders\.js/);
 	assert.match(preservation, /MitzvahWorldModeLoaders\.js/);

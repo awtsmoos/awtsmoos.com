@@ -4,16 +4,16 @@
 
 /**
  * @file PreservedDynamicImportFs.test.cjs
- * @description Proves critical boot imports fold while explicit creative launcher doors stay deferred.
- * The Awtsmoos gathers every required road without swallowing unopened studios;
- * Awtsmoos.com verifies owner policy, default folding, browser URLs, and child-source exclusion.
+ * @description Proves critical boot imports fold while every explicit creative doorway stays deferred.
+ * The Awtsmoos gathers required roads without swallowing unopened studios;
+ * Awtsmoos.com verifies route owners, creative owners, default folding, and child exclusion.
  */
 
+const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
-const test = require('node:test');
 const compilerModule = require('../../../../../ayzarim/awtsmoosDynamicServer/compactJs/compiler.js');
 const {
 	compilerFunction
@@ -21,21 +21,26 @@ const {
 
 const compile = compilerFunction(compilerModule);
 
+const PRESERVED_OWNERS = Object.freeze([
+	'MinimalSharedCreativeRoute.js',
+	'MitzvahWorldCreativeModeLoaders.js',
+	'MitzvahWorldModeLoaders.js'
+]);
+
 test('B"H critical owners fold literal local dynamic children', async () => {
 	const fixture = await compileFixture('EretzStagedRuntime.js', true);
 	assert.match(fixture, /OPTIONAL_CHILD_COMPLETE/);
 	assert.match(fixture, /Promise\.resolve\(__awtsmoosModule_/);
 });
 
-test('B"H creative owners preserve optional children outside first load', async () => {
-	const fixture = await compileFixture(
-		'MitzvahWorldCreativeModeLoaders.js',
-		true
-	);
-	assert.doesNotMatch(fixture, /OPTIONAL_CHILD_COMPLETE/);
-	assert.match(fixture, /import\(new URL\("\.\/child\.js"/);
-	assert.match(fixture, /globalThis\.location\?\.origin/);
-});
+for (const owner of PRESERVED_OWNERS) {
+	test(`B"H ${owner} preserves its optional child`, async () => {
+		const fixture = await compileFixture(owner, true);
+		assert.doesNotMatch(fixture, /OPTIONAL_CHILD_COMPLETE/);
+		assert.match(fixture, /import\(new URL\("\.\/child\.js"/);
+		assert.match(fixture, /globalThis\.location\?\.origin/);
+	});
+}
 
 test('B"H compiler default still folds creative children when preservation is off', async () => {
 	const fixture = await compileFixture(

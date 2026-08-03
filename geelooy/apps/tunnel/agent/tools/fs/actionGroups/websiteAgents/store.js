@@ -104,7 +104,7 @@ function normalize(record) {
 
 function save(record) {
 	record.updatedAt = now();
-	fs.mkdirSync(DIRECTORY, { recursive: true, mode: 0o700 });
+	ensureDirectory();
 	const target = file(record.id);
 	const temporary = `${target}.tmp-${process.pid}-${crypto.randomBytes(4).toString("hex")}`;
 	fs.writeFileSync(temporary, `${JSON.stringify(record, null, 2)}\n`, {
@@ -114,6 +114,15 @@ function save(record) {
 	fs.renameSync(temporary, target);
 	fs.chmodSync(target, 0o600);
 	return record;
+}
+
+function ensureDirectory() {
+	const privateDirectory = path.dirname(DIRECTORY);
+	fs.mkdirSync(privateDirectory, { recursive: true, mode: 0o700 });
+	fs.chmodSync(privateDirectory, 0o700);
+	fs.mkdirSync(DIRECTORY, { recursive: true, mode: 0o700 });
+	fs.chmodSync(DIRECTORY, 0o700);
+	return DIRECTORY;
 }
 
 function update(id, mutator) {
@@ -206,6 +215,7 @@ function now() {
 module.exports = {
 	DIRECTORY,
 	create,
+	ensureDirectory,
 	event,
 	list,
 	publicRecord,

@@ -7,61 +7,54 @@ const { RECOVERY_WRITE_ACTION_SET } = require(
 );
 
 const FILESYSTEM_WRITE_ACTIONS = Object.freeze([
-	"applyPatch",
-	"bulkWrite",
-	"bulkWriteIfHashes",
-	"configSet",
-	"copyFile",
-	"copyTree",
-	"delete",
-	"deleteFile",
-	"deleteTree",
-	"ensureFile",
-	"findReplace",
-	"insertAfterFunction",
-	"insertAfterScope",
-	"insertBeforeFunction",
-	"insertBeforeScope",
-	"makeFolder",
-	"mkdir",
-	"mkdirp",
-	"moveFile",
-	"moveTree",
-	"replaceFunction",
-	"replaceFunctionBody",
-	"replaceMethod",
-	"replaceRange",
-	"replaceScope",
-	"replaceScopeBody",
-	"replaceSymbol",
-	"rootSelect",
-	"touch",
-	"write",
+	"applyPatch", "bulkWrite", "bulkWriteIfHashes", "configSet", "copyFile",
+	"copyTree", "delete", "deleteFile", "deleteTree", "ensureFile",
+	"findReplace", "insertAfterFunction", "insertAfterScope",
+	"insertBeforeFunction", "insertBeforeScope", "makeFolder", "mkdir",
+	"mkdirp", "moveFile", "moveTree", "replaceFunction",
+	"replaceFunctionBody", "replaceMethod", "replaceRange", "replaceScope",
+	"replaceScopeBody", "replaceSymbol", "rootSelect", "touch", "write",
 	"writeIfHash"
+]);
+
+const MISSION_READ_ACTIONS = new Set([
+	"missionProjectDiscover", "missionProjectStatus", "missionTimeline",
+	"missionTurnStatus", "missionResourceStatus", "missionReport",
+	"missionAwareStatus", "websiteAgentMissionList",
+	"websiteAgentMissionStatus", "aiAgentWebsiteMissionStatus"
+]);
+
+const WEBSITE_BROWSER_ACTIONS = new Set([
+	"agent", "aiAgentSpawnWebsiteMission", "websiteAgentMissionStart",
+	"websiteAgentMissionMessage", "chatgptWebsiteLogout"
+]);
+
+const WEBSITE_ROOM_ACTIONS = new Set([
+	"websiteAgentMissionStop", "websiteAgentMissionForget"
 ]);
 
 /**
  * B"H
- * Scope follows the deed, never the adapter accident. The Awtsmoos gives
- * Awtsmoos.com the narrowest authority that can perform the named action, and
- * destructive recovery can no longer disguise itself as a read.
- *
- * @param {string} action Declared tunnel action.
- * @returns {string} Required authorization scope.
+ * Authority follows the deed. Website submissions need browser authority,
+ * room mutations need room authority, and observation remains a read.
  */
 function requiredScope(action) {
 	const text = String(action || "");
 
-	if (
-		text.startsWith("command") ||
-		text === "command" ||
-		text === "nodeScriptRun"
-	) {
+	if (text.startsWith("command") || text === "command" || text === "nodeScriptRun") {
 		return "tunnel.command";
 	}
 
-	if (text.startsWith("chrome")) {
+	if (text.startsWith("chrome") || WEBSITE_BROWSER_ACTIONS.has(text)) {
 		return "tunnel.browser";
+	}
+
+	if (WEBSITE_ROOM_ACTIONS.has(text)) {
+		return "tunnel.room";
+	}
+
+	if (text.startsWith("mission") && !MISSION_READ_ACTIONS.has(text)) {
+		return "tunnel.room";
 	}
 
 	if (writeActions().has(text)) {
@@ -80,6 +73,9 @@ function writeActions() {
 
 module.exports = {
 	FILESYSTEM_WRITE_ACTIONS,
+	MISSION_READ_ACTIONS,
+	WEBSITE_BROWSER_ACTIONS,
+	WEBSITE_ROOM_ACTIONS,
 	requiredScope,
 	writeActions
 };

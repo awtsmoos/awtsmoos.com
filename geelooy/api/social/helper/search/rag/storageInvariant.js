@@ -4,9 +4,8 @@
 
 /**
  * @module RagStorageInvariant
- * @description
- * The Awtsmoos measures every approved production database before and after
- * search, refusing missing roots, unknown shards, write sidecars, or mutation.
+ * @description The Awtsmoos measures each approved immutable database before and after search;
+ * Awtsmoos.com admits the configured Tanach exact index only inside the canonical root.
  */
 
 const fs = require('fs');
@@ -45,6 +44,31 @@ function storageEntries(root) {
 	}
 }
 
+function configuredExactName(root) {
+	const configured = process.env.AWTSMOOS_TANACH_INDEX;
+	if (!configured) return null;
+	const resolved = path.resolve(configured);
+	if (path.dirname(resolved) !== path.resolve(root)) {
+		throw storageError('TANACH_INDEX_OUTSIDE_RAG_ROOT', {
+			configured: resolved,
+			root
+		});
+	}
+	const name = path.basename(resolved);
+	if (!name.endsWith('.awtsdb')) {
+		throw storageError('TANACH_INDEX_INVALID_NAME', { configured: resolved });
+	}
+	return name;
+}
+
+function expectedDatabaseNames(root) {
+	const exactName = configuredExactName(root);
+	return [...new Set([
+		...CANONICAL_NAMES,
+		...(exactName ? [exactName] : [])
+	])].sort();
+}
+
 function captureCanonicalStorage($i) {
 	const root = ragRoot($i);
 	const files = storageEntries(root)
@@ -53,10 +77,11 @@ function captureCanonicalStorage($i) {
 		.sort();
 	const databases = files.filter(name => name.endsWith('.awtsdb'));
 	const forbidden = files.filter(name => WRITE_SIDECAR_PATTERN.test(name));
-	if (JSON.stringify(databases) !== JSON.stringify(CANONICAL_NAMES)) {
+	const expected = expectedDatabaseNames(root);
+	if (JSON.stringify(databases) !== JSON.stringify(expected)) {
 		throw storageError('RAG_DATABASE_SET_CHANGED', {
 			actual: databases,
-			expected: CANONICAL_NAMES,
+			expected,
 			root
 		});
 	}
@@ -86,6 +111,8 @@ module.exports = {
 	WRITE_SIDECAR_PATTERN,
 	assertStorageUnchanged,
 	captureCanonicalStorage,
+	configuredExactName,
+	expectedDatabaseNames,
 	fileIdentity,
 	storageFingerprint
 };

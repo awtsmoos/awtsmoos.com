@@ -35,6 +35,7 @@ module.exports = {
 	Send: require("./safe-send.js"),
 	Proxy: require("./local-proxy.js"),
 	Boot: require("./boot-resume-loop.js"),
+	WebsiteMissionRecovery: require("../../tools/fs/actionGroups/websiteAgents/runner.js"),
 	Continue: require("./continuation-loop.js"),
 	Priority: require("./priority.js"),
 	Updates: require("./background-update.js"),

@@ -23,6 +23,17 @@ const AI_ACTIONS = new Set([
   "aiAgentSetProviderKey",
   "aiAgentRemoveProviderKey"
 ]);
+const WEBSITE_MISSION_ACTIONS = new Set([
+  "agent",
+  "aiAgentSpawnWebsiteMission",
+  "aiAgentWebsiteMissionStatus",
+  "websiteAgentMissionStart",
+  "websiteAgentMissionStatus",
+  "websiteAgentMissionList",
+  "websiteAgentMissionMessage",
+  "websiteAgentMissionStop",
+  "websiteAgentMissionForget"
+]);
 
 /**
  * B"H
@@ -34,6 +45,26 @@ const AI_ACTIONS = new Set([
  * after consent, and every save action returns the remote-storage warning.
  */
 function isVirtualAiAction(action = "") { return AI_ACTIONS.has(String(action)); }
+
+function isVirtualWebsiteMissionAction(action = "") {
+  return WEBSITE_MISSION_ACTIONS.has(String(action));
+}
+
+function rejectVirtualWebsiteMission(action, payload = {}) {
+  return {
+    ok: false,
+    status: 409,
+    action,
+    error: "website_mission_requires_live_browser",
+    vessel: "virtual-os",
+    requestedMode: payload.mode || payload.agentMode || "website-mission",
+    requiredVessel: "native-tunnel-with-authenticated-browser",
+    fullyExecutable: false,
+    retryableHere: false,
+    suggestedActions: ["awtsmoosMyDevice", "aiAgentMessage", "aiAgentSpawnTask"],
+    note: "Virtual OS cannot operate a user's authenticated ChatGPT website session. Route this mission to a live native tunnel, or explicitly choose a Virtual OS provider action."
+  };
+}
 
 async function handleVirtualAiAction(action, payload = {}, dispatch) {
   const merged = actionPayload(payload);
@@ -169,4 +200,12 @@ function failTask(task, error) {
 }
 function evt(message) { return { at: new Date().toISOString(), message }; }
 function trimTasks() { tasks.splice(200); }
-module.exports = { handleVirtualAiAction, isVirtualAiAction, tasks };
+module.exports = {
+  AI_ACTIONS,
+  WEBSITE_MISSION_ACTIONS,
+  handleVirtualAiAction,
+  isVirtualAiAction,
+  isVirtualWebsiteMissionAction,
+  rejectVirtualWebsiteMission,
+  tasks
+};

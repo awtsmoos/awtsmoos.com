@@ -1,7 +1,12 @@
 // B"H
 const path = require("path");
 const { pathToFileURL } = require("url");
-const { handleVirtualAiAction, isVirtualAiAction } = require("./virtualAiAgents.js");
+const {
+  handleVirtualAiAction,
+  isVirtualAiAction,
+  isVirtualWebsiteMissionAction,
+  rejectVirtualWebsiteMission
+} = require("./virtualAiAgents.js");
 const { interpretedAction, virtualSurfaceReport } = require("./virtualActionBridge.js");
 
 const state = { presets: new Map(), templates: new Map(), histories: [], memories: new Map(), macros: new Map() };
@@ -20,6 +25,7 @@ async function renderLabService() {
  * Chapter 426: The hosted Virtual OS gained a render laboratory fallback.
  */
 async function supportAction(action, payload = {}, dispatch) {
+  if (isVirtualWebsiteMissionAction(action)) return rejectVirtualWebsiteMission(action, payload);
   if (isVirtualAiAction(action)) return handleVirtualAiAction(action, payload, dispatch);
   if (isRenderLabAction(action)) return renderLabAction(action, payload);
   if (action === "virtualActionSurface" || action === "capabilityParityAudit") return virtualSurfaceReport();

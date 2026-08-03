@@ -22,6 +22,7 @@ export class ConversationStore {
 		this.maximumEntries = maximumEntries;
 		this.storagePath = storagePath === false ? null : storagePath;
 		this.entries = new Map();
+		this.ensurePrivateDirectory();
 		this.load();
 	}
 
@@ -113,10 +114,9 @@ export class ConversationStore {
 
 	persist() {
 		if (!this.storagePath) return;
-		const directory = path.dirname(this.storagePath);
+		const directory = this.ensurePrivateDirectory();
 		const temporary = `${this.storagePath}.tmp-${process.pid}-${randomUUID()}`;
 		try {
-			fs.mkdirSync(directory, { recursive: true, mode: 0o700 });
 			fs.writeFileSync(temporary, `${JSON.stringify({
 				schemaVersion: 1,
 				updatedAt: new Date().toISOString(),
@@ -127,6 +127,14 @@ export class ConversationStore {
 		} catch {
 			try { fs.unlinkSync(temporary); } catch {}
 		}
+	}
+
+	ensurePrivateDirectory() {
+		if (!this.storagePath) return null;
+		const directory = path.dirname(this.storagePath);
+		fs.mkdirSync(directory, { recursive: true, mode: 0o700 });
+		fs.chmodSync(directory, 0o700);
+		return directory;
 	}
 }
 

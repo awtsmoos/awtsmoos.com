@@ -5,6 +5,13 @@
 const Defaults = require("./config-defaults.js");
 const Values = require("./config-value-normalizers.js");
 
+const AGENT_DEFAULT_MODES = Object.freeze([
+	"website-mission",
+	"message",
+	"spawn",
+	"novel"
+]);
+
 /**
  * B"H
  *
@@ -20,6 +27,10 @@ function normalizeAiAgents(old = {}) {
 			: [],
 		providerKeys: Values.stringMap(old.providerKeys || {}),
 		providerKeyFiles: Values.stringMap(old.providerKeyFiles || {}),
+		defaultMode: normalizeAgentDefaultMode(
+			old.defaultMode ?? old.agentMode,
+			defaults.defaultMode
+		),
 		maxDepth: bounded(old.maxDepth, defaults.maxDepth, 0, 1000000),
 		maxChildrenPerTask: bounded(
 			old.maxChildrenPerTask,
@@ -70,6 +81,11 @@ function normalizeAiAgents(old = {}) {
 	};
 }
 
+function normalizeAgentDefaultMode(value, fallback = Defaults.DEFAULT_AI.defaultMode) {
+	const normalized = String(value ?? fallback).trim().toLowerCase();
+	return AGENT_DEFAULT_MODES.includes(normalized) ? normalized : fallback;
+}
+
 function normalizeGitHygiene(old = {}) {
 	const defaults = Defaults.DEFAULT_GIT_HYGIENE;
 	return {
@@ -102,6 +118,8 @@ function bounded(value, fallback, minimum, maximum) {
 
 module.exports = {
 	...Values,
+	AGENT_DEFAULT_MODES,
+	normalizeAgentDefaultMode,
 	normalizeAiAgents,
 	normalizeGitHygiene,
 	normalizeMission

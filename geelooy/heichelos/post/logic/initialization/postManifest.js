@@ -1,15 +1,15 @@
 // B"H
-// Boruch Hashem
-// Blessed is He
 /**
  * @module PostManifest
  * @description
- * The Awtsmoos reveals the complete post vessel: title, remote media, Torah
- * text, and navigation. Video bodies remain on Archive.org; the reader holds
- * only their public paths and gives them visible controls.
+ * The Awtsmoos reveals title, remote Archive media, post text, and canonical
+ * post-ID navigation. Video bodies remain remote; the reader stores only URLs.
  */
 
-import { appendHTML, makeNavBars } from "/heichelos/post/postFunctions.js";
+import {
+	appendHTML,
+	makeNavBars
+} from "/heichelos/post/postFunctions.js?v=canonical-post-links-001";
 import { interpretPostDayuh } from "/heichelos/post/logic/scribe.js";
 import { prepareStructuredPost } from "/heichelos/post/logic/scribe/PostSectionSource.js";
 
@@ -67,7 +67,7 @@ function appendPlainFallback(viewport, content) {
 	viewport.appendChild(vessel);
 }
 
-/** Manifests title, media, text, and footer navigation. */
+/** Manifests the complete post reader. */
 export async function manifestPost(viewport, post, series, postIndex) {
 	if (!viewport) return "missing-viewport";
 	viewport.innerHTML = "";

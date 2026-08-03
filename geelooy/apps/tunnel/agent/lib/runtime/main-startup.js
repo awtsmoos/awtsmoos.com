@@ -38,6 +38,10 @@ function createStartupRuntime(dependencies) {
 			"command reconciliation",
 			commandReconciliation
 		);
+		const websiteMissionsRecovered = recoverWebsiteMissions(
+			dependencies,
+			config
+		);
 		const openedControl = dependencies.shouldOpenControl?.()
 			? Boolean(dependencies.openHostedControl(config))
 			: false;
@@ -53,6 +57,7 @@ function createStartupRuntime(dependencies) {
 			commandReconciliation,
 			localApiStarted: Boolean(localApiServer),
 			bootResumeEnabled: Boolean(boot),
+			websiteMissionsRecovered,
 			updateScheduled: update !== false,
 			deviceIdentity: dependencies.DeviceIdentity.publicStatus(config),
 			filesystemExecutor,
@@ -62,6 +67,19 @@ function createStartupRuntime(dependencies) {
 	}
 
 	return { main };
+}
+
+function recoverWebsiteMissions(dependencies, config) {
+	try {
+		const recovered = dependencies.WebsiteMissionRecovery?.recover?.(config);
+		return Array.isArray(recovered) ? recovered.length : 0;
+	} catch (error) {
+		dependencies.log(
+			"warn",
+			`B\"H website mission startup recovery failed: ${error.message}`
+		);
+		return 0;
+	}
 }
 
 async function ensureDeviceIdentity(dependencies, config) {
@@ -91,5 +109,6 @@ module.exports = {
 	...Helpers,
 	createStartupRuntime,
 	ensureDeviceIdentity,
-	logOperation
+	logOperation,
+	recoverWebsiteMissions
 };

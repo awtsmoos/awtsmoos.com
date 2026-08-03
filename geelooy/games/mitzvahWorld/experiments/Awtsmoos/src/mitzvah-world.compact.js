@@ -644,78 +644,77 @@ var __awtsmoosModule_603;
 var __awtsmoosModule_604;
 var __awtsmoosModule_605;
 var __awtsmoosModule_600;
-var __awtsmoosModule_607;
 var __awtsmoosModule_606;
-var __awtsmoosModule_609;
-var __awtsmoosModule_615;
-var __awtsmoosModule_616;
+var __awtsmoosModule_608;
 var __awtsmoosModule_614;
+var __awtsmoosModule_615;
 var __awtsmoosModule_613;
-var __awtsmoosModule_618;
+var __awtsmoosModule_612;
+var __awtsmoosModule_617;
+var __awtsmoosModule_619;
 var __awtsmoosModule_620;
-var __awtsmoosModule_621;
+var __awtsmoosModule_622;
 var __awtsmoosModule_623;
 var __awtsmoosModule_624;
-var __awtsmoosModule_625;
+var __awtsmoosModule_626;
 var __awtsmoosModule_627;
 var __awtsmoosModule_628;
+var __awtsmoosModule_625;
+var __awtsmoosModule_621;
 var __awtsmoosModule_629;
-var __awtsmoosModule_626;
-var __awtsmoosModule_622;
 var __awtsmoosModule_630;
+var __awtsmoosModule_618;
 var __awtsmoosModule_631;
-var __awtsmoosModule_619;
+var __awtsmoosModule_616;
+var __awtsmoosModule_611;
 var __awtsmoosModule_632;
-var __awtsmoosModule_617;
-var __awtsmoosModule_612;
 var __awtsmoosModule_633;
 var __awtsmoosModule_634;
-var __awtsmoosModule_635;
-var __awtsmoosModule_637;
-var __awtsmoosModule_638;
 var __awtsmoosModule_636;
+var __awtsmoosModule_637;
+var __awtsmoosModule_635;
+var __awtsmoosModule_638;
 var __awtsmoosModule_639;
-var __awtsmoosModule_640;
-var __awtsmoosModule_643;
-var __awtsmoosModule_645;
+var __awtsmoosModule_642;
+var __awtsmoosModule_644;
+var __awtsmoosModule_646;
 var __awtsmoosModule_647;
 var __awtsmoosModule_648;
 var __awtsmoosModule_649;
-var __awtsmoosModule_650;
-var __awtsmoosModule_652;
-var __awtsmoosModule_653;
 var __awtsmoosModule_651;
-var __awtsmoosModule_646;
+var __awtsmoosModule_652;
+var __awtsmoosModule_650;
+var __awtsmoosModule_645;
+var __awtsmoosModule_653;
 var __awtsmoosModule_654;
-var __awtsmoosModule_655;
-var __awtsmoosModule_644;
-var __awtsmoosModule_659;
+var __awtsmoosModule_643;
 var __awtsmoosModule_658;
 var __awtsmoosModule_657;
-var __awtsmoosModule_660;
 var __awtsmoosModule_656;
-var __awtsmoosModule_642;
-var __awtsmoosModule_661;
-var __awtsmoosModule_662;
-var __awtsmoosModule_665;
-var __awtsmoosModule_666;
-var __awtsmoosModule_664;
-var __awtsmoosModule_668;
-var __awtsmoosModule_669;
-var __awtsmoosModule_667;
-var __awtsmoosModule_663;
+var __awtsmoosModule_659;
+var __awtsmoosModule_655;
 var __awtsmoosModule_641;
-var __awtsmoosModule_611;
+var __awtsmoosModule_660;
+var __awtsmoosModule_661;
+var __awtsmoosModule_664;
+var __awtsmoosModule_665;
+var __awtsmoosModule_663;
+var __awtsmoosModule_667;
+var __awtsmoosModule_668;
+var __awtsmoosModule_666;
+var __awtsmoosModule_662;
+var __awtsmoosModule_640;
+var __awtsmoosModule_610;
+var __awtsmoosModule_670;
 var __awtsmoosModule_671;
-var __awtsmoosModule_672;
+var __awtsmoosModule_673;
 var __awtsmoosModule_674;
 var __awtsmoosModule_675;
+var __awtsmoosModule_672;
+var __awtsmoosModule_669;
+var __awtsmoosModule_609;
+var __awtsmoosModule_607;
 var __awtsmoosModule_676;
-var __awtsmoosModule_673;
-var __awtsmoosModule_670;
-var __awtsmoosModule_610;
-var __awtsmoosModule_608;
-var __awtsmoosModule_677;
 var __awtsmoosModule_1;
 var __awtsmoosModule_0;
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/performance/WorldQualityProfile.js */
@@ -48100,58 +48099,6 @@ async function runMinimalSharedMeadowReadiness(options) {
 __exports.runMinimalSharedMeadowReadiness = runMinimalSharedMeadowReadiness;
 return Object.freeze(__exports);
 })();
-/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MitzvahWorldCreativeModeLoaders.js */
-__awtsmoosModule_607 = (() => {
-const __exports = {};
-// B"H
-// Boruch Hashem
-// Blessed is He
-
-/**
- * @file MitzvahWorldCreativeModeLoaders.js
- * @description Opens diagnostics, the platform showcase, and Movie Studio through dynamic routes.
- * The Awtsmoos renews tool, world, and remembered gameplay beneath one explicit threshold;
- * Awtsmoos.com loads only the chosen surface and enriches cinema without burdening first play.
- */
-
-async function openMaterialsMode(hosts) {
-	const { runMaterialDiagnosticMode } = await import(new URL("../diagnostics/MaterialDiagnosticMode.js", new URL("/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MitzvahWorldCreativeModeLoaders.js", globalThis.location?.origin || import.meta.url).href).href);
-	return runMaterialDiagnosticMode(hosts);
-}
-
-
-__exports.openMaterialsMode = openMaterialsMode;
-async function openPlatformMode(hosts) {
-	const { launchPlatformShowcase } = await import(new URL("../world/platform/PlatformShowcaseMode.js", new URL("/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MitzvahWorldCreativeModeLoaders.js", globalThis.location?.origin || import.meta.url).href).href);
-	return launchPlatformShowcase(hosts);
-}
-
-
-__exports.openPlatformMode = openPlatformMode;
-async function openMovieMode(hosts, search = '') {
-	const parameters = new URLSearchParams(search);
-	const [projectModule, studioModule] = await Promise.all([
-		import(new URL("../movie/MovieProject.js", new URL("/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MitzvahWorldCreativeModeLoaders.js", globalThis.location?.origin || import.meta.url).href).href),
-		import(new URL("../movie/MovieStudio.js", new URL("/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MitzvahWorldCreativeModeLoaders.js", globalThis.location?.origin || import.meta.url).href).href)
-	]);
-	let project = await projectModule.loadRequestedMovie(search);
-	if (isGameplayHandoff(parameters)) {
-		const { importGameplaySnapshotIntoMovieProject } = await import(new URL("../movie/MovieGameSnapshotImport.js", new URL("/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MitzvahWorldCreativeModeLoaders.js", globalThis.location?.origin || import.meta.url).href).href);
-		project = importGameplaySnapshotIntoMovieProject(project).project;
-	}
-	return studioModule.createMovieStudio(hosts, project, {
-		autoRender: parameters.get('autoRender') === '1'
-	});
-}
-
-
-__exports.openMovieMode = openMovieMode;
-function isGameplayHandoff(parameters) {
-	return parameters.get('fromGameplay') === '1'
-		&& parameters.get('creativeSnapshot') === '1';
-}
-return Object.freeze(__exports);
-})();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalSharedCreativeRoute.js */
 __awtsmoosModule_606 = (() => {
 const __exports = {};
@@ -48177,7 +48124,7 @@ function isMinimalMovieRequest(search = '') {
 __exports.isMinimalMovieRequest = isMinimalMovieRequest;
 async function openMinimalCreativeRoute(hosts, search = '') {
 	if (!isMinimalMovieRequest(search)) return null;
-	const module = await Promise.resolve(__awtsmoosModule_607);
+	const module = await import(new URL("./MitzvahWorldCreativeModeLoaders.js", new URL("/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalSharedCreativeRoute.js", globalThis.location?.origin || import.meta.url).href).href);
 	return {
 		handled: true,
 		value: await module.openMovieMode(hosts, String(search))
@@ -48188,7 +48135,7 @@ __exports.openMinimalCreativeRoute = openMinimalCreativeRoute;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPageSupport.js */
-__awtsmoosModule_609 = (() => {
+__awtsmoosModule_608 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -48254,7 +48201,7 @@ __exports.showMinimalMeadowBootFailure = showMinimalMeadowBootFailure;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/LocalTabIdentity.js */
-__awtsmoosModule_615 = (() => {
+__awtsmoosModule_614 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -48346,7 +48293,7 @@ function safeSet(storage, key, value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/LocalTabWorldState.js */
-__awtsmoosModule_616 = (() => {
+__awtsmoosModule_615 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -48550,7 +48497,7 @@ function clonePlayer(player) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/LocalTabRealtimeClient.js */
-__awtsmoosModule_614 = (() => {
+__awtsmoosModule_613 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -48563,10 +48510,10 @@ const __exports = {};
  * ordering, heartbeat, explicit leave, and stale cleanup behind one normalized client.
  */
 
-var localTabChannelName = __awtsmoosModule_615.localTabChannelName;
-var localTabPlayerAddress = __awtsmoosModule_615.localTabPlayerAddress;
-var localTabPlayerId = __awtsmoosModule_615.localTabPlayerId;
-var LocalTabWorldState = __awtsmoosModule_616.LocalTabWorldState;
+var localTabChannelName = __awtsmoosModule_614.localTabChannelName;
+var localTabPlayerAddress = __awtsmoosModule_614.localTabPlayerAddress;
+var localTabPlayerId = __awtsmoosModule_614.localTabPlayerId;
+var LocalTabWorldState = __awtsmoosModule_615.LocalTabWorldState;
 
 const DEFAULT_HEARTBEAT_MS = 2000;
 
@@ -48810,7 +48757,7 @@ function finite(value, fallback) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/LocalTabManagedConnection.js */
-__awtsmoosModule_613 = (() => {
+__awtsmoosModule_612 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -48823,7 +48770,7 @@ const __exports = {};
  * the local authority the same lifecycle doorway as the deployed websocket authority.
  */
 
-var LocalTabRealtimeClient = __awtsmoosModule_614.LocalTabRealtimeClient;
+var LocalTabRealtimeClient = __awtsmoosModule_613.LocalTabRealtimeClient;
 
 class LocalTabManagedConnection {
 	constructor(options = {}) {
@@ -48864,7 +48811,7 @@ __exports.LocalTabManagedConnection = LocalTabManagedConnection;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldBackoff.js */
-__awtsmoosModule_618 = (() => {
+__awtsmoosModule_617 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -48900,7 +48847,7 @@ __exports.MitzvahWorldBackoff = MitzvahWorldBackoff;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldJoinKey.js */
-__awtsmoosModule_620 = (() => {
+__awtsmoosModule_619 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -48931,7 +48878,7 @@ __exports.createMitzvahWorldJoinKey = createMitzvahWorldJoinKey;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldEventHub.js */
-__awtsmoosModule_621 = (() => {
+__awtsmoosModule_620 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -48969,7 +48916,7 @@ __exports.MitzvahWorldEventHub = MitzvahWorldEventHub;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldCommunityApi.js */
-__awtsmoosModule_623 = (() => {
+__awtsmoosModule_622 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49064,7 +49011,7 @@ __exports.MitzvahWorldCommunityApi = MitzvahWorldCommunityApi;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldEconomyApi.js */
-__awtsmoosModule_624 = (() => {
+__awtsmoosModule_623 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49133,7 +49080,7 @@ __exports.MitzvahWorldEconomyApi = MitzvahWorldEconomyApi;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldProfileApi.js */
-__awtsmoosModule_625 = (() => {
+__awtsmoosModule_624 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49184,7 +49131,7 @@ __exports.MitzvahWorldProfileApi = MitzvahWorldProfileApi;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldAdventureApi.js */
-__awtsmoosModule_627 = (() => {
+__awtsmoosModule_626 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49221,7 +49168,7 @@ __exports.createMitzvahWorldAdventureApi = createMitzvahWorldAdventureApi;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldCombatApi.js */
-__awtsmoosModule_628 = (() => {
+__awtsmoosModule_627 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49298,7 +49245,7 @@ __exports.createMitzvahWorldCombatApi = createMitzvahWorldCombatApi;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldExpansionApi.js */
-__awtsmoosModule_629 = (() => {
+__awtsmoosModule_628 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49347,7 +49294,7 @@ __exports.createMitzvahWorldExpansionApi = createMitzvahWorldExpansionApi;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldRpgApi.js */
-__awtsmoosModule_626 = (() => {
+__awtsmoosModule_625 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49360,9 +49307,9 @@ const __exports = {};
  * Awtsmoos.com keeps the historic direct facade while focused command vessels remain small.
  */
 
-var createMitzvahWorldAdventureApi = __awtsmoosModule_627.createMitzvahWorldAdventureApi;
-var createMitzvahWorldCombatApi = __awtsmoosModule_628.createMitzvahWorldCombatApi;
-var createMitzvahWorldExpansionApi = __awtsmoosModule_629.createMitzvahWorldExpansionApi;
+var createMitzvahWorldAdventureApi = __awtsmoosModule_626.createMitzvahWorldAdventureApi;
+var createMitzvahWorldCombatApi = __awtsmoosModule_627.createMitzvahWorldCombatApi;
+var createMitzvahWorldExpansionApi = __awtsmoosModule_628.createMitzvahWorldExpansionApi;
 
 class MitzvahWorldRpgApi {
 	constructor(send) {
@@ -49380,7 +49327,7 @@ __exports.MitzvahWorldRpgApi = MitzvahWorldRpgApi;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldMmorpgApi.js */
-__awtsmoosModule_622 = (() => {
+__awtsmoosModule_621 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49393,10 +49340,10 @@ const __exports = {};
  * every historic facade stable while focused nested APIs hold expanding domains.
  */
 
-var MitzvahWorldCommunityApi = __awtsmoosModule_623.MitzvahWorldCommunityApi;
-var MitzvahWorldEconomyApi = __awtsmoosModule_624.MitzvahWorldEconomyApi;
-var MitzvahWorldProfileApi = __awtsmoosModule_625.MitzvahWorldProfileApi;
-var MitzvahWorldRpgApi = __awtsmoosModule_626.MitzvahWorldRpgApi;
+var MitzvahWorldCommunityApi = __awtsmoosModule_622.MitzvahWorldCommunityApi;
+var MitzvahWorldEconomyApi = __awtsmoosModule_623.MitzvahWorldEconomyApi;
+var MitzvahWorldProfileApi = __awtsmoosModule_624.MitzvahWorldProfileApi;
+var MitzvahWorldRpgApi = __awtsmoosModule_625.MitzvahWorldRpgApi;
 
 class MitzvahWorldMmorpgApi {
 	constructor(send) {
@@ -49500,7 +49447,7 @@ __exports.MitzvahWorldMmorpgApi = MitzvahWorldMmorpgApi;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldTransport.js */
-__awtsmoosModule_630 = (() => {
+__awtsmoosModule_629 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49613,7 +49560,7 @@ __exports.MitzvahWorldTransport = MitzvahWorldTransport;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/WorldDeltaStore.js */
-__awtsmoosModule_631 = (() => {
+__awtsmoosModule_630 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49662,7 +49609,7 @@ function clone(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldRealtimeClient.js */
-__awtsmoosModule_619 = (() => {
+__awtsmoosModule_618 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49675,11 +49622,11 @@ const __exports = {};
  * private resume token, world state, and a transport that cannot wait without end.
  */
 
-var createMitzvahWorldJoinKey = __awtsmoosModule_620.createMitzvahWorldJoinKey;
-var MitzvahWorldEventHub = __awtsmoosModule_621.MitzvahWorldEventHub;
-var MitzvahWorldMmorpgApi = __awtsmoosModule_622.MitzvahWorldMmorpgApi;
-var MitzvahWorldTransport = __awtsmoosModule_630.MitzvahWorldTransport;
-var applyWorldDelta = __awtsmoosModule_631.applyWorldDelta;
+var createMitzvahWorldJoinKey = __awtsmoosModule_619.createMitzvahWorldJoinKey;
+var MitzvahWorldEventHub = __awtsmoosModule_620.MitzvahWorldEventHub;
+var MitzvahWorldMmorpgApi = __awtsmoosModule_621.MitzvahWorldMmorpgApi;
+var MitzvahWorldTransport = __awtsmoosModule_629.MitzvahWorldTransport;
+var applyWorldDelta = __awtsmoosModule_630.applyWorldDelta;
 
 class MitzvahWorldRealtimeClient {
 	constructor(socket, options = {}) {
@@ -49769,7 +49716,7 @@ __exports.MitzvahWorldRealtimeClient = MitzvahWorldRealtimeClient;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldSocketOpen.js */
-__awtsmoosModule_632 = (() => {
+__awtsmoosModule_631 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49832,7 +49779,7 @@ __exports.waitForMitzvahWorldSocketOpen = waitForMitzvahWorldSocketOpen;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldManagedConnection.js */
-__awtsmoosModule_617 = (() => {
+__awtsmoosModule_616 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49845,9 +49792,9 @@ const __exports = {};
  * making both opening and joining finite so shared-world entry can always continue locally.
  */
 
-var MitzvahWorldBackoff = __awtsmoosModule_618.MitzvahWorldBackoff;
-var MitzvahWorldRealtimeClient = __awtsmoosModule_619.MitzvahWorldRealtimeClient;
-var waitForMitzvahWorldSocketOpen = __awtsmoosModule_632.waitForMitzvahWorldSocketOpen;
+var MitzvahWorldBackoff = __awtsmoosModule_617.MitzvahWorldBackoff;
+var MitzvahWorldRealtimeClient = __awtsmoosModule_618.MitzvahWorldRealtimeClient;
+var waitForMitzvahWorldSocketOpen = __awtsmoosModule_631.waitForMitzvahWorldSocketOpen;
 
 class MitzvahWorldManagedConnection {
 	constructor(options) {
@@ -49944,7 +49891,7 @@ __exports.MitzvahWorldManagedConnection = MitzvahWorldManagedConnection;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerConnectionFactory.js */
-__awtsmoosModule_612 = (() => {
+__awtsmoosModule_611 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49960,10 +49907,10 @@ const __exports = {};
 async function createMultiplayerConnection(options = {}) {
 	const location = options.location || globalThis.location;
 	if (shouldUseLocalTabs(location)) {
-		const { LocalTabManagedConnection } = await Promise.resolve(__awtsmoosModule_613);
+		const { LocalTabManagedConnection } = await Promise.resolve(__awtsmoosModule_612);
 		return new LocalTabManagedConnection(options.localOptions);
 	}
-	const { MitzvahWorldManagedConnection } = await Promise.resolve(__awtsmoosModule_617);
+	const { MitzvahWorldManagedConnection } = await Promise.resolve(__awtsmoosModule_616);
 	return new MitzvahWorldManagedConnection({
 		...(options.serverOptions || {}),
 		WebSocketClass: options.WebSocketClass,
@@ -49986,7 +49933,7 @@ __exports.shouldUseLocalTabs = shouldUseLocalTabs;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerOptionalUi.js */
-__awtsmoosModule_633 = (() => {
+__awtsmoosModule_632 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -50096,7 +50043,7 @@ function createAbortController(environment) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerEretzSessionLifecycle.js */
-__awtsmoosModule_634 = (() => {
+__awtsmoosModule_633 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -50134,7 +50081,7 @@ __exports.stopMultiplayerResources = stopMultiplayerResources;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerStatusReceipt.js */
-__awtsmoosModule_635 = (() => {
+__awtsmoosModule_634 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -50182,7 +50129,7 @@ __exports.revealMultiplayerDiagnostics = revealMultiplayerDiagnostics;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerStatusBadgeCopy.js */
-__awtsmoosModule_637 = (() => {
+__awtsmoosModule_636 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -50259,7 +50206,7 @@ function transportLabel(transport) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerStatusBadgeStyle.js */
-__awtsmoosModule_638 = (() => {
+__awtsmoosModule_637 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -50352,7 +50299,7 @@ __exports.installMultiplayerStatusStyle = installMultiplayerStatusStyle;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerStatusBadge.js */
-__awtsmoosModule_636 = (() => {
+__awtsmoosModule_635 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -50365,11 +50312,11 @@ const __exports = {};
  * separate from copy and style so every connection state can be tested without a browser.
  */
 
-var multiplayerDetailLabel = __awtsmoosModule_637.multiplayerDetailLabel;
-var multiplayerStateLabel = __awtsmoosModule_637.multiplayerStateLabel;
-var multiplayerStatusIsHealthy = __awtsmoosModule_637.multiplayerStatusIsHealthy;
-var normalizeMultiplayerStatus = __awtsmoosModule_637.normalizeMultiplayerStatus;
-var installMultiplayerStatusStyle = __awtsmoosModule_638.installMultiplayerStatusStyle;
+var multiplayerDetailLabel = __awtsmoosModule_636.multiplayerDetailLabel;
+var multiplayerStateLabel = __awtsmoosModule_636.multiplayerStateLabel;
+var multiplayerStatusIsHealthy = __awtsmoosModule_636.multiplayerStatusIsHealthy;
+var normalizeMultiplayerStatus = __awtsmoosModule_636.normalizeMultiplayerStatus;
+var installMultiplayerStatusStyle = __awtsmoosModule_637.installMultiplayerStatusStyle;
 
 const BADGE_ID = 'AwtsmoosRealtimeStatus';
 const STYLE_ID = 'AwtsmoosRealtimeStatusStyle';
@@ -50452,7 +50399,7 @@ __exports.installSinglePlayerStatusBadge = installSinglePlayerStatusBadge;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerTransportIdentity.js */
-__awtsmoosModule_639 = (() => {
+__awtsmoosModule_638 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -50465,7 +50412,7 @@ const __exports = {};
  * Awtsmoos.com reuses one canonical selector, so status and transport always rhyme.
  */
 
-var shouldUseLocalTabs = __awtsmoosModule_612.shouldUseLocalTabs;
+var shouldUseLocalTabs = __awtsmoosModule_611.shouldUseLocalTabs;
 
 /** Returns the deterministic public identity of the already-selected transport. */
 function revealMultiplayerTransport(location = globalThis.location) {
@@ -50476,7 +50423,7 @@ __exports.revealMultiplayerTransport = revealMultiplayerTransport;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/RuntimePlayerSnapshot.js */
-__awtsmoosModule_640 = (() => {
+__awtsmoosModule_639 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -50527,7 +50474,7 @@ function finite(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerDefenseAuthority.js */
-__awtsmoosModule_643 = (() => {
+__awtsmoosModule_642 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -50582,7 +50529,7 @@ __exports.MultiplayerDefenseAuthority = MultiplayerDefenseAuthority;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerEnemyAuthorityCatalog.js */
-__awtsmoosModule_645 = (() => {
+__awtsmoosModule_644 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -50638,7 +50585,7 @@ function record(profileId, creatureId, speciesId) { return Object.freeze({ creat
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerCombatAuthorityCommand.js */
-__awtsmoosModule_647 = (() => {
+__awtsmoosModule_646 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -50650,7 +50597,7 @@ const __exports = {};
  * The Awtsmoos renews intention before consequence can descend into the land;
  * Awtsmoos.com names the weapon and token, while final judgment stays in the server hand.
  */
-var authoritativeCombatAction = __awtsmoosModule_645.authoritativeCombatAction;
+var authoritativeCombatAction = __awtsmoosModule_644.authoritativeCombatAction;
 
 function multiplayerCombatAuthorityCommand(options) {
 	const requested = typeof options.input === 'string'
@@ -50677,7 +50624,7 @@ function finiteElapsed(requested, fallback) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerCombatAuthorityEvents.js */
-__awtsmoosModule_648 = (() => {
+__awtsmoosModule_647 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -50725,7 +50672,7 @@ __exports.publishMultiplayerCombatAuthority = publishMultiplayerCombatAuthority;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerCombatAuthorityReceipt.js */
-__awtsmoosModule_649 = (() => {
+__awtsmoosModule_648 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -50789,7 +50736,7 @@ function finiteNumber(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerEnemyAuthorityReceipts.js */
-__awtsmoosModule_650 = (() => {
+__awtsmoosModule_649 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -50831,7 +50778,7 @@ __exports.applyAuthoritativeAdventures = applyAuthoritativeAdventures;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerEnemyAuthorityLife.js */
-__awtsmoosModule_652 = (() => {
+__awtsmoosModule_651 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -50869,7 +50816,7 @@ __exports.reviveAuthoritativeEnemy = reviveAuthoritativeEnemy;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerEnemyAuthorityProjection.js */
-__awtsmoosModule_653 = (() => {
+__awtsmoosModule_652 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -50940,7 +50887,7 @@ function progressSignature(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerEnemyAuthorityState.js */
-__awtsmoosModule_651 = (() => {
+__awtsmoosModule_650 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -50953,12 +50900,12 @@ const __exports = {};
  * impact while preserving readable action warnings, role, phase, animation, and exact defeat.
  */
 
-var defeatAuthoritativeEnemy = __awtsmoosModule_652.defeatAuthoritativeEnemy;
-var reviveAuthoritativeEnemy = __awtsmoosModule_652.reviveAuthoritativeEnemy;
-var applyAuthoritativeEnemyAction = __awtsmoosModule_653.applyAuthoritativeEnemyAction;
-var applyAuthoritativeEnemyPosition = __awtsmoosModule_653.applyAuthoritativeEnemyPosition;
-var authoritativeEnemyStateSignature = __awtsmoosModule_653.authoritativeEnemyStateSignature;
-var publishAuthoritativeEnemyState = __awtsmoosModule_653.publishAuthoritativeEnemyState;
+var defeatAuthoritativeEnemy = __awtsmoosModule_651.defeatAuthoritativeEnemy;
+var reviveAuthoritativeEnemy = __awtsmoosModule_651.reviveAuthoritativeEnemy;
+var applyAuthoritativeEnemyAction = __awtsmoosModule_652.applyAuthoritativeEnemyAction;
+var applyAuthoritativeEnemyPosition = __awtsmoosModule_652.applyAuthoritativeEnemyPosition;
+var authoritativeEnemyStateSignature = __awtsmoosModule_652.authoritativeEnemyStateSignature;
+var publishAuthoritativeEnemyState = __awtsmoosModule_652.publishAuthoritativeEnemyState;
 
 function bindMultiplayerEnemyActor(actor, record) {
 	actor.authoritative = true;
@@ -51036,7 +50983,7 @@ __exports.authoritativeEnemyReceipt = authoritativeEnemyReceipt;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerEnemyAuthorityAttack.js */
-__awtsmoosModule_646 = (() => {
+__awtsmoosModule_645 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -51049,12 +50996,12 @@ const __exports = {};
  * Awtsmoos.com keeps unique tokens, pending guards, creature truth, adventures, and feedback aligned.
  */
 
-var multiplayerCombatAuthorityCommand = __awtsmoosModule_647.multiplayerCombatAuthorityCommand;
-var publishMultiplayerCombatAuthority = __awtsmoosModule_648.publishMultiplayerCombatAuthority;
-var multiplayerCombatAuthorityReceipt = __awtsmoosModule_649.multiplayerCombatAuthorityReceipt;
-var applyAuthoritativeAdventures = __awtsmoosModule_650.applyAuthoritativeAdventures;
-var applyMultiplayerEnemyCreature = __awtsmoosModule_651.applyMultiplayerEnemyCreature;
-var authoritativeEnemyReceipt = __awtsmoosModule_651.authoritativeEnemyReceipt;
+var multiplayerCombatAuthorityCommand = __awtsmoosModule_646.multiplayerCombatAuthorityCommand;
+var publishMultiplayerCombatAuthority = __awtsmoosModule_647.publishMultiplayerCombatAuthority;
+var multiplayerCombatAuthorityReceipt = __awtsmoosModule_648.multiplayerCombatAuthorityReceipt;
+var applyAuthoritativeAdventures = __awtsmoosModule_649.applyAuthoritativeAdventures;
+var applyMultiplayerEnemyCreature = __awtsmoosModule_650.applyMultiplayerEnemyCreature;
+var authoritativeEnemyReceipt = __awtsmoosModule_650.authoritativeEnemyReceipt;
 
 async function attackAuthoritativeEnemy(bridge, actor, actionInput) {
 	const creatureId = actor.serverCreatureId;
@@ -51117,7 +51064,7 @@ function requireAttackAvailable(bridge, actor) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerEnemyAuthorityLoot.js */
-__awtsmoosModule_654 = (() => {
+__awtsmoosModule_653 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -51129,10 +51076,10 @@ const __exports = {};
  * The Awtsmoos renews reward only after consequence has reached its truthful end;
  * Awtsmoos.com guards exact-once treasure while the client receives what authority may send.
  */
-var applyAuthoritativeAdventures = __awtsmoosModule_650.applyAuthoritativeAdventures;
-var reconcileAuthoritativeLoot = __awtsmoosModule_650.reconcileAuthoritativeLoot;
-var applyMultiplayerEnemyCreature = __awtsmoosModule_651.applyMultiplayerEnemyCreature;
-var authoritativeEnemyReceipt = __awtsmoosModule_651.authoritativeEnemyReceipt;
+var applyAuthoritativeAdventures = __awtsmoosModule_649.applyAuthoritativeAdventures;
+var reconcileAuthoritativeLoot = __awtsmoosModule_649.reconcileAuthoritativeLoot;
+var applyMultiplayerEnemyCreature = __awtsmoosModule_650.applyMultiplayerEnemyCreature;
+var authoritativeEnemyReceipt = __awtsmoosModule_650.authoritativeEnemyReceipt;
 
 async function claimAuthoritativeEnemyLoot(options) {
 	const response = await options.client.mmorpg.rpg.loot(options.actor.serverCreatureId);
@@ -51152,7 +51099,7 @@ __exports.claimAuthoritativeEnemyLoot = claimAuthoritativeEnemyLoot;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerEnemyAuthoritySync.js */
-__awtsmoosModule_655 = (() => {
+__awtsmoosModule_654 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -51164,10 +51111,10 @@ const __exports = {};
  * The Awtsmoos renews one creature before many screens while distance cannot divide;
  * Awtsmoos.com joins actor and server record, then lets sleeping cells gently hide.
  */
-var multiplayerEnemyRecord = __awtsmoosModule_645.multiplayerEnemyRecord;
-var applyMultiplayerEnemyCreature = __awtsmoosModule_651.applyMultiplayerEnemyCreature;
-var bindMultiplayerEnemyActor = __awtsmoosModule_651.bindMultiplayerEnemyActor;
-var releaseMultiplayerEnemyActor = __awtsmoosModule_651.releaseMultiplayerEnemyActor;
+var multiplayerEnemyRecord = __awtsmoosModule_644.multiplayerEnemyRecord;
+var applyMultiplayerEnemyCreature = __awtsmoosModule_650.applyMultiplayerEnemyCreature;
+var bindMultiplayerEnemyActor = __awtsmoosModule_650.bindMultiplayerEnemyActor;
+var releaseMultiplayerEnemyActor = __awtsmoosModule_650.releaseMultiplayerEnemyActor;
 
 function bindAuthoritativeEnemyActors(runtime, controls) {
 	for (const actor of runtime.enemies?.actors || []) {
@@ -51203,7 +51150,7 @@ __exports.releaseAuthoritativeEnemyActors = releaseAuthoritativeEnemyActors;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerEnemyAuthorityBridge.js */
-__awtsmoosModule_644 = (() => {
+__awtsmoosModule_643 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -51216,12 +51163,12 @@ const __exports = {};
  * Awtsmoos.com keeps prediction responsive while authority alone decides the fight.
  */
 
-var authoritativeCombatAction = __awtsmoosModule_645.authoritativeCombatAction;
-var attackAuthoritativeEnemy = __awtsmoosModule_646.attackAuthoritativeEnemy;
-var claimAuthoritativeEnemyLoot = __awtsmoosModule_654.claimAuthoritativeEnemyLoot;
-var applyAuthoritativeWorldCreatures = __awtsmoosModule_655.applyAuthoritativeWorldCreatures;
-var bindAuthoritativeEnemyActors = __awtsmoosModule_655.bindAuthoritativeEnemyActors;
-var releaseAuthoritativeEnemyActors = __awtsmoosModule_655.releaseAuthoritativeEnemyActors;
+var authoritativeCombatAction = __awtsmoosModule_644.authoritativeCombatAction;
+var attackAuthoritativeEnemy = __awtsmoosModule_645.attackAuthoritativeEnemy;
+var claimAuthoritativeEnemyLoot = __awtsmoosModule_653.claimAuthoritativeEnemyLoot;
+var applyAuthoritativeWorldCreatures = __awtsmoosModule_654.applyAuthoritativeWorldCreatures;
+var bindAuthoritativeEnemyActors = __awtsmoosModule_654.bindAuthoritativeEnemyActors;
+var releaseAuthoritativeEnemyActors = __awtsmoosModule_654.releaseAuthoritativeEnemyActors;
 
 class MultiplayerEnemyAuthorityBridge {
 	constructor(client, runtime) {
@@ -51315,7 +51262,7 @@ __exports.MultiplayerEnemyAuthorityBridge = MultiplayerEnemyAuthorityBridge;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerKavanahReceipt.js */
-__awtsmoosModule_659 = (() => {
+__awtsmoosModule_658 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -51356,7 +51303,7 @@ __exports.failMultiplayerKavanah = failMultiplayerKavanah;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerKavanahMovement.js */
-__awtsmoosModule_658 = (() => {
+__awtsmoosModule_657 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -51369,8 +51316,8 @@ const __exports = {};
  * Awtsmoos.com samples axes at a measured cadence and reconciles server stability by receipt.
  */
 
-var acceptMultiplayerKavanah = __awtsmoosModule_659.acceptMultiplayerKavanah;
-var failMultiplayerKavanah = __awtsmoosModule_659.failMultiplayerKavanah;
+var acceptMultiplayerKavanah = __awtsmoosModule_658.acceptMultiplayerKavanah;
+var failMultiplayerKavanah = __awtsmoosModule_658.failMultiplayerKavanah;
 
 function updateMultiplayerKavanahMovement(
 	authority,
@@ -51408,7 +51355,7 @@ __exports.updateMultiplayerKavanahMovement = updateMultiplayerKavanahMovement;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerKavanahAuthority.js */
-__awtsmoosModule_657 = (() => {
+__awtsmoosModule_656 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -51421,9 +51368,9 @@ const __exports = {};
  * Awtsmoos.com serializes cast identity, bounded motion, release, failure, and waiting deeds.
  */
 
-var updateMultiplayerKavanahMovement = __awtsmoosModule_658.updateMultiplayerKavanahMovement;
-var acceptMultiplayerKavanah = __awtsmoosModule_659.acceptMultiplayerKavanah;
-var failMultiplayerKavanah = __awtsmoosModule_659.failMultiplayerKavanah;
+var updateMultiplayerKavanahMovement = __awtsmoosModule_657.updateMultiplayerKavanahMovement;
+var acceptMultiplayerKavanah = __awtsmoosModule_658.acceptMultiplayerKavanah;
+var failMultiplayerKavanah = __awtsmoosModule_658.failMultiplayerKavanah;
 
 const MOVEMENT_INTERVAL_SECONDS = 0.2;
 const DELIBERATE_ACTIONS = new Set([
@@ -51526,7 +51473,7 @@ __exports.MultiplayerKavanahAuthority = MultiplayerKavanahAuthority;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerSupportAuthority.js */
-__awtsmoosModule_660 = (() => {
+__awtsmoosModule_659 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -51613,7 +51560,7 @@ __exports.MultiplayerSupportAuthority = MultiplayerSupportAuthority;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerVerticalSliceAuthority.js */
-__awtsmoosModule_656 = (() => {
+__awtsmoosModule_655 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -51626,8 +51573,8 @@ const __exports = {};
  * Awtsmoos.com gives the runtime one small covenant for deliberate combat and reconciliation.
  */
 
-var MultiplayerKavanahAuthority = __awtsmoosModule_657.MultiplayerKavanahAuthority;
-var MultiplayerSupportAuthority = __awtsmoosModule_660.MultiplayerSupportAuthority;
+var MultiplayerKavanahAuthority = __awtsmoosModule_656.MultiplayerKavanahAuthority;
+var MultiplayerSupportAuthority = __awtsmoosModule_659.MultiplayerSupportAuthority;
 
 class MultiplayerVerticalSliceAuthority {
 	constructor(client, runtime) {
@@ -51680,7 +51627,7 @@ __exports.MultiplayerVerticalSliceAuthority = MultiplayerVerticalSliceAuthority;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/AuthoritativeMultiplayerBridgeAuthority.js */
-__awtsmoosModule_642 = (() => {
+__awtsmoosModule_641 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -51693,9 +51640,9 @@ const __exports = {};
  * keeps hostile consequence, player protection, and deliberate combat beneath one session covenant.
  */
 
-var MultiplayerDefenseAuthority = __awtsmoosModule_643.MultiplayerDefenseAuthority;
-var MultiplayerEnemyAuthorityBridge = __awtsmoosModule_644.MultiplayerEnemyAuthorityBridge;
-var MultiplayerVerticalSliceAuthority = __awtsmoosModule_656.MultiplayerVerticalSliceAuthority;
+var MultiplayerDefenseAuthority = __awtsmoosModule_642.MultiplayerDefenseAuthority;
+var MultiplayerEnemyAuthorityBridge = __awtsmoosModule_643.MultiplayerEnemyAuthorityBridge;
+var MultiplayerVerticalSliceAuthority = __awtsmoosModule_655.MultiplayerVerticalSliceAuthority;
 
 function installMultiplayerAuthorities(bridge) {
 	bridge.verticalSliceAuthority = new MultiplayerVerticalSliceAuthority(
@@ -51718,7 +51665,7 @@ __exports.installMultiplayerAuthorities = installMultiplayerAuthorities;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/AuthoritativeMultiplayerBridgeLifecycle.js */
-__awtsmoosModule_661 = (() => {
+__awtsmoosModule_660 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -51767,7 +51714,7 @@ __exports.stopAuthoritativeBridgeSystems = stopAuthoritativeBridgeSystems;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/AuthoritativeMultiplayerBridgeReceipts.js */
-__awtsmoosModule_662 = (() => {
+__awtsmoosModule_661 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -51818,7 +51765,7 @@ __exports.multiplayerBridgeDiagnostics = multiplayerBridgeDiagnostics;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/ChossidConsolidationGeometry.js */
-__awtsmoosModule_665 = (() => {
+__awtsmoosModule_664 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -51941,7 +51888,7 @@ function indexArray(indices) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/ChossidConsolidationGrouping.js */
-__awtsmoosModule_666 = (() => {
+__awtsmoosModule_665 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -52022,7 +51969,7 @@ function groupKey(mesh, anchor, skinned) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/ChossidMeshConsolidator.js */
-__awtsmoosModule_664 = (() => {
+__awtsmoosModule_663 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -52035,8 +51982,8 @@ const __exports = {};
  * accessories, colors, joints, and weights while nine body draws become one skinned garment.
  */
 
-var buildChossidConsolidatedMesh = __awtsmoosModule_665.buildChossidConsolidatedMesh;
-var collectChossidConsolidationGroups = __awtsmoosModule_666.collectChossidConsolidationGroups;
+var buildChossidConsolidatedMesh = __awtsmoosModule_664.buildChossidConsolidatedMesh;
+var collectChossidConsolidationGroups = __awtsmoosModule_665.collectChossidConsolidationGroups;
 
 function consolidateChossidMeshes(root) {
 	if (!root?.traverse) return emptyStats();
@@ -52087,7 +52034,7 @@ function emptyStats() {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzPlayerStateFactory.js */
-__awtsmoosModule_668 = (() => {
+__awtsmoosModule_667 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -52150,7 +52097,7 @@ __exports.createEretzPlayerState = createEretzPlayerState;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/GroundRay.js */
-__awtsmoosModule_669 = (() => {
+__awtsmoosModule_668 = (() => {
 const __exports = {};
 // B"H
 /** GroundRay: one beginning ray, so the soles kiss Eretz and do not float. */
@@ -52185,7 +52132,7 @@ __exports.findMinWorldY = findMinWorldY;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/RemoteChossidActor.js */
-__awtsmoosModule_667 = (() => {
+__awtsmoosModule_666 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -52199,8 +52146,8 @@ const __exports = {};
  */
 
 var TinyAnimationPlayer = __awtsmoosModule_191.TinyAnimationPlayer;
-var PLAYER_SPAWN = __awtsmoosModule_668.PLAYER_SPAWN;
-var alignModelFeetToGround = __awtsmoosModule_669.alignModelFeetToGround;
+var PLAYER_SPAWN = __awtsmoosModule_667.PLAYER_SPAWN;
+var alignModelFeetToGround = __awtsmoosModule_668.alignModelFeetToGround;
 
 const POSITION_RESPONSE = 12;
 const FACING_RESPONSE = 16;
@@ -52324,7 +52271,7 @@ function animationClips(names) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/RemoteChossidPopulation.js */
-__awtsmoosModule_663 = (() => {
+__awtsmoosModule_662 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -52340,9 +52287,9 @@ const __exports = {};
 var Group = __awtsmoosModule_7.Group;
 var loadIsolatedGltf = __awtsmoosModule_188.loadIsolatedGltf;
 var applyChossidOutfit = __awtsmoosModule_201.applyChossidOutfit;
-var consolidateChossidMeshes = __awtsmoosModule_664.consolidateChossidMeshes;
+var consolidateChossidMeshes = __awtsmoosModule_663.consolidateChossidMeshes;
 var PLAYER_MODEL_URL = __awtsmoosModule_153.PLAYER_MODEL_URL;
-var RemoteChossidActor = __awtsmoosModule_667.RemoteChossidActor;
+var RemoteChossidActor = __awtsmoosModule_666.RemoteChossidActor;
 
 const MAX_RETRY_DELAY_MS = 30000;
 const RETRY_BASE_DELAY_MS = 1500;
@@ -52453,7 +52400,7 @@ function isHumanPlayer(player) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/AuthoritativeMultiplayerBridge.js */
-__awtsmoosModule_641 = (() => {
+__awtsmoosModule_640 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -52466,15 +52413,15 @@ const __exports = {};
  * authority only after connection while local-tab and solo truth retain their own garments.
  */
 
-var installMultiplayerAuthorities = __awtsmoosModule_642.installMultiplayerAuthorities;
-var shouldAuthoritativeBridgeHeartbeat = __awtsmoosModule_661.shouldAuthoritativeBridgeHeartbeat;
-var stopAuthoritativeBridgeSystems = __awtsmoosModule_661.stopAuthoritativeBridgeSystems;
-var updateAuthoritativeBridgeSystems = __awtsmoosModule_661.updateAuthoritativeBridgeSystems;
-var multiplayerBridgeDiagnostics = __awtsmoosModule_662.multiplayerBridgeDiagnostics;
-var multiplayerBridgeReceipt = __awtsmoosModule_662.multiplayerBridgeReceipt;
-var RemoteChossidPopulation = __awtsmoosModule_663.RemoteChossidPopulation;
-var currentMovementIntent = __awtsmoosModule_640.currentMovementIntent;
-var runtimePlayerSnapshot = __awtsmoosModule_640.runtimePlayerSnapshot;
+var installMultiplayerAuthorities = __awtsmoosModule_641.installMultiplayerAuthorities;
+var shouldAuthoritativeBridgeHeartbeat = __awtsmoosModule_660.shouldAuthoritativeBridgeHeartbeat;
+var stopAuthoritativeBridgeSystems = __awtsmoosModule_660.stopAuthoritativeBridgeSystems;
+var updateAuthoritativeBridgeSystems = __awtsmoosModule_660.updateAuthoritativeBridgeSystems;
+var multiplayerBridgeDiagnostics = __awtsmoosModule_661.multiplayerBridgeDiagnostics;
+var multiplayerBridgeReceipt = __awtsmoosModule_661.multiplayerBridgeReceipt;
+var RemoteChossidPopulation = __awtsmoosModule_662.RemoteChossidPopulation;
+var currentMovementIntent = __awtsmoosModule_639.currentMovementIntent;
+var runtimePlayerSnapshot = __awtsmoosModule_639.runtimePlayerSnapshot;
 
 __exports.runtimePlayerSnapshot = runtimePlayerSnapshot;
 
@@ -52570,7 +52517,7 @@ __exports.AuthoritativeMultiplayerBridge = AuthoritativeMultiplayerBridge;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerEretzSession.js */
-__awtsmoosModule_611 = (() => {
+__awtsmoosModule_610 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -52581,15 +52528,15 @@ const __exports = {};
  * The Awtsmoos joins distant windows without delaying the first local step; Awtsmoos.com
  * mounts conversation only after connection and destroys it for offline, stopped, or replaced worlds.
  */
-var createMultiplayerConnection = __awtsmoosModule_612.createMultiplayerConnection;
-var MultiplayerOptionalUi = __awtsmoosModule_633.MultiplayerOptionalUi;
-var multiplayerConnectionOptions = __awtsmoosModule_634.multiplayerConnectionOptions;
-var stopMultiplayerResources = __awtsmoosModule_634.stopMultiplayerResources;
-var revealMultiplayerDiagnostics = __awtsmoosModule_635.revealMultiplayerDiagnostics;
-var revealMultiplayerStatus = __awtsmoosModule_635.revealMultiplayerStatus;
-var MultiplayerStatusBadge = __awtsmoosModule_636.MultiplayerStatusBadge;
-var revealMultiplayerTransport = __awtsmoosModule_639.revealMultiplayerTransport;
-var runtimePlayerSnapshot = __awtsmoosModule_640.runtimePlayerSnapshot;
+var createMultiplayerConnection = __awtsmoosModule_611.createMultiplayerConnection;
+var MultiplayerOptionalUi = __awtsmoosModule_632.MultiplayerOptionalUi;
+var multiplayerConnectionOptions = __awtsmoosModule_633.multiplayerConnectionOptions;
+var stopMultiplayerResources = __awtsmoosModule_633.stopMultiplayerResources;
+var revealMultiplayerDiagnostics = __awtsmoosModule_634.revealMultiplayerDiagnostics;
+var revealMultiplayerStatus = __awtsmoosModule_634.revealMultiplayerStatus;
+var MultiplayerStatusBadge = __awtsmoosModule_635.MultiplayerStatusBadge;
+var revealMultiplayerTransport = __awtsmoosModule_638.revealMultiplayerTransport;
+var runtimePlayerSnapshot = __awtsmoosModule_639.runtimePlayerSnapshot;
 const STATUS_REFRESH_SECONDS = 0.25;
 
 class MultiplayerEretzRuntime {
@@ -52637,7 +52584,7 @@ class MultiplayerEretzRuntime {
 				this.refreshStatus('offline-local');
 				return null;
 			}
-			const { AuthoritativeMultiplayerBridge } = await Promise.resolve(__awtsmoosModule_641);
+			const { AuthoritativeMultiplayerBridge } = await Promise.resolve(__awtsmoosModule_640);
 			this.bridge = new AuthoritativeMultiplayerBridge({
 				client: this.client,
 				runtime: this.runtime,
@@ -52689,7 +52636,7 @@ __exports.MultiplayerEretzRuntime = MultiplayerEretzRuntime;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/DeferredAppModuleUrl.js */
-__awtsmoosModule_671 = (() => {
+__awtsmoosModule_670 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -52726,7 +52673,7 @@ __exports.resolveDeferredAppModuleUrl = resolveDeferredAppModuleUrl;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/GameplayTextureStreamingGate.js */
-__awtsmoosModule_672 = (() => {
+__awtsmoosModule_671 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -52775,7 +52722,7 @@ __exports.default = startGameplayTextureStreaming;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapDistrictBuilder.js */
-__awtsmoosModule_674 = (() => {
+__awtsmoosModule_673 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -52825,7 +52772,7 @@ function buildPart(districtId, part) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapDistrictDefinitions.js */
-__awtsmoosModule_675 = (() => {
+__awtsmoosModule_674 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -52884,7 +52831,7 @@ function part(name, position, scale, color) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapIdleSlice.js */
-__awtsmoosModule_676 = (() => {
+__awtsmoosModule_675 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -52922,7 +52869,7 @@ __exports.waitForBootstrapIdleSlice = waitForBootstrapIdleSlice;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapDistrictStreamer.js */
-__awtsmoosModule_673 = (() => {
+__awtsmoosModule_672 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -52935,9 +52882,9 @@ const __exports = {};
  * progress while authored terrain, textures, CSG, water, forests, and rich shaders remain absent.
  */
 
-var buildBootstrapDistrict = __awtsmoosModule_674.buildBootstrapDistrict;
-var BOOTSTRAP_DISTRICTS = __awtsmoosModule_675.BOOTSTRAP_DISTRICTS;
-var waitForBootstrapIdleSlice = __awtsmoosModule_676.waitForBootstrapIdleSlice;
+var buildBootstrapDistrict = __awtsmoosModule_673.buildBootstrapDistrict;
+var BOOTSTRAP_DISTRICTS = __awtsmoosModule_674.BOOTSTRAP_DISTRICTS;
+var waitForBootstrapIdleSlice = __awtsmoosModule_675.waitForBootstrapIdleSlice;
 
 async function streamBootstrapDistricts(
 	runtime,
@@ -52975,7 +52922,7 @@ function createStreamingState() {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/createEretzRuntime.js */
-__awtsmoosModule_670 = (() => {
+__awtsmoosModule_669 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -52988,13 +52935,13 @@ const __exports = {};
  * Awtsmoos.com keeps rich shaders, authored terrain, RPG, and heavy actors explicitly deferred.
  */
 
-var resolveDeferredAppModuleUrl = __awtsmoosModule_671.resolveDeferredAppModuleUrl;
+var resolveDeferredAppModuleUrl = __awtsmoosModule_670.resolveDeferredAppModuleUrl;
 var markRendererHydration = __awtsmoosModule_540.markRendererHydration;
 var markRuntimeFailed = __awtsmoosModule_540.markRuntimeFailed;
 var markRuntimePlayable = __awtsmoosModule_540.markRuntimePlayable;
 var markRuntimeStarting = __awtsmoosModule_540.markRuntimeStarting;
 
-__exports.startGameplayTextureStreaming = __awtsmoosModule_672.startGameplayTextureStreaming;
+__exports.startGameplayTextureStreaming = __awtsmoosModule_671.startGameplayTextureStreaming;
 
 const TRACKER_URL = resolveDeferredAppModuleUrl(
 	'BootPhaseTracker.js?v=20260722-boot-text-01',
@@ -53049,7 +52996,7 @@ async function createEretzRuntime(hosts, options = {}) {
 __exports.createEretzRuntime = createEretzRuntime;
 async function streamDistricts(runtime, environment) {
 	try {
-		const { streamBootstrapDistricts } = await Promise.resolve(__awtsmoosModule_673);
+		const { streamBootstrapDistricts } = await Promise.resolve(__awtsmoosModule_672);
 		return streamBootstrapDistricts(runtime, environment);
 	} catch (error) {
 		runtime.districtStreaming = {
@@ -53092,7 +53039,7 @@ __exports.default = createEretzRuntime;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/network/MultiplayerEretzBootstrap.js */
-__awtsmoosModule_610 = (() => {
+__awtsmoosModule_609 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -53105,10 +53052,10 @@ const __exports = {};
  * Awtsmoos.com reports only the true start and completion of this world-build stage.
  */
 
-var MultiplayerEretzRuntime = __awtsmoosModule_611.MultiplayerEretzRuntime;
+var MultiplayerEretzRuntime = __awtsmoosModule_610.MultiplayerEretzRuntime;
 
 async function createMultiplayerEretzRuntime(hosts, options = {}) {
-	const runtimeFactory = options.runtimeFactory || (await Promise.resolve(__awtsmoosModule_670)).createEretzRuntime;
+	const runtimeFactory = options.runtimeFactory || (await Promise.resolve(__awtsmoosModule_669)).createEretzRuntime;
 	const runtimeOptions = { ...options };
 	delete runtimeOptions.runtimeFactory;
 	options.onProgress?.({
@@ -53148,7 +53095,7 @@ __exports.default = createMultiplayerEretzRuntime;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalSharedMeadowRuntimeLaunch.js */
-__awtsmoosModule_608 = (() => {
+__awtsmoosModule_607 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -53161,13 +53108,13 @@ const __exports = {};
  * keeps network imports outside solo startup while preserving multiplayer as policy default.
  */
 
-var inferMinimalMeadowRealtimeUrl = __awtsmoosModule_609.inferMinimalMeadowRealtimeUrl;
+var inferMinimalMeadowRealtimeUrl = __awtsmoosModule_608.inferMinimalMeadowRealtimeUrl;
 
 async function launchMinimalSharedMeadowRuntime(options) {
 	if (options.sessionMode !== 'multiplayer') {
 		return options.runtimeFactory(options.hosts, runtimeOptions(options));
 	}
-	const module = await Promise.resolve(__awtsmoosModule_610);
+	const module = await Promise.resolve(__awtsmoosModule_609);
 	return module.createMultiplayerEretzRuntime(options.hosts, {
 		...runtimeOptions(options),
 		WebSocketClass: options.environment.WebSocket,
@@ -53192,7 +53139,7 @@ function runtimeOptions(options) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MitzvahWorldSessionMode.js */
-__awtsmoosModule_677 = (() => {
+__awtsmoosModule_676 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -53231,10 +53178,10 @@ var installMinimalMeadowOptionalEntries = __awtsmoosModule_599.installMinimalMea
 var runMinimalSharedMeadowReadiness = __awtsmoosModule_600.runMinimalSharedMeadowReadiness;
 var isMinimalMovieRequest = __awtsmoosModule_606.isMinimalMovieRequest;
 var openMinimalCreativeRoute = __awtsmoosModule_606.openMinimalCreativeRoute;
-var launchMinimalSharedMeadowRuntime = __awtsmoosModule_608.launchMinimalSharedMeadowRuntime;
-var mitzvahWorldSessionMode = __awtsmoosModule_677.mitzvahWorldSessionMode;
-var resolveMinimalMeadowHosts = __awtsmoosModule_609.resolveMinimalMeadowHosts;
-var showMinimalMeadowBootFailure = __awtsmoosModule_609.showMinimalMeadowBootFailure;
+var launchMinimalSharedMeadowRuntime = __awtsmoosModule_607.launchMinimalSharedMeadowRuntime;
+var mitzvahWorldSessionMode = __awtsmoosModule_676.mitzvahWorldSessionMode;
+var resolveMinimalMeadowHosts = __awtsmoosModule_608.resolveMinimalMeadowHosts;
+var showMinimalMeadowBootFailure = __awtsmoosModule_608.showMinimalMeadowBootFailure;
 
 async function bootMinimalSharedMeadow(
 	documentValue = document,

@@ -1,0 +1,75 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Replies branch like letters and emoji glow as sparks in the night;
+ * the Awtsmoos binds each voice on Awtsmoos.com in communal light.
+ */
+.awtsmoos-social-discussion {
+	margin: 2rem 0 7rem;
+	padding: clamp(1rem, 4vw, 1.6rem);
+	border: 1px solid rgba(255,255,255,.12);
+	border-radius: 28px;
+	background: linear-gradient(180deg, rgba(17,31,52,.96), rgba(7,15,28,.98));
+	box-shadow: 0 28px 80px rgba(0,0,0,.32);
+}
+.awtsmoos-social-discussion > header { margin-bottom: 1.2rem; }
+.awtsmoos-social-discussion > header span {
+	color: #f4c96b;
+	font: 800 .78rem/1 Inter, sans-serif;
+	letter-spacing: .14em;
+	text-transform: uppercase;
+}
+.awtsmoos-social-discussion h2 {
+	margin: .45rem 0 .35rem;
+	font: 900 clamp(1.55rem, 6vw, 2.45rem)/1.06 Inter, sans-serif;
+}
+.awtsmoos-social-discussion header p {
+	margin: 0;
+	color: #aebdd0;
+	font: 500 1rem/1.5 Inter, sans-serif;
+}
+.awtsmoos-social-thread { display: grid; gap: .9rem; }
+.awtsmoos-social-comment {
+	margin-left: calc(var(--reply-depth, 0) * .9rem);
+	padding: 1rem;
+	border: 1px solid rgba(255,255,255,.1);
+	border-radius: 20px;
+	background: rgba(255,255,255,.055);
+}
+.awtsmoos-social-comment header {
+	display: grid;
+	grid-template-columns: 42px 1fr;
+	gap: .75rem;
+	align-items: center;
+}
+.awtsmoos-social-avatar {
+	display: grid;
+	place-items: center;
+	width: 42px;
+	height: 42px;
+	border-radius: 14px;
+	background: linear-gradient(135deg,#31d7ef,#7c3aed);
+	color: white;
+	font: 900 1rem/1 Inter,sans-serif;
+}
+.awtsmoos-social-comment header div { display: grid; gap: .16rem; }
+.awtsmoos-social-comment strong { font: 850 1rem/1.2 Inter,sans-serif; }
+.awtsmoos-social-comment small { color: #93a4ba; font: 600 .78rem/1.2 Inter,sans-serif; }
+.awtsmoos-social-comment > p { margin: .85rem 0; color: #eef4fb; font: 500 1rem/1.58 Inter,sans-serif; }
+.awtsmoos-social-actions { display: flex; align-items: center; justify-content: space-between; gap: .65rem; flex-wrap: wrap; }
+.awtsmoos-social-reactions { display: flex; gap: .4rem; flex-wrap: wrap; }
+.awtsmoos-reaction-chip,
+.awtsmoos-social-reply {
+	min-height: 38px;
+	padding: .48rem .72rem;
+	border: 1px solid rgba(255,255,255,.12);
+	border-radius: 999px;
+	background: rgba(255,255,255,.07);
+	color: white;
+	font: 750 .84rem/1 Inter,sans-serif;
+}
+.awtsmoos-social-reply { color: #f4c96b; }
+.awtsmoos-social-empty { color: #aebdd0; text-align: center; }
+@media (max-width: 520px) {
+	.awtsmoos-social-comment { margin-left: calc(var(--reply-depth, 0) * .45rem); padding: .85rem; }
+}

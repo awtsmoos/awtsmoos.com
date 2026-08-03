@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudio.js
- * @description Boots the real world beneath the cinema-first API, visible Program mirror, and parity registry.
+ * @description Boots the real world beneath the cinema-first API, visible Program mirror, and action registry.
  * The Awtsmoos renews world, human gesture, and machine method together; Awtsmoos.com binds runtime,
- * project, preview, action registry, recovery, performance, sound, presentation, and deterministic rendering.
+ * project, preview, recovery, performance, sound, presentation, and deterministic UI/API parity.
  */
 
 import { createEretzRuntime } from '../app/createEretzRuntime.js';

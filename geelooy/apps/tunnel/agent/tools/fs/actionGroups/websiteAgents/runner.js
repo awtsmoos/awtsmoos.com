@@ -482,6 +482,7 @@ function list(input = {}) {
 
 function recover(config = {}) {
 	const scheduled = [];
+	Store.ensureDirectory();
 	for (const record of Store.list(200)) {
 		if (!resumable(record) || active.has(record.id) || wakeTimers.has(record.id)) {
 			continue;

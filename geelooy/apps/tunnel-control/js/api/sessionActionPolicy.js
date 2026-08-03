@@ -2,39 +2,15 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file Mirrors the server's exact browser-session read boundary.
- * @description
- * The Awtsmoos renews login and mutation authority without confusing them.
- * Awtsmoos.com permits signed-session observation, including room status controls,
- * while every write, command, mission mutation, or browser action requires a key.
- */
 export const SESSION_READ_ACTIONS = Object.freeze(new Set([
-	"list",
-	"tree",
-	"read",
-	"readLines",
-	"readManyLines",
-	"readBytes",
-	"read64",
-	"md",
-	"stat",
-	"roots",
-	"rootBrowse",
-	"configGet",
-	"payloadEcho",
-	"actionSchemaTrace",
-	"actionHistoryList",
-	"actionHistoryGet",
-	"actionHistorySearch",
-	"actionHistoryExplain",
-	"actionHistoryDiff",
-	"chromeStatus",
-	"missionProjectDiscover",
-	"missionProjectStatus",
-	"missionTimeline",
-	"missionTurnStatus",
-	"missionResourceStatus"
+	"list", "tree", "read", "readLines", "readManyLines", "readBytes",
+	"read64", "md", "stat", "roots", "rootBrowse", "configGet",
+	"payloadEcho", "actionSchemaTrace", "actionHistoryList",
+	"actionHistoryGet", "actionHistorySearch", "actionHistoryExplain",
+	"actionHistoryDiff", "chromeStatus", "missionProjectDiscover",
+	"missionProjectStatus", "missionTimeline", "missionTurnStatus",
+	"missionResourceStatus", "websiteAgentMissionList",
+	"websiteAgentMissionStatus", "aiAgentWebsiteMissionStatus"
 ]));
 
 export function sessionMayCall(action) {
@@ -43,8 +19,12 @@ export function sessionMayCall(action) {
 
 export function missingCredentialResponse(action) {
 	const normalizedAction = String(action || "");
-	const missionMutation = normalizedAction.startsWith("mission");
-	const neededScope = missionMutation ? "tunnel.room" : "tunnel.write";
+	const browserMutation = /^(agent|aiAgentSpawnWebsiteMission|websiteAgentMission(Start|Message)|chatgptWebsiteLogout)$/.test(normalizedAction);
+	const roomMutation = normalizedAction.startsWith("mission") ||
+		/^websiteAgentMission(Stop|Forget)$/.test(normalizedAction);
+	const neededScope = browserMutation
+		? "tunnel.browser"
+		: roomMutation ? "tunnel.room" : "tunnel.write";
 	return {
 		BH: "B\"H",
 		ok: false,
@@ -54,8 +34,6 @@ export function missingCredentialResponse(action) {
 		authenticated: true,
 		identityKind: "session",
 		credentialKind: "apiKey",
-		message: missionMutation
-			? `You are signed in. Select an API key with ${neededScope} to change this room.`
-			: `You are signed in. Select an API key with ${neededScope} to run ${normalizedAction}.`
+		message: `You are signed in. Select an API key with ${neededScope} to run ${normalizedAction}.`
 	};
 }

@@ -35,6 +35,12 @@ export function usage() {
         field("missionRounds", "Autopilot rounds", { type: "number", value: "8", min: "1", className: "span-3" }),
         field("selfEmail", "Self-mail recipient", { placeholder: "optional agent email", className: "span-6" }),
         area("missionAnswer", "Mission answer / checkpoint note", "D let tunnel choose next question forever"),
+        field("websiteMissionId", "Website mission id", { placeholder: "webmission_...", className: "span-6" }),
+        field("websiteAgentCount", "Website agents", { type: "number", value: "12", min: "3", max: "24", className: "span-3" }),
+        field("websiteStartSpacing", "Start spacing (ms)", { type: "number", value: "12000", min: "10000", className: "span-3" }),
+        field("websiteMessageTarget", "Website message target", { value: "all", className: "span-6" }),
+        area("websiteMissionPrompt", "Website mission prompt", "Inspect first, coordinate in the shared room, implement fully, and verify every result."),
+        area("websiteMissionMessage", "Website mission message", "Publish progress and finish all remaining work."),
         area("writeContent", "Write content", ""),
         area("bulkPaths", "Bulk paths", ""),
         area("bulkWriteJson", "Bulk write JSON", "[]")

@@ -4,70 +4,72 @@
 
 /**
  * @file compactJs.mitzvahWorldRuntime.test.js
- * @description Proves compact bootstrap imports the scheduler while the rich bundle remains outside the graph.
- * The Awtsmoos folds each first-control vessel before the truthful readiness seal;
- * Awtsmoos.com keeps scheduler identity explicit and leaves the richer installer beyond the compact gate.
+ * @description Proves all generated runtime artifacts are syntactically valid and own their intended surfaces.
+ * The Awtsmoos lets compiler names change their garments while callable public truth remains stable;
+ * Awtsmoos.com guards first control, three chunk doors, remote models, creative separation, and syntax.
  */
 
 const assert = require('assert');
 const childProcess = require('child_process');
-const fs = require('fs').promises;
+const fs = require('fs');
 const os = require('os');
 const path = require('path');
-const { compileCompactModule } = require('../compactJs/compiler.js');
 
 const DRIVE_MODEL_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/models/';
+const chunkContracts = Object.freeze([
+	['presentation', 'installMinimalMeadowPresentationBundle'],
+	['world', 'installMinimalMeadowWorldSystems'],
+	['optional', 'hydrateMinimalMeadowPlayer']
+]);
 
 async function run() {
 	const repoRoot = path.resolve(__dirname, '../../..');
-	const rootDir = path.join(repoRoot, 'geelooy');
-	const entryFile = path.join(
-		rootDir,
-		'games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPage.js'
+	const sourceRoot = path.join(
+		repoRoot,
+		'geelooy/games/mitzvahWorld/experiments/Awtsmoos/src'
 	);
-	const compactSource = await compileCompactModule({ entryFile, fs, rootDir });
-	assert.match(compactSource, new RegExp(escapePattern(DRIVE_MODEL_ROOT)));
-	assert.doesNotMatch(compactSource, /\/geelooy\/games\/mitzvahWorld\/assets\/models\//);
-	assert.doesNotMatch(compactSource, /\/games\/mitzvahWorld\/assets\/models\//);
-	assert.match(
-		compactSource,
-		/module\.scheduleMinimalMeadowFeatures\(runtime, environment, \{/
-	);
-	assert.match(compactSource, /MinimalMeadowFeatureScheduler\.js/);
-	assert.match(compactSource, /function resolveDeferredAppModuleUrl\(/);
-	assert.match(compactSource, /FEATURE_SCHEDULER_URL/);
-	assert.doesNotMatch(compactSource, /MinimalMeadowFeatureBundle\.js/);
-	assert.doesNotMatch(compactSource, /async function installMinimalMeadowFeatures\(/);
-	assert.match(
-		compactSource,
-		/\/games\/mitzvahWorld\/experiments\/Awtsmoos\/src\/network\/MultiplayerOptionalUi\.js/
-	);
-	assert.doesNotMatch(
-		compactSource,
-		/this\.importer\(['"]\.\/MitzvahWorldChatPanel\.js['"]\)/
-	);
-	assert.match(compactSource, /throwMinimalMeadowFeatureFailure/);
-	assert.doesNotMatch(compactSource, /settling-after-playable/);
-	await verifySyntax(compactSource);
-	console.log("B'H Mitzvah World compact runtime test passed");
+	const main = source(path.join(sourceRoot, 'mitzvah-world.compact.js'));
+	assert.match(main, new RegExp(escapePattern(DRIVE_MODEL_ROOT)));
+	for (const marker of [
+		'FIRST_PAINT_FALLBACK_MS',
+		'mitzvah-world-presentation.compact.js',
+		'mitzvah-world-world.compact.js',
+		'mitzvah-world-optional.compact.js'
+	]) assert.match(main, new RegExp(escapePattern(marker)));
+	assert.doesNotMatch(main, /MovieRenderRuntime/);
+	verifySyntax(main, 'main');
+	for (const [name, exportedName] of chunkContracts) {
+		const chunk = source(path.join(
+			sourceRoot,
+			`mitzvah-world-${name}.compact.js`
+		));
+		assert.match(chunk, new RegExp(exportedName));
+		assert.doesNotMatch(chunk, /MovieRenderRuntime/);
+		verifySyntax(chunk, name);
+	}
+	console.log("B'H Mitzvah World generated runtime test passed");
+}
+
+function source(filePath) {
+	return fs.readFileSync(filePath, 'utf8');
 }
 
 function escapePattern(value) {
 	return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-async function verifySyntax(source) {
+function verifySyntax(sourceText, name) {
 	const target = path.join(
 		os.tmpdir(),
-		`awtsmoos-mitzvah-runtime-${process.pid}.mjs`
+		`awtsmoos-mitzvah-${name}-${process.pid}.mjs`
 	);
 	try {
-		await fs.writeFile(target, source);
+		fs.writeFileSync(target, sourceText);
 		childProcess.execFileSync(process.execPath, ['--check', target], {
 			stdio: 'pipe'
 		});
 	} finally {
-		await fs.unlink(target).catch(() => {});
+		fs.rmSync(target, { force: true });
 	}
 }
 

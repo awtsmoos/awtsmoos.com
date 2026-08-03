@@ -42,20 +42,29 @@ function buildAiAgentActions(ctx) {
 async function consolidatedAgent(payload = {}) {
   const config = loadConfig();
   payload = scopedPayload(payload, config);
-  const mode = String(payload.mode || payload.agentMode || "website-mission").trim();
+  const mode = resolveAgentMode(payload, config);
   if (["website-mission", "website", "council", "delegate"].includes(mode)) {
     return WebsiteMissions.start(config, payload);
   }
   if (mode === "list") return listAll();
   if (mode === "config") return setConfig(payload);
-  if (mode === "setKey") return setProviderKey(payload);
-  if (mode === "removeKey") return removeProviderKey(payload);
+  if (mode === "setkey") return setProviderKey(payload);
+  if (mode === "removekey") return removeProviderKey(payload);
   if (mode === "spawn") return tasks.spawnTask(config, payload);
   if (mode === "novel") return tasks.spawnTask(config, { ...payload, kind: "novelOrchestra" });
   if (mode === "status") return tasks.status(payload);
   if (mode === "result") return tasks.result(payload);
   if (mode === "tasks") return tasks.list(payload);
   return sendAgentMessage(config, payload);
+}
+
+function resolveAgentMode(payload = {}, config = {}) {
+  return String(
+    payload.mode ||
+    payload.agentMode ||
+    config.aiAgents?.defaultMode ||
+    "website-mission"
+  ).trim().toLowerCase();
 }
 
 function actionPayload(payload = {}) {
@@ -126,7 +135,7 @@ function listAll() {
     config: publicAiConfig(config),
     taskActions: taskActions(),
     payloadCarriers: CARRIER_KEYS,
-    acceptsTopLevel: ["provider", "providerId", "agent", "agentId", "model", "message", "prompt", "system", "stream", "mode", "taskId"],
+    acceptsTopLevel: ["provider", "providerId", "agent", "agentId", "model", "message", "prompt", "system", "stream", "mode", "agentMode", "defaultMode", "taskId"],
     paramsJson: true
   };
 }
@@ -136,6 +145,7 @@ function setConfig(payload = {}) {
   const patch = { ...current.aiAgents };
   for (const key of NUMERIC_AI_KEYS) if (payload[key] !== undefined) patch[key] = Number(payload[key]);
   if (payload.allowRecursiveSpawn !== undefined) patch.allowRecursiveSpawn = payload.allowRecursiveSpawn !== false && payload.allowRecursiveSpawn !== "false";
+  if (payload.defaultMode !== undefined) patch.defaultMode = payload.defaultMode;
   const next = saveConfigPatch({ aiAgents: patch });
   return { ok: true, action: "aiAgentConfigSet", config: publicAiConfig(next) };
 }
@@ -163,7 +173,7 @@ function removeProviderKey(payload = {}) {
 
 function publicAiConfig(config) {
   const ai = config.aiAgents || {};
-  return { maxDepth: ai.maxDepth, maxChildrenPerTask: ai.maxChildrenPerTask, maxTotalTasks: ai.maxTotalTasks, pollIntervalMs: ai.pollIntervalMs, promotionCycles: ai.promotionCycles, agentCycles: ai.agentCycles, chapterCycles: ai.chapterCycles, providerTimeoutMs: ai.providerTimeoutMs, allowRecursiveSpawn: ai.allowRecursiveSpawn };
+  return { defaultMode: ai.defaultMode || "website-mission", maxDepth: ai.maxDepth, maxChildrenPerTask: ai.maxChildrenPerTask, maxTotalTasks: ai.maxTotalTasks, pollIntervalMs: ai.pollIntervalMs, promotionCycles: ai.promotionCycles, agentCycles: ai.agentCycles, chapterCycles: ai.chapterCycles, providerTimeoutMs: ai.providerTimeoutMs, allowRecursiveSpawn: ai.allowRecursiveSpawn };
 }
 
 function knownProvider(providerId) { try { providerFor(providerId); return true; } catch (_) { return false; } }
@@ -171,4 +181,4 @@ function taskActions() { return ["agent", "aiAgentSpawnWebsiteMission", "aiAgent
 function clean(value) { return String(value || "").trim().toLowerCase(); }
 function failure(error, extra = {}) { return { ok: false, action: "aiAgent", error, ...extra }; }
 
-module.exports = { actionPayload, buildAiAgentActions, consolidatedAgent, scopedPayload };
+module.exports = { actionPayload, buildAiAgentActions, consolidatedAgent, publicAiConfig, resolveAgentMode, scopedPayload, setConfig };

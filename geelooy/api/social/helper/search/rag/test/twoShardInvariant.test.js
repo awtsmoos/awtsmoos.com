@@ -4,10 +4,9 @@
 
 /**
  * @file twoShardInvariant.test.js
- * @description
- * Proves two sealed canonical files and both complete multipart English lanes.
- * The Awtsmoos separates every corpus name; Awtsmoos.com exposes twelve Sichos
- * Kodesh parts and twenty-eight Likkutei Sichos parts without alias collision.
+ * @description Proves three sealed canonical files and both complete multipart English lanes.
+ * The Awtsmoos separates every corpus name while Tanach joins as its own reviewed light;
+ * Awtsmoos.com exposes twelve Sichos Kodesh parts and twenty-eight Likkutei parts right.
  */
 
 const test = require('node:test');
@@ -25,7 +24,8 @@ const { aliases } = require('../shardManifest.js');
 test('declares sealed files and complete reviewed multipart publications', () => {
 	assert.deepEqual(CANONICAL_SHARD_FILES, [
 		'meluket-english-comments-rag.awtsdb',
-		'sefer-hasichos-english-comments-rag.awtsdb'
+		'sefer-hasichos-english-comments-rag.awtsdb',
+		'tanach-hebrew-verses-rag.awtsdb'
 	]);
 	assert.equal(SICHOS_KODESH_PUBLISHED_PARTS, 12);
 	assert.equal(SICHOS_KODESH_EXPECTED_PARTS, 12);
@@ -36,16 +36,19 @@ test('declares sealed files and complete reviewed multipart publications', () =>
 	assert(PUBLISHED_LIKKUTEI_SICHOS_FILES.at(-1).includes('part-28'));
 });
 
-test('keeps Meluket and Likkutei aliases disjoint', () => {
+test('keeps corpus aliases disjoint', () => {
 	const meluket = aliases('meluket', 'meluket', ['maamar-meluket']);
 	const likkutei = aliases('likkutei-sichos', 'likkutei-sichos', ['ls']);
+	const kodesh = aliases('sichos-kodesh', 'sichos-kodesh', ['sk']);
+	const tanach = aliases('tanach-hebrew-verses', 'tanach-hebrew-verses', ['tanach']);
 	assert(meluket.includes('meluket'));
 	assert(!meluket.includes('likkutei-sichos'));
 	assert(likkutei.includes('likkutei-sichos'));
 	assert(likkutei.includes('likutei-sichos'));
 	assert(likkutei.includes('ls'));
 	assert(!likkutei.includes('meluket'));
-	const kodesh = aliases('sichos-kodesh', 'sichos-kodesh', ['sk']);
 	assert(kodesh.includes('sichos-kodesh'));
 	assert(kodesh.includes('sk'));
+	assert(tanach.includes('tanach-hebrew-verses'));
+	assert(tanach.includes('tanach'));
 });

@@ -15,6 +15,9 @@ export function buildOptions() {
   if (item?.defaults?.needsMissionAutopilot) Object.assign(opts, missionAutopilotOptions(action));
   if (item?.defaults?.needsMissionNote) Object.assign(opts, missionNoteOptions());
   if (item?.defaults?.needsMissionMail) Object.assign(opts, missionMailOptions());
+  if (item?.defaults?.needsWebsiteMissionPrompt) Object.assign(opts, websiteMissionStartOptions());
+  if (item?.defaults?.needsWebsiteMissionId) opts.websiteMissionId = $("websiteMissionId")?.value || "";
+  if (item?.defaults?.needsWebsiteMissionMessage) Object.assign(opts, websiteMissionMessageOptions());
   if (action === "tree") Object.assign(opts, { depth: $("treeDepth")?.value || 2, limit: $("treeLimit")?.value || 120 });
   if (action === "write") opts.content = $("writeContent").value;
   if (action === "bulk") opts.paths = splitLines($("bulkPaths").value);
@@ -42,6 +45,20 @@ function missionMailOptions() {
 function missionNoteOptions() {
   const note = $("missionAnswer")?.value || "";
   return { note, answer: note, summary: note };
+}
+function websiteMissionStartOptions() {
+  return {
+	mode: "website-mission",
+    prompt: $("websiteMissionPrompt")?.value || "",
+    agentCount: $("websiteAgentCount")?.value || 12,
+    startSpacingMs: $("websiteStartSpacing")?.value || 12000
+  };
+}
+function websiteMissionMessageOptions() {
+  return {
+    toAgent: $("websiteMessageTarget")?.value || "all",
+    body: $("websiteMissionMessage")?.value || ""
+  };
 }
 function parseBulkWrite() {
   try { return JSON.parse($("bulkWriteJson").value); }

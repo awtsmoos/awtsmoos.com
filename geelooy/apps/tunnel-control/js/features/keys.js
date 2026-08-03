@@ -23,7 +23,7 @@ export function mountKeys() {
   loadKeys().catch(error => feedback("Could not refresh server key list.", { error: String(error) }));
 }
 function head() { return h("div", { className: "page-head" }, [h("p", { className: "eyebrow", text: "API keys" }), h("h2", { text: "Access key vault" }), h("p", { text: "Create or paste one key. It persists across refresh and is shown only as a mask." })]); }
-function scopes() { return h("div", { className: "check-grid" }, ["tunnel.read", "tunnel.write", "tunnel.command", "tunnel.browser", "tunnel.admin"].map(scope => h("label", {}, [h("input", { type: "checkbox", className: "scopeBox", value: scope, checked: scope === "tunnel.read" }), scope]))); }
+function scopes() { return h("div", { className: "check-grid" }, ["tunnel.read", "tunnel.room", "tunnel.write", "tunnel.command", "tunnel.browser", "tunnel.admin"].map(scope => h("label", {}, [h("input", { type: "checkbox", className: "scopeBox", value: scope, checked: scope === "tunnel.read" }), scope]))); }
 function pickedScopes() { return Array.from(document.querySelectorAll(".scopeBox:checked")).map(x => x.value).join(" "); }
 async function loadKeys() {
   const got = await apiGet("/api/tunnel/control/api-keys");

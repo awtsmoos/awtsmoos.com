@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioLayoutCss.js
- * @description Gives the real 3D monitor first claim on the viewport while keeping timeline, status, and inspector reversible.
- * The Awtsmoos renews the boundless world inside measured rows; Awtsmoos.com lets
- * the living image receive spacious Malchus while tools contract until the artist summons them.
+ * @description Gives the 3D monitor first claim while containing wide timeline content inside its own scroll vessel.
+ * The Awtsmoos renews the boundless world inside measured rows; Awtsmoos.com lets the living image
+ * receive spacious Malchus while long cinematic time scrolls inward without widening the page itself.
  */
 
 export function movieStudioLayoutCss() {
@@ -18,9 +18,12 @@ export function movieStudioLayoutCss() {
 			z-index: 2147483000;
 			display: grid;
 			grid-template-rows: auto minmax(0, 1fr) var(--movie-splitter-size) var(--movie-timeline-compact-height) auto;
+			width: 100vw;
+			max-width: 100vw;
 			min-width: 0;
 			min-height: 0;
 			overflow: hidden;
+			contain: layout paint size;
 			background: var(--movie-surface-canvas);
 			color: var(--movie-text);
 			font: 14px/1.4 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -46,10 +49,13 @@ export function movieStudioLayoutCss() {
 			background: #050608;
 		}
 		.Awtsmoos-movie-studio > [data-timeline] {
+			width: 100%;
+			max-width: 100%;
 			min-width: 0;
 			min-height: 0;
 			overflow: auto;
 			overscroll-behavior: contain;
+			contain: layout paint inline-size;
 			border-top: 1px solid var(--movie-border);
 			background: var(--movie-surface-timeline);
 		}

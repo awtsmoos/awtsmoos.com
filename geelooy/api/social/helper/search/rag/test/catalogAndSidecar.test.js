@@ -4,10 +4,9 @@
 
 /**
  * @file catalogAndSidecar.test.js
- * @description
- * Proves four independent corpora without opening text-only marker databases.
- * The Awtsmoos names every lane truthfully; Awtsmoos.com skips only when no
- * installed local corpus exists, while unit boundaries remain continuously tested.
+ * @description Proves five independent complete corpora without opening text-only marker databases.
+ * The Awtsmoos names every lane truthfully, and Awtsmoos.com measures each reviewed publication;
+ * multipart English roads and the Tanach matrix remain distinct within one searchable revelation.
  */
 
 const test = require('node:test');
@@ -25,20 +24,21 @@ const COLD_STREAM_LIMIT_MS = 30000;
 const EXPECTED = Object.freeze({
 	'likkutei-sichos': 221043,
 	'sichos-kodesh': 68490,
+	'tanach-hebrew-verses': 23204,
 	'sefer-hasichos': 15022,
 	'meluket': 6139
 });
 
 const databaseRoot = configuredRoot();
 
-test('publishes four complete independent RAG lanes', {
+test('publishes five complete independent RAG lanes', {
 	skip: databaseRoot ? false : 'No installed local corpus was found.'
 }, async () => {
 	const $i = { db: { directory: databaseRoot } };
 	const listStart = performance.now();
 	const shards = await availableShards({ $i });
 	const listMs = performance.now() - listStart;
-	assert.equal(shards.length, 4);
+	assert.equal(shards.length, 5);
 	assert.deepEqual(new Set(shards.map(shard => shard.id)), new Set(Object.keys(EXPECTED)));
 	assert(listMs < COLD_CATALOG_LIMIT_MS, `Cold catalog took ${listMs.toFixed(1)}ms.`);
 	for (const [id, count] of Object.entries(EXPECTED)) {
@@ -50,10 +50,12 @@ test('publishes four complete independent RAG lanes', {
 	}
 	const likkutei = await resolveShard({ $i, lane: 'likkutei-sichos' });
 	const kodesh = await resolveShard({ $i, lane: 'sichos-kodesh' });
+	const tanach = await resolveShard({ $i, lane: 'tanach-hebrew-verses' });
 	assert.equal(likkutei.parts.length, 28);
 	assert.equal(kodesh.parts.length, 12);
 	assert.equal(likkutei.textOnly, true);
 	assert.equal(kodesh.textOnly, true);
+	assert.equal(tanach.vectorEnabled, true);
 	const searchStart = performance.now();
 	const result = await textSearchShard(likkutei, 'Torah', 5);
 	const searchMs = performance.now() - searchStart;

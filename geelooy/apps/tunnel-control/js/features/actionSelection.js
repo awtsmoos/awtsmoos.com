@@ -28,7 +28,7 @@ function setValue(id, value) { const node = $(id); if (node) node.value = value;
 function setText(id, value) { const node = $(id); if (node) node.textContent = value; }
 function mute(id, muted = true) { $(id)?.closest("label")?.classList.toggle("is-muted", muted); }
 function toggleAdvancedFields(defaults) {
-  for (const id of ["writeContent", "bulkPaths", "bulkWriteJson", "missionGoal", "missionId", "missionRounds", "selfEmail", "missionAnswer"]) mute(id, true);
+  for (const id of ["writeContent", "bulkPaths", "bulkWriteJson", "missionGoal", "missionId", "missionRounds", "selfEmail", "missionAnswer", "websiteMissionId", "websiteAgentCount", "websiteStartSpacing", "websiteMessageTarget", "websiteMissionPrompt", "websiteMissionMessage"]) mute(id, true);
   if (defaults.needsContent) mute("writeContent", false);
   if (defaults.needsBulk) mute("bulkPaths", false);
   if (defaults.needsBulkWrite) mute("bulkWriteJson", false);
@@ -36,4 +36,14 @@ function toggleAdvancedFields(defaults) {
   if (defaults.needsMissionId) mute("missionId", false);
   if (defaults.needsMissionAutopilot) { mute("missionRounds", false); mute("missionAnswer", false); }
   if (defaults.needsMissionMail || defaults.needsMissionAutopilot || defaults.needsMissionGoal) mute("selfEmail", false);
+  if (defaults.needsWebsiteMissionId) mute("websiteMissionId", false);
+  if (defaults.needsWebsiteMissionPrompt) {
+    mute("websiteMissionPrompt", false);
+    mute("websiteAgentCount", false);
+    mute("websiteStartSpacing", false);
+  }
+  if (defaults.needsWebsiteMissionMessage) {
+    mute("websiteMissionMessage", false);
+    mute("websiteMessageTarget", false);
+  }
 }

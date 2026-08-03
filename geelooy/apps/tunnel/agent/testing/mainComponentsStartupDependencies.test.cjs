@@ -24,6 +24,7 @@ const dependencies = Startup.createStartupDependencies({
 	CommandReconciliation: {},
 	startLocalApiServer() {},
 	Boot: {},
+	WebsiteMissionRecovery: { recover() {} },
 	Updates: {},
 	DeviceIdentity: {},
 	openHostedControl() {}
@@ -34,6 +35,7 @@ const dependencies = Startup.createStartupDependencies({
 
 assert.equal(dependencies.config, config);
 assert.equal(dependencies.ProjectRootHealth, rootHealth);
+assert.equal(typeof dependencies.WebsiteMissionRecovery.recover, "function");
 assert.equal(dependencies.connection, connection);
 assert.equal(Startup.validateStartupDependencies(dependencies), dependencies);
 assert.throws(

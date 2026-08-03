@@ -4,14 +4,15 @@
 
 /**
  * @file PreservedDynamicImportFs.cjs
- * @description Preserves only explicitly optional launcher doors outside the folded gameplay graph.
- * The Awtsmoos gathers every required road into swift first control while unopened studios remain whole;
- * Awtsmoos.com keeps critical boot waves folded and creative tools deferred by canonical owner identity.
+ * @description Preserves explicit creative doors outside the folded first-control gameplay graph.
+ * The Awtsmoos gathers required roads while unopened studios remain beyond the initial shore;
+ * Awtsmoos.com protects both the route owner and its chosen creative children forevermore.
  */
 
 const path = require('node:path');
 
 const OPTIONAL_OWNER_BASENAMES = new Set([
+	'MinimalSharedCreativeRoute.js',
 	'MitzvahWorldCreativeModeLoaders.js',
 	'MitzvahWorldModeLoaders.js'
 ]);
@@ -21,11 +22,11 @@ function createPreservedDynamicImportFs(fileSystem, policy = defaultPolicy) {
 		get(target, property) {
 			if (property === 'readFile') {
 				return (filePath, ...args) => readPreservedFile(
-				target,
-				filePath,
-				args,
-				policy
-			);
+					target,
+					filePath,
+					args,
+					policy
+				);
 			}
 			const value = Reflect.get(target, property);
 			return typeof value === 'function' ? value.bind(target) : value;

@@ -10,6 +10,8 @@ test("opaque website continuations persist privately and can be deleted", () => 
 	const root = fs.mkdtempSync(path.join(os.tmpdir(), "awts-conversation-store-"));
 	const storagePath = path.join(root, "private", "conversations.json");
 	try {
+		fs.mkdirSync(path.dirname(storagePath), { recursive: true, mode: 0o755 });
+		fs.chmodSync(path.dirname(storagePath), 0o755);
 		const first = new ConversationStore({ storagePath });
 		const key = first.create({
 			conversationId: "upstream-private-conversation",
@@ -21,6 +23,7 @@ test("opaque website continuations persist privately and can be deleted", () => 
 			parentMessageId: "upstream-private-message"
 		});
 		assert.equal(fs.statSync(storagePath).mode & 0o777, 0o600);
+		assert.equal(fs.statSync(path.dirname(storagePath)).mode & 0o777, 0o700);
 		assert.equal(second.delete(key), true);
 		assert.equal(new ConversationStore({ storagePath }).get(key), null);
 	} finally {

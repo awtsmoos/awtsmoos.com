@@ -48,6 +48,12 @@ const { createStartupRuntime } = require("../lib/runtime/main-startup.js");
 			return { listening: true };
 		},
 		Boot: { start(log) { calls.bootLog = log; return { enabled: true }; } },
+		WebsiteMissionRecovery: {
+			recover(received) {
+				calls.websiteMissionRecovery = received;
+				return ["mission_one", "mission_two"];
+			}
+		},
 		Updates: {
 			scheduleSelfUpdate(options) {
 				calls.update = options;
@@ -74,6 +80,7 @@ const { createStartupRuntime } = require("../lib/runtime/main-startup.js");
 	assert.equal(result.deviceIdentity.deviceId, "dev_test");
 	assert.equal(result.localApiStarted, true);
 	assert.equal(result.bootResumeEnabled, true);
+	assert.equal(result.websiteMissionsRecovered, 2);
 	assert.equal(result.updateScheduled, true);
 	assert.equal(result.filesystemExecutor.minimumWorkers, 6);
 	assert.equal(result.socketStarted, true);
@@ -87,6 +94,7 @@ const { createStartupRuntime } = require("../lib/runtime/main-startup.js");
 	assert.equal(calls.localApi.configLoader(), config);
 	assert.equal(calls.update.config, config);
 	assert.equal(calls.connected, true);
+	assert.equal(calls.websiteMissionRecovery, config);
 	assert.equal(calls.filesystemExecutorWarming, true);
 	assert.equal(calls.opened, config);
 	console.log(JSON.stringify({

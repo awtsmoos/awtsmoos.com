@@ -48,5 +48,6 @@ module.exports = Object.freeze([
 	"release/runtimeWorkerPaths.js",
 	...WORKER_RUNTIME_FILES,
 	"ai/relay/split-browser/controlPage.cjs",
+	"ai/relay/split-browser/commands/BrowserSessionStatus.cjs",
 	"ai/relay/split-browser/proxy.cjs"
 ]);

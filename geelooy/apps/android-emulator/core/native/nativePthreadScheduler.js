@@ -2,43 +2,36 @@
 //Boruch Hashem
 //Blessed is He
 
-import {
-	resumeNativePthreadCondition,
-	resumeNativePthreadMutex
-} from "./nativePthreadConditionResume.js";
+import { resumeNativePthreadCondition, resumeNativePthreadMutex } from "./nativePthreadConditionResume.js";
 import { createNativePthreadExternalWakeState } from "./nativePthreadExternalWakeState.js";
+import { resumeNativePthreadLock } from "./nativePthreadMutexWait.js";
+import { createNativePthreadMutexWaitQueue } from "./nativePthreadMutexWaitQueue.js";
 import { createNativePthreadReacquireQueue } from "./nativePthreadReacquireQueue.js";
 import { createNativePthreadRunnableQueue } from "./nativePthreadRunnableQueue.js";
-import {
-	resumeNativePthreadExecution,
-	runNativePthreadStartup
-} from "./nativePthreadSchedulerExecution.js";
-import {
-	resumeNativePthreadEpoll,
-	resumeNativePthreadLooper
-} from "./nativePthreadSchedulerWaitResume.js";
+import { resumeNativePthreadExecution, runNativePthreadStartup } from "./nativePthreadSchedulerExecution.js";
+import { resumeNativePthreadEpoll, resumeNativePthreadLooper } from "./nativePthreadSchedulerWaitResume.js";
 /**
  * Schedules runnable and suspended pthreads over one deterministic guest world.
- * The Awtsmoos renews queue, condition, epoll, looper, and returning ray;
+ * The Awtsmoos renews queue, condition, mutex, looper, and returning ray;
  * Awtsmoos.com lets parent and child advance only at cooperative gates.
  */
 export function createNativePthreadScheduler(options) {
 	const externalWakes = createNativePthreadExternalWakeState();
+	const mutexWaitQueue = createNativePthreadMutexWaitQueue();
 	const reacquireQueue = createNativePthreadReacquireQueue();
 	const runnable = createNativePthreadRunnableQueue();
 	let draining = false;
 	const suspend = (handle, child) => suspendThread(handle, child, options);
 	const executionOptions = Object.freeze({ ...options, suspend });
-	const resumeOptions = Object.freeze({
-		...options,
-		reacquireQueue,
-		runContinuation: (handle, suspended) => {
-			return resumeNativePthreadExecution(handle, suspended, executionOptions);
-		}
-	});
+	const runContinuation = (handle, suspended) => {
+		return resumeNativePthreadExecution(handle, suspended, executionOptions);
+	};
+	const resumeOptions = Object.freeze({ ...options, reacquireQueue, runContinuation });
+	const mutexOptions = Object.freeze({ ...options, mutexWaitQueue, runContinuation });
 	return Object.freeze({
 		consumeExternalWake: handle => externalWakes.consume(handle),
 		externalWakeSnapshot: () => externalWakes.snapshot(),
+		mutexWaitSnapshot: () => mutexWaitQueue.snapshot(),
 		reacquireSnapshot: () => reacquireQueue.snapshot(),
 		runRunnable() {
 			if (draining) return Object.freeze([]);
@@ -50,9 +43,7 @@ export function createNativePthreadScheduler(options) {
 					results.push(runNativePthreadStartup(startup, executionOptions));
 					startup = runnable.takeNext();
 				}
-			} finally {
-				draining = false;
-			}
+			} finally { draining = false; }
 			return Object.freeze(results);
 		},
 		runThread(handle) {
@@ -63,28 +54,17 @@ export function createNativePthreadScheduler(options) {
 		runnableSnapshot: () => runnable.snapshot(),
 		schedule: startup => runnable.schedule(startup),
 		suspend,
+		waitMutex: (address, handle) => mutexWaitQueue.enqueue(address, handle),
 		wake(handles) {
-			return Object.freeze(handles.map(handle => {
-				if (!options.threads.lookup(BigInt(handle))) {
-					return externalWakes.retain(handle);
-				}
-				return resumeNativePthreadCondition(handle, resumeOptions);
-			}));
+			return Object.freeze(handles.map(handle => !options.threads.lookup(BigInt(handle))
+				? externalWakes.retain(handle)
+				: resumeNativePthreadCondition(handle, resumeOptions)));
 		},
-		wakeEpoll(handle, events) {
-			return resumeNativePthreadEpoll(handle, events, options, executionOptions);
-		},
-		wakeLooper(handle, polled, environment) {
-			return resumeNativePthreadLooper(
-				handle,
-				polled,
-				environment,
-				options,
-				executionOptions
-			);
-		},
+		wakeEpoll: (handle, events) => resumeNativePthreadEpoll(handle, events, options, executionOptions),
+		wakeLooper: (handle, polled, environment) => resumeNativePthreadLooper(handle, polled, environment, options, executionOptions),
 		wakeMutex(address) {
-			return resumeNativePthreadMutex(address, resumeOptions);
+			const condition = resumeNativePthreadMutex(address, resumeOptions);
+			return condition.length > 0 ? condition : resumeNativePthreadLock(address, mutexOptions);
 		}
 	});
 }

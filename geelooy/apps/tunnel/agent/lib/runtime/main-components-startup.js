@@ -22,6 +22,7 @@ function createStartupDependencies(D, foundation, connection) {
 		CommandReconciliation: D.CommandReconciliation,
 		startLocalApiServer: D.startLocalApiServer,
 		Boot: D.Boot,
+		WebsiteMissionRecovery: D.WebsiteMissionRecovery,
 		Updates: D.Updates,
 		DeviceIdentity: D.DeviceIdentity,
 		connection,
@@ -38,6 +39,7 @@ function validateStartupDependencies(dependencies = {}) {
 		"ProjectRootHealth",
 		"HistoryCleanup",
 		"DeviceIdentity",
+		"WebsiteMissionRecovery",
 		"connection"
 	];
 	const missing = required.filter(name => !dependencies[name]);

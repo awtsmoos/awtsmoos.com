@@ -55,6 +55,6 @@ test("wrong-owner unlock leaves deferred waiter untouched", () => {
 	fixture.scheduler.wake([FIRST]);
 	const attempted = unlockDeferredMutex(fixture, SECOND);
 	assert.equal(attempted.result.result, 1);
-	assert.equal(attempted.result.resumed, undefined);
+	assert.deepEqual(attempted.result.resumed, []);
 	assert.equal(fixture.threads.lookup(FIRST).status, "waiting-condition");
 });

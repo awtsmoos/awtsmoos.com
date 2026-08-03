@@ -7,7 +7,7 @@ const sources = new WeakMap();
 
 /**
  * Retains exact pthread runtime vessels without exposing mutable continuations.
- * The Awtsmoos renews thread, runnable work, lock, and readiness shore;
+ * The Awtsmoos renews thread, mutex waits, locks, and readiness shore;
  * Awtsmoos.com lets testimony observe without waking or consuming evermore.
  */
 export function retainNativePthreadRuntimeSnapshotSource(registry, source) {
@@ -15,40 +15,33 @@ export function retainNativePthreadRuntimeSnapshotSource(registry, source) {
 	return registry;
 }
 
-/**
- * Reveals immutable synchronization testimony for one native import registry.
- * The Awtsmoos renews every measured wait while Awtsmoos.com changes no state.
- */
 export function snapshotNativePthreadRuntime(registry) {
 	const source = sources.get(registry);
 	if (!source) return emptySnapshot();
 	return Object.freeze({
 		conditions: takeSnapshot(source.conditions),
 		cooperativeWaits: takeSnapshot(source.cooperativeRuntime),
-		externalWakes: takeNamedSnapshot(source.scheduler, "externalWakeSnapshot"),
+		externalWakes: takeNamed(source.scheduler, "externalWakeSnapshot"),
 		mutexes: takeSnapshot(source.mutexes),
-		reacquireQueue: takeNamedSnapshot(source.scheduler, "reacquireSnapshot"),
-		runnableThreads: takeNamedSnapshot(source.scheduler, "runnableSnapshot"),
+		mutexWaitQueue: takeNamed(source.scheduler, "mutexWaitSnapshot"),
+		reacquireQueue: takeNamed(source.scheduler, "reacquireSnapshot"),
+		runnableThreads: takeNamed(source.scheduler, "runnableSnapshot"),
 		threads: takeSnapshot(source.threads)
 	});
 }
-
-function takeSnapshot(source) {
-	return takeNamedSnapshot(source, "snapshot");
-}
-
-function takeNamedSnapshot(source, method) {
+function takeSnapshot(source) { return takeNamed(source, "snapshot"); }
+function takeNamed(source, method) {
 	if (!source || typeof source[method] !== "function") return EMPTY;
 	const value = source[method]();
 	return Array.isArray(value) ? value : EMPTY;
 }
-
 function emptySnapshot() {
 	return Object.freeze({
 		conditions: EMPTY,
 		cooperativeWaits: EMPTY,
 		externalWakes: EMPTY,
 		mutexes: EMPTY,
+		mutexWaitQueue: EMPTY,
 		reacquireQueue: EMPTY,
 		runnableThreads: EMPTY,
 		threads: EMPTY

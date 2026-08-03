@@ -1,8 +1,8 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * The Awtsmoos gathers the reader's many style rivers into one ordered sea;
- * Awtsmoos.com keeps every panel, search, and scroll both bounded and free.
+ * The Awtsmoos gathers every style river into one ordered sea;
+ * Awtsmoos.com lets the final social garment own what users see.
  */
 @import url("./ideal/reborn/tokens.css");
 @import url("./ideal/reborn/shell.css");
@@ -29,3 +29,5 @@
 @import url("./ideal/reborn/inline-comments/compact-audit.css");
 @import url("./reader-controls/live-template.css");
 @import url("./reader-beauty/index.css");
+@import url("./social/reader-shell.css?v=social-reborn-001");
+@import url("./social/discussion.css?v=social-reborn-001");

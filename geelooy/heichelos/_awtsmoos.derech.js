@@ -2,9 +2,8 @@
  * B"H
  * @module HeichelRouteGate
  * @description
- * Chapter 580: A public link arrives with one final name, and the gate no
- * longer mistakes that living post ID for a numbered place in the series.
- * Numeric endings still open indexed entries; named endings open the post.
+ * Named series entries are public post IDs, not numeric indexes. Legacy links
+ * receive an immediate canonical redirect before the reader begins loading.
  */
 module.exports = async $i => {
 	await $i.use({
@@ -52,6 +51,36 @@ module.exports = async $i => {
 			createdAt: true,
 			dayuh: true
 		});
+	}
+
+	function escapeAttribute(value) {
+		return String(value)
+			.replaceAll("&", "&amp;")
+			.replaceAll('"', "&quot;")
+			.replaceAll("<", "&lt;")
+			.replaceAll(">", "&gt;");
+	}
+
+	function renderCanonicalPostRedirect(vars) {
+		const destination = `/heichelos/${encodeURIComponent(vars.heichel)}`
+			+ `/series/${encodeURIComponent(vars.series)}`
+			+ `/post/${encodeURIComponent(vars.entry)}`;
+		const safeDestination = escapeAttribute(destination);
+		const scriptDestination = JSON.stringify(destination);
+		return `<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta http-equiv="refresh" content="0;url=${safeDestination}">
+	<title>Opening post…</title>
+</head>
+<body>
+	<p>Opening post…</p>
+	<script>location.replace(${scriptDestination});</script>
+	<noscript><a href="${safeDestination}">Open post</a></noscript>
+</body>
+</html>`;
 	}
 
 	async function getHeichel(heichelId) {
@@ -172,11 +201,7 @@ module.exports = async $i => {
 				indexInSeries: vars.entry
 			});
 		}
-		return await $i.$ga("./post/_awtsmoos.post.html", {
-			heichel: vars.heichel,
-			parentSeries: vars.series,
-			postId: vars.entry
-		});
+		return renderCanonicalPostRedirect(vars);
 	}
 
 	function getDetails() {

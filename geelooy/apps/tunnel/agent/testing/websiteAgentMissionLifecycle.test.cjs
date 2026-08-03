@@ -7,6 +7,11 @@ const path = require("node:path");
 const root = fs.mkdtempSync(path.join(os.tmpdir(), "awts-web-lifecycle-"));
 process.env.AWTSMOOS_INSTALL_ROOT = path.join(root, "install");
 process.env.AWTSMOOS_MISSION_JSON_BACKUP = "1";
+fs.mkdirSync(path.join(process.env.AWTSMOOS_INSTALL_ROOT, "private"), {
+	recursive: true,
+	mode: 0o755
+});
+fs.chmodSync(path.join(process.env.AWTSMOOS_INSTALL_ROOT, "private"), 0o755);
 const Runner = require("../tools/fs/actionGroups/websiteAgents/runner.js");
 
 (async () => {
@@ -15,6 +20,18 @@ const Runner = require("../tools/fs/actionGroups/websiteAgents/runner.js");
 		await unfinishedContinuationAndRoomWake();
 		await acceptedTurnGetRecovery();
 		await overlappingLaunches();
+		assert.equal(
+			fs.statSync(path.join(process.env.AWTSMOOS_INSTALL_ROOT, "private")).mode & 0o777,
+			0o700
+		);
+		assert.equal(
+			fs.statSync(path.join(
+				process.env.AWTSMOOS_INSTALL_ROOT,
+				"private",
+				"website-agent-missions"
+			)).mode & 0o777,
+			0o700
+		);
 		console.log(JSON.stringify({
 			ok: true,
 			suite: "website-agent-mission-lifecycle",

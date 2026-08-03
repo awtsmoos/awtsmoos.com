@@ -10,6 +10,7 @@ const DEFAULT_AI = Object.freeze({
 	agents: [],
 	providerKeys: {},
 	providerKeyFiles: {},
+	defaultMode: "website-mission",
 	maxDepth: 3,
 	maxChildrenPerTask: 12,
 	maxTotalTasks: 80,

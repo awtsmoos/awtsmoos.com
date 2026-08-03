@@ -7,34 +7,16 @@ const Compatibility = require("./protectedFsCompatibility.js");
 
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 const SESSION_SAFE_ACTIONS = new Set([
-	"list",
-	"tree",
-	"read",
-	"readLines",
-	"readManyLines",
-	"readBytes",
-	"read64",
-	"md",
-	"stat",
-	"roots",
-	"rootBrowse",
-	"configGet",
-	"payloadEcho",
-	"actionSchemaTrace",
-	"actionHistoryList",
-	"actionHistoryGet",
-	"actionHistorySearch",
-	"actionHistoryExplain",
-	"actionHistoryDiff",
-	"chromeStatus",
-	"missionProjectDiscover",
-	"missionProjectStatus",
-	"missionTimeline",
-	"missionTurnStatus",
-	"missionResourceStatus"
+	"list", "tree", "read", "readLines", "readManyLines", "readBytes",
+	"read64", "md", "stat", "roots", "rootBrowse", "configGet",
+	"payloadEcho", "actionSchemaTrace", "actionHistoryList",
+	"actionHistoryGet", "actionHistorySearch", "actionHistoryExplain",
+	"actionHistoryDiff", "chromeStatus", "missionProjectDiscover",
+	"missionProjectStatus", "missionTimeline", "missionTurnStatus",
+	"missionResourceStatus", "websiteAgentMissionList",
+	"websiteAgentMissionStatus", "aiAgentWebsiteMissionStatus"
 ]);
 
-/** Determines whether a signed account session may use an otherwise unscoped read. */
 function sessionMayUse(action) {
 	return SESSION_SAFE_ACTIONS.has(String(action || ""));
 }
