@@ -4,46 +4,60 @@
 
 /**
  * @file MinimalMeadowRendererEnhancement.js
- * @description Schedules terrain and rich renderer hydration after protected gameplay time.
- * The Awtsmoos keeps the first minute responsive while the bootstrap sky remains bright;
- * Awtsmoos.com invites richer shaders and textured earth only after the traveler owns the night.
+ * @description Enhances the bootstrap renderer after the protected gameplay quiet window.
+ * The Awtsmoos lets first control remain light before full renderer quality settles;
+ * Awtsmoos.com preserves one promise, one idle gate, normalized readiness, and exact failure evidence.
  */
-import { afterGameplayQuietWindow } from './GameplayQuietWindow.js';
-import {
-	scheduleMinimalMeadowTerrainHydration
-} from './MinimalMeadowTerrainHydrationSchedule.js';
 
-export function enhanceMinimalMeadowRenderer(
+import {
+	afterGameplayQuietWindow
+} from './GameplayQuietWindow.js';
+
+const OPTIONAL_RENDERER_DELAY_MS = 60000;
+
+export async function enhanceMinimalMeadowRenderer(
 	runtime,
 	environment = globalThis
 ) {
-	scheduleMinimalMeadowTerrainHydration(runtime, environment);
-	if (typeof runtime?.renderer?.hydrate !== 'function') {
-		return Promise.resolve({
-			hydrated: false,
-			reason: 'renderer-already-ready',
-			scheduled: false
-		});
-	}
 	if (runtime.rendererEnhancementPromise) {
 		return runtime.rendererEnhancementPromise;
 	}
-	runtime.rendererEnhancementPromise = afterGameplayQuietWindow(environment)
-		.then(() => runtime.renderer.hydrate({ environment }))
-		.then(delegate => ({
-			delegate: Boolean(delegate),
-			hydrated: runtime.renderer.hydrationState === 'ready',
-			scheduled: true
-		}))
-		.catch(error => {
-			runtime.rendererHydrationError = error?.message || String(error);
-			return {
-				error: runtime.rendererHydrationError,
-				hydrated: false,
-				scheduled: true
-			};
-		});
+	runtime.rendererEnhancementPromise = enhance(runtime, environment);
 	return runtime.rendererEnhancementPromise;
 }
 
-export default enhanceMinimalMeadowRenderer;
+async function enhance(runtime, environment) {
+	const ready = await afterGameplayQuietWindow(
+		environment,
+		OPTIONAL_RENDERER_DELAY_MS
+	);
+	if (!ready || runtime.destroyed) {
+		return Object.freeze({ ready: false, reason: 'RUNTIME_DESTROYED' });
+	}
+	const renderer = runtime.renderer;
+	if (typeof renderer?.hydrate !== 'function') {
+		renderer.hydrationState = 'ready';
+		return Object.freeze({
+			alreadyReady: true,
+			ready: true,
+			state: renderer.hydrationState
+		});
+	}
+	try {
+		const receipt = await renderer.hydrate();
+		renderer.hydrationState = 'ready';
+		runtime.rendererHydrationReceipt = receipt;
+		return Object.freeze({
+			ready: true,
+			receipt,
+			state: renderer.hydrationState
+		});
+	} catch (error) {
+		renderer.hydrationState = 'failed';
+		runtime.rendererHydrationError = Object.freeze({
+			message: error?.message || String(error),
+			name: error?.name || 'Error'
+		});
+		throw error;
+	}
+}

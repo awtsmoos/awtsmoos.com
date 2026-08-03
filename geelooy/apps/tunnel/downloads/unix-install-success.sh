@@ -35,6 +35,13 @@ workspace_status_label() {
 	local activation_id="$(connection_receipt_value activationId)"
 	if project_root_ready "$agent_pid" 600000 "$activation_id"; then
 		printf '%s\n' 'available'
+	elif project_root_receipt_matches_runtime "$agent_pid" "$activation_id" &&
+		local_runtime_action_ready; then
+		# A healthy incumbent writes its full read/write root receipt at startup.
+		# Receipt age alone must not make a long-lived workspace look unavailable:
+		# preserve the identity-bound testimony only after a fresh action crosses
+		# the same living agent's executor and configured project-root boundary.
+		printf '%s\n' 'available'
 	else
 		printf '%s\n' 'unavailable (optional; tunnel remains healthy)'
 	fi

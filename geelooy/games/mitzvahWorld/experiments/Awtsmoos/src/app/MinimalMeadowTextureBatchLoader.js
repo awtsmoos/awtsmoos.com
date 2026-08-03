@@ -4,22 +4,23 @@
 
 /**
  * @file MinimalMeadowTextureBatchLoader.js
- * @description Serializes Awtsmoos Drive texture requests with spacing and increasing backoff.
- * The Awtsmoos reveals distant abundance without a request storm; Awtsmoos.com preserves
- * exact status, timeout, delay, retry, cache, and final-failure evidence for every image.
+ * @description Coordinates globally spaced concurrent loading for all full-resolution terrain textures.
+ * The Awtsmoos lets thirteen distant garments approach in four measured lanes without a request storm;
+ * Awtsmoos.com preserves input order, settled callbacks, cache truth, exact retries, and finite completion.
  */
 
 import {
 	cachedTextureImage,
 	loadPublicMaterialUrl
 } from '../assets/PublicMaterialCache.js';
+import {
+	loadMinimalMeadowTextureWithBackoff,
+	minimalMeadowTextureMaximumAttemptMilliseconds,
+	minimalMeadowTextureRetryPlan
+} from './MinimalMeadowTextureRetryPolicy.js';
 
-const DEFAULT_ITEM_GAP_MS = 400;
-const DEFAULT_RETRY_PLAN = Object.freeze([
-	Object.freeze({ delayMs: 0, timeoutMs: 18000 }),
-	Object.freeze({ delayMs: 2500, timeoutMs: 32000 }),
-	Object.freeze({ delayMs: 10000, timeoutMs: 45000 })
-]);
+const DEFAULT_CONCURRENCY = 4;
+const DEFAULT_ITEM_GAP_MS = 250;
 
 export async function loadMinimalMeadowTextureBatch(
 	urls,
@@ -28,19 +29,25 @@ export async function loadMinimalMeadowTextureBatch(
 ) {
 	const records = new Array(urls.length);
 	const delay = options.delay || wait;
-	const loadUrl = options.loadUrl || loadPublicMaterialUrl;
-	const retryPlan = options.retryPlan || DEFAULT_RETRY_PLAN;
+	const retryPlan = options.retryPlan || minimalMeadowTextureRetryPlan();
 	const itemGapMs = options.itemGapMs ?? DEFAULT_ITEM_GAP_MS;
-	for (let index = 0; index < urls.length; index += 1) {
-		if (index > 0 && itemGapMs > 0) await delay(itemGapMs);
-		const record = await loadWithBackoff(urls[index], {
-			delay,
-			loadUrl,
-			retryPlan
-		});
-		records[index] = record;
-		onSettled?.(record, index, urls.length);
-	}
+	const concurrency = boundedConcurrency(options.concurrency, urls.length);
+	const waitForLaunch = createLaunchGate(delay, itemGapMs);
+	let cursor = 0;
+	const worker = async () => {
+		while (cursor < urls.length) {
+			const index = cursor++;
+			await waitForLaunch(index);
+			const record = await loadMinimalMeadowTextureWithBackoff(urls[index], {
+				delay,
+				loadUrl: options.loadUrl || loadPublicMaterialUrl,
+				retryPlan
+			});
+			records[index] = record;
+			onSettled?.(record, index, urls.length);
+		}
+	};
+	await Promise.all(Array.from({ length: concurrency }, worker));
 	return records;
 }
 
@@ -60,41 +67,27 @@ export function requireMinimalMeadowTextureImages(entries, records) {
 	}));
 }
 
-export function minimalMeadowTextureRetryPlan() {
-	return DEFAULT_RETRY_PLAN.map(step => ({ ...step }));
-}
+export { minimalMeadowTextureRetryPlan };
 
-async function loadWithBackoff(url, options) {
-	const attempts = [];
-	let record = failureRecord(url);
-	for (let index = 0; index < options.retryPlan.length; index += 1) {
-		const step = options.retryPlan[index];
-		if (step.delayMs > 0) await options.delay(step.delayMs);
-		record = await options.loadUrl(url, step.timeoutMs);
-		attempts.push(attemptRecord(record, index, step));
-		if (record.ok) break;
-	}
-	return {
-		...record,
-		batchAttempts: Object.freeze(attempts),
-		retryCount: Math.max(0, attempts.length - 1)
-	};
-}
-
-function attemptRecord(record, index, step) {
+export function minimalMeadowTextureBatchPolicy() {
 	return Object.freeze({
-		attempt: index + 1,
-		delayMs: step.delayMs,
-		error: record.error || null,
-		fromCache: Boolean(record.fromCache),
-		ok: Boolean(record.ok),
-		status: record.status || 0,
-		timeoutMs: step.timeoutMs
+		concurrency: DEFAULT_CONCURRENCY,
+		itemGapMilliseconds: DEFAULT_ITEM_GAP_MS,
+		maximumAttemptMilliseconds: minimalMeadowTextureMaximumAttemptMilliseconds()
 	});
 }
 
-function failureRecord(url) {
-	return { error: 'not-attempted', ok: false, status: 0, url };
+function createLaunchGate(delay, itemGapMs) {
+	let gate = Promise.resolve();
+	return index => {
+		if (index === 0 || itemGapMs <= 0) return Promise.resolve();
+		gate = gate.then(() => delay(itemGapMs));
+		return gate;
+	};
+}
+
+function boundedConcurrency(value, length) {
+	return Math.max(1, Math.min(Number(value) || DEFAULT_CONCURRENCY, length || 1));
 }
 
 function wait(milliseconds) {

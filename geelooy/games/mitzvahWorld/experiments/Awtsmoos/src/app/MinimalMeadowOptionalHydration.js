@@ -4,14 +4,18 @@
 
 /**
  * @file MinimalMeadowOptionalHydration.js
- * @description Waits for every full-quality branch, settled terrain, and steady-state measurement readiness.
- * The Awtsmoos lets player, renderer, earth, Chossid, world, proof, and measured pulse arrive together;
- * Awtsmoos.com preserves the quiet window while optional readiness tells the whole settled truth.
+ * @description Settles seven named full-quality branches inside explicit production deadlines.
+ * The Awtsmoos lets player, renderer, world, earth, Chossid, proof, and measured pulse arrive together;
+ * Awtsmoos.com preserves the quiet window while no hidden promise can imprison readiness forever.
  */
 
 import {
 	resolveGeneratedRuntimeChunkUrl
 } from './GeneratedRuntimeChunkUrl.js';
+import {
+	createMinimalMeadowOptionalBranch,
+	minimalMeadowOptionalBranchTimeouts
+} from './MinimalMeadowOptionalBranch.js';
 import {
 	scheduleMinimalMeadowPerformanceMonitor
 } from './MinimalMeadowPerformanceHydration.js';
@@ -31,26 +35,27 @@ export async function hydrateMinimalMeadowOptionalFeatures(
 	dependencies
 ) {
 	const module = await resolveOptionalModule(dependencies);
-	const terrainSchedule = scheduleMinimalMeadowTerrainHydration(
-		runtime,
-		environment
-	);
+	const terrainSchedule = scheduleMinimalMeadowTerrainHydration(runtime, environment);
 	const afterHandoff = callback => dependencies.handoffPromise.then(callback);
-	const results = await Promise.allSettled([
-		module.hydrateMinimalMeadowPlayer(runtime, environment),
-		module.enhanceMinimalMeadowRenderer(runtime, environment),
-		afterHandoff(() => runtime.richWorldPromise),
-		afterHandoff(() => {
+	const timeouts = minimalMeadowOptionalBranchTimeouts();
+	const branches = [
+		branch('player', module.hydrateMinimalMeadowPlayer(runtime, environment), timeouts, environment),
+		branch('renderer', module.enhanceMinimalMeadowRenderer(runtime, environment), timeouts, environment),
+		branch('richWorld', afterHandoff(() => runtime.richWorldPromise), timeouts, environment),
+		branch('friendly', afterHandoff(() => {
 			return module.installMinimalMeadowFriendlyNpcs(runtime, environment);
-		}),
-		afterHandoff(() => {
+		}), timeouts, environment),
+		branch('visual', afterHandoff(() => {
 			return module.awaitMinimalMeadowVisualStability(runtime);
-		}),
-		afterHandoff(() => {
+		}), timeouts, environment),
+		branch('performance', afterHandoff(() => {
 			return scheduleMinimalMeadowPerformanceMonitor(runtime, environment);
-		}),
-		terrainSchedule?.promise || Promise.resolve({ phase: 'unavailable' })
-	]);
+		}), timeouts, environment),
+		branch('terrain', terrainSchedule?.promise || Promise.resolve({
+			phase: 'unavailable'
+		}), timeouts, environment)
+	];
+	const results = await Promise.allSettled(branches);
 	const receipt = optionalReceipt(results);
 	runtime.optionalFeatureReceipt = receipt;
 	runtime.bus?.emit?.('world:optional-ready', receipt);
@@ -63,8 +68,20 @@ async function resolveOptionalModule(dependencies) {
 	return importer(OPTIONAL_CHUNK_URL);
 }
 
+function branch(name, promise, timeouts, environment) {
+	return createMinimalMeadowOptionalBranch(
+		name,
+		promise,
+		timeouts[name],
+		environment
+	);
+}
+
 function optionalReceipt(results) {
+	const fulfilled = results.filter(result => result.status === 'fulfilled')
+		.map(result => result.value);
 	return Object.freeze({
+		branches: Object.freeze(Object.fromEntries(fulfilled.map(value => [value.name, value]))),
 		failures: Object.freeze(results.flatMap(result => {
 			return result.status === 'rejected'
 				? [result.reason?.message || String(result.reason)]

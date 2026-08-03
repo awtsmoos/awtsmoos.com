@@ -4,72 +4,92 @@
 
 /**
  * @file minimalMeadowTextureBatchLoader.test.mjs
- * @description Proves serialized remote requests, 429 backoff, success recovery, and final evidence.
- * The Awtsmoos permits a distant vessel to breathe between requests; Awtsmoos.com verifies
- * exact delay, timeout, status, retry count, item spacing, settled order, and bounded failure.
+ * @description Proves bounded concurrency, global spacing, finite retry, order, and settled evidence.
+ * The Awtsmoos permits many distant garments to approach without a storm or an endless procession;
+ * Awtsmoos.com verifies active lanes, deadlines, HTTP status, callback identity, and public policy.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
 	loadMinimalMeadowTextureBatch,
+	minimalMeadowTextureBatchPolicy,
 	minimalMeadowTextureRetryPlan
 } from '../../app/MinimalMeadowTextureBatchLoader.js';
 
-test('B"H HTTP 429 waits before retry and later URLs remain serialized', async () => {
-	const calls = [];
-	const delays = [];
+test('B"H bounded workers preserve input records while completion order varies', async () => {
+	const started = [];
 	const settled = [];
-	const responses = new Map([
-		['first', [failure('first', 429), success('first')]],
-		['second', [success('second')]]
-	]);
-	const records = await loadMinimalMeadowTextureBatch(
-		['first', 'second'],
+	const releases = new Map();
+	let active = 0;
+	let maximumActive = 0;
+	const promise = loadMinimalMeadowTextureBatch(
+		['a', 'b', 'c', 'd', 'e'],
 		(record, index) => settled.push([record.url, index]),
 		{
-			delay: async milliseconds => delays.push(milliseconds),
-			loadUrl: async (url, timeoutMs) => {
-				calls.push([url, timeoutMs]);
-				return responses.get(url).shift();
+			concurrency: 2,
+			delay: async () => {},
+			itemGapMs: 0,
+			loadUrl: url => {
+				started.push(url);
+				active += 1;
+				maximumActive = Math.max(maximumActive, active);
+				return new Promise(resolve => {
+					releases.set(url, () => {
+						active -= 1;
+						resolve(success(url));
+					});
+				});
 			}
 		}
 	);
-	assert.deepEqual(calls, [
-		['first', 18000],
-		['first', 32000],
-		['second', 18000]
-	]);
-	assert.deepEqual(delays, [2500, 400]);
-	assert.deepEqual(settled, [['first', 0], ['second', 1]]);
-	assert.equal(records[0].retryCount, 1);
-	assert.deepEqual(records[0].batchAttempts.map(value => value.status), [429, 200]);
-	assert.equal(records[1].retryCount, 0);
+	await flush();
+	assert.deepEqual(started, ['a', 'b']);
+	releases.get('b')();
+	await flush();
+	assert.deepEqual(started, ['a', 'b', 'c']);
+	releases.get('c')();
+	await flush();
+	releases.get('a')();
+	await flush();
+	for (const url of ['d', 'e']) releases.get(url)?.();
+	const records = await promise;
+	assert.equal(maximumActive, 2);
+	assert.deepEqual(records.map(record => record.url), ['a', 'b', 'c', 'd', 'e']);
+	assert.deepEqual(settled.map(value => value[1]).sort(), [0, 1, 2, 3, 4]);
 });
 
-test('B"H final failure preserves all three increasing attempts', async () => {
+test('B"H HTTP failure receives one finite delayed retry', async () => {
+	const calls = [];
 	const delays = [];
+	const responses = [failure('limited', 429), success('limited')];
 	const records = await loadMinimalMeadowTextureBatch(['limited'], null, {
 		delay: async milliseconds => delays.push(milliseconds),
 		itemGapMs: 0,
-		loadUrl: async url => failure(url, 429)
+		loadUrl: async (url, timeoutMs) => {
+			calls.push([url, timeoutMs]);
+			return responses.shift();
+		}
 	});
-	assert.deepEqual(delays, [2500, 10000]);
-	assert.equal(records[0].ok, false);
-	assert.equal(records[0].retryCount, 2);
-	assert.deepEqual(
-		records[0].batchAttempts.map(value => value.timeoutMs),
-		[18000, 32000, 45000]
-	);
-	assert.ok(records[0].batchAttempts.every(value => value.status === 429));
+	assert.deepEqual(calls, [
+		['limited', 12000],
+		['limited', 20000]
+	]);
+	assert.deepEqual(delays, [1500]);
+	assert.equal(records[0].retryCount, 1);
+	assert.deepEqual(records[0].batchAttempts.map(value => value.status), [429, 200]);
 });
 
-test('B"H public retry plan remains auditable and increasing', () => {
+test('B"H public texture policy remains auditable and finite', () => {
 	assert.deepEqual(minimalMeadowTextureRetryPlan(), [
-		{ delayMs: 0, timeoutMs: 18000 },
-		{ delayMs: 2500, timeoutMs: 32000 },
-		{ delayMs: 10000, timeoutMs: 45000 }
+		{ delayMs: 0, timeoutMs: 12000 },
+		{ delayMs: 1500, timeoutMs: 20000 }
 	]);
+	assert.deepEqual(minimalMeadowTextureBatchPolicy(), {
+		concurrency: 4,
+		itemGapMilliseconds: 250,
+		maximumAttemptMilliseconds: 33500
+	});
 });
 
 function failure(url, status) {
@@ -78,4 +98,9 @@ function failure(url, status) {
 
 function success(url) {
 	return { error: null, ok: true, status: 200, url };
+}
+
+async function flush() {
+	await Promise.resolve();
+	await Promise.resolve();
 }

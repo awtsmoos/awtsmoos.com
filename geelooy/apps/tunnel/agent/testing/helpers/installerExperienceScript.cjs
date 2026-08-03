@@ -37,6 +37,9 @@ runtime_registered() {
 project_root_ready() {
 	[ "\${AWTS_TEST_ROOT_READY:-1}" = "1" ]
 }
+project_root_receipt_matches_runtime() {
+	[ "\${AWTS_TEST_ROOT_IDENTITY:-1}" = "1" ]
+}
 project_root_health_summary() {
 	printf 'rootState=%s' "\${AWTS_TEST_ROOT_READY:-1}"
 }
@@ -59,6 +62,9 @@ sleep() {
 	:
 }
 source ${shellQuote(path.join(downloads, "unix-install-readiness.sh"))}
+local_runtime_action_ready() {
+	[ "\${AWTS_TEST_LOCAL_ACTION_READY:-0}" = "1" ]
+}
 source ${shellQuote(path.join(downloads, "unix-install-browser.sh"))}
 source ${shellQuote(path.join(downloads, "unix-install-success.sh"))}
 run_browser_opener() {

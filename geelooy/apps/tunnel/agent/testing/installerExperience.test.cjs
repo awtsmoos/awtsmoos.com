@@ -77,9 +77,26 @@ try {
 	const missingWorkspace = complete({
 		AWTS_TEST_REGISTERED: "1",
 		AWTS_TEST_ROOT_READY: "0",
+		AWTS_TEST_LOCAL_ACTION_READY: "0",
 		AWTS_TEST_SERVICE_READY: "1"
 	});
 	assert.match(missingWorkspace.stdout, /unavailable \(optional; tunnel remains healthy\)/);
+	const staleReceiptWithFreshExecutor = complete({
+		AWTS_TEST_REGISTERED: "1",
+		AWTS_TEST_ROOT_READY: "0",
+		AWTS_TEST_ROOT_IDENTITY: "1",
+		AWTS_TEST_LOCAL_ACTION_READY: "1",
+		AWTS_TEST_SERVICE_READY: "1"
+	});
+	assert.match(staleReceiptWithFreshExecutor.stdout, /Workspace\s+: available/);
+	const staleWrongIdentity = complete({
+		AWTS_TEST_REGISTERED: "1",
+		AWTS_TEST_ROOT_READY: "0",
+		AWTS_TEST_ROOT_IDENTITY: "0",
+		AWTS_TEST_LOCAL_ACTION_READY: "1",
+		AWTS_TEST_SERVICE_READY: "1"
+	});
+	assert.match(staleWrongIdentity.stdout, /unavailable \(optional; tunnel remains healthy\)/);
 	assertIncomplete(harness.run("complete", {
 		AWTS_TEST_REGISTERED: "0",
 		AWTS_TEST_ROOT_READY: "1",
@@ -102,6 +119,7 @@ try {
 		suite: "installer-experience",
 		registrationGatesCompletion: true,
 		workspaceIsOptional: true,
+		staleIdentityBoundWorkspaceUsesFreshExecutorProof: true,
 		guardianGatesCompletion: true,
 		authoritativeTunnelIdShown: true,
 		routineRepairDoesNotOpenBrowser: true,

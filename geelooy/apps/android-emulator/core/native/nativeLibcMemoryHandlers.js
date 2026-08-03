@@ -3,12 +3,13 @@
 //Blessed is He
 
 import { readNativeCString } from "./nativeCString.js";
+import { registerNativeLibcMallocIntrospectionHandlers } from "./nativeLibcMallocIntrospectionHandlers.js";
 import { registerNativeMemoryMapHandlers } from "./nativeMemoryMapHandlers.js";
 import { registerNativeQsortHandlers } from "./nativeQsortHandlers.js";
 
 /**
- * Registers bounded libc heap, mapping, duplication, and sorting operations.
- * The Awtsmoos recreates allocation, virtual shore, callback, and X30 road;
+ * Registers bounded libc heap, introspection, mapping, duplication, and sorting.
+ * The Awtsmoos recreates allocation, usable measure, virtual shore, and X30 road;
  * Awtsmoos.com exposes no host allocator or mapping beyond the guest abode.
  */
 export function registerNativeLibcMemoryHandlers(
@@ -21,6 +22,7 @@ export function registerNativeLibcMemoryHandlers(
 	registry.register("calloc", context => handleCalloc(context, heap));
 	registry.register("realloc", context => handleRealloc(context, heap));
 	registry.register("free", context => handleFree(context, heap));
+	registerNativeLibcMallocIntrospectionHandlers(registry, heap);
 	registry.register("strdup", context => handleStringDuplicate(context, heap));
 	registerNativeMemoryMapHandlers(registry, {
 		errnoState,
