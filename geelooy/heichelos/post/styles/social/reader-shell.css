@@ -70,25 +70,6 @@
 	line-height: 1.64 !important;
 }
 
-.post-reader-localized-context :where(.awtsmoos-floating-controls) {
-	top: auto !important;
-	bottom: max(1rem, env(safe-area-inset-bottom)) !important;
-	padding: .42rem !important;
-	border: 1px solid var(--social-line) !important;
-	border-radius: 999px !important;
-	background: rgba(5, 10, 19, .84) !important;
-	backdrop-filter: blur(18px) !important;
-}
-
-.post-reader-localized-context :where(.awtsmoos-floating-controls button) {
-	width: 46px !important;
-	height: 46px !important;
-	border: 0 !important;
-	border-radius: 999px !important;
-	background: #fff !important;
-	color: #07111f !important;
-}
-
 @media (max-width: 560px) {
 	.post-reader-localized-context #realPost {
 		padding-inline: .7rem !important;
