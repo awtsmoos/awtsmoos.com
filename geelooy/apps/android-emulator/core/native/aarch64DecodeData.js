@@ -10,6 +10,7 @@ import { decodeAarch64Division } from "./aarch64DecodeDivision.js";
 import { decodeAarch64Extract } from "./aarch64DecodeExtract.js";
 import { decodeAarch64FloatingArithmetic } from "./aarch64DecodeFloatingArithmetic.js";
 import { decodeAarch64FloatingCompare } from "./aarch64DecodeFloatingCompare.js";
+import { decodeAarch64FloatingImmediate } from "./aarch64DecodeFloatingImmediate.js";
 import { decodeAarch64FloatToInteger } from "./aarch64DecodeFloatToInteger.js";
 import { decodeAarch64GeneralSimdMove } from "./aarch64DecodeGeneralSimdMove.js";
 import { decodeAarch64IntegerToFloat } from "./aarch64DecodeIntegerToFloat.js";
@@ -48,6 +49,7 @@ export function decodeAarch64Data(word) {
 		|| decodeAarch64GeneralSimdMove(normalized)
 		|| decodeAarch64FloatToInteger(normalized)
 		|| decodeAarch64IntegerToFloat(normalized)
+		|| decodeAarch64FloatingImmediate(normalized)
 		|| decodeAarch64FloatingArithmetic(normalized)
 		|| decodeAarch64FloatingCompare(normalized)
 		|| decodeAarch64SimdModifiedImmediate(normalized)
@@ -72,10 +74,7 @@ function decodeLogicalShifted(word) {
 	const source = aarch64Bits(word, 5, 5);
 	const shiftType = aarch64Bits(word, 22, 2);
 	const shiftAmount = aarch64Bits(word, 10, 6);
-	const isMove = operation === 1
-		&& source === 31
-		&& shiftType === 0
-		&& shiftAmount === 0;
+	const isMove = operation === 1 && source === 31 && shiftType === 0 && shiftAmount === 0;
 	return Object.freeze({
 		destination: aarch64Bits(word, 0, 5),
 		family: "logical-shifted-register",

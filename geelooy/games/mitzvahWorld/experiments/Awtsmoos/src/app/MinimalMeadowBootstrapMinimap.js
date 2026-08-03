@@ -4,10 +4,12 @@
 
 /**
  * @file MinimalMeadowBootstrapMinimap.js
- * @description Dynamically mounts the real world minimap during compact bootstrap play.
- * The Awtsmoos reveals nearby travelers before the ornate interface finishes dressing;
- * Awtsmoos.com preserves the compact graph while one exact handoff removes every temporary owner.
+ * @description Mounts the folded real minimap during compact bootstrap play with an injectable test seam.
+ * The Awtsmoos reveals nearby travelers without scattering source scrolls across the road;
+ * Awtsmoos.com preserves immediate mount, diagnostics, refresh, handoff, and exact teardown.
  */
+
+import { WorldMinimap } from '../ui/WorldMinimap.js';
 
 const WORLD_MINIMAP_URL = new URL(
 	'../ui/WorldMinimap.js',
@@ -17,14 +19,14 @@ const WORLD_MINIMAP_URL = new URL(
 export function createMinimalMeadowBootstrapMinimap(
 	runtime,
 	documentValue,
-	importer = specifier => import(specifier)
+	importer = null
 ) {
 	let active = true;
 	let minimap = null;
 	let error = null;
-	const promise = importer(WORLD_MINIMAP_URL).then(module => {
+	const promise = resolveMinimapClass(importer).then(MinimapClass => {
 		if (!active) return null;
-		minimap = new module.WorldMinimap(
+		minimap = new MinimapClass(
 			runtime,
 			documentValue,
 			documentValue.defaultView || globalThis
@@ -58,4 +60,10 @@ export function createMinimalMeadowBootstrapMinimap(
 			this.release();
 		}
 	};
+}
+
+async function resolveMinimapClass(importer) {
+	if (!importer) return WorldMinimap;
+	const module = await importer(WORLD_MINIMAP_URL);
+	return module.WorldMinimap;
 }

@@ -4,20 +4,29 @@
 
 /**
  * @file BootstrapTerrainHydration.js
- * @description Publishes canonical terrain identity before optional remote pixels settle.
- * The Awtsmoos reveals the road and every garment's name before distant color arrives;
- * Awtsmoos.com never hides truthful transport evidence behind a slow image that strives.
+ * @description Publishes folded canonical terrain identity before optional remote pixels settle.
+ * The Awtsmoos reveals the road and every garment's name without scattering source scrolls;
+ * Awtsmoos.com preserves deferred decoding, injectable tests, transport truth, and exact evidence.
  */
+
+import {
+	createMinimalMeadowTerrainSourceSnapshot,
+	loadMinimalMeadowTerrainSources
+} from './MinimalMeadowTerrainSources.js?v=20260729-drive-1';
 
 const TERRAIN_SOURCES_URL = new URL(
 	'./MinimalMeadowTerrainSources.js?v=20260729-drive-1',
 	import.meta.url
 ).href;
+const FOLDED_TERRAIN_MODULE = Object.freeze({
+	createMinimalMeadowTerrainSourceSnapshot,
+	loadMinimalMeadowTerrainSources
+});
 
 export function createBootstrapTerrainHydration(
 	group,
 	stats,
-	importer = specifier => import(specifier)
+	importer = null
 ) {
 	let promise = null;
 	const state = {
@@ -41,7 +50,7 @@ export function createBootstrapTerrainHydration(
 
 async function hydrate(group, stats, state, importer) {
 	state.phase = 'loading';
-	const module = await importer(TERRAIN_SOURCES_URL);
+	const module = await resolveTerrainModule(importer);
 	publishImmediateCatalog(stats, module);
 	const sources = await module.loadMinimalMeadowTerrainSources();
 	stats.textureSources = sourceEvidence(sources);
@@ -51,6 +60,10 @@ async function hydrate(group, stats, state, importer) {
 	state.loaded = sources.loaded || 0;
 	state.phase = sources.mode || (state.loaded ? 'partial' : 'degraded');
 	return diagnosticsSnapshot(state);
+}
+
+function resolveTerrainModule(importer) {
+	return importer ? importer(TERRAIN_SOURCES_URL) : FOLDED_TERRAIN_MODULE;
 }
 
 function publishImmediateCatalog(stats, module) {

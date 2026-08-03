@@ -13,12 +13,14 @@ fs.mkdirSync(path.join(process.env.AWTSMOOS_INSTALL_ROOT, "private"), {
 });
 fs.chmodSync(path.join(process.env.AWTSMOOS_INSTALL_ROOT, "private"), 0o755);
 const Runner = require("../tools/fs/actionGroups/websiteAgents/runner.js");
+const Store = require("../tools/fs/actionGroups/websiteAgents/store.js");
 
 (async () => {
 	try {
 		await loginPauseAndResume();
 		await unfinishedContinuationAndRoomWake();
 		await acceptedTurnGetRecovery();
+		await orphanedPreSubmitTurnRecovery();
 		await overlappingLaunches();
 		assert.equal(
 			fs.statSync(path.join(process.env.AWTSMOOS_INSTALL_ROOT, "private")).mode & 0o777,
@@ -41,7 +43,8 @@ const Runner = require("../tools/fs/actionGroups/websiteAgents/runner.js");
 			roomMessageWake: true,
 			overlappingAgents: true,
 			ambiguousPostsNotDuplicated: true,
-			acceptedTurnsRecoveredByGet: true
+			acceptedTurnsRecoveredByGet: true,
+			orphanedPreSubmitTurnsRequeued: true
 		}, null, 2));
 	} finally {
 		for (const timer of Runner.wakeTimers.values()) clearTimeout(timer);
@@ -189,6 +192,53 @@ async function overlappingLaunches() {
 	await Runner.active.get(started.mission.id);
 	const status = await Runner.status(config, { websiteMissionId: started.mission.id });
 	assert.equal(status.mission.status, "complete");
+	await Runner.forget(config, { websiteMissionId: started.mission.id });
+}
+
+async function orphanedPreSubmitTurnRecovery() {
+	let sends = 0;
+	const service = {
+		async authenticationStatus() {
+			return { authenticated: true, status: "authenticated" };
+		},
+		async send(options) {
+			sends += 1;
+			return completed(options.conversationKey || `BH_ORPHAN_${sends}`, options.conversationKey);
+		},
+		reset() {
+			return { deleted: 1 };
+		}
+	};
+	const config = testConfig(service);
+	const started = await Runner.start(config, {
+		websiteMissionId: "orphaned-pre-submit",
+		prompt: "Recover a turn interrupted before website submission.",
+		agentCount: 3,
+		collaborationRounds: 1,
+		projectRoot: root
+	});
+	await Runner.active.get(started.mission.id);
+	assert.equal(sends, 3);
+	Store.update(started.mission.id, record => {
+		const target = record.agents[0];
+		target.status = "submitting";
+		target.submissionAcceptedAt = null;
+		target.pendingRound = 1;
+		target.round = 0;
+		target.lastOutcome = null;
+		record.status = "running";
+		record.phase = "launching_agents";
+		return record;
+	});
+	await Runner.status(config, { websiteMissionId: started.mission.id });
+	await waitFor(() => Runner.active.get(started.mission.id));
+	await Runner.active.get(started.mission.id);
+	const recovered = await Runner.status(config, { websiteMissionId: started.mission.id });
+	assert.equal(sends, 4);
+	assert.equal(recovered.mission.status, "complete");
+	assert.ok(recovered.mission.events.some(item =>
+		item.type === "orphaned_pre_submit_turn_requeued"
+	));
 	await Runner.forget(config, { websiteMissionId: started.mission.id });
 }
 

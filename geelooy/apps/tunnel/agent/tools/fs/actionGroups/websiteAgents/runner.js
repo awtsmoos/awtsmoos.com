@@ -61,6 +61,7 @@ function schedule(config, id) {
 async function run(config, id) {
 	let record = Store.read(id);
 	if (!record || record.cancelRequested || record.status === "complete") return record;
+	record = reconcileOrphanedTurns(id);
 	record = Store.update(id, current => {
 		current.status = "running";
 		current.phase = "checking_authentication";
@@ -677,7 +678,43 @@ function resumable(record) {
 	const unsafe = record.agents.some(agent =>
 		agent.status === "submitting" && agent.submissionAcceptedAt
 	);
-	return !unsafe && ["queued", "running", "waiting_for_login", "needs_attention"].includes(record.status);
+	if (unsafe) return false;
+	if (["queued", "running", "waiting_for_login"].includes(record.status)) return true;
+	if (record.status !== "needs_attention") return false;
+	return record.agents.some(agent => {
+		if (agent.status === "waiting_for_login") return true;
+		if (agent.status === "submitting") return !agent.submissionAcceptedAt;
+		if (agent.status === "awaiting_recovery") return Boolean(agent.conversationKey);
+		if (["failed", "claim_conflict"].includes(agent.status)) return false;
+		if (agent.round < record.plan.collaborationRounds) return true;
+		return needsContinuation(agent) &&
+			agent.continuationTurns < record.plan.maxContinuationTurns;
+	});
+}
+
+function reconcileOrphanedTurns(id) {
+	return Store.update(id, record => {
+		for (const agent of record.agents) {
+			if (agent.status !== "submitting") continue;
+			if (agent.submissionAcceptedAt) {
+				agent.status = "awaiting_recovery";
+				agent.error = "Recovered an accepted website turn without resubmitting it.";
+				record.events.push(event("orphaned_accepted_turn_preserved", {
+					agentId: agent.id,
+					pendingRound: agent.pendingRound,
+					hasPrivateContinuation: Boolean(agent.conversationKey)
+				}));
+				continue;
+			}
+			agent.status = "queued";
+			agent.pendingRound = null;
+			agent.error = null;
+			record.events.push(event("orphaned_pre_submit_turn_requeued", {
+				agentId: agent.id
+			}));
+		}
+		return record;
+	});
 }
 
 function cancel(record) {
@@ -822,6 +859,7 @@ module.exports = {
 	list,
 	message,
 	recover,
+	reconcileOrphanedTurns,
 	run,
 	schedule,
 	start,
