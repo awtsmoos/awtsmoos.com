@@ -36,6 +36,14 @@ async function call(config, payload) {
   assert.equal(evaled.ok, true);
   assert.equal(evaled.value, 'Go');
 
+  const titled = await call(config, {
+    action: 'nodeDomEval',
+    html: '<!doctype html><html><head><title>Full &amp; Faithful</title></head><body><main>Body</main></body></html>',
+    expression: 'document.title'
+  });
+  assert.equal(titled.ok, true);
+  assert.equal(titled.value, 'Full & Faithful');
+
   const logs = await call(config, { action: 'nodeDomConsole', html });
   assert.equal(logs.ok, true);
   assert.ok(Array.isArray(logs.console));
