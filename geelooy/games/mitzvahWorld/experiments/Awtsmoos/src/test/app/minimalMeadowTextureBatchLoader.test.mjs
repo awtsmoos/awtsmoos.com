@@ -73,7 +73,7 @@ test('B"H HTTP failure receives one finite delayed retry', async () => {
 	});
 	assert.deepEqual(calls, [
 		['limited', 12000],
-		['limited', 20000]
+		['limited', 30000]
 	]);
 	assert.deepEqual(delays, [1500]);
 	assert.equal(records[0].retryCount, 1);
@@ -83,12 +83,12 @@ test('B"H HTTP failure receives one finite delayed retry', async () => {
 test('B"H public texture policy remains auditable and finite', () => {
 	assert.deepEqual(minimalMeadowTextureRetryPlan(), [
 		{ delayMs: 0, timeoutMs: 12000 },
-		{ delayMs: 1500, timeoutMs: 20000 }
+		{ delayMs: 1500, timeoutMs: 30000 }
 	]);
 	assert.deepEqual(minimalMeadowTextureBatchPolicy(), {
 		concurrency: 4,
 		itemGapMilliseconds: 250,
-		maximumAttemptMilliseconds: 33500
+		maximumAttemptMilliseconds: 43500
 	});
 });
 

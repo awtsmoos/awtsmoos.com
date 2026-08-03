@@ -37919,13 +37919,10 @@ const __exports = {};
 
 const RETRY_PLAN = Object.freeze([
 	Object.freeze({ delayMs: 0, timeoutMs: 12000 }),
-	Object.freeze({ delayMs: 1500, timeoutMs: 20000 })
+	Object.freeze({ delayMs: 1500, timeoutMs: 30000 })
 ]);
 
-async function loadMinimalMeadowTextureWithBackoff(
-	url,
-	options
-) {
+async function loadMinimalMeadowTextureWithBackoff(url, options) {
 	const attempts = [];
 	let record = failureRecord(url);
 	for (let index = 0; index < options.retryPlan.length; index += 1) {
@@ -37951,9 +37948,7 @@ function minimalMeadowTextureRetryPlan() {
 
 __exports.minimalMeadowTextureRetryPlan = minimalMeadowTextureRetryPlan;
 function minimalMeadowTextureMaximumAttemptMilliseconds() {
-	return RETRY_PLAN.reduce((sum, step) => {
-		return sum + step.delayMs + step.timeoutMs;
-	}, 0);
+	return RETRY_PLAN.reduce((sum, step) => sum + step.delayMs + step.timeoutMs, 0);
 }
 
 
