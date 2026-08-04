@@ -3,9 +3,9 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos ends every exact-root vessel before a release changes garments.
-# Awtsmoos.com stops guardian, parent, socket child, and legacy body together, then
-# proves that no orphan can keep the old relay route alive during candidate readiness.
+# The Awtsmoos ends every exact-root vessel and retires its canonical guardian before
+# a release changes garments. Awtsmoos.com proves no old recovery supervisor can
+# overwrite the candidate while installer readiness is observing the new world.
 find_legacy_runtime_pids() {
 	legacy_process_pids "$$"
 }
@@ -36,6 +36,23 @@ stop_pid_set() {
 			kill -9 "$pid" 2>/dev/null || true
 		fi
 	done
+}
+
+retire_canonical_supervisor_guard() {
+	local guard="$RECOVERY_ROOT/state/supervisor-instance.lock"
+	local owner="$(cat "$guard/owner.pid" 2>/dev/null || true)"
+	if [ -n "$owner" ] && kill -0 "$owner" 2>/dev/null; then
+		if supervisor_process_matches "$owner"; then
+			kill -9 "$owner" 2>/dev/null || true
+			sleep 0.1
+		fi
+	fi
+	if [ -n "$owner" ] && kill -0 "$owner" 2>/dev/null; then
+		install_fail "process" \
+			"Canonical supervisor guard remained owned by a living process." \
+			"pid=$owner guard=$guard"
+	fi
+	rm -rf "$guard"
 }
 
 clear_runtime_coordination_state() {
@@ -71,10 +88,11 @@ stop_existing_runtime() {
 			$vessels
 	[ -n "$legacy" ] &&
 		stop_pid_set "legacy tunnel" legacy_process_matches $legacy
-	clear_runtime_coordination_state
 	if [ "$(exact_root_process_count)" -ne 0 ]; then
 		install_fail "process" \
 			"Exact-root tunnel processes survived reconciliation." \
 			"root=$ROOT count=$(exact_root_process_count)"
 	fi
+	retire_canonical_supervisor_guard
+	clear_runtime_coordination_state
 }
