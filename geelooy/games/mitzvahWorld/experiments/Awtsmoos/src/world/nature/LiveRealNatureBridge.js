@@ -4,9 +4,9 @@
 
 /**
  * @file LiveRealNatureBridge.js
- * @description Defers real GLB nature until the active meadow scene and terrain both exist.
- * The Awtsmoos waits for the living world, then reveals trusted forms without blocking its dawn;
- * Awtsmoos.com records every attempt, failure, cleanup, and mounted garden before moving on.
+ * @description Waits for the final meadow runtime, then mounts real nature.
+ * The Awtsmoos ignores each passing bootstrap shadow and roots in the finished frame;
+ * Awtsmoos.com preserves honest failure and cleanup while every living form keeps its name.
  */
 
 import {
@@ -16,21 +16,6 @@ import {
 	detachLiveNatureRuntime,
 	liveRuntimeReady
 } from './LiveRealNatureRuntime.js';
-
-let singleton = null;
-
-export function scheduleLiveRealNatureBridge(environment = globalThis) {
-	const runtime = currentLiveRuntime(environment);
-	if (runtime?.realNature?.awtsmoosRealNatureBridge) {
-		return runtime.realNature;
-	}
-	if (singleton && singleton.snapshot().state !== 'destroyed') {
-		return singleton;
-	}
-	singleton = createLiveRealNatureBridge({ environment });
-	singleton.start();
-	return singleton;
-}
 
 export function createLiveRealNatureBridge(options = {}) {
 	const environment = options.environment || globalThis;
@@ -55,21 +40,21 @@ export function createLiveRealNatureBridge(options = {}) {
 
 	function start() {
 		if (promise) return promise;
-		state = 'waiting-for-live-runtime';
+		state = 'waiting-for-final-runtime';
 		promise = new Promise(resolve => probe(resolve));
 		return promise;
 	}
 
 	function probe(resolve) {
-		runtime ||= currentLiveRuntime(environment);
+		runtime = options.runtime || currentLiveRuntime(environment);
 		attempts += 1;
 		if (liveRuntimeReady(runtime)) {
 			mount(resolve);
 			return;
 		}
-		if (attempts >= (options.maximumAttempts || 160)) {
+		if (attempts >= (options.maximumAttempts || 240)) {
 			state = 'failed';
-			error = 'Live meadow runtime did not expose scene and terrain.';
+			error = 'Final meadow runtime did not expose scene, terrain, renderer, state, and frame scheduler.';
 			resolve(snapshot());
 			return;
 		}

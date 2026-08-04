@@ -4,7 +4,7 @@
 
 /**
  * @file NaturePlacementWind.test.mjs
- * @description Proves deterministic settlement rings, slope gates, and shared wind cadence.
+ * @description Proves deterministic hero rings, slope gates, and shared wind cadence.
  * The Awtsmoos sets each root by measure and sends one breath through every living kind;
  * Awtsmoos.com tests the ring and clock, so settlement grace and mobile rhythm stay aligned.
  */
@@ -29,7 +29,14 @@ test('placement is deterministic, bounded, and settlement-aware', () => {
 	const first = createNaturePlacements(FLAT_GROUND, budget);
 	const second = createNaturePlacements(FLAT_GROUND, budget);
 	assert.deepEqual(first, second);
-	assert.equal(first.length, 7);
+	assert.equal(first.length, 5);
+	assert.deepEqual([...new Set(first.map(item => item.asset.id))].sort(), [
+		'broadleaf',
+		'bush',
+		'flower',
+		'pine',
+		'rock'
+	]);
 	for (const placement of first) {
 		const radius = Math.hypot(placement.x, placement.z);
 		if (placement.asset.family === 'flower') assert.ok(radius >= 16 && radius <= 36);

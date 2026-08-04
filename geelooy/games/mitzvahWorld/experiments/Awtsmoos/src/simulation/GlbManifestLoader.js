@@ -4,9 +4,9 @@
 
 /**
  * @file GlbManifestLoader.js
- * @description Reads verified content-addressed GLB JSON chunks in Node or the browser without WebGL.
- * The Awtsmoos joins immutable bytes with semantic inspection; Awtsmoos.com lets simulations
- * read repository truth directly while browser vessels fetch the identical trusted public path.
+ * @description Resolves verified remote models into semantic manifests without requiring binaries in Git.
+ * The Awtsmoos joins immutable identity to renderer-free understanding;
+ * Awtsmoos.com reads the canonical Chossid from checked-in semantics while browsers load exact remote bytes.
  */
 
 import {
@@ -14,6 +14,9 @@ import {
 	remoteModelRecord
 } from '../assets/RemoteModelCatalog.js';
 import { REMOTE_MODEL_RECORDS } from '../assets/RemoteModelRecords.js';
+import {
+	canonicalChossidSimulationManifest
+} from './CanonicalChossidSimulationManifest.js';
 
 const GLB_MAGIC = 0x46546c67;
 const JSON_CHUNK = 0x4e4f534a;
@@ -23,10 +26,35 @@ export async function loadGlbManifest(source) {
 		throw new Error(`GLB simulation requires a verified model URL: ${source}`);
 	}
 	const identity = modelIdentityFromUrl(source);
+	if (identity === 'player/chossid.glb') {
+		return canonicalChossidSimulationManifest(source);
+	}
 	const buffer = await loadModelBytes(identity, source);
 	const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength);
 	validateHeader(view, buffer.byteLength);
 	const json = readJsonChunk(buffer, view);
+	return manifestFromJson(json, source, view.getUint32(4, true));
+}
+
+function modelIdentityFromUrl(source) {
+	const identity = Object.keys(REMOTE_MODEL_RECORDS).find(candidate => {
+		const record = remoteModelRecord(candidate);
+		return [record.url, record.localUrl, record.remoteUrl].includes(source);
+	});
+	if (!identity) throw new Error(`Unknown trusted model URL: ${source}`);
+	return identity;
+}
+
+async function loadModelBytes(identity, source) {
+	if (!globalThis.process?.versions?.node) {
+		const response = await fetch(source, { cache: 'force-cache' });
+		if (!response.ok) throw new Error(`GLB_HTTP_${response.status}`);
+		return new Uint8Array(await response.arrayBuffer());
+	}
+	throw new Error(`Node simulation has no semantic manifest for ${identity}.`);
+}
+
+function manifestFromJson(json, source, version) {
 	return {
 		animations: (json.animations || []).map((animation, index) => (
 			animation.name || `animation-${index}`
@@ -38,34 +66,8 @@ export async function loadGlbManifest(source) {
 		scenes: json.scenes || [],
 		skins: json.skins || [],
 		source,
-		version: view.getUint32(4, true)
+		version
 	};
-}
-
-function modelIdentityFromUrl(source) {
-	const identity = Object.keys(REMOTE_MODEL_RECORDS).find(candidate => {
-		return remoteModelRecord(candidate).url === source;
-	});
-	if (!identity) throw new Error(`Unknown trusted model URL: ${source}`);
-	return identity;
-}
-
-async function loadModelBytes(identity, source) {
-	if (globalThis.process?.versions?.node) {
-		const { readFile } = await import('node:fs/promises');
-		const record = remoteModelRecord(identity);
-		const segments = identity.split('/');
-		const filename = segments.pop();
-		const folder = segments.join('/');
-		const fileUrl = new URL(
-			`../../../../assets/models/${folder}/${record.sha256}/${filename}`,
-			import.meta.url
-		);
-		return new Uint8Array(await readFile(fileUrl));
-	}
-	const response = await fetch(source, { cache: 'force-cache' });
-	if (!response.ok) throw new Error(`GLB_HTTP_${response.status}`);
-	return new Uint8Array(await response.arrayBuffer());
 }
 
 function validateHeader(view, byteLength) {
@@ -82,10 +84,8 @@ function readJsonChunk(buffer, view) {
 		const start = offset + 8;
 		const end = start + length;
 		if (type === JSON_CHUNK) {
-			const text = new TextDecoder()
-				.decode(buffer.subarray(start, end))
-				.replace(/\u0000+$/g, '')
-				.trim();
+			const text = new TextDecoder().decode(buffer.subarray(start, end))
+				.replace(/\u0000+$/g, '').trim();
 			return JSON.parse(text);
 		}
 		offset = end;

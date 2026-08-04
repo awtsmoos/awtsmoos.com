@@ -4,9 +4,9 @@
 
 /**
  * @file EretzStagedRuntime.js
- * @description Opens quality, visible WebGL valley, and immediate controls as import waves.
- * The Awtsmoos joins finite revelations without a monolithic thunderclap; Awtsmoos.com lets
- * movement awaken before authored terrain, rich shaders, inventory, RPG, and diagnostics.
+ * @description Opens quality, visible WebGL, controls, combat, and a real map as import waves.
+ * The Awtsmoos joins finite revelations without a monolithic thunderclap;
+ * Awtsmoos.com lets movement, deed, and direction awaken before authored terrain and rich actors.
  */
 
 import {
@@ -38,11 +38,11 @@ export async function createStagedEretzRuntime(hosts, options = {}, boot) {
 	boot.begin('core-runtime');
 	reportLaunchProgress(
 		options,
-		'Awakening movement and colored WebGL frames…',
+		'Awakening movement, combat, map, and colored WebGL frames…',
 		0.96
 	);
 	const { assembleBootstrapCoreRuntime } = await import(
-		'./BootstrapCoreRuntimeAssembly.js?v=20260723-stream-20'
+		'./BootstrapCoreRuntimeAssembly.js?v=20260804-map-01'
 	);
 	const core = assembleBootstrapCoreRuntime(
 		foundation,

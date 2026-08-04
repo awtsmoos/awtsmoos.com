@@ -213,515 +213,535 @@ var __awtsmoosModule_180;
 var __awtsmoosModule_174;
 var __awtsmoosModule_184;
 var __awtsmoosModule_183;
-var __awtsmoosModule_186;
-var __awtsmoosModule_185;
-var __awtsmoosModule_182;
 var __awtsmoosModule_187;
-var __awtsmoosModule_173;
-var __awtsmoosModule_190;
-var __awtsmoosModule_191;
 var __awtsmoosModule_189;
-var __awtsmoosModule_194;
-var __awtsmoosModule_195;
+var __awtsmoosModule_190;
+var __awtsmoosModule_188;
+var __awtsmoosModule_186;
+var __awtsmoosModule_191;
+var __awtsmoosModule_185;
+var __awtsmoosModule_192;
+var __awtsmoosModule_182;
+var __awtsmoosModule_193;
+var __awtsmoosModule_173;
 var __awtsmoosModule_196;
 var __awtsmoosModule_197;
-var __awtsmoosModule_193;
-var __awtsmoosModule_192;
-var __awtsmoosModule_188;
-var __awtsmoosModule_201;
-var __awtsmoosModule_203;
-var __awtsmoosModule_204;
-var __awtsmoosModule_202;
+var __awtsmoosModule_195;
 var __awtsmoosModule_200;
-var __awtsmoosModule_205;
+var __awtsmoosModule_201;
+var __awtsmoosModule_202;
+var __awtsmoosModule_203;
 var __awtsmoosModule_199;
 var __awtsmoosModule_198;
-var __awtsmoosModule_172;
-var __awtsmoosModule_206;
+var __awtsmoosModule_194;
 var __awtsmoosModule_207;
+var __awtsmoosModule_206;
+var __awtsmoosModule_213;
+var __awtsmoosModule_212;
+var __awtsmoosModule_215;
+var __awtsmoosModule_217;
+var __awtsmoosModule_216;
+var __awtsmoosModule_214;
+var __awtsmoosModule_211;
+var __awtsmoosModule_219;
+var __awtsmoosModule_220;
+var __awtsmoosModule_221;
+var __awtsmoosModule_223;
+var __awtsmoosModule_222;
+var __awtsmoosModule_218;
+var __awtsmoosModule_210;
+var __awtsmoosModule_226;
+var __awtsmoosModule_225;
+var __awtsmoosModule_228;
+var __awtsmoosModule_227;
+var __awtsmoosModule_224;
+var __awtsmoosModule_209;
+var __awtsmoosModule_229;
+var __awtsmoosModule_232;
+var __awtsmoosModule_231;
+var __awtsmoosModule_230;
+var __awtsmoosModule_233;
+var __awtsmoosModule_235;
+var __awtsmoosModule_234;
+var __awtsmoosModule_236;
+var __awtsmoosModule_208;
+var __awtsmoosModule_205;
+var __awtsmoosModule_237;
+var __awtsmoosModule_204;
+var __awtsmoosModule_241;
+var __awtsmoosModule_243;
+var __awtsmoosModule_244;
+var __awtsmoosModule_242;
+var __awtsmoosModule_240;
+var __awtsmoosModule_245;
+var __awtsmoosModule_239;
+var __awtsmoosModule_238;
+var __awtsmoosModule_172;
+var __awtsmoosModule_246;
+var __awtsmoosModule_247;
 var __awtsmoosModule_108;
 var __awtsmoosModule_107;
 var __awtsmoosModule_104;
-var __awtsmoosModule_210;
-var __awtsmoosModule_213;
-var __awtsmoosModule_212;
-var __awtsmoosModule_214;
-var __awtsmoosModule_216;
-var __awtsmoosModule_215;
-var __awtsmoosModule_211;
-var __awtsmoosModule_219;
-var __awtsmoosModule_221;
-var __awtsmoosModule_220;
-var __awtsmoosModule_218;
-var __awtsmoosModule_224;
-var __awtsmoosModule_225;
-var __awtsmoosModule_223;
-var __awtsmoosModule_222;
-var __awtsmoosModule_226;
-var __awtsmoosModule_217;
-var __awtsmoosModule_229;
-var __awtsmoosModule_230;
-var __awtsmoosModule_231;
-var __awtsmoosModule_233;
-var __awtsmoosModule_232;
-var __awtsmoosModule_228;
-var __awtsmoosModule_227;
-var __awtsmoosModule_209;
-var __awtsmoosModule_242;
-var __awtsmoosModule_243;
-var __awtsmoosModule_241;
-var __awtsmoosModule_245;
-var __awtsmoosModule_244;
-var __awtsmoosModule_240;
-var __awtsmoosModule_246;
-var __awtsmoosModule_248;
-var __awtsmoosModule_249;
-var __awtsmoosModule_247;
-var __awtsmoosModule_239;
 var __awtsmoosModule_250;
-var __awtsmoosModule_238;
-var __awtsmoosModule_251;
-var __awtsmoosModule_254;
 var __awtsmoosModule_253;
 var __awtsmoosModule_252;
-var __awtsmoosModule_237;
-var __awtsmoosModule_255;
-var __awtsmoosModule_236;
+var __awtsmoosModule_254;
 var __awtsmoosModule_256;
-var __awtsmoosModule_235;
-var __awtsmoosModule_257;
+var __awtsmoosModule_255;
+var __awtsmoosModule_251;
 var __awtsmoosModule_259;
-var __awtsmoosModule_258;
-var __awtsmoosModule_234;
 var __awtsmoosModule_261;
-var __awtsmoosModule_262;
 var __awtsmoosModule_260;
-var __awtsmoosModule_263;
-var __awtsmoosModule_208;
-var __awtsmoosModule_265;
-var __awtsmoosModule_266;
-var __awtsmoosModule_267;
+var __awtsmoosModule_258;
 var __awtsmoosModule_264;
-var __awtsmoosModule_268;
-var __awtsmoosModule_103;
-var __awtsmoosModule_269;
-var __awtsmoosModule_270;
-var __awtsmoosModule_274;
-var __awtsmoosModule_273;
-var __awtsmoosModule_272;
-var __awtsmoosModule_278;
-var __awtsmoosModule_277;
+var __awtsmoosModule_265;
+var __awtsmoosModule_263;
+var __awtsmoosModule_262;
+var __awtsmoosModule_266;
+var __awtsmoosModule_257;
+var __awtsmoosModule_267;
+var __awtsmoosModule_249;
 var __awtsmoosModule_276;
-var __awtsmoosModule_279;
-var __awtsmoosModule_280;
+var __awtsmoosModule_277;
 var __awtsmoosModule_275;
-var __awtsmoosModule_281;
-var __awtsmoosModule_271;
-var __awtsmoosModule_283;
+var __awtsmoosModule_279;
+var __awtsmoosModule_278;
+var __awtsmoosModule_274;
+var __awtsmoosModule_280;
 var __awtsmoosModule_282;
+var __awtsmoosModule_283;
+var __awtsmoosModule_281;
+var __awtsmoosModule_273;
 var __awtsmoosModule_284;
-var __awtsmoosModule_102;
-var __awtsmoosModule_91;
+var __awtsmoosModule_272;
+var __awtsmoosModule_285;
+var __awtsmoosModule_288;
+var __awtsmoosModule_287;
+var __awtsmoosModule_286;
+var __awtsmoosModule_271;
 var __awtsmoosModule_289;
+var __awtsmoosModule_270;
 var __awtsmoosModule_290;
+var __awtsmoosModule_269;
+var __awtsmoosModule_291;
+var __awtsmoosModule_293;
+var __awtsmoosModule_292;
+var __awtsmoosModule_268;
 var __awtsmoosModule_295;
 var __awtsmoosModule_296;
 var __awtsmoosModule_294;
-var __awtsmoosModule_293;
-var __awtsmoosModule_292;
-var __awtsmoosModule_291;
-var __awtsmoosModule_288;
-var __awtsmoosModule_298;
 var __awtsmoosModule_297;
-var __awtsmoosModule_300;
-var __awtsmoosModule_303;
-var __awtsmoosModule_302;
-var __awtsmoosModule_305;
-var __awtsmoosModule_304;
-var __awtsmoosModule_306;
-var __awtsmoosModule_307;
-var __awtsmoosModule_308;
-var __awtsmoosModule_309;
-var __awtsmoosModule_301;
+var __awtsmoosModule_248;
 var __awtsmoosModule_299;
+var __awtsmoosModule_300;
+var __awtsmoosModule_301;
+var __awtsmoosModule_298;
+var __awtsmoosModule_302;
+var __awtsmoosModule_103;
+var __awtsmoosModule_303;
+var __awtsmoosModule_304;
+var __awtsmoosModule_308;
+var __awtsmoosModule_307;
+var __awtsmoosModule_306;
 var __awtsmoosModule_312;
-var __awtsmoosModule_315;
-var __awtsmoosModule_316;
-var __awtsmoosModule_317;
-var __awtsmoosModule_318;
-var __awtsmoosModule_319;
+var __awtsmoosModule_311;
+var __awtsmoosModule_310;
+var __awtsmoosModule_313;
 var __awtsmoosModule_314;
-var __awtsmoosModule_320;
-var __awtsmoosModule_324;
+var __awtsmoosModule_309;
+var __awtsmoosModule_315;
+var __awtsmoosModule_305;
+var __awtsmoosModule_317;
+var __awtsmoosModule_316;
+var __awtsmoosModule_318;
+var __awtsmoosModule_102;
+var __awtsmoosModule_91;
 var __awtsmoosModule_323;
-var __awtsmoosModule_325;
-var __awtsmoosModule_326;
-var __awtsmoosModule_327;
-var __awtsmoosModule_322;
-var __awtsmoosModule_321;
-var __awtsmoosModule_330;
+var __awtsmoosModule_324;
 var __awtsmoosModule_329;
+var __awtsmoosModule_330;
 var __awtsmoosModule_328;
-var __awtsmoosModule_331;
+var __awtsmoosModule_327;
+var __awtsmoosModule_326;
+var __awtsmoosModule_325;
+var __awtsmoosModule_322;
 var __awtsmoosModule_332;
+var __awtsmoosModule_331;
+var __awtsmoosModule_334;
 var __awtsmoosModule_337;
 var __awtsmoosModule_336;
 var __awtsmoosModule_339;
-var __awtsmoosModule_340;
 var __awtsmoosModule_338;
+var __awtsmoosModule_340;
+var __awtsmoosModule_341;
 var __awtsmoosModule_342;
 var __awtsmoosModule_343;
-var __awtsmoosModule_344;
-var __awtsmoosModule_341;
+var __awtsmoosModule_335;
+var __awtsmoosModule_333;
 var __awtsmoosModule_346;
-var __awtsmoosModule_345;
-var __awtsmoosModule_348;
-var __awtsmoosModule_347;
+var __awtsmoosModule_349;
 var __awtsmoosModule_350;
 var __awtsmoosModule_351;
 var __awtsmoosModule_352;
-var __awtsmoosModule_349;
-var __awtsmoosModule_354;
-var __awtsmoosModule_355;
-var __awtsmoosModule_356;
 var __awtsmoosModule_353;
+var __awtsmoosModule_348;
+var __awtsmoosModule_354;
 var __awtsmoosModule_358;
 var __awtsmoosModule_357;
+var __awtsmoosModule_359;
 var __awtsmoosModule_360;
 var __awtsmoosModule_361;
-var __awtsmoosModule_359;
-var __awtsmoosModule_363;
+var __awtsmoosModule_356;
+var __awtsmoosModule_355;
 var __awtsmoosModule_364;
+var __awtsmoosModule_363;
 var __awtsmoosModule_362;
-var __awtsmoosModule_366;
-var __awtsmoosModule_367;
-var __awtsmoosModule_368;
-var __awtsmoosModule_369;
 var __awtsmoosModule_365;
+var __awtsmoosModule_366;
 var __awtsmoosModule_371;
-var __awtsmoosModule_372;
-var __awtsmoosModule_373;
 var __awtsmoosModule_370;
-var __awtsmoosModule_375;
+var __awtsmoosModule_373;
+var __awtsmoosModule_374;
+var __awtsmoosModule_372;
 var __awtsmoosModule_376;
 var __awtsmoosModule_377;
 var __awtsmoosModule_378;
-var __awtsmoosModule_379;
+var __awtsmoosModule_375;
 var __awtsmoosModule_380;
-var __awtsmoosModule_381;
+var __awtsmoosModule_379;
 var __awtsmoosModule_382;
-var __awtsmoosModule_383;
+var __awtsmoosModule_381;
+var __awtsmoosModule_384;
 var __awtsmoosModule_385;
 var __awtsmoosModule_386;
-var __awtsmoosModule_384;
-var __awtsmoosModule_389;
+var __awtsmoosModule_383;
 var __awtsmoosModule_388;
+var __awtsmoosModule_389;
+var __awtsmoosModule_390;
 var __awtsmoosModule_387;
-var __awtsmoosModule_374;
-var __awtsmoosModule_391;
-var __awtsmoosModule_393;
 var __awtsmoosModule_392;
+var __awtsmoosModule_391;
 var __awtsmoosModule_394;
 var __awtsmoosModule_395;
-var __awtsmoosModule_396;
-var __awtsmoosModule_390;
-var __awtsmoosModule_398;
-var __awtsmoosModule_399;
-var __awtsmoosModule_400;
+var __awtsmoosModule_393;
 var __awtsmoosModule_397;
-var __awtsmoosModule_335;
-var __awtsmoosModule_334;
-var __awtsmoosModule_333;
-var __awtsmoosModule_402;
+var __awtsmoosModule_398;
+var __awtsmoosModule_396;
+var __awtsmoosModule_400;
 var __awtsmoosModule_401;
-var __awtsmoosModule_404;
+var __awtsmoosModule_402;
 var __awtsmoosModule_403;
-var __awtsmoosModule_313;
-var __awtsmoosModule_311;
-var __awtsmoosModule_310;
-var __awtsmoosModule_406;
+var __awtsmoosModule_399;
 var __awtsmoosModule_405;
-var __awtsmoosModule_408;
-var __awtsmoosModule_410;
+var __awtsmoosModule_406;
+var __awtsmoosModule_407;
+var __awtsmoosModule_404;
 var __awtsmoosModule_409;
-var __awtsmoosModule_413;
-var __awtsmoosModule_415;
-var __awtsmoosModule_414;
-var __awtsmoosModule_416;
-var __awtsmoosModule_412;
+var __awtsmoosModule_410;
 var __awtsmoosModule_411;
-var __awtsmoosModule_418;
+var __awtsmoosModule_412;
+var __awtsmoosModule_413;
+var __awtsmoosModule_414;
+var __awtsmoosModule_415;
+var __awtsmoosModule_416;
 var __awtsmoosModule_417;
 var __awtsmoosModule_419;
-var __awtsmoosModule_407;
-var __awtsmoosModule_287;
 var __awtsmoosModule_420;
-var __awtsmoosModule_421;
-var __awtsmoosModule_422;
+var __awtsmoosModule_418;
 var __awtsmoosModule_423;
-var __awtsmoosModule_424;
+var __awtsmoosModule_422;
+var __awtsmoosModule_421;
+var __awtsmoosModule_408;
 var __awtsmoosModule_425;
-var __awtsmoosModule_286;
-var __awtsmoosModule_285;
-var __awtsmoosModule_90;
 var __awtsmoosModule_427;
 var __awtsmoosModule_426;
-var __awtsmoosModule_432;
-var __awtsmoosModule_431;
-var __awtsmoosModule_433;
+var __awtsmoosModule_428;
+var __awtsmoosModule_429;
 var __awtsmoosModule_430;
-var __awtsmoosModule_435;
+var __awtsmoosModule_424;
+var __awtsmoosModule_432;
+var __awtsmoosModule_433;
 var __awtsmoosModule_434;
-var __awtsmoosModule_437;
-var __awtsmoosModule_438;
-var __awtsmoosModule_441;
-var __awtsmoosModule_442;
-var __awtsmoosModule_440;
-var __awtsmoosModule_443;
-var __awtsmoosModule_439;
-var __awtsmoosModule_445;
-var __awtsmoosModule_446;
-var __awtsmoosModule_448;
-var __awtsmoosModule_449;
-var __awtsmoosModule_447;
-var __awtsmoosModule_444;
+var __awtsmoosModule_431;
+var __awtsmoosModule_369;
+var __awtsmoosModule_368;
+var __awtsmoosModule_367;
 var __awtsmoosModule_436;
-var __awtsmoosModule_451;
-var __awtsmoosModule_452;
+var __awtsmoosModule_435;
+var __awtsmoosModule_438;
+var __awtsmoosModule_437;
+var __awtsmoosModule_347;
+var __awtsmoosModule_345;
+var __awtsmoosModule_344;
+var __awtsmoosModule_440;
+var __awtsmoosModule_439;
+var __awtsmoosModule_442;
+var __awtsmoosModule_444;
+var __awtsmoosModule_443;
+var __awtsmoosModule_447;
+var __awtsmoosModule_449;
+var __awtsmoosModule_448;
 var __awtsmoosModule_450;
+var __awtsmoosModule_446;
+var __awtsmoosModule_445;
+var __awtsmoosModule_452;
+var __awtsmoosModule_451;
+var __awtsmoosModule_453;
+var __awtsmoosModule_441;
+var __awtsmoosModule_321;
 var __awtsmoosModule_454;
-var __awtsmoosModule_456;
 var __awtsmoosModule_455;
+var __awtsmoosModule_456;
 var __awtsmoosModule_457;
 var __awtsmoosModule_458;
-var __awtsmoosModule_453;
-var __awtsmoosModule_429;
+var __awtsmoosModule_459;
+var __awtsmoosModule_320;
+var __awtsmoosModule_319;
+var __awtsmoosModule_90;
 var __awtsmoosModule_461;
+var __awtsmoosModule_460;
 var __awtsmoosModule_466;
 var __awtsmoosModule_465;
-var __awtsmoosModule_468;
-var __awtsmoosModule_470;
-var __awtsmoosModule_469;
 var __awtsmoosModule_467;
 var __awtsmoosModule_464;
+var __awtsmoosModule_469;
+var __awtsmoosModule_468;
+var __awtsmoosModule_471;
 var __awtsmoosModule_472;
 var __awtsmoosModule_475;
+var __awtsmoosModule_476;
 var __awtsmoosModule_474;
 var __awtsmoosModule_477;
-var __awtsmoosModule_476;
 var __awtsmoosModule_473;
-var __awtsmoosModule_471;
-var __awtsmoosModule_480;
-var __awtsmoosModule_481;
-var __awtsmoosModule_482;
 var __awtsmoosModule_479;
-var __awtsmoosModule_485;
-var __awtsmoosModule_484;
-var __awtsmoosModule_486;
+var __awtsmoosModule_480;
+var __awtsmoosModule_482;
 var __awtsmoosModule_483;
-var __awtsmoosModule_487;
+var __awtsmoosModule_481;
 var __awtsmoosModule_478;
-var __awtsmoosModule_492;
-var __awtsmoosModule_491;
+var __awtsmoosModule_470;
+var __awtsmoosModule_485;
+var __awtsmoosModule_486;
+var __awtsmoosModule_484;
+var __awtsmoosModule_488;
 var __awtsmoosModule_490;
-var __awtsmoosModule_493;
-var __awtsmoosModule_494;
 var __awtsmoosModule_489;
-var __awtsmoosModule_497;
-var __awtsmoosModule_496;
-var __awtsmoosModule_498;
+var __awtsmoosModule_491;
+var __awtsmoosModule_492;
+var __awtsmoosModule_487;
+var __awtsmoosModule_463;
 var __awtsmoosModule_495;
-var __awtsmoosModule_499;
-var __awtsmoosModule_502;
+var __awtsmoosModule_500;
 var __awtsmoosModule_501;
+var __awtsmoosModule_502;
+var __awtsmoosModule_499;
 var __awtsmoosModule_505;
 var __awtsmoosModule_504;
-var __awtsmoosModule_503;
-var __awtsmoosModule_500;
-var __awtsmoosModule_507;
-var __awtsmoosModule_508;
 var __awtsmoosModule_506;
-var __awtsmoosModule_488;
-var __awtsmoosModule_509;
-var __awtsmoosModule_510;
+var __awtsmoosModule_503;
+var __awtsmoosModule_507;
+var __awtsmoosModule_498;
+var __awtsmoosModule_512;
 var __awtsmoosModule_511;
+var __awtsmoosModule_510;
+var __awtsmoosModule_513;
 var __awtsmoosModule_514;
+var __awtsmoosModule_509;
 var __awtsmoosModule_517;
 var __awtsmoosModule_516;
+var __awtsmoosModule_518;
 var __awtsmoosModule_515;
-var __awtsmoosModule_513;
-var __awtsmoosModule_521;
-var __awtsmoosModule_520;
 var __awtsmoosModule_519;
+var __awtsmoosModule_522;
+var __awtsmoosModule_521;
 var __awtsmoosModule_525;
-var __awtsmoosModule_526;
 var __awtsmoosModule_524;
 var __awtsmoosModule_523;
-var __awtsmoosModule_522;
+var __awtsmoosModule_520;
 var __awtsmoosModule_527;
-var __awtsmoosModule_518;
-var __awtsmoosModule_529;
 var __awtsmoosModule_528;
-var __awtsmoosModule_531;
-var __awtsmoosModule_532;
+var __awtsmoosModule_526;
+var __awtsmoosModule_508;
+var __awtsmoosModule_529;
 var __awtsmoosModule_530;
-var __awtsmoosModule_535;
+var __awtsmoosModule_531;
 var __awtsmoosModule_534;
-var __awtsmoosModule_533;
-var __awtsmoosModule_536;
 var __awtsmoosModule_537;
-var __awtsmoosModule_512;
-var __awtsmoosModule_538;
-var __awtsmoosModule_463;
-var __awtsmoosModule_462;
-var __awtsmoosModule_539;
-var __awtsmoosModule_460;
+var __awtsmoosModule_536;
+var __awtsmoosModule_535;
+var __awtsmoosModule_533;
+var __awtsmoosModule_541;
 var __awtsmoosModule_540;
-var __awtsmoosModule_459;
-var __awtsmoosModule_428;
-var __awtsmoosModule_542;
-var __awtsmoosModule_543;
-var __awtsmoosModule_544;
+var __awtsmoosModule_539;
 var __awtsmoosModule_545;
 var __awtsmoosModule_546;
+var __awtsmoosModule_544;
+var __awtsmoosModule_543;
+var __awtsmoosModule_542;
 var __awtsmoosModule_547;
+var __awtsmoosModule_538;
 var __awtsmoosModule_549;
 var __awtsmoosModule_548;
-var __awtsmoosModule_541;
 var __awtsmoosModule_551;
-var __awtsmoosModule_550;
-var __awtsmoosModule_554;
-var __awtsmoosModule_556;
-var __awtsmoosModule_555;
-var __awtsmoosModule_553;
 var __awtsmoosModule_552;
+var __awtsmoosModule_550;
+var __awtsmoosModule_555;
+var __awtsmoosModule_554;
+var __awtsmoosModule_553;
+var __awtsmoosModule_556;
 var __awtsmoosModule_557;
+var __awtsmoosModule_532;
+var __awtsmoosModule_558;
+var __awtsmoosModule_497;
+var __awtsmoosModule_496;
+var __awtsmoosModule_559;
+var __awtsmoosModule_494;
 var __awtsmoosModule_560;
+var __awtsmoosModule_493;
+var __awtsmoosModule_462;
 var __awtsmoosModule_562;
-var __awtsmoosModule_565;
-var __awtsmoosModule_564;
-var __awtsmoosModule_566;
 var __awtsmoosModule_563;
+var __awtsmoosModule_564;
+var __awtsmoosModule_565;
+var __awtsmoosModule_566;
 var __awtsmoosModule_567;
-var __awtsmoosModule_561;
-var __awtsmoosModule_570;
 var __awtsmoosModule_569;
 var __awtsmoosModule_568;
+var __awtsmoosModule_561;
+var __awtsmoosModule_571;
+var __awtsmoosModule_570;
+var __awtsmoosModule_574;
 var __awtsmoosModule_576;
 var __awtsmoosModule_575;
-var __awtsmoosModule_574;
-var __awtsmoosModule_577;
 var __awtsmoosModule_573;
-var __awtsmoosModule_578;
-var __awtsmoosModule_580;
-var __awtsmoosModule_579;
-var __awtsmoosModule_582;
-var __awtsmoosModule_581;
-var __awtsmoosModule_584;
-var __awtsmoosModule_583;
-var __awtsmoosModule_585;
-var __awtsmoosModule_587;
-var __awtsmoosModule_586;
 var __awtsmoosModule_572;
-var __awtsmoosModule_588;
+var __awtsmoosModule_577;
+var __awtsmoosModule_580;
+var __awtsmoosModule_582;
+var __awtsmoosModule_585;
+var __awtsmoosModule_584;
+var __awtsmoosModule_586;
+var __awtsmoosModule_583;
+var __awtsmoosModule_587;
+var __awtsmoosModule_581;
 var __awtsmoosModule_590;
-var __awtsmoosModule_591;
 var __awtsmoosModule_589;
-var __awtsmoosModule_592;
-var __awtsmoosModule_593;
-var __awtsmoosModule_594;
-var __awtsmoosModule_595;
+var __awtsmoosModule_588;
 var __awtsmoosModule_596;
+var __awtsmoosModule_595;
+var __awtsmoosModule_594;
 var __awtsmoosModule_597;
+var __awtsmoosModule_593;
 var __awtsmoosModule_598;
+var __awtsmoosModule_600;
 var __awtsmoosModule_599;
-var __awtsmoosModule_571;
+var __awtsmoosModule_602;
+var __awtsmoosModule_601;
+var __awtsmoosModule_604;
+var __awtsmoosModule_603;
 var __awtsmoosModule_605;
 var __awtsmoosModule_607;
 var __awtsmoosModule_606;
+var __awtsmoosModule_592;
+var __awtsmoosModule_608;
 var __awtsmoosModule_610;
-var __awtsmoosModule_612;
 var __awtsmoosModule_611;
-var __awtsmoosModule_614;
-var __awtsmoosModule_613;
 var __awtsmoosModule_609;
+var __awtsmoosModule_612;
+var __awtsmoosModule_613;
+var __awtsmoosModule_614;
+var __awtsmoosModule_615;
 var __awtsmoosModule_616;
 var __awtsmoosModule_617;
-var __awtsmoosModule_619;
-var __awtsmoosModule_620;
 var __awtsmoosModule_618;
-var __awtsmoosModule_622;
-var __awtsmoosModule_621;
-var __awtsmoosModule_615;
-var __awtsmoosModule_608;
-var __awtsmoosModule_623;
-var __awtsmoosModule_624;
+var __awtsmoosModule_619;
+var __awtsmoosModule_591;
 var __awtsmoosModule_625;
-var __awtsmoosModule_628;
-var __awtsmoosModule_631;
-var __awtsmoosModule_632;
-var __awtsmoosModule_633;
-var __awtsmoosModule_634;
-var __awtsmoosModule_635;
+var __awtsmoosModule_627;
+var __awtsmoosModule_626;
 var __awtsmoosModule_630;
+var __awtsmoosModule_632;
+var __awtsmoosModule_631;
+var __awtsmoosModule_634;
+var __awtsmoosModule_633;
 var __awtsmoosModule_629;
 var __awtsmoosModule_636;
 var __awtsmoosModule_637;
-var __awtsmoosModule_627;
-var __awtsmoosModule_626;
-var __awtsmoosModule_604;
-var __awtsmoosModule_603;
-var __awtsmoosModule_638;
-var __awtsmoosModule_602;
 var __awtsmoosModule_639;
-var __awtsmoosModule_601;
+var __awtsmoosModule_640;
+var __awtsmoosModule_638;
 var __awtsmoosModule_642;
 var __awtsmoosModule_641;
+var __awtsmoosModule_635;
+var __awtsmoosModule_628;
 var __awtsmoosModule_643;
-var __awtsmoosModule_640;
-var __awtsmoosModule_649;
+var __awtsmoosModule_644;
+var __awtsmoosModule_645;
 var __awtsmoosModule_648;
-var __awtsmoosModule_647;
-var __awtsmoosModule_646;
-var __awtsmoosModule_650;
 var __awtsmoosModule_651;
 var __awtsmoosModule_652;
-var __awtsmoosModule_645;
-var __awtsmoosModule_654;
 var __awtsmoosModule_653;
-var __awtsmoosModule_644;
+var __awtsmoosModule_654;
 var __awtsmoosModule_655;
+var __awtsmoosModule_650;
+var __awtsmoosModule_649;
 var __awtsmoosModule_656;
 var __awtsmoosModule_657;
+var __awtsmoosModule_647;
+var __awtsmoosModule_646;
+var __awtsmoosModule_624;
+var __awtsmoosModule_623;
 var __awtsmoosModule_658;
-var __awtsmoosModule_600;
-var __awtsmoosModule_663;
+var __awtsmoosModule_622;
+var __awtsmoosModule_659;
+var __awtsmoosModule_621;
 var __awtsmoosModule_662;
-var __awtsmoosModule_664;
 var __awtsmoosModule_661;
+var __awtsmoosModule_663;
 var __awtsmoosModule_660;
-var __awtsmoosModule_668;
 var __awtsmoosModule_669;
+var __awtsmoosModule_668;
 var __awtsmoosModule_667;
 var __awtsmoosModule_666;
 var __awtsmoosModule_670;
-var __awtsmoosModule_665;
-var __awtsmoosModule_659;
-var __awtsmoosModule_673;
+var __awtsmoosModule_671;
 var __awtsmoosModule_672;
-var __awtsmoosModule_676;
+var __awtsmoosModule_665;
+var __awtsmoosModule_674;
+var __awtsmoosModule_673;
+var __awtsmoosModule_664;
 var __awtsmoosModule_675;
+var __awtsmoosModule_676;
 var __awtsmoosModule_677;
 var __awtsmoosModule_678;
-var __awtsmoosModule_674;
-var __awtsmoosModule_679;
-var __awtsmoosModule_681;
-var __awtsmoosModule_682;
-var __awtsmoosModule_680;
-var __awtsmoosModule_671;
+var __awtsmoosModule_620;
 var __awtsmoosModule_683;
-var __awtsmoosModule_559;
-var __awtsmoosModule_558;
+var __awtsmoosModule_682;
+var __awtsmoosModule_684;
+var __awtsmoosModule_681;
+var __awtsmoosModule_680;
+var __awtsmoosModule_688;
+var __awtsmoosModule_689;
+var __awtsmoosModule_687;
+var __awtsmoosModule_686;
+var __awtsmoosModule_690;
+var __awtsmoosModule_685;
+var __awtsmoosModule_679;
+var __awtsmoosModule_693;
+var __awtsmoosModule_692;
+var __awtsmoosModule_696;
+var __awtsmoosModule_695;
+var __awtsmoosModule_697;
+var __awtsmoosModule_698;
+var __awtsmoosModule_694;
+var __awtsmoosModule_699;
+var __awtsmoosModule_701;
+var __awtsmoosModule_702;
+var __awtsmoosModule_700;
+var __awtsmoosModule_691;
+var __awtsmoosModule_703;
+var __awtsmoosModule_579;
+var __awtsmoosModule_578;
 var __awtsmoosModule_1;
 var __awtsmoosModule_0;
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/expansion/ExpansionCatalog.js */
@@ -2763,7 +2783,7 @@ function resetTreeToBase(root) {
 
 
 __exports.resetTreeToBase = resetTreeToBase;
-const __awtsmoosDefault_1w2urep = {
+const __awtsmoosDefault_1iyzrvv = {
 	Bone,
 	BufferAttribute,
 	BufferGeometry,
@@ -2776,7 +2796,7 @@ const __awtsmoosDefault_1w2urep = {
 	Scene,
 	Vector3
 };
-__exports.default = __awtsmoosDefault_1w2urep;
+__exports.default = __awtsmoosDefault_1iyzrvv;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzFallbackBoxMesh.js */
@@ -14505,6 +14525,243 @@ function failed(error, stage, method = 'none') {
 }
 return Object.freeze(__exports);
 })();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicImageFetchDependencies.js */
+__awtsmoosModule_187 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PublicImageFetchDependencies.js
+ * @description Normalizes abort, cache, fetch, and clock dependencies for image transport.
+ * The Awtsmoos gives every outer vessel one explicit measured shape;
+ * Awtsmoos.com keeps browser globals replaceable so tests and recovery can escape.
+ */
+
+function createPublicImageAbortController(dependencies = {}) {
+	const Controller = Object.hasOwn(dependencies, 'AbortControllerClass')
+		? dependencies.AbortControllerClass
+		: globalThis.AbortController;
+	return Controller ? new Controller() : null;
+}
+
+
+__exports.createPublicImageAbortController = createPublicImageAbortController;
+function publicImageCacheOptions(controller, attempt, dependencies = {}) {
+	return {
+		bypassCircuit: attempt > 0,
+		cacheName: dependencies.cacheName,
+		cacheStorage: dependencies.cacheStorage,
+		circuitCooldownMs: dependencies.circuitCooldownMs,
+		fetchFunction: dependencies.fetchFunction,
+		now: dependencies.now,
+		signal: controller?.signal
+	};
+}
+
+
+__exports.publicImageCacheOptions = publicImageCacheOptions;
+function publicImageNetworkRequestOptions(options = {}) {
+	return {
+		cache: 'force-cache',
+		credentials: 'omit',
+		mode: 'cors',
+		signal: options.signal
+	};
+}
+
+
+__exports.publicImageNetworkRequestOptions = publicImageNetworkRequestOptions;
+function publicImageCacheStorage(options = {}) {
+	return Object.hasOwn(options, 'cacheStorage')
+		? options.cacheStorage
+		: globalThis.caches;
+}
+
+__exports.publicImageCacheStorage = publicImageCacheStorage;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicImageResponseClone.js */
+__awtsmoosModule_189 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PublicImageResponseClone.js
+ * @description Clones browser Responses while accepting immutable Response-like adapters.
+ * The Awtsmoos gives each consumer its own stream where streams can divide;
+ * Awtsmoos.com also welcomes simple test vessels whose bodies already safely abide.
+ */
+
+function clonePublicImageResponse(response) {
+	if (typeof response?.clone === 'function') return response.clone();
+	return response;
+}
+
+__exports.clonePublicImageResponse = clonePublicImageResponse;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicImageRetryPolicy.js */
+__awtsmoosModule_190 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PublicImageRetryPolicy.js
+ * @description Bounds remote-image retries while honoring server rate-limit guidance.
+ * The Awtsmoos renews each distant color without a frantic repeated plea;
+ * Awtsmoos.com hears Retry-After, pauses with measure, and keeps the visible world free.
+ */
+
+const RETRYABLE_STATUSES = new Set([408, 425, 429, 500, 502, 503, 504]);
+const DEFAULT_BASE_DELAY_MS = 250;
+const DEFAULT_MAX_DELAY_MS = 1500;
+const DEFAULT_CIRCUIT_MS = 5000;
+const MAX_CIRCUIT_MS = 30000;
+
+function isRetryableImageStatus(status) {
+	return RETRYABLE_STATUSES.has(Number(status));
+}
+
+
+__exports.isRetryableImageStatus = isRetryableImageStatus;
+function imageRetryDelayMs(response, attempt = 0, options = {}) {
+	const headerDelay = retryAfterHeaderMs(response, options);
+	const baseDelay = finiteNumber(options.baseDelayMs, DEFAULT_BASE_DELAY_MS);
+	const maximum = finiteNumber(options.maxDelayMs, DEFAULT_MAX_DELAY_MS);
+	const exponential = baseDelay * (2 ** Math.max(0, Number(attempt) || 0));
+	return Math.max(0, Math.min(maximum, headerDelay ?? exponential));
+}
+
+
+__exports.imageRetryDelayMs = imageRetryDelayMs;
+function imageCircuitCooldownMs(response, options = {}) {
+	const headerDelay = retryAfterHeaderMs(response, options);
+	const fallback = finiteNumber(options.circuitCooldownMs, DEFAULT_CIRCUIT_MS);
+	return Math.max(0, Math.min(MAX_CIRCUIT_MS, headerDelay ?? fallback));
+}
+
+
+__exports.imageCircuitCooldownMs = imageCircuitCooldownMs;
+async function waitForImageRetry(delayMs, options = {}) {
+	if (delayMs <= 0) return;
+	if (typeof options.sleep === 'function') {
+		await options.sleep(delayMs);
+		return;
+	}
+	await new Promise(resolve => setTimeout(resolve, delayMs));
+}
+
+
+__exports.waitForImageRetry = waitForImageRetry;
+function retryAfterHeaderMs(response, options = {}) {
+	const value = response?.headers?.get?.('retry-after');
+	if (!value) return null;
+	const seconds = Number(value);
+	if (Number.isFinite(seconds)) return Math.max(0, seconds * 1000);
+	const now = typeof options.now === 'function' ? options.now() : Date.now();
+	const date = Date.parse(value);
+	return Number.isFinite(date) ? Math.max(0, date - now) : null;
+}
+
+
+__exports.retryAfterHeaderMs = retryAfterHeaderMs;
+function publicImageRetryPolicyEvidence() {
+	return Object.freeze({
+		baseDelayMs: DEFAULT_BASE_DELAY_MS,
+		circuitCooldownMs: DEFAULT_CIRCUIT_MS,
+		maxCircuitMs: MAX_CIRCUIT_MS,
+		maxDelayMs: DEFAULT_MAX_DELAY_MS,
+		retryableStatuses: Object.freeze([...RETRYABLE_STATUSES])
+	});
+}
+
+
+__exports.publicImageRetryPolicyEvidence = publicImageRetryPolicyEvidence;
+function finiteNumber(value, fallback) {
+	const number = Number(value);
+	return Number.isFinite(number) ? number : fallback;
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicImageRateLimitCircuit.js */
+__awtsmoosModule_188 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PublicImageRateLimitCircuit.js
+ * @description Remembers retryable image responses for a bounded, inspectable cooldown.
+ * The Awtsmoos keeps the guarded gate known while procedural color remains bright;
+ * Awtsmoos.com avoids repeated knocks until the server reopens the light.
+ */
+
+var clonePublicImageResponse = __awtsmoosModule_189.clonePublicImageResponse;
+var imageCircuitCooldownMs = __awtsmoosModule_190.imageCircuitCooldownMs;
+
+const circuitByUrl = new Map();
+
+function activePublicImageCircuit(url, options = {}) {
+	const entry = circuitByUrl.get(url);
+	if (!entry) return null;
+	if (entry.until > currentTime(options)) {
+		return {
+			response: clonePublicImageResponse(entry.response),
+			retryAfterMs: entry.until - currentTime(options)
+		};
+	}
+	circuitByUrl.delete(url);
+	return null;
+}
+
+
+__exports.activePublicImageCircuit = activePublicImageCircuit;
+function publicImageCircuitIsOpen(url, options = {}) {
+	return Boolean(activePublicImageCircuit(url, options));
+}
+
+
+__exports.publicImageCircuitIsOpen = publicImageCircuitIsOpen;
+function rememberPublicImageCircuit(url, response, options = {}) {
+	circuitByUrl.set(url, {
+		response: clonePublicImageResponse(response),
+		until: currentTime(options) + imageCircuitCooldownMs(response, options)
+	});
+}
+
+
+__exports.rememberPublicImageCircuit = rememberPublicImageCircuit;
+function clearPublicImageCircuit(url) {
+	if (url) {
+		circuitByUrl.delete(url);
+		return;
+	}
+	circuitByUrl.clear();
+}
+
+
+__exports.clearPublicImageCircuit = clearPublicImageCircuit;
+function publicImageCircuitStats(options = {}) {
+	const timestamp = currentTime(options);
+	return {
+		open: [...circuitByUrl.values()].filter(entry => entry.until > timestamp).length
+	};
+}
+
+
+__exports.publicImageCircuitStats = publicImageCircuitStats;
+function currentTime(options) {
+	return typeof options.now === 'function' ? options.now() : Date.now();
+}
+return Object.freeze(__exports);
+})();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicImageResponseCache.js */
 __awtsmoosModule_186 = (() => {
 const __exports = {};
@@ -14514,43 +14771,50 @@ const __exports = {};
 
 /**
  * @file PublicImageResponseCache.js
- * @description Persists verified remote image responses beneath decoded-image memory caches.
- * The Awtsmoos sends one distant garment and lets the browser remember its bytes;
- * Awtsmoos.com avoids copied repository pixels while repeated visits reuse cached light.
+ * @description Deduplicates verified image fetches while Cache Storage preserves good bytes.
+ * The Awtsmoos lets one distant response become enough for every waiting eye;
+ * Awtsmoos.com shares one request and gives each consumer an untouched reply.
  */
+
+var publicImageCacheStorage = __awtsmoosModule_187.publicImageCacheStorage;
+var publicImageNetworkRequestOptions = __awtsmoosModule_187.publicImageNetworkRequestOptions;
+var activePublicImageCircuit = __awtsmoosModule_188.activePublicImageCircuit;
+var clearPublicImageCircuit = __awtsmoosModule_188.clearPublicImageCircuit;
+var publicImageCircuitStats = __awtsmoosModule_188.publicImageCircuitStats;
+var rememberPublicImageCircuit = __awtsmoosModule_188.rememberPublicImageCircuit;
+var clonePublicImageResponse = __awtsmoosModule_189.clonePublicImageResponse;
+var isRetryableImageStatus = __awtsmoosModule_190.isRetryableImageStatus;
+var retryAfterHeaderMs = __awtsmoosModule_190.retryAfterHeaderMs;
 
 const PUBLIC_IMAGE_CACHE_NAME = 'awtsmoos-mitzvah-world-remote-images-v1';
 __exports.PUBLIC_IMAGE_CACHE_NAME = PUBLIC_IMAGE_CACHE_NAME;
 
+const pendingByUrl = new Map();
 
-/**
- * Returns a cached response or fetches and stores one trusted remote image response.
- *
- * @param {string} url - Canonical remote texture URL.
- * @param {object} options - Fetch, Cache Storage, and abort dependencies.
- * @returns {Promise<{response: Response, source: string}>}
- */
 async function cachedImageResponse(url, options = {}) {
 	const fetchFunction = options.fetchFunction || globalThis.fetch;
 	if (typeof fetchFunction !== 'function') {
 		throw new Error('Remote image fetch is unavailable.');
 	}
-	const cacheStorage = Object.hasOwn(options, 'cacheStorage')
-		? options.cacheStorage
-		: globalThis.caches;
-	const cache = await openCache(cacheStorage, options.cacheName);
+	const cache = await openCache(publicImageCacheStorage(options), options.cacheName);
 	const cached = await cache?.match?.(url);
-	if (cached) return { response: cached, source: 'cache-storage' };
-	const response = await fetchFunction(url, {
-		cache: 'force-cache',
-		credentials: 'omit',
-		mode: 'cors',
-		signal: options.signal
-	});
-	if (response?.ok && isImageResponse(response)) {
-		await cache?.put?.(url, response.clone());
+	if (cached) return responseRecord(cached, 'cache-storage');
+	const circuit = activePublicImageCircuit(url, options);
+	if (circuit && options.bypassCircuit !== true) {
+		return responseRecord(circuit.response, 'rate-limit-circuit', {
+			circuitOpen: true,
+			retryAfterMs: circuit.retryAfterMs
+		});
 	}
-	return { response, source: 'network' };
+	const pending = pendingByUrl.get(url);
+	if (pending) return cloneRecord(await pending, 'network-shared');
+	const request = fetchAndRemember(url, fetchFunction, cache, options);
+	pendingByUrl.set(url, request);
+	try {
+		return cloneRecord(await request);
+	} finally {
+		if (pendingByUrl.get(url) === request) pendingByUrl.delete(url);
+	}
 }
 
 
@@ -14562,6 +14826,52 @@ function isImageResponse(response) {
 
 
 __exports.isImageResponse = isImageResponse;
+function clearPublicImageResponseState() {
+	pendingByUrl.clear();
+	clearPublicImageCircuit();
+}
+
+
+__exports.clearPublicImageResponseState = clearPublicImageResponseState;
+function publicImageResponseStats(options = {}) {
+	return {
+		circuits: publicImageCircuitStats(options).open,
+		pending: pendingByUrl.size
+	};
+}
+
+
+__exports.publicImageResponseStats = publicImageResponseStats;
+async function fetchAndRemember(url, fetchFunction, cache, options) {
+	const response = await fetchFunction(url, publicImageNetworkRequestOptions(options));
+	if (response?.ok && isImageResponse(response)) {
+		clearPublicImageCircuit(url);
+		await cache?.put?.(url, clonePublicImageResponse(response));
+	} else if (isRetryableImageStatus(response?.status)) {
+		rememberPublicImageCircuit(url, response, options);
+	}
+	return responseRecord(response, 'network', {
+		retryAfterMs: retryAfterHeaderMs(response, options) || 0
+	});
+}
+
+function responseRecord(response, source, evidence = {}) {
+	return {
+		circuitOpen: Boolean(evidence.circuitOpen),
+		response,
+		retryAfterMs: Math.max(0, evidence.retryAfterMs || 0),
+		source
+	};
+}
+
+function cloneRecord(record, source = record.source) {
+	return {
+		...record,
+		response: clonePublicImageResponse(record.response),
+		source
+	};
+}
+
 async function openCache(cacheStorage, cacheName = PUBLIC_IMAGE_CACHE_NAME) {
 	if (!cacheStorage || typeof cacheStorage.open !== 'function') return null;
 	try {
@@ -14569,6 +14879,102 @@ async function openCache(cacheStorage, cacheName = PUBLIC_IMAGE_CACHE_NAME) {
 	} catch {
 		return null;
 	}
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicImageFetchRecords.js */
+__awtsmoosModule_191 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PublicImageFetchRecords.js
+ * @description Builds serializable success, failure, and per-attempt image evidence.
+ * The Awtsmoos lets every distant success and fracture speak without disguise;
+ * Awtsmoos.com records retry, rate limit, method, stage, and status before our eyes.
+ */
+
+function publicImageFetchSuccess(record, attempts) {
+	return {
+		...record,
+		attempts,
+		rateLimited: wasRateLimited(attempts),
+		retries: retryCount(attempts)
+	};
+}
+
+
+__exports.publicImageFetchSuccess = publicImageFetchSuccess;
+function publicImageFetchFailure(record, attempts) {
+	return {
+		blob: null,
+		contentType: record.contentType || '',
+		error: record.error || 'network-error',
+		method: record.method || 'remote-cache-fetch',
+		ok: false,
+		attempts,
+		rateLimited: wasRateLimited(attempts),
+		retries: retryCount(attempts),
+		retryAfterMs: record.retryAfterMs || 0,
+		stage: record.stage || 'fetch',
+		status: record.status || 0
+	};
+}
+
+
+__exports.publicImageFetchFailure = publicImageFetchFailure;
+function publicImageAttemptEvidence(record = {}) {
+	return {
+		error: record.error || null,
+		method: record.method || 'none',
+		ok: Boolean(record.ok),
+		retryAfterMs: record.retryAfterMs || 0,
+		stage: record.stage || 'unknown',
+		status: record.status || 0
+	};
+}
+
+
+__exports.publicImageAttemptEvidence = publicImageAttemptEvidence;
+function publicImageNetworkFailure(error, controller) {
+	const aborted = error?.name === 'AbortError' || controller?.signal?.aborted;
+	return {
+		error: aborted ? 'timeout' : error?.message || 'network-error',
+		method: 'network',
+		ok: false,
+		retryAfterMs: 0,
+		retryable: !aborted,
+		stage: 'fetch',
+		status: 0
+	};
+}
+
+
+__exports.publicImageNetworkFailure = publicImageNetworkFailure;
+function publicImageTypedFailure(error, contentType, response, method) {
+	return {
+		contentType,
+		error,
+		method,
+		ok: false,
+		response,
+		retryAfterMs: 0,
+		retryable: false,
+		stage: error === 'empty-image-blob' ? 'blob' : 'content-type',
+		status: response.status
+	};
+}
+
+
+__exports.publicImageTypedFailure = publicImageTypedFailure;
+function retryCount(attempts) {
+	return Math.max(0, attempts.length - 1);
+}
+
+function wasRateLimited(attempts) {
+	return attempts.some(attempt => attempt.status === 429);
 }
 return Object.freeze(__exports);
 })();
@@ -14581,62 +14987,42 @@ const __exports = {};
 
 /**
  * @file PublicImageFetch.js
- * @description Fetches one canonical remote image through durable browser caching.
- * The Awtsmoos gives every distant byte a truthful doorway;
- * Awtsmoos.com reuses cached light while naming HTTP, type, timeout, and network failure.
+ * @description Fetches one canonical image with cache reuse and one bounded retry doorway.
+ * The Awtsmoos gives every distant byte a truthful and patient way;
+ * Awtsmoos.com retries with measure while cached or procedural light may stay.
  */
 
 var cachedImageResponse = __awtsmoosModule_186.cachedImageResponse;
 var isImageResponse = __awtsmoosModule_186.isImageResponse;
+var createPublicImageAbortController = __awtsmoosModule_187.createPublicImageAbortController;
+var publicImageCacheOptions = __awtsmoosModule_187.publicImageCacheOptions;
+var publicImageAttemptEvidence = __awtsmoosModule_191.publicImageAttemptEvidence;
+var publicImageFetchFailure = __awtsmoosModule_191.publicImageFetchFailure;
+var publicImageFetchSuccess = __awtsmoosModule_191.publicImageFetchSuccess;
+var publicImageNetworkFailure = __awtsmoosModule_191.publicImageNetworkFailure;
+var publicImageTypedFailure = __awtsmoosModule_191.publicImageTypedFailure;
+var imageRetryDelayMs = __awtsmoosModule_190.imageRetryDelayMs;
+var isRetryableImageStatus = __awtsmoosModule_190.isRetryableImageStatus;
+var waitForImageRetry = __awtsmoosModule_190.waitForImageRetry;
 
 async function fetchPublicImageBlob(url, timeoutMs = 30000, dependencies = {}) {
-	const Controller = Object.hasOwn(dependencies, 'AbortControllerClass')
-		? dependencies.AbortControllerClass
-		: globalThis.AbortController;
-	const controller = Controller ? new Controller() : null;
+	const controller = createPublicImageAbortController(dependencies);
 	const timer = setTimeout(() => controller?.abort(), timeoutMs);
+	const attempts = [];
+	const maximumRetries = Math.max(0, Number(dependencies.maxRetries ?? 1) || 0);
 	try {
-		const result = await cachedImageResponse(url, {
-			cacheName: dependencies.cacheName,
-			cacheStorage: dependencies.cacheStorage,
-			fetchFunction: dependencies.fetchFunction,
-			signal: controller?.signal
-		});
-		const response = result.response;
-		const contentType = response?.headers?.get?.('content-type') || '';
-		if (!response?.ok) {
-			return failed(`http-${response?.status || 0}`, 'http', {
-				contentType,
-				status: response?.status || 0
-			});
+		for (let attempt = 0; attempt <= maximumRetries; attempt += 1) {
+			const record = await requestAttempt(url, controller, attempt, dependencies)
+				.catch(error => publicImageNetworkFailure(error, controller));
+			attempts.push(publicImageAttemptEvidence(record));
+			if (record.ok) return publicImageFetchSuccess(record, attempts);
+			if (!record.retryable || attempt >= maximumRetries) {
+				return publicImageFetchFailure(record, attempts);
+			}
+			const delayMs = imageRetryDelayMs(record.response, attempt, dependencies);
+			await waitForImageRetry(delayMs, dependencies);
 		}
-		if (!isImageResponse(response)) {
-			return failed('non-image-content-type', 'content-type', {
-				contentType,
-				status: response.status
-			});
-		}
-		const blob = await response.blob();
-		if (!blob?.size) {
-			return failed('empty-image-blob', 'blob', {
-				contentType,
-				status: response.status
-			});
-		}
-		return {
-			blob,
-			contentType,
-			error: null,
-			method: result.source,
-			ok: true,
-			stage: 'fetched',
-			status: response.status
-		};
-	} catch (error) {
-		const aborted = error?.name === 'AbortError' || controller?.signal?.aborted;
-		return failed(aborted ? 'timeout' : error?.message || 'network-error', 'fetch', {
-			status: 0
-		});
+		return publicImageFetchFailure({ error: 'retry-budget-exhausted' }, attempts);
 	} finally {
 		clearTimeout(timer);
 	}
@@ -14644,17 +15030,164 @@ async function fetchPublicImageBlob(url, timeoutMs = 30000, dependencies = {}) {
 
 
 __exports.fetchPublicImageBlob = fetchPublicImageBlob;
-function failed(error, stage, evidence = {}) {
+async function requestAttempt(url, controller, attempt, dependencies) {
+	const result = await cachedImageResponse(
+		url,
+		publicImageCacheOptions(controller, attempt, dependencies)
+	);
+	const response = result.response;
+	const contentType = response?.headers?.get?.('content-type') || '';
+	if (!response?.ok) return httpFailure(response, contentType, result);
+	if (!isImageResponse(response)) {
+		return publicImageTypedFailure(
+			'non-image-content-type',
+			contentType,
+			response,
+			result.source
+		);
+	}
+	const blob = await response.blob();
+	if (!blob?.size) {
+		return publicImageTypedFailure(
+			'empty-image-blob',
+			contentType,
+			response,
+			result.source
+		);
+	}
+	return successAttempt(blob, contentType, response, result.source);
+}
+
+function httpFailure(response, contentType, result) {
 	return {
-		blob: null,
-		contentType: evidence.contentType || '',
-		error,
-		method: 'remote-cache-fetch',
+		contentType,
+		error: `http-${response?.status || 0}`,
+		method: result.source,
 		ok: false,
-		stage,
-		status: evidence.status || 0
+		response,
+		retryAfterMs: result.retryAfterMs,
+		retryable: !result.circuitOpen && isRetryableImageStatus(response?.status),
+		stage: 'http',
+		status: response?.status || 0
 	};
 }
+
+function successAttempt(blob, contentType, response, method) {
+	return {
+		blob,
+		contentType,
+		error: null,
+		method,
+		ok: true,
+		response,
+		retryAfterMs: 0,
+		retryable: false,
+		stage: 'fetched',
+		status: response.status
+	};
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicMaterialImageRecords.js */
+__awtsmoosModule_192 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PublicMaterialImageRecords.js
+ * @description Builds durable image-decoding receipts with retry and rate-limit provenance.
+ * The Awtsmoos lets every texture doorway confess what it tried and knew;
+ * Awtsmoos.com preserves cache, retry, timing, dimensions, and failure in view.
+ */
+
+function serializableImageRecord(record) {
+	return {
+		attempts: (record.attempts || []).map(attempt => ({ ...attempt })),
+		contentType: record.contentType || '',
+		durationMs: record.durationMs,
+		error: record.error || null,
+		fromCache: Boolean(record.fromCache),
+		height: record.height,
+		method: record.method || null,
+		ok: record.ok,
+		rateLimited: Boolean(record.rateLimited),
+		retries: record.retries || 0,
+		retryAfterMs: record.retryAfterMs || 0,
+		stage: record.stage || null,
+		status: record.status || 0,
+		url: record.url,
+		width: record.width
+	};
+}
+
+
+__exports.serializableImageRecord = serializableImageRecord;
+function materialImageSuccess(values) {
+	const { attempts, decoded, fetched, startedAt, url } = values;
+	return {
+		attempts,
+		contentType: fetched?.contentType || '',
+		durationMs: Math.round(values.now() - startedAt),
+		error: null,
+		fromCache: fetched?.method === 'cache-storage',
+		height: decoded.height,
+		image: decoded.image,
+		method: decoded.method,
+		ok: true,
+		rateLimited: Boolean(fetched?.rateLimited),
+		retries: fetched?.retries || 0,
+		retryAfterMs: fetched?.retryAfterMs || 0,
+		stage: 'decoded',
+		status: fetched?.status || 200,
+		url,
+		width: decoded.width
+	};
+}
+
+
+__exports.materialImageSuccess = materialImageSuccess;
+function materialImageFailure(values) {
+	const { attempts, direct, fetched, startedAt, url } = values;
+	const final = attempts.at(-1) || {};
+	return {
+		attempts,
+		contentType: fetched?.contentType || '',
+		durationMs: Math.round(values.now() - startedAt),
+		error: final.error || direct.error || fetched?.error || 'image-load-failed',
+		fromCache: false,
+		height: 0,
+		image: null,
+		method: final.method || 'none',
+		ok: false,
+		rateLimited: Boolean(fetched?.rateLimited),
+		retries: fetched?.retries || 0,
+		retryAfterMs: fetched?.retryAfterMs || 0,
+		stage: final.stage || 'unknown',
+		status: fetched?.status || 0,
+		url,
+		width: 0
+	};
+}
+
+
+__exports.materialImageFailure = materialImageFailure;
+function materialImageAttempt(record = {}) {
+	return {
+		contentType: record.contentType || '',
+		error: record.error || null,
+		method: record.method || 'none',
+		ok: Boolean(record.ok),
+		rateLimited: Boolean(record.rateLimited),
+		retries: record.retries || 0,
+		retryAfterMs: record.retryAfterMs || 0,
+		stage: record.stage || 'unknown',
+		status: record.status || 0
+	};
+}
+
+__exports.materialImageAttempt = materialImageAttempt;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicMaterialImageLoader.js */
@@ -14666,25 +15199,32 @@ const __exports = {};
 
 /**
  * @file PublicMaterialImageLoader.js
- * @description Decodes canonical material URLs immediately, with fetched-blob fallback.
- * The Awtsmoos clothes the village through the shortest truthful doorway; Awtsmoos.com
- * avoids blocking visible cottages behind a network fetch while retaining typed fallback evidence.
+ * @description Decodes canonical material URLs while respecting an open rate-limit circuit.
+ * The Awtsmoos clothes the village through a truthful measured door;
+ * Awtsmoos.com skips repeated knocks while cached and procedural colors endure.
  */
 
 var decodePublicImageBlob = __awtsmoosModule_183.decodePublicImageBlob;
 var decodePublicImageUrl = __awtsmoosModule_183.decodePublicImageUrl;
 var fetchPublicImageBlob = __awtsmoosModule_185.fetchPublicImageBlob;
+var publicImageCircuitIsOpen = __awtsmoosModule_188.publicImageCircuitIsOpen;
+var materialImageAttempt = __awtsmoosModule_192.materialImageAttempt;
+var materialImageFailure = __awtsmoosModule_192.materialImageFailure;
+var materialImageSuccess = __awtsmoosModule_192.materialImageSuccess;
+
+__exports.serializableImageRecord = __awtsmoosModule_192.serializableImageRecord;
 
 async function loadPublicMaterialImage(url, timeoutMs = 30000, dependencies = {}) {
-	const startedAt = now(dependencies);
+	const startedAt = currentTime(dependencies);
 	const attempts = [];
-	const direct = await decodePublicImageUrl(url, timeoutMs, dependencies);
-	attempts.push(attemptEvidence(direct));
-	if (direct.ok) {
-		return successRecord(url, direct, null, attempts, startedAt, dependencies);
-	}
+	const circuitOpen = publicImageCircuitIsOpen(url, dependencies);
+	const direct = circuitOpen
+		? skippedDirectRecord()
+		: await decodePublicImageUrl(url, timeoutMs, dependencies);
+	attempts.push(materialImageAttempt(direct));
+	if (direct.ok) return success(url, direct, null, attempts, startedAt, dependencies);
 	const fetched = await fetchPublicImageBlob(url, timeoutMs, dependencies);
-	attempts.push(attemptEvidence(fetched));
+	attempts.push(materialImageAttempt(fetched));
 	if (fetched.ok) {
 		const decoded = await decodePublicImageBlob(
 			url,
@@ -14692,82 +15232,50 @@ async function loadPublicMaterialImage(url, timeoutMs = 30000, dependencies = {}
 			timeoutMs,
 			dependencies
 		);
-		attempts.push(attemptEvidence(decoded));
+		attempts.push(materialImageAttempt(decoded));
 		if (decoded.ok) {
-			return successRecord(url, decoded, fetched, attempts, startedAt, dependencies);
+			return success(url, decoded, fetched, attempts, startedAt, dependencies);
 		}
 	}
-	return failureRecord(url, direct, fetched, attempts, startedAt, dependencies);
+	return failure(url, direct, fetched, attempts, startedAt, dependencies);
 }
 
 
 __exports.loadPublicMaterialImage = loadPublicMaterialImage;
-function serializableImageRecord(record) {
-	return {
-		attempts: (record.attempts || []).map(attempt => ({ ...attempt })),
-		contentType: record.contentType || '',
-		durationMs: record.durationMs,
-		error: record.error || null,
-		fromCache: Boolean(record.fromCache),
-		height: record.height,
-		method: record.method || null,
-		ok: record.ok,
-		stage: record.stage || null,
-		status: record.status || 0,
-		url: record.url,
-		width: record.width
-	};
+function success(url, decoded, fetched, attempts, startedAt, dependencies) {
+	return materialImageSuccess({
+		attempts,
+		decoded,
+		fetched,
+		now: () => currentTime(dependencies),
+		startedAt,
+		url
+	});
 }
 
-
-__exports.serializableImageRecord = serializableImageRecord;
-function successRecord(url, decoded, fetched, attempts, startedAt, dependencies) {
-	return {
+function failure(url, direct, fetched, attempts, startedAt, dependencies) {
+	return materialImageFailure({
 		attempts,
-		contentType: fetched?.contentType || '',
-		durationMs: Math.round(now(dependencies) - startedAt),
-		error: null,
-		height: decoded.height,
-		image: decoded.image,
-		method: decoded.method,
-		ok: true,
-		stage: 'decoded',
-		status: fetched?.status || 200,
-		url,
-		width: decoded.width
-	};
+		direct,
+		fetched,
+		now: () => currentTime(dependencies),
+		startedAt,
+		url
+	});
 }
 
-function failureRecord(url, direct, fetched, attempts, startedAt, dependencies) {
-	const final = attempts.at(-1) || {};
+function skippedDirectRecord() {
 	return {
-		attempts,
-		contentType: fetched?.contentType || '',
-		durationMs: Math.round(now(dependencies) - startedAt),
-		error: final.error || direct.error || fetched?.error || 'image-load-failed',
-		height: 0,
-		image: null,
-		method: final.method || 'none',
+		error: 'rate-limit-circuit-open',
+		method: 'direct-image-url-skipped-circuit',
 		ok: false,
-		stage: final.stage || 'unknown',
-		status: fetched?.status || 0,
-		url,
-		width: 0
+		rateLimited: true,
+		stage: 'circuit',
+		status: 429
 	};
 }
 
-function attemptEvidence(record = {}) {
-	return {
-		contentType: record.contentType || '',
-		error: record.error || null,
-		method: record.method || 'none',
-		ok: Boolean(record.ok),
-		stage: record.stage || 'unknown',
-		status: record.status || 0
-	};
-}
-
-function now(dependencies) {
+function currentTime(dependencies) {
 	return dependencies.now?.()
 		?? globalThis.performance?.now?.()
 		?? Date.now();
@@ -14775,7 +15283,7 @@ function now(dependencies) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/SceneMaterialPriority.js */
-__awtsmoosModule_187 = (() => {
+__awtsmoosModule_193 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -14856,7 +15364,7 @@ var CRITICAL_RUNTIME_MATERIALS = __awtsmoosModule_174.CRITICAL_RUNTIME_MATERIALS
 var RUNTIME_MATERIALS = __awtsmoosModule_174.RUNTIME_MATERIALS;
 var loadPublicMaterialImage = __awtsmoosModule_182.loadPublicMaterialImage;
 var serializableImageRecord = __awtsmoosModule_182.serializableImageRecord;
-var isSceneMaterialUrl = __awtsmoosModule_187.isSceneMaterialUrl;
+var isSceneMaterialUrl = __awtsmoosModule_193.isSceneMaterialUrl;
 
 const SCENE_MATERIAL_HYDRATION_URL_LIMIT = 2;
 __exports.SCENE_MATERIAL_HYDRATION_URL_LIMIT = SCENE_MATERIAL_HYDRATION_URL_LIMIT;
@@ -15219,7 +15727,7 @@ function imageEvidence(url, image) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/DetailTextureFamilies.js */
-__awtsmoosModule_190 = (() => {
+__awtsmoosModule_196 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -15274,7 +15782,7 @@ __exports.DETAIL_TEXTURE_FAMILIES = DETAIL_TEXTURE_FAMILIES;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/SurfaceTextureFamilies.js */
-__awtsmoosModule_191 = (() => {
+__awtsmoosModule_197 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -15354,7 +15862,7 @@ __exports.SURFACE_TEXTURE_FAMILIES = SURFACE_TEXTURE_FAMILIES;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureFamilies.js */
-__awtsmoosModule_189 = (() => {
+__awtsmoosModule_195 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -15365,8 +15873,8 @@ const __exports = {};
  * @description Joins broad surfaces and delicate details into one stable
  * compatibility map, many material vessels held within the unity of Awtsmoos.
  */
-var DETAIL_TEXTURE_FAMILIES = __awtsmoosModule_190.DETAIL_TEXTURE_FAMILIES;
-var SURFACE_TEXTURE_FAMILIES = __awtsmoosModule_191.SURFACE_TEXTURE_FAMILIES;
+var DETAIL_TEXTURE_FAMILIES = __awtsmoosModule_196.DETAIL_TEXTURE_FAMILIES;
+var SURFACE_TEXTURE_FAMILIES = __awtsmoosModule_197.SURFACE_TEXTURE_FAMILIES;
 
 const TEXTURE_URLS = Object.freeze({
 	...SURFACE_TEXTURE_FAMILIES,
@@ -15376,7 +15884,7 @@ __exports.TEXTURE_URLS = TEXTURE_URLS;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureArchitectureNames.js */
-__awtsmoosModule_194 = (() => {
+__awtsmoosModule_200 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -15428,7 +15936,7 @@ __exports.REMOTE_ARCHITECTURE_TEXTURE_FILENAMES = REMOTE_ARCHITECTURE_TEXTURE_FI
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureCraftNames.js */
-__awtsmoosModule_195 = (() => {
+__awtsmoosModule_201 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -15471,7 +15979,7 @@ __exports.REMOTE_CRAFT_TEXTURE_FILENAMES = REMOTE_CRAFT_TEXTURE_FILENAMES;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureGroundNames.js */
-__awtsmoosModule_196 = (() => {
+__awtsmoosModule_202 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -15525,7 +16033,7 @@ __exports.REMOTE_GROUND_TEXTURE_FILENAMES = REMOTE_GROUND_TEXTURE_FILENAMES;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureTreeNames.js */
-__awtsmoosModule_197 = (() => {
+__awtsmoosModule_203 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -15577,7 +16085,7 @@ __exports.REMOTE_TREE_TEXTURE_FILENAMES = REMOTE_TREE_TEXTURE_FILENAMES;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureCatalog.js */
-__awtsmoosModule_193 = (() => {
+__awtsmoosModule_199 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -15590,10 +16098,10 @@ const __exports = {};
  * keeps one catalog of garments while the remote road remains sealed in its appointed frame.
  */
 
-var REMOTE_ARCHITECTURE_TEXTURE_FILENAMES = __awtsmoosModule_194.REMOTE_ARCHITECTURE_TEXTURE_FILENAMES;
-var REMOTE_CRAFT_TEXTURE_FILENAMES = __awtsmoosModule_195.REMOTE_CRAFT_TEXTURE_FILENAMES;
-var REMOTE_GROUND_TEXTURE_FILENAMES = __awtsmoosModule_196.REMOTE_GROUND_TEXTURE_FILENAMES;
-var REMOTE_TREE_TEXTURE_FILENAMES = __awtsmoosModule_197.REMOTE_TREE_TEXTURE_FILENAMES;
+var REMOTE_ARCHITECTURE_TEXTURE_FILENAMES = __awtsmoosModule_200.REMOTE_ARCHITECTURE_TEXTURE_FILENAMES;
+var REMOTE_CRAFT_TEXTURE_FILENAMES = __awtsmoosModule_201.REMOTE_CRAFT_TEXTURE_FILENAMES;
+var REMOTE_GROUND_TEXTURE_FILENAMES = __awtsmoosModule_202.REMOTE_GROUND_TEXTURE_FILENAMES;
+var REMOTE_TREE_TEXTURE_FILENAMES = __awtsmoosModule_203.REMOTE_TREE_TEXTURE_FILENAMES;
 var fullResolutionTextureUrl = __awtsmoosModule_179.fullResolutionTextureUrl;
 var treeTextureUrl = __awtsmoosModule_179.treeTextureUrl;
 
@@ -15646,7 +16154,7 @@ function assertFilename(filename, names) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/WorldMaterialPresets.js */
-__awtsmoosModule_192 = (() => {
+__awtsmoosModule_198 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -15659,8 +16167,8 @@ const __exports = {};
  * Awtsmoos.com keeps startup hydration on the new source instead of an obsolete external host.
  */
 
-var remoteTreeTextureUrl = __awtsmoosModule_193.remoteTreeTextureUrl;
-var TEXTURE_URLS = __awtsmoosModule_189.TEXTURE_URLS;
+var remoteTreeTextureUrl = __awtsmoosModule_199.remoteTreeTextureUrl;
+var TEXTURE_URLS = __awtsmoosModule_195.TEXTURE_URLS;
 
 const freeze = value => Object.freeze(value);
 const tree = remoteTreeTextureUrl;
@@ -15740,7 +16248,7 @@ __exports.TEXTURE_PURPOSES = TEXTURE_PURPOSES;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureCatalog.js */
-__awtsmoosModule_188 = (() => {
+__awtsmoosModule_194 = (() => {
 const __exports = {};
 //B"H
 //Boruch Hashem
@@ -15756,9 +16264,9 @@ const __exports = {};
 var PUBLIC_MATERIAL_ORIGIN = __awtsmoosModule_178.PUBLIC_MATERIAL_ORIGIN;
 var fullMaterialUrl = __awtsmoosModule_175.fullMaterialUrl;
 var halfMaterialUrl = __awtsmoosModule_175.halfMaterialUrl;
-var TEXTURE_URLS = __awtsmoosModule_189.TEXTURE_URLS;
-var TEXTURE_PURPOSES = __awtsmoosModule_192.TEXTURE_PURPOSES;
-var WORLD_MATERIAL_PRESETS = __awtsmoosModule_192.WORLD_MATERIAL_PRESETS;
+var TEXTURE_URLS = __awtsmoosModule_195.TEXTURE_URLS;
+var TEXTURE_PURPOSES = __awtsmoosModule_198.TEXTURE_PURPOSES;
+var WORLD_MATERIAL_PRESETS = __awtsmoosModule_198.WORLD_MATERIAL_PRESETS;
 
 const TEXTURE_ORIGIN = PUBLIC_MATERIAL_ORIGIN;
 __exports.TEXTURE_ORIGIN = TEXTURE_ORIGIN;
@@ -15790,8 +16298,2612 @@ function publicTextureUrls() {
 __exports.publicTextureUrls = publicTextureUrls;
 return Object.freeze(__exports);
 })();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/LiveTerrainSampler.js */
+__awtsmoosModule_207 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file LiveTerrainSampler.js
+ * @description Adapts the rendered meadow's numeric terrain height into a slope-aware nature sample.
+ * The Awtsmoos measures four neighboring breaths before root and stone receive their place;
+ * Awtsmoos.com turns a bare height into grounded normal truth without guessing the valley's face.
+ */
+
+const SAMPLE_SPAN = 0.75;
+
+/** Creates the object sampler consumed by deterministic real-nature placement. */
+function createLiveTerrainSampler(terrain) {
+	if (typeof terrain?.heightAt !== 'function') {
+		throw new TypeError('Live terrain must expose heightAt(x, z).');
+	}
+	return Object.freeze({
+		heightAt(x, z) {
+			const y = finiteHeight(terrain.heightAt(x, z));
+			const left = finiteHeight(terrain.heightAt(x - SAMPLE_SPAN, z));
+			const right = finiteHeight(terrain.heightAt(x + SAMPLE_SPAN, z));
+			const back = finiteHeight(terrain.heightAt(x, z - SAMPLE_SPAN));
+			const front = finiteHeight(terrain.heightAt(x, z + SAMPLE_SPAN));
+			return Object.freeze({
+				normal: slopeNormal(left, right, back, front),
+				y
+			});
+		}
+	});
+}
+
+
+__exports.createLiveTerrainSampler = createLiveTerrainSampler;
+function slopeNormal(left, right, back, front) {
+	const x = left - right;
+	const y = SAMPLE_SPAN * 2;
+	const z = back - front;
+	const length = Math.hypot(x, y, z) || 1;
+	return Object.freeze({ x: x / length, y: y / length, z: z / length });
+}
+
+function finiteHeight(value) {
+	const height = Number(value);
+	return Number.isFinite(height) ? height : 0;
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/LiveRealNatureRuntime.js */
+__awtsmoosModule_206 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file LiveRealNatureRuntime.js
+ * @description Adapts the final diagnostics runtime into a mobile-safe real-nature context.
+ * The Awtsmoos leaves the broad world rich while five real vessels crown its living frame;
+ * Awtsmoos.com keeps pine, tree, flower, bush, and rock without letting clone cost consume the game.
+ */
+
+var Group = __awtsmoosModule_18.Group;
+var createLiveTerrainSampler = __awtsmoosModule_207.createLiveTerrainSampler;
+
+function currentLiveRuntime(environment = globalThis) {
+	return environment?.AwtsmoosDiagnostics?.runtime
+		|| environment?.AwtsmoosMitzvahWorld?.runtime
+		|| null;
+}
+
+
+__exports.currentLiveRuntime = currentLiveRuntime;
+/** Requires the fields directly observed on the final running meadow runtime. */
+function liveRuntimeReady(runtime) {
+	return Boolean(
+		runtime?.scene?.add
+		&& runtime?.scene?.traverse
+		&& runtime?.terrain?.heightAt
+		&& runtime?.renderer
+		&& runtime?.state
+		&& runtime?.frameScheduler
+	);
+}
+
+
+__exports.liveRuntimeReady = liveRuntimeReady;
+function createLiveNatureContext(runtime) {
+	const group = new Group();
+	group.name = 'AwtsmoosRealNatureLiveBridge';
+	runtime.scene.add(group);
+	return Object.freeze({
+		groundSampler: createLiveTerrainSampler(runtime.terrain),
+		group,
+		quality: 'low',
+		sourceQuality: runtime.qualityProfile?.quality || 'medium',
+		visibilityOrigin: () => liveVisibilityOrigin(runtime)
+	});
+}
+
+
+__exports.createLiveNatureContext = createLiveNatureContext;
+function attachLiveNatureRuntime(runtime, controller) {
+	runtime.realNature = controller;
+	if (!runtime.nature) runtime.nature = controller;
+}
+
+
+__exports.attachLiveNatureRuntime = attachLiveNatureRuntime;
+function detachLiveNatureRuntime(runtime, controller, group) {
+	if (runtime?.realNature === controller) delete runtime.realNature;
+	if (runtime?.nature === controller) delete runtime.nature;
+	group?.parent?.remove?.(group);
+}
+
+
+__exports.detachLiveNatureRuntime = detachLiveNatureRuntime;
+function liveVisibilityOrigin(runtime) {
+	if (finitePoint(runtime?.state)) return runtime.state;
+	if (finitePoint(runtime?.camera?.position)) return runtime.camera.position;
+	if (finitePoint(runtime?.model?.position)) return runtime.model.position;
+	return Object.freeze({ x: 0, y: 0, z: 0 });
+}
+
+function finitePoint(value) {
+	return Number.isFinite(Number(value?.x))
+		&& Number.isFinite(Number(value?.z));
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-accessors.js */
+__awtsmoosModule_213 = (() => {
+const __exports = {};
+// B"H
+var BufferAttribute = __awtsmoosModule_18.BufferAttribute;
+
+/** Accessors: the hidden letters of GLTF made exact before the body moves. */
+const COMPONENTS={5120:Int8Array,5121:Uint8Array,5122:Int16Array,5123:Uint16Array,5125:Uint32Array,5126:Float32Array};
+__exports.COMPONENTS = COMPONENTS;
+
+const TYPE_SIZES={SCALAR:1,VEC2:2,VEC3:3,VEC4:4,MAT2:4,MAT3:9,MAT4:16};
+__exports.TYPE_SIZES = TYPE_SIZES;
+
+function componentName(t){return ({5120:'BYTE',5121:'UNSIGNED_BYTE',5122:'SHORT',5123:'UNSIGNED_SHORT',5125:'UNSIGNED_INT',5126:'FLOAT'})[t]||String(t);}
+
+__exports.componentName = componentName;
+function normalizedScale(Ctor){if(Ctor===Int8Array)return 1/127;if(Ctor===Uint8Array)return 1/255;if(Ctor===Int16Array)return 1/32767;if(Ctor===Uint16Array)return 1/65535;return 1;}
+
+
+__exports.normalizedScale = normalizedScale;
+function scalar(view,off,Ctor){if(Ctor===Float32Array)return view.getFloat32(off,true);if(Ctor===Uint32Array)return view.getUint32(off,true);if(Ctor===Uint16Array)return view.getUint16(off,true);if(Ctor===Uint8Array)return view.getUint8(off);if(Ctor===Int16Array)return view.getInt16(off,true);return view.getInt8(off);}
+function writeTuple(target,index,values,itemSize){for(let k=0;k<itemSize;k++)target[index*itemSize+k]=values[k]??0;}
+
+function readAccessor(doc,buffers,index){
+  const a=doc.accessors[index],Ctor=COMPONENTS[a?.componentType],itemSize=TYPE_SIZES[a?.type]||1;if(!a||!Ctor)throw new Error(`Unsupported accessor ${index}`);
+  const normalized=a.normalized===true;let array;
+  if(a.bufferView===undefined){array=new Ctor(a.count*itemSize);}else{
+    const bv=doc.bufferViews[a.bufferView],buffer=buffers[bv.buffer],base=(bv.byteOffset||0)+(a.byteOffset||0),stride=bv.byteStride||Ctor.BYTES_PER_ELEMENT*itemSize;
+    if(stride===Ctor.BYTES_PER_ELEMENT*itemSize){array=new Ctor(buffer,base,a.count*itemSize);}else{array=new Ctor(a.count*itemSize);const view=new DataView(buffer);for(let i=0;i<a.count;i++)for(let k=0;k<itemSize;k++)array[i*itemSize+k]=scalar(view,base+i*stride+k*Ctor.BYTES_PER_ELEMENT,Ctor);}
+  }
+  if(a.sparse){array=new Ctor(array);applySparse(doc,buffers,a,array,itemSize,Ctor);}
+  const attr=new BufferAttribute(array,itemSize,normalized,a.componentType);attr.accessorIndex=index;attr.min=a.min;attr.max=a.max;return attr;
+}
+
+
+__exports.readAccessor = readAccessor;
+function applySparse(doc,buffers,a,array,itemSize,Ctor){
+  const s=a.sparse,iv=doc.bufferViews[s.indices.bufferView],vv=doc.bufferViews[s.values.bufferView],ICtor=COMPONENTS[s.indices.componentType];
+  const ib=buffers[iv.buffer],vb=buffers[vv.buffer],iBase=(iv.byteOffset||0)+(s.indices.byteOffset||0),vBase=(vv.byteOffset||0)+(s.values.byteOffset||0);
+  const iView=new DataView(ib),vView=new DataView(vb);for(let n=0;n<s.count;n++){const idx=scalar(iView,iBase+n*ICtor.BYTES_PER_ELEMENT,ICtor),vals=[];for(let k=0;k<itemSize;k++)vals[k]=scalar(vView,vBase+(n*itemSize+k)*Ctor.BYTES_PER_ELEMENT,Ctor);writeTuple(array,idx,vals,itemSize);}
+}
+
+function accessorFloatArray(attr){
+  const src=attr.array;if(src instanceof Float32Array&&!attr.normalized)return src;const out=new Float32Array(src.length),scale=attr.normalized?normalizedScale(src.constructor):1;
+  for(let i=0;i<src.length;i++){let v=src[i]*scale;if(attr.normalized&&(src instanceof Int8Array||src instanceof Int16Array))v=Math.max(-1,v);out[i]=v;}return out;
+}
+
+
+__exports.accessorFloatArray = accessorFloatArray;
+function normalizeWeightsAttribute(attr){
+  const src=accessorFloatArray(attr),out=new Float32Array(src.length),size=attr.itemSize;for(let i=0;i<attr.count;i++){let sum=0;for(let k=0;k<size;k++)sum+=Math.abs(src[i*size+k]||0);if(sum>0){for(let k=0;k<size;k++)out[i*size+k]=(src[i*size+k]||0)/sum;}else out[i*size]=1;}return new BufferAttribute(out,size,false,5126);
+}
+
+
+__exports.normalizeWeightsAttribute = normalizeWeightsAttribute;
+function accessorSummary(doc,index){const a=doc.accessors[index];return `${index} ${a.type} ${componentName(a.componentType)} norm=${!!a.normalized} count=${a.count}`;}
+
+__exports.accessorSummary = accessorSummary;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-parser.js */
+__awtsmoosModule_212 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file tiny-animation-parser.js
+ * @description Decodes GLTF animation channels into stable scalar sampling vessels.
+ * The Awtsmoos speaks every motion through measured times and values; Awtsmoos.com
+ * preserves each source channel exactly while separating parsing from living playback.
+ */
+
+var accessorFloatArray = __awtsmoosModule_213.accessorFloatArray;
+
+const TARGET_SIZE = {
+	rotation: 4,
+	scale: 3,
+	translation: 3,
+	weights: 1
+};
+
+function summarizeAnimations(document) {
+	return (document.animations || []).map((animation, index) => ({
+		channels: (animation.channels || []).length,
+		index,
+		name: animation.name || `animation_${index}`,
+		paths: [...new Set(
+			(animation.channels || [])
+				.map(channel => channel.target?.path)
+				.filter(Boolean)
+		)],
+		samplers: (animation.samplers || []).length
+	}));
+}
+
+
+__exports.summarizeAnimations = summarizeAnimations;
+function parseTinyAnimations(document, accessors, nodeMap) {
+	return (document.animations || []).map((animation, index) => (
+		parseAnimation(animation, index, accessors, nodeMap)
+	));
+}
+
+
+__exports.parseTinyAnimations = parseTinyAnimations;
+function parseAnimation(animation, index, accessors, nodeMap) {
+	const channels = [];
+	let duration = 0;
+	for (const sourceChannel of animation.channels || []) {
+		const channel = parseChannel(
+			sourceChannel,
+			animation.samplers || [],
+			accessors,
+			nodeMap
+		);
+		if (!channel) {
+			continue;
+		}
+		channels.push(channel);
+		duration = Math.max(duration, channel.input[channel.input.length - 1] || 0);
+	}
+	return {
+		channels,
+		duration,
+		index,
+		name: animation.name || `animation_${index}`
+	};
+}
+
+function parseChannel(sourceChannel, samplers, accessors, nodeMap) {
+	const sampler = samplers[sourceChannel.sampler];
+	const target = sourceChannel.target || {};
+	const node = nodeMap.get(target.node);
+	const size = TARGET_SIZE[target.path];
+	if (!sampler || !node || !size) {
+		return null;
+	}
+	return {
+		input: accessorFloatArray(accessors[sampler.input]),
+		interpolation: sampler.interpolation || 'LINEAR',
+		node,
+		nodeIndex: target.node,
+		output: accessorFloatArray(accessors[sampler.output]),
+		path: target.path,
+		size
+	};
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-bindings.js */
+__awtsmoosModule_215 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file tiny-animation-bindings.js
+ * @description Remembers only properties truly governed by imported animation channels.
+ * The Awtsmoos renews the whole tree, yet Awtsmoos.com restores only the animated vessels,
+ * preserving exact bind values without traversing unrelated cottages, garments, or helpers.
+ */
+
+function createAnimationBindings(clips) {
+	const bindingByNode = new Map();
+	const bindings = [];
+	for (const clip of clips) {
+		for (const channel of clip.channels || []) {
+			let paths = bindingByNode.get(channel.node);
+			if (!paths) {
+				paths = new Map();
+				bindingByNode.set(channel.node, paths);
+			}
+			if (paths.has(channel.path)) {
+				continue;
+			}
+			const binding = {
+				base: readBaseValue(channel.node, channel.path),
+				node: channel.node,
+				path: channel.path
+			};
+			paths.set(channel.path, binding);
+			bindings.push(binding);
+		}
+	}
+	return bindings;
+}
+
+
+__exports.createAnimationBindings = createAnimationBindings;
+function captureClipPose(clip) {
+	const pose = new Map();
+	for (const channel of clip?.channels || []) {
+		pose.set(channel, readNodeValue(channel.node, channel.path));
+	}
+	return pose;
+}
+
+
+__exports.captureClipPose = captureClipPose;
+function resetAnimationBindings(bindings) {
+	for (const binding of bindings) {
+		writeNodeValue(binding.node, binding.path, binding.base);
+	}
+}
+
+
+__exports.resetAnimationBindings = resetAnimationBindings;
+function writeNodeValue(node, path, values) {
+	if (path === 'translation') {
+		node.position.set(values[0], values[1], values[2]);
+		return;
+	}
+	if (path === 'rotation') {
+		node.quaternion.set(values[0], values[1], values[2], values[3]);
+		return;
+	}
+	if (path === 'scale') {
+		node.scale.set(values[0], values[1], values[2]);
+	}
+}
+
+
+__exports.writeNodeValue = writeNodeValue;
+function readBaseValue(node, path) {
+	const base = node._base;
+	if (path === 'translation') {
+		const value = base?.position || node.position;
+		return [value.x, value.y, value.z];
+	}
+	if (path === 'rotation') {
+		const value = base?.quaternion || node.quaternion;
+		return [value.x, value.y, value.z, value.w];
+	}
+	if (path === 'scale') {
+		const value = base?.scale || node.scale;
+		return [value.x, value.y, value.z];
+	}
+	return [0];
+}
+
+function readNodeValue(node, path) {
+	if (path === 'translation') {
+		return [node.position.x, node.position.y, node.position.z];
+	}
+	if (path === 'rotation') {
+		return [node.quaternion.x, node.quaternion.y, node.quaternion.z, node.quaternion.w];
+	}
+	if (path === 'scale') {
+		return [node.scale.x, node.scale.y, node.scale.z];
+	}
+	return [0];
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-quaternion.js */
+__awtsmoosModule_217 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file tiny-animation-quaternion.js
+ * @description Writes one normalized quaternion interpolation into a reusable vessel.
+ * The Awtsmoos turns without division; Awtsmoos.com reveals that rotation through a
+ * stable destination whose identity survives every sampled instant.
+ */
+
+function slerpQuaternionInto(
+	output,
+	ax,
+	ay,
+	az,
+	aw,
+	bx,
+	by,
+	bz,
+	bw,
+	amount
+) {
+	let cosine = ax * bx + ay * by + az * bz + aw * bw;
+	if (cosine < 0) {
+		bx = -bx;
+		by = -by;
+		bz = -bz;
+		bw = -bw;
+		cosine = -cosine;
+	}
+	if (cosine > 0.9995) {
+		return normalizeInto(
+			output,
+			ax + (bx - ax) * amount,
+			ay + (by - ay) * amount,
+			az + (bz - az) * amount,
+			aw + (bw - aw) * amount
+		);
+	}
+	const angle = Math.acos(Math.min(1, Math.max(-1, cosine)));
+	const sine = Math.sin(angle);
+	const leftWeight = Math.sin((1 - amount) * angle) / sine;
+	const rightWeight = Math.sin(amount * angle) / sine;
+	return normalizeInto(
+		output,
+		ax * leftWeight + bx * rightWeight,
+		ay * leftWeight + by * rightWeight,
+		az * leftWeight + bz * rightWeight,
+		aw * leftWeight + bw * rightWeight
+	);
+}
+
+
+__exports.slerpQuaternionInto = slerpQuaternionInto;
+function normalizeInto(output, x, y, z, w) {
+	const scale = 1 / Math.max(1e-12, Math.hypot(x, y, z, w));
+	output[0] = x * scale;
+	output[1] = y * scale;
+	output[2] = z * scale;
+	output[3] = w * scale;
+	return output;
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-sampler.js */
+__awtsmoosModule_216 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file tiny-animation-sampler.js
+ * @description Samples scalar animation channels without transient per-frame arrays.
+ * The Awtsmoos joins keyframes without waste; Awtsmoos.com lets each bone receive the
+ * same measured pose while temporary numbers pass through stable, reusable vessels.
+ */
+
+var slerpQuaternionInto = __awtsmoosModule_217.slerpQuaternionInto;
+
+function applyChannelSample(channel, time, fadeFrom, fadeAmount = 1) {
+	const span = resolveSpan(channel, time);
+	if (channel.path === 'rotation') {
+		applyRotation(channel, span, fadeFrom, fadeAmount);
+		return;
+	}
+	if (channel.path === 'translation' || channel.path === 'scale') {
+		applyVector(channel, span, fadeFrom, fadeAmount);
+	}
+}
+
+
+__exports.applyChannelSample = applyChannelSample;
+function applyVector(channel, span, fadeFrom, fadeAmount) {
+	const values = channel._sampleScratch || (channel._sampleScratch = new Float64Array(3));
+	for (let index = 0; index < 3; index += 1) {
+		const sampled = sampleComponent(channel, span, index);
+		values[index] = fadeFrom
+			? fadeFrom[index] + (sampled - fadeFrom[index]) * fadeAmount
+			: sampled;
+	}
+	const target = channel.path === 'translation'
+		? channel.node.position
+		: channel.node.scale;
+	target.set(values[0], values[1], values[2]);
+}
+
+function applyRotation(channel, span, fadeFrom, fadeAmount) {
+	const output = channel._sampleScratch || (channel._sampleScratch = new Float64Array(4));
+	const left = span.left * channel.size;
+	const right = span.right * channel.size;
+	const source = channel.output;
+	if (span.step) {
+		for (let index = 0; index < 4; index += 1) {
+			output[index] = source[left + index] ?? (index === 3 ? 1 : 0);
+		}
+	} else {
+		slerpQuaternionInto(output,
+			source[left] || 0, source[left + 1] || 0,
+			source[left + 2] || 0, source[left + 3] ?? 1,
+			source[right] || 0, source[right + 1] || 0,
+			source[right + 2] || 0, source[right + 3] ?? 1,
+			span.amount);
+	}
+	if (fadeFrom) {
+		slerpQuaternionInto(output, ...fadeFrom, ...output, fadeAmount);
+	}
+	channel.node.quaternion.set(output[0], output[1], output[2], output[3]);
+}
+
+function sampleComponent(channel, span, componentIndex) {
+	const left = span.left * channel.size + componentIndex;
+	const valueA = channel.output[left] ?? 0;
+	if (span.step) return valueA;
+	const right = span.right * channel.size + componentIndex;
+	const valueB = channel.output[right] ?? valueA;
+	return valueA + (valueB - valueA) * span.amount;
+}
+
+function resolveSpan(channel, time) {
+	const times = channel.input;
+	const span = channel._sampleSpan || (channel._sampleSpan = {});
+	const last = times.length - 1;
+	if (last <= 0 || time <= times[0]) return assignSpan(span, 0, 0, 0, true);
+	if (time >= times[last]) return assignSpan(span, last, last, 0, true);
+	let low = 0;
+	let high = last;
+	while (high - low > 1) {
+		const middle = (low + high) >> 1;
+		if (times[middle] <= time) low = middle;
+		else high = middle;
+	}
+	const amount = (time - times[low]) / Math.max(1e-8, times[high] - times[low]);
+	return assignSpan(span, low, high, amount, channel.interpolation === 'STEP');
+}
+
+function assignSpan(span, left, right, amount, step) {
+	span.left = left;
+	span.right = right;
+	span.amount = amount;
+	span.step = step || left === right;
+	return span;
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-player.js */
+__awtsmoosModule_214 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file tiny-animation-player.js
+ * @description Advances imported clips through exact first-play, looping, and crossfade laws.
+ * The Awtsmoos renews a living pose from the first instant; Awtsmoos.com never blends the first
+ * idle from bind pose with zero weight, yet preserves gentle transitions after motion is alive.
+ */
+
+var captureClipPose = __awtsmoosModule_215.captureClipPose;
+var createAnimationBindings = __awtsmoosModule_215.createAnimationBindings;
+var resetAnimationBindings = __awtsmoosModule_215.resetAnimationBindings;
+var applyChannelSample = __awtsmoosModule_216.applyChannelSample;
+
+class TinyAnimationPlayer {
+	constructor(root, clips = []) {
+		this.root = root;
+		this.clips = clips;
+		this.bindings = createAnimationBindings(clips);
+		this.currentIndex = clips.length ? 0 : -1;
+		this.time = 0;
+		this.playing = true;
+		this.bindPose = false;
+		this.lastApplied = null;
+		this.fadeDuration = 0.18;
+		this.fadeTime = 0;
+		this.fadePose = null;
+	}
+
+	get current() {
+		return this.clips[this.currentIndex] || null;
+	}
+
+	get names() {
+		return this.clips.map(clip => clip.name);
+	}
+
+	play(indexOrName) {
+		const index = resolveClipIndex(this.clips, indexOrName);
+		if (index < 0) return this.current;
+		const target = this.clips[index];
+		const alreadyApplied = this.lastApplied === target?.name;
+		if (index === this.currentIndex && !this.bindPose && alreadyApplied) {
+			this.playing = true;
+			return this.current;
+		}
+		const hasAppliedPose = this.lastApplied !== null && this.lastApplied !== 'bind';
+		this.fadePose = hasAppliedPose ? captureClipPose(target) : null;
+		this.fadeTime = hasAppliedPose ? 0 : this.fadeDuration;
+		this.currentIndex = index;
+		this.time = 0;
+		this.bindPose = false;
+		this.playing = true;
+		this.apply(0);
+		return this.current;
+	}
+
+	next() {
+		return this.play((this.currentIndex + 1) % Math.max(1, this.clips.length));
+	}
+
+	setBindPose(enabled) {
+		this.bindPose = Boolean(enabled);
+		this.time = 0;
+		this.fadePose = null;
+		resetAnimationBindings(this.bindings);
+		this.lastApplied = this.bindPose ? 'bind' : null;
+	}
+
+	update(deltaTime) {
+		if (this.bindPose || !this.current) return;
+		const delta = Math.max(0, Number(deltaTime) || 0);
+		if (this.playing) this.time += delta;
+		if (this.fadePose) this.fadeTime += delta;
+		const duration = this.current.duration || 1;
+		this.apply(duration ? this.time % duration : 0);
+	}
+
+	apply(time) {
+		const clip = this.current;
+		if (!clip) return;
+		resetAnimationBindings(this.bindings);
+		const fadeAmount = this.fadePose
+			? smooth(Math.min(1, this.fadeTime / Math.max(0.001, this.fadeDuration)))
+			: 1;
+		for (const channel of clip.channels) {
+			applyChannelSample(channel, time, this.fadePose?.get(channel), fadeAmount);
+		}
+		if (this.fadePose && this.fadeTime >= this.fadeDuration) this.fadePose = null;
+		this.lastApplied = clip.name;
+	}
+
+	diagnostics() {
+		const clip = this.current;
+		return {
+			bindPose: this.bindPose,
+			channels: clip?.channels.length || 0,
+			clipCount: this.clips.length,
+			currentAnimation: clip?.name || null,
+			currentIndex: this.currentIndex,
+			duration: Number((clip?.duration || 0).toFixed(3)),
+			fade: this.fadePose
+				? Number((1 - this.fadeTime / this.fadeDuration).toFixed(3))
+				: 0,
+			playing: this.playing,
+			time: Number(this.time.toFixed(3))
+		};
+	}
+}
+
+
+__exports.TinyAnimationPlayer = TinyAnimationPlayer;
+function resolveClipIndex(clips, indexOrName) {
+	return typeof indexOrName === 'number'
+		? indexOrName
+		: clips.findIndex(clip => clip.name === indexOrName);
+}
+
+function smooth(amount) {
+	return amount * amount * (3 - 2 * amount);
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-animation.js */
+__awtsmoosModule_211 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file tiny-animation.js
+ * @description Stable public doorway to parsed clips and allocation-free playback.
+ * The Awtsmoos unites source time with visible motion; Awtsmoos.com keeps parsing,
+ * sampling, bindings, and playback in small vessels behind one familiar import.
+ */
+
+__exports.parseTinyAnimations = __awtsmoosModule_212.parseTinyAnimations;
+__exports.summarizeAnimations = __awtsmoosModule_212.summarizeAnimations;
+__exports.TinyAnimationPlayer = __awtsmoosModule_214.TinyAnimationPlayer;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-cache.js */
+__awtsmoosModule_219 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file tiny-skin-cache.js
+ * @description Guards a computed joint palette by renderer frame and exact mesh
+ * transform. Reuse is permitted only when the vessel is truly unchanged before Awtsmoos.
+ */
+class SkinPaletteCache {
+	constructor() {
+		this.frameToken = null;
+		this.meshWorld = new Float32Array(16);
+		this.valid = false;
+		this.revision = 0;
+	}
+
+	/** Returns true only when a fresh palette computation is required. */
+	needsUpdate(frameToken, meshWorld) {
+		if (!validFrameToken(frameToken) || !this.valid) {
+			return true;
+		}
+		if (this.frameToken !== frameToken) {
+			return true;
+		}
+		return !matrixEquals(this.meshWorld, meshWorld);
+	}
+
+	/** Records the exact transform and increments the palette revision. */
+	markUpdated(frameToken, meshWorld) {
+		this.frameToken = frameToken;
+		copyMatrix(this.meshWorld, meshWorld);
+		this.valid = validFrameToken(frameToken);
+		this.revision += 1;
+		return this.revision;
+	}
+
+	invalidate() {
+		this.valid = false;
+		this.frameToken = null;
+	}
+}
+
+
+__exports.SkinPaletteCache = SkinPaletteCache;
+function matrixEquals(left, right) {
+	if (!left || !right || left.length !== 16 || right.length !== 16) {
+		return false;
+	}
+	for (let index = 0; index < 16; index += 1) {
+		if (left[index] !== right[index]) {
+			return false;
+		}
+	}
+	return true;
+}
+
+
+__exports.matrixEquals = matrixEquals;
+function copyMatrix(target, source) {
+	if (!source || source.length !== 16) {
+		target.fill(Number.NaN);
+		return;
+	}
+	for (let index = 0; index < 16; index += 1) {
+		target[index] = source[index];
+	}
+}
+
+function validFrameToken(frameToken) {
+	return Number.isInteger(frameToken) && frameToken >= 0;
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-lines.js */
+__awtsmoosModule_220 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file tiny-skin-lines.js
+ * @description Extracts diagnostic bone segments without entering palette or
+ * renderer ownership. Each line is a small revealed relationship before the
+ * Awtsmoos, drawn by Awtsmoos.com only from current parent-child transforms.
+ */
+
+/** Returns parent-to-child line positions for all skeletons bound below a root. */
+function skeletonLinePositions(root) {
+	const positions = [];
+	root.traverse((node) => {
+		const skeletons = node.userData?.skeletons;
+		if (!(skeletons instanceof Map)) {
+			return;
+		}
+		for (const skeleton of skeletons.values()) {
+			appendSkeletonLines(skeleton, positions);
+		}
+	});
+	return new Float32Array(positions);
+}
+
+
+__exports.skeletonLinePositions = skeletonLinePositions;
+function appendSkeletonLines(skeleton, positions) {
+	const jointSet = new Set(skeleton.joints.filter(Boolean));
+	for (const joint of jointSet) {
+		const parent = joint.parent;
+		if (!parent || !jointSet.has(parent)) {
+			continue;
+		}
+		positions.push(
+			parent.matrixWorld[12],
+			parent.matrixWorld[13],
+			parent.matrixWorld[14],
+			joint.matrixWorld[12],
+			joint.matrixWorld[13],
+			joint.matrixWorld[14]
+		);
+	}
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-matrix.js */
+__awtsmoosModule_221 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file tiny-skin-matrix.js
+ * @description Decodes inverse-bind matrices from imported accessors with explicit
+ * identity fallback. The Awtsmoos renews every matrix entry, while Awtsmoos.com
+ * keeps absence visible instead of disguising missing data as remembered geometry.
+ */
+var identity = __awtsmoosModule_20.identity;
+
+/** Returns one 4x4 matrix from a BufferAttribute-like accessor. */
+function readSkinMatrix(accessor, index) {
+	const source = accessor?.array || accessor;
+	if (!source) {
+		return identity();
+	}
+	const matrix = new Float32Array(16);
+	for (let component = 0; component < 16; component += 1) {
+		matrix[component] = source[index * 16 + component] ?? (
+			component % 5 === 0 ? 1 : 0
+		);
+	}
+	return matrix;
+}
+__exports.readSkinMatrix = readSkinMatrix;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-binding.js */
+__awtsmoosModule_223 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file tiny-skin-binding.js
+ * @description Connects imported skin definitions to their visible mesh vessels.
+ * The Awtsmoos joins bone and garment in one living form; Awtsmoos.com records that
+ * relationship once so animation may unfold without rediscovering its own structure.
+ */
+
+function bindSceneSkeletons(root, doc, accessors, createSkeleton) {
+	const nodeMap = root.userData?.nodeMap || new Map();
+	const skeletons = new Map();
+	let maxJoints = 0;
+	let missingJoints = 0;
+	for (let skinIndex = 0; skinIndex < (doc.skins || []).length; skinIndex += 1) {
+		const skinDefinition = doc.skins[skinIndex] || {};
+		const inverseBindAccessor = skinDefinition.inverseBindMatrices === undefined
+			? null
+			: accessors[skinDefinition.inverseBindMatrices];
+		const skeleton = createSkeleton({
+			inverseBindAccessor,
+			nodeMap,
+			skinDef: skinDefinition,
+			skinIndex
+		});
+		skeletons.set(skinIndex, skeleton);
+		maxJoints = Math.max(maxJoints, skeleton.jointCount);
+		missingJoints += skeleton.joints.filter(joint => !joint).length;
+	}
+	const meshStats = bindMeshes(root, skeletons);
+	root.userData.skeletons = skeletons;
+	return {
+		maxJoints,
+		missingJoints,
+		skeletonCount: skeletons.size,
+		...meshStats
+	};
+}
+
+
+__exports.bindSceneSkeletons = bindSceneSkeletons;
+function bindMeshes(root, skeletons) {
+	let rigidMeshes = 0;
+	let skinnedMeshes = 0;
+	root.traverse(node => {
+		if (!node.isMesh) return;
+		const hasSkinAttributes = Boolean(
+			node.geometry?.attributes?.joints
+			&& node.geometry?.attributes?.weights
+		);
+		node.skeleton = skeletons.get(node.skinIndex) || null;
+		node.isSkinnedMesh = Boolean(node.skeleton && hasSkinAttributes);
+		if (node.isSkinnedMesh) skinnedMeshes += 1;
+		else rigidMeshes += 1;
+	});
+	return {
+		rigidMeshes,
+		skinnedMeshes
+	};
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-scene.js */
+__awtsmoosModule_222 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file tiny-skin-scene.js
+ * @description Updates visible world matrices in a reusable frame-local node map.
+ * The Awtsmoos renews every hidden bone and visible garment; Awtsmoos.com recomputes
+ * only changed transforms and keeps the map and metric vessels stable across frames.
+ */
+
+var bindSceneSkeletons = __awtsmoosModule_223.bindSceneSkeletons;
+var ROOT_WORLD_MATRIX = __awtsmoosModule_25.ROOT_WORLD_MATRIX;
+var updateCachedWorldMatrix = __awtsmoosModule_25.updateCachedWorldMatrix;
+
+__exports.bindSceneSkeletons = bindSceneSkeletons;
+
+function collectWorldMatrices(root, reusableWorldByNode = null) {
+	const worldByNode = reusableWorldByNode instanceof Map
+		? reusableWorldByNode
+		: new Map();
+	worldByNode.clear();
+	const stats = reusableStats(worldByNode.stats);
+	updateVisibleBranch(
+		root,
+		ROOT_WORLD_MATRIX,
+		0,
+		worldByNode,
+		stats,
+		true
+	);
+	worldByNode.stats = stats;
+	return worldByNode;
+}
+
+
+__exports.collectWorldMatrices = collectWorldMatrices;
+function updateTinySkeletons(root) {
+	root._tinySkeletonWorldByNode = collectWorldMatrices(
+		root,
+		root._tinySkeletonWorldByNode
+	);
+	const worldByNode = root._tinySkeletonWorldByNode;
+	let jointsUploaded = 0;
+	let skinnedMeshes = 0;
+	root.traverse(node => {
+		if (!node.isSkinnedMesh || !node.skeleton || !worldByNode.has(node)) return;
+		skinnedMeshes += 1;
+		jointsUploaded += node.skeleton.update(node.matrixWorld || ROOT_WORLD_MATRIX);
+	});
+	return {
+		jointsUploaded,
+		skinnedMeshes
+	};
+}
+
+
+__exports.updateTinySkeletons = updateTinySkeletons;
+function setMeshKindVisibility(
+	root,
+	{ skinned = true, rigid = true } = {}
+) {
+	root.traverse(node => {
+		if (!node.isMesh) return;
+		node.visible = node.isSkinnedMesh ? skinned : rigid;
+	});
+}
+
+
+__exports.setMeshKindVisibility = setMeshKindVisibility;
+function updateVisibleBranch(
+	node,
+	parentWorld,
+	parentRevision,
+	worldByNode,
+	stats,
+	parentVisible
+) {
+	const visible = parentVisible && node.visible !== false;
+	if (!visible) {
+		stats.skippedSubtrees += 1;
+		return;
+	}
+	const changed = updateCachedWorldMatrix(
+		node,
+		parentWorld,
+		parentRevision
+	);
+	if (changed) stats.updatedNodes += 1;
+	else stats.reusedNodes += 1;
+	node.userData ||= {};
+	node.userData.worldMatrix = node.matrixWorld;
+	worldByNode.set(node, node.matrixWorld);
+	for (const child of node.children || []) {
+		updateVisibleBranch(
+			child,
+			node.matrixWorld,
+			node._worldRevision || 0,
+			worldByNode,
+			stats,
+			visible
+		);
+	}
+}
+
+function reusableStats(stats) {
+	const result = stats || {
+		reusedNodes: 0,
+		skippedSubtrees: 0,
+		updatedNodes: 0
+	};
+	result.reusedNodes = 0;
+	result.skippedSubtrees = 0;
+	result.updatedNodes = 0;
+	return result;
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-system.js */
+__awtsmoosModule_218 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file tiny-skin-system.js
+ * @description Owns imported skin palettes and measured frame-local reuse. Every
+ * matrix is a finite keli renewed by the Awtsmoos, and Awtsmoos.com reuses it only
+ * when frame identity and mesh transform agree exactly.
+ */
+var identity = __awtsmoosModule_20.identity;
+var inverse = __awtsmoosModule_20.inverse;
+var multiply = __awtsmoosModule_20.multiply;
+var SkinPaletteCache = __awtsmoosModule_219.SkinPaletteCache;
+var skeletonLinePositions = __awtsmoosModule_220.skeletonLinePositions;
+var readSkinMatrix = __awtsmoosModule_221.readSkinMatrix;
+var bindSceneSkeletons = __awtsmoosModule_222.bindSceneSkeletons;
+var collectWorldMatrices = __awtsmoosModule_222.collectWorldMatrices;
+var setMeshKindVisibility = __awtsmoosModule_222.setMeshKindVisibility;
+var updateTinySkeletons = __awtsmoosModule_222.updateTinySkeletons;
+
+const MAX_TINY_JOINTS = 96;
+__exports.MAX_TINY_JOINTS = MAX_TINY_JOINTS;
+
+
+__exports.collectWorldMatrices = collectWorldMatrices;
+__exports.setMeshKindVisibility = setMeshKindVisibility;
+__exports.skeletonLinePositions = skeletonLinePositions;
+__exports.updateTinySkeletons = updateTinySkeletons;
+
+/** Stores one GLTF skin and computes its mesh-relative joint palette. */
+class TinySkeleton {
+	constructor({
+		skinIndex = 0,
+		skinDef = {},
+		nodeMap = new Map(),
+		inverseBindAccessor = null
+	} = {}) {
+		this.skinIndex = skinIndex;
+		this.name = skinDef.name || `Skin_${skinIndex}`;
+		this.joints = (skinDef.joints || []).map((index) => nodeMap.get(index));
+		this.inverseBindMatrices = this.joints.map((_, index) => (
+			readSkinMatrix(inverseBindAccessor, index)
+		));
+		this.jointCount = this.joints.length;
+		this.jointMatrices = new Float32Array(Math.max(1, this.jointCount) * 16);
+		this.paletteCache = new SkinPaletteCache();
+		this.paletteRevision = 0;
+		this.lastPaletteRecomputed = false;
+		this.resetPalette();
+	}
+
+	resetPalette() {
+		for (let index = 0; index < Math.max(1, this.jointCount); index += 1) {
+			this.jointMatrices.set(identity(), index * 16);
+		}
+	}
+
+	update(meshWorld = identity()) {
+		this.computePalette(meshWorld);
+		this.paletteRevision += 1;
+		this.paletteCache.invalidate();
+		this.lastPaletteRecomputed = true;
+		return Math.min(this.jointCount, MAX_TINY_JOINTS);
+	}
+
+	updateCached(meshWorld = identity(), frameToken) {
+		if (!this.paletteCache.needsUpdate(frameToken, meshWorld)) {
+			this.lastPaletteRecomputed = false;
+			return Math.min(this.jointCount, MAX_TINY_JOINTS);
+		}
+		this.computePalette(meshWorld);
+		this.paletteCache.markUpdated(frameToken, meshWorld);
+		this.paletteRevision += 1;
+		this.lastPaletteRecomputed = true;
+		return Math.min(this.jointCount, MAX_TINY_JOINTS);
+	}
+
+	invalidatePaletteCache() {
+		this.paletteCache.invalidate();
+	}
+
+	computePalette(meshWorld) {
+		const inverseMesh = inverse(meshWorld);
+		const count = Math.min(this.jointCount, MAX_TINY_JOINTS);
+		for (let index = 0; index < count; index += 1) {
+			const joint = this.joints[index];
+			const jointWorld = joint?.userData?.worldMatrix
+				|| joint?.matrixWorld
+				|| identity();
+			const skinMatrix = multiply(
+				inverseMesh,
+				multiply(jointWorld, this.inverseBindMatrices[index])
+			);
+			this.jointMatrices.set(skinMatrix, index * 16);
+		}
+	}
+}
+
+
+__exports.TinySkeleton = TinySkeleton;
+/** Builds and binds every GLTF skin using the canonical TinySkeleton class. */
+function bindTinySkeletons(root, doc, accessors) {
+	return bindSceneSkeletons(
+		root,
+		doc,
+		accessors,
+		(configuration) => new TinySkeleton(configuration)
+	);
+}
+__exports.bindTinySkeletons = bindTinySkeletons;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-instance.js */
+__awtsmoosModule_210 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+/**
+ * @file tiny-gltf-instance.js
+ * @description Clones transforms and skeletons while sharing immutable GLTF resources.
+ * The Awtsmoos renews every actor as a distinct motion vessel; Awtsmoos.com shares
+ * geometry, accessors, textures, and palette materials without sharing mutable bones.
+ */
+
+var parseTinyAnimations = __awtsmoosModule_211.parseTinyAnimations;
+var copyMat4 = __awtsmoosModule_20.copyMat4;
+var Bone = __awtsmoosModule_18.Bone;
+var Group = __awtsmoosModule_18.Group;
+var Mesh = __awtsmoosModule_18.Mesh;
+var bindTinySkeletons = __awtsmoosModule_218.bindTinySkeletons;
+
+function instantiateTinyGltf(template, options = {}) {
+	if (!template?.scene) throw new Error('A parsed GLTF template is required.');
+	const nodeMap = new Map();
+	const resources = {
+		geometries: new Set(),
+		materials: new Set()
+	};
+	const scene = cloneNode(
+		template.scene,
+		nodeMap,
+		resources,
+		options.materialResolver
+	);
+	const sourceData = template.scene.userData || {};
+	const document = template.json || sourceData.gltf || {};
+	const accessors = sourceData.accessors || [];
+	const sourceNodes = sourceData.allNodes || [];
+	const allNodes = sourceNodes.map((_, index) => nodeMap.get(index) || null);
+	Object.assign(scene.userData, {
+		accessors,
+		allNodes,
+		gltf: document,
+		instanceLabel: options.label || 'instance',
+		materials: sourceData.materials || [],
+		nodeMap,
+		sharedSourceUrl: sourceData.sourceUrl || null,
+		skins: document.skins || []
+	});
+	const skinStats = bindTinySkeletons(scene, document, accessors);
+	const animations = parseTinyAnimations(document, accessors, nodeMap);
+	scene.userData.animations = animations;
+	scene.name = `${options.label || 'instance'}_shared_gltf_scene`;
+	return {
+		animations,
+		experimental: true,
+		json: document,
+		scene,
+		stats: {
+			...(template.stats || {}),
+			...skinStats,
+			instanceLabel: options.label || 'instance',
+			sharedGeometries: resources.geometries.size,
+			sharedMaterials: resources.materials.size,
+			sharedTemplate: true
+		}
+	};
+}
+
+
+__exports.instantiateTinyGltf = instantiateTinyGltf;
+function cloneNode(source, nodeMap, resources, materialResolver) {
+	const target = createNode(source, resources, materialResolver);
+	copyNodeState(source, target);
+	const nodeIndex = source.userData?.nodeIndex;
+	if (Number.isInteger(nodeIndex)) nodeMap.set(nodeIndex, target);
+	for (const child of source.children || []) {
+		target.add(cloneNode(child, nodeMap, resources, materialResolver));
+	}
+	target.setBaseTransform();
+	return target;
+}
+
+function createNode(source, resources, materialResolver) {
+	if (source.isBone) return new Bone();
+	if (!source.isMesh) return new Group();
+	resources.geometries.add(source.geometry);
+	collectMaterials(resources.materials, source.material);
+	const material = resolveMaterial(
+		source.material,
+		source,
+		materialResolver
+	);
+	const mesh = new Mesh(source.geometry, material);
+	mesh.skinIndex = source.skinIndex;
+	mesh.primitiveMode = source.primitiveMode;
+	mesh.nodeIndex = source.nodeIndex;
+	return mesh;
+}
+
+function copyNodeState(source, target) {
+	target.name = source.name;
+	target.visible = source.visible !== false;
+	target.position.copy(source.position);
+	target.quaternion.copy(source.quaternion);
+	target.scale.copy(source.scale);
+	target.matrix = source.matrix ? copyMat4(source.matrix) : null;
+	target.userData = { ...(source.userData || {}) };
+}
+
+function resolveMaterial(material, node, resolver) {
+	if (Array.isArray(material)) {
+		return material.map(item => resolver?.(item, node) || item);
+	}
+	return resolver?.(material, node) || material;
+}
+
+function collectMaterials(target, material) {
+	for (const item of Array.isArray(material) ? material : [material]) {
+		if (item) target.add(item);
+	}
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-materials.js */
+__awtsmoosModule_226 = (() => {
+const __exports = {};
+// B"H
+var MeshStandardMaterial = __awtsmoosModule_18.MeshStandardMaterial;
+
+/** GLTF material vessels: no more brown default; linear colors receive display breath. */
+const DEFAULT_COLOR = [1, 1, 1, 1];
+
+async function createTinyMaterials(doc, buffers, baseUrl) {
+  const images = await loadImages(doc, buffers, baseUrl);
+  const materials = (doc.materials || []).map((def, index) => materialFromDef(doc, def, index, images));
+  return { materials, images, diagnostics: materialDiagnostics(doc, materials, images) };
+}
+
+
+__exports.createTinyMaterials = createTinyMaterials;
+function materialFromDef(doc, def = {}, index = 0, images = []) {
+  const pbr = def.pbrMetallicRoughness || {}, factor = pbr.baseColorFactor || DEFAULT_COLOR;
+  const tex = textureImage(doc, pbr.baseColorTexture, images);
+  const color = tex ? factor : displayColor(factor);
+  const mat = new MeshStandardMaterial({ name: def.name || `material_${index}`, color, opacity: factor[3] ?? 1, alphaMode: def.alphaMode || 'OPAQUE', alphaCutoff: def.alphaCutoff ?? 0.5, transparent: (def.alphaMode || 'OPAQUE') === 'BLEND' || (factor[3] ?? 1) < 1, doubleSided: def.doubleSided === true });
+  Object.assign(mat, { metallicFactor: pbr.metallicFactor ?? 1, roughnessFactor: pbr.roughnessFactor ?? 1, baseColorFactor: factor, sourceColorSpace: tex ? 'texture+sRGB-factor' : 'gltf-factor-linear-to-display', mapImage: tex?.image || null, textureUrl: tex?.url || null, mapRepeat: tex?.repeat || [1, 1], anisotropy: true });
+  return mat;
+}
+
+function defaultTinyMaterial() {
+  const mat = new MeshStandardMaterial({ name: 'material_default', color: DEFAULT_COLOR, opacity: 1, alphaMode: 'OPAQUE' });
+  Object.assign(mat, { sourceColorSpace: 'neutral-default', mapRepeat: [1, 1], anisotropy: true });
+  return mat;
+}
+
+
+__exports.defaultTinyMaterial = defaultTinyMaterial;
+function textureImage(doc, info, images) {
+  if (!info) return null; const tex = doc.textures?.[info.index]; if (!tex) return null;
+  const image = images[tex.source]; if (!image) return null; const sampler = doc.samplers?.[tex.sampler] || {};
+  return { image, url: image.dataset?.url || image.src || `image_${tex.source}`, repeat: sampler.wrapS === 33071 || sampler.wrapT === 33071 ? [1, 1] : [1, 1] };
+}
+
+async function loadImages(doc, buffers, baseUrl) {
+  return await Promise.all((doc.images || []).map((image, index) => loadOneImage(doc, buffers, baseUrl, image, index)));
+}
+
+async function loadOneImage(doc, buffers, baseUrl, image, index) {
+  if (image.uri) return await loadUriImage(new URL(image.uri, baseUrl).href, index);
+  if (image.bufferView !== undefined) {
+    const bv = doc.bufferViews[image.bufferView], buffer = buffers[bv.buffer];
+    const bytes = buffer.slice(bv.byteOffset || 0, (bv.byteOffset || 0) + bv.byteLength);
+    const blob = new Blob([bytes], { type: image.mimeType || 'image/png' });
+    const url = URL.createObjectURL(blob);
+    try { return await loadUriImage(url, index, `glb-bufferView:${image.bufferView}`); }
+    finally { setTimeout(() => URL.revokeObjectURL(url), 2000); }
+  }
+  return null;
+}
+
+function loadUriImage(src, index, label = src) {
+  return new Promise(resolve => { const img = new Image(); let done = false; const finish = value => { if (!done) { done = true; resolve(value); } }; img.crossOrigin = src.startsWith('blob:') ? null : 'anonymous'; img.onload = () => { img.dataset.url = label; img.dataset.index = String(index); finish(img); }; img.onerror = () => finish(null); img.src = src; });
+}
+
+function displayColor(color) { return [toSrgb(color[0] ?? 1), toSrgb(color[1] ?? 1), toSrgb(color[2] ?? 1), color[3] ?? 1]; }
+function toSrgb(v) { v = Math.max(0, Math.min(1, v)); return v <= 0.0031308 ? v * 12.92 : 1.055 * Math.pow(v, 1 / 2.4) - 0.055; }
+
+function materialDiagnostics(doc, materials, images) {
+  return { count: materials.length, images: images.filter(Boolean).length, textures: (doc.textures || []).length, defaultColor: DEFAULT_COLOR, colorsConverted: true, entries: materials.map((m, i) => ({ i, name: m.name, color: m.color, raw: m.baseColorFactor, hasMap: !!m.mapImage, textureSize: m.mapImage ? `${m.mapImage.naturalWidth}x${m.mapImage.naturalHeight}` : null, sourceColorSpace: m.sourceColorSpace })).slice(0, 64) };
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-loader.js */
+__awtsmoosModule_225 = (() => {
+const __exports = {};
+// B"H
+var Bone = __awtsmoosModule_18.Bone;
+var BufferGeometry = __awtsmoosModule_18.BufferGeometry;
+var Group = __awtsmoosModule_18.Group;
+var Mesh = __awtsmoosModule_18.Mesh;
+var mat4FromArray = __awtsmoosModule_20.mat4FromArray;
+var accessorSummary = __awtsmoosModule_213.accessorSummary;
+var normalizeWeightsAttribute = __awtsmoosModule_213.normalizeWeightsAttribute;
+var readAccessor = __awtsmoosModule_213.readAccessor;
+var parseTinyAnimations = __awtsmoosModule_211.parseTinyAnimations;
+var summarizeAnimations = __awtsmoosModule_211.summarizeAnimations;
+var bindTinySkeletons = __awtsmoosModule_218.bindTinySkeletons;
+var createTinyMaterials = __awtsmoosModule_226.createTinyMaterials;
+var defaultTinyMaterial = __awtsmoosModule_226.defaultTinyMaterial;
+
+/** Loader: GLB geometry, skins, animations, and glTF material color breath. */
+const GLB_MAGIC = 0x46546c67, JSON_CHUNK = 0x4e4f534a, BIN_CHUNK = 0x004e4942;
+const ATTR = { POSITION: 'position', NORMAL: 'normal', TEXCOORD_0: 'uv', COLOR_0: 'color', JOINTS_0: 'joints', WEIGHTS_0: 'weights' };
+async function fetchBuffer(url) { const r = await fetch(url, { mode: 'cors' }); if (!r.ok) throw new Error(`HTTP ${r.status} for ${url}`); return await r.arrayBuffer(); }
+function dataUri(uri) { const raw = atob(uri.split(',')[1] || ''), out = new Uint8Array(raw.length); for (let i = 0; i < raw.length; i++) out[i] = raw.charCodeAt(i); return out.buffer; }
+async function loadBuffers(doc, baseUrl, bin) { return await Promise.all((doc.buffers || []).map(b => b.uri ? (b.uri.startsWith('data:') ? dataUri(b.uri) : fetchBuffer(new URL(b.uri, baseUrl).href)) : bin)); }
+function parseGlb(buffer) { const view = new DataView(buffer); if (view.getUint32(0, true) !== GLB_MAGIC) throw new Error('Not a GLB container'); let json = null, bin = null, chunks = []; for (let off = 12; off + 8 <= buffer.byteLength;) { const len = view.getUint32(off, true), type = view.getUint32(off + 4, true), bytes = buffer.slice(off + 8, off + 8 + len); chunks.push({ type, byteOffset: off + 8, byteLength: len }); if (type === JSON_CHUNK) json = JSON.parse(new TextDecoder().decode(bytes)); if (type === BIN_CHUNK) bin = bytes; off += 8 + len; } if (!json) throw new Error('GLB missing JSON chunk'); return { json, bin, chunks }; }
+function markBones(doc) { const bones = new Set(); for (const s of doc.skins || []) for (const j of s.joints || []) bones.add(j); return bones; }
+function makeAccessorGetter(doc, buffers, cache) { return i => cache[i] || (cache[i] = readAccessor(doc, buffers, i)); }
+function warmAnimationAccessors(doc, getAccessor) { for (const a of doc.animations || []) for (const s of a.samplers || []) { if (s.input !== undefined) getAccessor(s.input); if (s.output !== undefined) getAccessor(s.output); } }
+function primitiveMesh(materials, getAccessor, primitive, meshDef, nodeDef, primitiveIndex) { const geometry = new BufferGeometry(); geometry.mode = primitive.mode ?? 4; geometry.userData = { primitive, primitiveIndex }; for (const [semantic, accessorIndex] of Object.entries(primitive.attributes || {})) { const key = ATTR[semantic]; if (!key) continue; let attribute = getAccessor(accessorIndex); if (key === 'weights') attribute = normalizeWeightsAttribute(attribute); geometry.setAttribute(key, attribute); } if (primitive.indices !== undefined) geometry.setIndex(getAccessor(primitive.indices)); const mesh = new Mesh(geometry, primitive.material !== undefined ? materials[primitive.material] : defaultTinyMaterial()); mesh.name = meshDef.name || nodeDef.name || `mesh_${nodeDef.mesh}_${primitiveIndex}`; mesh.skinIndex = nodeDef.skin ?? null; mesh.primitiveMode = geometry.mode; mesh.userData = { meshDef, primitive, primitiveIndex }; return mesh; }
+function applyNodeTransform(obj, nodeDef, index) { obj.userData.nodeIndex = index; obj.userData.gltfNode = nodeDef; if (nodeDef.name) { obj.name = nodeDef.name; obj.userData.name = nodeDef.name; } if (nodeDef.matrix) obj.matrix = mat4FromArray(nodeDef.matrix); else { if (nodeDef.translation) obj.position.fromArray(nodeDef.translation); if (nodeDef.rotation) obj.quaternion.fromArray(nodeDef.rotation); if (nodeDef.scale) obj.scale.fromArray(nodeDef.scale); } obj.setBaseTransform(); }
+function buildNodes(doc, materials, getAccessor, bones, stats) { const nodeMap = new Map(), nodes = []; for (let i = 0; i < (doc.nodes || []).length; i++) { const def = doc.nodes[i] || {}, node = bones.has(i) ? new Bone() : new Group(); applyNodeTransform(node, def, i); nodes[i] = node; nodeMap.set(i, node); stats.nodes++; if (def.skin !== undefined) stats.skinnedNodes++; } for (let i = 0; i < nodes.length; i++) { const def = doc.nodes[i] || {}, node = nodes[i], meshDef = doc.meshes?.[def.mesh]; if (!meshDef) continue; for (let p = 0; p < (meshDef.primitives || []).length; p++) { const mesh = primitiveMesh(materials, getAccessor, meshDef.primitives[p], meshDef, def, p); mesh.nodeIndex = i; mesh.setBaseTransform(); node.add(mesh); stats.meshes++; stats.primitives++; if (mesh.skinIndex !== null && mesh.geometry.attributes.joints && mesh.geometry.attributes.weights) stats.skinnedPrimitives++; } } for (let i = 0; i < nodes.length; i++) for (const childIndex of doc.nodes[i]?.children || []) nodes[i].add(nodes[childIndex]); return { nodes, nodeMap }; }
+function skinDetails(doc) { return (doc.skins || []).map((s, index) => ({ index, name: s.name || null, joints: (s.joints || []).length, skeleton: s.skeleton ?? null, hasInverseBind: s.inverseBindMatrices !== undefined, inverseBindAccessor: s.inverseBindMatrices })); }
+function accessorDetails(doc) { const out = []; for (const m of doc.meshes || []) for (const p of m.primitives || []) for (const [sem, i] of Object.entries(p.attributes || {})) if (sem === 'JOINTS_0' || sem === 'WEIGHTS_0') out.push(`${sem}: ${accessorSummary(doc, i)}`); return [...new Set(out)].slice(0, 24); }
+async function loadTinyGltf(url) { const started = performance.now(), buffer = await fetchBuffer(url), glb = parseGlb(buffer), doc = glb.json, buffers = await loadBuffers(doc, url, glb.bin), accessors = [], getAccessor = makeAccessorGetter(doc, buffers, accessors), root = new Group(), bones = markBones(doc), materialPack = await createTinyMaterials(doc, buffers, url); root.name = 'AwtsmoosTinyGltfRoot'; const stats = { nodes: 0, meshes: 0, primitives: 0, materials: (doc.materials || []).length, images: (doc.images || []).length, textures: (doc.textures || []).length, animations: (doc.animations || []).length, skins: (doc.skins || []).length, skinnedNodes: 0, skinnedPrimitives: 0, bytes: buffer.byteLength, chunks: glb.chunks, skinDetails: skinDetails(doc), animationDetails: summarizeAnimations(doc), accessorDetails: accessorDetails(doc), materialDetails: materialPack.diagnostics };
+  for (let i = 0; i < (doc.accessors || []).length; i++) if (doc.accessors[i].type === 'MAT4' || doc.accessors[i].type === 'SCALAR') getAccessor(i); warmAnimationAccessors(doc, getAccessor); const built = buildNodes(doc, materialPack.materials, getAccessor, bones, stats), scene = doc.scenes?.[doc.scene || 0] || doc.scenes?.[0] || { nodes: built.nodes.map((_, i) => i) }; for (const nodeIndex of scene.nodes || []) root.add(built.nodes[nodeIndex]); Object.assign(root.userData, { gltf: doc, nodeMap: built.nodeMap, allNodes: built.nodes, skins: doc.skins || [], accessors, sourceUrl: url, materials: materialPack.materials, materialDetails: materialPack.diagnostics }); const clips = parseTinyAnimations(doc, accessors, built.nodeMap); Object.assign(stats, bindTinySkeletons(root, doc, accessors)); stats.joints = (doc.skins || []).reduce((n, s) => n + (s.joints?.length || 0), 0); stats.skeletonName = doc.skins?.[0]?.name || null; stats.hasInverseBind = !!doc.skins?.[0]?.inverseBindMatrices; stats.clips = clips.map(c => ({ index: c.index, name: c.name, duration: c.duration, channels: c.channels.length })); stats.ms = Math.round(performance.now() - started); root.userData.animations = clips; return { scene: root, json: doc, stats, animations: clips, experimental: true }; }
+
+__exports.loadTinyGltf = loadTinyGltf;
+const loadTinyGlb = loadTinyGltf;
+__exports.loadTinyGlb = loadTinyGlb;
+
+const __awtsmoosDefault_13mov4q = { loadTinyGltf, loadTinyGlb };
+__exports.default = __awtsmoosDefault_13mov4q;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelResponseCache.js */
+__awtsmoosModule_228 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+const REMOTE_MODEL_CACHE_NAME = 'awtsmoos-mitzvah-world-remote-models-v1';
+__exports.REMOTE_MODEL_CACHE_NAME = REMOTE_MODEL_CACHE_NAME;
+
+
+/**
+ * @file RemoteModelResponseCache.js
+ * @description Persists verified GLBs and retries bounded transient storage throttling.
+ * The Awtsmoos sends one measured form and lets the browser remember its vessel;
+ * Awtsmoos.com honors Retry-After without multiplying requests or disguising permanent failure.
+ */
+
+const RETRYABLE_STATUS = new Set([429, 502, 503, 504]);
+
+async function cachedModelResponse(url, options = {}) {
+	const fetchFunction = options.fetchFunction || globalThis.fetch;
+	if (typeof fetchFunction !== 'function') throw new Error('Remote model fetch is unavailable.');
+	const cacheStorage = Object.hasOwn(options, 'cacheStorage')
+		? options.cacheStorage
+		: globalThis.caches;
+	const cache = await openCache(cacheStorage, options.cacheName);
+	const cached = await cache?.match?.(url);
+	if (cached) return { response: cached, source: 'cache-storage' };
+	const response = await fetchWithRetry(url, fetchFunction, options);
+	if (response?.ok && isGlbResponse(response)) await cache?.put?.(url, response.clone());
+	return { response, source: 'network' };
+}
+
+
+__exports.cachedModelResponse = cachedModelResponse;
+function isGlbResponse(response) {
+	const type = response?.headers?.get?.('content-type')?.toLowerCase() || '';
+	return type === 'model/gltf-binary' || type === 'application/octet-stream';
+}
+
+
+__exports.isGlbResponse = isGlbResponse;
+async function fetchWithRetry(url, fetchFunction, options) {
+	const retries = nonnegative(options.transientRetries, 2);
+	for (let attempt = 0; attempt <= retries; attempt += 1) {
+		assertNotAborted(options.signal);
+		const response = await fetchFunction(url, fetchOptions(options.signal));
+		if (!RETRYABLE_STATUS.has(response?.status) || attempt === retries) return response;
+		const delayMs = retryDelay(response, options, attempt);
+		options.onRetry?.({ attempt: attempt + 1, delayMs, status: response.status, url });
+		await waitForRetry(delayMs, options);
+	}
+	throw new Error('Remote model retry loop ended unexpectedly.');
+}
+
+function fetchOptions(signal) {
+	return {
+		cache: 'force-cache',
+		credentials: 'omit',
+		mode: 'cors',
+		signal
+	};
+}
+
+function retryDelay(response, options, attempt) {
+	const retryAfter = String(response?.headers?.get?.('retry-after') || '').trim();
+	const seconds = Number(retryAfter);
+	const requested = Number.isFinite(seconds) && seconds >= 0
+		? seconds * 1000
+		: Math.min(30000, 1000 * (2 ** attempt));
+	const maximum = positive(options.maximumRetryAfterMs, 65000);
+	return Math.min(maximum, Math.max(0, Math.round(requested)));
+}
+
+function waitForRetry(milliseconds, options) {
+	const waitFunction = options.waitFunction || defaultWait;
+	return waitFunction(milliseconds, options.signal);
+}
+
+function defaultWait(milliseconds, signal) {
+	return new Promise((resolve, reject) => {
+		const timer = setTimeout(resolve, milliseconds);
+		signal?.addEventListener?.('abort', () => {
+			clearTimeout(timer);
+			reject(signal.reason || new DOMException('Aborted', 'AbortError'));
+		}, { once: true });
+	});
+}
+
+function assertNotAborted(signal) {
+	if (signal?.aborted) throw signal.reason || new DOMException('Aborted', 'AbortError');
+}
+
+async function openCache(cacheStorage, cacheName = REMOTE_MODEL_CACHE_NAME) {
+	if (!cacheStorage || typeof cacheStorage.open !== 'function') return null;
+	try {
+		return await cacheStorage.open(cacheName);
+	} catch {
+		return null;
+	}
+}
+
+function nonnegative(value, fallback) {
+	const number = Number(value);
+	return Number.isFinite(number) && number >= 0 ? Math.floor(number) : fallback;
+}
+
+function positive(value, fallback) {
+	const number = Number(value);
+	return Number.isFinite(number) && number > 0 ? number : fallback;
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProgressiveAssetFetch.js */
+__awtsmoosModule_227 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file ProgressiveAssetFetch.js
+ * @description Streams verified local GLBs first and falls back to their immutable remote mirror.
+ * The Awtsmoos draws every measured byte through the nearest honest gate;
+ * Awtsmoos.com remembers each vessel and reveals the mirror only when local service must wait.
+ */
+
+var isTrustedModelUrl = __awtsmoosModule_176.isTrustedModelUrl;
+var modelUrlCandidates = __awtsmoosModule_176.modelUrlCandidates;
+var cachedModelResponse = __awtsmoosModule_228.cachedModelResponse;
+
+const GLB_MAGIC = 0x46546c67;
+const GLB_HEADER_BYTES = 12;
+
+async function fetchAssetBuffer(url, onProgress = () => {}, dependencies = {}) {
+	if (!isTrustedModelUrl(url)) throw new Error(`Untrusted model URL: ${url}`);
+	const candidates = modelUrlCandidates(url);
+	const failures = [];
+	for (const candidate of candidates) {
+		try {
+			return await fetchCandidate(candidate, onProgress, dependencies);
+		} catch (error) {
+			failures.push(`${candidate}: ${error.message}`);
+		}
+	}
+	throw new Error(`Every verified model source failed. ${failures.join(' | ')}`);
+}
+
+
+__exports.fetchAssetBuffer = fetchAssetBuffer;
+async function fetchCandidate(url, onProgress, dependencies) {
+	const cached = await cachedModelResponse(url, dependencies);
+	const response = cached.response;
+	if (!response.ok) throw new Error(`HTTP ${response.status}`);
+	let total = Number(response.headers.get('content-length')) || 0;
+	const reader = response.body?.getReader?.();
+	if (!reader) {
+		const buffer = await response.arrayBuffer();
+		total = total || glbLength(new Uint8Array(buffer)) || buffer.byteLength;
+		report(onProgress, buffer.byteLength, total, cached.source, url);
+		return receipt(response, buffer, cached.source, url);
+	}
+	const chunks = [];
+	let loaded = 0;
+	report(onProgress, loaded, total, cached.source, url);
+	while (true) {
+		const { done, value } = await reader.read();
+		if (done) break;
+		chunks.push(value);
+		loaded += value.byteLength;
+		if (!total && loaded >= GLB_HEADER_BYTES) total = glbLength(firstBytes(chunks, GLB_HEADER_BYTES));
+		report(onProgress, loaded, total, cached.source, url);
+	}
+	const bytes = mergeChunks(chunks, loaded);
+	total ||= bytes.byteLength;
+	report(onProgress, loaded, total, cached.source, url);
+	return receipt(response, bytes.buffer, cached.source, url);
+}
+
+function glbLength(bytes) {
+	if (bytes.byteLength < GLB_HEADER_BYTES) return 0;
+	const view = new DataView(bytes.buffer, bytes.byteOffset, GLB_HEADER_BYTES);
+	return view.getUint32(0, true) === GLB_MAGIC ? view.getUint32(8, true) : 0;
+}
+
+function firstBytes(chunks, count) {
+	const bytes = new Uint8Array(count);
+	let offset = 0;
+	for (const chunk of chunks) {
+		const amount = Math.min(chunk.byteLength, count - offset);
+		bytes.set(chunk.subarray(0, amount), offset);
+		offset += amount;
+		if (offset === count) break;
+	}
+	return bytes;
+}
+
+function mergeChunks(chunks, loaded) {
+	const bytes = new Uint8Array(loaded);
+	let offset = 0;
+	for (const chunk of chunks) {
+		bytes.set(chunk, offset);
+		offset += chunk.byteLength;
+	}
+	return bytes;
+}
+
+function receipt(response, buffer, cacheSource, resolvedUrl) {
+	return {
+		buffer,
+		cacheSource,
+		contentType: response.headers.get('content-type') || 'model/gltf-binary',
+		resolvedUrl
+	};
+}
+
+function report(onProgress, loaded, total, cacheSource, resolvedUrl) {
+	onProgress({ cacheSource, lengthComputable: total > 0, loaded, phase: 'download', progress: total > 0 ? loaded / total : null, resolvedUrl, total });
+}
+
+__exports.default = fetchAssetBuffer;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/ModelAssetTemplateCache.js */
+__awtsmoosModule_224 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file ModelAssetTemplateCache.js
+ * @description Owns trusted GLB template promises, parsing, eviction, and source receipts.
+ * The Awtsmoos gives one measured garment to many independent forms;
+ * Awtsmoos.com revokes temporary doors and evicts every promise that storms.
+ */
+
+var loadTinyGltf = __awtsmoosModule_225.loadTinyGltf;
+var fetchAssetBuffer = __awtsmoosModule_227.fetchAssetBuffer;
+var isTrustedModelUrl = __awtsmoosModule_176.isTrustedModelUrl;
+
+const templatePromises = new Map();
+let templateLoads = 0;
+
+async function loadCachedModelTemplate(url, options = {}) {
+	const resourceUrl = trustedModelUrl(url);
+	const wasCached = templatePromises.has(resourceUrl);
+	if (!wasCached) {
+		templateLoads += 1;
+		const promise = createTemplate(resourceUrl, options).catch(error => {
+			templatePromises.delete(resourceUrl);
+			throw modelLoadError(resourceUrl, error);
+		});
+		templatePromises.set(resourceUrl, promise);
+	}
+	const template = await templatePromises.get(resourceUrl);
+	if (wasCached) options.onProgress?.({ cached: true, phase: 'ready', progress: 1 });
+	return { resourceUrl, template };
+}
+
+
+__exports.loadCachedModelTemplate = loadCachedModelTemplate;
+function modelTemplateCacheStats() {
+	return {
+		templateLoads,
+		templatesCached: templatePromises.size
+	};
+}
+
+
+__exports.modelTemplateCacheStats = modelTemplateCacheStats;
+function clearModelTemplateCache() {
+	templatePromises.clear();
+	templateLoads = 0;
+}
+
+
+__exports.clearModelTemplateCache = clearModelTemplateCache;
+function trustedModelResourceUrl(url) {
+	return trustedModelUrl(url);
+}
+
+
+__exports.trustedModelResourceUrl = trustedModelResourceUrl;
+async function createTemplate(resourceUrl, options) {
+	const asset = await fetchAssetBuffer(resourceUrl, options.onProgress, options);
+	options.onProgress?.({
+		cacheSource: asset.cacheSource,
+		loaded: asset.buffer.byteLength,
+		phase: 'parsing',
+		progress: 1,
+		resolvedUrl: asset.resolvedUrl,
+		total: asset.buffer.byteLength
+	});
+	const objectUrl = URL.createObjectURL(new Blob([asset.buffer], { type: asset.contentType }));
+	try {
+		const template = await loadTinyGltf(objectUrl);
+		template.scene.userData.originalSourceUrl = resourceUrl;
+		template.scene.userData.resolvedSourceUrl = asset.resolvedUrl;
+		template.scene.userData.remoteModelCacheSource = asset.cacheSource;
+		options.onProgress?.({
+			cacheSource: asset.cacheSource,
+			phase: 'ready',
+			progress: 1,
+			resolvedUrl: asset.resolvedUrl
+		});
+		return template;
+	} finally {
+		URL.revokeObjectURL(objectUrl);
+	}
+}
+
+function modelLoadError(resourceUrl, error) {
+	const wrapped = new Error(`Unable to load trusted model ${resourceUrl}: ${error.message}`);
+	wrapped.cause = error;
+	return wrapped;
+}
+
+function trustedModelUrl(url) {
+	const value = String(url || '').trim();
+	if (!isTrustedModelUrl(value)) {
+		throw new Error(`Model loading requires a verified content-addressed URL: ${value}`);
+	}
+	return value;
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/ModelAssetLoader.js */
+__awtsmoosModule_209 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file ModelAssetLoader.js
+ * @description Instantiates isolated models and reveals an explicit graceful fallback path.
+ * The Awtsmoos clothes each actor while one shared template remains true;
+ * Awtsmoos.com records success or failure without poisoning the next view.
+ */
+
+var instantiateTinyGltf = __awtsmoosModule_210.instantiateTinyGltf;
+var clearModelTemplateCache = __awtsmoosModule_224.clearModelTemplateCache;
+var loadCachedModelTemplate = __awtsmoosModule_224.loadCachedModelTemplate;
+var modelTemplateCacheStats = __awtsmoosModule_224.modelTemplateCacheStats;
+var trustedModelResourceUrl = __awtsmoosModule_224.trustedModelResourceUrl;
+
+let instancesCreated = 0;
+let fallbacksCreated = 0;
+
+async function loadSharedGltfTemplate(url, options = {}) {
+	const { template } = await loadCachedModelTemplate(url, options);
+	return template;
+}
+
+
+__exports.loadSharedGltfTemplate = loadSharedGltfTemplate;
+async function loadIsolatedGltf(url, label, options = {}) {
+	const resourceUrl = trustedModelResourceUrl(url);
+	try {
+		const { template } = await loadCachedModelTemplate(resourceUrl, options);
+		const gltf = instantiateTinyGltf(template, {
+			label,
+			materialResolver: options.materialResolver
+		});
+		instancesCreated += 1;
+		gltf.scene.userData.isolatedModelLoad = modelReceipt(
+			label,
+			resourceUrl,
+			template.scene.userData.resolvedSourceUrl
+		);
+		return gltf;
+	} catch (error) {
+		reportFailure(options, resourceUrl, error);
+		if (typeof options.fallbackFactory !== 'function') throw error;
+		const fallback = await options.fallbackFactory({ error, label, url: resourceUrl });
+		fallbacksCreated += 1;
+		fallback.scene.userData.modelAssetFallback = {
+			error: error.message,
+			label,
+			originalUrl: resourceUrl
+		};
+		return fallback;
+	}
+}
+
+
+__exports.loadIsolatedGltf = loadIsolatedGltf;
+function sharedGltfAssetStats() {
+	return {
+		fallbacksCreated,
+		instancesCreated,
+		...modelTemplateCacheStats()
+	};
+}
+
+
+__exports.sharedGltfAssetStats = sharedGltfAssetStats;
+function clearSharedGltfAssetCache() {
+	clearModelTemplateCache();
+	instancesCreated = 0;
+	fallbacksCreated = 0;
+}
+
+
+__exports.clearSharedGltfAssetCache = clearSharedGltfAssetCache;
+function modelReceipt(label, originalUrl, resolvedUrl) {
+	return {
+		instanceLabel: label,
+		originalUrl,
+		resolvedUrl,
+		sharedNetworkResource: originalUrl,
+		sharedTemplate: true
+	};
+}
+
+function reportFailure(options, resourceUrl, error) {
+	options.onProgress?.({
+		error: error.message,
+		phase: 'failed',
+		progress: 1,
+		resolvedUrl: resourceUrl
+	});
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/NatureAnimationLoop.js */
+__awtsmoosModule_229 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file NatureAnimationLoop.js
+ * @description Gives shared wind and visibility one cancellable quality-bounded frame vessel.
+ * The Awtsmoos renews motion and sight together yet leaves no orphan after the garden is gone;
+ * Awtsmoos.com advances only on measured steps, preserving mobile breath from dusk through dawn.
+ */
+
+/** Starts one cancellable loop and reports whether live frames are available. */
+function startNatureAnimation(wind, instances, options = {}) {
+	const request = options.requestFrame || globalThis.requestAnimationFrame?.bind(globalThis);
+	const cancel = options.cancelFrame || globalThis.cancelAnimationFrame?.bind(globalThis);
+	let handle = null;
+	let running = typeof request === 'function';
+
+	function frame(milliseconds) {
+		if (!running) return;
+		const seconds = milliseconds / 1000;
+		if (wind.update(seconds, instances)) {
+			options.onStep?.(seconds);
+		}
+		handle = request(frame);
+	}
+
+	if (running) {
+		handle = request(frame);
+	}
+	return Object.freeze({
+		destroy() {
+			running = false;
+			if (handle !== null && typeof cancel === 'function') {
+				cancel(handle);
+			}
+			handle = null;
+		},
+		running: () => running
+	});
+}
+
+__exports.startNatureAnimation = startNatureAnimation;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/NatureQualityBudget.js */
+__awtsmoosModule_232 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file NatureQualityBudget.js
+ * @description Bounds hero GLBs, procedural grass, wind cadence, shadows, and culling.
+ * The Awtsmoos lets real models crown the valley without replacing its batched green sea;
+ * Awtsmoos.com gives every device five living families and only measured added complexity.
+ */
+
+const BUDGETS = Object.freeze({
+	low: budget([1, 1, 1, 1, 1], 420, 12, 22, 82),
+	medium: budget([1, 1, 2, 1, 1], 760, 18, 30, 110),
+	high: budget([1, 1, 2, 1, 2], 1200, 24, 42, 145),
+	cinematic: budget([2, 2, 3, 2, 3], 1800, 30, 58, 180)
+});
+
+/** Returns one immutable nature budget, falling back to the mobile-safe tier. */
+function natureQualityBudget(quality = 'low') {
+	return BUDGETS[quality] || BUDGETS.low;
+}
+
+
+__exports.natureQualityBudget = natureQualityBudget;
+function natureQualityBudgets() {
+	return BUDGETS;
+}
+
+
+__exports.natureQualityBudgets = natureQualityBudgets;
+function budget(counts, grassBlades, windFps, shadowDistance, cullDistance) {
+	const [pine, broadleaf, flower, bush, rock] = counts;
+	return Object.freeze({
+		counts: Object.freeze({ broadleaf, bush, flower, pine, rock }),
+		cullDistance,
+		fadeStart: Math.round(cullDistance * 0.72),
+		grassBlades,
+		shadowDistance,
+		windFps
+	});
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/SharedWindField.js */
+__awtsmoosModule_231 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file SharedWindField.js
+ * @description Moves real plants and publishes one truthful wind covenant for static batches.
+ * The Awtsmoos sends one hidden song through branch, bush, flower, and blade in time;
+ * Awtsmoos.com moves supported scenes and names static limits without pretending a shader rhyme.
+ */
+
+var natureQualityBudget = __awtsmoosModule_232.natureQualityBudget;
+
+const SHARED_PHASE = 0.37;
+const SHARED_STRENGTH = 1;
+
+class SharedWindField {
+	constructor(options = {}) {
+		this.framesPerSecond = Math.max(1, options.framesPerSecond || 12);
+		this.lastStep = -Infinity;
+		this.phase = options.phase ?? SHARED_PHASE;
+		this.strength = options.strength ?? SHARED_STRENGTH;
+	}
+
+	/** Advances all wind-responsive instances at a quality-bounded cadence. */
+	update(seconds, instances = []) {
+		if (seconds - this.lastStep < 1 / this.framesPerSecond) {
+			return false;
+		}
+		this.lastStep = seconds;
+		for (const instance of instances) {
+			this.move(instance, seconds);
+		}
+		return true;
+	}
+
+	move(instance, seconds) {
+		const placement = instance.placement;
+		const amplitude = placement.asset.windAmplitude * this.strength;
+		if (!amplitude) {
+			return;
+		}
+		const gust = Math.sin(seconds * 0.82 + placement.index * 1.71 + this.phase);
+		const sway = gust * amplitude;
+		setEulerQuaternion(instance.scene.quaternion, sway, placement.yaw, sway * 0.45);
+	}
+
+	snapshot() {
+		return windEvidence(this.framesPerSecond, 'real-model-quaternion-sway');
+	}
+}
+
+
+__exports.SharedWindField = SharedWindField;
+/** Returns the shared wind evidence used by static procedural batches. */
+function sharedWindEvidence(quality, mode = 'static-batched-renderer-limit') {
+	return windEvidence(natureQualityBudget(quality).windFps, mode);
+}
+
+
+__exports.sharedWindEvidence = sharedWindEvidence;
+function windEvidence(framesPerSecond, mode) {
+	return Object.freeze({
+		framesPerSecond,
+		mode,
+		phase: SHARED_PHASE,
+		strength: SHARED_STRENGTH
+	});
+}
+
+/** Writes one normalized XYZ Euler rotation into a tiny-runtime quaternion. */
+function setEulerQuaternion(quaternion, x, y, z) {
+	const sx = Math.sin(x / 2);
+	const cx = Math.cos(x / 2);
+	const sy = Math.sin(y / 2);
+	const cy = Math.cos(y / 2);
+	const sz = Math.sin(z / 2);
+	const cz = Math.cos(z / 2);
+	return quaternion.set(
+		sx * cy * cz + cx * sy * sz,
+		cx * sy * cz - sx * cy * sz,
+		cx * cy * sz + sx * sy * cz,
+		cx * cy * cz - sx * sy * sz
+	);
+}
+
+__exports.setEulerQuaternion = setEulerQuaternion;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/NatureInstanceDecoration.js */
+__awtsmoosModule_230 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file NatureInstanceDecoration.js
+ * @description Applies tiny-runtime transforms and truthful rendering evidence to real nature.
+ * The Awtsmoos sets every root in place while shadow, distance, and collision remain named;
+ * Awtsmoos.com refuses false powers, so unsupported light is intent and solid fallback is framed.
+ */
+
+var setEulerQuaternion = __awtsmoosModule_231.setEulerQuaternion;
+
+/** Decorates one isolated GLB scene with placement and quality evidence. */
+function decorateNatureInstance(scene, placement, budget) {
+	scene.name = `AwtsmoosRealNature-${placement.asset.id}-${placement.index}`;
+	scene.position.set(placement.x, placement.y, placement.z);
+	scene.scale.set(placement.scale, placement.scale, placement.scale);
+	setEulerQuaternion(scene.quaternion, 0, placement.yaw, 0);
+	scene.traverse(node => decorateNode(node, placement, budget));
+	return Object.freeze({ placement, scene });
+}
+
+
+__exports.decorateNatureInstance = decorateNatureInstance;
+function decorateNode(node, placement, budget) {
+	node.userData = {
+		...node.userData,
+		AwtsmoosCollision: collisionEvidence(placement.asset),
+		AwtsmoosLod: {
+			className: 'vegetation',
+			cullDistance: budget.cullDistance,
+			fadeStart: budget.fadeStart
+		},
+		AwtsmoosNature: {
+			assetId: placement.asset.id,
+			family: placement.asset.family,
+			modelPath: placement.asset.modelPath,
+			visualOnly: true
+		},
+		AwtsmoosShadow: {
+			distance: budget.shadowDistance,
+			intent: placement.asset.shadowIntent,
+			supportedByRenderer: false
+		}
+	};
+}
+
+function collisionEvidence(asset) {
+	return {
+		modelVisualOnly: true,
+		provider: asset.solid ? 'procedural-forest-ledger' : 'none',
+		solidIntent: asset.solid
+	};
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/NatureInstanceLoader.js */
+__awtsmoosModule_233 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file NatureInstanceLoader.js
+ * @description Instantiates cached real-nature templates in bounded, yielding sequence.
+ * The Awtsmoos reveals each tree and flower without crushing the frame beneath their birth;
+ * Awtsmoos.com shares one vessel per asset, then gives the browser breath between forms of earth.
+ */
+
+/** Loads placements one at a time while preserving partial failure evidence. */
+async function loadNatureInstances(placements, options = {}) {
+	const results = [];
+	const loadModel = options.loadModel;
+	const decorate = options.decorate;
+	const yieldControl = options.yieldControl || defaultYieldControl;
+	for (let index = 0; index < placements.length; index += 1) {
+		const placement = placements[index];
+		results.push(await loadPlacement(placement, options.budget, loadModel, decorate));
+		if (index + 1 < placements.length) {
+			await yieldControl();
+		}
+	}
+	return Object.freeze({
+		failures: results.filter(result => result.error).map(result => result.error),
+		instances: results.filter(result => result.instance).map(result => result.instance),
+		strategy: 'shared-template-sequential-yielding'
+	});
+}
+
+
+__exports.loadNatureInstances = loadNatureInstances;
+async function loadPlacement(placement, budget, loadModel, decorate) {
+	try {
+		const label = `real-nature-${placement.asset.id}-${placement.index}`;
+		const gltf = await loadModel(placement.asset.url, label);
+		return { instance: decorate(gltf.scene, placement, budget) };
+	} catch (error) {
+		return {
+			error: Object.freeze({
+				assetId: placement.asset.id,
+				message: error?.message || String(error)
+			})
+		};
+	}
+}
+
+function defaultYieldControl() {
+	return new Promise(resolve => {
+		if (typeof requestAnimationFrame === 'function') {
+			requestAnimationFrame(() => resolve());
+			return;
+		}
+		setTimeout(resolve, 0);
+	});
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/RealNatureAssetCatalog.js */
+__awtsmoosModule_235 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file RealNatureAssetCatalog.js
+ * @description Names the five inspected immutable nature vessels used by the living valley.
+ * The Awtsmoos clothes one breath in pine, leaf, blossom, bush, and stone;
+ * Awtsmoos.com keeps every source exact, so no painted promise is mistaken for grown.
+ */
+
+var remoteModelUrl = __awtsmoosModule_176.remoteModelUrl;
+
+const RECORDS = [
+	asset('pine', 'tree', 'reference-world/PineTree_3.glb', 1.35, true, 0.018),
+	asset('broadleaf', 'tree', 'reference-world/NormalTree_5.glb', 1.2, true, 0.024),
+	asset('flower', 'flower', 'reference-world/Flower_4_Clump.glb', 0.85, false, 0.052),
+	asset('bush', 'bush', 'reference-world/Bush_Large_Flowers.glb', 1.05, false, 0.038),
+	asset('rock', 'rock', 'reference-world/Rock_2.glb', 1.1, true, 0)
+];
+
+/** Returns the frozen catalog whose URLs come from the inspected model authority. */
+function realNatureAssetCatalog() {
+	return RECORDS;
+}
+
+
+__exports.realNatureAssetCatalog = realNatureAssetCatalog;
+/** Resolves one named record without inventing a fallback model. */
+function realNatureAsset(assetId) {
+	return RECORDS.find(record => record.id === assetId) || null;
+}
+
+
+__exports.realNatureAsset = realNatureAsset;
+function asset(id, family, modelPath, scale, solid, windAmplitude) {
+	return Object.freeze({
+		family,
+		id,
+		modelPath,
+		scale,
+		shadowIntent: family !== 'flower',
+		solid,
+		url: remoteModelUrl(modelPath),
+		windAmplitude
+	});
+}
+
+Object.freeze(RECORDS);
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/NaturePlacementField.js */
+__awtsmoosModule_234 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file NaturePlacementField.js
+ * @description Creates deterministic settlement gardens and an outer real-nature ring.
+ * The Awtsmoos measures each root against road, slope, and village breath;
+ * Awtsmoos.com lets flowers greet the traveler while trees guard the farther depth.
+ */
+
+var realNatureAssetCatalog = __awtsmoosModule_235.realNatureAssetCatalog;
+
+const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5));
+const RADII = Object.freeze({
+	broadleaf: [62, 124],
+	bush: [24, 48],
+	flower: [16, 36],
+	pine: [72, 138],
+	rock: [42, 92]
+});
+
+/** Builds bounded placements from the same ground sampler used by the playable world. */
+function createNaturePlacements(groundSampler, budget) {
+	const placements = [];
+	for (const asset of realNatureAssetCatalog()) {
+		const count = budget.counts[asset.id] || 0;
+		for (let index = 0; index < count; index += 1) {
+			const placement = createPlacement(asset, index, count, groundSampler);
+			if (placement) placements.push(placement);
+		}
+	}
+	return Object.freeze(placements);
+}
+
+
+__exports.createNaturePlacements = createNaturePlacements;
+function createPlacement(asset, index, count, groundSampler) {
+	const [innerRadius, outerRadius] = RADII[asset.id];
+	const fraction = (index + 0.62) / Math.max(1, count);
+	const radius = innerRadius + (outerRadius - innerRadius) * fraction;
+	const angle = index * GOLDEN_ANGLE + familyPhase(asset.id);
+	const x = Math.cos(angle) * radius;
+	const z = Math.sin(angle) * radius;
+	const sample = groundSampler?.heightAt?.(x, z);
+	if (!sample || !Number.isFinite(sample.y)) return null;
+	if ((sample.normal?.y ?? 1) < minimumNormalY(asset.family)) return null;
+	return Object.freeze({
+		asset,
+		index,
+		scale: asset.scale * (0.9 + ((index * 37) % 21) / 100),
+		x,
+		y: sample.y,
+		yaw: angle + Math.PI,
+		z
+	});
+}
+
+function familyPhase(assetId) {
+	return ({ broadleaf: 1.4, bush: 0.7, flower: 0.2, pine: 2.6, rock: 1.9 })[assetId];
+}
+
+function minimumNormalY(family) {
+	return family === 'rock' ? 0.72 : 0.84;
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/NatureVisibilityField.js */
+__awtsmoosModule_236 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file NatureVisibilityField.js
+ * @description Applies real distance culling to every isolated tree, flower, bush, and rock scene.
+ * The Awtsmoos reveals what belongs near the traveler and folds distant vessels from the eye;
+ * Awtsmoos.com counts each visible form, so mobile budgets become behavior rather than a lie.
+ */
+
+class NatureVisibilityField {
+	constructor(instances, budget, originProvider) {
+		this.instances = instances;
+		this.cullDistanceSquared = budget.cullDistance ** 2;
+		this.originProvider = originProvider || (() => ({ x: 0, y: 0, z: 0 }));
+		this.visible = instances.length;
+	}
+
+	/** Updates scene visibility from the live traveler or camera position. */
+	update() {
+		const origin = this.originProvider() || {};
+		const x = finite(origin.x);
+		const z = finite(origin.z);
+		let visible = 0;
+		for (const instance of this.instances) {
+			const placement = instance.placement;
+			const dx = placement.x - x;
+			const dz = placement.z - z;
+			const withinRange = dx * dx + dz * dz <= this.cullDistanceSquared;
+			instance.scene.visible = withinRange;
+			if (withinRange) visible += 1;
+		}
+		this.visible = visible;
+		return visible;
+	}
+
+	snapshot() {
+		return Object.freeze({
+			culled: this.instances.length - this.visible,
+			total: this.instances.length,
+			visible: this.visible
+		});
+	}
+}
+
+
+__exports.NatureVisibilityField = NatureVisibilityField;
+function finite(value) {
+	const number = Number(value);
+	return Number.isFinite(number) ? number : 0;
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/RealNatureSystem.js */
+__awtsmoosModule_208 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file RealNatureSystem.js
+ * @description Loads bounded GLB scenes sequentially with shared wind, culling, and evidence.
+ * The Awtsmoos reveals many living forms from five trusted vessels without crushing the way;
+ * Awtsmoos.com yields between manifestations, keeping the world responsive through the day.
+ */
+
+var loadIsolatedGltf = __awtsmoosModule_209.loadIsolatedGltf;
+var startNatureAnimation = __awtsmoosModule_229.startNatureAnimation;
+var decorateNatureInstance = __awtsmoosModule_230.decorateNatureInstance;
+var loadNatureInstances = __awtsmoosModule_233.loadNatureInstances;
+var createNaturePlacements = __awtsmoosModule_234.createNaturePlacements;
+var natureQualityBudget = __awtsmoosModule_232.natureQualityBudget;
+var NatureVisibilityField = __awtsmoosModule_236.NatureVisibilityField;
+var SharedWindField = __awtsmoosModule_231.SharedWindField;
+
+/** Creates a partially resilient real-nature package without burst instantiation. */
+async function createRealNatureSystem(options = {}) {
+	const budget = natureQualityBudget(options.quality);
+	const placements = createNaturePlacements(options.groundSampler, budget);
+	const loaded = await loadNatureInstances(placements, {
+		budget,
+		decorate: decorateNatureInstance,
+		loadModel: options.loadModel || loadIsolatedGltf,
+		yieldControl: options.yieldControl
+	});
+	for (const instance of loaded.instances) {
+		options.group?.add?.(instance.scene);
+	}
+	const wind = new SharedWindField({ framesPerSecond: budget.windFps });
+	const visibility = new NatureVisibilityField(
+		loaded.instances,
+		budget,
+		options.visibilityOrigin
+	);
+	visibility.update();
+	const animation = startNatureAnimation(wind, loaded.instances, {
+		...options,
+		onStep: () => visibility.update()
+	});
+	return createPackage({
+		animation,
+		budget,
+		failures: loaded.failures,
+		group: options.group,
+		instances: loaded.instances,
+		placements,
+		strategy: loaded.strategy,
+		visibility,
+		wind
+	});
+}
+
+
+__exports.createRealNatureSystem = createRealNatureSystem;
+function createPackage(values) {
+	let destroyed = false;
+	const snapshot = () => Object.freeze({
+		animationRunning: values.animation.running(),
+		assets: [...new Set(values.instances.map(instance => instance.placement.asset.id))],
+		batching: values.strategy,
+		budget: values.budget,
+		collision: 'procedural-forest-ledger',
+		destroyed,
+		failures: [...values.failures],
+		families: countFamilies(values.instances),
+		installed: values.instances.length,
+		requested: values.placements.length,
+		shadowMaps: false,
+		visibility: values.visibility.snapshot(),
+		wind: values.wind.snapshot()
+	});
+	return Object.freeze({
+		destroy() {
+			if (destroyed) return;
+			destroyed = true;
+			values.animation.destroy();
+			for (const instance of values.instances) {
+				values.group?.remove?.(instance.scene);
+			}
+		},
+		instances: values.instances,
+		snapshot
+	});
+}
+
+function countFamilies(instances) {
+	const counts = {};
+	for (const instance of instances) {
+		const family = instance.placement.asset.family;
+		counts[family] = (counts[family] || 0) + 1;
+	}
+	return Object.freeze(counts);
+}
+
+__exports.default = createRealNatureSystem;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/LiveRealNatureBridge.js */
+__awtsmoosModule_205 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file LiveRealNatureBridge.js
+ * @description Waits for the final meadow runtime, then mounts real nature.
+ * The Awtsmoos ignores each passing bootstrap shadow and roots in the finished frame;
+ * Awtsmoos.com preserves honest failure and cleanup while every living form keeps its name.
+ */
+
+var attachLiveNatureRuntime = __awtsmoosModule_206.attachLiveNatureRuntime;
+var createLiveNatureContext = __awtsmoosModule_206.createLiveNatureContext;
+var currentLiveRuntime = __awtsmoosModule_206.currentLiveRuntime;
+var detachLiveNatureRuntime = __awtsmoosModule_206.detachLiveNatureRuntime;
+var liveRuntimeReady = __awtsmoosModule_206.liveRuntimeReady;
+
+function createLiveRealNatureBridge(options = {}) {
+	const environment = options.environment || globalThis;
+	const loadModule = options.loadModule || (() => Promise.resolve(__awtsmoosModule_208));
+	const schedule = options.schedule || ((callback, delay) => environment.setTimeout(callback, delay));
+	const cancel = options.cancel || (handle => environment.clearTimeout(handle));
+	let attempts = 0;
+	let error = null;
+	let group = null;
+	let promise = null;
+	let runtime = options.runtime || null;
+	let state = 'cold';
+	let system = null;
+	let timer = null;
+
+	const controller = Object.freeze({
+		awtsmoosRealNatureBridge: true,
+		destroy,
+		snapshot,
+		start
+	});
+
+	function start() {
+		if (promise) return promise;
+		state = 'waiting-for-final-runtime';
+		promise = new Promise(resolve => probe(resolve));
+		return promise;
+	}
+
+	function probe(resolve) {
+		runtime = options.runtime || currentLiveRuntime(environment);
+		attempts += 1;
+		if (liveRuntimeReady(runtime)) {
+			mount(resolve);
+			return;
+		}
+		if (attempts >= (options.maximumAttempts || 240)) {
+			state = 'failed';
+			error = 'Final meadow runtime did not expose scene, terrain, renderer, state, and frame scheduler.';
+			resolve(snapshot());
+			return;
+		}
+		timer = schedule(() => probe(resolve), options.retryDelay || 50);
+	}
+
+	async function mount(resolve) {
+		state = 'loading-real-models';
+		const context = createLiveNatureContext(runtime);
+		group = context.group;
+		attachLiveNatureRuntime(runtime, controller);
+		try {
+			const module = await loadModule();
+			system = await module.createRealNatureSystem(context);
+			state = system.snapshot().failures.length ? 'ready-with-failures' : 'ready';
+			environment.addEventListener?.('pagehide', destroy, { once: true });
+		} catch (caught) {
+			error = caught?.message || String(caught);
+			state = 'failed';
+			detachLiveNatureRuntime(runtime, controller, group);
+		}
+		resolve(snapshot());
+	}
+
+	function destroy() {
+		if (state === 'destroyed') return;
+		if (timer !== null) cancel(timer);
+		timer = null;
+		system?.destroy();
+		detachLiveNatureRuntime(runtime, controller, group);
+		state = 'destroyed';
+	}
+
+	function snapshot() {
+		return Object.freeze({
+			attempts,
+			error,
+			state,
+			system: system?.snapshot() || null
+		});
+	}
+
+	return controller;
+}
+
+__exports.createLiveRealNatureBridge = createLiveRealNatureBridge;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/LiveRealNatureReceipt.js */
+__awtsmoosModule_237 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file LiveRealNatureReceipt.js
+ * @description Publishes one durable bridge receipt beyond replaceable runtime objects.
+ * The Awtsmoos keeps the garden's testimony when bootstrap vessels pass away;
+ * Awtsmoos.com lets browser proof read success or failure from one enduring display.
+ */
+
+function exposeLiveNatureReceipt(environment, controller) {
+	if (environment && typeof environment === 'object') {
+		environment.AwtsmoosRealNatureBridge = controller;
+	}
+}
+
+
+__exports.exposeLiveNatureReceipt = exposeLiveNatureReceipt;
+function clearLiveNatureReceipt(environment, controller) {
+	if (environment?.AwtsmoosRealNatureBridge === controller) {
+		delete environment.AwtsmoosRealNatureBridge;
+	}
+}
+
+__exports.clearLiveNatureReceipt = clearLiveNatureReceipt;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/LiveRealNatureScheduler.js */
+__awtsmoosModule_204 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file LiveRealNatureScheduler.js
+ * @description Owns one reusable bridge and its durable browser-visible receipt.
+ * The Awtsmoos calls one garden through many terrain and leaf awakenings;
+ * Awtsmoos.com preserves one testimony, avoiding duplicate roots and repeated makings.
+ */
+
+var createLiveRealNatureBridge = __awtsmoosModule_205.createLiveRealNatureBridge;
+var exposeLiveNatureReceipt = __awtsmoosModule_237.exposeLiveNatureReceipt;
+var currentLiveRuntime = __awtsmoosModule_206.currentLiveRuntime;
+
+let singleton = null;
+
+function scheduleLiveRealNatureBridge(environment = globalThis) {
+	const runtime = currentLiveRuntime(environment);
+	if (runtime?.realNature?.awtsmoosRealNatureBridge) {
+		exposeLiveNatureReceipt(environment, runtime.realNature);
+		return runtime.realNature;
+	}
+	if (singleton && singleton.snapshot().state !== 'destroyed') {
+		exposeLiveNatureReceipt(environment, singleton);
+		return singleton;
+	}
+	singleton = createLiveRealNatureBridge({ environment });
+	exposeLiveNatureReceipt(environment, singleton);
+	singleton.start();
+	return singleton;
+}
+
+__exports.scheduleLiveRealNatureBridge = scheduleLiveRealNatureBridge;
+return Object.freeze(__exports);
+})();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureDensityMath.js */
-__awtsmoosModule_201 = (() => {
+__awtsmoosModule_241 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -15888,7 +19000,7 @@ __exports.textureQualityScale = textureQualityScale;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureImageMetrics.js */
-__awtsmoosModule_203 = (() => {
+__awtsmoosModule_243 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -15921,7 +19033,7 @@ __exports.publicUrl = publicUrl;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureRepeatPolicy.js */
-__awtsmoosModule_204 = (() => {
+__awtsmoosModule_244 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -15945,7 +19057,7 @@ __exports.REPEAT_HOOKS = REPEAT_HOOKS;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureDensityPlan.js */
-__awtsmoosModule_202 = (() => {
+__awtsmoosModule_242 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -15958,11 +19070,11 @@ const __exports = {};
  * Awtsmoos.com keeps this bounded policy apart from exact authored fractions and their amount.
  */
 
-var boundedTextureAxisPlan = __awtsmoosModule_201.boundedTextureAxisPlan;
-var positiveTextureNumber = __awtsmoosModule_201.positiveTextureNumber;
-var textureQualityScale = __awtsmoosModule_201.textureQualityScale;
-var textureSize = __awtsmoosModule_203.textureSize;
-var REPEAT_HOOKS = __awtsmoosModule_204.REPEAT_HOOKS;
+var boundedTextureAxisPlan = __awtsmoosModule_241.boundedTextureAxisPlan;
+var positiveTextureNumber = __awtsmoosModule_241.positiveTextureNumber;
+var textureQualityScale = __awtsmoosModule_241.textureQualityScale;
+var textureSize = __awtsmoosModule_243.textureSize;
+var REPEAT_HOOKS = __awtsmoosModule_244.REPEAT_HOOKS;
 
 function textureDensityPlan(options = {}) {
 	const source = textureSize(options.image);
@@ -16016,7 +19128,7 @@ __exports.textureDensityPlan = textureDensityPlan;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureExactRepeat.js */
-__awtsmoosModule_200 = (() => {
+__awtsmoosModule_240 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -16029,10 +19141,10 @@ const __exports = {};
  * Awtsmoos.com lets explicit bounded callers choose restraint while authored fractions continue to flow.
  */
 
-var exactPixelRepeat = __awtsmoosModule_201.exactPixelRepeat;
-var positiveTextureNumber = __awtsmoosModule_201.positiveTextureNumber;
-var textureDensityPlan = __awtsmoosModule_202.textureDensityPlan;
-var textureSize = __awtsmoosModule_203.textureSize;
+var exactPixelRepeat = __awtsmoosModule_241.exactPixelRepeat;
+var positiveTextureNumber = __awtsmoosModule_241.positiveTextureNumber;
+var textureDensityPlan = __awtsmoosModule_242.textureDensityPlan;
+var textureSize = __awtsmoosModule_243.textureSize;
 
 function repeatFromPixels(
 	width,
@@ -16077,7 +19189,7 @@ __exports.exactRepeat = exactRepeat;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureMaterialFields.js */
-__awtsmoosModule_205 = (() => {
+__awtsmoosModule_245 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -16090,9 +19202,9 @@ const __exports = {};
  * Awtsmoos.com keeps material assembly apart from density mathematics so each vessel stays ardent.
  */
 
-var repeatFromPixels = __awtsmoosModule_200.repeatFromPixels;
-var publicUrl = __awtsmoosModule_203.publicUrl;
-var textureSize = __awtsmoosModule_203.textureSize;
+var repeatFromPixels = __awtsmoosModule_240.repeatFromPixels;
+var publicUrl = __awtsmoosModule_243.publicUrl;
+var textureSize = __awtsmoosModule_243.textureSize;
 
 function materialTexture(
 	color,
@@ -16150,7 +19262,7 @@ __exports.mixRepeat = mixRepeat;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureRepeat.js */
-__awtsmoosModule_199 = (() => {
+__awtsmoosModule_239 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -16163,23 +19275,23 @@ const __exports = {};
  * Awtsmoos.com keeps every old import stable as exact coverage and GPU planning answer their call.
  */
 
-__exports.exactRepeat = __awtsmoosModule_200.exactRepeat;
-__exports.repeatFromPixels = __awtsmoosModule_200.repeatFromPixels;
-__exports.publicUrl = __awtsmoosModule_203.publicUrl;
-__exports.textureSize = __awtsmoosModule_203.textureSize;
-__exports.floorRepeat = __awtsmoosModule_205.floorRepeat;
-__exports.materialTexture = __awtsmoosModule_205.materialTexture;
-__exports.mixRepeat = __awtsmoosModule_205.mixRepeat;
-__exports.roadRepeat = __awtsmoosModule_205.roadRepeat;
-__exports.roofRepeat = __awtsmoosModule_205.roofRepeat;
-__exports.terrainRepeat = __awtsmoosModule_205.terrainRepeat;
-__exports.wallRepeat = __awtsmoosModule_205.wallRepeat;
-__exports.textureDensityPlan = __awtsmoosModule_202.textureDensityPlan;
-__exports.REPEAT_HOOKS = __awtsmoosModule_204.REPEAT_HOOKS;
+__exports.exactRepeat = __awtsmoosModule_240.exactRepeat;
+__exports.repeatFromPixels = __awtsmoosModule_240.repeatFromPixels;
+__exports.publicUrl = __awtsmoosModule_243.publicUrl;
+__exports.textureSize = __awtsmoosModule_243.textureSize;
+__exports.floorRepeat = __awtsmoosModule_245.floorRepeat;
+__exports.materialTexture = __awtsmoosModule_245.materialTexture;
+__exports.mixRepeat = __awtsmoosModule_245.mixRepeat;
+__exports.roadRepeat = __awtsmoosModule_245.roadRepeat;
+__exports.roofRepeat = __awtsmoosModule_245.roofRepeat;
+__exports.terrainRepeat = __awtsmoosModule_245.terrainRepeat;
+__exports.wallRepeat = __awtsmoosModule_245.wallRepeat;
+__exports.textureDensityPlan = __awtsmoosModule_242.textureDensityPlan;
+__exports.REPEAT_HOOKS = __awtsmoosModule_244.REPEAT_HOOKS;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveTexturePolicy.js */
-__awtsmoosModule_198 = (() => {
+__awtsmoosModule_238 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -16192,7 +19304,7 @@ const __exports = {};
  * surfaces at one world basis while leaving signs, atlases, leaves, and portraits whole.
  */
 
-var REPEAT_HOOKS = __awtsmoosModule_199.REPEAT_HOOKS;
+var REPEAT_HOOKS = __awtsmoosModule_239.REPEAT_HOOKS;
 
 const WHOLE_IMAGE_PATTERN = /(?:sign|scroll|mezuza|label|decal|atlas|leaf|blossom|window-card|interior-card|portrait|icon|sky|cloud)/i;
 
@@ -16242,18 +19354,21 @@ const __exports = {};
 
 /**
  * @file PrimitiveMaterialFactory.js
- * @description Binds measured local images and existing layered recipes to primitive geometry.
- * The Awtsmoos clothes each finite surface without changing the garment's pixels; Awtsmoos.com
- * preserves authored strata through hydration, lighting, batching, and final GPU submission.
+ * @description Binds local images to primitives and opens one imported live-nature scheduler.
+ * The Awtsmoos clothes each finite surface while one module awakening calls root and bloom;
+ * Awtsmoos.com preserves authored strata, batching, and final GPU truth in the rendered room.
  */
 
 var MeshStandardMaterial = __awtsmoosModule_18.MeshStandardMaterial;
 var cachedTextureImage = __awtsmoosModule_173.cachedTextureImage;
 var isSameOriginMaterialUrl = __awtsmoosModule_180.isSameOriginMaterialUrl;
-var TEXTURE_PURPOSES = __awtsmoosModule_188.TEXTURE_PURPOSES;
-var TEXTURE_URLS = __awtsmoosModule_188.TEXTURE_URLS;
+var TEXTURE_PURPOSES = __awtsmoosModule_194.TEXTURE_PURPOSES;
+var TEXTURE_URLS = __awtsmoosModule_194.TEXTURE_URLS;
+var scheduleLiveRealNatureBridge = __awtsmoosModule_204.scheduleLiveRealNatureBridge;
 var colorArray = __awtsmoosModule_112.colorArray;
-var createPrimitiveTexturePolicy = __awtsmoosModule_198.createPrimitiveTexturePolicy;
+var createPrimitiveTexturePolicy = __awtsmoosModule_238.createPrimitiveTexturePolicy;
+
+scheduleImportedNatureBridge();
 
 function createPrimitiveMaterial(definition, uvUnitsPerWorld) {
 	const textureUrl = textureUrlFor(definition);
@@ -16335,10 +19450,16 @@ function fallbackTexture(definition) {
 	if (/dirt|soil|garden/.test(id)) return TEXTURE_URLS.terrain.tilledSoil;
 	return TEXTURE_URLS.wood.planks1;
 }
+
+function scheduleImportedNatureBridge() {
+	if (typeof document !== 'undefined') {
+		scheduleLiveRealNatureBridge(globalThis);
+	}
+}
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveZoneWeights.js */
-__awtsmoosModule_206 = (() => {
+__awtsmoosModule_246 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -16378,7 +19499,7 @@ function clampUnit(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveUvProjection.js */
-__awtsmoosModule_207 = (() => {
+__awtsmoosModule_247 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -16514,11 +19635,11 @@ var flattenPrimitiveVertices = __awtsmoosModule_171.flattenPrimitiveVertices;
 var primitiveColorArray = __awtsmoosModule_171.primitiveColorArray;
 var primitiveIndexArray = __awtsmoosModule_171.primitiveIndexArray;
 var createPrimitiveMaterial = __awtsmoosModule_172.createPrimitiveMaterial;
-var primitiveUsesNativeDensity = __awtsmoosModule_198.primitiveUsesNativeDensity;
-var primitiveZoneWeights = __awtsmoosModule_206.primitiveZoneWeights;
-var measureUvUnitsPerWorld = __awtsmoosModule_207.measureUvUnitsPerWorld;
-var normalizePrimitiveUvsToWorld = __awtsmoosModule_207.normalizePrimitiveUvsToWorld;
-var projectPrimitiveUvs = __awtsmoosModule_207.projectPrimitiveUvs;
+var primitiveUsesNativeDensity = __awtsmoosModule_238.primitiveUsesNativeDensity;
+var primitiveZoneWeights = __awtsmoosModule_246.primitiveZoneWeights;
+var measureUvUnitsPerWorld = __awtsmoosModule_247.measureUvUnitsPerWorld;
+var normalizePrimitiveUvsToWorld = __awtsmoosModule_247.normalizePrimitiveUvsToWorld;
+var projectPrimitiveUvs = __awtsmoosModule_247.projectPrimitiveUvs;
 
 const WORLD_UV_BASIS = Object.freeze([1, 1]);
 
@@ -16822,7 +19943,7 @@ function groundAndAnimate(actor, deltaSeconds) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/canonicalSurfaceContract.js */
-__awtsmoosModule_210 = (() => {
+__awtsmoosModule_250 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -16887,7 +20008,7 @@ function integer(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonField.js */
-__awtsmoosModule_213 = (() => {
+__awtsmoosModule_253 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -17006,7 +20127,7 @@ function clamp(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCreatureSurfaceRegions.js */
-__awtsmoosModule_212 = (() => {
+__awtsmoosModule_252 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -17019,7 +20140,7 @@ const __exports = {};
  * Awtsmoos.com lets each region speak through contrast while one silhouette remains whole.
  */
 
-var minimalDemonSurfaceColor = __awtsmoosModule_213.minimalDemonSurfaceColor;
+var minimalDemonSurfaceColor = __awtsmoosModule_253.minimalDemonSurfaceColor;
 
 const DEMON_SURFACE_REGION_COLORS = Object.freeze({
 	arms: Object.freeze([0.78, 0.72, 0.88, 1]),
@@ -17083,7 +20204,7 @@ function clamp(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonSkinWeights.js */
-__awtsmoosModule_214 = (() => {
+__awtsmoosModule_254 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -17139,7 +20260,7 @@ function inverseDistance(first, second) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonSurfaceVertex.js */
-__awtsmoosModule_216 = (() => {
+__awtsmoosModule_256 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -17152,8 +20273,8 @@ const __exports = {};
  * face, horns, claws, torso, arms, and legs readable without detached geometry or dark holes.
  */
 
-var minimalDemonField = __awtsmoosModule_213.minimalDemonField;
-var readableDemonSurfaceColor = __awtsmoosModule_212.readableDemonSurfaceColor;
+var minimalDemonField = __awtsmoosModule_253.minimalDemonField;
+var readableDemonSurfaceColor = __awtsmoosModule_252.readableDemonSurfaceColor;
 
 function interpolateDemonSurface(first, second, firstValue, secondValue) {
 	const denominator = firstValue - secondValue;
@@ -17215,7 +20336,7 @@ function dot(first, second) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowMarchingTetrahedra.js */
-__awtsmoosModule_215 = (() => {
+__awtsmoosModule_255 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -17228,10 +20349,10 @@ const __exports = {};
  * ambiguity while every emitted triangle belongs to the same closed skinning garment.
  */
 
-var DEMON_FIELD_BOUNDS = __awtsmoosModule_213.DEMON_FIELD_BOUNDS;
-var minimalDemonField = __awtsmoosModule_213.minimalDemonField;
-var appendDemonTriangle = __awtsmoosModule_216.appendDemonTriangle;
-var interpolateDemonSurface = __awtsmoosModule_216.interpolateDemonSurface;
+var DEMON_FIELD_BOUNDS = __awtsmoosModule_253.DEMON_FIELD_BOUNDS;
+var minimalDemonField = __awtsmoosModule_253.minimalDemonField;
+var appendDemonTriangle = __awtsmoosModule_256.appendDemonTriangle;
+var interpolateDemonSurface = __awtsmoosModule_256.interpolateDemonSurface;
 
 const CORNERS = [[0,0,0],[1,0,0],[1,1,0],[0,1,0],[0,0,1],[1,0,1],[1,1,1],[0,1,1]];
 const TETRAHEDRA = [[0,5,1,6],[0,1,2,6],[0,2,3,6],[0,3,7,6],[0,7,4,6],[0,4,5,6]];
@@ -17293,7 +20414,7 @@ function crossing(points, values, first, second) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonGeometry.js */
-__awtsmoosModule_211 = (() => {
+__awtsmoosModule_251 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -17308,9 +20429,9 @@ const __exports = {};
 
 var BufferAttribute = __awtsmoosModule_18.BufferAttribute;
 var BufferGeometry = __awtsmoosModule_18.BufferGeometry;
-var demonSurfaceRegionContrast = __awtsmoosModule_212.demonSurfaceRegionContrast;
-var createMinimalDemonSkinAttributes = __awtsmoosModule_214.createMinimalDemonSkinAttributes;
-var createMinimalDemonSurface = __awtsmoosModule_215.createMinimalDemonSurface;
+var demonSurfaceRegionContrast = __awtsmoosModule_252.demonSurfaceRegionContrast;
+var createMinimalDemonSkinAttributes = __awtsmoosModule_254.createMinimalDemonSkinAttributes;
+var createMinimalDemonSurface = __awtsmoosModule_255.createMinimalDemonSurface;
 
 let cachedGeometry = null;
 
@@ -17363,7 +20484,7 @@ function luminance(color) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonReadabilityProfile.js */
-__awtsmoosModule_219 = (() => {
+__awtsmoosModule_259 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -17433,7 +20554,7 @@ function hashIdentity(identity) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCreatureSurfaceEvidence.js */
-__awtsmoosModule_221 = (() => {
+__awtsmoosModule_261 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -17512,7 +20633,7 @@ function luminance(color) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCreatureTexturePainter.js */
-__awtsmoosModule_220 = (() => {
+__awtsmoosModule_260 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -17525,8 +20646,8 @@ const __exports = {};
  * so darkness remains thematic while its grain, ridges, runes, and scars remain readable.
  */
 
-var MINIMAL_DEMON_READABILITY_PROFILES = __awtsmoosModule_219.MINIMAL_DEMON_READABILITY_PROFILES;
-var measureMinimalCreatureSurface = __awtsmoosModule_221.measureMinimalCreatureSurface;
+var MINIMAL_DEMON_READABILITY_PROFILES = __awtsmoosModule_259.MINIMAL_DEMON_READABILITY_PROFILES;
+var measureMinimalCreatureSurface = __awtsmoosModule_261.measureMinimalCreatureSurface;
 
 const MINIMAL_SHADOW_SURFACE_FAMILIES = MINIMAL_DEMON_READABILITY_PROFILES;
 __exports.MINIMAL_SHADOW_SURFACE_FAMILIES = MINIMAL_SHADOW_SURFACE_FAMILIES;
@@ -17603,7 +20724,7 @@ function paintRunes(context, family, size) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCreatureTexture.js */
-__awtsmoosModule_218 = (() => {
+__awtsmoosModule_258 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -17616,10 +20737,10 @@ const __exports = {};
  * records every allocation, map dimension, pattern, and luminance range before GPU hydration.
  */
 
-var minimalDemonReadabilityProfile = __awtsmoosModule_219.minimalDemonReadabilityProfile;
-var MINIMAL_SHADOW_SURFACE_FAMILIES = __awtsmoosModule_220.MINIMAL_SHADOW_SURFACE_FAMILIES;
-var measureMinimalShadowSurface = __awtsmoosModule_220.measureMinimalShadowSurface;
-var paintMinimalShadowSurface = __awtsmoosModule_220.paintMinimalShadowSurface;
+var minimalDemonReadabilityProfile = __awtsmoosModule_259.minimalDemonReadabilityProfile;
+var MINIMAL_SHADOW_SURFACE_FAMILIES = __awtsmoosModule_260.MINIMAL_SHADOW_SURFACE_FAMILIES;
+var measureMinimalShadowSurface = __awtsmoosModule_260.measureMinimalShadowSurface;
+var paintMinimalShadowSurface = __awtsmoosModule_260.paintMinimalShadowSurface;
 
 const TEXTURE_SIZE = 256;
 const textureCache = new Map();
@@ -17674,7 +20795,7 @@ __exports.minimalShadowTextureDiagnostics = minimalShadowTextureDiagnostics;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonReadabilityLighting.js */
-__awtsmoosModule_224 = (() => {
+__awtsmoosModule_264 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -17731,7 +20852,7 @@ function normalize(vectorValue) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonReadabilityRegions.js */
-__awtsmoosModule_225 = (() => {
+__awtsmoosModule_265 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -17777,7 +20898,7 @@ __exports.freezeMinimalDemonReadabilityRegions = freezeMinimalDemonReadabilityRe
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonReadabilityMetrics.js */
-__awtsmoosModule_223 = (() => {
+__awtsmoosModule_263 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -17790,12 +20911,12 @@ const __exports = {};
  * ambient, sun, and the restrained emissive vessel used by the living material.
  */
 
-var demonSurfaceRegion = __awtsmoosModule_212.demonSurfaceRegion;
-var MINIMAL_DEMON_LIVE_LIGHT = __awtsmoosModule_224.MINIMAL_DEMON_LIVE_LIGHT;
-var liveDemonLightResponse = __awtsmoosModule_224.liveDemonLightResponse;
-var liveDemonToneMap = __awtsmoosModule_224.liveDemonToneMap;
-var addMinimalDemonReadabilityRegion = __awtsmoosModule_225.addMinimalDemonReadabilityRegion;
-var freezeMinimalDemonReadabilityRegions = __awtsmoosModule_225.freezeMinimalDemonReadabilityRegions;
+var demonSurfaceRegion = __awtsmoosModule_252.demonSurfaceRegion;
+var MINIMAL_DEMON_LIVE_LIGHT = __awtsmoosModule_264.MINIMAL_DEMON_LIVE_LIGHT;
+var liveDemonLightResponse = __awtsmoosModule_264.liveDemonLightResponse;
+var liveDemonToneMap = __awtsmoosModule_264.liveDemonToneMap;
+var addMinimalDemonReadabilityRegion = __awtsmoosModule_265.addMinimalDemonReadabilityRegion;
+var freezeMinimalDemonReadabilityRegions = __awtsmoosModule_265.freezeMinimalDemonReadabilityRegions;
 
 __exports.MINIMAL_DEMON_LIVE_LIGHT = MINIMAL_DEMON_LIVE_LIGHT;
 const MEASURED_DEMON_EMISSIVE_STRENGTH = 0.06;
@@ -17894,7 +21015,7 @@ function vector(attribute, index, size) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonReadabilityMaterialRecord.js */
-__awtsmoosModule_222 = (() => {
+__awtsmoosModule_262 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -17907,7 +21028,7 @@ const __exports = {};
  * pattern, factor, and shader limitation so future agents need not infer the material pathway.
  */
 
-var relativeLuminance = __awtsmoosModule_223.relativeLuminance;
+var relativeLuminance = __awtsmoosModule_263.relativeLuminance;
 
 function createDemonSurfaceDiagnostics(profile, color, mapImage, emissiveStrength) {
 	const texture = mapImage?.AwtsmoosDemonTexture || null;
@@ -17944,7 +21065,7 @@ __exports.createDemonSurfaceDiagnostics = createDemonSurfaceDiagnostics;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonTintPolicy.js */
-__awtsmoosModule_226 = (() => {
+__awtsmoosModule_266 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -17957,7 +21078,7 @@ const __exports = {};
  * raises crushed colors after channel bounds and keeps a measured safety margin above the floor.
  */
 
-var relativeLuminance = __awtsmoosModule_223.relativeLuminance;
+var relativeLuminance = __awtsmoosModule_263.relativeLuminance;
 
 const DEFAULT_MINIMAL_DEMON_TINT = Object.freeze([0.54, 0.34, 0.66, 1]);
 __exports.DEFAULT_MINIMAL_DEMON_TINT = DEFAULT_MINIMAL_DEMON_TINT;
@@ -18032,7 +21153,7 @@ function clamp(value, minimum, maximum) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonMaterial.js */
-__awtsmoosModule_217 = (() => {
+__awtsmoosModule_257 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -18046,12 +21167,12 @@ const __exports = {};
  */
 
 var MeshStandardMaterial = __awtsmoosModule_18.MeshStandardMaterial;
-var minimalShadowHideTexture = __awtsmoosModule_218.minimalShadowHideTexture;
-var createDemonSurfaceDiagnostics = __awtsmoosModule_222.createDemonSurfaceDiagnostics;
-var minimalDemonReadabilityProfile = __awtsmoosModule_219.minimalDemonReadabilityProfile;
-var DEFAULT_MINIMAL_DEMON_TINT = __awtsmoosModule_226.DEFAULT_MINIMAL_DEMON_TINT;
-var minimalDemonEmissiveColor = __awtsmoosModule_226.minimalDemonEmissiveColor;
-var normalizeMinimalDemonTint = __awtsmoosModule_226.normalizeMinimalDemonTint;
+var minimalShadowHideTexture = __awtsmoosModule_258.minimalShadowHideTexture;
+var createDemonSurfaceDiagnostics = __awtsmoosModule_262.createDemonSurfaceDiagnostics;
+var minimalDemonReadabilityProfile = __awtsmoosModule_259.minimalDemonReadabilityProfile;
+var DEFAULT_MINIMAL_DEMON_TINT = __awtsmoosModule_266.DEFAULT_MINIMAL_DEMON_TINT;
+var minimalDemonEmissiveColor = __awtsmoosModule_266.minimalDemonEmissiveColor;
+var normalizeMinimalDemonTint = __awtsmoosModule_266.normalizeMinimalDemonTint;
 
 const MINIMAL_DEMON_EMISSIVE_STRENGTH = 0.06;
 __exports.MINIMAL_DEMON_EMISSIVE_STRENGTH = MINIMAL_DEMON_EMISSIVE_STRENGTH;
@@ -18106,7 +21227,7 @@ function createMinimalDemonMaterial(
 
 
 __exports.createMinimalDemonMaterial = createMinimalDemonMaterial;
-__exports.normalizeMinimalDemonTint = __awtsmoosModule_226.normalizeMinimalDemonTint;
+__exports.normalizeMinimalDemonTint = __awtsmoosModule_266.normalizeMinimalDemonTint;
 __exports.DEFAULT_MINIMAL_DEMON_TINT = DEFAULT_MINIMAL_DEMON_TINT;
 
 function texturePolicy(readability) {
@@ -18121,471 +21242,8 @@ function texturePolicy(readability) {
 }
 return Object.freeze(__exports);
 })();
-/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-cache.js */
-__awtsmoosModule_229 = (() => {
-const __exports = {};
-// B"H
-// Boruch Hashem
-// Blessed is He
-
-/**
- * @file tiny-skin-cache.js
- * @description Guards a computed joint palette by renderer frame and exact mesh
- * transform. Reuse is permitted only when the vessel is truly unchanged before Awtsmoos.
- */
-class SkinPaletteCache {
-	constructor() {
-		this.frameToken = null;
-		this.meshWorld = new Float32Array(16);
-		this.valid = false;
-		this.revision = 0;
-	}
-
-	/** Returns true only when a fresh palette computation is required. */
-	needsUpdate(frameToken, meshWorld) {
-		if (!validFrameToken(frameToken) || !this.valid) {
-			return true;
-		}
-		if (this.frameToken !== frameToken) {
-			return true;
-		}
-		return !matrixEquals(this.meshWorld, meshWorld);
-	}
-
-	/** Records the exact transform and increments the palette revision. */
-	markUpdated(frameToken, meshWorld) {
-		this.frameToken = frameToken;
-		copyMatrix(this.meshWorld, meshWorld);
-		this.valid = validFrameToken(frameToken);
-		this.revision += 1;
-		return this.revision;
-	}
-
-	invalidate() {
-		this.valid = false;
-		this.frameToken = null;
-	}
-}
-
-
-__exports.SkinPaletteCache = SkinPaletteCache;
-function matrixEquals(left, right) {
-	if (!left || !right || left.length !== 16 || right.length !== 16) {
-		return false;
-	}
-	for (let index = 0; index < 16; index += 1) {
-		if (left[index] !== right[index]) {
-			return false;
-		}
-	}
-	return true;
-}
-
-
-__exports.matrixEquals = matrixEquals;
-function copyMatrix(target, source) {
-	if (!source || source.length !== 16) {
-		target.fill(Number.NaN);
-		return;
-	}
-	for (let index = 0; index < 16; index += 1) {
-		target[index] = source[index];
-	}
-}
-
-function validFrameToken(frameToken) {
-	return Number.isInteger(frameToken) && frameToken >= 0;
-}
-return Object.freeze(__exports);
-})();
-/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-lines.js */
-__awtsmoosModule_230 = (() => {
-const __exports = {};
-// B"H
-// Boruch Hashem
-// Blessed is He
-
-/**
- * @file tiny-skin-lines.js
- * @description Extracts diagnostic bone segments without entering palette or
- * renderer ownership. Each line is a small revealed relationship before the
- * Awtsmoos, drawn by Awtsmoos.com only from current parent-child transforms.
- */
-
-/** Returns parent-to-child line positions for all skeletons bound below a root. */
-function skeletonLinePositions(root) {
-	const positions = [];
-	root.traverse((node) => {
-		const skeletons = node.userData?.skeletons;
-		if (!(skeletons instanceof Map)) {
-			return;
-		}
-		for (const skeleton of skeletons.values()) {
-			appendSkeletonLines(skeleton, positions);
-		}
-	});
-	return new Float32Array(positions);
-}
-
-
-__exports.skeletonLinePositions = skeletonLinePositions;
-function appendSkeletonLines(skeleton, positions) {
-	const jointSet = new Set(skeleton.joints.filter(Boolean));
-	for (const joint of jointSet) {
-		const parent = joint.parent;
-		if (!parent || !jointSet.has(parent)) {
-			continue;
-		}
-		positions.push(
-			parent.matrixWorld[12],
-			parent.matrixWorld[13],
-			parent.matrixWorld[14],
-			joint.matrixWorld[12],
-			joint.matrixWorld[13],
-			joint.matrixWorld[14]
-		);
-	}
-}
-return Object.freeze(__exports);
-})();
-/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-matrix.js */
-__awtsmoosModule_231 = (() => {
-const __exports = {};
-// B"H
-// Boruch Hashem
-// Blessed is He
-
-/**
- * @file tiny-skin-matrix.js
- * @description Decodes inverse-bind matrices from imported accessors with explicit
- * identity fallback. The Awtsmoos renews every matrix entry, while Awtsmoos.com
- * keeps absence visible instead of disguising missing data as remembered geometry.
- */
-var identity = __awtsmoosModule_20.identity;
-
-/** Returns one 4x4 matrix from a BufferAttribute-like accessor. */
-function readSkinMatrix(accessor, index) {
-	const source = accessor?.array || accessor;
-	if (!source) {
-		return identity();
-	}
-	const matrix = new Float32Array(16);
-	for (let component = 0; component < 16; component += 1) {
-		matrix[component] = source[index * 16 + component] ?? (
-			component % 5 === 0 ? 1 : 0
-		);
-	}
-	return matrix;
-}
-__exports.readSkinMatrix = readSkinMatrix;
-return Object.freeze(__exports);
-})();
-/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-binding.js */
-__awtsmoosModule_233 = (() => {
-const __exports = {};
-// B"H
-// Boruch Hashem
-// Blessed is He
-
-/**
- * @file tiny-skin-binding.js
- * @description Connects imported skin definitions to their visible mesh vessels.
- * The Awtsmoos joins bone and garment in one living form; Awtsmoos.com records that
- * relationship once so animation may unfold without rediscovering its own structure.
- */
-
-function bindSceneSkeletons(root, doc, accessors, createSkeleton) {
-	const nodeMap = root.userData?.nodeMap || new Map();
-	const skeletons = new Map();
-	let maxJoints = 0;
-	let missingJoints = 0;
-	for (let skinIndex = 0; skinIndex < (doc.skins || []).length; skinIndex += 1) {
-		const skinDefinition = doc.skins[skinIndex] || {};
-		const inverseBindAccessor = skinDefinition.inverseBindMatrices === undefined
-			? null
-			: accessors[skinDefinition.inverseBindMatrices];
-		const skeleton = createSkeleton({
-			inverseBindAccessor,
-			nodeMap,
-			skinDef: skinDefinition,
-			skinIndex
-		});
-		skeletons.set(skinIndex, skeleton);
-		maxJoints = Math.max(maxJoints, skeleton.jointCount);
-		missingJoints += skeleton.joints.filter(joint => !joint).length;
-	}
-	const meshStats = bindMeshes(root, skeletons);
-	root.userData.skeletons = skeletons;
-	return {
-		maxJoints,
-		missingJoints,
-		skeletonCount: skeletons.size,
-		...meshStats
-	};
-}
-
-
-__exports.bindSceneSkeletons = bindSceneSkeletons;
-function bindMeshes(root, skeletons) {
-	let rigidMeshes = 0;
-	let skinnedMeshes = 0;
-	root.traverse(node => {
-		if (!node.isMesh) return;
-		const hasSkinAttributes = Boolean(
-			node.geometry?.attributes?.joints
-			&& node.geometry?.attributes?.weights
-		);
-		node.skeleton = skeletons.get(node.skinIndex) || null;
-		node.isSkinnedMesh = Boolean(node.skeleton && hasSkinAttributes);
-		if (node.isSkinnedMesh) skinnedMeshes += 1;
-		else rigidMeshes += 1;
-	});
-	return {
-		rigidMeshes,
-		skinnedMeshes
-	};
-}
-return Object.freeze(__exports);
-})();
-/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-scene.js */
-__awtsmoosModule_232 = (() => {
-const __exports = {};
-// B"H
-// Boruch Hashem
-// Blessed is He
-
-/**
- * @file tiny-skin-scene.js
- * @description Updates visible world matrices in a reusable frame-local node map.
- * The Awtsmoos renews every hidden bone and visible garment; Awtsmoos.com recomputes
- * only changed transforms and keeps the map and metric vessels stable across frames.
- */
-
-var bindSceneSkeletons = __awtsmoosModule_233.bindSceneSkeletons;
-var ROOT_WORLD_MATRIX = __awtsmoosModule_25.ROOT_WORLD_MATRIX;
-var updateCachedWorldMatrix = __awtsmoosModule_25.updateCachedWorldMatrix;
-
-__exports.bindSceneSkeletons = bindSceneSkeletons;
-
-function collectWorldMatrices(root, reusableWorldByNode = null) {
-	const worldByNode = reusableWorldByNode instanceof Map
-		? reusableWorldByNode
-		: new Map();
-	worldByNode.clear();
-	const stats = reusableStats(worldByNode.stats);
-	updateVisibleBranch(
-		root,
-		ROOT_WORLD_MATRIX,
-		0,
-		worldByNode,
-		stats,
-		true
-	);
-	worldByNode.stats = stats;
-	return worldByNode;
-}
-
-
-__exports.collectWorldMatrices = collectWorldMatrices;
-function updateTinySkeletons(root) {
-	root._tinySkeletonWorldByNode = collectWorldMatrices(
-		root,
-		root._tinySkeletonWorldByNode
-	);
-	const worldByNode = root._tinySkeletonWorldByNode;
-	let jointsUploaded = 0;
-	let skinnedMeshes = 0;
-	root.traverse(node => {
-		if (!node.isSkinnedMesh || !node.skeleton || !worldByNode.has(node)) return;
-		skinnedMeshes += 1;
-		jointsUploaded += node.skeleton.update(node.matrixWorld || ROOT_WORLD_MATRIX);
-	});
-	return {
-		jointsUploaded,
-		skinnedMeshes
-	};
-}
-
-
-__exports.updateTinySkeletons = updateTinySkeletons;
-function setMeshKindVisibility(
-	root,
-	{ skinned = true, rigid = true } = {}
-) {
-	root.traverse(node => {
-		if (!node.isMesh) return;
-		node.visible = node.isSkinnedMesh ? skinned : rigid;
-	});
-}
-
-
-__exports.setMeshKindVisibility = setMeshKindVisibility;
-function updateVisibleBranch(
-	node,
-	parentWorld,
-	parentRevision,
-	worldByNode,
-	stats,
-	parentVisible
-) {
-	const visible = parentVisible && node.visible !== false;
-	if (!visible) {
-		stats.skippedSubtrees += 1;
-		return;
-	}
-	const changed = updateCachedWorldMatrix(
-		node,
-		parentWorld,
-		parentRevision
-	);
-	if (changed) stats.updatedNodes += 1;
-	else stats.reusedNodes += 1;
-	node.userData ||= {};
-	node.userData.worldMatrix = node.matrixWorld;
-	worldByNode.set(node, node.matrixWorld);
-	for (const child of node.children || []) {
-		updateVisibleBranch(
-			child,
-			node.matrixWorld,
-			node._worldRevision || 0,
-			worldByNode,
-			stats,
-			visible
-		);
-	}
-}
-
-function reusableStats(stats) {
-	const result = stats || {
-		reusedNodes: 0,
-		skippedSubtrees: 0,
-		updatedNodes: 0
-	};
-	result.reusedNodes = 0;
-	result.skippedSubtrees = 0;
-	result.updatedNodes = 0;
-	return result;
-}
-return Object.freeze(__exports);
-})();
-/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-system.js */
-__awtsmoosModule_228 = (() => {
-const __exports = {};
-// B"H
-// Boruch Hashem
-// Blessed is He
-
-/**
- * @file tiny-skin-system.js
- * @description Owns imported skin palettes and measured frame-local reuse. Every
- * matrix is a finite keli renewed by the Awtsmoos, and Awtsmoos.com reuses it only
- * when frame identity and mesh transform agree exactly.
- */
-var identity = __awtsmoosModule_20.identity;
-var inverse = __awtsmoosModule_20.inverse;
-var multiply = __awtsmoosModule_20.multiply;
-var SkinPaletteCache = __awtsmoosModule_229.SkinPaletteCache;
-var skeletonLinePositions = __awtsmoosModule_230.skeletonLinePositions;
-var readSkinMatrix = __awtsmoosModule_231.readSkinMatrix;
-var bindSceneSkeletons = __awtsmoosModule_232.bindSceneSkeletons;
-var collectWorldMatrices = __awtsmoosModule_232.collectWorldMatrices;
-var setMeshKindVisibility = __awtsmoosModule_232.setMeshKindVisibility;
-var updateTinySkeletons = __awtsmoosModule_232.updateTinySkeletons;
-
-const MAX_TINY_JOINTS = 96;
-__exports.MAX_TINY_JOINTS = MAX_TINY_JOINTS;
-
-
-__exports.collectWorldMatrices = collectWorldMatrices;
-__exports.setMeshKindVisibility = setMeshKindVisibility;
-__exports.skeletonLinePositions = skeletonLinePositions;
-__exports.updateTinySkeletons = updateTinySkeletons;
-
-/** Stores one GLTF skin and computes its mesh-relative joint palette. */
-class TinySkeleton {
-	constructor({
-		skinIndex = 0,
-		skinDef = {},
-		nodeMap = new Map(),
-		inverseBindAccessor = null
-	} = {}) {
-		this.skinIndex = skinIndex;
-		this.name = skinDef.name || `Skin_${skinIndex}`;
-		this.joints = (skinDef.joints || []).map((index) => nodeMap.get(index));
-		this.inverseBindMatrices = this.joints.map((_, index) => (
-			readSkinMatrix(inverseBindAccessor, index)
-		));
-		this.jointCount = this.joints.length;
-		this.jointMatrices = new Float32Array(Math.max(1, this.jointCount) * 16);
-		this.paletteCache = new SkinPaletteCache();
-		this.paletteRevision = 0;
-		this.lastPaletteRecomputed = false;
-		this.resetPalette();
-	}
-
-	resetPalette() {
-		for (let index = 0; index < Math.max(1, this.jointCount); index += 1) {
-			this.jointMatrices.set(identity(), index * 16);
-		}
-	}
-
-	update(meshWorld = identity()) {
-		this.computePalette(meshWorld);
-		this.paletteRevision += 1;
-		this.paletteCache.invalidate();
-		this.lastPaletteRecomputed = true;
-		return Math.min(this.jointCount, MAX_TINY_JOINTS);
-	}
-
-	updateCached(meshWorld = identity(), frameToken) {
-		if (!this.paletteCache.needsUpdate(frameToken, meshWorld)) {
-			this.lastPaletteRecomputed = false;
-			return Math.min(this.jointCount, MAX_TINY_JOINTS);
-		}
-		this.computePalette(meshWorld);
-		this.paletteCache.markUpdated(frameToken, meshWorld);
-		this.paletteRevision += 1;
-		this.lastPaletteRecomputed = true;
-		return Math.min(this.jointCount, MAX_TINY_JOINTS);
-	}
-
-	invalidatePaletteCache() {
-		this.paletteCache.invalidate();
-	}
-
-	computePalette(meshWorld) {
-		const inverseMesh = inverse(meshWorld);
-		const count = Math.min(this.jointCount, MAX_TINY_JOINTS);
-		for (let index = 0; index < count; index += 1) {
-			const joint = this.joints[index];
-			const jointWorld = joint?.userData?.worldMatrix
-				|| joint?.matrixWorld
-				|| identity();
-			const skinMatrix = multiply(
-				inverseMesh,
-				multiply(jointWorld, this.inverseBindMatrices[index])
-			);
-			this.jointMatrices.set(skinMatrix, index * 16);
-		}
-	}
-}
-
-
-__exports.TinySkeleton = TinySkeleton;
-/** Builds and binds every GLTF skin using the canonical TinySkeleton class. */
-function bindTinySkeletons(root, doc, accessors) {
-	return bindSceneSkeletons(
-		root,
-		doc,
-		accessors,
-		(configuration) => new TinySkeleton(configuration)
-	);
-}
-__exports.bindTinySkeletons = bindTinySkeletons;
-return Object.freeze(__exports);
-})();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDemonSkeleton.js */
-__awtsmoosModule_227 = (() => {
+__awtsmoosModule_267 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -18600,8 +21258,8 @@ const __exports = {};
 
 var Bone = __awtsmoosModule_18.Bone;
 var inverse = __awtsmoosModule_20.inverse;
-var TinySkeleton = __awtsmoosModule_228.TinySkeleton;
-var DEMON_JOINT_POSITIONS = __awtsmoosModule_214.DEMON_JOINT_POSITIONS;
+var TinySkeleton = __awtsmoosModule_218.TinySkeleton;
+var DEMON_JOINT_POSITIONS = __awtsmoosModule_254.DEMON_JOINT_POSITIONS;
 
 const DEFINITIONS = Object.freeze([
 	['root', -1], ['pelvis', 0], ['spine', 1], ['chest', 2], ['neck', 3], ['head', 4],
@@ -18652,7 +21310,7 @@ function createBone(name) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCreatureMesh.js */
-__awtsmoosModule_209 = (() => {
+__awtsmoosModule_249 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -18667,11 +21325,11 @@ const __exports = {};
 
 var Group = __awtsmoosModule_18.Group;
 var Mesh = __awtsmoosModule_18.Mesh;
-var createCanonicalCreatureSurfaceContract = __awtsmoosModule_210.createCanonicalCreatureSurfaceContract;
-var createMinimalDemonGeometry = __awtsmoosModule_211.createMinimalDemonGeometry;
-var createMinimalDemonMaterial = __awtsmoosModule_217.createMinimalDemonMaterial;
-var measureDemonMaterialReadability = __awtsmoosModule_223.measureDemonMaterialReadability;
-var createMinimalDemonSkeleton = __awtsmoosModule_227.createMinimalDemonSkeleton;
+var createCanonicalCreatureSurfaceContract = __awtsmoosModule_250.createCanonicalCreatureSurfaceContract;
+var createMinimalDemonGeometry = __awtsmoosModule_251.createMinimalDemonGeometry;
+var createMinimalDemonMaterial = __awtsmoosModule_257.createMinimalDemonMaterial;
+var measureDemonMaterialReadability = __awtsmoosModule_263.measureDemonMaterialReadability;
+var createMinimalDemonSkeleton = __awtsmoosModule_267.createMinimalDemonSkeleton;
 
 function createMinimalShadowCreatureMesh(
 	compiled,
@@ -18739,7 +21397,7 @@ function coreEvidence(compiled, geometry, rig, material, readability) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/CombatDamageEvent.js */
-__awtsmoosModule_242 = (() => {
+__awtsmoosModule_276 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -18784,7 +21442,7 @@ function vector(value = {}) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCombatBalancePolicy.js */
-__awtsmoosModule_243 = (() => {
+__awtsmoosModule_277 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -18837,7 +21495,7 @@ __exports.minimalEnemyBalancedDamage = minimalEnemyBalancedDamage;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyDamage.js */
-__awtsmoosModule_241 = (() => {
+__awtsmoosModule_275 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -18850,8 +21508,8 @@ const __exports = {};
  * meet dodge, brief chain protection, guard, parry, ward, armor, and recovery before consequence.
  */
 
-var createCombatDamageEvent = __awtsmoosModule_242.createCombatDamageEvent;
-var minimalEnemyBalancedDamage = __awtsmoosModule_243.minimalEnemyBalancedDamage;
+var createCombatDamageEvent = __awtsmoosModule_276.createCombatDamageEvent;
+var minimalEnemyBalancedDamage = __awtsmoosModule_277.minimalEnemyBalancedDamage;
 
 function applyMinimalEnemyDamage(runtime, amount, details = {}) {
 	const stats = runtime.playerStats;
@@ -18953,7 +21611,7 @@ function finiteOr(value, fallback) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyArchetypePolicy.js */
-__awtsmoosModule_245 = (() => {
+__awtsmoosModule_279 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -19035,7 +21693,7 @@ function policy(overrides) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyProjectile.js */
-__awtsmoosModule_244 = (() => {
+__awtsmoosModule_278 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -19049,7 +21707,7 @@ const __exports = {};
  */
 
 var HebrewProjectile = __awtsmoosModule_51;
-var minimalEnemyArchetypePolicy = __awtsmoosModule_245.minimalEnemyArchetypePolicy;
+var minimalEnemyArchetypePolicy = __awtsmoosModule_279.minimalEnemyArchetypePolicy;
 
 const BASE_SPEED = 7.4;
 const DEFAULT_COLOR = Object.freeze([1, 0.06, 0.08, 1]);
@@ -19127,7 +21785,7 @@ function clamp(value, minimum, maximum) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyCombatEffects.js */
-__awtsmoosModule_240 = (() => {
+__awtsmoosModule_274 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -19141,9 +21799,9 @@ const __exports = {};
  */
 
 var ParticleEffects = __awtsmoosModule_64;
-var applyMinimalEnemyDamage = __awtsmoosModule_241.applyMinimalEnemyDamage;
-var releaseEnemyHebrewProjectile = __awtsmoosModule_244.releaseEnemyHebrewProjectile;
-var updateEnemyHebrewProjectile = __awtsmoosModule_244.updateEnemyHebrewProjectile;
+var applyMinimalEnemyDamage = __awtsmoosModule_275.applyMinimalEnemyDamage;
+var releaseEnemyHebrewProjectile = __awtsmoosModule_278.releaseEnemyHebrewProjectile;
+var updateEnemyHebrewProjectile = __awtsmoosModule_278.updateEnemyHebrewProjectile;
 
 const RED = Object.freeze([1, 0.06, 0.08, 1]);
 
@@ -19228,7 +21886,7 @@ function applyProjectileDamage(combat, projectile, position) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyAttackPolicy.js */
-__awtsmoosModule_246 = (() => {
+__awtsmoosModule_280 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -19241,8 +21899,8 @@ const __exports = {};
  * Awtsmoos.com keeps global mercy, archetype identity, action weight, range, and text aligned.
  */
 
-var minimalEnemyArchetypePolicy = __awtsmoosModule_245.minimalEnemyArchetypePolicy;
-var POLICY = __awtsmoosModule_243.MINIMAL_MEADOW_COMBAT_BALANCE;
+var minimalEnemyArchetypePolicy = __awtsmoosModule_279.minimalEnemyArchetypePolicy;
+var POLICY = __awtsmoosModule_277.MINIMAL_MEADOW_COMBAT_BALANCE;
 
 function minimalEnemyAttackDamage(combat, mode) {
 	const behavior = minimalEnemyArchetypePolicy(combat.actor.profile);
@@ -19288,7 +21946,7 @@ __exports.minimalEnemyPlayerImpactPosition = minimalEnemyPlayerImpactPosition;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyLineOfSight.js */
-__awtsmoosModule_248 = (() => {
+__awtsmoosModule_282 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -19343,7 +22001,7 @@ function blocksMinimalEnemySight(item) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyNavigationCollision.js */
-__awtsmoosModule_249 = (() => {
+__awtsmoosModule_283 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -19415,7 +22073,7 @@ function rotateMinimalEnemyVector(vector, angle) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyNavigation.js */
-__awtsmoosModule_247 = (() => {
+__awtsmoosModule_281 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -19428,10 +22086,10 @@ const __exports = {};
  * move swiftly, and cantors glide carefully while all collision and facing remain shared truth.
  */
 
-var minimalEnemyArchetypePolicy = __awtsmoosModule_245.minimalEnemyArchetypePolicy;
+var minimalEnemyArchetypePolicy = __awtsmoosModule_279.minimalEnemyArchetypePolicy;
 var moveMinimalMeadowEnemyActor = __awtsmoosModule_104.moveMinimalMeadowEnemy;
-var minimalEnemyLineOfSight = __awtsmoosModule_248.minimalEnemyLineOfSight;
-var resolveMinimalEnemyCandidate = __awtsmoosModule_249.resolveMinimalEnemyCandidate;
+var minimalEnemyLineOfSight = __awtsmoosModule_282.minimalEnemyLineOfSight;
+var resolveMinimalEnemyCandidate = __awtsmoosModule_283.resolveMinimalEnemyCandidate;
 
 function minimalEnemyPerception(combat) {
 	const actor = combat.actor;
@@ -19511,7 +22169,7 @@ __exports.moveMinimalEnemy = moveMinimalEnemy;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyMeleeExecution.js */
-__awtsmoosModule_239 = (() => {
+__awtsmoosModule_273 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -19524,13 +22182,13 @@ const __exports = {};
  * guard, letters, particles, typed player defense, role, and miss evidence in one bounded strike.
  */
 
-var addEnemyEffect = __awtsmoosModule_240.addEnemyEffect;
-var applyMinimalEnemyDamage = __awtsmoosModule_241.applyMinimalEnemyDamage;
-var minimalEnemyAttackDamage = __awtsmoosModule_246.minimalEnemyAttackDamage;
-var minimalEnemyAttackLetters = __awtsmoosModule_246.minimalEnemyAttackLetters;
-var minimalEnemyMeleeRange = __awtsmoosModule_246.minimalEnemyMeleeRange;
-var minimalEnemyPlayerImpactPosition = __awtsmoosModule_246.minimalEnemyPlayerImpactPosition;
-var minimalEnemyPerception = __awtsmoosModule_247.minimalEnemyPerception;
+var addEnemyEffect = __awtsmoosModule_274.addEnemyEffect;
+var applyMinimalEnemyDamage = __awtsmoosModule_275.applyMinimalEnemyDamage;
+var minimalEnemyAttackDamage = __awtsmoosModule_280.minimalEnemyAttackDamage;
+var minimalEnemyAttackLetters = __awtsmoosModule_280.minimalEnemyAttackLetters;
+var minimalEnemyMeleeRange = __awtsmoosModule_280.minimalEnemyMeleeRange;
+var minimalEnemyPlayerImpactPosition = __awtsmoosModule_280.minimalEnemyPlayerImpactPosition;
+var minimalEnemyPerception = __awtsmoosModule_281.minimalEnemyPerception;
 var createImpactExplosion = __awtsmoosModule_64.createImpactExplosion;
 
 const RED = Object.freeze([1, 0.06, 0.08, 1]);
@@ -19581,7 +22239,7 @@ function emitMiss(combat, reason) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyRangedExecution.js */
-__awtsmoosModule_250 = (() => {
+__awtsmoosModule_284 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -19594,9 +22252,9 @@ const __exports = {};
  * Awtsmoos.com preserves speed, damage, shape, danger, concealment, role, and owner evidence.
  */
 
-var minimalEnemyAttackDamage = __awtsmoosModule_246.minimalEnemyAttackDamage;
-var minimalEnemyAttackLetters = __awtsmoosModule_246.minimalEnemyAttackLetters;
-var createEnemyHebrewProjectile = __awtsmoosModule_244.createEnemyHebrewProjectile;
+var minimalEnemyAttackDamage = __awtsmoosModule_280.minimalEnemyAttackDamage;
+var minimalEnemyAttackLetters = __awtsmoosModule_280.minimalEnemyAttackLetters;
+var createEnemyHebrewProjectile = __awtsmoosModule_278.createEnemyHebrewProjectile;
 
 function launchEnemyCast(combat) {
 	if (combat.launched) return false;
@@ -19641,7 +22299,7 @@ __exports.finishEnemyCast = finishEnemyCast;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyAttackExecution.js */
-__awtsmoosModule_238 = (() => {
+__awtsmoosModule_272 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -19654,18 +22312,18 @@ const __exports = {};
  * lets existing callers keep one import while role strikes and projectiles remain small and clear.
  */
 
-__exports.impactEnemyMelee = __awtsmoosModule_239.impactEnemyMelee;
+__exports.impactEnemyMelee = __awtsmoosModule_273.impactEnemyMelee;
 
-__exports.finishEnemyCast = __awtsmoosModule_250.finishEnemyCast;
-__exports.launchEnemyCast = __awtsmoosModule_250.launchEnemyCast;
+__exports.finishEnemyCast = __awtsmoosModule_284.finishEnemyCast;
+__exports.launchEnemyCast = __awtsmoosModule_284.launchEnemyCast;
 
-__exports.executeEnemyMeleeImpact = __awtsmoosModule_239.impactEnemyMelee;
+__exports.executeEnemyMeleeImpact = __awtsmoosModule_273.impactEnemyMelee;
 
-__exports.launchEnemyRangedAttack = __awtsmoosModule_250.launchEnemyCast;
+__exports.launchEnemyRangedAttack = __awtsmoosModule_284.launchEnemyCast;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyActionReceipt.js */
-__awtsmoosModule_251 = (() => {
+__awtsmoosModule_285 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -19698,7 +22356,7 @@ __exports.minimalEnemyActionReceipt = minimalEnemyActionReceipt;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyRolePolicy.js */
-__awtsmoosModule_254 = (() => {
+__awtsmoosModule_288 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -19711,7 +22369,7 @@ const __exports = {};
  * cantors, and familiar demons retain one readable purpose for an entire engagement.
  */
 
-var minimalEnemyArchetypePolicy = __awtsmoosModule_245.minimalEnemyArchetypePolicy;
+var minimalEnemyArchetypePolicy = __awtsmoosModule_279.minimalEnemyArchetypePolicy;
 
 function selectMinimalEnemyRole(profile = {}) {
 	const archetypeRole = minimalEnemyArchetypePolicy(profile).role;
@@ -19749,7 +22407,7 @@ function stableHash(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemySteering.js */
-__awtsmoosModule_253 = (() => {
+__awtsmoosModule_287 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -19762,8 +22420,8 @@ const __exports = {};
  * turns, skirmishers wide circles, and cantors measured distance without restoring pack aggro.
  */
 
-var minimalEnemyArchetypePolicy = __awtsmoosModule_245.minimalEnemyArchetypePolicy;
-var minimalEnemyOrbitDirection = __awtsmoosModule_254.minimalEnemyOrbitDirection;
+var minimalEnemyArchetypePolicy = __awtsmoosModule_279.minimalEnemyArchetypePolicy;
+var minimalEnemyOrbitDirection = __awtsmoosModule_288.minimalEnemyOrbitDirection;
 
 const SEPARATION_RADIUS = 8;
 const SEPARATION_FORCE = 5.4;
@@ -19838,7 +22496,7 @@ function packSeparation(actor) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyCombatDecision.js */
-__awtsmoosModule_252 = (() => {
+__awtsmoosModule_286 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -19851,9 +22509,9 @@ const __exports = {};
  * distance while only appointed attackers may cross the telegraph boundary at one time.
  */
 
-var minimalEnemyArchetypePolicy = __awtsmoosModule_245.minimalEnemyArchetypePolicy;
-var POLICY = __awtsmoosModule_243.MINIMAL_MEADOW_COMBAT_BALANCE;
-var minimalEnemyPackAlerted = __awtsmoosModule_253.minimalEnemyPackAlerted;
+var minimalEnemyArchetypePolicy = __awtsmoosModule_279.minimalEnemyArchetypePolicy;
+var POLICY = __awtsmoosModule_277.MINIMAL_MEADOW_COMBAT_BALANCE;
+var minimalEnemyPackAlerted = __awtsmoosModule_287.minimalEnemyPackAlerted;
 
 const MINIMAL_ENEMY_LOSS_TIMEOUT = POLICY.lossTimeout;
 __exports.MINIMAL_ENEMY_LOSS_TIMEOUT = MINIMAL_ENEMY_LOSS_TIMEOUT;
@@ -19913,7 +22571,7 @@ function attackSlotAvailable(combat, mode) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyActionAdvance.js */
-__awtsmoosModule_237 = (() => {
+__awtsmoosModule_271 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -19926,11 +22584,11 @@ const __exports = {};
  * projectile launch, strike singularity, completion receipts, cooldown, and progress exact.
  */
 
-var finishEnemyCast = __awtsmoosModule_238.finishEnemyCast;
-var impactEnemyMelee = __awtsmoosModule_238.impactEnemyMelee;
-var launchEnemyCast = __awtsmoosModule_238.launchEnemyCast;
-var minimalEnemyActionReceipt = __awtsmoosModule_251.minimalEnemyActionReceipt;
-var minimalEnemyActionDuration = __awtsmoosModule_252.minimalEnemyActionDuration;
+var finishEnemyCast = __awtsmoosModule_272.finishEnemyCast;
+var impactEnemyMelee = __awtsmoosModule_272.impactEnemyMelee;
+var launchEnemyCast = __awtsmoosModule_272.launchEnemyCast;
+var minimalEnemyActionReceipt = __awtsmoosModule_285.minimalEnemyActionReceipt;
+var minimalEnemyActionDuration = __awtsmoosModule_286.minimalEnemyActionDuration;
 
 function advanceMinimalEnemySelectedAction(combat) {
 	const state = combat.session.state;
@@ -20006,7 +22664,7 @@ function actionDuration(combat, state) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyActionPolicy.js */
-__awtsmoosModule_255 = (() => {
+__awtsmoosModule_289 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -20125,7 +22783,7 @@ function shapeFor(id, profile) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyActionFlow.js */
-__awtsmoosModule_236 = (() => {
+__awtsmoosModule_270 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -20138,10 +22796,10 @@ const __exports = {};
  * Awtsmoos.com delegates progression while identity, concealment, slot, and receipts remain clear.
  */
 
-var advanceMinimalEnemySelectedAction = __awtsmoosModule_237.advanceMinimalEnemySelectedAction;
-var completeMinimalEnemyRecovery = __awtsmoosModule_237.completeMinimalEnemyRecovery;
-var selectMinimalEnemyAction = __awtsmoosModule_255.selectMinimalEnemyAction;
-var minimalEnemyActionReceipt = __awtsmoosModule_251.minimalEnemyActionReceipt;
+var advanceMinimalEnemySelectedAction = __awtsmoosModule_271.advanceMinimalEnemySelectedAction;
+var completeMinimalEnemyRecovery = __awtsmoosModule_271.completeMinimalEnemyRecovery;
+var selectMinimalEnemyAction = __awtsmoosModule_289.selectMinimalEnemyAction;
+var minimalEnemyActionReceipt = __awtsmoosModule_285.minimalEnemyActionReceipt;
 
 function beginMinimalEnemyAction(combat, proposedState) {
 	combat.currentAction = selectMinimalEnemyAction(combat, proposedState);
@@ -20211,7 +22869,7 @@ __exports.updateEnemyAction = updateEnemyAction;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyLocomotionFlow.js */
-__awtsmoosModule_256 = (() => {
+__awtsmoosModule_290 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -20224,12 +22882,12 @@ const __exports = {};
  * cooldown or a crossed aggro edge for permission to flee back into waypoint wandering.
  */
 
-var minimalEnemyCombatRanges = __awtsmoosModule_252.minimalEnemyCombatRanges;
-var minimalEnemyLocomotionState = __awtsmoosModule_252.minimalEnemyLocomotionState;
-var moveMinimalEnemy = __awtsmoosModule_247.moveMinimalEnemy;
-var minimalEnemyApproachVector = __awtsmoosModule_253.minimalEnemyApproachVector;
-var minimalEnemyOrbitVector = __awtsmoosModule_253.minimalEnemyOrbitVector;
-var minimalEnemyRetreatVector = __awtsmoosModule_253.minimalEnemyRetreatVector;
+var minimalEnemyCombatRanges = __awtsmoosModule_286.minimalEnemyCombatRanges;
+var minimalEnemyLocomotionState = __awtsmoosModule_286.minimalEnemyLocomotionState;
+var moveMinimalEnemy = __awtsmoosModule_281.moveMinimalEnemy;
+var minimalEnemyApproachVector = __awtsmoosModule_287.minimalEnemyApproachVector;
+var minimalEnemyOrbitVector = __awtsmoosModule_287.minimalEnemyOrbitVector;
+var minimalEnemyRetreatVector = __awtsmoosModule_287.minimalEnemyRetreatVector;
 
 function advanceMinimalEnemyAlert(combat) {
 	combat.actor.action = 'idle';
@@ -20289,7 +22947,7 @@ function reposition(combat, distance, deltaSeconds) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyCombatAdvance.js */
-__awtsmoosModule_235 = (() => {
+__awtsmoosModule_269 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -20302,12 +22960,12 @@ const __exports = {};
  * separate from lifecycle ownership so safety, diagnostics, and attack policy remain legible.
  */
 
-var advanceMinimalEnemyAction = __awtsmoosModule_236.advanceMinimalEnemyAction;
-var advanceMinimalEnemyRecovery = __awtsmoosModule_236.advanceMinimalEnemyRecovery;
-var beginMinimalEnemyAction = __awtsmoosModule_236.beginMinimalEnemyAction;
-var advanceMinimalEnemyAlert = __awtsmoosModule_256.advanceMinimalEnemyAlert;
-var advanceMinimalEnemyLocomotion = __awtsmoosModule_256.advanceMinimalEnemyLocomotion;
-var advanceMinimalEnemyPursuit = __awtsmoosModule_256.advanceMinimalEnemyPursuit;
+var advanceMinimalEnemyAction = __awtsmoosModule_270.advanceMinimalEnemyAction;
+var advanceMinimalEnemyRecovery = __awtsmoosModule_270.advanceMinimalEnemyRecovery;
+var beginMinimalEnemyAction = __awtsmoosModule_270.beginMinimalEnemyAction;
+var advanceMinimalEnemyAlert = __awtsmoosModule_290.advanceMinimalEnemyAlert;
+var advanceMinimalEnemyLocomotion = __awtsmoosModule_290.advanceMinimalEnemyLocomotion;
+var advanceMinimalEnemyPursuit = __awtsmoosModule_290.advanceMinimalEnemyPursuit;
 
 function advanceMinimalMeadowEnemyCombat(
 	combat,
@@ -20339,7 +22997,7 @@ function isActionState(state) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyCombatDiagnostics.js */
-__awtsmoosModule_257 = (() => {
+__awtsmoosModule_291 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -20352,7 +23010,7 @@ const __exports = {};
  * to prove role behavior without leaking secret boss resolution or changing authority.
  */
 
-var minimalEnemyArchetypePolicy = __awtsmoosModule_245.minimalEnemyArchetypePolicy;
+var minimalEnemyArchetypePolicy = __awtsmoosModule_279.minimalEnemyArchetypePolicy;
 var minimalEnemyDefenseSnapshot = __awtsmoosModule_106.minimalEnemyDefenseSnapshot;
 
 function minimalEnemyCombatDiagnostics(combat) {
@@ -20387,7 +23045,7 @@ __exports.minimalEnemyCombatDiagnostics = minimalEnemyCombatDiagnostics;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyCombatSession.js */
-__awtsmoosModule_259 = (() => {
+__awtsmoosModule_293 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -20400,8 +23058,8 @@ const __exports = {};
  * Awtsmoos.com keeps one target through brief distance and sight changes until true loss closes it.
  */
 
-var minimalEnemyDecisionOffset = __awtsmoosModule_254.minimalEnemyDecisionOffset;
-var selectMinimalEnemyRole = __awtsmoosModule_254.selectMinimalEnemyRole;
+var minimalEnemyDecisionOffset = __awtsmoosModule_288.minimalEnemyDecisionOffset;
+var selectMinimalEnemyRole = __awtsmoosModule_288.selectMinimalEnemyRole;
 
 class MinimalMeadowEnemyCombatSession {
 	constructor(actor) {
@@ -20483,7 +23141,7 @@ function finite(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyCombatState.js */
-__awtsmoosModule_258 = (() => {
+__awtsmoosModule_292 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -20496,7 +23154,7 @@ const __exports = {};
  * projectiles, sight, leash, target, role, and strike truth before any transition begins.
  */
 
-var MinimalMeadowEnemyCombatSession = __awtsmoosModule_259.MinimalMeadowEnemyCombatSession;
+var MinimalMeadowEnemyCombatSession = __awtsmoosModule_293.MinimalMeadowEnemyCombatSession;
 
 function initializeMinimalMeadowEnemyCombat(combat, actor, runtime) {
 	Object.assign(combat, {
@@ -20523,7 +23181,7 @@ __exports.initializeMinimalMeadowEnemyCombat = initializeMinimalMeadowEnemyComba
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyCombat.js */
-__awtsmoosModule_234 = (() => {
+__awtsmoosModule_268 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -20536,14 +23194,14 @@ const __exports = {};
  * leash, sight, slot, cooldown, safety, effect, and transition behind one stable combat API.
  */
 
-var advanceMinimalMeadowEnemyCombat = __awtsmoosModule_235.advanceMinimalMeadowEnemyCombat;
-var MINIMAL_ENEMY_LOSS_TIMEOUT = __awtsmoosModule_252.MINIMAL_ENEMY_LOSS_TIMEOUT;
-var minimalEnemyCombatRanges = __awtsmoosModule_252.minimalEnemyCombatRanges;
-var minimalEnemyCombatDiagnostics = __awtsmoosModule_257.minimalEnemyCombatDiagnostics;
-var updateEnemyCombatEffects = __awtsmoosModule_240.updateEnemyCombatEffects;
-var initializeMinimalMeadowEnemyCombat = __awtsmoosModule_258.initializeMinimalMeadowEnemyCombat;
-var faceMinimalEnemyToPlayer = __awtsmoosModule_247.faceMinimalEnemyToPlayer;
-var minimalEnemyPerception = __awtsmoosModule_247.minimalEnemyPerception;
+var advanceMinimalMeadowEnemyCombat = __awtsmoosModule_269.advanceMinimalMeadowEnemyCombat;
+var MINIMAL_ENEMY_LOSS_TIMEOUT = __awtsmoosModule_286.MINIMAL_ENEMY_LOSS_TIMEOUT;
+var minimalEnemyCombatRanges = __awtsmoosModule_286.minimalEnemyCombatRanges;
+var minimalEnemyCombatDiagnostics = __awtsmoosModule_291.minimalEnemyCombatDiagnostics;
+var updateEnemyCombatEffects = __awtsmoosModule_274.updateEnemyCombatEffects;
+var initializeMinimalMeadowEnemyCombat = __awtsmoosModule_292.initializeMinimalMeadowEnemyCombat;
+var faceMinimalEnemyToPlayer = __awtsmoosModule_281.faceMinimalEnemyToPlayer;
+var minimalEnemyPerception = __awtsmoosModule_281.minimalEnemyPerception;
 
 class MinimalMeadowEnemyCombat {
 	constructor(actor, runtime) {
@@ -20633,7 +23291,7 @@ __exports.MinimalMeadowEnemyCombat = MinimalMeadowEnemyCombat;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/affinity/CombatStatusLedger.js */
-__awtsmoosModule_261 = (() => {
+__awtsmoosModule_295 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -20733,7 +23391,7 @@ __exports.CombatStatusLedger = CombatStatusLedger;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCorpseLootState.js */
-__awtsmoosModule_262 = (() => {
+__awtsmoosModule_296 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -20805,7 +23463,7 @@ __exports.normalizedCorpseLoot = normalizedCorpseLoot;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyActorState.js */
-__awtsmoosModule_260 = (() => {
+__awtsmoosModule_294 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -20818,8 +23476,8 @@ const __exports = {};
  * Awtsmoos.com keeps source, expiry, guard, corpse treasure, and living motion bounded faithfully.
  */
 
-var CombatStatusLedger = __awtsmoosModule_261.CombatStatusLedger;
-var MinimalMeadowCorpseLootState = __awtsmoosModule_262.MinimalMeadowCorpseLootState;
+var CombatStatusLedger = __awtsmoosModule_295.CombatStatusLedger;
+var MinimalMeadowCorpseLootState = __awtsmoosModule_296.MinimalMeadowCorpseLootState;
 var createMinimalEnemyDefense = __awtsmoosModule_106.createMinimalEnemyDefense;
 
 function createMinimalMeadowEnemyActorState(options, profile) {
@@ -20853,7 +23511,7 @@ __exports.createMinimalMeadowEnemyActorState = createMinimalMeadowEnemyActorStat
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyProfile.js */
-__awtsmoosModule_263 = (() => {
+__awtsmoosModule_297 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -20903,7 +23561,7 @@ __exports.minimalShadowWaypoints = minimalShadowWaypoints;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyActorSetup.js */
-__awtsmoosModule_208 = (() => {
+__awtsmoosModule_248 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -20916,11 +23574,11 @@ const __exports = {};
  * Awtsmoos.com keeps compilation, posture, geometry, combat, patrol, health, and spawn aligned.
  */
 
-var createMinimalShadowCreatureMesh = __awtsmoosModule_209.createMinimalShadowCreatureMesh;
-var MinimalMeadowEnemyCombat = __awtsmoosModule_234.MinimalMeadowEnemyCombat;
-var createMinimalMeadowEnemyActorState = __awtsmoosModule_260.createMinimalMeadowEnemyActorState;
-var minimalShadowEnemyProfile = __awtsmoosModule_263.minimalShadowEnemyProfile;
-var minimalShadowWaypoints = __awtsmoosModule_263.minimalShadowWaypoints;
+var createMinimalShadowCreatureMesh = __awtsmoosModule_249.createMinimalShadowCreatureMesh;
+var MinimalMeadowEnemyCombat = __awtsmoosModule_268.MinimalMeadowEnemyCombat;
+var createMinimalMeadowEnemyActorState = __awtsmoosModule_294.createMinimalMeadowEnemyActorState;
+var minimalShadowEnemyProfile = __awtsmoosModule_297.minimalShadowEnemyProfile;
+var minimalShadowWaypoints = __awtsmoosModule_297.minimalShadowWaypoints;
 
 function initializeMinimalMeadowEnemyActor(actor, options) {
 	actor.profile = minimalShadowEnemyProfile(
@@ -20961,7 +23619,7 @@ function applyEnemyBodyScale(group, profile) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyHealth.js */
-__awtsmoosModule_265 = (() => {
+__awtsmoosModule_299 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -21025,7 +23683,7 @@ __exports.defeatMinimalEnemy = defeatMinimalEnemy;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyPointerPolicy.js */
-__awtsmoosModule_266 = (() => {
+__awtsmoosModule_300 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -21088,7 +23746,7 @@ function corpseHints(actor, supplied) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyLoot.js */
-__awtsmoosModule_267 = (() => {
+__awtsmoosModule_301 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -21220,7 +23878,7 @@ function corpseLootRejection(actor) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyLifecycle.js */
-__awtsmoosModule_264 = (() => {
+__awtsmoosModule_298 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -21233,10 +23891,10 @@ const __exports = {};
  * server corpses singular, local treasure deliberate, and posture-aware health in one visible body.
  */
 
-var damageMinimalEnemy = __awtsmoosModule_265.damageMinimalEnemy;
-var defeatMinimalEnemy = __awtsmoosModule_265.defeatMinimalEnemy;
-var minimalMeadowEnemyPointerHit = __awtsmoosModule_266.minimalMeadowEnemyPointerHit;
-var openMinimalEnemyCorpseLoot = __awtsmoosModule_267.openMinimalEnemyCorpseLoot;
+var damageMinimalEnemy = __awtsmoosModule_299.damageMinimalEnemy;
+var defeatMinimalEnemy = __awtsmoosModule_299.defeatMinimalEnemy;
+var minimalMeadowEnemyPointerHit = __awtsmoosModule_300.minimalMeadowEnemyPointerHit;
+var openMinimalEnemyCorpseLoot = __awtsmoosModule_301.openMinimalEnemyCorpseLoot;
 var clearMinimalMeadowEnemyVisual = __awtsmoosModule_107.clearMinimalMeadowEnemyVisual;
 var selectMinimalMeadowEnemyVisual = __awtsmoosModule_107.selectMinimalMeadowEnemyVisual;
 
@@ -21317,7 +23975,7 @@ function claimAuthoritativeCorpse(actor) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyState.js */
-__awtsmoosModule_268 = (() => {
+__awtsmoosModule_302 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -21406,18 +24064,18 @@ const __exports = {};
  */
 
 var updateMinimalMeadowEnemyActor = __awtsmoosModule_104.updateMinimalMeadowEnemyActor;
-var initializeMinimalMeadowEnemyActor = __awtsmoosModule_208.initializeMinimalMeadowEnemyActor;
-var clearMinimalEnemy = __awtsmoosModule_264.clearMinimalEnemy;
-var damageMinimalEnemy = __awtsmoosModule_264.damageMinimalEnemy;
-var defeatMinimalEnemy = __awtsmoosModule_264.defeatMinimalEnemy;
-var interactWithMinimalEnemy = __awtsmoosModule_264.interactWithMinimalEnemy;
-var minimalEnemyPointerHit = __awtsmoosModule_264.minimalEnemyPointerHit;
-var targetMinimalEnemy = __awtsmoosModule_264.targetMinimalEnemy;
-var lootAllMinimalEnemyCorpse = __awtsmoosModule_267.lootAllMinimalEnemyCorpse;
-var takeMinimalEnemyCorpseItem = __awtsmoosModule_267.takeMinimalEnemyCorpseItem;
-var minimalEnemyGround = __awtsmoosModule_268.minimalEnemyGround;
-var minimalEnemyPayload = __awtsmoosModule_268.minimalEnemyPayload;
-var minimalEnemyTargetHints = __awtsmoosModule_268.minimalEnemyTargetHints;
+var initializeMinimalMeadowEnemyActor = __awtsmoosModule_248.initializeMinimalMeadowEnemyActor;
+var clearMinimalEnemy = __awtsmoosModule_298.clearMinimalEnemy;
+var damageMinimalEnemy = __awtsmoosModule_298.damageMinimalEnemy;
+var defeatMinimalEnemy = __awtsmoosModule_298.defeatMinimalEnemy;
+var interactWithMinimalEnemy = __awtsmoosModule_298.interactWithMinimalEnemy;
+var minimalEnemyPointerHit = __awtsmoosModule_298.minimalEnemyPointerHit;
+var targetMinimalEnemy = __awtsmoosModule_298.targetMinimalEnemy;
+var lootAllMinimalEnemyCorpse = __awtsmoosModule_301.lootAllMinimalEnemyCorpse;
+var takeMinimalEnemyCorpseItem = __awtsmoosModule_301.takeMinimalEnemyCorpseItem;
+var minimalEnemyGround = __awtsmoosModule_302.minimalEnemyGround;
+var minimalEnemyPayload = __awtsmoosModule_302.minimalEnemyPayload;
+var minimalEnemyTargetHints = __awtsmoosModule_302.minimalEnemyTargetHints;
 
 class MinimalMeadowEnemyActor {
 	constructor(options) {
@@ -21485,7 +24143,7 @@ __exports.MinimalMeadowEnemyActor = MinimalMeadowEnemyActor;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyPopulationDiagnostics.js */
-__awtsmoosModule_269 = (() => {
+__awtsmoosModule_303 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -21524,7 +24182,7 @@ function countMinimalMeadowEnemyArchetypes(receipts) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyPopulationTargeting.js */
-__awtsmoosModule_270 = (() => {
+__awtsmoosModule_304 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -21580,7 +24238,7 @@ __exports.unwrapMinimalMeadowEnemyActor = unwrapMinimalMeadowEnemyActor;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldBounds.js */
-__awtsmoosModule_274 = (() => {
+__awtsmoosModule_308 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -21634,7 +24292,7 @@ function clamp(value, minimum, maximum) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyProfileFactory.js */
-__awtsmoosModule_273 = (() => {
+__awtsmoosModule_307 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -21647,8 +24305,8 @@ const __exports = {};
  * Awtsmoos.com keeps spawn, patrol, weakness, phases, loot, network fields, and budget together.
  */
 
-var minimalEnemyArchetypePolicy = __awtsmoosModule_245.minimalEnemyArchetypePolicy;
-var minimalMeadowPointIsSafe = __awtsmoosModule_274.minimalMeadowPointIsSafe;
+var minimalEnemyArchetypePolicy = __awtsmoosModule_279.minimalEnemyArchetypePolicy;
+var minimalMeadowPointIsSafe = __awtsmoosModule_308.minimalMeadowPointIsSafe;
 
 function createMinimalMeadowEnemyProfile(specification) {
 	if (!minimalMeadowPointIsSafe(specification.x, specification.z)) {
@@ -21755,7 +24413,7 @@ function nonnegative(value, fallback) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowKedemWardenProfile.js */
-__awtsmoosModule_272 = (() => {
+__awtsmoosModule_306 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -21768,7 +24426,7 @@ const __exports = {};
  * Awtsmoos.com keeps phase grammar, posture, reconnect fields, loot, threat, and budgets explicit.
  */
 
-var enemy = __awtsmoosModule_273.createMinimalMeadowEnemyProfile;
+var enemy = __awtsmoosModule_307.createMinimalMeadowEnemyProfile;
 
 const MINIMAL_MEADOW_KEDEM_WARDEN_PROFILE = enemy({
 	actionDeck: [
@@ -21836,7 +24494,7 @@ __exports.MINIMAL_MEADOW_KEDEM_WARDEN_PROFILE = MINIMAL_MEADOW_KEDEM_WARDEN_PROF
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowBezierPath.js */
-__awtsmoosModule_278 = (() => {
+__awtsmoosModule_312 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -21977,7 +24635,7 @@ function clamp(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRoadEncounterStations.js */
-__awtsmoosModule_277 = (() => {
+__awtsmoosModule_311 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -21990,8 +24648,8 @@ const __exports = {};
  * three merciful shoulders beyond the village where danger can be seen before it is met.
  */
 
-var minimalMeadowRoadPoint = __awtsmoosModule_278.minimalMeadowRoadPoint;
-var minimalMeadowRoadTangent = __awtsmoosModule_278.minimalMeadowRoadTangent;
+var minimalMeadowRoadPoint = __awtsmoosModule_312.minimalMeadowRoadPoint;
+var minimalMeadowRoadTangent = __awtsmoosModule_312.minimalMeadowRoadTangent;
 
 const STATION_SPECIFICATIONS = Object.freeze([
 	Object.freeze({ archetype: 'warden', roadAmount: 0.68, side: 1 }),
@@ -22027,7 +24685,7 @@ function createStation(specification) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowPursuerProfile.js */
-__awtsmoosModule_276 = (() => {
+__awtsmoosModule_310 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -22040,8 +24698,8 @@ const __exports = {};
  * makes sidestep, redirection, terrain contact, dead zones, and readable motion explicit.
  */
 
-var enemy = __awtsmoosModule_273.createMinimalMeadowEnemyProfile;
-var minimalMeadowRoadEncounterStation = __awtsmoosModule_277.minimalMeadowRoadEncounterStation;
+var enemy = __awtsmoosModule_307.createMinimalMeadowEnemyProfile;
+var minimalMeadowRoadEncounterStation = __awtsmoosModule_311.minimalMeadowRoadEncounterStation;
 
 const station = minimalMeadowRoadEncounterStation('skirmisher');
 
@@ -22089,7 +24747,7 @@ __exports.MINIMAL_MEADOW_PURSUER_PROFILE = MINIMAL_MEADOW_PURSUER_PROFILE;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowScribeProfile.js */
-__awtsmoosModule_279 = (() => {
+__awtsmoosModule_313 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -22102,8 +24760,8 @@ const __exports = {};
  * Awtsmoos.com makes seal shape, cast category, resistance, vulnerability, and learned guidance clear.
  */
 
-var enemy = __awtsmoosModule_273.createMinimalMeadowEnemyProfile;
-var minimalMeadowRoadEncounterStation = __awtsmoosModule_277.minimalMeadowRoadEncounterStation;
+var enemy = __awtsmoosModule_307.createMinimalMeadowEnemyProfile;
+var minimalMeadowRoadEncounterStation = __awtsmoosModule_311.minimalMeadowRoadEncounterStation;
 
 const station = minimalMeadowRoadEncounterStation('cantor');
 
@@ -22155,7 +24813,7 @@ __exports.MINIMAL_MEADOW_SCRIBE_PROFILE = MINIMAL_MEADOW_SCRIBE_PROFILE;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowSentinelProfile.js */
-__awtsmoosModule_280 = (() => {
+__awtsmoosModule_314 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -22168,8 +24826,8 @@ const __exports = {};
  * makes flanking, disruption, heavy pressure, recovery, and anti-stunlock policy explicit.
  */
 
-var enemy = __awtsmoosModule_273.createMinimalMeadowEnemyProfile;
-var minimalMeadowRoadEncounterStation = __awtsmoosModule_277.minimalMeadowRoadEncounterStation;
+var enemy = __awtsmoosModule_307.createMinimalMeadowEnemyProfile;
+var minimalMeadowRoadEncounterStation = __awtsmoosModule_311.minimalMeadowRoadEncounterStation;
 
 const station = minimalMeadowRoadEncounterStation('warden');
 
@@ -22217,7 +24875,7 @@ __exports.MINIMAL_MEADOW_SENTINEL_PROFILE = MINIMAL_MEADOW_SENTINEL_PROFILE;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRoadEnemyProfiles.js */
-__awtsmoosModule_275 = (() => {
+__awtsmoosModule_309 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -22230,9 +24888,9 @@ const __exports = {};
  * Awtsmoos.com keeps their stable identities while role modules preserve readable law.
  */
 
-var MINIMAL_MEADOW_PURSUER_PROFILE = __awtsmoosModule_276.MINIMAL_MEADOW_PURSUER_PROFILE;
-var MINIMAL_MEADOW_SCRIBE_PROFILE = __awtsmoosModule_279.MINIMAL_MEADOW_SCRIBE_PROFILE;
-var MINIMAL_MEADOW_SENTINEL_PROFILE = __awtsmoosModule_280.MINIMAL_MEADOW_SENTINEL_PROFILE;
+var MINIMAL_MEADOW_PURSUER_PROFILE = __awtsmoosModule_310.MINIMAL_MEADOW_PURSUER_PROFILE;
+var MINIMAL_MEADOW_SCRIBE_PROFILE = __awtsmoosModule_313.MINIMAL_MEADOW_SCRIBE_PROFILE;
+var MINIMAL_MEADOW_SENTINEL_PROFILE = __awtsmoosModule_314.MINIMAL_MEADOW_SENTINEL_PROFILE;
 
 const MINIMAL_MEADOW_ROAD_ENEMY_PROFILES = Object.freeze([
 	MINIMAL_MEADOW_SENTINEL_PROFILE,
@@ -22243,7 +24901,7 @@ __exports.MINIMAL_MEADOW_ROAD_ENEMY_PROFILES = MINIMAL_MEADOW_ROAD_ENEMY_PROFILE
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowSupportingEnemyProfiles.js */
-__awtsmoosModule_281 = (() => {
+__awtsmoosModule_315 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -22256,7 +24914,7 @@ const __exports = {};
  * homes, roads, and patrols free from a crowd whose noise would hide the true mission.
  */
 
-var enemy = __awtsmoosModule_273.createMinimalMeadowEnemyProfile;
+var enemy = __awtsmoosModule_307.createMinimalMeadowEnemyProfile;
 
 const MINIMAL_MEADOW_SUPPORTING_ENEMY_PROFILES = Object.freeze([
 	enemy({
@@ -22331,7 +24989,7 @@ __exports.MINIMAL_MEADOW_SUPPORTING_ENEMY_PROFILES = MINIMAL_MEADOW_SUPPORTING_E
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyProfiles.js */
-__awtsmoosModule_271 = (() => {
+__awtsmoosModule_305 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -22344,9 +25002,9 @@ const __exports = {};
  * exposes one stable catalog while smaller vessels preserve combat and performance law.
  */
 
-var MINIMAL_MEADOW_KEDEM_WARDEN_PROFILE = __awtsmoosModule_272.MINIMAL_MEADOW_KEDEM_WARDEN_PROFILE;
-var MINIMAL_MEADOW_ROAD_ENEMY_PROFILES = __awtsmoosModule_275.MINIMAL_MEADOW_ROAD_ENEMY_PROFILES;
-var MINIMAL_MEADOW_SUPPORTING_ENEMY_PROFILES = __awtsmoosModule_281.MINIMAL_MEADOW_SUPPORTING_ENEMY_PROFILES;
+var MINIMAL_MEADOW_KEDEM_WARDEN_PROFILE = __awtsmoosModule_306.MINIMAL_MEADOW_KEDEM_WARDEN_PROFILE;
+var MINIMAL_MEADOW_ROAD_ENEMY_PROFILES = __awtsmoosModule_309.MINIMAL_MEADOW_ROAD_ENEMY_PROFILES;
+var MINIMAL_MEADOW_SUPPORTING_ENEMY_PROFILES = __awtsmoosModule_315.MINIMAL_MEADOW_SUPPORTING_ENEMY_PROFILES;
 
 const MINIMAL_MEADOW_ENEMY_PROFILES = Object.freeze([
 	...MINIMAL_MEADOW_SUPPORTING_ENEMY_PROFILES,
@@ -22366,7 +25024,7 @@ __exports.minimalMeadowEnemyProfileById = minimalMeadowEnemyProfileById;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyReceipts.js */
-__awtsmoosModule_283 = (() => {
+__awtsmoosModule_317 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -22411,7 +25069,7 @@ function finite(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyReceiptCadence.js */
-__awtsmoosModule_282 = (() => {
+__awtsmoosModule_316 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -22423,7 +25081,7 @@ const __exports = {};
  * The Awtsmoos renews living motion each instant without rebuilding every witness each breath;
  * Awtsmoos.com keeps diagnostics recent while combat, targeting, animation, and death stay deft.
  */
-var buildMinimalMeadowEnemyReceipts = __awtsmoosModule_283.buildMinimalMeadowEnemyReceipts;
+var buildMinimalMeadowEnemyReceipts = __awtsmoosModule_317.buildMinimalMeadowEnemyReceipts;
 
 const RECEIPT_INTERVAL_SECONDS = 0.25;
 
@@ -22463,7 +25121,7 @@ __exports.MinimalMeadowEnemyReceiptCadence = MinimalMeadowEnemyReceiptCadence;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnemyUpdateBudget.js */
-__awtsmoosModule_284 = (() => {
+__awtsmoosModule_318 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -22554,14 +25212,14 @@ const __exports = {};
 var Group = __awtsmoosModule_18.Group;
 var Vector3 = __awtsmoosModule_18.Vector3;
 var MinimalMeadowEnemyActor = __awtsmoosModule_103.MinimalMeadowEnemyActor;
-var minimalMeadowEnemyPopulationDiagnostics = __awtsmoosModule_269.minimalMeadowEnemyPopulationDiagnostics;
-var interactMinimalMeadowEnemyCandidate = __awtsmoosModule_270.interactMinimalMeadowEnemyCandidate;
-var minimalMeadowEnemyCandidateSelected = __awtsmoosModule_270.minimalMeadowEnemyCandidateSelected;
-var selectMinimalMeadowEnemyCandidate = __awtsmoosModule_270.selectMinimalMeadowEnemyCandidate;
-var unwrapMinimalMeadowEnemyActor = __awtsmoosModule_270.unwrapMinimalMeadowEnemyActor;
-var MINIMAL_MEADOW_ENEMY_PROFILES = __awtsmoosModule_271.MINIMAL_MEADOW_ENEMY_PROFILES;
-var MinimalMeadowEnemyReceiptCadence = __awtsmoosModule_282.MinimalMeadowEnemyReceiptCadence;
-var MinimalMeadowEnemyUpdateBudget = __awtsmoosModule_284.MinimalMeadowEnemyUpdateBudget;
+var minimalMeadowEnemyPopulationDiagnostics = __awtsmoosModule_303.minimalMeadowEnemyPopulationDiagnostics;
+var interactMinimalMeadowEnemyCandidate = __awtsmoosModule_304.interactMinimalMeadowEnemyCandidate;
+var minimalMeadowEnemyCandidateSelected = __awtsmoosModule_304.minimalMeadowEnemyCandidateSelected;
+var selectMinimalMeadowEnemyCandidate = __awtsmoosModule_304.selectMinimalMeadowEnemyCandidate;
+var unwrapMinimalMeadowEnemyActor = __awtsmoosModule_304.unwrapMinimalMeadowEnemyActor;
+var MINIMAL_MEADOW_ENEMY_PROFILES = __awtsmoosModule_305.MINIMAL_MEADOW_ENEMY_PROFILES;
+var MinimalMeadowEnemyReceiptCadence = __awtsmoosModule_316.MinimalMeadowEnemyReceiptCadence;
+var MinimalMeadowEnemyUpdateBudget = __awtsmoosModule_318.MinimalMeadowEnemyUpdateBudget;
 
 class MinimalMeadowEnemyPopulation {
 	constructor(options) {
@@ -22711,7 +25369,7 @@ __exports.installMinimalMeadowEnemyRuntime = installMinimalMeadowEnemyRuntime;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/clone.js */
-__awtsmoosModule_289 = (() => {
+__awtsmoosModule_323 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -22749,7 +25407,7 @@ __exports.cloneCreatureValue = cloneCreatureValue;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/contracts.js */
-__awtsmoosModule_290 = (() => {
+__awtsmoosModule_324 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -22805,7 +25463,7 @@ __exports.CreatureOperationError = CreatureOperationError;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/canonical/canonicalValueTags.js */
-__awtsmoosModule_295 = (() => {
+__awtsmoosModule_329 = (() => {
 const __exports = {};
 // B"H
 
@@ -22840,12 +25498,12 @@ __exports.CANONICAL_NUMBER_TAGS = CANONICAL_NUMBER_TAGS;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/canonical/encodeBinaryValue.js */
-__awtsmoosModule_296 = (() => {
+__awtsmoosModule_330 = (() => {
 const __exports = {};
 // B"H
 
-var CANONICAL_NUMBER_TAGS = __awtsmoosModule_295.CANONICAL_NUMBER_TAGS;
-var CANONICAL_VALUE_TAGS = __awtsmoosModule_295.CANONICAL_VALUE_TAGS;
+var CANONICAL_NUMBER_TAGS = __awtsmoosModule_329.CANONICAL_NUMBER_TAGS;
+var CANONICAL_VALUE_TAGS = __awtsmoosModule_329.CANONICAL_VALUE_TAGS;
 
 function encodeNumber(value) {
 	if (Number.isNaN(value)) {
@@ -22909,13 +25567,13 @@ __exports.encodeBinaryValue = encodeBinaryValue;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/canonical/normalizeCanonicalValue.js */
-__awtsmoosModule_294 = (() => {
+__awtsmoosModule_328 = (() => {
 const __exports = {};
 // B"H
 
-var CANONICAL_NUMBER_TAGS = __awtsmoosModule_295.CANONICAL_NUMBER_TAGS;
-var CANONICAL_VALUE_TAGS = __awtsmoosModule_295.CANONICAL_VALUE_TAGS;
-var encodeBinaryValue = __awtsmoosModule_296.encodeBinaryValue;
+var CANONICAL_NUMBER_TAGS = __awtsmoosModule_329.CANONICAL_NUMBER_TAGS;
+var CANONICAL_VALUE_TAGS = __awtsmoosModule_329.CANONICAL_VALUE_TAGS;
+var encodeBinaryValue = __awtsmoosModule_330.encodeBinaryValue;
 
 const DEFAULT_MAX_DEPTH = 256;
 
@@ -23029,11 +25687,11 @@ __exports.normalizeCanonicalValue = normalizeCanonicalValue;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/canonical/serializeCanonicalValue.js */
-__awtsmoosModule_293 = (() => {
+__awtsmoosModule_327 = (() => {
 const __exports = {};
 // B"H
 
-var normalizeCanonicalValue = __awtsmoosModule_294.normalizeCanonicalValue;
+var normalizeCanonicalValue = __awtsmoosModule_328.normalizeCanonicalValue;
 
 /**
  * Serializes a value through the canonical tagged language.
@@ -23049,11 +25707,11 @@ __exports.serializeCanonicalValue = serializeCanonicalValue;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/canonical/hashCanonicalValue.js */
-__awtsmoosModule_292 = (() => {
+__awtsmoosModule_326 = (() => {
 const __exports = {};
 // B"H
 
-var serializeCanonicalValue = __awtsmoosModule_293.serializeCanonicalValue;
+var serializeCanonicalValue = __awtsmoosModule_327.serializeCanonicalValue;
 
 const FNV_OFFSET_BASIS_64 = 0xcbf29ce484222325n;
 const FNV_PRIME_64 = 0x100000001b3n;
@@ -23080,13 +25738,13 @@ __exports.hashCanonicalValue = hashCanonicalValue;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/identity.js */
-__awtsmoosModule_291 = (() => {
+__awtsmoosModule_325 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
 // Blessed is He
 
-var canonicalHashModule = __awtsmoosModule_292;
+var canonicalHashModule = __awtsmoosModule_326;
 
 const canonicalHasher = canonicalHashModule.hashCanonicalValue || canonicalHashModule.default;
 
@@ -23150,15 +25808,15 @@ __exports.deriveCreatureContentHash = deriveCreatureContentHash;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/kernelStore.js */
-__awtsmoosModule_288 = (() => {
+__awtsmoosModule_322 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
 // Blessed is He
 
-var cloneCreatureValue = __awtsmoosModule_289.cloneCreatureValue;
-var CreatureOperationError = __awtsmoosModule_290.CreatureOperationError;
-var createSemanticId = __awtsmoosModule_291.createSemanticId;
+var cloneCreatureValue = __awtsmoosModule_323.cloneCreatureValue;
+var CreatureOperationError = __awtsmoosModule_324.CreatureOperationError;
+var createSemanticId = __awtsmoosModule_325.createSemanticId;
 
 /**
  * Owns local creature artifacts and transaction drafts. This store is a vessel
@@ -23224,7 +25882,7 @@ __exports.CreatureKernelStore = CreatureKernelStore;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/operationNames.js */
-__awtsmoosModule_298 = (() => {
+__awtsmoosModule_332 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -23327,7 +25985,7 @@ __exports.CREATURE_OPERATION_NAMES = CREATURE_OPERATION_NAMES;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/operationCatalog.js */
-__awtsmoosModule_297 = (() => {
+__awtsmoosModule_331 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -23339,7 +25997,7 @@ const __exports = {};
  * callers inspect determinism, mutation, topology, rollback, and resource law.
  */
 
-var CREATURE_OPERATION_NAMES = __awtsmoosModule_298.CREATURE_OPERATION_NAMES;
+var CREATURE_OPERATION_NAMES = __awtsmoosModule_332.CREATURE_OPERATION_NAMES;
 
 function topologyEffect(name) {
 	if (/section\.(insert|remove)|body\.resample|limb\.(create|branch|joint\.(insert|remove))|part\.(attach|remove|clone)/.test(name)) {
@@ -23415,17 +26073,17 @@ __exports.createCreatureOperationCatalog = createCreatureOperationCatalog;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/documents.js */
-__awtsmoosModule_300 = (() => {
+__awtsmoosModule_334 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
 // Blessed is He
 
-var cloneCreatureValue = __awtsmoosModule_289.cloneCreatureValue;
-var CREATURE_VERSION = __awtsmoosModule_290.CREATURE_VERSION;
-var CREATURE_WORLD_TYPES = __awtsmoosModule_290.CREATURE_WORLD_TYPES;
-var createSemanticId = __awtsmoosModule_291.createSemanticId;
-var deriveCreatureContentHash = __awtsmoosModule_291.deriveCreatureContentHash;
+var cloneCreatureValue = __awtsmoosModule_323.cloneCreatureValue;
+var CREATURE_VERSION = __awtsmoosModule_324.CREATURE_VERSION;
+var CREATURE_WORLD_TYPES = __awtsmoosModule_324.CREATURE_WORLD_TYPES;
+var createSemanticId = __awtsmoosModule_325.createSemanticId;
+var deriveCreatureContentHash = __awtsmoosModule_325.deriveCreatureContentHash;
 
 function createBodySection(creatureId, index, count) {
 	const normalized = count <= 1 ? 0 : index / (count - 1);
@@ -23532,13 +26190,13 @@ __exports.refreshBriahCreature = refreshBriahCreature;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/bodyHelpers.js */
-__awtsmoosModule_303 = (() => {
+__awtsmoosModule_337 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
 // Blessed is He
 
-var createSemanticId = __awtsmoosModule_291.createSemanticId;
+var createSemanticId = __awtsmoosModule_325.createSemanticId;
 
 /**
  * Normalizes one cross-section of the Briah axial graph. The transported body
@@ -23598,16 +26256,16 @@ __exports.interpolateSection = interpolateSection;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/bodyOperations.js */
-__awtsmoosModule_302 = (() => {
+__awtsmoosModule_336 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
 // Blessed is He
 
-var CreatureOperationError = __awtsmoosModule_290.CreatureOperationError;
-var interpolateSection = __awtsmoosModule_303.interpolateSection;
-var normalizeBodySection = __awtsmoosModule_303.normalizeBodySection;
-var selectBodySections = __awtsmoosModule_303.selectBodySections;
+var CreatureOperationError = __awtsmoosModule_324.CreatureOperationError;
+var interpolateSection = __awtsmoosModule_337.interpolateSection;
+var normalizeBodySection = __awtsmoosModule_337.normalizeBodySection;
+var selectBodySections = __awtsmoosModule_337.selectBodySections;
 
 function requireSection(creature, sectionId) {
 	const section = creature.body.sections.find((candidate) => candidate.id === sectionId);
@@ -23695,13 +26353,13 @@ __exports.applyBodyOperation = applyBodyOperation;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/limbFactory.js */
-__awtsmoosModule_305 = (() => {
+__awtsmoosModule_339 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
 // Blessed is He
 
-var createSemanticId = __awtsmoosModule_291.createSemanticId;
+var createSemanticId = __awtsmoosModule_325.createSemanticId;
 
 function normalizeSegment(chainId, segment, index) {
 	return {
@@ -23756,15 +26414,15 @@ __exports.createLimbChain = createLimbChain;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/limbOperations.js */
-__awtsmoosModule_304 = (() => {
+__awtsmoosModule_338 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
 // Blessed is He
 
-var CreatureOperationError = __awtsmoosModule_290.CreatureOperationError;
-var createSemanticId = __awtsmoosModule_291.createSemanticId;
-var createLimbChain = __awtsmoosModule_305.createLimbChain;
+var CreatureOperationError = __awtsmoosModule_324.CreatureOperationError;
+var createSemanticId = __awtsmoosModule_325.createSemanticId;
+var createLimbChain = __awtsmoosModule_339.createLimbChain;
 
 function requireLimb(creature, limbId) {
 	const limb = creature.limbs.find((candidate) => candidate.id === limbId);
@@ -23852,15 +26510,15 @@ __exports.applyLimbOperation = applyLimbOperation;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/materialOperations.js */
-__awtsmoosModule_306 = (() => {
+__awtsmoosModule_340 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
 // Blessed is He
 
-var cloneCreatureValue = __awtsmoosModule_289.cloneCreatureValue;
-var CreatureOperationError = __awtsmoosModule_290.CreatureOperationError;
-var createSemanticId = __awtsmoosModule_291.createSemanticId;
+var cloneCreatureValue = __awtsmoosModule_323.cloneCreatureValue;
+var CreatureOperationError = __awtsmoosModule_324.CreatureOperationError;
+var createSemanticId = __awtsmoosModule_325.createSemanticId;
 
 function requireLayer(creature, layerId) {
 	const layer = creature.materialLayers.find((candidate) => candidate.id === layerId);
@@ -23933,15 +26591,15 @@ __exports.compileCreatureMaterials = compileCreatureMaterials;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/partOperations.js */
-__awtsmoosModule_307 = (() => {
+__awtsmoosModule_341 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
 // Blessed is He
 
-var cloneCreatureValue = __awtsmoosModule_289.cloneCreatureValue;
-var CreatureOperationError = __awtsmoosModule_290.CreatureOperationError;
-var createSemanticId = __awtsmoosModule_291.createSemanticId;
+var cloneCreatureValue = __awtsmoosModule_323.cloneCreatureValue;
+var CreatureOperationError = __awtsmoosModule_324.CreatureOperationError;
+var createSemanticId = __awtsmoosModule_325.createSemanticId;
 
 function requirePart(creature, partId) {
 	const part = creature.parts.find((candidate) => candidate.id === partId);
@@ -24037,7 +26695,7 @@ __exports.applyPartOperation = applyPartOperation;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/rigConstraintOperations.js */
-__awtsmoosModule_308 = (() => {
+__awtsmoosModule_342 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -24047,8 +26705,8 @@ const __exports = {};
  * editable authority. Awtsmoos.com changes semantic joint contracts so Yetzirah
  * is regenerated from anatomy instead of accepting an authoritative bone patch.
  */
-var cloneCreatureValue = __awtsmoosModule_289.cloneCreatureValue;
-var CreatureOperationError = __awtsmoosModule_290.CreatureOperationError;
+var cloneCreatureValue = __awtsmoosModule_323.cloneCreatureValue;
+var CreatureOperationError = __awtsmoosModule_324.CreatureOperationError;
 
 function locateSegment(creature, input) {
 	for (const limb of creature.limbs) {
@@ -24103,14 +26761,14 @@ __exports.applyRigConstraintOperation = applyRigConstraintOperation;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/symmetryOperations.js */
-__awtsmoosModule_309 = (() => {
+__awtsmoosModule_343 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
 // Blessed is He
 
-var CreatureOperationError = __awtsmoosModule_290.CreatureOperationError;
-var createSemanticId = __awtsmoosModule_291.createSemanticId;
+var CreatureOperationError = __awtsmoosModule_324.CreatureOperationError;
+var createSemanticId = __awtsmoosModule_325.createSemanticId;
 
 function requireGroup(creature, groupId) {
 	const group = creature.symmetryGroups.find((candidate) => candidate.id === groupId);
@@ -24173,7 +26831,7 @@ __exports.applySymmetryOperation = applySymmetryOperation;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/mutationDispatcher.js */
-__awtsmoosModule_301 = (() => {
+__awtsmoosModule_335 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -24183,14 +26841,14 @@ const __exports = {};
  * The Awtsmoos creates every change now; Awtsmoos.com routes each named action
  * into the existing Briah body, limb, part, symmetry, material, or rig vessel.
  */
-var applyBodyOperation = __awtsmoosModule_302.applyBodyOperation;
-var applyLimbOperation = __awtsmoosModule_304.applyLimbOperation;
-var applyMaterialOperation = __awtsmoosModule_306.applyMaterialOperation;
-var applyPartOperation = __awtsmoosModule_307.applyPartOperation;
-var applyRigConstraintOperation = __awtsmoosModule_308.applyRigConstraintOperation;
-var applySymmetryOperation = __awtsmoosModule_309.applySymmetryOperation;
-var CreatureOperationError = __awtsmoosModule_290.CreatureOperationError;
-var CREATURE_MUTATION_OPERATIONS = __awtsmoosModule_298.CREATURE_MUTATION_OPERATIONS;
+var applyBodyOperation = __awtsmoosModule_336.applyBodyOperation;
+var applyLimbOperation = __awtsmoosModule_338.applyLimbOperation;
+var applyMaterialOperation = __awtsmoosModule_340.applyMaterialOperation;
+var applyPartOperation = __awtsmoosModule_341.applyPartOperation;
+var applyRigConstraintOperation = __awtsmoosModule_342.applyRigConstraintOperation;
+var applySymmetryOperation = __awtsmoosModule_343.applySymmetryOperation;
+var CreatureOperationError = __awtsmoosModule_324.CreatureOperationError;
+var CREATURE_MUTATION_OPERATIONS = __awtsmoosModule_332.CREATURE_MUTATION_OPERATIONS;
 
 function isCreatureMutation(operation) {
 	return CREATURE_MUTATION_OPERATIONS.includes(operation);
@@ -24228,15 +26886,15 @@ __exports.applyCreatureMutation = applyCreatureMutation;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/kernelMutation.js */
-__awtsmoosModule_299 = (() => {
+__awtsmoosModule_333 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
 // Blessed is He
 
-var cloneCreatureValue = __awtsmoosModule_289.cloneCreatureValue;
-var refreshBriahCreature = __awtsmoosModule_300.refreshBriahCreature;
-var applyCreatureMutation = __awtsmoosModule_301.applyCreatureMutation;
+var cloneCreatureValue = __awtsmoosModule_323.cloneCreatureValue;
+var refreshBriahCreature = __awtsmoosModule_334.refreshBriahCreature;
+var applyCreatureMutation = __awtsmoosModule_335.applyCreatureMutation;
 
 function historyOperation(request) {
 	return {
@@ -24257,7 +26915,7 @@ function invalidateCompiledArtifacts(record) {
  * Applies one semantic edit through the shared mutation seam. Direct edits become
  * one-revision commits; transaction edits remain isolated drafts until Malchus-like
  * commitment gives them concrete history, undo, and replay consequences.
- * @param {Promise.resolve(__awtsmoosModule_288).CreatureKernelStore} store - Kernel state store.
+ * @param {Promise.resolve(__awtsmoosModule_322).CreatureKernelStore} store - Kernel state store.
  * @param {Object} request - Semantic operation request.
  * @returns {Object} Mutation result and revision evidence.
  */
@@ -24301,7 +26959,7 @@ __exports.applyKernelMutation = applyKernelMutation;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/validation.js */
-__awtsmoosModule_312 = (() => {
+__awtsmoosModule_346 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -24377,13 +27035,13 @@ __exports.validateBriahCreature = validateBriahCreature;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/rigBones.js */
-__awtsmoosModule_315 = (() => {
+__awtsmoosModule_349 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
 // Blessed is He
 
-var createSemanticId = __awtsmoosModule_291.createSemanticId;
+var createSemanticId = __awtsmoosModule_325.createSemanticId;
 
 /**
  * Creates one Yetzirah bone from semantic anatomy. The bone is a formed vessel:
@@ -24437,7 +27095,7 @@ __exports.degreesOfFreedomForJoint = degreesOfFreedomForJoint;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/rigLineage.js */
-__awtsmoosModule_316 = (() => {
+__awtsmoosModule_350 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -24497,13 +27155,13 @@ __exports.compareYetzirahRigs = compareYetzirahRigs;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/rigSynthesisAxial.js */
-__awtsmoosModule_317 = (() => {
+__awtsmoosModule_351 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
 // Blessed is He
 
-var createRigBone = __awtsmoosModule_315.createRigBone;
+var createRigBone = __awtsmoosModule_349.createRigBone;
 
 /** Resolves a semantic anatomical anchor to its surviving axial bone. */
 function resolveRigAnchorBone(creature, axialBones, anchor) {
@@ -24559,15 +27217,15 @@ __exports.createSemanticAxialBones = createSemanticAxialBones;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/rigSynthesisAppendages.js */
-__awtsmoosModule_318 = (() => {
+__awtsmoosModule_352 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
 // Blessed is He
-var createSemanticId = __awtsmoosModule_291.createSemanticId;
-var createRigBone = __awtsmoosModule_315.createRigBone;
-var degreesOfFreedomForJoint = __awtsmoosModule_315.degreesOfFreedomForJoint;
-var resolveRigAnchorBone = __awtsmoosModule_317.resolveRigAnchorBone;
+var createSemanticId = __awtsmoosModule_325.createSemanticId;
+var createRigBone = __awtsmoosModule_349.createRigBone;
+var degreesOfFreedomForJoint = __awtsmoosModule_349.degreesOfFreedomForJoint;
+var resolveRigAnchorBone = __awtsmoosModule_351.resolveRigAnchorBone;
 
 /** Adds arbitrary articulated limb bones and semantic targets. */
 function appendSemanticLimbBones(
@@ -24686,7 +27344,7 @@ __exports.appendSemanticPartBones = appendSemanticPartBones;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/rigSynthesisMass.js */
-__awtsmoosModule_319 = (() => {
+__awtsmoosModule_353 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -24711,22 +27369,22 @@ __exports.calculateSemanticCenterOfMass = calculateSemanticCenterOfMass;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/rigSynthesis.js */
-__awtsmoosModule_314 = (() => {
+__awtsmoosModule_348 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
 // Blessed is He
 
-var CREATURE_VERSION = __awtsmoosModule_290.CREATURE_VERSION;
-var CREATURE_WORLD_TYPES = __awtsmoosModule_290.CREATURE_WORLD_TYPES;
-var deriveCreatureContentHash = __awtsmoosModule_291.deriveCreatureContentHash;
-var createSemanticId = __awtsmoosModule_291.createSemanticId;
-var createRigBone = __awtsmoosModule_315.createRigBone;
-var createRigLineageReport = __awtsmoosModule_316.createRigLineageReport;
-var createSemanticAxialBones = __awtsmoosModule_317.createSemanticAxialBones;
-var appendSemanticLimbBones = __awtsmoosModule_318.appendSemanticLimbBones;
-var appendSemanticPartBones = __awtsmoosModule_318.appendSemanticPartBones;
-var calculateSemanticCenterOfMass = __awtsmoosModule_319.calculateSemanticCenterOfMass;
+var CREATURE_VERSION = __awtsmoosModule_324.CREATURE_VERSION;
+var CREATURE_WORLD_TYPES = __awtsmoosModule_324.CREATURE_WORLD_TYPES;
+var deriveCreatureContentHash = __awtsmoosModule_325.deriveCreatureContentHash;
+var createSemanticId = __awtsmoosModule_325.createSemanticId;
+var createRigBone = __awtsmoosModule_349.createRigBone;
+var createRigLineageReport = __awtsmoosModule_350.createRigLineageReport;
+var createSemanticAxialBones = __awtsmoosModule_351.createSemanticAxialBones;
+var appendSemanticLimbBones = __awtsmoosModule_352.appendSemanticLimbBones;
+var appendSemanticPartBones = __awtsmoosModule_352.appendSemanticPartBones;
+var calculateSemanticCenterOfMass = __awtsmoosModule_353.calculateSemanticCenterOfMass;
 
 /**
  * Synthesizes a non-humanoid Yetzirah rig from arbitrary Briah anatomy.
@@ -24804,7 +27462,7 @@ __exports.synthesizeYetzirahRig = synthesizeYetzirahRig;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/rigValidation.js */
-__awtsmoosModule_320 = (() => {
+__awtsmoosModule_354 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -24864,7 +27522,7 @@ __exports.evaluateRigPose = evaluateRigPose;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/geometry/vectorMath.js */
-__awtsmoosModule_324 = (() => {
+__awtsmoosModule_358 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -24964,7 +27622,7 @@ __exports.distanceBetween = distanceBetween;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/geometry/centerlineSampler.js */
-__awtsmoosModule_323 = (() => {
+__awtsmoosModule_357 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -24975,9 +27633,9 @@ const __exports = {};
  * so the greater procedural world can remain inspectable, safe, and alive.
  */
 
-var distanceBetween = __awtsmoosModule_324.distanceBetween;
-var lerpNumber = __awtsmoosModule_324.lerpNumber;
-var lerpVector = __awtsmoosModule_324.lerpVector;
+var distanceBetween = __awtsmoosModule_358.distanceBetween;
+var lerpNumber = __awtsmoosModule_358.lerpNumber;
+var lerpVector = __awtsmoosModule_358.lerpVector;
 
 function buildLengths(points) {
 	const lengths = [
@@ -25048,7 +27706,7 @@ __exports.sampleSection = sampleSection;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/geometry/parallelTransportFrames.js */
-__awtsmoosModule_325 = (() => {
+__awtsmoosModule_359 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -25059,14 +27717,14 @@ const __exports = {};
  * linear time, with no renderer state and no random side effects.
  */
 
-var sampleCenterline = __awtsmoosModule_323.sampleCenterline;
-var addVector = __awtsmoosModule_324.addVector;
-var crossVector = __awtsmoosModule_324.crossVector;
-var dotVector = __awtsmoosModule_324.dotVector;
-var normalizeVector = __awtsmoosModule_324.normalizeVector;
-var scaleVector = __awtsmoosModule_324.scaleVector;
-var subtractVector = __awtsmoosModule_324.subtractVector;
-var vectorLength = __awtsmoosModule_324.vectorLength;
+var sampleCenterline = __awtsmoosModule_357.sampleCenterline;
+var addVector = __awtsmoosModule_358.addVector;
+var crossVector = __awtsmoosModule_358.crossVector;
+var dotVector = __awtsmoosModule_358.dotVector;
+var normalizeVector = __awtsmoosModule_358.normalizeVector;
+var scaleVector = __awtsmoosModule_358.scaleVector;
+var subtractVector = __awtsmoosModule_358.subtractVector;
+var vectorLength = __awtsmoosModule_358.vectorLength;
 
 function tangentAt(centerline, amount) {
 	const delta = 0.001;
@@ -25132,7 +27790,7 @@ __exports.createParallelTransportFrame = createParallelTransportFrame;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/geometry/loftTopology.js */
-__awtsmoosModule_326 = (() => {
+__awtsmoosModule_360 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -25205,7 +27863,7 @@ function averageRing(ring, positions) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/geometry/normalBuilder.js */
-__awtsmoosModule_327 = (() => {
+__awtsmoosModule_361 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -25216,10 +27874,10 @@ const __exports = {};
  * so the greater procedural world can remain inspectable, safe, and alive.
  */
 
-var addVector = __awtsmoosModule_324.addVector;
-var crossVector = __awtsmoosModule_324.crossVector;
-var normalizeVector = __awtsmoosModule_324.normalizeVector;
-var subtractVector = __awtsmoosModule_324.subtractVector;
+var addVector = __awtsmoosModule_358.addVector;
+var crossVector = __awtsmoosModule_358.crossVector;
+var normalizeVector = __awtsmoosModule_358.normalizeVector;
+var subtractVector = __awtsmoosModule_358.subtractVector;
 
 function buildVertexNormals(positions, indices) {
 	const normals = new Array(positions.length).fill(0);
@@ -25278,7 +27936,7 @@ function accumulate(values, index, normal) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/geometry/ellipticalLoft.js */
-__awtsmoosModule_322 = (() => {
+__awtsmoosModule_356 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -25289,13 +27947,13 @@ const __exports = {};
  * mesh contract, deterministic indices, caps, UVs, and linear complexity.
  */
 
-var sampleSection = __awtsmoosModule_323.sampleSection;
-var createParallelTransportFrames = __awtsmoosModule_325.createParallelTransportFrames;
-var capLoftRing = __awtsmoosModule_326.capLoftRing;
-var connectLoftRings = __awtsmoosModule_326.connectLoftRings;
-var buildVertexNormals = __awtsmoosModule_327.buildVertexNormals;
-var addVector = __awtsmoosModule_324.addVector;
-var scaleVector = __awtsmoosModule_324.scaleVector;
+var sampleSection = __awtsmoosModule_357.sampleSection;
+var createParallelTransportFrames = __awtsmoosModule_359.createParallelTransportFrames;
+var capLoftRing = __awtsmoosModule_360.capLoftRing;
+var connectLoftRings = __awtsmoosModule_360.connectLoftRings;
+var buildVertexNormals = __awtsmoosModule_361.buildVertexNormals;
+var addVector = __awtsmoosModule_358.addVector;
+var scaleVector = __awtsmoosModule_358.scaleVector;
 
 function buildRing(options) {
 	const ring = [];
@@ -25359,7 +28017,7 @@ __exports.buildEllipticalLoft = buildEllipticalLoft;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/meshCompiler.js */
-__awtsmoosModule_321 = (() => {
+__awtsmoosModule_355 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -25369,8 +28027,8 @@ const __exports = {};
  * Awtsmoos creates every ring now; Awtsmoos.com keeps semantic anatomy above
  * disposable vertices, while one compiler gathers body, limbs, and parts.
  */
-var buildEllipticalLoft = __awtsmoosModule_322.buildEllipticalLoft;
-var deriveCreatureContentHash = __awtsmoosModule_291.deriveCreatureContentHash;
+var buildEllipticalLoft = __awtsmoosModule_356.buildEllipticalLoft;
+var deriveCreatureContentHash = __awtsmoosModule_325.deriveCreatureContentHash;
 
 function meshPart(id, geometry, regions) {
 	return {
@@ -25487,7 +28145,7 @@ __exports.compileCreatureLods = compileCreatureLods;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/rig/automaticWeights.js */
-__awtsmoosModule_330 = (() => {
+__awtsmoosModule_364 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -25498,9 +28156,9 @@ const __exports = {};
  * so the greater procedural world can remain inspectable, safe, and alive.
  */
 
-var dotVector = __awtsmoosModule_324.dotVector;
-var subtractVector = __awtsmoosModule_324.subtractVector;
-var vectorLength = __awtsmoosModule_324.vectorLength;
+var dotVector = __awtsmoosModule_358.dotVector;
+var subtractVector = __awtsmoosModule_358.subtractVector;
+var vectorLength = __awtsmoosModule_358.vectorLength;
 
 function assignAutomaticBoneWeights(part, rig) {
 	if (!rig.enabled || rig.bones.length === 0) {
@@ -25555,7 +28213,7 @@ function distanceToSegment(point, start, end) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/skin/creatureSkinning.js */
-__awtsmoosModule_329 = (() => {
+__awtsmoosModule_363 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -25564,7 +28222,7 @@ const __exports = {};
  * Skin is the covenant between formed bone and physical surface. The Awtsmoos
  * distributes influence by semantic segment while Awtsmoos.com records lineage.
  */
-var assignAutomaticBoneWeights = __awtsmoosModule_330.assignAutomaticBoneWeights;
+var assignAutomaticBoneWeights = __awtsmoosModule_364.assignAutomaticBoneWeights;
 
 function legacyRigFromYetzirah(rig, options) {
 	const maximumInfluences = Math.max(
@@ -25665,7 +28323,7 @@ __exports.validateCreatureSkin = validateCreatureSkin;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/skinCompiler.js */
-__awtsmoosModule_328 = (() => {
+__awtsmoosModule_362 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -25675,8 +28333,8 @@ const __exports = {};
  * The Awtsmoos unites formation and surface; Awtsmoos.com derives segment heads
  * only as a compatibility frame, never as a second skeleton authority.
  */
-var bindExistingSkin = __awtsmoosModule_329.bindCreatureSkin;
-var validateCreatureSkin = __awtsmoosModule_329.validateCreatureSkin;function createPositionedCreatureRig(rig) {
+var bindExistingSkin = __awtsmoosModule_363.bindCreatureSkin;
+var validateCreatureSkin = __awtsmoosModule_363.validateCreatureSkin;function createPositionedCreatureRig(rig) {
 	const positioned = new Map();
 	const bones = rig.bones.map((bone) => {
 		const parent = positioned.get(bone.parentBoneId);
@@ -25750,7 +28408,7 @@ __exports.validateSkinWeights = validateSkinWeights;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/compile/createCollisionShapes.js */
-__awtsmoosModule_331 = (() => {
+__awtsmoosModule_365 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -25784,7 +28442,7 @@ __exports.createCreatureCollisionShapes = createCreatureCollisionShapes;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/compile/createMemoryReport.js */
-__awtsmoosModule_332 = (() => {
+__awtsmoosModule_366 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -25828,15 +28486,15 @@ __exports.createCreatureMemoryReport = createCreatureMemoryReport;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/canonical/decodeCanonicalValue.js */
-__awtsmoosModule_337 = (() => {
+__awtsmoosModule_371 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
 // Blessed is He
 /** Canonical garments are opened only at trusted execution boundaries. */
 
-var CANONICAL_NUMBER_TAGS = __awtsmoosModule_295.CANONICAL_NUMBER_TAGS;
-var CANONICAL_VALUE_TAGS = __awtsmoosModule_295.CANONICAL_VALUE_TAGS;
+var CANONICAL_NUMBER_TAGS = __awtsmoosModule_329.CANONICAL_NUMBER_TAGS;
+var CANONICAL_VALUE_TAGS = __awtsmoosModule_329.CANONICAL_VALUE_TAGS;
 
 function decodeNumber(value) {
 	switch (value) {
@@ -25900,23 +28558,23 @@ __exports.decodeCanonicalValue = decodeCanonicalValue;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/canonical/index.js */
-__awtsmoosModule_336 = (() => {
+__awtsmoosModule_370 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
 // Blessed is He
 /** Canonical values remain deterministic in storage and reversible at trusted edges. */
 
-Object.assign(__exports, __awtsmoosModule_295);
-Object.assign(__exports, __awtsmoosModule_296);
-Object.assign(__exports, __awtsmoosModule_294);
-Object.assign(__exports, __awtsmoosModule_337);
-Object.assign(__exports, __awtsmoosModule_293);
-Object.assign(__exports, __awtsmoosModule_292);
+Object.assign(__exports, __awtsmoosModule_329);
+Object.assign(__exports, __awtsmoosModule_330);
+Object.assign(__exports, __awtsmoosModule_328);
+Object.assign(__exports, __awtsmoosModule_371);
+Object.assign(__exports, __awtsmoosModule_327);
+Object.assign(__exports, __awtsmoosModule_326);
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/diagnostics/diagnosticContract.js */
-__awtsmoosModule_339 = (() => {
+__awtsmoosModule_373 = (() => {
 const __exports = {};
 // B"H
 
@@ -25945,14 +28603,14 @@ __exports.isDiagnosticPathSegment = isDiagnosticPathSegment;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/diagnostics/createDiagnostic.js */
-__awtsmoosModule_340 = (() => {
+__awtsmoosModule_374 = (() => {
 const __exports = {};
 // B"H
 
-var normalizeCanonicalValue = __awtsmoosModule_336.normalizeCanonicalValue;
-var DIAGNOSTIC_CODE_PATTERN = __awtsmoosModule_339.DIAGNOSTIC_CODE_PATTERN;
-var DIAGNOSTIC_SEVERITIES = __awtsmoosModule_339.DIAGNOSTIC_SEVERITIES;
-var isDiagnosticPathSegment = __awtsmoosModule_339.isDiagnosticPathSegment;
+var normalizeCanonicalValue = __awtsmoosModule_370.normalizeCanonicalValue;
+var DIAGNOSTIC_CODE_PATTERN = __awtsmoosModule_373.DIAGNOSTIC_CODE_PATTERN;
+var DIAGNOSTIC_SEVERITIES = __awtsmoosModule_373.DIAGNOSTIC_SEVERITIES;
+var isDiagnosticPathSegment = __awtsmoosModule_373.isDiagnosticPathSegment;
 
 function normalizeStrings(values, label) {
 	if (!Array.isArray(values) || values.some(value => typeof value !== "string" || !value.trim())) {
@@ -25999,16 +28657,16 @@ __exports.createDiagnostic = createDiagnostic;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/diagnostics/index.js */
-__awtsmoosModule_338 = (() => {
+__awtsmoosModule_372 = (() => {
 const __exports = {};
 // B"H
 
-Object.assign(__exports, __awtsmoosModule_339);
-Object.assign(__exports, __awtsmoosModule_340);
+Object.assign(__exports, __awtsmoosModule_373);
+Object.assign(__exports, __awtsmoosModule_374);
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/budgets/resourceBudgetContract.js */
-__awtsmoosModule_342 = (() => {
+__awtsmoosModule_376 = (() => {
 const __exports = {};
 // B"H
 
@@ -26033,11 +28691,11 @@ __exports.RESOURCE_BUDGET_DIMENSIONS = RESOURCE_BUDGET_DIMENSIONS;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/budgets/normalizeResourceBudget.js */
-__awtsmoosModule_343 = (() => {
+__awtsmoosModule_377 = (() => {
 const __exports = {};
 // B"H
 
-var RESOURCE_BUDGET_DIMENSIONS = __awtsmoosModule_342.RESOURCE_BUDGET_DIMENSIONS;
+var RESOURCE_BUDGET_DIMENSIONS = __awtsmoosModule_376.RESOURCE_BUDGET_DIMENSIONS;
 
 function assertRecord(value, label) {
 	if (!value || typeof value !== "object" || Array.isArray(value)) {
@@ -26099,14 +28757,14 @@ __exports.normalizeResourceUsage = normalizeResourceUsage;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/budgets/evaluateResourceBudget.js */
-__awtsmoosModule_344 = (() => {
+__awtsmoosModule_378 = (() => {
 const __exports = {};
 // B"H
 
-var createDiagnostic = __awtsmoosModule_338.createDiagnostic;
-var RESOURCE_BUDGET_DIMENSIONS = __awtsmoosModule_342.RESOURCE_BUDGET_DIMENSIONS;
-var normalizeResourceBudget = __awtsmoosModule_343.normalizeResourceBudget;
-var normalizeResourceUsage = __awtsmoosModule_343.normalizeResourceUsage;
+var createDiagnostic = __awtsmoosModule_372.createDiagnostic;
+var RESOURCE_BUDGET_DIMENSIONS = __awtsmoosModule_376.RESOURCE_BUDGET_DIMENSIONS;
+var normalizeResourceBudget = __awtsmoosModule_377.normalizeResourceBudget;
+var normalizeResourceUsage = __awtsmoosModule_377.normalizeResourceUsage;
 
 /**
  * Compares measured usage with declared ceilings without mutating execution.
@@ -26163,22 +28821,22 @@ __exports.assertResourceBudget = assertResourceBudget;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/budgets/index.js */
-__awtsmoosModule_341 = (() => {
+__awtsmoosModule_375 = (() => {
 const __exports = {};
 // B"H
 
-Object.assign(__exports, __awtsmoosModule_342);
-Object.assign(__exports, __awtsmoosModule_343);
-Object.assign(__exports, __awtsmoosModule_344);
+Object.assign(__exports, __awtsmoosModule_376);
+Object.assign(__exports, __awtsmoosModule_377);
+Object.assign(__exports, __awtsmoosModule_378);
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/operations/createOperationDefinition.js */
-__awtsmoosModule_346 = (() => {
+__awtsmoosModule_380 = (() => {
 const __exports = {};
 // B"H
 
-var normalizeCanonicalValue = __awtsmoosModule_336.normalizeCanonicalValue;
-var normalizeResourceUsage = __awtsmoosModule_341.normalizeResourceUsage;
+var normalizeCanonicalValue = __awtsmoosModule_370.normalizeCanonicalValue;
+var normalizeResourceUsage = __awtsmoosModule_375.normalizeResourceUsage;
 
 const IDENTIFIER_PATTERN = /^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$/i;
 const EXTENSION_PATTERN = /^ext:[a-z0-9][a-z0-9._-]*\/[a-z0-9][a-z0-9._-]*$/i;
@@ -26248,19 +28906,19 @@ __exports.OPERATION_DETERMINISM_MODES = DETERMINISM_MODES;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/operations/index.js */
-__awtsmoosModule_345 = (() => {
+__awtsmoosModule_379 = (() => {
 const __exports = {};
 // B"H
 
-Object.assign(__exports, __awtsmoosModule_346);
+Object.assign(__exports, __awtsmoosModule_380);
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/capabilities/createCapabilityManifest.js */
-__awtsmoosModule_348 = (() => {
+__awtsmoosModule_382 = (() => {
 const __exports = {};
 // B"H
 
-var normalizeCanonicalValue = __awtsmoosModule_336.normalizeCanonicalValue;
+var normalizeCanonicalValue = __awtsmoosModule_370.normalizeCanonicalValue;
 
 const IDENTIFIER_PATTERN = /^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$/i;
 const EXTENSION_PATTERN = /^ext:[a-z0-9][a-z0-9._-]*\/[a-z0-9][a-z0-9._-]*$/i;
@@ -26318,19 +28976,19 @@ __exports.createCapabilityManifest = createCapabilityManifest;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/capabilities/index.js */
-__awtsmoosModule_347 = (() => {
+__awtsmoosModule_381 = (() => {
 const __exports = {};
 // B"H
 
-Object.assign(__exports, __awtsmoosModule_348);
+Object.assign(__exports, __awtsmoosModule_382);
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/artifacts/createStableId.js */
-__awtsmoosModule_350 = (() => {
+__awtsmoosModule_384 = (() => {
 const __exports = {};
 // B"H
 
-var hashCanonicalValue = __awtsmoosModule_336.hashCanonicalValue;
+var hashCanonicalValue = __awtsmoosModule_370.hashCanonicalValue;
 
 const NAMESPACE_PATTERN = /^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$/i;
 const STABLE_ID_PATTERN = /^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*:[0-9a-f]{16}$/i;
@@ -26370,16 +29028,16 @@ __exports.assertStableId = assertStableId;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/artifacts/createUniversalArtifact.js */
-__awtsmoosModule_351 = (() => {
+__awtsmoosModule_385 = (() => {
 const __exports = {};
 // B"H
 
-var hashCanonicalValue = __awtsmoosModule_336.hashCanonicalValue;
-var normalizeCanonicalValue = __awtsmoosModule_336.normalizeCanonicalValue;
-var normalizeResourceUsage = __awtsmoosModule_341.normalizeResourceUsage;
-var createDiagnostic = __awtsmoosModule_338.createDiagnostic;
-var assertStableId = __awtsmoosModule_350.assertStableId;
-var createStableId = __awtsmoosModule_350.createStableId;
+var hashCanonicalValue = __awtsmoosModule_370.hashCanonicalValue;
+var normalizeCanonicalValue = __awtsmoosModule_370.normalizeCanonicalValue;
+var normalizeResourceUsage = __awtsmoosModule_375.normalizeResourceUsage;
+var createDiagnostic = __awtsmoosModule_372.createDiagnostic;
+var assertStableId = __awtsmoosModule_384.assertStableId;
+var createStableId = __awtsmoosModule_384.createStableId;
 
 const SCHEMA_PATTERN = /^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$/i;
 const VERSION_PATTERN = /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/;
@@ -26447,12 +29105,12 @@ __exports.createUniversalArtifact = createUniversalArtifact;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/artifacts/createArtifactReference.js */
-__awtsmoosModule_352 = (() => {
+__awtsmoosModule_386 = (() => {
 const __exports = {};
 // B"H
 
-var createDiagnostic = __awtsmoosModule_338.createDiagnostic;
-var assertStableId = __awtsmoosModule_350.assertStableId;
+var createDiagnostic = __awtsmoosModule_372.createDiagnostic;
+var assertStableId = __awtsmoosModule_384.assertStableId;
 
 const HASH_PATTERN = /^[a-z0-9-]+:[0-9a-f]+$/i;
 const KIND_PATTERN = /^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$/i;
@@ -26531,17 +29189,17 @@ __exports.resolveArtifactReference = resolveArtifactReference;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/artifacts/index.js */
-__awtsmoosModule_349 = (() => {
+__awtsmoosModule_383 = (() => {
 const __exports = {};
 // B"H
 
-Object.assign(__exports, __awtsmoosModule_350);
-Object.assign(__exports, __awtsmoosModule_351);
-Object.assign(__exports, __awtsmoosModule_352);
+Object.assign(__exports, __awtsmoosModule_384);
+Object.assign(__exports, __awtsmoosModule_385);
+Object.assign(__exports, __awtsmoosModule_386);
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/registries/versionOrder.js */
-__awtsmoosModule_354 = (() => {
+__awtsmoosModule_388 = (() => {
 const __exports = {};
 // B"H
 
@@ -26594,12 +29252,12 @@ __exports.compareSemanticVersions = compareSemanticVersions;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/registries/OperationDefinitionRegistry.js */
-__awtsmoosModule_355 = (() => {
+__awtsmoosModule_389 = (() => {
 const __exports = {};
 // B"H
 
-var createOperationDefinition = __awtsmoosModule_345.createOperationDefinition;
-var compareSemanticVersions = __awtsmoosModule_354.compareSemanticVersions;
+var createOperationDefinition = __awtsmoosModule_379.createOperationDefinition;
+var compareSemanticVersions = __awtsmoosModule_388.compareSemanticVersions;
 
 /**
  * Holds versioned pure-data operation definitions behind exact deterministic keys.
@@ -26650,12 +29308,12 @@ __exports.OperationDefinitionRegistry = OperationDefinitionRegistry;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/registries/CapabilityManifestRegistry.js */
-__awtsmoosModule_356 = (() => {
+__awtsmoosModule_390 = (() => {
 const __exports = {};
 // B"H
 
-var createCapabilityManifest = __awtsmoosModule_347.createCapabilityManifest;
-var compareSemanticVersions = __awtsmoosModule_354.compareSemanticVersions;
+var createCapabilityManifest = __awtsmoosModule_381.createCapabilityManifest;
+var compareSemanticVersions = __awtsmoosModule_388.compareSemanticVersions;
 
 /** Stores inspectable capability promises without loading plugin executors. */
 class CapabilityManifestRegistry {
@@ -26705,24 +29363,24 @@ __exports.CapabilityManifestRegistry = CapabilityManifestRegistry;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/registries/index.js */
-__awtsmoosModule_353 = (() => {
+__awtsmoosModule_387 = (() => {
 const __exports = {};
 // B"H
 
-Object.assign(__exports, __awtsmoosModule_354);
-Object.assign(__exports, __awtsmoosModule_355);
-Object.assign(__exports, __awtsmoosModule_356);
+Object.assign(__exports, __awtsmoosModule_388);
+Object.assign(__exports, __awtsmoosModule_389);
+Object.assign(__exports, __awtsmoosModule_390);
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/tools/createToolManifest.js */
-__awtsmoosModule_358 = (() => {
+__awtsmoosModule_392 = (() => {
 const __exports = {};
 // B"H
 
-var hashCanonicalValue = __awtsmoosModule_336.hashCanonicalValue;
-var normalizeCanonicalValue = __awtsmoosModule_336.normalizeCanonicalValue;
-var normalizeResourceBudget = __awtsmoosModule_341.normalizeResourceBudget;
-var createOperationDefinition = __awtsmoosModule_345.createOperationDefinition;
+var hashCanonicalValue = __awtsmoosModule_370.hashCanonicalValue;
+var normalizeCanonicalValue = __awtsmoosModule_370.normalizeCanonicalValue;
+var normalizeResourceBudget = __awtsmoosModule_375.normalizeResourceBudget;
+var createOperationDefinition = __awtsmoosModule_379.createOperationDefinition;
 
 const ID_PATTERN = /^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$/i;
 const VERSION_PATTERN = /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/;
@@ -26780,23 +29438,23 @@ __exports.createToolManifest = createToolManifest;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/tools/index.js */
-__awtsmoosModule_357 = (() => {
+__awtsmoosModule_391 = (() => {
 const __exports = {};
 // B"H
 
-Object.assign(__exports, __awtsmoosModule_358);
+Object.assign(__exports, __awtsmoosModule_392);
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/selections/createSelectionArtifact.js */
-__awtsmoosModule_360 = (() => {
+__awtsmoosModule_394 = (() => {
 const __exports = {};
 // B"H
 
-var assertStableId = __awtsmoosModule_349.assertStableId;
-var createArtifactReference = __awtsmoosModule_349.createArtifactReference;
-var createStableId = __awtsmoosModule_349.createStableId;
-var hashCanonicalValue = __awtsmoosModule_336.hashCanonicalValue;
-var normalizeCanonicalValue = __awtsmoosModule_336.normalizeCanonicalValue;
+var assertStableId = __awtsmoosModule_383.assertStableId;
+var createArtifactReference = __awtsmoosModule_383.createArtifactReference;
+var createStableId = __awtsmoosModule_383.createStableId;
+var hashCanonicalValue = __awtsmoosModule_370.hashCanonicalValue;
+var normalizeCanonicalValue = __awtsmoosModule_370.normalizeCanonicalValue;
 
 const SELECTION_DOMAINS = Object.freeze([
 	"object", "vertex", "edge", "face", "point", "curve",
@@ -26859,11 +29517,11 @@ __exports.createSelectionArtifact = createSelectionArtifact;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/selections/selectionAlgebra.js */
-__awtsmoosModule_361 = (() => {
+__awtsmoosModule_395 = (() => {
 const __exports = {};
 // B"H
 
-var createSelectionArtifact = __awtsmoosModule_360.createSelectionArtifact;
+var createSelectionArtifact = __awtsmoosModule_394.createSelectionArtifact;
 
 function assertCompatible(left, right) {
 	const sameTarget = left.target.artifactId === right.target.artifactId
@@ -26939,22 +29597,22 @@ __exports.complementSelection = complementSelection;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/selections/index.js */
-__awtsmoosModule_359 = (() => {
+__awtsmoosModule_393 = (() => {
 const __exports = {};
 // B"H
 
-Object.assign(__exports, __awtsmoosModule_360);
-Object.assign(__exports, __awtsmoosModule_361);
+Object.assign(__exports, __awtsmoosModule_394);
+Object.assign(__exports, __awtsmoosModule_395);
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/measurements/createMeasurementReport.js */
-__awtsmoosModule_363 = (() => {
+__awtsmoosModule_397 = (() => {
 const __exports = {};
 // B"H
 
-var createStableId = __awtsmoosModule_349.createStableId;
-var hashCanonicalValue = __awtsmoosModule_336.hashCanonicalValue;
-var normalizeCanonicalValue = __awtsmoosModule_336.normalizeCanonicalValue;
+var createStableId = __awtsmoosModule_383.createStableId;
+var hashCanonicalValue = __awtsmoosModule_370.hashCanonicalValue;
+var normalizeCanonicalValue = __awtsmoosModule_370.normalizeCanonicalValue;
 
 const METRIC_PATTERN = /^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$/i;
 
@@ -27000,13 +29658,13 @@ __exports.createMeasurementReport = createMeasurementReport;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/measurements/measureCanonicalValue.js */
-__awtsmoosModule_364 = (() => {
+__awtsmoosModule_398 = (() => {
 const __exports = {};
 // B"H
 
-var normalizeCanonicalValue = __awtsmoosModule_336.normalizeCanonicalValue;
-var serializeCanonicalValue = __awtsmoosModule_336.serializeCanonicalValue;
-var createMeasurementReport = __awtsmoosModule_363.createMeasurementReport;
+var normalizeCanonicalValue = __awtsmoosModule_370.normalizeCanonicalValue;
+var serializeCanonicalValue = __awtsmoosModule_370.serializeCanonicalValue;
+var createMeasurementReport = __awtsmoosModule_397.createMeasurementReport;
 
 function inspect(value, depth, totals) {
 	totals.nodes += 1;
@@ -27050,16 +29708,16 @@ __exports.measureCanonicalValue = measureCanonicalValue;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/measurements/index.js */
-__awtsmoosModule_362 = (() => {
+__awtsmoosModule_396 = (() => {
 const __exports = {};
 // B"H
 
-Object.assign(__exports, __awtsmoosModule_363);
-Object.assign(__exports, __awtsmoosModule_364);
+Object.assign(__exports, __awtsmoosModule_397);
+Object.assign(__exports, __awtsmoosModule_398);
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/patches/jsonData.js */
-__awtsmoosModule_366 = (() => {
+__awtsmoosModule_400 = (() => {
 const __exports = {};
 // B"H
 
@@ -27137,11 +29795,11 @@ __exports.FORBIDDEN_KEYS = FORBIDDEN_KEYS;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/patches/dataPath.js */
-__awtsmoosModule_367 = (() => {
+__awtsmoosModule_401 = (() => {
 const __exports = {};
 // B"H
 
-var FORBIDDEN_KEYS = __awtsmoosModule_366.FORBIDDEN_KEYS;
+var FORBIDDEN_KEYS = __awtsmoosModule_400.FORBIDDEN_KEYS;
 
 /** Validates and freezes a renderer-neutral data path. */
 function normalizeDataPath(path) {
@@ -27190,14 +29848,14 @@ __exports.resolveDataParent = resolveDataParent;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/patches/createDataPatch.js */
-__awtsmoosModule_368 = (() => {
+__awtsmoosModule_402 = (() => {
 const __exports = {};
 // B"H
 
-var createStableId = __awtsmoosModule_349.createStableId;
-var hashCanonicalValue = __awtsmoosModule_336.hashCanonicalValue;
-var normalizeDataPath = __awtsmoosModule_367.normalizeDataPath;
-var normalizeJsonData = __awtsmoosModule_366.normalizeJsonData;
+var createStableId = __awtsmoosModule_383.createStableId;
+var hashCanonicalValue = __awtsmoosModule_370.hashCanonicalValue;
+var normalizeDataPath = __awtsmoosModule_401.normalizeDataPath;
+var normalizeJsonData = __awtsmoosModule_400.normalizeJsonData;
 
 const PATCH_OPERATIONS = Object.freeze(["add", "replace", "remove", "test"]);
 const HASH_PATTERN = /^[a-z0-9-]+:[0-9a-f]+$/i;
@@ -27250,16 +29908,16 @@ __exports.PATCH_OPERATIONS = PATCH_OPERATIONS;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/patches/applyDataPatch.js */
-__awtsmoosModule_369 = (() => {
+__awtsmoosModule_403 = (() => {
 const __exports = {};
 // B"H
 
-var hashCanonicalValue = __awtsmoosModule_336.hashCanonicalValue;
-var createDataPatch = __awtsmoosModule_368.createDataPatch;
-var readDataPath = __awtsmoosModule_367.readDataPath;
-var resolveDataParent = __awtsmoosModule_367.resolveDataParent;
-var cloneJsonData = __awtsmoosModule_366.cloneJsonData;
-var freezeJsonData = __awtsmoosModule_366.freezeJsonData;
+var hashCanonicalValue = __awtsmoosModule_370.hashCanonicalValue;
+var createDataPatch = __awtsmoosModule_402.createDataPatch;
+var readDataPath = __awtsmoosModule_401.readDataPath;
+var resolveDataParent = __awtsmoosModule_401.resolveDataParent;
+var cloneJsonData = __awtsmoosModule_400.cloneJsonData;
+var freezeJsonData = __awtsmoosModule_400.freezeJsonData;
 
 function equalData(left, right) {
 	return hashCanonicalValue(left) === hashCanonicalValue(right);
@@ -27333,18 +29991,18 @@ __exports.applyDataPatch = applyDataPatch;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/patches/index.js */
-__awtsmoosModule_365 = (() => {
+__awtsmoosModule_399 = (() => {
 const __exports = {};
 // B"H
 
-Object.assign(__exports, __awtsmoosModule_366);
-Object.assign(__exports, __awtsmoosModule_367);
-Object.assign(__exports, __awtsmoosModule_368);
-Object.assign(__exports, __awtsmoosModule_369);
+Object.assign(__exports, __awtsmoosModule_400);
+Object.assign(__exports, __awtsmoosModule_401);
+Object.assign(__exports, __awtsmoosModule_402);
+Object.assign(__exports, __awtsmoosModule_403);
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/transactions/transactionContract.js */
-__awtsmoosModule_371 = (() => {
+__awtsmoosModule_405 = (() => {
 const __exports = {};
 // B"H
 
@@ -27359,15 +30017,15 @@ __exports.TRANSACTION_STATES = TRANSACTION_STATES;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/transactions/createTransaction.js */
-__awtsmoosModule_372 = (() => {
+__awtsmoosModule_406 = (() => {
 const __exports = {};
 // B"H
 
-var createStableId = __awtsmoosModule_349.createStableId;
-var normalizeResourceBudget = __awtsmoosModule_341.normalizeResourceBudget;
-var hashCanonicalValue = __awtsmoosModule_336.hashCanonicalValue;
-var normalizeCanonicalValue = __awtsmoosModule_336.normalizeCanonicalValue;
-var createDataPatch = __awtsmoosModule_365.createDataPatch;
+var createStableId = __awtsmoosModule_383.createStableId;
+var normalizeResourceBudget = __awtsmoosModule_375.normalizeResourceBudget;
+var hashCanonicalValue = __awtsmoosModule_370.hashCanonicalValue;
+var normalizeCanonicalValue = __awtsmoosModule_370.normalizeCanonicalValue;
+var createDataPatch = __awtsmoosModule_399.createDataPatch;
 
 const HASH_PATTERN = /^[a-z0-9-]+:[0-9a-f]+$/i;
 
@@ -27403,17 +30061,17 @@ __exports.createTransaction = createTransaction;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/transactions/executeTransaction.js */
-__awtsmoosModule_373 = (() => {
+__awtsmoosModule_407 = (() => {
 const __exports = {};
 // B"H
 
-var evaluateResourceBudget = __awtsmoosModule_341.evaluateResourceBudget;
-var hashCanonicalValue = __awtsmoosModule_336.hashCanonicalValue;
-var serializeCanonicalValue = __awtsmoosModule_336.serializeCanonicalValue;
-var createDiagnostic = __awtsmoosModule_338.createDiagnostic;
-var applyDataPatch = __awtsmoosModule_365.applyDataPatch;
-var normalizeJsonData = __awtsmoosModule_365.normalizeJsonData;
-var createTransaction = __awtsmoosModule_372.createTransaction;
+var evaluateResourceBudget = __awtsmoosModule_375.evaluateResourceBudget;
+var hashCanonicalValue = __awtsmoosModule_370.hashCanonicalValue;
+var serializeCanonicalValue = __awtsmoosModule_370.serializeCanonicalValue;
+var createDiagnostic = __awtsmoosModule_372.createDiagnostic;
+var applyDataPatch = __awtsmoosModule_399.applyDataPatch;
+var normalizeJsonData = __awtsmoosModule_399.normalizeJsonData;
+var createTransaction = __awtsmoosModule_406.createTransaction;
 
 function measureUsage(transaction, document) {
 	const operations = transaction.patches.reduce((total, patch) => (
@@ -27483,17 +30141,17 @@ __exports.executeTransaction = executeTransaction;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/transactions/index.js */
-__awtsmoosModule_370 = (() => {
+__awtsmoosModule_404 = (() => {
 const __exports = {};
 // B"H
 
-Object.assign(__exports, __awtsmoosModule_371);
-Object.assign(__exports, __awtsmoosModule_372);
-Object.assign(__exports, __awtsmoosModule_373);
+Object.assign(__exports, __awtsmoosModule_405);
+Object.assign(__exports, __awtsmoosModule_406);
+Object.assign(__exports, __awtsmoosModule_407);
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/graphs/graphContract.js */
-__awtsmoosModule_375 = (() => {
+__awtsmoosModule_409 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -27595,7 +30253,7 @@ __exports.GRAPH_BUILTIN_TYPES = BUILTIN_TYPES;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/graphs/createGraphNode.js */
-__awtsmoosModule_376 = (() => {
+__awtsmoosModule_410 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -27606,12 +30264,12 @@ const __exports = {};
  * serialization, replay, caching, and translation into future execution realms.
  */
 
-var normalizeCanonicalValue = __awtsmoosModule_336.normalizeCanonicalValue;
-var createOperationDefinition = __awtsmoosModule_345.createOperationDefinition;
-var assertGraphName = __awtsmoosModule_375.assertGraphName;
-var normalizeGraphSource = __awtsmoosModule_375.normalizeGraphSource;
-var normalizeGraphSources = __awtsmoosModule_375.normalizeGraphSources;
-var normalizeGraphType = __awtsmoosModule_375.normalizeGraphType;
+var normalizeCanonicalValue = __awtsmoosModule_370.normalizeCanonicalValue;
+var createOperationDefinition = __awtsmoosModule_379.createOperationDefinition;
+var assertGraphName = __awtsmoosModule_409.assertGraphName;
+var normalizeGraphSource = __awtsmoosModule_409.normalizeGraphSource;
+var normalizeGraphSources = __awtsmoosModule_409.normalizeGraphSources;
+var normalizeGraphType = __awtsmoosModule_409.normalizeGraphType;
 
 function normalizeInputBinding(input, portName) {
 	if (!input || typeof input !== "object" || Array.isArray(input)) {
@@ -27697,19 +30355,19 @@ __exports.createGraphNode = createGraphNode;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/graphs/createTypedGraph.js */
-__awtsmoosModule_377 = (() => {
+__awtsmoosModule_411 = (() => {
 const __exports = {};
 // B"H
 
-var assertStableId = __awtsmoosModule_349.assertStableId;
-var createStableId = __awtsmoosModule_349.createStableId;
-var normalizeResourceBudget = __awtsmoosModule_341.normalizeResourceBudget;
-var hashCanonicalValue = __awtsmoosModule_336.hashCanonicalValue;
-var normalizeCanonicalValue = __awtsmoosModule_336.normalizeCanonicalValue;
-var createGraphNode = __awtsmoosModule_376.createGraphNode;
-var assertGraphName = __awtsmoosModule_375.assertGraphName;
-var normalizeGraphSource = __awtsmoosModule_375.normalizeGraphSource;
-var normalizeGraphType = __awtsmoosModule_375.normalizeGraphType;
+var assertStableId = __awtsmoosModule_383.assertStableId;
+var createStableId = __awtsmoosModule_383.createStableId;
+var normalizeResourceBudget = __awtsmoosModule_375.normalizeResourceBudget;
+var hashCanonicalValue = __awtsmoosModule_370.hashCanonicalValue;
+var normalizeCanonicalValue = __awtsmoosModule_370.normalizeCanonicalValue;
+var createGraphNode = __awtsmoosModule_410.createGraphNode;
+var assertGraphName = __awtsmoosModule_409.assertGraphName;
+var normalizeGraphSource = __awtsmoosModule_409.normalizeGraphSource;
+var normalizeGraphType = __awtsmoosModule_409.normalizeGraphType;
 
 const VERSION_PATTERN = /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/;
 
@@ -27784,7 +30442,7 @@ __exports.createTypedGraph = createTypedGraph;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/graphs/graphDependencies.js */
-__awtsmoosModule_378 = (() => {
+__awtsmoosModule_412 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -27843,11 +30501,11 @@ __exports.createGraphDependentMap = createGraphDependentMap;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/graphs/scheduleTypedGraph.js */
-__awtsmoosModule_379 = (() => {
+__awtsmoosModule_413 = (() => {
 const __exports = {};
 // B"H
 
-var createGraphDependencyMap = __awtsmoosModule_378.createGraphDependencyMap;
+var createGraphDependencyMap = __awtsmoosModule_412.createGraphDependencyMap;
 
 /**
  * Produces a lexical topological schedule whose order does not depend on object
@@ -27898,7 +30556,7 @@ __exports.scheduleTypedGraph = scheduleTypedGraph;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/graphs/validateTypedGraphSources.js */
-__awtsmoosModule_380 = (() => {
+__awtsmoosModule_414 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -27908,7 +30566,7 @@ const __exports = {};
  * Awtsmoos.com keeps diagnostic paths stable across singular and multi-inputs.
  */
 
-var createDiagnostic = __awtsmoosModule_338.createDiagnostic;
+var createDiagnostic = __awtsmoosModule_372.createDiagnostic;
 
 function diagnostic(code, message, path, metadata = {}) {
 	return createDiagnostic({
@@ -28020,7 +30678,7 @@ __exports.validateGraphBinding = validateGraphBinding;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/graphs/validateTypedGraph.js */
-__awtsmoosModule_381 = (() => {
+__awtsmoosModule_415 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -28030,11 +30688,11 @@ const __exports = {};
  * Awtsmoos.com validates contracts and cycles before execution is permitted.
  */
 
-var createDiagnostic = __awtsmoosModule_338.createDiagnostic;
-var createTypedGraph = __awtsmoosModule_377.createTypedGraph;
-var scheduleTypedGraph = __awtsmoosModule_379.scheduleTypedGraph;
-var validateGraphBinding = __awtsmoosModule_380.validateGraphBinding;
-var validateGraphSource = __awtsmoosModule_380.validateGraphSource;
+var createDiagnostic = __awtsmoosModule_372.createDiagnostic;
+var createTypedGraph = __awtsmoosModule_411.createTypedGraph;
+var scheduleTypedGraph = __awtsmoosModule_413.scheduleTypedGraph;
+var validateGraphBinding = __awtsmoosModule_414.validateGraphBinding;
+var validateGraphSource = __awtsmoosModule_414.validateGraphSource;
 
 function diagnostic(code, message, path, metadata = {}) {
 	return createDiagnostic({
@@ -28115,11 +30773,11 @@ __exports.validateTypedGraph = validateTypedGraph;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/graphs/GraphExecutorRegistry.js */
-__awtsmoosModule_382 = (() => {
+__awtsmoosModule_416 = (() => {
 const __exports = {};
 // B"H
 
-var createOperationDefinition = __awtsmoosModule_345.createOperationDefinition;
+var createOperationDefinition = __awtsmoosModule_379.createOperationDefinition;
 
 /**
  * Resolves pure graph operation declarations to trusted in-memory executors.
@@ -28163,11 +30821,11 @@ __exports.GraphExecutorRegistry = GraphExecutorRegistry;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/graphs/findAffectedGraphNodes.js */
-__awtsmoosModule_383 = (() => {
+__awtsmoosModule_417 = (() => {
 const __exports = {};
 // B"H
 
-var createGraphDependentMap = __awtsmoosModule_378.createGraphDependentMap;
+var createGraphDependentMap = __awtsmoosModule_412.createGraphDependentMap;
 
 /** Returns changed nodes and every deterministic downstream dependent. */
 function findAffectedGraphNodes(graph, changedNodeIds) {
@@ -28197,11 +30855,11 @@ __exports.findAffectedGraphNodes = findAffectedGraphNodes;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/graphs/runtimeType.js */
-__awtsmoosModule_385 = (() => {
+__awtsmoosModule_419 = (() => {
 const __exports = {};
 // B"H
 
-var valueMatchesGraphType = __awtsmoosModule_375.valueMatchesGraphType;
+var valueMatchesGraphType = __awtsmoosModule_409.valueMatchesGraphType;
 
 /** Alias kept separate so evaluation may evolve without weakening contract checks. */
 function graphValueMatchesType(value, type) {
@@ -28212,7 +30870,7 @@ __exports.graphValueMatchesType = graphValueMatchesType;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/graphs/graphEvaluationValues.js */
-__awtsmoosModule_386 = (() => {
+__awtsmoosModule_420 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -28223,9 +30881,9 @@ const __exports = {};
  * re-normalizing, or losing the semantic identity of upstream results.
  */
 
-var CANONICAL_VALUE_TAGS = __awtsmoosModule_336.CANONICAL_VALUE_TAGS;
-var normalizeCanonicalValue = __awtsmoosModule_336.normalizeCanonicalValue;
-var valueMatchesGraphType = __awtsmoosModule_375.valueMatchesGraphType;
+var CANONICAL_VALUE_TAGS = __awtsmoosModule_370.CANONICAL_VALUE_TAGS;
+var normalizeCanonicalValue = __awtsmoosModule_370.normalizeCanonicalValue;
+var valueMatchesGraphType = __awtsmoosModule_409.valueMatchesGraphType;
 
 function requiredGraphInput(graph, provided, name) {
 	const definition = graph.inputs[name];
@@ -28314,20 +30972,20 @@ __exports.normalizeNodeOutputs = normalizeNodeOutputs;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/graphs/evaluateTypedGraph.js */
-__awtsmoosModule_384 = (() => {
+__awtsmoosModule_418 = (() => {
 const __exports = {};
 // B"H
 
-var evaluateResourceBudget = __awtsmoosModule_341.evaluateResourceBudget;
-var hashCanonicalValue = __awtsmoosModule_336.hashCanonicalValue;
-var serializeCanonicalValue = __awtsmoosModule_336.serializeCanonicalValue;
-var createDiagnostic = __awtsmoosModule_338.createDiagnostic;
-var graphValueMatchesType = __awtsmoosModule_385.graphValueMatchesType;
-var resolveGraphInputs = __awtsmoosModule_386.resolveGraphInputs;
-var resolveNodeBinding = __awtsmoosModule_386.resolveNodeBinding;
-var normalizeNodeOutputs = __awtsmoosModule_386.normalizeNodeOutputs;
-var scheduleTypedGraph = __awtsmoosModule_379.scheduleTypedGraph;
-var validateTypedGraph = __awtsmoosModule_381.validateTypedGraph;
+var evaluateResourceBudget = __awtsmoosModule_375.evaluateResourceBudget;
+var hashCanonicalValue = __awtsmoosModule_370.hashCanonicalValue;
+var serializeCanonicalValue = __awtsmoosModule_370.serializeCanonicalValue;
+var createDiagnostic = __awtsmoosModule_372.createDiagnostic;
+var graphValueMatchesType = __awtsmoosModule_419.graphValueMatchesType;
+var resolveGraphInputs = __awtsmoosModule_420.resolveGraphInputs;
+var resolveNodeBinding = __awtsmoosModule_420.resolveNodeBinding;
+var normalizeNodeOutputs = __awtsmoosModule_420.normalizeNodeOutputs;
+var scheduleTypedGraph = __awtsmoosModule_413.scheduleTypedGraph;
+var validateTypedGraph = __awtsmoosModule_415.validateTypedGraph;
 
 function failure(graph, diagnostics, usage = { operations: 0, bytes: 0 }, resourceReport = null) {
 	return Object.freeze({ ok: false, graph, schedule: Object.freeze([]), nodeResults: Object.freeze({}), outputs: Object.freeze({}), usage: Object.freeze(usage), resourceReport, cacheHits: 0, diagnostics: Object.freeze(diagnostics), contentHash: null });
@@ -28397,7 +31055,7 @@ __exports.evaluateTypedGraph = evaluateTypedGraph;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/artifact/freezeArtifactValue.js */
-__awtsmoosModule_389 = (() => {
+__awtsmoosModule_423 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -28432,7 +31090,7 @@ __exports.freezeArtifactValue = freezeArtifactValue;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/artifact/createDataBlockArtifact.js */
-__awtsmoosModule_388 = (() => {
+__awtsmoosModule_422 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -28443,7 +31101,7 @@ const __exports = {};
  * so limitless procedural form remains inspectable, deterministic, and safe.
  */
 
-var freezeArtifactValue = __awtsmoosModule_389.freezeArtifactValue;
+var freezeArtifactValue = __awtsmoosModule_423.freezeArtifactValue;
 
 /**
  * Creates a generic engine-neutral data block.
@@ -28478,12 +31136,12 @@ __exports.createDataBlockArtifact = createDataBlockArtifact;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/graphs/createTypedGraphDataBlock.js */
-__awtsmoosModule_387 = (() => {
+__awtsmoosModule_421 = (() => {
 const __exports = {};
 // B"H
 
-var createDataBlockArtifact = __awtsmoosModule_388.createDataBlockArtifact;
-var createTypedGraph = __awtsmoosModule_377.createTypedGraph;
+var createDataBlockArtifact = __awtsmoosModule_422.createDataBlockArtifact;
+var createTypedGraph = __awtsmoosModule_411.createTypedGraph;
 
 /**
  * Embeds a typed graph inside the existing immutable `node_graph` datablock.
@@ -28510,7 +31168,7 @@ __exports.createTypedGraphDataBlock = createTypedGraphDataBlock;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/graphs/index.js */
-__awtsmoosModule_374 = (() => {
+__awtsmoosModule_408 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -28520,21 +31178,21 @@ const __exports = {};
  * validation, execution, topology impact, and data-block persistence.
  */
 
-Object.assign(__exports, __awtsmoosModule_375);
-Object.assign(__exports, __awtsmoosModule_376);
-Object.assign(__exports, __awtsmoosModule_377);
-Object.assign(__exports, __awtsmoosModule_378);
-Object.assign(__exports, __awtsmoosModule_379);
-Object.assign(__exports, __awtsmoosModule_380);
-Object.assign(__exports, __awtsmoosModule_381);
-Object.assign(__exports, __awtsmoosModule_382);
-Object.assign(__exports, __awtsmoosModule_383);
-Object.assign(__exports, __awtsmoosModule_384);
-Object.assign(__exports, __awtsmoosModule_387);
+Object.assign(__exports, __awtsmoosModule_409);
+Object.assign(__exports, __awtsmoosModule_410);
+Object.assign(__exports, __awtsmoosModule_411);
+Object.assign(__exports, __awtsmoosModule_412);
+Object.assign(__exports, __awtsmoosModule_413);
+Object.assign(__exports, __awtsmoosModule_414);
+Object.assign(__exports, __awtsmoosModule_415);
+Object.assign(__exports, __awtsmoosModule_416);
+Object.assign(__exports, __awtsmoosModule_417);
+Object.assign(__exports, __awtsmoosModule_418);
+Object.assign(__exports, __awtsmoosModule_421);
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/plugins/pluginContract.js */
-__awtsmoosModule_391 = (() => {
+__awtsmoosModule_425 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -28622,7 +31280,7 @@ __exports.normalizePluginSignature = normalizePluginSignature;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/canonical/cloneManifestMetadata.js */
-__awtsmoosModule_393 = (() => {
+__awtsmoosModule_427 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -28669,7 +31327,7 @@ __exports.cloneManifestMetadata = cloneManifestMetadata;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/plugins/createPluginManifest.js */
-__awtsmoosModule_392 = (() => {
+__awtsmoosModule_426 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -28679,17 +31337,17 @@ const __exports = {};
  * No executable shadow enters Awtsmoos.com through this pure declaration.
  */
 
-var normalizeResourceBudget = __awtsmoosModule_341.normalizeResourceBudget;
-var cloneManifestMetadata = __awtsmoosModule_393.cloneManifestMetadata;
-var hashCanonicalValue = __awtsmoosModule_336.hashCanonicalValue;
-var createOperationDefinition = __awtsmoosModule_345.createOperationDefinition;
-var PLUGIN_EXECUTION_MODES = __awtsmoosModule_391.PLUGIN_EXECUTION_MODES;
-var PLUGIN_TRUST_LEVELS = __awtsmoosModule_391.PLUGIN_TRUST_LEVELS;
-var assertPluginChoice = __awtsmoosModule_391.assertPluginChoice;
-var assertPluginIdentifier = __awtsmoosModule_391.assertPluginIdentifier;
-var assertPluginVersion = __awtsmoosModule_391.assertPluginVersion;
-var normalizePluginIdentifiers = __awtsmoosModule_391.normalizePluginIdentifiers;
-var normalizePluginSignature = __awtsmoosModule_391.normalizePluginSignature;
+var normalizeResourceBudget = __awtsmoosModule_375.normalizeResourceBudget;
+var cloneManifestMetadata = __awtsmoosModule_427.cloneManifestMetadata;
+var hashCanonicalValue = __awtsmoosModule_370.hashCanonicalValue;
+var createOperationDefinition = __awtsmoosModule_379.createOperationDefinition;
+var PLUGIN_EXECUTION_MODES = __awtsmoosModule_425.PLUGIN_EXECUTION_MODES;
+var PLUGIN_TRUST_LEVELS = __awtsmoosModule_425.PLUGIN_TRUST_LEVELS;
+var assertPluginChoice = __awtsmoosModule_425.assertPluginChoice;
+var assertPluginIdentifier = __awtsmoosModule_425.assertPluginIdentifier;
+var assertPluginVersion = __awtsmoosModule_425.assertPluginVersion;
+var normalizePluginIdentifiers = __awtsmoosModule_425.normalizePluginIdentifiers;
+var normalizePluginSignature = __awtsmoosModule_425.normalizePluginSignature;
 
 function normalizeOperations(values) {
 	if (!Array.isArray(values)) {
@@ -28751,7 +31409,7 @@ __exports.createPluginManifest = createPluginManifest;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/plugins/verifyPluginManifest.js */
-__awtsmoosModule_394 = (() => {
+__awtsmoosModule_428 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -28761,8 +31419,8 @@ const __exports = {};
  * This Awtsmoos.com report fails closed when a host demands proof it cannot verify.
  */
 
-var createDiagnostic = __awtsmoosModule_338.createDiagnostic;
-var createPluginManifest = __awtsmoosModule_392.createPluginManifest;
+var createDiagnostic = __awtsmoosModule_372.createDiagnostic;
+var createPluginManifest = __awtsmoosModule_426.createPluginManifest;
 
 function diagnostic(code, message, severity = "error") {
 	return createDiagnostic({
@@ -28834,7 +31492,7 @@ __exports.verifyPluginManifest = verifyPluginManifest;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/plugins/evaluatePluginPermissions.js */
-__awtsmoosModule_395 = (() => {
+__awtsmoosModule_429 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -28844,11 +31502,11 @@ const __exports = {};
  * This Awtsmoos.com policy vessel remains deterministic and default-deny.
  */
 
-var createDiagnostic = __awtsmoosModule_338.createDiagnostic;
-var PLUGIN_EXECUTION_MODES = __awtsmoosModule_391.PLUGIN_EXECUTION_MODES;
-var PLUGIN_TRUST_LEVELS = __awtsmoosModule_391.PLUGIN_TRUST_LEVELS;
-var assertPluginChoice = __awtsmoosModule_391.assertPluginChoice;
-var normalizePluginIdentifiers = __awtsmoosModule_391.normalizePluginIdentifiers;
+var createDiagnostic = __awtsmoosModule_372.createDiagnostic;
+var PLUGIN_EXECUTION_MODES = __awtsmoosModule_425.PLUGIN_EXECUTION_MODES;
+var PLUGIN_TRUST_LEVELS = __awtsmoosModule_425.PLUGIN_TRUST_LEVELS;
+var assertPluginChoice = __awtsmoosModule_425.assertPluginChoice;
+var normalizePluginIdentifiers = __awtsmoosModule_425.normalizePluginIdentifiers;
 
 function createPolicyDiagnostic(code, message, metadata) {
 	return createDiagnostic({
@@ -28914,7 +31572,7 @@ __exports.evaluatePluginPermissions = evaluatePluginPermissions;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/plugins/PluginManifestRegistry.js */
-__awtsmoosModule_396 = (() => {
+__awtsmoosModule_430 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -28924,8 +31582,8 @@ const __exports = {};
  * This Awtsmoos.com registry remembers trust evidence but never performs imports.
  */
 
-var compareSemanticVersions = __awtsmoosModule_354.compareSemanticVersions;
-var createPluginManifest = __awtsmoosModule_392.createPluginManifest;
+var compareSemanticVersions = __awtsmoosModule_388.compareSemanticVersions;
+var createPluginManifest = __awtsmoosModule_426.createPluginManifest;
 
 class PluginManifestRegistry {
 	#records = new Map();
@@ -28975,22 +31633,22 @@ __exports.PluginManifestRegistry = PluginManifestRegistry;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/plugins/index.js */
-__awtsmoosModule_390 = (() => {
+__awtsmoosModule_424 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
 // Blessed is He
 /** The Awtsmoos.com plugin trust contracts expose data, never hidden execution. */
 
-Object.assign(__exports, __awtsmoosModule_391);
-Object.assign(__exports, __awtsmoosModule_392);
-Object.assign(__exports, __awtsmoosModule_394);
-Object.assign(__exports, __awtsmoosModule_395);
-Object.assign(__exports, __awtsmoosModule_396);
+Object.assign(__exports, __awtsmoosModule_425);
+Object.assign(__exports, __awtsmoosModule_426);
+Object.assign(__exports, __awtsmoosModule_428);
+Object.assign(__exports, __awtsmoosModule_429);
+Object.assign(__exports, __awtsmoosModule_430);
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/adapters/adapterContract.js */
-__awtsmoosModule_398 = (() => {
+__awtsmoosModule_432 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -29071,7 +31729,7 @@ __exports.assertAdapterChoice = assertAdapterChoice;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/adapters/createAdapterCapabilityManifest.js */
-__awtsmoosModule_399 = (() => {
+__awtsmoosModule_433 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -29081,15 +31739,15 @@ const __exports = {};
  * This Awtsmoos.com manifest is renderer-neutral, canonical, and executable-free.
  */
 
-var cloneManifestMetadata = __awtsmoosModule_393.cloneManifestMetadata;
-var hashCanonicalValue = __awtsmoosModule_336.hashCanonicalValue;
-var ADAPTER_CAPABILITY_STATUSES = __awtsmoosModule_398.ADAPTER_CAPABILITY_STATUSES;
-var ADAPTER_DETERMINISM_MODES = __awtsmoosModule_398.ADAPTER_DETERMINISM_MODES;
-var ADAPTER_TOPOLOGY_IDENTITY_MODES = __awtsmoosModule_398.ADAPTER_TOPOLOGY_IDENTITY_MODES;
-var assertAdapterChoice = __awtsmoosModule_398.assertAdapterChoice;
-var assertAdapterIdentifier = __awtsmoosModule_398.assertAdapterIdentifier;
-var assertAdapterVersion = __awtsmoosModule_398.assertAdapterVersion;
-var normalizeAdapterNames = __awtsmoosModule_398.normalizeAdapterNames;
+var cloneManifestMetadata = __awtsmoosModule_427.cloneManifestMetadata;
+var hashCanonicalValue = __awtsmoosModule_370.hashCanonicalValue;
+var ADAPTER_CAPABILITY_STATUSES = __awtsmoosModule_432.ADAPTER_CAPABILITY_STATUSES;
+var ADAPTER_DETERMINISM_MODES = __awtsmoosModule_432.ADAPTER_DETERMINISM_MODES;
+var ADAPTER_TOPOLOGY_IDENTITY_MODES = __awtsmoosModule_432.ADAPTER_TOPOLOGY_IDENTITY_MODES;
+var assertAdapterChoice = __awtsmoosModule_432.assertAdapterChoice;
+var assertAdapterIdentifier = __awtsmoosModule_432.assertAdapterIdentifier;
+var assertAdapterVersion = __awtsmoosModule_432.assertAdapterVersion;
+var normalizeAdapterNames = __awtsmoosModule_432.normalizeAdapterNames;
 
 function normalizeOperationClaims(values) {
 	if (!Array.isArray(values)) {
@@ -29147,7 +31805,7 @@ __exports.createAdapterCapabilityManifest = createAdapterCapabilityManifest;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/adapters/negotiateAdapterCapabilities.js */
-__awtsmoosModule_400 = (() => {
+__awtsmoosModule_434 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -29157,11 +31815,11 @@ const __exports = {};
  * This Awtsmoos.com negotiation never upgrades a declaration or guesses support.
  */
 
-var createDiagnostic = __awtsmoosModule_338.createDiagnostic;
-var ADAPTER_CAPABILITY_STATUSES = __awtsmoosModule_398.ADAPTER_CAPABILITY_STATUSES;
-var ADAPTER_TOPOLOGY_IDENTITY_MODES = __awtsmoosModule_398.ADAPTER_TOPOLOGY_IDENTITY_MODES;
-var assertAdapterChoice = __awtsmoosModule_398.assertAdapterChoice;
-var normalizeAdapterNames = __awtsmoosModule_398.normalizeAdapterNames;
+var createDiagnostic = __awtsmoosModule_372.createDiagnostic;
+var ADAPTER_CAPABILITY_STATUSES = __awtsmoosModule_432.ADAPTER_CAPABILITY_STATUSES;
+var ADAPTER_TOPOLOGY_IDENTITY_MODES = __awtsmoosModule_432.ADAPTER_TOPOLOGY_IDENTITY_MODES;
+var assertAdapterChoice = __awtsmoosModule_432.assertAdapterChoice;
+var normalizeAdapterNames = __awtsmoosModule_432.normalizeAdapterNames;
 
 function missing(required, available) {
 	const availableSet = new Set(available);
@@ -29245,45 +31903,45 @@ __exports.negotiateAdapterCapabilities = negotiateAdapterCapabilities;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/adapters/index.js */
-__awtsmoosModule_397 = (() => {
+__awtsmoosModule_431 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
 // Blessed is He
 /** The Awtsmoos.com adapter contracts reveal support before external execution. */
 
-Object.assign(__exports, __awtsmoosModule_398);
-Object.assign(__exports, __awtsmoosModule_399);
-Object.assign(__exports, __awtsmoosModule_400);
+Object.assign(__exports, __awtsmoosModule_432);
+Object.assign(__exports, __awtsmoosModule_433);
+Object.assign(__exports, __awtsmoosModule_434);
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/proceduralObject/foundation/index.js */
-__awtsmoosModule_335 = (() => {
+__awtsmoosModule_369 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
 // Blessed is He
 /** The Awtsmoos.com foundation gathers deterministic contracts without hidden execution. */
 
-Object.assign(__exports, __awtsmoosModule_336);
-Object.assign(__exports, __awtsmoosModule_338);
-Object.assign(__exports, __awtsmoosModule_341);
-Object.assign(__exports, __awtsmoosModule_345);
-Object.assign(__exports, __awtsmoosModule_347);
-Object.assign(__exports, __awtsmoosModule_349);
-Object.assign(__exports, __awtsmoosModule_353);
-Object.assign(__exports, __awtsmoosModule_357);
-Object.assign(__exports, __awtsmoosModule_359);
-Object.assign(__exports, __awtsmoosModule_362);
-Object.assign(__exports, __awtsmoosModule_365);
 Object.assign(__exports, __awtsmoosModule_370);
-Object.assign(__exports, __awtsmoosModule_374);
-Object.assign(__exports, __awtsmoosModule_390);
-Object.assign(__exports, __awtsmoosModule_397);
+Object.assign(__exports, __awtsmoosModule_372);
+Object.assign(__exports, __awtsmoosModule_375);
+Object.assign(__exports, __awtsmoosModule_379);
+Object.assign(__exports, __awtsmoosModule_381);
+Object.assign(__exports, __awtsmoosModule_383);
+Object.assign(__exports, __awtsmoosModule_387);
+Object.assign(__exports, __awtsmoosModule_391);
+Object.assign(__exports, __awtsmoosModule_393);
+Object.assign(__exports, __awtsmoosModule_396);
+Object.assign(__exports, __awtsmoosModule_399);
+Object.assign(__exports, __awtsmoosModule_404);
+Object.assign(__exports, __awtsmoosModule_408);
+Object.assign(__exports, __awtsmoosModule_424);
+Object.assign(__exports, __awtsmoosModule_431);
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/shared/creatureValue.js */
-__awtsmoosModule_334 = (() => {
+__awtsmoosModule_368 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -29293,8 +31951,8 @@ const __exports = {};
  * meaning without clocks, random host state, or renderer-owned identity.
  * Awtsmoos.com anatomy therefore survives recompilation as semantic truth.
  */
-var createStableId = __awtsmoosModule_335.createStableId;
-var hashCanonicalValue = __awtsmoosModule_335.hashCanonicalValue;
+var createStableId = __awtsmoosModule_369.createStableId;
+var hashCanonicalValue = __awtsmoosModule_369.hashCanonicalValue;
 
 /** Deeply clones finite JSON-domain creature data. Complexity is O(n). */
 function cloneCreatureValue(value) {
@@ -29371,7 +32029,7 @@ __exports.normalizeVector = normalizeVector;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/worlds/AsiyahCreatureArtifacts.js */
-__awtsmoosModule_333 = (() => {
+__awtsmoosModule_367 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -29380,8 +32038,8 @@ const __exports = {};
  * Asiyah is concrete and replaceable. The Awtsmoos reveals meshes, weights,
  * collisions, LODs, and exports while Awtsmoos.com keeps Briah editable truth.
  */
-var creatureContentHash = __awtsmoosModule_334.creatureContentHash;
-var creatureStableId = __awtsmoosModule_334.creatureStableId;
+var creatureContentHash = __awtsmoosModule_368.creatureContentHash;
+var creatureStableId = __awtsmoosModule_368.creatureStableId;
 
 /** Seals physical outputs with explicit preservation and memory reports. */
 function createAsiyahCreatureArtifacts(input) {
@@ -29420,7 +32078,7 @@ __exports.createAsiyahCreatureArtifacts = createAsiyahCreatureArtifacts;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/capabilities/creatureCapabilities.js */
-__awtsmoosModule_402 = (() => {
+__awtsmoosModule_436 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -29506,7 +32164,7 @@ __exports.evaluateCreatureCapabilities = evaluateCreatureCapabilities;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/capabilityCompiler.js */
-__awtsmoosModule_401 = (() => {
+__awtsmoosModule_435 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -29516,7 +32174,7 @@ const __exports = {};
  * Awtsmoos.com adapts the live Briah vocabulary into the existing report without
  * adding another inference engine.
  */
-var evaluateExistingCapabilities = __awtsmoosModule_402.evaluateCreatureCapabilities;
+var evaluateExistingCapabilities = __awtsmoosModule_436.evaluateCreatureCapabilities;
 
 function adaptCreature(creature) {
 	return {
@@ -29557,7 +32215,7 @@ __exports.evaluateCreatureCapabilities = evaluateCreatureCapabilities;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/budgets/creatureBudgets.js */
-__awtsmoosModule_404 = (() => {
+__awtsmoosModule_438 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -29638,7 +32296,7 @@ __exports.optimizeCreatureBudget = optimizeCreatureBudget;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/budgetCompiler.js */
-__awtsmoosModule_403 = (() => {
+__awtsmoosModule_437 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -29648,8 +32306,8 @@ const __exports = {};
  * count; Awtsmoos.com maps public maximum names into the existing multidimensional
  * budget report so no second accounting system is born.
  */
-var estimateExistingBudget = __awtsmoosModule_404.estimateCreatureBudget;
-var validateExistingBudget = __awtsmoosModule_404.validateCreatureBudget;
+var estimateExistingBudget = __awtsmoosModule_438.estimateCreatureBudget;
+var validateExistingBudget = __awtsmoosModule_438.validateCreatureBudget;
 
 const LIMIT_TO_USAGE = Object.freeze({
 	maximumParts: "parts",
@@ -29709,7 +32367,7 @@ __exports.optimizeCreatureBudget = optimizeCreatureBudget;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/artifactCompiler.js */
-__awtsmoosModule_313 = (() => {
+__awtsmoosModule_347 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -29719,21 +32377,21 @@ const __exports = {};
  * and Asiyah renders. The Awtsmoos creates all at once; Awtsmoos.com composes
  * existing vessels so no rival compiler can claim an independent kingdom.
  */
-var compileCreatureMaterials = __awtsmoosModule_306.compileCreatureMaterials;
-var synthesizeYetzirahRig = __awtsmoosModule_314.synthesizeYetzirahRig;
-var validateYetzirahRig = __awtsmoosModule_320.validateYetzirahRig;
-var validateBriahCreature = __awtsmoosModule_312.validateBriahCreature;
-var deriveCreatureContentHash = __awtsmoosModule_291.deriveCreatureContentHash;
-var compileCreatureLods = __awtsmoosModule_321.compileCreatureLods;
-var compileCreatureMesh = __awtsmoosModule_321.compileCreatureMesh;
-var bindCreatureSkin = __awtsmoosModule_328.bindCreatureSkin;
-var createPositionedCreatureRig = __awtsmoosModule_328.createPositionedCreatureRig;
-var validateSkinWeights = __awtsmoosModule_328.validateSkinWeights;
-var createCreatureCollisionShapes = __awtsmoosModule_331.createCreatureCollisionShapes;
-var createCreatureMemoryReport = __awtsmoosModule_332.createCreatureMemoryReport;
-var createAsiyahCreatureArtifacts = __awtsmoosModule_333.createAsiyahCreatureArtifacts;
-var evaluateCreatureCapabilities = __awtsmoosModule_401.evaluateCreatureCapabilities;
-var estimateCreatureBudget = __awtsmoosModule_403.estimateCreatureBudget;
+var compileCreatureMaterials = __awtsmoosModule_340.compileCreatureMaterials;
+var synthesizeYetzirahRig = __awtsmoosModule_348.synthesizeYetzirahRig;
+var validateYetzirahRig = __awtsmoosModule_354.validateYetzirahRig;
+var validateBriahCreature = __awtsmoosModule_346.validateBriahCreature;
+var deriveCreatureContentHash = __awtsmoosModule_325.deriveCreatureContentHash;
+var compileCreatureLods = __awtsmoosModule_355.compileCreatureLods;
+var compileCreatureMesh = __awtsmoosModule_355.compileCreatureMesh;
+var bindCreatureSkin = __awtsmoosModule_362.bindCreatureSkin;
+var createPositionedCreatureRig = __awtsmoosModule_362.createPositionedCreatureRig;
+var validateSkinWeights = __awtsmoosModule_362.validateSkinWeights;
+var createCreatureCollisionShapes = __awtsmoosModule_365.createCreatureCollisionShapes;
+var createCreatureMemoryReport = __awtsmoosModule_366.createCreatureMemoryReport;
+var createAsiyahCreatureArtifacts = __awtsmoosModule_367.createAsiyahCreatureArtifacts;
+var evaluateCreatureCapabilities = __awtsmoosModule_435.evaluateCreatureCapabilities;
+var estimateCreatureBudget = __awtsmoosModule_437.estimateCreatureBudget;
 
 function requireValid(report, stage) {
 	if (!report.valid) {
@@ -29802,16 +32460,16 @@ __exports.compileCreatureArtifacts = compileCreatureArtifacts;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/transactionService.js */
-__awtsmoosModule_311 = (() => {
+__awtsmoosModule_345 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
 // Blessed is He
 
-var cloneCreatureValue = __awtsmoosModule_289.cloneCreatureValue;
-var refreshBriahCreature = __awtsmoosModule_300.refreshBriahCreature;
-var validateBriahCreature = __awtsmoosModule_312.validateBriahCreature;
-var compileCreatureArtifacts = __awtsmoosModule_313.compileCreatureArtifacts;
+var cloneCreatureValue = __awtsmoosModule_323.cloneCreatureValue;
+var refreshBriahCreature = __awtsmoosModule_334.refreshBriahCreature;
+var validateBriahCreature = __awtsmoosModule_346.validateBriahCreature;
+var compileCreatureArtifacts = __awtsmoosModule_347.compileCreatureArtifacts;
 
 function beginCreatureTransaction(store, artifactId) {
 	const record = store.requireRecord(artifactId);
@@ -29913,18 +32571,18 @@ __exports.rollbackCreatureTransaction = rollbackCreatureTransaction;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/transactionDispatcher.js */
-__awtsmoosModule_310 = (() => {
+__awtsmoosModule_344 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
 // Blessed is He
 
-var beginCreatureTransaction = __awtsmoosModule_311.beginCreatureTransaction;
-var commitCreatureTransaction = __awtsmoosModule_311.commitCreatureTransaction;
-var previewCreatureTransaction = __awtsmoosModule_311.previewCreatureTransaction;
-var rollbackCreatureTransaction = __awtsmoosModule_311.rollbackCreatureTransaction;
-var validateCreatureTransaction = __awtsmoosModule_311.validateCreatureTransaction;
-var CreatureOperationError = __awtsmoosModule_290.CreatureOperationError;
+var beginCreatureTransaction = __awtsmoosModule_345.beginCreatureTransaction;
+var commitCreatureTransaction = __awtsmoosModule_345.commitCreatureTransaction;
+var previewCreatureTransaction = __awtsmoosModule_345.previewCreatureTransaction;
+var rollbackCreatureTransaction = __awtsmoosModule_345.rollbackCreatureTransaction;
+var validateCreatureTransaction = __awtsmoosModule_345.validateCreatureTransaction;
+var CreatureOperationError = __awtsmoosModule_324.CreatureOperationError;
 
 /**
  * Routes transaction operations. Staging re-enters the same public invoke seam,
@@ -29969,15 +32627,15 @@ __exports.dispatchTransactionOperation = dispatchTransactionOperation;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/historyService.js */
-__awtsmoosModule_406 = (() => {
+__awtsmoosModule_440 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
 // Blessed is He
 
-var cloneCreatureValue = __awtsmoosModule_289.cloneCreatureValue;
-var refreshBriahCreature = __awtsmoosModule_300.refreshBriahCreature;
-var applyCreatureMutation = __awtsmoosModule_301.applyCreatureMutation;
+var cloneCreatureValue = __awtsmoosModule_323.cloneCreatureValue;
+var refreshBriahCreature = __awtsmoosModule_334.refreshBriahCreature;
+var applyCreatureMutation = __awtsmoosModule_335.applyCreatureMutation;
 
 /**
  * Replays committed operation batches from the original Briah revelation. Batches
@@ -30031,20 +32689,20 @@ __exports.redoCreatureRecord = redoCreatureRecord;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/documentDispatcher.js */
-__awtsmoosModule_405 = (() => {
+__awtsmoosModule_439 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
 // Blessed is He
 
-var cloneCreatureValue = __awtsmoosModule_289.cloneCreatureValue;
-var createAtzilusGenome = __awtsmoosModule_300.createAtzilusGenome;
-var compileGenomeToBriah = __awtsmoosModule_300.compileGenomeToBriah;
-var replayCreatureHistory = __awtsmoosModule_406.replayCreatureHistory;
-var redoCreatureRecord = __awtsmoosModule_406.redoCreatureRecord;
-var undoCreatureRecord = __awtsmoosModule_406.undoCreatureRecord;
-var validateBriahCreature = __awtsmoosModule_312.validateBriahCreature;
-var CreatureOperationError = __awtsmoosModule_290.CreatureOperationError;
+var cloneCreatureValue = __awtsmoosModule_323.cloneCreatureValue;
+var createAtzilusGenome = __awtsmoosModule_334.createAtzilusGenome;
+var compileGenomeToBriah = __awtsmoosModule_334.compileGenomeToBriah;
+var replayCreatureHistory = __awtsmoosModule_440.replayCreatureHistory;
+var redoCreatureRecord = __awtsmoosModule_440.redoCreatureRecord;
+var undoCreatureRecord = __awtsmoosModule_440.undoCreatureRecord;
+var validateBriahCreature = __awtsmoosModule_346.validateBriahCreature;
+var CreatureOperationError = __awtsmoosModule_324.CreatureOperationError;
 
 function compareDocuments(first, second) {
 	return {
@@ -30118,7 +32776,7 @@ __exports.dispatchDocumentOperation = dispatchDocumentOperation;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/rigDerived.js */
-__awtsmoosModule_408 = (() => {
+__awtsmoosModule_442 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -30128,9 +32786,9 @@ const __exports = {};
  * beyond form; Awtsmoos.com reveals rebuilds, controls, lineage, comparison,
  * constraints, and poses without synthesizing a rival skeleton authority.
  */
-var compareYetzirahRigs = __awtsmoosModule_316.compareYetzirahRigs;
-var evaluateRigPose = __awtsmoosModule_320.evaluateRigPose;
-var validateYetzirahRig = __awtsmoosModule_320.validateYetzirahRig;
+var compareYetzirahRigs = __awtsmoosModule_350.compareYetzirahRigs;
+var evaluateRigPose = __awtsmoosModule_354.evaluateRigPose;
+var validateYetzirahRig = __awtsmoosModule_354.validateYetzirahRig;
 
 function comparisonBaseline(request, previousRig, rig) {
 	return request.arguments?.previousRig || previousRig || rig;
@@ -30167,14 +32825,14 @@ __exports.dispatchRigDerived = dispatchRigDerived;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/skinSmoothing.js */
-__awtsmoosModule_410 = (() => {
+__awtsmoosModule_444 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
 // Blessed is He
 
-var cloneCreatureValue = __awtsmoosModule_289.cloneCreatureValue;
-var normalizeSkinWeights = __awtsmoosModule_328.normalizeSkinWeights;
+var cloneCreatureValue = __awtsmoosModule_323.cloneCreatureValue;
+var normalizeSkinWeights = __awtsmoosModule_362.normalizeSkinWeights;
 
 /**
  * Smooths influences across neighboring vertices while retaining a bounded
@@ -30210,7 +32868,7 @@ __exports.smoothSkinWeights = smoothSkinWeights;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/skinDerived.js */
-__awtsmoosModule_409 = (() => {
+__awtsmoosModule_443 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -30220,11 +32878,11 @@ const __exports = {};
  * bone and surface now; Awtsmoos.com exposes binding, rebinding, normalization,
  * smoothing, validation, and lineage through one automatic weighting vessel.
  */
-var compileCreatureMesh = __awtsmoosModule_321.compileCreatureMesh;
-var bindCreatureSkin = __awtsmoosModule_328.bindCreatureSkin;
-var normalizeSkinWeights = __awtsmoosModule_328.normalizeSkinWeights;
-var validateSkinWeights = __awtsmoosModule_328.validateSkinWeights;
-var smoothSkinWeights = __awtsmoosModule_410.smoothSkinWeights;
+var compileCreatureMesh = __awtsmoosModule_355.compileCreatureMesh;
+var bindCreatureSkin = __awtsmoosModule_362.bindCreatureSkin;
+var normalizeSkinWeights = __awtsmoosModule_362.normalizeSkinWeights;
+var validateSkinWeights = __awtsmoosModule_362.validateSkinWeights;
+var smoothSkinWeights = __awtsmoosModule_444.smoothSkinWeights;
 
 function bind(document, rig, request) {
 	const mesh = compileCreatureMesh(document, request.arguments);
@@ -30266,7 +32924,7 @@ __exports.dispatchSkinDerived = dispatchSkinDerived;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/motion/analyzeBodyPlan.js */
-__awtsmoosModule_413 = (() => {
+__awtsmoosModule_447 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -30338,7 +32996,7 @@ __exports.analyzeCreatureBodyPlan = analyzeCreatureBodyPlan;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/motion/CreatureSecondaryMotionChannels.js */
-__awtsmoosModule_415 = (() => {
+__awtsmoosModule_449 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -30447,7 +33105,7 @@ __exports.createContactCompressionChannel = createContactCompressionChannel;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/motion/CreatureSecondaryMotion.js */
-__awtsmoosModule_414 = (() => {
+__awtsmoosModule_448 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -30458,11 +33116,11 @@ const __exports = {};
  * roles into stable controls while Briah anatomy remains entirely unchanged.
  */
 
-var createBreathingChannel = __awtsmoosModule_415.createBreathingChannel;
-var createContactCompressionChannel = __awtsmoosModule_415.createContactCompressionChannel;
-var createEyeMicroMotionChannel = __awtsmoosModule_415.createEyeMicroMotionChannel;
-var createPropulsionFlexChannel = __awtsmoosModule_415.createPropulsionFlexChannel;
-var createSoftFollowThroughChannel = __awtsmoosModule_415.createSoftFollowThroughChannel;
+var createBreathingChannel = __awtsmoosModule_449.createBreathingChannel;
+var createContactCompressionChannel = __awtsmoosModule_449.createContactCompressionChannel;
+var createEyeMicroMotionChannel = __awtsmoosModule_449.createEyeMicroMotionChannel;
+var createPropulsionFlexChannel = __awtsmoosModule_449.createPropulsionFlexChannel;
+var createSoftFollowThroughChannel = __awtsmoosModule_449.createSoftFollowThroughChannel;
 
 function appendBoneChannels(controls, bone, contactBoneIds, time, input) {
 	const role = bone.semanticRole;
@@ -30520,7 +33178,7 @@ __exports.evaluateCreatureSecondaryMotion = evaluateCreatureSecondaryMotion;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/motion/NetzachLocomotion.js */
-__awtsmoosModule_416 = (() => {
+__awtsmoosModule_450 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -30529,8 +33187,8 @@ const __exports = {};
  * Netzach persists through contact and release. The Awtsmoos derives phases,
  * trajectories, compensation, and stability from Awtsmoos.com semantic anatomy.
  */
-var creatureContentHash = __awtsmoosModule_334.creatureContentHash;
-var analyzeCreatureBodyPlan = __awtsmoosModule_413.analyzeCreatureBodyPlan;
+var creatureContentHash = __awtsmoosModule_368.creatureContentHash;
+var analyzeCreatureBodyPlan = __awtsmoosModule_447.analyzeCreatureBodyPlan;
 
 /** Plans inspectable contact phases, trajectories, IK, and stability metrics. */
 function planCreatureLocomotion(creature, rig, input = {}) {
@@ -30621,7 +33279,7 @@ __exports.evaluateCreatureExpression = evaluateCreatureExpression;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/motionCompiler.js */
-__awtsmoosModule_412 = (() => {
+__awtsmoosModule_446 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -30632,11 +33290,11 @@ const __exports = {};
  * locomotion, expression, and secondary-motion semantic pipeline.
  */
 
-var analyzeExistingBodyPlan = __awtsmoosModule_413.analyzeCreatureBodyPlan;
-var evaluateCreatureSecondaryMotion = __awtsmoosModule_414.evaluateCreatureSecondaryMotion;
-var evaluateExistingExpression = __awtsmoosModule_416.evaluateCreatureExpression;
-var evaluateExistingMotion = __awtsmoosModule_416.evaluateCreatureMotion;
-var planExistingLocomotion = __awtsmoosModule_416.planCreatureLocomotion;
+var analyzeExistingBodyPlan = __awtsmoosModule_447.analyzeCreatureBodyPlan;
+var evaluateCreatureSecondaryMotion = __awtsmoosModule_448.evaluateCreatureSecondaryMotion;
+var evaluateExistingExpression = __awtsmoosModule_450.evaluateCreatureExpression;
+var evaluateExistingMotion = __awtsmoosModule_450.evaluateCreatureMotion;
+var planExistingLocomotion = __awtsmoosModule_450.planCreatureLocomotion;
 
 function normalizedCreature(creature) {
 	return {
@@ -30715,7 +33373,7 @@ __exports.evaluateCreatureSecondaryMotion = evaluateCreatureSecondaryMotion;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/motionDerived.js */
-__awtsmoosModule_411 = (() => {
+__awtsmoosModule_445 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -30726,11 +33384,11 @@ const __exports = {};
  * secondary life, action tests, and expressions without fixed bone indices.
  */
 
-var analyzeCreatureBodyPlan = __awtsmoosModule_412.analyzeCreatureBodyPlan;
-var evaluateCreatureExpression = __awtsmoosModule_412.evaluateCreatureExpression;
-var evaluateCreatureMotion = __awtsmoosModule_412.evaluateCreatureMotion;
-var evaluateCreatureSecondaryMotion = __awtsmoosModule_412.evaluateCreatureSecondaryMotion;
-var planCreatureLocomotion = __awtsmoosModule_412.planCreatureLocomotion;
+var analyzeCreatureBodyPlan = __awtsmoosModule_446.analyzeCreatureBodyPlan;
+var evaluateCreatureExpression = __awtsmoosModule_446.evaluateCreatureExpression;
+var evaluateCreatureMotion = __awtsmoosModule_446.evaluateCreatureMotion;
+var evaluateCreatureSecondaryMotion = __awtsmoosModule_446.evaluateCreatureSecondaryMotion;
+var planCreatureLocomotion = __awtsmoosModule_446.planCreatureLocomotion;
 
 function plan(document, rig, request) {
 	return planCreatureLocomotion(document, rig, request.arguments);
@@ -30779,7 +33437,7 @@ __exports.dispatchMotionDerived = dispatchMotionDerived;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/materialBake.js */
-__awtsmoosModule_418 = (() => {
+__awtsmoosModule_452 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -30832,7 +33490,7 @@ __exports.bakeCreatureMaterials = bakeCreatureMaterials;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/materialDerived.js */
-__awtsmoosModule_417 = (() => {
+__awtsmoosModule_451 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -30842,9 +33500,9 @@ const __exports = {};
  * The Awtsmoos renews the painted surface; Awtsmoos.com compiles anatomical
  * layers and reuses the existing bake against the canonical creature mesh.
  */
-var bakeCreatureMaterials = __awtsmoosModule_418.bakeCreatureMaterials;
-var compileCreatureMaterials = __awtsmoosModule_306.compileCreatureMaterials;
-var compileCreatureMesh = __awtsmoosModule_321.compileCreatureMesh;
+var bakeCreatureMaterials = __awtsmoosModule_452.bakeCreatureMaterials;
+var compileCreatureMaterials = __awtsmoosModule_340.compileCreatureMaterials;
+var compileCreatureMesh = __awtsmoosModule_355.compileCreatureMesh;
 
 /** Dispatches topology-independent material compilation and baking. */
 function dispatchMaterialDerived({ request, document }) {
@@ -30864,7 +33522,7 @@ __exports.dispatchMaterialDerived = dispatchMaterialDerived;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/capabilityDerived.js */
-__awtsmoosModule_419 = (() => {
+__awtsmoosModule_453 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -30874,12 +33532,12 @@ const __exports = {};
  * The Awtsmoos is beyond score and ceiling; Awtsmoos.com composes capability,
  * mesh, validation, and budget vessels through one inspectable derived route.
  */
-var evaluateCreatureCapabilities = __awtsmoosModule_401.evaluateCreatureCapabilities;
-var estimateCreatureBudget = __awtsmoosModule_403.estimateCreatureBudget;
-var optimizeCreatureBudget = __awtsmoosModule_403.optimizeCreatureBudget;
-var validateCreatureBudget = __awtsmoosModule_403.validateCreatureBudget;
-var compileCreatureMesh = __awtsmoosModule_321.compileCreatureMesh;
-var validateBriahCreature = __awtsmoosModule_312.validateBriahCreature;
+var evaluateCreatureCapabilities = __awtsmoosModule_435.evaluateCreatureCapabilities;
+var estimateCreatureBudget = __awtsmoosModule_437.estimateCreatureBudget;
+var optimizeCreatureBudget = __awtsmoosModule_437.optimizeCreatureBudget;
+var validateCreatureBudget = __awtsmoosModule_437.validateCreatureBudget;
+var compileCreatureMesh = __awtsmoosModule_355.compileCreatureMesh;
+var validateBriahCreature = __awtsmoosModule_346.validateBriahCreature;
 
 function budgetUsage(document, rig, request) {
 	const mesh = compileCreatureMesh(document, request.arguments);
@@ -30933,21 +33591,21 @@ __exports.dispatchCapabilityDerived = dispatchCapabilityDerived;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/derivedDispatcher.js */
-__awtsmoosModule_407 = (() => {
+__awtsmoosModule_441 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
 // Blessed is He
 
-var refreshBriahCreature = __awtsmoosModule_300.refreshBriahCreature;
-var compileCreatureArtifacts = __awtsmoosModule_313.compileCreatureArtifacts;
-var synthesizeYetzirahRig = __awtsmoosModule_314.synthesizeYetzirahRig;
-var dispatchRigDerived = __awtsmoosModule_408.dispatchRigDerived;
-var dispatchSkinDerived = __awtsmoosModule_409.dispatchSkinDerived;
-var dispatchMotionDerived = __awtsmoosModule_411.dispatchMotionDerived;
-var dispatchMaterialDerived = __awtsmoosModule_417.dispatchMaterialDerived;
-var dispatchCapabilityDerived = __awtsmoosModule_419.dispatchCapabilityDerived;
-var CreatureOperationError = __awtsmoosModule_290.CreatureOperationError;
+var refreshBriahCreature = __awtsmoosModule_334.refreshBriahCreature;
+var compileCreatureArtifacts = __awtsmoosModule_347.compileCreatureArtifacts;
+var synthesizeYetzirahRig = __awtsmoosModule_348.synthesizeYetzirahRig;
+var dispatchRigDerived = __awtsmoosModule_442.dispatchRigDerived;
+var dispatchSkinDerived = __awtsmoosModule_443.dispatchSkinDerived;
+var dispatchMotionDerived = __awtsmoosModule_445.dispatchMotionDerived;
+var dispatchMaterialDerived = __awtsmoosModule_451.dispatchMaterialDerived;
+var dispatchCapabilityDerived = __awtsmoosModule_453.dispatchCapabilityDerived;
+var CreatureOperationError = __awtsmoosModule_324.CreatureOperationError;
 
 function createContext(store, request) {
 	const document = refreshBriahCreature(store.resolveDocument(request), false);
@@ -31006,22 +33664,22 @@ __exports.dispatchDerivedOperation = dispatchDerivedOperation;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/CreatureKernel.js */
-__awtsmoosModule_287 = (() => {
+__awtsmoosModule_321 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
 // Blessed is He
 
-var CreatureKernelStore = __awtsmoosModule_288.CreatureKernelStore;
-var createCreatureOperationCatalog = __awtsmoosModule_297.createCreatureOperationCatalog;
-var TRANSACTION_OPERATIONS = __awtsmoosModule_298.TRANSACTION_OPERATIONS;
-var DOCUMENT_OPERATIONS = __awtsmoosModule_298.DOCUMENT_OPERATIONS;
-var applyKernelMutation = __awtsmoosModule_299.applyKernelMutation;
-var isCreatureMutation = __awtsmoosModule_301.isCreatureMutation;
-var dispatchTransactionOperation = __awtsmoosModule_310.dispatchTransactionOperation;
-var dispatchDocumentOperation = __awtsmoosModule_405.dispatchDocumentOperation;
-var dispatchDerivedOperation = __awtsmoosModule_407.dispatchDerivedOperation;
-var CreatureOperationError = __awtsmoosModule_290.CreatureOperationError;
+var CreatureKernelStore = __awtsmoosModule_322.CreatureKernelStore;
+var createCreatureOperationCatalog = __awtsmoosModule_331.createCreatureOperationCatalog;
+var TRANSACTION_OPERATIONS = __awtsmoosModule_332.TRANSACTION_OPERATIONS;
+var DOCUMENT_OPERATIONS = __awtsmoosModule_332.DOCUMENT_OPERATIONS;
+var applyKernelMutation = __awtsmoosModule_333.applyKernelMutation;
+var isCreatureMutation = __awtsmoosModule_335.isCreatureMutation;
+var dispatchTransactionOperation = __awtsmoosModule_344.dispatchTransactionOperation;
+var dispatchDocumentOperation = __awtsmoosModule_439.dispatchDocumentOperation;
+var dispatchDerivedOperation = __awtsmoosModule_441.dispatchDerivedOperation;
+var CreatureOperationError = __awtsmoosModule_324.CreatureOperationError;
 
 /**
  * Local API-driven creature-construction kernel integrated inside animalMesh.
@@ -31077,7 +33735,7 @@ __exports.createCreatureKernel = createCreatureKernel;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/realism/createCreatureTissueProfile.js */
-__awtsmoosModule_420 = (() => {
+__awtsmoosModule_454 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -31153,7 +33811,7 @@ __exports.createCreatureTissueProfile = createCreatureTissueProfile;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/realism/compileCreatureMicrodetail.js */
-__awtsmoosModule_421 = (() => {
+__awtsmoosModule_455 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -31216,14 +33874,14 @@ __exports.compileCreatureMicrodetail = compileCreatureMicrodetail;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/realism/createCreatureMuscleProfile.js */
-__awtsmoosModule_422 = (() => {
+__awtsmoosModule_456 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
 // Blessed is He
 /** Muscles follow semantic bones and joints rather than humanoid assumptions. */
 
-var createSemanticId = __awtsmoosModule_291.createSemanticId;
+var createSemanticId = __awtsmoosModule_325.createSemanticId;
 
 function actuatorForBone(creature, rig, bone, index, options) {
 	const leverage = Math.max(0.02, bone.radius * Math.max(0.1, bone.length));
@@ -31276,7 +33934,7 @@ __exports.createCreatureMuscleProfile = createCreatureMuscleProfile;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/realism/createCreatureSoftTissueState.js */
-__awtsmoosModule_423 = (() => {
+__awtsmoosModule_457 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -31327,7 +33985,7 @@ __exports.createCreatureSoftTissueState = createCreatureSoftTissueState;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/realism/stepCreatureSoftTissue.js */
-__awtsmoosModule_424 = (() => {
+__awtsmoosModule_458 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -31408,7 +34066,7 @@ __exports.stepCreatureSoftTissue = stepCreatureSoftTissue;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/realism/createCreatureEnvironmentCoupling.js */
-__awtsmoosModule_425 = (() => {
+__awtsmoosModule_459 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -31450,62 +34108,62 @@ __exports.createCreatureEnvironmentCoupling = createCreatureEnvironmentCoupling;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/animalMesh/creature/index.js */
-__awtsmoosModule_286 = (() => {
+__awtsmoosModule_320 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
 // Blessed is He
 /** Public Four-World creature-kernel surface with exact local contracts. */
 
-__exports.CreatureKernel = __awtsmoosModule_287.CreatureKernel;
-__exports.createCreatureKernel = __awtsmoosModule_287.createCreatureKernel;
-__exports.CreatureKernelStore = __awtsmoosModule_288.CreatureKernelStore;
-__exports.createAtzilusGenome = __awtsmoosModule_300.createAtzilusGenome;
-__exports.compileGenomeToBriah = __awtsmoosModule_300.compileGenomeToBriah;
-__exports.refreshBriahCreature = __awtsmoosModule_300.refreshBriahCreature;
-__exports.CREATURE_VERSION = __awtsmoosModule_290.CREATURE_VERSION;
-__exports.CREATURE_WORLD_TYPES = __awtsmoosModule_290.CREATURE_WORLD_TYPES;
-__exports.DEFAULT_CREATURE_BUDGET = __awtsmoosModule_290.DEFAULT_CREATURE_BUDGET;
-__exports.CreatureOperationError = __awtsmoosModule_290.CreatureOperationError;
-__exports.CREATURE_OPERATION_NAMES = __awtsmoosModule_298.CREATURE_OPERATION_NAMES;
-__exports.createCreatureOperationCatalog = __awtsmoosModule_297.createCreatureOperationCatalog;
-__exports.validateBriahCreature = __awtsmoosModule_312.validateBriahCreature;
-__exports.synthesizeYetzirahRig = __awtsmoosModule_314.synthesizeYetzirahRig;
-__exports.validateYetzirahRig = __awtsmoosModule_320.validateYetzirahRig;
-__exports.evaluateRigPose = __awtsmoosModule_320.evaluateRigPose;
-__exports.createRigLineageReport = __awtsmoosModule_316.createRigLineageReport;
-__exports.compareYetzirahRigs = __awtsmoosModule_316.compareYetzirahRigs;
-__exports.compileCreatureMesh = __awtsmoosModule_321.compileCreatureMesh;
-__exports.compileCreatureLods = __awtsmoosModule_321.compileCreatureLods;
-__exports.bindCreatureSkin = __awtsmoosModule_328.bindCreatureSkin;
-__exports.normalizeSkinWeights = __awtsmoosModule_328.normalizeSkinWeights;
-__exports.validateSkinWeights = __awtsmoosModule_328.validateSkinWeights;
-__exports.smoothSkinWeights = __awtsmoosModule_410.smoothSkinWeights;
-__exports.CANONICAL_CREATURE_SURFACE_VERSION = __awtsmoosModule_210.CANONICAL_CREATURE_SURFACE_VERSION;
-__exports.createCanonicalCreatureSurfaceContract = __awtsmoosModule_210.createCanonicalCreatureSurfaceContract;
-__exports.validateCanonicalCreatureSurfaceContract = __awtsmoosModule_210.validateCanonicalCreatureSurfaceContract;
-__exports.analyzeCreatureBodyPlan = __awtsmoosModule_412.analyzeCreatureBodyPlan;
-__exports.planCreatureLocomotion = __awtsmoosModule_412.planCreatureLocomotion;
-__exports.evaluateCreatureMotion = __awtsmoosModule_412.evaluateCreatureMotion;
-__exports.evaluateCreatureExpression = __awtsmoosModule_412.evaluateCreatureExpression;
-__exports.evaluateCreatureSecondaryMotion = __awtsmoosModule_412.evaluateCreatureSecondaryMotion;
-__exports.compileCreatureMaterials = __awtsmoosModule_306.compileCreatureMaterials;
-__exports.bakeCreatureMaterials = __awtsmoosModule_418.bakeCreatureMaterials;
-__exports.evaluateCreatureCapabilities = __awtsmoosModule_401.evaluateCreatureCapabilities;
-__exports.estimateCreatureBudget = __awtsmoosModule_403.estimateCreatureBudget;
-__exports.validateCreatureBudget = __awtsmoosModule_403.validateCreatureBudget;
-__exports.optimizeCreatureBudget = __awtsmoosModule_403.optimizeCreatureBudget;
-__exports.compileCreatureArtifacts = __awtsmoosModule_313.compileCreatureArtifacts;
-__exports.createCreatureTissueProfile = __awtsmoosModule_420.createCreatureTissueProfile;
-__exports.compileCreatureMicrodetail = __awtsmoosModule_421.compileCreatureMicrodetail;
-__exports.createCreatureMuscleProfile = __awtsmoosModule_422.createCreatureMuscleProfile;
-__exports.createCreatureSoftTissueState = __awtsmoosModule_423.createCreatureSoftTissueState;
-__exports.stepCreatureSoftTissue = __awtsmoosModule_424.stepCreatureSoftTissue;
-__exports.createCreatureEnvironmentCoupling = __awtsmoosModule_425.createCreatureEnvironmentCoupling;
+__exports.CreatureKernel = __awtsmoosModule_321.CreatureKernel;
+__exports.createCreatureKernel = __awtsmoosModule_321.createCreatureKernel;
+__exports.CreatureKernelStore = __awtsmoosModule_322.CreatureKernelStore;
+__exports.createAtzilusGenome = __awtsmoosModule_334.createAtzilusGenome;
+__exports.compileGenomeToBriah = __awtsmoosModule_334.compileGenomeToBriah;
+__exports.refreshBriahCreature = __awtsmoosModule_334.refreshBriahCreature;
+__exports.CREATURE_VERSION = __awtsmoosModule_324.CREATURE_VERSION;
+__exports.CREATURE_WORLD_TYPES = __awtsmoosModule_324.CREATURE_WORLD_TYPES;
+__exports.DEFAULT_CREATURE_BUDGET = __awtsmoosModule_324.DEFAULT_CREATURE_BUDGET;
+__exports.CreatureOperationError = __awtsmoosModule_324.CreatureOperationError;
+__exports.CREATURE_OPERATION_NAMES = __awtsmoosModule_332.CREATURE_OPERATION_NAMES;
+__exports.createCreatureOperationCatalog = __awtsmoosModule_331.createCreatureOperationCatalog;
+__exports.validateBriahCreature = __awtsmoosModule_346.validateBriahCreature;
+__exports.synthesizeYetzirahRig = __awtsmoosModule_348.synthesizeYetzirahRig;
+__exports.validateYetzirahRig = __awtsmoosModule_354.validateYetzirahRig;
+__exports.evaluateRigPose = __awtsmoosModule_354.evaluateRigPose;
+__exports.createRigLineageReport = __awtsmoosModule_350.createRigLineageReport;
+__exports.compareYetzirahRigs = __awtsmoosModule_350.compareYetzirahRigs;
+__exports.compileCreatureMesh = __awtsmoosModule_355.compileCreatureMesh;
+__exports.compileCreatureLods = __awtsmoosModule_355.compileCreatureLods;
+__exports.bindCreatureSkin = __awtsmoosModule_362.bindCreatureSkin;
+__exports.normalizeSkinWeights = __awtsmoosModule_362.normalizeSkinWeights;
+__exports.validateSkinWeights = __awtsmoosModule_362.validateSkinWeights;
+__exports.smoothSkinWeights = __awtsmoosModule_444.smoothSkinWeights;
+__exports.CANONICAL_CREATURE_SURFACE_VERSION = __awtsmoosModule_250.CANONICAL_CREATURE_SURFACE_VERSION;
+__exports.createCanonicalCreatureSurfaceContract = __awtsmoosModule_250.createCanonicalCreatureSurfaceContract;
+__exports.validateCanonicalCreatureSurfaceContract = __awtsmoosModule_250.validateCanonicalCreatureSurfaceContract;
+__exports.analyzeCreatureBodyPlan = __awtsmoosModule_446.analyzeCreatureBodyPlan;
+__exports.planCreatureLocomotion = __awtsmoosModule_446.planCreatureLocomotion;
+__exports.evaluateCreatureMotion = __awtsmoosModule_446.evaluateCreatureMotion;
+__exports.evaluateCreatureExpression = __awtsmoosModule_446.evaluateCreatureExpression;
+__exports.evaluateCreatureSecondaryMotion = __awtsmoosModule_446.evaluateCreatureSecondaryMotion;
+__exports.compileCreatureMaterials = __awtsmoosModule_340.compileCreatureMaterials;
+__exports.bakeCreatureMaterials = __awtsmoosModule_452.bakeCreatureMaterials;
+__exports.evaluateCreatureCapabilities = __awtsmoosModule_435.evaluateCreatureCapabilities;
+__exports.estimateCreatureBudget = __awtsmoosModule_437.estimateCreatureBudget;
+__exports.validateCreatureBudget = __awtsmoosModule_437.validateCreatureBudget;
+__exports.optimizeCreatureBudget = __awtsmoosModule_437.optimizeCreatureBudget;
+__exports.compileCreatureArtifacts = __awtsmoosModule_347.compileCreatureArtifacts;
+__exports.createCreatureTissueProfile = __awtsmoosModule_454.createCreatureTissueProfile;
+__exports.compileCreatureMicrodetail = __awtsmoosModule_455.compileCreatureMicrodetail;
+__exports.createCreatureMuscleProfile = __awtsmoosModule_456.createCreatureMuscleProfile;
+__exports.createCreatureSoftTissueState = __awtsmoosModule_457.createCreatureSoftTissueState;
+__exports.stepCreatureSoftTissue = __awtsmoosModule_458.stepCreatureSoftTissue;
+__exports.createCreatureEnvironmentCoupling = __awtsmoosModule_459.createCreatureEnvironmentCoupling;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowProceduralCreature.js */
-__awtsmoosModule_285 = (() => {
+__awtsmoosModule_319 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -31518,7 +34176,7 @@ const __exports = {};
  * violet semantic fallback while renderer-native vertices and hide textures carry finer detail.
  */
 
-var createCreatureKernel = __awtsmoosModule_286.createCreatureKernel;
+var createCreatureKernel = __awtsmoosModule_320.createCreatureKernel;
 
 async function compileMinimalShadowCreature() {
 	const kernel = createCreatureKernel();
@@ -31639,7 +34297,7 @@ function installImmediateMinimalMeadowEnemies(
 __exports.installImmediateMinimalMeadowEnemies = installImmediateMinimalMeadowEnemies;
 function scheduleCreatureEvidenceHydration(runtime, environment) {
 	return afterGameplayQuietWindow(environment, 18000)
-		.then(() => Promise.resolve(__awtsmoosModule_285))
+		.then(() => Promise.resolve(__awtsmoosModule_319))
 		.then(module => module.compileMinimalShadowCreature())
 		.then(compiled => {
 			runtime.proceduralCreatureEvidence = compiled;
@@ -31657,7 +34315,7 @@ function scheduleCreatureEvidenceHydration(runtime, environment) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRegionCatalog.js */
-__awtsmoosModule_427 = (() => {
+__awtsmoosModule_461 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -31739,7 +34397,7 @@ function region(id, name, icon, x, z, radius, safe, ambient, packageId = 'lower-
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRegionRuntime.js */
-__awtsmoosModule_426 = (() => {
+__awtsmoosModule_460 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -31752,8 +34410,8 @@ const __exports = {};
  * discovery and transition while unchanged positions create no repeated regional labor.
  */
 
-var minimalMeadowRegionAt = __awtsmoosModule_427.minimalMeadowRegionAt;
-var minimalMeadowRegionCatalogEvidence = __awtsmoosModule_427.minimalMeadowRegionCatalogEvidence;
+var minimalMeadowRegionAt = __awtsmoosModule_461.minimalMeadowRegionAt;
+var minimalMeadowRegionCatalogEvidence = __awtsmoosModule_461.minimalMeadowRegionCatalogEvidence;
 
 class MinimalMeadowRegionRuntime {
 	constructor(runtime) {
@@ -31827,7 +34485,7 @@ __exports.MinimalMeadowRegionRuntime = MinimalMeadowRegionRuntime;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/RiverCrossingShlichus.js */
-__awtsmoosModule_432 = (() => {
+__awtsmoosModule_466 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -31902,7 +34560,7 @@ function objective(eventType, target, count, description) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/AdventureCatalog.js */
-__awtsmoosModule_431 = (() => {
+__awtsmoosModule_465 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -31915,7 +34573,7 @@ const __exports = {};
  * Awtsmoos.com keeps objective identities durable across local, reconnecting, and shared truth.
  */
 
-var RIVER_CROSSING_SHLICHUS = __awtsmoosModule_432.RIVER_CROSSING_SHLICHUS;
+var RIVER_CROSSING_SHLICHUS = __awtsmoosModule_466.RIVER_CROSSING_SHLICHUS;
 
 const ADVENTURE_CATALOG = Object.freeze([
 	RIVER_CROSSING_SHLICHUS,
@@ -32011,7 +34669,7 @@ function point(x, z) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/AdventureStoreRules.js */
-__awtsmoosModule_433 = (() => {
+__awtsmoosModule_467 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -32106,7 +34764,7 @@ function advanceAdventure(record) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/AdventureStore.js */
-__awtsmoosModule_430 = (() => {
+__awtsmoosModule_464 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -32119,11 +34777,11 @@ const __exports = {};
  * mutable record state, then reunites it with the canonical catalog instead of duplicating truth.
  */
 
-var ADVENTURE_CATALOG = __awtsmoosModule_431.ADVENTURE_CATALOG;
-var adventureSnapshot = __awtsmoosModule_433.adventureSnapshot;
-var applyAdventureEvent = __awtsmoosModule_433.applyAdventureEvent;
-var createAdventureRecord = __awtsmoosModule_433.createAdventureRecord;
-var resetAdventureRecord = __awtsmoosModule_433.resetAdventureRecord;
+var ADVENTURE_CATALOG = __awtsmoosModule_465.ADVENTURE_CATALOG;
+var adventureSnapshot = __awtsmoosModule_467.adventureSnapshot;
+var applyAdventureEvent = __awtsmoosModule_467.applyAdventureEvent;
+var createAdventureRecord = __awtsmoosModule_467.createAdventureRecord;
+var resetAdventureRecord = __awtsmoosModule_467.resetAdventureRecord;
 
 const MAX_PINNED = 3;
 
@@ -32255,7 +34913,7 @@ __exports.AdventureStore = AdventureStore;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowMenuQuestRecord.js */
-__awtsmoosModule_435 = (() => {
+__awtsmoosModule_469 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -32299,7 +34957,7 @@ function fallbackObjective(snapshot) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/UnifiedQuestStore.js */
-__awtsmoosModule_434 = (() => {
+__awtsmoosModule_468 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -32312,7 +34970,7 @@ const __exports = {};
  * records, delegates mutations to their real owner, and publishes one tracker/log/map snapshot.
  */
 
-var minimalMeadowDedicatedQuestRecord = __awtsmoosModule_435.minimalMeadowDedicatedQuestRecord;
+var minimalMeadowDedicatedQuestRecord = __awtsmoosModule_469.minimalMeadowDedicatedQuestRecord;
 
 class UnifiedQuestStore {
 	constructor(options = {}) {
@@ -32417,7 +35075,7 @@ function uniqueRecords(records) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowQuestParchmentElements.js */
-__awtsmoosModule_437 = (() => {
+__awtsmoosModule_471 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -32452,7 +35110,7 @@ __exports.createMinimalMeadowQuestTracker = createMinimalMeadowQuestTracker;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowQuestParchmentActions.js */
-__awtsmoosModule_438 = (() => {
+__awtsmoosModule_472 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -32504,7 +35162,7 @@ __exports.handleMinimalMeadowQuestParchmentAction = handleMinimalMeadowQuestParc
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowQuestOptionalPresentation.js */
-__awtsmoosModule_441 = (() => {
+__awtsmoosModule_475 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -32579,7 +35237,7 @@ const ESCAPES = Object.freeze({
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowQuestProgress.js */
-__awtsmoosModule_442 = (() => {
+__awtsmoosModule_476 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -32643,7 +35301,7 @@ const ESCAPES = Object.freeze({
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowQuestCompletionPresentation.js */
-__awtsmoosModule_440 = (() => {
+__awtsmoosModule_474 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -32656,9 +35314,9 @@ const __exports = {};
  * the three restored places, optional honors, growth, and received reward visible in the book.
  */
 
-var minimalMeadowCompletionHonorsMarkup = __awtsmoosModule_441.minimalMeadowCompletionHonorsMarkup;
-var minimalMeadowOptionalObjectivesMarkup = __awtsmoosModule_441.minimalMeadowOptionalObjectivesMarkup;
-var minimalMeadowQuestProgressMarkup = __awtsmoosModule_442.minimalMeadowQuestProgressMarkup;
+var minimalMeadowCompletionHonorsMarkup = __awtsmoosModule_475.minimalMeadowCompletionHonorsMarkup;
+var minimalMeadowOptionalObjectivesMarkup = __awtsmoosModule_475.minimalMeadowOptionalObjectivesMarkup;
+var minimalMeadowQuestProgressMarkup = __awtsmoosModule_476.minimalMeadowQuestProgressMarkup;
 
 function minimalMeadowQuestCompletionMarkup(snapshot) {
 	const receipt = snapshot.completionReceipt;
@@ -32707,7 +35365,7 @@ const ESCAPES = Object.freeze({
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/ui/TeachingPlacementPreference.js */
-__awtsmoosModule_443 = (() => {
+__awtsmoosModule_477 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -32795,7 +35453,7 @@ function writeStorage(storage, value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowQuestPresentation.js */
-__awtsmoosModule_439 = (() => {
+__awtsmoosModule_473 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -32808,10 +35466,10 @@ const __exports = {};
  * Awtsmoos.com lets parchment and tracker speak the same present truth before completion is sealed.
  */
 
-var minimalMeadowQuestCompletionMarkup = __awtsmoosModule_440.minimalMeadowQuestCompletionMarkup;
-var minimalMeadowOptionalObjectivesMarkup = __awtsmoosModule_441.minimalMeadowOptionalObjectivesMarkup;
-var minimalMeadowQuestProgressMarkup = __awtsmoosModule_442.minimalMeadowQuestProgressMarkup;
-var TEACHING_PLACEMENTS = __awtsmoosModule_443.TEACHING_PLACEMENTS;
+var minimalMeadowQuestCompletionMarkup = __awtsmoosModule_474.minimalMeadowQuestCompletionMarkup;
+var minimalMeadowOptionalObjectivesMarkup = __awtsmoosModule_475.minimalMeadowOptionalObjectivesMarkup;
+var minimalMeadowQuestProgressMarkup = __awtsmoosModule_476.minimalMeadowQuestProgressMarkup;
+var TEACHING_PLACEMENTS = __awtsmoosModule_477.TEACHING_PLACEMENTS;
 
 function minimalMeadowQuestParchmentMarkup(snapshot, placement) {
 	if (snapshot.status === 'completed' && snapshot.completionReceipt) {
@@ -32895,7 +35553,7 @@ const ESCAPES = Object.freeze({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&q
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowQuestOptionalStyles.js */
-__awtsmoosModule_445 = (() => {
+__awtsmoosModule_479 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -32944,7 +35602,7 @@ __exports.MINIMAL_MEADOW_QUEST_OPTIONAL_CSS = MINIMAL_MEADOW_QUEST_OPTIONAL_CSS;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowQuestParchmentBaseStyles.js */
-__awtsmoosModule_446 = (() => {
+__awtsmoosModule_480 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -33063,7 +35721,7 @@ __exports.MINIMAL_MEADOW_QUEST_PARCHMENT_BASE_CSS = MINIMAL_MEADOW_QUEST_PARCHME
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowQuestProgressStyles.js */
-__awtsmoosModule_448 = (() => {
+__awtsmoosModule_482 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -33173,7 +35831,7 @@ __exports.MINIMAL_MEADOW_QUEST_PROGRESS_CSS = MINIMAL_MEADOW_QUEST_PROGRESS_CSS;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowQuestTrackerSurfaceStyles.js */
-__awtsmoosModule_449 = (() => {
+__awtsmoosModule_483 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -33271,7 +35929,7 @@ __exports.MINIMAL_MEADOW_QUEST_TRACKER_SURFACE_CSS = MINIMAL_MEADOW_QUEST_TRACKE
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowQuestParchmentTrackerStyles.js */
-__awtsmoosModule_447 = (() => {
+__awtsmoosModule_481 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -33284,8 +35942,8 @@ const __exports = {};
  * Awtsmoos.com lets the parchment installer consume one stable stylesheet contract.
  */
 
-var MINIMAL_MEADOW_QUEST_PROGRESS_CSS = __awtsmoosModule_448.MINIMAL_MEADOW_QUEST_PROGRESS_CSS;
-var MINIMAL_MEADOW_QUEST_TRACKER_SURFACE_CSS = __awtsmoosModule_449.MINIMAL_MEADOW_QUEST_TRACKER_SURFACE_CSS;
+var MINIMAL_MEADOW_QUEST_PROGRESS_CSS = __awtsmoosModule_482.MINIMAL_MEADOW_QUEST_PROGRESS_CSS;
+var MINIMAL_MEADOW_QUEST_TRACKER_SURFACE_CSS = __awtsmoosModule_483.MINIMAL_MEADOW_QUEST_TRACKER_SURFACE_CSS;
 
 const MINIMAL_MEADOW_QUEST_TRACKER_CSS = [
 	MINIMAL_MEADOW_QUEST_PROGRESS_CSS,
@@ -33295,7 +35953,7 @@ __exports.MINIMAL_MEADOW_QUEST_TRACKER_CSS = MINIMAL_MEADOW_QUEST_TRACKER_CSS;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowQuestParchmentStyles.js */
-__awtsmoosModule_444 = (() => {
+__awtsmoosModule_478 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -33308,9 +35966,9 @@ const __exports = {};
  * bounded garments; Awtsmoos.com installs every quest surface once while each module stays readable.
  */
 
-var MINIMAL_MEADOW_QUEST_OPTIONAL_CSS = __awtsmoosModule_445.MINIMAL_MEADOW_QUEST_OPTIONAL_CSS;
-var MINIMAL_MEADOW_QUEST_PARCHMENT_BASE_CSS = __awtsmoosModule_446.MINIMAL_MEADOW_QUEST_PARCHMENT_BASE_CSS;
-var MINIMAL_MEADOW_QUEST_TRACKER_CSS = __awtsmoosModule_447.MINIMAL_MEADOW_QUEST_TRACKER_CSS;
+var MINIMAL_MEADOW_QUEST_OPTIONAL_CSS = __awtsmoosModule_479.MINIMAL_MEADOW_QUEST_OPTIONAL_CSS;
+var MINIMAL_MEADOW_QUEST_PARCHMENT_BASE_CSS = __awtsmoosModule_480.MINIMAL_MEADOW_QUEST_PARCHMENT_BASE_CSS;
+var MINIMAL_MEADOW_QUEST_TRACKER_CSS = __awtsmoosModule_481.MINIMAL_MEADOW_QUEST_TRACKER_CSS;
 
 const MINIMAL_MEADOW_QUEST_CSS = [
 	MINIMAL_MEADOW_QUEST_PARCHMENT_BASE_CSS,
@@ -33333,7 +35991,7 @@ __exports.installMinimalMeadowQuestParchmentStyles = installMinimalMeadowQuestPa
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowQuestParchment.js */
-__awtsmoosModule_436 = (() => {
+__awtsmoosModule_470 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -33346,14 +36004,14 @@ const __exports = {};
  * refuses to close the instant a reward is granted, allowing the completed chapter to be witnessed.
  */
 
-var createMinimalMeadowQuestParchmentRoot = __awtsmoosModule_437.createMinimalMeadowQuestParchmentRoot;
-var createMinimalMeadowQuestTracker = __awtsmoosModule_437.createMinimalMeadowQuestTracker;
-var handleMinimalMeadowQuestParchmentAction = __awtsmoosModule_438.handleMinimalMeadowQuestParchmentAction;
-var minimalMeadowQuestParchmentMarkup = __awtsmoosModule_439.minimalMeadowQuestParchmentMarkup;
-var minimalMeadowQuestTrackerMarkup = __awtsmoosModule_439.minimalMeadowQuestTrackerMarkup;
-var installMinimalMeadowQuestParchmentStyles = __awtsmoosModule_444.installMinimalMeadowQuestParchmentStyles;
-var TEACHING_PLACEMENTS = __awtsmoosModule_443.TEACHING_PLACEMENTS;
-var TeachingPlacementPreference = __awtsmoosModule_443.TeachingPlacementPreference;
+var createMinimalMeadowQuestParchmentRoot = __awtsmoosModule_471.createMinimalMeadowQuestParchmentRoot;
+var createMinimalMeadowQuestTracker = __awtsmoosModule_471.createMinimalMeadowQuestTracker;
+var handleMinimalMeadowQuestParchmentAction = __awtsmoosModule_472.handleMinimalMeadowQuestParchmentAction;
+var minimalMeadowQuestParchmentMarkup = __awtsmoosModule_473.minimalMeadowQuestParchmentMarkup;
+var minimalMeadowQuestTrackerMarkup = __awtsmoosModule_473.minimalMeadowQuestTrackerMarkup;
+var installMinimalMeadowQuestParchmentStyles = __awtsmoosModule_478.installMinimalMeadowQuestParchmentStyles;
+var TEACHING_PLACEMENTS = __awtsmoosModule_477.TEACHING_PLACEMENTS;
+var TeachingPlacementPreference = __awtsmoosModule_477.TeachingPlacementPreference;
 
 class MinimalMeadowQuestParchment {
 	constructor(quest, bus, documentValue) {
@@ -33438,7 +36096,7 @@ __exports.MinimalMeadowQuestParchment = MinimalMeadowQuestParchment;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/ui/QuestLogPanel.js */
-__awtsmoosModule_451 = (() => {
+__awtsmoosModule_485 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -33553,7 +36211,7 @@ function escapeHtml(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/ui/QuestTracker.js */
-__awtsmoosModule_452 = (() => {
+__awtsmoosModule_486 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -33626,7 +36284,7 @@ function trackedQuest(documentValue, record) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/ui/UnifiedQuestHud.js */
-__awtsmoosModule_450 = (() => {
+__awtsmoosModule_484 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -33639,8 +36297,8 @@ const __exports = {};
  * parchment for story while one shared tracker and scroll own persistent progress presentation.
  */
 
-var QuestLogPanel = __awtsmoosModule_451.QuestLogPanel;
-var QuestTracker = __awtsmoosModule_452.QuestTracker;
+var QuestLogPanel = __awtsmoosModule_485.QuestLogPanel;
+var QuestTracker = __awtsmoosModule_486.QuestTracker;
 
 class UnifiedQuestHud {
 	constructor(store, options = {}) {
@@ -33689,7 +36347,7 @@ __exports.installUnifiedQuestHudStyle = installUnifiedQuestHudStyle;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowQuestCompletion.js */
-__awtsmoosModule_454 = (() => {
+__awtsmoosModule_488 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -33755,7 +36413,7 @@ function completedHonors(optionalObjectives) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowQuestEncounterContract.js */
-__awtsmoosModule_456 = (() => {
+__awtsmoosModule_490 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -33861,7 +36519,7 @@ function objective(id, description, count, progress, phase) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowQuestDefinition.js */
-__awtsmoosModule_455 = (() => {
+__awtsmoosModule_489 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -33874,7 +36532,7 @@ const __exports = {};
  * Awtsmoos.com teaches the living grammar through enemies rather than repetitive counting.
  */
 
-var MINIMAL_MEADOW_REQUIRED_ARCHETYPES = __awtsmoosModule_456.MINIMAL_MEADOW_REQUIRED_ARCHETYPES;
+var MINIMAL_MEADOW_REQUIRED_ARCHETYPES = __awtsmoosModule_490.MINIMAL_MEADOW_REQUIRED_ARCHETYPES;
 var MEASURED_INTENT_REWARD_ID = __awtsmoosModule_78.MEASURED_INTENT_REWARD_ID;
 
 const MINIMAL_MEADOW_DEMON_QUEST = Object.freeze({
@@ -33951,7 +36609,7 @@ function optional(id, description, count, bonus) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowQuestOptionalObjectives.js */
-__awtsmoosModule_457 = (() => {
+__awtsmoosModule_491 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -34051,7 +36709,7 @@ __exports.MinimalMeadowQuestOptionalObjectives = MinimalMeadowQuestOptionalObjec
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowQuestSnapshot.js */
-__awtsmoosModule_458 = (() => {
+__awtsmoosModule_492 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -34064,8 +36722,8 @@ const __exports = {};
  * receive the same ordered archetypes, current objective, remaining work, and completion receipt.
  */
 
-var MINIMAL_MEADOW_REQUIRED_ARCHETYPES = __awtsmoosModule_456.MINIMAL_MEADOW_REQUIRED_ARCHETYPES;
-var minimalMeadowQuestCurrentObjective = __awtsmoosModule_456.minimalMeadowQuestCurrentObjective;
+var MINIMAL_MEADOW_REQUIRED_ARCHETYPES = __awtsmoosModule_490.MINIMAL_MEADOW_REQUIRED_ARCHETYPES;
+var minimalMeadowQuestCurrentObjective = __awtsmoosModule_490.minimalMeadowQuestCurrentObjective;
 
 function createMinimalMeadowQuestSnapshot(quest) {
 	const currentObjective = minimalMeadowQuestCurrentObjective({
@@ -34100,7 +36758,7 @@ function orderedValues(values) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowQuestState.js */
-__awtsmoosModule_453 = (() => {
+__awtsmoosModule_487 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -34113,13 +36771,13 @@ const __exports = {};
  * and recovery as two truthful gates before Reb Mendel may seal the Shlichus in light.
  */
 
-var completeMinimalMeadowQuest = __awtsmoosModule_454.completeMinimalMeadowQuest;
-var MINIMAL_MEADOW_DEMON_QUEST = __awtsmoosModule_455.MINIMAL_MEADOW_DEMON_QUEST;
-var minimalMeadowQuestDefeatIdentity = __awtsmoosModule_456.minimalMeadowQuestDefeatIdentity;
-var minimalMeadowQuestEncounterComplete = __awtsmoosModule_456.minimalMeadowQuestEncounterComplete;
-var minimalMeadowQuestLootIdentity = __awtsmoosModule_456.minimalMeadowQuestLootIdentity;
-var MinimalMeadowQuestOptionalObjectives = __awtsmoosModule_457.MinimalMeadowQuestOptionalObjectives;
-var createMinimalMeadowQuestSnapshot = __awtsmoosModule_458.createMinimalMeadowQuestSnapshot;
+var completeMinimalMeadowQuest = __awtsmoosModule_488.completeMinimalMeadowQuest;
+var MINIMAL_MEADOW_DEMON_QUEST = __awtsmoosModule_489.MINIMAL_MEADOW_DEMON_QUEST;
+var minimalMeadowQuestDefeatIdentity = __awtsmoosModule_490.minimalMeadowQuestDefeatIdentity;
+var minimalMeadowQuestEncounterComplete = __awtsmoosModule_490.minimalMeadowQuestEncounterComplete;
+var minimalMeadowQuestLootIdentity = __awtsmoosModule_490.minimalMeadowQuestLootIdentity;
+var MinimalMeadowQuestOptionalObjectives = __awtsmoosModule_491.MinimalMeadowQuestOptionalObjectives;
+var createMinimalMeadowQuestSnapshot = __awtsmoosModule_492.createMinimalMeadowQuestSnapshot;
 
 class MinimalMeadowQuestState {
 	constructor(runtime) {
@@ -34216,7 +36874,7 @@ __exports.MinimalMeadowQuestState = MinimalMeadowQuestState;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowQuestCoreMount.js */
-__awtsmoosModule_429 = (() => {
+__awtsmoosModule_463 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -34229,12 +36887,12 @@ const __exports = {};
  * Awtsmoos.com keeps state, persistence, catalog, parchment, tracker, and bootstrap replacement atomic.
  */
 
-var AdventureStore = __awtsmoosModule_430.AdventureStore;
-var UnifiedQuestStore = __awtsmoosModule_434.UnifiedQuestStore;
-var MinimalMeadowQuestParchment = __awtsmoosModule_436.MinimalMeadowQuestParchment;
-var installUnifiedQuestHudStyle = __awtsmoosModule_450.installUnifiedQuestHudStyle;
-var UnifiedQuestHud = __awtsmoosModule_450.UnifiedQuestHud;
-var MinimalMeadowQuestState = __awtsmoosModule_453.MinimalMeadowQuestState;
+var AdventureStore = __awtsmoosModule_464.AdventureStore;
+var UnifiedQuestStore = __awtsmoosModule_468.UnifiedQuestStore;
+var MinimalMeadowQuestParchment = __awtsmoosModule_470.MinimalMeadowQuestParchment;
+var installUnifiedQuestHudStyle = __awtsmoosModule_484.installUnifiedQuestHudStyle;
+var UnifiedQuestHud = __awtsmoosModule_484.UnifiedQuestHud;
+var MinimalMeadowQuestState = __awtsmoosModule_487.MinimalMeadowQuestState;
 
 function mountMinimalMeadowQuestCore(runtime, environment = globalThis) {
 	const previousQuest = runtime.quest;
@@ -34280,7 +36938,7 @@ function mountQuestUi(runtime, documentValue) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/npc/NpcQuestMarker.js */
-__awtsmoosModule_461 = (() => {
+__awtsmoosModule_495 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -34359,1244 +37017,8 @@ function primitive(id, shape, x, y, z, dimensions, color) {
 }
 return Object.freeze(__exports);
 })();
-/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-accessors.js */
-__awtsmoosModule_466 = (() => {
-const __exports = {};
-// B"H
-var BufferAttribute = __awtsmoosModule_18.BufferAttribute;
-
-/** Accessors: the hidden letters of GLTF made exact before the body moves. */
-const COMPONENTS={5120:Int8Array,5121:Uint8Array,5122:Int16Array,5123:Uint16Array,5125:Uint32Array,5126:Float32Array};
-__exports.COMPONENTS = COMPONENTS;
-
-const TYPE_SIZES={SCALAR:1,VEC2:2,VEC3:3,VEC4:4,MAT2:4,MAT3:9,MAT4:16};
-__exports.TYPE_SIZES = TYPE_SIZES;
-
-function componentName(t){return ({5120:'BYTE',5121:'UNSIGNED_BYTE',5122:'SHORT',5123:'UNSIGNED_SHORT',5125:'UNSIGNED_INT',5126:'FLOAT'})[t]||String(t);}
-
-__exports.componentName = componentName;
-function normalizedScale(Ctor){if(Ctor===Int8Array)return 1/127;if(Ctor===Uint8Array)return 1/255;if(Ctor===Int16Array)return 1/32767;if(Ctor===Uint16Array)return 1/65535;return 1;}
-
-
-__exports.normalizedScale = normalizedScale;
-function scalar(view,off,Ctor){if(Ctor===Float32Array)return view.getFloat32(off,true);if(Ctor===Uint32Array)return view.getUint32(off,true);if(Ctor===Uint16Array)return view.getUint16(off,true);if(Ctor===Uint8Array)return view.getUint8(off);if(Ctor===Int16Array)return view.getInt16(off,true);return view.getInt8(off);}
-function writeTuple(target,index,values,itemSize){for(let k=0;k<itemSize;k++)target[index*itemSize+k]=values[k]??0;}
-
-function readAccessor(doc,buffers,index){
-  const a=doc.accessors[index],Ctor=COMPONENTS[a?.componentType],itemSize=TYPE_SIZES[a?.type]||1;if(!a||!Ctor)throw new Error(`Unsupported accessor ${index}`);
-  const normalized=a.normalized===true;let array;
-  if(a.bufferView===undefined){array=new Ctor(a.count*itemSize);}else{
-    const bv=doc.bufferViews[a.bufferView],buffer=buffers[bv.buffer],base=(bv.byteOffset||0)+(a.byteOffset||0),stride=bv.byteStride||Ctor.BYTES_PER_ELEMENT*itemSize;
-    if(stride===Ctor.BYTES_PER_ELEMENT*itemSize){array=new Ctor(buffer,base,a.count*itemSize);}else{array=new Ctor(a.count*itemSize);const view=new DataView(buffer);for(let i=0;i<a.count;i++)for(let k=0;k<itemSize;k++)array[i*itemSize+k]=scalar(view,base+i*stride+k*Ctor.BYTES_PER_ELEMENT,Ctor);}
-  }
-  if(a.sparse){array=new Ctor(array);applySparse(doc,buffers,a,array,itemSize,Ctor);}
-  const attr=new BufferAttribute(array,itemSize,normalized,a.componentType);attr.accessorIndex=index;attr.min=a.min;attr.max=a.max;return attr;
-}
-
-
-__exports.readAccessor = readAccessor;
-function applySparse(doc,buffers,a,array,itemSize,Ctor){
-  const s=a.sparse,iv=doc.bufferViews[s.indices.bufferView],vv=doc.bufferViews[s.values.bufferView],ICtor=COMPONENTS[s.indices.componentType];
-  const ib=buffers[iv.buffer],vb=buffers[vv.buffer],iBase=(iv.byteOffset||0)+(s.indices.byteOffset||0),vBase=(vv.byteOffset||0)+(s.values.byteOffset||0);
-  const iView=new DataView(ib),vView=new DataView(vb);for(let n=0;n<s.count;n++){const idx=scalar(iView,iBase+n*ICtor.BYTES_PER_ELEMENT,ICtor),vals=[];for(let k=0;k<itemSize;k++)vals[k]=scalar(vView,vBase+(n*itemSize+k)*Ctor.BYTES_PER_ELEMENT,Ctor);writeTuple(array,idx,vals,itemSize);}
-}
-
-function accessorFloatArray(attr){
-  const src=attr.array;if(src instanceof Float32Array&&!attr.normalized)return src;const out=new Float32Array(src.length),scale=attr.normalized?normalizedScale(src.constructor):1;
-  for(let i=0;i<src.length;i++){let v=src[i]*scale;if(attr.normalized&&(src instanceof Int8Array||src instanceof Int16Array))v=Math.max(-1,v);out[i]=v;}return out;
-}
-
-
-__exports.accessorFloatArray = accessorFloatArray;
-function normalizeWeightsAttribute(attr){
-  const src=accessorFloatArray(attr),out=new Float32Array(src.length),size=attr.itemSize;for(let i=0;i<attr.count;i++){let sum=0;for(let k=0;k<size;k++)sum+=Math.abs(src[i*size+k]||0);if(sum>0){for(let k=0;k<size;k++)out[i*size+k]=(src[i*size+k]||0)/sum;}else out[i*size]=1;}return new BufferAttribute(out,size,false,5126);
-}
-
-
-__exports.normalizeWeightsAttribute = normalizeWeightsAttribute;
-function accessorSummary(doc,index){const a=doc.accessors[index];return `${index} ${a.type} ${componentName(a.componentType)} norm=${!!a.normalized} count=${a.count}`;}
-
-__exports.accessorSummary = accessorSummary;
-return Object.freeze(__exports);
-})();
-/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-parser.js */
-__awtsmoosModule_465 = (() => {
-const __exports = {};
-// B"H
-// Boruch Hashem
-// Blessed is He
-
-/**
- * @file tiny-animation-parser.js
- * @description Decodes GLTF animation channels into stable scalar sampling vessels.
- * The Awtsmoos speaks every motion through measured times and values; Awtsmoos.com
- * preserves each source channel exactly while separating parsing from living playback.
- */
-
-var accessorFloatArray = __awtsmoosModule_466.accessorFloatArray;
-
-const TARGET_SIZE = {
-	rotation: 4,
-	scale: 3,
-	translation: 3,
-	weights: 1
-};
-
-function summarizeAnimations(document) {
-	return (document.animations || []).map((animation, index) => ({
-		channels: (animation.channels || []).length,
-		index,
-		name: animation.name || `animation_${index}`,
-		paths: [...new Set(
-			(animation.channels || [])
-				.map(channel => channel.target?.path)
-				.filter(Boolean)
-		)],
-		samplers: (animation.samplers || []).length
-	}));
-}
-
-
-__exports.summarizeAnimations = summarizeAnimations;
-function parseTinyAnimations(document, accessors, nodeMap) {
-	return (document.animations || []).map((animation, index) => (
-		parseAnimation(animation, index, accessors, nodeMap)
-	));
-}
-
-
-__exports.parseTinyAnimations = parseTinyAnimations;
-function parseAnimation(animation, index, accessors, nodeMap) {
-	const channels = [];
-	let duration = 0;
-	for (const sourceChannel of animation.channels || []) {
-		const channel = parseChannel(
-			sourceChannel,
-			animation.samplers || [],
-			accessors,
-			nodeMap
-		);
-		if (!channel) {
-			continue;
-		}
-		channels.push(channel);
-		duration = Math.max(duration, channel.input[channel.input.length - 1] || 0);
-	}
-	return {
-		channels,
-		duration,
-		index,
-		name: animation.name || `animation_${index}`
-	};
-}
-
-function parseChannel(sourceChannel, samplers, accessors, nodeMap) {
-	const sampler = samplers[sourceChannel.sampler];
-	const target = sourceChannel.target || {};
-	const node = nodeMap.get(target.node);
-	const size = TARGET_SIZE[target.path];
-	if (!sampler || !node || !size) {
-		return null;
-	}
-	return {
-		input: accessorFloatArray(accessors[sampler.input]),
-		interpolation: sampler.interpolation || 'LINEAR',
-		node,
-		nodeIndex: target.node,
-		output: accessorFloatArray(accessors[sampler.output]),
-		path: target.path,
-		size
-	};
-}
-return Object.freeze(__exports);
-})();
-/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-bindings.js */
-__awtsmoosModule_468 = (() => {
-const __exports = {};
-// B"H
-// Boruch Hashem
-// Blessed is He
-
-/**
- * @file tiny-animation-bindings.js
- * @description Remembers only properties truly governed by imported animation channels.
- * The Awtsmoos renews the whole tree, yet Awtsmoos.com restores only the animated vessels,
- * preserving exact bind values without traversing unrelated cottages, garments, or helpers.
- */
-
-function createAnimationBindings(clips) {
-	const bindingByNode = new Map();
-	const bindings = [];
-	for (const clip of clips) {
-		for (const channel of clip.channels || []) {
-			let paths = bindingByNode.get(channel.node);
-			if (!paths) {
-				paths = new Map();
-				bindingByNode.set(channel.node, paths);
-			}
-			if (paths.has(channel.path)) {
-				continue;
-			}
-			const binding = {
-				base: readBaseValue(channel.node, channel.path),
-				node: channel.node,
-				path: channel.path
-			};
-			paths.set(channel.path, binding);
-			bindings.push(binding);
-		}
-	}
-	return bindings;
-}
-
-
-__exports.createAnimationBindings = createAnimationBindings;
-function captureClipPose(clip) {
-	const pose = new Map();
-	for (const channel of clip?.channels || []) {
-		pose.set(channel, readNodeValue(channel.node, channel.path));
-	}
-	return pose;
-}
-
-
-__exports.captureClipPose = captureClipPose;
-function resetAnimationBindings(bindings) {
-	for (const binding of bindings) {
-		writeNodeValue(binding.node, binding.path, binding.base);
-	}
-}
-
-
-__exports.resetAnimationBindings = resetAnimationBindings;
-function writeNodeValue(node, path, values) {
-	if (path === 'translation') {
-		node.position.set(values[0], values[1], values[2]);
-		return;
-	}
-	if (path === 'rotation') {
-		node.quaternion.set(values[0], values[1], values[2], values[3]);
-		return;
-	}
-	if (path === 'scale') {
-		node.scale.set(values[0], values[1], values[2]);
-	}
-}
-
-
-__exports.writeNodeValue = writeNodeValue;
-function readBaseValue(node, path) {
-	const base = node._base;
-	if (path === 'translation') {
-		const value = base?.position || node.position;
-		return [value.x, value.y, value.z];
-	}
-	if (path === 'rotation') {
-		const value = base?.quaternion || node.quaternion;
-		return [value.x, value.y, value.z, value.w];
-	}
-	if (path === 'scale') {
-		const value = base?.scale || node.scale;
-		return [value.x, value.y, value.z];
-	}
-	return [0];
-}
-
-function readNodeValue(node, path) {
-	if (path === 'translation') {
-		return [node.position.x, node.position.y, node.position.z];
-	}
-	if (path === 'rotation') {
-		return [node.quaternion.x, node.quaternion.y, node.quaternion.z, node.quaternion.w];
-	}
-	if (path === 'scale') {
-		return [node.scale.x, node.scale.y, node.scale.z];
-	}
-	return [0];
-}
-return Object.freeze(__exports);
-})();
-/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-quaternion.js */
-__awtsmoosModule_470 = (() => {
-const __exports = {};
-// B"H
-// Boruch Hashem
-// Blessed is He
-
-/**
- * @file tiny-animation-quaternion.js
- * @description Writes one normalized quaternion interpolation into a reusable vessel.
- * The Awtsmoos turns without division; Awtsmoos.com reveals that rotation through a
- * stable destination whose identity survives every sampled instant.
- */
-
-function slerpQuaternionInto(
-	output,
-	ax,
-	ay,
-	az,
-	aw,
-	bx,
-	by,
-	bz,
-	bw,
-	amount
-) {
-	let cosine = ax * bx + ay * by + az * bz + aw * bw;
-	if (cosine < 0) {
-		bx = -bx;
-		by = -by;
-		bz = -bz;
-		bw = -bw;
-		cosine = -cosine;
-	}
-	if (cosine > 0.9995) {
-		return normalizeInto(
-			output,
-			ax + (bx - ax) * amount,
-			ay + (by - ay) * amount,
-			az + (bz - az) * amount,
-			aw + (bw - aw) * amount
-		);
-	}
-	const angle = Math.acos(Math.min(1, Math.max(-1, cosine)));
-	const sine = Math.sin(angle);
-	const leftWeight = Math.sin((1 - amount) * angle) / sine;
-	const rightWeight = Math.sin(amount * angle) / sine;
-	return normalizeInto(
-		output,
-		ax * leftWeight + bx * rightWeight,
-		ay * leftWeight + by * rightWeight,
-		az * leftWeight + bz * rightWeight,
-		aw * leftWeight + bw * rightWeight
-	);
-}
-
-
-__exports.slerpQuaternionInto = slerpQuaternionInto;
-function normalizeInto(output, x, y, z, w) {
-	const scale = 1 / Math.max(1e-12, Math.hypot(x, y, z, w));
-	output[0] = x * scale;
-	output[1] = y * scale;
-	output[2] = z * scale;
-	output[3] = w * scale;
-	return output;
-}
-return Object.freeze(__exports);
-})();
-/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-sampler.js */
-__awtsmoosModule_469 = (() => {
-const __exports = {};
-// B"H
-// Boruch Hashem
-// Blessed is He
-
-/**
- * @file tiny-animation-sampler.js
- * @description Samples scalar animation channels without transient per-frame arrays.
- * The Awtsmoos joins keyframes without waste; Awtsmoos.com lets each bone receive the
- * same measured pose while temporary numbers pass through stable, reusable vessels.
- */
-
-var slerpQuaternionInto = __awtsmoosModule_470.slerpQuaternionInto;
-
-function applyChannelSample(channel, time, fadeFrom, fadeAmount = 1) {
-	const span = resolveSpan(channel, time);
-	if (channel.path === 'rotation') {
-		applyRotation(channel, span, fadeFrom, fadeAmount);
-		return;
-	}
-	if (channel.path === 'translation' || channel.path === 'scale') {
-		applyVector(channel, span, fadeFrom, fadeAmount);
-	}
-}
-
-
-__exports.applyChannelSample = applyChannelSample;
-function applyVector(channel, span, fadeFrom, fadeAmount) {
-	const values = channel._sampleScratch || (channel._sampleScratch = new Float64Array(3));
-	for (let index = 0; index < 3; index += 1) {
-		const sampled = sampleComponent(channel, span, index);
-		values[index] = fadeFrom
-			? fadeFrom[index] + (sampled - fadeFrom[index]) * fadeAmount
-			: sampled;
-	}
-	const target = channel.path === 'translation'
-		? channel.node.position
-		: channel.node.scale;
-	target.set(values[0], values[1], values[2]);
-}
-
-function applyRotation(channel, span, fadeFrom, fadeAmount) {
-	const output = channel._sampleScratch || (channel._sampleScratch = new Float64Array(4));
-	const left = span.left * channel.size;
-	const right = span.right * channel.size;
-	const source = channel.output;
-	if (span.step) {
-		for (let index = 0; index < 4; index += 1) {
-			output[index] = source[left + index] ?? (index === 3 ? 1 : 0);
-		}
-	} else {
-		slerpQuaternionInto(output,
-			source[left] || 0, source[left + 1] || 0,
-			source[left + 2] || 0, source[left + 3] ?? 1,
-			source[right] || 0, source[right + 1] || 0,
-			source[right + 2] || 0, source[right + 3] ?? 1,
-			span.amount);
-	}
-	if (fadeFrom) {
-		slerpQuaternionInto(output, ...fadeFrom, ...output, fadeAmount);
-	}
-	channel.node.quaternion.set(output[0], output[1], output[2], output[3]);
-}
-
-function sampleComponent(channel, span, componentIndex) {
-	const left = span.left * channel.size + componentIndex;
-	const valueA = channel.output[left] ?? 0;
-	if (span.step) return valueA;
-	const right = span.right * channel.size + componentIndex;
-	const valueB = channel.output[right] ?? valueA;
-	return valueA + (valueB - valueA) * span.amount;
-}
-
-function resolveSpan(channel, time) {
-	const times = channel.input;
-	const span = channel._sampleSpan || (channel._sampleSpan = {});
-	const last = times.length - 1;
-	if (last <= 0 || time <= times[0]) return assignSpan(span, 0, 0, 0, true);
-	if (time >= times[last]) return assignSpan(span, last, last, 0, true);
-	let low = 0;
-	let high = last;
-	while (high - low > 1) {
-		const middle = (low + high) >> 1;
-		if (times[middle] <= time) low = middle;
-		else high = middle;
-	}
-	const amount = (time - times[low]) / Math.max(1e-8, times[high] - times[low]);
-	return assignSpan(span, low, high, amount, channel.interpolation === 'STEP');
-}
-
-function assignSpan(span, left, right, amount, step) {
-	span.left = left;
-	span.right = right;
-	span.amount = amount;
-	span.step = step || left === right;
-	return span;
-}
-return Object.freeze(__exports);
-})();
-/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-player.js */
-__awtsmoosModule_467 = (() => {
-const __exports = {};
-// B"H
-// Boruch Hashem
-// Blessed is He
-
-/**
- * @file tiny-animation-player.js
- * @description Advances imported clips through exact first-play, looping, and crossfade laws.
- * The Awtsmoos renews a living pose from the first instant; Awtsmoos.com never blends the first
- * idle from bind pose with zero weight, yet preserves gentle transitions after motion is alive.
- */
-
-var captureClipPose = __awtsmoosModule_468.captureClipPose;
-var createAnimationBindings = __awtsmoosModule_468.createAnimationBindings;
-var resetAnimationBindings = __awtsmoosModule_468.resetAnimationBindings;
-var applyChannelSample = __awtsmoosModule_469.applyChannelSample;
-
-class TinyAnimationPlayer {
-	constructor(root, clips = []) {
-		this.root = root;
-		this.clips = clips;
-		this.bindings = createAnimationBindings(clips);
-		this.currentIndex = clips.length ? 0 : -1;
-		this.time = 0;
-		this.playing = true;
-		this.bindPose = false;
-		this.lastApplied = null;
-		this.fadeDuration = 0.18;
-		this.fadeTime = 0;
-		this.fadePose = null;
-	}
-
-	get current() {
-		return this.clips[this.currentIndex] || null;
-	}
-
-	get names() {
-		return this.clips.map(clip => clip.name);
-	}
-
-	play(indexOrName) {
-		const index = resolveClipIndex(this.clips, indexOrName);
-		if (index < 0) return this.current;
-		const target = this.clips[index];
-		const alreadyApplied = this.lastApplied === target?.name;
-		if (index === this.currentIndex && !this.bindPose && alreadyApplied) {
-			this.playing = true;
-			return this.current;
-		}
-		const hasAppliedPose = this.lastApplied !== null && this.lastApplied !== 'bind';
-		this.fadePose = hasAppliedPose ? captureClipPose(target) : null;
-		this.fadeTime = hasAppliedPose ? 0 : this.fadeDuration;
-		this.currentIndex = index;
-		this.time = 0;
-		this.bindPose = false;
-		this.playing = true;
-		this.apply(0);
-		return this.current;
-	}
-
-	next() {
-		return this.play((this.currentIndex + 1) % Math.max(1, this.clips.length));
-	}
-
-	setBindPose(enabled) {
-		this.bindPose = Boolean(enabled);
-		this.time = 0;
-		this.fadePose = null;
-		resetAnimationBindings(this.bindings);
-		this.lastApplied = this.bindPose ? 'bind' : null;
-	}
-
-	update(deltaTime) {
-		if (this.bindPose || !this.current) return;
-		const delta = Math.max(0, Number(deltaTime) || 0);
-		if (this.playing) this.time += delta;
-		if (this.fadePose) this.fadeTime += delta;
-		const duration = this.current.duration || 1;
-		this.apply(duration ? this.time % duration : 0);
-	}
-
-	apply(time) {
-		const clip = this.current;
-		if (!clip) return;
-		resetAnimationBindings(this.bindings);
-		const fadeAmount = this.fadePose
-			? smooth(Math.min(1, this.fadeTime / Math.max(0.001, this.fadeDuration)))
-			: 1;
-		for (const channel of clip.channels) {
-			applyChannelSample(channel, time, this.fadePose?.get(channel), fadeAmount);
-		}
-		if (this.fadePose && this.fadeTime >= this.fadeDuration) this.fadePose = null;
-		this.lastApplied = clip.name;
-	}
-
-	diagnostics() {
-		const clip = this.current;
-		return {
-			bindPose: this.bindPose,
-			channels: clip?.channels.length || 0,
-			clipCount: this.clips.length,
-			currentAnimation: clip?.name || null,
-			currentIndex: this.currentIndex,
-			duration: Number((clip?.duration || 0).toFixed(3)),
-			fade: this.fadePose
-				? Number((1 - this.fadeTime / this.fadeDuration).toFixed(3))
-				: 0,
-			playing: this.playing,
-			time: Number(this.time.toFixed(3))
-		};
-	}
-}
-
-
-__exports.TinyAnimationPlayer = TinyAnimationPlayer;
-function resolveClipIndex(clips, indexOrName) {
-	return typeof indexOrName === 'number'
-		? indexOrName
-		: clips.findIndex(clip => clip.name === indexOrName);
-}
-
-function smooth(amount) {
-	return amount * amount * (3 - 2 * amount);
-}
-return Object.freeze(__exports);
-})();
-/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-animation.js */
-__awtsmoosModule_464 = (() => {
-const __exports = {};
-// B"H
-// Boruch Hashem
-// Blessed is He
-
-/**
- * @file tiny-animation.js
- * @description Stable public doorway to parsed clips and allocation-free playback.
- * The Awtsmoos unites source time with visible motion; Awtsmoos.com keeps parsing,
- * sampling, bindings, and playback in small vessels behind one familiar import.
- */
-
-__exports.parseTinyAnimations = __awtsmoosModule_465.parseTinyAnimations;
-__exports.summarizeAnimations = __awtsmoosModule_465.summarizeAnimations;
-__exports.TinyAnimationPlayer = __awtsmoosModule_467.TinyAnimationPlayer;
-return Object.freeze(__exports);
-})();
-/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-instance.js */
-__awtsmoosModule_472 = (() => {
-const __exports = {};
-// B"H
-// Boruch Hashem
-// Blessed is He
-/**
- * @file tiny-gltf-instance.js
- * @description Clones transforms and skeletons while sharing immutable GLTF resources.
- * The Awtsmoos renews every actor as a distinct motion vessel; Awtsmoos.com shares
- * geometry, accessors, textures, and palette materials without sharing mutable bones.
- */
-
-var parseTinyAnimations = __awtsmoosModule_464.parseTinyAnimations;
-var copyMat4 = __awtsmoosModule_20.copyMat4;
-var Bone = __awtsmoosModule_18.Bone;
-var Group = __awtsmoosModule_18.Group;
-var Mesh = __awtsmoosModule_18.Mesh;
-var bindTinySkeletons = __awtsmoosModule_228.bindTinySkeletons;
-
-function instantiateTinyGltf(template, options = {}) {
-	if (!template?.scene) throw new Error('A parsed GLTF template is required.');
-	const nodeMap = new Map();
-	const resources = {
-		geometries: new Set(),
-		materials: new Set()
-	};
-	const scene = cloneNode(
-		template.scene,
-		nodeMap,
-		resources,
-		options.materialResolver
-	);
-	const sourceData = template.scene.userData || {};
-	const document = template.json || sourceData.gltf || {};
-	const accessors = sourceData.accessors || [];
-	const sourceNodes = sourceData.allNodes || [];
-	const allNodes = sourceNodes.map((_, index) => nodeMap.get(index) || null);
-	Object.assign(scene.userData, {
-		accessors,
-		allNodes,
-		gltf: document,
-		instanceLabel: options.label || 'instance',
-		materials: sourceData.materials || [],
-		nodeMap,
-		sharedSourceUrl: sourceData.sourceUrl || null,
-		skins: document.skins || []
-	});
-	const skinStats = bindTinySkeletons(scene, document, accessors);
-	const animations = parseTinyAnimations(document, accessors, nodeMap);
-	scene.userData.animations = animations;
-	scene.name = `${options.label || 'instance'}_shared_gltf_scene`;
-	return {
-		animations,
-		experimental: true,
-		json: document,
-		scene,
-		stats: {
-			...(template.stats || {}),
-			...skinStats,
-			instanceLabel: options.label || 'instance',
-			sharedGeometries: resources.geometries.size,
-			sharedMaterials: resources.materials.size,
-			sharedTemplate: true
-		}
-	};
-}
-
-
-__exports.instantiateTinyGltf = instantiateTinyGltf;
-function cloneNode(source, nodeMap, resources, materialResolver) {
-	const target = createNode(source, resources, materialResolver);
-	copyNodeState(source, target);
-	const nodeIndex = source.userData?.nodeIndex;
-	if (Number.isInteger(nodeIndex)) nodeMap.set(nodeIndex, target);
-	for (const child of source.children || []) {
-		target.add(cloneNode(child, nodeMap, resources, materialResolver));
-	}
-	target.setBaseTransform();
-	return target;
-}
-
-function createNode(source, resources, materialResolver) {
-	if (source.isBone) return new Bone();
-	if (!source.isMesh) return new Group();
-	resources.geometries.add(source.geometry);
-	collectMaterials(resources.materials, source.material);
-	const material = resolveMaterial(
-		source.material,
-		source,
-		materialResolver
-	);
-	const mesh = new Mesh(source.geometry, material);
-	mesh.skinIndex = source.skinIndex;
-	mesh.primitiveMode = source.primitiveMode;
-	mesh.nodeIndex = source.nodeIndex;
-	return mesh;
-}
-
-function copyNodeState(source, target) {
-	target.name = source.name;
-	target.visible = source.visible !== false;
-	target.position.copy(source.position);
-	target.quaternion.copy(source.quaternion);
-	target.scale.copy(source.scale);
-	target.matrix = source.matrix ? copyMat4(source.matrix) : null;
-	target.userData = { ...(source.userData || {}) };
-}
-
-function resolveMaterial(material, node, resolver) {
-	if (Array.isArray(material)) {
-		return material.map(item => resolver?.(item, node) || item);
-	}
-	return resolver?.(material, node) || material;
-}
-
-function collectMaterials(target, material) {
-	for (const item of Array.isArray(material) ? material : [material]) {
-		if (item) target.add(item);
-	}
-}
-return Object.freeze(__exports);
-})();
-/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-materials.js */
-__awtsmoosModule_475 = (() => {
-const __exports = {};
-// B"H
-var MeshStandardMaterial = __awtsmoosModule_18.MeshStandardMaterial;
-
-/** GLTF material vessels: no more brown default; linear colors receive display breath. */
-const DEFAULT_COLOR = [1, 1, 1, 1];
-
-async function createTinyMaterials(doc, buffers, baseUrl) {
-  const images = await loadImages(doc, buffers, baseUrl);
-  const materials = (doc.materials || []).map((def, index) => materialFromDef(doc, def, index, images));
-  return { materials, images, diagnostics: materialDiagnostics(doc, materials, images) };
-}
-
-
-__exports.createTinyMaterials = createTinyMaterials;
-function materialFromDef(doc, def = {}, index = 0, images = []) {
-  const pbr = def.pbrMetallicRoughness || {}, factor = pbr.baseColorFactor || DEFAULT_COLOR;
-  const tex = textureImage(doc, pbr.baseColorTexture, images);
-  const color = tex ? factor : displayColor(factor);
-  const mat = new MeshStandardMaterial({ name: def.name || `material_${index}`, color, opacity: factor[3] ?? 1, alphaMode: def.alphaMode || 'OPAQUE', alphaCutoff: def.alphaCutoff ?? 0.5, transparent: (def.alphaMode || 'OPAQUE') === 'BLEND' || (factor[3] ?? 1) < 1, doubleSided: def.doubleSided === true });
-  Object.assign(mat, { metallicFactor: pbr.metallicFactor ?? 1, roughnessFactor: pbr.roughnessFactor ?? 1, baseColorFactor: factor, sourceColorSpace: tex ? 'texture+sRGB-factor' : 'gltf-factor-linear-to-display', mapImage: tex?.image || null, textureUrl: tex?.url || null, mapRepeat: tex?.repeat || [1, 1], anisotropy: true });
-  return mat;
-}
-
-function defaultTinyMaterial() {
-  const mat = new MeshStandardMaterial({ name: 'material_default', color: DEFAULT_COLOR, opacity: 1, alphaMode: 'OPAQUE' });
-  Object.assign(mat, { sourceColorSpace: 'neutral-default', mapRepeat: [1, 1], anisotropy: true });
-  return mat;
-}
-
-
-__exports.defaultTinyMaterial = defaultTinyMaterial;
-function textureImage(doc, info, images) {
-  if (!info) return null; const tex = doc.textures?.[info.index]; if (!tex) return null;
-  const image = images[tex.source]; if (!image) return null; const sampler = doc.samplers?.[tex.sampler] || {};
-  return { image, url: image.dataset?.url || image.src || `image_${tex.source}`, repeat: sampler.wrapS === 33071 || sampler.wrapT === 33071 ? [1, 1] : [1, 1] };
-}
-
-async function loadImages(doc, buffers, baseUrl) {
-  return await Promise.all((doc.images || []).map((image, index) => loadOneImage(doc, buffers, baseUrl, image, index)));
-}
-
-async function loadOneImage(doc, buffers, baseUrl, image, index) {
-  if (image.uri) return await loadUriImage(new URL(image.uri, baseUrl).href, index);
-  if (image.bufferView !== undefined) {
-    const bv = doc.bufferViews[image.bufferView], buffer = buffers[bv.buffer];
-    const bytes = buffer.slice(bv.byteOffset || 0, (bv.byteOffset || 0) + bv.byteLength);
-    const blob = new Blob([bytes], { type: image.mimeType || 'image/png' });
-    const url = URL.createObjectURL(blob);
-    try { return await loadUriImage(url, index, `glb-bufferView:${image.bufferView}`); }
-    finally { setTimeout(() => URL.revokeObjectURL(url), 2000); }
-  }
-  return null;
-}
-
-function loadUriImage(src, index, label = src) {
-  return new Promise(resolve => { const img = new Image(); let done = false; const finish = value => { if (!done) { done = true; resolve(value); } }; img.crossOrigin = src.startsWith('blob:') ? null : 'anonymous'; img.onload = () => { img.dataset.url = label; img.dataset.index = String(index); finish(img); }; img.onerror = () => finish(null); img.src = src; });
-}
-
-function displayColor(color) { return [toSrgb(color[0] ?? 1), toSrgb(color[1] ?? 1), toSrgb(color[2] ?? 1), color[3] ?? 1]; }
-function toSrgb(v) { v = Math.max(0, Math.min(1, v)); return v <= 0.0031308 ? v * 12.92 : 1.055 * Math.pow(v, 1 / 2.4) - 0.055; }
-
-function materialDiagnostics(doc, materials, images) {
-  return { count: materials.length, images: images.filter(Boolean).length, textures: (doc.textures || []).length, defaultColor: DEFAULT_COLOR, colorsConverted: true, entries: materials.map((m, i) => ({ i, name: m.name, color: m.color, raw: m.baseColorFactor, hasMap: !!m.mapImage, textureSize: m.mapImage ? `${m.mapImage.naturalWidth}x${m.mapImage.naturalHeight}` : null, sourceColorSpace: m.sourceColorSpace })).slice(0, 64) };
-}
-return Object.freeze(__exports);
-})();
-/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-loader.js */
-__awtsmoosModule_474 = (() => {
-const __exports = {};
-// B"H
-var Bone = __awtsmoosModule_18.Bone;
-var BufferGeometry = __awtsmoosModule_18.BufferGeometry;
-var Group = __awtsmoosModule_18.Group;
-var Mesh = __awtsmoosModule_18.Mesh;
-var mat4FromArray = __awtsmoosModule_20.mat4FromArray;
-var accessorSummary = __awtsmoosModule_466.accessorSummary;
-var normalizeWeightsAttribute = __awtsmoosModule_466.normalizeWeightsAttribute;
-var readAccessor = __awtsmoosModule_466.readAccessor;
-var parseTinyAnimations = __awtsmoosModule_464.parseTinyAnimations;
-var summarizeAnimations = __awtsmoosModule_464.summarizeAnimations;
-var bindTinySkeletons = __awtsmoosModule_228.bindTinySkeletons;
-var createTinyMaterials = __awtsmoosModule_475.createTinyMaterials;
-var defaultTinyMaterial = __awtsmoosModule_475.defaultTinyMaterial;
-
-/** Loader: GLB geometry, skins, animations, and glTF material color breath. */
-const GLB_MAGIC = 0x46546c67, JSON_CHUNK = 0x4e4f534a, BIN_CHUNK = 0x004e4942;
-const ATTR = { POSITION: 'position', NORMAL: 'normal', TEXCOORD_0: 'uv', COLOR_0: 'color', JOINTS_0: 'joints', WEIGHTS_0: 'weights' };
-async function fetchBuffer(url) { const r = await fetch(url, { mode: 'cors' }); if (!r.ok) throw new Error(`HTTP ${r.status} for ${url}`); return await r.arrayBuffer(); }
-function dataUri(uri) { const raw = atob(uri.split(',')[1] || ''), out = new Uint8Array(raw.length); for (let i = 0; i < raw.length; i++) out[i] = raw.charCodeAt(i); return out.buffer; }
-async function loadBuffers(doc, baseUrl, bin) { return await Promise.all((doc.buffers || []).map(b => b.uri ? (b.uri.startsWith('data:') ? dataUri(b.uri) : fetchBuffer(new URL(b.uri, baseUrl).href)) : bin)); }
-function parseGlb(buffer) { const view = new DataView(buffer); if (view.getUint32(0, true) !== GLB_MAGIC) throw new Error('Not a GLB container'); let json = null, bin = null, chunks = []; for (let off = 12; off + 8 <= buffer.byteLength;) { const len = view.getUint32(off, true), type = view.getUint32(off + 4, true), bytes = buffer.slice(off + 8, off + 8 + len); chunks.push({ type, byteOffset: off + 8, byteLength: len }); if (type === JSON_CHUNK) json = JSON.parse(new TextDecoder().decode(bytes)); if (type === BIN_CHUNK) bin = bytes; off += 8 + len; } if (!json) throw new Error('GLB missing JSON chunk'); return { json, bin, chunks }; }
-function markBones(doc) { const bones = new Set(); for (const s of doc.skins || []) for (const j of s.joints || []) bones.add(j); return bones; }
-function makeAccessorGetter(doc, buffers, cache) { return i => cache[i] || (cache[i] = readAccessor(doc, buffers, i)); }
-function warmAnimationAccessors(doc, getAccessor) { for (const a of doc.animations || []) for (const s of a.samplers || []) { if (s.input !== undefined) getAccessor(s.input); if (s.output !== undefined) getAccessor(s.output); } }
-function primitiveMesh(materials, getAccessor, primitive, meshDef, nodeDef, primitiveIndex) { const geometry = new BufferGeometry(); geometry.mode = primitive.mode ?? 4; geometry.userData = { primitive, primitiveIndex }; for (const [semantic, accessorIndex] of Object.entries(primitive.attributes || {})) { const key = ATTR[semantic]; if (!key) continue; let attribute = getAccessor(accessorIndex); if (key === 'weights') attribute = normalizeWeightsAttribute(attribute); geometry.setAttribute(key, attribute); } if (primitive.indices !== undefined) geometry.setIndex(getAccessor(primitive.indices)); const mesh = new Mesh(geometry, primitive.material !== undefined ? materials[primitive.material] : defaultTinyMaterial()); mesh.name = meshDef.name || nodeDef.name || `mesh_${nodeDef.mesh}_${primitiveIndex}`; mesh.skinIndex = nodeDef.skin ?? null; mesh.primitiveMode = geometry.mode; mesh.userData = { meshDef, primitive, primitiveIndex }; return mesh; }
-function applyNodeTransform(obj, nodeDef, index) { obj.userData.nodeIndex = index; obj.userData.gltfNode = nodeDef; if (nodeDef.name) { obj.name = nodeDef.name; obj.userData.name = nodeDef.name; } if (nodeDef.matrix) obj.matrix = mat4FromArray(nodeDef.matrix); else { if (nodeDef.translation) obj.position.fromArray(nodeDef.translation); if (nodeDef.rotation) obj.quaternion.fromArray(nodeDef.rotation); if (nodeDef.scale) obj.scale.fromArray(nodeDef.scale); } obj.setBaseTransform(); }
-function buildNodes(doc, materials, getAccessor, bones, stats) { const nodeMap = new Map(), nodes = []; for (let i = 0; i < (doc.nodes || []).length; i++) { const def = doc.nodes[i] || {}, node = bones.has(i) ? new Bone() : new Group(); applyNodeTransform(node, def, i); nodes[i] = node; nodeMap.set(i, node); stats.nodes++; if (def.skin !== undefined) stats.skinnedNodes++; } for (let i = 0; i < nodes.length; i++) { const def = doc.nodes[i] || {}, node = nodes[i], meshDef = doc.meshes?.[def.mesh]; if (!meshDef) continue; for (let p = 0; p < (meshDef.primitives || []).length; p++) { const mesh = primitiveMesh(materials, getAccessor, meshDef.primitives[p], meshDef, def, p); mesh.nodeIndex = i; mesh.setBaseTransform(); node.add(mesh); stats.meshes++; stats.primitives++; if (mesh.skinIndex !== null && mesh.geometry.attributes.joints && mesh.geometry.attributes.weights) stats.skinnedPrimitives++; } } for (let i = 0; i < nodes.length; i++) for (const childIndex of doc.nodes[i]?.children || []) nodes[i].add(nodes[childIndex]); return { nodes, nodeMap }; }
-function skinDetails(doc) { return (doc.skins || []).map((s, index) => ({ index, name: s.name || null, joints: (s.joints || []).length, skeleton: s.skeleton ?? null, hasInverseBind: s.inverseBindMatrices !== undefined, inverseBindAccessor: s.inverseBindMatrices })); }
-function accessorDetails(doc) { const out = []; for (const m of doc.meshes || []) for (const p of m.primitives || []) for (const [sem, i] of Object.entries(p.attributes || {})) if (sem === 'JOINTS_0' || sem === 'WEIGHTS_0') out.push(`${sem}: ${accessorSummary(doc, i)}`); return [...new Set(out)].slice(0, 24); }
-async function loadTinyGltf(url) { const started = performance.now(), buffer = await fetchBuffer(url), glb = parseGlb(buffer), doc = glb.json, buffers = await loadBuffers(doc, url, glb.bin), accessors = [], getAccessor = makeAccessorGetter(doc, buffers, accessors), root = new Group(), bones = markBones(doc), materialPack = await createTinyMaterials(doc, buffers, url); root.name = 'AwtsmoosTinyGltfRoot'; const stats = { nodes: 0, meshes: 0, primitives: 0, materials: (doc.materials || []).length, images: (doc.images || []).length, textures: (doc.textures || []).length, animations: (doc.animations || []).length, skins: (doc.skins || []).length, skinnedNodes: 0, skinnedPrimitives: 0, bytes: buffer.byteLength, chunks: glb.chunks, skinDetails: skinDetails(doc), animationDetails: summarizeAnimations(doc), accessorDetails: accessorDetails(doc), materialDetails: materialPack.diagnostics };
-  for (let i = 0; i < (doc.accessors || []).length; i++) if (doc.accessors[i].type === 'MAT4' || doc.accessors[i].type === 'SCALAR') getAccessor(i); warmAnimationAccessors(doc, getAccessor); const built = buildNodes(doc, materialPack.materials, getAccessor, bones, stats), scene = doc.scenes?.[doc.scene || 0] || doc.scenes?.[0] || { nodes: built.nodes.map((_, i) => i) }; for (const nodeIndex of scene.nodes || []) root.add(built.nodes[nodeIndex]); Object.assign(root.userData, { gltf: doc, nodeMap: built.nodeMap, allNodes: built.nodes, skins: doc.skins || [], accessors, sourceUrl: url, materials: materialPack.materials, materialDetails: materialPack.diagnostics }); const clips = parseTinyAnimations(doc, accessors, built.nodeMap); Object.assign(stats, bindTinySkeletons(root, doc, accessors)); stats.joints = (doc.skins || []).reduce((n, s) => n + (s.joints?.length || 0), 0); stats.skeletonName = doc.skins?.[0]?.name || null; stats.hasInverseBind = !!doc.skins?.[0]?.inverseBindMatrices; stats.clips = clips.map(c => ({ index: c.index, name: c.name, duration: c.duration, channels: c.channels.length })); stats.ms = Math.round(performance.now() - started); root.userData.animations = clips; return { scene: root, json: doc, stats, animations: clips, experimental: true }; }
-
-__exports.loadTinyGltf = loadTinyGltf;
-const loadTinyGlb = loadTinyGltf;
-__exports.loadTinyGlb = loadTinyGlb;
-
-const __awtsmoosDefault_1ep8c8g = { loadTinyGltf, loadTinyGlb };
-__exports.default = __awtsmoosDefault_1ep8c8g;
-return Object.freeze(__exports);
-})();
-/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelResponseCache.js */
-__awtsmoosModule_477 = (() => {
-const __exports = {};
-// B"H
-// Boruch Hashem
-// Blessed is He
-
-const REMOTE_MODEL_CACHE_NAME = 'awtsmoos-mitzvah-world-remote-models-v1';
-__exports.REMOTE_MODEL_CACHE_NAME = REMOTE_MODEL_CACHE_NAME;
-
-
-/**
- * @file RemoteModelResponseCache.js
- * @description Persists verified GLBs and retries bounded transient storage throttling.
- * The Awtsmoos sends one measured form and lets the browser remember its vessel;
- * Awtsmoos.com honors Retry-After without multiplying requests or disguising permanent failure.
- */
-
-const RETRYABLE_STATUS = new Set([429, 502, 503, 504]);
-
-async function cachedModelResponse(url, options = {}) {
-	const fetchFunction = options.fetchFunction || globalThis.fetch;
-	if (typeof fetchFunction !== 'function') throw new Error('Remote model fetch is unavailable.');
-	const cacheStorage = Object.hasOwn(options, 'cacheStorage')
-		? options.cacheStorage
-		: globalThis.caches;
-	const cache = await openCache(cacheStorage, options.cacheName);
-	const cached = await cache?.match?.(url);
-	if (cached) return { response: cached, source: 'cache-storage' };
-	const response = await fetchWithRetry(url, fetchFunction, options);
-	if (response?.ok && isGlbResponse(response)) await cache?.put?.(url, response.clone());
-	return { response, source: 'network' };
-}
-
-
-__exports.cachedModelResponse = cachedModelResponse;
-function isGlbResponse(response) {
-	const type = response?.headers?.get?.('content-type')?.toLowerCase() || '';
-	return type === 'model/gltf-binary' || type === 'application/octet-stream';
-}
-
-
-__exports.isGlbResponse = isGlbResponse;
-async function fetchWithRetry(url, fetchFunction, options) {
-	const retries = nonnegative(options.transientRetries, 2);
-	for (let attempt = 0; attempt <= retries; attempt += 1) {
-		assertNotAborted(options.signal);
-		const response = await fetchFunction(url, fetchOptions(options.signal));
-		if (!RETRYABLE_STATUS.has(response?.status) || attempt === retries) return response;
-		const delayMs = retryDelay(response, options, attempt);
-		options.onRetry?.({ attempt: attempt + 1, delayMs, status: response.status, url });
-		await waitForRetry(delayMs, options);
-	}
-	throw new Error('Remote model retry loop ended unexpectedly.');
-}
-
-function fetchOptions(signal) {
-	return {
-		cache: 'force-cache',
-		credentials: 'omit',
-		mode: 'cors',
-		signal
-	};
-}
-
-function retryDelay(response, options, attempt) {
-	const retryAfter = String(response?.headers?.get?.('retry-after') || '').trim();
-	const seconds = Number(retryAfter);
-	const requested = Number.isFinite(seconds) && seconds >= 0
-		? seconds * 1000
-		: Math.min(30000, 1000 * (2 ** attempt));
-	const maximum = positive(options.maximumRetryAfterMs, 65000);
-	return Math.min(maximum, Math.max(0, Math.round(requested)));
-}
-
-function waitForRetry(milliseconds, options) {
-	const waitFunction = options.waitFunction || defaultWait;
-	return waitFunction(milliseconds, options.signal);
-}
-
-function defaultWait(milliseconds, signal) {
-	return new Promise((resolve, reject) => {
-		const timer = setTimeout(resolve, milliseconds);
-		signal?.addEventListener?.('abort', () => {
-			clearTimeout(timer);
-			reject(signal.reason || new DOMException('Aborted', 'AbortError'));
-		}, { once: true });
-	});
-}
-
-function assertNotAborted(signal) {
-	if (signal?.aborted) throw signal.reason || new DOMException('Aborted', 'AbortError');
-}
-
-async function openCache(cacheStorage, cacheName = REMOTE_MODEL_CACHE_NAME) {
-	if (!cacheStorage || typeof cacheStorage.open !== 'function') return null;
-	try {
-		return await cacheStorage.open(cacheName);
-	} catch {
-		return null;
-	}
-}
-
-function nonnegative(value, fallback) {
-	const number = Number(value);
-	return Number.isFinite(number) && number >= 0 ? Math.floor(number) : fallback;
-}
-
-function positive(value, fallback) {
-	const number = Number(value);
-	return Number.isFinite(number) && number > 0 ? number : fallback;
-}
-return Object.freeze(__exports);
-})();
-/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProgressiveAssetFetch.js */
-__awtsmoosModule_476 = (() => {
-const __exports = {};
-// B"H
-// Boruch Hashem
-// Blessed is He
-
-/**
- * @file ProgressiveAssetFetch.js
- * @description Streams verified local GLBs first and falls back to their immutable remote mirror.
- * The Awtsmoos draws every measured byte through the nearest honest gate;
- * Awtsmoos.com remembers each vessel and reveals the mirror only when local service must wait.
- */
-
-var isTrustedModelUrl = __awtsmoosModule_176.isTrustedModelUrl;
-var modelUrlCandidates = __awtsmoosModule_176.modelUrlCandidates;
-var cachedModelResponse = __awtsmoosModule_477.cachedModelResponse;
-
-const GLB_MAGIC = 0x46546c67;
-const GLB_HEADER_BYTES = 12;
-
-async function fetchAssetBuffer(url, onProgress = () => {}, dependencies = {}) {
-	if (!isTrustedModelUrl(url)) throw new Error(`Untrusted model URL: ${url}`);
-	const candidates = modelUrlCandidates(url);
-	const failures = [];
-	for (const candidate of candidates) {
-		try {
-			return await fetchCandidate(candidate, onProgress, dependencies);
-		} catch (error) {
-			failures.push(`${candidate}: ${error.message}`);
-		}
-	}
-	throw new Error(`Every verified model source failed. ${failures.join(' | ')}`);
-}
-
-
-__exports.fetchAssetBuffer = fetchAssetBuffer;
-async function fetchCandidate(url, onProgress, dependencies) {
-	const cached = await cachedModelResponse(url, dependencies);
-	const response = cached.response;
-	if (!response.ok) throw new Error(`HTTP ${response.status}`);
-	let total = Number(response.headers.get('content-length')) || 0;
-	const reader = response.body?.getReader?.();
-	if (!reader) {
-		const buffer = await response.arrayBuffer();
-		total = total || glbLength(new Uint8Array(buffer)) || buffer.byteLength;
-		report(onProgress, buffer.byteLength, total, cached.source, url);
-		return receipt(response, buffer, cached.source, url);
-	}
-	const chunks = [];
-	let loaded = 0;
-	report(onProgress, loaded, total, cached.source, url);
-	while (true) {
-		const { done, value } = await reader.read();
-		if (done) break;
-		chunks.push(value);
-		loaded += value.byteLength;
-		if (!total && loaded >= GLB_HEADER_BYTES) total = glbLength(firstBytes(chunks, GLB_HEADER_BYTES));
-		report(onProgress, loaded, total, cached.source, url);
-	}
-	const bytes = mergeChunks(chunks, loaded);
-	total ||= bytes.byteLength;
-	report(onProgress, loaded, total, cached.source, url);
-	return receipt(response, bytes.buffer, cached.source, url);
-}
-
-function glbLength(bytes) {
-	if (bytes.byteLength < GLB_HEADER_BYTES) return 0;
-	const view = new DataView(bytes.buffer, bytes.byteOffset, GLB_HEADER_BYTES);
-	return view.getUint32(0, true) === GLB_MAGIC ? view.getUint32(8, true) : 0;
-}
-
-function firstBytes(chunks, count) {
-	const bytes = new Uint8Array(count);
-	let offset = 0;
-	for (const chunk of chunks) {
-		const amount = Math.min(chunk.byteLength, count - offset);
-		bytes.set(chunk.subarray(0, amount), offset);
-		offset += amount;
-		if (offset === count) break;
-	}
-	return bytes;
-}
-
-function mergeChunks(chunks, loaded) {
-	const bytes = new Uint8Array(loaded);
-	let offset = 0;
-	for (const chunk of chunks) {
-		bytes.set(chunk, offset);
-		offset += chunk.byteLength;
-	}
-	return bytes;
-}
-
-function receipt(response, buffer, cacheSource, resolvedUrl) {
-	return {
-		buffer,
-		cacheSource,
-		contentType: response.headers.get('content-type') || 'model/gltf-binary',
-		resolvedUrl
-	};
-}
-
-function report(onProgress, loaded, total, cacheSource, resolvedUrl) {
-	onProgress({ cacheSource, lengthComputable: total > 0, loaded, phase: 'download', progress: total > 0 ? loaded / total : null, resolvedUrl, total });
-}
-
-__exports.default = fetchAssetBuffer;
-return Object.freeze(__exports);
-})();
-/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/ModelAssetTemplateCache.js */
-__awtsmoosModule_473 = (() => {
-const __exports = {};
-// B"H
-// Boruch Hashem
-// Blessed is He
-
-/**
- * @file ModelAssetTemplateCache.js
- * @description Owns trusted GLB template promises, parsing, eviction, and source receipts.
- * The Awtsmoos gives one measured garment to many independent forms;
- * Awtsmoos.com revokes temporary doors and evicts every promise that storms.
- */
-
-var loadTinyGltf = __awtsmoosModule_474.loadTinyGltf;
-var fetchAssetBuffer = __awtsmoosModule_476.fetchAssetBuffer;
-var isTrustedModelUrl = __awtsmoosModule_176.isTrustedModelUrl;
-
-const templatePromises = new Map();
-let templateLoads = 0;
-
-async function loadCachedModelTemplate(url, options = {}) {
-	const resourceUrl = trustedModelUrl(url);
-	const wasCached = templatePromises.has(resourceUrl);
-	if (!wasCached) {
-		templateLoads += 1;
-		const promise = createTemplate(resourceUrl, options).catch(error => {
-			templatePromises.delete(resourceUrl);
-			throw modelLoadError(resourceUrl, error);
-		});
-		templatePromises.set(resourceUrl, promise);
-	}
-	const template = await templatePromises.get(resourceUrl);
-	if (wasCached) options.onProgress?.({ cached: true, phase: 'ready', progress: 1 });
-	return { resourceUrl, template };
-}
-
-
-__exports.loadCachedModelTemplate = loadCachedModelTemplate;
-function modelTemplateCacheStats() {
-	return {
-		templateLoads,
-		templatesCached: templatePromises.size
-	};
-}
-
-
-__exports.modelTemplateCacheStats = modelTemplateCacheStats;
-function clearModelTemplateCache() {
-	templatePromises.clear();
-	templateLoads = 0;
-}
-
-
-__exports.clearModelTemplateCache = clearModelTemplateCache;
-function trustedModelResourceUrl(url) {
-	return trustedModelUrl(url);
-}
-
-
-__exports.trustedModelResourceUrl = trustedModelResourceUrl;
-async function createTemplate(resourceUrl, options) {
-	const asset = await fetchAssetBuffer(resourceUrl, options.onProgress, options);
-	options.onProgress?.({
-		cacheSource: asset.cacheSource,
-		loaded: asset.buffer.byteLength,
-		phase: 'parsing',
-		progress: 1,
-		resolvedUrl: asset.resolvedUrl,
-		total: asset.buffer.byteLength
-	});
-	const objectUrl = URL.createObjectURL(new Blob([asset.buffer], { type: asset.contentType }));
-	try {
-		const template = await loadTinyGltf(objectUrl);
-		template.scene.userData.originalSourceUrl = resourceUrl;
-		template.scene.userData.resolvedSourceUrl = asset.resolvedUrl;
-		template.scene.userData.remoteModelCacheSource = asset.cacheSource;
-		options.onProgress?.({
-			cacheSource: asset.cacheSource,
-			phase: 'ready',
-			progress: 1,
-			resolvedUrl: asset.resolvedUrl
-		});
-		return template;
-	} finally {
-		URL.revokeObjectURL(objectUrl);
-	}
-}
-
-function modelLoadError(resourceUrl, error) {
-	const wrapped = new Error(`Unable to load trusted model ${resourceUrl}: ${error.message}`);
-	wrapped.cause = error;
-	return wrapped;
-}
-
-function trustedModelUrl(url) {
-	const value = String(url || '').trim();
-	if (!isTrustedModelUrl(value)) {
-		throw new Error(`Model loading requires a verified content-addressed URL: ${value}`);
-	}
-	return value;
-}
-return Object.freeze(__exports);
-})();
-/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/ModelAssetLoader.js */
-__awtsmoosModule_471 = (() => {
-const __exports = {};
-// B"H
-// Boruch Hashem
-// Blessed is He
-
-/**
- * @file ModelAssetLoader.js
- * @description Instantiates isolated models and reveals an explicit graceful fallback path.
- * The Awtsmoos clothes each actor while one shared template remains true;
- * Awtsmoos.com records success or failure without poisoning the next view.
- */
-
-var instantiateTinyGltf = __awtsmoosModule_472.instantiateTinyGltf;
-var clearModelTemplateCache = __awtsmoosModule_473.clearModelTemplateCache;
-var loadCachedModelTemplate = __awtsmoosModule_473.loadCachedModelTemplate;
-var modelTemplateCacheStats = __awtsmoosModule_473.modelTemplateCacheStats;
-var trustedModelResourceUrl = __awtsmoosModule_473.trustedModelResourceUrl;
-
-let instancesCreated = 0;
-let fallbacksCreated = 0;
-
-async function loadSharedGltfTemplate(url, options = {}) {
-	const { template } = await loadCachedModelTemplate(url, options);
-	return template;
-}
-
-
-__exports.loadSharedGltfTemplate = loadSharedGltfTemplate;
-async function loadIsolatedGltf(url, label, options = {}) {
-	const resourceUrl = trustedModelResourceUrl(url);
-	try {
-		const { template } = await loadCachedModelTemplate(resourceUrl, options);
-		const gltf = instantiateTinyGltf(template, {
-			label,
-			materialResolver: options.materialResolver
-		});
-		instancesCreated += 1;
-		gltf.scene.userData.isolatedModelLoad = modelReceipt(
-			label,
-			resourceUrl,
-			template.scene.userData.resolvedSourceUrl
-		);
-		return gltf;
-	} catch (error) {
-		reportFailure(options, resourceUrl, error);
-		if (typeof options.fallbackFactory !== 'function') throw error;
-		const fallback = await options.fallbackFactory({ error, label, url: resourceUrl });
-		fallbacksCreated += 1;
-		fallback.scene.userData.modelAssetFallback = {
-			error: error.message,
-			label,
-			originalUrl: resourceUrl
-		};
-		return fallback;
-	}
-}
-
-
-__exports.loadIsolatedGltf = loadIsolatedGltf;
-function sharedGltfAssetStats() {
-	return {
-		fallbacksCreated,
-		instancesCreated,
-		...modelTemplateCacheStats()
-	};
-}
-
-
-__exports.sharedGltfAssetStats = sharedGltfAssetStats;
-function clearSharedGltfAssetCache() {
-	clearModelTemplateCache();
-	instancesCreated = 0;
-	fallbacksCreated = 0;
-}
-
-
-__exports.clearSharedGltfAssetCache = clearSharedGltfAssetCache;
-function modelReceipt(label, originalUrl, resolvedUrl) {
-	return {
-		instanceLabel: label,
-		originalUrl,
-		resolvedUrl,
-		sharedNetworkResource: originalUrl,
-		sharedTemplate: true
-	};
-}
-
-function reportFailure(options, resourceUrl, error) {
-	options.onProgress?.({
-		error: error.message,
-		phase: 'failed',
-		progress: 1,
-		resolvedUrl: resourceUrl
-	});
-}
-return Object.freeze(__exports);
-})();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryAppearanceRules.js */
-__awtsmoosModule_480 = (() => {
+__awtsmoosModule_500 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -35661,7 +37083,7 @@ __exports.restoreInventoryAppearance = restoreInventoryAppearance;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryStoreRules.js */
-__awtsmoosModule_481 = (() => {
+__awtsmoosModule_501 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -35675,7 +37097,7 @@ const __exports = {};
  */
 
 var INVENTORY_CATALOG = __awtsmoosModule_69.INVENTORY_CATALOG;
-var inventoryAppearanceFor = __awtsmoosModule_480.inventoryAppearanceFor;
+var inventoryAppearanceFor = __awtsmoosModule_500.inventoryAppearanceFor;
 var addSpiritualStats = __awtsmoosModule_73.addSpiritualStats;
 var emptySpiritualStats = __awtsmoosModule_73.emptySpiritualStats;
 
@@ -35773,7 +37195,7 @@ __exports.togglePinnedValue = togglePinnedValue;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryStoreTransactions.js */
-__awtsmoosModule_482 = (() => {
+__awtsmoosModule_502 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -35789,10 +37211,10 @@ const __exports = {};
 var REQUIRED_GARMENT_EQUIPMENT = __awtsmoosModule_70.REQUIRED_GARMENT_EQUIPMENT;
 var STARTER_INVENTORY = __awtsmoosModule_69.STARTER_INVENTORY;
 var inventoryDefinition = __awtsmoosModule_69.inventoryDefinition;
-var addInventoryItem = __awtsmoosModule_481.addInventoryItem;
-var inventoryItemQuantity = __awtsmoosModule_481.inventoryItemQuantity;
-var normalizeInventoryQuantity = __awtsmoosModule_481.normalizeInventoryQuantity;
-var removeInventoryItem = __awtsmoosModule_481.removeInventoryItem;
+var addInventoryItem = __awtsmoosModule_501.addInventoryItem;
+var inventoryItemQuantity = __awtsmoosModule_501.inventoryItemQuantity;
+var normalizeInventoryQuantity = __awtsmoosModule_501.normalizeInventoryQuantity;
+var removeInventoryItem = __awtsmoosModule_501.removeInventoryItem;
 
 const DEFAULT_EQUIPMENT = Object.freeze({
 	...REQUIRED_GARMENT_EQUIPMENT,
@@ -35884,7 +37306,7 @@ __exports.reconciledInventoryEquipment = reconciledInventoryEquipment;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryStoreMutation.js */
-__awtsmoosModule_479 = (() => {
+__awtsmoosModule_499 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -35897,13 +37319,13 @@ const __exports = {};
  * reconciles ownership, required garments, slots, prices, colors, and fabrics before publication.
  */
 
-var cycleInventoryAppearance = __awtsmoosModule_480.cycleInventoryAppearance;
-var setInventoryAppearance = __awtsmoosModule_480.setInventoryAppearance;
-var removeInventoryItem = __awtsmoosModule_481.removeInventoryItem;
-var inventoryAdditionDraft = __awtsmoosModule_482.inventoryAdditionDraft;
-var inventoryPurchaseDraft = __awtsmoosModule_482.inventoryPurchaseDraft;
-var reconciledInventoryEquipment = __awtsmoosModule_482.reconciledInventoryEquipment;
-var requireInventoryItem = __awtsmoosModule_482.requireInventoryItem;
+var cycleInventoryAppearance = __awtsmoosModule_500.cycleInventoryAppearance;
+var setInventoryAppearance = __awtsmoosModule_500.setInventoryAppearance;
+var removeInventoryItem = __awtsmoosModule_501.removeInventoryItem;
+var inventoryAdditionDraft = __awtsmoosModule_502.inventoryAdditionDraft;
+var inventoryPurchaseDraft = __awtsmoosModule_502.inventoryPurchaseDraft;
+var reconciledInventoryEquipment = __awtsmoosModule_502.reconciledInventoryEquipment;
+var requireInventoryItem = __awtsmoosModule_502.requireInventoryItem;
 
 function addInventoryEntries(store, entries) {
 	store.items = inventoryAdditionDraft(store.items, entries);
@@ -35981,7 +37403,7 @@ function reconcile(store) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/TorahPassageCatalog.js */
-__awtsmoosModule_485 = (() => {
+__awtsmoosModule_505 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -36048,7 +37470,7 @@ function passage(id, name, text, damage, focusCost, cooldownMs, aspect) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryLearningRules.js */
-__awtsmoosModule_484 = (() => {
+__awtsmoosModule_504 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -36061,8 +37483,8 @@ const __exports = {};
  * Awtsmoos.com keeps every learning transition pure enough for direct testing.
  */
 
-var torahPassage = __awtsmoosModule_485.torahPassage;
-var togglePinnedValue = __awtsmoosModule_481.togglePinnedValue;
+var torahPassage = __awtsmoosModule_505.torahPassage;
+var togglePinnedValue = __awtsmoosModule_501.togglePinnedValue;
 
 function learnInventoryPassage(store, passageId) {
 	if (!torahPassage(passageId)) throw new Error('UNKNOWN_TORAH_PASSAGE');
@@ -36103,7 +37525,7 @@ __exports.markInventoryPassageUsed = markInventoryPassageUsed;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryPersistenceRules.js */
-__awtsmoosModule_486 = (() => {
+__awtsmoosModule_506 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -36116,12 +37538,12 @@ const __exports = {};
  * Awtsmoos.com validates every saved item, slot, palette choice, passage, and timestamp.
  */
 
-var restoreInventoryAppearance = __awtsmoosModule_480.restoreInventoryAppearance;
+var restoreInventoryAppearance = __awtsmoosModule_500.restoreInventoryAppearance;
 var inventoryDefinition = __awtsmoosModule_69.inventoryDefinition;
-var addInventoryItem = __awtsmoosModule_481.addInventoryItem;
-var reconciledInventoryEquipment = __awtsmoosModule_482.reconciledInventoryEquipment;
-var torahBook = __awtsmoosModule_485.torahBook;
-var torahPassage = __awtsmoosModule_485.torahPassage;
+var addInventoryItem = __awtsmoosModule_501.addInventoryItem;
+var reconciledInventoryEquipment = __awtsmoosModule_502.reconciledInventoryEquipment;
+var torahBook = __awtsmoosModule_505.torahBook;
+var torahPassage = __awtsmoosModule_505.torahPassage;
 
 function serializableInventoryState(store) {
 	return structuredClone({
@@ -36175,7 +37597,7 @@ function uniqueStrings(values) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryStoreLearning.js */
-__awtsmoosModule_483 = (() => {
+__awtsmoosModule_503 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -36188,15 +37610,15 @@ const __exports = {};
  * Awtsmoos.com keeps every learned passage, pin, quantity, restore, and equipped slot explicit.
  */
 
-var learnInventoryPassage = __awtsmoosModule_484.learnInventoryPassage;
-var markInventoryPassageUsed = __awtsmoosModule_484.markInventoryPassageUsed;
-var toggleInventoryBook = __awtsmoosModule_484.toggleInventoryBook;
-var toggleInventoryPassage = __awtsmoosModule_484.toggleInventoryPassage;
-var restoreInventoryState = __awtsmoosModule_486.restoreInventoryState;
-var serializableInventoryState = __awtsmoosModule_486.serializableInventoryState;
-var inventoryItemQuantity = __awtsmoosModule_481.inventoryItemQuantity;
-var inventorySnapshot = __awtsmoosModule_481.inventorySnapshot;
-var reconciledInventoryEquipment = __awtsmoosModule_482.reconciledInventoryEquipment;
+var learnInventoryPassage = __awtsmoosModule_504.learnInventoryPassage;
+var markInventoryPassageUsed = __awtsmoosModule_504.markInventoryPassageUsed;
+var toggleInventoryBook = __awtsmoosModule_504.toggleInventoryBook;
+var toggleInventoryPassage = __awtsmoosModule_504.toggleInventoryPassage;
+var restoreInventoryState = __awtsmoosModule_506.restoreInventoryState;
+var serializableInventoryState = __awtsmoosModule_506.serializableInventoryState;
+var inventoryItemQuantity = __awtsmoosModule_501.inventoryItemQuantity;
+var inventorySnapshot = __awtsmoosModule_501.inventorySnapshot;
+var reconciledInventoryEquipment = __awtsmoosModule_502.reconciledInventoryEquipment;
 
 function learnInventory(store, passageId) {
 	learnInventoryPassage(store, passageId);
@@ -36260,7 +37682,7 @@ __exports.reconcileInventoryStoreEquipment = reconcileInventoryStoreEquipment;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryStorePublication.js */
-__awtsmoosModule_487 = (() => {
+__awtsmoosModule_507 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -36273,7 +37695,7 @@ const __exports = {};
  * equipment, appearance, learning, quantity, and derived stats from drifting apart.
  */
 
-var inventorySnapshot = __awtsmoosModule_481.inventorySnapshot;
+var inventorySnapshot = __awtsmoosModule_501.inventorySnapshot;
 
 function subscribeInventoryStore(store, listener) {
 	if (typeof listener !== 'function') {
@@ -36299,7 +37721,7 @@ __exports.publishInventoryStore = publishInventoryStore;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryStore.js */
-__awtsmoosModule_478 = (() => {
+__awtsmoosModule_498 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -36312,26 +37734,26 @@ const __exports = {};
  * Awtsmoos.com delegates each responsibility without compressed hidden work.
  */
 
-var addInventoryEntries = __awtsmoosModule_479.addInventoryEntries;
-var buyInventoryEntry = __awtsmoosModule_479.buyInventoryEntry;
-var cycleInventoryItemAppearance = __awtsmoosModule_479.cycleInventoryItemAppearance;
-var equipInventoryItem = __awtsmoosModule_479.equipInventoryItem;
-var removeInventoryEntry = __awtsmoosModule_479.removeInventoryEntry;
-var setInventoryItemAppearance = __awtsmoosModule_479.setInventoryItemAppearance;
-var unequipInventorySlot = __awtsmoosModule_479.unequipInventorySlot;
-var inventoryStoreOwns = __awtsmoosModule_483.inventoryStoreOwns;
-var inventoryStoreQuantity = __awtsmoosModule_483.inventoryStoreQuantity;
-var learnInventory = __awtsmoosModule_483.learnInventory;
-var markInventoryPassage = __awtsmoosModule_483.markInventoryPassage;
-var reconcileInventoryStoreEquipment = __awtsmoosModule_483.reconcileInventoryStoreEquipment;
-var restoreInventoryStore = __awtsmoosModule_483.restoreInventoryStore;
-var serializableInventoryStore = __awtsmoosModule_483.serializableInventoryStore;
-var snapshotInventoryStore = __awtsmoosModule_483.snapshotInventoryStore;
-var toggleInventoryBookPin = __awtsmoosModule_483.toggleInventoryBookPin;
-var toggleInventoryPassagePin = __awtsmoosModule_483.toggleInventoryPassagePin;
-var publishInventoryStore = __awtsmoosModule_487.publishInventoryStore;
-var subscribeInventoryStore = __awtsmoosModule_487.subscribeInventoryStore;
-var initialInventoryState = __awtsmoosModule_482.initialInventoryState;
+var addInventoryEntries = __awtsmoosModule_499.addInventoryEntries;
+var buyInventoryEntry = __awtsmoosModule_499.buyInventoryEntry;
+var cycleInventoryItemAppearance = __awtsmoosModule_499.cycleInventoryItemAppearance;
+var equipInventoryItem = __awtsmoosModule_499.equipInventoryItem;
+var removeInventoryEntry = __awtsmoosModule_499.removeInventoryEntry;
+var setInventoryItemAppearance = __awtsmoosModule_499.setInventoryItemAppearance;
+var unequipInventorySlot = __awtsmoosModule_499.unequipInventorySlot;
+var inventoryStoreOwns = __awtsmoosModule_503.inventoryStoreOwns;
+var inventoryStoreQuantity = __awtsmoosModule_503.inventoryStoreQuantity;
+var learnInventory = __awtsmoosModule_503.learnInventory;
+var markInventoryPassage = __awtsmoosModule_503.markInventoryPassage;
+var reconcileInventoryStoreEquipment = __awtsmoosModule_503.reconcileInventoryStoreEquipment;
+var restoreInventoryStore = __awtsmoosModule_503.restoreInventoryStore;
+var serializableInventoryStore = __awtsmoosModule_503.serializableInventoryStore;
+var snapshotInventoryStore = __awtsmoosModule_503.snapshotInventoryStore;
+var toggleInventoryBookPin = __awtsmoosModule_503.toggleInventoryBookPin;
+var toggleInventoryPassagePin = __awtsmoosModule_503.toggleInventoryPassagePin;
+var publishInventoryStore = __awtsmoosModule_507.publishInventoryStore;
+var subscribeInventoryStore = __awtsmoosModule_507.subscribeInventoryStore;
+var initialInventoryState = __awtsmoosModule_502.initialInventoryState;
 
 class InventoryStore {
 	constructor(options = {}) {
@@ -36429,7 +37851,7 @@ __exports.InventoryStore = InventoryStore;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionConstants.js */
-__awtsmoosModule_492 = (() => {
+__awtsmoosModule_512 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -36493,7 +37915,7 @@ __exports.PLAYER_ACTION_BONE_ROLES = PLAYER_ACTION_BONE_ROLES;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionDefinitionValidator.js */
-__awtsmoosModule_491 = (() => {
+__awtsmoosModule_511 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -36506,8 +37928,8 @@ const __exports = {};
  * to finite timing, known roles, one message, and data that the runtime can inspect.
  */
 
-var PLAYER_ACTION_BONE_ROLES = __awtsmoosModule_492.PLAYER_ACTION_BONE_ROLES;
-var PLAYER_ACTION_LAYERS = __awtsmoosModule_492.PLAYER_ACTION_LAYERS;
+var PLAYER_ACTION_BONE_ROLES = __awtsmoosModule_512.PLAYER_ACTION_BONE_ROLES;
+var PLAYER_ACTION_LAYERS = __awtsmoosModule_512.PLAYER_ACTION_LAYERS;
 
 const ROLE_SET = new Set(PLAYER_ACTION_BONE_ROLES);
 const LAYER_SET = new Set(PLAYER_ACTION_LAYERS);
@@ -36594,7 +38016,7 @@ function requireNumber(value, code, minimum = -Infinity, maximum = Infinity) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionRegistry.js */
-__awtsmoosModule_490 = (() => {
+__awtsmoosModule_510 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -36607,7 +38029,7 @@ const __exports = {};
  * identities, message lookup, versions, and finite evidence for human and AI workers.
  */
 
-var validatePlayerActionDefinition = __awtsmoosModule_491.validatePlayerActionDefinition;
+var validatePlayerActionDefinition = __awtsmoosModule_511.validatePlayerActionDefinition;
 
 class PlayerActionRegistry {
 	constructor(definitions = []) {
@@ -36658,7 +38080,7 @@ __exports.PlayerActionRegistry = PlayerActionRegistry;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/definitions/staff/StaffCastAction.js */
-__awtsmoosModule_493 = (() => {
+__awtsmoosModule_513 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -36671,7 +38093,7 @@ const __exports = {};
  * message, equipment law, timing, and semantic-bone arc wholly separate from sword work.
  */
 
-var PLAYER_ACTION_MESSAGES = __awtsmoosModule_492.PLAYER_ACTION_MESSAGES;
+var PLAYER_ACTION_MESSAGES = __awtsmoosModule_512.PLAYER_ACTION_MESSAGES;
 
 const STAFF_CAST_ACTION = Object.freeze({
 	autoRelease: false,
@@ -36738,7 +38160,7 @@ function frame(at, pose) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/definitions/sword/SwordCastAction.js */
-__awtsmoosModule_494 = (() => {
+__awtsmoosModule_514 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -36751,7 +38173,7 @@ const __exports = {};
  * its own message, equipment law, timing, and semantic-bone language apart from the staff.
  */
 
-var PLAYER_ACTION_MESSAGES = __awtsmoosModule_492.PLAYER_ACTION_MESSAGES;
+var PLAYER_ACTION_MESSAGES = __awtsmoosModule_512.PLAYER_ACTION_MESSAGES;
 
 const SWORD_CAST_ACTION = Object.freeze({
 	autoRelease: false,
@@ -36818,7 +38240,7 @@ function frame(at, pose) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/BuiltInPlayerActions.js */
-__awtsmoosModule_489 = (() => {
+__awtsmoosModule_509 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -36831,9 +38253,9 @@ const __exports = {};
  * registry doorway through which later validated AI-authored actions may also enter.
  */
 
-var PlayerActionRegistry = __awtsmoosModule_490.PlayerActionRegistry;
-var STAFF_CAST_ACTION = __awtsmoosModule_493.STAFF_CAST_ACTION;
-var SWORD_CAST_ACTION = __awtsmoosModule_494.SWORD_CAST_ACTION;
+var PlayerActionRegistry = __awtsmoosModule_510.PlayerActionRegistry;
+var STAFF_CAST_ACTION = __awtsmoosModule_513.STAFF_CAST_ACTION;
+var SWORD_CAST_ACTION = __awtsmoosModule_514.SWORD_CAST_ACTION;
 
 function createBuiltInPlayerActionRegistry() {
 	return new PlayerActionRegistry([
@@ -36846,7 +38268,7 @@ __exports.createBuiltInPlayerActionRegistry = createBuiltInPlayerActionRegistry;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowPlayerPoseLibrary.js */
-__awtsmoosModule_497 = (() => {
+__awtsmoosModule_517 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -36924,7 +38346,7 @@ __exports.MINIMAL_MEADOW_PLAYER_POSES = MINIMAL_MEADOW_PLAYER_POSES;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowPlayerPoseMath.js */
-__awtsmoosModule_496 = (() => {
+__awtsmoosModule_516 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -36937,7 +38359,7 @@ const __exports = {};
  * keeps trigonometry, easing, and naming outside the cached binder's smaller responsibility.
  */
 
-var ROLES = __awtsmoosModule_497.MINIMAL_MEADOW_BONE_ROLES;
+var ROLES = __awtsmoosModule_517.MINIMAL_MEADOW_BONE_ROLES;
 
 function minimalMeadowBoneRole(name) {
 	const normalized = String(name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -37000,7 +38422,7 @@ function smooth(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionBoneResolver.js */
-__awtsmoosModule_498 = (() => {
+__awtsmoosModule_518 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -37070,7 +38492,7 @@ __exports.normalizeBoneName = normalizeBoneName;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionActor.js */
-__awtsmoosModule_495 = (() => {
+__awtsmoosModule_515 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -37083,8 +38505,8 @@ const __exports = {};
  * every unsampled arm from multiplying yesterday's offset into a visible T-pose.
  */
 
-var applyMinimalMeadowEuler = __awtsmoosModule_496.applyMinimalMeadowEuler;
-var resolvePlayerActionBones = __awtsmoosModule_498.resolvePlayerActionBones;
+var applyMinimalMeadowEuler = __awtsmoosModule_516.applyMinimalMeadowEuler;
+var resolvePlayerActionBones = __awtsmoosModule_518.resolvePlayerActionBones;
 
 class PlayerActionActor {
 	constructor(options) {
@@ -37175,7 +38597,7 @@ function quaternionRecord(quaternion = {}) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionMessageBridge.js */
-__awtsmoosModule_499 = (() => {
+__awtsmoosModule_519 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -37188,7 +38610,7 @@ const __exports = {};
  * contracts while letting future AI messages enter the same validated action runtime.
  */
 
-var PLAYER_ACTION_MESSAGES = __awtsmoosModule_492.PLAYER_ACTION_MESSAGES;
+var PLAYER_ACTION_MESSAGES = __awtsmoosModule_512.PLAYER_ACTION_MESSAGES;
 
 class PlayerActionMessageBridge {
 	constructor(options) {
@@ -37284,7 +38706,7 @@ function messageForEquipment(equipment) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionRuntimeState.js */
-__awtsmoosModule_502 = (() => {
+__awtsmoosModule_522 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -37389,7 +38811,7 @@ function bounded(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionBodyMaskLifecycle.js */
-__awtsmoosModule_501 = (() => {
+__awtsmoosModule_521 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -37402,7 +38824,7 @@ const __exports = {};
  * bookkeeping outside the quaternion vessel so each module reveals one responsibility.
  */
 
-var playerActionStateSnapshot = __awtsmoosModule_502.playerActionStateSnapshot;
+var playerActionStateSnapshot = __awtsmoosModule_522.playerActionStateSnapshot;
 
 function emitPlayerActionRelease(runtime, message = {}) {
 	const action = runtime.active;
@@ -37442,7 +38864,7 @@ __exports.playerActionRuntimeSnapshot = playerActionRuntimeSnapshot;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionBodyMaskMath.js */
-__awtsmoosModule_505 = (() => {
+__awtsmoosModule_525 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -37527,7 +38949,7 @@ function square(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionBodyMask.js */
-__awtsmoosModule_504 = (() => {
+__awtsmoosModule_524 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -37540,9 +38962,9 @@ const __exports = {};
  * spine and hands to cast while root, hips, and legs remain faithful to imported locomotion.
  */
 
-var constrainedPlayerActionEuler = __awtsmoosModule_505.constrainedPlayerActionEuler;
-var playerActionQuaternionDistanceSquared = __awtsmoosModule_505.playerActionQuaternionDistanceSquared;
-var setPlayerActionQuaternionFromEuler = __awtsmoosModule_505.setPlayerActionQuaternionFromEuler;
+var constrainedPlayerActionEuler = __awtsmoosModule_525.constrainedPlayerActionEuler;
+var playerActionQuaternionDistanceSquared = __awtsmoosModule_525.playerActionQuaternionDistanceSquared;
+var setPlayerActionQuaternionFromEuler = __awtsmoosModule_525.setPlayerActionQuaternionFromEuler;
 
 const PLAYER_ACTION_UPPER_BODY_ROLES = Object.freeze([
 	'spine', 'spine1', 'spine2', 'neck', 'head',
@@ -37630,7 +39052,7 @@ __exports.playerActionPoseMatches = playerActionPoseMatches;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionBodyMaskRuntime.js */
-__awtsmoosModule_503 = (() => {
+__awtsmoosModule_523 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -37643,11 +39065,11 @@ const __exports = {};
  * from the old gesture so recovery returns to moving truth instead of a frozen bind pose.
  */
 
-var applyPlayerActionBodyMask = __awtsmoosModule_504.applyPlayerActionBodyMask;
-var capturePlayerActionBasePose = __awtsmoosModule_504.capturePlayerActionBasePose;
-var playerActionPoseMatches = __awtsmoosModule_504.playerActionPoseMatches;
-var recordPlayerActionPose = __awtsmoosModule_504.recordPlayerActionPose;
-var restorePlayerActionBasePose = __awtsmoosModule_504.restorePlayerActionBasePose;
+var applyPlayerActionBodyMask = __awtsmoosModule_524.applyPlayerActionBodyMask;
+var capturePlayerActionBasePose = __awtsmoosModule_524.capturePlayerActionBasePose;
+var playerActionPoseMatches = __awtsmoosModule_524.playerActionPoseMatches;
+var recordPlayerActionPose = __awtsmoosModule_524.recordPlayerActionPose;
+var restorePlayerActionBasePose = __awtsmoosModule_524.restorePlayerActionBasePose;
 
 class PlayerActionBodyMaskRuntime {
 	constructor(actor) {
@@ -37708,7 +39130,7 @@ __exports.PlayerActionBodyMaskRuntime = PlayerActionBodyMaskRuntime;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionModelBinding.js */
-__awtsmoosModule_500 = (() => {
+__awtsmoosModule_520 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -37721,8 +39143,8 @@ const __exports = {};
  * releases interrupted gestures, and lets the hydrated model receive a fresh upper-body vessel.
  */
 
-var playerActionResultRecord = __awtsmoosModule_501.playerActionResultRecord;
-var PlayerActionBodyMaskRuntime = __awtsmoosModule_503.PlayerActionBodyMaskRuntime;
+var playerActionResultRecord = __awtsmoosModule_521.playerActionResultRecord;
+var PlayerActionBodyMaskRuntime = __awtsmoosModule_523.PlayerActionBodyMaskRuntime;
 
 /** Replaces the actor model without carrying old bone references or overlay state forward. */
 function bindPlayerActionModel(runtime, model) {
@@ -37750,7 +39172,7 @@ __exports.bindPlayerActionModel = bindPlayerActionModel;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionPoseSampler.js */
-__awtsmoosModule_507 = (() => {
+__awtsmoosModule_527 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -37812,7 +39234,7 @@ function smooth(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionRuntimeCommands.js */
-__awtsmoosModule_508 = (() => {
+__awtsmoosModule_528 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -37825,9 +39247,9 @@ const __exports = {};
  * interpretation from bone application so future actions need no controller edits.
  */
 
-var PLAYER_ACTION_PHASES = __awtsmoosModule_492.PLAYER_ACTION_PHASES;
-var boundedPlayerActionProgress = __awtsmoosModule_502.boundedPlayerActionProgress;
-var createPlayerActionState = __awtsmoosModule_502.createPlayerActionState;
+var PLAYER_ACTION_PHASES = __awtsmoosModule_512.PLAYER_ACTION_PHASES;
+var boundedPlayerActionProgress = __awtsmoosModule_522.boundedPlayerActionProgress;
+var createPlayerActionState = __awtsmoosModule_522.createPlayerActionState;
 
 function dispatchPlayerAction(runtime, message = {}) {
 	if (!PLAYER_ACTION_PHASES.includes(message.phase)) {
@@ -37876,7 +39298,7 @@ __exports.startPlayerAction = startPlayerAction;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionRuntime.js */
-__awtsmoosModule_506 = (() => {
+__awtsmoosModule_526 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -37889,14 +39311,14 @@ const __exports = {};
  * untouched, release singular, cancellation smooth, and future registry actions inspectable.
  */
 
-var PlayerActionBodyMaskRuntime = __awtsmoosModule_503.PlayerActionBodyMaskRuntime;
-var emitPlayerActionRelease = __awtsmoosModule_501.emitPlayerActionRelease;
-var playerActionResultRecord = __awtsmoosModule_501.playerActionResultRecord;
-var playerActionRuntimeSnapshot = __awtsmoosModule_501.playerActionRuntimeSnapshot;
-var PlayerActionPoseSampler = __awtsmoosModule_507.PlayerActionPoseSampler;
-var dispatchPlayerAction = __awtsmoosModule_508.dispatchPlayerAction;
-var advancePlayerActionState = __awtsmoosModule_502.advancePlayerActionState;
-var beginPlayerActionRecovery = __awtsmoosModule_502.beginPlayerActionRecovery;
+var PlayerActionBodyMaskRuntime = __awtsmoosModule_523.PlayerActionBodyMaskRuntime;
+var emitPlayerActionRelease = __awtsmoosModule_521.emitPlayerActionRelease;
+var playerActionResultRecord = __awtsmoosModule_521.playerActionResultRecord;
+var playerActionRuntimeSnapshot = __awtsmoosModule_521.playerActionRuntimeSnapshot;
+var PlayerActionPoseSampler = __awtsmoosModule_527.PlayerActionPoseSampler;
+var dispatchPlayerAction = __awtsmoosModule_528.dispatchPlayerAction;
+var advancePlayerActionState = __awtsmoosModule_522.advancePlayerActionState;
+var beginPlayerActionRecovery = __awtsmoosModule_522.beginPlayerActionRecovery;
 
 class PlayerActionRuntime {
 	constructor(options) {
@@ -37991,7 +39413,7 @@ __exports.PlayerActionRuntime = PlayerActionRuntime;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionSystem.js */
-__awtsmoosModule_488 = (() => {
+__awtsmoosModule_508 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -38004,11 +39426,11 @@ const __exports = {};
  * APIs for the player, fallback hydration, remote Chossids, and future independent actions.
  */
 
-var createBuiltInPlayerActionRegistry = __awtsmoosModule_489.createBuiltInPlayerActionRegistry;
-var PlayerActionActor = __awtsmoosModule_495.PlayerActionActor;
-var PlayerActionMessageBridge = __awtsmoosModule_499.PlayerActionMessageBridge;
-var bindPlayerActionModel = __awtsmoosModule_500.bindPlayerActionModel;
-var PlayerActionRuntime = __awtsmoosModule_506.PlayerActionRuntime;
+var createBuiltInPlayerActionRegistry = __awtsmoosModule_509.createBuiltInPlayerActionRegistry;
+var PlayerActionActor = __awtsmoosModule_515.PlayerActionActor;
+var PlayerActionMessageBridge = __awtsmoosModule_519.PlayerActionMessageBridge;
+var bindPlayerActionModel = __awtsmoosModule_520.bindPlayerActionModel;
+var PlayerActionRuntime = __awtsmoosModule_526.PlayerActionRuntime;
 
 function createPlayerActionSystem(options) {
 	const registry = options.registry || createBuiltInPlayerActionRegistry();
@@ -38051,7 +39473,7 @@ __exports.createPlayerActionSystem = createPlayerActionSystem;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/ui/AwtsmoosEventBus.js */
-__awtsmoosModule_509 = (() => {
+__awtsmoosModule_529 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -38117,7 +39539,7 @@ function currentTime() {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzConstants.js */
-__awtsmoosModule_510 = (() => {
+__awtsmoosModule_530 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -38167,7 +39589,7 @@ __exports.PLAYER_HEIGHT = PLAYER_HEIGHT;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowAnimationClipPolicy.js */
-__awtsmoosModule_511 = (() => {
+__awtsmoosModule_531 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -38251,7 +39673,7 @@ function findFirst(names, patterns) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowAttachmentRegistrySupport.js */
-__awtsmoosModule_514 = (() => {
+__awtsmoosModule_534 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -38285,7 +39707,7 @@ __exports.countMinimalMeadowNamedNodes = countMinimalMeadowNamedNodes;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWeaponPose.js */
-__awtsmoosModule_517 = (() => {
+__awtsmoosModule_537 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -38356,7 +39778,7 @@ function pose(position, scale, roll) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWeaponAnchor.js */
-__awtsmoosModule_516 = (() => {
+__awtsmoosModule_536 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -38370,8 +39792,8 @@ const __exports = {};
  */
 
 var Group = __awtsmoosModule_18.Group;
-var applyMinimalMeadowPose = __awtsmoosModule_517.applyMinimalMeadowPose;
-var minimalMeadowAnchorPose = __awtsmoosModule_517.minimalMeadowAnchorPose;
+var applyMinimalMeadowPose = __awtsmoosModule_537.applyMinimalMeadowPose;
+var minimalMeadowAnchorPose = __awtsmoosModule_537.minimalMeadowAnchorPose;
 
 const ANCHOR_NAME = 'Awtsmoos_equipped_weapon_hand_anchor';
 
@@ -38437,7 +39859,7 @@ __exports.MINIMAL_MEADOW_WEAPON_ANCHOR_NAME = MINIMAL_MEADOW_WEAPON_ANCHOR_NAME;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWeaponAttachment.js */
-__awtsmoosModule_515 = (() => {
+__awtsmoosModule_535 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -38450,9 +39872,9 @@ const __exports = {};
  * objects, preserves hydration generation, and keeps staff or sword visible without per-frame churn.
  */
 
-var resolveMinimalMeadowWeaponAnchor = __awtsmoosModule_516.resolveMinimalMeadowWeaponAnchor;
-var applyMinimalMeadowPose = __awtsmoosModule_517.applyMinimalMeadowPose;
-var minimalMeadowWeaponPose = __awtsmoosModule_517.minimalMeadowWeaponPose;
+var resolveMinimalMeadowWeaponAnchor = __awtsmoosModule_536.resolveMinimalMeadowWeaponAnchor;
+var applyMinimalMeadowPose = __awtsmoosModule_537.applyMinimalMeadowPose;
+var minimalMeadowWeaponPose = __awtsmoosModule_537.minimalMeadowWeaponPose;
 
 const ACTIVE_WEAPON_BY_OWNER = new WeakMap();
 const OWNER_BY_WEAPON = new WeakMap();
@@ -38521,7 +39943,7 @@ function removeCompetingHandObjects(anchor, weapon) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowAttachmentRegistry.js */
-__awtsmoosModule_513 = (() => {
+__awtsmoosModule_533 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -38534,12 +39956,12 @@ const __exports = {};
  * obvious detached staff instantly while deep ancestry and generation proof remain cadence-bound.
  */
 
-var countMinimalMeadowNamedNodes = __awtsmoosModule_514.countMinimalMeadowNamedNodes;
-var minimalMeadowAttachmentIsDescendant = __awtsmoosModule_514.minimalMeadowAttachmentIsDescendant;
-var attachMinimalWeapon = __awtsmoosModule_515.attachMinimalWeapon;
-var detachMinimalWeapon = __awtsmoosModule_515.detachMinimalWeapon;
-var MINIMAL_MEADOW_WEAPON_ANCHOR_NAME = __awtsmoosModule_516.MINIMAL_MEADOW_WEAPON_ANCHOR_NAME;
-var resolveMinimalMeadowWeaponAnchor = __awtsmoosModule_516.resolveMinimalMeadowWeaponAnchor;
+var countMinimalMeadowNamedNodes = __awtsmoosModule_534.countMinimalMeadowNamedNodes;
+var minimalMeadowAttachmentIsDescendant = __awtsmoosModule_534.minimalMeadowAttachmentIsDescendant;
+var attachMinimalWeapon = __awtsmoosModule_535.attachMinimalWeapon;
+var detachMinimalWeapon = __awtsmoosModule_535.detachMinimalWeapon;
+var MINIMAL_MEADOW_WEAPON_ANCHOR_NAME = __awtsmoosModule_536.MINIMAL_MEADOW_WEAPON_ANCHOR_NAME;
+var resolveMinimalMeadowWeaponAnchor = __awtsmoosModule_536.resolveMinimalMeadowWeaponAnchor;
 
 const VALIDATION_INTERVAL = 15;
 
@@ -38640,7 +40062,7 @@ __exports.MinimalMeadowAttachmentRegistry = MinimalMeadowAttachmentRegistry;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/stats/EquipmentStatModifierKeys.js */
-__awtsmoosModule_521 = (() => {
+__awtsmoosModule_541 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -38687,7 +40109,7 @@ __exports.EQUIPMENT_STAT_KEYS = EQUIPMENT_STAT_KEYS;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/stats/DerivedStatKeys.js */
-__awtsmoosModule_520 = (() => {
+__awtsmoosModule_540 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -38700,14 +40122,14 @@ const __exports = {};
  * client and server from naming, omitting, or totaling the same stat in divergent ways.
  */
 
-var EQUIPMENT_STAT_KEYS = __awtsmoosModule_521.EQUIPMENT_STAT_KEYS;
+var EQUIPMENT_STAT_KEYS = __awtsmoosModule_541.EQUIPMENT_STAT_KEYS;
 
 const DERIVED_STAT_KEYS = EQUIPMENT_STAT_KEYS;
 __exports.DERIVED_STAT_KEYS = DERIVED_STAT_KEYS;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/stats/DerivedStatProjector.js */
-__awtsmoosModule_519 = (() => {
+__awtsmoosModule_539 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -38720,7 +40142,7 @@ const __exports = {};
  * equipped, learned, passive, and temporary vessel exactly once for truthful inspection.
  */
 
-var DERIVED_STAT_KEYS = __awtsmoosModule_520.DERIVED_STAT_KEYS;
+var DERIVED_STAT_KEYS = __awtsmoosModule_540.DERIVED_STAT_KEYS;
 
 function projectDerivedStats(sources = []) {
 	const values = emptyTotals();
@@ -38779,7 +40201,7 @@ function deepFreeze(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/stats/EquipmentStatCombatRecords.js */
-__awtsmoosModule_525 = (() => {
+__awtsmoosModule_545 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -38878,7 +40300,7 @@ function deepFreeze(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/stats/EquipmentStatGarmentRecords.js */
-__awtsmoosModule_526 = (() => {
+__awtsmoosModule_546 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -38979,7 +40401,7 @@ function deepFreeze(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/stats/EquipmentStatModifierCatalog.js */
-__awtsmoosModule_524 = (() => {
+__awtsmoosModule_544 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -38991,9 +40413,9 @@ const __exports = {};
  * The Awtsmoos renews one source through client and server; Awtsmoos.com keeps parity whole.
  */
 
-var COMBAT_EQUIPMENT_STATS = __awtsmoosModule_525.COMBAT_EQUIPMENT_STATS;
-var GARMENT_EQUIPMENT_STATS = __awtsmoosModule_526.GARMENT_EQUIPMENT_STATS;
-__exports.EQUIPMENT_STAT_KEYS = __awtsmoosModule_521.EQUIPMENT_STAT_KEYS;
+var COMBAT_EQUIPMENT_STATS = __awtsmoosModule_545.COMBAT_EQUIPMENT_STATS;
+var GARMENT_EQUIPMENT_STATS = __awtsmoosModule_546.GARMENT_EQUIPMENT_STATS;
+__exports.EQUIPMENT_STAT_KEYS = __awtsmoosModule_541.EQUIPMENT_STAT_KEYS;
 
 const EQUIPMENT_STAT_MODIFIERS = Object.freeze({
 	...COMBAT_EQUIPMENT_STATS,
@@ -39010,7 +40432,7 @@ __exports.equipmentStatRecord = equipmentStatRecord;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/stats/EquipmentDerivedStatSources.js */
-__awtsmoosModule_523 = (() => {
+__awtsmoosModule_543 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -39023,7 +40445,7 @@ const __exports = {};
  * once, excludes merely owned inventory, and preserves the exact slot that grants its light.
  */
 
-var equipmentStatRecord = __awtsmoosModule_524.equipmentStatRecord;
+var equipmentStatRecord = __awtsmoosModule_544.equipmentStatRecord;
 
 function equipmentDerivedStatSources(snapshot = {}) {
 	return Object.entries(snapshot.equipment || {}).flatMap(([slot, itemId]) => {
@@ -39044,7 +40466,7 @@ __exports.equipmentDerivedStatSources = equipmentDerivedStatSources;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/stats/RuntimeDerivedStatSources.js */
-__awtsmoosModule_522 = (() => {
+__awtsmoosModule_542 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -39057,7 +40479,7 @@ const __exports = {};
  * preserves their identities so diagnostics can reveal exactly why every total exists.
  */
 
-var equipmentDerivedStatSources = __awtsmoosModule_523.equipmentDerivedStatSources;
+var equipmentDerivedStatSources = __awtsmoosModule_543.equipmentDerivedStatSources;
 
 function runtimeDerivedStatSources(runtime, inventorySnapshot) {
 	return [
@@ -39081,7 +40503,7 @@ function normalized(sources, category) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDerivedStatApplication.js */
-__awtsmoosModule_527 = (() => {
+__awtsmoosModule_547 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -39127,7 +40549,7 @@ function clamp(value, minimum, maximum) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDerivedStatsRuntime.js */
-__awtsmoosModule_518 = (() => {
+__awtsmoosModule_538 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -39140,9 +40562,9 @@ const __exports = {};
  * Awtsmoos.com reveals accepted sources, subtotals, rejected duplicates, actions, and values.
  */
 
-var projectDerivedStats = __awtsmoosModule_519.projectDerivedStats;
-var runtimeDerivedStatSources = __awtsmoosModule_522.runtimeDerivedStatSources;
-var applyMinimalMeadowDerivedStats = __awtsmoosModule_527.applyMinimalMeadowDerivedStats;
+var projectDerivedStats = __awtsmoosModule_539.projectDerivedStats;
+var runtimeDerivedStatSources = __awtsmoosModule_542.runtimeDerivedStatSources;
+var applyMinimalMeadowDerivedStats = __awtsmoosModule_547.applyMinimalMeadowDerivedStats;
 
 class MinimalMeadowDerivedStatsRuntime {
 	constructor(runtime, inventory) {
@@ -39175,7 +40597,7 @@ __exports.MinimalMeadowDerivedStatsRuntime = MinimalMeadowDerivedStatsRuntime;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWeaponAim.js */
-__awtsmoosModule_529 = (() => {
+__awtsmoosModule_549 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -39189,7 +40611,7 @@ const __exports = {};
  */
 
 var Vector3 = __awtsmoosModule_18.Vector3;
-var applyAnchorTransform = __awtsmoosModule_516.applyAnchorTransform;
+var applyAnchorTransform = __awtsmoosModule_536.applyAnchorTransform;
 
 const HAND = new Vector3();
 const TARGET = new Vector3();
@@ -39267,7 +40689,7 @@ function positive(value, fallback) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentCasting.js */
-__awtsmoosModule_528 = (() => {
+__awtsmoosModule_548 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -39280,8 +40702,8 @@ const __exports = {};
  * every charged frame and restores the exact neutral hand pose after launch or cancellation.
  */
 
-var aimMinimalMeadowWeapon = __awtsmoosModule_529.aimMinimalMeadowWeapon;
-var restoreMinimalMeadowWeaponAim = __awtsmoosModule_529.restoreMinimalMeadowWeaponAim;
+var aimMinimalMeadowWeapon = __awtsmoosModule_549.aimMinimalMeadowWeapon;
+var restoreMinimalMeadowWeaponAim = __awtsmoosModule_549.restoreMinimalMeadowWeaponAim;
 
 class MinimalMeadowEquipmentCasting {
 	constructor(owner, releaseHoldMilliseconds = 240) {
@@ -39369,7 +40791,7 @@ __exports.MinimalMeadowEquipmentCasting = MinimalMeadowEquipmentCasting;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/GarmentAppearanceCatalog.js */
-__awtsmoosModule_531 = (() => {
+__awtsmoosModule_551 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -39429,7 +40851,7 @@ function fabric(label, roughness, pattern) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowGarmentFabricTexture.js */
-__awtsmoosModule_532 = (() => {
+__awtsmoosModule_552 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -39505,7 +40927,7 @@ function lines(context, size, step, alpha) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowGarmentAppearance.js */
-__awtsmoosModule_530 = (() => {
+__awtsmoosModule_550 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -39518,11 +40940,11 @@ const __exports = {};
  * Awtsmoos.com preserves lenses and sacred leather while both jacket forms share appearance.
  */
 
-var garmentColor = __awtsmoosModule_531.garmentColor;
-var garmentFabric = __awtsmoosModule_531.garmentFabric;
-var inventoryAppearanceFor = __awtsmoosModule_480.inventoryAppearanceFor;
+var garmentColor = __awtsmoosModule_551.garmentColor;
+var garmentFabric = __awtsmoosModule_551.garmentFabric;
+var inventoryAppearanceFor = __awtsmoosModule_500.inventoryAppearanceFor;
 var inventoryDefinition = __awtsmoosModule_69.inventoryDefinition;
-var garmentFabricTexture = __awtsmoosModule_532.garmentFabricTexture;
+var garmentFabricTexture = __awtsmoosModule_552.garmentFabricTexture;
 
 function applyMinimalGarmentAppearance(wardrobe, equipment, appearance) {
 	const receipt = {};
@@ -39576,7 +40998,7 @@ function applyMaterial(material, selected) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowGarmentMaterialIsolation.js */
-__awtsmoosModule_535 = (() => {
+__awtsmoosModule_555 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -39654,7 +41076,7 @@ function isMesh(object) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowGarmentDiscovery.js */
-__awtsmoosModule_534 = (() => {
+__awtsmoosModule_554 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -39666,8 +41088,8 @@ const __exports = {};
  * The Awtsmoos knew every exporter fragment before metadata survived; Awtsmoos.com prefers
  * explicit garment truth while Kapote, Bekeshe, robe, and jacket names share one lawful visual.
  */
-var collectMinimalGarmentMaterials = __awtsmoosModule_535.collectMinimalGarmentMaterials;
-var isolateMinimalGarmentMaterials = __awtsmoosModule_535.isolateMinimalGarmentMaterials;
+var collectMinimalGarmentMaterials = __awtsmoosModule_555.collectMinimalGarmentMaterials;
+var isolateMinimalGarmentMaterials = __awtsmoosModule_555.isolateMinimalGarmentMaterials;
 const EXTRA_VISUAL = Object.freeze({
 	glasses: 'glasses',
 	'head-teffilin-straps': 'tefillin-head',
@@ -39733,7 +41155,7 @@ function isMesh(object) { return Boolean(object?.isMesh || object?.isSkinnedMesh
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentNodes.js */
-__awtsmoosModule_533 = (() => {
+__awtsmoosModule_553 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -39746,7 +41168,7 @@ const __exports = {};
  * Awtsmoos.com keeps glasses, hat, yarmulke, tefillin, jacket, shirts, trousers, and shoes truthful.
  */
 
-var discoverMinimalMeadowGarments = __awtsmoosModule_534.discoverMinimalMeadowGarments;
+var discoverMinimalMeadowGarments = __awtsmoosModule_554.discoverMinimalMeadowGarments;
 
 const BONE_ALIASES = Object.freeze({
 	leftHand: ['mixamoriglefthand', 'lefthand', 'handl', 'wristl'],
@@ -39836,7 +41258,7 @@ function normalize(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentRuntimeState.js */
-__awtsmoosModule_536 = (() => {
+__awtsmoosModule_556 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -39894,7 +41316,7 @@ __exports.minimalMeadowEquippedWeaponItemId = minimalMeadowEquippedWeaponItemId;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWeaponFactory.js */
-__awtsmoosModule_537 = (() => {
+__awtsmoosModule_557 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -39966,7 +41388,7 @@ function part(id, color, x, y, z, width, height, depth, shape = 'box') {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentRuntime.js */
-__awtsmoosModule_512 = (() => {
+__awtsmoosModule_532 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -39978,16 +41400,16 @@ const __exports = {};
  * The Awtsmoos distinguishes a player vessel from an actor-only garment vessel;
  * Awtsmoos.com projects combat stats only where real player state already exists.
  */
-var MinimalMeadowAttachmentRegistry = __awtsmoosModule_513.MinimalMeadowAttachmentRegistry;
-var MinimalMeadowDerivedStatsRuntime = __awtsmoosModule_518.MinimalMeadowDerivedStatsRuntime;
-var MinimalMeadowEquipmentCasting = __awtsmoosModule_528.MinimalMeadowEquipmentCasting;
-var applyMinimalGarmentAppearance = __awtsmoosModule_530.applyMinimalGarmentAppearance;
-var applyMinimalGarmentVisibility = __awtsmoosModule_533.applyMinimalGarmentVisibility;
-var resolveMinimalEquipmentNodes = __awtsmoosModule_533.resolveMinimalEquipmentNodes;
-var installMinimalMeadowEquipmentListeners = __awtsmoosModule_536.installMinimalMeadowEquipmentListeners;
-var minimalMeadowEquipmentDiagnostics = __awtsmoosModule_536.minimalMeadowEquipmentDiagnostics;
-var minimalMeadowEquippedWeaponItemId = __awtsmoosModule_536.minimalMeadowEquippedWeaponItemId;
-var createMinimalMeadowWeapon = __awtsmoosModule_537.createMinimalMeadowWeapon;
+var MinimalMeadowAttachmentRegistry = __awtsmoosModule_533.MinimalMeadowAttachmentRegistry;
+var MinimalMeadowDerivedStatsRuntime = __awtsmoosModule_538.MinimalMeadowDerivedStatsRuntime;
+var MinimalMeadowEquipmentCasting = __awtsmoosModule_548.MinimalMeadowEquipmentCasting;
+var applyMinimalGarmentAppearance = __awtsmoosModule_550.applyMinimalGarmentAppearance;
+var applyMinimalGarmentVisibility = __awtsmoosModule_553.applyMinimalGarmentVisibility;
+var resolveMinimalEquipmentNodes = __awtsmoosModule_553.resolveMinimalEquipmentNodes;
+var installMinimalMeadowEquipmentListeners = __awtsmoosModule_556.installMinimalMeadowEquipmentListeners;
+var minimalMeadowEquipmentDiagnostics = __awtsmoosModule_556.minimalMeadowEquipmentDiagnostics;
+var minimalMeadowEquippedWeaponItemId = __awtsmoosModule_556.minimalMeadowEquippedWeaponItemId;
+var createMinimalMeadowWeapon = __awtsmoosModule_557.createMinimalMeadowWeapon;
 
 class MinimalMeadowEquipmentRuntime {
 	constructor(runtime) {
@@ -40083,7 +41505,7 @@ __exports.MinimalMeadowEquipmentRuntime = MinimalMeadowEquipmentRuntime;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowMaterialReadability.js */
-__awtsmoosModule_538 = (() => {
+__awtsmoosModule_558 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -40195,21 +41617,21 @@ function clamp(value, minimum, maximum) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowFriendlyChossidActor.js */
-__awtsmoosModule_463 = (() => {
+__awtsmoosModule_497 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
 // Blessed is He
 
-var TinyAnimationPlayer = __awtsmoosModule_464.TinyAnimationPlayer;
-var loadIsolatedGltf = __awtsmoosModule_471.loadIsolatedGltf;
-var InventoryStore = __awtsmoosModule_478.InventoryStore;
-var createPlayerActionSystem = __awtsmoosModule_488.createPlayerActionSystem;
-var AwtsmoosEventBus = __awtsmoosModule_509.AwtsmoosEventBus;
-var PLAYER_MODEL_URL = __awtsmoosModule_510.PLAYER_MODEL_URL;
-var minimalMeadowClipForState = __awtsmoosModule_511.minimalMeadowClipForState;
-var MinimalMeadowEquipmentRuntime = __awtsmoosModule_512.MinimalMeadowEquipmentRuntime;
-var normalizeMinimalModelMaterials = __awtsmoosModule_538.normalizeMinimalModelMaterials;
+var TinyAnimationPlayer = __awtsmoosModule_211.TinyAnimationPlayer;
+var loadIsolatedGltf = __awtsmoosModule_209.loadIsolatedGltf;
+var InventoryStore = __awtsmoosModule_498.InventoryStore;
+var createPlayerActionSystem = __awtsmoosModule_508.createPlayerActionSystem;
+var AwtsmoosEventBus = __awtsmoosModule_529.AwtsmoosEventBus;
+var PLAYER_MODEL_URL = __awtsmoosModule_530.PLAYER_MODEL_URL;
+var minimalMeadowClipForState = __awtsmoosModule_531.minimalMeadowClipForState;
+var MinimalMeadowEquipmentRuntime = __awtsmoosModule_532.MinimalMeadowEquipmentRuntime;
+var normalizeMinimalModelMaterials = __awtsmoosModule_558.normalizeMinimalModelMaterials;
 
 const FRIENDLY_CHOSSID_MODEL_URL = PLAYER_MODEL_URL;
 __exports.FRIENDLY_CHOSSID_MODEL_URL = FRIENDLY_CHOSSID_MODEL_URL;
@@ -40310,7 +41732,7 @@ function actorRecord(worldRuntime, definition, gltf, parts) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowQuestChossidVisual.js */
-__awtsmoosModule_462 = (() => {
+__awtsmoosModule_496 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -40324,8 +41746,8 @@ const __exports = {};
  */
 
 var Group = __awtsmoosModule_18.Group;
-var createNpcQuestMarker = __awtsmoosModule_461.createNpcQuestMarker;
-var createFriendlyChossidActor = __awtsmoosModule_463.createFriendlyChossidActor;
+var createNpcQuestMarker = __awtsmoosModule_495.createNpcQuestMarker;
+var createFriendlyChossidActor = __awtsmoosModule_497.createFriendlyChossidActor;
 
 async function createMinimalMeadowQuestChossidVisual(runtime, profile) {
 	const actor = await createFriendlyChossidActor(runtime, {
@@ -40364,7 +41786,7 @@ __exports.createMinimalMeadowQuestChossidVisual = createMinimalMeadowQuestChossi
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowQuestNpcContract.js */
-__awtsmoosModule_539 = (() => {
+__awtsmoosModule_559 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -40438,7 +41860,7 @@ __exports.questNpcPayload = questNpcPayload;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowQuestNpcPopulation.js */
-__awtsmoosModule_460 = (() => {
+__awtsmoosModule_494 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -40451,11 +41873,11 @@ const __exports = {};
  * animation, staff equipment, selection, and shlichus inside one living actor.
  */
 
-var setNpcMarkerState = __awtsmoosModule_461.setNpcMarkerState;
-var createMinimalMeadowQuestChossidVisual = __awtsmoosModule_462.createMinimalMeadowQuestChossidVisual;
-var createQuestNpcProfile = __awtsmoosModule_539.createQuestNpcProfile;
-var questNpcCandidate = __awtsmoosModule_539.questNpcCandidate;
-var questNpcPayload = __awtsmoosModule_539.questNpcPayload;
+var setNpcMarkerState = __awtsmoosModule_495.setNpcMarkerState;
+var createMinimalMeadowQuestChossidVisual = __awtsmoosModule_496.createMinimalMeadowQuestChossidVisual;
+var createQuestNpcProfile = __awtsmoosModule_559.createQuestNpcProfile;
+var questNpcCandidate = __awtsmoosModule_559.questNpcCandidate;
+var questNpcPayload = __awtsmoosModule_559.questNpcPayload;
 
 class MinimalMeadowQuestNpcPopulation {
 	static async create(runtime, quest) {
@@ -40552,7 +41974,7 @@ __exports.MinimalMeadowQuestNpcPopulation = MinimalMeadowQuestNpcPopulation;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRichWorldMountSupport.js */
-__awtsmoosModule_540 = (() => {
+__awtsmoosModule_560 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -40629,7 +42051,7 @@ __exports.minimalMeadowSubsystemFailure = minimalMeadowSubsystemFailure;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowQuestNpcHydration.js */
-__awtsmoosModule_459 = (() => {
+__awtsmoosModule_493 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -40642,9 +42064,9 @@ const __exports = {};
  * Awtsmoos.com preserves canonical GLB, animation, staff, marker, scene attachment, and exact ownership.
  */
 
-var MinimalMeadowQuestNpcPopulation = __awtsmoosModule_460.MinimalMeadowQuestNpcPopulation;
-var markMinimalMeadowMount = __awtsmoosModule_540.markMinimalMeadowMount;
-var minimalMeadowSubsystemFailure = __awtsmoosModule_540.minimalMeadowSubsystemFailure;
+var MinimalMeadowQuestNpcPopulation = __awtsmoosModule_494.MinimalMeadowQuestNpcPopulation;
+var markMinimalMeadowMount = __awtsmoosModule_560.markMinimalMeadowMount;
+var minimalMeadowSubsystemFailure = __awtsmoosModule_560.minimalMeadowSubsystemFailure;
 
 async function hydrateMinimalMeadowQuestNpc(runtime, quest) {
 	markMinimalMeadowMount(runtime, 'questNpc', 'loading');
@@ -40679,7 +42101,7 @@ __exports.hydrateMinimalMeadowQuestNpc = hydrateMinimalMeadowQuestNpc;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowQuestMount.js */
-__awtsmoosModule_428 = (() => {
+__awtsmoosModule_462 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -40692,10 +42114,10 @@ const __exports = {};
  * Awtsmoos.com keeps state, store, HUD, persistence, NPC quality, readiness, and failure receipts distinct.
  */
 
-var mountMinimalMeadowQuestCore = __awtsmoosModule_429.mountMinimalMeadowQuestCore;
-var hydrateMinimalMeadowQuestNpc = __awtsmoosModule_459.hydrateMinimalMeadowQuestNpc;
-var markMinimalMeadowMount = __awtsmoosModule_540.markMinimalMeadowMount;
-var minimalMeadowSubsystemFailure = __awtsmoosModule_540.minimalMeadowSubsystemFailure;
+var mountMinimalMeadowQuestCore = __awtsmoosModule_463.mountMinimalMeadowQuestCore;
+var hydrateMinimalMeadowQuestNpc = __awtsmoosModule_493.hydrateMinimalMeadowQuestNpc;
+var markMinimalMeadowMount = __awtsmoosModule_560.markMinimalMeadowMount;
+var minimalMeadowSubsystemFailure = __awtsmoosModule_560.minimalMeadowSubsystemFailure;
 
 function mountMinimalMeadowQuest(
 	runtime,
@@ -40730,7 +42152,7 @@ __exports.mountMinimalMeadowQuest = mountMinimalMeadowQuest;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDaasRuntime.js */
-__awtsmoosModule_542 = (() => {
+__awtsmoosModule_562 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -40842,7 +42264,7 @@ function frozen(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowKedemWardenRuntime.js */
-__awtsmoosModule_543 = (() => {
+__awtsmoosModule_563 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -40947,7 +42369,7 @@ __exports.MinimalMeadowKedemWardenRuntime = MinimalMeadowKedemWardenRuntime;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowPostureRuntime.js */
-__awtsmoosModule_544 = (() => {
+__awtsmoosModule_564 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -41049,7 +42471,7 @@ __exports.MinimalMeadowPostureRuntime = MinimalMeadowPostureRuntime;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowReactionRules.js */
-__awtsmoosModule_545 = (() => {
+__awtsmoosModule_565 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -41117,7 +42539,7 @@ function reaction(id, values) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTeachingQuestRuntime.js */
-__awtsmoosModule_546 = (() => {
+__awtsmoosModule_566 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -41209,7 +42631,7 @@ __exports.MinimalMeadowTeachingQuestRuntime = MinimalMeadowTeachingQuestRuntime;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVerticalSlicePersistence.js */
-__awtsmoosModule_547 = (() => {
+__awtsmoosModule_567 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -41320,7 +42742,7 @@ function uniqueStrings(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowAccessibilitySettings.js */
-__awtsmoosModule_549 = (() => {
+__awtsmoosModule_569 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -41389,7 +42811,7 @@ function bounded(value, minimum, maximum, fallback) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVerticalSliceReward.js */
-__awtsmoosModule_548 = (() => {
+__awtsmoosModule_568 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -41403,7 +42825,7 @@ const __exports = {};
  */
 
 var MEASURED_INTENT_REWARD_ID = __awtsmoosModule_78.MEASURED_INTENT_REWARD_ID;
-var effectiveMinimalMeadowTimingMultiplier = __awtsmoosModule_549.effectiveMinimalMeadowTimingMultiplier;
+var effectiveMinimalMeadowTimingMultiplier = __awtsmoosModule_569.effectiveMinimalMeadowTimingMultiplier;
 
 const KAVANAH_FOCUS_ID = MEASURED_INTENT_REWARD_ID;
 __exports.KAVANAH_FOCUS_ID = KAVANAH_FOCUS_ID;
@@ -41504,7 +42926,7 @@ __exports.MinimalMeadowVerticalSliceReward = MinimalMeadowVerticalSliceReward;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVerticalSliceRuntime.js */
-__awtsmoosModule_541 = (() => {
+__awtsmoosModule_561 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -41517,14 +42939,14 @@ const __exports = {};
  * Awtsmoos.com lets inventory, encounter, teaching, accessibility, and persistence agree.
  */
 
-var MinimalMeadowDaasRuntime = __awtsmoosModule_542.MinimalMeadowDaasRuntime;
-var MinimalMeadowKedemWardenRuntime = __awtsmoosModule_543.MinimalMeadowKedemWardenRuntime;
-var MinimalMeadowPostureRuntime = __awtsmoosModule_544.MinimalMeadowPostureRuntime;
-var resolveMinimalMeadowReaction = __awtsmoosModule_545.resolveMinimalMeadowReaction;
-var MinimalMeadowTeachingQuestRuntime = __awtsmoosModule_546.MinimalMeadowTeachingQuestRuntime;
-var MinimalMeadowVerticalSlicePersistence = __awtsmoosModule_547.MinimalMeadowVerticalSlicePersistence;
-var MinimalMeadowVerticalSliceReward = __awtsmoosModule_548.MinimalMeadowVerticalSliceReward;
-var KAVANAH_FOCUS_CLAIM = __awtsmoosModule_548.KAVANAH_FOCUS_CLAIM;
+var MinimalMeadowDaasRuntime = __awtsmoosModule_562.MinimalMeadowDaasRuntime;
+var MinimalMeadowKedemWardenRuntime = __awtsmoosModule_563.MinimalMeadowKedemWardenRuntime;
+var MinimalMeadowPostureRuntime = __awtsmoosModule_564.MinimalMeadowPostureRuntime;
+var resolveMinimalMeadowReaction = __awtsmoosModule_565.resolveMinimalMeadowReaction;
+var MinimalMeadowTeachingQuestRuntime = __awtsmoosModule_566.MinimalMeadowTeachingQuestRuntime;
+var MinimalMeadowVerticalSlicePersistence = __awtsmoosModule_567.MinimalMeadowVerticalSlicePersistence;
+var MinimalMeadowVerticalSliceReward = __awtsmoosModule_568.MinimalMeadowVerticalSliceReward;
+var KAVANAH_FOCUS_CLAIM = __awtsmoosModule_568.KAVANAH_FOCUS_CLAIM;
 
 class MinimalMeadowVerticalSliceRuntime {
 	constructor(runtime, environment = globalThis) {
@@ -41630,7 +43052,7 @@ __exports.MinimalMeadowVerticalSliceRuntime = MinimalMeadowVerticalSliceRuntime;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/LetterHighlandsPackage.js */
-__awtsmoosModule_551 = (() => {
+__awtsmoosModule_571 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -41682,7 +43104,7 @@ function landmark(name, position, scale, color, userData) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/RegionPackageRuntime.js */
-__awtsmoosModule_550 = (() => {
+__awtsmoosModule_570 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -41695,7 +43117,7 @@ const __exports = {};
  * keeps bounded geometry, return paths, cancellation, visibility, and diagnostics inspectable.
  */
 
-var createLetterHighlandsPackage = __awtsmoosModule_551.createLetterHighlandsPackage;
+var createLetterHighlandsPackage = __awtsmoosModule_571.createLetterHighlandsPackage;
 var canonicalRegionId = __awtsmoosModule_6.canonicalRegionId;
 
 class RegionPackageRuntime {
@@ -41738,7 +43160,7 @@ __exports.RegionPackageRuntime = RegionPackageRuntime;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/lighting/ReferenceGoldenHourPreset.js */
-__awtsmoosModule_554 = (() => {
+__awtsmoosModule_574 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -41786,7 +43208,7 @@ function budget(sunShafts, clouds, mountainBelts, practicalLamps) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/sky/SkyMeshFactory.js */
-__awtsmoosModule_556 = (() => {
+__awtsmoosModule_576 = (() => {
 const __exports = {};
 // B"H
 var BufferAttribute = __awtsmoosModule_18.BufferAttribute;
@@ -41929,7 +43351,7 @@ function indexArray(indices) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/sky/SkyDome.js */
-__awtsmoosModule_555 = (() => {
+__awtsmoosModule_575 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -41942,7 +43364,7 @@ const __exports = {};
  * centers this shader vessel on the camera so horizon, zenith, clouds, and sun remain infinite.
  */
 
-var createSkyMesh = __awtsmoosModule_556.createSkyMesh;
+var createSkyMesh = __awtsmoosModule_576.createSkyMesh;
 
 function createSkyDome(radius = 360, rings = 28, segments = 64) {
 	const geometry = sphereGeometry(radius, rings, segments);
@@ -41998,7 +43420,7 @@ function sphereGeometry(radius, rings, segments) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/Sky3D.js */
-__awtsmoosModule_553 = (() => {
+__awtsmoosModule_573 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -42012,8 +43434,8 @@ const __exports = {};
  */
 
 var Group = __awtsmoosModule_18.Group;
-var referenceLightingBudget = __awtsmoosModule_554.referenceLightingBudget;
-var createSkyDome = __awtsmoosModule_555.createSkyDome;
+var referenceLightingBudget = __awtsmoosModule_574.referenceLightingBudget;
+var createSkyDome = __awtsmoosModule_575.createSkyDome;
 
 function createSky3D(quality = 'high') {
 	const group = new Group();
@@ -42040,7 +43462,7 @@ __exports.default = createSky3D;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowSky.js */
-__awtsmoosModule_552 = (() => {
+__awtsmoosModule_572 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -42053,7 +43475,7 @@ const __exports = {};
  * sphere, sun, and clouds while unchanged frames perform no redundant transform publication.
  */
 
-var createSky3D = __awtsmoosModule_553.createSky3D;
+var createSky3D = __awtsmoosModule_573.createSky3D;
 
 function installMinimalMeadowSky(scene, camera, quality = 'high') {
 	const sky = createSky3D(quality);
@@ -42085,7 +43507,7 @@ function centerSky(sky, camera, state) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldSystemLifecycle.js */
-__awtsmoosModule_557 = (() => {
+__awtsmoosModule_577 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -42156,7 +43578,7 @@ function enrichmentSystems(runtime) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowConcurrentMountPlan.js */
-__awtsmoosModule_560 = (() => {
+__awtsmoosModule_580 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -42225,7 +43647,7 @@ __exports.default = runMinimalMeadowConcurrentMountPlan;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/ui/AmuletExpertCatalog.js */
-__awtsmoosModule_562 = (() => {
+__awtsmoosModule_582 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -42251,7 +43673,7 @@ __exports.AMULET_EXPERT_STOCK = AMULET_EXPERT_STOCK;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/HealingAmuletUse.js */
-__awtsmoosModule_565 = (() => {
+__awtsmoosModule_585 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -42301,7 +43723,7 @@ __exports.useHealingAmulet = useHealingAmulet;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/HealingAmuletCommerce.js */
-__awtsmoosModule_564 = (() => {
+__awtsmoosModule_584 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -42315,7 +43737,7 @@ const __exports = {};
  */
 
 var HEALING_AMULET_IDS = __awtsmoosModule_74.HEALING_AMULET_IDS;
-var useHealingAmulet = __awtsmoosModule_565.useHealingAmulet;
+var useHealingAmulet = __awtsmoosModule_585.useHealingAmulet;
 
 function healingAmuletCommerce(runtime) {
 	runtime.amuletCommerce ||= createHealingAmuletCommerce(runtime);
@@ -42411,7 +43833,7 @@ function responsePayload(message) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/ui/AmuletExpertPanel.js */
-__awtsmoosModule_566 = (() => {
+__awtsmoosModule_586 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -42425,9 +43847,9 @@ const __exports = {};
  */
 
 var INVENTORY_CATALOG = __awtsmoosModule_69.INVENTORY_CATALOG;
-var AMULET_EXPERT_ID = __awtsmoosModule_562.AMULET_EXPERT_ID;
-var AMULET_EXPERT_NAME = __awtsmoosModule_562.AMULET_EXPERT_NAME;
-var AMULET_EXPERT_STOCK = __awtsmoosModule_562.AMULET_EXPERT_STOCK;
+var AMULET_EXPERT_ID = __awtsmoosModule_582.AMULET_EXPERT_ID;
+var AMULET_EXPERT_NAME = __awtsmoosModule_582.AMULET_EXPERT_NAME;
+var AMULET_EXPERT_STOCK = __awtsmoosModule_582.AMULET_EXPERT_STOCK;
 
 class AmuletExpertPanel {
 	constructor(store, options = {}) {
@@ -42513,7 +43935,7 @@ function quantity(state, itemId) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowAmuletExpertLifecycle.js */
-__awtsmoosModule_563 = (() => {
+__awtsmoosModule_583 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -42526,8 +43948,8 @@ const __exports = {};
  * world update hand and removes every listener, panel, and actor when the chapter closes.
  */
 
-var healingAmuletCommerce = __awtsmoosModule_564.healingAmuletCommerce;
-var AmuletExpertPanel = __awtsmoosModule_566.AmuletExpertPanel;
+var healingAmuletCommerce = __awtsmoosModule_584.healingAmuletCommerce;
+var AmuletExpertPanel = __awtsmoosModule_586.AmuletExpertPanel;
 
 function installAmuletExpertPanel(population) {
 	if (!population.environment.document) return;
@@ -42572,7 +43994,7 @@ __exports.destroyAmuletExpert = destroyAmuletExpert;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowAmuletExpertTargeting.js */
-__awtsmoosModule_567 = (() => {
+__awtsmoosModule_587 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -42586,8 +44008,8 @@ const __exports = {};
  */
 
 var npcPointerHits = __awtsmoosModule_32.npcPointerHits;
-var AMULET_EXPERT_ID = __awtsmoosModule_562.AMULET_EXPERT_ID;
-var AMULET_EXPERT_NAME = __awtsmoosModule_562.AMULET_EXPERT_NAME;
+var AMULET_EXPERT_ID = __awtsmoosModule_582.AMULET_EXPERT_ID;
+var AMULET_EXPERT_NAME = __awtsmoosModule_582.AMULET_EXPERT_NAME;
 
 function amuletExpertCandidate(population, event) {
 	const hint = amuletExpertTargetHint(population.profile);
@@ -42641,7 +44063,7 @@ __exports.amuletExpertTargetHint = amuletExpertTargetHint;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowAmuletExpertPopulation.js */
-__awtsmoosModule_561 = (() => {
+__awtsmoosModule_581 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -42654,15 +44076,15 @@ const __exports = {};
  * Awtsmoos.com gives the expert living bones while every purchase enters the player's real Bag.
  */
 
-var AMULET_EXPERT_ID = __awtsmoosModule_562.AMULET_EXPERT_ID;
-var AMULET_EXPERT_STOCK = __awtsmoosModule_562.AMULET_EXPERT_STOCK;
-var createFriendlyChossidActor = __awtsmoosModule_463.createFriendlyChossidActor;
-var attachAmuletExpertUpdate = __awtsmoosModule_563.attachAmuletExpertUpdate;
-var destroyAmuletExpert = __awtsmoosModule_563.destroyAmuletExpert;
-var installAmuletExpertPanel = __awtsmoosModule_563.installAmuletExpertPanel;
-var amuletExpertCandidate = __awtsmoosModule_567.amuletExpertCandidate;
-var amuletExpertPayload = __awtsmoosModule_567.amuletExpertPayload;
-var amuletExpertTargetHint = __awtsmoosModule_567.amuletExpertTargetHint;
+var AMULET_EXPERT_ID = __awtsmoosModule_582.AMULET_EXPERT_ID;
+var AMULET_EXPERT_STOCK = __awtsmoosModule_582.AMULET_EXPERT_STOCK;
+var createFriendlyChossidActor = __awtsmoosModule_497.createFriendlyChossidActor;
+var attachAmuletExpertUpdate = __awtsmoosModule_583.attachAmuletExpertUpdate;
+var destroyAmuletExpert = __awtsmoosModule_583.destroyAmuletExpert;
+var installAmuletExpertPanel = __awtsmoosModule_583.installAmuletExpertPanel;
+var amuletExpertCandidate = __awtsmoosModule_587.amuletExpertCandidate;
+var amuletExpertPayload = __awtsmoosModule_587.amuletExpertPayload;
+var amuletExpertTargetHint = __awtsmoosModule_587.amuletExpertTargetHint;
 
 class MinimalMeadowAmuletExpertPopulation {
 	static async create(runtime, environment = globalThis) {
@@ -42750,7 +44172,7 @@ function expertProfile(runtime) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/ui/ClothingMerchantCatalog.js */
-__awtsmoosModule_570 = (() => {
+__awtsmoosModule_590 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -42786,7 +44208,7 @@ __exports.CLOTHING_MERCHANT_NAME = CLOTHING_MERCHANT_NAME;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/ui/ClothingMerchantPanel.js */
-__awtsmoosModule_569 = (() => {
+__awtsmoosModule_589 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -42800,8 +44222,8 @@ const __exports = {};
  */
 
 var INVENTORY_CATALOG = __awtsmoosModule_69.INVENTORY_CATALOG;
-var CLOTHING_MERCHANT_NAME = __awtsmoosModule_570.CLOTHING_MERCHANT_NAME;
-var CLOTHING_MERCHANT_STOCK = __awtsmoosModule_570.CLOTHING_MERCHANT_STOCK;
+var CLOTHING_MERCHANT_NAME = __awtsmoosModule_590.CLOTHING_MERCHANT_NAME;
+var CLOTHING_MERCHANT_STOCK = __awtsmoosModule_590.CLOTHING_MERCHANT_STOCK;
 
 class ClothingMerchantPanel {
 	constructor(store, options = {}) {
@@ -42881,7 +44303,7 @@ function garmentCard(documentValue, itemId, state, perutas) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowClothingMerchantPopulation.js */
-__awtsmoosModule_568 = (() => {
+__awtsmoosModule_588 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -42895,11 +44317,11 @@ const __exports = {};
  */
 
 var npcPointerHits = __awtsmoosModule_32.npcPointerHits;
-var ClothingMerchantPanel = __awtsmoosModule_569.ClothingMerchantPanel;
-var CLOTHING_MERCHANT_ID = __awtsmoosModule_570.CLOTHING_MERCHANT_ID;
-var CLOTHING_MERCHANT_NAME = __awtsmoosModule_570.CLOTHING_MERCHANT_NAME;
-var CLOTHING_MERCHANT_STOCK = __awtsmoosModule_570.CLOTHING_MERCHANT_STOCK;
-var createFriendlyChossidActor = __awtsmoosModule_463.createFriendlyChossidActor;
+var ClothingMerchantPanel = __awtsmoosModule_589.ClothingMerchantPanel;
+var CLOTHING_MERCHANT_ID = __awtsmoosModule_590.CLOTHING_MERCHANT_ID;
+var CLOTHING_MERCHANT_NAME = __awtsmoosModule_590.CLOTHING_MERCHANT_NAME;
+var CLOTHING_MERCHANT_STOCK = __awtsmoosModule_590.CLOTHING_MERCHANT_STOCK;
+var createFriendlyChossidActor = __awtsmoosModule_497.createFriendlyChossidActor;
 
 class MinimalMeadowClothingMerchantPopulation {
 	static async create(runtime, environment = globalThis) {
@@ -42997,7 +44419,7 @@ function profile(runtime) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseMath.js */
-__awtsmoosModule_576 = (() => {
+__awtsmoosModule_596 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -43044,7 +44466,7 @@ __exports.houseBox = houseBox;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDoorTransform.js */
-__awtsmoosModule_575 = (() => {
+__awtsmoosModule_595 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -43057,7 +44479,7 @@ const __exports = {};
  * rotated, and interior panels aligned to wall openings without adding world offsets twice.
  */
 
-var housePoint = __awtsmoosModule_576.housePoint;
+var housePoint = __awtsmoosModule_596.housePoint;
 
 function minimalMeadowDoorTransform(profile, specification, progress) {
 	const width = profile.doorWidth;
@@ -43089,7 +44511,7 @@ function clamp(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseDoor.js */
-__awtsmoosModule_574 = (() => {
+__awtsmoosModule_594 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -43105,7 +44527,7 @@ const __exports = {};
 var Group = __awtsmoosModule_18.Group;
 var createPrimitiveMesh = __awtsmoosModule_108.createPrimitiveMesh;
 var primitiveColliders = __awtsmoosModule_108.primitiveColliders;
-var minimalMeadowDoorTransform = __awtsmoosModule_575.minimalMeadowDoorTransform;
+var minimalMeadowDoorTransform = __awtsmoosModule_595.minimalMeadowDoorTransform;
 
 class MinimalMeadowHouseDoor {
 	constructor(profile, material, specification, octree, bus) {
@@ -43213,7 +44635,7 @@ function clamp(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseMezuzah.js */
-__awtsmoosModule_577 = (() => {
+__awtsmoosModule_597 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -43227,7 +44649,7 @@ const __exports = {};
  */
 
 var createPrimitiveMesh = __awtsmoosModule_108.createPrimitiveMesh;
-var housePoint = __awtsmoosModule_576.housePoint;
+var housePoint = __awtsmoosModule_596.housePoint;
 
 function createMinimalMeadowMezuzah(profile, materials, door) {
 	const sideOffset = profile.doorWidth / 2 + 0.17;
@@ -43270,7 +44692,7 @@ function rotateOffset(yaw, x, z) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseAssemblyInstallers.js */
-__awtsmoosModule_573 = (() => {
+__awtsmoosModule_593 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -43285,8 +44707,8 @@ const __exports = {};
 
 var createPrimitiveMesh = __awtsmoosModule_108.createPrimitiveMesh;
 var primitiveColliders = __awtsmoosModule_108.primitiveColliders;
-var MinimalMeadowHouseDoor = __awtsmoosModule_574.MinimalMeadowHouseDoor;
-var createMinimalMeadowMezuzah = __awtsmoosModule_577.createMinimalMeadowMezuzah;
+var MinimalMeadowHouseDoor = __awtsmoosModule_594.MinimalMeadowHouseDoor;
+var createMinimalMeadowMezuzah = __awtsmoosModule_597.createMinimalMeadowMezuzah;
 
 function installMinimalMeadowHouseDefinitions(group, definitions, octree) {
 	const colliders = [];
@@ -43330,7 +44752,7 @@ __exports.installMinimalMeadowHouseMezuzahs = installMinimalMeadowHouseMezuzahs;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseDimensionPolicy.js */
-__awtsmoosModule_578 = (() => {
+__awtsmoosModule_598 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -43422,7 +44844,7 @@ function positive(value, fallback = 1) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseStairAperture.js */
-__awtsmoosModule_580 = (() => {
+__awtsmoosModule_600 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -43483,7 +44905,7 @@ __exports.minimalMeadowHouseStairApertureEvidence = minimalMeadowHouseStairApert
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseFloorSupport.js */
-__awtsmoosModule_579 = (() => {
+__awtsmoosModule_599 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -43496,9 +44918,9 @@ const __exports = {};
  * immense interiors solid without placing an invisible upper floor across ascent, descent, or return.
  */
 
-var minimalMeadowHouseLocalPoint = __awtsmoosModule_580.minimalMeadowHouseLocalPoint;
-var minimalMeadowHouseStairAperture = __awtsmoosModule_580.minimalMeadowHouseStairAperture;
-var minimalMeadowHouseStairApertureEvidence = __awtsmoosModule_580.minimalMeadowHouseStairApertureEvidence;
+var minimalMeadowHouseLocalPoint = __awtsmoosModule_600.minimalMeadowHouseLocalPoint;
+var minimalMeadowHouseStairAperture = __awtsmoosModule_600.minimalMeadowHouseStairAperture;
+var minimalMeadowHouseStairApertureEvidence = __awtsmoosModule_600.minimalMeadowHouseStairApertureEvidence;
 
 const MAXIMUM_UPWARD_SNAP = 0.24;
 const UNDERGROUND_RECOVERY_DEPTH = 4.5;
@@ -43550,7 +44972,7 @@ function finite(value, fallback) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseEntrySupport.js */
-__awtsmoosModule_582 = (() => {
+__awtsmoosModule_602 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -43563,8 +44985,8 @@ const __exports = {};
  * visible step non-trapping while one measured sampler carries feet to the raised foundation.
  */
 
-var houseBox = __awtsmoosModule_576.houseBox;
-var housePoint = __awtsmoosModule_576.housePoint;
+var houseBox = __awtsmoosModule_596.houseBox;
+var housePoint = __awtsmoosModule_596.housePoint;
 
 const ENTRY_TREAD = 0.38;
 const MAXIMUM_ENTRY_RISE = 0.2;
@@ -43665,7 +45087,7 @@ function houseLocalPoint(profile, x, z) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseFoundation.js */
-__awtsmoosModule_581 = (() => {
+__awtsmoosModule_601 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -43678,9 +45100,9 @@ const __exports = {};
  * Awtsmoos.com keeps platform, stone, visible steps, and exact level footing in distinct vessels.
  */
 
-var createMinimalMeadowHouseEntrySupport = __awtsmoosModule_582.createMinimalMeadowHouseEntrySupport;
-var houseBox = __awtsmoosModule_576.houseBox;
-var housePoint = __awtsmoosModule_576.housePoint;
+var createMinimalMeadowHouseEntrySupport = __awtsmoosModule_602.createMinimalMeadowHouseEntrySupport;
+var houseBox = __awtsmoosModule_596.houseBox;
+var housePoint = __awtsmoosModule_596.housePoint;
 
 const SAMPLE_STEPS = 8;
 
@@ -43771,7 +45193,7 @@ function skirts(profile, material, top, terrainMinimum) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseFloorPlan.js */
-__awtsmoosModule_584 = (() => {
+__awtsmoosModule_604 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -43835,7 +45257,7 @@ function door(profile, sourceRoomId, targetRoomId, y, level, localX, localZ, sid
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseRooms.js */
-__awtsmoosModule_583 = (() => {
+__awtsmoosModule_603 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -43848,8 +45270,8 @@ const __exports = {};
 	* headers, transverse divisions, room identities, visible boxes, and collision-ready definitions.
 	*/
 
-var houseBox = __awtsmoosModule_576.houseBox;
-var createMinimalMeadowHouseFloorPlan = __awtsmoosModule_584.createMinimalMeadowHouseFloorPlan;
+var houseBox = __awtsmoosModule_596.houseBox;
+var createMinimalMeadowHouseFloorPlan = __awtsmoosModule_604.createMinimalMeadowHouseFloorPlan;
 
 function createMinimalMeadowHouseRooms(profile, materials, groundY) {
 	const plan = createMinimalMeadowHouseFloorPlan(profile, groundY);
@@ -43915,7 +45337,7 @@ function transverseWall(profile, material, partition) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseShell.js */
-__awtsmoosModule_585 = (() => {
+__awtsmoosModule_605 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -43928,7 +45350,7 @@ const __exports = {};
  * Awtsmoos.com names each wall, floor, and roof so side policy is intentional.
  */
 
-var houseBox = __awtsmoosModule_576.houseBox;
+var houseBox = __awtsmoosModule_596.houseBox;
 
 function createMinimalMeadowHouseShell(profile, materials, groundY) {
 	const floorY = groundY + profile.floorThickness;
@@ -44014,7 +45436,7 @@ function appendPanel(target, profile, material, y, first, second, width, id) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseStairSupport.js */
-__awtsmoosModule_587 = (() => {
+__awtsmoosModule_607 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -44107,7 +45529,7 @@ function allowedHeight(height, currentY, lowerY) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseStairs.js */
-__awtsmoosModule_586 = (() => {
+__awtsmoosModule_606 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -44120,8 +45542,8 @@ const __exports = {};
  * so feet climb actual horizontal steps while no wedge can trap or throw the player downward.
  */
 
-var houseBox = __awtsmoosModule_576.houseBox;
-var createMinimalMeadowHouseStairSupport = __awtsmoosModule_587.createMinimalMeadowHouseStairSupport;
+var houseBox = __awtsmoosModule_596.houseBox;
+var createMinimalMeadowHouseStairSupport = __awtsmoosModule_607.createMinimalMeadowHouseStairSupport;
 
 function createMinimalMeadowHouseStairs(profile, materials, groundY) {
 	if (profile.floors < 2) {
@@ -44192,7 +45614,7 @@ __exports.createMinimalMeadowHouseStairs = createMinimalMeadowHouseStairs;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseAssembly.js */
-__awtsmoosModule_572 = (() => {
+__awtsmoosModule_592 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -44206,15 +45628,15 @@ const __exports = {};
  */
 
 var Group = __awtsmoosModule_18.Group;
-var installMinimalMeadowHouseDefinitions = __awtsmoosModule_573.installMinimalMeadowHouseDefinitions;
-var installMinimalMeadowHouseDoors = __awtsmoosModule_573.installMinimalMeadowHouseDoors;
-var installMinimalMeadowHouseMezuzahs = __awtsmoosModule_573.installMinimalMeadowHouseMezuzahs;
-var houseDimensionEvidence = __awtsmoosModule_578.houseDimensionEvidence;
-var createMinimalMeadowHouseFloorSupport = __awtsmoosModule_579.createMinimalMeadowHouseFloorSupport;
-var createMinimalMeadowHouseFoundation = __awtsmoosModule_581.createMinimalMeadowHouseFoundation;
-var createMinimalMeadowHouseRooms = __awtsmoosModule_583.createMinimalMeadowHouseRooms;
-var createMinimalMeadowHouseShell = __awtsmoosModule_585.createMinimalMeadowHouseShell;
-var createMinimalMeadowHouseStairs = __awtsmoosModule_586.createMinimalMeadowHouseStairs;
+var installMinimalMeadowHouseDefinitions = __awtsmoosModule_593.installMinimalMeadowHouseDefinitions;
+var installMinimalMeadowHouseDoors = __awtsmoosModule_593.installMinimalMeadowHouseDoors;
+var installMinimalMeadowHouseMezuzahs = __awtsmoosModule_593.installMinimalMeadowHouseMezuzahs;
+var houseDimensionEvidence = __awtsmoosModule_598.houseDimensionEvidence;
+var createMinimalMeadowHouseFloorSupport = __awtsmoosModule_599.createMinimalMeadowHouseFloorSupport;
+var createMinimalMeadowHouseFoundation = __awtsmoosModule_601.createMinimalMeadowHouseFoundation;
+var createMinimalMeadowHouseRooms = __awtsmoosModule_603.createMinimalMeadowHouseRooms;
+var createMinimalMeadowHouseShell = __awtsmoosModule_605.createMinimalMeadowHouseShell;
+var createMinimalMeadowHouseStairs = __awtsmoosModule_606.createMinimalMeadowHouseStairs;
 
 function createMinimalMeadowHouseAssembly(profile, materials, runtime) {
 	const foundation = createMinimalMeadowHouseFoundation(profile, materials, runtime.terrain.heightAt);
@@ -44260,7 +45682,7 @@ function exteriorDoor(profile, groundY) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseCollisionVisibility.js */
-__awtsmoosModule_588 = (() => {
+__awtsmoosModule_608 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -44294,7 +45716,7 @@ __exports.enforceMinimalMeadowCollisionOnlyVisibility = enforceMinimalMeadowColl
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseGeometryBounds.js */
-__awtsmoosModule_590 = (() => {
+__awtsmoosModule_610 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -44360,7 +45782,7 @@ function boundingSphere(positions, box) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseSurfacePolicy.js */
-__awtsmoosModule_591 = (() => {
+__awtsmoosModule_611 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -44424,7 +45846,7 @@ function materialList(material) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseGeometryContract.js */
-__awtsmoosModule_589 = (() => {
+__awtsmoosModule_609 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -44437,8 +45859,8 @@ const __exports = {};
  * root so world-authored house vertices never drift from their matching colliders.
  */
 
-var installMinimalMeadowHouseBounds = __awtsmoosModule_590.installMinimalMeadowHouseBounds;
-var installMinimalMeadowHouseSurfacePolicy = __awtsmoosModule_591.installMinimalMeadowHouseSurfacePolicy;
+var installMinimalMeadowHouseBounds = __awtsmoosModule_610.installMinimalMeadowHouseBounds;
+var installMinimalMeadowHouseSurfacePolicy = __awtsmoosModule_611.installMinimalMeadowHouseSurfacePolicy;
 
 const MATRIX_EPSILON = 1e-7;
 
@@ -44502,7 +45924,7 @@ function sceneRoot(object) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseMaintenance.js */
-__awtsmoosModule_592 = (() => {
+__awtsmoosModule_612 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -44515,9 +45937,9 @@ const __exports = {};
  * Awtsmoos.com preserves exact colliders, surfaces, bounds, and visibility while idle houses stay quiet.
  */
 
-var enforceMinimalMeadowCollisionOnlyVisibility = __awtsmoosModule_588.enforceMinimalMeadowCollisionOnlyVisibility;
-var installMinimalMeadowHouseGeometryContract = __awtsmoosModule_589.installMinimalMeadowHouseGeometryContract;
-var installMinimalMeadowHouseSurfacePolicy = __awtsmoosModule_591.installMinimalMeadowHouseSurfacePolicy;
+var enforceMinimalMeadowCollisionOnlyVisibility = __awtsmoosModule_608.enforceMinimalMeadowCollisionOnlyVisibility;
+var installMinimalMeadowHouseGeometryContract = __awtsmoosModule_609.installMinimalMeadowHouseGeometryContract;
+var installMinimalMeadowHouseSurfacePolicy = __awtsmoosModule_611.installMinimalMeadowHouseSurfacePolicy;
 
 const MAINTENANCE_INTERVAL = 0.125;
 
@@ -44581,7 +46003,7 @@ function restoreMinimalMeadowHouseSurfacePolicy(root) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseMaterials.js */
-__awtsmoosModule_593 = (() => {
+__awtsmoosModule_613 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -44596,8 +46018,8 @@ const __exports = {};
 
 var cachedTextureImage = __awtsmoosModule_173.cachedTextureImage;
 var loadPublicMaterialUrl = __awtsmoosModule_173.loadPublicMaterialUrl;
-var TEXTURE_PURPOSES = __awtsmoosModule_188.TEXTURE_PURPOSES;
-var TEXTURE_URLS = __awtsmoosModule_188.TEXTURE_URLS;
+var TEXTURE_PURPOSES = __awtsmoosModule_194.TEXTURE_PURPOSES;
+var TEXTURE_URLS = __awtsmoosModule_194.TEXTURE_URLS;
 
 const SOURCES = Object.freeze({
 	brick: TEXTURE_URLS.bricks.red1,
@@ -44648,7 +46070,7 @@ __exports.houseMaterial = houseMaterial;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationLifecycle.js */
-__awtsmoosModule_594 = (() => {
+__awtsmoosModule_614 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -44691,7 +46113,7 @@ __exports.destroyMinimalMeadowHousePopulation = destroyMinimalMeadowHousePopulat
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationDiagnostics.js */
-__awtsmoosModule_595 = (() => {
+__awtsmoosModule_615 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -44724,7 +46146,7 @@ function count(houses, selector) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationDefinitions.js */
-__awtsmoosModule_596 = (() => {
+__awtsmoosModule_616 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -44751,7 +46173,7 @@ __exports.minimalMeadowHouseDefinitions = minimalMeadowHouseDefinitions;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseProfiles.js */
-__awtsmoosModule_597 = (() => {
+__awtsmoosModule_617 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -44764,7 +46186,7 @@ const __exports = {};
 	* Awtsmoos.com preserves legacy area, human doors, clear spawn, dry ground, and truthful bounds.
 	*/
 
-var createExpandedHouseProfile = __awtsmoosModule_578.createExpandedHouseProfile;
+var createExpandedHouseProfile = __awtsmoosModule_598.createExpandedHouseProfile;
 
 const MINIMAL_MEADOW_HOUSE_PROFILES = Object.freeze([
 	createExpandedHouseProfile({
@@ -44794,7 +46216,7 @@ __exports.MINIMAL_MEADOW_HOUSE_PROFILES = MINIMAL_MEADOW_HOUSE_PROFILES;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationQueries.js */
-__awtsmoosModule_598 = (() => {
+__awtsmoosModule_618 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -44837,7 +46259,7 @@ function collect(candidates, population, event, type, hint, subject) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseSupportResolver.js */
-__awtsmoosModule_599 = (() => {
+__awtsmoosModule_619 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -44890,7 +46312,7 @@ __exports.minimalMeadowHouseSupportHeight = minimalMeadowHouseSupportHeight;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHousePopulation.js */
-__awtsmoosModule_571 = (() => {
+__awtsmoosModule_591 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -44904,22 +46326,22 @@ const __exports = {};
  */
 
 var Group = __awtsmoosModule_18.Group;
-var createMinimalMeadowHouseAssembly = __awtsmoosModule_572.createMinimalMeadowHouseAssembly;
-var enforceMinimalMeadowCollisionOnlyVisibility = __awtsmoosModule_588.enforceMinimalMeadowCollisionOnlyVisibility;
-var installMinimalMeadowHouseGeometryContract = __awtsmoosModule_589.installMinimalMeadowHouseGeometryContract;
-var createMinimalMeadowHouseMaintenanceState = __awtsmoosModule_592.createMinimalMeadowHouseMaintenanceState;
-var minimalMeadowHouseMaintenanceDiagnostics = __awtsmoosModule_592.minimalMeadowHouseMaintenanceDiagnostics;
-var updateMinimalMeadowHouseMaintenance = __awtsmoosModule_592.updateMinimalMeadowHouseMaintenance;
-var loadMinimalMeadowHouseMaterials = __awtsmoosModule_593.loadMinimalMeadowHouseMaterials;
-var destroyMinimalMeadowHousePopulation = __awtsmoosModule_594.destroyMinimalMeadowHousePopulation;
-var markMinimalMeadowHouseMount = __awtsmoosModule_594.markMinimalMeadowHouseMount;
-var touchMinimalMeadowHouseMezuzah = __awtsmoosModule_594.touchMinimalMeadowHouseMezuzah;
-var minimalMeadowHousePopulationDiagnostics = __awtsmoosModule_595.minimalMeadowHousePopulationDiagnostics;
-var minimalMeadowHouseDefinitions = __awtsmoosModule_596.minimalMeadowHouseDefinitions;
-var MINIMAL_MEADOW_HOUSE_PROFILES = __awtsmoosModule_597.MINIMAL_MEADOW_HOUSE_PROFILES;
-var nearestMinimalMeadowHouseCandidate = __awtsmoosModule_598.nearestMinimalMeadowHouseCandidate;
-var minimalMeadowHouseSupportHeight = __awtsmoosModule_599.minimalMeadowHouseSupportHeight;
-var minimalMeadowHouseSupportReceipt = __awtsmoosModule_599.minimalMeadowHouseSupportReceipt;
+var createMinimalMeadowHouseAssembly = __awtsmoosModule_592.createMinimalMeadowHouseAssembly;
+var enforceMinimalMeadowCollisionOnlyVisibility = __awtsmoosModule_608.enforceMinimalMeadowCollisionOnlyVisibility;
+var installMinimalMeadowHouseGeometryContract = __awtsmoosModule_609.installMinimalMeadowHouseGeometryContract;
+var createMinimalMeadowHouseMaintenanceState = __awtsmoosModule_612.createMinimalMeadowHouseMaintenanceState;
+var minimalMeadowHouseMaintenanceDiagnostics = __awtsmoosModule_612.minimalMeadowHouseMaintenanceDiagnostics;
+var updateMinimalMeadowHouseMaintenance = __awtsmoosModule_612.updateMinimalMeadowHouseMaintenance;
+var loadMinimalMeadowHouseMaterials = __awtsmoosModule_613.loadMinimalMeadowHouseMaterials;
+var destroyMinimalMeadowHousePopulation = __awtsmoosModule_614.destroyMinimalMeadowHousePopulation;
+var markMinimalMeadowHouseMount = __awtsmoosModule_614.markMinimalMeadowHouseMount;
+var touchMinimalMeadowHouseMezuzah = __awtsmoosModule_614.touchMinimalMeadowHouseMezuzah;
+var minimalMeadowHousePopulationDiagnostics = __awtsmoosModule_615.minimalMeadowHousePopulationDiagnostics;
+var minimalMeadowHouseDefinitions = __awtsmoosModule_616.minimalMeadowHouseDefinitions;
+var MINIMAL_MEADOW_HOUSE_PROFILES = __awtsmoosModule_617.MINIMAL_MEADOW_HOUSE_PROFILES;
+var nearestMinimalMeadowHouseCandidate = __awtsmoosModule_618.nearestMinimalMeadowHouseCandidate;
+var minimalMeadowHouseSupportHeight = __awtsmoosModule_619.minimalMeadowHouseSupportHeight;
+var minimalMeadowHouseSupportReceipt = __awtsmoosModule_619.minimalMeadowHouseSupportReceipt;
 
 class MinimalMeadowHousePopulation {
 	static async create(runtime) {
@@ -44994,7 +46416,7 @@ __exports.MinimalMeadowHousePopulation = MinimalMeadowHousePopulation;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/rng.js */
-__awtsmoosModule_605 = (() => {
+__awtsmoosModule_625 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -45055,7 +46477,7 @@ __exports.normalizeTreeSeed = normalizeTreeSeed;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/treeGeometryBuilderMath.js */
-__awtsmoosModule_607 = (() => {
+__awtsmoosModule_627 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -45134,7 +46556,7 @@ __exports.treeNormalFromEuler = treeNormalFromEuler;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/treeGeometryBuilder.js */
-__awtsmoosModule_606 = (() => {
+__awtsmoosModule_626 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -45146,10 +46568,10 @@ const __exports = {};
  * methods, but no planning, randomness, or semantic identity lives here.
  */
 
-var normalizeTreeColor = __awtsmoosModule_607.normalizeTreeColor;
-var rotateTreeEuler = __awtsmoosModule_607.rotateTreeEuler;
-var treeNormalFromEuler = __awtsmoosModule_607.treeNormalFromEuler;
-var treeQuaternionBasis = __awtsmoosModule_607.treeQuaternionBasis;
+var normalizeTreeColor = __awtsmoosModule_627.normalizeTreeColor;
+var rotateTreeEuler = __awtsmoosModule_627.rotateTreeEuler;
+var treeNormalFromEuler = __awtsmoosModule_627.treeNormalFromEuler;
+var treeQuaternionBasis = __awtsmoosModule_627.treeQuaternionBasis;
 
 class TreeGeometryBuilder {
 	constructor() {
@@ -45267,7 +46689,7 @@ __exports.default = TreeGeometryBuilder;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/math/vec3.js */
-__awtsmoosModule_610 = (() => {
+__awtsmoosModule_630 = (() => {
 const __exports = {};
 // B"H
 /**
@@ -45332,7 +46754,7 @@ __exports.Vec3 = Vec3;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/treeDetailProfiles.js */
-__awtsmoosModule_612 = (() => {
+__awtsmoosModule_632 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -45416,7 +46838,7 @@ __exports.listTreeDetailProfiles = listTreeDetailProfiles;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/treeGeometryProfile.js */
-__awtsmoosModule_611 = (() => {
+__awtsmoosModule_631 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -45428,7 +46850,7 @@ const __exports = {};
  * without allowing mesh quality to regenerate structural randomness.
  */
 
-var normalizeTreeDetailProfile = __awtsmoosModule_612.normalizeTreeDetailProfile;
+var normalizeTreeDetailProfile = __awtsmoosModule_632.normalizeTreeDetailProfile;
 
 const DIRECT_PROFILES = Object.freeze({
 	high: Object.freeze({ id: "high", radialScale: 1, longitudinalScale: 1, leafDensity: 1 }),
@@ -45507,7 +46929,7 @@ __exports.TREE_GEOMETRY_LOD_PROFILES = TREE_GEOMETRY_LOD_PROFILES;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/treeSkeletonLeafBuffers.js */
-__awtsmoosModule_614 = (() => {
+__awtsmoosModule_634 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -45519,7 +46941,7 @@ const __exports = {};
  * planes from the canonical axis, size, aspect, billboard, and color fields.
  */
 
-var Vec3 = __awtsmoosModule_610.Vec3;
+var Vec3 = __awtsmoosModule_630.Vec3;
 
 function normalized(value, fallback) {
 	const vector = Array.isArray(value) ? value : fallback;
@@ -45580,7 +47002,7 @@ __exports.addTreeSkeletonLeaf = addTreeSkeletonLeaf;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/treeSkeletonMeshBuffers.js */
-__awtsmoosModule_613 = (() => {
+__awtsmoosModule_633 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -45592,9 +47014,9 @@ const __exports = {};
  * bounded geometry with deterministic linear complexity and no renderer state.
  */
 
-var Vec3 = __awtsmoosModule_610.Vec3;
+var Vec3 = __awtsmoosModule_630.Vec3;
 
-__exports.addTreeSkeletonLeaf = __awtsmoosModule_614.addTreeSkeletonLeaf;
+__exports.addTreeSkeletonLeaf = __awtsmoosModule_634.addTreeSkeletonLeaf;
 
 function createTreeSkeletonGeometryBuffer(withColors = false) {
 	const buffer = { positions: [], normals: [], uvs: [], indices: [] };
@@ -45701,7 +47123,7 @@ __exports.enforceTreeSkeletonBudget = enforceTreeSkeletonBudget;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/treeGeometryFromSkeleton.js */
-__awtsmoosModule_609 = (() => {
+__awtsmoosModule_629 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -45713,17 +47135,17 @@ const __exports = {};
  * and changes only density and leaf size—never botanical identity.
  */
 
-var Vec3 = __awtsmoosModule_610.Vec3;
-var normalizeTreeGeometryProfile = __awtsmoosModule_611.normalizeTreeGeometryProfile;
-var addTreeSkeletonCap = __awtsmoosModule_613.addTreeSkeletonCap;
-var addTreeSkeletonLeaf = __awtsmoosModule_613.addTreeSkeletonLeaf;
-var addTreeSkeletonRing = __awtsmoosModule_613.addTreeSkeletonRing;
-var createTreeSkeletonGeometryBuffer = __awtsmoosModule_613.createTreeSkeletonGeometryBuffer;
-var enforceTreeSkeletonBudget = __awtsmoosModule_613.enforceTreeSkeletonBudget;
-var initialTreeSkeletonNormal = __awtsmoosModule_613.initialTreeSkeletonNormal;
-var sampleTreeSkeletonNodes = __awtsmoosModule_613.sampleTreeSkeletonNodes;
-var stitchTreeSkeletonRings = __awtsmoosModule_613.stitchTreeSkeletonRings;
-var transportTreeSkeletonNormal = __awtsmoosModule_613.transportTreeSkeletonNormal;
+var Vec3 = __awtsmoosModule_630.Vec3;
+var normalizeTreeGeometryProfile = __awtsmoosModule_631.normalizeTreeGeometryProfile;
+var addTreeSkeletonCap = __awtsmoosModule_633.addTreeSkeletonCap;
+var addTreeSkeletonLeaf = __awtsmoosModule_633.addTreeSkeletonLeaf;
+var addTreeSkeletonRing = __awtsmoosModule_633.addTreeSkeletonRing;
+var createTreeSkeletonGeometryBuffer = __awtsmoosModule_633.createTreeSkeletonGeometryBuffer;
+var enforceTreeSkeletonBudget = __awtsmoosModule_633.enforceTreeSkeletonBudget;
+var initialTreeSkeletonNormal = __awtsmoosModule_633.initialTreeSkeletonNormal;
+var sampleTreeSkeletonNodes = __awtsmoosModule_633.sampleTreeSkeletonNodes;
+var stitchTreeSkeletonRings = __awtsmoosModule_633.stitchTreeSkeletonRings;
+var transportTreeSkeletonNormal = __awtsmoosModule_633.transportTreeSkeletonNormal;
 
 function buildBranch(buffer, branch, profile) {
 	const radial = Math.max(3, Math.round(branch.radialSegments * profile.radialScale));
@@ -45789,14 +47211,14 @@ __exports.buildTreeGeometryFromSkeleton = buildTreeGeometryFromSkeleton;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/treeRandomStreams.js */
-__awtsmoosModule_616 = (() => {
+__awtsmoosModule_636 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
 // Blessed is He
 
-var TreeRNG = __awtsmoosModule_605.TreeRNG;
-var normalizeTreeSeed = __awtsmoosModule_605.normalizeTreeSeed;
+var TreeRNG = __awtsmoosModule_625.TreeRNG;
+var normalizeTreeSeed = __awtsmoosModule_625.normalizeTreeSeed;
 
 /**
  * Names every random domain so foliage, bark detail, and geometry quality can
@@ -45821,7 +47243,7 @@ __exports.createTreeRandomStreams = createTreeRandomStreams;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/treeSkeletonArtifact.js */
-__awtsmoosModule_617 = (() => {
+__awtsmoosModule_637 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -45880,7 +47302,7 @@ __exports.hashTreeSkeleton = hashTreeSkeleton;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/treeTrellisField.js */
-__awtsmoosModule_619 = (() => {
+__awtsmoosModule_639 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -45997,7 +47419,7 @@ __exports.createTreeTrellisReport = createTreeTrellisReport;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/treeSkeletonMath.js */
-__awtsmoosModule_620 = (() => {
+__awtsmoosModule_640 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -46009,7 +47431,7 @@ const __exports = {};
  * tree-specific sampling, rounding, and semantic color normalization.
  */
 
-var Vec3 = __awtsmoosModule_610.Vec3;
+var Vec3 = __awtsmoosModule_630.Vec3;
 
 const GOLDEN_TREE_ANGLE = 2.399963229728653;
 __exports.GOLDEN_TREE_ANGLE = GOLDEN_TREE_ANGLE;
@@ -46069,7 +47491,7 @@ __exports.normalizeTreeSkeletonColor = normalizeTreeSkeletonColor;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/treeSkeletonBranchPlanner.js */
-__awtsmoosModule_618 = (() => {
+__awtsmoosModule_638 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -46081,11 +47503,11 @@ const __exports = {};
  * trellis attraction, taper, twist, and attachment lineage without foliage.
  */
 
-var Vec3 = __awtsmoosModule_610.Vec3;
-var calculateTreeTrellisForce = __awtsmoosModule_619.calculateTreeTrellisForce;
-var clampTreeSkeletonValue = __awtsmoosModule_620.clampTreeSkeletonValue;
-var roundTreeSkeletonValue = __awtsmoosModule_620.roundTreeSkeletonValue;
-var treeSkeletonValue = __awtsmoosModule_620.treeSkeletonValue;
+var Vec3 = __awtsmoosModule_630.Vec3;
+var calculateTreeTrellisForce = __awtsmoosModule_639.calculateTreeTrellisForce;
+var clampTreeSkeletonValue = __awtsmoosModule_640.clampTreeSkeletonValue;
+var roundTreeSkeletonValue = __awtsmoosModule_640.roundTreeSkeletonValue;
+var treeSkeletonValue = __awtsmoosModule_640.treeSkeletonValue;
 
 function applyGlobalForce(context, direction, radius) {
 	const force = context.config.branch?.force;
@@ -46174,7 +47596,7 @@ __exports.growTreeSkeletonBranch = growTreeSkeletonBranch;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/treePipeModel.js */
-__awtsmoosModule_622 = (() => {
+__awtsmoosModule_642 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -46253,7 +47675,7 @@ __exports.createTreePipeModelReport = createTreePipeModelReport;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/treeSkeletonCanopyPlanner.js */
-__awtsmoosModule_621 = (() => {
+__awtsmoosModule_641 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -46265,14 +47687,14 @@ const __exports = {};
  * and conserves parent pipe area instead of inventing impossible thickness.
  */
 
-var Vec3 = __awtsmoosModule_610.Vec3;
-var calculateTreeChildRadius = __awtsmoosModule_622.calculateTreeChildRadius;
-var GOLDEN_TREE_ANGLE = __awtsmoosModule_620.GOLDEN_TREE_ANGLE;
-var clampTreeSkeletonValue = __awtsmoosModule_620.clampTreeSkeletonValue;
-var createTreeSkeletonBranchDirection = __awtsmoosModule_620.createTreeSkeletonBranchDirection;
-var normalizeTreeSkeletonColor = __awtsmoosModule_620.normalizeTreeSkeletonColor;
-var roundTreeSkeletonValue = __awtsmoosModule_620.roundTreeSkeletonValue;
-var treeSkeletonValue = __awtsmoosModule_620.treeSkeletonValue;
+var Vec3 = __awtsmoosModule_630.Vec3;
+var calculateTreeChildRadius = __awtsmoosModule_642.calculateTreeChildRadius;
+var GOLDEN_TREE_ANGLE = __awtsmoosModule_640.GOLDEN_TREE_ANGLE;
+var clampTreeSkeletonValue = __awtsmoosModule_640.clampTreeSkeletonValue;
+var createTreeSkeletonBranchDirection = __awtsmoosModule_640.createTreeSkeletonBranchDirection;
+var normalizeTreeSkeletonColor = __awtsmoosModule_640.normalizeTreeSkeletonColor;
+var roundTreeSkeletonValue = __awtsmoosModule_640.roundTreeSkeletonValue;
+var treeSkeletonValue = __awtsmoosModule_640.treeSkeletonValue;
 
 function maximumLevel(context) {
 	return Math.max(0, Math.floor(Number(context.config.branch?.levels || 0)));
@@ -46384,7 +47806,7 @@ __exports.placeTreeSkeletonLeaves = placeTreeSkeletonLeaves;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/treeSkeletonGenerator.js */
-__awtsmoosModule_615 = (() => {
+__awtsmoosModule_635 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -46396,12 +47818,12 @@ const __exports = {};
  * focused planning, and returns stable renderer-neutral branch and leaf IDs.
  */
 
-var createTreeRandomStreams = __awtsmoosModule_616.createTreeRandomStreams;
-var TreeSkeletonArtifact = __awtsmoosModule_617.TreeSkeletonArtifact;
-var growTreeSkeletonBranch = __awtsmoosModule_618.growTreeSkeletonBranch;
-var enqueueTreeSkeletonChildren = __awtsmoosModule_621.enqueueTreeSkeletonChildren;
-var placeTreeSkeletonLeaves = __awtsmoosModule_621.placeTreeSkeletonLeaves;
-var treeSkeletonValue = __awtsmoosModule_620.treeSkeletonValue;
+var createTreeRandomStreams = __awtsmoosModule_636.createTreeRandomStreams;
+var TreeSkeletonArtifact = __awtsmoosModule_637.TreeSkeletonArtifact;
+var growTreeSkeletonBranch = __awtsmoosModule_638.growTreeSkeletonBranch;
+var enqueueTreeSkeletonChildren = __awtsmoosModule_641.enqueueTreeSkeletonChildren;
+var placeTreeSkeletonLeaves = __awtsmoosModule_641.placeTreeSkeletonLeaves;
+var treeSkeletonValue = __awtsmoosModule_640.treeSkeletonValue;
 
 class TreeSkeletonGenerator {
 	constructor(config) {
@@ -46448,7 +47870,7 @@ __exports.TreeSkeletonGenerator = TreeSkeletonGenerator;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/treeGrowthSystem.js */
-__awtsmoosModule_608 = (() => {
+__awtsmoosModule_628 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -46460,11 +47882,11 @@ const __exports = {};
  * skeleton into the established geometry builder and exposes legacy statistics.
  */
 
-var buildTreeGeometryFromSkeleton = __awtsmoosModule_609.buildTreeGeometryFromSkeleton;
-var normalizeTreeDetailProfile = __awtsmoosModule_612.normalizeTreeDetailProfile;
-var normalizeTreeGeometryProfile = __awtsmoosModule_611.normalizeTreeGeometryProfile;
-var TreeSkeletonGenerator = __awtsmoosModule_615.TreeSkeletonGenerator;
-var treeSkeletonValue = __awtsmoosModule_620.treeSkeletonValue;
+var buildTreeGeometryFromSkeleton = __awtsmoosModule_629.buildTreeGeometryFromSkeleton;
+var normalizeTreeDetailProfile = __awtsmoosModule_632.normalizeTreeDetailProfile;
+var normalizeTreeGeometryProfile = __awtsmoosModule_631.normalizeTreeGeometryProfile;
+var TreeSkeletonGenerator = __awtsmoosModule_635.TreeSkeletonGenerator;
+var treeSkeletonValue = __awtsmoosModule_640.treeSkeletonValue;
 
 class TreeGrowthSystem {
 	constructor(config, rng, geometry, detail = "high", options = {}) {
@@ -46522,7 +47944,7 @@ __exports.default = TreeGrowthSystem;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/treeLodPlanner.js */
-__awtsmoosModule_623 = (() => {
+__awtsmoosModule_643 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -46534,9 +47956,9 @@ const __exports = {};
  * consuming no random numbers and performing no structural regeneration.
  */
 
-var buildTreeGeometryFromSkeleton = __awtsmoosModule_609.buildTreeGeometryFromSkeleton;
-var TREE_GEOMETRY_LOD_PROFILES = __awtsmoosModule_611.TREE_GEOMETRY_LOD_PROFILES;
-var normalizeTreeGeometryProfile = __awtsmoosModule_611.normalizeTreeGeometryProfile;
+var buildTreeGeometryFromSkeleton = __awtsmoosModule_629.buildTreeGeometryFromSkeleton;
+var TREE_GEOMETRY_LOD_PROFILES = __awtsmoosModule_631.TREE_GEOMETRY_LOD_PROFILES;
+var normalizeTreeGeometryProfile = __awtsmoosModule_631.normalizeTreeGeometryProfile;
 
 const TREE_LOD_PROFILES = TREE_GEOMETRY_LOD_PROFILES;
 __exports.TREE_LOD_PROFILES = TREE_LOD_PROFILES;
@@ -46572,7 +47994,7 @@ __exports.createTreeLodSet = createTreeLodSet;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/treeCapabilities.js */
-__awtsmoosModule_624 = (() => {
+__awtsmoosModule_644 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -46584,7 +48006,7 @@ const __exports = {};
  * one canonical planner and its compatibility adapter are declared explicitly.
  */
 
-var TREE_LOD_PROFILES = __awtsmoosModule_623.TREE_LOD_PROFILES;
+var TREE_LOD_PROFILES = __awtsmoosModule_643.TREE_LOD_PROFILES;
 
 const SUPPORTS = Object.freeze([
 	"multi-level-branches",
@@ -46661,7 +48083,7 @@ __exports.default = getTreeCapabilities;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/treeOutputReport.js */
-__awtsmoosModule_625 = (() => {
+__awtsmoosModule_645 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -46673,7 +48095,7 @@ const __exports = {};
  * packed memory, canonical skeleton identity, caps, and normalized trellis intent.
  */
 
-var createTreeTrellisReport = __awtsmoosModule_619.createTreeTrellisReport;
+var createTreeTrellisReport = __awtsmoosModule_639.createTreeTrellisReport;
 
 function geometryArrays(builder) {
 	return {
@@ -46766,7 +48188,7 @@ __exports.createTreeOutput = createTreeOutput;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/ezTreePresets.js */
-__awtsmoosModule_628 = (() => {
+__awtsmoosModule_648 = (() => {
 const __exports = {};
 // B"H
 /** @file ezTreePresets.js @description Pure data absorption of every external ez-tree preset, no old assets. */
@@ -46799,7 +48221,7 @@ __exports.default = EZ_TREE_PRESETS;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/core/geometry/generators/tree/presets/pine.js */
-__awtsmoosModule_631 = (() => {
+__awtsmoosModule_651 = (() => {
 const __exports = {};
 // B"H
 const PINE_PRESETS = [
@@ -46850,7 +48272,7 @@ __exports.PINE_PRESETS = PINE_PRESETS;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/core/geometry/generators/tree/presets/oak.js */
-__awtsmoosModule_632 = (() => {
+__awtsmoosModule_652 = (() => {
 const __exports = {};
 // B"H
 const OAK_PRESETS = [
@@ -46880,7 +48302,7 @@ __exports.OAK_PRESETS = OAK_PRESETS;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/core/geometry/generators/tree/presets/birch.js */
-__awtsmoosModule_633 = (() => {
+__awtsmoosModule_653 = (() => {
 const __exports = {};
 // B"H
 const BIRCH_PRESETS = [
@@ -46910,7 +48332,7 @@ __exports.BIRCH_PRESETS = BIRCH_PRESETS;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/core/geometry/generators/tree/presets/ash.js */
-__awtsmoosModule_634 = (() => {
+__awtsmoosModule_654 = (() => {
 const __exports = {};
 // B"H
 const ASH_PRESETS = [
@@ -46940,7 +48362,7 @@ __exports.ASH_PRESETS = ASH_PRESETS;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/core/geometry/generators/tree/presets/aspen.js */
-__awtsmoosModule_635 = (() => {
+__awtsmoosModule_655 = (() => {
 const __exports = {};
 // B"H
 const ASPEN_PRESETS = [
@@ -46970,14 +48392,14 @@ __exports.ASPEN_PRESETS = ASPEN_PRESETS;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/core/geometry/generators/tree/presets/index.js */
-__awtsmoosModule_630 = (() => {
+__awtsmoosModule_650 = (() => {
 const __exports = {};
 // B"H
-var PINE_PRESETS = __awtsmoosModule_631.PINE_PRESETS;
-var OAK_PRESETS = __awtsmoosModule_632.OAK_PRESETS;
-var BIRCH_PRESETS = __awtsmoosModule_633.BIRCH_PRESETS;
-var ASH_PRESETS = __awtsmoosModule_634.ASH_PRESETS;
-var ASPEN_PRESETS = __awtsmoosModule_635.ASPEN_PRESETS;
+var PINE_PRESETS = __awtsmoosModule_651.PINE_PRESETS;
+var OAK_PRESETS = __awtsmoosModule_652.OAK_PRESETS;
+var BIRCH_PRESETS = __awtsmoosModule_653.BIRCH_PRESETS;
+var ASH_PRESETS = __awtsmoosModule_654.ASH_PRESETS;
+var ASPEN_PRESETS = __awtsmoosModule_655.ASPEN_PRESETS;
 
 const TREE_PRESETS = {
     ...PINE_PRESETS.reduce((acc, p) => ({...acc, [p.name]: p}), {}),
@@ -46990,7 +48412,7 @@ __exports.TREE_PRESETS = TREE_PRESETS;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/legacyTreePresetBridge.js */
-__awtsmoosModule_629 = (() => {
+__awtsmoosModule_649 = (() => {
 const __exports = {};
 // B"H
 /**
@@ -47001,7 +48423,7 @@ const __exports = {};
  * was repeated. This bridge reveals their data to the canonical generator
  * without reviving the retired renderer or copying a second source of truth.
  */
-var HIDDEN_LEGACY_TREE_PRESETS = __awtsmoosModule_630.TREE_PRESETS;
+var HIDDEN_LEGACY_TREE_PRESETS = __awtsmoosModule_650.TREE_PRESETS;
 
 function clonePreset(preset) {
 	return typeof structuredClone === 'function'
@@ -47025,7 +48447,7 @@ __exports.default = LEGACY_TREE_PRESETS;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/awtsmoosTreeVarietyPresets.js */
-__awtsmoosModule_636 = (() => {
+__awtsmoosModule_656 = (() => {
 const __exports = {};
 // B"H
 /** @file awtsmoosTreeVarietyPresets.js @description Bigger custom tree variety vessels generated from data, not imported assets. */
@@ -47060,7 +48482,7 @@ __exports.AWTSMOOS_TREE_VARIETY_PRESETS = AWTSMOOS_TREE_VARIETY_PRESETS;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/treeMaterialCatalog.js */
-__awtsmoosModule_637 = (() => {
+__awtsmoosModule_657 = (() => {
 const __exports = {};
 // B"H
 /** @file treeMaterialCatalog.js @description Semantic bark and leaf types still needing custom procedural generation. */
@@ -47104,7 +48526,7 @@ __exports.canonicalLeafType = canonicalLeafType;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/treePresets.js */
-__awtsmoosModule_627 = (() => {
+__awtsmoosModule_647 = (() => {
 const __exports = {};
 // B"H
 /**
@@ -47114,12 +48536,12 @@ const __exports = {};
  * canopy. Ez-tree data, historic special trees, hidden legacy presets, and new
  * Awtsmoos varieties now pass through one immutable normalization covenant.
  */
-var EZ_TREE_PRESETS = __awtsmoosModule_628.default;
-var LEGACY_TREE_PRESETS = __awtsmoosModule_629.default;
-var AWTSMOOS_TREE_VARIETY_PRESETS = __awtsmoosModule_636.default;
-var canonicalBarkType = __awtsmoosModule_637.canonicalBarkType;
-var canonicalLeafType = __awtsmoosModule_637.canonicalLeafType;
-var TREE_MATERIAL_NEEDS = __awtsmoosModule_637.TREE_MATERIAL_NEEDS;
+var EZ_TREE_PRESETS = __awtsmoosModule_648.default;
+var LEGACY_TREE_PRESETS = __awtsmoosModule_649.default;
+var AWTSMOOS_TREE_VARIETY_PRESETS = __awtsmoosModule_656.default;
+var canonicalBarkType = __awtsmoosModule_657.canonicalBarkType;
+var canonicalLeafType = __awtsmoosModule_657.canonicalLeafType;
+var TREE_MATERIAL_NEEDS = __awtsmoosModule_657.TREE_MATERIAL_NEEDS;
 
 const SPECIAL_TREE_PRESETS = Object.freeze({
 	Sakura: {
@@ -47197,7 +48619,7 @@ __exports.TREE_PRESET_NAMES = TREE_PRESET_NAMES;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/treeConfigResolver.js */
-__awtsmoosModule_626 = (() => {
+__awtsmoosModule_646 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -47208,7 +48630,7 @@ const __exports = {};
  * This Awtsmoos.com vessel merges tree intent without erasing hidden defaults.
  * Merges are deterministic, side-effect free, and replace arrays as atomic values.
  */
-var getTreePreset = __awtsmoosModule_627.getTreePreset;
+var getTreePreset = __awtsmoosModule_647.getTreePreset;
 
 function isPlainObject(value) {
 	return Boolean(value) && typeof value === "object" && !Array.isArray(value);
@@ -47265,7 +48687,7 @@ __exports.default = resolveTreeConfig;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/treeGenerator.js */
-__awtsmoosModule_604 = (() => {
+__awtsmoosModule_624 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -47277,17 +48699,17 @@ const __exports = {};
  * while preventing mesh and LOD calls from owning separate growth algorithms.
  */
 
-var TreeRNG = __awtsmoosModule_605.TreeRNG;
-var TreeGeometryBuilder = __awtsmoosModule_606.TreeGeometryBuilder;
-var TreeGrowthSystem = __awtsmoosModule_608.TreeGrowthSystem;
-var TreeSkeletonGenerator = __awtsmoosModule_615.TreeSkeletonGenerator;
-var createTreeLodSet = __awtsmoosModule_623.createTreeLodSet;
-var getTreeCapabilities = __awtsmoosModule_624.getTreeCapabilities;
-var createTreeOutput = __awtsmoosModule_625.createTreeOutput;
-var resolveTreeConfig = __awtsmoosModule_626.resolveTreeConfig;
-var TREE_PRESETS = __awtsmoosModule_627.default;
-var getTreePreset = __awtsmoosModule_627.getTreePreset;
-var listTreePresets = __awtsmoosModule_627.listTreePresets;
+var TreeRNG = __awtsmoosModule_625.TreeRNG;
+var TreeGeometryBuilder = __awtsmoosModule_626.TreeGeometryBuilder;
+var TreeGrowthSystem = __awtsmoosModule_628.TreeGrowthSystem;
+var TreeSkeletonGenerator = __awtsmoosModule_635.TreeSkeletonGenerator;
+var createTreeLodSet = __awtsmoosModule_643.createTreeLodSet;
+var getTreeCapabilities = __awtsmoosModule_644.getTreeCapabilities;
+var createTreeOutput = __awtsmoosModule_645.createTreeOutput;
+var resolveTreeConfig = __awtsmoosModule_646.resolveTreeConfig;
+var TREE_PRESETS = __awtsmoosModule_647.default;
+var getTreePreset = __awtsmoosModule_647.getTreePreset;
+var listTreePresets = __awtsmoosModule_647.listTreePresets;
 
 function generationOptions(input) {
 	return typeof input === "string" ? { detail: input } : input || {};
@@ -47409,7 +48831,7 @@ __exports.default = TreeGenerator;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeCoreFacade.js */
-__awtsmoosModule_603 = (() => {
+__awtsmoosModule_623 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -47422,8 +48844,8 @@ const __exports = {};
  * browser ESM and optional graph transforms from losing the generator behind a bare re-export.
  */
 
-var generateCanonicalTreeProceduralData = __awtsmoosModule_604.generateTreeProceduralData;
-var listCanonicalTreePresets = __awtsmoosModule_604.listTreePresets;
+var generateCanonicalTreeProceduralData = __awtsmoosModule_624.generateTreeProceduralData;
+var listCanonicalTreePresets = __awtsmoosModule_624.listTreePresets;
 
 /**
  * Generates canonical connected bark and botanical leaf buffers.
@@ -47449,7 +48871,7 @@ __exports.listTreePresets = listTreePresets;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeGeometrySupport.js */
-__awtsmoosModule_638 = (() => {
+__awtsmoosModule_658 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -47554,7 +48976,7 @@ function normalizedVariant(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeGeometry.js */
-__awtsmoosModule_602 = (() => {
+__awtsmoosModule_622 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -47568,10 +48990,10 @@ const __exports = {};
  */
 
 var Mesh = __awtsmoosModule_18.Mesh;
-var generateTreeProceduralData = __awtsmoosModule_603.generateTreeProceduralData;
-var minimalMeadowBarkDefinition = __awtsmoosModule_638.minimalMeadowBarkDefinition;
-var minimalMeadowLeafDefinition = __awtsmoosModule_638.minimalMeadowLeafDefinition;
-var minimalMeadowTreePart = __awtsmoosModule_638.minimalMeadowTreePart;
+var generateTreeProceduralData = __awtsmoosModule_623.generateTreeProceduralData;
+var minimalMeadowBarkDefinition = __awtsmoosModule_658.minimalMeadowBarkDefinition;
+var minimalMeadowLeafDefinition = __awtsmoosModule_658.minimalMeadowLeafDefinition;
+var minimalMeadowTreePart = __awtsmoosModule_658.minimalMeadowTreePart;
 
 const templates = new Map();
 const VARIANT_COUNT = 6;
@@ -47636,7 +49058,7 @@ function buildTemplate(preset, materials, variant, key) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeSilhouette.js */
-__awtsmoosModule_639 = (() => {
+__awtsmoosModule_659 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -47715,7 +49137,7 @@ function clamp(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeFactory.js */
-__awtsmoosModule_601 = (() => {
+__awtsmoosModule_621 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -47729,9 +49151,9 @@ const __exports = {};
  */
 
 var Group = __awtsmoosModule_18.Group;
-var createTreePart = __awtsmoosModule_602.createTreePart;
-var minimalMeadowTreeTemplate = __awtsmoosModule_602.minimalMeadowTreeTemplate;
-var applyMinimalMeadowTreeSilhouette = __awtsmoosModule_639.applyMinimalMeadowTreeSilhouette;
+var createTreePart = __awtsmoosModule_622.createTreePart;
+var minimalMeadowTreeTemplate = __awtsmoosModule_622.minimalMeadowTreeTemplate;
+var applyMinimalMeadowTreeSilhouette = __awtsmoosModule_659.applyMinimalMeadowTreeSilhouette;
 
 function createMinimalMeadowTree(placement, materials) {
 	const template = minimalMeadowTreeTemplate(
@@ -47776,7 +49198,7 @@ __exports.createMinimalMeadowTree = createMinimalMeadowTree;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/trees/ForestLeafLegacyChromaKey.js */
-__awtsmoosModule_642 = (() => {
+__awtsmoosModule_662 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -47875,7 +49297,7 @@ function schedule(callback) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/trees/ForestLeafTexture.js */
-__awtsmoosModule_641 = (() => {
+__awtsmoosModule_661 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -47883,18 +49305,20 @@ const __exports = {};
 
 /**
  * @file ForestLeafTexture.js
- * @description Preserves authored species alpha and delegates only opaque legacy cards to chroma key.
- * The Awtsmoos reveals each uploaded leaf through its own colors and transparent edge; Awtsmoos.com
- * refuses to repaint living species as vegetables while retaining a narrow bridge for old Chai cards.
+ * @description Preserves authored leaf alpha and schedules the browser's real-nature bridge.
+ * The Awtsmoos reveals each uploaded leaf through its own color and transparent edge;
+ * Awtsmoos.com opens the trusted GLB garden only inside the living browser pledge.
  */
 
-var legacyForestLeafChromaKeyContract = __awtsmoosModule_642.legacyForestLeafChromaKeyContract;
-var prepareLegacyForestLeafTexture = __awtsmoosModule_642.prepareLegacyForestLeafTexture;
+var scheduleLiveRealNatureBridge = __awtsmoosModule_204.scheduleLiveRealNatureBridge;
+var legacyForestLeafChromaKeyContract = __awtsmoosModule_662.legacyForestLeafChromaKeyContract;
+var prepareLegacyForestLeafTexture = __awtsmoosModule_662.prepareLegacyForestLeafTexture;
 
 let cachedTexture = null;
 const AUTHORED_TREE_PATH = '/awtsmoos-nature/ilanos/trees/';
 
 function createForestLeafTexture() {
+	scheduleBrowserNatureBridge();
 	if (cachedTexture || typeof document === 'undefined') return cachedTexture;
 	const canvas = document.createElement('canvas');
 	canvas.width = 64;
@@ -47929,6 +49353,7 @@ function createForestLeafTexture() {
 
 __exports.createForestLeafTexture = createForestLeafTexture;
 function createForestLeafPublicTexture(image) {
+	scheduleBrowserNatureBridge();
 	if (authoredTreeImage(image)) {
 		image.dataset ||= {};
 		image.dataset.awtsmoosTransform = 'authored-alpha-preserved';
@@ -47945,7 +49370,8 @@ function forestLeafPublicTextureContract() {
 		...legacyForestLeafChromaKeyContract(),
 		authoredAlphaPreserved: true,
 		authoredPath: AUTHORED_TREE_PATH,
-		legacyTransformOnly: true
+		legacyTransformOnly: true,
+		realNatureBridge: 'deferred-final-runtime'
 	});
 }
 
@@ -47958,11 +49384,17 @@ function authoredTreeImage(image) {
 	return String(source).includes(AUTHORED_TREE_PATH);
 }
 
+function scheduleBrowserNatureBridge() {
+	if (typeof document !== 'undefined') {
+		scheduleLiveRealNatureBridge(globalThis);
+	}
+}
+
 __exports.default = createForestLeafTexture;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeTexturePainter.js */
-__awtsmoosModule_643 = (() => {
+__awtsmoosModule_663 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -48049,7 +49481,7 @@ function paintLeaf(context, width, height) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeMaterialSources.js */
-__awtsmoosModule_640 = (() => {
+__awtsmoosModule_660 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -48063,10 +49495,10 @@ const __exports = {};
  */
 
 var cachedTextureImage = __awtsmoosModule_173.cachedTextureImage;
-var TEXTURE_PURPOSES = __awtsmoosModule_188.TEXTURE_PURPOSES;
-var createForestLeafPublicTexture = __awtsmoosModule_641.createForestLeafPublicTexture;
-var createMinimalTreeBarkTexture = __awtsmoosModule_643.createMinimalTreeBarkTexture;
-var createMinimalTreeLeafTexture = __awtsmoosModule_643.createMinimalTreeLeafTexture;
+var TEXTURE_PURPOSES = __awtsmoosModule_194.TEXTURE_PURPOSES;
+var createForestLeafPublicTexture = __awtsmoosModule_661.createForestLeafPublicTexture;
+var createMinimalTreeBarkTexture = __awtsmoosModule_663.createMinimalTreeBarkTexture;
+var createMinimalTreeLeafTexture = __awtsmoosModule_663.createMinimalTreeLeafTexture;
 
 function createMinimalMeadowTreeMaterials(records = [], documentValue = globalThis.document) {
 	return resolveMinimalMeadowTreeMaterials({
@@ -48138,7 +49570,7 @@ function diagnostics(records, barkFallback, leafFallback) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainNoise.js */
-__awtsmoosModule_649 = (() => {
+__awtsmoosModule_669 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -48237,7 +49669,7 @@ function clamp(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainBlendFields.js */
-__awtsmoosModule_648 = (() => {
+__awtsmoosModule_668 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -48250,7 +49682,7 @@ const __exports = {};
  * Awtsmoos.com keeps every field bounded, reusable, and independent of renderer implementation.
  */
 
-var minimalMeadowFractalNoise = __awtsmoosModule_649.minimalMeadowFractalNoise;
+var minimalMeadowFractalNoise = __awtsmoosModule_669.minimalMeadowFractalNoise;
 
 function minimalMeadowTerrainFields(x, z) {
 	const macro = noise(x, z, 0.0075, 13);
@@ -48311,7 +49743,7 @@ function clamp(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainBlendModel.js */
-__awtsmoosModule_647 = (() => {
+__awtsmoosModule_667 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -48324,10 +49756,10 @@ const __exports = {};
  * Awtsmoos.com preserves analytical color, grid evidence, and renderer-independent ecological factors.
  */
 
-var minimalMeadowRoadWeights = __awtsmoosModule_278.minimalMeadowRoadWeights;
-var minimalMeadowInferredMoisture = __awtsmoosModule_648.minimalMeadowInferredMoisture;
-var minimalMeadowNormalizedWeights = __awtsmoosModule_648.minimalMeadowNormalizedWeights;
-var minimalMeadowTerrainFields = __awtsmoosModule_648.minimalMeadowTerrainFields;
+var minimalMeadowRoadWeights = __awtsmoosModule_312.minimalMeadowRoadWeights;
+var minimalMeadowInferredMoisture = __awtsmoosModule_668.minimalMeadowInferredMoisture;
+var minimalMeadowNormalizedWeights = __awtsmoosModule_668.minimalMeadowNormalizedWeights;
+var minimalMeadowTerrainFields = __awtsmoosModule_668.minimalMeadowTerrainFields;
 
 const DISPLAY_COLORS = Object.freeze({
 	dry: Object.freeze([0.5, 0.45, 0.22]),
@@ -48432,7 +49864,7 @@ function clamp(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEcologyField.js */
-__awtsmoosModule_646 = (() => {
+__awtsmoosModule_666 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -48445,7 +49877,7 @@ const __exports = {};
  * Awtsmoos.com keeps roads clear, wet ground fertile, slopes sparse, and all variation deterministic.
  */
 
-var sampleMinimalMeadowTerrainBlend = __awtsmoosModule_647.sampleMinimalMeadowTerrainBlend;
+var sampleMinimalMeadowTerrainBlend = __awtsmoosModule_667.sampleMinimalMeadowTerrainBlend;
 
 function sampleMinimalMeadowEcology(terrain, x, z, options = {}) {
 	const height = finite(options.height, terrain?.heightAt?.(x, z));
@@ -48517,7 +49949,7 @@ function clamp(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeSpeciesProfiles.js */
-__awtsmoosModule_650 = (() => {
+__awtsmoosModule_670 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -48577,7 +50009,7 @@ function clamp(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldPopulationConfig.js */
-__awtsmoosModule_651 = (() => {
+__awtsmoosModule_671 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -48639,7 +50071,7 @@ function grove(id, x, z, radius, count, climate) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldPopulationMath.js */
-__awtsmoosModule_652 = (() => {
+__awtsmoosModule_672 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -48711,7 +50143,7 @@ __exports.minimalMeadowHasSpacing = minimalMeadowHasSpacing;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreePlacementFactory.js */
-__awtsmoosModule_645 = (() => {
+__awtsmoosModule_665 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -48719,50 +50151,59 @@ const __exports = {};
 
 /**
  * @file MinimalMeadowTreePlacementFactory.js
- * @description Builds one ecology-aware tree with species silhouette, material family, and rooted wind.
- * The Awtsmoos lets age, crown, climate, species, and breeze answer one coordinate;
- * Awtsmoos.com preserves deterministic scale, six shared variants, playable radius, and terrain contact.
+ * @description Builds one ecology-aware tree with named-grove species, silhouette, shared material, and rooted wind.
+ * The Awtsmoos lets oak, ash, birch, and pine answer the names entrusted to their groves;
+ * Awtsmoos.com keeps climate, age, density, motion, and first-play weight within one deterministic covenant.
  */
 
-var sampleMinimalMeadowEcology = __awtsmoosModule_646.sampleMinimalMeadowEcology;
-var selectMinimalMeadowTreeProfile = __awtsmoosModule_650.selectMinimalMeadowTreeProfile;
-var minimalMeadowTreeSilhouette = __awtsmoosModule_639.minimalMeadowTreeSilhouette;
-var MINIMAL_MEADOW_POPULATION_SEED = __awtsmoosModule_651.MINIMAL_MEADOW_POPULATION_SEED;
-var minimalMeadowSeededUnit = __awtsmoosModule_652.minimalMeadowSeededUnit;
+var sampleMinimalMeadowEcology = __awtsmoosModule_666.sampleMinimalMeadowEcology;
+var selectMinimalMeadowTreeProfile = __awtsmoosModule_670.selectMinimalMeadowTreeProfile;
+var minimalMeadowTreeSilhouette = __awtsmoosModule_659.minimalMeadowTreeSilhouette;
+var MINIMAL_MEADOW_POPULATION_SEED = __awtsmoosModule_671.MINIMAL_MEADOW_POPULATION_SEED;
+var minimalMeadowSeededUnit = __awtsmoosModule_672.minimalMeadowSeededUnit;
+
+const GROVE_SPECIES = Object.freeze([
+	['pine', 'Pine Small'],
+	['birch', 'Birch Small'],
+	['ash', 'Ash Small'],
+	['oak', 'Oak Small']
+]);
 
 function createMinimalMeadowTreeSpecification(input) {
 	const ecology = sampleMinimalMeadowEcology(input.terrain, input.x, input.z);
 	if (ecology.road > 0.18 || ecology.treeAffinity < 0.2) return null;
-	const profile = selectMinimalMeadowTreeProfile(
+	const selectedProfile = selectMinimalMeadowTreeProfile(
 		ecology,
 		input.presets,
 		seeded(input.key, 67)
 	);
-	const base = 0.74 + profile.age * 0.18 + seeded(input.key, 37) * 0.2;
-	const breadth = profile.crownScale * (0.86 + seeded(input.key, 41) * 0.22);
+	const presetName = namedGrovePreset(input.grove?.id, input.presets)
+		|| selectedProfile.presetName;
+	const base = 0.74 + selectedProfile.age * 0.18 + seeded(input.key, 37) * 0.2;
+	const breadth = selectedProfile.crownScale * (0.86 + seeded(input.key, 41) * 0.22);
 	const scaleX = base * breadth;
-	const scaleY = base * (0.88 + profile.age * 0.22 + seeded(input.key, 43) * 0.2);
-	const scaleZ = base * profile.crownScale * (0.84 + seeded(input.key, 47) * 0.24);
+	const scaleY = base * (0.88 + selectedProfile.age * 0.22 + seeded(input.key, 43) * 0.2);
+	const scaleZ = base * selectedProfile.crownScale * (0.84 + seeded(input.key, 47) * 0.24);
 	const silhouette = minimalMeadowTreeSilhouette(
-		profile.presetName,
-		profile.silhouetteVariation
+		presetName,
+		selectedProfile.silhouetteVariation
 	);
 	return {
-		canopyDensity: profile.canopyDensity,
+		canopyDensity: selectedProfile.canopyDensity,
 		climate: input.grove.climate,
 		ecologyZone: ecology.zone,
 		groveId: input.grove.id,
-		materialVariant: Math.floor(profile.materialVariation * 6) % 6,
-		preset: profile.presetName,
+		materialVariant: Math.floor(selectedProfile.materialVariation * 6) % 6,
+		preset: presetName,
 		radius: Math.max(scaleX, scaleZ) * 4.1,
-		role: profile.role,
+		role: selectedProfile.role,
 		scaleX,
 		scaleY,
 		scaleZ,
 		silhouette,
 		windPhase: seeded(input.key, 59) * Math.PI * 2,
-		windSpeed: profile.windSpeed,
-		windStrength: profile.windStrength,
+		windSpeed: selectedProfile.windSpeed,
+		windStrength: selectedProfile.windStrength,
 		x: input.x,
 		y: input.terrain.heightAt(input.x, input.z),
 		yaw: seeded(input.key, 53) * Math.PI * 2,
@@ -48772,13 +50213,20 @@ function createMinimalMeadowTreeSpecification(input) {
 
 
 __exports.createMinimalMeadowTreeSpecification = createMinimalMeadowTreeSpecification;
+function namedGrovePreset(groveId, availablePresets) {
+	const id = String(groveId || '').toLowerCase();
+	const available = new Set(availablePresets);
+	const match = GROVE_SPECIES.find(([token, preset]) => id.includes(token) && available.has(preset));
+	return match?.[1] || null;
+}
+
 function seeded(key, salt) {
 	return minimalMeadowSeededUnit(MINIMAL_MEADOW_POPULATION_SEED, key, salt);
 }
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRiverPath.js */
-__awtsmoosModule_654 = (() => {
+__awtsmoosModule_674 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -48904,7 +50352,7 @@ function clamp(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldPopulationExclusions.js */
-__awtsmoosModule_653 = (() => {
+__awtsmoosModule_673 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -48917,13 +50365,13 @@ const __exports = {};
  * the exact boundary where living density must bow before a door, a road, or another mitzvah.
  */
 
-var minimalMeadowRoadDistance = __awtsmoosModule_278.minimalMeadowRoadDistance;
-var MINIMAL_MEADOW_HOUSE_PROFILES = __awtsmoosModule_597.MINIMAL_MEADOW_HOUSE_PROFILES;
-var MINIMAL_MEADOW_COMBAT_CLEARINGS = __awtsmoosModule_651.MINIMAL_MEADOW_COMBAT_CLEARINGS;
-var MINIMAL_MEADOW_PLAYABLE_HALF_SIZE = __awtsmoosModule_651.MINIMAL_MEADOW_PLAYABLE_HALF_SIZE;
-var MINIMAL_MEADOW_QUEST_ACCESS = __awtsmoosModule_651.MINIMAL_MEADOW_QUEST_ACCESS;
-var minimalMeadowLakeDistance = __awtsmoosModule_654.minimalMeadowLakeDistance;
-var minimalMeadowRiverNearest = __awtsmoosModule_654.minimalMeadowRiverNearest;
+var minimalMeadowRoadDistance = __awtsmoosModule_312.minimalMeadowRoadDistance;
+var MINIMAL_MEADOW_HOUSE_PROFILES = __awtsmoosModule_617.MINIMAL_MEADOW_HOUSE_PROFILES;
+var MINIMAL_MEADOW_COMBAT_CLEARINGS = __awtsmoosModule_671.MINIMAL_MEADOW_COMBAT_CLEARINGS;
+var MINIMAL_MEADOW_PLAYABLE_HALF_SIZE = __awtsmoosModule_671.MINIMAL_MEADOW_PLAYABLE_HALF_SIZE;
+var MINIMAL_MEADOW_QUEST_ACCESS = __awtsmoosModule_671.MINIMAL_MEADOW_QUEST_ACCESS;
+var minimalMeadowLakeDistance = __awtsmoosModule_674.minimalMeadowLakeDistance;
+var minimalMeadowRiverNearest = __awtsmoosModule_674.minimalMeadowRiverNearest;
 
 const POLICIES = Object.freeze({
 	'bank-vegetation': Object.freeze({ house: 2.5, lake: 1.04, quest: 7, road: 6.2 }),
@@ -49012,7 +50460,7 @@ function circleClearance(x, z, circles) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreePlacements.js */
-__awtsmoosModule_644 = (() => {
+__awtsmoosModule_664 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49020,21 +50468,23 @@ const __exports = {};
 
 /**
  * @file MinimalMeadowTreePlacements.js
- * @description Grows deterministic ecology-aware groves with full-crown traversal clearances.
- * The Awtsmoos gathers distinct species, ages, climates, and winds without a dead grid;
- * Awtsmoos.com keeps canonical presets, exclusions, spacing, quadrants, and finite rooted proof.
+ * @description Grows deterministic ecology-aware groves within first-play mobile and desktop budgets.
+ * The Awtsmoos gathers species, ages, climates, and winds without choking the opening breath;
+ * Awtsmoos.com keeps procedural shelter finite while remote canonical trees arrive after play begins.
  */
 
-var listTreePresets = __awtsmoosModule_603.listTreePresets;
-var createMinimalMeadowTreeSpecification = __awtsmoosModule_645.createMinimalMeadowTreeSpecification;
-var MINIMAL_MEADOW_GROVES = __awtsmoosModule_651.MINIMAL_MEADOW_GROVES;
-var MINIMAL_MEADOW_PLAYABLE_HALF_SIZE = __awtsmoosModule_651.MINIMAL_MEADOW_PLAYABLE_HALF_SIZE;
-var MINIMAL_MEADOW_POPULATION_SEED = __awtsmoosModule_651.MINIMAL_MEADOW_POPULATION_SEED;
-var minimalMeadowPopulationAllows = __awtsmoosModule_653.minimalMeadowPopulationAllows;
-var minimalMeadowHasSpacing = __awtsmoosModule_652.minimalMeadowHasSpacing;
-var minimalMeadowSeededUnit = __awtsmoosModule_652.minimalMeadowSeededUnit;
+var listTreePresets = __awtsmoosModule_623.listTreePresets;
+var createMinimalMeadowTreeSpecification = __awtsmoosModule_665.createMinimalMeadowTreeSpecification;
+var MINIMAL_MEADOW_GROVES = __awtsmoosModule_671.MINIMAL_MEADOW_GROVES;
+var MINIMAL_MEADOW_PLAYABLE_HALF_SIZE = __awtsmoosModule_671.MINIMAL_MEADOW_PLAYABLE_HALF_SIZE;
+var MINIMAL_MEADOW_POPULATION_SEED = __awtsmoosModule_671.MINIMAL_MEADOW_POPULATION_SEED;
+var minimalMeadowPopulationAllows = __awtsmoosModule_673.minimalMeadowPopulationAllows;
+var minimalMeadowHasSpacing = __awtsmoosModule_672.minimalMeadowHasSpacing;
+var minimalMeadowSeededUnit = __awtsmoosModule_672.minimalMeadowSeededUnit;
 
 const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5));
+const MOBILE_TREE_LIMIT = 22;
+const DESKTOP_TREE_LIMIT = 32;
 
 function createMinimalMeadowTreePlacements(terrain, options = {}) {
 	const presets = listTreePresets();
@@ -49044,7 +50494,7 @@ function createMinimalMeadowTreePlacements(terrain, options = {}) {
 	const groves = MINIMAL_MEADOW_GROVES.map((grove, groveIndex) => {
 		return buildGrove(terrain, grove, groveIndex, presets);
 	});
-	const limit = options.mobile ? 26 : 40;
+	const limit = options.mobile ? MOBILE_TREE_LIMIT : DESKTOP_TREE_LIMIT;
 	return interleave(groves, limit).map((placement, index) => Object.freeze({
 		...placement,
 		id: `meadow-procedural-tree-${index + 1}`
@@ -49104,7 +50554,7 @@ function unit(key, salt) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeUpdatePolicy.js */
-__awtsmoosModule_655 = (() => {
+__awtsmoosModule_675 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49164,7 +50614,7 @@ __exports.minimalMeadowTreeUpdateDecision = minimalMeadowTreeUpdateDecision;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeWind.js */
-__awtsmoosModule_656 = (() => {
+__awtsmoosModule_676 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49236,7 +50686,7 @@ function proximityPulse(tree, player) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldPopulationDiagnostics.js */
-__awtsmoosModule_657 = (() => {
+__awtsmoosModule_677 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49249,8 +50699,8 @@ const __exports = {};
  * records actual materials, geometry, bounds, triangles, quadrants, and zones after real mounting.
  */
 
-var minimalMeadowPopulationBounds = __awtsmoosModule_652.minimalMeadowPopulationBounds;
-var minimalMeadowQuadrantCounts = __awtsmoosModule_652.minimalMeadowQuadrantCounts;
+var minimalMeadowPopulationBounds = __awtsmoosModule_672.minimalMeadowPopulationBounds;
+var minimalMeadowQuadrantCounts = __awtsmoosModule_672.minimalMeadowQuadrantCounts;
 
 function minimalMeadowTreeDiagnostics(system) {
 	const meshes = system.trees.flatMap(tree => tree.children);
@@ -49318,7 +50768,7 @@ __exports.minimalMeadowMeshMetrics = minimalMeadowMeshMetrics;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldPopulationHydration.js */
-__awtsmoosModule_658 = (() => {
+__awtsmoosModule_678 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49332,7 +50782,7 @@ const __exports = {};
  */
 
 var loadPublicMaterialUrl = __awtsmoosModule_173.loadPublicMaterialUrl;
-var TEXTURE_PURPOSES = __awtsmoosModule_188.TEXTURE_PURPOSES;
+var TEXTURE_PURPOSES = __awtsmoosModule_194.TEXTURE_PURPOSES;
 
 const PUBLIC_TEXTURE_TIMEOUT_MS = 4500;
 
@@ -49358,7 +50808,7 @@ __exports.beginMinimalMeadowTreeHydration = beginMinimalMeadowTreeHydration;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeSystem.js */
-__awtsmoosModule_600 = (() => {
+__awtsmoosModule_620 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49372,14 +50822,14 @@ const __exports = {};
  */
 
 var Group = __awtsmoosModule_18.Group;
-var createMinimalMeadowTree = __awtsmoosModule_601.createMinimalMeadowTree;
-var createMinimalMeadowTreeMaterials = __awtsmoosModule_640.createMinimalMeadowTreeMaterials;
-var createMinimalMeadowTreePlacements = __awtsmoosModule_644.createMinimalMeadowTreePlacements;
-var minimalMeadowTreeUpdateDecision = __awtsmoosModule_655.minimalMeadowTreeUpdateDecision;
-var minimalMeadowTreeUpdatePolicy = __awtsmoosModule_655.minimalMeadowTreeUpdatePolicy;
-var animateMinimalMeadowTree = __awtsmoosModule_656.animateMinimalMeadowTree;
-var minimalMeadowTreeDiagnostics = __awtsmoosModule_657.minimalMeadowTreeDiagnostics;
-var beginMinimalMeadowTreeHydration = __awtsmoosModule_658.beginMinimalMeadowTreeHydration;
+var createMinimalMeadowTree = __awtsmoosModule_621.createMinimalMeadowTree;
+var createMinimalMeadowTreeMaterials = __awtsmoosModule_660.createMinimalMeadowTreeMaterials;
+var createMinimalMeadowTreePlacements = __awtsmoosModule_664.createMinimalMeadowTreePlacements;
+var minimalMeadowTreeUpdateDecision = __awtsmoosModule_675.minimalMeadowTreeUpdateDecision;
+var minimalMeadowTreeUpdatePolicy = __awtsmoosModule_675.minimalMeadowTreeUpdatePolicy;
+var animateMinimalMeadowTree = __awtsmoosModule_676.animateMinimalMeadowTree;
+var minimalMeadowTreeDiagnostics = __awtsmoosModule_677.minimalMeadowTreeDiagnostics;
+var beginMinimalMeadowTreeHydration = __awtsmoosModule_678.beginMinimalMeadowTreeHydration;
 
 class MinimalMeadowTreeSystem {
 	static async create(runtime) {
@@ -49471,7 +50921,7 @@ function mobileProfile(runtime) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowFlowerSpecies.js */
-__awtsmoosModule_663 = (() => {
+__awtsmoosModule_683 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49542,7 +50992,7 @@ function clamp(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationCellProfile.js */
-__awtsmoosModule_662 = (() => {
+__awtsmoosModule_682 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49555,10 +51005,10 @@ const __exports = {};
  * Awtsmoos.com preserves wet fertility, dry restraint, road clearance, and explicit maximums.
  */
 
-var sampleMinimalMeadowEcology = __awtsmoosModule_646.sampleMinimalMeadowEcology;
-var selectMinimalMeadowFlowerCommunity = __awtsmoosModule_663.selectMinimalMeadowFlowerCommunity;
-var selectMinimalMeadowFlowerSpecies = __awtsmoosModule_663.selectMinimalMeadowFlowerSpecies;
-var minimalMeadowSeededUnit = __awtsmoosModule_652.minimalMeadowSeededUnit;
+var sampleMinimalMeadowEcology = __awtsmoosModule_666.sampleMinimalMeadowEcology;
+var selectMinimalMeadowFlowerCommunity = __awtsmoosModule_683.selectMinimalMeadowFlowerCommunity;
+var selectMinimalMeadowFlowerSpecies = __awtsmoosModule_683.selectMinimalMeadowFlowerSpecies;
+var minimalMeadowSeededUnit = __awtsmoosModule_672.minimalMeadowSeededUnit;
 
 const GRASS_COLORS = Object.freeze({
 	'dry-upland': '#849746',
@@ -49606,7 +51056,7 @@ function unit(key, salt) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationQualityBudget.js */
-__awtsmoosModule_664 = (() => {
+__awtsmoosModule_684 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49614,16 +51064,16 @@ const __exports = {};
 
 /**
  * @file MinimalMeadowVegetationQualityBudget.js
- * @description Declares deterministic cell, clump, blade, flower, and visibility budgets by quality tier.
- * The Awtsmoos reveals abundance through measured vessels rather than unbounded overdraw;
- * Awtsmoos.com preserves high-density default, explicit lower tiers, and stable draw topology.
+ * @description Declares deterministic vegetation vessels that preserve first-play draw budgets.
+ * The Awtsmoos reveals grass and flowers through measured cells before remote garments arrive;
+ * Awtsmoos.com keeps mobile breath, desktop abundance, culling, and stable topology in balance.
  */
 
 const BUDGETS = Object.freeze({
-	cinematic: budget(68, 28, 16, 7, 250, 0.6),
-	high: budget(54, 22, 14, 6, 210, 0.72),
-	low: budget(30, 12, 9, 4, 125, 1),
-	medium: budget(42, 17, 11, 5, 170, 0.84)
+	cinematic: budget(56, 24, 16, 7, 250, 0.6),
+	high: budget(42, 18, 14, 6, 210, 0.72),
+	low: budget(28, 12, 9, 4, 125, 1),
+	medium: budget(36, 15, 11, 5, 170, 0.84)
 });
 
 function minimalMeadowVegetationBudget(options = {}) {
@@ -49663,7 +51113,7 @@ function budget(
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationDistribution.js */
-__awtsmoosModule_661 = (() => {
+__awtsmoosModule_681 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49676,15 +51126,15 @@ const __exports = {};
  * Awtsmoos.com preserves paths, spacing, quadrants, playable bounds, and explicit density budgets.
  */
 
-var MINIMAL_MEADOW_PLAYABLE_HALF_SIZE = __awtsmoosModule_651.MINIMAL_MEADOW_PLAYABLE_HALF_SIZE;
-var MINIMAL_MEADOW_POPULATION_SEED = __awtsmoosModule_651.MINIMAL_MEADOW_POPULATION_SEED;
-var MINIMAL_MEADOW_VEGETATION_ANCHORS = __awtsmoosModule_651.MINIMAL_MEADOW_VEGETATION_ANCHORS;
-var minimalMeadowPopulationAllows = __awtsmoosModule_653.minimalMeadowPopulationAllows;
-var minimalMeadowHasSpacing = __awtsmoosModule_652.minimalMeadowHasSpacing;
-var minimalMeadowSeededUnit = __awtsmoosModule_652.minimalMeadowSeededUnit;
-var minimalMeadowRiverSample = __awtsmoosModule_654.minimalMeadowRiverSample;
-var createMinimalMeadowVegetationCellProfile = __awtsmoosModule_662.createMinimalMeadowVegetationCellProfile;
-var minimalMeadowVegetationBudget = __awtsmoosModule_664.minimalMeadowVegetationBudget;
+var MINIMAL_MEADOW_PLAYABLE_HALF_SIZE = __awtsmoosModule_671.MINIMAL_MEADOW_PLAYABLE_HALF_SIZE;
+var MINIMAL_MEADOW_POPULATION_SEED = __awtsmoosModule_671.MINIMAL_MEADOW_POPULATION_SEED;
+var MINIMAL_MEADOW_VEGETATION_ANCHORS = __awtsmoosModule_671.MINIMAL_MEADOW_VEGETATION_ANCHORS;
+var minimalMeadowPopulationAllows = __awtsmoosModule_673.minimalMeadowPopulationAllows;
+var minimalMeadowHasSpacing = __awtsmoosModule_672.minimalMeadowHasSpacing;
+var minimalMeadowSeededUnit = __awtsmoosModule_672.minimalMeadowSeededUnit;
+var minimalMeadowRiverSample = __awtsmoosModule_674.minimalMeadowRiverSample;
+var createMinimalMeadowVegetationCellProfile = __awtsmoosModule_682.createMinimalMeadowVegetationCellProfile;
+var minimalMeadowVegetationBudget = __awtsmoosModule_684.minimalMeadowVegetationBudget;
 
 const CELL_EXTENT = 4.5;
 
@@ -49775,7 +51225,7 @@ function unit(index, salt) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationCells.js */
-__awtsmoosModule_660 = (() => {
+__awtsmoosModule_680 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49788,7 +51238,7 @@ const __exports = {};
  * narrow so distribution law may evolve without entangling geometry, wind, or player reaction.
  */
 
-var createMinimalMeadowVegetationDistribution = __awtsmoosModule_661.createMinimalMeadowVegetationDistribution;
+var createMinimalMeadowVegetationDistribution = __awtsmoosModule_681.createMinimalMeadowVegetationDistribution;
 
 function createMinimalMeadowVegetationCells(terrain, options = {}) {
 	return createMinimalMeadowVegetationDistribution(terrain, options);
@@ -49798,7 +51248,7 @@ __exports.createMinimalMeadowVegetationCells = createMinimalMeadowVegetationCell
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowBotanicalGeometry.js */
-__awtsmoosModule_668 = (() => {
+__awtsmoosModule_688 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49907,7 +51357,7 @@ function appendFace(target, points, color = [1, 1, 1, 1]) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowBotanicalColor.js */
-__awtsmoosModule_669 = (() => {
+__awtsmoosModule_689 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49946,7 +51396,7 @@ __exports.minimalMeadowBotanicalTint = minimalMeadowBotanicalTint;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowFlowerClumpPopulation.js */
-__awtsmoosModule_667 = (() => {
+__awtsmoosModule_687 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -49959,13 +51409,13 @@ const __exports = {};
  * Awtsmoos.com preserves species palette, quality limits, and two-mesh batching in every joint.
  */
 
-var appendMinimalMeadowBlade = __awtsmoosModule_668.appendMinimalMeadowBlade;
-var appendMinimalMeadowFlower = __awtsmoosModule_668.appendMinimalMeadowFlower;
-var appendMinimalMeadowLeafPair = __awtsmoosModule_668.appendMinimalMeadowLeafPair;
-var appendMinimalMeadowSeedHead = __awtsmoosModule_668.appendMinimalMeadowSeedHead;
-var minimalMeadowBotanicalColor = __awtsmoosModule_669.minimalMeadowBotanicalColor;
-var minimalMeadowBotanicalTint = __awtsmoosModule_669.minimalMeadowBotanicalTint;
-var minimalMeadowSeededUnit = __awtsmoosModule_652.minimalMeadowSeededUnit;
+var appendMinimalMeadowBlade = __awtsmoosModule_688.appendMinimalMeadowBlade;
+var appendMinimalMeadowFlower = __awtsmoosModule_688.appendMinimalMeadowFlower;
+var appendMinimalMeadowLeafPair = __awtsmoosModule_688.appendMinimalMeadowLeafPair;
+var appendMinimalMeadowSeedHead = __awtsmoosModule_688.appendMinimalMeadowSeedHead;
+var minimalMeadowBotanicalColor = __awtsmoosModule_689.minimalMeadowBotanicalColor;
+var minimalMeadowBotanicalTint = __awtsmoosModule_689.minimalMeadowBotanicalTint;
+var minimalMeadowSeededUnit = __awtsmoosModule_672.minimalMeadowSeededUnit;
 
 function appendMinimalMeadowFlowerClump(options) {
 	const bladeLimit = Math.max(7, options.budget.bladesPerClump || 12);
@@ -50035,7 +51485,7 @@ function seeded(seed, index, salt) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowFlowerClumpGeometry.js */
-__awtsmoosModule_666 = (() => {
+__awtsmoosModule_686 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -50048,8 +51498,8 @@ const __exports = {};
  * Awtsmoos.com preserves terrain contact, deterministic color, quality budgets, and draw-call economy.
  */
 
-var appendMinimalMeadowFlowerClump = __awtsmoosModule_667.appendMinimalMeadowFlowerClump;
-var minimalMeadowSeededUnit = __awtsmoosModule_652.minimalMeadowSeededUnit;
+var appendMinimalMeadowFlowerClump = __awtsmoosModule_687.appendMinimalMeadowFlowerClump;
+var minimalMeadowSeededUnit = __awtsmoosModule_672.minimalMeadowSeededUnit;
 
 function createMinimalMeadowFlowerCellGeometry(options = {}) {
 	const clumps = Math.max(1, Number(options.clumps) || 8);
@@ -50109,7 +51559,7 @@ function fallbackSpecies() {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationDistributionMaterials.js */
-__awtsmoosModule_670 = (() => {
+__awtsmoosModule_690 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -50164,7 +51614,7 @@ function normalizeColor(color) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationDistributionCellFactory.js */
-__awtsmoosModule_665 = (() => {
+__awtsmoosModule_685 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -50179,8 +51629,8 @@ const __exports = {};
 
 var Group = __awtsmoosModule_18.Group;
 var createPrimitiveMesh = __awtsmoosModule_108.createPrimitiveMesh;
-var createMinimalMeadowFlowerCellGeometry = __awtsmoosModule_666.createMinimalMeadowFlowerCellGeometry;
-var minimalMeadowVegetationMaterial = __awtsmoosModule_670.minimalMeadowVegetationMaterial;
+var createMinimalMeadowFlowerCellGeometry = __awtsmoosModule_686.createMinimalMeadowFlowerCellGeometry;
+var minimalMeadowVegetationMaterial = __awtsmoosModule_690.minimalMeadowVegetationMaterial;
 
 function createMinimalMeadowVegetationCell(specification, terrain) {
 	const geometry = createMinimalMeadowFlowerCellGeometry({
@@ -50251,7 +51701,7 @@ function triangleCount(mesh) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationSystem.js */
-__awtsmoosModule_659 = (() => {
+__awtsmoosModule_679 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -50265,10 +51715,10 @@ const __exports = {};
  */
 
 var Group = __awtsmoosModule_18.Group;
-var createMinimalMeadowVegetationCells = __awtsmoosModule_660.createMinimalMeadowVegetationCells;
-var createMinimalMeadowVegetationCell = __awtsmoosModule_665.createMinimalMeadowVegetationCell;
-var minimalMeadowVegetationDiagnostics = __awtsmoosModule_657.minimalMeadowVegetationDiagnostics;
-var minimalMeadowVegetationBudget = __awtsmoosModule_664.minimalMeadowVegetationBudget;
+var createMinimalMeadowVegetationCells = __awtsmoosModule_680.createMinimalMeadowVegetationCells;
+var createMinimalMeadowVegetationCell = __awtsmoosModule_685.createMinimalMeadowVegetationCell;
+var minimalMeadowVegetationDiagnostics = __awtsmoosModule_677.minimalMeadowVegetationDiagnostics;
+var minimalMeadowVegetationBudget = __awtsmoosModule_684.minimalMeadowVegetationBudget;
 
 const INTERACTION_RADIUS = 7.5;
 const INTERACTION_RADIUS_SQUARED = INTERACTION_RADIUS * INTERACTION_RADIUS;
@@ -50369,7 +51819,7 @@ function mobileProfile(runtime) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainShape.js */
-__awtsmoosModule_673 = (() => {
+__awtsmoosModule_693 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -50382,10 +51832,10 @@ const __exports = {};
  * rendering, collision, water, houses, plants, roads, and nine enemy biomes on shared height truth.
  */
 
-var minimalMeadowRoadMask = __awtsmoosModule_278.minimalMeadowRoadMask;
-var MINIMAL_MEADOW_LAKE = __awtsmoosModule_654.MINIMAL_MEADOW_LAKE;
-var minimalMeadowLakeDistance = __awtsmoosModule_654.minimalMeadowLakeDistance;
-var minimalMeadowRiverNearest = __awtsmoosModule_654.minimalMeadowRiverNearest;
+var minimalMeadowRoadMask = __awtsmoosModule_312.minimalMeadowRoadMask;
+var MINIMAL_MEADOW_LAKE = __awtsmoosModule_674.MINIMAL_MEADOW_LAKE;
+var minimalMeadowLakeDistance = __awtsmoosModule_674.minimalMeadowLakeDistance;
+var minimalMeadowRiverNearest = __awtsmoosModule_674.minimalMeadowRiverNearest;
 
 const HILLS = Object.freeze([
 	[-56, 48, 28, 7.2],
@@ -50468,7 +51918,7 @@ function mix(first, second, ratio) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRiverBanksDiagnostics.js */
-__awtsmoosModule_672 = (() => {
+__awtsmoosModule_692 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -50481,9 +51931,9 @@ const __exports = {};
  * below water, each bank rises above it, and source reaches destination without a severed segment.
  */
 
-var minimalMeadowHeightAt = __awtsmoosModule_673.minimalMeadowHeightAt;
-var minimalMeadowRiverContinuity = __awtsmoosModule_654.minimalMeadowRiverContinuity;
-var minimalMeadowRiverSample = __awtsmoosModule_654.minimalMeadowRiverSample;
+var minimalMeadowHeightAt = __awtsmoosModule_693.minimalMeadowHeightAt;
+var minimalMeadowRiverContinuity = __awtsmoosModule_674.minimalMeadowRiverContinuity;
+var minimalMeadowRiverSample = __awtsmoosModule_674.minimalMeadowRiverSample;
 
 function minimalMeadowWaterElevationEvidence(samples = 25) {
 	let minimumDepth = Infinity;
@@ -50519,7 +51969,7 @@ function riverSide(t) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/proceduralApi/LegacyWaterShaderRecipe.js */
-__awtsmoosModule_676 = (() => {
+__awtsmoosModule_696 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -50581,7 +52031,7 @@ __exports.createWaterShaderRecipe = createWaterShaderRecipe;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/proceduralApi/WaterShaderRecipe.js */
-__awtsmoosModule_675 = (() => {
+__awtsmoosModule_695 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -50594,7 +52044,7 @@ const __exports = {};
  * keeps flow, depth, reflection, refraction, ripple, and foam controls explicit for tools and tests.
  */
 
-__exports.createWaterShaderRecipe = __awtsmoosModule_676.createWaterShaderRecipe;
+__exports.createWaterShaderRecipe = __awtsmoosModule_696.createWaterShaderRecipe;
 
 function waterShaderRecipe(kind = 'lake', options = {}) {
 	const profile = WATER_PROFILES[kind] || WATER_PROFILES.lake;
@@ -50663,7 +52113,7 @@ function positive(value, fallback) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRiverBanksGeometry.js */
-__awtsmoosModule_677 = (() => {
+__awtsmoosModule_697 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -50676,10 +52126,10 @@ const __exports = {};
  * inner lips, follows real terrain outside, and gives mobile eyes a continuous shore-depth cue.
  */
 
-var minimalMeadowHeightAt = __awtsmoosModule_673.minimalMeadowHeightAt;
-var MINIMAL_MEADOW_LAKE = __awtsmoosModule_654.MINIMAL_MEADOW_LAKE;
-var MINIMAL_MEADOW_RIVER_SEGMENTS = __awtsmoosModule_654.MINIMAL_MEADOW_RIVER_SEGMENTS;
-var minimalMeadowRiverSample = __awtsmoosModule_654.minimalMeadowRiverSample;
+var minimalMeadowHeightAt = __awtsmoosModule_693.minimalMeadowHeightAt;
+var MINIMAL_MEADOW_LAKE = __awtsmoosModule_674.MINIMAL_MEADOW_LAKE;
+var MINIMAL_MEADOW_RIVER_SEGMENTS = __awtsmoosModule_674.MINIMAL_MEADOW_RIVER_SEGMENTS;
+var minimalMeadowRiverSample = __awtsmoosModule_674.minimalMeadowRiverSample;
 
 function createMinimalMeadowRiverBanksGeometry(sections = MINIMAL_MEADOW_RIVER_SEGMENTS) {
 	const vertices = [];
@@ -50750,7 +52200,7 @@ function riverSide(t) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterGeometry.js */
-__awtsmoosModule_678 = (() => {
+__awtsmoosModule_698 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -50763,10 +52213,10 @@ const __exports = {};
  * bed vertex, UV, and receiving basin finite so water neither floats nor vanishes underground.
  */
 
-var minimalMeadowHeightAt = __awtsmoosModule_673.minimalMeadowHeightAt;
-var MINIMAL_MEADOW_LAKE = __awtsmoosModule_654.MINIMAL_MEADOW_LAKE;
-var MINIMAL_MEADOW_RIVER_SEGMENTS = __awtsmoosModule_654.MINIMAL_MEADOW_RIVER_SEGMENTS;
-var minimalMeadowRiverSample = __awtsmoosModule_654.minimalMeadowRiverSample;
+var minimalMeadowHeightAt = __awtsmoosModule_693.minimalMeadowHeightAt;
+var MINIMAL_MEADOW_LAKE = __awtsmoosModule_674.MINIMAL_MEADOW_LAKE;
+var MINIMAL_MEADOW_RIVER_SEGMENTS = __awtsmoosModule_674.MINIMAL_MEADOW_RIVER_SEGMENTS;
+var minimalMeadowRiverSample = __awtsmoosModule_674.minimalMeadowRiverSample;
 
 const LANES = Object.freeze([-1, -0.68, -0.32, 0, 0.32, 0.68, 1]);
 
@@ -50870,7 +52320,7 @@ function riverSide(t) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterDefinitions.js */
-__awtsmoosModule_674 = (() => {
+__awtsmoosModule_694 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -50883,13 +52333,13 @@ const __exports = {};
  * keeps visible water color, seamless detail, physical normals, opacity, and collision ownership clear.
  */
 
-var waterShaderRecipe = __awtsmoosModule_675.waterShaderRecipe;
-var createMinimalMeadowLakeShoreGeometry = __awtsmoosModule_677.createMinimalMeadowLakeShoreGeometry;
-var createMinimalMeadowRiverBanksGeometry = __awtsmoosModule_677.createMinimalMeadowRiverBanksGeometry;
-var createMinimalMeadowLakeBedGeometry = __awtsmoosModule_678.createMinimalMeadowLakeBedGeometry;
-var createMinimalMeadowLakeGeometry = __awtsmoosModule_678.createMinimalMeadowLakeGeometry;
-var createMinimalMeadowRiverBedGeometry = __awtsmoosModule_678.createMinimalMeadowRiverBedGeometry;
-var createMinimalMeadowRiverGeometry = __awtsmoosModule_678.createMinimalMeadowRiverGeometry;
+var waterShaderRecipe = __awtsmoosModule_695.waterShaderRecipe;
+var createMinimalMeadowLakeShoreGeometry = __awtsmoosModule_697.createMinimalMeadowLakeShoreGeometry;
+var createMinimalMeadowRiverBanksGeometry = __awtsmoosModule_697.createMinimalMeadowRiverBanksGeometry;
+var createMinimalMeadowLakeBedGeometry = __awtsmoosModule_698.createMinimalMeadowLakeBedGeometry;
+var createMinimalMeadowLakeGeometry = __awtsmoosModule_698.createMinimalMeadowLakeGeometry;
+var createMinimalMeadowRiverBedGeometry = __awtsmoosModule_698.createMinimalMeadowRiverBedGeometry;
+var createMinimalMeadowRiverGeometry = __awtsmoosModule_698.createMinimalMeadowRiverGeometry;
 
 function createMinimalMeadowWaterDefinitions(sources) {
 	return [
@@ -50989,7 +52439,7 @@ function waterPolicy(variant, sources) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterMaterialHydration.js */
-__awtsmoosModule_679 = (() => {
+__awtsmoosModule_699 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -51080,7 +52530,7 @@ function wrap(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowProceduralRiverBed.js */
-__awtsmoosModule_681 = (() => {
+__awtsmoosModule_701 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -51127,7 +52577,7 @@ function writeStone(data, offset, x, y) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowProceduralWaterNormals.js */
-__awtsmoosModule_682 = (() => {
+__awtsmoosModule_702 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -51227,7 +52677,7 @@ function wrap(value) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterSources.js */
-__awtsmoosModule_680 = (() => {
+__awtsmoosModule_700 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -51240,10 +52690,10 @@ const __exports = {};
  * uploaded water images time to decode in the background while local normals arrive on a short road.
  */
 
-var remoteFullResolutionTextureUrl = __awtsmoosModule_193.remoteFullResolutionTextureUrl;
+var remoteFullResolutionTextureUrl = __awtsmoosModule_199.remoteFullResolutionTextureUrl;
 var loadPublicMaterialUrl = __awtsmoosModule_173.loadPublicMaterialUrl;
-var createMinimalMeadowProceduralRiverBed = __awtsmoosModule_681.createMinimalMeadowProceduralRiverBed;
-var createMinimalMeadowProceduralWaterNormals = __awtsmoosModule_682.createMinimalMeadowProceduralWaterNormals;
+var createMinimalMeadowProceduralRiverBed = __awtsmoosModule_701.createMinimalMeadowProceduralRiverBed;
+var createMinimalMeadowProceduralWaterNormals = __awtsmoosModule_702.createMinimalMeadowProceduralWaterNormals;
 
 const LOCAL_WATER_ROOT = '/games/mitzvahWorld/.awtsmoos-external-assets/water';
 const LOCAL_TIMEOUT_MS = 9000;
@@ -51345,7 +52795,7 @@ function normalMode(count, fallback) {
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterSystem.js */
-__awtsmoosModule_671 = (() => {
+__awtsmoosModule_691 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -51360,14 +52810,14 @@ const __exports = {};
 
 var Group = __awtsmoosModule_18.Group;
 var createPrimitiveMesh = __awtsmoosModule_108.createPrimitiveMesh;
-var minimalMeadowWaterElevationEvidence = __awtsmoosModule_672.minimalMeadowWaterElevationEvidence;
-var MINIMAL_MEADOW_RIVER_SEGMENTS = __awtsmoosModule_654.MINIMAL_MEADOW_RIVER_SEGMENTS;
-var createMinimalMeadowWaterDefinitions = __awtsmoosModule_674.createMinimalMeadowWaterDefinitions;
-var animateMinimalMeadowWaterMaterials = __awtsmoosModule_679.animateMinimalMeadowWaterMaterials;
-var hydrateMinimalMeadowWaterMaterials = __awtsmoosModule_679.hydrateMinimalMeadowWaterMaterials;
-var createMinimalMeadowWaterFallbackSources = __awtsmoosModule_680.createMinimalMeadowWaterFallbackSources;
-var loadMinimalMeadowWaterSources = __awtsmoosModule_680.loadMinimalMeadowWaterSources;
-var minimalMeadowMeshMetrics = __awtsmoosModule_657.minimalMeadowMeshMetrics;
+var minimalMeadowWaterElevationEvidence = __awtsmoosModule_692.minimalMeadowWaterElevationEvidence;
+var MINIMAL_MEADOW_RIVER_SEGMENTS = __awtsmoosModule_674.MINIMAL_MEADOW_RIVER_SEGMENTS;
+var createMinimalMeadowWaterDefinitions = __awtsmoosModule_694.createMinimalMeadowWaterDefinitions;
+var animateMinimalMeadowWaterMaterials = __awtsmoosModule_699.animateMinimalMeadowWaterMaterials;
+var hydrateMinimalMeadowWaterMaterials = __awtsmoosModule_699.hydrateMinimalMeadowWaterMaterials;
+var createMinimalMeadowWaterFallbackSources = __awtsmoosModule_700.createMinimalMeadowWaterFallbackSources;
+var loadMinimalMeadowWaterSources = __awtsmoosModule_700.loadMinimalMeadowWaterSources;
+var minimalMeadowMeshMetrics = __awtsmoosModule_677.minimalMeadowMeshMetrics;
 
 class MinimalMeadowWaterSystem {
 	static async create(runtime) {
@@ -51458,7 +52908,7 @@ __exports.MinimalMeadowWaterSystem = MinimalMeadowWaterSystem;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldTargeting.js */
-__awtsmoosModule_683 = (() => {
+__awtsmoosModule_703 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -51494,7 +52944,7 @@ __exports.replaceMinimalMeadowWorldTargeting = replaceMinimalMeadowWorldTargetin
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRichWorldMounts.js */
-__awtsmoosModule_559 = (() => {
+__awtsmoosModule_579 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -51507,17 +52957,17 @@ const __exports = {};
  * Awtsmoos.com keeps concurrent foundations fast while wrapper ownership remains deterministic.
  */
 
-var runMinimalMeadowConcurrentMountPlan = __awtsmoosModule_560.runMinimalMeadowConcurrentMountPlan;
-var MinimalMeadowAmuletExpertPopulation = __awtsmoosModule_561.MinimalMeadowAmuletExpertPopulation;
-var MinimalMeadowClothingMerchantPopulation = __awtsmoosModule_568.MinimalMeadowClothingMerchantPopulation;
-var MinimalMeadowHousePopulation = __awtsmoosModule_571.MinimalMeadowHousePopulation;
-var mountMinimalMeadowQuest = __awtsmoosModule_428.mountMinimalMeadowQuest;
-var initializeMinimalMeadowMountStatus = __awtsmoosModule_540.initializeMinimalMeadowMountStatus;
-var mountMinimalMeadowSubsystem = __awtsmoosModule_540.mountMinimalMeadowSubsystem;
-var MinimalMeadowTreeSystem = __awtsmoosModule_600.MinimalMeadowTreeSystem;
-var MinimalMeadowVegetationSystem = __awtsmoosModule_659.MinimalMeadowVegetationSystem;
-var MinimalMeadowWaterSystem = __awtsmoosModule_671.MinimalMeadowWaterSystem;
-var replaceMinimalMeadowWorldTargeting = __awtsmoosModule_683.replaceMinimalMeadowWorldTargeting;
+var runMinimalMeadowConcurrentMountPlan = __awtsmoosModule_580.runMinimalMeadowConcurrentMountPlan;
+var MinimalMeadowAmuletExpertPopulation = __awtsmoosModule_581.MinimalMeadowAmuletExpertPopulation;
+var MinimalMeadowClothingMerchantPopulation = __awtsmoosModule_588.MinimalMeadowClothingMerchantPopulation;
+var MinimalMeadowHousePopulation = __awtsmoosModule_591.MinimalMeadowHousePopulation;
+var mountMinimalMeadowQuest = __awtsmoosModule_462.mountMinimalMeadowQuest;
+var initializeMinimalMeadowMountStatus = __awtsmoosModule_560.initializeMinimalMeadowMountStatus;
+var mountMinimalMeadowSubsystem = __awtsmoosModule_560.mountMinimalMeadowSubsystem;
+var MinimalMeadowTreeSystem = __awtsmoosModule_620.MinimalMeadowTreeSystem;
+var MinimalMeadowVegetationSystem = __awtsmoosModule_679.MinimalMeadowVegetationSystem;
+var MinimalMeadowWaterSystem = __awtsmoosModule_691.MinimalMeadowWaterSystem;
+var replaceMinimalMeadowWorldTargeting = __awtsmoosModule_703.replaceMinimalMeadowWorldTargeting;
 
 async function mountMinimalMeadowRichWorld(
 	runtime,
@@ -51566,11 +53016,11 @@ async function mountMinimalMeadowRichWorld(
 
 
 __exports.mountMinimalMeadowRichWorld = mountMinimalMeadowRichWorld;
-__exports.mountSubsystem = __awtsmoosModule_540.mountMinimalMeadowSubsystem;
+__exports.mountSubsystem = __awtsmoosModule_560.mountMinimalMeadowSubsystem;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRichWorld.js */
-__awtsmoosModule_558 = (() => {
+__awtsmoosModule_578 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -51583,7 +53033,7 @@ const __exports = {};
  * Awtsmoos.com separates appointed scheduling from the living mount so every finite garden may prevail.
  */
 
-var mountMinimalMeadowRichWorld = __awtsmoosModule_559.mountMinimalMeadowRichWorld;
+var mountMinimalMeadowRichWorld = __awtsmoosModule_579.mountMinimalMeadowRichWorld;
 
 function installMinimalMeadowRichWorld(
 	runtime,
@@ -51650,13 +53100,13 @@ var GameplayRecoveryCoordinator = __awtsmoosModule_35.GameplayRecoveryCoordinato
 var MinimalMeadowAdaptiveQuality = __awtsmoosModule_39.MinimalMeadowAdaptiveQuality;
 var MinimalMeadowCombat = __awtsmoosModule_40.MinimalMeadowCombat;
 var installImmediateMinimalMeadowEnemies = __awtsmoosModule_90.installImmediateMinimalMeadowEnemies;
-var MinimalMeadowRegionRuntime = __awtsmoosModule_426.MinimalMeadowRegionRuntime;
-var mountMinimalMeadowQuest = __awtsmoosModule_428.mountMinimalMeadowQuest;
-var MinimalMeadowVerticalSliceRuntime = __awtsmoosModule_541.MinimalMeadowVerticalSliceRuntime;
-var RegionPackageRuntime = __awtsmoosModule_550.RegionPackageRuntime;
-var installMinimalMeadowSky = __awtsmoosModule_552.installMinimalMeadowSky;
-var destroyMinimalMeadowWorldSystems = __awtsmoosModule_557.destroyMinimalMeadowWorldSystems;
-var updateMinimalMeadowWorldSystems = __awtsmoosModule_557.updateMinimalMeadowWorldSystems;
+var MinimalMeadowRegionRuntime = __awtsmoosModule_460.MinimalMeadowRegionRuntime;
+var mountMinimalMeadowQuest = __awtsmoosModule_462.mountMinimalMeadowQuest;
+var MinimalMeadowVerticalSliceRuntime = __awtsmoosModule_561.MinimalMeadowVerticalSliceRuntime;
+var RegionPackageRuntime = __awtsmoosModule_570.RegionPackageRuntime;
+var installMinimalMeadowSky = __awtsmoosModule_572.installMinimalMeadowSky;
+var destroyMinimalMeadowWorldSystems = __awtsmoosModule_577.destroyMinimalMeadowWorldSystems;
+var updateMinimalMeadowWorldSystems = __awtsmoosModule_577.updateMinimalMeadowWorldSystems;
 
 async function installMinimalMeadowWorldSystems(runtime, environment = globalThis) {
 	runtime.adaptiveQuality = new MinimalMeadowAdaptiveQuality(runtime);
@@ -51716,7 +53166,7 @@ function dynamicExpansionApi(runtime) {
 
 function scheduleRichWorld(runtime, environment) {
 	return afterGameplayQuietWindow(environment)
-		.then(() => Promise.resolve(__awtsmoosModule_558))
+		.then(() => Promise.resolve(__awtsmoosModule_578))
 		.then(module => module.installMinimalMeadowRichWorld(runtime, environment))
 		.catch(error => {
 			runtime.richWorldError = error?.message || String(error);
@@ -51741,8 +53191,8 @@ function combatDiagnostics(runtime) {
 	};
 }
 
-__exports.destroyMinimalMeadowWorldSystems = __awtsmoosModule_557.destroyMinimalMeadowWorldSystems;
-__exports.updateMinimalMeadowWorldSystems = __awtsmoosModule_557.updateMinimalMeadowWorldSystems;
+__exports.destroyMinimalMeadowWorldSystems = __awtsmoosModule_577.destroyMinimalMeadowWorldSystems;
+__exports.updateMinimalMeadowWorldSystems = __awtsmoosModule_577.updateMinimalMeadowWorldSystems;
 return Object.freeze(__exports);
 })();
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldBundle.js */

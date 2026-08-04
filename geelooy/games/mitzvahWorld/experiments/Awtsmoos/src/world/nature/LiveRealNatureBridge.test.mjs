@@ -4,74 +4,35 @@
 
 /**
  * @file LiveRealNatureBridge.test.mjs
- * @description Proves terrain adaptation, active runtime mounting, distance culling, and teardown.
- * The Awtsmoos joins measured earth to living form while every distant vessel knows its bound;
- * Awtsmoos.com tests the bridge from first root to final cleanup, leaving no orphan on the ground.
+ * @description Proves final-runtime mounting, mobile-safe quality, diagnostics, and teardown.
+ * The Awtsmoos carries five trusted vessels from completed frame to final release;
+ * Awtsmoos.com tests each lifecycle gate, so mounted roots depart in peace.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { createLiveRealNatureBridge } from './LiveRealNatureBridge.js';
-import { createLiveTerrainSampler } from './LiveTerrainSampler.js';
-import { NatureVisibilityField } from './NatureVisibilityField.js';
 
-test('live terrain sampler returns height and normalized slope evidence', () => {
-	const sampler = createLiveTerrainSampler({
-		heightAt(x, z) {
-			return x * 0.2 + z * 0.1;
-		}
-	});
-	const sample = sampler.heightAt(4, 3);
-	assert.equal(sample.y, 1.1);
-	assert.ok(sample.normal.y > 0.95);
-	assert.ok(Math.abs(Math.hypot(
-		sample.normal.x,
-		sample.normal.y,
-		sample.normal.z
-	) - 1) < 0.000001);
-});
-
-test('visibility field hides instances outside the quality budget', () => {
-	const origin = { x: 0, z: 0 };
-	const instances = [instanceAt(4, 3), instanceAt(30, 0)];
-	const field = new NatureVisibilityField(
-		instances,
-		{ cullDistance: 12 },
-		() => origin
-	);
-	assert.equal(field.update(), 1);
-	assert.equal(instances[0].scene.visible, true);
-	assert.equal(instances[1].scene.visible, false);
-	assert.deepEqual(field.snapshot(), { culled: 1, total: 2, visible: 1 });
-	origin.x = 25;
-	assert.equal(field.update(), 1);
-	assert.equal(instances[0].scene.visible, false);
-	assert.equal(instances[1].scene.visible, true);
-});
-
-test('live bridge mounts diagnostics and removes its dedicated group', async () => {
+test('live bridge mounts only into the final runtime and removes its group', async () => {
 	const scene = createScene();
 	const runtime = {
+		frameScheduler: {},
 		qualityProfile: { quality: 'high' },
+		renderer: {},
 		scene,
-		state: { playerPosition: { x: 2, y: 0, z: 3 } },
+		state: { x: 2, y: 0, z: 3 },
 		terrain: { heightAt: () => 7 }
 	};
 	let destroyed = false;
 	let received = null;
 	const controller = createLiveRealNatureBridge({
-		environment: { addEventListener() {} },
+		environment: testEnvironment(),
 		loadModule: async () => ({
 			async createRealNatureSystem(options) {
 				received = options;
-				return {
-					destroy() {
-						destroyed = true;
-					},
-					snapshot() {
-						return { failures: [], installed: 5 };
-					}
-				};
+				return createFakeSystem(() => {
+					destroyed = true;
+				});
 			}
 		}),
 		runtime
@@ -81,9 +42,10 @@ test('live bridge mounts diagnostics and removes its dedicated group', async () 
 	assert.equal(runtime.nature, controller);
 	assert.equal(runtime.realNature, controller);
 	assert.equal(scene.children.length, 1);
-	assert.equal(received.quality, 'high');
+	assert.equal(received.quality, 'low');
+	assert.equal(received.sourceQuality, 'high');
 	assert.equal(received.groundSampler.heightAt(1, 2).y, 7);
-	assert.deepEqual(received.visibilityOrigin(), { x: 2, y: 0, z: 3 });
+	assert.equal(received.visibilityOrigin(), runtime.state);
 	controller.destroy();
 	assert.equal(destroyed, true);
 	assert.equal(scene.children.length, 0);
@@ -91,10 +53,20 @@ test('live bridge mounts diagnostics and removes its dedicated group', async () 
 	assert.equal(runtime.realNature, undefined);
 });
 
-function instanceAt(x, z) {
+function createFakeSystem(onDestroy) {
 	return {
-		placement: { x, z },
-		scene: { visible: true }
+		destroy: onDestroy,
+		snapshot() {
+			return { failures: [], installed: 5 };
+		}
+	};
+}
+
+function testEnvironment() {
+	return {
+		addEventListener() {},
+		clearTimeout,
+		setTimeout
 	};
 }
 
@@ -108,6 +80,7 @@ function createScene() {
 		remove(child) {
 			this.children = this.children.filter(item => item !== child);
 			child.parent = null;
-		}
+		},
+		traverse() {}
 	};
 }

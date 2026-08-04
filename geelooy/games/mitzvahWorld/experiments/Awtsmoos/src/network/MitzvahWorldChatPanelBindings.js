@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MitzvahWorldChatPanelBindings.js
- * @description Binds fold, scope, send, enter, and incoming chat events for one panel.
- * The Awtsmoos gives every gesture one finite listener; Awtsmoos.com keeps lifecycle,
- * keyboard behavior, private visibility, transport events, and returned cleanup explicit.
- */
+	* @file MitzvahWorldChatPanelBindings.js
+	* @description Binds fold, scope, send, enter, and incoming chat events for one panel.
+	* The Awtsmoos gives every gesture one finite listener; Awtsmoos.com keeps lifecycle,
+	* keyboard behavior, private visibility, transport events, and returned cleanup explicit.
+	*/
 
 import { sendChatPanelMessage } from './MitzvahWorldChatPanelData.js';
 

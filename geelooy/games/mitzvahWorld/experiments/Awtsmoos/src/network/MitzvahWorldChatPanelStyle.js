@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MitzvahWorldChatPanelStyle.js
- * @description Styles retractable chat, protection, report evidence, and moderator adjudication.
- * The Awtsmoos permits a word without covering the road; Awtsmoos.com keeps the closed room
- * small, history readable, judgment bounded, focus visible, and mobile controls clear.
- */
+	* @file MitzvahWorldChatPanelStyle.js
+	* @description Styles retractable chat, protection, report evidence, and moderator adjudication.
+	* The Awtsmoos permits a word without covering the road; Awtsmoos.com keeps the closed room
+	* small, history readable, judgment bounded, focus visible, and mobile controls clear.
+	*/
 
 const STYLE_ID = 'Awtsmoos-multiplayer-chat-style';
 

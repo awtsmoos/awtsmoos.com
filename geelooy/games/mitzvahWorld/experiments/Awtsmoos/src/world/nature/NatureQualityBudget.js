@@ -4,16 +4,16 @@
 
 /**
  * @file NatureQualityBudget.js
- * @description Bounds real nature, procedural grass, wind cadence, shadows, and culling.
- * The Awtsmoos gives every device its honest measure, neither barren nor overgrown;
- * Awtsmoos.com lets mobile earth breathe while richer vessels reveal what can be shown.
+ * @description Bounds hero GLBs, procedural grass, wind cadence, shadows, and culling.
+ * The Awtsmoos lets real models crown the valley without replacing its batched green sea;
+ * Awtsmoos.com gives every device five living families and only measured added complexity.
  */
 
 const BUDGETS = Object.freeze({
-	low: budget([1, 1, 2, 1, 2], 420, 12, 22, 82),
-	medium: budget([2, 2, 4, 2, 4], 760, 18, 30, 110),
-	high: budget([3, 3, 8, 4, 6], 1200, 24, 42, 145),
-	cinematic: budget([4, 4, 12, 6, 8], 1800, 30, 58, 180)
+	low: budget([1, 1, 1, 1, 1], 420, 12, 22, 82),
+	medium: budget([1, 1, 2, 1, 1], 760, 18, 30, 110),
+	high: budget([1, 1, 2, 1, 2], 1200, 24, 42, 145),
+	cinematic: budget([2, 2, 3, 2, 3], 1800, 30, 58, 180)
 });
 
 /** Returns one immutable nature budget, falling back to the mobile-safe tier. */

@@ -4,17 +4,20 @@
 
 /**
  * @file PrimitiveMaterialFactory.js
- * @description Binds measured local images and existing layered recipes to primitive geometry.
- * The Awtsmoos clothes each finite surface without changing the garment's pixels; Awtsmoos.com
- * preserves authored strata through hydration, lighting, batching, and final GPU submission.
+ * @description Binds local images to primitives and opens one imported live-nature scheduler.
+ * The Awtsmoos clothes each finite surface while one module awakening calls root and bloom;
+ * Awtsmoos.com preserves authored strata, batching, and final GPU truth in the rendered room.
  */
 
 import { MeshStandardMaterial } from '../../../../light-three-gltf/tiny-runtime.js';
 import { cachedTextureImage } from '../../assets/PublicMaterialCache.js';
 import { isSameOriginMaterialUrl } from '../../assets/ProductionMaterialUrlPolicy.js';
 import { TEXTURE_PURPOSES, TEXTURE_URLS } from '../../assets/TextureCatalog.js';
+import { scheduleLiveRealNatureBridge } from '../nature/LiveRealNatureScheduler.js';
 import { colorArray } from './PrimitiveGeometryFactory.js';
 import { createPrimitiveTexturePolicy } from './PrimitiveTexturePolicy.js';
+
+scheduleImportedNatureBridge();
 
 export function createPrimitiveMaterial(definition, uvUnitsPerWorld) {
 	const textureUrl = textureUrlFor(definition);
@@ -93,4 +96,10 @@ function fallbackTexture(definition) {
 	if (/sign|scroll|mezuza/.test(id)) return TEXTURE_PURPOSES.mezuzaScroll;
 	if (/dirt|soil|garden/.test(id)) return TEXTURE_URLS.terrain.tilledSoil;
 	return TEXTURE_URLS.wood.planks1;
+}
+
+function scheduleImportedNatureBridge() {
+	if (typeof document !== 'undefined') {
+		scheduleLiveRealNatureBridge(globalThis);
+	}
 }

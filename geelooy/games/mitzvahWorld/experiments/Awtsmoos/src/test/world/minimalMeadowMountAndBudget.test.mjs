@@ -55,7 +55,7 @@ function assertProfile(profile, treeReport, vegetationReport, waterReport) {
 	assert.equal(treeReport.sceneObjects, 1 + profile.trees * 3);
 	assert.equal(vegetationReport.cells, profile.vegetation);
 	assert.equal(vegetationReport.sceneObjects, 1 + profile.vegetation * 3);
-	assert.equal(vegetationReport.materials, 5);
+	assert.equal(vegetationReport.materials, 2);
 	assert.equal(waterReport.riverSegments, 80);
 	assert.equal(waterReport.sceneObjects, 7);
 	assert.equal(waterReport.waterMeshes + waterReport.bedMeshes + waterReport.bankMeshes, 6);

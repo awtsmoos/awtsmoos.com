@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MitzvahWorldChatPanelData.js
- * @description Owns bounded channel, send, history, and census operations for shared chat.
- * The Awtsmoos separates visible vessel from distant request; Awtsmoos.com keeps failure,
- * fallback channels, private targets, and authenticated message ordering explicit.
- */
+	* @file MitzvahWorldChatPanelData.js
+	* @description Owns bounded channel, send, history, and census operations for shared chat.
+	* The Awtsmoos separates visible vessel from distant request; Awtsmoos.com keeps failure,
+	* fallback channels, private targets, and authenticated message ordering explicit.
+	*/
 
 import { renderChatChannels } from './MitzvahWorldChatPanelView.js';
 

@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MultiplayerEretzBootstrap.js
- * @description Returns visible local playability before realtime authority connects.
- * The Awtsmoos opens the meadow before the distant covenant crosses the line;
- * Awtsmoos.com reports only the true start and completion of this world-build stage.
- */
+	* @file MultiplayerEretzBootstrap.js
+	* @description Returns visible local playability before realtime authority connects.
+	* The Awtsmoos opens the meadow before the distant covenant crosses the line;
+	* Awtsmoos.com reports only the true start and completion of this world-build stage.
+	*/
 
 import { MultiplayerEretzRuntime } from './MultiplayerEretzSession.js';
 

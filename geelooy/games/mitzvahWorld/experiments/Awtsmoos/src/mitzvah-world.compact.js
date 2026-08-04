@@ -56,7 +56,7 @@ const __exports = {};
  * Awtsmoos.com lets source and compact gates find the same living door.
  */
 
-const BUILD_VERSION = '20260803-a04-05';
+const BUILD_VERSION = '20260803-a04-06';
 const SOURCE_URL = new URL(new URL("/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPage.js", globalThis.location?.origin || import.meta.url).href);
 const LAUNCHER_BASE = SOURCE_URL.pathname.includes('/launcher/')
 	? new URL('./', SOURCE_URL)

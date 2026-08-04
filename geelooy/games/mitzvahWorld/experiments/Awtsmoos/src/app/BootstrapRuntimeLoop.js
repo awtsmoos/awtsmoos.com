@@ -4,16 +4,16 @@
 
 /**
  * @file BootstrapRuntimeLoop.js
- * @description Drives one progressively enriched world through display frames and timer-backed rescue.
- * The Awtsmoos renews traveler, forest, river, blossom, battle, and visible light in one measured stream;
- * Awtsmoos.com lets rich systems awaken in place while every fallback pulse preserves the living dream.
+ * @description Drives movement, combat, enrichment, frames, HUD, real minimap, and recovery.
+ * The Awtsmoos renews traveler, deed, forest, river, blossom, direction, and visible light;
+ * Awtsmoos.com lets optional garments awaken while first control and map awareness remain complete.
  */
 
 import { BootstrapFrameCadence } from './BootstrapFrameCadence.js';
 import { createBootstrapFrameScheduler } from './BootstrapFrameScheduler.js';
 import { BootstrapMovementController } from './BootstrapMovementController.js';
 
-const HUD_REFRESH_INTERVAL_MS = 100;
+const UI_REFRESH_INTERVAL_MS = 100;
 
 export function startBootstrapRuntimeLoop(runtime, environment = globalThis) {
 	const movement = new BootstrapMovementController(runtime);
@@ -21,7 +21,7 @@ export function startBootstrapRuntimeLoop(runtime, environment = globalThis) {
 	const scheduler = createBootstrapFrameScheduler(environment);
 	let active = true;
 	let lastTime = now(environment);
-	let lastHudAt = -Infinity;
+	let lastUiAt = -Infinity;
 	let handle = null;
 	const frame = (currentTime, source = 'unknown') => {
 		if (!active) return;
@@ -32,6 +32,7 @@ export function startBootstrapRuntimeLoop(runtime, environment = globalThis) {
 		try {
 			movement.update(deltaSeconds);
 			runtime.coreMechanics?.update?.(deltaSeconds);
+			runtime.combat?.update?.(deltaSeconds);
 			runtime.updateWorldSystems?.(deltaSeconds);
 			runtime.renderer.setInteractor(runtime.state, currentTime / 1000);
 			runtime.renderer.render(runtime.scene, runtime.camera);
@@ -40,9 +41,10 @@ export function startBootstrapRuntimeLoop(runtime, environment = globalThis) {
 			runtime.lastFrameAt = currentTime;
 			runtime.runtimeFrameSource = source;
 			runtime.lastFrameError = null;
-			if (currentTime - lastHudAt >= HUD_REFRESH_INTERVAL_MS) {
+			if (currentTime - lastUiAt >= UI_REFRESH_INTERVAL_MS) {
 				runtime.bootstrapHud?.refresh?.();
-				lastHudAt = currentTime;
+				runtime.bootstrapMinimap?.refresh?.();
+				lastUiAt = currentTime;
 			}
 		} catch (error) {
 			runtime.lastFrameError = error?.stack || String(error);
@@ -52,12 +54,14 @@ export function startBootstrapRuntimeLoop(runtime, environment = globalThis) {
 	};
 	publishLoopState(runtime, cadence, scheduler);
 	movement.update(0.001);
+	runtime.combat?.update?.(0.001);
 	runtime.renderer.setInteractor(runtime.state, lastTime / 1000);
 	runtime.renderer.render(runtime.scene, runtime.camera);
 	handle = scheduler.schedule(frame);
 	movement.stop = () => {
 		active = false;
 		handle?.cancel?.();
+		runtime.bootstrapMinimap?.destroy?.();
 	};
 	movement.scheduler = () => ({
 		active,

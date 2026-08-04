@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MultiplayerEnemyAuthoritySync.js
- * @description Binds local actors to authoritative creature identities and streamed snapshots.
- * The Awtsmoos renews one creature before many screens while distance cannot divide;
- * Awtsmoos.com joins actor and server record, then lets sleeping cells gently hide.
- */
+	* @file MultiplayerEnemyAuthoritySync.js
+	* @description Binds local actors to authoritative creature identities and streamed snapshots.
+	* The Awtsmoos renews one creature before many screens while distance cannot divide;
+	* Awtsmoos.com joins actor and server record, then lets sleeping cells gently hide.
+	*/
 import { multiplayerEnemyRecord } from './MultiplayerEnemyAuthorityCatalog.js';
 import {
 	applyMultiplayerEnemyCreature,

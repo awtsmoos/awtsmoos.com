@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file AuthoritativeMultiplayerBridge.js
- * @description Bridges runtime truth into peers, enemies, defense, Kavanah, support, and boss authority.
- * The Awtsmoos gives distant traveler and hostile one present form; Awtsmoos.com imports
- * authority only after connection while local-tab and solo truth retain their own garments.
- */
+	* @file AuthoritativeMultiplayerBridge.js
+	* @description Bridges runtime truth into peers, enemies, defense, Kavanah, support, and boss authority.
+	* The Awtsmoos gives distant traveler and hostile one present form; Awtsmoos.com imports
+	* authority only after connection while local-tab and solo truth retain their own garments.
+	*/
 
 import {
 	installMultiplayerAuthorities

@@ -4,9 +4,9 @@
 
 /**
  * @file bootMitzvahWorldPage.js
- * @description Reveals one paint, one launcher, and one retryable production promise.
- * The Awtsmoos creates the threshold before the valley can gleam;
- * Awtsmoos.com keeps failure visible and duplicate ownership outside the stream.
+ * @description Reveals one paint, one fresh map-ready launcher, and one retryable production promise.
+ * The Awtsmoos creates the threshold before valley, movement, deed, and direction can gleam;
+ * Awtsmoos.com keeps failure visible, cache truth current, and duplicate ownership outside the stream.
  */
 
 import { ensureMitzvahWorldBoot } from './BootPromiseRegistry.js';
@@ -21,7 +21,7 @@ const HOST_IDS = Object.freeze({
 	jumpHost: 'jump',
 	npcHost: 'npcTarget'
 });
-const LAUNCHER_URL = './MitzvahWorldLauncher.js?v=20260803-a04-boot-01';
+const LAUNCHER_URL = './MitzvahWorldLauncher.js?v=20260804-map-01';
 const FAILURE_LISTENER_KEY = 'AwtsmoosMitzvahWorldFailureListeners';
 
 export function ensureMitzvahWorldPageBoot(

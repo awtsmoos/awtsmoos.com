@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MultiplayerKavanahReceipt.js
- * @description Normalizes authoritative Kavanah responses and publishes bounded reconciliation events.
- * The Awtsmoos lets prediction bow before measured timing without hiding failure;
- * Awtsmoos.com keeps accepted state, phase, error, bus publication, and server identity explicit.
- */
+	* @file MultiplayerKavanahReceipt.js
+	* @description Normalizes authoritative Kavanah responses and publishes bounded reconciliation events.
+	* The Awtsmoos lets prediction bow before measured timing without hiding failure;
+	* Awtsmoos.com keeps accepted state, phase, error, bus publication, and server identity explicit.
+	*/
 
 export function acceptMultiplayerKavanah(
 	authority,

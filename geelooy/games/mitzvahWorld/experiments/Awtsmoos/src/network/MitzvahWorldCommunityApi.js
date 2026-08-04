@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MitzvahWorldCommunityApi.js
- * @description Exposes chat, moderation, adjudication, mail, and persistent guild commands.
- * The Awtsmoos renews words and community beyond distance; Awtsmoos.com gives clear methods
- * while history, protection, evidence, judgment, privacy, mailboxes, and guilds remain server-owned.
- */
+	* @file MitzvahWorldCommunityApi.js
+	* @description Exposes chat, moderation, adjudication, mail, and persistent guild commands.
+	* The Awtsmoos renews words and community beyond distance; Awtsmoos.com gives clear methods
+	* while history, protection, evidence, judgment, privacy, mailboxes, and guilds remain server-owned.
+	*/
 
 export class MitzvahWorldCommunityApi {
 	constructor(send) {

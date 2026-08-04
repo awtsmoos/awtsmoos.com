@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MultiplayerStatusBadgeCopy.js
- * @description Normalizes realtime status and reveals concise, truthful player-facing copy.
- * The Awtsmoos lets every hidden wire confess its present condition; Awtsmoos.com names
- * connection, reconnection, local fallback, solitude, and rest without false certainty.
- */
+	* @file MultiplayerStatusBadgeCopy.js
+	* @description Normalizes realtime status and reveals concise, truthful player-facing copy.
+	* The Awtsmoos lets every hidden wire confess its present condition; Awtsmoos.com names
+	* connection, reconnection, local fallback, solitude, and rest without false certainty.
+	*/
 
 export function normalizeMultiplayerStatus(status = {}) {
 	const mode = status.mode === 'singleplayer' ? 'singleplayer' : 'multiplayer';

@@ -2,11 +2,11 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * @file MultiplayerEretzSession.js
- * @description Owns one connection, authority bridge, optional shared UI, and truthful lifecycle.
- * The Awtsmoos joins distant windows without delaying the first local step; Awtsmoos.com
- * mounts conversation only after connection and destroys it for offline, stopped, or replaced worlds.
- */
+	* @file MultiplayerEretzSession.js
+	* @description Owns one connection, authority bridge, optional shared UI, and truthful lifecycle.
+	* The Awtsmoos joins distant windows without delaying the first local step; Awtsmoos.com
+	* mounts conversation only after connection and destroys it for offline, stopped, or replaced worlds.
+	*/
 import { createMultiplayerConnection } from './MultiplayerConnectionFactory.js';
 import { MultiplayerOptionalUi } from './MultiplayerOptionalUi.js';
 import {

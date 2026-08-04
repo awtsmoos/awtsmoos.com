@@ -4,9 +4,9 @@
 
 /**
  * @file compactJs.mitzvahWorldRuntime.test.js
- * @description Proves all generated runtime artifacts are syntactically valid and own their intended surfaces.
- * The Awtsmoos lets compiler names change their garments while callable public truth remains stable;
- * Awtsmoos.com guards first control, three chunk doors, remote models, creative separation, and syntax.
+ * @description Proves the tiny first-control gate and deferred chunks own their intended runtime surfaces.
+ * The Awtsmoos keeps remote garments outside the opening breath while every later chamber remains exact;
+ * Awtsmoos.com guards launch URLs, chunk doors, model authority, creative separation, and syntax.
  */
 
 const assert = require('assert');
@@ -21,6 +21,13 @@ const chunkContracts = Object.freeze([
 	['world', 'installMinimalMeadowWorldSystems'],
 	['optional', 'hydrateMinimalMeadowPlayer']
 ]);
+const remoteMarkers = Object.freeze([
+	'chossid.glb',
+	'PineTree_3.glb',
+	'Flower_4_Clump.glb',
+	'Bush_Large_Flowers.glb',
+	'Rock_2.glb'
+]);
 
 async function run() {
 	const repoRoot = path.resolve(__dirname, '../../..');
@@ -29,13 +36,12 @@ async function run() {
 		'geelooy/games/mitzvahWorld/experiments/Awtsmoos/src'
 	);
 	const main = source(path.join(sourceRoot, 'mitzvah-world.compact.js'));
-	assert.match(main, new RegExp(escapePattern(DRIVE_MODEL_ROOT)));
 	for (const marker of [
-		'FIRST_PAINT_FALLBACK_MS',
-		'mitzvah-world-presentation.compact.js',
-		'mitzvah-world-world.compact.js',
-		'mitzvah-world-optional.compact.js'
+		'PAGE_BOOT_URL',
+		'RUNTIME_BOOT_URL',
+		'MinimalSharedMeadowRuntimePage.js'
 	]) assert.match(main, new RegExp(escapePattern(marker)));
+	assert.doesNotMatch(main, new RegExp(escapePattern(DRIVE_MODEL_ROOT)));
 	assert.doesNotMatch(main, /MovieRenderRuntime/);
 	verifySyntax(main, 'main');
 	for (const [name, exportedName] of chunkContracts) {
@@ -44,6 +50,10 @@ async function run() {
 			`mitzvah-world-${name}.compact.js`
 		));
 		assert.match(chunk, new RegExp(exportedName));
+		assert.match(chunk, new RegExp(escapePattern(DRIVE_MODEL_ROOT)));
+		for (const marker of remoteMarkers) {
+			assert.match(chunk, new RegExp(escapePattern(marker)));
+		}
 		assert.doesNotMatch(chunk, /MovieRenderRuntime/);
 		verifySyntax(chunk, name);
 	}

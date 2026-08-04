@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file AuthoritativeMultiplayerBridgeAuthority.js
- * @description Installs enemy, defense, Kavanah, support, Daas, boss, and group-counter authority.
- * The Awtsmoos joins separate powers without confusing their vessels; Awtsmoos.com
- * keeps hostile consequence, player protection, and deliberate combat beneath one session covenant.
- */
+	* @file AuthoritativeMultiplayerBridgeAuthority.js
+	* @description Installs enemy, defense, Kavanah, support, Daas, boss, and group-counter authority.
+	* The Awtsmoos joins separate powers without confusing their vessels; Awtsmoos.com
+	* keeps hostile consequence, player protection, and deliberate combat beneath one session covenant.
+	*/
 
 import {
 	MultiplayerDefenseAuthority

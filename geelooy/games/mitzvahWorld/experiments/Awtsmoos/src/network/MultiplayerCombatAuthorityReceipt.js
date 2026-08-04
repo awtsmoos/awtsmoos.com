@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MultiplayerCombatAuthorityReceipt.js
- * @description Preserves bounded server proof for client reconciliation and accessible feedback.
- * The Awtsmoos lets prediction bow before consequence while diagnostics cross the sea;
- * Awtsmoos.com carries measured action, Kavanah, posture, reaction, boss, knowledge, and reward.
- */
+	* @file MultiplayerCombatAuthorityReceipt.js
+	* @description Preserves bounded server proof for client reconciliation and accessible feedback.
+	* The Awtsmoos lets prediction bow before consequence while diagnostics cross the sea;
+	* Awtsmoos.com carries measured action, Kavanah, posture, reaction, boss, knowledge, and reward.
+	*/
 
 export function multiplayerCombatAuthorityReceipt(payload = {}) {
 	return Object.freeze({

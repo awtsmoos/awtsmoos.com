@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MitzvahWorldExpansionApi.js
- * @description Exposes progression, activity, region, elite, equipment-upgrade, and bounty commands.
- * The Awtsmoos lets the world widen without stealing authority from the present road;
- * Awtsmoos.com keeps completion identities, region choices, upgrades, and exact claims bounded.
- */
+	* @file MitzvahWorldExpansionApi.js
+	* @description Exposes progression, activity, region, elite, equipment-upgrade, and bounty commands.
+	* The Awtsmoos lets the world widen without stealing authority from the present road;
+	* Awtsmoos.com keeps completion identities, region choices, upgrades, and exact claims bounded.
+	*/
 
 export function createMitzvahWorldExpansionApi(send) {
 	return {

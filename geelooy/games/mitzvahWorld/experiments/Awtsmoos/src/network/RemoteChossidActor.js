@@ -4,13 +4,14 @@
 
 /**
 	* @file RemoteChossidActor.js
-	* @description Animates one real remote Chossid toward authoritative world snapshots.
-	* The Awtsmoos gives each distant form a present target and gentle path;
-	* Awtsmoos.com preserves exact teleport repair, shortest facing, and independent animation.
+	* @description Animates and disposes one real remote Chossid deterministically.
+	* The Awtsmoos gives each distant form a present target and a finite vessel;
+	* Awtsmoos.com preserves exact motion, shortest facing, and complete departure cleanup.
 	*/
 
 import { TinyAnimationPlayer } from '../../../light-three-gltf/tiny-animation.js';
 import { alignModelFeetToGround } from '../world/GroundRay.js';
+import { disposeRemoteChossidModel } from './RemoteChossidDisposal.js';
 import {
 	finiteRemoteNumber,
 	remoteAnimationClips,
@@ -27,6 +28,7 @@ const FACING_RESPONSE = 16;
 
 export class RemoteChossidActor {
 	constructor(gltf, remote, ground) {
+		this.disposed = false;
 		this.id = remote.id;
 		this.ground = ground;
 		this.model = gltf.scene;
@@ -47,9 +49,13 @@ export class RemoteChossidActor {
 		this.animationClock = 0;
 		this.applySnapshot(remote, true);
 	}
-
 	applySnapshot(remote, snap = false) {
-		Object.assign(this.target, remoteWorldTarget(remote, this.ground, this.footOffset));
+		if (this.disposed) return false;
+		Object.assign(this.target, remoteWorldTarget(
+			remote,
+			this.ground,
+			this.footOffset
+		));
 		this.targetFacing = finiteRemoteNumber(remote.facing, this.targetFacing);
 		this.moving = remotePlayerMoving(remote);
 		const distant = squaredRemoteDistance(this.position, this.target)
@@ -58,25 +64,31 @@ export class RemoteChossidActor {
 			Object.assign(this.position, this.target);
 			this.facing = this.targetFacing;
 		}
+		return true;
 	}
-
 	update(deltaTime) {
+		if (this.disposed) return false;
 		const positionBlend = remoteInterpolationFactor(deltaTime, POSITION_RESPONSE);
 		const facingBlend = remoteInterpolationFactor(deltaTime, FACING_RESPONSE);
 		this.position.x += (this.target.x - this.position.x) * positionBlend;
 		this.position.y += (this.target.y - this.position.y) * positionBlend;
 		this.position.z += (this.target.z - this.position.z) * positionBlend;
-		this.facing += shortestFacingDelta(this.targetFacing - this.facing) * facingBlend;
+		this.facing += shortestFacingDelta(this.targetFacing - this.facing)
+			* facingBlend;
 		this.updateAnimation(deltaTime);
-		this.model.position.set(this.position.x, this.position.y, this.position.z);
+		this.model.position.set(
+			this.position.x,
+			this.position.y,
+			this.position.z
+		);
 		this.model.quaternion.set(
 			0,
 			Math.sin(this.facing / 2),
 			0,
 			Math.cos(this.facing / 2)
 		);
+		return true;
 	}
-
 	updateAnimation(deltaTime) {
 		const wanted = this.moving ? this.clips.walk : this.clips.idle;
 		if (wanted !== this.activeClip) {
@@ -88,6 +100,13 @@ export class RemoteChossidActor {
 			this.player.update(this.animationClock);
 			this.animationClock = 0;
 		}
+	}
+	dispose() {
+		if (this.disposed) return false;
+		this.disposed = true;
+		this.player?.stop?.();
+		disposeRemoteChossidModel(this.model);
+		return true;
 	}
 }
 

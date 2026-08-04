@@ -6,12 +6,17 @@
  * @file MinimalMeadowRichFeatureHydration.js
  * @description Declares orchestration ready, completes atomic handoff, then starts steady-state measurement.
  * The Awtsmoos lets the fuller garment become whole before weighing its living pulse;
- * Awtsmoos.com preserves bootstrap safety, generated chunks, exact handoff, and responsive construction.
+ * Awtsmoos.com preserves bootstrap safety, readable module truth, exact handoff, and responsive construction.
  */
 
 import {
 	scheduleMinimalMeadowPerformanceMonitor
 } from './MinimalMeadowPerformanceHydration.js';
+
+export const RICH_FEATURE_BUNDLE_URL = new URL(
+	'./MinimalMeadowFeatureBundle.js',
+	import.meta.url
+).href;
 
 export async function hydrateMinimalMeadowRichFeatures(
 	runtime,
@@ -37,9 +42,7 @@ export async function hydrateMinimalMeadowRichFeatures(
 		);
 		if (receipt?.handoffPromise) {
 			runtime.richFeatureHandoffStage = 'waiting';
-			runtime.richFeatureHandoffPromise = Promise.resolve(
-				receipt.handoffPromise
-			)
+			runtime.richFeatureHandoffPromise = Promise.resolve(receipt.handoffPromise)
 				.then(complete)
 				.catch(error => failRichHandoff(runtime, error));
 		} else {
@@ -66,12 +69,7 @@ export function richFeatureErrorReceipt(error) {
 	});
 }
 
-function completeRichHandoff(
-	runtime,
-	bootstrap,
-	environment,
-	schedulePerformance
-) {
+function completeRichHandoff(runtime, bootstrap, environment, schedulePerformance) {
 	if (runtime.bootstrapFeatures && runtime.bootstrapFeatures !== bootstrap) {
 		return Object.freeze({ ready: false, reason: 'SUPERSEDED' });
 	}
@@ -102,6 +100,6 @@ async function resolveRichInstaller(dependencies) {
 	if (dependencies.installMinimalMeadowFeatures) {
 		return dependencies.installMinimalMeadowFeatures;
 	}
-	const module = await import('./MinimalMeadowFeatureBundle.js');
+	const module = await import(RICH_FEATURE_BUNDLE_URL);
 	return module.installMinimalMeadowFeatures;
 }

@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MitzvahWorldChatPanelState.js
- * @description Persists the voluntary shared-chat fold without requiring storage.
- * The Awtsmoos remembers a finite preference while depending on none; Awtsmoos.com keeps
- * denied, private, malformed, and absent storage from affecting multiplayer playability.
- */
+	* @file MitzvahWorldChatPanelState.js
+	* @description Persists the voluntary shared-chat fold without requiring storage.
+	* The Awtsmoos remembers a finite preference while depending on none; Awtsmoos.com keeps
+	* denied, private, malformed, and absent storage from affecting multiplayer playability.
+	*/
 
 const STORAGE_KEY = 'Awtsmoos.mitzvahWorld.chat.open.v1';
 

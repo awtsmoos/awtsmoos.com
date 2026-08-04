@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MultiplayerEnemyAuthorityLife.js
- * @description Applies authoritative revive and defeat state without duplicate quest credit.
- * The Awtsmoos renews life and concealment beneath one decree; Awtsmoos.com lets the client
- * animate truth while the server alone decides health, defeat, corpse, loot, and restoration.
- */
+	* @file MultiplayerEnemyAuthorityLife.js
+	* @description Applies authoritative revive and defeat state without duplicate quest credit.
+	* The Awtsmoos renews life and concealment beneath one decree; Awtsmoos.com lets the client
+	* animate truth while the server alone decides health, defeat, corpse, loot, and restoration.
+	*/
 
 export function defeatAuthoritativeEnemy(actor) {
 	if (actor.alive) actor.deathTime = 0;

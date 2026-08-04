@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file WorldPopulationClient.js
- * @description Reads authoritative world census through a short-lived anonymous socket.
- * The Awtsmoos renews presence without inventing it; Awtsmoos.com opens no player,
- * stores no session, and reports unavailable truth when no realtime endpoint exists.
- */
+	* @file WorldPopulationClient.js
+	* @description Reads census through one short-lived socket with exact cleanup ownership.
+	* The Awtsmoos reveals presence without leaving an unopened wire behind;
+	* Awtsmoos.com closes each constructor, opening, request, and transport path exactly once.
+	*/
 
 import { MitzvahWorldRealtimeClient } from './MitzvahWorldRealtimeClient.js';
 import { waitForMitzvahWorldSocketOpen } from './MitzvahWorldSocketOpen.js';
@@ -18,33 +18,33 @@ export async function requestWorldPopulation(options = {}) {
 	if (!url || !WebSocketClass) {
 		return unavailable('Realtime population endpoint is not configured.');
 	}
-	let socket;
+	const timeoutMs = options.timeoutMs ?? 5000;
+	let client = null;
+	let socket = null;
 	try {
-		socket = await withTimeout(
-			waitForMitzvahWorldSocketOpen(new WebSocketClass(url)),
-			options.timeoutMs || 5000
-		);
-		const client = new MitzvahWorldRealtimeClient(socket);
-		const response = await withTimeout(client.census(), options.timeoutMs || 5000);
+		socket = new WebSocketClass(url);
+		await waitForMitzvahWorldSocketOpen(socket, {
+			cancelSchedule: options.cancelSchedule,
+			schedule: options.schedule,
+			signal: options.signal,
+			timeoutMs
+		});
+		client = new MitzvahWorldRealtimeClient(socket, {
+			requestTimeoutMs: timeoutMs
+		});
+		const response = await client.census();
 		return {
 			available: true,
 			...response.payload
 		};
 	} catch (error) {
-		return unavailable(error.message);
+		return unavailable(error?.message || String(error));
 	} finally {
-		socket?.close?.();
+		client?.close?.('CENSUS_COMPLETE');
+		if (!client && Number(socket?.readyState) < 2) {
+			socket.close?.();
+		}
 	}
-}
-
-function withTimeout(promise, timeoutMs) {
-	let timeout;
-	return Promise.race([
-		promise,
-		new Promise((_, reject) => {
-			timeout = setTimeout(() => reject(new Error('World census timed out.')), timeoutMs);
-		})
-	]).finally(() => clearTimeout(timeout));
 }
 
 function unavailable(reason) {

@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MultiplayerEnemyAuthorityProjection.js
- * @description Projects server creature movement, permitted action insight, and stable change signatures.
- * The Awtsmoos lets distant truth enter one visible vessel without private knowledge leaking through;
- * Awtsmoos.com keeps identity, progress, interruption, and animation aligned with what the server knew.
- */
+	* @file MultiplayerEnemyAuthorityProjection.js
+	* @description Projects server creature movement, permitted action insight, and stable change signatures.
+	* The Awtsmoos lets distant truth enter one visible vessel without private knowledge leaking through;
+	* Awtsmoos.com keeps identity, progress, interruption, and animation aligned with what the server knew.
+	*/
 
 export function applyAuthoritativeEnemyPosition(actor, position = {}) {
 	for (const axis of ['x', 'y', 'z']) {

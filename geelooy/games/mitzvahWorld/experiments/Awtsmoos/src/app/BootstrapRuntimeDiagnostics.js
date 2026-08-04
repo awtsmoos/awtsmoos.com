@@ -4,9 +4,9 @@
 
 /**
  * @file BootstrapRuntimeDiagnostics.js
- * @description Exposes control, jump, run, cadence, rendering, districts, and valley truth.
- * The Awtsmoos gathers only facts already revealed; Awtsmoos.com publishes bounded receipts
- * for motion, air state, streaming progress, frame rhythm, meshes, draws, and triangles.
+ * @description Exposes current control, rendering, district lifecycle, and indexed collision truth.
+ * The Awtsmoos renews wall, release, and witness together; Awtsmoos.com reports both active
+ * triangles and the finite grid that found them, while hiding mutable groups and lifecycle functions.
  */
 
 export function createBootstrapRuntimeDiagnostics(
@@ -36,26 +36,41 @@ export function createBootstrapRuntimeDiagnostics(
 		state: runtime.state,
 		stateSnapshot: () => ({ ...runtime.state }),
 		terrain: runtime.terrain,
-		worldStats: () => ({
-			bootstrap: true,
-			collisionTriangles: 0,
-			districts: districtSnapshot(runtime),
-			renderer: rendererSnapshot(runtime),
-			terrain: runtime.terrain.stats
-		})
+		worldStats: () => {
+			const collision = collisionSnapshot(runtime);
+			return {
+				bootstrap: true,
+				collision,
+				collisionTriangles: collision.triangles,
+				districts: districtSnapshot(runtime),
+				renderer: rendererSnapshot(runtime),
+				terrain: runtime.terrain.stats
+			};
+		}
+	};
+}
+
+function collisionSnapshot(runtime) {
+	return runtime.mainOctree?.diagnostics?.() || {
+		spatialIndex: null,
+		triangles: 0
 	};
 }
 
 function districtSnapshot(runtime) {
 	const state = runtime.districtStreaming;
 	return state ? {
+		active: Number(state.active) || 0,
+		colliders: Number(state.colliders) || 0,
 		completed: state.completed,
 		finishedAt: state.finishedAt,
 		loaded: [...state.loaded],
 		meshes: state.meshes,
+		released: Number(state.released) || 0,
 		startedAt: state.startedAt,
 		status: state.status,
-		total: state.total
+		total: state.total,
+		triangles: Number(state.triangles) || 0
 	} : null;
 }
 

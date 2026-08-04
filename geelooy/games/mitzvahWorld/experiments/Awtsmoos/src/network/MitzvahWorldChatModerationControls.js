@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MitzvahWorldChatModerationControls.js
- * @description Binds evidence, protection, reports, snapshots, review, and adjudication.
- * The Awtsmoos lets each listener guard one finite vessel without silencing the world;
- * Awtsmoos.com keeps target, reason, private state, moderator judgment, and teardown explicit.
- */
+	* @file MitzvahWorldChatModerationControls.js
+	* @description Binds evidence, protection, reports, snapshots, review, and adjudication.
+	* The Awtsmoos lets each listener guard one finite vessel without silencing the world;
+	* Awtsmoos.com keeps target, reason, private state, moderator judgment, and teardown explicit.
+	*/
 
 import {
 	adjudicateChatModeratorReport,

@@ -1,12 +1,12 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file MaterialOriginPolicy.test.js
- * @description Proves that playable materials remain local and the world manifest is import-safe.
- * The Awtsmoos lets every texture illuminate its appointed surface without leaving the village;
- * Awtsmoos.com guards that covenant through deterministic source and runtime evidence.
+ * @description Proves production materials use trusted Awtsmoos Drive URLs and no repository image authority.
+ * The Awtsmoos lets each distant texture illuminate its appointed surface without entering Git;
+ * Awtsmoos.com guards immutable origin, role uniqueness, local rejection, and forbidden-host absence.
  */
 
 import test from 'node:test';
@@ -21,33 +21,29 @@ import {
 import { WORLD_TEXTURE_MATERIALS } from '../../src/assets/WorldTextureManifest.js';
 
 const SOURCE_ROOT = fileURLToPath(new URL('../../src', import.meta.url));
-const PROHIBITED_HOST = /(firebaseapp\.com|firebasestorage\.googleapis\.com|storage\.googleapis\.com|\.web\.app)/i;
+const DRIVE_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/';
+const PROHIBITED = /(firebaseapp\.com|firebasestorage\.googleapis\.com|storage\.googleapis\.com|\.web\.app|local-textures)/i;
 
-test('production material policy accepts only approved local paths', () => {
+test('production material policy accepts trusted Awtsmoos Drive URLs', () => {
 	const approved = [
-		'./assets/materials/local/world/stone.jpg',
-		'/assets/materials/generated/roof.webp',
-		'/geelooy/games/mitzvahWorld/assets/materials/local/world/timber.jpg',
-		'/geelooy/games/mitzvahWorld/assets/models/reference-world/flower_4_clump.glb'
+		`${DRIVE_ROOT}full-resolution/weathered%20fieldstone%20Rock%201.png`,
+		`${DRIVE_ROOT}full-resolution/shallow%20river%20water.png`
 	];
 	for (const url of approved) {
 		assert.equal(assertProductionMaterialUrl(url), url);
 		assert.equal(isSameOriginMaterialUrl(url), true);
 	}
-	const fallbacks = productionMaterialFallbacks(approved.slice(0, 2), 'test material');
-	assert.equal(Object.isFrozen(fallbacks), true);
+	assert.equal(Object.isFrozen(productionMaterialFallbacks(approved, 'test material')), true);
 });
 
-test('production material policy rejects remote, traversing, and forbidden paths', () => {
+test('production material policy rejects local, external, data, and forbidden-host paths', () => {
 	const rejected = [
+		'./assets/materials/local/world/stone.jpg',
+		'/assets/materials/generated/roof.webp',
 		'https://example.com/stone.jpg',
 		'//example.com/stone.jpg',
 		'data:image/png;base64,AA==',
-		'./assets/materials/local/world/../secret.jpg',
-		'./assets/materials/local/world/%2e%2e/secret.jpg',
-		'./assets/materials/local/half-resolution/stone.jpg',
-		'./assets/materials/local/staging/stone.jpg',
-		'./images/stone.jpg'
+		'https://firebasestorage.googleapis.com/stone.jpg'
 	];
 	for (const url of rejected) {
 		assert.equal(isSameOriginMaterialUrl(url), false, url);
@@ -55,21 +51,25 @@ test('production material policy rejects remote, traversing, and forbidden paths
 	}
 });
 
-test('world texture manifest imports and contains only local valid roles', () => {
+test('world texture manifest contains only trusted remote roles', () => {
 	assert.ok(WORLD_TEXTURE_MATERIALS.length > 0);
 	const roles = new Set();
 	for (const material of WORLD_TEXTURE_MATERIALS) {
-		assert.equal(isSameOriginMaterialUrl(material.primaryUrl), true, material.primaryUrl);
-		assert.equal(PROHIBITED_HOST.test(material.primaryUrl), false);
+		assert.equal(assertProductionMaterialUrl(material.primaryUrl), material.primaryUrl);
+		assert.equal(material.primaryUrl.startsWith(DRIVE_ROOT), true, material.primaryUrl);
 		assert.equal(roles.has(material.role), false, material.role);
 		roles.add(material.role);
+		for (const fallback of material.fallbackUrls || []) {
+			assert.equal(assertProductionMaterialUrl(fallback), fallback);
+			assert.equal(fallback.startsWith(DRIVE_ROOT), true, fallback);
+		}
 	}
 });
 
-test('runtime JavaScript contains no obsolete external material hosts', () => {
+test('runtime JavaScript contains no forbidden material authority', () => {
 	const offenders = [];
 	for (const filePath of javascriptFiles(SOURCE_ROOT)) {
-		if (PROHIBITED_HOST.test(readFileSync(filePath, 'utf8'))) offenders.push(filePath);
+		if (PROHIBITED.test(readFileSync(filePath, 'utf8'))) offenders.push(filePath);
 	}
 	assert.deepEqual(offenders, []);
 });

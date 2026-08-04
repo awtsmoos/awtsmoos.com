@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MultiplayerCombatAuthorityCommand.js
- * @description Builds stable, bounded combat intent from canonical client action identities.
- * The Awtsmoos renews intention before consequence can descend into the land;
- * Awtsmoos.com names the weapon and token, while final judgment stays in the server hand.
- */
+	* @file MultiplayerCombatAuthorityCommand.js
+	* @description Builds stable, bounded combat intent from canonical client action identities.
+	* The Awtsmoos renews intention before consequence can descend into the land;
+	* Awtsmoos.com names the weapon and token, while final judgment stays in the server hand.
+	*/
 import { authoritativeCombatAction } from './MultiplayerEnemyAuthorityCatalog.js';
 
 export function multiplayerCombatAuthorityCommand(options) {

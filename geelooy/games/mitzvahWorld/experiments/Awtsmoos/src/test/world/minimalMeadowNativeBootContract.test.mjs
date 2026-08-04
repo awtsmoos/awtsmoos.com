@@ -4,9 +4,9 @@
 
 /**
  * @file minimalMeadowNativeBootContract.test.mjs
- * @description Locks one production switch, compact-default boot, three quality chunks, and creative-only deferral.
+ * @description Locks direct compact publication, foldable orchestration, three quality chunks, and creative deferral.
  * The Awtsmoos reveals the playable road before every complete garment descends;
- * Awtsmoos.com proves canonical entry truth, critical folding, chunk identity, handoff, and creative doors.
+ * Awtsmoos.com proves canonical entry truth, chunk identity, handoff, and explicit creative doors.
  */
 
 import assert from 'node:assert/strict';
@@ -15,23 +15,19 @@ import test from 'node:test';
 
 const GAME_ROOT = 'geelooy/games/mitzvahWorld';
 
-test('B"H production index owns one compact-default entry switch', () => {
+test('B"H production index owns one direct compact entry', () => {
 	const index = source('index.html');
-	const entry = source(
-		'experiments/Awtsmoos/src/MitzvahWorldProductionEntry.js'
-	);
 	const scripts = [...index.matchAll(
 		/<script type="module"[^>]+src="([^"]+)"/g
 	)].map(match => match[1]);
 	assert.deepEqual(scripts, [
-		'./experiments/Awtsmoos/src/MitzvahWorldProductionEntry.js'
+		'./experiments/Awtsmoos/src/mitzvah-world.compact.js'
 	]);
-	assert.match(entry, /parameters\.get\('readable'\) === '1'/);
-	assert.match(entry, /: '\.\/mitzvah-world\.compact\.js'/);
+	assert.doesNotMatch(index, /MitzvahWorldProductionEntry\.js/);
 	assert.equal([...index.matchAll(/<link[^>]+stylesheet/g)].length, 1);
 });
 
-test('B"H required scheduler and feature orchestration use foldable imports', () => {
+test('B"H scheduler and rich hydration preserve explicit module boundaries', () => {
 	const runtime = source(
 		'experiments/Awtsmoos/src/app/createMinimalMeadowRuntime.js'
 	);
@@ -40,8 +36,9 @@ test('B"H required scheduler and feature orchestration use foldable imports', ()
 	);
 	assert.match(runtime, /import\('\.\/MinimalMeadowFeatureScheduler\.js'\)/);
 	assert.doesNotMatch(runtime, /FEATURE_SCHEDULER_URL/);
-	assert.match(hydration, /import\('\.\/MinimalMeadowFeatureBundle\.js'\)/);
-	assert.doesNotMatch(hydration, /RICH_FEATURE_BUNDLE_URL/);
+	assert.match(hydration, /export const RICH_FEATURE_BUNDLE_URL = new URL/);
+	assert.match(hydration, /'\.\/MinimalMeadowFeatureBundle\.js'/);
+	assert.match(hydration, /import\(RICH_FEATURE_BUNDLE_URL\)/);
 });
 
 test('B"H feature orchestration names exactly three generated chunks', () => {
@@ -57,9 +54,9 @@ test('B"H feature orchestration names exactly three generated chunks', () => {
 	assert.match(feature, /mitzvah-world-world\.compact\.js/);
 	assert.match(presentation, /mitzvah-world-presentation\.compact\.js/);
 	assert.match(optional, /mitzvah-world-optional\.compact\.js/);
-	assert.match(feature, /handoffPromise/);
-	assert.match(feature, /presentationPromise/);
-	assert.match(feature, /optionalPromise/);
+	for (const name of ['handoffPromise', 'presentationPromise', 'optionalPromise']) {
+		assert.match(feature, new RegExp(name));
+	}
 });
 
 test('B"H generated chunk entries preserve complete installer surfaces', () => {
@@ -83,7 +80,7 @@ test('B"H generated chunk entries preserve complete installer surfaces', () => {
 	]) assert.match(optional, new RegExp(name));
 });
 
-test('B"H only creative mode owners may preserve literal imports', () => {
+test('B"H only creative mode owners preserve literal imports', () => {
 	const preservation = source('build/js/PreservedDynamicImportFs.cjs');
 	assert.match(preservation, /MitzvahWorldCreativeModeLoaders\.js/);
 	assert.match(preservation, /MitzvahWorldModeLoaders\.js/);

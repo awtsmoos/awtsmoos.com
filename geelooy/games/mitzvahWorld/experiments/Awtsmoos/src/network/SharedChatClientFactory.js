@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file SharedChatClientFactory.js
- * @description Normalizes deployed server chat and localhost world chat behind one panel contract.
- * The Awtsmoos gives each transport its truthful boundary; Awtsmoos.com preserves authoritative
- * scopes on servers while local tabs receive only the world room their channel can actually prove.
- */
+	* @file SharedChatClientFactory.js
+	* @description Normalizes deployed server chat and localhost world chat behind one panel contract.
+	* The Awtsmoos gives each transport its truthful boundary; Awtsmoos.com preserves authoritative
+	* scopes on servers while local tabs receive only the world room their channel can actually prove.
+	*/
 
 import { LocalTabSharedChatClient } from './LocalTabSharedChatClient.js';
 

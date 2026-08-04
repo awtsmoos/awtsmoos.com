@@ -4,15 +4,54 @@
 
 /**
  * @file EretzPlayerStateFactory.js
- * @description Creates gameplay identity and movement state at the canonical arrival vista.
- * The Awtsmoos renews body, place, and purpose together; Awtsmoos.com places the traveler
- * on ENTR01 where road, sign, river, bridge, village, and mountains may all reveal themselves.
+ * @description Creates bootstrap and canonical gameplay identity from one measured covenant.
+ * The Awtsmoos renews body, place, and purpose together in every frame of the road;
+ * Awtsmoos.com gives both first light and fuller valley a truthful state to hold.
  */
 
 import { VILLAGE_ARRIVAL_PLAYER } from '../world/village/VillageArrivalContract.js';
 import { FACE_HEIGHT } from './EretzConstants.js';
 
 export const PLAYER_SPAWN = VILLAGE_ARRIVAL_PLAYER;
+
+export function createBootstrapPlayerStats() {
+	return {
+		armor: 3,
+		face: '🎩',
+		health: 100,
+		level: 1,
+		maxHealth: 100,
+		name: 'Chossid',
+		xp: 0,
+		xpMax: 100
+	};
+}
+
+export function createBootstrapPlayerState() {
+	return {
+		action: 'idle',
+		airPhase: 'ground',
+		clip: '',
+		collisionEnabled: true,
+		contacts: [],
+		defeated: false,
+		facing: 0,
+		grounded: true,
+		inputLocked: false,
+		jumpsUsed: 0,
+		level: 'meadow',
+		lifecycle: 'active',
+		moving: false,
+		multiplayer: null,
+		renderY: 0,
+		runMode: false,
+		targetingEnabled: true,
+		velY: 0,
+		x: 0,
+		y: 0,
+		z: 0
+	};
+}
 
 export function createEretzPlayerStats() {
 	return {

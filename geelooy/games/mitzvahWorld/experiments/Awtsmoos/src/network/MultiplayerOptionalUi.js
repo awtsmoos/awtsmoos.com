@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MultiplayerOptionalUi.js
- * @description Mounts folded chat dependencies immediately or after one abortable server quiet window.
- * The Awtsmoos joins nearby tabs without scattering source scrolls across the road;
- * Awtsmoos.com preserves delay, injection, cancellation, disconnect, diagnostics, and exact cleanup.
- */
+	* @file MultiplayerOptionalUi.js
+	* @description Mounts folded chat dependencies immediately or after one abortable server quiet window.
+	* The Awtsmoos joins nearby tabs without scattering source scrolls across the road;
+	* Awtsmoos.com preserves delay, injection, cancellation, disconnect, diagnostics, and exact cleanup.
+	*/
 
 import { afterGameplayQuietWindow } from '../app/GameplayQuietWindow.js';
 import { MitzvahWorldChatPanel } from './MitzvahWorldChatPanel.js';

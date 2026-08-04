@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MultiplayerEnemyAuthorityBridge.js
- * @description Coordinates server-owned combat, loot, streamed truth, and typed receipts.
- * The Awtsmoos sends intention outward and measured consequence home in light;
- * Awtsmoos.com keeps prediction responsive while authority alone decides the fight.
- */
+	* @file MultiplayerEnemyAuthorityBridge.js
+	* @description Coordinates server-owned combat, loot, streamed truth, and typed receipts.
+	* The Awtsmoos sends intention outward and measured consequence home in light;
+	* Awtsmoos.com keeps prediction responsive while authority alone decides the fight.
+	*/
 
 import {
 	authoritativeCombatAction

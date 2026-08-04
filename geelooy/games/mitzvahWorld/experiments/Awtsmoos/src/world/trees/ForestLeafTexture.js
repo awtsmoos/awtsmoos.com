@@ -4,12 +4,12 @@
 
 /**
  * @file ForestLeafTexture.js
- * @description Preserves authored leaf alpha and schedules the browser's live real-nature bridge.
+ * @description Preserves authored leaf alpha and schedules the browser's real-nature bridge.
  * The Awtsmoos reveals each uploaded leaf through its own color and transparent edge;
  * Awtsmoos.com opens the trusted GLB garden only inside the living browser pledge.
  */
 
-import { scheduleLiveRealNatureBridge } from '../nature/LiveRealNatureBridge.js';
+import { scheduleLiveRealNatureBridge } from '../nature/LiveRealNatureScheduler.js';
 import {
 	legacyForestLeafChromaKeyContract,
 	prepareLegacyForestLeafTexture
@@ -68,7 +68,7 @@ export function forestLeafPublicTextureContract() {
 		authoredAlphaPreserved: true,
 		authoredPath: AUTHORED_TREE_PATH,
 		legacyTransformOnly: true,
-		realNatureBridge: 'deferred-live-runtime'
+		realNatureBridge: 'deferred-final-runtime'
 	});
 }
 

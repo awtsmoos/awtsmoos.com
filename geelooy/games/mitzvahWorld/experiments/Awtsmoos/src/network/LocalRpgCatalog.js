@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file LocalRpgCatalog.js
- * @description Mirrors stable combat, creature, spawn, and adventure definitions offline.
- * The Awtsmoos renews one law through server and local vessels; Awtsmoos.com keeps
- * deterministic single-player rules inspectable and protected by catalog-parity tests.
- */
+	* @file LocalRpgCatalog.js
+	* @description Mirrors stable combat, creature, spawn, and adventure definitions offline.
+	* The Awtsmoos renews one law through server and local vessels; Awtsmoos.com keeps
+	* deterministic single-player rules inspectable and protected by catalog-parity tests.
+	*/
 
 export const LOCAL_RPG_WEAPONS = Object.freeze({
 	chalaf: weapon('chalaf', 8, 2.2, 900, 8, 'tool'),

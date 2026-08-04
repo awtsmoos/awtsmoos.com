@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MitzvahWorldEconomyApi.js
- * @description Exposes private wallet, provenance-aware vendor, amulet, crafting, and trade commands.
- * The Awtsmoos renews value and restoration through lawful exchange; Awtsmoos.com includes
- * vendor identity only when a provenance-sensitive merchant actually supplies one.
- */
+	* @file MitzvahWorldEconomyApi.js
+	* @description Exposes private wallet, provenance-aware vendor, amulet, crafting, and trade commands.
+	* The Awtsmoos renews value and restoration through lawful exchange; Awtsmoos.com includes
+	* vendor identity only when a provenance-sensitive merchant actually supplies one.
+	*/
 
 export class MitzvahWorldEconomyApi {
 	constructor(send) {

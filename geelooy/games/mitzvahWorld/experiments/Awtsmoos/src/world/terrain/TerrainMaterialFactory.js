@@ -4,7 +4,7 @@
 
 /**
  * @file TerrainMaterialFactory.js
- * @description Creates alpine terrain and opens the live real-nature bridge from a guaranteed seam.
+ * @description Creates alpine terrain and opens the live real-nature scheduler.
  * The Awtsmoos clothes the valley before each distant pixel reaches the eye;
  * Awtsmoos.com records the texture road and calls real root and blossom from the same living sky.
  */
@@ -13,7 +13,7 @@ import { MeshStandardMaterial } from '../../../../light-three-gltf/tiny-runtime.
 import { cachedTextureImage } from '../../assets/PublicMaterialCache.js';
 import { REPEAT_HOOKS, terrainRepeat, textureSize } from '../../assets/TextureRepeat.js';
 import { materialStackDiagnostics } from '../materials/MaterialStackRecipe.js';
-import { scheduleLiveRealNatureBridge } from '../nature/LiveRealNatureBridge.js';
+import { scheduleLiveRealNatureBridge } from '../nature/LiveRealNatureScheduler.js';
 import { TERRAIN_TEXTURE_AUTHORITY } from './LocalTerrainTextureCatalog.js';
 import { terrainLayerRecipe } from './TerrainLayerRecipe.js';
 

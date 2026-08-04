@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MitzvahWorldBackoff.js
- * @description Computes bounded exponential reconnect delays with optional jitter.
- * The Awtsmoos renews connection without frantic repetition; Awtsmoos.com spaces
- * each attempt through measured patience while preserving a firm maximum delay.
- */
+	* @file MitzvahWorldBackoff.js
+	* @description Computes bounded exponential reconnect delays with optional jitter.
+	* The Awtsmoos renews connection without frantic repetition; Awtsmoos.com spaces
+	* each attempt through measured patience while preserving a firm maximum delay.
+	*/
 
 export class MitzvahWorldBackoff {
 	constructor(options = {}) {

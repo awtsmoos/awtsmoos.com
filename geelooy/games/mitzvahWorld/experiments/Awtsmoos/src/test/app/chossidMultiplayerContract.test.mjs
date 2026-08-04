@@ -4,28 +4,35 @@
 
 /**
  * @file chossidMultiplayerContract.test.mjs
- * @description Proves local and nearby human models share the exact content-addressed Chossid.
- * The Awtsmoos renews every person beyond distance; Awtsmoos.com verifies bytes and bounded LODs.
+ * @description Proves local and nearby humans share one remote-only, content-addressed canonical Chossid.
+ * The Awtsmoos renews every person beyond distance without burying a heavy body in Git;
+ * Awtsmoos.com preserves immutable bytes, trusted routes, remote recovery, and bounded LODs.
  */
 
 import assert from 'node:assert/strict';
-import { createHash } from 'node:crypto';
-import { readFile } from 'node:fs/promises';
-import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 import { PLAYER_MODEL_URL } from '../../app/EretzConstants.js';
-import { isTrustedModelUrl, remoteModelRecord } from '../../assets/RemoteModelCatalog.js';
+import {
+	isTrustedModelUrl,
+	remoteModelCatalogEvidence,
+	remoteModelRecord
+} from '../../assets/RemoteModelCatalog.js';
 import { npcLodTiers, resolveNpcLod } from '../../world/npc/NpcLodPolicy.js';
 
-test('the canonical player and NPC model is exact local-first Chossid truth', async () => {
+const CHOSSID_SHA256 = 'd86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48';
+
+test('the canonical player and NPC model is exact remote-only Chossid truth', () => {
 	const record = remoteModelRecord('player/chossid.glb');
-	const bytes = await readFile(repositoryModelPath(record));
-	const sha256 = createHash('sha256').update(bytes).digest('hex');
+	const evidence = remoteModelCatalogEvidence();
 	assert.equal(PLAYER_MODEL_URL, record.localUrl);
-	assert.equal(isTrustedModelUrl(PLAYER_MODEL_URL), true);
-	assert.equal(bytes.length, record.bytes);
-	assert.equal(sha256, record.sha256);
-	assert.match(PLAYER_MODEL_URL, /\/[a-f0-9]{64}\/chossid\.glb$/);
+	assert.equal(isTrustedModelUrl(record.localUrl), true);
+	assert.equal(isTrustedModelUrl(record.remoteUrl), true);
+	assert.equal(record.bytes, 2027368);
+	assert.equal(record.sha256, CHOSSID_SHA256);
+	assert.match(record.localUrl, new RegExp(`/${CHOSSID_SHA256}/chossid\\.glb$`));
+	assert.match(record.remoteUrl, new RegExp(`/${CHOSSID_SHA256}/chossid\\.glb$`));
+	assert.equal(record.candidates.includes(record.remoteUrl), true);
+	assert.equal(evidence.policy, 'content-addressed-same-origin-first-remote-fallback');
 });
 
 test('near keeps the complete body while distant tiers use bounded proxies', () => {
@@ -53,11 +60,3 @@ test('selection and Shlichus focus restore the exact animated body', () => {
 		assert.equal(focused.proxyModel, false);
 	}
 });
-
-function repositoryModelPath(record) {
-	const segments = record.path.split('/');
-	const filename = segments.pop();
-	const folder = segments.join('/');
-	const relativePath = `../../../../../assets/models/${folder}/${record.sha256}/${filename}`;
-	return fileURLToPath(new URL(relativePath, import.meta.url));
-}

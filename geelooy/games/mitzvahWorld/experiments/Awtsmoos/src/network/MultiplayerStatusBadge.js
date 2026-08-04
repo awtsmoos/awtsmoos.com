@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MultiplayerStatusBadge.js
- * @description Mounts one accessible badge for actual play mode and realtime condition.
- * The Awtsmoos turns hidden transport into visible testimony; Awtsmoos.com keeps DOM ownership
- * separate from copy and style so every connection state can be tested without a browser.
- */
+	* @file MultiplayerStatusBadge.js
+	* @description Mounts one accessible badge for actual play mode and realtime condition.
+	* The Awtsmoos turns hidden transport into visible testimony; Awtsmoos.com keeps DOM ownership
+	* separate from copy and style so every connection state can be tested without a browser.
+	*/
 
 import {
 	multiplayerDetailLabel,

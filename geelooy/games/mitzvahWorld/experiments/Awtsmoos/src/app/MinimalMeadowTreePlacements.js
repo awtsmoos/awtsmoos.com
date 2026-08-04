@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowTreePlacements.js
- * @description Grows deterministic ecology-aware groves with full-crown traversal clearances.
- * The Awtsmoos gathers distinct species, ages, climates, and winds without a dead grid;
- * Awtsmoos.com keeps canonical presets, exclusions, spacing, quadrants, and finite rooted proof.
+ * @description Grows deterministic ecology-aware groves within first-play mobile and desktop budgets.
+ * The Awtsmoos gathers species, ages, climates, and winds without choking the opening breath;
+ * Awtsmoos.com keeps procedural shelter finite while remote canonical trees arrive after play begins.
  */
 
 import { listTreePresets } from './MinimalMeadowTreeCoreFacade.js';
@@ -18,15 +18,15 @@ import {
 	MINIMAL_MEADOW_PLAYABLE_HALF_SIZE,
 	MINIMAL_MEADOW_POPULATION_SEED
 } from './MinimalMeadowWorldPopulationConfig.js';
-import {
-	minimalMeadowPopulationAllows
-} from './MinimalMeadowWorldPopulationExclusions.js';
+import { minimalMeadowPopulationAllows } from './MinimalMeadowWorldPopulationExclusions.js';
 import {
 	minimalMeadowHasSpacing,
 	minimalMeadowSeededUnit
 } from './MinimalMeadowWorldPopulationMath.js';
 
 const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5));
+const MOBILE_TREE_LIMIT = 22;
+const DESKTOP_TREE_LIMIT = 32;
 
 export function createMinimalMeadowTreePlacements(terrain, options = {}) {
 	const presets = listTreePresets();
@@ -36,7 +36,7 @@ export function createMinimalMeadowTreePlacements(terrain, options = {}) {
 	const groves = MINIMAL_MEADOW_GROVES.map((grove, groveIndex) => {
 		return buildGrove(terrain, grove, groveIndex, presets);
 	});
-	const limit = options.mobile ? 26 : 40;
+	const limit = options.mobile ? MOBILE_TREE_LIMIT : DESKTOP_TREE_LIMIT;
 	return interleave(groves, limit).map((placement, index) => Object.freeze({
 		...placement,
 		id: `meadow-procedural-tree-${index + 1}`

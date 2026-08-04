@@ -1,106 +1,120 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
- * @file MitzvahWorldTransport.js
- * @description Correlates versioned requests with finite deadlines across replaceable sockets.
- * The Awtsmoos renews every wire while Awtsmoos.com keeps request identity and pending
- * promises bounded, preventing a silent world.join promise from remaining forever.
- */
+	* @file MitzvahWorldTransport.js
+	* @description Correlates bounded requests across replaceable, detachable sockets.
+	* The Awtsmoos renews each wire while no orphan promise remains beneath the sea;
+	* Awtsmoos.com settles replies, isolates malformed frames, and closes every gate.
+	*/
 
-const APPLICATION = 'mitzvah-world';
-const PROTOCOL = 'awtsmoos.realtime';
-const VERSION = 1;
+import { MitzvahWorldPendingRequests } from './MitzvahWorldPendingRequests.js';
+import {
+	createMitzvahWorldEnvelope,
+	parseMitzvahWorldMessage,
+	realtimeResponseError,
+	transportFailure
+} from './MitzvahWorldTransportProtocol.js';
 
 export class MitzvahWorldTransport {
 	constructor(socket, onMessage, options = {}) {
-		this.onMessage = onMessage;
-		this.pending = new Map();
+		this.onMessage = onMessage || (() => {});
+		this.onProtocolError = options.onProtocolError || (() => {});
+		this.requests = new MitzvahWorldPendingRequests(options);
+		this.pending = this.requests.pending;
 		this.requestSerial = 0;
 		this.sequence = 0;
 		this.socket = null;
-		this.requestTimeoutMs = options.requestTimeoutMs ?? 8000;
-		this.schedule = options.schedule || globalThis.setTimeout?.bind(globalThis);
-		this.cancelSchedule = options.cancelSchedule || globalThis.clearTimeout?.bind(globalThis);
-		this.receiveBound = event => this.receive(event.data);
+		this.receiveBound = event => {
+			if (event?.target && event.target !== this.socket) return;
+			this.receive(event?.data);
+		};
 		this.replaceSocket(socket, false);
 	}
-
 	replaceSocket(socket, rejectPending = true) {
 		if (!socket?.addEventListener || !socket?.send) {
-			throw new Error('A WebSocket-like transport is required.');
+			throw transportFailure(
+				'INVALID_REALTIME_SOCKET',
+				'A WebSocket-like transport is required.'
+			);
 		}
-		if (rejectPending) this.rejectPending('TRANSPORT_REPLACED', 'The realtime transport was replaced.');
-		this.socket?.removeEventListener?.('message', this.receiveBound);
+		if (this.socket === socket) return this;
+		this.detach(rejectPending ? 'TRANSPORT_REPLACED' : null);
 		this.socket = socket;
 		this.sequence = 0;
-		this.socket.addEventListener('message', this.receiveBound);
+		socket.addEventListener('message', this.receiveBound);
 		return this;
 	}
-
+	detach(code = 'TRANSPORT_CLOSED', socket = this.socket) {
+		if (socket && socket !== this.socket) return false;
+		this.socket?.removeEventListener?.('message', this.receiveBound);
+		this.socket = null;
+		if (code) this.requests.rejectAll(code, transportMessage(code));
+		return true;
+	}
+	close(code = 'TRANSPORT_CLOSED') {
+		const socket = this.socket;
+		this.detach(code, socket);
+		socket?.close?.();
+	}
 	send(type, payload = {}) {
+		if (!this.socket || Number(this.socket.readyState) >= 2) {
+			return Promise.reject(transportFailure(
+				'TRANSPORT_CLOSED',
+				transportMessage('TRANSPORT_CLOSED')
+			));
+		}
 		this.sequence += 1;
 		this.requestSerial += 1;
 		const requestId = `mw-${Date.now().toString(36)}-${this.requestSerial}`;
-		const promise = new Promise((resolve, reject) => {
-			const timer = this.scheduleTimeout(requestId, type, reject);
-			this.pending.set(requestId, { reject, resolve, timer });
-		});
+		const promise = this.requests.create(requestId, type);
 		try {
-			this.socket.send(JSON.stringify({
-				application: APPLICATION,
+			this.socket.send(JSON.stringify(createMitzvahWorldEnvelope({
 				payload,
-				protocol: PROTOCOL,
 				requestId,
 				sequence: this.sequence,
-				type,
-				version: VERSION
-			}));
+				type
+			})));
 		} catch (error) {
-			this.clearPending(requestId);
-			throw error;
+			this.requests.reject(requestId, error);
 		}
 		return promise;
 	}
-
 	receive(rawMessage) {
-		const message = typeof rawMessage === 'string' ? JSON.parse(rawMessage) : rawMessage;
-		if (message.application !== APPLICATION || message.version !== VERSION) return;
-		this.onMessage(message);
-		const pending = this.pending.get(message.requestId);
-		if (!pending) return;
-		this.clearPending(message.requestId);
-		if (message.type === 'error') {
-			pending.reject(Object.assign(new Error(message.payload.message), message.payload));
-		} else pending.resolve(message);
+		let message;
+		try {
+			message = parseMitzvahWorldMessage(rawMessage);
+		} catch (error) {
+			this.report(error, rawMessage);
+			return false;
+		}
+		if (!message) return false;
+		const request = message.requestId
+			? this.requests.take(message.requestId)
+			: null;
+		if (request) {
+			message.type === 'error'
+				? request.reject(realtimeResponseError(message))
+				: request.resolve(message);
+		}
+		try {
+			this.onMessage(message);
+		} catch (error) {
+			this.report(error, message);
+		}
+		return true;
 	}
-
-	rejectPending(code, message) {
-		for (const [requestId, pending] of this.pending) {
-			this.clearPending(requestId);
-			pending.reject(Object.assign(new Error(message), { code }));
+	report(error, context) {
+		try {
+			this.onProtocolError(error, context);
+		} catch {
+			// Diagnostics may never interrupt transport settlement.
 		}
 	}
+}
 
-	scheduleTimeout(requestId, type, reject) {
-		if (!this.schedule || this.requestTimeoutMs <= 0) return null;
-		const timer = this.schedule(() => {
-			if (!this.pending.delete(requestId)) return;
-			reject(Object.assign(new Error(`Realtime request timed out: ${type}`), {
-				code: 'REALTIME_REQUEST_TIMEOUT',
-				requestType: type
-			}));
-		}, this.requestTimeoutMs);
-		timer?.unref?.();
-		return timer;
-	}
-
-	clearPending(requestId) {
-		const pending = this.pending.get(requestId);
-		if (!pending) return null;
-		if (pending.timer !== null) this.cancelSchedule?.(pending.timer);
-		this.pending.delete(requestId);
-		return pending;
-	}
+function transportMessage(code) {
+	return code === 'TRANSPORT_REPLACED'
+		? 'The realtime transport was replaced.'
+		: 'The realtime transport closed.';
 }

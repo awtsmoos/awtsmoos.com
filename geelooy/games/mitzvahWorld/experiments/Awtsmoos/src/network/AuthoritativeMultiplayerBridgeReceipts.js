@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file AuthoritativeMultiplayerBridgeReceipts.js
- * @description Projects startup and diagnostics for peer, enemy, defense, and vertical-slice authority.
- * The Awtsmoos reveals many connected garments from one living source; Awtsmoos.com
- * keeps transport, revision, population, Kavanah, support, boss, and combat receipts inspectable.
- */
+	* @file AuthoritativeMultiplayerBridgeReceipts.js
+	* @description Projects startup and diagnostics for peer, enemy, defense, and vertical-slice authority.
+	* The Awtsmoos reveals many connected garments from one living source; Awtsmoos.com
+	* keeps transport, revision, population, Kavanah, support, boss, and combat receipts inspectable.
+	*/
 
 export function multiplayerBridgeReceipt(bridge) {
 	return {

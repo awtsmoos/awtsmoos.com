@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file LocalTabIdentity.js
- * @description Gives every live browser tab one identity without sharing it across duplicated tabs.
- * The Awtsmoos creates every browser vessel separately; Awtsmoos.com therefore keeps the live
- * identity on the Window itself and uses session storage only as a diagnostic breadcrumb.
- */
+	* @file LocalTabIdentity.js
+	* @description Gives every live browser tab one identity without sharing it across duplicated tabs.
+	* The Awtsmoos creates every browser vessel separately; Awtsmoos.com therefore keeps the live
+	* identity on the Window itself and uses session storage only as a diagnostic breadcrumb.
+	*/
 
 const STORAGE_KEY = 'awtsmoos.mitzvahWorld.localTabPlayerId';
 const IDENTITY_PROPERTY = Symbol.for('awtsmoos.mitzvahWorld.liveTabPlayerId');

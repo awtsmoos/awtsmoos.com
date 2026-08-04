@@ -4,9 +4,9 @@
 
 /**
  * @file productionBuild.test.cjs
- * @description Proves the split production publication is deterministic, compressed, and complete.
- * The Awtsmoos grants first control through a small vessel while later worlds keep measured light;
- * Awtsmoos.com verifies every hash, handoff, cinema source, and compressed byte in sight.
+ * @description Proves direct compact publication, deterministic chunks, compression, and cinema reachability.
+ * The Awtsmoos grants first control through one small gate while later worlds retain measured light;
+ * Awtsmoos.com verifies every public handoff, hash, deferred chamber, and compressed byte in sight.
  */
 
 const assert = require('node:assert/strict');
@@ -17,20 +17,19 @@ const {
 	text,
 	verifyRepresentations
 } = require('./ProductionBuildProof.cjs');
+
 const chunks = Object.freeze([
 	['presentation', 'installMinimalMeadowPresentationBundle'],
 	['world', 'installMinimalMeadowWorldSystems'],
 	['optional', 'hydrateMinimalMeadowPlayer']
 ]);
 
-test('B"H production page selects compact publication by default', () => {
+test('B"H production page selects the compact publication directly', () => {
 	const html = text('index.html');
-	const entry = text('experiments/Awtsmoos/src/MitzvahWorldProductionEntry.js');
 	assert.equal([...html.matchAll(/<link[^>]+stylesheet/g)].length, 1);
 	assert.equal([...html.matchAll(/<script[^>]+type="module"/g)].length, 1);
-	assert.match(html, /MitzvahWorldProductionEntry\.js/);
-	assert.match(entry, /parameters\.get\('readable'\) === '1'/);
-	assert.match(entry, /mitzvah-world\.compact\.js/);
+	assert.match(html, /src="\.\/experiments\/Awtsmoos\/src\/mitzvah-world\.compact\.js"/);
+	assert.doesNotMatch(html, /MitzvahWorldProductionEntry\.js/);
 });
 
 test('B"H production CSS is complete and every representation is verified', () => {

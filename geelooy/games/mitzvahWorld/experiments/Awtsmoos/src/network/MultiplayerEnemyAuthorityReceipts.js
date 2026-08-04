@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MultiplayerEnemyAuthorityReceipts.js
- * @description Reconciles exact authoritative loot quantity and adventure progress into runtime stores.
- * The Awtsmoos lets one server receipt renew possessions and purpose without additive echoes;
- * Awtsmoos.com normalizes arrays or keyed records and preserves the existing client store contracts.
- */
+	* @file MultiplayerEnemyAuthorityReceipts.js
+	* @description Reconciles exact authoritative loot quantity and adventure progress into runtime stores.
+	* The Awtsmoos lets one server receipt renew possessions and purpose without additive echoes;
+	* Awtsmoos.com normalizes arrays or keyed records and preserves the existing client store contracts.
+	*/
 
 export function reconcileAuthoritativeLoot(runtime, inventory, loot) {
 	if (!loot?.itemId || !runtime.inventory) return;

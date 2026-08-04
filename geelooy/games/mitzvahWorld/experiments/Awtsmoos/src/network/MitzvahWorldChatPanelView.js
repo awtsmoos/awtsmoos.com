@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MitzvahWorldChatPanelView.js
- * @description Creates bounded chat, protection, report, adjudication, and safe history markup.
- * The Awtsmoos gives each word a visible vessel without granting markup authority;
- * Awtsmoos.com keeps scope, evidence, judgment, note, compose, status, and retract explicit.
- */
+	* @file MitzvahWorldChatPanelView.js
+	* @description Creates bounded chat, protection, report, adjudication, and safe history markup.
+	* The Awtsmoos gives each word a visible vessel without granting markup authority;
+	* Awtsmoos.com keeps scope, evidence, judgment, note, compose, status, and retract explicit.
+	*/
 
 export function createMitzvahWorldChatPanel(documentValue, open) {
 	const root = documentValue.createElement('section');

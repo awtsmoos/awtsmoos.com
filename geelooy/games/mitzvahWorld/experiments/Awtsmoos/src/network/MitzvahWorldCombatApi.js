@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MitzvahWorldCombatApi.js
- * @description Exposes authoritative attacks, Kavanah, support, counters, knowledge, boss, care, and loot.
- * The Awtsmoos lets browser intention travel without carrying consequence in its pocket;
- * Awtsmoos.com sends bounded names, targets, timing, tokens, and queries to the server hand.
- */
+	* @file MitzvahWorldCombatApi.js
+	* @description Exposes authoritative attacks, Kavanah, support, counters, knowledge, boss, care, and loot.
+	* The Awtsmoos lets browser intention travel without carrying consequence in its pocket;
+	* Awtsmoos.com sends bounded names, targets, timing, tokens, and queries to the server hand.
+	*/
 
 export function createMitzvahWorldCombatApi(send) {
 	return {

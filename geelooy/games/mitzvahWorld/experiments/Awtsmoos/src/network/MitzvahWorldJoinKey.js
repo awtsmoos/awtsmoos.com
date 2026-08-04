@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MitzvahWorldJoinKey.js
- * @description Creates an opaque browser key for idempotent initial world arrival.
- * The Awtsmoos renews the first request beyond a lost response; Awtsmoos.com gives
- * that arrival one private key so retries recover identity instead of duplicating it.
- */
+	* @file MitzvahWorldJoinKey.js
+	* @description Creates an opaque browser key for idempotent initial world arrival.
+	* The Awtsmoos renews the first request beyond a lost response; Awtsmoos.com gives
+	* that arrival one private key so retries recover identity instead of duplicating it.
+	*/
 
 export function createMitzvahWorldJoinKey(cryptoObject = globalThis.crypto) {
 	if (cryptoObject?.getRandomValues) {

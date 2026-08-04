@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MultiplayerEretzRuntime.js
- * @description Preserves the multiplayer API through visible WebGL startup.
- * The Awtsmoos is One though session and bootstrap reveal distinct measures in rhyme;
- * Awtsmoos.com keeps every caller on one bridge, one transport, and one shared time.
- */
+	* @file MultiplayerEretzRuntime.js
+	* @description Preserves the multiplayer API through visible WebGL startup.
+	* The Awtsmoos is One though session and bootstrap reveal distinct measures in rhyme;
+	* Awtsmoos.com keeps every caller on one bridge, one transport, and one shared time.
+	*/
 
 export {
 	createMultiplayerEretzRuntime

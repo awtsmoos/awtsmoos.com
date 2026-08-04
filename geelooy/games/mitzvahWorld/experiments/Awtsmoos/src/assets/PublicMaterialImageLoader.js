@@ -4,9 +4,9 @@
 
 /**
  * @file PublicMaterialImageLoader.js
- * @description Decodes canonical material URLs immediately, with fetched-blob fallback.
- * The Awtsmoos clothes the village through the shortest truthful doorway; Awtsmoos.com
- * avoids blocking visible cottages behind a network fetch while retaining typed fallback evidence.
+ * @description Decodes canonical material URLs while respecting an open rate-limit circuit.
+ * The Awtsmoos clothes the village through a truthful measured door;
+ * Awtsmoos.com skips repeated knocks while cached and procedural colors endure.
  */
 
 import {
@@ -14,17 +14,26 @@ import {
 	decodePublicImageUrl
 } from './PublicImageDecode.js';
 import { fetchPublicImageBlob } from './PublicImageFetch.js';
+import { publicImageCircuitIsOpen } from './PublicImageRateLimitCircuit.js';
+import {
+	materialImageAttempt,
+	materialImageFailure,
+	materialImageSuccess
+} from './PublicMaterialImageRecords.js';
+
+export { serializableImageRecord } from './PublicMaterialImageRecords.js';
 
 export async function loadPublicMaterialImage(url, timeoutMs = 30000, dependencies = {}) {
-	const startedAt = now(dependencies);
+	const startedAt = currentTime(dependencies);
 	const attempts = [];
-	const direct = await decodePublicImageUrl(url, timeoutMs, dependencies);
-	attempts.push(attemptEvidence(direct));
-	if (direct.ok) {
-		return successRecord(url, direct, null, attempts, startedAt, dependencies);
-	}
+	const circuitOpen = publicImageCircuitIsOpen(url, dependencies);
+	const direct = circuitOpen
+		? skippedDirectRecord()
+		: await decodePublicImageUrl(url, timeoutMs, dependencies);
+	attempts.push(materialImageAttempt(direct));
+	if (direct.ok) return success(url, direct, null, attempts, startedAt, dependencies);
 	const fetched = await fetchPublicImageBlob(url, timeoutMs, dependencies);
-	attempts.push(attemptEvidence(fetched));
+	attempts.push(materialImageAttempt(fetched));
 	if (fetched.ok) {
 		const decoded = await decodePublicImageBlob(
 			url,
@@ -32,78 +41,48 @@ export async function loadPublicMaterialImage(url, timeoutMs = 30000, dependenci
 			timeoutMs,
 			dependencies
 		);
-		attempts.push(attemptEvidence(decoded));
+		attempts.push(materialImageAttempt(decoded));
 		if (decoded.ok) {
-			return successRecord(url, decoded, fetched, attempts, startedAt, dependencies);
+			return success(url, decoded, fetched, attempts, startedAt, dependencies);
 		}
 	}
-	return failureRecord(url, direct, fetched, attempts, startedAt, dependencies);
+	return failure(url, direct, fetched, attempts, startedAt, dependencies);
 }
 
-export function serializableImageRecord(record) {
-	return {
-		attempts: (record.attempts || []).map(attempt => ({ ...attempt })),
-		contentType: record.contentType || '',
-		durationMs: record.durationMs,
-		error: record.error || null,
-		fromCache: Boolean(record.fromCache),
-		height: record.height,
-		method: record.method || null,
-		ok: record.ok,
-		stage: record.stage || null,
-		status: record.status || 0,
-		url: record.url,
-		width: record.width
-	};
-}
-
-function successRecord(url, decoded, fetched, attempts, startedAt, dependencies) {
-	return {
+function success(url, decoded, fetched, attempts, startedAt, dependencies) {
+	return materialImageSuccess({
 		attempts,
-		contentType: fetched?.contentType || '',
-		durationMs: Math.round(now(dependencies) - startedAt),
-		error: null,
-		height: decoded.height,
-		image: decoded.image,
-		method: decoded.method,
-		ok: true,
-		stage: 'decoded',
-		status: fetched?.status || 200,
-		url,
-		width: decoded.width
-	};
+		decoded,
+		fetched,
+		now: () => currentTime(dependencies),
+		startedAt,
+		url
+	});
 }
 
-function failureRecord(url, direct, fetched, attempts, startedAt, dependencies) {
-	const final = attempts.at(-1) || {};
-	return {
+function failure(url, direct, fetched, attempts, startedAt, dependencies) {
+	return materialImageFailure({
 		attempts,
-		contentType: fetched?.contentType || '',
-		durationMs: Math.round(now(dependencies) - startedAt),
-		error: final.error || direct.error || fetched?.error || 'image-load-failed',
-		height: 0,
-		image: null,
-		method: final.method || 'none',
+		direct,
+		fetched,
+		now: () => currentTime(dependencies),
+		startedAt,
+		url
+	});
+}
+
+function skippedDirectRecord() {
+	return {
+		error: 'rate-limit-circuit-open',
+		method: 'direct-image-url-skipped-circuit',
 		ok: false,
-		stage: final.stage || 'unknown',
-		status: fetched?.status || 0,
-		url,
-		width: 0
+		rateLimited: true,
+		stage: 'circuit',
+		status: 429
 	};
 }
 
-function attemptEvidence(record = {}) {
-	return {
-		contentType: record.contentType || '',
-		error: record.error || null,
-		method: record.method || 'none',
-		ok: Boolean(record.ok),
-		stage: record.stage || 'unknown',
-		status: record.status || 0
-	};
-}
-
-function now(dependencies) {
+function currentTime(dependencies) {
 	return dependencies.now?.()
 		?? globalThis.performance?.now?.()
 		?? Date.now();

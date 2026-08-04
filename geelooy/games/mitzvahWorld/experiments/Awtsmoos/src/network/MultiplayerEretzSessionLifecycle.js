@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MultiplayerEretzSessionLifecycle.js
- * @description Builds connection options and closes every owned multiplayer resource.
- * The Awtsmoos opens one shared doorway and closes each garment in order; Awtsmoos.com
- * keeps optional UI, bridge, transport, and client references from surviving session replacement.
- */
+	* @file MultiplayerEretzSessionLifecycle.js
+	* @description Builds connection options and closes every owned multiplayer resource.
+	* The Awtsmoos opens one shared doorway and closes each garment in order; Awtsmoos.com
+	* keeps optional UI, bridge, transport, and client references from surviving session replacement.
+	*/
 
 export function multiplayerConnectionOptions(session) {
 	return {

@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MultiplayerEnemyAuthorityAttack.js
- * @description Serializes authoritative attacks behind required Kavanah release and typed reconciliation.
- * The Awtsmoos lets local animation remain swift while consequence waits for lawful timing;
- * Awtsmoos.com keeps unique tokens, pending guards, creature truth, adventures, and feedback aligned.
- */
+	* @file MultiplayerEnemyAuthorityAttack.js
+	* @description Serializes authoritative attacks behind required Kavanah release and typed reconciliation.
+	* The Awtsmoos lets local animation remain swift while consequence waits for lawful timing;
+	* Awtsmoos.com keeps unique tokens, pending guards, creature truth, adventures, and feedback aligned.
+	*/
 
 import {
 	multiplayerCombatAuthorityCommand

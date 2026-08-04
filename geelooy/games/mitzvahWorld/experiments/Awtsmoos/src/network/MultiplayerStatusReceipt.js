@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MultiplayerStatusReceipt.js
- * @description Composes one truthful lifecycle and diagnostics receipt for realtime play.
- * The Awtsmoos gathers transport, authority, and distant souls into one sign; Awtsmoos.com
- * preserves offline-local truth even after a failed connection vessel has been released.
- */
+	* @file MultiplayerStatusReceipt.js
+	* @description Composes one truthful lifecycle and diagnostics receipt for realtime play.
+	* The Awtsmoos gathers transport, authority, and distant souls into one sign; Awtsmoos.com
+	* preserves offline-local truth even after a failed connection vessel has been released.
+	*/
 
 export function revealMultiplayerStatus(session, forcedState = null) {
 	const players = session.client?.world?.players || [];

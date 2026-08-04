@@ -4,13 +4,15 @@
 
 /**
 	* @file LocalTabRealtimeProtocol.js
-	* @description Publishes and receives ordered local-tab world envelopes.
-	* The Awtsmoos speaks through separate windows without mixing their names;
-	* Awtsmoos.com turns each lawful message into one shared world of flames.
+	* @description Publishes and receives validated ordered local-tab world envelopes.
+	* The Awtsmoos speaks through separate windows without letting strange words rename a vessel;
+	* Awtsmoos.com validates lawful intent before generation, sequence, and shared-world consequence.
 	*/
 
 import { createLocalTabAuthorityApi } from './LocalTabAuthorityApi.js';
 import { LocalTabAuthorityStore } from './LocalTabAuthorityStore.js';
+
+const ORDERED_TYPES = new Set(['leave', 'state']);
 
 export function createLocalTabClientAuthority(client, worldId) {
 	return createLocalTabAuthorityApi(new LocalTabAuthorityStore({
@@ -21,19 +23,16 @@ export function createLocalTabClientAuthority(client, worldId) {
 }
 
 export function localTabInputTransform(first, strafe, facing) {
-	if (first && typeof first === 'object') {
-		return first;
-	}
+	if (first && typeof first === 'object') return first;
 	return {
 		facing,
-		moving: Math.abs(Number(first) || 0) + Math.abs(Number(strafe) || 0) > 0.001
+		moving: Math.abs(Number(first) || 0)
+			+ Math.abs(Number(strafe) || 0) > 0.001
 	};
 }
 
 export function publishLocalTabEnvelope(client, type, player = null) {
-	if (!client.channel || !client.worldState || !client.ledger.connection) {
-		return;
-	}
+	if (!client.channel || !client.worldState || !client.ledger.connection) return false;
 	client.sequence += 1;
 	client.channel.postMessage({
 		connectionId: client.ledger.connection.id,
@@ -45,28 +44,33 @@ export function publishLocalTabEnvelope(client, type, player = null) {
 		type,
 		worldId: client.worldState.worldId
 	});
+	return true;
 }
 
 export function receiveLocalTabEnvelope(client, message) {
-	if (!message || message.senderId === client.playerId || !client.worldState) {
-		return;
-	}
-	if (message.worldId !== client.worldState.worldId || !client.ledger.accept(message)) {
-		return;
-	}
+	if (!basicLocalTabEnvelope(client, message)) return false;
 	if (message.type === 'discover') {
-		publishLocalTabEnvelope(client, 'state', client.worldState.localPlayer());
-		return;
+		publishLocalTabEnvelope(
+			client,
+			'state',
+			client.worldState.localPlayer()
+		);
+		return true;
+	}
+	if (!orderedLocalTabEnvelope(message) || !client.ledger.accept(message)) {
+		return false;
 	}
 	if (message.type === 'leave') {
 		client.worldState.remove(message.senderId);
 		emitLocalTabWorld(client);
-		return;
+		return true;
 	}
-	if (message.type === 'state' && message.player) {
-		client.worldState.upsert({ ...message.player, id: message.senderId });
-		emitLocalTabWorld(client);
-	}
+	client.worldState.upsert({
+		...message.player,
+		id: message.senderId
+	});
+	emitLocalTabWorld(client);
+	return true;
 }
 
 export function emitLocalTabWorld(client) {
@@ -83,4 +87,28 @@ export function localTabJoinReceipt(client) {
 		transport: 'local-tab',
 		world: client.world
 	};
+}
+
+function basicLocalTabEnvelope(client, message) {
+	return Boolean(
+		message
+		&& typeof message === 'object'
+		&& typeof message.senderId === 'string'
+		&& message.senderId.length > 0
+		&& message.senderId !== client.playerId
+		&& client.worldState
+		&& message.worldId === client.worldState.worldId
+		&& (message.type === 'discover' || ORDERED_TYPES.has(message.type))
+	);
+}
+
+function orderedLocalTabEnvelope(message) {
+	if (message.type === 'leave') return true;
+	return Boolean(
+		message.type === 'state'
+		&& message.player
+		&& typeof message.player === 'object'
+		&& !Array.isArray(message.player)
+		&& message.player.id === message.senderId
+	);
 }

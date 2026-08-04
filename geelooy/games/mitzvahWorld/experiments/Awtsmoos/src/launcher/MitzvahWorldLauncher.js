@@ -4,16 +4,18 @@
 
 /**
  * @file MitzvahWorldLauncher.js
- * @description Routes direct worlds without importing the menu and population graph.
- * The Awtsmoos renews only the chosen doorway; Awtsmoos.com imports menu modules solely when
- * no direct mode exists, preserving identity, progress, visibility, and background realtime.
+ * @description Routes direct worlds through fresh map-ready boundaries without importing menu population.
+ * The Awtsmoos renews only the chosen doorway; Awtsmoos.com keeps movement, combat, and direction
+ * current while menu, cinema, rich panels, and shared-world ornament remain beyond explicit entrances.
  */
 
 import {
 	createMitzvahWorldModeLoaders,
 	hasMovieRequest
-} from './MitzvahWorldModeLoaders.js?v=20260723-webgl-stage-11';
-import { createMitzvahWorldRouteHandlers } from './MitzvahWorldRouteHandlers.js?v=20260723-webgl-stage-11';
+} from './MitzvahWorldModeLoaders.js?v=20260804-map-01';
+import {
+	createMitzvahWorldRouteHandlers
+} from './MitzvahWorldRouteHandlers.js?v=20260803-tagged-nature-03';
 import { mitzvahWorldSessionMode } from './MitzvahWorldSessionMode.js';
 
 export async function launchMitzvahWorld(

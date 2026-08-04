@@ -4,9 +4,9 @@
 
 /**
  * @file mitzvahWorldProductionEntry.test.mjs
- * @description Proves the public page defaults to compact publication and keeps readable source diagnostic-only.
- * The Awtsmoos opens one swift public gate while every readable chamber remains available by explicit choice;
- * Awtsmoos.com verifies entry state, parity proof, one HTML module, and Movie Studio lifecycle ownership.
+ * @description Proves direct compact publication and explicit Movie Studio lifecycle ownership.
+ * The Awtsmoos opens one swift public gate while readable source remains the build authority;
+ * Awtsmoos.com verifies one HTML module, bounded bootstrap, generated handoff, and studio destruction.
  */
 
 import assert from 'node:assert/strict';
@@ -17,18 +17,16 @@ import { fileURLToPath } from 'node:url';
 const sourceRoot = fileURLToPath(new URL('../../', import.meta.url));
 const gameRoot = fileURLToPath(new URL('../../../../../', import.meta.url));
 
-test('B"H production page defaults to compact and offers readable diagnostics', async () => {
-	const [entry, html] = await Promise.all([
-		readFile(`${sourceRoot}MitzvahWorldProductionEntry.js`, 'utf8'),
+test('B"H production page publishes the compact gate directly', async () => {
+	const [compact, html] = await Promise.all([
+		readFile(`${sourceRoot}mitzvah-world.compact.js`, 'utf8'),
 		readFile(`${gameRoot}index.html`, 'utf8')
 	]);
-	assert.match(html, /MitzvahWorldProductionEntry\.js/);
+	assert.match(html, /src="\.\/experiments\/Awtsmoos\/src\/mitzvah-world\.compact\.js"/);
 	assert.equal([...html.matchAll(/<script[^>]+type="module"/g)].length, 1);
-	assert.match(entry, /parameters\.get\('readable'\) === '1'/);
-	assert.match(entry, /\? '\.\/MinimalMeadowCompactBootstrap\.js'/);
-	assert.match(entry, /: '\.\/mitzvah-world\.compact\.js'/);
-	assert.match(entry, /AwtsmoosMitzvahWorldBoot/);
-	assert.match(entry, /parameters\.get\('verifyParity'\) === '1'/);
+	assert.doesNotMatch(html, /MitzvahWorldProductionEntry\.js/);
+	assert.match(compact, /MinimalSharedMeadowRuntimePage\.js/);
+	assert.ok(Buffer.byteLength(compact) <= 20000);
 });
 
 test('B"H Movie Studio lifecycle retains explicit registry ownership', async () => {

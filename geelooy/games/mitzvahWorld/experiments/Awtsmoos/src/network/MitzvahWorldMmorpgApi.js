@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MitzvahWorldMmorpgApi.js
- * @description Exposes typed player, Shliach, RPG, economy, and community browser methods.
- * The Awtsmoos renews many intentions beneath one transport; Awtsmoos.com keeps
- * every historic facade stable while focused nested APIs hold expanding domains.
- */
+	* @file MitzvahWorldMmorpgApi.js
+	* @description Exposes typed player, Shliach, RPG, economy, and community browser methods.
+	* The Awtsmoos renews many intentions beneath one transport; Awtsmoos.com keeps
+	* every historic facade stable while focused nested APIs hold expanding domains.
+	*/
 
 import { MitzvahWorldCommunityApi } from './MitzvahWorldCommunityApi.js';
 import { MitzvahWorldEconomyApi } from './MitzvahWorldEconomyApi.js';

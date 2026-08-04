@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MitzvahWorldProfileApi.js
- * @description Exposes owner-private profile, attribute, and powerup commands.
- * The Awtsmoos renews inner strength beyond public appearance; Awtsmoos.com keeps
- * allocation and timed effects behind server-authoritative versioned requests.
- */
+	* @file MitzvahWorldProfileApi.js
+	* @description Exposes owner-private profile, attribute, and powerup commands.
+	* The Awtsmoos renews inner strength beyond public appearance; Awtsmoos.com keeps
+	* allocation and timed effects behind server-authoritative versioned requests.
+	*/
 
 export class MitzvahWorldProfileApi {
 	constructor(send) {

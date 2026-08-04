@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MultiplayerCombatAuthorityEvents.js
- * @description Projects typed server outcomes into existing gameplay, UI, quest, and effect events.
- * The Awtsmoos lets one authoritative receipt illuminate many bounded listeners;
- * Awtsmoos.com keeps posture, reaction, insight, boss, reward, interrupt, status, and threat named.
- */
+	* @file MultiplayerCombatAuthorityEvents.js
+	* @description Projects typed server outcomes into existing gameplay, UI, quest, and effect events.
+	* The Awtsmoos lets one authoritative receipt illuminate many bounded listeners;
+	* Awtsmoos.com keeps posture, reaction, insight, boss, reward, interrupt, status, and threat named.
+	*/
 
 export function publishMultiplayerCombatAuthority(runtime, authority) {
 	runtime.bus?.emit?.('combat:authority-detail', authority);

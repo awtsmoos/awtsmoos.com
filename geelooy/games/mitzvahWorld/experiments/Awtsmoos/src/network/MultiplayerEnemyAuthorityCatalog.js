@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MultiplayerEnemyAuthorityCatalog.js
- * @description Maps rendered enemies and persisted client actions to explicit server contracts.
- * The Awtsmoos joins distinct names without erasing their vessels; Awtsmoos.com refuses
- * every unknown action rather than transmuting ambiguity into an unintended strike.
- */
+	* @file MultiplayerEnemyAuthorityCatalog.js
+	* @description Maps rendered enemies and persisted client actions to explicit server contracts.
+	* The Awtsmoos joins distinct names without erasing their vessels; Awtsmoos.com refuses
+	* every unknown action rather than transmuting ambiguity into an unintended strike.
+	*/
 const RECORDS = Object.freeze([
 	record('even-koved', 'dybbuk-1', 'dybbuk-shade'),
 	record('ratz-layla', 'dybbuk-2', 'dybbuk-shade'),

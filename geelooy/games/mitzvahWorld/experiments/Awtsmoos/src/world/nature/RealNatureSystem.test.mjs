@@ -4,8 +4,8 @@
 
 /**
  * @file RealNatureSystem.test.mjs
- * @description Proves bounded isolated models, metadata, partial failure, and cleanup.
- * The Awtsmoos reveals many scenes from trusted forms yet leaves no orphan when they depart;
+ * @description Proves bounded hero models, metadata, partial failure, and cleanup.
+ * The Awtsmoos reveals five trusted forms yet leaves no orphan when they depart;
  * Awtsmoos.com tests every family, shadow truth, culling seal, and failure-contained heart.
  */
 
@@ -19,7 +19,7 @@ const GROUND = Object.freeze({
 	}
 });
 
-test('real nature installs bounded isolated scenes and removes them', async () => {
+test('real nature installs five bounded hero scenes and removes them', async () => {
 	const group = createGroup();
 	const loadedUrls = [];
 	const system = await createRealNatureSystem({
@@ -33,15 +33,17 @@ test('real nature installs bounded isolated scenes and removes them', async () =
 		quality: 'low',
 		requestFrame() {
 			return 17;
-		}
+		},
+		async yieldControl() {}
 	});
 	const snapshot = system.snapshot();
-	assert.equal(snapshot.requested, 7);
-	assert.equal(snapshot.installed, 7);
+	assert.equal(snapshot.requested, 5);
+	assert.equal(snapshot.installed, 5);
 	assert.equal(snapshot.failures.length, 0);
-	assert.deepEqual(snapshot.families, { bush: 1, flower: 2, rock: 2, tree: 2 });
-	assert.equal(group.children.length, 7);
-	assert.equal(loadedUrls.length, 7);
+	assert.deepEqual(snapshot.families, { bush: 1, flower: 1, rock: 1, tree: 2 });
+	assert.equal(group.children.length, 5);
+	assert.equal(loadedUrls.length, 5);
+	assert.equal(snapshot.batching, 'shared-template-sequential-yielding');
 	const evidence = system.instances[0].scene.userData;
 	assert.equal(evidence.AwtsmoosNature.visualOnly, true);
 	assert.equal(evidence.AwtsmoosShadow.supportedByRenderer, false);
@@ -60,11 +62,12 @@ test('one failed model does not erase successful families', async () => {
 			return { scene: createScene() };
 		},
 		quality: 'low',
-		requestFrame: null
+		requestFrame: null,
+		async yieldControl() {}
 	});
 	const snapshot = system.snapshot();
-	assert.equal(snapshot.installed, 5);
-	assert.equal(snapshot.failures.length, 2);
+	assert.equal(snapshot.installed, 4);
+	assert.equal(snapshot.failures.length, 1);
 	assert.equal(snapshot.families.flower, undefined);
 	system.destroy();
 });
@@ -97,9 +100,7 @@ function createScene() {
 function vector() {
 	return {
 		set(x, y, z) {
-			this.x = x;
-			this.y = y;
-			this.z = z;
+			Object.assign(this, { x, y, z });
 		}
 	};
 }

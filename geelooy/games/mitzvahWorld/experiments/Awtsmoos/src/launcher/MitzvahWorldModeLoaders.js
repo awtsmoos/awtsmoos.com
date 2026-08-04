@@ -4,13 +4,14 @@
 
 /**
  * @file MitzvahWorldModeLoaders.js
- * @description Loads direct worlds, lightweight cinematic controls, and explicit creative routes.
- * The Awtsmoos opens control before ornament; Awtsmoos.com keeps direct worlds lean while every
- * completed runtime still receives one bounded, reversible doorway into the canonical Movie Studio.
+ * @description Loads direct worlds with real map, lightweight cinema controls, and creative routes.
+ * The Awtsmoos opens control and direction before ornament; Awtsmoos.com keeps direct worlds lean
+ * while every runtime retains a bounded, reversible doorway into the canonical Movie Studio.
  */
 
 const PRESENTATION_URL = './MitzvahWorldGameplayPresentation.js?v=20260802-game-studio-bridge-02';
 const CREATIVE_URL = './MitzvahWorldCreativeModeLoaders.js?v=20260802-game-studio-bridge-02';
+const SINGLE_PLAYER_RUNTIME_URL = '../app/createEretzRuntime.js?v=20260804-map-01';
 
 export function createMitzvahWorldModeLoaders(environment = globalThis) {
 	return Object.freeze({
@@ -39,9 +40,9 @@ export function hasMovieRequest(search = '') {
 }
 
 async function openSinglePlayer(hosts, options = {}, environment = globalThis) {
-	report(options, 'Preparing visible WebGL control…');
+	report(options, 'Preparing visible WebGL control and map…');
 	const [runtimeModule, badgeModule] = await Promise.all([
-		import('../app/createEretzRuntime.js?v=20260723-stream-20'),
+		import(SINGLE_PLAYER_RUNTIME_URL),
 		import('../network/MultiplayerStatusBadge.js')
 	]);
 	const diagnostics = await runtimeModule.createEretzRuntime(hosts, {
@@ -64,9 +65,9 @@ async function openSinglePlayer(hosts, options = {}, environment = globalThis) {
 }
 
 async function openMultiplayer(hosts, options = {}, environment = globalThis) {
-	report(options, 'Preparing visible WebGL shared control…');
+	report(options, 'Preparing visible WebGL shared control and map…');
 	const { createMultiplayerEretzRuntime } = await import(
-		'../network/MultiplayerEretzRuntime.js?v=20260723-stream-20'
+		'../network/MultiplayerEretzRuntime.js?v=20260804-map-01'
 	);
 	const diagnostics = await createMultiplayerEretzRuntime(hosts, {
 		WebSocketClass: environment.WebSocket,

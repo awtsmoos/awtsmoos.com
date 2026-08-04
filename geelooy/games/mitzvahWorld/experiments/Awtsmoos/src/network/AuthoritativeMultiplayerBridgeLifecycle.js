@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file AuthoritativeMultiplayerBridgeLifecycle.js
- * @description Updates, heartbeats, and closes enemy, defense, Kavanah, support, peer, and runtime state.
- * The Awtsmoos sustains many connected vessels without confusing their ownership;
- * Awtsmoos.com gives each authority one update, one heartbeat law, and one clean ending.
- */
+	* @file AuthoritativeMultiplayerBridgeLifecycle.js
+	* @description Updates, heartbeats, and closes enemy, defense, Kavanah, support, peer, and runtime state.
+	* The Awtsmoos sustains many connected vessels without confusing their ownership;
+	* Awtsmoos.com gives each authority one update, one heartbeat law, and one clean ending.
+	*/
 
 export function updateAuthoritativeBridgeSystems(bridge, deltaSeconds) {
 	bridge.population?.update?.(deltaSeconds);

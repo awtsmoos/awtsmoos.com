@@ -4,9 +4,9 @@
 
 /**
  * @file createEretzRuntime.js
- * @description Publishes visible playability before streaming tiny districts in idle slices.
- * The Awtsmoos reveals control, jump, run, valley, and habitation in appointed measures;
- * Awtsmoos.com keeps rich shaders, authored terrain, RPG, and heavy actors explicitly deferred.
+ * @description Publishes movement, combat, and direction before tagged districts enrich idle slices.
+ * The Awtsmoos reveals control, deed, map, valley, texture, and tree in appointed measures;
+ * Awtsmoos.com keeps authored terrain, RPG, and heavy actors deferred without abandoning treasures.
  */
 
 import { resolveDeferredAppModuleUrl } from './DeferredAppModuleUrl.js';
@@ -27,10 +27,11 @@ const TRACKER_URL = resolveDeferredAppModuleUrl(
 	'createEretzRuntime.js'
 );
 const STAGED_RUNTIME_URL = resolveDeferredAppModuleUrl(
-	'EretzStagedRuntime.js?v=20260723-stream-21',
+	'EretzStagedRuntime.js?v=20260804-map-01',
 	import.meta.url,
 	'createEretzRuntime.js'
 );
+const DISTRICT_STREAMER_URL = './BootstrapDistrictStreamer.js?v=20260803-tagged-nature-02';
 
 export async function createEretzRuntime(hosts, options = {}) {
 	const environment = options.environment || globalThis;
@@ -38,7 +39,6 @@ export async function createEretzRuntime(hosts, options = {}) {
 	const { BootPhaseTracker } = await import(TRACKER_URL);
 	const boot = new BootPhaseTracker(undefined, environment);
 	globalThis.AwtsmoosBootTracker = boot;
-
 	try {
 		boot.begin('staged-webgl-runtime');
 		const { createStagedEretzRuntime } = await import(STAGED_RUNTIME_URL);
@@ -56,7 +56,7 @@ export async function createEretzRuntime(hosts, options = {}) {
 			inventoryAndRpg: 'deferred',
 			richActors: 'deferred',
 			richRenderer: 'deferred',
-			worldDiagnostics: 'deferred'
+			worldDiagnostics: 'bootstrap-tagged-nature-receipts'
 		});
 		return core.diagnostics;
 	} catch (error) {
@@ -72,19 +72,21 @@ export async function createEretzRuntime(hosts, options = {}) {
 
 async function streamDistricts(runtime, environment) {
 	try {
-		const { streamBootstrapDistricts } = await import(
-			'./BootstrapDistrictStreamer.js?v=20260723-visible-03'
-		);
+		const { streamBootstrapDistricts } = await import(DISTRICT_STREAMER_URL);
 		return streamBootstrapDistricts(runtime, environment);
 	} catch (error) {
 		runtime.districtStreaming = {
 			completed: 0,
+			districts: {},
 			loaded: [],
 			meshes: 0,
+			models: 0,
 			status: 'degraded',
+			textureBindings: 0,
+			textures: 0,
 			total: 3
 		};
-		console.warn('[MitzvahWorld] Lightweight district streaming degraded.', error);
+		console.warn('[MitzvahWorld] Tagged district streaming degraded.', error);
 		return runtime.districtStreaming;
 	}
 }
@@ -104,12 +106,10 @@ function exposeBootFailure(error, hosts, environment) {
 	};
 	environment.AwtsmoosBootError = failure;
 	markRuntimeFailed(error, environment.document);
-
 	if (hosts?.hud) {
 		hosts.hud.style.removeProperty('display');
 		hosts.hud.textContent = `B"H world initialization failed: ${failure.message}`;
 	}
-
 	console.error('B"H Mitzvah World initialization failed.', error);
 }
 

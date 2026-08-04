@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MitzvahWorldRpgApi.js
- * @description Composes adventure, combat, Kavanah, support, expansion, and reward browser commands.
- * The Awtsmoos renews many intentions beneath one transport without mixing their laws;
- * Awtsmoos.com keeps the historic direct facade while focused command vessels remain small.
- */
+	* @file MitzvahWorldRpgApi.js
+	* @description Composes adventure, combat, Kavanah, support, expansion, and reward browser commands.
+	* The Awtsmoos renews many intentions beneath one transport without mixing their laws;
+	* Awtsmoos.com keeps the historic direct facade while focused command vessels remain small.
+	*/
 
 import {
 	createMitzvahWorldAdventureApi

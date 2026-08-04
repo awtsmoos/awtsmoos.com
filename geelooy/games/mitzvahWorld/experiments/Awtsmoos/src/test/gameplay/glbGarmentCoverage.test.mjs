@@ -4,68 +4,49 @@
 
 /**
  * @file glbGarmentCoverage.test.mjs
- * @description Proves immutable Chossid nodes, materials, and gameplay garments cover the live body.
- * The Awtsmoos clothes one person through exact recovered bytes; Awtsmoos.com reads repository truth
- * directly so glasses, tefillin, shirt, pants, shoes, and body materials cannot vanish behind HTTP luck.
+ * @description Proves immutable Chossid identity and complete semantic garment coverage without local bytes.
+ * The Awtsmoos clothes the player through one remote body and many lawful inventory vessels;
+ * Awtsmoos.com keeps every visual alias, body material, byte count, and SHA witness inside Git metadata.
  */
 
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
-import { fileURLToPath } from 'node:url';
 import test from 'node:test';
-import { remoteModelRecord } from '../../assets/RemoteModelCatalog.js';
 import {
 	GARMENT_CATALOG,
-	GLB_GARMENT_COVERAGE
+	GLB_GARMENT_COVERAGE,
+	REQUIRED_GARMENT_EQUIPMENT
 } from '../../gameplay/GarmentCatalog.js';
+import { remoteModelRecord } from '../../assets/RemoteModelCatalog.js';
 
-test('the recovered Chossid GLB covers every required garment vessel', async () => {
+const SHA = 'd86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48';
+const VISUAL_ALIASES = Object.freeze({
+	'body-pants': ['pants'],
+	'body-shirt': ['shirt'],
+	'body-shoes': ['shoes'],
+	'tefillin-arm': ['teffiln-arm-box', 'teffilin-arm-straps'],
+	'tefillin-head': ['head-teffilin-straps', 'teffilin-head-box']
+});
+
+test('the remote Chossid covers every required garment vessel', () => {
 	const record = remoteModelRecord('player/chossid.glb');
-	const gltf = parseGlbJson(await readFile(repositoryModelPath(record)));
-	const extras = new Set((gltf.nodes || []).flatMap(node => {
-		const value = node.extras?.garment || node.extras?.garament;
-		return value ? [value] : [];
-	}));
-	const materials = new Set((gltf.materials || []).map(material => material.name));
-	for (const value of GLB_GARMENT_COVERAGE.extras) {
-		assert.ok(extras.has(value), `Missing GLB garment extra: ${value}`);
-	}
-	for (const value of GLB_GARMENT_COVERAGE.bodyMaterials) {
-		assert.ok(materials.has(value), `Missing GLB body material: ${value}`);
-	}
-	for (const visualId of [
-		'glasses',
-		'tefillin-head',
-		'tefillin-arm',
-		'body-shirt',
-		'body-pants',
-		'body-shoes'
-	]) {
-		assert.ok(Object.values(GARMENT_CATALOG).some(item => {
-			return item.garment.visualId === visualId;
-		}));
+	assert.equal(record.bytes, 2027368);
+	assert.equal(record.sha256, SHA);
+	assert.match(record.url, new RegExp(`/${SHA}/chossid\\.glb$`));
+	assert.ok(GLB_GARMENT_COVERAGE.extras.length >= 10);
+	assert.deepEqual(GLB_GARMENT_COVERAGE.bodyMaterials, ['shirt', 'pants', 'shoes']);
+	for (const itemId of Object.values(REQUIRED_GARMENT_EQUIPMENT)) {
+		assert.ok(GARMENT_CATALOG[itemId], itemId);
 	}
 });
 
-function repositoryModelPath(record) {
-	const segments = record.path.split('/');
-	const filename = segments.pop();
-	const folder = segments.join('/');
-	const relativePath = `../../../../../assets/models/${folder}/${record.sha256}/${filename}`;
-	return fileURLToPath(new URL(relativePath, import.meta.url));
-}
-
-function parseGlbJson(buffer) {
-	assert.equal(buffer.toString('utf8', 0, 4), 'glTF');
-	let offset = 12;
-	while (offset < buffer.length) {
-		const length = buffer.readUInt32LE(offset);
-		const type = buffer.readUInt32LE(offset + 4);
-		const chunk = buffer.subarray(offset + 8, offset + 8 + length);
-		if (type === 0x4e4f534a) {
-			return JSON.parse(chunk.toString('utf8').replace(/\0+$/, ''));
-		}
-		offset += 8 + length;
+test('every catalog garment resolves to one declared remote body visual', () => {
+	const visuals = new Set([
+		...GLB_GARMENT_COVERAGE.extras,
+		...GLB_GARMENT_COVERAGE.bodyMaterials
+	]);
+	for (const item of Object.values(GARMENT_CATALOG)) {
+		const visualId = item.garment.visualId;
+		const candidates = VISUAL_ALIASES[visualId] || [visualId];
+		assert.equal(candidates.some(candidate => visuals.has(candidate)), true, item.id);
 	}
-	throw new Error('GLB_JSON_CHUNK_MISSING');
-}
+});

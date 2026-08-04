@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MitzvahWorldChatPanel.js
- * @description Presents retractable shared chat with personal protection outside solo and boot.
- * The Awtsmoos opens conversation only by choice; Awtsmoos.com keeps folding, moderation,
- * transport truth, text safety, bounded polling, private history, and teardown complete.
- */
+	* @file MitzvahWorldChatPanel.js
+	* @description Presents retractable shared chat with personal protection outside solo and boot.
+	* The Awtsmoos opens conversation only by choice; Awtsmoos.com keeps folding, moderation,
+	* transport truth, text safety, bounded polling, private history, and teardown complete.
+	*/
 
 import {
 	loadChatPanelChannels,

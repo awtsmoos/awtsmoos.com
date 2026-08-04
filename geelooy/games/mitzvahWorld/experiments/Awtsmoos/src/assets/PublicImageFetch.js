@@ -4,77 +4,108 @@
 
 /**
  * @file PublicImageFetch.js
- * @description Fetches one canonical remote image through durable browser caching.
- * The Awtsmoos gives every distant byte a truthful doorway;
- * Awtsmoos.com reuses cached light while naming HTTP, type, timeout, and network failure.
+ * @description Fetches one canonical image with cache reuse and one bounded retry doorway.
+ * The Awtsmoos gives every distant byte a truthful and patient way;
+ * Awtsmoos.com retries with measure while cached or procedural light may stay.
  */
 
 import {
 	cachedImageResponse,
 	isImageResponse
 } from './PublicImageResponseCache.js';
+import {
+	createPublicImageAbortController,
+	publicImageCacheOptions
+} from './PublicImageFetchDependencies.js';
+import {
+	publicImageAttemptEvidence,
+	publicImageFetchFailure,
+	publicImageFetchSuccess,
+	publicImageNetworkFailure,
+	publicImageTypedFailure
+} from './PublicImageFetchRecords.js';
+import {
+	imageRetryDelayMs,
+	isRetryableImageStatus,
+	waitForImageRetry
+} from './PublicImageRetryPolicy.js';
 
 export async function fetchPublicImageBlob(url, timeoutMs = 30000, dependencies = {}) {
-	const Controller = Object.hasOwn(dependencies, 'AbortControllerClass')
-		? dependencies.AbortControllerClass
-		: globalThis.AbortController;
-	const controller = Controller ? new Controller() : null;
+	const controller = createPublicImageAbortController(dependencies);
 	const timer = setTimeout(() => controller?.abort(), timeoutMs);
+	const attempts = [];
+	const maximumRetries = Math.max(0, Number(dependencies.maxRetries ?? 1) || 0);
 	try {
-		const result = await cachedImageResponse(url, {
-			cacheName: dependencies.cacheName,
-			cacheStorage: dependencies.cacheStorage,
-			fetchFunction: dependencies.fetchFunction,
-			signal: controller?.signal
-		});
-		const response = result.response;
-		const contentType = response?.headers?.get?.('content-type') || '';
-		if (!response?.ok) {
-			return failed(`http-${response?.status || 0}`, 'http', {
-				contentType,
-				status: response?.status || 0
-			});
+		for (let attempt = 0; attempt <= maximumRetries; attempt += 1) {
+			const record = await requestAttempt(url, controller, attempt, dependencies)
+				.catch(error => publicImageNetworkFailure(error, controller));
+			attempts.push(publicImageAttemptEvidence(record));
+			if (record.ok) return publicImageFetchSuccess(record, attempts);
+			if (!record.retryable || attempt >= maximumRetries) {
+				return publicImageFetchFailure(record, attempts);
+			}
+			const delayMs = imageRetryDelayMs(record.response, attempt, dependencies);
+			await waitForImageRetry(delayMs, dependencies);
 		}
-		if (!isImageResponse(response)) {
-			return failed('non-image-content-type', 'content-type', {
-				contentType,
-				status: response.status
-			});
-		}
-		const blob = await response.blob();
-		if (!blob?.size) {
-			return failed('empty-image-blob', 'blob', {
-				contentType,
-				status: response.status
-			});
-		}
-		return {
-			blob,
-			contentType,
-			error: null,
-			method: result.source,
-			ok: true,
-			stage: 'fetched',
-			status: response.status
-		};
-	} catch (error) {
-		const aborted = error?.name === 'AbortError' || controller?.signal?.aborted;
-		return failed(aborted ? 'timeout' : error?.message || 'network-error', 'fetch', {
-			status: 0
-		});
+		return publicImageFetchFailure({ error: 'retry-budget-exhausted' }, attempts);
 	} finally {
 		clearTimeout(timer);
 	}
 }
 
-function failed(error, stage, evidence = {}) {
+async function requestAttempt(url, controller, attempt, dependencies) {
+	const result = await cachedImageResponse(
+		url,
+		publicImageCacheOptions(controller, attempt, dependencies)
+	);
+	const response = result.response;
+	const contentType = response?.headers?.get?.('content-type') || '';
+	if (!response?.ok) return httpFailure(response, contentType, result);
+	if (!isImageResponse(response)) {
+		return publicImageTypedFailure(
+			'non-image-content-type',
+			contentType,
+			response,
+			result.source
+		);
+	}
+	const blob = await response.blob();
+	if (!blob?.size) {
+		return publicImageTypedFailure(
+			'empty-image-blob',
+			contentType,
+			response,
+			result.source
+		);
+	}
+	return successAttempt(blob, contentType, response, result.source);
+}
+
+function httpFailure(response, contentType, result) {
 	return {
-		blob: null,
-		contentType: evidence.contentType || '',
-		error,
-		method: 'remote-cache-fetch',
+		contentType,
+		error: `http-${response?.status || 0}`,
+		method: result.source,
 		ok: false,
-		stage,
-		status: evidence.status || 0
+		response,
+		retryAfterMs: result.retryAfterMs,
+		retryable: !result.circuitOpen && isRetryableImageStatus(response?.status),
+		stage: 'http',
+		status: response?.status || 0
+	};
+}
+
+function successAttempt(blob, contentType, response, method) {
+	return {
+		blob,
+		contentType,
+		error: null,
+		method,
+		ok: true,
+		response,
+		retryAfterMs: 0,
+		retryable: false,
+		stage: 'fetched',
+		status: response.status
 	};
 }

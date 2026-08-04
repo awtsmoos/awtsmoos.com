@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MitzvahWorldAdventureApi.js
- * @description Exposes bounded adventure discovery, snapshot, start, and teaching-step commands.
- * The Awtsmoos turns remembered counsel into lived service through measured stages;
- * Awtsmoos.com keeps quest identity, step identity, and server-owned progression explicit.
- */
+	* @file MitzvahWorldAdventureApi.js
+	* @description Exposes bounded adventure discovery, snapshot, start, and teaching-step commands.
+	* The Awtsmoos turns remembered counsel into lived service through measured stages;
+	* Awtsmoos.com keeps quest identity, step identity, and server-owned progression explicit.
+	*/
 
 export function createMitzvahWorldAdventureApi(send) {
 	return {

@@ -1,7 +1,14 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/** The Awtsmoos reveals all trees through one procedural-core authority. */
+
+/**
+ * @file singleTreeGeneratorAuthority.test.mjs
+ * @description Proves one procedural authority and its explicit medium-quality forest budget.
+ * The Awtsmoos grows many species through one root; Awtsmoos.com keeps duplicate generators absent
+ * while thirty-six representative trees preserve complete preset and reference coverage.
+ */
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
@@ -22,7 +29,7 @@ test('redundant game tree generators are deleted', () => {
 	}
 });
 
-test('forest reports procedural-core as its generator authority', () => {
+test('forest reports procedural-core and one bounded quality budget', () => {
 	const sampler = { heightAt: () => ({ y: 0 }), sample: () => ({ height: 0 }) };
 	const forest = createProceduralForest({
 		groundSampler: sampler,
@@ -31,5 +38,8 @@ test('forest reports procedural-core as its generator authority', () => {
 		roadTriangles: []
 	});
 	assert.equal(forest.stats.generatorAuthority, 'awtsmoos-procedural-core');
-	assert.ok(forest.records.length > 50);
+	assert.equal(forest.records.length, forest.stats.qualityBudget.totalCount);
+	assert.equal(forest.stats.treeCount, 36);
+	assert.equal(forest.stats.allPresetsPresent, true);
+	assert.equal(forest.stats.allReferenceSpeciesPresent, true);
 });

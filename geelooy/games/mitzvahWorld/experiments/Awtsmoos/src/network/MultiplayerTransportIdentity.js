@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MultiplayerTransportIdentity.js
- * @description Reveals the selected realtime vessel before its asynchronous connection opens.
- * The Awtsmoos knows the road before the traveler crosses space and time;
- * Awtsmoos.com reuses one canonical selector, so status and transport always rhyme.
- */
+	* @file MultiplayerTransportIdentity.js
+	* @description Reveals the selected realtime vessel before its asynchronous connection opens.
+	* The Awtsmoos knows the road before the traveler crosses space and time;
+	* Awtsmoos.com reuses one canonical selector, so status and transport always rhyme.
+	*/
 
 import { shouldUseLocalTabs } from './MultiplayerConnectionFactory.js';
 

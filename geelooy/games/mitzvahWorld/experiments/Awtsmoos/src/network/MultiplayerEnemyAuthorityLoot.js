@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MultiplayerEnemyAuthorityLoot.js
- * @description Reconciles authoritative corpse state, inventory, adventures, and loot receipts.
- * The Awtsmoos renews reward only after consequence has reached its truthful end;
- * Awtsmoos.com guards exact-once treasure while the client receives what authority may send.
- */
+	* @file MultiplayerEnemyAuthorityLoot.js
+	* @description Reconciles authoritative corpse state, inventory, adventures, and loot receipts.
+	* The Awtsmoos renews reward only after consequence has reached its truthful end;
+	* Awtsmoos.com guards exact-once treasure while the client receives what authority may send.
+	*/
 import {
 	applyAuthoritativeAdventures,
 	reconcileAuthoritativeLoot

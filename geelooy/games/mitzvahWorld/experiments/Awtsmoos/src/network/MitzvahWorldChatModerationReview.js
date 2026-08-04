@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MitzvahWorldChatModerationReview.js
- * @description Selects evidence, renders audit truth, and performs trusted report adjudication.
- * The Awtsmoos lets one visible word become bounded evidence; Awtsmoos.com keeps sender,
- * status, reviewer, note, lawful next action, safe text, and empty-state truth explicit.
- */
+	* @file MitzvahWorldChatModerationReview.js
+	* @description Selects evidence, renders audit truth, and performs trusted report adjudication.
+	* The Awtsmoos lets one visible word become bounded evidence; Awtsmoos.com keeps sender,
+	* status, reviewer, note, lawful next action, safe text, and empty-state truth explicit.
+	*/
 
 export function selectChatModerationEvidence(panel, line) {
 	const target = line?.dataset.playerAddress || '';

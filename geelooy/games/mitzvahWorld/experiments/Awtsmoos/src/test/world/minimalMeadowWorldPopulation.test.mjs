@@ -4,9 +4,9 @@
 
 /**
  * @file minimalMeadowWorldPopulation.test.mjs
- * @description Proves deterministic groves, ecological zones, finite bounds, and protected access.
+ * @description Proves deterministic groves, species, six variants, ecology zones, finite bounds, and protected access.
  * The Awtsmoos scatters life without chaos and preserves passage without emptiness; Awtsmoos.com
- * measures every road gap, doorway covenant, full cell extent, and quadrant before naming a world.
+ * measures every road gap, doorway covenant, river source, quadrant, and botanical distinction.
  */
 
 import test from 'node:test';
@@ -24,6 +24,13 @@ import {
 } from '../../app/MinimalMeadowWorldPopulationMath.js';
 
 const terrain = { heightAt: minimalMeadowHeightAt };
+const ECOLOGY_ZONES = new Set([
+	'dry-upland',
+	'flower-meadow',
+	'mixed-meadow',
+	'path-edge',
+	'wet-meadow'
+]);
 
 for (const profile of [
 	{ mobile: true, trees: 22, vegetation: 28 },
@@ -44,7 +51,7 @@ for (const profile of [
 		assertAllQuadrants(firstTrees);
 		assertAllQuadrants(firstVegetation);
 		assertTreeVariation(firstTrees);
-		assertVegetationZones(firstVegetation);
+		assertVegetationEcology(firstVegetation, profile.mobile);
 	});
 }
 
@@ -58,7 +65,7 @@ test('B"H trees and vegetation honor road, house, entrance, quest, clearing, and
 		assert.ok(evidence.quest >= 12 && evidence.clearing >= 0 && evidence.riverGap >= 5.5);
 	}
 	for (const cell of vegetation) {
-		const role = cell.zone === 'river-bank' ? 'bank-vegetation' : 'vegetation';
+		const role = cell.source === 'river-bank' ? 'bank-vegetation' : 'vegetation';
 		assert.equal(minimalMeadowPopulationAllows(cell.x, cell.z, role), true);
 	}
 });
@@ -71,22 +78,22 @@ function assertPlayableBounds(items, extentSelector) {
 }
 
 function assertAllQuadrants(items) {
-	for (const count of Object.values(minimalMeadowQuadrantCounts(items))) {
-		assert.ok(count > 0);
-	}
+	for (const count of Object.values(minimalMeadowQuadrantCounts(items))) assert.ok(count > 0);
 }
 
 function assertTreeVariation(trees) {
 	assert.ok(new Set(trees.map(tree => tree.preset)).size >= 3);
-	assert.equal(new Set(trees.map(tree => tree.materialVariant)).size, 3);
+	assert.equal(new Set(trees.map(tree => tree.materialVariant)).size, 6);
 	assert.ok(new Set(trees.map(tree => tree.yaw.toFixed(5))).size > trees.length * 0.8);
 	assert.ok(new Set(trees.map(tree => tree.scaleY.toFixed(4))).size > trees.length * 0.7);
 }
 
-function assertVegetationZones(cells) {
+function assertVegetationEcology(cells, mobile) {
 	const zones = new Set(cells.map(cell => cell.zone));
-	for (const zone of ['dry-meadow', 'grass-meadow', 'moist-meadow', 'river-bank']) {
-		assert.equal(zones.has(zone), true);
-	}
+	assert.ok([...zones].every(zone => ECOLOGY_ZONES.has(zone)));
+	assert.equal(zones.has('wet-meadow'), true);
+	assert.equal(zones.has('flower-meadow'), true);
+	if (!mobile) assert.equal(zones.has('dry-upland'), true);
+	assert.equal(cells.some(cell => cell.source === 'river-bank'), true);
 	assert.ok(new Set(cells.map(cell => cell.x.toFixed(3))).size > cells.length * 0.8);
 }

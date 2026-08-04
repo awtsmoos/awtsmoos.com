@@ -3,29 +3,72 @@
 // Blessed is He
 
 /**
- * @file MitzvahWorldEventHub.js
- * @description Provides typed subscriptions for unsolicited world and private events.
- * The Awtsmoos renews each incoming word beneath its own listener vessel;
- * Awtsmoos.com keeps chat, combat, and world events separate from request promises.
- */
+	* @file MitzvahWorldEventHub.js
+	* @description Delivers typed events while isolating every subscriber vessel.
+	* The Awtsmoos renews each listener without making one failure the law of all;
+	* Awtsmoos.com records the fracture, continues the procession, and clears on departure.
+	*/
 
 export class MitzvahWorldEventHub {
-	constructor() {
+	constructor(onListenerError = null) {
 		this.listeners = new Map();
+		this.onListenerError = onListenerError || (() => {});
 	}
 
 	on(type, listener) {
-		if (!this.listeners.has(type)) this.listeners.set(type, new Set());
-		this.listeners.get(type).add(listener);
-		return () => this.listeners.get(type)?.delete(listener);
+		if (typeof listener !== 'function') {
+			throw new TypeError('An event listener function is required.');
+		}
+		if (!this.listeners.has(type)) {
+			this.listeners.set(type, new Set());
+		}
+		const listeners = this.listeners.get(type);
+		listeners.add(listener);
+		let active = true;
+		return () => {
+			if (!active) return false;
+			active = false;
+			listeners.delete(listener);
+			if (!listeners.size) this.listeners.delete(type);
+			return true;
+		};
 	}
 
 	emit(message) {
-		for (const listener of this.listeners.get(message.type) || []) {
-			listener(message.payload, message);
+		if (!message || typeof message.type !== 'string') return 0;
+		const listeners = [
+			...(this.listeners.get(message.type) || []),
+			...(this.listeners.get('*') || [])
+		];
+		let delivered = 0;
+		for (const listener of listeners) {
+			try {
+				listener(message.payload, message);
+				delivered += 1;
+			} catch (error) {
+				this.report(error, message, listener);
+			}
 		}
-		for (const listener of this.listeners.get('*') || []) {
-			listener(message.payload, message);
+		return delivered;
+	}
+
+	clear(type = null) {
+		if (type === null) {
+			this.listeners.clear();
+			return;
+		}
+		this.listeners.delete(type);
+	}
+
+	destroy() {
+		this.clear();
+	}
+
+	report(error, message, listener) {
+		try {
+			this.onListenerError(error, message, listener);
+		} catch {
+			// Error reporting must never create a second event failure.
 		}
 	}
 }

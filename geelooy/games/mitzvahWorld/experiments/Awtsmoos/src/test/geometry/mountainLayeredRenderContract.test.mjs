@@ -3,8 +3,10 @@
 // Blessed is He
 
 /**
- * The Awtsmoos reveals mountain strata only when authored masks and layered recipes survive
- * the entire path from canonical definition to the Tiny runtime mesh submitted for drawing.
+ * @file mountainLayeredRenderContract.test.mjs
+ * @description Proves authored mountain masks, six remote layers, and explicit non-vertex color ownership.
+ * The Awtsmoos reveals alpine strata through one truthful shader contract;
+ * Awtsmoos.com preserves zone masks, ecological recipes, projection, and renderer metadata intact.
  */
 
 import assert from 'node:assert/strict';
@@ -24,10 +26,10 @@ test('mountain definitions reach the renderer with varied zone masks and layered
 	assert.equal(mesh.material.textureLayers.length, 6);
 	assert.equal(mesh.material.materialStack.name, 'mountain-rock');
 	assert.equal(mesh.material.texturePolicy.projection, 'triplanar-alpine-strata');
-	assert.equal(mesh.material.texturePolicy.shader, 'terrain-layered-ten-stage-material-stack');
 	assert.deepEqual(mesh.userData.AwtsmoosLayeredMaterial, {
 		layerCount: 6,
 		shader: 'terrain-layered-ten-stage-material-stack',
+		vertexColor: false,
 		zoneAttribute: true
 	});
 	assert.equal(definitions.stats.placementModel, 'authored-source-walls-outlet-pass');
@@ -37,9 +39,9 @@ test('mountain material families expose distinct ecological masks', () => {
 	const stack = mountainRockStack();
 	const masks = new Set(stack.layers.map(layer => layer.zones.join(',')));
 	assert.ok(masks.size >= 5);
-	assert.ok(stack.layers.some(layer => layer.role === 'rock-forest-moss'));
-	assert.ok(stack.layers.some(layer => layer.role === 'rock-shelf-soil'));
-	assert.ok(stack.layers.some(layer => layer.role === 'rock-scree-sand'));
+	for (const role of ['rock-forest-moss', 'rock-shelf-soil', 'rock-scree-sand']) {
+		assert.ok(stack.layers.some(layer => layer.role === role));
+	}
 });
 
 function chunk(values, width) {

@@ -4,46 +4,101 @@
 
 /**
  * @file PublicImageResponseCache.js
- * @description Persists verified remote image responses beneath decoded-image memory caches.
- * The Awtsmoos sends one distant garment and lets the browser remember its bytes;
- * Awtsmoos.com avoids copied repository pixels while repeated visits reuse cached light.
+ * @description Deduplicates verified image fetches while Cache Storage preserves good bytes.
+ * The Awtsmoos lets one distant response become enough for every waiting eye;
+ * Awtsmoos.com shares one request and gives each consumer an untouched reply.
  */
+
+import {
+	publicImageCacheStorage,
+	publicImageNetworkRequestOptions
+} from './PublicImageFetchDependencies.js';
+import {
+	activePublicImageCircuit,
+	clearPublicImageCircuit,
+	publicImageCircuitStats,
+	rememberPublicImageCircuit
+} from './PublicImageRateLimitCircuit.js';
+import { clonePublicImageResponse } from './PublicImageResponseClone.js';
+import {
+	isRetryableImageStatus,
+	retryAfterHeaderMs
+} from './PublicImageRetryPolicy.js';
 
 export const PUBLIC_IMAGE_CACHE_NAME = 'awtsmoos-mitzvah-world-remote-images-v1';
+const pendingByUrl = new Map();
 
-/**
- * Returns a cached response or fetches and stores one trusted remote image response.
- *
- * @param {string} url - Canonical remote texture URL.
- * @param {object} options - Fetch, Cache Storage, and abort dependencies.
- * @returns {Promise<{response: Response, source: string}>}
- */
 export async function cachedImageResponse(url, options = {}) {
 	const fetchFunction = options.fetchFunction || globalThis.fetch;
 	if (typeof fetchFunction !== 'function') {
 		throw new Error('Remote image fetch is unavailable.');
 	}
-	const cacheStorage = Object.hasOwn(options, 'cacheStorage')
-		? options.cacheStorage
-		: globalThis.caches;
-	const cache = await openCache(cacheStorage, options.cacheName);
+	const cache = await openCache(publicImageCacheStorage(options), options.cacheName);
 	const cached = await cache?.match?.(url);
-	if (cached) return { response: cached, source: 'cache-storage' };
-	const response = await fetchFunction(url, {
-		cache: 'force-cache',
-		credentials: 'omit',
-		mode: 'cors',
-		signal: options.signal
-	});
-	if (response?.ok && isImageResponse(response)) {
-		await cache?.put?.(url, response.clone());
+	if (cached) return responseRecord(cached, 'cache-storage');
+	const circuit = activePublicImageCircuit(url, options);
+	if (circuit && options.bypassCircuit !== true) {
+		return responseRecord(circuit.response, 'rate-limit-circuit', {
+			circuitOpen: true,
+			retryAfterMs: circuit.retryAfterMs
+		});
 	}
-	return { response, source: 'network' };
+	const pending = pendingByUrl.get(url);
+	if (pending) return cloneRecord(await pending, 'network-shared');
+	const request = fetchAndRemember(url, fetchFunction, cache, options);
+	pendingByUrl.set(url, request);
+	try {
+		return cloneRecord(await request);
+	} finally {
+		if (pendingByUrl.get(url) === request) pendingByUrl.delete(url);
+	}
 }
 
 export function isImageResponse(response) {
 	const contentType = response?.headers?.get?.('content-type') || '';
 	return contentType.toLowerCase().startsWith('image/');
+}
+
+export function clearPublicImageResponseState() {
+	pendingByUrl.clear();
+	clearPublicImageCircuit();
+}
+
+export function publicImageResponseStats(options = {}) {
+	return {
+		circuits: publicImageCircuitStats(options).open,
+		pending: pendingByUrl.size
+	};
+}
+
+async function fetchAndRemember(url, fetchFunction, cache, options) {
+	const response = await fetchFunction(url, publicImageNetworkRequestOptions(options));
+	if (response?.ok && isImageResponse(response)) {
+		clearPublicImageCircuit(url);
+		await cache?.put?.(url, clonePublicImageResponse(response));
+	} else if (isRetryableImageStatus(response?.status)) {
+		rememberPublicImageCircuit(url, response, options);
+	}
+	return responseRecord(response, 'network', {
+		retryAfterMs: retryAfterHeaderMs(response, options) || 0
+	});
+}
+
+function responseRecord(response, source, evidence = {}) {
+	return {
+		circuitOpen: Boolean(evidence.circuitOpen),
+		response,
+		retryAfterMs: Math.max(0, evidence.retryAfterMs || 0),
+		source
+	};
+}
+
+function cloneRecord(record, source = record.source) {
+	return {
+		...record,
+		response: clonePublicImageResponse(record.response),
+		source
+	};
 }
 
 async function openCache(cacheStorage, cacheName = PUBLIC_IMAGE_CACHE_NAME) {

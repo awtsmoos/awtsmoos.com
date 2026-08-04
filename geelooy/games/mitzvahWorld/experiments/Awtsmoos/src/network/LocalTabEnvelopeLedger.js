@@ -4,9 +4,9 @@
 
 /**
 	* @file LocalTabEnvelopeLedger.js
-	* @description Orders connection generations and rejects replayed or departed tab messages.
+	* @description Orders lawful connection generations and rejects replayed or foreign departures.
 	* The Awtsmoos renews a connection without confusing yesterday with today;
-	* Awtsmoos.com lets only the newest lawful envelope enter the way.
+	* Awtsmoos.com advances a sender only after sequence truth and closes only its active garment.
 	*/
 
 export class LocalTabEnvelopeLedger {
@@ -34,19 +34,24 @@ export class LocalTabEnvelopeLedger {
 	accept(message) {
 		const incoming = messageConnection(message);
 		const key = connectionKey(message.senderId, incoming.id);
-		if (this.closedConnections.has(key)) {
-			return false;
-		}
+		if (this.closedConnections.has(key)) return false;
 		const active = this.activeBySender.get(message.senderId);
-		if (active && active.id !== incoming.id && compareConnections(incoming, active) < 0) {
+		if (message.type === 'leave' && !sameConnection(incoming, active)) {
 			return false;
 		}
-		this.activeBySender.set(message.senderId, incoming);
-		if (!this.acceptSequence(message.sequence, key)) {
+		if (active && active.id !== incoming.id
+			&& compareConnections(incoming, active) < 0) {
 			return false;
 		}
+		if (active && active.id === incoming.id
+			&& active.startedAt !== incoming.startedAt) {
+			return false;
+		}
+		if (!this.acceptSequence(message.sequence, key)) return false;
 		if (message.type === 'leave') {
 			this.closedConnections.add(key);
+		} else {
+			this.activeBySender.set(message.senderId, incoming);
 		}
 		return true;
 	}
@@ -59,13 +64,9 @@ export class LocalTabEnvelopeLedger {
 
 	acceptSequence(value, key) {
 		const sequence = Number(value);
-		if (!Number.isSafeInteger(sequence) || sequence <= 0) {
-			return true;
-		}
+		if (!Number.isSafeInteger(sequence) || sequence <= 0) return true;
 		const previous = this.lastSequence.get(key) || 0;
-		if (sequence <= previous) {
-			return false;
-		}
+		if (sequence <= previous) return false;
 		this.lastSequence.set(key, sequence);
 		return true;
 	}
@@ -93,6 +94,14 @@ function compareConnections(left, right) {
 		return left.startedAt - right.startedAt;
 	}
 	return left.id.localeCompare(right.id);
+}
+
+function sameConnection(left, right) {
+	return Boolean(
+		right
+		&& left.id === right.id
+		&& left.startedAt === right.startedAt
+	);
 }
 
 function connectionKey(senderId, connectionId) {

@@ -1,19 +1,33 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
 	* @file LocalTabChatModeration.js
-	* @description Canonicalizes local speakers and applies bounded personal moderation.
-	* The Awtsmoos protects speech without confusing a name with its address;
-	* Awtsmoos.com makes block, mute, report, and dedupe one measured lattice.
+	* @description Applies finite personal moderation evidence to canonical local speakers.
+	* The Awtsmoos protects speech without turning an unknown verb into hidden law;
+	* Awtsmoos.com matches canonical truth while public receipts retain their familiar garment.
 	*/
 
-import { localTabPlayerAddress } from './LocalTabIdentity.js';
+import {
+	boundedChatText,
+	canonicalLocalTabChatAddress,
+	finiteChatTimestamp,
+	localTabChatValueError,
+	MAX_LOCAL_TAB_CHAT_LENGTH,
+	normalizeLocalTabChatMessage,
+	normalizeLocalTabChatText,
+	publicLocalTabChatAddress
+} from './LocalTabChatValues.js';
 
-const MAX_CHAT_LENGTH = 280;
 const MAX_REASON_LENGTH = 240;
+const MAX_REPORTS = 100;
 const MAX_SEEN_MESSAGES = 500;
+const MODERATION_ACTIONS = new Set([
+	'block',
+	'unblock',
+	'mute',
+	'unmute'
+]);
 
 export class LocalTabChatModeration {
 	constructor(now = () => Date.now()) {
@@ -21,85 +35,81 @@ export class LocalTabChatModeration {
 		this.blocked = new Set();
 		this.muted = new Set();
 		this.reports = [];
+		this.reportSerial = 0;
 		this.seen = new Set();
 	}
-
 	acceptMessage(value) {
-		const message = normalizeLocalTabChatMessage(value);
-		if (!message || this.seen.has(message.id)) {
-			return null;
-		}
+		const message = normalizeLocalTabChatMessage(value, this.now);
+		if (!message || this.seen.has(message.id)) return null;
 		this.seen.add(message.id);
 		if (this.seen.size > MAX_SEEN_MESSAGES) {
 			this.seen.delete(this.seen.values().next().value);
 		}
 		return message;
 	}
-
-	moderate(action, targetValue) {
-		const target = canonicalLocalTabChatAddress(targetValue);
-		const values = String(action).includes('block') ? this.blocked : this.muted;
-		if (String(action).startsWith('un')) {
-			values.delete(target);
-		} else {
-			values.add(target);
+	moderate(actionValue, targetValue) {
+		const action = String(actionValue || '').trim().toLowerCase();
+		if (!MODERATION_ACTIONS.has(action)) {
+			throw localTabChatValueError(
+				'INVALID_MODERATION_ACTION',
+				'Unknown moderation action.'
+			);
 		}
+		const target = canonicalLocalTabChatAddress(targetValue);
+		const values = action.includes('block') ? this.blocked : this.muted;
+		action.startsWith('un') ? values.delete(target) : values.add(target);
 		return this.snapshot();
 	}
-
-	report(targetValue, reason, messageId = null) {
+	report(targetValue, reasonValue, messageId = null) {
+		const reason = boundedChatText(reasonValue, MAX_REASON_LENGTH);
+		if (!reason) {
+			throw localTabChatValueError(
+				'REPORT_REASON_REQUIRED',
+				'A report reason is required.'
+			);
+		}
+		this.reportSerial += 1;
 		const report = {
-			createdAt: this.now(),
-			id: `local-report-${this.reports.length + 1}`,
-			messageId: messageId || null,
-			reason: String(reason || '').trim().slice(0, MAX_REASON_LENGTH),
-			targetAddress: canonicalLocalTabChatAddress(targetValue)
+			createdAt: finiteChatTimestamp(this.now()),
+			id: `local-report-${this.reportSerial}`,
+			messageId: messageId
+				? boundedChatText(messageId, 160)
+				: null,
+			reason,
+			targetAddress: publicLocalTabChatAddress(targetValue)
 		};
 		this.reports.push(report);
-		return report;
+		if (this.reports.length > MAX_REPORTS) this.reports.shift();
+		return { ...report };
 	}
-
 	hidden(message) {
-		const address = canonicalLocalTabChatAddress(message?.from?.address || message?.from?.id);
+		let address;
+		try {
+			address = canonicalLocalTabChatAddress(
+				message?.from?.address || message?.from?.id
+			);
+		} catch {
+			return false;
+		}
 		return this.blocked.has(address) || this.muted.has(address);
 	}
-
 	snapshot() {
 		return {
-			blockedPlayerAddresses: [...this.blocked],
+			blockedPlayerAddresses: publicAddresses(this.blocked),
 			moderator: false,
-			mutedPlayerAddresses: [...this.muted]
+			mutedPlayerAddresses: publicAddresses(this.muted)
 		};
 	}
 }
 
-export function canonicalLocalTabChatAddress(value) {
-	const text = String(value || '').trim();
-	if (text.startsWith('local-tab://')) {
-		return text;
-	}
-	if (text.startsWith('local:')) {
-		return localTabPlayerAddress(text.slice('local:'.length));
-	}
-	if (text.includes('://')) {
-		return text;
-	}
-	return localTabPlayerAddress(text);
+function publicAddresses(values) {
+	return [...values].map(publicLocalTabChatAddress);
 }
 
-export function normalizeLocalTabChatMessage(value) {
-	const text = String(value?.message || '').trim().slice(0, MAX_CHAT_LENGTH);
-	if (!value?.id || !text || value.scope !== 'world') {
-		return null;
-	}
-	const from = {
-		...value.from,
-		address: canonicalLocalTabChatAddress(value.from?.address || value.from?.id)
-	};
-	return {
-		...value,
-		from,
-		message: text,
-		sentAt: Number.isFinite(Number(value.sentAt)) ? Number(value.sentAt) : Date.now()
-	};
-}
+export {
+	canonicalLocalTabChatAddress,
+	MAX_LOCAL_TAB_CHAT_LENGTH,
+	normalizeLocalTabChatMessage,
+	normalizeLocalTabChatText,
+	publicLocalTabChatAddress
+} from './LocalTabChatValues.js';

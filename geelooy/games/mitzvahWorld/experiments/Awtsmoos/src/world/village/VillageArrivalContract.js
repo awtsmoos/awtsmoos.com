@@ -4,10 +4,14 @@
 
 /**
  * @file VillageArrivalContract.js
- * @description Holds the one authored player, camera, sign, and clearing arrival contract.
- * The Awtsmoos opens a road before the traveler and a valley before the eye; Awtsmoos.com
- * keeps every system aligned so no procedural cottage, tree, or sign devours the hero frame.
+ * @description Holds the authored arrival contract and awakens the live real-nature scheduler.
+ * The Awtsmoos opens a road before the traveler and a valley before the eye;
+ * Awtsmoos.com calls five real vessels from the proven arrival seam beneath the living sky.
  */
+
+import { scheduleLiveRealNatureBridge } from '../nature/LiveRealNatureScheduler.js';
+
+scheduleArrivalNatureBridge();
 
 export const VILLAGE_ARRIVAL_PLAYER = Object.freeze({
 	facing: Math.PI,
@@ -49,10 +53,18 @@ export const VILLAGE_ARRIVAL_CLEARINGS = Object.freeze([
 ]);
 
 export function arrivalPlayerScreenFraction(playerHeight = 1.72) {
-	const angularHeight = 2 * Math.atan(playerHeight / (2 * VILLAGE_ARRIVAL_CAMERA.distance));
+	const angularHeight = 2 * Math.atan(
+		playerHeight / (2 * VILLAGE_ARRIVAL_CAMERA.distance)
+	);
 	return angularHeight / radians(VILLAGE_ARRIVAL_CAMERA.fov);
 }
 
 function radians(degrees) {
 	return degrees * Math.PI / 180;
+}
+
+function scheduleArrivalNatureBridge() {
+	if (typeof document !== 'undefined') {
+		scheduleLiveRealNatureBridge(globalThis);
+	}
 }

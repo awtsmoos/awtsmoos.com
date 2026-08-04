@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MultiplayerConnectionFactory.js
- * @description Imports only the connection vessel required by the current environment.
- * The Awtsmoos gives localhost and the public server distinct garments; Awtsmoos.com avoids
- * loading both transport graphs merely because a player clicked one shared-world card.
- */
+	* @file MultiplayerConnectionFactory.js
+	* @description Imports only the connection vessel required by the current environment.
+	* The Awtsmoos gives localhost and the public server distinct garments; Awtsmoos.com avoids
+	* loading both transport graphs merely because a player clicked one shared-world card.
+	*/
 
 export async function createMultiplayerConnection(options = {}) {
 	const location = options.location || globalThis.location;

@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MultiplayerEnemyAuthorityState.js
- * @description Applies server creature life, telegraph, phase, corpse, and loot truth.
- * The Awtsmoos lets a visible shadow answer one distant truth; Awtsmoos.com avoids invented
- * impact while preserving readable action warnings, role, phase, animation, and exact defeat.
- */
+	* @file MultiplayerEnemyAuthorityState.js
+	* @description Applies server creature life, telegraph, phase, corpse, and loot truth.
+	* The Awtsmoos lets a visible shadow answer one distant truth; Awtsmoos.com avoids invented
+	* impact while preserving readable action warnings, role, phase, animation, and exact defeat.
+	*/
 
 import {
 	defeatAuthoritativeEnemy,

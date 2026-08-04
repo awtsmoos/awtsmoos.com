@@ -4,9 +4,9 @@
 
 /**
  * @file minimalMeadowLoopRendering.test.mjs
- * @description Guards source and generated first-control ownership of enriched timer-backed painting.
- * The Awtsmoos renews the visible meadow through paint and rescue with no silent branch erased;
- * Awtsmoos.com requires the compact vessel to preserve every heartbeat the source has placed.
+ * @description Guards readable loop behavior and the tiny generated gate that loads it natively.
+ * The Awtsmoos keeps every visible heartbeat in readable truth without burdening first control;
+ * Awtsmoos.com proves source behavior, canonical handoff, and bounded compact weight separately.
  */
 
 import assert from 'node:assert/strict';
@@ -28,16 +28,12 @@ test('B"H source renders and publishes evidence on every scheduler source', () =
 	assert.doesNotMatch(source, /source === ['"]animation-frame['"]\) render/);
 });
 
-test('B"H generated first-control loop preserves enriched rescue rendering', () => {
+test('B"H compact first-control gate defers the readable runtime loop', () => {
 	const generated = fs.readFileSync(generatedPath, 'utf8');
-	const marker = 'compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowLoop.js';
-	const start = generated.indexOf(marker);
-	assert.ok(start >= 0, 'generated loop module marker must exist');
-	const next = generated.indexOf('compact source:', start + marker.length);
-	const moduleSource = generated.slice(start, next < 0 ? undefined : next);
-	assert.match(moduleSource, /runtime\.updateWorldSystems\?\.\(deltaSeconds\)/);
-	assert.match(moduleSource, /runtime\.enrichedFrames/);
-	assert.match(moduleSource, /runtime\.runtimeFrameSource = frame\.source/);
-	assert.match(moduleSource, /runtime\.lastFrameAt = frame\.timeValue/);
-	assert.doesNotMatch(moduleSource, /source === ['"]animation-frame['"]\) render/);
+	const bytes = Buffer.byteLength(generated);
+	assert.ok(bytes >= 1000 && bytes <= 20000, `first-control bytes ${bytes}`);
+	assert.match(generated, /RUNTIME_BOOT_URL/);
+	assert.match(generated, /MinimalSharedMeadowRuntimePage\.js/);
+	assert.match(generated, /import\(RUNTIME_BOOT_URL\)/);
+	assert.doesNotMatch(generated, /runtime\.enrichedFrames/);
 });

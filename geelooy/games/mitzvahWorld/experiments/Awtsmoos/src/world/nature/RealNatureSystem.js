@@ -4,95 +4,84 @@
 
 /**
  * @file RealNatureSystem.js
- * @description Loads bounded isolated GLB scenes with shared wind, culling, and durable evidence.
- * The Awtsmoos reveals many living forms from five trusted vessels without blocking the way;
- * Awtsmoos.com keeps failures local, visibility measured, and every manifested scene removable today.
+ * @description Loads bounded GLB scenes sequentially with shared wind, culling, and evidence.
+ * The Awtsmoos reveals many living forms from five trusted vessels without crushing the way;
+ * Awtsmoos.com yields between manifestations, keeping the world responsive through the day.
  */
 
 import { loadIsolatedGltf } from '../../assets/ModelAssetLoader.js';
 import { startNatureAnimation } from './NatureAnimationLoop.js';
 import { decorateNatureInstance } from './NatureInstanceDecoration.js';
+import { loadNatureInstances } from './NatureInstanceLoader.js';
 import { createNaturePlacements } from './NaturePlacementField.js';
 import { natureQualityBudget } from './NatureQualityBudget.js';
 import { NatureVisibilityField } from './NatureVisibilityField.js';
 import { SharedWindField } from './SharedWindField.js';
 
-/** Creates the real-nature package while preserving partial success per asset. */
+/** Creates a partially resilient real-nature package without burst instantiation. */
 export async function createRealNatureSystem(options = {}) {
 	const budget = natureQualityBudget(options.quality);
 	const placements = createNaturePlacements(options.groundSampler, budget);
-	const loadModel = options.loadModel || loadIsolatedGltf;
-	const results = await Promise.all(placements.map(placement => loadPlacement(
-		placement,
+	const loaded = await loadNatureInstances(placements, {
 		budget,
-		loadModel
-	)));
-	const instances = results.filter(result => result.instance).map(result => result.instance);
-	const failures = results.filter(result => result.error).map(result => result.error);
-	for (const instance of instances) {
+		decorate: decorateNatureInstance,
+		loadModel: options.loadModel || loadIsolatedGltf,
+		yieldControl: options.yieldControl
+	});
+	for (const instance of loaded.instances) {
 		options.group?.add?.(instance.scene);
 	}
 	const wind = new SharedWindField({ framesPerSecond: budget.windFps });
-	const visibility = new NatureVisibilityField(instances, budget, options.visibilityOrigin);
+	const visibility = new NatureVisibilityField(
+		loaded.instances,
+		budget,
+		options.visibilityOrigin
+	);
 	visibility.update();
-	const animation = startNatureAnimation(wind, instances, {
+	const animation = startNatureAnimation(wind, loaded.instances, {
 		...options,
 		onStep: () => visibility.update()
 	});
-	return createPackage(
-		options.group,
+	return createPackage({
+		animation,
 		budget,
+		failures: loaded.failures,
+		group: options.group,
+		instances: loaded.instances,
 		placements,
-		instances,
-		failures,
-		wind,
+		strategy: loaded.strategy,
 		visibility,
-		animation
-	);
+		wind
+	});
 }
 
-async function loadPlacement(placement, budget, loadModel) {
-	try {
-		const label = `real-nature-${placement.asset.id}-${placement.index}`;
-		const gltf = await loadModel(placement.asset.url, label);
-		return { instance: decorateNatureInstance(gltf.scene, placement, budget) };
-	} catch (error) {
-		return {
-			error: Object.freeze({
-				assetId: placement.asset.id,
-				message: error?.message || String(error)
-			})
-		};
-	}
-}
-
-function createPackage(group, budget, placements, instances, failures, wind, visibility, animation) {
+function createPackage(values) {
 	let destroyed = false;
 	const snapshot = () => Object.freeze({
-		animationRunning: animation.running(),
-		assets: [...new Set(instances.map(instance => instance.placement.asset.id))],
-		batching: 'shared-url-cache-isolated-scenes',
-		budget,
+		animationRunning: values.animation.running(),
+		assets: [...new Set(values.instances.map(instance => instance.placement.asset.id))],
+		batching: values.strategy,
+		budget: values.budget,
 		collision: 'procedural-forest-ledger',
 		destroyed,
-		failures: [...failures],
-		families: countFamilies(instances),
-		installed: instances.length,
-		requested: placements.length,
+		failures: [...values.failures],
+		families: countFamilies(values.instances),
+		installed: values.instances.length,
+		requested: values.placements.length,
 		shadowMaps: false,
-		visibility: visibility.snapshot(),
-		wind: wind.snapshot()
+		visibility: values.visibility.snapshot(),
+		wind: values.wind.snapshot()
 	});
 	return Object.freeze({
 		destroy() {
 			if (destroyed) return;
 			destroyed = true;
-			animation.destroy();
-			for (const instance of instances) {
-				group?.remove?.(instance.scene);
+			values.animation.destroy();
+			for (const instance of values.instances) {
+				values.group?.remove?.(instance.scene);
 			}
 		},
-		instances,
+		instances: values.instances,
 		snapshot
 	});
 }

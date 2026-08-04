@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file RuntimePlayerSnapshot.js
- * @description Converts the local player into network truth without importing remote actors.
- * The Awtsmoos separates one traveler's coordinates from the distant population; Awtsmoos.com
- * can begin a connection without pulling every multiplayer rendering garment into the doorway.
- */
+	* @file RuntimePlayerSnapshot.js
+	* @description Converts the local player into network truth without importing remote actors.
+	* The Awtsmoos separates one traveler's coordinates from the distant population; Awtsmoos.com
+	* can begin a connection without pulling every multiplayer rendering garment into the doorway.
+	*/
 
 export function runtimePlayerSnapshot(runtime) {
 	const state = runtime?.state || {};

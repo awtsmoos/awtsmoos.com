@@ -1,17 +1,19 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
- * @file MultiplayerKavanahAuthority.js
- * @description Reconciles local preparation with server start, motion, release, and cancellation.
- * The Awtsmoos lets prediction remain responsive while final timing bows to authority;
- * Awtsmoos.com serializes cast identity, bounded motion, release, failure, and waiting deeds.
- */
+	* @file MultiplayerKavanahAuthority.js
+	* @description Owns one active preparation generation and its authoritative receipts.
+	* The Awtsmoos lets prediction remain responsive while consequence bows to authority;
+	* Awtsmoos.com invalidates every stale start, motion, release, and cancellation receipt.
+	*/
 
 import {
-	updateMultiplayerKavanahMovement
-} from './MultiplayerKavanahMovement.js';
+	beginMultiplayerKavanah,
+	cancelMultiplayerKavanah,
+	releaseMultiplayerKavanah
+} from './MultiplayerKavanahCommands.js';
+import { updateMultiplayerKavanahMovement } from './MultiplayerKavanahMovement.js';
 import {
 	acceptMultiplayerKavanah,
 	failMultiplayerKavanah
@@ -27,89 +29,72 @@ export class MultiplayerKavanahAuthority {
 	constructor(client, runtime) {
 		this.client = client;
 		this.runtime = runtime;
+		this.generation = 0;
 		this.movementElapsed = 0;
 		this.pendingRelease = Promise.resolve(null);
 		this.pendingStart = Promise.resolve(null);
 		this.serverState = null;
 		this.unsubscribers = [];
 	}
-
 	start() {
+		if (this.unsubscribers.length) return this;
+		const generation = ++this.generation;
 		this.unsubscribers = [
-			this.runtime.bus.on('combat:kavanah-start', receipt => {
-				this.begin(receipt);
-			}),
-			this.runtime.bus.on('combat:kavanah-release', () => {
-				this.release();
-			}),
-			this.runtime.bus.on('combat:kavanah-cancel', receipt => {
-				this.cancel(receipt?.reason);
-			})
+			this.runtime.bus.on(
+				'combat:kavanah-start',
+				receipt => this.begin(receipt, generation)
+			),
+			this.runtime.bus.on(
+				'combat:kavanah-release',
+				() => this.release(generation)
+			),
+			this.runtime.bus.on(
+				'combat:kavanah-cancel',
+				receipt => this.cancel(receipt?.reason, generation)
+			)
 		];
 		return this;
 	}
-
-	begin(receipt = {}) {
-		this.pendingStart = this.client.mmorpg.rpg
-			.startKavanah(receipt.actionId)
-			.then(response => acceptMultiplayerKavanah(
-				this,
-				response,
-				'combat:kavanah-authority-start'
-			))
-			.catch(error => failMultiplayerKavanah(this, error, 'start'));
-		return this.pendingStart;
+	begin(receipt = {}, generation = this.generation) {
+		return beginMultiplayerKavanah(this, receipt, generation);
 	}
-
-	release() {
-		this.pendingRelease = this.pendingStart
-			.then(() => this.releaseServerState())
-			.catch(error => failMultiplayerKavanah(this, error, 'release'));
-		return this.pendingRelease;
+	release(generation = this.generation) {
+		return releaseMultiplayerKavanah(this, generation);
 	}
-
-	cancel(reason = 'cancelled') {
-		return this.pendingStart.then(() => {
-			if (!this.serverState?.active) return null;
-			return this.client.mmorpg.rpg.cancelKavanah(reason)
-				.then(response => acceptMultiplayerKavanah(
-					this,
-					response,
-					'combat:kavanah-authority-cancel'
-				));
-		}).catch(error => failMultiplayerKavanah(this, error, 'cancel'));
+	cancel(reason = 'cancelled', generation = this.generation) {
+		return cancelMultiplayerKavanah(this, reason, generation);
 	}
-
 	update(deltaSeconds) {
-		updateMultiplayerKavanahMovement(
+		return updateMultiplayerKavanahMovement(
 			this,
 			deltaSeconds,
 			MOVEMENT_INTERVAL_SECONDS
 		);
 	}
-
 	waitForAction(actionId) {
 		return DELIBERATE_ACTIONS.has(actionId)
 			? this.pendingRelease
 			: Promise.resolve(null);
 	}
-
-	releaseServerState() {
-		if (!this.serverState?.castId) {
-			throw new Error('SERVER_KAVANAH_CAST_MISSING');
-		}
-		return this.client.mmorpg.rpg
-			.releaseKavanah(this.serverState.castId)
-			.then(response => acceptMultiplayerKavanah(
-				this,
-				response,
-				'combat:kavanah-authority-release'
-			));
+	accept(response, eventName, generation) {
+		if (!this.active(generation)) return null;
+		return acceptMultiplayerKavanah(this, response, eventName);
 	}
-
+	fail(error, phase, generation) {
+		if (!this.active(generation)) return null;
+		return failMultiplayerKavanah(this, error, phase);
+	}
+	active(generation) {
+		return this.unsubscribers.length > 0
+			&& generation === this.generation;
+	}
 	stop() {
+		this.generation += 1;
+		if (!this.unsubscribers.length) return false;
 		for (const unsubscribe of this.unsubscribers) unsubscribe();
 		this.unsubscribers = [];
 		this.serverState = null;
+		this.movementElapsed = 0;
+		return true;
 	}
 }

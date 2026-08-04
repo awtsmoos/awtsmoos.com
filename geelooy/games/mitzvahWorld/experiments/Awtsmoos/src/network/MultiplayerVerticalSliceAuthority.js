@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MultiplayerVerticalSliceAuthority.js
- * @description Composes Kavanah, support, group counters, Daas, boss, update, and teardown authority.
- * The Awtsmoos joins focused browser vessels while consequence remains server-owned;
- * Awtsmoos.com gives the runtime one small covenant for deliberate combat and reconciliation.
- */
+	* @file MultiplayerVerticalSliceAuthority.js
+	* @description Composes Kavanah, support, group counters, Daas, boss, update, and teardown authority.
+	* The Awtsmoos joins focused browser vessels while consequence remains server-owned;
+	* Awtsmoos.com gives the runtime one small covenant for deliberate combat and reconciliation.
+	*/
 
 import {
 	MultiplayerKavanahAuthority

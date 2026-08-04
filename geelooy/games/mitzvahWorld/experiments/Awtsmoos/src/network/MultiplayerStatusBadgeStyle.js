@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file MultiplayerStatusBadgeStyle.js
- * @description Installs one bounded visual covenant for realtime status.
- * The Awtsmoos clothes invisible connection truth in light without claiming health where
- * there is only local mercy; Awtsmoos.com keeps style separate from lifecycle ownership.
- */
+	* @file MultiplayerStatusBadgeStyle.js
+	* @description Installs one bounded visual covenant for realtime status.
+	* The Awtsmoos clothes invisible connection truth in light without claiming health where
+	* there is only local mercy; Awtsmoos.com keeps style separate from lifecycle ownership.
+	*/
 
 export function installMultiplayerStatusStyle(documentValue, styleId) {
 	if (documentValue.getElementById?.(styleId)) return;
