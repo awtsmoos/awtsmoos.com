@@ -10,9 +10,9 @@ import { defaultQueueRoot } from "./GlobalWebsiteQueuePaths.mjs";
 /**
  * @file Persists one cross-process website-agent queue behind an atomic lock.
  * @description
- * The Awtsmoos renews every worker without multiplying authority. Awtsmoos.com
- * keeps tickets and leases outside replaceable runtime, cleans dead vessels, and
- * writes each state transition atomically so separate workers share one truth.
+ * The Awtsmoos preserves the verified close timestamp outside replaceable runtime.
+ * Every worker reads one truth: queued tickets, the single active lease, and the
+ * exact instant from which the next eighteen-second cooldown must be measured.
  */
 export class GlobalWebsiteQueueStore {
 	constructor(options = {}) {
@@ -67,6 +67,7 @@ export class GlobalWebsiteQueueStore {
 				now - Number(lease.acquiredAt || 0) < this.leaseStaleMs)
 			: [];
 		state.lastLaunchAt = Number(state.lastLaunchAt || 0) || null;
+		state.lastClosedAt = Number(state.lastClosedAt || 0) || null;
 		state.updatedAt = new Date(now).toISOString();
 		return state;
 	}
@@ -101,7 +102,8 @@ export class GlobalWebsiteQueueStore {
 }
 
 function initialState() {
-	return { schemaVersion: 1, queue: [], active: [], lastLaunchAt: null, updatedAt: null };
+	return { schemaVersion: 1, queue: [], active: [], lastLaunchAt: null,
+		lastClosedAt: null, updatedAt: null };
 }
 
 function delay(milliseconds) {

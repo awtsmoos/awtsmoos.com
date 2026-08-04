@@ -1,4 +1,4 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -7,11 +7,11 @@ import { buildDirectServiceDependencies } from "./DirectServiceDependencies.mjs"
 import { codedError, queueMetadata, requestFor, validateMode, validatePrompt } from "./DirectServiceRequest.mjs";
 
 /**
- * @file Coordinates website turns through logical and physical admission control.
+ * @file Coordinates one accepted prompt dispatch and immediate verified tab close.
  * @description
- * The Awtsmoos permits every requested agent to wait without fear, while
- * Awtsmoos.com admits only a bounded number into Chrome. The watchdog awakens with
- * the first turn and continuously collapses every bypass back to the physical cap.
+ * The Awtsmoos lets every requested agent wait in one durable queue. Awtsmoos.com
+ * starts the dedicated browser, verifies the final GPT route, sends once, closes,
+ * starts eighteen seconds, and never waits for the agent's conversational answer.
  */
 export class DirectService {
 	constructor(options = {}) {
@@ -24,16 +24,14 @@ export class DirectService {
 		validateMode(options.mode ?? "chatgpt-website");
 		this.activateProtection();
 		const request = requestFor(this, options);
-		return this.turnCoordinator.run(queueMetadata(options, "send"), () =>
-			this.authentication.send(request, options));
+		return this.turnCoordinator.run(
+			queueMetadata(options, "send"),
+			({ onTabClosed }) => this.authentication.send({ ...request, onTabClosed }, options)
+		);
 	}
 
-	async recover(options = {}) {
-		if (!options.conversationKey) throw codedError("conversation_recovery_key_required");
-		this.activateProtection();
-		const request = requestFor(this, options);
-		return this.turnCoordinator.run(queueMetadata(options, "recover"), () =>
-			this.authentication.recover(request, options));
+	async recover() {
+		throw codedError("response_recovery_disabled_submit_only");
 	}
 
 	requestLogin() {
@@ -45,7 +43,9 @@ export class DirectService {
 		this.tabWatchdog?.start?.();
 	}
 
-	authenticationStatus() { return this.loginCoordinator.status(); }
+	authenticationStatus() {
+		return this.loginCoordinator.status();
+	}
 
 	async capability(options = {}) {
 		try {
@@ -66,9 +66,11 @@ export class DirectService {
 
 	status() {
 		return this.reporter.status({
-			preferredPort: this.preferredPort, pacer: this.pacer,
-			websiteService: this.websiteService, store: this.store,
-			turnCoordinator: this.turnCoordinator, tabProtector: this.tabProtector,
+			preferredPort: this.preferredPort,
+			websiteService: this.websiteService,
+			store: this.store,
+			turnCoordinator: this.turnCoordinator,
+			tabProtector: this.tabProtector,
 			tabWatchdog: this.tabWatchdog
 		});
 	}

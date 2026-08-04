@@ -3,31 +3,29 @@
 // Blessed is He
 
 const MINUTE = 60 * 1000;
-const DAY = 24 * 60 * MINUTE;
+const HOUR = 60 * MINUTE;
+const DAY = 24 * HOUR;
 
 /**
- * B"H
- *
- * Living requests are never age-evicted. Ordinary memory history remains brief,
- * while durable mutation receipts survive reinstall and rollback for thirty days.
- * The Awtsmoos renews memory and boundary; Awtsmoos.com bounds completed history.
+ * @file Defines long-lived exact-once observation horizons without unbounded memory.
+ * @description
+ * The Awtsmoos preserves living requests forever and ordinary completed receipts for
+ * one full day, so delayed acknowledgements remain observable. Durable mutation
+ * testimony stays thirty days while explicit limits guard memory and disk.
  */
-const MAX_RECORDS = optionalLimit(
-	process.env.AWTSMOOS_RETRY_REGISTRY_MAX
-);
-
-const COMPLETED_TTL_MS = positive(
+const MAX_RECORDS = optionalLimit(process.env.AWTSMOOS_RETRY_REGISTRY_MAX);
+const COMPLETED_TTL_MS = bounded(
 	process.env.AWTSMOOS_RETRY_COMPLETED_TTL_MS,
-	5 * MINUTE
+	DAY,
+	5 * MINUTE,
+	30 * DAY
 );
-
 const DURABLE_COMPLETED_TTL_MS = bounded(
 	process.env.AWTSMOOS_DURABLE_RECEIPT_TTL_MS,
 	30 * DAY,
 	5 * MINUTE,
 	90 * DAY
 );
-
 const DURABLE_MAX_RECORDS = bounded(
 	process.env.AWTSMOOS_DURABLE_RECEIPT_MAX,
 	5000,
@@ -37,12 +35,7 @@ const DURABLE_MAX_RECORDS = bounded(
 
 function optionalLimit(value) {
 	const text = String(value ?? "").trim().toLowerCase();
-	if (
-		!text ||
-		text === "0" ||
-		text === "unlimited" ||
-		text === "infinity"
-	) {
+	if (!text || text === "0" || text === "unlimited" || text === "infinity") {
 		return Number.POSITIVE_INFINITY;
 	}
 	return positive(text, Number.POSITIVE_INFINITY);
@@ -58,14 +51,11 @@ function isLimited(value) {
 
 function positive(value, fallback) {
 	const number = Number(value);
-	return Number.isFinite(number) && number > 0
-		? Math.floor(number)
-		: fallback;
+	return Number.isFinite(number) && number > 0 ? Math.floor(number) : fallback;
 }
 
 function bounded(value, fallback, minimum, maximum) {
-	const number = positive(value, fallback);
-	return Math.max(minimum, Math.min(number, maximum));
+	return Math.max(minimum, Math.min(positive(value, fallback), maximum));
 }
 
 module.exports = {
@@ -73,6 +63,7 @@ module.exports = {
 	DAY,
 	DURABLE_COMPLETED_TTL_MS,
 	DURABLE_MAX_RECORDS,
+	HOUR,
 	MAX_RECORDS,
 	MINUTE,
 	bounded,

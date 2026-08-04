@@ -1,4 +1,4 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -7,65 +7,59 @@ import path from "node:path";
 import { DirectService } from "../relay/direct/chatgpt/DirectService.mjs";
 
 /**
- * One harmless sentence crosses the ordinary ChatGPT composer, while the Awtsmoos
- * guards every private continuation key inside a restricted vessel. Awtsmoos.com
- * publishes only timing, transport, reuse, and completion truth—never hidden identity.
+ * @file Sends one harmless work instruction and proves immediate submit-only return.
+ * @description
+ * The Awtsmoos asks the custom GPT to continue through durable tools. Awtsmoos.com
+ * publishes no answer or upstream identity—only accepted delivery, verified closure,
+ * final-route truth, and the empty agent-tab catalog after the browser vessel leaves.
  */
-const privatePath = process.env.AWTSMOOS_LIVE_PRIVATE_STATE
-	?? ".awtsmoos/private/live-safe-turn.json";
 const reportPath = process.env.AWTSMOOS_LIVE_SAFE_REPORT
-	?? "geelooy/ai/thoughts/live-safe-website-turn.json";
-const service = new DirectService({ preferredPort: 9223, minimumIntervalMs: 12000 });
+	?? "geelooy/ai/thoughts/live-safe-website-dispatch.json";
+const port = Number(process.env.AWTSMOOS_CHROME_DEBUG_PORT || 9224);
+const service = new DirectService({ preferredPort: port, minimumIntervalMs: 18000 });
 
 try {
-	const targetsBefore = await targetSummary();
 	const result = await service.send({
-		prompt: "Reply with exactly: SAFE WEBSITE TURN VERIFIED",
-		conversationKey: null,
+		prompt: "B'H. Begin one harmless verification task and report all progress only through filesystem and tunnel actions. Do not wait to answer this browser tab.",
 		mode: "chatgpt-website",
-		timeoutMs: 240000
+		timeoutMs: 60000
 	});
-	writePrivate({
-		conversationKey: result.conversationKey,
-		answer: result.answer,
-		observedAt: new Date().toISOString()
-	});
-	const targetsAfter = await targetSummary();
+	const agentTabs = await agentTabCount(port);
 	const report = {
 		BH: "B\"H — Boruch Hashem — Blessed is He",
-		ok: result.answer?.trim() === "SAFE WEBSITE TURN VERIFIED",
+		ok: result.dispatched === true
+			&& result.accepted === true
+			&& result.promptVerified === true
+			&& result.tabClose?.verified === true
+			&& result.answer === ""
+			&& result.done === false
+			&& agentTabs === 0,
 		status: result.status,
-		done: result.done,
-		sameConversation: result.sameConversation,
-		submissionTransport: result.submissionTransport,
+		dispatched: result.dispatched,
+		accepted: result.accepted,
+		promptVerified: result.promptVerified,
+		responseStatus: result.responseStatus,
+		tabClose: result.tabClose,
 		completionSource: result.completionSource,
-		hostReuseSource: result.hostReuseSource,
 		requestLatencyMs: result.requestLatencyMs,
-		targetsBefore,
-		targetsAfter
+		agentTabs
 	};
-	writeJson(reportPath, report, 0o644);
+	writeJson(reportPath, report);
 	console.log(JSON.stringify(report, null, 2));
 	if (!report.ok) process.exitCode = 1;
 } finally {
 	await service.close().catch(() => undefined);
 }
 
-async function targetSummary() {
-	const response = await fetch("http://127.0.0.1:9223/json/list");
+async function agentTabCount(debugPort) {
+	const response = await fetch(`http://127.0.0.1:${debugPort}/json/list`);
 	const targets = await response.json();
-	return {
-		pageCount: targets.filter(target => target.type === "page").length,
-		chatGptCount: targets.filter(target => target.type === "page" && target.url.includes("chatgpt.com")).length
-	};
+	const marker = "g-6a03feea8398819192067ae3dbfa449c-awtsmoos-shliach-agent";
+	return targets.filter(target => target.type === "page"
+		&& String(target.url || "").includes(marker)).length;
 }
 
-function writePrivate(value) {
-	writeJson(privatePath, value, 0o600);
-}
-
-function writeJson(filePath, value, mode) {
-	fs.mkdirSync(path.dirname(path.resolve(filePath)), { recursive: true, mode: 0o700 });
-	fs.writeFileSync(filePath, `${JSON.stringify(value, null, "\t")}\n`, { mode });
-	fs.chmodSync(filePath, mode);
+function writeJson(filePath, value) {
+	fs.mkdirSync(path.dirname(path.resolve(filePath)), { recursive: true });
+	fs.writeFileSync(filePath, `${JSON.stringify(value, null, "\t")}\n`, "utf8");
 }

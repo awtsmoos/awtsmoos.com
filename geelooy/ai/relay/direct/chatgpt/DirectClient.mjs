@@ -1,78 +1,86 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
 import { AuthenticatedHostLease } from "../browser/AuthenticatedHostLease.mjs";
 import { AuthenticatedSocketController } from "../browser/AuthenticatedSocketController.mjs";
 import { StageTimingLedger } from "../core/StageTimingLedger.mjs";
-import { ConversationRecoveryExecutor } from "./ConversationRecoveryExecutor.mjs";
+import { DirectClientResultPresenter } from "./DirectClientResultPresenter.mjs";
 import { DirectTurnExecutor } from "./DirectTurnExecutor.mjs";
 
 /**
- * @file Runs one direct website turn through an exact owned browser target.
+ * @file Sends once, verifies acceptance, closes once, and returns without an answer.
  * @description
- * The Awtsmoos preserves the opaque conversation while the temporary page returns
- * to nothing. Awtsmoos.com closes every agent-owned target before resolving send
- * or recovery, preventing completed tabs from accumulating across sub-agents.
+ * The Awtsmoos gives the browser one bounded shlichus: deliver the prompt. After the
+ * website accepts it, Awtsmoos.com closes and verifies the target, starts cooldown,
+ * and releases the caller while the custom GPT continues through durable tools.
  */
 export class DirectClient {
-	constructor({
-		port = 9226,
-		minimumIntervalHook,
-		controllerFactory,
-		hostLease,
-		forceNewTarget = true,
-		idleHostTimeoutMs = 30000,
-		turnExecutor,
-		recoveryExecutor = new ConversationRecoveryExecutor()
-	} = {}) {
-		this.port = port;
-		this.forceNewTarget = forceNewTarget;
-		const openHost = controllerFactory ?? (() => {
-			return new AuthenticatedSocketController({
+	constructor(options = {}) {
+		this.port = options.port || 9224;
+		this.forceNewTarget = options.forceNewTarget !== false;
+		const openHost = options.controllerFactory || (() =>
+			new AuthenticatedSocketController({
 				port: this.port,
 				replaceChatGptTabs: false,
 				forceNewTarget: this.forceNewTarget
-			}).open();
-		});
-		this.hostLease = hostLease ?? new AuthenticatedHostLease({
-			openHost,
-			idleTimeoutMs: idleHostTimeoutMs
-		});
-		this.turnExecutor = turnExecutor ?? new DirectTurnExecutor({ minimumIntervalHook });
-		this.recoveryExecutor = recoveryExecutor;
+			}).open());
+		this.hostLease = options.hostLease || new AuthenticatedHostLease({ openHost });
+		this.turnExecutor = options.turnExecutor || new DirectTurnExecutor();
+		this.presenter = options.presenter || new DirectClientResultPresenter();
 	}
 
 	async send(options = {}) {
 		this.assertNotAborted(options.signal);
 		const ledger = new StageTimingLedger();
-		const result = await this.hostLease.run((controller, lease) => {
-			return this.turnExecutor.execute(options, controller, lease, ledger);
-		}, { closeAfterTask: options.closeAfterTurn !== false });
-		result.timings = ledger.snapshot();
-		return result;
+		const submitted = await this.hostLease.run(
+			(controller, lease) => this.turnExecutor.execute(options, controller, lease, ledger),
+			{ closeAfterTask: true }
+		);
+		if (!submitted.tabClose?.verified) throw closeError(submitted.tabClose);
+		const closedAt = Date.now();
+		await options.onTabClosed?.({
+			tabClose: submitted.tabClose,
+			closedAt,
+			verified: true
+		});
+		return this.presenter.dispatch(submitted, ledger, closedAt);
 	}
 
-	async recover(options = {}) {
-		this.assertNotAborted(options.signal);
-		return this.hostLease.run(controller => {
-			return this.recoveryExecutor.execute(options, controller);
-		}, { closeAfterTask: options.closeAfterTurn !== false });
+	async recover() {
+		throw codedError("response_recovery_disabled_submit_only");
 	}
 
-	close() { return this.hostLease.close(); }
+	close() {
+		return this.hostLease.close();
+	}
 
 	status() {
 		return {
 			port: this.port,
 			forceNewTarget: this.forceNewTarget,
+			detachedPolling: false,
+			waitsForAnswer: false,
+			resultContract: "prompt-dispatch-receipt",
 			hostLease: this.hostLease.status()
 		};
 	}
 
 	assertNotAborted(signal) {
 		if (signal?.aborted) {
-			throw signal.reason || new Error("Direct request was cancelled.");
+			throw signal.reason || codedError("direct_request_cancelled");
 		}
 	}
+}
+
+function closeError(tabClose) {
+	const error = codedError("owned_target_close_unverified");
+	error.tabClose = tabClose;
+	return error;
+}
+
+function codedError(code) {
+	const error = new Error(code);
+	error.code = code;
+	return error;
 }

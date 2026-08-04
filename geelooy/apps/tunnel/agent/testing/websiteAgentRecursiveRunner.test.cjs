@@ -1,220 +1,80 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
-const os = require("node:os");
 const path = require("node:path");
+const Dispatch = require("../tools/fs/actionGroups/websiteAgents/dispatch.js");
+const Prompt = require("../tools/fs/actionGroups/websiteAgents/prompt.js");
 
-const root = fs.mkdtempSync(path.join(os.tmpdir(), "awts-web-recursive-runner-"));
-process.env.AWTSMOOS_INSTALL_ROOT = path.join(root, "install");
-process.env.AWTSMOOS_MISSION_JSON_BACKUP = "1";
-
-const Runner = require("../tools/fs/actionGroups/websiteAgents/runner.js");
-const Spawning = require("../tools/fs/actionGroups/websiteAgents/spawning.js");
-
-(async () => {
-	const calls = [];
-	const sleeps = [];
-	const turnCounts = new Map();
-	const service = {
-		async authenticationStatus() {
-			return { authenticated: true, status: "authenticated" };
-		},
-		async send(options) {
-			const id = agentId(options.prompt);
-			const count = Number(turnCounts.get(id) || 0) + 1;
-			turnCounts.set(id, count);
-			calls.push({
-				id,
-				conversationKey: options.conversationKey,
-				prompt: options.prompt
-			});
-			if (id === "website_01_architect") {
-				return response({
-					complete: count > 1,
-					conversationKey: options.conversationKey || "BH_ROOT_ARCHITECT",
-					requests: [request(
-						"runtime.child",
-						"runtime child",
-						"runtime",
-						"Inspect runtime independently and return exact bounded evidence."
-					)]
-				});
-			}
-			if (/^website_d1_/.test(id)) {
-				return response({
-					complete: true,
-					conversationKey: options.conversationKey || "BH_DEPTH_ONE",
-					requests: [
-						request("leaf.one", "leaf verifier", "tests/one", "Verify leaf one and publish evidence."),
-						request("leaf.two", "leaf verifier", "tests/two", "Verify leaf two and publish evidence."),
-						request("leaf.three", "leaf verifier", "tests/three", "Verify leaf three and publish evidence."),
-						request("INVALID ID", "invalid verifier", "tests/invalid", "This malformed request must be rejected and reported.")
-					]
-				});
-			}
-			return response({
-				complete: true,
-				conversationKey: options.conversationKey || `BH_${id}`,
-				requests: []
-			});
-		},
-		reset() {
-			return { deleted: 1 };
-		}
-	};
-	const config = {
-		root,
-		tunnelName: "recursive-runner-test",
-		websiteMissionSleep: async milliseconds => sleeps.push(milliseconds),
-		directService: service
-	};
-	try {
-		for (const directory of ["runtime", "tests", "tests/one", "tests/two", "tests/three", "tests/invalid"]) {
-			fs.mkdirSync(path.join(root, directory), { recursive: true });
-		}
-		const started = await Runner.start(config, {
-			websiteMissionId: "recursive-runner",
-			prompt: "Use recursive specialists for independent runtime verification.",
-			agentCount: 3,
-			collaborationRounds: 1,
-			maxContinuationTurns: 2,
-			maxSubagentDepth: 4,
-			maxSubagentsPerAgent: 12,
-			maxTotalWebsiteAgents: 8,
-			startSpacingMs: 10000,
-			subagentStartSpacingMs: 10000,
-			projectRoot: root
-		});
-		await Runner.active.get(started.mission.id);
-		const status = await Runner.status(config, { websiteMissionId: started.mission.id });
-		assert.equal(status.mission.status, "complete");
-		assert.equal(status.mission.agents.length, 7);
-
-		const parent = status.mission.agents.find(agent => agent.id === "website_01_architect");
-		assert.equal(parent.depth, 0);
-		assert.equal(parent.spawnedChildCount, 1);
-		assert.equal(parent.childAgentIds.length, 1);
-		const child = status.mission.agents.find(agent => agent.id === parent.childAgentIds[0]);
-		assert.equal(child.parentAgentId, parent.id);
-		assert.equal(child.depth, 1);
-		assert.equal(child.rootAgentId, parent.id);
-		assert.equal(child.spawnRequestKey, "runtime.child");
-		assert.equal(child.spawnPrompt, "Inspect runtime independently and return exact bounded evidence.");
-		assert.equal(child.singleUse, true);
-		assert.equal(child.spawnedChildCount, 3);
-		assert.equal(child.childAgentIds.length, 3);
-		for (const childId of child.childAgentIds) {
-			const leaf = status.mission.agents.find(agent => agent.id === childId);
-			assert.equal(leaf.parentAgentId, child.id);
-			assert.equal(leaf.depth, 2);
-			assert.equal(leaf.rootAgentId, parent.id);
-			assert.equal(leaf.status, "complete");
-		}
-
-		assert.equal(calls.length, 8);
-		assert.equal(calls.filter(call => call.id === parent.id).length, 2);
-		assert.equal(new Set(calls.map(call => call.id)).size, 7);
-		assert.equal(sleeps.length, calls.length - 1);
-		assert.ok(sleeps.every(milliseconds => milliseconds >= 10000));
-		assert.match(calls.find(call => call.id === child.id).prompt, /Parent website agent:/);
-		assert.match(calls.find(call => call.id === child.id).prompt, /Exact child assignment:/);
-
-		const admittedAgain = Spawning.admit(started.mission.id, parent.id, [request(
-			"runtime.child",
-			"runtime child",
-			"runtime",
-			"Inspect runtime independently and return exact bounded evidence."
-		)]);
-		assert.equal(admittedAgain.accepted.length, 0);
-		assert.equal(admittedAgain.duplicates.length, 1);
-		assert.equal(admittedAgain.duplicates[0].childAgentId, child.id);
-		assert.equal(admittedAgain.record.agents.length, 7);
-		const duplicatePayload = Spawning.admit(started.mission.id, parent.id, [request(
-			"runtime.child.renamed",
-			"runtime child",
-			"runtime",
-			"Inspect runtime independently and return exact bounded evidence."
-		)]);
-		assert.equal(duplicatePayload.accepted.length, 0);
-		assert.equal(duplicatePayload.duplicates.length, 1);
-		assert.equal(duplicatePayload.duplicates[0].status, "duplicate_payload");
-		assert.equal(duplicatePayload.duplicates[0].childAgentId, child.id);
-		assert.equal(duplicatePayload.record.agents.length, 7);
-
-		assert.ok(status.mission.events.some(item =>
-			item.type === "subagent_spawn_diagnostics" &&
-			item.counts?.invalid_spawn_request_id === 1
-		));
-		assert.equal(
-			status.room.messages.filter(message => message.kind === "website-subagent-created").length,
-			4
-		);
-		assert.ok(status.room.messages.some(message =>
-			message.kind === "website-subagent-spawn-result" &&
-			message.body.includes("PLAN:") &&
-			message.body.includes("PROGRESS:") &&
-			message.body.includes("HANDOFF:") &&
-			message.body.includes("COMPLETION:")
-		));
-		assert.ok(status.room.messages.some(message =>
-			message.kind === "website-subagent-spawn-result" &&
-			message.subject.includes("1 duplicate(s) suppressed") &&
-			message.body.includes("duplicate requests safely suppressed=runtime.child")
-		), JSON.stringify(status.room.messages.filter(message =>
-			message.kind === "website-subagent-spawn-result"
-		), null, 2));
-
-		console.log(JSON.stringify({
-			ok: true,
-			suite: "website-agent-recursive-runner",
-			stableRecursiveAgents: status.mission.agents.length,
-			maximumDepthObserved: 2,
-			duplicateChildSuppressed: true,
-			duplicatePayloadAcrossTurnsSuppressed: true,
-			malformedRequestReportedBeforeAdmission: true,
-			globalSequentialStartSpacing: true,
-			durableRoomLifecycle: true
-		}, null, 2));
-	} finally {
-		for (const timer of Runner.wakeTimers.values()) clearTimeout(timer);
-		fs.rmSync(root, { recursive: true, force: true });
-	}
-})().catch(error => {
-	console.error(error.stack || error);
-	process.exitCode = 1;
+/**
+ * @file Proves recursive website agents are durable dispatches, not browser replies.
+ * @description
+ * The Awtsmoos verifies the public contract directly: one accepted dispatch receipt,
+ * shared-room and child-agent tool instructions, and no answer parsing or recovery in
+ * the runner. Internal scheduler timing remains covered by its own mission tests.
+ */
+const record = {
+	missionId: "mission-submit-only",
+	goal: "durable recursive collaboration",
+	plan: {
+		projectRoot: "/project",
+		subagentPolicy: { maxSubagentsPerAgent: 8 }
+	},
+	agents: [],
+	events: []
+};
+const agent = {
+	id: "agent-one",
+	name: "Agent One",
+	ordinal: 1,
+	agentSessionId: "session-one",
+	scope: "src",
+	role: "implementer",
+	focus: "verified browser dispatch",
+	status: "submitting",
+	round: 0,
+	continuationTurns: 0,
+	pendingRound: 1
+};
+record.agents.push(agent);
+const prompt = Prompt.firstTurn(record, agent, {
+	agents: [],
+	messages: [],
+	activeClaims: []
 });
-
-function response({ complete, conversationKey, requests }) {
-	return {
-		answer: [
-			"STATUS",
-			complete ? "COMPLETE" : "UNFINISHED",
-			"FINDINGS",
-			"Bounded work recorded.",
-			"FILES",
-			"runtime",
-			"MESSAGE TO ROOM",
-			"PLAN: execute independent scoped work.",
-			"PROGRESS: bounded work inspected.",
-			"HANDOFF: collect child evidence from the shared room.",
-			complete ? "COMPLETION: verified and passed." : "COMPLETION: pending child evidence.",
-			"SPAWN",
-			JSON.stringify(requests),
-			"NEXT",
-			complete ? "none" : "Collect child handoffs."
-		].join("\n"),
-		conversationKey,
-		completionSource: "authenticated-route-get-dom",
-		sameConversation: Boolean(conversationKey),
-		composerTouched: true,
-		submissionTransport: "chatgpt-website-composer"
-	};
-}
-
-function request(requestId, role, scope, prompt) {
-	return { requestId, role, scope, prompt };
-}
-
-function agentId(prompt) {
-	return String(prompt).match(/Stable agent session: [^:]+:([^.]+)\./)?.[1] || "unknown";
-}
+for (const action of [
+	"missionRoomJoin",
+	"missionRoomInbox",
+	"missionRoomMessage",
+	"missionRoomHeartbeat",
+	"missionRoomClaimFile",
+	"missionRoomReleaseFile",
+	"aiAgentSpawnWebsiteMission",
+	"aiAgentWebsiteMissionStatus"
+]) assert.match(prompt, new RegExp(action));
+assert.match(prompt, /browser tab closes immediately/i);
+assert.match(prompt, /conversational response is ignored/i);
+assert.doesNotMatch(prompt, /SPAWN must be exactly/);
+Dispatch.apply(record, agent.id, 1, false, {
+	conversationKey: "BH_DIRECT_PRIVATE",
+	acceptedAt: "2026-08-04T01:00:00.000Z",
+	responseStatus: 200,
+	promptVerified: true,
+	tabClose: { verified: true }
+}, (type, detail) => ({ type, detail }));
+assert.equal(agent.status, "dispatched");
+assert.equal(agent.lastOutcome.complete, false);
+assert.equal(agent.lastOutcome.dispatched, true);
+assert.match(agent.lastOutcome.next, /filesystem and tunnel actions/i);
+const runnerSource = fs.readFileSync(path.join(__dirname,
+	"../tools/fs/actionGroups/websiteAgents/runner.js"), "utf8");
+assert.doesNotMatch(runnerSource, /result\.answer|Outcome\.analyze|service\.recover/);
+console.log(JSON.stringify({
+	ok: true,
+	suite: "website-agent-recursive-public-contract",
+	submitOnly: true,
+	sharedRoomRequired: true,
+	childFanOutUsesTunnelActions: true
+}, null, 2));

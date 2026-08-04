@@ -6,43 +6,68 @@ import { AgentTabProtector } from "./AgentTabProtector.mjs";
 
 function fixture(rootIds, conversationIds) {
 	const state = { roots: [...rootIds], conversations: [...conversationIds] };
+	const closed = [];
 	const catalog = {
-		snapshot: async () => ({
-			port: 9224,
-			total: state.roots.length + state.conversations.length,
-			rootTabs: state.roots.map(id => ({ id })),
-			conversationTabs: state.conversations.map(id => ({ id }))
-		})
+		async snapshot() {
+			return {
+				port: 9223,
+				total: state.roots.length + state.conversations.length,
+				rootTabs: state.roots.map(id => ({ id })),
+				conversationTabs: state.conversations.map(id => ({ id }))
+			};
+		}
 	};
 	const closerFactory = () => ({
-		close: async id => {
+		async close(id) {
+			closed.push(id);
 			state.roots = state.roots.filter(item => item !== id);
 			state.conversations = state.conversations.filter(item => item !== id);
 			return { closed: true, verified: true, attempts: 1 };
 		}
 	});
-	return { state, catalog, closerFactory };
+	return { state, closed, catalog, closerFactory };
 }
 
-test("beforeTurn creates a real slot by closing the remaining root", async () => {
-	const state = fixture(["root"], ["conversation"]);
-	const protector = new AgentTabProtector({
-		catalog: state.catalog, closerFactory: state.closerFactory, maxTabs: 2
+function protector(state) {
+	return new AgentTabProtector({
+		catalog: state.catalog,
+		closerFactory: state.closerFactory
 	});
-	const result = await protector.beforeTurn();
-	assert.equal(result.total, 1);
+}
+
+test("beforeTurn closes every pre-existing agent root and conversation", async () => {
+	const state = fixture(["root"], ["conversation"]);
+	const result = await protector(state).beforeTurn();
+	assert.equal(result.total, 0);
 	assert.deepEqual(state.state.roots, []);
-	assert.deepEqual(state.state.conversations, ["conversation"]);
-	assert.equal(protector.status().closedTabs, 1);
+	assert.deepEqual(state.state.conversations, []);
+	assert.deepEqual(state.closed.sort(), ["conversation", "root"]);
 });
 
-test("watchdog restores the hard cap and prefers stale roots", async () => {
-	const state = fixture(["root-one", "root-two"], ["one", "two"]);
-	const protector = new AgentTabProtector({
-		catalog: state.catalog, closerFactory: state.closerFactory, maxTabs: 2
-	});
-	const result = await protector.watchdogSweep();
-	assert.equal(result.total, 2);
+test("watchdog preserves the single legitimate in-flight root", async () => {
+	const state = fixture(["active-root"], []);
+	const guard = protector(state);
+	const result = await guard.watchdogSweep();
+	assert.equal(result.total, 1);
+	assert.equal(result.rootAllowance, 1);
+	assert.deepEqual(state.state.roots, ["active-root"]);
+	assert.deepEqual(state.closed, []);
+	assert.equal(guard.status().watchdogRootAllowance, 1);
+});
+
+test("watchdog collapses excess roots and conversations to one root", async () => {
+	const state = fixture(["active-root", "stale-root"], ["stale-conversation"]);
+	const result = await protector(state).watchdogSweep();
+	assert.equal(result.total, 1);
+	assert.deepEqual(state.state.roots, ["active-root"]);
+	assert.deepEqual(state.state.conversations, []);
+	assert.deepEqual(state.closed.sort(), ["stale-conversation", "stale-root"]);
+});
+
+test("afterTurn returns the profile to zero agent tabs", async () => {
+	const state = fixture(["finished-root"], []);
+	const result = await protector(state).afterTurn();
+	assert.equal(result.total, 0);
 	assert.deepEqual(state.state.roots, []);
-	assert.deepEqual(state.state.conversations, ["one", "two"]);
+	assert.deepEqual(state.closed, ["finished-root"]);
 });

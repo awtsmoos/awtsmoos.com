@@ -1,106 +1,71 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
-import { createRequire } from "node:module";
 import { WebsitePromptInteractor } from "../browser/WebsitePromptInteractor.mjs";
-import { ConversationCompletionPoller } from "./ConversationCompletionPoller.mjs";
 import { ConversationRequestObserver } from "./ConversationRequestObserver.mjs";
-import { ConversationRouteWaiter } from "./ConversationRouteWaiter.mjs";
-import { WebsiteConversationNavigator } from "./WebsiteConversationNavigator.mjs";
-
-const require = createRequire(import.meta.url);
-const { configuredAgentStartUrl } = require("../../split-browser/config.cjs");
 
 /**
- * One normal ChatGPT website turn enters the designated GPT vessel, types the exact
- * prompt, clicks Send once, and reads completion through authenticated GETs. The
- * Awtsmoos permits no replacement, replay, suppression, or fabricated request.
+ * @file Submits one prompt and stops at verified website acceptance.
+ * @description
+ * The Awtsmoos entrusts the custom GPT with work beyond the browser's brief life.
+ * Awtsmoos.com witnesses the ordinary POST and its accepted response, records only
+ * bounded identity evidence, and returns so the exact owned tab can close at once.
  */
 export class DirectTurnExecutor {
-	constructor({
-		minimumIntervalHook,
-		navigator = new WebsiteConversationNavigator(),
-		routeWaiter = new ConversationRouteWaiter()
-	} = {}) {
-		this.minimumIntervalHook = minimumIntervalHook;
-		this.navigator = navigator;
-		this.routeWaiter = routeWaiter;
-	}
-
 	async execute(options, controller, lease, ledger) {
-		const agentStartUrl = options.agentStartUrl ?? configuredAgentStartUrl();
 		ledger.record("hostOpenMs", lease.acquireMs);
 		this.assertNotAborted(options.signal);
 		this.progress(options.onProgress, "host", lease.source);
-		const pacing = await ledger.measure("pacingMs", async () => {
-			return await this.minimumIntervalHook?.() ?? null;
-		});
-		await ledger.measure("conversationNavigationMs", () => {
-			return this.navigator.prepare(
-				controller,
-				options.state,
-				agentStartUrl
-			);
-		});
+		const page = await ledger.measure("composerVerificationMs", () =>
+			controller.inspector.inspect());
+		this.assertReady(page);
 		const startedAt = Date.now();
 		const request = await ledger.measure("websiteSubmissionMs", () => {
-			const observer = new ConversationRequestObserver(controller.cdpClient);
+			const observer = new ConversationRequestObserver(controller.cdpClient, {
+				timeoutMs: options.timeoutMs ?? 30000
+			});
 			const interactor = new WebsitePromptInteractor(controller.cdpClient);
 			return observer.observe(() => interactor.submit(options.prompt));
 		});
-		this.progress(options.onProgress, "website-submit", "accepted");
-		const conversationId = await ledger.measure("conversationRouteMs", () => {
-			return this.routeWaiter.wait(controller, {
-				expectedId: request.conversationId || options.state?.conversationId || null,
-				agentStartUrl,
-				timeoutMs: options.timeoutMs ?? 30000
-			});
-		});
-		const poll = await ledger.measure("answerPollingMs", () => {
-			return new ConversationCompletionPoller(controller.cdpClient, {
-				port: controller.debugPort
-			}).poll({
-				conversationId,
-				agentStartUrl,
-				userMessageId: request.userMessageId,
-				previousParentMessageId: options.state?.parentMessageId ?? null,
-				timeoutMs: options.timeoutMs ?? 180000,
-				signal: options.signal
-			});
-		});
-		this.assertComplete(poll);
+		this.progress(options.onProgress, "website-submit", "accepted-response");
 		return {
-			answer: poll.answer,
-			state: { conversationId, parentMessageId: poll.parentMessageId },
-			status: 200,
-			done: poll.done,
-			frames: 0,
-			items: poll.itemCount,
-			subscriptionAttempts: poll.pollCount,
-			completionSource: poll.completionSource,
+			submission: {
+				conversationId: request.conversationId || null,
+				userMessageId: request.userMessageId,
+				acceptedAt: request.acceptedAt
+			},
+			responseStatus: request.responseStatus,
 			requestLatencyMs: Date.now() - startedAt,
-			pacing,
 			hostReuseSource: lease.source,
-			navigatedToConversation: true,
 			composerTouched: true,
+			promptVerified: true,
+			dispatched: true,
 			submissionTransport: "chatgpt-website-composer"
 		};
 	}
 
+	assertReady(page) {
+		if (!page?.authenticated || !page?.composerVisible) {
+			const error = new Error("authenticated_custom_gpt_composer_missing");
+			error.code = "authenticated_custom_gpt_composer_missing";
+			throw error;
+		}
+		if (/^about:blank(?:[#?].*)?$/i.test(String(page.url || ""))) {
+			const error = new Error("about_blank_navigation_unresolved");
+			error.code = "about_blank_navigation_unresolved";
+			throw error;
+		}
+	}
+
 	assertNotAborted(signal) {
-		if (signal?.aborted) throw signal.reason || new Error("Direct request was cancelled.");
+		if (signal?.aborted) {
+			throw signal.reason || new Error("Direct request was cancelled.");
+		}
 	}
 
 	progress(callback, stage, status) {
-		try {
-			callback?.({ stage, status, at: Date.now() });
-		} catch {}
-	}
-
-	assertComplete(state) {
-		if (!state.conversationId || !state.parentMessageId || !state.answer) {
-			throw new Error("Conversation GET did not expose complete continuation state.");
-		}
+		try { callback?.({ stage, status, at: Date.now() }); }
+		catch {}
 	}
 }

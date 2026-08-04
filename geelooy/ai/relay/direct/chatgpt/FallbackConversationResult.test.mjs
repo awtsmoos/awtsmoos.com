@@ -4,17 +4,20 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { publicConversationResult } from "./FallbackConversationResult.mjs";
 
-test("public result preserves redacted close proof and hides upstream identity", () => {
+test("public dispatch receipt proves acceptance and hides upstream identity", () => {
 	const result = publicConversationResult({
 		localKey: "BH_DIRECT_LOCAL",
-		created: true,
 		result: {
-			answer: "done",
-			status: 200,
-			done: true,
+			status: 202,
+			dispatched: true,
+			accepted: true,
+			promptVerified: true,
+			responseStatus: 200,
+			acceptedAt: "2026-08-03T15:00:00.000Z",
+			completionSource: "not-awaited-agent-continues-through-tunnel",
 			state: {
 				conversationId: "private-conversation",
-				parentMessageId: "private-message"
+				userMessageId: "private-message"
 			},
 			tabClose: {
 				closed: true,
@@ -24,6 +27,10 @@ test("public result preserves redacted close proof and hides upstream identity",
 			}
 		}
 	});
+	assert.equal(result.answer, "");
+	assert.equal(result.done, false);
+	assert.equal(result.dispatched, true);
+	assert.equal(result.accepted, true);
 	assert.deepEqual(result.tabClose, {
 		closed: true,
 		verified: true,

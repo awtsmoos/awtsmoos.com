@@ -4,60 +4,58 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { DirectServiceTurnCoordinator } from "./DirectServiceTurnCoordinator.mjs";
 
-function fixture(physicalAfter = { withinLimit: true, total: 1 }) {
-	let released = 0;
-	let scheduled = null;
+function fixture(after = { withinLimit: true, total: 0 }) {
+	const releases = [];
 	let beforeCalls = 0;
 	let afterCalls = 0;
 	const coordinator = new DirectServiceTurnCoordinator({
 		queue: {
 			acquire: async () => ({
-				view: { leaseId: "lease-one" },
-				release: async () => { released += 1; }
+				view: { leaseId: "one" },
+				release: async options => { releases.push(options); return true; }
 			}),
-			status: () => ({ active: 1, queued: 0 })
+			status: () => ({ minimumIntervalMs: 18000, maxActiveTabs: 1 })
 		},
 		protector: {
-			beforeTurn: async () => { beforeCalls += 1; return { withinLimit: true, total: 1 }; },
-			afterTurn: async () => { afterCalls += 1; return physicalAfter; }
-		},
-		schedule: callback => { scheduled = callback; }
+			beforeTurn: async () => { beforeCalls += 1; return { withinLimit: true, total: 0 }; },
+			afterTurn: async () => { afterCalls += 1; return after; }
+		}
 	});
-	return { coordinator, released: () => released, scheduled: () => scheduled,
-		beforeCalls: () => beforeCalls, afterCalls: () => afterCalls };
+	return { coordinator, releases, beforeCalls: () => beforeCalls, afterCalls: () => afterCalls };
 }
 
-test("verified physical cap releases the slot after delivery", async () => {
+test("verified close releases immediately and anchors cooldown to close time", async () => {
 	const state = fixture();
-	const result = await state.coordinator.run({ kind: "send" }, async () => ({
-		ok: true, tabClose: { verified: true }
-	}));
+	const closedAt = 123456789;
+	const result = await state.coordinator.run({ kind: "send" }, async ({ onTabClosed }) => {
+		await onTabClosed({ tabClose: { verified: true }, closedAt });
+		assert.equal(state.releases.length, 1);
+		return { answer: "detached answer" };
+	});
+	assert.deepEqual(state.releases, [{ startCooldown: true, closedAt }]);
 	assert.equal(state.beforeCalls(), 1);
 	assert.equal(state.afterCalls(), 1);
-	assert.equal(result.tabLifecycle.physicalCapVerified, true);
-	assert.equal(state.released(), 0);
-	state.scheduled()();
-	await Promise.resolve();
-	assert.equal(state.released(), 1);
+	assert.equal(result.tabLifecycle.closedImmediatelyAfterAcceptedSend, true);
+	assert.equal(result.tabLifecycle.cooldownStartedAfterClose, true);
 });
 
-test("physical overage holds the logical slot", async () => {
-	const state = fixture({ withinLimit: false, total: 3 });
-	const result = await state.coordinator.run({ kind: "send" }, async () => ({
-		ok: true, tabClose: { verified: true }
-	}));
-	assert.equal(result.tabLifecycle.queueSlotHeldForRecovery, true);
-	assert.equal(result.physicalTabs.total, 3);
-	assert.equal(state.scheduled(), null);
-	assert.equal(state.released(), 0);
-});
-
-test("admission failure releases a lease because no tab was launched", async () => {
-	let released = 0;
+test("pre-launch rejection releases without a false cooldown", async () => {
+	const releases = [];
 	const coordinator = new DirectServiceTurnCoordinator({
-		queue: { acquire: async () => ({ view: {}, release: async () => { released += 1; } }) },
+		queue: { acquire: async () => ({ view: {}, release: async value => releases.push(value) }) },
 		protector: { beforeTurn: async () => { throw new Error("blocked"); } }
 	});
 	await assert.rejects(() => coordinator.run({ kind: "send" }, async () => ({})), /blocked/);
-	assert.equal(released, 1);
+	assert.deepEqual(releases, [{ startCooldown: false }]);
+});
+
+test("unverified physical cleanup holds the single lease", async () => {
+	const state = fixture({ withinLimit: false, total: 1 });
+	await assert.rejects(
+		() => state.coordinator.run({ kind: "send" }, async ({ onTabClosed }) => {
+			await onTabClosed({ tabClose: { verified: true }, closedAt: 10 });
+		}),
+		error => error.code === "physical_tab_cap_not_restored"
+	);
+	assert.deepEqual(state.releases, []);
 });

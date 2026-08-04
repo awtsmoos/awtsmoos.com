@@ -1,41 +1,116 @@
 // B"H
-function add(m, input, env) {
-  const room = env.RoomState.ensure(m, input);
-  const from = input.fromAgent || env.RoomState.agentId(input);
-  const msg = { id: input.messageId || env.RoomState.id('room_msg'), at: env.RoomState.now(), fromAgent: from, toAgent: env.RoomState.text(input.toAgent || input.to || 'all'), kind: env.RoomState.text(input.kind || 'chat'), subject: env.RoomState.text(input.subject || input.title), body: env.RoomState.text(input.body || input.message || input.text), references: env.RoomState.list(input.references || input.files || input.paths), interrupts: input.interrupt !== false && input.interrupt !== 'false' };
-  room.messages.push(msg);
-  meta(env, input, m, 'room_message', { agentId: from, subject: msg.subject, message: msg.body, payload: { messageId: msg.id, toAgent: msg.toAgent, kind: msg.kind } });
-  let interrupt = null;
-  if (msg.interrupts) interrupt = env.RoomInterrupts.create(m, { ...input, fromAgent: from, messageId: msg.id, currentWork: input.currentWork || room.currentWork, reason: input.kind === 'user' ? 'user_message_interrupt' : 'agent_message_interrupt' }, env);
-  env.event(m, 'mission_room_message', msg.subject || msg.body.slice(0, 120), { roomId: room.id, messageId: msg.id, fromAgent: from, interrupts: msg.interrupts });
-  return { message: msg, interrupt };
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file Commits sequenced peer messages with explicit interruption semantics.
+ * @description
+ * The Awtsmoos lets plans, progress, handoffs, completion, and answers flow quietly.
+ * Questions, blockers, urgent words, user messages, and generic mid-work chat may
+ * interrupt; everything remains durable until each addressed agent advances cursor.
+ */
+function add(mission, input, env) {
+	const room = env.RoomState.ensure(mission, input);
+	const fromAgent = input.fromAgent || env.RoomState.agentId(input);
+	const kind = env.RoomState.text(input.kind || "chat");
+	const sequence = nextSequence(room);
+	const message = {
+		id: input.messageId || env.RoomState.id("room_msg"),
+		sequence,
+		at: env.RoomState.now(),
+		fromAgent,
+		toAgent: env.RoomState.text(input.toAgent || input.to || "all"),
+		kind,
+		subject: env.RoomState.text(input.subject || input.title),
+		body: env.RoomState.text(input.body || input.message || input.text),
+		references: env.RoomState.list(input.references || input.files || input.paths),
+		requiresResponse: boolean(input.requiresResponse),
+		interrupts: shouldInterrupt(input, kind)
+	};
+	room.messages.push(message);
+	room.messages = room.messages.slice(-2000);
+	meta(env, input, mission, "room_message", {
+		agentId: fromAgent,
+		subject: message.subject,
+		message: message.body,
+		payload: { messageId: message.id, sequence, toAgent: message.toAgent, kind }
+	});
+	let interrupt = null;
+	if (message.interrupts) {
+		interrupt = env.RoomInterrupts.create(mission, {
+			...input,
+			fromAgent,
+			messageId: message.id,
+			currentWork: input.currentWork || room.currentWork,
+			reason: kind === "user" ? "user_message_interrupt" : "agent_message_interrupt"
+		}, env);
+	}
+	env.event(mission, "mission_room_message",
+		message.subject || message.body.slice(0, 120), {
+			roomId: room.id,
+			messageId: message.id,
+			sequence,
+			fromAgent,
+			interrupts: message.interrupts
+		});
+	return { message, interrupt };
 }
-function heartbeat(m, input, env) {
-  const room = env.RoomState.ensure(m, input);
-  const agentId = env.RoomState.agentId(input);
-  const beat = { id: env.RoomState.id('room_beat'), at: env.RoomState.now(), agentId, status: env.RoomState.text(input.status || 'active'), currentMissionId: env.RoomState.text(input.currentMissionId || input.subMissionId), note: env.RoomState.text(input.note || input.message) };
-  room.heartbeats.push(beat);
-  if (input.currentWork || input.currentAction) room.currentWork = env.RoomState.text(input.currentWork || input.currentAction);
-  if (room.agents[agentId]) room.agents[agentId].lastSeenAt = beat.at;
-  meta(env, input, m, 'room_heartbeat', { agentId, message: beat.note, payload: { heartbeatId: beat.id, status: beat.status, currentMissionId: beat.currentMissionId } });
-  env.event(m, 'mission_room_heartbeat', `${agentId}: ${beat.status}`, { roomId: room.id, agentId });
-  return beat;
+
+function heartbeat(mission, input, env) {
+	const room = env.RoomState.ensure(mission, input);
+	const agentId = env.RoomState.agentId(input);
+	const beat = {
+		id: env.RoomState.id("room_beat"),
+		at: env.RoomState.now(),
+		agentId,
+		status: env.RoomState.text(input.status || "active"),
+		currentMissionId: env.RoomState.text(input.currentMissionId || input.subMissionId),
+		note: env.RoomState.text(input.note || input.message)
+	};
+	room.heartbeats.push(beat);
+	room.heartbeats = room.heartbeats.slice(-1000);
+	if (input.currentWork || input.currentAction) {
+		room.currentWork = env.RoomState.text(input.currentWork || input.currentAction);
+	}
+	if (room.agents[agentId]) room.agents[agentId].lastSeenAt = beat.at;
+	meta(env, input, mission, "room_heartbeat", {
+		agentId,
+		message: beat.note,
+		payload: { heartbeatId: beat.id, status: beat.status }
+	});
+	return beat;
 }
-function brainstorm(m, input, env) {
-  const room = env.RoomState.ensure(m, input);
-  const agentId = env.RoomState.agentId(input);
-  const ideas = Array.from({ length: Math.max(10, Number(input.count || 25)) }, (_, index) => `${index + 1}. ${agentId} room idea: ${topic(index)} for ${room.name}`);
-  const record = { id: env.RoomState.id('room_brainstorm'), at: env.RoomState.now(), agentId, prompt: env.RoomState.text(input.prompt || 'Brainstorm room coordination before acting'), ideas };
-  room.brainstorms.push(record);
-  meta(env, input, m, 'room_brainstorm', { agentId, message: record.prompt, payload: { brainstormId: record.id, ideaCount: ideas.length } });
-  env.event(m, 'mission_room_brainstorm', record.prompt, { roomId: room.id, brainstormId: record.id, agentId });
-  return record;
+
+function shouldInterrupt(input, kind) {
+	if (input.interrupt === true || input.interrupt === "true") return true;
+	if (input.interrupt === false || input.interrupt === "false") return false;
+	if (boolean(input.requiresResponse)) return true;
+	if (["user", "question", "blocker", "urgent"].includes(kind)) return true;
+	if (["presence", "plan", "progress", "handoff", "completion", "answer"].includes(kind)) {
+		return false;
+	}
+	return Boolean(input.currentWork || input.currentAction);
 }
-function meta(env, input, m, kind, data) {
-  if (!env.MetadataStore || input.disableCentralMetadata === true) return null;
-  return env.MetadataStore.record({ root: input.__configRoot || input.projectRoot, metadataRoot: input.__metadataRoot }, m, kind, data);
+
+function nextSequence(room) {
+	room.messageSequence = Math.max(0, Number(room.messageSequence || 0)) + 1;
+	return room.messageSequence;
 }
-function topic(index) {
-  return ['find active room','join correct mission','send interrupt-aware message','quote suspended work','recover blocking interrupt','split workload','create sub-mission','merge reports'][index % 8];
+
+function brainstorm(mission, input, env) {
+	return require("./roomBrainstorm.js").brainstorm(mission, input, env);
 }
-module.exports = { add, heartbeat, brainstorm };
+
+function boolean(value) {
+	return value === true || value === "true";
+}
+
+function meta(env, input, mission, kind, data) {
+	if (!env.MetadataStore || input.disableCentralMetadata === true) return null;
+	return env.MetadataStore.record({
+		root: input.__configRoot || input.projectRoot,
+		metadataRoot: input.__metadataRoot
+	}, mission, kind, data);
+}
+
+module.exports = { add, brainstorm, heartbeat, nextSequence, shouldInterrupt };

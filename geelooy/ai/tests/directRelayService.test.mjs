@@ -1,113 +1,85 @@
-//B"H
-// Boruch Hashem
-// Blessed is He
+// B"H
 
 import assert from "node:assert/strict";
 import test from "node:test";
 import { DirectService } from "../relay/direct/chatgpt/DirectService.mjs";
 
-/** Website turns create and continue behind one opaque local key. */
-test("website relay preserves opaque ChatGPT continuity", async () => {
-	let call = 0;
-	const upstreamConversation = "website-conversation-secret";
+test("website relay returns one opaque dispatch receipt and never an answer", async () => {
+	let calls = 0;
 	const service = new DirectService({
-		portResolver: {
-			async resolve() { return 9223; },
-			invalidate() {}
-		},
+		portResolver: { async resolve() { return 9224; }, invalidate() {} },
 		clientFactory: () => ({
-			async send({ prompt, state }) {
-				call += 1;
-				return websiteResult({ prompt, state, upstreamConversation, call });
+			async send() {
+				calls += 1;
+				return dispatchResult(calls);
 			},
 			async close() {},
-			status: () => ({})
+			status: () => ({ waitsForAnswer: false })
 		}),
 		loginCoordinator: neverLogin()
 	});
-	const created = await service.send({ prompt: "first", mode: "chatgpt-website" });
-	const continued = await service.send({
-		prompt: "second",
-		conversationKey: created.conversationKey
-	});
-	const serialized = JSON.stringify({ created, continued });
-	assert.match(created.conversationKey, /^BH_DIRECT_/);
-	assert.equal(continued.conversationKey, created.conversationKey);
-	assert.equal(continued.sameConversation, true);
-	assert.equal(continued.composerTouched, true);
-	assert.equal(continued.submissionTransport, "chatgpt-website-composer");
-	assert.equal(serialized.includes(upstreamConversation), false);
-	assert.equal(serialized.includes("website-message"), false);
+	const result = await service.send({ prompt: "first", mode: "chatgpt-website" });
+	assert.match(result.conversationKey, /^BH_DIRECT_/);
+	assert.equal(result.answer, "");
+	assert.equal(result.done, false);
+	assert.equal(result.dispatched, true);
+	assert.equal(result.accepted, true);
+	assert.equal(result.promptVerified, true);
+	assert.equal(result.tabClose.verified, true);
+	assert.equal(calls, 1);
+	assert.equal(JSON.stringify(result).includes("private-conversation"), false);
 });
 
-/** Missing authentication opens manual login and retries the website turn once. */
-test("website relay performs one manual-login retry", async () => {
+test("website relay performs one manual-login retry before dispatch", async () => {
 	let sends = 0;
 	let logins = 0;
-	let closes = 0;
-	let invalidations = 0;
 	const websiteService = {
 		async send() {
 			sends += 1;
 			if (sends === 1) throw new Error("ChatGPT is not authenticated.");
-			return { ok: true, answer: "ready" };
+			return { ok: true, dispatched: true, answer: "" };
 		},
-		async close() { closes += 1; },
+		async close() {},
 		status: () => ({})
 	};
 	const service = new DirectService({
 		websiteService,
-		portResolver: {
-			invalidate() { invalidations += 1; }
-		},
+		portResolver: { invalidate() {} },
 		loginCoordinator: {
 			shouldAuthenticate: () => true,
 			async authenticate() { logins += 1; }
 		}
 	});
 	const result = await service.send({ prompt: "hello" });
-	assert.equal(result.answer, "ready");
+	assert.equal(result.dispatched, true);
+	assert.equal(result.answer, "");
 	assert.equal(sends, 2);
 	assert.equal(logins, 1);
-	assert.equal(closes, 1);
-	assert.equal(invalidations, 1);
 });
 
-/** Capability truth is website-only whether authenticated or awaiting login. */
 test("website capability reports authenticated and login-required states", async () => {
 	const authenticated = new DirectService({
 		websiteService: serviceStub(),
-		capabilityService: {
-			async inspect() { return { ok: true, authenticated: true }; }
-		},
+		capabilityService: { async inspect() { return { ok: true, authenticated: true }; } },
 		loginCoordinator: neverLogin()
 	});
 	const ready = await authenticated.capability();
 	assert.equal(ready.mode, "chatgpt-website");
-	assert.equal(ready.websiteOnly, true);
 	assert.equal(ready.loginRequired, false);
-
 	const missing = new DirectService({
 		websiteService: serviceStub(),
-		capabilityService: {
-			async inspect() { throw new Error("No Chrome debug browser was found."); }
-		},
+		capabilityService: { async inspect() { throw new Error("offline"); } },
 		loginCoordinator: neverLogin()
 	});
 	const login = await missing.capability();
-	assert.equal(login.websiteOnly, true);
 	assert.equal(login.authenticated, false);
 	assert.equal(login.loginRequired, true);
 });
 
-/** Unrelated modes are rejected before any website turn. */
 test("website relay rejects unrelated transport modes", async () => {
 	let sends = 0;
 	const service = new DirectService({
-		websiteService: {
-			...serviceStub(),
-			async send() { sends += 1; }
-		},
+		websiteService: { ...serviceStub(), async send() { sends += 1; } },
 		loginCoordinator: neverLogin()
 	});
 	await assert.rejects(
@@ -117,39 +89,30 @@ test("website relay rejects unrelated transport modes", async () => {
 	assert.equal(sends, 0);
 });
 
-function websiteResult({ prompt, state, upstreamConversation, call }) {
+function dispatchResult(call) {
 	return {
-		answer: `answer:${prompt}`,
-		state: {
-			conversationId: state?.conversationId ?? upstreamConversation,
-			parentMessageId: `website-message-${call}`
-		},
-		status: 200,
-		done: true,
-		frames: 0,
-		items: 6,
-		subscriptionAttempts: 1,
-		completionSource: "page-request-get",
-		requestLatencyMs: 12,
-		pacing: { intervalMs: call === 1 ? null : 10000 },
-		hostReuseSource: call === 1 ? "fresh" : "reused",
-		navigatedToConversation: true,
+		answer: "",
+		state: { conversationId: "private-conversation", userMessageId: `private-message-${call}` },
+		status: 202,
+		done: false,
+		dispatched: true,
+		accepted: true,
+		promptVerified: true,
+		responseStatus: 200,
+		acceptedAt: "2026-08-03T15:00:00.000Z",
+		completionSource: "not-awaited-agent-continues-through-tunnel",
 		composerTouched: true,
-		submissionTransport: "chatgpt-website-composer"
+		submissionTransport: "chatgpt-website-composer",
+		tabClose: { closed: true, verified: true, attempts: 1 }
 	};
 }
 
 function serviceStub() {
-	return {
-		async send() { return { ok: true, answer: "ready" }; },
-		async close() {},
-		status: () => ({})
-	};
+	return { async send() { return { ok: true, dispatched: true, answer: "" }; },
+		async close() {}, status: () => ({}) };
 }
 
 function neverLogin() {
-	return {
-		shouldAuthenticate: () => false,
-		async authenticate() { throw new Error("Login must not run."); }
-	};
+	return { shouldAuthenticate: () => false,
+		async authenticate() { throw new Error("Login must not run."); } };
 }

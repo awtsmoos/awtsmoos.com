@@ -1,4 +1,4 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -6,19 +6,18 @@ const runs = new Map();
 const MAX_EVENTS = 200;
 
 /**
- * UI identity and transport identity live in separate chambers. The Awtsmoos lets
- * Awtsmoos.com expose only the local conversation label while `BH_DIRECT_` keys,
- * prompts, graphs, mode payloads, timers, and abort controllers remain private.
+ * @file Stores public automation lifecycle without response or continuation state.
+ * @description
+ * The Awtsmoos preserves UI identity and bounded dispatch evidence. Prompts, opaque
+ * audit keys, timers, graphs, and abort controllers remain private; no assistant
+ * response text exists because the browser leaves immediately after accepted Send.
  */
 function createRun(payload, config) {
 	const uiConversationId = String(payload.conversationId || "").trim();
-	if (!uiConversationId) {
-		throw new TypeError("conversationId_required");
-	}
+	if (!uiConversationId) throw new TypeError("conversationId_required");
 	return {
 		id: `BH_RELAY_AUTO_${Date.now()}_${Math.random().toString(36).slice(2)}`,
 		uiConversationId,
-		transportConversationKey: null,
 		enabled: true,
 		settings: normalizeSettings(payload.settings),
 		graph: objectOrNull(payload.graph),
@@ -36,6 +35,7 @@ function createRun(payload, config) {
 		config,
 		timer: null,
 		abortController: null,
+		lastDispatch: null,
 		lastReply: "",
 		lastError: "",
 		safeError: null
@@ -44,12 +44,13 @@ function createRun(payload, config) {
 
 function normalizeSettings(settings = {}) {
 	const delayMinMs = Math.max(0, Number(settings.delayMinMs ?? settings.delayMs ?? 1000));
-	const delayMaxMs = Math.max(delayMinMs, Number(settings.delayMaxMs ?? settings.delayMs ?? delayMinMs));
+	const delayMaxMs = Math.max(delayMinMs,
+		Number(settings.delayMaxMs ?? settings.delayMs ?? delayMinMs));
 	return {
 		maxTurns: Math.max(1, Number(settings.maxTurns || 3)),
 		delayMinMs,
 		delayMaxMs,
-		streamSettleMs: Math.max(0, Number(settings.streamSettleMs || 0)),
+		streamSettleMs: 0,
 		prompt: String(settings.prompt || "continue"),
 		promptMode: String(settings.promptMode || "single"),
 		promptListText: String(settings.promptListText || ""),
@@ -71,7 +72,11 @@ function publicRun(run) {
 		error: run.safeError?.error || "",
 		safeHint: run.safeError?.safeHint || "",
 		lastError: run.lastError,
-		lastReply: run.lastReply,
+		lastReply: "",
+		lastDispatch: run.lastDispatch ? {
+			acceptedAt: run.lastDispatch.acceptedAt,
+			responseStatus: run.lastDispatch.responseStatus
+		} : null,
 		chatgptMode: run.chatgptMode,
 		hasModePayload: Object.keys(run.chatgptModePayload).length > 0,
 		settings: publicSettings(run.settings),
@@ -95,7 +100,7 @@ function publicSettings(settings) {
 		maxTurns: settings.maxTurns,
 		delayMinMs: settings.delayMinMs,
 		delayMaxMs: settings.delayMaxMs,
-		streamSettleMs: settings.streamSettleMs,
+		streamSettleMs: 0,
 		promptMode: settings.promptMode,
 		stopOnError: settings.stopOnError
 	};

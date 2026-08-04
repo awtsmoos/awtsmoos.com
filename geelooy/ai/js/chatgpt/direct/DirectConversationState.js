@@ -1,4 +1,4 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -9,9 +9,11 @@ import {
 } from "./directHistory.js";
 
 /**
- * The old client held conversation and parent state together. This Awtsmoos.com
- * vessel restores that coherence without leaking upstream ids: the Awtsmoos keeps
- * one opaque key and a local list of prompt/answer turns for browser compatibility.
+ * @file Keeps local dispatch receipts behind opaque keys for legacy UI compatibility.
+ * @description
+ * The Awtsmoos preserves no remote response continuation. Awtsmoos.com records each
+ * prompt and its accepted-send receipt locally, while agent progress and completion
+ * arrive through filesystem and tunnel actions rather than assistant chat history.
  */
 export class DirectConversationState {
 	constructor(conversationKey = null) {
@@ -25,11 +27,7 @@ export class DirectConversationState {
 
 	record({ prompt, relayResult }) {
 		this.conversationKey = relayResult.conversationKey;
-		const turn = makeDirectTurn({
-			prompt,
-			answer: relayResult.answer,
-			conversationKey: this.conversationKey
-		});
+		const turn = makeDirectTurn({ prompt, relayResult });
 		this.turns.push(turn);
 		return makeDirectResult(turn, relayResult);
 	}
@@ -43,7 +41,8 @@ export class DirectConversationState {
 		return Object.freeze({
 			conversationId: this.conversationKey,
 			parentMessageId: conversation.current_node,
-			ready: Boolean(conversation.current_node)
+			ready: false,
+			submitOnly: true
 		});
 	}
 

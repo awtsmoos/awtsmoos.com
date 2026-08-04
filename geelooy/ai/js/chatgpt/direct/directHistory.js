@@ -1,54 +1,60 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
- * Opaque relay keys need a local browser history vessel. The Awtsmoos joins each
- * safe user/assistant pair without revealing upstream identifiers, and
- * Awtsmoos.com presents the same mapping shape expected by existing history UI.
+ * @file Builds local compatibility history from prompt-dispatch receipts.
+ * @description
+ * The Awtsmoos records that a shlichus was delivered, not an assistant answer that
+ * the browser never awaited. Awtsmoos.com keeps local UI shape with one user prompt
+ * and one system receipt while upstream conversation identity remains opaque.
  */
-export function makeDirectTurn({ prompt, answer, conversationKey }) {
+export function makeDirectTurn({ prompt, relayResult }) {
 	const userId = localId("user");
-	const assistantId = localId("assistant");
+	const receiptId = localId("dispatch");
 	const createdAt = Date.now() / 1000;
 	return {
-		conversationKey,
+		conversationKey: relayResult.conversationKey,
 		userId,
-		assistantId,
-		user: makeMessage(userId, "user", prompt, createdAt),
-		assistant: makeMessage(assistantId, "assistant", answer, createdAt)
+		receiptId,
+		user: makeMessage(userId, "user", prompt, createdAt, false),
+		receipt: makeMessage(
+			receiptId,
+			"system",
+			"Prompt accepted and browser tab closed. The agent continues through durable tools.",
+			createdAt,
+			true
+		)
 	};
 }
 
 export function buildDirectConversation(conversationKey, turns = []) {
 	const mapping = {};
 	let previousId = null;
-
 	for (const turn of turns) {
 		mapping[turn.userId] = {
 			id: turn.userId,
 			parent: previousId,
-			children: [turn.assistantId],
+			children: [turn.receiptId],
 			message: turn.user
 		};
-		mapping[turn.assistantId] = {
-			id: turn.assistantId,
+		mapping[turn.receiptId] = {
+			id: turn.receiptId,
 			parent: turn.userId,
 			children: [],
-			message: turn.assistant
+			message: turn.receipt
 		};
 		if (previousId && mapping[previousId]) {
 			mapping[previousId].children = [turn.userId];
 		}
-		previousId = turn.assistantId;
+		previousId = turn.receiptId;
 	}
-
 	return {
 		id: conversationKey,
 		conversation_id: conversationKey,
-		title: "Awtsmoos Direct Conversation",
+		title: "Awtsmoos Dispatch Receipts",
 		create_time: turns[0]?.user?.create_time ?? Date.now() / 1000,
-		update_time: turns.at(-1)?.assistant?.create_time ?? Date.now() / 1000,
+		update_time: turns.at(-1)?.receipt?.create_time ?? Date.now() / 1000,
 		current_node: previousId,
 		mapping
 	};
@@ -56,32 +62,33 @@ export function buildDirectConversation(conversationKey, turns = []) {
 
 export function makeDirectResult(turn, relayResult) {
 	return {
-		id: turn.assistantId,
-		message: turn.assistant,
+		id: turn.receiptId,
+		message: turn.receipt,
 		conversation_id: relayResult.conversationKey,
 		conversationKey: relayResult.conversationKey,
-		answer: relayResult.answer,
+		answer: "",
 		status: relayResult.status,
-		done: relayResult.done,
+		done: false,
+		dispatched: relayResult.dispatched === true,
+		accepted: relayResult.accepted === true,
+		promptVerified: relayResult.promptVerified === true,
 		direct: true,
 		metrics: {
-			frames: relayResult.frames,
-			items: relayResult.items,
 			requestLatencyMs: relayResult.requestLatencyMs,
-			pacing: relayResult.pacing
+			tabCloseVerified: relayResult.tabClose?.verified === true
 		}
 	};
 }
 
-function makeMessage(id, role, text, createTime) {
+function makeMessage(id, role, text, createTime, endTurn) {
 	return {
 		id,
 		author: { role },
 		create_time: createTime,
 		content: { content_type: "text", parts: [text] },
 		status: "finished_successfully",
-		end_turn: role === "assistant",
-		metadata: { awtsmoos_direct: true }
+		end_turn: endTurn,
+		metadata: { awtsmoos_direct_dispatch: true }
 	};
 }
 

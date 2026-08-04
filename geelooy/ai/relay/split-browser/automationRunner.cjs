@@ -1,4 +1,4 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -8,9 +8,11 @@ const { sendAutomationTurn } = require("./automationRequest.cjs");
 const { record } = require("./automationState.cjs");
 
 /**
- * The scheduler paces only real submissions and reports genuine safe stages.
- * The Awtsmoos lets Awtsmoos.com commit one answer at a time, while lifecycle
- * helpers own every terminal timer and abort so no background ghost remains.
+ * @file Schedules independent prompt dispatches without waiting for replies.
+ * @description
+ * The Awtsmoos commits a turn when delivery and closure are verified. Awtsmoos.com
+ * may schedule another independent dispatch after the configured delay, but never
+ * carries conversation state forward or treats absent assistant text as failure.
  */
 function startRun(run) {
 	record(run, "state", {
@@ -23,14 +25,12 @@ function startRun(run) {
 }
 
 function scheduleRun(run, delayMs) {
-	if (!run.enabled) {
-		return;
-	}
+	if (!run.enabled) return;
 	clearRunTimer(run);
 	const delay = Math.max(10, Number(delayMs || 0));
 	run.nextRunAt = Date.now() + delay;
 	if (run.status !== "armed") {
-		run.status = "scheduled_next";
+		run.status = "scheduled_next_dispatch";
 		run.phase = run.status;
 	}
 	record(run, "state", {
@@ -44,20 +44,18 @@ function scheduleRun(run, delayMs) {
 }
 
 async function tickRun(run) {
-	if (!run.enabled || run.busy) {
-		return;
-	}
+	if (!run.enabled || run.busy) return;
 	if (run.turns >= run.settings.maxTurns) {
 		finishRun(run);
 		return;
 	}
 	run.busy = true;
 	run.pendingTurn = run.turns + 1;
-	run.status = "sending";
-	run.phase = "sending";
+	run.status = "dispatching";
+	run.phase = "dispatching";
 	run.abortController = new AbortController();
 	record(run, "state", {
-		status: "sending",
+		status: "dispatching",
 		pendingTurn: run.pendingTurn,
 		turns: run.turns
 	});
@@ -77,17 +75,22 @@ async function tickRun(run) {
 }
 
 function commitRun(run, result) {
-	run.transportConversationKey = result.conversationKey;
-	run.lastReply = result.answer;
+	run.lastDispatch = {
+		conversationKey: result.conversationKey,
+		acceptedAt: result.acceptedAt,
+		responseStatus: result.responseStatus
+	};
+	run.lastReply = "";
 	run.turns = run.pendingTurn;
 	run.pendingTurn = 0;
 	run.busy = false;
 	run.abortController = null;
-	run.status = "committed";
-	run.phase = "committed";
-	record(run, "committed", {
+	run.status = "dispatched";
+	run.phase = "dispatched";
+	record(run, "dispatched", {
 		turn: run.turns,
-		textLength: run.lastReply.length,
+		acceptedAt: result.acceptedAt,
+		responseStatus: result.responseStatus,
 		hostReuseSource: result.hostReuseSource,
 		timings: result.timings
 	});

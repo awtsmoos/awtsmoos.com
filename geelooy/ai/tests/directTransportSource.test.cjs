@@ -1,4 +1,4 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -7,64 +7,51 @@ const fs = require("node:fs");
 const path = require("node:path");
 const test = require("node:test");
 
-const ROOT = path.resolve(__dirname, "../../..");
-const read = relative => fs.readFileSync(path.join(ROOT, relative), "utf8");
-
-/** Browser callers and server service default to the ChatGPT website. */
-test("direct relay defaults to website mode", () => {
-	const relay = read("geelooy/ai/js/chatgpt/direct/directRelay.js");
-	const service = read("geelooy/ai/relay/direct/chatgpt/DirectService.mjs");
-	assert.match(relay, /mode = "chatgpt-website"/);
-	assert.match(service, /WebsiteLoginCoordinator/);
-	assert.match(service, /FallbackConversationService/);
-	assert.doesNotMatch(`${relay}\n${service}`, /direct\/(local|openai)|api\.openai\.com/);
-});
-
-/** Normal website submission observes but never intercepts the conversation POST. */
-test("website turn leaves the ChatGPT request unchanged", () => {
-	const executor = read("geelooy/ai/relay/direct/chatgpt/DirectTurnExecutor.mjs");
-	const observer = read("geelooy/ai/relay/direct/chatgpt/ConversationRequestObserver.mjs");
-	const interactor = read("geelooy/ai/relay/direct/browser/WebsitePromptInteractor.mjs");
-	assert.match(executor, /WebsitePromptInteractor/);
-	assert.match(executor, /ConversationRequestObserver/);
-	assert.match(executor, /ConversationCompletionPoller/);
-	assert.match(observer, /Network\.requestWillBeSent/);
-	assert.match(observer, /Network\.getRequestPostData/);
-	assert.doesNotMatch(observer, /Fetch\.(enable|failRequest|continueRequest)/);
-	assert.match(interactor, /focusAndReplace\(composer, prompt\)/);
-	assert.match(interactor, /clickNode\(send\)/);
-});
-
-/** Alternate provider trees and scripts do not exist. */
-test("repository exposes only the website provider", () => {
-	assert.equal(fs.existsSync(path.join(ROOT, "geelooy/ai/relay/direct/local")), false);
-	assert.equal(fs.existsSync(path.join(ROOT, "geelooy/ai/relay/direct/openai")), false);
-	const scripts = JSON.parse(read("package.json")).scripts;
-	const aiScripts = Object.fromEntries(
-		Object.entries(scripts).filter(([name]) => name.startsWith("ai:"))
+/**
+ * @file Proves the complete modular direct transport remains submit-only.
+ * @description
+ * The Awtsmoos gathers every focused browser, relay, prompt, dispatch, and runner
+ * vessel. Awtsmoos.com verifies accepted delivery and exact tab closure while no
+ * conversational answer polling, recovery, or hidden continuation survives anywhere.
+ */
+test("website agent runner stores dispatched state and never parses replies", () => {
+	const root = path.join(
+		__dirname,
+		"../../apps/tunnel/agent/tools/fs/actionGroups/websiteAgents"
 	);
-	assert.equal(Boolean(aiScripts["ai:website-stress"]), true);
-	assert.equal(Boolean(aiScripts["ai:login"]), true);
-	assert.equal(Object.keys(aiScripts).some(name => /model|setup/.test(name)), false);
+	const source = javascriptClosure(root);
+	assert.match(source, /website-agent\.dispatched/);
+	assert.match(source, /agent_prompt_dispatched/);
+	assert.match(source, /agents_working/);
+	assert.match(source, /tabClose/);
+	assert.match(source, /promptVerified/);
+	assert.doesNotMatch(source, /result\.answer/);
+	assert.doesNotMatch(source, /Outcome\.analyze/);
+	assert.doesNotMatch(source, /service\.recover\(/);
 });
 
-/** Website continuation ids remain behind opaque local keys. */
-test("website continuation stays private", () => {
-	const store = read("geelooy/ai/relay/direct/chatgpt/ConversationStore.mjs");
-	const service = read("geelooy/ai/relay/direct/chatgpt/FallbackConversationService.mjs");
-	const stress = read("geelooy/ai/relay/direct/stress/FallbackStressReport.mjs");
-	assert.match(store, /BH_DIRECT_/);
-	assert.match(service, /conversationId/);
-	assert.doesNotMatch(service, /conversationId:\s*result\.state\.conversationId/);
-	assert.doesNotMatch(stress, /conversationKey:\s*record/);
+test("response polling and recovery modules are not packaged", () => {
+	const relayRoot = path.join(__dirname, "../relay/direct");
+	const source = javascriptClosure(relayRoot);
+	for (const forbidden of [
+		"DetachedConversationPoller",
+		"ConversationCompletionPoller",
+		"ConversationRecoveryExecutor",
+		"DetachedConversationSession"
+	]) {
+		assert.doesNotMatch(source, new RegExp(forbidden));
+	}
+	assert.match(source, /not-awaited-agent-continues-through-tunnel/);
 });
 
-/** Extension routing exposes only redacted capability and chat results. */
-test("extension keeps website session data private", () => {
-	const background = read("geelooy/scripts/tricks/extensions/server/backgroundHandlers.js");
-	const injected = read("geelooy/scripts/tricks/extensions/server/jected.js");
-	assert.match(background, /direct-capability/);
-	assert.match(injected, /awtsFetch\.directCapability/);
-	assert.match(injected, /awtsFetch\.directChat/);
-	assert.doesNotMatch(`${background}\n${injected}`, /\.stack\s*[,}]/);
-});
+function javascriptClosure(directory) {
+	return fs.readdirSync(directory, { withFileTypes: true })
+		.flatMap(entry => {
+			const absolute = path.join(directory, entry.name);
+			if (entry.isDirectory()) return javascriptClosure(absolute);
+			return entry.isFile() && /\.(?:cjs|mjs|js)$/.test(entry.name)
+				? [fs.readFileSync(absolute, "utf8")]
+				: [];
+		})
+		.join("\n");
+}

@@ -1,13 +1,13 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
- * @file Reports logical admission and physical browser protection without secrets.
+ * @file Reports the strict one-tab submit-only website-agent contract.
  * @description
- * The Awtsmoos reveals queue depth, cap enforcement, sweeps, and watchdog health.
- * Prompts, answers, cookies, target identifiers, and upstream conversation identity
- * remain concealed while operators can prove the too-many-tabs blocker is alive.
+ * The Awtsmoos reveals delivery, closure, pacing, and browser health without
+ * suggesting that model output was awaited. Progress and completion arrive later
+ * through the agent's filesystem and tunnel actions, outside the vanished tab.
  */
 export class DirectServiceReporter {
 	reset({ conversationKey, store }) {
@@ -16,19 +16,22 @@ export class DirectServiceReporter {
 	}
 
 	status(context) {
+		const turnQueue = context.turnCoordinator?.status?.() || null;
 		return {
 			ok: true,
 			mode: "chatgpt-website",
 			websiteOnly: true,
 			defaultChatMode: "chatgpt-website",
 			preferredDebugPort: context.preferredPort,
-			minimumIntervalMs: context.pacer.minimumIntervalMs,
-			turnQueue: context.turnCoordinator?.status?.() || null,
+			minimumIntervalMs: turnQueue?.minimumIntervalMs ?? 18000,
+			turnQueue,
 			physicalTabProtector: context.tabProtector?.status?.() || null,
 			tabWatchdog: context.tabWatchdog?.status?.() || null,
 			submissionTransport: "chatgpt-website-composer",
-			completionTransport: "authenticated-conversation-get",
-			tabPolicy: "global-physical-cap-close-before-result",
+			completionTransport: "none-agent-continues-through-tunnel",
+			resultContract: "prompt-dispatch-receipt",
+			waitsForAnswer: false,
+			tabPolicy: "one-tab-submit-close-then-18-second-cooldown",
 			...context.websiteService.status(),
 			...context.store.status()
 		};

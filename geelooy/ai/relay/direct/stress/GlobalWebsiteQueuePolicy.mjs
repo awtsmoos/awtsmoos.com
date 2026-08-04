@@ -1,27 +1,28 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 import { randomUUID } from "node:crypto";
 
-const MAX_ACTIVE_WEBSITE_TABS = 20;
+const POST_CLOSE_COOLDOWN_MS = 18000;
+const MAX_ACTIVE_WEBSITE_TABS = 1;
 
 /**
- * @file Normalizes the strict global website-tab queue policy.
+ * @file Defines one uncompromising physical website-agent launch policy.
  * @description
- * The Awtsmoos admits many vessels without permitting a stampede: every target
- * receives a durable ticket, every launch remains fifteen seconds behind the last,
- * and one shared ledger coordinates up to twenty genuinely independent tabs.
+ * The Awtsmoos lets every requested agent wait in the durable queue, but exactly
+ * one Chrome vessel may live. The eighteen-second clock begins only after the
+ * previous owned target was conclusively closed, never when it opened or sent.
  */
 export function queueConfiguration(options = {}) {
 	const requestedInterval = Number(options.minimumIntervalMs ??
-		process.env.AWTSMOOS_WEBSITE_AGENT_LAUNCH_INTERVAL_MS ?? 15000);
+		process.env.AWTSMOOS_WEBSITE_AGENT_LAUNCH_INTERVAL_MS ??
+		POST_CLOSE_COOLDOWN_MS);
 	return {
 		minimumIntervalMs: options.enforceMinimumInterval === false
 			? Math.max(0, requestedInterval)
-			: Math.max(15000, requestedInterval),
-		maxActiveTabs: clamp(options.maxActiveTabs ??
-			process.env.AWTSMOOS_WEBSITE_AGENT_MAX_ACTIVE_TABS ?? 2,
-			1,
-			MAX_ACTIVE_WEBSITE_TABS),
+			: Math.max(POST_CLOSE_COOLDOWN_MS, requestedInterval),
+		maxActiveTabs: MAX_ACTIVE_WEBSITE_TABS,
 		pollMs: Math.max(10, Number(options.pollMs || 250)),
 		acquisitionTimeoutMs: Math.max(
 			60000,
@@ -39,15 +40,21 @@ export function createTicket(metadata, now) {
 	};
 }
 
-export function queueSnapshot(state, configuration) {
+export function queueSnapshot(state, configuration, now = Date.now()) {
+	const lastClosedAt = Number(state.lastClosedAt || 0) || null;
+	const nextLaunchAt = lastClosedAt
+		? lastClosedAt + configuration.minimumIntervalMs
+		: null;
 	return {
 		queued: state.queue.length,
 		active: state.active.length,
-		lastLaunchAt: state.lastLaunchAt
-			? new Date(state.lastLaunchAt).toISOString()
-			: null,
+		lastLaunchAt: iso(state.lastLaunchAt),
+		lastClosedAt: iso(lastClosedAt),
+		nextLaunchAt: iso(nextLaunchAt),
+		cooldownRemainingMs: nextLaunchAt ? Math.max(0, nextLaunchAt - now) : 0,
 		minimumIntervalMs: configuration.minimumIntervalMs,
-		maxActiveTabs: configuration.maxActiveTabs
+		maxActiveTabs: MAX_ACTIVE_WEBSITE_TABS,
+		intervalAnchor: "verified-tab-close"
 	};
 }
 
@@ -58,18 +65,13 @@ export function queueError(code) {
 }
 
 function safeMetadata(input = {}) {
-	const keys = [
-		"kind",
-		"missionId",
-		"websiteMissionId",
-		"logicalAgentId",
-		"agentSessionId"
-	];
+	const keys = ["kind", "missionId", "websiteMissionId",
+		"logicalAgentId", "agentSessionId"];
 	return Object.fromEntries(keys.map(key => [key, String(input[key] || "")]));
 }
 
-function clamp(value, minimum, maximum) {
-	return Math.min(maximum, Math.max(minimum, Number(value) || minimum));
+function iso(value) {
+	return value ? new Date(Number(value)).toISOString() : null;
 }
 
-export { MAX_ACTIVE_WEBSITE_TABS };
+export { MAX_ACTIVE_WEBSITE_TABS, POST_CLOSE_COOLDOWN_MS };
