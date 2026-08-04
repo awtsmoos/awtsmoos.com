@@ -6,7 +6,7 @@
 set -u
 
 ROOT="${1:-$HOME/.awtsmoos-tunnel}"
-RECOVERY_ROOT="${AWTSMOOS_RECOVERY_ROOT:-${ROOT}-recovery}"
+RECOVERY_ROOT="${AWTSMOOS_RECOVERY_ROOT:-$HOME/.awtsmoos-tunnel-recovery}"
 LOG="$ROOT/agent-supervisor.log"
 RECOVERY_LOG="$RECOVERY_ROOT/logs/supervisor-recovery.log"
 PID_FILE="$ROOT/agent.pid"
@@ -20,8 +20,7 @@ CHILD_KIND="modern"
 export AWTSMOOS_INSTALL_ROOT="$ROOT" AWTSMOOS_RECOVERY_ROOT="$RECOVERY_ROOT"
 
 # The Awtsmoos renews Node, guard, child census, receipt, and recovery separately.
-# Awtsmoos.com resolves the remembered Node binary before any helper runs, then
-# acquires one atomic supervisor body and permits one exact-root agent to remain.
+# Every live, rollback, and displaced runtime shares one physical-device recovery root.
 mkdir -p "$ROOT" "$RECOVERY_ROOT/logs"
 source "$ROOT/awtsmoos-node-runtime.sh"
 if ! activate_node_runtime "$ROOT"; then
@@ -69,17 +68,16 @@ while true; do
 		fi
 		start_new_agent
 	fi
-
 	if ! wait_child_registration; then
 		report_registration_failure "$(supervisor_receipt_failure_reason "$CHILD_PID")"
 		stop_managed_child
 		record_child_exit "$START_SECONDS" 70
 		BACKOFF_SECONDS=$(( BACKOFF_SECONDS * 2 ))
-		[ "$BACKOFF_SECONDS" -le "$MAX_BACKOFF_SECONDS" ] || BACKOFF_SECONDS="$MAX_BACKOFF_SECONDS"
+		[ "$BACKOFF_SECONDS" -le "$MAX_BACKOFF_SECONDS" ] ||
+			BACKOFF_SECONDS="$MAX_BACKOFF_SECONDS"
 		sleep "$BACKOFF_SECONDS"
 		continue
 	fi
-
 	confirm_pending_restore
 	reset_archive_offset
 	BACKOFF_SECONDS=1
@@ -91,7 +89,6 @@ while true; do
 		record_child_exit "$START_SECONDS" 71
 		continue
 	fi
-
 	EXIT_CODE=1
 	if [ "$CHILD_OWNED" = "1" ]; then
 		wait "$CHILD_PID" 2>/dev/null
@@ -102,7 +99,8 @@ while true; do
 		BACKOFF_SECONDS=1
 	else
 		BACKOFF_SECONDS=$(( BACKOFF_SECONDS * 2 ))
-		[ "$BACKOFF_SECONDS" -le "$MAX_BACKOFF_SECONDS" ] || BACKOFF_SECONDS="$MAX_BACKOFF_SECONDS"
+		[ "$BACKOFF_SECONDS" -le "$MAX_BACKOFF_SECONDS" ] ||
+			BACKOFF_SECONDS="$MAX_BACKOFF_SECONDS"
 	fi
 	sleep "$BACKOFF_SECONDS"
 done

@@ -2,42 +2,81 @@
 // Boruch Hashem
 // Blessed is He
 
-const fs = require("node:fs");
-const path = require("node:path");
 const Metadata = require("./metadata.js");
 const SecureStore = require("./secureStore.js");
 
-const SECRET_KINDS = Object.freeze([
+const FULL_SECRET_KINDS = Object.freeze([
 	"credential",
 	"private-key",
 	"pairing-request-secret"
 ]);
+const ROTATED_SECRET_KINDS = Object.freeze([
+	"credential",
+	"pairing-request-secret"
+]);
 
 /**
- * @file Invalidates rejected identity state without allowing Keychain errors to block recovery.
+ * @file Separates credential rotation from explicit physical-device unpairing.
  * @description
- * The Awtsmoos removes the public witness before touching protected secrets. Awtsmoos.com
- * also removes the recovery witness, so no restart can resurrect a credential the relay
- * already rejected. Secret deletion remains best-effort and is reported without throwing.
+ * The Awtsmoos keeps one device ID and possession key through relay rejection.
+ * Awtsmoos.com removes only poisoned authorization during automatic recovery;
+ * complete identity deletion remains an explicit human-directed operation.
  */
+function invalidateCredential(config = {}) {
+	const metadata = Metadata.read(config);
+	const failures = removeSecrets(metadata?.deviceId, ROTATED_SECRET_KINDS);
+	if (metadata?.deviceId) {
+		Metadata.write(config, {
+			...metadata,
+			tunnelId: null,
+			pairedAt: null,
+			credentialVersion: Number(metadata.credentialVersion || 0),
+			pairingId: null,
+			pairingUserCode: null,
+			pairingExpiresAt: null,
+			pairingApprovalUrl: null,
+			pairingBrowserOpenedAt: null,
+			credentialRejectedAt: new Date().toISOString()
+		});
+	}
+	return result(metadata, failures, "credential_invalidated");
+}
+
 function forget(config = {}) {
 	const metadata = Metadata.read(config);
+	const failures = removeSecrets(metadata?.deviceId, FULL_SECRET_KINDS);
+	try {
+		Metadata.remove(config);
+	} catch (error) {
+		failures.push({
+			kind: "metadata",
+			code: error?.code || "metadata_remove_failed"
+		});
+	}
+	return result(metadata, failures, "unpaired");
+}
+
+function removeSecrets(deviceId, kinds) {
 	const failures = [];
-	removeMetadata(config, failures);
-	removeRecoveryWitness(config, failures);
-	if (metadata?.deviceId) {
-		for (const kind of SECRET_KINDS) {
-			try {
-				SecureStore.remove(metadata.deviceId, kind);
-			} catch (error) {
-				failures.push({ kind, code: error?.code || "secure_store_remove_failed" });
-			}
+	if (!deviceId) return failures;
+	for (const kind of kinds) {
+		try {
+			SecureStore.remove(deviceId, kind);
+		} catch (error) {
+			failures.push({
+				kind,
+				code: error?.code || "secure_store_remove_failed"
+			});
 		}
 	}
+	return failures;
+}
+
+function result(metadata, failures, state) {
 	return {
 		ok: true,
 		removed: Boolean(metadata?.deviceId),
-		state: "unpaired",
+		state,
 		deviceId: metadata?.deviceId || null,
 		tunnelId: metadata?.tunnelId || null,
 		secretCleanupComplete: failures.length === 0,
@@ -45,24 +84,10 @@ function forget(config = {}) {
 	};
 }
 
-function removeMetadata(config, failures) {
-	try {
-		Metadata.remove(config);
-	} catch (error) {
-		failures.push({ kind: "metadata", code: error?.code || "metadata_remove_failed" });
-	}
-}
-
-function removeRecoveryWitness(config, failures) {
-	const installRoot = process.env.AWTSMOOS_INSTALL_ROOT || config.installRoot || "";
-	const home = process.env.HOME || "";
-	const recoveryRoot = process.env.AWTSMOOS_RECOVERY_ROOT ||
-		(installRoot ? `${installRoot}-recovery` : path.join(home, ".awtsmoos-tunnel-recovery"));
-	try {
-		fs.rmSync(path.join(recoveryRoot, "state", "device-binding.json"), { force: true });
-	} catch (error) {
-		failures.push({ kind: "recovery-metadata", code: error?.code || "recovery_remove_failed" });
-	}
-}
-
-module.exports = { SECRET_KINDS, forget, removeRecoveryWitness };
+module.exports = {
+	FULL_SECRET_KINDS,
+	ROTATED_SECRET_KINDS,
+	forget,
+	invalidateCredential,
+	removeSecrets
+};

@@ -1,5 +1,5 @@
 B"H
-1.0.478
+1.0.480
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtector.mjs
@@ -887,6 +887,7 @@ lib/deviceIdentity/index.js
 lib/deviceIdentity/keyMaterial.js
 lib/deviceIdentity/macosStore.js
 lib/deviceIdentity/metadata.js
+lib/deviceIdentity/metadataStrength.js
 lib/deviceIdentity/pairingClient.js
 lib/deviceIdentity/pairingWorkflow.js
 lib/deviceIdentity/secureStore.js

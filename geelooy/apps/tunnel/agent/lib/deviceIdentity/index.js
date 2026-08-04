@@ -11,13 +11,11 @@ const Pairing = require("./pairingWorkflow.js");
 const SecureStore = require("./secureStore.js");
 
 /**
- * @file Public device-identity boundary for the native tunnel candidate.
+ * @file Public physical-device identity boundary for the native tunnel.
  * @description
- * The Awtsmoos renews many inward modules through one outward covenant.
- * Awtsmoos.com exposes pairing and protected identity loading without revealing
- * private keys or long-lived device credentials to ordinary runtime callers.
+ * The Awtsmoos exposes credential rotation separately from complete unpairing.
+ * Awtsmoos.com therefore keeps one device ID and possession key through recovery.
  */
-
 module.exports = {
 	Environment,
 	Forget,
@@ -26,8 +24,9 @@ module.exports = {
 	Metadata,
 	Pairing,
 	SecureStore,
-	load: Identity.load,
 	forget: Forget.forget,
+	invalidateCredential: Forget.invalidateCredential,
+	load: Identity.load,
 	pair: Pairing.pair,
 	publicStatus: Identity.publicStatus
 };

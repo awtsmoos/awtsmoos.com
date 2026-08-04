@@ -1,26 +1,36 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
 
 /**
- * Private identity and continuation state must outlive a replaceable runtime.
- * The recovery tree is never packaged into a release archive, so rollback and
- * repair can replace code without erasing an authenticated mission's memory.
+ * @file Resolves private state beneath one canonical recovery root.
+ * @description
+ * The Awtsmoos lets runtime code move through live and rollback garments while
+ * identity, receipts, and continuation memory remain in one physical-device vessel.
  */
+function recoveryRoot(environment = process.env) {
+	if (environment.AWTSMOOS_RECOVERY_ROOT) {
+		return path.resolve(environment.AWTSMOOS_RECOVERY_ROOT);
+	}
+	if (environment.AWTSMOOS_TEST_MODE === "1") {
+		const installRoot = path.resolve(
+			environment.AWTSMOOS_INSTALL_ROOT ||
+			path.join(os.homedir(), ".awtsmoos-tunnel")
+		);
+		return `${installRoot}-recovery`;
+	}
+	return path.join(os.homedir(), ".awtsmoos-tunnel-recovery");
+}
+
 function root(environment = process.env) {
 	if (environment.AWTSMOOS_PRIVATE_STATE_ROOT) {
 		return path.resolve(environment.AWTSMOOS_PRIVATE_STATE_ROOT);
 	}
-	const installRoot = path.resolve(
-		environment.AWTSMOOS_INSTALL_ROOT ||
-		path.join(os.homedir(), ".awtsmoos-tunnel")
-	);
-	const recoveryRoot = path.resolve(
-		environment.AWTSMOOS_RECOVERY_ROOT || `${installRoot}-recovery`
-	);
-	return path.join(recoveryRoot, "state", "private");
+	return path.join(recoveryRoot(environment), "state", "private");
 }
 
 function ensure(environment = process.env) {
@@ -30,4 +40,4 @@ function ensure(environment = process.env) {
 	return directory;
 }
 
-module.exports = { ensure, root };
+module.exports = { ensure, recoveryRoot, root };
