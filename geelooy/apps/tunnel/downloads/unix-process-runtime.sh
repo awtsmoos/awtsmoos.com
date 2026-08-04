@@ -3,9 +3,9 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos ends every exact-root vessel and retires its canonical guardian before
-# a release changes garments. Awtsmoos.com proves no old recovery supervisor can
-# overwrite the candidate while installer readiness is observing the new world.
+# The Awtsmoos ends every owned runtime garment before a release changes worlds.
+# Awtsmoos.com stops canonical, rollback, failed, candidate, and recovery-displaced
+# guardians, parents, and socket children so only the new candidate can reach relay.
 find_legacy_runtime_pids() {
 	legacy_process_pids "$$"
 }
@@ -42,7 +42,7 @@ retire_canonical_supervisor_guard() {
 	local guard="$RECOVERY_ROOT/state/supervisor-instance.lock"
 	local owner="$(cat "$guard/owner.pid" 2>/dev/null || true)"
 	if [ -n "$owner" ] && kill -0 "$owner" 2>/dev/null; then
-		if supervisor_process_matches "$owner"; then
+		if owned_supervisor_process_matches "$owner"; then
 			kill -9 "$owner" 2>/dev/null || true
 			sleep 0.1
 		fi
@@ -71,27 +71,27 @@ clear_runtime_coordination_state() {
 
 stop_existing_runtime() {
 	stop_launchd_service 2>/dev/null || true
-	local supervisors="$(find_supervisor_pids | tr '\n' ' ')"
-	local agents="$(find_agent_pids | tr '\n' ' ')"
-	local vessels="$(find_connection_vessel_pids | tr '\n' ' ')"
+	local supervisors="$(find_owned_supervisor_pids | tr '\n' ' ')"
+	local agents="$(find_owned_agent_pids | tr '\n' ' ')"
+	local vessels="$(find_owned_connection_vessel_pids | tr '\n' ' ')"
 	local legacy="$(find_legacy_runtime_pids | tr '\n' ' ')"
 	if [ -n "$supervisors" ]; then
 		touch "$ROOT/stop-supervisor"
-		stop_pid_set "supervisor" supervisor_process_matches $supervisors
+		stop_pid_set "supervisor" owned_supervisor_process_matches $supervisors
 	fi
 	[ -n "$agents" ] &&
-		stop_pid_set "agent" agent_process_matches $agents
+		stop_pid_set "agent" owned_agent_process_matches $agents
 	[ -n "$vessels" ] &&
 		stop_pid_set \
 			"connection vessel" \
-			connection_vessel_process_matches \
+			owned_connection_vessel_process_matches \
 			$vessels
 	[ -n "$legacy" ] &&
 		stop_pid_set "legacy tunnel" legacy_process_matches $legacy
-	if [ "$(exact_root_process_count)" -ne 0 ]; then
+	if [ "$(owned_runtime_process_count)" -ne 0 ]; then
 		install_fail "process" \
-			"Exact-root tunnel processes survived reconciliation." \
-			"root=$ROOT count=$(exact_root_process_count)"
+			"Owned tunnel processes survived reconciliation." \
+			"family=$(runtime_family_prefix) count=$(owned_runtime_process_count)"
 	fi
 	retire_canonical_supervisor_guard
 	clear_runtime_coordination_state
