@@ -1,5 +1,5 @@
 B"H
-1.0.492
+1.0.493
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtector.mjs
