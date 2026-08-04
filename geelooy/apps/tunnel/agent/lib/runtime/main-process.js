@@ -5,16 +5,17 @@
 const Singleton = require("./process-singleton.js");
 
 /**
- * @file Starts runtime activity only after one process owns the install-root lease.
+ * @file Keeps one leased parent alive while its connection vessel carries network breath.
  * @description
  * The Awtsmoos renews metrics, workers, socket, and shutdown beneath one owner.
- * Awtsmoos.com keeps periodic diagnostics compact and fallible, so observation
- * cannot freeze or terminate the living account-scoped tunnel it observes.
+ * Awtsmoos.com lets startup report readiness without allowing every unref'ed timer
+ * and forked vessel to release the supervising launcher into a false clean death.
  */
 function createProcessRuntime(options = {}) {
 	let lease = null;
 	let memoryTimer = null;
 	let startPromise = null;
+	let lifetimeResolve = null;
 	let signalsBound = false;
 
 	function main() {
@@ -31,11 +32,20 @@ function createProcessRuntime(options = {}) {
 		}
 		startActivity();
 		bindSignals();
-		startPromise = Promise.resolve(options.start()).catch(error => {
+		startPromise = startAndRemainAlive().catch(error => {
 			shutdown(false);
 			throw error;
 		});
 		return startPromise;
+	}
+
+	async function startAndRemainAlive() {
+		const startup = await options.start();
+		if (options.keepAlive !== true) return startup;
+		await new Promise(resolve => {
+			lifetimeResolve = resolve;
+		});
+		return startup;
 	}
 
 	function startActivity() {
@@ -61,13 +71,15 @@ function createProcessRuntime(options = {}) {
 		try { options.lagMonitor?.stop?.(); } catch {}
 		lease?.release?.();
 		lease = null;
+		lifetimeResolve?.();
+		lifetimeResolve = null;
 		if (exitProcess) options.exitProcess?.(0);
 	}
 
 	return {
+		lease: () => lease,
 		main,
-		shutdown,
-		lease: () => lease
+		shutdown
 	};
 }
 
