@@ -1,5 +1,5 @@
 B"H
-1.0.491
+1.0.492
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtector.mjs
@@ -1583,6 +1583,8 @@ tools/fs/executor/worker-child.cjs
 tools/fs/executor/worker.js
 tools/fs/file-hash.js
 tools/fs/fileOpsCopy.js
+tools/fs/fileOpsDelete.js
+tools/fs/fileOpsMove.js
 tools/fs/fileOpsMoveDelete.js
 tools/fs/fileOpsPaths.js
 tools/fs/findFiles.js
@@ -1957,6 +1959,11 @@ tools/fs/semantic/merkavaParser.js
 tools/fs/semantic/scopeEdit.js
 tools/fs/semantic/scopeOutline.js
 tools/fs/semantic/walk.js
+tools/fs/staticServerControl.js
+tools/fs/staticServerHttp.js
+tools/fs/staticServerLifecycle.js
+tools/fs/staticServerPresentation.js
+tools/fs/staticServerRegistry.js
 tools/fs/staticServers.js
 tools/fs/symbolOutline.js
 tools/fs/tree.js

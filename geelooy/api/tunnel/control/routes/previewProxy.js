@@ -3,43 +3,68 @@
 // Blessed is He
 
 const { authorizePreviewProxy } = require("./previewProxyPolicy.js");
+const Response = require("./previewProxyResponse.js");
 
 /**
- * @file Proxies authorized preview HTTP requests through canonical owner routing.
+ * @file Proxies authorized previews through bounded canonical retry.
  * @description
- * The Awtsmoos renews browser request, account, and tunnel without confusing
- * visibility with permission. Awtsmoos.com authorizes `tunnel.preview` before the
- * relay and exposes only bounded proxy status, headers, and body to the requester.
+ * The Awtsmoos renews one preview request across a brief socket eclipse;
+ * Awtsmoos.com never duplicates mutations, leaks credentials, or hides retry evidence.
  */
-
-/** Handles one account-authorized preview proxy request. */
 async function previewProxy(context, variables = {}) {
 	const reference = String(variables.tunnelName || "").trim();
 	const authority = authorizePreviewProxy(context, reference);
 	if (!authority.ok) {
-		return failure(authority.error, authority.status);
+		return Response.failure(authority.error, authority.status);
 	}
-	try {
-		const result = await context.ws.sendTunnelRequest(
-			authority.ownerAccountId,
-			authority.tunnelName,
-			{
-				action: "httpRequest",
-				url: proxyUrl(context),
-				method: context.request.method,
-				headers: safeHeaders(context.request.headers),
-				body: requestBody(context),
-				timeoutMs: 30000
-			},
-			35000
-		);
-		if (!result || result.ok === false) {
-			return failure(result?.error || "preview_request_failed", 502);
+	const request = tunnelRequest(context);
+	const attempts = [];
+	for (let attempt = 1; attempt <= 3; attempt += 1) {
+		try {
+			const result = await context.ws.sendTunnelRequest(
+				authority.ownerAccountId,
+				authority.tunnelName,
+				request,
+				35000
+			);
+			if (result?.ok !== false) {
+				return Response.proxyResponse(context, result || {}, {
+					attempts: attempt,
+					retried: attempt > 1
+				});
+			}
+			const message = String(
+				result?.error || "preview_request_failed"
+			);
+			attempts.push({ attempt, error: message });
+			if (!Response.retryable(message) || attempt === 3) {
+				return Response.failure(message, 502, attempts);
+			}
+		} catch (error) {
+			const message = String(
+				error?.message || "preview_proxy_failed"
+			);
+			attempts.push({ attempt, error: message });
+			if (!Response.retryable(message) || attempt === 3) {
+				return Response.failure(message, 502, attempts);
+			}
 		}
-		return proxyResponse(context, result);
-	} catch (error) {
-		return failure(error.message || "preview_proxy_failed", 502);
+		await delay(150 * attempt);
 	}
+	return Response.failure("preview_proxy_failed", 502, attempts);
+}
+
+function tunnelRequest(context) {
+	return {
+		action: "httpRequest",
+		url: proxyUrl(context),
+		method: context.request.method,
+		headers: Response.safeHeaders(context.request.headers),
+		body: requestBody(context),
+		responseBodyMode: "auto",
+		maxChars: 2 * 1024 * 1024,
+		timeoutMs: 30000
+	};
 }
 
 function proxyUrl(context) {
@@ -51,43 +76,13 @@ function requestBody(context) {
 	return context.paramKinds?.POST || context.$_POST || null;
 }
 
-function safeHeaders(headers = {}) {
-	return Object.fromEntries(
-		Object.entries(headers).filter(([name]) => {
-			return ![
-				"authorization",
-				"cookie",
-				"host",
-				"connection",
-				"upgrade"
-			].includes(name.toLowerCase());
-		})
-	);
-}
-
-function proxyResponse(context, result) {
-	const response = context.response || context.res;
-	response.statusCode = Number(result.status || 200);
-	for (const [name, value] of Object.entries(result.headers || {})) {
-		try {
-			response.setHeader(name, value);
-		} catch {}
-	}
-	return typeof result.body === "string"
-		? result.body
-		: JSON.stringify(result.body ?? result);
-}
-
-function failure(error, status) {
-	return {
-		BH: "B\"H",
-		ok: false,
-		error,
-		status
-	};
+function delay(milliseconds) {
+	return new Promise(resolve => setTimeout(resolve, milliseconds));
 }
 
 module.exports = {
 	previewProxy,
-	safeHeaders
+	responseBody: Response.responseBody,
+	safeHeaders: Response.safeHeaders,
+	tunnelRequest
 };

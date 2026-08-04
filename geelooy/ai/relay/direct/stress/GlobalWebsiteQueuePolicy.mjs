@@ -11,17 +11,22 @@ const MAX_ACTIVE_WEBSITE_TABS = 1;
  * @file Defines one uncompromising physical website-agent launch policy.
  * @description
  * The Awtsmoos lets every requested agent wait in the durable queue, but exactly
- * one Chrome vessel may live. The eighteen-second clock begins only after the
- * previous owned target was conclusively closed, never when it opened or sent.
+ * one Chrome vessel may live. No caller, environment, or test boundary may weaken
+ * the eighteen-second clock that begins only after verified target closure.
  */
 export function queueConfiguration(options = {}) {
-	const requestedInterval = Number(options.minimumIntervalMs ??
+	const requestedInterval = Number(
+		options.minimumIntervalMs ??
 		process.env.AWTSMOOS_WEBSITE_AGENT_LAUNCH_INTERVAL_MS ??
-		POST_CLOSE_COOLDOWN_MS);
+		POST_CLOSE_COOLDOWN_MS
+	);
 	return {
-		minimumIntervalMs: options.enforceMinimumInterval === false
-			? Math.max(0, requestedInterval)
-			: Math.max(POST_CLOSE_COOLDOWN_MS, requestedInterval),
+		minimumIntervalMs: Math.max(
+			POST_CLOSE_COOLDOWN_MS,
+			Number.isFinite(requestedInterval)
+				? requestedInterval
+				: POST_CLOSE_COOLDOWN_MS
+		),
 		maxActiveTabs: MAX_ACTIVE_WEBSITE_TABS,
 		pollMs: Math.max(10, Number(options.pollMs || 250)),
 		acquisitionTimeoutMs: Math.max(
@@ -51,7 +56,9 @@ export function queueSnapshot(state, configuration, now = Date.now()) {
 		lastLaunchAt: iso(state.lastLaunchAt),
 		lastClosedAt: iso(lastClosedAt),
 		nextLaunchAt: iso(nextLaunchAt),
-		cooldownRemainingMs: nextLaunchAt ? Math.max(0, nextLaunchAt - now) : 0,
+		cooldownRemainingMs: nextLaunchAt
+			? Math.max(0, nextLaunchAt - now)
+			: 0,
 		minimumIntervalMs: configuration.minimumIntervalMs,
 		maxActiveTabs: MAX_ACTIVE_WEBSITE_TABS,
 		intervalAnchor: "verified-tab-close"
@@ -65,13 +72,23 @@ export function queueError(code) {
 }
 
 function safeMetadata(input = {}) {
-	const keys = ["kind", "missionId", "websiteMissionId",
-		"logicalAgentId", "agentSessionId"];
-	return Object.fromEntries(keys.map(key => [key, String(input[key] || "")]));
+	const keys = [
+		"kind",
+		"missionId",
+		"websiteMissionId",
+		"logicalAgentId",
+		"agentSessionId"
+	];
+	return Object.fromEntries(
+		keys.map(key => [key, String(input[key] || "")])
+	);
 }
 
 function iso(value) {
 	return value ? new Date(Number(value)).toISOString() : null;
 }
 
-export { MAX_ACTIVE_WEBSITE_TABS, POST_CLOSE_COOLDOWN_MS };
+export {
+	MAX_ACTIVE_WEBSITE_TABS,
+	POST_CLOSE_COOLDOWN_MS
+};
