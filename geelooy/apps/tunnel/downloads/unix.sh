@@ -9,7 +9,22 @@ export LANG=C
 
 origin="${AWTSMOOS_INSTALL_ORIGIN:-https://awtsmoos.com}"
 origin="${origin%/}"
-install_root="${AWTSMOOS_INSTALL_ROOT:-$HOME/.awtsmoos-tunnel}"
+canonical_install_root="$HOME/.awtsmoos-tunnel"
+requested_install_root="${AWTSMOOS_INSTALL_ROOT:-$canonical_install_root}"
+
+# Runtime children inherit their active code root. Candidate, rollback, failed,
+# incomplete, installer, and displaced paths are implementation details—not a human
+# installation choice. The Awtsmoos returns those garments to one canonical root.
+case "$(basename "$requested_install_root")" in
+	.awtsmoos-tunnel.candidate-*|.awtsmoos-tunnel.activation-rollback-*|\
+	.awtsmoos-tunnel.failed-*|.awtsmoos-tunnel.incomplete-*|\
+	.awtsmoos-tunnel.installer-runtime-*|.awtsmoos-tunnel.recovery-displaced-*)
+		printf '[Awtsmoos][bootstrap][recovered] Ignoring inherited transient install root: %s\n' \
+			"$requested_install_root" >&2
+		install_root="$canonical_install_root"
+		;;
+	*) install_root="$requested_install_root" ;;
+esac
 runtime_root="${install_root}.installer-runtime-$$"
 progress_file="$runtime_root/install-progress.state"
 install_cwd="${AWTSMOOS_INSTALL_CWD:-$PWD}"
@@ -30,8 +45,7 @@ export AWTSMOOS_INSTALL_CWD="$install_cwd"
 export AWTSMOOS_PROJECT_ROOT="$project_root"
 
 # The Awtsmoos renews one human command into a complete verified release.
-# Awtsmoos.com remembers the caller's exact vessel without asking Git or stale
-# runtime state where the user's present workspace is meant to dwell.
+# Awtsmoos.com remembers the caller's workspace without asking stale runtime state.
 bootstrap_progress() {
 	local percent="$1"
 	local message="$2"
@@ -85,6 +99,7 @@ helpers=(
 	unix-connection-health.sh unix-project-root-health.sh
 	unix-project-root-compat.sh unix-service-health.sh unix-legacy-fallback.sh
 	unix-agent-singleton.cjs unix-agent-receipt.cjs unix-agent-launcher.cjs
+	unix-agent-identity.cjs
 	unix-recovery-archive-list.sh unix-recovery-retention.sh
 	unix-recovery-store.sh unix-recovery-validation.sh
 	unix-recovery-candidates.sh unix-recovery-rescue.sh
