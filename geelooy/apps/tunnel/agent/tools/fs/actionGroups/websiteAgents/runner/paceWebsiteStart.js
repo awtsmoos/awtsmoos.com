@@ -4,43 +4,35 @@
 
 const Context = require("./context.js");
 const {
-	Store,
-	state
+	Store
 } = Context.shared;
 const event = Context.reference("event");
-const sleep = Context.reference("sleep");
 
 /**
- * @file Reveals the paceWebsiteStart stage of website-agent orchestration.
+ * @file Records admission into the one authoritative physical website queue.
  * @description
- * The Awtsmoos gives this stage one bounded responsibility while sibling stages are
- * resolved lazily through durable shared context after the browser vessel closes.
+ * The Awtsmoos removes a duplicate clock from the mission layer; Awtsmoos.com lets
+ * the durable relay alone enforce one tab, verified closure, and eighteen seconds.
  */
 function paceWebsiteStart(config, id, agent) {
-	const previous = state.globalWebsiteStartLane;
-	let release;
-	state.globalWebsiteStartLane = new Promise(resolve => {
-		release = resolve;
+	const record = Store.read(id);
+	const spacing = agent.parentAgentId
+		? record?.plan?.subagentPolicy?.subagentStartSpacingMs
+		: record?.plan?.startSpacingMs;
+	Store.update(id, current => {
+		current.lastAgentStartAt = new Date().toISOString();
+		current.events.push(event("website_queue_admission_recorded", {
+			agentId: agent.id,
+			parentAgentId: agent.parentAgentId || null,
+			spacingMs: Math.max(18000, Number(spacing) || 18000),
+			physicalScheduler: "verified-close-global-relay"
+		}));
+		return current;
 	});
-	return previous.catch(() => undefined).then(async () => {
-		const record = Store.read(id);
-		const spacing = agent.parentAgentId
-			? record?.plan?.subagentPolicy?.subagentStartSpacingMs
-			: record?.plan?.startSpacingMs;
-		if (state.hasStartedWebsiteTurn || record?.lastAgentStartAt) {
-			await sleep(config, Number(spacing) || 12000);
-		}
-		state.hasStartedWebsiteTurn = true;
-		Store.update(id, current => {
-			current.lastAgentStartAt = new Date().toISOString();
-			current.events.push(event("website_start_lane_released", {
-				agentId: agent.id,
-				parentAgentId: agent.parentAgentId || null,
-				spacingMs: Number(spacing) || 12000
-			}));
-			return current;
-		});
-	}).finally(release);
+	return Promise.resolve({
+		admitted: true,
+		physicalScheduler: "verified-close-global-relay"
+	});
 }
 
 Context.register("paceWebsiteStart", paceWebsiteStart);

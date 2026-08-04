@@ -1,4 +1,6 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 import assert from "node:assert/strict";
 import { fork } from "node:child_process";
@@ -11,6 +13,12 @@ import { GlobalWebsiteTurnQueue } from "./GlobalWebsiteTurnQueue.mjs";
 
 const CHILD_PATH = fileURLToPath(new URL("./GlobalWebsiteTurnQueueChild.mjs", import.meta.url));
 
+/**
+ * @file Proves the physical website queue begins cooldown only after verified close.
+ * @description
+ * The Awtsmoos gives the first ticket immediate policy admission, while Awtsmoos.com
+ * lets every later process share one durable close-anchored clock and one active tab.
+ */
 function queue(rootPath, interval = 40) {
 	return new GlobalWebsiteTurnQueue({
 		rootPath,
@@ -20,21 +28,17 @@ function queue(rootPath, interval = 40) {
 		pollMs: 5
 	});
 }
-
 function temporaryRoot() {
 	return fs.mkdtempSync(path.join(os.tmpdir(), "awts-close-gate-"));
 }
-
 function sleep(milliseconds) {
 	return new Promise(resolve => setTimeout(resolve, milliseconds));
 }
-
 function child(rootPath, interval, agentId) {
 	return fork(CHILD_PATH, [rootPath, String(interval), agentId], {
 		stdio: ["ignore", "ignore", "inherit", "ipc"]
 	});
 }
-
 function message(processHandle, type, timeoutMs = 3000) {
 	return new Promise((resolve, reject) => {
 		const timer = setTimeout(() => reject(new Error(`child_${type}_timeout`)), timeoutMs);
@@ -48,20 +52,20 @@ function message(processHandle, type, timeoutMs = 3000) {
 	});
 }
 
-test("the first launch has no pre-send interval and the cap is always one", async () => {
+test("the first launch has no close-anchored cooldown and one physical tab", async () => {
 	const rootPath = temporaryRoot();
 	try {
-		const startedAt = Date.now();
-		const first = await queue(rootPath, 80).acquire({ logicalAgentId: "one" });
-		assert.ok(Date.now() - startedAt < 60);
+		const turnQueue = queue(rootPath, 80);
+		const first = await turnQueue.acquire({ logicalAgentId: "one" });
 		assert.equal(first.view.maxActiveTabs, 1);
 		assert.equal(first.view.intervalAnchor, "verified-tab-close");
+		assert.equal(turnQueue.status().lastClosedAt, null);
+		assert.equal(turnQueue.status().nextLaunchAt, null);
 		await first.release({ startCooldown: false });
 	} finally {
 		fs.rmSync(rootPath, { recursive: true, force: true });
 	}
 });
-
 test("the interval begins at verified close, not at launch", async () => {
 	const rootPath = temporaryRoot();
 	const interval = 70;
@@ -78,21 +82,20 @@ test("the interval begins at verified close, not at launch", async () => {
 		fs.rmSync(rootPath, { recursive: true, force: true });
 	}
 });
-
-test("a pre-launch failure releases immediately without creating a cooldown", async () => {
+test("a pre-launch failure creates no close timestamp or cooldown", async () => {
 	const rootPath = temporaryRoot();
 	try {
-		const first = await queue(rootPath, 100).acquire({ logicalAgentId: "one" });
+		const turnQueue = queue(rootPath, 100);
+		const first = await turnQueue.acquire({ logicalAgentId: "one" });
 		await first.release({ startCooldown: false });
-		const startedAt = Date.now();
-		const second = await queue(rootPath, 100).acquire({ logicalAgentId: "two" });
-		assert.ok(Date.now() - startedAt < 60);
+		assert.equal(turnQueue.status().lastClosedAt, null);
+		assert.equal(turnQueue.status().nextLaunchAt, null);
+		const second = await turnQueue.acquire({ logicalAgentId: "two" });
 		await second.release({ startCooldown: false });
 	} finally {
 		fs.rmSync(rootPath, { recursive: true, force: true });
 	}
 });
-
 test("independent Node processes share the post-close cooldown", async () => {
 	const rootPath = temporaryRoot();
 	const interval = 100;

@@ -1,4 +1,7 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
 const {
 	objectSchema,
 	string,
@@ -16,23 +19,18 @@ const AGENT_MODE_DESCRIPTION = [
 ].join(" ");
 
 /**
- * B"H
- *
- * The schema tells remote AIs the actual consolidated-agent contract. Website
- * delegation is the ordinary default; direct provider messages and task-runner
- * work remain explicit choices instead of accidental fallbacks.
+ * @file Declares a congestion-safe website-agent contract to every remote caller.
+ * @description
+ * The Awtsmoos may queue five hundred and twelve shluchim, while Awtsmoos.com
+ * permits one physical tab and eighteen seconds after verified close before another.
  */
 function aiAgentSchema(name) {
 	return objectSchema({
-		mode: string(
-			name === "agent"
-				? AGENT_MODE_DESCRIPTION
-				: "Optional action-specific mode alias."
-		),
+		mode: string(name === "agent"
+			? AGENT_MODE_DESCRIPTION
+			: "Optional action-specific mode alias."),
 		agentMode: string("Alias for mode."),
-		defaultMode: string(
-			"Persistent default for mode=config: website-mission, message, spawn, or novel."
-		),
+		defaultMode: string("Persistent default: website-mission, message, spawn, or novel."),
 		provider: string("AI provider id: minimax, openrouter, groq."),
 		providerId: string("Provider alias."),
 		agent: string("Agent id alias."),
@@ -46,7 +44,7 @@ function aiAgentSchema(name) {
 			role: string("system, user, or assistant."),
 			content: string("Message content.")
 		})),
-		stream: bool("Use provider streaming when the selected mode supports it."),
+		stream: bool("Use provider streaming when supported."),
 		taskId: string("Durable task id."),
 		websiteMissionId: string("Website mission id for status or continuation."),
 		missionId: string("Mission id alias."),
@@ -55,17 +53,17 @@ function aiAgentSchema(name) {
 		projectRoot: string("Absolute project root available to the native tunnel."),
 		outputDir: string("Output directory."),
 		fileName: string("Output file name."),
-		agentCount: integer("Requested website-agent count, bounded from 3 through 96. Omit for automatic 8/16/32/64 fan-out."),
-		count: integer("Agent-count alias, bounded from 3 through 96."),
-		allowRecursiveSubagents: bool("Allow every authenticated website agent to request bounded child agents."),
-		maxSubagentDepth: integer("Maximum website-agent descendant depth, from 1 through 8; default 4."),
-		maxSubagentsPerAgent: integer("Maximum bounded child agents each website agent may request, from 1 through 96; default 32."),
-		maxTotalWebsiteAgents: integer("Global initial-plus-child website-agent cap, from 3 through 512; default 256."),
-		subagentStartSpacingMs: integer("Minimum delay between child website prompt starts, at least 10000 ms."),
+		agentCount: integer("Requested website-agent count, bounded from 3 through 512."),
+		count: integer("Agent-count alias, bounded from 3 through 512."),
+		allowRecursiveSubagents: bool("Allow bounded child-agent requests."),
+		maxSubagentDepth: integer("Maximum descendant depth, 1 through 8; default 4."),
+		maxSubagentsPerAgent: integer("Maximum children per agent, 1 through 96; default 32."),
+		maxTotalWebsiteAgents: integer("Global initial-plus-child cap, 3 through 512."),
+		subagentStartSpacingMs: integer("Post-close cooldown; values below 18000 are clamped."),
 		scopes: array(string("Repository scope assigned to a website sub-agent.")),
 		paths: array(string("Repository path assigned to a website sub-agent.")),
 		directories: array(string("Directory assigned to a website sub-agent.")),
-		startSpacingMs: integer("Minimum delay between website prompt starts."),
+		startSpacingMs: integer("Post-close cooldown; values below 18000 are clamped."),
 		collaborationRounds: integer("Requested shared-room collaboration rounds."),
 		maxDepth: integer("Maximum child depth."),
 		maxChildrenPerTask: integer("Maximum children per task."),

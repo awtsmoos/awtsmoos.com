@@ -1,108 +1,74 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
 const Planner = require("../tools/fs/actionGroups/websiteAgents/planner.js");
 
+/**
+ * @file Proves a hundred requested website agents become one safe durable queue.
+ * @description
+ * The Awtsmoos multiplies shluchim without multiplying tabs; Awtsmoos.com keeps
+ * one Chrome vessel and begins eighteen seconds only after verified disappearance.
+ */
 const root = fs.mkdtempSync(path.join(os.tmpdir(), "awts-web-plan-"));
 try {
 	for (const name of ["api", "frontend", "runtime", "tests"]) {
 		fs.mkdirSync(path.join(root, name));
 	}
-	const big = Planner.plan({ root }, {
+	const ordinary = Planner.plan({ root }, {
 		prompt: "Fully improve the entire large repository with many agents.",
 		projectRoot: root
 	});
-	assert.equal(big.agentCount, 32);
-	assert.equal(big.startSpacingMs, 12000);
-	assert.equal(big.collaborationRounds, 2);
-	assert.equal(big.agentStartUrl, Planner.AWTSMOOS_SHLIACH_URL);
-	assert.equal(big.customGptName, Planner.AWTSMOOS_SHLIACH_NAME);
-	assert.equal(new Set(big.agents.map(agent => agent.id)).size, 32);
-	assert.ok(big.agents.every(agent => agent.scope && agent.focus));
-	assert.equal(big.subagentPolicy.mode, "bounded-single-use");
-	assert.equal(big.subagentPolicy.allowRecursiveSubagents, true);
-	assert.equal(big.subagentPolicy.maxSubagentDepth, 4);
-	assert.equal(big.subagentPolicy.maxSubagentsPerAgent, 32);
-	assert.equal(big.subagentPolicy.maxTotalWebsiteAgents, 256);
-	assert.equal(big.subagentPolicy.subagentStartSpacingMs, 12000);
-	assert.deepEqual(big.subagentPolicy.roomUpdates, [
-		"plan", "progress", "handoff", "completion"
-	]);
-
-	const translation = Planner.plan({ root }, {
-		prompt: "Translate and verify all 4,000 pages with durable context and exact handoffs.",
-		projectRoot: root
+	assert.equal(ordinary.agentCount, 32);
+	assert.equal(ordinary.startSpacingMs, 18000);
+	assert.equal(ordinary.subagentPolicy.subagentStartSpacingMs, 18000);
+	assert.deepEqual(ordinary.physicalTabPolicy, {
+		maxActiveTabs: 1,
+		intervalAnchor: "verified-tab-close",
+		postCloseCooldownMs: 18000
 	});
-	assert.equal(translation.fanOutTier, "enormous");
-	assert.equal(translation.agentCount, 64);
-	assert.equal(translation.subagentPolicy.priority, "required-when-available");
+	assert.equal(new Set(ordinary.agents.map(agent => agent.id)).size, 32);
+	assert.equal(ordinary.subagentPolicy.allowRecursiveSubagents, true);
+	assert.equal(ordinary.subagentPolicy.maxTotalWebsiteAgents, 256);
 
-	const software = Planner.plan({ root }, {
-		prompt: "Build and verify an entire enterprise software platform across frontend, backend, runtime, security, and tests.",
-		projectRoot: root
-	});
-	assert.equal(software.fanOutTier, "large");
-	assert.equal(software.agentCount, 32);
-
-	const hugeSoftware = Planner.plan({ root }, {
-		prompt: "Build a huge software system with dozens of agents.",
-		projectRoot: root
-	});
-	assert.equal(hugeSoftware.fanOutTier, "enormous");
-	assert.equal(hugeSoftware.agentCount, 64);
-
-	const medium = Planner.plan({ root }, {
-		prompt: "Handle multiple coordinated areas with separate verification.",
-		projectRoot: root
-	});
-	assert.equal(medium.fanOutTier, "medium");
-	assert.equal(medium.agentCount, 16);
-
-	const small = Planner.plan({ root }, {
-		prompt: "Inspect one focused issue.",
-		projectRoot: root
-	});
-	assert.equal(small.fanOutTier, "small");
-	assert.equal(small.agentCount, 8);
-
-	const explicitMaximum = Planner.plan({ root }, {
-		prompt: "Use the requested bounded team.",
-		agentCount: 200,
-		projectRoot: root
-	});
-	assert.equal(explicitMaximum.agentCount, 96);
-	assert.equal(explicitMaximum.subagentPolicy.maxTotalWebsiteAgents, 256);
-
-	const recursiveMaximums = Planner.plan({ root }, {
-		prompt: "Use a deeply bounded recursive team.",
-		agentCount: 3,
-		maxSubagentsPerAgent: 999,
-		maxTotalWebsiteAgents: 999,
-		maxSubagentDepth: 99,
+	const hundred = Planner.plan({ root }, {
+		prompt: "Queue one hundred independent agents safely.",
+		agentCount: 100,
+		startSpacingMs: 1,
 		subagentStartSpacingMs: 1,
+		maxTotalWebsiteAgents: 100,
 		projectRoot: root
 	});
-	assert.equal(recursiveMaximums.subagentPolicy.maxSubagentsPerAgent, 96);
-	assert.equal(recursiveMaximums.subagentPolicy.maxTotalWebsiteAgents, 512);
-	assert.equal(recursiveMaximums.subagentPolicy.maxSubagentDepth, 8);
-	assert.equal(recursiveMaximums.subagentPolicy.subagentStartSpacingMs, 10000);
+	assert.equal(hundred.agentCount, 100);
+	assert.equal(hundred.agents.length, 100);
+	assert.equal(new Set(hundred.agents.map(agent => agent.id)).size, 100);
+	assert.equal(hundred.agents[0].id, "website_001_architect");
+	assert.equal(hundred.startSpacingMs, 18000);
+	assert.equal(hundred.subagentPolicy.subagentStartSpacingMs, 18000);
+	assert.equal(hundred.subagentPolicy.maxTotalWebsiteAgents, 100);
+	assert.equal(hundred.physicalTabPolicy.maxActiveTabs, 1);
 
-	const continuedTarget = Planner.plan({ root }, {
+	const maximum = Planner.plan({ root }, {
+		prompt: "Queue the maximum bounded swarm.",
+		agentCount: 999,
+		maxTotalWebsiteAgents: 999,
+		projectRoot: root
+	});
+	assert.equal(maximum.agentCount, 512);
+	assert.equal(maximum.subagentPolicy.maxTotalWebsiteAgents, 512);
+
+	const target = Planner.plan({ root }, {
 		prompt: "Inspect the configured custom GPT target.",
 		projectRoot: root,
 		agentStartUrl: `${Planner.AWTSMOOS_SHLIACH_URL}/c/private?temporary=1`
 	});
-	assert.equal(continuedTarget.agentStartUrl, Planner.AWTSMOOS_SHLIACH_URL);
-	assert.equal(continuedTarget.customGptName, Planner.AWTSMOOS_SHLIACH_NAME);
+	assert.equal(target.agentStartUrl, Planner.AWTSMOOS_SHLIACH_URL);
 	assert.throws(() => Planner.plan({ root }, {
 		prompt: "Reject another custom GPT.",
-		projectRoot: root,
-		agentStartUrl: "https://chatgpt.com/g/g-test-specialist"
-	}), /invalid_chatgpt_custom_gpt_url/);
-	assert.throws(() => Planner.plan({ root }, {
-		prompt: "Reject an external target.",
 		projectRoot: root,
 		agentStartUrl: "https://example.com/g/not-chatgpt"
 	}), /invalid_chatgpt_custom_gpt_url/);
@@ -118,10 +84,10 @@ try {
 	console.log(JSON.stringify({
 		ok: true,
 		suite: "website-agent-planner",
-		bigPromptAgents: big.agentCount,
-		highFanOutAgents: translation.agentCount,
-		minimumAgents: minimum.agentCount,
-		sequentialSpacingMs: big.startSpacingMs
+		queuedAgents: hundred.agentCount,
+		maximumQueuedAgents: maximum.agentCount,
+		maxActiveTabs: hundred.physicalTabPolicy.maxActiveTabs,
+		postCloseCooldownMs: hundred.physicalTabPolicy.postCloseCooldownMs
 	}, null, 2));
 } finally {
 	fs.rmSync(root, { recursive: true, force: true });

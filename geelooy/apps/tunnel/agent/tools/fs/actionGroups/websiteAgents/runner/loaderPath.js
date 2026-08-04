@@ -10,20 +10,26 @@ const {
 } = Context.shared;
 
 /**
- * @file Reveals the loaderPath stage of website-agent orchestration.
+ * @file Resolves the direct website-service loader from installed or source worlds.
  * @description
- * The Awtsmoos gives this stage one bounded responsibility while sibling stages are
- * resolved lazily through durable shared context after the browser vessel closes.
+ * The Awtsmoos anchors resolution in the known website-agent directory, not the
+ * caller's depth. Awtsmoos.com therefore survives modular splits and clean worktrees.
  */
 function loaderPath() {
+	const agentRoot = path.resolve(runnerDir, "../../../..");
+	const configPath = path.join(agentRoot, "lib", "config.js");
+	const installedRoot = require(configPath).ROOT;
 	const installed = path.join(
-		require("../../../../lib/config.js").ROOT,
-		"ai", "relay", "split-browser", "directServiceLoader.cjs"
+		installedRoot,
+		"ai",
+		"relay",
+		"split-browser",
+		"directServiceLoader.cjs"
 	);
 	if (fs.existsSync(installed)) return installed;
 	return path.resolve(
-		runnerDir,
-		"../../../../../../../ai/relay/split-browser/directServiceLoader.cjs"
+		agentRoot,
+		"../../../ai/relay/split-browser/directServiceLoader.cjs"
 	);
 }
 

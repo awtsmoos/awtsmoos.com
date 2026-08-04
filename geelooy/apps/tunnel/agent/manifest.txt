@@ -1,5 +1,5 @@
 B"H
-1.0.490
+1.0.491
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtector.mjs
@@ -1387,6 +1387,9 @@ tools/fs/actionGroups/websiteAgents/authentication.js
 tools/fs/actionGroups/websiteAgents/dispatch.js
 tools/fs/actionGroups/websiteAgents/logout.js
 tools/fs/actionGroups/websiteAgents/planner.js
+tools/fs/actionGroups/websiteAgents/plannerPolicy.js
+tools/fs/actionGroups/websiteAgents/plannerScopes.js
+tools/fs/actionGroups/websiteAgents/plannerTarget.js
 tools/fs/actionGroups/websiteAgents/prompt.js
 tools/fs/actionGroups/websiteAgents/prompt/context.js
 tools/fs/actionGroups/websiteAgents/prompt/contracts.js
