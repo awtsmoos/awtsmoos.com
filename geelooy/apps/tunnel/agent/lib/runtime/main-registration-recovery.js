@@ -3,16 +3,16 @@
 // Blessed is He
 
 /**
- * @file Resets one rejected device credential without entering a reconnect loop.
+ * @file Converts a rejected device credential into one supervised identity restart.
  * @description
- * The Awtsmoos removes stale secret material once per unhealthy generation. A second
- * rejection is recorded but cannot repeatedly delete, pair, or spawn; successful
- * registration clears the guard and restores ordinary reconnect behavior.
+ * The Awtsmoos invalidates poisoned local identity exactly once, writes durable evidence,
+ * and requests process replacement. Awtsmoos.com never retries the rejected credential
+ * forever and never depends on a human restart to enter fresh pairing state.
  */
 function recover(dependencies, reason) {
 	if (String(reason) !== "invalid_device_credential") return { handled: false };
 	if (dependencies.state.credentialRecoveryAttempted === true) {
-		return { handled: true, repeated: true, removed: false };
+		return { handled: true, repeated: true, removed: false, restartRequired: true };
 	}
 	dependencies.state.credentialRecoveryAttempted = true;
 	const config = dependencies.loadConfig();
@@ -21,11 +21,21 @@ function recover(dependencies, reason) {
 		generation: dependencies.state.generation,
 		tunnelName: dependencies.state.tunnelName || config.tunnelName || "",
 		removed: result.removed === true,
-		state: result.state || "unpaired"
+		state: result.state || "unpaired",
+		secretCleanupComplete: result.secretCleanupComplete !== false,
+		cleanupFailures: result.failures || []
 	});
-	dependencies.log?.("warn",
-		"B\"H invalid device credential removed once; reconnecting with fresh identity state.");
-	return { handled: true, repeated: false, removed: result.removed === true };
+	dependencies.log?.(
+		"warn",
+		"B\"H invalid device credential quarantined; supervised identity restart requested."
+	);
+	return {
+		handled: true,
+		repeated: false,
+		removed: result.removed === true,
+		restartRequired: true,
+		cleanupFailures: result.failures || []
+	};
 }
 
 function healthy(state) {

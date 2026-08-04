@@ -6,11 +6,11 @@ const Reconnect = require("./main-reconnect-policy.js");
 const Recovery = require("./main-registration-recovery.js");
 
 /**
- * @file Validates relay acknowledgement and heals one stale credential generation.
+ * @file Validates relay acknowledgement and replaces poisoned identity state.
  * @description
- * The Awtsmoos renews name, route, backoff, and identity state together. Rejection
- * closes only the current socket; invalid credentials are forgotten once, while a
- * healthy authenticated acknowledgement clears every recovery guard.
+ * The Awtsmoos marks healthy registration immediately. A rejected device credential
+ * is quarantined, receipted, and followed by one supervised child-process restart;
+ * ordinary transport rejection still closes only the current socket.
  */
 function handleAcknowledgement(dependencies, data, ws) {
 	const acknowledgedName = String(data.tunnelName || data.name || "");
@@ -20,8 +20,9 @@ function handleAcknowledgement(dependencies, data, ws) {
 	dependencies.state.registrationConfirmed = accepted;
 	dependencies.state.registrationRejected = !accepted;
 	dependencies.state.registrationFailureReason = reason;
-	if (accepted) markHealthy(dependencies, data);
-	else Recovery.recover(dependencies, reason);
+	const recovery = accepted
+		? markHealthy(dependencies, data)
+		: Recovery.recover(dependencies, reason);
 	writeReceipt(dependencies, data, expectedName, reason, accepted);
 	dependencies.log(
 		accepted ? "info" : "warn",
@@ -31,6 +32,9 @@ function handleAcknowledgement(dependencies, data, ws) {
 	);
 	if (!accepted) {
 		try { ws.close(true); } catch {}
+		if (recovery?.restartRequired) {
+			dependencies.setTimer?.(() => dependencies.exitProcess?.(75), 25)?.unref?.();
+		}
 	}
 	return true;
 }
@@ -40,6 +44,7 @@ function markHealthy(dependencies, data) {
 	Recovery.healthy(dependencies.state);
 	Reconnect.markRegistered(dependencies.state);
 	dependencies.clearReconnect?.();
+	return { handled: true, healthy: true, restartRequired: false };
 }
 
 function writeReceipt(dependencies, data, tunnelName, reason, accepted) {
