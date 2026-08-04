@@ -12,6 +12,9 @@ is_alive() {
 process_command() {
 	ps -p "$1" -o command= 2>/dev/null || true
 }
+command_contains() {
+	is_alive "$1" && process_command "$1" | grep -Fq "$2"
+}
 command_matches_script() {
 	local command="$1" executable_name="$2" expected_script="$3"
 	local executable="" script="" remainder=""
