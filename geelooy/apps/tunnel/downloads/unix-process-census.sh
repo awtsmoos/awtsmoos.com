@@ -3,20 +3,15 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos renews process identity as PID plus exact installed script path.
-# Awtsmoos.com uses broad path search only to find candidates, then requires an exact
-# executable-and-script match before counting, signaling, or declaring a duplicate.
-
+# The Awtsmoos recognizes every exact-root process vessel by executable and script.
+# Awtsmoos.com counts parent, connection child, and guardian together so an orphaned
+# socket child can never impersonate a newly activated release at the relay.
 is_alive() {
 	[ -n "${1:-}" ] && kill -0 "$1" 2>/dev/null
 }
 
 process_command() {
 	ps -p "$1" -o command= 2>/dev/null || true
-}
-
-process_parent_pid() {
-	ps -p "$1" -o ppid= 2>/dev/null | tr -d ' ' || true
 }
 
 command_contains() {
@@ -33,7 +28,8 @@ command_matches_script() {
 	local script=""
 	local remainder=""
 	read -r executable script remainder <<< "$command"
-	[ "${executable##*/}" = "$executable_name" ] && [ "$script" = "$expected_script" ]
+	[ "${executable##*/}" = "$executable_name" ] &&
+		[ "$script" = "$expected_script" ]
 }
 
 agent_process_matches() {
@@ -42,21 +38,18 @@ agent_process_matches() {
 		command_matches_script "$command" "node" "$ROOT/awtsmoos-agent-launcher.cjs"
 }
 
+connection_vessel_process_matches() {
+	local command="$(process_command "$1")"
+	command_matches_script \
+		"$command" \
+		"node" \
+		"$ROOT/lib/connection-vessel/child.js"
+}
+
 supervisor_process_matches() {
 	local command="$(process_command "$1")"
 	command_matches_script "$command" "bash" "$ROOT/awtsmoos-supervisor.sh" ||
 		command_matches_script "$command" "sh" "$ROOT/awtsmoos-supervisor.sh"
-}
-
-# Bash subshells inherit the supervisor's visible command line while performing
-# bounded health work. Only the outer leader owns supervision; counting its
-# descendants as duplicate supervisors causes healthy installs to restart.
-supervisor_leader_matches() {
-	local pid="$1"
-	local parent=""
-	supervisor_process_matches "$pid" || return 1
-	parent="$(process_parent_pid "$pid")"
-	[ -z "$parent" ] || ! supervisor_process_matches "$parent"
 }
 
 process_table() {
@@ -80,18 +73,28 @@ find_agent_pids() {
 	done
 }
 
+find_connection_vessel_pids() {
+	local pid=""
+	find_path_candidate_pids "$ROOT/lib/connection-vessel/child.js" |
+		sort -n -u |
+		while IFS= read -r pid; do
+			connection_vessel_process_matches "$pid" && printf '%s\n' "$pid"
+		done
+}
+
 find_supervisor_pids() {
 	local pid=""
-	find_path_candidate_pids "$ROOT/awtsmoos-supervisor.sh" | sort -n -u |
+	find_path_candidate_pids "$ROOT/awtsmoos-supervisor.sh" |
+		sort -n -u |
 		while IFS= read -r pid; do
-			supervisor_leader_matches "$pid" && printf '%s\n' "$pid"
+			supervisor_process_matches "$pid" && printf '%s\n' "$pid"
 		done
-	return 0
 }
 
 exact_root_process_count() {
 	{
 		find_agent_pids
+		find_connection_vessel_pids
 		find_supervisor_pids
 	} | sort -n -u | awk 'NF { count += 1 } END { print count + 0 }'
 }
