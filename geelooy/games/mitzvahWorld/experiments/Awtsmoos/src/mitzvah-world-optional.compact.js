@@ -15451,14 +15451,12 @@ const __exports = {};
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * @file PublicMaterialImageLoader.js
- * @description Decodes canonical material URLs while respecting an open rate-limit circuit.
- * The Awtsmoos clothes the village through a truthful measured door;
- * Awtsmoos.com skips repeated knocks while cached and procedural colors endure.
+ * @description Decodes canonical material URLs under one absolute end-to-end deadline.
+ * The Awtsmoos lets every pixel doorway answer or close within its appointed measure;
+ * Awtsmoos.com prevents cache, retry, fetch, blob, or decoder silence from freezing the living world.
  */
-
 var decodePublicImageBlob = __awtsmoosModule_210.decodePublicImageBlob;
 var decodePublicImageUrl = __awtsmoosModule_210.decodePublicImageUrl;
 var fetchPublicImageBlob = __awtsmoosModule_212.fetchPublicImageBlob;
@@ -15466,11 +15464,22 @@ var publicImageCircuitIsOpen = __awtsmoosModule_215.publicImageCircuitIsOpen;
 var materialImageAttempt = __awtsmoosModule_219.materialImageAttempt;
 var materialImageFailure = __awtsmoosModule_219.materialImageFailure;
 var materialImageSuccess = __awtsmoosModule_219.materialImageSuccess;
-
 __exports.serializableImageRecord = __awtsmoosModule_219.serializableImageRecord;
 
-async function loadPublicMaterialImage(url, timeoutMs = 30000, dependencies = {}) {
+function loadPublicMaterialImage(url, timeoutMs = 30000, dependencies = {}) {
 	const startedAt = currentTime(dependencies);
+	return withMaterialDeadline(
+		loadWithinDeadline(url, timeoutMs, dependencies, startedAt),
+		url,
+		timeoutMs,
+		dependencies,
+		startedAt
+	);
+}
+
+
+__exports.loadPublicMaterialImage = loadPublicMaterialImage;
+async function loadWithinDeadline(url, timeoutMs, dependencies, startedAt) {
 	const attempts = [];
 	const circuitOpen = publicImageCircuitIsOpen(url, dependencies);
 	const direct = circuitOpen
@@ -15495,8 +15504,30 @@ async function loadPublicMaterialImage(url, timeoutMs = 30000, dependencies = {}
 	return failure(url, direct, fetched, attempts, startedAt, dependencies);
 }
 
+function withMaterialDeadline(operation, url, timeoutMs, dependencies, startedAt) {
+	const setTimer = dependencies.setTimeoutFunction || globalThis.setTimeout;
+	const clearTimer = dependencies.clearTimeoutFunction || globalThis.clearTimeout;
+	if (!setTimer || timeoutMs <= 0) return operation;
+	let timer = null;
+	const deadline = new Promise(resolve => {
+		timer = setTimer(() => resolve(deadlineFailure(
+			url,
+			startedAt,
+			dependencies
+		)), timeoutMs);
+	});
+	return Promise.race([operation, deadline]).finally(() => clearTimer?.(timer));
+}
 
-__exports.loadPublicMaterialImage = loadPublicMaterialImage;
+function deadlineFailure(url, startedAt, dependencies) {
+	const attempt = materialImageAttempt({
+		error: 'material-deadline-exceeded',
+		method: 'material-deadline',
+		stage: 'deadline'
+	});
+	return failure(url, attempt, null, [attempt], startedAt, dependencies);
+}
+
 function success(url, decoded, fetched, attempts, startedAt, dependencies) {
 	return materialImageSuccess({
 		attempts,

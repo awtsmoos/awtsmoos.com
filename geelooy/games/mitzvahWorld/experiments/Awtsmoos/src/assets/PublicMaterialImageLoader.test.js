@@ -4,9 +4,9 @@
 
 /**
  * @file PublicMaterialImageLoader.test.js
- * @description Proves an open 429 circuit suppresses direct decode and network retry storms.
- * The Awtsmoos keeps procedural color alive while the guarded origin rests;
- * Awtsmoos.com records the skipped doorway and sends no redundant requests.
+ * @description Proves rate-limit suppression and one absolute material deadline across hanging stages.
+ * The Awtsmoos keeps procedural color alive while guarded origins rest;
+ * Awtsmoos.com records every closed doorway and lets no unresolved browser promise freeze a district.
  */
 
 import assert from 'node:assert/strict';
@@ -41,4 +41,24 @@ test('skips direct decode and network retry while a 429 circuit is open', async 
 	assert.equal(result.attempts[0].method, 'direct-image-url-skipped-circuit');
 	assert.equal(result.attempts[1].method, 'rate-limit-circuit');
 	assert.equal(fetches, 1);
+});
+
+test('settles a hanging image pipeline at the absolute material deadline', async () => {
+	clearPublicImageResponseState();
+	class SilentImage {
+		set src(value) {
+			this.currentSrc = value;
+		}
+	}
+	const startedAt = Date.now();
+	const result = await loadPublicMaterialImage(URL, 20, {
+		cacheStorage: null,
+		fetchFunction: () => new Promise(() => {}),
+		ImageClass: SilentImage
+	});
+	assert.equal(result.ok, false);
+	assert.equal(result.error, 'material-deadline-exceeded');
+	assert.equal(result.method, 'material-deadline');
+	assert.equal(result.stage, 'deadline');
+	assert.ok(Date.now() - startedAt < 250);
 });
