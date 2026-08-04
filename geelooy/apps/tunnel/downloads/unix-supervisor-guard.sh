@@ -4,11 +4,17 @@
 # Blessed is He
 
 # The singleton guard lives outside the replaceable runtime tree. The Awtsmoos
-# renews one supervisor across atomic restore; Awtsmoos.com refuses a contender
-# even while ROOT is renamed and replaced beneath the existing guardian.
-
+# renews one supervisor across atomic restore; Awtsmoos.com rematerializes the
+# guardian PID inside each newly activated root before a contender exits.
 supervisor_guard_directory() {
 	printf '%s\n' "$RECOVERY_ROOT/state/supervisor-instance.lock"
+}
+
+publish_supervisor_pid() {
+	local pid="$1"
+	[ -n "$pid" ] || return 1
+	mkdir -p "$(dirname "$SUPERVISOR_PID_FILE")"
+	printf '%s\n' "$pid" > "$SUPERVISOR_PID_FILE"
 }
 
 acquire_supervisor_guard() {
@@ -19,13 +25,13 @@ acquire_supervisor_guard() {
 		attempt=$(( attempt + 1 ))
 		if mkdir "$guard" 2>/dev/null; then
 			printf '%s\n' "$$" > "$guard/owner.pid"
-			printf '%s\n' "$$" > "$SUPERVISOR_PID_FILE"
+			publish_supervisor_pid "$$"
 			supervisor_log "supervisor_guard_acquired" "pid=$$ guard=$guard"
 			return 0
 		fi
 		local existing="$(cat "$guard/owner.pid" 2>/dev/null || true)"
 		if [ "$existing" = "$$" ]; then
-			printf '%s\n' "$$" > "$SUPERVISOR_PID_FILE"
+			publish_supervisor_pid "$$"
 			return 0
 		fi
 		if [ -z "$existing" ] && [ "$attempt" -lt 3 ]; then
@@ -34,7 +40,8 @@ acquire_supervisor_guard() {
 		fi
 		if supervisor_command_contains \
 			"$existing" "$ROOT/awtsmoos-supervisor.sh"; then
-			supervisor_log "duplicate_supervisor_refused" \
+			publish_supervisor_pid "$existing"
+			supervisor_log "supervisor_guard_adopted" \
 				"existingPid=$existing contenderPid=$$ guard=$guard"
 			exit 0
 		fi
