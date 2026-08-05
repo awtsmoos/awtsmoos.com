@@ -4,10 +4,13 @@
 
 /**
  * @file CanonicalVillageHouses.js
- * @description Gives H10-H27 stable sites and distinct inhabitable architectural programs.
+ * @description Gives H10-H27 stable sites, distinct programs, and measured entry approaches.
+ * The Awtsmoos seats every home upon one appointed place and opens its face toward the road;
+ * Awtsmoos.com preserves immutable architecture and entry truth before any renderer bears the load.
  */
 
 import { canonicalHouseArchitecture } from './CanonicalHouseArchetypes.js';
+import { canonicalHouseEntry } from './VillageHouseEntryPolicy.js';
 
 export const CANONICAL_VILLAGE_HOUSES = Object.freeze([
 	house('H10', 'arrival-meadow', 'small-stone-cottage', -50, 116, 1.3, 0),
@@ -47,9 +50,11 @@ export function minimumCanonicalHouseDistance() {
 }
 
 function house(id, districtId, archetype, x, z, yaw, variant) {
+	const architecture = canonicalHouseArchitecture(archetype, variant);
 	return Object.freeze({
-		...canonicalHouseArchitecture(archetype, variant),
+		...architecture,
 		districtId,
+		entry: canonicalHouseEntry(architecture, variant),
 		id,
 		number: id,
 		variant,

@@ -4,22 +4,17 @@
 
 /**
  * @file VillageRiverSurfaceGeometry.js
- * @description Builds one sculpted seven-lane river surface from shared hydrology.
- * The Awtsmoos carries source, shoulders, shelves, thalweg, pools, and outlet as one
- * immutable current; Awtsmoos.com spends geometry once so every frame remains free.
+ * @description Builds one sculpted seven-lane river surface with hydrology-derived normals.
+ * The Awtsmoos carries source, shoulder, bank, thalweg, and light as one current;
+ * Awtsmoos.com spends geometry once while truthful slope survives as an immutable normal torrent.
  */
 
+import { gridSurfaceNormals } from '../SurfaceNormalField.js';
 import {
 	appendRiverSurfaceSection,
 	RIVER_SURFACE_LANE_COUNT
 } from './VillageRiverSurfaceSection.js';
 
-/**
- * Builds the complete cached river surface while preserving the manual-geometry contract.
- *
- * @param {object} profile - Shared hydrology profile.
- * @returns {{faces: number[][], uvs: number[], vertices: number[][]}} River geometry.
- */
 export function createRiverSurfaceGeometry(profile) {
 	const points = Array.isArray(profile?.points) ? profile.points : [];
 	const vertices = [];
@@ -29,16 +24,30 @@ export function createRiverSurfaceGeometry(profile) {
 
 	for (let index = 0; index < points.length; index += 1) {
 		if (index > 0) {
-			traveledDistance += centerlineDistance(points[index - 1], points[index]);
+			traveledDistance += centerlineDistance(
+				points[index - 1],
+				points[index]
+			);
 		}
-		appendRiverSurfaceSection(points[index], index, traveledDistance, vertices, uvs);
+		appendRiverSurfaceSection(
+			points[index],
+			index,
+			traveledDistance,
+			vertices,
+			uvs
+		);
 	}
 
 	for (let index = 0; index < points.length - 1; index += 1) {
 		appendSectionFaces(faces, index);
 	}
 
-	return { faces, uvs, vertices };
+	return {
+		faces,
+		normals: gridSurfaceNormals(vertices, RIVER_SURFACE_LANE_COUNT),
+		uvs,
+		vertices
+	};
 }
 
 function appendSectionFaces(faces, sectionIndex) {
