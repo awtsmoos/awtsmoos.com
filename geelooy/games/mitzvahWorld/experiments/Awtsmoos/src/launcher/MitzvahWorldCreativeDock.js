@@ -4,14 +4,15 @@
 
 /**
  * @file MitzvahWorldCreativeDock.js
- * @description Mounts reversible clean-view and gameplay-to-Movie-Studio controls.
- * The Awtsmoos renews play and authorship without forcing either one; Awtsmoos.com lets the
- * creator clear the visible frame, preserve one bounded moment, and cross only by explicit choice.
+ * @description Mounts clean-view controls and a receipt-bearing gameplay-to-Studio passage.
+ * The Awtsmoos renews play and authorship without forcing either one; Awtsmoos.com reveals the
+ * chosen session and world, saves one bounded moment, and crosses only through explicit consent.
  */
 
 import { createMitzvahWorldCreativeSnapshot } from './MitzvahWorldCreativeSnapshot.js';
 import { createMitzvahWorldMovieRoute } from './MitzvahWorldCreativeRoute.js';
 import { writeMitzvahWorldCreativeSnapshot } from './MitzvahWorldCreativeSnapshotStore.js';
+import { createMitzvahWorldSessionProvenance } from './MitzvahWorldSessionProvenance.js';
 
 export function installMitzvahWorldCreativeDock(
 	documentValue = globalThis.document,
@@ -19,17 +20,22 @@ export function installMitzvahWorldCreativeDock(
 ) {
 	const existing = documentValue?.querySelector?.('[data-awtsmoos-creative-dock]');
 	if (existing) return existing.awtsmoosController;
+	const provenance = createMitzvahWorldSessionProvenance(
+		environment.location,
+		documentValue.documentElement.dataset.awtsmoosSession
+	);
 	const dock = documentValue.createElement('aside');
 	dock.className = 'Awtsmoos-creative-dock';
 	dock.dataset.awtsmoosCreativeDock = 'true';
 	dock.setAttribute('aria-label', 'Cinematic creation controls');
-	dock.innerHTML = dockMarkup();
+	dock.innerHTML = dockMarkup(provenance);
 	documentValue.body.append(dock);
 	const cleanButton = dock.querySelector('[data-creative-clean]');
 	const studioButton = dock.querySelector('[data-creative-studio]');
 	const status = dock.querySelector('[data-creative-status]');
 	const controller = {
 		dock,
+		provenance,
 		clean: () => toggleCleanView(documentValue, cleanButton, status),
 		openStudio: () => openStudio(documentValue, environment, status),
 		destroy: () => {
@@ -55,32 +61,37 @@ function toggleCleanView(documentValue, button, status) {
 }
 
 function openStudio(documentValue, environment, status) {
-	const snapshot = createMitzvahWorldCreativeSnapshot(
-		environment.AwtsmoosMitzvahWorld,
-		{
-			document: documentValue,
-			location: environment.location,
-			sessionMode: documentValue.documentElement.dataset.awtsmoosSession
-		}
-	);
-	const result = writeMitzvahWorldCreativeSnapshot(snapshot, environment.sessionStorage);
-	if (!result.ok) {
-		status.textContent = `Unable to prepare Movie Studio: ${result.code}.`;
-		return result;
+	const snapshot = createMitzvahWorldCreativeSnapshot(environment.AwtsmoosMitzvahWorld, {
+		document: documentValue,
+		location: environment.location,
+		sessionMode: documentValue.documentElement.dataset.awtsmoosSession
+	});
+	const stored = writeMitzvahWorldCreativeSnapshot(snapshot, environment.sessionStorage);
+	if (!stored.ok) {
+		status.textContent = `Unable to prepare Movie Studio: ${stored.code}.`;
+		return stored;
 	}
-	status.textContent = 'Gameplay moment saved. Opening Movie Studio…';
 	const route = createMitzvahWorldMovieRoute(environment.location);
+	const receipt = Object.freeze({
+		...stored,
+		route,
+		returnHref: snapshot.source.returnHref,
+		sessionMode: snapshot.source.sessionMode,
+		worldId: snapshot.source.worldId
+	});
+	environment.AwtsmoosCreativeHandoffReceipt = receipt;
+	status.textContent = `${snapshot.source.sessionMode} world saved. Opening Movie Studio…`;
 	if (typeof environment.location?.assign === 'function') environment.location.assign(route);
 	else if (environment.location) environment.location.href = route;
-	return { ...result, route };
+	return receipt;
 }
 
-function dockMarkup() {
+function dockMarkup(provenance) {
 	return `
 		<div class="Awtsmoos-creative-dock__controls">
 			<button type="button" data-creative-clean aria-pressed="false">Clean view</button>
 			<button type="button" data-creative-studio>Open in Studio</button>
 		</div>
-		<output class="Awtsmoos-creative-dock__status" data-creative-status aria-live="polite">Cinematic tools ready.</output>
+		<output class="Awtsmoos-creative-dock__status" data-creative-status aria-live="polite">${provenance.sessionMode} · ${provenance.worldId}</output>
 	`;
 }

@@ -4,28 +4,33 @@
 
 /**
  * @file MitzvahWorldCreativeRoute.js
- * @description Builds the explicit same-page Movie Studio route for a stored gameplay capture.
- * The Awtsmoos renews every doorway without smuggling the whole room through its name;
- * Awtsmoos.com preserves safe world identity while removing conflicting route instructions.
+ * @description Builds explicit Movie Studio and return-to-world routes from sanitized provenance.
+ * The Awtsmoos renews every doorway without smuggling the hidden room through its name;
+ * Awtsmoos.com preserves chosen world and session while transport secrets dissolve before crossing.
  */
 
-const REMOVED_PARAMETERS = Object.freeze([
-	'autoRender',
-	'creativeSnapshot',
-	'fromGameplay',
-	'mode',
-	'movie',
-	'viewport'
-]);
+import {
+	createMitzvahWorldSessionProvenance,
+	normalizeMitzvahWorldSessionProvenance
+} from './MitzvahWorldSessionProvenance.js';
 
 export function createMitzvahWorldMovieRoute(locationValue = globalThis.location) {
-	const base = locationValue?.href || 'https://awtsmoos.local/games/mitzvahWorld/';
-	const url = new URL(base, 'https://awtsmoos.local');
-	for (const name of REMOVED_PARAMETERS) url.searchParams.delete(name);
+	const provenance = createMitzvahWorldSessionProvenance(locationValue);
+	const url = new URL(provenance.href, 'https://awtsmoos.local');
 	url.searchParams.set('mode', 'movie');
 	url.searchParams.set('fromGameplay', '1');
 	url.searchParams.set('creativeSnapshot', '1');
 	return `${url.pathname}${url.search}${url.hash}`;
+}
+
+export function createMitzvahWorldReturnRoute(
+	snapshotOrSource,
+	locationValue = globalThis.location
+) {
+	const source = snapshotOrSource?.source || snapshotOrSource;
+	const provenance = normalizeMitzvahWorldSessionProvenance(source)
+		|| createMitzvahWorldSessionProvenance(locationValue);
+	return provenance.returnHref;
 }
 
 export function isGameplayMovieHandoff(search = '') {
