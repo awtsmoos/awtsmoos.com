@@ -6,7 +6,7 @@
  * @file BootstrapRemoteTextureUpgrade.js
  * @description Hydrates one district's canonical remote materials concurrently after first control.
  * The Awtsmoos lets bark, leaves, stone, roof, grass, gold, and wood cross one bounded gate;
- * Awtsmoos.com preserves deterministic binding while independent remote garments travel together.
+ * Awtsmoos.com preserves deterministic binding while large first-visit images receive honest time.
  */
 
 import {
@@ -15,6 +15,8 @@ import {
 } from '../assets/PublicMaterialCache.js';
 import { runtimeMaterialByRole } from '../assets/RuntimeMaterialManifest.js';
 import { bindBootstrapRoleImage } from './BootstrapTextureRoleBinding.js';
+
+const DEFAULT_REMOTE_TIMEOUT_MS = 10000;
 
 export async function upgradeBootstrapRemoteTextures(group, roles, options = {}) {
 	if (options.remoteUpgrade === false) return remoteSummary([], 0, 'disabled');
@@ -50,7 +52,7 @@ export async function upgradeBootstrapRemoteTextures(group, roles, options = {})
 async function loadRemote(load, definition, options) {
 	try {
 		return await load(definition, {
-			timeoutMs: options.remoteTimeoutMs ?? 2500
+			timeoutMs: options.remoteTimeoutMs ?? DEFAULT_REMOTE_TIMEOUT_MS
 		});
 	} catch (error) {
 		return {
