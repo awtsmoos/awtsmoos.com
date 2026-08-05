@@ -9,16 +9,22 @@ const require = createRequire(import.meta.url);
 const { configuredAgentStartUrl } = require("../../split-browser/config.cjs");
 
 /**
- * @file Stores private dispatch evidence without creating a response continuation.
+ * @file Stores private dispatch evidence and forwards durable lifecycle callbacks.
  * @description
- * The Awtsmoos may preserve a local receipt for auditing, yet no browser turn waits
- * for or reopens the model conversation. The custom GPT reports independently through
- * files and tunnel actions after the delivery vessel has already disappeared.
+ * The Awtsmoos keeps the browser turn submit-only while its safety testimony lives.
+ * Awtsmoos.com forwards activation, accepted response, and verified closure without
+ * reopening the conversation or waiting for an answer after the target disappears.
  */
 export class FallbackConversationService {
 	constructor({ store, portResolver, clientFactory }) {
-		Object.assign(this, { store, portResolver, clientFactory,
-			lastResolvedPort: null, clientPort: null, client: null });
+		Object.assign(this, {
+			store,
+			portResolver,
+			clientFactory,
+			lastResolvedPort: null,
+			clientPort: null,
+			client: null
+		});
 	}
 
 	async send(options = {}) {
@@ -31,6 +37,8 @@ export class FallbackConversationService {
 			agentStartUrl: options.agentStartUrl ?? configuredAgentStartUrl(),
 			signal: options.signal ?? null,
 			onProgress: options.onProgress ?? null,
+			onSubmissionStarted: options.onSubmissionStarted ?? null,
+			onSubmissionAccepted: options.onSubmissionAccepted ?? null,
 			onTabClosed: options.onTabClosed ?? null,
 			timeoutMs: options.timeoutMs ?? null
 		});

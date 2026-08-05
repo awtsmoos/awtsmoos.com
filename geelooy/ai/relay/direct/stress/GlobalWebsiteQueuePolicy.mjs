@@ -2,93 +2,112 @@
 // Boruch Hashem
 // Blessed is He
 
-import { randomUUID } from "node:crypto";
-
-const POST_CLOSE_COOLDOWN_MS = 18000;
-const MAX_ACTIVE_WEBSITE_TABS = 1;
+import { createHash, randomUUID } from "node:crypto";
+import {
+	ACCEPTED_RECEIPT_TTL_MS,
+	MAX_ACCEPTED_RECEIPTS,
+	MAX_ACTIVE_WEBSITE_TABS,
+	MAX_DURABLE_QUEUE_ITEMS,
+	MAX_UNCERTAIN_TURNS,
+	POST_CLOSE_COOLDOWN_MS
+} from "./GlobalWebsiteQueueLimits.mjs";
 
 /**
- * @file Defines one uncompromising physical website-agent launch policy.
+ * @file Defines the global website-agent queue covenant.
  * @description
- * The Awtsmoos lets every requested agent wait in the durable queue, but exactly
- * one Chrome vessel may live. No caller, environment, or test boundary may weaken
- * the eighteen-second clock that begins only after verified target closure.
+ * The Awtsmoos renews many waiting sparks through one physical vessel. Awtsmoos.com
+ * admits durable work, seals stable turn identities, and never weakens the clock
+ * whose eighteen seconds begin only after a verified target has disappeared.
  */
 export function queueConfiguration(options = {}) {
-	const requestedInterval = Number(
+	const requestedInterval = finite(
 		options.minimumIntervalMs ??
-		process.env.AWTSMOOS_WEBSITE_AGENT_LAUNCH_INTERVAL_MS ??
+		process.env.AWTSMOOS_WEBSITE_AGENT_LAUNCH_INTERVAL_MS,
 		POST_CLOSE_COOLDOWN_MS
 	);
 	return {
-		minimumIntervalMs: Math.max(
-			POST_CLOSE_COOLDOWN_MS,
-			Number.isFinite(requestedInterval)
-				? requestedInterval
-				: POST_CLOSE_COOLDOWN_MS
-		),
+		minimumIntervalMs: Math.max(POST_CLOSE_COOLDOWN_MS, requestedInterval),
 		maxActiveTabs: MAX_ACTIVE_WEBSITE_TABS,
-		pollMs: Math.max(10, Number(options.pollMs || 250)),
+		maxQueueItems: clamp(options.maxQueueItems, MAX_DURABLE_QUEUE_ITEMS),
+		maxAcceptedReceipts: clamp(
+			options.maxAcceptedReceipts,
+			MAX_ACCEPTED_RECEIPTS
+		),
+		maxUncertainTurns: clamp(options.maxUncertainTurns, MAX_UNCERTAIN_TURNS),
+		acceptedReceiptTtlMs: Math.max(
+			60000,
+			finite(options.acceptedReceiptTtlMs, ACCEPTED_RECEIPT_TTL_MS)
+		),
+		pollMs: Math.max(10, finite(options.pollMs, 250)),
 		acquisitionTimeoutMs: Math.max(
 			60000,
-			Number(options.acquisitionTimeoutMs || 7200000)
+			finite(options.acquisitionTimeoutMs, 7200000)
 		)
 	};
 }
 
-export function createTicket(metadata, now) {
+export function createTicket(metadata = {}, now = Date.now()) {
+	const safe = safeMetadata(metadata);
+	const identity = safe.idempotencyKey || `ephemeral:${randomUUID()}`;
 	return {
-		id: `ticket_${randomUUID()}`,
+		id: `ticket_${digest(identity)}`,
+		idempotencyKey: identity,
 		pid: process.pid,
 		createdAt: now,
-		metadata: safeMetadata(metadata)
+		metadata: safe
 	};
 }
 
-export function queueSnapshot(state, configuration, now = Date.now()) {
-	const lastClosedAt = Number(state.lastClosedAt || 0) || null;
-	const nextLaunchAt = lastClosedAt
-		? lastClosedAt + configuration.minimumIntervalMs
-		: null;
+export function acceptedReceipt(input = {}, now = Date.now()) {
 	return {
-		queued: state.queue.length,
-		active: state.active.length,
-		lastLaunchAt: iso(state.lastLaunchAt),
-		lastClosedAt: iso(lastClosedAt),
-		nextLaunchAt: iso(nextLaunchAt),
-		cooldownRemainingMs: nextLaunchAt
-			? Math.max(0, nextLaunchAt - now)
-			: 0,
-		minimumIntervalMs: configuration.minimumIntervalMs,
-		maxActiveTabs: MAX_ACTIVE_WEBSITE_TABS,
-		intervalAnchor: "verified-tab-close"
+		acceptedAt: optionalNumber(input.acceptedAt, now),
+		conversationId: text(input.conversationId, 512),
+		userMessageId: text(input.userMessageId, 512),
+		responseStatus: optionalNumber(input.responseStatus, null),
+		closedAt: optionalNumber(input.closedAt, null)
 	};
 }
 
-export function queueError(code) {
+export function queueError(code, details = {}) {
 	const error = new Error(code);
 	error.code = code;
+	Object.assign(error, details);
 	return error;
 }
 
-function safeMetadata(input = {}) {
+function safeMetadata(input) {
 	const keys = [
 		"kind",
 		"missionId",
 		"websiteMissionId",
 		"logicalAgentId",
-		"agentSessionId"
+		"agentSessionId",
+		"idempotencyKey"
 	];
-	return Object.fromEntries(
-		keys.map(key => [key, String(input[key] || "")])
-	);
+	return Object.fromEntries(keys.map(key => [key, text(input[key], 512)]));
 }
 
-function iso(value) {
-	return value ? new Date(Number(value)).toISOString() : null;
+function digest(value) {
+	return createHash("sha256").update(String(value)).digest("hex").slice(0, 32);
 }
 
-export {
-	MAX_ACTIVE_WEBSITE_TABS,
-	POST_CLOSE_COOLDOWN_MS
-};
+function text(value, maximum) {
+	return String(value || "").slice(0, maximum);
+}
+
+function finite(value, fallback) {
+	const number = Number(value);
+	return Number.isFinite(number) ? number : fallback;
+}
+
+function optionalNumber(value, fallback) {
+	return value === null || value === undefined || value === ""
+		? fallback
+		: finite(value, fallback);
+}
+
+function clamp(value, maximum) {
+	return Math.min(maximum, Math.max(100, finite(value, maximum)));
+}
+
+export * from "./GlobalWebsiteQueueLimits.mjs";

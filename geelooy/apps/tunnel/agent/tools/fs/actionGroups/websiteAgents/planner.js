@@ -2,19 +2,21 @@
 // Boruch Hashem
 // Blessed is He
 
-const path = require("node:path");
 const Policy = require("./plannerPolicy.js");
 const Scopes = require("./plannerScopes.js");
 const Target = require("./plannerTarget.js");
 
 /**
- * @file Composes one durable, congestion-safe website-agent mission plan.
+ * @file Composes one durable congestion-safe website-agent mission plan.
  * @description
- * The Awtsmoos may call a hundred shluchim, yet Awtsmoos.com opens only one tab;
- * all others remain queued behind verified close and eighteen seconds of calm.
+ * The Awtsmoos may call a hundred shluchim while Awtsmoos.com opens one tab.
+ * Every agent receives both canonical relative and absolute scope names before any
+ * queue admission, while the upstream recursion and room policies remain intact.
  */
 function plan(config = {}, input = {}) {
-	const projectRoot = path.resolve(input.projectRoot || config.root || process.cwd());
+	const projectRoot = Scopes.canonicalProjectRoot(
+		input.projectRoot || config.root || process.cwd()
+	);
 	const scale = Policy.promptScale(input);
 	const count = Policy.agentCount(input, scale);
 	const scopes = Scopes.scopeCandidates(projectRoot, input);
@@ -56,7 +58,10 @@ function plan(config = {}, input = {}) {
 			maxSubagentsPerAgent,
 			maxHelpersPerAgent: maxSubagentsPerAgent,
 			maxTotalWebsiteAgents,
-			subagentStartSpacingMs: Policy.spacing(input.subagentStartSpacingMs, startSpacingMs),
+			subagentStartSpacingMs: Policy.spacing(
+				input.subagentStartSpacingMs,
+				startSpacingMs
+			),
 			recursiveFanOut: "independent-scoped-work-with-stable-request-keys",
 			handoffRequired: true,
 			roomUpdates: ["plan", "progress", "handoff", "completion"]
@@ -65,22 +70,24 @@ function plan(config = {}, input = {}) {
 		collaborationRounds: Policy.bounded(input.collaborationRounds, 2, 1, 8),
 		maxContinuationTurns: Policy.bounded(input.maxContinuationTurns, 6, 1, 12),
 		authPollMs: Policy.bounded(input.authPollMs, 3000, 1000, 30000),
-		agents: createAgents(count, scopes)
+		agents: createAgents(count, scopes, projectRoot)
 	};
 }
 
-function createAgents(count, scopes) {
+function createAgents(count, scopes, projectRoot) {
 	const width = Math.max(2, String(count).length);
 	return Array.from({ length: count }, (_, index) => {
 		const [role, focus, claimMode] = Policy.ROLES[index % Policy.ROLES.length];
 		const ordinal = String(index + 1).padStart(width, "0");
+		const scope = scopes[index % scopes.length];
 		return {
 			id: `website_${ordinal}_${role}`,
 			name: `Website ${capitalize(role)} ${ordinal}`,
 			role,
 			focus,
 			claimMode,
-			scope: scopes[index % scopes.length],
+			scope,
+			absoluteScope: Scopes.absoluteScope(projectRoot, scope),
 			ordinal: index + 1
 		};
 	});

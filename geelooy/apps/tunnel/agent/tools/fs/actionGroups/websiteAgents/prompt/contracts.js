@@ -39,7 +39,7 @@ function spawnContract(record, agent) {
 	return [
 		"Durable child-agent fan-out:",
 		`- Use aiAgentSpawnWebsiteMission for independent non-overlapping work; do not emit conversational SPAWN JSON. Maximum simultaneous helpers: ${maximum}.`,
-		`- Include projectRoot=${record.plan.projectRoot}, parent mission ${record.missionId}, parent agent ${agent.id}, exact scope, evidence requirements, and the same room covenant.`,
+		`- Include Canonical project root: ${record.plan.projectRoot}, Claimed relative scope, Claimed absolute scope, parent mission ${record.missionId}, parent agent ${agent.id}, evidence requirements, and the same room covenant.`,
 		"- Record every child launch receipt in missionRoomMessage kind=delegation and every returned result in kind=handoff.",
 		"- Use aiAgentWebsiteMissionStatus to observe a child. Never resend a child launch because an acknowledgement is late.",
 		"- Each child must close its own browser tab after accepted delivery and continue through durable tools."

@@ -1,4 +1,4 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -14,36 +14,40 @@ const COMPOSER_SELECTORS = [
 ];
 
 /**
- * The real prompt enters ChatGPT's canonical visible composer once. The Awtsmoos
- * chooses the proven contenteditable vessel before any compatibility fallback, and
- * Awtsmoos.com presses Enter only after the exact private letters are verified there.
+ * @file Activates the ordinary visible Send button after durable click testimony.
+ * @description
+ * The Awtsmoos places the exact prompt into ChatGPT's canonical composer.
+ * Awtsmoos.com waits until the control is ready, persists delivery-started state,
+ * and only then activates the one physical Send button for this stable turn.
  */
 export class WebsitePromptInteractor {
-	constructor(cdpClient, {
-		nodeFinder = new CarrierNodeFinder(cdpClient),
-		inputController = new CarrierInputController(cdpClient),
-		controlGate = new CarrierControlGate(cdpClient)
-	} = {}) {
-		this.nodeFinder = nodeFinder;
-		this.inputController = inputController;
-		this.controlGate = controlGate;
+	constructor(cdpClient, options = {}) {
+		this.nodeFinder = options.nodeFinder || new CarrierNodeFinder(cdpClient);
+		this.inputController = options.inputController ||
+			new CarrierInputController(cdpClient);
+		this.controlGate = options.controlGate || new CarrierControlGate(cdpClient);
 	}
 
-	async submit(prompt) {
-		if (typeof prompt !== "string" || prompt.trim() === "") {
-			throw new TypeError("Website prompt must be a non-empty string.");
-		}
+	async submit(prompt, options = {}) {
+		this.validate(prompt);
 		const composer = await this.nodeFinder.findFirst(COMPOSER_SELECTORS);
 		if (!composer) throw new Error("The ChatGPT composer was not visible.");
 		await this.inputController.focusAndReplace(composer, prompt);
 		const ready = await this.controlGate.waitUntilReady();
 		const send = await this.nodeFinder.findFirst([ready.sendSelector]);
 		if (!send) throw new Error("The ordinary ChatGPT Send button was not visible.");
+		await options.onBeforeActivate?.({ startedAt: Date.now() });
 		await this.inputController.activateNode(send);
 		return {
 			composerTouched: true,
 			sendActivated: true,
 			submissionGesture: "send-button-keyboard"
 		};
+	}
+
+	validate(prompt) {
+		if (typeof prompt !== "string" || prompt.trim() === "") {
+			throw new TypeError("Website prompt must be a non-empty string.");
+		}
 	}
 }

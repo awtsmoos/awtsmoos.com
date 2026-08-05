@@ -4,19 +4,26 @@
 
 import { DirectServiceAuthentication } from "./DirectServiceAuthentication.mjs";
 import { buildDirectServiceDependencies } from "./DirectServiceDependencies.mjs";
-import { codedError, queueMetadata, requestFor, validateMode, validatePrompt } from "./DirectServiceRequest.mjs";
+import {
+	codedError,
+	queueMetadata,
+	requestFor,
+	validateMode,
+	validatePrompt
+} from "./DirectServiceRequest.mjs";
 
 /**
- * @file Coordinates one accepted prompt dispatch and immediate verified tab close.
+ * @file Coordinates one durable accepted dispatch and immediate verified tab close.
  * @description
- * The Awtsmoos lets every requested agent wait in one durable queue. Awtsmoos.com
- * starts the dedicated browser, verifies the final GPT route, sends once, closes,
- * starts eighteen seconds, and never waits for the agent's conversational answer.
+ * The Awtsmoos admits every stable mission turn through one global queue.
+ * Awtsmoos.com records activation and acceptance, closes the exact tab, begins
+ * eighteen seconds, and lets the agent continue through tools and shared rooms.
  */
 export class DirectService {
 	constructor(options = {}) {
 		Object.assign(this, buildDirectServiceDependencies(options));
-		this.authentication = options.authentication || new DirectServiceAuthentication(this);
+		this.authentication = options.authentication ||
+			new DirectServiceAuthentication(this);
 	}
 
 	async send(options = {}) {
@@ -26,7 +33,12 @@ export class DirectService {
 		const request = requestFor(this, options);
 		return this.turnCoordinator.run(
 			queueMetadata(options, "send"),
-			({ onTabClosed }) => this.authentication.send({ ...request, onTabClosed }, options)
+			callbacks => this.authentication.send({
+				...request,
+				onSubmissionStarted: callbacks.onSubmissionStarted,
+				onSubmissionAccepted: callbacks.onSubmissionAccepted,
+				onTabClosed: callbacks.onTabClosed
+			}, options)
 		);
 	}
 
@@ -49,7 +61,9 @@ export class DirectService {
 
 	async capability(options = {}) {
 		try {
-			return this.capabilityPresenter.ready(await this.capabilityService.inspect(options));
+			return this.capabilityPresenter.ready(
+				await this.capabilityService.inspect(options)
+			);
 		} catch {
 			return this.capabilityPresenter.loginRequired();
 		}

@@ -9,11 +9,11 @@ import { DirectClientResultPresenter } from "./DirectClientResultPresenter.mjs";
 import { DirectTurnExecutor } from "./DirectTurnExecutor.mjs";
 
 /**
- * @file Sends once, verifies acceptance, closes once, and returns without an answer.
+ * @file Sends once, verifies acceptance, closes once, and never awaits an answer.
  * @description
- * The Awtsmoos gives the browser one bounded shlichus: deliver the prompt. After the
- * website accepts it, Awtsmoos.com closes and verifies the target, starts cooldown,
- * and releases the caller while the custom GPT continues through durable tools.
+ * The Awtsmoos gives the browser one bounded shlichus: deliver the prompt.
+ * Awtsmoos.com verifies closure, marks failed acceptance persistence as uncertain,
+ * and lets durable tools and shared rooms continue after the tab disappears.
  */
 export class DirectClient {
 	constructor(options = {}) {
@@ -33,22 +33,40 @@ export class DirectClient {
 	async send(options = {}) {
 		this.assertNotAborted(options.signal);
 		const ledger = new StageTimingLedger();
-		const submitted = await this.hostLease.run(
-			(controller, lease) => this.turnExecutor.execute(options, controller, lease, ledger),
-			{ closeAfterTask: true }
-		);
+		let submitted = null;
+		try {
+			submitted = await this.hostLease.run(
+				(controller, lease) => this.turnExecutor.execute(
+					options,
+					controller,
+					lease,
+					ledger
+				),
+				{ closeAfterTask: true }
+			);
+		} catch (error) {
+			if (error.submissionAccepted && error.tabClose?.verified) {
+				await this.notifyClosed(options, error.tabClose, Date.now(), true);
+			}
+			throw error;
+		}
 		if (!submitted.tabClose?.verified) throw closeError(submitted.tabClose);
 		const closedAt = Date.now();
-		await options.onTabClosed?.({
-			tabClose: submitted.tabClose,
-			closedAt,
-			verified: true
-		});
+		await this.notifyClosed(options, submitted.tabClose, closedAt, false);
 		return this.presenter.dispatch(submitted, ledger, closedAt);
 	}
 
 	async recover() {
 		throw codedError("response_recovery_disabled_submit_only");
+	}
+
+	notifyClosed(options, tabClose, closedAt, submissionUncertain) {
+		return options.onTabClosed?.({
+			tabClose,
+			closedAt,
+			verified: true,
+			submissionUncertain
+		});
 	}
 
 	close() {

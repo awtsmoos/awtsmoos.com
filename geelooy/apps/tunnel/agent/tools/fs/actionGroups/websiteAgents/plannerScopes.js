@@ -6,20 +6,54 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 /**
- * @file Reveals safe non-overlapping repository scopes for a durable agent swarm.
+ * @file Reveals canonical relative and absolute repository scopes.
  * @description
- * The Awtsmoos gives each shliach a bounded vessel; Awtsmoos.com rejects paths
- * beyond the chosen root so a hundred queued agents cannot trample foreign ground.
+ * The Awtsmoos gives every shliach one bounded vessel. Awtsmoos.com resolves each
+ * claim through the canonical project root, rejects traversal beyond that root,
+ * and preserves both names so commands and room claims cannot drift or collide.
  */
 function scopeCandidates(projectRoot, input = {}) {
+	const root = canonicalProjectRoot(projectRoot);
 	const supplied = array(input.scopes || input.directories || input.paths);
 	const mentioned = pathMentions(String(input.prompt || input.goal || input.message || ""));
-	const discovered = topLevelDirectories(projectRoot);
+	const discovered = topLevelDirectories(root);
 	const values = [...supplied, ...mentioned, ...discovered]
-		.map(value => normalizeScope(projectRoot, value))
-		.filter(Boolean);
+		.map(value => scopeDescriptor(root, value))
+		.filter(Boolean)
+		.map(scope => scope.relativeScope);
 	const unique = [...new Set(values)].slice(0, 96);
 	return unique.length ? unique : ["."];
+}
+
+function scopeDescriptor(projectRoot, value) {
+	const root = canonicalProjectRoot(projectRoot);
+	const text = String(value || "").trim();
+	if (!text || text.includes("\0")) return null;
+	const absoluteScope = path.resolve(root, text);
+	const relativeScope = path.relative(root, absoluteScope);
+	if (relativeScope === ".." || relativeScope.startsWith(`..${path.sep}`)) return null;
+	return {
+		projectRoot: root,
+		relativeScope: relativeScope || ".",
+		absoluteScope
+	};
+}
+
+function normalizeScope(projectRoot, value) {
+	return scopeDescriptor(projectRoot, value)?.relativeScope || "";
+}
+
+function absoluteScope(projectRoot, value) {
+	return scopeDescriptor(projectRoot, value)?.absoluteScope || "";
+}
+
+function canonicalProjectRoot(value) {
+	const root = path.resolve(String(value || process.cwd()));
+	try {
+		return fs.realpathSync(root);
+	} catch {
+		return root;
+	}
 }
 
 function pathMentions(text) {
@@ -39,15 +73,6 @@ function topLevelDirectories(root) {
 	}
 }
 
-function normalizeScope(root, value) {
-	const text = String(value || "").trim();
-	if (!text || text.includes("\0")) return "";
-	const absolute = path.resolve(root, text);
-	const relative = path.relative(root, absolute);
-	if (relative === ".." || relative.startsWith(`..${path.sep}`)) return "";
-	return relative || ".";
-}
-
 function array(value) {
 	if (Array.isArray(value)) return value.map(String);
 	if (!value) return [];
@@ -58,4 +83,10 @@ function array(value) {
 	return String(value).split(/\r?\n|,/).map(item => item.trim()).filter(Boolean);
 }
 
-module.exports = { normalizeScope, scopeCandidates };
+module.exports = {
+	absoluteScope,
+	canonicalProjectRoot,
+	normalizeScope,
+	scopeCandidates,
+	scopeDescriptor
+};
