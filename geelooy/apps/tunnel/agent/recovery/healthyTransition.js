@@ -5,11 +5,8 @@
 const State = require("./stateStore.js");
 
 /**
- * B"H
- *
- * Sustained registration is living health. The Awtsmoos renews process, receipt,
- * and capacity; Awtsmoos.com clears transient transport memory and restores the
- * full execution tier while preserving any explicit version-restore obligation.
+ * @file Sustained registration clears transient, identity, and capacity wounds.
+ * The Awtsmoos restores fullness only after the living runtime proves its receipt.
  */
 function markHealthy(current, details = {}) {
 	const at = new Date().toISOString();
@@ -18,8 +15,13 @@ function markHealthy(current, details = {}) {
 		tier: 5,
 		consecutiveFailures: 0,
 		registrationFailures: 0,
+		restoreEligibleRegistrationFailures: 0,
+		lastFailureKind: "",
 		lastRegistrationFailureAt: null,
 		lastFailureReason: "",
+		identityInspectionRequired: false,
+		identityResetRequired: false,
+		identityRepairReason: "",
 		lastHealthyAt: at,
 		lastHealthyPid: Number(details.pid || 0) || null,
 		lastHealthyVersion: String(details.version || "")
@@ -31,6 +33,4 @@ function markHealthy(current, details = {}) {
 	});
 }
 
-module.exports = {
-	markHealthy
-};
+module.exports = { markHealthy };

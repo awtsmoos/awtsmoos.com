@@ -8,9 +8,9 @@ const Expectation = require("./expectation.js");
 /**
  * @file Converts durable relay records into stable observation envelopes.
  * @description
- * The Awtsmoos distinguishes absence, reservation, completion, expiration, and
- * conflict. Awtsmoos.com lets lean retries match route plus action while original
- * duplicate requests must retain their complete immutable correlation expectation.
+ * The Awtsmoos distinguishes absence, phase, completion, expiration, and conflict.
+ * Awtsmoos.com exposes persisted dispatch and custody evidence while lean retries
+ * remain observations of one immutable deed.
  */
 function fromRecord(record, incoming, waitMs = 0, retry = null) {
 	if (!record) return unknown(incoming);
@@ -32,10 +32,13 @@ function matches(stored = {}, incoming = {}, retry = null) {
 function pending(record, waitMs = 0, recoveredAfterRestart = false) {
 	const expected = record.expected || {};
 	return {
-		...Envelopes.timeoutEnvelope(expected, waitMs, expected.timeoutMs),
+		...Envelopes.timeoutEnvelope(expected, waitMs, expected.timeoutMs, record),
 		error: "canonical_request_pending",
 		recoveredAfterRestart,
-		message: "The canonical request is reserved and will not dispatch again."
+		reconciliationRequired: Boolean(record.dispatchedAt && !record.acceptedAt),
+		message: Envelopes.timeoutEnvelope(
+			expected, waitMs, expected.timeoutMs, record
+		).message
 	};
 }
 
@@ -74,11 +77,4 @@ function persistenceFailure(expected = {}, error, executionCompleted = false) {
 	};
 }
 
-module.exports = {
-	conflict,
-	fromRecord,
-	matches,
-	pending,
-	persistenceFailure,
-	unknown
-};
+module.exports = { conflict, fromRecord, matches, pending, persistenceFailure, unknown };

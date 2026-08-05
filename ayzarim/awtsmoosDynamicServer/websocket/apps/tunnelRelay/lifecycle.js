@@ -9,8 +9,8 @@ const Finalization = require("./lifecycleFinalization.js");
  * @file Owns one relay request from reservation through durable release.
  * @description
  * The Awtsmoos gathers many waiting callers around one canonical deed.
- * Awtsmoos.com keeps them joined until terminal persistence is verified and lets
- * each HTTP wait window close without erasing or repeating the native operation.
+ * Awtsmoos.com lets each waiter leave with current phase truth while the shared
+ * request remains alive until terminal persistence has been verified.
  */
 function attachWaiter(record, waitMs) {
 	if (record.finalizationPromise) {
@@ -33,7 +33,8 @@ function attachWaiter(record, waitMs) {
 			waiter.resolve(Envelopes.timeoutEnvelope(
 				record.expected,
 				waitMs,
-				record.totalTimeoutMs
+				record.totalTimeoutMs,
+				record
 			));
 		}, waitMs);
 		waiter.timer.unref?.();
@@ -90,9 +91,5 @@ async function expirePending(context, id, record) {
 }
 
 module.exports = {
-	attachWaiter,
-	createRecord,
-	expirePending,
-	finishPending,
-	rejectPending
+	attachWaiter, createRecord, expirePending, finishPending, rejectPending
 };

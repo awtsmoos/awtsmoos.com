@@ -8,9 +8,11 @@ const Devices = require("../liveDevices.js");
 const Client = require("../tunnelClient.js");
 
 /**
-	* @file Proves ping-wait is routable while stale and disconnected sockets are not.
-	* @description The Awtsmoos keeps heartbeat uncertainty distinct from route death.
-	*/
+ * @file Proves delayed pongs remain routable below the real termination threshold.
+ * @description
+ * The Awtsmoos keeps one delayed answer distinct from route death. Only repeated
+ * misses combined with stale response evidence fence the transport from new work.
+ */
 const now = Date.parse("2026-07-27T02:15:00.000Z");
 
 function native(overrides = {}) {
@@ -45,17 +47,26 @@ assert.equal(active.livenessState, "active");
 const waitingClient = native();
 Live.markHeartbeatSent(waitingClient, now);
 const waiting = Client.publicNativeTunnel(waitingClient, now + 1000);
-assert.equal(waitingClient.isAlive, false);
+assert.equal(waitingClient.isAlive, true);
 assert.equal(waiting.connected, true);
 assert.equal(waiting.isAlive, true);
 assert.equal(waiting.livenessState, "probing");
 assert.equal(Devices.canRouteDevice(waiting, { action: "commandStart" }), true);
+
 Live.markHeartbeatSent(waitingClient, now + 20000);
-const missed = Client.publicNativeTunnel(waitingClient, now + 21000);
-assert.equal(missed.connected, false);
-assert.equal(missed.isAlive, false);
-assert.equal(missed.livenessState, "waiting_for_pong_or_frame");
-assert.equal(Devices.canRouteDevice(missed, { action: "tunnelDoctor" }), false);
+const degraded = Client.publicNativeTunnel(waitingClient, now + 21000);
+assert.equal(degraded.connected, true);
+assert.equal(degraded.isAlive, true);
+assert.equal(degraded.livenessState, "degraded");
+assert.equal(Devices.canRouteDevice(degraded, { action: "tunnelDoctor" }), true);
+
+Live.markHeartbeatSent(waitingClient, now + 40000);
+Live.markHeartbeatSent(waitingClient, now + 60000);
+const terminated = Client.publicNativeTunnel(waitingClient, now + 61000);
+assert.equal(terminated.connected, false);
+assert.equal(terminated.isAlive, false);
+assert.equal(terminated.livenessState, "stale_terminate_ready");
+assert.equal(Devices.canRouteDevice(terminated, { action: "tunnelDoctor" }), false);
 
 const stale = Client.publicNativeTunnel(native({
 	isAlive: false,
@@ -65,7 +76,6 @@ const stale = Client.publicNativeTunnel(native({
 	missedHeartbeats: Live.DEFAULTS.maxMissedHeartbeats
 }), now);
 assert.equal(stale.connected, false);
-assert.equal(stale.isAlive, false);
 assert.equal(stale.livenessState, "stale_terminate_ready");
 
 const disconnected = Client.publicNativeTunnel(native({ connected: false }), now);
@@ -78,7 +88,8 @@ console.log(JSON.stringify({
 	suite: "tunnel-client-heartbeat-grace",
 	activeRoutable: true,
 	firstPingProbeRoutable: true,
-	missedPongRejected: true,
+	degradedRoutable: true,
+	thresholdRejected: true,
 	staleRejected: true,
 	disconnectedRejected: true
 }, null, 2));

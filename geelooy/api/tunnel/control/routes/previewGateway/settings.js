@@ -8,43 +8,33 @@ const { publishPreviewActivity } = require("./activity.js");
 const Request = require("./request.js");
 
 /**
-* @file Reads and updates account preview policy settings.
-* @description
-* The Awtsmoos renews policy and owner without exposing hidden preview content.
-* Awtsmoos.com publishes only the fact and outcome of a settings change; the full
-* settings object remains inside the authenticated response and persistent store.
-*/
-
+ * @file Reads and updates durable account preview policy.
+ * @description
+ * The Awtsmoos keeps policy and owner in one persistent covenant. These routes call
+ * the store's actual settings API and never report success for an unperformed change.
+ */
 async function previewSettingsGet(context) {
 	const identity = Request.identity(context);
-	return identity
-		? json(context, PreviewStore.getPreviewSettings(identity.userId))
-		: unauthorized(context);
+	if (!identity) return unauthorized(context);
+	return json(context, {
+		ok: true,
+		settings: PreviewStore.settingsGet(identity.userId)
+	});
 }
 
 async function previewSettingsSet(context) {
 	const identity = Request.identity(context);
-	if (!identity) {
-		return unauthorized(context);
-	}
+	if (!identity) return unauthorized(context);
 	const parameters = Request.parameters(context);
 	const patch = Request.payload(parameters, "settings64", "settings", {});
-	const result = PreviewStore.setPreviewSettings(identity.userId, patch);
-	publishPreviewActivity(
-		context,
-		identity,
-		"preview.settings_updated",
-		result
-	);
-	return json(context, result, result.ok ? 200 : 400);
+	const settings = PreviewStore.settingsSet(identity.userId, patch);
+	const result = { ok: true, settings };
+	publishPreviewActivity(context, identity, "preview.settings_updated", result);
+	return json(context, result, 200);
 }
 
 function unauthorized(context) {
-	return json(context, {
-		BH: "B\"H",
-		ok: false,
-		error: "not_authenticated"
-	}, 401);
+	return json(context, { BH: "B\"H", ok: false, error: "not_authenticated" }, 401);
 }
 
 module.exports = {

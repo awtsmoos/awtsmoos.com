@@ -1,6 +1,7 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 
@@ -27,6 +28,7 @@ start_restored_supervisor() {
 	printf 'started\n' > "$TMP/restarted"
 }
 wait_for_runtime() { test -f "$TMP/restarted"; }
+runtime_registered() { [ "$1" = "4321" ]; }
 ensure_rollback_project_root_receipt() { [ "$1" = "4321" ]; }
 wait_for_service_supervision() { printf 'verified\n' > "$TMP/verified"; }
 source geelooy/apps/tunnel/downloads/unix-activation-rollback.sh
@@ -40,7 +42,6 @@ const result = spawnSync("bash", ["-c", script], {
 	encoding: "utf8"
 });
 assert.equal(result.status, 0, result.stderr || result.stdout);
-
 console.log(JSON.stringify({
 	ok: true,
 	suite: "unix-rollback-restart-isolation",

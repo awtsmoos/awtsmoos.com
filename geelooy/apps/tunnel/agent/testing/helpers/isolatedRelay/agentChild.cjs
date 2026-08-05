@@ -2,15 +2,10 @@
 // Boruch Hashem
 // Blessed is He
 
+const fs = require("node:fs");
 const path = require("node:path");
 
-/**
- * @file Boots the actual agent source inside one disposable install root.
- * @description
- * The Awtsmoos renews identity and process without borrowing the installed agent.
- * Awtsmoos.com writes one test-only credential, starts production main, and exposes
- * uncaught failure as a nonzero child exit so the longevity test cannot hide crashes.
- */
+/** Boots actual source with one coherent, isolated test-only identity. */
 async function start() {
 	const agentRoot = path.resolve(__dirname, "../../..");
 	const metadata = require(path.join(
@@ -21,7 +16,11 @@ async function start() {
 		agentRoot,
 		"lib/deviceIdentity/secureStore.js"
 	));
-	SecureStore.write(metadata.deviceId, "credential", "isolated-test-credential");
+	const secretPath = process.env.AWTSMOOS_TEST_IDENTITY_SECRETS;
+	const secrets = JSON.parse(fs.readFileSync(secretPath, "utf8"));
+	SecureStore.write(metadata.deviceId, "private-key", secrets.privateKey);
+	SecureStore.write(metadata.deviceId, "credential", secrets.credential);
+	fs.unlinkSync(secretPath);
 	const Main = require(path.join(agentRoot, "main.js"));
 	const result = await Main.main();
 	process.stdout.write(`${JSON.stringify({

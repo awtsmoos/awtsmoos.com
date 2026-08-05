@@ -6,26 +6,30 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 
-/**
- * @file Proves activation uses one exact atomic rollback instead of a slow duplicate archive.
- * @description
- * The Awtsmoos preserves the predecessor by renaming the complete live directory before
- * candidate activation. Awtsmoos.com cleans that rollback only after readiness succeeds.
- */
+/** Candidate proof must precede the first predecessor displacement. */
 const root = path.resolve(import.meta.dirname, "..");
-const source = fs.readFileSync(path.join(root, "unix-activation.sh"), "utf8");
-const update = source.slice(
-	source.indexOf("activate_update()"),
-	source.indexOf("activate_release_candidate()")
+const activation = fs.readFileSync(path.join(root, "unix-activation.sh"), "utf8");
+const promotion = fs.readFileSync(
+	path.join(root, "unix-activation-promotion.sh"),
+	"utf8"
 );
-assert.doesNotMatch(update, /archive_known_good_runtime/);
-assert.match(update, /mv "\$ROOT" "\$rollback"/);
-assert.match(update, /schedule_displaced_cleanup "\$rollback"/);
+const update = activation.slice(
+	activation.indexOf("activate_update()"),
+	activation.indexOf("activate_release_candidate()")
+);
+assert.match(update, /prove_candidate_before_promotion/);
+assert.match(update, /promote_candidate_root/);
 assert.ok(
-	update.indexOf('mv "$ROOT" "$rollback"') <
-	update.indexOf("candidate_is_stably_active")
+	update.indexOf("prove_candidate_before_promotion") <
+	update.indexOf("promote_candidate_root")
 );
+assert.doesNotMatch(update, /mv "\$ROOT"/);
+assert.match(promotion, /promote_candidate_root\(\)/);
+assert.match(promotion, /stop_candidate_probe[\s\S]*stop_existing_runtime/);
+assert.match(promotion, /mv "\$ROOT" "\$rollback"/);
+assert.match(promotion, /restart_preserved_predecessor/);
 console.log(JSON.stringify({
 	ok: true,
-	suite: "unix-activation-no-blocking-archive"
+	suite: "unix-activation-no-blocking-archive",
+	proofBeforeDisplacement: true
 }));

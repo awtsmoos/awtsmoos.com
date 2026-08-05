@@ -1,4 +1,5 @@
 // B"H
+
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const os = require("node:os");
@@ -7,7 +8,13 @@ const { runHttpInstaller } = require("../installerProcess.cjs");
 const { ReleaseServer } = require("../releaseServer.cjs");
 const Context = require("../testContext.cjs");
 
-/** The exact HTTP curl-pipe-bash flow installs and probes a complete artifact. */
+/**
+ * @file Proves the exact public bootstrap stages a complete verified release safely.
+ * @description
+ * The Awtsmoos distinguishes an empty coordination root from an activated runtime.
+ * With AWTSMOOS_SKIP_START, no launcher, manifest, or install receipt enters the live
+ * path; one complete prepared runtime remains available for authenticated promotion.
+ */
 async function run() {
 	const temporaryRoot = fs.mkdtempSync(path.join(os.tmpdir(), "awts-install-fresh-"));
 	const installRoot = path.join(temporaryRoot, "home", ".awtsmoos-tunnel");
@@ -23,10 +30,27 @@ async function run() {
 		);
 		assert.equal(result.status, 0, Context.combinedOutput(result));
 		for (const relative of [
-			"ai/relay/split-browser/controlPage.cjs",
-			"awtsmoos-supervisor-runtime.sh"
+			"awtsmoos-agent-launcher.cjs",
+			"installed-manifest.txt",
+			"install-state.txt"
 		]) {
-			assert.equal(fs.existsSync(path.join(installRoot, relative)), true);
+			assert.equal(
+				fs.existsSync(path.join(installRoot, relative)),
+				false,
+				`skip-start claimed live runtime file ${relative}`
+			);
+		}
+		const preparedRoot = findPreparedRoot(installRoot);
+		for (const relative of [
+			"ai/relay/split-browser/controlPage.cjs",
+			"awtsmoos-supervisor-runtime.sh",
+			"scripts/emergency-control.cjs"
+		]) {
+			assert.equal(
+				fs.existsSync(path.join(preparedRoot, relative)),
+				true,
+				`prepared runtime missing ${relative}`
+			);
 		}
 		for (const relative of [
 			"bin/awtsmoos-recovery-rescue.sh",
@@ -34,27 +58,13 @@ async function run() {
 		]) {
 			assert.equal(fs.existsSync(path.join(`${installRoot}-recovery`, relative)), true);
 		}
-		assert.equal(fs.existsSync(path.join(installRoot, "agent.pid")), false);
-		assert.equal(
-			server.requestCount(
-				"/api/tunnel/install/installer-components.tar.gz"
-			),
-			1
-		);
-		assert.equal(
-			[...server.requestCounts.keys()].filter(requestPath =>
-				requestPath.startsWith("/apps/tunnel/downloads/unix-install-")
-			).length,
-			0,
-			"verified bundle path should avoid individual helper requests"
-		);
-		Context.assertProbePasses(installRoot);
+		assert.equal(server.requestCount("/api/tunnel/install/installer-components.tar.gz"), 1);
+		assert.equal(individualHelperRequests(server), 0);
+		Context.assertProbePasses(preparedRoot);
 		return {
 			case: "fresh_http_curl_pipe_bash_install",
-			version: fs.readFileSync(
-				path.join(installRoot, "install-state.txt"),
-				"utf8"
-			).trim(),
+			version: fs.readFileSync(path.join(preparedRoot, "install-state.txt"), "utf8").trim(),
+			preparedNotActivated: true,
 			installerComponentRequests: 1,
 			individualHelperRequests: 0,
 			consolePhases: Context.phaseLines(result.stdout)
@@ -63,6 +73,22 @@ async function run() {
 		await server.close();
 		fs.rmSync(temporaryRoot, { recursive: true, force: true });
 	}
+}
+
+function findPreparedRoot(installRoot) {
+	const parent = path.dirname(installRoot);
+	const prefix = `${path.basename(installRoot)}.prepared-`;
+	const matches = fs.readdirSync(parent)
+		.filter(name => name.startsWith(prefix))
+		.map(name => path.join(parent, name));
+	assert.equal(matches.length, 1, `expected one prepared runtime, found ${matches.length}`);
+	return matches[0];
+}
+
+function individualHelperRequests(server) {
+	return [...server.requestCounts.keys()].filter(requestPath =>
+		requestPath.startsWith("/apps/tunnel/downloads/unix-install-")
+	).length;
 }
 
 module.exports = { run };

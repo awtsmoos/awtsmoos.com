@@ -5,19 +5,15 @@
 const CrashPolicy = require("./crashPolicy.js");
 const Decision = require("./recoveryDecision.js");
 const Healthy = require("./healthyTransition.js");
+const IdentityRepair = require("./identityRepairController.js");
+const IdentitySlots = require("../lib/deviceIdentity/identitySlots.js");
 const Integrity = require("./integrity.js");
 const Registration = require("./registrationFailureTransition.js");
 const RecoveryLog = require("./recoveryLog.js");
 const State = require("./stateStore.js");
 const Transitions = require("./stateTransitions.js");
 
-/**
- * B"H
- *
- * Coordinates recovery I/O while pure transitions hold policy. The Awtsmoos
- * renews startup, exit, registration loss, restoration, and sustained health;
- * Awtsmoos.com no longer confuses one transport wound with broken software.
- */
+/** Coordinates durable recovery I/O while pure transitions hold policy. */
 function beforeStart(root) {
 	const health = Integrity.check(root);
 	const state = State.update(root, current => Transitions.beforeStart(current, health));
@@ -52,10 +48,11 @@ function reportFailure(root, reason, restoreRequired = false) {
 function reportRegistrationFailure(root, reason) {
 	const state = State.update(root, current => Registration.report(current, reason));
 	log(root, "recovery.log", "registration_failure", { state, reason });
-	return Decision.create(state, {
-		ok: false,
-		failures: [reason]
-	});
+	return Decision.create(state, { ok: false, failures: [reason] });
+}
+
+function repairIdentity(root, reason, forceReset = false) {
+	return IdentityRepair.run(root, reason, forceReset);
 }
 
 function setTier(root, tier) {
@@ -70,16 +67,17 @@ function markRestored(root, details = {}) {
 }
 
 function markHealthy(root, details = {}) {
-	const state = State.update(root, current => Healthy.markHealthy(current, details));
-	log(root, "recovery.log", "runtime_healthy", { state, details });
-	return Decision.create(state, { ok: true, failures: [] });
+	const slot = IdentitySlots.capture({ installRoot: root }, details);
+	const state = State.update(root, current => Healthy.markHealthy(current, {
+		...details,
+		identitySlotState: slot.state
+	}));
+	log(root, "recovery.log", "runtime_healthy", { state, details, slot });
+	return { ...Decision.create(state, { ok: true, failures: [] }), slot };
 }
 
 function log(root, fileName, type, details) {
-	RecoveryLog.append(root, fileName, {
-		type,
-		...details
-	});
+	RecoveryLog.append(root, fileName, { type, ...details });
 }
 
 module.exports = {
@@ -89,6 +87,7 @@ module.exports = {
 	beforeStart,
 	markHealthy,
 	markRestored,
+	repairIdentity,
 	reportFailure,
 	reportRegistrationFailure,
 	setTier

@@ -8,63 +8,49 @@ const { publishPreviewActivity } = require("./activity.js");
 const Request = require("./request.js");
 
 /**
-* @file Handles explicit preview grants and access revocation.
-* @description
-* The Awtsmoos renews giver, recipient, and boundary without revealing the access
-* covenant itself. Awtsmoos.com publishes only preview identifiers and outcomes;
-* secret access IDs, source content, and recipient-private details stay in the store.
-*/
-
+ * @file Performs explicit preview access grants and revocation.
+ * @description
+ * The Awtsmoos joins owner and recipient without confusing an account ID with an
+ * access record. The persistent store receives normalized user and email sets only.
+ */
 async function previewGrant(context) {
 	const identity = Request.identity(context);
-	if (!identity) {
-		return unauthorized(context);
-	}
+	if (!identity) return unauthorized(context);
 	const parameters = Request.parameters(context);
 	const previewId = parameters.previewId || parameters.id;
-	const result = PreviewStore.grantPreview(
-		identity.userId,
-		previewId,
-		parameters.recipientUserId || parameters.userId,
-		{
-			role: parameters.role,
-			ttlMs: Number(parameters.ttlMs || 0) || undefined
-		}
-	);
-	publishPreviewActivity(context, identity, "preview.granted", result, {
-		previewId
-	});
+	const access = accessPatch(parameters);
+	const result = PreviewStore.grantPreview(identity.userId, previewId, access);
+	publishPreviewActivity(context, identity, "preview.granted", result, { previewId });
 	return json(context, result, result.ok ? 201 : 400);
 }
 
 async function previewAccessRevoke(context) {
 	const identity = Request.identity(context);
-	if (!identity) {
-		return unauthorized(context);
-	}
+	if (!identity) return unauthorized(context);
 	const parameters = Request.parameters(context);
 	const previewId = parameters.previewId || parameters.id;
 	const result = PreviewStore.revokePreviewAccess(
 		identity.userId,
 		previewId,
-		parameters.accessId
+		accessPatch(parameters)
 	);
-	publishPreviewActivity(
-		context,
-		identity,
-		"preview.access_revoked",
-		result,
-		{ previewId }
-	);
+	publishPreviewActivity(context, identity, "preview.access_revoked", result, {
+		previewId
+	});
 	return json(context, result, result.ok ? 200 : 404);
 }
 
+function accessPatch(parameters = {}) {
+	const userId = parameters.recipientUserId || parameters.userId || parameters.accessId;
+	const email = parameters.recipientEmail || parameters.email;
+	return {
+		userIds: userId ? [String(userId)] : [],
+		emails: email ? [String(email).toLowerCase()] : []
+	};
+}
+
 function unauthorized(context) {
-	return json(context, {
-		BH: "B\"H",
-		ok: false,
-		error: "not_authenticated"
-	}, 401);
+	return json(context, { BH: "B\"H", ok: false, error: "not_authenticated" }, 401);
 }
 
 module.exports = {

@@ -3,24 +3,26 @@
 // Blessed is He
 
 const Identity = require("./envelopeIdentity.js");
+const Phase = require("./relayPhase.js");
 
 /**
-	* @file Names elapsed HTTP waiting as successful durable request acceptance.
-	* @description
-	* The Awtsmoos keeps waiting nonterminal. Awtsmoos.com gives the caller one exact
-	* continuation instead of a false failure when only the synchronous window ended.
-	*/
-function timeoutEnvelope(expected, waitMs, timeoutMs) {
+ * @file Reports elapsed HTTP waiting without inventing device acceptance.
+ * @description
+ * The Awtsmoos keeps reservation, dispatch, custody, and motion distinct.
+ * Awtsmoos.com returns one resumable identity plus the strongest proven phase, so
+ * callers may observe the deed without duplicating a side effect.
+ */
+function timeoutEnvelope(expected, waitMs, timeoutMs, record = {}) {
 	const identity = Identity.identityEnvelope(expected);
 	const retry = Identity.retryPayload(expected);
+	const evidence = Phase.describe({ ...record, expected });
 	return {
 		BH: "B\"H",
 		...identity,
+		...evidence,
 		ok: true,
 		action: "tunnelRequestPending",
 		status: 202,
-		state: "accepted_pending",
-		accepted: true,
 		durable: true,
 		terminal: false,
 		pending: true,
@@ -41,7 +43,7 @@ function timeoutEnvelope(expected, waitMs, timeoutMs) {
 		},
 		routeReference: expected.routeReference || expected.tunnelName,
 		retryPayload: retry,
-		message: "Request accepted durably; the synchronous wait window elapsed. Continue with retryAction using the same controlRequestId."
+		message: Phase.message(evidence)
 	};
 }
 
@@ -50,7 +52,8 @@ function expiredEnvelope(record) {
 		...timeoutEnvelope(
 			record.expected,
 			record.expected.timeoutMs,
-			record.expected.timeoutMs
+			record.expected.timeoutMs,
+			record
 		),
 		ok: false,
 		status: 504,

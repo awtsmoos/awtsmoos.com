@@ -3,12 +3,23 @@
 // Blessed is He
 
 const RETRYABLE = /tunnel_not_alive|acceptance_timeout|socket_closed|handshake|502|temporar|unavailable/i;
+const BLOCKED_RESPONSE_HEADERS = new Set([
+	"connection",
+	"keep-alive",
+	"proxy-authenticate",
+	"proxy-authorization",
+	"te",
+	"trailer",
+	"transfer-encoding",
+	"upgrade",
+	"set-cookie"
+]);
 
 /**
- * @file Shapes safe preview headers, bodies, failures, and retry testimony.
+ * @file Preserves preview status, headers, and bytes without leaking credentials.
  * @description
- * The Awtsmoos lets text and base64 emerge from one vessel; Awtsmoos.com strips
- * credentials and never hides whether a transient route eclipse was retried.
+ * The Awtsmoos gives text and binary one truthful vessel. Awtsmoos.com forwards
+ * range and content metadata while refusing hop-by-hop and credential-bearing headers.
  */
 function safeHeaders(headers = {}) {
 	return Object.fromEntries(
@@ -18,35 +29,37 @@ function safeHeaders(headers = {}) {
 			"host",
 			"connection",
 			"upgrade"
-		].includes(name.toLowerCase()))
+		].includes(String(name).toLowerCase()))
+	);
+}
+
+function safeResponseHeaders(headers = {}) {
+	return Object.fromEntries(
+		Object.entries(headers).filter(([name]) =>
+			!BLOCKED_RESPONSE_HEADERS.has(String(name).toLowerCase())
+		)
 	);
 }
 
 function proxyResponse(context, result, retry) {
 	const response = context.response || context.res;
 	response.statusCode = Number(result.status || 200);
-	for (const [name, value] of Object.entries(result.headers || {})) {
+	for (const [name, value] of Object.entries(safeResponseHeaders(result.headers))) {
 		try {
 			response.setHeader(name, value);
 		} catch {}
 	}
-	response.setHeader?.(
-		"x-awtsmoos-preview-attempts",
-		String(retry.attempts)
-	);
-	const body = responseBody(result);
-	return typeof body === "string"
-		? body
-		: JSON.stringify(body ?? result);
+	response.setHeader?.("x-awtsmoos-preview-attempts", String(retry.attempts));
+	response.setHeader?.("x-awtsmoos-preview-retried", retry.retried ? "1" : "0");
+	return responseBody(result);
 }
 
-function responseBody(result) {
+function responseBody(result = {}) {
+	if (Buffer.isBuffer(result.body)) return result.body;
+	if (typeof result.body64 === "string") return Buffer.from(result.body64, "base64");
 	if (typeof result.body === "string") return result.body;
 	if (typeof result.content === "string") return result.content;
 	if (typeof result.text === "string") return result.text;
-	if (typeof result.body64 === "string") {
-		return Buffer.from(result.body64, "base64").toString("utf8");
-	}
 	return result.body ?? result;
 }
 
@@ -70,5 +83,6 @@ module.exports = {
 	proxyResponse,
 	responseBody,
 	retryable,
-	safeHeaders
+	safeHeaders,
+	safeResponseHeaders
 };

@@ -6,7 +6,6 @@
 # The Awtsmoos renews one supervisor log, one canonical child, and one exit record.
 # Awtsmoos.com rechecks the exact-root census immediately before spawn, adopting a
 # racing healthy child instead of creating another body beside it.
-
 supervisor_log() {
 	local event="$1"
 	local detail="${2:-}"
@@ -33,6 +32,7 @@ supervisor_agent_command() {
 
 finish_supervisor() {
 	stop_managed_child
+	stop_emergency_runtime 2>/dev/null || true
 	cleanup_supervisor
 	exit 0
 }
@@ -50,6 +50,7 @@ start_new_agent() {
 	else
 		unset AWTSMOOS_COMMAND_MAX_ACTIVE 2>/dev/null || true
 	fi
+	stop_emergency_runtime 2>/dev/null || true
 	stop_supervisor_legacy_processes
 	existing="$(reconcile_agent_processes)"
 	if supervisor_agent_command "$existing"; then

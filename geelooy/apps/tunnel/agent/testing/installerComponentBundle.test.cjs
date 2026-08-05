@@ -15,20 +15,22 @@ const {
 } = require("../../../../api/tunnel/install/tools/installerComponents.js");
 
 const repositoryRoot = path.resolve(__dirname, "../../../../..");
-const downloadsRoot = path.join(
-	repositoryRoot,
-	"geelooy/apps/tunnel/downloads"
-);
-const destination = fs.mkdtempSync(
-	path.join(os.tmpdir(), "awtsmoos-installer-components-")
-);
+const downloadsRoot = path.join(repositoryRoot, "geelooy/apps/tunnel/downloads");
+const destination = fs.mkdtempSync(path.join(os.tmpdir(), "awtsmoos-installer-components-"));
 
+/**
+ * @file Proves the one-request installer archive matches the shared bootstrap scroll.
+ * @description
+ * The Awtsmoos counts no obsolete fixed number. Every name declared by the fallback
+ * manifest appears once in the deterministic archive with byte-identical contents,
+ * including identity, candidate-proof, emergency, and supervisor repair helpers.
+ */
 try {
 	const first = buildInstallerComponents();
 	const second = buildInstallerComponents();
 	assert.equal(first, second, "unchanged bundle should use the process cache");
 	assert.equal(first.files, COMPONENTS.length);
-	assert.equal(first.files, 56);
+	assert.ok(first.files >= 68, `unexpected component closure: ${first.files}`);
 	assert.equal(hash(first.buffer), first.sha256);
 	assert.ok(first.bytes > 0);
 
@@ -44,27 +46,28 @@ try {
 	for (const name of COMPONENTS) {
 		const expected = fs.readFileSync(path.join(downloadsRoot, name));
 		const actual = fs.readFileSync(path.join(extracted, name));
-		assert.equal(
-			hash(actual),
-			hash(expected),
-			`component bytes changed: ${name}`
-		);
+		assert.equal(hash(actual), hash(expected), `component bytes changed: ${name}`);
 	}
-	assert.deepEqual(
-		fs.readdirSync(extracted).sort(),
-		[...COMPONENTS].sort()
-	);
+	assert.deepEqual(fs.readdirSync(extracted).sort(), [...COMPONENTS].sort());
 
-	const bootstrap = fs.readFileSync(
-		path.join(downloadsRoot, "unix.sh"),
+	for (const required of [
+		"unix-install-sources.sh",
+		"unix-candidate-probe.sh",
+		"unix-activation-promotion.sh",
+		"unix-emergency-capture.sh",
+		"unix-supervisor-identity.sh",
+		"unix-supervisor-emergency.sh"
+	]) assert.ok(COMPONENTS.includes(required), `missing required component: ${required}`);
+
+	const bootstrap = fs.readFileSync(path.join(downloadsRoot, "unix.sh"), "utf8");
+	const componentBootstrap = fs.readFileSync(
+		path.join(downloadsRoot, "unix-bootstrap-components.sh"),
 		"utf8"
 	);
-	assert.match(
-		bootstrap,
-		/__AWTSMOOS_INSTALLER_COMPONENTS_SHA256__/
-	);
-	assert.match(bootstrap, /installer-components\.tar\.gz/);
-	assert.match(bootstrap, /Using compatible component download fallback/);
+	assert.match(bootstrap, /__AWTSMOOS_INSTALLER_COMPONENTS_SHA256__/);
+	assert.match(bootstrap, /unix-bootstrap-components\.sh/);
+	assert.match(componentBootstrap, /installer-components\.tar\.gz/);
+	assert.match(componentBootstrap, /Using compatible component download fallback/);
 
 	console.log(JSON.stringify({
 		ok: true,
@@ -73,7 +76,7 @@ try {
 		bytes: first.bytes,
 		sha256: first.sha256,
 		exactBytesVerified: true,
-		legacyFallbackRetained: true
+		sharedFallbackManifest: true
 	}, null, 2));
 } finally {
 	fs.rmSync(destination, { recursive: true, force: true });

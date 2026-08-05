@@ -19,8 +19,6 @@ CHILD_OWNED=0
 CHILD_KIND="modern"
 export AWTSMOOS_INSTALL_ROOT="$ROOT" AWTSMOOS_RECOVERY_ROOT="$RECOVERY_ROOT"
 
-# The Awtsmoos renews Node, guard, child census, receipt, and recovery separately.
-# Every live, rollback, and displaced runtime shares one physical-device recovery root.
 mkdir -p "$ROOT" "$RECOVERY_ROOT/logs"
 source "$ROOT/awtsmoos-node-runtime.sh"
 if ! activate_node_runtime "$ROOT"; then
@@ -36,6 +34,8 @@ source "$ROOT/awtsmoos-supervisor-health-memory.sh"
 source "$ROOT/awtsmoos-supervisor-receipt.sh"
 source "$ROOT/awtsmoos-supervisor-health.sh"
 source "$ROOT/awtsmoos-supervisor-recovery.sh"
+source "$ROOT/awtsmoos-supervisor-identity.sh"
+source "$ROOT/awtsmoos-supervisor-emergency.sh"
 source "$ROOT/awtsmoos-supervisor-legacy.sh"
 acquire_supervisor_guard
 trap finish_supervisor INT TERM
@@ -55,6 +55,12 @@ while true; do
 		eval "$RECOVERY_ENV"
 		if [ "${AWTSMOOS_RECOVERY_RESTORE:-0}" = "1" ]; then
 			if ! perform_external_restore; then
+				if start_supervisor_emergency; then
+					monitor_supervisor_emergency || true
+					stop_supervisor_emergency
+					sleep 1
+					continue
+				fi
 				if start_legacy_bridge; then
 					monitor_legacy_bridge || true
 					stop_managed_child
@@ -69,8 +75,10 @@ while true; do
 		start_new_agent
 	fi
 	if ! wait_child_registration; then
-		report_registration_failure "$(supervisor_receipt_failure_reason "$CHILD_PID")"
+		REGISTRATION_REASON="$(supervisor_receipt_failure_reason "$CHILD_PID")"
+		report_registration_failure "$REGISTRATION_REASON"
 		stop_managed_child
+		repair_identity_after_registration_failure "$REGISTRATION_REASON" || true
 		record_child_exit "$START_SECONDS" 70
 		BACKOFF_SECONDS=$(( BACKOFF_SECONDS * 2 ))
 		[ "$BACKOFF_SECONDS" -le "$MAX_BACKOFF_SECONDS" ] ||
@@ -86,6 +94,7 @@ while true; do
 	if [ "$MONITOR_RESULT" -eq 2 ]; then
 		report_registration_failure "registration_lost"
 		stop_managed_child
+		repair_identity_after_registration_failure "registration_lost" || true
 		record_child_exit "$START_SECONDS" 71
 		continue
 	fi

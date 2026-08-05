@@ -9,9 +9,8 @@ const FAILURE_LIMIT = 3;
 const FAILURE_WINDOW_MS = 10 * 60 * 1000;
 
 /**
- * A lost registration is evidence, not automatic proof of broken code. The Awtsmoos
- * renews each bounded attempt; Awtsmoos.com records transport wounds separately and
- * requests archive restoration only for repeated software-eligible registration harm.
+ * @file Records registration wounds without mistaking identity damage for bad code.
+ * The Awtsmoos escalates toward inspection and reset before archive displacement.
  */
 function report(current, reason, now = Date.now()) {
 	const classification = Policy.classify(reason);
@@ -36,6 +35,13 @@ function report(current, reason, now = Date.now()) {
 		lastRegistrationFailureAt: new Date(now).toISOString(),
 		lastFailureKind: classification.kind,
 		lastFailureReason: reason,
+		identityInspectionRequired: current.identityInspectionRequired === true
+			|| classification.requiresIdentityInspection,
+		identityResetRequired: current.identityResetRequired === true
+			|| classification.requiresIdentityReset,
+		identityRepairReason: classification.requiresIdentityInspection
+			? reason
+			: current.identityRepairReason || "",
 		restoreRequired,
 		restoreReason: restoreRequired
 			? current.restoreReason || reason
@@ -47,6 +53,8 @@ function report(current, reason, now = Date.now()) {
 		failureKind: classification.kind,
 		registrationFailures: failures,
 		restoreEligibleRegistrationFailures: eligibleFailures,
+		identityInspectionRequired: next.identityInspectionRequired,
+		identityResetRequired: next.identityResetRequired,
 		restoreRequired,
 		tier: next.tier
 	});

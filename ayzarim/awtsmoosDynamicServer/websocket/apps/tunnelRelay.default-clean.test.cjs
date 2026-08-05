@@ -7,9 +7,11 @@ const Relay = require("./tunnelRelay.js");
 const Contract = require("../../../../geelooy/api/tunnel/control/routes/fsVessel/responseContract.js");
 
 /**
-	* @file Proves relay defaults and accepted-pending semantics remain canonical.
-	* @description The Awtsmoos names waiting as durable acceptance, never failure.
-	*/
+ * @file Proves relay defaults and truthful reserved-pending semantics.
+ * @description
+ * The Awtsmoos names a server reservation as durable custody, never device
+ * acceptance. The same immutable control identity remains resumable without replay.
+ */
 const clean = Relay.cleanRelayPayload({ action: "list" });
 assert.equal(clean.autoPreview, false);
 assert.equal(clean.relayWaitMs, 3500);
@@ -48,8 +50,10 @@ const payload = {
 const pending = Relay.timeoutEnvelope(expected, 5000, 120000);
 assert.equal(pending.ok, true);
 assert.equal(pending.status, 202);
-assert.equal(pending.state, "accepted_pending");
-assert.equal(pending.accepted, true);
+assert.equal(pending.state, "reserved_pending_dispatch");
+assert.equal(pending.phase, "reserved_pending_dispatch");
+assert.equal(pending.accepted, false);
+assert.equal(pending.deviceAccepted, false);
 assert.equal(pending.durable, true);
 assert.equal(pending.terminal, false);
 assert.equal(pending.pending, true);
@@ -76,7 +80,7 @@ assert.equal(Contract.verifyTunnelResponse(failed, payload, "t1"), failed);
 console.log(JSON.stringify({
 	ok: true,
 	suite: "relay-default-clean",
-	acceptedPendingExplicit: true,
+	reservedPendingExplicit: true,
 	unavailableNotPending: true,
 	sendFailureTerminal: true
 }, null, 2));

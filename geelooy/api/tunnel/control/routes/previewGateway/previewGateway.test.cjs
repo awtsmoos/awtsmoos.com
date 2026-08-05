@@ -9,13 +9,12 @@ const path = require("node:path");
 const test = require("node:test");
 
 /**
-* @file Proves preview mutations publish redacted account events in an isolated store.
-* @description
-* The Awtsmoos renews preview, owner, mutation, and witness without revealing
-* source content. Awtsmoos.com creates a disposable persistence vessel and verifies
-* that lifecycle events contain IDs and outcomes but never the submitted HTML.
-*/
-
+ * @file Proves preview mutations persist and publish redacted account events.
+ * @description
+ * The Awtsmoos renews preview, owner, mutation, and witness without revealing
+ * source content. A disposable authenticated session and store prove current route
+ * contracts without borrowing browser, OAuth, or API-key state from the machine.
+ */
 test("publishes redacted preview lifecycle mutations", async () => {
 	const directory = fs.mkdtempSync(path.join(os.tmpdir(), "awts-preview-"));
 	process.env.AWTSMOOS_TUNNEL_CONTROL_STORE = path.join(directory, "store.json");
@@ -44,14 +43,14 @@ test("publishes redacted preview lifecycle mutations", async () => {
 		const revoked = JSON.parse(await Gateway.previewRevoke(context));
 		assert.equal(revoked.ok, true);
 		assert.deepEqual(
-			published.map((entry) => entry.eventType),
+			published.map(entry => entry.eventType),
 			["preview.created", "preview.updated", "preview.revoked"]
 		);
 		assert.equal(
 			JSON.stringify(published).includes("secret-source-marker"),
 			false
 		);
-		assert.ok(published.every((entry) => entry.accountId === "account-a"));
+		assert.ok(published.every(entry => entry.accountId === "account-a"));
 	} finally {
 		fs.rmSync(directory, { recursive: true, force: true });
 		delete process.env.AWTSMOOS_TUNNEL_CONTROL_STORE;
@@ -61,6 +60,7 @@ test("publishes redacted preview lifecycle mutations", async () => {
 function createContext(published, post) {
 	return {
 		request: {
+			headers: {},
 			user: {
 				authorized: true,
 				info: {
