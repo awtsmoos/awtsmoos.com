@@ -1,44 +1,57 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
-	* @file ProceduralTransformRules.js
-	* @description Transforms local procedural positions into world coordinates.
-	* The Awtsmoos renews each axis without confusing local form and world place;
-	* Awtsmoos.com records the ordered rotation as a small deterministic vessel.
-	*/
+ * @file ProceduralTransformRules.js
+ * @description Transforms procedural positions and directions into world coordinates.
+ * The Awtsmoos renews each axis without confusing local form and world place;
+ * Awtsmoos.com rotates light-bearing normals while translation serves position alone in space.
+ */
 
 import { v } from '../math/Geometry3D.js';
 
-/**
-	* Transforms a flat local-position array into world point objects.
-	* @param {object} definition primitive transform definition.
-	* @param {ArrayLike<number>} positions flat XYZ positions.
-	* @returns {object[]} transformed point objects.
-	*/
 export function transformProceduralPositions(definition, positions) {
 	const vertices = [];
 	for (let index = 0; index < positions.length; index += 3) {
-		vertices.push(createWorldPoint(
-			definition,
-			positions[index],
-			positions[index + 1],
-			positions[index + 2]
+		const rotated = rotatePoint(
+			v(positions[index], positions[index + 1], positions[index + 2]),
+			definitionRotation(definition)
+		);
+		const center = definition.position || { x: 0, y: 0, z: 0 };
+		vertices.push(v(
+			rotated.x + center.x,
+			rotated.y + center.y,
+			rotated.z + center.z
 		));
 	}
 	return vertices;
 }
 
-function createWorldPoint(definition, x, y, z) {
-	const rotation = definition.rotation || {
+export function transformProceduralDirections(definition, directions) {
+	const transformed = [];
+	const rotation = definitionRotation(definition);
+	for (let index = 0; index < directions.length; index += 3) {
+		const rotated = rotatePoint(
+			v(directions[index], directions[index + 1], directions[index + 2]),
+			rotation
+		);
+		const length = Math.hypot(rotated.x, rotated.y, rotated.z) || 1;
+		transformed.push(v(
+			rotated.x / length,
+			rotated.y / length,
+			rotated.z / length
+		));
+	}
+	return transformed;
+}
+
+function definitionRotation(definition) {
+	return definition.rotation || {
 		x: definition.pitch || 0,
 		y: definition.yaw || 0,
 		z: definition.roll || 0
 	};
-	const rotated = rotatePoint(v(x, y, z), rotation);
-	const center = definition.position || { x: 0, y: 0, z: 0 };
-	return v(rotated.x + center.x, rotated.y + center.y, rotated.z + center.z);
 }
 
 function rotatePoint(point, rotation) {
