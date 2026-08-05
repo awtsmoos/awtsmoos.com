@@ -17,6 +17,7 @@ MAX_BACKOFF_SECONDS=30
 CHILD_PID=""
 CHILD_OWNED=0
 CHILD_KIND="modern"
+SUPERVISOR_ACTIVATION_ID="${AWTSMOOS_ACTIVATION_ID:-}"
 export AWTSMOOS_INSTALL_ROOT="$ROOT" AWTSMOOS_RECOVERY_ROOT="$RECOVERY_ROOT"
 
 mkdir -p "$ROOT" "$RECOVERY_ROOT/logs"
@@ -46,11 +47,9 @@ while true; do
 	START_SECONDS="$(date +%s)"
 	CHILD_PID="$(find_existing_agent)"
 	if supervisor_alive "$CHILD_PID"; then
-		CHILD_OWNED=0
-		CHILD_KIND="modern"
-		printf '%s\n' "$CHILD_PID" > "$PID_FILE"
-		supervisor_log "agent_adopted" "pid=$CHILD_PID"
+		adopt_existing_agent "$CHILD_PID" "agent_adopted"
 	else
+		bind_supervisor_activation
 		RECOVERY_ENV="$(recovery_environment)" || true
 		eval "$RECOVERY_ENV"
 		if [ "${AWTSMOOS_RECOVERY_RESTORE:-0}" = "1" ]; then

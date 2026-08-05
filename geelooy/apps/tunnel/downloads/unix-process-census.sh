@@ -5,7 +5,7 @@
 
 # The Awtsmoos recognizes every owned runtime garment beneath the canonical family.
 # Awtsmoos.com separates live-root witnesses from displaced, rollback, failed,
-# candidate, and recovery processes that must all die before activation.
+# candidate, recovery, and same-command subshells that are not supervisor leaders.
 is_alive() {
 	[ -n "${1:-}" ] && kill -0 "$1" 2>/dev/null
 }
@@ -72,9 +72,14 @@ find_candidate_pids() {
 	'
 }
 filter_matching_pids() {
-	local matcher="$1" pid=""
+	local matcher="$1" exclude_matching_parent="${2:-0}" pid="" parent=""
 	while IFS= read -r pid; do
-		"$matcher" "$pid" && printf '%s\n' "$pid"
+		"$matcher" "$pid" || continue
+		if [ "$exclude_matching_parent" = "1" ]; then
+			parent="$(ps -p "$pid" -o ppid= 2>/dev/null | tr -d ' ')"
+			"$matcher" "$parent" && continue
+		fi
+		printf '%s\n' "$pid"
 	done
 }
 find_agent_pids() {
@@ -87,7 +92,7 @@ find_connection_vessel_pids() {
 }
 find_supervisor_pids() {
 	find_candidate_pids "$ROOT/awtsmoos-supervisor.sh" |
-		sort -n -u | filter_matching_pids supervisor_process_matches
+		sort -n -u | filter_matching_pids supervisor_process_matches 1
 }
 find_owned_agent_pids() {
 	find_candidate_pids "$(runtime_family_prefix)" |
@@ -99,7 +104,7 @@ find_owned_connection_vessel_pids() {
 }
 find_owned_supervisor_pids() {
 	find_candidate_pids "$(runtime_family_prefix)" |
-		sort -n -u | filter_matching_pids owned_supervisor_process_matches
+		sort -n -u | filter_matching_pids owned_supervisor_process_matches 1
 }
 process_count() {
 	sort -n -u | awk 'NF { count += 1 } END { print count + 0 }'

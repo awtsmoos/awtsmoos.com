@@ -1,5 +1,5 @@
 B"H
-1.0.495
+1.0.496
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtector.mjs
@@ -958,6 +958,7 @@ lib/runtime/circuit-breaker.js
 lib/runtime/circuit-liveness.js
 lib/runtime/circuit-policy.js
 lib/runtime/connection-receipt-async.js
+lib/runtime/connection-receipt-runtime.js
 lib/runtime/connection-receipt-value.js
 lib/runtime/connection-receipt.js
 lib/runtime/continuation-loop.js

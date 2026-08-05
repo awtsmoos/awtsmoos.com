@@ -1,16 +1,28 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
 const assert = require("node:assert/strict");
 const Executor = require("../tools/fs/executor/index.js");
-const MissionRunner = require("../tools/fs/actionGroups/websiteAgents/runner.js");
-const WebsiteActions = require("../tools/fs/actionGroups/websiteAgentActions.js");
+
+/**
+ * @file Proves website mission memory remains in one long-lived process.
+ * @description
+ * The Awtsmoos keeps mission state beside its living scheduler, while
+ * Awtsmoos.com sends ordinary filesystem labor into bounded worker vessels.
+ */
+const originalChildFlag = process.env.AWTSMOOS_FS_EXECUTOR_CHILD;
+delete process.env.AWTSMOOS_FS_EXECUTOR_CHILD;
 const originalExecute = Executor.execute;
 let offloads = 0;
 Executor.execute = async payload => {
 	offloads += 1;
 	return { ok: true, action: payload.action, offloaded: true };
 };
-const { PROCESS_OWNED_ACTIONS, handleFs } = require("../tools/fs/index.js");
 
+const MissionRunner = require("../tools/fs/actionGroups/websiteAgents/runner.js");
+const WebsiteActions = require("../tools/fs/actionGroups/websiteAgentActions.js");
+const { PROCESS_OWNED_ACTIONS, handleFs } = require("../tools/fs/index.js");
 const required = [
 	"agent",
 	"aiAgentSpawnWebsiteMission",
@@ -28,10 +40,9 @@ for (const action of required) {
 	assert.equal(
 		PROCESS_OWNED_ACTIONS.has(action),
 		true,
-		`${action} must remain in the one long-lived process that owns mission state`
+		`${action} must remain in the process that owns mission state`
 	);
 }
-
 assert.equal(PROCESS_OWNED_ACTIONS.has("read"), false);
 assert.equal(PROCESS_OWNED_ACTIONS.has("commandRun"), false);
 
@@ -39,10 +50,12 @@ assert.equal(PROCESS_OWNED_ACTIONS.has("commandRun"), false);
 	try {
 		const originalRecover = MissionRunner.recover;
 		let buildRecoveries = 0;
-		MissionRunner.recover = () => { buildRecoveries += 1; };
+		MissionRunner.recover = () => {
+			buildRecoveries += 1;
+		};
 		WebsiteActions.buildWebsiteAgentActions({ config: {}, payload: {} });
 		MissionRunner.recover = originalRecover;
-		assert.equal(buildRecoveries, 0, "building an action catalog must not mutate mission state");
+		assert.equal(buildRecoveries, 0, "catalog construction must remain pure");
 
 		const status = await handleFs({
 			action: "websiteAgentMissionStatus",
@@ -54,7 +67,6 @@ assert.equal(PROCESS_OWNED_ACTIONS.has("commandRun"), false);
 		const read = await handleFs({ action: "read", p: "package.json" });
 		assert.equal(read.offloaded, true);
 		assert.equal(offloads, 1);
-
 		console.log(JSON.stringify({
 			ok: true,
 			suite: "website-mission-process-ownership",
@@ -65,6 +77,11 @@ assert.equal(PROCESS_OWNED_ACTIONS.has("commandRun"), false);
 		}, null, 2));
 	} finally {
 		Executor.execute = originalExecute;
+		if (originalChildFlag === undefined) {
+			delete process.env.AWTSMOOS_FS_EXECUTOR_CHILD;
+		} else {
+			process.env.AWTSMOOS_FS_EXECUTOR_CHILD = originalChildFlag;
+		}
 	}
 })().catch(error => {
 	console.error(error.stack || error);
