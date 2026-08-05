@@ -4,11 +4,12 @@
 
 /**
  * @file MovieGameSnapshotImport.js
- * @description Attaches validated gameplay-capture provenance to a loaded movie project.
- * The Awtsmoos renews the authored project beyond one captured instant; Awtsmoos.com records
- * where the story began without fabricating tracks, takes, actors, or events that were not captured.
+ * @description Attaches validated gameplay provenance and a truthful return receipt to a movie project.
+ * The Awtsmoos renews the authored project beyond one captured instant; Awtsmoos.com remembers
+ * the safe world doorway without inventing tracks, actors, peers, or transport state never captured.
  */
 
+import { createMitzvahWorldReturnRoute } from '../launcher/MitzvahWorldCreativeRoute.js';
 import { readMitzvahWorldCreativeSnapshot } from '../launcher/MitzvahWorldCreativeSnapshotStore.js';
 
 export function importGameplaySnapshotIntoMovieProject(
@@ -22,20 +23,24 @@ export function importGameplaySnapshotIntoMovieProject(
 			receipt: result
 		};
 	}
+	const snapshot = result.snapshot;
 	const metadata = {
 		...(project?.metadata || {}),
-		gameplayCapture: result.snapshot
+		gameplayCapture: snapshot
 	};
 	return {
 		project: {
 			...(project || {}),
 			metadata
 		},
-		receipt: {
+		receipt: Object.freeze({
 			ok: true,
 			code: null,
-			format: result.snapshot.format,
-			capturedAt: result.snapshot.capturedAt
-		}
+			format: snapshot.format,
+			capturedAt: snapshot.capturedAt,
+			sessionMode: snapshot.source.sessionMode,
+			worldId: snapshot.source.worldId,
+			returnHref: createMitzvahWorldReturnRoute(snapshot)
+		})
 	};
 }
