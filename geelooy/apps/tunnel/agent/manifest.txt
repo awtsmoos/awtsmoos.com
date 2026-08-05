@@ -1,5 +1,5 @@
 B"H
-1.0.493
+1.0.494
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtector.mjs
@@ -44,6 +44,9 @@ ai/relay/direct/chatgpt/DirectServiceDependencies.mjs
 ai/relay/direct/chatgpt/DirectServiceReporter.mjs
 ai/relay/direct/chatgpt/DirectServiceRequest.mjs
 ai/relay/direct/chatgpt/DirectServiceTurnCoordinator.mjs
+ai/relay/direct/chatgpt/DirectServiceTurnLifecycle.mjs
+ai/relay/direct/chatgpt/DirectServiceTurnPresentation.mjs
+ai/relay/direct/chatgpt/DirectServiceTurnRecovery.mjs
 ai/relay/direct/chatgpt/DirectTurnExecutor.mjs
 ai/relay/direct/chatgpt/FallbackConversationResult.mjs
 ai/relay/direct/chatgpt/FallbackConversationService.mjs
@@ -69,8 +72,19 @@ ai/relay/direct/README.md
 ai/relay/direct/stress/AuthenticatedConversationCounter.mjs
 ai/relay/direct/stress/FallbackStressReport.mjs
 ai/relay/direct/stress/FallbackStressRunner.mjs
+ai/relay/direct/stress/GlobalWebsiteAcceptedReceiptStore.mjs
+ai/relay/direct/stress/GlobalWebsiteQueueAcceptance.mjs
+ai/relay/direct/stress/GlobalWebsiteQueueAdmission.mjs
+ai/relay/direct/stress/GlobalWebsiteQueueLease.mjs
+ai/relay/direct/stress/GlobalWebsiteQueueLimits.mjs
+ai/relay/direct/stress/GlobalWebsiteQueueLock.mjs
 ai/relay/direct/stress/GlobalWebsiteQueuePaths.mjs
 ai/relay/direct/stress/GlobalWebsiteQueuePolicy.mjs
+ai/relay/direct/stress/GlobalWebsiteQueueReceiptHydration.mjs
+ai/relay/direct/stress/GlobalWebsiteQueueReconciliation.mjs
+ai/relay/direct/stress/GlobalWebsiteQueueSnapshot.mjs
+ai/relay/direct/stress/GlobalWebsiteQueueState.mjs
+ai/relay/direct/stress/GlobalWebsiteQueueStateCleanup.mjs
 ai/relay/direct/stress/GlobalWebsiteQueueStore.mjs
 ai/relay/direct/stress/GlobalWebsiteTurnQueue.mjs
 ai/relay/direct/stress/GlobalWebsiteTurnQueueChild.mjs
@@ -1393,6 +1407,7 @@ tools/fs/actionGroups/websiteAgents/plannerTarget.js
 tools/fs/actionGroups/websiteAgents/prompt.js
 tools/fs/actionGroups/websiteAgents/prompt/context.js
 tools/fs/actionGroups/websiteAgents/prompt/contracts.js
+tools/fs/actionGroups/websiteAgents/prompt/identity.js
 tools/fs/actionGroups/websiteAgents/prompt/turns.js
 tools/fs/actionGroups/websiteAgents/runner.js
 tools/fs/actionGroups/websiteAgents/runner/announceChildRoom.js
