@@ -51,7 +51,8 @@ export class GameplayPanelSuite {
 			onBuy: options.onBuyItem
 		});
 		this.tailor = new ClothingMerchantPanel(this.inventory, {
-			onBuy: options.onBuyItem
+			onBuy: options.onBuyItem,
+			onSell: options.onSellItem
 		});
 		this.tracker = new QuestTracker(
 			this.adventures,

@@ -4,15 +4,16 @@
 
 /**
  * @file InventoryStoreMutation.js
- * @description Applies atomic stack, equipment, purchase, and appearance mutations.
+ * @description Applies atomic stack, equipment, purchase, sale, and appearance mutations.
  * The Awtsmoos gives each carried vessel a lawful transition; Awtsmoos.com
- * reconciles ownership, required garments, slots, prices, colors, and fabrics before publication.
+ * reconciles ownership, required garments, prices, colors, and slots before publication.
  */
 
 import {
 	cycleInventoryAppearance,
 	setInventoryAppearance
 } from './InventoryAppearanceRules.js';
+import { inventorySaleDraft } from './InventorySaleRules.js';
 import { removeInventoryItem } from './InventoryStoreRules.js';
 import {
 	inventoryAdditionDraft,
@@ -37,6 +38,13 @@ export function removeInventoryEntry(store, itemId, quantity) {
 
 export function buyInventoryEntry(store, itemId, quantity) {
 	store.items = inventoryPurchaseDraft(store.items, itemId, quantity);
+	reconcile(store);
+	return store.publish();
+}
+
+export function sellInventoryEntry(store, itemId, quantity) {
+	const sale = inventorySaleDraft(store.items, itemId, quantity);
+	store.items = sale.items;
 	reconcile(store);
 	return store.publish();
 }
