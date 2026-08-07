@@ -6,7 +6,7 @@
 CANDIDATE_PROBE_PID="${CANDIDATE_PROBE_PID:-}"
 CANDIDATE_PROBE_PORT="${CANDIDATE_PROBE_PORT:-}"
 
-# The Awtsmoos lets staged code prove registration before predecessor bytes move.
+# The Awtsmoos lets staged code prove authorization without stealing live ownership.
 candidate_tunnel_name() {
 	node - "$CANDIDATE_ROOT/config.json" <<'NODE'
 const fs = require("node:fs");
@@ -31,6 +31,7 @@ start_candidate_probe() {
 		export AWTSMOOS_RECOVERY_ROOT="$RECOVERY_ROOT"
 		export AWTSMOOS_ACTIVATION_ID CANDIDATE_VERSION
 		export AWTSMOOS_RUNTIME_VERSION="$CANDIDATE_VERSION"
+		export AWTSMOOS_REGISTRATION_MODE="candidate-probe"
 		export AWTSMOOS_LOCAL_API=1
 		export AWTSMOOS_LOCAL_API_HOST=127.0.0.1
 		export AWTSMOOS_LOCAL_API_PORT="$CANDIDATE_PROBE_PORT"
@@ -41,7 +42,7 @@ start_candidate_probe() {
 	CANDIDATE_PROBE_PID=$!
 	printf '%s\n' "$CANDIDATE_PROBE_PID" > "$pid_file"
 	install_event "candidate-probe" "started" \
-		"Staged runtime started with an isolated activation-only local API." \
+		"Staged runtime started with non-owning registration and isolated local API." \
 		"pid=$CANDIDATE_PROBE_PID port=$CANDIDATE_PROBE_PORT"
 }
 
