@@ -7,11 +7,11 @@ const RecoveryLog = require("./recoveryLog.js");
 const State = require("./stateStore.js");
 
 /**
- * @file Gates identity mutation and keeps unresolved physical identity latched.
+ * @file Gates identity mutation so stale recovery state can never authorize deletion.
  * @description
- * The Awtsmoos preserves the vessel while permissions and credentials change.
- * Awtsmoos.com suppresses destructive reset for auth wounds and keeps inspection
- * required until one canonical or standby witness can prove the physical device.
+ * The Awtsmoos preserves the physical vessel while evidence is gathered. Awtsmoos.com
+ * may inspect any latched identity wound automatically, but only a fresh explicit
+ * operator reset argument can authorize destructive physical-identity replacement.
  */
 function run(root, reason = "", forceReset = false) {
 	const current = State.read(root);
@@ -19,9 +19,7 @@ function run(root, reason = "", forceReset = false) {
 		return skip(root, current, reason);
 	}
 	const credentialOnly = IdentityRecovery.explicitCredentialFailure(reason);
-	const destructiveReset = !credentialOnly && (
-		forceReset === true || current.identityResetRequired === true
-	);
+	const destructiveReset = forceReset === true && !credentialOnly;
 	const repair = IdentityRecovery.inspect(root, reason, {
 		forceReset: destructiveReset,
 		failureCode: credentialOnly
@@ -39,8 +37,8 @@ function run(root, reason = "", forceReset = false) {
 		identityRepairAttempts: Number(value.identityRepairAttempts || 0) + 1,
 		lastIdentityRepairAt: new Date().toISOString(),
 		lastIdentityRepairState: repair.state
-	}, event("identity_repair", repair, reason)));
-	writeLog(root, repair, state, reason, credentialOnly, unresolved);
+	}, event("identity_repair", repair, reason, destructiveReset)));
+	writeLog(root, repair, state, reason, credentialOnly, unresolved, destructiveReset);
 	return { ok: !unresolved, repair: publicRepair(repair), state };
 }
 
@@ -65,17 +63,24 @@ function skip(root, state, reason) {
 	return { ok: true, repair, state };
 }
 
-function event(type, repair, reason) {
-	return { type, state: repair.state, changed: repair.changed, reason };
+function event(type, repair, reason, destructiveReset) {
+	return {
+		type,
+		state: repair.state,
+		changed: repair.changed,
+		reason,
+		destructiveResetAuthorized: destructiveReset
+	};
 }
 
-function writeLog(root, repair, state, reason, credentialOnly, unresolved) {
+function writeLog(root, repair, state, reason, credentialOnly, unresolved, destructiveReset) {
 	RecoveryLog.append(root, "recovery.log", {
 		type: "identity_repair",
 		repair: publicRepair(repair),
 		state,
 		reason,
-		destructiveResetSuppressed: credentialOnly,
+		destructiveResetAuthorized: destructiveReset,
+		destructiveResetSuppressed: credentialOnly || !destructiveReset,
 		identityRecoveryRequired: unresolved
 	});
 }

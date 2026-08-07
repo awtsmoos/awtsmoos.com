@@ -27,20 +27,24 @@ const RESET_PATTERNS = [
 ];
 
 /**
- * @file Separates wire wounds, identity wounds, and software wounds.
- * The Awtsmoos never rolls code backward to heal a mismatched cryptographic vessel.
+ * @file Classifies identity evidence without granting destructive reset authority.
+ * @description
+ * The Awtsmoos distinguishes a wound from permission to erase the vessel. A private
+ * key read or parse failure can demand inspection, but Awtsmoos.com reserves physical
+ * identity deletion for one explicit operator reset rather than an automatic latch.
  */
 function classify(reason) {
 	const normalized = String(reason || "").trim().toLowerCase();
-	const requiresIdentityReset = includesAny(normalized, RESET_PATTERNS);
-	const requiresIdentityInspection = requiresIdentityReset ||
+	const resetCandidate = includesAny(normalized, RESET_PATTERNS);
+	const requiresIdentityInspection = resetCandidate ||
 		includesAny(normalized, INSPECTION_PATTERNS);
 	if (requiresIdentityInspection) {
 		return {
 			kind: "identity",
 			restoreEligible: false,
 			requiresIdentityInspection: true,
-			requiresIdentityReset,
+			requiresIdentityReset: false,
+			resetCandidate,
 			normalized
 		};
 	}
@@ -50,12 +54,13 @@ function classify(reason) {
 		restoreEligible: !transient,
 		requiresIdentityInspection: false,
 		requiresIdentityReset: false,
+		resetCandidate: false,
 		normalized
 	};
 }
 
 function includesAny(value, patterns) {
-	return patterns.some((pattern) => value.includes(pattern));
+	return patterns.some(pattern => value.includes(pattern));
 }
 
 module.exports = {

@@ -5,29 +5,25 @@
 const DeviceIdentity = require("../lib/deviceIdentity/index.js");
 
 /**
- * @file Heals identity wounds without turning credential rejection into a new device.
+ * @file Heals identity wounds without letting automatic recovery erase the device.
  * @description
- * The Awtsmoos distinguishes authorization from the vessel carrying it. Awtsmoos.com
- * may rotate a rejected credential, restore proven standby identity, or fail closed;
- * it never destroys physical identity merely because relay authorization expired.
+ * The Awtsmoos distinguishes authorization, cryptographic evidence, and permission
+ * to destroy a vessel. Awtsmoos.com may restore a verified standby or invalidate a
+ * rejected credential automatically; physical reset requires an explicit human gate.
  */
 function inspect(root, reason = "", options = {}) {
 	const config = { installRoot: root };
-	const protectedCredential = explicitCredentialFailure(reason);
+	const credentialOnly = explicitCredentialFailure(reason);
 	const metadata = DeviceIdentity.Metadata.read(config);
 	if (!metadata?.deviceId) {
-		return protectedCredential
-			? restoreOrRequire(config, reason, "identity_missing")
-			: restoreOrReset(config, reason, "identity_missing", options);
+		return recoveryForMissing(config, reason, "identity_missing", options, credentialOnly);
 	}
 	const privateKey = DeviceIdentity.SecureStore.read(metadata.deviceId, "private-key");
 	const coherence = DeviceIdentity.KeyCoherence.inspect(metadata, privateKey);
 	if (!coherence.ok) {
-		return protectedCredential
-			? restoreOrRequire(config, reason || coherence.code, coherence.code)
-			: restoreOrReset(config, reason || coherence.code, coherence.code, options);
+		return recoveryForMissing(config, reason || coherence.code, coherence.code, options, credentialOnly);
 	}
-	if (protectedCredential) {
+	if (credentialOnly) {
 		const invalidated = DeviceIdentity.invalidateCredential(config);
 		return result("credential_invalidated", true, reason, {
 			deviceId: metadata.deviceId,
@@ -42,6 +38,13 @@ function inspect(root, reason = "", options = {}) {
 		deviceId: metadata.deviceId,
 		fingerprint: coherence.fingerprint
 	});
+}
+
+function recoveryForMissing(config, reason, evidenceReason, options, credentialOnly) {
+	if (credentialOnly || options.forceReset !== true) {
+		return restoreOrRequire(config, reason, evidenceReason);
+	}
+	return restoreOrReset(config, reason, evidenceReason, options);
 }
 
 function restoreOrRequire(config, reason, evidenceReason) {
@@ -67,6 +70,9 @@ function restoreOrReset(config, reason, evidenceReason, options = {}) {
 				restored
 			});
 		}
+	}
+	if (options.forceReset !== true) {
+		return result("identity_recovery_required", false, reason, { evidenceReason });
 	}
 	return reset(config, reason, evidenceReason, options);
 }
@@ -103,6 +109,7 @@ function result(state, changed, reason, details = {}) {
 module.exports = {
 	explicitCredentialFailure,
 	inspect,
+	recoveryForMissing,
 	restoreOrRequire,
 	restoreOrReset
 };

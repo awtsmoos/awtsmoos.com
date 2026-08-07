@@ -8,7 +8,13 @@ const Policy = require("../recovery/registrationFailurePolicy.js");
 const State = require("../recovery/stateStore.js");
 const Transition = require("../recovery/registrationFailureTransition.js");
 
-/** Transient wire wounds never displace healthy runtime code. */
+/**
+ * @file Proves registration failure classification never grants physical reset authority.
+ * @description
+ * The Awtsmoos distinguishes transport, software, and cryptographic evidence without
+ * turning diagnosis into erasure. Awtsmoos.com may request identity inspection after
+ * key wounds, while a fresh explicit operator action alone can authorize replacement.
+ */
 test("transient registration failures never trigger archive restoration", () => {
 	let state = State.defaults();
 	for (const reason of [
@@ -23,8 +29,7 @@ test("transient registration failures never trigger archive restoration", () => 
 	assert.equal(state.lastFailureKind, "transport");
 });
 
-/** Missing ACK evidence asks identity inspection instead of archive roulette. */
-test("a missing registration receipt escalates to identity inspection", () => {
+test("a missing registration receipt escalates only to identity inspection", () => {
 	const state = Transition.report(
 		State.defaults(),
 		"registration_receipt_missing",
@@ -37,17 +42,16 @@ test("a missing registration receipt escalates to identity inspection", () => {
 	assert.equal(Policy.classify("registration_ack_timeout").restoreEligible, false);
 });
 
-/** Proven key wounds demand a full identity reset, never code rollback. */
-test("cryptographic mismatch requests bounded identity reset", () => {
-	const state = Transition.report(
-		State.defaults(),
-		"error:1E08010C:DECODER routines::unsupported",
-		Date.now()
-	);
+test("cryptographic mismatch requests inspection without automatic reset", () => {
+	const reason = "error:1E08010C:DECODER routines::unsupported";
+	const state = Transition.report(State.defaults(), reason, Date.now());
+	const classified = Policy.classify(reason);
 	assert.equal(state.restoreRequired, false);
 	assert.equal(state.identityInspectionRequired, true);
-	assert.equal(state.identityResetRequired, true);
+	assert.equal(state.identityResetRequired, false);
 	assert.equal(state.lastFailureKind, "identity");
+	assert.equal(classified.resetCandidate, true);
+	assert.equal(classified.requiresIdentityReset, false);
 });
 
 test("three bounded software failures remain rollback eligible", () => {
