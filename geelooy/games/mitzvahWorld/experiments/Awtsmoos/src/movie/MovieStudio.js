@@ -4,12 +4,13 @@
 
 /**
  * @file MovieStudio.js
- * @description Boots the real world beneath the cinema-first API, visible Program mirror, and action registry.
- * The Awtsmoos renews world, human gesture, and machine method together; Awtsmoos.com binds runtime,
- * project, preview, recovery, performance, sound, presentation, and deterministic UI/API parity.
+ * @description Boots the real world, prepares canonical Chossid cinema assets, then installs one truthful editor session.
+ * The Awtsmoos renews world, actor, frame, and editor before any finite image can claim reality;
+ * Awtsmoos.com therefore prepares real shared Chossid vessels before the director may reveal frame zero.
  */
 
 import { createEretzRuntime } from '../app/createEretzRuntime.js';
+import { prepareMovieCinemaAssets } from './MovieCinemaAssetPreparation.js';
 import { renderExactMovieStudioSession } from './MovieExactRender.js';
 import { MovieStudioAuthoring3dController } from './MovieStudioAuthoring3dController.js';
 import { MovieStudioAudioMixerController } from './MovieStudioAudioMixerController.js';
@@ -42,35 +43,15 @@ export async function createMovieStudio(hosts, initialProject, options = {}) {
 			startLoop: false
 		});
 		const runtime = diagnostics.runtime;
+		loading.set('B"H preparing the real shared Chossid cast…');
+		const cinemaAssets = await prepareMovieCinemaAssets(initialProject, { runtime });
 		const restoreWorldChrome = hideMovieWorldChrome(hosts, runtime.renderer.canvas);
 		loading.set('B"H arranging the live 3D cinema and professional tools…');
 		const view = createMovieStudioView(initialProject);
 		const session = new MovieStudioSession(runtime, diagnostics, view, initialProject);
 		session.restoreWorldChrome = restoreWorldChrome;
-		session.uiActionRegistry = new MovieStudioUiActionRegistry(
-			view.root,
-			options.environment || globalThis
-		);
-		session.previewMirror = new MovieStudioPreviewMirror(session);
-		session.workspaceModeController = new MovieStudioWorkspaceModeController(session, view);
-		session.scene3dController = new MovieStudioScene3dController(session, view.root);
-		session.scene3dGizmo = new MovieStudioScene3dGizmo(session, view.root);
-		session.authoring3dController = new MovieStudioAuthoring3dController(session, view);
-		session.cameraActionController = new MovieStudioCameraActionController(session, view);
-		session.keyframeController = new MovieStudioKeyframeController(session, view);
-		session.audioMixerController = new MovieStudioAudioMixerController(session, view);
-		session.titleController = new MovieStudioTitleController(session, view);
-		session.compositionController = new MovieStudioCompositionController(session, view.root);
-		session.projectBrowserController = new MovieStudioProjectBrowserController(session, view.root);
-		session.utilityController = new MovieStudioUtilityController(session, view);
-		session.performanceController = new MovieStudioPerformanceController(session, {
-			environment: options.environment || globalThis
-		});
-		session.transportController = new MovieStudioTransportController(session, view);
-		session.interactions = new MovieStudioInteractionController(session, view);
-		session.presentationController = new MovieStudioPresentationController(session, view);
-		session.preferenceController = new MovieStudioPreferenceController(session, view);
-		session.resizeController = new MovieStudioResizeController(session, view);
+		session.initialCinemaAssets = cinemaAssets;
+		installMovieStudioControllers(session, view, options);
 		scheduleAutomaticRender(session, options);
 		return session.publicApi;
 	} finally {
@@ -78,11 +59,33 @@ export async function createMovieStudio(hosts, initialProject, options = {}) {
 	}
 }
 
+function installMovieStudioControllers(session, view, options) {
+	session.uiActionRegistry = new MovieStudioUiActionRegistry(view.root, options.environment || globalThis);
+	session.previewMirror = new MovieStudioPreviewMirror(session);
+	session.workspaceModeController = new MovieStudioWorkspaceModeController(session, view);
+	session.scene3dController = new MovieStudioScene3dController(session, view.root);
+	session.scene3dGizmo = new MovieStudioScene3dGizmo(session, view.root);
+	session.authoring3dController = new MovieStudioAuthoring3dController(session, view);
+	session.cameraActionController = new MovieStudioCameraActionController(session, view);
+	session.keyframeController = new MovieStudioKeyframeController(session, view);
+	session.audioMixerController = new MovieStudioAudioMixerController(session, view);
+	session.titleController = new MovieStudioTitleController(session, view);
+	session.compositionController = new MovieStudioCompositionController(session, view.root);
+	session.projectBrowserController = new MovieStudioProjectBrowserController(session, view.root);
+	session.utilityController = new MovieStudioUtilityController(session, view);
+	session.performanceController = new MovieStudioPerformanceController(session, {
+		environment: options.environment || globalThis
+	});
+	session.transportController = new MovieStudioTransportController(session, view);
+	session.interactions = new MovieStudioInteractionController(session, view);
+	session.presentationController = new MovieStudioPresentationController(session, view);
+	session.preferenceController = new MovieStudioPreferenceController(session, view);
+	session.resizeController = new MovieStudioResizeController(session, view);
+}
+
 function scheduleAutomaticRender(session, options) {
 	if (options.autoRender) setTimeout(() => session.render(), 250);
-	if (options.autoRenderExact) {
-		setTimeout(() => renderExactMovieStudioSession(session), 250);
-	}
+	if (options.autoRenderExact) setTimeout(() => renderExactMovieStudioSession(session), 250);
 }
 
 export default createMovieStudio;

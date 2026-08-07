@@ -4,9 +4,9 @@
 
 /**
  * @file movieStudioApiCinema.test.mjs
- * @description Proves one frozen cinema API owns preparation, safety, WebCodecs planning, phase progress, waiting, and cancellation.
+ * @description Proves one frozen cinema API owns preparation, safety, quieter flagship authoring, render progress, waiting, and cancellation.
  * The Awtsmoos renews public method and private queue without confusion; Awtsmoos.com verifies
- * canonical Chossid readiness precedes installation and long-form rendering remains inspectable.
+ * canonical Chossid readiness precedes installation while six patient scenes remain exactly one minute.
  */
 
 import assert from 'node:assert/strict';
@@ -28,6 +28,7 @@ test('cinema domain publishes immutable preparation, authoring, and render contr
 	const contract = cinema.contract();
 	assert.deepEqual(contract.methods, API_KEYS);
 	assert.equal(contract.flagship.expectedFrames, 1440);
+	assert.equal(contract.flagship.minimumScenes, 6);
 	assert.equal(contract.capabilities.assetPreparation, true);
 	assert.equal(contract.capabilities.noProceduralFinalHumans, true);
 });
@@ -36,6 +37,7 @@ test('apply refuses unprepared humans and succeeds after preparation', async () 
 	const session = createSession();
 	const cinema = createMovieStudioCinemaDomain(session);
 	const manifest = cinema.flagship();
+	assert.equal(manifest.scenes.length, 6);
 	assert.equal(cinema.assetStatus(manifest).ready, false);
 	const rejected = cinema.apply(manifest);
 	assert.equal(rejected.ok, false);
@@ -55,8 +57,9 @@ test('cinema jobs prepare automatically and expose frame-aware phase metadata', 
 	const started = await cinema.renderFlagship({ download: true });
 	assert.equal(started.ok, true);
 	assert.equal(started.value.analysis.expectedFrames, 1440);
+	assert.equal(started.value.analysis.sceneCount, 6);
 	assert.equal(started.value.assets.ready, true);
-	assert.equal(started.value.job.request.metadata.sceneCount, 12);
+	assert.equal(started.value.job.request.metadata.sceneCount, 6);
 	assert.equal(started.value.job.cinemaProgress.encodedFrameEstimate, 360);
 	assert.equal(started.value.job.cinemaProgress.videoPercent, 25);
 	assert.equal(started.value.job.cinemaProgress.phase, 'video');
@@ -81,20 +84,20 @@ function createSession() {
 	const session = {
 		cinemaAssets: {
 			assertReady() {
-				if (!ready) {
-					throw new MovieApiError(
-						'CINEMA_CHOSSID_ASSETS_NOT_READY',
-						'Prepared Chossid actors are required.',
-						{ ready: 0, required: 8 }
-					);
-				}
+				if (!ready) throw new MovieApiError(
+					'CINEMA_CHOSSID_ASSETS_NOT_READY',
+					'Prepared Chossid actors are required.',
+					{ ready: 0, required: 8 }
+				);
 				return { ready: true, requiredChossidActors: 8 };
 			},
 			async prepare() { ready = true; return { ready: true, requiredChossidActors: 8 }; },
 			status() { return { ready, requiredChossidActors: 8 }; }
 		},
 		commands: { commitProject: project => { session.project = project; session.revision += 1; } },
-		events: { emit() {} }, project: null, revision: 2,
+		events: { emit() {} },
+		project: null,
+		revision: 2,
 		renderQueue: {
 			cancel: id => ({ cancelled: true, job: jobs.get(id) }),
 			get: id => ({ snapshot: () => jobs.get(id) }),
@@ -109,6 +112,7 @@ function createSession() {
 function cinemaJob(request) {
 	return { createdAt: '2026-08-02T00:00:00Z', id: 'cinema-1', progress: 0.235, request, state: 'rendering' };
 }
+
 function otherJob() {
 	return { id: 'other-1', progress: 0, request: {}, state: 'queued' };
 }

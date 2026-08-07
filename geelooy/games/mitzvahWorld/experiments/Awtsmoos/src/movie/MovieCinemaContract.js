@@ -6,7 +6,7 @@
  * @file MovieCinemaContract.js
  * @description Publishes the stable long-form cinematic preparation, authoring, WebCodecs, progress, and render-job covenant.
  * The Awtsmoos is beyond asset, scene, actor, lens, queue, and codec while renewing each finite boundary;
- * Awtsmoos.com gives agents one JSON-only map from canonical Chossid readiness to exact long-form evidence.
+ * Awtsmoos.com lets six patient ten-second scenes satisfy long-form cinema without multiplying camera cuts for their own sake.
  */
 
 import { createMovieProjectSnapshot } from './MovieProjectSnapshot.js';
@@ -38,7 +38,7 @@ export function createMovieCinemaContract() {
 			duration: 60,
 			expectedFrames: 1440,
 			fps: 24,
-			minimumScenes: 12,
+			minimumScenes: 6,
 			model: 'assets/models/player/chossid.glb',
 			music: false
 		},

@@ -4,9 +4,9 @@
 
 /**
  * @file MitzvahWorldModeLoaders.js
- * @description Loads direct worlds with real map, lightweight cinema controls, and creative routes.
- * The Awtsmoos opens control and direction before ornament; Awtsmoos.com keeps direct worlds lean
- * while every runtime retains a bounded, reversible doorway into the canonical Movie Studio.
+ * @description Loads direct worlds while letting Movie Studio open before gameplay presentation or world hydration.
+ * The Awtsmoos renews cinema and meadow from one source without forcing either doorway through the other;
+ * Awtsmoos.com keeps Movie Maker light at first paint while full gameplay presentation remains available to living worlds.
  */
 
 const PRESENTATION_URL = './MitzvahWorldGameplayPresentation.js?v=20260802-game-studio-bridge-02';
@@ -15,15 +15,10 @@ const SINGLE_PLAYER_RUNTIME_URL = '../app/createEretzRuntime.js?v=20260804-map-0
 
 export function createMitzvahWorldModeLoaders(environment = globalThis) {
 	return Object.freeze({
-		materials: hosts => openCreative('openMaterialsMode', hosts, '', environment),
-		movie: (hosts, options) => openCreative(
-			'openMovieMode',
-			hosts,
-			options?.search || '',
-			environment
-		),
+		materials: hosts => openPresentedCreative('openMaterialsMode', hosts, '', environment),
+		movie: (hosts, options) => openMovieCreative(hosts, options, environment),
 		multiplayer: (hosts, options) => openMultiplayer(hosts, options, environment),
-		platform: hosts => openCreative('openPlatformMode', hosts, '', environment),
+		platform: hosts => openPresentedCreative('openPlatformMode', hosts, '', environment),
 		singlePlayer: (hosts, options) => openSinglePlayer(hosts, options, environment)
 	});
 }
@@ -37,6 +32,11 @@ export function hasMovieRequest(search = '') {
 		|| parameters.has('movieJson')
 		|| parameters.has('movieUrl')
 		|| parameters.has('project');
+}
+
+async function openMovieCreative(hosts, options = {}, environment = globalThis) {
+	const module = await import(CREATIVE_URL);
+	return module.openMovieMode(hosts, options.search || '');
 }
 
 async function openSinglePlayer(hosts, options = {}, environment = globalThis) {
@@ -85,7 +85,7 @@ async function openMultiplayer(hosts, options = {}, environment = globalThis) {
 	return diagnostics;
 }
 
-async function openCreative(method, hosts, search, environment) {
+async function openPresentedCreative(method, hosts, search, environment) {
 	await startFullPresentation(hosts, environment);
 	const module = await import(CREATIVE_URL);
 	return module[method](hosts, search);

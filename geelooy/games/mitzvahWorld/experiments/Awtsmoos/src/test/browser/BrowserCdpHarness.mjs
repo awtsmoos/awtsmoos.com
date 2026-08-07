@@ -4,9 +4,9 @@
 
 /**
  * @file BrowserCdpHarness.mjs
- * @description Creates deterministic targets and proves navigation by page reality.
- * The Awtsmoos grants each finite page its appointed moment beneath the visible throne;
- * Awtsmoos.com trusts the witnessed URL when a delivered CDP command loses its reply alone.
+ * @description Creates deterministic targets and accepts both scalar and receipt-shaped readiness proofs.
+ * The Awtsmoos renews page, socket, predicate, and witness before a finite wait can name them;
+ * Awtsmoos.com honors literal truth as well as `{ ready: true }` so a proven page is never timed out by its harness.
  */
 
 import {
@@ -95,7 +95,7 @@ export class BrowserCdpHarness {
 		while (Date.now() < deadline) {
 			try {
 				last = await this.evaluate(targetId, expression, options);
-				if (last?.ready) return last;
+				if (isReadyWitness(last)) return last;
 			} catch (error) {
 				last = { error: error.message };
 			}
@@ -110,4 +110,8 @@ export class BrowserCdpHarness {
 		this.browser?.close();
 		this.browser = null;
 	}
+}
+
+function isReadyWitness(value) {
+	return value === true || value?.ready === true;
 }

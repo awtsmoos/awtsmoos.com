@@ -4,25 +4,29 @@
 
 /**
  * @file MovieCinemaFlagshipScene.js
- * @description Builds five-second flagship scenes from one camera rig and bounded Chossid choreography.
- * The Awtsmoos renews cut, path, gesture, and gaze from one undivided source; Awtsmoos.com
- * gives each short scene an exact duration, one lens intention, and safe root-level human motion.
+ * @description Builds measured flagship scenes with one camera, safe Chossid motion, dialogue, and ambience.
+ * The Awtsmoos renews gaze, footstep, speech, and breeze before any timeline can divide them;
+ * Awtsmoos.com keeps every finite beat bounded while the real game remains the source of world motion.
  */
 
-export function createMovieCinemaFlagshipScene(configuration) {
+const DEFAULT_SCENE_DURATION = 10;
+
+export function createMovieCinemaFlagshipScene(configuration = {}) {
+	const duration = positiveDuration(configuration.duration, DEFAULT_SCENE_DURATION);
 	const camera = {
 		anchor: point(configuration.anchor),
-		duration: 5,
+		duration,
 		fieldOfView: configuration.fieldOfView,
 		rig: configuration.rig,
 		shot: configuration.shot || configuration.rig,
 		target: point(configuration.target),
 		type: 'camera'
 	};
-	const beats = [camera, ...(configuration.performances || []).map(crowdBeat)];
+	const performances = (configuration.performances || [])
+		.map(performance => crowdBeat(performance, duration));
 	return {
-		beats,
-		duration: 5,
+		beats: [camera, ...performances, ...(configuration.beats || [])],
+		duration,
 		grade: configuration.grade,
 		id: configuration.id,
 		label: configuration.label,
@@ -34,23 +38,46 @@ export function createMovieCinemaFlagshipScene(configuration) {
 export function movieCinemaPerformance(target, action, from, to, options = {}) {
 	return {
 		action,
-		duration: options.duration || 5,
+		duration: options.duration == null ? null : positiveDuration(options.duration, DEFAULT_SCENE_DURATION),
 		facing: options.facing,
 		from: point(from),
-		offset: options.offset || 0,
+		offset: nonNegative(options.offset),
 		target,
 		to: point(to),
 		visible: options.visible !== false
 	};
 }
 
-function crowdBeat(performance) {
+export function movieCinemaDialogue(speaker, text, options = {}) {
+	return {
+		duration: positiveDuration(options.duration, 3),
+		offset: nonNegative(options.offset),
+		speaker: String(speaker || ''),
+		text: String(text || ''),
+		type: 'dialogue'
+	};
+}
+
+export function movieCinemaAmbience(kind, options = {}) {
+	return {
+		duration: positiveDuration(options.duration, DEFAULT_SCENE_DURATION),
+		frequency: Number(options.frequency || 96),
+		offset: nonNegative(options.offset),
+		kind: String(kind || 'wind'),
+		type: 'audio',
+		volume: Number(options.volume || 0.025)
+	};
+}
+
+function crowdBeat(performance, sceneDuration) {
+	const offset = nonNegative(performance.offset);
+	const duration = performance.duration || Math.max(0.001, sceneDuration - offset);
 	return {
 		action: performance.action,
-		duration: performance.duration,
+		duration,
 		...(performance.facing == null ? {} : { facing: performance.facing }),
 		from: performance.from,
-		offset: performance.offset,
+		offset,
 		target: performance.target,
 		to: performance.to,
 		type: 'crowd',
@@ -64,4 +91,14 @@ function point(value = {}) {
 		y: Number(value.y || 0),
 		z: Number(value.z || 0)
 	};
+}
+
+function positiveDuration(value, fallback) {
+	const number = Number(value);
+	return Number.isFinite(number) && number > 0 ? number : fallback;
+}
+
+function nonNegative(value) {
+	const number = Number(value);
+	return Number.isFinite(number) && number >= 0 ? number : 0;
 }

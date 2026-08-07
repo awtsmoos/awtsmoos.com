@@ -4,9 +4,9 @@
 
 /**
  * @file movieCinemaLongForm.test.mjs
- * @description Proves one minute at twenty-four FPS becomes 1,440 exact states across four bounded segments.
+ * @description Proves one minute at twenty-four FPS becomes 1,440 exact states across four bounded segments and six patient scenes.
  * The Awtsmoos renews whole and segment without division in the source; Awtsmoos.com verifies
- * every intended frame appears once, keyframes remain periodic, and queue policy stays bounded.
+ * every intended frame appears once while ten-second views replace needless rapid camera cuts.
  */
 
 import assert from 'node:assert/strict';
@@ -23,6 +23,7 @@ test('one-minute cinema has exact long-form frame and segment coverage', () => {
 	});
 	assert.equal(analysis.duration, 60);
 	assert.equal(analysis.expectedFrames, 1440);
+	assert.equal(analysis.sceneCount, 6);
 	assert.equal(plan.length, 4);
 	assert.deepEqual(plan.map(segment => segment.encodedFrames), [360, 360, 360, 360]);
 	assert.equal(plan[0].startFrame, 0);
@@ -30,12 +31,13 @@ test('one-minute cinema has exact long-form frame and segment coverage', () => {
 	assert.equal(plan.reduce((sum, segment) => sum + segment.encodedFrames, 0), 1440);
 });
 
-test('all scenes preserve five-second camera and choreography bounds', () => {
+test('all scenes preserve ten-second camera and choreography bounds', () => {
 	const manifest = createMovieCinemaFlagship();
+	assert.equal(manifest.scenes.length, 6);
 	for (const scene of manifest.scenes) {
-		assert.equal(scene.duration, 5);
+		assert.equal(scene.duration, 10);
 		const camera = scene.beats.find(beat => beat.type === 'camera');
-		assert.equal(camera.duration, 5);
+		assert.equal(camera.duration, 10);
 		assert.ok(camera.rig);
 		assert.ok(scene.beats.every(beat => Number(beat.duration) <= scene.duration));
 	}
