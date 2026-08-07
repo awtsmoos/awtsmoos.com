@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file Returns one explicit resume map for an existing canonical request.
+ * @file Returns explicit resume and reconciliation truth for one canonical request.
  * @description
- * The Awtsmoos never asks a caller to guess whether retry means replay. Pending
- * responses name the exact observation, wait, and output actions while declaring
- * that mutation replay is unsafe and the original control identity remains sovereign.
+ * The Awtsmoos preserves a deed without granting permission to repeat it.
+ * Awtsmoos.com names when a renewed parent found non-replayable pending work,
+ * so interruption becomes durable evidence instead of a silent duplicate side effect.
  */
 function pending(record) {
 	const jobId = findJobId(record.progress);
@@ -16,15 +16,23 @@ function pending(record) {
 		controlRequestId: record.controlRequestId,
 		requestedAction: record.requestedAction
 	};
+	const reconciliationRequired = record.hydratedAfterRestart === true &&
+		record.durable?.replaySafe !== true;
 	return {
 		ok: false,
 		status: 202,
 		action: "tunnelRequestPending",
 		pending: true,
 		canonicalRequestPending: true,
+		durableRequestPending: record.durable?.enabled === true,
 		safeToReplay: false,
+		reconciliationRequired,
+		recoveryState: reconciliationRequired
+			? "interrupted_reconciliation_required"
+			: "pending",
 		controlRequestId: record.controlRequestId,
 		requestedAction: record.requestedAction,
+		durableReceiptRef: record.durable?.receiptRef || null,
 		progress: clone(record.progress),
 		retryPayload,
 		resumePlan: resumePlan(retryPayload, jobId)
@@ -88,4 +96,12 @@ function clone(value) {
 	return value == null ? value : structuredClone(value);
 }
 
-module.exports = { clone, completed, conflict, findJobId, missing, pending, resumePlan };
+module.exports = {
+	clone,
+	completed,
+	conflict,
+	findJobId,
+	missing,
+	pending,
+	resumePlan
+};

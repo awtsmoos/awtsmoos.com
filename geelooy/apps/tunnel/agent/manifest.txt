@@ -1,5 +1,5 @@
 B"H
-1.0.496
+1.0.499
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtector.mjs
@@ -870,9 +870,15 @@ lib/config-defaults.js
 lib/config-normalizers.js
 lib/config-value-normalizers.js
 lib/config.js
+lib/connection-vessel/child-delivery-replay.js
 lib/connection-vessel/child-delivery.js
 lib/connection-vessel/child-foundation.js
+lib/connection-vessel/child-health-publisher.js
+lib/connection-vessel/child-health.js
 lib/connection-vessel/child-message-router.js
+lib/connection-vessel/child-runtime-ipc.js
+lib/connection-vessel/child-runtime-parent.js
+lib/connection-vessel/child-runtime-view.js
 lib/connection-vessel/child-runtime.js
 lib/connection-vessel/child.js
 lib/connection-vessel/controller-message-router.js
@@ -886,6 +892,11 @@ lib/connection-vessel/mailbox-io.js
 lib/connection-vessel/mailbox-paths.js
 lib/connection-vessel/mailbox-store.js
 lib/connection-vessel/mailbox.js
+lib/connection-vessel/parent-consumer-health-values.js
+lib/connection-vessel/parent-consumer-health.js
+lib/connection-vessel/parent-watchdog-control.js
+lib/connection-vessel/parent-watchdog-repair.js
+lib/connection-vessel/parent-watchdog-values.js
 lib/connection-vessel/parent-watchdog.js
 lib/connection-vessel/protocol.js
 lib/connection-vessel/proxy.js
@@ -899,8 +910,14 @@ lib/deviceIdentity/httpJson.js
 lib/deviceIdentity/identity.js
 lib/deviceIdentity/identityFailure.js
 lib/deviceIdentity/identityQuarantine.js
+lib/deviceIdentity/identitySlotCapture.js
+lib/deviceIdentity/identitySlotKinds.js
+lib/deviceIdentity/identitySlotMatch.js
+lib/deviceIdentity/identitySlotRestore.js
+lib/deviceIdentity/identitySlotRollback.js
 lib/deviceIdentity/identitySlots.js
 lib/deviceIdentity/identitySlotStore.js
+lib/deviceIdentity/identitySlotVerification.js
 lib/deviceIdentity/index.js
 lib/deviceIdentity/keyCoherence.js
 lib/deviceIdentity/keyMaterial.js
@@ -961,7 +978,10 @@ lib/runtime/connection-receipt-async.js
 lib/runtime/connection-receipt-runtime.js
 lib/runtime/connection-receipt-value.js
 lib/runtime/connection-receipt.js
+lib/runtime/continuation-identity.js
 lib/runtime/continuation-loop.js
+lib/runtime/continuation-policy.js
+lib/runtime/continuation-result.js
 lib/runtime/control-plane.js
 lib/runtime/correlation-definitions.js
 lib/runtime/correlation-extract-helpers.js
@@ -987,6 +1007,7 @@ lib/runtime/main-components.js
 lib/runtime/main-config.js
 lib/runtime/main-connection-acknowledgement.js
 lib/runtime/main-connection-activity.js
+lib/runtime/main-connection-authorization.js
 lib/runtime/main-connection-messages.js
 lib/runtime/main-connection-open.js
 lib/runtime/main-connection-socket.js
@@ -995,6 +1016,7 @@ lib/runtime/main-connection.js
 lib/runtime/main-dependencies.js
 lib/runtime/main-dispatch.js
 lib/runtime/main-events.js
+lib/runtime/main-execution-stages.js
 lib/runtime/main-inbound-dispatch.js
 lib/runtime/main-lane-stats.js
 lib/runtime/main-payload.js
@@ -1527,6 +1549,7 @@ tools/fs/commandJob/crossRootDecision.js
 tools/fs/commandJob/crossRootJobOrder.js
 tools/fs/commandJob/crossRootLock.js
 tools/fs/commandJob/crossRootMonitor.js
+tools/fs/commandJob/crossRootOwnership.js
 tools/fs/commandJob/crossRootReconciler.js
 tools/fs/commandJob/crossRootScanner.js
 tools/fs/commandJob/fairQueue.js
@@ -1607,6 +1630,7 @@ tools/fs/continuation/runner.js
 tools/fs/dependencyGraph.js
 tools/fs/deviceStateRoot.js
 tools/fs/diagnostics.js
+tools/fs/executor/executionObserver.js
 tools/fs/executor/index.js
 tools/fs/executor/policy.js
 tools/fs/executor/pool-capacity.js

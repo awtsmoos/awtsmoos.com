@@ -3,22 +3,25 @@
 // Blessed is He
 
 const Protocol = require("./protocol.js");
+const Replay = require("./child-delivery-replay.js");
 const RequestLifecycle = require("./request-lifecycle.js");
 
 /**
- * @file Redelivers durable work and reconstructs acceptance once per socket generation.
+ * @file Keeps inbound custody durable until terminal outbound testimony exists.
  * @description
- * The Awtsmoos lets inbox custody outlive the connection child. On each registered
- * generation Awtsmoos.com rebuilds missing acceptance and progress from disk exactly
- * once, then resumes bounded inbox and outbox delivery without duplicating execution.
+ * The Awtsmoos passes one deed from inbox to execution to outbox without a void.
+ * Awtsmoos.com never redelivers a request whose terminal answer is already sealed,
+ * and never erases the inbound witness merely because the parent accepted its queue.
  */
 function createDelivery(options = {}) {
 	let parentReady = false;
 	let inboxReplayScheduled = false;
 	let outboxReplayScheduled = false;
 	let recoveredGeneration = null;
-	const replayBatchSize = bounded(options.replayBatchSize, 8);
-	const schedule = options.schedule || setImmediate;
+	const replay = Replay.create({
+		batchSize: options.replayBatchSize,
+		schedule: options.schedule
+	});
 	const lifecycle = RequestLifecycle.createRequestLifecycle({
 		state: options.state,
 		transmit
@@ -27,6 +30,8 @@ function createDelivery(options = {}) {
 	function enqueueRequest(ws, envelope) {
 		options.mailbox.putInbox(envelope);
 		lifecycle.accept(envelope, ws);
+		const receiptId = Protocol.requestId(envelope);
+		if (hasTerminal(receiptId)) return flush(receiptId);
 		if (parentReady) deliver(envelope);
 	}
 
@@ -38,10 +43,24 @@ function createDelivery(options = {}) {
 
 	function redeliver() {
 		if (!parentReady || inboxReplayScheduled) return 0;
-		const entries = options.mailbox.inbox();
+		const entries = unsettledInbox();
 		inboxReplayScheduled = true;
-		drain(entries, deliver, () => inboxReplayScheduled = false);
+		replay.drain(entries, deliver, () => inboxReplayScheduled = false);
 		return entries.length;
+	}
+
+	function unsettledInbox() {
+		return options.mailbox.inbox().filter(envelope =>
+			!hasTerminal(Protocol.requestId(envelope))
+		);
+	}
+
+	function hasTerminal(receiptId) {
+		return Boolean(
+			receiptId &&
+			typeof options.mailbox.outboxOne === "function" &&
+			options.mailbox.outboxOne(receiptId)
+		);
 	}
 
 	function deliver(envelope) {
@@ -60,8 +79,11 @@ function createDelivery(options = {}) {
 		if (outboxReplayScheduled) return 0;
 		const entries = options.mailbox.outbox();
 		outboxReplayScheduled = true;
-		drain(entries, envelope => options.Send.safeSend(ws, envelope),
-			() => outboxReplayScheduled = false);
+		replay.drain(
+			entries,
+			envelope => options.Send.safeSend(ws, envelope),
+			() => outboxReplayScheduled = false
+		);
 		return entries.length;
 	}
 
@@ -69,23 +91,12 @@ function createDelivery(options = {}) {
 		const generation = Number(options.state.generation || 0);
 		if (generation === recoveredGeneration) return 0;
 		recoveredGeneration = generation;
-		return lifecycle.recover(options.mailbox.inbox(), ws);
+		return lifecycle.recover(unsettledInbox(), ws);
 	}
 
 	function transmit(envelope, socket = options.state.activeWs) {
 		if (!options.state.registrationConfirmed || !socket?.opened) return false;
 		return options.Send.safeSend(socket, envelope);
-	}
-
-	function drain(entries, effect, complete) {
-		let index = 0;
-		function next() {
-			const end = Math.min(entries.length, index + replayBatchSize);
-			while (index < end && effect(entries[index]) !== false) index += 1;
-			if (index < entries.length) return schedule(next);
-			complete();
-		}
-		next();
 	}
 
 	return {
@@ -96,13 +107,9 @@ function createDelivery(options = {}) {
 		pendingProgress: lifecycle.pendingProgress,
 		recoverGeneration,
 		redeliver,
-		transmit
+		transmit,
+		unsettledInbox
 	};
-}
-
-function bounded(value, fallback) {
-	const number = Number(value);
-	return Number.isFinite(number) ? Math.max(1, Math.min(64, Math.floor(number))) : fallback;
 }
 
 module.exports = { createDelivery };

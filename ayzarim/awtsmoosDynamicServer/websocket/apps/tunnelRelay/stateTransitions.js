@@ -8,11 +8,11 @@ const Record = require("./durableRecord.js");
 const Store = require("./durableStore.js");
 
 /**
- * @file Serializes every durable relay phase mutation for one canonical identity.
+ * @file Serializes each durable relay mutation, including late reconciliation.
  * @description
- * The Awtsmoos joins many asynchronous witnesses into one ordered scroll.
- * Awtsmoos.com fsyncs each transition and refuses to let dispatch, acceptance, or
- * progress overwrite terminal truth that has already descended into storage.
+ * The Awtsmoos joins asynchronous witnesses into one ordered scroll. Awtsmoos.com
+ * protects terminal truth from nonterminal overwrite, yet lets a later verified
+ * device result be attached beside a prior transport failure without erasing it.
  */
 function mutate(context, key, operation) {
 	Memory.ensureStores(context);
@@ -41,15 +41,33 @@ function rememberPhase(context, key, id, expected, transform) {
 }
 
 function rememberDispatched(context, key, id, expected, details) {
-	return rememberPhase(context, key, id, expected, record => Record.dispatched(record, details));
+	return rememberPhase(
+		context,
+		key,
+		id,
+		expected,
+		record => Record.dispatched(record, details)
+	);
 }
 
 function rememberAccepted(context, key, id, expected, details) {
-	return rememberPhase(context, key, id, expected, record => Record.accepted(record, details));
+	return rememberPhase(
+		context,
+		key,
+		id,
+		expected,
+		record => Record.accepted(record, details)
+	);
 }
 
 function rememberProgress(context, key, id, expected, details) {
-	return rememberPhase(context, key, id, expected, record => Record.progressed(record, details));
+	return rememberPhase(
+		context,
+		key,
+		id,
+		expected,
+		record => Record.progressed(record, details)
+	);
 }
 
 function rememberTerminal(context, key, id, data, expected, state) {
@@ -67,6 +85,29 @@ function rememberTerminal(context, key, id, data, expected, state) {
 	});
 }
 
+/** Appends verified late terminal evidence without replacing the original terminal data. */
+function rememberReconciliation(context, key, id, data, expected, details = {}) {
+	return mutate(context, key, async () => {
+		const current = await Store.read(context, key);
+		if (!current || current.id !== id || !Record.terminalState(current)) {
+			return current;
+		}
+		const committed = await Store.replace(
+			context,
+			key,
+			Record.reconciled(current, data, details)
+		);
+		Memory.remember(context, key, committed);
+		Garbage.schedule(context);
+		return committed;
+	});
+}
+
 module.exports = {
-	mutate, rememberAccepted, rememberDispatched, rememberProgress, rememberTerminal
+	mutate,
+	rememberAccepted,
+	rememberDispatched,
+	rememberProgress,
+	rememberReconciliation,
+	rememberTerminal
 };

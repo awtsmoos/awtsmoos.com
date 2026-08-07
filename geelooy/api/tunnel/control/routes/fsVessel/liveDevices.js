@@ -14,18 +14,19 @@ const CONTROL_ROUTE_ACTIONS = new Set([
 ]);
 
 /**
- * @file Exposes one routable record per logical device and honest stale warnings.
+ * @file Routes only full-health work while preserving a diagnostic control path.
  * @description
- * The Awtsmoos does not multiply one tunnel because old registration shadows
- * remain. Awtsmoos.com routes only an affirmatively live transport. Recent but
- * unresponsive evidence remains visible as recovery context without accepting
- * new work that would become stuck behind a half-alive session.
+ * The Awtsmoos distinguishes a breathing socket from an executor able to serve.
+ * Awtsmoos.com lets bounded control testimony inspect a transport-live degraded
+ * device, but ordinary work requires transport and execution authority together.
  */
 function isControlRouteAction(payload = {}) {
 	return CONTROL_ROUTE_ACTIONS.has(String(payload.action || ""));
 }
 
 function canRouteDevice(device = {}, payload = {}) {
+	if (!Identity.isTransportLive(device)) return false;
+	if (isControlRouteAction(payload)) return true;
 	return Identity.isLiveDevice(device);
 }
 
@@ -45,19 +46,35 @@ function connectedNames(devices = []) {
 }
 
 function warningFor(device = {}) {
+	const transportLive = Identity.isTransportLive(device);
+	const executionBlocked = transportLive && !Identity.hasExecutionAuthority(device);
 	const recovering = Identity.isRecoveringNative(device);
 	return {
-		code: recovering ? "degraded_or_recovering" : "stale_tunnel_not_routable",
+		code: executionBlocked
+			? "execution_consumer_unhealthy"
+			: recovering
+				? "degraded_or_recovering"
+				: "stale_tunnel_not_routable",
 		tunnelName: device.tunnelName || "",
 		kind: device.kind || device.vesselType || "unknown",
 		isAlive: device.isAlive === false ? false : device.isAlive,
+		executionHealthy: device.executionHealthy ?? null,
+		executionHealthState: device.executionHealthState || null,
 		lastSeenAt: device.lastSeenAt || null,
 		heartbeatAt: device.heartbeatAt || null,
 		missedHeartbeats: device.missedHeartbeats || 0,
-		guidance: recovering
-			? "Recent native evidence exists, but its transport is not responsive. Fail new work fast until a fresh frame proves the route live."
-			: "Routing is paused because no live transport is proven. Inspect server-side history or refresh the agent."
+		guidance: guidance(executionBlocked, recovering)
 	};
+}
+
+function guidance(executionBlocked, recovering) {
+	if (executionBlocked) {
+		return "Transport is live but execution health is not. Reject ordinary work and inspect consumer recovery before routing again.";
+	}
+	if (recovering) {
+		return "Recent native evidence exists, but full route health is not proven. Fail new work fast until current evidence becomes healthy.";
+	}
+	return "Routing is paused because no live route is proven. Inspect server-side history or refresh the agent.";
 }
 
 function deviceWarnings(nativeDevices = [], browserDevices = []) {
@@ -76,6 +93,7 @@ module.exports = {
 	isControlRouteAction,
 	isLiveDevice: Identity.isLiveDevice,
 	isRecoveringNative: Identity.isRecoveringNative,
+	isTransportLive: Identity.isTransportLive,
 	liveDevices,
 	recentStamp: Identity.recentStamp,
 	staleDevices

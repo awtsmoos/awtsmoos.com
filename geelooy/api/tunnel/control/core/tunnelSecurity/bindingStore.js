@@ -4,50 +4,22 @@
 
 const { readStore, mutateStore } = require("../store.js");
 const Audit = require("./audit.js");
+const Creation = require("./bindingCreation.js");
 const Id = require("./identifiers.js");
-const Lifecycle = require("./bindingLifecycle.js");
 const Provenance = require("./bindingProvenance.js");
+const Renewal = require("./bindingRenewal.js");
 const Retention = require("./bindingRetention.js");
 const Secrets = require("./secrets.js");
 
 /**
-	* @file Persists possession-backed ownership and prunes inert duplicate history.
-	* @description
-	* The Awtsmoos renews owner and device without multiplying stale authority.
-	* Awtsmoos.com records supersession, retains a bounded audit tail, and removes
-	* ancient revoked records only through the guarded retention covenant.
-	*/
+ * @file Persists one durable physical-device authority across credential renewal.
+ * @description
+ * The Awtsmoos renews without multiplying the vessel. Awtsmoos.com therefore
+ * renews an existing possession-proven binding before considering fresh creation,
+ * while registration still demands exact identity and credential testimony.
+ */
 function createBinding(store, input = {}) {
-	const proof = Provenance.proofFields(input);
-	if (!proof) throw new Error("invalid_tunnel_ownership_proof");
-	const now = new Date().toISOString();
-	const binding = {
-		tunnelId: `tun_${Secrets.randomToken(18)}`,
-		tunnelName: Id.tunnelName(input.tunnelName),
-		deviceId: Id.deviceId(input.deviceId),
-		ownerAccountId: Id.accountId(input.ownerAccountId),
-		credentialDigest: Secrets.digest(input.credential),
-		devicePublicKey: String(input.devicePublicKey || "").trim(),
-		deviceName: String(input.deviceName || "Tunnel Device").slice(0, 160),
-		platform: String(input.platform || "unknown").slice(0, 80),
-		...proof,
-		keyVersion: 1,
-		permissionVersion: 1,
-		revocationVersion: 1,
-		createdAt: now,
-		lastAuthenticatedAt: null,
-		revokedAt: null
-	};
-	if (!Provenance.isTrustedBinding(binding)) {
-		throw new Error("invalid_tunnel_binding");
-	}
-	binding.supersededTunnelIds = Lifecycle.supersedeDuplicates(store, binding, now);
-	store.tunnelBindings[binding.tunnelId] = binding;
-	binding.retention = Retention.pruneStore(store, {
-		accountId: binding.ownerAccountId,
-		at: now
-	}).removed.map(item => item.tunnelId);
-	return binding;
+	return Renewal.renewExisting(store, input) || Creation.createFresh(store, input);
 }
 
 function bindingById(tunnelId, store = readStore()) {

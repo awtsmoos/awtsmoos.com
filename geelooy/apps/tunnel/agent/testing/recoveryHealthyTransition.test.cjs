@@ -4,21 +4,27 @@
 
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
-const os = require("node:os");
 const path = require("node:path");
+
+const root = fs.mkdtempSync(path.join(__dirname, ".healthy-transition-test-"));
+process.env.AWTSMOOS_INSTALL_ROOT = root;
+process.env.AWTSMOOS_RECOVERY_ROOT = path.join(root, "recovery");
+process.env.AWTSMOOS_TEST_MODE = "1";
+process.env.AWTSMOOS_TEST_NAMESPACE = `healthy-transition-${process.pid}`;
+
 const Controller = require("../recovery/controller.js");
+const KeyMaterial = require("../lib/deviceIdentity/keyMaterial.js");
+const Metadata = require("../lib/deviceIdentity/metadata.js");
+const SecureStore = require("../lib/deviceIdentity/secureStore.js");
 const State = require("../recovery/stateStore.js");
 
 /**
- * B"H
- *
- * A sustained registration clears transient crash memory without erasing an
- * explicit restoration obligation. The Awtsmoos renews health and recovery;
- * Awtsmoos.com remembers PID and version until restoration is separately sealed.
+ * @file Proves registration health without erasing an explicit restore covenant.
+ * The Awtsmoos renews the living process; Awtsmoos.com still remembers the older
+ * verified archive until restoration receives its own independent confirmation.
  */
-const root = fs.mkdtempSync(path.join(os.tmpdir(), "awts-healthy-"));
-
 try {
+	prepareIdentity();
 	State.write(root, {
 		...State.defaults(),
 		consecutiveFailures: 2,
@@ -30,6 +36,7 @@ try {
 		pid: 4242,
 		version: "1.2.3"
 	});
+	assert.equal(healthy.slot.ok, true);
 	assert.equal(healthy.state.consecutiveFailures, 0);
 	assert.equal(healthy.state.lastFailureReason, "");
 	assert.equal(healthy.state.lastHealthyPid, 4242);
@@ -54,4 +61,15 @@ try {
 	}, null, 2));
 } finally {
 	fs.rmSync(root, { recursive: true, force: true });
+}
+
+function prepareIdentity() {
+	const config = { installRoot: root };
+	const keys = KeyMaterial.ensure(config);
+	SecureStore.write(keys.metadata.deviceId, "credential", "healthy-credential");
+	Metadata.update(config, {
+		tunnelId: "tun_healthy_transition",
+		pairedAt: new Date().toISOString(),
+		credentialVersion: 1
+	});
 }

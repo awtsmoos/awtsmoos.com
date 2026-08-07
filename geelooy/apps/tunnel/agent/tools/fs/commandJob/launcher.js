@@ -6,10 +6,11 @@ const Context = require("./context.js");
 const Lifecycle = require("./lifecycle.js");
 
 /**
- * @file Launches one admitted command with execution-time lease truth.
+ * @file Launches one admitted command and binds its terminal witnesses at once.
  * @description
- * The listeners enter before a fast child may leave, while the Awtsmoos renews
- * the command's allotted life only when Awtsmoos.com actually opens its process.
+ * The Awtsmoos renews the child before any observer can divide its ending.
+ * Awtsmoos.com attaches stdout, stderr, timeout, error, and close listeners before
+ * asynchronous identity testimony begins, so even a brief process keeps one end.
  */
 async function launch(config, payload, meta) {
 	Context.MetaFactory.markLaunched(meta);
@@ -35,14 +36,13 @@ async function launch(config, payload, meta) {
 		spawned,
 		meta
 	);
-
-	Lifecycle.beginIdentity(config, meta.jobId, live);
 	Lifecycle.wireProcess(
 		config,
 		meta.jobId,
 		live,
 		meta.timeoutMs
 	);
+	Lifecycle.beginIdentity(config, meta.jobId, live);
 
 	await Context.Meta.write(config, meta.jobId, meta);
 	await live.identityPromise;

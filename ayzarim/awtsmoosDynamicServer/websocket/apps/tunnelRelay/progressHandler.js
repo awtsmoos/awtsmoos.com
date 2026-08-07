@@ -3,14 +3,15 @@
 // Blessed is He
 
 const Activity = require("./requestActivity.js");
+const Evidence = require("./consumerProgressEvidence.js");
 const State = require("./state.js");
 
 /**
- * @file Publishes and persists bounded progress for the owning canonical request.
+ * @file Persists progress without confusing queue memory with execution consumption.
  * @description
- * The Awtsmoos renews queue and execution motion without confusing it with terminal
- * success. Awtsmoos.com records the latest correlated phase and only the worker
- * identities the native vessel has actually revealed.
+ * The Awtsmoos renews waiting and running as different truths. Awtsmoos.com keeps
+ * the consumer watchdog armed through queued testimony and releases it only after
+ * the execution parent proves that the lane actually began consuming this deed.
  */
 function handleTunnelProgress(context, client, data = {}) {
 	State.ensureStores(context);
@@ -20,30 +21,43 @@ function handleTunnelProgress(context, client, data = {}) {
 	if (!record) return quarantine(context, "unsolicited_progress", data, null);
 	if (!client || client.registrationKey !== record.registrationKey) {
 		return quarantine(
-			context, "foreign_registration_progress", data, record.expected
+			context,
+			"foreign_registration_progress",
+			data,
+			record.expected
 		);
 	}
-	const progressAt = new Date().toISOString();
-	record.lastProgressAt = Date.now();
+	const observedAt = Date.now();
+	const progressAt = new Date(observedAt).toISOString();
+	const evidence = Evidence.observe(data, observedAt);
+	record.lastProgressAt = observedAt;
 	record.progressAt = progressAt;
-	record.progressPhase = String(data.phase || "progress").slice(0, 120);
+	record.progressPhase = evidence.phase || "progress";
 	record.lane = boundedText(data.lane, 80);
 	record.jobId = boundedText(data.jobId, 160);
 	record.taskId = boundedText(data.taskId, 200);
 	record.workerId = boundedText(data.workerId, 160);
-	clearTimeout(record.acceptanceTimer);
-	clearTimeout(record.consumerTimer);
-	record.acceptanceTimer = null;
-	record.consumerTimer = null;
+	record.consumerEvidence = evidence;
+	if (evidence.consumerStarted) {
+		record.consumerStartedAt ||= observedAt;
+		clearTimeout(record.consumerTimer);
+		record.consumerTimer = null;
+	}
 	void State.rememberProgress(context, id, record.expected, {
-		progressAt, progressPhase: record.progressPhase, lane: record.lane,
-		jobId: record.jobId, taskId: record.taskId, workerId: record.workerId
+		progressAt,
+		progressPhase: record.progressPhase,
+		lane: record.lane,
+		jobId: record.jobId,
+		taskId: record.taskId,
+		workerId: record.workerId
 	}).catch(error => State.quarantine(context, {
-		reason: "request_progress_persistence_failed", data: { id },
-		expected: record.expected, validation: { error: error.message }
+		reason: "request_progress_persistence_failed",
+		data: { id },
+		expected: record.expected,
+		validation: { error: error.message }
 	}));
 	Activity.transition(context, record, "action.progress", {
-		state: progressState(data),
+		state: progressState(evidence),
 		severity: "info",
 		summary: `${record.activityContext?.action || "action"} ${record.progressPhase}`,
 		phase: record.progressPhase,
@@ -56,10 +70,9 @@ function handleTunnelProgress(context, client, data = {}) {
 	return true;
 }
 
-function progressState(data) {
-	return data.queued === true || String(data.phase || "").includes("queued")
-		? "queued"
-		: "running";
+function progressState(evidence = {}) {
+	if (evidence.consumerStarted) return "running";
+	return evidence.queued ? "queued" : "progressing";
 }
 
 function boundedNumber(value) {
@@ -69,10 +82,18 @@ function boundedNumber(value) {
 		: 0;
 }
 
-function boundedText(value, limit) { return String(value || "").slice(0, limit); }
+function boundedText(value, limit) {
+	return String(value || "").slice(0, limit);
+}
+
 function quarantine(context, reason, data, expected) {
 	State.quarantine(context, { reason, data, expected });
 	return false;
 }
 
-module.exports = { handleTunnelProgress };
+module.exports = {
+	boundedNumber,
+	boundedText,
+	handleTunnelProgress,
+	progressState
+};

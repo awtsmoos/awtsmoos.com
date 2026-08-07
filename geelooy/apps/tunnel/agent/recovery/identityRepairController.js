@@ -7,32 +7,41 @@ const RecoveryLog = require("./recoveryLog.js");
 const State = require("./stateStore.js");
 
 /**
- * @file Gates identity mutation behind a durable policy request.
+ * @file Gates identity mutation and keeps unresolved physical identity latched.
  * @description
- * The Awtsmoos permits inspection only when evidence asks for inspection, and
- * permits reset only when evidence asks for reset. Awtsmoos.com never destroys
- * a coherent covenant merely because unrelated runtime testimony was incomplete.
+ * The Awtsmoos preserves the vessel while permissions and credentials change.
+ * Awtsmoos.com suppresses destructive reset for auth wounds and keeps inspection
+ * required until one canonical or standby witness can prove the physical device.
  */
 function run(root, reason = "", forceReset = false) {
 	const current = State.read(root);
 	if (!repairRequested(current, forceReset)) {
 		return skip(root, current, reason);
 	}
+	const credentialOnly = IdentityRecovery.explicitCredentialFailure(reason);
+	const destructiveReset = !credentialOnly && (
+		forceReset === true || current.identityResetRequired === true
+	);
 	const repair = IdentityRecovery.inspect(root, reason, {
-		forceReset: forceReset === true || current.identityResetRequired === true,
-		failureCode: current.identityRepairReason || reason
+		forceReset: destructiveReset,
+		failureCode: credentialOnly
+			? "credential_rejected"
+			: current.identityRepairReason || reason
 	});
+	const unresolved = repair.state === "identity_recovery_required";
 	const state = State.update(root, value => State.append({
 		...value,
-		identityInspectionRequired: false,
+		identityInspectionRequired: unresolved,
 		identityResetRequired: false,
-		identityRepairReason: "",
+		identityRepairReason: unresolved
+			? String(reason || value.identityRepairReason || "identity_recovery_required")
+			: "",
 		identityRepairAttempts: Number(value.identityRepairAttempts || 0) + 1,
 		lastIdentityRepairAt: new Date().toISOString(),
 		lastIdentityRepairState: repair.state
 	}, event("identity_repair", repair, reason)));
-	writeLog(root, repair, state, reason);
-	return { ok: true, repair: publicRepair(repair), state };
+	writeLog(root, repair, state, reason, credentialOnly, unresolved);
+	return { ok: !unresolved, repair: publicRepair(repair), state };
 }
 
 function repairRequested(state = {}, forceReset = false) {
@@ -60,12 +69,14 @@ function event(type, repair, reason) {
 	return { type, state: repair.state, changed: repair.changed, reason };
 }
 
-function writeLog(root, repair, state, reason) {
+function writeLog(root, repair, state, reason, credentialOnly, unresolved) {
 	RecoveryLog.append(root, "recovery.log", {
 		type: "identity_repair",
 		repair: publicRepair(repair),
 		state,
-		reason
+		reason,
+		destructiveResetSuppressed: credentialOnly,
+		identityRecoveryRequired: unresolved
 	});
 }
 

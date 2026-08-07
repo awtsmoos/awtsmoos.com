@@ -1,4 +1,6 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 const { handleFsAction } = require("./actions.js");
 const Executor = require("./executor/index.js");
@@ -23,36 +25,49 @@ const PROCESS_OWNED_ACTIONS = new Set([
 ]);
 
 /**
- * Keeps blocking filesystem and mission work outside the relay event loop.
- * Socket-mutating configuration remains local so re-registration uses the
- * exact acknowledged connection that received the request.
+ * @file Chooses local ownership or isolated filesystem execution explicitly.
+ * @description
+ * The Awtsmoos gives each deed its proper vessel. Awtsmoos.com keeps socket-owned
+ * work beside the live connection, while ordinary filesystem work enters a real
+ * worker pool whose assignment can be witnessed without exposing request payloads.
  */
-async function handleFs(payload = {}, webSocket) {
+async function handleFs(payload = {}, webSocket, executionObserver = null) {
 	if (process.env.AWTSMOOS_FS_EXECUTOR_CHILD === "1") {
 		return handleFsAction(payload, null);
 	}
-	if (SOCKET_ACTIONS.has(String(payload.action || ""))) {
+	if (!requiresExecutor(payload)) {
+		executionObserver?.mark?.("fs_local_started", {
+			consumerStarted: true,
+			queued: false
+		});
 		return handleFsAction(payload, webSocket);
 	}
-	if (PROCESS_OWNED_ACTIONS.has(String(payload.action || ""))) {
-		return handleFsAction(payload, webSocket);
-	}
-	if (
-		LIVE_HISTORY_ACTIONS.has(String(payload.action || "")) &&
+	return Executor.execute(payload, executionObserver);
+}
+
+/**
+ * Determines whether one filesystem action must cross the isolated worker boundary.
+ * @param {object} payload Normalized filesystem request.
+ * @returns {boolean} True when a worker assignment is required.
+ */
+function requiresExecutor(payload = {}) {
+	const action = String(payload.action || "");
+	if (SOCKET_ACTIONS.has(action)) return false;
+	if (PROCESS_OWNED_ACTIONS.has(action)) return false;
+	if (!LIVE_HISTORY_ACTIONS.has(action)) return true;
+	return !(
 		payload.full !== true &&
 		payload.compact !== false &&
 		!["full", "debug", "audit", "raw"].includes(
 			String(payload.responseMode || payload.mode || "").toLowerCase()
 		)
-	) {
-		return handleFsAction(payload, webSocket);
-	}
-	return Executor.execute(payload);
+	);
 }
 
 module.exports = {
 	LIVE_HISTORY_ACTIONS,
 	PROCESS_OWNED_ACTIONS,
 	SOCKET_ACTIONS,
-	handleFs
+	handleFs,
+	requiresExecutor
 };

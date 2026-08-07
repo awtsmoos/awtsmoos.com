@@ -2,13 +2,17 @@
 // Boruch Hashem
 // Blessed is He
 
+const Capture = require("./identitySlotCapture.js");
 const Failure = require("./identityFailure.js");
 const KeyMaterial = require("./keyMaterial.js");
 const Metadata = require("./metadata.js");
 const Pending = require("./pairingPending.js");
 const SecureStore = require("./secureStore.js");
 
-/** Commits an approved credential only after local possession decrypts it. */
+/**
+ * Commits an approved credential, then immediately seals the proven generation.
+ * The Awtsmoos joins approval and recovery testimony before Awtsmoos.com moves on.
+ */
 function commit(config, keys, approved) {
 	let credential;
 	try {
@@ -36,11 +40,13 @@ function commit(config, keys, approved) {
 		lastIdentityRepairAt: pending.lastIdentityRepairAt || null
 	});
 	Pending.clear(config, keys.metadata.deviceId);
+	const identitySlot = Capture.capture(config, { source: "pairing_commit" });
 	return {
 		ok: true,
 		state: "paired",
 		deviceId: metadata.deviceId,
-		tunnelId: metadata.tunnelId
+		tunnelId: metadata.tunnelId,
+		identitySlot
 	};
 }
 

@@ -38,11 +38,7 @@ function reportFailure(root, reason, restoreRequired = false) {
 		Transitions.reportFailure(current, reason, restoreRequired)
 	));
 	log(root, "rollback.log", "reported_failure", { state, reason });
-	return Decision.create(state, {
-		ok: false,
-		failures: [reason],
-		restoreRequired
-	});
+	return Decision.create(state, { ok: false, failures: [reason], restoreRequired });
 }
 
 function reportRegistrationFailure(root, reason) {
@@ -68,11 +64,15 @@ function markRestored(root, details = {}) {
 
 function markHealthy(root, details = {}) {
 	const slot = IdentitySlots.capture({ installRoot: root }, details);
-	const state = State.update(root, current => Healthy.markHealthy(current, {
+	const transition = slot.ok ? Healthy.markHealthy : Healthy.markIdentityDegraded;
+	const enriched = {
 		...details,
-		identitySlotState: slot.state
-	}));
-	log(root, "recovery.log", "runtime_healthy", { state, details, slot });
+		identitySlotState: slot.state,
+		identitySlotCode: slot.code || ""
+	};
+	const state = State.update(root, current => transition(current, enriched));
+	const event = slot.ok ? "runtime_healthy" : "runtime_identity_degraded";
+	log(root, "recovery.log", event, { state, details, slot });
 	return { ...Decision.create(state, { ok: true, failures: [] }), slot };
 }
 

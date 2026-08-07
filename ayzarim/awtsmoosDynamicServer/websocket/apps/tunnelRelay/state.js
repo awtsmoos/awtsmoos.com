@@ -7,11 +7,11 @@ const Store = require("./durableStore.js");
 const Transitions = require("./stateTransitions.js");
 
 /**
- * @file Joins fast in-memory relay observation to restart-safe canonical storage.
+ * @file Joins fast relay observation to restart-safe canonical storage.
  * @description
  * The Awtsmoos lets memory serve without becoming sovereign. Awtsmoos.com reads
- * phase truth from disk, claims identities exclusively, and delegates every ordered
- * mutation to one narrow transition vessel.
+ * phase truth from disk, serializes mutation, and now preserves verified late
+ * terminal reconciliation beside the original terminal outcome.
  */
 function durableKey(id, expected = {}) {
 	return `${expected.registrationKey || "unscoped"}:${String(id || "")}`;
@@ -64,7 +64,26 @@ function rememberExpired(context, id, data, expected = {}) {
 
 function rememberTerminal(context, id, data, expected, state) {
 	const key = durableKey(id, expected);
-	return Transitions.rememberTerminal(context, key, id, data, expected, state);
+	return Transitions.rememberTerminal(
+		context,
+		key,
+		id,
+		data,
+		expected,
+		state
+	);
+}
+
+function rememberReconciliation(context, id, data, expected = {}, details = {}) {
+	const key = durableKey(id, expected);
+	return Transitions.rememberReconciliation(
+		context,
+		key,
+		id,
+		data,
+		expected,
+		details
+	);
 }
 
 function observed(context, id, expected = {}) {
@@ -72,13 +91,26 @@ function observed(context, id, expected = {}) {
 }
 
 module.exports = {
-	claim, cleanup: Memory.cleanup, completed: (context, id, expected = {}) => (
+	claim,
+	cleanup: Memory.cleanup,
+	completed: (context, id, expected = {}) => (
 		Memory.completed(context, durableKey(id, expected))
-	), durableKey, ensureStores: Memory.ensureStores, expired: (context, id, expected = {}) => (
+	),
+	durableKey,
+	ensureStores: Memory.ensureStores,
+	expired: (context, id, expected = {}) => (
 		Memory.expired(context, durableKey(id, expected))
-	), hydrate, mutate: Transitions.mutate, observed, quarantine: Memory.quarantine,
+	),
+	hydrate,
+	mutate: Transitions.mutate,
+	observed,
+	quarantine: Memory.quarantine,
 	rememberAccepted: phaseMutation("rememberAccepted"),
-	rememberCompleted, rememberDispatched: phaseMutation("rememberDispatched"),
-	rememberExpired, rememberProgress: phaseMutation("rememberProgress"),
-	rememberTerminal, snapshot: Memory.snapshot
+	rememberCompleted,
+	rememberDispatched: phaseMutation("rememberDispatched"),
+	rememberExpired,
+	rememberProgress: phaseMutation("rememberProgress"),
+	rememberReconciliation,
+	rememberTerminal,
+	snapshot: Memory.snapshot
 };

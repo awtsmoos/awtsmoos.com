@@ -3,9 +3,9 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos keeps one canonical device witness outside replaceable runtime code.
-# A paired identity whose Keychain key and credential both exist always outranks an
-# unpaired live file, rollback residue, or stale recovery copy.
+# The Awtsmoos keeps one canonical physical-device witness outside replaceable
+# runtime code. Awtsmoos.com never lets a stale credential or transient mirror
+# replace a different canonical device merely because its numeric score is higher.
 identity_state_path() {
 	printf '%s\n' "$RECOVERY_ROOT/state/device-binding.json"
 }
@@ -26,7 +26,6 @@ select_authoritative_identity() {
 	node - "$ROOT" "$RECOVERY_ROOT" <<'NODE'
 const crypto = require("node:crypto");
 const fs = require("node:fs");
-const os = require("node:os");
 const path = require("node:path");
 const { spawnSync } = require("node:child_process");
 const [root, recovery] = process.argv.slice(2);
@@ -40,8 +39,10 @@ try {
 	}
 } catch {}
 function read(file) {
-	try { return { file, value: JSON.parse(fs.readFileSync(file, "utf8")) }; }
-	catch { return null; }
+	try {
+		const value = JSON.parse(fs.readFileSync(file, "utf8"));
+		return String(value.deviceId || "").startsWith("dev_") ? { file, value } : null;
+	} catch { return null; }
 }
 function secret(deviceId, kind) {
 	const result = spawnSync("/usr/bin/security", ["find-generic-password", "-s",
@@ -53,21 +54,24 @@ function keyMatches(value, privateKey) {
 	try {
 		const publicKey = crypto.createPublicKey(privateKey).export({ type: "spki", format: "pem" });
 		const fingerprint = crypto.createHash("sha256").update(publicKey, "utf8").digest("base64url");
-		return fingerprint === value.publicKeyFingerprint;
+		return Boolean(value.publicKeyFingerprint) && fingerprint === value.publicKeyFingerprint;
 	} catch { return false; }
 }
-const ranked = [...candidates].map(read).filter(Boolean).map(item => {
-	const value = item.value || {};
-	if (!String(value.deviceId || "").startsWith("dev_")) return null;
-	const privateKey = secret(value.deviceId, "private-key");
-	const credential = secret(value.deviceId, "credential");
-	const matched = privateKey && keyMatches(value, privateKey);
-	const paired = Boolean(value.tunnelId && value.pairedAt && value.publicKeyFingerprint);
-	const score = Number(matched) * 500 + Number(Boolean(credential)) * 1000 +
-		Number(paired) * 200 + Number(value.credentialVersion || 0) * 20 +
-		Number(item.file === canonical) * 2;
-	return { ...item, score, pairedAt: Date.parse(value.pairedAt || value.createdAt || 0) || 0 };
-}).filter(Boolean).sort((a, b) => b.score - a.score || b.pairedAt - a.pairedAt);
+const records = [...candidates].map(read).filter(Boolean);
+const canonicalRecord = records.find(item => item.file === canonical);
+if (canonicalRecord) {
+	process.stdout.write(canonicalRecord.file);
+	process.exit(0);
+}
+const ranked = records.map(item => {
+	const privateKey = secret(item.value.deviceId, "private-key");
+	if (!privateKey || !keyMatches(item.value, privateKey)) return null;
+	const paired = Boolean(item.value.tunnelId && item.value.pairedAt);
+	const credential = Boolean(secret(item.value.deviceId, "credential"));
+	const generation = Number(item.value.credentialVersion || 0);
+	const recency = Date.parse(item.value.pairedAt || item.value.createdAt || 0) || 0;
+	return { ...item, score: Number(paired) * 1000 + generation * 100 + Number(credential), recency };
+}).filter(Boolean).sort((a, b) => b.score - a.score || b.recency - a.recency);
 if (ranked[0]) process.stdout.write(ranked[0].file);
 NODE
 }
@@ -78,8 +82,7 @@ backup_device_identity() {
 	[ -n "$selected" ] && validate_device_identity_file "$selected" || return 0
 	copy_identity_atomically "$selected" "$destination"
 	copy_identity_atomically "$selected" "$ROOT/device-binding.json"
-	install_event "identity-state" "passed" \
-		"Canonical decryptable device identity selected." \
+	install_event "identity-state" "passed" "Canonical physical-device identity preserved." \
 		"source=$selected destination=$destination"
 }
 
@@ -87,12 +90,11 @@ restore_candidate_identity() {
 	local candidate="$1"
 	local selected="$(select_authoritative_identity)"
 	[ -n "$selected" ] && validate_device_identity_file "$selected" || return 0
-	for destination in "$candidate/device-binding.json" \
-		"$ROOT/device-binding.json" "$(identity_state_path)"; do
+	for destination in "$candidate/device-binding.json" "$ROOT/device-binding.json" \
+		"$(identity_state_path)"; do
 		copy_identity_atomically "$selected" "$destination"
 	done
-	install_event "identity-state" "passed" \
-		"Candidate retained the strongest decryptable physical-device identity." \
+	install_event "identity-state" "passed" "Candidate received canonical physical-device identity." \
 		"source=$selected candidate=$candidate"
 }
 

@@ -7,11 +7,12 @@ const RECOVERING_NATIVE_MS = Number(
 );
 
 /**
-	* @file Ranks duplicate route evidence for one logical tunnel or browser vessel.
-	* @description
-	* The Awtsmoos chooses the freshest living witness. Awtsmoos.com keeps stale
-	* shadows as diagnostics, never as duplicate authoritative devices.
-	*/
+ * @file Ranks route evidence while separating transport life from executor authority.
+ * @description
+ * The Awtsmoos may leave a socket alive while execution is wounded. Awtsmoos.com
+ * keeps legacy clients compatible, but once a client reports execution health it
+ * must remain affirmatively healthy before ordinary work calls that route living.
+ */
 function stamp(value) {
 	const parsed = typeof value === "number" ? value : Date.parse(value || "");
 	return Number.isFinite(parsed) ? parsed : 0;
@@ -27,7 +28,8 @@ function freshestStamp(device = {}) {
 		stamp(device.lastSeenAt),
 		stamp(device.heartbeatAt),
 		stamp(device.newestEvidenceAt),
-		stamp(device.registeredAt)
+		stamp(device.registeredAt),
+		stamp(device.executionHealthAt)
 	);
 }
 
@@ -40,10 +42,21 @@ function isRecoveringNative(device = {}) {
 	return isNative(device) && recentStamp(freshestStamp(device));
 }
 
-function isLiveDevice(device = {}) {
+/** Returns raw socket liveness without making a claim about execution readiness. */
+function isTransportLive(device = {}) {
 	return Boolean(device) &&
 		device.isAlive === true &&
 		device.connected !== false;
+}
+
+/** Legacy clients are rollout-compatible; supported health must be affirmative. */
+function hasExecutionAuthority(device = {}) {
+	return device.executionHealthSupported !== true ||
+		device.executionHealthy === true;
+}
+
+function isLiveDevice(device = {}) {
+	return isTransportLive(device) && hasExecutionAuthority(device);
 }
 
 function deviceKey(device = {}) {
@@ -77,9 +90,11 @@ module.exports = {
 	dedupeDevices,
 	deviceKey,
 	freshestStamp,
+	hasExecutionAuthority,
 	isLiveDevice,
 	isNative,
 	isRecoveringNative,
+	isTransportLive,
 	preferred,
 	recentStamp,
 	stamp

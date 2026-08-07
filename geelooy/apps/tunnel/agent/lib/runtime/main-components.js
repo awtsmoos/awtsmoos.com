@@ -9,11 +9,12 @@ const { createMainFoundation } = require("./main-components-foundation.js");
 const Startup = require("./main-components-startup.js");
 
 /**
-	* @file Composes workload execution around an independently supervised connection.
-	* @description
-	* The Awtsmoos keeps network breath outside the busy agent body. Awtsmoos.com
-	* gives queue and dispatch a durable proxy while the child process owns the socket.
-	*/
+ * @file Composes queue, execution testimony, and independently supervised transport.
+ * @description
+ * The Awtsmoos keeps network breath outside the busy agent body while Awtsmoos.com
+ * carries aggregate request-stage evidence from the execution parent to the child.
+ * One composition root now joins queue, worker witness, retry, and durable proxy.
+ */
 function createMainComponents(D, callbacks) {
 	const foundation = createMainFoundation(D);
 	const queue = createQueueRuntime({
@@ -32,6 +33,7 @@ function createMainComponents(D, callbacks) {
 	queue.setScheduleDrain(callbacks.scheduleDrain);
 	const runRequest = createRequestRunner({
 		state: foundation.runtime.state,
+		executionStages: foundation.runtime.executionStages,
 		routedData: foundation.payload.routedData,
 		streamEvent: foundation.streamEvent,
 		sendProgress: queue.sendProgress,

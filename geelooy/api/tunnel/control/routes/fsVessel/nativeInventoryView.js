@@ -5,12 +5,12 @@
 const Identity = require("./liveDeviceIdentity.js");
 
 /**
-	* @file Separates authoritative routes from bounded historical shadows.
-	* @description
-	* The Awtsmoos reveals living authority without erasing finite history.
-	* Awtsmoos.com keeps all live aliases, one freshest offline fallback, and moves
-	* every superseded dead witness into an explicitly historical collection.
-	*/
+ * @file Separates fully routable native authority from bounded historical shadows.
+ * @description
+ * The Awtsmoos reveals living transport and execution as one usable authority.
+ * Awtsmoos.com keeps a transport-live but execution-degraded route visible as the
+ * freshest current witness without falsely placing it among routes fit for work.
+ */
 function partition(devices = [], historyLimit = 20) {
 	const current = [];
 	const historical = [];
@@ -44,8 +44,7 @@ function groupByAlias(devices = []) {
 }
 
 function isRoutable(device = {}) {
-	return device.isAlive === true &&
-		device.connected !== false &&
+	return Identity.isLiveDevice(device) &&
 		Boolean(device.routeReference || device.tunnelId);
 }
 

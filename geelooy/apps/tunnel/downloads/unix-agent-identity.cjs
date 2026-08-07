@@ -6,19 +6,29 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 /**
- * @file Mirrors the strongest device witness before an agent opens its socket.
+ * @file Mirrors one canonical physical-device witness before sockets awaken.
  * @description
- * The Awtsmoos keeps paired identity above unpaired rollback residue. Awtsmoos.com
- * writes one selected witness into canonical recovery and the active runtime root.
+ * The Awtsmoos permits one vessel to deepen without becoming another vessel.
+ * Awtsmoos.com lets metadata advance only inside the same device ID; a transient
+ * runtime mirror can never replace a different canonical recovery identity.
  */
 function synchronize(root, recoveryRoot) {
-	const canonical = path.join(recoveryRoot, "state", "device-binding.json");
-	const mirror = path.join(root, "device-binding.json");
-	const selected = stronger(read(canonical), read(mirror));
+	const canonicalPath = path.join(recoveryRoot, "state", "device-binding.json");
+	const mirrorPath = path.join(root, "device-binding.json");
+	const canonical = read(canonicalPath);
+	const mirror = read(mirrorPath);
+	const selected = selectCanonical(canonical, mirror);
 	if (!selected?.deviceId) return null;
-	write(canonical, selected);
-	write(mirror, selected);
+	write(canonicalPath, selected);
+	write(mirrorPath, selected);
 	return selected;
+}
+
+function selectCanonical(canonical, mirror) {
+	if (!canonical?.deviceId) return mirror || null;
+	if (!mirror?.deviceId) return canonical;
+	if (canonical.deviceId !== mirror.deviceId) return canonical;
+	return stronger(canonical, mirror);
 }
 
 function stronger(left, right) {
@@ -35,8 +45,11 @@ function score(value = {}) {
 }
 
 function read(file) {
-	try { return JSON.parse(fs.readFileSync(file, "utf8")); }
-	catch { return null; }
+	try {
+		return JSON.parse(fs.readFileSync(file, "utf8"));
+	} catch {
+		return null;
+	}
 }
 
 function write(file, value) {
@@ -46,4 +59,11 @@ function write(file, value) {
 	fs.renameSync(temporary, file);
 }
 
-module.exports = { read, score, stronger, synchronize, write };
+module.exports = {
+	read,
+	score,
+	selectCanonical,
+	stronger,
+	synchronize,
+	write
+};

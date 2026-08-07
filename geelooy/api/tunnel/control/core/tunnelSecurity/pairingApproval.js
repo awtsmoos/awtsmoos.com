@@ -9,14 +9,12 @@ const Provenance = require("./bindingProvenance.js");
 const Secrets = require("./secrets.js");
 
 /**
- * @file Converts one matching pairing code into possession-backed ownership.
+ * @file Converts one approved code into creation or stable credential renewal.
  * @description
- * The Awtsmoos renews code, account, credential, and device in one guarded act.
- * Awtsmoos.com records versioned pairing provenance before the binding can enter
- * authorization, then returns the reusable credential only encrypted to the device.
+ * The Awtsmoos joins intention and possession without multiplying authority.
+ * Awtsmoos.com reuses one proven binding when identity matches, and fails closed
+ * when owner or possession testimony conflicts with the existing physical device.
  */
-
-/** Approves one pending pairing inside an already mutable store. */
 function approveInStore(store, accountId, userCode) {
 	const normalizedAccount = Id.accountId(accountId);
 	const pairing = matchingPairing(store, userCode);
@@ -25,24 +23,26 @@ function approveInStore(store, accountId, userCode) {
 	}
 	const credential = Secrets.randomToken(48);
 	const ownershipVerifiedAt = new Date().toISOString();
-	const binding = Binding.createBinding(store, {
-		...pairing,
-		ownerAccountId: normalizedAccount,
-		credential,
-		pairingId: pairing.pairingId,
-		ownershipVerifiedAt,
-		pairingProofVersion: Provenance.PAIRING_PROOF_VERSION
-	});
+	let binding;
+	try {
+		binding = Binding.createBinding(store, {
+			...pairing,
+			ownerAccountId: normalizedAccount,
+			credential,
+			pairingId: pairing.pairingId,
+			ownershipVerifiedAt,
+			pairingProofVersion: Provenance.PAIRING_PROOF_VERSION
+		});
+	} catch (error) {
+		return denied(store, pairing, normalizedAccount, error);
+	}
 	Object.assign(pairing, {
 		state: "approved",
 		ownerAccountId: normalizedAccount,
 		tunnelId: binding.tunnelId,
 		ownershipVerifiedAt,
 		pairingProofVersion: Provenance.PAIRING_PROOF_VERSION,
-		credentialEnvelope: Secrets.encryptForDevice(
-			pairing.devicePublicKey,
-			credential
-		),
+		credentialEnvelope: Secrets.encryptForDevice(pairing.devicePublicKey, credential),
 		approvedAt: Date.now()
 	});
 	Audit.appendAudit(store, {
@@ -57,14 +57,30 @@ function approveInStore(store, accountId, userCode) {
 
 function matchingPairing(store, userCode) {
 	const codeDigest = Secrets.digest(String(userCode || "").toUpperCase());
-	return Object.values(store.tunnelPairings).find((candidate) => {
+	return Object.values(store.tunnelPairings).find(candidate => {
 		return candidate.state === "pending" &&
 			candidate.expiresAt > Date.now() &&
 			Secrets.secureEqual(candidate.userCodeDigest, codeDigest);
 	}) || null;
 }
 
-module.exports = {
-	approveInStore,
-	matchingPairing
-};
+function denied(store, pairing, accountId, error) {
+	Audit.appendAudit(store, {
+		action: "pairing.approve",
+		accountId,
+		deviceId: pairing.deviceId,
+		tunnelId: null,
+		result: "denied",
+		reason: publicError(error)
+	});
+	return { ok: false, error: publicError(error) };
+}
+
+function publicError(error) {
+	const code = String(error?.code || error?.message || "");
+	return code.includes("binding") || code.includes("ownership")
+		? "pairing_identity_conflict"
+		: "pairing_binding_invalid";
+}
+
+module.exports = { approveInStore, matchingPairing, publicError };

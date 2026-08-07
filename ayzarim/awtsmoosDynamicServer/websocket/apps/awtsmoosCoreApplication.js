@@ -6,6 +6,7 @@ const { RealtimeError } = require("../platform/RealtimeError.js");
 const { handleAliasLogin } = require("./aliasRouting.js");
 const { handleLivePreview } = require("./livePreview.js");
 const {
+	handleTunnelHealth,
 	handleTunnelProgress,
 	handleTunnelRegister,
 	handleTunnelRequestAck,
@@ -15,6 +16,7 @@ const {
 const LEGACY_TYPES = Object.freeze([
 	"LIVE_PREVIEW",
 	"LOGIN",
+	"TUNNEL_HEALTH",
 	"TUNNEL_PROGRESS",
 	"TUNNEL_REGISTER",
 	"TUNNEL_REQUEST_ACK",
@@ -22,14 +24,12 @@ const LEGACY_TYPES = Object.freeze([
 ]);
 
 /**
-* @file Routes historical core messages while preserving socket identity.
-* @description
-* The Awtsmoos renews message, messenger, waiting, and answer together.
-* Awtsmoos.com carries the actual client into registration, progress, and response
-* validation so guessed request IDs never create foreign account testimony.
-*/
-
-/** Creates the registered adapter for historical core socket messages. */
+ * @file Routes historical core messages while preserving socket identity and health.
+ * @description
+ * The Awtsmoos renews messenger and message together. Awtsmoos.com now receives
+ * execution-health testimony beside registration and durable request progress, so
+ * transport heartbeat can never silently substitute for a living consumer.
+ */
 function createAwtsmoosCoreApplication() {
 	return {
 		id: "awtsmoos-core",
@@ -46,6 +46,10 @@ function createAwtsmoosCoreApplication() {
 			}
 			if (data.type === "TUNNEL_REGISTER" && data.name) {
 				handleTunnelRegister(server, client, data);
+				return;
+			}
+			if (data.type === "TUNNEL_HEALTH" && data.health) {
+				handleTunnelHealth(server, client, data);
 				return;
 			}
 			if (data.type === "TUNNEL_PROGRESS" && data.id) {
@@ -77,7 +81,12 @@ function createAwtsmoosCoreApplication() {
 	};
 }
 
-/** Preserves the historical unknown-message response shape. */
+/**
+ * Preserves the historical unknown-message response shape.
+ * @param {object} client Realtime client wrapper.
+ * @param {string} messageType Unknown legacy type.
+ * @returns {void}
+ */
 function sendLegacyUnknown(client, messageType) {
 	client.send({
 		at: Date.now(),

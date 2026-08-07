@@ -7,27 +7,42 @@ const { createChildMessageRouter } = require("./child-message-router.js");
 const { createRuntime } = require("./child-runtime.js");
 
 /**
- * @file Boots the dedicated connection process behind a focused IPC router.
+ * @file Boots the dedicated connection child and binds its life to the execution parent.
  * @description
- * The Awtsmoos keeps this vessel small enough to restart without fear.
- * Awtsmoos.com receives each parent word through one named interpreter,
- * so custody ACK can never be mistaken for flush, send, statistics, or stop.
+ * The Awtsmoos gives transport an independent vessel, not an orphaned kingdom.
+ * Awtsmoos.com closes the socket when parent IPC disappears, so a dead executor
+ * can never leave a lone websocket heart beating green before the watching world.
  */
 const runtime = createRuntime();
 const router = createChildMessageRouter(runtime);
+let shuttingDown = false;
 
 process.on("message", message => {
 	router.handle(message);
 });
 
+process.once("disconnect", () => {
+	shutdown(0);
+});
+
 process.once("SIGTERM", () => {
-	runtime.stop();
-	process.exit(0);
+	shutdown(0);
 });
 
 process.once("SIGINT", () => {
-	runtime.stop();
-	process.exit(0);
+	shutdown(0);
 });
+
+/**
+ * Closes transport exactly once before this child leaves its parentless world.
+ * @param {number} code Process exit code.
+ * @returns {void}
+ */
+function shutdown(code) {
+	if (shuttingDown) return;
+	shuttingDown = true;
+	runtime.stop();
+	process.exit(code);
+}
 
 runtime.start();

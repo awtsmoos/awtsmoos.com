@@ -2,16 +2,18 @@
 // Boruch Hashem
 // Blessed is He
 
+const Progress = require("./durableRecordProgress.js");
+const Terminal = require("./durableRecordTerminal.js");
+
 const VERSION = 2;
 const SUPPORTED_VERSIONS = new Set([1, VERSION]);
-const TERMINAL_STATES = new Set(["completed", "failed", "expired"]);
 
 /**
- * @file Shapes versioned canonical relay records for restart recovery.
+ * @file Shapes restart-safe relay reservation while delegating later phases cleanly.
  * @description
- * The Awtsmoos preserves one deed while processes vanish and return. Awtsmoos.com
- * stores reservation, dispatch, device custody, progress, and terminal truth without
- * allowing a later nonterminal witness to overwrite a completed response.
+ * The Awtsmoos begins each durable deed from one reserved point. Awtsmoos.com keeps
+ * progress and terminal truth in separate focused vessels, while this core preserves
+ * schema compatibility and the one canonical record identity shared between them.
  */
 function pending(key, id, expected = {}) {
 	const now = new Date().toISOString();
@@ -29,58 +31,40 @@ function pending(key, id, expected = {}) {
 }
 
 function dispatched(record, details = {}) {
-	return transition(record, {
-		phase: "dispatched",
-		dispatchedAt: details.dispatchedAt || new Date().toISOString(),
-		dispatchRegistrationGeneration: number(details.registrationGeneration)
-	});
+	if (Terminal.terminalState(record)) return record;
+	return Progress.dispatched(record, details, VERSION);
 }
 
 function accepted(record, details = {}) {
-	return transition(record, {
-		phase: "device_accepted",
-		acceptedAt: details.acceptedAt || new Date().toISOString(),
-		acceptedRegistrationGeneration: number(details.registrationGeneration)
-	});
+	if (Terminal.terminalState(record)) return record;
+	return Progress.accepted(record, details, VERSION);
 }
 
 function progressed(record, details = {}) {
-	return transition(record, compact({
-		phase: "progress",
-		progressAt: details.progressAt || new Date().toISOString(),
-		progressPhase: details.progressPhase,
-		lane: details.lane,
-		jobId: details.jobId,
-		taskId: details.taskId,
-		workerId: details.workerId
-	}));
+	if (Terminal.terminalState(record)) return record;
+	return Progress.progressed(record, details, VERSION);
 }
 
 function transition(record, details) {
-	if (terminalState(record)) return record;
-	return {
-		...record,
-		...details,
-		version: VERSION,
-		state: "pending",
-		updatedAt: new Date().toISOString()
-	};
+	if (Terminal.terminalState(record)) return record;
+	return Progress.transition(record, details, VERSION);
 }
 
-function terminal(record, state, data) {
-	return {
-		...record,
-		version: VERSION,
-		state,
-		phase: state,
-		updatedAt: new Date().toISOString(),
-		data
-	};
+function completed(record, data) {
+	return Terminal.terminal(record, "completed", data, VERSION);
 }
 
-function completed(record, data) { return terminal(record, "completed", data); }
-function failed(record, data) { return terminal(record, "failed", data); }
-function expired(record, data) { return terminal(record, "expired", data); }
+function failed(record, data) {
+	return Terminal.terminal(record, "failed", data, VERSION);
+}
+
+function expired(record, data) {
+	return Terminal.terminal(record, "expired", data, VERSION);
+}
+
+function reconciled(record, data, details = {}) {
+	return Terminal.reconciled(record, data, details, VERSION);
+}
 
 function valid(record, key = "") {
 	return Boolean(record) &&
@@ -89,18 +73,21 @@ function valid(record, key = "") {
 		(!key || record.key === key) &&
 		record.id &&
 		record.expected &&
-		(record.state === "pending" || TERMINAL_STATES.has(record.state));
-}
-
-function terminalState(record = {}) { return TERMINAL_STATES.has(record.state); }
-function number(value) { return Number.isFinite(Number(value)) ? Number(value) : 0; }
-function compact(value) {
-	return Object.fromEntries(Object.entries(value).filter(([, item]) => (
-		item !== undefined && item !== null && item !== ""
-	)));
+		(record.state === "pending" || Terminal.terminalState(record));
 }
 
 module.exports = {
-	VERSION, accepted, completed, dispatched, expired, failed, pending, progressed,
-	terminal, terminalState, transition, valid
+	VERSION,
+	accepted,
+	completed,
+	dispatched,
+	expired,
+	failed,
+	pending,
+	progressed,
+	reconciled,
+	terminal: (record, state, data) => Terminal.terminal(record, state, data, VERSION),
+	terminalState: Terminal.terminalState,
+	transition,
+	valid
 };

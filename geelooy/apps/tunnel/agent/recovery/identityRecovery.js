@@ -5,27 +5,33 @@
 const DeviceIdentity = require("../lib/deviceIdentity/index.js");
 
 /**
- * @file Inspects identity after registration loss and heals only proven wounds.
- * The Awtsmoos restores proven standby before creating a new covenant from nothing.
+ * @file Heals identity wounds without turning credential rejection into a new device.
+ * @description
+ * The Awtsmoos distinguishes authorization from the vessel carrying it. Awtsmoos.com
+ * may rotate a rejected credential, restore proven standby identity, or fail closed;
+ * it never destroys physical identity merely because relay authorization expired.
  */
 function inspect(root, reason = "", options = {}) {
 	const config = { installRoot: root };
+	const protectedCredential = explicitCredentialFailure(reason);
 	const metadata = DeviceIdentity.Metadata.read(config);
 	if (!metadata?.deviceId) {
-		return restoreOrReset(config, reason, "identity_missing", options);
+		return protectedCredential
+			? restoreOrRequire(config, reason, "identity_missing")
+			: restoreOrReset(config, reason, "identity_missing", options);
 	}
-	const privateKey = DeviceIdentity.SecureStore.read(
-		metadata.deviceId,
-		"private-key"
-	);
+	const privateKey = DeviceIdentity.SecureStore.read(metadata.deviceId, "private-key");
 	const coherence = DeviceIdentity.KeyCoherence.inspect(metadata, privateKey);
 	if (!coherence.ok) {
-		return restoreOrReset(config, reason || coherence.code, coherence.code, options);
+		return protectedCredential
+			? restoreOrRequire(config, reason || coherence.code, coherence.code)
+			: restoreOrReset(config, reason || coherence.code, coherence.code, options);
 	}
-	if (explicitCredentialFailure(reason)) {
+	if (protectedCredential) {
 		const invalidated = DeviceIdentity.invalidateCredential(config);
 		return result("credential_invalidated", true, reason, {
 			deviceId: metadata.deviceId,
+			fingerprint: coherence.fingerprint,
 			invalidated
 		});
 	}
@@ -35,6 +41,20 @@ function inspect(root, reason = "", options = {}) {
 	return result("identity_coherent", false, reason, {
 		deviceId: metadata.deviceId,
 		fingerprint: coherence.fingerprint
+	});
+}
+
+function restoreOrRequire(config, reason, evidenceReason) {
+	const restored = DeviceIdentity.restoreHealthyIdentity(config);
+	if (restored.changed) {
+		return result("last_known_good_restored", true, reason, {
+			deviceId: restored.deviceId,
+			restored
+		});
+	}
+	return result("identity_recovery_required", false, reason, {
+		evidenceReason,
+		restored
 	});
 }
 
@@ -80,4 +100,9 @@ function result(state, changed, reason, details = {}) {
 	};
 }
 
-module.exports = { explicitCredentialFailure, inspect, restoreOrReset };
+module.exports = {
+	explicitCredentialFailure,
+	inspect,
+	restoreOrRequire,
+	restoreOrReset
+};

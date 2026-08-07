@@ -11,17 +11,22 @@ const {
 const { nativeCapabilities } = require("./capabilities.js");
 const { VESSEL_TYPES } = require("./vesselTypes.js");
 
+const EXECUTION_HEALTH_STALE_MS = Number(
+	process.env.AWTSMOOS_EXECUTION_HEALTH_STALE_MS || 20000
+);
+
 /**
-	* @file Projects proven native sockets through grace-aware liveness evidence.
-	* @description
-	* The Awtsmoos distinguishes a connected socket awaiting pong from a dead route.
-	* Awtsmoos.com preserves recent frame and heartbeat evidence without exposing
-	* roots, tools, limits, worker state, profiles, or secret permissions.
-	*/
+ * @file Projects transport liveness and execution health as separate public truths.
+ * @description
+ * The Awtsmoos lets an old client cross the upgrade bridge without pretending a
+ * new client's stale executor is healthy. Awtsmoos.com preserves transport facts,
+ * then fail-closes execution only after that client declares health support.
+ */
 function publicNativeTunnel(client = {}, now = Date.now()) {
-	const snapshot = Live.livenessSnapshot(client, now);
+	const transport = Live.livenessSnapshot(client, now);
 	const socketConnected = client.connected !== false;
-	const live = socketConnected && snapshot.isAlive === true;
+	const live = socketConnected && transport.isAlive === true;
+	const execution = executionSnapshot(client, now);
 	return {
 		connected: live,
 		isAlive: live,
@@ -33,17 +38,48 @@ function publicNativeTunnel(client = {}, now = Date.now()) {
 		agentVersion: safeVersion(client.agentVersion),
 		capabilities: safeCapabilities(client),
 		registeredAt: client.registeredAt || null,
-		lastSeenAt: snapshot.lastSeenAt || newestStamp(client) || null,
-		heartbeatAt: snapshot.heartbeatAt,
-		newestEvidenceAt: snapshot.newestEvidenceAt,
-		rawIsAlive: snapshot.rawIsAlive,
-		evidenceFresh: snapshot.evidenceFresh,
-		probing: snapshot.probing,
-		missedHeartbeats: snapshot.missedHeartbeats,
-		livenessState: socketConnected ? snapshot.livenessState : "disconnected",
+		lastSeenAt: transport.lastSeenAt || newestStamp(client) || null,
+		heartbeatAt: transport.heartbeatAt,
+		newestEvidenceAt: transport.newestEvidenceAt,
+		rawIsAlive: transport.rawIsAlive,
+		evidenceFresh: transport.evidenceFresh,
+		probing: transport.probing,
+		missedHeartbeats: transport.missedHeartbeats,
+		livenessState: socketConnected ? transport.livenessState : "disconnected",
+		executionHealthSupported: execution.supported,
+		executionHealthy: execution.healthy,
+		executionHealthState: execution.state,
+		executionHealthAt: execution.observedAt,
+		executionHealthFresh: execution.fresh,
 		kind: VESSEL_TYPES.NATIVE,
 		vesselType: VESSEL_TYPES.NATIVE,
 		ownershipVerified: true
+	};
+}
+
+/**
+ * Applies strict freshness only after a client opts into execution-health testimony.
+ * @param {object} client Registered native websocket client.
+ * @param {number} now Observation time.
+ * @returns {object} Backward-compatible execution health projection.
+ */
+function executionSnapshot(client = {}, now = Date.now()) {
+	const supported = client.executionHealthSupported === true;
+	if (!supported) {
+		return { supported: false, healthy: null, fresh: true, state: "legacy_unknown", observedAt: null };
+	}
+	const observedAt = Number(client.executionHealthAt || 0);
+	const fresh = observedAt > 0 && now - observedAt >= 0 &&
+		now - observedAt <= EXECUTION_HEALTH_STALE_MS;
+	const healthy = fresh && client.executionHealthy === true;
+	return {
+		supported: true,
+		healthy,
+		fresh,
+		state: fresh
+			? String(client.executionHealthState || (healthy ? "healthy" : "execution_unhealthy")).slice(0, 120)
+			: "execution_health_stale",
+		observedAt: observedAt || null
 	};
 }
 
@@ -72,6 +108,8 @@ function findNativeTunnel($i, binding) {
 }
 
 module.exports = {
+	EXECUTION_HEALTH_STALE_MS,
+	executionSnapshot,
 	findNativeTunnel,
 	listNativeTunnels,
 	publicNativeTunnel,

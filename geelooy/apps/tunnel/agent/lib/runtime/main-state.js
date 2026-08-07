@@ -2,22 +2,24 @@
 // Boruch Hashem
 // Blessed is He
 
+const ExecutionStages = require("./main-execution-stages.js");
 const WorkerStats = require("./main-worker-stats.js");
 const LaneStats = require("./main-lane-stats.js");
 const Values = require("./main-state-values.js");
 
 /**
- * @file Exposes bounded runtime pressure and connection-recovery truth.
+ * @file Exposes bounded runtime pressure, execution stages, and connection truth.
  * @description
- * The Awtsmoos renews lane, worker, route, and reconnect testimony as one report.
- * Awtsmoos.com keeps full worker evidence for circuit judgment while allowing the
- * periodic memory projection to omit detailed worker rows before serialization.
+ * The Awtsmoos renews lane, worker, route, and request-consumer testimony together.
+ * Awtsmoos.com publishes only aggregate execution stages, never request identities,
+ * so the connection child can detect an accepted deed that never reached a worker.
  */
 function createRuntimeState(dependencies) {
 	const lagMonitor = dependencies.Lag.createLagMonitor({
 		intervalMs: 2000,
 		windowMs: 30000
 	});
+	const executionStages = ExecutionStages.create();
 	const state = Values.createState(dependencies, lagMonitor);
 
 	function totalInflight() {
@@ -48,6 +50,7 @@ function createRuntimeState(dependencies) {
 			waitQueueLimit: dependencies.Limits.WAIT_QUEUE_LIMIT,
 			observeQueueLimit: dependencies.Limits.OBSERVE_QUEUE_LIMIT,
 			lanes,
+			executionStages: executionStages.snapshot(),
 			eventLoopLag: state.eventLoopLag,
 			circuit: dependencies.Circuit.snapshot(circuitInput),
 			filesystemExecutor: dependencies.FsExecutor?.stats?.() || null,
@@ -76,6 +79,7 @@ function createRuntimeState(dependencies) {
 	}
 
 	return {
+		executionStages,
 		lagMonitor,
 		laneStats: () => LaneStats.laneStats(dependencies, state),
 		snapshot,

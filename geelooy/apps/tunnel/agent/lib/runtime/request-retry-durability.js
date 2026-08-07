@@ -1,10 +1,11 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 const REPLAY_SAFE = new Set([
 	"list", "tree", "read", "readLines", "readManyLines", "stat", "exists",
 	"findFiles", "search", "grep", "fileHashes", "directorySummary",
 	"commandStatus", "commandPoll", "commandJobStatus", "jobStatus",
-	"command", "commandRun", "commandStart", "shellCommand",
 	"commandWait", "commandJobWait", "commandJobOutputPage", "commandOutputPage",
 	"actionHistoryGet", "actionHistoryList", "actionHistorySearch",
 	"commandHistorySearch", "asyncTaskWait", "asyncTaskStatus",
@@ -18,22 +19,45 @@ const REPLAY_SAFE = new Set([
 ]);
 
 /**
- * Durable replay permission is intentionally narrower than filesystem safety.
- * Only observations and status polling may execute once in a renewed parent.
- * Mutations retain their effect descriptor and are reconciled, never replayed.
+ * @file Persists every accepted request identity while replaying only observations.
+ * @description
+ * The Awtsmoos preserves the name of every deed across a renewed parent, but
+ * Awtsmoos.com never repeats command execution merely because memory vanished.
+ * Safe observations may replay once; mutations reconcile; every other deed remains
+ * durably pending until an exact subsystem can prove its outcome.
  */
 function describe(action, mutation, payload = {}) {
-	if (mutation) return { enabled: true, replaySafe: false, reason: "mutation_reconciliation" };
-	const commandIsSynchronous = ["command", "commandRun", "shellCommand"].includes(String(action || "")) &&
-		[payload.sync, payload.inline, payload.blocking].some(value =>
-			[true, 1, "true", "1", "yes"].includes(value)
-		);
-	const replaySafe = REPLAY_SAFE.has(String(action || "")) && !commandIsSynchronous;
+	if (mutation) {
+		return {
+			enabled: true,
+			replaySafe: false,
+			reason: "mutation_reconciliation"
+		};
+	}
+	const requestedAction = String(action || "");
+	const replaySafe = REPLAY_SAFE.has(requestedAction) && !synchronousCommand(payload);
 	return {
-		enabled: replaySafe,
+		enabled: true,
 		replaySafe,
-		reason: replaySafe ? "idempotent_observation" : "memory_only_non_idempotent"
+		reason: replaySafe
+			? "idempotent_observation"
+			: "non_idempotent_reconciliation_required"
 	};
 }
 
-module.exports = { REPLAY_SAFE, describe };
+/**
+ * Keeps an additional fail-closed guard if a command-like action enters a safe set.
+ * @param {object} payload Request payload carrying sync/inline/blocking intent.
+ * @returns {boolean} Whether execution semantics demand non-replayable treatment.
+ */
+function synchronousCommand(payload = {}) {
+	return [payload.sync, payload.inline, payload.blocking].some(value =>
+		[true, 1, "true", "1", "yes"].includes(value)
+	);
+}
+
+module.exports = {
+	REPLAY_SAFE,
+	describe,
+	synchronousCommand
+};
