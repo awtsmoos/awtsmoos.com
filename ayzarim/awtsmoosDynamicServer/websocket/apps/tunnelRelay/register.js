@@ -2,24 +2,22 @@
 // Boruch Hashem
 // Blessed is He
 
-const { publishConnection } = require("../tunnelActivity/publisher.js");
-const { sendJson } = require("../wsUtilities.js");
 const { ensureServerState } = require("../../platform/ServerState.js");
 const Authority = require("./registrationAuthority.js");
+const Probe = require("./registrationProbe.js");
+const Publication = require("./registrationPublication.js");
 const RequestAck = require("./requestAckHandler.js");
 const RequestDispatch = require("./requestDispatch.js");
 const Security = require("./securityBridge.js");
 const Transfer = require("./registrationTransfer.js");
 
 /**
- * @file Admits account-bound devices and publishes their living connection state.
+ * @file Admits account-bound devices while keeping probe and ownership distinct.
  * @description
- * The Awtsmoos renews contender and incumbent, yet Awtsmoos.com first proves the
- * owner account, then lets protocol authority choose within that account, and only
- * afterward reveals registration or replacement to the rightful realtime stream.
+ * The Awtsmoos may let a staged vessel prove the same key beside its incumbent.
+ * Awtsmoos.com authenticates both, yet only ordinary registration may enter the live
+ * registry, receive user work, or close the generation that currently owns the route.
  */
-
-/** Authenticates, scopes, registers, and announces one tunnel WebSocket. */
 function handleTunnelRegister(server, client, data = {}) {
 	const identity = Security.authorizeRegistration(client, data);
 	if (!identity.ok) {
@@ -31,10 +29,10 @@ function handleTunnelRegister(server, client, data = {}) {
 	}
 	const state = ensureServerState(server);
 	const previous = state.tunnels.get(registrationKey);
-	const decision = Authority.decide(
-		previous,
-		contenderDescriptor(client, data)
-	);
+	if (Probe.requested(data)) {
+		return Probe.acknowledge(client, identity, previous);
+	}
+	const decision = Authority.decide(previous, contenderDescriptor(client, data));
 	if (decision.action === "fence") {
 		return Transfer.reject(
 			server,
@@ -62,44 +60,11 @@ function handleTunnelRegister(server, client, data = {}) {
 	state.tunnels.set(registrationKey, client);
 	state.tunnelRegistrations.set(registrationKey, descriptor);
 	state.clients.add(client);
-	sendAcknowledgement(client, identity, descriptor, replaced);
+	Publication.acknowledge(client, identity, descriptor, replaced);
 	RequestDispatch.recoverPending(state, client);
 	RequestAck.monitorAccepted(state, client);
-	publishRegistration(server, client, descriptor, replaced);
+	Publication.publish(server, client, descriptor, replaced);
 	return true;
-}
-
-function sendAcknowledgement(client, identity, descriptor, replaced) {
-	sendJson(client, {
-		type: "TUNNEL_ACK",
-		ok: true,
-		accountBound: true,
-		tunnelId: identity.tunnelId,
-		tunnelName: identity.tunnelName,
-		replacedOlderConnection: Boolean(replaced),
-		vesselType: descriptor.vesselType,
-		protocolVersion: descriptor.protocolVersion,
-		registrationGeneration: client.registrationGeneration,
-		serverTime: new Date().toISOString()
-	});
-}
-
-function publishRegistration(server, client, descriptor, replaced) {
-	publishConnection(server, client, "connection.registered", {
-		state: "connected",
-		summary: `${client.deviceName || client.tunnelName} connected`,
-		vesselType: descriptor.vesselType,
-		protocolVersion: descriptor.protocolVersion,
-		agentVersion: client.agentVersion,
-		replacedConnectionId: replaced?.id || ""
-	});
-	if (replaced) {
-		publishConnection(server, replaced, "connection.replaced", {
-			state: "replaced",
-			severity: "notice",
-			summary: `${replaced.deviceName || replaced.tunnelName} was replaced`
-		});
-	}
 }
 
 /** Builds protocol precedence without granting security authority. */

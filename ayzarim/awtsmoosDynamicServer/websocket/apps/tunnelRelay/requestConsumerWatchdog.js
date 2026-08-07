@@ -12,14 +12,16 @@ const DEFAULT_CONSUMER_PROGRESS_MS = Number(
 );
 
 /**
- * @file Fences accepted work only when no execution consumer proves life.
+ * @file Fences accepted work only after a client promised consumer-progress v2.
  * @description
- * The Awtsmoos preserves durable custody even when a generation must be fenced.
- * Awtsmoos.com never fabricates a terminal-response ACK for a deed the device
- * did not finish; unresolved inbox evidence survives so recovery can reconcile it.
+ * The Awtsmoos never condemns an older vessel for a witness protocol it did not
+ * negotiate. Awtsmoos.com keeps durable acceptance and total request timeout for
+ * every client, while strict consumer fencing belongs only to explicit v2 support.
  */
 function arm(context, client, id, record) {
 	clearTimeout(record.consumerTimer);
+	record.consumerTimer = null;
+	if (!supportsStrictConsumerProgress(client)) return false;
 	record.consumerTimer = setTimeout(() => {
 		if (context.pendingTunnelRequests.get(id) !== record) return;
 		if (record.consumerStartedAt) return;
@@ -41,16 +43,14 @@ function arm(context, client, id, record) {
 			.finally(() => fence(client, "device_consumer_progress_timeout"));
 	}, bounded(DEFAULT_CONSUMER_PROGRESS_MS));
 	record.consumerTimer.unref?.();
+	return true;
 }
 
-/**
- * Finalizes caller-visible relay state without erasing unresolved device custody.
- * @param {object} context Relay server state.
- * @param {string} id Canonical transport receipt.
- * @param {object} record Pending request record.
- * @param {string} reason Bounded terminal transport reason.
- * @returns {Promise<object>} Durable terminal relay result.
- */
+function supportsStrictConsumerProgress(client = {}) {
+	return client.capabilities?.consumerProgressV2 === true;
+}
+
+/** Finalizes caller-visible relay state without erasing unresolved device custody. */
 async function finish(context, id, record, reason) {
 	return await Lifecycle.finishPending(
 		context,
@@ -86,5 +86,6 @@ module.exports = {
 	arm,
 	bounded,
 	fence,
-	finish
+	finish,
+	supportsStrictConsumerProgress
 };
