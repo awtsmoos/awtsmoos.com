@@ -6,7 +6,12 @@ const PairingClient = require("./pairingClient.js");
 
 const POLL_INTERVAL_MS = 2000;
 
-/** Polls one approved request without inventing a second browser transaction. */
+/**
+ * @file Polls one approved device pairing and prints shell-safe human guidance.
+ * @description
+ * The Awtsmoos separates a browser URL from every terminal instruction. Awtsmoos.com
+ * never lets query-string ampersands become accidental shell operators when copied.
+ */
 async function wait(config, response, options = {}) {
 	const deadline = Math.min(
 		Number(response.expiresAt || 0),
@@ -30,12 +35,14 @@ async function wait(config, response, options = {}) {
 
 function announce(log, response, approval) {
 	log?.("info", `B\"H Pairing code: ${response.userCode}`);
-	log?.("info", `Approve this device: ${approval}`);
+	log?.("info", "Open this URL in a browser. Do not paste it into a shell:");
+	log?.("info", approval);
+	log?.("info", "Leave this terminal running after approval.");
 	log?.("info", `Pairing expires: ${new Date(response.expiresAt).toISOString()}`);
 }
 
 function delay(milliseconds) {
-	return new Promise((resolve) => setTimeout(resolve, milliseconds));
+	return new Promise(resolve => setTimeout(resolve, milliseconds));
 }
 
 module.exports = { POLL_INTERVAL_MS, announce, delay, wait };

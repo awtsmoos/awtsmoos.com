@@ -6,32 +6,33 @@ const Context = require("./context.js");
 const {
 	Store
 } = Context.shared;
-const status = Context.reference("status");
 const failure = Context.reference("failure");
 const event = Context.reference("event");
 const clearWake = Context.reference("clearWake");
+const cancel = Context.reference("cancel");
 
 /**
- * @file Reveals the stop stage of website-agent orchestration.
+ * @file Makes a stop request terminal even while authentication is pending.
  * @description
- * The Awtsmoos gives this stage one bounded responsibility while sibling stages are
- * resolved lazily through durable shared context after the browser vessel closes.
+ * The Awtsmoos closes the durable mission immediately. Awtsmoos.com clears its
+ * wake timer before publishing terminal cancellation, so login cannot revive it.
  */
 function stop(input = {}) {
 	const id = input.websiteMissionId || input.taskId || input.id;
 	const record = Store.read(id);
 	if (!record) return failure("unknown_website_mission", { websiteMissionId: id });
 	clearWake(id);
-	const updated = Store.update(id, current => {
+	const requested = Store.update(id, current => {
 		current.cancelRequested = true;
 		current.status = "cancelling";
 		current.events.push(event("cancel_requested"));
 		return current;
 	});
+	const cancelled = cancel(requested);
 	return {
 		ok: true,
 		action: "websiteAgentMissionStop",
-		mission: Store.publicRecord(updated)
+		mission: Store.publicRecord(cancelled)
 	};
 }
 

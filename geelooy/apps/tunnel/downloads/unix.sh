@@ -39,7 +39,8 @@ export AWTSMOOS_INSTALL_CWD="$install_cwd"
 export AWTSMOOS_PROJECT_ROOT="$project_root"
 
 bootstrap_progress() {
-	local percent="$1" message="$2"
+	local percent="$1"
+	local message="$2"
 	printf '%s\n' "$percent" > "$progress_file"
 	if [ -t 1 ] && [ "${AWTSMOOS_PROGRESS_MODE:-tty}" != "plain" ]; then
 		printf '\r\033[2K[%3d%%] %s' "$percent" "$message"
@@ -67,15 +68,17 @@ fetch_bootstrap_file() {
 }
 
 trap cleanup_bootstrap EXIT
-bootstrap_progress 0 'Preparing complete Awtsmoos Tunnel reinstall'
+bootstrap_progress 0 'Preparing Awtsmoos Tunnel install or repair'
 command -v curl >/dev/null 2>&1 || {
 	printf '[Awtsmoos][bootstrap][failed] curl was not found.\n' >&2
 	exit 1
 }
 fetch_bootstrap_file unix-node-runtime.sh & node_fetch_pid=$!
-fetch_bootstrap_file unix-bootstrap-components.sh & component_fetch_pid=$!
+fetch_bootstrap_file unix-bootstrap-components.sh & components_fetch_pid=$!
+fetch_bootstrap_file unix-bootstrap-components-download.sh & download_fetch_pid=$!
 wait "$node_fetch_pid"
-wait "$component_fetch_pid"
+wait "$components_fetch_pid"
+wait "$download_fetch_pid"
 source "$runtime_root/unix-node-runtime.sh"
 activate_node_runtime "$install_root" || {
 	printf '[Awtsmoos][bootstrap][failed] Node.js 18+ was not found.\n' >&2
@@ -86,7 +89,7 @@ bootstrap_progress 4 "Node runtime verified: $AWTSMOOS_NODE_BIN"
 export AWTSMOOS_INSTALLER_COMPONENTS_SHA256="__AWTSMOOS_INSTALLER_COMPONENTS_SHA256__"
 source "$runtime_root/unix-bootstrap-components.sh"
 download_installer_components
-bootstrap_progress 18 'Verified reinstall components ready'
+bootstrap_progress 18 'Verified installer components ready'
 export AWTSMOOS_INSTALL_ORIGIN="$origin"
 export AWTSMOOS_INSTALL_ROOT="$install_root"
 export AWTSMOOS_INSTALL_RUNTIME="$runtime_root"

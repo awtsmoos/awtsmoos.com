@@ -31,19 +31,19 @@ const ESSENTIAL_KEYS = [
 	"snapshotConsistent", "writeSnapshotSettled", "writesPending",
 	"writeSnapshotWaitedMs", "settleBudgetMs", "receipts", "receipt",
 	"worker", "workers", "mission", "cost", "recovery", "cleanup",
-	"processIdentity", "processComparison", "osLinks", "birthToken",
-	"startedAt", "updatedAt", "finishedAt", "phase", "promptCount",
-	"preview", "url", "viewUrl", "proxyUrl", "rawUrl", "wsUrl",
-	"detectedServers", "selectedServer", "agentGuidance", "nextSuggestedAction",
-	"state", "progress", "resume", "plan", "evidence", "chrome",
-	"targets", "pages", "activeTarget", "currentUrl", "currentTarget",
-	"browser", "port", "enabled", "pid", "processGroupId", "version",
-	"webSocketDebuggerUrl", "responseShape", "responseMode",
-	"responseProtocol", "storage", "trust", "warnings", "mode",
-	"syncOptIn", "aiInstructions", "shell", "timeoutMs", "stdout",
-	"stderr", "stdoutBytes", "stderrBytes", "exitCode", "signal",
-	"durationMs", "resourceUsage", "orphanReason", "reconciliationAt",
-	"health", "stats", "lane", "priority"
+	"cancelled", "alreadyTerminal", "detachedRecovered", "reaperClaimed",
+	"reaperTimedOut", "processIdentity", "processComparison", "osLinks",
+	"birthToken", "startedAt", "updatedAt", "finishedAt", "phase",
+	"promptCount", "preview", "url", "viewUrl", "proxyUrl", "rawUrl",
+	"wsUrl", "detectedServers", "selectedServer", "agentGuidance",
+	"nextSuggestedAction", "state", "progress", "resume", "plan", "evidence",
+	"chrome", "targets", "pages", "activeTarget", "currentUrl",
+	"currentTarget", "browser", "port", "enabled", "pid", "processGroupId",
+	"version", "webSocketDebuggerUrl", "responseShape", "responseMode",
+	"responseProtocol", "storage", "trust", "warnings", "mode", "syncOptIn",
+	"aiInstructions", "shell", "timeoutMs", "stdout", "stderr", "stdoutBytes",
+	"stderrBytes", "exitCode", "signal", "durationMs", "resourceUsage",
+	"orphanReason", "reconciliationAt", "health", "stats", "lane", "priority"
 ];
 
 module.exports = { CORRELATION_KEYS, DEBUG_MODES, ESSENTIAL_KEYS };

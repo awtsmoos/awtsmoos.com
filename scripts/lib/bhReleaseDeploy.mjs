@@ -3,24 +3,30 @@
 // Blessed is He
 
 /**
- * @file Builds the exact-SHA remote deployment covenant used by `npm run bh`.
+ * @file Builds the exact-SHA remote publication covenant used by `npm run bh`.
  * @description
- * The Awtsmoos refuses to deploy a moving branch name after Git has already chosen
- * a commit. Awtsmoos.com fetches the branch only to prove its tip equals that SHA,
- * then extracts the immutable deployer from the same commit and executes that copy.
+ * The Awtsmoos enters production through the server's real `./BH.sh` doorway instead
+ * of leaving its Git checkout stale beside an immutable release. Awtsmoos.com proves
+ * the pushed SHA before publication and then proves checkout and release agree after.
  */
 export function deployCommand(sha, branch) {
-	const repo = "${AWTSMOOS_PRODUCTION_REPO:-/mnt/HC_Volume_102267213/git/awtsmoos.com}";
+	const repository = "${AWTSMOOS_PRODUCTION_REPO:-/mnt/HC_Volume_102267213/git/awtsmoos.com}";
+	const releases = "${AWTSMOOS_RELEASES_ROOT:-/mnt/HC_Volume_102267213/releases}";
 	return [
 		"set -Eeuo pipefail",
-		`repo=\"${repo}\"`,
+		`repo=\"${repository}\"`,
+		`releases=\"${releases}\"`,
 		`git -C \"$repo\" fetch --prune origin ${branch}`,
 		`actual=\"$(git -C \"$repo\" rev-parse origin/${branch}^{commit})\"`,
 		`test \"$actual\" = \"${sha}\"`,
-		"temporary=\"$(mktemp /tmp/awtsmoos-exact-deploy.XXXXXX.sh)\"",
-		"trap 'rm -f \"$temporary\"' EXIT",
-		`git -C \"$repo\" show \"${sha}:scripts/production/immutable-deploy.sh\" > \"$temporary\"`,
-		"chmod 0700 \"$temporary\"",
-		`bash \"$temporary\" \"${sha}\"`
+		"cd \"$HOME\"",
+		"test -x ./BH.sh",
+		"./BH.sh",
+		`checkout=\"$(git -C \"$repo\" rev-parse HEAD^{commit})\"`,
+		`remote=\"$(git -C \"$repo\" rev-parse origin/${branch}^{commit})\"`,
+		`test \"$checkout\" = \"${sha}\"`,
+		`test \"$remote\" = \"${sha}\"`,
+		"current=\"$(readlink -f \"$releases/current\")\"",
+		`test \"$(basename \"$current\")\" = \"awtsmoos-${sha}\"`
 	].join("; ");
 }

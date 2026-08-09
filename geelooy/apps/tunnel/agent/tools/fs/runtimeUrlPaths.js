@@ -1,21 +1,17 @@
 // B"H
 const path = require("path");
 
-/** B"H — Normalizes dependency identities shared by discovery and fetching. */
+/** Normalizes public URL dependency identities shared by discovery and fetching. */
 function resolveUrl(spec, base) {
 	if (!spec || spec.startsWith("data:") || spec.startsWith("blob:")) return null;
 	try { return new URL(spec, base); } catch (_) { return null; }
 }
 
 function keyFor(spec, fromKey, url) {
-	const cleanSpec = String(spec || "").split(/[?#]/)[0];
-	if (cleanSpec.startsWith("/")) return slash(cleanSpec.replace(/^\/+/, ""));
-	if (/^[a-z]+:\/\//i.test(cleanSpec)) {
-		return slash(url.pathname.replace(/^\/+/, ""));
-	}
-	return slash(path.normalize(
-		path.join(path.dirname(fromKey), cleanSpec || "index.html")
-	));
+	const pathname = url?.pathname || resolveUrl(spec, "https://awtsmoos.invalid/" + String(fromKey || ""))?.pathname;
+	const clean = slash(String(pathname || "").replace(/^\/+/, ""));
+	if (!clean || clean.endsWith("/")) return clean + "index.html";
+	return clean;
 }
 
 function uniqueRefs(refs) {
@@ -43,18 +39,9 @@ function sameOrigin(root, candidate) {
 function acceptFor(url) {
 	if (/\.json(?:[?#]|$)/i.test(url)) return "application/json,*/*";
 	if (/\.css(?:[?#]|$)/i.test(url)) return "text/css,*/*";
-	return /\.m?js(?:[?#]|$)/i.test(url)
-		? "text/javascript,*/*"
-		: "text/html,*/*";
+	return /\.m?js(?:[?#]|$)/i.test(url) ? "text/javascript,*/*" : "text/html,*/*";
 }
 
 function slash(value) { return String(value || "").replace(/\\/g, "/"); }
 
-module.exports = {
-	resolveUrl,
-	keyFor,
-	uniqueRefs,
-	kindFor,
-	sameOrigin,
-	acceptFor
-};
+module.exports = { resolveUrl, keyFor, uniqueRefs, kindFor, sameOrigin, acceptFor };
