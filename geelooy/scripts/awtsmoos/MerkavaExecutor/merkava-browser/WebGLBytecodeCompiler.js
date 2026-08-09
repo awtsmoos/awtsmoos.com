@@ -24,7 +24,6 @@
 ) {
 	const RuntimeLog = logMod.RuntimeLog;
 	const OPS = supportMod.WEBGL_BYTECODE_OPS;
-
 	/**
 	 * Compiles retained WebGL operations into deterministic UTF-8 bytecode. The
 	 * Awtsmoos creates shader, program, buffer, texture, and draw record anew;
@@ -116,5 +115,6 @@
 		}
 	}
 
+	resourceMod.installCompilerCommands(WebGLBytecodeCompiler);
 	return { OPS, WebGLBytecodeCompiler };
 });

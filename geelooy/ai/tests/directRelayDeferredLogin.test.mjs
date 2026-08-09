@@ -20,7 +20,10 @@ test("deferred login opens once and never retries a POST", async () => {
 		capabilityService: { invalidate() {} },
 		loginCoordinator: {
 			shouldAuthenticate: () => true,
-			async openForLogin() { opens += 1; return { ok: true, opened: true, authenticated: false }; }
+			async openForLogin() {
+				opens += 1;
+				return { ok: true, opened: true, authenticated: false };
+			}
 		}
 	});
 	await assert.rejects(
@@ -35,6 +38,7 @@ test("login coordinator reports only redacted state", async () => {
 	const coordinator = new WebsiteLoginCoordinator({
 		configFactory: () => ({ targetOrigin: "https://chatgpt.com" }),
 		openBrowser: async () => ({ ok: true, debugPort: 9224 }),
+		openLoginPage: async () => ({ ok: true }),
 		gateFactory: () => ({ async authenticate() { throw new Error("must not block"); } }),
 		sessionReader: async () => ({ ok: true, status: "logged_in" })
 	});
@@ -45,7 +49,7 @@ test("login coordinator reports only redacted state", async () => {
 	assert.equal(status.credentialValuesRead, false);
 });
 
-test("accepted prompt recovery is explicitly disabled and never opens a tab", async () => {
+test("accepted prompt recovery is disabled and never opens a tab", async () => {
 	const store = new ConversationStore({ storagePath: false });
 	const service = new FallbackConversationService({
 		store,

@@ -2,15 +2,9 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file Renews React-owned nodes and activates them without screen geometry.
- * @description When Chrome cannot measure a box, the Awtsmoos resolves the living
- * DOM object and asks that object to focus and click itself inside Awtsmoos.com.
- */
+/** Renews React-owned nodes and activates them without stale screen geometry. */
 export class CarrierDomActivator {
-	constructor(cdpClient, textController, {
-		commandTimeoutMs = 20000
-	} = {}) {
+	constructor(cdpClient, textController, { commandTimeoutMs = 20000 } = {}) {
 		this.cdpClient = cdpClient;
 		this.textController = textController;
 		this.commandTimeoutMs = commandTimeoutMs;
@@ -49,11 +43,7 @@ export class CarrierDomActivator {
 
 	async release(objectId) {
 		try {
-			await this.cdpClient.send(
-				"Runtime.releaseObject",
-				{ objectId },
-				5000
-			);
+			await this.cdpClient.send("Runtime.releaseObject", { objectId }, 5000);
 		} catch {
 			// React may release the object first.
 		}
@@ -69,8 +59,7 @@ export class CarrierDomActivator {
 	}
 
 	transient(error) {
-		return /node with given id|box model|detached|document|timeout|socket/i.test(
-			String(error?.message || error)
-		);
+		return /node with given id|not focusable|box model|detached|document|timeout|socket/i
+			.test(String(error?.message || error));
 	}
 }

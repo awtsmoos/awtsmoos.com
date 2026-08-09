@@ -1,6 +1,4 @@
-//B"H
-// Boruch Hashem
-// Blessed is He
+// B"H
 
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
@@ -11,16 +9,15 @@ const ROOT = path.resolve(__dirname, "../../..");
 const FILES = [
 	"geelooy/ai/relay/split-browser/cdpChrome.cjs",
 	"geelooy/ai/relay/split-browser/debugChromeCookies.cjs",
+	"geelooy/ai/relay/split-browser/debugChromeShutdown.cjs",
+	"geelooy/ai/relay/split-browser/humanLoginPage.cjs",
 	"geelooy/ai/relay/split-browser/commands/BrowserSessionStatus.cjs",
 	"geelooy/ai/relay/split-browser/commands/ManualLoginGate.cjs",
 	"geelooy/ai/relay/split-browser/commands/loginOnly.cjs"
 ];
 
-/** Manual authentication observes status but never enters credentials or clicks login. */
 test("manual login source contains no credential automation", () => {
-	const source = FILES.map(file => {
-		return fs.readFileSync(path.join(ROOT, file), "utf8");
-	}).join("\n");
+	const source = FILES.map(file => fs.readFileSync(path.join(ROOT, file), "utf8")).join("\n");
 	for (const forbidden of [
 		/document\.querySelector/,
 		/document\.getElementById/,
@@ -31,11 +28,10 @@ test("manual login source contains no credential automation", () => {
 		/Network\.getCookies/,
 		/Storage\.getCookies/,
 		/cookie\.value/
-	]) {
-		assert.doesNotMatch(source, forbidden);
-	}
+	]) assert.doesNotMatch(source, forbidden);
 	assert.match(source, /DOM\.querySelector/);
 	assert.match(source, /DOM\.getBoxModel/);
 	assert.match(source, /Browser\.close/);
+	assert.match(source, /\/json\/new/);
 	assert.match(source, /logged_in/);
 });

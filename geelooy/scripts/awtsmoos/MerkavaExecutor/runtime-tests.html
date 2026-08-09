@@ -2,104 +2,74 @@
 <!doctype html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>Merkava Universal Runtime Tests</title>
-  <style>
-    body{font-family:monospace;background:#080b10;color:#d7f7ff;margin:0;padding:16px}
-    button,select{font:inherit;padding:8px;margin:4px;background:#133;color:#9ff;border:1px solid #399}
-    pre{background:#000;padding:12px;white-space:pre-wrap;border:1px solid #244}
-  </style>
+	<meta charset="utf-8">
+	<title>Merkava Universal Runtime Tests</title>
+	<style>
+		body{font-family:monospace;background:#080b10;color:#d7f7ff;margin:0;padding:16px}
+		button,select{font:inherit;padding:8px;margin:4px;background:#133;color:#9ff;border:1px solid #399}
+		pre{background:#000;padding:12px;white-space:pre-wrap;border:1px solid #244}
+	</style>
 </head>
 <body>
-  <h1>B"H Merkava Universal Runtime Tests</h1>
-  <p>Runs manifest-driven synthetic browser/node/html/module tests in the page.</p>
-  <select id="testSelect"></select>
-  <button id="runOne">Run Selected</button>
-  <button id="runAll">Run All</button>
-  <pre id="out">loading...</pre>
-
-  <script src="merkava-runtime/RuntimeGraph.js"></script>
-  <script src="merkava-runtime/RuntimeAddress.js"></script>
-  <script src="merkava-runtime/ImportResolver.js"></script>
-  <script src="merkava-runtime/HTMLAssembler.js"></script>
-  <script src="merkava-runtime/CSSAssembler.js"></script>
-  <script src="merkava-runtime/ModuleExecutor.js"></script>
-  <script src="merkava-browser/VirtualConsole.js"></script>
-  <script src="merkava-browser/VirtualStorage.js"></script>
-  <script src="merkava-browser/VirtualElement.js"></script>
-  <script src="merkava-browser/VirtualDocument.js"></script>
-  <script src="merkava-browser/VirtualFetch.js"></script>
-  <script src="merkava-browser/VirtualEvents.js"></script>
-  <script src="merkava-browser/VirtualMouse.js"></script>
-  <script src="merkava-browser/VirtualKeyboard.js"></script>
-  <script src="merkava-browser/VirtualInteractions.js"></script>
-  <script src="merkava-browser/RuntimeProbe.js"></script>
-  <script src="merkava-browser/VirtualWindow.js"></script>
-  <script src="merkava-browser/SyntheticBrowserRuntime.js"></script>
-  <script src="merkava-node/VirtualNodeRuntime.js"></script>
-  <script src="merkava-runtime/RuntimeAssembler.js"></script>
-  <script src="merkava-reality/RuntimeSnapshot.js"></script>
-  <script src="merkava-reality/RealityScore.js"></script>
-  <script src="merkava-scouts/RuntimeScouts.js"></script>
-  <script>
-    const out = document.getElementById('out');
-    const select = document.getElementById('testSelect');
-    const supportFiles = [
-      'tests/runtime/browser_dom.js',
-      'tests/runtime/browser_network.js',
-      'tests/runtime/node_fs.js',
-      'tests/runtime/html_entry.html',
-      'tests/runtime/html_boot.js',
-      'tests/runtime/style.css',
-      'tests/runtime/theme.css',
-      'tests/runtime/pixel.txt',
-      'tests/runtime/module_child.js',
-      'tests/runtime/module_imports.js',
-      'tests/runtime/dom_interaction.js'
-    ];
-    let manifest = null;
-    let runtimeFiles = null;
-
-    async function loadText(path) {
-      const res = await fetch(path);
-      if (!res.ok) throw new Error('Could not fetch ' + path + ': ' + res.status);
-      return res.text();
-    }
-
-    async function loadManifest() {
-      manifest = await (await fetch('tests/runtime-manifest.json')).json();
-      runtimeFiles = {};
-      for (const path of supportFiles) runtimeFiles[path] = await loadText(path);
-      select.innerHTML = manifest.tests.map((test, index) => `<option value="${index}">${test.name} (${test.runtime})</option>`).join('');
-      out.textContent = 'ready';
-    }
-
-    async function runTest(test) {
-      const files = {
-        ...runtimeFiles,
-        '/virtual/data.json': '{"ok":true}',
-        '/tmp/input.txt': 'B"H'
-      };
-      const assembler = new Merkava.RuntimeAssembler({ runtime: test.runtime, entry: test.entry, files, module: test.module });
-      const run = await assembler.run(test.entry);
-      const snapshot = Merkava.RuntimeSnapshot.capture(run);
-      const score = Merkava.RealityScore.compute(snapshot);
-      const scouts = Merkava.RuntimeScouts.inspect(snapshot);
-      return { name: test.name, ok: score.ok, score, scouts, snapshot };
-    }
-
-    document.getElementById('runOne').onclick = async () => {
-      const test = manifest.tests[Number(select.value)];
-      out.textContent = JSON.stringify(await runTest(test), null, 2);
-    };
-
-    document.getElementById('runAll').onclick = async () => {
-      const results = [];
-      for (const test of manifest.tests) results.push(await runTest(test));
-      out.textContent = JSON.stringify({ ok: results.every(r => r.ok), results }, null, 2);
-    };
-
-    loadManifest().catch(error => out.textContent = error.stack || error.message);
-  </script>
+	<h1>B"H Merkava Universal Runtime Tests</h1>
+	<p>Runs manifest-driven synthetic browser/node/html/module tests in the page.</p>
+	<select id="testSelect"></select>
+	<button id="runOne">Run Selected</button>
+	<button id="runAll">Run All</button>
+	<pre id="out">loading...</pre>
+	<!-- The Awtsmoos reveals each dependency before the garment that depends on it. -->
+	<script src="merkava-runtime/RuntimeGraph.js"></script>
+	<script src="merkava-runtime/RuntimeAddress.js"></script>
+	<script src="merkava-runtime/ImportResolver.js"></script>
+	<script src="merkava-runtime/HTMLAssembler.js"></script>
+	<script src="merkava-runtime/CSSAssembler.js"></script>
+	<script src="merkava-runtime/ModuleExecutor.js"></script>
+	<script src="merkava-runtime/DOMHydrator.js"></script>
+	<script src="merkava-browser/VirtualStyleDeclaration.js"></script>
+	<script src="merkava-browser/VirtualClassList.js"></script>
+	<script src="merkava-browser/VirtualEvents.js"></script>
+	<script src="merkava-browser/VirtualHtmlSerializer.js"></script>
+	<script src="merkava-browser/VirtualWebGLTextureArena.js"></script>
+	<script src="merkava-browser/VirtualPath2D.js"></script>
+	<script src="merkava-browser/VirtualCanvas2DContext.js"></script>
+	<script src="merkava-browser/VirtualWebGLContext.js"></script>
+	<script src="merkava-browser/VirtualElement.js"></script>
+	<script src="merkava-browser/VirtualBytes.js"></script>
+	<script src="merkava-browser/VirtualFontGlyphs.js"></script>
+	<script src="merkava-browser/VirtualFontMetrics.js"></script>
+	<script src="merkava-browser/VirtualFontAtlas.js"></script>
+	<script src="merkava-browser/CssColorResolver.js"></script>
+	<script src="merkava-browser/CssValueResolver.js"></script>
+	<script src="merkava-browser/VirtualCssEngine.js"></script>
+	<script src="merkava-browser/VirtualDocument.js"></script>
+	<script src="merkava-browser/VirtualStorage.js"></script>
+	<script src="merkava-browser/VirtualConsole.js"></script>
+	<script src="merkava-browser/VirtualFetchHelpers.js"></script>
+	<script src="merkava-browser/VirtualFetch.js"></script>
+	<script src="merkava-browser/VirtualMouse.js"></script>
+	<script src="merkava-browser/VirtualKeyboard.js"></script>
+	<script src="merkava-browser/VirtualInteractions.js"></script>
+	<script src="merkava-browser/RuntimeProbe.js"></script>
+	<script src="merkava-browser/VirtualImagePaintResolver.js"></script>
+	<script src="merkava-browser/VirtualWebGLBoxRenderer.js"></script>
+	<script src="merkava-browser/RuntimeLog.js"></script>
+	<script src="merkava-browser/RetainedLayoutEngine.js"></script>
+	<script src="merkava-browser/BrowserRenderPipeline.js"></script>
+	<script src="merkava-browser/VirtualOffscreenCanvas.js"></script>
+	<script src="merkava-browser/VirtualWorker.js"></script>
+	<script src="merkava-browser/VirtualAudioDevices.js"></script>
+	<script src="merkava-browser/VirtualWindowMedia.js"></script>
+	<script src="merkava-browser/VirtualDeterministicCrypto.js"></script>
+	<script src="merkava-browser/VirtualWindowPlatform.js"></script>
+	<script src="merkava-browser/VirtualWindowHelpers.js"></script>
+	<script src="merkava-browser/VirtualWindowCore.js"></script>
+	<script src="merkava-browser/VirtualWindow.js"></script>
+	<script src="merkava-browser/SyntheticBrowserRuntime.js"></script>
+	<script src="merkava-node/VirtualNodeRuntime.js"></script>
+	<script src="merkava-runtime/RuntimeAssembler.js"></script>
+	<script src="merkava-reality/RuntimeSnapshot.js"></script>
+	<script src="merkava-reality/RealityScore.js"></script>
+	<script src="merkava-scouts/RuntimeScouts.js"></script>
+	<script src="runtime-tests-page.js"></script>
 </body>
 </html>

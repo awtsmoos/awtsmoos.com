@@ -10,47 +10,54 @@ const { closeStaleDebugProcesses } = require("./debugChromeProcessRecovery.cjs")
 const { closeDebugChrome } = require("./debugChromeShutdown.cjs");
 const { purgeRestoredAgentTabs } = require("./restoredAgentTabPurge.cjs");
 
-/**
- * @file Makes browser readiness follow the authenticated profile's actual owner port.
- * @description
- * The Awtsmoos reuses port 9223 when Chrome's singleton already owns the profile,
- * purges restored agent pages, normalizes one inert keeper, and only then permits a
- * final-URL target to be born for one accepted prompt dispatch.
- */
-async function openDebugChrome(config = {}) {
-	const before = await statusDebugChrome(config);
-	if (before.ok) return prepareReady(config, before);
-	const firstLaunch = await launchDebugChrome(config);
+/** Opens one persistent dedicated Chrome without killing an owner this call reused. */
+async function openDebugChrome(config = {}, overrides = {}) {
+	const runtime = dependencies(overrides);
+	const before = await runtime.status(config);
+	if (before.ok) return prepareReady(config, before, runtime);
+	const firstLaunch = await runtime.launch(config);
 	const firstConfig = { ...config, debugPort: firstLaunch.debugPort };
-	const first = await waitForDebugChrome(firstConfig, 15000);
-	if (first.ok) return prepareReady(firstConfig, { ...first, launch: firstLaunch });
+	const first = await runtime.wait(firstConfig, 15000);
+	if (first.ok) {
+		return prepareReady(firstConfig, { ...first, launch: firstLaunch }, runtime);
+	}
 	const port = firstLaunch.debugPort || debugPort(config);
-	const recovery = await closeStaleDebugProcesses(port);
-	await sleep(recovery.closed ? 750 : 250);
-	const secondLaunch = await launchDebugChrome(firstConfig);
+	if (firstLaunch.reused !== false) {
+		return { ...first, status: "debug_chrome_reused_owner_unresponsive",
+			error: first.error || "The reused Chrome owner did not answer DevTools.",
+			debugPort: port, launch: firstLaunch, ownerPreserved: true,
+			recoveryAttempted: false };
+	}
+	const recovery = await runtime.closeStale(port);
+	await runtime.sleep(recovery.closed ? 750 : 250);
+	const secondLaunch = await runtime.launch(firstConfig);
 	const secondConfig = { ...firstConfig, debugPort: secondLaunch.debugPort };
-	const second = await waitForDebugChrome(secondConfig, 20000);
+	const second = await runtime.wait(secondConfig, 20000);
 	if (!second.ok) {
 		return { ...second, recoveryAttempted: true,
 			staleProcessesClosed: recovery.closed, launch: secondLaunch };
 	}
-	const ready = await prepareReady(secondConfig, { ...second, launch: secondLaunch });
+	const ready = await prepareReady(
+		secondConfig,
+		{ ...second, launch: secondLaunch },
+		runtime
+	);
 	return { ...ready, recoveryAttempted: true, staleProcessesClosed: recovery.closed };
 }
 
-async function prepareReady(config, state) {
+async function prepareReady(config, state, runtime = dependencies()) {
 	const port = state.debugPort || debugPort(config);
-	const purge = await purgeRestoredAgentTabs({
+	const purge = await runtime.purge({
 		port,
 		ports: [port],
-		terminateOnResistance: true
+		terminateOnResistance: state.launch?.reused === false
 	});
 	if (!purge.ok) {
 		return { ok: false, status: "restored_agent_tabs_resisted",
 			error: `Restored agent tabs remained: ${purge.remaining}`, purge };
 	}
-	const keeper = await reconcileKeeper(port);
-	const browser = await findBrowserTarget({ preferredPort: port, onlyPreferred: true });
+	const keeper = await runtime.keeper(port);
+	const browser = await runtime.findBrowser({ preferredPort: port, onlyPreferred: true });
 	if (!browser.ok) {
 		return { ok: false, status: "debug_chrome_lost_after_purge",
 			error: browser.error || "Chrome exited after keeper reconciliation.", purge, keeper };
@@ -83,6 +90,13 @@ async function waitForDebugChrome(config, milliseconds) {
 	}
 	return { ok: false, status: "debug_chrome_unavailable",
 		error: last?.error || "Chrome DevTools did not answer." };
+}
+
+function dependencies(overrides = {}) {
+	return { status: statusDebugChrome, launch: launchDebugChrome,
+		wait: waitForDebugChrome, closeStale: closeStaleDebugProcesses,
+		purge: purgeRestoredAgentTabs, keeper: reconcileKeeper,
+		findBrowser: findBrowserTarget, sleep, ...overrides };
 }
 
 function sleep(milliseconds) {
