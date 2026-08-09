@@ -1,73 +1,47 @@
 // B"H
-// Boruch Hashem
-// Blessed is He
-
 const Context = require("./context.js");
-const {
-	M,
-	C,
-	Store,
-	active
-} = Context.shared;
+const Signal = require("./messageSignal.js");
+const { M, C, Store, active } = Context.shared;
 const schedule = Context.reference("schedule");
-const status = Context.reference("status");
+const finalize = Context.reference("finalize");
 const failure = Context.reference("failure");
-const event = Context.reference("event");
 const emitRoom = Context.reference("emitRoom");
 
-/**
- * @file Reveals the message stage of website-agent orchestration.
- * @description
- * The Awtsmoos gives this stage one bounded responsibility while sibling stages are
- * resolved lazily through durable shared context after the browser vessel closes.
- */
+/** Delivers one idempotent human or verified member-agent lifecycle signal. */
 async function message(config, input = {}) {
 	const id = input.websiteMissionId || input.taskId || input.id;
 	const record = Store.read(id);
 	if (!record) return failure("unknown_website_mission", { websiteMissionId: id });
+	const agentId = String(input.agentId || input.logicalAgentId || "").trim();
+	if (agentId && !record.agents.some(agent => agent.id === agentId)) {
+		return failure("unknown_website_agent", {
+			websiteMissionId: id,
+			agentId
+		});
+	}
+	const reportId = String(input.reportId || "").trim().slice(0, 200);
+	if (reportId && Signal.hasReport(record, agentId, reportId)) {
+		return Signal.duplicateResponse(record, reportId);
+	}
 	const mission = await M.load(config, record.missionId);
 	if (!mission) return failure("mission_room_not_found", { missionId: record.missionId });
-	const roomMessage = C.userMessage(mission, {
-		...input,
-		body: input.body || input.message || input.text || input.prompt,
-		toAgent: input.toAgent || "all",
-		allowContinue: true
-	});
+	const kind = String(input.kind || "message").trim().toLowerCase();
+	const body = input.body || input.message || input.text || input.prompt || "";
+	const agentSignal = Boolean(agentId);
+	const terminal = agentSignal && kind === "completion" && Signal.verified(input, body);
+	const roomMessage = agentSignal
+		? C.message(mission, { ...input, body, toAgent: input.toAgent || "all" })
+		: C.userMessage(mission, {
+			...input, body, toAgent: input.toAgent || "all", allowContinue: true
+		});
 	await M.save(config, mission);
-	const target = String(input.toAgent || "all");
-	const updated = Store.update(id, current => {
-		current.roomRevision += 1;
-		for (const agent of current.agents) {
-			if (target !== "all" && target !== "any_agent" && target !== agent.id) continue;
-			agent.roomDirty = true;
-			agent.pendingRoomMessages += 1;
-			if (agent.status === "complete") agent.status = "active";
-		}
-		if (!["awaiting_recovery", "cancelled"].includes(current.status)) {
-			current.status = "running";
-			current.phase = "room_message_queued";
-			current.finishedAt = null;
-		}
-		current.events.push(event("room_message_queued_for_agents", {
-			toAgent: target,
-			roomRevision: current.roomRevision
-		}));
-		return current;
-	});
+	const updated = Store.update(id, current => Signal.apply(current, {
+		agentId, agentSignal, body, input, kind, terminal, reportId
+	}));
 	emitRoom(config, updated, roomMessage);
-	if (!active.has(id)) schedule(config, id);
-	return {
-		ok: true,
-		action: "websiteAgentMissionMessage",
-		websiteMissionId: id,
-		missionId: record.missionId,
-		delivery: {
-			dashboard: "committed",
-			websiteAgents: "next_safe_turn",
-			roomRevision: updated.roomRevision
-		},
-		roomMessage
-	};
+	const finalRecord = terminal ? await finalize(config, id) : updated;
+	if (!terminal && !active.has(id)) schedule(config, id);
+	return Signal.response(finalRecord, roomMessage, terminal, reportId);
 }
 
 Context.register("message", message);

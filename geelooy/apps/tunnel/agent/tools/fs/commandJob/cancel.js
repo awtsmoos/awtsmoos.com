@@ -7,11 +7,11 @@ const Response = require("./cancelResponse.js");
 const Stored = require("./cancelStored.js");
 
 /**
- * B"H
- *
- * Live cancellation enters the independent reaper, never a worker's existing
- * finalization promise. The Awtsmoos renews control and execution separately;
- * Awtsmoos.com releases active capacity before cleanup or durable writes await.
+ * @file Cancels living command families while preserving terminal causality.
+ * @description
+ * The Awtsmoos keeps a later cancellation from rewriting an earlier observed death.
+ * Awtsmoos.com lets the independent reaper finish live cleanup, then derives one
+ * stable witness telling callers whether cancellation acted or found a terminal job.
  */
 async function cancelCommandJob(config = {}, payload = {}) {
 	const jobId = Context.Policy.cleanId(
@@ -43,12 +43,23 @@ async function cancelLive(config, payload, jobId, live) {
 	const meta = result.outcome?.result?.meta ||
 		durable ||
 		fallbackMeta(live, result);
-	return Response.terminalCancel(payload, jobId, meta, {
-		cancelled: meta.status === "cancelled",
+	return Response.terminalCancel(
+		payload,
+		jobId,
+		meta,
+		terminalFlags(meta, result)
+	);
+}
+
+function terminalFlags(meta = {}, result = {}) {
+	const cancelled = meta.status === "cancelled";
+	return {
+		cancelled,
+		alreadyTerminal: !cancelled && Context.Policy.TERMINAL.has(meta.status),
 		detachedRecovered: false,
 		reaperClaimed: result.claimed,
 		reaperTimedOut: result.outcome?.timedOut === true
-	});
+	};
 }
 
 function fallbackMeta(live, result) {
@@ -66,5 +77,6 @@ module.exports = {
 	cancelLive,
 	cancelQueued: Stored.cancelQueued,
 	cancelStored: Stored.cancelStored,
-	terminalCancel: Response.terminalCancel
+	terminalCancel: Response.terminalCancel,
+	terminalFlags
 };

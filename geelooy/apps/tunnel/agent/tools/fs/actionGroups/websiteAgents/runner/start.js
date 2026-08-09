@@ -3,23 +3,16 @@
 // Blessed is He
 
 const Context = require("./context.js");
-const {
-	Planner,
-	Store
-} = Context.shared;
+const { Planner, Store } = Context.shared;
+const Spawn = require("./spawn.js");
 const schedule = Context.reference("schedule");
-const message = Context.reference("message");
 const createMission = Context.reference("createMission");
 const seedRoom = Context.reference("seedRoom");
 const failure = Context.reference("failure");
 
-/**
- * @file Reveals the start stage of website-agent orchestration.
- * @description
- * The Awtsmoos gives this stage one bounded responsibility while sibling stages are
- * resolved lazily through durable shared context after the browser vessel closes.
- */
+/** Starts a root website mission or admits a child into an existing one. */
 async function start(config, input = {}) {
+	if (Spawn.requested(input)) return Spawn.spawn(config, input);
 	const goal = String(input.prompt || input.goal || input.message || "").trim();
 	if (!goal) return failure("missing_goal");
 	const requestedId = input.websiteMissionId || input.taskId || input.id;
@@ -39,6 +32,10 @@ async function start(config, input = {}) {
 	});
 	await seedRoom(config, mission, record);
 	schedule(config, record.id);
+	return started(record);
+}
+
+function started(record) {
 	return {
 		ok: true,
 		action: "websiteAgentMissionStart",

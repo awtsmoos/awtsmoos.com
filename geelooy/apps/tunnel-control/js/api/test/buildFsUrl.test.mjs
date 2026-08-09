@@ -1,11 +1,8 @@
 // B"H
 import assert from "assert";
-
 global.location = { origin: "https://awtsmoos.test" };
 global.localStorage = { getItem() { return null; }, setItem() {} };
-
 const { buildFsUrl } = await import("../tunnel.js");
-
 let url = new URL(buildFsUrl("awt-test", {
 	action: "read",
 	path: "src/app.js",
@@ -18,7 +15,6 @@ assert.strictEqual(url.searchParams.get("action"), "read");
 assert.strictEqual(url.searchParams.get("p"), "src/app.js");
 assert.strictEqual(url.searchParams.get("maxChars"), "120");
 assert(url.searchParams.get("content64"));
-
 url = new URL(buildFsUrl("awt-test", {
 	action: "aiAgentMessage",
 	provider: "deepseek",
@@ -63,6 +59,24 @@ assert.strictEqual(packed.customGptName, "Awtsmoos Shliach");
 assert.strictEqual(packed.agentStartUrl, "https://chatgpt.com/g/g-awtsmoos-shliach");
 assert.strictEqual(packed.prompt, "Coordinate a complete repository fix.");
 
+url = new URL(buildFsUrl("awt-test", {
+	action: "aiAgentSpawnWebsiteMission",
+	parentWebsiteMissionId: "webmission-one",
+	parentMissionId: "mission-room-one",
+	parentAgentId: "website_root",
+	requestKey: "tests.child",
+	role: "test specialist",
+	scope: "tests",
+	childPrompt: "Run bounded tests.",
+	complete: false
+}));
+packed = unpack(url.searchParams.get("text64"));
+assert.strictEqual(packed.parentWebsiteMissionId, "webmission-one");
+assert.strictEqual(packed.parentMissionId, "mission-room-one");
+assert.strictEqual(packed.parentAgentId, "website_root");
+assert.strictEqual(packed.requestKey, "tests.child");
+assert.strictEqual(packed.childPrompt, "Run bounded tests.");
+
 for (const request of [
 	{
 		action: "websiteAgentMissionStatus",
@@ -96,7 +110,8 @@ console.log(JSON.stringify({
 	suite: "build-fs-url",
 	websiteStartFieldsPacked: true,
 	websiteMissionIdPacked: true,
-	wakeMessagePacked: true
+	wakeMessagePacked: true,
+	sameMissionChildFieldsPacked: true
 }, null, 2));
 
 function unpack(value) {

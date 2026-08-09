@@ -1,5 +1,5 @@
 B"H
-1.0.502
+1.0.507
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtector.mjs
@@ -922,6 +922,7 @@ lib/deviceIdentity/index.js
 lib/deviceIdentity/keyCoherence.js
 lib/deviceIdentity/keyMaterial.js
 lib/deviceIdentity/macosStore.js
+lib/deviceIdentity/macosStoreCodec.js
 lib/deviceIdentity/metadata.js
 lib/deviceIdentity/metadataStrength.js
 lib/deviceIdentity/pairingApproval.js
@@ -1477,6 +1478,7 @@ tools/fs/actionGroups/websiteAgents/runner/list.js
 tools/fs/actionGroups/websiteAgents/runner/loaderPath.js
 tools/fs/actionGroups/websiteAgents/runner/loadService.js
 tools/fs/actionGroups/websiteAgents/runner/message.js
+tools/fs/actionGroups/websiteAgents/runner/messageSignal.js
 tools/fs/actionGroups/websiteAgents/runner/needsContinuation.js
 tools/fs/actionGroups/websiteAgents/runner/paceWebsiteStart.js
 tools/fs/actionGroups/websiteAgents/runner/pauseForLogin.js
@@ -1497,6 +1499,7 @@ tools/fs/actionGroups/websiteAgents/runner/seedChildRoom.js
 tools/fs/actionGroups/websiteAgents/runner/seedPendingChildren.js
 tools/fs/actionGroups/websiteAgents/runner/seedRoom.js
 tools/fs/actionGroups/websiteAgents/runner/sleep.js
+tools/fs/actionGroups/websiteAgents/runner/spawn.js
 tools/fs/actionGroups/websiteAgents/runner/spawnRequestLimit.js
 tools/fs/actionGroups/websiteAgents/runner/start.js
 tools/fs/actionGroups/websiteAgents/runner/status.js
@@ -2012,6 +2015,9 @@ tools/fs/runtime/sourceRefs/pathRefs.js
 tools/fs/runtimeDetect.js
 tools/fs/runtimeManifest.js
 tools/fs/runtimeUrlEnv.js
+tools/fs/runtimeUrlPaths.js
+tools/fs/runtimeUrlRefs.js
+tools/fs/runtimeUrlRewrite.js
 tools/fs/runtimeVirtualEnv.js
 tools/fs/searchEdit.js
 tools/fs/selectString.js

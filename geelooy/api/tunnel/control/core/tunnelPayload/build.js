@@ -9,6 +9,7 @@ const Collections = require("./collections.js");
 const Identity = require("./identity.js");
 const Numbers = require("./numbers.js");
 const Text = require("./text.js");
+const WebsiteAgents = require("./websiteAgents.js");
 
 /**
  * B"H
@@ -36,14 +37,12 @@ function buildFsPayload(input = {}) {
 			? selected.original || undefined
 			: undefined,
 		actionRecoveredFromCarrier: selected.recovered,
-		...Identity.fields(
-			carriers.raw,
-			selected.action
-		),
+		...Identity.fields(carriers.raw, selected.action),
 		...Text.fields(carriers.raw),
 		...Numbers.fields(carriers.raw),
 		...Booleans.fields(carriers.raw),
 		...Collections.fields(carriers.raw),
+		...WebsiteAgents.fields(carriers.raw, selected.action),
 		params: carriers.params,
 		params64: carriers.params64
 	});
@@ -52,20 +51,11 @@ function buildFsPayload(input = {}) {
 }
 
 function clean(input = {}) {
-	const output = {
-		...input
-	};
-
+	const output = { ...input };
 	for (const key of Object.keys(output)) {
-		if (output[key] === undefined) {
-			delete output[key];
-		}
+		if (output[key] === undefined) delete output[key];
 	}
-
 	return output;
 }
 
-module.exports = {
-	buildFsPayload,
-	clean
-};
+module.exports = { buildFsPayload, clean };

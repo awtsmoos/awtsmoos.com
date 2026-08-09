@@ -1,43 +1,71 @@
 // B"H
 const vm = require("vm");
 
-/**
- * B"H
- * Creates one Node VM sky above the Merkava window. Browser globals are copied
- * both as `window.x` and bare `x`, so real public pages can speak as they do in
- * Chrome without begging Node for permission.
- */
+/** Creates one Node VM sky with browser globals available by their ordinary names. */
 function createVmContext(globals) {
-  const bag = { ...globals };
-  bag.globalThis = bag;
-  bag.window = globals.window;
-  bag.self = globals.window;
-  bag.document = globals.document;
-  bag.console = globals.console;
-  installCoreConstructors(bag, globals);
-  installWindowMethods(bag, globals.window);
-  return vm.createContext(bag);
+	const bag = { ...globals };
+	bag.globalThis = bag;
+	bag.window = globals.window;
+	bag.self = globals.window;
+	bag.document = globals.document;
+	bag.console = globals.console;
+	installCoreConstructors(bag, globals);
+	installPlatformGlobals(bag, globals.window);
+	installWindowMethods(bag, globals.window);
+	return vm.createContext(bag);
 }
 
 function installCoreConstructors(bag, globals) {
-  Object.assign(bag, { Promise, Array, Object, JSON, Math, Date, RegExp, Error, TypeError, URL });
-  for (const name of ["setTimeout", "clearTimeout", "setInterval", "clearInterval", "fetch", "requestAnimationFrame", "cancelAnimationFrame"]) {
-    if (globals[name]) bag[name] = globals[name];
-  }
+	Object.assign(bag, {
+		Promise, Array, Object, JSON, Math, Date, RegExp, Error, TypeError, URL
+	});
+	for (const name of [
+		"setTimeout", "clearTimeout", "setInterval", "clearInterval", "fetch",
+		"requestAnimationFrame", "cancelAnimationFrame"
+	]) {
+		if (globals[name]) bag[name] = globals[name];
+	}
 }
 
-function installWindowMethods(bag, window) {
-  for (const name of ["addEventListener", "removeEventListener", "dispatchEvent", "alert", "confirm", "prompt", "open", "close", "scrollTo", "scrollBy", "matchMedia"]) {
-    if (typeof window?.[name] === "function") bag[name] = window[name].bind(window);
-  }
+function installPlatformGlobals(bag, windowObject) {
+	const canvas = windowObject?.document?.createElement?.("canvas");
+	Object.assign(bag, {
+		performance: windowObject?.performance,
+		structuredClone: windowObject?.structuredClone,
+		queueMicrotask: windowObject?.queueMicrotask,
+		crypto: windowObject?.crypto,
+		HTMLCanvasElement: canvas?.constructor,
+		OffscreenCanvas: windowObject?.OffscreenCanvas,
+		ImageData: windowObject?.ImageData,
+		ImageBitmap: windowObject?.ImageBitmap
+	});
+}
+
+function installWindowMethods(bag, windowObject) {
+	for (const name of [
+		"addEventListener", "removeEventListener", "dispatchEvent", "alert",
+		"confirm", "prompt", "open", "close", "scrollTo", "scrollBy", "matchMedia"
+	]) {
+		if (typeof windowObject?.[name] === "function") {
+			bag[name] = windowObject[name].bind(windowObject);
+		}
+	}
 }
 
 function installNamedElements(context) {
-  installWindowMethods(context, context.window);
-  const all = context.document?.querySelectorAll?.("[id]") || [];
-  for (const el of all) {
-    if (el.id && !(el.id in context)) context[el.id] = el;
-    if (el.id && context.window && !(el.id in context.window)) context.window[el.id] = el;
-  }
+	installWindowMethods(context, context.window);
+	const all = context.document?.querySelectorAll?.("[id]") || [];
+	for (const element of all) {
+		if (element.id && !(element.id in context)) context[element.id] = element;
+		if (element.id && context.window && !(element.id in context.window)) {
+			context.window[element.id] = element;
+		}
+	}
 }
-module.exports = { createVmContext, installNamedElements, installWindowMethods };
+
+module.exports = {
+	createVmContext,
+	installNamedElements,
+	installPlatformGlobals,
+	installWindowMethods
+};

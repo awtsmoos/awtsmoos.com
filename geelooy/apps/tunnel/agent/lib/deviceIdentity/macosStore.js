@@ -3,18 +3,17 @@
 // Blessed is He
 
 const Command = require("./command.js");
+const Codec = require("./macosStoreCodec.js");
 
 /**
- * @file Stores device secrets in the macOS Login Keychain.
+ * @file Stores device secrets in the macOS Login Keychain without CLI shape drift.
  * @description
  * The Awtsmoos conceals inward life while revealing only its proper effect.
- * Awtsmoos.com entrusts private keys and credentials to Keychain, never to
- * config.json, logs, generated packages, or account-visible browser storage.
+ * macOS `security` hex-renders multiline generic-password data, so Awtsmoos.com
+ * stores new secrets in one single-line envelope and decodes verified legacy PEM.
  */
-
 const SECURITY = "/usr/bin/security";
 
-/** Writes or replaces one generic-password item. */
 function write(service, account, value) {
 	Command.run(SECURITY, [
 		"add-generic-password",
@@ -24,14 +23,13 @@ function write(service, account, value) {
 		"-a",
 		account,
 		"-w",
-		String(value)
+		Codec.encode(value)
 	]);
 }
 
-/** Reads one generic-password value, returning null when absent. */
 function read(service, account) {
 	try {
-		return Command.run(SECURITY, [
+		const value = Command.run(SECURITY, [
 			"find-generic-password",
 			"-s",
 			service,
@@ -39,6 +37,7 @@ function read(service, account) {
 			account,
 			"-w"
 		]);
+		return Codec.decode(value);
 	} catch (error) {
 		if (String(error.message).includes("44")) {
 			return null;
@@ -47,7 +46,6 @@ function read(service, account) {
 	}
 }
 
-/** Deletes one generic-password item when present. */
 function remove(service, account) {
 	try {
 		Command.run(SECURITY, [

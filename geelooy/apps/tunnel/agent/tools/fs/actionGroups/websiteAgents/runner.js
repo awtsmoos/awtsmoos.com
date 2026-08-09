@@ -3,60 +3,53 @@
 // Blessed is He
 
 const Context = require("./runner/context.js");
-const {
-	active,
-	wakeTimers
-} = Context.shared;
+const { active, wakeTimers } = Context.shared;
+const spawn = require("./runner/spawn.js");
 const start = require("./runner/start.js");
 const schedule = require("./runner/schedule.js");
 const run = require("./runner/run.js");
-const recoverAcceptedTurns = require("./runner/recoverAcceptedTurns.js");
-const ensureAuthentication = require("./runner/ensureAuthentication.js");
-const updateAuthentication = require("./runner/updateAuthentication.js");
-const pauseForLogin = require("./runner/pauseForLogin.js");
-const runPacedBatch = require("./runner/runPacedBatch.js");
-const drainSpawnQueue = require("./runner/drainSpawnQueue.js");
-const processSpawnOutcome = require("./runner/processSpawnOutcome.js");
-const spawnRequestLimit = require("./runner/spawnRequestLimit.js");
-const seedPendingChildren = require("./runner/seedPendingChildren.js");
-const paceWebsiteStart = require("./runner/paceWebsiteStart.js");
-const runTurn = require("./runner/runTurn.js");
-const turnPlanMessage = require("./runner/turnPlanMessage.js");
-const progress = require("./runner/progress.js");
-const publishProgressToRoom = require("./runner/publishProgressToRoom.js");
+require("./runner/recoverAcceptedTurns.js");
+require("./runner/ensureAuthentication.js");
+require("./runner/updateAuthentication.js");
+require("./runner/pauseForLogin.js");
+require("./runner/runPacedBatch.js");
+require("./runner/drainSpawnQueue.js");
+require("./runner/processSpawnOutcome.js");
+require("./runner/spawnRequestLimit.js");
+require("./runner/seedPendingChildren.js");
+require("./runner/paceWebsiteStart.js");
+require("./runner/runTurn.js");
+require("./runner/turnPlanMessage.js");
+require("./runner/progress.js");
+require("./runner/publishProgressToRoom.js");
 const status = require("./runner/status.js");
 const stop = require("./runner/stop.js");
 const forget = require("./runner/forget.js");
 const list = require("./runner/list.js");
 const recover = require("./runner/recover.js");
 const message = require("./runner/message.js");
-const createMission = require("./runner/createMission.js");
-const seedRoom = require("./runner/seedRoom.js");
-const heartbeat = require("./runner/heartbeat.js");
-const finalize = require("./runner/finalize.js");
-const needsContinuation = require("./runner/needsContinuation.js");
-const resumable = require("./runner/resumable.js");
+require("./runner/createMission.js");
+require("./runner/seedRoom.js");
+require("./runner/heartbeat.js");
+require("./runner/finalize.js");
+require("./runner/needsContinuation.js");
+require("./runner/resumable.js");
 const reconcileOrphanedTurns = require("./runner/reconcileOrphanedTurns.js");
-const cancel = require("./runner/cancel.js");
-const terminalFailure = require("./runner/terminalFailure.js");
-const loadService = require("./runner/loadService.js");
-const loaderPath = require("./runner/loaderPath.js");
-const authError = require("./runner/authError.js");
-const failure = require("./runner/failure.js");
-const event = require("./runner/event.js");
-const emit = require("./runner/emit.js");
-const emitRoom = require("./runner/emitRoom.js");
-const scheduleWake = require("./runner/scheduleWake.js");
-const clearWake = require("./runner/clearWake.js");
-const sleep = require("./runner/sleep.js");
-const withMission = require("./runner/withMission.js");
+require("./runner/cancel.js");
+require("./runner/terminalFailure.js");
+require("./runner/loadService.js");
+require("./runner/loaderPath.js");
+require("./runner/authError.js");
+require("./runner/failure.js");
+require("./runner/event.js");
+require("./runner/emit.js");
+require("./runner/emitRoom.js");
+require("./runner/scheduleWake.js");
+require("./runner/clearWake.js");
+require("./runner/sleep.js");
+require("./runner/withMission.js");
 
-/**
- * @file Exposes the modular submit-only website-agent runner.
- * @description
- * The Awtsmoos gathers small orchestration vessels behind one stable public surface.
- * Browser delivery, shared rooms, recovery, scheduling, and observation stay separate.
- */
+/** Exposes the modular submit-only website-agent runner. */
 module.exports = {
 	active,
 	forget,
@@ -66,6 +59,7 @@ module.exports = {
 	reconcileOrphanedTurns,
 	run,
 	schedule,
+	spawn: spawn.spawn,
 	start,
 	status,
 	stop,

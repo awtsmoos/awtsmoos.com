@@ -29,6 +29,20 @@ const OUTPUT_PAGE = [
 	"stream", "content", "offsetChars", "returnedChars", "totalChars",
 	"hasNextPage", "nextOffsetChars", "nextPagePayload"
 ];
+const COMMAND_CANCEL = [
+	"jobId", "workerId", "receiptId", "running", "done", "finishedAt",
+	"cancelled", "alreadyTerminal", "detachedRecovered", "reaperClaimed",
+	"reaperTimedOut", "cleanup", "processIdentity", "processComparison",
+	...POLLING
+];
+
+/**
+ * @file Whitelists compact response truth for every public runtime action.
+ * @description
+ * The Awtsmoos lets compression remove repetition but never causality. Awtsmoos.com
+ * keeps cancellation's process witness and terminal cause visible through the same
+ * bounded contract discipline used by command, task, mission, and filesystem replies.
+ */
 const CONTRACTS = Object.freeze({
 	read: ["content", "returnedChars", "totalChars", "hasNextPage", "nextOffsetChars", "nextPagePayload", "absolutePath", "path"],
 	readLines: ["content", "lines", "returnedLines", "totalLines", "hasNextPage", "nextPagePayload", "absolutePath", "path"],
@@ -44,6 +58,8 @@ const CONTRACTS = Object.freeze({
 	commandPoll: ["jobId", "workerId", "receiptId", "queued", "running", "done", "stdoutPagePayload", "stderrPagePayload", ...POLLING],
 	commandJobStatus: ["jobId", "workerId", "receiptId", "queued", "running", "done", "stdoutPagePayload", "stderrPagePayload", ...POLLING],
 	commandWait: ["jobId", "running", "done", "exitCode", "signal", "timedOut", "stdoutPagePayload", "stderrPagePayload", "outputPage", ...POLLING],
+	commandCancel: COMMAND_CANCEL,
+	commandJobCancel: COMMAND_CANCEL,
 	commandJobOutputPage: ["jobId", ...OUTPUT_PAGE, ...POLLING, ...OUTPUT_SNAPSHOT],
 	commandOutputPage: ["jobId", ...OUTPUT_PAGE, ...POLLING, ...OUTPUT_SNAPSHOT],
 	asyncTaskStart: TASK_CORE,
@@ -70,9 +86,7 @@ function keysFor(action = "") {
 function pick(action, result = {}) {
 	const output = {};
 	for (const key of keysFor(action || result.action || result.actualAction || result.requestAction)) {
-		if (result[key] !== undefined) {
-			output[key] = result[key];
-		}
+		if (result[key] !== undefined) output[key] = result[key];
 	}
 	return output;
 }
@@ -81,4 +95,7 @@ function has(action, key) {
 	return keysFor(action).includes(key);
 }
 
-module.exports = { COMMON, CONTRACTS, OUTPUT_PAGE, OUTPUT_SNAPSHOT, POLLING, TASK_CORE, TRANSPORT, has, keysFor, pick };
+module.exports = {
+	COMMAND_CANCEL, COMMON, CONTRACTS, OUTPUT_PAGE, OUTPUT_SNAPSHOT,
+	POLLING, TASK_CORE, TRANSPORT, has, keysFor, pick
+};

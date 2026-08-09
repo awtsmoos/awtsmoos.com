@@ -1,8 +1,8 @@
 openapi: 3.1.0
 info:
   title: Awtsmoos Tunnel Control GPT Actions
-  version: 7.0.2-generated
-  description: B'H. Read responseFocus. Answer multipleChoiceSelfInterrogation before unrelated actions. ChatGPT URL workflow: when given a ChatGPT conversation URL, prefer action=chatgptSeasonSaveAndContinue. It registers the URL, verifies navigation, waits for the visible conversation to be idle, prunes heavy DOM, sends through the visible UI, waits for completion, journals, and writes receipts. Do not manually recreate wait loops.
+  version: 7.1.0-generated
+  description: B'H. Read responseFocus. Answer multipleChoiceSelfInterrogation before unrelated actions. ChatGPT URL workflow: when given a ChatGPT conversation URL, prefer action=chatgptSeasonSaveAndContinue. It registers the URL, verifies navigation, waits for the visible conversation to be idle, prunes heavy DOM, sends through the visible UI, waits for completion, journals, and writes receipts. Do not manually recreate wait loops. Website-agent workflow: use aiAgentSpawnWebsiteMission with parentWebsiteMissionId, parentAgentId, requestKey, role, scope, and childPrompt to create a same-room child. Report progress and evidence through websiteAgentMissionMessage. Mark complete=true only with evidence.
 servers:
   - url: https://awtsmoos.com
 paths:
@@ -24,8 +24,8 @@ paths:
     get:
       operationId: awtsmoosTunnelAction
       summary: B'H. Run one tunnel action. Obey responseFocus; answer multipleChoiceSelfInterrogation first.
-      description: B'H. Run one tunnel action. Obey responseFocus; answer multipleChoiceSelfInterrogation first. ChatGPT URL workflow: when given a ChatGPT conversation URL, prefer action=chatgptSeasonSaveAndContinue. It registers the URL, verifies navigation, waits for the visible conversation to be idle, prunes heavy DOM, sends through the visible UI, waits for completion, journals, and writes receipts. Do not manually recreate wait loops.
-      security: [{ OAuth2: [profile, tunnel.read, tunnel.write, tunnel.command, tunnel.browser, tunnel.admin] }]
+      description: B'H. Run one tunnel action. Obey responseFocus; answer multipleChoiceSelfInterrogation first. ChatGPT URL workflow: when given a ChatGPT conversation URL, prefer action=chatgptSeasonSaveAndContinue. It registers the URL, verifies navigation, waits for the visible conversation to be idle, prunes heavy DOM, sends through the visible UI, waits for completion, journals, and writes receipts. Do not manually recreate wait loops. Website-agent workflow: use aiAgentSpawnWebsiteMission with parentWebsiteMissionId, parentAgentId, requestKey, role, scope, and childPrompt to create a same-room child. Report progress and evidence through websiteAgentMissionMessage. Mark complete=true only with evidence.
+      security: [{ OAuth2: [profile, tunnel.read, tunnel.write, tunnel.command, tunnel.browser, tunnel.mission, tunnel.room, tunnel.admin] }]
       parameters:
         - { name: tunnelName, in: path, required: true, schema: { type: string } }
         - name: action
@@ -963,13 +963,19 @@ paths:
         - { name: choice, in: query, schema: { type: string } }
         - { name: answer, in: query, schema: { type: string } }
         - { name: missionId, in: query, schema: { type: string } }
+        - { name: websiteMissionId, in: query, schema: { type: string } }
+        - { name: parentWebsiteMissionId, in: query, schema: { type: string } }
+        - { name: parentMissionId, in: query, schema: { type: string } }
         - { name: projectRoot, in: query, schema: { type: string } }
         - { name: logicalAgentId, in: query, schema: { type: string } }
         - { name: agentSessionId, in: query, schema: { type: string } }
         - { name: agentId, in: query, schema: { type: string } }
+        - { name: parentAgentId, in: query, schema: { type: string } }
         - { name: agentName, in: query, schema: { type: string } }
         - { name: claimId, in: query, schema: { type: string } }
         - { name: delegationId, in: query, schema: { type: string } }
+        - { name: requestKey, in: query, schema: { type: string } }
+        - { name: spawnRequestKey, in: query, schema: { type: string } }
         - { name: provider, in: query, schema: { type: string } }
         - { name: providerId, in: query, schema: { type: string } }
         - { name: model, in: query, schema: { type: string } }
@@ -979,9 +985,18 @@ paths:
         - { name: message64, in: query, schema: { type: string } }
         - { name: prompt, in: query, schema: { type: string } }
         - { name: prompt64, in: query, schema: { type: string } }
+        - { name: childPrompt, in: query, schema: { type: string } }
         - { name: system, in: query, schema: { type: string } }
         - { name: system64, in: query, schema: { type: string } }
         - { name: profile, in: query, schema: { type: string } }
+        - { name: role, in: query, schema: { type: string } }
+        - { name: scope, in: query, schema: { type: string } }
+        - { name: kind, in: query, schema: { type: string } }
+        - { name: evidence, in: query, schema: { type: string } }
+        - { name: reportId, in: query, schema: { type: string } }
+        - { name: next, in: query, schema: { type: string } }
+        - { name: findings, in: query, schema: { type: string } }
+        - { name: references, in: query, schema: { type: string } }
         - { name: reason, in: query, schema: { type: string } }
         - { name: offsetChars, in: query, schema: { type: integer, default: 0 } }
         - { name: offsetBytes, in: query, schema: { type: integer, default: 0 } }
@@ -1026,6 +1041,7 @@ paths:
         - { name: allowContinue, in: query, schema: { type: boolean, default: false } }
         - { name: optimizeDom, in: query, schema: { type: boolean, default: true } }
         - { name: closeOldTabs, in: query, schema: { type: boolean, default: false } }
+        - { name: complete, in: query, schema: { type: boolean, default: false } }
       responses:
         "200": { description: OK. Read responseFocus first., content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }
   /api/tunnel/control/preview/{tunnelName}:
@@ -1070,7 +1086,7 @@ components:
             tunnel.read: Read tunnel state.
             tunnel.write: Modify authorized files.
             tunnel.command: Execute command diagnostics.
-            tunnel.browser: Control authorized browser sessions.
-            tunnel.mission: Coordinate delegated mission agents.
-            tunnel.room: Create and mutate shared mission rooms.
-            tunnel.admin: Perform administrative tunnel operations.
+            tunnel.browser: Browser automation.
+            tunnel.mission: Coordinate mission lifecycle.
+            tunnel.room: Read and publish shared-room messages.
+            tunnel.admin: Administrative tunnel operations.

@@ -35,7 +35,9 @@ const AI_ACTIONS = new Set([
 const PUBLIC_KEYS = [
 	"mode", "agentMode", "defaultMode", "provider", "providerId", "agent",
 	"agentId", "model", "taskId", "websiteMissionId", "missionId", "kind",
-	"title", "projectRoot", "outputDir", "fileName", "message", "body",
+	"parentWebsiteMissionId", "parentMissionId", "parentAgentId",
+	"requestKey", "spawnRequestKey", "role", "scope", "childPrompt",
+	"reportId", "complete", "next", "findings", "files", "references", "title", "projectRoot", "outputDir", "fileName", "message", "body",
 	"text", "prompt", "goal", "system", "stream", "agentCount", "count",
 	"scopes", "paths", "directories", "startSpacingMs",
 	"collaborationRounds", "maxContinuationTurns", "authPollMs",
