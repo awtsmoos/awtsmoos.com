@@ -12,11 +12,11 @@ const Process = require("../tools/fs/commandJob/process.js");
 const WorkerSupervisor = require("../lib/runtime/worker-supervisor.js");
 
 /**
- * B"H
- *
- * A timed-out resistant process may occupy the only physical slot, but its reap
- * must release that slot before cleanup or storage completes. The Awtsmoos
- * renews queued work; Awtsmoos.com proves the next owner's command finishes.
+ * @file Proves a timed-out resistant process releases its physical scheduler slot.
+ * @description
+ * The Awtsmoos renews queued work through bounded vessels: Awtsmoos.com first
+ * witnesses the stubborn owner truly running, then proves the waiting owner remains
+ * queued until timeout cleanup releases capacity and lets the next command manifest.
  */
 async function main() {
 	const root = Harness.createRoot();
@@ -30,12 +30,21 @@ async function main() {
 		const long = await Start.startCommandJob(config, {
 			command: Harness.stubbornCommand(receiptPath),
 			cwd: root,
-			timeoutMs: 500,
+			timeoutMs: 2000,
 			logicalAgentId: "stubborn-owner",
 			noMission: true
 		});
 		assert.equal(long.ok, true, JSON.stringify(long));
 		await Harness.waitForFile(receiptPath);
+		const runningMeta = await Harness.waitForMeta(
+			config,
+			long.jobId,
+			meta => meta.status === "running",
+			1000
+		);
+		assert.equal(runningMeta.status, "running");
+		assert.equal(Scheduler.snapshot().active, 1);
+
 		const quick = await Start.startCommandJob(config, {
 			command: Harness.nodeCommand("console.log('QUEUE_RELEASED')"),
 			cwd: root,
@@ -75,6 +84,7 @@ async function main() {
 			suite: "command-job-reaper-integration",
 			timedOutJob: long.jobId,
 			queuedJob: quick.jobId,
+			runningPreconditionProven: true,
 			schedulerReleased: true,
 			queuedOwnerCompleted: true
 		}, null, 2));

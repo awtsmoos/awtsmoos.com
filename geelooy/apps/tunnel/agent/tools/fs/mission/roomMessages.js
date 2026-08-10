@@ -2,12 +2,14 @@
 // Boruch Hashem
 // Blessed is He
 
+const Heartbeat = require("./roomHeartbeat.js");
+
 /**
- * @file Commits sequenced peer messages with explicit interruption semantics.
+ * @file Commits sequenced peer messages and delegates truthful liveness to the heartbeat vessel.
  * @description
- * The Awtsmoos lets plans, progress, handoffs, completion, and answers flow quietly.
- * Questions, blockers, urgent words, user messages, and generic mid-work chat may
- * interrupt; everything remains durable until each addressed agent advances cursor.
+ * The Awtsmoos lets intention cross from one agent to another without confusing speech
+ * with mere observation. Awtsmoos.com preserves every message as Hod while heartbeat
+ * remains its own witnessed pulse, so communication and liveness cannot counterfeit each other.
  */
 function add(mission, input, env) {
 	const room = env.RoomState.ensure(mission, input);
@@ -33,52 +35,45 @@ function add(mission, input, env) {
 		agentId: fromAgent,
 		subject: message.subject,
 		message: message.body,
-		payload: { messageId: message.id, sequence, toAgent: message.toAgent, kind }
-	});
-	let interrupt = null;
-	if (message.interrupts) {
-		interrupt = env.RoomInterrupts.create(mission, {
-			...input,
-			fromAgent,
-			messageId: message.id,
-			currentWork: input.currentWork || room.currentWork,
-			reason: kind === "user" ? "user_message_interrupt" : "agent_message_interrupt"
-		}, env);
-	}
-	env.event(mission, "mission_room_message",
-		message.subject || message.body.slice(0, 120), {
-			roomId: room.id,
+		payload: {
 			messageId: message.id,
 			sequence,
-			fromAgent,
-			interrupts: message.interrupts
-		});
+			toAgent: message.toAgent,
+			kind
+		}
+	});
+	const interrupt = createInterrupt(message, mission, input, env);
+	env.event(mission, "mission_room_message", message.subject || message.body.slice(0, 120), {
+		roomId: room.id,
+		messageId: message.id,
+		sequence,
+		fromAgent,
+		interrupts: message.interrupts
+	});
 	return { message, interrupt };
 }
 
+/**
+ * Creates a blocking room interrupt only when the message contract requires it.
+ * @param {object} message Durable room message.
+ * @param {object} mission Owning mission.
+ * @param {object} input Original action payload.
+ * @param {object} env Mission-room dependency vessel.
+ * @returns {object|null} Interrupt receipt or null.
+ */
+function createInterrupt(message, mission, input, env) {
+	if (!message.interrupts) return null;
+	return env.RoomInterrupts.create(mission, {
+		...input,
+		fromAgent: message.fromAgent,
+		messageId: message.id,
+		currentWork: input.currentWork || mission.room?.currentWork,
+		reason: message.kind === "user" ? "user_message_interrupt" : "agent_message_interrupt"
+	}, env);
+}
+
 function heartbeat(mission, input, env) {
-	const room = env.RoomState.ensure(mission, input);
-	const agentId = env.RoomState.agentId(input);
-	const beat = {
-		id: env.RoomState.id("room_beat"),
-		at: env.RoomState.now(),
-		agentId,
-		status: env.RoomState.text(input.status || "active"),
-		currentMissionId: env.RoomState.text(input.currentMissionId || input.subMissionId),
-		note: env.RoomState.text(input.note || input.message)
-	};
-	room.heartbeats.push(beat);
-	room.heartbeats = room.heartbeats.slice(-1000);
-	if (input.currentWork || input.currentAction) {
-		room.currentWork = env.RoomState.text(input.currentWork || input.currentAction);
-	}
-	if (room.agents[agentId]) room.agents[agentId].lastSeenAt = beat.at;
-	meta(env, input, mission, "room_heartbeat", {
-		agentId,
-		message: beat.note,
-		payload: { heartbeatId: beat.id, status: beat.status }
-	});
-	return beat;
+	return Heartbeat.heartbeat(mission, input, env);
 }
 
 function shouldInterrupt(input, kind) {
@@ -113,4 +108,10 @@ function meta(env, input, mission, kind, data) {
 	}, mission, kind, data);
 }
 
-module.exports = { add, brainstorm, heartbeat, nextSequence, shouldInterrupt };
+module.exports = {
+	add,
+	brainstorm,
+	heartbeat,
+	nextSequence,
+	shouldInterrupt
+};

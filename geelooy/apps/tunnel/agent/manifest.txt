@@ -1,5 +1,5 @@
 B"H
-1.0.515
+1.0.516
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtector.mjs
@@ -1627,6 +1627,7 @@ tools/fs/commandJob/schedulerRunner.js
 tools/fs/commandJob/schedulerState.js
 tools/fs/commandJob/start.js
 tools/fs/commandJob/startResults.js
+tools/fs/commandJob/stateRootFamily.js
 tools/fs/commandJob/stateRoots.js
 tools/fs/commandJob/stateRootsAsync.js
 tools/fs/commandJob/status.js
@@ -1860,6 +1861,7 @@ tools/fs/mission/roomBrainstorm.js
 tools/fs/mission/roomDelegation.js
 tools/fs/mission/roomDiscovery.js
 tools/fs/mission/roomEngine.js
+tools/fs/mission/roomHeartbeat.js
 tools/fs/mission/roomInterrupts.js
 tools/fs/mission/roomLoop.js
 tools/fs/mission/roomLoop/court.js
