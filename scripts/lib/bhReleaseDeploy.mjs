@@ -3,11 +3,10 @@
 // Blessed is He
 
 /**
- * @file Builds the exact-SHA remote publication covenant used by `npm run bh`.
+ * @file Builds the exact-SHA production activation covenant used by `npm run bh`.
  * @description
- * The Awtsmoos enters production through the server's real `./BH.sh` doorway instead
- * of leaving its Git checkout stale beside an immutable release. Awtsmoos.com proves
- * the pushed SHA before publication and then proves checkout and release agree after.
+ * The Awtsmoos lets production restart only after its clean `main` checkout already
+ * wears the exact pushed SHA. Awtsmoos.com proves the garment before and after BH.sh.
  */
 export function deployCommand(sha, branch) {
 	const repository = "${AWTSMOOS_PRODUCTION_REPO:-/mnt/HC_Volume_102267213/git/awtsmoos.com}";
@@ -16,16 +15,21 @@ export function deployCommand(sha, branch) {
 		"set -Eeuo pipefail",
 		`repo=\"${repository}\"`,
 		`releases=\"${releases}\"`,
+		"git -C \"$repo\" rev-parse --git-dir >/dev/null",
+		`test \"$(git -C \"$repo\" branch --show-current)\" = \"${branch}\"`,
+		"test -z \"$(git -C \"$repo\" status --porcelain)\"",
 		`git -C \"$repo\" fetch --prune origin ${branch}`,
 		`actual=\"$(git -C \"$repo\" rev-parse origin/${branch}^{commit})\"`,
 		`test \"$actual\" = \"${sha}\"`,
+		`git -C \"$repo\" merge-base --is-ancestor HEAD origin/${branch}`,
+		`git -C \"$repo\" merge --ff-only origin/${branch}`,
+		"test -z \"$(git -C \"$repo\" status --porcelain)\"",
+		`test \"$(git -C \"$repo\" rev-parse HEAD^{commit})\" = \"${sha}\"`,
 		"cd \"$HOME\"",
 		"test -x ./BH.sh",
 		"./BH.sh",
-		`checkout=\"$(git -C \"$repo\" rev-parse HEAD^{commit})\"`,
-		`remote=\"$(git -C \"$repo\" rev-parse origin/${branch}^{commit})\"`,
-		`test \"$checkout\" = \"${sha}\"`,
-		`test \"$remote\" = \"${sha}\"`,
+		`test \"$(git -C \"$repo\" rev-parse HEAD^{commit})\" = \"${sha}\"`,
+		`test \"$(git -C \"$repo\" rev-parse origin/${branch}^{commit})\" = \"${sha}\"`,
 		"current=\"$(readlink -f \"$releases/current\")\"",
 		`test \"$(basename \"$current\")\" = \"awtsmoos-${sha}\"`
 	].join("; ");
