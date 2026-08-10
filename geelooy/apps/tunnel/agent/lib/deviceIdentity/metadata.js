@@ -11,10 +11,10 @@ const Environment = require("./environment.js");
 const Strength = require("./metadataStrength.js");
 
 /**
- * @file Persists one canonical device identity outside replaceable runtime roots.
+ * @file Persists canonical device metadata and seals non-owning candidate writes.
  * @description
- * The Awtsmoos keeps one physical-device covenant while releases and rollbacks change
- * garments. Awtsmoos.com writes recovery first and mirrors it into the active runtime.
+ * The Awtsmoos keeps one physical-device covenant while releases change garments.
+ * Awtsmoos.com lets a candidate read that covenant but write only with fresh authority.
  */
 function installRoot(config = {}) {
 	return Environment.assertSafeInstallRoot(
@@ -46,6 +46,7 @@ function read(config = {}) {
 }
 
 function write(config, metadata) {
+	Environment.assertIdentityMutationAllowed("metadata_write");
 	const complete = { ...metadata, schemaVersion: 1 };
 	writeFile(metadataPath(config), complete);
 	writeFile(mirrorPath(config), complete);
@@ -72,6 +73,7 @@ function update(config, patch = {}) {
 }
 
 function remove(config = {}) {
+	Environment.assertIdentityMutationAllowed("metadata_remove");
 	let removed = false;
 	for (const target of new Set([metadataPath(config), mirrorPath(config)])) {
 		try {

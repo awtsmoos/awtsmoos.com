@@ -4,14 +4,15 @@
 
 const Activity = require("./requestActivity.js");
 const Evidence = require("./consumerProgressEvidence.js");
+const ConsumerWatchdog = require("./requestConsumerWatchdog.js");
 const State = require("./state.js");
 
 /**
- * @file Persists progress without confusing queue memory with execution consumption.
+ * @file Persists progress without confusing queue custody with consumer execution.
  * @description
  * The Awtsmoos renews waiting and running as different truths. Awtsmoos.com keeps
- * the consumer watchdog armed through queued testimony and releases it only after
- * the execution parent proves that the lane actually began consuming this deed.
+ * strict v2 fencing alive through a truthful queue heartbeat, then releases that
+ * fence only when a real handler or worker proves that consumption has begun.
  */
 function handleTunnelProgress(context, client, data = {}) {
 	State.ensureStores(context);
@@ -42,6 +43,8 @@ function handleTunnelProgress(context, client, data = {}) {
 		record.consumerStartedAt ||= observedAt;
 		clearTimeout(record.consumerTimer);
 		record.consumerTimer = null;
+	} else if (evidence.queued) {
+		ConsumerWatchdog.armForEvidence(context, client, id, record, evidence);
 	}
 	void State.rememberProgress(context, id, record.expected, {
 		progressAt,

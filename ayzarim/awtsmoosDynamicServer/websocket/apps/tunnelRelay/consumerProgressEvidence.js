@@ -7,29 +7,29 @@ const START_PHASES = new Set([
 	"fs_local_started",
 	"local_http_proxy_started"
 ]);
+const MAX_QUEUE_WATCHDOG_MS = 120000;
 
 /**
- * @file Distinguishes lane memory, executor waiting, and real consumer admission.
+ * @file Distinguishes queue custody from real consumer admission.
  * @description
- * The Awtsmoos lets a request leave a lane without pretending a worker was born.
- * Awtsmoos.com accepts only an explicit consumer-start witness: a real filesystem
- * worker assignment or a local handler boundary. Timer pulses remain liveness only.
+ * The Awtsmoos lets a waiting deed keep its transport covenant without pretending a
+ * worker exists. Awtsmoos.com accepts only explicit handler/worker phases as start,
+ * while a truthful queue heartbeat may widen the next watchdog window just enough
+ * to cover the keepalive interval the client itself advertised.
  */
 function observe(data = {}, observedAt = Date.now()) {
 	const phase = String(data.phase || "");
 	const lane = String(data.lane || "");
 	const laneStats = data.queueStats?.lanes?.[lane] || {};
-	const queued = data.queued === true ||
-		phase.includes("queued") ||
-		phase === "executor_queued";
-	const consumerStarted = data.consumerStarted === true &&
-		isStartPhase(phase);
+	const queued = data.queued === true || phase.includes("queued") || phase === "executor_queued";
+	const consumerStarted = data.consumerStarted === true && isStartPhase(phase);
 	return {
 		observedAt,
 		phase,
 		lane,
 		queued,
 		consumerStarted,
+		keepAliveMs: boundedKeepAlive(data.keepAliveMs),
 		laneInflight: nonnegative(laneStats.inflight),
 		laneQueued: nonnegative(laneStats.queued),
 		maxInflight: nonnegative(laneStats.maxInflight),
@@ -39,26 +39,36 @@ function observe(data = {}, observedAt = Date.now()) {
 	};
 }
 
-/**
- * Allows bounded grace while a request is explicitly waiting behind live capacity.
- * @param {object} evidence Last correlated progress evidence.
- * @param {number} now Current time in milliseconds.
- * @param {number} staleMs Base consumer-progress timeout.
- * @returns {boolean} Whether one bounded watchdog re-arm is still justified.
- */
+/** Returns the bounded watchdog interval needed to hear the next queue heartbeat. */
+function queueWatchdogMs(evidence = {}, staleMs = 15000) {
+	const base = boundedStale(staleMs);
+	if (evidence.queued !== true || !evidence.keepAliveMs) return base;
+	const margin = Math.max(1000, Math.min(10000, Math.ceil(evidence.keepAliveMs * 0.2)));
+	return Math.min(MAX_QUEUE_WATCHDOG_MS, Math.max(base, evidence.keepAliveMs + margin));
+}
+
+/** Preserves one extra bounded grace only while live capacity is independently proven. */
 function shouldDefer(evidence = {}, now = Date.now(), staleMs = 15000) {
-	if (evidence.consumerStarted === true) return false;
-	if (evidence.queued !== true) return false;
-	const liveCapacity = Number(evidence.laneInflight || 0) > 0 ||
-		Number(evidence.executorBusy || 0) > 0;
+	if (evidence.consumerStarted === true || evidence.queued !== true) return false;
+	const liveCapacity = Number(evidence.laneInflight || 0) > 0 || Number(evidence.executorBusy || 0) > 0;
 	if (!liveCapacity) return false;
 	const ageMs = Math.max(0, now - Number(evidence.observedAt || 0));
-	const boundedStaleMs = Math.max(1000, Number(staleMs || 15000));
-	return ageMs <= Math.max(30000, boundedStaleMs * 2);
+	return ageMs <= queueWatchdogMs(evidence, staleMs);
 }
 
 function isStartPhase(phase = "") {
 	return START_PHASES.has(phase) || String(phase).endsWith("_handler_started");
+}
+
+function boundedKeepAlive(value) {
+	const number = Number(value);
+	if (!Number.isFinite(number) || number <= 0) return 0;
+	return Math.max(1000, Math.min(MAX_QUEUE_WATCHDOG_MS - 1000, Math.floor(number)));
+}
+
+function boundedStale(value) {
+	const number = Number(value);
+	return Number.isFinite(number) ? Math.max(1000, Math.min(MAX_QUEUE_WATCHDOG_MS, Math.floor(number))) : 15000;
 }
 
 function nonnegative(value) {
@@ -67,9 +77,12 @@ function nonnegative(value) {
 }
 
 module.exports = {
+	MAX_QUEUE_WATCHDOG_MS,
 	START_PHASES,
+	boundedKeepAlive,
 	isStartPhase,
 	nonnegative,
 	observe,
+	queueWatchdogMs,
 	shouldDefer
 };

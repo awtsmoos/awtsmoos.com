@@ -12,16 +12,17 @@ const DEFAULT_CONSUMER_PROGRESS_MS = Number(
 );
 
 /**
- * @file Fences accepted work only after a client promised consumer-progress v2.
+ * @file Fences accepted work only after negotiated consumer-progress testimony expires.
  * @description
- * The Awtsmoos never condemns an older vessel for a witness protocol it did not
- * negotiate. Awtsmoos.com keeps durable acceptance and total request timeout for
- * every client, while strict consumer fencing belongs only to explicit v2 support.
+ * The Awtsmoos distinguishes silence from a truthful queue heartbeat. Awtsmoos.com
+ * keeps the v2 consumer fence strict, but lets a fresh queued request cover the next
+ * keepalive interval it explicitly advertised before demanding a real consumer start.
  */
-function arm(context, client, id, record) {
+function arm(context, client, id, record, delayMs = DEFAULT_CONSUMER_PROGRESS_MS) {
 	clearTimeout(record.consumerTimer);
 	record.consumerTimer = null;
 	if (!supportsStrictConsumerProgress(client)) return false;
+	const delay = bounded(delayMs);
 	record.consumerTimer = setTimeout(() => {
 		if (context.pendingTunnelRequests.get(id) !== record) return;
 		if (record.consumerStartedAt) return;
@@ -30,7 +31,13 @@ function arm(context, client, id, record) {
 			Date.now(),
 			bounded(DEFAULT_CONSUMER_PROGRESS_MS)
 		)) {
-			arm(context, client, id, record);
+			arm(
+				context,
+				client,
+				id,
+				record,
+				Evidence.queueWatchdogMs(record.consumerEvidence, DEFAULT_CONSUMER_PROGRESS_MS)
+			);
 			return;
 		}
 		Activity.transition(context, record, "action.transport_stalled", {
@@ -41,9 +48,21 @@ function arm(context, client, id, record) {
 		});
 		void finish(context, id, record, "device_consumer_progress_timeout")
 			.finally(() => fence(client, "device_consumer_progress_timeout"));
-	}, bounded(DEFAULT_CONSUMER_PROGRESS_MS));
+	}, delay);
 	record.consumerTimer.unref?.();
+	record.consumerWatchdogMs = delay;
 	return true;
+}
+
+function armForEvidence(context, client, id, record, evidence = {}) {
+	if (evidence.consumerStarted === true || evidence.queued !== true) return false;
+	return arm(
+		context,
+		client,
+		id,
+		record,
+		Evidence.queueWatchdogMs(evidence, DEFAULT_CONSUMER_PROGRESS_MS)
+	);
 }
 
 function supportsStrictConsumerProgress(client = {}) {
@@ -84,6 +103,7 @@ function bounded(value) {
 module.exports = {
 	DEFAULT_CONSUMER_PROGRESS_MS,
 	arm,
+	armForEvidence,
 	bounded,
 	fence,
 	finish,

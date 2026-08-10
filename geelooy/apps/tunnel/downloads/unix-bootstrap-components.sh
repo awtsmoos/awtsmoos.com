@@ -22,7 +22,8 @@ helpers=(
 	unix-recovery-candidates.sh unix-recovery-rescue.sh
 	unix-emergency-capture.sh unix-emergency-runtime.sh
 	unix-activation-state.sh unix-activation-fresh.sh
-	unix-activation-rollback.sh unix-candidate-probe.sh
+	unix-activation-rollback.sh unix-candidate-pairing.sh
+	unix-candidate-probe-readiness.sh unix-candidate-probe.sh
 	unix-activation-promotion.sh unix-activation.sh unix-install-lifecycle.sh
 	unix-service-identity.sh unix-service-manager.sh unix-service-project-root.sh
 	unix-service-cli.sh unix-supervisor-install.sh unix-launchd-family.sh

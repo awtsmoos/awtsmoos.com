@@ -2,6 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
+const CandidateIdentity = require("./main-candidate-identity.js");
 const Helpers = require("./main-startup-helpers.js");
 
 /**
@@ -27,7 +28,7 @@ function createStartupRuntime(dependencies) {
 			log: dependencies.log,
 			reason: "startup_after_local_api"
 		});
-		await ensureDeviceIdentity(dependencies, config);
+		await CandidateIdentity.ensureDeviceIdentity(dependencies, config);
 		const filesystemExecutor = dependencies.FsExecutor?.warm?.() || null;
 		const socket = dependencies.connection.connect();
 		const commandReconciliation = projectRootHealth.ok
@@ -45,7 +46,6 @@ function createStartupRuntime(dependencies) {
 		const openedControl = dependencies.shouldOpenControl?.()
 			? Boolean(dependencies.openHostedControl(config))
 			: false;
-
 		return {
 			ok: projectRootHealth.ok &&
 				cleanup.ok !== false &&
@@ -65,7 +65,6 @@ function createStartupRuntime(dependencies) {
 			openedControl
 		};
 	}
-
 	return { main };
 }
 
@@ -82,22 +81,6 @@ function recoverWebsiteMissions(dependencies, config) {
 	}
 }
 
-async function ensureDeviceIdentity(dependencies, config) {
-	const current = dependencies.DeviceIdentity.load(config);
-	if (current.ok) return current;
-	dependencies.log(
-		"warn",
-		"B\"H device pairing is required before tunnel registration."
-	);
-	return dependencies.DeviceIdentity.pair(config, {
-		log: dependencies.log,
-		openBrowser: process.env.AWTSMOOS_SKIP_PAIRING_BROWSER !== "1",
-		timeoutMs: Number(
-			process.env.AWTSMOOS_PAIRING_TIMEOUT_MS || 10 * 60 * 1000
-		)
-	});
-}
-
 function logOperation(dependencies, label, result) {
 	dependencies.log(
 		result.ok === false ? "warn" : "info",
@@ -108,7 +91,7 @@ function logOperation(dependencies, label, result) {
 module.exports = {
 	...Helpers,
 	createStartupRuntime,
-	ensureDeviceIdentity,
+	ensureDeviceIdentity: CandidateIdentity.ensureDeviceIdentity,
 	logOperation,
 	recoverWebsiteMissions
 };

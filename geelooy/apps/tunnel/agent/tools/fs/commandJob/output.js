@@ -3,26 +3,21 @@
 // Blessed is He
 
 const Context = require("./context.js");
+const Locator = require("./jobLocator.js");
 const PollingGuidance = require("./pollingGuidance.js");
 const WriteSnapshot = require("./writeSnapshot.js");
 
 /**
- * B"H
- * Live output answers from a bounded durable snapshot. The Awtsmoos never asks
- * the present to wait forever for a future write; Awtsmoos.com returns what is
- * visible now together with the exact instruction for observing the next pulse.
+ * @file Reads command output from the exact durable room that owns the job ID.
+ * @description
+ * The Awtsmoos lets output survive a project-root crossing. Awtsmoos.com observes
+ * pending writes in memory, then reads bytes and metadata through one located config.
  */
 async function commandJobOutputPage(config = {}, payload = {}) {
 	const jobId = Context.Policy.cleanId(payload.jobId || payload.id || "");
-	if (!jobId) {
-		return missing(payload, "missing_jobId");
-	}
-
-	let meta = await Context.Meta.read(config, jobId);
-	if (!meta) {
-		return missing(payload, "job_not_found_or_expired", jobId);
-	}
-
+	if (!jobId) return missing(payload, "missing_jobId");
+	const located = await Locator.locate(config, jobId);
+	if (!located.ok) return missing(payload, located.error, jobId, located);
 	const stream = String(payload.stream || "stdout").toLowerCase() === "stderr"
 		? "stderr"
 		: "stdout";
@@ -31,23 +26,29 @@ async function commandJobOutputPage(config = {}, payload = {}) {
 		Context.activeJobs,
 		payload
 	);
-	meta = await Context.Meta.read(config, jobId) || meta;
+	const meta = await Context.Meta.read(located.config, jobId) || located.meta;
 	const guidance = PollingGuidance.forJob(meta, snapshot);
-
-	return Context.Responses.page(
-		config,
+	const response = await Context.Responses.page(
+		located.config,
 		jobId,
 		stream,
 		payload,
 		{ ...snapshot, ...guidance, meta }
 	);
+	return {
+		...response,
+		resolvedStateRoot: located.stateRoot,
+		crossRootResolved: located.current !== true
+	};
 }
 
-function missing(payload, error, jobId) {
+function missing(payload, error, jobId, located = {}) {
 	return Context.named(payload, "commandJobOutputPage", {
 		ok: false,
 		error,
-		jobId
+		jobId,
+		matches: located.matches,
+		searchedRoots: located.searchedRoots
 	});
 }
 

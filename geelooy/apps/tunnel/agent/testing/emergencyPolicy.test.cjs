@@ -6,6 +6,7 @@ const assert = require("node:assert/strict");
 const test = require("node:test");
 const Policy = require("../recovery/emergencyPolicy.js");
 
+/** The sealed emergency garment keeps only one authenticated repair hand alive. */
 test("emergency profile preserves one authenticated repair worker only", () => {
 	const value = Policy.apply({
 		allowSecrets: true,
@@ -31,6 +32,6 @@ test("emergency profile preserves one authenticated repair worker only", () => {
 		AWTSMOOS_COMMAND_MAX_ACTIVE: "1",
 		AWTSMOOS_EMERGENCY_MODE: "1",
 		AWTSMOOS_MISSION_BOOT_RESUME: "0",
-		AWTSMOOS_DISABLE_SELF_UPDATE: "1"
+		AWTSMOOS_SELF_UPDATE_DISABLED: "1"
 	});
 });

@@ -3,19 +3,21 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos proves staged life before moving predecessor bytes.
+# The Awtsmoos proves staged life before moving predecessor bytes. Identity mutation
+# authority is explicit: fresh creation may pair; update proof is physically read-only.
 prove_candidate_before_promotion() {
-	start_candidate_probe
+	local identity_authority="${1:-readonly}"
+	start_candidate_probe "$identity_authority"
 	if wait_for_candidate_probe; then
 		write_activation_journal "candidate_probe_stable" "$CANDIDATE_ROOT" "$ROOT"
 		install_event "candidate-probe" "passed" \
 			"Staged runtime registered and answered a local command." \
-			"pid=$CANDIDATE_PROBE_PID activation=$AWTSMOOS_ACTIVATION_ID"
+			"pid=$CANDIDATE_PROBE_PID activation=$AWTSMOOS_ACTIVATION_ID identity=$identity_authority"
 		return 0
 	fi
 	install_event "candidate-probe" "failed" \
 		"Staged runtime never reached stable registered command readiness." \
-		"pid=$CANDIDATE_PROBE_PID log=$CANDIDATE_ROOT/candidate-probe.log"
+		"pid=$CANDIDATE_PROBE_PID log=$CANDIDATE_ROOT/candidate-probe.log identity=$identity_authority"
 	write_activation_journal "candidate_probe_failed" "$CANDIDATE_ROOT" "$ROOT"
 	stop_candidate_probe
 	restart_preserved_predecessor || true

@@ -2,15 +2,29 @@
 // Boruch Hashem
 // Blessed is He
 
+const Environment = require("../deviceIdentity/environment.js");
+
 /**
- * @file Rotates one rejected credential without deleting physical-device identity.
+ * @file Rotates rejected owning credentials while non-owning probes remain read-only.
  * @description
- * The Awtsmoos preserves device ID, RSA possession key, and public fingerprint.
- * Awtsmoos.com invalidates only rejected authorization, writes durable evidence,
- * and requests one supervised restart into resumable reauthorization state.
+ * The Awtsmoos preserves physical identity through relay rejection. Awtsmoos.com lets
+ * an owning runtime invalidate poisoned authorization, but a candidate may only report
+ * rejection because its Keychain witness belongs to the still-live incumbent.
  */
 function recover(dependencies, reason) {
 	if (String(reason) !== "invalid_device_credential") return { handled: false };
+	if (readOnlyCandidate()) {
+		dependencies.log?.(
+			"warn",
+			"B\"H candidate credential rejected; shared incumbent credential was not mutated."
+		);
+		return {
+			handled: true,
+			candidateReadOnly: true,
+			rotated: false,
+			restartRequired: false
+		};
+	}
 	if (dependencies.state.credentialRecoveryAttempted === true) {
 		return {
 			handled: true,
@@ -44,8 +58,13 @@ function recover(dependencies, reason) {
 	};
 }
 
+function readOnlyCandidate() {
+	return Environment.isCandidateProbe() &&
+		!Environment.candidateIdentityMutationAllowed();
+}
+
 function healthy(state) {
 	state.credentialRecoveryAttempted = false;
 }
 
-module.exports = { healthy, recover };
+module.exports = { healthy, readOnlyCandidate, recover };

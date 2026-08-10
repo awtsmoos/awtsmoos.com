@@ -1,5 +1,5 @@
 B"H
-1.0.510
+1.0.512
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtector.mjs
@@ -1003,6 +1003,7 @@ lib/runtime/limit-timeouts.js
 lib/runtime/limits.js
 lib/runtime/liveness-status.js
 lib/runtime/local-proxy.js
+lib/runtime/main-candidate-identity.js
 lib/runtime/main-components-foundation.js
 lib/runtime/main-components-startup.js
 lib/runtime/main-components.js
@@ -1382,8 +1383,11 @@ tools/fs/actionGroups/aiAgents/taskStore.js
 tools/fs/actionGroups/aiTemplateActions.js
 tools/fs/actionGroups/aiTemplateCatalog.js
 tools/fs/actionGroups/asyncTaskActions.js
+tools/fs/actionGroups/asyncTaskDurability.js
+tools/fs/actionGroups/asyncTaskObserve.js
 tools/fs/actionGroups/asyncTaskPolicy.js
 tools/fs/actionGroups/asyncTaskResponses.js
+tools/fs/actionGroups/asyncTaskStore.js
 tools/fs/actionGroups/batchAliasActions.js
 tools/fs/actionGroups/chromeActions.js
 tools/fs/actionGroups/cognitionActions.js
@@ -1573,6 +1577,7 @@ tools/fs/commandJob/idempotencyIdentity.js
 tools/fs/commandJob/idempotencyState.js
 tools/fs/commandJob/ids.js
 tools/fs/commandJob/io.js
+tools/fs/commandJob/jobLocator.js
 tools/fs/commandJob/launcher.js
 tools/fs/commandJob/launchLease.js
 tools/fs/commandJob/lifecycle.js
