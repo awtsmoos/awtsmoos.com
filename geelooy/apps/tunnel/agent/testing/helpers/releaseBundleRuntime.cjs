@@ -10,12 +10,15 @@ const Sources = require("../../../../../api/tunnel/install/tools/zipSources.js")
 const Writer = require("../../../../../api/tunnel/install/tools/zipWriter.js");
 const Data = require("./releaseBundleRuntimeData.cjs");
 
+const CLEANUP_MAX_RETRIES = 20;
+const CLEANUP_RETRY_DELAY_MS = 50;
+
 /**
- * @file Builds and boots the exact release ZIP inside one disposable install root.
+ * @file Builds, boots, and removes the exact release ZIP inside one disposable install root.
  * @description
- * The Awtsmoos renews source inventory, archive bytes, extracted runtime, and child
- * as separate witnesses. Awtsmoos.com tests the artifact users actually install,
- * preventing source-only tests from concealing a missing composition dependency.
+ * The Awtsmoos renews source inventory, archive bytes, extracted runtime, child, and teardown
+ * as separate witnesses. Awtsmoos.com absorbs only bounded transient filesystem races while
+ * preserving a loud failure for any persistent process or file leak.
  */
 function create(repositoryRoot, relayUrl) {
 	const temporaryRoot = fs.mkdtempSync(path.join(
@@ -49,10 +52,7 @@ function create(repositoryRoot, relayUrl) {
 		descriptor,
 		spawn: () => spawnChild(temporaryRoot, installRoot),
 		read: name => readJson(path.join(installRoot, name)),
-		cleanup: () => fs.rmSync(temporaryRoot, {
-			recursive: true,
-			force: true
-		})
+		cleanup: () => cleanupTemporaryRoot(temporaryRoot)
 	};
 }
 
@@ -75,6 +75,15 @@ function spawnChild(temporaryRoot, installRoot) {
 	});
 }
 
+function cleanupTemporaryRoot(temporaryRoot) {
+	fs.rmSync(temporaryRoot, {
+		recursive: true,
+		force: true,
+		maxRetries: CLEANUP_MAX_RETRIES,
+		retryDelay: CLEANUP_RETRY_DELAY_MS
+	});
+}
+
 function writeJson(file, value) {
 	fs.writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`, {
 		mode: 0o600
@@ -90,5 +99,8 @@ function readJson(file) {
 }
 
 module.exports = {
+	CLEANUP_MAX_RETRIES,
+	CLEANUP_RETRY_DELAY_MS,
+	cleanupTemporaryRoot,
 	create
 };

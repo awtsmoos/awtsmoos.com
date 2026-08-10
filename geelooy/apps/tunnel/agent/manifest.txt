@@ -1,5 +1,5 @@
 B"H
-1.0.516
+1.0.517
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtector.mjs
@@ -1689,6 +1689,12 @@ tools/fs/mission/activeGuard/index.js
 tools/fs/mission/activeGuard/policy.js
 tools/fs/mission/agentDirective.js
 tools/fs/mission/answerLedger.js
+tools/fs/mission/autoContinuation/coordinatorHelpers.js
+tools/fs/mission/autoContinuation/dispatch.js
+tools/fs/mission/autoContinuation/eligibility.js
+tools/fs/mission/autoContinuation/index.js
+tools/fs/mission/autoContinuation/prompt.js
+tools/fs/mission/autoContinuation/state.js
 tools/fs/mission/autoSeed/config.js
 tools/fs/mission/autoSeed/index.js
 tools/fs/mission/autoStart/create.js
@@ -1852,6 +1858,7 @@ tools/fs/mission/releaseToken/create.js
 tools/fs/mission/releaseToken/index.js
 tools/fs/mission/releaseToken/verify.js
 tools/fs/mission/response/compact.js
+tools/fs/mission/response/compactHelpers.js
 tools/fs/mission/response/keys.js
 tools/fs/mission/response/size.js
 tools/fs/mission/response/summary.js

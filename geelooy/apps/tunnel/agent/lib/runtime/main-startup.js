@@ -8,9 +8,8 @@ const Helpers = require("./main-startup-helpers.js");
 /**
  * @file Coordinates startup without confusing connectivity with workspace health.
  * @description
- * The Awtsmoos renews filesystem, identity, and relay as distinct lights.
- * Awtsmoos.com proves the project root before cleanup, yet still opens the relay
- * when access is blocked so a remote agent can diagnose and repair the vessel.
+ * The Awtsmoos renews filesystem, identity, relay, and mission continuity as distinct lights.
+ * Awtsmoos.com threads the canonical config into continuation without selecting or changing a global root.
  */
 function createStartupRuntime(dependencies) {
 	async function main() {
@@ -22,7 +21,7 @@ function createStartupRuntime(dependencies) {
 			: Helpers.skipped("project_root_unavailable");
 		logOperation(dependencies, "startup cleanup", cleanup);
 		const localApiServer = Helpers.startLocalApi(dependencies);
-		const boot = dependencies.Boot.start(dependencies.log);
+		const boot = dependencies.Boot.start(dependencies.log, config);
 		const update = dependencies.Updates.scheduleSelfUpdate({
 			config,
 			log: dependencies.log,

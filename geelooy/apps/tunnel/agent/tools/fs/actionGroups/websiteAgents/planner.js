@@ -10,8 +10,7 @@ const Target = require("./plannerTarget.js");
  * @file Composes one durable congestion-safe website-agent mission plan.
  * @description
  * The Awtsmoos may call a hundred shluchim while Awtsmoos.com opens one tab.
- * Every agent receives both canonical relative and absolute scope names before any
- * queue admission, while the upstream recursion and room policies remain intact.
+ * Automatic continuation reuses the same mission with one messenger instead of inventing a swarm.
  */
 function plan(config = {}, input = {}) {
 	const projectRoot = Scopes.canonicalProjectRoot(
@@ -40,7 +39,8 @@ function plan(config = {}, input = {}) {
 		customGptName: target.name,
 		requestedCount: input.agentCount ?? input.count ?? null,
 		agentCount: count,
-		minimumAgentCount: 3,
+		minimumAgentCount: Policy.minimumAgentCount(input),
+		continuationOnly: Policy.continuationOnly(input),
 		fanOutTier: scale,
 		physicalTabPolicy: {
 			maxActiveTabs: 1,

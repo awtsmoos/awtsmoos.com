@@ -29,8 +29,8 @@ candidate_probe_registered() {
 }
 
 candidate_probe_action_ready() {
-	local connect_timeout="${AWTSMOOS_CANDIDATE_PROBE_CONNECT_TIMEOUT_SECONDS:-0.25}"
-	local request_timeout="${AWTSMOOS_CANDIDATE_PROBE_REQUEST_TIMEOUT_SECONDS:-0.90}"
+	local connect_timeout="${AWTSMOOS_CANDIDATE_PROBE_CONNECT_TIMEOUT_SECONDS:-1.50}"
+	local request_timeout="${AWTSMOOS_CANDIDATE_PROBE_REQUEST_TIMEOUT_SECONDS:-5.00}"
 	curl -fsS --connect-timeout "$connect_timeout" --max-time "$request_timeout" \
 		-H 'content-type: application/json' \
 		--data '{"action":"stat","p":"."}' \

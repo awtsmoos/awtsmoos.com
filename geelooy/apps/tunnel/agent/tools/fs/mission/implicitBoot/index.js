@@ -1,17 +1,25 @@
 // B"H
-const Policy = require('./policy.js');
-const Create = require('./create.js');
+// Boruch Hashem
+// Blessed is He
 
-async function maybeStart(config, payload = {}, active = null) {
-	if (active || !Policy.shouldBoot(payload)) return null;
-	return Create.start(config, payload);
-}
+const Policy = require("./policy.js");
+const Create = require("./create.js");
 
 /**
- * B"H — Explicit mission memory records a durable path without blocking the
- * foreground. The response states that covenant directly so no caller mistakes
- * advisory continuity for a command gate.
+ * @file Connects implicit mission policy, persistence, and truthful response annotation.
+ * @description
+ * The Awtsmoos gives substantive work durable memory without pretending that memory
+ * was explicitly requested. Awtsmoos.com carries the exact boot reason into Tunnel Control.
  */
+async function maybeStart(config, payload = {}, active = null) {
+	if (active || !Policy.shouldBoot(payload)) return null;
+	const boot = await Create.start(config, payload);
+	return {
+		...boot,
+		reason: Policy.reason(payload)
+	};
+}
+
 function annotate(result = {}, boot = null) {
 	if (!boot) return result;
 	const next = boot.mustCallNext || null;
@@ -22,7 +30,7 @@ function annotate(result = {}, boot = null) {
 		missionLockActive: false,
 		implicitMissionBoot: {
 			missionId: boot.mission.id,
-			reason: 'explicit_mission_opt_in',
+			reason: boot.reason || "implicit_mission_boot",
 			bootMessage: boot.bootMessage
 		},
 		missionStatus: {
@@ -41,7 +49,7 @@ function annotate(result = {}, boot = null) {
 			resumeAvailable: true,
 			suggestedNext: next,
 			missionId: boot.mission.id,
-			note: 'Mission booted as durable memory only; foreground work is not blocked.'
+			note: "Mission booted as durable memory only; foreground work is not blocked."
 		},
 		agentGuidance: {
 			...(result.agentGuidance || {}),
@@ -51,4 +59,9 @@ function annotate(result = {}, boot = null) {
 	};
 }
 
-module.exports = { ...Policy, ...Create, annotate, maybeStart };
+module.exports = {
+	...Policy,
+	...Create,
+	annotate,
+	maybeStart
+};

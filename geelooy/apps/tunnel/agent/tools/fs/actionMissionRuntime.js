@@ -11,23 +11,27 @@ const Finish = require("./actionFinish.js");
 const ImplicitBoot = require("./mission/implicitBoot/index.js");
 
 /**
- * @file Preserves mission policy around one already-deduplicated native deed.
+ * @file Preserves mission continuity around one already-deduplicated native deed.
  * @description
- * The Awtsmoos keeps firewall, boot, transaction, and compact response in their
- * own vessel. Awtsmoos.com lets the outer dispatcher reserve identity first,
- * while mission truth continues unchanged inside that canonical execution.
+ * The Awtsmoos lets substantive work acquire memory before execution. Awtsmoos.com
+ * keeps implicit memory advisory while explicit missions retain their full firewall covenant.
  */
 function missionManaged(payload = {}) {
 	const action = String(payload.action || "");
 	return action.startsWith("mission") ||
 		action.startsWith("actionHistory") ||
-		Boolean(
-			payload.missionId ||
-			payload.parentMissionId ||
-			truthy(payload.missionMode) ||
-			truthy(payload.forceMission) ||
-			truthy(payload.implicitMission)
-		);
+		explicitMission(payload) ||
+		ImplicitBoot.shouldBoot(payload);
+}
+
+function explicitMission(payload = {}) {
+	return Boolean(
+		payload.missionId ||
+		payload.parentMissionId ||
+		truthy(payload.missionMode) ||
+		truthy(payload.forceMission) ||
+		truthy(payload.implicitMission)
+	);
 }
 
 async function prepareMission(config, payload) {
@@ -42,23 +46,9 @@ async function prepareMission(config, payload) {
 async function runMissionManaged(config, payload, webSocket, helpers) {
 	const mission = await prepareMission(config, payload);
 	const offloaded = await Runtime.maybeOffload(config, payload);
-	if (offloaded) {
-		const annotated = ImplicitBoot.annotate(offloaded, mission.boot);
-		return helpers.recorded(
-			config,
-			payload,
-			Focus.compact(annotated, payload)
-		);
-	}
+	if (offloaded) return finishEarly(config, payload, offloaded, mission.boot, helpers);
 	const block = await guardActive(config, payload, mission.active);
-	if (block) {
-		const annotated = ImplicitBoot.annotate(block, mission.boot);
-		return helpers.recorded(
-			config,
-			payload,
-			Focus.compact(annotated, payload)
-		);
-	}
+	if (block) return finishEarly(config, payload, block, mission.boot, helpers);
 	const transactionPayload = {
 		...payload,
 		missionId: payload.missionId ||
@@ -75,14 +65,24 @@ async function runMissionManaged(config, payload, webSocket, helpers) {
 	});
 }
 
+function finishEarly(config, payload, result, boot, helpers) {
+	const annotated = ImplicitBoot.annotate(result, boot);
+	return helpers.recorded(config, payload, Focus.compact(annotated, payload));
+}
+
 async function guardActive(config, payload, active) {
-	if (!active) return null;
+	if (!active || advisoryForegroundDeed(active, payload)) return null;
 	const result = Firewall.check(config, payload.action, active, payload);
-	if (!result.ok) {
-		return Finish.firewallBlock(payload.action, result, active, payload);
-	}
+	if (!result.ok) return Finish.firewallBlock(payload.action, result, active, payload);
 	if (isFirewallStepAuthorized(result)) return null;
 	return ActiveGuard.check(config, payload);
+}
+
+function advisoryForegroundDeed(active, payload = {}) {
+	const action = String(payload.action || "");
+	return active?.mode === "implicit" &&
+		!action.startsWith("mission") &&
+		!action.startsWith("actionHistory");
 }
 
 function isFirewallStepAuthorized(result) {
@@ -98,6 +98,8 @@ function truthy(value) {
 }
 
 module.exports = {
+	advisoryForegroundDeed,
+	explicitMission,
 	guardActive,
 	isFirewallStepAuthorized,
 	missionManaged,

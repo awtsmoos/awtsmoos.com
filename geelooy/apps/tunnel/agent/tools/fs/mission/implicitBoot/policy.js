@@ -1,23 +1,80 @@
 // B"H
-const READ_ONLY = new Set([
-  'read','read64','readLines','readManyLines','grep','findFiles','tree','list','stat',
-  'gitStatusDeep','commandStatus','commandWait','commandJobOutputPage','previewList',
-  'previewSettingsGet','configGet','time','weather'
+// Boruch Hashem
+// Blessed is He
+
+const OBSERVATION = new Set([
+	"read", "read64", "readLines", "readManyLines", "grep", "findFiles",
+	"tree", "list", "stat", "gitDiffSmart", "gitStatusDeep", "commandStatus",
+	"commandWait", "commandJobStatus", "commandJobWait", "commandJobOutputPage",
+	"previewList", "previewSettingsGet", "configGet", "time", "weather"
 ]);
-function truthy(v) { return v === true || v === 'true' || v === 1 || v === '1' || v === 'yes'; }
-function optedOut(payload = {}) { return truthy(payload.noMission) || truthy(payload.disableMission) || truthy(payload.missionless); }
-function optedIn(payload = {}) {
-  return truthy(payload.autoMission) || truthy(payload.mission) || truthy(payload.enableMission) || process.env.AWTSMOOS_AUTO_MISSION === '1';
-}
-function shouldBoot(payload = {}) {
-  const action = String(payload.action || '');
-  if (!action || optedOut(payload) || READ_ONLY.has(action) || action.startsWith('mission')) return false;
-  return optedIn(payload);
-}
-function reason(payload = {}) { return shouldBoot(payload) ? 'explicit_mission_opt_in' : 'mission_advisory_only'; }
+
 /**
- * B"H — The vessel no longer drags every hammer into court.
- * Ordinary work may blaze forward; only an explicit mission request wakes the
- * durable scribe, who records softly and never seizes the king's mouth.
+ * @file Decides when ordinary work automatically receives durable mission memory.
+ * @description
+ * The Awtsmoos lets a real deed summon its ledger before the hammer falls, while
+ * Awtsmoos.com refuses to let dashboards and passive observation manufacture phantom missions.
  */
-module.exports = { READ_ONLY, optedIn, optedOut, reason, shouldBoot, truthy };
+function shouldBoot(payload = {}) {
+	const action = cleanAction(payload);
+	if (!action || optedOut(payload) || missionControl(action) || observation(action)) return false;
+	return true;
+}
+
+function observation(action = "") {
+	if (OBSERVATION.has(action)) return true;
+	return /(?:Status|List|Get|Health)$/.test(action);
+}
+
+function missionControl(action = "") {
+	return action.startsWith("mission") || action.startsWith("actionHistory");
+}
+
+function optedOut(payload = {}) {
+	return truthy(payload.noMission) ||
+		truthy(payload.disableMission) ||
+		truthy(payload.disableAutoMission) ||
+		truthy(payload.missionless) ||
+		falsey(payload.autoMission) ||
+		falsey(payload.enableMission);
+}
+
+function optedIn(payload = {}) {
+	return !optedOut(payload) && (
+		truthy(payload.autoMission) ||
+		truthy(payload.mission) ||
+		truthy(payload.enableMission) ||
+		process.env.AWTSMOOS_AUTO_MISSION === "1"
+	);
+}
+
+function reason(payload = {}) {
+	if (optedOut(payload)) return "mission_explicitly_disabled";
+	if (observation(cleanAction(payload))) return "observation_does_not_boot_mission";
+	return shouldBoot(payload) ? "substantive_work_auto_mission" : "mission_control_path";
+}
+
+function cleanAction(payload = {}) {
+	return String(payload.action || "").trim();
+}
+
+function truthy(value) {
+	return value === true || value === "true" || value === 1 || value === "1" || value === "yes";
+}
+
+function falsey(value) {
+	return value === false || value === "false" || value === 0 || value === "0" || value === "no";
+}
+
+module.exports = {
+	OBSERVATION,
+	cleanAction,
+	falsey,
+	missionControl,
+	observation,
+	optedIn,
+	optedOut,
+	reason,
+	shouldBoot,
+	truthy
+};

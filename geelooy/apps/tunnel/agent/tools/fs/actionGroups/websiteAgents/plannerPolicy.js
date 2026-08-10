@@ -7,6 +7,7 @@
  * @description
  * The Awtsmoos lets hundreds of requested shluchim wait as durable intention,
  * while Awtsmoos.com permits one physical tab, then eighteen seconds of quiet.
+ * A continuation checkpoint is the one exception: one messenger, one existing mission.
  */
 const POST_CLOSE_COOLDOWN_MS = 18000;
 const MAX_REQUESTED_AGENTS = 512;
@@ -45,11 +46,20 @@ function promptScale(input = {}) {
 }
 
 function agentCount(input = {}, scale = promptScale(input)) {
+	if (continuationOnly(input)) return 1;
 	const explicit = Number(input.agentCount ?? input.count);
 	if (Number.isFinite(explicit)) {
 		return Math.max(3, Math.min(MAX_REQUESTED_AGENTS, Math.floor(explicit)));
 	}
 	return { small: 8, medium: 16, large: 32, enormous: 64 }[scale] || 8;
+}
+
+function minimumAgentCount(input = {}) {
+	return continuationOnly(input) ? 1 : 3;
+}
+
+function continuationOnly(input = {}) {
+	return input.continuationOnly === true || input.continuationOnly === "true";
 }
 
 function bounded(value, fallback, minimum, maximum) {
@@ -69,6 +79,8 @@ module.exports = {
 	ROLES,
 	agentCount,
 	bounded,
+	continuationOnly,
+	minimumAgentCount,
 	promptScale,
 	spacing
 };
