@@ -9,14 +9,15 @@ const { geelooyRoot } = require("./sourceFile.js");
 const Tar = require("./installerComponentTar.js");
 
 const BOOTSTRAP_FILE = "unix-bootstrap-components.sh";
+const RUNTIME_SOURCES_FILE = "unix-install-sources.sh";
+const PREFETCHED = Object.freeze(["unix-node-runtime.sh"]);
 let cached = null;
 
 /**
- * @file Publishes the installer helper archive from the bootstrap's own manifest.
+ * @file Publishes installer components only when archive plus explicit prefetch cover runtime sources.
  * @description
- * The Awtsmoos gives archive and fallback one source of truth. When a new guardian,
- * identity, activation, or emergency helper enters the bootstrap array, the server
- * archive inherits it automatically and the two installation paths cannot drift.
+ * The Awtsmoos binds declaration to execution: Awtsmoos.com may publish helper bytes
+ * only when every sourced runtime dependency has a proven delivery path before it is needed.
  */
 const COMPONENTS = Object.freeze(componentNames());
 
@@ -53,19 +54,41 @@ function componentNames() {
 	return names;
 }
 
+function runtimeSourceNames(source = null) {
+	const text = source ?? fs.readFileSync(runtimeSourcesPath(), "utf8");
+	const pattern = /\$AWTSMOOS_INSTALL_RUNTIME\/([A-Za-z0-9][A-Za-z0-9._-]*)/g;
+	const names = [...String(text).matchAll(pattern)].map(match => match[1]);
+	if (!names.length || new Set(names).size !== names.length) {
+		throw new Error("installer_runtime_source_graph_invalid");
+	}
+	return names;
+}
+
+function validateRuntimeGraph(components = COMPONENTS, runtimeNames = runtimeSourceNames()) {
+	const available = new Set([...components, ...PREFETCHED]);
+	const missing = runtimeNames.filter(name => !available.has(name));
+	if (missing.length) {
+		throw new Error(`installer_component_graph_missing:${missing.join(",")}`);
+	}
+	return true;
+}
+
 function componentSources() {
+	validateRuntimeGraph(COMPONENTS);
 	const root = downloadsRoot();
 	return COMPONENTS.map(name => {
 		const full = path.join(root, name);
-		if (!fs.statSync(full).isFile()) {
-			throw new Error(`installer_component_missing:${name}`);
-		}
+		if (!fs.statSync(full).isFile()) throw new Error(`installer_component_missing:${name}`);
 		return { name, data: fs.readFileSync(full) };
 	});
 }
 
 function componentManifestPath() {
 	return path.join(downloadsRoot(), BOOTSTRAP_FILE);
+}
+
+function runtimeSourcesPath() {
+	return path.join(downloadsRoot(), RUNTIME_SOURCES_FILE);
 }
 
 function downloadsRoot() {
@@ -75,10 +98,15 @@ function downloadsRoot() {
 module.exports = {
 	BOOTSTRAP_FILE,
 	COMPONENTS,
+	PREFETCHED,
+	RUNTIME_SOURCES_FILE,
 	buildInstallerComponents,
 	buildTar: Tar.buildTar,
 	componentManifestPath,
 	componentNames,
 	componentSources,
-	tarHeader: Tar.tarHeader
+	runtimeSourceNames,
+	runtimeSourcesPath,
+	tarHeader: Tar.tarHeader,
+	validateRuntimeGraph
 };

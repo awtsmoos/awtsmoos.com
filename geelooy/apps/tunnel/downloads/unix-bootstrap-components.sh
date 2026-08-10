@@ -4,7 +4,7 @@
 # Blessed is He
 
 # The Awtsmoos gathers every installer and guardian garment into one verified archive.
-# Awtsmoos.com keeps this list declarative so publication and fallback share one truth.
+# Awtsmoos.com keeps this list declarative while publication validates the runtime graph.
 helpers=(
 	unix-install-core.sh unix-install-sources.sh unix-cleanup.sh
 	unix-install-log.sh unix-install-progress.sh unix-install-browser.sh
@@ -23,6 +23,8 @@ helpers=(
 	unix-emergency-capture.sh unix-emergency-runtime.sh
 	unix-activation-state.sh unix-activation-fresh.sh
 	unix-activation-rollback.sh unix-candidate-pairing.sh
+	unix-candidate-probe-readiness-state.sh
+	unix-candidate-probe-readiness-evidence.sh
 	unix-candidate-probe-readiness.sh unix-candidate-probe.sh
 	unix-activation-promotion.sh unix-activation.sh unix-install-lifecycle.sh
 	unix-service-identity.sh unix-service-manager.sh unix-service-project-root.sh

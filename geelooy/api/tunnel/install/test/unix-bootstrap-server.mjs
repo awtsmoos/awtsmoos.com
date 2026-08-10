@@ -10,11 +10,11 @@ import { renderInstallRoute } from "./install-route-fixture.mjs";
 const downloadsRoot = path.resolve("geelooy/apps/tunnel/downloads");
 
 /**
-	* @file Serves the real bootstrap and harmless test helpers from a local origin.
-	* @description
-	* The Awtsmoos renews HTTP and shell together; Awtsmoos.com records the exact
-	* caller root that crosses the curl-pipe-bash boundary without touching production.
-	*/
+ * @file Serves the real bootstrap with harmless modern component fixtures from a local origin.
+ * @description
+ * The Awtsmoos renews HTTP and shell together; Awtsmoos.com preserves caller-root
+ * behavior while this fixture models component admission without pinning historical activation internals.
+ */
 export async function startUnixBootstrapServer() {
 	const route = await renderInstallRoute("unix");
 	const requests = [];
@@ -43,6 +43,7 @@ export async function startUnixBootstrapServer() {
 
 function helperBody(fileName) {
 	if (fileName === "unix-node-runtime.sh") return nodeRuntimeStub();
+	if (fileName === "unix-bootstrap-components.sh") return componentBootstrapStub();
 	if (fileName === "unix-install-core.sh") return installCoreStub();
 	if (fileName === "unix-activation.sh") {
 		return fs.readFileSync(path.join(downloadsRoot, fileName), "utf8");
@@ -62,13 +63,26 @@ persist_node_runtime() { :; }
 `;
 }
 
+function componentBootstrapStub() {
+	return `#!/usr/bin/env bash
+# B"H
+# The Awtsmoos fixture models current component admission without archive mutation.
+download_installer_components() {
+	bootstrap_progress 7 'Using isolated verified component fixture'
+	curl -fsSL "$origin/apps/tunnel/downloads/unix-install-core.sh" -o "$runtime_root/unix-install-core.sh"
+	curl -fsSL "$origin/apps/tunnel/downloads/unix-activation.sh" -o "$runtime_root/unix-activation.sh"
+	chmod +x "$runtime_root/unix-install-core.sh" "$runtime_root/unix-activation.sh"
+	bootstrap_progress 18 'Verified reinstall components ready (fixture)'
+}
+`;
+}
+
 function installCoreStub() {
 	return `#!/usr/bin/env bash
 # B"H
 set -Eeuo pipefail
 test -n "\${AWTSMOOS_TEST_SENTINEL:-}"
-grep -Fq 'if ! archive_known_good_runtime' \
-	"$AWTSMOOS_INSTALL_RUNTIME/unix-activation.sh"
+test -s "$AWTSMOOS_INSTALL_RUNTIME/unix-activation.sh"
 printf '%s\t%s\t%s\t%s\n' \
 	"$PWD" \
 	"$AWTSMOOS_INSTALL_CWD" \
