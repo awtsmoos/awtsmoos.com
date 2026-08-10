@@ -1,80 +1,81 @@
 // B"H
-const childProcess = require('node:child_process');
-const crypto = require('node:crypto');
-const fs = require('node:fs');
-const util = require('node:util');
+// Boruch Hashem
+// Blessed is He
+
+const childProcess = require("node:child_process");
+const fs = require("node:fs");
+const util = require("node:util");
+const Parse = require("./processObserveParse.js");
 const execFile = util.promisify(childProcess.execFile);
 
-/** B"H — Process birth is observed asynchronously so control remains responsive. */
+const DEFAULT_OBSERVE_TIMEOUT_MS = 1500;
+
+/**
+ * @file Observes process birth with bounded time and fail-closed uncertainty.
+ * @description
+ * The Awtsmoos distinguishes absence from hidden testimony with exact care;
+ * Awtsmoos.com never calls a slow or forbidden observation dead, so no living process is signalled from air.
+ */
 async function observe(pid, options = {}) {
-	const processId = positiveInteger(pid);
-	if (!processId) return dead(null);
-	if (typeof options.observe === 'function') return options.observe(processId);
+	const processId = Parse.positiveInteger(pid);
+	if (!processId) return Parse.dead(null);
+	if (typeof options.observe === "function") return options.observe(processId);
 	try {
-		if (process.platform === 'linux') {
-			const stat = await fs.promises.readFile(`/proc/${processId}/stat`, 'utf8');
-			return parseLinux(processId, stat);
-		}
-		const { stdout } = await execFile('ps', psArgs(processId), {
-			encoding: 'utf8',
-			maxBuffer: 64 * 1024
-		});
-		return parsePs(processId, stdout);
-	} catch {
-		return dead(processId);
+		return process.platform === "linux"
+			? await observeLinux(processId)
+			: await observePs(processId, options);
+	} catch (error) {
+		return classifyFailure(processId, error);
 	}
 }
 
-function parseLinux(pid, stat) {
-	const close = stat.lastIndexOf(')');
-	const fields = stat.slice(close + 2).split(/\s+/);
-	const state = fields[0];
-	const processGroupId = positiveInteger(fields[2]);
-	const startTicks = fields[19];
-	return {
-		alive: state !== 'Z',
-		pid,
-		processGroupId,
-		birthToken: token(`${pid}:${startTicks}`),
-		state
-	};
+async function observeLinux(pid) {
+	const stat = await fs.promises.readFile(`/proc/${pid}/stat`, "utf8");
+	return Parse.parseLinux(pid, stat);
 }
 
-function parsePs(pid, output) {
-	const line = String(output || '').trim();
-	if (!line) return dead(pid);
-	const match = line.match(/^\s*(\d+)\s+(\d+)\s+(.+?)\s+([A-Za-z+<NsRrWXZ]+)$/);
-	if (!match) return dead(pid);
-	return {
-		alive: !match[4].includes('Z'),
-		pid: Number(match[1]),
-		processGroupId: Number(match[2]),
-		birthToken: token(`${match[1]}:${match[3]}`),
-		state: match[4]
-	};
+async function observePs(pid, options = {}) {
+	const timeout = positive(options.timeoutMs, DEFAULT_OBSERVE_TIMEOUT_MS);
+	const { stdout } = await execFile("ps", psArgs(pid), {
+		encoding: "utf8",
+		maxBuffer: 64 * 1024,
+		timeout
+	});
+	return Parse.parsePs(pid, stdout);
+}
+
+function classifyFailure(pid, error) {
+	const existence = processExists(pid);
+	return existence === false ? Parse.dead(pid) : Parse.unavailable(pid, error);
+}
+
+function processExists(pid) {
+	try {
+		process.kill(pid, 0);
+		return true;
+	} catch (error) {
+		if (error?.code === "ESRCH") return false;
+		if (error?.code === "EPERM") return true;
+		return null;
+	}
 }
 
 function psArgs(pid) {
-	return ['-o', 'pid=,pgid=,lstart=,stat=', '-p', String(pid)];
+	return ["-o", "pid=,pgid=,lstart=,stat=", "-p", String(pid)];
 }
 
-function dead(pid) {
-	return {
-		alive: false,
-		pid,
-		processGroupId: null,
-		birthToken: '',
-		state: 'missing'
-	};
-}
-
-function token(value) {
-	return crypto.createHash('sha256').update(String(value)).digest('hex');
-}
-
-function positiveInteger(value) {
+function positive(value, fallback) {
 	const number = Number(value);
-	return Number.isInteger(number) && number > 0 ? number : null;
+	return Number.isFinite(number) && number > 0 ? Math.floor(number) : fallback;
 }
 
-module.exports = { dead, observe, parseLinux, parsePs, token };
+module.exports = {
+	DEFAULT_OBSERVE_TIMEOUT_MS,
+	dead: Parse.dead,
+	observe,
+	parseLinux: Parse.parseLinux,
+	parsePs: Parse.parsePs,
+	processExists,
+	token: Parse.token,
+	unavailable: Parse.unavailable
+};

@@ -10,34 +10,32 @@ const Failure = require("./identityFailure.js");
 const KeyMaterial = require("./keyMaterial.js");
 const Metadata = require("./metadata.js");
 const Pending = require("./pairingPending.js");
-const Quarantine = require("./identityQuarantine.js");
 
-const MAXIMUM_REPAIR_ATTEMPTS = 1;
+const MAXIMUM_REPAIR_ATTEMPTS = 0;
 
 /**
- * @file Completes pairing and heals one proven stale cryptographic generation.
- * The Awtsmoos does not repeat a poisoned request; it creates a new vessel once.
+ * @file Pairs one coherent physical witness without silently erasing a wounded one.
+ * @description
+ * The Awtsmoos renews the road but the witness does not vanish for convenience;
+ * Awtsmoos.com sends incoherence to explicit recovery, never to automatic fresh-pair expedience.
  */
 async function pair(config = {}, options = {}) {
-	let repairs = 0;
-	while (true) {
-		try {
-			return await pairOnce(config, options);
-		} catch (error) {
-			if (!Failure.isRecoverable(error) || repairs >= MAXIMUM_REPAIR_ATTEMPTS) {
-				throw error;
-			}
-			repairs += 1;
-			const repair = Quarantine.reset(config, error);
+	try {
+		return await pairOnce(config, options);
+	} catch (error) {
+		if (Failure.isRecoverable(error)) {
+			error.requiresIdentityRecovery = true;
+			error.identityRecoveryCode = Failure.classify(error).code;
 			options.log?.(
-				"warn",
-				`B\"H incoherent device identity quarantined; fresh pairing ${repairs} begins.`
+				"error",
+				`B\"H physical identity recovery required; automatic destructive repair refused: ${error.identityRecoveryCode}`
 			);
-			options.onIdentityRepair?.(repair);
 		}
+		throw error;
 	}
 }
 
+/** Runs one pairing attempt against the existing or explicitly authorized physical witness. */
 async function pairOnce(config, options) {
 	const keys = KeyMaterial.ensure(config);
 	const pending = Pending.load(config, keys);

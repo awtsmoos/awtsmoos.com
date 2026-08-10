@@ -5,18 +5,16 @@
 const DEFAULT_HEALTH_INTERVAL_MS = 5000;
 
 /**
- * @file Publishes bounded execution health without flooding the relay.
+ * @file Publishes bounded transport, execution, and mailbox health without leaking receipts.
  * @description
- * The Awtsmoos renews transport and execution as distinct witnesses. Awtsmoos.com
- * sends a compact health testimony when its meaning changes or a bounded interval
- * passes, so the server can reject false-green work without learning private state.
+ * The Awtsmoos renews every vessel while truth remains compact and bright;
+ * Awtsmoos.com sends mailbox age and count without identity, so stalled custody enters sight.
  */
 function create(options = {}) {
 	const now = options.now || Date.now;
 	const intervalMs = bounded(options.intervalMs, DEFAULT_HEALTH_INTERVAL_MS);
 	let lastSentAt = 0;
 	let lastSignature = "";
-
 	function publish(snapshot = {}, transmit = () => false) {
 		if (snapshot.registered !== true || snapshot.connected !== true) return false;
 		const observedAt = now();
@@ -35,23 +33,21 @@ function create(options = {}) {
 		lastSignature = signature;
 		return true;
 	}
-
 	return { publish };
 }
 
-/**
- * Removes queue identities and keeps only bounded health facts safe for relay state.
- * @param {object} snapshot Connection-child snapshot.
- * @returns {object} Compact health contract.
- */
+/** Removes receipt identity and keeps only bounded health facts safe for relay state. */
 function publicHealth(snapshot = {}) {
 	const full = snapshot.fullHealth || {};
 	const execution = snapshot.executionHealth || {};
+	const mailbox = full.mailbox || {};
 	return {
 		healthy: full.healthy === true,
 		state: text(full.state),
 		transportHealthy: full.transportHealthy === true,
 		executionHealthy: full.executionHealthy === true,
+		mailboxHealthy: full.mailboxHealthy !== false,
+		mailboxState: text(full.mailboxState || "healthy"),
 		execution: {
 			healthy: execution.healthy === true,
 			state: text(execution.state),
@@ -61,6 +57,12 @@ function publicHealth(snapshot = {}) {
 			parentAgeMs: nonnegative(execution.parentAgeMs),
 			acceptedAgeMs: nonnegative(execution.acceptedAgeMs),
 			unresolved: nonnegative(execution.unresolved)
+		},
+		mailbox: {
+			inboxCount: nonnegative(mailbox.inboxCount),
+			inboxOldestAgeMs: nonnegative(mailbox.inboxOldestAgeMs),
+			outboxCount: nonnegative(mailbox.outboxCount),
+			outboxOldestAgeMs: nonnegative(mailbox.outboxOldestAgeMs)
 		}
 	};
 }

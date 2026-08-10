@@ -6,11 +6,10 @@ const Context = require("./context.js");
 const Lifecycle = require("./lifecycle.js");
 
 /**
- * @file Launches one admitted command and binds its terminal witnesses at once.
+ * @file Launches one admitted command without caging its start receipt behind identity enrichment.
  * @description
- * The Awtsmoos renews the child before any observer can divide its ending.
- * Awtsmoos.com attaches stdout, stderr, timeout, error, and close listeners before
- * asynchronous identity testimony begins, so even a brief process keeps one end.
+ * The Awtsmoos gives the child breath, durable custody, and then deeper testimony in its time;
+ * Awtsmoos.com returns the job vessel once preliminary ownership is stored, while exact birth identity ripens behind the line.
  */
 async function launch(config, payload, meta) {
 	Context.MetaFactory.markLaunched(meta);
@@ -18,17 +17,13 @@ async function launch(config, payload, meta) {
 		meta.command,
 		meta.cwd,
 		meta.shell,
-		{
-			env: payload.env || {}
-		}
+		{ env: payload.env || {} }
 	);
-
 	Context.ProcessControl.renice(spawned, payload);
 	Context.MetaFactory.attachPreliminary(
 		meta,
 		Context.ProcessControl.preliminary(spawned)
 	);
-
 	const live = Lifecycle.createLive(
 		config,
 		payload,
@@ -43,10 +38,15 @@ async function launch(config, payload, meta) {
 		meta.timeoutMs
 	);
 	Lifecycle.beginIdentity(config, meta.jobId, live);
+	const saved = await Context.Meta.write(config, meta.jobId, meta);
+	if (!Context.Policy.TERMINAL.has(saved.status)) {
+		live.meta.revision = saved.revision;
+	}
+	return startReceipt(meta, live);
+}
 
-	await Context.Meta.write(config, meta.jobId, meta);
-	await live.identityPromise;
-
+/** Returns observable custody immediately; exact birth-token enrichment remains asynchronous. */
+function startReceipt(meta, live) {
 	return Context.Responses.start(meta.jobId, {
 		command: meta.command,
 		cwd: meta.cwd,
@@ -72,5 +72,6 @@ async function fail(config, meta, error) {
 
 module.exports = {
 	fail,
-	launch
+	launch,
+	startReceipt
 };

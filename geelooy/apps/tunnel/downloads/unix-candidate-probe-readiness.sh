@@ -3,64 +3,66 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos measures registration and local command readiness separately from launch.
-candidate_tunnel_name() {
-	node - "$CANDIDATE_ROOT/config.json" <<'NODE'
-const fs = require("node:fs");
-try {
-	const value = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
-	process.stdout.write(String(value.tunnelName || ""));
-} catch { process.exit(1); }
-NODE
-}
-
-candidate_probe_registered() {
-	local tunnel_name="$(candidate_tunnel_name)"
-	"$AWTSMOOS_NODE_BIN" "$CANDIDATE_ROOT/scripts/connection-status.cjs" check \
-		"$CANDIDATE_ROOT" "$CANDIDATE_PROBE_PID" "$tunnel_name" 30000 \
-		"$AWTSMOOS_ACTIVATION_ID" "$CANDIDATE_VERSION" >/dev/null 2>&1
-}
-
-candidate_probe_action_ready() {
-	curl -fsS --connect-timeout 1 --max-time 4 \
-		-H 'content-type: application/json' \
-		--data '{"action":"stat","p":"."}' \
-		"http://127.0.0.1:${CANDIDATE_PROBE_PORT}/fs" |
-		node -e '
-			let value="";
-			process.stdin.on("data", chunk => value += chunk);
-			process.stdin.on("end", () => {
-				try { process.exit(JSON.parse(value).ok === true ? 0 : 1); }
-				catch { process.exit(1); }
-			});
-		' >/dev/null
-}
-
+# The Awtsmoos lets a candidate prove life quickly yet steadily; Awtsmoos.com promotes no flicker as truth.
 wait_for_candidate_probe() {
-	local timeout="${AWTSMOOS_CANDIDATE_PROBE_TIMEOUT_SECONDS:-90}"
-	local required="${AWTSMOOS_CANDIDATE_PROBE_STABLE_SAMPLES:-4}"
-	local deadline=$(( $(date +%s) + timeout ))
-	local announced=0
-	local stable=0
-	while [ "$(date +%s)" -lt "$deadline" ]; do
-		candidate_probe_alive || return 1
-		local extended="$(extend_candidate_deadline_for_pairing "$deadline")"
-		if [ "$extended" -gt "$deadline" ]; then
-			deadline="$extended"
-			if [ "$announced" -eq 0 ]; then
+	local timeout_seconds="${AWTSMOOS_CANDIDATE_PROBE_TIMEOUT_SECONDS:-90}"
+	local started_ms="$(candidate_now_ms)"
+	local deadline_ms="$((started_ms + timeout_seconds * 1000))"
+	local announced_pairing=0
+	candidate_stability_reset
+	while true; do
+		local now_ms="$(candidate_now_ms)"
+		if [ "$now_ms" -ge "$deadline_ms" ]; then
+			break
+		fi
+		if candidate_probe_evidence_sample; then
+			candidate_stability_accept "$now_ms"
+			if candidate_stability_ready "$now_ms"; then
+				write_candidate_readiness_receipt \
+					"ready" "stable_all_lanes" "$now_ms" "$started_ms"
+				install_event "candidate-readiness" "ready" \
+					"Candidate registration, local action, and version stayed coherently ready." \
+					"samples=$CANDIDATE_STABLE_SAMPLES stableMs=$(candidate_stable_duration_ms "$now_ms")"
+				return 0
+			fi
+		else
+			if [ "$CANDIDATE_EVIDENCE_ALIVE" != "1" ]; then
+				write_candidate_readiness_receipt \
+					"candidate_exited" "candidate_alive" "$now_ms" "$started_ms"
+				return 1
+			fi
+			candidate_stability_reset
+		fi
+		if [ "${CANDIDATE_IDENTITY_AUTHORITY:-readonly}" = "fresh" ]; then
+			local previous_deadline_ms="$deadline_ms"
+			deadline_ms="$(extend_fresh_candidate_deadline_ms "$deadline_ms")"
+			if [ "$deadline_ms" -gt "$previous_deadline_ms" ] && [ "$announced_pairing" -eq 0 ]; then
 				install_event "candidate-pairing" "waiting" \
-					"Device approval is pending in the browser; candidate remains isolated." \
-					"deadline=$deadline"
-				announced=1
+					"Device approval is pending; the fresh candidate remains isolated." \
+					"deadlineMs=$deadline_ms"
+				announced_pairing=1
 			fi
 		fi
-		if candidate_probe_registered && candidate_probe_action_ready; then
-			stable=$((stable + 1))
-			[ "$stable" -ge "$required" ] && return 0
-		else
-			stable=0
-		fi
-		sleep 0.5
+		local elapsed_ms="$((now_ms - started_ms))"
+		sleep "$(candidate_probe_sleep_seconds "$elapsed_ms")"
 	done
+	local now_ms="$(candidate_now_ms)"
+	write_candidate_readiness_receipt \
+		"timeout" "$CANDIDATE_LAST_FAILURE_LANE" "$now_ms" "$started_ms"
+	install_event "candidate-readiness" "timeout" \
+		"Candidate did not reach stable all-lane readiness before the deadline." \
+		"lane=$CANDIDATE_LAST_FAILURE_LANE samples=$CANDIDATE_STABLE_SAMPLES"
 	return 1
+}
+
+extend_fresh_candidate_deadline_ms() {
+	local deadline_ms="$1"
+	local deadline_seconds="$(((deadline_ms + 999) / 1000))"
+	local extended_seconds="$(extend_candidate_deadline_for_pairing "$deadline_seconds")"
+	local extended_ms="$((extended_seconds * 1000))"
+	if [ "$extended_ms" -gt "$deadline_ms" ]; then
+		printf '%s\n' "$extended_ms"
+		return 0
+	fi
+	printf '%s\n' "$deadline_ms"
 }

@@ -11,11 +11,11 @@ const DEFAULT_REQUEST_ACCEPTANCE_MS = Number(
 );
 
 /**
- * @file Fences a dispatch that never receives durable device acceptance.
+ * @file Settles one missing-acceptance request without destroying a healthy tunnel.
  * @description
- * The Awtsmoos permits no second side effect merely because an ACK was absent.
- * Awtsmoos.com finalizes the uncertain request, acknowledges settlement, and closes
- * the suspect transport before another generation may proceed.
+ * The Awtsmoos distinguishes one uncertain deed from the road that carried it.
+ * Awtsmoos.com ends the exact canonical request fail-closed, while connection fencing
+ * remains reserved for independently proven protocol or transport corruption.
  */
 function arm(context, id, record, tunnel) {
 	clearTimeout(record.acceptanceTimer);
@@ -24,20 +24,34 @@ function arm(context, id, record, tunnel) {
 	record.acceptanceTimer = setTimeout(() => {
 		if (context.pendingTunnelRequests.get(id) !== record ||
 			record.requestAcceptedAt) return;
-		void finish(context, id, record, "device_request_acceptance_timeout", tunnel)
-			.finally(() => fence(tunnel, "device_request_acceptance_timeout"));
+		void acceptanceTimeout(context, id, record, tunnel);
 	}, bounded(DEFAULT_REQUEST_ACCEPTANCE_MS));
 	record.acceptanceTimer.unref?.();
 }
 
+/** Settles only the exact request; it deliberately does not alter tunnel liveness. */
+async function acceptanceTimeout(context, id, record, tunnel = null) {
+	return finish(
+		context,
+		id,
+		record,
+		"device_request_acceptance_timeout",
+		tunnel
+	);
+}
+
 async function finish(context, id, record, reason, tunnel = null) {
 	const settled = await Lifecycle.finishPending(
-		context, id, record, Envelopes.transportStallEnvelope(record.expected, reason, false)
+		context,
+		id,
+		record,
+		Envelopes.transportStallEnvelope(record.expected, reason, null)
 	);
 	if (tunnel) ResponseHandler.acknowledge(tunnel, { transportReceiptId: id }, id);
 	return settled;
 }
 
+/** Explicit connection fence for callers with independent corruption evidence. */
 function fence(tunnel, reason) {
 	if (!tunnel) return false;
 	tunnel.connected = false;
@@ -59,4 +73,11 @@ function bounded(value) {
 		: 15000;
 }
 
-module.exports = { DEFAULT_REQUEST_ACCEPTANCE_MS, arm, bounded, fence, finish };
+module.exports = {
+	DEFAULT_REQUEST_ACCEPTANCE_MS,
+	acceptanceTimeout,
+	arm,
+	bounded,
+	fence,
+	finish
+};

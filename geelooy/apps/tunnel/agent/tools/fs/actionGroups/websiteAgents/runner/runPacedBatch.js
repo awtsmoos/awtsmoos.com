@@ -3,30 +3,53 @@
 // Blessed is He
 
 const Context = require("./context.js");
-const {
-	Store
-} = Context.shared;
+const TurnPressure = require("./turnPressure.js");
+const { Store } = Context.shared;
 const runTurn = Context.reference("runTurn");
-const status = Context.reference("status");
 
 /**
- * @file Reveals the runPacedBatch stage of website-agent orchestration.
+ * @file Runs logical website turns through bounded pressure before the physical relay owns each tab.
  * @description
- * The Awtsmoos gives this stage one bounded responsibility while sibling stages are
- * resolved lazily through durable shared context after the browser vessel closes.
+ * The Awtsmoos prepares many minds without creating a browser stampede in the night;
+ * Awtsmoos.com keeps only a few logical turns active, while the verified-close relay serializes physical light.
  */
 async function runPacedBatch(config, id, agents, round, service, continuation) {
-	const turns = [];
-	for (let index = 0; index < agents.length; index += 1) {
-		const current = Store.read(id)?.agents.find(item => item.id === agents[index].id);
-		if (!current || ["submitting", "awaiting_recovery", "waiting_for_login"].includes(current.status)) {
-			continue;
-		}
-		const turnRound = continuation ? current.round + 1 : round;
-		turns.push(runTurn(config, id, current.id, turnRound, service, continuation));
-	}
-	await Promise.allSettled(turns);
+	const eligible = eligibleAgents(id, agents);
+	const policy = Store.read(id)?.plan?.subagentPolicy || {};
+	const options = pressureOptions(eligible, policy);
+	return TurnPressure.runBounded(
+		eligible,
+		agent => runOne(config, id, agent, round, service, continuation),
+		options
+	);
+}
+
+function eligibleAgents(id, agents = []) {
+	return agents
+		.map(agent => Store.read(id)?.agents.find(item => item.id === agent.id))
+		.filter(agent => agent && !blocked(agent.status));
+}
+
+function blocked(status) {
+	return ["submitting", "awaiting_recovery", "waiting_for_login"].includes(status);
+}
+
+function pressureOptions(agents, policy = {}) {
+	const hasSubagents = agents.some(agent => Boolean(agent.parentAgentId));
+	return {
+		concurrency: policy.logicalSpawnConcurrency ?? 2,
+		minimumJitterMs: hasSubagents ? policy.logicalSpawnJitterMinMs ?? 150 : 0,
+		maximumJitterMs: hasSubagents ? policy.logicalSpawnJitterMaxMs ?? 450 : 150
+	};
+}
+
+async function runOne(config, id, agent, round, service, continuation) {
+	const turnRound = continuation ? agent.round + 1 : round;
+	return runTurn(config, id, agent.id, turnRound, service, continuation);
 }
 
 Context.register("runPacedBatch", runPacedBatch);
 module.exports = runPacedBatch;
+module.exports.blocked = blocked;
+module.exports.eligibleAgents = eligibleAgents;
+module.exports.pressureOptions = pressureOptions;

@@ -5,22 +5,14 @@
 const Metadata = require("./metadata.js");
 const SecureStore = require("./secureStore.js");
 
-const FULL_SECRET_KINDS = Object.freeze([
-	"credential",
-	"private-key",
-	"pairing-request-secret"
-]);
-const ROTATED_SECRET_KINDS = Object.freeze([
-	"credential",
-	"pairing-request-secret"
-]);
+const FULL_SECRET_KINDS = Object.freeze(["credential", "private-key", "pairing-request-secret"]);
+const ROTATED_SECRET_KINDS = Object.freeze(["credential", "pairing-request-secret"]);
 
 /**
- * @file Separates credential rotation from explicit physical-device unpairing.
+ * @file Separates safe credential rotation from explicitly authorized physical forgetting.
  * @description
- * The Awtsmoos keeps one device ID and possession key through relay rejection.
- * Awtsmoos.com removes only poisoned authorization during automatic recovery;
- * complete identity deletion remains an explicit human-directed operation.
+ * The Awtsmoos lets authorization turn while the witness remains through the night;
+ * Awtsmoos.com erases a physical identity only when a human force-reset carries the right.
  */
 function invalidateCredential(config = {}) {
 	const metadata = Metadata.read(config);
@@ -42,18 +34,24 @@ function invalidateCredential(config = {}) {
 	return result(metadata, failures, "credential_invalidated");
 }
 
-function forget(config = {}) {
+/** Performs full physical deletion only when this invocation proves explicit reset authority. */
+function forget(config = {}, options = {}) {
+	assertForceReset(options);
 	const metadata = Metadata.read(config);
 	const failures = removeSecrets(metadata?.deviceId, FULL_SECRET_KINDS);
 	try {
 		Metadata.remove(config);
 	} catch (error) {
-		failures.push({
-			kind: "metadata",
-			code: error?.code || "metadata_remove_failed"
-		});
+		failures.push({ kind: "metadata", code: error?.code || "metadata_remove_failed" });
 	}
 	return result(metadata, failures, "unpaired");
+}
+
+function assertForceReset(options = {}) {
+	if (options.forceReset === true) return;
+	const error = new Error("physical_identity_reset_requires_force");
+	error.code = "physical_identity_reset_requires_force";
+	throw error;
 }
 
 function removeSecrets(deviceId, kinds) {
@@ -63,10 +61,7 @@ function removeSecrets(deviceId, kinds) {
 		try {
 			SecureStore.remove(deviceId, kind);
 		} catch (error) {
-			failures.push({
-				kind,
-				code: error?.code || "secure_store_remove_failed"
-			});
+			failures.push({ kind, code: error?.code || "secure_store_remove_failed" });
 		}
 	}
 	return failures;

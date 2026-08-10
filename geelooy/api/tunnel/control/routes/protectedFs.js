@@ -9,23 +9,22 @@ const { json } = require("../core/respond.js");
 const { autoCreatePreviewResult } = require("../preview/previewAutoCreate.js");
 const { resolveFsVessel } = require("./fsVessel/resolveFsVessel.js");
 const Authorization = require("./protectedFsAuthorization.js");
+const ActionPolicy = require("./protectedFsActionPolicy.js");
 const Policy = require("./protectedFsPolicy.js");
 
 /**
- * @file Authenticates, authorizes, resolves one account vessel, and dispatches.
+ * @file Authenticates, authorizes, policy-gates, resolves one vessel, and dispatches.
  * @description
- * The Awtsmoos renews identity and authority without confusing login with mutation.
- * Awtsmoos.com permits safe signed-session reads, names missing API-key authority
- * truthfully, then resolves the exact account-scoped tunnel only after policy passes.
+ * The Awtsmoos renews authority without letting an old agent reopen a forbidden mutation.
+ * Awtsmoos.com rejects persistent-root selection before the request can cross the tunnel.
  */
 async function protectedFs($i, variables = {}) {
 	const identity = currentIdentity($i);
-	if (!identity.ok) {
-		return json($i, Authorization.unauthorized(identity), 401);
-	}
+	if (!identity.ok) return json($i, Authorization.unauthorized(identity), 401);
 	let payload;
 	try {
 		payload = Policy.buildPayload($i, variables.tunnelName);
+		ActionPolicy.assertAllowed(payload.action);
 	} catch (error) {
 		return json($i, Authorization.failure(error.message), error.status || 400);
 	}
@@ -46,9 +45,7 @@ async function protectedFs($i, variables = {}) {
 	);
 	if (denial) return json($i, denial.body, denial.status);
 	const rate = enforceApiKeyRate(identity, 0);
-	if (!rate.ok) {
-		return json($i, Authorization.failure(rate.error), 429);
-	}
+	if (!rate.ok) return json($i, Authorization.failure(rate.error), 429);
 	return executeAuthorized($i, identity, payload, permission);
 }
 
@@ -60,9 +57,7 @@ async function executeAuthorized($i, identity, payload, permission) {
 			tunnelName: payload.tunnelName,
 			payload,
 			permission,
-			timeoutMs: Policy.boundedTunnelTimeout(
-				payload.timeoutMs || payload.timeout
-			)
+			timeoutMs: Policy.boundedTunnelTimeout(payload.timeoutMs || payload.timeout)
 		});
 		const result = await vessel.send();
 		const response = normalizeResult(identity, payload, result);

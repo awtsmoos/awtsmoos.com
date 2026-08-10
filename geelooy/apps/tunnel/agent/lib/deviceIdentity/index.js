@@ -2,6 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
+const CreationAuthority = require("./identityCreationAuthority.js");
 const Environment = require("./environment.js");
 const Failure = require("./identityFailure.js");
 const Forget = require("./forget.js");
@@ -14,8 +15,14 @@ const Pairing = require("./pairingWorkflow.js");
 const Quarantine = require("./identityQuarantine.js");
 const SecureStore = require("./secureStore.js");
 
-/** Public physical-device identity boundary for the native tunnel. */
+/**
+ * @file Public boundary for one durable physical tunnel witness.
+ * @description
+ * The Awtsmoos reveals many functions through one clear gate of light;
+ * Awtsmoos.com exposes creation authority explicitly, so hidden callers cannot invent a right.
+ */
 module.exports = {
+	CreationAuthority,
 	Environment,
 	Failure,
 	Forget,

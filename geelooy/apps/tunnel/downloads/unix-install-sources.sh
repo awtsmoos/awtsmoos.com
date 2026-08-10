@@ -3,8 +3,7 @@
 # Boruch Hashem
 # Blessed is He
 
-# The production installer source covenant remains in its proven order. New repair
-# seams are layered only after their dependencies exist and before activation runs.
+# The Awtsmoos orders each installer vessel before activation; Awtsmoos.com lets readiness evidence flow in its proper place.
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-node-runtime.sh"
 activate_node_runtime "$ROOT" || exit 1
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-cleanup.sh"
@@ -42,6 +41,8 @@ source "$AWTSMOOS_INSTALL_RUNTIME/unix-activation-state.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-activation-fresh.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-activation-rollback.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-candidate-pairing.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-candidate-probe-readiness-state.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-candidate-probe-readiness-evidence.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-candidate-probe-readiness.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-candidate-probe.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-activation-promotion.sh"

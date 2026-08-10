@@ -5,16 +5,16 @@
 const ChildHealth = require("./child-health.js");
 
 /**
- * @file Projects bounded connection-child state for parent and relay testimony.
+ * @file Projects bounded child state while letting mailbox truth join transport and execution.
  * @description
- * The Awtsmoos reveals enough of each vessel to distinguish transport from
- * execution without exposing secret identity material. Awtsmoos.com keeps this
- * projection small so runtime orchestration remains clear and separately testable.
+ * The Awtsmoos reveals socket, worker, and durable receipt in one honest frame;
+ * Awtsmoos.com snapshots mailbox before composing health, so stalled custody cannot borrow a healthy name.
  */
 function snapshot(options = {}) {
 	const state = options.state || {};
 	const parentHealth = options.parentHealth || {};
-	const health = ChildHealth.compose(state, parentHealth);
+	const mailbox = options.mailbox?.snapshot?.() || null;
+	const health = ChildHealth.compose(state, parentHealth, mailbox || {});
 	return {
 		childPid: process.pid,
 		connected: state.activeWs?.opened === true,
@@ -22,7 +22,7 @@ function snapshot(options = {}) {
 		fullHealth: health,
 		generation: state.generation,
 		lastRegisteredAt: state.lastRegisteredAt,
-		mailbox: options.mailbox?.snapshot?.() || null,
+		mailbox,
 		parent: parentHealth,
 		parentCustody: { ...(options.parentCustody || {}) },
 		lastFailure: state.lastFailure || null,

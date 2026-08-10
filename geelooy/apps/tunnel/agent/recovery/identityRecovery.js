@@ -5,11 +5,10 @@
 const DeviceIdentity = require("../lib/deviceIdentity/index.js");
 
 /**
- * @file Heals identity wounds without letting automatic recovery erase the device.
+ * @file Heals identity wounds without letting automatic recovery erase the physical device.
  * @description
- * The Awtsmoos distinguishes authorization, cryptographic evidence, and permission
- * to destroy a vessel. Awtsmoos.com may restore a verified standby or invalidate a
- * rejected credential automatically; physical reset requires an explicit human gate.
+ * The Awtsmoos distinguishes credential renewal, verified restoration, and destructive reset;
+ * Awtsmoos.com grants physical forgetting only to this invocation's explicit human force-reset.
  */
 function inspect(root, reason = "", options = {}) {
 	const config = { installRoot: root };
@@ -55,10 +54,7 @@ function restoreOrRequire(config, reason, evidenceReason) {
 			restored
 		});
 	}
-	return result("identity_recovery_required", false, reason, {
-		evidenceReason,
-		restored
-	});
+	return result("identity_recovery_required", false, reason, { evidenceReason, restored });
 }
 
 function restoreOrReset(config, reason, evidenceReason, options = {}) {
@@ -78,13 +74,11 @@ function restoreOrReset(config, reason, evidenceReason, options = {}) {
 }
 
 function reset(config, reason, evidenceReason, options) {
-	const error = DeviceIdentity.Failure.create(
-		options.failureCode || evidenceReason,
-		{ reason }
-	);
-	const repair = DeviceIdentity.repairIdentity(config, error);
+	const error = DeviceIdentity.Failure.create(options.failureCode || evidenceReason, { reason });
+	const repair = DeviceIdentity.repairIdentity(config, error, { forceReset: true });
 	return result("identity_reset", true, reason, {
 		evidencePath: repair.evidencePath,
+		creationGrant: repair.creationGrant,
 		repair
 	});
 }
@@ -97,13 +91,7 @@ function explicitCredentialFailure(reason) {
 }
 
 function result(state, changed, reason, details = {}) {
-	return {
-		ok: true,
-		state,
-		changed,
-		reason: String(reason || ""),
-		...details
-	};
+	return { ok: true, state, changed, reason: String(reason || ""), ...details };
 }
 
 module.exports = {

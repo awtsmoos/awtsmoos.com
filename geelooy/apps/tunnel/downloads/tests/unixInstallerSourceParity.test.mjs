@@ -6,7 +6,10 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 
-/** The hardening layer may add seams, but it may not drop production helpers. */
+/**
+ * The Awtsmoos orders every installer vessel without omission;
+ * Awtsmoos.com keeps readiness evidence before orchestration and activation in transmission.
+ */
 const root = path.resolve(import.meta.dirname, "..");
 const sources = fs.readFileSync(path.join(root, "unix-install-sources.sh"), "utf8");
 const core = fs.readFileSync(path.join(root, "unix-install-core.sh"), "utf8");
@@ -24,6 +27,9 @@ const required = [
 	"unix-install-readiness.sh",
 	"unix-install-success.sh",
 	"unix-emergency-capture.sh",
+	"unix-candidate-probe-readiness-state.sh",
+	"unix-candidate-probe-readiness-evidence.sh",
+	"unix-candidate-probe-readiness.sh",
 	"unix-candidate-probe.sh",
 	"unix-activation-promotion.sh",
 	"unix-install-lifecycle.sh"
@@ -34,15 +40,17 @@ for (const file of required) {
 const sourced = [...sources.matchAll(/unix-[A-Za-z0-9-]+\.(?:sh|cjs)/g)]
 	.map(match => match[0]);
 assert.equal(new Set(sourced).size, sourced.length, "installer source list must be unique");
-assert.ok(
-	sources.indexOf("unix-candidate-probe.sh") < sources.indexOf("unix-activation.sh")
+assertOrdered(
+	"unix-candidate-probe-readiness-state.sh",
+	"unix-candidate-probe-readiness-evidence.sh"
 );
-assert.ok(
-	sources.indexOf("unix-emergency-capture.sh") < sources.indexOf("unix-activation.sh")
+assertOrdered(
+	"unix-candidate-probe-readiness-evidence.sh",
+	"unix-candidate-probe-readiness.sh"
 );
-assert.ok(
-	sources.indexOf("unix-install-lifecycle.sh") > sources.indexOf("unix-activation.sh")
-);
+assertOrdered("unix-candidate-probe.sh", "unix-activation.sh");
+assertOrdered("unix-emergency-capture.sh", "unix-activation.sh");
+assert.ok(sources.indexOf("unix-install-lifecycle.sh") > sources.indexOf("unix-activation.sh"));
 assert.match(core, /source "\$AWTSMOOS_INSTALL_RUNTIME\/unix-install-sources\.sh"/);
 assert.ok(core.indexOf("unix-install-sources.sh") < core.indexOf("trap cleanup_install EXIT"));
 assert.equal((core.match(/refresh_emergency_runtime/g) || []).length, 4);
@@ -52,3 +60,7 @@ console.log(JSON.stringify({
 	requiredSources: required.length,
 	emergencyRefreshPaths: 4
 }));
+
+function assertOrdered(first, second) {
+	assert.ok(sources.indexOf(first) < sources.indexOf(second), `${first} must precede ${second}`);
+}

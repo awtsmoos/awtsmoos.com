@@ -1,5 +1,5 @@
 B"H
-1.0.512
+1.0.513
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtector.mjs
@@ -909,7 +909,9 @@ lib/deviceIdentity/environment.js
 lib/deviceIdentity/forget.js
 lib/deviceIdentity/httpJson.js
 lib/deviceIdentity/identity.js
+lib/deviceIdentity/identityCreationAuthority.js
 lib/deviceIdentity/identityFailure.js
+lib/deviceIdentity/identityPaths.js
 lib/deviceIdentity/identityQuarantine.js
 lib/deviceIdentity/identitySlotCapture.js
 lib/deviceIdentity/identitySlotKinds.js
@@ -925,6 +927,7 @@ lib/deviceIdentity/keyMaterial.js
 lib/deviceIdentity/macosStore.js
 lib/deviceIdentity/macosStoreCodec.js
 lib/deviceIdentity/metadata.js
+lib/deviceIdentity/metadataFiles.js
 lib/deviceIdentity/metadataStrength.js
 lib/deviceIdentity/pairingApproval.js
 lib/deviceIdentity/pairingClient.js
@@ -1397,6 +1400,8 @@ tools/fs/actionGroups/commandTreeActions.js
 tools/fs/actionGroups/commandTreeBudget.js
 tools/fs/actionGroups/commandTreeVisualize.js
 tools/fs/actionGroups/configActions.js
+tools/fs/actionGroups/configPublic.js
+tools/fs/actionGroups/configRootPolicy.js
 tools/fs/actionGroups/continuationActions.js
 tools/fs/actionGroups/ephemeralActions.js
 tools/fs/actionGroups/fakeSshActions.js
@@ -1511,6 +1516,7 @@ tools/fs/actionGroups/websiteAgents/runner/status.js
 tools/fs/actionGroups/websiteAgents/runner/stop.js
 tools/fs/actionGroups/websiteAgents/runner/terminalFailure.js
 tools/fs/actionGroups/websiteAgents/runner/turnPlanMessage.js
+tools/fs/actionGroups/websiteAgents/runner/turnPressure.js
 tools/fs/actionGroups/websiteAgents/runner/updateAuthentication.js
 tools/fs/actionGroups/websiteAgents/runner/withMission.js
 tools/fs/actionGroups/websiteAgents/spawning.js
@@ -1601,6 +1607,7 @@ tools/fs/commandJob/processCleanup.js
 tools/fs/commandJob/processGroup.js
 tools/fs/commandJob/processIdentity.js
 tools/fs/commandJob/processObserve.js
+tools/fs/commandJob/processObserveParse.js
 tools/fs/commandJob/promiseDeadline.js
 tools/fs/commandJob/queueLimits.js
 tools/fs/commandJob/reap.js
