@@ -32,6 +32,8 @@ const FIELD_ALIASES = Object.freeze({
 	controlRequestId: ["controlRequestId", "requestId"],
 	clientRequestId: ["clientRequestId", "requestId"],
 	nonce: ["nonce"],
+	cwd: ["cwd"],
+	command: ["command"],
 	parentActionId: ["parentActionId"],
 	traceId: ["traceId", "correlationId"],
 	spanId: ["spanId"],
