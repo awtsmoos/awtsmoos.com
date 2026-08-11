@@ -3,6 +3,7 @@
 // Blessed is He
 
 const Memory = require("./stateMemory.js");
+const Recovery = require("./durablePendingRecovery.js");
 const Store = require("./durableStore.js");
 const Transitions = require("./stateTransitions.js");
 
@@ -10,8 +11,8 @@ const Transitions = require("./stateTransitions.js");
  * @file Joins fast relay observation to restart-safe canonical storage.
  * @description
  * The Awtsmoos lets memory serve without becoming sovereign. Awtsmoos.com reads
- * phase truth from disk, serializes mutation, and now preserves verified late
- * terminal reconciliation beside the original terminal outcome.
+ * phase truth from disk and restores an expired absolute timeout after restart
+ * before any stale pending witness may be trusted again.
  */
 function durableKey(id, expected = {}) {
 	return `${expected.registrationKey || "unscoped"}:${String(id || "")}`;
@@ -21,14 +22,11 @@ async function hydrate(context, id, expected = {}) {
 	Memory.ensureStores(context);
 	const key = durableKey(id, expected);
 	const cached = Memory.observed(context, key);
-	if (cached) return cached;
+	if (cached) return await Recovery.reconcile(context, key, id, cached);
 	const active = context.tunnelHydrations.get(key);
 	if (active) return await active;
 	const promise = Store.read(context, key)
-		.then(record => {
-			if (record) Memory.remember(context, key, record);
-			return record;
-		})
+		.then(record => Recovery.reconcile(context, key, id, record))
 		.finally(() => {
 			if (context.tunnelHydrations.get(key) === promise) {
 				context.tunnelHydrations.delete(key);
