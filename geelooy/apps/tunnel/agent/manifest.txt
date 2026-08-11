@@ -1,5 +1,5 @@
 B"H
-1.0.520
+1.0.521
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtector.mjs
@@ -1396,6 +1396,9 @@ tools/fs/actionGroups/asyncTaskResponses.js
 tools/fs/actionGroups/asyncTaskStore.js
 tools/fs/actionGroups/batchAliasActions.js
 tools/fs/actionGroups/chromeActions.js
+tools/fs/actionGroups/cognition/actionAliasResolver.js
+tools/fs/actionGroups/cognition/genericCognitionProject.js
+tools/fs/actionGroups/cognition/genericCognitionReport.js
 tools/fs/actionGroups/cognitionActions.js
 tools/fs/actionGroups/commandActions.js
 tools/fs/actionGroups/commandActionSync.js

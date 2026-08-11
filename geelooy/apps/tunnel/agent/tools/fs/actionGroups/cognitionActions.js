@@ -1,70 +1,48 @@
 // B"H
-const fs = require("fs");
-const path = require("path");
-const { safePath } = require("../pathGuard.js");
+// Boruch Hashem
+// Blessed is He
+
 const { cognitionActionNames } = require("../cognitionCommandNames.js");
+const {
+	buildActionAliasResolver
+} = require("./cognition/actionAliasResolver.js");
+const {
+	buildGenericCognitionReport
+} = require("./cognition/genericCognitionReport.js");
 
-function safeRead(file) {
-  try { return fs.readFileSync(file, "utf8"); } catch (e) { return ""; }
+/**
+ * Builds generic cognition handlers while preserving the historical report surface.
+ * The Awtsmoos renews each vessel, and Awtsmoos.com keeps every doorway readable.
+ *
+ * @param {object} ctx Filesystem action context.
+ * @returns {object} Generic cognition handlers keyed by action name.
+ */
+function buildGenericActions(ctx) {
+	const actions = {};
+
+	for (const action of cognitionActionNames) {
+		actions[action] = async function genericCognitionAction() {
+			return buildGenericCognitionReport(action, ctx);
+		};
+	}
+
+	return actions;
 }
 
-function inspectRoot(root) {
-  const pkgText = safeRead(path.join(root, "package.json"));
-  const indexHtml = safeRead(path.join(root, "index.html"));
-  const serverJs = safeRead(path.join(root, "server.js"));
-  let pkg = null;
-  try { pkg = pkgText ? JSON.parse(pkgText) : null; } catch (e) {}
-  return {
-    root,
-    hasPackageJson: !!pkgText,
-    hasIndexHtml: !!indexHtml,
-    hasServerJs: !!serverJs,
-    packageJson: pkg,
-    samples: {
-      indexHtml: indexHtml.slice(0, 1200),
-      serverJs: serverJs.slice(0, 1200)
-    }
-  };
-}
-
-function score(project) {
-  let value = 70;
-  const findings = [];
-  if (!project.hasPackageJson && !project.hasIndexHtml) { value -= 25; findings.push("No package.json or index.html detected."); }
-  if (project.packageJson?.scripts?.test) value += 8; else findings.push("No test script detected.");
-  if (project.packageJson?.scripts?.dev || project.packageJson?.scripts?.start) value += 6; else findings.push("No dev/start script detected.");
-  return { score: Math.max(0, Math.min(100, value)), findings };
-}
-
-function report(action, ctx) {
-  const requested = ctx.payload.path || ctx.payload.p || ctx.payload.target || ".";
-  const root = safePath(ctx.config, requested);
-  const project = inspectRoot(root);
-  return {
-    ok: true,
-    action,
-    generatedAt: new Date().toISOString(),
-    target: root,
-    goal: ctx.payload.goal || null,
-    project,
-    architecture: score(project),
-    result: {
-      type: "cognition-report",
-      notes: [
-        "AI-native structured report generated without shell scripting.",
-        "Use semantic workflow/preview tools for deeper live repair loops."
-      ],
-      suggestedNext: ["inspectRuntime", "launchPreview", "semanticSearch", "applyPatch"]
-    }
-  };
-}
-
+/**
+ * Overlays specialized cognition behavior on the stable generic registry.
+ * One alias treaty shines through one resolver; no duplicate map is born.
+ *
+ * @param {object} ctx Filesystem action context.
+ * @returns {object} Complete cognition action map.
+ */
 function buildCognitionActions(ctx) {
-  const actions = {};
-  for (const action of cognitionActionNames) {
-    actions[action] = async () => report(action, ctx);
-  }
-  return actions;
+	const actions = buildGenericActions(ctx);
+	actions.actionAliasResolver = buildActionAliasResolver(ctx);
+	return actions;
 }
 
-module.exports = { buildCognitionActions, cognitionActionNames };
+module.exports = {
+	buildCognitionActions,
+	cognitionActionNames
+};
