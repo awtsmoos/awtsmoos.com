@@ -2,14 +2,14 @@
 // Boruch Hashem
 // Blessed is He
 
-const { handleFs } = require("../../tools/fs/index.js");
+const Fs = require("../../tools/fs/index.js");
 const AutoContinuation = require("../../tools/fs/mission/autoContinuation/index.js");
+const ProjectRoots = require("../../tools/fs/mission/projectRootRegistry.js");
 
 /**
- * @file Resumes durable mission state and schedules one idempotent continuation when work goes silent.
- * @description
- * The Awtsmoos lets an interrupted shliach return through the same mission vessel.
- * Awtsmoos.com never runs this browser-capable loop inside a readonly update candidate.
+ * @file Resumes one durable mission through its witnessed project root without changing the public runtime contract.
+ * @description The Awtsmoos renews the worker while the mission keeps its place;
+ * Awtsmoos.com carries root, room, and checkpoint together through restart's changing face.
  */
 function candidateProbe(env = process.env) {
 	return String(env.AWTSMOOS_REGISTRATION_MODE || "") === "candidate-probe";
@@ -28,6 +28,19 @@ function interval(env = process.env) {
 	return Math.max(60000, Number(env.AWTSMOOS_MISSION_BOOT_RESUME_MS || 300000));
 }
 
+function scopedConfig(config = {}, binding = null) {
+	const root = binding?.projectRoot || config.root;
+	return root ? { ...config, root } : { ...config };
+}
+
+function dependencies(options = {}) {
+	return {
+		handleFs: options.handleFs || Fs.handleFs,
+		autoContinuation: options.autoContinuation || AutoContinuation,
+		projectRoots: options.projectRoots || ProjectRoots
+	};
+}
+
 function start(log, config, options = {}) {
 	const env = options.env || process.env;
 	if (!enabled(env)) {
@@ -40,25 +53,32 @@ function start(log, config, options = {}) {
 		log?.("Mission boot resume disabled: canonical project root unavailable.");
 		return null;
 	}
+	const deps = dependencies(options);
 	let running = false;
 	async function tick(reason = "interval") {
 		if (running) return { ok: true, skipped: true, reason: "tick_already_running" };
 		running = true;
 		try {
-			const continuation = await AutoContinuation.run(config, {
+			const binding = deps.projectRoots.read(config);
+			const scoped = scopedConfig(config, binding);
+			const continuation = await deps.autoContinuation.run(scoped, {
 				env,
-				enabled: options.autoContinue !== false
+				enabled: options.autoContinue !== false,
+				binding
 			});
-			const resume = await handleFs({
+			const resume = await deps.handleFs({
 				action: "missionBootResume",
 				autoMission: autoMission(env),
 				ignoreMissionLock: true,
 				logicalAgentId: "runtime-boot-resume",
 				reason,
-				tick: true
+				tick: true,
+				projectRoot: scoped.root,
+				scopeRoot: scoped.root,
+				cwd: scoped.root
 			});
 			logResult(log, reason, continuation, resume);
-			return { ok: true, continuation, resume };
+			return { ok: true, continuation, resume, projectRoot: scoped.root };
 		} catch (error) {
 			log?.("Mission boot/continuation failed:", error?.stack || error?.message || String(error));
 			return { ok: false, error: error?.message || String(error) };
@@ -85,11 +105,4 @@ function logResult(log, reason, continuation, resume) {
 	}));
 }
 
-module.exports = {
-	autoMission,
-	candidateProbe,
-	enabled,
-	interval,
-	logResult,
-	start
-};
+module.exports = { autoMission, candidateProbe, dependencies, enabled, interval, logResult, scopedConfig, start };

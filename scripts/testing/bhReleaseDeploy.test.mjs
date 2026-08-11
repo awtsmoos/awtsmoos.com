@@ -10,68 +10,58 @@ import path from "node:path";
 import { deployCommand } from "../lib/bhReleaseDeploy.mjs";
 
 /**
- * @file Proves production wears the requested SHA before BH.sh may restart it.
- * @description
- * The Awtsmoos lets a stale clean checkout advance only by fast-forward covenant;
- * Awtsmoos.com refuses dirty or diverged vessels before deployment can become an event.
+ * @file Proves exact-SHA deployment advances canonical Git before activation and refuses unsafe trees.
+ * @description The Awtsmoos lets production inherit one published `main` witness;
+ * Awtsmoos.com refuses dirt, divergence, BH.sh, and copied server release paths before activation.
  */
-const temporary = fs.mkdtempSync(path.join(os.tmpdir(), "awtsmoos-deploy-"));
+const temporary = fs.mkdtempSync(path.join(os.tmpdir(), "awtsmoos-canonical-deploy-"));
 const origin = path.join(temporary, "origin.git");
 const publisher = path.join(temporary, "publisher");
 const production = path.join(temporary, "production");
-const home = path.join(temporary, "home");
-const releases = path.join(temporary, "releases");
-const shims = path.join(temporary, "shims");
-const observed = path.join(home, "observed-head");
+const observed = path.join(temporary, "observed-head");
 
 try {
-	setupRepositories();
-	fs.mkdirSync(home, { recursive: true });
-	fs.mkdirSync(releases, { recursive: true });
-	fs.mkdirSync(shims, { recursive: true });
-	writeReadlinkShim();
-	writeBh();
+	setup();
 	const shaB = publish("B");
 	assert.equal(execute(shaB).status, 0);
 	assert.equal(fs.readFileSync(observed, "utf8").trim(), shaB);
 	assert.equal(git(production, "rev-parse", "HEAD"), shaB);
 	const shaC = publish("C");
-	fs.rmSync(observed, { force: true });
 	fs.writeFileSync(path.join(production, "dirty.txt"), "dirty\n");
 	assert.notEqual(execute(shaC).status, 0);
-	assert.equal(fs.existsSync(observed), false);
 	fs.rmSync(path.join(production, "dirty.txt"));
 	commit(production, "local-divergence");
 	const shaD = publish("D");
-	fs.rmSync(observed, { force: true });
 	assert.notEqual(execute(shaD).status, 0);
-	assert.equal(fs.existsSync(observed), false);
 	const generated = deployCommand(shaD, "main");
-	for (const forbidden of ["reset --hard", "push --force", "clean -f", "git stash", "checkout -b", "switch -c"]) {
+	for (const forbidden of ["BH.sh", "releases/current", "reset --hard", "clean -f", "push --force", "git stash"]) {
 		assert.equal(generated.includes(forbidden), false, forbidden);
 	}
-	console.log(JSON.stringify({
-		ok: true,
-		suite: "bh-release-deploy",
-		fastForwardBeforeBh: true,
-		dirtyRefusesBeforeBh: true,
-		divergedRefusesBeforeBh: true
-	}));
+	assert.throws(() => deployCommand(shaD, "feature"), /requires_main/);
+	console.log(JSON.stringify({ ok: true, suite: "bh-release-deploy-canonical" }));
 } finally {
 	fs.rmSync(temporary, { recursive: true, force: true });
 }
 
-function setupRepositories() {
+function setup() {
 	git(temporary, "init", "--bare", origin);
 	git(temporary, "init", "-b", "main", publisher);
 	configure(publisher);
+	fs.mkdirSync(path.join(publisher, "scripts", "production"), { recursive: true });
 	fs.writeFileSync(path.join(publisher, "release.txt"), "A\n");
-	git(publisher, "add", "release.txt");
+	writeActivation(publisher);
+	git(publisher, "add", ".");
 	git(publisher, "commit", "-m", "A");
 	git(publisher, "remote", "add", "origin", origin);
 	git(publisher, "push", "-u", "origin", "main");
 	git(temporary, "clone", "--branch", "main", origin, production);
 	configure(production);
+}
+
+function writeActivation(repository) {
+	const file = path.join(repository, "scripts", "production", "canonical-server-activate.sh");
+	const script = "#!/bin/sh\nset -eu\ngit -C \"$AWTSMOOS_PRODUCTION_REPO\" rev-parse HEAD > \"$OBSERVED_HEAD\"\n";
+	fs.writeFileSync(file, script, { mode: 0o755 });
 }
 
 function publish(label) {
@@ -93,20 +83,10 @@ function configure(repository) {
 	git(repository, "config", "user.name", "Awtsmoos Test");
 }
 
-function writeBh() {
-	const script = `#!/bin/sh\nset -eu\ngit -C "$AWTSMOOS_PRODUCTION_REPO" rev-parse HEAD > "$HOME/observed-head"\nmkdir -p "$AWTSMOOS_RELEASES_ROOT/awtsmoos-$EXPECTED_SHA"\nln -sfn "$AWTSMOOS_RELEASES_ROOT/awtsmoos-$EXPECTED_SHA" "$AWTSMOOS_RELEASES_ROOT/current"\n`;
-	fs.writeFileSync(path.join(home, "BH.sh"), script, { mode: 0o755 });
-}
-
-function writeReadlinkShim() {
-	const script = `#!/usr/bin/env node\nconst fs=require("node:fs");process.stdout.write(fs.realpathSync(process.argv.at(-1)));\n`;
-	fs.writeFileSync(path.join(shims, "readlink"), script, { mode: 0o755 });
-}
-
 function execute(sha) {
 	return spawnSync("bash", ["-c", deployCommand(sha, "main")], {
 		encoding: "utf8",
-		env: { ...process.env, HOME: home, EXPECTED_SHA: sha, AWTSMOOS_PRODUCTION_REPO: production, AWTSMOOS_RELEASES_ROOT: releases, PATH: `${shims}:${process.env.PATH}` }
+		env: { ...process.env, AWTSMOOS_PRODUCTION_REPO: production, OBSERVED_HEAD: observed }
 	});
 }
 

@@ -6,10 +6,9 @@ const Prompt = require("./prompt.js");
 const Helpers = require("./coordinatorHelpers.js");
 
 /**
- * @file Coordinates one idempotent continuation turn for one unfinished mission checkpoint.
- * @description
- * The Awtsmoos lets interruption become return, not duplication. Awtsmoos.com binds
- * project root, mission, checkpoint, lease, website record, and verified-close dispatch into one witness.
+ * @file Coordinates one root-correct, mission-wide-idempotent continuation turn.
+ * @description The Awtsmoos lets the checkpoint advance without overlapping messengers;
+ * Awtsmoos.com binds root, mission, admission, website receipt, and verified-close dispatch into one witness.
  */
 async function run(config, options = {}) {
 	if (Helpers.disabled(options)) return Helpers.suppressed("auto_continuation_disabled");
@@ -19,19 +18,20 @@ async function run(config, options = {}) {
 	if (!lock?.missionId) return Helpers.suppressed("no_active_mission");
 	const mission = options.mission || await deps.Mission.load(config, lock.missionId);
 	if (!mission?.id) return Helpers.suppressed("active_mission_missing");
-	const fingerprint = Prompt.fingerprint(config, mission, lock);
-	const websiteMissionId = Prompt.websiteMissionId(mission.id, fingerprint);
+	const projectRoot = deps.ProjectRoot.resolve(config, mission, lock, options.binding);
+	const scopedConfig = deps.ProjectRoot.scope(config, projectRoot);
+	const fingerprint = Prompt.fingerprint(scopedConfig, mission, lock);
 	const identity = {
 		missionId: mission.id,
 		fingerprint,
-		websiteMissionId,
-		projectRoot: config.root
+		websiteMissionId: Prompt.websiteMissionId(mission.id, fingerprint),
+		projectRoot
 	};
-	const current = deps.State.read(config, mission.id, fingerprint);
-	const websiteRecord = deps.WebsiteStore.read(websiteMissionId);
-	if (websiteRecord) {
-		return Helpers.recoverExisting(config, identity, current, websiteRecord, deps);
-	}
+	const blocked = reconcileActive(scopedConfig, identity, deps);
+	if (blocked) return blocked;
+	const current = deps.State.read(scopedConfig, mission.id, fingerprint);
+	const websiteRecord = deps.WebsiteStore.read(identity.websiteMissionId);
+	if (websiteRecord) return Helpers.recoverExisting(scopedConfig, identity, current, websiteRecord, deps);
 	const decision = deps.Eligibility.decide({
 		mission,
 		lock,
@@ -43,18 +43,27 @@ async function run(config, options = {}) {
 		backoffMs: options.backoffMs,
 		maxAttempts: options.maxAttempts
 	});
-	if (!decision.eligible) {
-		return Helpers.receipt(identity, decision.reason, false, current);
-	}
-	const lease = deps.State.acquire(config, identity, {
+	if (!decision.eligible) return Helpers.receipt(identity, decision.reason, false, current);
+	const lease = deps.State.acquire(scopedConfig, identity, {
 		owner: options.owner,
 		leaseMs: options.leaseMs,
 		now: options.now
 	});
-	if (!lease.ok) {
-		return Helpers.receipt(identity, lease.reason, false, lease.record);
+	if (!lease.ok) return Helpers.receipt(identity, lease.reason, false, lease.record);
+	return dispatchContinuation(scopedConfig, options, deps, mission, lock, identity, lease.record);
+}
+
+function reconcileActive(config, identity, deps) {
+	if (typeof deps.State.readActive !== "function" || typeof deps.State.blocking !== "function") return null;
+	const active = deps.State.readActive(config, identity.missionId);
+	if (!active || active.fingerprint === identity.fingerprint || !deps.State.blocking(active)) return null;
+	const websiteRecord = active.websiteMissionId ? deps.WebsiteStore.read(active.websiteMissionId) : null;
+	const status = deps.WebsiteStatus.classify(websiteRecord, active);
+	if (status.terminal) {
+		if (typeof deps.State.settleActive === "function") deps.State.settleActive(config, active, status.reason);
+		return null;
 	}
-	return dispatchContinuation(config, options, deps, mission, lock, identity, lease.record);
+	return Helpers.receipt(identity, status.reason, false, active);
 }
 
 async function dispatchContinuation(config, options, deps, mission, lock, identity, leasedRecord) {
@@ -68,9 +77,7 @@ async function dispatchContinuation(config, options, deps, mission, lock, identi
 			maxSubagentsPerAgent: options.maxSubagentsPerAgent
 		}, options.dispatchDeps || {});
 		if (!dispatched.ok) {
-			const failed = deps.State.mark(config, leasedRecord, "failed", {
-				lastError: dispatched.error
-			});
+			const failed = deps.State.mark(config, leasedRecord, "failed", { lastError: dispatched.error });
 			return Helpers.receipt(identity, dispatched.error, false, failed);
 		}
 		const status = dispatched.recovered ? "recovered" : "accepted";
@@ -78,19 +85,11 @@ async function dispatchContinuation(config, options, deps, mission, lock, identi
 			acceptedAt: new Date(Number(options.now || Date.now())).toISOString(),
 			lastError: null
 		});
-		const reason = dispatched.recovered
-			? "existing_dispatch_recovered"
-			: "continuation_scheduled";
-		return Helpers.receipt(identity, reason, true, accepted);
+		return Helpers.receipt(identity, dispatched.recovered ? "existing_dispatch_recovered" : "continuation_scheduled", true, accepted);
 	} catch (error) {
-		const failed = deps.State.mark(config, leasedRecord, "failed", {
-			lastError: error?.message || String(error)
-		});
+		const failed = deps.State.mark(config, leasedRecord, "failed", { lastError: error?.message || String(error) });
 		return Helpers.receipt(identity, "continuation_dispatch_exception", false, failed);
 	}
 }
 
-module.exports = {
-	dispatchContinuation,
-	run
-};
+module.exports = { dispatchContinuation, reconcileActive, run };

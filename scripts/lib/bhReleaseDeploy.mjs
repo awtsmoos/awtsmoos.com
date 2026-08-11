@@ -3,34 +3,32 @@
 // Blessed is He
 
 /**
- * @file Builds the exact-SHA production activation covenant used by `npm run bh`.
- * @description
- * The Awtsmoos lets production restart only after its clean `main` checkout already
- * wears the exact pushed SHA. Awtsmoos.com proves the garment before and after BH.sh.
+ * @file Builds the exact-SHA canonical production activation covenant for `npm run bh`.
+ * @description The Awtsmoos lets one clean `main` tree testify for production;
+ * Awtsmoos.com asks only canonical Git and exact activation to carry that witness.
  */
 export function deployCommand(sha, branch) {
+	if (!/^[0-9a-f]{40}$/.test(String(sha || ""))) {
+		throw new Error("canonical_deploy_invalid_sha");
+	}
+	if (branch !== "main") {
+		throw new Error("canonical_deploy_requires_main");
+	}
 	const repository = "${AWTSMOOS_PRODUCTION_REPO:-/mnt/HC_Volume_102267213/git/awtsmoos.com}";
-	const releases = "${AWTSMOOS_RELEASES_ROOT:-/mnt/HC_Volume_102267213/releases}";
 	return [
 		"set -Eeuo pipefail",
 		`repo=\"${repository}\"`,
-		`releases=\"${releases}\"`,
 		"git -C \"$repo\" rev-parse --git-dir >/dev/null",
-		`test \"$(git -C \"$repo\" branch --show-current)\" = \"${branch}\"`,
+		"test \"$(git -C \"$repo\" branch --show-current)\" = \"main\"",
 		"test -z \"$(git -C \"$repo\" status --porcelain)\"",
-		`git -C \"$repo\" fetch --prune origin ${branch}`,
-		`actual=\"$(git -C \"$repo\" rev-parse origin/${branch}^{commit})\"`,
-		`test \"$actual\" = \"${sha}\"`,
-		`git -C \"$repo\" merge-base --is-ancestor HEAD origin/${branch}`,
-		`git -C \"$repo\" merge --ff-only origin/${branch}`,
+		"git -C \"$repo\" fetch --prune origin main",
+		`test \"$(git -C \"$repo\" rev-parse origin/main^{commit})\" = \"${sha}\"`,
+		"git -C \"$repo\" merge-base --is-ancestor HEAD origin/main",
+		"git -C \"$repo\" merge --ff-only origin/main",
 		"test -z \"$(git -C \"$repo\" status --porcelain)\"",
 		`test \"$(git -C \"$repo\" rev-parse HEAD^{commit})\" = \"${sha}\"`,
-		"cd \"$HOME\"",
-		"test -x ./BH.sh",
-		"./BH.sh",
+		`bash \"$repo/scripts/production/canonical-server-activate.sh\" \"${sha}\"`,
 		`test \"$(git -C \"$repo\" rev-parse HEAD^{commit})\" = \"${sha}\"`,
-		`test \"$(git -C \"$repo\" rev-parse origin/${branch}^{commit})\" = \"${sha}\"`,
-		"current=\"$(readlink -f \"$releases/current\")\"",
-		`test \"$(basename \"$current\")\" = \"awtsmoos-${sha}\"`
+		`test \"$(git -C \"$repo\" rev-parse origin/main^{commit})\" = \"${sha}\"`
 	].join("; ");
 }

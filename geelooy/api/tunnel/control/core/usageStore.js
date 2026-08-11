@@ -1,5 +1,9 @@
-﻿// B"H
+// B"H
+// Boruch Hashem
+// Blessed is He
+
 const { readStore, writeStore } = require("./store.js");
+const Persistence = require("./usageStorePersistence.js");
 const economy = require("../../../perutas/index.js");
 
 const PURCHASE_URL = economy.PURCHASE_URL;
@@ -13,47 +17,87 @@ const COMMAND_START_PERUTAS = 0;
 const COMMAND_SECOND_PERUTAS = economy.RATES.computeSecond;
 const BROWSER_SECOND_PERUTAS = economy.RATES.computeSecond;
 const PLANS = economy.TIERS;
+const io = { readStore, writeStore };
 
 /**
- * B"H
- * Chapter 488: The old local ledger became a compatibility veil. The real
- * economy now lives in server-side Peruta services with split routing, compute,
- * storage, and GPU balances. Preflight now enforces balances unless the server
- * explicitly sets PERUTA_OBSERVE_ONLY=1 for diagnostics.
+ * @file Persists Tunnel Control economy state while letting optional usage telemetry degrade under disk exhaustion.
+ * @description The Awtsmoos keeps Peruta authority strict and observable usage humble;
+ * Awtsmoos.com never lets a full telemetry vessel close the control path needed to repair the server itself.
  */
-function withStore(fn) {
-  const store = readStore();
-  const result = fn(store);
-  writeStore(store);
-  return result;
+function withStore(mutation) {
+	return Persistence.strict(io, mutation);
 }
+
 function grantDailyPerutas(store, userId, at = Date.now()) {
-  return economy.account.grantDaily(store, userId, at);
+	return economy.account.grantDaily(store, userId, at);
 }
-function estimateUsageCost(entry = {}) { return economy.estimate(entry); }
-function estimatePayloadCost(payload = {}) { return { ...economy.payloadEstimate(payload), purchaseUrl: PURCHASE_URL }; }
+
+function estimateUsageCost(entry = {}) {
+	return economy.estimate(entry);
+}
+
+function estimatePayloadCost(payload = {}) {
+	return { ...economy.payloadEstimate(payload), purchaseUrl: PURCHASE_URL };
+}
+
 function canAfford(userId, payload = {}) {
-  return withStore(store => economy.usage.canAfford(store, userId, payload, payload));
+	return withStore(store => economy.usage.canAfford(store, userId, payload, payload));
 }
+
 function chargeUsage(entry = {}) {
-  return withStore(store => economy.usage.charge(store, entry));
+	return withStore(store => economy.usage.charge(store, entry));
 }
+
 function recordUsage(entry = {}) {
-  withStore(store => economy.ledger.usageEvent(store, { at: Date.now(), userId: entry.userId || null, keyId: entry.keyId || null, action: entry.action || "unknown", path: entry.path || null, bytes: Number(entry.bytes || 0), ok: entry.ok !== false, category: economy.routeKind(entry.action, entry.vessel || entry.tunnelName) }));
+	const result = Persistence.bestEffortTelemetry(io, store => economy.ledger.usageEvent(store, usageEvent(entry)));
+	if (result?.degraded) return result;
+	return undefined;
 }
+
+function usageEvent(entry) {
+	return {
+		at: Date.now(),
+		userId: entry.userId || null,
+		keyId: entry.keyId || null,
+		action: entry.action || "unknown",
+		path: entry.path || null,
+		bytes: Number(entry.bytes || 0),
+		ok: entry.ok !== false,
+		category: economy.routeKind(entry.action, entry.vessel || entry.tunnelName)
+	};
+}
+
 function addPerutas(userId, amount, meta = {}) {
-  return withStore(store => {
-    const amounts = typeof amount === "object" ? amount : { routing: Number(amount || 0), compute: Number(amount || 0), storage: 0, gpu: 0 };
-    const account = economy.account.addCredits(store, userId, amounts, meta);
-    return { ok: true, userId, addedPerutas: amount, balances: account.balances, balance: account.balances.routing, plan: account.tier, purchaseUrl: PURCHASE_URL };
-  });
+	return withStore(store => {
+		const amounts = typeof amount === "object"
+			? amount
+			: { routing: Number(amount || 0), compute: Number(amount || 0), storage: 0, gpu: 0 };
+		const account = economy.account.addCredits(store, userId, amounts, meta);
+		return {
+			ok: true,
+			userId,
+			addedPerutas: amount,
+			balances: account.balances,
+			balance: account.balances.routing,
+			plan: account.tier,
+			purchaseUrl: PURCHASE_URL
+		};
+	});
 }
+
 function usageSummary(userId) {
-  return withStore(store => economy.usage.usageSummary(store, userId || "anonymous"));
+	return withStore(store => economy.usage.usageSummary(store, userId || "anonymous"));
 }
+
 function insufficientPerutasMessage(account, estimate) {
-  return [`PERUTA PREFLIGHT IS OBSERVE_ONLY.`, `ESTIMATED PERUTAS: ${estimate.estimatedPerutas}`, `CURRENT BALANCE: ${account?.balance || 0}`, `COMPUTE: ${PURCHASE_URL}`].join("\n");
+	return [
+		"PERUTA PREFLIGHT IS OBSERVE_ONLY.",
+		`ESTIMATED PERUTAS: ${estimate.estimatedPerutas}`,
+		`CURRENT BALANCE: ${account?.balance || 0}`,
+		`COMPUTE: ${PURCHASE_URL}`
+	].join("\n");
 }
+
 function actionBase() { return REQUEST_PERUTA_COST; }
 function fileRate() { return FILE_PERUTA_COST; }
 function secondRate() { return 0; }
@@ -62,10 +106,10 @@ function userKey(userId) { return userId || "anonymous"; }
 function accountFor(store, userId) { return economy.account.accountFor(store, userId); }
 
 module.exports = {
-  BYTE_PERUTA_COST, COMMAND_SECOND_PERUTAS, DAILY_FREE_PERUTAS, FILE_PERUTA_COST,
-  MAX_FREE_BALANCE, PLANS, PURCHASE_URL, REQUEST_PERUTA_COST, SEARCH_FILE_PERUTA_COST,
-  BROWSER_SECOND_PERUTAS, COMMAND_START_PERUTAS, accountFor, actionBase, addPerutas,
-  canAfford, chargeUsage, estimatePayloadCost, estimateUsageCost, fileRate,
-  grantDailyPerutas, insufficientPerutasMessage, recordUsage, round, secondRate,
-  usageSummary, userKey
+	BYTE_PERUTA_COST, BROWSER_SECOND_PERUTAS, COMMAND_SECOND_PERUTAS, COMMAND_START_PERUTAS,
+	DAILY_FREE_PERUTAS, FILE_PERUTA_COST, MAX_FREE_BALANCE, PLANS, PURCHASE_URL,
+	REQUEST_PERUTA_COST, SEARCH_FILE_PERUTA_COST, accountFor, actionBase, addPerutas,
+	canAfford, chargeUsage, estimatePayloadCost, estimateUsageCost, fileRate,
+	grantDailyPerutas, insufficientPerutasMessage, recordUsage, round, secondRate,
+	usageSummary, userKey
 };

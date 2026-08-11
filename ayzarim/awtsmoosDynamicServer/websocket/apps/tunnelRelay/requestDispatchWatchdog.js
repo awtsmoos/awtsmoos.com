@@ -9,35 +9,36 @@ const ResponseHandler = require("./responseHandler.js");
 const DEFAULT_REQUEST_ACCEPTANCE_MS = Number(
 	process.env.AWTSMOOS_TUNNEL_REQUEST_ACCEPTANCE_MS || 15000
 );
+const DEFAULT_ACCEPTANCE_FAILURE_LIMIT = Number(
+	process.env.AWTSMOOS_TUNNEL_ACCEPTANCE_FAILURE_LIMIT || 2
+);
 
 /**
- * @file Settles one missing-acceptance request without destroying a healthy tunnel.
- * @description
- * The Awtsmoos distinguishes one uncertain deed from the road that carried it.
- * Awtsmoos.com ends the exact canonical request fail-closed, while connection fencing
- * remains reserved for independently proven protocol or transport corruption.
+ * @file Settles missing acceptance while reconnecting a repeatedly non-consuming socket.
+ * @description The Awtsmoos spares one uncertain deed but does not call a silent road healthy forever;
+ * Awtsmoos.com lets one timeout remain isolated, while repeated proof closes only that socket so identity may return.
  */
 function arm(context, id, record, tunnel) {
 	clearTimeout(record.acceptanceTimer);
 	clearTimeout(record.consumerTimer);
 	record.consumerTimer = null;
 	record.acceptanceTimer = setTimeout(() => {
-		if (context.pendingTunnelRequests.get(id) !== record ||
-			record.requestAcceptedAt) return;
+		if (context.pendingTunnelRequests.get(id) !== record || record.requestAcceptedAt) return;
 		void acceptanceTimeout(context, id, record, tunnel);
 	}, bounded(DEFAULT_REQUEST_ACCEPTANCE_MS));
 	record.acceptanceTimer.unref?.();
 }
 
-/** Settles only the exact request; it deliberately does not alter tunnel liveness. */
 async function acceptanceTimeout(context, id, record, tunnel = null) {
-	return finish(
+	const settled = await finish(
 		context,
 		id,
 		record,
 		"device_request_acceptance_timeout",
 		tunnel
 	);
+	if (tunnel) noteFailure(tunnel, id, "device_request_acceptance_timeout");
+	return settled;
 }
 
 async function finish(context, id, record, reason, tunnel = null) {
@@ -51,7 +52,27 @@ async function finish(context, id, record, reason, tunnel = null) {
 	return settled;
 }
 
-/** Explicit connection fence for callers with independent corruption evidence. */
+function noteFailure(tunnel, id, reason) {
+	const count = Number(tunnel.acceptanceFailureCount || 0) + 1;
+	tunnel.acceptanceFailureCount = count;
+	tunnel.acceptanceHealthy = false;
+	tunnel.lastAcceptanceFailureAt = Date.now();
+	tunnel.lastAcceptanceFailureId = String(id || "");
+	tunnel.lastAcceptanceFailureReason = String(reason || "acceptance_timeout");
+	if (count >= failureLimit()) fence(tunnel, "repeated_device_acceptance_timeout");
+	return count;
+}
+
+function noteSuccess(tunnel) {
+	if (!tunnel) return false;
+	tunnel.acceptanceFailureCount = 0;
+	tunnel.acceptanceHealthy = true;
+	tunnel.lastAcceptanceSuccessAt = Date.now();
+	tunnel.lastAcceptanceFailureId = "";
+	tunnel.lastAcceptanceFailureReason = "";
+	return true;
+}
+
 function fence(tunnel, reason) {
 	if (!tunnel) return false;
 	tunnel.connected = false;
@@ -73,11 +94,20 @@ function bounded(value) {
 		: 15000;
 }
 
+function failureLimit() {
+	const number = Number(DEFAULT_ACCEPTANCE_FAILURE_LIMIT);
+	return Number.isFinite(number) ? Math.max(2, Math.min(5, Math.floor(number))) : 2;
+}
+
 module.exports = {
+	DEFAULT_ACCEPTANCE_FAILURE_LIMIT,
 	DEFAULT_REQUEST_ACCEPTANCE_MS,
 	acceptanceTimeout,
 	arm,
 	bounded,
+	failureLimit,
 	fence,
-	finish
+	finish,
+	noteFailure,
+	noteSuccess
 };

@@ -5,22 +5,26 @@
 const crypto = require("node:crypto");
 const fs = require("node:fs");
 const path = require("node:path");
+const ProjectRoot = require("./projectRoot.js");
+
+const VOLATILE_CHECKPOINT_KEYS = new Set([
+	"reason",
+	"timestamp",
+	"updatedAt",
+	"observedAt",
+	"lastSeenAt"
+]);
 
 /**
- * @file Builds one deterministic continuation identity and one bounded Shliach prompt.
- * @description
- * The Awtsmoos remembers the same unfinished covenant through interruption;
- * Awtsmoos.com names that checkpoint once and points the next messenger back to the real files.
+ * @file Builds deterministic continuation identity from the mission's durable next checkpoint.
+ * @description The Awtsmoos remembers the deed, not the scheduler's passing shadow;
+ * Awtsmoos.com keeps one root and one checkpoint while incidental counters come and go.
  */
 function fingerprint(config, mission = {}, lock = {}) {
 	const stable = JSON.stringify({
 		missionId: mission.id || mission.missionId || lock.missionId || "",
-		projectRoot: path.resolve(config.root || mission.metadata?.projectRoot || process.cwd()),
-		next: lock.lastMustCallNext || null,
-		lastAction: lock.lastAction || "",
-		filesTouched: lock.filesTouched || [],
-		testsRun: Number(lock.testsRun || 0),
-		workProgress: lock.workProgress || null
+		projectRoot: ProjectRoot.resolve(config, mission, lock),
+		next: stableCheckpoint(lock.lastMustCallNext || lock.mustCallNext || null)
 	});
 	return crypto.createHash("sha256").update(stable).digest("hex").slice(0, 24);
 }
@@ -31,11 +35,11 @@ function websiteMissionId(missionId, fingerprintValue) {
 }
 
 function build(config, mission = {}, lock = {}, fingerprintValue = fingerprint(config, mission, lock)) {
-	const projectRoot = path.resolve(config.root || mission.metadata?.projectRoot || process.cwd());
+	const projectRoot = ProjectRoot.resolve(config, mission, lock);
 	const missionId = mission.id || mission.missionId || lock.missionId || "";
 	const roomId = mission.room?.id || mission.roomId || "";
 	const plans = recentPlans(projectRoot);
-	const next = JSON.stringify(lock.lastMustCallNext || null);
+	const next = JSON.stringify(lock.lastMustCallNext || lock.mustCallNext || null);
 	return [
 		'B"H',
 		"Continue the SAME unfinished Awtsmoos mission. Do not create a duplicate mission.",
@@ -50,6 +54,15 @@ function build(config, mission = {}, lock = {}, fingerprintValue = fingerprint(c
 		"You may spawn bounded sub-agents only through the existing verified-close paced Awtsmoos Shliach system, using stable spawn request keys.",
 		"Honor any explicit user stop/cancel/pause immediately. Do not claim completion until the mission completion gate is actually satisfied."
 	].join("\n");
+}
+
+function stableCheckpoint(value) {
+	if (Array.isArray(value)) return value.map(stableCheckpoint);
+	if (!value || typeof value !== "object") return value;
+	return Object.fromEntries(Object.keys(value)
+		.filter(key => !VOLATILE_CHECKPOINT_KEYS.has(key))
+		.sort()
+		.map(key => [key, stableCheckpoint(value[key])]));
 }
 
 function recentPlans(projectRoot) {
@@ -79,9 +92,4 @@ function walk(root, files, depth) {
 	}
 }
 
-module.exports = {
-	build,
-	fingerprint,
-	recentPlans,
-	websiteMissionId
-};
+module.exports = { build, fingerprint, recentPlans, stableCheckpoint, websiteMissionId };

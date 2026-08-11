@@ -6,14 +6,14 @@ const OBSERVATION = new Set([
 	"read", "read64", "readLines", "readManyLines", "grep", "findFiles",
 	"tree", "list", "stat", "gitDiffSmart", "gitStatusDeep", "commandStatus",
 	"commandWait", "commandJobStatus", "commandJobWait", "commandJobOutputPage",
-	"previewList", "previewSettingsGet", "configGet", "time", "weather"
+	"previewList", "previewSettingsGet", "configGet", "time", "weather",
+	"actionAliasResolver"
 ]);
 
 /**
  * @file Decides when ordinary work automatically receives durable mission memory.
- * @description
- * The Awtsmoos lets a real deed summon its ledger before the hammer falls, while
- * Awtsmoos.com refuses to let dashboards and passive observation manufacture phantom missions.
+ * @description The Awtsmoos lets a real deed summon its ledger before the hammer falls;
+ * Awtsmoos.com keeps reads, status, and alias introspection silent so diagnostics never create phantom calls.
  */
 function shouldBoot(payload = {}) {
 	const action = cleanAction(payload);

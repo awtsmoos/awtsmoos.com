@@ -1,50 +1,42 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 
+/**
+ * @file Guards the canonical-server production contract against release-snapshot regression.
+ * @description The Awtsmoos leaves one server Git witness; Awtsmoos.com refuses copied release authority.
+ */
 const root = path.resolve(__dirname, "../..");
-const deploy = fs.readFileSync(path.join(__dirname, "immutable-deploy.sh"), "utf8");
-const entry = fs.readFileSync(path.join(__dirname, "remote-deploy-entry.sh"), "utf8");
-const unit = fs.readFileSync(
-	path.join(root, "ops/systemd/awtsmoos-immutable.conf"),
-	"utf8"
-);
-const timer = fs.readFileSync(
-	path.join(root, "ops/systemd/awtsmoos-health-watchdog.timer"),
-	"utf8"
-);
+const read = relative => fs.readFileSync(path.join(root, relative), "utf8");
 
-assert.match(deploy, /git -C "\$repo" archive "\$full_commit"/);
-assert.match(deploy, /diff --no-renames --name-only/);
-assert.match(deploy, /AWTSMOOS_PRODUCTION_ALLOW_LEGACY_PREDECESSOR/);
-assert.match(deploy, /\^awtsmoos-local-\[0-9a-f\]\{64\}\$/);
-assert.match(deploy, /\^awtsmoos-hotfix-/);
-assert.match(deploy, /legacy_name_allowed/);
-assert.match(deploy, /migrating audited legacy predecessor through a clean Git archive/);
-assert.match(deploy, /mkdir "\$stage"/);
-assert.match(deploy, /node --check "\$previous\/index\.js"/);
-assert.match(deploy, /\[ ! -L "\$previous\/users" \]/);
-assert.match(deploy, /AWTSMOOS_PRODUCTION_DATA_DIR/);
-assert.match(deploy, /ln -s "\$persistent_data" "\$stage\/geelooy\/\.data"/);
-assert.match(deploy, /ln -sfn "\$previous" "\$current"/);
-assert.match(deploy, /systemctl enable --now awtsmoos-health-watchdog\.timer/);
-assert.match(deploy, /ensure-nginx-websocket-timeouts\.sh/);
-assert.match(entry, /git -C "\$repo" fetch --prune origin main/);
-assert.match(entry, /git -C "\$repo" show "\$commit:scripts\/production\/immutable-deploy\.sh"/);
-assert.match(unit, /--max-http-header-size=131072/);
-assert.doesNotMatch(unit, /5368709120/);
-assert.match(timer, /OnUnitActiveSec=30s/);
+const systemd = read("ops/systemd/awtsmoos-immutable.conf");
+const activate = read("scripts/production/canonical-server-activate.sh");
+const remote = read("scripts/production/remote-deploy-entry.sh");
+const legacy = read("scripts/production/immutable-deploy.sh");
+const localSnapshot = read("scripts/production/immutable-local-snapshot.sh");
+const publisher = read("scripts/production/publishLocalSnapshot.mjs");
+const deployBuilder = read("scripts/lib/bhReleaseDeploy.mjs");
 
-console.log(JSON.stringify({
-	ok: true,
-	suite: "immutable-production-deploy-contract",
-	dirtyCheckoutIndependent: true,
-	atomicReleaseSwitch: true,
-	healthRollback: true,
-	durableCredentialStore: true,
-	eventLoopWatchdog: true,
-	durableWebsocketProxy: true,
-	boundedHeaders: true
-}, null, 2));
+assert.match(systemd, /git\/awtsmoos\.com/);
+assert.doesNotMatch(systemd, /releases\/current/);
+assert.match(activate, /canonical_repo_dirty/);
+assert.match(activate, /service_working_directory_mismatch/);
+assert.match(activate, /rollback/);
+assert.doesNotMatch(activate, /releases\/current/);
+assert.match(remote, /merge --ff-only/);
+assert.match(remote, /canonical-server-activate\.sh/);
+assert.doesNotMatch(remote, /immutable-deploy\.sh/);
+assert.match(legacy, /IMMUTABLE_SERVER_RELEASES_RETIRED/);
+assert.doesNotMatch(legacy, /mkdir.*releases|releases\/current/);
+assert.match(localSnapshot, /SERVER_SOURCE_SNAPSHOT_RETIRED/);
+assert.doesNotMatch(localSnapshot, /tar -x|systemctl|releases\/current/);
+assert.match(publisher, /SERVER_SOURCE_SNAPSHOT_RETIRED/);
+assert.doesNotMatch(publisher, /ssh2|sftp|createReadStream/);
+assert.doesNotMatch(deployBuilder, /BH\.sh|releases\/current/);
+assert.match(deployBuilder, /canonical-server-activate\.sh/);
+
+console.log(JSON.stringify({ ok: true, suite: "canonical-production-contract" }));

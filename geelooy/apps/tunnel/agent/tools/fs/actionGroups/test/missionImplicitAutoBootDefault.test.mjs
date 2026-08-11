@@ -13,10 +13,9 @@ const Actions = require("../../actions.js");
 const Lock = require("../../mission/lock/index.js");
 
 /**
- * @file Proves substantive work acquires one advisory mission before execution while passive reads stay silent.
- * @description
- * The Awtsmoos lets the first deed awaken durable memory without caging the deed itself;
- * Awtsmoos.com keeps observation missionless, receipts visible, and boot reasons truthful.
+ * @file Proves substantive work acquires one advisory mission while passive reads and diagnostics remain missionless.
+ * @description The Awtsmoos lets the deed awaken memory without letting inspection pretend to be a deed;
+ * Awtsmoos.com keeps reads and alias resolution silent, while real writes receive one durable seed.
  */
 function config(root) {
 	return {
@@ -50,6 +49,7 @@ try {
 	assert.equal(passive.ok, true);
 	assert.equal(Lock.active(passiveConfig), null);
 	assert.equal(Actions.missionManaged({ action: "read" }), false);
+	assert.equal(Actions.missionManaged({ action: "actionAliasResolver" }), false);
 
 	const workConfig = config(workRoot);
 	const first = await execute(workConfig, { action: "mkdirp", p: "first" });
@@ -82,6 +82,7 @@ try {
 		ok: true,
 		suite: "mission-implicit-auto-boot-default",
 		passiveReadBooted: false,
+		passiveAliasResolverBooted: false,
 		firstMissionId: firstLock.missionId,
 		firstDeedReceipted: true,
 		bootReasonTruthful: true,

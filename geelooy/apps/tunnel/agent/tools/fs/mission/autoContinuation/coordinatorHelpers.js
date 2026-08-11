@@ -8,12 +8,13 @@ const WebsiteStore = require("../../actionGroups/websiteAgents/store.js");
 const State = require("./state.js");
 const Eligibility = require("./eligibility.js");
 const Dispatch = require("./dispatch.js");
+const ProjectRoot = require("./projectRoot.js");
+const WebsiteStatus = require("./websiteStatus.js");
 
 /**
- * @file Holds pure coordinator boundaries so one unfinished checkpoint remains one small orchestration vessel.
- * @description
- * The Awtsmoos separates the witness from the messenger; Awtsmoos.com keeps
- * suppression, dependency resolution, recovery, and receipts explicit enough to audit independently.
+ * @file Holds continuation dependencies and compact recovery receipts.
+ * @description The Awtsmoos separates root, state, and messenger into auditable vessels;
+ * Awtsmoos.com keeps recovery explicit, so hidden coupling cannot multiply Shliachim like restless bells.
  */
 function dependencies(overrides = {}) {
 	return {
@@ -22,7 +23,9 @@ function dependencies(overrides = {}) {
 		WebsiteStore: overrides.WebsiteStore || WebsiteStore,
 		State: overrides.State || State,
 		Eligibility: overrides.Eligibility || Eligibility,
-		Dispatch: overrides.Dispatch || Dispatch
+		Dispatch: overrides.Dispatch || Dispatch,
+		ProjectRoot: overrides.ProjectRoot || ProjectRoot,
+		WebsiteStatus: overrides.WebsiteStatus || WebsiteStatus
 	};
 }
 

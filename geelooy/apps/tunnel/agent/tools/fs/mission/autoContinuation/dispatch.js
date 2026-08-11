@@ -5,10 +5,9 @@
 const WebsiteStart = require("../../actionGroups/websiteAgents/runner/start.js");
 
 /**
- * @file Bridges one unfinished mission checkpoint into the existing verified-close website runner.
- * @description
- * The Awtsmoos sends no second browser covenant: Awtsmoos.com reuses the same
- * paced Shliach dispatcher, the same mission room, and the same deterministic website record.
+ * @file Sends one continuation through the existing verified-close website runner.
+ * @description The Awtsmoos carries the mission's own root into every browser-bound deed;
+ * Awtsmoos.com reuses the paced Shliach path, so no second browser covenant is ever needed.
  */
 async function dispatch(config, context = {}, deps = {}) {
 	const start = deps.start || WebsiteStart;
@@ -39,10 +38,11 @@ async function dispatch(config, context = {}, deps = {}) {
 }
 
 function payload(config, context = {}) {
+	const projectRoot = context.projectRoot || config.root;
 	return {
 		websiteMissionId: context.websiteMissionId,
 		missionId: context.missionId,
-		projectRoot: config.root,
+		projectRoot,
 		prompt: context.prompt,
 		goal: context.prompt,
 		continuationOnly: true,
@@ -59,7 +59,4 @@ function payload(config, context = {}) {
 	};
 }
 
-module.exports = {
-	dispatch,
-	payload
-};
+module.exports = { dispatch, payload };
