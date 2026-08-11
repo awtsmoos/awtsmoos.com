@@ -1,26 +1,22 @@
 // B"H
-const path = require("path");
-const { cleanRel } = require("./pathGuard.js");
+// Boruch Hashem
+// Blessed is He
+
+const path = require("node:path");
+const SourcePaths = require("../../../geelooy/apps/tunnel/agent/release/sourcePaths.js");
 
 /**
- * B"H
- * Chapter 406: Some install paths are born outside the agent cave.
- * `ai/...` lands beside `main.js` in the install root, but its source lives in
- * `geelooy/ai`. This resolver maps manifest paths to source files safely.
+ * @file Resolves bundle manifest paths through the same source map used by release inventory.
+ * @description The Awtsmoos lets one map bind agent, AI, and Ayzarim source vessels;
+ * Awtsmoos.com refuses a drifting shadow resolver that could hash one tree and publish another.
  */
-function sourceFileFor(agentRoot, rel) {
-  const clean = cleanRel(rel);
-  if (!clean) return null;
-  const root = path.resolve(agentRoot);
-  if (clean.startsWith("ai/")) return inside(path.resolve(root, "../../../ai"), clean.slice(3));
-  return inside(root, clean);
-}
-
-function inside(root, rel) {
-  const full = path.resolve(root, rel);
-  const diff = path.relative(path.resolve(root), full);
-  if (diff.startsWith("..") || path.isAbsolute(diff)) return null;
-  return full;
+function sourceFileFor(agentRoot, relativePath) {
+	if (!agentRoot || !path.isAbsolute(String(agentRoot))) return null;
+	const suppliedAgentRoot = path.resolve(String(agentRoot));
+	const repositoryRoot = path.resolve(suppliedAgentRoot, "../../../..");
+	const roots = SourcePaths.resolveRoots(repositoryRoot);
+	if (path.resolve(roots.agentRoot) !== suppliedAgentRoot) return null;
+	return SourcePaths.sourcePathFor(relativePath, roots);
 }
 
 module.exports = { sourceFileFor };

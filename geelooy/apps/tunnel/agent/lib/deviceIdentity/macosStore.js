@@ -4,17 +4,17 @@
 
 const Command = require("./command.js");
 const Codec = require("./macosStoreCodec.js");
+const LoginKeychain = require("./macosLoginKeychain.js");
 
-/**
- * @file Stores device secrets in the macOS Login Keychain without CLI shape drift.
- * @description
- * The Awtsmoos conceals inward life while revealing only its proper effect.
- * macOS `security` hex-renders multiline generic-password data, so Awtsmoos.com
- * stores new secrets in one single-line envelope and decodes verified legacy PEM.
- */
 const SECURITY = "/usr/bin/security";
 
+/**
+ * @file Stores physical-device secrets in the logged-in macOS user's explicit Login Keychain.
+ * @description The Awtsmoos keeps possession identity visible across sandboxed HOME values;
+ * Awtsmoos.com binds Keychain access to the real account rather than mutable process environment.
+ */
 function write(service, account, value) {
+	const keychain = LoginKeychain.resolve();
 	Command.run(SECURITY, [
 		"add-generic-password",
 		"-U",
@@ -23,11 +23,13 @@ function write(service, account, value) {
 		"-a",
 		account,
 		"-w",
-		Codec.encode(value)
+		Codec.encode(value),
+		keychain
 	]);
 }
 
 function read(service, account) {
+	const keychain = LoginKeychain.resolve();
 	try {
 		const value = Command.run(SECURITY, [
 			"find-generic-password",
@@ -35,34 +37,38 @@ function read(service, account) {
 			service,
 			"-a",
 			account,
-			"-w"
+			"-w",
+			keychain
 		]);
 		return Codec.decode(value);
 	} catch (error) {
-		if (String(error.message).includes("44")) {
-			return null;
-		}
+		if (isMissing(error)) return null;
 		throw error;
 	}
 }
 
 function remove(service, account) {
+	const keychain = LoginKeychain.resolve();
 	try {
 		Command.run(SECURITY, [
 			"delete-generic-password",
 			"-s",
 			service,
 			"-a",
-			account
+			account,
+			keychain
 		]);
 	} catch (error) {
-		if (!String(error.message).includes("44")) {
-			throw error;
-		}
+		if (!isMissing(error)) throw error;
 	}
 }
 
+function isMissing(error) {
+	return String(error?.message || "").includes("44");
+}
+
 module.exports = {
+	isMissing,
 	read,
 	remove,
 	write

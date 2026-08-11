@@ -8,6 +8,7 @@ const fsp = require("node:fs/promises");
 const path = require("node:path");
 const { spawnSync } = require("node:child_process");
 const { parseManifest } = require("../../zipBundles/bundleManifest.js");
+const Process = require("./helpers/unixFixtureProcess.cjs");
 const { UnixInstallerFixture } = require("./helpers/unixInstallerFixture.cjs");
 const { fetchJson, findFreePort, listenerPids, waitJson } = require("./helpers/localhostJson.cjs");
 
@@ -19,11 +20,9 @@ const manifestPath = path.join(repositoryRoot, "geelooy/apps/tunnel/agent/manife
 const expectedTunnelName = "awt-sandbox-unix-zip";
 
 /**
- * B"H
- *
- * The localhost proof binds install root, config, API port, and child PID into one
- * disposable world. The Awtsmoos renews identity and listener together;
- * Awtsmoos.com rejects any response belonging to the user's live tunnel.
+ * @file Proves Unix install, stopped fresh authority, and readiness inside one disposable world.
+ * @description The Awtsmoos lets production install semantics finish before a test-only identity awakens;
+ * Awtsmoos.com rejects any response or credential belonging to the user's live tunnel.
  */
 async function main() {
 	if (!bashAvailable()) return printSkip();
@@ -43,27 +42,29 @@ async function main() {
 		const install = await fixture.runInstaller();
 		assertInstalled(manifest);
 		assertSandboxConfig(apiPort);
+		assertFreshGrant(fixture.recoveryRoot);
+		const identity = fixture.seedTestIdentity();
+		assert.equal(identity.relay, "ws://127.0.0.1:9");
 		agent = fixture.startAgent();
 		const health = await waitJson(`http://127.0.0.1:${apiPort}/health?summary=1`);
 		assert.equal(health.tunnelName, expectedTunnelName, compactHealth(health));
 		assert.deepEqual(listenerPids(apiPort), [agent.pid]);
 		const list = await fetchJson(`http://127.0.0.1:${apiPort}/tool`, listRequest());
 		assert.equal(list.ok, true, JSON.stringify(list));
-		assert.match(install.stdout, /\[\s*72%\].*runtime start skipped/i);
+		assert.match(install.stdout, /\[Awtsmoos\]\[complete\]\[passed\] Runtime start skipped by explicit request\./);
+		assert.match(install.stdout, /phase=installed_not_started/);
 		assert.doesNotMatch(install.stdout, /\[\s*100%\]/);
 		console.log(JSON.stringify({
 			ok: true,
 			installedFiles: manifest.files.length,
-			health: {
-				tunnelName: health.tunnelName,
-				agentVersion: health.agentVersion
-			},
+			health: { tunnelName: health.tunnelName, agentVersion: health.agentVersion },
 			listenerPid: agent.pid,
+			testDeviceId: identity.deviceId,
 			isolatedPort: apiPort,
 			progressVerified: true
 		}, null, 2));
 	} finally {
-		if (agent) await stopChild(agent);
+		if (agent) await Process.stopChild(agent);
 		await fixture.close();
 	}
 
@@ -81,12 +82,20 @@ async function main() {
 	}
 }
 
+function assertFreshGrant(recoveryRoot) {
+	const file = path.join(recoveryRoot, "state", "physical-identity-creation-grant.json");
+	const grant = JSON.parse(fs.readFileSync(file, "utf8"));
+	assert.equal(grant.kind, "fresh_install_once");
+	assert.equal(path.resolve(grant.installRoot), path.resolve(installRoot));
+	assert.equal(path.resolve(grant.recoveryRoot), path.resolve(recoveryRoot));
+}
+
 function bashAvailable() {
 	return spawnSync("bash", ["--version"], { encoding: "utf8" }).status === 0;
 }
 
 function printSkip() {
-	console.log(JSON.stringify({ ok: true, skipped: true, reason: "bash_not_available" }, null, 2));
+	console.log(JSON.stringify({ ok: true, skipped: true, reason: "bash_not_available" }));
 }
 
 function compactHealth(health) {
@@ -99,15 +108,6 @@ function listRequest() {
 		headers: { "content-type": "application/json" },
 		body: JSON.stringify({ action: "list", arguments: { p: ".", maxResults: 10 } })
 	};
-}
-
-async function stopChild(child) {
-	child.kill("SIGTERM");
-	await Promise.race([
-		new Promise(resolve => child.once("exit", resolve)),
-		new Promise(resolve => setTimeout(resolve, 3000))
-	]);
-	if (child.exitCode === null) child.kill("SIGKILL");
 }
 
 main().catch(error => {

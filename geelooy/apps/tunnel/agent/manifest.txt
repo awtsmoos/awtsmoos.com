@@ -1,5 +1,5 @@
 B"H
-1.0.517
+1.0.520
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtector.mjs
@@ -890,6 +890,8 @@ lib/connection-vessel/controller.js
 lib/connection-vessel/mailbox-health-policy.js
 lib/connection-vessel/mailbox-health.js
 lib/connection-vessel/mailbox-io.js
+lib/connection-vessel/mailbox-legacy-io.js
+lib/connection-vessel/mailbox-legacy.js
 lib/connection-vessel/mailbox-paths.js
 lib/connection-vessel/mailbox-store.js
 lib/connection-vessel/mailbox.js
@@ -924,6 +926,7 @@ lib/deviceIdentity/identitySlotVerification.js
 lib/deviceIdentity/index.js
 lib/deviceIdentity/keyCoherence.js
 lib/deviceIdentity/keyMaterial.js
+lib/deviceIdentity/macosLoginKeychain.js
 lib/deviceIdentity/macosStore.js
 lib/deviceIdentity/macosStoreCodec.js
 lib/deviceIdentity/metadata.js
@@ -1395,6 +1398,7 @@ tools/fs/actionGroups/batchAliasActions.js
 tools/fs/actionGroups/chromeActions.js
 tools/fs/actionGroups/cognitionActions.js
 tools/fs/actionGroups/commandActions.js
+tools/fs/actionGroups/commandActionSync.js
 tools/fs/actionGroups/commandPresetActions.js
 tools/fs/actionGroups/commandTreeActions.js
 tools/fs/actionGroups/commandTreeBudget.js
@@ -1612,6 +1616,10 @@ tools/fs/commandJob/promiseDeadline.js
 tools/fs/commandJob/queueLimits.js
 tools/fs/commandJob/reap.js
 tools/fs/commandJob/reapArbitration.js
+tools/fs/commandJob/receiptGc.js
+tools/fs/commandJob/receiptLocator.js
+tools/fs/commandJob/receiptPaths.js
+tools/fs/commandJob/receiptPolicy.js
 tools/fs/commandJob/reconcile.js
 tools/fs/commandJob/registryBridge.js
 tools/fs/commandJob/responseLanguage.js
@@ -1631,6 +1639,7 @@ tools/fs/commandJob/stateRootFamily.js
 tools/fs/commandJob/stateRoots.js
 tools/fs/commandJob/stateRootsAsync.js
 tools/fs/commandJob/status.js
+tools/fs/commandJob/terminalReceipt.js
 tools/fs/commandJob/wait.js
 tools/fs/commandJob/writeSnapshot.js
 tools/fs/commandJobStore.js
@@ -1693,8 +1702,10 @@ tools/fs/mission/autoContinuation/coordinatorHelpers.js
 tools/fs/mission/autoContinuation/dispatch.js
 tools/fs/mission/autoContinuation/eligibility.js
 tools/fs/mission/autoContinuation/index.js
+tools/fs/mission/autoContinuation/projectRoot.js
 tools/fs/mission/autoContinuation/prompt.js
 tools/fs/mission/autoContinuation/state.js
+tools/fs/mission/autoContinuation/websiteStatus.js
 tools/fs/mission/autoSeed/config.js
 tools/fs/mission/autoSeed/index.js
 tools/fs/mission/autoStart/create.js
@@ -1841,6 +1852,7 @@ tools/fs/mission/missionOs/promptTemplates.js
 tools/fs/mission/missionOs/releaseCourt.js
 tools/fs/mission/oath/index.js
 tools/fs/mission/oath/store.js
+tools/fs/mission/projectRootRegistry.js
 tools/fs/mission/protocolArtifacts.js
 tools/fs/mission/protocolFinalizationGuard.js
 tools/fs/mission/protocolGates.js

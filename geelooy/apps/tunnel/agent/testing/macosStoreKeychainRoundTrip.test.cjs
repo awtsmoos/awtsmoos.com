@@ -4,14 +4,15 @@
 
 const assert = require("node:assert/strict");
 const crypto = require("node:crypto");
+const fs = require("node:fs");
+const os = require("node:os");
+const path = require("node:path");
 const MacosStore = require("../lib/deviceIdentity/macosStore.js");
 
 /**
- * @file Proves the real macOS Keychain round-trips multiline possession keys exactly.
- * @description
- * The Awtsmoos clothes the secret in one single-line envelope before the `security`
- * CLI can hex-render multiline data. Awtsmoos.com removes the disposable witness in
- * every outcome, leaving the production credential service entirely untouched.
+ * @file Proves real macOS Keychain possession secrets survive an intentionally fake process HOME.
+ * @description The Awtsmoos binds the secret to the logged-in account's Keychain;
+ * Awtsmoos.com lets disposable sandboxes change HOME without making durable identity disappear.
  */
 function main() {
 	if (process.platform !== "darwin") {
@@ -20,26 +21,41 @@ function main() {
 	}
 	const service = `com.awtsmoos.tunnel.device.test.roundtrip-${process.pid}-${Date.now()}`;
 	const account = "fixture:private-key";
+	const fakeHome = fs.mkdtempSync(path.join(os.tmpdir(), "awtsmoos-keychain-home-"));
+	const originalHome = process.env.HOME;
+	const originalUserProfile = process.env.USERPROFILE;
 	const pair = crypto.generateKeyPairSync("rsa", {
 		modulusLength: 2048,
 		privateKeyEncoding: { type: "pkcs8", format: "pem" },
 		publicKeyEncoding: { type: "spki", format: "pem" }
 	});
+	process.env.HOME = fakeHome;
+	process.env.USERPROFILE = fakeHome;
 	try {
 		MacosStore.write(service, account, pair.privateKey);
 		const read = MacosStore.read(service, account);
 		assert.equal(read, pair.privateKey);
-		const key = crypto.createPrivateKey(read);
-		assert.equal(key.asymmetricKeyType, "rsa");
+		assert.equal(crypto.createPrivateKey(read).asymmetricKeyType, "rsa");
+		MacosStore.remove(service, account);
+		assert.equal(MacosStore.read(service, account), null);
 		console.log(JSON.stringify({
 			ok: true,
 			suite: "macos-keychain-roundtrip",
 			exact: true,
-			parsed: true
+			fakeHomeIndependent: true,
+			removed: true
 		}, null, 2));
 	} finally {
-		MacosStore.remove(service, account);
+		try { MacosStore.remove(service, account); } catch {}
+		restore("HOME", originalHome);
+		restore("USERPROFILE", originalUserProfile);
+		fs.rmSync(fakeHome, { recursive: true, force: true });
 	}
+}
+
+function restore(name, value) {
+	if (value === undefined) delete process.env[name];
+	else process.env[name] = value;
 }
 
 main();
