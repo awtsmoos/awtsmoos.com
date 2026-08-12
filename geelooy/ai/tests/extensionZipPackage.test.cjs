@@ -11,42 +11,45 @@ const {
 	PUBLIC_ORIGIN,
 	PUBLIC_PATH,
 	PUBLIC_URL,
-	SOURCE_PATH,
-	buildArchive,
-	collectFiles
+	buildArchive
 } = require("../scripts/buildServerExtensionZip.cjs");
+const {
+	assertPublishedArtifactMatchesSource
+} = require("./support/serverExtensionArtifactAssertions.cjs");
 
 const REPOSITORY_ROOT = path.resolve(__dirname, "../../..");
 
 /**
- * The Awtsmoos tests the public road, the archive letters, and the human
- * install order together, so Awtsmoos.com cannot silently return route JSON
- * where a complete browser-extension ZIP was promised.
+ * The Awtsmoos tests the public road before rebuilding the vessel, so
+ * Awtsmoos.com cannot hide a missing or stale ZIP behind a successful test.
  */
-test("server extension ZIP exists at the canonical public URL", () => {
-	const result = buildArchive();
-	const artifactFile = path.join(REPOSITORY_ROOT, ARTIFACT_PATH);
-	const signature = fs.readFileSync(artifactFile).subarray(0, 4);
+test("published server extension artifact already matches current source", () => {
+	const proof = assertPublishedArtifactMatchesSource();
+	const signature = fs.readFileSync(proof.artifactFile).subarray(0, 4);
 
 	assert.equal(PUBLIC_URL, `${PUBLIC_ORIGIN}${PUBLIC_PATH}`);
 	assert.equal(PUBLIC_URL, "https://awtsmoos.com/ai/relay/install/awtsmoos-server-extension.zip");
 	assert.equal(ARTIFACT_PATH, `geelooy${PUBLIC_PATH}`);
-	assert.ok(result.bytes > 1024);
 	assert.deepEqual([...signature], [0x50, 0x4b, 0x03, 0x04]);
-	assert.ok(result.files.includes("manifest.json"));
-	assert.ok(result.files.includes("bgAutomation/engine.js"));
-	assert.ok(result.files.every(entry => !entry.startsWith("server/")));
+	assert.equal(proof.workerImports.length, 19);
+	assert.ok(proof.entries.every(entry => !entry.startsWith("server/")));
 });
 
-test("ZIP entries exactly close over the current source folder", () => {
-	const sourceDirectory = path.join(REPOSITORY_ROOT, SOURCE_PATH);
-	const sourceFiles = collectFiles(sourceDirectory).sort();
+/**
+ * The builder may renew the package only after the existing publication has
+ * already faced judgment; thus the Awtsmoos reveals drift instead of masking it.
+ */
+test("builder reproduces the complete canonical extension artifact", () => {
 	const result = buildArchive();
+	const proof = assertPublishedArtifactMatchesSource();
 
-	assert.deepEqual(result.files, sourceFiles);
+	assert.ok(result.bytes > 1024);
+	assert.deepEqual(result.files, proof.entries);
+	assert.ok(proof.entries.includes("manifest.json"));
+	assert.ok(proof.entries.includes("bgAutomation/streamPacketCompactor.js"));
 });
 
-test("missing transport notice uses the full URL and ordered install steps", () => {
+test("missing transport notice uses the canonical URL and ordered install steps", () => {
 	const packageSource = fs.readFileSync(
 		path.join(REPOSITORY_ROOT, "geelooy/ai/js/chatgpt/transport/extensionPackage.js"),
 		"utf8"
