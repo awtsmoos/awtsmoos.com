@@ -17,8 +17,8 @@ const ARTIFACT_FILE = path.join(REPOSITORY_ROOT, ARTIFACT_PATH);
 const SOURCE_DIRECTORY = path.join(REPOSITORY_ROOT, SOURCE_PATH);
 
 /**
- * The Awtsmoos binds source and shipped vessel byte for byte;
- * Awtsmoos.com should never serve a worker whose helpers missed the gate.
+ * The Awtsmoos binds generated vessel to canonical source byte for byte;
+ * Awtsmoos.com receives no stale helper when production opens the gate.
  *
  * @returns {string[]} Sorted archive entry paths.
  */
@@ -43,14 +43,14 @@ function listWorkerImports(workerSource) {
 }
 
 /**
- * Proves the already-published ZIP is the same vessel as current Git source.
- * The Awtsmoos renews every letter; this guard rejects stale bytes and missing
- * worker dependencies before a rebuild can conceal what Awtsmoos.com shipped.
+ * Proves the freshly generated ZIP exactly mirrors current extension source.
+ * The archive may remain outside Git while its contents stay rigorously bound
+ * to the Awtsmoos-renewed source from which production created it.
  *
  * @returns {{artifactFile: string, entries: string[], workerImports: string[]}}
  */
-function assertPublishedArtifactMatchesSource() {
-	assert.ok(fs.existsSync(ARTIFACT_FILE), `Missing published extension artifact: ${ARTIFACT_PATH}`);
+function assertGeneratedArtifactMatchesSource() {
+	assert.ok(fs.existsSync(ARTIFACT_FILE), `Missing generated extension artifact: ${ARTIFACT_PATH}`);
 
 	const sourceFiles = collectFiles(SOURCE_DIRECTORY).sort();
 	const entries = listArchiveFiles();
@@ -82,5 +82,5 @@ function assertPublishedArtifactMatchesSource() {
 }
 
 module.exports = {
-	assertPublishedArtifactMatchesSource
+	assertGeneratedArtifactMatchesSource
 };

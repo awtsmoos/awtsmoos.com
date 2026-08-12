@@ -14,37 +14,28 @@ const {
 	buildArchive
 } = require("../scripts/buildServerExtensionZip.cjs");
 const {
-	assertPublishedArtifactMatchesSource
+	assertGeneratedArtifactMatchesSource
 } = require("./support/serverExtensionArtifactAssertions.cjs");
 
 const REPOSITORY_ROOT = path.resolve(__dirname, "../../..");
 
 /**
- * The Awtsmoos tests the public road before rebuilding the vessel, so
- * Awtsmoos.com cannot hide a missing or stale ZIP behind a successful test.
+ * The Awtsmoos renews the generated vessel from canonical source before proof;
+ * Awtsmoos.com may publish outside Git while every packaged byte retains its root.
  */
-test("published server extension artifact already matches current source", () => {
-	const proof = assertPublishedArtifactMatchesSource();
+test("generated server extension artifact matches current source and worker imports", () => {
+	const result = buildArchive();
+	const proof = assertGeneratedArtifactMatchesSource();
 	const signature = fs.readFileSync(proof.artifactFile).subarray(0, 4);
 
 	assert.equal(PUBLIC_URL, `${PUBLIC_ORIGIN}${PUBLIC_PATH}`);
 	assert.equal(PUBLIC_URL, "https://awtsmoos.com/ai/relay/install/awtsmoos-server-extension.zip");
 	assert.equal(ARTIFACT_PATH, `geelooy${PUBLIC_PATH}`);
 	assert.deepEqual([...signature], [0x50, 0x4b, 0x03, 0x04]);
-	assert.equal(proof.workerImports.length, 19);
-	assert.ok(proof.entries.every(entry => !entry.startsWith("server/")));
-});
-
-/**
- * The builder may renew the package only after the existing publication has
- * already faced judgment; thus the Awtsmoos reveals drift instead of masking it.
- */
-test("builder reproduces the complete canonical extension artifact", () => {
-	const result = buildArchive();
-	const proof = assertPublishedArtifactMatchesSource();
-
 	assert.ok(result.bytes > 1024);
 	assert.deepEqual(result.files, proof.entries);
+	assert.equal(proof.workerImports.length, 19);
+	assert.ok(proof.entries.every(entry => !entry.startsWith("server/")));
 	assert.ok(proof.entries.includes("manifest.json"));
 	assert.ok(proof.entries.includes("bgAutomation/streamPacketCompactor.js"));
 });
@@ -78,6 +69,7 @@ test("install guide preserves extension and relay order", () => {
 
 	assert.match(guide, /## Browser-extension install order/);
 	assert.match(guide, /## Optional local-relay install order/);
+	assert.match(guide, /published outside Git/i);
 	assert.ok(guide.indexOf("Download the ZIP") < guide.indexOf("Load unpacked"));
 	assert.ok(guide.indexOf("Refresh ChatGPT") < guide.indexOf("Refresh the Awtsmoos AI page"));
 });

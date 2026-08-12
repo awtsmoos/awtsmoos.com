@@ -3,7 +3,7 @@
 # Boruch Hashem
 # Blessed is He
 # The Awtsmoos reveals one server source beneath changing process garments;
-# Awtsmoos.com arms rollback only after the old vessel is safely witnessed.
+# Awtsmoos.com rebuilds generated vessels from the exact Git light before activation.
 set -Eeuo pipefail
 
 expected="${1:-}"
@@ -12,6 +12,8 @@ service="${AWTSMOOS_PRODUCTION_SERVICE:-awtsmoos.service}"
 override="${AWTSMOOS_SYSTEMD_OVERRIDE_PATH:-/etc/systemd/system/${service}.d/10-immutable-release.conf}"
 source_override="$repo/ops/systemd/awtsmoos-immutable.conf"
 health_url="${AWTSMOOS_PRODUCTION_HEALTH_URL:-http://127.0.0.1:8080/}"
+extension_builder="$repo/geelooy/ai/scripts/buildServerExtensionZip.cjs"
+extension_artifact="$repo/geelooy/ai/relay/install/awtsmoos-server-extension.zip"
 backup="${TMPDIR:-/tmp}/awtsmoos-service-override.$$.bak"
 armed=0
 committed=0
@@ -45,6 +47,11 @@ trap rollback EXIT
 [ -f "$repo/index.js" ] || fail canonical_entrypoint_missing
 [ -d "$repo/users" ] || fail canonical_users_missing
 [ -d "$repo/geelooy/.data" ] || fail canonical_data_missing
+[ -f "$extension_builder" ] || fail extension_builder_missing
+
+node "$extension_builder"
+[ -s "$extension_artifact" ] || fail extension_artifact_missing
+[ -z "$(git -C "$repo" status --porcelain)" ] || fail extension_build_dirtied_repo
 
 if [ -f "$override" ]; then
 	cp "$override" "$backup"
@@ -73,8 +80,9 @@ case "$exec_start" in
 	*) fail service_exec_start_mismatch ;;
 esac
 [ "$(git -C "$repo" rev-parse HEAD)" = "$expected" ] || fail post_restart_head_mismatch
+[ -z "$(git -C "$repo" status --porcelain)" ] || fail post_restart_repo_dirty
 
 committed=1
 rm -f "$backup"
 trap - EXIT
-printf 'B"H CANONICAL_SERVER_ACTIVE sha=%s repo=%s service=%s\n' "$expected" "$repo" "$service"
+printf 'B"H CANONICAL_SERVER_ACTIVE sha=%s repo=%s service=%s extension=%s\n' "$expected" "$repo" "$service" "$extension_artifact"

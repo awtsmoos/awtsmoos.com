@@ -1,4 +1,4 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -9,14 +9,15 @@ const os = require("node:os");
 const path = require("node:path");
 
 /**
- * @file Exercises canonical activation with fake systemd while protecting the old override on preflight failure.
- * @description The Awtsmoos arms rollback only after proof; Awtsmoos.com tests the vessel without touching a real service.
+ * @file Exercises exact-SHA activation, rollback safety, and generated extension publication.
+ * @description The Awtsmoos proves the source before service garments change; Awtsmoos.com receives a fresh ignored ZIP from that same light.
  */
 const temporary = fs.mkdtempSync(path.join(os.tmpdir(), "awtsmoos-activate-"));
 const repo = path.join(temporary, "repo");
 const origin = path.join(temporary, "origin.git");
 const bin = path.join(temporary, "bin");
 const override = path.join(temporary, "override.conf");
+const artifact = path.join(repo, "geelooy", "ai", "relay", "install", "awtsmoos-server-extension.zip");
 const script = path.join(__dirname, "canonical-server-activate.sh");
 
 try {
@@ -25,14 +26,20 @@ try {
 	const sha = git(repo, "rev-parse", "HEAD");
 	fs.writeFileSync(override, "OLD\n");
 	fs.writeFileSync(path.join(repo, "dirty.txt"), "dirty\n");
+
 	const refused = run(sha);
 	assert.notEqual(refused.status, 0);
 	assert.equal(fs.readFileSync(override, "utf8"), "OLD\n");
+	assert.equal(fs.existsSync(artifact), false);
+
 	fs.rmSync(path.join(repo, "dirty.txt"));
 	const accepted = run(sha);
 	assert.equal(accepted.status, 0, accepted.stderr);
 	assert.match(fs.readFileSync(override, "utf8"), /WorkingDirectory=/);
 	assert.match(accepted.stdout, /CANONICAL_SERVER_ACTIVE/);
+	assert.match(accepted.stdout, /awtsmoos-server-extension\.zip/);
+	assert.equal(fs.existsSync(artifact), true);
+	assert.equal(git(repo, "status", "--porcelain"), "");
 	console.log(JSON.stringify({ ok: true, suite: "canonical-server-activation" }));
 } finally {
 	fs.rmSync(temporary, { recursive: true, force: true });
@@ -46,12 +53,31 @@ function setupRepo() {
 	fs.mkdirSync(path.join(repo, "ops", "systemd"), { recursive: true });
 	fs.mkdirSync(path.join(repo, "users"), { recursive: true });
 	fs.mkdirSync(path.join(repo, "geelooy", ".data"), { recursive: true });
+	fs.mkdirSync(path.join(repo, "geelooy", "ai", "scripts"), { recursive: true });
+	fs.writeFileSync(path.join(repo, ".gitignore"), "*.zip\n");
 	fs.writeFileSync(path.join(repo, "index.js"), "// B\"H\n");
 	fs.writeFileSync(path.join(repo, "ops", "systemd", "awtsmoos-immutable.conf"), "[Service]\nWorkingDirectory=fixture\n");
+	writeFakeExtensionBuilder();
 	git(repo, "add", ".");
 	git(repo, "commit", "-m", "fixture");
 	git(repo, "remote", "add", "origin", origin);
 	git(repo, "push", "-u", "origin", "main");
+}
+
+function writeFakeExtensionBuilder() {
+	const builder = path.join(repo, "geelooy", "ai", "scripts", "buildServerExtensionZip.cjs");
+	const source = [
+		"//B\"H",
+		"// Boruch Hashem",
+		"// Blessed is He",
+		"const fs = require(\"node:fs\");",
+		"const path = require(\"node:path\");",
+		"const repository = path.resolve(__dirname, \"../../..\");",
+		"const artifact = path.join(repository, \"geelooy\", \"ai\", \"relay\", \"install\", \"awtsmoos-server-extension.zip\");",
+		"fs.mkdirSync(path.dirname(artifact), { recursive: true });",
+		"fs.writeFileSync(artifact, \"PK fixture\\n\");"
+	].join("\n");
+	fs.writeFileSync(builder, `${source}\n`);
 }
 
 function setupShims() {
