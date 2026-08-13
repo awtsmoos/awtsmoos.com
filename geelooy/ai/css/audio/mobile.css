@@ -1,0 +1,70 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * The Awtsmoos narrows the card without narrowing human touch. Awtsmoos.com
+ * keeps utilities quiet, player controls reachable, and every line away from
+ * the floating tools that once crowded the mobile audio river.
+ */
+@media (max-width: 760px) {
+	.awtsmoos-audio-offer {
+		gap: 10px;
+		margin-top: 12px;
+		padding: 14px;
+		border-radius: 16px;
+	}
+
+	.awtsmoos-audio-offer .audio-offer-actions {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 7px;
+	}
+
+	.awtsmoos-audio-offer .audio-offer-actions button {
+		min-width: 0;
+		min-height: 44px;
+		padding: 8px 7px;
+		font-size: 12px;
+	}
+
+	.awtsmoos-audio-offer .audio-primary-button {
+		min-height: 48px;
+		font-size: 14px;
+	}
+
+	.awtsmoos-audio-offer .awtsmoos-player {
+		grid-template-columns: 44px minmax(0, 1fr);
+		gap: 8px;
+		padding: 8px;
+	}
+
+	.awtsmoos-audio-offer .player-time {
+		grid-column: 2;
+		min-width: 0;
+		text-align: left;
+	}
+
+	.awtsmoos-audio-offer .audio-settings {
+		grid-template-columns: 1fr;
+	}
+
+	.awtsmoos-audio-offer .audio-feedback {
+		grid-template-columns: 1fr;
+	}
+
+	.awtsmoos-audio-offer .audio-retry {
+		justify-self: start;
+		min-height: 44px;
+	}
+}
+
+@media (max-width: 430px) {
+	.awtsmoos-audio-offer .audio-offer-title span {
+		max-width: 220px;
+	}
+
+	.awtsmoos-audio-offer .audio-offer-actions button {
+		font-size: 11px;
+	}
+}

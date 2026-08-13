@@ -1,0 +1,81 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * The Awtsmoos lets playback occupy one clear horizontal river. Awtsmoos.com
+ * keeps the seek line, transport button, and time label compact and distinct
+ * from synthesis/download progress above it.
+ */
+.awtsmoos-audio-offer .audio-player-wrap {
+	min-width: 0;
+}
+
+.awtsmoos-audio-offer .audio-player-wrap[hidden] {
+	display: none;
+}
+
+.awtsmoos-audio-offer .audio-player-wrap audio {
+	display: none;
+}
+
+.awtsmoos-audio-offer .awtsmoos-player {
+	display: grid;
+	grid-template-columns: 44px minmax(90px, 1fr) auto;
+	align-items: center;
+	gap: 10px;
+	min-width: 0;
+	padding: 8px 10px;
+	border: 1px solid var(--awt-line-soft);
+	border-radius: 14px;
+	background: rgba(0, 0, 0, 0.18);
+}
+
+.awtsmoos-audio-offer .player-play {
+	display: grid;
+	place-items: center;
+	width: 44px;
+	height: 44px;
+	padding: 0;
+	border: 1px solid rgba(34, 230, 196, 0.32);
+	border-radius: 12px;
+	font-size: 16px;
+	color: var(--awt-text);
+	background: rgba(34, 230, 196, 0.09);
+}
+
+.awtsmoos-audio-offer .player-play:disabled {
+	opacity: 0.42;
+	cursor: wait;
+}
+
+.awtsmoos-audio-offer .player-meter {
+	position: relative;
+	height: 8px;
+	overflow: hidden;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.08);
+	cursor: pointer;
+}
+
+.awtsmoos-audio-offer .player-meter > span {
+	display: block;
+	height: 100%;
+	border-radius: inherit;
+	background: linear-gradient(90deg, var(--awt-hot), var(--awt-blue));
+	transition: width 120ms linear;
+}
+
+.awtsmoos-audio-offer .player-time {
+	min-width: 72px;
+	font-size: 11px;
+	font-variant-numeric: tabular-nums;
+	text-align: right;
+	white-space: nowrap;
+	color: var(--awt-muted);
+}
+
+.awtsmoos-audio-offer .awtsmoos-player[data-player-state="playing"] {
+	border-color: rgba(34, 230, 196, 0.24);
+	box-shadow: inset 0 0 0 1px rgba(34, 230, 196, 0.025);
+}

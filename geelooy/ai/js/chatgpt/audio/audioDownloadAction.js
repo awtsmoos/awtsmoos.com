@@ -1,10 +1,15 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
+// Boruch Hashem
+// Blessed is He
 
 import { formatAudioSize } from "./audioFormatting.js";
 import { downloadAudioState } from "./audioPlayerState.js";
-import { setAudioBusy, statusNode } from "./audioOfferView.js";
+import { setAudioBusy } from "./audioOfferView.js";
+import {
+	finishAudioTask,
+	setAudioTaskState,
+	showAudioError
+} from "./audioUiState.js";
 import {
 	activeAudioService,
 	buildAudioRequest,
@@ -13,9 +18,9 @@ import {
 import { downloadCompleteAudioStream } from "./audioStreamDownload.js";
 
 /**
- * The Awtsmoos does not mistake an early fragment for the whole river. This
- * action makes Awtsmoos.com wait for every streamed packet, verify the declared
- * byte count, and only then awaken the browser download.
+ * The Awtsmoos does not mistake an early fragment for the whole river.
+ * Awtsmoos.com gives saving its own task channel so playback may continue
+ * without erasing truthful download progress from the visible card.
  */
 export async function synthesizeForDownload(context, settings) {
 	const { root, aiHandler } = context;
@@ -25,7 +30,10 @@ export async function synthesizeForDownload(context, settings) {
 			return;
 		}
 		setAudioBusy(root, true, { allowPlay: true });
-		statusNode(root).textContent = "Receiving the complete audio stream…";
+		setAudioTaskState(root, "download", "downloading", {
+			message: "Preparing the complete audio…",
+			progress: { received: 0, expected: 0 }
+		});
 		const service = await activeAudioService(aiHandler);
 		const request = buildAudioRequest(context, settings, settings.format, signature);
 		if (typeof service.getAwtsmoosAudioStream === "function") {
@@ -33,9 +41,11 @@ export async function synthesizeForDownload(context, settings) {
 			return;
 		}
 		await service.getAwtsmoosAudio({ ...request, download: true });
-		statusNode(root).textContent = `Downloaded ${settings.format.toUpperCase()} audio.`;
+		finishAudioTask(root, "saved", {
+			message: `${settings.format.toUpperCase()} audio saved.`
+		});
 	} catch (error) {
-		statusNode(root).textContent = `Download failed: ${error?.message || error}`;
+		showAudioError(root, `Download failed: ${error?.message || error}`, "download");
 	} finally {
 		setAudioBusy(root, false);
 	}
@@ -46,13 +56,18 @@ async function downloadFreshStream(root, service, request, settings, signature) 
 	const complete = await downloadCompleteAudioStream(result, {
 		signature,
 		format: settings.format,
-		onProgress: bytes => {
-			statusNode(root).textContent =
-				`Receiving complete audio${formatAudioSize(bytes)}…`;
+		onProgress(received, expected) {
+			setAudioTaskState(root, "download", "downloading", {
+				message: expected
+					? "Downloading complete audio…"
+					: "Receiving complete audio…",
+				progress: { received, expected }
+			});
 		}
 	});
-	statusNode(root).textContent =
-		`Downloaded complete ${settings.format.toUpperCase()}${formatAudioSize(complete.bytes)}.`;
+	finishAudioTask(root, "saved", {
+		message: `Complete ${settings.format.toUpperCase()} saved${formatAudioSize(complete.bytes)}.`
+	});
 }
 
 async function downloadExistingMp3(root, signature, format) {
@@ -61,11 +76,19 @@ async function downloadExistingMp3(root, signature, format) {
 		return false;
 	}
 	setAudioBusy(root, true, { allowPlay: true });
-	statusNode(root).textContent = state.done
-		? "Downloading verified streamed MP3…"
-		: "Waiting for the full stream before downloading…";
+	setAudioTaskState(root, "download", "downloading", {
+		message: state.done
+			? "Saving the verified streamed MP3…"
+			: "Finishing the live stream before saving…",
+		progress: {
+			received: state.bytes,
+			expected: state.expectedBytes
+		}
+	});
 	await state.promise;
 	await downloadAudioState(state, "mp3");
-	statusNode(root).textContent = "Downloaded complete streamed MP3.";
+	finishAudioTask(root, "saved", {
+		message: "Complete streamed MP3 saved."
+	});
 	return true;
 }

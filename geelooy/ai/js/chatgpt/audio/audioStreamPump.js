@@ -1,6 +1,6 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
+// Boruch Hashem
+// Blessed is He
 
 import { formatAudioSize } from "./audioFormatting.js";
 import {
@@ -9,13 +9,20 @@ import {
 } from "./audioPlayerState.js";
 import { appendSourceBuffer } from "./audioMediaSource.js";
 import { syncAudioPlayer } from "./audioPlayerView.js";
-import { statusNode } from "./audioOfferView.js";
+import {
+	activeAudioTask,
+	finishAudioTask,
+	setAudioPlaybackUiState,
+	setAudioTaskProgress,
+	setAudioTaskState
+} from "./audioUiState.js";
 
 const STREAM_START_BYTES = 24 * 1024;
 
 /**
  * The Awtsmoos gives each packet once. The pump persists it, appends it to the
- * audible MediaSource, updates evidence, and releases the transient chunk.
+ * audible MediaSource, and reports truthful data progress while Awtsmoos.com
+ * keeps an active Save task sovereign over playback-status noise.
  */
 export async function pumpAudioStream(context) {
 	const {
@@ -30,11 +37,15 @@ export async function pumpAudioStream(context) {
 	let playbackStarted = false;
 	while (true) {
 		const packet = await reader.read();
-		if (packet.done) break;
-		if (!packet.value?.byteLength) continue;
+		if (packet.done) {
+			break;
+		}
+		if (!packet.value?.byteLength) {
+			continue;
+		}
 		const owned = await appendAudioChunk(state, packet.value);
 		await appendSourceBuffer(sourceBuffer, owned);
-		syncProgress(root, state);
+		syncProgress(root, state, audio);
 		if (!playbackStarted && state.bytes >= STREAM_START_BYTES) {
 			playbackStarted = true;
 			playButton.disabled = false;
@@ -50,13 +61,32 @@ export async function pumpAudioStream(context) {
 		await audio.play().catch(() => undefined);
 	}
 	syncAudioPlayer(root, { live: false });
-	statusNode(root).textContent =
-		`Stream complete${formatAudioSize(state.bytes)}. Ready to download.`;
+	const playbackState = audio.paused ? "ready" : "playing";
+	if (activeAudioTask(root) === "download") {
+		setAudioPlaybackUiState(root, playbackState, {
+			message: "Audio stream is complete."
+		});
+		return state;
+	}
+	finishAudioTask(root, playbackState, {
+		message: `Audio complete${formatAudioSize(state.bytes)}. Ready to save.`
+	});
 	return state;
 }
 
-function syncProgress(root, state) {
+function syncProgress(root, state, audio) {
 	syncAudioPlayer(root, { live: true });
-	statusNode(root).textContent =
-		`Streaming MP3${formatAudioSize(state.bytes)} received…`;
+	if (activeAudioTask(root) === "download") {
+		setAudioTaskProgress(root, state.bytes, state.expectedBytes);
+		return;
+	}
+	setAudioTaskState(root, "stream", "streaming", {
+		message: audio.paused
+			? "Audio is still arriving."
+			: "Playing while audio continues to arrive.",
+		progress: {
+			received: state.bytes,
+			expected: state.expectedBytes
+		}
+	});
 }

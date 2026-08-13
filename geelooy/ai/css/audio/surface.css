@@ -1,0 +1,114 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * The Awtsmoos gives the audio card one hierarchy: listening first, utilities
+ * second. Awtsmoos.com keeps this vessel focused on structure and action weight.
+ */
+.awtsmoos-audio-offer {
+	display: grid;
+	gap: 12px;
+	margin-top: 14px;
+	padding: 16px;
+	border: 1px solid var(--awt-line);
+	border-radius: 18px;
+	background: linear-gradient(145deg, rgba(9, 24, 35, 0.96), rgba(4, 18, 28, 0.92));
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
+	isolation: isolate;
+}
+
+.awtsmoos-audio-offer .audio-offer-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.awtsmoos-audio-offer .audio-offer-title {
+	display: grid;
+	gap: 2px;
+	min-width: 0;
+}
+
+.awtsmoos-audio-offer .audio-offer-title strong {
+	font-size: 15px;
+	letter-spacing: 0.01em;
+	color: var(--awt-text);
+}
+
+.awtsmoos-audio-offer .audio-offer-title span {
+	font-size: 12px;
+	line-height: 1.45;
+	color: var(--awt-muted);
+}
+
+.awtsmoos-audio-offer .audio-state-chip {
+	flex: none;
+	padding: 5px 9px;
+	border: 1px solid var(--awt-line);
+	border-radius: 999px;
+	font-size: 11px;
+	font-weight: 700;
+	color: var(--awt-soft);
+	background: rgba(255, 255, 255, 0.035);
+}
+
+.awtsmoos-audio-offer[data-audio-tone="active"] .audio-state-chip,
+.awtsmoos-audio-offer[data-audio-tone="progress"] .audio-state-chip {
+	border-color: rgba(34, 230, 196, 0.38);
+	color: var(--awt-hot);
+	background: rgba(34, 230, 196, 0.08);
+}
+
+.awtsmoos-audio-offer[data-audio-tone="success"] .audio-state-chip {
+	border-color: rgba(34, 230, 196, 0.3);
+	color: var(--awt-hot);
+}
+
+.awtsmoos-audio-offer[data-audio-tone="error"] .audio-state-chip {
+	border-color: rgba(255, 102, 122, 0.45);
+	color: var(--awt-red);
+	background: rgba(255, 102, 122, 0.08);
+}
+
+.awtsmoos-audio-offer .audio-control-deck {
+	display: grid;
+	gap: 9px;
+}
+
+.awtsmoos-audio-offer .audio-primary-button {
+	width: 100%;
+	min-height: 46px;
+	border: 1px solid rgba(34, 230, 196, 0.48);
+	border-radius: 13px;
+	font-weight: 750;
+	color: var(--awt-text);
+	background: linear-gradient(135deg, rgba(34, 230, 196, 0.18), rgba(86, 154, 255, 0.14));
+}
+
+.awtsmoos-audio-offer.has-audio-player .audio-primary-action {
+	display: none;
+}
+
+.awtsmoos-audio-offer .audio-offer-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.awtsmoos-audio-offer .audio-offer-actions button,
+.awtsmoos-audio-offer .audio-retry {
+	min-height: 40px;
+	padding: 8px 12px;
+	border: 1px solid var(--awt-line);
+	border-radius: 11px;
+	color: var(--awt-soft);
+	background: rgba(255, 255, 255, 0.025);
+}
+
+.awtsmoos-audio-offer .audio-offer-actions button:hover,
+.awtsmoos-audio-offer .audio-retry:hover {
+	border-color: var(--awt-line-strong);
+	background: rgba(255, 255, 255, 0.055);
+}

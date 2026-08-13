@@ -1,6 +1,6 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
+// Boruch Hashem
+// Blessed is He
 
 import { formatAudioSize } from "./audioFormatting.js";
 import {
@@ -9,11 +9,16 @@ import {
 	revokeAudioSource
 } from "./audioPlayerState.js";
 import { audioMediaError } from "./audioPlayerDisplay.js";
-import { statusNode } from "./audioOfferView.js";
+import {
+	finishAudioTask,
+	setAudioPlayerAvailable,
+	setAudioTaskState
+} from "./audioUiState.js";
 
 /**
  * The fallback blob becomes a playable vessel only after the browser confirms
- * decodable data. The Awtsmoos gives the sound; this module guards readiness.
+ * decodable data. The Awtsmoos gives the sound; Awtsmoos.com lets preparation
+ * finish before playback becomes the visible owner of the card.
  */
 export async function loadBlobAudioPlayer(root, result, signature = "") {
 	if (!result?.objectUrl && !result?.url) {
@@ -34,15 +39,18 @@ export async function loadBlobAudioPlayer(root, result, signature = "") {
 	audio.src = source;
 	audio.dataset.objectUrl = source;
 	root.querySelector(".audio-player-wrap").hidden = false;
+	setAudioPlayerAvailable(root, true);
 	root.querySelector(".player-play").disabled = true;
-	statusNode(root).textContent =
-		`Audio fetched${formatAudioSize(result.size)}. Preparing player…`;
+	setAudioTaskState(root, "play", "preparing", {
+		message: `Audio received${formatAudioSize(result.size)}. Preparing the player…`
+	});
 	audio.load();
 	await waitForPlayable(audio);
 	root.querySelector(".player-play").disabled = false;
 	await audio.play();
-	statusNode(root).textContent =
-		`Playing MP3${formatAudioSize(result.size)}.`;
+	finishAudioTask(root, "playing", {
+		message: `Playing MP3${formatAudioSize(result.size)}.`
+	});
 }
 
 function waitForPlayable(audio, timeoutMs = 12000) {
@@ -50,9 +58,9 @@ function waitForPlayable(audio, timeoutMs = 12000) {
 		return Promise.resolve();
 	}
 	return new Promise((resolve, reject) => {
-		const timer = setTimeout(() => finish(
-			new Error("Browser could not decode the generated audio.")
-		), timeoutMs);
+		const timer = setTimeout(() => {
+			finish(new Error("Browser could not decode the generated audio."));
+		}, timeoutMs);
 		const ready = () => finish();
 		const failed = () => finish(new Error(audioMediaError(audio)));
 		function finish(error = null) {
@@ -60,7 +68,11 @@ function waitForPlayable(audio, timeoutMs = 12000) {
 			audio.removeEventListener("canplay", ready);
 			audio.removeEventListener("loadeddata", ready);
 			audio.removeEventListener("error", failed);
-			error ? reject(error) : resolve();
+			if (error) {
+				reject(error);
+				return;
+			}
+			resolve();
 		}
 		audio.addEventListener("canplay", ready, { once: true });
 		audio.addEventListener("loadeddata", ready, { once: true });

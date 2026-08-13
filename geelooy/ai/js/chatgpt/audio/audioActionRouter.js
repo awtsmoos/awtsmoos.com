@@ -1,41 +1,61 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
+// Boruch Hashem
+// Blessed is He
 
 import {
 	copyAudioMessage,
 	saveAudioSettings,
-	statusNode,
 	toggleAudioSettings
 } from "./audioOfferView.js";
 import { toggleAudioPlayback } from "./audioPlayerView.js";
+import {
+	activeAudioTask,
+	retryActionFor,
+	setAudioFeedback,
+	showAudioError
+} from "./audioUiState.js";
 import {
 	synthesizeForDownload,
 	synthesizeForPlay
 } from "./audioSynthesisActions.js";
 
 /**
- * The Awtsmoos receives one human gesture and reveals its exact intention. This
- * router keeps copy, settings, playback, and synthesis branches explicit.
+ * The Awtsmoos receives one human gesture and reveals one exact intention.
+ * Awtsmoos.com keeps retry inside the same delegated action road, while quiet
+ * utility feedback never erases a longer Save or Stream task already in flight.
  */
 export async function handleAudioAction(event, context) {
 	const button = event.target?.closest?.("[data-audio-action]");
 	const action = button?.dataset?.audioAction;
-	if (!action) return;
+	if (!action) {
+		return;
+	}
 	event.preventDefault();
+	await runAudioAction(action, button, context);
+}
+
+async function runAudioAction(action, button, context) {
+	const { root } = context;
+	if (action === "retry") {
+		const retryAction = retryActionFor(root);
+		if (retryAction) {
+			await runAudioAction(retryAction, null, context);
+		}
+		return;
+	}
 	if (action === "copy") {
-		await copyMessage(context.root);
+		await copyMessage(root);
 		return;
 	}
 	if (action === "settings") {
-		toggleAudioSettings(context.root, button);
+		toggleAudioSettings(root, button);
 		return;
 	}
 	if (action === "toggle") {
-		await toggleAudioPlayback(context.root);
+		await toggleAudioPlayback(root);
 		return;
 	}
-	const settings = saveAudioSettings(context.root);
+	const settings = saveAudioSettings(root);
 	if (action === "play") {
 		await synthesizeForPlay(context, settings);
 		return;
@@ -46,11 +66,20 @@ export async function handleAudioAction(event, context) {
 }
 
 async function copyMessage(root) {
+	const activeTask = activeAudioTask(root);
 	try {
 		await copyAudioMessage(root);
-		statusNode(root).textContent = "Copied message text.";
+		if (!activeTask) {
+			setAudioFeedback(root, "Copied message text.", "success");
+		}
 	} catch (error) {
-		statusNode(root).textContent =
-			`Copy failed: ${error?.message || error}`;
+		if (activeTask) {
+			return;
+		}
+		showAudioError(
+			root,
+			`Copy failed: ${error?.message || error}`,
+			"copy"
+		);
 	}
 }

@@ -1,6 +1,6 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
+// Boruch Hashem
+// Blessed is He
 
 import {
 	createAudioState,
@@ -12,12 +12,12 @@ import {
 	supportsMp3MediaSource
 } from "./audioMediaSource.js";
 import { pumpAudioStream } from "./audioStreamPump.js";
-import { statusNode } from "./audioOfferView.js";
+import { showAudioError } from "./audioUiState.js";
 
 /**
  * The Awtsmoos joins transport, persistent storage, and audible playback without
- * forcing any one module to carry the whole river. This coordinator establishes
- * the vessels and then lets the bounded pump continue independently.
+ * forcing one module to carry the whole river. Awtsmoos.com lets the pump live
+ * independently while failures return to the same recoverable listening card.
  */
 export async function tryStreamToAudioPlayer(root, service, options = {}) {
 	if (!supportsMp3MediaSource()) {
@@ -39,7 +39,9 @@ export async function tryStreamToAudioPlayer(root, service, options = {}) {
 		mime: result.mime || "audio/mpeg",
 		expectedBytes: expectedAudioBytes(response)
 	});
-	state.cancel = () => reader.cancel?.("audio request replaced");
+	state.cancel = () => {
+		return reader.cancel?.("audio request replaced");
+	};
 	root.__awtsmoosAudio = state;
 	prepareStreamingAudio(root, mediaSource, state);
 	const sourceBuffer = await openSourceBuffer(mediaSource, state.mime);
@@ -51,8 +53,7 @@ export async function tryStreamToAudioPlayer(root, service, options = {}) {
 		state
 	});
 	state.promise.catch(error => {
-		statusNode(root).textContent =
-			`Stream failed: ${error?.message || error}`;
+		showAudioError(root, `Stream failed: ${error?.message || error}`, "play");
 	});
 	return true;
 }

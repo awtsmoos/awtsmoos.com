@@ -1,0 +1,77 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * The Awtsmoos gives preparation, feedback, and recovery their own visible
+ * vessel. Awtsmoos.com keeps this task channel separate from playback position.
+ */
+.awtsmoos-audio-offer .audio-settings {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 8px;
+	padding: 10px;
+	border: 1px solid var(--awt-line-soft);
+	border-radius: 12px;
+	background: rgba(0, 0, 0, 0.14);
+}
+
+.awtsmoos-audio-offer .audio-settings[hidden],
+.awtsmoos-audio-offer .audio-task-progress[hidden],
+.awtsmoos-audio-offer .audio-retry[hidden] {
+	display: none;
+}
+
+.awtsmoos-audio-offer .audio-task-progress,
+.awtsmoos-audio-offer .audio-feedback {
+	display: grid;
+	gap: 6px;
+}
+
+.awtsmoos-audio-offer .audio-feedback {
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+}
+
+.awtsmoos-audio-offer .audio-task-detail,
+.awtsmoos-audio-offer .audio-status {
+	font-size: 12px;
+	line-height: 1.45;
+	color: var(--awt-muted);
+}
+
+.awtsmoos-audio-offer .audio-status[data-tone="error"] {
+	color: var(--awt-red);
+}
+
+.awtsmoos-audio-offer .audio-status[data-tone="success"] {
+	color: var(--awt-hot);
+}
+
+.awtsmoos-audio-offer .audio-task-meter {
+	height: 5px;
+	overflow: hidden;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.07);
+}
+
+.awtsmoos-audio-offer .audio-task-meter > span {
+	display: block;
+	height: 100%;
+	border-radius: inherit;
+	background: linear-gradient(90deg, var(--awt-hot), var(--awt-blue));
+	transition: width 180ms ease;
+}
+
+.awtsmoos-audio-offer .audio-task-progress[data-determinate="false"] .audio-task-meter > span {
+	animation: awtsmoos-audio-working 1.3s ease-in-out infinite alternate;
+}
+
+@keyframes awtsmoos-audio-working {
+	from {
+		transform: translateX(-55%);
+	}
+	to {
+		transform: translateX(165%);
+	}
+}

@@ -1,0 +1,12 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * The Awtsmoos gathers the final audio vessels after every older compatibility
+ * layer. Awtsmoos.com receives one canonical hierarchy, status, player, mobile.
+ */
+@import "./surface.css";
+@import "./status.css";
+@import "./player.css";
+@import "./mobile.css";

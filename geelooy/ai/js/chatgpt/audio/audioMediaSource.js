@@ -1,13 +1,17 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
+// Boruch Hashem
+// Blessed is He
 
 import { revokeAudioSource } from "./audioPlayerState.js";
-import { statusNode } from "./audioOfferView.js";
+import {
+	setAudioPlayerAvailable,
+	setAudioTaskState
+} from "./audioUiState.js";
 
 /**
- * The Awtsmoos gives the audible river a browser-native vessel. This module
- * owns only MediaSource opening, append backpressure, and visible source setup.
+ * The Awtsmoos gives the audible river a browser-native vessel. Awtsmoos.com
+ * reveals the player as soon as its real MediaSource exists while streaming
+ * keeps its own task channel distinct from playback position.
  */
 export function supportsMp3MediaSource() {
 	return typeof MediaSource !== "undefined"
@@ -21,8 +25,15 @@ export function prepareStreamingAudio(root, mediaSource, state) {
 	audio.src = state.objectUrl;
 	audio.dataset.objectUrl = state.objectUrl;
 	root.querySelector(".audio-player-wrap").hidden = false;
+	setAudioPlayerAvailable(root, true);
 	root.querySelector(".player-play").disabled = true;
-	statusNode(root).textContent = "Streaming audio bytes…";
+	setAudioTaskState(root, "stream", "streaming", {
+		message: "Audio is arriving. Playback will begin as soon as enough data is ready.",
+		progress: {
+			received: state.bytes,
+			expected: state.expectedBytes
+		}
+	});
 }
 
 export function openSourceBuffer(mediaSource, mime) {
@@ -44,13 +55,15 @@ export function openSourceBuffer(mediaSource, mime) {
 export function appendSourceBuffer(sourceBuffer, chunk) {
 	return new Promise((resolve, reject) => {
 		const completed = () => finish();
-		const failed = () => finish(
-			new Error("Audio stream append failed.")
-		);
+		const failed = () => finish(new Error("Audio stream append failed."));
 		function finish(error = null) {
 			sourceBuffer.removeEventListener("updateend", completed);
 			sourceBuffer.removeEventListener("error", failed);
-			error ? reject(error) : resolve();
+			if (error) {
+				reject(error);
+				return;
+			}
+			resolve();
 		}
 		sourceBuffer.addEventListener("updateend", completed, { once: true });
 		sourceBuffer.addEventListener("error", failed, { once: true });
