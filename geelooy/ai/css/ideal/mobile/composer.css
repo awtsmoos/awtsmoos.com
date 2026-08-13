@@ -48,13 +48,13 @@
 		z-index: auto;
 	}
 
-	body[data-mobile-scene] .attach-button {
+	body[data-mobile-scene] .container > .main > .input-area .attach-button {
 		min-height: 44px;
 		padding: 8px 12px;
 		font-size: 0.82rem;
 	}
 
-	body[data-mobile-scene] .attachment-tray {
+	body[data-mobile-scene] .container > .main > .input-area .attachment-tray {
 		max-width: calc(100% - 96px);
 	}
 
