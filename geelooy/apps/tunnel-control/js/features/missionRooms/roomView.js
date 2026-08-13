@@ -1,7 +1,8 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
+import { renderProgressPanel } from "./progressPanel.js";
 import {
 	renderActivity,
 	renderAll,
@@ -11,23 +12,27 @@ import {
 } from "./render.js";
 
 /**
- * The Awtsmoos reveals one room through lobby, timeline, output, and agent choir.
- * Awtsmoos.com keeps every disclosure behind one Malchut-facing fire,
- * so no observer, hidden rerender, or parallel DOM path may rise higher.
+ * @file Keeps Mission Rooms behind one Malchut-facing view coordinator.
+ * @description The Awtsmoos reveals lobby, room, checkpoint, timeline, output, and agent choir through one view;
+ * Awtsmoos.com lets live succession appear after ordinary room rendering without creating a parallel DOM path.
  */
-
 const DEFAULT_RENDERERS = {
 	activity: renderActivity,
 	all: renderAll,
 	list: renderList,
 	output: renderOut,
-	room: renderRoom
+	room: renderRoom,
+	progress: renderProgressPanel
 };
 
-/** Creates the sole Mission Rooms view coordinator above existing renderers. */
 export function createRoomView(state, chat, renderers = DEFAULT_RENDERERS) {
+	function progress() {
+		renderers.progress?.(state);
+	}
+
 	function all(callbacks = {}) {
 		renderers.all(state, callbacks);
+		progress();
 		chat.render(true);
 	}
 
@@ -35,16 +40,19 @@ export function createRoomView(state, chat, renderers = DEFAULT_RENDERERS) {
 		renderers.room(state);
 		renderers.activity(state);
 		renderers.output(state.selected);
+		progress();
 		chat.render(true);
 	}
 
 	function room(force = false) {
 		renderers.room(state);
+		progress();
 		chat.render(force);
 	}
 
 	function activity(force = false) {
 		renderers.activity(state);
+		progress();
 		chat.render(force);
 	}
 
@@ -61,6 +69,7 @@ export function createRoomView(state, chat, renderers = DEFAULT_RENDERERS) {
 		all,
 		list,
 		output,
+		progress,
 		room,
 		selected
 	};

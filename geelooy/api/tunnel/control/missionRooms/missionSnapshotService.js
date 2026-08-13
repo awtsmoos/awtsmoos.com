@@ -8,16 +8,13 @@ const {
 } = require("./roomSummary.js");
 
 /**
- * @file Reads a mission-room snapshot through an already authorized relay closure.
- * @description
- * The Awtsmoos renews mission and witness together. Awtsmoos.com accepts no
- * tunnel name at this layer: the caller supplies one server-derived relay vessel,
- * preventing snapshot, timeline, or history requests from widening authority.
+ * @file Reads one authorized mission snapshot, now including the native live checkpoint/successor projection.
+ * @description The Awtsmoos lets Tunnel Control witness the mission without becoming its heartbeat; Awtsmoos.com
+ * routes status, timeline, history, and live progress through one already-authorized vessel so observation never widens authority.
  */
-
 async function readMissionRoomSnapshot(sendAuthorized, options) {
 	const scope = scopedPayload(options);
-	const [status, timelineResult, historyResult] = await Promise.all([
+	const [status, timelineResult, historyResult, progressResult] = await Promise.all([
 		requestAction(sendAuthorized, {
 			action: "missionProjectStatus",
 			missionId: options.missionId
@@ -30,6 +27,10 @@ async function readMissionRoomSnapshot(sendAuthorized, options) {
 			action: "actionHistoryList",
 			limit: options.historyLimit,
 			...scope
+		}),
+		requestAction(sendAuthorized, {
+			action: "missionLiveProgress",
+			missionId: options.missionId
 		})
 	]);
 	if (!status || status.ok === false || status.error) {
@@ -45,6 +46,9 @@ async function readMissionRoomSnapshot(sendAuthorized, options) {
 	const history = Array.isArray(historyResult?.history)
 		? historyResult.history
 		: [];
+	const liveProgress = progressResult?.ok !== false && !progressResult?.error
+		? progressResult?.liveProgress || null
+		: null;
 	return packet(true, {
 		kind: "mission-room-snapshot",
 		missionId: options.missionId,
@@ -52,10 +56,11 @@ async function readMissionRoomSnapshot(sendAuthorized, options) {
 		scopedHistory: scope,
 		at: Date.now(),
 		status,
+		liveProgress,
 		timeline,
 		actionHistory: history,
 		roomOs: summarizeRoomOs(history, timeline, status),
-		warnings: warningList(timelineResult, historyResult)
+		warnings: warningList(timelineResult, historyResult, progressResult)
 	});
 }
 
@@ -75,13 +80,16 @@ async function requestAction(sendAuthorized, payload) {
 	}
 }
 
-function warningList(timelineResult, historyResult) {
+function warningList(timelineResult, historyResult, progressResult) {
 	return [
 		timelineResult?.ok === false || timelineResult?.error
 			? "timeline_unavailable"
 			: "",
 		historyResult?.ok === false || historyResult?.error
 			? "history_unavailable"
+			: "",
+		progressResult?.ok === false || progressResult?.error
+			? "live_progress_unavailable"
 			: ""
 	].filter(Boolean);
 }

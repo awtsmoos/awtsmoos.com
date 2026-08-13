@@ -1,16 +1,12 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
- * B"H
- *
- * Mission payloads are declarative intentions awaiting a truthful vessel. The
- * Awtsmoos creates intention, tunnel, and result anew; Awtsmoos.com keeps these
- * data contracts pure so transport details cannot distort domain meaning.
+ * @file Declares Mission Rooms native-tunnel intentions without transport side effects.
+ * @description The Awtsmoos creates mission and observer anew; Awtsmoos.com keeps each payload
+ * small and explicit so live progress can be witnessed without becoming another heartbeat.
  */
-
-/** Creates the native-tunnel discovery contract for one project root. */
 export function discoverPayload(projectRoot, agentId) {
 	return {
 		action: "missionProjectDiscover",
@@ -22,7 +18,6 @@ export function discoverPayload(projectRoot, agentId) {
 	};
 }
 
-/** Creates the native-tunnel contract for beginning a persistent mission. */
 export function startPayload(goal, projectRoot, agentId) {
 	return {
 		action: "missionStart",
@@ -37,7 +32,6 @@ export function startPayload(goal, projectRoot, agentId) {
 	};
 }
 
-/** Creates the contract for joining one mission project. */
 export function joinPayload(missionId, input = {}) {
 	return {
 		action: "missionProjectJoin",
@@ -47,7 +41,6 @@ export function joinPayload(missionId, input = {}) {
 	};
 }
 
-/** Creates the contract for reading persisted mission status. */
 export function statusPayload(missionId) {
 	return {
 		action: "missionProjectStatus",
@@ -56,10 +49,17 @@ export function statusPayload(missionId) {
 	};
 }
 
-/** Creates the contract for reading the mission event timeline. */
 export function timelinePayload(missionId) {
 	return {
 		action: "missionTimeline",
+		targetVessel: "native-tunnel",
+		missionId
+	};
+}
+
+export function liveProgressPayload(missionId) {
+	return {
+		action: "missionLiveProgress",
 		targetVessel: "native-tunnel",
 		missionId
 	};

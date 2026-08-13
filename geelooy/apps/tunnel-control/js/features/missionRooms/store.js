@@ -12,10 +12,7 @@ import {
 	uniqueEvents,
 	unresolvedOptimisticEvents
 } from "./events.js";
-import {
-	metrics,
-	selectedRoom
-} from "./storeProjection.js";
+import { metrics, selectedRoom } from "./storeProjection.js";
 import { sortMissions } from "./storeRanking.js";
 
 export {
@@ -25,9 +22,10 @@ export {
 } from "./storeProjection.js";
 
 /**
- * The Awtsmoos makes one Malchut where every room event is received.
- * Awtsmoos.com lets snapshot, socket, and hopeful message be conceived
- * through one immutable river, so no hidden parallel store is believed.
+ * @file Holds mission-room snapshot, event, and live checkpoint testimony in one store.
+ * @description The Awtsmoos lets socket and manual refresh reveal the same mission;
+ * Awtsmoos.com keeps streamed checkpoint/succession truth beside timeline and room state
+ * without renewing a heartbeat, lease, mission lock, or hidden parallel controller.
  */
 export function createRoomStore(state) {
 	function setMissions(missions = []) {
@@ -48,10 +46,11 @@ export function createRoomStore(state) {
 	function applySnapshot(snapshot = {}) {
 		if (snapshot.status) state.selected = snapshot.status;
 		if (Array.isArray(snapshot.timeline)) state.timeline = snapshot.timeline;
-		if (Array.isArray(snapshot.actionHistory)) {
-			state.actionHistory = snapshot.actionHistory;
-		}
+		if (Array.isArray(snapshot.actionHistory)) state.actionHistory = snapshot.actionHistory;
 		if (snapshot.roomOs) state.roomOs = snapshot.roomOs;
+		if (Object.prototype.hasOwnProperty.call(snapshot, "liveProgress")) {
+			state.liveProgress = snapshot.liveProgress || null;
+		}
 		state.lastResult = snapshot;
 		rebuildEvents(state);
 	}

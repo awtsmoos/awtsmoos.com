@@ -1,24 +1,22 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 export const DEFAULT_AGENT = "control-room-human";
 const SELECTION_KEY = "awt.missionRooms.selection";
 
 /**
- * B"H
- * State is a bounded memory, never an independent world. The Awtsmoos renews
- * selection, account stream, room stream, replay, review, and direct speech in
- * every instant; Awtsmoos.com gathers those sparks into one browser vessel.
+ * @file Owns the one bounded browser-memory vessel for Mission Rooms.
+ * @description The Awtsmoos renews room, stream, checkpoint, replay, and speech each instant;
+ * Awtsmoos.com gathers them into one store so live mission progress never creates a rival controller.
  */
-
-/** Creates the complete bounded state owned by one Mission Rooms controller. */
 export function createRoomState() {
 	return {
 		missions: [],
 		selectedMissionId: "",
 		selected: null,
 		timeline: [],
+		liveProgress: null,
 		actionHistory: [],
 		roomOs: null,
 		events: [],
@@ -64,7 +62,6 @@ export function createRoomState() {
 	};
 }
 
-/** Loads persisted room selection without allowing storage failure to escape. */
 export function loadSelection() {
 	try {
 		return JSON.parse(localStorage.getItem(SELECTION_KEY) || "{}");
@@ -73,7 +70,6 @@ export function loadSelection() {
 	}
 }
 
-/** Persists only the durable identifiers needed to restore room selection. */
 export function saveSelection(data = {}) {
 	try {
 		localStorage.setItem(SELECTION_KEY, JSON.stringify({
@@ -87,7 +83,6 @@ export function saveSelection(data = {}) {
 	}
 }
 
-/** Reads room selection hints from explicit URL parameters. */
 export function paramsSelection() {
 	const parameters = new URLSearchParams(location.search || "");
 	return {
@@ -97,22 +92,15 @@ export function paramsSelection() {
 	};
 }
 
-/** Returns the current room agent identity from the control surface. */
 export function agentId() {
 	return document.getElementById("roomAgentId")?.value || DEFAULT_AGENT;
 }
 
-/** Returns the current project root from the control surface. */
 export function projectRoot() {
 	return document.getElementById("roomProjectRoot")?.value || "";
 }
 
-/** Returns a safe polling interval even when user input is malformed. */
 export function pollMs() {
-	const milliseconds = Number(
-		document.getElementById("roomPollMs")?.value || 5000
-	);
-	return Number.isFinite(milliseconds)
-		? Math.max(1500, milliseconds)
-		: 5000;
+	const milliseconds = Number(document.getElementById("roomPollMs")?.value || 5000);
+	return Number.isFinite(milliseconds) ? Math.max(1500, milliseconds) : 5000;
 }

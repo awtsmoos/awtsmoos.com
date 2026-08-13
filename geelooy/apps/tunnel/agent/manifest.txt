@@ -1,5 +1,5 @@
 B"H
-1.0.522
+1.0.524
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtector.mjs
@@ -893,6 +893,7 @@ lib/connection-vessel/mailbox-io.js
 lib/connection-vessel/mailbox-legacy-io.js
 lib/connection-vessel/mailbox-legacy.js
 lib/connection-vessel/mailbox-paths.js
+lib/connection-vessel/mailbox-record-quarantine.js
 lib/connection-vessel/mailbox-store.js
 lib/connection-vessel/mailbox.js
 lib/connection-vessel/parent-consumer-health-values.js
@@ -1088,6 +1089,7 @@ lib/runtime/request-scope.js
 lib/runtime/response-surface-definitions.js
 lib/runtime/response-surface-helpers.js
 lib/runtime/response-surface.js
+lib/runtime/response-transport-seal.js
 lib/runtime/response-v8.js
 lib/runtime/runtime-number.js
 lib/runtime/safe-send.js
@@ -1656,6 +1658,7 @@ tools/fs/continuation/lease.js
 tools/fs/continuation/policy.js
 tools/fs/continuation/receipts.js
 tools/fs/continuation/runner.js
+tools/fs/continuation/runnerOutcome.js
 tools/fs/dependencyGraph.js
 tools/fs/deviceStateRoot.js
 tools/fs/diagnostics.js
@@ -1701,12 +1704,16 @@ tools/fs/mission/activeGuard/index.js
 tools/fs/mission/activeGuard/policy.js
 tools/fs/mission/agentDirective.js
 tools/fs/mission/answerLedger.js
+tools/fs/mission/autoContinuation/agentEndState.js
 tools/fs/mission/autoContinuation/coordinatorHelpers.js
 tools/fs/mission/autoContinuation/dispatch.js
 tools/fs/mission/autoContinuation/eligibility.js
 tools/fs/mission/autoContinuation/index.js
 tools/fs/mission/autoContinuation/projectRoot.js
 tools/fs/mission/autoContinuation/prompt.js
+tools/fs/mission/autoContinuation/promptPlan.js
+tools/fs/mission/autoContinuation/recoveryAgents.js
+tools/fs/mission/autoContinuation/recoveryContext.js
 tools/fs/mission/autoContinuation/state.js
 tools/fs/mission/autoContinuation/websiteStatus.js
 tools/fs/mission/autoSeed/config.js
@@ -1760,6 +1767,8 @@ tools/fs/mission/daemon/instruction.js
 tools/fs/mission/daemon/recover.js
 tools/fs/mission/daemon/scheduler.js
 tools/fs/mission/daemon/schedulerLoop.js
+tools/fs/mission/daemon/schedulerMissionIdentity.js
+tools/fs/mission/daemon/schedulerTickResult.js
 tools/fs/mission/daemon/schedulerView.js
 tools/fs/mission/daemon/state.js
 tools/fs/mission/daemon/status.js
@@ -1843,6 +1852,9 @@ tools/fs/mission/missionAware/classify.js
 tools/fs/mission/missionAware/receipt.js
 tools/fs/mission/missionAware/summary.js
 tools/fs/mission/missionAware/wrap.js
+tools/fs/mission/missionLiveProgress.js
+tools/fs/mission/missionLiveProgressAgents.js
+tools/fs/mission/missionLiveProgressIdentity.js
 tools/fs/mission/missionOs/constitution.js
 tools/fs/mission/missionOs/continuation.js
 tools/fs/mission/missionOs/cycles.js
@@ -1853,6 +1865,7 @@ tools/fs/mission/missionOs/promptFacts.js
 tools/fs/mission/missionOs/promptRenderer.js
 tools/fs/mission/missionOs/promptTemplates.js
 tools/fs/mission/missionOs/releaseCourt.js
+tools/fs/mission/missionPlanContext.js
 tools/fs/mission/oath/index.js
 tools/fs/mission/oath/store.js
 tools/fs/mission/projectRootRegistry.js
@@ -1885,6 +1898,7 @@ tools/fs/mission/roomDiscovery.js
 tools/fs/mission/roomEngine.js
 tools/fs/mission/roomHeartbeat.js
 tools/fs/mission/roomInterrupts.js
+tools/fs/mission/roomInviteLedger.js
 tools/fs/mission/roomLoop.js
 tools/fs/mission/roomLoop/court.js
 tools/fs/mission/roomLoop/files.js
@@ -1904,6 +1918,7 @@ tools/fs/mission/roomState/base.js
 tools/fs/mission/roomState/live.js
 tools/fs/mission/roomState/status.js
 tools/fs/mission/roomSubMissions.js
+tools/fs/mission/roomWakeGate.js
 tools/fs/mission/selfImprove/boredom.js
 tools/fs/mission/selfImprove/bounded.js
 tools/fs/mission/selfImprove/commandSuspend.js

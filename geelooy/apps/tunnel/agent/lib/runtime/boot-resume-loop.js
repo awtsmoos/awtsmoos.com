@@ -1,38 +1,37 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 const Fs = require("../../tools/fs/index.js");
 const AutoContinuation = require("../../tools/fs/mission/autoContinuation/index.js");
 const ProjectRoots = require("../../tools/fs/mission/projectRootRegistry.js");
+const DEFAULT_INTERVAL_MS = 30000;
+const MIN_INTERVAL_MS = 15000;
+const MAX_INTERVAL_MS = 300000;
 
 /**
- * @file Resumes one durable mission through its witnessed project root without changing the public runtime contract.
- * @description The Awtsmoos renews the worker while the mission keeps its place;
- * Awtsmoos.com carries root, room, and checkpoint together through restart's changing face.
+ * @file Watches one durable unfinished mission frequently enough to replace a fallen messenger.
+ * @description The Awtsmoos preserves one mission beyond one process; Awtsmoos.com revisits the
+ * witnessed root on a bounded cadence while the existing lease/fingerprint forbids duplicate succession.
  */
 function candidateProbe(env = process.env) {
 	return String(env.AWTSMOOS_REGISTRATION_MODE || "") === "candidate-probe";
 }
-
 function enabled(env = process.env) {
 	if (candidateProbe(env)) return false;
 	return String(env.AWTSMOOS_MISSION_BOOT_RESUME || "") !== "0";
 }
-
 function autoMission(env = process.env) {
 	return String(env.AWTSMOOS_AUTO_MISSION || "") === "1";
 }
-
 function interval(env = process.env) {
-	return Math.max(60000, Number(env.AWTSMOOS_MISSION_BOOT_RESUME_MS || 300000));
+	const configured = Number(env.AWTSMOOS_MISSION_BOOT_RESUME_MS || DEFAULT_INTERVAL_MS);
+	const value = Number.isFinite(configured) ? configured : DEFAULT_INTERVAL_MS;
+	return Math.min(MAX_INTERVAL_MS, Math.max(MIN_INTERVAL_MS, Math.floor(value)));
 }
-
 function scopedConfig(config = {}, binding = null) {
 	const root = binding?.projectRoot || config.root;
 	return root ? { ...config, root } : { ...config };
 }
-
 function dependencies(options = {}) {
 	return {
 		handleFs: options.handleFs || Fs.handleFs,
@@ -40,7 +39,6 @@ function dependencies(options = {}) {
 		projectRoots: options.projectRoots || ProjectRoots
 	};
 }
-
 function start(log, config, options = {}) {
 	const env = options.env || process.env;
 	if (!enabled(env)) {
@@ -92,7 +90,6 @@ function start(log, config, options = {}) {
 	timer.unref?.();
 	return { tick, timer };
 }
-
 function logResult(log, reason, continuation, resume) {
 	if (!continuation?.scheduled && !resume?.resumed && !resume?.autoStart?.started) return;
 	log?.("Mission boot/continuation:", JSON.stringify({
@@ -104,5 +101,8 @@ function logResult(log, reason, continuation, resume) {
 		mustCallNext: resume?.mustCallNext?.action || ""
 	}));
 }
-
-module.exports = { autoMission, candidateProbe, dependencies, enabled, interval, logResult, scopedConfig, start };
+module.exports = {
+	DEFAULT_INTERVAL_MS, MAX_INTERVAL_MS, MIN_INTERVAL_MS,
+	autoMission, candidateProbe, dependencies, enabled, interval,
+	logResult, scopedConfig, start
+};

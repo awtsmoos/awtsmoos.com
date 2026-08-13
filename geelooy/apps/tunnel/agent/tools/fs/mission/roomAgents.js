@@ -2,14 +2,14 @@
 // Boruch Hashem
 // Blessed is He
 
+const InviteLedger = require("./roomInviteLedger.js");
 const Runtime = require("./roomRuntime.js");
 
 /**
- * @file Joins agents to one room and publishes presence without inflating chat counts.
- * @description
- * The Awtsmoos gives every agent a stable runtime and visible entrance. Rejoins renew
- * leases silently; first joins append one sequenced presence record that inboxes can
- * read, while legacy message counts continue to measure actual peer conversation.
+ * @file Joins logical agents and keeps invitation testimony compact and truthful.
+ * @description The Awtsmoos gives each agent a stable runtime while Awtsmoos.com closes
+ * its open invitation on arrival. Rejoins renew leases silently; first joins publish one
+ * bounded presence record, and invitation fanout never spawns a physical worker here.
  */
 function join(mission, input, env) {
 	const room = env.RoomState.ensure(mission, input);
@@ -33,6 +33,7 @@ function join(mission, input, env) {
 		subMissionIds: existing?.subMissionIds || []
 	};
 	room.agents[agentId] = agent;
+	InviteLedger.accept(room, agentId, env.RoomState.now());
 	if (!existing) announceJoin(room, agent, env);
 	env.event(mission, "mission_room_agent_joined", `${agent.name} joined room`, {
 		roomId: room.id,
@@ -63,17 +64,7 @@ function announceJoin(room, agent, env) {
 
 function invite(mission, input, env) {
 	const room = env.RoomState.ensure(mission, input);
-	const invite = {
-		id: env.RoomState.id("room_invite"),
-		at: env.RoomState.now(),
-		toAgent: env.RoomState.text(input.toAgent || input.to || "agent"),
-		role: env.RoomState.text(input.role || "collaborator"),
-		capabilities: env.RoomState.list(input.capabilities),
-		message: env.RoomState.text(input.message || `Join room ${room.id}`),
-		status: "open"
-	};
-	room.invites.push(invite);
-	return invite;
+	return InviteLedger.invite(room, input, env);
 }
 
 function discover(mission, input, env) {

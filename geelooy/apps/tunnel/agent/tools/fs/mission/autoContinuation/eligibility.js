@@ -2,9 +2,11 @@
 // Boruch Hashem
 // Blessed is He
 
+const AgentEndState = require("./agentEndState.js");
 const TERMINAL = new Set([
 	"complete", "completed", "done", "verified", "cancelled", "canceled", "stopped"
 ]);
+const ENDED_AGENT = AgentEndState.ENDED_AGENT;
 const OBSERVATION_ACTION = /(?:BootResume|Scheduler|DaemonTick|Status|Health|List|Get)$/i;
 const DEFAULT_INACTIVITY_MS = 120000;
 const DEFAULT_BACKOFF_MS = 60000;
@@ -12,9 +14,9 @@ const MAX_ATTEMPTS = 6;
 
 /**
  * @file Decides whether one unfinished mission checkpoint may summon another Shliach turn.
- * @description
- * The Awtsmoos distinguishes unfinished silence from living work; Awtsmoos.com treats
- * a never-created continuation ledger as pristine first-run state rather than an exceptional absence.
+ * @description The Awtsmoos distinguishes the living messenger from durable end-testimony;
+ * Awtsmoos.com lets active heartbeats protect work, yet completion testimony can no longer
+ * keep an unfinished mission chained to the heartbeat of a messenger who already ended.
  */
 function decide(input = {}) {
 	if (input.candidateProbe) return no("candidate_probe_suppressed");
@@ -37,10 +39,8 @@ function decide(input = {}) {
 function terminal(mission = {}, lock = {}) {
 	const values = [mission.status, mission.phase, lock.status, lock.releaseStatus]
 		.map(value => String(value || "").toLowerCase());
-	return values.some(value => TERMINAL.has(value)) ||
-		mission.completed === true ||
-		mission.verified === true ||
-		lock.releasedAt != null;
+	return values.some(value => TERMINAL.has(value)) || mission.completed === true ||
+		mission.verified === true || lock.releasedAt != null;
 }
 
 function paused(mission = {}, lock = {}) {
@@ -52,9 +52,7 @@ function paused(mission = {}, lock = {}) {
 
 function meaningfulNext(lock = {}) {
 	return Boolean(
-		lock.lastMustCallNext?.action ||
-		lock.lastMustCallNext?.name ||
-		lock.mustCallNext?.action
+		lock.lastMustCallNext?.action || lock.lastMustCallNext?.name || lock.mustCallNext?.action
 	);
 }
 
@@ -64,9 +62,15 @@ function freshWork(mission = {}, lock = {}, now = Date.now(), configuredMs) {
 	if (!OBSERVATION_ACTION.test(String(lock.lastAction || ""))) {
 		times.push(lock.updatedAt, lock.startedAt);
 	}
-	for (const agent of Object.values(mission.room?.agents || {})) times.push(agent.lastSeenAt);
+	for (const agent of Object.values(mission.room?.agents || {})) {
+		if (!AgentEndState.describe(mission, agent).ended) times.push(agent.lastSeenAt);
+	}
 	const freshest = Math.max(0, ...times.map(value => Date.parse(value || 0) || 0));
 	return freshest > 0 && now - freshest < threshold;
+}
+
+function endedAgent(agent = {}, mission = {}) {
+	return AgentEndState.describe(mission, agent).ended;
 }
 
 function accepted(record) {
@@ -91,12 +95,14 @@ function no(reason) {
 module.exports = {
 	DEFAULT_BACKOFF_MS,
 	DEFAULT_INACTIVITY_MS,
+	ENDED_AGENT,
 	MAX_ATTEMPTS,
 	OBSERVATION_ACTION,
 	accepted,
 	activeLease,
 	backoff,
 	decide,
+	endedAgent,
 	freshWork,
 	meaningfulNext,
 	paused,
