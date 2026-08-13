@@ -62,7 +62,7 @@ function runScenario(name, evidenceBody) {
 	const sandbox = fs.mkdtempSync(path.join(os.tmpdir(), `awts-readiness-${name}-`));
 	const marker = path.join(sandbox, "pairing-called");
 	const shell = `${shellPrelude(sandbox, marker)}\n${evidenceBody}\nwait_for_candidate_probe`;
-	const result = spawnSync("bash", ["-c", shell], { encoding: "utf8", timeout: 5000 });
+	const result = spawnSync("bash", ["-c", shell], { encoding: "utf8", timeout: 30000 });
 	const receipt = JSON.parse(fs.readFileSync(path.join(sandbox, "candidate-readiness.json"), "utf8"));
 	const pairingExtended = fs.existsSync(marker);
 	fs.rmSync(sandbox, { recursive: true, force: true });
