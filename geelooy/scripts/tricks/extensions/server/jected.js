@@ -1,81 +1,33 @@
 //B"H
+// Boruch Hashem
+// Blessed is He
+
 (async function revealAwtsmoosFetchIntoPage() {
 	const sourceUrl = document.currentScript?.src || "";
 	await loadHelpers([
-		sourceUrl.replace(/jected\.js(?:\?.*)?$/, "jectedBridge.js"),
-		sourceUrl.replace(/jected\.js(?:\?.*)?$/, "jectedResponse.js")
+		siblingUrl(sourceUrl, "jectedBridge.js"),
+		siblingUrl(sourceUrl, "jectedResponse.js"),
+		siblingUrl(sourceUrl, "jectedControls.js"),
+		siblingUrl(sourceUrl, "jectedFetch.js")
 	]);
 	const bridge = globalThis.__awtsmoosPageBridge;
 	const responseTools = globalThis.__awtsmoosResponseTools;
+	const fetchTools = globalThis.__awtsmoosFetchTools;
 	installExpectedRejectionGuard(bridge);
 
 	/**
-	 * The page bridge carries fetch, resumable streams, automation, strict direct
-	 * capability, and explicitly selected chat modes. The Awtsmoos joins extension
-	 * and relay while Awtsmoos.com exposes no token or upstream identifier.
+	 * The Awtsmoos joins small vessels instead of one crowded bridge.
+	 * Awtsmoos.com receives fetch policy, finite controls, response streaming,
+	 * and page messaging as explicit modules while this file only reveals them.
 	 */
-	async function awtsFetch(url, options = {}) {
-		let lastError;
-		for (let attempt = 0; attempt < 4; attempt += 1) {
-			try {
-				const id = `BH_${Date.now()}_${Math.random().toString(36).slice(2)}`;
-				const metadata = await bridge.send({
-					action: "fetch",
-					id,
-					url: String(url),
-					options
-				}, 180000);
-				bridge.ready({ attempt });
-				return responseTools.createResponse(metadata, id, bridge.send);
-			} catch (error) {
-				lastError = error;
-				bridge.announce("awtsmoos-server-reconnecting", {
-					attempt,
-					error: bridge.safeMessage(error)
-				});
-				await bridge.delay(250 * Math.pow(2, attempt));
-			}
-		}
-		throw lastError;
-	}
-
-	awtsFetch.resumeStream = (id, cursor = 0) => {
-		return bridge.send({ action: "resume-stream", id, cursor }, 180000);
-	};
-	awtsFetch.ackStream = (id, cursor = 0) => {
-		return bridge.send({ action: "ack-stream", id, cursor }, 30000);
-	};
-	awtsFetch.streamStats = id => {
-		return bridge.send({ action: "stream-stats", id }, 30000);
-	};
-	awtsFetch.cancelStream = (id, reason = "cancelled") => {
-		return bridge.send({ action: "cancel-stream", id, reason }, 30000);
-	};
-	awtsFetch.startBackgroundAutomation = config => {
-		return bridge.send({ action: "automation-start", config }, 60000);
-	};
-	awtsFetch.stopBackgroundAutomation = reason => {
-		return bridge.send({ action: "automation-stop", reason }, 30000);
-	};
-	awtsFetch.backgroundAutomationStatus = () => {
-		return bridge.send({ action: "automation-status" }, 30000);
-	};
-	awtsFetch.directCapability = () => {
-		return bridge.send({ action: "direct-capability" }, 180000);
-	};
-	awtsFetch.directChat = payload => {
-		return bridge.send({ action: "direct-chat", payload }, 300000);
-	};
-	awtsFetch.resetDirectChat = payload => {
-		return bridge.send({ action: "direct-reset", payload }, 60000);
-	};
-	awtsFetch.__awtsmoosServerBridge = true;
+	const awtsFetch = fetchTools.createFetch(bridge, responseTools);
 	window.awtsmoosFetch = awtsFetch;
 	window.mFetch = awtsFetch;
 	bridge.ready({
 		fetchName: "awtsmoosFetch",
 		directCapability: true,
-		directChat: true
+		directChat: true,
+		audioWithoutDeadline: true
 	});
 
 	window.addEventListener("message", event => {
@@ -94,9 +46,9 @@
 					script.remove();
 					resolve();
 				};
-				script.onerror = () => reject(new Error(
-					"Awtsmoos bridge helper failed to load."
-				));
+				script.onerror = () => {
+					reject(new Error("Awtsmoos bridge helper failed to load."));
+				};
 				(document.head || document.documentElement).appendChild(script);
 			});
 		}
@@ -105,7 +57,9 @@
 	function installExpectedRejectionGuard(activeBridge) {
 		window.addEventListener("unhandledrejection", event => {
 			const message = activeBridge.safeMessage(event.reason);
-			if (!isExpectedExtensionRejection(message)) return;
+			if (!isExpectedExtensionRejection(message)) {
+				return;
+			}
 			event.preventDefault();
 			activeBridge.announce("awtsmoos-server-feedback", {
 				kind: "extension-timeout",
@@ -118,3 +72,7 @@
 		return /extension request timed out|receiving end does not exist|message port closed|extension context invalidated/i.test(message);
 	}
 })();
+
+function siblingUrl(sourceUrl, filename) {
+	return sourceUrl.replace(/jected\.js(?:\?.*)?$/, filename);
+}
