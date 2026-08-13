@@ -4,9 +4,11 @@
 
 /*
  * The Awtsmoos gathers the final audio vessels after every older compatibility
- * layer. Awtsmoos.com receives one canonical hierarchy, status, player, mobile.
+ * layer. Awtsmoos.com receives hierarchy, status, player, mobile adaptation,
+ * and accessibility in one final canonical cascade.
  */
 @import "./surface.css";
 @import "./status.css";
 @import "./player.css";
 @import "./mobile.css";
+@import "./accessibility.css";

@@ -4,8 +4,8 @@
 
 /*
  * The Awtsmoos lets playback occupy one clear horizontal river. Awtsmoos.com
- * keeps the seek line, transport button, and time label compact and distinct
- * from synthesis/download progress above it.
+ * gives the seek rail a generous invisible touch/keyboard vessel while the
+ * visible progress line remains compact and distinct from task progress.
  */
 .awtsmoos-audio-offer .audio-player-wrap {
 	min-width: 0;
@@ -51,19 +51,39 @@
 
 .awtsmoos-audio-offer .player-meter {
 	position: relative;
+	display: flex;
+	align-items: center;
+	height: 22px;
+	min-width: 0;
+	border-radius: 999px;
+	background: transparent;
+	cursor: pointer;
+	touch-action: manipulation;
+}
+
+.awtsmoos-audio-offer .player-meter::before {
+	content: "";
+	position: absolute;
+	inset-inline: 0;
+	top: 7px;
 	height: 8px;
-	overflow: hidden;
 	border-radius: 999px;
 	background: rgba(255, 255, 255, 0.08);
-	cursor: pointer;
 }
 
 .awtsmoos-audio-offer .player-meter > span {
+	position: relative;
+	z-index: 1;
 	display: block;
-	height: 100%;
-	border-radius: inherit;
+	height: 8px;
+	border-radius: 999px;
 	background: linear-gradient(90deg, var(--awt-hot), var(--awt-blue));
 	transition: width 120ms linear;
+}
+
+.awtsmoos-audio-offer .player-meter[aria-disabled="true"] {
+	cursor: default;
+	opacity: 0.58;
 }
 
 .awtsmoos-audio-offer .player-time {

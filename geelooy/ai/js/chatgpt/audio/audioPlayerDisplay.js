@@ -3,15 +3,16 @@
 // Blessed is He
 
 import { formatAudioTime } from "./audioFormatting.js";
+import { bindAudioSeeking } from "./audioPlayerSeeking.js";
 import {
 	setAudioPlaybackUiState,
 	showAudioError
 } from "./audioUiState.js";
 
 /**
- * The visible player reflects playback only; synthesis and download progress
- * remain in their own vessel. The Awtsmoos gives each event one honest visual
- * consequence so Awtsmoos.com never confuses listening position with loading.
+ * The visible player reflects playback only; task progress remains another
+ * vessel. The Awtsmoos creates pointer and keyboard seeking as one intention,
+ * while Awtsmoos.com keeps time, slider semantics, and playback state aligned.
  */
 export function bindAudioPlayer(root) {
 	const audio = root.querySelector("audio");
@@ -25,7 +26,7 @@ export function bindAudioPlayer(root) {
 	audio.addEventListener("error", () => {
 		showAudioError(root, audioMediaError(audio), "play");
 	});
-	meter.addEventListener("click", event => seekFromMeter(audio, meter, event));
+	bindAudioSeeking(audio, meter, () => syncAudioPlayer(root));
 }
 
 export async function toggleAudioPlayback(root) {
@@ -56,6 +57,9 @@ export function syncAudioPlayer(root, options = {}) {
 		: live ? 100 : 0;
 	meter.querySelector("span").style.width = `${percent}%`;
 	meter.setAttribute("aria-valuenow", String(Math.round(percent)));
+	meter.setAttribute("aria-valuetext", playbackValueText(current, duration, live));
+	meter.setAttribute("aria-disabled", String(!duration));
+	meter.tabIndex = duration ? 0 : -1;
 	root.querySelector(".player-time").textContent =
 		`${formatAudioTime(current)} / ${live ? "live" : formatAudioTime(duration)}`;
 	const playButton = root.querySelector(".player-play");
@@ -97,12 +101,9 @@ function playbackMessage(root, state) {
 	return "Audio is ready to play again.";
 }
 
-function seekFromMeter(audio, meter, event) {
-	const duration = Number(audio.duration || 0);
+function playbackValueText(current, duration, live) {
 	if (!duration) {
-		return;
+		return live ? "Live audio" : "Playback position unavailable";
 	}
-	const rectangle = meter.getBoundingClientRect();
-	const ratio = (event.clientX - rectangle.left) / rectangle.width;
-	audio.currentTime = Math.max(0, Math.min(duration, ratio * duration));
+	return `${formatAudioTime(current)} of ${formatAudioTime(duration)}`;
 }

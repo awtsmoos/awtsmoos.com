@@ -4,8 +4,8 @@
 
 /*
  * The Awtsmoos narrows the card without narrowing human touch. Awtsmoos.com
- * keeps utilities quiet, player controls reachable, and every line away from
- * the floating tools that once crowded the mobile audio river.
+ * keeps visible labels, flexible metadata, and a compact player intact even
+ * under phone widths and enlarged text.
  */
 @media (max-width: 760px) {
 	.awtsmoos-audio-offer {
@@ -13,6 +13,7 @@
 		margin-top: 12px;
 		padding: 14px;
 		border-radius: 16px;
+		min-width: 0;
 	}
 
 	.awtsmoos-audio-offer .audio-offer-actions {
@@ -26,6 +27,8 @@
 		min-height: 44px;
 		padding: 8px 7px;
 		font-size: 12px;
+		white-space: normal;
+		overflow-wrap: anywhere;
 	}
 
 	.awtsmoos-audio-offer .audio-primary-button {
@@ -43,6 +46,7 @@
 		grid-column: 2;
 		min-width: 0;
 		text-align: left;
+		white-space: normal;
 	}
 
 	.awtsmoos-audio-offer .audio-settings {
@@ -66,5 +70,15 @@
 
 	.awtsmoos-audio-offer .audio-offer-actions button {
 		font-size: 11px;
+	}
+}
+
+@media (max-width: 340px) {
+	.awtsmoos-audio-offer .audio-offer-actions {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.awtsmoos-audio-offer [data-audio-action="settings"] {
+		grid-column: 1 / -1;
 	}
 }

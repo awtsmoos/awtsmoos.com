@@ -1,0 +1,58 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * The Awtsmoos creates attachment, prompt, and sending inside one composer.
+ * Awtsmoos.com gives attachment controls their own normal-flow row so no Image
+ * action must hover above completed messages to remain reachable.
+ */
+.container > .main > .input-area > .attachment-tools {
+	position: static;
+	inset: auto;
+	grid-column: 1 / -1;
+	grid-row: 1;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	max-width: 100%;
+	min-width: 0;
+	padding: 0;
+	z-index: auto;
+}
+
+.attach-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 38px;
+	border: 1px solid var(--awt-line);
+	border-radius: 999px;
+	background: rgba(8, 19, 33, 0.94);
+	color: var(--awt-soft);
+	padding: var(--awt-attach-pad);
+	font-size: var(--awt-attach-size);
+	font-weight: 900;
+	box-shadow: var(--awt-inset);
+	backdrop-filter: blur(10px);
+	cursor: pointer;
+}
+
+.attach-button:hover {
+	border-color: var(--awt-line-strong);
+	color: var(--awt-text);
+}
+
+.attachment-tray {
+	display: flex;
+	gap: 8px;
+	min-width: 0;
+	max-width: min(360px, 100%);
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+
+.attachment-tray > * {
+	flex: 0 0 auto;
+	border-radius: 12px;
+}

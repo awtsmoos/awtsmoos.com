@@ -6,18 +6,21 @@ import {
 	hydrateAudioSettings,
 	saveAudioSettings
 } from "./audioSettingsView.js";
+import { audioOfferMarkup } from "./audioOfferMarkup.js";
+import { prepareAudioSettingsDisclosure } from "./audioSettingsDisclosure.js";
 import { setAudioUiState } from "./audioUiState.js";
 
 export { saveAudioSettings };
+export { toggleAudioSettings } from "./audioSettingsDisclosure.js";
 export {
 	setAudioBusy,
 	statusNode
 } from "./audioUiState.js";
 
 /**
- * The Awtsmoos gives one answer a calm chamber for voice. Awtsmoos.com places
- * listening first, utilities second, progress in its own vessel, and recovery
- * beside the failure instead of scattering four equal buttons across the card.
+ * The Awtsmoos creates one spoken possibility inside every answer and one human
+ * intention to hear it. Awtsmoos.com receives a semantic card whose settings,
+ * player, patient progress, and recovery remain small focused vessels.
  */
 export function createAudioOffer(copyText = "") {
 	const root = document.createElement("section");
@@ -25,20 +28,12 @@ export function createAudioOffer(copyText = "") {
 	root.__awtsmoosCopyText = String(copyText || "").trim();
 	root.setAttribute("aria-label", "Audio controls for this answer");
 	root.innerHTML = audioOfferMarkup();
+	prepareAudioSettingsDisclosure(root);
 	hydrateAudioSettings(root);
 	setAudioUiState(root, "idle", {
 		message: "Ready when you are."
 	});
 	return root;
-}
-
-export function toggleAudioSettings(root, button) {
-	const panel = root.querySelector(".audio-settings");
-	if (!panel) {
-		return;
-	}
-	panel.hidden = !panel.hidden;
-	button?.setAttribute("aria-expanded", panel.hidden ? "false" : "true");
 }
 
 export async function copyAudioMessage(root) {
@@ -51,48 +46,6 @@ export async function copyAudioMessage(root) {
 		return;
 	}
 	fallbackCopy(text);
-}
-
-function audioOfferMarkup() {
-	return `
-		<div class="audio-offer-head">
-			<div class="audio-offer-title">
-				<strong>Audio</strong>
-				<span>Listen or save this answer</span>
-			</div>
-			<span class="audio-state-chip" aria-hidden="true">Ready</span>
-		</div>
-		<div class="audio-control-deck">
-			<div class="audio-primary-action">
-				<button type="button" class="audio-primary-button" data-audio-action="play">▶ Listen</button>
-			</div>
-			<div class="audio-offer-actions" aria-label="Message audio utilities">
-				<button type="button" data-audio-action="copy">⧉ Copy</button>
-				<button type="button" data-audio-action="download">⬇ Download</button>
-				<button type="button" data-audio-action="settings" aria-expanded="false">⚙ Settings</button>
-			</div>
-		</div>
-		<div class="audio-settings" hidden>
-			<label>Voice <select data-audio-setting="voice"></select></label>
-			<label>Download format <select data-audio-setting="format"></select></label>
-		</div>
-		<div class="audio-player-wrap" hidden>
-			<audio preload="auto"></audio>
-			<div class="awtsmoos-player" data-player-state="idle">
-				<button type="button" class="player-play" data-audio-action="toggle" disabled aria-label="Play audio">▶</button>
-				<div class="player-meter" role="slider" aria-label="Playback position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
-				<span class="player-time">0:00 / live</span>
-			</div>
-		</div>
-		<div class="audio-task-progress" data-determinate="false" hidden>
-			<div class="audio-task-meter" role="progressbar" aria-label="Audio preparation progress"><span></span></div>
-			<span class="audio-task-detail">Working…</span>
-		</div>
-		<div class="audio-feedback">
-			<span class="audio-status" role="status" aria-live="polite"></span>
-			<button type="button" class="audio-retry" data-audio-action="retry" hidden>↻ Retry</button>
-		</div>
-	`;
 }
 
 function fallbackCopy(text) {

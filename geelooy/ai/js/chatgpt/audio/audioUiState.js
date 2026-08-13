@@ -7,30 +7,41 @@ import {
 	clearAudioTaskProgress,
 	setAudioTaskProgress
 } from "./audioUiProgress.js";
+import {
+	applyAudioView,
+	setAudioFeedback
+} from "./audioUiDom.js";
+import {
+	startAudioTaskClock,
+	stopAudioTaskClock
+} from "./audioTaskClock.js";
 
+export {
+	setAudioBusy,
+	setAudioFeedback,
+	setAudioPlayerAvailable,
+	retryActionFor,
+	statusNode
+} from "./audioUiDom.js";
 export {
 	clearAudioTaskProgress,
 	setAudioTaskProgress
 } from "./audioUiProgress.js";
 
 /**
- * The Awtsmoos gives playback and long work distinct channels. Awtsmoos.com
- * therefore never lets a Play event erase a still-living Save or Stream task.
+ * The Awtsmoos creates task truth and playback truth together without forcing
+ * one to erase the other. Awtsmoos.com gives long work its own clock and visual
+ * ownership while elapsed time remains presentation, never a deadline.
  */
 export function setAudioUiState(root, stateName, options = {}) {
 	const view = audioUiPresentation(stateName, options);
-	root.dataset.audioState = view.state;
-	root.dataset.audioTone = view.tone;
-	root.setAttribute("aria-busy", String(view.busy || Boolean(activeAudioTask(root))));
-	setText(root, ".audio-state-chip", view.chip);
-	setText(root, "[data-audio-action='play']", view.primaryLabel);
-	setText(root, "[data-audio-action='download']", view.downloadLabel);
-	if (view.message) {
-		setAudioFeedback(root, view.message, view.tone);
-	}
-	setRetry(root, view.retryAction);
+	applyAudioView(root, view, Boolean(activeAudioTask(root)));
 	if (options.progress) {
-		setAudioTaskProgress(root, options.progress.received, options.progress.expected);
+		setAudioTaskProgress(
+			root,
+			options.progress.received,
+			options.progress.expected
+		);
 	} else if (!view.busy && view.state !== "streaming") {
 		clearAudioTaskProgress(root);
 	}
@@ -38,11 +49,17 @@ export function setAudioUiState(root, stateName, options = {}) {
 }
 
 export function setAudioTaskState(root, taskKind, stateName, options = {}) {
-	root.dataset.audioTaskKind = String(taskKind || "task");
+	const nextKind = String(taskKind || "task");
+	if (activeAudioTask(root) !== nextKind) {
+		stopAudioTaskClock(root);
+		startAudioTaskClock(root);
+	}
+	root.dataset.audioTaskKind = nextKind;
 	return setAudioUiState(root, stateName, options);
 }
 
 export function finishAudioTask(root, stateName, options = {}) {
+	stopAudioTaskClock(root);
 	delete root.dataset.audioTaskKind;
 	return setAudioUiState(root, stateName, options);
 }
@@ -60,6 +77,7 @@ export function activeAudioTask(root) {
 }
 
 export function showAudioError(root, message, retryAction = "") {
+	stopAudioTaskClock(root);
 	delete root.dataset.audioTaskKind;
 	setAudioUiState(root, "error", {
 		message: String(message || "Audio action failed."),
@@ -67,50 +85,6 @@ export function showAudioError(root, message, retryAction = "") {
 	});
 }
 
-export function setAudioFeedback(root, message, tone = "idle") {
-	const node = statusNode(root);
-	node.textContent = String(message || "");
-	node.dataset.tone = tone;
-}
-
-export function setAudioPlayerAvailable(root, available = true) {
-	root.classList.toggle("has-audio-player", Boolean(available));
-	root.dataset.audioPlayer = available ? "ready" : "hidden";
-}
-
-export function setAudioBusy(root, busy, options = {}) {
-	root.classList.toggle("is-audio-busy", Boolean(busy));
-	root.setAttribute("aria-busy", String(Boolean(busy || activeAudioTask(root))));
-	for (const action of ["play", "download"]) {
-		const button = root.querySelector(`[data-audio-action='${action}']`);
-		if (!button) {
-			continue;
-		}
-		const allowed = action === "play" ? options.allowPlay : options.allowDownload;
-		button.disabled = Boolean(busy && !allowed);
-	}
-}
-
-export function retryActionFor(root) {
-	return root.querySelector("[data-audio-action='retry']")?.dataset.retryAction || "";
-}
-
-export function statusNode(root) {
-	return root.querySelector(".audio-status");
-}
-
-function setRetry(root, action) {
-	const button = root.querySelector("[data-audio-action='retry']");
-	if (!button) {
-		return;
-	}
-	button.hidden = !action;
-	button.dataset.retryAction = action || "";
-}
-
-function setText(root, selector, text) {
-	const node = root.querySelector(selector);
-	if (node) {
-		node.textContent = text;
-	}
+export function announceAudioFeedback(root, message, tone = "idle") {
+	setAudioFeedback(root, message, tone);
 }

@@ -3,8 +3,9 @@
 /* Blessed is He */
 
 /*
- * The Awtsmoos gives preparation, feedback, and recovery their own visible
- * vessel. Awtsmoos.com keeps this task channel separate from playback position.
+ * The Awtsmoos gives preparation, feedback, elapsed patience, and recovery their
+ * own visible vessel. Awtsmoos.com keeps this task channel separate from the
+ * playback timeline while allowing bytes and elapsed time to coexist truthfully.
  */
 .awtsmoos-audio-offer .audio-settings {
 	display: grid;
@@ -18,7 +19,8 @@
 
 .awtsmoos-audio-offer .audio-settings[hidden],
 .awtsmoos-audio-offer .audio-task-progress[hidden],
-.awtsmoos-audio-offer .audio-retry[hidden] {
+.awtsmoos-audio-offer .audio-retry[hidden],
+.awtsmoos-audio-offer .audio-task-elapsed[hidden] {
 	display: none;
 }
 
@@ -26,6 +28,7 @@
 .awtsmoos-audio-offer .audio-feedback {
 	display: grid;
 	gap: 6px;
+	min-width: 0;
 }
 
 .awtsmoos-audio-offer .audio-feedback {
@@ -33,11 +36,28 @@
 	align-items: center;
 }
 
+.awtsmoos-audio-offer .audio-task-meta {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 4px 10px;
+	min-width: 0;
+}
+
 .awtsmoos-audio-offer .audio-task-detail,
+.awtsmoos-audio-offer .audio-task-elapsed,
 .awtsmoos-audio-offer .audio-status {
+	min-width: 0;
 	font-size: 12px;
 	line-height: 1.45;
 	color: var(--awt-muted);
+	overflow-wrap: anywhere;
+}
+
+.awtsmoos-audio-offer .audio-task-elapsed {
+	font-variant-numeric: tabular-nums;
+	white-space: nowrap;
 }
 
 .awtsmoos-audio-offer .audio-status[data-tone="error"] {
