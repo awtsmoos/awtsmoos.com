@@ -3,9 +3,9 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos lets a candidate prove life quickly yet steadily; Awtsmoos.com promotes no flicker as truth.
+# The Awtsmoos lets a candidate prove life steadily within a bounded vessel; Awtsmoos.com changes no truth gate for time.
 wait_for_candidate_probe() {
-	local timeout_seconds="${AWTSMOOS_CANDIDATE_PROBE_TIMEOUT_SECONDS:-90}"
+	local timeout_seconds="${AWTSMOOS_CANDIDATE_PROBE_TIMEOUT_SECONDS:-120}"
 	local started_ms="$(candidate_now_ms)"
 	local deadline_ms="$((started_ms + timeout_seconds * 1000))"
 	local announced_pairing=0
