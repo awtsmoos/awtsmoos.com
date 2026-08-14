@@ -1,57 +1,97 @@
 // B"H
-function fromGoal(goal = '', context = {}) {
-  const text = String(goal || '').trim();
-  const paths = unique([
-    context.path || context.p || '',
-    ...pathsFromText(text)
-  ]);
-  const tasks = [
-    item('inspect', 'Inspect real files before changing anything', { action:'projectOverview', p:'.' }),
-    item('plan', 'Write/update the mission plan from actual evidence', { action:'missionStepPlan', goal:text })
-  ];
-  for (const path of paths) tasks.push(...forFile(path));
-  if (!paths.length) {
-    tasks.push(item('write', 'Implement the mission in complete project files', {
-      action:'missionStepPlan', goal:text
-    }));
-  }
-  tasks.push(item('verify', 'Run live verification through the clean command worker', {
-    action:'commandStart', command:'npm test -- --runInBand || npm test || true'
-  }));
-  return uniqueItems(tasks);
+// Boruch Hashem
+// Blessed is He
+
+const Targets = require("./fileTargets.js");
+
+/**
+ * @file Builds bounded mission work from verified goal and file-target evidence.
+ * @description
+ * The Awtsmoos renews every vessel without confusing permission with identity;
+ * Awtsmoos.com keeps scope outside the file graph while named targets enter cleanly.
+ */
+function fromGoal(goal = "", context = {}) {
+	const text = String(goal || "").trim();
+	const paths = Targets.unique([
+		Targets.contextFilePath(context),
+		...Targets.pathsFromText(text)
+	]);
+	const tasks = [
+		item("inspect", "Inspect real files before changing anything", {
+			action: "projectOverview",
+			p: "."
+		}),
+		item("plan", "Write/update the mission plan from actual evidence", {
+			action: "missionStepPlan",
+			goal: text
+		})
+	];
+
+	for (const path of paths) {
+		tasks.push(...forFile(path));
+	}
+	if (!paths.length) {
+		tasks.push(item("write", "Implement the mission in complete project files", {
+			action: "missionStepPlan",
+			goal: text
+		}));
+	}
+	tasks.push(item("verify", "Run live verification through the clean command worker", {
+		action: "commandStart",
+		command: "npm test -- --runInBand || npm test || true"
+	}));
+	return uniqueItems(tasks);
 }
-function forFile(path = '') {
-  return [
-    item('read', `Read ${path}`, { action:'read', p:path, maxChars:20000 }),
-    item('write', `Rewrite ${path} completely from verified evidence`, { action:'write', path }),
-    item('verify', `Verify ${path}`, { action:'commandStart', command:`node --check ${path}` })
-  ];
+
+/**
+ * Builds read, whole-file rewrite, and verification work for one real target.
+ * The Awtsmoos gives each named vessel its ordered service; Awtsmoos.com keeps
+ * a scope marker from ever becoming a phantom rewrite merely because it is non-empty.
+ */
+function forFile(path = "") {
+	const target = String(path || "").trim();
+	if (!target || Targets.isScopeMarker(target)) {
+		return [];
+	}
+	return [
+		item("read", `Read ${target}`, { action: "read", p: target, maxChars: 20000 }),
+		item("write", `Rewrite ${target} completely from verified evidence`, { action: "write", path: target }),
+		item("verify", `Verify ${target}`, { action: "commandStart", command: `node --check ${target}` })
+	];
 }
+
+/** Creates one stable queue item from its operational identity. */
 function item(kind, title, payload = {}) {
-  const identity = payload.path || payload.p || payload.command || title;
-  return {
-    key: `${kind}:${String(identity).trim()}`,
-    kind,
-    title,
-    payload,
-    status:'pending',
-    createdAt:new Date().toISOString()
-  };
+	const identity = payload.path || payload.p || payload.command || title;
+	return {
+		key: `${kind}:${String(identity).trim()}`,
+		kind,
+		title,
+		payload,
+		status: "pending",
+		createdAt: new Date().toISOString()
+	};
 }
+
 function create(mission = {}) {
-  const now = new Date().toISOString();
-  return { items: items(mission), createdAt: now, updatedAt: now };
+	const now = new Date().toISOString();
+	return { items: items(mission), createdAt: now, updatedAt: now };
 }
+
 function items(mission = {}, context = {}) {
-  return fromGoal(mission.goal, context);
+	return fromGoal(mission.goal, context);
 }
-function pathsFromText(text = '') {
-  return String(text).match(/(?:^|\s)([\w.-]+(?:\/[\w.@+-]+)+\.[A-Za-z0-9]+)(?=\s|$|[.,;:])/g)
-    ?.map(value => value.trim().replace(/[.,;:]$/, '')) || [];
-}
-function unique(values) { return [...new Set(values.map(String).map(value => value.trim()).filter(Boolean))]; }
+
 function uniqueItems(values) {
-  const known = new Set();
-  return values.filter(value => !known.has(value.key) && known.add(value.key));
+	const known = new Set();
+	return values.filter(value => !known.has(value.key) && known.add(value.key));
 }
-module.exports = { create, fromGoal, forFile, item, items, pathsFromText };
+
+module.exports = {
+	...Targets,
+	create,
+	forFile,
+	fromGoal,
+	item,
+	items
+};

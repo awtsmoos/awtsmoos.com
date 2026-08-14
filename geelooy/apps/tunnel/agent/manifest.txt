@@ -1,5 +1,5 @@
 B"H
-1.0.531
+1.0.532
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtector.mjs
@@ -1973,9 +1973,11 @@ tools/fs/mission/watchdog/index.js
 tools/fs/mission/watchdog/recover.js
 tools/fs/mission/watchdog/status.js
 tools/fs/mission/watchdog/tick.js
+tools/fs/mission/workQueue/fileTargets.js
 tools/fs/mission/workQueue/fromGoal.js
 tools/fs/mission/workQueue/index.js
 tools/fs/mission/workQueue/progress.js
+tools/fs/mission/workQueue/reconcile.js
 tools/fs/mission/writeAuth/create.js
 tools/fs/mission/writeAuth/index.js
 tools/fs/mission/writeAuth/store.js
