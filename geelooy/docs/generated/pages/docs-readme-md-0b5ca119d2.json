@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-readme-md-0b5ca119d2",
+	"title": "Awtsmoos.com Documentation",
+	"sourcePath": "docs/README.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos.com Documentation",
+			"anchor": "awtsmoos-com-documentation"
+		},
+		{
+			"level": 2,
+			"text": "Fastest doorway — /docs/",
+			"anchor": "fastest-doorway-docs"
+		},
+		{
+			"level": 2,
+			"text": "Learn before memorizing",
+			"anchor": "learn-before-memorizing"
+		},
+		{
+			"level": 2,
+			"text": "Exhaustive generated teaching",
+			"anchor": "exhaustive-generated-teaching"
+		},
+		{
+			"level": 2,
+			"text": "Enter by task",
+			"anchor": "enter-by-task"
+		},
+		{
+			"level": 2,
+			"text": "Documentation layers",
+			"anchor": "documentation-layers"
+		}
+	],
+	"markdownParts": [
+		"content/docs-readme-md-0b5ca119d2-001.json"
+	]
+}

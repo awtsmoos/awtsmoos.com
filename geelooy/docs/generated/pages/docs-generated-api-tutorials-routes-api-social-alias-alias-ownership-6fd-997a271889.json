@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-generated-api-tutorials-routes-api-social-alias-alias-ownership-6fd-997a271889",
+	"title": "API Tutorial: /api/social/alias/:alias/ownership",
+	"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-alias-alias-ownership-6fdd6abb36.md",
+	"category": "Routes",
+	"provenance": "generated",
+	"headings": [
+		{
+			"level": 1,
+			"text": "API Tutorial: /api/social/alias/:alias/ownership",
+			"anchor": "api-tutorial-api-social-alias-alias-ownership"
+		},
+		{
+			"level": 2,
+			"text": "Contract evidence",
+			"anchor": "contract-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Path parameters",
+			"anchor": "path-parameters"
+		},
+		{
+			"level": 2,
+			"text": "Starter call",
+			"anchor": "starter-call"
+		},
+		{
+			"level": 2,
+			"text": "Observed callers",
+			"anchor": "observed-callers"
+		},
+		{
+			"level": 2,
+			"text": "Related tests",
+			"anchor": "related-tests"
+		},
+		{
+			"level": 2,
+			"text": "Related routes",
+			"anchor": "related-routes"
+		}
+	],
+	"markdownParts": [
+		"content/docs-generated-api-tutorials-routes-api-social-alias-alias-ownership-6fd-997a271889-001.json"
+	]
+}

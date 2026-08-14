@@ -1,0 +1,203 @@
+[
+	{
+		"id": "docs-generated-system-tutorials-systems-parallel-awtsmoosdb-md-d9004139a6",
+		"title": "System Tutorial: Parallel AwtsmoosDB Bridge",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/parallel-awtsmoosdb.md",
+		"category": "Systems",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "System Tutorial: Parallel AwtsmoosDB Bridge",
+				"anchor": "system-tutorial-parallel-awtsmoosdb-bridge"
+			},
+			{
+				"level": 2,
+				"text": "Claims boundary",
+				"anchor": "claims-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Change risk",
+				"anchor": "change-risk"
+			},
+			{
+				"level": 2,
+				"text": "Human manuals",
+				"anchor": "human-manuals"
+			},
+			{
+				"level": 2,
+				"text": "Related project boundaries",
+				"anchor": "related-project-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Source anchors",
+				"anchor": "source-anchors"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Environment-name evidence",
+				"anchor": "environment-name-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Realtime application registration evidence",
+				"anchor": "realtime-application-registration-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Lexical event/message evidence",
+				"anchor": "lexical-event-message-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Tags",
+				"anchor": "tags"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: Parallel AwtsmoosDB Bridge District: data · System ID: parallel awtsmoosdb The DosDB side bridge that exposes a parallel AwtsmoosDB path for newer database capabilities. Generated evidence below is a navigation aid. Trust, migration, consistency, protocol, and authorizat",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial: parallel awtsmoosdb bridge district: data · system id: parallel awtsmoosdb the dosdb side bridge that exposes a parallel awtsmoosdb path for newer database capabilities. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary bridge presence does not mean all legacy dosdb callers use the newer engine. change risk bridge selection/fallback changes can alter which physical storage family receives writes. human manuals docs/data/readme.md docs/data/awtsmoosdb and virtualfs.md related project boundaries ayzarim/dosdb (data) — ayzarim/dosdb source anchors ayzarim/dosdb/awtsmoosdbbridge.js generated evidence none observed for this system packet. environment name evidence name class source refs example sources awtsmoos embed mode runtime config 1 ayzarim/dosdb/aisearch/textembedrunner.js awtsmoos embed model root test/tuning 1 ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/ai search model root precedence test.js awtsmoosdb fast test test/tuning 3 ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/core/idle/fastgate.js; ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/lightning/env.js; ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/semantic ai dosdb test.js awtsmoosdb test scale test/tuning 1 ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/lightning/env.js node env runtime config 3 ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/lightning/env.js; geelooy/api/wallet/core/paypalenvironment.js; geelooy/api/wallet/tests/paypalenvironment.test.js realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence none observed for this system packet. tags persistence · awtsmoosdb · bridge",
+		"page": "pages/docs-generated-system-tutorials-systems-parallel-awtsmoosdb-md-d9004139a6.json"
+	},
+	{
+		"id": "docs-generated-system-tutorials-systems-persistence-path-contracts-md-2c07309dee",
+		"title": "System Tutorial: Persistence Path Contracts",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/persistence-path-contracts.md",
+		"category": "Systems",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "System Tutorial: Persistence Path Contracts",
+				"anchor": "system-tutorial-persistence-path-contracts"
+			},
+			{
+				"level": 2,
+				"text": "Claims boundary",
+				"anchor": "claims-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Change risk",
+				"anchor": "change-risk"
+			},
+			{
+				"level": 2,
+				"text": "Human manuals",
+				"anchor": "human-manuals"
+			},
+			{
+				"level": 2,
+				"text": "Related project boundaries",
+				"anchor": "related-project-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Source anchors",
+				"anchor": "source-anchors"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Environment-name evidence",
+				"anchor": "environment-name-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Realtime application registration evidence",
+				"anchor": "realtime-application-registration-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Lexical event/message evidence",
+				"anchor": "lexical-event-message-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Tags",
+				"anchor": "tags"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: Persistence Path Contracts District: data · System ID: persistence path contracts Logical path shapes that behave like compatibility contracts across persisted Social and runtime data. Generated evidence below is a navigation aid. Trust, migration, consistency, protocol,",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial: persistence path contracts district: data · system id: persistence path contracts logical path shapes that behave like compatibility contracts across persisted social and runtime data. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary human path contract documentation supplies interpretation; source paths merely anchor where path rules are implemented. change risk renaming or re rooting persisted paths can silently strand existing data without migration. human manuals docs/data/path contracts.md docs/data/readme.md related project boundaries geelooy/api/social (api) — geelooy/api/social ayzarim/dosdb (data) — ayzarim/dosdb source anchors geelooy/api/social/helper/packed/shardpaths.js ayzarim/awtsmoosdynamicserver/server/initdb.js generated evidence none observed for this system packet. environment name evidence name class source refs example sources awts db root path/storage 3 geelooy/api/social/helper/search/rag/paths.js; geelooy/api/social/helper/search/rag/test/catalogandsidecar.test.js; geelooy/api/social/helper/search/rag/test/livesearchprobe.js awts rag startup warmup runtime config 2 geelooy/api/social/helper/search/rag/ragstartupwarmup.js; geelooy/api/social/helper/search/rag/test/searchcontracts.test.js awtsmoos ai root path/storage 1 geelooy/api/social/helper/search/rag/paths.js awtsmoos db path path/storage 1 geelooy/api/social/helper/series/directseriesprateem.js awtsmoos drive admin user ids runtime config 1 geelooy/api/social/helper/drive/adminauthorization.js awtsmoos embed mode runtime config 1 ayzarim/dosdb/aisearch/textembedrunner.js awtsmoos embed model root test/tuning 1 ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/ai search model root precedence test.js awtsmoos enable comment breadcrumb index path/storage 1 geelooy/api/social/helper/comments/commentcreation.js awtsmoos likkutei sichos rag root path/storage 1 geelooy/api/social/helper/search/rag/paths.js awtsmoos rag root path/storage 1 geelooy/api/social/helper/search/rag/paths.js awtsmoos real smoke debug test/tuning 1 geelooy/api/social/helper/apikeys.js awtsmoos sichos kodesh rag root test/tuning 1 geelooy/api/social/helper/search/rag/test/sichoskodeshcommentrows.test.js awtsmoos social awtsdb test/tuning 1 geelooy/api/social/helper/awtsmoosdb/test/shardstore.test.js awtsmoos tanach embed python runtime config 1 geelooy/api/social/helper/search/rag/multilingualembedder.js awtsmoos tanach index path/storage 3 geelooy/api/social/helper/search/rag/storageinvariant.js; geelooy/api/social/helper/search/rag/test/storageinvariant.test.js; geelooy/api/social/helper/search/tanach/paths.js awtsmoos tanach model path path/storage 1 geelooy/api/social/helper/search/rag/multilingualembedder.js awtsmoosdb fast test test/tuning 3 ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/core/idle/fastgate.js; ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/lightning/env.js; ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/semantic ai dosdb test.js awtsmoosdb test scale test/tuning 1 ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/lightning/env.js exact hebrew index db path/storage 1 geelooy/api/social/helper/search/exacthebrewworkerclient.js node env runtime config 3 ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/lightning/env.js; geelooy/api/wallet/core/paypalenvironment.js; geelooy/api/wallet/tests/paypalenvironment.test.js realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence none observed for this system packet. tags persistence · path · compatibility · migration",
+		"page": "pages/docs-generated-system-tutorials-systems-persistence-path-contracts-md-2c07309dee.json"
+	},
+	{
+		"id": "docs-generated-system-tutorials-systems-realtime-application-events-md-2e628a0391",
+		"title": "System Tutorial: Realtime Application and Event Evidence",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/realtime-application-events.md",
+		"category": "Realtime",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "System Tutorial: Realtime Application and Event Evidence",
+				"anchor": "system-tutorial-realtime-application-and-event-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Claims boundary",
+				"anchor": "claims-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Change risk",
+				"anchor": "change-risk"
+			},
+			{
+				"level": 2,
+				"text": "Human manuals",
+				"anchor": "human-manuals"
+			},
+			{
+				"level": 2,
+				"text": "Related project boundaries",
+				"anchor": "related-project-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Source anchors",
+				"anchor": "source-anchors"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Environment-name evidence",
+				"anchor": "environment-name-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Realtime application registration evidence",
+				"anchor": "realtime-application-registration-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Lexical event/message evidence",
+				"anchor": "lexical-event-message-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Tags",
+				"anchor": "tags"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: Realtime Application and Event Evidence District: realtime · System ID: realtime application events Registered built in application IDs/versions plus searchable lexical event/message strings from production WebSocket source. Generated evidence below is a navigation aid. ",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial: realtime application and event evidence district: realtime · system id: realtime application events registered built in application ids/versions plus searchable lexical event/message strings from production websocket source. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary event/message literals are search clues only and never constitute a formal payload or protocol schema. change risk changing application ids/versions or event semantics can break clients even when lexical strings still exist. human manuals docs/websockets/applications.md docs/websockets/readme.md related project boundaries ayzarim/awtsmoosdynamicserver (runtime) — ayzarim/awtsmoosdynamicserver source anchors ayzarim/awtsmoosdynamicserver/websocket/apps/applicationdefinitions.js ayzarim/awtsmoosdynamicserver/websocket/apps/messagerouter.js generated evidence docs/generated/websocket applications.md docs/generated/websocket event index.md environment name evidence name class source refs example sources awts entry limit test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awts entry match test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awts entry offset test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awts entry roots test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awtsmoos registration stress count test/tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/test/registrationreplacementstress.test.cjs awtsmoos relay stress count test/tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay.concurrent correlation.test.cjs awtsmoos sefira profile path path/storage 1 ayzarim/awtsmoosdynamicserver/websocket/apps/sefiraclash/expeditionprofilerepository.js awtsmoos tunnel completed limit tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel consumer progress ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestackhandler.js awtsmoos tunnel control store path/storage 9 ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/missionroomsocketintegration.test.cjs; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/missionroomupgrade.test.cjs; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/upgradepolicy.test.cjs awtsmoos tunnel pending ttl ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel quarantine limit tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay max safe wait ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay safe wait ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay state root path/storage 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/durablepaths.js awtsmoos tunnel request acceptance ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestdispatch.js awtsmoos ws max missed heartbeats runtime config 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js awtsmoos ws probe grace ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js awtsmoos ws stale ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js mw load clients runtime config 1 ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/sessionloadprobe.cjs realtime application registration evidence application versions factory awtsmoos core 1 createawtsmooscoreapplication awtsmoos social 1 createawtsmoossocialapplication chess 1 createchessapplication universalchat 1 createuniversalchatapplication sefira clash 1 createsefiraclashapplication mitzvah world 1 createmitzvahworldapplication ohr hagnuz 1 createohrhagnuzapplication scribe journey 1, 2 createscribejourneyapplication tunnel activity 1 createtunnelactivityapplication shema strike 1 createshemastrikeapplication lexical event/message evidence ack — ayzarim/awtsmoosdynamicserver/websocket/apps/aliasrouting.js awtsmoosmydevice — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopeerrors.js bosstelegraph — ayzarim/awtsmoosdynamicserver/websocket/apps/sefiraclash/coopcombat.js bridge:lanterns — ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/rivercrossingservice.js care — ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/combatactionrequest.js chess.chat.sent — ayzarim/awtsmoosdynamicserver/websocket/apps/chess/socialhandlers.js chess.click.accepted — ayzarim/awtsmoosdynamicserver/websocket/apps/chess/onlinegamehandlers.js chess.event.accepted — ayzarim/awtsmoosdynamicserver/websocket/apps/chess/broadcastgamehandlers.js chess.game.finished.accepted — ayzarim/awtsmoosdynamicserver/websocket/apps/chess/onlinegamehandlers.js chess.history.activity.accepted — ayzarim/awtsmoosdynamicserver/websocket/apps/chess/historyhandlers.js chess.history.listed — ayzarim/awtsmoosdynamicserver/websocket/apps/chess/historyhandlers.js chess.history.started — ayzarim/awtsmoosdynamicserver/websocket/apps/chess/historyhandlers.js chess.media.signal.accepted — ayzarim/awtsmoosdynamicserver/websocket/apps/chess/socialhandlers.js chess.media.state.accepted — ayzarim/awtsmoosdynamicserver/websocket/apps/chess/socialhandlers.js chess.room.created — ayzarim/awtsmoosdynamicserver/websocket/apps/chess/roomhandlers.js chess.room.joined — ayzarim/awtsmoosdynamicserver/websocket/apps/chess/roomhandlers.js chess.room.listed — ayzarim/awtsmoosdynamicserver/websocket/apps/chess/roomhandlers.js chess.room.watched — ayzarim/awtsmoosdynamicserver/websocket/apps/chess/roomhandlers.js data — ayzarim/awtsmoosdynamicserver/websocket/apps/scribejourney/rawwebsockettestclient.cjs defeat — ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/combatdefeatrewards.js enrage — ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/enemyactionsupportrules.js game.click — ayzarim/awtsmoosdynamicserver/websocket/apps/chess/historyhandlers.js game.finished — ayzarim/awtsmoosdynamicserver/websocket/apps/chess/historyhandlers.js game.finished — ayzarim/awtsmoosdynamicserver/websocket/apps/chess/roomhistoryrecorder.js game.started — ayzarim/awtsmoosdynamicserver/websocket/apps/chess/standalonehistoryrecorder.js guard — ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/enemyactionsupportrules.js harvest — ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/animalharvestservice.js heal — ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/enemyactionsupportrules.js health.pong — ayzarim/awtsmoosdynamicserver/websocket/apps/awtsmooscoreapplication.js library — ayzarim/awtsmoosdynamicserver/websocket/apps/universalchat/sourcenormalizer.js live preview — ayzarim/awtsmoosdynamicserver/websocket/apps/livepreview.js loot — ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/corpselootservice.js message — ayzarim/awtsmoosdynamicserver/websocket/apps/chess/realtimetestclient.js page entered — ayzarim/awtsmoosdynamicserver/websocket/apps/sociallive.js page left — ayzarim/awtsmoosdynamicserver/websocket/apps/sociallive.js page presence — ayzarim/awtsmoosdynamicserver/websocket/apps/sociallive.js playerdown — ayzarim/awtsmoosdynamicserver/websocket/apps/sefiraclash/coopcombat.js playerhit — ayzarim/awtsmoosdynamicserver/websocket/apps/sefiraclash/coopcombat.js read — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay.correlationfixtures.cjs read — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay.retryfixtures.cjs tags websocket · application · event · evidence",
+		"page": "pages/docs-generated-system-tutorials-systems-realtime-application-events-md-2e628a0391.json"
+	}
+]

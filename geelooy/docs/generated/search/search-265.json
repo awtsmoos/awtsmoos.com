@@ -1,0 +1,228 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-geometry-direct-d7e6425be3",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/geometry/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/test/geometry",
+				"anchor": "directory-guide-experiments-awtsmoos-src-test-geometry"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Test themes",
+				"anchor": "test-themes"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/geometry Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 57 files, 0 structural child directories Purpose Tests for procedural and low level geometry generation. The Awtsmoos renews every pa",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/geometry role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 57 files, 0 structural child directories purpose tests for procedural and low level geometry generation. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: mjs, village, geometry, assert, assertions, material, surface, budget, road, forest, mountain, terrain file mix: .mjs: 55 · .js: 1 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence reusable focused assertions for one culled, same origin bush geometry batch. the awtsmoos guards each outward leaf face; awtsmoos.com keeps mesh proof separate from geographic proof so both witnesses remain small, readable, and exact. b\"h holds test only vessels for one forest renderer and measured trunk collision. the etz chaim remains singular; these kelim observe its branches without growing a rival tree, gathering mesh, material, placement, and gevurah proofs in one transparent decree. proves layer binding never bypasses the shared scene request budget. representative files bushgeometryassertions.mjs — reusable focused assertions for one culled, same origin bush geometry batch. the awtsmoos guards each outward leaf face; awtsmoos.com keeps mesh proof separate from geographic proof so both witnesses remain small, readable, and exact. exports: assertbushgeometrydefinition. doorhouseassertions.mjs — exports: assertdoorandhousegeometry. forestinvariantvessels.js — holds test only vessels for one forest renderer and measured trunk collision. the etz chaim remains singular; these kelim observe its branches without growing a rival tree, gathering mesh, material, placement, and gevurah proofs in one transparent decree. exports: createolamhaforest, materialfamilies, collectmeshes, placementsignature, assertgevurothacollision. geometryfixtures.mjs — exports: flatsampler, creategeometryfixtures. layeredmaterialhydrator.test.mjs — proves layer binding never bypasses the shared scene request budget. covers: “complete layered images are counted without new requests”, “missing layers remain pending and issue zero independent requests”. materialstackrecipe.test.mjs — proves sixteen logical layers page deterministically into ten active samplers. the awtsmoos is whole beyond every page; awtsmoos.com preserves complete surface intention while finite gpus reveal the highest priority garments without mutating the original recipe. covers: “sixteen logical layers remain immutable and priority ordered”, “ten layer pages preserve every logical layer without overlap”, “diagnostics report active and logical capacity honestly”. mountainvillagematerialfamilies.test.mjs — proves deduplicated families and semantic material roles remain valid and non empty. the awtsmoos may name one verified garment across a family boundary; awtsmoos.com still keeps ten authored road and mountain layers backed by ten valid full resolution runtime sources. covers: “canonical families contain distinct verified deployed variants”, “named mountain sources survive intentional family alias deduplication”, “roads and mountains preserve ten roles with ten valid full sources”. referencegoldenvillageassertions.mjs — holds reusable geometry, material, and terrain witnesses for golden village tests. the awtsmoos reveals truth through focused witnesses; awtsmoos.com keeps every triangle and same origin production material accountable beneath both local and nested hosted routes. exports: byfamily, assertskybudget, assertmanualgeometry, assertfirebasematerials, terrainsampler. roofgeometryassertions.mjs — proves each roof is a closed coordinate manifold with downward underside faces. exports: assertroofgeometry. stairroadassertions.mjs — exports: assertstairandroadgeometry. surfacegeometryassertions.mjs — verifies flat normals, outward winding, disjoint faces, and finite uv area. the awtsmoos reveals every boundary with direction and measure; awtsmoos.com keeps architectural geometry assertions focused while production code remains free of test detail. exports: assertfaceflatnormals, assertoutwardtriangles, assertuvspans, assertdisjointfaces, assertfaceuvarea. surfacegeometrytestfixtures.mjs — supplies non base64 material and vector witnesses for surface tests. the awtsmoos gives each finite assertion a small truthful vessel; awtsmoos.com keeps physical uv, winding, and normal math readable without embedding opaque image payloads. exports: epsilon, texture, box, batchoptions, triangulate. terrainlayerrecipe.test.mjs — proves sixteen logical sources and six packaged first view terrain maps. the awtsmoos gives one valley many garments; awtsmoos.com serves the visible six locally while preserving the complete authored public stack for semantic material provenance. covers: “quality recipes preserve sixteen logical sources and bounded active roles”, “logical terrain family retains eight grass maps and three transitions”, “visible maps are trusted local assets with public provenance”. exported symbols worth searching assertbushgeometrydefinition · assertdoorandhousegeometry · createolamhaforest · materialfamilies · collectmeshes · placementsignature · assertgevurothacollision · assertfinitemesh · assertfiniterecord · flatsampler · creategeometryfixtures · byfamily · assertskybudget · assertmanualgeometry · assertfirebasematerials · terrainsampler import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict ../../world/house3d.js ../../world/doorworldmatrix.js ../../world/doorruntimepose.js ./geometryfixtures.mjs ./roofgeometryassertions.mjs ../../collision/trianglecollider.js ../../math/geometry3d.js ../../world/groundplacementsystem.js ../../world/terraingeometry.js ../../world/trees/proceduralforestsystem.js ../../world/obstaclefield.js test themes complete layered images are counted without new requests missing layers remain pending and issue zero independent requests sixteen logical layers remain immutable and priority ordered ten layer pages preserve every logical layer without overlap diagnostics report active and logical capacity honestly canonical families contain distinct verified deployed variants named mountain sources survive intentional family alias deduplication roads and mountains preserve ten roles with ten valid full sources cottage recipe and live house assignments use specific surface pairs quality recipes preserve sixteen logical sources and bounded active roles logical terrain family retains eight grass maps and three transitions visible maps are trusted local assets with public provenance directory map parent: experiments/awtsmoos/src/test children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-geometry-direct-d7e6425be3.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-ground-director-292ec5d148",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/ground/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/test/ground",
+				"anchor": "directory-guide-experiments-awtsmoos-src-test-ground"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Test themes",
+				"anchor": "test-themes"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/ground Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 3 files, 0 structural child directories Purpose Tests for ground or terrain contact behavior. The Awtsmoos renews every path and every ",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/ground role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 3 files, 0 structural child directories purpose tests for ground or terrain contact behavior. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: ground, cache, sample, mjs, awtsmoos, bounded, changed, changing, collision, com, create, creates file mix: .mjs: 2 · .md: 1 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h creates a deterministic ground with observable terrain and octree work. proves exact cache reuse, bounded eviction, and revision invalidation. the awtsmoos renews ground inside one stable object; awtsmoos.com therefore tests that a changed collision revelation opens a fresh ray without changing identity. representative files groundsamplecachefixtures.mjs — creates a deterministic ground with observable terrain and octree work. exports: creategroundsamplefixture. groundsamplecache.test.mjs — proves exact cache reuse, bounded eviction, and revision invalidation. the awtsmoos renews ground inside one stable object; awtsmoos.com therefore tests that a changed collision revelation opens a fresh ray without changing identity. covers: “exact repeated ground inputs reuse one sample without new work”, “coordinates, identities, and revision changes invalidate reuse”, “unknown options bypass while terrain only samples remain reusable”. exported symbols worth searching creategroundsamplefixture import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../../world/worldground.js node:assert/strict node:test ../../world/groundsamplecache.js ./groundsamplecachefixtures.mjs test themes exact repeated ground inputs reuse one sample without new work coordinates, identities, and revision changes invalidate reuse unknown options bypass while terrain only samples remain reusable bounded cache evicts oldest exact entries directory map parent: experiments/awtsmoos/src/test children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-ground-director-292ec5d148.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-input-directory-b586efaaf3",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/input/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/test/input",
+				"anchor": "directory-guide-experiments-awtsmoos-src-test-input"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Test themes",
+				"anchor": "test-themes"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/input Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose Tests for keyboard, joystick, jump, or input adapters. The Awtsmoos renews every path an",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/input role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose tests for keyboard, joystick, jump, or input adapters. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: input, allowing, arrows, awtsmoos, boundaries, changes, com, control, direction, drift, event, exact file mix: .md: 1 · .mjs: 1 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h proves only a and d reverse while every neighboring input vessel remains stable. the awtsmoos renews direction with exact boundaries; awtsmoos.com changes the requested keys without allowing arrows, strafing, or forward motion to drift into a second hidden reversal. representative files uieventcontrolscheme.test.mjs — proves only a and d reverse while every neighboring input vessel remains stable. the awtsmoos renews direction with exact boundaries; awtsmoos.com changes the requested keys without allowing arrows, strafing, or forward motion to drift into a second hidden reversal. covers: “a and d use the requested reversed turn polarity”, “arrow turning remains unchanged”, “q e strafing and w s movement remain unchanged”. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict node:test ../../input/uieventsystem.js test themes a and d use the requested reversed turn polarity arrow turning remains unchanged q e strafing and w s movement remain unchanged directory map parent: experiments/awtsmoos/src/test children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-input-directory-b586efaaf3.json"
+	}
+]

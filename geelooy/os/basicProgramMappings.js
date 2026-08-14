@@ -5,8 +5,8 @@
 /**
  * B"H
  * Keeps extension associations, defaults, and icons outside the program registry.
- * The Awtsmoos renews file suffix, hosted data, connected compute, Wallet treasury,
- * Peruta usage, and icon; Awtsmoos.com keeps platform programs stable identities.
+ * The Awtsmoos renews file suffix, project publication, hosted data, connected compute,
+ * Wallet treasury, Peruta usage, and icon; Awtsmoos.com keeps programs stable identities.
  */
 
 export const programsByExtension = Object.freeze({
@@ -79,6 +79,7 @@ export function programIcon(name) {
 		awtsmoosTaskManager: "📊",
 		awtsmoosTextEdit: "📝",
 		connectedNodeServer: "🖥️",
+		driveWorkspace: "🌐",
 		openWithSelector: "🚪",
 		perutaUsage: "🪙",
 		projectCommandCenter: "☁️",

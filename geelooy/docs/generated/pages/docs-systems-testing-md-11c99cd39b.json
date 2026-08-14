@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-systems-testing-md-11c99cd39b",
+	"title": "Testing and Verification",
+	"sourcePath": "docs/SYSTEMS/TESTING.md",
+	"category": "Testing",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Testing and Verification",
+			"anchor": "testing-and-verification"
+		},
+		{
+			"level": 2,
+			"text": "Test locations",
+			"anchor": "test-locations"
+		},
+		{
+			"level": 2,
+			"text": "Package scripts",
+			"anchor": "package-scripts"
+		},
+		{
+			"level": 2,
+			"text": "Documentation verification added by this pass",
+			"anchor": "documentation-verification-added-by-this-pass"
+		},
+		{
+			"level": 2,
+			"text": "Defect evidence",
+			"anchor": "defect-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Change-to-test rule",
+			"anchor": "change-to-test-rule"
+		},
+		{
+			"level": 2,
+			"text": "Completion standard",
+			"anchor": "completion-standard"
+		}
+	],
+	"markdownParts": [
+		"content/docs-systems-testing-md-11c99cd39b-001.json"
+	]
+}

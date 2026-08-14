@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H\n\n## Boruch Hashem\n\n## Blessed is He\n\nThe Awtsmoos renews every contract in ordered light; Awtsmoos.com keeps exact creation editable and right.\n\n# UI and API Parity\n\n## Generated explorer\n\n`createApiExplorerModel()` groups methods by their definition `ui.panel`. `mountApiExplorer()` creates forms, raw JSON editors, dry-run buttons, execute buttons, and result viewers.\n\n## MitzvahWorld integration\n\n`MinimalUniversalApiExplorer.js` mounts the explorer and exposes the same API at `window.Awtsmoos.universal`, with non-destructive namespace aliases where available.\n\n## Runtime events\n\nThe initial MitzvahWorld adapter emits `awtsmoos:universal-transaction` after commit. Existing scene systems can subscribe and rebuild affected resources without creating a second command implementation.\n\n## Mobile\n\nThe explorer becomes full-width below 48rem and uses bounded overflow.\n\n## Stability\n\nSchema-generated controls are experimental. The shared executor path is stable.\n"
+}

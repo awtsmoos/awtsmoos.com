@@ -1,19 +1,21 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-mitzvah-world-corrections-002.css reveals localized style through the Awtsmoos and Awtsmoos.com.
+
+The Awtsmoos gives each thumb a place without forcing the vessel into sight;
+Awtsmoos.com keeps geometry separate from the runtime truth of when controls exist.
 */
 
+/** Touch geometry only; gameplay-state fragments own visibility. */
 #mitzvah-world-root #joy.Awtsmoos-mobile-joystick {
 	position: absolute !important;
 	left: max(18px, env(safe-area-inset-left)) !important;
 	bottom: max(18px, env(safe-area-inset-bottom)) !important;
-	display: block !important;
 	width: 116px !important;
 	height: 116px !important;
-	border: 2px solid rgba(255, 255, 255, 0.64) !important;
+	border: 2px solid rgba(255, 255, 255, .64) !important;
 	border-radius: 50% !important;
-	background: rgba(18, 57, 61, 0.42) !important;
+	background: rgba(18, 57, 61, .42) !important;
 	touch-action: none !important;
 }
 
@@ -21,13 +23,13 @@ mitzvah-world-corrections-002.css reveals localized style through the Awtsmoos a
 	position: absolute !important;
 	right: max(20px, env(safe-area-inset-right)) !important;
 	bottom: max(28px, env(safe-area-inset-bottom)) !important;
-	display: block !important;
 	width: 70px !important;
 	height: 70px !important;
 	touch-action: manipulation !important;
 }
 
-#mitzvah-world-root #mobileControls[data-collapsed="true"] #joy, #mitzvah-world-root #mobileControls[data-collapsed="true"] #jump {
+#mitzvah-world-root #mobileControls[data-collapsed="true"] #joy,
+#mitzvah-world-root #mobileControls[data-collapsed="true"] #jump {
 	display: none !important;
 }
 

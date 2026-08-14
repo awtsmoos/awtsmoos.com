@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-api-endpoint-index-md-ccb7781ca2",
+	"title": "Endpoint Index",
+	"sourcePath": "docs/API/ENDPOINT_INDEX.md",
+	"category": "API",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Endpoint Index",
+			"anchor": "endpoint-index"
+		},
+		{
+			"level": 2,
+			"text": "Mount families",
+			"anchor": "mount-families"
+		},
+		{
+			"level": 2,
+			"text": "Root-direct APIs outside derech inventory",
+			"anchor": "root-direct-apis-outside-derech-inventory"
+		},
+		{
+			"level": 2,
+			"text": "How to get every concrete pattern",
+			"anchor": "how-to-get-every-concrete-pattern"
+		},
+		{
+			"level": 2,
+			"text": "Route-table families included mechanically",
+			"anchor": "route-table-families-included-mechanically"
+		}
+	],
+	"markdownParts": [
+		"content/docs-api-endpoint-index-md-ccb7781ca2-001.json"
+	]
+}

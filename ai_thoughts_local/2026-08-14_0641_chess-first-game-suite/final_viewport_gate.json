@@ -1,0 +1,63 @@
+{
+  "bh": "B\"H",
+  "results": [
+    {
+      "name": "portrait",
+      "width": 390,
+      "height": 844,
+      "navigationToInspectionMs": 7366.548993,
+      "menuReadyMs": 1165.1653719999995,
+      "menuLayout": {
+        "innerWidth": 390,
+        "innerHeight": 844,
+        "documentWidth": 390,
+        "documentHeight": 844,
+        "loadingDisplay": "none",
+        "buttonMinHeight": 53
+      },
+      "gameLayout": {
+        "canvasWidth": 370,
+        "canvasHeight": 370,
+        "canvasTop": 222.3125,
+        "canvasBottom": 592.3125,
+        "drawHeight": 53,
+        "documentWidth": 390,
+        "documentHeight": 844,
+        "innerWidth": 390,
+        "innerHeight": 844
+      },
+      "errors": [],
+      "badResponses": [],
+      "loadingFailures": []
+    },
+    {
+      "name": "landscape",
+      "width": 844,
+      "height": 390,
+      "navigationToInspectionMs": 14860.99347,
+      "menuReadyMs": 652.9758089999996,
+      "menuLayout": {
+        "innerWidth": 844,
+        "innerHeight": 390,
+        "documentWidth": 844,
+        "documentHeight": 390,
+        "loadingDisplay": "none",
+        "buttonMinHeight": 53
+      },
+      "gameLayout": {
+        "canvasWidth": 40,
+        "canvasHeight": 40,
+        "canvasTop": 184.15625,
+        "canvasBottom": 224.15625,
+        "drawHeight": 53,
+        "documentWidth": 844,
+        "documentHeight": 390,
+        "innerWidth": 844,
+        "innerHeight": 390
+      },
+      "errors": [],
+      "badResponses": [],
+      "loadingFailures": []
+    }
+  ]
+}

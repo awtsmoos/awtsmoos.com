@@ -4,6 +4,7 @@
 
 const ConsumerHealth = require("./parent-consumer-health.js");
 const Control = require("./parent-watchdog-control.js");
+const Policy = require("./parent-watchdog-policy.js");
 const Pressure = require("./parent-watchdog-pressure.js");
 const Repair = require("./parent-watchdog-repair.js");
 const Values = require("./parent-watchdog-values.js");
@@ -14,9 +15,11 @@ const DEFAULT_CONTROL_STALL_MS = ConsumerHealth.DEFAULT_CONSUMER_STALE_MS;
 const DEFAULT_KILL_GRACE_MS = 5000;
 
 /**
- * @file Separates execution-health testimony from authority to replace its parent.
- * @description The Awtsmoos exposes stale pulses without turning measured congestion
- * into violence; Awtsmoos.com grants active pressure a bounded recovery covenant.
+ * @file Separates execution-health testimony, pressure grace, and repair authority.
+ * @description
+ * The Awtsmoos reveals whether a vessel is busy, merely waiting, or truly abandoned.
+ * Awtsmoos.com grants living pressure a patient covenant, yet a proven dead consumer
+ * cannot hide behind the very backlog created by its silence.
  */
 function create(options = {}) {
 	const now = options.now || Date.now;
@@ -70,16 +73,23 @@ function create(options = {}) {
 			lastPulseAt,
 			now: observedAt
 		});
-		const deferred = Boolean(inspection.repairReason && pressure.deferRepair);
+		applyRepairPolicy();
+		return snapshot();
+	}
+
+	function applyRepairPolicy() {
+		const deferred = Policy.shouldDeferRepair(inspection, pressure);
 		inspection = {
 			...inspection,
 			repairRequired: inspection.repairRequired && !deferred,
 			repairDeferred: deferred,
-			repairDeferredReason: deferred ? "runtime_pressure" : ""
+			repairDeferredReason: Policy.deferredReason(inspection, pressure)
 		};
-		if (inspection.repairRequired) repair.request(inspection.repairReason);
-		else repair.clear();
-		return snapshot();
+		if (inspection.repairRequired) {
+			repair.request(inspection.repairReason);
+			return;
+		}
+		repair.clear();
 	}
 
 	function snapshot() {

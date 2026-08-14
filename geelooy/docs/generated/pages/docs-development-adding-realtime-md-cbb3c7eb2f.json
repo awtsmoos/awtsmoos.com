@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-development-adding-realtime-md-cbb3c7eb2f",
+	"title": "Adding or Changing Realtime Behavior",
+	"sourcePath": "docs/DEVELOPMENT/ADDING_REALTIME.md",
+	"category": "Realtime",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Adding or Changing Realtime Behavior",
+			"anchor": "adding-or-changing-realtime-behavior"
+		},
+		{
+			"level": 2,
+			"text": "First choose the realtime layer",
+			"anchor": "first-choose-the-realtime-layer"
+		},
+		{
+			"level": 2,
+			"text": "Versioned application checklist",
+			"anchor": "versioned-application-checklist"
+		},
+		{
+			"level": 2,
+			"text": "Admission-sensitive sockets",
+			"anchor": "admission-sensitive-sockets"
+		},
+		{
+			"level": 2,
+			"text": "Documentation steps",
+			"anchor": "documentation-steps"
+		},
+		{
+			"level": 2,
+			"text": "Compatibility",
+			"anchor": "compatibility"
+		}
+	],
+	"markdownParts": [
+		"content/docs-development-adding-realtime-md-cbb3c7eb2f-001.json"
+	]
+}

@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "tools-dayuhchadashcutover-readme-md-0ac50c9ca9",
+	"title": "Dayuh Chadash Final Cutover",
+	"sourcePath": "tools/dayuhChadashCutover/README.md",
+	"category": "Operations",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Dayuh Chadash Final Cutover",
+			"anchor": "dayuh-chadash-final-cutover"
+		},
+		{
+			"level": 2,
+			"text": "Guarantees",
+			"anchor": "guarantees"
+		},
+		{
+			"level": 2,
+			"text": "Configuration",
+			"anchor": "configuration"
+		},
+		{
+			"level": 2,
+			"text": "Publication court",
+			"anchor": "publication-court"
+		},
+		{
+			"level": 2,
+			"text": "Verified source preflight",
+			"anchor": "verified-source-preflight"
+		},
+		{
+			"level": 2,
+			"text": "Operator flow",
+			"anchor": "operator-flow"
+		},
+		{
+			"level": 1,
+			"text": "Stop the managed supervisor and prove port and handles are dark.",
+			"anchor": "stop-the-managed-supervisor-and-prove-port-and-handles-are-dark"
+		},
+		{
+			"level": 1,
+			"text": "Start production with AWTSMOOSAIROOT and AWTSMOOSRAGROOT exported.",
+			"anchor": "start-production-with-awtsmoosairoot-and-awtsmoosragroot-exported"
+		},
+		{
+			"level": 1,
+			"text": "Run social, RAG, hydration, restart, and growth courts.",
+			"anchor": "run-social-rag-hydration-restart-and-growth-courts"
+		}
+	],
+	"markdownParts": [
+		"content/tools-dayuhchadashcutover-readme-md-0ac50c9ca9-001.json"
+	]
+}

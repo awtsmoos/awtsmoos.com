@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-websockets-readme-md-fed34d4d65",
+	"title": "WebSocket and Realtime Platform",
+	"sourcePath": "docs/WEBSOCKETS/README.md",
+	"category": "Realtime",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "WebSocket and Realtime Platform",
+			"anchor": "websocket-and-realtime-platform"
+		},
+		{
+			"level": 2,
+			"text": "Server architecture",
+			"anchor": "server-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Legacy and versioned protocols coexist",
+			"anchor": "legacy-and-versioned-protocols-coexist"
+		},
+		{
+			"level": 2,
+			"text": "Built-in versioned applications",
+			"anchor": "built-in-versioned-applications"
+		},
+		{
+			"level": 2,
+			"text": "Important separate subsystems",
+			"anchor": "important-separate-subsystems"
+		},
+		{
+			"level": 2,
+			"text": "Generated protocol evidence",
+			"anchor": "generated-protocol-evidence"
+		}
+	],
+	"markdownParts": [
+		"content/docs-websockets-readme-md-fed34d4d65-001.json"
+	]
+}

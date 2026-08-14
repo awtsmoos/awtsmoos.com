@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "scripts-documentation-md-952eed8356",
+	"title": "Repository Scripts",
+	"sourcePath": "scripts/DOCUMENTATION.md",
+	"category": "Operations",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Repository Scripts",
+			"anchor": "repository-scripts"
+		},
+		{
+			"level": 2,
+			"text": "Role",
+			"anchor": "role"
+		},
+		{
+			"level": 2,
+			"text": "Start here",
+			"anchor": "start-here"
+		},
+		{
+			"level": 2,
+			"text": "Change rule",
+			"anchor": "change-rule"
+		},
+		{
+			"level": 2,
+			"text": "Project-specific notes",
+			"anchor": "project-specific-notes"
+		}
+	],
+	"markdownParts": [
+		"content/scripts-documentation-md-952eed8356-001.json"
+	]
+}

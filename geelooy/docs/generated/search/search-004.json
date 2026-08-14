@@ -1,0 +1,222 @@
+[
+	{
+		"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-rebuild-vs-reuse-decision-t-0f6990a80a",
+		"title": "Rebuild Versus Reuse Decision Tree",
+		"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/REBUILD_VS_REUSE_DECISION_TREE.md",
+		"category": "Data",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Rebuild Versus Reuse Decision Tree",
+				"anchor": "rebuild-versus-reuse-decision-tree"
+			},
+			{
+				"level": 2,
+				"text": "Are canonical vectors present and readable?",
+				"anchor": "are-canonical-vectors-present-and-readable"
+			},
+			{
+				"level": 2,
+				"text": "Do dimensions and corpus identity match the query model?",
+				"anchor": "do-dimensions-and-corpus-identity-match-the-query-model"
+			},
+			{
+				"level": 2,
+				"text": "Is the persisted HNSW graph usable?",
+				"anchor": "is-the-persisted-hnsw-graph-usable"
+			},
+			{
+				"level": 2,
+				"text": "Is only derived index state missing or stale?",
+				"anchor": "is-only-derived-index-state-missing-or-stale"
+			},
+			{
+				"level": 2,
+				"text": "Is the database merely fragmented?",
+				"anchor": "is-the-database-merely-fragmented"
+			},
+			{
+				"level": 2,
+				"text": "Publication",
+				"anchor": "publication"
+			}
+		],
+		"excerpt": "Rebuild Versus Reuse Decision Tree Are canonical vectors present and readable? No: recover them from preserved corpus/rollback before generating anything. Yes: continue. Do dimensions and corpus identity match the query model? No: investigate model/provider configuration and migration history. Re embed only after incom",
+		"searchText": "rebuild versus reuse decision tree are canonical vectors present and readable? no: recover them from preserved corpus/rollback before generating anything. yes: continue. do dimensions and corpus identity match the query model? no: investigate model/provider configuration and migration history. re embed only after incompatibility is proven. yes: reuse vectors. is the persisted hnsw graph usable? yes: repair route, path, manifest, process, or session only. no: continue. is only derived index state missing or stale? yes: copy to an isolated candidate and rebuild hnsw from existing vectors. no: audit database corruption and recover canonical records/vectors from preserved material. is the database merely fragmented? yes: vacuum to a separate candidate; do not re embed or mutate live in place. publication require semantic digest, count, dimensions, registry, recall, read only restart, sha 256, api restart matrix, rollback, and explicit cutover approval.",
+		"page": "pages/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-rebuild-vs-reuse-decision-t-0f6990a80a.json"
+	},
+	{
+		"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-storage-reclamation-md-aa011e90b6",
+		"title": "AwtsmoosDB Storage Reclamation",
+		"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/storage-reclamation.md",
+		"category": "Data",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "AwtsmoosDB Storage Reclamation",
+				"anchor": "awtsmoosdb-storage-reclamation"
+			},
+			{
+				"level": 2,
+				"text": "Strict read-only inspection",
+				"anchor": "strict-read-only-inspection"
+			},
+			{
+				"level": 2,
+				"text": "Verified free-space reuse",
+				"anchor": "verified-free-space-reuse"
+			},
+			{
+				"level": 2,
+				"text": "Storage telemetry",
+				"anchor": "storage-telemetry"
+			},
+			{
+				"level": 2,
+				"text": "Vector bulk loading",
+				"anchor": "vector-bulk-loading"
+			},
+			{
+				"level": 2,
+				"text": "Out-of-place vacuum",
+				"anchor": "out-of-place-vacuum"
+			},
+			{
+				"level": 2,
+				"text": "Command-line vacuum",
+				"anchor": "command-line-vacuum"
+			},
+			{
+				"level": 2,
+				"text": "Production exchange",
+				"anchor": "production-exchange"
+			}
+		],
+		"excerpt": "B\"H AwtsmoosDB Storage Reclamation Strict read only inspection Strict read only mode opens the database through an operating system r descriptor. It does not create, replay, truncate, or clear a WAL. It creates no writer lock or reader marker. Pager and VirtualFs mutation attempts throw AWTSMOOS DB READONLY WRITE. A st",
+		"searchText": "b\"h awtsmoosdb storage reclamation strict read only inspection strict read only mode opens the database through an operating system r descriptor. it does not create, replay, truncate, or clear a wal. it creates no writer lock or reader marker. pager and virtualfs mutation attempts throw awtsmoos db readonly write. a strict reader is not a replacement lease. production exchange still requires the server and every reader/writer to be stopped and independently proven absent. verified free space reuse before a persisted free range may be reused, the allocator performs a fresh reachability walk and requires every claimed range to be contained in the verified complement. unsafe, overlapping, out of bounds, superblock crossing, or still reachable claims are quarantined and never allocated. use reusefreedspace: false when deliberately preserving append only forensic behavior. the historical boolean true compatibility mode remains available but does not provide the fresh verification gate. storage telemetry the report separates: physical file bytes; logical cursor bytes; reachable bytes; persisted free list claims; freshly verified free bytes; trailing physical bytes; range fragmentation; wal, writer lock, and reader marker state; out of place vacuum eligibility. persisted free metadata is never presented as proof. vector bulk loading the collection must be unindexed. records are loaded in bounded chunks, then one final hnsw rebuild occurs. a second bulk load against an existing graph is refused with awtsmoos db vector bulk already indexed. out of place vacuum the source must exist and the destination and destination sidecars must not exist. the source is opened strict read only. the candidate is reconstructed from logical values; ablb, atxt, and virtualfs bodies are relocated; search and vector indexes are rebuilt against destination pointers. a candidate is accepted internally only after source and destination allocation verification, root order comparison, semantic digest comparison, and source sha/size/mtime/inode invariance. the returned manifest always sets productioneligible: false because api, vector sidecar, real virtualfs inventory, exclusivity, archive, restart, and rollback gates exist outside the storage engine. command line vacuum compact awtsdb.js no longer accepts a single source path. in place compaction is intentionally unavailable. production exchange the storage engine provides separately tested manifest gated swap and rollback primitives. they are not called by vacuum. a production operation must use an approved maintenance window, stopped server exclusive ownership, current hashes, a verified external archive, same filesystem distinct paths, post install verification, api smoke checks, restart checks, and immediate rollback on any discrepancy.",
+		"page": "pages/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-storage-reclamation-md-aa011e90b6.json"
+	},
+	{
+		"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-troubleshooting-rag-search--9013e05e45",
+		"title": "Troubleshooting RAG Search",
+		"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/TROUBLESHOOTING_RAG_SEARCH.md",
+		"category": "Data",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Troubleshooting RAG Search",
+				"anchor": "troubleshooting-rag-search"
+			},
+			{
+				"level": 2,
+				"text": "Route missing",
+				"anchor": "route-missing"
+			},
+			{
+				"level": 2,
+				"text": "Lane missing",
+				"anchor": "lane-missing"
+			},
+			{
+				"level": 2,
+				"text": "Embedding error",
+				"anchor": "embedding-error"
+			},
+			{
+				"level": 2,
+				"text": "Persisted-index error",
+				"anchor": "persisted-index-error"
+			},
+			{
+				"level": 2,
+				"text": "Slow first query",
+				"anchor": "slow-first-query"
+			},
+			{
+				"level": 2,
+				"text": "False success",
+				"anchor": "false-success"
+			},
+			{
+				"level": 2,
+				"text": "Production rule",
+				"anchor": "production-rule"
+			}
+		],
+		"excerpt": "Troubleshooting RAG Search Route missing Inspect the social search aggregator and library route registration. Confirm both /search/rag/query and /rag/search/query exist. Lane missing Inspect the resolved RAG root, .awtsdb basename, sibling fast manifest, list name, count, dimensions, and disabled/corpus identity. Embed",
+		"searchText": "troubleshooting rag search route missing inspect the social search aggregator and library route registration. confirm both /search/rag/query and /rag/search/query exist. lane missing inspect the resolved rag root, .awtsdb basename, sibling fast manifest, list name, count, dimensions, and disabled/corpus identity. embedding error inspect model root precedence, gguf existence, llama binary executability, provider identity, model identity, and output dimensions. do not touch corpus vectors. persisted index error open read only and inspect list length, vector metadata, registry count, entry node, persisted keys, graph nodes, and payloads. run a direct canonical vector hnsw probe. slow first query separate database open, registry load, query embedding, search, and hydration. confirm registry pointers load by one traversal and warm sessions reuse generation bound caches. false success reject empty hits, missing provenance, source other than awtsdb hnsw persisted, or any exact/linear/text fallback. production rule do not restart production while diagnosing. rehearse on port 8081 and preserve the live hash.",
+		"page": "pages/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-troubleshooting-rag-search--9013e05e45.json"
+	},
+	{
+		"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-v2-allocator-reuse-and-tail-5524462b9f",
+		"title": "V2 Allocator Reuse and Tail Reclaim",
+		"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/V2_ALLOCATOR_REUSE_AND_TAIL_RECLAIM.md",
+		"category": "Data",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "V2 Allocator Reuse and Tail Reclaim",
+				"anchor": "v2-allocator-reuse-and-tail-reclaim"
+			},
+			{
+				"level": 2,
+				"text": "Verified reuse",
+				"anchor": "verified-reuse"
+			},
+			{
+				"level": 2,
+				"text": "Tail reclaim",
+				"anchor": "tail-reclaim"
+			},
+			{
+				"level": 2,
+				"text": "Growth interpretation",
+				"anchor": "growth-interpretation"
+			},
+			{
+				"level": 2,
+				"text": "Safe vacuum",
+				"anchor": "safe-vacuum"
+			}
+		],
+		"excerpt": "V2 Allocator Reuse and Tail Reclaim The public facade applies reuseFreedSpace: \"verified\" when callers omit the option. Explicit false, legacy true, verified, and read only choices remain authoritative. Verified reuse The verifier computes the complement of reachable ranges, validates and coalesces free ranges, exclude",
+		"searchText": "v2 allocator reuse and tail reclaim the public facade applies reusefreedspace: \"verified\" when callers omit the option. explicit false, legacy true, verified, and read only choices remain authoritative. verified reuse the verifier computes the complement of reachable ranges, validates and coalesces free ranges, excludes active leases and quarantined retirement, then selects a fitting range. omitted and explicit verified modes must produce identical disposable test checkpoints. tail reclaim a free range touching the physical cursor may permit truncation only after all reachable, leased, quarantined, wal, and metadata obligations are excluded. never truncate a live production file merely to save space. growth interpretation measure logical cursor, physical bytes, allocated blocks, wal bytes, free bytes, range count, and largest gap. oscillation across replacement rounds is not necessarily a leak; stable idle cycles must show zero growth, and fragmented churn must remain bounded. safe vacuum when historical fragmentation dominates, create an isolated candidate, verify semantic digest and every index invariant, rehearse restart, preserve rollback, and request cutover approval.",
+		"page": "pages/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-v2-allocator-reuse-and-tail-5524462b9f.json"
+	},
+	{
+		"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-vector-index-invariants-md-866b0cfd8a",
+		"title": "Vector Index Invariants",
+		"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/VECTOR_INDEX_INVARIANTS.md",
+		"category": "Data",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Vector Index Invariants",
+				"anchor": "vector-index-invariants"
+			},
+			{
+				"level": 2,
+				"text": "Required invariants",
+				"anchor": "required-invariants"
+			},
+			{
+				"level": 2,
+				"text": "Canonical versus derived",
+				"anchor": "canonical-versus-derived"
+			},
+			{
+				"level": 2,
+				"text": "Source anchors",
+				"anchor": "source-anchors"
+			}
+		],
+		"excerpt": "Vector Index Invariants A strict result is valid only when the persisted HNSW graph produced it. The Awtsmoos joins light and vessel; this contract joins vector identity and indexed provenance without confusing one for the other. Required invariants The list exists and its length is observable. Vector metadata names po",
+		"searchText": "vector index invariants a strict result is valid only when the persisted hnsw graph produced it. the awtsmoos joins light and vessel; this contract joins vector identity and indexed provenance without confusing one for the other. required invariants the list exists and its length is observable. vector metadata names positive dimensions and a supported metric. registry count is positive and agrees with the indexed corpus. entry node is valid for a nonempty registry. persisted keys, live nodes, and payload bearing hits agree. query dimensions equal corpus dimensions. strict responses report strictindexed, indexed, index.persisted, and source awtsdb hnsw persisted. exact scan, linear scan, and text search are never strict fallbacks. canonical versus derived vector coordinates, source records, aliases, comments, series, and model identity are canonical. hnsw nodes, registry pointers, neighbor lists, entry node, levels, and persisted key maps are derived. a derived graph may be rebuilt from verified existing vectors without re embedding. source anchors api/search/strictquery.js api/search/reindex/index.js api/search/reindex/sourcepointers.js core/registry/handle.js test/vector registry single pass test.js test/vector reindex sequence iterator test.js",
+		"page": "pages/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-vector-index-invariants-md-866b0cfd8a.json"
+	}
+]

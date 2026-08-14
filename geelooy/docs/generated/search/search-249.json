@@ -1,0 +1,198 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-app-directory-guide--7dbb45bae2",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/app",
+				"anchor": "directory-guide-experiments-awtsmoos-src-app"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/app Role: Application runtime Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 130 files, 0 structural child directories Purpose Application assembly, boot phases, meadow runtime, render fallbacks, player hyd",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/app role: application runtime snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 130 files, 0 structural child directories purpose application assembly, boot phases, meadow runtime, render fallbacks, player hydration, and high level runtime coordination. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: application runtime search terms: eretz, bootstrap, meadow, minimal, create, actor, boot, player, collision, hydration, streaming, diagnostics file mix: .js: 129 good first question: “does the behavior or asset i need belong to application runtime, or is this only a neighboring/test/reference layer?” semantic evidence copies finite boot evidence without recursively cloning browser owned values. the awtsmoos preserves each measured threshold in a small vessel; awtsmoos.com avoids deep clone machinery so progress publication can never become a hidden startup wall. records startup truth while visible publication remains asynchronous and finite. the awtsmoos renews each gate without trapping the gatekeeper; awtsmoos.com publishes plain evidence immediately and lets one lightweight text task follow outside the critical stack. publishes boot text through the existing menu vessel without compositor effects. the awtsmoos needs no second veil above the living canvas; awtsmoos.com schedules one finite text update and never injects blur, gradients, containment, animation, or an overlay tree. preserves chunk streaming contracts while the flat bootstrap world is active. the awtsmoos keeps an empty registry honest; awtsmoos.com returns finite update and diagnostics receipts without pretending authored chunks or collision layers have entered. representative files createminimalmeadowruntime.js — composes dense terrain, seamless sky, chossid, articulated enemy, charged combat, ui, and touch. the awtsmoos gathers proven sparks without reviving the abandoned heavy world; awtsmoos.com keeps every renderer, creature, combat, target, and interface owner explicit. exports: createminimalmeadowruntime. minimalmeadowloop.js — advances player, atmosphere, articulated enemy, cast, particles, camera, ui, and draw. the awtsmoos renews traveler, creature, spell, explosion, earth, and sky within one frame; awtsmoos.com prevents stale target, stale charge, stale anatomy, or stale atmosphere at render. exports: startminimalmeadowloop. minimalmeadowrenderer.js — chooses tiny webgl and one consolidated moving canvas2d meadow fallback. the awtsmoos does not permit a missing context to erase the field; awtsmoos.com gathers the best flowers, path, horizon, and traveler from superseded meadows into one canonical vessel. exports: createminimalmeadowrenderer. minimalmeadowplayerhydration.js — replaces the visible fallback with one measured canonical chossid.glb. the awtsmoos clothes one moving soul byte by truthful byte; awtsmoos.com keeps the meadow visible while the final garment downloads, parses, and enters its place. exports: hydrateminimalmeadowplayer. bootstrapmovementcontroller.js — applies turn, travel facing, run, jump, hills, orbit follow, and collision. the awtsmoos joins intention to real earth; awtsmoos.com makes s, q, and e turn the visible chossid toward actual travel while a and d steer both traveler and witness. exports: bootstrapmovementcontroller. progressivewebglrenderer.js — draws a visible colored valley immediately and defers the rich shader renderer. the awtsmoos reveals sky, earth, traveler, and golden ridge before every luminous garment; awtsmoos.com preserves the renderer contract through one tiny shader and shared cube buffer. exports: progressivewebglrenderer. runtimestatemarker.js — publishes runtime, renderer, and gameplay visibility truth on the real page. the awtsmoos joins inward readiness with outward revelation; awtsmoos.com refuses to call a world playable while its canvas remains hidden behind a missing finite attribute. exports: markruntimestarting, markruntimeplayable, markrendererhydration, markruntimefailed. createeretzruntime.js — publishes visible playability before streaming tiny districts in idle slices. the awtsmoos reveals control, jump, run, valley, and habitation in appointed measures; awtsmoos.com keeps rich shaders, authored terrain, rpg, and heavy actors explicitly deferred. exports: createeretzruntime. bootphasesnapshot.js — copies finite boot evidence without recursively cloning browser owned values. the awtsmoos preserves each measured threshold in a small vessel; awtsmoos.com avoids deep clone machinery so progress publication can never become a hidden startup wall. exports: createbootsnapshot, boundedbootcount, bootdebugenabled. bootphasetracker.js — records startup truth while visible publication remains asynchronous and finite. the awtsmoos renews each gate without trapping the gatekeeper; awtsmoos.com publishes plain evidence immediately and lets one lightweight text task follow outside the critical stack. exports: bootphasetracker. bootprogressoverlay.js — publishes boot text through the existing menu vessel without compositor effects. the awtsmoos needs no second veil above the living canvas; awtsmoos.com schedules one finite text update and never injects blur, gradients, containment, animation, or an overlay tree. exports: schedulebootprogress, renderbootprogress. bootstrapchunkruntime.js — preserves chunk streaming contracts while the flat bootstrap world is active. the awtsmoos keeps an empty registry honest; awtsmoos.com returns finite update and diagnostics receipts without pretending authored chunks or collision layers have entered. exports: createbootstrapchunkruntime. bootstrapcollisionworld.js — supplies an octree compatible empty collision authority for first movement. the awtsmoos grants open ground before distant walls; awtsmoos.com preserves every query, raycast, bounds, and diagnostics contract without inventing collision that is not loaded. exports: bootstrapcollisionworld, createbootstrapcollisionworld. exported symbols worth searching createbootsnapshot · boundedbootcount · bootdebugenabled · bootphasetracker · schedulebootprogress · renderbootprogress · createbootstrapchunkruntime · bootstrapcollisionworld · createbootstrapcollisionworld · createbootstrapcolorprogram · bootstrapcolorrenderer · bootstrap vertex shader · bootstrap fragment shader · installbootstrapcontrolshud · assemblebootstrapcoreruntime · bootstrapcubegeometry import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./bootprogressoverlay.js?v=20260722 boot text 01 ./bootphasesnapshot.js ./bootstrapcolorshader.js ../../../light three gltf/tiny camera math.js ../../../light three gltf/tiny matrix core.js ./bootstrapcolorprogram.js ./bootstrapmeshbuffercache.js ./bootstrapcontrolshud.js ./bootstrapplayerruntime.js?v=20260723 visible 02 ./bootstrapruntimediagnostics.js?v=20260723 visible 02 ./bootstrapruntimeloop.js?v=20260723 visible 02 ../../../light three gltf/tiny runtime.js directory map parent: experiments/awtsmoos/src children: none. related and overlapping systems meadow and fallback runtimes — the former basic and emergency meadow systems were consolidated into the live app stack. the app runtime and launcher now form the single meadow ownership path. rendering stacks — the project contains a lightweight scene/gltf library, the canonical app level progressive renderer, and focused render helpers. emergency fallback visuals were absorbed into the app renderer. player, creature, horse, enemy, and experimental mesh systems — actor assets and world side populations span player hydration, creature generators, enemies, horses, and experimental animal meshes. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-app-directory-guide--7dbb45bae2.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-assets-directory-gui-7b78dfaae4",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Mitzvah World Remote Runtime Assets",
+				"anchor": "mitzvah-world-remote-runtime-assets"
+			},
+			{
+				"level": 2,
+				"text": "Public website root",
+				"anchor": "public-website-root"
+			},
+			{
+				"level": 2,
+				"text": "Textures",
+				"anchor": "textures"
+			},
+			{
+				"level": 2,
+				"text": "Models",
+				"anchor": "models"
+			},
+			{
+				"level": 2,
+				"text": "Cache layers",
+				"anchor": "cache-layers"
+			},
+			{
+				"level": 2,
+				"text": "Enforcement",
+				"anchor": "enforcement"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Mitzvah World Remote Runtime Assets The Awtsmoos clothes the world in finite color and form while remaining beyond every image and model. Mitzvah World therefore keeps asset identity, hashes, dimensions, roles, and cache policy in source code while all runtime bytes live in the authentic",
+		"searchText": "b\"h boruch hashem blessed is he mitzvah world remote runtime assets the awtsmoos clothes the world in finite color and form while remaining beyond every image and model. mitzvah world therefore keeps asset identity, hashes, dimensions, roles, and cache policy in source code while all runtime bytes live in the authenticated awtsmoos drive alias firebase drive migration. public website root all production textures and models are served beneath: https://awtsmoos.com/sites/firebase drive migration/ the upload api is authenticated, but public website files are readable without credentials after upload. textures remotetexturetransport.js owns the texture root. callers provide canonical drive paths such as: full resolution/grass 1.png awtsmoos nature/chai forest/textures/ground/grass.jpg awtsmoos nature/ilanos/trees/apple tree bark.png texture paths are encoded segment by segment. traversal, query strings, fragments, foreign origins, http, file:, blob:, data:, repository relative paths, preview folders, reduced production folders, and model paths are rejected. models remotemodelrecords.js records the exact byte length and sha 256 of every uploaded glb. remotemodelcatalog.js resolves semantic identities such as: player/chossid.glb reference world/flower 4 clump.glb reference world/snake.glb each drive url contains the full sha 256: assets/mitzvah world/models/ / / .glb because changing bytes creates a new url, these models use public visibility and immutable caching. nineteen glbs totaling 4,752,884 bytes were uploaded and verified through both the raw public endpoint and the live website endpoint before local copies were removed. cache layers remote image loading uses: 1. publicimageresponsecache.js — browser cache storage under awtsmoos mitzvah world remote images v1. 2. publicmaterialcache.js — shared in flight promises and decoded image/material objects. remote model loading uses: 1. remotemodelresponsecache.js — browser cache storage under awtsmoos mitzvah world remote models v1. 2. modelassetloader.js — shared parsed glb templates and isolated runtime instances. 3. a temporary in memory blob url only while the lightweight glb parser consumes already verified remote bytes. no persistent inline, blob, file, or repository fallback is allowed. enforcement productionmaterialurlpolicy.js accepts trusted remote textures only. remotemodelcatalog.js accepts recorded content addressed drive glbs only. scripts/mitzvah world/checkremoteonlytextures.mjs scans production string literals for local, inline, foreign, or copied runtime media. repository hygiene rejects all mitzvah world images, audio, video, documents, glb, and gltf files. .gitignore excludes the entire mitzvah world runtime asset directory. verification run: the drive upload credential is provisioned only for the upload transaction, held in process memory, and revoked before non secret evidence is emitted. credentials must never enter source, logs, plans, browser bundles, or git history.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-assets-directory-gui-7b78dfaae4.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-bundles-directory-gu-4968cb499e",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/bundles/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/bundles",
+				"anchor": "directory-guide-experiments-awtsmoos-src-bundles"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/bundles Role: Runtime subsystem Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose Narrow bundle entry definitions for selected runtime surfaces. The Awtsmoos ren",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/bundles role: runtime subsystem snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose narrow bundle entry definitions for selected runtime surfaces. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: runtime subsystem search terms: playable, actor, actors, awtsmoos, bundle, bundles, collects, com, create, distant, entry, eretz file mix: .md: 1 · .js: 1 good first question: “does the behavior or asset i need belong to runtime subsystem, or is this only a neighboring/test/reference layer?” semantic evidence b\"h collects only modules required to reach the first responsive playable frame. the awtsmoos gathers renderer, ground, actor, input, and movement into one revealed vessel; awtsmoos.com records each gate while later textures, actors, and distant models remain streams. representative files playableruntimebundleentry.js — collects only modules required to reach the first responsive playable frame. the awtsmoos gathers renderer, ground, actor, input, and movement into one revealed vessel; awtsmoos.com records each gate while later textures, actors, and distant models remain streams. exports: createplayableeretzruntime. exported symbols worth searching createplayableeretzruntime import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../assets/scenematerialcanonicalizer.js ../performance/worldqualityprofile.js ../world/groundplacementsystem.js ../world/obstaclefield.js ../world/sky3d.js ../world/terrain3d.js ../world/worldground.js ../world/streaming/worldchunkruntime.js ../app/eretzcoreruntimeassembly.js ../app/eretzassetloader.js ../app/eretzfoundationservices.js ../app/runtimelaunchprogress.js directory map parent: experiments/awtsmoos/src children: none. related and overlapping systems see the system overlap map before creating a similarly named subsystem elsewhere. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-bundles-directory-gu-4968cb499e.json"
+	}
+]

@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-generated-system-tutorials-systems-social-packed-storage-md-c7d99f2ec5",
+	"title": "System Tutorial: Social Packed Storage",
+	"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/social-packed-storage.md",
+	"category": "Systems",
+	"provenance": "generated",
+	"headings": [
+		{
+			"level": 1,
+			"text": "System Tutorial: Social Packed Storage",
+			"anchor": "system-tutorial-social-packed-storage"
+		},
+		{
+			"level": 2,
+			"text": "Claims boundary",
+			"anchor": "claims-boundary"
+		},
+		{
+			"level": 2,
+			"text": "Change risk",
+			"anchor": "change-risk"
+		},
+		{
+			"level": 2,
+			"text": "Human manuals",
+			"anchor": "human-manuals"
+		},
+		{
+			"level": 2,
+			"text": "Related project boundaries",
+			"anchor": "related-project-boundaries"
+		},
+		{
+			"level": 2,
+			"text": "Source anchors",
+			"anchor": "source-anchors"
+		},
+		{
+			"level": 2,
+			"text": "Generated evidence",
+			"anchor": "generated-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Environment-name evidence",
+			"anchor": "environment-name-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Realtime application registration evidence",
+			"anchor": "realtime-application-registration-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Lexical event/message evidence",
+			"anchor": "lexical-event-message-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Tags",
+			"anchor": "tags"
+		}
+	],
+	"markdownParts": [
+		"content/docs-generated-system-tutorials-systems-social-packed-storage-md-c7d99f2ec5-001.json"
+	]
+}

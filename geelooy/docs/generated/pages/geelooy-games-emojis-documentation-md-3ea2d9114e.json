@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-emojis-documentation-md-3ea2d9114e",
+	"title": "Emoji War — Neon Caption Arcade",
+	"sourcePath": "geelooy/games/emojis/DOCUMENTATION.md",
+	"category": "Games",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Emoji War — Neon Caption Arcade",
+			"anchor": "emoji-war-neon-caption-arcade"
+		},
+		{
+			"level": 2,
+			"text": "Role",
+			"anchor": "role"
+		},
+		{
+			"level": 2,
+			"text": "Start here",
+			"anchor": "start-here"
+		},
+		{
+			"level": 2,
+			"text": "Change rule",
+			"anchor": "change-rule"
+		},
+		{
+			"level": 2,
+			"text": "Project-specific notes",
+			"anchor": "project-specific-notes"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-emojis-documentation-md-3ea2d9114e-001.json"
+	]
+}

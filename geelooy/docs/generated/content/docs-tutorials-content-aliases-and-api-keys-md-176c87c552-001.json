@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Aliases and API Keys\n\n## Alias role\n\nAliases are Social-facing identities owned through user/account state and reused across Heichel/content/profile/follow/drive/mail behavior.\n\n## API keys\n\nSocial keys can be created, listed, revoked, and verified. Raw key material is shown at creation; SHA-256 hash and metadata persist rather than plaintext secret storage.\n\n## Inputs\n\nSupported key evidence includes named input/header/Bearer forms. Inspect `helper/apiKeys.js` for current precedence and validation.\n\n## Security rule\n\nAn alias name in a body/path is not proof the authenticated principal owns that alias. Ownership checks remain required for privileged actions.\n"
+}

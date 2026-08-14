@@ -9,14 +9,13 @@ const ResponseHandler = require("./responseHandler.js");
 const DEFAULT_REQUEST_ACCEPTANCE_MS = Number(
 	process.env.AWTSMOOS_TUNNEL_REQUEST_ACCEPTANCE_MS || 15000
 );
-const DEFAULT_ACCEPTANCE_FAILURE_LIMIT = Number(
-	process.env.AWTSMOOS_TUNNEL_ACCEPTANCE_FAILURE_LIMIT || 2
-);
 
 /**
- * @file Settles missing acceptance while reconnecting a repeatedly non-consuming socket.
- * @description The Awtsmoos spares one uncertain deed but does not call a silent road healthy forever;
- * Awtsmoos.com lets one timeout remain isolated, while repeated proof closes only that socket so identity may return.
+ * @file Bounds missing request acceptance without destroying a healthy tunnel.
+ * @description
+ * The Awtsmoos sustains the road even when one receipt is late or absent;
+ * Awtsmoos.com records uncertainty on that deed alone and never turns a request timer
+ * into authority to sever the living socket that carries every other message.
  */
 function arm(context, id, record, tunnel) {
 	clearTimeout(record.acceptanceTimer);
@@ -46,12 +45,13 @@ async function finish(context, id, record, reason, tunnel = null) {
 		context,
 		id,
 		record,
-		Envelopes.transportStallEnvelope(record.expected, reason, null)
+		Envelopes.acceptanceStallEnvelope(record.expected, reason)
 	);
 	if (tunnel) ResponseHandler.acknowledge(tunnel, { transportReceiptId: id }, id);
 	return settled;
 }
 
+/** Records acceptance degradation for diagnostics without mutating connection liveness. */
 function noteFailure(tunnel, id, reason) {
 	const count = Number(tunnel.acceptanceFailureCount || 0) + 1;
 	tunnel.acceptanceFailureCount = count;
@@ -59,7 +59,6 @@ function noteFailure(tunnel, id, reason) {
 	tunnel.lastAcceptanceFailureAt = Date.now();
 	tunnel.lastAcceptanceFailureId = String(id || "");
 	tunnel.lastAcceptanceFailureReason = String(reason || "acceptance_timeout");
-	if (count >= failureLimit()) fence(tunnel, "repeated_device_acceptance_timeout");
 	return count;
 }
 
@@ -73,20 +72,6 @@ function noteSuccess(tunnel) {
 	return true;
 }
 
-function fence(tunnel, reason) {
-	if (!tunnel) return false;
-	tunnel.connected = false;
-	tunnel.isAlive = false;
-	tunnel.lastTransportError = reason;
-	try {
-		if (typeof tunnel.close === "function") tunnel.close(4002, reason);
-		else tunnel.socket?.end?.();
-		return true;
-	} catch {
-		return false;
-	}
-}
-
 function bounded(value) {
 	const number = Number(value);
 	return Number.isFinite(number)
@@ -94,19 +79,11 @@ function bounded(value) {
 		: 15000;
 }
 
-function failureLimit() {
-	const number = Number(DEFAULT_ACCEPTANCE_FAILURE_LIMIT);
-	return Number.isFinite(number) ? Math.max(2, Math.min(5, Math.floor(number))) : 2;
-}
-
 module.exports = {
-	DEFAULT_ACCEPTANCE_FAILURE_LIMIT,
 	DEFAULT_REQUEST_ACCEPTANCE_MS,
 	acceptanceTimeout,
 	arm,
 	bounded,
-	failureLimit,
-	fence,
 	finish,
 	noteFailure,
 	noteSuccess

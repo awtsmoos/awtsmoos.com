@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-procedural-object-api-md-c2017ed50f",
+	"title": "B\"H — Awtsmoos Procedural Object API",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/PROCEDURAL_OBJECT_API.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Awtsmoos Procedural Object API",
+			"anchor": "b-h-awtsmoos-procedural-object-api"
+		},
+		{
+			"level": 2,
+			"text": "Purpose",
+			"anchor": "purpose"
+		},
+		{
+			"level": 2,
+			"text": "Recipe Envelope",
+			"anchor": "recipe-envelope"
+		},
+		{
+			"level": 2,
+			"text": "Universal Geometry Artifact",
+			"anchor": "universal-geometry-artifact"
+		},
+		{
+			"level": 2,
+			"text": "Core Operations",
+			"anchor": "core-operations"
+		},
+		{
+			"level": 2,
+			"text": "Trusted Adapter Operations",
+			"anchor": "trusted-adapter-operations"
+		},
+		{
+			"level": 2,
+			"text": "Domain Profiles",
+			"anchor": "domain-profiles"
+		},
+		{
+			"level": 2,
+			"text": "Incremental Editing",
+			"anchor": "incremental-editing"
+		},
+		{
+			"level": 2,
+			"text": "Adapters",
+			"anchor": "adapters"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-procedural-object-api-md-c2017ed50f-001.json"
+	]
+}

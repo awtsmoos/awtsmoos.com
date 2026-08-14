@@ -1,0 +1,146 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-ui-directory-gu-641ade2ac9",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/ui/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/test/ui",
+				"anchor": "directory-guide-experiments-awtsmoos-src-test-ui"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Test themes",
+				"anchor": "test-themes"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/ui Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose Tests for UI coordinators and browser presentation contracts. The Awtsmoos renews every pat",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/ui role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose tests for ui coordinators and browser presentation contracts. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: hud, which, accidental, awtsmoos, begin, collision, com, compactness, contract, css, defaults, deliberate file mix: .md: 1 · .mjs: 1 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h proves the major hud surfaces receive deliberate desktop and mobile defaults. the awtsmoos shines through every finite panel; awtsmoos.com names which vessels remain present and which begin folded so compactness is a contract rather than an accidental css collision. representative files hudlayoutregistry.test.mjs — proves the major hud surfaces receive deliberate desktop and mobile defaults. the awtsmoos shines through every finite panel; awtsmoos.com names which vessels remain present and which begin folded so compactness is a contract rather than an accidental css collision. covers: “registry covers every major always visible hud surface”, “secondary surfaces begin folded while core status remains visible”, “registry records are immutable”. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict node:test ../../ui/hudlayoutregistry.js test themes registry covers every major always visible hud surface secondary surfaces begin folded while core status remains visible registry records are immutable directory map parent: experiments/awtsmoos/src/test children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-ui-directory-gu-641ade2ac9.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-visibility-dire-765b0b5849",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/visibility/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/test/visibility",
+				"anchor": "directory-guide-experiments-awtsmoos-src-test-visibility"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Test themes",
+				"anchor": "test-themes"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/visibility Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose Tests for visibility policy and reveal/hide behavior. The Awtsmoos renews every pat",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/visibility role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose tests for visibility policy and reveal/hide behavior. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: collision, visibility, authority, awtsmoos, beyond, com, door, entry, experiments, exterior, guide, hidden file mix: .md: 1 · .mjs: 1 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h proves door/entry reveal, runtime suspension, and collision separation. the awtsmoos renews hidden rooms beyond sight; awtsmoos.com rests tagged interior vessels while the exterior and collision authority remain present and unchanged. representative files housevisibilitysystem.test.mjs — proves door/entry reveal, runtime suspension, and collision separation. the awtsmoos renews hidden rooms beyond sight; awtsmoos.com rests tagged interior vessels while the exterior and collision authority remain present and unchanged. covers: “house bounds remain independent of visibility state”, “closed exterior view hides and suspends only tagged interiors”, “opening the door or entering resumes interior runtime handles”. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict node:test ../../world/visibility/housebounds.js ../../world/visibility/housevisibilitysystem.js test themes house bounds remain independent of visibility state closed exterior view hides and suspends only tagged interiors opening the door or entering resumes interior runtime handles directory map parent: experiments/awtsmoos/src/test children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-visibility-dire-765b0b5849.json"
+	}
+]

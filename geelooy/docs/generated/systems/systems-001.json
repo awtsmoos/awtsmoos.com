@@ -1,0 +1,449 @@
+[
+	{
+		"systemId": "authorization-resource-ownership",
+		"district": "security",
+		"title": "Authorization and Resource Ownership",
+		"summary": "Account-scoped ownership, explicit grants, permissions, and anti-enumeration behavior above authentication.",
+		"manuals": [
+			"docs/SECURITY/README.md",
+			"docs/SECURITY/TRUST_BOUNDARIES.md"
+		],
+		"projects": [
+			{
+				"projectId": "geelooy-api-tunnel-df787c17",
+				"path": "geelooy/api/tunnel",
+				"type": "api",
+				"title": "geelooy/api/tunnel",
+				"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-tunnel-df787c17.md"
+			},
+			{
+				"projectId": "geelooy-api-social-0cd2dc86",
+				"path": "geelooy/api/social",
+				"type": "api",
+				"title": "geelooy/api/social",
+				"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-social-0cd2dc86.md"
+			}
+		],
+		"sources": [
+			"geelooy/api/tunnel/control/core/tunnelSecurity/authorization.js"
+		],
+		"generatedEvidence": [],
+		"tags": [
+			"authorization",
+			"ownership",
+			"grants",
+			"permissions",
+			"security"
+		],
+		"claimsBoundary": "This packet demonstrates one inspected authorization boundary; it is not a repository-wide security audit.",
+		"changeRisk": "Ownership/grant resolution and information-disclosure behavior are high-impact security contracts.",
+		"environmentEvidence": [
+			{
+				"name": "AWTS_DB_ROOT",
+				"classification": "path/storage",
+				"sources": 3,
+				"exampleSources": "geelooy/api/social/helper/search/rag/paths.js; geelooy/api/social/helper/search/rag/test/catalogAndSidecar.test.js; geelooy/api/social/helper/search/rag/test/liveSearchProbe.js"
+			},
+			{
+				"name": "AWTS_RAG_STARTUP_WARMUP",
+				"classification": "runtime-config",
+				"sources": 2,
+				"exampleSources": "geelooy/api/social/helper/search/rag/ragStartupWarmup.js; geelooy/api/social/helper/search/rag/test/searchContracts.test.js"
+			},
+			{
+				"name": "AWTSMOOS_AI_ROOT",
+				"classification": "path/storage",
+				"sources": 1,
+				"exampleSources": "geelooy/api/social/helper/search/rag/paths.js"
+			},
+			{
+				"name": "AWTSMOOS_BINDING_HISTORY_PER_IDENTITY",
+				"classification": "runtime-config",
+				"sources": 1,
+				"exampleSources": "geelooy/api/tunnel/control/core/tunnelSecurity/bindingRetentionPolicy.js"
+			},
+			{
+				"name": "AWTSMOOS_BINDING_RETENTION_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "geelooy/api/tunnel/control/core/tunnelSecurity/bindingRetentionPolicy.js"
+			},
+			{
+				"name": "AWTSMOOS_DB_PATH",
+				"classification": "path/storage",
+				"sources": 1,
+				"exampleSources": "geelooy/api/social/helper/series/directSeriesPrateem.js"
+			},
+			{
+				"name": "AWTSMOOS_DRIVE_ADMIN_USER_IDS",
+				"classification": "runtime-config",
+				"sources": 1,
+				"exampleSources": "geelooy/api/social/helper/drive/adminAuthorization.js"
+			},
+			{
+				"name": "AWTSMOOS_ENABLE_COMMENT_BREADCRUMB_INDEX",
+				"classification": "path/storage",
+				"sources": 1,
+				"exampleSources": "geelooy/api/social/helper/comments/commentCreation.js"
+			},
+			{
+				"name": "AWTSMOOS_LIKKUTEI_SICHOS_RAG_ROOT",
+				"classification": "path/storage",
+				"sources": 1,
+				"exampleSources": "geelooy/api/social/helper/search/rag/paths.js"
+			},
+			{
+				"name": "AWTSMOOS_NATIVE_RECOVERING_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "geelooy/api/tunnel/control/routes/fsVessel/liveDeviceIdentity.js"
+			},
+			{
+				"name": "AWTSMOOS_RAG_ROOT",
+				"classification": "path/storage",
+				"sources": 1,
+				"exampleSources": "geelooy/api/social/helper/search/rag/paths.js"
+			},
+			{
+				"name": "AWTSMOOS_REAL_SMOKE_DEBUG",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "geelooy/api/social/helper/apiKeys.js"
+			},
+			{
+				"name": "AWTSMOOS_SICHOS_KODESH_RAG_ROOT",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "geelooy/api/social/helper/search/rag/test/sichosKodeshCommentRows.test.js"
+			},
+			{
+				"name": "AWTSMOOS_SOCIAL_AWTSDB",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "geelooy/api/social/helper/awtsmoosDb/test/shardStore.test.js"
+			},
+			{
+				"name": "AWTSMOOS_TANACH_EMBED_PYTHON",
+				"classification": "runtime-config",
+				"sources": 1,
+				"exampleSources": "geelooy/api/social/helper/search/rag/multilingualEmbedder.js"
+			},
+			{
+				"name": "AWTSMOOS_TANACH_INDEX",
+				"classification": "path/storage",
+				"sources": 3,
+				"exampleSources": "geelooy/api/social/helper/search/rag/storageInvariant.js; geelooy/api/social/helper/search/rag/test/storageInvariant.test.js; geelooy/api/social/helper/search/tanach/paths.js"
+			},
+			{
+				"name": "AWTSMOOS_TANACH_MODEL_PATH",
+				"classification": "path/storage",
+				"sources": 1,
+				"exampleSources": "geelooy/api/social/helper/search/rag/multilingualEmbedder.js"
+			},
+			{
+				"name": "EXACT_HEBREW_INDEX_DB",
+				"classification": "path/storage",
+				"sources": 1,
+				"exampleSources": "geelooy/api/social/helper/search/exactHebrewWorkerClient.js"
+			}
+		],
+		"realtimeApplications": [],
+		"eventEvidence": [],
+		"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/authorization-resource-ownership.md",
+		"provenance": "curated-system-semantics-plus-generated-local-source-evidence"
+	},
+	{
+		"systemId": "awtsmoos-binary-json",
+		"district": "data",
+		"title": "AwtsmoosBinaryJSON",
+		"summary": "Binary JSON serialization used inside the broader DosDB/Awtsmoos storage family.",
+		"manuals": [
+			"docs/DATA/DOSDB.md",
+			"docs/DATA/AWTSMOOSDB_AND_VIRTUALFS.md"
+		],
+		"projects": [
+			{
+				"projectId": "ayzarim-dosdb-eaaa802e",
+				"path": "ayzarim/DosDB",
+				"type": "data",
+				"title": "ayzarim/DosDB",
+				"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-dosdb-eaaa802e.md"
+			}
+		],
+		"sources": [
+			"ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/index.js"
+		],
+		"generatedEvidence": [],
+		"tags": [
+			"persistence",
+			"serialization",
+			"compatibility",
+			"migration"
+		],
+		"claimsBoundary": "The catalog identifies the serializer boundary; exact byte-level semantics remain source and format-contract questions.",
+		"changeRisk": "Serialization changes can make existing persisted bytes unreadable or semantically incompatible.",
+		"environmentEvidence": [
+			{
+				"name": "AWTSMOOS_EMBED_MODE",
+				"classification": "runtime-config",
+				"sources": 1,
+				"exampleSources": "ayzarim/DosDB/aiSearch/textEmbedRunner.js"
+			},
+			{
+				"name": "AWTSMOOS_EMBED_MODEL_ROOT",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/ai_search_model_root_precedence_test.js"
+			},
+			{
+				"name": "AWTSMOOSDB_FAST_TEST",
+				"classification": "test/tuning",
+				"sources": 3,
+				"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/idle/fastGate.js; ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js; ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/semantic_ai_dosdb_test.js"
+			},
+			{
+				"name": "AWTSMOOSDB_TEST_SCALE",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js"
+			},
+			{
+				"name": "NODE_ENV",
+				"classification": "runtime-config",
+				"sources": 3,
+				"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js; geelooy/api/wallet/core/paypalEnvironment.js; geelooy/api/wallet/tests/paypalEnvironment.test.js"
+			}
+		],
+		"realtimeApplications": [],
+		"eventEvidence": [],
+		"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/awtsmoos-binary-json.md",
+		"provenance": "curated-system-semantics-plus-generated-local-source-evidence"
+	},
+	{
+		"systemId": "awtsmoosdb-virtualfs",
+		"district": "data",
+		"title": "AwtsmoosDB and VirtualFs",
+		"summary": "The newer `.awtsdb` storage engine and its virtual filesystem interface.",
+		"manuals": [
+			"docs/DATA/AWTSMOOSDB_AND_VIRTUALFS.md",
+			"docs/DATA/README.md"
+		],
+		"projects": [
+			{
+				"projectId": "ayzarim-dosdb-eaaa802e",
+				"path": "ayzarim/DosDB",
+				"type": "data",
+				"title": "ayzarim/DosDB",
+				"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-dosdb-eaaa802e.md"
+			}
+		],
+		"sources": [
+			"ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.js",
+			"ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/VirtualFs.js"
+		],
+		"generatedEvidence": [],
+		"tags": [
+			"persistence",
+			"virtualfs",
+			"awtsmoosdb",
+			"migration"
+		],
+		"claimsBoundary": "Source paths establish the engine/interface boundary; generated docs do not infer transaction or consistency guarantees.",
+		"changeRisk": "Storage-engine, manifest, transaction, or path changes require compatibility review.",
+		"environmentEvidence": [
+			{
+				"name": "AWTSMOOS_EMBED_MODE",
+				"classification": "runtime-config",
+				"sources": 1,
+				"exampleSources": "ayzarim/DosDB/aiSearch/textEmbedRunner.js"
+			},
+			{
+				"name": "AWTSMOOS_EMBED_MODEL_ROOT",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/ai_search_model_root_precedence_test.js"
+			},
+			{
+				"name": "AWTSMOOSDB_FAST_TEST",
+				"classification": "test/tuning",
+				"sources": 3,
+				"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/idle/fastGate.js; ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js; ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/semantic_ai_dosdb_test.js"
+			},
+			{
+				"name": "AWTSMOOSDB_TEST_SCALE",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js"
+			},
+			{
+				"name": "NODE_ENV",
+				"classification": "runtime-config",
+				"sources": 3,
+				"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js; geelooy/api/wallet/core/paypalEnvironment.js; geelooy/api/wallet/tests/paypalEnvironment.test.js"
+			}
+		],
+		"realtimeApplications": [],
+		"eventEvidence": [],
+		"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/awtsmoosdb-virtualfs.md",
+		"provenance": "curated-system-semantics-plus-generated-local-source-evidence"
+	},
+	{
+		"systemId": "database-root-resolution",
+		"district": "data",
+		"title": "Database Root Resolution",
+		"summary": "How the runtime chooses the persistence root before DosDB or newer storage layers operate.",
+		"manuals": [
+			"docs/DATA/README.md",
+			"docs/DATA/PATH_CONTRACTS.md"
+		],
+		"projects": [
+			{
+				"projectId": "ayzarim-awtsmoosdynamicserver-e406758e",
+				"path": "ayzarim/awtsmoosDynamicServer",
+				"type": "runtime",
+				"title": "ayzarim/awtsmoosDynamicServer",
+				"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-awtsmoosdynamicserver-e406758e.md"
+			}
+		],
+		"sources": [
+			"ayzarim/awtsmoosDynamicServer/server/initDb.js"
+		],
+		"generatedEvidence": [
+			"docs/GENERATED/ENVIRONMENT_VARIABLES.md"
+		],
+		"tags": [
+			"persistence",
+			"environment",
+			"path",
+			"migration"
+		],
+		"claimsBoundary": "Environment names and inspected manuals describe precedence; no environment value is read or published.",
+		"changeRisk": "Changing root precedence or defaults can redirect an existing deployment to different persisted data.",
+		"environmentEvidence": [
+			{
+				"name": "AWTS_ENTRY_LIMIT",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/tests/compactJs.entrySweep.test.js"
+			},
+			{
+				"name": "AWTS_ENTRY_MATCH",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/tests/compactJs.entrySweep.test.js"
+			},
+			{
+				"name": "AWTS_ENTRY_OFFSET",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/tests/compactJs.entrySweep.test.js"
+			},
+			{
+				"name": "AWTS_ENTRY_ROOTS",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/tests/compactJs.entrySweep.test.js"
+			},
+			{
+				"name": "AWTSMOOS_REGISTRATION_STRESS_COUNT",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/test/registrationReplacementStress.test.cjs"
+			},
+			{
+				"name": "AWTSMOOS_RELAY_STRESS_COUNT",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay.concurrent-correlation.test.cjs"
+			},
+			{
+				"name": "AWTSMOOS_SEFIRA_PROFILE_PATH",
+				"classification": "path/storage",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionProfileRepository.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_COMPLETED_LIMIT",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_CONSUMER_PROGRESS_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestAckHandler.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_CONTROL_STORE",
+				"classification": "path/storage",
+				"sources": 9,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomSocketIntegration.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgrade.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/upgradePolicy.test.cjs"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_PENDING_TTL_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_QUARANTINE_LIMIT",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_RELAY_MAX_SAFE_WAIT_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_RELAY_SAFE_WAIT_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_RELAY_STATE_ROOT",
+				"classification": "path/storage",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/durablePaths.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_REQUEST_ACCEPTANCE_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestDispatch.js"
+			},
+			{
+				"name": "AWTSMOOS_WS_MAX_MISSED_HEARTBEATS",
+				"classification": "runtime-config",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/core/clientLiveness.js"
+			},
+			{
+				"name": "AWTSMOOS_WS_PROBE_GRACE_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/core/clientLiveness.js"
+			},
+			{
+				"name": "AWTSMOOS_WS_STALE_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/core/clientLiveness.js"
+			},
+			{
+				"name": "MW_LOAD_CLIENTS",
+				"classification": "runtime-config",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/sessionLoadProbe.cjs"
+			}
+		],
+		"realtimeApplications": [],
+		"eventEvidence": [],
+		"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/database-root-resolution.md",
+		"provenance": "curated-system-semantics-plus-generated-local-source-evidence"
+	}
+]

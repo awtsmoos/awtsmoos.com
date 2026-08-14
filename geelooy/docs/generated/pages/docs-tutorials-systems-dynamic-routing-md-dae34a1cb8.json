@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-tutorials-systems-dynamic-routing-md-dae34a1cb8",
+	"title": "Tutorial: Dynamic Routing",
+	"sourcePath": "docs/TUTORIALS/SYSTEMS/DYNAMIC_ROUTING.md",
+	"category": "Systems",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Tutorial: Dynamic Routing",
+			"anchor": "tutorial-dynamic-routing"
+		},
+		{
+			"level": 2,
+			"text": "Ownership",
+			"anchor": "ownership"
+		},
+		{
+			"level": 2,
+			"text": "Match forms",
+			"anchor": "match-forms"
+		},
+		{
+			"level": 2,
+			"text": "Generated route tutorials",
+			"anchor": "generated-route-tutorials"
+		},
+		{
+			"level": 2,
+			"text": "Important caveat",
+			"anchor": "important-caveat"
+		},
+		{
+			"level": 2,
+			"text": "Maintainability",
+			"anchor": "maintainability"
+		}
+	],
+	"markdownParts": [
+		"content/docs-tutorials-systems-dynamic-routing-md-dae34a1cb8-001.json"
+	]
+}

@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-editor-documentation-md-a30483cf0c",
+	"title": "Mitzvah World Editor Documentation",
+	"sourcePath": "geelooy/apps/editor/DOCUMENTATION.md",
+	"category": "Apps",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Mitzvah World Editor Documentation",
+			"anchor": "mitzvah-world-editor-documentation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-editor-documentation-md-a30483cf0c-001.json"
+	]
+}

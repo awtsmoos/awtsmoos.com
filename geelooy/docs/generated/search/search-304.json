@@ -1,0 +1,222 @@
+[
+	{
+		"id": "tools-dayuhchadashcutover-publishing-md-e19d38ff11",
+		"title": "Publishing Checklist",
+		"sourcePath": "tools/dayuhChadashCutover/PUBLISHING.md",
+		"category": "Operations",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Publishing Checklist",
+				"anchor": "publishing-checklist"
+			},
+			{
+				"level": 2,
+				"text": "Source",
+				"anchor": "source"
+			},
+			{
+				"level": 2,
+				"text": "Read-only publication preflight",
+				"anchor": "read-only-publication-preflight"
+			},
+			{
+				"level": 2,
+				"text": "Pre-cutover",
+				"anchor": "pre-cutover"
+			},
+			{
+				"level": 2,
+				"text": "Offline installation",
+				"anchor": "offline-installation"
+			},
+			{
+				"level": 2,
+				"text": "Runtime acceptance",
+				"anchor": "runtime-acceptance"
+			},
+			{
+				"level": 2,
+				"text": "Failure",
+				"anchor": "failure"
+			},
+			{
+				"level": 2,
+				"text": "Publication",
+				"anchor": "publication"
+			}
+		],
+		"excerpt": "B\"H Publishing Checklist The Awtsmoos is not revealed by a convincing log line. Awtsmoos.com accepts this release only when every source, runtime, rollback, API, RAG, and operational court is green. Publishing source remains separate from performing the live cutover. Source Run node tools/dayuhChadashCutover/releaseChe",
+		"searchText": "b\"h publishing checklist the awtsmoos is not revealed by a convincing log line. awtsmoos.com accepts this release only when every source, runtime, rollback, api, rag, and operational court is green. publishing source remains separate from performing the live cutover. source run node tools/dayuhchadashcutover/releasecheck.js. run npm run test:dayuh release and full npm test. confirm every touched javascript file uses tabs and stays at or below 120 lines. confirm git diff check is empty. review git status short; do not include unrelated working tree changes. confirm no machine specific home path appears in tracked cutover source. stage exactly the paths in publish files.txt; never use git add a. read only publication preflight before staging, use a temporary evidence directory to prove the real environment: copy only llama embedding and its required dynamic libraries. rewrite mach o runtime paths to @loader path on macos. require one real 384 dimensional bge embedding with no fallback. run text and vector searches against every persisted rag lane with installation disabled. capture canonical allocation before and after and require exact equality. calculate the post cutover canonical, runtime, and combined active allocation. require the combined projection to remain below awtsmoos active hard bytes. remove only the temporary copied runtime after its hashes and receipt are recorded. the july 17, 2026 evidence proved an 18,968,576 byte runtime, both sefer hasichos and likkutei sichos lanes, and a projected active allocation of 1,790,947,328 bytes with 356,536,320 bytes of headroom. pre cutover capture current supervisor pid, child pid, port owner, and readiness state. run cli.js plan and preserve its json. confirm every destination is absent and on the same filesystem device. confirm the quarantine root is outside the canonical data root. confirm divergent raw content is quarantined, never deleted. confirm the plan reports the absolute combined active ceiling. offline installation stop the managed supervisor through its real lifecycle manager. confirm port 8080 is dark. confirm no descriptor is open beneath the data root. run cli.js install once. preserve cutover state.json outside the data root. never remove the retained quarantine during installation or publication. runtime acceptance export awtsmoos db root, awtsmoos ai root, and awtsmoos rag root. run cli.js testing. pass public alias, heichel, series, post, comment, question, answer, and hydration routes through real http requests. pass both text and persisted vector rag searches on every lane. pass supervisor restart and rollback drills. pass a no growth baseline across repeated read only traffic. run cli.js verify; canonical, runtime, and combined storage courts must be green. run cli.js accept only after every previous court passes. failure run cli.js rollback while production is offline. verify original paths, original manifest text, canonical readiness, compact runtime removal, and supervisor ownership before reopening traffic. an interrupted preparing, installing, or failed state must use cli.js recover. publication do not commit runtime data, quarantine, evidence json, pid files, logs, or caches. do not publish credentials or local tunnel state. do not remove the retained quarantine generation in the same release. record exact tests, byte totals, runner hash, rag lanes, git commit, push, and tag. review the cached diff and confirm it exactly matches publish files.txt. publish only after a clean reviewer reproduces the release check.",
+		"page": "pages/tools-dayuhchadashcutover-publishing-md-e19d38ff11.json"
+	},
+	{
+		"id": "tools-dayuhchadashcutover-readme-md-0ac50c9ca9",
+		"title": "Dayuh Chadash Final Cutover",
+		"sourcePath": "tools/dayuhChadashCutover/README.md",
+		"category": "Operations",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Dayuh Chadash Final Cutover",
+				"anchor": "dayuh-chadash-final-cutover"
+			},
+			{
+				"level": 2,
+				"text": "Guarantees",
+				"anchor": "guarantees"
+			},
+			{
+				"level": 2,
+				"text": "Configuration",
+				"anchor": "configuration"
+			},
+			{
+				"level": 2,
+				"text": "Publication court",
+				"anchor": "publication-court"
+			},
+			{
+				"level": 2,
+				"text": "Verified source preflight",
+				"anchor": "verified-source-preflight"
+			},
+			{
+				"level": 2,
+				"text": "Operator flow",
+				"anchor": "operator-flow"
+			},
+			{
+				"level": 1,
+				"text": "Stop the managed supervisor and prove port and handles are dark.",
+				"anchor": "stop-the-managed-supervisor-and-prove-port-and-handles-are-dark"
+			},
+			{
+				"level": 1,
+				"text": "Start production with AWTSMOOSAIROOT and AWTSMOOSRAGROOT exported.",
+				"anchor": "start-production-with-awtsmoosairoot-and-awtsmoosragroot-exported"
+			},
+			{
+				"level": 1,
+				"text": "Run social, RAG, hydration, restart, and growth courts.",
+				"anchor": "run-social-rag-hydration-restart-and-growth-courts"
+			}
+		],
+		"excerpt": "B\"H Dayuh Chadash Final Cutover The Awtsmoos creates every byte anew. This tool keeps canonical social truth small, places active AI assets under a portable runtime root, and preserves every legacy or divergent byte in reversible quarantine for Awtsmoos.com. Guarantees No recursive deletion of canonical, historical, or",
+		"searchText": "b\"h dayuh chadash final cutover the awtsmoos creates every byte anew. this tool keeps canonical social truth small, places active ai assets under a portable runtime root, and preserves every legacy or divergent byte in reversible quarantine for awtsmoos.com. guarantees no recursive deletion of canonical, historical, or divergent content. no cross device copy disguised as an atomic move. no move while managed pids, port 8080, or data root handles are active. every completed rename is written atomically to external state. the llama.cpp development checkout enters quarantine before the lean ai tree moves. the active runtime receives only llama embedding and its required libraries. the copied runner must produce a real 384 dimensional bge embedding. rag manifests retain exact original text for rollback. canonical comments, posts, series, and alias index remain inside the data root. one combined canonical plus runtime ceiling defaults to two gibibytes. acceptance requires inode, manifest, embedding, and storage budget verification. quarantine is retained after acceptance; pruning is a separate human decision. configuration all paths are portable and may be overridden: awts db root remains a compatibility alias, but new deployments should use awtsmoos db root. publication court the court checks syntax, tests, tab indentation, the 120 line ceiling, documentation, exact publication scope, portable paths, and git whitespace. the real http mutation journey starts a private server on a temporary port with a guarded temporary dosdb root. it never writes to live dayuh data. verified source preflight the july 17, 2026 preflight copied an 18.1 mib relocatable llama runtime, produced a real 384 dimensional embedding, and completed text and vector searches against both persisted lanes: sefer hasichos and likkutei sichos. canonical allocation was unchanged before and after the read only preflight. the measured post cutover projection was 1,790,947,328 active bytes with 356,536,320 bytes of headroom beneath the absolute two gibibyte ceiling. these measurements are publication evidence, not permission to perform the live cutover. operator flow any failed court returns through: an interrupted preparing, installing, or failed state may be recovered with: see publishing.md for the complete release boundary.",
+		"page": "pages/tools-dayuhchadashcutover-readme-md-0ac50c9ca9.json"
+	},
+	{
+		"id": "tools-dayuhchadashcutover-release-notes-md-3e4de9f009",
+		"title": "Dayuh Chadash Self-Cleaning Storage — Release Notes",
+		"sourcePath": "tools/dayuhChadashCutover/RELEASE_NOTES.md",
+		"category": "Operations",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Dayuh Chadash Self-Cleaning Storage — Release Notes",
+				"anchor": "dayuh-chadash-self-cleaning-storage-release-notes"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Included",
+				"anchor": "included"
+			},
+			{
+				"level": 2,
+				"text": "Verified courts",
+				"anchor": "verified-courts"
+			},
+			{
+				"level": 2,
+				"text": "Real corpus and runtime proof",
+				"anchor": "real-corpus-and-runtime-proof"
+			},
+			{
+				"level": 2,
+				"text": "Storage projection",
+				"anchor": "storage-projection"
+			},
+			{
+				"level": 2,
+				"text": "Operational status",
+				"anchor": "operational-status"
+			},
+			{
+				"level": 2,
+				"text": "Publication commands",
+				"anchor": "publication-commands"
+			},
+			{
+				"level": 2,
+				"text": "Acceptance boundary",
+				"anchor": "acceptance-boundary"
+			}
+		],
+		"excerpt": "B\"H Dayuh Chadash Self Cleaning Storage — Release Notes Purpose This release prepares Awtsmoos.com to keep canonical social truth and active AI/RAG assets beneath one absolute two gibibyte ceiling without deleting divergent, historical, or rebuildable content. Canonical FS3 databases remain authoritative, active AI mov",
+		"searchText": "b\"h dayuh chadash self cleaning storage — release notes purpose this release prepares awtsmoos.com to keep canonical social truth and active ai/rag assets beneath one absolute two gibibyte ceiling without deleting divergent, historical, or rebuildable content. canonical fs3 databases remain authoritative, active ai moves to a portable runtime root, and legacy or development heavy vessels move by reversible same device rename into retained quarantine. included portable environment driven path policy with no operator specific home directory. explicit awtsmoos db root support with awts db root compatibility. one combined canonical plus runtime hard ceiling, defaulting to 2,147,483,648 bytes. compact llama runtime containing only llama embedding and required libraries. macos rpath rebasing to @loader path and mandatory real 384 dimensional probe. nested quarantine of the llama.cpp development checkout before the ai parent move. same device atomic rename enforcement and crash safe state after every boundary. exact rag manifest rebasing with original text retained for rollback. canonical post bridging between rich content records and packed series records. immediate packed/rich synchronization after edits and safe legacy marker migration. dynamic response classification that preserves domain records containing contenttype, preventing valid posts from serializing as null. combined budget maintenance alarms while preserving wal vacuum and fs3 compaction. guarded real http journey against a temporary dosdb root and private port. exact 66 path publication scope excluding runtime, evidence, quarantine, logs, credentials, tunnel state, and unrelated concurrent work. verified courts the complete repository wide npm test passed on july 17, 2026. the scoped release sequence also passed independently: npm run test:dayuh release npm run test:dayuh cutover npm run test:routes npm run test:comments npm run test:social content npm run test:social packed npm run test:packed engine node test tools/dayuhchadashmaintenance/test/ .test.js the final source results include: cutover court: 34/34 tests. maintenance court: 19/19 tests. comment subsystem: 7/7 tests. real private server journey for alias, heichel, series, post, comment, question, answer, repeated read stability, deletion, and cleanup. javascript syntax, tab indentation, 120 line ceiling, documentation, portable paths, exact publication scope, and git whitespace. release checker: 42 javascript files, 16 test files, 66 publication paths, and a largest changed javascript file of 117 lines. real corpus and runtime proof a read only publication preflight copied the actual runtime from the canonical build, patched it, hashed it, and removed the temporary stage after verification. compact runtime allocation: 18,968,576 bytes. llama embedding sha 256: a9efb4653095a2d75938a65926a0be424e9ee465c1c10387d6d66d981c34b5a4. embedding dimensions: 384. portable rpath: @loader path. persisted lanes: sefer hasichos: 15,022 records. likkutei sichos: 6,139 records. both lanes passed text search and persisted vector search with the copied runner. installation and fallback were disabled throughout the proof. canonical allocation was identical before and after the preflight. storage projection measured allocated bytes before any live move: current canonical root: 7,260,708,864 bytes. current ai tree: 1,767,149,568 bytes. development checkout to quarantine: 963,219,456 bytes. divergent raw social tree to quarantine: 1,080,832,000 bytes. allowlisted derived packed stores to quarantine: 3,444,678,656 bytes. projected active generation after cutover: canonical data: 968,048,640 bytes. lean ai runtime: 822,898,688 bytes. combined active allocation: 1,790,947,328 bytes. absolute limit: 2,147,483,648 bytes. remaining headroom: 356,536,320 bytes. operational status the cutover transaction has not been executed by this source publication pass. production remains live on its current paths, the runtime destination is absent, and no quarantine generation has been deleted. the plan preserves raw divergent social content and historical stores by moving them to quarantine rather than deleting them. publication commands use the direct node ... plan form when redirecting machine readable json; npm run prints its own command banner unless invoked with silent. acceptance boundary publication of source does not authorize live installation. operators must follow publishing.md, stop production through its managed supervisor, prove the offline gate, install once, run every live social, rag, restart, rollback, no growth, storage budget, and maintenance court, and call accept only after verification is green. on any failure, production must remain stopped while rollback restores the prior generation.",
+		"page": "pages/tools-dayuhchadashcutover-release-notes-md-3e4de9f009.json"
+	},
+	{
+		"id": "tools-documentation-md-df0412aa0e",
+		"title": "Repository Tools",
+		"sourcePath": "tools/DOCUMENTATION.md",
+		"category": "Operations",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Repository Tools",
+				"anchor": "repository-tools"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Repository Tools The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Large developer/maintenance utility root. Tools are support infrastructure, not automatically public runtime code. Start here Re",
+		"searchText": "b\"h boruch hashem blessed is he repository tools the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role large developer/maintenance utility root. tools are support infrastructure, not automatically public runtime code. start here read docs/operations and tooling.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes inspect tool source, write behavior, credentials/environment requirements and target paths before execution.",
+		"page": "pages/tools-documentation-md-df0412aa0e.json"
+	},
+	{
+		"id": "tools-meluket-translation-job-job-outputs-md-e8151fe521",
+		"title": "Meluket job output location",
+		"sourcePath": "tools/meluket-translation-job/JOB_OUTPUTS.md",
+		"category": "Operations",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Meluket job output location",
+				"anchor": "meluket-job-output-location"
+			}
+		],
+		"excerpt": "B\"H Meluket job output location Generated translation, validation, raw XML, swarm progress, import backups, and other run artifacts are intentionally kept outside this git repository. Default external job root: Override when needed: The repository should contain scripts only, not generated job output.",
+		"searchText": "b\"h meluket job output location generated translation, validation, raw xml, swarm progress, import backups, and other run artifacts are intentionally kept outside this git repository. default external job root: override when needed: the repository should contain scripts only, not generated job output.",
+		"page": "pages/tools-meluket-translation-job-job-outputs-md-e8151fe521.json"
+	}
+]

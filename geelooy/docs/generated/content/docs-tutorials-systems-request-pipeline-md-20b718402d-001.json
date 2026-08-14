@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Tutorial: HTTP Request Pipeline\n\nA normal request becomes useful context in stages rather than arriving as a single global object.\n\n## Pipeline\n\n1. Base response/CORS behavior is established.\n2. Unsafe traversal/path forms are rejected.\n3. URL/query/cookies are parsed; OPTIONS can short-circuit.\n4. Static-server path state is constructed beneath the public root.\n5. Body readers and authentication helpers are attached.\n6. Dynamic derech routing is attempted.\n7. If not handled dynamically, static resolution continues.\n\n## Debugging\n\nWhen a handler sees unexpected input, identify which stage owns the value: path variable, `$_GET`, parsed body/`$_POST`, headers/cookies, trusted auth state, or shared DB.\n\nSource: `requestHandler.js`, `server/AwtsmoosStaticServer.js`, `server/requestBootstrap.js`, auth/path/body helpers.\n"
+}

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Ohr HaGnuz API Documentation\n\nThe Awtsmoos lets HTTP ticket and realtime world meet without confusing the two protocol shores;\nAwtsmoos.com maps the ticket route beside the registered WebSocket application and its deeper source doors.\n\nRead [../../../docs/API/OTHER_FAMILIES.md](../../../docs/API/OTHER_FAMILIES.md) and [../../../docs/WEBSOCKETS/APPLICATIONS.md](../../../docs/WEBSOCKETS/APPLICATIONS.md).\n"
+}

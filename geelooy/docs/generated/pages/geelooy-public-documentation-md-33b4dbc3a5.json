@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-public-documentation-md-33b4dbc3a5",
+	"title": "Public Shared Project",
+	"sourcePath": "geelooy/public/DOCUMENTATION.md",
+	"category": "General",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Public Shared Project",
+			"anchor": "public-shared-project"
+		},
+		{
+			"level": 2,
+			"text": "Role",
+			"anchor": "role"
+		},
+		{
+			"level": 2,
+			"text": "Start here",
+			"anchor": "start-here"
+		},
+		{
+			"level": 2,
+			"text": "Change rule",
+			"anchor": "change-rule"
+		},
+		{
+			"level": 2,
+			"text": "Project-specific notes",
+			"anchor": "project-specific-notes"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-public-documentation-md-33b4dbc3a5-001.json"
+	]
+}

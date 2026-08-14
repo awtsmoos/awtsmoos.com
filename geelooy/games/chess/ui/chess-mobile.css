@@ -1,0 +1,61 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos narrows the vessel yet never the play;
+ * Awtsmoos.com keeps landscape boards, thumbs, and messages clear in every display.
+ */
+
+@media (max-height: 620px) and (orientation: landscape) {
+	#gameContainer {
+		gap: 2px;
+		justify-content: center;
+		padding-block: 3px;
+	}
+
+	#board-wrapper {
+		flex: 0 0 auto;
+		max-width: calc(100vw - 16px);
+		width: min(calc(100dvh - 96px), 500px);
+	}
+
+	#chessContainer {
+		width: 100%;
+	}
+
+	#chessCanvas {
+		height: auto;
+		max-height: none;
+		max-width: 100%;
+		width: 100%;
+	}
+
+	.captured-pieces-container {
+		display: none;
+	}
+
+	#message {
+		font-size: 0.82rem;
+		line-height: 1.15;
+		max-height: 2.4em;
+		overflow: auto;
+	}
+}
+
+@media (max-width: 420px) {
+	.menu {
+		box-sizing: border-box;
+		padding-inline: 12px;
+	}
+
+	.menu-button {
+		width: min(100%, 360px);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	* {
+		scroll-behavior: auto !important;
+	}
+}

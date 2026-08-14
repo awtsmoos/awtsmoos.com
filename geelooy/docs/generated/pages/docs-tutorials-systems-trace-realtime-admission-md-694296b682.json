@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-tutorials-systems-trace-realtime-admission-md-694296b682",
+	"title": "Trace Realtime Admission",
+	"sourcePath": "docs/TUTORIALS/SYSTEMS/TRACE_REALTIME_ADMISSION.md",
+	"category": "Realtime",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Trace Realtime Admission",
+			"anchor": "trace-realtime-admission"
+		},
+		{
+			"level": 2,
+			"text": "Investigation path",
+			"anchor": "investigation-path"
+		},
+		{
+			"level": 2,
+			"text": "Trust rule",
+			"anchor": "trust-rule"
+		}
+	],
+	"markdownParts": [
+		"content/docs-tutorials-systems-trace-realtime-admission-md-694296b682-001.json"
+	]
+}

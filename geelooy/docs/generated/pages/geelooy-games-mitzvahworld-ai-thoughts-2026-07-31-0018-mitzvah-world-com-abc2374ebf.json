@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-abc2374ebf",
+	"title": "B\"H",
+	"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/19_POST_COMPLETION_FINAL_PLAN.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Post-Completion Final Plan",
+			"anchor": "post-completion-final-plan"
+		},
+		{
+			"level": 2,
+			"text": "Exact Files to Rewrite or Create",
+			"anchor": "exact-files-to-rewrite-or-create"
+		},
+		{
+			"level": 2,
+			"text": "Verification Order",
+			"anchor": "verification-order"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-abc2374ebf-001.json"
+	]
+}

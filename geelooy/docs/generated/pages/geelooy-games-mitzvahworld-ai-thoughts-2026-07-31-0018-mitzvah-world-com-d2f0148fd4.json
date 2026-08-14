@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-d2f0148fd4",
+	"title": "B\"H",
+	"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/15_COMPLETION_GATE_CLOSED.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Completion Gate Closed",
+			"anchor": "completion-gate-closed"
+		},
+		{
+			"level": 2,
+			"text": "Planned Versus Actual",
+			"anchor": "planned-versus-actual"
+		},
+		{
+			"level": 3,
+			"text": "Planned",
+			"anchor": "planned"
+		},
+		{
+			"level": 3,
+			"text": "Actual",
+			"anchor": "actual"
+		},
+		{
+			"level": 2,
+			"text": "Completion Evidence Checklist",
+			"anchor": "completion-evidence-checklist"
+		},
+		{
+			"level": 2,
+			"text": "Residual Non-Blocking Observation",
+			"anchor": "residual-non-blocking-observation"
+		},
+		{
+			"level": 2,
+			"text": "Final State",
+			"anchor": "final-state"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-d2f0148fd4-001.json"
+	]
+}

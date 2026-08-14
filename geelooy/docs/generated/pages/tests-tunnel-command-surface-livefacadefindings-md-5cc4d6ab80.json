@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "tests-tunnel-command-surface-livefacadefindings-md-5cc4d6ab80",
+	"title": "B\"H Live Facade Stress Findings",
+	"sourcePath": "tests/tunnel-command-surface/liveFacadeFindings.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H Live Facade Stress Findings",
+			"anchor": "b-h-live-facade-stress-findings"
+		},
+		{
+			"level": 2,
+			"text": "Verified passing in repo-side tests",
+			"anchor": "verified-passing-in-repo-side-tests"
+		},
+		{
+			"level": 2,
+			"text": "Live facade mismatches still observed",
+			"anchor": "live-facade-mismatches-still-observed"
+		},
+		{
+			"level": 2,
+			"text": "Next repair target",
+			"anchor": "next-repair-target"
+		}
+	],
+	"markdownParts": [
+		"content/tests-tunnel-command-surface-livefacadefindings-md-5cc4d6ab80-001.json"
+	]
+}

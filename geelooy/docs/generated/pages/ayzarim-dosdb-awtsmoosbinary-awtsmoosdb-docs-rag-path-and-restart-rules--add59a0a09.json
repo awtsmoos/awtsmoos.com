@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-rag-path-and-restart-rules--add59a0a09",
+	"title": "RAG Path and Restart Rules",
+	"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/RAG_PATH_AND_RESTART_RULES.md",
+	"category": "Data",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "RAG Path and Restart Rules",
+			"anchor": "rag-path-and-restart-rules"
+		},
+		{
+			"level": 2,
+			"text": "Path resolution",
+			"anchor": "path-resolution"
+		},
+		{
+			"level": 2,
+			"text": "Session identity",
+			"anchor": "session-identity"
+		},
+		{
+			"level": 2,
+			"text": "Restart court",
+			"anchor": "restart-court"
+		},
+		{
+			"level": 2,
+			"text": "Failure rule",
+			"anchor": "failure-rule"
+		}
+	],
+	"markdownParts": [
+		"content/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-rag-path-and-restart-rules--add59a0a09-001.json"
+	]
+}

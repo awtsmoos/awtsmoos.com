@@ -1,0 +1,338 @@
+[
+	{
+		"id": "docs-tutorials-api-root-api-md-c082659fca",
+		"title": "Root API API Tutorial",
+		"sourcePath": "docs/TUTORIALS/API/ROOT_API.md",
+		"category": "API",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Root API API Tutorial",
+				"anchor": "root-api-api-tutorial"
+			},
+			{
+				"level": 2,
+				"text": "What this family owns",
+				"anchor": "what-this-family-owns"
+			},
+			{
+				"level": 2,
+				"text": "How to explore it",
+				"anchor": "how-to-explore-it"
+			},
+			{
+				"level": 2,
+				"text": "Safety / interpretation",
+				"anchor": "safety-interpretation"
+			},
+			{
+				"level": 2,
+				"text": "Evidence rule",
+				"anchor": "evidence-rule"
+			},
+			{
+				"level": 2,
+				"text": "Next",
+				"anchor": "next"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Root API API Tutorial What this family owns Mount: /api Derech: geelooy/api/ awtsmoos.derech.js The root derech currently exposes legacy/example style dynamic routes. Treat them as observed compatibility/demo paths, not templates for new design. How to explore it 1. Open API Family Tutor",
+		"searchText": "b\"h boruch hashem blessed is he root api api tutorial what this family owns mount: /api derech: geelooy/api/ awtsmoos.derech.js the root derech currently exposes legacy/example style dynamic routes. treat them as observed compatibility/demo paths, not templates for new design. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation use the generated family/tutorial index; prefer a named subsystem mount for new production behavior. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
+		"page": "pages/docs-tutorials-api-root-api-md-c082659fca.json"
+	},
+	{
+		"id": "docs-tutorials-api-runtime-md-7cc9821c81",
+		"title": "Native Runtime API Tutorial",
+		"sourcePath": "docs/TUTORIALS/API/RUNTIME.md",
+		"category": "API",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Native Runtime API Tutorial",
+				"anchor": "native-runtime-api-tutorial"
+			},
+			{
+				"level": 2,
+				"text": "What this family owns",
+				"anchor": "what-this-family-owns"
+			},
+			{
+				"level": 2,
+				"text": "How to explore it",
+				"anchor": "how-to-explore-it"
+			},
+			{
+				"level": 2,
+				"text": "Safety / interpretation",
+				"anchor": "safety-interpretation"
+			},
+			{
+				"level": 2,
+				"text": "Evidence rule",
+				"anchor": "evidence-rule"
+			},
+			{
+				"level": 2,
+				"text": "Next",
+				"anchor": "next"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Native Runtime API Tutorial What this family owns Mount: /api/runtime Derech: geelooy/api/runtime/ awtsmoos.derech.js Capabilities, launch, status, and stop dispatch into native runtime handlers. How to explore it 1. Open API Family Tutorials for current route counts/health. 2. Filter AP",
+		"searchText": "b\"h boruch hashem blessed is he native runtime api tutorial what this family owns mount: /api/runtime derech: geelooy/api/runtime/ awtsmoos.derech.js capabilities, launch, status, and stop dispatch into native runtime handlers. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/runtime. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/runtime/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation treat native launch/stop as authenticated machine control operations; inspect process/path/permission boundaries. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
+		"page": "pages/docs-tutorials-api-runtime-md-7cc9821c81.json"
+	},
+	{
+		"id": "docs-tutorials-api-sefarim-md-6450c0a03a",
+		"title": "Sefarim API Tutorial",
+		"sourcePath": "docs/TUTORIALS/API/SEFARIM.md",
+		"category": "API",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Sefarim API Tutorial",
+				"anchor": "sefarim-api-tutorial"
+			},
+			{
+				"level": 2,
+				"text": "What this family owns",
+				"anchor": "what-this-family-owns"
+			},
+			{
+				"level": 2,
+				"text": "How to explore it",
+				"anchor": "how-to-explore-it"
+			},
+			{
+				"level": 2,
+				"text": "Safety / interpretation",
+				"anchor": "safety-interpretation"
+			},
+			{
+				"level": 2,
+				"text": "Evidence rule",
+				"anchor": "evidence-rule"
+			},
+			{
+				"level": 2,
+				"text": "Next",
+				"anchor": "next"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Sefarim API Tutorial What this family owns Mount: /api/sefarim Derech: geelooy/api/sefarim/ awtsmoos.derech.js Root, sefer, section, and subsection paths read from shared DosDB backed sefarim data. How to explore it 1. Open API Family Tutorials for current route counts/health. 2. Filter ",
+		"searchText": "b\"h boruch hashem blessed is he sefarim api tutorial what this family owns mount: /api/sefarim derech: geelooy/api/sefarim/ awtsmoos.derech.js root, sefer, section, and subsection paths read from shared dosdb backed sefarim data. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/sefarim. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/sefarim/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation path ids are persisted data contracts; inspect missing node behavior rather than assuming filesystem semantics. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
+		"page": "pages/docs-tutorials-api-sefarim-md-6450c0a03a.json"
+	},
+	{
+		"id": "docs-tutorials-api-social-md-0ede9f4b8d",
+		"title": "Social API Tutorial",
+		"sourcePath": "docs/TUTORIALS/API/SOCIAL.md",
+		"category": "API",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Social API Tutorial",
+				"anchor": "social-api-tutorial"
+			},
+			{
+				"level": 2,
+				"text": "What this family owns",
+				"anchor": "what-this-family-owns"
+			},
+			{
+				"level": 2,
+				"text": "How to explore it",
+				"anchor": "how-to-explore-it"
+			},
+			{
+				"level": 2,
+				"text": "Safety / interpretation",
+				"anchor": "safety-interpretation"
+			},
+			{
+				"level": 2,
+				"text": "Evidence rule",
+				"anchor": "evidence-rule"
+			},
+			{
+				"level": 2,
+				"text": "Next",
+				"anchor": "next"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Social API Tutorial What this family owns Mount: /api/social Derech: geelooy/api/social/ awtsmoos.derech.js Social currently owns 419 extracted route rows across identity, Heichel/content, series/comments, search/graph, drive, mail, notifications, governance, migrations, and more. How to",
+		"searchText": "b\"h boruch hashem blessed is he social api tutorial what this family owns mount: /api/social derech: geelooy/api/social/ awtsmoos.derech.js social currently owns 419 extracted route rows across identity, heichel/content, series/comments, search/graph, drive, mail, notifications, governance, migrations, and more. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/social. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/social/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation start with content platform 101 and the content tutorials; generated route pages provide exhaustive navigation while source factories define real method/resource authority. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
+		"page": "pages/docs-tutorials-api-social-md-0ede9f4b8d.json"
+	},
+	{
+		"id": "docs-tutorials-api-ssh-md-5182e6f7ee",
+		"title": "SSH API Tutorial",
+		"sourcePath": "docs/TUTORIALS/API/SSH.md",
+		"category": "API",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "SSH API Tutorial",
+				"anchor": "ssh-api-tutorial"
+			},
+			{
+				"level": 2,
+				"text": "What this family owns",
+				"anchor": "what-this-family-owns"
+			},
+			{
+				"level": 2,
+				"text": "How to explore it",
+				"anchor": "how-to-explore-it"
+			},
+			{
+				"level": 2,
+				"text": "Safety / interpretation",
+				"anchor": "safety-interpretation"
+			},
+			{
+				"level": 2,
+				"text": "Evidence rule",
+				"anchor": "evidence-rule"
+			},
+			{
+				"level": 2,
+				"text": "Next",
+				"anchor": "next"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He SSH API Tutorial What this family owns Mount: /api/ssh Derech: geelooy/api/ssh/ awtsmoos.derech.js The current literal route extractor reports zero child route rows for this derech. Existing source/documentation may contain parameterized remote command/file behavior not represented by th",
+		"searchText": "b\"h boruch hashem blessed is he ssh api tutorial what this family owns mount: /api/ssh derech: geelooy/api/ssh/ awtsmoos.derech.js the current literal route extractor reports zero child route rows for this derech. existing source/documentation may contain parameterized remote command/file behavior not represented by this extraction. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/ssh. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/ssh/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation do not invent paths from old docs. inspect the live derech/handlers before making ssh calls. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
+		"page": "pages/docs-tutorials-api-ssh-md-5182e6f7ee.json"
+	},
+	{
+		"id": "docs-tutorials-api-streaming-md-f52af8aa37",
+		"title": "Streaming API Tutorial",
+		"sourcePath": "docs/TUTORIALS/API/STREAMING.md",
+		"category": "API",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Streaming API Tutorial",
+				"anchor": "streaming-api-tutorial"
+			},
+			{
+				"level": 2,
+				"text": "What this family owns",
+				"anchor": "what-this-family-owns"
+			},
+			{
+				"level": 2,
+				"text": "How to explore it",
+				"anchor": "how-to-explore-it"
+			},
+			{
+				"level": 2,
+				"text": "Safety / interpretation",
+				"anchor": "safety-interpretation"
+			},
+			{
+				"level": 2,
+				"text": "Evidence rule",
+				"anchor": "evidence-rule"
+			},
+			{
+				"level": 2,
+				"text": "Next",
+				"anchor": "next"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Streaming API Tutorial What this family owns Mount: /api/streaming Derech: geelooy/api/streaming/ awtsmoos.derech.js Root, connector, dynamic connector, and connector/action paths dispatch into provider plugins observed for Awtsmoos/Facebook/Twitch/YouTube. How to explore it 1. Open API ",
+		"searchText": "b\"h boruch hashem blessed is he streaming api tutorial what this family owns mount: /api/streaming derech: geelooy/api/streaming/ awtsmoos.derech.js root, connector, dynamic connector, and connector/action paths dispatch into provider plugins observed for awtsmoos/facebook/twitch/youtube. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/streaming. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/streaming/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation provider/action payload and credential rules live in connector implementations; public cors behavior is not anonymous provider authority. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
+		"page": "pages/docs-tutorials-api-streaming-md-f52af8aa37.json"
+	},
+	{
+		"id": "docs-tutorials-api-text-md-2e84d2a564",
+		"title": "Text Jobs API Tutorial",
+		"sourcePath": "docs/TUTORIALS/API/TEXT.md",
+		"category": "API",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Text Jobs API Tutorial",
+				"anchor": "text-jobs-api-tutorial"
+			},
+			{
+				"level": 2,
+				"text": "What this family owns",
+				"anchor": "what-this-family-owns"
+			},
+			{
+				"level": 2,
+				"text": "How to explore it",
+				"anchor": "how-to-explore-it"
+			},
+			{
+				"level": 2,
+				"text": "Safety / interpretation",
+				"anchor": "safety-interpretation"
+			},
+			{
+				"level": 2,
+				"text": "Evidence rule",
+				"anchor": "evidence-rule"
+			},
+			{
+				"level": 2,
+				"text": "Next",
+				"anchor": "next"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Text Jobs API Tutorial What this family owns Mount: /api/text Derech: geelooy/api/text/ awtsmoos.derech.js Two timestamp/job routes are extractable, but the derech currently fails node check with an unexpected comma. How to explore it 1. Open API Family Tutorials for current route counts",
+		"searchText": "b\"h boruch hashem blessed is he text jobs api tutorial what this family owns mount: /api/text derech: geelooy/api/text/ awtsmoos.derech.js two timestamp/job routes are extractable, but the derech currently fails node check with an unexpected comma. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/text. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/text/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation treat these tutorials as intended/source visible evidence only until application source is repaired and health turns green. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
+		"page": "pages/docs-tutorials-api-text-md-2e84d2a564.json"
+	},
+	{
+		"id": "docs-tutorials-api-tunnel-control-md-54216e7b5f",
+		"title": "Tunnel Control API Tutorial",
+		"sourcePath": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+		"category": "API",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tunnel Control API Tutorial",
+				"anchor": "tunnel-control-api-tutorial"
+			},
+			{
+				"level": 2,
+				"text": "What this family owns",
+				"anchor": "what-this-family-owns"
+			},
+			{
+				"level": 2,
+				"text": "How to explore it",
+				"anchor": "how-to-explore-it"
+			},
+			{
+				"level": 2,
+				"text": "Safety / interpretation",
+				"anchor": "safety-interpretation"
+			},
+			{
+				"level": 2,
+				"text": "Evidence rule",
+				"anchor": "evidence-rule"
+			},
+			{
+				"level": 2,
+				"text": "Next",
+				"anchor": "next"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Control API Tutorial What this family owns Mount: /api/tunnel/control Derech: geelooy/api/tunnel/control/ awtsmoos.derech.js Seventy nine extracted routes span bootstrap/identity, keys/pairing/grants, remote FS, previews/blobs/ephemeral results, missions/live calls, compute/accoun",
+		"searchText": "b\"h boruch hashem blessed is he tunnel control api tutorial what this family owns mount: /api/tunnel/control derech: geelooy/api/tunnel/control/ awtsmoos.derech.js seventy nine extracted routes span bootstrap/identity, keys/pairing/grants, remote fs, previews/blobs/ephemeral results, missions/live calls, compute/accounting, treasury/economy, and administration. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/tunnel/control. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/tunnel/control/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation use the generated route tutorials to drill down. core auth trusts oauth bearer, verified api key, or signed session—not browser owner fields. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
+		"page": "pages/docs-tutorials-api-tunnel-control-md-54216e7b5f.json"
+	}
+]

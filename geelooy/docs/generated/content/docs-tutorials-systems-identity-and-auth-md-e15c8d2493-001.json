@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Tutorial: Identity and Authorization\n\nIdentity answers “who is making the request?” Authorization answers “may that trusted identity perform this operation here?”\n\n## Trusted identity evidence\n\nSessions, verified API keys, OAuth bearer evidence, and specialized realtime admission all appear in the current system.\n\n## Resource authority\n\nSocial Heichel/content routes can require owner/editor/member/moderation relationships after login. Tunnel scopes/grants similarly constrain trusted account actions.\n\n## Client fields are not identity\n\nTreat `owner`, `userId`, `alias`, or account-like body/query values as data unless server auth explicitly verifies/derives them.\n\n## Review sequence\n\nTransport/origin → identity → scope/role → resource ownership → method/action → persistence/provider side effect.\n\nRead `docs/LEARN/AUTHENTICATION_101.md` and `docs/SECURITY/TRUST_BOUNDARIES.md`.\n"
+}

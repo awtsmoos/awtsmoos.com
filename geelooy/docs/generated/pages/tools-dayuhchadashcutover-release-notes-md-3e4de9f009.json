@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "tools-dayuhchadashcutover-release-notes-md-3e4de9f009",
+	"title": "Dayuh Chadash Self-Cleaning Storage — Release Notes",
+	"sourcePath": "tools/dayuhChadashCutover/RELEASE_NOTES.md",
+	"category": "Operations",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Dayuh Chadash Self-Cleaning Storage — Release Notes",
+			"anchor": "dayuh-chadash-self-cleaning-storage-release-notes"
+		},
+		{
+			"level": 2,
+			"text": "Purpose",
+			"anchor": "purpose"
+		},
+		{
+			"level": 2,
+			"text": "Included",
+			"anchor": "included"
+		},
+		{
+			"level": 2,
+			"text": "Verified courts",
+			"anchor": "verified-courts"
+		},
+		{
+			"level": 2,
+			"text": "Real corpus and runtime proof",
+			"anchor": "real-corpus-and-runtime-proof"
+		},
+		{
+			"level": 2,
+			"text": "Storage projection",
+			"anchor": "storage-projection"
+		},
+		{
+			"level": 2,
+			"text": "Operational status",
+			"anchor": "operational-status"
+		},
+		{
+			"level": 2,
+			"text": "Publication commands",
+			"anchor": "publication-commands"
+		},
+		{
+			"level": 2,
+			"text": "Acceptance boundary",
+			"anchor": "acceptance-boundary"
+		}
+	],
+	"markdownParts": [
+		"content/tools-dayuhchadashcutover-release-notes-md-3e4de9f009-001.json"
+	]
+}

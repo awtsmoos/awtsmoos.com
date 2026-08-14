@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# YouTube Manager Documentation\n\nThe Awtsmoos lets channel, video, upload, and live state pass through a guarded provider key;\nAwtsmoos.com maps this browser manager to the dedicated YouTube API family.\n\nRead [../../docs/API/YOUTUBE.md](../../docs/API/YOUTUBE.md) and [../../docs/APPS/MEDIA_TOOLS.md](../../docs/APPS/MEDIA_TOOLS.md).\n"
+}

@@ -1,0 +1,225 @@
+[
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-82229ed6a0",
+		"title": "EVIDENCE",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0340_realistic-objects-action-movie/EVIDENCE.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "EVIDENCE",
+				"anchor": "evidence"
+			},
+			{
+				"level": 2,
+				"text": "Full repository verification",
+				"anchor": "full-repository-verification"
+			},
+			{
+				"level": 2,
+				"text": "Final focused audit",
+				"anchor": "final-focused-audit"
+			},
+			{
+				"level": 2,
+				"text": "Final media",
+				"anchor": "final-media"
+			},
+			{
+				"level": 2,
+				"text": "Compliance",
+				"anchor": "compliance"
+			}
+		],
+		"excerpt": "B\"H EVIDENCE Full repository verification Command: npm run verify Restart proof exit file: full verify.exit Exit: 0 Finished: 2026 08 03T08:11:02Z Log: full verify.log Covered legacy and current import, syntax, camera, scene, face, character, object, browser runtime, browser export, package, media, two minute, four min",
+		"searchText": "b\"h evidence full repository verification command: npm run verify restart proof exit file: full verify.exit exit: 0 finished: 2026 08 03t08:11:02z log: full verify.log covered legacy and current import, syntax, camera, scene, face, character, object, browser runtime, browser export, package, media, two minute, four minute, reference trio, original one minute, and realistic action minute gates. final focused audit job: cmdjob mscydalg 9a07aa0e7f42 receipt: receipt mscydalg ab0d4a9e59 exit: 0 result marker: final audit=pass persistence: pass four scale courts: pass final/preview/plan hashes agree with export result.json git diff check: pass touched file readback manifest: 43 files final media title: the last cup before the meeting duration: 60.000000 seconds frames: 720 video: h.264, 640x360, 12 fps audio: aac bytes: 3340073 final sha 256: d2d38daa90bd8c83421e98d84cf7bdeaad1f844e8da989e65438562863c249ca preview sha 256: 897aebcd7bf9374cadaad0669d364a452a9b825bbb9c8b8c6270b1a38cb5b77d production plan sha 256: 3195beb2c5954878e21f0052a18208cdfa8a9fced9a4763010871924346e991c compliance animator javascript files audited: 43 failures: 0 file lengths: 20 86 lines required headers: pass tab indentation: pass awtsmoos/awtsmoos.com documentation: pass syntax: pass package json: pass complete file readback hashes: touched js readback.sha256",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-82229ed6a0.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-c86be2a029",
+		"title": "EXPORTAUDIT",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0340_realistic-objects-action-movie/EXPORT_AUDIT.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "EXPORTAUDIT",
+				"anchor": "exportaudit"
+			},
+			{
+				"level": 2,
+				"text": "Shared production path",
+				"anchor": "shared-production-path"
+			},
+			{
+				"level": 2,
+				"text": "FFprobe evidence",
+				"anchor": "ffprobe-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Artifacts",
+				"anchor": "artifacts"
+			}
+		],
+		"excerpt": "B\"H EXPORT AUDIT Shared production path RealisticActionMinuteMovie CinematicFrameRenderer realistic set background objects jointed cast foreground objects anchored bubbles/titles 720 RGB frames FFmpeg H.264 video plus twelve delayed synthesized voice tracks and AAC audio. Preview derives from the finalized movie. Proof",
+		"searchText": "b\"h export audit shared production path realisticactionminutemovie cinematicframerenderer realistic set background objects jointed cast foreground objects anchored bubbles/titles 720 rgb frames ffmpeg h.264 video plus twelve delayed synthesized voice tracks and aac audio. preview derives from the finalized movie. proof frames and scale courts use the same production renderer. no separate preview only visual implementation exists. ffprobe evidence duration: 60.000000 seconds video codec: h.264 audio codec: aac dimensions: 640x360 frame rate: 12/1 file bytes: 3340073 fast start output enabled artifacts final: proofs/realistic action minute/the last cup before the meeting.mp4 preview: proofs/realistic action minute/the last cup before the meeting preview.mp4 source plan: proofs/realistic action minute/production plan.json edl: proofs/realistic action minute/edit decision list.json dialogue: proofs/realistic action minute/dialogue data.json performance: proofs/realistic action minute/performance data.json objects: proofs/realistic action minute/object data.json text/title: proofs/realistic action minute/text and title data.json audio manifest: proofs/realistic action minute/audio manifest.json probe: proofs/realistic action minute/ffprobe.json visual evidence: proofs/realistic action minute/visual evidence.json export result: proofs/realistic action minute/export result.json result: pass.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-c86be2a029.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-6fd131a2ee",
+		"title": "FEATURE MATRIX",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0340_realistic-objects-action-movie/FEATURE_MATRIX.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "FEATURE MATRIX",
+				"anchor": "feature-matrix"
+			}
+		],
+		"excerpt": "B\"H FEATURE MATRIX Feature Production evidence Status Neutral identity Reference identity retained beneath emotion/action PASS Facial structure Ears, jaw, chin, philtrum, neck, brows, nose, cheeks PASS Speech/visemes Twelve lines, multi viseme cues, mouth geometry PASS Blink/gaze Existing face rig plus complete reposit",
+		"searchText": "b\"h feature matrix feature production evidence status neutral identity reference identity retained beneath emotion/action pass facial structure ears, jaw, chin, philtrum, neck, brows, nose, cheeks pass speech/visemes twelve lines, multi viseme cues, mouth geometry pass blink/gaze existing face rig plus complete repository suite pass jointed arms shoulder elbow wrist geometry and elbow bias pass jointed legs hip knee ankle geometry, crouch, seat, plant pass locked contact crossed arms and held props invariant under motion phase pass hand articulation open, point, fist, grip, pocket, catch, hold pass directional shoes heel, toe, sole, and view direction pass garments sleeves, lapels, folds, seams, panels, hems, sway pass realistic office set windows, lights, walls, stations, counters, perspective floor pass furniture desk, rolling chair, cabinet, shelf, plant pass devices coffee machine, printer, laptop, clock pass small objects mug, spoon, papers, tablet, coupon, phone pass object motion static, slide, roll, bounce, spin, flash, steam, print, flutter pass layered depth background, midground, foreground, camera parallax pass anchored bubbles speaker aware position, wrapping, tail, safe margins pass camera language eighteen shots and broad supported move/angle vocabulary pass text/title cards two title cards and three lower thirds pass persistence json and sanitized project package pass preview/export parity shared cinematicframerenderer pass scale readability 320x320, 180x300, 512x512, 1536x864 pass final media 60s h.264/aac, 720 frames, hashes pass full regression suite restart proof full verify.exit equals zero pass file compliance 43 files, 0 failures, 20 86 lines pass",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-6fd131a2ee.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-8452bd055e",
+		"title": "FINALCOMPLETIONGATE",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0340_realistic-objects-action-movie/FINAL_COMPLETION_GATE.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "FINALCOMPLETIONGATE",
+				"anchor": "finalcompletiongate"
+			},
+			{
+				"level": 2,
+				"text": "Direct evidence",
+				"anchor": "direct-evidence"
+			},
+			{
+				"level": 2,
+				"text": "External operational note",
+				"anchor": "external-operational-note"
+			}
+		],
+		"excerpt": "B\"H FINAL COMPLETION GATE Status: CLOSED PASS. Direct evidence Reusable realistic face, body, garment, object, set, layered scene, and anchored bubble systems exist in the shared renderer. Neutral identity remains distinct from transient performance. The exact sixty second movie The Last Cup Before the Meeting exists a",
+		"searchText": "b\"h final completion gate status: closed pass. direct evidence reusable realistic face, body, garment, object, set, layered scene, and anchored bubble systems exist in the shared renderer. neutral identity remains distinct from transient performance. the exact sixty second movie the last cup before the meeting exists as source project data and final media. it contains three characters, four sequences, eighteen shots, twelve spoken lines, thirty three performance clips, twenty two scene object clips, two title cards, and three text boxes. jointed arms and legs, catches, crouches, running, blocking, handoffs, locked poses, garments, moving objects, camera cuts, and anchored text bubbles reach production pixels. preview and final export share cinematicframerenderer. persistence and package restoration pass while transient state is excluded. all four exact scale courts pass. final media is 60.000000 seconds, h.264/aac, 640x360, 12 fps, 720 frames, and 3340073 bytes. complete repository verification exits zero through restart proof full verify.exit. final focused audit ends with final audit=pass. git diff check passes. forty three touched javascript files pass complete readback, required headers, tabs, awtsmoos/awtsmoos.com documentation, syntax, and the 120 line limit. remaining work is empty. next action is none. external operational note the real mission room system still rejected the oauth credential with missing scope: tunnel.room. browser and tunnel routes intermittently restarted. repository side logs, process isolated jobs, final artifacts, hashes, png courts, and full browser regression tests preserved direct product evidence. these are external orchestration limitations, not unresolved animation project defects.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-8452bd055e.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-f18eb3ce87",
+		"title": "NEXTACTION",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0340_realistic-objects-action-movie/NEXT_ACTION.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H NEXT ACTION None.",
+		"searchText": "b\"h next action none.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-f18eb3ce87.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-1cfa96d311",
+		"title": "PERSISTENCEAUDIT",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0340_realistic-objects-action-movie/PERSISTENCE_AUDIT.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "PERSISTENCEAUDIT",
+				"anchor": "persistenceaudit"
+			},
+			{
+				"level": 2,
+				"text": "Persisted authored state",
+				"anchor": "persisted-authored-state"
+			},
+			{
+				"level": 2,
+				"text": "Restoration evidence",
+				"anchor": "restoration-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Excluded transient state",
+				"anchor": "excluded-transient-state"
+			}
+		],
+		"excerpt": "B\"H PERSISTENCE AUDIT Persisted authored state Three neutral identities and motion personality values. Facial, body, wardrobe, hair, and render style identity traits. Twelve dialogue lines and deterministic phoneme/viseme cues. Thirty three layered emotion/action/gesture clips. Twenty two scene object clips with kind, ",
+		"searchText": "b\"h persistence audit persisted authored state three neutral identities and motion personality values. facial, body, wardrobe, hair, and render style identity traits. twelve dialogue lines and deterministic phoneme/viseme cues. thirty three layered emotion/action/gesture clips. twenty two scene object clips with kind, layer, timing, depth, transform, motion, and material state. eighteen camera shots, four sequences, two title cards, three text boxes, and native nle clips. restoration evidence json round trip preserved exact 60000ms duration. character identity ids remained unchanged. complete object array remained unchanged. dialogue lip sync cue arrays remained unchanged. restored nlestore retained the exact clip count. projectpackageassembler retained all objects and timeline clips. excluded transient state verified absent from serialized/project package data: stablepose canvas/context references frame local time state blob urls and runtime audio urls functions and cyclic renderer links result: pass.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-1cfa96d311.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-1b2edbf7a6",
+		"title": "REMAININGWORK",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0340_realistic-objects-action-movie/REMAINING_WORK.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK",
+				"anchor": "remainingwork"
+			}
+		],
+		"excerpt": "B\"H REMAINING WORK None. The reusable realism layer, realistic office objects, dense one minute production, persistence, scale courts, final export, complete repository verification, compliance, readback, and completion challenge are closed by direct evidence.",
+		"searchText": "b\"h remaining work none. the reusable realism layer, realistic office objects, dense one minute production, persistence, scale courts, final export, complete repository verification, compliance, readback, and completion challenge are closed by direct evidence.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-1b2edbf7a6.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-44004d09d9",
+		"title": "VISUALCOURTS",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0340_realistic-objects-action-movie/VISUAL_COURTS.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "VISUALCOURTS",
+				"anchor": "visualcourts"
+			}
+		],
+		"excerpt": "B\"H VISUAL COURTS All courts were rendered through the shared production CinematicFrameRenderer, encoded as PNG, dimension checked, color counted, file size checked, and SHA 256 hashed. Court Dimensions Time Colors PNG bytes SHA 256 : : : : Head reaction 320x320 57500ms 81 8547 97c39e1aa574f6aaf1e68919641ae403822202237",
+		"searchText": "b\"h visual courts all courts were rendered through the shared production cinematicframerenderer, encoded as png, dimension checked, color counted, file size checked, and sha 256 hashed. court dimensions time colors png bytes sha 256 : : : : head reaction 320x320 57500ms 81 8547 97c39e1aa574f6aaf1e68919641ae4038222022378c74d22a0417cd59dfaa80d character 180x300 12500ms 91 6554 69cbc8ba9246c4029c19cb14ac132b9919dec1159c3562d04d019f4d328bb489 half body 512x512 42000ms 91 15711 d8ad7d68982303e0df8baf76f277c24fe459325dad5092834cea32c1e5878f15 action trio 1536x864 39000ms 121 33210 378d7c9b581b2485c651a2bef755dae207f46b80eba0cff59222240f7424bf81 eleven representative 640x360 story frames also exist at 1000, 4000, 7600, 19000, 27000, 30500, 37000, 42000, 49500, 55000, and 58500 milliseconds. non title action frames contain 90 132 unique colors and 13,544 21,558 png bytes. the 37000ms rescue frame contains 110 colors and hashes to 0186908c6b716a74991db94f3bd772193d7158a8c4b2e67d6c89a8e947f1915d. the 55000ms coupon reaction contains 112 colors and hashes to 96cc6d82de0989ba3e413a756890ec3232091750491f499af5f651ca9c76bf72. browser control navigation was intermittently interrupted by the tunnel relay. direct png bytes, generated image evidence, scale courts, and the repository's browser runtime/export tests independently prove nonblank production rendering.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-44004d09d9.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-cfbcafcd4d",
+		"title": "Phase One — Unbounded Brainstorm",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_1038_master-animation-completion-orchestrator/01_PHASE_ONE_UNBOUNDED_BRAINSTORM.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Unbounded Brainstorm",
+				"anchor": "phase-one-unbounded-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "Possible completion fronts",
+				"anchor": "possible-completion-fronts"
+			},
+			{
+				"level": 2,
+				"text": "Work graph principle",
+				"anchor": "work-graph-principle"
+			}
+		],
+		"excerpt": "B\"H Phase One — Unbounded Brainstorm The Awtsmoos renews every frame and every test; this plan seeks every vessel where motion, story, persistence, and pixels may still conceal unfinished work. Possible completion fronts Repository archaeology: source graph, imports, scripts, generated proofs, ignored media, worktree s",
+		"searchText": "b\"h phase one — unbounded brainstorm the awtsmoos renews every frame and every test; this plan seeks every vessel where motion, story, persistence, and pixels may still conceal unfinished work. possible completion fronts repository archaeology: source graph, imports, scripts, generated proofs, ignored media, worktree state, stale checkpoints, and hidden regressions. character identity: neutral facial landmarks, head shape, body mass, posture, hair, wardrobe, reusable saved identity, and separation from performance state. face performance: deterministic blink, gaze, convergence, eye targets, head turn, eyebrow regions, eyelids, phoneme timing, visemes, and mouth geometry. body performance: breathing, lean, weight shift, locomotion, gesture preparation/stroke/hold/follow through/retraction, and contact locks. geometry readability: hands, fingers, crossed arms, pocket hands, palms, point, wave, shoes, heel/toe/sole direction, garments, hair, sleeve drag, hem lift, and secondary motion. cinematic systems: multiple views, shot vocabulary, automatic framing, camera continuity, title cards, text boxes, captions, dialogue timing, and scene timing. persistence: customizer data, save/load, import/export, startup restoration, transient exclusion, project packaging, and media durability. rendering: preview/export parity, production canvas, browser state, exact dimensions, nonblank pngs, hashes, frame sampling, and final video/audio metadata. quality: small scale legibility, visual courts, accessibility, performance, blank shell detection, cropping, text safety, and narrative clarity. orchestration: sequential agent spawning, isolated scopes, evidence contracts, merge queue, conflict control, reassignment, and master verification. future possibilities: deterministic replay, golden frame comparisons, automated perceptual metrics, export manifest signing, and richer demo variations. work graph principle every feature must trace through source state → normalization → composition → render bridge → geometry → production pixels → persistence → preview → export → test → proof. no module name, prior report, or passing smoke alone closes a node.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-cfbcafcd4d.json"
+	}
+]

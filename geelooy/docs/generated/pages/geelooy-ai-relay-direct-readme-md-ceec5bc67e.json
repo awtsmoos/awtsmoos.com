@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-relay-direct-readme-md-ceec5bc67e",
+	"title": "ChatGPT Website Relay",
+	"sourcePath": "geelooy/ai/relay/direct/README.md",
+	"category": "AI",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "ChatGPT Website Relay",
+			"anchor": "chatgpt-website-relay"
+		},
+		{
+			"level": 2,
+			"text": "Website flow",
+			"anchor": "website-flow"
+		},
+		{
+			"level": 2,
+			"text": "Commands",
+			"anchor": "commands"
+		},
+		{
+			"level": 2,
+			"text": "Direct routes",
+			"anchor": "direct-routes"
+		},
+		{
+			"level": 2,
+			"text": "Safety contracts",
+			"anchor": "safety-contracts"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-relay-direct-readme-md-ceec5bc67e-001.json"
+	]
+}

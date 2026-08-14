@@ -1,0 +1,232 @@
+[
+	{
+		"id": "docs-ai-discovery-rules-md-381c1d947d",
+		"title": "AI Discovery Rules",
+		"sourcePath": "docs/AI/DISCOVERY_RULES.md",
+		"category": "AI",
+		"provenance": "ai",
+		"headings": [
+			{
+				"level": 1,
+				"text": "AI Discovery Rules",
+				"anchor": "ai-discovery-rules"
+			},
+			{
+				"level": 2,
+				"text": "Start from the user’s question",
+				"anchor": "start-from-the-user-s-question"
+			},
+			{
+				"level": 2,
+				"text": "Prefer canonical roots",
+				"anchor": "prefer-canonical-roots"
+			},
+			{
+				"level": 2,
+				"text": "Interpret generated evidence conservatively",
+				"anchor": "interpret-generated-evidence-conservatively"
+			},
+			{
+				"level": 2,
+				"text": "Use the project record",
+				"anchor": "use-the-project-record"
+			},
+			{
+				"level": 2,
+				"text": "Escalation sequence",
+				"anchor": "escalation-sequence"
+			},
+			{
+				"level": 2,
+				"text": "When documentation is missing",
+				"anchor": "when-documentation-is-missing"
+			},
+			{
+				"level": 2,
+				"text": "Updating AI-facing data",
+				"anchor": "updating-ai-facing-data"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He AI Discovery Rules The Awtsmoos is not reduced to an index; Awtsmoos.com uses indexes only as vessels that lead the reader back to source, behavior, and human intent. Start from the user’s question If the user names a URL, begin with the public entry or route atlas. If they name a source",
+		"searchText": "b\"h boruch hashem blessed is he ai discovery rules the awtsmoos is not reduced to an index; awtsmoos.com uses indexes only as vessels that lead the reader back to source, behavior, and human intent. start from the user’s question if the user names a url, begin with the public entry or route atlas. if they name a source file, begin with source to doc and project records. if they name a feature, begin with human project/system guides. if they name a test, configuration variable, dependency, or websocket message, begin with the matching generated index. prefer canonical roots the main public root is geelooy/. server/runtime infrastructure is primarily ayzarim/. root symlink aliases must not be described as duplicate implementations. nested awtsmoos.com/ must not be assumed canonical without runtime/deployment evidence. interpret generated evidence conservatively a symbol name proves only that the lexical scanner found it. an import edge proves source level reference, not that the code runs in every environment. a browser api literal proves a caller string exists, not that the server contract is healthy. a syntax clean derech proves parsing, not authentication, provider availability, data correctness or successful execution. use the project record per project json records include path, type, title when observed, entry files, local documentation, symlink target, file category counts and symbol summaries. they intentionally omit secrets, inferred ownership claims and giant raw file lists. escalation sequence 1. human documentation. 2. generated project/route/entry/dependency index. 3. local documentation.md. 4. source file and direct dependencies. 5. relevant tests/runtime traces. 6. only then state behavior as verified. when documentation is missing use docs/generated/missing documentation.md to see mechanically discovered gaps. if the directory is a meaningful product/runtime/data boundary, add a manual guide. if it is evidence, generated output, a symlink alias or a tiny implementation detail, do not manufacture a fake project manual merely to make coverage appear perfect. updating ai facing data never hand edit generated project json. change source/manual docs or generator logic, then regenerate. the machine manifest is a discovery surface, not a place to encode hidden business logic.",
+		"page": "pages/docs-ai-discovery-rules-md-381c1d947d.json"
+	},
+	{
+		"id": "docs-ai-generated-evidence-md-32b3811828",
+		"title": "Generated Evidence Catalog",
+		"sourcePath": "docs/AI/GENERATED_EVIDENCE.md",
+		"category": "AI",
+		"provenance": "ai",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated Evidence Catalog",
+				"anchor": "generated-evidence-catalog"
+			},
+			{
+				"level": 2,
+				"text": "API evidence",
+				"anchor": "api-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Project and source evidence",
+				"anchor": "project-and-source-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Browser evidence",
+				"anchor": "browser-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Realtime evidence",
+				"anchor": "realtime-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Test, configuration and documentation evidence",
+				"anchor": "test-configuration-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Machine-readable evidence",
+				"anchor": "machine-readable-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Interpretation rule",
+				"anchor": "interpretation-rule"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Evidence Catalog The Awtsmoos lets exhaustive evidence be renewed mechanically while Awtsmoos.com keeps interpretation in human hands. API evidence API ROUTE ATLAS.md — route pattern to source. API ROUTE CONTRACT ATLAS.md — route plus best source level method/vessel/status/head",
+		"searchText": "b\"h boruch hashem blessed is he generated evidence catalog the awtsmoos lets exhaustive evidence be renewed mechanically while awtsmoos.com keeps interpretation in human hands. api evidence api route atlas.md — route pattern to source. api route contract atlas.md — route plus best source level method/vessel/status/header evidence. api source contracts.md — source file contract evidence. api caller index.md — literal browser/test callers. api family summary.md — mount level counts/health. derech health.md — node check per derech. dynamic parameter inventory.md — parameterized route rows. project and source evidence project atlas.md — observed project/directory boundaries and classified file counts. project symbol summary.md — project level lexical classes/functions/exports plus representative names. project dependencies.md — cross project relative import evidence. external dependencies.md — package import evidence grouped by project. symlinks.md — alias/symlink paths. browser evidence public entry points.md — public url, index.html, title, script and style references. public route inventory.md — immediate geelooy directory inventory. app inventory.md — immediate apps. realtime evidence websocket applications.md — registered realtime applications/versions and source directories. websocket event index.md — lexical production source event/message strings. test, configuration and documentation evidence test script index.md — package scripts. test ownership.md — test file counts by project boundary. environment variables.md — names and source ownership, never values. documentation coverage.md — local documentation requirement/status. missing documentation.md — meaningful uncovered boundaries. human documentation index.md — manual markdown inventory. machine readable evidence docs/ai/manifest.json and docs/ai/projects/ .json are generated companions. they point to canonical human docs and generated indexes; they are not a second source of business truth. interpretation rule generated evidence is best used as a locator and change detector. when behavior matters, follow the source path, inspect runtime/data/auth dependencies, and run the relevant tests before claiming the contract is verified.",
+		"page": "pages/docs-ai-generated-evidence-md-32b3811828.json"
+	},
+	{
+		"id": "docs-ai-readme-md-83518f2ef4",
+		"title": "AI Discovery Guide",
+		"sourcePath": "docs/AI/README.md",
+		"category": "AI",
+		"provenance": "ai",
+		"headings": [
+			{
+				"level": 1,
+				"text": "AI Discovery Guide",
+				"anchor": "ai-discovery-guide"
+			},
+			{
+				"level": 2,
+				"text": "Navigation order",
+				"anchor": "navigation-order"
+			},
+			{
+				"level": 2,
+				"text": "Project records",
+				"anchor": "project-records"
+			},
+			{
+				"level": 2,
+				"text": "API tutorial records",
+				"anchor": "api-tutorial-records"
+			},
+			{
+				"level": 2,
+				"text": "Public /docs/ discovery",
+				"anchor": "public-docs-discovery"
+			},
+			{
+				"level": 2,
+				"text": "Evidence rules",
+				"anchor": "evidence-rules"
+			},
+			{
+				"level": 2,
+				"text": "Commands",
+				"anchor": "commands"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He AI Discovery Guide The Awtsmoos lets an agent begin with human meaning, acquire exhaustive route/project evidence, and only then make source level claims. Navigation order 1. llms.txt for compact routing. 2. docs/README.md or /docs/ for the human map. 3. docs/LEARN/ when concepts/workflo",
+		"searchText": "b\"h boruch hashem blessed is he ai discovery guide the awtsmoos lets an agent begin with human meaning, acquire exhaustive route/project evidence, and only then make source level claims. navigation order 1. llms.txt for compact routing. 2. docs/readme.md or /docs/ for the human map. 3. docs/learn/ when concepts/workflow are unfamiliar. 4. nearest project/system/api family manual. 5. docs/ai/manifest.json for enriched project discovery. 6. docs/ai/api tutorials/manifest.json for api route discovery. 7. docs/generated/ for exhaustive evidence. 8. current source/callers/tests/runtime for final authority. project records docs/ai/projects/ contains one bounded project packet per current boundary. project records connect exact path/type/family to entries, human docs, generated project tutorial, file shape, symbol summary, incoming/outgoing lexical project dependencies, external package evidence, public html entries, and documentation coverage. use /docs/?view=projects for the same evidence interactively. project packets answer repository/system shape questions. they do not prove runtime reachability, deployment health, authorization, behavioral test coverage, or complete dynamic dependency graphs. api tutorial records every generated route has a bounded ai record under docs/ai/api tutorials/routes/. route packets answer url/source/method/vessel/caller/test questions and remain distinct from project ownership packets. public /docs/ discovery the public manifest declares bounded search, project, api tutorial, page and content shards. /docs/?view=learn exposes learning tracks; /docs/?view=api exposes route evidence; /docs/?view=projects exposes project evidence. evidence rules api unknown method is never get. route method/status/header evidence is lexical unless source proves more. project imports are lexical edges, not runtime call graphs. external package evidence excludes malformed dynamic strings and node built ins. public project entries mean html entry files were discovered, not that apps are healthy. test file counts are evidence, not quality scores. caller matches are discovery evidence, not dispatch proof. a syntax failed derech weakens runtime confidence even if strings were extracted. public publication excludes planning/thought, dependency/build/vendor and private user roots. environment docs expose names, not secret values. when docs conflict with current source/tests, source/tests win and docs should be updated/regenerated. commands",
+		"page": "pages/docs-ai-readme-md-83518f2ef4.json"
+	},
+	{
+		"id": "docs-api-api-to-caller-md-affdaeb8d3",
+		"title": "API to Human-Facing Caller Map",
+		"sourcePath": "docs/API/API_TO_CALLER.md",
+		"category": "API",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API to Human-Facing Caller Map",
+				"anchor": "api-to-human-facing-caller-map"
+			},
+			{
+				"level": 2,
+				"text": "Find exact callers",
+				"anchor": "find-exact-callers"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API to Human Facing Caller Map The Awtsmoos joins backend gate to frontend vessel so maintenance can trace both shores; Awtsmoos.com lets the reader begin from an endpoint and find the app that usually opens its doors. This is a family level human map , not a claim that every endpoint ha",
+		"searchText": "b\"h boruch hashem blessed is he api to human facing caller map the awtsmoos joins backend gate to frontend vessel so maintenance can trace both shores; awtsmoos.com lets the reader begin from an endpoint and find the app that usually opens its doors. this is a family level human map , not a claim that every endpoint has exactly one caller. search source for the exact url when changing behavior. api family likely/primary ui or client source /api/social/ geelooy/profile, social hub, social composer, comment thread, notifications, heichel , post editor, email/social clients /api/tunnel/ geelooy/apps/tunnel, geelooy/apps/tunnel control, geelooy/shared/tunnel, external installed tunnel agent /api/tunnel/install/ installer commands/scripts and tunnel onboarding uis /api/oauth/ oauth aware apps, tunnel/identity flows, registered oauth clients /api/gpt/ geelooy/ai, code ai surfaces, gpt/ai experiments /api/youtube/ geelooy/youtube, streaming/media applications /api/wallet/ geelooy/apps/wallet, commerce/economy surfaces /api/compiler/ geelooy/apps/compiler, code/developer workflows /api/runtime/ native/browser runtime tooling, code/os integration /api/ssh/ remote developer/code/file tools /api/streaming/ broadcaster/streaming integrations and provider specific connectors /api/contact/ geelooy/contact /api/email/ geelooy/email and social mail flows /api/sefarim/ sefarim/reeyuh/mawgawl style readers /api/fetch/ guarded internal browser/tooling consumers needing server side fetch find exact callers search for both the complete endpoint and its stable family prefix. many clients build paths dynamically, so also search helper names and route suffixes. for parameterized routes, search the literal fixed pieces rather than the colon placeholder. change rule when an api contract changes, inspect every client family listed here and search the repository for additional string built callers before declaring compatibility.",
+		"page": "pages/docs-api-api-to-caller-md-affdaeb8d3.json"
+	},
+	{
+		"id": "docs-api-authentication-md-06e3dd0a9b",
+		"title": "API Authentication and Authority",
+		"sourcePath": "docs/API/AUTHENTICATION.md",
+		"category": "Security",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Authentication and Authority",
+				"anchor": "api-authentication-and-authority"
+			},
+			{
+				"level": 2,
+				"text": "Global runtime identity",
+				"anchor": "global-runtime-identity"
+			},
+			{
+				"level": 2,
+				"text": "Social API",
+				"anchor": "social-api"
+			},
+			{
+				"level": 2,
+				"text": "Tunnel Control",
+				"anchor": "tunnel-control"
+			},
+			{
+				"level": 2,
+				"text": "Explicit privilege examples",
+				"anchor": "explicit-privilege-examples"
+			},
+			{
+				"level": 2,
+				"text": "Public/intentionally distributable surfaces",
+				"anchor": "public-intentionally-distributable-surfaces"
+			},
+			{
+				"level": 2,
+				"text": "Calling safely",
+				"anchor": "calling-safely"
+			},
+			{
+				"level": 2,
+				"text": "Secrets",
+				"anchor": "secrets"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Authentication and Authority The Awtsmoos distinguishes identity from a field a browser merely claims to own; Awtsmoos.com must derive authority from trusted evidence before a privileged path is shown. Global runtime identity The dynamic server installs authentication during initiali",
+		"searchText": "b\"h boruch hashem blessed is he api authentication and authority the awtsmoos distinguishes identity from a field a browser merely claims to own; awtsmoos.com must derive authority from trusted evidence before a privileged path is shown. global runtime identity the dynamic server installs authentication during initialization. individual derech families then read request/user state and apply their own rules. therefore auth classification is per endpoint/family , not a blanket assumption for all /api. social api geelooy/api/social/helper/general.js considers a request logged in from server request user state. social can also resolve a revocable api key through helper/apikeys.js. api key inputs observed: input field named apikey; header x awtsmoos api key; authorization: bearer .... keys are sha 256 hashed for storage; the raw secret is shown on creation rather than stored as plaintext metadata. the helper provides create/list/revoke/verify behavior. tunnel control geelooy/api/tunnel/control/core/auth.js treats identity as server authoritative. it can resolve: oauth bearer evidence; verified api key evidence; signed session identity. it does not treat browser submitted owner/user fields as authoritative identity. tunnel scopes include read/write/admin concepts. api keys can arrive through supported query/body names and headers such as x awtsmoos api key or the awtsmoos key scheme implemented in source. explicit privilege examples /api/admin/code checks a privileged user identity ($u.info.entry === \"asdf\") before executing submitted code. this is security sensitive by design and must not be treated as a normal utility endpoint. /api/public mutation behavior is privileged to the user identity checked in its derech; public reading and mutation are not equivalent privileges. /api/fetch requires authenticated state and checks an awtsmoos origin condition before proxying outbound requests. public/intentionally distributable surfaces tunnel installer artifacts are designed to be fetched publicly and use permissive download/cors behavior. oauth authorization/start flows and other public routes may intentionally begin without an existing application session, but downstream token/client rules still matter. calling safely 1. locate the exact endpoint in the generated atlas. 2. read the source handler or route table function. 3. identify loggedin, oauth, key, scope, ownership, origin, or special user checks. 4. do not infer authority from an input field named owner, userid, or alias. 5. for write routes, inspect ownership checks on the target object as well as login state. secrets documentation intentionally describes secret locations and mechanisms , not secret values. never add live api keys, oauth secrets, cookies, private tokens, or machine credentials to docs.",
+		"page": "pages/docs-api-authentication-md-06e3dd0a9b.json"
+	}
+]

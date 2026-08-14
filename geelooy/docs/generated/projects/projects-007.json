@@ -1,0 +1,684 @@
+[
+	{
+		"projectId": "geelooy-apps-styles-c794a9eb",
+		"path": "geelooy/apps/styles",
+		"type": "app",
+		"family": {
+			"id": "apps",
+			"title": "Applications"
+		},
+		"title": "geelooy/apps/styles",
+		"entries": [],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-styles-c794a9eb.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 5,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 5,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-apps-tests-427fc317",
+		"path": "geelooy/apps/tests",
+		"type": "app",
+		"family": {
+			"id": "apps",
+			"title": "Applications"
+		},
+		"title": "geelooy/apps/tests",
+		"entries": [],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-tests-427fc317.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 0,
+			"tests": 1,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 1,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-apps-transcribe-82ebd494",
+		"path": "geelooy/apps/transcribe",
+		"type": "app",
+		"family": {
+			"id": "apps",
+			"title": "Applications"
+		},
+		"title": "AssemblyAI Transcription",
+		"entries": [
+			"index.html"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-transcribe-82ebd494.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 2,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 2,
+		"symbolSummary": {
+			"files": 1,
+			"classes": 0,
+			"functions": 4,
+			"exports": 0,
+			"samples": [
+				"uploadAudio",
+				"requestTranscription",
+				"pollTranscription",
+				"displayTranscription"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/apps/transcribe",
+				"file": "geelooy/apps/transcribe/index.html",
+				"title": "AssemblyAI Transcription",
+				"scripts": 0,
+				"styles": 0
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-apps-tunnel-6deaa3a1",
+		"path": "geelooy/apps/tunnel",
+		"type": "app",
+		"family": {
+			"id": "apps",
+			"title": "Applications"
+		},
+		"title": "Awtsmoos Tunnel Console",
+		"entries": [
+			"index.html",
+			"DOCUMENTATION.md",
+			"README.md",
+			"readme.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-tunnel-6deaa3a1.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/apps/tunnel/DOCUMENTATION.md",
+				"documentId": "geelooy-apps-tunnel-documentation-md-5c553ce64b"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 1173,
+			"tests": 651,
+			"assets": 0,
+			"generated": 0,
+			"docs": 10,
+			"other": 26
+		},
+		"totalFiles": 1860,
+		"symbolSummary": {
+			"files": 1117,
+			"classes": 31,
+			"functions": 5223,
+			"exports": 4034,
+			"samples": [
+				"buildIdentity",
+				"canonicalString",
+				"sameRequest",
+				"sha256",
+				"sortValue",
+				"required",
+				"clean",
+				"failure",
+				"TERMINAL",
+				"TRANSITIONS",
+				"isTerminal",
+				"transition"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/scripts",
+				"count": 1,
+				"examples": "geelooy/apps/tunnel/agent/tools/fs/jsWriteVerifier.js"
+			},
+			{
+				"project": "geelooy/shared",
+				"count": 1,
+				"examples": "geelooy/apps/tunnel/js/browserPageTunnel.js"
+			},
+			{
+				"project": "scripts",
+				"count": 1,
+				"examples": "geelooy/apps/tunnel/agent/rebuild-manifest.cjs"
+			}
+		],
+		"incoming": [
+			{
+				"project": "geelooy/api/tunnel",
+				"count": 7,
+				"examples": "geelooy/api/tunnel/control/routes/osFs/virtualAiAgents.js; geelooy/api/tunnel/install/tools/zipSources.js"
+			},
+			{
+				"project": "geelooy/scripts",
+				"count": 5,
+				"examples": "geelooy/scripts/awtsmoos/MerkavaExecutor/.test-tunnel-directory-entry-env.cjs; geelooy/scripts/awtsmoos/MerkavaExecutor/.test-tunnel-simulate-runtime-helpers.cjs; geelooy/scripts/awtsmoos/MerkavaExecutor/.test-tunnel-simulate-runtime-url-puppeteer.cjs"
+			}
+		],
+		"externalDependencies": [
+			{
+				"dependency": "yaml",
+				"count": 2,
+				"examples": "geelooy/apps/tunnel/agent/tools/fs/projectValidation.js"
+			}
+		],
+		"publicEntries": [
+			{
+				"url": "/apps/tunnel",
+				"file": "geelooy/apps/tunnel/index.html",
+				"title": "Awtsmoos Tunnel Console",
+				"scripts": 1,
+				"styles": 1
+			},
+			{
+				"url": "/apps/tunnel/agent/tools/fs/testing/.tmp-all-actions-source-stress",
+				"file": "geelooy/apps/tunnel/agent/tools/fs/testing/.tmp-all-actions-source-stress/index.html",
+				"title": "",
+				"scripts": 0,
+				"styles": 0
+			},
+			{
+				"url": "/apps/tunnel/agent/tools/fs/testing/.tmp-connected-bulk-runtime-actors",
+				"file": "geelooy/apps/tunnel/agent/tools/fs/testing/.tmp-connected-bulk-runtime-actors/index.html",
+				"title": "",
+				"scripts": 1,
+				"styles": 1
+			},
+			{
+				"url": "/apps/tunnel/agent/tools/fs/testing/.tmp-connected-files-pagination-stress",
+				"file": "geelooy/apps/tunnel/agent/tools/fs/testing/.tmp-connected-files-pagination-stress/index.html",
+				"title": "",
+				"scripts": 1,
+				"styles": 1
+			},
+			{
+				"url": "/apps/tunnel/agent/tools/fs/testing/.tmp-connected-pagination",
+				"file": "geelooy/apps/tunnel/agent/tools/fs/testing/.tmp-connected-pagination/index.html",
+				"title": "",
+				"scripts": 1,
+				"styles": 1
+			},
+			{
+				"url": "/apps/tunnel/agent/tools/fs/testing/.tmp-runtime-actions-real",
+				"file": "geelooy/apps/tunnel/agent/tools/fs/testing/.tmp-runtime-actions-real/index.html",
+				"title": "",
+				"scripts": 1,
+				"styles": 0
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-apps-tunnel-control-86d0949a",
+		"path": "geelooy/apps/tunnel-control",
+		"type": "app",
+		"family": {
+			"id": "apps",
+			"title": "Applications"
+		},
+		"title": "Awtsmoos Tunnel Control",
+		"entries": [
+			"index.html",
+			"DOCUMENTATION.md",
+			"README.md",
+			"readme.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-tunnel-control-86d0949a.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/apps/tunnel-control/DOCUMENTATION.md",
+				"documentId": "geelooy-apps-tunnel-control-documentation-md-ffc8df0163"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 409,
+			"tests": 49,
+			"assets": 0,
+			"generated": 0,
+			"docs": 2,
+			"other": 5
+		},
+		"totalFiles": 465,
+		"symbolSummary": {
+			"files": 320,
+			"classes": 11,
+			"functions": 1375,
+			"exports": 675,
+			"samples": [
+				"TARGETS",
+				"regenerateDocument",
+				"regenerateTarget",
+				"renderScopeTail",
+				"run",
+				"async",
+				"detectLogin",
+				"me",
+				"device",
+				"myDevice",
+				"devices",
+				"activeDevice"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/shared",
+				"count": 2,
+				"examples": "geelooy/apps/tunnel-control/js/runtime/mesh/runtimeAdapters.js; geelooy/apps/tunnel-control/js/runtime/mesh/virtualFilesystem.js"
+			},
+			{
+				"project": "geelooy/api/tunnel",
+				"count": 1,
+				"examples": "geelooy/apps/tunnel-control/gpt/generate-oauth-scopes.cjs"
+			}
+		],
+		"incoming": [
+			{
+				"project": "geelooy/os",
+				"count": 3,
+				"examples": "geelooy/os/programs/connected-node-server/tunnelClient.js; geelooy/os/programs/peruta-usage/api.js"
+			}
+		],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/apps/tunnel-control",
+				"file": "geelooy/apps/tunnel-control/index.html",
+				"title": "Awtsmoos Tunnel Control",
+				"scripts": 1,
+				"styles": 1
+			},
+			{
+				"url": "/apps/tunnel-control/tests/activity-preview",
+				"file": "geelooy/apps/tunnel-control/tests/activity-preview/index.html",
+				"title": "Tunnel Activity Visual Proof",
+				"scripts": 1,
+				"styles": 1
+			},
+			{
+				"url": "/apps/tunnel-control/tests/device-security-preview",
+				"file": "geelooy/apps/tunnel-control/tests/device-security-preview/index.html",
+				"title": "Verified Device Security Preview",
+				"scripts": 1,
+				"styles": 1
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-apps-video-editor-0791e3fc",
+		"path": "geelooy/apps/video-editor",
+		"type": "app",
+		"family": {
+			"id": "apps",
+			"title": "Applications"
+		},
+		"title": "Awtsmoos Video Editor - Chapter 7 Revised",
+		"entries": [
+			"index.html"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-video-editor-0791e3fc.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 2,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 2,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/apps/video-editor",
+				"file": "geelooy/apps/video-editor/index.html",
+				"title": "Awtsmoos Video Editor - Chapter 7 Revised",
+				"scripts": 0,
+				"styles": 0
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-apps-virtual-os-stress-light-counter-1f69ac90",
+		"path": "geelooy/apps/virtual-os-stress-light-counter",
+		"type": "app",
+		"family": {
+			"id": "apps",
+			"title": "Applications"
+		},
+		"title": "Light Counter",
+		"entries": [
+			"index.html"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-virtual-os-stress-light-counter-1f69ac90.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 1,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 1,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/apps/virtual-os-stress-light-counter",
+				"file": "geelooy/apps/virtual-os-stress-light-counter/index.html",
+				"title": "Light Counter",
+				"scripts": 0,
+				"styles": 0
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-apps-wallet-fe2266bf",
+		"path": "geelooy/apps/wallet",
+		"type": "app",
+		"family": {
+			"id": "apps",
+			"title": "Applications"
+		},
+		"title": "Awtsmoos Wallet — Send, Buy & Own",
+		"entries": [
+			"index.html",
+			"main.js",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-wallet-fe2266bf.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/apps/wallet/DOCUMENTATION.md",
+				"documentId": "geelooy-apps-wallet-documentation-md-b9615d5703"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 33,
+			"tests": 1,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 35,
+		"symbolSummary": {
+			"files": 18,
+			"classes": 1,
+			"functions": 62,
+			"exports": 31,
+			"samples": [
+				"refreshWallet",
+				"beginCheckout",
+				"bootWallet",
+				"async",
+				"clearCheckoutQuery",
+				"processCheckoutReturn",
+				"startPayPalCheckout",
+				"decodeWalletResponse",
+				"getWalletJson",
+				"postWalletJson",
+				"networkFailure",
+				"renderCoins"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/apps/wallet",
+				"file": "geelooy/apps/wallet/index.html",
+				"title": "Awtsmoos Wallet — Send, Buy & Own",
+				"scripts": 1,
+				"styles": 1
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-apps-watermark-remover-f9935a2b",
+		"path": "geelooy/apps/watermark-remover",
+		"type": "app",
+		"family": {
+			"id": "apps",
+			"title": "Applications"
+		},
+		"title": "SVG Mask Alpha Brute-Force",
+		"entries": [
+			"index.html"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-watermark-remover-f9935a2b.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 1,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 1,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/apps/watermark-remover",
+				"file": "geelooy/apps/watermark-remover/index.html",
+				"title": "SVG Mask Alpha Brute-Force",
+				"scripts": 1,
+				"styles": 0
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-awtai-db-0b65315b",
+		"path": "geelooy/awtai-db",
+		"type": "public",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "AWTAI-DB GGUF Converter",
+		"entries": [
+			"index.html",
+			"app.js"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-awtai-db-0b65315b.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 3,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 3,
+		"symbolSummary": {
+			"files": 1,
+			"classes": 0,
+			"functions": 1,
+			"exports": 0,
+			"samples": [
+				"write"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/awtai-db",
+				"file": "geelooy/awtai-db/index.html",
+				"title": "AWTAI-DB GGUF Converter",
+				"scripts": 2,
+				"styles": 1
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	}
+]

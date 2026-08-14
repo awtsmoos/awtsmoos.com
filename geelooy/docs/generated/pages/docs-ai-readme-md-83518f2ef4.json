@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-ai-readme-md-83518f2ef4",
+	"title": "AI Discovery Guide",
+	"sourcePath": "docs/AI/README.md",
+	"category": "AI",
+	"provenance": "ai",
+	"headings": [
+		{
+			"level": 1,
+			"text": "AI Discovery Guide",
+			"anchor": "ai-discovery-guide"
+		},
+		{
+			"level": 2,
+			"text": "Navigation order",
+			"anchor": "navigation-order"
+		},
+		{
+			"level": 2,
+			"text": "Project records",
+			"anchor": "project-records"
+		},
+		{
+			"level": 2,
+			"text": "API tutorial records",
+			"anchor": "api-tutorial-records"
+		},
+		{
+			"level": 2,
+			"text": "Public /docs/ discovery",
+			"anchor": "public-docs-discovery"
+		},
+		{
+			"level": 2,
+			"text": "Evidence rules",
+			"anchor": "evidence-rules"
+		},
+		{
+			"level": 2,
+			"text": "Commands",
+			"anchor": "commands"
+		}
+	],
+	"markdownParts": [
+		"content/docs-ai-readme-md-83518f2ef4-001.json"
+	]
+}

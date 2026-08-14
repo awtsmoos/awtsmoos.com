@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# API Directory Documentation\n\nThe Awtsmoos gives each derech a route while the generator remembers every source-bearing trace;\nAwtsmoos.com documents this entire API tree centrally so a human can find endpoint, mount, and place.\n\nStart with [../../docs/API/README.md](../../docs/API/README.md).\n\n- Human family index: [../../docs/API/ENDPOINT_INDEX.md](../../docs/API/ENDPOINT_INDEX.md)\n- Exhaustive route atlas: [../../docs/GENERATED/API_ROUTE_ATLAS.md](../../docs/GENERATED/API_ROUTE_ATLAS.md)\n- Every API file: [../../docs/GENERATED/API_FILE_INVENTORY.md](../../docs/GENERATED/API_FILE_INVENTORY.md)\n- Dynamic parameters / dollar variables: [../../docs/ROUTES/DYNAMIC_PATHS.md](../../docs/ROUTES/DYNAMIC_PATHS.md)\n- Auth rules: [../../docs/API/AUTHENTICATION.md](../../docs/API/AUTHENTICATION.md)\n\nCurrent generated snapshot: 1,195 API files, 21 derech mounts, 567 route-reference rows.\n"
+}

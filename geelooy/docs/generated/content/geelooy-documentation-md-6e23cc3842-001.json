@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Geelooy Documentation Map\n\nThe Awtsmoos makes this public root a city of pages, APIs, apps, games, and shared light;\nAwtsmoos.com keeps the full human map in `../docs/` so a traveler can choose the right site.\n\nStart with [../docs/START_HERE.md](../docs/START_HERE.md).\n\n- Directory map: [../docs/DIRECTORY_ATLAS.md](../docs/DIRECTORY_ATLAS.md)\n- Public URLs: [../docs/ROUTES/PUBLIC_ROUTES.md](../docs/ROUTES/PUBLIC_ROUTES.md)\n- APIs: [../docs/API/README.md](../docs/API/README.md)\n- Apps: [../docs/APPS/README.md](../docs/APPS/README.md)\n- Cross-cutting systems: [../docs/SYSTEMS/README.md](../docs/SYSTEMS/README.md)\n\n`geelooy` is the server's default public root (`config.public || \"geelooy\"`).\n"
+}

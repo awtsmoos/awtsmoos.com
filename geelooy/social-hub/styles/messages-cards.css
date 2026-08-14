@@ -1,0 +1,78 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets accepted rooms, pending consent, friends, and blocks remain distinct and touchable inside the private communications chamber.
+*/
+.hubMessageCard,
+.hubRequestCard {
+	display: grid;
+	gap: .55rem;
+	padding: .8rem;
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	background: var(--surface-strong);
+}
+
+.hubMessageOpen {
+	display: grid;
+	gap: .28rem;
+	width: 100%;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	color: var(--ink);
+	font: inherit;
+	text-align: left;
+	cursor: pointer;
+}
+
+.hubMessageOpen span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.hubRequestActions {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: .5rem;
+}
+
+.hubRequestActions button {
+	min-height: 2.75rem;
+	border: 1px solid var(--line-hot);
+	border-radius: .75rem;
+	background: var(--surface-strong);
+	color: var(--ink);
+	font: inherit;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+#hubMessagesRelationships {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+#hubMessagesRelationships h3 {
+	flex-basis: 100%;
+}
+
+.hubRelationshipChip {
+	padding: .35rem .6rem;
+	border: 1px solid var(--line-hot);
+	border-radius: 999px;
+	font-size: .8rem;
+}
+
+.hubRelationshipChip.is-blocked {
+	opacity: .68;
+}
+
+@media (max-width: 42rem) {
+	.hubMessageOpen,
+	.hubRequestActions button {
+		min-height: 3rem;
+	}
+}

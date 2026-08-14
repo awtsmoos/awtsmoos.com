@@ -1,0 +1,212 @@
+[
+	{
+		"mount": "/api",
+		"title": "API Root",
+		"manual": "docs/TUTORIALS/API/ROOT_API.md",
+		"summary": "Root-level dynamic route demonstrations and compatibility paths.",
+		"routeCount": 3,
+		"dynamicCount": 3,
+		"unknownMethodCount": 3,
+		"health": "OK"
+	},
+	{
+		"mount": "/api/admin",
+		"title": "Admin",
+		"manual": "docs/TUTORIALS/API/ADMIN.md",
+		"summary": "Authenticated administration and repository-control surfaces.",
+		"routeCount": 1,
+		"dynamicCount": 0,
+		"unknownMethodCount": 1,
+		"health": "OK"
+	},
+	{
+		"mount": "/api/compiler",
+		"title": "Compiler",
+		"manual": "docs/TUTORIALS/API/COMPILER.md",
+		"summary": "Authenticated compiler discovery, native builds, and Android packaging.",
+		"routeCount": 3,
+		"dynamicCount": 0,
+		"unknownMethodCount": 3,
+		"health": "OK"
+	},
+	{
+		"mount": "/api/contact",
+		"title": "Contact",
+		"manual": "docs/TUTORIALS/API/CONTACT.md",
+		"summary": "Public contact-signal validation, mail delivery, and optional persistence.",
+		"routeCount": 2,
+		"dynamicCount": 0,
+		"unknownMethodCount": 0,
+		"health": "OK"
+	},
+	{
+		"mount": "/api/email",
+		"title": "Email",
+		"manual": "docs/TUTORIALS/API/EMAIL.md",
+		"summary": "Email façade joined to the Social mail route family.",
+		"routeCount": 2,
+		"dynamicCount": 0,
+		"unknownMethodCount": 2,
+		"health": "OK"
+	},
+	{
+		"mount": "/api/fetch",
+		"title": "Fetch Proxy",
+		"manual": "docs/TUTORIALS/API/FETCH.md",
+		"summary": "Authenticated, origin-gated, rate-limited remote fetching.",
+		"routeCount": 1,
+		"dynamicCount": 0,
+		"unknownMethodCount": 1,
+		"health": "OK"
+	},
+	{
+		"mount": "/api/gpt",
+		"title": "GPT",
+		"manual": "docs/TUTORIALS/API/GPT.md",
+		"summary": "Browser-relay health, capability, chat, reset, and legacy prompt access.",
+		"routeCount": 5,
+		"dynamicCount": 0,
+		"unknownMethodCount": 5,
+		"health": "OK"
+	},
+	{
+		"mount": "/api/oauth",
+		"title": "OAuth",
+		"manual": "docs/TUTORIALS/API/OAUTH.md",
+		"summary": "Awtsmoos OAuth authorization, clients, identity, start, and token flow.",
+		"routeCount": 8,
+		"dynamicCount": 1,
+		"unknownMethodCount": 8,
+		"health": "OK"
+	},
+	{
+		"mount": "/api/ohr-hagnuz",
+		"title": "Ohr HaGnuz",
+		"manual": "docs/TUTORIALS/API/OHR_HAGNUZ.md",
+		"summary": "Realtime admission ticket issuance for Ohr HaGnuz.",
+		"routeCount": 1,
+		"dynamicCount": 0,
+		"unknownMethodCount": 1,
+		"health": "OK"
+	},
+	{
+		"mount": "/api/public",
+		"title": "Public",
+		"manual": "docs/TUTORIALS/API/PUBLIC.md",
+		"summary": "Small public dynamic API surface beneath the shared API root.",
+		"routeCount": 1,
+		"dynamicCount": 0,
+		"unknownMethodCount": 1,
+		"health": "OK"
+	},
+	{
+		"mount": "/api/runtime",
+		"title": "Native Runtime",
+		"manual": "docs/TUTORIALS/API/RUNTIME.md",
+		"summary": "Authenticated generic native capability, launch, status, and stop operations.",
+		"routeCount": 4,
+		"dynamicCount": 0,
+		"unknownMethodCount": 4,
+		"health": "OK"
+	},
+	{
+		"mount": "/api/sefarim",
+		"title": "Sefarim",
+		"manual": "docs/TUTORIALS/API/SEFARIM.md",
+		"summary": "DosDB-backed sefer, section, and subsection reading.",
+		"routeCount": 4,
+		"dynamicCount": 3,
+		"unknownMethodCount": 4,
+		"health": "OK"
+	},
+	{
+		"mount": "/api/social",
+		"title": "Social",
+		"manual": "docs/TUTORIALS/API/SOCIAL.md",
+		"summary": "Identity, aliases, Heichelos, content, series, comments, governance, search, mail, drive, and more.",
+		"routeCount": 423,
+		"dynamicCount": 305,
+		"unknownMethodCount": 227,
+		"health": "OK"
+	},
+	{
+		"mount": "/api/ssh",
+		"title": "SSH",
+		"manual": "docs/TUTORIALS/API/SSH.md",
+		"summary": "SSH API mount whose current literal-route extractor sees no child route rows.",
+		"routeCount": 0,
+		"dynamicCount": 0,
+		"unknownMethodCount": 0,
+		"health": "no extracted rows"
+	},
+	{
+		"mount": "/api/streaming",
+		"title": "Streaming",
+		"manual": "docs/TUTORIALS/API/STREAMING.md",
+		"summary": "Connector/action dispatch for supported streaming providers.",
+		"routeCount": 4,
+		"dynamicCount": 2,
+		"unknownMethodCount": 4,
+		"health": "OK"
+	},
+	{
+		"mount": "/api/text",
+		"title": "Text Jobs",
+		"manual": "docs/TUTORIALS/API/TEXT.md",
+		"summary": "Timestamped text-job paths currently shadowed by a known derech syntax failure.",
+		"routeCount": 2,
+		"dynamicCount": 2,
+		"unknownMethodCount": 2,
+		"health": "FAIL"
+	},
+	{
+		"mount": "/api/tunnel",
+		"title": "Tunnel Relay",
+		"manual": "docs/TUTORIALS/API/TUNNEL.md",
+		"summary": "Account-authorized HTTP and filesystem relay into connected tunnels.",
+		"routeCount": 2,
+		"dynamicCount": 2,
+		"unknownMethodCount": 2,
+		"health": "OK"
+	},
+	{
+		"mount": "/api/tunnel/control",
+		"title": "Tunnel Control",
+		"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+		"summary": "Large authenticated control plane for agents, missions, rooms, keys, previews, and operations.",
+		"routeCount": 79,
+		"dynamicCount": 14,
+		"unknownMethodCount": 79,
+		"health": "OK"
+	},
+	{
+		"mount": "/api/tunnel/install",
+		"title": "Tunnel Install",
+		"manual": "docs/TUTORIALS/API/TUNNEL_INSTALL.md",
+		"summary": "Installer mount whose current literal-route extractor sees no child route rows.",
+		"routeCount": 0,
+		"dynamicCount": 0,
+		"unknownMethodCount": 0,
+		"health": "no extracted rows"
+	},
+	{
+		"mount": "/api/wallet",
+		"title": "Wallet",
+		"manual": "docs/TUTORIALS/API/WALLET.md",
+		"summary": "Balance, commerce catalog, entitlements, purchase, mock buy, and PayPal flows.",
+		"routeCount": 10,
+		"dynamicCount": 0,
+		"unknownMethodCount": 10,
+		"health": "OK"
+	},
+	{
+		"mount": "/api/youtube",
+		"title": "YouTube",
+		"manual": "docs/TUTORIALS/API/YOUTUBE.md",
+		"summary": "Google/YouTube auth, channel/video/upload, and live-stream operations.",
+		"routeCount": 22,
+		"dynamicCount": 3,
+		"unknownMethodCount": 22,
+		"health": "OK"
+	}
+]

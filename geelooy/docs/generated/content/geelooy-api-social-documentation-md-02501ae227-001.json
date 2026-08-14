@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Social API Documentation\n\nThe Awtsmoos gives aliases, posts, comments, Heichelos, follows, signals, drive, graph, and search one vast backend domain;\nAwtsmoos.com maps its routes, auth, callers, methods, and storage so a maintainer does not enter this forest without a plan.\n\nRead [../../../docs/API/SOCIAL.md](../../../docs/API/SOCIAL.md), [../../../docs/SYSTEMS/SOCIAL_AND_HEICHEL.md](../../../docs/SYSTEMS/SOCIAL_AND_HEICHEL.md), and [../../../docs/API/METHODS.md](../../../docs/API/METHODS.md).\n\nCallers: [../../../docs/GENERATED/API_CALLER_INDEX.md](../../../docs/GENERATED/API_CALLER_INDEX.md).\n"
+}

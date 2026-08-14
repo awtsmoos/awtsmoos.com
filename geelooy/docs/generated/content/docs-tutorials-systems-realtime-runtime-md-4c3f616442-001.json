@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Tutorial: Realtime Runtime\n\nAwtsmoos WebSocket traffic is application-routed rather than merely “HTTP over a socket.”\n\n## Layers\n\nWebSocket upgrade → trusted client identity/admission → realtime platform → application registry/version → application message routing.\n\n## Specialized systems\n\nMission Rooms enforce ticket/current-authority/protocol admission. Tunnel Relay manages account-bound registrations, generations, replacement/fencing, acknowledgements, and request lifecycle.\n\n## Evidence\n\nUse generated application/event indexes for discovery, then read the named application source. Event strings alone do not prove payload schemas.\n\nRead `docs/WEBSOCKETS/README.md`, `MISSION_ROOMS.md`, and `TUNNEL_RELAY.md`.\n"
+}

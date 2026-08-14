@@ -1,0 +1,257 @@
+[
+	{
+		"id": "docs-data-awtsmoosdb-and-virtualfs-md-2fceab7631",
+		"title": "AwtsmoosDB, VirtualFs, and Legacy Compatibility",
+		"sourcePath": "docs/DATA/AWTSMOOSDB_AND_VIRTUALFS.md",
+		"category": "Data",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "AwtsmoosDB, VirtualFs, and Legacy Compatibility",
+				"anchor": "awtsmoosdb-virtualfs-and-legacy-compatibility"
+			},
+			{
+				"level": 2,
+				"text": "Modern AwtsmoosDB",
+				"anchor": "modern-awtsmoosdb"
+			},
+			{
+				"level": 2,
+				"text": "File-format detection",
+				"anchor": "file-format-detection"
+			},
+			{
+				"level": 2,
+				"text": "Virtual filesystem families",
+				"anchor": "virtual-filesystem-families"
+			},
+			{
+				"level": 2,
+				"text": "Parallel binary database",
+				"anchor": "parallel-binary-database"
+			},
+			{
+				"level": 2,
+				"text": "Compatibility principle",
+				"anchor": "compatibility-principle"
+			},
+			{
+				"level": 2,
+				"text": "Do not flatten the layers",
+				"anchor": "do-not-flatten-the-layers"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He AwtsmoosDB, VirtualFs, and Legacy Compatibility The Awtsmoos renews old and new storage vessels in the same instant; Awtsmoos.com therefore detects what a file actually is before assuming its extension tells the whole story. Modern AwtsmoosDB ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/ cont",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoosdb, virtualfs, and legacy compatibility the awtsmoos renews old and new storage vessels in the same instant; awtsmoos.com therefore detects what a file actually is before assuming its extension tells the whole story. modern awtsmoosdb ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/ contains the modern binary database implementation. the dosdb filesystem adapter can open an awtsmoosdb and use its fs surface as a virtualfs style store for selected logical families. the adapter distinguishes shared writable handles from read only handles. read only handles can be cached against a file seal derived from size and modification time. mutations invalidate related read caches and can close stale read only handles. file format detection the adapter does not trust .fs.awtsdb as proof of a modern superblock. it reads the leading bytes and treats magic such as aj or aa as old awtsmoosbinaryjson style content. this compatibility gate exists because historical packed social files may wear a modern looking extension while containing an older object format. opening such a legacy file as a modern allocator would be unsafe. the adapter therefore routes modern files through db.fs. and legacy raw objects through legacy awtsmoosbinaryjson readers/writers. virtual filesystem families the inspected adapter constructs specialized family database filenames for a heichel's comments, posts and series. it can also derive more granular comment shards for a series and post. logical path matching determines which storage family is eligible. parallel binary database awtsmoosdbbridge.js exposes createawtsmoosdb / awtsmoosdb as a separate lazy facility. its source explicitly describes use for ai search, vector memory, graph experiments and future migration. merely requiring dosdb does not open this database. relative parallel db paths can resolve beside an owning dosdb root. callers may request automatic opening and optional attachment of the owning dosdb instance. compatibility principle filename, extension, logical path and storage generation are separate facts. before changing any bridge: 1. identify actual binary magic/format; 2. identify logical family routing; 3. identify legacy fallback expectations; 4. identify read/write cache behavior; 5. test historical files as well as modern fixtures; 6. document migration and rollback behavior. do not flatten the layers dosdb, awtsmoosbinaryjson, awtsmoosdb, virtualfs and social packed shards are related but not interchangeable names. human docs should state which layer a feature uses; generated symbol/dependency indexes help locate implementation, but they do not determine storage authority by themselves.",
+		"page": "pages/docs-data-awtsmoosdb-and-virtualfs-md-2fceab7631.json"
+	},
+	{
+		"id": "docs-data-dosdb-md-fe0d8600a5",
+		"title": "DosDB Architecture",
+		"sourcePath": "docs/DATA/DOSDB.md",
+		"category": "Data",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "DosDB Architecture",
+				"anchor": "dosdb-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Core role",
+				"anchor": "core-role"
+			},
+			{
+				"level": 2,
+				"text": "Read behavior",
+				"anchor": "read-behavior"
+			},
+			{
+				"level": 2,
+				"text": "Routed modern storage and legacy fallback",
+				"anchor": "routed-modern-storage-and-legacy-fallback"
+			},
+			{
+				"level": 2,
+				"text": "AwtsmoosBinaryJSON sidecars",
+				"anchor": "awtsmoosbinaryjson-sidecars"
+			},
+			{
+				"level": 2,
+				"text": "Runtime read guard",
+				"anchor": "runtime-read-guard"
+			},
+			{
+				"level": 2,
+				"text": "Migration-sensitive behavior",
+				"anchor": "migration-sensitive-behavior"
+			},
+			{
+				"level": 2,
+				"text": "Source entry points",
+				"anchor": "source-entry-points"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He DosDB Architecture The Awtsmoos renews old and new vessels together; Awtsmoos.com currently uses DosDB as a compatibility/routing layer rather than one simple storage format. Core role ayzarim/DosDB/index.js constructs DosDB, binds method bags for writes, reads, paths, arrays, directorie",
+		"searchText": "b\"h boruch hashem blessed is he dosdb architecture the awtsmoos renews old and new vessels together; awtsmoos.com currently uses dosdb as a compatibility/routing layer rather than one simple storage format. core role ayzarim/dosdb/index.js constructs dosdb, binds method bags for writes, reads, paths, arrays, directories, objects and firebase like operations, then installs awtsmoosdbfsrouter to decide whether a logical operation should use modern routed storage or the legacy implementation. read behavior the inspected source keeps a process level final logical read cache. repeated reads of the same database root, operation, logical id and options can reuse the same promise. failed cached reads remove themselves from the cache. mutations clear the final read cache. routed modern storage and legacy fallback for operations such as get, read, write, delete, rename, key access and object/array synchronization, the wrapper can ask awtsmoosdbfsrouter first and fall back to bound legacy methods when the routed layer has no applicable result. a compatibility check can compare routed and legacy collections. the source deliberately avoids assuming that every .fs.awtsdb named file is a modern virtualfs database. awtsmoosbinaryjson sidecars for some logical arrays, dosdb checks a sibling .awtsmoosjson path and reads it with awtsmoosbinaryjson when the file carries a recognized binary object format. social comment paths have special exclusions so their newer routing semantics are not overwritten by a generic sidecar shortcut. runtime read guard runtimereadguard.js wraps parsebinarydata so a null/undefined parser result becomes {} for legacy callers that expect an object. the source explicitly states that this guard changes no database bytes and does not swallow real errors. migration sensitive behavior the following are persistence contracts: legacy method fallback; modern routed storage eligibility; file magic detection; .awtsmoosjson sidecar interpretation; social packed family/shard paths; cache invalidation on mutation; read only/shared handle behavior; serialization format selection. change them only with compatibility tests and explicit migration documentation. source entry points ayzarim/dosdb/index.js — main compatibility wrapper. awtsmoosdbfsadapter.js — modern virtualfs/legacy file routing. awtsmoosdbbridge.js — lazy parallel awtsmoosdb. runtimereadguard.js — null safe runtime reader contract. methods/ — legacy logical operation implementations. awtsmoosbinary/ — binary storage/parsing systems.",
+		"page": "pages/docs-data-dosdb-md-fe0d8600a5.json"
+	},
+	{
+		"id": "docs-data-path-contracts-md-410c759055",
+		"title": "Persistent Path Contracts",
+		"sourcePath": "docs/DATA/PATH_CONTRACTS.md",
+		"category": "Data",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Persistent Path Contracts",
+				"anchor": "persistent-path-contracts"
+			},
+			{
+				"level": 2,
+				"text": "Why paths matter",
+				"anchor": "why-paths-matter"
+			},
+			{
+				"level": 2,
+				"text": "Main database root",
+				"anchor": "main-database-root"
+			},
+			{
+				"level": 2,
+				"text": "Social packed families",
+				"anchor": "social-packed-families"
+			},
+			{
+				"level": 2,
+				"text": "Legacy sidecars",
+				"anchor": "legacy-sidecars"
+			},
+			{
+				"level": 2,
+				"text": "System paths",
+				"anchor": "system-paths"
+			},
+			{
+				"level": 2,
+				"text": "Migration checklist",
+				"anchor": "migration-checklist"
+			},
+			{
+				"level": 2,
+				"text": "Never infer safety from a route rename",
+				"anchor": "never-infer-safety-from-a-route-rename"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Persistent Path Contracts The Awtsmoos renews every logical path while Awtsmoos.com must remember that a stored path can become part of a public behavior contract long before anyone calls it an API. Why paths matter DosDB and related adapters derive files, shards and collections from log",
+		"searchText": "b\"h boruch hashem blessed is he persistent path contracts the awtsmoos renews every logical path while awtsmoos.com must remember that a stored path can become part of a public behavior contract long before anyone calls it an api. why paths matter dosdb and related adapters derive files, shards and collections from logical ids. social, contact, jobs, search/index systems, provider state and other domains can encode ownership and query structure into path names. changing such strings can make old data unreachable even when the javascript still parses and tests against empty fixtures pass. main database root the server selects one root and publishes it as process.awtsmoosdbpath. relative logical paths are then interpreted within that root or routed to specialized storage adapters. social packed families the inspected virtualfs adapter derives modern packed files under socialpacked/ for a heichel: comments: social.heichel. .comments.fs.awtsdb posts: social.heichel. .posts.fs.awtsdb series: social.heichel. .series.fs.awtsdb comments can also use series/post shard filenames derived from series/post ids. these names are implementation evidence from current source, not a promise that every historical deployment uses only this layout. legacy sidecars some logical values can be read from a sibling .awtsmoosjson sidecar. a filename extension alone does not prove the underlying binary generation; code also inspects format/magic and has compatibility exclusions for social comment paths. system paths runtime subsystems can use reserved looking roots such as / system/.... earlier dynamic server inspection showed job queue material under / system/jobs/taskqueue. treat such paths as internal protocol/state contracts rather than ordinary user content. migration checklist before changing a persisted path: 1. search all readers and writers for the old logical path or naming pattern. 2. search tests and repair/migration tools. 3. identify whether legacy and modern storage coexist. 4. define old data discovery and rollback behavior. 5. decide whether migration is eager, lazy, dual read, dual write or compatibility fallback. 6. test on representative historical files, not only newly generated fixtures. 7. document the new path and the compatibility window. 8. update source to doc and project/data manuals. never infer safety from a route rename an http/api route and a db path can have different compatibility timelines. renaming a public route does not imply persisted paths should move; moving persisted paths does not require renaming the public route. treat each as an independent contract unless the architecture explicitly couples them.",
+		"page": "pages/docs-data-path-contracts-md-410c759055.json"
+	},
+	{
+		"id": "docs-data-readme-md-833c12b983",
+		"title": "Data and Persistence Guide",
+		"sourcePath": "docs/DATA/README.md",
+		"category": "Data",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Data and Persistence Guide",
+				"anchor": "data-and-persistence-guide"
+			},
+			{
+				"level": 2,
+				"text": "Main runtime database",
+				"anchor": "main-runtime-database"
+			},
+			{
+				"level": 2,
+				"text": "Database-root precedence",
+				"anchor": "database-root-precedence"
+			},
+			{
+				"level": 2,
+				"text": "Persistence families",
+				"anchor": "persistence-families"
+			},
+			{
+				"level": 3,
+				"text": "Legacy DosDB filesystem tree",
+				"anchor": "legacy-dosdb-filesystem-tree"
+			},
+			{
+				"level": 3,
+				"text": "AwtsmoosBinaryJSON",
+				"anchor": "awtsmoosbinaryjson"
+			},
+			{
+				"level": 3,
+				"text": "AwtsmoosDB / VirtualFs",
+				"anchor": "awtsmoosdb-virtualfs"
+			},
+			{
+				"level": 3,
+				"text": "Parallel AwtsmoosDB",
+				"anchor": "parallel-awtsmoosdb"
+			},
+			{
+				"level": 2,
+				"text": "Social packed storage",
+				"anchor": "social-packed-storage"
+			},
+			{
+				"level": 2,
+				"text": "Data change rule",
+				"anchor": "data-change-rule"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Data and Persistence Guide The Awtsmoos renews every stored letter while Awtsmoos.com carries several generations of persistence vessels whose compatibility must remain explicit. Main runtime database The dynamic server resolves a database root, publishes it as process.awtsmoosDbPath, co",
+		"searchText": "b\"h boruch hashem blessed is he data and persistence guide the awtsmoos renews every stored letter while awtsmoos.com carries several generations of persistence vessels whose compatibility must remain explicit. main runtime database the dynamic server resolves a database root, publishes it as process.awtsmoosdbpath, constructs dosdb, awaits initialization, and shares that database with runtime systems. read dosdb.md for the compatibility architecture and path contracts.md before changing persisted paths. database root precedence the inspected runtime resolves the root in this order: 1. awtsmoos db root or awts db root environment variable. 2. ignored machine local .awtsmoos.config.local.json using dbpath, databaseroot, or awtsmoos db root. 3. tracked server configuration dbpath. 4. repository relative fallback. home relative and ${home} values are expanded when a home environment value exists. persistence families legacy dosdb filesystem tree dosdb remains a filesystem backed key/value tree with method bags for reads, writes, arrays, objects, paths, directories and firebase like helpers. awtsmoosbinaryjson binary json/object formats are still part of compatibility paths, including .awtsmoosjson sidecars and old packed files whose leading magic identifies them as legacy object vessels rather than modern databases. awtsmoosdb / virtualfs modern .awtsdb storage can be opened through awtsmoosdb and virtualfs. a router allows selected dosdb logical paths to use this storage while preserving legacy fallback. parallel awtsmoosdb awtsmoosdbbridge.js exposes a lazy, parallel awtsmoosdb intended for ai search, vector memory, graph experiments and future migration work without forcing the production dosdb layout to change. social packed storage the filesystem adapter contains explicit routing for heichel comments, posts and series under socialpacked/, including separate comment shards. these filenames and logical paths are migration contracts, not incidental implementation strings. data change rule changing a persisted path, serialization format, shard layout, binary magic interpretation, cache invalidation rule or fallback order is a migration/runtime compatibility change. document old and new forms, test both when coexistence matters, and never treat a file rename as a purely cosmetic refactor.",
+		"page": "pages/docs-data-readme-md-833c12b983.json"
+	},
+	{
+		"id": "docs-development-adding-a-project-md-0af8bcf1db",
+		"title": "Adding a Project or Major Directory",
+		"sourcePath": "docs/DEVELOPMENT/ADDING_A_PROJECT.md",
+		"category": "Development",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Adding a Project or Major Directory",
+				"anchor": "adding-a-project-or-major-directory"
+			},
+			{
+				"level": 2,
+				"text": "When something is a project boundary",
+				"anchor": "when-something-is-a-project-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Required steps",
+				"anchor": "required-steps"
+			},
+			{
+				"level": 2,
+				"text": "Local documentation should answer",
+				"anchor": "local-documentation-should-answer"
+			},
+			{
+				"level": 2,
+				"text": "Canonical-versus-alias rule",
+				"anchor": "canonical-versus-alias-rule"
+			},
+			{
+				"level": 2,
+				"text": "AI discovery",
+				"anchor": "ai-discovery"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Adding a Project or Major Directory The Awtsmoos lets a new vessel appear within Awtsmoos.com, but discoverability requires more than creating a folder. When something is a project boundary A project deserves first class documentation when it has a distinct user purpose, runtime responsi",
+		"searchText": "b\"h boruch hashem blessed is he adding a project or major directory the awtsmoos lets a new vessel appear within awtsmoos.com, but discoverability requires more than creating a folder. when something is a project boundary a project deserves first class documentation when it has a distinct user purpose, runtime responsibility, api family, data domain, test surface, deployment/operations role, or architectural ownership. a helper folder, generated artifact, evidence directory or symlink alias does not automatically deserve a project identity. required steps 1. choose a clear canonical source root. 2. add entry files appropriate to the project: html, runtime/module entry, package metadata or derech mount. 3. create a local documentation.md for a meaningful boundary. 4. link the local guide to a central human manual under docs/. 5. add tests or identify the owning test suite. 6. regenerate with node scripts/docs/generate docs.js. 7. confirm the project appears in project atlas.md and the ai project indexes. 8. confirm file classification and project type are sensible; improve generator logic if the project is misclassified. local documentation should answer what is this project for? what are its entry files? what public urls/api families/realtime apps belong to it? what shared systems does it depend on? what data does it persist? what trust boundaries apply? which tests prove it? which central manual explains deeper architecture? canonical versus alias rule if a root path is only a symlink or compatibility alias, document the target rather than pretending two independent implementations exist. docs/generated/symlinks.md is the mechanical evidence layer for this distinction. ai discovery per project json is generated automatically under docs/ai/projects/. do not hand edit it. improve the human docs or generator classification, then regenerate.",
+		"page": "pages/docs-development-adding-a-project-md-0af8bcf1db.json"
+	}
+]

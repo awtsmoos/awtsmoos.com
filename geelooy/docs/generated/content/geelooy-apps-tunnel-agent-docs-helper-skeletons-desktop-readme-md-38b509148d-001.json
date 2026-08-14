@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\n\n# Desktop Remote Helper Skeleton\n\nVisible screen capture and optional input helper. It must show a persistent indicator and panic stop.\n\nPlatform seams:\n- macOS: ScreenCaptureKit + Screen Recording permission.\n- Windows: Windows Graphics Capture.\n- Linux: PipeWire portal.\n\nInput relay remains separate from capture and requires explicit mouse/keyboard grants.\n"
+}

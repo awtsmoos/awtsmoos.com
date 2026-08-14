@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-0ba4422283",
+	"title": "PERSISTENCEAUDIT",
+	"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0055_master-animation-completion/PERSISTENCE_AUDIT.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "PERSISTENCEAUDIT",
+			"anchor": "persistenceaudit"
+		},
+		{
+			"level": 2,
+			"text": "Persisted authored data",
+			"anchor": "persisted-authored-data"
+		},
+		{
+			"level": 2,
+			"text": "Restoration evidence",
+			"anchor": "restoration-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Excluded transient data",
+			"anchor": "excluded-transient-data"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-0ba4422283-001.json"
+	]
+}

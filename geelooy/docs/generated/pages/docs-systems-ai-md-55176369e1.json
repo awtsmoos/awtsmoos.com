@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-systems-ai-md-55176369e1",
+	"title": "AI Systems",
+	"sourcePath": "docs/SYSTEMS/AI.md",
+	"category": "Systems",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "AI Systems",
+			"anchor": "ai-systems"
+		},
+		{
+			"level": 2,
+			"text": "Browser AI",
+			"anchor": "browser-ai"
+		},
+		{
+			"level": 2,
+			"text": "GPT API",
+			"anchor": "gpt-api"
+		},
+		{
+			"level": 2,
+			"text": "Local/GGUF tools",
+			"anchor": "local-gguf-tools"
+		},
+		{
+			"level": 2,
+			"text": "Developer AI",
+			"anchor": "developer-ai"
+		},
+		{
+			"level": 2,
+			"text": "Credentials/models",
+			"anchor": "credentials-models"
+		},
+		{
+			"level": 2,
+			"text": "Testing",
+			"anchor": "testing"
+		}
+	],
+	"markdownParts": [
+		"content/docs-systems-ai-md-55176369e1-001.json"
+	]
+}

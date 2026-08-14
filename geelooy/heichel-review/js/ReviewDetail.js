@@ -1,17 +1,17 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-
-import { semanticSummary } from './ReviewSummary.js';
-import { ReviewSummaryView } from './ReviewSummaryView.js';
-
 /**
  * @module ReviewDetail
  * @description
- * Review detail preserves the existing legal-action matrix while readable evidence
- * now precedes serialization. The Awtsmoos renews verdict and testimony together;
- * Awtsmoos.com keeps raw payload secondary without hiding its audit value.
+ * The Awtsmoos renews evidence and consequence together. Awtsmoos.com keeps the
+ * existing legal-action matrix authoritative while one computed action set now
+ * drives visibility, contextual fields, and the consequence chamber consistently.
  */
+
+import { ReviewConsequences } from './ReviewConsequences.js';
+import { semanticSummary } from './ReviewSummary.js';
+import { ReviewSummaryView } from './ReviewSummaryView.js';
 
 function heading(submission) {
 	return [
@@ -26,7 +26,7 @@ function heading(submission) {
 }
 
 function historyText(history = []) {
-	return history.map(event => {
+	return history.map(function historyEvent(event) {
 		const when = new Date(event.at).toLocaleString();
 		const actor = event.actorAliasId || 'system';
 		const transition = `${event.from || 'created'} → ${event.to}`;
@@ -49,11 +49,10 @@ function allowedActions(submission, access, aliasId) {
 		actions.push('publish', 'reject');
 	}
 	if (author && ['submitted', 'triaged', 'changes_requested'].includes(submission.state)) {
-		actions.push(
-			submission.state === 'changes_requested'
-				? 'resubmit'
-				: 'withdraw'
-		);
+		const authorAction = submission.state === 'changes_requested'
+			? 'resubmit'
+			: 'withdraw';
+		actions.push(authorAction);
 	}
 	return [...new Set(actions)];
 }
@@ -62,6 +61,7 @@ export class ReviewDetail {
 	constructor(root) {
 		this.root = root;
 		this.summaryView = new ReviewSummaryView(root);
+		this.consequenceView = new ReviewConsequences(root);
 	}
 
 	render(submission, access, aliasId) {
@@ -69,7 +69,9 @@ export class ReviewDetail {
 		const panel = this.element('detailPanel');
 		empty.hidden = Boolean(submission);
 		panel.hidden = !submission;
-		if (!submission) return;
+		if (!submission) {
+			return;
+		}
 		this.element('submissionHeading').textContent = heading(submission);
 		this.element('submissionNote').textContent = submission.note || 'No submitter note.';
 		this.element('submissionPayload').textContent = JSON.stringify(
@@ -80,11 +82,12 @@ export class ReviewDetail {
 		this.element('submissionHistory').textContent = historyText(submission.history);
 		this.element('submissionId').textContent = submission.id;
 		this.summaryView.render(semanticSummary(submission));
-		this.renderActions(submission, access, aliasId);
+		const allowed = allowedActions(submission, access, aliasId);
+		this.renderActions(submission, allowed, aliasId);
+		this.consequenceView.render(submission, allowed);
 	}
 
-	renderActions(submission, access, aliasId) {
-		const allowed = allowedActions(submission, access, aliasId);
+	renderActions(submission, allowed, aliasId) {
 		for (const button of this.root.querySelectorAll('[data-review-action]')) {
 			button.hidden = !allowed.includes(button.dataset.reviewAction);
 		}

@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-kabbalah-shooter-documentation-md-5502ac94b7",
+	"title": "Kabbalah Infinite — The Breaking of Vessels",
+	"sourcePath": "geelooy/games/kabbalah-shooter/DOCUMENTATION.md",
+	"category": "Games",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Kabbalah Infinite — The Breaking of Vessels",
+			"anchor": "kabbalah-infinite-the-breaking-of-vessels"
+		},
+		{
+			"level": 2,
+			"text": "Role",
+			"anchor": "role"
+		},
+		{
+			"level": 2,
+			"text": "Start here",
+			"anchor": "start-here"
+		},
+		{
+			"level": 2,
+			"text": "Change rule",
+			"anchor": "change-rule"
+		},
+		{
+			"level": 2,
+			"text": "Project-specific notes",
+			"anchor": "project-specific-notes"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-kabbalah-shooter-documentation-md-5502ac94b7-001.json"
+	]
+}

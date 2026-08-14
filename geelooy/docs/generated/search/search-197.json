@@ -1,0 +1,388 @@
+[
+	{
+		"id": "docs-learn-api-requests-101-md-30ca4256fb",
+		"title": "API Requests 101",
+		"sourcePath": "docs/LEARN/API_REQUESTS_101.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Requests 101",
+				"anchor": "api-requests-101"
+			},
+			{
+				"level": 2,
+				"text": "What you will learn",
+				"anchor": "what-you-will-learn"
+			},
+			{
+				"level": 2,
+				"text": "Common vessels",
+				"anchor": "common-vessels"
+			},
+			{
+				"level": 2,
+				"text": "Method warning",
+				"anchor": "method-warning"
+			},
+			{
+				"level": 2,
+				"text": "Starter workflow",
+				"anchor": "starter-workflow"
+			},
+			{
+				"level": 2,
+				"text": "Examples",
+				"anchor": "examples"
+			},
+			{
+				"level": 2,
+				"text": "Next",
+				"anchor": "next"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Requests 101 What you will learn How Awtsmoos handlers receive path variables, query/body/delete vessels, headers, cookies, trusted identity, and shared database context. Common vessels route variables are values bound from :name / :path patterns; $ GET is query oriented input eviden",
+		"searchText": "b\"h boruch hashem blessed is he api requests 101 what you will learn how awtsmoos handlers receive path variables, query/body/delete vessels, headers, cookies, trusted identity, and shared database context. common vessels route variables are values bound from :name / :path patterns; $ get is query oriented input evidence; $ post is parsed post/body oriented input evidence; $ delete appears in delete oriented handlers; $i is the broader dynamic request/context vessel; headers/cookies remain separate transport evidence; $i.db and related context can expose the initialized dosdb instance; trusted user/account identity comes from server auth, not browser owner fields. method warning generated route tutorials show source file lexical method evidence. a large route factory may contain several methods, while a particular route delegates to deeper handlers. unknown does not mean get. starter workflow 1. find the route in docs/generated/api tutorial index.md. 2. open its generated tutorial. 3. check derech health and method confidence. 4. read the exact source handler. 5. identify authorization and resource ownership. 6. only then construct body/query data. examples generated curl/fetch skeletons are emitted only when method evidence exists, and they deliberately use empty placeholder payloads rather than inventing schemas. next authentication 101 and responses 101.",
+		"page": "pages/docs-learn-api-requests-101-md-30ca4256fb.json"
+	},
+	{
+		"id": "docs-learn-authentication-101-md-12645e54df",
+		"title": "Authentication 101",
+		"sourcePath": "docs/LEARN/AUTHENTICATION_101.md",
+		"category": "Security",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Authentication 101",
+				"anchor": "authentication-101"
+			},
+			{
+				"level": 2,
+				"text": "What you will learn",
+				"anchor": "what-you-will-learn"
+			},
+			{
+				"level": 2,
+				"text": "Identity sources observed",
+				"anchor": "identity-sources-observed"
+			},
+			{
+				"level": 2,
+				"text": "Social API keys",
+				"anchor": "social-api-keys"
+			},
+			{
+				"level": 2,
+				"text": "Tunnel Control",
+				"anchor": "tunnel-control"
+			},
+			{
+				"level": 2,
+				"text": "Resource authorization",
+				"anchor": "resource-authorization"
+			},
+			{
+				"level": 2,
+				"text": "Other gates",
+				"anchor": "other-gates"
+			},
+			{
+				"level": 2,
+				"text": "Safe question sequence",
+				"anchor": "safe-question-sequence"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Authentication 101 What you will learn Why identity, authorization, ownership, origin policy, scopes, and realtime admission are separate questions. Identity sources observed signed server session state; verified Social API key evidence; OAuth bearer evidence; Tunnel Control API key evid",
+		"searchText": "b\"h boruch hashem blessed is he authentication 101 what you will learn why identity, authorization, ownership, origin policy, scopes, and realtime admission are separate questions. identity sources observed signed server session state; verified social api key evidence; oauth bearer evidence; tunnel control api key evidence; special privileged identity checks on selected administrative routes. social api keys social accepts key material through supported input/header/bearer forms. the raw secret is shown when created; sha 256 hash and metadata are persisted for verification/revocation. tunnel control core/auth.js treats oauth bearer, verified api key, or signed session state as authoritative. browser fields such as owner or userid do not become identity merely because a client sends them. resource authorization login is not enough for many social operations. heichel ownership/editor/member/moderation checks can gate writes after identity is established. other gates fetch checks authenticated state plus an awtsmoos origin condition and limits. /api/admin/code is a privileged execution surface. realtime mission rooms use origin/ticket/current authority/version admission before handshake. safe question sequence who are you? → what scope/role do you hold? → do you own/control this resource? → does transport/origin policy allow this request? → does current handler permit this method? see api authentication and security.",
+		"page": "pages/docs-learn-authentication-101-md-12645e54df.json"
+	},
+	{
+		"id": "docs-learn-content-platform-101-md-13e0c94c11",
+		"title": "Content Platform 101",
+		"sourcePath": "docs/LEARN/CONTENT_PLATFORM_101.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Content Platform 101",
+				"anchor": "content-platform-101"
+			},
+			{
+				"level": 2,
+				"text": "What you will learn",
+				"anchor": "what-you-will-learn"
+			},
+			{
+				"level": 2,
+				"text": "Core hierarchy",
+				"anchor": "core-hierarchy"
+			},
+			{
+				"level": 2,
+				"text": "Canonical and compatibility layers",
+				"anchor": "canonical-and-compatibility-layers"
+			},
+			{
+				"level": 2,
+				"text": "Trust",
+				"anchor": "trust"
+			},
+			{
+				"level": 2,
+				"text": "Beyond CRUD",
+				"anchor": "beyond-crud"
+			},
+			{
+				"level": 2,
+				"text": "Next",
+				"anchor": "next"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Content Platform 101 What you will learn How Social identity, Heichel spaces, posts/questions/answers, series, comments, governance, search, mail, notifications, and drive fit together. Core hierarchy A user can own aliases. An alias is the Social facing identity. A Heichel is a governed",
+		"searchText": "b\"h boruch hashem blessed is he content platform 101 what you will learn how social identity, heichel spaces, posts/questions/answers, series, comments, governance, search, mail, notifications, and drive fit together. core hierarchy a user can own aliases. an alias is the social facing identity. a heichel is a governed content/community space. heichel content includes posts/questions/answers and can be organized through series. comments/replies attach to content and subsection/verse surfaces. governance decides who can edit, submit, moderate, approve, or publish. canonical and compatibility layers the social api contains both newer /content/... paths and many compatibility routes under /heichelos/.... series/post code intentionally preserves old path shapes while richer entity/content models evolve beside them. trust server session/api key identity is established first. resource authorization—owner/editor/member/moderation roles—is checked separately by content handlers. beyond crud social also contains profiles, follows, feeds, search/rag, graph/object apis, drive, mail, notifications, media, moderation, migrations, unified social adapters, and live/realtime features. next start social content model, then heichel/posts/series/comments/governance tutorials.",
+		"page": "pages/docs-learn-content-platform-101-md-13e0c94c11.json"
+	},
+	{
+		"id": "docs-learn-database-101-md-52f95ba46f",
+		"title": "Database 101",
+		"sourcePath": "docs/LEARN/DATABASE_101.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Database 101",
+				"anchor": "database-101"
+			},
+			{
+				"level": 2,
+				"text": "What you will learn",
+				"anchor": "what-you-will-learn"
+			},
+			{
+				"level": 2,
+				"text": "Main initialization",
+				"anchor": "main-initialization"
+			},
+			{
+				"level": 2,
+				"text": "Root precedence",
+				"anchor": "root-precedence"
+			},
+			{
+				"level": 2,
+				"text": "Why paths matter",
+				"anchor": "why-paths-matter"
+			},
+			{
+				"level": 2,
+				"text": "Safe workflow",
+				"anchor": "safe-workflow"
+			},
+			{
+				"level": 2,
+				"text": "Evidence",
+				"anchor": "evidence"
+			},
+			{
+				"level": 2,
+				"text": "Never infer",
+				"anchor": "never-infer"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Database 101 What you will learn How the server establishes DosDB, why persisted paths are compatibility contracts, and how route code receives shared database context. Main initialization ayzarim/awtsmoosDynamicServer/server/initDb.js selects the DB root and stores the initialized DosDB",
+		"searchText": "b\"h boruch hashem blessed is he database 101 what you will learn how the server establishes dosdb, why persisted paths are compatibility contracts, and how route code receives shared database context. main initialization ayzarim/awtsmoosdynamicserver/server/initdb.js selects the db root and stores the initialized dosdb on shared runtime context. root precedence current documented precedence is environment override → machine local ignored config → tracked config → repository fallback. inspect the initializer before relying on exact variable/file names. why paths matter social, sefarim, contact signals, identity/account state, and many older systems encode behavior in path shapes. renaming a path can be a migration, not a refactor. safe workflow 1. find every reader and writer of the path. 2. check legacy/new storage adapters. 3. find migration scripts/tests. 4. decide compatibility/fallback order. 5. back up or snapshot before mutation tooling. 6. update docs when persisted contracts change. evidence use docs/data/, docs/systems/database and storage.md, generated dependency/project indexes, and the exact route source. never infer an environment name mentioning db does not necessarily control the main dosdb instance; generator classification is advisory.",
+		"page": "pages/docs-learn-database-101-md-52f95ba46f.json"
+	},
+	{
+		"id": "docs-learn-http-routing-101-md-8c0aeafff5",
+		"title": "HTTP Routing 101",
+		"sourcePath": "docs/LEARN/HTTP_ROUTING_101.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "HTTP Routing 101",
+				"anchor": "http-routing-101"
+			},
+			{
+				"level": 2,
+				"text": "What you will learn",
+				"anchor": "what-you-will-learn"
+			},
+			{
+				"level": 2,
+				"text": "Derech discovery",
+				"anchor": "derech-discovery"
+			},
+			{
+				"level": 2,
+				"text": "Matching grammar",
+				"anchor": "matching-grammar"
+			},
+			{
+				"level": 2,
+				"text": "Request flow",
+				"anchor": "request-flow"
+			},
+			{
+				"level": 2,
+				"text": "Evidence versus runtime",
+				"anchor": "evidence-versus-runtime"
+			},
+			{
+				"level": 2,
+				"text": "Try a trace",
+				"anchor": "try-a-trace"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He HTTP Routing 101 What you will learn How URLs meet awtsmoos.derech.js, how path variables work, and why generated route evidence can differ from runtime availability. Derech discovery The dynamic server walks ancestor directories looking for awtsmoos.derech.js. A derech can therefore own",
+		"searchText": "b\"h boruch hashem blessed is he http routing 101 what you will learn how urls meet awtsmoos.derech.js, how path variables work, and why generated route evidence can differ from runtime availability. derech discovery the dynamic server walks ancestor directories looking for awtsmoos.derech.js. a derech can therefore own nested source paths without each folder having its own mount file. matching grammar exact segment: /api/gpt/health variable: :name terminal catch all: :path dollar prefixed names such as $i, $ get, and $ post are request/context vessels, not url syntax. request flow 1. normalize the path. 2. locate the owning derech by ancestor discovery. 3. match route forms. 4. bind dynamic segment values. 5. invoke the owning route/handler logic. 6. if no dynamic route handles the request, continue toward static behavior. evidence versus runtime docs/generated/api route atlas.md is source derived. docs/generated/derech health.md tells whether each derech currently parses. text routes remain visible even though the text derech currently fails syntax checking. try a trace use trace a request with one route from api tutorial index.",
+		"page": "pages/docs-learn-http-routing-101-md-8c0aeafff5.json"
+	},
+	{
+		"id": "docs-learn-readme-md-ece31d9925",
+		"title": "Learn Awtsmoos.com",
+		"sourcePath": "docs/LEARN/README.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Learn Awtsmoos.com",
+				"anchor": "learn-awtsmoos-com"
+			},
+			{
+				"level": 2,
+				"text": "Choose a track",
+				"anchor": "choose-a-track"
+			},
+			{
+				"level": 3,
+				"text": "Foundation",
+				"anchor": "foundation"
+			},
+			{
+				"level": 3,
+				"text": "Runtime builder",
+				"anchor": "runtime-builder"
+			},
+			{
+				"level": 3,
+				"text": "Content builder",
+				"anchor": "content-builder"
+			},
+			{
+				"level": 3,
+				"text": "AI investigator",
+				"anchor": "ai-investigator"
+			},
+			{
+				"level": 2,
+				"text": "Exhaustive reference beneath the lessons",
+				"anchor": "exhaustive-reference-beneath-the-lessons"
+			},
+			{
+				"level": 2,
+				"text": "Learning rule",
+				"anchor": "learning-rule"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Learn Awtsmoos.com The Awtsmoos lets a vast repository become a curriculum: begin with meaning, descend into generated evidence, and finish at current source and tests. Choose a track Foundation 1. Repository 101 2. Server Lifecycle 101 3. HTTP Routing 101 4. API Requests 101 5. Authenti",
+		"searchText": "b\"h boruch hashem blessed is he learn awtsmoos.com the awtsmoos lets a vast repository become a curriculum: begin with meaning, descend into generated evidence, and finish at current source and tests. choose a track foundation 1. repository 101 2. server lifecycle 101 3. http routing 101 4. api requests 101 5. authentication 101 6. responses 101 runtime builder database 101 websockets 101 trace a request add an api route troubleshoot apis content builder content platform 101 social content tutorials ai investigator ai agent discovery ai tutorial manifest exhaustive reference beneath the lessons generated api tutorial index contains one generated teaching page for every currently discovered api route. generated method/caller/test data is evidence, not an openapi promise. learning rule human tutorial → generated route tutorial → exact source → callers/tests → runtime verification. never reverse that order into guesswork.",
+		"page": "pages/docs-learn-readme-md-ece31d9925.json"
+	},
+	{
+		"id": "docs-learn-repository-101-md-307bb47a2f",
+		"title": "Repository 101",
+		"sourcePath": "docs/LEARN/REPOSITORY_101.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Repository 101",
+				"anchor": "repository-101"
+			},
+			{
+				"level": 2,
+				"text": "What you will learn",
+				"anchor": "what-you-will-learn"
+			},
+			{
+				"level": 2,
+				"text": "Mental model",
+				"anchor": "mental-model"
+			},
+			{
+				"level": 2,
+				"text": "Walk it in this order",
+				"anchor": "walk-it-in-this-order"
+			},
+			{
+				"level": 2,
+				"text": "Important distinctions",
+				"anchor": "important-distinctions"
+			},
+			{
+				"level": 2,
+				"text": "Verify it yourself",
+				"anchor": "verify-it-yourself"
+			},
+			{
+				"level": 2,
+				"text": "Next",
+				"anchor": "next"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Repository 101 What you will learn Where public products, APIs, runtime infrastructure, persistence, automation, tests, and documentation live. Mental model geelooy/ is the default public root. ayzarim/ holds server/runtime infrastructure. Root index.js boots HTTP, WebSocket, SMTP, and d",
+		"searchText": "b\"h boruch hashem blessed is he repository 101 what you will learn where public products, apis, runtime infrastructure, persistence, automation, tests, and documentation live. mental model geelooy/ is the default public root. ayzarim/ holds server/runtime infrastructure. root index.js boots http, websocket, smtp, and direct mitzvah world handlers. support roots such as scripts/, tools/, tests/, ops/, and templates/ surround product code. walk it in this order 1. read docs/architecture.md. 2. use docs/generated/project atlas.md to locate project boundaries. 3. open the nearest local documentation.md. 4. use /docs/ for search and deep links. 5. inspect source/tests before changing behavior. important distinctions directory size does not prove product ownership. root aliases/symlinks are not duplicate implementations. geelooy/api/ is filesystem source; http behavior depends on ancestor derech discovery. generated evidence is intentionally volatile and regenerated. verify it yourself next server lifecycle 101 then http routing 101.",
+		"page": "pages/docs-learn-repository-101-md-307bb47a2f.json"
+	},
+	{
+		"id": "docs-learn-responses-101-md-0ac6af8676",
+		"title": "Responses 101",
+		"sourcePath": "docs/LEARN/RESPONSES_101.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Responses 101",
+				"anchor": "responses-101"
+			},
+			{
+				"level": 2,
+				"text": "What you will learn",
+				"anchor": "what-you-will-learn"
+			},
+			{
+				"level": 2,
+				"text": "Observed response families",
+				"anchor": "observed-response-families"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Calling discipline",
+				"anchor": "calling-discipline"
+			},
+			{
+				"level": 2,
+				"text": "Common mistakes",
+				"anchor": "common-mistakes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Responses 101 What you will learn How to reason about Awtsmoos responses without inventing a universal JSON schema. Observed response families JSON like values returned by dynamic handlers; explicit status code changes; response header changes; binary/file/download behavior; streaming re",
+		"searchText": "b\"h boruch hashem blessed is he responses 101 what you will learn how to reason about awtsmoos responses without inventing a universal json schema. observed response families json like values returned by dynamic handlers; explicit status code changes; response header changes; binary/file/download behavior; streaming responses; websocket upgrade handshakes. generated evidence every route tutorial joins source level status and header literals when present. absence means no lexical evidence was found , not “always 200 json.” calling discipline 1. inspect the exact handler return value. 2. inspect any statuscode changes. 3. inspect explicit setheader behavior. 4. determine whether the body is json, text, bytes, stream, redirect, or upgrade. 5. read tests/callers for usage examples. common mistakes parsing every successful response as json; assuming 404 means filesystem absence rather than route/resource logic; treating cors headers as proof of anonymous authorization; assuming a generated status list is exhaustive runtime behavior. see api response patterns.",
+		"page": "pages/docs-learn-responses-101-md-0ac6af8676.json"
+	}
+]

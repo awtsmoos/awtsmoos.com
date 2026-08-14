@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\n# Binary Route TODO\n\nToday:\n- `streamingHlsSegmentPush` accepts base64 JSON.\n- This is easy for browser clients but adds size overhead.\n\nNext optimization:\n- Add raw binary route in local API only:\n  `POST /streaming/hls-segment/:sessionId/:name`\n- Headers:\n  - `x-awtsmoos-duration`\n  - `x-awtsmoos-index`\n  - `content-type: video/mp2t`\n- The handler should call the same HLS session functions, not duplicate logic.\n\nThis keeps platform media bytes local while avoiding base64 overhead for long streams.\n"
+}

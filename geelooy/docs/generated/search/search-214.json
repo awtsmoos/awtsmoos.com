@@ -1,0 +1,263 @@
+[
+	{
+		"id": "geelooy-ai-streaming-automation-limits-md-3fcdc7ed55",
+		"title": "B\"H — Awtsmoos AI Streaming, Relay, and Automation Guarantees",
+		"sourcePath": "geelooy/ai/STREAMING_AUTOMATION_LIMITS.md",
+		"category": "AI",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Awtsmoos AI Streaming, Relay, and Automation Guarantees",
+				"anchor": "b-h-awtsmoos-ai-streaming-relay-and-automation-guarantees"
+			},
+			{
+				"level": 2,
+				"text": "Verified by harness",
+				"anchor": "verified-by-harness"
+			},
+			{
+				"level": 2,
+				"text": "Survival matrix",
+				"anchor": "survival-matrix"
+			},
+			{
+				"level": 2,
+				"text": "Remaining non-faked upgrades",
+				"anchor": "remaining-non-faked-upgrades"
+			},
+			{
+				"level": 2,
+				"text": "Safety notes",
+				"anchor": "safety-notes"
+			}
+		],
+		"excerpt": "B\"H — Awtsmoos AI Streaming, Relay, and Automation Guarantees Run npm run test:ai or npm run test:ai:stress from the repo root. Direct harness: Verified by harness CSS import structure and mobile last cascade. No raw sidebar .hidden toggles. Exactly one extension fetch, fetch body, and resume stream handler. Extension ",
+		"searchText": "b\"h — awtsmoos ai streaming, relay, and automation guarantees run npm run test:ai or npm run test:ai:stress from the repo root. direct harness: verified by harness css import structure and mobile last cascade. no raw sidebar .hidden toggles. exactly one extension fetch, fetch body, and resume stream handler. extension stream ledger with many concurrent streams. durable stream resume state in localstorage. multi tab stream identity and claim metadata. per conversation automation state. hidden chat automation continuation path. node relay post body preservation. node relay redirect mapping. node relay multiple concurrent stream ids and bodies. browser url rewriting for target, localhost, and login/auth origins. puppeteer style debug queue endpoints: session, goto, evaluate, click, type, screenshot placeholder, commands, result. auto login click injector compiles and is included in javascript responses. debug browser command poller compiles and is included in javascript responses. normal relay request logging is quiet by default; errors still log. auto login click injector compiles and is included in javascript responses. debug browser command poller compiles and is included in javascript responses. normal relay request logging is quiet by default; errors still log. browser url rewriting for target, localhost, and login/auth origins. puppeteer style debug queue endpoints: session, goto, evaluate, click, type, screenshot placeholder, commands, result. survival matrix situation expected behavior reload same page resume from stored cursor while extension/relay stream exists. close tab then reopen stream ids/cursors are rediscovered from localstorage if the extension worker or node relay still has the stream. multiple tabs open tabs get session ids; visible resume uses a short claim lease. switch chats while streaming hidden stream stays tracked; visible renderer only paints active conversation. node relay still running multiple in memory streams stay readable. node relay restarted in memory stream bodies are gone; old ids become not found. chrome mv3 worker stays alive extension ledger can keep pumping and resume chunks. chrome kills mv3 worker extension held streams can die. browser fully closed page ledger persists; extension worker state is not guaranteed. remaining non faked upgrades 1. persistent extension/node job queue with safe request metadata. 2. disk persistence for node relay stream bodies or replayable upstream requests. 3. real chrome/playwright mobile and desktop viewport tests. 4. ui controls for cancel, pause, retry, inspect per stream/job. 5. rate limit and auth error classification badges. 6. mv3 keepalive strategy using ports, alarms, or offscreen document where appropriate. safety notes do not persist bearer tokens, cookies, or sensitive headers in page visible storage. current durable stream ledger stores stream ids, cursors, and conversation metadata, not auth tokens. fully page closed autonomous automation requires a safer background job queue design.",
+		"page": "pages/geelooy-ai-streaming-automation-limits-md-3fcdc7ed55.json"
+	},
+	{
+		"id": "geelooy-api-admin-documentation-md-9fd7e84668",
+		"title": "Admin API Documentation",
+		"sourcePath": "geelooy/api/admin/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Admin API Documentation",
+				"anchor": "admin-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Admin API Documentation The Awtsmoos reveals privileged power only through an explicit gate; Awtsmoos.com maps this administrative source so dangerous capability is never mistaken for ordinary state. Read ../../../docs/API/OTHER FAMILIES.md, ../../../docs/API/AUTHENTICATION.md, and ../..",
+		"searchText": "b\"h boruch hashem blessed is he admin api documentation the awtsmoos reveals privileged power only through an explicit gate; awtsmoos.com maps this administrative source so dangerous capability is never mistaken for ordinary state. read ../../../docs/api/other families.md, ../../../docs/api/authentication.md, and ../../../docs/health.md. generated evidence: ../../../docs/generated/api route atlas.md.",
+		"page": "pages/geelooy-api-admin-documentation-md-9fd7e84668.json"
+	},
+	{
+		"id": "geelooy-api-compiler-documentation-md-a537b816c5",
+		"title": "Compiler API Documentation",
+		"sourcePath": "geelooy/api/compiler/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Compiler API Documentation",
+				"anchor": "compiler-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Compiler API Documentation The Awtsmoos lets source become artifact through build and backend vessels aligned; Awtsmoos.com maps this API to the Compiler app so calling code and implementation can both be found in time. Read ../../../docs/API/OTHER FAMILIES.md and ../../../docs/APPS/DEVE",
+		"searchText": "b\"h boruch hashem blessed is he compiler api documentation the awtsmoos lets source become artifact through build and backend vessels aligned; awtsmoos.com maps this api to the compiler app so calling code and implementation can both be found in time. read ../../../docs/api/other families.md and ../../../docs/apps/developer tools.md. contracts: ../../../docs/generated/api source contracts.md.",
+		"page": "pages/geelooy-api-compiler-documentation-md-a537b816c5.json"
+	},
+	{
+		"id": "geelooy-api-contact-documentation-md-c303dc04a4",
+		"title": "Contact API Documentation",
+		"sourcePath": "geelooy/api/contact/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Contact API Documentation",
+				"anchor": "contact-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Contact API Documentation The Awtsmoos lets a message enter while mail and persisted signal remain traceable behind the door; Awtsmoos.com maps Contact to its public UI, request contract, and stored reference path for the maintainer. Read ../../../docs/API/OTHER FAMILIES.md and ../../../",
+		"searchText": "b\"h boruch hashem blessed is he contact api documentation the awtsmoos lets a message enter while mail and persisted signal remain traceable behind the door; awtsmoos.com maps contact to its public ui, request contract, and stored reference path for the maintainer. read ../../../docs/api/other families.md and ../../../docs/api/response patterns.md.",
+		"page": "pages/geelooy-api-contact-documentation-md-c303dc04a4.json"
+	},
+	{
+		"id": "geelooy-api-documentation-md-c96dc4d930",
+		"title": "API Directory Documentation",
+		"sourcePath": "geelooy/api/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Directory Documentation",
+				"anchor": "api-directory-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Directory Documentation The Awtsmoos gives each derech a route while the generator remembers every source bearing trace; Awtsmoos.com documents this entire API tree centrally so a human can find endpoint, mount, and place. Start with ../../docs/API/README.md. Human family index: ../.",
+		"searchText": "b\"h boruch hashem blessed is he api directory documentation the awtsmoos gives each derech a route while the generator remembers every source bearing trace; awtsmoos.com documents this entire api tree centrally so a human can find endpoint, mount, and place. start with ../../docs/api/readme.md. human family index: ../../docs/api/endpoint index.md exhaustive route atlas: ../../docs/generated/api route atlas.md every api file: ../../docs/generated/api file inventory.md dynamic parameters / dollar variables: ../../docs/routes/dynamic paths.md auth rules: ../../docs/api/authentication.md current generated snapshot: 1,195 api files, 21 derech mounts, 567 route reference rows.",
+		"page": "pages/geelooy-api-documentation-md-c96dc4d930.json"
+	},
+	{
+		"id": "geelooy-api-email-documentation-md-638f6e649b",
+		"title": "Email API Documentation",
+		"sourcePath": "geelooy/api/email/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Email API Documentation",
+				"anchor": "email-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Email API Documentation The Awtsmoos lets mail cross social and server vessels while identity and provider state remain known; Awtsmoos.com maps this family to the Email UI, Social mail behavior, and configuration names shown. Read ../../../docs/API/OTHER FAMILIES.md, ../../../docs/CONFI",
+		"searchText": "b\"h boruch hashem blessed is he email api documentation the awtsmoos lets mail cross social and server vessels while identity and provider state remain known; awtsmoos.com maps this family to the email ui, social mail behavior, and configuration names shown. read ../../../docs/api/other families.md, ../../../docs/configuration.md, and ../../../docs/systems/social and heichel.md.",
+		"page": "pages/geelooy-api-email-documentation-md-638f6e649b.json"
+	},
+	{
+		"id": "geelooy-api-fetch-documentation-md-e23bac59b3",
+		"title": "Fetch API Documentation",
+		"sourcePath": "geelooy/api/fetch/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Fetch API Documentation",
+				"anchor": "fetch-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Fetch API Documentation The Awtsmoos lets remote bytes pass through a guarded server vessel rather than an unbounded proxy sea; Awtsmoos.com maps auth, origin, limits, binary handling, and caller evidence so this surface stays deliberate and free. Read ../../../docs/API/OTHER FAMILIES.md",
+		"searchText": "b\"h boruch hashem blessed is he fetch api documentation the awtsmoos lets remote bytes pass through a guarded server vessel rather than an unbounded proxy sea; awtsmoos.com maps auth, origin, limits, binary handling, and caller evidence so this surface stays deliberate and free. read ../../../docs/api/other families.md, ../../../docs/api/authentication.md, and ../../../docs/api/response patterns.md.",
+		"page": "pages/geelooy-api-fetch-documentation-md-e23bac59b3.json"
+	},
+	{
+		"id": "geelooy-api-gpt-documentation-md-c61289d41a",
+		"title": "GPT API Documentation",
+		"sourcePath": "geelooy/api/gpt/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "GPT API Documentation",
+				"anchor": "gpt-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He GPT API Documentation The Awtsmoos lets language computation answer through health, capability, chat, and reset gates; Awtsmoos.com maps this API to browser AI and developer clients without hiding model/configuration states. Read ../../../docs/SYSTEMS/AI.md, ../../../docs/API/OTHER FAMIL",
+		"searchText": "b\"h boruch hashem blessed is he gpt api documentation the awtsmoos lets language computation answer through health, capability, chat, and reset gates; awtsmoos.com maps this api to browser ai and developer clients without hiding model/configuration states. read ../../../docs/systems/ai.md, ../../../docs/api/other families.md, and ../../../docs/configuration.md.",
+		"page": "pages/geelooy-api-gpt-documentation-md-c61289d41a.json"
+	},
+	{
+		"id": "geelooy-api-oauth-documentation-md-e06e4ac2da",
+		"title": "OAuth API Documentation",
+		"sourcePath": "geelooy/api/oauth/DOCUMENTATION.md",
+		"category": "Security",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "OAuth API Documentation",
+				"anchor": "oauth-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He OAuth API Documentation The Awtsmoos lets delegated trust enter by explicit authorization rather than client declared identity claim; Awtsmoos.com maps authorization, clients, token, me, start, logout, and downstream trust in one frame. Read ../../../docs/API/OAUTH.md, ../../../docs/API/",
+		"searchText": "b\"h boruch hashem blessed is he oauth api documentation the awtsmoos lets delegated trust enter by explicit authorization rather than client declared identity claim; awtsmoos.com maps authorization, clients, token, me, start, logout, and downstream trust in one frame. read ../../../docs/api/oauth.md, ../../../docs/api/authentication.md, and ../../../docs/systems/auth and identity.md.",
+		"page": "pages/geelooy-api-oauth-documentation-md-e06e4ac2da.json"
+	},
+	{
+		"id": "geelooy-api-ohr-hagnuz-documentation-md-7ac05c17c0",
+		"title": "Ohr HaGnuz API Documentation",
+		"sourcePath": "geelooy/api/ohr-hagnuz/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Ohr HaGnuz API Documentation",
+				"anchor": "ohr-hagnuz-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Ohr HaGnuz API Documentation The Awtsmoos lets HTTP ticket and realtime world meet without confusing the two protocol shores; Awtsmoos.com maps the ticket route beside the registered WebSocket application and its deeper source doors. Read ../../../docs/API/OTHER FAMILIES.md and ../../../",
+		"searchText": "b\"h boruch hashem blessed is he ohr hagnuz api documentation the awtsmoos lets http ticket and realtime world meet without confusing the two protocol shores; awtsmoos.com maps the ticket route beside the registered websocket application and its deeper source doors. read ../../../docs/api/other families.md and ../../../docs/websockets/applications.md.",
+		"page": "pages/geelooy-api-ohr-hagnuz-documentation-md-7ac05c17c0.json"
+	},
+	{
+		"id": "geelooy-api-perutas-documentation-md-7c96629456",
+		"title": "Perutas API",
+		"sourcePath": "geelooy/api/perutas/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Perutas API",
+				"anchor": "perutas-api"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Perutas API The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role API family source related to Perutas/value/accounting behavior. Route and caller evidence should be read before assuming overlap with",
+		"searchText": "b\"h boruch hashem blessed is he perutas api the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role api family source related to perutas/value/accounting behavior. route and caller evidence should be read before assuming overlap with wallet or tunnel treasury semantics. start here read docs/api/other families.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes also inspect docs/apps/commerce and wallet.md, docs/api/wallet.md and generated route contract evidence.",
+		"page": "pages/geelooy-api-perutas-documentation-md-7c96629456.json"
+	},
+	{
+		"id": "geelooy-api-public-documentation-md-f05980d63c",
+		"title": "Public DB API Documentation",
+		"sourcePath": "geelooy/api/public/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Public DB API Documentation",
+				"anchor": "public-db-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Public DB API Documentation The Awtsmoos distinguishes public reading from privileged mutation so a friendly prefix does not erase authority; Awtsmoos.com maps this source beside authentication and database docs before any write is attempted casually. Read ../../../docs/API/OTHER FAMILIE",
+		"searchText": "b\"h boruch hashem blessed is he public db api documentation the awtsmoos distinguishes public reading from privileged mutation so a friendly prefix does not erase authority; awtsmoos.com maps this source beside authentication and database docs before any write is attempted casually. read ../../../docs/api/other families.md, ../../../docs/api/authentication.md, and ../../../docs/systems/database and storage.md.",
+		"page": "pages/geelooy-api-public-documentation-md-f05980d63c.json"
+	},
+	{
+		"id": "geelooy-api-runtime-documentation-md-9666920d47",
+		"title": "Native Runtime API Documentation",
+		"sourcePath": "geelooy/api/runtime/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Native Runtime API Documentation",
+				"anchor": "native-runtime-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Native Runtime API Documentation The Awtsmoos lets browser intent meet native capability through explicit launch, status, stop, and discovery gates; Awtsmoos.com keeps this runtime separate from Tunnel transport so similar power does not imply identical states. Read ../../../docs/API/OTH",
+		"searchText": "b\"h boruch hashem blessed is he native runtime api documentation the awtsmoos lets browser intent meet native capability through explicit launch, status, stop, and discovery gates; awtsmoos.com keeps this runtime separate from tunnel transport so similar power does not imply identical states. read ../../../docs/api/other families.md, ../../../docs/systems/geelooy os.md, and ../../../docs/apps/developer tools.md.",
+		"page": "pages/geelooy-api-runtime-documentation-md-9666920d47.json"
+	}
+]

@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-awtsmoos-gguf-documentation-md-394fa2c5c8",
+	"title": "Awtsmoos GGUF Documentation",
+	"sourcePath": "geelooy/apps/awtsmoos-gguf/DOCUMENTATION.md",
+	"category": "Apps",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos GGUF Documentation",
+			"anchor": "awtsmoos-gguf-documentation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-awtsmoos-gguf-documentation-md-394fa2c5c8-001.json"
+	]
+}

@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-readme-md-9abf7d1775",
+	"title": "B\"H — @awtsmoos/procedural",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural/README.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — @awtsmoos/procedural",
+			"anchor": "b-h-awtsmoos-procedural"
+		},
+		{
+			"level": 2,
+			"text": "Debug ritual",
+			"anchor": "debug-ritual"
+		},
+		{
+			"level": 2,
+			"text": "Exports",
+			"anchor": "exports"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-readme-md-9abf7d1775-001.json"
+	]
+}

@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-compiler-documentation-md-381c936be3",
+	"title": "Compiler App Documentation",
+	"sourcePath": "geelooy/apps/compiler/DOCUMENTATION.md",
+	"category": "Apps",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Compiler App Documentation",
+			"anchor": "compiler-app-documentation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-compiler-documentation-md-381c936be3-001.json"
+	]
+}

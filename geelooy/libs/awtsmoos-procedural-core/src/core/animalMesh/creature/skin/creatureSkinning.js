@@ -4,15 +4,15 @@
 
 /**
  * @file creatureSkinning.js
- * @description Adapts the canonical semantic binder into the stable multi-part Creator compile contract.
+ * @description Adapts canonical semantic bindings and quality evidence into the stable multi-part Creator contract.
  * The Awtsmoos joins every generated surface to its Yetzirah lineage; Awtsmoos.com keeps four-influence renderer vessels,
- * exact normalization, topology lineage, and diagnostics while replacing the older global nearest-bone ambiguity.
+ * exact normalization, topology lineage, and measurable binding quality while distant limbs remain outside another limb's flesh.
  */
 
 import {
 	bindSemanticSkin,
 	validateSemanticSkin
-} from "./SemanticSkinBinder.js";
+} from './SemanticSkinBinder.js';
 
 /** Binds every renderer-neutral mesh part through one canonical semantic capsule solver. */
 export function bindCreatureSkin(meshParts, rig, options = {}) {
@@ -26,14 +26,14 @@ export function bindCreatureSkin(meshParts, rig, options = {}) {
 			topologyRemapRequired: false
 		}),
 		maximumInfluences,
-		method: "semantic-capsule-hierarchy",
-		normalization: "unit-sum",
+		method: 'semantic-capsule-hierarchy',
+		normalization: 'unit-sum',
 		parts: Object.freeze(parts),
-		smoothing: options.smoothing || "hierarchy-continuous"
+		smoothing: options.smoothing || 'hierarchy-continuous'
 	});
 }
 
-/** Rebinds after topology change while keeping previous rig identity for downstream remap diagnostics. */
+/** Rebinds after topology change while preserving previous rig identity for remap diagnostics. */
 export function rebindCreatureSkin(meshParts, rig, previousSkinning, options = {}) {
 	const result = bindCreatureSkin(meshParts, rig, options);
 	return Object.freeze({
@@ -50,8 +50,7 @@ export function rebindCreatureSkin(meshParts, rig, previousSkinning, options = {
 export function validateCreatureSkin(skinning, tolerance = 1e-4) {
 	const diagnostics = [];
 	for (const part of skinning.parts || []) {
-		const validation = validatePart(part, skinning, tolerance);
-		diagnostics.push(...validation);
+		diagnostics.push(...validatePart(part, skinning, tolerance));
 	}
 	return Object.freeze({
 		diagnostics: Object.freeze(diagnostics),
@@ -64,7 +63,7 @@ function bindPart(part, rig, maximumInfluences, options) {
 	const binding = bindSemanticSkin(part, rig, {
 		falloff: options.falloff,
 		maximumInfluences,
-		quality: options.quality || options.skinQuality || "balanced"
+		quality: options.quality || options.skinQuality || 'balanced'
 	});
 	const validation = validateSemanticSkin(binding);
 	return Object.freeze({
@@ -74,6 +73,7 @@ function bindPart(part, rig, maximumInfluences, options) {
 		skinningBindingId: binding.id,
 		skinningDiagnostics: Object.freeze({
 			...binding.coverage,
+			quality: binding.quality,
 			valid: validation.valid,
 			warningCount: validation.warnings.length
 		}),
@@ -93,15 +93,15 @@ function validatePart(part, skinning, tolerance) {
 		for (let influence = 0; influence < stride; influence += 1) {
 			const weight = part.skinWeights[offset + influence];
 			const joint = part.skinIndices[offset + influence];
-			if (!Number.isFinite(weight) || weight < 0) diagnostics.push(issue("SKIN.WEIGHT_INVALID", part.id, offset, stride, weight));
-			if (joint >= skinning.boneCount) diagnostics.push(issue("SKIN.JOINT_RANGE", part.id, offset, stride, joint));
+			if (!Number.isFinite(weight) || weight < 0) diagnostics.push(issue('SKIN.WEIGHT_INVALID', part.id, offset, stride, weight));
+			if (joint >= skinning.boneCount) diagnostics.push(issue('SKIN.JOINT_RANGE', part.id, offset, stride, joint));
 			sum += Number.isFinite(weight) ? weight : 0;
 		}
-		if (Math.abs(sum - 1) > tolerance) diagnostics.push(issue("SKIN.WEIGHT_SUM", part.id, offset, stride, sum));
+		if (Math.abs(sum - 1) > tolerance) diagnostics.push(issue('SKIN.WEIGHT_SUM', part.id, offset, stride, sum));
 	}
 	return diagnostics;
 }
 
 function issue(code, partId, offset, stride, value) {
-	return Object.freeze({ code, partId, severity: "error", value, vertex: offset / stride });
+	return Object.freeze({ code, partId, severity: 'error', value, vertex: offset / stride });
 }

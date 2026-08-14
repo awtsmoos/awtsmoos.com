@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Comments and Replies\n\nComments attach to posts and richer substructures; replies/reactions/comment trees form their own navigation domain.\n\n## Surfaces\n\n- post comment collections;\n- aliases contributing comments;\n- singular comment routes;\n- nested replies;\n- reactions;\n- subsection/verse comments;\n- submitted-comment moderation;\n- comment search/ranking/vector/RAG evidence.\n\n## Compatibility\n\nSome comment routes appear more than once in generated extraction because multiple route objects/factories expose compatible paths. Use source ownership to distinguish implementations.\n\n## Moderation\n\nApproval/denial/submitted-comment flows are separate from ordinary comment read/write behavior.\n"
+}

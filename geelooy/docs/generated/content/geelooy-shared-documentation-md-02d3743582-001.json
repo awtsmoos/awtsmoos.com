@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Shared Code Documentation\n\nThe Awtsmoos lets many apps receive from one shared vessel, so a small edit may travel far;\nAwtsmoos.com asks maintainers to trace every importer before changing a common library or bar.\n\nRead [../../docs/SYSTEMS/SHARED_LIBRARIES.md](../../docs/SYSTEMS/SHARED_LIBRARIES.md).\n\nImportant shared domains include Tunnel and virtual-OS material. Search all importers and run broad tests for shared changes.\n"
+}

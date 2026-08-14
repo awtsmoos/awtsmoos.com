@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-social-composer-reel-studio-docs-movie-package-format-md-3234596dfa",
+	"title": "Movie Package Format",
+	"sourcePath": "geelooy/social-composer/reel-studio/docs/MOVIE_PACKAGE_FORMAT.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Movie Package Format",
+			"anchor": "movie-package-format"
+		},
+		{
+			"level": 2,
+			"text": "Rules",
+			"anchor": "rules"
+		},
+		{
+			"level": 2,
+			"text": "JavaScript",
+			"anchor": "javascript"
+		},
+		{
+			"level": 2,
+			"text": "Schema and Example",
+			"anchor": "schema-and-example"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-social-composer-reel-studio-docs-movie-package-format-md-3234596dfa-001.json"
+	]
+}

@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-29-kabbalistic-combat-pro-a37a6432ae",
+	"title": "Critique and Twenty Improvements",
+	"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-29-kabbalistic-combat-production/03_CRITIQUE_AND_20_IMPROVEMENTS.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Critique and Twenty Improvements",
+			"anchor": "critique-and-twenty-improvements"
+		},
+		{
+			"level": 2,
+			"text": "Critique of the initial direction",
+			"anchor": "critique-of-the-initial-direction"
+		},
+		{
+			"level": 2,
+			"text": "Improved first slice",
+			"anchor": "improved-first-slice"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-ai-thoughts-2026-07-29-kabbalistic-combat-pro-a37a6432ae-001.json"
+	]
+}

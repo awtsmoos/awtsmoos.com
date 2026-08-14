@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H\n# Custom Player Actions\n\nThis directory contains additive actions that are not embedded in the canonical Chossid GLB. Imported standing, walking, running, jumping, falling, punch, and stab clips remain untouched.\n\n## Public messages\n\n- `player.action.staff.cast`\n- `player.action.sword.cast`\n- `player.action.dispatch`\n\nEach action message carries `phase: start | progress | release | cancel`. Staff and sword definitions are intentionally independent.\n\n## Adding an AI-authored action\n\nCreate a declarative definition with a unique `id`, unique `messageType`, semantic-bone keyframes, equipment requirement, duration, recovery, priority, and release event. Register it through `runtime.registerPlayerAction(definition)` or a `PlayerActionRegistry`.\n\nDo not mutate DOM, renderer, inventory, or scene globals inside definitions. Gameplay consequence belongs to named release-event listeners; pose data only describes animation.\n"
+}

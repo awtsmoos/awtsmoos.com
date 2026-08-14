@@ -3,16 +3,19 @@
 // Blessed is He
 
 /**
- * The Awtsmoos lets one browser speak through the canonical Drive API alone;
- * Awtsmoos.com uses session identity by default and never persists a credential.
+ * @module DriveApi
+ * @description
+ * The Awtsmoos lets files, sites, durable projects, and Project Testimony speak through small resource verbs;
+ * Awtsmoos.com keeps transport authority in one vessel while this module names the creator's intentions.
  */
 
 import { driveState, currentCursor } from './state.js';
 import { encodeDrivePath } from './path.js';
+import { API_ROOT, aliasSegment, assertConnected, authenticationHeaders, request } from './apiTransport.js';
 
-export const API_ROOT = '/api/social';
+export { API_ROOT, assertConnected, authenticationHeaders, request };
 
-export async function listEntries() {
+export function listEntries() {
 	const query = new URLSearchParams({
 		path: driveState.currentPath,
 		search: driveState.filters.search,
@@ -28,12 +31,41 @@ export async function listEntries() {
 	return request(`/drive/${aliasSegment()}/entries?${query}`);
 }
 
+export function getProjectPlan() {
+	const query = new URLSearchParams({ rootPath: driveState.currentPath });
+	return request(`/drive/${aliasSegment()}/project?${query}`);
+}
+
+export function listProjects() {
+	return request(`/drive/${aliasSegment()}/projects`);
+}
+
+export function saveProject(projectId, values) {
+	return request(`/drive/${aliasSegment()}/projects/${encodeURIComponent(projectId)}`, { method: 'PUT', body: values });
+}
+
+export function deleteProject(projectId) {
+	return request(`/drive/${aliasSegment()}/projects/${encodeURIComponent(projectId)}`, { method: 'DELETE' });
+}
+
 export function getUsage() {
 	return request(`/drive/${aliasSegment()}/usage`);
 }
 
 export function getSiteStatus() {
 	return request(`/drive/${aliasSegment()}/site`);
+}
+
+export function listSites() {
+	return request(`/drive/${aliasSegment()}/sites`);
+}
+
+export function saveSite(siteId, values) {
+	return request(`/drive/${aliasSegment()}/sites/${encodeURIComponent(siteId)}`, { method: 'PUT', body: values });
+}
+
+export function deleteSite(siteId) {
+	return request(`/drive/${aliasSegment()}/sites/${encodeURIComponent(siteId)}`, { method: 'DELETE' });
 }
 
 export function createEntry(values) {
@@ -45,80 +77,18 @@ export function updateEntry(path, values) {
 }
 
 export function performAction(action, values) {
-	return request(`/drive/${aliasSegment()}/actions/${action}`, {
-		method: 'POST',
-		body: values
-	});
+	return request(`/drive/${aliasSegment()}/actions/${action}`, { method: 'POST', body: values });
 }
 
 export function publicUrl(path) {
 	return `${location.origin}${API_ROOT}/drive/public/${aliasSegment()}/${encodeDrivePath(path)}`;
 }
 
-export function siteUrl() {
-	return `${location.origin}/sites/${aliasSegment()}/`;
-}
-
-export async function request(route, options = {}) {
-	assertConnected();
-	const headers = authenticationHeaders();
-	let body;
-	if (options.body) {
-		headers.set('content-type', 'application/x-www-form-urlencoded');
-		body = new URLSearchParams(options.body);
-	}
-	headers.set('x-request-id', crypto.randomUUID());
-	const response = await fetch(`${API_ROOT}${route}`, {
-		method: options.method || 'GET',
-		headers,
-		body,
-		cache: 'no-store',
-		credentials: 'same-origin'
-	});
-	const text = await response.text();
-	const value = text ? safeJson(text) : {};
-	if (!response.ok) throw apiError(response.status, value);
-	return value;
-}
-
-export function authenticationHeaders() {
-	const headers = new Headers();
-	if (driveState.credentialType === 'user') {
-		headers.set('x-awtsmoos-api-key', driveState.credential);
-	}
-	if (driveState.credentialType === 'drive') {
-		headers.set('authorization', `Bearer ${driveState.credential}`);
-	}
-	return headers;
-}
-
-export function assertConnected() {
-	if (!driveState.aliasId) throw new Error('Enter an alias ID first.');
-	if (driveState.credentialType !== 'session' && !driveState.credential) {
-		throw new Error('Enter the selected credential or use the current session.');
-	}
-}
-
-function aliasSegment() {
-	return encodeURIComponent(driveState.aliasId);
+export function siteUrl(site = null) {
+	const route = site?.project?.publication?.route || site?.canonicalUrl || `/sites/${aliasSegment()}/`;
+	return new URL(route, location.origin).href;
 }
 
 function entryUrl(path) {
 	return `/drive/${aliasSegment()}/entry/${encodeDrivePath(path)}`;
-}
-
-function safeJson(text) {
-	try {
-		return JSON.parse(text);
-	} catch {
-		return { message: text };
-	}
-}
-
-function apiError(status, value) {
-	const code = value?.error?.code || value?.code || `HTTP_${status}`;
-	const error = new Error(value?.error?.message || value?.message || code);
-	error.code = code;
-	error.status = status;
-	return error;
 }

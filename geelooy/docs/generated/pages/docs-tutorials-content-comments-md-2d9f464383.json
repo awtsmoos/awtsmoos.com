@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-tutorials-content-comments-md-2d9f464383",
+	"title": "Comments and Replies",
+	"sourcePath": "docs/TUTORIALS/CONTENT/COMMENTS.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Comments and Replies",
+			"anchor": "comments-and-replies"
+		},
+		{
+			"level": 2,
+			"text": "Surfaces",
+			"anchor": "surfaces"
+		},
+		{
+			"level": 2,
+			"text": "Compatibility",
+			"anchor": "compatibility"
+		},
+		{
+			"level": 2,
+			"text": "Moderation",
+			"anchor": "moderation"
+		}
+	],
+	"markdownParts": [
+		"content/docs-tutorials-content-comments-md-2d9f464383-001.json"
+	]
+}

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Heichelos\n\nA Heichel is a governed Social content/community space, not merely a folder.\n\n## Observed capabilities\n\n- create/read/update/delete Heichel behavior;\n- ownership checks;\n- editor/member/role management;\n- submission settings;\n- invites/review/moderation;\n- post/question/content organization;\n- series/subseries relationships;\n- community/full settings and discovery.\n\n## Authority\n\nLogin/API-key identity does not automatically grant Heichel mutation. Read owner/editor/member/moderation checks in the exact handler.\n\n## Investigation\n\nStart at `/api/social/heichelos/:heichel`, then follow its route factory imports and generated related-route links.\n"
+}

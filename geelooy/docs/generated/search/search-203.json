@@ -1,0 +1,242 @@
+[
+	{
+		"id": "docs-security-realtime-security-md-1133b9c294",
+		"title": "Realtime Security",
+		"sourcePath": "docs/SECURITY/REALTIME_SECURITY.md",
+		"category": "Realtime",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Realtime Security",
+				"anchor": "realtime-security"
+			},
+			{
+				"level": 2,
+				"text": "Shared authentication, separate transport boundary",
+				"anchor": "shared-authentication-separate-transport-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Mission Room admission happens before handshake",
+				"anchor": "mission-room-admission-happens-before-handshake"
+			},
+			{
+				"level": 2,
+				"text": "One-time tickets are not permanent authority",
+				"anchor": "one-time-tickets-are-not-permanent-authority"
+			},
+			{
+				"level": 2,
+				"text": "Versioned realtime applications",
+				"anchor": "versioned-realtime-applications"
+			},
+			{
+				"level": 2,
+				"text": "Tunnel Relay",
+				"anchor": "tunnel-relay"
+			},
+			{
+				"level": 2,
+				"text": "Origin and browser context",
+				"anchor": "origin-and-browser-context"
+			},
+			{
+				"level": 2,
+				"text": "Realtime change checklist",
+				"anchor": "realtime-change-checklist"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Realtime Security The Awtsmoos gives every socket a living instant while Awtsmoos.com binds long lived communication to trusted identity, admission policy, protocol version and current authority. Shared authentication, separate transport boundary The dynamic server installs the same Auth",
+		"searchText": "b\"h boruch hashem blessed is he realtime security the awtsmoos gives every socket a living instant while awtsmoos.com binds long lived communication to trusted identity, admission policy, protocol version and current authority. shared authentication, separate transport boundary the dynamic server installs the same auth verifier into http and websocket infrastructure, but websocket upgrades parse their own cookies/headers and produce a trusted socket identity for the connection. application messages must not recreate identity from message payload. mission room admission happens before handshake for /api/tunnel/control/mission room/ws, inspected source requires: 1. the correct path; 2. sec websocket key; 3. trusted identity with accountid; 4. canonical/accepted origin; 5. a one time ticket from query parameter ticket; 6. current tunnel.mission authorization for the ticket's tunnel; 7. matching current/ticket authority; 8. the current room protocol version. missing or changed authority is rejected before a successful websocket session is established. one time tickets are not permanent authority the mission room ticket is consumed during admission and then checked against current authorization. a previously issued ticket cannot safely replace a fresh server side permission check when grants may have been revoked or changed. versioned realtime applications the realtimeplatform routes versioned applications through a registry/router. trusted account identity belongs to the server side client session. message types, application ids and versions are domain protocol fields, not identity credentials. tunnel relay tunnel relay has its own registration authority and account bound transport lifecycle. registration, replacement and acknowledgement behavior must preserve trusted account association. do not merge relay device identity with arbitrary message accountid or tunnel name fields. origin and browser context origin checking is an admission control where source explicitly requires it. do not assume cookie authentication alone is sufficient for every browser websocket. likewise, do not add permissive origin behavior to a sensitive socket merely because an http api uses broad cors. realtime change checklist where does trusted client identity originate? is admission checked before or after handshake? does the connection require origin, ticket, grant or scope? can permission change while the connection exists? which protocol versions are accepted? what disconnect cleanup removes presence/subscriptions/state? are errors machine readable without leaking secrets? are wrong account, stale ticket, wrong origin and wrong version cases tested?",
+		"page": "pages/docs-security-realtime-security-md-1133b9c294.json"
+	},
+	{
+		"id": "docs-security-secrets-and-config-md-0f6557495f",
+		"title": "Secrets and Security-Sensitive Configuration",
+		"sourcePath": "docs/SECURITY/SECRETS_AND_CONFIG.md",
+		"category": "Security",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Secrets and Security-Sensitive Configuration",
+				"anchor": "secrets-and-security-sensitive-configuration"
+			},
+			{
+				"level": 2,
+				"text": "Documentation rule",
+				"anchor": "documentation-rule"
+			},
+			{
+				"level": 2,
+				"text": "Canonical authentication secret",
+				"anchor": "canonical-authentication-secret"
+			},
+			{
+				"level": 2,
+				"text": "API keys",
+				"anchor": "api-keys"
+			},
+			{
+				"level": 2,
+				"text": "OAuth and provider secrets",
+				"anchor": "oauth-and-provider-secrets"
+			},
+			{
+				"level": 2,
+				"text": "Local configuration",
+				"anchor": "local-configuration"
+			},
+			{
+				"level": 2,
+				"text": "Debug and smoke flags",
+				"anchor": "debug-and-smoke-flags"
+			},
+			{
+				"level": 2,
+				"text": "Review checklist",
+				"anchor": "review-checklist"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Secrets and Security Sensitive Configuration The Awtsmoos gives configuration a vessel while Awtsmoos.com must distinguish a variable name that may be documented from a secret value that must remain concealed. Documentation rule Generated environment documentation records variable names,",
+		"searchText": "b\"h boruch hashem blessed is he secrets and security sensitive configuration the awtsmoos gives configuration a vessel while awtsmoos.com must distinguish a variable name that may be documented from a secret value that must remain concealed. documentation rule generated environment documentation records variable names, coarse classes and source ownership only. never copy live values, token files, oauth secrets, api keys, session cookies, provider credentials, ssh credentials or private machine paths into documentation merely to make setup look complete. canonical authentication secret the dynamic server's inspected authsetup.js reads deps.config.secret as a module path, requires that configured module, stringifies the resulting value and constructs the shared auth verifier used by http sessions and websockets. if the configured secret cannot be required, the inspected fallback object contains nokey: \"no security\". that fallback means deployment configuration for authentication deserves explicit review; documentation must not present a missing secret as an ordinary harmless default. api keys social api keys are created from cryptographically random bytes. the raw key is returned at creation; storage retains its sha 256 hash and metadata. documentation may describe the prefix/format conceptually, but must never include a real generated key. tunnel control maintains a separate verified api key system with its own scopes/account identity. do not assume social api keys and tunnel control keys share stores, scopes or header schemes. oauth and provider secrets oauth, youtube/google, paypal, streaming, email/smtp and ai integrations can use provider specific secret names. the generated environment inventory is a locator. the owning source determines required/optional status, defaults, redirect uris, encryption, token persistence and lifecycle. local configuration .awtsmoos.config.local.json is an ignored machine local configuration vessel used by database root resolution. documentation may name supported keys, but should not copy the actual local file or absolute private paths unless a troubleshooting task explicitly requires them. debug and smoke flags debug/test environment flags can cause sensitive diagnostic material to appear. social api key verification, for example, has an inspected smoke debug branch that can expose supplied key prefixes, hashes, index paths and db root information in errors. treat debug flags as security relevant and disable them outside intended controlled testing. review checklist is the value secret or merely configuration? where is it loaded? does absence disable security or change trust behavior? is it logged or included in errors? is it persisted encrypted, hashed, plaintext or not persisted? what rotates/revokes it? which tests exercise missing/invalid/expired credentials?",
+		"page": "pages/docs-security-secrets-and-config-md-0f6557495f.json"
+	},
+	{
+		"id": "docs-security-trust-boundaries-md-4062c7cf1c",
+		"title": "Trust Boundaries",
+		"sourcePath": "docs/SECURITY/TRUST_BOUNDARIES.md",
+		"category": "Security",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Trust Boundaries",
+				"anchor": "trust-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Layer 1 — transport/session authentication",
+				"anchor": "layer-1-transport-session-authentication"
+			},
+			{
+				"level": 2,
+				"text": "Layer 2 — alternate authenticated credentials",
+				"anchor": "layer-2-alternate-authenticated-credentials"
+			},
+			{
+				"level": 2,
+				"text": "Layer 3 — resource authorization",
+				"anchor": "layer-3-resource-authorization"
+			},
+			{
+				"level": 2,
+				"text": "Client input is not authority",
+				"anchor": "client-input-is-not-authority"
+			},
+			{
+				"level": 2,
+				"text": "Social API keys",
+				"anchor": "social-api-keys"
+			},
+			{
+				"level": 2,
+				"text": "Re-check mutable authority",
+				"anchor": "re-check-mutable-authority"
+			},
+			{
+				"level": 2,
+				"text": "Review checklist",
+				"anchor": "review-checklist"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Trust Boundaries The Awtsmoos gives every identity its true source while Awtsmoos.com refuses to turn user shaped input into server authority merely because the names resemble one another. Layer 1 — transport/session authentication The dynamic server installs one Auth instance as HTTP se",
+		"searchText": "b\"h boruch hashem blessed is he trust boundaries the awtsmoos gives every identity its true source while awtsmoos.com refuses to turn user shaped input into server authority merely because the names resemble one another. layer 1 — transport/session authentication the dynamic server installs one auth instance as http session middleware and also exposes it to the websocket server. this establishes trusted request/socket identity from the configured authentication covenant rather than application body fields. layer 2 — alternate authenticated credentials some api families accept additional credentials: social can verify revocable api keys. tunnel control can resolve oauth bearer records. tunnel control can verify its own api keys. provider apis can require external provider credentials in addition to awtsmoos identity. each mechanism has its own storage, lifecycle and scope semantics. do not substitute one credential family for another without source support. layer 3 — resource authorization after authentication, the application must still authorize the target action. examples include: alias ownership or permission; heichel editor/owner/governance roles; post/comment moderation or ownership; tunnel device/grant/scope checks; mission room tunnel.mission permission; privileged administrative special user checks; provider/channel/order ownership. client input is not authority query/body/route values such as userid, accountid, owner, alias, heichelid, tunnelname, deviceid or roomid locate or describe a resource. they do not become authoritative identity until matched against trusted server state and permission rules. tunnel control's inspected auth source is explicit: current identity comes from oauth, verified api key or signed session. browser submitted ownership fields are not an authority source. social api keys the social helper creates a random raw key, stores a sha 256 hash plus metadata, and returns the raw secret on creation. verification hashes the supplied key and uses both an index and the owning key record. revocation timestamps are checked in both places. re check mutable authority long lived flows should not assume permissions never change. mission room upgrade policy consumes a one time ticket and then re checks current tunnel mission authority before the handshake. the ticket's authority must still match current authorization. review checklist for every protected operation, identify: 1. trusted identity source; 2. resource identifier source; 3. authorization function/check; 4. scope/role/ownership requirement; 5. revocation/expiry behavior; 6. negative tests; 7. data or provider side effects.",
+		"page": "pages/docs-security-trust-boundaries-md-4062c7cf1c.json"
+	},
+	{
+		"id": "docs-source-to-doc-md-6428a99a75",
+		"title": "Source to Documentation Map",
+		"sourcePath": "docs/SOURCE_TO_DOC.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Source to Documentation Map",
+				"anchor": "source-to-documentation-map"
+			},
+			{
+				"level": 2,
+				"text": "Generated cross-reference",
+				"anchor": "generated-cross-reference"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Source to Documentation Map The Awtsmoos joins source to explanation so a changed file can reveal the human chapter, generated evidence, and verification neighborhood that belong with it. Source subtree Primary human documentation index.js ARCHITECTURE.md, API/DIRECT ROOT HANDLERS.md, CO",
+		"searchText": "b\"h boruch hashem blessed is he source to documentation map the awtsmoos joins source to explanation so a changed file can reveal the human chapter, generated evidence, and verification neighborhood that belong with it. source subtree primary human documentation index.js architecture.md, api/direct root handlers.md, configuration.md ayzarim/awtsmoosdynamicserver/ projects/runtime server.md, websockets/, security/, data/ ayzarim/dosdb/ projects/dosdb.md, data/readme.md, data/path contracts.md ayzarim/ssh/, geelooy/api/ssh/ integrations.md, security/readme.md, api/other families.md geelooy/api/ api/readme.md, generated route/contract/caller/health indexes geelooy/api/social/ projects/social platform.md, api/social.md, security/trust boundaries.md geelooy/api/tunnel/ projects/tunnel platform.md, api/tunnel control.md, websockets/ geelooy/api/oauth/ api/oauth.md, systems/auth and identity.md, security/ geelooy/api/youtube/, wallet/, streaming/ family api docs plus integrations.md and configuration.md geelooy/apps/code/, compiler/runtime surfaces projects/code.md, apps/developer tools.md geelooy/ai/, gpt/gguf/search areas projects/awtsmoos ai.md, systems/ai.md, data/, integrations.md geelooy/games/ projects/games platform.md, apps/games and simulation.md geelooy/games/mitzvahworld/ projects/mitzvah world.md plus project local directory/audit docs social public/profile/editor/notification surfaces projects/social platform.md and local documentation.md geelooy/os/, node os/, platform/, shared/virtual os/ systems/geelooy os.md geelooy/shared/, libs/, public scripts/styles systems/shared libraries.md tests/, geelooy/tests, project tests test index.md, systems/testing.md, generated test ownership.md root scripts/, tools/, ops/, templates/ operations and tooling.md scripts/docs/ maintaining the docs.md, development/documentation workflow.md nested awtsmoos.com/ systems/nested awtsmoos com.md generated cross reference use generated/project atlas.md for project ownership, project dependencies.md for cross project imports, public entry points.md for browser entry paths, api route contract atlas.md for http paths, and human documentation index.md for the complete manual doc inventory. when source spans multiple rows, update every affected human contract and run the relevant broader tests before regeneration/validation.",
+		"page": "pages/docs-source-to-doc-md-6428a99a75.json"
+	},
+	{
+		"id": "docs-start-here-md-3ff203f7e3",
+		"title": "Start Here",
+		"sourcePath": "docs/START_HERE.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Start Here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "If you are new",
+				"anchor": "if-you-are-new"
+			},
+			{
+				"level": 2,
+				"text": "If you already have a URL",
+				"anchor": "if-you-already-have-a-url"
+			},
+			{
+				"level": 2,
+				"text": "If you already have a directory/system name",
+				"anchor": "if-you-already-have-a-directory-system-name"
+			},
+			{
+				"level": 2,
+				"text": "Repository layers",
+				"anchor": "repository-layers"
+			},
+			{
+				"level": 3,
+				"text": "Public surface — geelooy/",
+				"anchor": "public-surface-geelooy"
+			},
+			{
+				"level": 3,
+				"text": "Runtime — ayzarim/",
+				"anchor": "runtime-ayzarim"
+			},
+			{
+				"level": 3,
+				"text": "Documentation/discovery",
+				"anchor": "documentation-discovery"
+			},
+			{
+				"level": 2,
+				"text": "Task shortcuts",
+				"anchor": "task-shortcuts"
+			},
+			{
+				"level": 2,
+				"text": "Before changing behavior",
+				"anchor": "before-changing-behavior"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Start Here The Awtsmoos gives the traveler a curriculum, a route map, a project map, and the source itself; use each for what it can actually prove. If you are new Open /docs/?view=learn or read LEARN/README.md. The Foundation track explains repository ownership, server startup, dynamic ",
+		"searchText": "b\"h boruch hashem blessed is he start here the awtsmoos gives the traveler a curriculum, a route map, a project map, and the source itself; use each for what it can actually prove. if you are new open /docs/?view=learn or read learn/readme.md. the foundation track explains repository ownership, server startup, dynamic routing, and request vessels before individual systems. if you already have a url open /docs/?view=api or generated/api tutorial index.md, then follow: route tutorial → human api family guide → derech/handler source → callers/tests → runtime verification . if you already have a directory/system name open /docs/?view=projects or generated/project tutorial index.md, then follow: project tutorial → human project/system guide → entries/dependencies/symbols/tests → current source → runtime verification . project packets explain repository shape. they do not replace route tutorials for http semantics or realtime/security/data manuals for their specialized contracts. repository layers public surface — geelooy/ apps, games, social ui, os/runtime ui, shared browser assets, apis, and /docs/ live here. runtime — ayzarim/ dynamic server, dosdb, ssh and other server infrastructure live here. root index.js coordinates principal processes. documentation/discovery docs/learn/ — curriculum; docs/tutorials/ — deeper human teaching; docs/generated/ — exhaustive route/project/source evidence; docs/ai/ — machine readable project/route navigation; geelooy/docs/generated/ — public transport bounded reflection. task shortcuts social/posts/comments/heichelos → tutorials/api/social.md. tunnel control → tutorials/api/tunnel control.md. project boundary selection → how to choose a project.md. apps/apis/games/runtime/libraries → tutorials/projects/readme.md. dosdb/storage → learn/database 101.md. websockets/mission rooms → learn/websockets 101.md. new endpoint → learn/add an api route.md. api failure → learn/troubleshooting api.md. before changing behavior read the local breadcrumb and human tutorial, inspect generated route/project evidence, read the exact implementation and tests, then change source. if meaning/contracts changed, update the human manual. regenerate and validate afterward.",
+		"page": "pages/docs-start-here-md-3ff203f7e3.json"
+	}
+]

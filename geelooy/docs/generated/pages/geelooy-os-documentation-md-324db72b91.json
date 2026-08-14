@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-os-documentation-md-324db72b91",
+	"title": "Geelooy OS Documentation",
+	"sourcePath": "geelooy/os/DOCUMENTATION.md",
+	"category": "General",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Geelooy OS Documentation",
+			"anchor": "geelooy-os-documentation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-os-documentation-md-324db72b91-001.json"
+	]
+}

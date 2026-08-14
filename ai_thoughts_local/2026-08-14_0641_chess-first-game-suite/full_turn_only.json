@@ -1,0 +1,25 @@
+{
+  "bh": "B\"H",
+  "menuMs": 283.3748959999998,
+  "navToMenu": 887.7983980000001,
+  "thinkingMs": 311.4529819999998,
+  "aiMovedMs": 3835.419745,
+  "totalMoveMs": 4516.117630000001,
+  "message": "\n\nYou are White. White to move.\n\nBlack AI is thinking...\nAI moved. (Book: Alekhine's Defense: Chase Variation)\n\nWhite's turn.",
+  "layout": {
+    "canvas": [
+      370,
+      370
+    ],
+    "documentWidth": 390,
+    "innerWidth": 390,
+    "documentHeight": 844,
+    "innerHeight": 844
+  },
+  "errors": [
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "url": "http://127.0.0.1:8080/scripts/awtsmoos/realtime/RealtimePendingMetadata.js"
+    }
+  ]
+}

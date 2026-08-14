@@ -4,78 +4,26 @@
 /**
  * @module SocialHubIndex
  * @description
- * The Awtsmoos awakens the existing Social Hub through parallel API reads, one
- * render vessel, WebSocket life, and page presence—always inside `/api/social`.
+ * The Awtsmoos gathers prepared vessels without confusing their responsibilities.
+ * Awtsmoos.com keeps this bootstrap tiny: operation safety lives in the runner,
+ * live consequences live in live actions, rendering lives in the renderer.
  */
 
-import { state, setBusy, setError, setResult } from "./state.js";
+import { createLiveActions } from "./liveActions.js";
+import { createOperationRunner } from "./operationRunner.js";
+import { allKeys, groupKeys } from "./requestPlan.js";
 import { render } from "./render.js";
-import { allKeys, groupKeys, requestForKey } from "./requestPlan.js";
-import {
-	connectSocialSocket,
-	liveState,
-	publishSocialSocket
-} from "./socket.js";
+import { setError, state } from "./state.js";
 import { mountPresenceBadge } from "../live/presenceBadge.js";
 
 const root = document.getElementById("BH_SOCIAL_HUB");
 
-function aliasChannel() {
-	return `alias:${state.alias || "ikar"}`;
-}
-
-function pageChannel() {
-	return `page:${location.pathname || "/social/"}`;
-}
-
-async function runKey(key) {
-	const result = await requestForKey(key);
-	setResult(key, result);
-	return result;
-}
-
-async function runKeys(keys) {
-	setBusy(true);
-	setError("");
-	repaint();
-	try {
-		await Promise.all(keys.map(runKey));
-	} catch (error) {
-		setError(error.message || String(error));
-	} finally {
-		setBusy(false);
-		repaint();
-	}
-}
-
 function runActive() {
-	return runKeys(groupKeys(state.active));
+	return runner.runReads(groupKeys(state.active));
 }
 
 function runAll() {
-	return runKeys(allKeys());
-}
-
-function connectLive() {
-	connectSocialSocket({
-		alias: state.alias || "ikar",
-		channel: aliasChannel()
-	});
-	repaint();
-}
-
-function publishLive() {
-	if (!liveState.connected) {
-		connectLive();
-	}
-	window.setTimeout(() => {
-		publishSocialSocket({
-			alias: state.alias || "ikar",
-			channel: aliasChannel(),
-			text: state.query || "B'H hub spark"
-		});
-		repaint();
-	}, 120);
+	return runner.runReads(allKeys());
 }
 
 function repaint() {
@@ -83,10 +31,25 @@ function repaint() {
 		repaint,
 		runActive,
 		runAll,
-		connectLive,
-		publishLive
+		runReadKey: runner.runReadKey,
+		runMutation: runner.runMutation,
+		...liveActions
 	});
 }
+
+function pageChannel() {
+	return `page:${location.pathname || "/social/"}`;
+}
+
+const runner = createOperationRunner({
+	repaint
+});
+
+const liveActions = createLiveActions({
+	state,
+	repaint,
+	onError: setError
+});
 
 if (root) {
 	window.addEventListener("BH_SOCIAL_SOCKET", repaint);
@@ -95,5 +58,5 @@ if (root) {
 		channel: pageChannel()
 	});
 	repaint();
-	runActive();
+	void runActive();
 }

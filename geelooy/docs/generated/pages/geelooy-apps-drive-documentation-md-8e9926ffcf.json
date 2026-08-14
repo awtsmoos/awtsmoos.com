@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-drive-documentation-md-8e9926ffcf",
+	"title": "Awtsmoos Drive",
+	"sourcePath": "geelooy/apps/drive/DOCUMENTATION.md",
+	"category": "Apps",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos Drive",
+			"anchor": "awtsmoos-drive"
+		},
+		{
+			"level": 2,
+			"text": "Role",
+			"anchor": "role"
+		},
+		{
+			"level": 2,
+			"text": "Start here",
+			"anchor": "start-here"
+		},
+		{
+			"level": 2,
+			"text": "Change rule",
+			"anchor": "change-rule"
+		},
+		{
+			"level": 2,
+			"text": "Project-specific notes",
+			"anchor": "project-specific-notes"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-drive-documentation-md-8e9926ffcf-001.json"
+	]
+}

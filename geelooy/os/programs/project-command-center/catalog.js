@@ -2,32 +2,57 @@
 // Boruch Hashem
 // Blessed is He
 
+import { PROJECT_CAPABILITIES } from "../../../shared/workspace/projectCapabilities.js";
+
 /**
  * B"H
- * Declares market-facing Geelooy platform pillars from source-proven capability.
- * The Awtsmoos renews hosted data, connected machine, Wallet treasury, request,
- * and Peruta usage; Awtsmoos.com keeps money, metering, and compute distinct.
+ * Declares OS project pillars from the same capability testimony consumed by Drive.
+ * The Awtsmoos renews publication, data, compute, identity, Git, domain, and observation as one source;
+ * Awtsmoos.com keeps OS-specific treasury and diagnostic vessels beside that shared truth without duplicating it.
  */
 
+const ACTIONS = Object.freeze({
+	files: "files",
+	code: "code",
+	preview: "preview",
+	publish: "sites",
+	database: "database",
+	"native-compute": "node-server",
+	"trusted-node": "node-server",
+	"tenant-node": "diagnostics",
+	bindings: "tunnels",
+	auth: "diagnostics",
+	social: "diagnostics",
+	git: "code",
+	domains: "sites",
+	observe: "diagnostics"
+});
+
 export const PLATFORM_PILLARS = Object.freeze([
-	pillar("files", "Hosted Files", "LIVE", "Alias-scoped folders, files, binary uploads, moves, copies, reads, and deletes through the Awtsmoos file API.", "files"),
-	pillar("database", "AwtsmoosDB Explorer", "LIVE DATA", "Browse the exact os.db alias filesystem, inspect raw records, preview text, create hosted folders/files, and copy real API examples.", "database"),
-	pillar("code", "Code & Server Files", "LIVE SOURCE", "Edit real project source in Geelooy Code, then run Node entry files through Connected Compute on an owned native machine.", "code"),
-	pillar("compute", "Connected Node Server", "FULL CONTROL", "Run supervised Node.js on your account-owned connected machine, inspect logs, expose its local port, and view account usage from Geelooy OS.", "node-server"),
+	...PROJECT_CAPABILITIES.map(toPillar),
 	pillar("wallet", "Wallet", "LIVE TREASURY", "View promotional and purchased buckets, send promotional Perutas to another @alias, and reach verified purchased top-ups from one account treasury.", "wallet"),
-	pillar("runtime", "Native Runtime", "CONNECTED", "Authenticated capability, launch, status, and stop APIs supervise supported native artifacts without hidden environment injection.", "executable"),
-	pillar("preview", "Preview & Build", "LIVE", "Preview workspace HTML and adjacent assets, compile validated projects, and inspect executable artifacts from the same desktop.", "preview"),
-	pillar("usage", "Usage & Peruta Ledger", "PERUTA LEDGER", "Open the dedicated account view for routing, compute, storage and GPU balances, recorded Tunnel events, request bytes, and recent ledger history.", "usage"),
-	pillar("drives", "Connected Drives", "LIVE", "Mount local virtual storage, tunnel-backed machines, and preview providers into one VFS and File Explorer.", "tunnels"),
-	pillar("diagnostics", "Control & Diagnostics", "LIVE", "Inspect processes, graph events, adapters, drives, mutations, taskbar state, and runtime health instead of debugging a black box.", "diagnostics")
+	pillar("usage", "Usage & Peruta Ledger", "PERUTA LEDGER", "Open the account view for routing, compute, storage, GPU balances, Tunnel events, request bytes, and recent ledger history.", "usage"),
+	pillar("drives", "Connected Drives", "LIVE", "Mount local virtual storage, tunnel-backed machines, and preview providers into one VFS and File Explorer.", "tunnels")
 ]);
 
 export const PLATFORM_BOUNDARIES = Object.freeze([
+	"Static Drive Sites and authenticated project data are live; provider attachments remain explicit until bound by real backend capability.",
+	"Public multi-tenant Node is blocked until a genuine OS/container/VM isolation provider exists.",
+	"Connected Node Server executes trusted project code with full Node authority on the user's own account-owned Tunnel machine.",
+	"Project source may declare secret binding names, but secret values remain outside portable files.",
 	"Wallet person-to-person sending moves promotional Perutas only; purchased Perutas remain account-bound and there is no cash-out.",
-	"Arbitrary multi-tenant hosted Node.js execution is not enabled by the current native-runtime API.",
-	"Connected Node Server executes with full control on the user's own account-owned Tunnel machine.",
 	"Protected Tunnel actions record server-side usage; Peruta debits happen only on routes that explicitly call the separate charge path."
 ]);
+
+function toPillar(capability) {
+	return pillar(
+		capability.id,
+		capability.title,
+		capability.readiness.toUpperCase(),
+		capability.description,
+		ACTIONS[capability.id] || "diagnostics"
+	);
+}
 
 function pillar(id, title, state, description, action) {
 	return Object.freeze({ action, description, id, state, title });

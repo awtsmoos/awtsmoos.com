@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-code-js-ai-readme-agent-wiring-md-327fd031cf",
+	"title": "B\"H",
+	"sourcePath": "geelooy/apps/code/js/ai/README-AGENT-WIRING.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Autonomous Vibe Agent Wiring",
+			"anchor": "autonomous-vibe-agent-wiring"
+		},
+		{
+			"level": 2,
+			"text": "Main fixes",
+			"anchor": "main-fixes"
+		},
+		{
+			"level": 2,
+			"text": "Required stream integration",
+			"anchor": "required-stream-integration"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-code-js-ai-readme-agent-wiring-md-327fd031cf-001.json"
+	]
+}

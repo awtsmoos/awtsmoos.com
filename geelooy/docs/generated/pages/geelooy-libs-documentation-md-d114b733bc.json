@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-documentation-md-d114b733bc",
+	"title": "Libraries Documentation",
+	"sourcePath": "geelooy/libs/DOCUMENTATION.md",
+	"category": "General",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Libraries Documentation",
+			"anchor": "libraries-documentation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-documentation-md-d114b733bc-001.json"
+	]
+}

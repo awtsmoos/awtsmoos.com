@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Tutorial: Server Boot\n\nRoot `index.js` is the orchestration point. It initializes the dynamic server, routes ordinary HTTP, owns direct Mitzvah World report paths, delegates WebSocket upgrades, and can start SMTP.\n\n## Follow the boot\n\n1. Read `index.js` imports for AwtsMail/AwtsServer/AwtsSocket.\n2. Follow dynamic-server initialization.\n3. Inspect `server/initDb.js` for shared DosDB setup.\n4. Inspect request bootstrap/auth setup.\n5. Inspect WebSocket registry/application definitions separately.\n6. Inspect mail-disable configuration before assuming SMTP is live.\n\n## Boundaries\n\nRoot direct handlers are exceptions, not the normal API convention. Most dynamic HTTP behavior belongs to derech discovery. WebSocket admission is separate from HTTP routing.\n\n## Evidence\n\nRead `docs/LEARN/SERVER_LIFECYCLE_101.md`, `docs/ARCHITECTURE.md`, and generated public/route inventories.\n"
+}

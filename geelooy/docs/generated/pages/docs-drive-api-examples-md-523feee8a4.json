@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-drive-api-examples-md-523feee8a4",
+	"title": "API examples",
+	"sourcePath": "docs/drive/api-examples.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "API examples",
+			"anchor": "api-examples"
+		},
+		{
+			"level": 2,
+			"text": "List entries with curl",
+			"anchor": "list-entries-with-curl"
+		},
+		{
+			"level": 2,
+			"text": "Read one entry",
+			"anchor": "read-one-entry"
+		},
+		{
+			"level": 2,
+			"text": "Create a folder with browser fetch",
+			"anchor": "create-a-folder-with-browser-fetch"
+		},
+		{
+			"level": 2,
+			"text": "Bounded raw streaming upload",
+			"anchor": "bounded-raw-streaming-upload"
+		},
+		{
+			"level": 2,
+			"text": "Move or copy",
+			"anchor": "move-or-copy"
+		},
+		{
+			"level": 2,
+			"text": "Public file",
+			"anchor": "public-file"
+		},
+		{
+			"level": 2,
+			"text": "Service-to-service",
+			"anchor": "service-to-service"
+		},
+		{
+			"level": 2,
+			"text": "AI-agent pattern",
+			"anchor": "ai-agent-pattern"
+		}
+	],
+	"markdownParts": [
+		"content/docs-drive-api-examples-md-523feee8a4-001.json"
+	]
+}

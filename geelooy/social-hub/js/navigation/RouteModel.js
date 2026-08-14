@@ -4,12 +4,14 @@
 /**
  * @module RouteModel
  * @description
- * The Awtsmoos lets pulse, Inbox, communities, people, network, and profile share one stable address and visible path;
+ * The Awtsmoos lets pulse, Inbox, live Torah, private Messages, communities, people, network, and profile share one stable address;
  * Awtsmoos.com remembers each chamber without hiding browser history beneath the living communications graph.
  */
 const ROUTES = Object.freeze([
 	{ id: 'home', label: 'Pulse', icon: '✦', title: 'Social pulse' },
 	{ id: 'inbox', label: 'Inbox', icon: '◍', title: 'Communications Inbox' },
+	{ id: 'chat', label: 'Chat', icon: '☰', title: 'Live Torah Chat' },
+	{ id: 'messages', label: 'Messages', icon: '✉', title: 'Private Messages' },
 	{ id: 'spaces', label: 'Spaces', icon: '◆', title: 'Communities and channels' },
 	{ id: 'people', label: 'People', icon: '◉', title: 'Discover people' },
 	{ id: 'interact', label: 'Interact', icon: '✎', title: 'Interaction studio' },

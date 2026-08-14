@@ -1,0 +1,217 @@
+[
+	{
+		"id": "docs-drive-api-examples-md-523feee8a4",
+		"title": "API examples",
+		"sourcePath": "docs/drive/api-examples.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API examples",
+				"anchor": "api-examples"
+			},
+			{
+				"level": 2,
+				"text": "List entries with curl",
+				"anchor": "list-entries-with-curl"
+			},
+			{
+				"level": 2,
+				"text": "Read one entry",
+				"anchor": "read-one-entry"
+			},
+			{
+				"level": 2,
+				"text": "Create a folder with browser fetch",
+				"anchor": "create-a-folder-with-browser-fetch"
+			},
+			{
+				"level": 2,
+				"text": "Bounded raw streaming upload",
+				"anchor": "bounded-raw-streaming-upload"
+			},
+			{
+				"level": 2,
+				"text": "Move or copy",
+				"anchor": "move-or-copy"
+			},
+			{
+				"level": 2,
+				"text": "Public file",
+				"anchor": "public-file"
+			},
+			{
+				"level": 2,
+				"text": "Service-to-service",
+				"anchor": "service-to-service"
+			},
+			{
+				"level": 2,
+				"text": "AI-agent pattern",
+				"anchor": "ai-agent-pattern"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He The Awtsmoos lets humans, browsers, services, and agents speak through one guarded API. API examples Examples use placeholders and never contain real credentials. List entries with curl A successful response contains ok, entries, pagination state, usage, and quota. Missing authentication",
+		"searchText": "b\"h boruch hashem blessed is he the awtsmoos lets humans, browsers, services, and agents speak through one guarded api. api examples examples use placeholders and never contain real credentials. list entries with curl a successful response contains ok, entries, pagination state, usage, and quota. missing authentication returns 401. insufficient ownership or scope returns 403. read one entry create a folder with browser fetch bounded raw streaming upload curl supplies content length for a regular file. the route returns 201 on the first commit and 200 with replayed: true for an identical idempotent replay. reusing the key for different bytes or metadata returns 409. files larger than the configured 512 mib limit are rejected before streaming. move or copy public file a conditional request can send if none match with the previous etag and should receive 304 when unchanged. service to service use a drive bearer credential whose scope includes the specific operation. do not use migration credentials for general read/write or administrative actions. keep the bearer in process memory and redact authorization headers from logs. ai agent pattern an agent should first list metadata, compare expected hash and size, use an idempotency key derived from its durable work item, stream once, verify the returned entry, then perform a head request against the public url when visibility is public. it should preserve the operation receipt and never infer success from a local file alone.",
+		"page": "pages/docs-drive-api-examples-md-523feee8a4.json"
+	},
+	{
+		"id": "docs-drive-architecture-md-7485050c87",
+		"title": "Architecture and security",
+		"sourcePath": "docs/drive/architecture.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Architecture and security",
+				"anchor": "architecture-and-security"
+			},
+			{
+				"level": 2,
+				"text": "Data model",
+				"anchor": "data-model"
+			},
+			{
+				"level": 2,
+				"text": "Authentication and ownership",
+				"anchor": "authentication-and-ownership"
+			},
+			{
+				"level": 2,
+				"text": "Quotas and accounting",
+				"anchor": "quotas-and-accounting"
+			},
+			{
+				"level": 2,
+				"text": "Bounded streaming write flow",
+				"anchor": "bounded-streaming-write-flow"
+			},
+			{
+				"level": 2,
+				"text": "Public hosting contract",
+				"anchor": "public-hosting-contract"
+			},
+			{
+				"level": 2,
+				"text": "Manager security and accessibility",
+				"anchor": "manager-security-and-accessibility"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He The Awtsmoos joins oros and keilim: logical metadata is the vessel, content addressed bytes are the light. Architecture and security Data model Each alias has a Drive root containing state.json, an objects/ tree, and temporary incoming/ files. state.json contains entries, usage, quota, r",
+		"searchText": "b\"h boruch hashem blessed is he the awtsmoos joins oros and keilim: logical metadata is the vessel, content addressed bytes are the light. architecture and security data model each alias has a drive root containing state.json, an objects/ tree, and temporary incoming/ files. state.json contains entries, usage, quota, reservations, transfer leases, rate windows, idempotency records, and audit events. a file entry records path, owner alias, object hash, size, mime type, visibility, cache policy, timestamps, and trash state. folders are logical entries and do not own physical objects. object files are addressed by sha 256. upload finalization links a completed temporary object into the hash path atomically; an existing hash is reused. logical byte accounting counts each logical file, while physical storage may be lower because of deduplication. authentication and ownership drive requests authenticate with either a user api key or a drive bearer credential. authorization resolves an actor and credential, validates alias ownership or administrator authority, and enforces scopes. service credentials have explicit lifecycle records, expiration/revocation state, and narrow scopes. the migration credential is limited to drive.migrate; it cannot invoke alias, quota, credential, or provisioning control plane operations. administrator users are allowlisted by configuration. ordinary users cannot perform administrator actions. public routes do not invoke control plane routes. quotas and accounting per alias policy includes storage bytes, file count, maximum single file bytes, monthly ingress, monthly public egress/background traffic, monthly requests, upload starts per minute, requests per minute, and concurrent transfers. exact length reservations protect storage and file count capacity before writes. request and upload rate windows are charged before transfer. transfer leases enforce concurrency and are released on success, error, abort, or disconnect. stored byte and file count counters describe logical entries. monthly ingress is charged according to accepted request bytes; public egress is charged through public delivery. reconciliation recomputes logical usage from entries and verifies object sizes. bounded streaming write flow put /api/social/drive/{aliasid}/stream/{path} requires authentication, content length, and idempotency key. 1. validate method, headers, path, scope, quota, rates, and concurrency. 2. reserve the exact logical byte/file delta. 3. pipe the raw request through a transform that increments byte count and sha 256 while respecting backpressure. 4. write a mode 0600 temporary file and fsync it. 5. atomically hard link the object into its content addressed destination, reusing an existing object when deduplicated. 6. commit logical metadata, usage, idempotency record, and audit event atomically. 7. release reservation and transfer lease. 8. on failure or disconnect, remove temporary and newly unreferenced objects and release all transient state. the route rejects a missing length with 411, an overrun or underrun with 400, a quota breach with the quota error, and an idempotency conflict with 409. public hosting contract the public route is /api/social/drive/public/{aliasid}/{path}. it supports get and head, single byte ranges, cors, etag, last modified, if none match, and if modified since. mime type comes from explicit metadata or path detection. html and mutable logical names revalidate; immutable content uses long lived immutable caching only when policy allows it. missing or private entries are non disclosing and non cacheable. manager security and accessibility the manager is served from /api/social/drive/manager/. credentials live only in javascript module memory and password inputs; localstorage and sessionstorage are not used. static asset paths reject traversal, hidden files, unsupported extensions, and unsupported methods. responses use nosniff. the ui uses safe dom construction, native dialogs, live status announcements, visible focus, reduced motion rules, forced colors compatible styling, and a horizontally contained file table at narrow widths.",
+		"page": "pages/docs-drive-architecture-md-7485050c87.json"
+	},
+	{
+		"id": "docs-drive-operations-md-be77117149",
+		"title": "Operations, migration, rollback, and recovery",
+		"sourcePath": "docs/drive/operations.md",
+		"category": "Operations",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Operations, migration, rollback, and recovery",
+				"anchor": "operations-migration-rollback-and-recovery"
+			},
+			{
+				"level": 2,
+				"text": "Local development",
+				"anchor": "local-development"
+			},
+			{
+				"level": 2,
+				"text": "Provisioning",
+				"anchor": "provisioning"
+			},
+			{
+				"level": 2,
+				"text": "Migration",
+				"anchor": "migration"
+			},
+			{
+				"level": 2,
+				"text": "Rollback",
+				"anchor": "rollback"
+			},
+			{
+				"level": 2,
+				"text": "Reconciliation",
+				"anchor": "reconciliation"
+			},
+			{
+				"level": 2,
+				"text": "Disaster recovery",
+				"anchor": "disaster-recovery"
+			},
+			{
+				"level": 2,
+				"text": "Deployment and publication",
+				"anchor": "deployment-and-publication"
+			},
+			{
+				"level": 2,
+				"text": "Monitoring and troubleshooting",
+				"anchor": "monitoring-and-troubleshooting"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He The Awtsmoos preserves each receipt so migration, rollback, and recovery remain measurable. Operations, migration, rollback, and recovery Local development Set an external database root with AWTSMOOS DB ROOT, disable mail when appropriate with AWTSMOOS DISABLE MAIL=true, and start node i",
+		"searchText": "b\"h boruch hashem blessed is he the awtsmoos preserves each receipt so migration, rollback, and recovery remain measurable. operations, migration, rollback, and recovery local development set an external database root with awtsmoos db root, disable mail when appropriate with awtsmoos disable mail=true, and start node index.js. never point a development process at production storage. keep api keys and bearer credentials in mode 0600 files outside git. provisioning an administrator provisions an alias, quota policy, service identity, and scoped credential. persist only credential metadata and a one way secret verifier. return a credential secret once, over an authenticated channel. test 401 without authentication, 403 for an ordinary user on administrator operations, and 200 for an administrator. migration 1. build a manifest from the read only source tree. the manifest contains relative logical paths, sizes, sha 256 hashes, mime type, visibility, and cache policy; it must not embed the absolute source path. 2. run a dry run to validate names, quota, source hashes, warnings, and rejected nodes. 3. import with the scoped migration credential. upload starts are paced; only request rate and upload rate failures are retried. 4. persist a receipt after each item. resume verifies existing destinations and skips only already valid items. 5. independently audit every destination entry and object without trusting the importer summary. 6. invoke reportdrivereconciliation read only and save the report mode 0600. rollback rollback is receipt bounded: remove only entries created or replaced by the named receipt and preserve unrelated neighboring entries. validate hashes and destination identities before deleting. recompute usage and verify zero active reservations and leases. physical objects are deleted only when no logical entry references their hash. quarantined orphan files remain recoverable until an operator approves destruction. reconciliation reconciliation verifies logical file count and bytes, physical object existence and size, usage counters, quota state, reservations, transfer leases, metadata completeness, orphan objects, inconsistent references, and receipt consistency. any mismatch blocks publication. reports containing paths or operational identifiers use mode 0600. disaster recovery preserve state.json, the content addressed objects/ tree, service/alias metadata, quota policy, and credential metadata. restore into an isolated database root, run reconciliation, then representative public http checks before accepting traffic. do not restore secret plaintext; rotate affected credentials through the normal lifecycle. deployment and publication database sync and source deployment are separate. use scripts/dayuh sync.mjs for dayuh chadash database synchronization and the repository custom ssh client for production inspection. never use /root/dayuhchadash, scp, openssh, remote rsync, or delete without explicit deletion approval. in a shared dirty worktree, stage only owned files and do not use ship.mjs, which stages everything. before service restart, record the exact source revision, inspect the staged diff, verify production configuration does not point to an isolated database, preserve a rollback snapshot, and confirm migrated content exists in the production database. after restart, verify awtsmoos.service, manager assets, authentication boundaries, public get/head/range/conditional/cors/cache behavior, nested and space containing paths, a representative glb, safe missing responses, and unrelated public routes. monitoring and troubleshooting monitor request failures by error code, quota consumption, rate window saturation, transfer lease age, reservation age, public egress, reconciliation deltas, temporary incoming files, and object orphan counts. a stuck reservation or lease is an incident: stop new writes, identify the owning request, reconcile state, and release it only through a reviewed recovery operation.",
+		"page": "pages/docs-drive-operations-md-be77117149.json"
+	},
+	{
+		"id": "docs-drive-readme-md-65360eae3b",
+		"title": "Awtsmoos Drive and self-hosted public hosting",
+		"sourcePath": "docs/drive/README.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Drive and self-hosted public hosting",
+				"anchor": "awtsmoos-drive-and-self-hosted-public-hosting"
+			},
+			{
+				"level": 2,
+				"text": "Documents",
+				"anchor": "documents"
+			},
+			{
+				"level": 2,
+				"text": "Core contracts",
+				"anchor": "core-contracts"
+			},
+			{
+				"level": 2,
+				"text": "Verified implementation surfaces",
+				"anchor": "verified-implementation-surfaces"
+			},
+			{
+				"level": 2,
+				"text": "Known limitation",
+				"anchor": "known-limitation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He The Awtsmoos renews every logical path while Awtsmoos.com keeps the contract visible and exact. Awtsmoos Drive and self hosted public hosting Awtsmoos Drive replaces Firebase Hosting and Google Drive dependencies with one repository native service. It provides authenticated logical file ",
+		"searchText": "b\"h boruch hashem blessed is he the awtsmoos renews every logical path while awtsmoos.com keeps the contract visible and exact. awtsmoos drive and self hosted public hosting awtsmoos drive replaces firebase hosting and google drive dependencies with one repository native service. it provides authenticated logical file management, content addressed object deduplication, public http delivery, migration tooling, reconciliation, quotas, a browser manager, and bounded raw streaming uploads. documents architecture and security operations, migration, rollback, and recovery api examples openapi catalog core contracts logical entries live in one alias scoped state document; physical objects are sha 256 addressed files. multiple logical files may reference one immutable physical object. private entries never disclose existence through the public route. missing and private public requests use safe, non cacheable responses. public files support get, head, byte ranges, etag, last modified, conditional 304 responses, and cors. mutable names use revalidation caching. immutable caching requires an explicit immutable policy or content addressed naming. the raw streaming route is bounded streaming , not arbitrary size ingestion. it requires content length, enforces the configured 512 mib single file quota, uses backpressure and incremental hashing, and never buffers the complete object in application memory. verified implementation surfaces contract source tests entry crud geelooy/api/social/helper/drive/routes/entryroutes.js geelooy/api/social/helper/drive/test/drivehttp.test.js move, copy, trash, restore, purge routes/actionroutes.js, movecopyservice.js, trashservice.js drive top level test suite public hosting routes/publicroutes.js, publicreadservice.js test/public .test.js, subset http verification bounded streaming routes/streamingroutes.js, streaminguploadservice.js streamingupload.test.js, streamingfailure.test.js, streamingbodybypass.test.js authentication and scopes authorization.js, credentialservice.js authentication and provisioning tests quotas and rate limits quotapolicy.js, usageservice.js, ratepolicy.js quota and rate tests migration and receipts migration/ test/migration/ reconciliation reconciliationservice.js reconciliation tests and operational report manager ui geelooy/apps/drive/, routes/managerroutes.js manager route, client contract, and browser reports known limitation the json entry write route accepts base64 content and therefore buffers that request. use the raw streaming put route for bounded large file ingestion. the configured maximum single file is 512 mib. removing that limit without changing quota policy is unsupported.",
+		"page": "pages/docs-drive-readme-md-65360eae3b.json"
+	},
+	{
+		"id": "docs-generated-api-caller-index-md-ff07dce14c",
+		"title": "Generated API Caller Index",
+		"sourcePath": "docs/GENERATED/API_CALLER_INDEX.md",
+		"category": "General",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated API Caller Index",
+				"anchor": "generated-api-caller-index"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated API Caller Index Literal /api/ references found outside the API source tree; test callers are labeled. 341 rows. Chunk Rows Count api callers 001.md 1–80 80 api callers 002.md 81–160 80 api callers 003.md 161–240 80 api callers 004.md 241–320 80 api callers 005.md 321–341 21",
+		"searchText": "b\"h boruch hashem blessed is he generated api caller index literal /api/ references found outside the api source tree; test callers are labeled. 341 rows. chunk rows count api callers 001.md 1–80 80 api callers 002.md 81–160 80 api callers 003.md 161–240 80 api callers 004.md 241–320 80 api callers 005.md 321–341 21",
+		"page": "pages/docs-generated-api-caller-index-md-ff07dce14c.json"
+	}
+]

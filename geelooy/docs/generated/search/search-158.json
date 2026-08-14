@@ -1,0 +1,53 @@
+[
+	{
+		"id": "docs-generated-project-atlas-projects-003-md-51bf083cfd",
+		"title": "Generated Project Atlas 91–135",
+		"sourcePath": "docs/GENERATED/PROJECT_ATLAS/projects-003.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated Project Atlas 91–135",
+				"anchor": "generated-project-atlas-91-135"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Project Atlas 91–135 Observed project/directory boundaries with classified file counts and local documentation status. Path Type Files Source Tests Assets Generated Local docs Entries Title geelooy/games/Merkava game 120 86 31 0 0 geelooy/games/Merkava/DOCUMENTATION.md index.ht",
+		"searchText": "b\"h boruch hashem blessed is he generated project atlas 91–135 observed project/directory boundaries with classified file counts and local documentation status. path type files source tests assets generated local docs entries title geelooy/games/merkava game 120 86 31 0 0 geelooy/games/merkava/documentation.md index.html, package.json, documentation.md, readme.md, readme.md merkava — war of the sparks geelooy/games/nachash game 5 5 0 0 0 — index.html, main.js tikkun hanachash geelooy/games/adventure game 1 1 0 0 0 — index.html adventure game geelooy/games/brick blast game 80 79 0 0 0 geelooy/games/brick blast/documentation.md index.html, index.js, documentation.md brick blast geelooy/games/cards game 11 10 0 0 0 geelooy/games/cards/documentation.md index.html, documentation.md the utterances — blackjack on awtsmoos geelooy/games/chess game 17 16 0 0 0 geelooy/games/chess/documentation.md index.html, main.js, documentation.md ultimate chess ai geelooy/games/city of light game 76 63 11 0 0 geelooy/games/city of light/documentation.md index.html, package.json, documentation.md, readme.md, readme.md city of light · the complete pilgrimage geelooy/games/connect4 game 6 6 0 0 0 — index.html, main.js connect 4 geelooy/games/dove game 8 8 0 0 0 — index.html noah's dove's 🕊️ quest ❓ for shalom geelooy/games/emojis game 37 36 0 0 0 geelooy/games/emojis/documentation.md index.html, documentation.md emoji war — neon caption arcade geelooy/games/kabbalah shooter game 39 38 0 0 0 geelooy/games/kabbalah shooter/documentation.md index.html, main.js, package.json, documentation.md kabbalah infinite — the breaking of vessels geelooy/games/migdol game 12 11 0 0 0 geelooy/games/migdol/documentation.md index.html, documentation.md migdol kabbalah tower defense geelooy/games/mitzvahworld game 3813 2516 953 0 53 geelooy/games/mitzvahworld/documentation.md index.html, documentation.md b&quot;h mitzvah world — restored river valley geelooy/games/neshama quest game 7 7 0 0 0 — index.html neshama quest geelooy/games/nitzotz io game 236 206 29 0 0 geelooy/games/nitzotz io/documentation.md index.html, package.json, documentation.md nitzotz.io — shlichus adventure metropolis geelooy/games/ohr hagnuz game 790 697 89 0 0 geelooy/games/ohr hagnuz/documentation.md index.html, package.json, documentation.md b&quot;h — ohr hagnuz: the concealed frontier geelooy/games/party game 16 15 0 0 0 geelooy/games/party/documentation.md index.html, documentation.md party challenge — awtsmoos games geelooy/games/pong game 7 7 0 0 0 — index.html pong game geelooy/games/rambam game 1 1 0 0 0 — — — geelooy/games/rebbe runner game 4 4 0 0 0 — index.html the rebbe's runner geelooy/games/scribe journey game 476 375 99 0 0 geelooy/games/scribe journey/documentation.md index.html, documentation.md the scribe's journey: echoes of ein sof geelooy/games/scripts game 77 70 0 0 4 geelooy/games/scripts/documentation.md documentation.md — geelooy/games/sefira clash game 1316 1273 40 0 0 geelooy/games/sefira clash/documentation.md index.html, package.json, documentation.md sefira clash · open world, expedition, co op, adventure &amp; vs geelooy/games/seven mitzvos game 523 446 65 1 0 geelooy/games/seven mitzvos/documentation.md index.html, package.json, documentation.md seven mitzvos · living material worlds geelooy/games/shema strike game 173 149 21 0 0 geelooy/games/shema strike/documentation.md index.html, package.json, documentation.md shema strike: gates of light geelooy/games/soul jump game 2 2 0 0 0 — index.html, main.js ein sof ascent geelooy/games/styles game 13 12 0 0 0 geelooy/games/styles/documentation.md documentation.md — geelooy/games/sulam ha sod game 167 152 14 0 0 geelooy/games/sulam ha sod/documentation.md index.html, documentation.md sulam hasod geelooy/games/tests game 14 0 13 0 0 geelooy/games/tests/documentation.md documentation.md — geelooy/games/tetris game 8 8 0 0 0 — index.html, main.js tikkun haolam the final rectification geelooy/geelooy project 5 1 3 0 0 — — — geelooy/heichel project 1 1 0 0 0 — — — geelooy/heichel editor public 16 14 1 0 0 geelooy/heichel editor/documentation.md index.html, app.js, documentation.md heichel editor — geelooy geelooy/heichel review public 30 26 2 0 0 geelooy/heichel review/documentation.md index.html, documentation.md, readme.md, readme.md heichel review and governance center geelooy/heichelos project 980 858 119 0 0 geelooy/heichelos/documentation.md awtsmoos.derech.js, documentation.md — geelooy/legal project 6 6 0 0 0 — — — geelooy/libs library 2057 1905 132 0 0 geelooy/libs/documentation.md documentation.md — geelooy/login public 1 1 0 0 0 — index.html login with awtsmoos geelooy/logout public 1 1 0 0 0 — index.html — geelooy/mawgawl public 42 37 4 0 0 geelooy/mawgawl/documentation.md index.html, documentation.md — geelooy/node os public 2 2 0 0 0 — index.html, app.js awtsmoos node os geelooy/notifications public 11 9 1 0 0 geelooy/notifications/documentation.md index.html, app.js, documentation.md signals — geelooy geelooy/ocr public 1 1 0 0 0 — index.html — geelooy/os public 444 417 25 0 0 geelooy/os/documentation.md index.html, documentation.md geelooy os — files, awtsmoosdb, runtime & control geelooy/parsers project 1 1 0 0 0 — — —",
+		"page": "pages/docs-generated-project-atlas-projects-003-md-51bf083cfd.json"
+	},
+	{
+		"id": "docs-generated-project-atlas-projects-004-md-55e934ed19",
+		"title": "Generated Project Atlas 136–163",
+		"sourcePath": "docs/GENERATED/PROJECT_ATLAS/projects-004.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated Project Atlas 136–163",
+				"anchor": "generated-project-atlas-136-163"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Project Atlas 136–163 Observed project/directory boundaries with classified file counts and local documentation status. Path Type Files Source Tests Assets Generated Local docs Entries Title geelooy/platform project 110 89 19 0 0 geelooy/platform/DOCUMENTATION.md DOCUMENTATION.",
+		"searchText": "b\"h boruch hashem blessed is he generated project atlas 136–163 observed project/directory boundaries with classified file counts and local documentation status. path type files source tests assets generated local docs entries title geelooy/platform project 110 89 19 0 0 geelooy/platform/documentation.md documentation.md — geelooy/post editor public 12 10 1 0 0 geelooy/post editor/documentation.md index.html, app.js, documentation.md post editor — geelooy geelooy/profile public 22 18 2 0 0 geelooy/profile/documentation.md index.html, documentation.md profile — geelooy geelooy/public project 17 8 0 0 0 geelooy/public/documentation.md documentation.md — geelooy/record public 7 7 0 0 0 — index.html camera preview — geelooy geelooy/recorder public 13 11 0 0 0 geelooy/recorder/documentation.md index.html, documentation.md local recorder — geelooy geelooy/reeyuh public 1 1 0 0 0 — index.html shulchan aruch viewer geelooy/register public 1 1 0 0 0 — index.html create awtsmoos account geelooy/resources project 2 2 0 0 0 — — — geelooy/scripts library 1454 1314 96 1 0 geelooy/scripts/documentation.md documentation.md — geelooy/shared library 90 74 14 0 0 geelooy/shared/documentation.md package.json, documentation.md — geelooy/sites project 4 3 1 0 0 — awtsmoos.derech.js — geelooy/social public 1 1 0 0 0 — index.html awtsmoos social hub geelooy/social actions project 4 2 1 0 0 — readme.md, readme.md — geelooy/social composer public 268 242 17 0 0 geelooy/social composer/documentation.md index.html, package.json, documentation.md, readme.md, readme.md create new post — geelooy geelooy/social hub public 79 61 16 0 0 geelooy/social hub/documentation.md index.html, package.json, documentation.md, readme.md, readme.md social hub — geelooy geelooy/sod public 1 1 0 0 0 — index.html endpoint interaction geelooy/style library 1099 1048 47 0 0 geelooy/style/documentation.md documentation.md — geelooy/tests test 98 0 96 0 0 geelooy/tests/documentation.md documentation.md — geelooy/tmp project 5 0 0 0 0 — — — geelooy/view project 1 1 0 0 0 — awtsmoos.derech.js — geelooy/webscrapers project 5 5 0 0 0 — — — geelooy/youtube public 7 6 0 0 0 geelooy/youtube/documentation.md index.html, documentation.md awtsmoos youtube manager ops operations 5 0 0 0 0 ops/documentation.md documentation.md — scripts tooling 346 273 14 0 0 scripts/documentation.md documentation.md — templates tooling 15 13 1 0 0 templates/documentation.md documentation.md — tests test 93 0 92 0 0 tests/documentation.md documentation.md — tools tooling 201 113 29 0 0 tools/documentation.md documentation.md —",
+		"page": "pages/docs-generated-project-atlas-projects-004-md-55e934ed19.json"
+	},
+	{
+		"id": "docs-generated-project-dependencies-md-6af5d749d6",
+		"title": "Generated Cross-Project Dependency Evidence",
+		"sourcePath": "docs/GENERATED/PROJECT_DEPENDENCIES.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated Cross-Project Dependency Evidence",
+				"anchor": "generated-cross-project-dependency-evidence"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Cross Project Dependency Evidence Relative import edges between observed project boundaries; counts are lexical references, not runtime reachability. 69 rows. Chunk Rows Count dependencies 001.md 1–65 65 dependencies 002.md 66–69 4",
+		"searchText": "b\"h boruch hashem blessed is he generated cross project dependency evidence relative import edges between observed project boundaries; counts are lexical references, not runtime reachability. 69 rows. chunk rows count dependencies 001.md 1–65 65 dependencies 002.md 66–69 4",
+		"page": "pages/docs-generated-project-dependencies-md-6af5d749d6.json"
+	}
+]

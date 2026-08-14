@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-drive-operations-md-be77117149",
+	"title": "Operations, migration, rollback, and recovery",
+	"sourcePath": "docs/drive/operations.md",
+	"category": "Operations",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Operations, migration, rollback, and recovery",
+			"anchor": "operations-migration-rollback-and-recovery"
+		},
+		{
+			"level": 2,
+			"text": "Local development",
+			"anchor": "local-development"
+		},
+		{
+			"level": 2,
+			"text": "Provisioning",
+			"anchor": "provisioning"
+		},
+		{
+			"level": 2,
+			"text": "Migration",
+			"anchor": "migration"
+		},
+		{
+			"level": 2,
+			"text": "Rollback",
+			"anchor": "rollback"
+		},
+		{
+			"level": 2,
+			"text": "Reconciliation",
+			"anchor": "reconciliation"
+		},
+		{
+			"level": 2,
+			"text": "Disaster recovery",
+			"anchor": "disaster-recovery"
+		},
+		{
+			"level": 2,
+			"text": "Deployment and publication",
+			"anchor": "deployment-and-publication"
+		},
+		{
+			"level": 2,
+			"text": "Monitoring and troubleshooting",
+			"anchor": "monitoring-and-troubleshooting"
+		}
+	],
+	"markdownParts": [
+		"content/docs-drive-operations-md-be77117149-001.json"
+	]
+}

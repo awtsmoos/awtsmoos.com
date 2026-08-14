@@ -1,0 +1,203 @@
+[
+	{
+		"id": "docs-generated-system-tutorials-systems-session-authentication-md-bbee840f4e",
+		"title": "System Tutorial: Session Authentication",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/session-authentication.md",
+		"category": "Security",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "System Tutorial: Session Authentication",
+				"anchor": "system-tutorial-session-authentication"
+			},
+			{
+				"level": 2,
+				"text": "Claims boundary",
+				"anchor": "claims-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Change risk",
+				"anchor": "change-risk"
+			},
+			{
+				"level": 2,
+				"text": "Human manuals",
+				"anchor": "human-manuals"
+			},
+			{
+				"level": 2,
+				"text": "Related project boundaries",
+				"anchor": "related-project-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Source anchors",
+				"anchor": "source-anchors"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Environment-name evidence",
+				"anchor": "environment-name-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Realtime application registration evidence",
+				"anchor": "realtime-application-registration-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Lexical event/message evidence",
+				"anchor": "lexical-event-message-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Tags",
+				"anchor": "tags"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: Session Authentication District: security · System ID: session authentication Canonical HTTP session authentication and reuse of the same verifier for WebSocket upgrades. Generated evidence below is a navigation aid. Trust, migration, consistency, protocol, and authoriza",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial: session authentication district: security · system id: session authentication canonical http session authentication and reuse of the same verifier for websocket upgrades. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary authentication establishes a verified identity source; it does not by itself authorize a resource operation. change risk secret loading, fallback behavior, middleware order, and socket verifier changes are security sensitive. human manuals docs/security/readme.md docs/security/trust boundaries.md related project boundaries ayzarim/awtsmoosdynamicserver (runtime) — ayzarim/awtsmoosdynamicserver source anchors ayzarim/awtsmoosdynamicserver/server/authsetup.js generated evidence docs/generated/environment variables.md environment name evidence name class source refs example sources awts entry limit test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awts entry match test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awts entry offset test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awts entry roots test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awtsmoos registration stress count test/tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/test/registrationreplacementstress.test.cjs awtsmoos relay stress count test/tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay.concurrent correlation.test.cjs awtsmoos sefira profile path path/storage 1 ayzarim/awtsmoosdynamicserver/websocket/apps/sefiraclash/expeditionprofilerepository.js awtsmoos tunnel completed limit tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel consumer progress ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestackhandler.js awtsmoos tunnel control store path/storage 9 ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/missionroomsocketintegration.test.cjs; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/missionroomupgrade.test.cjs; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/upgradepolicy.test.cjs awtsmoos tunnel pending ttl ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel quarantine limit tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay max safe wait ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay safe wait ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay state root path/storage 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/durablepaths.js awtsmoos tunnel request acceptance ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestdispatch.js awtsmoos ws max missed heartbeats runtime config 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js awtsmoos ws probe grace ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js awtsmoos ws stale ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js mw load clients runtime config 1 ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/sessionloadprobe.cjs realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence none observed for this system packet. tags identity · session · websocket · security",
+		"page": "pages/docs-generated-system-tutorials-systems-session-authentication-md-bbee840f4e.json"
+	},
+	{
+		"id": "docs-generated-system-tutorials-systems-social-packed-storage-md-c7d99f2ec5",
+		"title": "System Tutorial: Social Packed Storage",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/social-packed-storage.md",
+		"category": "Systems",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "System Tutorial: Social Packed Storage",
+				"anchor": "system-tutorial-social-packed-storage"
+			},
+			{
+				"level": 2,
+				"text": "Claims boundary",
+				"anchor": "claims-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Change risk",
+				"anchor": "change-risk"
+			},
+			{
+				"level": 2,
+				"text": "Human manuals",
+				"anchor": "human-manuals"
+			},
+			{
+				"level": 2,
+				"text": "Related project boundaries",
+				"anchor": "related-project-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Source anchors",
+				"anchor": "source-anchors"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Environment-name evidence",
+				"anchor": "environment-name-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Realtime application registration evidence",
+				"anchor": "realtime-application-registration-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Lexical event/message evidence",
+				"anchor": "lexical-event-message-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Tags",
+				"anchor": "tags"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: Social Packed Storage District: data · System ID: social packed storage Packed Social persistence, bridges, shards, snapshots, and migration helpers used around posts/comments/series. Generated evidence below is a navigation aid. Trust, migration, consistency, protocol, ",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial: social packed storage district: data · system id: social packed storage packed social persistence, bridges, shards, snapshots, and migration helpers used around posts/comments/series. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary packed engine files show implementation families; logical social semantics still belong to social handlers and manuals. change risk shard, manifest, snapshot, or migration changes can affect existing social content. human manuals docs/data/readme.md docs/data/path contracts.md related project boundaries geelooy/api/social (api) — geelooy/api/social source anchors geelooy/api/social/ awtsmoos.packed.js geelooy/api/social/helper/packed/socialpacked.js geelooy/api/social/helper/packed/awtsmoosdbfsbridge.js generated evidence docs/generated/project tutorial index.md environment name evidence name class source refs example sources awts db root path/storage 3 geelooy/api/social/helper/search/rag/paths.js; geelooy/api/social/helper/search/rag/test/catalogandsidecar.test.js; geelooy/api/social/helper/search/rag/test/livesearchprobe.js awts rag startup warmup runtime config 2 geelooy/api/social/helper/search/rag/ragstartupwarmup.js; geelooy/api/social/helper/search/rag/test/searchcontracts.test.js awtsmoos ai root path/storage 1 geelooy/api/social/helper/search/rag/paths.js awtsmoos db path path/storage 1 geelooy/api/social/helper/series/directseriesprateem.js awtsmoos drive admin user ids runtime config 1 geelooy/api/social/helper/drive/adminauthorization.js awtsmoos enable comment breadcrumb index path/storage 1 geelooy/api/social/helper/comments/commentcreation.js awtsmoos likkutei sichos rag root path/storage 1 geelooy/api/social/helper/search/rag/paths.js awtsmoos rag root path/storage 1 geelooy/api/social/helper/search/rag/paths.js awtsmoos real smoke debug test/tuning 1 geelooy/api/social/helper/apikeys.js awtsmoos sichos kodesh rag root test/tuning 1 geelooy/api/social/helper/search/rag/test/sichoskodeshcommentrows.test.js awtsmoos social awtsdb test/tuning 1 geelooy/api/social/helper/awtsmoosdb/test/shardstore.test.js awtsmoos tanach embed python runtime config 1 geelooy/api/social/helper/search/rag/multilingualembedder.js awtsmoos tanach index path/storage 3 geelooy/api/social/helper/search/rag/storageinvariant.js; geelooy/api/social/helper/search/rag/test/storageinvariant.test.js; geelooy/api/social/helper/search/tanach/paths.js awtsmoos tanach model path path/storage 1 geelooy/api/social/helper/search/rag/multilingualembedder.js exact hebrew index db path/storage 1 geelooy/api/social/helper/search/exacthebrewworkerclient.js realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence none observed for this system packet. tags persistence · social · packed · migration",
+		"page": "pages/docs-generated-system-tutorials-systems-social-packed-storage-md-c7d99f2ec5.json"
+	},
+	{
+		"id": "docs-generated-system-tutorials-systems-tunnel-control-identity-md-25a3e91352",
+		"title": "System Tutorial: Tunnel Control Identity",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/tunnel-control-identity.md",
+		"category": "Tunnel",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "System Tutorial: Tunnel Control Identity",
+				"anchor": "system-tutorial-tunnel-control-identity"
+			},
+			{
+				"level": 2,
+				"text": "Claims boundary",
+				"anchor": "claims-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Change risk",
+				"anchor": "change-risk"
+			},
+			{
+				"level": 2,
+				"text": "Human manuals",
+				"anchor": "human-manuals"
+			},
+			{
+				"level": 2,
+				"text": "Related project boundaries",
+				"anchor": "related-project-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Source anchors",
+				"anchor": "source-anchors"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Environment-name evidence",
+				"anchor": "environment-name-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Realtime application registration evidence",
+				"anchor": "realtime-application-registration-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Lexical event/message evidence",
+				"anchor": "lexical-event-message-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Tags",
+				"anchor": "tags"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: Tunnel Control Identity District: security · System ID: tunnel control identity Tunnel Control resolves session, OAuth, or verified API key identity into one authoritative account record. Generated evidence below is a navigation aid. Trust, migration, consistency, protoc",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial: tunnel control identity district: security · system id: tunnel control identity tunnel control resolves session, oauth, or verified api key identity into one authoritative account record. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary the identity resolver rejects browser supplied owner fields as authority; downstream permissions remain separate. change risk identity source precedence, api key verification, and account normalization directly affect authorization inputs. human manuals docs/security/trust boundaries.md docs/tutorials/api/tunnel control.md related project boundaries geelooy/api/tunnel (api) — geelooy/api/tunnel source anchors geelooy/api/tunnel/control/core/auth.js generated evidence docs/generated/api tutorial index.md environment name evidence name class source refs example sources awtsmoos binding history per identity runtime config 1 geelooy/api/tunnel/control/core/tunnelsecurity/bindingretentionpolicy.js awtsmoos binding retention ms tuning 1 geelooy/api/tunnel/control/core/tunnelsecurity/bindingretentionpolicy.js awtsmoos native recovering ms tuning 1 geelooy/api/tunnel/control/routes/fsvessel/livedeviceidentity.js realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence none observed for this system packet. tags identity · api key · oauth · session · tunnel",
+		"page": "pages/docs-generated-system-tutorials-systems-tunnel-control-identity-md-25a3e91352.json"
+	}
+]

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Geelooy OS Documentation\n\nThe Awtsmoos lets a browser hold windows, files, apps, and runtime in a navigable sphere;\nAwtsmoos.com maps the OS beside Node OS, platform, virtual OS, Tunnel, and native runtime here.\n\nRead [../../docs/SYSTEMS/GEELOOY_OS.md](../../docs/SYSTEMS/GEELOOY_OS.md).\n\nRelated: `../node-os/`, `../platform/`, `../shared/virtual-os/`, `../apps/code/`, `../apps/tunnel-control/`, and `/api/runtime/native/*`.\n"
+}

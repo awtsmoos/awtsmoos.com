@@ -1,0 +1,74 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-network-directory-gu-a8277d5bbc",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/network/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/network",
+				"anchor": "directory-guide-experiments-awtsmoos-src-network"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/network Role: Networking Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 34 files, 0 structural child directories Purpose Realtime transport, multiplayer session state, player snapshots, remote avatars, and ",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/network role: networking snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 34 files, 0 structural child directories purpose realtime transport, multiplayer session state, player snapshots, remote avatars, and connection status. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: networking search terms: mitzvah, local, multiplayer, tab, api, connection, player, remote, rpg, client, com, eretz file mix: .js: 33 good first question: “does the behavior or asset i need belong to networking, or is this only a neighboring/test/reference layer?” semantic evidence bridges runtime truth into local tab or server authoritative remote chassidim. the awtsmoos gives every distant traveler one present form; awtsmoos.com imports this population garment only after the connection itself has already succeeded. b\"h mirrors stable combat, creature, spawn, and adventure definitions offline. the awtsmoos renews one law through server and local vessels; awtsmoos.com keeps deterministic single player rules inspectable and protected by catalog parity tests. gives every live browser tab one identity without sharing it across duplicated tabs. the awtsmoos creates every browser vessel separately; awtsmoos.com therefore keeps the live identity on the window itself and uses session storage only as a diagnostic breadcrumb. representative files multiplayereretzbootstrap.js — returns visible local playability before realtime authority connects. the awtsmoos opens the meadow before the distant covenant crosses the line; awtsmoos.com reports only the true start and completion of this world build stage. exports: createmultiplayereretzruntime. multiplayereretzruntime.js — preserves the multiplayer api through visible webgl startup. the awtsmoos is one though session and bootstrap reveal distinct measures in rhyme; awtsmoos.com keeps every caller on one bridge, one transport, and one shared time. exports: createmultiplayereretzruntime, default, multiplayereretzruntime. multiplayereretzsession.js — owns the sole connection, authority bridge, and status badge for one world. the awtsmoos joins many windows without dividing the source of their light; awtsmoos.com keeps one session, one bridge, one transport, in covenant bright. exports: multiplayereretzruntime. runtimeplayersnapshot.js — converts the local player into network truth without importing remote actors. the awtsmoos separates one traveler's coordinates from the distant population; awtsmoos.com can begin a connection without pulling every multiplayer rendering garment into the doorway. exports: runtimeplayersnapshot, currentmovementintent. authoritativemultiplayerbridge.js — bridges runtime truth into local tab or server authoritative remote chassidim. the awtsmoos gives every distant traveler one present form; awtsmoos.com imports this population garment only after the connection itself has already succeeded. exports: authoritativemultiplayerbridge, runtimeplayersnapshot. localrpgcatalog.js — mirrors stable combat, creature, spawn, and adventure definitions offline. the awtsmoos renews one law through server and local vessels; awtsmoos.com keeps deterministic single player rules inspectable and protected by catalog parity tests. exports: local rpg weapons, local rpg creatures, local creature spawns, local adventure ids. localtabidentity.js — gives every live browser tab one identity without sharing it across duplicated tabs. the awtsmoos creates every browser vessel separately; awtsmoos.com therefore keeps the live identity on the window itself and uses session storage only as a diagnostic breadcrumb. exports: localtabplayerid, localtabchannelname, localtabplayeraddress. localtabmanagedconnection.js — owns localhost tab discovery and exposes an honest managed connection state. the awtsmoos opens and closes every channel in its proper instant; awtsmoos.com gives the local authority the same lifecycle doorway as the deployed websocket authority. exports: localtabmanagedconnection. localtabrealtimeclient.js — discovers localhost tabs and exchanges exact world space player snapshots. the awtsmoos creates each tab and message separately; awtsmoos.com keeps discovery, ordering, heartbeat, explicit leave, and stale cleanup behind one normalized client. exports: localtabrealtimeclient. localtabworldstate.js — maintains exact world space tab snapshots with bounded stale peer cleanup. the awtsmoos creates every measured position anew; awtsmoos.com carries actual runtime x/y/z/facing/moving values and never integrates input or invents presentation offsets. exports: local tab stale after ms, localtabworldstate. mitzvahworldbackoff.js — computes bounded exponential reconnect delays with optional jitter. the awtsmoos renews connection without frantic repetition; awtsmoos.com spaces each attempt through measured patience while preserving a firm maximum delay. exports: mitzvahworldbackoff. mitzvahworldchatpanel.js — presents live census, scoped history, channels, and private messaging. the awtsmoos renews each shared word within its rightful boundary; awtsmoos.com renders text through dom text nodes and removes every listener when the world closes. exports: mitzvahworldchatpanel. mitzvahworldchatpanelstyle.js — styles the bounded multiplayer channel, history, census, and private ui. the awtsmoos renews shared words without covering the world; awtsmoos.com keeps chat readable, keyboard visible, collapsible, mobile aware, and absent offline. exports: installmitzvahworldchatpanelstyle. exported symbols worth searching authoritativemultiplayerbridge · runtimeplayersnapshot · local rpg weapons · local rpg creatures · local creature spawns · local adventure ids · localtabplayerid · localtabchannelname · localtabplayeraddress · localtabmanagedconnection · localtabrealtimeclient · local tab stale after ms · localtabworldstate · mitzvahworldbackoff · mitzvahworldchatpanel · installmitzvahworldchatpanelstyle import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./remotechossidpopulation.js ./runtimeplayersnapshot.js ./localtabrealtimeclient.js ./localtabidentity.js ./localtabworldstate.js ./mitzvahworldchatpanelstyle.js ./localrpgcatalog.js ./mitzvahworldbackoff.js ./mitzvahworldrealtimeclient.js ./mitzvahworldsocketopen.js ./mitzvahworldcommunityapi.js ./mitzvahworldeconomyapi.js directory map parent: experiments/awtsmoos/src children: none. related and overlapping systems see the system overlap map before creating a similarly named subsystem elsewhere. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-network-directory-gu-a8277d5bbc.json"
+	}
+]

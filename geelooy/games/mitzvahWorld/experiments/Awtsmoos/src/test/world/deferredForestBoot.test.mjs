@@ -4,9 +4,9 @@
 
 /**
  * @file deferredForestBoot.test.mjs
- * @description Proves staged playability and one terrain-to-botany enrichment chain.
+ * @description Proves staged playability and one terrain-to-botany enrichment chain through current runtime APIs.
  * The Awtsmoos reveals movement before habitation and the road before the leaves;
- * Awtsmoos.com verifies empty startup vessels, playable publication, and single ownership.
+ * Awtsmoos.com verifies empty startup vessels, playable publication, and single deferred ownership without stale call names.
  */
 
 import assert from 'node:assert/strict';
@@ -44,15 +44,16 @@ test('essential terrain defers forest and sacred landmark generation', async () 
 	assert.equal(source.includes('deferredTerrainContext'), true);
 });
 
-test('bootstrap movement exists before playable publication and district streaming', async () => {
+test('bootstrap movement exists before playable publication and post-play streaming', async () => {
 	const entry = await readSource('app/createEretzRuntime.js');
 	const assembly = await readSource('app/BootstrapCoreRuntimeAssembly.js');
 	const loopIndex = assembly.indexOf('startBootstrapRuntimeLoop(');
 	const publishIndex = entry.indexOf('publishRuntime(core.diagnostics, environment)');
-	const streamingIndex = entry.indexOf('core.diagnostics.enrichmentPromise = streamDistricts(');
+	const streamingIndex = entry.indexOf('startPostPlayableStreams(core, options, boot, environment)');
 	assert.ok(loopIndex >= 0, 'Bootstrap movement loop must remain present.');
 	assert.ok(publishIndex >= 0, 'Playable runtime publication must remain present.');
-	assert.ok(streamingIndex > publishIndex, 'District streaming must begin after playability.');
+	assert.ok(streamingIndex > publishIndex, 'Post-play streaming must begin after playability.');
+	assert.match(entry, /startEretzDistrictStreaming\(/);
 });
 
 test('optional-world streaming is the sole botanical runtime owner', async () => {

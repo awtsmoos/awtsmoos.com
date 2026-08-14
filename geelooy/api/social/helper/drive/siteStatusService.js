@@ -5,34 +5,36 @@
 /**
  * @module DriveSiteStatusService
  * @description
- * The Awtsmoos counts only public, living files when describing a website;
- * Awtsmoos.com exposes readiness without leaking private names or bytes.
+ * The Awtsmoos reveals the primary published folder as both legacy site status and
+ * project testimony; Awtsmoos.com preserves old fields while adding root-scoped
+ * readiness and secret-free custom-domain progress for builders and agents alike.
  */
 
 const { readDriveState } = require('./stateRepository.js');
+const { primarySiteFromState } = require('./siteMappingService.js');
+const { siteDomainStatusFromState } = require('./siteDomainStatus.js');
+const { siteReadinessFromState, isPublicFile } = require('./siteReadiness.js');
+const { projectPublicationStatus } = require('./siteProjectStatus.js');
 
 async function getDriveSiteStatus(aliasId, $i) {
 	const state = await readDriveState(aliasId, $i);
-	const publicEntries = Object.values(state.entries).filter(isPublicFile);
-	const index = state.entries['index.html'];
+	const site = primarySiteFromState(state);
+	const readiness = siteReadinessFromState(state, site);
+	const domains = siteDomainStatusFromState(state, site?.id || 'home');
+	const project = projectPublicationStatus(aliasId, site, readiness, domains);
 	return {
 		aliasId,
-		ready: isPublicFile(index),
-		sitePath: `/sites/${encodeURIComponent(aliasId)}/`,
-		entryPoint: isPublicFile(index) ? 'index.html' : null,
-		publicFileCount: publicEntries.length,
-		publicBytes: publicEntries.reduce(addEntrySize, 0),
+		ready: readiness.ready,
+		sitePath: project.publication.route,
+		entryPoint: readiness.entryPoint,
+		publicFileCount: readiness.publicFileCount,
+		publicBytes: readiness.publicBytes,
 		relativeLinksSupported: true,
-		rootRelativeLinksSupported: false
+		rootRelativeLinksSupported: false,
+		site,
+		readiness,
+		project
 	};
-}
-
-function addEntrySize(total, entry) {
-	return total + Number(entry.size || 0);
-}
-
-function isPublicFile(entry) {
-	return entry?.type === 'file' && !entry.trashedAt && entry.visibility === 'public';
 }
 
 module.exports = {

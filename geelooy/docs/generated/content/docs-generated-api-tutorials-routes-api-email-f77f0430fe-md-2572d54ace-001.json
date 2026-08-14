@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# API Tutorial: /api/email\n\n**Family:** Email · **Mount:** `/api/email` · **Derech health:** OK\n\n**Source:** `geelooy/api/email/_awtsmoos.derech.js` · **Discovery:** static-literal · **Confidence:** unknown-method\n\n[Read the human Email tutorial](../../../TUTORIALS/API/EMAIL.md)\n\n> Generated evidence is a navigation and teaching aid, not an OpenAPI contract. Unknown evidence stays unknown; inspect current source/tests before production use.\n\n## Contract evidence\n\n- Methods: **unknown**\n- Request vessels: —\n- Observed status literals: —\n- Observed headers: —\n\n## Path parameters\n\nNone.\n\n## Starter call\n\nNo executable starter is generated because method evidence is unknown. Inspect the source handler before choosing a method or payload.\n\n## Observed callers\n\nNo matching literal caller evidence was found.\n\n## Related tests\n\nHeuristic family matches:\n\n- `emailTest` — `node ayzarim/email/emailTest.js`\n\n## Related routes\n\n- [`/api/email/email`](./api-email-email-21dde810a8.md)\n"
+}

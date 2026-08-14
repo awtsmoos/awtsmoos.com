@@ -1,0 +1,92 @@
+[
+	{
+		"name": "Routes",
+		"count": 513,
+		"manual": 5,
+		"generated": 508
+	},
+	{
+		"name": "Games",
+		"count": 208,
+		"manual": 208,
+		"generated": 0
+	},
+	{
+		"name": "Projects",
+		"count": 185,
+		"manual": 14,
+		"generated": 171
+	},
+	{
+		"name": "General",
+		"count": 166,
+		"manual": 102,
+		"generated": 64
+	},
+	{
+		"name": "Tunnel",
+		"count": 105,
+		"manual": 19,
+		"generated": 86
+	},
+	{
+		"name": "Apps",
+		"count": 94,
+		"manual": 94,
+		"generated": 0
+	},
+	{
+		"name": "API",
+		"count": 65,
+		"manual": 65,
+		"generated": 0
+	},
+	{
+		"name": "Security",
+		"count": 30,
+		"manual": 10,
+		"generated": 20
+	},
+	{
+		"name": "Data",
+		"count": 28,
+		"manual": 26,
+		"generated": 2
+	},
+	{
+		"name": "Systems",
+		"count": 26,
+		"manual": 15,
+		"generated": 11
+	},
+	{
+		"name": "Operations",
+		"count": 17,
+		"manual": 17,
+		"generated": 0
+	},
+	{
+		"name": "Realtime",
+		"count": 17,
+		"manual": 9,
+		"generated": 8
+	},
+	{
+		"name": "Testing",
+		"count": 13,
+		"manual": 5,
+		"generated": 8
+	},
+	{
+		"name": "AI",
+		"count": 9,
+		"manual": 6,
+		"generated": 0
+	},
+	{
+		"name": "Development",
+		"count": 4,
+		"manual": 4,
+		"generated": 0
+	}
+]

@@ -1,0 +1,235 @@
+[
+	{
+		"id": "docs-apps-tunnel-and-runtime-md-1a59e897d0",
+		"title": "Tunnel and Runtime Apps",
+		"sourcePath": "docs/APPS/TUNNEL_AND_RUNTIME.md",
+		"category": "Tunnel",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tunnel and Runtime Apps",
+				"anchor": "tunnel-and-runtime-apps"
+			},
+			{
+				"level": 2,
+				"text": "Tunnel Console — geelooy/apps/tunnel/",
+				"anchor": "tunnel-console-geelooy-apps-tunnel"
+			},
+			{
+				"level": 2,
+				"text": "Tunnel Control — geelooy/apps/tunnel-control/",
+				"anchor": "tunnel-control-geelooy-apps-tunnel-control"
+			},
+			{
+				"level": 2,
+				"text": "Native/runtime relationships",
+				"anchor": "native-runtime-relationships"
+			},
+			{
+				"level": 2,
+				"text": "Security boundary",
+				"anchor": "security-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Nested copy",
+				"anchor": "nested-copy"
+			},
+			{
+				"level": 2,
+				"text": "Existing specialist docs",
+				"anchor": "existing-specialist-docs"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel and Runtime Apps The Awtsmoos bridges one machine to another without letting the boundary disappear; Awtsmoos.com gives the Tunnel a console, a control plane, installers, grants, and runtime paths made clear. Tunnel Console — geelooy/apps/tunnel/ A very large project (roughly 1,80",
+		"searchText": "b\"h boruch hashem blessed is he tunnel and runtime apps the awtsmoos bridges one machine to another without letting the boundary disappear; awtsmoos.com gives the tunnel a console, a control plane, installers, grants, and runtime paths made clear. tunnel console — geelooy/apps/tunnel/ a very large project (roughly 1,800+ files in the immediate inventory) containing the console/agent ecosystem and installer related material. treat it as a platform, not a single page. primary backend: /api/tunnel/ . installer artifacts are exposed under /api/tunnel/install/ . tunnel control — geelooy/apps/tunnel control/ human control plane ui paired with /api/tunnel/control/ . the current backend table has 79 route keys spanning identity, pairing, grants, filesystem, previews, blobs, ephemeral results, mission rooms, live calls, compute, accounting, budgets, marketplace, and treasury. read ../api/tunnel control.md before changing the client. native/runtime relationships tunnel apps can interact with code, geelooy os, providers, remote files, previews, browser control, and native runtime operations. /api/runtime/native/ is a separate native execution api family and should not be conflated with tunnel request forwarding. security boundary tunnel control uses trusted server derived identity. client supplied owner fields must not become an authorization source. pairing/grant/device/api key changes are especially security sensitive. nested copy a separate awtsmoos.com/geelooy/apps/tunnel control/ exists under the nested project shell. do not assume it is the same canonical tree as root geelooy/apps/tunnel control; inspect and compare before syncing. see ../systems/nested awtsmoos com.md. existing specialist docs see docs/tunnel/ for previously existing tunnel specific brainstorming/material.",
+		"page": "pages/docs-apps-tunnel-and-runtime-md-1a59e897d0.json"
+	},
+	{
+		"id": "docs-architecture-md-ff21b6b9a3",
+		"title": "Architecture",
+		"sourcePath": "docs/ARCHITECTURE.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Architecture",
+				"anchor": "architecture"
+			},
+			{
+				"level": 2,
+				"text": "HTTP request flow",
+				"anchor": "http-request-flow"
+			},
+			{
+				"level": 2,
+				"text": "Major layers",
+				"anchor": "major-layers"
+			},
+			{
+				"level": 3,
+				"text": "Root process",
+				"anchor": "root-process"
+			},
+			{
+				"level": 3,
+				"text": "Public filesystem — geelooy/",
+				"anchor": "public-filesystem-geelooy"
+			},
+			{
+				"level": 3,
+				"text": "Dynamic server — ayzarim/awtsmoosDynamicServer/",
+				"anchor": "dynamic-server-ayzarim-awtsmoosdynamicserver"
+			},
+			{
+				"level": 3,
+				"text": "HTTP API mounts",
+				"anchor": "http-api-mounts"
+			},
+			{
+				"level": 3,
+				"text": "Realtime platform",
+				"anchor": "realtime-platform"
+			},
+			{
+				"level": 3,
+				"text": "Persistence — DosDB",
+				"anchor": "persistence-dosdb"
+			},
+			{
+				"level": 3,
+				"text": "Identity and authority",
+				"anchor": "identity-and-authority"
+			},
+			{
+				"level": 3,
+				"text": "External integrations",
+				"anchor": "external-integrations"
+			},
+			{
+				"level": 2,
+				"text": "Route grammar",
+				"anchor": "route-grammar"
+			},
+			{
+				"level": 2,
+				"text": "Current evidence volume",
+				"anchor": "current-evidence-volume"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Architecture The Awtsmoos sends one request through many vessels, yet the source remains One; Awtsmoos.com reveals browser, file, derech, database, identity, socket, and provider paths until the work is done. HTTP request flow 1. Root index.js creates HTTP infrastructure and an AwtsServe",
+		"searchText": "b\"h boruch hashem blessed is he architecture the awtsmoos sends one request through many vessels, yet the source remains one; awtsmoos.com reveals browser, file, derech, database, identity, socket, and provider paths until the work is done. http request flow 1. root index.js creates http infrastructure and an awtsserver from ayzarim/awtsmoosdynamicserver. 2. mitzvah world direct report/ping handlers are checked before generic dispatch. 3. other http requests enter dynamicserver.onrequest. 4. awtsmoosstaticserver.maindir defaults to config.public \"geelooy\", making geelooy/ the default public root. 5. request bootstrap parses url/cookies/body/context and computes a physical public path. 6. dynamic discovery walks upward for awtsmoos.derech.js. 7. exact, :name, and terminal :name route patterns are matched. 8. ordinary public files/directories remain part of serving behavior when dynamic handlers do not own the response. major layers root process index.js coordinates http, websocket upgrade delegation, smtp startup, direct mitzvah world routes, and dynamic server dispatch. public filesystem — geelooy/ pages, apps, games, shared browser code, scripts/styles, and the filesystem located api tree live here. dynamic server — ayzarim/awtsmoosdynamicserver/ owns request bootstrap, static/dynamic routing, auth installation, dosdb initialization, body readers, compact js support, response behavior, websockets, and runtime utilities. http api mounts there are 21 awtsmoos.derech.js files under geelooy/api. some return literal route maps; others delegate route tables and handler modules. generated/api route contract atlas.md joins every discovered path to the best file level contract evidence without inventing missing methods. realtime platform websocket upgrade and message routing live under ayzarim/awtsmoosdynamicserver/websocket/. the server owns one realtimeplatform with an application registry/router and eight built in versioned applications. mission rooms add one time ticket/origin/current authority/protocol checks before handshake. tunnel relay is a separate account bound transport subsystem. read websockets/readme.md. persistence — dosdb server/initdb.js resolves the database root from environment/local config/tracked config/fallback, publishes process.awtsmoosdbpath, initializes dosdb, and shares it with runtime systems. see systems/database and storage.md. identity and authority server auth supplies trusted identity. social also supports revocable api keys. tunnel control can resolve oauth/api key/session identity and rejects browser submitted owner fields as authority. websocket applicationrouter likewise derives trusted identity from client.identity, not message payload. external integrations paypal, youtube/google, oauth, smtp/email, ssh, ai/model systems, and streaming connectors introduce provider specific credentials/configuration and failure modes. see integrations.md and configuration.md. route grammar exact: /api/gpt/health; dynamic segment: /api/sefarim/:sefer; multiple dynamics: /api/ssh/connect/:username/:host; terminal catch all: :name ; $i, $ get, $ post, $ delete: request/context vessels, not url syntax. current evidence volume the generator reports 1,195 api sources, 567 route rows, 327 dynamic rows, 306 source contract rows, 567 route contract rows, 337 caller rows, 61 environment names, 33 test scripts, 8 realtime applications, and 53 websocket event/message evidence rows.",
+		"page": "pages/docs-architecture-md-ff21b6b9a3.json"
+	},
+	{
+		"id": "docs-configuration-md-58f184d741",
+		"title": "Configuration and Environment Variables",
+		"sourcePath": "docs/CONFIGURATION.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Configuration and Environment Variables",
+				"anchor": "configuration-and-environment-variables"
+			},
+			{
+				"level": 2,
+				"text": "Generated inventory",
+				"anchor": "generated-inventory"
+			},
+			{
+				"level": 2,
+				"text": "Database roots",
+				"anchor": "database-roots"
+			},
+			{
+				"level": 2,
+				"text": "Mail",
+				"anchor": "mail"
+			},
+			{
+				"level": 2,
+				"text": "Wallet / PayPal",
+				"anchor": "wallet-paypal"
+			},
+			{
+				"level": 2,
+				"text": "YouTube",
+				"anchor": "youtube"
+			},
+			{
+				"level": 2,
+				"text": "Tunnel and WebSocket tuning",
+				"anchor": "tunnel-and-websocket-tuning"
+			},
+			{
+				"level": 2,
+				"text": "Search / RAG / AI paths",
+				"anchor": "search-rag-ai-paths"
+			},
+			{
+				"level": 2,
+				"text": "Classification is advisory",
+				"anchor": "classification-is-advisory"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Configuration and Environment Variables The Awtsmoos gives runtime a vessel through names while secret values remain hidden from the page; Awtsmoos.com documents configuration contracts without turning documentation into a credential cage. Generated inventory GENERATED/ENVIRONMENT VARIAB",
+		"searchText": "b\"h boruch hashem blessed is he configuration and environment variables the awtsmoos gives runtime a vessel through names while secret values remain hidden from the page; awtsmoos.com documents configuration contracts without turning documentation into a credential cage. generated inventory generated/environment variables.md lists environment variable names only , their inferred class, source count, and example source paths. no values are read or copied. the continuation scan found dozens of environment names across root server, ayzarim, and api source. some are runtime configuration; others are tuning or test only controls. database roots database root precedence is documented in systems/database and storage.md. important names include awts db root and other db/path settings used by specific subsystems. do not assume every db related environment name controls the main dosdb instance; inspect its source owner. mail root server behavior recognizes awtsmoos disable mail. email code also contains provider/ai related configuration names. if mail is disabled, root smtp startup behavior changes. wallet / paypal wallet source references names including paypal base, paypal client id, and paypal client secret, plus node env for environment behavior. these are sensitive provider contracts; documentation intentionally never records values. youtube youtube and streaming source reference provider/client/redirect/token/storage names such as youtube google client id, youtube google client secret, youtube oauth redirect uri, youtube google refresh token, youtube token encryption key, youtube session secret, and secret root/client file configuration. tunnel and websocket tuning the source includes multiple awtsmoos tunnel and awtsmoos ws controls for pending ttls, relay wait/progress windows, completed/quarantine retention, liveness probes, stale thresholds, state roots, and registration stress/testing. read the owning source before changing units or defaults. search / rag / ai paths search and embedding systems expose several root/model/index/python variables. their names are in the generated inventory with source paths so a maintainer can find the exact precedence and expected filesystem shape. classification is advisory the generated classes secret name, path/storage, tuning, test/tuning, and runtime config are based on source path and variable name evidence. they help navigation; they are not a security certification.",
+		"page": "pages/docs-configuration-md-58f184d741.json"
+	},
+	{
+		"id": "docs-coverage-md-d83910ec80",
+		"title": "Documentation Coverage",
+		"sourcePath": "docs/COVERAGE.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Documentation Coverage",
+				"anchor": "documentation-coverage"
+			},
+			{
+				"level": 2,
+				"text": "API and route coverage",
+				"anchor": "api-and-route-coverage"
+			},
+			{
+				"level": 2,
+				"text": "Project/source coverage",
+				"anchor": "project-source-coverage"
+			},
+			{
+				"level": 2,
+				"text": "Realtime/configuration coverage",
+				"anchor": "realtime-configuration-coverage"
+			},
+			{
+				"level": 2,
+				"text": "Human and AI discoverability",
+				"anchor": "human-and-ai-discoverability"
+			},
+			{
+				"level": 2,
+				"text": "Generated structure",
+				"anchor": "generated-structure"
+			},
+			{
+				"level": 2,
+				"text": "Known source defect",
+				"anchor": "known-source-defect"
+			},
+			{
+				"level": 2,
+				"text": "Deliberate limits",
+				"anchor": "deliberate-limits"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Documentation Coverage The Awtsmoos asks not merely whether pages exist, but whether humans and machines can discover the current source without confusing inference for authority. API and route coverage 1,197 API source files inventoried, excluding local documentation breadcrumbs. 21 awt",
+		"searchText": "b\"h boruch hashem blessed is he documentation coverage the awtsmoos asks not merely whether pages exist, but whether humans and machines can discover the current source without confusing inference for authority. api and route coverage 1,197 api source files inventoried, excluding local documentation breadcrumbs. 21 awtsmoos.derech.js mounts inventoried and locally documented. 567 source to route rows; 327 parameterized rows. 306 production api source contract evidence rows. all 567 discovered routes joined to source level method/vessel/status/header evidence. 338 literal api caller rows, including 205 runtime rows across 120 runtime files. colon path grammar documented; dollar prefixed request vessels explicitly distinguished from url syntax. project/source coverage 162 observed project boundaries classified by type and file categories. 117 javascript family symbol bearing project groups summarized. 68 cross project relative import edges and 149 external package dependency edges generated. 139 public index.html entry points mapped to url/title/script/style evidence. 64 project groups with tests represented in generated test ownership. symlinks/aliases are recorded separately so they are not mistaken for duplicate implementations. realtime/configuration coverage 8 registered versioned realtime applications. 53 production source websocket event/message evidence rows. mission room pre handshake identity/origin/ticket/current authority/version policy documented manually. tunnel relay registration/acknowledgement/replacement model documented manually. 61 environment variable names inventoried without values. 33 package test scripts indexed. human and ai discoverability generated coverage reports 0 meaningful local documentation gaps . docs/ai/manifest.json indexes 162 bounded per project json records. human manuals cover architecture, apis, apps, systems, projects, realtime, data, security, configuration, integrations, tests, development, operations, and ai navigation. root llms.txt points agents toward canonical human docs before generated evidence and source. generated structure current output exposes 25 stable generated markdown entry points backed by 68 bounded chunks . generated chunk directories are recreated so stale pages do not survive regeneration. known source defect geelooy/api/text/ awtsmoos.derech.js remains the one known derech syntax failure. generated health keeps it visible; extracted textual route evidence must not be mistaken for a verified live contract until application source is repaired separately. deliberate limits generated route, symbol, dependency, caller, event, and configuration evidence is lexical/mechanical discovery, not a formal openapi/asyncapi specification or runtime reachability proof. human guides explain meaning; source and tests remain authoritative.",
+		"page": "pages/docs-coverage-md-d83910ec80.json"
+	}
+]

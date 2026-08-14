@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-routes-dynamic-paths-md-dbebabb93e",
+	"title": "Dynamic Paths and Dollar Variables",
+	"sourcePath": "docs/ROUTES/DYNAMIC_PATHS.md",
+	"category": "Routes",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Dynamic Paths and Dollar Variables",
+			"anchor": "dynamic-paths-and-dollar-variables"
+		},
+		{
+			"level": 2,
+			"text": "The actual URL parameter grammar",
+			"anchor": "the-actual-url-parameter-grammar"
+		},
+		{
+			"level": 3,
+			"text": "Single segment",
+			"anchor": "single-segment"
+		},
+		{
+			"level": 3,
+			"text": "Catch-all",
+			"anchor": "catch-all"
+		},
+		{
+			"level": 2,
+			"text": "The dollar-sign question",
+			"anchor": "the-dollar-sign-question"
+		},
+		{
+			"level": 2,
+			"text": "Leading and trailing slashes",
+			"anchor": "leading-and-trailing-slashes"
+		},
+		{
+			"level": 2,
+			"text": "Derech mounting",
+			"anchor": "derech-mounting"
+		},
+		{
+			"level": 2,
+			"text": "Generated parameter list",
+			"anchor": "generated-parameter-list"
+		},
+		{
+			"level": 2,
+			"text": "Caveat",
+			"anchor": "caveat"
+		}
+	],
+	"markdownParts": [
+		"content/docs-routes-dynamic-paths-md-dbebabb93e-001.json"
+	]
+}

@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-security-trust-boundaries-md-4062c7cf1c",
+	"title": "Trust Boundaries",
+	"sourcePath": "docs/SECURITY/TRUST_BOUNDARIES.md",
+	"category": "Security",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Trust Boundaries",
+			"anchor": "trust-boundaries"
+		},
+		{
+			"level": 2,
+			"text": "Layer 1 — transport/session authentication",
+			"anchor": "layer-1-transport-session-authentication"
+		},
+		{
+			"level": 2,
+			"text": "Layer 2 — alternate authenticated credentials",
+			"anchor": "layer-2-alternate-authenticated-credentials"
+		},
+		{
+			"level": 2,
+			"text": "Layer 3 — resource authorization",
+			"anchor": "layer-3-resource-authorization"
+		},
+		{
+			"level": 2,
+			"text": "Client input is not authority",
+			"anchor": "client-input-is-not-authority"
+		},
+		{
+			"level": 2,
+			"text": "Social API keys",
+			"anchor": "social-api-keys"
+		},
+		{
+			"level": 2,
+			"text": "Re-check mutable authority",
+			"anchor": "re-check-mutable-authority"
+		},
+		{
+			"level": 2,
+			"text": "Review checklist",
+			"anchor": "review-checklist"
+		}
+	],
+	"markdownParts": [
+		"content/docs-security-trust-boundaries-md-4062c7cf1c-001.json"
+	]
+}

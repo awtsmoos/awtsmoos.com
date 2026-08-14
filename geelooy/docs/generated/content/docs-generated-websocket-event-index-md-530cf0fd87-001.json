@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Generated WebSocket Event Evidence\n\nProduction-source lexical event/message evidence; this is not a formal protocol schema. **56 rows.**\n\n| Chunk | Rows | Count |\n| --- | --- | --- |\n| [websocket-events-001.md](WEBSOCKET_EVENTS/websocket-events-001.md) | 1–56 | 56 |\n"
+}

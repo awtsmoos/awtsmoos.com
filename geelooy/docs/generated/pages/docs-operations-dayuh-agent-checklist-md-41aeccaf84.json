@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-operations-dayuh-agent-checklist-md-41aeccaf84",
+	"title": "Dayuh sync checklist for AI agents",
+	"sourcePath": "docs/operations/dayuh-agent-checklist.md",
+	"category": "Operations",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Dayuh sync checklist for AI agents",
+			"anchor": "dayuh-sync-checklist-for-ai-agents"
+		},
+		{
+			"level": 2,
+			"text": "Preflight",
+			"anchor": "preflight"
+		},
+		{
+			"level": 2,
+			"text": "Direction decision",
+			"anchor": "direction-decision"
+		},
+		{
+			"level": 2,
+			"text": "Dry-run gate",
+			"anchor": "dry-run-gate"
+		},
+		{
+			"level": 2,
+			"text": "Write gate",
+			"anchor": "write-gate"
+		},
+		{
+			"level": 2,
+			"text": "Post-write verification",
+			"anchor": "post-write-verification"
+		},
+		{
+			"level": 2,
+			"text": "Git and code boundary",
+			"anchor": "git-and-code-boundary"
+		},
+		{
+			"level": 2,
+			"text": "Required final report",
+			"anchor": "required-final-report"
+		}
+	],
+	"markdownParts": [
+		"content/docs-operations-dayuh-agent-checklist-md-41aeccaf84-001.json"
+	]
+}

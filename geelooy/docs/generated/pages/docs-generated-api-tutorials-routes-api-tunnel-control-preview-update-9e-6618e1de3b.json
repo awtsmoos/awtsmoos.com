@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-generated-api-tutorials-routes-api-tunnel-control-preview-update-9e-6618e1de3b",
+	"title": "API Tutorial: /api/tunnel/control/preview/update",
+	"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-preview-update-9eb26c251c.md",
+	"category": "Tunnel",
+	"provenance": "generated",
+	"headings": [
+		{
+			"level": 1,
+			"text": "API Tutorial: /api/tunnel/control/preview/update",
+			"anchor": "api-tutorial-api-tunnel-control-preview-update"
+		},
+		{
+			"level": 2,
+			"text": "Contract evidence",
+			"anchor": "contract-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Path parameters",
+			"anchor": "path-parameters"
+		},
+		{
+			"level": 2,
+			"text": "Starter call",
+			"anchor": "starter-call"
+		},
+		{
+			"level": 2,
+			"text": "Observed callers",
+			"anchor": "observed-callers"
+		},
+		{
+			"level": 2,
+			"text": "Related tests",
+			"anchor": "related-tests"
+		},
+		{
+			"level": 2,
+			"text": "Related routes",
+			"anchor": "related-routes"
+		}
+	],
+	"markdownParts": [
+		"content/docs-generated-api-tutorials-routes-api-tunnel-control-preview-update-9e-6618e1de3b-001.json"
+	]
+}

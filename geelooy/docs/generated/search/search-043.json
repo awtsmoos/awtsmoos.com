@@ -1,0 +1,378 @@
+[
+	{
+		"id": "docs-generated-api-tutorials-routes-api-oauth-fc9dd9335e-md-8d2550c2a6",
+		"title": "API Tutorial: /api/oauth",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-fc9dd9335e.md",
+		"category": "Security",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/oauth",
+				"anchor": "api-tutorial-api-oauth"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/oauth Family: OAuth · Mount: /api/oauth · Derech health: OK Source: geelooy/api/oauth/routes/table.js · Discovery: route table · Confidence: unknown method Read the human OAuth tutorial Generated evidence is a navigation and teaching aid, not an OpenAPI contract. Unkno",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/oauth family: oauth · mount: /api/oauth · derech health: ok source: geelooy/api/oauth/routes/table.js · discovery: route table · confidence: unknown method read the human oauth tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/oauth/:route /api/oauth/authorize /api/oauth/clients /api/oauth/logout /api/oauth/me /api/oauth/start /api/oauth/token",
+		"page": "pages/docs-generated-api-tutorials-routes-api-oauth-fc9dd9335e-md-8d2550c2a6.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-oauth-logout-fc5a0d5108-md-e7ab2c098f",
+		"title": "API Tutorial: /api/oauth/logout",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-logout-fc5a0d5108.md",
+		"category": "Security",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/oauth/logout",
+				"anchor": "api-tutorial-api-oauth-logout"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/oauth/logout Family: OAuth · Mount: /api/oauth · Derech health: OK Source: geelooy/api/oauth/routes/table.js · Discovery: route table · Confidence: unknown method Read the human OAuth tutorial Generated evidence is a navigation and teaching aid, not an OpenAPI contract",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/oauth/logout family: oauth · mount: /api/oauth · derech health: ok source: geelooy/api/oauth/routes/table.js · discovery: route table · confidence: unknown method read the human oauth tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/oauth /api/oauth/:route /api/oauth/authorize /api/oauth/clients /api/oauth/me /api/oauth/start /api/oauth/token",
+		"page": "pages/docs-generated-api-tutorials-routes-api-oauth-logout-fc5a0d5108-md-e7ab2c098f.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-oauth-me-c9c68a0fb0-md-898ab0f3d8",
+		"title": "API Tutorial: /api/oauth/me",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-me-c9c68a0fb0.md",
+		"category": "Security",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/oauth/me",
+				"anchor": "api-tutorial-api-oauth-me"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/oauth/me Family: OAuth · Mount: /api/oauth · Derech health: OK Source: geelooy/api/oauth/routes/table.js · Discovery: route table · Confidence: unknown method Read the human OAuth tutorial Generated evidence is a navigation and teaching aid, not an OpenAPI contract. Un",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/oauth/me family: oauth · mount: /api/oauth · derech health: ok source: geelooy/api/oauth/routes/table.js · discovery: route table · confidence: unknown method read the human oauth tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/oauth /api/oauth/:route /api/oauth/authorize /api/oauth/clients /api/oauth/logout /api/oauth/start /api/oauth/token",
+		"page": "pages/docs-generated-api-tutorials-routes-api-oauth-me-c9c68a0fb0-md-898ab0f3d8.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-oauth-route-99d253c847-md-4aec101234",
+		"title": "API Tutorial: /api/oauth/:route",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-route-99d253c847.md",
+		"category": "Security",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/oauth/:route",
+				"anchor": "api-tutorial-api-oauth-route"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/oauth/:route Family: OAuth · Mount: /api/oauth · Derech health: OK Source: geelooy/api/oauth/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human OAuth tutorial Generated evidence is a navigation and teaching aid, not an OpenAPI c",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/oauth/:route family: oauth · mount: /api/oauth · derech health: ok source: geelooy/api/oauth/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human oauth tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: route vars observed status literals: 404 observed headers: access control allow headers, access control allow methods, access control allow origin, cache control path parameters name shape route single segment starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/oauth /api/oauth/authorize /api/oauth/clients /api/oauth/logout /api/oauth/me /api/oauth/start /api/oauth/token",
+		"page": "pages/docs-generated-api-tutorials-routes-api-oauth-route-99d253c847-md-4aec101234.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-oauth-start-7c94ba48c1-md-91ee9beffb",
+		"title": "API Tutorial: /api/oauth/start",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-start-7c94ba48c1.md",
+		"category": "Security",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/oauth/start",
+				"anchor": "api-tutorial-api-oauth-start"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/oauth/start Family: OAuth · Mount: /api/oauth · Derech health: OK Source: geelooy/api/oauth/routes/table.js · Discovery: route table · Confidence: unknown method Read the human OAuth tutorial Generated evidence is a navigation and teaching aid, not an OpenAPI contract.",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/oauth/start family: oauth · mount: /api/oauth · derech health: ok source: geelooy/api/oauth/routes/table.js · discovery: route table · confidence: unknown method read the human oauth tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/oauth/start?client id=chatgpt geelooy/apps/tunnel control/js/api/auth.js runtime /api/oauth/start?next=${next} geelooy/apps/code/js/session/inline login.js runtime related tests no package script heuristic match was found. related routes /api/oauth /api/oauth/:route /api/oauth/authorize /api/oauth/clients /api/oauth/logout /api/oauth/me /api/oauth/token",
+		"page": "pages/docs-generated-api-tutorials-routes-api-oauth-start-7c94ba48c1-md-91ee9beffb.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-oauth-token-037d29e842-md-4a7aeef84d",
+		"title": "API Tutorial: /api/oauth/token",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-token-037d29e842.md",
+		"category": "Security",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/oauth/token",
+				"anchor": "api-tutorial-api-oauth-token"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/oauth/token Family: OAuth · Mount: /api/oauth · Derech health: OK Source: geelooy/api/oauth/routes/table.js · Discovery: route table · Confidence: unknown method Read the human OAuth tutorial Generated evidence is a navigation and teaching aid, not an OpenAPI contract.",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/oauth/token family: oauth · mount: /api/oauth · derech health: ok source: geelooy/api/oauth/routes/table.js · discovery: route table · confidence: unknown method read the human oauth tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/oauth /api/oauth/:route /api/oauth/authorize /api/oauth/clients /api/oauth/logout /api/oauth/me /api/oauth/start",
+		"page": "pages/docs-generated-api-tutorials-routes-api-oauth-token-037d29e842-md-4a7aeef84d.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-ohr-hagnuz-realtime-ticket-b6af2-2bf7d36662",
+		"title": "API Tutorial: /api/ohr-hagnuz/realtime-ticket",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-ohr-hagnuz-realtime-ticket-b6af2537a2.md",
+		"category": "Realtime",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/ohr-hagnuz/realtime-ticket",
+				"anchor": "api-tutorial-api-ohr-hagnuz-realtime-ticket"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/ohr hagnuz/realtime ticket Family: Ohr HaGnuz · Mount: /api/ohr hagnuz · Derech health: OK Source: geelooy/api/ohr hagnuz/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Ohr HaGnuz tutorial Generated evidence is a navigation and tea",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/ohr hagnuz/realtime ticket family: ohr hagnuz · mount: /api/ohr hagnuz · derech health: ok source: geelooy/api/ohr hagnuz/routes/table.js · discovery: route table · confidence: unknown method read the human ohr hagnuz tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/ohr hagnuz/realtime ticket geelooy/games/ohr hagnuz/tests/browser/sharedjourneytestserver.mjs test /api/ohr hagnuz/realtime ticket?${parameters} geelooy/games/ohr hagnuz/src/multiplayer/auth/sharedjourneyticketclient.js runtime related tests no package script heuristic match was found. related routes none generated.",
+		"page": "pages/docs-generated-api-tutorials-routes-api-ohr-hagnuz-realtime-ticket-b6af2-2bf7d36662.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-public-97cc9d947c-md-5c6a5799a1",
+		"title": "API Tutorial: /api/public",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-public-97cc9d947c.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/public",
+				"anchor": "api-tutorial-api-public"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/public Family: Public · Mount: /api/public · Derech health: OK Source: geelooy/api/public/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human Public tutorial Generated evidence is a navigation and teaching aid, not an OpenAPI con",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/public family: public · mount: /api/public · derech health: ok source: geelooy/api/public/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human public tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: $ get, $ post, route vars, identity, db observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/public geelooy/db/api bridge.js runtime /api/public geelooy/db/explorer/script.js runtime related tests no package script heuristic match was found. related routes none generated.",
+		"page": "pages/docs-generated-api-tutorials-routes-api-public-97cc9d947c-md-5c6a5799a1.json"
+	}
+]

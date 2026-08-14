@@ -1,0 +1,256 @@
+[
+	{
+		"id": "docs-tutorials-systems-server-boot-md-14375e29a4",
+		"title": "Tutorial: Server Boot",
+		"sourcePath": "docs/TUTORIALS/SYSTEMS/SERVER_BOOT.md",
+		"category": "Systems",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tutorial: Server Boot",
+				"anchor": "tutorial-server-boot"
+			},
+			{
+				"level": 2,
+				"text": "Follow the boot",
+				"anchor": "follow-the-boot"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries",
+				"anchor": "boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Evidence",
+				"anchor": "evidence"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tutorial: Server Boot Root index.js is the orchestration point. It initializes the dynamic server, routes ordinary HTTP, owns direct Mitzvah World report paths, delegates WebSocket upgrades, and can start SMTP. Follow the boot 1. Read index.js imports for AwtsMail/AwtsServer/AwtsSocket. ",
+		"searchText": "b\"h boruch hashem blessed is he tutorial: server boot root index.js is the orchestration point. it initializes the dynamic server, routes ordinary http, owns direct mitzvah world report paths, delegates websocket upgrades, and can start smtp. follow the boot 1. read index.js imports for awtsmail/awtsserver/awtssocket. 2. follow dynamic server initialization. 3. inspect server/initdb.js for shared dosdb setup. 4. inspect request bootstrap/auth setup. 5. inspect websocket registry/application definitions separately. 6. inspect mail disable configuration before assuming smtp is live. boundaries root direct handlers are exceptions, not the normal api convention. most dynamic http behavior belongs to derech discovery. websocket admission is separate from http routing. evidence read docs/learn/server lifecycle 101.md, docs/architecture.md, and generated public/route inventories.",
+		"page": "pages/docs-tutorials-systems-server-boot-md-14375e29a4.json"
+	},
+	{
+		"id": "docs-tutorials-systems-trace-database-change-md-26d5e54fca",
+		"title": "Trace a Database Change Safely",
+		"sourcePath": "docs/TUTORIALS/SYSTEMS/TRACE_DATABASE_CHANGE.md",
+		"category": "Systems",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Trace a Database Change Safely",
+				"anchor": "trace-a-database-change-safely"
+			},
+			{
+				"level": 2,
+				"text": "Investigation path",
+				"anchor": "investigation-path"
+			},
+			{
+				"level": 2,
+				"text": "Questions that must be answered",
+				"anchor": "questions-that-must-be-answered"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Trace a Database Change Safely Persistence changes should be treated as compatibility work, not ordinary refactors. Investigation path 1. Open /docs/?view=systems&systemDistrict=data and select the closest persistence system. 2. Read its human manuals before generated evidence. 3. Identi",
+		"searchText": "b\"h boruch hashem blessed is he trace a database change safely persistence changes should be treated as compatibility work, not ordinary refactors. investigation path 1. open /docs/?view=systems&systemdistrict=data and select the closest persistence system. 2. read its human manuals before generated evidence. 3. identify the runtime database root and whether the caller uses legacy dosdb, awtsmoosbinaryjson, awtsmoosdb/virtualfs, social packed storage, or a bridge/fallback. 4. trace logical persisted paths separately from physical serialization/filesystem layout. 5. find existing migration/repair scripts and relevant tests. 6. determine how existing persisted data is discovered after the proposed change. 7. only then change code and add migration/backward compatibility behavior when required. questions that must be answered can old data still be read? does the same logical path resolve to the same data? does the database root precedence change? are cache/index/shard manifests compatible? is rollback possible without data loss? are partially migrated states supported or explicitly rejected? generated file/path evidence helps locate the implementation but does not prove these guarantees.",
+		"page": "pages/docs-tutorials-systems-trace-database-change-md-26d5e54fca.json"
+	},
+	{
+		"id": "docs-tutorials-systems-trace-realtime-admission-md-694296b682",
+		"title": "Trace Realtime Admission",
+		"sourcePath": "docs/TUTORIALS/SYSTEMS/TRACE_REALTIME_ADMISSION.md",
+		"category": "Realtime",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Trace Realtime Admission",
+				"anchor": "trace-realtime-admission"
+			},
+			{
+				"level": 2,
+				"text": "Investigation path",
+				"anchor": "investigation-path"
+			},
+			{
+				"level": 2,
+				"text": "Trust rule",
+				"anchor": "trust-rule"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Trace Realtime Admission Realtime admission begins before ordinary message routing. A socket that reaches application code has already crossed upgrade, identity, and sometimes specialized admission boundaries. Investigation path 1. Begin at websocket/core/socketUpgrade.js and identify tr",
+		"searchText": "b\"h boruch hashem blessed is he trace realtime admission realtime admission begins before ordinary message routing. a socket that reaches application code has already crossed upgrade, identity, and sometimes specialized admission boundaries. investigation path 1. begin at websocket/core/socketupgrade.js and identify trusted upgrade identity. 2. determine whether the connection is an ordinary platform application, mission room, or tunnel relay flow. 3. for mission rooms, trace ticket issuance, canonical tunnel authority, origin, protocol version, initial snapshot proof, and upgrade policy. 4. for ordinary versioned apps, trace registry/application id/version selection through the message router. 5. for tunnel relay, trace account bound registration/authority and correlation/lifecycle separately from built in app routing. 6. treat generated event strings only as search hints; inspect handlers before claiming payload semantics. 7. verify rejection cases for missing/expired/foreign credentials and incompatible protocol versions. trust rule client message payloads must not replace server attached trusted socket identity. admission and application level authorization remain explicit contracts.",
+		"page": "pages/docs-tutorials-systems-trace-realtime-admission-md-694296b682.json"
+	},
+	{
+		"id": "docs-tutorials-systems-trace-trusted-identity-md-1372f4498d",
+		"title": "Trace Trusted Identity",
+		"sourcePath": "docs/TUTORIALS/SYSTEMS/TRACE_TRUSTED_IDENTITY.md",
+		"category": "Systems",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Trace Trusted Identity",
+				"anchor": "trace-trusted-identity"
+			},
+			{
+				"level": 2,
+				"text": "Investigation path",
+				"anchor": "investigation-path"
+			},
+			{
+				"level": 2,
+				"text": "Separation rule",
+				"anchor": "separation-rule"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Trace Trusted Identity Identity shaped input is not the same thing as authenticated authority. Investigation path 1. Identify the transport: signed browser session, OAuth bearer, Social/Tunnel API key, or server attached WebSocket identity. 2. Find the server side verifier that turns cre",
+		"searchText": "b\"h boruch hashem blessed is he trace trusted identity identity shaped input is not the same thing as authenticated authority. investigation path 1. identify the transport: signed browser session, oauth bearer, social/tunnel api key, or server attached websocket identity. 2. find the server side verifier that turns credentials into an identity record. 3. record which account/user/issuer/subject/scope fields come from that verified record. 4. ignore request payload/query owner fields unless source explicitly verifies them. 5. continue upward into authorization: ownership, roles, grants, scopes, permissions, origin, or room authority. 6. check error behavior for cross account enumeration leaks. 7. use tests/runtime checks to prove negative cases, not only successful authentication. separation rule authentication answers who/what credential was verified . authorization answers whether that identity may perform this operation on this resource . resource ownership, heichel roles, tunnel grants, and mission room admission remain separate layers.",
+		"page": "pages/docs-tutorials-systems-trace-trusted-identity-md-1372f4498d.json"
+	},
+	{
+		"id": "docs-websockets-applications-md-a79ecc151d",
+		"title": "Realtime Applications and Events",
+		"sourcePath": "docs/WEBSOCKETS/APPLICATIONS.md",
+		"category": "Realtime",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Realtime Applications and Events",
+				"anchor": "realtime-applications-and-events"
+			},
+			{
+				"level": 2,
+				"text": "Application registry model",
+				"anchor": "application-registry-model"
+			},
+			{
+				"level": 2,
+				"text": "Built-in domains",
+				"anchor": "built-in-domains"
+			},
+			{
+				"level": 3,
+				"text": "awtsmoos-core",
+				"anchor": "awtsmoos-core"
+			},
+			{
+				"level": 3,
+				"text": "awtsmoos-social",
+				"anchor": "awtsmoos-social"
+			},
+			{
+				"level": 3,
+				"text": "Game/journey applications",
+				"anchor": "game-journey-applications"
+			},
+			{
+				"level": 3,
+				"text": "tunnel-activity",
+				"anchor": "tunnel-activity"
+			},
+			{
+				"level": 2,
+				"text": "Protocol versions",
+				"anchor": "protocol-versions"
+			},
+			{
+				"level": 2,
+				"text": "Event inventory limitation",
+				"anchor": "event-inventory-limitation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Realtime Applications and Events The Awtsmoos gives one realtime doorway many worlds, each application keeping version and domain apart; Awtsmoos.com preserves compatibility while new factories can enter the registry without rewriting transport at its heart. Application registry model ap",
+		"searchText": "b\"h boruch hashem blessed is he realtime applications and events the awtsmoos gives one realtime doorway many worlds, each application keeping version and domain apart; awtsmoos.com preserves compatibility while new factories can enter the registry without rewriting transport at its heart. application registry model applicationdefinitions.js returns built in factories. realtimeplatform registers them into applicationregistry; applicationrouter resolves legacy or versioned messages. future applications can be registered without editing the historic message router signature. built in domains awtsmoos core core realtime behavior and health/compatibility messages. awtsmoos social social live compatibility. inspected sociallive.js emits or handles source visible message types including social subscribed, social event, social presence, social presence ack, social pong, page entered, page left, and page presence. page presence state can describe alias, status, reading target, typing state, entry time, and update time. disconnect cleanup removes clients from remembered social/page channels. livepreview.js emits live preview only after checking the recipient alias's email setting viewtyping === true. game/journey applications versioned applications exist for sefira clash, mitzvah world, ohr hagnuz, scribe journey, and shema strike. their substantial source directories live under websocket/apps/; consult the generated application directory inventory before changing a game protocol. tunnel activity account bound activity/realtime events around tunnel state. socket opening itself publishes connection.opened when an account identity exists. protocol versions most currently inspected applications declare version 1. scribe journey declares versions 1 and 2. never send a guessed version; resolve the application's accepted versions from current source/generated inventory. event inventory limitation ../generated/websocket event index.md extracts lexical event/message literals from production websocket source. some strings are transport events and some domain events; dynamically constructed types can be absent. use it to locate source, not as a formal protocol guarantee.",
+		"page": "pages/docs-websockets-applications-md-a79ecc151d.json"
+	},
+	{
+		"id": "docs-websockets-mission-rooms-md-07b0b06bb8",
+		"title": "Mission Room WebSocket Admission",
+		"sourcePath": "docs/WEBSOCKETS/MISSION_ROOMS.md",
+		"category": "Realtime",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Mission Room WebSocket Admission",
+				"anchor": "mission-room-websocket-admission"
+			},
+			{
+				"level": 2,
+				"text": "WebSocket path",
+				"anchor": "websocket-path"
+			},
+			{
+				"level": 2,
+				"text": "Admission sequence observed in source",
+				"anchor": "admission-sequence-observed-in-source"
+			},
+			{
+				"level": 2,
+				"text": "After successful handshake",
+				"anchor": "after-successful-handshake"
+			},
+			{
+				"level": 2,
+				"text": "Security implications",
+				"anchor": "security-implications"
+			},
+			{
+				"level": 2,
+				"text": "HTTP relationship",
+				"anchor": "http-relationship"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Mission Room WebSocket Admission The Awtsmoos renews ticket, account, origin, permission, protocol, and handshake in one gate; Awtsmoos.com consumes trust before the socket opens, so stale authority cannot simply ride remembered state. WebSocket path /api/tunnel/control/mission room/ws T",
+		"searchText": "b\"h boruch hashem blessed is he mission room websocket admission the awtsmoos renews ticket, account, origin, permission, protocol, and handshake in one gate; awtsmoos.com consumes trust before the socket opens, so stale authority cannot simply ride remembered state. websocket path /api/tunnel/control/mission room/ws this path is handled specially during websocket upgrade by ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/upgradepolicy.js. it is not an ordinary json endpoint even though it begins with /api/. admission sequence observed in source 1. parse the requested url. if it is not the mission room path, mission room policy does not own the upgrade. 2. require sec websocket key; otherwise deny with 400 missing websocket key. 3. require trusted socket identity with accountid; otherwise deny with 401 mission room authentication required. 4. canonicalize and require the request origin; otherwise deny with 403 missing websocket origin. 5. build claims from url, origin, and trusted identity. 6. consume the one time ticket from query parameter ticket. 7. re authorize the current account/tunnel against tunnel.mission. 8. require the consumed ticket's authority to match current authority. 9. require the claim protocol version to equal room protocol version; mismatch is denied with 409 mission room protocol version mismatch. 10. only then return an accepted ticket to the socket upgrade layer. after successful handshake socketupgrade.js attaches the client and starts the mission room channel when an accepted ticket exists. connection activity is published with channel mission room, mission id, and room id. security implications a url containing a ticket is not enough by itself. admission also binds to trusted account identity, current mission permission, canonical origin, and protocol version. the ticket is consumed rather than treated as a permanent bearer credential. http relationship tunnel control has http routes for mission room streams/control alongside the websocket path. use ../api/tunnel control.md for the http control plane; keep socket admission/protocol logic separate.",
+		"page": "pages/docs-websockets-mission-rooms-md-07b0b06bb8.json"
+	},
+	{
+		"id": "docs-websockets-readme-md-fed34d4d65",
+		"title": "WebSocket and Realtime Platform",
+		"sourcePath": "docs/WEBSOCKETS/README.md",
+		"category": "Realtime",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "WebSocket and Realtime Platform",
+				"anchor": "websocket-and-realtime-platform"
+			},
+			{
+				"level": 2,
+				"text": "Server architecture",
+				"anchor": "server-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Legacy and versioned protocols coexist",
+				"anchor": "legacy-and-versioned-protocols-coexist"
+			},
+			{
+				"level": 2,
+				"text": "Built-in versioned applications",
+				"anchor": "built-in-versioned-applications"
+			},
+			{
+				"level": 2,
+				"text": "Important separate subsystems",
+				"anchor": "important-separate-subsystems"
+			},
+			{
+				"level": 2,
+				"text": "Generated protocol evidence",
+				"anchor": "generated-protocol-evidence"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He WebSocket and Realtime Platform The Awtsmoos gives one transport many worlds without letting identity dissolve into message text; Awtsmoos.com owns a realtime platform where registry, router, client state, and application contracts connect. Server architecture Root HTTP infrastructure fo",
+		"searchText": "b\"h boruch hashem blessed is he websocket and realtime platform the awtsmoos gives one transport many worlds without letting identity dissolve into message text; awtsmoos.com owns a realtime platform where registry, router, client state, and application contracts connect. server architecture root http infrastructure forwards upgrade requests to the dynamic server's websocket layer. websocket/core/socketupgrade.js resolves trusted upgrade identity, applies mission room specific admission policy when applicable, writes the handshake, attaches a client session, and then publishes connection activity. normal text messages enter websocket/apps/messagerouter.js, which delegates to one server owned realtimeplatform. that platform owns an applicationregistry, an applicationrouter, and shared server state. legacy and versioned protocols coexist applicationrouter parses each complete utf 8 json message. legacy messages are routed through legacy compatibility logic. versioned messages carry an application/version contract and are routed through the registered realtime application platform. trusted identity comes from client.identity, populated by the socket session. the applicationrouter explicitly keeps identity out of message payload authority: a client message cannot simply supply its own trusted account identity. built in versioned applications current factory inspection reports: application versions awtsmoos core 1 awtsmoos social 1 sefira clash 1 mitzvah world 1 ohr hagnuz 1 scribe journey 1, 2 tunnel activity 1 shema strike 1 the generated inventory is ../generated/websocket applications.md. important separate subsystems mission rooms: pre handshake one time ticket/origin/authority/protocol checks. see mission rooms.md. tunnel relay: account bound agent/device transport and request correlation. it is not one of the eight built in versioned application factories. see tunnel relay.md. social/live compatibility: page presence, social events, typing/reading state, live preview. see applications.md. generated protocol evidence ../generated/websocket event index.md contains production source lexical message/event literals. treat it as a source search aid, not a formal exhaustive protocol schema.",
+		"page": "pages/docs-websockets-readme-md-fed34d4d65.json"
+	}
+]

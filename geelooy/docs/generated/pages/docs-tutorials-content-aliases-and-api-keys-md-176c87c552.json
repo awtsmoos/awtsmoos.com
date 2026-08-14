@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-tutorials-content-aliases-and-api-keys-md-176c87c552",
+	"title": "Aliases and API Keys",
+	"sourcePath": "docs/TUTORIALS/CONTENT/ALIASES_AND_API_KEYS.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Aliases and API Keys",
+			"anchor": "aliases-and-api-keys"
+		},
+		{
+			"level": 2,
+			"text": "Alias role",
+			"anchor": "alias-role"
+		},
+		{
+			"level": 2,
+			"text": "API keys",
+			"anchor": "api-keys"
+		},
+		{
+			"level": 2,
+			"text": "Inputs",
+			"anchor": "inputs"
+		},
+		{
+			"level": 2,
+			"text": "Security rule",
+			"anchor": "security-rule"
+		}
+	],
+	"markdownParts": [
+		"content/docs-tutorials-content-aliases-and-api-keys-md-176c87c552-001.json"
+	]
+}

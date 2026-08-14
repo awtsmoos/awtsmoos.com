@@ -1,0 +1,279 @@
+{
+  "bh": "B\"H",
+  "checks": {
+    "page": {
+      "readyState": "complete",
+      "loading": "flex",
+      "mainMenu": "none",
+      "innerWidth": 614,
+      "innerHeight": 373,
+      "resources": [
+        "http://127.0.0.1:8080/games/chess/ui/chess-polish.css",
+        "http://127.0.0.1:8080/games/chess/ui/chess-mobile.css",
+        "http://127.0.0.1:8080/games/chess/engine/runtime/upgrade-worker.js"
+      ]
+    },
+    "engine": {
+      "result": {
+        "type": "move_result",
+        "bestMove": {
+          "from": [
+            7,
+            7
+          ],
+          "to": [
+            3,
+            7
+          ],
+          "promotion": null
+        },
+        "score": 747.8333333333345,
+        "timeTaken": "769.70",
+        "nodesSearched": 3072
+      },
+      "events": [
+        {
+          "type": "initialization_complete"
+        },
+        {
+          "type": "move_result",
+          "bestMove": {
+            "from": [
+              7,
+              7
+            ],
+            "to": [
+              3,
+              7
+            ],
+            "promotion": null
+          },
+          "score": 747.8333333333345,
+          "timeTaken": "769.70",
+          "nodesSearched": 3072
+        }
+      ]
+    },
+    "frames": {
+      "frames": 318,
+      "maxGap": 18.399999999999636,
+      "elapsed": 5299.199999928474,
+      "fps": 60.00905797182446,
+      "payload": {
+        "type": "move_result",
+        "bestMove": {
+          "from": [
+            7,
+            7
+          ],
+          "to": [
+            3,
+            7
+          ],
+          "promotion": null
+        },
+        "score": 780.3333333333345,
+        "timeTaken": "947.30",
+        "nodesSearched": 3183
+      }
+    }
+  },
+  "console": [
+    {
+      "method": "Log.entryAdded",
+      "params": {
+        "entry": {
+          "source": "network",
+          "level": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+          "timestamp": 1786705360563.789,
+          "url": "http://127.0.0.1:8080/scripts/awtsmoos/realtime/RealtimePendingMetadata.js",
+          "networkRequestId": "68349.73"
+        }
+      }
+    },
+    {
+      "method": "Runtime.consoleAPICalled",
+      "params": {
+        "type": "warning",
+        "args": [
+          {
+            "type": "string",
+            "value": "Universal Torah chat fallback could not mount:"
+          },
+          {
+            "type": "string",
+            "value": "Failed to fetch dynamically imported module: http://127.0.0.1:8080/scripts/awtsmoos/social/universalChat/bootstrap.js"
+          }
+        ],
+        "executionContextId": 1,
+        "timestamp": 1786705360564.163,
+        "stackTrace": {
+          "callFrames": [
+            {
+              "functionName": "mountUniversalChatFallback",
+              "scriptId": "10",
+              "url": "http://127.0.0.1:8080/register.js",
+              "lineNumber": 38,
+              "columnNumber": 10
+            }
+          ]
+        }
+      }
+    },
+    {
+      "method": "Log.entryAdded",
+      "params": {
+        "entry": {
+          "source": "worker",
+          "level": "info",
+          "text": "%c B\"H --- FORGING THE UNIVERSE FROM THE VOID --- background: #000; color: #00ffff; font-size: 1.2em; padding: 4px; font-family: monospace;",
+          "timestamp": 1786705361333.908,
+          "url": "http://127.0.0.1:8080/games/chess/awtsmoos_chess_engine.js",
+          "lineNumber": 18,
+          "stackTrace": {
+            "callFrames": [
+              {
+                "functionName": "header",
+                "scriptId": "4",
+                "url": "http://127.0.0.1:8080/games/chess/awtsmoos_chess_engine.js",
+                "lineNumber": 18,
+                "columnNumber": 31
+              }
+            ]
+          },
+          "workerId": "F8849634374653CE5FC14C2CCE7E3C8A"
+        }
+      }
+    },
+    {
+      "method": "Log.entryAdded",
+      "params": {
+        "entry": {
+          "source": "worker",
+          "level": "info",
+          "text": "%c[INFO] Inscribing the Scrolls of Wisdom... color: #99ff99;",
+          "timestamp": 1786705361335.628,
+          "url": "http://127.0.0.1:8080/games/chess/awtsmoos_chess_engine.js",
+          "lineNumber": 19,
+          "stackTrace": {
+            "callFrames": [
+              {
+                "functionName": "info",
+                "scriptId": "4",
+                "url": "http://127.0.0.1:8080/games/chess/awtsmoos_chess_engine.js",
+                "lineNumber": 19,
+                "columnNumber": 40
+              }
+            ]
+          },
+          "workerId": "F8849634374653CE5FC14C2CCE7E3C8A"
+        }
+      }
+    },
+    {
+      "method": "Log.entryAdded",
+      "params": {
+        "entry": {
+          "source": "worker",
+          "level": "info",
+          "text": "%c B\"H --- FORGING THE UNIVERSE FROM THE VOID --- background: #000; color: #00ffff; font-size: 1.2em; padding: 4px; font-family: monospace;",
+          "timestamp": 1786705362243.258,
+          "url": "http://127.0.0.1:8080/games/chess/awtsmoos_chess_engine.js",
+          "lineNumber": 18,
+          "stackTrace": {
+            "callFrames": [
+              {
+                "functionName": "header",
+                "scriptId": "4",
+                "url": "http://127.0.0.1:8080/games/chess/awtsmoos_chess_engine.js",
+                "lineNumber": 18,
+                "columnNumber": 31
+              }
+            ]
+          },
+          "workerId": "BCA5A95F5CE1C9017D88A0F3CEF26934"
+        }
+      }
+    },
+    {
+      "method": "Log.entryAdded",
+      "params": {
+        "entry": {
+          "source": "worker",
+          "level": "info",
+          "text": "%c[INFO] Inscribing the Scrolls of Wisdom... color: #99ff99;",
+          "timestamp": 1786705362244.504,
+          "url": "http://127.0.0.1:8080/games/chess/awtsmoos_chess_engine.js",
+          "lineNumber": 19,
+          "stackTrace": {
+            "callFrames": [
+              {
+                "functionName": "info",
+                "scriptId": "4",
+                "url": "http://127.0.0.1:8080/games/chess/awtsmoos_chess_engine.js",
+                "lineNumber": 19,
+                "columnNumber": 40
+              }
+            ]
+          },
+          "workerId": "BCA5A95F5CE1C9017D88A0F3CEF26934"
+        }
+      }
+    },
+    {
+      "method": "Log.entryAdded",
+      "params": {
+        "entry": {
+          "source": "worker",
+          "level": "info",
+          "text": "%c B\"H --- FORGING THE UNIVERSE FROM THE VOID --- background: #000; color: #00ffff; font-size: 1.2em; padding: 4px; font-family: monospace;",
+          "timestamp": 1786705368042.078,
+          "url": "http://127.0.0.1:8080/games/chess/awtsmoos_chess_engine.js",
+          "lineNumber": 18,
+          "stackTrace": {
+            "callFrames": [
+              {
+                "functionName": "header",
+                "scriptId": "4",
+                "url": "http://127.0.0.1:8080/games/chess/awtsmoos_chess_engine.js",
+                "lineNumber": 18,
+                "columnNumber": 31
+              }
+            ]
+          },
+          "workerId": "C071098FDF19809A042687667D1567BD"
+        }
+      }
+    },
+    {
+      "method": "Log.entryAdded",
+      "params": {
+        "entry": {
+          "source": "worker",
+          "level": "info",
+          "text": "%c[INFO] Inscribing the Scrolls of Wisdom... color: #99ff99;",
+          "timestamp": 1786705368043.313,
+          "url": "http://127.0.0.1:8080/games/chess/awtsmoos_chess_engine.js",
+          "lineNumber": 19,
+          "stackTrace": {
+            "callFrames": [
+              {
+                "functionName": "info",
+                "scriptId": "4",
+                "url": "http://127.0.0.1:8080/games/chess/awtsmoos_chess_engine.js",
+                "lineNumber": 19,
+                "columnNumber": 40
+              }
+            ]
+          },
+          "workerId": "C071098FDF19809A042687667D1567BD"
+        }
+      }
+    }
+  ],
+  "target": {
+    "id": "806D5D6555405211EAB0869DA561D865",
+    "url": "http://127.0.0.1:8080/games/chess/"
+  }
+}

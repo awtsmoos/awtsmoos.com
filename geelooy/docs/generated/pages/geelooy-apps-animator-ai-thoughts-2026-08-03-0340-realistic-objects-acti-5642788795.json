@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-5642788795",
+	"title": "COMPLETEDWORK",
+	"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0340_realistic-objects-action-movie/COMPLETED_WORK.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "COMPLETEDWORK",
+			"anchor": "completedwork"
+		},
+		{
+			"level": 2,
+			"text": "Realistic 2D character system",
+			"anchor": "realistic-2d-character-system"
+		},
+		{
+			"level": 2,
+			"text": "Realistic 2D object and environment system",
+			"anchor": "realistic-2d-object-and-environment-system"
+		},
+		{
+			"level": 2,
+			"text": "Dialogue and camera system",
+			"anchor": "dialogue-and-camera-system"
+		},
+		{
+			"level": 2,
+			"text": "One-minute production",
+			"anchor": "one-minute-production"
+		},
+		{
+			"level": 2,
+			"text": "Export and verification",
+			"anchor": "export-and-verification"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-5642788795-001.json"
+	]
+}

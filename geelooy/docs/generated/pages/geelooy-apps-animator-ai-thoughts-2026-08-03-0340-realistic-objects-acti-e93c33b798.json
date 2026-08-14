@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-e93c33b798",
+	"title": "Final Implementation Plan",
+	"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0340_realistic-objects-action-movie/04_FINAL_IMPLEMENTATION_PLAN.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Final Implementation Plan",
+			"anchor": "final-implementation-plan"
+		},
+		{
+			"level": 2,
+			"text": "Phase I — Character realism",
+			"anchor": "phase-i-character-realism"
+		},
+		{
+			"level": 2,
+			"text": "Phase II — Object and set realism",
+			"anchor": "phase-ii-object-and-set-realism"
+		},
+		{
+			"level": 2,
+			"text": "Phase III — Text and camera language",
+			"anchor": "phase-iii-text-and-camera-language"
+		},
+		{
+			"level": 2,
+			"text": "Phase IV — One-minute movie",
+			"anchor": "phase-iv-one-minute-movie"
+		},
+		{
+			"level": 2,
+			"text": "Phase V — Export and proof",
+			"anchor": "phase-v-export-and-proof"
+		},
+		{
+			"level": 2,
+			"text": "Phase VI — Verification and challenge",
+			"anchor": "phase-vi-verification-and-challenge"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-e93c33b798-001.json"
+	]
+}

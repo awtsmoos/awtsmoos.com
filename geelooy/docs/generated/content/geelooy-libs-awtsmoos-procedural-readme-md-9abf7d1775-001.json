@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — @awtsmoos/procedural\n\nRaw procedural geometry helpers for Awtsmoos games. This package emits plain mesh data only: `{ positions, indices, colors }`. It does not import THREE, Babylon, Pixi, PlayCanvas, or any renderer.\n\nCurrent focus: stabilize world geometry for Nitzotz-style raw WebGL pipelines.\n\n## Debug ritual\n\nUse `makeGoldenProbe()` to submit one known cube into a render list. If the cube renders, the shader/camera/buffers can breathe. If city meshes fail but the probe works, inspect generated meshes with `inspectMesh(mesh)` and clamp building heights/spans.\n\n## Exports\n\n- deterministic RNG helpers\n- primitive cube mesh\n- finite mesh compaction\n- mesh validation and summaries\n- clamped building meshes\n- deterministic city chunk meshes\n- golden probe cube\n"
+}

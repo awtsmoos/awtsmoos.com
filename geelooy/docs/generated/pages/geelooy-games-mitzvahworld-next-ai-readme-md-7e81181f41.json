@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-next-ai-readme-md-7e81181f41",
+	"title": "B\"H",
+	"sourcePath": "geelooy/games/mitzvahWorld/NEXT_AI_README.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Mitzvah World — Verified Handoff",
+			"anchor": "mitzvah-world-verified-handoff"
+		},
+		{
+			"level": 2,
+			"text": "Public Route",
+			"anchor": "public-route"
+		},
+		{
+			"level": 2,
+			"text": "Runtime Boundary",
+			"anchor": "runtime-boundary"
+		},
+		{
+			"level": 2,
+			"text": "CompactJS Build",
+			"anchor": "compactjs-build"
+		},
+		{
+			"level": 2,
+			"text": "Model Delivery",
+			"anchor": "model-delivery"
+		},
+		{
+			"level": 2,
+			"text": "Verified Production Evidence",
+			"anchor": "verified-production-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Maintenance Guardrails",
+			"anchor": "maintenance-guardrails"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-next-ai-readme-md-7e81181f41-001.json"
+	]
+}

@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-tutorials-systems-trace-trusted-identity-md-1372f4498d",
+	"title": "Trace Trusted Identity",
+	"sourcePath": "docs/TUTORIALS/SYSTEMS/TRACE_TRUSTED_IDENTITY.md",
+	"category": "Systems",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Trace Trusted Identity",
+			"anchor": "trace-trusted-identity"
+		},
+		{
+			"level": 2,
+			"text": "Investigation path",
+			"anchor": "investigation-path"
+		},
+		{
+			"level": 2,
+			"text": "Separation rule",
+			"anchor": "separation-rule"
+		}
+	],
+	"markdownParts": [
+		"content/docs-tutorials-systems-trace-trusted-identity-md-1372f4498d-001.json"
+	]
+}

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "<!-- B\"H -->\n<!-- Boruch Hashem -->\n<!-- Blessed is He -->\n\n# AwtsmoosDB Maintainer Documentation\n\nThese guides preserve the boundaries that keep canonical records, vectors, indexes, WAL recovery, leases, and free-space reuse distinct. The Awtsmoos creates every vessel anew; maintainers must still prove which vessel is canonical before changing it.\n\n## Start here\n\n- `AI_AGENT_DECISION_TREE.md` for incident triage.\n- `TROUBLESHOOTING_RAG_SEARCH.md` for a broken API.\n- `EMBEDDING_REUSE_POLICY.md` before any embedding job.\n- `VECTOR_INDEX_INVARIANTS.md` before index work.\n- `V2_ALLOCATOR_REUSE_AND_TAIL_RECLAIM.md` before storage work.\n- `FIELD_GUIDE__PUBLISHING_A_VACUUMED_VECTOR_DB.md` before publication.\n\n## Automated contract\n\nRun from the package directory:\n\n```bash\nnode scripts/checkDocumentationFreshness.js\nnode --test test/documentation_freshness_test.js\n```\n\nThe checker verifies required files, headers, source anchors, required terms, and the 120-line ceiling. It does not replace runtime tests, hashes, or read-only audits.\n"
+}

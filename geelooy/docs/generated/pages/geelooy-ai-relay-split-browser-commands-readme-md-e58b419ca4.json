@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-relay-split-browser-commands-readme-md-e58b419ca4",
+	"title": "ChatGPT Website Commands",
+	"sourcePath": "geelooy/ai/relay/split-browser/commands/README.md",
+	"category": "AI",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "ChatGPT Website Commands",
+			"anchor": "chatgpt-website-commands"
+		},
+		{
+			"level": 2,
+			"text": "Manual login",
+			"anchor": "manual-login"
+		},
+		{
+			"level": 2,
+			"text": "Website capability",
+			"anchor": "website-capability"
+		},
+		{
+			"level": 2,
+			"text": "Website stress",
+			"anchor": "website-stress"
+		},
+		{
+			"level": 2,
+			"text": "Optional environment variables",
+			"anchor": "optional-environment-variables"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-relay-split-browser-commands-readme-md-e58b419ca4-001.json"
+	]
+}

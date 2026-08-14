@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-generated-project-dependencies-md-6af5d749d6",
+	"title": "Generated Cross-Project Dependency Evidence",
+	"sourcePath": "docs/GENERATED/PROJECT_DEPENDENCIES.md",
+	"category": "Projects",
+	"provenance": "generated",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Generated Cross-Project Dependency Evidence",
+			"anchor": "generated-cross-project-dependency-evidence"
+		}
+	],
+	"markdownParts": [
+		"content/docs-generated-project-dependencies-md-6af5d749d6-001.json"
+	]
+}

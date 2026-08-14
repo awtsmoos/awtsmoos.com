@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-learn-authentication-101-md-12645e54df",
+	"title": "Authentication 101",
+	"sourcePath": "docs/LEARN/AUTHENTICATION_101.md",
+	"category": "Security",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Authentication 101",
+			"anchor": "authentication-101"
+		},
+		{
+			"level": 2,
+			"text": "What you will learn",
+			"anchor": "what-you-will-learn"
+		},
+		{
+			"level": 2,
+			"text": "Identity sources observed",
+			"anchor": "identity-sources-observed"
+		},
+		{
+			"level": 2,
+			"text": "Social API keys",
+			"anchor": "social-api-keys"
+		},
+		{
+			"level": 2,
+			"text": "Tunnel Control",
+			"anchor": "tunnel-control"
+		},
+		{
+			"level": 2,
+			"text": "Resource authorization",
+			"anchor": "resource-authorization"
+		},
+		{
+			"level": 2,
+			"text": "Other gates",
+			"anchor": "other-gates"
+		},
+		{
+			"level": 2,
+			"text": "Safe question sequence",
+			"anchor": "safe-question-sequence"
+		}
+	],
+	"markdownParts": [
+		"content/docs-learn-authentication-101-md-12645e54df-001.json"
+	]
+}

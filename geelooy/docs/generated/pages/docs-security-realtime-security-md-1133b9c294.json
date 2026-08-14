@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-security-realtime-security-md-1133b9c294",
+	"title": "Realtime Security",
+	"sourcePath": "docs/SECURITY/REALTIME_SECURITY.md",
+	"category": "Realtime",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Realtime Security",
+			"anchor": "realtime-security"
+		},
+		{
+			"level": 2,
+			"text": "Shared authentication, separate transport boundary",
+			"anchor": "shared-authentication-separate-transport-boundary"
+		},
+		{
+			"level": 2,
+			"text": "Mission Room admission happens before handshake",
+			"anchor": "mission-room-admission-happens-before-handshake"
+		},
+		{
+			"level": 2,
+			"text": "One-time tickets are not permanent authority",
+			"anchor": "one-time-tickets-are-not-permanent-authority"
+		},
+		{
+			"level": 2,
+			"text": "Versioned realtime applications",
+			"anchor": "versioned-realtime-applications"
+		},
+		{
+			"level": 2,
+			"text": "Tunnel Relay",
+			"anchor": "tunnel-relay"
+		},
+		{
+			"level": 2,
+			"text": "Origin and browser context",
+			"anchor": "origin-and-browser-context"
+		},
+		{
+			"level": 2,
+			"text": "Realtime change checklist",
+			"anchor": "realtime-change-checklist"
+		}
+	],
+	"markdownParts": [
+		"content/docs-security-realtime-security-md-1133b9c294-001.json"
+	]
+}

@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-tutorials-projects-runtime-and-infrastructure-md-1e31989624",
+	"title": "Runtime and Infrastructure",
+	"sourcePath": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+	"category": "Projects",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Runtime and Infrastructure",
+			"anchor": "runtime-and-infrastructure"
+		},
+		{
+			"level": 2,
+			"text": "Investigate runtime code",
+			"anchor": "investigate-runtime-code"
+		},
+		{
+			"level": 2,
+			"text": "Caveats",
+			"anchor": "caveats"
+		}
+	],
+	"markdownParts": [
+		"content/docs-tutorials-projects-runtime-and-infrastructure-md-1e31989624-001.json"
+	]
+}

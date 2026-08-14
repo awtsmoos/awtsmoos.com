@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-api-wallet-md-74103fc61e",
+	"title": "Wallet and Commerce API",
+	"sourcePath": "docs/API/WALLET.md",
+	"category": "API",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Wallet and Commerce API",
+			"anchor": "wallet-and-commerce-api"
+		},
+		{
+			"level": 2,
+			"text": "Mount",
+			"anchor": "mount"
+		},
+		{
+			"level": 2,
+			"text": "Current route-table keys",
+			"anchor": "current-route-table-keys"
+		},
+		{
+			"level": 2,
+			"text": "Adjacent economy systems",
+			"anchor": "adjacent-economy-systems"
+		},
+		{
+			"level": 2,
+			"text": "Browser surface",
+			"anchor": "browser-surface"
+		},
+		{
+			"level": 2,
+			"text": "Safety for callers",
+			"anchor": "safety-for-callers"
+		},
+		{
+			"level": 2,
+			"text": "Reference",
+			"anchor": "reference"
+		}
+	],
+	"markdownParts": [
+		"content/docs-api-wallet-md-74103fc61e-001.json"
+	]
+}

@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-animator-documentation-md-743b26c48f",
+	"title": "Animator Documentation",
+	"sourcePath": "geelooy/apps/animator/DOCUMENTATION.md",
+	"category": "Apps",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Animator Documentation",
+			"anchor": "animator-documentation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-animator-documentation-md-743b26c48f-001.json"
+	]
+}

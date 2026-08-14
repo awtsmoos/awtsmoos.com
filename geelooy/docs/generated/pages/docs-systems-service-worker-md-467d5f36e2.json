@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-systems-service-worker-md-467d5f36e2",
+	"title": "Service Worker",
+	"sourcePath": "docs/SYSTEMS/SERVICE_WORKER.md",
+	"category": "Systems",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Service Worker",
+			"anchor": "service-worker"
+		},
+		{
+			"level": 2,
+			"text": "Source",
+			"anchor": "source"
+		},
+		{
+			"level": 2,
+			"text": "Current behavior",
+			"anchor": "current-behavior"
+		},
+		{
+			"level": 2,
+			"text": "Consequence",
+			"anchor": "consequence"
+		},
+		{
+			"level": 2,
+			"text": "Why this deserves its own page",
+			"anchor": "why-this-deserves-its-own-page"
+		}
+	],
+	"markdownParts": [
+		"content/docs-systems-service-worker-md-467d5f36e2-001.json"
+	]
+}

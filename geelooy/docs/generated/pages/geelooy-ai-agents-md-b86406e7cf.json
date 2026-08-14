@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-agents-md-b86406e7cf",
+	"title": "Awtsmoos Agent Law For geelooy/ai",
+	"sourcePath": "geelooy/ai/agents.md",
+	"category": "AI",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos Agent Law For geelooy/ai",
+			"anchor": "awtsmoos-agent-law-for-geelooy-ai"
+		},
+		{
+			"level": 2,
+			"text": "Default council law",
+			"anchor": "default-council-law"
+		},
+		{
+			"level": 2,
+			"text": "The tunnel action crown",
+			"anchor": "the-tunnel-action-crown"
+		},
+		{
+			"level": 2,
+			"text": "Native, browser, OAuth, and Virtual OS routing",
+			"anchor": "native-browser-oauth-and-virtual-os-routing"
+		},
+		{
+			"level": 2,
+			"text": "Command payload law",
+			"anchor": "command-payload-law"
+		},
+		{
+			"level": 2,
+			"text": "Continuation and sub-agent law",
+			"anchor": "continuation-and-sub-agent-law"
+		},
+		{
+			"level": 2,
+			"text": "File and secret discipline",
+			"anchor": "file-and-secret-discipline"
+		},
+		{
+			"level": 2,
+			"text": "Truthful final answers",
+			"anchor": "truthful-final-answers"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-agents-md-b86406e7cf-001.json"
+	]
+}

@@ -1,0 +1,527 @@
+[
+	{
+		"projectId": "geelooy-post-editor-1686f567",
+		"path": "geelooy/post-editor",
+		"type": "public",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "Post Editor — Geelooy",
+		"entries": [
+			"index.html",
+			"app.js",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-post-editor-1686f567.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/post-editor/DOCUMENTATION.md",
+				"documentId": "geelooy-post-editor-documentation-md-129e3730b0"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 10,
+			"tests": 1,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 12,
+		"symbolSummary": {
+			"files": 9,
+			"classes": 1,
+			"functions": 21,
+			"exports": 8,
+			"samples": [
+				"async",
+				"savePostDraft",
+				"publishPostDraft",
+				"request",
+				"errorMessage",
+				"readPostEditorConfig",
+				"clean",
+				"createElement",
+				"createField",
+				"renderPostEditor",
+				"hero",
+				"missingContext"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/scripts",
+				"count": 1,
+				"examples": "geelooy/post-editor/app.js"
+			}
+		],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/post-editor",
+				"file": "geelooy/post-editor/index.html",
+				"title": "Post Editor — Geelooy",
+				"scripts": 2,
+				"styles": 2
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-profile-d6f75c23",
+		"path": "geelooy/profile",
+		"type": "public",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "Profile — Geelooy",
+		"entries": [
+			"index.html",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-profile-d6f75c23.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/profile/DOCUMENTATION.md",
+				"documentId": "geelooy-profile-documentation-md-dbdf0c5e14"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 18,
+			"tests": 2,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 1
+		},
+		"totalFiles": 22,
+		"symbolSummary": {
+			"files": 11,
+			"classes": 0,
+			"functions": 52,
+			"exports": 21,
+			"samples": [
+				"checkAliasId",
+				"validateAliasId",
+				"showTooltip",
+				"hideTooltip",
+				"backToProfile",
+				"async",
+				"renderProfileDropdown",
+				"refreshProfileDropdown",
+				"renderAliases",
+				"saveDefaultAlias",
+				"withTimeout",
+				"messageFrom"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/scripts",
+				"count": 1,
+				"examples": "geelooy/profile/auth.js"
+			}
+		],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/profile",
+				"file": "geelooy/profile/index.html",
+				"title": "Profile — Geelooy",
+				"scripts": 2,
+				"styles": 6
+			},
+			{
+				"url": "/profile/alias-manage",
+				"file": "geelooy/profile/alias-manage/index.html",
+				"title": "",
+				"scripts": 1,
+				"styles": 1
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-public-72540595",
+		"path": "geelooy/public",
+		"type": "project",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "geelooy/public",
+		"entries": [
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-public-72540595.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/public/DOCUMENTATION.md",
+				"documentId": "geelooy-public-documentation-md-33b4dbc3a5"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 8,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 9,
+			"other": 0
+		},
+		"totalFiles": 17,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/public/virtual-os-games/crystal-1780372754759",
+				"file": "geelooy/public/virtual-os-games/crystal-1780372754759/index.html",
+				"title": "Crystal Critters",
+				"scripts": 0,
+				"styles": 0
+			},
+			{
+				"url": "/public/virtual-os-games/crystal-1780372758361",
+				"file": "geelooy/public/virtual-os-games/crystal-1780372758361/index.html",
+				"title": "Crystal Critters",
+				"scripts": 0,
+				"styles": 0
+			},
+			{
+				"url": "/public/virtual-os-games/crystal-1780373501785-improved",
+				"file": "geelooy/public/virtual-os-games/crystal-1780373501785-improved/index.html",
+				"title": "Crystal Critters: Awakened Cave",
+				"scripts": 0,
+				"styles": 0
+			},
+			{
+				"url": "/public/virtual-os-games/crystal-1780373505136-improved",
+				"file": "geelooy/public/virtual-os-games/crystal-1780373505136-improved/index.html",
+				"title": "Crystal Critters: Awakened Cave",
+				"scripts": 0,
+				"styles": 0
+			},
+			{
+				"url": "/public/virtual-os-games/crystal-1780373765713-swarm-v2",
+				"file": "geelooy/public/virtual-os-games/crystal-1780373765713-swarm-v2/index.html",
+				"title": "Crystal Critters: Thumb-Safe Swarm",
+				"scripts": 0,
+				"styles": 0
+			},
+			{
+				"url": "/public/virtual-os-games/crystal-1780373769185-swarm-v2",
+				"file": "geelooy/public/virtual-os-games/crystal-1780373769185-swarm-v2/index.html",
+				"title": "Crystal Critters: Thumb-Safe Swarm",
+				"scripts": 0,
+				"styles": 0
+			},
+			{
+				"url": "/public/virtual-os-games/crystal-1780374109835-clean-mobile",
+				"file": "geelooy/public/virtual-os-games/crystal-1780374109835-clean-mobile/index.html",
+				"title": "Crystal Critters: Clean Mobile",
+				"scripts": 0,
+				"styles": 0
+			},
+			{
+				"url": "/public/virtual-os-games/crystal-1780374112967-clean-mobile",
+				"file": "geelooy/public/virtual-os-games/crystal-1780374112967-clean-mobile/index.html",
+				"title": "Crystal Critters: Clean Mobile",
+				"scripts": 0,
+				"styles": 0
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-record-466e4ab9",
+		"path": "geelooy/record",
+		"type": "public",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "Camera Preview — Geelooy",
+		"entries": [
+			"index.html"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-record-466e4ab9.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 7,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 7,
+		"symbolSummary": {
+			"files": 1,
+			"classes": 0,
+			"functions": 7,
+			"exports": 0,
+			"samples": [
+				"setStatus",
+				"stopStream",
+				"requestCamera",
+				"startCamera",
+				"stopStreamSilently",
+				"switchCamera",
+				"cameraErrorMessage"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/record",
+				"file": "geelooy/record/index.html",
+				"title": "Camera Preview — Geelooy",
+				"scripts": 1,
+				"styles": 1
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-recorder-e2984b8e",
+		"path": "geelooy/recorder",
+		"type": "public",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "Local Recorder — Geelooy",
+		"entries": [
+			"index.html",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-recorder-e2984b8e.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/recorder/DOCUMENTATION.md",
+				"documentId": "geelooy-recorder-documentation-md-f7f6cc416c"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 11,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 1
+		},
+		"totalFiles": 13,
+		"symbolSummary": {
+			"files": 4,
+			"classes": 0,
+			"functions": 18,
+			"exports": 9,
+			"samples": [
+				"async",
+				"beginRecording",
+				"stopRecording",
+				"stopStream",
+				"acquireCameraStream",
+				"acquireDesktopStream",
+				"selectMimeType",
+				"downloadRecording",
+				"createRecorderController",
+				"setState",
+				"start",
+				"stop"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/recorder",
+				"file": "geelooy/recorder/index.html",
+				"title": "Local Recorder — Geelooy",
+				"scripts": 1,
+				"styles": 1
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-reeyuh-7e819b94",
+		"path": "geelooy/reeyuh",
+		"type": "public",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "Shulchan Aruch Viewer",
+		"entries": [
+			"index.html"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-reeyuh-7e819b94.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 1,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 1,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/reeyuh",
+				"file": "geelooy/reeyuh/index.html",
+				"title": "Shulchan Aruch Viewer",
+				"scripts": 0,
+				"styles": 2
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-register-92e7f470",
+		"path": "geelooy/register",
+		"type": "public",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "Create Awtsmoos Account",
+		"entries": [
+			"index.html"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-register-92e7f470.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 1,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 1,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/register",
+				"file": "geelooy/register/index.html",
+				"title": "Create Awtsmoos Account",
+				"scripts": 1,
+				"styles": 2
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-resources-22d1bfaf",
+		"path": "geelooy/resources",
+		"type": "project",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "geelooy/resources",
+		"entries": [],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-resources-22d1bfaf.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 2,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 2,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	}
+]

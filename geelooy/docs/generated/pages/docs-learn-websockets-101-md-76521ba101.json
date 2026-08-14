@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-learn-websockets-101-md-76521ba101",
+	"title": "WebSockets 101",
+	"sourcePath": "docs/LEARN/WEBSOCKETS_101.md",
+	"category": "Realtime",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "WebSockets 101",
+			"anchor": "websockets-101"
+		},
+		{
+			"level": 2,
+			"text": "What you will learn",
+			"anchor": "what-you-will-learn"
+		},
+		{
+			"level": 2,
+			"text": "Platform",
+			"anchor": "platform"
+		},
+		{
+			"level": 2,
+			"text": "Major examples",
+			"anchor": "major-examples"
+		},
+		{
+			"level": 2,
+			"text": "Trust boundary",
+			"anchor": "trust-boundary"
+		},
+		{
+			"level": 2,
+			"text": "Evidence warning",
+			"anchor": "evidence-warning"
+		},
+		{
+			"level": 2,
+			"text": "Next",
+			"anchor": "next"
+		}
+	],
+	"markdownParts": [
+		"content/docs-learn-websockets-101-md-76521ba101-001.json"
+	]
+}

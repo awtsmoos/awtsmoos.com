@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-oauth-documentation-md-e06e4ac2da",
+	"title": "OAuth API Documentation",
+	"sourcePath": "geelooy/api/oauth/DOCUMENTATION.md",
+	"category": "Security",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "OAuth API Documentation",
+			"anchor": "oauth-api-documentation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-oauth-documentation-md-e06e4ac2da-001.json"
+	]
+}

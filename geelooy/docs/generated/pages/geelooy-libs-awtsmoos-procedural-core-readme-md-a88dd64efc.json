@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-readme-md-a88dd64efc",
+	"title": "B\"H — Awtsmoos Procedural Core",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/README.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Awtsmoos Procedural Core",
+			"anchor": "b-h-awtsmoos-procedural-core"
+		},
+		{
+			"level": 2,
+			"text": "Core usage",
+			"anchor": "core-usage"
+		},
+		{
+			"level": 2,
+			"text": "Three.js usage",
+			"anchor": "three-js-usage"
+		},
+		{
+			"level": 2,
+			"text": "Folder contract",
+			"anchor": "folder-contract"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-readme-md-a88dd64efc-001.json"
+	]
+}

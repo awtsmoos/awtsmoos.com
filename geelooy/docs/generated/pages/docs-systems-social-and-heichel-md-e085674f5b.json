@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-systems-social-and-heichel-md-e085674f5b",
+	"title": "Social and Heichel System",
+	"sourcePath": "docs/SYSTEMS/SOCIAL_AND_HEICHEL.md",
+	"category": "Systems",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Social and Heichel System",
+			"anchor": "social-and-heichel-system"
+		},
+		{
+			"level": 2,
+			"text": "Human surfaces",
+			"anchor": "human-surfaces"
+		},
+		{
+			"level": 2,
+			"text": "Backend",
+			"anchor": "backend"
+		},
+		{
+			"level": 2,
+			"text": "Core concepts",
+			"anchor": "core-concepts"
+		},
+		{
+			"level": 3,
+			"text": "User/session identity",
+			"anchor": "user-session-identity"
+		},
+		{
+			"level": 3,
+			"text": "Alias",
+			"anchor": "alias"
+		},
+		{
+			"level": 3,
+			"text": "Heichel",
+			"anchor": "heichel"
+		},
+		{
+			"level": 3,
+			"text": "Post/comment graph",
+			"anchor": "post-comment-graph"
+		},
+		{
+			"level": 2,
+			"text": "Storage",
+			"anchor": "storage"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		},
+		{
+			"level": 2,
+			"text": "API detail",
+			"anchor": "api-detail"
+		}
+	],
+	"markdownParts": [
+		"content/docs-systems-social-and-heichel-md-e085674f5b-001.json"
+	]
+}

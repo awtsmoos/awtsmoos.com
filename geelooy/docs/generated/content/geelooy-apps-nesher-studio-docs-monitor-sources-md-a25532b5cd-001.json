@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\n# Monitor Sources\n\nNesher now exposes monitor capture as a first-class source.\n\nImplementation details:\n- `Add Monitor` calls `getDisplayMedia()` with monitor-oriented hints.\n- Browser permission still controls the final picker choice.\n- The chosen display surface is read from `track.getSettings().displaySurface`.\n- The monitor source is a normal video source, so scenes, dragging, resizing, audio capture, and recording use the same stable path.\n\nImportant browser fact:\nA web page cannot silently select a monitor. The user must choose the screen/window/tab in the picker. The app can request and label monitor capture, but Chrome owns permission and selection.\n"
+}

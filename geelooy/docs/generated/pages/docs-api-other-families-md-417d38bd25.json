@@ -1,0 +1,99 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-api-other-families-md-417d38bd25",
+	"title": "Other API Families",
+	"sourcePath": "docs/API/OTHER_FAMILIES.md",
+	"category": "API",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Other API Families",
+			"anchor": "other-api-families"
+		},
+		{
+			"level": 2,
+			"text": "Root /api derech",
+			"anchor": "root-api-derech"
+		},
+		{
+			"level": 2,
+			"text": "Admin",
+			"anchor": "admin"
+		},
+		{
+			"level": 2,
+			"text": "Compiler",
+			"anchor": "compiler"
+		},
+		{
+			"level": 2,
+			"text": "Contact",
+			"anchor": "contact"
+		},
+		{
+			"level": 2,
+			"text": "Email",
+			"anchor": "email"
+		},
+		{
+			"level": 2,
+			"text": "Fetch",
+			"anchor": "fetch"
+		},
+		{
+			"level": 2,
+			"text": "GPT",
+			"anchor": "gpt"
+		},
+		{
+			"level": 2,
+			"text": "Ohr HaGnuz",
+			"anchor": "ohr-hagnuz"
+		},
+		{
+			"level": 2,
+			"text": "Public DB",
+			"anchor": "public-db"
+		},
+		{
+			"level": 2,
+			"text": "Native runtime",
+			"anchor": "native-runtime"
+		},
+		{
+			"level": 2,
+			"text": "Sefarim",
+			"anchor": "sefarim"
+		},
+		{
+			"level": 2,
+			"text": "SSH",
+			"anchor": "ssh"
+		},
+		{
+			"level": 2,
+			"text": "Text — known broken mount",
+			"anchor": "text-known-broken-mount"
+		},
+		{
+			"level": 2,
+			"text": "Tunnel base",
+			"anchor": "tunnel-base"
+		},
+		{
+			"level": 2,
+			"text": "Tunnel installer",
+			"anchor": "tunnel-installer"
+		},
+		{
+			"level": 2,
+			"text": "Everything else",
+			"anchor": "everything-else"
+		}
+	],
+	"markdownParts": [
+		"content/docs-api-other-families-md-417d38bd25-001.json"
+	]
+}

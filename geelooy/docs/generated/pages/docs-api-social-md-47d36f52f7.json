@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-api-social-md-47d36f52f7",
+	"title": "Social API",
+	"sourcePath": "docs/API/SOCIAL.md",
+	"category": "API",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Social API",
+			"anchor": "social-api"
+		},
+		{
+			"level": 2,
+			"text": "Mount",
+			"anchor": "mount"
+		},
+		{
+			"level": 2,
+			"text": "Major domains observed",
+			"anchor": "major-domains-observed"
+		},
+		{
+			"level": 2,
+			"text": "Identity",
+			"anchor": "identity"
+		},
+		{
+			"level": 2,
+			"text": "Request helpers",
+			"anchor": "request-helpers"
+		},
+		{
+			"level": 2,
+			"text": "Frontend surfaces",
+			"anchor": "frontend-surfaces"
+		},
+		{
+			"level": 2,
+			"text": "Exhaustive endpoint lookup",
+			"anchor": "exhaustive-endpoint-lookup"
+		},
+		{
+			"level": 2,
+			"text": "Before modifying a Social endpoint",
+			"anchor": "before-modifying-a-social-endpoint"
+		}
+	],
+	"markdownParts": [
+		"content/docs-api-social-md-47d36f52f7-001.json"
+	]
+}

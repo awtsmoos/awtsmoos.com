@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-social-composer-reel-studio-docs-cinematic-world-format-md-b3e232d5e8",
+	"title": "Cinematic World Asset",
+	"sourcePath": "geelooy/social-composer/reel-studio/docs/CINEMATIC_WORLD_FORMAT.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Cinematic World Asset",
+			"anchor": "cinematic-world-asset"
+		},
+		{
+			"level": 2,
+			"text": "Houses",
+			"anchor": "houses"
+		},
+		{
+			"level": 2,
+			"text": "Trees",
+			"anchor": "trees"
+		},
+		{
+			"level": 2,
+			"text": "Paths and Lamps",
+			"anchor": "paths-and-lamps"
+		},
+		{
+			"level": 2,
+			"text": "Character",
+			"anchor": "character"
+		},
+		{
+			"level": 2,
+			"text": "Runtime",
+			"anchor": "runtime"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-social-composer-reel-studio-docs-cinematic-world-format-md-b3e232d5e8-001.json"
+	]
+}

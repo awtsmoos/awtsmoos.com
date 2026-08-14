@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-operations-dayuh-recovery-and-conflicts-md-cdf82f272c",
+	"title": "Dayuh sync recovery and conflict handling",
+	"sourcePath": "docs/operations/dayuh-recovery-and-conflicts.md",
+	"category": "Operations",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Dayuh sync recovery and conflict handling",
+			"anchor": "dayuh-sync-recovery-and-conflict-handling"
+		},
+		{
+			"level": 2,
+			"text": "Remote paths",
+			"anchor": "remote-paths"
+		},
+		{
+			"level": 2,
+			"text": "Stale lock",
+			"anchor": "stale-lock"
+		},
+		{
+			"level": 2,
+			"text": "Interrupted changed-file transfer",
+			"anchor": "interrupted-changed-file-transfer"
+		},
+		{
+			"level": 2,
+			"text": "Sync conflict",
+			"anchor": "sync-conflict"
+		},
+		{
+			"level": 2,
+			"text": "Interrupted seed",
+			"anchor": "interrupted-seed"
+		},
+		{
+			"level": 2,
+			"text": "Remote-only runtime data",
+			"anchor": "remote-only-runtime-data"
+		},
+		{
+			"level": 2,
+			"text": "Service recovery",
+			"anchor": "service-recovery"
+		}
+	],
+	"markdownParts": [
+		"content/docs-operations-dayuh-recovery-and-conflicts-md-cdf82f272c-001.json"
+	]
+}

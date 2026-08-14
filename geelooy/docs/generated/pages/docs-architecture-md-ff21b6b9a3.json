@@ -1,0 +1,79 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-architecture-md-ff21b6b9a3",
+	"title": "Architecture",
+	"sourcePath": "docs/ARCHITECTURE.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Architecture",
+			"anchor": "architecture"
+		},
+		{
+			"level": 2,
+			"text": "HTTP request flow",
+			"anchor": "http-request-flow"
+		},
+		{
+			"level": 2,
+			"text": "Major layers",
+			"anchor": "major-layers"
+		},
+		{
+			"level": 3,
+			"text": "Root process",
+			"anchor": "root-process"
+		},
+		{
+			"level": 3,
+			"text": "Public filesystem — geelooy/",
+			"anchor": "public-filesystem-geelooy"
+		},
+		{
+			"level": 3,
+			"text": "Dynamic server — ayzarim/awtsmoosDynamicServer/",
+			"anchor": "dynamic-server-ayzarim-awtsmoosdynamicserver"
+		},
+		{
+			"level": 3,
+			"text": "HTTP API mounts",
+			"anchor": "http-api-mounts"
+		},
+		{
+			"level": 3,
+			"text": "Realtime platform",
+			"anchor": "realtime-platform"
+		},
+		{
+			"level": 3,
+			"text": "Persistence — DosDB",
+			"anchor": "persistence-dosdb"
+		},
+		{
+			"level": 3,
+			"text": "Identity and authority",
+			"anchor": "identity-and-authority"
+		},
+		{
+			"level": 3,
+			"text": "External integrations",
+			"anchor": "external-integrations"
+		},
+		{
+			"level": 2,
+			"text": "Route grammar",
+			"anchor": "route-grammar"
+		},
+		{
+			"level": 2,
+			"text": "Current evidence volume",
+			"anchor": "current-evidence-volume"
+		}
+	],
+	"markdownParts": [
+		"content/docs-architecture-md-ff21b6b9a3-001.json"
+	]
+}

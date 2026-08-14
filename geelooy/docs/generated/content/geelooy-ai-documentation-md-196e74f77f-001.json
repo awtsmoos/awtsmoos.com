@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# AI Documentation\n\nThe Awtsmoos lets language computation become a tool while model, key, and runtime remain known;\nAwtsmoos.com maps browser AI, GPT routes, GGUF tools, and developer integrations in one zone.\n\nRead [../../docs/SYSTEMS/AI.md](../../docs/SYSTEMS/AI.md).\n\nGPT endpoint reference: search `/api/gpt/` in [../../docs/GENERATED/API_ROUTE_ATLAS.md](../../docs/GENERATED/API_ROUTE_ATLAS.md).\n"
+}

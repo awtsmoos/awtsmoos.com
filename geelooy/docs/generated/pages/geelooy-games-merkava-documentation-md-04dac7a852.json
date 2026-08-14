@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-merkava-documentation-md-04dac7a852",
+	"title": "Merkava — War of the Sparks",
+	"sourcePath": "geelooy/games/Merkava/DOCUMENTATION.md",
+	"category": "Games",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Merkava — War of the Sparks",
+			"anchor": "merkava-war-of-the-sparks"
+		},
+		{
+			"level": 2,
+			"text": "Role",
+			"anchor": "role"
+		},
+		{
+			"level": 2,
+			"text": "Start here",
+			"anchor": "start-here"
+		},
+		{
+			"level": 2,
+			"text": "Change rule",
+			"anchor": "change-rule"
+		},
+		{
+			"level": 2,
+			"text": "Project-specific notes",
+			"anchor": "project-specific-notes"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-merkava-documentation-md-04dac7a852-001.json"
+	]
+}

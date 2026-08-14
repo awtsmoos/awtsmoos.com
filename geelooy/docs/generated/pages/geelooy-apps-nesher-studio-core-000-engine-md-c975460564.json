@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-nesher-studio-core-000-engine-md-c975460564",
+	"title": "Nesher Engine Map",
+	"sourcePath": "geelooy/apps/nesher-studio/core/000_ENGINE.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Nesher Engine Map",
+			"anchor": "nesher-engine-map"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-nesher-studio-core-000-engine-md-c975460564-001.json"
+	]
+}

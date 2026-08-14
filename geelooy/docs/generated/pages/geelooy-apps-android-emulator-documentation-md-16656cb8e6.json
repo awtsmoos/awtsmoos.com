@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-android-emulator-documentation-md-16656cb8e6",
+	"title": "Android Emulator Documentation",
+	"sourcePath": "geelooy/apps/android-emulator/DOCUMENTATION.md",
+	"category": "Apps",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Android Emulator Documentation",
+			"anchor": "android-emulator-documentation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-android-emulator-documentation-md-16656cb8e6-001.json"
+	]
+}

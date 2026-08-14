@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-systems-geelooy-os-md-9c4df9faa4",
+	"title": "Geelooy OS and Virtual Runtime",
+	"sourcePath": "docs/SYSTEMS/GEELOOY_OS.md",
+	"category": "Systems",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Geelooy OS and Virtual Runtime",
+			"anchor": "geelooy-os-and-virtual-runtime"
+		},
+		{
+			"level": 2,
+			"text": "Primary public surfaces",
+			"anchor": "primary-public-surfaces"
+		},
+		{
+			"level": 2,
+			"text": "Related applications",
+			"anchor": "related-applications"
+		},
+		{
+			"level": 2,
+			"text": "Native runtime",
+			"anchor": "native-runtime"
+		},
+		{
+			"level": 2,
+			"text": "Remote OS / Tunnel relationship",
+			"anchor": "remote-os-tunnel-relationship"
+		},
+		{
+			"level": 2,
+			"text": "Testing evidence",
+			"anchor": "testing-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Maintenance rule",
+			"anchor": "maintenance-rule"
+		}
+	],
+	"markdownParts": [
+		"content/docs-systems-geelooy-os-md-9c4df9faa4-001.json"
+	]
+}

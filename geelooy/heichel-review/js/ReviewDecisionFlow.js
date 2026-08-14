@@ -1,14 +1,15 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-
 /**
  * @module ReviewDecisionFlow
  * @description
- * Assignment, notes, scheduling, and legal decisions form one explicit write path.
- * The Awtsmoos joins judgment and consequence; Awtsmoos.com still reports the exact
- * state returned by the server before refreshing the private institutional queue.
+ * The Awtsmoos joins judgment and consequence through one explicit write path.
+ * Awtsmoos.com refuses unknown client actions, names the known action in status,
+ * and disables the decision court while the existing POST decision is in flight.
  */
+
+import { reviewActionPolicy } from './ReviewActionPolicy.js';
 
 export async function decideSubmission(controller, action) {
 	const snapshot = controller.state.snapshot();
@@ -16,7 +17,13 @@ export async function decideSubmission(controller, action) {
 		controller.status('Select a submission first.', 'error');
 		return;
 	}
-	controller.status(`Applying ${action}…`, 'working');
+	const policy = reviewActionPolicy(action);
+	if (!policy.known) {
+		controller.status('This review action is not part of the known client contract.', 'error');
+		return;
+	}
+	setDecisionBusy(controller, true);
+	controller.status(`Applying ${policy.label}…`, 'working');
 	try {
 		const result = await controller.api.decide({
 			heichelId: snapshot.heichelId,
@@ -32,5 +39,17 @@ export async function decideSubmission(controller, action) {
 		controller.status(`Submission ${result.state}.`, 'success');
 	} catch (error) {
 		controller.status(error.message, 'error');
+	} finally {
+		setDecisionBusy(controller, false);
+	}
+}
+
+function setDecisionBusy(controller, busy) {
+	const panel = controller.root.querySelector('.decisionPanel');
+	if (panel) {
+		panel.setAttribute('aria-busy', String(busy));
+	}
+	for (const button of controller.root.querySelectorAll('[data-review-action]')) {
+		button.disabled = busy;
 	}
 }

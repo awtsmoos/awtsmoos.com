@@ -1,0 +1,240 @@
+[
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-07-30-0243-dynamic-character-comp-d4b33d21cb",
+		"title": "COMPLETION EVIDENCE",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-07-30_0243_dynamic-character-completion/EVIDENCE.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "COMPLETION EVIDENCE",
+				"anchor": "completion-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Repository verification",
+				"anchor": "repository-verification"
+			},
+			{
+				"level": 2,
+				"text": "Persistence",
+				"anchor": "persistence"
+			},
+			{
+				"level": 2,
+				"text": "Production browser courts",
+				"anchor": "production-browser-courts"
+			},
+			{
+				"level": 2,
+				"text": "Final expression contract",
+				"anchor": "final-expression-contract"
+			}
+		],
+		"excerpt": "B\"H COMPLETION EVIDENCE Repository verification npm prefix geelooy/apps/animator run verify exited 0. Import graph: 2,334 files, 0 missing. Full syntax, AI adapter, camera, scenes, character, performance, interaction, shot, goal board, and cinematic upgrade chains passed. git diff check geelooy/apps/animator passed. Ev",
+		"searchText": "b\"h completion evidence repository verification npm prefix geelooy/apps/animator run verify exited 0. import graph: 2,334 files, 0 missing. full syntax, ai adapter, camera, scenes, character, performance, interaction, shot, goal board, and cinematic upgrade chains passed. git diff check geelooy/apps/animator passed. every changed javascript file passed node check, required three line b\"h header, tab indentation audit, and the 120 line ceiling. persistence canonical round trip preserved identity, wardrobe, speech, gaze, gesture phase, and secondary motion settings while stripping stablepose, skeleton, runtime links, functions, and cycles. startup resurrection merged persisted characters over built in manifests without deleting defaults. production browser courts all captures reported the production app and character canvas ready. proofs/dynamic character/head 320x320.png — sha 256 5fc69bf0be4bc38a768786abe4d49fb954a1faa5dbd7b6a38145a447918db822 proofs/dynamic character/character 180x300.png — sha 256 4f488b7af40cdcfe79eac1cb81916de734424a265e958bd672b78f7c19733d26 proofs/dynamic character/half body 512x512.png — sha 256 9f3f21456d9b69a68cb1e95b202dfb4adc65e567c0ce2785facfbc64023e182e proofs/dynamic character/trio 1536x864.png — sha 256 a3700098fa350c730a68f368f13af2ff4f3f2ac189f435ea5674f0f736e4fc6b final expression contract emotionlibrary.get('delighted').mouth.smile resolves to 0.86, satisfying the detailed scene contract while remaining a transient expression pose.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-07-30-0243-dynamic-character-comp-d4b33d21cb.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-07-30-0243-dynamic-character-comp-7eb101048c",
+		"title": "NEXTACTION",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-07-30_0243_dynamic-character-completion/NEXT_ACTION.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H NEXT ACTION None. Completion gate closed. The Awtsmoos renews every frame from nothing, while Awtsmoos.com now carries the authored character from neutral identity through acting, persistence, production pixels, and export without an unresolved continuation node.",
+		"searchText": "b\"h next action none. completion gate closed. the awtsmoos renews every frame from nothing, while awtsmoos.com now carries the authored character from neutral identity through acting, persistence, production pixels, and export without an unresolved continuation node.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-07-30-0243-dynamic-character-comp-7eb101048c.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-07-30-0243-dynamic-character-comp-224ab4512a",
+		"title": "REMAININGWORK",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-07-30_0243_dynamic-character-completion/REMAINING_WORK.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK",
+				"anchor": "remainingwork"
+			}
+		],
+		"excerpt": "B\"H REMAINING WORK Status: EMPTY The dynamic character work graph is closed for the requested scope. Neutral identity remains separate from regional expression. Speech and visemes, gaze, blink, body acting, phased gestures, hands, garments, secondary motion, views, persistence, preview, production rendering, and export",
+		"searchText": "b\"h remaining work status: empty the dynamic character work graph is closed for the requested scope. neutral identity remains separate from regional expression. speech and visemes, gaze, blink, body acting, phased gestures, hands, garments, secondary motion, views, persistence, preview, production rendering, and export have implementation and verification evidence. no known safe in scope implementation, regression, persistence, render, scale, or export node remains open. new product requests belong to a new work graph rather than this completed checkpoint.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-07-30-0243-dynamic-character-comp-224ab4512a.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-07-30-0414-realistic-sitcom-refer-d18d4976d7",
+		"title": "PLANNED VS ACTUAL DELTA",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-07-30_0414_realistic-sitcom-reference-completion/DELTA.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "PLANNED VS ACTUAL DELTA",
+				"anchor": "planned-vs-actual-delta"
+			},
+			{
+				"level": 2,
+				"text": "Reference-derived plan",
+				"anchor": "reference-derived-plan"
+			},
+			{
+				"level": 2,
+				"text": "Actual implementation",
+				"anchor": "actual-implementation"
+			},
+			{
+				"level": 2,
+				"text": "Discovered defects resolved",
+				"anchor": "discovered-defects-resolved"
+			},
+			{
+				"level": 2,
+				"text": "Open delta",
+				"anchor": "open-delta"
+			}
+		],
+		"excerpt": "B\"H PLANNED VS ACTUAL DELTA Reference derived plan Make dynamic people read like grounded sitcom actors: restrained but expressive faces, conversational eye lines, readable hands, directional shoes, believable torso masses, open palm speech, crossed arm skepticism, and pocket hand observation. Preserve neutral identity",
+		"searchText": "b\"h planned vs actual delta reference derived plan make dynamic people read like grounded sitcom actors: restrained but expressive faces, conversational eye lines, readable hands, directional shoes, believable torso masses, open palm speech, crossed arm skepticism, and pocket hand observation. preserve neutral identity apart from expression. actual implementation the human canvas rig now consumes evaluated body, arm, gaze, blink, and hand pose channels. hands render open, relaxed, point, hold, and fist silhouettes. shoes expose toe, heel, sole, and stance direction. sustained contact poses bypass follow through and body emphasis overrides. unscripted gestures correctly reach hold. discovered defects resolved 1. number(null) caused absent gesture progress to become explicit zero, trapping unscripted gestures in anticipation. 2. gesture follow through moved locked crossed and pocket arms. 3. body finalization overwrote locked hands during speech emphasis. 4. human canvas joints ignored evaluated performance arms. 5. human canvas eyes used a separate gaze and blink clock. 6. shoes lacked directional toe and heel structure. open delta none.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-07-30-0414-realistic-sitcom-refer-d18d4976d7.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-07-30-0414-realistic-sitcom-refer-616fda1531",
+		"title": "REALISTIC SITCOM COMPLETION EVIDENCE",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-07-30_0414_realistic-sitcom-reference-completion/EVIDENCE.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REALISTIC SITCOM COMPLETION EVIDENCE",
+				"anchor": "realistic-sitcom-completion-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Dynamic pose courts",
+				"anchor": "dynamic-pose-courts"
+			},
+			{
+				"level": 2,
+				"text": "Production Chromium scale courts",
+				"anchor": "production-chromium-scale-courts"
+			},
+			{
+				"level": 2,
+				"text": "Repository and structural gates",
+				"anchor": "repository-and-structural-gates"
+			}
+		],
+		"excerpt": "B\"H REALISTIC SITCOM COMPLETION EVIDENCE Dynamic pose courts arms crossed reaches hold at amount 1; both arms remain locked and identical across separated render times. right hand in pocket reaches hold; the right arm remains locked and identical across separated render times. open palm left reaches hold with an open l",
+		"searchText": "b\"h realistic sitcom completion evidence dynamic pose courts arms crossed reaches hold at amount 1; both arms remain locked and identical across separated render times. right hand in pocket reaches hold; the right arm remains locked and identical across separated render times. open palm left reaches hold with an open left hand and restrained conversational motion. dedicated reference trio, crossed arm, durability, body acting, and character rig suites pass. production chromium scale courts every capture reported canvas:true and app:true. proofs/dynamic character reference final/head 320x320.png — c8b73fbcdcdb79c4e8119b87c8808f7002615cda3b9078803e796fb3c914af6e proofs/dynamic character reference final/character 180x300.png — 188dca58d6c27c6d29127d94b0c6ce114f6d73cb7574b36da5b33e0dfd7eac55 proofs/dynamic character reference final/half body 512x512.png — 16c730e8e4096f69ad18363d1b6abcbd2d86763209c71ff2419619567c65d5ff proofs/dynamic character reference final/trio 1536x864.png — d2781511e173145fac22d73007804e166b321a6482319469f251a26c10781526 repository and structural gates npm prefix geelooy/apps/animator run verify exited 0. git diff check geelooy/apps/animator passed. every changed javascript file passed node check. every changed javascript file has the required three line b\"h header. tab indentation audit passed. every changed javascript file remains below 120 lines; the largest is 110 lines.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-07-30-0414-realistic-sitcom-refer-616fda1531.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-07-30-0414-realistic-sitcom-refer-0ac8ec1d61",
+		"title": "NEXTACTION",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-07-30_0414_realistic-sitcom-reference-completion/NEXT_ACTION.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H NEXT ACTION None. The completion gate is closed for this reference driven realism wave. The Awtsmoos renews every actor from frame to frame; Awtsmoos.com now carries expressive eyes, grounded shoes, articulate hands, and held human contact without a remaining safe in scope node.",
+		"searchText": "b\"h next action none. the completion gate is closed for this reference driven realism wave. the awtsmoos renews every actor from frame to frame; awtsmoos.com now carries expressive eyes, grounded shoes, articulate hands, and held human contact without a remaining safe in scope node.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-07-30-0414-realistic-sitcom-refer-0ac8ec1d61.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-07-30-0414-realistic-sitcom-refer-bb0c91953a",
+		"title": "REMAININGWORK",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-07-30_0414_realistic-sitcom-reference-completion/REMAINING_WORK.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK",
+				"anchor": "remainingwork"
+			}
+		],
+		"excerpt": "B\"H REMAINING WORK Status: EMPTY for the requested realistic sitcom character reference wave. The uploaded visual court was translated into production contracts: grounded three and a half to four head silhouettes, readable directional shoes, articulated hands, shared evaluated gaze and blink, broad conversational torso",
+		"searchText": "b\"h remaining work status: empty for the requested realistic sitcom character reference wave. the uploaded visual court was translated into production contracts: grounded three and a half to four head silhouettes, readable directional shoes, articulated hands, shared evaluated gaze and blink, broad conversational torso masses, open palm speaking, stable crossed arm listening, and a planted pocket hand observer. the implementation, dynamic time proofs, production browser courts, full repository verification, and changed file compliance audit are all closed. new artistic direction would create a new scope rather than unresolved work in this one.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-07-30-0414-realistic-sitcom-refer-bb0c91953a.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-47966f706f",
+		"title": "Vision Brainstorm",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0055_master-animation-completion/01_VISION_BRAINSTORM.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Vision Brainstorm",
+				"anchor": "vision-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "Ideal completion universe",
+				"anchor": "ideal-completion-universe"
+			},
+			{
+				"level": 2,
+				"text": "Possible implementation avenues",
+				"anchor": "possible-implementation-avenues"
+			},
+			{
+				"level": 2,
+				"text": "Risks to hunt",
+				"anchor": "risks-to-hunt"
+			}
+		],
+		"excerpt": "B\"H Vision Brainstorm The Awtsmoos renews every frame; Awtsmoos.com becomes the vessel where identity, acting, camera, text, persistence, and export meet without divergence. Ideal completion universe A production scene with three distinct sitcom people and neutral identities. Dialogue drives phonemes, visemes, gaze, bl",
+		"searchText": "b\"h vision brainstorm the awtsmoos renews every frame; awtsmoos.com becomes the vessel where identity, acting, camera, text, persistence, and export meet without divergence. ideal completion universe a production scene with three distinct sitcom people and neutral identities. dialogue drives phonemes, visemes, gaze, blink, brows, torso, gestures, garments, and camera cuts. preview and packaged export consume one evaluated performance path. the demo has setup, escalation, punchline, title card, captions, multiple shots, and durable reload. every claim is closed by source, test, browser pixels, export artifact, and hashes. possible implementation avenues 1. reuse the existing scene schema and production renderer. 2. add a purpose built one minute demo data module only where the architecture already expects authored projects. 3. extend existing verification tools rather than creating parallel test machinery. 4. reuse packaged project export for final media evidence. 5. use chromium production canvas captures for all scale courts. risks to hunt state exists but never reaches geometry. preview and export use different clocks or bridges. locked poses drift after secondary motion. persistence serializes runtime caches. export succeeds structurally but contains blank or loading shell pixels. text or title cards clip in final framing.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-47966f706f.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-6bf76c6358",
+		"title": "Reality-Constrained Plan",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0055_master-animation-completion/02_REALITY_CONSTRAINED_PLAN.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Reality-Constrained Plan",
+				"anchor": "reality-constrained-plan"
+			},
+			{
+				"level": 2,
+				"text": "Phase A — Archaeology",
+				"anchor": "phase-a-archaeology"
+			},
+			{
+				"level": 2,
+				"text": "Phase B — Implementation",
+				"anchor": "phase-b-implementation"
+			},
+			{
+				"level": 2,
+				"text": "Phase C — Verification",
+				"anchor": "phase-c-verification"
+			}
+		],
+		"excerpt": "B\"H Reality Constrained Plan The light is broad, but the vessel must be real: inspect first, then reuse the architecture already proven. Phase A — Archaeology Map source, tools, tests, renderers, persistence, preview, export, scene schemas, and current proofs. Run baseline focused tests and inspect failures. Locate exi",
+		"searchText": "b\"h reality constrained plan the light is broad, but the vessel must be real: inspect first, then reuse the architecture already proven. phase a — archaeology map source, tools, tests, renderers, persistence, preview, export, scene schemas, and current proofs. run baseline focused tests and inspect failures. locate existing demo/movie generators before creating new modules. phase b — implementation build or complete a one minute sitcom project through existing scene/project contracts. add only missing bridges, consumers, serializers, render paths, or tests. rewrite complete files only; split touched javascript above 120 lines. phase c — verification focused tests, full verify, browser production render, four scale courts, representative story frames, export, hashes, persistence reload, and compliance.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-6bf76c6358.json"
+	}
+]

@@ -1,0 +1,84 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-merkava-readme-md-87ad762f65",
+	"title": "Merkava: War of the Sparks",
+	"sourcePath": "geelooy/games/Merkava/README.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Merkava: War of the Sparks",
+			"anchor": "merkava-war-of-the-sparks"
+		},
+		{
+			"level": 2,
+			"text": "Active runtime",
+			"anchor": "active-runtime"
+		},
+		{
+			"level": 2,
+			"text": "Controls",
+			"anchor": "controls"
+		},
+		{
+			"level": 2,
+			"text": "Run modes",
+			"anchor": "run-modes"
+		},
+		{
+			"level": 3,
+			"text": "Campaign",
+			"anchor": "campaign"
+		},
+		{
+			"level": 3,
+			"text": "Endless",
+			"anchor": "endless"
+		},
+		{
+			"level": 2,
+			"text": "Seeded route system",
+			"anchor": "seeded-route-system"
+		},
+		{
+			"level": 2,
+			"text": "Worlds",
+			"anchor": "worlds"
+		},
+		{
+			"level": 2,
+			"text": "Strategic systems",
+			"anchor": "strategic-systems"
+		},
+		{
+			"level": 2,
+			"text": "Enemies and bosses",
+			"anchor": "enemies-and-bosses"
+		},
+		{
+			"level": 2,
+			"text": "Persistence",
+			"anchor": "persistence"
+		},
+		{
+			"level": 2,
+			"text": "Architecture",
+			"anchor": "architecture"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		},
+		{
+			"level": 2,
+			"text": "Diagnostics and future work",
+			"anchor": "diagnostics-and-future-work"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-merkava-readme-md-87ad762f65-001.json"
+	]
+}

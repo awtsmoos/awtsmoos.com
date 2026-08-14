@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-development-adding-a-project-md-0af8bcf1db",
+	"title": "Adding a Project or Major Directory",
+	"sourcePath": "docs/DEVELOPMENT/ADDING_A_PROJECT.md",
+	"category": "Development",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Adding a Project or Major Directory",
+			"anchor": "adding-a-project-or-major-directory"
+		},
+		{
+			"level": 2,
+			"text": "When something is a project boundary",
+			"anchor": "when-something-is-a-project-boundary"
+		},
+		{
+			"level": 2,
+			"text": "Required steps",
+			"anchor": "required-steps"
+		},
+		{
+			"level": 2,
+			"text": "Local documentation should answer",
+			"anchor": "local-documentation-should-answer"
+		},
+		{
+			"level": 2,
+			"text": "Canonical-versus-alias rule",
+			"anchor": "canonical-versus-alias-rule"
+		},
+		{
+			"level": 2,
+			"text": "AI discovery",
+			"anchor": "ai-discovery"
+		}
+	],
+	"markdownParts": [
+		"content/docs-development-adding-a-project-md-0af8bcf1db-001.json"
+	]
+}

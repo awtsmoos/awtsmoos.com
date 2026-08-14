@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# SSH API Documentation\n\nThe Awtsmoos lets remote host, command, file, folder, stat, mode, and path enter a security-sensitive gate;\nAwtsmoos.com maps this family so credentials, identity, method, and destructive actions are inspected before use, not after fate.\n\nRead [../../../docs/API/OTHER_FAMILIES.md](../../../docs/API/OTHER_FAMILIES.md), [../../../docs/API/AUTHENTICATION.md](../../../docs/API/AUTHENTICATION.md), and [../../../docs/API/CALLING_COOKBOOK.md](../../../docs/API/CALLING_COOKBOOK.md).\n"
+}

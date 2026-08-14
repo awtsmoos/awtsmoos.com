@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-movies-readme-md-67bc694a6f",
+	"title": "B\"H — Mitzvah World Movie Maker",
+	"sourcePath": "geelooy/games/mitzvahWorld/movies/README.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Mitzvah World Movie Maker",
+			"anchor": "b-h-mitzvah-world-movie-maker"
+		},
+		{
+			"level": 2,
+			"text": "Entry routes",
+			"anchor": "entry-routes"
+		},
+		{
+			"level": 2,
+			"text": "NLE tracks",
+			"anchor": "nle-tracks"
+		},
+		{
+			"level": 2,
+			"text": "Editing",
+			"anchor": "editing"
+		},
+		{
+			"level": 2,
+			"text": "Browser output",
+			"anchor": "browser-output"
+		},
+		{
+			"level": 2,
+			"text": "Final MP4",
+			"anchor": "final-mp4"
+		},
+		{
+			"level": 2,
+			"text": "Included film",
+			"anchor": "included-film"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-movies-readme-md-67bc694a6f-001.json"
+	]
+}

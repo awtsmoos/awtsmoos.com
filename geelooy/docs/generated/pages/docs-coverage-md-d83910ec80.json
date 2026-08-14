@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-coverage-md-d83910ec80",
+	"title": "Documentation Coverage",
+	"sourcePath": "docs/COVERAGE.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Documentation Coverage",
+			"anchor": "documentation-coverage"
+		},
+		{
+			"level": 2,
+			"text": "API and route coverage",
+			"anchor": "api-and-route-coverage"
+		},
+		{
+			"level": 2,
+			"text": "Project/source coverage",
+			"anchor": "project-source-coverage"
+		},
+		{
+			"level": 2,
+			"text": "Realtime/configuration coverage",
+			"anchor": "realtime-configuration-coverage"
+		},
+		{
+			"level": 2,
+			"text": "Human and AI discoverability",
+			"anchor": "human-and-ai-discoverability"
+		},
+		{
+			"level": 2,
+			"text": "Generated structure",
+			"anchor": "generated-structure"
+		},
+		{
+			"level": 2,
+			"text": "Known source defect",
+			"anchor": "known-source-defect"
+		},
+		{
+			"level": 2,
+			"text": "Deliberate limits",
+			"anchor": "deliberate-limits"
+		}
+	],
+	"markdownParts": [
+		"content/docs-coverage-md-d83910ec80-001.json"
+	]
+}

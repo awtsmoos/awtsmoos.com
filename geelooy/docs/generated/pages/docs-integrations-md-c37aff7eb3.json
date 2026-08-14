@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-integrations-md-c37aff7eb3",
+	"title": "External Integrations",
+	"sourcePath": "docs/INTEGRATIONS.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "External Integrations",
+			"anchor": "external-integrations"
+		},
+		{
+			"level": 2,
+			"text": "Awtsmoos OAuth",
+			"anchor": "awtsmoos-oauth"
+		},
+		{
+			"level": 2,
+			"text": "YouTube / Google",
+			"anchor": "youtube-google"
+		},
+		{
+			"level": 2,
+			"text": "PayPal / Wallet",
+			"anchor": "paypal-wallet"
+		},
+		{
+			"level": 2,
+			"text": "SMTP / email",
+			"anchor": "smtp-email"
+		},
+		{
+			"level": 2,
+			"text": "SSH",
+			"anchor": "ssh"
+		},
+		{
+			"level": 2,
+			"text": "AI/model providers",
+			"anchor": "ai-model-providers"
+		},
+		{
+			"level": 2,
+			"text": "Streaming connectors",
+			"anchor": "streaming-connectors"
+		},
+		{
+			"level": 2,
+			"text": "Fetch proxy",
+			"anchor": "fetch-proxy"
+		},
+		{
+			"level": 2,
+			"text": "Configuration and secrets",
+			"anchor": "configuration-and-secrets"
+		}
+	],
+	"markdownParts": [
+		"content/docs-integrations-md-c37aff7eb3-001.json"
+	]
+}

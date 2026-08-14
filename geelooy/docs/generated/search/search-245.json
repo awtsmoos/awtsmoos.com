@@ -1,0 +1,250 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-processed-direct-d41405e16a",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/processed/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: assets/materials/local/world/processed",
+				"anchor": "directory-guide-assets-materials-local-world-processed"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/processed Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 1 structural child directories Purpose Processed material derivatives organized by semantic subject. The Awtsmoos renews ev",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/processed role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 1 structural child directories purpose processed material derivatives organized by semantic subject. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: assets, guide, local, materials, processed file mix: .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: assets/materials/local/world children: assets/materials/local/world/processed/botany related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-processed-direct-d41405e16a.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-various-director-673f954b28",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/various/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: assets/materials/local/world/various",
+				"anchor": "directory-guide-assets-materials-local-world-various"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/various Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 5 files, 0 structural child directories Purpose Loose world material assets that do not yet belong to a narrower collection. The Awtsm",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/various role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 5 files, 0 structural child directories purpose loose world material assets that do not yet belong to a narrower collection. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: png, stone, assets, guide, local, masonry, materials, oak, planks, retaining, roof, rough file mix: .png: 4 · .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files rough weathered oak wood planks.png — a .png artifact in this directory. stone retaining wall masonry.png — a .png artifact in this directory. whitewashed stone.png — a .png artifact in this directory. slate roof shingles.png — a .png artifact in this directory. directory map parent: assets/materials/local/world children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-various-director-673f954b28.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-assets-textures-directory-guide-md-5f33f001af",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/assets/textures/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: assets/textures",
+				"anchor": "directory-guide-assets-textures"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/textures Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 3 files, 0 structural child directories Purpose Loose top level textures that are not part of the structured material library. The Awtsmoos renews every pa",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/textures role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 3 files, 0 structural child directories purpose loose top level textures that are not part of the structured material library. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: svg, assets, brick, coin, gold, guide, textures, wall file mix: .svg: 2 · .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files brick wall.svg — a .svg artifact in this directory. gold coin.svg — a .svg artifact in this directory. directory map parent: assets children: none. related and overlapping systems see the system overlap map before creating a similarly named subsystem elsewhere. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-assets-textures-directory-guide-md-5f33f001af.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-directory-guide-md-eb13522f77",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: .",
+				"anchor": "directory-guide"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: . Role: Project root Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 11 files, 5 structural child directories Purpose Project entry, top level audits, handoff notes, and navigation for the Mitzvah World game. The Awtsmoos renews eve",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: . role: project root snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 11 files, 5 structural child directories purpose project entry, top level audits, handoff notes, and navigation for the mitzvah world game. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: project root search terms: audit, mitzvah, forest, index, maker, movie, next, procedural, remaining, work, ., basic file mix: [none]: 2 · .json: 1 · .html: 1 good first question: “does the behavior or asset i need belong to project root, or is this only a neighboring/test/reference layer?” semantic evidence b\"h b\"h — mitzvah world movie maker audit b\"h — next ai: mitzvah world was simplified b\"h — mitzvah world procedural forest audit representative files movie maker audit.md — b\"h — mitzvah world movie maker audit next ai readme.md — b\"h — next ai: mitzvah world was simplified procedural forest audit.md — b\"h — mitzvah world procedural forest audit remaining work.md — mitzvah world basic meadow — remaining work index.html — a .html artifact in this directory. directory map parent: project root. children: assets experiments movies references styles existing markdown: directory index.md, movie maker audit.md, next ai readme.md, procedural forest audit.md, remaining work.md, system overlap map.md related and overlapping systems diagnostics, logs, tools, and root audits — live diagnostics, captured logs, offline tools, and root audit reports describe different stages of observability. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-directory-guide-md-eb13522f77.json"
+	}
+]

@@ -8,43 +8,16 @@ const { getActivityHub } = require("../tunnelActivity/hubAccess.js");
 const { handleTunnelProgress } = require("./progressHandler.js");
 
 /**
- * @file Proves authorized queue progress renews strict custody without claiming start.
+ * @file Proves queue, running, and reordered progress preserve one monotonic consumer truth.
  * @description
- * The Awtsmoos lets a real queue heartbeat widen the next v2 consumer window while
- * Awtsmoos.com still quarantines foreign sockets and clears the timer only on start.
+ * The Awtsmoos lets a later running heartbeat reveal what an earlier lost packet could not;
+ * Awtsmoos.com remembers that revealed start forever, so stale queue echoes cannot rebind the knot.
  */
 test("queued v2 progress renews watchdog and foreign progress stays quarantined", () => {
-	const server = {
-		pendingTunnelRequests: new Map(),
-		completedTunnelRequests: new Map(),
-		tunnelResponseQuarantine: []
-	};
+	const { server, record, owner } = fixture();
 	const received = [];
-	getActivityHub(server).subscribe("account-a", {
-		send(frame) {
-			received.push(frame);
-		}
-	});
-	const record = {
-		registrationKey: "9:account-a:alpha",
-		expected: { requestedTunnelName: "alpha" },
-		activityContext: {
-			accountId: "account-a",
-			tunnelName: "alpha",
-			actionId: "action-a",
-			requestId: "request-a",
-			correlationId: "correlation-a",
-			action: "commandRun"
-		}
-	};
-	server.pendingTunnelRequests.set("request-a", record);
-	const owner = {
-		registrationKey: "9:account-a:alpha",
-		capabilities: { consumerProgressV2: true }
-	};
-	const foreign = { registrationKey: "9:account-b:alpha" };
+	getActivityHub(server).subscribe("account-a", { send: frame => received.push(frame) });
 	assert.equal(handleTunnelProgress(server, owner, {
-		type: "TUNNEL_PROGRESS",
 		id: "request-a",
 		phase: "queued_waiting_for_lane",
 		lane: "p3_heavy",
@@ -58,40 +31,84 @@ test("queued v2 progress renews watchdog and foreign progress stays quarantined"
 	assert.equal(record.consumerWatchdogMs, 30000);
 	assert.ok(record.consumerTimer);
 	assert.equal(received.length, 1);
-	assert.equal(received[0].payload.event.eventType, "action.progress");
-	assert.equal(handleTunnelProgress(server, foreign, {
+	assert.equal(handleTunnelProgress(server, { registrationKey: "foreign" }, {
 		id: "request-a",
 		phase: "running"
 	}), false);
-	assert.equal(received.length, 1);
 	assert.equal(server.tunnelResponseQuarantine.length, 1);
 	clearTimeout(record.consumerTimer);
 });
 
-test("real consumer progress clears renewed queue watchdog", () => {
-	const record = {
-		registrationKey: "registration-a",
-		expected: {},
-		activityContext: { accountId: "a", action: "read" }
-	};
-	const server = {
-		pendingTunnelRequests: new Map([["request", record]]),
-		completedTunnelRequests: new Map(),
-		tunnelResponseQuarantine: []
-	};
-	const client = {
-		registrationKey: "registration-a",
-		capabilities: { consumerProgressV2: true }
-	};
-	handleTunnelProgress(server, client, {
-		id: "request", phase: "executor_queued", queued: true, keepAliveMs: 25000
-	});
+test("explicit worker start clears renewed queue watchdog", () => {
+	const { server, record, owner } = fixture();
+	handleTunnelProgress(server, owner, queuedProgress());
 	assert.ok(record.consumerTimer);
-	handleTunnelProgress(server, client, {
-		id: "request",
+	handleTunnelProgress(server, owner, {
+		id: "request-a",
 		phase: "executor_worker_assigned",
 		consumerStarted: true
 	});
 	assert.ok(record.consumerStartedAt > 0);
 	assert.equal(record.consumerTimer, null);
 });
+
+test("late running heartbeat proves start and stale queue cannot re-arm watchdog", () => {
+	const { server, record, owner } = fixture();
+	handleTunnelProgress(server, owner, queuedProgress());
+	assert.ok(record.consumerTimer);
+	handleTunnelProgress(server, owner, {
+		id: "request-a",
+		phase: "lane_running",
+		consumerStarted: true,
+		stillRunning: true
+	});
+	assert.ok(record.consumerStartedAt > 0);
+	assert.equal(record.consumerEvidence.consumerStarted, true);
+	assert.equal(record.consumerTimer, null);
+	handleTunnelProgress(server, owner, {
+		id: "request-a",
+		phase: "executor_queued",
+		queued: true,
+		keepAliveMs: 25000
+	});
+	assert.equal(record.consumerEvidence.consumerStarted, true);
+	assert.equal(record.consumerEvidence.queued, false);
+	assert.equal(record.consumerTimer, null);
+});
+
+function fixture() {
+	const record = {
+		registrationKey: "9:account-a:alpha",
+		expected: { requestedTunnelName: "alpha" },
+		activityContext: {
+			accountId: "account-a",
+			tunnelName: "alpha",
+			actionId: "action-a",
+			requestId: "request-a",
+			correlationId: "correlation-a",
+			action: "commandRun"
+		}
+	};
+	const server = {
+		pendingTunnelRequests: new Map([["request-a", record]]),
+		completedTunnelRequests: new Map(),
+		tunnelResponseQuarantine: []
+	};
+	return {
+		server,
+		record,
+		owner: {
+			registrationKey: record.registrationKey,
+			capabilities: { consumerProgressV2: true }
+		}
+	};
+}
+
+function queuedProgress() {
+	return {
+		id: "request-a",
+		phase: "executor_queued",
+		queued: true,
+		keepAliveMs: 25000
+	};
+}

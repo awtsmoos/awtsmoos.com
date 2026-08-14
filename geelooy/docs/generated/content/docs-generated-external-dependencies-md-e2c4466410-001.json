@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Generated External Dependency Evidence\n\nPackage-import evidence grouped by project; provider/runtime meaning remains source-specific. **149 rows.**\n\n| Chunk | Rows | Count |\n| --- | --- | --- |\n| [external-dependencies-001.md](EXTERNAL_DEPENDENCIES/external-dependencies-001.md) | 1–65 | 65 |\n| [external-dependencies-002.md](EXTERNAL_DEPENDENCIES/external-dependencies-002.md) | 66–130 | 65 |\n| [external-dependencies-003.md](EXTERNAL_DEPENDENCIES/external-dependencies-003.md) | 131–149 | 19 |\n"
+}

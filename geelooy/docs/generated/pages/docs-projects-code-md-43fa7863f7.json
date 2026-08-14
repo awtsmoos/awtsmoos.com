@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-projects-code-md-43fa7863f7",
+	"title": "Awtsmoos Code",
+	"sourcePath": "docs/PROJECTS/CODE.md",
+	"category": "Projects",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos Code",
+			"anchor": "awtsmoos-code"
+		},
+		{
+			"level": 2,
+			"text": "Canonical source",
+			"anchor": "canonical-source"
+		},
+		{
+			"level": 2,
+			"text": "Surrounding systems",
+			"anchor": "surrounding-systems"
+		},
+		{
+			"level": 2,
+			"text": "Generated evidence",
+			"anchor": "generated-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Human manuals",
+			"anchor": "human-manuals"
+		},
+		{
+			"level": 2,
+			"text": "Change strategy",
+			"anchor": "change-strategy"
+		}
+	],
+	"markdownParts": [
+		"content/docs-projects-code-md-43fa7863f7-001.json"
+	]
+}

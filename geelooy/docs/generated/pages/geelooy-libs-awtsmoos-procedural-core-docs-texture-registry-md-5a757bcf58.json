@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-docs-texture-registry-md-5a757bcf58",
+	"title": "B\"H",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/TEXTURE_REGISTRY.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 2,
+			"text": "Boruch Hashem",
+			"anchor": "boruch-hashem"
+		},
+		{
+			"level": 2,
+			"text": "Blessed is He",
+			"anchor": "blessed-is-he"
+		},
+		{
+			"level": 1,
+			"text": "Texture Registry",
+			"anchor": "texture-registry"
+		},
+		{
+			"level": 2,
+			"text": "Audit result",
+			"anchor": "audit-result"
+		},
+		{
+			"level": 2,
+			"text": "API",
+			"anchor": "api"
+		},
+		{
+			"level": 2,
+			"text": "Water policy",
+			"anchor": "water-policy"
+		},
+		{
+			"level": 2,
+			"text": "Extension",
+			"anchor": "extension"
+		},
+		{
+			"level": 2,
+			"text": "Stability",
+			"anchor": "stability"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-docs-texture-registry-md-5a757bcf58-001.json"
+	]
+}

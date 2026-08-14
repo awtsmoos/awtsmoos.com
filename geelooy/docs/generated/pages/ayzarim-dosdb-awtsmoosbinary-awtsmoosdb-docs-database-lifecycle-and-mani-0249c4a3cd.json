@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-database-lifecycle-and-mani-0249c4a3cd",
+	"title": "Database Lifecycle and Manifests",
+	"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/DATABASE_LIFECYCLE_AND_MANIFESTS.md",
+	"category": "Data",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Database Lifecycle and Manifests",
+			"anchor": "database-lifecycle-and-manifests"
+		},
+		{
+			"level": 2,
+			"text": "Lifecycle",
+			"anchor": "lifecycle"
+		},
+		{
+			"level": 2,
+			"text": "Manifest boundary",
+			"anchor": "manifest-boundary"
+		},
+		{
+			"level": 2,
+			"text": "Never",
+			"anchor": "never"
+		}
+	],
+	"markdownParts": [
+		"content/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-database-lifecycle-and-mani-0249c4a3cd-001.json"
+	]
+}

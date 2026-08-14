@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "scripts-dayuh-sync-md-27ff27b4e1",
+	"title": "Dayuh Chadash synchronization",
+	"sourcePath": "scripts/DAYUH_SYNC.md",
+	"category": "Operations",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Dayuh Chadash synchronization",
+			"anchor": "dayuh-chadash-synchronization"
+		},
+		{
+			"level": 2,
+			"text": "Production topology",
+			"anchor": "production-topology"
+		},
+		{
+			"level": 2,
+			"text": "Safety rules",
+			"anchor": "safety-rules"
+		},
+		{
+			"level": 2,
+			"text": "Shell variables",
+			"anchor": "shell-variables"
+		},
+		{
+			"level": 2,
+			"text": "Inspect credentials without exposing them",
+			"anchor": "inspect-credentials-without-exposing-them"
+		},
+		{
+			"level": 2,
+			"text": "Status and dry runs",
+			"anchor": "status-and-dry-runs"
+		},
+		{
+			"level": 2,
+			"text": "Local to remote",
+			"anchor": "local-to-remote"
+		},
+		{
+			"level": 2,
+			"text": "Remote to local",
+			"anchor": "remote-to-local"
+		},
+		{
+			"level": 2,
+			"text": "Bidirectional sync",
+			"anchor": "bidirectional-sync"
+		},
+		{
+			"level": 2,
+			"text": "Initial or disaster-recovery seed",
+			"anchor": "initial-or-disaster-recovery-seed"
+		},
+		{
+			"level": 2,
+			"text": "Required completion gates",
+			"anchor": "required-completion-gates"
+		}
+	],
+	"markdownParts": [
+		"content/scripts-dayuh-sync-md-27ff27b4e1-001.json"
+	]
+}

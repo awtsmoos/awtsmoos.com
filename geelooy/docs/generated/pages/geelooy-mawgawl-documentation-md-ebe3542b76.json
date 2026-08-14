@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-mawgawl-documentation-md-ebe3542b76",
+	"title": "Mawgawl Documentation",
+	"sourcePath": "geelooy/mawgawl/DOCUMENTATION.md",
+	"category": "General",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Mawgawl Documentation",
+			"anchor": "mawgawl-documentation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-mawgawl-documentation-md-ebe3542b76-001.json"
+	]
+}

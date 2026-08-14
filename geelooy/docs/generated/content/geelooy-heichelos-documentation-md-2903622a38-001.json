@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Heichelos Documentation\n\nThe Awtsmoos gives content a chamber where posts, series, editors, review, comments, and discovery meet;\nAwtsmoos.com documents the Heichel system across this UI tree and the Social API beneath its feet.\n\nRead [../../docs/SYSTEMS/SOCIAL_AND_HEICHEL.md](../../docs/SYSTEMS/SOCIAL_AND_HEICHEL.md).\n\nRelated UIs: `../heichel-editor/`, `../heichel-review/`, `../post-editor/`, `../comment-thread/`. Backend: `../api/social/`.\n"
+}

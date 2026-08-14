@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-documentation-md-02501ae227",
+	"title": "Social API Documentation",
+	"sourcePath": "geelooy/api/social/DOCUMENTATION.md",
+	"category": "API",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Social API Documentation",
+			"anchor": "social-api-documentation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-documentation-md-02501ae227-001.json"
+	]
+}

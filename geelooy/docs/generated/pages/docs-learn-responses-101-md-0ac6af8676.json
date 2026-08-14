@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-learn-responses-101-md-0ac6af8676",
+	"title": "Responses 101",
+	"sourcePath": "docs/LEARN/RESPONSES_101.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Responses 101",
+			"anchor": "responses-101"
+		},
+		{
+			"level": 2,
+			"text": "What you will learn",
+			"anchor": "what-you-will-learn"
+		},
+		{
+			"level": 2,
+			"text": "Observed response families",
+			"anchor": "observed-response-families"
+		},
+		{
+			"level": 2,
+			"text": "Generated evidence",
+			"anchor": "generated-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Calling discipline",
+			"anchor": "calling-discipline"
+		},
+		{
+			"level": 2,
+			"text": "Common mistakes",
+			"anchor": "common-mistakes"
+		}
+	],
+	"markdownParts": [
+		"content/docs-learn-responses-101-md-0ac6af8676-001.json"
+	]
+}

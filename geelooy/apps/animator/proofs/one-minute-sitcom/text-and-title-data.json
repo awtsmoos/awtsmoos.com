@@ -1,0 +1,38 @@
+{
+  "titleCards": [
+    {
+      "id": "spoon_title",
+      "start": 0,
+      "duration": 2500,
+      "text": "THE EMERGENCY BACKUP SPOON",
+      "subtitle": "A SIXTY-SECOND OFFICE SITCOM",
+      "kind": "title-card"
+    },
+    {
+      "id": "spoon_tag",
+      "start": 57000,
+      "duration": 3000,
+      "text": "CLOUD STORAGE",
+      "subtitle": "NO SUBSCRIPTION REQUIRED",
+      "kind": "title-card"
+    }
+  ],
+  "textBoxes": [
+    {
+      "id": "spoon_calendar",
+      "start": 22000,
+      "duration": 4200,
+      "text": "SPOON CALENDAR: FULLY BOOKED",
+      "kind": "text-box",
+      "placement": "lower-third"
+    },
+    {
+      "id": "spoon_audit",
+      "start": 49000,
+      "duration": 4200,
+      "text": "SECURITY AUDIT: LOOK BEHIND EAR",
+      "kind": "text-box",
+      "placement": "lower-third"
+    }
+  ]
+}

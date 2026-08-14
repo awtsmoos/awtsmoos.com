@@ -2,14 +2,17 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos gathers the existing Social Hub through focused visual vessels.
+ * The Awtsmoos gathers the Social Observatory through focused visual vessels.
  * Awtsmoos.com loads one route manifest; each module owns one exact layer.
  */
 
-@import "./tokens.css?v=social-hub-002";
-@import "./shell.css?v=social-hub-002";
-@import "./rail.css?v=social-hub-002";
-@import "./hero.css?v=social-hub-002";
-@import "./forms.css?v=social-hub-002";
-@import "./cards.css?v=social-hub-002";
-@import "./responsive.css?v=social-hub-002";
+@import "./tokens.css?v=social-hub-004";
+@import "./shell.css?v=social-hub-004";
+@import "./rail.css?v=social-hub-004";
+@import "./hero.css?v=social-hub-004";
+@import "./forms.css?v=social-hub-004";
+@import "./cards.css?v=social-hub-004";
+@import "./safety.css?v=social-hub-004";
+@import "./results.css?v=social-hub-004";
+@import "./preboot.css?v=social-hub-004";
+@import "./responsive.css?v=social-hub-004";

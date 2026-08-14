@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Email API Documentation\n\nThe Awtsmoos lets mail cross social and server vessels while identity and provider state remain known;\nAwtsmoos.com maps this family to the Email UI, Social mail behavior, and configuration names shown.\n\nRead [../../../docs/API/OTHER_FAMILIES.md](../../../docs/API/OTHER_FAMILIES.md), [../../../docs/CONFIGURATION.md](../../../docs/CONFIGURATION.md), and [../../../docs/SYSTEMS/SOCIAL_AND_HEICHEL.md](../../../docs/SYSTEMS/SOCIAL_AND_HEICHEL.md).\n"
+}

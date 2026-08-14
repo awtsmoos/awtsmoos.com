@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-generated-api-tutorials-routes-api-social-editor-heichelos-heichel--5b65e9973a",
+	"title": "API Tutorial: /api/social/editor/heichelos/:heichel/posts/:post/verses/:verse",
+	"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-editor-heichelos-heichel-posts-post-verses-verse-6ebe866211.md",
+	"category": "Routes",
+	"provenance": "generated",
+	"headings": [
+		{
+			"level": 1,
+			"text": "API Tutorial: /api/social/editor/heichelos/:heichel/posts/:post/verses/:verse",
+			"anchor": "api-tutorial-api-social-editor-heichelos-heichel-posts-post-verses-verse"
+		},
+		{
+			"level": 2,
+			"text": "Contract evidence",
+			"anchor": "contract-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Path parameters",
+			"anchor": "path-parameters"
+		},
+		{
+			"level": 2,
+			"text": "Starter call",
+			"anchor": "starter-call"
+		},
+		{
+			"level": 2,
+			"text": "Observed callers",
+			"anchor": "observed-callers"
+		},
+		{
+			"level": 2,
+			"text": "Related tests",
+			"anchor": "related-tests"
+		},
+		{
+			"level": 2,
+			"text": "Related routes",
+			"anchor": "related-routes"
+		}
+	],
+	"markdownParts": [
+		"content/docs-generated-api-tutorials-routes-api-social-editor-heichelos-heichel--5b65e9973a-001.json"
+	]
+}

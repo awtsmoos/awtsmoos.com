@@ -1,0 +1,273 @@
+[
+	{
+		"id": "geelooy-apps-tunnel-agent-docs-remote-desktop-tunnel-md-395815d3dd",
+		"title": "Remote Desktop Tunnel: Large Next Layer",
+		"sourcePath": "geelooy/apps/tunnel/agent/docs/REMOTE_DESKTOP_TUNNEL.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Remote Desktop Tunnel: Large Next Layer",
+				"anchor": "remote-desktop-tunnel-large-next-layer"
+			},
+			{
+				"level": 2,
+				"text": "New in this layer",
+				"anchor": "new-in-this-layer"
+			},
+			{
+				"level": 2,
+				"text": "Helper skeletons created",
+				"anchor": "helper-skeletons-created"
+			},
+			{
+				"level": 2,
+				"text": "Current active guarantees",
+				"anchor": "current-active-guarantees"
+			}
+		],
+		"excerpt": "B\"H Remote Desktop Tunnel: Large Next Layer New in this layer remoteDesktopPermissionContract returns a hash sealed permission contract with copyable text. remoteDesktopSessionSummary returns human readable lifecycle, grants, countdown, and audit trail. remoteDesktopSignalSummary returns peer signaling and heartbeat su",
+		"searchText": "b\"h remote desktop tunnel: large next layer new in this layer remotedesktoppermissioncontract returns a hash sealed permission contract with copyable text. remotedesktopsessionsummary returns human readable lifecycle, grants, countdown, and audit trail. remotedesktopsignalsummary returns peer signaling and heartbeat summary. android helper skeleton files now exist under agent/docs/helper skeletons/android. desktop helper skeleton files now exist under agent/docs/helper skeletons/desktop. tunnel control now has contract, summary, and signals buttons. helper skeletons created android: readme.md consentactivity.kt captureservice.kt desktop: readme.md main.ts these are not installed services; they are concrete source skeletons and consent contracts for the native helper implementation. current active guarantees permission contract hash is deterministic for the current consent body. session summaries expose countdown and grant state. signal summaries expose fingerprints and heartbeats. pause/revoke still block frame/signaling/input flows. mouse and keyboard grants remain separate.",
+		"page": "pages/geelooy-apps-tunnel-agent-docs-remote-desktop-tunnel-md-395815d3dd.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-agent-tools-streaming-docs-binary-route-todo-md-2056c292e0",
+		"title": "Binary Route TODO",
+		"sourcePath": "geelooy/apps/tunnel/agent/tools/streaming/docs/BINARY_ROUTE_TODO.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Binary Route TODO",
+				"anchor": "binary-route-todo"
+			}
+		],
+		"excerpt": "B\"H Binary Route TODO Today: streamingHlsSegmentPush accepts base64 JSON. This is easy for browser clients but adds size overhead. Next optimization: Add raw binary route in local API only: POST /streaming/hls segment/:sessionId/:name Headers: x awtsmoos duration x awtsmoos index content type: video/mp2t The handler sh",
+		"searchText": "b\"h binary route todo today: streaminghlssegmentpush accepts base64 json. this is easy for browser clients but adds size overhead. next optimization: add raw binary route in local api only: post /streaming/hls segment/:sessionid/:name headers: x awtsmoos duration x awtsmoos index content type: video/mp2t the handler should call the same hls session functions, not duplicate logic. this keeps platform media bytes local while avoiding base64 overhead for long streams.",
+		"page": "pages/geelooy-apps-tunnel-agent-tools-streaming-docs-binary-route-todo-md-2056c292e0.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-agent-tools-streaming-docs-readme-md-80557cf010",
+		"title": "Local Tunnel Streaming Actions",
+		"sourcePath": "geelooy/apps/tunnel/agent/tools/streaming/docs/README.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Local Tunnel Streaming Actions",
+				"anchor": "local-tunnel-streaming-actions"
+			}
+		],
+		"excerpt": "B\"H Local Tunnel Streaming Actions The local tunnel is the media plane helper. The browser sends muxed bytes to 127.0.0.1, and the tunnel forwards those bytes to YouTube/Twitch/Facebook/custom ingest. Video bytes do not pass through Awtsmoos cloud unless the user selects Awtsmoos hosted relay. Actions: streamingSession",
+		"searchText": "b\"h local tunnel streaming actions the local tunnel is the media plane helper. the browser sends muxed bytes to 127.0.0.1, and the tunnel forwards those bytes to youtube/twitch/facebook/custom ingest. video bytes do not pass through awtsmoos cloud unless the user selects awtsmoos hosted relay. actions: streamingsessionstart streamingchunkpush streaminghlssegmentpush streaminghlsplaylist streamingsessionstop streamingsessionstatus streamingsessionlist hls mode: 1. start a session with { mode:\"hls\", targetduration, maxsegments, ingest }. 2. push muxed .ts segment bytes with streaminghlssegmentpush. 3. ask for streaminghlsplaylist to get the current sliding .m3u8. 4. stop the session to receive an end list playlist. important: webcodecs encoded chunks still need a real muxer before they become platform ready hls/rtmp media bytes.",
+		"page": "pages/geelooy-apps-tunnel-agent-tools-streaming-docs-readme-md-80557cf010.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-agents-md-c5c27feed0",
+		"title": "Awtsmoos Tunnel — AI Agent Instructions",
+		"sourcePath": "geelooy/apps/tunnel/agents.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Tunnel — AI Agent Instructions",
+				"anchor": "awtsmoos-tunnel-ai-agent-instructions"
+			},
+			{
+				"level": 2,
+				"text": "Connection flow",
+				"anchor": "connection-flow"
+			},
+			{
+				"level": 2,
+				"text": "Installer and restart commands",
+				"anchor": "installer-and-restart-commands"
+			},
+			{
+				"level": 2,
+				"text": "Verify installed capabilities before use",
+				"anchor": "verify-installed-capabilities-before-use"
+			},
+			{
+				"level": 2,
+				"text": "Required operating discipline",
+				"anchor": "required-operating-discipline"
+			},
+			{
+				"level": 2,
+				"text": "Durable command protocol",
+				"anchor": "durable-command-protocol"
+			},
+			{
+				"level": 2,
+				"text": "Recovery-enabled health and levels",
+				"anchor": "recovery-enabled-health-and-levels"
+			},
+			{
+				"level": 2,
+				"text": "Offline restore protocol",
+				"anchor": "offline-restore-protocol"
+			}
+		],
+		"excerpt": "B\"H Awtsmoos Tunnel — AI Agent Instructions These instructions govern AI agents operating through the Awtsmoos Tunnel application tree. Connection flow 1. Authenticate with Awtsmoos.com when required. 2. Discover the active device/tunnel automatically. 3. When one tunnel is connected, use its returned tunnelName. 4. Wh",
+		"searchText": "b\"h awtsmoos tunnel — ai agent instructions these instructions govern ai agents operating through the awtsmoos tunnel application tree. connection flow 1. authenticate with awtsmoos.com when required. 2. discover the active device/tunnel automatically. 3. when one tunnel is connected, use its returned tunnelname. 4. when none are connected, tell the user to start or refresh the agent, then rediscover the device. 5. when several are connected, ask which returned tunnel name to use. 6. never invent a tunnel name, project root, worker id, job id, receipt id, or command result. references: human docs: machine docs: openapi: control panel: installer and restart commands normal install, repair, refresh, and startup: guaranteed forced restart: the installer preserves an existing runtime configuration and saved tunnel identity. do not delete config.json merely to restart the service. on supervised unix installations, restart only the child when no file refresh is required: verify installed capabilities before use never invoke tier or restore commands merely because the repository source contains them. verify that the connected installed runtime contains the required scripts. when they are absent, use the installer or forced installer restart and verify again. required operating discipline inspect real files and runtime state before making claims. prefer read only actions first. never read secrets without explicit authorization and tunnel permission. create a verified backup before changing executable or production files. rewrite complete files; do not apply fragile partial replacements. keep modules small, descriptive, and testable. test syntax, focused behavior, integration behavior, installation, and live behavior as appropriate. preserve the user’s existing tunnel identity and project root. durable command protocol commandstart is asynchronous and may return a queued or running receipt. preserve jobid, workerid, receiptid, command, and cwd. use commandstatus, commandwait, and commandjoboutputpage for follow up. a relay timeout does not prove command failure. reuse an exact returned retry payload rather than starting the original command again. never duplicate a command because the first http wait window ended. treat correlation mismatches as quarantined evidence, not permission to weaken validation. recovery enabled health and levels run these only when scripts/recovery control.cjs exists: level physical command workers : 0 1 1 1 2 2 3 4 4 8 5 adaptive production capacity logical admission is unlimited by default; physical execution is bounded by the selected level. return to level 5 after verification: offline restore protocol run only when both scripts/recovery restore.cjs and the selected recovery package exist: after restoration, verify health, selected level, package checksums, preserved config.json, one read action, and one command action. never edit immutable recovery archives in place.",
+		"page": "pages/geelooy-apps-tunnel-agents-md-c5c27feed0.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-documentation-md-5c553ce64b",
+		"title": "Tunnel App Documentation",
+		"sourcePath": "geelooy/apps/tunnel/DOCUMENTATION.md",
+		"category": "Tunnel",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tunnel App Documentation",
+				"anchor": "tunnel-app-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel App Documentation The Awtsmoos bridges machines while preserving authority, consent, path, and trace; Awtsmoos.com maps this large Tunnel project to base APIs, Control, installers, and shared runtime space. Read ../../../docs/SYSTEMS/TUNNEL.md and ../../../docs/APPS/TUNNEL AND RUN",
+		"searchText": "b\"h boruch hashem blessed is he tunnel app documentation the awtsmoos bridges machines while preserving authority, consent, path, and trace; awtsmoos.com maps this large tunnel project to base apis, control, installers, and shared runtime space. read ../../../docs/systems/tunnel.md and ../../../docs/apps/tunnel and runtime.md. existing specialist material also lives in ../../../docs/tunnel/.",
+		"page": "pages/geelooy-apps-tunnel-documentation-md-5c553ce64b.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-readme-md-7218b2b697",
+		"title": "Awtsmoos Tunnel — Human Operations Guide",
+		"sourcePath": "geelooy/apps/tunnel/README.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Tunnel — Human Operations Guide",
+				"anchor": "awtsmoos-tunnel-human-operations-guide"
+			},
+			{
+				"level": 2,
+				"text": "Open the control surfaces",
+				"anchor": "open-the-control-surfaces"
+			},
+			{
+				"level": 2,
+				"text": "Install, refresh, or start",
+				"anchor": "install-refresh-or-start"
+			},
+			{
+				"level": 3,
+				"text": "macOS or Linux",
+				"anchor": "macos-or-linux"
+			},
+			{
+				"level": 3,
+				"text": "Windows PowerShell",
+				"anchor": "windows-powershell"
+			},
+			{
+				"level": 2,
+				"text": "Force a complete restart",
+				"anchor": "force-a-complete-restart"
+			},
+			{
+				"level": 3,
+				"text": "macOS or Linux",
+				"anchor": "macos-or-linux-2"
+			},
+			{
+				"level": 3,
+				"text": "Windows PowerShell",
+				"anchor": "windows-powershell-2"
+			},
+			{
+				"level": 2,
+				"text": "Restart only the supervised child on macOS or Linux",
+				"anchor": "restart-only-the-supervised-child-on-macos-or-linux"
+			},
+			{
+				"level": 2,
+				"text": "Check the installed feature set",
+				"anchor": "check-the-installed-feature-set"
+			},
+			{
+				"level": 2,
+				"text": "Inspect recovery-enabled health",
+				"anchor": "inspect-recovery-enabled-health"
+			},
+			{
+				"level": 2,
+				"text": "Concurrency and fallback levels",
+				"anchor": "concurrency-and-fallback-levels"
+			},
+			{
+				"level": 2,
+				"text": "Offline restoration",
+				"anchor": "offline-restoration"
+			},
+			{
+				"level": 2,
+				"text": "Important runtime files",
+				"anchor": "important-runtime-files"
+			}
+		],
+		"excerpt": "B\"H Awtsmoos Tunnel — Human Operations Guide The Awtsmoos Tunnel connects this computer to Awtsmoos.com so the control panel and authorized AI agents can inspect files, run permitted commands, use browser automation, and operate project tools through the saved tunnel identity. Open the control surfaces Control panel: H",
+		"searchText": "b\"h awtsmoos tunnel — human operations guide the awtsmoos tunnel connects this computer to awtsmoos.com so the control panel and authorized ai agents can inspect files, run permitted commands, use browser automation, and operate project tools through the saved tunnel identity. open the control surfaces control panel: human action documentation: machine readable documentation: openapi description: install, refresh, or start the installer is also the normal refresh/start entry point. it preserves an existing config.json, including the saved tunnel name and project root. macos or linux windows powershell re running the installer verifies the manifest, repairs missing files, installs a newer version when available, and starts the background agent. force a complete restart use the restart flag when the runtime is installed but the current process is stale, wedged, or must be replaced immediately. macos or linux windows powershell restart only the supervised child on macos or linux the supervisor starts one replacement child without reinstalling files. use the forced installer restart when the supervisor itself is missing or unhealthy. check the installed feature set the tier, integrity, and offline restore commands below require a recovery enabled build. older installed builds can still be refreshed and restarted with the installer commands above. inspect recovery enabled health a healthy recovery enabled runtime reports a valid manifest, a valid executable seal, and an active recovery level. concurrency and fallback levels logical command admission is unlimited by default. physical subprocess execution is bounded by the selected recovery level. level mode physical workers : 0 emergency 1 1 single 1 2 dual 2 3 four 4 4 eight 8 5 production adaptive to machine capacity select a level and restart the supervised child: return to level 5: three rapid nonzero crashes automatically lower the active level by one. level 0 remains the final one worker fallback. offline restoration validated recovery packages normally live beside a recovery enabled runtime: restore a selected level: the restore stages and validates the replacement before swapping roots. the existing config.json is preserved so the authenticated tunnel identity survives restoration. important runtime files recovery enabled builds may also contain recovery state.json, recovery.log, recovery/, and scripts/recovery .cjs. do not publish config.json, private logs, credentials, oauth material, or secret like environment data.",
+		"page": "pages/geelooy-apps-tunnel-readme-md-7218b2b697.json"
+	},
+	{
+		"id": "geelooy-apps-wallet-documentation-md-b9615d5703",
+		"title": "Wallet App Documentation",
+		"sourcePath": "geelooy/apps/wallet/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Wallet App Documentation",
+				"anchor": "wallet-app-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Wallet App Documentation The Awtsmoos gives value a vessel while every accounting promise must remain tied to code; Awtsmoos.com maps this UI to Wallet, commerce, PayPal, Perutas, and adjacent treasury roads. Read ../../../docs/APPS/COMMERCE AND WALLET.md and ../../../docs/API/WALLET.md.",
+		"searchText": "b\"h boruch hashem blessed is he wallet app documentation the awtsmoos gives value a vessel while every accounting promise must remain tied to code; awtsmoos.com maps this ui to wallet, commerce, paypal, perutas, and adjacent treasury roads. read ../../../docs/apps/commerce and wallet.md and ../../../docs/api/wallet.md.",
+		"page": "pages/geelooy-apps-wallet-documentation-md-b9615d5703.json"
+	},
+	{
+		"id": "geelooy-comment-thread-documentation-md-246a3c0178",
+		"title": "Comment Thread",
+		"sourcePath": "geelooy/comment-thread/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Comment Thread",
+				"anchor": "comment-thread"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Comment Thread The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Public Social interface. Observed entry: index.html; observed title: “Comment Thread — Geelooy”. Start here Read docs/PROJECTS/SOC",
+		"searchText": "b\"h boruch hashem blessed is he comment thread the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role public social interface. observed entry: index.html; observed title: “comment thread — geelooy”. start here read docs/projects/social platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes trace comment api callers, alias/heichel authorization and persisted comment paths before changing behavior.",
+		"page": "pages/geelooy-comment-thread-documentation-md-246a3c0178.json"
+	}
+]

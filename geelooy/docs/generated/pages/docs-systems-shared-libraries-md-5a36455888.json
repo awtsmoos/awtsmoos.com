@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-systems-shared-libraries-md-5a36455888",
+	"title": "Shared Libraries and Browser Foundations",
+	"sourcePath": "docs/SYSTEMS/SHARED_LIBRARIES.md",
+	"category": "Systems",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Shared Libraries and Browser Foundations",
+			"anchor": "shared-libraries-and-browser-foundations"
+		},
+		{
+			"level": 2,
+			"text": "geelooy/shared/",
+			"anchor": "geelooy-shared"
+		},
+		{
+			"level": 2,
+			"text": "geelooy/libs/",
+			"anchor": "geelooy-libs"
+		},
+		{
+			"level": 2,
+			"text": "geelooy/scripts/",
+			"anchor": "geelooy-scripts"
+		},
+		{
+			"level": 2,
+			"text": "geelooy/style/, css/, resources/",
+			"anchor": "geelooy-style-css-resources"
+		},
+		{
+			"level": 2,
+			"text": "Root ayzarim/",
+			"anchor": "root-ayzarim"
+		},
+		{
+			"level": 2,
+			"text": "Dependency rule",
+			"anchor": "dependency-rule"
+		}
+	],
+	"markdownParts": [
+		"content/docs-systems-shared-libraries-md-5a36455888-001.json"
+	]
+}

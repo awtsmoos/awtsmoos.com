@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-learn-server-lifecycle-101-md-7b0c76e066",
+	"title": "Server Lifecycle 101",
+	"sourcePath": "docs/LEARN/SERVER_LIFECYCLE_101.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Server Lifecycle 101",
+			"anchor": "server-lifecycle-101"
+		},
+		{
+			"level": 2,
+			"text": "What you will learn",
+			"anchor": "what-you-will-learn"
+		},
+		{
+			"level": 2,
+			"text": "Boot sequence",
+			"anchor": "boot-sequence"
+		},
+		{
+			"level": 2,
+			"text": "Inside a normal HTTP request",
+			"anchor": "inside-a-normal-http-request"
+		},
+		{
+			"level": 2,
+			"text": "Source trail",
+			"anchor": "source-trail"
+		},
+		{
+			"level": 2,
+			"text": "Do not infer",
+			"anchor": "do-not-infer"
+		},
+		{
+			"level": 2,
+			"text": "Next",
+			"anchor": "next"
+		}
+	],
+	"markdownParts": [
+		"content/docs-learn-server-lifecycle-101-md-7b0c76e066-001.json"
+	]
+}

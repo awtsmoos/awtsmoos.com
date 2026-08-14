@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-docs-custom-player-actions-md-e74c44eab2",
+	"title": "B\"H",
+	"sourcePath": "geelooy/games/mitzvahWorld/docs/CUSTOM_PLAYER_ACTIONS.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Custom Player Action Architecture",
+			"anchor": "custom-player-action-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Canonical rule",
+			"anchor": "canonical-rule"
+		},
+		{
+			"level": 2,
+			"text": "Distinct messages",
+			"anchor": "distinct-messages"
+		},
+		{
+			"level": 2,
+			"text": "Extension contract",
+			"anchor": "extension-contract"
+		},
+		{
+			"level": 2,
+			"text": "Actor neutrality",
+			"anchor": "actor-neutrality"
+		},
+		{
+			"level": 2,
+			"text": "Acceptance evidence",
+			"anchor": "acceptance-evidence"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-docs-custom-player-actions-md-e74c44eab2-001.json"
+	]
+}

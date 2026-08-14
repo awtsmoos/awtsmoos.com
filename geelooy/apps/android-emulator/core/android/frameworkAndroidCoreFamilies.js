@@ -1,4 +1,6 @@
-//B"H //Boruch Hashem //Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 import { createFrameworkAndroidAccessibilityMethods } from "./frameworkAndroidAccessibility.js";
 import { createFrameworkAndroidActivityManagerMethods } from "./frameworkAndroidActivityManager.js";
@@ -13,6 +15,7 @@ import { createFrameworkAndroidMessageMethods } from "./frameworkAndroidMessages
 import { createFrameworkAndroidLongSparseArrayMethods } from "./frameworkAndroidLongSparseArrays.js";
 import { createFrameworkAndroidResourceMethods } from "./frameworkAndroidResources.js";
 import { createFrameworkAndroidServiceMethods } from "./frameworkAndroidServices.js";
+import { createFrameworkAndroidSettingsMethods } from "./frameworkAndroidSettings.js";
 import { createFrameworkAndroidSparseArrayMethods } from "./frameworkAndroidSparseArrays.js";
 import { createFrameworkAndroidSystemClockMethods } from "./frameworkAndroidSystemClock.js";
 import { createFrameworkAndroidUtilityFamilies } from "./frameworkAndroidUtilityFamilies.js";
@@ -74,6 +77,7 @@ export function createFrameworkAndroidCoreFamilies(runtime) {
 		createFrameworkFlutterJniMethods(runtime),
 		createFrameworkFlutterJniBootstrapMethods(runtime),
 		createFrameworkNetworkMethods(runtime),
-		createFrameworkConstructors(runtime)
+		createFrameworkConstructors(runtime),
+		createFrameworkAndroidSettingsMethods(runtime)
 	]);
 }

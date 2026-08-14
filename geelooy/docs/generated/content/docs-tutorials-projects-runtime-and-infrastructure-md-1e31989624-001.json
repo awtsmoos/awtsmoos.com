@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Runtime and Infrastructure\n\nRuntime/infrastructure boundaries include the dynamic server, persistence machinery, operations roots, and other server-side vessels whose public surface may be indirect or absent.\n\n## Investigate runtime code\n\n1. Start with central architecture/system manuals and the generated project tutorial.\n2. Follow source entry files and symbols rather than looking for `index.html`.\n3. Trace incoming dependencies to understand who relies on the subsystem.\n4. Treat database paths, process boundaries, environment names, and transport protocols as compatibility/security contracts.\n5. Use focused server/realtime/data tests before changing behavior.\n\n## Caveats\n\nNo public entry is normal for infrastructure. Lexical incoming edges do not enumerate dynamic requires, runtime registration, or process-level coupling. Configuration documentation exposes names and precedence—not secret values.\n"
+}

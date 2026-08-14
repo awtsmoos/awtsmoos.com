@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-generated-api-tutorials-routes-api-wallet-commerce-catalog-f9d5b627-a4a95d773c",
+	"title": "API Tutorial: /api/wallet/commerce/catalog",
+	"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-commerce-catalog-f9d5b627eb.md",
+	"category": "Routes",
+	"provenance": "generated",
+	"headings": [
+		{
+			"level": 1,
+			"text": "API Tutorial: /api/wallet/commerce/catalog",
+			"anchor": "api-tutorial-api-wallet-commerce-catalog"
+		},
+		{
+			"level": 2,
+			"text": "Contract evidence",
+			"anchor": "contract-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Path parameters",
+			"anchor": "path-parameters"
+		},
+		{
+			"level": 2,
+			"text": "Starter call",
+			"anchor": "starter-call"
+		},
+		{
+			"level": 2,
+			"text": "Observed callers",
+			"anchor": "observed-callers"
+		},
+		{
+			"level": 2,
+			"text": "Related tests",
+			"anchor": "related-tests"
+		},
+		{
+			"level": 2,
+			"text": "Related routes",
+			"anchor": "related-routes"
+		}
+	],
+	"markdownParts": [
+		"content/docs-generated-api-tutorials-routes-api-wallet-commerce-catalog-f9d5b627-a4a95d773c-001.json"
+	]
+}

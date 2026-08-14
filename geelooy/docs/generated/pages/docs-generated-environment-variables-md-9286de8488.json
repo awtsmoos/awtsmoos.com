@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-generated-environment-variables-md-9286de8488",
+	"title": "Generated Environment Variable Names",
+	"sourcePath": "docs/GENERATED/ENVIRONMENT_VARIABLES.md",
+	"category": "General",
+	"provenance": "generated",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Generated Environment Variable Names",
+			"anchor": "generated-environment-variable-names"
+		}
+	],
+	"markdownParts": [
+		"content/docs-generated-environment-variables-md-9286de8488-001.json"
+	]
+}

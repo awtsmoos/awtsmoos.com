@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-sefira-clash-documentation-md-c82ee9b752",
+	"title": "Sefira Clash · Open World, Expedition, Co-op, Adventure & VS",
+	"sourcePath": "geelooy/games/sefira-clash/DOCUMENTATION.md",
+	"category": "Games",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Sefira Clash · Open World, Expedition, Co-op, Adventure & VS",
+			"anchor": "sefira-clash-open-world-expedition-co-op-adventure-vs"
+		},
+		{
+			"level": 2,
+			"text": "Role",
+			"anchor": "role"
+		},
+		{
+			"level": 2,
+			"text": "Start here",
+			"anchor": "start-here"
+		},
+		{
+			"level": 2,
+			"text": "Change rule",
+			"anchor": "change-rule"
+		},
+		{
+			"level": 2,
+			"text": "Project-specific notes",
+			"anchor": "project-specific-notes"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-sefira-clash-documentation-md-c82ee9b752-001.json"
+	]
+}

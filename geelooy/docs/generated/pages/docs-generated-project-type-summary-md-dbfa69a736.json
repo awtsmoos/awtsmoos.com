@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-generated-project-type-summary-md-dbfa69a736",
+	"title": "Project Type Summary",
+	"sourcePath": "docs/GENERATED/PROJECT_TYPE_SUMMARY.md",
+	"category": "Projects",
+	"provenance": "generated",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Project Type Summary",
+			"anchor": "project-type-summary"
+		}
+	],
+	"markdownParts": [
+		"content/docs-generated-project-type-summary-md-dbfa69a736-001.json"
+	]
+}

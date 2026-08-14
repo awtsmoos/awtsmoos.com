@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Tunnel Installer API Documentation\n\nThe Awtsmoos lets a new vessel receive its agent through public installer artifacts while remote authority stays elsewhere;\nAwtsmoos.com maps Windows, Linux, Unix, bundles, manifest, and agent archive routes without confusing download with control-layer trust.\n\nRead [../../../../docs/API/OTHER_FAMILIES.md](../../../../docs/API/OTHER_FAMILIES.md) and [../../../../docs/SYSTEMS/TUNNEL.md](../../../../docs/SYSTEMS/TUNNEL.md).\n"
+}

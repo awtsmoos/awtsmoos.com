@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\n# Local Tunnel Media Plane\n\n`/api/streaming` is the cloud/control plane.\nThe local tunnel is the media plane.\n\nWhy:\n- YouTube needs HLS/RTMPS ingest bytes.\n- Twitch/Facebook normally need RTMP/RTMPS ingest bytes.\n- Browser JavaScript cannot cleanly push RTMP directly.\n- Local tunnel can forward muxed bytes without ffmpeg and without sending media through Awtsmoos cloud.\n\nCurrent state:\n- Session/counter transport exists.\n- HLS segment metadata and playlist generation exists.\n- Direct forwarding hooks exist.\n- Real muxer remains the next hard component.\n"
+}

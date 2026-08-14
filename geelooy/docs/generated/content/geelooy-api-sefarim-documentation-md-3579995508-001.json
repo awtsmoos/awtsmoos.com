@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Sefarim API Documentation\n\nThe Awtsmoos lets text descend through sefer, section, and subsection paths while each parameter remains visible;\nAwtsmoos.com maps these dynamic routes to readers without turning colon variables into invented dollar syntax.\n\nRead [../../../docs/API/OTHER_FAMILIES.md](../../../docs/API/OTHER_FAMILIES.md) and [../../../docs/ROUTES/DYNAMIC_PATHS.md](../../../docs/ROUTES/DYNAMIC_PATHS.md).\n"
+}

@@ -1,0 +1,188 @@
+[
+	{
+		"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-api-readme-md-7d3061aafb",
+		"title": "AwtsmoosDB API Guide",
+		"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/API_README.md",
+		"category": "Data",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "AwtsmoosDB API Guide",
+				"anchor": "awtsmoosdb-api-guide"
+			},
+			{
+				"level": 2,
+				"text": "Opening And Closing",
+				"anchor": "opening-and-closing"
+			},
+			{
+				"level": 2,
+				"text": "The Root Live Handle",
+				"anchor": "the-root-live-handle"
+			},
+			{
+				"level": 2,
+				"text": "Root Helper Methods",
+				"anchor": "root-helper-methods"
+			},
+			{
+				"level": 2,
+				"text": "Method Name Collisions",
+				"anchor": "method-name-collisions"
+			},
+			{
+				"level": 2,
+				"text": "Supported Values",
+				"anchor": "supported-values"
+			},
+			{
+				"level": 2,
+				"text": "Maps And Lists",
+				"anchor": "maps-and-lists"
+			},
+			{
+				"level": 2,
+				"text": "Iteration",
+				"anchor": "iteration"
+			},
+			{
+				"level": 2,
+				"text": "Search, Query, Graph, Vector",
+				"anchor": "search-query-graph-vector"
+			},
+			{
+				"level": 2,
+				"text": "AI And Embeddings",
+				"anchor": "ai-and-embeddings"
+			},
+			{
+				"level": 2,
+				"text": "Old DosDB Bridge",
+				"anchor": "old-dosdb-bridge"
+			},
+			{
+				"level": 2,
+				"text": "Compression",
+				"anchor": "compression"
+			},
+			{
+				"level": 2,
+				"text": "Blob Byte Ranges",
+				"anchor": "blob-byte-ranges"
+			},
+			{
+				"level": 2,
+				"text": "Chunked Text",
+				"anchor": "chunked-text"
+			},
+			{
+				"level": 2,
+				"text": "Concurrent Operations",
+				"anchor": "concurrent-operations"
+			},
+			{
+				"level": 2,
+				"text": "Turbo Write-Behind",
+				"anchor": "turbo-write-behind"
+			},
+			{
+				"level": 2,
+				"text": "Byte Accounting",
+				"anchor": "byte-accounting"
+			},
+			{
+				"level": 2,
+				"text": "Delete, Reuse, And Truncate",
+				"anchor": "delete-reuse-and-truncate"
+			},
+			{
+				"level": 2,
+				"text": "File Info Without Opening",
+				"anchor": "file-info-without-opening"
+			},
+			{
+				"level": 2,
+				"text": "Testing",
+				"anchor": "testing"
+			},
+			{
+				"level": 2,
+				"text": "Runtime Helpers",
+				"anchor": "runtime-helpers"
+			}
+		],
+		"excerpt": "B\"H AwtsmoosDB API Guide AwtsmoosDB is a synchronous binary object database. You open one file, receive a live root handle, and write JavaScript values directly into db.root. The main idea is simple: Opening And Closing open() creates the file if needed and exposes db.root. close() flushes the exact logical byte range ",
+		"searchText": "b\"h awtsmoosdb api guide awtsmoosdb is a synchronous binary object database. you open one file, receive a live root handle, and write javascript values directly into db.root. the main idea is simple: opening and closing open() creates the file if needed and exposes db.root. close() flushes the exact logical byte range to disk. the pager may keep a larger ram mirror for speed, but disk flush truncates to the allocator cursor. wal is enabled by default. it is exact byte and fsync batched at idle/close: the wal is written first, database pages are flushed second, and the wal is cleared after the database fsync completes. for disposable benchmarks only: the root live handle db.root is the main live object. assigning a property stores it immediately: reading a nested object or collection may return another live handle. scalars such as strings, numbers, booleans, buffers, dates, and typed arrays resolve back into normal javascript values. when you need to force a scalar handle into the plain value: root helper methods these legacy helpers route through db.root: they are useful when a property name would collide with a javascript method. method name collisions stored data wins over helper methods on live mapping handles. this is valid: after those assignments, db.root.set, db.root.get, and db.root.keys read the stored values. use root helpers when you want method style access: the design rule is: direct db.root.somekey = value is the primary api, and extra methods should not steal real user keys. supported values common supported values include: null, undefined, booleans, numbers, nan, infinities strings bigint date regexp error and common subclasses buffer arraybuffer typed arrays arrays plain objects map, set functions by source text when possible circular object graphs through stable anchors maps and lists create database native maps and lists with: objects are usually easiest through direct assignment: arrays support sequence like operations such as push, pop, shift, unshift, splice, slice, iteration, and length. iteration mapping handles expose familiar methods when those names are not stored keys: if you store a key named keys, that stored data takes priority. use db.keys or avoid reserved looking names when you want method syntax on that same handle. paged keys: when no sort order is requested, the iterator stops after the requested page instead of materializing every key first. sorted order must collect the visible keys before slicing. search, query, graph, vector the database exposes managers: the test suite exercises these apis. their exact query shapes are best copied from the focused tests until a dedicated search/vector guide is written. ai and embeddings db.ai.load() accepts local gguf files or hugging face urls: for local or downloaded gguf files, the loader parses the gguf header, metadata, and tensor directory without external libraries. full bge transformer inference from gguf tensors is a deeper runtime layer; meanwhile db.ai.embed provides a deterministic no library embedding fallback for vector workflows: old dosdb bridge the previous awtsmoosbinaryjson helpers are available through db.dosdb: a sample migration script is included: it tries json first, then falls back to the old deserializebinary method. compression compression is enabled by default: the compressor is custom and dependency free. it tries byte level lz and rle frames, then stores raw bytes when compression would make data larger. compression currently applies to: strings buffers arraybuffers typed arrays disable it when you need raw storage measurements: blob byte ranges use db.blob for file system like binary bodies. this api is intentionally on the database object, not on live handles, so user data keys are not confused with helper methods. blob tokens are small json records stored in normal database values. the large byte body lives in its own exact range, so read(blob, offset, length) only reads the requested bytes from disk pages. available blob methods: db.blob.create(sizeorbytes, meta): allocate a byte body from a number, buffer, uint8array, or string. db.blob.info(blob): return id, offset, length, and metadata. db.blob.read(blob, offset, length): read a buffer range. db.blob.write(blob, offset, bytes): write at an offset; if the write grows the blob, it relocates and returns an updated token. db.blob.resize(blob, size): grow or shrink while preserving prefix bytes. db.blob.delete(blob): release the body range to the allocator. when a blob grows or resizes, keep the returned token: for deletion, remove live references before expecting verified gc to reclaim the bytes: large blob creation and relocation are chunked internally, so the manager does not allocate the whole file body in ram just to zero or copy it. async range helpers coordinate overlapping access: non overlapping ranges may proceed independently. overlapping writes serialize through the range lock manager. chunked text normal javascript strings are scalar values. calling db.root.longstring.substring(0, 200) uses javascript's native string method, so the scalar has already been hydrated. for long text that must support range reads without hydrating the whole value, use db.text: db.text uses textencoder and textdecoder for utf 8 blocks. each block is backed by blob storage, so substring and stream operations read only the blocks that overlap the requested character range. available text methods: db.text.create(textorbytes, options): create a chunked text token. db.text.info(token): inspect characters, utf 8 bytes, and block count. db.text.substring(token, start, end): read a character range. db.text.read(token, start, length): length based substring. db.text.stream(token, { start, end }): async range generator. db.text.append(token, suffix): append as new blocks and return an updated token. as with blobs, keep the returned token after append: concurrent operations ordinary live handle mutations now pass through the internal path lock layer: the user facing api remains normal javascript assignment. the writer derives a logical path from each live handle and key, then enters the lock layer before touching the structure. db.concurrent exposes a small coordination layer for server style workloads: path locks use logical containment. a write to users conflicts with users.1.name, but users.1.name and users.2.name do not conflict at the outer logical layer. available helpers: db.concurrent.readpath(path) db.concurrent.writepath(path, value) db.concurrent.deletepath(path) db.concurrent.rangeread(resource, offset, length, fn) db.concurrent.rangewrite(resource, offset, length, fn) this is a practical coordination layer over the current synchronous storage engine. fully parallel structural mutation at the node level would require the larger mvcc/copy on write structure engine described in the architecture notes. turbo write behind for very high fan in sync looking writes, enable the append first overlay: with turbowrites: true, ordinary assignment records intent in a ram overlay instead of forcing every caller through the structural writer immediately. reads check the overlay first, so the caller sees the value as if it were already written. waitforidle() and close() persist the overlay to a durable append sidecar at databasepath + \".turbo.json\". reads consult layers newest first: 1. pending ram overlay 2. durable turbo delta 3. compacted copy on write turbo tree 4. original main binary structure the overlay participates in the ordinary object surface: turbo writes schedule a short debounced flush automatically. close() and waitforidle() still force an immediate flush for strict shutdown points, and normal process beforeexit also attempts one final flush. like every database, power loss or a hard process kill can still interrupt work that was only in ram and had not reached the durable sidecar yet. after the durable delta is written, a lagging copy on write compactor merges it into databasepath + \".turbo.tree.json\" by writing a temporary snapshot and renaming it into place. if compaction fails, the durable delta remains readable. this is the current fast path for thousands of non conflicting sync looking assignments. the existing binary structure writer remains the fallback engine and can still be used for normal durable writes when turbowrites is disabled. the deeper future layer is merging compacted turbo snapshots into true binary b tree pages. byte accounting use storagestats() to inspect density: field meanings: payloadbytes: user primitive content bytes before compression. storedprimitivebytes: primitive bytes actually written after compression. logicalbytes: allocator cursor, the meaningful db byte boundary. physicalbytes: disk size, or pending logical flush size while dirty. compressedwrites: number of primitive writes stored as compressed frames. savedbytes: payload bytes avoided by compression. delete, reuse, and truncate deleting or replacing values can return old primitive payload ranges to the exact free space ledger. middle gap reuse is intentionally opt in until a full graph/search/vector aware mark sweep gc exists: the suite includes regression tests for middle reuse and tail truncation. file info without opening you can inspect the file header without loading the database mirror: on an open database, use: testing the full validation command is: the storage specific tests are: test/storage density test.js test/storage reuse test.js test/compression extreme test.js test/blob fs test.js test/concurrent text test.js test/turbo writebehind test.js test/deep turbo ai test.js they verify exact physical flush size, compression round trips, compression backoff for noisy data, varint pointer sizes, method name collision behavior, middle gap reuse, blob offset i/o, verified blob reclaim, async range/path coordination, automatic normal api write locking, chunked text substring/ streaming, turbo write behind persistence, deep nested turbo stress, paged key access, ai/gguf metadata loading, dosdb bridge access, and tail truncation. runtime helpers memory stats: lightweight gc/free ledger: read only verification: verify() walks pointer seals from the superblock/root/free list metadata and does not hydrate whole values. gc() uses that mark/sweep report to install a verified persistent free list. verified reuse after gc: the raw { reusefreedspace: true } mode is for experiments and focused tests. for real indexed/graph data, prefer \"verified\" so reuse only consumes ranges found by mark/sweep gc. password encrypted fields: wrong passwords fail authentication. optional in runtime versions for root deletes: this history layer is intentionally small and fast. it is an undo/restore helper for the active runtime, not a full persistent audit log.",
+		"page": "pages/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-api-readme-md-7d3061aafb.json"
+	},
+	{
+		"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-database-lifecycle-and-mani-0249c4a3cd",
+		"title": "Database Lifecycle and Manifests",
+		"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/DATABASE_LIFECYCLE_AND_MANIFESTS.md",
+		"category": "Data",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Database Lifecycle and Manifests",
+				"anchor": "database-lifecycle-and-manifests"
+			},
+			{
+				"level": 2,
+				"text": "Lifecycle",
+				"anchor": "lifecycle"
+			},
+			{
+				"level": 2,
+				"text": "Manifest boundary",
+				"anchor": "manifest-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Never",
+				"anchor": "never"
+			}
+		],
+		"excerpt": "Database Lifecycle and Manifests A database file is not a published lane merely because it exists. Publication is a lifecycle with evidence gates. Lifecycle 1. Inspect source, hash, size, blocks, inode, open handles, WAL, and manifests. 2. Create an isolated copy on write candidate. 3. Perform writes only on the candid",
+		"searchText": "database lifecycle and manifests a database file is not a published lane merely because it exists. publication is a lifecycle with evidence gates. lifecycle 1. inspect source, hash, size, blocks, inode, open handles, wal, and manifests. 2. create an isolated copy on write candidate. 3. perform writes only on the candidate. 4. call waitforidle() before close, copy, hash, audit, or publication. 5. reopen read only and verify semantic and index invariants. 6. generate a complete sibling fast manifest. 7. exercise strict api routes on an isolated server before and after restart. 8. preserve source, candidate, evidence, and rollback. 9. require explicit approval for production cutover. manifest boundary the rag catalog accepts a root level .awtsdb only with a same basename .fast manifest.json. the manifest must identify the list, positive record count, positive dimensions, corpus identity, and database identity. actual read only registry readiness must independently agree. never never compact a live file in place. never treat manifest presence as index proof. never publish a partially written candidate. never delete the only rollback or vector corpus.",
+		"page": "pages/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-database-lifecycle-and-mani-0249c4a3cd.json"
+	},
+	{
+		"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-embedding-reuse-policy-md-84ccd6e059",
+		"title": "Embedding Reuse Policy",
+		"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/EMBEDDING_REUSE_POLICY.md",
+		"category": "Data",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Embedding Reuse Policy",
+				"anchor": "embedding-reuse-policy"
+			},
+			{
+				"level": 2,
+				"text": "Reuse by default",
+				"anchor": "reuse-by-default"
+			},
+			{
+				"level": 2,
+				"text": "Regeneration gate",
+				"anchor": "regeneration-gate"
+			},
+			{
+				"level": 2,
+				"text": "Non-evidence",
+				"anchor": "non-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Safe repair hierarchy",
+				"anchor": "safe-repair-hierarchy"
+			}
+		],
+		"excerpt": "Embedding Reuse Policy Existing corpus embeddings are canonical assets. The Awtsmoos recreates each instant, yet maintainers must not recreate expensive vectors merely because a path, API, process, manifest, query model, or derived index is broken. Reuse by default Reuse vectors when their rows are readable, dimensions",
+		"searchText": "embedding reuse policy existing corpus embeddings are canonical assets. the awtsmoos recreates each instant, yet maintainers must not recreate expensive vectors merely because a path, api, process, manifest, query model, or derived index is broken. reuse by default reuse vectors when their rows are readable, dimensions are valid, corpus identity is unchanged, and provider/model compatibility is established. record sha 256, record count, dimensions, provider, model, and source digest. regeneration gate new embeddings require direct proof of at least one condition: vectors are absent; rows are corrupt or unreadable; dimensions are invalid; provider/model identity is incompatible; a documented source corpus migration changes semantic identity. non evidence a missing route, stale process, broken absolute path, missing query model, disabled manifest, slow cold start, or missing hnsw graph does not prove embedding incompatibility. safe repair hierarchy paths and process query embedder manifest read only session persisted registry rebuild derived graph regenerate embeddings only at the final proven gate.",
+		"page": "pages/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-embedding-reuse-policy-md-84ccd6e059.json"
+	}
+]

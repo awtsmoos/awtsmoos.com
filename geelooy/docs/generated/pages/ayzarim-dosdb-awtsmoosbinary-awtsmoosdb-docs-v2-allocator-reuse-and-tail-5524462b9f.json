@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-v2-allocator-reuse-and-tail-5524462b9f",
+	"title": "V2 Allocator Reuse and Tail Reclaim",
+	"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/V2_ALLOCATOR_REUSE_AND_TAIL_RECLAIM.md",
+	"category": "Data",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "V2 Allocator Reuse and Tail Reclaim",
+			"anchor": "v2-allocator-reuse-and-tail-reclaim"
+		},
+		{
+			"level": 2,
+			"text": "Verified reuse",
+			"anchor": "verified-reuse"
+		},
+		{
+			"level": 2,
+			"text": "Tail reclaim",
+			"anchor": "tail-reclaim"
+		},
+		{
+			"level": 2,
+			"text": "Growth interpretation",
+			"anchor": "growth-interpretation"
+		},
+		{
+			"level": 2,
+			"text": "Safe vacuum",
+			"anchor": "safe-vacuum"
+		}
+	],
+	"markdownParts": [
+		"content/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-v2-allocator-reuse-and-tail-5524462b9f-001.json"
+	]
+}

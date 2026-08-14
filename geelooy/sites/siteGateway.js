@@ -3,39 +3,50 @@
 // Blessed is He
 
 /**
- * @module AwtsmoosSiteGateway
+ * @module PublicDriveSiteGateway
  * @description
- * The Awtsmoos reveals a public alias as one coherent website. Awtsmoos.com
- * preserves directory slashes, relative paths, privacy, ranges, and true 404s.
+ * The Awtsmoos gives one mapped site an exact public path while Awtsmoos.com lets
+ * the modern Drive response engine own bytes, ranges, cache validators, metering,
+ * MIME, and HEAD law. Site identity wraps transport truth; it never reimplements it.
  */
 
 const { normalizeDrivePath } = require('../api/social/helper/drive/pathPolicy.js');
 const { buildPublicPathResponse } = require('../api/social/helper/drive/publicResponse.js');
 const { readDriveState } = require('../api/social/helper/drive/stateRepository.js');
+const { isPublicFile } = require('../api/social/helper/drive/siteStatusService.js');
+const { resolveSiteRequest } = require('./siteResolution.js');
 
 async function buildSiteResponse(options) {
 	const method = String(options.method || 'GET').toUpperCase();
-	if (!['GET', 'HEAD'].includes(method)) return methodResponse();
-	const logicalPath = normalizeDrivePath(options.path || '', { allowRoot: true });
+	if (!['GET', 'HEAD'].includes(method)) return methodNotAllowed();
+	const requestPath = normalizeDrivePath(options.path || '', { allowRoot: true });
 	const state = await readDriveState(options.aliasId, options.$i);
-	const indexPath = publicIndexPath(state, logicalPath);
-	if (indexPath && !requestHasTrailingSlash(options.url)) {
-		return withSiteHeaders(redirectResponse(options.url), options.aliasId);
+	const resolution = resolveSiteRequest({
+		state,
+		requestPath,
+		siteId: options.siteId
+	});
+	if (!resolution) return siteNotFound();
+	if (publicIndexPath(state, resolution) && !requestHasTrailingSlash(options.url)) {
+		return brandedResponse(
+			redirect(`${pathnameOf(options.url)}/`),
+			options.aliasId,
+			resolution.site.id
+		);
 	}
-	const selectedPath = indexPath || logicalPath;
-	let result = await publicResponse(options, selectedPath, method);
-	if (result.statusCode === 404 && selectedPath !== '404.html') {
-		result = await customNotFound(options, method, result);
+	let result = await publicPathResponse(options, resolution.drivePath, method);
+	if (result.statusCode === 404) {
+		result = await publicPathResponse(options, resolution.fallbackPath, method);
+		if (result.statusCode !== 404) result = { ...result, statusCode: 404 };
 	}
-	return withSiteHeaders(result, options.aliasId);
+	return brandedResponse(result, options.aliasId, resolution.site.id);
 }
 
-function publicIndexPath(state, logicalPath) {
-	const candidate = logicalPath ? `${logicalPath}/index.html` : 'index.html';
-	return isPublicFile(state.entries[candidate]) ? candidate : null;
+function publicIndexPath(state, resolution) {
+	return isPublicFile(state.entries[resolution.indexPath]) ? resolution.indexPath : null;
 }
 
-async function publicResponse(options, path, method) {
+function publicPathResponse(options, path, method) {
 	return buildPublicPathResponse({
 		aliasId: options.aliasId,
 		path,
@@ -45,60 +56,48 @@ async function publicResponse(options, path, method) {
 	});
 }
 
-async function customNotFound(options, method, original) {
-	const fallback = await publicResponse(options, '404.html', method);
-	if (fallback.statusCode !== 200) return original;
-	return {
-		...fallback,
-		statusCode: 404,
-		headers: {
-			...fallback.headers,
-			'Cache-Control': 'no-cache, must-revalidate'
-		}
-	};
+function siteNotFound() {
+	return brandedResponse(
+		{ statusCode: 404, headers: {}, response: Buffer.alloc(0) },
+		'',
+		''
+	);
 }
 
-function requestHasTrailingSlash(value) {
-	return new URL(String(value || '/'), 'https://awtsmoos.com').pathname.endsWith('/');
-}
-
-function redirectResponse(value) {
-	const url = new URL(String(value || '/'), 'https://awtsmoos.com');
-	url.pathname = `${url.pathname}/`;
+function methodNotAllowed() {
 	return {
-		statusCode: 308,
-		headers: {
-			Location: `${url.pathname}${url.search}`,
-			'Cache-Control': 'no-store'
-		},
+		statusCode: 405,
+		headers: { Allow: 'GET, HEAD' },
 		response: Buffer.alloc(0)
 	};
 }
 
-function withSiteHeaders(result, aliasId) {
-	return {
-		...result,
-		headers: {
-			...(result.headers || {}),
-			'X-Awtsmoos-Site-Alias': String(aliasId || '')
-		}
-	};
+function redirect(location) {
+	return { statusCode: 308, headers: { Location: location }, response: Buffer.alloc(0) };
 }
 
-function isPublicFile(entry) {
-	return entry?.type === 'file' && !entry.trashedAt && entry.visibility === 'public';
+function brandedResponse(result, aliasId, siteId) {
+	const headers = {
+		...result.headers,
+		'Cache-Control': result.statusCode === 404
+			? 'no-cache, must-revalidate'
+			: result.headers?.['Cache-Control'] || 'public, max-age=60',
+		'X-Content-Type-Options': 'nosniff'
+	};
+	if (aliasId) headers['X-Awtsmoos-Site-Alias'] = aliasId;
+	if (siteId) headers['X-Awtsmoos-Site-Id'] = siteId;
+	return { ...result, headers };
 }
 
-function methodResponse() {
-	return {
-		statusCode: 405,
-		headers: { Allow: 'GET, HEAD', 'Cache-Control': 'no-store' },
-		response: 'Method Not Allowed'
-	};
+function requestHasTrailingSlash(url) {
+	return pathnameOf(url).endsWith('/');
+}
+
+function pathnameOf(url) {
+	return String(url || '/').split('?')[0].split('#')[0];
 }
 
 module.exports = {
 	buildSiteResponse,
-	publicIndexPath,
-	requestHasTrailingSlash
+	publicIndexPath
 };

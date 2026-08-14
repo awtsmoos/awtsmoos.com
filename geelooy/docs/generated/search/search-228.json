@@ -1,0 +1,253 @@
+[
+	{
+		"id": "geelooy-db-documentation-md-94231c30f4",
+		"title": "Database Tool Documentation",
+		"sourcePath": "geelooy/db/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Database Tool Documentation",
+				"anchor": "database-tool-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Database Tool Documentation The Awtsmoos gives stored state a vessel and gives the human a window to inspect; Awtsmoos.com separates this browser DB tooling from the server DosDB root that runtime must protect. Read ../../docs/SYSTEMS/DATABASE AND STORAGE.md. Server initialization lives ",
+		"searchText": "b\"h boruch hashem blessed is he database tool documentation the awtsmoos gives stored state a vessel and gives the human a window to inspect; awtsmoos.com separates this browser db tooling from the server dosdb root that runtime must protect. read ../../docs/systems/database and storage.md. server initialization lives in ../../ayzarim/awtsmoosdynamicserver/server/initdb.js; changing persisted path contracts may require migration.",
+		"page": "pages/geelooy-db-documentation-md-94231c30f4.json"
+	},
+	{
+		"id": "geelooy-docs-documentation-md-c958ffbba2",
+		"title": "Interactive Documentation Frontend",
+		"sourcePath": "geelooy/docs/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Interactive Documentation Frontend",
+				"anchor": "interactive-documentation-frontend"
+			},
+			{
+				"level": 2,
+				"text": "What this directory owns",
+				"anchor": "what-this-directory-owns"
+			},
+			{
+				"level": 2,
+				"text": "Canonical content",
+				"anchor": "canonical-content"
+			},
+			{
+				"level": 2,
+				"text": "Bounded publication",
+				"anchor": "bounded-publication"
+			},
+			{
+				"level": 2,
+				"text": "Search and Ask",
+				"anchor": "search-and-ask"
+			},
+			{
+				"level": 2,
+				"text": "Safety covenant",
+				"anchor": "safety-covenant"
+			},
+			{
+				"level": 2,
+				"text": "Human manuals",
+				"anchor": "human-manuals"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Interactive Documentation Frontend The Awtsmoos lets the repository's written map become a living public doorway; geelooy/docs/ is the browser facing documentation application for Awtsmoos.com. What this directory owns index.html — semantic application shell for /docs/. styles/ — respons",
+		"searchText": "b\"h boruch hashem blessed is he interactive documentation frontend the awtsmoos lets the repository's written map become a living public doorway; geelooy/docs/ is the browser facing documentation application for awtsmoos.com. what this directory owns index.html — semantic application shell for /docs/. styles/ — responsive visual system, document typography, rails, dialogs, and print behavior. modules/ — dependency free es modules for state, search, navigation, markdown rendering, ask retrieval, optional gpt synthesis, and browser local preferences. generated/ — machine generated transport bounded publication data. never edit this directory manually. canonical content the frontend is not the source of truth for documentation prose. canonical human documentation remains in repository markdown. node scripts/docs/generate docs.js publishes an intentional searchable reflection into geelooy/docs/generated/. bounded publication generated/manifest.json declares search shards, project shards, categories, compact page metadata, and markdown content shards. this design was proven necessary by real browser testing: the existing awtsmoos server returned http 413 for larger json files. content is split losslessly rather than truncated or served by changing unrelated server limits. search and ask global search runs locally in the browser. it supports ordinary terms plus category:, kind:, and path: filters. ask retrieves local documentation passages first. the existing /api/gpt/chat relay may optionally synthesize only bounded retrieved context; if unavailable, cited local passages remain usable. safety covenant markdown is rendered through explicit dom construction. raw markdown html is not executed and frontend source does not assign innerhtml. hidden agent thought, generic thought, dependency, build, and vendor trees are excluded from publication. human manuals read docs/interactive documentation.md for architecture and user workflow, docs/maintaining the docs.md for regeneration, and docs/development/documentation workflow.md before changing the publication pipeline. verification browser verification covers desktop/mobile layout, search, deep links, document rendering, local ask retrieval, graceful gpt unavailability, and console/network errors.",
+		"page": "pages/geelooy-docs-documentation-md-c958ffbba2.json"
+	},
+	{
+		"id": "geelooy-documentation-md-6e23cc3842",
+		"title": "Geelooy Documentation Map",
+		"sourcePath": "geelooy/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Geelooy Documentation Map",
+				"anchor": "geelooy-documentation-map"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Geelooy Documentation Map The Awtsmoos makes this public root a city of pages, APIs, apps, games, and shared light; Awtsmoos.com keeps the full human map in ../docs/ so a traveler can choose the right site. Start with ../docs/START HERE.md. Directory map: ../docs/DIRECTORY ATLAS.md Publi",
+		"searchText": "b\"h boruch hashem blessed is he geelooy documentation map the awtsmoos makes this public root a city of pages, apis, apps, games, and shared light; awtsmoos.com keeps the full human map in ../docs/ so a traveler can choose the right site. start with ../docs/start here.md. directory map: ../docs/directory atlas.md public urls: ../docs/routes/public routes.md apis: ../docs/api/readme.md apps: ../docs/apps/readme.md cross cutting systems: ../docs/systems/readme.md geelooy is the server's default public root (config.public \"geelooy\").",
+		"page": "pages/geelooy-documentation-md-6e23cc3842.json"
+	},
+	{
+		"id": "geelooy-email-documentation-md-ba2042cc9d",
+		"title": "Email Project Documentation",
+		"sourcePath": "geelooy/email/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Email Project Documentation",
+				"anchor": "email-project-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Email Project Documentation The Awtsmoos lets mail meet identity, Social messaging, and server delivery through distinct vessels in view; Awtsmoos.com maps this browser project to its API and configuration so frontend changes can trace backend consequences too. Read ../../docs/API/OTHER ",
+		"searchText": "b\"h boruch hashem blessed is he email project documentation the awtsmoos lets mail meet identity, social messaging, and server delivery through distinct vessels in view; awtsmoos.com maps this browser project to its api and configuration so frontend changes can trace backend consequences too. read ../../docs/api/other families.md, ../../docs/systems/social and heichel.md, and ../../docs/configuration.md.",
+		"page": "pages/geelooy-email-documentation-md-ba2042cc9d.json"
+	},
+	{
+		"id": "geelooy-games-brick-blast-documentation-md-e8cf94ec9b",
+		"title": "Brick Blast",
+		"sourcePath": "geelooy/games/brick-blast/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Brick Blast",
+				"anchor": "brick-blast"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Brick Blast The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLATFORM.md for the central ex",
+		"searchText": "b\"h boruch hashem blessed is he brick blast the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “brick blast”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-brick-blast-documentation-md-e8cf94ec9b.json"
+	},
+	{
+		"id": "geelooy-games-cards-documentation-md-1b0e742765",
+		"title": "The Utterances — Blackjack on Awtsmoos",
+		"sourcePath": "geelooy/games/cards/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "The Utterances — Blackjack on Awtsmoos",
+				"anchor": "the-utterances-blackjack-on-awtsmoos"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He The Utterances — Blackjack on Awtsmoos The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLA",
+		"searchText": "b\"h boruch hashem blessed is he the utterances — blackjack on awtsmoos the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “the utterances — blackjack on awtsmoos”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-cards-documentation-md-1b0e742765.json"
+	},
+	{
+		"id": "geelooy-games-chess-documentation-md-10b4da5210",
+		"title": "Ultimate Chess AI",
+		"sourcePath": "geelooy/games/chess/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Ultimate Chess AI",
+				"anchor": "ultimate-chess-ai"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Ultimate Chess AI The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLATFORM.md for the cent",
+		"searchText": "b\"h boruch hashem blessed is he ultimate chess ai the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “ultimate chess ai”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-chess-documentation-md-10b4da5210.json"
+	},
+	{
+		"id": "geelooy-games-city-of-light-documentation-md-9350b949bc",
+		"title": "City of Light · The Complete Pilgrimage",
+		"sourcePath": "geelooy/games/city-of-light/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "City of Light · The Complete Pilgrimage",
+				"anchor": "city-of-light-the-complete-pilgrimage"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He City of Light · The Complete Pilgrimage The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PL",
+		"searchText": "b\"h boruch hashem blessed is he city of light · the complete pilgrimage the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “city of light · the complete pilgrimage”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-city-of-light-documentation-md-9350b949bc.json"
+	}
+]

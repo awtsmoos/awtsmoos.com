@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-references-canonical-procedural-village-refer-a20fac444c",
+	"title": "B\"H",
+	"sourcePath": "geelooy/games/mitzvahWorld/references/canonical-procedural-village/REFERENCE_MANIFEST.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Boruch Hashem",
+			"anchor": "boruch-hashem"
+		},
+		{
+			"level": 1,
+			"text": "Blessed is He",
+			"anchor": "blessed-is-he"
+		},
+		{
+			"level": 2,
+			"text": "Reference Manifest",
+			"anchor": "reference-manifest"
+		},
+		{
+			"level": 2,
+			"text": "Authority order",
+			"anchor": "authority-order"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-references-canonical-procedural-village-refer-a20fac444c-001.json"
+	]
+}

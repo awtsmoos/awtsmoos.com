@@ -1,39 +1,45 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-mitzvah-world-responsive-001.css reveals localized style through the Awtsmoos and Awtsmoos.com.
+
+The Awtsmoos opens one world through mouse and thumb, through broad and narrow door;
+Awtsmoos.com keeps every coarse-pointer target full-sized instead of smaller than before.
 */
 
-/* B"H */
-
-/* Boruch Hashem */
-
-/* Blessed is He */
-
 /**
- * One world enters both broad glass and narrow glass. The Awtsmoos reveals the same purpose in
- * distinct measured layouts; Awtsmoos.com keeps touch targets usable without covering the scene.
+ * Responsive input policy keeps desktop uncluttered and preserves real touch
+ * target dimensions. The document gameplay marker is the single visibility
+ * truth so loading and selection screens never inherit gameplay controls.
  */
-
 @media (pointer: fine) {
-	#mitzvah-world-root #joy, #mitzvah-world-root #jump {
+	#mitzvah-world-root #joy,
+	#mitzvah-world-root #jump {
 		display: none !important;
 	}
 }
 
 @media (pointer: coarse) {
-	#mitzvah-world-root #joy, #mitzvah-world-root #jump {
+	html[data-awtsmoos-gameplay="true"] #mitzvah-world-root #joy,
+	html[data-awtsmoos-gameplay="true"] #mitzvah-world-root #jump {
 		display: block;
 	}
 
-	#mitzvah-world-root .Awtsmoos-hud-minimize {
-		width: 30px !important;
-		height: 30px !important;
-		min-width: 30px !important;
-		min-height: 30px !important;
+	html:not([data-awtsmoos-gameplay="true"]) #mitzvah-world-root #joy,
+	html:not([data-awtsmoos-gameplay="true"]) #mitzvah-world-root #jump {
+		display: none !important;
 	}
 
-	#mitzvah-world-root #mitzvah-world-root .Awtsmoos-action-bar button, #mitzvah-world-root #mitzvah-world-root .Mitzvah-action-slot {
+	#mitzvah-world-root .Awtsmoos-hud-minimize,
+	#mitzvah-world-root .Awtsmoos-player-hud-shell > [data-retract-toggle],
+	#mitzvah-world-root .Awtsmoos-mobile-shell > [data-retract-toggle] {
+		width: 44px !important;
+		height: 44px !important;
+		min-width: 44px !important;
+		min-height: 44px !important;
+	}
+
+	#mitzvah-world-root .Awtsmoos-action-bar button,
+	#mitzvah-world-root .Mitzvah-action-slot {
 		min-width: 44px !important;
 		min-height: 44px !important;
 	}

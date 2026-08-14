@@ -1,0 +1,79 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-movie-directory-guid-f43125d048",
+	"title": "B\"H",
+	"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/movie/DIRECTORY_GUIDE.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Movie Maker Directory Guide",
+			"anchor": "movie-maker-directory-guide"
+		},
+		{
+			"level": 2,
+			"text": "Active entry and ownership",
+			"anchor": "active-entry-and-ownership"
+		},
+		{
+			"level": 2,
+			"text": "Studio shell and lifecycle",
+			"anchor": "studio-shell-and-lifecycle"
+		},
+		{
+			"level": 2,
+			"text": "Reversible project commands",
+			"anchor": "reversible-project-commands"
+		},
+		{
+			"level": 2,
+			"text": "Studio styling",
+			"anchor": "studio-styling"
+		},
+		{
+			"level": 2,
+			"text": "Timeline",
+			"anchor": "timeline"
+		},
+		{
+			"level": 2,
+			"text": "Professional command behavior",
+			"anchor": "professional-command-behavior"
+		},
+		{
+			"level": 2,
+			"text": "Deterministic world direction",
+			"anchor": "deterministic-world-direction"
+		},
+		{
+			"level": 2,
+			"text": "Project, transform, audio, and export",
+			"anchor": "project-transform-audio-and-export"
+		},
+		{
+			"level": 2,
+			"text": "Public API",
+			"anchor": "public-api"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		},
+		{
+			"level": 2,
+			"text": "Boundaries",
+			"anchor": "boundaries"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-experiments-awtsmoos-src-movie-directory-guid-f43125d048-001.json"
+	]
+}

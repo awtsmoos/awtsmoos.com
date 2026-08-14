@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-field-guide-publishing-a-va-0e12da53a7",
+	"title": "Field Guide: Publishing a Vacuumed Vector DB",
+	"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/FIELD_GUIDE__PUBLISHING_A_VACUUMED_VECTOR_DB.md",
+	"category": "Data",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Field Guide: Publishing a Vacuumed Vector DB",
+			"anchor": "field-guide-publishing-a-vacuumed-vector-db"
+		},
+		{
+			"level": 2,
+			"text": "Candidate court",
+			"anchor": "candidate-court"
+		},
+		{
+			"level": 2,
+			"text": "API court",
+			"anchor": "api-court"
+		},
+		{
+			"level": 2,
+			"text": "Approval gate",
+			"anchor": "approval-gate"
+		},
+		{
+			"level": 2,
+			"text": "After approved cutover",
+			"anchor": "after-approved-cutover"
+		}
+	],
+	"markdownParts": [
+		"content/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-field-guide-publishing-a-va-0e12da53a7-001.json"
+	]
+}

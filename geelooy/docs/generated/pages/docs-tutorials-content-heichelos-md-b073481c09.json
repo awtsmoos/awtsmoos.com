@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-tutorials-content-heichelos-md-b073481c09",
+	"title": "Heichelos",
+	"sourcePath": "docs/TUTORIALS/CONTENT/HEICHELOS.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Heichelos",
+			"anchor": "heichelos"
+		},
+		{
+			"level": 2,
+			"text": "Observed capabilities",
+			"anchor": "observed-capabilities"
+		},
+		{
+			"level": 2,
+			"text": "Authority",
+			"anchor": "authority"
+		},
+		{
+			"level": 2,
+			"text": "Investigation",
+			"anchor": "investigation"
+		}
+	],
+	"markdownParts": [
+		"content/docs-tutorials-content-heichelos-md-b073481c09-001.json"
+	]
+}

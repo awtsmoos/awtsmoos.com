@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# OAuth API Documentation\n\nThe Awtsmoos lets delegated trust enter by explicit authorization rather than client-declared identity claim;\nAwtsmoos.com maps authorization, clients, token, me, start, logout, and downstream trust in one frame.\n\nRead [../../../docs/API/OAUTH.md](../../../docs/API/OAUTH.md), [../../../docs/API/AUTHENTICATION.md](../../../docs/API/AUTHENTICATION.md), and [../../../docs/SYSTEMS/AUTH_AND_IDENTITY.md](../../../docs/SYSTEMS/AUTH_AND_IDENTITY.md).\n"
+}

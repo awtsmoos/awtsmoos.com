@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-apps-creative-tools-md-004440b16a",
+	"title": "Creative Tools",
+	"sourcePath": "docs/APPS/CREATIVE_TOOLS.md",
+	"category": "Apps",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Creative Tools",
+			"anchor": "creative-tools"
+		},
+		{
+			"level": 2,
+			"text": "Animator — geelooy/apps/animator/",
+			"anchor": "animator-geelooy-apps-animator"
+		},
+		{
+			"level": 2,
+			"text": "Editor — geelooy/apps/editor/",
+			"anchor": "editor-geelooy-apps-editor"
+		},
+		{
+			"level": 2,
+			"text": "Nesher Studio — geelooy/apps/nesher-studio/",
+			"anchor": "nesher-studio-geelooy-apps-nesher-studio"
+		},
+		{
+			"level": 2,
+			"text": "Book Cover Maker — geelooy/apps/bookCoverMaker/",
+			"anchor": "book-cover-maker-geelooy-apps-bookcovermaker"
+		},
+		{
+			"level": 2,
+			"text": "Piano — geelooy/apps/piano/",
+			"anchor": "piano-geelooy-apps-piano"
+		},
+		{
+			"level": 2,
+			"text": "Rebbe — geelooy/apps/rebbe/",
+			"anchor": "rebbe-geelooy-apps-rebbe"
+		},
+		{
+			"level": 2,
+			"text": "Mitzvah Pushkuh — geelooy/apps/mitzvah-pushkuh/",
+			"anchor": "mitzvah-pushkuh-geelooy-apps-mitzvah-pushkuh"
+		},
+		{
+			"level": 2,
+			"text": "Creative maintenance rule",
+			"anchor": "creative-maintenance-rule"
+		}
+	],
+	"markdownParts": [
+		"content/docs-apps-creative-tools-md-004440b16a-001.json"
+	]
+}

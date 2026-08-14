@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-heichel-review-documentation-md-6b72949f89",
+	"title": "Heichel Review Documentation",
+	"sourcePath": "geelooy/heichel-review/DOCUMENTATION.md",
+	"category": "General",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Heichel Review Documentation",
+			"anchor": "heichel-review-documentation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-heichel-review-documentation-md-6b72949f89-001.json"
+	]
+}

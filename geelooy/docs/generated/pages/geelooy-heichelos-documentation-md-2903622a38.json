@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-heichelos-documentation-md-2903622a38",
+	"title": "Heichelos Documentation",
+	"sourcePath": "geelooy/heichelos/DOCUMENTATION.md",
+	"category": "General",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Heichelos Documentation",
+			"anchor": "heichelos-documentation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-heichelos-documentation-md-2903622a38-001.json"
+	]
+}

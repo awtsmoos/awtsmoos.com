@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-api-oauth-md-761cf5e162",
+	"title": "OAuth API",
+	"sourcePath": "docs/API/OAUTH.md",
+	"category": "Security",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "OAuth API",
+			"anchor": "oauth-api"
+		},
+		{
+			"level": 2,
+			"text": "Mount",
+			"anchor": "mount"
+		},
+		{
+			"level": 2,
+			"text": "Current route-table keys",
+			"anchor": "current-route-table-keys"
+		},
+		{
+			"level": 2,
+			"text": "Security boundary",
+			"anchor": "security-boundary"
+		},
+		{
+			"level": 2,
+			"text": "Callers",
+			"anchor": "callers"
+		},
+		{
+			"level": 2,
+			"text": "Exact implementation",
+			"anchor": "exact-implementation"
+		}
+	],
+	"markdownParts": [
+		"content/docs-api-oauth-md-761cf5e162-001.json"
+	]
+}

@@ -1,0 +1,732 @@
+[
+	{
+		"id": "api-admin-code-932e02a2cc",
+		"route": "/api/admin/code",
+		"source": "geelooy/api/admin/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/admin",
+			"title": "Admin",
+			"manual": "docs/TUTORIALS/API/ADMIN.md"
+		},
+		"derech": {
+			"source": "geelooy/api/admin/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/admin"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [
+			"$_POST",
+			"identity"
+		],
+		"statuses": [],
+		"headers": [],
+		"callers": [
+			{
+				"literal": "/api/admin/code",
+				"source": "geelooy/control/app.js",
+				"kind": "runtime"
+			}
+		],
+		"callerCount": 1,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-admin-code-932e02a2cc.md",
+		"confidence": "unknown-method",
+		"related": []
+	},
+	{
+		"id": "api-compiler-android-rebbe-8d84cca1d6",
+		"route": "/api/compiler/android/rebbe",
+		"source": "geelooy/api/compiler/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/compiler",
+			"title": "Compiler",
+			"manual": "docs/TUTORIALS/API/COMPILER.md"
+		},
+		"derech": {
+			"source": "geelooy/api/compiler/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/compiler"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [
+			{
+				"literal": "/api/compiler/android/rebbe",
+				"source": "geelooy/apps/code/js/android/rebbe-apk-client.js",
+				"kind": "runtime"
+			}
+		],
+		"callerCount": 1,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-compiler-android-rebbe-8d84cca1d6.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-compiler-backends-8fe593f696",
+				"route": "/api/compiler/backends"
+			},
+			{
+				"id": "api-compiler-build-437ecdb93f",
+				"route": "/api/compiler/build"
+			}
+		]
+	},
+	{
+		"id": "api-compiler-backends-8fe593f696",
+		"route": "/api/compiler/backends",
+		"source": "geelooy/api/compiler/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/compiler",
+			"title": "Compiler",
+			"manual": "docs/TUTORIALS/API/COMPILER.md"
+		},
+		"derech": {
+			"source": "geelooy/api/compiler/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/compiler"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [
+			{
+				"literal": "/api/compiler/backends",
+				"source": "geelooy/apps/compiler/ui/nativeBuildClient.js",
+				"kind": "runtime"
+			}
+		],
+		"callerCount": 1,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-compiler-backends-8fe593f696.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-compiler-android-rebbe-8d84cca1d6",
+				"route": "/api/compiler/android/rebbe"
+			},
+			{
+				"id": "api-compiler-build-437ecdb93f",
+				"route": "/api/compiler/build"
+			}
+		]
+	},
+	{
+		"id": "api-compiler-build-437ecdb93f",
+		"route": "/api/compiler/build",
+		"source": "geelooy/api/compiler/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/compiler",
+			"title": "Compiler",
+			"manual": "docs/TUTORIALS/API/COMPILER.md"
+		},
+		"derech": {
+			"source": "geelooy/api/compiler/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/compiler"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [
+			{
+				"literal": "/api/compiler/build",
+				"source": "geelooy/apps/compiler/ui/nativeBuildClient.js",
+				"kind": "runtime"
+			}
+		],
+		"callerCount": 1,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-compiler-build-437ecdb93f.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-compiler-android-rebbe-8d84cca1d6",
+				"route": "/api/compiler/android/rebbe"
+			},
+			{
+				"id": "api-compiler-backends-8fe593f696",
+				"route": "/api/compiler/backends"
+			}
+		]
+	},
+	{
+		"id": "api-contact-56bcbbe9cd",
+		"route": "/api/contact",
+		"source": "geelooy/api/contact/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/contact",
+			"title": "Contact",
+			"manual": "docs/TUTORIALS/API/CONTACT.md"
+		},
+		"derech": {
+			"source": "geelooy/api/contact/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/contact"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [
+			"POST"
+		],
+		"methodEvidence": "POST",
+		"vessels": [
+			"$_POST",
+			"db"
+		],
+		"statuses": [],
+		"headers": [
+			"x-forwarded-for"
+		],
+		"callers": [
+			{
+				"literal": "/api/contact/",
+				"source": "geelooy/contact/contact.js",
+				"kind": "runtime"
+			}
+		],
+		"callerCount": 1,
+		"tests": [],
+		"examples": [
+			{
+				"method": "POST",
+				"warning": "Starter only: method evidence is lexical at the source-file level; inspect the handler before relying on payload or response shape.",
+				"curl": "curl -X POST 'https://awtsmoos.com/api/contact' \\\n  -H 'content-type: application/json' \\\n  --data '{}'",
+				"fetch": "const response = await fetch(\"/api/contact\", {\n\tmethod: \"POST\"\n\theaders: { \"content-type\": \"application/json\" },\n\tbody: JSON.stringify({})\n});\nconst result = await response.json();"
+			}
+		],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-contact-56bcbbe9cd.md",
+		"confidence": "source-lexical",
+		"related": [
+			{
+				"id": "api-contact-status-078003efb4",
+				"route": "/api/contact/status"
+			}
+		]
+	},
+	{
+		"id": "api-contact-status-078003efb4",
+		"route": "/api/contact/status",
+		"source": "geelooy/api/contact/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/contact",
+			"title": "Contact",
+			"manual": "docs/TUTORIALS/API/CONTACT.md"
+		},
+		"derech": {
+			"source": "geelooy/api/contact/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/contact"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [
+			"POST"
+		],
+		"methodEvidence": "POST",
+		"vessels": [
+			"$_POST",
+			"db"
+		],
+		"statuses": [],
+		"headers": [
+			"x-forwarded-for"
+		],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [],
+		"examples": [
+			{
+				"method": "POST",
+				"warning": "Starter only: method evidence is lexical at the source-file level; inspect the handler before relying on payload or response shape.",
+				"curl": "curl -X POST 'https://awtsmoos.com/api/contact/status' \\\n  -H 'content-type: application/json' \\\n  --data '{}'",
+				"fetch": "const response = await fetch(\"/api/contact/status\", {\n\tmethod: \"POST\"\n\theaders: { \"content-type\": \"application/json\" },\n\tbody: JSON.stringify({})\n});\nconst result = await response.json();"
+			}
+		],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-contact-status-078003efb4.md",
+		"confidence": "source-lexical",
+		"related": [
+			{
+				"id": "api-contact-56bcbbe9cd",
+				"route": "/api/contact"
+			}
+		]
+	},
+	{
+		"id": "api-email-f77f0430fe",
+		"route": "/api/email",
+		"source": "geelooy/api/email/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/email",
+			"title": "Email",
+			"manual": "docs/TUTORIALS/API/EMAIL.md"
+		},
+		"derech": {
+			"source": "geelooy/api/email/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/email"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [
+			{
+				"name": "emailTest",
+				"command": "node ayzarim/email/emailTest.js"
+			}
+		],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-email-f77f0430fe.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-email-email-21dde810a8",
+				"route": "/api/email/email"
+			}
+		]
+	},
+	{
+		"id": "api-email-email-21dde810a8",
+		"route": "/api/email/email",
+		"source": "geelooy/api/email/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/email",
+			"title": "Email",
+			"manual": "docs/TUTORIALS/API/EMAIL.md"
+		},
+		"derech": {
+			"source": "geelooy/api/email/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/email"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [
+			{
+				"name": "emailTest",
+				"command": "node ayzarim/email/emailTest.js"
+			}
+		],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-email-email-21dde810a8.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-email-f77f0430fe",
+				"route": "/api/email"
+			}
+		]
+	},
+	{
+		"id": "api-even-asd-more-rt-k-0e23c6ff58",
+		"route": "/api/even/:asd/more/:rt/k",
+		"source": "geelooy/api/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api",
+			"title": "API Root",
+			"manual": "docs/TUTORIALS/API/ROOT_API.md"
+		},
+		"derech": {
+			"source": "geelooy/api/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api"
+		},
+		"dynamic": true,
+		"pathParameters": [
+			{
+				"name": "asd",
+				"catchAll": false
+			},
+			{
+				"name": "rt",
+				"catchAll": false
+			}
+		],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [
+			"route-vars"
+		],
+		"statuses": [],
+		"headers": [
+			"Access-Control-Allow-Origin"
+		],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [
+			{
+				"name": "test",
+				"command": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover"
+			},
+			{
+				"name": "test:dayuh-release",
+				"command": "npm run test:routes && npm run test:comments && npm run test:social-content && npm run test:social-packed && npm run test:packed-engine && node --test tools/dayuhChadashMaintenance/test/*.test.js && npm run test:dayuh-cutover"
+			},
+			{
+				"name": "test:routes",
+				"command": "node geelooy/api/social/test/routeCoverage.test.js"
+			}
+		],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-even-asd-more-rt-k-0e23c6ff58.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-what-are-you-doing-43227e74be",
+				"route": "/api/what/:are/you/:doing"
+			},
+			{
+				"id": "api-wow-asd-asd-rt-k-3fe992d4a2",
+				"route": "/api/wow/:asd/asd/:rt/k"
+			}
+		]
+	},
+	{
+		"id": "api-fetch-9837786494",
+		"route": "/api/fetch",
+		"source": "geelooy/api/fetch/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/fetch",
+			"title": "Fetch Proxy",
+			"manual": "docs/TUTORIALS/API/FETCH.md"
+		},
+		"derech": {
+			"source": "geelooy/api/fetch/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/fetch"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [
+			"$_POST",
+			"headers",
+			"cookies",
+			"identity"
+		],
+		"statuses": [
+			"400",
+			"401",
+			"403",
+			"429"
+		],
+		"headers": [],
+		"callers": [
+			{
+				"literal": "/api/fetch",
+				"source": "geelooy/scripts/tricks/jem/script.js",
+				"kind": "runtime"
+			}
+		],
+		"callerCount": 1,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-fetch-9837786494.md",
+		"confidence": "unknown-method",
+		"related": []
+	},
+	{
+		"id": "api-gpt-d048698bbd",
+		"route": "/api/gpt",
+		"source": "geelooy/api/gpt/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/gpt",
+			"title": "GPT",
+			"manual": "docs/TUTORIALS/API/GPT.md"
+		},
+		"derech": {
+			"source": "geelooy/api/gpt/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/gpt"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [
+			{
+				"literal": "/api/gpt",
+				"source": "geelooy/ai/js/chatgpt/api/GptApiClient.js",
+				"kind": "runtime"
+			},
+			{
+				"literal": "/api/gpt",
+				"source": "geelooy/ai/js/chatgpt/api/GptApiTransport.js",
+				"kind": "runtime"
+			}
+		],
+		"callerCount": 2,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-gpt-d048698bbd.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-gpt-capability-64cc6e59cc",
+				"route": "/api/gpt/capability"
+			},
+			{
+				"id": "api-gpt-chat-04ca454293",
+				"route": "/api/gpt/chat"
+			},
+			{
+				"id": "api-gpt-health-3da27f3934",
+				"route": "/api/gpt/health"
+			},
+			{
+				"id": "api-gpt-reset-cde51acb79",
+				"route": "/api/gpt/reset"
+			}
+		]
+	},
+	{
+		"id": "api-gpt-capability-64cc6e59cc",
+		"route": "/api/gpt/capability",
+		"source": "geelooy/api/gpt/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/gpt",
+			"title": "GPT",
+			"manual": "docs/TUTORIALS/API/GPT.md"
+		},
+		"derech": {
+			"source": "geelooy/api/gpt/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/gpt"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-gpt-capability-64cc6e59cc.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-gpt-d048698bbd",
+				"route": "/api/gpt"
+			},
+			{
+				"id": "api-gpt-chat-04ca454293",
+				"route": "/api/gpt/chat"
+			},
+			{
+				"id": "api-gpt-health-3da27f3934",
+				"route": "/api/gpt/health"
+			},
+			{
+				"id": "api-gpt-reset-cde51acb79",
+				"route": "/api/gpt/reset"
+			}
+		]
+	},
+	{
+		"id": "api-gpt-chat-04ca454293",
+		"route": "/api/gpt/chat",
+		"source": "geelooy/api/gpt/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/gpt",
+			"title": "GPT",
+			"manual": "docs/TUTORIALS/API/GPT.md"
+		},
+		"derech": {
+			"source": "geelooy/api/gpt/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/gpt"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-gpt-chat-04ca454293.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-gpt-d048698bbd",
+				"route": "/api/gpt"
+			},
+			{
+				"id": "api-gpt-capability-64cc6e59cc",
+				"route": "/api/gpt/capability"
+			},
+			{
+				"id": "api-gpt-health-3da27f3934",
+				"route": "/api/gpt/health"
+			},
+			{
+				"id": "api-gpt-reset-cde51acb79",
+				"route": "/api/gpt/reset"
+			}
+		]
+	},
+	{
+		"id": "api-gpt-health-3da27f3934",
+		"route": "/api/gpt/health",
+		"source": "geelooy/api/gpt/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/gpt",
+			"title": "GPT",
+			"manual": "docs/TUTORIALS/API/GPT.md"
+		},
+		"derech": {
+			"source": "geelooy/api/gpt/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/gpt"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-gpt-health-3da27f3934.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-gpt-d048698bbd",
+				"route": "/api/gpt"
+			},
+			{
+				"id": "api-gpt-capability-64cc6e59cc",
+				"route": "/api/gpt/capability"
+			},
+			{
+				"id": "api-gpt-chat-04ca454293",
+				"route": "/api/gpt/chat"
+			},
+			{
+				"id": "api-gpt-reset-cde51acb79",
+				"route": "/api/gpt/reset"
+			}
+		]
+	},
+	{
+		"id": "api-gpt-reset-cde51acb79",
+		"route": "/api/gpt/reset",
+		"source": "geelooy/api/gpt/_awtsmoos.derech.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/gpt",
+			"title": "GPT",
+			"manual": "docs/TUTORIALS/API/GPT.md"
+		},
+		"derech": {
+			"source": "geelooy/api/gpt/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/gpt"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-gpt-reset-cde51acb79.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-gpt-d048698bbd",
+				"route": "/api/gpt"
+			},
+			{
+				"id": "api-gpt-capability-64cc6e59cc",
+				"route": "/api/gpt/capability"
+			},
+			{
+				"id": "api-gpt-chat-04ca454293",
+				"route": "/api/gpt/chat"
+			},
+			{
+				"id": "api-gpt-health-3da27f3934",
+				"route": "/api/gpt/health"
+			}
+		]
+	}
+]

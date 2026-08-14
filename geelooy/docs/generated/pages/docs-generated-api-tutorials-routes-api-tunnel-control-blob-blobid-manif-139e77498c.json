@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-generated-api-tutorials-routes-api-tunnel-control-blob-blobid-manif-139e77498c",
+	"title": "API Tutorial: /api/tunnel/control/blob/:blobId/manifest",
+	"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-blob-blobid-manifest-149c528422.md",
+	"category": "Tunnel",
+	"provenance": "generated",
+	"headings": [
+		{
+			"level": 1,
+			"text": "API Tutorial: /api/tunnel/control/blob/:blobId/manifest",
+			"anchor": "api-tutorial-api-tunnel-control-blob-blobid-manifest"
+		},
+		{
+			"level": 2,
+			"text": "Contract evidence",
+			"anchor": "contract-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Path parameters",
+			"anchor": "path-parameters"
+		},
+		{
+			"level": 2,
+			"text": "Starter call",
+			"anchor": "starter-call"
+		},
+		{
+			"level": 2,
+			"text": "Observed callers",
+			"anchor": "observed-callers"
+		},
+		{
+			"level": 2,
+			"text": "Related tests",
+			"anchor": "related-tests"
+		},
+		{
+			"level": 2,
+			"text": "Related routes",
+			"anchor": "related-routes"
+		}
+	],
+	"markdownParts": [
+		"content/docs-generated-api-tutorials-routes-api-tunnel-control-blob-blobid-manif-139e77498c-001.json"
+	]
+}

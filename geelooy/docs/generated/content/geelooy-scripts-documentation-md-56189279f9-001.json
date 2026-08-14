@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Public Script Runtime Documentation\n\nThe Awtsmoos lets many pages share parser, runtime, utility, and browser logic, multiplying every consequence of a common line;\nAwtsmoos.com maps this large script district beside shared libraries so maintainers trace importers before they redesign.\n\nRead [../../docs/SYSTEMS/SHARED_LIBRARIES.md](../../docs/SYSTEMS/SHARED_LIBRARIES.md), [../../docs/ARCHITECTURE.md](../../docs/ARCHITECTURE.md), and [../../docs/TEST_INDEX.md](../../docs/TEST_INDEX.md).\n"
+}

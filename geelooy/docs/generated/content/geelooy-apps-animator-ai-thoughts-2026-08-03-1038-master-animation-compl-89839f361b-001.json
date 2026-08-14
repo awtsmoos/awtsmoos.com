@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\n\n# Final Execution Plan\n\n## Actual files intended for writing\n\n- This checkpoint's planning and ledger files.\n- Product source/test/render files only when a live defect is proven by direct evidence.\n- No speculative rewrites.\n\n## Execution order\n\n1. Baseline status, source graph, proof inventory, current checkpoints.\n2. Sequential specialist agent dispatch and structured receipts.\n3. Independent master verification of findings.\n4. Complete-file repairs for proven defects.\n5. Focused tests and readback.\n6. Browser production render and console review.\n7. One-minute render/export and metadata verification.\n8. Exact scale courts: 320×320, 180×300, 512×512, 1536×864.\n9. Full repository verification.\n10. Compliance and delta audit.\n11. Final completion challenge.\n12. Close only with empty remaining work and `NEXT_ACTION: None`.\n"
+}

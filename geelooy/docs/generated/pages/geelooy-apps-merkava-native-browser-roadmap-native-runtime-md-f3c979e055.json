@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-merkava-native-browser-roadmap-native-runtime-md-f3c979e055",
+	"title": "B\"H",
+	"sourcePath": "geelooy/apps/merkava-native-browser/ROADMAP_NATIVE_RUNTIME.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Merkava Native Browser Reality Map",
+			"anchor": "merkava-native-browser-reality-map"
+		},
+		{
+			"level": 2,
+			"text": "Proven now",
+			"anchor": "proven-now"
+		},
+		{
+			"level": 2,
+			"text": "Architectural correction",
+			"anchor": "architectural-correction"
+		},
+		{
+			"level": 2,
+			"text": "Startup target",
+			"anchor": "startup-target"
+		},
+		{
+			"level": 2,
+			"text": "Forbidden architecture",
+			"anchor": "forbidden-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Immediate pressure points",
+			"anchor": "immediate-pressure-points"
+		},
+		{
+			"level": 2,
+			"text": "Rule",
+			"anchor": "rule"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-merkava-native-browser-roadmap-native-runtime-md-f3c979e055-001.json"
+	]
+}

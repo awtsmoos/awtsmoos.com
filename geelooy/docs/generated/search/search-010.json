@@ -1,0 +1,272 @@
+[
+	{
+		"id": "docs-apps-creative-tools-md-004440b16a",
+		"title": "Creative Tools",
+		"sourcePath": "docs/APPS/CREATIVE_TOOLS.md",
+		"category": "Apps",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Creative Tools",
+				"anchor": "creative-tools"
+			},
+			{
+				"level": 2,
+				"text": "Animator — geelooy/apps/animator/",
+				"anchor": "animator-geelooy-apps-animator"
+			},
+			{
+				"level": 2,
+				"text": "Editor — geelooy/apps/editor/",
+				"anchor": "editor-geelooy-apps-editor"
+			},
+			{
+				"level": 2,
+				"text": "Nesher Studio — geelooy/apps/nesher-studio/",
+				"anchor": "nesher-studio-geelooy-apps-nesher-studio"
+			},
+			{
+				"level": 2,
+				"text": "Book Cover Maker — geelooy/apps/bookCoverMaker/",
+				"anchor": "book-cover-maker-geelooy-apps-bookcovermaker"
+			},
+			{
+				"level": 2,
+				"text": "Piano — geelooy/apps/piano/",
+				"anchor": "piano-geelooy-apps-piano"
+			},
+			{
+				"level": 2,
+				"text": "Rebbe — geelooy/apps/rebbe/",
+				"anchor": "rebbe-geelooy-apps-rebbe"
+			},
+			{
+				"level": 2,
+				"text": "Mitzvah Pushkuh — geelooy/apps/mitzvah-pushkuh/",
+				"anchor": "mitzvah-pushkuh-geelooy-apps-mitzvah-pushkuh"
+			},
+			{
+				"level": 2,
+				"text": "Creative maintenance rule",
+				"anchor": "creative-maintenance-rule"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Creative Tools The Awtsmoos gives image, world, sound, motion, and layout a vessel that can be shaped; Awtsmoos.com keeps creative apps grouped by intent while their individual source remains separately mapped. Animator — geelooy/apps/animator/ One of the largest apps in the tree, titled",
+		"searchText": "b\"h boruch hashem blessed is he creative tools the awtsmoos gives image, world, sound, motion, and layout a vessel that can be shaped; awtsmoos.com keeps creative apps grouped by intent while their individual source remains separately mapped. animator — geelooy/apps/animator/ one of the largest apps in the tree, titled “awtsmoos park engine — b\"h” in current html metadata. treat it as a substantial engine/project with its own internal subsystems rather than a small utility. editor — geelooy/apps/editor/ titled “mitzvah world animator.” it sits near game/world creation and should be traced with mitzvah world/game engine source when changing scene/runtime semantics. nesher studio — geelooy/apps/nesher studio/ a large studio project with hundreds of files. inspect its local readme/entry files and integrations before assuming shared behavior with the generic editor. book cover maker — geelooy/apps/bookcovermaker/ focused cover generation tool. piano — geelooy/apps/piano/ interactive music/instrument application. rebbe — geelooy/apps/rebbe/ a substantial named app. compiler apis also contain an android/rebbe route family, so changes may cross frontend/backend boundaries. mitzvah pushkuh — geelooy/apps/mitzvah pushkuh/ a significant project by file count; inspect its own entry/readme/source before assigning narrower semantics than the source demonstrates. creative maintenance rule many creative tools ship assets, workers, engines, or nested modules that make file count misleading. start at the app entry/readme and trace runtime imports before refactoring or documenting a new feature.",
+		"page": "pages/docs-apps-creative-tools-md-004440b16a.json"
+	},
+	{
+		"id": "docs-apps-developer-tools-md-f8a15cd8a2",
+		"title": "Developer Tools",
+		"sourcePath": "docs/APPS/DEVELOPER_TOOLS.md",
+		"category": "Apps",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Developer Tools",
+				"anchor": "developer-tools"
+			},
+			{
+				"level": 2,
+				"text": "Awtsmoos Code — geelooy/apps/code/",
+				"anchor": "awtsmoos-code-geelooy-apps-code"
+			},
+			{
+				"level": 2,
+				"text": "Awtsmoos Compiler — geelooy/apps/compiler/",
+				"anchor": "awtsmoos-compiler-geelooy-apps-compiler"
+			},
+			{
+				"level": 2,
+				"text": "Merkava Native Browser — geelooy/apps/merkava-native-browser/",
+				"anchor": "merkava-native-browser-geelooy-apps-merkava-native-browser"
+			},
+			{
+				"level": 2,
+				"text": "Archive Uploader — geelooy/apps/archive-uploader/",
+				"anchor": "archive-uploader-geelooy-apps-archive-uploader"
+			},
+			{
+				"level": 2,
+				"text": "Byte Viewer — geelooy/apps/byteViewer/",
+				"anchor": "byte-viewer-geelooy-apps-byteviewer"
+			},
+			{
+				"level": 2,
+				"text": "CSV — geelooy/apps/csv/",
+				"anchor": "csv-geelooy-apps-csv"
+			},
+			{
+				"level": 2,
+				"text": "GGUF/model developer tooling",
+				"anchor": "gguf-model-developer-tooling"
+			},
+			{
+				"level": 2,
+				"text": "Backend map",
+				"anchor": "backend-map"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Developer Tools The Awtsmoos gives the builder editor, compiler, byte, browser, and native gate; Awtsmoos.com gathers these tools so source can be shaped without confusing one runtime for its mate. Awtsmoos Code — geelooy/apps/code/ A large code/developer application (over a thousand fil",
+		"searchText": "b\"h boruch hashem blessed is he developer tools the awtsmoos gives the builder editor, compiler, byte, browser, and native gate; awtsmoos.com gathers these tools so source can be shaped without confusing one runtime for its mate. awtsmoos code — geelooy/apps/code/ a large code/developer application (over a thousand files in the current immediate inventory). it should be treated as a major project. related backend families can include compiler, native runtime, ssh, tunnel control, and ai depending on the feature being changed. when changing code, search both exact api strings and shared libraries because developer actions may be built through adapters rather than hard coded endpoint literals. awtsmoos compiler — geelooy/apps/compiler/ frontend/compiler project paired with /api/compiler and related native/runtime flows. the api source exposes android/rebbe, backends, and build oriented behavior. merkava native browser — geelooy/apps/merkava native browser/ a native browser/developer runtime project. trace its runtime bridges before assuming it is an ordinary static browser app. archive uploader — geelooy/apps/archive uploader/ a small, focused upload tool. inspect destination/provider code before changing payload/credential behavior. byte viewer — geelooy/apps/byteviewer/ hex/byte inspection utility, titled “hex viewer of the awtsmoos” in the current html metadata. csv — geelooy/apps/csv/ grid/data utility titled “awtsmoos native grid.” gguf/model developer tooling geelooy/apps/awtsmoos gguf/ is a substantial gguf chat/metadata tool and belongs at the border of developer tooling and ai. see ../systems/ai.md. backend map compile/build → /api/compiler/ ; native launch/status → /api/runtime/native/ ; remote host/file operations → /api/ssh/ ; ai chat/capability → /api/gpt/ ; remote device/control → /api/tunnel/ . always locate the exact caller before changing a backend contract.",
+		"page": "pages/docs-apps-developer-tools-md-f8a15cd8a2.json"
+	},
+	{
+		"id": "docs-apps-games-and-simulation-md-538ae8cf40",
+		"title": "Games and Simulation",
+		"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+		"category": "Games",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Games and Simulation",
+				"anchor": "games-and-simulation"
+			},
+			{
+				"level": 2,
+				"text": "Main game district — geelooy/games/",
+				"anchor": "main-game-district-geelooy-games"
+			},
+			{
+				"level": 2,
+				"text": "Game launcher — geelooy/game/",
+				"anchor": "game-launcher-geelooy-game"
+			},
+			{
+				"level": 2,
+				"text": "Animator / Park Engine",
+				"anchor": "animator-park-engine"
+			},
+			{
+				"level": 2,
+				"text": "Android Emulator — geelooy/apps/android-emulator/",
+				"anchor": "android-emulator-geelooy-apps-android-emulator"
+			},
+			{
+				"level": 2,
+				"text": "EXE Emulator — geelooy/apps/exe-emulator/",
+				"anchor": "exe-emulator-geelooy-apps-exe-emulator"
+			},
+			{
+				"level": 2,
+				"text": "Mitzvah World Editor",
+				"anchor": "mitzvah-world-editor"
+			},
+			{
+				"level": 2,
+				"text": "WebSocket plane",
+				"anchor": "websocket-plane"
+			},
+			{
+				"level": 2,
+				"text": "Direct report plane",
+				"anchor": "direct-report-plane"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Games and Simulation The Awtsmoos gives worlds rules, motion, input, and story until a browser becomes a place; Awtsmoos.com contains both game content and engine/server systems, so trace both sides of the space. Main game district — geelooy/games/ This is one of the largest public trees",
+		"searchText": "b\"h boruch hashem blessed is he games and simulation the awtsmoos gives worlds rules, motion, input, and story until a browser becomes a place; awtsmoos.com contains both game content and engine/server systems, so trace both sides of the space. main game district — geelooy/games/ this is one of the largest public trees (thousands of files) and represents many worlds/games rather than one project. use the directory itself for the full current list. notable runtime evidence elsewhere includes mitzvah world direct autoplay report handlers and websocket applications such as sefira clash. game launcher — geelooy/game/ a small public launch surface titled “opening mitzvah world…” in the current metadata. animator / park engine geelooy/apps/animator/ is a large engine/application and overlaps simulation/world authoring concerns. android emulator — geelooy/apps/android emulator/ large emulator project with over a thousand files in the current immediate inventory. exe emulator — geelooy/apps/exe emulator/ large browser emulator project with hundreds of files. mitzvah world editor geelooy/apps/editor/ is titled “mitzvah world animator” and belongs with world authoring workflows. websocket plane online/multiplayer/realtime game behavior may live under ayzarim/awtsmoosdynamicserver/websocket/apps/, not solely inside geelooy/games. inspect both sides when changing network protocol or session behavior. direct report plane root index.js handles mitzvah world autoplay ping/report routes before the derech server. report material is stored beneath geelooy/games/mitzvahworld/reports/autoplay. see ../api/direct root handlers.md.",
+		"page": "pages/docs-apps-games-and-simulation-md-538ae8cf40.json"
+	},
+	{
+		"id": "docs-apps-media-tools-md-08e4b1c7d3",
+		"title": "Media Tools",
+		"sourcePath": "docs/APPS/MEDIA_TOOLS.md",
+		"category": "Apps",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Media Tools",
+				"anchor": "media-tools"
+			},
+			{
+				"level": 2,
+				"text": "Browser-level media surfaces outside apps/",
+				"anchor": "browser-level-media-surfaces-outside-apps"
+			},
+			{
+				"level": 2,
+				"text": "Audio Editor — geelooy/apps/audio-editor/",
+				"anchor": "audio-editor-geelooy-apps-audio-editor"
+			},
+			{
+				"level": 2,
+				"text": "Video Editor — geelooy/apps/video-editor/",
+				"anchor": "video-editor-geelooy-apps-video-editor"
+			},
+			{
+				"level": 2,
+				"text": "Captions — geelooy/apps/captions/",
+				"anchor": "captions-geelooy-apps-captions"
+			},
+			{
+				"level": 2,
+				"text": "Transcribe — geelooy/apps/transcribe/",
+				"anchor": "transcribe-geelooy-apps-transcribe"
+			},
+			{
+				"level": 2,
+				"text": "Lyric Sync — geelooy/apps/lyric-sync/",
+				"anchor": "lyric-sync-geelooy-apps-lyric-sync"
+			},
+			{
+				"level": 2,
+				"text": "Broadcaster — geelooy/apps/broadcaster/",
+				"anchor": "broadcaster-geelooy-apps-broadcaster"
+			},
+			{
+				"level": 2,
+				"text": "PDF and image utilities",
+				"anchor": "pdf-and-image-utilities"
+			},
+			{
+				"level": 2,
+				"text": "Related APIs",
+				"anchor": "related-apis"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Media Tools The Awtsmoos lets voice, image, caption, video, and stream take form in time; Awtsmoos.com gathers media tools here while provider APIs keep their own contract line. Browser level media surfaces outside apps/ geelooy/ayin/ — “Real Awtsmoos Recorder.” geelooy/record/ — camera ",
+		"searchText": "b\"h boruch hashem blessed is he media tools the awtsmoos lets voice, image, caption, video, and stream take form in time; awtsmoos.com gathers media tools here while provider apis keep their own contract line. browser level media surfaces outside apps/ geelooy/ayin/ — “real awtsmoos recorder.” geelooy/record/ — camera preview/recording surface. geelooy/recorder/ — “local recorder.” geelooy/youtube/ — awtsmoos youtube manager. audio editor — geelooy/apps/audio editor/ focused professional audio editing ui. video editor — geelooy/apps/video editor/ focused video editing ui. captions — geelooy/apps/captions/ a sizable caption oriented application, currently titled “ein sof engine [quantum core v2.5]”. transcribe — geelooy/apps/transcribe/ focused transcription tool. lyric sync — geelooy/apps/lyric sync/ lyric/timing synchronization tool. broadcaster — geelooy/apps/broadcaster/ broadcast/stream oriented client; inspect connector usage when changing provider behavior. pdf and image utilities pdf to img and watermark remover are focused conversion/image utilities. related apis /api/youtube/ — auth/channel/video/upload/live management. /api/streaming/ — connector/action dispatch for streaming providers. /api/fetch/ — guarded remote fetch where media tools need server side retrieval. provider credentials and upload/stream state are backend sensitive; do not encode them into static documentation or client source.",
+		"page": "pages/docs-apps-media-tools-md-08e4b1c7d3.json"
+	},
+	{
+		"id": "docs-apps-readme-md-0951719bae",
+		"title": "Awtsmoos Applications",
+		"sourcePath": "docs/APPS/README.md",
+		"category": "Apps",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Applications",
+				"anchor": "awtsmoos-applications"
+			},
+			{
+				"level": 2,
+				"text": "Choose an app family",
+				"anchor": "choose-an-app-family"
+			},
+			{
+				"level": 2,
+				"text": "Immediate projects observed",
+				"anchor": "immediate-projects-observed"
+			},
+			{
+				"level": 2,
+				"text": "Existing specialist documentation",
+				"anchor": "existing-specialist-documentation"
+			},
+			{
+				"level": 2,
+				"text": "When an app deserves its own new page",
+				"anchor": "when-an-app-deserves-its-own-new-page"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Applications The Awtsmoos clothes creative power in many tools, each app a chamber with its own door; Awtsmoos.com keeps the inventory generated below while these pages explain what each family is for. geelooy/apps/ is a large application district. The current immediate director",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos applications the awtsmoos clothes creative power in many tools, each app a chamber with its own door; awtsmoos.com keeps the inventory generated below while these pages explain what each family is for. geelooy/apps/ is a large application district. the current immediate directory inventory is generated at ../generated/app inventory.md. choose an app family developer tools.md — code, compiler, native browser/runtime, archive/byte/csv tooling. tunnel and runtime.md — tunnel, tunnel control, remote/runtime oriented apps. creative tools.md — animator/editor/studio/design/creative surfaces. media tools.md — audio, video, captions, transcription, pdf/image and lyric tools. games and simulation.md — emulators, engines, mitzvah/world/game creation. commerce and wallet.md — wallet and value/economy adjacent products. immediate projects observed notable directories include android emulator, animator, archive uploader, audio editor, awtsmoos gguf, bookcovermaker, broadcaster, byteviewer, captions, code, compiler, csv, drive, editor, exe emulator, gpt api pulse garden, lyric sync, merkava native browser, mitzvah pushkuh, nesher studio, pdf to img, piano, rebbe, transcribe, tunnel, tunnel control, video editor, virtual os stress light counter, wallet, and watermark remover. the generated inventory is the authority for the current directory list and file counts; this human page groups projects by intent. existing specialist documentation awtsmoos drive already has dedicated documentation under docs/drive/. tunnel also has specialist material under docs/tunnel/. those documents are preserved and should be read alongside these project family maps. when an app deserves its own new page create a dedicated docs/apps/ .md when the app develops a distinct backend contract, deployment model, large architecture, or maintenance workflow that is too detailed for the family page. do not create a separate page merely because a helper folder exists.",
+		"page": "pages/docs-apps-readme-md-0951719bae.json"
+	}
+]

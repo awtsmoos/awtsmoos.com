@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-gpt-documentation-md-c61289d41a",
+	"title": "GPT API Documentation",
+	"sourcePath": "geelooy/api/gpt/DOCUMENTATION.md",
+	"category": "API",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "GPT API Documentation",
+			"anchor": "gpt-api-documentation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-gpt-documentation-md-c61289d41a-001.json"
+	]
+}

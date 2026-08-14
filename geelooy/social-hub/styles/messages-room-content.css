@@ -1,0 +1,82 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets bounded private history and one proven text composer remain readable, scrollable, and mobile-safe without inventing unproven message metadata.
+*/
+.hubConversationMessages {
+	display: grid;
+	align-content: start;
+	gap: .65rem;
+	min-height: 0;
+	max-height: min(56dvh, 42rem);
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	padding: .15rem .1rem .8rem;
+}
+
+.hubConversationMessage {
+	display: grid;
+	gap: .3rem;
+	padding: .75rem .8rem;
+	border: 1px solid var(--line);
+	border-radius: .9rem;
+	background: var(--surface-strong);
+}
+
+.hubConversationMessage p,
+.hubConversationMessage small {
+	margin: 0;
+}
+
+.hubConversationMessage p {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.hubConversationMessage small {
+	color: var(--muted);
+}
+
+.hubConversationComposer {
+	position: sticky;
+	bottom: 0;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: .55rem;
+	padding: .65rem 0 calc(.65rem + env(safe-area-inset-bottom));
+	background: var(--surface);
+}
+
+.hubConversationComposer textarea {
+	width: 100%;
+	min-height: 3rem;
+	resize: vertical;
+	font: inherit;
+	font-size: 1rem;
+}
+
+.hubConversationComposer button {
+	min-height: 2.8rem;
+	padding: .6rem 1rem;
+	border: 1px solid var(--line-hot);
+	border-radius: .75rem;
+	background: var(--surface-strong);
+	color: var(--ink);
+	font: inherit;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+@media (max-width: 42rem) {
+	.hubConversationMessages {
+		max-height: none;
+	}
+
+	.hubConversationComposer {
+		grid-template-columns: 1fr;
+	}
+
+	.hubConversationComposer button {
+		min-height: 3rem;
+	}
+}

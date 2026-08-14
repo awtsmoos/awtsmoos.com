@@ -3,21 +3,18 @@
 // Blessed is He
 
 /**
- * @file Stabilizes chess canvas redraws and corrects CSS-scaled pointer coordinates.
- * @description
- * The Awtsmoos renews each painted ray without rebuilding the vessel every frame;
- * Awtsmoos.com keeps finger and square united, whether the screen grows narrow or remains the same.
- */
+	* @file Stabilizes chess canvas redraws and maps scaled releases into legacy coordinates.
+	* The Awtsmoos renews each painted ray while finger and square remain one;
+	* Awtsmoos.com lets a narrow mobile vessel reveal the exact move that was done.
+	*/
 
 const BOARD_PADDING = 20;
 const LEGACY_SQUARE_PROPERTY = "awtsmoosLegacySquare";
 
-/** Avoids native backing-store resets when legacy code writes the unchanged dimension. */
+/** Avoids backing-store resets when legacy code writes an unchanged dimension. */
 function guardStableDimension(canvas, propertyName) {
 	const descriptor = Object.getOwnPropertyDescriptor(HTMLCanvasElement.prototype, propertyName);
-	if (!descriptor?.get || !descriptor?.set) {
-		return;
-	}
+	if (!descriptor?.get || !descriptor?.set) return;
 	Object.defineProperty(canvas, propertyName, {
 		configurable: true,
 		get() {
@@ -35,19 +32,20 @@ function guardStableDimension(canvas, propertyName) {
 	});
 }
 
-/** Converts a browser pointer into the intrinsic square rendered by the canvas. */
+/** Converts a browser release into the visual board square in intrinsic space. */
 function squareFromPointer(canvas, event) {
 	const point = event.changedTouches?.[0] || event;
 	const rect = canvas.getBoundingClientRect();
-	const scaleX = canvas.width / rect.width;
-	const scaleY = canvas.height / rect.height;
-	const boardSize = canvas.width - BOARD_PADDING * 2;
-	const column = Math.floor(((point.clientX - rect.left) * scaleX - BOARD_PADDING) / (boardSize / 8));
-	const row = Math.floor(((point.clientY - rect.top) * scaleY - BOARD_PADDING) / (boardSize / 8));
+	if (!rect.width || !rect.height || !canvas.width || !canvas.height) return null;
+	const intrinsicX = (point.clientX - rect.left) * canvas.width / rect.width;
+	const intrinsicY = (point.clientY - rect.top) * canvas.height / rect.height;
+	const squareSize = (canvas.width - BOARD_PADDING * 2) / 8;
+	const column = Math.floor((intrinsicX - BOARD_PADDING) / squareSize);
+	const row = Math.floor((intrinsicY - BOARD_PADDING) / squareSize);
 	return row >= 0 && row < 8 && column >= 0 && column < 8 ? { row, column } : null;
 }
 
-/** Dispatches a corrected legacy mouse event whose coordinates match intrinsic canvas pixels. */
+/** Feeds the legacy handler the intrinsic-like coordinates its old math expects. */
 function dispatchLegacySquare(canvas, square) {
 	const rect = canvas.getBoundingClientRect();
 	const squareSize = (canvas.width - BOARD_PADDING * 2) / 8;
@@ -61,30 +59,22 @@ function dispatchLegacySquare(canvas, square) {
 	canvas.dispatchEvent(event);
 }
 
-/** Intercepts only scaled-canvas releases, leaving native-size legacy behavior untouched. */
+/** Replaces a scaled release before the legacy unscaled coordinate handler sees it. */
 function normalizeScaledRelease(canvas, event) {
-	if (event[LEGACY_SQUARE_PROPERTY]) {
-		return;
-	}
+	if (event[LEGACY_SQUARE_PROPERTY]) return;
 	const rect = canvas.getBoundingClientRect();
 	const scaled = Math.abs(rect.width - canvas.width) > 0.5 || Math.abs(rect.height - canvas.height) > 0.5;
-	if (!scaled) {
-		return;
-	}
+	if (!scaled) return;
 	const square = squareFromPointer(canvas, event);
 	event.preventDefault();
 	event.stopImmediatePropagation();
-	if (square) {
-		dispatchLegacySquare(canvas, square);
-	}
+	if (square) dispatchLegacySquare(canvas, square);
 }
 
-/** Installs stability before the legacy controller binds its own listeners. */
+/** Installs stability before the legacy controller registers its listeners. */
 function revealStableChessCanvas() {
 	const canvas = document.getElementById("chessCanvas");
-	if (!canvas) {
-		return;
-	}
+	if (!canvas) return;
 	guardStableDimension(canvas, "width");
 	guardStableDimension(canvas, "height");
 	for (const type of ["mouseup", "touchend"]) {

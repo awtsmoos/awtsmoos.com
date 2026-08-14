@@ -1,0 +1,712 @@
+[
+	{
+		"projectId": "geelooy-api-tunnel-df787c17",
+		"path": "geelooy/api/tunnel",
+		"type": "api",
+		"family": {
+			"id": "apis",
+			"title": "API Projects"
+		},
+		"title": "geelooy/api/tunnel",
+		"entries": [
+			"_awtsmoos.derech.js",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-tunnel-df787c17.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/api/tunnel/DOCUMENTATION.md",
+				"documentId": "geelooy-api-tunnel-documentation-md-ddc3c1d7e8"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APIS.md",
+				"documentId": "docs-tutorials-projects-apis-md-030810cad3"
+			},
+			{
+				"sourcePath": "docs/API/README.md",
+				"documentId": "docs-api-readme-md-3e0443943b"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 231,
+			"tests": 91,
+			"assets": 0,
+			"generated": 0,
+			"docs": 7,
+			"other": 0
+		},
+		"totalFiles": 329,
+		"symbolSummary": {
+			"files": 231,
+			"classes": 5,
+			"functions": 1019,
+			"exports": 751,
+			"samples": [
+				"dynamicRoutes",
+				"response",
+				"ws",
+				"from64",
+				"jsonFrom64",
+				"getUrl",
+				"sendJson",
+				"buildFsPayload",
+				"authorizeRelay",
+				"POST",
+				"Authorization",
+				"BASE_PRICE"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/api/perutas",
+				"count": 16,
+				"examples": "geelooy/api/tunnel/control/core/usageStore.js; geelooy/api/tunnel/control/routes/adminPerutas.js; geelooy/api/tunnel/control/routes/adminVault.js"
+			},
+			{
+				"project": "geelooy/apps/tunnel",
+				"count": 7,
+				"examples": "geelooy/api/tunnel/control/routes/osFs/virtualAiAgents.js; geelooy/api/tunnel/install/tools/zipSources.js"
+			},
+			{
+				"project": "geelooy/api/social",
+				"count": 2,
+				"examples": "geelooy/api/tunnel/control/routes/osFs/listRead.js; geelooy/api/tunnel/control/routes/osFs/writeOps.js"
+			},
+			{
+				"project": "ayzarim/awtsmoosDynamicServer",
+				"count": 1,
+				"examples": "geelooy/api/tunnel/control/routes/fsVessel/tunnelClient.js"
+			},
+			{
+				"project": "geelooy/api/oauth",
+				"count": 1,
+				"examples": "geelooy/api/tunnel/control/core/auth.js"
+			}
+		],
+		"incoming": [
+			{
+				"project": "ayzarim/awtsmoosDynamicServer",
+				"count": 11,
+				"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/channel.js; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/channelSnapshot.js; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgradeFakes.cjs"
+			},
+			{
+				"project": "geelooy/api/ohr-hagnuz",
+				"count": 2,
+				"examples": "geelooy/api/ohr-hagnuz/routes/realtimeTicket.js"
+			},
+			{
+				"project": "geelooy/api/oauth",
+				"count": 1,
+				"examples": "geelooy/api/oauth/data/clients.js"
+			},
+			{
+				"project": "geelooy/apps/tunnel-control",
+				"count": 1,
+				"examples": "geelooy/apps/tunnel-control/gpt/generate-oauth-scopes.cjs"
+			},
+			{
+				"project": "geelooy/scripts",
+				"count": 1,
+				"examples": "geelooy/scripts/awtsmoos/minimax-virtual-os-game/seed-users.cjs"
+			},
+			{
+				"project": "geelooy/view",
+				"count": 1,
+				"examples": "geelooy/view/_awtsmoos.derech.js"
+			}
+		],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-api-wallet-ad658949",
+		"path": "geelooy/api/wallet",
+		"type": "api",
+		"family": {
+			"id": "apis",
+			"title": "API Projects"
+		},
+		"title": "geelooy/api/wallet",
+		"entries": [
+			"_awtsmoos.derech.js",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-wallet-ad658949.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/api/wallet/DOCUMENTATION.md",
+				"documentId": "geelooy-api-wallet-documentation-md-39c91f6ac5"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APIS.md",
+				"documentId": "docs-tutorials-projects-apis-md-030810cad3"
+			},
+			{
+				"sourcePath": "docs/API/README.md",
+				"documentId": "docs-api-readme-md-3e0443943b"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 54,
+			"tests": 13,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 68,
+		"symbolSummary": {
+			"files": 54,
+			"classes": 0,
+			"functions": 99,
+			"exports": 120,
+			"samples": [
+				"dynamicRoutes",
+				"POST",
+				"normalizeAmount",
+				"normalizeWalletBuckets",
+				"syncWalletBalance",
+				"creditWalletBucket",
+				"debitWalletBuckets",
+				"getCommerceAccount",
+				"APP_CREATOR_SERVICE_SKUS",
+				"APP_SERVICE_SKUS",
+				"APP_SYSTEM_SERVICE_SKUS",
+				"APP_UTILITY_SERVICE_SKUS"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/api/social",
+				"count": 1,
+				"examples": "geelooy/api/wallet/core/transferIdentity.js"
+			}
+		],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-api-youtube-6568882e",
+		"path": "geelooy/api/youtube",
+		"type": "api",
+		"family": {
+			"id": "apis",
+			"title": "API Projects"
+		},
+		"title": "geelooy/api/youtube",
+		"entries": [
+			"_awtsmoos.derech.js",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-youtube-6568882e.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/api/youtube/DOCUMENTATION.md",
+				"documentId": "geelooy-api-youtube-documentation-md-7a7869cb77"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APIS.md",
+				"documentId": "docs-tutorials-projects-apis-md-030810cad3"
+			},
+			{
+				"sourcePath": "docs/API/README.md",
+				"documentId": "docs-api-readme-md-3e0443943b"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 19,
+			"tests": 1,
+			"assets": 0,
+			"generated": 0,
+			"docs": 2,
+			"other": 0
+		},
+		"totalFiles": 22,
+		"symbolSummary": {
+			"files": 19,
+			"classes": 0,
+			"functions": 80,
+			"exports": 56,
+			"samples": [
+				"dynamicRoutes",
+				"clean",
+				"call",
+				"options",
+				"body",
+				"accessToken",
+				"apiError",
+				"authorizedFetch",
+				"youtube",
+				"safeJson",
+				"config",
+				"missingConfig"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/api/oauth",
+				"count": 1,
+				"examples": "geelooy/api/youtube/routes/auth.js"
+			}
+		],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-apps-54c97d9f",
+		"path": "geelooy/apps",
+		"type": "public",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "Awtsmoos Apps — Create, Compute & Build",
+		"entries": [
+			"index.html",
+			"app.js",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-54c97d9f.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/apps/DOCUMENTATION.md",
+				"documentId": "geelooy-apps-documentation-md-58c0820286"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 7420,
+			"tests": 1535,
+			"assets": 45,
+			"generated": 19,
+			"docs": 34,
+			"other": 151
+		},
+		"totalFiles": 9204,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/apps",
+				"file": "geelooy/apps/index.html",
+				"title": "Awtsmoos Apps — Create, Compute & Build",
+				"scripts": 2,
+				"styles": 3
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-apps-android-emulator-e917cd40",
+		"path": "geelooy/apps/android-emulator",
+		"type": "app",
+		"family": {
+			"id": "apps",
+			"title": "Applications"
+		},
+		"title": "geelooy/apps/android-emulator",
+		"entries": [
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-android-emulator-e917cd40.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/apps/android-emulator/DOCUMENTATION.md",
+				"documentId": "geelooy-apps-android-emulator-documentation-md-16656cb8e6"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 884,
+			"tests": 535,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 1420,
+		"symbolSummary": {
+			"files": 884,
+			"classes": 64,
+			"functions": 3700,
+			"exports": 1977,
+			"samples": [
+				"async",
+				"launchInitialActivity",
+				"dispatchActivityLifecycleCallbacks",
+				"callbackError",
+				"resolveLauncherMethods",
+				"lifecycleArguments",
+				"findInheritedMethod",
+				"findDirectMethod",
+				"activityError",
+				"registerActivityLifecycleCallback",
+				"unregisterActivityLifecycleCallback",
+				"snapshotActivityLifecycleCallbacks"
+			]
+		},
+		"outgoing": [],
+		"incoming": [
+			{
+				"project": "geelooy/apps/code",
+				"count": 4,
+				"examples": "geelooy/apps/code/js/actions/commands/build-android-apk.js; geelooy/apps/code/js/actions/commands/build-rebbe-apk.js"
+			},
+			{
+				"project": "geelooy/scripts",
+				"count": 3,
+				"examples": "geelooy/scripts/awtsmoos/compiling/android/apk/zipWriter.js; geelooy/scripts/awtsmoos/extracting/webview-apk/extract.js"
+			},
+			{
+				"project": "geelooy/os",
+				"count": 2,
+				"examples": "geelooy/os/programs/awtsmoos-executable/android-web/apkWebDocument.js; geelooy/os/programs/awtsmoos-executable/browserRuntime.js"
+			},
+			{
+				"project": "geelooy/apps/exe-emulator",
+				"count": 1,
+				"examples": "geelooy/apps/exe-emulator/source/runSourceArtifact.js"
+			},
+			{
+				"project": "geelooy/shared",
+				"count": 1,
+				"examples": "geelooy/shared/compiling/native/apkIdentity.js"
+			}
+		],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-apps-animator-bdd4c03a",
+		"path": "geelooy/apps/animator",
+		"type": "app",
+		"family": {
+			"id": "apps",
+			"title": "Applications"
+		},
+		"title": "Awtsmoos Park Engine — B\"H",
+		"entries": [
+			"index.html",
+			"package.json",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-animator-bdd4c03a.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/apps/animator/DOCUMENTATION.md",
+				"documentId": "geelooy-apps-animator-documentation-md-743b26c48f"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 2458,
+			"tests": 0,
+			"assets": 43,
+			"generated": 0,
+			"docs": 1,
+			"other": 99
+		},
+		"totalFiles": 2601,
+		"symbolSummary": {
+			"files": 2394,
+			"classes": 1927,
+			"functions": 250,
+			"exports": 2327,
+			"samples": [
+				"VibeDB",
+				"Editor",
+				"FileSystemProvider",
+				"State",
+				"Tabs",
+				"UI",
+				"ExternalManifest",
+				"LoopEngineController",
+				"LoopErrorHandler",
+				"LoopGitPusher",
+				"ArchitectOfDomains",
+				"BatchExecutor"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/apps/animator",
+				"file": "geelooy/apps/animator/index.html",
+				"title": "Awtsmoos Park Engine — B\"H",
+				"scripts": 2,
+				"styles": 2
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-apps-archive-uploader-d1abfc99",
+		"path": "geelooy/apps/archive-uploader",
+		"type": "app",
+		"family": {
+			"id": "apps",
+			"title": "Applications"
+		},
+		"title": "IA//HYPER_UPLOADER",
+		"entries": [
+			"index.html",
+			"app.js"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-archive-uploader-d1abfc99.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 3,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 3,
+		"symbolSummary": {
+			"files": 1,
+			"classes": 0,
+			"functions": 17,
+			"exports": 0,
+			"samples": [
+				"checkAuth",
+				"saveCredentials",
+				"purgeCredentials",
+				"selectDirectory",
+				"processRootEntry",
+				"scanDirectory",
+				"addToQueue",
+				"processQueue",
+				"uploadItem",
+				"handleSuccess",
+				"handleError",
+				"fetchExistingFileLists"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/apps/archive-uploader",
+				"file": "geelooy/apps/archive-uploader/index.html",
+				"title": "IA//HYPER_UPLOADER",
+				"scripts": 1,
+				"styles": 1
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-apps-audio-editor-b0fc66c9",
+		"path": "geelooy/apps/audio-editor",
+		"type": "app",
+		"family": {
+			"id": "apps",
+			"title": "Applications"
+		},
+		"title": "Pro Audio Editor",
+		"entries": [
+			"index.html",
+			"main.js"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-audio-editor-b0fc66c9.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 4,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 4,
+		"symbolSummary": {
+			"files": 2,
+			"classes": 0,
+			"functions": 26,
+			"exports": 0,
+			"samples": [
+				"initAudioContext",
+				"setupCanvas",
+				"resizeCanvas",
+				"loop",
+				"updatePlayhead",
+				"render",
+				"drawRuler",
+				"drawClipWaveform",
+				"drawRoundedRect",
+				"setupEventListeners",
+				"handlePointerDown",
+				"handlePointerMove"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/apps/audio-editor",
+				"file": "geelooy/apps/audio-editor/index.html",
+				"title": "Pro Audio Editor",
+				"scripts": 2,
+				"styles": 2
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-apps-awtsmoos-gguf-6ea89df4",
+		"path": "geelooy/apps/awtsmoos-gguf",
+		"type": "app",
+		"family": {
+			"id": "apps",
+			"title": "Applications"
+		},
+		"title": "GGUF Chat & Metadata - B\"H",
+		"entries": [
+			"index.html",
+			"index.js",
+			"app.js",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-awtsmoos-gguf-6ea89df4.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/apps/awtsmoos-gguf/DOCUMENTATION.md",
+				"documentId": "geelooy-apps-awtsmoos-gguf-documentation-md-394fa2c5c8"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 87,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 88,
+		"symbolSummary": {
+			"files": 79,
+			"classes": 6,
+			"functions": 94,
+			"exports": 113,
+			"samples": [
+				"bootstrap",
+				"sendPromptToWorker",
+				"stopWorkerGeneration",
+				"resetSession",
+				"init",
+				"handleFile",
+				"handleMetadata",
+				"handlePurifiedModel",
+				"searchToken",
+				"lookupToken",
+				"setupChat",
+				"handleReset"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/apps/awtsmoos-gguf",
+				"file": "geelooy/apps/awtsmoos-gguf/index.html",
+				"title": "GGUF Chat & Metadata - B\"H",
+				"scripts": 1,
+				"styles": 6
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	}
+]

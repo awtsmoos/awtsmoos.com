@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-drive-readme-md-65360eae3b",
+	"title": "Awtsmoos Drive and self-hosted public hosting",
+	"sourcePath": "docs/drive/README.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos Drive and self-hosted public hosting",
+			"anchor": "awtsmoos-drive-and-self-hosted-public-hosting"
+		},
+		{
+			"level": 2,
+			"text": "Documents",
+			"anchor": "documents"
+		},
+		{
+			"level": 2,
+			"text": "Core contracts",
+			"anchor": "core-contracts"
+		},
+		{
+			"level": 2,
+			"text": "Verified implementation surfaces",
+			"anchor": "verified-implementation-surfaces"
+		},
+		{
+			"level": 2,
+			"text": "Known limitation",
+			"anchor": "known-limitation"
+		}
+	],
+	"markdownParts": [
+		"content/docs-drive-readme-md-65360eae3b-001.json"
+	]
+}

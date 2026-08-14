@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-apps-games-and-simulation-md-538ae8cf40",
+	"title": "Games and Simulation",
+	"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+	"category": "Games",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Games and Simulation",
+			"anchor": "games-and-simulation"
+		},
+		{
+			"level": 2,
+			"text": "Main game district — geelooy/games/",
+			"anchor": "main-game-district-geelooy-games"
+		},
+		{
+			"level": 2,
+			"text": "Game launcher — geelooy/game/",
+			"anchor": "game-launcher-geelooy-game"
+		},
+		{
+			"level": 2,
+			"text": "Animator / Park Engine",
+			"anchor": "animator-park-engine"
+		},
+		{
+			"level": 2,
+			"text": "Android Emulator — geelooy/apps/android-emulator/",
+			"anchor": "android-emulator-geelooy-apps-android-emulator"
+		},
+		{
+			"level": 2,
+			"text": "EXE Emulator — geelooy/apps/exe-emulator/",
+			"anchor": "exe-emulator-geelooy-apps-exe-emulator"
+		},
+		{
+			"level": 2,
+			"text": "Mitzvah World Editor",
+			"anchor": "mitzvah-world-editor"
+		},
+		{
+			"level": 2,
+			"text": "WebSocket plane",
+			"anchor": "websocket-plane"
+		},
+		{
+			"level": 2,
+			"text": "Direct report plane",
+			"anchor": "direct-report-plane"
+		}
+	],
+	"markdownParts": [
+		"content/docs-apps-games-and-simulation-md-538ae8cf40-001.json"
+	]
+}

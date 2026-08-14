@@ -1,0 +1,87 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos creates the eye and the hand as distinct powers. Awtsmoos.com
+ * makes that distinction visible so safe exploration never resembles mutation.
+ */
+
+.hub-mode-section {
+	display: grid;
+	gap: .75rem;
+}
+
+.hub-mode-section > header {
+	display: flex;
+	align-items: center;
+	gap: .65rem;
+}
+
+.hub-mode-section > header h3 {
+	margin: 0;
+	color: var(--hub-text);
+	font-size: .95rem;
+}
+
+.hub-mode-badge {
+	display: inline-flex;
+	align-items: center;
+	min-block-size: 1.65rem;
+	padding: .2rem .55rem;
+	border: 1px solid var(--hub-line-strong);
+	border-radius: 999px;
+	font-size: .68rem;
+	font-weight: 850;
+	letter-spacing: .07em;
+	text-transform: uppercase;
+}
+
+.hub-mode-badge[data-mode="read"] {
+	border-color: rgba(97, 203, 217, .36);
+	background: var(--hub-cyan-soft);
+	color: var(--hub-focus);
+}
+
+.hub-mode-badge[data-mode="mutation"] {
+	border-color: rgba(255, 127, 156, .4);
+	background: rgba(255, 127, 156, .09);
+	color: #ffc2cf;
+}
+
+.hub-mode-badge[data-mode="connection"] {
+	border-color: rgba(240, 189, 104, .38);
+	background: rgba(240, 189, 104, .08);
+	color: var(--hub-warning);
+}
+
+.hub-act-section {
+	padding-top: .35rem;
+	border-top: 1px solid rgba(255, 127, 156, .2);
+}
+
+.hub-mutation-card {
+	border-color: rgba(255, 127, 156, .25);
+}
+
+.hub-consequence {
+	margin: 0;
+	color: var(--hub-muted);
+	font-size: .86rem;
+	line-height: 1.5;
+}
+
+.hub-mutation-trigger {
+	min-block-size: 46px;
+	border-color: rgba(255, 127, 156, .46) !important;
+	background: rgba(255, 127, 156, .12) !important;
+	color: #ffe0e7 !important;
+}
+
+.hub-mutation-trigger:hover:not(:disabled) {
+	background: rgba(255, 127, 156, .2) !important;
+}
+
+.hub-rail-links {
+	display: grid;
+	gap: .45rem;
+}

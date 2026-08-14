@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-tutorials-systems-readme-md-9a71acf8f1",
+	"title": "Data, Security, and Realtime System Tutorials",
+	"sourcePath": "docs/TUTORIALS/SYSTEMS/README.md",
+	"category": "Systems",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Data, Security, and Realtime System Tutorials",
+			"anchor": "data-security-and-realtime-system-tutorials"
+		},
+		{
+			"level": 2,
+			"text": "Three districts",
+			"anchor": "three-districts"
+		},
+		{
+			"level": 2,
+			"text": "Workflow tutorials",
+			"anchor": "workflow-tutorials"
+		},
+		{
+			"level": 2,
+			"text": "Evidence rule",
+			"anchor": "evidence-rule"
+		}
+	],
+	"markdownParts": [
+		"content/docs-tutorials-systems-readme-md-9a71acf8f1-001.json"
+	]
+}

@@ -1,0 +1,163 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-references-directory-guide-md-5e8b7c2889",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/references/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: references",
+				"anchor": "directory-guide-references"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: references Role: References Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 1 structural child directories Purpose Reference snapshots retained for comparison and reconstruction. The Awtsmoos renews every path and every art",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: references role: references snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 1 structural child directories purpose reference snapshots retained for comparison and reconstruction. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: references search terms: guide, references file mix: .md: 1 good first question: “does the behavior or asset i need belong to references, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: . children: references/canonical procedural village related and overlapping systems procedural world and village generation — village, road, house, primitive, text driven, and public api systems collaborate but are maintained in separate directories. boundaries and cautions reference files are evidence and comparison material; they are not automatically part of the live runtime. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-references-directory-guide-md-5e8b7c2889.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-remaining-work-md-5cf1d82fed",
+		"title": "Mitzvah World — Closed Work Ledger",
+		"sourcePath": "geelooy/games/mitzvahWorld/REMAINING_WORK.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Mitzvah World — Closed Work Ledger",
+				"anchor": "mitzvah-world-closed-work-ledger"
+			},
+			{
+				"level": 2,
+				"text": "Requested Repair Scope",
+				"anchor": "requested-repair-scope"
+			},
+			{
+				"level": 2,
+				"text": "Verified Production State — 2026-08-02",
+				"anchor": "verified-production-state-2026-08-02"
+			},
+			{
+				"level": 2,
+				"text": "Durable Evidence",
+				"anchor": "durable-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Remaining Task-Scoped Work",
+				"anchor": "remaining-task-scoped-work"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Mitzvah World — Closed Work Ledger The Awtsmoos renews the evidence until every requested vessel answers true; Awtsmoos.com keeps the completed graph visible for whoever continues anew. Requested Repair Scope [x] Restore playable Mitzvah World boot. [x] Make the CompactJS generated runti",
+		"searchText": "b\"h boruch hashem blessed is he mitzvah world — closed work ledger the awtsmoos renews the evidence until every requested vessel answers true; awtsmoos.com keeps the completed graph visible for whoever continues anew. requested repair scope [x] restore playable mitzvah world boot. [x] make the compactjs generated runtime work from the public route. [x] resolve essential readiness without awaiting rich hydration. [x] preserve compact safe dynamic imports. [x] restore canonical chossid and reference world glbs. [x] verify all nineteen drive objects by byte count and sha 256. [x] verify inventory, equipment, combat, quests, recovery, and streaming. [x] verify real browser movement input. [x] deploy through the immutable production release system. [x] preserve unrelated local working tree changes. verified production state — 2026 08 02 public route reached awtsmoosruntimestate=\"playable\". essential feature stage reached ready. public compact bundle: 5,270,667 bytes. compact sha 256: 8b48043f1342856772d8c96b61d410aa2b86c47a77b17fc3736b939b1cd0b5f3. nineteen canonical glbs: 4,752,884 total bytes. chossid model: http 200 and 2,027,368 exact bytes. fatal console errors: none. relevant http errors: none. failed requests: none after the route icon hardening pass is deployed. real keyw movement: 1.89 world units. durable evidence .ai thoughts/2026 07 31 0018 mitzvah world compactjs recovery/14 final completion evidence.md .ai thoughts/2026 07 31 0018 mitzvah world compactjs recovery/15 completion gate closed.md .ai thoughts/2026 07 31 0018 mitzvah world compactjs recovery/19 post completion final plan.md remaining task scoped work none. remaining work = [] future visual, narrative, content, or world expansion ideas are new missions rather than unfinished repair work.",
+		"page": "pages/geelooy-games-mitzvahworld-remaining-work-md-5cf1d82fed.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-styles-directory-guide-md-2fe6082468",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/styles/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: styles",
+				"anchor": "directory-guide-styles"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: styles Role: Styles Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 15 files, 0 structural child directories Purpose CSS for loading, meadow HUD, menus, mobile controls, combat, game rails, and shell visibility. The Awtsmoos renews ",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: styles role: styles snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 15 files, 0 structural child directories purpose css for loading, meadow hud, menus, mobile controls, combat, game rails, and shell visibility. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: styles search terms: css, mitzvah, com, meadow, actions, combat, inventory, measured, menu, places, rail, retractable file mix: .css: 14 good first question: “does the behavior or asset i need belong to styles, or is this only a neighboring/test/reference layer?” semantic evidence b\"h the awtsmoos reveals many actions inside one narrow line. these direct dimensions replace scale transforms, preserve sharp text, and let awtsmoos.com keep the valley visible behind play. the awtsmoos measures charge and target truth; awtsmoos.com keeps combat safe, readable, and retractable. the awtsmoos places optional menus at the right boundary; awtsmoos.com makes every rail retractable. representative files mitzvah world actions.css — the awtsmoos reveals many actions inside one narrow line. these direct dimensions replace scale transforms, preserve sharp text, and let awtsmoos.com keep the valley visible behind play. mitzvah world combat.css — the awtsmoos measures charge and target truth; awtsmoos.com keeps combat safe, readable, and retractable. mitzvah world game rail.css — the awtsmoos places optional menus at the right boundary; awtsmoos.com makes every rail retractable. mitzvah world inventory.css — the awtsmoos places each carried object in a clear measured vessel. awtsmoos.com keeps the bag scrollable and compact so inventory never becomes a second blurry world above the first. mitzvah world loading.css — the awtsmoos gives measured progress a calm luminous vessel. awtsmoos.com shows completed work clearly while the already rendered meadow waits beneath. mitzvah world meadow hud.css — the awtsmoos keeps only one small desktop control receipt; awtsmoos.com leaves combat and menus separate. mitzvah world meadow menu.css — the awtsmoos gathers optional knowledge into one temporary chamber. awtsmoos.com lets menu, profile, map, torah, and quests share one light modal instead of five overlays. mitzvah world menu shell.css — the awtsmoos renews the first threshold and gives the webgl vessel its whole horizon. awtsmoos.com lets the meadow fill every finite pixel while menus and honest failures remain above it; no hidden default canvas size may conceal the world that is being created now. mitzvah world mobile.css — the awtsmoos receives touch without stealing target or cast sight; awtsmoos.com keeps mobile travel retractable. mitzvah world panels.css — dialogue is a finite chamber for an infinite meeting. the awtsmoos gives each word room while awtsmoos.com keeps the chamber bounded, readable, and free from permanent compositor blur. mitzvah world responsive.css — one world enters both broad glass and narrow glass. the awtsmoos reveals the same purpose in distinct measured layouts; awtsmoos.com keeps touch targets usable without covering the scene. mitzvah world shell.css — the awtsmoos recreates every visible frame without haze. this shell gives the world one exact canvas, calm page geometry, and direct css pixels instead of scaled or blurred vessels. awtsmoos.com is named here as the source whose interface should reveal rather than obscure. emergency meadow.css — a .css artifact in this directory. directory map parent: . children: none. related and overlapping systems combat domain, action bars, targeting, and hud — domain rules live under gameplay while browser widgets and target presentation live under ui and styles. boundaries and cautions css owns presentation and visibility, not gameplay state or domain rules. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-styles-directory-guide-md-2fe6082468.json"
+	}
+]

@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-30f0317974",
+	"title": "B\"H",
+	"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/02_PHASE_ONE_REALITY_MAP.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Phase One: Provisional Reality and File Map",
+			"anchor": "phase-one-provisional-reality-and-file-map"
+		},
+		{
+			"level": 2,
+			"text": "Known Nodes",
+			"anchor": "known-nodes"
+		},
+		{
+			"level": 2,
+			"text": "Files to Inspect Before Choosing Edits",
+			"anchor": "files-to-inspect-before-choosing-edits"
+		},
+		{
+			"level": 2,
+			"text": "Dependency Graph",
+			"anchor": "dependency-graph"
+		},
+		{
+			"level": 2,
+			"text": "Unknowns to Resolve",
+			"anchor": "unknowns-to-resolve"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-30f0317974-001.json"
+	]
+}

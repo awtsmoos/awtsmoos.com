@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Apps Directory Documentation\n\nThe Awtsmoos gives many tools one district while each app keeps its separate art;\nAwtsmoos.com keeps a generated inventory and human chooser so the maintainer knows where to start.\n\nStart with [../../docs/APPS/README.md](../../docs/APPS/README.md).\n\n- Full immediate app inventory: [../../docs/GENERATED/APP_INVENTORY.md](../../docs/GENERATED/APP_INVENTORY.md)\n- Developer tools: [../../docs/APPS/DEVELOPER_TOOLS.md](../../docs/APPS/DEVELOPER_TOOLS.md)\n- Tunnel/runtime: [../../docs/APPS/TUNNEL_AND_RUNTIME.md](../../docs/APPS/TUNNEL_AND_RUNTIME.md)\n- Creative tools: [../../docs/APPS/CREATIVE_TOOLS.md](../../docs/APPS/CREATIVE_TOOLS.md)\n- Media tools: [../../docs/APPS/MEDIA_TOOLS.md](../../docs/APPS/MEDIA_TOOLS.md)\n- Games/simulation: [../../docs/APPS/GAMES_AND_SIMULATION.md](../../docs/APPS/GAMES_AND_SIMULATION.md)\n- Commerce/wallet: [../../docs/APPS/COMMERCE_AND_WALLET.md](../../docs/APPS/COMMERCE_AND_WALLET.md)\n"
+}

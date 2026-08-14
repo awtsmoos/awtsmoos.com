@@ -1,0 +1,100 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-system-overlap-map-md-24ff28ddd6",
+	"title": "B\"H",
+	"sourcePath": "geelooy/games/mitzvahWorld/SYSTEM_OVERLAP_MAP.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Mitzvah World System Overlap Map",
+			"anchor": "mitzvah-world-system-overlap-map"
+		},
+		{
+			"level": 2,
+			"text": "How to use this map",
+			"anchor": "how-to-use-this-map"
+		},
+		{
+			"level": 2,
+			"text": "Meadow and fallback runtimes",
+			"anchor": "meadow-and-fallback-runtimes"
+		},
+		{
+			"level": 2,
+			"text": "Rendering stacks",
+			"anchor": "rendering-stacks"
+		},
+		{
+			"level": 2,
+			"text": "Terrain, materials, and asset preparation",
+			"anchor": "terrain-materials-and-asset-preparation"
+		},
+		{
+			"level": 2,
+			"text": "Procedural world and village generation",
+			"anchor": "procedural-world-and-village-generation"
+		},
+		{
+			"level": 2,
+			"text": "Vegetation, trees, and forest systems",
+			"anchor": "vegetation-trees-and-forest-systems"
+		},
+		{
+			"level": 2,
+			"text": "Combat domain, action bars, targeting, and HUD",
+			"anchor": "combat-domain-action-bars-targeting-and-hud"
+		},
+		{
+			"level": 2,
+			"text": "Colocated and integration test surfaces",
+			"anchor": "colocated-and-integration-test-surfaces"
+		},
+		{
+			"level": 2,
+			"text": "Movie runtime, projects, tools, and evidence",
+			"anchor": "movie-runtime-projects-tools-and-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Diagnostics, logs, tools, and root audits",
+			"anchor": "diagnostics-logs-tools-and-root-audits"
+		},
+		{
+			"level": 2,
+			"text": "Player, creature, horse, enemy, and experimental mesh systems",
+			"anchor": "player-creature-horse-enemy-and-experimental-mesh-systems"
+		},
+		{
+			"level": 2,
+			"text": "Streaming, LOD, visibility, and performance policy",
+			"anchor": "streaming-lod-visibility-and-performance-policy"
+		},
+		{
+			"level": 2,
+			"text": "Exact duplicate basenames",
+			"anchor": "exact-duplicate-basenames"
+		},
+		{
+			"level": 2,
+			"text": "Important exact-name collision",
+			"anchor": "important-exact-name-collision"
+		},
+		{
+			"level": 2,
+			"text": "Safe interpretation rule",
+			"anchor": "safe-interpretation-rule"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-system-overlap-map-md-24ff28ddd6-001.json",
+		"content/geelooy-games-mitzvahworld-system-overlap-map-md-24ff28ddd6-002.json"
+	]
+}

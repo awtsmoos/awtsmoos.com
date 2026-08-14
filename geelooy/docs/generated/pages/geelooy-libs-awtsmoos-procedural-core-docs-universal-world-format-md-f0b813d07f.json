@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-docs-universal-world-format-md-f0b813d07f",
+	"title": "B\"H",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/UNIVERSAL_WORLD_FORMAT.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 2,
+			"text": "Boruch Hashem",
+			"anchor": "boruch-hashem"
+		},
+		{
+			"level": 2,
+			"text": "Blessed is He",
+			"anchor": "blessed-is-he"
+		},
+		{
+			"level": 1,
+			"text": "Universal World Format",
+			"anchor": "universal-world-format"
+		},
+		{
+			"level": 2,
+			"text": "Purpose",
+			"anchor": "purpose"
+		},
+		{
+			"level": 2,
+			"text": "Root contract",
+			"anchor": "root-contract"
+		},
+		{
+			"level": 2,
+			"text": "Resource contract",
+			"anchor": "resource-contract"
+		},
+		{
+			"level": 2,
+			"text": "Runtime API",
+			"anchor": "runtime-api"
+		},
+		{
+			"level": 2,
+			"text": "Validation and errors",
+			"anchor": "validation-and-errors"
+		},
+		{
+			"level": 2,
+			"text": "Undo and UI",
+			"anchor": "undo-and-ui"
+		},
+		{
+			"level": 2,
+			"text": "Stability",
+			"anchor": "stability"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-docs-universal-world-format-md-f0b813d07f-001.json"
+	]
+}

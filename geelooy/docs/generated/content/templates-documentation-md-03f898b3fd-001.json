@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Shared Templates\n\nThe Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system.\n\n## Role\n\nShared template/session source used by repository runtime or tooling.\n\n## Start here\n\nRead `docs/OPERATIONS_AND_TOOLING.md` for the central explanation. Use `docs/GENERATED/PROJECT_ATLAS.md` for file-category counts, `PROJECT_SYMBOL_SUMMARY.md` for lexical symbol discovery, `PROJECT_DEPENDENCIES.md` for cross-project import evidence, and `TEST_OWNERSHIP.md` for the nearest test neighborhood.\n\n## Change rule\n\nRead the actual entry files and local README/project docs before changing behavior. Regenerate documentation after changing project boundaries, entry points, imports, tests or public/API/realtime relationships. Generated evidence is a locator; source and tests remain authoritative.\n\n## Project-specific notes\n\nTemplate edits can affect multiple surfaces; trace callers/importers before changing shared markup or session structure.\n"
+}

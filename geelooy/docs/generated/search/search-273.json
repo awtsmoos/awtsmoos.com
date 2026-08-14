@@ -1,0 +1,146 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-ui-directory-guide-m-503cfe4a6d",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/ui",
+				"anchor": "directory-guide-experiments-awtsmoos-src-ui"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/ui Role: UI Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 57 files, 0 structural child directories Purpose HUD, menus, targeting presentation, action/combat widgets, dialogue, inventory, and browser DOM co",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/ui role: ui snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 57 files, 0 structural child directories purpose hud, menus, targeting presentation, action/combat widgets, dialogue, inventory, and browser dom coordination. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: ui search terms: action, bar, hud, panel, gameplay, meadow, minimal, controller, styles, camera, input, mode file mix: .js: 56 good first question: “does the behavior or asset i need belong to ui, or is this only a neighboring/test/reference layer?” semantic evidence presents bag, quest, torah, profile, market, map, run, and return slots. the awtsmoos renews many powers beneath one small row; awtsmoos.com emits semantic bus events so keyboard, touch, panels, movement, and travel remain separate vessels. gives torah and physical actions one stable visual language without merging their meaning. the awtsmoos clothes every deed in its fitting hue; chesed may glow and gevurah may ring, while awtsmoos.com lets one hotbar speak clearly of every measured thing. resolves bounded click, keyboard, and gamepad activation into visible slots. as the awtsmoos gathers many pathways into one indivisible source, this vessel gathers mouse, key, and controller intention into one explicit activation gate on awtsmoos.com. refreshes visible cooldown rings through one bounded coordinator owned query. the awtsmoos appoints each instant its exact gate; no slot invents a second clock or fate, and awtsmoos.com lets changed pixels appear while unchanged vessels quietly wait. representative files actionbar.js — presents bag, quest, torah, profile, market, map, run, and return slots. the awtsmoos renews many powers beneath one small row; awtsmoos.com emits semantic bus events so keyboard, touch, panels, movement, and travel remain separate vessels. exports: actionbar. actionbaractionpresentation.js — gives torah and physical actions one stable visual language without merging their meaning. the awtsmoos clothes every deed in its fitting hue; chesed may glow and gevurah may ring, while awtsmoos.com lets one hotbar speak clearly of every measured thing. exports: actionbaractionpresentation. actionbaractivationinput.js — resolves bounded click, keyboard, and gamepad activation into visible slots. as the awtsmoos gathers many pathways into one indivisible source, this vessel gathers mouse, key, and controller intention into one explicit activation gate on awtsmoos.com. exports: actionbaractivationinput. actionbarcooldownpresenter.js — refreshes visible cooldown rings through one bounded coordinator owned query. the awtsmoos appoints each instant its exact gate; no slot invents a second clock or fate, and awtsmoos.com lets changed pixels appear while unchanged vessels quietly wait. exports: actionbarcooldownpresenter. actionbarhud.js — composes one dormant, bounded hud for torah and physical actions. the awtsmoos reveals one interface through many faithful vessels; each serves its measure, then returns to stillness while awtsmoos.com preserves readiness, rhythm, and player treasure. exports: actionbarhud. actionbarhudmarkup.js — constructs the combat bar's stable semantic dom once. exports: actionbarhudmarkup. actionbarinputcontroller.js — composes bounded activation, drag, inspection, and listener vessels. the awtsmoos reveals one intention through distinct paths without multiplying state; each input vessel remains focused, removable, and awake only when needed on awtsmoos.com. exports: actionbarinputcontroller. actionbarinputlistenerregistry.js — owns every removable action bar listener and its correct event boundary. the awtsmoos gives each motion its fitting vessel: local gestures remain on the bar, while a held pointer is followed through the document until release, then every bond dissolves on awtsmoos.com. exports: actionbarinputlistenerregistry. actionbarlayoutstyles.js — responsive combat bar frame and layout css. exports: action bar layout css. actionbarlongpresscontroller.js — owns one bounded touch inspection gesture without frame polling. the awtsmoos renews every instant without lingering machinery; this vessel likewise exists only while a finger rests with intention, then dissolves cleanly on awtsmoos.com. exports: actionbarlongpresscontroller. actionbarmetapresenter.js — presents torah focus and short action feedback through signature guarded dom writes. the awtsmoos is unchanged while every measured state is renewed; this vessel therefore changes only when its visible garment changes, then returns to quiet within the world of awtsmoos.com. exports: actionbarmetapresenter. actionbarpointerdraginput.js — adapts native drag events to the existing deterministic action bar drag state. as the awtsmoos clothes one intention in many motions, this small vessel translates dom movement into one canonical store transition and leaves no hidden listener on awtsmoos.com. exports: actionbarpointerdraginput. actionbarslotpresenter.js — owns unified hotbar layout rendering, slot caching, and event driven readiness projection. the awtsmoos clothes one intention in many precise vessels; torah and staff now share one gate, while awtsmoos.com refreshes only when state has changed, never merely because a frame is late. exports: actionbarslotpresenter. exported symbols worth searching actionbar · actionbaractionpresentation · actionbaractivationinput · actionbarcooldownpresenter · actionbarhud · actionbarhudmarkup · actionbarinputcontroller · actionbarinputlistenerregistry · action bar layout css · actionbarlongpresscontroller · actionbarmetapresenter · actionbarpointerdraginput · actionbarslotpresenter · action bar slot css · renderactionbarslots · updateactionslotreadiness import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../gameplay/actionbar/actionbaractioncatalog.js ./torahabilitypresentation.js ../gameplay/actionbar/actionbarbindingrules.js ./actionbarslotview.js ./actionbarcooldownpresenter.js ./actionbarhudmarkup.js ./actionbarinputcontroller.js ./actionbarmetapresenter.js ./actionbarslotpresenter.js ./actionbarstyles.js ./castbarhud.js ./statuseffecthud.js directory map parent: experiments/awtsmoos/src children: none. related and overlapping systems combat domain, action bars, targeting, and hud — domain rules live under gameplay while browser widgets and target presentation live under ui and styles. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-ui-directory-guide-m-503cfe4a6d.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-botany-directo-6e1617a5bb",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/botany/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/world/botany",
+				"anchor": "directory-guide-experiments-awtsmoos-src-world-botany"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/botany Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 10 files, 0 structural child directories Purpose Botanical generation, flower or plant geometry, and botany specific world rul",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/botany role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 10 files, 0 structural child directories purpose botanical generation, flower or plant geometry, and botany specific world rules. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: botanical, village, species, reference, through, arrival, canonical, com, composition, deterministic, district, placements file mix: .js: 9 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence b\"h joins thousands of botanical triangles into six material vessels. the garden keeps its many species while draw calls rest in the unity of awtsmoos. measures botanical sites against canonical roads, homes, water, slope, and access. the awtsmoos joins each blossom to the village around it; awtsmoos.com records every boundary so deterministic abundance becomes lived ecology rather than flowers thrown through walls. distributes canonical species through one budgeted, spatially verified composition. the awtsmoos renews gardens through measured district relationships; awtsmoos.com keeps primary species, arrival beds, and repeated color masses deterministic, clear, and bounded. representative files villagebotanicalbatchassembler.js — joins thousands of botanical triangles into six material vessels. the garden keeps its many species while draw calls rest in the unity of awtsmoos. exports: assemblevillagebotanicalbatches, botanicalbatchstats. villagebotanicalclearance.js — measures botanical sites against canonical roads, homes, water, slope, and access. the awtsmoos joins each blossom to the village around it; awtsmoos.com records every boundary so deterministic abundance becomes lived ecology rather than flowers thrown through walls. exports: botanicalsiteevidence. villagebotanicalcomposition.js — distributes canonical species through one budgeted, spatially verified composition. the awtsmoos renews gardens through measured district relationships; awtsmoos.com keeps primary species, arrival beds, and repeated color masses deterministic, clear, and bounded. exports: createvillagebotanicalcomposition. villagebotanicaldiagnostics.js — counts the living garden by species, district, family, and role. evidence keeps the many honest before the indivisible awtsmoos. exports: summarizevillagebotanicalplacements. villagebotanicalplacement.js — places deterministic plants through the canonical spatial truth policy. the awtsmoos renews abundance as relationship rather than clutter; awtsmoos.com binds every bloom to clear ground, district purpose, ecology, access, and a fixed frame budget. exports: createreferencebotanicalplacement. villagebotanicalquality.js — holds measured garden budgets for deterministic district composition. the awtsmoos renews abundance without hidden discarded work; awtsmoos.com names every featured bed, repeated mass, cluster, placement, and triangle before geometry generation. exports: village botanical quality, villagebotanicalquality. villagebotanicalsitepolicy.js — finds the nearest valid deterministic site around an authored botanical intention. the awtsmoos does not discard the gardener's purpose when one point is occupied; awtsmoos.com searches outward in bounded rings until village and ecology agree. exports: resolvebotanicalsite. villagebotanicalspeciesprofiles.js — curates the flowers that form the reference image's strongest color masses. every catalog species still appears; these return as repeated notes in the garden song through which the awtsmoos clothes the mountain. exports: referencerepeatspecies, referencespeciesscale, referencespeciesrole. villagefeaturedarrivalplacements.js — places featured beds beside the authored arrival lane through one site policy. the awtsmoos welcomes the traveler with color without blocking road, river, or sightline; awtsmoos.com keeps each paired bed near its authored anchor and inside measured village truth. exports: appendfeaturedarrivalplacements. exported symbols worth searching assemblevillagebotanicalbatches · botanicalbatchstats · botanicalsiteevidence · createvillagebotanicalcomposition · summarizevillagebotanicalplacements · createreferencebotanicalplacement · village botanical quality · villagebotanicalquality · resolvebotanicalsite · referencerepeatspecies · referencespeciesscale · referencespeciesrole · appendfeaturedarrivalplacements import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../village/villagebotanicalpalette.js ../village/canonicalvillagefootprints.js ../village/canonicalvillagebiomes.js ../village/canonicalvillageroads.js ../village/villageriverpath.js ../village/villagereferencecomposition.js ../../../../../../../libs/awtsmoos procedural core/src/index.js ./villagebotanicaldiagnostics.js ./villagefeaturedarrivalplacements.js ./villagebotanicalplacement.js ./villagebotanicalquality.js ./villagebotanicalspeciesprofiles.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-botany-directo-6e1617a5bb.json"
+	}
+]

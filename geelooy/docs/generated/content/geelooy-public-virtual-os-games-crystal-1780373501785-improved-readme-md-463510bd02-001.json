@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B'H\n# Crystal Critters: Awakened Cave\n\nPublic URL: https://awtsmoos.com/public/virtual-os-games/crystal-1780373501785-improved/\n\nRecursive agent loop: 8 rounds per lead, 2 spawned children per round.\n\n- engine: 8 rounds, 0 MiniMax calls used\n- renderer: 8 rounds, 0 MiniMax calls used\n- levels: 8 rounds, 0 MiniMax calls used\n- polish: 8 rounds, 0 MiniMax calls used\n"
+}

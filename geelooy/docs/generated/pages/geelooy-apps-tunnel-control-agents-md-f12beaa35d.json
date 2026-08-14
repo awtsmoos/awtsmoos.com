@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-control-agents-md-f12beaa35d",
+	"title": "Awtsmoos Tunnel Control — AI Agent Instructions",
+	"sourcePath": "geelooy/apps/tunnel-control/agents.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos Tunnel Control — AI Agent Instructions",
+			"anchor": "awtsmoos-tunnel-control-ai-agent-instructions"
+		},
+		{
+			"level": 2,
+			"text": "Canonical references",
+			"anchor": "canonical-references"
+		},
+		{
+			"level": 2,
+			"text": "Device discovery",
+			"anchor": "device-discovery"
+		},
+		{
+			"level": 2,
+			"text": "Start, refresh, and restart",
+			"anchor": "start-refresh-and-restart"
+		},
+		{
+			"level": 2,
+			"text": "Capability check",
+			"anchor": "capability-check"
+		},
+		{
+			"level": 2,
+			"text": "Action discipline",
+			"anchor": "action-discipline"
+		},
+		{
+			"level": 2,
+			"text": "Durable commands and pending responses",
+			"anchor": "durable-commands-and-pending-responses"
+		},
+		{
+			"level": 2,
+			"text": "Recovery-enabled concurrency",
+			"anchor": "recovery-enabled-concurrency"
+		},
+		{
+			"level": 2,
+			"text": "Offline restoration",
+			"anchor": "offline-restoration"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-control-agents-md-f12beaa35d-001.json"
+	]
+}

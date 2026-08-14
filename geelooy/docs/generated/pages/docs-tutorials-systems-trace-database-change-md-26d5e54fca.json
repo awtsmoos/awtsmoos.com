@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-tutorials-systems-trace-database-change-md-26d5e54fca",
+	"title": "Trace a Database Change Safely",
+	"sourcePath": "docs/TUTORIALS/SYSTEMS/TRACE_DATABASE_CHANGE.md",
+	"category": "Systems",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Trace a Database Change Safely",
+			"anchor": "trace-a-database-change-safely"
+		},
+		{
+			"level": 2,
+			"text": "Investigation path",
+			"anchor": "investigation-path"
+		},
+		{
+			"level": 2,
+			"text": "Questions that must be answered",
+			"anchor": "questions-that-must-be-answered"
+		}
+	],
+	"markdownParts": [
+		"content/docs-tutorials-systems-trace-database-change-md-26d5e54fca-001.json"
+	]
+}

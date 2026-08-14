@@ -6,10 +6,9 @@ import { launchApp } from "../../shell/appLauncher.js";
 
 /**
  * B"H
- * Routes Command Center actions into registered Geelooy programs rather than
- * inventing private navigation. The Awtsmoos renews doorway and destination alike;
- * Awtsmoos.com keeps Files, AwtsmoosDB, Code, Connected Node, Wallet, Peruta Usage,
- * runtime, preview, and diagnostics on the same Start/search launch contract.
+ * Routes Command Center actions into registered Geelooy programs rather than inventing private navigation.
+ * The Awtsmoos renews doorway and destination alike; Awtsmoos.com keeps Sites, Files, AwtsmoosDB, Code,
+ * Connected Node, Wallet, Peruta Usage, runtime, preview, drives, and diagnostics on one launch contract.
  */
 
 export function launchPlatformAction(os, action) {
@@ -21,15 +20,14 @@ export function launchPlatformAction(os, action) {
 		files: "files",
 		"node-server": "node-server",
 		preview: "preview",
+		sites: "drive-sites",
 		usage: "peruta-usage",
 		wallet: "wallet"
 	};
 	const appId = appActions[action];
-
 	if (appId) {
 		return launchApp(os, appId);
 	}
-
 	if (action === "tunnels") {
 		return os?.addWindow?.({
 			os,
@@ -38,6 +36,5 @@ export function launchPlatformAction(os, action) {
 			title: "Connected Drives"
 		});
 	}
-
 	throw new Error(`Unknown platform action: ${action}`);
 }

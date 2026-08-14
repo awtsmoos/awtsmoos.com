@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\n# Local Tunnel Streaming Actions\n\nThe local tunnel is the media-plane helper. The browser sends muxed bytes to `127.0.0.1`, and the tunnel forwards those bytes to YouTube/Twitch/Facebook/custom ingest. Video bytes do not pass through Awtsmoos cloud unless the user selects Awtsmoos hosted relay.\n\nActions:\n- `streamingSessionStart`\n- `streamingChunkPush`\n- `streamingHlsSegmentPush`\n- `streamingHlsPlaylist`\n- `streamingSessionStop`\n- `streamingSessionStatus`\n- `streamingSessionList`\n\nHLS mode:\n1. Start a session with `{ mode:\"hls\", targetDuration, maxSegments, ingest }`.\n2. Push muxed `.ts` segment bytes with `streamingHlsSegmentPush`.\n3. Ask for `streamingHlsPlaylist` to get the current sliding `.m3u8`.\n4. Stop the session to receive an end-list playlist.\n\nImportant: WebCodecs encoded chunks still need a real muxer before they become platform-ready HLS/RTMP media bytes.\n"
+}

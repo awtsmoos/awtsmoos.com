@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-start-here-md-3ff203f7e3",
+	"title": "Start Here",
+	"sourcePath": "docs/START_HERE.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Start Here",
+			"anchor": "start-here"
+		},
+		{
+			"level": 2,
+			"text": "If you are new",
+			"anchor": "if-you-are-new"
+		},
+		{
+			"level": 2,
+			"text": "If you already have a URL",
+			"anchor": "if-you-already-have-a-url"
+		},
+		{
+			"level": 2,
+			"text": "If you already have a directory/system name",
+			"anchor": "if-you-already-have-a-directory-system-name"
+		},
+		{
+			"level": 2,
+			"text": "Repository layers",
+			"anchor": "repository-layers"
+		},
+		{
+			"level": 3,
+			"text": "Public surface — geelooy/",
+			"anchor": "public-surface-geelooy"
+		},
+		{
+			"level": 3,
+			"text": "Runtime — ayzarim/",
+			"anchor": "runtime-ayzarim"
+		},
+		{
+			"level": 3,
+			"text": "Documentation/discovery",
+			"anchor": "documentation-discovery"
+		},
+		{
+			"level": 2,
+			"text": "Task shortcuts",
+			"anchor": "task-shortcuts"
+		},
+		{
+			"level": 2,
+			"text": "Before changing behavior",
+			"anchor": "before-changing-behavior"
+		}
+	],
+	"markdownParts": [
+		"content/docs-start-here-md-3ff203f7e3-001.json"
+	]
+}

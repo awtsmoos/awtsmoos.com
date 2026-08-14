@@ -1,0 +1,674 @@
+[
+	{
+		"projectId": "geelooy-games-ohr-hagnuz-e946b787",
+		"path": "geelooy/games/ohr-hagnuz",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "B&quot;H — Ohr HaGnuz: The Concealed Frontier",
+		"entries": [
+			"index.html",
+			"package.json",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-ohr-hagnuz-e946b787.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/games/ohr-hagnuz/DOCUMENTATION.md",
+				"documentId": "geelooy-games-ohr-hagnuz-documentation-md-8146254f6a"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 700,
+			"tests": 89,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 3
+		},
+		"totalFiles": 793,
+		"symbolSummary": {
+			"files": 671,
+			"classes": 189,
+			"functions": 195,
+			"exports": 1124,
+			"samples": [
+				"CollisionMatrix",
+				"validates",
+				"EncounterValidator",
+				"InteractionValidator",
+				"OverworldLogic",
+				"PortalValidator",
+				"WorldMapAssembler",
+				"takes",
+				"EncounterGenerator",
+				"MovementLogic",
+				"PathLogic",
+				"DivineWill"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/games/ohr-hagnuz",
+				"file": "geelooy/games/ohr-hagnuz/index.html",
+				"title": "B&quot;H — Ohr HaGnuz: The Concealed Frontier",
+				"scripts": 1,
+				"styles": 7
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-party-7fcd4a78",
+		"path": "geelooy/games/party",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "Party Challenge — Awtsmoos Games",
+		"entries": [
+			"index.html",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-party-7fcd4a78.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/games/party/DOCUMENTATION.md",
+				"documentId": "geelooy-games-party-documentation-md-88dde20566"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 15,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 16,
+		"symbolSummary": {
+			"files": 8,
+			"classes": 1,
+			"functions": 22,
+			"exports": 21,
+			"samples": [
+				"startChallenge",
+				"reloadCurrentTurn",
+				"recordCurrentTurn",
+				"activeSession",
+				"beginCurrentTurn",
+				"finishChallenge",
+				"dom",
+				"setFrameGame",
+				"loadFreshTurn",
+				"frameGame",
+				"partyGames",
+				"resolvePartyGame"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/games/scripts",
+				"count": 1,
+				"examples": "geelooy/games/party/js/game-catalog.mjs"
+			}
+		],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/games/party",
+				"file": "geelooy/games/party/index.html",
+				"title": "Party Challenge — Awtsmoos Games",
+				"scripts": 1,
+				"styles": 1
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-pong-d3953f2b",
+		"path": "geelooy/games/pong",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "Pong Game",
+		"entries": [
+			"index.html"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-pong-d3953f2b.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 7,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 7,
+		"symbolSummary": {
+			"files": 5,
+			"classes": 0,
+			"functions": 15,
+			"exports": 0,
+			"samples": [
+				"createBall",
+				"getRandomEmoji",
+				"resizeCanvas",
+				"handlePaddleCollision",
+				"update",
+				"draw",
+				"gameLoop",
+				"createPaddle",
+				"createParticleExplosion",
+				"updateAndDrawParticles",
+				"drawNet",
+				"drawScore"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/games/pong",
+				"file": "geelooy/games/pong/index.html",
+				"title": "Pong Game",
+				"scripts": 5,
+				"styles": 1
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-rambam-9b03ea55",
+		"path": "geelooy/games/rambam",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "geelooy/games/rambam",
+		"entries": [],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-rambam-9b03ea55.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 1,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 1,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/games/rambam/kiddushHachodesh/12",
+				"file": "geelooy/games/rambam/kiddushHachodesh/12/index.html",
+				"title": "Sun Movement Visualization",
+				"scripts": 0,
+				"styles": 0
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-rebbe-runner-775c456f",
+		"path": "geelooy/games/rebbe-runner",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "The Rebbe's Runner",
+		"entries": [
+			"index.html"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-rebbe-runner-775c456f.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 4,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 4,
+		"symbolSummary": {
+			"files": 2,
+			"classes": 3,
+			"functions": 9,
+			"exports": 0,
+			"samples": [
+				"Player",
+				"Obstacle",
+				"Collectible",
+				"resizeCanvas",
+				"drawRoadLines",
+				"createBackground",
+				"init",
+				"drawBackground",
+				"animate",
+				"detectCollision",
+				"endGame",
+				"handleStart"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/games/rebbe-runner",
+				"file": "geelooy/games/rebbe-runner/index.html",
+				"title": "The Rebbe's Runner",
+				"scripts": 2,
+				"styles": 1
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-scribe-journey-e49e326e",
+		"path": "geelooy/games/scribe-journey",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "The Scribe's Journey: Echoes of Ein Sof",
+		"entries": [
+			"index.html",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-scribe-journey-e49e326e.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/games/scribe-journey/DOCUMENTATION.md",
+				"documentId": "geelooy-games-scribe-journey-documentation-md-5e17fccc8e"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 375,
+			"tests": 99,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 1
+		},
+		"totalFiles": 476,
+		"symbolSummary": {
+			"files": 362,
+			"classes": 12,
+			"functions": 551,
+			"exports": 536,
+			"samples": [
+				"amalekBeasts",
+				"binahBeasts",
+				"campaignBeasts",
+				"campaignChesedBinahBeasts",
+				"campaignChokhmahKeterBeasts",
+				"createCampaignMusag",
+				"createCampaignRoster",
+				"campaignHodNetzachBeasts",
+				"campaignMalkuthFinaleBeasts",
+				"campaignMalkuthYesodBeasts",
+				"campaignPostgameBeasts",
+				"campaignTiferetGevurahBeasts"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/games/scribe-journey",
+				"file": "geelooy/games/scribe-journey/index.html",
+				"title": "The Scribe's Journey: Echoes of Ein Sof",
+				"scripts": 1,
+				"styles": 2
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-scripts-3467c7e0",
+		"path": "geelooy/games/scripts",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "geelooy/games/scripts",
+		"entries": [
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-scripts-3467c7e0.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/games/scripts/DOCUMENTATION.md",
+				"documentId": "geelooy-games-scripts-documentation-md-c1bcde5503"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 70,
+			"tests": 0,
+			"assets": 0,
+			"generated": 4,
+			"docs": 1,
+			"other": 2
+		},
+		"totalFiles": 77,
+		"symbolSummary": {
+			"files": 70,
+			"classes": 113,
+			"functions": 3371,
+			"exports": 50,
+			"samples": [
+				"UI",
+				"stands",
+				"MOTION_ADVENTURE_GAMES",
+				"MYSTIC_ADVENTURE_GAMES",
+				"ADVENTURE_GAMES",
+				"enrichGame",
+				"enrichGames",
+				"multiplayerCapability",
+				"NATIVE_MULTIPLAYER_GAME_IDS",
+				"visualCapability",
+				"WEBGL_GAMES",
+				"commercePlanFor"
+			]
+		},
+		"outgoing": [],
+		"incoming": [
+			{
+				"project": "geelooy/games/seven-mitzvos",
+				"count": 12,
+				"examples": "geelooy/games/seven-mitzvos/js/assets/advanced-model-hydrator.js; geelooy/games/seven-mitzvos/js/assets/gltf-model-library.js; geelooy/games/seven-mitzvos/js/city/city-district-builder.js"
+			},
+			{
+				"project": "geelooy/games/party",
+				"count": 1,
+				"examples": "geelooy/games/party/js/game-catalog.mjs"
+			}
+		],
+		"externalDependencies": [
+			{
+				"dependency": "three",
+				"count": 3,
+				"examples": "geelooy/games/scripts/jsm/exporters/GLTFExporter.js; geelooy/games/scripts/jsm/loaders/DRACOLoader.js; geelooy/games/scripts/jsm/utils/SkeletonUtils.js"
+			},
+			{
+				"dependency": "srgb-linear",
+				"count": 1,
+				"examples": "geelooy/games/scripts/jsm/loaders/GLTFLoader.js"
+			}
+		],
+		"publicEntries": [],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-sefira-clash-94c3f01f",
+		"path": "geelooy/games/sefira-clash",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "Sefira Clash · Open World, Expedition, Co-op, Adventure &amp; VS",
+		"entries": [
+			"index.html",
+			"package.json",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-sefira-clash-94c3f01f.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/games/sefira-clash/DOCUMENTATION.md",
+				"documentId": "geelooy-games-sefira-clash-documentation-md-c82ee9b752"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 1273,
+			"tests": 40,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 2
+		},
+		"totalFiles": 1316,
+		"symbolSummary": {
+			"files": 1226,
+			"classes": 55,
+			"functions": 2709,
+			"exports": 1808,
+			"samples": [
+				"neutralInput",
+				"botReport",
+				"finiteFighter",
+				"summarizeSpectacle",
+				"round",
+				"assert",
+				"snap",
+				"sumDamage",
+				"aliveCount",
+				"summarize",
+				"length",
+				"checkCase"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/games/sefira-clash",
+				"file": "geelooy/games/sefira-clash/index.html",
+				"title": "Sefira Clash · Open World, Expedition, Co-op, Adventure &amp; VS",
+				"scripts": 1,
+				"styles": 8
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-seven-mitzvos-50390da0",
+		"path": "geelooy/games/seven-mitzvos",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "Seven Mitzvos · Living Material Worlds",
+		"entries": [
+			"index.html",
+			"package.json",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-seven-mitzvos-50390da0.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/games/seven-mitzvos/DOCUMENTATION.md",
+				"documentId": "geelooy-games-seven-mitzvos-documentation-md-1e46ac11f1"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 447,
+			"tests": 66,
+			"assets": 1,
+			"generated": 0,
+			"docs": 1,
+			"other": 10
+		},
+		"totalFiles": 525,
+		"symbolSummary": {
+			"files": 375,
+			"classes": 238,
+			"functions": 474,
+			"exports": 522,
+			"samples": [
+				"AccessibilityProfileService",
+				"AccessibleStateProjector",
+				"population",
+				"describeAlert",
+				"InputBindingService",
+				"setPersonAction",
+				"updatePersonAction",
+				"personActionName",
+				"createState",
+				"applyPose",
+				"required",
+				"appTemplate"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/games/scripts",
+				"count": 12,
+				"examples": "geelooy/games/seven-mitzvos/js/assets/advanced-model-hydrator.js; geelooy/games/seven-mitzvos/js/assets/gltf-model-library.js; geelooy/games/seven-mitzvos/js/city/city-district-builder.js"
+			},
+			{
+				"project": "geelooy/libs",
+				"count": 1,
+				"examples": "geelooy/games/seven-mitzvos/js/procedural/core-part-factory.js"
+			}
+		],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/games/seven-mitzvos",
+				"file": "geelooy/games/seven-mitzvos/index.html",
+				"title": "Seven Mitzvos · Living Material Worlds",
+				"scripts": 1,
+				"styles": 8
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	}
+]

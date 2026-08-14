@@ -1,0 +1,400 @@
+[
+	{
+		"systemId": "realtime-application-routing",
+		"district": "realtime",
+		"title": "Realtime Application Routing",
+		"summary": "The platform registry/router that selects versioned realtime applications and shares server state.",
+		"manuals": [
+			"docs/WEBSOCKETS/APPLICATIONS.md",
+			"docs/TUTORIALS/SYSTEMS/REALTIME_RUNTIME.md"
+		],
+		"projects": [
+			{
+				"projectId": "ayzarim-awtsmoosdynamicserver-e406758e",
+				"path": "ayzarim/awtsmoosDynamicServer",
+				"type": "runtime",
+				"title": "ayzarim/awtsmoosDynamicServer",
+				"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-awtsmoosdynamicserver-e406758e.md"
+			}
+		],
+		"sources": [
+			"ayzarim/awtsmoosDynamicServer/websocket/apps/messageRouter.js",
+			"ayzarim/awtsmoosDynamicServer/websocket/apps/applicationDefinitions.js"
+		],
+		"generatedEvidence": [
+			"docs/GENERATED/WEBSOCKET_APPLICATIONS.md"
+		],
+		"tags": [
+			"websocket",
+			"application",
+			"router",
+			"versioning"
+		],
+		"claimsBoundary": "Registered application factories are source registration evidence, not proof that every app is active in every deployment.",
+		"changeRisk": "Application IDs, versions, registry selection, or legacy compatibility changes are protocol contracts.",
+		"environmentEvidence": [
+			{
+				"name": "AWTS_ENTRY_LIMIT",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/tests/compactJs.entrySweep.test.js"
+			},
+			{
+				"name": "AWTS_ENTRY_MATCH",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/tests/compactJs.entrySweep.test.js"
+			},
+			{
+				"name": "AWTS_ENTRY_OFFSET",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/tests/compactJs.entrySweep.test.js"
+			},
+			{
+				"name": "AWTS_ENTRY_ROOTS",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/tests/compactJs.entrySweep.test.js"
+			},
+			{
+				"name": "AWTSMOOS_REGISTRATION_STRESS_COUNT",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/test/registrationReplacementStress.test.cjs"
+			},
+			{
+				"name": "AWTSMOOS_RELAY_STRESS_COUNT",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay.concurrent-correlation.test.cjs"
+			},
+			{
+				"name": "AWTSMOOS_SEFIRA_PROFILE_PATH",
+				"classification": "path/storage",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionProfileRepository.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_COMPLETED_LIMIT",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_CONSUMER_PROGRESS_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestAckHandler.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_CONTROL_STORE",
+				"classification": "path/storage",
+				"sources": 9,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomSocketIntegration.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgrade.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/upgradePolicy.test.cjs"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_PENDING_TTL_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_QUARANTINE_LIMIT",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_RELAY_MAX_SAFE_WAIT_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_RELAY_SAFE_WAIT_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_RELAY_STATE_ROOT",
+				"classification": "path/storage",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/durablePaths.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_REQUEST_ACCEPTANCE_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestDispatch.js"
+			},
+			{
+				"name": "AWTSMOOS_WS_MAX_MISSED_HEARTBEATS",
+				"classification": "runtime-config",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/core/clientLiveness.js"
+			},
+			{
+				"name": "AWTSMOOS_WS_PROBE_GRACE_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/core/clientLiveness.js"
+			},
+			{
+				"name": "AWTSMOOS_WS_STALE_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/core/clientLiveness.js"
+			},
+			{
+				"name": "MW_LOAD_CLIENTS",
+				"classification": "runtime-config",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/sessionLoadProbe.cjs"
+			}
+		],
+		"realtimeApplications": [
+			{
+				"id": "awtsmoos-core",
+				"versions": "1",
+				"factory": "createAwtsmoosCoreApplication"
+			},
+			{
+				"id": "awtsmoos-social",
+				"versions": "1",
+				"factory": "createAwtsmoosSocialApplication"
+			},
+			{
+				"id": "chess",
+				"versions": "1",
+				"factory": "createChessApplication"
+			},
+			{
+				"id": "universalChat",
+				"versions": "1",
+				"factory": "createUniversalChatApplication"
+			},
+			{
+				"id": "sefira-clash",
+				"versions": "1",
+				"factory": "createSefiraClashApplication"
+			},
+			{
+				"id": "mitzvah-world",
+				"versions": "1",
+				"factory": "createMitzvahWorldApplication"
+			},
+			{
+				"id": "ohr-hagnuz",
+				"versions": "1",
+				"factory": "createOhrHagnuzApplication"
+			},
+			{
+				"id": "scribe-journey",
+				"versions": "1, 2",
+				"factory": "createScribeJourneyApplication"
+			},
+			{
+				"id": "tunnel-activity",
+				"versions": "1",
+				"factory": "createTunnelActivityApplication"
+			},
+			{
+				"id": "shema-strike",
+				"versions": "1",
+				"factory": "createShemaStrikeApplication"
+			}
+		],
+		"eventEvidence": [],
+		"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/realtime-application-routing.md",
+		"provenance": "curated-system-semantics-plus-generated-local-source-evidence"
+	},
+	{
+		"systemId": "realtime-identity-admission",
+		"district": "security",
+		"title": "Realtime Identity and Admission",
+		"summary": "Trusted WebSocket identity, origin/protocol/ticket checks, and Mission Room authority before realtime participation.",
+		"manuals": [
+			"docs/SECURITY/REALTIME_SECURITY.md",
+			"docs/WEBSOCKETS/MISSION_ROOMS.md"
+		],
+		"projects": [
+			{
+				"projectId": "ayzarim-awtsmoosdynamicserver-e406758e",
+				"path": "ayzarim/awtsmoosDynamicServer",
+				"type": "runtime",
+				"title": "ayzarim/awtsmoosDynamicServer",
+				"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-awtsmoosdynamicserver-e406758e.md"
+			},
+			{
+				"projectId": "geelooy-api-tunnel-df787c17",
+				"path": "geelooy/api/tunnel",
+				"type": "api",
+				"title": "geelooy/api/tunnel",
+				"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-tunnel-df787c17.md"
+			}
+		],
+		"sources": [
+			"ayzarim/awtsmoosDynamicServer/websocket/core/socketUpgrade.js",
+			"geelooy/api/tunnel/control/missionRooms/ticketIssuer.js",
+			"geelooy/api/tunnel/control/missionRooms/missionAccess.js"
+		],
+		"generatedEvidence": [
+			"docs/GENERATED/WEBSOCKET_EVENT_INDEX.md"
+		],
+		"tags": [
+			"identity",
+			"authorization",
+			"origin",
+			"protocol",
+			"websocket"
+		],
+		"claimsBoundary": "Admission combines multiple checks; a successful HTTP identity alone does not prove room authority.",
+		"changeRisk": "Weakening ticket/origin/protocol/authority checks can cross a realtime security boundary.",
+		"environmentEvidence": [
+			{
+				"name": "AWTS_ENTRY_LIMIT",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/tests/compactJs.entrySweep.test.js"
+			},
+			{
+				"name": "AWTS_ENTRY_MATCH",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/tests/compactJs.entrySweep.test.js"
+			},
+			{
+				"name": "AWTS_ENTRY_OFFSET",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/tests/compactJs.entrySweep.test.js"
+			},
+			{
+				"name": "AWTS_ENTRY_ROOTS",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/tests/compactJs.entrySweep.test.js"
+			},
+			{
+				"name": "AWTSMOOS_BINDING_HISTORY_PER_IDENTITY",
+				"classification": "runtime-config",
+				"sources": 1,
+				"exampleSources": "geelooy/api/tunnel/control/core/tunnelSecurity/bindingRetentionPolicy.js"
+			},
+			{
+				"name": "AWTSMOOS_BINDING_RETENTION_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "geelooy/api/tunnel/control/core/tunnelSecurity/bindingRetentionPolicy.js"
+			},
+			{
+				"name": "AWTSMOOS_NATIVE_RECOVERING_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "geelooy/api/tunnel/control/routes/fsVessel/liveDeviceIdentity.js"
+			},
+			{
+				"name": "AWTSMOOS_REGISTRATION_STRESS_COUNT",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/test/registrationReplacementStress.test.cjs"
+			},
+			{
+				"name": "AWTSMOOS_RELAY_STRESS_COUNT",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay.concurrent-correlation.test.cjs"
+			},
+			{
+				"name": "AWTSMOOS_SEFIRA_PROFILE_PATH",
+				"classification": "path/storage",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionProfileRepository.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_COMPLETED_LIMIT",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_CONSUMER_PROGRESS_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestAckHandler.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_CONTROL_STORE",
+				"classification": "path/storage",
+				"sources": 9,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomSocketIntegration.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgrade.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/upgradePolicy.test.cjs"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_PENDING_TTL_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_QUARANTINE_LIMIT",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_RELAY_MAX_SAFE_WAIT_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_RELAY_SAFE_WAIT_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_RELAY_STATE_ROOT",
+				"classification": "path/storage",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/durablePaths.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_REQUEST_ACCEPTANCE_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestDispatch.js"
+			},
+			{
+				"name": "AWTSMOOS_WS_MAX_MISSED_HEARTBEATS",
+				"classification": "runtime-config",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/core/clientLiveness.js"
+			},
+			{
+				"name": "AWTSMOOS_WS_PROBE_GRACE_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/core/clientLiveness.js"
+			},
+			{
+				"name": "AWTSMOOS_WS_STALE_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/core/clientLiveness.js"
+			},
+			{
+				"name": "MW_LOAD_CLIENTS",
+				"classification": "runtime-config",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/sessionLoadProbe.cjs"
+			}
+		],
+		"realtimeApplications": [],
+		"eventEvidence": [],
+		"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/realtime-identity-admission.md",
+		"provenance": "curated-system-semantics-plus-generated-local-source-evidence"
+	}
+]

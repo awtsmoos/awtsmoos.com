@@ -1,0 +1,4597 @@
+{
+  "duration": 60000,
+  "tracks": [
+    {
+      "id": "track_composition",
+      "name": "Nested Sequences",
+      "type": "composition",
+      "locked": false,
+      "muted": false
+    },
+    {
+      "id": "track_camera",
+      "name": "Camera",
+      "type": "camera",
+      "locked": false,
+      "muted": false
+    },
+    {
+      "id": "track_video",
+      "name": "Real Video",
+      "type": "video",
+      "locked": false,
+      "muted": false
+    },
+    {
+      "id": "track_titles",
+      "name": "Titles + Bubbles",
+      "type": "title",
+      "locked": false,
+      "muted": false
+    },
+    {
+      "id": "track_dialogue",
+      "name": "Dialogue",
+      "type": "dialogue",
+      "locked": false,
+      "muted": false
+    },
+    {
+      "id": "track_voice",
+      "name": "Recorded Voice",
+      "type": "audio",
+      "locked": false,
+      "muted": false
+    },
+    {
+      "id": "track_action",
+      "name": "Character Action",
+      "type": "action",
+      "locked": false,
+      "muted": false
+    },
+    {
+      "id": "track_emotion",
+      "name": "Emotion",
+      "type": "emotion",
+      "locked": false,
+      "muted": false
+    },
+    {
+      "id": "track_gesture",
+      "name": "Gestures",
+      "type": "gesture",
+      "locked": false,
+      "muted": false
+    },
+    {
+      "id": "track_props",
+      "name": "Props",
+      "type": "prop",
+      "locked": false,
+      "muted": false
+    },
+    {
+      "id": "track_effects",
+      "name": "Effects",
+      "type": "effect",
+      "locked": false,
+      "muted": false
+    },
+    {
+      "id": "track_music",
+      "name": "Music + Foley",
+      "type": "audio",
+      "locked": false,
+      "muted": false
+    }
+  ],
+  "clips": [
+    {
+      "entityId": null,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "composition_spoon_setup",
+      "trackId": "track_composition",
+      "start": 0,
+      "duration": 20000,
+      "type": "composition",
+      "name": "The Emergency Backup",
+      "payload": {
+        "sequenceId": "spoon_setup",
+        "transition": "fade",
+        "nested": true
+      }
+    },
+    {
+      "entityId": null,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "composition_spoon_escalation",
+      "trackId": "track_composition",
+      "start": 20000,
+      "duration": 22000,
+      "type": "composition",
+      "name": "The Calendar Problem",
+      "payload": {
+        "sequenceId": "spoon_escalation",
+        "transition": "cut",
+        "nested": true
+      }
+    },
+    {
+      "entityId": null,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "composition_spoon_payoff",
+      "trackId": "track_composition",
+      "start": 42000,
+      "duration": 18000,
+      "type": "composition",
+      "name": "Cloud Storage",
+      "payload": {
+        "sequenceId": "spoon_payoff",
+        "transition": "dissolve",
+        "nested": true
+      }
+    },
+    {
+      "entityId": null,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "camera_spoon_s1",
+      "trackId": "track_camera",
+      "start": 0,
+      "duration": 2500,
+      "type": "camera",
+      "name": "group eyeLevel",
+      "payload": {
+        "size": "group",
+        "angle": "eyeLevel",
+        "move": "locked",
+        "purpose": "title and trio establish",
+        "sequenceId": "spoon_setup",
+        "transition": "fade",
+        "continuity": {
+          "screenDirection": "leftToRight",
+          "eyeLineAxis": "spoonAxis",
+          "bubbleSafe": true
+        }
+      }
+    },
+    {
+      "entityId": null,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "camera_spoon_s2",
+      "trackId": "track_camera",
+      "start": 2500,
+      "duration": 5500,
+      "type": "camera",
+      "name": "closeUp threeQuarter",
+      "payload": {
+        "size": "closeUp",
+        "angle": "threeQuarter",
+        "move": "slowPush",
+        "purpose": "Ari presents the backup",
+        "sequenceId": "spoon_setup",
+        "transition": "cut",
+        "continuity": {
+          "screenDirection": "leftToRight",
+          "eyeLineAxis": "spoonAxis",
+          "bubbleSafe": true
+        }
+      }
+    },
+    {
+      "entityId": null,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "camera_spoon_s3",
+      "trackId": "track_camera",
+      "start": 8000,
+      "duration": 5500,
+      "type": "camera",
+      "name": "reaction threeQuarter",
+      "payload": {
+        "size": "reaction",
+        "angle": "threeQuarter",
+        "move": "locked",
+        "purpose": "Dovid protects his doubt",
+        "sequenceId": "spoon_setup",
+        "transition": "cut",
+        "continuity": {
+          "screenDirection": "leftToRight",
+          "eyeLineAxis": "spoonAxis",
+          "bubbleSafe": true
+        }
+      }
+    },
+    {
+      "entityId": null,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "camera_spoon_s4",
+      "trackId": "track_camera",
+      "start": 13500,
+      "duration": 6500,
+      "type": "camera",
+      "name": "reaction profile",
+      "payload": {
+        "size": "reaction",
+        "angle": "profile",
+        "move": "locked",
+        "purpose": "Rivky observes the contradiction",
+        "sequenceId": "spoon_setup",
+        "transition": "cut",
+        "continuity": {
+          "screenDirection": "leftToRight",
+          "eyeLineAxis": "spoonAxis",
+          "bubbleSafe": true
+        }
+      }
+    },
+    {
+      "entityId": null,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "camera_spoon_s5",
+      "trackId": "track_camera",
+      "start": 20000,
+      "duration": 6500,
+      "type": "camera",
+      "name": "twoShot eyeLevel",
+      "payload": {
+        "size": "twoShot",
+        "angle": "eyeLevel",
+        "move": "slowPush",
+        "purpose": "calendar proposal and resistance",
+        "sequenceId": "spoon_escalation",
+        "transition": "cut",
+        "continuity": {
+          "screenDirection": "leftToRight",
+          "eyeLineAxis": "spoonAxis",
+          "bubbleSafe": true
+        }
+      }
+    },
+    {
+      "entityId": null,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "camera_spoon_s6",
+      "trackId": "track_camera",
+      "start": 26500,
+      "duration": 6500,
+      "type": "camera",
+      "name": "closeUp threeQuarter",
+      "payload": {
+        "size": "closeUp",
+        "angle": "threeQuarter",
+        "move": "locked",
+        "purpose": "calendar joke lands",
+        "sequenceId": "spoon_escalation",
+        "transition": "cut",
+        "continuity": {
+          "screenDirection": "leftToRight",
+          "eyeLineAxis": "spoonAxis",
+          "bubbleSafe": true
+        }
+      }
+    },
+    {
+      "entityId": null,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "camera_spoon_s7",
+      "trackId": "track_camera",
+      "start": 33000,
+      "duration": 8000,
+      "type": "camera",
+      "name": "reaction profile",
+      "payload": {
+        "size": "reaction",
+        "angle": "profile",
+        "move": "locked",
+        "purpose": "invitation declined",
+        "sequenceId": "spoon_escalation",
+        "transition": "cut",
+        "continuity": {
+          "screenDirection": "leftToRight",
+          "eyeLineAxis": "spoonAxis",
+          "bubbleSafe": true
+        }
+      }
+    },
+    {
+      "entityId": null,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "camera_spoon_s8",
+      "trackId": "track_camera",
+      "start": 41000,
+      "duration": 6500,
+      "type": "camera",
+      "name": "group eyeLevel",
+      "payload": {
+        "size": "group",
+        "angle": "eyeLevel",
+        "move": "pullBack",
+        "purpose": "storage crisis",
+        "sequenceId": "spoon_payoff",
+        "transition": "cut",
+        "continuity": {
+          "screenDirection": "leftToRight",
+          "eyeLineAxis": "spoonAxis",
+          "bubbleSafe": true
+        }
+      }
+    },
+    {
+      "entityId": null,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "camera_spoon_s9",
+      "trackId": "track_camera",
+      "start": 47500,
+      "duration": 6000,
+      "type": "camera",
+      "name": "twoShot threeQuarter",
+      "payload": {
+        "size": "twoShot",
+        "angle": "threeQuarter",
+        "move": "slowPush",
+        "purpose": "the spoon is discovered",
+        "sequenceId": "spoon_payoff",
+        "transition": "cut",
+        "continuity": {
+          "screenDirection": "leftToRight",
+          "eyeLineAxis": "spoonAxis",
+          "bubbleSafe": true
+        }
+      }
+    },
+    {
+      "entityId": null,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "camera_spoon_s10",
+      "trackId": "track_camera",
+      "start": 53500,
+      "duration": 6500,
+      "type": "camera",
+      "name": "group eyeLevel",
+      "payload": {
+        "size": "group",
+        "angle": "eyeLevel",
+        "move": "locked",
+        "purpose": "punchline and final reaction",
+        "sequenceId": "spoon_payoff",
+        "transition": "cut",
+        "continuity": {
+          "screenDirection": "leftToRight",
+          "eyeLineAxis": "spoonAxis",
+          "bubbleSafe": true
+        }
+      }
+    },
+    {
+      "entityId": "cheerful-orthodox-speaker",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "dialogue_spoon_d1",
+      "trackId": "track_dialogue",
+      "start": 3000,
+      "duration": 4200,
+      "type": "dialogue",
+      "name": "Ari: I solved the office spoon sh",
+      "payload": {
+        "id": "spoon_d1",
+        "sequenceId": "spoon_setup",
+        "start": 3000,
+        "duration": 4200,
+        "speakerId": "cheerful-orthodox-speaker",
+        "speakerName": "Ari",
+        "text": "I solved the office spoon shortage with one emergency backup spoon.",
+        "emotion": "joy",
+        "voice": "Alex",
+        "speechRate": 185,
+        "voiceStatus": "generated-speech",
+        "silentMode": false,
+        "bubble": true,
+        "displayMode": "talking-plus-bubble",
+        "lipSyncCues": [
+          {
+            "index": 0,
+            "start": 0,
+            "end": 84.6347607052897,
+            "phoneme": "i",
+            "viseme": "I",
+            "strength": 1
+          },
+          {
+            "index": 1,
+            "start": 84.6347607052897,
+            "end": 130.47858942065494,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 2,
+            "start": 130.47858942065494,
+            "end": 193.9546599496222,
+            "phoneme": "s",
+            "viseme": "S",
+            "strength": 1
+          },
+          {
+            "index": 3,
+            "start": 193.9546599496222,
+            "end": 278.5894206549119,
+            "phoneme": "o",
+            "viseme": "O",
+            "strength": 1
+          },
+          {
+            "index": 4,
+            "start": 278.5894206549119,
+            "end": 342.0654911838792,
+            "phoneme": "l",
+            "viseme": "L",
+            "strength": 1
+          },
+          {
+            "index": 5,
+            "start": 342.0654911838792,
+            "end": 405.5415617128465,
+            "phoneme": "v",
+            "viseme": "FV",
+            "strength": 1
+          },
+          {
+            "index": 6,
+            "start": 405.5415617128465,
+            "end": 490.1763224181362,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 7,
+            "start": 490.1763224181362,
+            "end": 553.6523929471034,
+            "phoneme": "d",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 8,
+            "start": 553.6523929471034,
+            "end": 599.4962216624687,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 9,
+            "start": 599.4962216624687,
+            "end": 662.9722921914359,
+            "phoneme": "th",
+            "viseme": "TH",
+            "strength": 1
+          },
+          {
+            "index": 10,
+            "start": 662.9722921914359,
+            "end": 747.6070528967257,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 11,
+            "start": 747.6070528967257,
+            "end": 793.4508816120909,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 12,
+            "start": 793.4508816120909,
+            "end": 878.0856423173807,
+            "phoneme": "o",
+            "viseme": "O",
+            "strength": 1
+          },
+          {
+            "index": 13,
+            "start": 878.0856423173807,
+            "end": 941.561712846348,
+            "phoneme": "f",
+            "viseme": "FV",
+            "strength": 1
+          },
+          {
+            "index": 14,
+            "start": 941.561712846348,
+            "end": 1005.0377833753153,
+            "phoneme": "f",
+            "viseme": "FV",
+            "strength": 1
+          },
+          {
+            "index": 15,
+            "start": 1005.0377833753153,
+            "end": 1089.672544080605,
+            "phoneme": "i",
+            "viseme": "I",
+            "strength": 1
+          },
+          {
+            "index": 16,
+            "start": 1089.672544080605,
+            "end": 1153.1486146095722,
+            "phoneme": "c",
+            "viseme": "KG",
+            "strength": 1
+          },
+          {
+            "index": 17,
+            "start": 1153.1486146095722,
+            "end": 1237.7833753148618,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 18,
+            "start": 1237.7833753148618,
+            "end": 1283.627204030227,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 19,
+            "start": 1283.627204030227,
+            "end": 1347.1032745591942,
+            "phoneme": "s",
+            "viseme": "S",
+            "strength": 1
+          },
+          {
+            "index": 20,
+            "start": 1347.1032745591942,
+            "end": 1397.884130982368,
+            "phoneme": "p",
+            "viseme": "MBP",
+            "strength": 1
+          },
+          {
+            "index": 21,
+            "start": 1397.884130982368,
+            "end": 1482.5188916876577,
+            "phoneme": "oo",
+            "viseme": "U",
+            "strength": 1
+          },
+          {
+            "index": 22,
+            "start": 1482.5188916876577,
+            "end": 1545.994962216625,
+            "phoneme": "n",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 23,
+            "start": 1545.994962216625,
+            "end": 1591.8387909319904,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 24,
+            "start": 1591.8387909319904,
+            "end": 1655.3148614609577,
+            "phoneme": "sh",
+            "viseme": "CH",
+            "strength": 1
+          },
+          {
+            "index": 25,
+            "start": 1655.3148614609577,
+            "end": 1739.9496221662473,
+            "phoneme": "o",
+            "viseme": "O",
+            "strength": 1
+          },
+          {
+            "index": 26,
+            "start": 1739.9496221662473,
+            "end": 1803.4256926952146,
+            "phoneme": "r",
+            "viseme": "R",
+            "strength": 1
+          },
+          {
+            "index": 27,
+            "start": 1803.4256926952146,
+            "end": 1866.9017632241819,
+            "phoneme": "t",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 28,
+            "start": 1866.9017632241819,
+            "end": 1951.5365239294715,
+            "phoneme": "a",
+            "viseme": "AA",
+            "strength": 1
+          },
+          {
+            "index": 29,
+            "start": 1951.5365239294715,
+            "end": 2015.0125944584388,
+            "phoneme": "g",
+            "viseme": "KG",
+            "strength": 1
+          },
+          {
+            "index": 30,
+            "start": 2015.0125944584388,
+            "end": 2099.6473551637287,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 31,
+            "start": 2099.6473551637287,
+            "end": 2145.491183879094,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 32,
+            "start": 2145.491183879094,
+            "end": 2230.125944584384,
+            "phoneme": "w",
+            "viseme": "U",
+            "strength": 1
+          },
+          {
+            "index": 33,
+            "start": 2230.125944584384,
+            "end": 2314.7607052896738,
+            "phoneme": "i",
+            "viseme": "I",
+            "strength": 1
+          },
+          {
+            "index": 34,
+            "start": 2314.7607052896738,
+            "end": 2378.236775818641,
+            "phoneme": "th",
+            "viseme": "TH",
+            "strength": 1
+          },
+          {
+            "index": 35,
+            "start": 2378.236775818641,
+            "end": 2424.0806045340064,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 36,
+            "start": 2424.0806045340064,
+            "end": 2508.7153652392963,
+            "phoneme": "o",
+            "viseme": "O",
+            "strength": 1
+          },
+          {
+            "index": 37,
+            "start": 2508.7153652392963,
+            "end": 2572.1914357682635,
+            "phoneme": "n",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 38,
+            "start": 2572.1914357682635,
+            "end": 2656.8261964735534,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 39,
+            "start": 2656.8261964735534,
+            "end": 2702.6700251889188,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 40,
+            "start": 2702.6700251889188,
+            "end": 2787.3047858942086,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 41,
+            "start": 2787.3047858942086,
+            "end": 2838.0856423173823,
+            "phoneme": "m",
+            "viseme": "MBP",
+            "strength": 1
+          },
+          {
+            "index": 42,
+            "start": 2838.0856423173823,
+            "end": 2922.720403022672,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 43,
+            "start": 2922.720403022672,
+            "end": 2986.1964735516394,
+            "phoneme": "r",
+            "viseme": "R",
+            "strength": 1
+          },
+          {
+            "index": 44,
+            "start": 2986.1964735516394,
+            "end": 3049.6725440806067,
+            "phoneme": "g",
+            "viseme": "KG",
+            "strength": 1
+          },
+          {
+            "index": 45,
+            "start": 3049.6725440806067,
+            "end": 3134.3073047858966,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 46,
+            "start": 3134.3073047858966,
+            "end": 3197.783375314864,
+            "phoneme": "n",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 47,
+            "start": 3197.783375314864,
+            "end": 3261.259445843831,
+            "phoneme": "c",
+            "viseme": "KG",
+            "strength": 1
+          },
+          {
+            "index": 48,
+            "start": 3261.259445843831,
+            "end": 3345.894206549121,
+            "phoneme": "y",
+            "viseme": "I",
+            "strength": 1
+          },
+          {
+            "index": 49,
+            "start": 3345.894206549121,
+            "end": 3391.7380352644864,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 50,
+            "start": 3391.7380352644864,
+            "end": 3442.51889168766,
+            "phoneme": "b",
+            "viseme": "MBP",
+            "strength": 1
+          },
+          {
+            "index": 51,
+            "start": 3442.51889168766,
+            "end": 3527.15365239295,
+            "phoneme": "a",
+            "viseme": "AA",
+            "strength": 1
+          },
+          {
+            "index": 52,
+            "start": 3527.15365239295,
+            "end": 3590.629722921917,
+            "phoneme": "c",
+            "viseme": "KG",
+            "strength": 1
+          },
+          {
+            "index": 53,
+            "start": 3590.629722921917,
+            "end": 3654.1057934508844,
+            "phoneme": "k",
+            "viseme": "KG",
+            "strength": 1
+          },
+          {
+            "index": 54,
+            "start": 3654.1057934508844,
+            "end": 3738.7405541561743,
+            "phoneme": "u",
+            "viseme": "U",
+            "strength": 1
+          },
+          {
+            "index": 55,
+            "start": 3738.7405541561743,
+            "end": 3789.521410579348,
+            "phoneme": "p",
+            "viseme": "MBP",
+            "strength": 1
+          },
+          {
+            "index": 56,
+            "start": 3789.521410579348,
+            "end": 3835.3652392947133,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 57,
+            "start": 3835.3652392947133,
+            "end": 3898.8413098236806,
+            "phoneme": "s",
+            "viseme": "S",
+            "strength": 1
+          },
+          {
+            "index": 58,
+            "start": 3898.8413098236806,
+            "end": 3949.6221662468542,
+            "phoneme": "p",
+            "viseme": "MBP",
+            "strength": 1
+          },
+          {
+            "index": 59,
+            "start": 3949.6221662468542,
+            "end": 4034.256926952144,
+            "phoneme": "oo",
+            "viseme": "U",
+            "strength": 1
+          },
+          {
+            "index": 60,
+            "start": 4034.256926952144,
+            "end": 4097.732997481111,
+            "phoneme": "n",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 61,
+            "start": 4097.732997481111,
+            "end": 4200,
+            "phoneme": ".",
+            "viseme": "REST",
+            "strength": 1
+          }
+        ],
+        "mouthPerformanceData": {
+          "mode": "deterministic-phoneme",
+          "source": "text-derived",
+          "cueVersion": 1,
+          "cueCount": 62
+        }
+      }
+    },
+    {
+      "entityId": "cheerful-orthodox-speaker",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "bubble_spoon_d1",
+      "trackId": "track_titles",
+      "start": 3000,
+      "duration": 4200,
+      "type": "bubble",
+      "name": "Bubble: I solved the office spoo",
+      "payload": {
+        "text": "I solved the office spoon shortage with one emergency backup spoon.",
+        "speakerId": "cheerful-orthodox-speaker",
+        "sequenceId": "spoon_setup",
+        "displayMode": "talking-plus-bubble"
+      }
+    },
+    {
+      "entityId": "skeptical-orthodox-observer",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "dialogue_spoon_d2",
+      "trackId": "track_dialogue",
+      "start": 8200,
+      "duration": 3900,
+      "type": "dialogue",
+      "name": "Dovid: A backup for what, the first",
+      "payload": {
+        "id": "spoon_d2",
+        "sequenceId": "spoon_setup",
+        "start": 8200,
+        "duration": 3900,
+        "speakerId": "skeptical-orthodox-observer",
+        "speakerName": "Dovid",
+        "text": "A backup for what, the first spoon becoming unavailable?",
+        "emotion": "skepticism",
+        "voice": "Fred",
+        "speechRate": 155,
+        "voiceStatus": "generated-speech",
+        "silentMode": false,
+        "bubble": true,
+        "displayMode": "talking-plus-bubble",
+        "lipSyncCues": [
+          {
+            "index": 0,
+            "start": 0,
+            "end": 93.75000000000003,
+            "phoneme": "a",
+            "viseme": "AA",
+            "strength": 1
+          },
+          {
+            "index": 1,
+            "start": 93.75000000000003,
+            "end": 144.53125000000006,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 2,
+            "start": 144.53125000000006,
+            "end": 200.78125000000006,
+            "phoneme": "b",
+            "viseme": "MBP",
+            "strength": 1
+          },
+          {
+            "index": 3,
+            "start": 200.78125000000006,
+            "end": 294.5312500000001,
+            "phoneme": "a",
+            "viseme": "AA",
+            "strength": 1
+          },
+          {
+            "index": 4,
+            "start": 294.5312500000001,
+            "end": 364.8437500000001,
+            "phoneme": "c",
+            "viseme": "KG",
+            "strength": 1
+          },
+          {
+            "index": 5,
+            "start": 364.8437500000001,
+            "end": 435.1562500000001,
+            "phoneme": "k",
+            "viseme": "KG",
+            "strength": 1
+          },
+          {
+            "index": 6,
+            "start": 435.1562500000001,
+            "end": 528.9062500000001,
+            "phoneme": "u",
+            "viseme": "U",
+            "strength": 1
+          },
+          {
+            "index": 7,
+            "start": 528.9062500000001,
+            "end": 585.1562500000001,
+            "phoneme": "p",
+            "viseme": "MBP",
+            "strength": 1
+          },
+          {
+            "index": 8,
+            "start": 585.1562500000001,
+            "end": 635.9375000000001,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 9,
+            "start": 635.9375000000001,
+            "end": 706.2500000000001,
+            "phoneme": "f",
+            "viseme": "FV",
+            "strength": 1
+          },
+          {
+            "index": 10,
+            "start": 706.2500000000001,
+            "end": 800.0000000000001,
+            "phoneme": "o",
+            "viseme": "O",
+            "strength": 1
+          },
+          {
+            "index": 11,
+            "start": 800.0000000000001,
+            "end": 870.3125000000001,
+            "phoneme": "r",
+            "viseme": "R",
+            "strength": 1
+          },
+          {
+            "index": 12,
+            "start": 870.3125000000001,
+            "end": 921.0937500000001,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 13,
+            "start": 921.0937500000001,
+            "end": 1014.8437500000001,
+            "phoneme": "wh",
+            "viseme": "U",
+            "strength": 1
+          },
+          {
+            "index": 14,
+            "start": 1014.8437500000001,
+            "end": 1108.5937500000002,
+            "phoneme": "a",
+            "viseme": "AA",
+            "strength": 1
+          },
+          {
+            "index": 15,
+            "start": 1108.5937500000002,
+            "end": 1178.9062500000002,
+            "phoneme": "t",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 16,
+            "start": 1178.9062500000002,
+            "end": 1292.1875000000002,
+            "phoneme": ",",
+            "viseme": "REST",
+            "strength": 1
+          },
+          {
+            "index": 17,
+            "start": 1292.1875000000002,
+            "end": 1342.9687500000002,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 18,
+            "start": 1342.9687500000002,
+            "end": 1413.2812500000002,
+            "phoneme": "th",
+            "viseme": "TH",
+            "strength": 1
+          },
+          {
+            "index": 19,
+            "start": 1413.2812500000002,
+            "end": 1507.0312500000002,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 20,
+            "start": 1507.0312500000002,
+            "end": 1557.8125000000002,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 21,
+            "start": 1557.8125000000002,
+            "end": 1628.1250000000002,
+            "phoneme": "f",
+            "viseme": "FV",
+            "strength": 1
+          },
+          {
+            "index": 22,
+            "start": 1628.1250000000002,
+            "end": 1721.8750000000002,
+            "phoneme": "i",
+            "viseme": "I",
+            "strength": 1
+          },
+          {
+            "index": 23,
+            "start": 1721.8750000000002,
+            "end": 1792.1875000000002,
+            "phoneme": "r",
+            "viseme": "R",
+            "strength": 1
+          },
+          {
+            "index": 24,
+            "start": 1792.1875000000002,
+            "end": 1862.5000000000002,
+            "phoneme": "s",
+            "viseme": "S",
+            "strength": 1
+          },
+          {
+            "index": 25,
+            "start": 1862.5000000000002,
+            "end": 1932.8125000000002,
+            "phoneme": "t",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 26,
+            "start": 1932.8125000000002,
+            "end": 1983.5937500000002,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 27,
+            "start": 1983.5937500000002,
+            "end": 2053.9062500000005,
+            "phoneme": "s",
+            "viseme": "S",
+            "strength": 1
+          },
+          {
+            "index": 28,
+            "start": 2053.9062500000005,
+            "end": 2110.1562500000005,
+            "phoneme": "p",
+            "viseme": "MBP",
+            "strength": 1
+          },
+          {
+            "index": 29,
+            "start": 2110.1562500000005,
+            "end": 2203.9062500000005,
+            "phoneme": "oo",
+            "viseme": "U",
+            "strength": 1
+          },
+          {
+            "index": 30,
+            "start": 2203.9062500000005,
+            "end": 2274.2187500000005,
+            "phoneme": "n",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 31,
+            "start": 2274.2187500000005,
+            "end": 2325.0000000000005,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 32,
+            "start": 2325.0000000000005,
+            "end": 2381.2500000000005,
+            "phoneme": "b",
+            "viseme": "MBP",
+            "strength": 1
+          },
+          {
+            "index": 33,
+            "start": 2381.2500000000005,
+            "end": 2475.0000000000005,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 34,
+            "start": 2475.0000000000005,
+            "end": 2545.3125000000005,
+            "phoneme": "c",
+            "viseme": "KG",
+            "strength": 1
+          },
+          {
+            "index": 35,
+            "start": 2545.3125000000005,
+            "end": 2639.0625000000005,
+            "phoneme": "o",
+            "viseme": "O",
+            "strength": 1
+          },
+          {
+            "index": 36,
+            "start": 2639.0625000000005,
+            "end": 2695.3125000000005,
+            "phoneme": "m",
+            "viseme": "MBP",
+            "strength": 1
+          },
+          {
+            "index": 37,
+            "start": 2695.3125000000005,
+            "end": 2789.0625000000005,
+            "phoneme": "i",
+            "viseme": "I",
+            "strength": 1
+          },
+          {
+            "index": 38,
+            "start": 2789.0625000000005,
+            "end": 2859.3750000000005,
+            "phoneme": "n",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 39,
+            "start": 2859.3750000000005,
+            "end": 2929.6875000000005,
+            "phoneme": "g",
+            "viseme": "KG",
+            "strength": 1
+          },
+          {
+            "index": 40,
+            "start": 2929.6875000000005,
+            "end": 2980.4687500000005,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 41,
+            "start": 2980.4687500000005,
+            "end": 3074.2187500000005,
+            "phoneme": "u",
+            "viseme": "U",
+            "strength": 1
+          },
+          {
+            "index": 42,
+            "start": 3074.2187500000005,
+            "end": 3144.5312500000005,
+            "phoneme": "n",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 43,
+            "start": 3144.5312500000005,
+            "end": 3238.2812500000005,
+            "phoneme": "a",
+            "viseme": "AA",
+            "strength": 1
+          },
+          {
+            "index": 44,
+            "start": 3238.2812500000005,
+            "end": 3308.5937500000005,
+            "phoneme": "v",
+            "viseme": "FV",
+            "strength": 1
+          },
+          {
+            "index": 45,
+            "start": 3308.5937500000005,
+            "end": 3402.3437500000005,
+            "phoneme": "ai",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 46,
+            "start": 3402.3437500000005,
+            "end": 3472.6562500000005,
+            "phoneme": "l",
+            "viseme": "L",
+            "strength": 1
+          },
+          {
+            "index": 47,
+            "start": 3472.6562500000005,
+            "end": 3566.4062500000005,
+            "phoneme": "a",
+            "viseme": "AA",
+            "strength": 1
+          },
+          {
+            "index": 48,
+            "start": 3566.4062500000005,
+            "end": 3622.6562500000005,
+            "phoneme": "b",
+            "viseme": "MBP",
+            "strength": 1
+          },
+          {
+            "index": 49,
+            "start": 3622.6562500000005,
+            "end": 3692.9687500000005,
+            "phoneme": "l",
+            "viseme": "L",
+            "strength": 1
+          },
+          {
+            "index": 50,
+            "start": 3692.9687500000005,
+            "end": 3786.7187500000005,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 51,
+            "start": 3786.7187500000005,
+            "end": 3900,
+            "phoneme": "?",
+            "viseme": "REST",
+            "strength": 1
+          }
+        ],
+        "mouthPerformanceData": {
+          "mode": "deterministic-phoneme",
+          "source": "text-derived",
+          "cueVersion": 1,
+          "cueCount": 52
+        }
+      }
+    },
+    {
+      "entityId": "skeptical-orthodox-observer",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "bubble_spoon_d2",
+      "trackId": "track_titles",
+      "start": 8200,
+      "duration": 3900,
+      "type": "bubble",
+      "name": "Bubble: A backup for what, the f",
+      "payload": {
+        "text": "A backup for what, the first spoon becoming unavailable?",
+        "speakerId": "skeptical-orthodox-observer",
+        "sequenceId": "spoon_setup",
+        "displayMode": "talking-plus-bubble"
+      }
+    },
+    {
+      "entityId": "calm-orthodox-woman",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "dialogue_spoon_d3",
+      "trackId": "track_dialogue",
+      "start": 13800,
+      "duration": 3600,
+      "type": "dialogue",
+      "name": "Rivky: It is already unavailable. A",
+      "payload": {
+        "id": "spoon_d3",
+        "sequenceId": "spoon_setup",
+        "start": 13800,
+        "duration": 3600,
+        "speakerId": "calm-orthodox-woman",
+        "speakerName": "Rivky",
+        "text": "It is already unavailable. Ari is presenting it.",
+        "emotion": "attention",
+        "voice": "Samantha",
+        "speechRate": 175,
+        "voiceStatus": "generated-speech",
+        "silentMode": false,
+        "bubble": true,
+        "displayMode": "talking-plus-bubble",
+        "lipSyncCues": [
+          {
+            "index": 0,
+            "start": 0,
+            "end": 94.96592657726976,
+            "phoneme": "i",
+            "viseme": "I",
+            "strength": 1
+          },
+          {
+            "index": 1,
+            "start": 94.96592657726976,
+            "end": 166.19037151022206,
+            "phoneme": "t",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 2,
+            "start": 166.19037151022206,
+            "end": 217.6302484062432,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 3,
+            "start": 217.6302484062432,
+            "end": 312.5961749835129,
+            "phoneme": "i",
+            "viseme": "I",
+            "strength": 1
+          },
+          {
+            "index": 4,
+            "start": 312.5961749835129,
+            "end": 383.82061991646526,
+            "phoneme": "s",
+            "viseme": "S",
+            "strength": 1
+          },
+          {
+            "index": 5,
+            "start": 383.82061991646526,
+            "end": 435.2604968124864,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 6,
+            "start": 435.2604968124864,
+            "end": 530.2264233897562,
+            "phoneme": "a",
+            "viseme": "AA",
+            "strength": 1
+          },
+          {
+            "index": 7,
+            "start": 530.2264233897562,
+            "end": 601.4508683227085,
+            "phoneme": "l",
+            "viseme": "L",
+            "strength": 1
+          },
+          {
+            "index": 8,
+            "start": 601.4508683227085,
+            "end": 672.6753132556609,
+            "phoneme": "r",
+            "viseme": "R",
+            "strength": 1
+          },
+          {
+            "index": 9,
+            "start": 672.6753132556609,
+            "end": 767.6412398329306,
+            "phoneme": "ea",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 10,
+            "start": 767.6412398329306,
+            "end": 838.865684765883,
+            "phoneme": "d",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 11,
+            "start": 838.865684765883,
+            "end": 933.8316113431528,
+            "phoneme": "y",
+            "viseme": "I",
+            "strength": 1
+          },
+          {
+            "index": 12,
+            "start": 933.8316113431528,
+            "end": 985.2714882391739,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 13,
+            "start": 985.2714882391739,
+            "end": 1080.2374148164436,
+            "phoneme": "u",
+            "viseme": "U",
+            "strength": 1
+          },
+          {
+            "index": 14,
+            "start": 1080.2374148164436,
+            "end": 1151.461859749396,
+            "phoneme": "n",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 15,
+            "start": 1151.461859749396,
+            "end": 1246.4277863266657,
+            "phoneme": "a",
+            "viseme": "AA",
+            "strength": 1
+          },
+          {
+            "index": 16,
+            "start": 1246.4277863266657,
+            "end": 1317.652231259618,
+            "phoneme": "v",
+            "viseme": "FV",
+            "strength": 1
+          },
+          {
+            "index": 17,
+            "start": 1317.652231259618,
+            "end": 1412.6181578368878,
+            "phoneme": "ai",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 18,
+            "start": 1412.6181578368878,
+            "end": 1483.8426027698401,
+            "phoneme": "l",
+            "viseme": "L",
+            "strength": 1
+          },
+          {
+            "index": 19,
+            "start": 1483.8426027698401,
+            "end": 1578.80852934711,
+            "phoneme": "a",
+            "viseme": "AA",
+            "strength": 1
+          },
+          {
+            "index": 20,
+            "start": 1578.80852934711,
+            "end": 1635.7880852934718,
+            "phoneme": "b",
+            "viseme": "MBP",
+            "strength": 1
+          },
+          {
+            "index": 21,
+            "start": 1635.7880852934718,
+            "end": 1707.0125302264241,
+            "phoneme": "l",
+            "viseme": "L",
+            "strength": 1
+          },
+          {
+            "index": 22,
+            "start": 1707.0125302264241,
+            "end": 1801.978456803694,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 23,
+            "start": 1801.978456803694,
+            "end": 1916.728951417895,
+            "phoneme": ".",
+            "viseme": "REST",
+            "strength": 1
+          },
+          {
+            "index": 24,
+            "start": 1916.728951417895,
+            "end": 1968.168828313916,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 25,
+            "start": 1968.168828313916,
+            "end": 2063.134754891186,
+            "phoneme": "a",
+            "viseme": "AA",
+            "strength": 1
+          },
+          {
+            "index": 26,
+            "start": 2063.134754891186,
+            "end": 2134.359199824138,
+            "phoneme": "r",
+            "viseme": "R",
+            "strength": 1
+          },
+          {
+            "index": 27,
+            "start": 2134.359199824138,
+            "end": 2229.325126401408,
+            "phoneme": "i",
+            "viseme": "I",
+            "strength": 1
+          },
+          {
+            "index": 28,
+            "start": 2229.325126401408,
+            "end": 2280.765003297429,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 29,
+            "start": 2280.765003297429,
+            "end": 2375.7309298746986,
+            "phoneme": "i",
+            "viseme": "I",
+            "strength": 1
+          },
+          {
+            "index": 30,
+            "start": 2375.7309298746986,
+            "end": 2446.955374807651,
+            "phoneme": "s",
+            "viseme": "S",
+            "strength": 1
+          },
+          {
+            "index": 31,
+            "start": 2446.955374807651,
+            "end": 2498.395251703672,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 32,
+            "start": 2498.395251703672,
+            "end": 2555.3748076500337,
+            "phoneme": "p",
+            "viseme": "MBP",
+            "strength": 1
+          },
+          {
+            "index": 33,
+            "start": 2555.3748076500337,
+            "end": 2626.599252582986,
+            "phoneme": "r",
+            "viseme": "R",
+            "strength": 1
+          },
+          {
+            "index": 34,
+            "start": 2626.599252582986,
+            "end": 2721.565179160256,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 35,
+            "start": 2721.565179160256,
+            "end": 2792.789624093208,
+            "phoneme": "s",
+            "viseme": "S",
+            "strength": 1
+          },
+          {
+            "index": 36,
+            "start": 2792.789624093208,
+            "end": 2887.755550670478,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 37,
+            "start": 2887.755550670478,
+            "end": 2958.9799956034303,
+            "phoneme": "n",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 38,
+            "start": 2958.9799956034303,
+            "end": 3030.2044405363827,
+            "phoneme": "t",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 39,
+            "start": 3030.2044405363827,
+            "end": 3125.1703671136524,
+            "phoneme": "i",
+            "viseme": "I",
+            "strength": 1
+          },
+          {
+            "index": 40,
+            "start": 3125.1703671136524,
+            "end": 3196.394812046605,
+            "phoneme": "n",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 41,
+            "start": 3196.394812046605,
+            "end": 3267.619256979557,
+            "phoneme": "g",
+            "viseme": "KG",
+            "strength": 1
+          },
+          {
+            "index": 42,
+            "start": 3267.619256979557,
+            "end": 3319.059133875578,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 43,
+            "start": 3319.059133875578,
+            "end": 3414.025060452848,
+            "phoneme": "i",
+            "viseme": "I",
+            "strength": 1
+          },
+          {
+            "index": 44,
+            "start": 3414.025060452848,
+            "end": 3485.2495053858,
+            "phoneme": "t",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 45,
+            "start": 3485.2495053858,
+            "end": 3600,
+            "phoneme": ".",
+            "viseme": "REST",
+            "strength": 1
+          }
+        ],
+        "mouthPerformanceData": {
+          "mode": "deterministic-phoneme",
+          "source": "text-derived",
+          "cueVersion": 1,
+          "cueCount": 46
+        }
+      }
+    },
+    {
+      "entityId": "calm-orthodox-woman",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "bubble_spoon_d3",
+      "trackId": "track_titles",
+      "start": 13800,
+      "duration": 3600,
+      "type": "bubble",
+      "name": "Bubble: It is already unavailabl",
+      "payload": {
+        "text": "It is already unavailable. Ari is presenting it.",
+        "speakerId": "calm-orthodox-woman",
+        "sequenceId": "spoon_setup",
+        "displayMode": "talking-plus-bubble"
+      }
+    },
+    {
+      "entityId": "cheerful-orthodox-speaker",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "dialogue_spoon_d4",
+      "trackId": "track_dialogue",
+      "start": 20500,
+      "duration": 4300,
+      "type": "dialogue",
+      "name": "Ari: The system is simple. Everyo",
+      "payload": {
+        "id": "spoon_d4",
+        "sequenceId": "spoon_escalation",
+        "start": 20500,
+        "duration": 4300,
+        "speakerId": "cheerful-orthodox-speaker",
+        "speakerName": "Ari",
+        "text": "The system is simple. Everyone books the spoon on the calendar.",
+        "emotion": "joy",
+        "voice": "Alex",
+        "speechRate": 185,
+        "voiceStatus": "generated-speech",
+        "silentMode": false,
+        "bubble": true,
+        "displayMode": "talking-plus-bubble",
+        "lipSyncCues": [
+          {
+            "index": 0,
+            "start": 0,
+            "end": 69.6043165467626,
+            "phoneme": "th",
+            "viseme": "TH",
+            "strength": 1
+          },
+          {
+            "index": 1,
+            "start": 69.6043165467626,
+            "end": 162.41007194244608,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 2,
+            "start": 162.41007194244608,
+            "end": 212.67985611510795,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 3,
+            "start": 212.67985611510795,
+            "end": 282.28417266187057,
+            "phoneme": "s",
+            "viseme": "S",
+            "strength": 1
+          },
+          {
+            "index": 4,
+            "start": 282.28417266187057,
+            "end": 375.08992805755406,
+            "phoneme": "y",
+            "viseme": "I",
+            "strength": 1
+          },
+          {
+            "index": 5,
+            "start": 375.08992805755406,
+            "end": 444.6942446043167,
+            "phoneme": "s",
+            "viseme": "S",
+            "strength": 1
+          },
+          {
+            "index": 6,
+            "start": 444.6942446043167,
+            "end": 514.2985611510793,
+            "phoneme": "t",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 7,
+            "start": 514.2985611510793,
+            "end": 607.1043165467628,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 8,
+            "start": 607.1043165467628,
+            "end": 662.7877697841728,
+            "phoneme": "m",
+            "viseme": "MBP",
+            "strength": 1
+          },
+          {
+            "index": 9,
+            "start": 662.7877697841728,
+            "end": 713.0575539568347,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 10,
+            "start": 713.0575539568347,
+            "end": 805.8633093525182,
+            "phoneme": "i",
+            "viseme": "I",
+            "strength": 1
+          },
+          {
+            "index": 11,
+            "start": 805.8633093525182,
+            "end": 875.4676258992807,
+            "phoneme": "s",
+            "viseme": "S",
+            "strength": 1
+          },
+          {
+            "index": 12,
+            "start": 875.4676258992807,
+            "end": 925.7374100719426,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 13,
+            "start": 925.7374100719426,
+            "end": 995.3417266187051,
+            "phoneme": "s",
+            "viseme": "S",
+            "strength": 1
+          },
+          {
+            "index": 14,
+            "start": 995.3417266187051,
+            "end": 1088.1474820143885,
+            "phoneme": "i",
+            "viseme": "I",
+            "strength": 1
+          },
+          {
+            "index": 15,
+            "start": 1088.1474820143885,
+            "end": 1143.8309352517986,
+            "phoneme": "m",
+            "viseme": "MBP",
+            "strength": 1
+          },
+          {
+            "index": 16,
+            "start": 1143.8309352517986,
+            "end": 1199.5143884892086,
+            "phoneme": "p",
+            "viseme": "MBP",
+            "strength": 1
+          },
+          {
+            "index": 17,
+            "start": 1199.5143884892086,
+            "end": 1269.1187050359713,
+            "phoneme": "l",
+            "viseme": "L",
+            "strength": 1
+          },
+          {
+            "index": 18,
+            "start": 1269.1187050359713,
+            "end": 1361.9244604316548,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 19,
+            "start": 1361.9244604316548,
+            "end": 1474.064748201439,
+            "phoneme": ".",
+            "viseme": "REST",
+            "strength": 1
+          },
+          {
+            "index": 20,
+            "start": 1474.064748201439,
+            "end": 1524.334532374101,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 21,
+            "start": 1524.334532374101,
+            "end": 1617.1402877697844,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 22,
+            "start": 1617.1402877697844,
+            "end": 1686.744604316547,
+            "phoneme": "v",
+            "viseme": "FV",
+            "strength": 1
+          },
+          {
+            "index": 23,
+            "start": 1686.744604316547,
+            "end": 1779.5503597122306,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 24,
+            "start": 1779.5503597122306,
+            "end": 1849.1546762589933,
+            "phoneme": "r",
+            "viseme": "R",
+            "strength": 1
+          },
+          {
+            "index": 25,
+            "start": 1849.1546762589933,
+            "end": 1941.9604316546768,
+            "phoneme": "y",
+            "viseme": "I",
+            "strength": 1
+          },
+          {
+            "index": 26,
+            "start": 1941.9604316546768,
+            "end": 2034.7661870503603,
+            "phoneme": "o",
+            "viseme": "O",
+            "strength": 1
+          },
+          {
+            "index": 27,
+            "start": 2034.7661870503603,
+            "end": 2104.370503597123,
+            "phoneme": "n",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 28,
+            "start": 2104.370503597123,
+            "end": 2197.176258992806,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 29,
+            "start": 2197.176258992806,
+            "end": 2247.446043165468,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 30,
+            "start": 2247.446043165468,
+            "end": 2303.129496402878,
+            "phoneme": "b",
+            "viseme": "MBP",
+            "strength": 1
+          },
+          {
+            "index": 31,
+            "start": 2303.129496402878,
+            "end": 2395.9352517985612,
+            "phoneme": "oo",
+            "viseme": "U",
+            "strength": 1
+          },
+          {
+            "index": 32,
+            "start": 2395.9352517985612,
+            "end": 2465.539568345324,
+            "phoneme": "k",
+            "viseme": "KG",
+            "strength": 1
+          },
+          {
+            "index": 33,
+            "start": 2465.539568345324,
+            "end": 2535.1438848920866,
+            "phoneme": "s",
+            "viseme": "S",
+            "strength": 1
+          },
+          {
+            "index": 34,
+            "start": 2535.1438848920866,
+            "end": 2585.4136690647483,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 35,
+            "start": 2585.4136690647483,
+            "end": 2655.017985611511,
+            "phoneme": "th",
+            "viseme": "TH",
+            "strength": 1
+          },
+          {
+            "index": 36,
+            "start": 2655.017985611511,
+            "end": 2747.8237410071943,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 37,
+            "start": 2747.8237410071943,
+            "end": 2798.093525179856,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 38,
+            "start": 2798.093525179856,
+            "end": 2867.6978417266187,
+            "phoneme": "s",
+            "viseme": "S",
+            "strength": 1
+          },
+          {
+            "index": 39,
+            "start": 2867.6978417266187,
+            "end": 2923.3812949640287,
+            "phoneme": "p",
+            "viseme": "MBP",
+            "strength": 1
+          },
+          {
+            "index": 40,
+            "start": 2923.3812949640287,
+            "end": 3016.187050359712,
+            "phoneme": "oo",
+            "viseme": "U",
+            "strength": 1
+          },
+          {
+            "index": 41,
+            "start": 3016.187050359712,
+            "end": 3085.7913669064747,
+            "phoneme": "n",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 42,
+            "start": 3085.7913669064747,
+            "end": 3136.0611510791364,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 43,
+            "start": 3136.0611510791364,
+            "end": 3228.8669064748196,
+            "phoneme": "o",
+            "viseme": "O",
+            "strength": 1
+          },
+          {
+            "index": 44,
+            "start": 3228.8669064748196,
+            "end": 3298.4712230215823,
+            "phoneme": "n",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 45,
+            "start": 3298.4712230215823,
+            "end": 3348.741007194244,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 46,
+            "start": 3348.741007194244,
+            "end": 3418.3453237410067,
+            "phoneme": "th",
+            "viseme": "TH",
+            "strength": 1
+          },
+          {
+            "index": 47,
+            "start": 3418.3453237410067,
+            "end": 3511.15107913669,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 48,
+            "start": 3511.15107913669,
+            "end": 3561.4208633093517,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 49,
+            "start": 3561.4208633093517,
+            "end": 3631.0251798561144,
+            "phoneme": "c",
+            "viseme": "KG",
+            "strength": 1
+          },
+          {
+            "index": 50,
+            "start": 3631.0251798561144,
+            "end": 3723.8309352517977,
+            "phoneme": "a",
+            "viseme": "AA",
+            "strength": 1
+          },
+          {
+            "index": 51,
+            "start": 3723.8309352517977,
+            "end": 3793.4352517985603,
+            "phoneme": "l",
+            "viseme": "L",
+            "strength": 1
+          },
+          {
+            "index": 52,
+            "start": 3793.4352517985603,
+            "end": 3886.2410071942436,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 53,
+            "start": 3886.2410071942436,
+            "end": 3955.8453237410063,
+            "phoneme": "n",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 54,
+            "start": 3955.8453237410063,
+            "end": 4025.449640287769,
+            "phoneme": "d",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 55,
+            "start": 4025.449640287769,
+            "end": 4118.255395683453,
+            "phoneme": "a",
+            "viseme": "AA",
+            "strength": 1
+          },
+          {
+            "index": 56,
+            "start": 4118.255395683453,
+            "end": 4187.859712230215,
+            "phoneme": "r",
+            "viseme": "R",
+            "strength": 1
+          },
+          {
+            "index": 57,
+            "start": 4187.859712230215,
+            "end": 4300,
+            "phoneme": ".",
+            "viseme": "REST",
+            "strength": 1
+          }
+        ],
+        "mouthPerformanceData": {
+          "mode": "deterministic-phoneme",
+          "source": "text-derived",
+          "cueVersion": 1,
+          "cueCount": 58
+        }
+      }
+    },
+    {
+      "entityId": "cheerful-orthodox-speaker",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "bubble_spoon_d4",
+      "trackId": "track_titles",
+      "start": 20500,
+      "duration": 4300,
+      "type": "bubble",
+      "name": "Bubble: The system is simple. Ev",
+      "payload": {
+        "text": "The system is simple. Everyone books the spoon on the calendar.",
+        "speakerId": "cheerful-orthodox-speaker",
+        "sequenceId": "spoon_escalation",
+        "displayMode": "talking-plus-bubble"
+      }
+    },
+    {
+      "entityId": "skeptical-orthodox-observer",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "dialogue_spoon_d5",
+      "trackId": "track_dialogue",
+      "start": 26700,
+      "duration": 3800,
+      "type": "dialogue",
+      "name": "Dovid: The spoon has more meetings ",
+      "payload": {
+        "id": "spoon_d5",
+        "sequenceId": "spoon_escalation",
+        "start": 26700,
+        "duration": 3800,
+        "speakerId": "skeptical-orthodox-observer",
+        "speakerName": "Dovid",
+        "text": "The spoon has more meetings than I do.",
+        "emotion": "skepticism",
+        "voice": "Fred",
+        "speechRate": 155,
+        "voiceStatus": "generated-speech",
+        "silentMode": false,
+        "bubble": true,
+        "displayMode": "talking-plus-bubble",
+        "lipSyncCues": [
+          {
+            "index": 0,
+            "start": 0,
+            "end": 106.34328358208961,
+            "phoneme": "th",
+            "viseme": "TH",
+            "strength": 1
+          },
+          {
+            "index": 1,
+            "start": 106.34328358208961,
+            "end": 248.1343283582091,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 2,
+            "start": 248.1343283582091,
+            "end": 324.93781094527384,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 3,
+            "start": 324.93781094527384,
+            "end": 431.28109452736345,
+            "phoneme": "s",
+            "viseme": "S",
+            "strength": 1
+          },
+          {
+            "index": 4,
+            "start": 431.28109452736345,
+            "end": 516.3557213930351,
+            "phoneme": "p",
+            "viseme": "MBP",
+            "strength": 1
+          },
+          {
+            "index": 5,
+            "start": 516.3557213930351,
+            "end": 658.1467661691546,
+            "phoneme": "oo",
+            "viseme": "U",
+            "strength": 1
+          },
+          {
+            "index": 6,
+            "start": 658.1467661691546,
+            "end": 764.4900497512442,
+            "phoneme": "n",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 7,
+            "start": 764.4900497512442,
+            "end": 841.293532338309,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 8,
+            "start": 841.293532338309,
+            "end": 983.0845771144285,
+            "phoneme": "h",
+            "viseme": "AA",
+            "strength": 1
+          },
+          {
+            "index": 9,
+            "start": 983.0845771144285,
+            "end": 1124.875621890548,
+            "phoneme": "a",
+            "viseme": "AA",
+            "strength": 1
+          },
+          {
+            "index": 10,
+            "start": 1124.875621890548,
+            "end": 1231.2189054726377,
+            "phoneme": "s",
+            "viseme": "S",
+            "strength": 1
+          },
+          {
+            "index": 11,
+            "start": 1231.2189054726377,
+            "end": 1308.0223880597025,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 12,
+            "start": 1308.0223880597025,
+            "end": 1393.0970149253742,
+            "phoneme": "m",
+            "viseme": "MBP",
+            "strength": 1
+          },
+          {
+            "index": 13,
+            "start": 1393.0970149253742,
+            "end": 1534.8880597014936,
+            "phoneme": "o",
+            "viseme": "O",
+            "strength": 1
+          },
+          {
+            "index": 14,
+            "start": 1534.8880597014936,
+            "end": 1641.231343283583,
+            "phoneme": "r",
+            "viseme": "R",
+            "strength": 1
+          },
+          {
+            "index": 15,
+            "start": 1641.231343283583,
+            "end": 1783.0223880597025,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 16,
+            "start": 1783.0223880597025,
+            "end": 1859.8258706467673,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 17,
+            "start": 1859.8258706467673,
+            "end": 1944.900497512439,
+            "phoneme": "m",
+            "viseme": "MBP",
+            "strength": 1
+          },
+          {
+            "index": 18,
+            "start": 1944.900497512439,
+            "end": 2086.6915422885586,
+            "phoneme": "ee",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 19,
+            "start": 2086.6915422885586,
+            "end": 2193.034825870648,
+            "phoneme": "t",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 20,
+            "start": 2193.034825870648,
+            "end": 2334.8258706467677,
+            "phoneme": "i",
+            "viseme": "I",
+            "strength": 1
+          },
+          {
+            "index": 21,
+            "start": 2334.8258706467677,
+            "end": 2441.169154228857,
+            "phoneme": "n",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 22,
+            "start": 2441.169154228857,
+            "end": 2547.5124378109467,
+            "phoneme": "g",
+            "viseme": "KG",
+            "strength": 1
+          },
+          {
+            "index": 23,
+            "start": 2547.5124378109467,
+            "end": 2653.855721393036,
+            "phoneme": "s",
+            "viseme": "S",
+            "strength": 1
+          },
+          {
+            "index": 24,
+            "start": 2653.855721393036,
+            "end": 2730.6592039801008,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 25,
+            "start": 2730.6592039801008,
+            "end": 2837.0024875621903,
+            "phoneme": "th",
+            "viseme": "TH",
+            "strength": 1
+          },
+          {
+            "index": 26,
+            "start": 2837.0024875621903,
+            "end": 2978.79353233831,
+            "phoneme": "a",
+            "viseme": "AA",
+            "strength": 1
+          },
+          {
+            "index": 27,
+            "start": 2978.79353233831,
+            "end": 3085.1368159203994,
+            "phoneme": "n",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 28,
+            "start": 3085.1368159203994,
+            "end": 3161.940298507464,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 29,
+            "start": 3161.940298507464,
+            "end": 3303.7313432835836,
+            "phoneme": "i",
+            "viseme": "I",
+            "strength": 1
+          },
+          {
+            "index": 30,
+            "start": 3303.7313432835836,
+            "end": 3380.534825870648,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 31,
+            "start": 3380.534825870648,
+            "end": 3486.8781094527376,
+            "phoneme": "d",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 32,
+            "start": 3486.8781094527376,
+            "end": 3628.669154228857,
+            "phoneme": "o",
+            "viseme": "O",
+            "strength": 1
+          },
+          {
+            "index": 33,
+            "start": 3628.669154228857,
+            "end": 3800,
+            "phoneme": ".",
+            "viseme": "REST",
+            "strength": 1
+          }
+        ],
+        "mouthPerformanceData": {
+          "mode": "deterministic-phoneme",
+          "source": "text-derived",
+          "cueVersion": 1,
+          "cueCount": 34
+        }
+      }
+    },
+    {
+      "entityId": "skeptical-orthodox-observer",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "bubble_spoon_d5",
+      "trackId": "track_titles",
+      "start": 26700,
+      "duration": 3800,
+      "type": "bubble",
+      "name": "Bubble: The spoon has more meeti",
+      "payload": {
+        "text": "The spoon has more meetings than I do.",
+        "speakerId": "skeptical-orthodox-observer",
+        "sequenceId": "spoon_escalation",
+        "displayMode": "talking-plus-bubble"
+      }
+    },
+    {
+      "entityId": "calm-orthodox-woman",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "dialogue_spoon_d6",
+      "trackId": "track_dialogue",
+      "start": 33200,
+      "duration": 3500,
+      "type": "dialogue",
+      "name": "Rivky: It also declined your invita",
+      "payload": {
+        "id": "spoon_d6",
+        "sequenceId": "spoon_escalation",
+        "start": 33200,
+        "duration": 3500,
+        "speakerId": "calm-orthodox-woman",
+        "speakerName": "Rivky",
+        "text": "It also declined your invitation.",
+        "emotion": "joy",
+        "voice": "Samantha",
+        "speechRate": 175,
+        "voiceStatus": "generated-speech",
+        "silentMode": false,
+        "bubble": true,
+        "displayMode": "talking-plus-bubble",
+        "lipSyncCues": [
+          {
+            "index": 0,
+            "start": 0,
+            "end": 130.23255813953494,
+            "phoneme": "i",
+            "viseme": "I",
+            "strength": 1
+          },
+          {
+            "index": 1,
+            "start": 130.23255813953494,
+            "end": 227.90697674418615,
+            "phoneme": "t",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 2,
+            "start": 227.90697674418615,
+            "end": 298.4496124031009,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 3,
+            "start": 298.4496124031009,
+            "end": 428.68217054263584,
+            "phoneme": "a",
+            "viseme": "AA",
+            "strength": 1
+          },
+          {
+            "index": 4,
+            "start": 428.68217054263584,
+            "end": 526.3565891472871,
+            "phoneme": "l",
+            "viseme": "L",
+            "strength": 1
+          },
+          {
+            "index": 5,
+            "start": 526.3565891472871,
+            "end": 624.0310077519383,
+            "phoneme": "s",
+            "viseme": "S",
+            "strength": 1
+          },
+          {
+            "index": 6,
+            "start": 624.0310077519383,
+            "end": 754.2635658914733,
+            "phoneme": "o",
+            "viseme": "O",
+            "strength": 1
+          },
+          {
+            "index": 7,
+            "start": 754.2635658914733,
+            "end": 824.806201550388,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 8,
+            "start": 824.806201550388,
+            "end": 922.4806201550392,
+            "phoneme": "d",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 9,
+            "start": 922.4806201550392,
+            "end": 1052.7131782945742,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 10,
+            "start": 1052.7131782945742,
+            "end": 1150.3875968992254,
+            "phoneme": "c",
+            "viseme": "KG",
+            "strength": 1
+          },
+          {
+            "index": 11,
+            "start": 1150.3875968992254,
+            "end": 1248.0620155038766,
+            "phoneme": "l",
+            "viseme": "L",
+            "strength": 1
+          },
+          {
+            "index": 12,
+            "start": 1248.0620155038766,
+            "end": 1378.2945736434117,
+            "phoneme": "i",
+            "viseme": "I",
+            "strength": 1
+          },
+          {
+            "index": 13,
+            "start": 1378.2945736434117,
+            "end": 1475.968992248063,
+            "phoneme": "n",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 14,
+            "start": 1475.968992248063,
+            "end": 1606.2015503875978,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 15,
+            "start": 1606.2015503875978,
+            "end": 1703.875968992249,
+            "phoneme": "d",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 16,
+            "start": 1703.875968992249,
+            "end": 1774.4186046511638,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 17,
+            "start": 1774.4186046511638,
+            "end": 1904.651162790699,
+            "phoneme": "y",
+            "viseme": "I",
+            "strength": 1
+          },
+          {
+            "index": 18,
+            "start": 1904.651162790699,
+            "end": 2034.8837209302337,
+            "phoneme": "ou",
+            "viseme": "O",
+            "strength": 1
+          },
+          {
+            "index": 19,
+            "start": 2034.8837209302337,
+            "end": 2132.558139534885,
+            "phoneme": "r",
+            "viseme": "R",
+            "strength": 1
+          },
+          {
+            "index": 20,
+            "start": 2132.558139534885,
+            "end": 2203.1007751937996,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 21,
+            "start": 2203.1007751937996,
+            "end": 2333.3333333333344,
+            "phoneme": "i",
+            "viseme": "I",
+            "strength": 1
+          },
+          {
+            "index": 22,
+            "start": 2333.3333333333344,
+            "end": 2431.0077519379856,
+            "phoneme": "n",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 23,
+            "start": 2431.0077519379856,
+            "end": 2528.682170542637,
+            "phoneme": "v",
+            "viseme": "FV",
+            "strength": 1
+          },
+          {
+            "index": 24,
+            "start": 2528.682170542637,
+            "end": 2658.9147286821717,
+            "phoneme": "i",
+            "viseme": "I",
+            "strength": 1
+          },
+          {
+            "index": 25,
+            "start": 2658.9147286821717,
+            "end": 2756.589147286823,
+            "phoneme": "t",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 26,
+            "start": 2756.589147286823,
+            "end": 2886.8217054263578,
+            "phoneme": "a",
+            "viseme": "AA",
+            "strength": 1
+          },
+          {
+            "index": 27,
+            "start": 2886.8217054263578,
+            "end": 2984.496124031009,
+            "phoneme": "t",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 28,
+            "start": 2984.496124031009,
+            "end": 3114.728682170544,
+            "phoneme": "i",
+            "viseme": "I",
+            "strength": 1
+          },
+          {
+            "index": 29,
+            "start": 3114.728682170544,
+            "end": 3244.9612403100787,
+            "phoneme": "o",
+            "viseme": "O",
+            "strength": 1
+          },
+          {
+            "index": 30,
+            "start": 3244.9612403100787,
+            "end": 3342.63565891473,
+            "phoneme": "n",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 31,
+            "start": 3342.63565891473,
+            "end": 3500,
+            "phoneme": ".",
+            "viseme": "REST",
+            "strength": 1
+          }
+        ],
+        "mouthPerformanceData": {
+          "mode": "deterministic-phoneme",
+          "source": "text-derived",
+          "cueVersion": 1,
+          "cueCount": 32
+        }
+      }
+    },
+    {
+      "entityId": "calm-orthodox-woman",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "bubble_spoon_d6",
+      "trackId": "track_titles",
+      "start": 33200,
+      "duration": 3500,
+      "type": "bubble",
+      "name": "Bubble: It also declined your in",
+      "payload": {
+        "text": "It also declined your invitation.",
+        "speakerId": "calm-orthodox-woman",
+        "sequenceId": "spoon_escalation",
+        "displayMode": "talking-plus-bubble"
+      }
+    },
+    {
+      "entityId": "cheerful-orthodox-speaker",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "dialogue_spoon_d7",
+      "trackId": "track_dialogue",
+      "start": 41500,
+      "duration": 3900,
+      "type": "dialogue",
+      "name": "Ari: Fine. We need a secure stora",
+      "payload": {
+        "id": "spoon_d7",
+        "sequenceId": "spoon_payoff",
+        "start": 41500,
+        "duration": 3900,
+        "speakerId": "cheerful-orthodox-speaker",
+        "speakerName": "Ari",
+        "text": "Fine. We need a secure storage plan.",
+        "emotion": "concerned",
+        "voice": "Alex",
+        "speechRate": 180,
+        "voiceStatus": "generated-speech",
+        "silentMode": false,
+        "bubble": true,
+        "displayMode": "talking-plus-bubble",
+        "lipSyncCues": [
+          {
+            "index": 0,
+            "start": 0,
+            "end": 100.80413555427918,
+            "phoneme": "f",
+            "viseme": "FV",
+            "strength": 1
+          },
+          {
+            "index": 1,
+            "start": 100.80413555427918,
+            "end": 235.20964962665144,
+            "phoneme": "i",
+            "viseme": "I",
+            "strength": 1
+          },
+          {
+            "index": 2,
+            "start": 235.20964962665144,
+            "end": 336.01378518093065,
+            "phoneme": "n",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 3,
+            "start": 336.01378518093065,
+            "end": 470.41929925330294,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 4,
+            "start": 470.41929925330294,
+            "end": 632.8259620907527,
+            "phoneme": ".",
+            "viseme": "REST",
+            "strength": 1
+          },
+          {
+            "index": 5,
+            "start": 632.8259620907527,
+            "end": 705.6289488799544,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 6,
+            "start": 705.6289488799544,
+            "end": 840.0344629523266,
+            "phoneme": "w",
+            "viseme": "U",
+            "strength": 1
+          },
+          {
+            "index": 7,
+            "start": 840.0344629523266,
+            "end": 974.4399770246989,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 8,
+            "start": 974.4399770246989,
+            "end": 1047.2429638139006,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 9,
+            "start": 1047.2429638139006,
+            "end": 1148.0470993681797,
+            "phoneme": "n",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 10,
+            "start": 1148.0470993681797,
+            "end": 1282.4526134405519,
+            "phoneme": "ee",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 11,
+            "start": 1282.4526134405519,
+            "end": 1383.256748994831,
+            "phoneme": "d",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 12,
+            "start": 1383.256748994831,
+            "end": 1456.0597357840327,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 13,
+            "start": 1456.0597357840327,
+            "end": 1590.4652498564049,
+            "phoneme": "a",
+            "viseme": "AA",
+            "strength": 1
+          },
+          {
+            "index": 14,
+            "start": 1590.4652498564049,
+            "end": 1663.2682366456065,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 15,
+            "start": 1663.2682366456065,
+            "end": 1764.0723721998856,
+            "phoneme": "s",
+            "viseme": "S",
+            "strength": 1
+          },
+          {
+            "index": 16,
+            "start": 1764.0723721998856,
+            "end": 1898.4778862722578,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 17,
+            "start": 1898.4778862722578,
+            "end": 1999.282021826537,
+            "phoneme": "c",
+            "viseme": "KG",
+            "strength": 1
+          },
+          {
+            "index": 18,
+            "start": 1999.282021826537,
+            "end": 2133.687535898909,
+            "phoneme": "u",
+            "viseme": "U",
+            "strength": 1
+          },
+          {
+            "index": 19,
+            "start": 2133.687535898909,
+            "end": 2234.4916714531882,
+            "phoneme": "r",
+            "viseme": "R",
+            "strength": 1
+          },
+          {
+            "index": 20,
+            "start": 2234.4916714531882,
+            "end": 2368.8971855255604,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 21,
+            "start": 2368.8971855255604,
+            "end": 2441.700172314762,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 22,
+            "start": 2441.700172314762,
+            "end": 2542.504307869041,
+            "phoneme": "s",
+            "viseme": "S",
+            "strength": 1
+          },
+          {
+            "index": 23,
+            "start": 2542.504307869041,
+            "end": 2643.30844342332,
+            "phoneme": "t",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 24,
+            "start": 2643.30844342332,
+            "end": 2777.7139574956923,
+            "phoneme": "o",
+            "viseme": "O",
+            "strength": 1
+          },
+          {
+            "index": 25,
+            "start": 2777.7139574956923,
+            "end": 2878.5180930499714,
+            "phoneme": "r",
+            "viseme": "R",
+            "strength": 1
+          },
+          {
+            "index": 26,
+            "start": 2878.5180930499714,
+            "end": 3012.9236071223436,
+            "phoneme": "a",
+            "viseme": "AA",
+            "strength": 1
+          },
+          {
+            "index": 27,
+            "start": 3012.9236071223436,
+            "end": 3113.7277426766227,
+            "phoneme": "g",
+            "viseme": "KG",
+            "strength": 1
+          },
+          {
+            "index": 28,
+            "start": 3113.7277426766227,
+            "end": 3248.133256748995,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 29,
+            "start": 3248.133256748995,
+            "end": 3320.9362435381963,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 30,
+            "start": 3320.9362435381963,
+            "end": 3401.5795519816197,
+            "phoneme": "p",
+            "viseme": "MBP",
+            "strength": 1
+          },
+          {
+            "index": 31,
+            "start": 3401.5795519816197,
+            "end": 3502.383687535899,
+            "phoneme": "l",
+            "viseme": "L",
+            "strength": 1
+          },
+          {
+            "index": 32,
+            "start": 3502.383687535899,
+            "end": 3636.789201608271,
+            "phoneme": "a",
+            "viseme": "AA",
+            "strength": 1
+          },
+          {
+            "index": 33,
+            "start": 3636.789201608271,
+            "end": 3737.59333716255,
+            "phoneme": "n",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 34,
+            "start": 3737.59333716255,
+            "end": 3900,
+            "phoneme": ".",
+            "viseme": "REST",
+            "strength": 1
+          }
+        ],
+        "mouthPerformanceData": {
+          "mode": "deterministic-phoneme",
+          "source": "text-derived",
+          "cueVersion": 1,
+          "cueCount": 35
+        }
+      }
+    },
+    {
+      "entityId": "cheerful-orthodox-speaker",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "bubble_spoon_d7",
+      "trackId": "track_titles",
+      "start": 41500,
+      "duration": 3900,
+      "type": "bubble",
+      "name": "Bubble: Fine. We need a secure s",
+      "payload": {
+        "text": "Fine. We need a secure storage plan.",
+        "speakerId": "cheerful-orthodox-speaker",
+        "sequenceId": "spoon_payoff",
+        "displayMode": "talking-plus-bubble"
+      }
+    },
+    {
+      "entityId": "skeptical-orthodox-observer",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "dialogue_spoon_d8",
+      "trackId": "track_dialogue",
+      "start": 47800,
+      "duration": 3600,
+      "type": "dialogue",
+      "name": "Dovid: There is a spoon behind your",
+      "payload": {
+        "id": "spoon_d8",
+        "sequenceId": "spoon_payoff",
+        "start": 47800,
+        "duration": 3600,
+        "speakerId": "skeptical-orthodox-observer",
+        "speakerName": "Dovid",
+        "text": "There is a spoon behind your ear.",
+        "emotion": "skepticism",
+        "voice": "Fred",
+        "speechRate": 150,
+        "voiceStatus": "generated-speech",
+        "silentMode": false,
+        "bubble": true,
+        "displayMode": "talking-plus-bubble",
+        "lipSyncCues": [
+          {
+            "index": 0,
+            "start": 0,
+            "end": 115.34353862584554,
+            "phoneme": "th",
+            "viseme": "TH",
+            "strength": 1
+          },
+          {
+            "index": 1,
+            "start": 115.34353862584554,
+            "end": 269.13492346030625,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 2,
+            "start": 269.13492346030625,
+            "end": 384.4784620861518,
+            "phoneme": "r",
+            "viseme": "R",
+            "strength": 1
+          },
+          {
+            "index": 3,
+            "start": 384.4784620861518,
+            "end": 538.2698469206125,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 4,
+            "start": 538.2698469206125,
+            "end": 621.5735137059454,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 5,
+            "start": 621.5735137059454,
+            "end": 775.3648985404061,
+            "phoneme": "i",
+            "viseme": "I",
+            "strength": 1
+          },
+          {
+            "index": 6,
+            "start": 775.3648985404061,
+            "end": 890.7084371662517,
+            "phoneme": "s",
+            "viseme": "S",
+            "strength": 1
+          },
+          {
+            "index": 7,
+            "start": 890.7084371662517,
+            "end": 974.0121039515845,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 8,
+            "start": 974.0121039515845,
+            "end": 1127.8034887860454,
+            "phoneme": "a",
+            "viseme": "AA",
+            "strength": 1
+          },
+          {
+            "index": 9,
+            "start": 1127.8034887860454,
+            "end": 1211.1071555713784,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 10,
+            "start": 1211.1071555713784,
+            "end": 1326.4506941972238,
+            "phoneme": "s",
+            "viseme": "S",
+            "strength": 1
+          },
+          {
+            "index": 11,
+            "start": 1326.4506941972238,
+            "end": 1418.7255250979003,
+            "phoneme": "p",
+            "viseme": "MBP",
+            "strength": 1
+          },
+          {
+            "index": 12,
+            "start": 1418.7255250979003,
+            "end": 1572.5169099323612,
+            "phoneme": "oo",
+            "viseme": "U",
+            "strength": 1
+          },
+          {
+            "index": 13,
+            "start": 1572.5169099323612,
+            "end": 1687.8604485582066,
+            "phoneme": "n",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 14,
+            "start": 1687.8604485582066,
+            "end": 1771.1641153435394,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 15,
+            "start": 1771.1641153435394,
+            "end": 1863.438946244216,
+            "phoneme": "b",
+            "viseme": "MBP",
+            "strength": 1
+          },
+          {
+            "index": 16,
+            "start": 1863.438946244216,
+            "end": 2017.2303310786767,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 17,
+            "start": 2017.2303310786767,
+            "end": 2171.0217159131375,
+            "phoneme": "h",
+            "viseme": "AA",
+            "strength": 1
+          },
+          {
+            "index": 18,
+            "start": 2171.0217159131375,
+            "end": 2324.813100747598,
+            "phoneme": "i",
+            "viseme": "I",
+            "strength": 1
+          },
+          {
+            "index": 19,
+            "start": 2324.813100747598,
+            "end": 2440.156639373444,
+            "phoneme": "n",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 20,
+            "start": 2440.156639373444,
+            "end": 2555.5001779992895,
+            "phoneme": "d",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 21,
+            "start": 2555.5001779992895,
+            "end": 2638.8038447846225,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 22,
+            "start": 2638.8038447846225,
+            "end": 2792.595229619083,
+            "phoneme": "y",
+            "viseme": "I",
+            "strength": 1
+          },
+          {
+            "index": 23,
+            "start": 2792.595229619083,
+            "end": 2946.3866144535436,
+            "phoneme": "ou",
+            "viseme": "O",
+            "strength": 1
+          },
+          {
+            "index": 24,
+            "start": 2946.3866144535436,
+            "end": 3061.7301530793893,
+            "phoneme": "r",
+            "viseme": "R",
+            "strength": 1
+          },
+          {
+            "index": 25,
+            "start": 3061.7301530793893,
+            "end": 3145.0338198647223,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 26,
+            "start": 3145.0338198647223,
+            "end": 3298.825204699183,
+            "phoneme": "ea",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 27,
+            "start": 3298.825204699183,
+            "end": 3414.1687433250286,
+            "phoneme": "r",
+            "viseme": "R",
+            "strength": 1
+          },
+          {
+            "index": 28,
+            "start": 3414.1687433250286,
+            "end": 3600,
+            "phoneme": ".",
+            "viseme": "REST",
+            "strength": 1
+          }
+        ],
+        "mouthPerformanceData": {
+          "mode": "deterministic-phoneme",
+          "source": "text-derived",
+          "cueVersion": 1,
+          "cueCount": 29
+        }
+      }
+    },
+    {
+      "entityId": "skeptical-orthodox-observer",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "bubble_spoon_d8",
+      "trackId": "track_titles",
+      "start": 47800,
+      "duration": 3600,
+      "type": "bubble",
+      "name": "Bubble: There is a spoon behind ",
+      "payload": {
+        "text": "There is a spoon behind your ear.",
+        "speakerId": "skeptical-orthodox-observer",
+        "sequenceId": "spoon_payoff",
+        "displayMode": "talking-plus-bubble"
+      }
+    },
+    {
+      "entityId": "calm-orthodox-woman",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "dialogue_spoon_d9",
+      "trackId": "track_dialogue",
+      "start": 53500,
+      "duration": 3400,
+      "type": "dialogue",
+      "name": "Rivky: Perfect. Cloud storage.",
+      "payload": {
+        "id": "spoon_d9",
+        "sequenceId": "spoon_payoff",
+        "start": 53500,
+        "duration": 3400,
+        "speakerId": "calm-orthodox-woman",
+        "speakerName": "Rivky",
+        "text": "Perfect. Cloud storage.",
+        "emotion": "joy",
+        "voice": "Samantha",
+        "speechRate": 170,
+        "voiceStatus": "generated-speech",
+        "silentMode": false,
+        "bubble": true,
+        "displayMode": "talking-plus-bubble",
+        "lipSyncCues": [
+          {
+            "index": 0,
+            "start": 0,
+            "end": 111.17166212534062,
+            "phoneme": "p",
+            "viseme": "MBP",
+            "strength": 1
+          },
+          {
+            "index": 1,
+            "start": 111.17166212534062,
+            "end": 296.457765667575,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 2,
+            "start": 296.457765667575,
+            "end": 435.4223433242508,
+            "phoneme": "r",
+            "viseme": "R",
+            "strength": 1
+          },
+          {
+            "index": 3,
+            "start": 435.4223433242508,
+            "end": 574.3869209809266,
+            "phoneme": "f",
+            "viseme": "FV",
+            "strength": 1
+          },
+          {
+            "index": 4,
+            "start": 574.3869209809266,
+            "end": 759.673024523161,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 5,
+            "start": 759.673024523161,
+            "end": 898.6376021798367,
+            "phoneme": "c",
+            "viseme": "KG",
+            "strength": 1
+          },
+          {
+            "index": 6,
+            "start": 898.6376021798367,
+            "end": 1037.6021798365125,
+            "phoneme": "t",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 7,
+            "start": 1037.6021798365125,
+            "end": 1261.4895549500457,
+            "phoneme": ".",
+            "viseme": "REST",
+            "strength": 1
+          },
+          {
+            "index": 8,
+            "start": 1261.4895549500457,
+            "end": 1361.8528610354226,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 9,
+            "start": 1361.8528610354226,
+            "end": 1500.8174386920984,
+            "phoneme": "c",
+            "viseme": "KG",
+            "strength": 1
+          },
+          {
+            "index": 10,
+            "start": 1500.8174386920984,
+            "end": 1639.7820163487743,
+            "phoneme": "l",
+            "viseme": "L",
+            "strength": 1
+          },
+          {
+            "index": 11,
+            "start": 1639.7820163487743,
+            "end": 1825.0681198910086,
+            "phoneme": "ou",
+            "viseme": "O",
+            "strength": 1
+          },
+          {
+            "index": 12,
+            "start": 1825.0681198910086,
+            "end": 1964.0326975476844,
+            "phoneme": "d",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 13,
+            "start": 1964.0326975476844,
+            "end": 2064.3960036330614,
+            "phoneme": " ",
+            "viseme": "REST",
+            "strength": 0.82
+          },
+          {
+            "index": 14,
+            "start": 2064.3960036330614,
+            "end": 2203.360581289737,
+            "phoneme": "s",
+            "viseme": "S",
+            "strength": 1
+          },
+          {
+            "index": 15,
+            "start": 2203.360581289737,
+            "end": 2342.325158946413,
+            "phoneme": "t",
+            "viseme": "TD",
+            "strength": 1
+          },
+          {
+            "index": 16,
+            "start": 2342.325158946413,
+            "end": 2527.6112624886473,
+            "phoneme": "o",
+            "viseme": "O",
+            "strength": 1
+          },
+          {
+            "index": 17,
+            "start": 2527.6112624886473,
+            "end": 2666.575840145323,
+            "phoneme": "r",
+            "viseme": "R",
+            "strength": 1
+          },
+          {
+            "index": 18,
+            "start": 2666.575840145323,
+            "end": 2851.8619436875574,
+            "phoneme": "a",
+            "viseme": "AA",
+            "strength": 1
+          },
+          {
+            "index": 19,
+            "start": 2851.8619436875574,
+            "end": 2990.8265213442332,
+            "phoneme": "g",
+            "viseme": "KG",
+            "strength": 1
+          },
+          {
+            "index": 20,
+            "start": 2990.8265213442332,
+            "end": 3176.1126248864675,
+            "phoneme": "e",
+            "viseme": "E",
+            "strength": 1
+          },
+          {
+            "index": 21,
+            "start": 3176.1126248864675,
+            "end": 3400,
+            "phoneme": ".",
+            "viseme": "REST",
+            "strength": 1
+          }
+        ],
+        "mouthPerformanceData": {
+          "mode": "deterministic-phoneme",
+          "source": "text-derived",
+          "cueVersion": 1,
+          "cueCount": 22
+        }
+      }
+    },
+    {
+      "entityId": "calm-orthodox-woman",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "bubble_spoon_d9",
+      "trackId": "track_titles",
+      "start": 53500,
+      "duration": 3400,
+      "type": "bubble",
+      "name": "Bubble: Perfect. Cloud storage.",
+      "payload": {
+        "text": "Perfect. Cloud storage.",
+        "speakerId": "calm-orthodox-woman",
+        "sequenceId": "spoon_payoff",
+        "displayMode": "talking-plus-bubble"
+      }
+    },
+    {
+      "entityId": "cheerful-orthodox-speaker",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "ari_social",
+      "trackId": "track_emotion",
+      "start": 2500,
+      "duration": 39000,
+      "type": "emotion",
+      "name": "cheerful-orthodox-speaker joy",
+      "payload": {
+        "emotion": "joy",
+        "gaze": [
+          0.72,
+          -0.03
+        ],
+        "lean": 0.12,
+        "sequenceId": "spoon_setup"
+      }
+    },
+    {
+      "entityId": "cheerful-orthodox-speaker",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "ari_open",
+      "trackId": "track_gesture",
+      "start": 2500,
+      "duration": 17000,
+      "type": "gesture",
+      "name": "cheerful-orthodox-speaker open_palm_left",
+      "payload": {
+        "gesture": "open_palm_left",
+        "intensity": 0.94,
+        "sequenceId": "spoon_setup"
+      }
+    },
+    {
+      "entityId": "skeptical-orthodox-observer",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "dovid_lock",
+      "trackId": "track_gesture",
+      "start": 2500,
+      "duration": 54000,
+      "type": "gesture",
+      "name": "skeptical-orthodox-observer arms_crossed",
+      "payload": {
+        "gesture": "arms_crossed",
+        "lockedContact": true,
+        "intensity": 1,
+        "sequenceId": "spoon_setup"
+      }
+    },
+    {
+      "entityId": "skeptical-orthodox-observer",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "dovid_face",
+      "trackId": "track_emotion",
+      "start": 2500,
+      "duration": 55000,
+      "type": "emotion",
+      "name": "skeptical-orthodox-observer skepticism",
+      "payload": {
+        "emotion": "skepticism",
+        "gaze": [
+          -0.66,
+          0.04
+        ],
+        "sequenceId": "spoon_setup"
+      }
+    },
+    {
+      "entityId": "calm-orthodox-woman",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "rivky_lock",
+      "trackId": "track_gesture",
+      "start": 2500,
+      "duration": 57500,
+      "type": "gesture",
+      "name": "calm-orthodox-woman right_hand_in_pocket",
+      "payload": {
+        "gesture": "right_hand_in_pocket",
+        "lockedContact": true,
+        "intensity": 1,
+        "sequenceId": "spoon_setup"
+      }
+    },
+    {
+      "entityId": "calm-orthodox-woman",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "rivky_listens",
+      "trackId": "track_emotion",
+      "start": 2500,
+      "duration": 50000,
+      "type": "emotion",
+      "name": "calm-orthodox-woman attention",
+      "payload": {
+        "emotion": "attention",
+        "gaze": [
+          -0.58,
+          -0.04
+        ],
+        "sequenceId": "spoon_setup"
+      }
+    },
+    {
+      "entityId": "cheerful-orthodox-speaker",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "ari_prepare",
+      "trackId": "track_gesture",
+      "start": 19500,
+      "duration": 1100,
+      "type": "gesture",
+      "name": "cheerful-orthodox-speaker preparation",
+      "payload": {
+        "gesture": "reach",
+        "gesturePhase": "preparation",
+        "intensity": 1,
+        "sequenceId": "spoon_setup"
+      }
+    },
+    {
+      "entityId": "cheerful-orthodox-speaker",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "ari_stroke",
+      "trackId": "track_gesture",
+      "start": 20600,
+      "duration": 1500,
+      "type": "gesture",
+      "name": "cheerful-orthodox-speaker stroke",
+      "payload": {
+        "gesture": "point_right",
+        "gesturePhase": "stroke",
+        "intensity": 1,
+        "sequenceId": "spoon_escalation"
+      }
+    },
+    {
+      "entityId": "cheerful-orthodox-speaker",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "ari_hold",
+      "trackId": "track_gesture",
+      "start": 22100,
+      "duration": 1500,
+      "type": "gesture",
+      "name": "cheerful-orthodox-speaker hold",
+      "payload": {
+        "gesture": "point_right",
+        "gesturePhase": "hold",
+        "intensity": 1,
+        "sequenceId": "spoon_escalation"
+      }
+    },
+    {
+      "entityId": "cheerful-orthodox-speaker",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "ari_follow",
+      "trackId": "track_gesture",
+      "start": 23600,
+      "duration": 1200,
+      "type": "gesture",
+      "name": "cheerful-orthodox-speaker follow-through",
+      "payload": {
+        "gesture": "present",
+        "gesturePhase": "follow-through",
+        "intensity": 1,
+        "sequenceId": "spoon_escalation"
+      }
+    },
+    {
+      "entityId": "cheerful-orthodox-speaker",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "ari_retract",
+      "trackId": "track_gesture",
+      "start": 24800,
+      "duration": 1200,
+      "type": "gesture",
+      "name": "cheerful-orthodox-speaker retraction",
+      "payload": {
+        "gesture": "open_palm_left",
+        "gesturePhase": "retraction",
+        "intensity": 1,
+        "sequenceId": "spoon_escalation"
+      }
+    },
+    {
+      "entityId": "cheerful-orthodox-speaker",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "ari_concern",
+      "trackId": "track_emotion",
+      "start": 40000,
+      "duration": 12000,
+      "type": "emotion",
+      "name": "cheerful-orthodox-speaker concerned",
+      "payload": {
+        "emotion": "concerned",
+        "gaze": [
+          0.54,
+          0.05
+        ],
+        "lean": -0.08,
+        "sequenceId": "spoon_escalation"
+      }
+    },
+    {
+      "entityId": "skeptical-orthodox-observer",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "dovid_reveal",
+      "trackId": "track_gesture",
+      "start": 47000,
+      "duration": 7000,
+      "type": "gesture",
+      "name": "skeptical-orthodox-observer point_left",
+      "payload": {
+        "gesture": "point_left",
+        "intensity": 0.9,
+        "sequenceId": "spoon_payoff"
+      }
+    },
+    {
+      "entityId": "calm-orthodox-woman",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "rivky_punchline",
+      "trackId": "track_gesture",
+      "start": 52500,
+      "duration": 5200,
+      "type": "gesture",
+      "name": "calm-orthodox-woman present",
+      "payload": {
+        "gesture": "present",
+        "intensity": 0.82,
+        "sequenceId": "spoon_payoff"
+      }
+    },
+    {
+      "entityId": "calm-orthodox-woman",
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "rivky_smile",
+      "trackId": "track_emotion",
+      "start": 51500,
+      "duration": 6500,
+      "type": "emotion",
+      "name": "calm-orthodox-woman joy",
+      "payload": {
+        "emotion": "joy",
+        "gaze": [
+          -0.28,
+          0
+        ],
+        "sequenceId": "spoon_payoff"
+      }
+    },
+    {
+      "entityId": null,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "title_clip_spoon_title",
+      "trackId": "track_titles",
+      "start": 0,
+      "duration": 2500,
+      "type": "title-card",
+      "name": "THE EMERGENCY BACKUP SPOON",
+      "payload": {
+        "id": "spoon_title",
+        "start": 0,
+        "duration": 2500,
+        "text": "THE EMERGENCY BACKUP SPOON",
+        "subtitle": "A SIXTY-SECOND OFFICE SITCOM",
+        "kind": "title-card"
+      }
+    },
+    {
+      "entityId": null,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "title_clip_spoon_tag",
+      "trackId": "track_titles",
+      "start": 57000,
+      "duration": 3000,
+      "type": "title-card",
+      "name": "CLOUD STORAGE",
+      "payload": {
+        "id": "spoon_tag",
+        "start": 57000,
+        "duration": 3000,
+        "text": "CLOUD STORAGE",
+        "subtitle": "NO SUBSCRIPTION REQUIRED",
+        "kind": "title-card"
+      }
+    },
+    {
+      "entityId": null,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "title_clip_spoon_calendar",
+      "trackId": "track_titles",
+      "start": 22000,
+      "duration": 4200,
+      "type": "text-box",
+      "name": "SPOON CALENDAR: FULLY BOOKED",
+      "payload": {
+        "id": "spoon_calendar",
+        "start": 22000,
+        "duration": 4200,
+        "text": "SPOON CALENDAR: FULLY BOOKED",
+        "kind": "text-box",
+        "placement": "lower-third"
+      }
+    },
+    {
+      "entityId": null,
+      "transform": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1,
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "id": "title_clip_spoon_audit",
+      "trackId": "track_titles",
+      "start": 49000,
+      "duration": 4200,
+      "type": "text-box",
+      "name": "SECURITY AUDIT: LOOK BEHIND EAR",
+      "payload": {
+        "id": "spoon_audit",
+        "start": 49000,
+        "duration": 4200,
+        "text": "SECURITY AUDIT: LOOK BEHIND EAR",
+        "kind": "text-box",
+        "placement": "lower-third"
+      }
+    }
+  ]
+}

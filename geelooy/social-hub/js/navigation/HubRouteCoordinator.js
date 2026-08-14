@@ -4,24 +4,30 @@
 /**
  * @class HubRouteCoordinator
  * @description
- * The Awtsmoos lets each route request only the data vessel, Inbox stream, and Space coordinate that belong to its chamber;
- * Awtsmoos.com keeps browser restoration separate from network loading so history never becomes another hammer.
+ * The Awtsmoos lets Inbox, live Torah Chat, private Messages, Spaces, and public graph routes request only their own data vessels;
+ * Awtsmoos.com keeps browser restoration separate from network loading so history never becomes another hammer or another hidden socket.
  */
 export class HubRouteCoordinator {
 	constructor(app) {
 		this.app = app;
 	}
 
-	/** Records an intentional navigation, then refreshes only its destination. */
+	/** Records intentional navigation, then refreshes only its destination. */
 	async navigated(route, previous) {
 		await this.app.tracker.navigate(route, previous);
 		await this.load(route);
 	}
 
-	/** Reconciles browser Back/Forward state without creating another history mutation. */
+	/** Reconciles browser Back/Forward without creating another history mutation. */
 	async locationChanged({ route, profileAliasId, space }) {
 		if (route.id === 'inbox') {
 			await this.app.inbox.load();
+		}
+		if (route.id === 'chat') {
+			this.app.chat.load();
+		}
+		if (route.id === 'messages') {
+			await this.app.messages.load();
 		}
 		if (route.id === 'people') {
 			await this.app.people.load();
@@ -38,10 +44,16 @@ export class HubRouteCoordinator {
 		}
 	}
 
-	/** Loads the content required by one direct route selection. */
+	/** Loads content required by one direct route selection. */
 	async load(route) {
 		if (route.id === 'inbox') {
 			await this.app.inbox.load();
+		}
+		if (route.id === 'chat') {
+			this.app.chat.load();
+		}
+		if (route.id === 'messages') {
+			await this.app.messages.load();
 		}
 		if (route.id === 'spaces') {
 			await this.app.spaces.load();

@@ -1,0 +1,91 @@
+{
+  "bh": "BH",
+  "result": {
+    "warmEvents": [
+      {
+        "count": 1,
+        "at": 2048.899999976158
+      },
+      {
+        "count": 2,
+        "at": 6926.100000023842
+      }
+    ],
+    "cases": [
+      {
+        "name": "stalemate",
+        "elapsed": 1.1999999284744263,
+        "result": {
+          "type": "move_result",
+          "bestMove": null,
+          "score": 0,
+          "timeTaken": "0.30",
+          "nodesSearched": 0
+        }
+      },
+      {
+        "name": "mate_in_one",
+        "elapsed": 9,
+        "result": {
+          "type": "move_result",
+          "bestMove": {
+            "from": [
+              1,
+              5
+            ],
+            "to": [
+              0,
+              4
+            ],
+            "promotion": null
+          },
+          "score": 99999,
+          "timeTaken": "8.80",
+          "nodesSearched": 19
+        }
+      },
+      {
+        "name": "en_passant",
+        "elapsed": 551.3000000715256,
+        "result": {
+          "type": "move_result",
+          "bestMove": {
+            "from": [
+              7,
+              4
+            ],
+            "to": [
+              6,
+              3
+            ],
+            "promotion": null
+          },
+          "score": 89,
+          "timeTaken": "550.90",
+          "nodesSearched": 9013
+        }
+      },
+      {
+        "name": "quiet_endgame",
+        "elapsed": 747.1999999284744,
+        "result": {
+          "type": "move_result",
+          "bestMove": {
+            "from": [
+              7,
+              7
+            ],
+            "to": [
+              3,
+              7
+            ],
+            "promotion": null
+          },
+          "score": 765.3333333333345,
+          "timeTaken": "746.80",
+          "nodesSearched": 3072
+        }
+      }
+    ]
+  }
+}

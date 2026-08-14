@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-youtube-documentation-md-1d74e31a03",
+	"title": "YouTube Manager Documentation",
+	"sourcePath": "geelooy/youtube/DOCUMENTATION.md",
+	"category": "General",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "YouTube Manager Documentation",
+			"anchor": "youtube-manager-documentation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-youtube-documentation-md-1d74e31a03-001.json"
+	]
+}

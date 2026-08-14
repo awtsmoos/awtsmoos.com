@@ -1,0 +1,331 @@
+[
+	{
+		"id": "docs-generated-api-tutorials-routes-api-youtube-live-create-ed8850fb7e-m-b9bd04fbdf",
+		"title": "API Tutorial: /api/youtube/live/create",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-live-create-ed8850fb7e.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/youtube/live/create",
+				"anchor": "api-tutorial-api-youtube-live-create"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/live/create Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/routes/table.js · Discovery: route table · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not an O",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/live/create family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/routes/table.js · discovery: route table · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/youtube/live/create geelooy/apps/nesher studio/modules/streaming/youtubecontrol.js runtime related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-live-create-ed8850fb7e-m-b9bd04fbdf.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-youtube-live-list-ead6bdc367-md-ac8edf2494",
+		"title": "API Tutorial: /api/youtube/live/list",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-live-list-ead6bdc367.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/youtube/live/list",
+				"anchor": "api-tutorial-api-youtube-live-list"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/live/list Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/routes/table.js · Discovery: route table · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not an Ope",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/live/list family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/routes/table.js · discovery: route table · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-live-list-ead6bdc367-md-ac8edf2494.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-youtube-live-transition-ae1a4cbf-0359626d7b",
+		"title": "API Tutorial: /api/youtube/live/transition",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-live-transition-ae1a4cbf7f.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/youtube/live/transition",
+				"anchor": "api-tutorial-api-youtube-live-transition"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/live/transition Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/routes/table.js · Discovery: route table · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not ",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/live/transition family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/routes/table.js · discovery: route table · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/youtube/live/transition geelooy/apps/nesher studio/modules/streaming/youtubecontrol.js runtime related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-live-transition-ae1a4cbf-0359626d7b.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-youtube-oauth-callback-77ef36bff-4be269fac7",
+		"title": "API Tutorial: /api/youtube/oauth/callback",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-oauth-callback-77ef36bff2.md",
+		"category": "Security",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/youtube/oauth/callback",
+				"anchor": "api-tutorial-api-youtube-oauth-callback"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/oauth/callback Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/routes/table.js · Discovery: route table · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not a",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/oauth/callback family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/routes/table.js · discovery: route table · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-oauth-callback-77ef36bff-4be269fac7.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-youtube-oauth-logout-b12d002f1f--d78a71c1f2",
+		"title": "API Tutorial: /api/youtube/oauth/logout",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-oauth-logout-b12d002f1f.md",
+		"category": "Security",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/youtube/oauth/logout",
+				"anchor": "api-tutorial-api-youtube-oauth-logout"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/oauth/logout Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/routes/table.js · Discovery: route table · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not an ",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/oauth/logout family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/routes/table.js · discovery: route table · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-oauth-logout-b12d002f1f--d78a71c1f2.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-youtube-oauth-start-0855498762-m-a7ce0302f3",
+		"title": "API Tutorial: /api/youtube/oauth/start",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-oauth-start-0855498762.md",
+		"category": "Security",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/youtube/oauth/start",
+				"anchor": "api-tutorial-api-youtube-oauth-start"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/oauth/start Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/routes/table.js · Discovery: route table · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not an O",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/oauth/start family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/routes/table.js · discovery: route table · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-oauth-start-0855498762-m-a7ce0302f3.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-youtube-oauth-status-529fa78f69--120cf5707f",
+		"title": "API Tutorial: /api/youtube/oauth/status",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-oauth-status-529fa78f69.md",
+		"category": "Security",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/youtube/oauth/status",
+				"anchor": "api-tutorial-api-youtube-oauth-status"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/oauth/status Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/routes/table.js · Discovery: route table · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not an ",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/oauth/status family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/routes/table.js · discovery: route table · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-oauth-status-529fa78f69--120cf5707f.json"
+	}
+]

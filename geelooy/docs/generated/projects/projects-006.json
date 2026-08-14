@@ -1,0 +1,734 @@
+[
+	{
+		"projectId": "geelooy-apps-exe-emulator-d3f8122b",
+		"path": "geelooy/apps/exe-emulator",
+		"type": "app",
+		"family": {
+			"id": "apps",
+			"title": "Applications"
+		},
+		"title": "Awtsmoos EXE Emulator",
+		"entries": [
+			"index.html",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-exe-emulator-d3f8122b.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/apps/exe-emulator/DOCUMENTATION.md",
+				"documentId": "geelooy-apps-exe-emulator-documentation-md-39e24347e0"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 271,
+			"tests": 133,
+			"assets": 1,
+			"generated": 9,
+			"docs": 2,
+			"other": 1
+		},
+		"totalFiles": 417,
+		"symbolSummary": {
+			"files": 258,
+			"classes": 9,
+			"functions": 895,
+			"exports": 409,
+			"samples": [
+				"async",
+				"runAwtexePackage",
+				"expectedPayloadFormat",
+				"inspectUnknownBinary",
+				"createBinaryScanWindows",
+				"decodeBinaryWindow",
+				"boundedPositive",
+				"makeByteVessel",
+				"readAscii",
+				"drawCanvas2d",
+				"clearCanvas",
+				"drawText"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/scripts",
+				"count": 8,
+				"examples": "geelooy/apps/exe-emulator/examples/progressive/generatedArtifacts.mjs; geelooy/apps/exe-emulator/source/compileSourceArtifact.js; geelooy/apps/exe-emulator/source/nativeContainers.js"
+			},
+			{
+				"project": "geelooy/shared",
+				"count": 8,
+				"examples": "geelooy/apps/exe-emulator/core/awtexeRuntime.js; geelooy/apps/exe-emulator/core/executableHost.js; geelooy/apps/exe-emulator/core/wasmGuiImports.js"
+			},
+			{
+				"project": "geelooy/apps/android-emulator",
+				"count": 1,
+				"examples": "geelooy/apps/exe-emulator/source/runSourceArtifact.js"
+			}
+		],
+		"incoming": [
+			{
+				"project": "geelooy/os",
+				"count": 9,
+				"examples": "geelooy/os/programs/awtsmoos-executable/browserRuntime.js; geelooy/os/programs/awtsmoos-executable/index.js; geelooy/os/programs/awtsmoos-executable/nativeLifecycle.js"
+			}
+		],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/apps/exe-emulator",
+				"file": "geelooy/apps/exe-emulator/index.html",
+				"title": "Awtsmoos EXE Emulator",
+				"scripts": 1,
+				"styles": 1
+			},
+			{
+				"url": "/apps/exe-emulator/examples/blender-webgl-fixture",
+				"file": "geelooy/apps/exe-emulator/examples/blender-webgl-fixture/index.html",
+				"title": "Awtsmoos Blender Studio",
+				"scripts": 1,
+				"styles": 1
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-apps-gpt-api-pulse-garden-4c75a3cc",
+		"path": "geelooy/apps/gpt-api-pulse-garden",
+		"type": "app",
+		"family": {
+			"id": "apps",
+			"title": "Applications"
+		},
+		"title": "Awtsmoos Pulse Garden",
+		"entries": [
+			"index.html"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-gpt-api-pulse-garden-4c75a3cc.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 1,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 1,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/apps/gpt-api-pulse-garden",
+				"file": "geelooy/apps/gpt-api-pulse-garden/index.html",
+				"title": "Awtsmoos Pulse Garden",
+				"scripts": 0,
+				"styles": 0
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-apps-lyric-sync-78687d22",
+		"path": "geelooy/apps/lyric-sync",
+		"type": "app",
+		"family": {
+			"id": "apps",
+			"title": "Applications"
+		},
+		"title": "Lyric Sync Engine",
+		"entries": [
+			"index.html"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-lyric-sync-78687d22.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 4,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 4,
+		"symbolSummary": {
+			"files": 2,
+			"classes": 2,
+			"functions": 18,
+			"exports": 0,
+			"samples": [
+				"saveSettings",
+				"loadSettings",
+				"parseVTT",
+				"collectSettings",
+				"updateLyrics",
+				"timeToSeconds",
+				"formatTime",
+				"downloadBlob",
+				"ParticleSystem",
+				"is",
+				"handleExport",
+				"drawFrame"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/apps/lyric-sync",
+				"file": "geelooy/apps/lyric-sync/index.html",
+				"title": "Lyric Sync Engine",
+				"scripts": 2,
+				"styles": 3
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-apps-merkava-native-browser-86788fea",
+		"path": "geelooy/apps/merkava-native-browser",
+		"type": "app",
+		"family": {
+			"id": "apps",
+			"title": "Applications"
+		},
+		"title": "geelooy/apps/merkava-native-browser",
+		"entries": [
+			"package.json",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-merkava-native-browser-86788fea.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/apps/merkava-native-browser/DOCUMENTATION.md",
+				"documentId": "geelooy-apps-merkava-native-browser-documentation-md-f75934aa08"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 60,
+			"tests": 0,
+			"assets": 0,
+			"generated": 10,
+			"docs": 1,
+			"other": 8
+		},
+		"totalFiles": 79,
+		"symbolSummary": {
+			"files": 55,
+			"classes": 0,
+			"functions": 55,
+			"exports": 10,
+			"samples": [
+				"readSample",
+				"cStringLiteral",
+				"cMacroString",
+				"stopGeneratedExeIfRunning",
+				"fileStats",
+				"buildReport",
+				"injectCssIntoHtml",
+				"collectCssAssets",
+				"collectScriptAssets",
+				"attrsOf",
+				"fetchText",
+				"describeEmbeddedExecutor"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/scripts",
+				"count": 44,
+				"examples": "geelooy/apps/merkava-native-browser/.inspect-md2.cjs; geelooy/apps/merkava-native-browser/.test-compile-webgl.cjs; geelooy/apps/merkava-native-browser/build-seed.mjs"
+			}
+		],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/apps/merkava-native-browser/tmp-chrome-webgl",
+				"file": "geelooy/apps/merkava-native-browser/tmp-chrome-webgl/index.html",
+				"title": "",
+				"scripts": 0,
+				"styles": 0
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-apps-mitzvah-pushkuh-8cd09b5d",
+		"path": "geelooy/apps/mitzvah-pushkuh",
+		"type": "app",
+		"family": {
+			"id": "apps",
+			"title": "Applications"
+		},
+		"title": "Mitzvah Pushkuh · Garden of Sparks",
+		"entries": [
+			"index.html",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-mitzvah-pushkuh-8cd09b5d.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/apps/mitzvah-pushkuh/DOCUMENTATION.md",
+				"documentId": "geelooy-apps-mitzvah-pushkuh-documentation-md-a17a27d616"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 140,
+			"tests": 7,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 2
+		},
+		"totalFiles": 150,
+		"symbolSummary": {
+			"files": 131,
+			"classes": 0,
+			"functions": 361,
+			"exports": 181,
+			"samples": [
+				"setRitual",
+				"setFilter",
+				"refresh",
+				"async",
+				"plant",
+				"open",
+				"mutate",
+				"relightSelected",
+				"persist",
+				"seed",
+				"bindGarden",
+				"startGarden"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/apps/mitzvah-pushkuh",
+				"file": "geelooy/apps/mitzvah-pushkuh/index.html",
+				"title": "Mitzvah Pushkuh · Garden of Sparks",
+				"scripts": 1,
+				"styles": 2
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-apps-nesher-studio-ad4bc144",
+		"path": "geelooy/apps/nesher-studio",
+		"type": "app",
+		"family": {
+			"id": "apps",
+			"title": "Applications"
+		},
+		"title": "🦅 Nesher Studio",
+		"entries": [
+			"index.html",
+			"main.js",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-nesher-studio-ad4bc144.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/apps/nesher-studio/DOCUMENTATION.md",
+				"documentId": "geelooy-apps-nesher-studio-documentation-md-7f2998fccb"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 416,
+			"tests": 117,
+			"assets": 0,
+			"generated": 0,
+			"docs": 5,
+			"other": 4
+		},
+		"totalFiles": 542,
+		"symbolSummary": {
+			"files": 368,
+			"classes": 13,
+			"functions": 1176,
+			"exports": 909,
+			"samples": [
+				"renderAudioMixerPanel",
+				"mountAudioMixerPanel",
+				"renderBinPanel",
+				"mountBinPanel",
+				"renderColorPanel",
+				"mountColorPanel",
+				"renderEffectsPanel",
+				"mountEffectsPanel",
+				"renderExportPanel",
+				"mountExportPanel",
+				"renderPreviewMonitor",
+				"mountPreviewMonitor"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/apps/nesher-studio",
+				"file": "geelooy/apps/nesher-studio/index.html",
+				"title": "🦅 Nesher Studio",
+				"scripts": 1,
+				"styles": 1
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-apps-pdf-to-img-9743af94",
+		"path": "geelooy/apps/pdf-to-img",
+		"type": "app",
+		"family": {
+			"id": "apps",
+			"title": "Applications"
+		},
+		"title": "High-Res PDF to Image Converter",
+		"entries": [
+			"index.html"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-pdf-to-img-9743af94.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 1,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 1,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/apps/pdf-to-img",
+				"file": "geelooy/apps/pdf-to-img/index.html",
+				"title": "High-Res PDF to Image Converter",
+				"scripts": 1,
+				"styles": 1
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-apps-piano-3e6c62e2",
+		"path": "geelooy/apps/piano",
+		"type": "app",
+		"family": {
+			"id": "apps",
+			"title": "Applications"
+		},
+		"title": "Awtsmoos Web Synthesizer - Ultimate",
+		"entries": [
+			"index.html",
+			"main.js",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-piano-3e6c62e2.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/apps/piano/DOCUMENTATION.md",
+				"documentId": "geelooy-apps-piano-documentation-md-c6f560e2e1"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 59,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 60,
+		"symbolSummary": {
+			"files": 57,
+			"classes": 1,
+			"functions": 255,
+			"exports": 126,
+			"samples": [
+				"populateSelects",
+				"fillSelect",
+				"fillWaveSelect",
+				"formatWaveName",
+				"startApp",
+				"bindChromeToggles",
+				"bindRecordingButtons",
+				"bindControlEvents",
+				"bindPresetControls",
+				"bindSynthControls",
+				"refreshActiveSound",
+				"applyEffectModeToElements"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/apps/piano",
+				"file": "geelooy/apps/piano/index.html",
+				"title": "Awtsmoos Web Synthesizer - Ultimate",
+				"scripts": 2,
+				"styles": 1
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-apps-rebbe-d2246f9f",
+		"path": "geelooy/apps/rebbe",
+		"type": "app",
+		"family": {
+			"id": "apps",
+			"title": "Applications"
+		},
+		"title": "AWTSMOOS ARCHIVE // OMEGA",
+		"entries": [
+			"index.html",
+			"main.js",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-rebbe-d2246f9f.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/apps/rebbe/DOCUMENTATION.md",
+				"documentId": "geelooy-apps-rebbe-documentation-md-e77410fce1"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 125,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 126,
+		"symbolSummary": {
+			"files": 117,
+			"classes": 8,
+			"functions": 588,
+			"exports": 261,
+			"samples": [
+				"async",
+				"collectRebbeAssets",
+				"collectDirectory",
+				"boundedNumber",
+				"assetError",
+				"buildRebbeResponsaApk",
+				"generateRebbeResponsaApk",
+				"REBBE_ANDROID_SOURCE",
+				"MainActivity",
+				"handleBack",
+				"handleNext",
+				"handlePrev"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/scripts",
+				"count": 1,
+				"examples": "geelooy/apps/rebbe/android/build.js"
+			}
+		],
+		"incoming": [
+			{
+				"project": "geelooy/api/compiler",
+				"count": 1,
+				"examples": "geelooy/api/compiler/core/rebbeApkHandler.js"
+			}
+		],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/apps/rebbe",
+				"file": "geelooy/apps/rebbe/index.html",
+				"title": "AWTSMOOS ARCHIVE // OMEGA",
+				"scripts": 1,
+				"styles": 4
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-apps-scripts-e21af555",
+		"path": "geelooy/apps/scripts",
+		"type": "app",
+		"family": {
+			"id": "apps",
+			"title": "Applications"
+		},
+		"title": "geelooy/apps/scripts",
+		"entries": [],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-scripts-e21af555.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 8,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 8,
+		"symbolSummary": {
+			"files": 8,
+			"classes": 1,
+			"functions": 7,
+			"exports": 8,
+			"samples": [
+				"cardSearchText",
+				"categoryMatches",
+				"applyFilters",
+				"defineApp",
+				"PUBLIC_APPS",
+				"MEDIA_APPS",
+				"renderAppCard",
+				"renderAppCatalog",
+				"name",
+				"textElement",
+				"SYSTEM_APPS",
+				"UTILITY_APPS"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	}
+]

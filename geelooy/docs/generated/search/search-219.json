@@ -1,0 +1,225 @@
+[
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-61eed0d447",
+		"title": "FEATURE MATRIX",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0055_master-animation-completion/FEATURE_MATRIX.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "FEATURE MATRIX",
+				"anchor": "feature-matrix"
+			}
+		],
+		"excerpt": "B\"H FEATURE MATRIX Legend: PASS means source state, composition, renderer/geometry, persistence where authored, preview/export, tests, and production evidence are closed for the feature. Feature Evidence path Status Neutral identity Reference catalog → render adapter; identity retained through JSON/package PASS Emotion",
+		"searchText": "b\"h feature matrix legend: pass means source state, composition, renderer/geometry, persistence where authored, preview/export, tests, and production evidence are closed for the feature. feature evidence path status neutral identity reference catalog → render adapter; identity retained through json/package pass emotion performance clips → resolver → face/body painter pass speech activity timed dialogue → facerig and audio exporter pass viseme selection stablespeechcueplanner; multiple visemes per line pass mouth geometry consecutive phoneme assertion changes mouth state pass blink deterministic lid open assertion pass gaze authored target reaches evaluated eye geometry pass convergence existing reference eye rig/full suite pass head turn/views camera blocking view reaches character painter pass torso acting lean and body performance reach torso geometry pass locomotion production action to motion bridge/full suite pass gesture phases preparation, stroke, hold, follow through, retraction authored and tested pass crossed arms locked geometry invariant across locomotion phase pass pocket hand locked pocket geometry invariant across locomotion phase pass open palm side specific open palm and finger geometry pass point directional point and index finger geometry pass wave raised open hand gesture geometry pass hand articulation palm, thumb, fingers, fist, grip, point, rest, pocket pass shoes heel, toe, sole, and view direction pass garments coat/skirt hem, overlap, weight pass hair reference identity hair painter/full suite pass secondary motion time based garment sway plus existing natural motion pass views canonical blocking and camera relative view bridge pass customizer existing full suite customizer/persistence gates pass serialization json and project package sanitation pass import/restoration restored nlestore and production package pass preview 15 second h.264/aac preview from final export pass browser rendering full suite browser runtime and animator export proofs pass text boxes timed lower third consumer and production frame context pass camera shots ten shots, four sizes, three angles, cuts/moves pass final media export 60s h.264/aac, ffprobe, hashes pass pixel proofs seven story frames plus four exact scale courts pass",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-61eed0d447.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-91640636dc",
+		"title": "FINALCOMPLETIONGATE",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0055_master-animation-completion/FINAL_COMPLETION_GATE.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "FINALCOMPLETIONGATE",
+				"anchor": "finalcompletiongate"
+			},
+			{
+				"level": 2,
+				"text": "Direct evidence",
+				"anchor": "direct-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Working-tree note",
+				"anchor": "working-tree-note"
+			},
+			{
+				"level": 2,
+				"text": "External operational note",
+				"anchor": "external-operational-note"
+			}
+		],
+		"excerpt": "B\"H FINAL COMPLETION GATE Status: CLOSED — PASS. Direct evidence Exact sixty second three character sitcom source project exists. Production renderer consumes identity, dialogue, visemes, blink, gaze, emotion, lean, gestures, garments, camera, title cards, and text boxes. Real spoken audio and moving mouth geometry are",
+		"searchText": "b\"h final completion gate status: closed — pass. direct evidence exact sixty second three character sitcom source project exists. production renderer consumes identity, dialogue, visemes, blink, gaze, emotion, lean, gestures, garments, camera, title cards, and text boxes. real spoken audio and moving mouth geometry are authored and tested. locked crossed arms and pocket contact remain invariant under locomotion phase. readable fingers, hands, heel/toe/sole shoes, garments, and secondary motion reach production geometry. preview and final export share cinematicframerenderer. persistence and package restoration pass while transient state is excluded. browser runtime/export proofs pass. all four exact scale courts pass with dimensions and hashes. final mp4 is 60.000000 seconds, h.264/aac, 640×360, 12 fps, and nontrivial. complete npm run verify exits zero. git diff check passes. thirty two touched javascript files pass syntax, headers, tabs, awtsmoos documentation, and the 120 line limit. all touched source/export/test files were read back after writing. merge queue is empty. remaining work is empty. next action is none. working tree note tools/render/cinematiccastpainter.js remains an intentional uncommitted workspace modification containing the final verified viewport repair. no commit was requested. generated proof media is intentionally ignored by repository policy but exists at the recorded absolute paths. external operational note the awtsmoos tunnel relay intermittently timed out and automatically recovered. durable command receipts preserved every long running render and verification job. this is not an unresolved product limitation.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-91640636dc.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-c64b8536b2",
+		"title": "MERGEQUEUE",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0055_master-animation-completion/MERGE_QUEUE.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "MERGEQUEUE",
+				"anchor": "mergequeue"
+			}
+		],
+		"excerpt": "B\"H MERGE QUEUE Empty. All implementation and verification work is present in the working repository. No agent branch, patch, or unmerged scope remains.",
+		"searchText": "b\"h merge queue empty. all implementation and verification work is present in the working repository. no agent branch, patch, or unmerged scope remains.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-c64b8536b2.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-aadc507e14",
+		"title": "NEXTACTION",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0055_master-animation-completion/NEXT_ACTION.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "NEXTACTION",
+				"anchor": "nextaction"
+			}
+		],
+		"excerpt": "B\"H NEXT ACTION None.",
+		"searchText": "b\"h next action none.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-aadc507e14.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-0ba4422283",
+		"title": "PERSISTENCEAUDIT",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0055_master-animation-completion/PERSISTENCE_AUDIT.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "PERSISTENCEAUDIT",
+				"anchor": "persistenceaudit"
+			},
+			{
+				"level": 2,
+				"text": "Persisted authored data",
+				"anchor": "persisted-authored-data"
+			},
+			{
+				"level": 2,
+				"text": "Restoration evidence",
+				"anchor": "restoration-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Excluded transient data",
+				"anchor": "excluded-transient-data"
+			}
+		],
+		"excerpt": "B\"H PERSISTENCE AUDIT Persisted authored data Three neutral identities and render adapter values. Wardrobe, body, face, hair, and persistent design traits. Nine dialogue lines and deterministic lip sync cues. Gaze, emotion, gesture, gesture phase, locked contact, lean, and camera relative performance. Ten shots, three ",
+		"searchText": "b\"h persistence audit persisted authored data three neutral identities and render adapter values. wardrobe, body, face, hair, and persistent design traits. nine dialogue lines and deterministic lip sync cues. gaze, emotion, gesture, gesture phase, locked contact, lean, and camera relative performance. ten shots, three sequences, title cards, text boxes, asset uses, and native nle clips. restoration evidence json round trip preserved exact 60000ms duration. identity ids preserved in order. first dialogue line's complete lip sync cue array preserved. text boxes preserved. restored nlestore contained the exact compiled clip count. projectpackageassembler retained exact 60000ms production plan and timeline. excluded transient data verified absent from serialized/project package output: stablepose canvas/context references frame local time state blob urls and runtime audio urls functions and cyclic renderer state result: pass.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-0ba4422283.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-097fe38fa2",
+		"title": "REMAININGWORK",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0055_master-animation-completion/REMAINING_WORK.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "REMAININGWORK",
+				"anchor": "remainingwork"
+			}
+		],
+		"excerpt": "B\"H REMAINING WORK None. The requested implementation, production rendering, persistence, export, scale courts, full verification, compliance audit, readback, and evidence closure are complete.",
+		"searchText": "b\"h remaining work none. the requested implementation, production rendering, persistence, export, scale courts, full verification, compliance audit, readback, and evidence closure are complete.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-097fe38fa2.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-db9d543646",
+		"title": "VISUALCOURTS",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0055_master-animation-completion/VISUAL_COURTS.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "VISUALCOURTS",
+				"anchor": "visualcourts"
+			}
+		],
+		"excerpt": "B\"H VISUAL COURTS All courts were rendered through the production CinematicFrameRenderer, encoded as nontrivial PNG files, dimension checked, color counted, and SHA 256 hashed. The first 180×300 court exposed a real viewport defect; the renderer was repaired and all courts reran successfully. Court Dimensions Colors PN",
+		"searchText": "b\"h visual courts all courts were rendered through the production cinematicframerenderer, encoded as nontrivial png files, dimension checked, color counted, and sha 256 hashed. the first 180×300 court exposed a real viewport defect; the renderer was repaired and all courts reran successfully. court dimensions colors png bytes sha 256 : : : head 320×320 32 4,486 a5d1c4bac590d5cbe844e0bb0cc84061c937b5eab18f842bc4b37d6021d8099b character 180×300 28 2,956 6b2d5cae4bc673b56fb2f429b8adf4322389f6d6bc6c92e6d2cd5c3c71668d4b half body 512×512 34 6,507 c43812d0126669f065050f0bbf607140c0f99314231f2ded9493aebe31f2e88f final trio 1536×864 63 24,102 790b863d48887e378530e056f118173d3faa46dd8403eeb3bcfef381432e5a49 representative 640×360 frames were also generated at 1,000; 5,000; 22,000; 36,000; 50,000; 55,000; and 58,500 milliseconds, with distinct raw and png hashes recorded in visual evidence.json. browser production evidence from the complete verification suite also proved a nontrivial rendered scene frame and exported browser movie.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-db9d543646.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0321-subagent-system-trial--642a07633b",
+		"title": "Subagent System Trial",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0321_subagent-system-trial/SUBAGENT_TRIAL.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Subagent System Trial",
+				"anchor": "subagent-system-trial"
+			},
+			{
+				"level": 2,
+				"text": "Requested experiment",
+				"anchor": "requested-experiment"
+			},
+			{
+				"level": 2,
+				"text": "Mission-room result",
+				"anchor": "mission-room-result"
+			},
+			{
+				"level": 2,
+				"text": "Autonomous worker result",
+				"anchor": "autonomous-worker-result"
+			},
+			{
+				"level": 2,
+				"text": "Independent completion verification",
+				"anchor": "independent-completion-verification"
+			},
+			{
+				"level": 2,
+				"text": "Conclusion",
+				"anchor": "conclusion"
+			}
+		],
+		"excerpt": "B\"H Subagent System Trial Requested experiment Test the real Awtsmoos subagent system, launch at least fifteen specialists when available, pace named specialist launches by at least fifteen seconds, and use them to challenge any remaining animation project work. Mission room result The true mission room coordinator did",
+		"searchText": "b\"h subagent system trial requested experiment test the real awtsmoos subagent system, launch at least fifteen specialists when available, pace named specialist launches by at least fifteen seconds, and use them to challenge any remaining animation project work. mission room result the true mission room coordinator did not start. both missionstart and missionroomcreate returned: error: missing scope required scope: tunnel.room device discovery advertised tunnel.room, but the active oauth credential was rejected by the mission room service. this is an authorization layer mismatch, not an animator repository failure. autonomous worker result nineteen autonomousbackgroundagents launch requests were accepted and completed without worker process failures. eighteen named specialist launch attempts were paced with at least fifteen seconds between intended spawns. the action history then revealed a routing defect: requested animator project paths were normalized to /users/awtsmoos/work/awtsmoos.com prompt, goal, and query text were discarded the workers ran under no mission/no mission/agent specialist scopes could not be distinguished or trusted therefore, no autonomous worker conclusion or modification was accepted as project evidence. the workers were kept read only. independent completion verification the master process reran the complete animator verification after the agent trial: command: npm run verify job: cmdjob mscwx9lv 8a080fb55b22 receipt: receipt mscwx9lv 7f3c8da63f exit code: 0 wall time: 104660ms missing imports: 0 syntax failures: 0 one minute plan, performance, and persistence gates: pass packaged media and blend mode gates: pass animator local worktree output: clean remaining work: none next action: none conclusion the animation project remains complete and fully verified. the genuine multi agent mission room system is externally blocked by oauth scope handling. the fallback autonomous agent endpoint executes workers but presently strips the requested scope and instructions, so it is not a trustworthy specialist swarm in this session.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0321-subagent-system-trial--642a07633b.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-e9a7efbb80",
+		"title": "Boundless Brainstorm",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0340_realistic-objects-action-movie/01_BOUNDLESS_BRAINSTORM.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Boundless Brainstorm",
+				"anchor": "boundless-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "Ideal visual universe",
+				"anchor": "ideal-visual-universe"
+			},
+			{
+				"level": 2,
+				"text": "Movie concept",
+				"anchor": "movie-concept"
+			},
+			{
+				"level": 2,
+				"text": "Maximum action inventory",
+				"anchor": "maximum-action-inventory"
+			}
+		],
+		"excerpt": "B\"H Boundless Brainstorm The Awtsmoos renews actor, chair, mug, machine, paper, light, and lens in one continuous revelation; Awtsmoos.com becomes the vessel where a believable office world can move, react, and joke. Ideal visual universe Characters read as stylized people rather than assembled symbols: skull planes, j",
+		"searchText": "b\"h boundless brainstorm the awtsmoos renews actor, chair, mug, machine, paper, light, and lens in one continuous revelation; awtsmoos.com becomes the vessel where a believable office world can move, react, and joke. ideal visual universe characters read as stylized people rather than assembled symbols: skull planes, jaw, ears, neck, clavicle, shoulder slope, ribcage, waist, pelvis, elbows, knees, hands, shoes, fabric layers, facial asymmetry, and directional light. objects read by construction and material: ceramic mug rim and handle, stainless coffee machine, rolling office chair, laptop hinge and keyboard, printer tray, papers, spoon, wall clock, plant, desk, shelves, window light, cable, and waste bin. scene objects can be static, carried, sliding, rolling, falling, bouncing, opening, flashing, steaming, and printing. characters can enter, walk, run, sit, rise, turn, lean, brace, crouch, lunge, catch, pass, inspect, point, wave, present, cross arms, use pockets, carry, reach, recoil, and freeze. camera language includes extreme wide, wide, group, tracking, two shot, over shoulder, close up, extreme close up, insert, overhead, high angle, low angle, profile, dutch angle, whip pan, push in, pull back, rack focus suggestion, and final locked tableau. speech appears in real character anchored bubbles with safe tails, speaker colors, wrapped lines, and changing placement that respects shot composition. preview and export use the same character, object, set, camera, and overlay path. movie concept title: the last cup before the meeting. three coworkers discover that the office coffee machine claims only one cup remains. ari rushes toward it; dovid blocks him with a rolling chair; rivky calmly turns the conflict into a timed negotiation. the machine begins to rattle, a mug slides, papers fly, a spoon spins, and all three perform a coordinated rescue. the printer then produces a coupon for free tea. rivky concludes: the machine chose diplomacy. maximum action inventory running entrance coat and hair follow through rolling chair block abrupt stop and weight shift reach for mug mug pickup mug inspection crossed arm refusal pocket hand observation pointing at machine display calendar/tablet check mug lineup on desk open palm negotiation machine shake and steam burst startle recoil eye close up and blink mug slide paper flutter spoon spin lunge crouch catch handoff group freeze printer output final reaction and title tag",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-e9a7efbb80.json"
+	}
+]

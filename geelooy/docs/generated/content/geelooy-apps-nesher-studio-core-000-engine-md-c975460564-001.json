@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\n# Nesher Engine Map\n\nNesher is an OBS-class live studio and Premiere-class NLE built from browser-native vessels.\n\nGraphs:\n- Scene Graph: live OBS source composition.\n- Render Graph: deterministic canvas/video frame production.\n- Audio Graph: buses, meters, filters, monitoring, export mix, stream mix.\n- Timeline Graph: sequences, tracks, clips, trims, markers, nesting, multicam.\n- Export Graph: WebCodecs encoding, muxing, validation, queueing.\n- Streaming Graph: HLS sessions, provider adapters, health, tunnel relay.\n\nRule: no provider ingest is considered proven until codec/container/network validation proves it.\n"
+}

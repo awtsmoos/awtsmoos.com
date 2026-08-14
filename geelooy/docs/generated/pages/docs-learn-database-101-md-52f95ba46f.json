@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-learn-database-101-md-52f95ba46f",
+	"title": "Database 101",
+	"sourcePath": "docs/LEARN/DATABASE_101.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Database 101",
+			"anchor": "database-101"
+		},
+		{
+			"level": 2,
+			"text": "What you will learn",
+			"anchor": "what-you-will-learn"
+		},
+		{
+			"level": 2,
+			"text": "Main initialization",
+			"anchor": "main-initialization"
+		},
+		{
+			"level": 2,
+			"text": "Root precedence",
+			"anchor": "root-precedence"
+		},
+		{
+			"level": 2,
+			"text": "Why paths matter",
+			"anchor": "why-paths-matter"
+		},
+		{
+			"level": 2,
+			"text": "Safe workflow",
+			"anchor": "safe-workflow"
+		},
+		{
+			"level": 2,
+			"text": "Evidence",
+			"anchor": "evidence"
+		},
+		{
+			"level": 2,
+			"text": "Never infer",
+			"anchor": "never-infer"
+		}
+	],
+	"markdownParts": [
+		"content/docs-learn-database-101-md-52f95ba46f-001.json"
+	]
+}

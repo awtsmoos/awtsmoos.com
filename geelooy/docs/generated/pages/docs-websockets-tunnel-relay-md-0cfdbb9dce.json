@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-websockets-tunnel-relay-md-0cfdbb9dce",
+	"title": "Tunnel Relay WebSocket System",
+	"sourcePath": "docs/WEBSOCKETS/TUNNEL_RELAY.md",
+	"category": "Realtime",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Tunnel Relay WebSocket System",
+			"anchor": "tunnel-relay-websocket-system"
+		},
+		{
+			"level": 2,
+			"text": "Source root",
+			"anchor": "source-root"
+		},
+		{
+			"level": 2,
+			"text": "Registration flow observed",
+			"anchor": "registration-flow-observed"
+		},
+		{
+			"level": 2,
+			"text": "TUNNELACK evidence",
+			"anchor": "tunnelack-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Replacement activity",
+			"anchor": "replacement-activity"
+		},
+		{
+			"level": 2,
+			"text": "Request lifecycle",
+			"anchor": "request-lifecycle"
+		},
+		{
+			"level": 2,
+			"text": "Relationship to HTTP Tunnel Control",
+			"anchor": "relationship-to-http-tunnel-control"
+		}
+	],
+	"markdownParts": [
+		"content/docs-websockets-tunnel-relay-md-0cfdbb9dce-001.json"
+	]
+}

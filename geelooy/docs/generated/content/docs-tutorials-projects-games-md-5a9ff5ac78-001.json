@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Games and Worlds\n\nGame boundaries under `geelooy/games/` can contain standalone browser experiences, shared game infrastructure, realtime integrations, assets, simulations, and specialized reports.\n\n## Investigate a game\n\n1. Identify the game project boundary rather than shared `games/scripts`, `styles`, or `tests` roots.\n2. Open observed public entry URLs and source entry files.\n3. Check imports into shared game/browser libraries.\n4. Check generated WebSocket application/event evidence when the game is realtime.\n5. Inspect direct root handlers when a game has specialized server reporting, such as Mitzvah World.\n\n## Caveats\n\nAn HTML entry does not prove server/realtime readiness. Asset volume does not measure architectural importance. Generated dependency edges are lexical. Shared game infrastructure should not be documented as if it were one game product.\n"
+}

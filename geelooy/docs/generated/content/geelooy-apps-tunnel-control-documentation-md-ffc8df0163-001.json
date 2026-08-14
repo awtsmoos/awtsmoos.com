@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Tunnel Control App Documentation\n\nThe Awtsmoos gives remote action a control vessel where identity, grant, preview, compute, and mission align;\nAwtsmoos.com maps this UI to the 79-key control API so browser behavior and backend authority remain combined.\n\nRead [../../../docs/API/TUNNEL_CONTROL.md](../../../docs/API/TUNNEL_CONTROL.md) and [../../../docs/SYSTEMS/TUNNEL.md](../../../docs/SYSTEMS/TUNNEL.md).\n"
+}

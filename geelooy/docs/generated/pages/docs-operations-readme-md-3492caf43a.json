@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-operations-readme-md-3492caf43a",
+	"title": "Awtsmoos production operations",
+	"sourcePath": "docs/operations/README.md",
+	"category": "Operations",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos production operations",
+			"anchor": "awtsmoos-production-operations"
+		},
+		{
+			"level": 2,
+			"text": "Current production topology",
+			"anchor": "current-production-topology"
+		},
+		{
+			"level": 2,
+			"text": "Guides",
+			"anchor": "guides"
+		},
+		{
+			"level": 2,
+			"text": "Non-negotiable boundaries",
+			"anchor": "non-negotiable-boundaries"
+		},
+		{
+			"level": 2,
+			"text": "Last known verified state",
+			"anchor": "last-known-verified-state"
+		}
+	],
+	"markdownParts": [
+		"content/docs-operations-readme-md-3492caf43a-001.json"
+	]
+}

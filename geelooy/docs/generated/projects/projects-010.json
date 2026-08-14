@@ -1,0 +1,706 @@
+[
+	{
+		"projectId": "geelooy-games-emojis-a9a3155b",
+		"path": "geelooy/games/emojis",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "Emoji War — Neon Caption Arcade",
+		"entries": [
+			"index.html",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-emojis-a9a3155b.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/games/emojis/DOCUMENTATION.md",
+				"documentId": "geelooy-games-emojis-documentation-md-3ea2d9114e"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 36,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 37,
+		"symbolSummary": {
+			"files": 30,
+			"classes": 16,
+			"functions": 103,
+			"exports": 88,
+			"samples": [
+				"setupAudio",
+				"playSound",
+				"configureSound",
+				"configureSweep",
+				"rebuildStars",
+				"drawBackground",
+				"drawWebcamBackground",
+				"loadCaptionDraft",
+				"prepareCaptionData",
+				"updateFileCount",
+				"revokeCaptionUrls",
+				"bindCaptionDragging"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/games/emojis",
+				"file": "geelooy/games/emojis/index.html",
+				"title": "Emoji War — Neon Caption Arcade",
+				"scripts": 1,
+				"styles": 1
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-kabbalah-shooter-5fd11ab3",
+		"path": "geelooy/games/kabbalah-shooter",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "Kabbalah Infinite — The Breaking of Vessels",
+		"entries": [
+			"index.html",
+			"main.js",
+			"package.json",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-kabbalah-shooter-5fd11ab3.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/games/kabbalah-shooter/DOCUMENTATION.md",
+				"documentId": "geelooy-games-kabbalah-shooter-documentation-md-5502ac94b7"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 38,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 39,
+		"symbolSummary": {
+			"files": 35,
+			"classes": 32,
+			"functions": 16,
+			"exports": 61,
+			"samples": [
+				"CONFIG",
+				"HEBREW_LETTERS",
+				"COLORS",
+				"SPRITES",
+				"AudioSynth",
+				"SETTINGS",
+				"WEAPONS",
+				"SOUNDS",
+				"SCALES",
+				"SEFIROT",
+				"TRAITS",
+				"SPELLS"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/games/kabbalah-shooter",
+				"file": "geelooy/games/kabbalah-shooter/index.html",
+				"title": "Kabbalah Infinite — The Breaking of Vessels",
+				"scripts": 1,
+				"styles": 2
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-kavanah-e1949492",
+		"path": "geelooy/games/KAVANAH",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "KAVANAH",
+		"entries": [
+			"index.html",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-kavanah-e1949492.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/games/KAVANAH/DOCUMENTATION.md",
+				"documentId": "geelooy-games-kavanah-documentation-md-adf23132c3"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 11,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 12,
+		"symbolSummary": {
+			"files": 9,
+			"classes": 6,
+			"functions": 24,
+			"exports": 46,
+			"samples": [
+				"Otiot",
+				"Tzomeach",
+				"Chai",
+				"and",
+				"Entity",
+				"Particle",
+				"HEBREW_LETTERS",
+				"PLANT_EMOJIS",
+				"ANIMAL_EMOJIS",
+				"getPointerState",
+				"setupControls",
+				"handlePointerDown"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/games/KAVANAH",
+				"file": "geelooy/games/KAVANAH/index.html",
+				"title": "KAVANAH",
+				"scripts": 1,
+				"styles": 1
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-merkava-6e442b98",
+		"path": "geelooy/games/Merkava",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "Merkava — War of the Sparks",
+		"entries": [
+			"index.html",
+			"package.json",
+			"DOCUMENTATION.md",
+			"README.md",
+			"readme.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-merkava-6e442b98.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/games/Merkava/DOCUMENTATION.md",
+				"documentId": "geelooy-games-merkava-documentation-md-04dac7a852"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 86,
+			"tests": 31,
+			"assets": 0,
+			"generated": 0,
+			"docs": 2,
+			"other": 1
+		},
+		"totalFiles": 120,
+		"symbolSummary": {
+			"files": 76,
+			"classes": 39,
+			"functions": 154,
+			"exports": 129,
+			"samples": [
+				"appDiagnostics",
+				"createDiagnosticControls",
+				"checkpoint",
+				"setLane",
+				"chargeAbility",
+				"advanceLevel",
+				"setWorld",
+				"setLevel",
+				"grantPrutahs",
+				"defeatBoss",
+				"completeWorldRotation",
+				"clampIndex"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/libs",
+				"count": 2,
+				"examples": "geelooy/games/Merkava/src/render/createCoreMeshes.js; geelooy/games/Merkava/src/render/createEnemyMeshes.js"
+			}
+		],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/games/Merkava",
+				"file": "geelooy/games/Merkava/index.html",
+				"title": "Merkava — War of the Sparks",
+				"scripts": 1,
+				"styles": 2
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-migdol-2c237fda",
+		"path": "geelooy/games/migdol",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "Migdol - Kabbalah Tower Defense",
+		"entries": [
+			"index.html",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-migdol-2c237fda.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/games/migdol/DOCUMENTATION.md",
+				"documentId": "geelooy-games-migdol-documentation-md-3feffea982"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 11,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 12,
+		"symbolSummary": {
+			"files": 9,
+			"classes": 7,
+			"functions": 9,
+			"exports": 12,
+			"samples": [
+				"TILE_SIZE",
+				"MAPS",
+				"TOWER_TYPES",
+				"ENEMY_TYPES",
+				"GroundEffect",
+				"LetterParticle",
+				"Enemy",
+				"Projectile",
+				"Game",
+				"initializeMainMenu",
+				"startGame",
+				"returnToMainMenu"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/games/migdol",
+				"file": "geelooy/games/migdol/index.html",
+				"title": "Migdol - Kabbalah Tower Defense",
+				"scripts": 1,
+				"styles": 1
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-mitzvahworld-e62d44db",
+		"path": "geelooy/games/mitzvahWorld",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "B&quot;H Mitzvah World — Restored River Valley",
+		"entries": [
+			"index.html",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-mitzvahworld-e62d44db.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/games/mitzvahWorld/DOCUMENTATION.md",
+				"documentId": "geelooy-games-mitzvahworld-documentation-md-ca33cdf71a"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 2536,
+			"tests": 956,
+			"assets": 0,
+			"generated": 53,
+			"docs": 9,
+			"other": 282
+		},
+		"totalFiles": 3836,
+		"symbolSummary": {
+			"files": 2448,
+			"classes": 489,
+			"functions": 7734,
+			"exports": 4785,
+			"samples": [
+				"send",
+				"evaluate",
+				"waitFor",
+				"waitForDevTools",
+				"findTarget",
+				"waitForReady",
+				"delay",
+				"publishState",
+				"publishVerificationFailure",
+				"createBootSnapshot",
+				"boundedBootCount",
+				"bootDebugEnabled"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/libs",
+				"count": 17,
+				"examples": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCreatureMesh.js; geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowProceduralCreature.js; geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProceduralSeed.js"
+			},
+			{
+				"project": "libs",
+				"count": 1,
+				"examples": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeCoreFacade.js"
+			}
+		],
+		"incoming": [
+			{
+				"project": "geelooy/social-composer",
+				"count": 4,
+				"examples": "geelooy/social-composer/reel-studio/nle/NleAiProjectCodec.js; geelooy/social-composer/reel-studio/nle/NleMovieActionExecutor.js; geelooy/social-composer/reel-studio/nle/NleMoviePackage.js"
+			}
+		],
+		"externalDependencies": [
+			{
+				"dependency": "ws",
+				"count": 1,
+				"examples": "geelooy/games/mitzvahWorld/proof/BrowserProofCdpSupport.mjs"
+			}
+		],
+		"publicEntries": [
+			{
+				"url": "/games/mitzvahWorld",
+				"file": "geelooy/games/mitzvahWorld/index.html",
+				"title": "B&quot;H Mitzvah World — Restored River Valley",
+				"scripts": 1,
+				"styles": 2
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-nachash-85ff920d",
+		"path": "geelooy/games/Nachash",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "Tikkun HaNachash",
+		"entries": [
+			"index.html",
+			"main.js"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-nachash-85ff920d.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 5,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 5,
+		"symbolSummary": {
+			"files": 3,
+			"classes": 8,
+			"functions": 31,
+			"exports": 0,
+			"samples": [
+				"onPointerDown",
+				"onPointerMove",
+				"onPointerUp",
+				"updateKeyboardDirection",
+				"handleKeyDown",
+				"handleKeyUp",
+				"handleResize",
+				"startGame",
+				"endGame",
+				"createAndShowGameOverScreen",
+				"handleWorkerMessage",
+				"init"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/games/Nachash",
+				"file": "geelooy/games/Nachash/index.html",
+				"title": "Tikkun HaNachash",
+				"scripts": 2,
+				"styles": 2
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-neshama-quest-3f0cdf7b",
+		"path": "geelooy/games/neshama-quest",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "Neshama Quest",
+		"entries": [
+			"index.html"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-neshama-quest-3f0cdf7b.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 7,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 7,
+		"symbolSummary": {
+			"files": 5,
+			"classes": 5,
+			"functions": 4,
+			"exports": 0,
+			"samples": [
+				"Entity",
+				"Neshama",
+				"Klipah",
+				"Game",
+				"InputHandler",
+				"generateFullMaze",
+				"createPerfectMaze",
+				"addLoopsToMaze",
+				"addSideTunnels"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/games/neshama-quest",
+				"file": "geelooy/games/neshama-quest/index.html",
+				"title": "Neshama Quest",
+				"scripts": 5,
+				"styles": 1
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-nitzotz-io-7c8b94b0",
+		"path": "geelooy/games/nitzotz-io",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "Nitzotz.io — Shlichus Adventure Metropolis",
+		"entries": [
+			"index.html",
+			"package.json",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-nitzotz-io-7c8b94b0.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/games/nitzotz-io/DOCUMENTATION.md",
+				"documentId": "geelooy-games-nitzotz-io-documentation-md-cffefeee32"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 220,
+			"tests": 29,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 250,
+		"symbolSummary": {
+			"files": 187,
+			"classes": 0,
+			"functions": 574,
+			"exports": 372,
+			"samples": [
+				"selectShlichus",
+				"shlichusTemplates",
+				"resolveTemplate",
+				"descriptionFor",
+				"template",
+				"hash",
+				"mix",
+				"adventureMetric",
+				"adventureProgress",
+				"settleAdventureReward",
+				"emptySettlement",
+				"updateAdventure"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/libs",
+				"count": 2,
+				"examples": "geelooy/games/nitzotz-io/js/procedural/localMeshes.js; geelooy/games/nitzotz-io/js/webgl/meshUpload.js"
+			}
+		],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/games/nitzotz-io",
+				"file": "geelooy/games/nitzotz-io/index.html",
+				"title": "Nitzotz.io — Shlichus Adventure Metropolis",
+				"scripts": 1,
+				"styles": 2
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	}
+]

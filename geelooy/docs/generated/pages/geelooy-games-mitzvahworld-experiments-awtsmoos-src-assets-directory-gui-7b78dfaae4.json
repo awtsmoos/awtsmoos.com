@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-assets-directory-gui-7b78dfaae4",
+	"title": "B\"H",
+	"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/DIRECTORY_GUIDE.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Mitzvah World Remote Runtime Assets",
+			"anchor": "mitzvah-world-remote-runtime-assets"
+		},
+		{
+			"level": 2,
+			"text": "Public website root",
+			"anchor": "public-website-root"
+		},
+		{
+			"level": 2,
+			"text": "Textures",
+			"anchor": "textures"
+		},
+		{
+			"level": 2,
+			"text": "Models",
+			"anchor": "models"
+		},
+		{
+			"level": 2,
+			"text": "Cache layers",
+			"anchor": "cache-layers"
+		},
+		{
+			"level": 2,
+			"text": "Enforcement",
+			"anchor": "enforcement"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-experiments-awtsmoos-src-assets-directory-gui-7b78dfaae4-001.json"
+	]
+}

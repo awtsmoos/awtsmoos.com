@@ -1,0 +1,157 @@
+[
+	{
+		"id": "docs-generated-test-script-index-md-412dcbafde",
+		"title": "Generated Test Script Index",
+		"sourcePath": "docs/GENERATED/TEST_SCRIPT_INDEX.md",
+		"category": "Testing",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated Test Script Index",
+				"anchor": "generated-test-script-index"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Test Script Index Script Command emailTest node ayzarim/email/emailTest.js test npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:prof",
+		"searchText": "b\"h boruch hashem blessed is he generated test script index script command emailtest node ayzarim/email/emailtest.js test npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:ai node geelooy/ai/tests/harness/run.cjs all test:ai:stress awtsmoos ai test rounds=5 node geelooy/ai/tests/harness/run.cjs all test:api keys node geelooy/api/social/helper/test/apikeys.test.js test:code ai studio node geelooy/apps/code/test/ai studio isolated.test.mjs test:comments node geelooy/api/social/helper/comments/test/runallcommentstests.js test:concurrency failure node geelooy/api/social/test/concurrencyfailurestress.test.mjs test:css quality node geelooy/style/test/cssquality.test.js test:dayuh cutover node tools/dayuhchadashcutover/releasecheck.js test:dayuh release npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover test:graph node geelooy/api/social/helper/test/socialgraph.test.js test:heichel governance node geelooy/heichelos/heichel/modules/test/editormanagement.test.mjs && node geelooy/api/social/helper/test/heichelroles.test.js test:heichelos quality node geelooy/heichelos/test/heichelosquality.test.js test:imported style ownership node geelooy/heichelos/post/styles/test/importedstyleownership.test.js test:live smoke node geelooy/heichelos/heichel/modules/test/sociallivesmoke.test.mjs test:mission continuity actions node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:node client node check geelooy/scripts/awtsmoos/api/social/nodeclient.mjs test:notifications node geelooy/api/social/helper/test/notifications.test.js test:packed engine node geelooy/api/social/helper/test/packedengine.test.js test:platform execution node geelooy/api/social/helper/test/platformexecution.test.js test:platform ops node geelooy/api/social/helper/test/platformops.test.js test:platform ui node geelooy/heichelos/heichel/modules/test/platformpanelnodesimulation.test.mjs && node geelooy/heichelos/heichel/modules/test/notificationspanelnodesimulation.test.mjs && node geelooy/heichelos/heichel/modules/test/platformcoveragestatic.test.mjs && node geelooy/heichelos/heichel/modules/test/browserapisurfacestatic.test.mjs && node geelooy/heichelos/heichel/modules/test/browserapirequestshapes.test.mjs && node geelooy/heichelos/heichel/modules/test/platformopsapi.test.mjs && node geelooy/heichelos/heichel/modules/test/socialgraphfoundation.test.mjs && node geelooy/heichelos/heichel/modules/test/recursivesociallayer.test.mjs test:post submissions node geelooy/api/social/helper/post/test/postsubmissions.test.js test:profile menu node geelooy/scripts/awtsmoos/social/test/profilemenusimulation.test.mjs test:real server writes node geelooy/api/social/test/realserverwrites.test.mjs test:routes node geelooy/api/social/test/routecoverage.test.js test:social content node geelooy/api/social/helper/test/socialcontent.test.js test:social packed node geelooy/api/social/helper/test/socialpacked.test.js && node geelooy/api/social/helper/test/postmigration.test.js && node geelooy/api/social/helper/test/packedsnapshotrepair.test.js test:treasury node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs test:virtual os node geelooy/tests/virtual os/run smokes.cjs",
+		"page": "pages/docs-generated-test-script-index-md-412dcbafde.json"
+	},
+	{
+		"id": "docs-generated-websocket-applications-md-58413448ec",
+		"title": "Generated Realtime Application Inventory",
+		"sourcePath": "docs/GENERATED/WEBSOCKET_APPLICATIONS.md",
+		"category": "Realtime",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated Realtime Application Inventory",
+				"anchor": "generated-realtime-application-inventory"
+			},
+			{
+				"level": 2,
+				"text": "WebSocket application directories",
+				"anchor": "websocket-application-directories"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Realtime Application Inventory Application id Versions Factory awtsmoos core 1 createAwtsmoosCoreApplication awtsmoos social 1 createAwtsmoosSocialApplication chess 1 createChessApplication sefira clash 1 createSefiraClashApplication mitzvah world 1 createMitzvahWorldApplicatio",
+		"searchText": "b\"h boruch hashem blessed is he generated realtime application inventory application id versions factory awtsmoos core 1 createawtsmooscoreapplication awtsmoos social 1 createawtsmoossocialapplication chess 1 createchessapplication sefira clash 1 createsefiraclashapplication mitzvah world 1 createmitzvahworldapplication ohr hagnuz 1 createohrhagnuzapplication scribe journey 1, 2 createscribejourneyapplication tunnel activity 1 createtunnelactivityapplication shema strike 1 createshemastrikeapplication websocket application directories directory files source chess 3 ayzarim/awtsmoosdynamicserver/websocket/apps/chess missionrooms 11 ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms mitzvahworld 278 ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld ohrhagnuz 25 ayzarim/awtsmoosdynamicserver/websocket/apps/ohrhagnuz scribejourney 38 ayzarim/awtsmoosdynamicserver/websocket/apps/scribejourney sefiraclash 91 ayzarim/awtsmoosdynamicserver/websocket/apps/sefiraclash shemastrike 77 ayzarim/awtsmoosdynamicserver/websocket/apps/shemastrike tunnelactivity 10 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelactivity tunnelrelay 53 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay",
+		"page": "pages/docs-generated-websocket-applications-md-58413448ec.json"
+	},
+	{
+		"id": "docs-generated-websocket-event-index-md-530cf0fd87",
+		"title": "Generated WebSocket Event Evidence",
+		"sourcePath": "docs/GENERATED/WEBSOCKET_EVENT_INDEX.md",
+		"category": "Realtime",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated WebSocket Event Evidence",
+				"anchor": "generated-websocket-event-evidence"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated WebSocket Event Evidence Production source lexical event/message evidence; this is not a formal protocol schema. 56 rows. Chunk Rows Count websocket events 001.md 1–56 56",
+		"searchText": "b\"h boruch hashem blessed is he generated websocket event evidence production source lexical event/message evidence; this is not a formal protocol schema. 56 rows. chunk rows count websocket events 001.md 1–56 56",
+		"page": "pages/docs-generated-websocket-event-index-md-530cf0fd87.json"
+	},
+	{
+		"id": "docs-generated-websocket-events-websocket-events-001-md-73a3791cec",
+		"title": "Generated WebSocket Event Evidence 1–56",
+		"sourcePath": "docs/GENERATED/WEBSOCKET_EVENTS/websocket-events-001.md",
+		"category": "Realtime",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated WebSocket Event Evidence 1–56",
+				"anchor": "generated-websocket-event-evidence-1-56"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated WebSocket Event Evidence 1–56 Production source lexical event/message evidence; this is not a formal protocol schema. Event/message literal Source ACK ayzarim/awtsmoosDynamicServer/websocket/apps/aliasRouting.js awtsmoosMyDevice ayzarim/awtsmoosDynamicServer/websocket/apps/tunn",
+		"searchText": "b\"h boruch hashem blessed is he generated websocket event evidence 1–56 production source lexical event/message evidence; this is not a formal protocol schema. event/message literal source ack ayzarim/awtsmoosdynamicserver/websocket/apps/aliasrouting.js awtsmoosmydevice ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopeerrors.js bosstelegraph ayzarim/awtsmoosdynamicserver/websocket/apps/sefiraclash/coopcombat.js bridge:lanterns ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/rivercrossingservice.js care ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/combatactionrequest.js chess.click.accepted ayzarim/awtsmoosdynamicserver/websocket/apps/chess/application.js chess.room.created ayzarim/awtsmoosdynamicserver/websocket/apps/chess/application.js chess.room.joined ayzarim/awtsmoosdynamicserver/websocket/apps/chess/application.js close ayzarim/awtsmoosdynamicserver/websocket/core/clientsession.js data ayzarim/awtsmoosdynamicserver/websocket/apps/scribejourney/rawwebsockettestclient.cjs data ayzarim/awtsmoosdynamicserver/websocket/core/clientsession.js defeat ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/combatdefeatrewards.js enrage ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/enemyactionsupportrules.js error ayzarim/awtsmoosdynamicserver/websocket/core/clientsession.js error ayzarim/awtsmoosdynamicserver/websocket/platform/legacyrouting.js guard ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/enemyactionsupportrules.js harvest ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/animalharvestservice.js heal ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/enemyactionsupportrules.js health.pong ayzarim/awtsmoosdynamicserver/websocket/apps/awtsmooscoreapplication.js live preview ayzarim/awtsmoosdynamicserver/websocket/apps/livepreview.js loot ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/corpselootservice.js page entered ayzarim/awtsmoosdynamicserver/websocket/apps/sociallive.js page left ayzarim/awtsmoosdynamicserver/websocket/apps/sociallive.js page presence ayzarim/awtsmoosdynamicserver/websocket/apps/sociallive.js playerdown ayzarim/awtsmoosdynamicserver/websocket/apps/sefiraclash/coopcombat.js playerhit ayzarim/awtsmoosdynamicserver/websocket/apps/sefiraclash/coopcombat.js read ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay.correlationfixtures.cjs read ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay.retryfixtures.cjs refine ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/combatdefeatrewards.js retryaction ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay.concurrenthelpers.cjs retryaction ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay.retryfixtures.cjs retryaction ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/canonicalenvelopes.js retryaction ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopeidentity.js social event ayzarim/awtsmoosdynamicserver/websocket/apps/sociallive.js social pong ayzarim/awtsmoosdynamicserver/websocket/apps/sociallive.js social presence ayzarim/awtsmoosdynamicserver/websocket/apps/sociallive.js social presence ack ayzarim/awtsmoosdynamicserver/websocket/apps/sociallive.js social subscribed ayzarim/awtsmoosdynamicserver/websocket/apps/sociallive.js summon ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/enemyactionsupportrules.js tunnel ack ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/register.js tunnel ack ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/registrationtransfer.js tunnel replaced ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/registrationtransfer.js tunnel request ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestdispatch.js tunnel response ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay.correlationfixtures.cjs tunnel response ack ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/responsehandler.js tunnelrequestconflict ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopeerrors.js tunnelrequestpending ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopepending.js tunnelrequestpersistencefailed ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/canonicalenvelopes.js tunnelrequestsendfailed ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopeerrors.js tunnelrequeststateunknown ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopeerrors.js tunnelrequesttransportstalled ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopeerrors.js tunnelunavailable ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopeerrors.js unknown message ayzarim/awtsmoosdynamicserver/websocket/apps/awtsmooscoreapplication.js unknown message ayzarim/awtsmoosdynamicserver/websocket/platform/legacyrouting.js upgrade ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/socketintegrationfixture.cjs wander ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/botbrain.js",
+		"page": "pages/docs-generated-websocket-events-websocket-events-001-md-73a3791cec.json"
+	},
+	{
+		"id": "docs-glossary-md-a84b61a5eb",
+		"title": "Repository Glossary",
+		"sourcePath": "docs/GLOSSARY.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Repository Glossary",
+				"anchor": "repository-glossary"
+			},
+			{
+				"level": 2,
+				"text": "Awtsmoos",
+				"anchor": "awtsmoos"
+			},
+			{
+				"level": 2,
+				"text": "Geelooy",
+				"anchor": "geelooy"
+			},
+			{
+				"level": 2,
+				"text": "Derech",
+				"anchor": "derech"
+			},
+			{
+				"level": 2,
+				"text": "$i",
+				"anchor": "i"
+			},
+			{
+				"level": 2,
+				"text": "$GET, $POST, $DELETE",
+				"anchor": "get-post-delete"
+			},
+			{
+				"level": 2,
+				"text": "Dynamic parameter",
+				"anchor": "dynamic-parameter"
+			},
+			{
+				"level": 2,
+				"text": "Heichel / Heichelos",
+				"anchor": "heichel-heichelos"
+			},
+			{
+				"level": 2,
+				"text": "Alias",
+				"anchor": "alias"
+			},
+			{
+				"level": 2,
+				"text": "DosDB",
+				"anchor": "dosdb"
+			},
+			{
+				"level": 2,
+				"text": "Perutah / Perutas",
+				"anchor": "perutah-perutas"
+			},
+			{
+				"level": 2,
+				"text": "Tunnel",
+				"anchor": "tunnel"
+			},
+			{
+				"level": 2,
+				"text": "Mission room",
+				"anchor": "mission-room"
+			},
+			{
+				"level": 2,
+				"text": "Generated docs",
+				"anchor": "generated-docs"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Repository Glossary The Awtsmoos gives language to vessels so maintainers can share one map; Awtsmoos.com has its own names, and this glossary prevents a semantic trap. Awtsmoos The project name and recurring conceptual vocabulary throughout source comments, APIs, apps, and runtime syste",
+		"searchText": "b\"h boruch hashem blessed is he repository glossary the awtsmoos gives language to vessels so maintainers can share one map; awtsmoos.com has its own names, and this glossary prevents a semantic trap. awtsmoos the project name and recurring conceptual vocabulary throughout source comments, apis, apps, and runtime systems. this documentation uses the spelling present in the repository and user instructions. geelooy the default public filesystem root is geelooy/ because awtsmoosstaticserver.maindir defaults to config.public \"geelooy\". it contains pages, applications, games, shared browser code, and the filesystem located api tree. derech a dynamic route module convention represented by awtsmoos.derech.js. the dynamic server searches upward through the physical request path for such files, then evaluates their route definitions. the current api tree contains 21 derech mount files. $i a common server side request/context vessel passed to derech code. it can expose db access, request/user state, helper methods, url information, body/query vessels, route parameters, and response utilities depending on the runtime. it is not a url dollar path segment. $ get, $ post, $ delete php like names used by route code for parsed input vessels. they are data objects, not path grammar. dynamic parameter a url route segment declared as :name. example: /:sefer/section/:section. a terminal :name is a catch all. see routes/dynamic paths.md. heichel / heichelos a core social/content domain represented across browser surfaces and social api modules. the source includes heichel creation/editing, posts, series, editors, review/governance, comments, and discovery. treat it as a first class content container/domain, not merely a page name. alias a user/social identity concept heavily used by social routes. many write operations are authorized in terms of whether the current identity owns or may act for an alias. dosdb the persistence engine instantiated by the dynamic server. the database root is configurable by environment/local config/tracked config and exposed as process.awtsmoosdbpath. perutah / perutas value/economy vocabulary used in wallet and tunnel control commerce/treasury systems. read the route implementation before assuming units, accounting guarantees, or production payment semantics. tunnel the remote device/agent bridge spanning apps, apis, shared client code, installer artifacts, live calls, previews, mission rooms, filesystem actions, and provider/compute/economy systems. mission room a collaboration/agent orchestration concept with both http control routes and websocket server behavior. generated docs markdown under docs/generated/, fully regenerated by node scripts/docs/generate docs.js. never hand maintain them as authoritative narrative; change the generator or source instead.",
+		"page": "pages/docs-glossary-md-a84b61a5eb.json"
+	}
+]

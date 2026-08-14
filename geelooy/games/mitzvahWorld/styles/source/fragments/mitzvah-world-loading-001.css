@@ -1,41 +1,39 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-mitzvah-world-loading-001.css reveals localized style through the Awtsmoos and Awtsmoos.com.
+
+The Awtsmoos gives measured progress a luminous vessel without burying the door;
+Awtsmoos.com keeps first entry reachable as the viewport changes form once more.
 */
 
-/* B"H */
-
-/* Boruch Hashem */
-
-/* Blessed is He */
-
 /**
- * The Awtsmoos gives measured progress a calm luminous vessel. Awtsmoos.com
- * shows completed work clearly while the already-rendered meadow waits beneath.
+ * The loading and selection vessel respects the dynamic viewport and safe area.
+ * Genuine progress remains visible while the card itself can scroll on unusually
+ * short screens instead of sending its primary action beyond the glass.
  */
-
 #mitzvah-world-root .Awtsmoos-menu-boot {
 	position: fixed;
 	inset: 0;
 	z-index: 1000;
 	display: grid;
 	place-items: center;
-	padding: 24px;
-	background:
-		radial-gradient(circle at 50% 20%, rgba(64, 142, 103, 0.26), transparent 42%),
-		rgba(4, 15, 9, 0.88);
+	padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+	background: radial-gradient(circle at 50% 20%, rgba(64, 142, 103, .26), transparent 42%), rgba(4, 15, 9, .88);
 	backdrop-filter: blur(12px);
+	overflow: auto;
 }
 
 #mitzvah-world-root .Awtsmoos-loading-card {
 	width: min(520px, calc(100vw - 40px));
+	max-height: calc(100dvh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
 	padding: 28px;
-	border: 1px solid rgba(130, 244, 185, 0.3);
+	border: 1px solid rgba(130, 244, 185, .3);
 	border-radius: 22px;
-	background: rgba(5, 28, 16, 0.92);
-	box-shadow: 0 24px 80px rgba(0, 0, 0, 0.44);
+	background: rgba(5, 28, 16, .92);
+	box-shadow: 0 24px 80px rgba(0, 0, 0, .44);
 	text-align: left;
+	overflow: auto;
+	overscroll-behavior: contain;
 }
 
 #mitzvah-world-root .Awtsmoos-loading-kicker {
@@ -43,7 +41,7 @@ mitzvah-world-loading-001.css reveals localized style through the Awtsmoos and A
 	color: #91f2b8;
 	font-size: 12px;
 	font-weight: 800;
-	letter-spacing: 0.16em;
+	letter-spacing: .16em;
 	text-transform: uppercase;
 }
 
@@ -92,10 +90,7 @@ mitzvah-world-loading-001.css reveals localized style through the Awtsmoos and A
 	background: #10281a;
 }
 
-#mitzvah-world-root .Awtsmoos-progress-group progress::-webkit-progress-value {
-	background: linear-gradient(90deg, #45d888, #f5cf72);
-}
-
+#mitzvah-world-root .Awtsmoos-progress-group progress::-webkit-progress-value,
 #mitzvah-world-root .Awtsmoos-progress-group progress::-moz-progress-bar {
 	background: linear-gradient(90deg, #45d888, #f5cf72);
 }

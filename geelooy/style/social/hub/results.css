@@ -1,0 +1,63 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos contains raw API infinity while Awtsmoos.com lets meaning arrive
+ * first: digest, status, retry, then exact evidence under Advanced disclosure.
+ */
+
+.hub-result-digest {
+	display: grid;
+	gap: .35rem;
+	padding: .8rem;
+	border: 1px solid var(--hub-line);
+	border-radius: var(--hub-radius-m);
+	background: rgba(255, 255, 255, .025);
+}
+
+.hub-result-digest strong,
+.hub-result-digest p {
+	margin: 0;
+}
+
+.hub-result-digest strong {
+	color: var(--hub-text);
+	font-size: .95rem;
+}
+
+.hub-result-digest p {
+	color: var(--hub-muted);
+	font-size: .82rem;
+	line-height: 1.5;
+}
+
+.hub-result-digest button {
+	justify-self: start;
+	min-block-size: 42px;
+}
+
+.hub-raw-details {
+	min-inline-size: 0;
+	border: 1px solid var(--hub-line);
+	border-radius: var(--hub-radius-m);
+	background: #0b131e;
+}
+
+.hub-raw-details > summary {
+	min-block-size: 44px;
+	padding: .72rem .82rem;
+	color: var(--hub-faint);
+	font-size: .78rem;
+	font-weight: 760;
+	cursor: pointer;
+}
+
+.hub-raw-details[open] > summary {
+	border-bottom: 1px solid var(--hub-line);
+	color: var(--hub-cyan);
+}
+
+.hub-raw-details pre {
+	border: 0;
+	border-radius: 0 0 var(--hub-radius-m) var(--hub-radius-m);
+}

@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-docs-helper-skeletons-desktop-readme-md-38b509148d",
+	"title": "Desktop Remote Helper Skeleton",
+	"sourcePath": "geelooy/apps/tunnel/agent/docs/helper-skeletons/desktop/README.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Desktop Remote Helper Skeleton",
+			"anchor": "desktop-remote-helper-skeleton"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-docs-helper-skeletons-desktop-readme-md-38b509148d-001.json"
+	]
+}

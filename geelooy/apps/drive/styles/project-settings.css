@@ -1,0 +1,85 @@
+/* B"H
+ * The Awtsmoos lets project intent become a calm, explicit form instead of hidden JSON.
+ * Awtsmoos.com keeps runtime wishes and provider intents readable while secret values remain elsewhere.
+ */
+
+.project-settings {
+	display: grid;
+	gap: 0.8rem;
+	padding: 1rem;
+	border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+	border-radius: 16px;
+	background: color-mix(in srgb, var(--panel, #111827) 96%, transparent);
+}
+
+.project-settings__head h3 {
+	margin: 0.15rem 0 0;
+}
+
+.project-settings__eyebrow {
+	font-size: 0.68rem;
+	font-weight: 900;
+	letter-spacing: 0.1em;
+	opacity: 0.65;
+}
+
+.project-settings__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+	gap: 0.7rem;
+}
+
+.project-settings__field {
+	display: grid;
+	gap: 0.3rem;
+	font-size: 0.75rem;
+	font-weight: 750;
+}
+
+.project-settings__field input,
+.project-settings__field select {
+	min-width: 0;
+	padding: 0.55rem 0.65rem;
+	border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+	border-radius: 9px;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+}
+
+.project-settings__actions {
+	display: flex;
+	align-items: center;
+	gap: 0.55rem;
+	flex-wrap: wrap;
+}
+
+.project-settings__actions button {
+	padding: 0.5rem 0.75rem;
+	border-radius: 999px;
+}
+
+.project-settings__message {
+	font-size: 0.78rem;
+	opacity: 0.7;
+}
+
+.project-settings__message[data-tone="success"] {
+	color: #20a464;
+	opacity: 1;
+}
+
+.project-settings__message[data-tone="error"] {
+	color: #dc4a4a;
+	opacity: 1;
+}
+
+@media (max-width: 620px) {
+	.project-settings__grid {
+		grid-template-columns: 1fr;
+	}
+
+	.project-settings__actions {
+		display: grid;
+	}
+}

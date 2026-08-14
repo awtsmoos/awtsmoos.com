@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-configuration-md-58f184d741",
+	"title": "Configuration and Environment Variables",
+	"sourcePath": "docs/CONFIGURATION.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Configuration and Environment Variables",
+			"anchor": "configuration-and-environment-variables"
+		},
+		{
+			"level": 2,
+			"text": "Generated inventory",
+			"anchor": "generated-inventory"
+		},
+		{
+			"level": 2,
+			"text": "Database roots",
+			"anchor": "database-roots"
+		},
+		{
+			"level": 2,
+			"text": "Mail",
+			"anchor": "mail"
+		},
+		{
+			"level": 2,
+			"text": "Wallet / PayPal",
+			"anchor": "wallet-paypal"
+		},
+		{
+			"level": 2,
+			"text": "YouTube",
+			"anchor": "youtube"
+		},
+		{
+			"level": 2,
+			"text": "Tunnel and WebSocket tuning",
+			"anchor": "tunnel-and-websocket-tuning"
+		},
+		{
+			"level": 2,
+			"text": "Search / RAG / AI paths",
+			"anchor": "search-rag-ai-paths"
+		},
+		{
+			"level": 2,
+			"text": "Classification is advisory",
+			"anchor": "classification-is-advisory"
+		}
+	],
+	"markdownParts": [
+		"content/docs-configuration-md-58f184d741-001.json"
+	]
+}

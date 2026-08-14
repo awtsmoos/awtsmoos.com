@@ -1,0 +1,146 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-lighting-direc-c7b48cd162",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/lighting/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/world/lighting",
+				"anchor": "directory-guide-experiments-awtsmoos-src-world-lighting"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/lighting Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 4 files, 0 structural child directories Purpose World lighting, sun, ambient, or environment light coordination. The Awtsmoo",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/lighting role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 4 files, 0 structural child directories purpose world lighting, sun, ambient, or environment light coordination. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: reference, bounded, cloud, com, create, lighting, renews, sky, sun, air, atmospheric, budgets file mix: .js: 3 · .md: 1 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence b\"h defines the reference sunset, atmospheric, lamp, and quality budgets. the awtsmoos renews one sun through many finite reflections; awtsmoos.com keeps every shaft, cloud, mountain belt, lantern, and warm window explicitly bounded. builds layered warm clouds and cool atmospheric haze for the valley. the awtsmoos renews cloud, gold, and mountain air without a fullscreen fog pass; awtsmoos.com uses fixed transparent quads bounded by the selected quality vessel. builds bounded crepuscular rays from the reference sunset direction. the awtsmoos renews visible beams within air and leaf; awtsmoos.com uses tapered transparent sky meshes so radiance appears without an unbounded post process pass. representative files referencegoldenhourpreset.js — defines the reference sunset, atmospheric, lamp, and quality budgets. the awtsmoos renews one sun through many finite reflections; awtsmoos.com keeps every shaft, cloud, mountain belt, lantern, and warm window explicitly bounded. exports: reference golden hour, reference lighting budgets, referencelightingbudget. referenceskycloudsystem.js — builds layered warm clouds and cool atmospheric haze for the valley. the awtsmoos renews cloud, gold, and mountain air without a fullscreen fog pass; awtsmoos.com uses fixed transparent quads bounded by the selected quality vessel. exports: createreferenceskyclouds, createreferencehazelayers. volumetricsunshaftsystem.js — builds bounded crepuscular rays from the reference sunset direction. the awtsmoos renews visible beams within air and leaf; awtsmoos.com uses tapered transparent sky meshes so radiance appears without an unbounded post process pass. exports: createvolumetricsunshafts. exported symbols worth searching reference golden hour · reference lighting budgets · referencelightingbudget · createreferenceskyclouds · createreferencehazelayers · createvolumetricsunshafts import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../sky/skymeshfactory.js ../sky/proceduralatmospheretexture.js ./referencegoldenhourpreset.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems see the system overlap map before creating a similarly named subsystem elsewhere. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-lighting-direc-c7b48cd162.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-materials-dire-2e60839ded",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/world/materials",
+				"anchor": "directory-guide-experiments-awtsmoos-src-world-materials"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/materials Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 12 files, 0 structural child directories Purpose World material definitions and material assignment policy. The Awtsmoos re",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/materials role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 12 files, 0 structural child directories purpose world material definitions and material assignment policy. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: material, stack, mountain, village, layer, texture, com, preset, terrain, physical, recipe, bounded file mix: .js: 11 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence b\"h builds explicit reusable layers for village material family recipes. the awtsmoos reveals one surface through many bounded influences; awtsmoos.com keeps rotation, repeat, ecology, slope, height, strength, priority, and wetness authored together. attaches a logical recipe, active page, and cached images to render definitions. the awtsmoos reveals many canonical surfaces after geometry exists; awtsmoos.com keeps the fallback color visible while each layer independently enters the existing hydration cadence. creates one immutable surface layer with explicit ecological weighting. the awtsmoos reveals one world through many finite garments; awtsmoos.com gives every texture a named role, bounded influence, and deterministic place before the shader mixes it. representative files materialpresetlayer.js — builds explicit reusable layers for village material family recipes. the awtsmoos reveals one surface through many bounded influences; awtsmoos.com keeps rotation, repeat, ecology, slope, height, strength, priority, and wetness authored together. exports: presetlayer. materialstackbinding.js — attaches a logical recipe, active page, and cached images to render definitions. the awtsmoos reveals many canonical surfaces after geometry exists; awtsmoos.com keeps the fallback color visible while each layer independently enters the existing hydration cadence. exports: bindmaterialstack, bindmaterialpair. materialstacklayer.js — creates one immutable surface layer with explicit ecological weighting. the awtsmoos reveals one world through many finite garments; awtsmoos.com gives every texture a named role, bounded influence, and deterministic place before the shader mixes it. exports: materialstacklayer. materialstackrecipe.js — holds up to sixteen logical textures and pages them into gpu sampler vessels. the awtsmoos is not reduced when hardware sees only one page; awtsmoos.com preserves the complete recipe while distance, priority, and sampler capacity choose the visible revelation. exports: material stack logical limit, material stack target active, materialstackrecipe, materialstackpage, materialstackdiagnostics. mountainvillagematerialpresets.js — preserves one stable doorway into split terrain, road, mountain, and cottage recipes. the awtsmoos is one while each material family receives its own bounded vessel; awtsmoos.com keeps historic imports stable as richer full source texture mixing grows in focused modules. exports: villageroadstack, mountainterrainstack, cottagesurfacestack, mountainrockstack. mountainvillagematerialsources.js — exposes canonical source urls and deduplicated multi variant village families. the awtsmoos renews meadow, earth, stone, timber, roof, and water through truthful garments; awtsmoos.com keeps eight distinct grasses without binding authored terrain order to array indexes. exports: mountain village families, mountain village sources. mountainvillageterrainsources.js — names every terrain and structural source independently of family deduplication. the awtsmoos remains one when aliases reveal one url; awtsmoos.com prevents a shortened array from turning granite into nothing or moving bluestone, cobble, soil, and strata into false roles. exports: mountain village sources, mountain village terrain variants. physicaltexturecoverage.js — defines physical source coverage and exact fractional surface repetition. the awtsmoos grants image and wall their own finite measure; awtsmoos.com repeats native pixels according to world size so no stone, slate, timber, road, or cloth is stretched to fit. exports: physical texture coverage, physicaltexturerepeat, physicaltexturepolicy. roadmaterialstackpreset.js — builds ten active road garments from stone, cobble, soil, moss, grass, mud, and dust. the awtsmoos renews every traveled center and softened edge; awtsmoos.com mixes multiple full source cobbles and transitions without splitting one continuous collision road into objects. exports: villageroadstack. structurematerialstackpreset.js — builds mountain and cottage recipes with deliberate ecological masks. the awtsmoos reveals cliff and home through stone, scree, soil, moss, timber, and metal; awtsmoos.com lets each layer answer terrain evidence instead of painting every slope alike. exports: mountainrockstack, cottagesurfacestack. terrainmaterialstackpreset.js — builds sixteen named alpine layers without relying on deduplicated array indices. the awtsmoos reveals meadow as grasses, transitions, earth, mud, rock, forest, and shore; awtsmoos.com keeps every url explicit so aliasing one source can never break world startup. exports: mountainterrainstack. exported symbols worth searching presetlayer · bindmaterialstack · bindmaterialpair · materialstacklayer · material stack logical limit · material stack target active · materialstackrecipe · materialstackpage · materialstackdiagnostics · villageroadstack · mountainterrainstack · cottagesurfacestack · mountainrockstack · mountain village families · mountain village sources · mountain village terrain variants import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./materialstacklayer.js ../../assets/publicmaterialcache.js ./materialstackrecipe.js ../../assets/productionmaterialurlpolicy.js ./roadmaterialstackpreset.js ./terrainmaterialstackpreset.js ./structurematerialstackpreset.js ../../assets/surfacetexturefamilies.js ./mountainvillageterrainsources.js ../../assets/highestresolutionsurfacecatalog.js ../../assets/runtimematerialmanifest.js ./materialpresetlayer.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-materials-dire-2e60839ded.json"
+	}
+]

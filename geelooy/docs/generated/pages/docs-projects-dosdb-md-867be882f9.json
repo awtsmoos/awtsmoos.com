@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-projects-dosdb-md-867be882f9",
+	"title": "DosDB Project",
+	"sourcePath": "docs/PROJECTS/DOSDB.md",
+	"category": "Data",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "DosDB Project",
+			"anchor": "dosdb-project"
+		},
+		{
+			"level": 2,
+			"text": "Canonical source",
+			"anchor": "canonical-source"
+		},
+		{
+			"level": 2,
+			"text": "Architectural layers",
+			"anchor": "architectural-layers"
+		},
+		{
+			"level": 2,
+			"text": "Human documentation",
+			"anchor": "human-documentation"
+		},
+		{
+			"level": 2,
+			"text": "Dependency relationship",
+			"anchor": "dependency-relationship"
+		},
+		{
+			"level": 2,
+			"text": "Verification strategy",
+			"anchor": "verification-strategy"
+		},
+		{
+			"level": 2,
+			"text": "Local navigation",
+			"anchor": "local-navigation"
+		}
+	],
+	"markdownParts": [
+		"content/docs-projects-dosdb-md-867be882f9-001.json"
+	]
+}

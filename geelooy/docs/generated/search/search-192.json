@@ -1,0 +1,203 @@
+[
+	{
+		"id": "docs-generated-system-tutorials-systems-realtime-application-routing-md-88c173085c",
+		"title": "System Tutorial: Realtime Application Routing",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/realtime-application-routing.md",
+		"category": "Realtime",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "System Tutorial: Realtime Application Routing",
+				"anchor": "system-tutorial-realtime-application-routing"
+			},
+			{
+				"level": 2,
+				"text": "Claims boundary",
+				"anchor": "claims-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Change risk",
+				"anchor": "change-risk"
+			},
+			{
+				"level": 2,
+				"text": "Human manuals",
+				"anchor": "human-manuals"
+			},
+			{
+				"level": 2,
+				"text": "Related project boundaries",
+				"anchor": "related-project-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Source anchors",
+				"anchor": "source-anchors"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Environment-name evidence",
+				"anchor": "environment-name-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Realtime application registration evidence",
+				"anchor": "realtime-application-registration-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Lexical event/message evidence",
+				"anchor": "lexical-event-message-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Tags",
+				"anchor": "tags"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: Realtime Application Routing District: realtime · System ID: realtime application routing The platform registry/router that selects versioned realtime applications and shares server state. Generated evidence below is a navigation aid. Trust, migration, consistency, proto",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial: realtime application routing district: realtime · system id: realtime application routing the platform registry/router that selects versioned realtime applications and shares server state. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary registered application factories are source registration evidence, not proof that every app is active in every deployment. change risk application ids, versions, registry selection, or legacy compatibility changes are protocol contracts. human manuals docs/websockets/applications.md docs/tutorials/systems/realtime runtime.md related project boundaries ayzarim/awtsmoosdynamicserver (runtime) — ayzarim/awtsmoosdynamicserver source anchors ayzarim/awtsmoosdynamicserver/websocket/apps/messagerouter.js ayzarim/awtsmoosdynamicserver/websocket/apps/applicationdefinitions.js generated evidence docs/generated/websocket applications.md environment name evidence name class source refs example sources awts entry limit test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awts entry match test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awts entry offset test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awts entry roots test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awtsmoos registration stress count test/tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/test/registrationreplacementstress.test.cjs awtsmoos relay stress count test/tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay.concurrent correlation.test.cjs awtsmoos sefira profile path path/storage 1 ayzarim/awtsmoosdynamicserver/websocket/apps/sefiraclash/expeditionprofilerepository.js awtsmoos tunnel completed limit tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel consumer progress ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestackhandler.js awtsmoos tunnel control store path/storage 9 ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/missionroomsocketintegration.test.cjs; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/missionroomupgrade.test.cjs; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/upgradepolicy.test.cjs awtsmoos tunnel pending ttl ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel quarantine limit tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay max safe wait ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay safe wait ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay state root path/storage 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/durablepaths.js awtsmoos tunnel request acceptance ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestdispatch.js awtsmoos ws max missed heartbeats runtime config 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js awtsmoos ws probe grace ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js awtsmoos ws stale ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js mw load clients runtime config 1 ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/sessionloadprobe.cjs realtime application registration evidence application versions factory awtsmoos core 1 createawtsmooscoreapplication awtsmoos social 1 createawtsmoossocialapplication chess 1 createchessapplication universalchat 1 createuniversalchatapplication sefira clash 1 createsefiraclashapplication mitzvah world 1 createmitzvahworldapplication ohr hagnuz 1 createohrhagnuzapplication scribe journey 1, 2 createscribejourneyapplication tunnel activity 1 createtunnelactivityapplication shema strike 1 createshemastrikeapplication lexical event/message evidence none observed for this system packet. tags websocket · application · router · versioning",
+		"page": "pages/docs-generated-system-tutorials-systems-realtime-application-routing-md-88c173085c.json"
+	},
+	{
+		"id": "docs-generated-system-tutorials-systems-realtime-identity-admission-md-d947741db5",
+		"title": "System Tutorial: Realtime Identity and Admission",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/realtime-identity-admission.md",
+		"category": "Realtime",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "System Tutorial: Realtime Identity and Admission",
+				"anchor": "system-tutorial-realtime-identity-and-admission"
+			},
+			{
+				"level": 2,
+				"text": "Claims boundary",
+				"anchor": "claims-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Change risk",
+				"anchor": "change-risk"
+			},
+			{
+				"level": 2,
+				"text": "Human manuals",
+				"anchor": "human-manuals"
+			},
+			{
+				"level": 2,
+				"text": "Related project boundaries",
+				"anchor": "related-project-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Source anchors",
+				"anchor": "source-anchors"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Environment-name evidence",
+				"anchor": "environment-name-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Realtime application registration evidence",
+				"anchor": "realtime-application-registration-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Lexical event/message evidence",
+				"anchor": "lexical-event-message-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Tags",
+				"anchor": "tags"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: Realtime Identity and Admission District: security · System ID: realtime identity admission Trusted WebSocket identity, origin/protocol/ticket checks, and Mission Room authority before realtime participation. Generated evidence below is a navigation aid. Trust, migration",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial: realtime identity and admission district: security · system id: realtime identity admission trusted websocket identity, origin/protocol/ticket checks, and mission room authority before realtime participation. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary admission combines multiple checks; a successful http identity alone does not prove room authority. change risk weakening ticket/origin/protocol/authority checks can cross a realtime security boundary. human manuals docs/security/realtime security.md docs/websockets/mission rooms.md related project boundaries ayzarim/awtsmoosdynamicserver (runtime) — ayzarim/awtsmoosdynamicserver geelooy/api/tunnel (api) — geelooy/api/tunnel source anchors ayzarim/awtsmoosdynamicserver/websocket/core/socketupgrade.js geelooy/api/tunnel/control/missionrooms/ticketissuer.js geelooy/api/tunnel/control/missionrooms/missionaccess.js generated evidence docs/generated/websocket event index.md environment name evidence name class source refs example sources awts entry limit test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awts entry match test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awts entry offset test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awts entry roots test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awtsmoos binding history per identity runtime config 1 geelooy/api/tunnel/control/core/tunnelsecurity/bindingretentionpolicy.js awtsmoos binding retention ms tuning 1 geelooy/api/tunnel/control/core/tunnelsecurity/bindingretentionpolicy.js awtsmoos native recovering ms tuning 1 geelooy/api/tunnel/control/routes/fsvessel/livedeviceidentity.js awtsmoos registration stress count test/tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/test/registrationreplacementstress.test.cjs awtsmoos relay stress count test/tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay.concurrent correlation.test.cjs awtsmoos sefira profile path path/storage 1 ayzarim/awtsmoosdynamicserver/websocket/apps/sefiraclash/expeditionprofilerepository.js awtsmoos tunnel completed limit tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel consumer progress ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestackhandler.js awtsmoos tunnel control store path/storage 9 ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/missionroomsocketintegration.test.cjs; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/missionroomupgrade.test.cjs; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/upgradepolicy.test.cjs awtsmoos tunnel pending ttl ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel quarantine limit tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay max safe wait ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay safe wait ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay state root path/storage 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/durablepaths.js awtsmoos tunnel request acceptance ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestdispatch.js awtsmoos ws max missed heartbeats runtime config 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js awtsmoos ws probe grace ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js awtsmoos ws stale ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js mw load clients runtime config 1 ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/sessionloadprobe.cjs realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence none observed for this system packet. tags identity · authorization · origin · protocol · websocket",
+		"page": "pages/docs-generated-system-tutorials-systems-realtime-identity-admission-md-d947741db5.json"
+	},
+	{
+		"id": "docs-generated-system-tutorials-systems-secrets-runtime-config-md-798a6f8d65",
+		"title": "System Tutorial: Secrets and Runtime Configuration",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/secrets-runtime-config.md",
+		"category": "Systems",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "System Tutorial: Secrets and Runtime Configuration",
+				"anchor": "system-tutorial-secrets-and-runtime-configuration"
+			},
+			{
+				"level": 2,
+				"text": "Claims boundary",
+				"anchor": "claims-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Change risk",
+				"anchor": "change-risk"
+			},
+			{
+				"level": 2,
+				"text": "Human manuals",
+				"anchor": "human-manuals"
+			},
+			{
+				"level": 2,
+				"text": "Related project boundaries",
+				"anchor": "related-project-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Source anchors",
+				"anchor": "source-anchors"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Environment-name evidence",
+				"anchor": "environment-name-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Realtime application registration evidence",
+				"anchor": "realtime-application-registration-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Lexical event/message evidence",
+				"anchor": "lexical-event-message-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Tags",
+				"anchor": "tags"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: Secrets and Runtime Configuration District: security · System ID: secrets runtime config Environment/configuration names that influence runtime/security while secret values remain deliberately unread. Generated evidence below is a navigation aid. Trust, migration, consis",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial: secrets and runtime configuration district: security · system id: secrets runtime config environment/configuration names that influence runtime/security while secret values remain deliberately unread. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary only environment variable names/classes/source locations are evidence; no value is read, stored, or published. change risk secret/config precedence and insecure fallback behavior can alter trust guarantees. human manuals docs/security/secrets and config.md docs/security/readme.md related project boundaries ayzarim/awtsmoosdynamicserver (runtime) — ayzarim/awtsmoosdynamicserver geelooy/api/oauth (api) — geelooy/api/oauth geelooy/api/tunnel (api) — geelooy/api/tunnel source anchors ayzarim/awtsmoosdynamicserver/server/authsetup.js generated evidence docs/generated/environment variables.md environment name evidence name class source refs example sources awts entry limit test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awts entry match test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awts entry offset test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awts entry roots test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awtsmoos binding history per identity runtime config 1 geelooy/api/tunnel/control/core/tunnelsecurity/bindingretentionpolicy.js awtsmoos binding retention ms tuning 1 geelooy/api/tunnel/control/core/tunnelsecurity/bindingretentionpolicy.js awtsmoos dir path/storage 1 geelooy/api/oauth/core/serversecret.js awtsmoos native recovering ms tuning 1 geelooy/api/tunnel/control/routes/fsvessel/livedeviceidentity.js awtsmoos registration stress count test/tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/test/registrationreplacementstress.test.cjs awtsmoos relay stress count test/tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay.concurrent correlation.test.cjs awtsmoos sefira profile path path/storage 1 ayzarim/awtsmoosdynamicserver/websocket/apps/sefiraclash/expeditionprofilerepository.js awtsmoos tunnel completed limit tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel consumer progress ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestackhandler.js awtsmoos tunnel control store path/storage 9 ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/missionroomsocketintegration.test.cjs; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/missionroomupgrade.test.cjs; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/upgradepolicy.test.cjs awtsmoos tunnel pending ttl ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel quarantine limit tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay max safe wait ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay safe wait ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay state root path/storage 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/durablepaths.js awtsmoos tunnel request acceptance ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestdispatch.js awtsmoos ws max missed heartbeats runtime config 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js awtsmoos ws probe grace ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js awtsmoos ws stale ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js mw load clients runtime config 1 ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/sessionloadprobe.cjs realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence none observed for this system packet. tags environment · secret name · configuration · security",
+		"page": "pages/docs-generated-system-tutorials-systems-secrets-runtime-config-md-798a6f8d65.json"
+	}
+]

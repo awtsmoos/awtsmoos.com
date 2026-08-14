@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Social Composer Documentation\n\nThe Awtsmoos lets a human compose content while alias, post, Heichel, upload, and Social rules remain beneath the pen;\nAwtsmoos.com maps this sizable UI to Social API callers and ownership docs so writing behavior can be traced end to end again.\n\nRead [../../docs/SYSTEMS/SOCIAL_AND_HEICHEL.md](../../docs/SYSTEMS/SOCIAL_AND_HEICHEL.md), [../../docs/API/SOCIAL.md](../../docs/API/SOCIAL.md), and [../../docs/GENERATED/API_CALLER_INDEX.md](../../docs/GENERATED/API_CALLER_INDEX.md).\n"
+}

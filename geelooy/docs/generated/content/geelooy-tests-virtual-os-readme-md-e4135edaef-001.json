@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H — Virtual OS Smoke Suite\n\nRun from the repository root one level above `geelooy`:\n\n```sh\nnpm run test:virtual-os\n```\n\nOr run directly inside `geelooy`:\n\n```sh\nnode tests/virtual-os/run-smokes.cjs\n```\n\nThe suite checks syntax for the split Virtual OS modules and then runs focused behavior smokes for:\n\n- browser object graph watchers and transactions\n- VFS mount resolution, permissions, guarded mutation gates, and graph sync\n- server mirror graph watchers and transactions\n- browser tunnel handler composition for graph and VFS actions\n\nThese tests are intentionally small. They protect the current architecture slice without replacing the larger project test system.\n"
+}

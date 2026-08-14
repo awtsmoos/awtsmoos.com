@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-mitzvah-pushkuh-documentation-md-a17a27d616",
+	"title": "Mitzvah Pushkuh Documentation",
+	"sourcePath": "geelooy/apps/mitzvah-pushkuh/DOCUMENTATION.md",
+	"category": "Apps",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Mitzvah Pushkuh Documentation",
+			"anchor": "mitzvah-pushkuh-documentation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-mitzvah-pushkuh-documentation-md-a17a27d616-001.json"
+	]
+}

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Wallet API Documentation\n\nThe Awtsmoos lets value move through balance, catalog, entitlement, purchase, mock, and provider paths with care;\nAwtsmoos.com maps Wallet beside PayPal configuration and commerce docs so no monetary contract is guessed from a route name there.\n\nRead [../../../docs/API/WALLET.md](../../../docs/API/WALLET.md), [../../../docs/APPS/COMMERCE_AND_WALLET.md](../../../docs/APPS/COMMERCE_AND_WALLET.md), and [../../../docs/CONFIGURATION.md](../../../docs/CONFIGURATION.md).\n"
+}

@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-docs-helper-skeletons-android-readme-md-bf6b7c670c",
+	"title": "Android Remote Helper Skeleton",
+	"sourcePath": "geelooy/apps/tunnel/agent/docs/helper-skeletons/android/README.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Android Remote Helper Skeleton",
+			"anchor": "android-remote-helper-skeleton"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-docs-helper-skeletons-android-readme-md-bf6b7c670c-001.json"
+	]
+}

@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-api-streaming-md-3206758286",
+	"title": "Streaming API",
+	"sourcePath": "docs/API/STREAMING.md",
+	"category": "API",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Streaming API",
+			"anchor": "streaming-api"
+		},
+		{
+			"level": 2,
+			"text": "Mount",
+			"anchor": "mount"
+		},
+		{
+			"level": 2,
+			"text": "Public table keys",
+			"anchor": "public-table-keys"
+		},
+		{
+			"level": 2,
+			"text": "Design",
+			"anchor": "design"
+		},
+		{
+			"level": 2,
+			"text": "Headers/CORS",
+			"anchor": "headers-cors"
+		},
+		{
+			"level": 2,
+			"text": "Related products",
+			"anchor": "related-products"
+		},
+		{
+			"level": 2,
+			"text": "Reference",
+			"anchor": "reference"
+		}
+	],
+	"markdownParts": [
+		"content/docs-api-streaming-md-3206758286-001.json"
+	]
+}

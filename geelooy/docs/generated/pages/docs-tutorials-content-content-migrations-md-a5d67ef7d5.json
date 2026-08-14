@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-tutorials-content-content-migrations-md-a5d67ef7d5",
+	"title": "Content Migrations",
+	"sourcePath": "docs/TUTORIALS/CONTENT/CONTENT_MIGRATIONS.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Content Migrations",
+			"anchor": "content-migrations"
+		},
+		{
+			"level": 2,
+			"text": "Observed migration surfaces",
+			"anchor": "observed-migration-surfaces"
+		},
+		{
+			"level": 2,
+			"text": "Safe migration workflow",
+			"anchor": "safe-migration-workflow"
+		}
+	],
+	"markdownParts": [
+		"content/docs-tutorials-content-content-migrations-md-a5d67ef7d5-001.json"
+	]
+}

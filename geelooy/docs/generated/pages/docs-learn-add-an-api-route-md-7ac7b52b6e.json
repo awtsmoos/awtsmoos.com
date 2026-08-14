@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-learn-add-an-api-route-md-7ac7b52b6e",
+	"title": "Add an API Route",
+	"sourcePath": "docs/LEARN/ADD_AN_API_ROUTE.md",
+	"category": "Routes",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Add an API Route",
+			"anchor": "add-an-api-route"
+		},
+		{
+			"level": 2,
+			"text": "Before coding",
+			"anchor": "before-coding"
+		},
+		{
+			"level": 2,
+			"text": "Decide ownership",
+			"anchor": "decide-ownership"
+		},
+		{
+			"level": 2,
+			"text": "Implementation checklist",
+			"anchor": "implementation-checklist"
+		},
+		{
+			"level": 2,
+			"text": "Documentation gate",
+			"anchor": "documentation-gate"
+		}
+	],
+	"markdownParts": [
+		"content/docs-learn-add-an-api-route-md-7ac7b52b6e-001.json"
+	]
+}

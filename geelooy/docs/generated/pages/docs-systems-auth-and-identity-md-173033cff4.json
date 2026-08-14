@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-systems-auth-and-identity-md-173033cff4",
+	"title": "Authentication and Identity System",
+	"sourcePath": "docs/SYSTEMS/AUTH_AND_IDENTITY.md",
+	"category": "Security",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Authentication and Identity System",
+			"anchor": "authentication-and-identity-system"
+		},
+		{
+			"level": 2,
+			"text": "Browser account surfaces",
+			"anchor": "browser-account-surfaces"
+		},
+		{
+			"level": 2,
+			"text": "Session identity",
+			"anchor": "session-identity"
+		},
+		{
+			"level": 2,
+			"text": "Social API keys",
+			"anchor": "social-api-keys"
+		},
+		{
+			"level": 2,
+			"text": "OAuth",
+			"anchor": "oauth"
+		},
+		{
+			"level": 2,
+			"text": "Tunnel Control identity",
+			"anchor": "tunnel-control-identity"
+		},
+		{
+			"level": 2,
+			"text": "Ownership after authentication",
+			"anchor": "ownership-after-authentication"
+		},
+		{
+			"level": 2,
+			"text": "Special privileged surfaces",
+			"anchor": "special-privileged-surfaces"
+		},
+		{
+			"level": 2,
+			"text": "External-provider credentials",
+			"anchor": "external-provider-credentials"
+		},
+		{
+			"level": 2,
+			"text": "Checklist for a new protected route",
+			"anchor": "checklist-for-a-new-protected-route"
+		}
+	],
+	"markdownParts": [
+		"content/docs-systems-auth-and-identity-md-173033cff4-001.json"
+	]
+}

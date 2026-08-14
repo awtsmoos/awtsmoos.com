@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-0727cbe352",
+	"title": "B\"H",
+	"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/22_POST_HARDENING_GATE_CLOSED.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Post-Hardening Gate Closed",
+			"anchor": "post-hardening-gate-closed"
+		},
+		{
+			"level": 2,
+			"text": "Planned Work",
+			"anchor": "planned-work"
+		},
+		{
+			"level": 2,
+			"text": "Completed Work",
+			"anchor": "completed-work"
+		},
+		{
+			"level": 2,
+			"text": "Completion Checklist",
+			"anchor": "completion-checklist"
+		},
+		{
+			"level": 2,
+			"text": "Final State",
+			"anchor": "final-state"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-0727cbe352-001.json"
+	]
+}

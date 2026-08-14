@@ -1,0 +1,344 @@
+[
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-platform-37340101-md-dc3d0eed5b",
+		"title": "Project Tutorial: geelooy/platform",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-platform-37340101.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: geelooy/platform",
+				"anchor": "project-tutorial-geelooy-platform"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/platform Path: geelooy/platform · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runti",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/platform path: geelooy/platform · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: geelooy/platform/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 89 19 0 0 2 0 110 public entry points none observed. symbol evidence source files: 89; classes: 1; functions: 145; exports: 115; samples: createandroidroundtripadapter, requirefunction, createbundleartifactadapter, createcharacterauthorityadapter, createmoviecompileradapter, tomoviesource, createradianceadapter, normalizetime, reasonstosignals, createrichsocialadapter, adapttunnelreceipt, createquarantineifneeded. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 19 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-platform-37340101-md-dc3d0eed5b.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-post-editor-1686f567-m-8b01f06d91",
+		"title": "Project Tutorial: Post Editor — Geelooy",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-post-editor-1686f567.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: Post Editor — Geelooy",
+				"anchor": "project-tutorial-post-editor-geelooy"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Post Editor — Geelooy Path: geelooy/post editor · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, no",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: post editor — geelooy path: geelooy/post editor · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, app.js, documentation.md local documentation: geelooy/post editor/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 10 1 0 0 1 0 12 public entry points /post editor → geelooy/post editor/index.html — post editor — geelooy symbol evidence source files: 9; classes: 1; functions: 21; exports: 8; samples: async, savepostdraft, publishpostdraft, request, errormessage, readposteditorconfig, clean, createelement, createfield, renderposteditor, hero, missingcontext. depends on geelooy/scripts — 1 lexical reference; examples: geelooy/post editor/app.js used by none observed. external packages none observed. verification clue observed test classified files: 1 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-post-editor-1686f567-m-8b01f06d91.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-profile-d6f75c23-md-975a2e6b1a",
+		"title": "Project Tutorial: Profile — Geelooy",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-profile-d6f75c23.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: Profile — Geelooy",
+				"anchor": "project-tutorial-profile-geelooy"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Profile — Geelooy Path: geelooy/profile · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtim",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: profile — geelooy path: geelooy/profile · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md local documentation: geelooy/profile/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 18 2 0 0 1 1 22 public entry points /profile → geelooy/profile/index.html — profile — geelooy /profile/alias manage → geelooy/profile/alias manage/index.html symbol evidence source files: 11; classes: 0; functions: 52; exports: 21; samples: checkaliasid, validatealiasid, showtooltip, hidetooltip, backtoprofile, async, renderprofiledropdown, refreshprofiledropdown, renderaliases, savedefaultalias, withtimeout, messagefrom. depends on geelooy/scripts — 1 lexical reference; examples: geelooy/profile/auth.js used by none observed. external packages none observed. verification clue observed test classified files: 2 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-profile-d6f75c23-md-975a2e6b1a.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-public-72540595-md-a6dfbc70b8",
+		"title": "Project Tutorial: geelooy/public",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-public-72540595.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: geelooy/public",
+				"anchor": "project-tutorial-geelooy-public"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/public Path: geelooy/public · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime o",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/public path: geelooy/public · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: geelooy/public/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 8 0 0 0 9 0 17 public entry points /public/virtual os games/crystal 1780372754759 → geelooy/public/virtual os games/crystal 1780372754759/index.html — crystal critters /public/virtual os games/crystal 1780372758361 → geelooy/public/virtual os games/crystal 1780372758361/index.html — crystal critters /public/virtual os games/crystal 1780373501785 improved → geelooy/public/virtual os games/crystal 1780373501785 improved/index.html — crystal critters: awakened cave /public/virtual os games/crystal 1780373505136 improved → geelooy/public/virtual os games/crystal 1780373505136 improved/index.html — crystal critters: awakened cave /public/virtual os games/crystal 1780373765713 swarm v2 → geelooy/public/virtual os games/crystal 1780373765713 swarm v2/index.html — crystal critters: thumb safe swarm /public/virtual os games/crystal 1780373769185 swarm v2 → geelooy/public/virtual os games/crystal 1780373769185 swarm v2/index.html — crystal critters: thumb safe swarm /public/virtual os games/crystal 1780374109835 clean mobile → geelooy/public/virtual os games/crystal 1780374109835 clean mobile/index.html — crystal critters: clean mobile /public/virtual os games/crystal 1780374112967 clean mobile → geelooy/public/virtual os games/crystal 1780374112967 clean mobile/index.html — crystal critters: clean mobile symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-public-72540595-md-a6dfbc70b8.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-record-466e4ab9-md-92e1bea56f",
+		"title": "Project Tutorial: Camera Preview — Geelooy",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-record-466e4ab9.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: Camera Preview — Geelooy",
+				"anchor": "project-tutorial-camera-preview-geelooy"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Camera Preview — Geelooy Path: geelooy/record · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not ",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: camera preview — geelooy path: geelooy/record · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 7 0 0 0 0 0 7 public entry points /record → geelooy/record/index.html — camera preview — geelooy symbol evidence source files: 1; classes: 0; functions: 7; exports: 0; samples: setstatus, stopstream, requestcamera, startcamera, stopstreamsilently, switchcamera, cameraerrormessage. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-record-466e4ab9-md-92e1bea56f.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-recorder-e2984b8e-md-f2e117ae07",
+		"title": "Project Tutorial: Local Recorder — Geelooy",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-recorder-e2984b8e.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: Local Recorder — Geelooy",
+				"anchor": "project-tutorial-local-recorder-geelooy"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Local Recorder — Geelooy Path: geelooy/recorder · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, no",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: local recorder — geelooy path: geelooy/recorder · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md local documentation: geelooy/recorder/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 11 0 0 0 1 1 13 public entry points /recorder → geelooy/recorder/index.html — local recorder — geelooy symbol evidence source files: 4; classes: 0; functions: 18; exports: 9; samples: async, beginrecording, stoprecording, stopstream, acquirecamerastream, acquiredesktopstream, selectmimetype, downloadrecording, createrecordercontroller, setstate, start, stop. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-recorder-e2984b8e-md-f2e117ae07.json"
+	}
+]

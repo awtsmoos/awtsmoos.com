@@ -1,0 +1,75 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives the Social Observatory meaning before runtime awakens.
+ * Awtsmoos.com keeps orientation, destinations, and recovery visible during slow
+ * boot, failed boot, or a no-JavaScript visit without pretending to have live data.
+ */
+
+.hub-preboot {
+	display: grid;
+	gap: 1rem;
+	max-inline-size: 68rem;
+	margin: 0 auto;
+	padding: clamp(1.2rem, 4vw, 3rem);
+	color: var(--hub-text);
+}
+
+.hub-preboot :where(h1, p) {
+	margin: 0;
+}
+
+.hub-preboot-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: .75rem;
+}
+
+.hub-preboot-grid article {
+	display: grid;
+	gap: .35rem;
+	padding: 1rem;
+	border: 1px solid var(--hub-line);
+	border-radius: var(--hub-radius-l);
+	background: var(--hub-panel);
+}
+
+.hub-preboot-grid strong {
+	color: var(--hub-text);
+}
+
+.hub-preboot-grid span,
+.hub-preboot-status,
+.hub-preboot-warning {
+	color: var(--hub-muted);
+}
+
+.hub-preboot-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .6rem;
+}
+
+.hub-preboot-links a {
+	min-block-size: 44px;
+	display: inline-flex;
+	align-items: center;
+	padding: .65rem .85rem;
+	border: 1px solid var(--hub-line-strong);
+	border-radius: 999px;
+	color: var(--hub-text);
+	text-decoration: none;
+}
+
+.hub-preboot-links a:hover,
+.hub-preboot-links a:focus-visible {
+	border-color: var(--hub-cyan);
+	color: var(--hub-cyan);
+}
+
+@media (max-width: 680px) {
+	.hub-preboot-grid {
+		grid-template-columns: 1fr;
+	}
+}

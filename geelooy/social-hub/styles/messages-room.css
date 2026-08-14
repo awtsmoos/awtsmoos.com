@@ -1,0 +1,135 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets one accepted private room become a full mobile chamber while bounded history, sequence truth, Back, and text-send remain deliberate and touchable.
+*/
+.hubMessagesRoomMount {
+	min-height: min(72dvh, 54rem);
+}
+
+.hubConversationSurface {
+	display: grid;
+	grid-template-rows: auto auto minmax(12rem, 1fr) auto;
+	gap: .65rem;
+	min-height: min(72dvh, 54rem);
+}
+
+.hubConversationHeader {
+	position: sticky;
+	top: 0;
+	z-index: 3;
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	align-items: center;
+	gap: .75rem;
+	padding: .7rem 0;
+	background: var(--surface);
+}
+
+.hubConversationHeader h3,
+.hubConversationHeader p,
+.hubConversationStatus,
+.hubConversationMessage p,
+.hubConversationMessage small {
+	margin: 0;
+}
+
+.hubConversationMeta,
+.hubConversationStatus,
+.hubConversationMessage small {
+	color: var(--muted);
+}
+
+.hubConversationBack,
+.hubConversationControls button,
+.hubConversationComposer button {
+	min-height: 2.8rem;
+	border: 1px solid var(--line-hot);
+	border-radius: .75rem;
+	background: var(--surface-strong);
+	color: var(--ink);
+	font: inherit;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.hubConversationBack {
+	padding: .6rem .75rem;
+}
+
+.hubConversationControls {
+	display: flex;
+	justify-content: center;
+}
+
+.hubConversationControls button {
+	padding: .55rem .85rem;
+}
+
+.hubConversationMessages {
+	display: grid;
+	align-content: start;
+	gap: .65rem;
+	min-height: 0;
+	max-height: min(56dvh, 42rem);
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	padding: .15rem .1rem .8rem;
+}
+
+.hubConversationMessage {
+	display: grid;
+	gap: .3rem;
+	padding: .75rem .8rem;
+	border: 1px solid var(--line);
+	border-radius: .9rem;
+	background: var(--surface-strong);
+}
+
+.hubConversationMessage p {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.hubConversationComposer {
+	position: sticky;
+	bottom: 0;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: .55rem;
+	padding: .65rem 0 calc(.65rem + env(safe-area-inset-bottom));
+	background: var(--surface);
+}
+
+.hubConversationComposer textarea {
+	width: 100%;
+	min-height: 3rem;
+	resize: vertical;
+	font: inherit;
+	font-size: 1rem;
+}
+
+.hubConversationComposer button {
+	padding: .6rem 1rem;
+}
+
+@media (max-width: 42rem) {
+	.hubMessagesRoomMount,
+	.hubConversationSurface {
+		min-height: calc(100dvh - 11rem);
+	}
+
+	.hubConversationMessages {
+		max-height: none;
+	}
+
+	.hubConversationComposer {
+		grid-template-columns: 1fr;
+	}
+
+	.hubConversationBack,
+	.hubConversationControls button,
+	.hubConversationComposer button {
+		min-height: 3rem;
+	}
+}

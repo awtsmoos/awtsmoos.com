@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-tunnel-root-search-brainstorm-md-41539261b8",
+	"title": "Root Search Brainstorm And Refinement Roadmap",
+	"sourcePath": "docs/tunnel/ROOT_SEARCH_BRAINSTORM.md",
+	"category": "Tunnel",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Root Search Brainstorm And Refinement Roadmap",
+			"anchor": "root-search-brainstorm-and-refinement-roadmap"
+		},
+		{
+			"level": 2,
+			"text": "What is now stress-tested",
+			"anchor": "what-is-now-stress-tested"
+		},
+		{
+			"level": 2,
+			"text": "Bigger refinements to consider",
+			"anchor": "bigger-refinements-to-consider"
+		},
+		{
+			"level": 2,
+			"text": "Next best implementation order",
+			"anchor": "next-best-implementation-order"
+		}
+	],
+	"markdownParts": [
+		"content/docs-tunnel-root-search-brainstorm-md-41539261b8-001.json"
+	]
+}

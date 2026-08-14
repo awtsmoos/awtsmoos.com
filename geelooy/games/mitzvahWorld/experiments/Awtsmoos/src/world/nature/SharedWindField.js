@@ -4,78 +4,116 @@
 
 /**
  * @file SharedWindField.js
- * @description Moves real plants and publishes one truthful wind covenant for static batches.
- * The Awtsmoos sends one hidden song through branch, bush, flower, and blade in time;
- * Awtsmoos.com moves supported scenes and names static limits without pretending a shader rhyme.
+ * @description Moves real nature through the same advected weather law used by meadow grass and trees.
+ * The Awtsmoos sends one traveling breath through every finite place; Awtsmoos.com lets flowers and bushes
+ * inherit coherent fronts, crosswind, flutter, and traveler wake while their own cadence and authored yaw remain intact.
  */
 
+import { sampleEnvironmentalWind } from '../environment/EnvironmentalWindField.js';
 import { natureQualityBudget } from './NatureQualityBudget.js';
+import { setEulerQuaternion } from './SharedWindQuaternion.js';
 
-const SHARED_PHASE = 0.37;
+export { setEulerQuaternion } from './SharedWindQuaternion.js';
+
 const SHARED_STRENGTH = 1;
 
 export class SharedWindField {
 	constructor(options = {}) {
 		this.framesPerSecond = Math.max(1, options.framesPerSecond || 12);
 		this.lastStep = -Infinity;
-		this.phase = options.phase ?? SHARED_PHASE;
+		this.lastOriginTime = null;
+		this.lastOriginX = null;
+		this.lastOriginZ = null;
 		this.strength = options.strength ?? SHARED_STRENGTH;
+		this.visibilityOrigin = options.visibilityOrigin || null;
+		this.sample = {};
+		this.context = {};
+		this.updates = 0;
 	}
 
 	/** Advances all wind-responsive instances at a quality-bounded cadence. */
 	update(seconds, instances = []) {
-		if (seconds - this.lastStep < 1 / this.framesPerSecond) {
-			return false;
-		}
+		if (seconds - this.lastStep < 1 / this.framesPerSecond) return false;
+		this.writeOriginContext(seconds);
 		this.lastStep = seconds;
-		for (const instance of instances) {
-			this.move(instance, seconds);
-		}
+		for (const instance of instances) this.move(instance, seconds);
+		this.writeEvidenceSample(seconds);
+		this.updates += 1;
 		return true;
 	}
 
 	move(instance, seconds) {
 		const placement = instance.placement;
-		const amplitude = placement.asset.windAmplitude * this.strength;
-		if (!amplitude) {
-			return;
-		}
-		const gust = Math.sin(seconds * 0.82 + placement.index * 1.71 + this.phase);
-		const sway = gust * amplitude;
-		setEulerQuaternion(instance.scene.quaternion, sway, placement.yaw, sway * 0.45);
+		const amplitude = Number(placement.asset.windAmplitude || 0) * this.strength;
+		if (!amplitude) return;
+		this.context.baseStrength = 1;
+		this.context.time = seconds;
+		this.context.x = placement.x;
+		this.context.z = placement.z;
+		const weather = sampleEnvironmentalWind(this.sample, this.context);
+		const bend = amplitude * weather.strength * (0.54 + weather.gust * 0.38);
+		const flutter = weather.flutter * amplitude * 0.08;
+		setEulerQuaternion(
+			instance.scene.quaternion,
+			weather.directionZ * bend + flutter,
+			placement.yaw,
+			-weather.directionX * bend + weather.crosswind * amplitude * 0.07
+		);
 	}
 
 	snapshot() {
-		return windEvidence(this.framesPerSecond, 'real-model-quaternion-sway');
+		return Object.freeze({
+			advectionSpeed: finite(this.sample.advectionSpeed, 0),
+			directionX: finite(this.sample.directionX, 0),
+			directionZ: finite(this.sample.directionZ, 0),
+			flutter: finite(this.sample.flutter, 0),
+			framesPerSecond: this.framesPerSecond,
+			gust: finite(this.sample.gust, 0),
+			mode: 'advected-real-model-quaternion-sway',
+			strength: finite(this.sample.strength, 0),
+			updates: this.updates,
+			wake: finite(this.sample.wake, 0)
+		});
+	}
+
+	writeOriginContext(seconds) {
+		const origin = this.visibilityOrigin?.();
+		const x = finite(origin?.x, NaN);
+		const z = finite(origin?.z, NaN);
+		const delta = this.lastOriginTime === null
+			? 0
+			: Math.max(0.001, seconds - this.lastOriginTime);
+		this.context.playerX = x;
+		this.context.playerZ = z;
+		this.context.wakeX = Number.isFinite(x) && this.lastOriginX !== null
+			? (x - this.lastOriginX) / delta
+			: 0;
+		this.context.wakeZ = Number.isFinite(z) && this.lastOriginZ !== null
+			? (z - this.lastOriginZ) / delta
+			: 0;
+		if (Number.isFinite(x)) this.lastOriginX = x;
+		if (Number.isFinite(z)) this.lastOriginZ = z;
+		this.lastOriginTime = seconds;
+	}
+
+	writeEvidenceSample(seconds) {
+		this.context.baseStrength = 1;
+		this.context.time = seconds;
+		this.context.x = finite(this.context.playerX, 0);
+		this.context.z = finite(this.context.playerZ, 0);
+		sampleEnvironmentalWind(this.sample, this.context);
 	}
 }
 
-/** Returns the shared wind evidence used by static procedural batches. */
+/** Returns shared wind evidence used when no live model field exists. */
 export function sharedWindEvidence(quality, mode = 'static-batched-renderer-limit') {
-	return windEvidence(natureQualityBudget(quality).windFps, mode);
-}
-
-function windEvidence(framesPerSecond, mode) {
 	return Object.freeze({
-		framesPerSecond,
+		framesPerSecond: natureQualityBudget(quality).windFps,
 		mode,
-		phase: SHARED_PHASE,
 		strength: SHARED_STRENGTH
 	});
 }
 
-/** Writes one normalized XYZ Euler rotation into a tiny-runtime quaternion. */
-export function setEulerQuaternion(quaternion, x, y, z) {
-	const sx = Math.sin(x / 2);
-	const cx = Math.cos(x / 2);
-	const sy = Math.sin(y / 2);
-	const cy = Math.cos(y / 2);
-	const sz = Math.sin(z / 2);
-	const cz = Math.cos(z / 2);
-	return quaternion.set(
-		sx * cy * cz + cx * sy * sz,
-		cx * sy * cz - sx * cy * sz,
-		cx * cy * sz + sx * sy * cz,
-		cx * cy * cz - sx * sy * sz
-	);
+function finite(value, fallback) {
+	return Number.isFinite(Number(value)) ? Number(value) : fallback;
 }

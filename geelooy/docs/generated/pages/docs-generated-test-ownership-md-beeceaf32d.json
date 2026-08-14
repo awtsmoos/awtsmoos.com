@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-generated-test-ownership-md-beeceaf32d",
+	"title": "Generated Test Ownership",
+	"sourcePath": "docs/GENERATED/TEST_OWNERSHIP.md",
+	"category": "Testing",
+	"provenance": "generated",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Generated Test Ownership",
+			"anchor": "generated-test-ownership"
+		}
+	],
+	"markdownParts": [
+		"content/docs-generated-test-ownership-md-beeceaf32d-001.json"
+	]
+}

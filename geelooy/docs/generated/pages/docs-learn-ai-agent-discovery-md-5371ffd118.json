@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-learn-ai-agent-discovery-md-5371ffd118",
+	"title": "AI Agent Discovery",
+	"sourcePath": "docs/LEARN/AI_AGENT_DISCOVERY.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "AI Agent Discovery",
+			"anchor": "ai-agent-discovery"
+		},
+		{
+			"level": 2,
+			"text": "Goal",
+			"anchor": "goal"
+		},
+		{
+			"level": 2,
+			"text": "Recommended order",
+			"anchor": "recommended-order"
+		},
+		{
+			"level": 2,
+			"text": "Route packet",
+			"anchor": "route-packet"
+		},
+		{
+			"level": 2,
+			"text": "Evidence rules",
+			"anchor": "evidence-rules"
+		},
+		{
+			"level": 2,
+			"text": "Efficient question",
+			"anchor": "efficient-question"
+		}
+	],
+	"markdownParts": [
+		"content/docs-learn-ai-agent-discovery-md-5371ffd118-001.json"
+	]
+}

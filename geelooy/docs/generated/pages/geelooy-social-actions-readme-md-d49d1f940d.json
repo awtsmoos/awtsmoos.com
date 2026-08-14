@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-social-actions-readme-md-d49d1f940d",
+	"title": "B\"H",
+	"sourcePath": "geelooy/social-actions/README.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Boruch Hashem",
+			"anchor": "boruch-hashem"
+		},
+		{
+			"level": 1,
+			"text": "Blessed is He",
+			"anchor": "blessed-is-he"
+		},
+		{
+			"level": 1,
+			"text": "Geelooy Social Actions",
+			"anchor": "geelooy-social-actions"
+		},
+		{
+			"level": 2,
+			"text": "Post reference URL",
+			"anchor": "post-reference-url"
+		},
+		{
+			"level": 2,
+			"text": "Mounting the action",
+			"anchor": "mounting-the-action"
+		},
+		{
+			"level": 2,
+			"text": "Canonical behavior",
+			"anchor": "canonical-behavior"
+		},
+		{
+			"level": 2,
+			"text": "Integration boundary",
+			"anchor": "integration-boundary"
+		},
+		{
+			"level": 2,
+			"text": "Test",
+			"anchor": "test"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-social-actions-readme-md-d49d1f940d-001.json"
+	]
+}

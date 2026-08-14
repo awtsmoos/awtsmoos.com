@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-interactive-documentation-md-5e3a4b2975",
+	"title": "Interactive Documentation Application",
+	"sourcePath": "docs/INTERACTIVE_DOCUMENTATION.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Interactive Documentation Application",
+			"anchor": "interactive-documentation-application"
+		},
+		{
+			"level": 2,
+			"text": "Primary modes",
+			"anchor": "primary-modes"
+		},
+		{
+			"level": 3,
+			"text": "Learn — /docs/?view=learn",
+			"anchor": "learn-docs-view-learn"
+		},
+		{
+			"level": 3,
+			"text": "API Explorer — /docs/?view=api",
+			"anchor": "api-explorer-docs-view-api"
+		},
+		{
+			"level": 3,
+			"text": "Project Explorer — /docs/?view=projects",
+			"anchor": "project-explorer-docs-view-projects"
+		},
+		{
+			"level": 3,
+			"text": "Documents",
+			"anchor": "documents"
+		},
+		{
+			"level": 2,
+			"text": "Publication v5",
+			"anchor": "publication-v5"
+		},
+		{
+			"level": 2,
+			"text": "Evidence safety",
+			"anchor": "evidence-safety"
+		},
+		{
+			"level": 2,
+			"text": "Local browser state",
+			"anchor": "local-browser-state"
+		},
+		{
+			"level": 2,
+			"text": "Development gates",
+			"anchor": "development-gates"
+		}
+	],
+	"markdownParts": [
+		"content/docs-interactive-documentation-md-5e3a4b2975-001.json"
+	]
+}

@@ -1,0 +1,250 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--28b114010b",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/Bark002_1K-JPG/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/Bark0021K-JPG",
+				"anchor": "directory-guide-assets-materials-local-world-awtsmoos-nature-chai-forest-textures-bark-bark0021k-jpg"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/Bark002 1K JPG Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose A single bark material set named Bark",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark002 1k jpg role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose a single bark material set named bark002 1k jpg, kept as a leaf so its texture maps remain grouped. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: jpg, assets, awtsmoos nature, bark, bark002, bark002 1k jpg, chai forest, color, guide, local, materials, textures file mix: .jpg: 1 · .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files bark002 1k jpg color.jpg — a .jpg artifact in this directory. directory map parent: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--28b114010b.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--ba75bf2d58",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/Bark003_1K-JPG/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/Bark0031K-JPG",
+				"anchor": "directory-guide-assets-materials-local-world-awtsmoos-nature-chai-forest-textures-bark-bark0031k-jpg"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/Bark003 1K JPG Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose A single bark material set named Bark",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark003 1k jpg role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose a single bark material set named bark003 1k jpg, kept as a leaf so its texture maps remain grouped. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: jpg, assets, awtsmoos nature, bark, bark003, bark003 1k jpg, chai forest, color, guide, local, materials, textures file mix: .jpg: 1 · .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files bark003 1k jpg color.jpg — a .jpg artifact in this directory. directory map parent: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--ba75bf2d58.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--354130df37",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/Bark004_1K-JPG/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/Bark0041K-JPG",
+				"anchor": "directory-guide-assets-materials-local-world-awtsmoos-nature-chai-forest-textures-bark-bark0041k-jpg"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/Bark004 1K JPG Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose A single bark material set named Bark",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark004 1k jpg role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose a single bark material set named bark004 1k jpg, kept as a leaf so its texture maps remain grouped. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: jpg, assets, awtsmoos nature, bark, bark004, bark004 1k jpg, chai forest, color, guide, local, materials, textures file mix: .jpg: 1 · .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files bark004 1k jpg color.jpg — a .jpg artifact in this directory. directory map parent: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--354130df37.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--5db21a1ad5",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/Bark006_1K-JPG/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/Bark0061K-JPG",
+				"anchor": "directory-guide-assets-materials-local-world-awtsmoos-nature-chai-forest-textures-bark-bark0061k-jpg"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/Bark006 1K JPG Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose A single bark material set named Bark",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark006 1k jpg role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose a single bark material set named bark006 1k jpg, kept as a leaf so its texture maps remain grouped. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: jpg, assets, awtsmoos nature, bark, bark006, bark006 1k jpg, chai forest, color, guide, local, materials, textures file mix: .jpg: 1 · .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files bark006 1k jpg color.jpg — a .jpg artifact in this directory. directory map parent: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--5db21a1ad5.json"
+	}
+]

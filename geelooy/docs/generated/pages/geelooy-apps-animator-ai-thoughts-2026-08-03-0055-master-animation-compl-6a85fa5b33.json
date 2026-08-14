@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-6a85fa5b33",
+	"title": "EVIDENCE",
+	"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0055_master-animation-completion/EVIDENCE.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "EVIDENCE",
+			"anchor": "evidence"
+		},
+		{
+			"level": 2,
+			"text": "Full verification",
+			"anchor": "full-verification"
+		},
+		{
+			"level": 2,
+			"text": "Browser production proof",
+			"anchor": "browser-production-proof"
+		},
+		{
+			"level": 2,
+			"text": "Final short",
+			"anchor": "final-short"
+		},
+		{
+			"level": 2,
+			"text": "Compliance",
+			"anchor": "compliance"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-6a85fa5b33-001.json"
+	]
+}

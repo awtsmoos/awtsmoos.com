@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Tutorial: Dynamic Routing\n\n## Ownership\n\n`_awtsmoos.derech.js` is discovered by walking ancestor directories from the requested source path. This permits one derech to own a subtree.\n\n## Match forms\n\nExact → named `:segment` → terminal `:segment*` patterns. A catch-all is terminal because it consumes the remaining path.\n\n## Generated route tutorials\n\n`docs/GENERATED/API_TUTORIAL_INDEX.md` gives one teaching page per discovered route row with the owning source/derech evidence.\n\n## Important caveat\n\nRoute extraction is source analysis. A syntactically invalid derech can still contain extractable strings; use generated derech health before claiming runtime reachability.\n\n## Maintainability\n\nPrefer named route tables/focused handlers over giant derech bodies; keep auth/resource ownership close enough to the route to be traceable.\n"
+}

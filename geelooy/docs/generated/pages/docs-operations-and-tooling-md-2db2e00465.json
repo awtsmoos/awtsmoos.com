@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-operations-and-tooling-md-2db2e00465",
+	"title": "Operations, Scripts, Tools and Tests",
+	"sourcePath": "docs/OPERATIONS_AND_TOOLING.md",
+	"category": "Operations",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Operations, Scripts, Tools and Tests",
+			"anchor": "operations-scripts-tools-and-tests"
+		},
+		{
+			"level": 2,
+			"text": "ops/",
+			"anchor": "ops"
+		},
+		{
+			"level": 2,
+			"text": "Root scripts/",
+			"anchor": "root-scripts"
+		},
+		{
+			"level": 2,
+			"text": "Root tools/",
+			"anchor": "root-tools"
+		},
+		{
+			"level": 2,
+			"text": "Root tests/",
+			"anchor": "root-tests"
+		},
+		{
+			"level": 2,
+			"text": "templates/",
+			"anchor": "templates"
+		},
+		{
+			"level": 2,
+			"text": "ayzarim/",
+			"anchor": "ayzarim"
+		},
+		{
+			"level": 2,
+			"text": "Evidence/thought roots",
+			"anchor": "evidence-thought-roots"
+		},
+		{
+			"level": 2,
+			"text": "Safe command rule",
+			"anchor": "safe-command-rule"
+		}
+	],
+	"markdownParts": [
+		"content/docs-operations-and-tooling-md-2db2e00465-001.json"
+	]
+}

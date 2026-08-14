@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Generated Human Documentation Index 141–147\n\nManual Markdown pages outside the generated tree, with title, line count, and relative-link count.\n\n| Document | Title | Lines | Links |\n| --- | --- | --- | --- |\n| docs/operations/dayuh-agent-checklist.md | Dayuh sync checklist for AI agents | 92 | 0 |\n| docs/operations/dayuh-code-deploy-and-git.md | Dayuh code deployment and Git boundary | 107 | 0 |\n| docs/operations/dayuh-database-sync-runbook.md | Dayuh Chadash database sync runbook | 103 | 0 |\n| docs/operations/dayuh-recovery-and-conflicts.md | Dayuh sync recovery and conflict handling | 115 | 0 |\n| docs/tunnel/EXTREME_FEATURE_FINALIZATION_BRAINSTORM.md | Extreme Feature Finalization Brainstorm | 95 | 1 |\n| docs/tunnel/EXTREME_FEATURE_FINALIZATION_CONTINUATION.md | Extreme Feature Finalization — Continuation | 65 | 0 |\n| docs/tunnel/ROOT_SEARCH_BRAINSTORM.md | Root Search Brainstorm And Refinement Roadmap | 81 | 0 |\n"
+}

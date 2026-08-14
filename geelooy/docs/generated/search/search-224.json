@@ -1,0 +1,203 @@
+[
+	{
+		"id": "geelooy-apps-drive-documentation-md-8e9926ffcf",
+		"title": "Awtsmoos Drive",
+		"sourcePath": "geelooy/apps/drive/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Drive",
+				"anchor": "awtsmoos-drive"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Drive The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Browser application whose observed public title is “Awtsmoos Drive”. It participates in file/content workflows and should be trace",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos drive the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role browser application whose observed public title is “awtsmoos drive”. it participates in file/content workflows and should be traced against the owning backend callers rather than treated as static ui only. start here read docs/apps/readme.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes use docs/generated/api caller index.md to identify actual api relationships and docs/drive/ for preserved specialist documentation.",
+		"page": "pages/geelooy-apps-drive-documentation-md-8e9926ffcf.json"
+	},
+	{
+		"id": "geelooy-apps-editor-documentation-md-a30483cf0c",
+		"title": "Mitzvah World Editor Documentation",
+		"sourcePath": "geelooy/apps/editor/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Mitzvah World Editor Documentation",
+				"anchor": "mitzvah-world-editor-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Mitzvah World Editor Documentation The Awtsmoos lets a world be authored before it is played, joining scene, animation, asset, and game runtime in one creative gate; Awtsmoos.com maps this editor to game/simulation and creative tool documentation so source ownership does not become opaqu",
+		"searchText": "b\"h boruch hashem blessed is he mitzvah world editor documentation the awtsmoos lets a world be authored before it is played, joining scene, animation, asset, and game runtime in one creative gate; awtsmoos.com maps this editor to game/simulation and creative tool documentation so source ownership does not become opaque. read ../../../docs/apps/games and simulation.md and ../../../docs/apps/creative tools.md.",
+		"page": "pages/geelooy-apps-editor-documentation-md-a30483cf0c.json"
+	},
+	{
+		"id": "geelooy-apps-exe-emulator-documentation-md-39e24347e0",
+		"title": "EXE Emulator Documentation",
+		"sourcePath": "geelooy/apps/exe-emulator/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "EXE Emulator Documentation",
+				"anchor": "exe-emulator-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He EXE Emulator Documentation The Awtsmoos lets executable world behavior be simulated through a large browser side engine with many moving parts; Awtsmoos.com maps this app beside simulation and developer runtime docs before anyone assumes it is a trivial launcher of charts. Read ../../../",
+		"searchText": "b\"h boruch hashem blessed is he exe emulator documentation the awtsmoos lets executable world behavior be simulated through a large browser side engine with many moving parts; awtsmoos.com maps this app beside simulation and developer runtime docs before anyone assumes it is a trivial launcher of charts. read ../../../docs/apps/games and simulation.md and ../../../docs/apps/developer tools.md.",
+		"page": "pages/geelooy-apps-exe-emulator-documentation-md-39e24347e0.json"
+	},
+	{
+		"id": "geelooy-apps-exe-emulator-examples-progressive-readme-md-0cd104cb11",
+		"title": "Progressive Executable Examples",
+		"sourcePath": "geelooy/apps/exe-emulator/examples/progressive/README.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Progressive Executable Examples",
+				"anchor": "progressive-executable-examples"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Progressive Executable Examples These examples measure executable emulator capability without hiding boundaries. Every artifact is opened through runExecutableArtifact; no level receives a format , filename , or product specific execution path. Level Name Formats New capability : 0 Ident",
+		"searchText": "b\"h boruch hashem blessed is he progressive executable examples these examples measure executable emulator capability without hiding boundaries. every artifact is opened through runexecutableartifact; no level receives a format , filename , or product specific execution path. level name formats new capability : 0 identity elf, mach o header and loader inspection 1 syscall hello elf, mach o write and exit syscalls 2 integer control elf, mach o arithmetic, branches, loops 3 stack recursion elf, mach o frames, calls, recursion 4 globals and pointers elf, mach o data segments and relocations 5 windows console pe imports and console host apis 6 windows window pe window creation and event behavior 7 truthful boundary elf, mach o unsupported opcode reporting and semantic fallback run the corpus: the output is deterministic json. actualevidence distinguishes loader inspection, instruction subset emulation, semantic simulation, and errors. a mismatched level remains visible in the report rather than being deleted or silently reclassified. the awtsmoos creates every rung and every limitation anew. awtsmoos.com treats this corpus as an executable capability ledger, not as evidence of complete windows, linux, macos, cpu, dynamic loader, framework, or graphics compatibility.",
+		"page": "pages/geelooy-apps-exe-emulator-examples-progressive-readme-md-0cd104cb11.json"
+	},
+	{
+		"id": "geelooy-apps-merkava-native-browser-css-support-audit-md-e95e19a7ad",
+		"title": "Merkava Executor CSS Support Audit",
+		"sourcePath": "geelooy/apps/merkava-native-browser/CSS_SUPPORT_AUDIT.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Merkava Executor CSS Support Audit",
+				"anchor": "merkava-executor-css-support-audit"
+			},
+			{
+				"level": 2,
+				"text": "Implemented / Started",
+				"anchor": "implemented-started"
+			},
+			{
+				"level": 2,
+				"text": "Missing CSS Rules / Features",
+				"anchor": "missing-css-rules-features"
+			}
+		],
+		"excerpt": "B\"H Merkava Executor CSS Support Audit This is the working checklist. The native C host must not implement these as browser logic; each item belongs in MerkavaExecutor and should emit render ops that C maps to OpenGL. Implemented / Started Basic selectors: type, id, class, attributes, descendant, child, adjacent siblin",
+		"searchText": "b\"h merkava executor css support audit this is the working checklist. the native c host must not implement these as browser logic; each item belongs in merkavaexecutor and should emit render ops that c maps to opengl. implemented / started basic selectors: type, id, class, attributes, descendant, child, adjacent sibling. basic pseudo selectors: focus, checked, disabled, enabled, first child. inline style cascade over stylesheet rules. basic box paint ops: background color, text color, width, height, min height, padding, margin, border width. basic block and inline ish flow. linked and inline css collection for fetched network html. linked and inline script collection for fetched network html. color normalization to opengl safe hex for named, short hex, long hex, rgb(), rgba(). first flexbox pass: display flex/inline flex, row/column, gap, justify content, align items. browser like ua defaults instead of fake per element white boxes. per side margin, padding, border width, border color expansion. background and border shorthand normalization. viewport units: vw, vh, vmin, vmax. calc() arithmetic for px, %, em/rem, and viewport units. fixed, absolute, and relative positioning basics. transform translatex()/translatey() basics, including offscreen sidebar patterns. flex grow and margin auto footer style flows. inherited typography basics: font size, font family, line height, text align, white space. text wrapping and center/right alignment. replaced element sizing for img/canvas. pseudo element rules are ignored instead of being applied to real elements. native stream now distinguishes border from filled box ops. missing css rules / features full cascade origins, inherited properties, !important ordering, media queries, @supports, @layer, @scope. full selector grammar: general sibling, :not, :is, :where, :has, nth child family, pseudo elements. css variables and calc()/min()/max()/clamp(). complete units: vw, vh, vmin, vmax, ch, ex, lh, percentages per property, font relative metrics. box model: per side margin/padding/border, box sizing, border styles, border radius. full colors: hsl(), hsla(), lab(), lch(), color mix(), currentcolor, transparent alpha compositing. typography: font family fallback, font size, weight, style, line height, letter spacing, wrapping, white space. layout: full flexbox algorithm, grid, absolute/fixed/sticky positioning, floats, z index/stacking contexts. overflow: scroll containers, clipping, hidden/auto/scroll, scrollbars. backgrounds: images, gradients, repeat, size, position, attachment, multiple layers. transforms: translate, scale, rotate, matrix, transform origin, 3d transforms. effects: opacity, box shadow, text shadow, filters, backdrop filter, mix blend mode. transitions/animations/keyframes. forms and replaced elements: image sizing, canvas intrinsic sizing, video/audio/object/embed. tables, lists, columns, writing modes, directionality. responsive viewport behavior and container queries. svg styling integration.",
+		"page": "pages/geelooy-apps-merkava-native-browser-css-support-audit-md-e95e19a7ad.json"
+	},
+	{
+		"id": "geelooy-apps-merkava-native-browser-documentation-md-f75934aa08",
+		"title": "Merkava Native Browser Documentation",
+		"sourcePath": "geelooy/apps/merkava-native-browser/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Merkava Native Browser Documentation",
+				"anchor": "merkava-native-browser-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Merkava Native Browser Documentation The Awtsmoos lets browser and native capability meet through a developer runtime vessel whose boundaries must remain known; Awtsmoos.com maps this project beside native runtime, Code, Compiler, and OS documentation before changing how execution is sho",
+		"searchText": "b\"h boruch hashem blessed is he merkava native browser documentation the awtsmoos lets browser and native capability meet through a developer runtime vessel whose boundaries must remain known; awtsmoos.com maps this project beside native runtime, code, compiler, and os documentation before changing how execution is shown. read ../../../docs/apps/developer tools.md and ../../../docs/systems/geelooy os.md.",
+		"page": "pages/geelooy-apps-merkava-native-browser-documentation-md-f75934aa08.json"
+	},
+	{
+		"id": "geelooy-apps-merkava-native-browser-roadmap-native-runtime-md-f3c979e055",
+		"title": "B\"H",
+		"sourcePath": "geelooy/apps/merkava-native-browser/ROADMAP_NATIVE_RUNTIME.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Merkava Native Browser Reality Map",
+				"anchor": "merkava-native-browser-reality-map"
+			},
+			{
+				"level": 2,
+				"text": "Proven now",
+				"anchor": "proven-now"
+			},
+			{
+				"level": 2,
+				"text": "Architectural correction",
+				"anchor": "architectural-correction"
+			},
+			{
+				"level": 2,
+				"text": "Startup target",
+				"anchor": "startup-target"
+			},
+			{
+				"level": 2,
+				"text": "Forbidden architecture",
+				"anchor": "forbidden-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Immediate pressure points",
+				"anchor": "immediate-pressure-points"
+			},
+			{
+				"level": 2,
+				"text": "Rule",
+				"anchor": "rule"
+			}
+		],
+		"excerpt": "B\"H Merkava Native Browser Reality Map This file is intentionally blunt. It prevents the native browser from becoming a fake C browser. The correct vessel is smaller, sharper, and more truthful: Proven now merkavaapp.exe is a real Windows executable. It loads .merkava bytecode headers. It creates a real Win32 OpenGL co",
+		"searchText": "b\"h merkava native browser reality map this file is intentionally blunt. it prevents the native browser from becoming a fake c browser. the correct vessel is smaller, sharper, and more truthful: proven now merkavaapp.exe is a real windows executable. it loads .merkava bytecode headers. it creates a real win32 opengl context. it decodes md2 node/program records partially. it maps the verified op.js kind=2 smoke path into native render ops. it accepts basic cli / smoke / navigation test surfaces. it compiles sample html/js through the existing merkava bytecode path. architectural correction c must not become a traditional browser engine. c owns only host responsibilities: bytecode vm/interpreter dispatch value/object/function/module machinery required by the bytecode opengl backend operations requested by bytecode win32/window/input/filesystem/network/timer/thread primitives font loading, glyph measurement/rasterization, and atlas uploads host binding tables exposed to merkavaexecutor bytecode merkavaexecutor bytecode owns browser intelligence: html parsing css parsing and selector matching javascript parsing and compilation dom/cssom/event/layout/render tree behavior module graph resolution webgl api lowering into bytecode host operations browser lifecycle orchestration startup target forbidden architecture do not add long term c implementations for: html scanning css rule evaluation dom behavior browser layout policy event propagation policy javascript source scanning for webgl json render model execution as a production path temporary diagnostics may exist only when named as diagnostics and covered by a migration note back to raw .merkava bytecode. immediate pressure points 1. replace build time js/webgl regex render model extraction with bytecode ops. 2. add a small embedded executor build target beside sample app bytecode. 3. grow the c vm around dispatch, values, frames, scopes, host bindings, and modules. 4. move browser rules into merkavaexecutor modules, not c native files. 5. keep every new claim paired with an executable smoke/check command. rule every new native feature must answer this question: is this c becoming a browser, or is c merely obeying merkavaexecutor bytecode? only the second answer belongs here.",
+		"page": "pages/geelooy-apps-merkava-native-browser-roadmap-native-runtime-md-f3c979e055.json"
+	},
+	{
+		"id": "geelooy-apps-mitzvah-pushkuh-documentation-md-a17a27d616",
+		"title": "Mitzvah Pushkuh Documentation",
+		"sourcePath": "geelooy/apps/mitzvah-pushkuh/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Mitzvah Pushkuh Documentation",
+				"anchor": "mitzvah-pushkuh-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Mitzvah Pushkuh Documentation The Awtsmoos gives this substantial named project its own local doorway while human meaning stays grounded in its actual source; Awtsmoos.com links the app inventory and project chooser rather than inventing a narrower business story by force. Start with ../",
+		"searchText": "b\"h boruch hashem blessed is he mitzvah pushkuh documentation the awtsmoos gives this substantial named project its own local doorway while human meaning stays grounded in its actual source; awtsmoos.com links the app inventory and project chooser rather than inventing a narrower business story by force. start with ../../../docs/apps/readme.md, ../../../docs/how to choose a project.md, and this app's own entry/readme source.",
+		"page": "pages/geelooy-apps-mitzvah-pushkuh-documentation-md-a17a27d616.json"
+	}
+]

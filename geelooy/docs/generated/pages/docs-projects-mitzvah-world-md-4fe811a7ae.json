@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-projects-mitzvah-world-md-4fe811a7ae",
+	"title": "Mitzvah World",
+	"sourcePath": "docs/PROJECTS/MITZVAH_WORLD.md",
+	"category": "Projects",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Mitzvah World",
+			"anchor": "mitzvah-world"
+		},
+		{
+			"level": 2,
+			"text": "Canonical source",
+			"anchor": "canonical-source"
+		},
+		{
+			"level": 2,
+			"text": "Existing in-project documentation",
+			"anchor": "existing-in-project-documentation"
+		},
+		{
+			"level": 2,
+			"text": "Surrounding runtime systems",
+			"anchor": "surrounding-runtime-systems"
+		},
+		{
+			"level": 2,
+			"text": "Human documentation",
+			"anchor": "human-documentation"
+		},
+		{
+			"level": 2,
+			"text": "Change strategy",
+			"anchor": "change-strategy"
+		},
+		{
+			"level": 2,
+			"text": "Documentation boundary",
+			"anchor": "documentation-boundary"
+		}
+	],
+	"markdownParts": [
+		"content/docs-projects-mitzvah-world-md-4fe811a7ae-001.json"
+	]
+}

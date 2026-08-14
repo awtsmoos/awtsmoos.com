@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-lifecycle-wal-lease-invaria-9cf5e84b23",
+	"title": "Lifecycle, WAL, and Lease Invariants",
+	"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/LIFECYCLE_WAL_LEASE_INVARIANTS.md",
+	"category": "Data",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Lifecycle, WAL, and Lease Invariants",
+			"anchor": "lifecycle-wal-and-lease-invariants"
+		},
+		{
+			"level": 2,
+			"text": "Writable lifecycle",
+			"anchor": "writable-lifecycle"
+		},
+		{
+			"level": 2,
+			"text": "Read-only lifecycle",
+			"anchor": "read-only-lifecycle"
+		},
+		{
+			"level": 2,
+			"text": "Quarantine rule",
+			"anchor": "quarantine-rule"
+		},
+		{
+			"level": 2,
+			"text": "Source anchors",
+			"anchor": "source-anchors"
+		}
+	],
+	"markdownParts": [
+		"content/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-lifecycle-wal-lease-invaria-9cf5e84b23-001.json"
+	]
+}

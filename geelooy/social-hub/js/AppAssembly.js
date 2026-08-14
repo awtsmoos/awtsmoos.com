@@ -4,17 +4,19 @@
 /**
  * @module AppAssembly
  * @description
- * The Awtsmoos gathers Inbox, people, Spaces, discovery, profile, network, and private interaction through one shared state;
+ * The Awtsmoos gathers Inbox, live Torah Chat, private Messages, people, Spaces, discovery, profile, network, and interaction through shared state;
  * Awtsmoos.com keeps each chamber independently testable while browser history witnesses every route that fate has made.
  */
 import { ActivityPanel } from './activity/ActivityPanel.js';
 import { ActivityTracker } from './activity/ActivityTracker.js';
 import { PrivacyPanel } from './activity/PrivacyPanel.js';
 import { SocialHubApi } from './api/SocialHubApi.js';
+import { ChatPanel } from './chat/ChatPanel.js';
 import { HubApp } from './HubApp.js';
 import { InboxPanel } from './inbox/InboxPanel.js';
 import { CommentStudio } from './interactions/CommentStudio.js';
 import { TransformationPanel } from './interactions/TransformationPanel.js';
+import { MessagesPanel } from './messages/MessagesPanel.js';
 import { NavigationController } from './navigation/NavigationController.js';
 import { NetworkPanel } from './network/NetworkPanel.js';
 import { PeoplePanel } from './people/PeoplePanel.js';
@@ -68,6 +70,8 @@ export function createSocialHub(root = document) {
 	const discovery = new PublicDiscovery({ root, api, state, profile });
 	const spaces = new SpacesPanel({ root, state, api, status });
 	const inbox = new InboxPanel({ root, state, api });
+	const chat = new ChatPanel(root);
+	const messages = new MessagesPanel(root);
 	const commentStudio = new CommentStudio({
 		root,
 		api,
@@ -86,8 +90,8 @@ export function createSocialHub(root = document) {
 	});
 	app = new HubApp({
 		root, state, api, status, tracker, navigation, activity, privacy,
-		profile, network, people, discovery, spaces, inbox, commentStudio, transformations,
-		quickActions, identity, home: new HomePulse(root)
+		profile, network, people, discovery, spaces, inbox, chat, messages,
+		commentStudio, transformations, quickActions, identity, home: new HomePulse(root)
 	});
 	return app;
 }

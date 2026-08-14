@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-ai-discovery-rules-md-381c1d947d",
+	"title": "AI Discovery Rules",
+	"sourcePath": "docs/AI/DISCOVERY_RULES.md",
+	"category": "AI",
+	"provenance": "ai",
+	"headings": [
+		{
+			"level": 1,
+			"text": "AI Discovery Rules",
+			"anchor": "ai-discovery-rules"
+		},
+		{
+			"level": 2,
+			"text": "Start from the user’s question",
+			"anchor": "start-from-the-user-s-question"
+		},
+		{
+			"level": 2,
+			"text": "Prefer canonical roots",
+			"anchor": "prefer-canonical-roots"
+		},
+		{
+			"level": 2,
+			"text": "Interpret generated evidence conservatively",
+			"anchor": "interpret-generated-evidence-conservatively"
+		},
+		{
+			"level": 2,
+			"text": "Use the project record",
+			"anchor": "use-the-project-record"
+		},
+		{
+			"level": 2,
+			"text": "Escalation sequence",
+			"anchor": "escalation-sequence"
+		},
+		{
+			"level": 2,
+			"text": "When documentation is missing",
+			"anchor": "when-documentation-is-missing"
+		},
+		{
+			"level": 2,
+			"text": "Updating AI-facing data",
+			"anchor": "updating-ai-facing-data"
+		}
+	],
+	"markdownParts": [
+		"content/docs-ai-discovery-rules-md-381c1d947d-001.json"
+	]
+}

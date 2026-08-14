@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-1f598e2e65",
+	"title": "AGENTASSIGNMENTS",
+	"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0055_master-animation-completion/AGENT_ASSIGNMENTS.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "AGENTASSIGNMENTS",
+			"anchor": "agentassignments"
+		},
+		{
+			"level": 2,
+			"text": "Completed scopes",
+			"anchor": "completed-scopes"
+		},
+		{
+			"level": 2,
+			"text": "Orchestration note",
+			"anchor": "orchestration-note"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-1f598e2e65-001.json"
+	]
+}

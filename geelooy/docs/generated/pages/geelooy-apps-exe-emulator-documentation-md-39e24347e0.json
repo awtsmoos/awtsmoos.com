@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-exe-emulator-documentation-md-39e24347e0",
+	"title": "EXE Emulator Documentation",
+	"sourcePath": "geelooy/apps/exe-emulator/DOCUMENTATION.md",
+	"category": "Apps",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "EXE Emulator Documentation",
+			"anchor": "exe-emulator-documentation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-exe-emulator-documentation-md-39e24347e0-001.json"
+	]
+}

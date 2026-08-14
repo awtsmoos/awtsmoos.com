@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-social-composer-reel-studio-readme-md-a2686a9acf",
+	"title": "MitzvahWorld Reel Studio",
+	"sourcePath": "geelooy/social-composer/reel-studio/README.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "MitzvahWorld Reel Studio",
+			"anchor": "mitzvahworld-reel-studio"
+		},
+		{
+			"level": 2,
+			"text": "Fresh Default",
+			"anchor": "fresh-default"
+		},
+		{
+			"level": 2,
+			"text": "Public Surfaces",
+			"anchor": "public-surfaces"
+		},
+		{
+			"level": 2,
+			"text": "Formats",
+			"anchor": "formats"
+		},
+		{
+			"level": 2,
+			"text": "Rendering Truth",
+			"anchor": "rendering-truth"
+		},
+		{
+			"level": 2,
+			"text": "Documentation",
+			"anchor": "documentation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-social-composer-reel-studio-readme-md-a2686a9acf-001.json"
+	]
+}

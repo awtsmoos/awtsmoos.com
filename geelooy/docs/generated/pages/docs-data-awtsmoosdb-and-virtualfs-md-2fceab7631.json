@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-data-awtsmoosdb-and-virtualfs-md-2fceab7631",
+	"title": "AwtsmoosDB, VirtualFs, and Legacy Compatibility",
+	"sourcePath": "docs/DATA/AWTSMOOSDB_AND_VIRTUALFS.md",
+	"category": "Data",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "AwtsmoosDB, VirtualFs, and Legacy Compatibility",
+			"anchor": "awtsmoosdb-virtualfs-and-legacy-compatibility"
+		},
+		{
+			"level": 2,
+			"text": "Modern AwtsmoosDB",
+			"anchor": "modern-awtsmoosdb"
+		},
+		{
+			"level": 2,
+			"text": "File-format detection",
+			"anchor": "file-format-detection"
+		},
+		{
+			"level": 2,
+			"text": "Virtual filesystem families",
+			"anchor": "virtual-filesystem-families"
+		},
+		{
+			"level": 2,
+			"text": "Parallel binary database",
+			"anchor": "parallel-binary-database"
+		},
+		{
+			"level": 2,
+			"text": "Compatibility principle",
+			"anchor": "compatibility-principle"
+		},
+		{
+			"level": 2,
+			"text": "Do not flatten the layers",
+			"anchor": "do-not-flatten-the-layers"
+		}
+	],
+	"markdownParts": [
+		"content/docs-data-awtsmoosdb-and-virtualfs-md-2fceab7631-001.json"
+	]
+}

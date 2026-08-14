@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Email Project Documentation\n\nThe Awtsmoos lets mail meet identity, Social messaging, and server delivery through distinct vessels in view;\nAwtsmoos.com maps this browser project to its API and configuration so frontend changes can trace backend consequences too.\n\nRead [../../docs/API/OTHER_FAMILIES.md](../../docs/API/OTHER_FAMILIES.md), [../../docs/SYSTEMS/SOCIAL_AND_HEICHEL.md](../../docs/SYSTEMS/SOCIAL_AND_HEICHEL.md), and [../../docs/CONFIGURATION.md](../../docs/CONFIGURATION.md).\n"
+}

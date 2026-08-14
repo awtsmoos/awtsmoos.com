@@ -1,0 +1,273 @@
+[
+	{
+		"id": "geelooy-api-streaming-docs-architecture-md-f8532e8814",
+		"title": "Streaming Architecture",
+		"sourcePath": "geelooy/api/streaming/docs/ARCHITECTURE.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Streaming Architecture",
+				"anchor": "streaming-architecture"
+			}
+		],
+		"excerpt": "B\"H Streaming Architecture /api/streaming is the generic control plane. Connectors: youtube: OAuth + YouTube Live API broadcast/stream control. Supports HLS/RTMPS ingest metadata. twitch: manual stream key first. OAuth can be added later for chat/metadata. facebook: manual stream URL first. Graph API setup can be added",
+		"searchText": "b\"h streaming architecture /api/streaming is the generic control plane. connectors: youtube: oauth + youtube live api broadcast/stream control. supports hls/rtmps ingest metadata. twitch: manual stream key first. oauth can be added later for chat/metadata. facebook: manual stream url first. graph api setup can be added after app review decisions. awtsmoos: optional hosted relay/record/multicast path where video bytes intentionally pass through awtsmoos. data paths: 1. direct to platform local path: browser/webcodecs local muxer/protocol adapter platform ingest. 2. awtsmoos hosted option: browser/webcodecs awtsmoos relay viewers/platforms. 3. manual custom ingest: user supplies server url + stream key. the missing heavy piece remains the mux/protocol adapter.",
+		"page": "pages/geelooy-api-streaming-docs-architecture-md-f8532e8814.json"
+	},
+	{
+		"id": "geelooy-api-streaming-docs-local-tunnel-media-plane-md-c53c041c3d",
+		"title": "Local Tunnel Media Plane",
+		"sourcePath": "geelooy/api/streaming/docs/LOCAL_TUNNEL_MEDIA_PLANE.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Local Tunnel Media Plane",
+				"anchor": "local-tunnel-media-plane"
+			}
+		],
+		"excerpt": "B\"H Local Tunnel Media Plane /api/streaming is the cloud/control plane. The local tunnel is the media plane. Why: YouTube needs HLS/RTMPS ingest bytes. Twitch/Facebook normally need RTMP/RTMPS ingest bytes. Browser JavaScript cannot cleanly push RTMP directly. Local tunnel can forward muxed bytes without ffmpeg and wit",
+		"searchText": "b\"h local tunnel media plane /api/streaming is the cloud/control plane. the local tunnel is the media plane. why: youtube needs hls/rtmps ingest bytes. twitch/facebook normally need rtmp/rtmps ingest bytes. browser javascript cannot cleanly push rtmp directly. local tunnel can forward muxed bytes without ffmpeg and without sending media through awtsmoos cloud. current state: session/counter transport exists. hls segment metadata and playlist generation exists. direct forwarding hooks exist. real muxer remains the next hard component.",
+		"page": "pages/geelooy-api-streaming-docs-local-tunnel-media-plane-md-c53c041c3d.json"
+	},
+	{
+		"id": "geelooy-api-streaming-documentation-md-2e514340ef",
+		"title": "Streaming API Documentation",
+		"sourcePath": "geelooy/api/streaming/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Streaming API Documentation",
+				"anchor": "streaming-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Streaming API Documentation The Awtsmoos lets one dispatch vessel reach provider connectors while each external contract keeps its own key; Awtsmoos.com maps action, connector, caller, and configuration evidence so streaming is not mistaken for plain CRUD simplicity. Read ../../../docs/A",
+		"searchText": "b\"h boruch hashem blessed is he streaming api documentation the awtsmoos lets one dispatch vessel reach provider connectors while each external contract keeps its own key; awtsmoos.com maps action, connector, caller, and configuration evidence so streaming is not mistaken for plain crud simplicity. read ../../../docs/api/streaming.md, ../../../docs/apps/media tools.md, and ../../../docs/configuration.md.",
+		"page": "pages/geelooy-api-streaming-documentation-md-2e514340ef.json"
+	},
+	{
+		"id": "geelooy-api-text-documentation-md-b0640f09c6",
+		"title": "Text API Documentation",
+		"sourcePath": "geelooy/api/text/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Text API Documentation",
+				"anchor": "text-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Text API Documentation The Awtsmoos asks the map to confess when a source cannot yet parse instead of decorating failure as health; Awtsmoos.com keeps this mount visible with its syntax defect so intended routes are not mistaken for verified wealth. Read ../../../docs/HEALTH.md and ../..",
+		"searchText": "b\"h boruch hashem blessed is he text api documentation the awtsmoos asks the map to confess when a source cannot yet parse instead of decorating failure as health; awtsmoos.com keeps this mount visible with its syntax defect so intended routes are not mistaken for verified wealth. read ../../../docs/health.md and ../../../docs/api/other families.md. current generated syntax evidence: ../../../docs/generated/derech health.md.",
+		"page": "pages/geelooy-api-text-documentation-md-b0640f09c6.json"
+	},
+	{
+		"id": "geelooy-api-tunnel-control-documentation-md-becfd8c936",
+		"title": "Tunnel Control API Documentation",
+		"sourcePath": "geelooy/api/tunnel/control/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tunnel Control API Documentation",
+				"anchor": "tunnel-control-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Control API Documentation The Awtsmoos gives remote control a trusted account bound plane across device, preview, mission, compute, and treasury; Awtsmoos.com maps its many route families beside auth and realtime admission so client owner fields never become authority. Read ../../",
+		"searchText": "b\"h boruch hashem blessed is he tunnel control api documentation the awtsmoos gives remote control a trusted account bound plane across device, preview, mission, compute, and treasury; awtsmoos.com maps its many route families beside auth and realtime admission so client owner fields never become authority. read ../../../../docs/api/tunnel control.md, ../../../../docs/api/authentication.md, and ../../../../docs/websockets/mission rooms.md.",
+		"page": "pages/geelooy-api-tunnel-control-documentation-md-becfd8c936.json"
+	},
+	{
+		"id": "geelooy-api-tunnel-documentation-md-ddc3c1d7e8",
+		"title": "Tunnel API Documentation",
+		"sourcePath": "geelooy/api/tunnel/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tunnel API Documentation",
+				"anchor": "tunnel-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel API Documentation The Awtsmoos bridges request to remote vessel while control, install, and live relay remain separate layers in view; Awtsmoos.com maps base Tunnel status/client/request/filesystem routes beside deeper Control and WebSocket work too. Read ../../../docs/SYSTEMS/TUN",
+		"searchText": "b\"h boruch hashem blessed is he tunnel api documentation the awtsmoos bridges request to remote vessel while control, install, and live relay remain separate layers in view; awtsmoos.com maps base tunnel status/client/request/filesystem routes beside deeper control and websocket work too. read ../../../docs/systems/tunnel.md, ../../../docs/api/tunnel control.md, and ../../../docs/websockets/tunnel relay.md.",
+		"page": "pages/geelooy-api-tunnel-documentation-md-ddc3c1d7e8.json"
+	},
+	{
+		"id": "geelooy-api-tunnel-install-documentation-md-074970bfde",
+		"title": "Tunnel Installer API Documentation",
+		"sourcePath": "geelooy/api/tunnel/install/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tunnel Installer API Documentation",
+				"anchor": "tunnel-installer-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Installer API Documentation The Awtsmoos lets a new vessel receive its agent through public installer artifacts while remote authority stays elsewhere; Awtsmoos.com maps Windows, Linux, Unix, bundles, manifest, and agent archive routes without confusing download with control layer",
+		"searchText": "b\"h boruch hashem blessed is he tunnel installer api documentation the awtsmoos lets a new vessel receive its agent through public installer artifacts while remote authority stays elsewhere; awtsmoos.com maps windows, linux, unix, bundles, manifest, and agent archive routes without confusing download with control layer trust. read ../../../../docs/api/other families.md and ../../../../docs/systems/tunnel.md.",
+		"page": "pages/geelooy-api-tunnel-install-documentation-md-074970bfde.json"
+	},
+	{
+		"id": "geelooy-api-wallet-documentation-md-39c91f6ac5",
+		"title": "Wallet API Documentation",
+		"sourcePath": "geelooy/api/wallet/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Wallet API Documentation",
+				"anchor": "wallet-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Wallet API Documentation The Awtsmoos lets value move through balance, catalog, entitlement, purchase, mock, and provider paths with care; Awtsmoos.com maps Wallet beside PayPal configuration and commerce docs so no monetary contract is guessed from a route name there. Read ../../../docs",
+		"searchText": "b\"h boruch hashem blessed is he wallet api documentation the awtsmoos lets value move through balance, catalog, entitlement, purchase, mock, and provider paths with care; awtsmoos.com maps wallet beside paypal configuration and commerce docs so no monetary contract is guessed from a route name there. read ../../../docs/api/wallet.md, ../../../docs/apps/commerce and wallet.md, and ../../../docs/configuration.md.",
+		"page": "pages/geelooy-api-wallet-documentation-md-39c91f6ac5.json"
+	},
+	{
+		"id": "geelooy-api-youtube-docs-setup-md-b230bcce36",
+		"title": "B\"H — Awtsmoos YouTube integration",
+		"sourcePath": "geelooy/api/youtube/docs/SETUP.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Awtsmoos YouTube integration",
+				"anchor": "b-h-awtsmoos-youtube-integration"
+			},
+			{
+				"level": 2,
+				"text": "Public manager",
+				"anchor": "public-manager"
+			},
+			{
+				"level": 2,
+				"text": "Google Cloud configuration",
+				"anchor": "google-cloud-configuration"
+			},
+			{
+				"level": 2,
+				"text": "Secret installation",
+				"anchor": "secret-installation"
+			},
+			{
+				"level": 2,
+				"text": "Token model",
+				"anchor": "token-model"
+			},
+			{
+				"level": 2,
+				"text": "Upload model",
+				"anchor": "upload-model"
+			},
+			{
+				"level": 2,
+				"text": "API routes",
+				"anchor": "api-routes"
+			}
+		],
+		"excerpt": "B\"H — Awtsmoos YouTube integration Public manager The browser manager lives at /youtube/. A user connects Google with the server side OAuth flow, selects a YouTube channel, uploads videos, and updates owned video metadata. Google Cloud configuration Enable YouTube Data API v3 and create a Web application OAuth client. ",
+		"searchText": "b\"h — awtsmoos youtube integration public manager the browser manager lives at /youtube/. a user connects google with the server side oauth flow, selects a youtube channel, uploads videos, and updates owned video metadata. google cloud configuration enable youtube data api v3 and create a web application oauth client. the required production redirect uri is: the manager requests permissions incrementally through these modes: read: identity and youtube.readonly upload: read plus youtube.upload manage: upload plus youtube.force ssl for metadata and live broadcast changes secret installation the oauth json must never enter git. from a repository worktree, run: the script uses the repository's custom ssh and sftp implementation. it atomically installs the json at /root/.awtsmoos secrets/youtube/google oauth.json, creates independent session signing and token encryption keys, and applies mode 0700 to directories and 0600 to files. token model refresh and access tokens are encrypted with aes 256 gcm. each google subject receives a separate encrypted record under /root/.awtsmoos secrets/youtube/users. browser cookies contain only signed opaque identity state; google tokens never enter browser javascript. upload model awtsmoos authenticates the user and creates a google resumable upload session. the browser then sends the selected video directly to that google upload url. this keeps large media files out of awtsmoos process memory while preserving upload progress. api routes get /api/youtube/auth/start?mode=manage&returnto=/youtube/ get /api/youtube/oauth/callback get /api/youtube/auth/status post /api/youtube/auth/logout get /api/youtube/channel/mine post /api/youtube/uploads/start get /api/youtube/videos/list post /api/youtube/videos/update get /api/youtube/live/list post /api/youtube/live/create post /api/youtube/live/transition",
+		"page": "pages/geelooy-api-youtube-docs-setup-md-b230bcce36.json"
+	},
+	{
+		"id": "geelooy-api-youtube-documentation-md-7a7869cb77",
+		"title": "YouTube API Documentation",
+		"sourcePath": "geelooy/api/youtube/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "YouTube API Documentation",
+				"anchor": "youtube-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He YouTube API Documentation The Awtsmoos lets account, channel, video, upload, live, and provider OAuth move through explicit routes and guarded keys; Awtsmoos.com maps this family to YouTube Manager and configuration docs without ever copying secrets into these leaves. Read ../../../docs/",
+		"searchText": "b\"h boruch hashem blessed is he youtube api documentation the awtsmoos lets account, channel, video, upload, live, and provider oauth move through explicit routes and guarded keys; awtsmoos.com maps this family to youtube manager and configuration docs without ever copying secrets into these leaves. read ../../../docs/api/youtube.md, ../../../docs/apps/media tools.md, and ../../../docs/configuration.md.",
+		"page": "pages/geelooy-api-youtube-documentation-md-7a7869cb77.json"
+	},
+	{
+		"id": "geelooy-apps-android-emulator-documentation-md-16656cb8e6",
+		"title": "Android Emulator Documentation",
+		"sourcePath": "geelooy/apps/android-emulator/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Android Emulator Documentation",
+				"anchor": "android-emulator-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Android Emulator Documentation The Awtsmoos lets another machine world be simulated inside the browser through a large project vessel; Awtsmoos.com maps this app with games/simulation rather than treating its thousand file tree as a small utility level. Read ../../../docs/APPS/GAMES AND ",
+		"searchText": "b\"h boruch hashem blessed is he android emulator documentation the awtsmoos lets another machine world be simulated inside the browser through a large project vessel; awtsmoos.com maps this app with games/simulation rather than treating its thousand file tree as a small utility level. read ../../../docs/apps/games and simulation.md and ../../../docs/generated/app inventory.md.",
+		"page": "pages/geelooy-apps-android-emulator-documentation-md-16656cb8e6.json"
+	},
+	{
+		"id": "geelooy-apps-animator-agent-prior-ledger-md-ba9dc773b9",
+		"title": "Remaining Work",
+		"sourcePath": "geelooy/apps/animator/.agent-prior-ledger.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Remaining Work",
+				"anchor": "remaining-work"
+			}
+		],
+		"excerpt": "B\"H Remaining Work [ ] Save and inspect git status. [ ] Read prior continuation notes and live changed files. [ ] Render fresh production baseline and crops. [ ] Generate fresh landmarks and bounds. [ ] Resolve Dovid crossed arm and shirt family. [ ] Complete Miriam overshirt, pocket arm, hand, skirt, and flats. [ ] Co",
+		"searchText": "b\"h remaining work [ ] save and inspect git status. [ ] read prior continuation notes and live changed files. [ ] render fresh production baseline and crops. [ ] generate fresh landmarks and bounds. [ ] resolve dovid crossed arm and shirt family. [ ] complete miriam overshirt, pocket arm, hand, skirt, and flats. [ ] complete ari jacket, open palm, chest fist, trousers, and shoes. [ ] review headwear, face, eyes, beards, and mouths against final evidence. [ ] implement true line hierarchy. [ ] refine palette after geometry. [ ] verify neutral and phoneme expressions. [ ] run and read all required tests and exit codes. [ ] re read every touched file. [ ] compare planned versus actual work. [ ] inspect piano export architecture after character acceptance. [ ] close only when direct evidence meets every acceptance criterion.",
+		"page": "pages/geelooy-apps-animator-agent-prior-ledger-md-ba9dc773b9.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-07-30-0243-dynamic-character-comp-80359ccd7a",
+		"title": "PLANNED VS ACTUAL DELTA",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-07-30_0243_dynamic-character-completion/DELTA.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "PLANNED VS ACTUAL DELTA",
+				"anchor": "planned-vs-actual-delta"
+			},
+			{
+				"level": 2,
+				"text": "Planned",
+				"anchor": "planned"
+			},
+			{
+				"level": 2,
+				"text": "Actual",
+				"anchor": "actual"
+			},
+			{
+				"level": 2,
+				"text": "Resolved Delta",
+				"anchor": "resolved-delta"
+			},
+			{
+				"level": 2,
+				"text": "Open Delta",
+				"anchor": "open-delta"
+			}
+		],
+		"excerpt": "B\"H PLANNED VS ACTUAL DELTA Planned Wire face, gaze, blink, speech, body acting, gesture phases, hands, garments, secondary motion, views, customization, serialization, preview, scale proofs, and export. Preserve complete file rewrites, tabs, B\"H headers, poetic JSDoc, and JavaScript files below 120 lines. Actual All p",
+		"searchText": "b\"h planned vs actual delta planned wire face, gaze, blink, speech, body acting, gesture phases, hands, garments, secondary motion, views, customization, serialization, preview, scale proofs, and export. preserve complete file rewrites, tabs, b\"h headers, poetic jsdoc, and javascript files below 120 lines. actual all planned channels were connected through the production composition and rendering paths. legacy gesture doubling was removed. blink became single sourced. secondary motion became deterministic. persisted characters now exclude runtime caches and resurrect during startup. garments consume hem, sleeve, and sway channels. four production browser courts were captured. the complete repository verification command exits zero. resolved delta the full verification chain exposed a delighted expression contract below the required threshold. the canonical positive pose was restored to a 0.86 smile without changing neutral identity. the complete chain then passed. open delta none.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-07-30-0243-dynamic-character-comp-80359ccd7a.json"
+	}
+]

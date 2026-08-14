@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-0068fd6825",
+	"title": "Final Execution Plan",
+	"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0055_master-animation-completion/04_FINAL_EXECUTION_PLAN.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Final Execution Plan",
+			"anchor": "final-execution-plan"
+		},
+		{
+			"level": 2,
+			"text": "Files to inspect before choosing changes",
+			"anchor": "files-to-inspect-before-choosing-changes"
+		},
+		{
+			"level": 2,
+			"text": "Files that may be rewritten",
+			"anchor": "files-that-may-be-rewritten"
+		},
+		{
+			"level": 2,
+			"text": "Ordered execution",
+			"anchor": "ordered-execution"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-0068fd6825-001.json"
+	]
+}

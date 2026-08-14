@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\n# Streaming Architecture\n\n`/api/streaming` is the generic control plane.\n\nConnectors:\n- `youtube`: OAuth + YouTube Live API broadcast/stream control. Supports HLS/RTMPS ingest metadata.\n- `twitch`: manual stream-key first. OAuth can be added later for chat/metadata.\n- `facebook`: manual stream URL first. Graph API setup can be added after app review decisions.\n- `awtsmoos`: optional hosted relay/record/multicast path where video bytes intentionally pass through Awtsmoos.\n\nData paths:\n1. Direct-to-platform local path: Browser/WebCodecs -> local muxer/protocol adapter -> platform ingest.\n2. Awtsmoos hosted option: Browser/WebCodecs -> Awtsmoos relay -> viewers/platforms.\n3. Manual custom ingest: User supplies server URL + stream key.\n\nThe missing heavy piece remains the mux/protocol adapter.\n"
+}

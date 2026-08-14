@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-generated-symlinks-md-b93b9284a6",
+	"title": "Generated Symlink / Alias Inventory",
+	"sourcePath": "docs/GENERATED/SYMLINKS.md",
+	"category": "General",
+	"provenance": "generated",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Generated Symlink / Alias Inventory",
+			"anchor": "generated-symlink-alias-inventory"
+		}
+	],
+	"markdownParts": [
+		"content/docs-generated-symlinks-md-b93b9284a6-001.json"
+	]
+}

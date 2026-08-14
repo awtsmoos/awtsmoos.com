@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-apps-developer-tools-md-f8a15cd8a2",
+	"title": "Developer Tools",
+	"sourcePath": "docs/APPS/DEVELOPER_TOOLS.md",
+	"category": "Apps",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Developer Tools",
+			"anchor": "developer-tools"
+		},
+		{
+			"level": 2,
+			"text": "Awtsmoos Code — geelooy/apps/code/",
+			"anchor": "awtsmoos-code-geelooy-apps-code"
+		},
+		{
+			"level": 2,
+			"text": "Awtsmoos Compiler — geelooy/apps/compiler/",
+			"anchor": "awtsmoos-compiler-geelooy-apps-compiler"
+		},
+		{
+			"level": 2,
+			"text": "Merkava Native Browser — geelooy/apps/merkava-native-browser/",
+			"anchor": "merkava-native-browser-geelooy-apps-merkava-native-browser"
+		},
+		{
+			"level": 2,
+			"text": "Archive Uploader — geelooy/apps/archive-uploader/",
+			"anchor": "archive-uploader-geelooy-apps-archive-uploader"
+		},
+		{
+			"level": 2,
+			"text": "Byte Viewer — geelooy/apps/byteViewer/",
+			"anchor": "byte-viewer-geelooy-apps-byteviewer"
+		},
+		{
+			"level": 2,
+			"text": "CSV — geelooy/apps/csv/",
+			"anchor": "csv-geelooy-apps-csv"
+		},
+		{
+			"level": 2,
+			"text": "GGUF/model developer tooling",
+			"anchor": "gguf-model-developer-tooling"
+		},
+		{
+			"level": 2,
+			"text": "Backend map",
+			"anchor": "backend-map"
+		}
+	],
+	"markdownParts": [
+		"content/docs-apps-developer-tools-md-f8a15cd8a2-001.json"
+	]
+}

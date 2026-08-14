@@ -26,10 +26,7 @@ const FILES = Object.freeze([
 test("Merkava browser production files obey source and isolation law", async () => {
 	for (const relativePath of FILES) {
 		const source = await sourceText(relativePath);
-		assert.ok(
-			source.split(/\r?\n/).length <= 120,
-			`${relativePath} exceeds 120 lines`
-		);
+		assert.ok(source.split(/\r?\n/).length <= 120, `${relativePath} exceeds 120 lines`);
 		assert.match(source, /Awtsmoos/);
 		assert.doesNotMatch(source, /contentWindow\.eval/);
 		assert.doesNotMatch(source, /\beval\s*\(/);
@@ -39,13 +36,14 @@ test("Merkava browser production files obey source and isolation law", async () 
 });
 
 test("registry exposes the browser without replacing HTML preview defaults", async () => {
-	const source = await sourceText("basicPrograms.js");
-	assert.match(source, /import awtsmoosBrowser/);
-	assert.match(source, /awtsmoosBrowser: program\(/);
-	assert.match(source, /"\.merkava": "awtsmoosBrowser"/);
-	assert.match(source, /"\.html": "workspacePreview"/);
-	assert.match(source, /export const programs/);
-	assert.match(source, /export function getDefaultProgram/);
+	const registry = await sourceText("basicPrograms.js");
+	const mappings = await sourceText("basicProgramMappings.js");
+	assert.match(registry, /import awtsmoosBrowser/);
+	assert.match(registry, /awtsmoosBrowser: program\(/);
+	assert.match(mappings, /"\.merkava": "awtsmoosBrowser"/);
+	assert.match(mappings, /"\.html": "workspacePreview"/);
+	assert.match(registry, /export const programs/);
+	assert.match(registry, /export function getDefaultProgram/);
 });
 
 test("loader includes every split nested-window dependency in order", async () => {

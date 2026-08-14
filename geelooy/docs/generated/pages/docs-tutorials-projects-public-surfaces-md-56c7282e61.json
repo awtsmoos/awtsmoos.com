@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-tutorials-projects-public-surfaces-md-56c7282e61",
+	"title": "Public and Other Boundaries",
+	"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"category": "Projects",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Public and Other Boundaries",
+			"anchor": "public-and-other-boundaries"
+		},
+		{
+			"level": 2,
+			"text": "Read the exact type first",
+			"anchor": "read-the-exact-type-first"
+		},
+		{
+			"level": 2,
+			"text": "Investigation strategy",
+			"anchor": "investigation-strategy"
+		}
+	],
+	"markdownParts": [
+		"content/docs-tutorials-projects-public-surfaces-md-56c7282e61-001.json"
+	]
+}

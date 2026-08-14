@@ -1,0 +1,120 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-api-readme-md-7d3061aafb",
+	"title": "AwtsmoosDB API Guide",
+	"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/API_README.md",
+	"category": "Data",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "AwtsmoosDB API Guide",
+			"anchor": "awtsmoosdb-api-guide"
+		},
+		{
+			"level": 2,
+			"text": "Opening And Closing",
+			"anchor": "opening-and-closing"
+		},
+		{
+			"level": 2,
+			"text": "The Root Live Handle",
+			"anchor": "the-root-live-handle"
+		},
+		{
+			"level": 2,
+			"text": "Root Helper Methods",
+			"anchor": "root-helper-methods"
+		},
+		{
+			"level": 2,
+			"text": "Method Name Collisions",
+			"anchor": "method-name-collisions"
+		},
+		{
+			"level": 2,
+			"text": "Supported Values",
+			"anchor": "supported-values"
+		},
+		{
+			"level": 2,
+			"text": "Maps And Lists",
+			"anchor": "maps-and-lists"
+		},
+		{
+			"level": 2,
+			"text": "Iteration",
+			"anchor": "iteration"
+		},
+		{
+			"level": 2,
+			"text": "Search, Query, Graph, Vector",
+			"anchor": "search-query-graph-vector"
+		},
+		{
+			"level": 2,
+			"text": "AI And Embeddings",
+			"anchor": "ai-and-embeddings"
+		},
+		{
+			"level": 2,
+			"text": "Old DosDB Bridge",
+			"anchor": "old-dosdb-bridge"
+		},
+		{
+			"level": 2,
+			"text": "Compression",
+			"anchor": "compression"
+		},
+		{
+			"level": 2,
+			"text": "Blob Byte Ranges",
+			"anchor": "blob-byte-ranges"
+		},
+		{
+			"level": 2,
+			"text": "Chunked Text",
+			"anchor": "chunked-text"
+		},
+		{
+			"level": 2,
+			"text": "Concurrent Operations",
+			"anchor": "concurrent-operations"
+		},
+		{
+			"level": 2,
+			"text": "Turbo Write-Behind",
+			"anchor": "turbo-write-behind"
+		},
+		{
+			"level": 2,
+			"text": "Byte Accounting",
+			"anchor": "byte-accounting"
+		},
+		{
+			"level": 2,
+			"text": "Delete, Reuse, And Truncate",
+			"anchor": "delete-reuse-and-truncate"
+		},
+		{
+			"level": 2,
+			"text": "File Info Without Opening",
+			"anchor": "file-info-without-opening"
+		},
+		{
+			"level": 2,
+			"text": "Testing",
+			"anchor": "testing"
+		},
+		{
+			"level": 2,
+			"text": "Runtime Helpers",
+			"anchor": "runtime-helpers"
+		}
+	],
+	"markdownParts": [
+		"content/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-api-readme-md-7d3061aafb-001.json",
+		"content/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-api-readme-md-7d3061aafb-002.json"
+	]
+}

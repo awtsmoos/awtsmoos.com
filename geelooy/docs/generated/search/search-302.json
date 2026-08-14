@@ -1,0 +1,285 @@
+[
+	{
+		"id": "geelooy-social-composer-reel-studio-docs-movie-package-format-md-3234596dfa",
+		"title": "Movie Package Format",
+		"sourcePath": "geelooy/social-composer/reel-studio/docs/MOVIE_PACKAGE_FORMAT.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Movie Package Format",
+				"anchor": "movie-package-format"
+			},
+			{
+				"level": 2,
+				"text": "Rules",
+				"anchor": "rules"
+			},
+			{
+				"level": 2,
+				"text": "JavaScript",
+				"anchor": "javascript"
+			},
+			{
+				"level": 2,
+				"text": "Schema and Example",
+				"anchor": "schema-and-example"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Movie Package Format A ready package is a complete artifact, not prose and not a partial patch. Rules project is the complete canonical MitzvahWorld/NLE project. Stable IDs must remain stable across revisions. artifacts.assets mirrors project.nle.assets for package consumers. Material an",
+		"searchText": "b\"h boruch hashem blessed is he movie package format a ready package is a complete artifact, not prose and not a partial patch. rules project is the complete canonical mitzvahworld/nle project. stable ids must remain stable across revisions. artifacts.assets mirrors project.nle.assets for package consumers. material and generic node graphs remain editable json. renderplan states exact local output expectations. validation records compiler evidence, never invented provider confidence. missing external assets must be listed explicitly. javascript the actions ui provides corresponding export movie package and apply movie package cards. applying validates and creates one undoable state replacement. schema and example schema: ../api/movie package schema v1.json example: ../projects/cinematic village package.json",
+		"page": "pages/geelooy-social-composer-reel-studio-docs-movie-package-format-md-3234596dfa.json"
+	},
+	{
+		"id": "geelooy-social-composer-reel-studio-docs-node-graph-formats-md-3358c6f25d",
+		"title": "Node Graph Formats",
+		"sourcePath": "geelooy/social-composer/reel-studio/docs/NODE_GRAPH_FORMATS.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Node Graph Formats",
+				"anchor": "node-graph-formats"
+			},
+			{
+				"level": 2,
+				"text": "Material Graphs",
+				"anchor": "material-graphs"
+			},
+			{
+				"level": 2,
+				"text": "Shader Graphs",
+				"anchor": "shader-graphs"
+			},
+			{
+				"level": 2,
+				"text": "Particle Graphs",
+				"anchor": "particle-graphs"
+			},
+			{
+				"level": 2,
+				"text": "Adding New Graph Types",
+				"anchor": "adding-new-graph-types"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Node Graph Formats Material Graphs Material graphs live in project.materialGraphs and compile through the canonical MitzvahWorld material graph compiler. Shader Graphs Shader graphs live in project.graphs with kind: \"shader\". The output value may contain sky colors, fog, exposure, vignet",
+		"searchText": "b\"h boruch hashem blessed is he node graph formats material graphs material graphs live in project.materialgraphs and compile through the canonical mitzvahworld material graph compiler. shader graphs shader graphs live in project.graphs with kind: \"shader\". the output value may contain sky colors, fog, exposure, vignette, wind, and a deterministic seed. particle graphs particle graphs use kind: \"particle\". their output supports: mode: fireflies or mist count size speed seed colors the webgl runtime renders these as gl.points. reduced motion mode caps count and removes animated drift. the 2d fallback consumes the same generated point frame. adding new graph types 1. add a bounded factory. 2. keep stable node ids. 3. add or reuse canonical validation. 4. add a runtime resolver. 5. add an action catalog entry. 6. verify api/ui parity. 7. document defaults and fallback behavior.",
+		"page": "pages/geelooy-social-composer-reel-studio-docs-node-graph-formats-md-3358c6f25d.json"
+	},
+	{
+		"id": "geelooy-social-composer-reel-studio-readme-md-a2686a9acf",
+		"title": "MitzvahWorld Reel Studio",
+		"sourcePath": "geelooy/social-composer/reel-studio/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "MitzvahWorld Reel Studio",
+				"anchor": "mitzvahworld-reel-studio"
+			},
+			{
+				"level": 2,
+				"text": "Fresh Default",
+				"anchor": "fresh-default"
+			},
+			{
+				"level": 2,
+				"text": "Public Surfaces",
+				"anchor": "public-surfaces"
+			},
+			{
+				"level": 2,
+				"text": "Formats",
+				"anchor": "formats"
+			},
+			{
+				"level": 2,
+				"text": "Rendering Truth",
+				"anchor": "rendering-truth"
+			},
+			{
+				"level": 2,
+				"text": "Documentation",
+				"anchor": "documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He MitzvahWorld Reel Studio This folder contains the project first social NLE, cinematic WebGL preview, local WebM recorder, complete movie packages, AI exchange contract, and optional full MitzvahWorld world handoff. Fresh Default A clean browser session loads The Village Awakens — Cinemat",
+		"searchText": "b\"h boruch hashem blessed is he mitzvahworld reel studio this folder contains the project first social nle, cinematic webgl preview, local webm recorder, complete movie packages, ai exchange contract, and optional full mitzvahworld world handoff. fresh default a clean browser session loads the village awakens — cinematic world : 24 seconds at 24 fps and 1920 × 1080. eleven houses, sixty four trees, three paths, and four lamps. one walking lead character with a stable path. five canonical camera rig clips. seven material graphs. one atmosphere shader graph and two gpu particle graphs. dialogue, score tones, titles, scene grades, and render metadata. a saved local project or explicit movieurl overrides the starter. public surfaces every method above has one visible card under ai movie → actions . both paths use the same catalog and executor. formats ai envelope: awtsmoos.ai movie.v1 agent request: awtsmoos.movie request.v1 complete movie package: awtsmoos.movie package.v1 package schema: api/movie package schema v1.json example package: projects/cinematic village package.json rendering truth the procedural village uses webgl when available. the frame is composited into the same 2d canvas used by preview, playback, mediarecorder, and social attachment. webgl loss falls back to a deterministic 2d rendering of the same frame data. this runtime produces an editable procedural cinematic world. external photoreal characters, voices, music, images, or video require real supplied/generated assets. documentation docs/api ui parity.md docs/movie package format.md docs/cinematic world format.md docs/node graph formats.md docs/agent provider adapter.md docs/adding a movie action.md",
+		"page": "pages/geelooy-social-composer-reel-studio-readme-md-a2686a9acf.json"
+	},
+	{
+		"id": "geelooy-social-hub-documentation-md-811730e03e",
+		"title": "Social Hub Documentation",
+		"sourcePath": "geelooy/social-hub/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Social Hub Documentation",
+				"anchor": "social-hub-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Social Hub Documentation The Awtsmoos lets identity meet posts, comments, aliases, Heichelos, follows, and signal; Awtsmoos.com maps this UI back to the Social API so frontend and backend stay visible. Read ../../docs/SYSTEMS/SOCIAL AND HEICHEL.md and ../../docs/API/SOCIAL.md. For every ",
+		"searchText": "b\"h boruch hashem blessed is he social hub documentation the awtsmoos lets identity meet posts, comments, aliases, heichelos, follows, and signal; awtsmoos.com maps this ui back to the social api so frontend and backend stay visible. read ../../docs/systems/social and heichel.md and ../../docs/api/social.md. for every /api/social/ pattern, use ../../docs/generated/api route atlas.md.",
+		"page": "pages/geelooy-social-hub-documentation-md-811730e03e.json"
+	},
+	{
+		"id": "geelooy-social-hub-readme-md-1c5ff6c9d7",
+		"title": "B\"H",
+		"sourcePath": "geelooy/social-hub/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Boruch Hashem",
+				"anchor": "boruch-hashem"
+			},
+			{
+				"level": 1,
+				"text": "Blessed is He",
+				"anchor": "blessed-is-he"
+			},
+			{
+				"level": 1,
+				"text": "Awtsmoos Social Hub",
+				"anchor": "awtsmoos-social-hub"
+			},
+			{
+				"level": 2,
+				"text": "Entry point",
+				"anchor": "entry-point"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			},
+			{
+				"level": 2,
+				"text": "Exact interactions",
+				"anchor": "exact-interactions"
+			},
+			{
+				"level": 2,
+				"text": "Transformations",
+				"anchor": "transformations"
+			},
+			{
+				"level": 3,
+				"text": "Comment becomes post",
+				"anchor": "comment-becomes-post"
+			},
+			{
+				"level": 3,
+				"text": "Post becomes comment",
+				"anchor": "post-becomes-comment"
+			},
+			{
+				"level": 2,
+				"text": "Profile constellation",
+				"anchor": "profile-constellation"
+			},
+			{
+				"level": 2,
+				"text": "Private activity",
+				"anchor": "private-activity"
+			},
+			{
+				"level": 2,
+				"text": "Legal pages",
+				"anchor": "legal-pages"
+			},
+			{
+				"level": 2,
+				"text": "Visual system",
+				"anchor": "visual-system"
+			},
+			{
+				"level": 2,
+				"text": "Tests",
+				"anchor": "tests"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Social Hub The Social Hub is one responsive command center for public alias identity, canonical posts, exact comments and replies, media reports, references, private activity, profile evidence, and provenance safe transformations. Entry point Exact interaction deep links may inc",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos social hub the social hub is one responsive command center for public alias identity, canonical posts, exact comments and replies, media reports, references, private activity, profile evidence, and provenance safe transformations. entry point exact interaction deep links may include: navigation one semantic route model powers: the desktop command rail; the mobile safe area dock; hash deep links; browser history; focus restoration; page titles; private navigation activity. routes: pulse; interact; activity; profile; references; privacy. desktop and mobile are spatially different views of the same application state. no mobile only data model or duplicated route system exists. exact interactions the interaction studio supports: whole post comments; question and answer comments; verse comments; subsection comments; replies to comments; replies to sections inside comments; text; mood; voice transcript; image attachments; voice notes; video reports; canonical post, question, or answer references. media must finish native alias owned upload before publication. pending and failed local files block the publish action. transformations comment becomes post an authored comment may become a new canonical post. the source comment remains unchanged. the new post receives: comment text; optional transcript; native media manifests; comment sections; original heichel, post, verse, and subsection provenance; a graph edge back to the canonical source comment; an idempotency key preventing duplicate retries. post becomes comment a post may appear inside a comment as a canonical reference. the original post body is not copied into the comment record. profile constellation profile responses combine: public alias and profile fields; authored posts; canonical rich comments and replies; heichel roles; inbound and outbound graph references; visibility approved activity. the older private return history stream is excluded from non owner profile responses. private activity the activity tab records social hub navigation and social actions through the selected verified alias. it is private by default and supports: pause and resume; category level capture; title capture; visible duration capture; optional non sensitive query capture; one to 365 day retention; rapid navigation deduplication; per event sharing; selected alias sharing; heichel member sharing; public sharing; event deletion; complete clearing; json export. sensitive query keys are removed before storage. cross origin paths are rejected. the tracker is intentionally embedded in the social hub rather than secretly injected into every unrelated page. other applications can adopt the same api explicitly after presenting the same privacy controls. legal pages both pages are linked from the oauth login required page and the social hub privacy controls. they are versioned project policy statements and explicitly state that they are not legal advice. visual system the interface uses: a layered cosmic field; translucent spatial panels; animated provenance borders; an orbital social pulse; desktop multi column workspaces; a mobile bottom dock respecting safe areas; view transitions; visible upload and mutation states; reduced motion overrides; forced colors support; high contrast support; keyboard focus; coarse pointer touch targets. tests the real chrome test uses a hermetic same origin api fixture. it verifies desktop, 390 pixel mobile, and reduced motion layouts while exercising comments, replies, image/audio/video upload, canonical references, activity sharing, privacy controls, profiles, comment promotion, and idempotent retry without touching live user data. the awtsmoos is one beneath every page, voice, image, comment, reference, and remembered step. the social hub makes that unity navigable without hiding the origin, privacy, or current state of any vessel.",
+		"page": "pages/geelooy-social-hub-readme-md-1c5ff6c9d7.json"
+	},
+	{
+		"id": "geelooy-style-documentation-md-b19d9ac553",
+		"title": "Shared Style Documentation",
+		"sourcePath": "geelooy/style/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Shared Style Documentation",
+				"anchor": "shared-style-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Shared Style Documentation The Awtsmoos lets many pages receive form from a common visual vessel, so CSS inheritance can cross project walls unseen; Awtsmoos.com maps this large style tree as shared infrastructure and points maintainers toward broad quality checks before changing the sce",
+		"searchText": "b\"h boruch hashem blessed is he shared style documentation the awtsmoos lets many pages receive form from a common visual vessel, so css inheritance can cross project walls unseen; awtsmoos.com maps this large style tree as shared infrastructure and points maintainers toward broad quality checks before changing the scene. read ../../docs/systems/shared libraries.md and ../../docs/test index.md. relevant package scripts include css quality and imported style ownership checks.",
+		"page": "pages/geelooy-style-documentation-md-b19d9ac553.json"
+	},
+	{
+		"id": "geelooy-tests-documentation-md-4ae0affefc",
+		"title": "Geelooy Test Documentation",
+		"sourcePath": "geelooy/tests/DOCUMENTATION.md",
+		"category": "Testing",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Geelooy Test Documentation",
+				"anchor": "geelooy-test-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Geelooy Test Documentation The Awtsmoos asks behavior to prove itself through tests rather than confidence alone; Awtsmoos.com maps this public layer test tree beside package scripts and system specific suites so verification can be chosen from the known. Read ../../docs/TEST INDEX.md an",
+		"searchText": "b\"h boruch hashem blessed is he geelooy test documentation the awtsmoos asks behavior to prove itself through tests rather than confidence alone; awtsmoos.com maps this public layer test tree beside package scripts and system specific suites so verification can be chosen from the known. read ../../docs/test index.md and ../../docs/systems/testing.md.",
+		"page": "pages/geelooy-tests-documentation-md-4ae0affefc.json"
+	},
+	{
+		"id": "geelooy-tests-virtual-os-readme-md-e4135edaef",
+		"title": "B\"H — Virtual OS Smoke Suite",
+		"sourcePath": "geelooy/tests/virtual-os/README.md",
+		"category": "Testing",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Virtual OS Smoke Suite",
+				"anchor": "b-h-virtual-os-smoke-suite"
+			}
+		],
+		"excerpt": "B\"H — Virtual OS Smoke Suite Run from the repository root one level above geelooy: Or run directly inside geelooy: The suite checks syntax for the split Virtual OS modules and then runs focused behavior smokes for: browser object graph watchers and transactions VFS mount resolution, permissions, guarded mutation gates,",
+		"searchText": "b\"h — virtual os smoke suite run from the repository root one level above geelooy: or run directly inside geelooy: the suite checks syntax for the split virtual os modules and then runs focused behavior smokes for: browser object graph watchers and transactions vfs mount resolution, permissions, guarded mutation gates, and graph sync server mirror graph watchers and transactions browser tunnel handler composition for graph and vfs actions these tests are intentionally small. they protect the current architecture slice without replacing the larger project test system.",
+		"page": "pages/geelooy-tests-virtual-os-readme-md-e4135edaef.json"
+	},
+	{
+		"id": "geelooy-youtube-documentation-md-1d74e31a03",
+		"title": "YouTube Manager Documentation",
+		"sourcePath": "geelooy/youtube/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "YouTube Manager Documentation",
+				"anchor": "youtube-manager-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He YouTube Manager Documentation The Awtsmoos lets channel, video, upload, and live state pass through a guarded provider key; Awtsmoos.com maps this browser manager to the dedicated YouTube API family. Read ../../docs/API/YOUTUBE.md and ../../docs/APPS/MEDIA TOOLS.md.",
+		"searchText": "b\"h boruch hashem blessed is he youtube manager documentation the awtsmoos lets channel, video, upload, and live state pass through a guarded provider key; awtsmoos.com maps this browser manager to the dedicated youtube api family. read ../../docs/api/youtube.md and ../../docs/apps/media tools.md.",
+		"page": "pages/geelooy-youtube-documentation-md-1d74e31a03.json"
+	}
+]

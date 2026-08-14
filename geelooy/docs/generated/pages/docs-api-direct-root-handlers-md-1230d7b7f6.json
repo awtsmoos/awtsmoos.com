@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-api-direct-root-handlers-md-1230d7b7f6",
+	"title": "Direct Root HTTP Handlers",
+	"sourcePath": "docs/API/DIRECT_ROOT_HANDLERS.md",
+	"category": "API",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Direct Root HTTP Handlers",
+			"anchor": "direct-root-http-handlers"
+		},
+		{
+			"level": 2,
+			"text": "/mitzvahWorld/autoplay-ping",
+			"anchor": "mitzvahworld-autoplay-ping"
+		},
+		{
+			"level": 2,
+			"text": "/mitzvahWorld/autoplay-report",
+			"anchor": "mitzvahworld-autoplay-report"
+		},
+		{
+			"level": 2,
+			"text": "/api/mitzvahWorld/autoplay-report",
+			"anchor": "api-mitzvahworld-autoplay-report"
+		},
+		{
+			"level": 2,
+			"text": "Why this matters",
+			"anchor": "why-this-matters"
+		},
+		{
+			"level": 2,
+			"text": "Execution order",
+			"anchor": "execution-order"
+		}
+	],
+	"markdownParts": [
+		"content/docs-api-direct-root-handlers-md-1230d7b7f6-001.json"
+	]
+}

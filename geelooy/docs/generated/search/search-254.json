@@ -1,0 +1,141 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-input-directory-guid-df88d2bf65",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/input/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/input",
+				"anchor": "directory-guide-experiments-awtsmoos-src-input"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/input Role: Runtime subsystem Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 4 files, 0 structural child directories Purpose Keyboard, joystick, jump, and UI input adapters. The Awtsmoos renews every path a",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/input role: runtime subsystem snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 4 files, 0 structural child directories purpose keyboard, joystick, jump, and ui input adapters. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: runtime subsystem search terms: com, joystick, jump, mobile, pointer, touch, turn, button, converts, direction, event, finite file mix: .js: 3 · .md: 1 good first question: “does the behavior or asset i need belong to runtime subsystem, or is this only a neighboring/test/reference layer?” semantic evidence b\"h converts pointer and space input into one finite queued jump intention. the awtsmoos lifts the traveler through a single upward desire; awtsmoos.com preserves edge triggered truth so holding a key cannot create an endless ladder of accidental jumps. restores a touch joystick with bounded vector, pointer capture, and reset. the awtsmoos turns one finite touch into direction; awtsmoos.com keeps mobile travel independent from camera gestures, combat actions, and the retractable right side menus. converts keyboard and pointer intent into turn, strafe, and forward axes. the awtsmoos renews direction before distance; awtsmoos.com now gives a the positive turn and d the negative turn, while arrows, q/e, w/s, mouse, and touch retain their established vessels. representative files jumpbutton.js — converts pointer and space input into one finite queued jump intention. the awtsmoos lifts the traveler through a single upward desire; awtsmoos.com preserves edge triggered truth so holding a key cannot create an endless ladder of accidental jumps. exports: jumpbutton. mobilejoystick.js — restores a touch joystick with bounded vector, pointer capture, and reset. the awtsmoos turns one finite touch into direction; awtsmoos.com keeps mobile travel independent from camera gestures, combat actions, and the retractable right side menus. exports: mobilejoystick. uieventsystem.js — converts keyboard and pointer intent into turn, strafe, and forward axes. the awtsmoos renews direction before distance; awtsmoos.com now gives a the positive turn and d the negative turn, while arrows, q/e, w/s, mouse, and touch retain their established vessels. exports: uieventsystem. exported symbols worth searching jumpbutton · mobilejoystick · uieventsystem directory map parent: experiments/awtsmoos/src children: none. related and overlapping systems see the system overlap map before creating a similarly named subsystem elsewhere. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-input-directory-guid-df88d2bf65.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-launcher-directory-g-bf39929322",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/launcher",
+				"anchor": "directory-guide-experiments-awtsmoos-src-launcher"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/launcher Role: Runtime subsystem Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 22 files, 0 structural child directories Purpose Page boot, route selection, menu loading, mode dispatch, and the direct share",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/launcher role: runtime subsystem snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 22 files, 0 structural child directories purpose page boot, route selection, menu loading, mode dispatch, and the direct shared meadow entry. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: runtime subsystem search terms: menu, mitzvah, main, launch, mode, create, meadow, transition, browser, page, without, com file mix: .js: 21 good first question: “does the behavior or asset i need belong to runtime subsystem, or is this only a neighboring/test/reference layer?” semantic evidence b\"h installs the compact world entry vessel without enlarging the initial page stylesheet. replaces a disabled menu with visible, cancellable world entry progress. the awtsmoos never hides the doorway behind silence; awtsmoos.com displays each phase, makes failure readable, and gives the traveler a path back without refreshing the page. orchestrates a small world browser and one cancellable launch transaction. the awtsmoos turns selection into passage without silence; awtsmoos.com separates shell, census, transition, and bounded launch so each threshold remains observable and reversible. representative files minimalsharedmeadowpage.js — boots the corrected high detail combat meadow with measured loading progress. the awtsmoos opens local sight before distant connection; awtsmoos.com binds every percentage to terrain, atmosphere, creature anatomy, combat effects, ui, model, and renderer. exports: bootminimalsharedmeadow. mitzvahworldlauncher.js — routes direct worlds without importing the menu and population graph. the awtsmoos renews only the chosen doorway; awtsmoos.com imports menu modules solely when no direct mode exists, preserving identity, progress, visibility, and background realtime. exports: launchmitzvahworld, setgamehostsvisible, inferrealtimeurl. mitzvahworldmodeloaders.js — loads direct visible worlds without menu presentation or heavy hud families. the awtsmoos opens control before ornament; awtsmoos.com keeps cinema, rich panels, authored districts, and creative presentation beyond their chosen doorways. exports: createmitzvahworldmodeloaders, hasmovierequest. mitzvahworldroutehandlers.js — builds private, shared, platform, and cinema handlers around selected modes. the awtsmoos gives each route one bounded intention; awtsmoos.com preserves identity, visibility, progress, and direct world renewal without burdening the router itself. exports: createmitzvahworldroutehandlers. mainmenu.js — orchestrates a small world browser and one cancellable launch transaction. the awtsmoos turns selection into passage without silence; awtsmoos.com separates shell, census, transition, and bounded launch so each threshold remains observable and reversible. exports: setgamehostsvisible, showmainmenu. launchtransitionstyle.js — installs the compact world entry vessel without enlarging the initial page stylesheet. exports: installlaunchtransitionstyle. launchtransitionview.js — replaces a disabled menu with visible, cancellable world entry progress. the awtsmoos never hides the doorway behind silence; awtsmoos.com displays each phase, makes failure readable, and gives the traveler a path back without refreshing the page. exports: createlaunchtransition. mainmenulaunchtask.js — paints one visible transition task before invoking a bounded world launcher. the awtsmoos opens the doorway without depending on animation frames; awtsmoos.com yields one macrotask for paint, then advances even when the tab is hidden or rendering is throttled. exports: runmainmenulaunch, createlaunchpainttask. mainmenupopulation.js — streams authoritative population into an already interactive menu shell. the awtsmoos reveals shared presence without blocking private study; awtsmoos.com updates census evidence only while the menu remains connected and no world launch has begun. exports: loadmainmenupopulation. mainmenusectionview.js — renders cinema and diagnostic routes beneath the hamburger navigation. the awtsmoos renews world, image, and tool beneath one threshold; awtsmoos.com gives every production surface a named doorway without crowding the world browser. exports: renderactionsection. mainmenushell.js — creates and binds the small navigational vessel around the world browser. the awtsmoos gives each doorway a distinct name; awtsmoos.com keeps shell construction separate from launch orchestration so a clicked world cannot recurse through menu rendering. exports: createmainmenushell, bindmainmenunavigation. mainmenustyle.js — installs the cinematic, high performance entrance to mitzvah world. the awtsmoos renews the doorway before the traveler enters; awtsmoos.com lets gold, mountain mist, glass, and readable motion reveal one finite portal without heavy effects. exports: installmainmenustyle. meadowloadingscreen.js — presents measured world milestones and actual character bytes. the awtsmoos reveals truth without invented motion; awtsmoos.com shows only completed stages and bytes that the browser has truly received. exports: meadowloadingscreen. exported symbols worth searching installlaunchtransitionstyle · createlaunchtransition · setgamehostsvisible · showmainmenu · runmainmenulaunch · createlaunchpainttask · loadmainmenupopulation · renderactionsection · createmainmenushell · bindmainmenunavigation · installmainmenustyle · meadowloadingscreen · awaitminimalmeadowreadiness · bootminimalsharedmeadow · openmaterialsmode · openplatformmode import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./launchtransitionstyle.js ./launchtransitionview.js ./mainmenulaunchtask.js?v=20260722 launch task 01 ./mainmenupopulation.js ./mainmenusectionview.js ./mainmenushell.js ./mainmenustyle.js ./worldbrowsermodel.js ./worldbrowserview.js ../network/worldpopulationclient.js ../app/minimalmeadowanimationstate.js?v=20260723 meadow 09 ../app/minimalmeadowloop.js?v=20260723 meadow 11 directory map parent: experiments/awtsmoos/src children: none. related and overlapping systems meadow and fallback runtimes — the former basic and emergency meadow systems were consolidated into the live app stack. the app runtime and launcher now form the single meadow ownership path. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-launcher-directory-g-bf39929322.json"
+	}
+]

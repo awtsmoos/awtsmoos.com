@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-data-readme-md-833c12b983",
+	"title": "Data and Persistence Guide",
+	"sourcePath": "docs/DATA/README.md",
+	"category": "Data",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Data and Persistence Guide",
+			"anchor": "data-and-persistence-guide"
+		},
+		{
+			"level": 2,
+			"text": "Main runtime database",
+			"anchor": "main-runtime-database"
+		},
+		{
+			"level": 2,
+			"text": "Database-root precedence",
+			"anchor": "database-root-precedence"
+		},
+		{
+			"level": 2,
+			"text": "Persistence families",
+			"anchor": "persistence-families"
+		},
+		{
+			"level": 3,
+			"text": "Legacy DosDB filesystem tree",
+			"anchor": "legacy-dosdb-filesystem-tree"
+		},
+		{
+			"level": 3,
+			"text": "AwtsmoosBinaryJSON",
+			"anchor": "awtsmoosbinaryjson"
+		},
+		{
+			"level": 3,
+			"text": "AwtsmoosDB / VirtualFs",
+			"anchor": "awtsmoosdb-virtualfs"
+		},
+		{
+			"level": 3,
+			"text": "Parallel AwtsmoosDB",
+			"anchor": "parallel-awtsmoosdb"
+		},
+		{
+			"level": 2,
+			"text": "Social packed storage",
+			"anchor": "social-packed-storage"
+		},
+		{
+			"level": 2,
+			"text": "Data change rule",
+			"anchor": "data-change-rule"
+		}
+	],
+	"markdownParts": [
+		"content/docs-data-readme-md-833c12b983-001.json"
+	]
+}

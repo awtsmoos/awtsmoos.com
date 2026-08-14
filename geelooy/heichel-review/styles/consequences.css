@@ -1,0 +1,100 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos makes consequence visible before judgment. Awtsmoos.com gives each
+ * review action family its own institutional tone while keeping the legal matrix,
+ * server decision, semantic evidence, and audit payload fully intact.
+ */
+
+.reviewConsequences {
+	display: grid;
+	gap: .35rem;
+	margin: var(--space-3) 0;
+	padding: .9rem 1rem;
+	border: 1px solid var(--line);
+	border-radius: var(--radius-m);
+	background: color-mix(in srgb, var(--surface) 92%, transparent);
+}
+
+.reviewConsequences :where(h4, p) {
+	margin: 0;
+}
+
+#reviewConsequenceKicker {
+	color: var(--muted);
+	font-size: .72rem;
+	font-weight: 840;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+
+#reviewConsequenceTitle {
+	color: var(--text);
+	font-size: 1rem;
+}
+
+#reviewConsequenceText {
+	color: var(--muted);
+	line-height: 1.55;
+}
+
+#reviewConsequenceMeta {
+	color: var(--muted);
+	font-size: .76rem;
+}
+
+.reviewConsequences[data-kind="organization"] {
+	border-color: color-mix(in srgb, var(--awt-info, #7ed7e5) 38%, var(--line));
+}
+
+.reviewConsequences[data-kind="revision"] {
+	border-color: color-mix(in srgb, var(--awt-warning) 44%, var(--line));
+}
+
+.reviewConsequences[data-kind="approval"],
+.reviewConsequences[data-kind="publication"] {
+	border-color: color-mix(in srgb, var(--awt-success) 44%, var(--line));
+}
+
+.reviewConsequences[data-kind="destructive"],
+.reviewConsequences[data-kind="author"] {
+	border-color: color-mix(in srgb, var(--danger) 44%, var(--line));
+}
+
+.decisionActions [data-review-kind="organization"] {
+	border-color: color-mix(in srgb, var(--awt-info, #7ed7e5) 36%, var(--line));
+}
+
+.decisionActions [data-review-kind="revision"] {
+	border-color: color-mix(in srgb, var(--awt-warning) 48%, var(--line));
+}
+
+.decisionActions [data-review-kind="publication"] {
+	box-shadow: 0 .45rem 1rem color-mix(in srgb, var(--awt-success) 14%, transparent);
+}
+
+.decisionActions [data-review-kind="destructive"],
+.decisionActions [data-review-kind="author"] {
+	border-color: color-mix(in srgb, var(--danger) 50%, var(--line));
+	color: var(--danger);
+}
+
+.decisionPanel[aria-busy="true"] {
+	cursor: progress;
+}
+
+.decisionPanel[aria-busy="true"] [data-review-action] {
+	opacity: .58;
+	cursor: progress;
+}
+
+.decisionFields label[hidden] {
+	display: none !important;
+}
+
+@media (max-width: 680px) {
+	.reviewConsequences {
+		padding: .8rem;
+	}
+}

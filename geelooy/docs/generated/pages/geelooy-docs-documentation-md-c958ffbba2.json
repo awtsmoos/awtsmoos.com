@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-docs-documentation-md-c958ffbba2",
+	"title": "Interactive Documentation Frontend",
+	"sourcePath": "geelooy/docs/DOCUMENTATION.md",
+	"category": "General",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Interactive Documentation Frontend",
+			"anchor": "interactive-documentation-frontend"
+		},
+		{
+			"level": 2,
+			"text": "What this directory owns",
+			"anchor": "what-this-directory-owns"
+		},
+		{
+			"level": 2,
+			"text": "Canonical content",
+			"anchor": "canonical-content"
+		},
+		{
+			"level": 2,
+			"text": "Bounded publication",
+			"anchor": "bounded-publication"
+		},
+		{
+			"level": 2,
+			"text": "Search and Ask",
+			"anchor": "search-and-ask"
+		},
+		{
+			"level": 2,
+			"text": "Safety covenant",
+			"anchor": "safety-covenant"
+		},
+		{
+			"level": 2,
+			"text": "Human manuals",
+			"anchor": "human-manuals"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-docs-documentation-md-c958ffbba2-001.json"
+	]
+}

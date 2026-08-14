@@ -1,0 +1,378 @@
+[
+	{
+		"id": "docs-generated-api-tutorials-routes-api-compiler-android-rebbe-8d84cca1d-f8c9c05631",
+		"title": "API Tutorial: /api/compiler/android/rebbe",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-compiler-android-rebbe-8d84cca1d6.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/compiler/android/rebbe",
+				"anchor": "api-tutorial-api-compiler-android-rebbe"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/compiler/android/rebbe Family: Compiler · Mount: /api/compiler · Derech health: OK Source: geelooy/api/compiler/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human Compiler tutorial Generated evidence is a navigation and teaching",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/compiler/android/rebbe family: compiler · mount: /api/compiler · derech health: ok source: geelooy/api/compiler/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human compiler tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/compiler/android/rebbe geelooy/apps/code/js/android/rebbe apk client.js runtime related tests no package script heuristic match was found. related routes /api/compiler/backends /api/compiler/build",
+		"page": "pages/docs-generated-api-tutorials-routes-api-compiler-android-rebbe-8d84cca1d-f8c9c05631.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-compiler-backends-8fe593f696-md-a3b0daa3f2",
+		"title": "API Tutorial: /api/compiler/backends",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-compiler-backends-8fe593f696.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/compiler/backends",
+				"anchor": "api-tutorial-api-compiler-backends"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/compiler/backends Family: Compiler · Mount: /api/compiler · Derech health: OK Source: geelooy/api/compiler/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human Compiler tutorial Generated evidence is a navigation and teaching aid,",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/compiler/backends family: compiler · mount: /api/compiler · derech health: ok source: geelooy/api/compiler/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human compiler tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/compiler/backends geelooy/apps/compiler/ui/nativebuildclient.js runtime related tests no package script heuristic match was found. related routes /api/compiler/android/rebbe /api/compiler/build",
+		"page": "pages/docs-generated-api-tutorials-routes-api-compiler-backends-8fe593f696-md-a3b0daa3f2.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-compiler-build-437ecdb93f-md-239ca8be0c",
+		"title": "API Tutorial: /api/compiler/build",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-compiler-build-437ecdb93f.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/compiler/build",
+				"anchor": "api-tutorial-api-compiler-build"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/compiler/build Family: Compiler · Mount: /api/compiler · Derech health: OK Source: geelooy/api/compiler/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human Compiler tutorial Generated evidence is a navigation and teaching aid, no",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/compiler/build family: compiler · mount: /api/compiler · derech health: ok source: geelooy/api/compiler/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human compiler tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/compiler/build geelooy/apps/compiler/ui/nativebuildclient.js runtime related tests no package script heuristic match was found. related routes /api/compiler/android/rebbe /api/compiler/backends",
+		"page": "pages/docs-generated-api-tutorials-routes-api-compiler-build-437ecdb93f-md-239ca8be0c.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-contact-56bcbbe9cd-md-dc5cee303c",
+		"title": "API Tutorial: /api/contact",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-contact-56bcbbe9cd.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/contact",
+				"anchor": "api-tutorial-api-contact"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/contact Family: Contact · Mount: /api/contact · Derech health: OK Source: geelooy/api/contact/ awtsmoos.derech.js · Discovery: static literal · Confidence: source lexical Read the human Contact tutorial Generated evidence is a navigation and teaching aid, not an OpenAP",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/contact family: contact · mount: /api/contact · derech health: ok source: geelooy/api/contact/ awtsmoos.derech.js · discovery: static literal · confidence: source lexical read the human contact tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: post request vessels: $ post, db observed status literals: — observed headers: x forwarded for path parameters none. starter call starter only: method evidence is lexical at the source file level; inspect the handler before relying on payload or response shape. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/contact/ geelooy/contact/contact.js runtime related tests no package script heuristic match was found. related routes /api/contact/status",
+		"page": "pages/docs-generated-api-tutorials-routes-api-contact-56bcbbe9cd-md-dc5cee303c.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-contact-status-078003efb4-md-59bb705302",
+		"title": "API Tutorial: /api/contact/status",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-contact-status-078003efb4.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/contact/status",
+				"anchor": "api-tutorial-api-contact-status"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/contact/status Family: Contact · Mount: /api/contact · Derech health: OK Source: geelooy/api/contact/ awtsmoos.derech.js · Discovery: static literal · Confidence: source lexical Read the human Contact tutorial Generated evidence is a navigation and teaching aid, not an",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/contact/status family: contact · mount: /api/contact · derech health: ok source: geelooy/api/contact/ awtsmoos.derech.js · discovery: static literal · confidence: source lexical read the human contact tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: post request vessels: $ post, db observed status literals: — observed headers: x forwarded for path parameters none. starter call starter only: method evidence is lexical at the source file level; inspect the handler before relying on payload or response shape. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/contact",
+		"page": "pages/docs-generated-api-tutorials-routes-api-contact-status-078003efb4-md-59bb705302.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-email-email-21dde810a8-md-955960c08c",
+		"title": "API Tutorial: /api/email/email",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-email-email-21dde810a8.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/email/email",
+				"anchor": "api-tutorial-api-email-email"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/email/email Family: Email · Mount: /api/email · Derech health: OK Source: geelooy/api/email/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human Email tutorial Generated evidence is a navigation and teaching aid, not an OpenAPI co",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/email/email family: email · mount: /api/email · derech health: ok source: geelooy/api/email/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human email tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: emailtest — node ayzarim/email/emailtest.js related routes /api/email",
+		"page": "pages/docs-generated-api-tutorials-routes-api-email-email-21dde810a8-md-955960c08c.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-email-f77f0430fe-md-2572d54ace",
+		"title": "API Tutorial: /api/email",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-email-f77f0430fe.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/email",
+				"anchor": "api-tutorial-api-email"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/email Family: Email · Mount: /api/email · Derech health: OK Source: geelooy/api/email/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human Email tutorial Generated evidence is a navigation and teaching aid, not an OpenAPI contract",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/email family: email · mount: /api/email · derech health: ok source: geelooy/api/email/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human email tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: emailtest — node ayzarim/email/emailtest.js related routes /api/email/email",
+		"page": "pages/docs-generated-api-tutorials-routes-api-email-f77f0430fe-md-2572d54ace.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-even-asd-more-rt-k-0e23c6ff58-md-7b29ba9e0a",
+		"title": "API Tutorial: /api/even/:asd/more/:rt/k",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-even-asd-more-rt-k-0e23c6ff58.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/even/:asd/more/:rt/k",
+				"anchor": "api-tutorial-api-even-asd-more-rt-k"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/even/:asd/more/:rt/k Family: API Root · Mount: /api · Derech health: OK Source: geelooy/api/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human API Root tutorial Generated evidence is a navigation and teaching aid, not an OpenAPI",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/even/:asd/more/:rt/k family: api root · mount: /api · derech health: ok source: geelooy/api/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human api root tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: route vars observed status literals: — observed headers: access control allow origin path parameters name shape asd single segment rt single segment starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test — npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:dayuh release — npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover test:routes — node geelooy/api/social/test/routecoverage.test.js related routes /api/what/:are/you/:doing /api/wow/:asd/asd/:rt/k",
+		"page": "pages/docs-generated-api-tutorials-routes-api-even-asd-more-rt-k-0e23c6ff58-md-7b29ba9e0a.json"
+	}
+]

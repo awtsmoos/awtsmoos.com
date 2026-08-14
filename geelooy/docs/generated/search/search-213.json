@@ -1,0 +1,234 @@
+[
+	{
+		"id": "docs-websockets-tunnel-relay-md-0cfdbb9dce",
+		"title": "Tunnel Relay WebSocket System",
+		"sourcePath": "docs/WEBSOCKETS/TUNNEL_RELAY.md",
+		"category": "Realtime",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tunnel Relay WebSocket System",
+				"anchor": "tunnel-relay-websocket-system"
+			},
+			{
+				"level": 2,
+				"text": "Source root",
+				"anchor": "source-root"
+			},
+			{
+				"level": 2,
+				"text": "Registration flow observed",
+				"anchor": "registration-flow-observed"
+			},
+			{
+				"level": 2,
+				"text": "TUNNELACK evidence",
+				"anchor": "tunnelack-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Replacement activity",
+				"anchor": "replacement-activity"
+			},
+			{
+				"level": 2,
+				"text": "Request lifecycle",
+				"anchor": "request-lifecycle"
+			},
+			{
+				"level": 2,
+				"text": "Relationship to HTTP Tunnel Control",
+				"anchor": "relationship-to-http-tunnel-control"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Relay WebSocket System The Awtsmoos bridges distant vessel to server while account, generation, request, acknowledgement, and replacement remain known; Awtsmoos.com treats relay authority as a transport covenant, not a message field a contender may declare on its own. Source root ",
+		"searchText": "b\"h boruch hashem blessed is he tunnel relay websocket system the awtsmoos bridges distant vessel to server while account, generation, request, acknowledgement, and replacement remain known; awtsmoos.com treats relay authority as a transport covenant, not a message field a contender may declare on its own. source root ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/ the continuation inventory found more than fifty files in this subsystem. it contains registration authority, security bridging, request dispatch, acknowledgement tracking, transfer/replacement logic, durable paths, limits, heartbeat/progress behavior, and tests. registration flow observed register.js calls security.authorizeregistration(client, data). if identity fails, registration is rejected. a registration key is derived from trusted identity, then current server state is inspected for an incumbent connection. registration authority decides whether the contender is accepted, replaces an older connection, or is fenced. after successful registration, the server records tunnel/client state, sends an acknowledgement, recovers pending work, monitors accepted work, and publishes connection activity. tunnel ack evidence the acknowledgement emitted by inspected source includes: type: \"tunnel ack\"; ok: true; accountbound: true; tunnel id and tunnel name; whether an older connection was replaced; vessel type; protocol version; registration generation; server time. replacement activity the subsystem publishes connection.registered and can publish connection.replaced when a newer authorized contender replaces an existing connection. request lifecycle separate source files manage dispatch, response acknowledgement, pending recovery, timeout/progress bounds, quarantine/completed retention, and durable relay state. environment names controlling these policies appear in ../generated/environment variables.md. relationship to http tunnel control http routes create/control devices, grants, previews, calls, missions, compute, and other management operations. relay websockets are the live transport plane that can carry remote device work. do not flatten http control routes and relay messages into one api list.",
+		"page": "pages/docs-websockets-tunnel-relay-md-0cfdbb9dce.json"
+	},
+	{
+		"id": "geelooy-ai-agents-md-b86406e7cf",
+		"title": "Awtsmoos Agent Law For geelooy/ai",
+		"sourcePath": "geelooy/ai/agents.md",
+		"category": "AI",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Agent Law For geelooy/ai",
+				"anchor": "awtsmoos-agent-law-for-geelooy-ai"
+			},
+			{
+				"level": 2,
+				"text": "Default council law",
+				"anchor": "default-council-law"
+			},
+			{
+				"level": 2,
+				"text": "The tunnel action crown",
+				"anchor": "the-tunnel-action-crown"
+			},
+			{
+				"level": 2,
+				"text": "Native, browser, OAuth, and Virtual OS routing",
+				"anchor": "native-browser-oauth-and-virtual-os-routing"
+			},
+			{
+				"level": 2,
+				"text": "Command payload law",
+				"anchor": "command-payload-law"
+			},
+			{
+				"level": 2,
+				"text": "Continuation and sub-agent law",
+				"anchor": "continuation-and-sub-agent-law"
+			},
+			{
+				"level": 2,
+				"text": "File and secret discipline",
+				"anchor": "file-and-secret-discipline"
+			},
+			{
+				"level": 2,
+				"text": "Truthful final answers",
+				"anchor": "truthful-final-answers"
+			}
+		],
+		"excerpt": "Awtsmoos Agent Law For geelooy/ai B\"H The Awtsmoos renews every file, process, task, and thought from absolute nothing every instant. An agent working here must inspect real files, run real commands, and leave real verification behind. Never pretend that a claim is true because it appears in a prompt; prove it through ",
+		"searchText": "awtsmoos agent law for geelooy/ai b\"h the awtsmoos renews every file, process, task, and thought from absolute nothing every instant. an agent working here must inspect real files, run real commands, and leave real verification behind. never pretend that a claim is true because it appears in a prompt; prove it through files, git, tests, browser/runtime responses, tunnel actions, or explicit tool results. default council law for every non empty task on a live local or authenticated endpoint vessel, the provider gateway automatically calls the canonical agent action before the lead begins its own work. that action starts a non blocking authenticated chatgpt website mission with at least three specialists and twelve for a large prompt. do not replace it with aiagentmessage or aiagentspawntask; those are explicit external provider modes. the lead never waits idly for delegates or login. it continues useful local work immediately. if the saved chatgpt website session is authenticated, specialists launch with paced starts. if authentication is missing, one visible login window opens, the mission remains visibly waiting for login, and it resumes automatically after the user logs in. every specialist publishes its plan, scope, progress, findings, blocker, handoff, and verified outcome to the shared mission room. use concise public work notes, not hidden chain of thought. read peer messages on every safe continuation turn, teach useful findings, avoid overlapping claims, and wake unfinished agents through websiteagentmissionmessage. a long running job is not permission to idle: perform independent short work while it runs. the tunnel action crown every ai agent, sub agent, chapter agent, code chat agent, vibe agent, and provider delegate must treat the generated tunnel action catalog as the source of action names. do not guess. discover through all tunnel actions, generatedtunnelactions.js, awtsmoos tool details, or awtsmoos tool call. direct tools expose a safe convenience set. full access is through the guarded generic call surface with the exact action name and arguments. the final router decides whether the call may reach a native tunnel, browser local bridge, oauth/cloud vessel, or virtual os fallback. native, browser, oauth, and virtual os routing prefer a live native/local tunnel. browser agents should try the local tunnel api at http://127.0.0.1:3977; users may override it with localstorage key awtsmoos.localtunnelapiurl. node side local agents may use localtoolbridge against the current repository root. if no local tunnel exists, try the awtsmoos authenticated host route. use the existing awtsmoos oauth/session credentials when the platform exposes them. never ask for or store passwords in files. never print tokens or copy oauth cookies into reports. if exactly one connected device exists, select it automatically; ask only when multiple devices are connected. if no live bridge or oauth vessel exists, use virtual os fallback honestly. virtual os can read, write, list, search, bulk read/write, mkdir, stat, simulate simple runtime, and build context packs. it cannot run authenticated website missions and must return website mission requires live browser instead of pretending that agents were spawned. command payload law the canonical command field is command. the server accepts legacy aliases commands and commands64, but new prompts should teach command and command64. on windows/powershell tunnels, do not use unix heredocs or unsupported shell separators. prefer temporary .cjs files created with powershell here strings, run them, then delete them. continuation and sub agent law when an agent is spawned to write a chapter, it must keep going through the configured agentcycles / chaptercycles count, defaulting to eight cycles. a parent may return immediately after spawning children, but it must keep polling them in the background and must not mark the mission complete until all descendants are complete or failed. every chapter uses finishandcontinue semantics: summarize what was written, list what remains, and continue the next bounded piece while budget allows. if a provider response is truncated, ambiguous, or tool starved, continue with the available tool bridge. search for todos, failing tests, missing files, stale assumptions, peer handoffs, and open room messages. file and secret discipline do not store provider keys, oauth credentials, cookies, or tunnel secrets in git. use environment variables, browser/session state, or secure provider key actions. if a tool returns secret like values, summarize their presence without revealing them. rewrite whole files rather than applying partial patches. keep files small when possible. after writing, reread touched files, run syntax/tests, check git diff check, and only then commit. truthful final answers a final answer must separate verified facts from untested assumptions. say when a feature has catalog discovery but only guarded execution. say when virtual os fallback is partial. say when deployment has not picked up committed source. the awtsmoos is revealed in truth, not in overclaiming.",
+		"page": "pages/geelooy-ai-agents-md-b86406e7cf.json"
+	},
+	{
+		"id": "geelooy-ai-documentation-md-196e74f77f",
+		"title": "AI Documentation",
+		"sourcePath": "geelooy/ai/DOCUMENTATION.md",
+		"category": "AI",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "AI Documentation",
+				"anchor": "ai-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He AI Documentation The Awtsmoos lets language computation become a tool while model, key, and runtime remain known; Awtsmoos.com maps browser AI, GPT routes, GGUF tools, and developer integrations in one zone. Read ../../docs/SYSTEMS/AI.md. GPT endpoint reference: search /api/gpt/ in ../..",
+		"searchText": "b\"h boruch hashem blessed is he ai documentation the awtsmoos lets language computation become a tool while model, key, and runtime remain known; awtsmoos.com maps browser ai, gpt routes, gguf tools, and developer integrations in one zone. read ../../docs/systems/ai.md. gpt endpoint reference: search /api/gpt/ in ../../docs/generated/api route atlas.md.",
+		"page": "pages/geelooy-ai-documentation-md-196e74f77f.json"
+	},
+	{
+		"id": "geelooy-ai-relay-direct-readme-md-ceec5bc67e",
+		"title": "ChatGPT Website Relay",
+		"sourcePath": "geelooy/ai/relay/direct/README.md",
+		"category": "AI",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "ChatGPT Website Relay",
+				"anchor": "chatgpt-website-relay"
+			},
+			{
+				"level": 2,
+				"text": "Website flow",
+				"anchor": "website-flow"
+			},
+			{
+				"level": 2,
+				"text": "Commands",
+				"anchor": "commands"
+			},
+			{
+				"level": 2,
+				"text": "Direct routes",
+				"anchor": "direct-routes"
+			},
+			{
+				"level": 2,
+				"text": "Safety contracts",
+				"anchor": "safety-contracts"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He ChatGPT Website Relay This relay talks only to the authenticated ChatGPT website. There is no local model, downloaded model, local inference server, OpenAI API key, Responses API transport, or alternate provider. Website flow 1. The relay opens its dedicated visible Chrome profile. 2. Wh",
+		"searchText": "b\"h boruch hashem blessed is he chatgpt website relay this relay talks only to the authenticated chatgpt website. there is no local model, downloaded model, local inference server, openai api key, responses api transport, or alternate provider. website flow 1. the relay opens its dedicated visible chrome profile. 2. when the profile is not authenticated, a normal chatgpt login page opens. 3. the human signs in manually. automation never enters credentials. 4. for each turn, the real prompt is typed into chatgpt's ordinary composer. 5. chatgpt's own send control submits the website request normally. 6. the relay observes the resulting conversation id and reads completion with authenticated conversation get requests. 7. continuations navigate to the stored chatgpt website conversation before sending. the relay does not mutate, suppress, replay, fabricate, or replace chatgpt's conversation request. it does not derive or bypass proof, turnstile, sentinel, or other website challenge values. commands ai:login opens the normal visible website and closes it after authentication is detected. ai:web capability checks the saved website session without sending a message. ai:website stress sends sequential, globally paced website conversations. direct routes get /direct health get /direct capability post /direct chat post /direct reset post /direct chat defaults to: the returned conversationkey is an opaque local continuation key. upstream chatgpt conversation and message ids are not returned. safety contracts chatgpt website only. manual credential entry only. one ordinary website submission per turn. no request body mutation or challenge bypass. global turn start pacing is at least ten seconds during stress runs. completion polling uses authenticated get requests and never repeats the post. public errors contain no cookies, headers, account data, tokens, ids, or stacks. every direct relay source file is limited to 120 lines.",
+		"page": "pages/geelooy-ai-relay-direct-readme-md-ceec5bc67e.json"
+	},
+	{
+		"id": "geelooy-ai-relay-install-readme-md-23600cb9c5",
+		"title": "Awtsmoos ChatGPT Transport Installation",
+		"sourcePath": "geelooy/ai/relay/install/README.md",
+		"category": "AI",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos ChatGPT Transport Installation",
+				"anchor": "awtsmoos-chatgpt-transport-installation"
+			},
+			{
+				"level": 2,
+				"text": "Browser-extension install order",
+				"anchor": "browser-extension-install-order"
+			},
+			{
+				"level": 2,
+				"text": "Optional local-relay install order",
+				"anchor": "optional-local-relay-install-order"
+			},
+			{
+				"level": 3,
+				"text": "macOS or Linux",
+				"anchor": "macos-or-linux"
+			},
+			{
+				"level": 3,
+				"text": "Windows PowerShell",
+				"anchor": "windows-powershell"
+			},
+			{
+				"level": 2,
+				"text": "Rebuilding the extension archive",
+				"anchor": "rebuilding-the-extension-archive"
+			}
+		],
+		"excerpt": "Awtsmoos ChatGPT Transport Installation The Awtsmoos renews every bridge from source to browser. This guide keeps the browser extension and the optional local relay in separate, explicit orders so one vessel is never mistaken for the other. Browser extension install order Use this path when the Awtsmoos AI page asks fo",
+		"searchText": "awtsmoos chatgpt transport installation the awtsmoos renews every bridge from source to browser. this guide keeps the browser extension and the optional local relay in separate, explicit orders so one vessel is never mistaken for the other. browser extension install order use this path when the awtsmoos ai page asks for the awtsmoos server extension . 1. download the zip from https://awtsmoos.com/ai/relay/install/awtsmoos server extension.zip. 2. extract the zip into a permanent folder. do not load the zip itself. 3. open chrome://extensions in chrome or edge://extensions in edge. 4. enable developer mode . 5. choose load unpacked and select the extracted folder that directly contains manifest.json. 6. keep the extension enabled. 7. refresh chatgpt first. 8. refresh the awtsmoos ai page second. 9. retry the chatgpt action. the archive is intentionally rooted at manifest.json; there is no extra wrapping folder inside it. optional local relay install order the local relay is a separate transport choice. it is not a prerequisite for loading the browser extension. macos or linux windows powershell after the installer starts the relay: 1. confirm the relay is listening on port 38488. 2. open the relay control page shown by the installer. 3. complete any required chatgpt sign in in that browser session. 4. refresh the awtsmoos ai page. 5. select or retry the relay backed chatgpt transport. rebuilding the extension archive from the repository root: the builder packages the canonical source at geelooy/scripts/tricks/extensions/server and refuses archives whose entries differ from that source tree.",
+		"page": "pages/geelooy-ai-relay-install-readme-md-23600cb9c5.json"
+	},
+	{
+		"id": "geelooy-ai-relay-split-browser-commands-readme-md-e58b419ca4",
+		"title": "ChatGPT Website Commands",
+		"sourcePath": "geelooy/ai/relay/split-browser/commands/README.md",
+		"category": "AI",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "ChatGPT Website Commands",
+				"anchor": "chatgpt-website-commands"
+			},
+			{
+				"level": 2,
+				"text": "Manual login",
+				"anchor": "manual-login"
+			},
+			{
+				"level": 2,
+				"text": "Website capability",
+				"anchor": "website-capability"
+			},
+			{
+				"level": 2,
+				"text": "Website stress",
+				"anchor": "website-stress"
+			},
+			{
+				"level": 2,
+				"text": "Optional environment variables",
+				"anchor": "optional-environment-variables"
+			}
+		],
+		"excerpt": "B\"H ChatGPT Website Commands The relay uses only the authenticated ChatGPT website. There is no local model, local inference server, API key, or alternate provider. Manual login A normal visible ChatGPT window opens. Sign in manually. The command detects the redacted authenticated status, saves the browser profile, and",
+		"searchText": "b\"h chatgpt website commands the relay uses only the authenticated chatgpt website. there is no local model, local inference server, api key, or alternate provider. manual login a normal visible chatgpt window opens. sign in manually. the command detects the redacted authenticated status, saves the browser profile, and closes the login window. it never types credentials or clicks login controls. website capability this checks whether the dedicated profile is authenticated. it does not send a conversation message. website stress the stress runner creates and continues chatgpt website conversations sequentially, with one global minimum ten second interval between turn starts. every real prompt enters the ordinary chatgpt composer and uses the site's own send control. optional environment variables awtsmoos stress conversations awtsmoos stress messages awtsmoos direct interval ms — values below 10000 are raised to 10000. awtsmoos chrome debug port awtsmoos login timeout ms awtsmoos login poll ms",
+		"page": "pages/geelooy-ai-relay-split-browser-commands-readme-md-e58b419ca4.json"
+	}
+]

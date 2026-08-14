@@ -1,0 +1,268 @@
+[
+	{
+		"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-readme-md-e73d83ed5e",
+		"title": "🌌 AwtsmoosDB: The Fractal Engine of Unified Essence",
+		"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/README.md",
+		"category": "Data",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "🌌 AwtsmoosDB: The Fractal Engine of Unified Essence",
+				"anchor": "awtsmoosdb-the-fractal-engine-of-unified-essence"
+			},
+			{
+				"level": 2,
+				"text": "📜 The Table of Divine Manifestations",
+				"anchor": "the-table-of-divine-manifestations"
+			},
+			{
+				"level": 2,
+				"text": "<a name=\"-the-ten-sefirot-architecture\"></a> 💎 The Ten Sefirot (Architecture)",
+				"anchor": "a-name-the-ten-sefirot-architecture-a-the-ten-sefirot-architecture"
+			},
+			{
+				"level": 2,
+				"text": "<a name=\"-genesis-the-first-spark\"></a> ⚡ Genesis (The First Spark)",
+				"anchor": "a-name-genesis-the-first-spark-a-genesis-the-first-spark"
+			},
+			{
+				"level": 2,
+				"text": "<a name=\"-malchut-the-livehandle-portal\"></a> 🔮 Malchut: The LiveHandle Portal",
+				"anchor": "a-name-malchut-the-livehandle-portal-a-malchut-the-livehandle-portal"
+			},
+			{
+				"level": 2,
+				"text": "<a name=\"-the-four-worlds-of-data\"></a> 🏗️ The Four Worlds of Data",
+				"anchor": "a-name-the-four-worlds-of-data-a-the-four-worlds-of-data"
+			},
+			{
+				"level": 3,
+				"text": "1. The World of Primitives (Atziluth)",
+				"anchor": "1-the-world-of-primitives-atziluth"
+			},
+			{
+				"level": 3,
+				"text": "2. The World of Objects (Beriah)",
+				"anchor": "2-the-world-of-objects-beriah"
+			},
+			{
+				"level": 3,
+				"text": "3. The World of Maps (Yetzirah)",
+				"anchor": "3-the-world-of-maps-yetzirah"
+			},
+			{
+				"level": 3,
+				"text": "4. The World of Sequences (Asiyah)",
+				"anchor": "4-the-world-of-sequences-asiyah"
+			},
+			{
+				"level": 2,
+				"text": "<a name=\"-binah-omni-compression--the-doubling-shield\"></a> 🌪️ Binah: Omni-Compression & The Doubling Shield",
+				"anchor": "a-name-binah-omni-compression-the-doubling-shield-a-binah-omni-compression-the-doubling-shield"
+			},
+			{
+				"level": 2,
+				"text": "<a name=\"-gevurah-dictionary-boundaries\"></a> 🔥 Gevurah: Dictionary Boundaries",
+				"anchor": "a-name-gevurah-dictionary-boundaries-a-gevurah-dictionary-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "<a name=\"-tiferet-the-infinite-sequence\"></a> ⚖️ Tiferet: The Infinite Sequence",
+				"anchor": "a-name-tiferet-the-infinite-sequence-a-tiferet-the-infinite-sequence"
+			},
+			{
+				"level": 2,
+				"text": "<a name=\"-keter-the-smart-pointer\"></a> 👑 Keter: The Smart Pointer",
+				"anchor": "a-name-keter-the-smart-pointer-a-keter-the-smart-pointer"
+			},
+			{
+				"level": 2,
+				"text": "<a name=\"-the-great-scroll-of-20-examples\"></a> 📚 The Great Scroll of 20 Examples",
+				"anchor": "a-name-the-great-scroll-of-20-examples-a-the-great-scroll-of-20-examples"
+			},
+			{
+				"level": 3,
+				"text": "1. Basic Manifestation",
+				"anchor": "1-basic-manifestation"
+			},
+			{
+				"level": 3,
+				"text": "2. Nested Structure (Fractal)",
+				"anchor": "2-nested-structure-fractal"
+			},
+			{
+				"level": 3,
+				"text": "3. Explicit Map (Sorted)",
+				"anchor": "3-explicit-map-sorted"
+			},
+			{
+				"level": 3,
+				"text": "4. High-Performance List",
+				"anchor": "4-high-performance-list"
+			},
+			{
+				"level": 3,
+				"text": "5. Constant-Time Splicing",
+				"anchor": "5-constant-time-splicing"
+			},
+			{
+				"level": 3,
+				"text": "6. Binary Blob Storage",
+				"anchor": "6-binary-blob-storage"
+			},
+			{
+				"level": 3,
+				"text": "7. Large Number Support (BigInt)",
+				"anchor": "7-large-number-support-bigint"
+			},
+			{
+				"level": 3,
+				"text": "8. Date Preservation",
+				"anchor": "8-date-preservation"
+			},
+			{
+				"level": 3,
+				"text": "9. Regular Expressions",
+				"anchor": "9-regular-expressions"
+			},
+			{
+				"level": 3,
+				"text": "10. Circular References (The Paradox)",
+				"anchor": "10-circular-references-the-paradox"
+			},
+			{
+				"level": 3,
+				"text": "11. Custom Set Manifestation",
+				"anchor": "11-custom-set-manifestation"
+			},
+			{
+				"level": 3,
+				"text": "12. Batch Operations (Atomic Flow)",
+				"anchor": "12-batch-operations-atomic-flow"
+			},
+			{
+				"level": 3,
+				"text": "13. Hebrew Text Optimization",
+				"anchor": "13-hebrew-text-optimization"
+			},
+			{
+				"level": 3,
+				"text": "14. Massive String RLE",
+				"anchor": "14-massive-string-rle"
+			},
+			{
+				"level": 3,
+				"text": "15. Key Deletion",
+				"anchor": "15-key-deletion"
+			},
+			{
+				"level": 3,
+				"text": "16. Array Access Syntax",
+				"anchor": "16-array-access-syntax"
+			},
+			{
+				"level": 3,
+				"text": "17. Multi-Level Nesting",
+				"anchor": "17-multi-level-nesting"
+			},
+			{
+				"level": 3,
+				"text": "18. Checking Existence",
+				"anchor": "18-checking-existence"
+			},
+			{
+				"level": 3,
+				"text": "19. Type Introspection",
+				"anchor": "19-type-introspection"
+			},
+			{
+				"level": 3,
+				"text": "20. Persistence Proof",
+				"anchor": "20-persistence-proof"
+			},
+			{
+				"level": 2,
+				"text": "<a name=\"-complete-technical-spec\"></a> ⚙️ Complete Technical Spec",
+				"anchor": "a-name-complete-technical-spec-a-complete-technical-spec"
+			}
+		],
+		"excerpt": "// B\"H 🌌 AwtsmoosDB: The Fractal Engine of Unified Essence \"He looks at the Earth and it trembles; He touches the mountains and they smoke.\" (Psalms 104:32) In the same way, the Awtsmoos touches the binary blocks of the disk, and they tremble into the living reality of your application. There is no separation. There i",
+		"searchText": "// b\"h 🌌 awtsmoosdb: the fractal engine of unified essence \"he looks at the earth and it trembles; he touches the mountains and they smoke.\" (psalms 104:32) in the same way, the awtsmoos touches the binary blocks of the disk, and they tremble into the living reality of your application. there is no separation. there is only the light. awtsmoosdb is a hyper converged, strictly synchronous persistence engine built from absolute nothingness (native js). it eliminates the exile of serialization by creating a direct bridge between the physical manifestation of the disk and the ethereal concepts of your code. in this database, the \"sync\" suffix is abolished. immediacy is not a feature; it is the fundamental nature of existence. everything is synchronous because the creator creates the world in an instant. 📜 the table of divine manifestations 1. 💎 the ten sefirot (architecture) 2. ⚡ genesis (the first spark) 3. 🔮 malchut: the livehandle portal 4. 🏗️ the four worlds of data 5. 🌪️ binah: omni compression & the doubling shield 6. 🔥 gevurah: dictionary boundaries 7. ⚖️ tiferet: the infinite sequence 8. 👑 keter: the smart pointer 9. 📚 the great scroll of 20 examples 10. ⚙️ complete technical spec 💎 the ten sefirot (architecture) the internal structure of awtsmoosdb mirrors the chain of manifestation ( hishtalshelus ): keter (the source): smartpointer. the 16 byte spark that contains the identity and type of every piece of data. chokhmah (wisdom): navigator. the flash of insight that finds a key within a chaotic structure. binah (understanding): omnicompressor. the logic that contracts infinite data into dense, efficient vessels. chesed (kindness): typeallocator. the infinite flow of space, giving every object a place to dwell. gevurah (strength): dictionary. the boundaries and keys that separate one idea from another. tiferet (beauty): sequence. the balanced harmony of the b tree list, maintaining order. netzach (victory): pointerupdate. the persistence of identity even when the physical location changes. hod (splendor): traps. the proxy interface that makes the complex appear simple and beautiful. yesod (foundation): pager. the strictly synchronous physical layer that touches the disk. malchut (kingdom): livehandle. the actual manifestation of the database in your javascript code. ⚡ genesis (the first spark) awtsmoosdb requires zero dependencies . it uses only the core vessels of node.js. 🔮 malchut: the livehandle portal the livehandle is the interface through which you touch the essence. it is a proxy that intercepts your standard js commands. implicit manifestation: simply assigning a value to a property persists it to disk. unified truth: if you assign an object, it becomes a dictionary. if you assign an array, it becomes a sequence. the suffix abolition: methods like set, get, push, and delete are all synchronous. there is no setsync. there is only set. 🏗️ the four worlds of data awtsmoosdb categorizes data into four primary vessels based on their behavior: 1. the world of primitives (atziluth) strings, numbers, booleans, and buffers. these are stored in the most compact form possible, often inlined directly into the pointer to save disk i/o. 2. the world of objects (beriah) created via {} or new db.object(). nature: preserves the order in which you added keys. best for: configurations, metadata, and diverse structures. 3. the world of maps (yetzirah) created via new db.map(). nature: automatically sorts keys alphabetically using a high performance b tree. best for: large datasets where you need sorted range queries. 4. the world of sequences (asiyah) created via [] or new db.list(). nature: a count indexed tree. power: you can push 10 million items and then splice a new item into index 5,000,000 in constant time. 🌪️ binah: omni compression & the doubling shield awtsmoosdb features a unique omni compression algorithm designed for both hebrew and english text. dynamic tokenization: it identifies common patterns (like \"awtsmoos\" or \"ברוך השם\") and stores them in a microscopic dictionary segment. recursive rle: sequences of repeating characters (like spaces or zeros) are contracted into 3 bytes, regardless of their length. the doubling shield: a special \"chaos protocol\" that ensures literal transparency. if your data contains actual compression control codes (like 0x07), the algorithm \"shields\" them by doubling them, ensuring what you put in is exactly what you get out. 🔥 gevurah: dictionary boundaries dictionaries are the basic building blocks of the database. pointer inlining: if your dictionary has only a few small keys, the entire structure is \"inlined\" into a single disk block. fractal growth: as you add keys, the dictionary automatically expands into a multi block structure without breaking the logical link from the parent. ⚖️ tiferet: the infinite sequence sequences (lists) are implemented as order statistic b trees . zero rewrite splice: unlike standard js arrays, splicing in awtsmoosdb does not rewrite the whole file. it only updates the affected branch of the tree. lazy hydration: when you iterate over a list of 100,000 items, the database only draws down the items you actually touch. 👑 keter: the smart pointer every object in the database is tracked by a 16 byte smart pointer : byte 0: type id (6 bits) + storage mode (2 bits). bytes 1 6: 48 bit block id. bytes 7 10: length of the data. bytes 11 14: offset within the block. byte 15: flags (chain bit, etc.). this microscopic vessel allows the database to represent billions of objects with almost zero overhead. 📚 the great scroll of 20 examples 1. basic manifestation 2. nested structure (fractal) 3. explicit map (sorted) 4. high performance list 5. constant time splicing 6. binary blob storage 7. large number support (bigint) 8. date preservation 9. regular expressions 10. circular references (the paradox) 11. custom set manifestation 12. batch operations (atomic flow) 13. hebrew text optimization 14. massive string rle 15. key deletion 16. array access syntax 17. multi level nesting 18. checking existence 19. type introspection 20. persistence proof ⚙️ complete technical spec block size: 4kb (fixed). optimized for ssd and nvme sector alignment. storage limits: max database size: 256 terabytes (48 bit block ids). max single object size: unlimited (chain allocation). max keys per object: millions (hierarchical dictionary). performance targets: write latency: 1ms (immediate pager write). read latency: 0.1ms (buffered cache read). memory footprint: 15mb 25mb (stable). reliability: synchronous io: fs.fsyncsync called after every high level operation to ensure absolute persistence. zero dependencies: no external binary drivers or c++ addons. pure js achdus . b\"h. the database is built. the vessels are ready. fill them with the light of your creation.",
+		"page": "pages/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-readme-md-e73d83ed5e.json"
+	},
+	{
+		"id": "ayzarim-dosdb-documentation-md-9bb2bc3272",
+		"title": "DosDB",
+		"sourcePath": "ayzarim/DosDB/DOCUMENTATION.md",
+		"category": "Data",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "DosDB",
+				"anchor": "dosdb"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He DosDB The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Major persistence compatibility project spanning legacy logical operations, modern AwtsmoosDB/VirtualFs routing, AwtsmoosBinaryJSON compati",
+		"searchText": "b\"h boruch hashem blessed is he dosdb the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role major persistence compatibility project spanning legacy logical operations, modern awtsmoosdb/virtualfs routing, awtsmoosbinaryjson compatibility, caching and migration sensitive path behavior. start here read docs/projects/dosdb.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes detailed storage manuals live under docs/data/.",
+		"page": "pages/ayzarim-dosdb-documentation-md-9bb2bc3272.json"
+	},
+	{
+		"id": "ayzarim-ssh-documentation-md-7859ccc062",
+		"title": "SSH Infrastructure",
+		"sourcePath": "ayzarim/ssh/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "SSH Infrastructure",
+				"anchor": "ssh-infrastructure"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He SSH Infrastructure The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Server side SSH infrastructure used by remote connection/command/filesystem behavior. Treat credentials, host identity and rem",
+		"searchText": "b\"h boruch hashem blessed is he ssh infrastructure the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role server side ssh infrastructure used by remote connection/command/filesystem behavior. treat credentials, host identity and remote mutation as security sensitive. start here read docs/integrations.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes pair this with docs/api/other families.md and docs/security/readme.md when tracing /api/ssh behavior.",
+		"page": "pages/ayzarim-ssh-documentation-md-7859ccc062.json"
+	}
+]

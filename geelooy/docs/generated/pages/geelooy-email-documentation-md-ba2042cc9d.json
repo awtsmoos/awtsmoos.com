@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-email-documentation-md-ba2042cc9d",
+	"title": "Email Project Documentation",
+	"sourcePath": "geelooy/email/DOCUMENTATION.md",
+	"category": "General",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Email Project Documentation",
+			"anchor": "email-project-documentation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-email-documentation-md-ba2042cc9d-001.json"
+	]
+}

@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-social-composer-reel-studio-docs-adding-a-movie-action-md-d1030cb061",
+	"title": "Adding a Movie Action",
+	"sourcePath": "geelooy/social-composer/reel-studio/docs/ADDING_A_MOVIE_ACTION.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Adding a Movie Action",
+			"anchor": "adding-a-movie-action"
+		},
+		{
+			"level": 2,
+			"text": "Field Types",
+			"anchor": "field-types"
+		},
+		{
+			"level": 2,
+			"text": "Example",
+			"anchor": "example"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-social-composer-reel-studio-docs-adding-a-movie-action-md-d1030cb061-001.json"
+	]
+}

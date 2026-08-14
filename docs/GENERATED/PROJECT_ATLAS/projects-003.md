@@ -1,0 +1,55 @@
+B"H
+Boruch Hashem
+Blessed is He
+
+# Generated Project Atlas 91–135
+
+Observed project/directory boundaries with classified file counts and local documentation status.
+
+| Path | Type | Files | Source | Tests | Assets | Generated | Local docs | Entries | Title |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| geelooy/games/Merkava | game | 120 | 86 | 31 | 0 | 0 | geelooy/games/Merkava/DOCUMENTATION.md | index.html, package.json, DOCUMENTATION.md, README.md, readme.md | Merkava — War of the Sparks |
+| geelooy/games/Nachash | game | 5 | 5 | 0 | 0 | 0 | — | index.html, main.js | Tikkun HaNachash |
+| geelooy/games/adventure | game | 1 | 1 | 0 | 0 | 0 | — | index.html | Adventure Game |
+| geelooy/games/brick-blast | game | 80 | 79 | 0 | 0 | 0 | geelooy/games/brick-blast/DOCUMENTATION.md | index.html, index.js, DOCUMENTATION.md | Brick Blast |
+| geelooy/games/cards | game | 11 | 10 | 0 | 0 | 0 | geelooy/games/cards/DOCUMENTATION.md | index.html, DOCUMENTATION.md | The Utterances — Blackjack on Awtsmoos |
+| geelooy/games/chess | game | 17 | 16 | 0 | 0 | 0 | geelooy/games/chess/DOCUMENTATION.md | index.html, main.js, DOCUMENTATION.md | Ultimate Chess AI |
+| geelooy/games/city-of-light | game | 76 | 63 | 11 | 0 | 0 | geelooy/games/city-of-light/DOCUMENTATION.md | index.html, package.json, DOCUMENTATION.md, README.md, readme.md | City of Light · The Complete Pilgrimage |
+| geelooy/games/connect4 | game | 6 | 6 | 0 | 0 | 0 | — | index.html, main.js | Connect 4 |
+| geelooy/games/dove | game | 8 | 8 | 0 | 0 | 0 | — | index.html | Noah's Dove's 🕊️ Quest ❓ for Shalom |
+| geelooy/games/emojis | game | 37 | 36 | 0 | 0 | 0 | geelooy/games/emojis/DOCUMENTATION.md | index.html, DOCUMENTATION.md | Emoji War — Neon Caption Arcade |
+| geelooy/games/kabbalah-shooter | game | 39 | 38 | 0 | 0 | 0 | geelooy/games/kabbalah-shooter/DOCUMENTATION.md | index.html, main.js, package.json, DOCUMENTATION.md | Kabbalah Infinite — The Breaking of Vessels |
+| geelooy/games/migdol | game | 12 | 11 | 0 | 0 | 0 | geelooy/games/migdol/DOCUMENTATION.md | index.html, DOCUMENTATION.md | Migdol - Kabbalah Tower Defense |
+| geelooy/games/mitzvahWorld | game | 3813 | 2516 | 953 | 0 | 53 | geelooy/games/mitzvahWorld/DOCUMENTATION.md | index.html, DOCUMENTATION.md | B&quot;H Mitzvah World — Restored River Valley |
+| geelooy/games/neshama-quest | game | 7 | 7 | 0 | 0 | 0 | — | index.html | Neshama Quest |
+| geelooy/games/nitzotz-io | game | 236 | 206 | 29 | 0 | 0 | geelooy/games/nitzotz-io/DOCUMENTATION.md | index.html, package.json, DOCUMENTATION.md | Nitzotz.io — Shlichus Adventure Metropolis |
+| geelooy/games/ohr-hagnuz | game | 790 | 697 | 89 | 0 | 0 | geelooy/games/ohr-hagnuz/DOCUMENTATION.md | index.html, package.json, DOCUMENTATION.md | B&quot;H — Ohr HaGnuz: The Concealed Frontier |
+| geelooy/games/party | game | 16 | 15 | 0 | 0 | 0 | geelooy/games/party/DOCUMENTATION.md | index.html, DOCUMENTATION.md | Party Challenge — Awtsmoos Games |
+| geelooy/games/pong | game | 7 | 7 | 0 | 0 | 0 | — | index.html | Pong Game |
+| geelooy/games/rambam | game | 1 | 1 | 0 | 0 | 0 | — | — | — |
+| geelooy/games/rebbe-runner | game | 4 | 4 | 0 | 0 | 0 | — | index.html | The Rebbe's Runner |
+| geelooy/games/scribe-journey | game | 476 | 375 | 99 | 0 | 0 | geelooy/games/scribe-journey/DOCUMENTATION.md | index.html, DOCUMENTATION.md | The Scribe's Journey: Echoes of Ein Sof |
+| geelooy/games/scripts | game | 77 | 70 | 0 | 0 | 4 | geelooy/games/scripts/DOCUMENTATION.md | DOCUMENTATION.md | — |
+| geelooy/games/sefira-clash | game | 1316 | 1273 | 40 | 0 | 0 | geelooy/games/sefira-clash/DOCUMENTATION.md | index.html, package.json, DOCUMENTATION.md | Sefira Clash · Open World, Expedition, Co-op, Adventure &amp; VS |
+| geelooy/games/seven-mitzvos | game | 523 | 446 | 65 | 1 | 0 | geelooy/games/seven-mitzvos/DOCUMENTATION.md | index.html, package.json, DOCUMENTATION.md | Seven Mitzvos · Living Material Worlds |
+| geelooy/games/shema-strike | game | 173 | 149 | 21 | 0 | 0 | geelooy/games/shema-strike/DOCUMENTATION.md | index.html, package.json, DOCUMENTATION.md | Shema Strike: Gates of Light |
+| geelooy/games/soul-jump | game | 2 | 2 | 0 | 0 | 0 | — | index.html, main.js | Ein Sof Ascent |
+| geelooy/games/styles | game | 13 | 12 | 0 | 0 | 0 | geelooy/games/styles/DOCUMENTATION.md | DOCUMENTATION.md | — |
+| geelooy/games/sulam-ha-sod | game | 167 | 152 | 14 | 0 | 0 | geelooy/games/sulam-ha-sod/DOCUMENTATION.md | index.html, DOCUMENTATION.md | Sulam HaSod |
+| geelooy/games/tests | game | 14 | 0 | 13 | 0 | 0 | geelooy/games/tests/DOCUMENTATION.md | DOCUMENTATION.md | — |
+| geelooy/games/tetris | game | 8 | 8 | 0 | 0 | 0 | — | index.html, main.js | Tikkun HaOlam - The Final Rectification |
+| geelooy/geelooy | project | 5 | 1 | 3 | 0 | 0 | — | — | — |
+| geelooy/heichel | project | 1 | 1 | 0 | 0 | 0 | — | — | — |
+| geelooy/heichel-editor | public | 16 | 14 | 1 | 0 | 0 | geelooy/heichel-editor/DOCUMENTATION.md | index.html, app.js, DOCUMENTATION.md | Heichel Editor — Geelooy |
+| geelooy/heichel-review | public | 30 | 26 | 2 | 0 | 0 | geelooy/heichel-review/DOCUMENTATION.md | index.html, DOCUMENTATION.md, README.md, readme.md | Heichel Review and Governance Center |
+| geelooy/heichelos | project | 980 | 858 | 119 | 0 | 0 | geelooy/heichelos/DOCUMENTATION.md | _awtsmoos.derech.js, DOCUMENTATION.md | — |
+| geelooy/legal | project | 6 | 6 | 0 | 0 | 0 | — | — | — |
+| geelooy/libs | library | 2057 | 1905 | 132 | 0 | 0 | geelooy/libs/DOCUMENTATION.md | DOCUMENTATION.md | — |
+| geelooy/login | public | 1 | 1 | 0 | 0 | 0 | — | index.html | Login with Awtsmoos |
+| geelooy/logout | public | 1 | 1 | 0 | 0 | 0 | — | index.html | — |
+| geelooy/mawgawl | public | 42 | 37 | 4 | 0 | 0 | geelooy/mawgawl/DOCUMENTATION.md | index.html, DOCUMENTATION.md | — |
+| geelooy/node-os | public | 2 | 2 | 0 | 0 | 0 | — | index.html, app.js | Awtsmoos Node OS |
+| geelooy/notifications | public | 11 | 9 | 1 | 0 | 0 | geelooy/notifications/DOCUMENTATION.md | index.html, app.js, DOCUMENTATION.md | Signals — Geelooy |
+| geelooy/ocr | public | 1 | 1 | 0 | 0 | 0 | — | index.html | — |
+| geelooy/os | public | 444 | 417 | 25 | 0 | 0 | geelooy/os/DOCUMENTATION.md | index.html, DOCUMENTATION.md | Geelooy OS — Files, AwtsmoosDB, Runtime & Control |
+| geelooy/parsers | project | 1 | 1 | 0 | 0 | 0 | — | — | — |

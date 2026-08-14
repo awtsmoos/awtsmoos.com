@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-learn-http-routing-101-md-8c0aeafff5",
+	"title": "HTTP Routing 101",
+	"sourcePath": "docs/LEARN/HTTP_ROUTING_101.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "HTTP Routing 101",
+			"anchor": "http-routing-101"
+		},
+		{
+			"level": 2,
+			"text": "What you will learn",
+			"anchor": "what-you-will-learn"
+		},
+		{
+			"level": 2,
+			"text": "Derech discovery",
+			"anchor": "derech-discovery"
+		},
+		{
+			"level": 2,
+			"text": "Matching grammar",
+			"anchor": "matching-grammar"
+		},
+		{
+			"level": 2,
+			"text": "Request flow",
+			"anchor": "request-flow"
+		},
+		{
+			"level": 2,
+			"text": "Evidence versus runtime",
+			"anchor": "evidence-versus-runtime"
+		},
+		{
+			"level": 2,
+			"text": "Try a trace",
+			"anchor": "try-a-trace"
+		}
+	],
+	"markdownParts": [
+		"content/docs-learn-http-routing-101-md-8c0aeafff5-001.json"
+	]
+}

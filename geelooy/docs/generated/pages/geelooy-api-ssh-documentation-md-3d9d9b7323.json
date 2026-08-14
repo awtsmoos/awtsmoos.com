@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-ssh-documentation-md-3d9d9b7323",
+	"title": "SSH API Documentation",
+	"sourcePath": "geelooy/api/ssh/DOCUMENTATION.md",
+	"category": "API",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "SSH API Documentation",
+			"anchor": "ssh-api-documentation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-ssh-documentation-md-3d9d9b7323-001.json"
+	]
+}

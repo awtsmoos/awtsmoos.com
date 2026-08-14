@@ -1,0 +1,258 @@
+[
+	{
+		"id": "docs-generated-api-tutorials-routes-api-youtube-uploads-start-9d5f4138cd-bd51518496",
+		"title": "API Tutorial: /api/youtube/uploads/start",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-uploads-start-9d5f4138cd.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/youtube/uploads/start",
+				"anchor": "api-tutorial-api-youtube-uploads-start"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/uploads/start Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/routes/table.js · Discovery: route table · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not an",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/uploads/start family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/routes/table.js · discovery: route table · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-uploads-start-9d5f4138cd-bd51518496.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-youtube-videos-53702b8520-md-3a7a20a296",
+		"title": "API Tutorial: /api/youtube/videos",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-videos-53702b8520.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/youtube/videos",
+				"anchor": "api-tutorial-api-youtube-videos"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/videos Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/routes/table.js · Discovery: route table · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not an OpenAP",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/videos family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/routes/table.js · discovery: route table · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-videos-53702b8520-md-3a7a20a296.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-youtube-videos-list-0c5f0e2ea2-m-2fc9fa04d5",
+		"title": "API Tutorial: /api/youtube/videos/list",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-videos-list-0c5f0e2ea2.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/youtube/videos/list",
+				"anchor": "api-tutorial-api-youtube-videos-list"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/videos/list Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/routes/table.js · Discovery: route table · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not an O",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/videos/list family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/routes/table.js · discovery: route table · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-videos-list-0c5f0e2ea2-m-2fc9fa04d5.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-youtube-videos-update-d8820be806-e0ae811085",
+		"title": "API Tutorial: /api/youtube/videos/update",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-videos-update-d8820be806.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/youtube/videos/update",
+				"anchor": "api-tutorial-api-youtube-videos-update"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/videos/update Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/routes/table.js · Discovery: route table · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not an",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/videos/update family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/routes/table.js · discovery: route table · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-videos-update-d8820be806-e0ae811085.json"
+	},
+	{
+		"id": "docs-generated-app-inventory-md-9aeb57a0c8",
+		"title": "Generated App Inventory",
+		"sourcePath": "docs/GENERATED/APP_INVENTORY.md",
+		"category": "General",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated App Inventory",
+				"anchor": "generated-app-inventory"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated App Inventory App Files HTML title Has index.html android emulator 1420 no animator 2601 Awtsmoos Park Engine — B\"H yes archive uploader 3 IA//HYPER UPLOADER yes audio editor 4 Pro Audio Editor yes awtsmoos gguf 88 GGUF Chat & Metadata B\"H yes bookCoverMaker 1 Book Cover Genera",
+		"searchText": "b\"h boruch hashem blessed is he generated app inventory app files html title has index.html android emulator 1420 no animator 2601 awtsmoos park engine — b\"h yes archive uploader 3 ia//hyper uploader yes audio editor 4 pro audio editor yes awtsmoos gguf 88 gguf chat & metadata b\"h yes bookcovermaker 1 book cover generator yes broadcaster 3 yes byteviewer 4 hex viewer of the awtsmoos yes captions 68 ein sof engine [quantum core v2.5] yes code 1099 awtsmoos code yes compiler 79 awtsmoos compiler yes csv 5 awtsmoos native grid yes drive 24 awtsmoos drive yes editor 40 mitzvah world animator yes exe emulator 417 awtsmoos exe emulator yes gpt api pulse garden 1 awtsmoos pulse garden yes lyric sync 4 lyric sync engine yes merkava native browser 79 no mitzvah pushkuh 150 mitzvah pushkuh · garden of sparks yes nesher studio 542 🦅 nesher studio yes pdf to img 1 high res pdf to image converter yes piano 60 awtsmoos web synthesizer ultimate yes rebbe 126 awtsmoos archive // omega yes scripts 8 no styles 5 no tests 1 no transcribe 2 assemblyai transcription yes tunnel 1860 awtsmoos tunnel console yes tunnel control 465 awtsmoos tunnel control yes video editor 2 awtsmoos video editor chapter 7 revised yes virtual os stress light counter 1 light counter yes wallet 18 awtsmoos wallet — perutah treasury yes watermark remover 1 svg mask alpha brute force yes",
+		"page": "pages/docs-generated-app-inventory-md-9aeb57a0c8.json"
+	},
+	{
+		"id": "docs-generated-derech-health-md-ff777e6f85",
+		"title": "Generated Derech Syntax Health",
+		"sourcePath": "docs/GENERATED/DERECH_HEALTH.md",
+		"category": "General",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated Derech Syntax Health",
+				"anchor": "generated-derech-syntax-health"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Derech Syntax Health Derech Syntax Issue geelooy/api/ awtsmoos.derech.js OK — geelooy/api/admin/ awtsmoos.derech.js OK — geelooy/api/compiler/ awtsmoos.derech.js OK — geelooy/api/contact/ awtsmoos.derech.js OK — geelooy/api/email/ awtsmoos.derech.js OK — geelooy/api/fetch/ awts",
+		"searchText": "b\"h boruch hashem blessed is he generated derech syntax health derech syntax issue geelooy/api/ awtsmoos.derech.js ok — geelooy/api/admin/ awtsmoos.derech.js ok — geelooy/api/compiler/ awtsmoos.derech.js ok — geelooy/api/contact/ awtsmoos.derech.js ok — geelooy/api/email/ awtsmoos.derech.js ok — geelooy/api/fetch/ awtsmoos.derech.js ok — geelooy/api/gpt/ awtsmoos.derech.js ok — geelooy/api/oauth/ awtsmoos.derech.js ok — geelooy/api/ohr hagnuz/ awtsmoos.derech.js ok — geelooy/api/public/ awtsmoos.derech.js ok — geelooy/api/runtime/ awtsmoos.derech.js ok — geelooy/api/sefarim/ awtsmoos.derech.js ok — geelooy/api/social/ awtsmoos.derech.js ok — geelooy/api/ssh/ awtsmoos.derech.js ok — geelooy/api/streaming/ awtsmoos.derech.js ok — geelooy/api/text/ awtsmoos.derech.js fail unexpected token ',' geelooy/api/tunnel/ awtsmoos.derech.js ok — geelooy/api/tunnel/control/ awtsmoos.derech.js ok — geelooy/api/tunnel/install/ awtsmoos.derech.js ok — geelooy/api/wallet/ awtsmoos.derech.js ok — geelooy/api/youtube/ awtsmoos.derech.js ok —",
+		"page": "pages/docs-generated-derech-health-md-ff777e6f85.json"
+	},
+	{
+		"id": "docs-generated-derech-mounts-md-1662eb2745",
+		"title": "Generated Derech Mounts",
+		"sourcePath": "docs/GENERATED/DERECH_MOUNTS.md",
+		"category": "General",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated Derech Mounts",
+				"anchor": "generated-derech-mounts"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Derech Mounts Mount Derech file /api geelooy/api/ awtsmoos.derech.js /api/admin geelooy/api/admin/ awtsmoos.derech.js /api/compiler geelooy/api/compiler/ awtsmoos.derech.js /api/contact geelooy/api/contact/ awtsmoos.derech.js /api/email geelooy/api/email/ awtsmoos.derech.js /ap",
+		"searchText": "b\"h boruch hashem blessed is he generated derech mounts mount derech file /api geelooy/api/ awtsmoos.derech.js /api/admin geelooy/api/admin/ awtsmoos.derech.js /api/compiler geelooy/api/compiler/ awtsmoos.derech.js /api/contact geelooy/api/contact/ awtsmoos.derech.js /api/email geelooy/api/email/ awtsmoos.derech.js /api/fetch geelooy/api/fetch/ awtsmoos.derech.js /api/gpt geelooy/api/gpt/ awtsmoos.derech.js /api/oauth geelooy/api/oauth/ awtsmoos.derech.js /api/ohr hagnuz geelooy/api/ohr hagnuz/ awtsmoos.derech.js /api/public geelooy/api/public/ awtsmoos.derech.js /api/runtime geelooy/api/runtime/ awtsmoos.derech.js /api/sefarim geelooy/api/sefarim/ awtsmoos.derech.js /api/social geelooy/api/social/ awtsmoos.derech.js /api/ssh geelooy/api/ssh/ awtsmoos.derech.js /api/streaming geelooy/api/streaming/ awtsmoos.derech.js /api/text geelooy/api/text/ awtsmoos.derech.js /api/tunnel geelooy/api/tunnel/ awtsmoos.derech.js /api/tunnel/control geelooy/api/tunnel/control/ awtsmoos.derech.js /api/tunnel/install geelooy/api/tunnel/install/ awtsmoos.derech.js /api/wallet geelooy/api/wallet/ awtsmoos.derech.js /api/youtube geelooy/api/youtube/ awtsmoos.derech.js",
+		"page": "pages/docs-generated-derech-mounts-md-1662eb2745.json"
+	},
+	{
+		"id": "docs-generated-documentation-coverage-md-e185f0c7c0",
+		"title": "Generated Documentation Coverage",
+		"sourcePath": "docs/GENERATED/DOCUMENTATION_COVERAGE.md",
+		"category": "General",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated Documentation Coverage",
+				"anchor": "generated-documentation-coverage"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Documentation Coverage Observed project boundaries and whether a local human breadcrumb is required and present. 163 rows. Chunk Rows Count documentation coverage 001.md 1–60 60 documentation coverage 002.md 61–120 60 documentation coverage 003.md 121–163 43",
+		"searchText": "b\"h boruch hashem blessed is he generated documentation coverage observed project boundaries and whether a local human breadcrumb is required and present. 163 rows. chunk rows count documentation coverage 001.md 1–60 60 documentation coverage 002.md 61–120 60 documentation coverage 003.md 121–163 43",
+		"page": "pages/docs-generated-documentation-coverage-md-e185f0c7c0.json"
+	}
+]

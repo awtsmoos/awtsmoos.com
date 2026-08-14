@@ -1,0 +1,197 @@
+[
+	{
+		"id": "docs-routes-dynamic-paths-md-dbebabb93e",
+		"title": "Dynamic Paths and Dollar Variables",
+		"sourcePath": "docs/ROUTES/DYNAMIC_PATHS.md",
+		"category": "Routes",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Dynamic Paths and Dollar Variables",
+				"anchor": "dynamic-paths-and-dollar-variables"
+			},
+			{
+				"level": 2,
+				"text": "The actual URL parameter grammar",
+				"anchor": "the-actual-url-parameter-grammar"
+			},
+			{
+				"level": 3,
+				"text": "Single segment",
+				"anchor": "single-segment"
+			},
+			{
+				"level": 3,
+				"text": "Catch-all",
+				"anchor": "catch-all"
+			},
+			{
+				"level": 2,
+				"text": "The dollar-sign question",
+				"anchor": "the-dollar-sign-question"
+			},
+			{
+				"level": 2,
+				"text": "Leading and trailing slashes",
+				"anchor": "leading-and-trailing-slashes"
+			},
+			{
+				"level": 2,
+				"text": "Derech mounting",
+				"anchor": "derech-mounting"
+			},
+			{
+				"level": 2,
+				"text": "Generated parameter list",
+				"anchor": "generated-parameter-list"
+			},
+			{
+				"level": 2,
+				"text": "Caveat",
+				"anchor": "caveat"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Dynamic Paths and Dollar Variables The Awtsmoos separates the path from the vessel so symbols do not deceive the eye; Awtsmoos.com uses colons for the road, while dollar names carry request data nearby. The actual URL parameter grammar ayzarim/awtsmoosDynamicServer/routing/dynamicRouteMa",
+		"searchText": "b\"h boruch hashem blessed is he dynamic paths and dollar variables the awtsmoos separates the path from the vessel so symbols do not deceive the eye; awtsmoos.com uses colons for the road, while dollar names carry request data nearby. the actual url parameter grammar ayzarim/awtsmoosdynamicserver/routing/dynamicroutematcher.js defines the route grammar observed in this checkout. single segment a route part beginning with : captures one url segment. examples from the api surface: /api/sefarim/:sefer /api/tunnel/control/blob/:blobid /api/ssh/connect/:username/:host social routes containing :alias, :heichelid, :postid, :seriesid, or :commentid the captured values are published as route variables. catch all a terminal part of the form :name captures the remaining path. the matcher requires a catch all to be last. the dollar sign question a filesystem search found no route files whose names require a $ path convention. in the inspected derech code, dollar prefixed names serve a different purpose: $i — request/server context vessel. $ get — parsed query/input data. $ post — parsed submitted body data. $ delete — parsed delete oriented input where used. $u — commonly a user/identity object in some modules. therefore do not translate a route like :alias into $alias . they are different layers. leading and trailing slashes routing/routeforms.js normalizes route aliases with common leading/trailing slash forms. this is why route tables may store keys such as balance while the mounted public route is documented as /api/wallet/balance. derech mounting the derech file is not itself a visible url filename. its directory determines the mount context. for example: geelooy/api/gpt/ awtsmoos.derech.js → /api/gpt/... geelooy/api/tunnel/control/ awtsmoos.derech.js → /api/tunnel/control/... generated parameter list see ../generated/dynamic parameter inventory.md for every parameterized route row discovered by the current generator. caveat a textually discoverable route is not necessarily healthy. geelooy/api/text/ awtsmoos.derech.js currently has a syntax error, so its patterns must be treated as source evidence, not verified runtime availability.",
+		"page": "pages/docs-routes-dynamic-paths-md-dbebabb93e.json"
+	},
+	{
+		"id": "docs-routes-public-routes-md-cad4e6c9b9",
+		"title": "Major Public Routes",
+		"sourcePath": "docs/ROUTES/PUBLIC_ROUTES.md",
+		"category": "Routes",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Major Public Routes",
+				"anchor": "major-public-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Major Public Routes The Awtsmoos clothes one light in many pages, each doorway shaped for a different need; Awtsmoos.com gives a human the route first, then the source where that doorway is made to lead. Because geelooy is the default public root, these directory to URL mappings are the ",
+		"searchText": "b\"h boruch hashem blessed is he major public routes the awtsmoos clothes one light in many pages, each doorway shaped for a different need; awtsmoos.com gives a human the route first, then the source where that doorway is made to lead. because geelooy is the default public root, these directory to url mappings are the natural first lookup. dynamic behavior may still modify a request. url family source human purpose / geelooy/index.html main public entry /about geelooy/about/ about geelooy /contact geelooy/contact/ contact ui /login geelooy/login/ login /logout geelooy/logout/ logout /register geelooy/register/ account creation /profile geelooy/profile/ profile /social geelooy/social/ social hub launcher/surface /social hub geelooy/social hub/ rich social hub /social composer geelooy/social composer/ post creation /comment thread geelooy/comment thread/ comment thread ui /notifications geelooy/notifications/ signals/notifications /heichelos geelooy/heichelos/ heichel browsing/apps /heichel editor geelooy/heichel editor/ heichel editor /heichel review geelooy/heichel review/ review/governance center /post editor geelooy/post editor/ post editor /os geelooy/os/ geelooy os /node os geelooy/node os/ awtsmoos node os /apps geelooy/apps/ application catalog /games geelooy/games/ game/world catalog /game geelooy/game/ game launch/redirect surface /ai geelooy/ai/ awtsmoos ai /youtube geelooy/youtube/ youtube manager /record geelooy/record/ camera preview/recording /recorder geelooy/recorder/ local recorder /ayin geelooy/ayin/ real awtsmoos recorder /email geelooy/email/ mail ui /db geelooy/db/ db console/explorer /editor geelooy/editor/ editor surface /control geelooy/control/ code control panel /ocr geelooy/ocr/ ocr related ui /reeyuh geelooy/reeyuh/ shulchan aruch viewer /mawgawl geelooy/mawgawl/ sefarim oriented surface /legal geelooy/legal/ legal/privacy/terms /donate geelooy/donate/ donation surface for every immediate directory, file count, title, and index.html presence, use ../generated/public route inventory.md.",
+		"page": "pages/docs-routes-public-routes-md-cad4e6c9b9.json"
+	},
+	{
+		"id": "docs-routes-readme-md-8ea0afd4f4",
+		"title": "Routes",
+		"sourcePath": "docs/ROUTES/README.md",
+		"category": "Routes",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Routes",
+				"anchor": "routes"
+			},
+			{
+				"level": 2,
+				"text": "Public filesystem routes",
+				"anchor": "public-filesystem-routes"
+			},
+			{
+				"level": 2,
+				"text": "Dynamic/API routes",
+				"anchor": "dynamic-api-routes"
+			},
+			{
+				"level": 2,
+				"text": "Dynamic parameters",
+				"anchor": "dynamic-parameters"
+			},
+			{
+				"level": 2,
+				"text": "URL lookup workflow",
+				"anchor": "url-lookup-workflow"
+			},
+			{
+				"level": 2,
+				"text": "Do not confuse these three things",
+				"anchor": "do-not-confuse-these-three-things"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Routes The Awtsmoos sends a path through filesystem and derech, both visible and concealed; Awtsmoos.com becomes navigable when URL, parameter, and source are all revealed. This section explains how to travel from a browser URL to the source that serves it. Public filesystem routes The d",
+		"searchText": "b\"h boruch hashem blessed is he routes the awtsmoos sends a path through filesystem and derech, both visible and concealed; awtsmoos.com becomes navigable when url, parameter, and source are all revealed. this section explains how to travel from a browser url to the source that serves it. public filesystem routes the dynamic server's default public root is geelooy. therefore a public url such as /login, /os, /apps/code, or /games/... normally begins by resolving inside the corresponding geelooy/... path. directory index.html files are common entry points, but dynamic derech behavior can intercept or augment a request. use public routes.md for major human facing areas and ../generated/public route inventory.md for the immediate directory inventory. dynamic/api routes derech files named awtsmoos.derech.js are discovered by walking upward from the request's physical path. a derech can return route definitions with exact path strings or colon parameters. api mounts are inventoried in ../generated/derech mounts.md. dynamic parameters :name matches exactly one segment. a terminal :name captures the remainder. catch all parameters must be the final route part. dollar prefixed request variables are not url syntax. read dynamic paths.md for the exact distinction. url lookup workflow 1. if the url starts with /api/, search ../generated/api route atlas.md. 2. otherwise map its first segment to geelooy/ /. 3. look for index.html, client scripts, and nested directories. 4. search ancestors for awtsmoos.derech.js if behavior is dynamic. 5. if the feature uses websockets, also inspect ayzarim/awtsmoosdynamicserver/websocket/. 6. use url to source.md for common examples. do not confuse these three things filesystem url path — source location under public geelooy/. derech route pattern — an exact or colon parameterized dynamic handler. request data vessel — $i, $ get, $ post, $ delete, headers, cookies, body, or auth state.",
+		"page": "pages/docs-routes-readme-md-8ea0afd4f4.json"
+	},
+	{
+		"id": "docs-routes-url-to-source-md-a765505c6a",
+		"title": "URL to Source",
+		"sourcePath": "docs/ROUTES/URL_TO_SOURCE.md",
+		"category": "Routes",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "URL to Source",
+				"anchor": "url-to-source"
+			},
+			{
+				"level": 2,
+				"text": "General rule",
+				"anchor": "general-rule"
+			},
+			{
+				"level": 2,
+				"text": "API URL lookup",
+				"anchor": "api-url-lookup"
+			},
+			{
+				"level": 2,
+				"text": "Root-direct exception",
+				"anchor": "root-direct-exception"
+			},
+			{
+				"level": 2,
+				"text": "WebSocket exception",
+				"anchor": "websocket-exception"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He URL to Source The Awtsmoos lets the visible address point back toward the hidden file; Awtsmoos.com gives this lookup so a maintainer can cross the distance in a little while. General rule The server's default public root is geelooy. For a non API URL, begin by joining the URL path benea",
+		"searchText": "b\"h boruch hashem blessed is he url to source the awtsmoos lets the visible address point back toward the hidden file; awtsmoos.com gives this lookup so a maintainer can cross the distance in a little while. general rule the server's default public root is geelooy. for a non api url, begin by joining the url path beneath geelooy/. then inspect index.html, scripts, nested files, and any ancestor awtsmoos.derech.js. url first source location additional system /os geelooy/os/ geelooy/shared/virtual os, platform modules /apps/code geelooy/apps/code/ compiler/runtime/tunnel apis as used /apps/tunnel control geelooy/apps/tunnel control/ /api/tunnel/control/ , shared tunnel /apps/tunnel geelooy/apps/tunnel/ /api/tunnel/ /apps/wallet geelooy/apps/wallet/ /api/wallet/ /youtube geelooy/youtube/ /api/youtube/ /profile geelooy/profile/ /api/social/ /heichelos/... geelooy/heichelos/ /api/social/ /social hub geelooy/social hub/ /api/social/ /games/... geelooy/games/... possible websocket server apps /db geelooy/db/ dosdb runtime /ai geelooy/ai/ /api/gpt/ api url lookup search ../generated/api route atlas.md. each row includes the url pattern, source file, and discovery method. examples: /api/gpt/health → gpt derech. /api/wallet/balance → wallet route table. /api/tunnel/control/my device → tunnel control route table. /api/tunnel/install/windows → tunnel installer derech. /api/ssh/connect/:username/:host → ssh derech. root direct exception /mitzvahworld/autoplay ping, /mitzvahworld/autoplay report, and /api/mitzvahworld/autoplay report are handled directly in root index.js before generic dynamic server dispatch. see ../api/direct root handlers.md. websocket exception a url or ticket flow that upgrades to websocket may continue in ayzarim/awtsmoosdynamicserver/websocket/ rather than an ordinary derech response. mission rooms and some game systems are examples of this second runtime plane.",
+		"page": "pages/docs-routes-url-to-source-md-a765505c6a.json"
+	},
+	{
+		"id": "docs-security-readme-md-19893eb549",
+		"title": "Security and Trust Boundaries",
+		"sourcePath": "docs/SECURITY/README.md",
+		"category": "Security",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Security and Trust Boundaries",
+				"anchor": "security-and-trust-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Canonical session covenant",
+				"anchor": "canonical-session-covenant"
+			},
+			{
+				"level": 2,
+				"text": "Trusted identity sources",
+				"anchor": "trusted-identity-sources"
+			},
+			{
+				"level": 2,
+				"text": "Authentication versus authorization",
+				"anchor": "authentication-versus-authorization"
+			},
+			{
+				"level": 2,
+				"text": "Security manuals",
+				"anchor": "security-manuals"
+			},
+			{
+				"level": 2,
+				"text": "Evidence rule",
+				"anchor": "evidence-rule"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Security and Trust Boundaries The Awtsmoos renews every request and every identity; Awtsmoos.com therefore separates what the server knows from what a browser, script, socket message, URL or provider merely claims. Canonical session covenant ayzarim/awtsmoosDynamicServer/server/authSetup",
+		"searchText": "b\"h boruch hashem blessed is he security and trust boundaries the awtsmoos renews every request and every identity; awtsmoos.com therefore separates what the server knows from what a browser, script, socket message, url or provider merely claims. canonical session covenant ayzarim/awtsmoosdynamicserver/server/authsetup.js loads one configured secret, constructs the auth verifier, installs http session middleware, and gives the same verifier plus cookie parser to the websocket layer. http and socket transports therefore share authentication machinery while parsing cookies at their own boundaries. if no configured secret exists, auth installation is skipped. if the configured secret module cannot be loaded, the inspected fallback object contains nokey: \"no security\"; treat configuration of this path as security critical deployment behavior rather than ordinary feature code. trusted identity sources different subsystems accept different authenticated evidence: signed browser session; verified social api key; oauth bearer token; verified tunnel control api key; server attached websocket client identity. a body/query field such as owner, userid, alias or accountid is not automatically identity simply because it has an identity shaped name. authentication versus authorization authentication answers who the server trusts the caller to be. authorization answers whether that identity may perform the requested action on the target resource. alias ownership, heichel editor roles, tunnel scopes/grants, mission room authority and administrative checks live above the authentication layer. security manuals trust boundaries.md — identity and authorization layers. secrets and config.md — secrets, environment names and documentation rules. realtime security.md — socket admission, identity and protocol boundaries. docs/api/authentication.md — api family authentication detail. docs/websockets/mission rooms.md — concrete pre handshake admission flow. evidence rule generated contract/header/environment indexes help locate security relevant source. they are not a security review. before changing an authorization boundary, inspect source, negative tests, current data/grants and runtime traces appropriate to the subsystem.",
+		"page": "pages/docs-security-readme-md-19893eb549.json"
+	}
+]

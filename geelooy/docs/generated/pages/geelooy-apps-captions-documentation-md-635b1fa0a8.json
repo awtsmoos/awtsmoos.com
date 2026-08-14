@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-captions-documentation-md-635b1fa0a8",
+	"title": "Captions App Documentation",
+	"sourcePath": "geelooy/apps/captions/DOCUMENTATION.md",
+	"category": "Apps",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Captions App Documentation",
+			"anchor": "captions-app-documentation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-captions-documentation-md-635b1fa0a8-001.json"
+	]
+}

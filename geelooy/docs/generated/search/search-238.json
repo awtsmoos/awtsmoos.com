@@ -1,0 +1,255 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-assets-directory-guide-md-67aadb8dcf",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/assets/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: assets",
+				"anchor": "directory-guide-assets"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 3 structural child directories Purpose Runtime consumable models, textures, and material libraries. The Awtsmoos renews every path and every artifact from ",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: assets role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 3 structural child directories purpose runtime consumable models, textures, and material libraries. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: assets, guide file mix: .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: . children: assets/materials assets/models assets/textures related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. player, creature, horse, enemy, and experimental mesh systems — actor assets and world side populations span player hydration, creature generators, enemies, horses, and experimental animal meshes. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-assets-directory-guide-md-67aadb8dcf.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-assets-materials-directory-guide-md-e4d190e3ad",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: assets/materials",
+				"anchor": "directory-guide-assets-materials"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 2 structural child directories Purpose Material and surface asset collections used to dress terrain, vegetation, and world geometry. The Awtsmoos",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 2 structural child directories purpose material and surface asset collections used to dress terrain, vegetation, and world geometry. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: assets, guide, materials file mix: .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: assets children: assets/materials/generated assets/materials/local related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-assets-materials-directory-guide-md-e4d190e3ad.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-assets-materials-generated-catalog-directory--3a9a3aebd9",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/generated/catalog/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: assets/materials/generated/catalog",
+				"anchor": "directory-guide-assets-materials-generated-catalog"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/generated/catalog Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose Generated material catalog metadata for programmatic lookup. The Awtsmoos renews every p",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/generated/catalog role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose generated material catalog metadata for programmatic lookup. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: materials, assets, catalog, generated, guide, json file mix: .md: 1 · .json: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files materials.json — a .json artifact in this directory. directory map parent: assets/materials/generated children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. boundaries and cautions generated assets should normally be changed through their source or generator, not edited as the first choice. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-assets-materials-generated-catalog-directory--3a9a3aebd9.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-assets-materials-generated-directory-guide-md-4336007560",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/generated/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: assets/materials/generated",
+				"anchor": "directory-guide-assets-materials-generated"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Data keys observed",
+				"anchor": "data-keys-observed"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/generated Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 75 files, 1 structural child directories Purpose Generated material derivatives and machine produced visual assets. Treat these as outputs unles",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/generated role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 75 files, 1 structural child directories purpose generated material derivatives and machine produced visual assets. treat these as outputs unless the generating workflow says otherwise. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: svg, full, resolution, grass, forest, dirt, nature, chai, oak, textures, brick, leaves file mix: .svg: 71 · .json: 3 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files awtsmoos nature chai forest textures bark bark001 1k jpg bark001 1k jpg 296c0f5f.svg — a .svg artifact in this directory. awtsmoos nature chai forest textures ground dirt color 9f8372fe.svg — a .svg artifact in this directory. awtsmoos nature chai forest textures ground grass f5733be1.svg — a .svg artifact in this directory. awtsmoos nature chai forest textures leaves ash a2a45478.svg — a .svg artifact in this directory. awtsmoos nature chai forest textures leaves aspen 9b18519b.svg — a .svg artifact in this directory. awtsmoos nature chai forest textures leaves oak 6fc9ef51.svg — a .svg artifact in this directory. awtsmoos nature chai forest textures leaves pine 0dc70930.svg — a .svg artifact in this directory. awtsmoos nature ilanos trees sakura petal 9542c53e.svg — a .svg artifact in this directory. full resolution bluestone 1 e5ff9c01.svg — a .svg artifact in this directory. full resolution cobblestone 9961d4d5.svg — a .svg artifact in this directory. full resolution copper 1 7caccc0d.svg — a .svg artifact in this directory. full resolution cow fur 1 90616b26.svg — a .svg artifact in this directory. data keys observed assets · schema · palettes · records directory map parent: assets/materials children: assets/materials/generated/catalog related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. boundaries and cautions generated assets should normally be changed through their source or generator, not edited as the first choice. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-assets-materials-generated-directory-guide-md-4336007560.json"
+	}
+]

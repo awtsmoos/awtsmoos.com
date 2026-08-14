@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-websockets-applications-md-a79ecc151d",
+	"title": "Realtime Applications and Events",
+	"sourcePath": "docs/WEBSOCKETS/APPLICATIONS.md",
+	"category": "Realtime",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Realtime Applications and Events",
+			"anchor": "realtime-applications-and-events"
+		},
+		{
+			"level": 2,
+			"text": "Application registry model",
+			"anchor": "application-registry-model"
+		},
+		{
+			"level": 2,
+			"text": "Built-in domains",
+			"anchor": "built-in-domains"
+		},
+		{
+			"level": 3,
+			"text": "awtsmoos-core",
+			"anchor": "awtsmoos-core"
+		},
+		{
+			"level": 3,
+			"text": "awtsmoos-social",
+			"anchor": "awtsmoos-social"
+		},
+		{
+			"level": 3,
+			"text": "Game/journey applications",
+			"anchor": "game-journey-applications"
+		},
+		{
+			"level": 3,
+			"text": "tunnel-activity",
+			"anchor": "tunnel-activity"
+		},
+		{
+			"level": 2,
+			"text": "Protocol versions",
+			"anchor": "protocol-versions"
+		},
+		{
+			"level": 2,
+			"text": "Event inventory limitation",
+			"anchor": "event-inventory-limitation"
+		}
+	],
+	"markdownParts": [
+		"content/docs-websockets-applications-md-a79ecc151d-001.json"
+	]
+}

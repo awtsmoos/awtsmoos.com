@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-systems-tunnel-md-dbf7604f09",
+	"title": "Tunnel System",
+	"sourcePath": "docs/SYSTEMS/TUNNEL.md",
+	"category": "Tunnel",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Tunnel System",
+			"anchor": "tunnel-system"
+		},
+		{
+			"level": 2,
+			"text": "Major source roots",
+			"anchor": "major-source-roots"
+		},
+		{
+			"level": 2,
+			"text": "Base Tunnel API",
+			"anchor": "base-tunnel-api"
+		},
+		{
+			"level": 2,
+			"text": "Control plane",
+			"anchor": "control-plane"
+		},
+		{
+			"level": 2,
+			"text": "Installer plane",
+			"anchor": "installer-plane"
+		},
+		{
+			"level": 2,
+			"text": "Trusted identity",
+			"anchor": "trusted-identity"
+		},
+		{
+			"level": 2,
+			"text": "Long-lived behavior",
+			"anchor": "long-lived-behavior"
+		},
+		{
+			"level": 2,
+			"text": "Existing docs",
+			"anchor": "existing-docs"
+		}
+	],
+	"markdownParts": [
+		"content/docs-systems-tunnel-md-dbf7604f09-001.json"
+	]
+}

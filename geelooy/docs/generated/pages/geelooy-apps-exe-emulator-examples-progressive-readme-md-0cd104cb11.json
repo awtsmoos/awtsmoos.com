@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-exe-emulator-examples-progressive-readme-md-0cd104cb11",
+	"title": "Progressive Executable Examples",
+	"sourcePath": "geelooy/apps/exe-emulator/examples/progressive/README.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Progressive Executable Examples",
+			"anchor": "progressive-executable-examples"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-exe-emulator-examples-progressive-readme-md-0cd104cb11-001.json"
+	]
+}

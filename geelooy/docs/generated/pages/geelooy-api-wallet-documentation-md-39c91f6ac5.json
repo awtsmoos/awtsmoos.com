@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-wallet-documentation-md-39c91f6ac5",
+	"title": "Wallet API Documentation",
+	"sourcePath": "geelooy/api/wallet/DOCUMENTATION.md",
+	"category": "API",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Wallet API Documentation",
+			"anchor": "wallet-api-documentation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-wallet-documentation-md-39c91f6ac5-001.json"
+	]
+}

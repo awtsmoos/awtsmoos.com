@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-scripts-awtai-db-readme-md-30b23c94e4",
+	"title": "AWTAI-DB Engine Prototype",
+	"sourcePath": "geelooy/scripts/awtai-db/README.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "AWTAI-DB Engine Prototype",
+			"anchor": "awtai-db-engine-prototype"
+		},
+		{
+			"level": 2,
+			"text": "Convert",
+			"anchor": "convert"
+		},
+		{
+			"level": 2,
+			"text": "Inspect",
+			"anchor": "inspect"
+		},
+		{
+			"level": 2,
+			"text": "Fastest measured low-RAM chat path",
+			"anchor": "fastest-measured-low-ram-chat-path"
+		},
+		{
+			"level": 2,
+			"text": "Optional pure-JS generated LM-head kernel",
+			"anchor": "optional-pure-js-generated-lm-head-kernel"
+		},
+		{
+			"level": 2,
+			"text": "Benchmark",
+			"anchor": "benchmark"
+		},
+		{
+			"level": 2,
+			"text": "JS-only tests",
+			"anchor": "js-only-tests"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-scripts-awtai-db-readme-md-30b23c94e4-001.json"
+	]
+}

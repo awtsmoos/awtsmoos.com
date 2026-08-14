@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-tutorials-systems-identity-and-auth-md-e15c8d2493",
+	"title": "Tutorial: Identity and Authorization",
+	"sourcePath": "docs/TUTORIALS/SYSTEMS/IDENTITY_AND_AUTH.md",
+	"category": "Security",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Tutorial: Identity and Authorization",
+			"anchor": "tutorial-identity-and-authorization"
+		},
+		{
+			"level": 2,
+			"text": "Trusted identity evidence",
+			"anchor": "trusted-identity-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Resource authority",
+			"anchor": "resource-authority"
+		},
+		{
+			"level": 2,
+			"text": "Client fields are not identity",
+			"anchor": "client-fields-are-not-identity"
+		},
+		{
+			"level": 2,
+			"text": "Review sequence",
+			"anchor": "review-sequence"
+		}
+	],
+	"markdownParts": [
+		"content/docs-tutorials-systems-identity-and-auth-md-e15c8d2493-001.json"
+	]
+}

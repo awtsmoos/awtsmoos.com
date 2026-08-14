@@ -1,0 +1,378 @@
+[
+	{
+		"id": "docs-generated-api-tutorials-routes-api-runtime-native-capabilities-7b0e-4675cf5b0b",
+		"title": "API Tutorial: /api/runtime/native/capabilities",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-runtime-native-capabilities-7b0ee881a8.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/runtime/native/capabilities",
+				"anchor": "api-tutorial-api-runtime-native-capabilities"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/runtime/native/capabilities Family: Native Runtime · Mount: /api/runtime · Derech health: OK Source: geelooy/api/runtime/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human Native Runtime tutorial Generated evidence is a navigati",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/runtime/native/capabilities family: native runtime · mount: /api/runtime · derech health: ok source: geelooy/api/runtime/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human native runtime tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/runtime/native/capabilities geelooy/os/programs/project command center/runtimeprobe.js runtime related tests no package script heuristic match was found. related routes /api/runtime/native/launch /api/runtime/native/status /api/runtime/native/stop",
+		"page": "pages/docs-generated-api-tutorials-routes-api-runtime-native-capabilities-7b0e-4675cf5b0b.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-runtime-native-launch-00685c52f8-9ad0e59434",
+		"title": "API Tutorial: /api/runtime/native/launch",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-runtime-native-launch-00685c52f8.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/runtime/native/launch",
+				"anchor": "api-tutorial-api-runtime-native-launch"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/runtime/native/launch Family: Native Runtime · Mount: /api/runtime · Derech health: OK Source: geelooy/api/runtime/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human Native Runtime tutorial Generated evidence is a navigation and",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/runtime/native/launch family: native runtime · mount: /api/runtime · derech health: ok source: geelooy/api/runtime/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human native runtime tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/runtime/native/capabilities /api/runtime/native/status /api/runtime/native/stop",
+		"page": "pages/docs-generated-api-tutorials-routes-api-runtime-native-launch-00685c52f8-9ad0e59434.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-runtime-native-status-71d1b10724-a4530bc652",
+		"title": "API Tutorial: /api/runtime/native/status",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-runtime-native-status-71d1b10724.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/runtime/native/status",
+				"anchor": "api-tutorial-api-runtime-native-status"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/runtime/native/status Family: Native Runtime · Mount: /api/runtime · Derech health: OK Source: geelooy/api/runtime/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human Native Runtime tutorial Generated evidence is a navigation and",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/runtime/native/status family: native runtime · mount: /api/runtime · derech health: ok source: geelooy/api/runtime/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human native runtime tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/runtime/native/capabilities /api/runtime/native/launch /api/runtime/native/stop",
+		"page": "pages/docs-generated-api-tutorials-routes-api-runtime-native-status-71d1b10724-a4530bc652.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-runtime-native-stop-8d06fff18a-m-02a26ad71d",
+		"title": "API Tutorial: /api/runtime/native/stop",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-runtime-native-stop-8d06fff18a.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/runtime/native/stop",
+				"anchor": "api-tutorial-api-runtime-native-stop"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/runtime/native/stop Family: Native Runtime · Mount: /api/runtime · Derech health: OK Source: geelooy/api/runtime/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human Native Runtime tutorial Generated evidence is a navigation and t",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/runtime/native/stop family: native runtime · mount: /api/runtime · derech health: ok source: geelooy/api/runtime/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human native runtime tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/runtime/native/capabilities /api/runtime/native/launch /api/runtime/native/status",
+		"page": "pages/docs-generated-api-tutorials-routes-api-runtime-native-stop-8d06fff18a-m-02a26ad71d.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-sefarim-6e405748c6-md-e3f3dfb01f",
+		"title": "API Tutorial: /api/sefarim",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-sefarim-6e405748c6.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/sefarim",
+				"anchor": "api-tutorial-api-sefarim"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/sefarim Family: Sefarim · Mount: /api/sefarim · Derech health: OK Source: geelooy/api/sefarim/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human Sefarim tutorial Generated evidence is a navigation and teaching aid, not an OpenAP",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/sefarim family: sefarim · mount: /api/sefarim · derech health: ok source: geelooy/api/sefarim/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human sefarim tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: route vars, db observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/sefarim/:sefer /api/sefarim/:sefer/section/:section /api/sefarim/:sefer/section/:section/sub/:sub",
+		"page": "pages/docs-generated-api-tutorials-routes-api-sefarim-6e405748c6-md-e3f3dfb01f.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-sefarim-sefer-2e1687688f-md-15c6425c6c",
+		"title": "API Tutorial: /api/sefarim/:sefer",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-sefarim-sefer-2e1687688f.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/sefarim/:sefer",
+				"anchor": "api-tutorial-api-sefarim-sefer"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/sefarim/:sefer Family: Sefarim · Mount: /api/sefarim · Derech health: OK Source: geelooy/api/sefarim/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human Sefarim tutorial Generated evidence is a navigation and teaching aid, not an",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/sefarim/:sefer family: sefarim · mount: /api/sefarim · derech health: ok source: geelooy/api/sefarim/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human sefarim tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: route vars, db observed status literals: — observed headers: — path parameters name shape sefer single segment starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/sefarim /api/sefarim/:sefer/section/:section /api/sefarim/:sefer/section/:section/sub/:sub",
+		"page": "pages/docs-generated-api-tutorials-routes-api-sefarim-sefer-2e1687688f-md-15c6425c6c.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-sefarim-sefer-section-section-b4-f75d13acd6",
+		"title": "API Tutorial: /api/sefarim/:sefer/section/:section",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-sefarim-sefer-section-section-b464ddf1a3.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/sefarim/:sefer/section/:section",
+				"anchor": "api-tutorial-api-sefarim-sefer-section-section"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/sefarim/:sefer/section/:section Family: Sefarim · Mount: /api/sefarim · Derech health: OK Source: geelooy/api/sefarim/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human Sefarim tutorial Generated evidence is a navigation and tea",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/sefarim/:sefer/section/:section family: sefarim · mount: /api/sefarim · derech health: ok source: geelooy/api/sefarim/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human sefarim tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: route vars, db observed status literals: — observed headers: — path parameters name shape sefer single segment section single segment starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/sefarim /api/sefarim/:sefer /api/sefarim/:sefer/section/:section/sub/:sub",
+		"page": "pages/docs-generated-api-tutorials-routes-api-sefarim-sefer-section-section-b4-f75d13acd6.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-sefarim-sefer-section-section-su-a3fcf327ca",
+		"title": "API Tutorial: /api/sefarim/:sefer/section/:section/sub/:sub",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-sefarim-sefer-section-section-sub-sub-8bc044022c.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/sefarim/:sefer/section/:section/sub/:sub",
+				"anchor": "api-tutorial-api-sefarim-sefer-section-section-sub-sub"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/sefarim/:sefer/section/:section/sub/:sub Family: Sefarim · Mount: /api/sefarim · Derech health: OK Source: geelooy/api/sefarim/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human Sefarim tutorial Generated evidence is a navigatio",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/sefarim/:sefer/section/:section/sub/:sub family: sefarim · mount: /api/sefarim · derech health: ok source: geelooy/api/sefarim/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human sefarim tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: route vars, db observed status literals: — observed headers: — path parameters name shape sefer single segment section single segment sub single segment starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/sefarim /api/sefarim/:sefer /api/sefarim/:sefer/section/:section",
+		"page": "pages/docs-generated-api-tutorials-routes-api-sefarim-sefer-section-section-su-a3fcf327ca.json"
+	}
+]

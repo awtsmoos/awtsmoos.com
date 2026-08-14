@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-references-canonical-procedural-village-readm-bb4752a876",
+	"title": "B\"H",
+	"sourcePath": "geelooy/games/mitzvahWorld/references/canonical-procedural-village/README.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Boruch Hashem",
+			"anchor": "boruch-hashem"
+		},
+		{
+			"level": 1,
+			"text": "Blessed is He",
+			"anchor": "blessed-is-he"
+		},
+		{
+			"level": 2,
+			"text": "Canonical Procedural Alpine Jewish Mountain Village",
+			"anchor": "canonical-procedural-alpine-jewish-mountain-village"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-references-canonical-procedural-village-readm-bb4752a876-001.json"
+	]
+}

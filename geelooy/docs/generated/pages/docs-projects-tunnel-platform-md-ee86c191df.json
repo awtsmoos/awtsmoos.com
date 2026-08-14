@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-projects-tunnel-platform-md-ee86c191df",
+	"title": "Tunnel Platform",
+	"sourcePath": "docs/PROJECTS/TUNNEL_PLATFORM.md",
+	"category": "Tunnel",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Tunnel Platform",
+			"anchor": "tunnel-platform"
+		},
+		{
+			"level": 2,
+			"text": "Primary source areas",
+			"anchor": "primary-source-areas"
+		},
+		{
+			"level": 2,
+			"text": "Separate planes",
+			"anchor": "separate-planes"
+		},
+		{
+			"level": 2,
+			"text": "Trust boundary",
+			"anchor": "trust-boundary"
+		},
+		{
+			"level": 2,
+			"text": "Human manuals",
+			"anchor": "human-manuals"
+		},
+		{
+			"level": 2,
+			"text": "Change strategy",
+			"anchor": "change-strategy"
+		}
+	],
+	"markdownParts": [
+		"content/docs-projects-tunnel-platform-md-ee86c191df-001.json"
+	]
+}

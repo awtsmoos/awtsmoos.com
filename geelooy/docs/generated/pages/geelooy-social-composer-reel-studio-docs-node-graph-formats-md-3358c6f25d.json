@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-social-composer-reel-studio-docs-node-graph-formats-md-3358c6f25d",
+	"title": "Node Graph Formats",
+	"sourcePath": "geelooy/social-composer/reel-studio/docs/NODE_GRAPH_FORMATS.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Node Graph Formats",
+			"anchor": "node-graph-formats"
+		},
+		{
+			"level": 2,
+			"text": "Material Graphs",
+			"anchor": "material-graphs"
+		},
+		{
+			"level": 2,
+			"text": "Shader Graphs",
+			"anchor": "shader-graphs"
+		},
+		{
+			"level": 2,
+			"text": "Particle Graphs",
+			"anchor": "particle-graphs"
+		},
+		{
+			"level": 2,
+			"text": "Adding New Graph Types",
+			"anchor": "adding-new-graph-types"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-social-composer-reel-studio-docs-node-graph-formats-md-3358c6f25d-001.json"
+	]
+}

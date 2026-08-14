@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "scripts-dayuh-sync-readme-md-09a800a649",
+	"title": "B\"H — dayuhChadash incremental SSH sync",
+	"sourcePath": "scripts/dayuh_sync/README.md",
+	"category": "Operations",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — dayuhChadash incremental SSH sync",
+			"anchor": "b-h-dayuhchadash-incremental-ssh-sync"
+		},
+		{
+			"level": 2,
+			"text": "Safety",
+			"anchor": "safety"
+		},
+		{
+			"level": 2,
+			"text": "Configure",
+			"anchor": "configure"
+		},
+		{
+			"level": 2,
+			"text": "Commands",
+			"anchor": "commands"
+		},
+		{
+			"level": 2,
+			"text": "Isolated verification",
+			"anchor": "isolated-verification"
+		}
+	],
+	"markdownParts": [
+		"content/scripts-dayuh-sync-readme-md-09a800a649-001.json"
+	]
+}

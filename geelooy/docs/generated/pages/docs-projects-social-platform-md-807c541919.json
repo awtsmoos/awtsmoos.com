@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-projects-social-platform-md-807c541919",
+	"title": "Social and Heichel Platform",
+	"sourcePath": "docs/PROJECTS/SOCIAL_PLATFORM.md",
+	"category": "Projects",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Social and Heichel Platform",
+			"anchor": "social-and-heichel-platform"
+		},
+		{
+			"level": 2,
+			"text": "Core source families",
+			"anchor": "core-source-families"
+		},
+		{
+			"level": 2,
+			"text": "Domain concepts",
+			"anchor": "domain-concepts"
+		},
+		{
+			"level": 2,
+			"text": "Trust boundary",
+			"anchor": "trust-boundary"
+		},
+		{
+			"level": 2,
+			"text": "Generated evidence",
+			"anchor": "generated-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Human manuals",
+			"anchor": "human-manuals"
+		},
+		{
+			"level": 2,
+			"text": "Change strategy",
+			"anchor": "change-strategy"
+		}
+	],
+	"markdownParts": [
+		"content/docs-projects-social-platform-md-807c541919-001.json"
+	]
+}

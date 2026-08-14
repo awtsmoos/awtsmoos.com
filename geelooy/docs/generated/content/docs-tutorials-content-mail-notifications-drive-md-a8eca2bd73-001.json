@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Mail, Notifications, and Drive\n\nSocial includes user-facing communication and storage subsystems that share identity but have distinct persistence/permission rules.\n\n## Mail\n\nMail routes cover get/read/send/delete/thread/settings/approval/unread/notify/universe mirror concepts. `/api/email` is a smaller façade over mail-oriented behavior.\n\n## Notifications\n\nAlias notifications support read/archive/poll/preferences/unread/digest/fanout patterns.\n\n## Drive\n\nAlias Drive supports entries, stream/public/immutable paths, copy/move/trash/restore/purge, credentials, usage/quota/reconciliation, site and manager/admin surfaces.\n\n## Security\n\nIdentity alone does not grant arbitrary Drive path mutation or mail impersonation. Follow alias/service/credential/ownership checks in each handler.\n"
+}

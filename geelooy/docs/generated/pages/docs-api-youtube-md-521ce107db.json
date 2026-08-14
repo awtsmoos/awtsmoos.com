@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-api-youtube-md-521ce107db",
+	"title": "YouTube API",
+	"sourcePath": "docs/API/YOUTUBE.md",
+	"category": "API",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "YouTube API",
+			"anchor": "youtube-api"
+		},
+		{
+			"level": 2,
+			"text": "Mount",
+			"anchor": "mount"
+		},
+		{
+			"level": 2,
+			"text": "Current route-table keys",
+			"anchor": "current-route-table-keys"
+		},
+		{
+			"level": 3,
+			"text": "Root and auth",
+			"anchor": "root-and-auth"
+		},
+		{
+			"level": 3,
+			"text": "Channels",
+			"anchor": "channels"
+		},
+		{
+			"level": 3,
+			"text": "Videos and uploads",
+			"anchor": "videos-and-uploads"
+		},
+		{
+			"level": 3,
+			"text": "Live streaming",
+			"anchor": "live-streaming"
+		},
+		{
+			"level": 2,
+			"text": "Browser surface",
+			"anchor": "browser-surface"
+		},
+		{
+			"level": 2,
+			"text": "Calling notes",
+			"anchor": "calling-notes"
+		},
+		{
+			"level": 2,
+			"text": "Generated reference",
+			"anchor": "generated-reference"
+		}
+	],
+	"markdownParts": [
+		"content/docs-api-youtube-md-521ce107db-001.json"
+	]
+}

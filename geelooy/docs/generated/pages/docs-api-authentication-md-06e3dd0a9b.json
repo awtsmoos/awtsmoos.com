@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-api-authentication-md-06e3dd0a9b",
+	"title": "API Authentication and Authority",
+	"sourcePath": "docs/API/AUTHENTICATION.md",
+	"category": "Security",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "API Authentication and Authority",
+			"anchor": "api-authentication-and-authority"
+		},
+		{
+			"level": 2,
+			"text": "Global runtime identity",
+			"anchor": "global-runtime-identity"
+		},
+		{
+			"level": 2,
+			"text": "Social API",
+			"anchor": "social-api"
+		},
+		{
+			"level": 2,
+			"text": "Tunnel Control",
+			"anchor": "tunnel-control"
+		},
+		{
+			"level": 2,
+			"text": "Explicit privilege examples",
+			"anchor": "explicit-privilege-examples"
+		},
+		{
+			"level": 2,
+			"text": "Public/intentionally distributable surfaces",
+			"anchor": "public-intentionally-distributable-surfaces"
+		},
+		{
+			"level": 2,
+			"text": "Calling safely",
+			"anchor": "calling-safely"
+		},
+		{
+			"level": 2,
+			"text": "Secrets",
+			"anchor": "secrets"
+		}
+	],
+	"markdownParts": [
+		"content/docs-api-authentication-md-06e3dd0a9b-001.json"
+	]
+}

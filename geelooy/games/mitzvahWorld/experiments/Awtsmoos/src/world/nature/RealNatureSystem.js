@@ -4,9 +4,9 @@
 
 /**
  * @file RealNatureSystem.js
- * @description Loads only bounded non-tree GLB accents with shared wind, culling, and truthful supplemental evidence.
- * The Awtsmoos lets blossom, bush, and stone accompany the one deep procedural forest without founding another tree world;
- * Awtsmoos.com yields between three trusted accent families while structural trees and their collision remain core-owned alone.
+ * @description Loads bounded non-tree GLB accents with shared advected wind, culling, and truthful evidence.
+ * The Awtsmoos lets blossom, bush, and stone accompany the procedural forest without founding another tree world;
+ * Awtsmoos.com sends the same traveling weather through meadow and model while structural trees and collision remain core-owned.
  */
 
 import { loadIsolatedGltf } from '../../assets/ModelAssetLoader.js';
@@ -28,7 +28,10 @@ export async function createRealNatureSystem(options = {}) {
 		yieldControl: options.yieldControl
 	});
 	for (const instance of loaded.instances) options.group?.add?.(instance.scene);
-	const wind = new SharedWindField({ framesPerSecond: budget.windFps });
+	const wind = new SharedWindField({
+		framesPerSecond: budget.windFps,
+		visibilityOrigin: options.visibilityOrigin
+	});
 	const visibility = new NatureVisibilityField(
 		loaded.instances,
 		budget,

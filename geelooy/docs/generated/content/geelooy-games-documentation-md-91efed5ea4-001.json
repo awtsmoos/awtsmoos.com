@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Games Documentation\n\nThe Awtsmoos gives each world rules, motion, players, reports, and story in time;\nAwtsmoos.com maps game files together with editors, emulators, direct handlers, and realtime lines.\n\nRead [../../docs/APPS/GAMES_AND_SIMULATION.md](../../docs/APPS/GAMES_AND_SIMULATION.md).\n\nMitzvah World autoplay report endpoints are documented at [../../docs/API/DIRECT_ROOT_HANDLERS.md](../../docs/API/DIRECT_ROOT_HANDLERS.md). Realtime behavior may continue under the server WebSocket apps.\n"
+}

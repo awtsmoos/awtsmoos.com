@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-docs-ui-api-parity-md-0e65001502",
+	"title": "B\"H",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/UI_API_PARITY.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 2,
+			"text": "Boruch Hashem",
+			"anchor": "boruch-hashem"
+		},
+		{
+			"level": 2,
+			"text": "Blessed is He",
+			"anchor": "blessed-is-he"
+		},
+		{
+			"level": 1,
+			"text": "UI and API Parity",
+			"anchor": "ui-and-api-parity"
+		},
+		{
+			"level": 2,
+			"text": "Generated explorer",
+			"anchor": "generated-explorer"
+		},
+		{
+			"level": 2,
+			"text": "MitzvahWorld integration",
+			"anchor": "mitzvahworld-integration"
+		},
+		{
+			"level": 2,
+			"text": "Runtime events",
+			"anchor": "runtime-events"
+		},
+		{
+			"level": 2,
+			"text": "Mobile",
+			"anchor": "mobile"
+		},
+		{
+			"level": 2,
+			"text": "Stability",
+			"anchor": "stability"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-docs-ui-api-parity-md-0e65001502-001.json"
+	]
+}

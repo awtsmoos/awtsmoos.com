@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Mitzvah World Editor Documentation\n\nThe Awtsmoos lets a world be authored before it is played, joining scene, animation, asset, and game runtime in one creative gate;\nAwtsmoos.com maps this editor to game/simulation and creative-tool documentation so source ownership does not become opaque.\n\nRead [../../../docs/APPS/GAMES_AND_SIMULATION.md](../../../docs/APPS/GAMES_AND_SIMULATION.md) and [../../../docs/APPS/CREATIVE_TOOLS.md](../../../docs/APPS/CREATIVE_TOOLS.md).\n"
+}

@@ -1,0 +1,24 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-source-to-doc-md-6428a99a75",
+	"title": "Source to Documentation Map",
+	"sourcePath": "docs/SOURCE_TO_DOC.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Source to Documentation Map",
+			"anchor": "source-to-documentation-map"
+		},
+		{
+			"level": 2,
+			"text": "Generated cross-reference",
+			"anchor": "generated-cross-reference"
+		}
+	],
+	"markdownParts": [
+		"content/docs-source-to-doc-md-6428a99a75-001.json"
+	]
+}

@@ -1,0 +1,264 @@
+[
+	{
+		"id": "docs-operations-readme-md-3492caf43a",
+		"title": "Awtsmoos production operations",
+		"sourcePath": "docs/operations/README.md",
+		"category": "Operations",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos production operations",
+				"anchor": "awtsmoos-production-operations"
+			},
+			{
+				"level": 2,
+				"text": "Current production topology",
+				"anchor": "current-production-topology"
+			},
+			{
+				"level": 2,
+				"text": "Guides",
+				"anchor": "guides"
+			},
+			{
+				"level": 2,
+				"text": "Non-negotiable boundaries",
+				"anchor": "non-negotiable-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Last known verified state",
+				"anchor": "last-known-verified-state"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos production operations This directory is the future agent entry point for database synchronization and code deployment. Read the relevant guide before changing production. Current production topology Component Path or value Local repository /Users/awtsmoos/work/awtsmoos.com Local",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos production operations this directory is the future agent entry point for database synchronization and code deployment. read the relevant guide before changing production. current production topology component path or value local repository /users/awtsmoos/work/awtsmoos.com local dayuh chadash /users/awtsmoos/documents/awtsmoos/dayuhchadash remote dayuh chadash /mnt/hc volume 102267213/dayuhchadash local sync state /users/awtsmoos/documents/awtsmoos/.dayuh sync/awtsmoos.com remote repository /mnt/hc volume 102267213/git/awtsmoos.com production service awtsmoos.service ssh endpoint root@awtsmoos.com:22 the production remote database is not /root/dayuhchadash. always pass the remote path explicitly to sync and seed commands. guides dayuh database sync runbook.md: exact local to remote, remote to local, bidirectional, seed, and verification commands. dayuh agent checklist.md: mandatory preflight, execution, and completion checklist for ai agents. dayuh recovery and conflicts.md: stale locks, conflicts, interrupted transfers, seed staging, and rollback. dayuh code deploy and git.md: separation of database sync, git publication, remote code deployment, and service restart. ../../scripts/dayuh sync.md: concise command reference beside the implementation. non negotiable boundaries 1. use the repository custom ssh client; do not substitute openssh, scp, or remote rsync for production transfer. 2. never reveal the ssh password. inspect only its credential descriptor. 3. run status and dry run before every database write. 4. do not use delete without explicit owner approval of the exact paths. 5. preserve legitimate remote only runtime files, including email thread data. 6. do not run npm run bh or npm run ship casually: ship.mjs stages all files. 7. do not commit or push unless the owner explicitly requests it. 8. verify the remote service and public api after every production operation. last known verified state on 2026 07 26 the deployment was verified with: awtsmoos.service active in the production repository; three public rag lanes; middot phrase counts 8 / 8 / 14 / 30 for the representative post; 766 series, 11,366 unique posts, and zero local/public series mismatches; zero pending local database uploads after the final push; intentional remote only runtime records preserved. this record is historical evidence, not a substitute for a fresh verification.",
+		"page": "pages/docs-operations-readme-md-3492caf43a.json"
+	},
+	{
+		"id": "docs-projects-awtsmoos-ai-md-3ab2bfe677",
+		"title": "Awtsmoos AI",
+		"sourcePath": "docs/PROJECTS/AWTSMOOS_AI.md",
+		"category": "Projects",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos AI",
+				"anchor": "awtsmoos-ai"
+			},
+			{
+				"level": 2,
+				"text": "Primary source areas",
+				"anchor": "primary-source-areas"
+			},
+			{
+				"level": 2,
+				"text": "Do not flatten AI into one backend",
+				"anchor": "do-not-flatten-ai-into-one-backend"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Human manuals",
+				"anchor": "human-manuals"
+			},
+			{
+				"level": 2,
+				"text": "Change strategy",
+				"anchor": "change-strategy"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos AI The Awtsmoos lets language and model computation enter many vessels while Awtsmoos.com keeps browser AI, server APIs, local model work, search and developer integrations distinct enough to reason about safely. Primary source areas geelooy/ai/ — large browser facing AI project",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos ai the awtsmoos lets language and model computation enter many vessels while awtsmoos.com keeps browser ai, server apis, local model work, search and developer integrations distinct enough to reason about safely. primary source areas geelooy/ai/ — large browser facing ai project. geelooy/api/gpt/ — gpt health/capability/chat/reset http family. geelooy/apps/awtsmoos gguf/ — local/gguf model tooling. awtsmoos code ai integrations — developer workflows. dynamic server ai helpers — server side model/provider plumbing where imported. search/vector/graph systems — related data systems, not automatically the same api contract. do not flatten ai into one backend a local gguf app, browser chat page, provider backed gpt api, embedding/search pipeline and code ai feature can share concepts without sharing credentials, model format, request schema or lifecycle. begin from the concrete caller/source pair. generated evidence use project atlas.md for ai project boundaries, project symbol summary.md for lexical symbol summaries, project dependencies.md for cross project imports, api route contract atlas.md for gpt routes, api caller index.md for browser callers and environment variables.md for configuration names without values. human manuals docs/systems/ai.md docs/api/other families.md docs/configuration.md docs/integrations.md docs/security/secrets and config.md change strategy for model/provider/api changes, trace the exact caller, configuration source, failure shape and tests. for local models, inspect model file/runtime assumptions. for search/embedding changes, treat index/data paths as persistence contracts. verify only the layers actually involved rather than assuming every ai labelled feature shares one runtime.",
+		"page": "pages/docs-projects-awtsmoos-ai-md-3ab2bfe677.json"
+	},
+	{
+		"id": "docs-projects-code-md-43fa7863f7",
+		"title": "Awtsmoos Code",
+		"sourcePath": "docs/PROJECTS/CODE.md",
+		"category": "Projects",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Code",
+				"anchor": "awtsmoos-code"
+			},
+			{
+				"level": 2,
+				"text": "Canonical source",
+				"anchor": "canonical-source"
+			},
+			{
+				"level": 2,
+				"text": "Surrounding systems",
+				"anchor": "surrounding-systems"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Human manuals",
+				"anchor": "human-manuals"
+			},
+			{
+				"level": 2,
+				"text": "Change strategy",
+				"anchor": "change-strategy"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Code The Awtsmoos lets source become an interactive developer world while Awtsmoos.com connects browser editing, compiler/runtime services, AI assistance, shared platform code and project previews. Canonical source geelooy/apps/code/ This is one of the largest application projec",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos code the awtsmoos lets source become an interactive developer world while awtsmoos.com connects browser editing, compiler/runtime services, ai assistance, shared platform code and project previews. canonical source geelooy/apps/code/ this is one of the largest application projects in the repository. its local documentation.md is the in tree entry point; central developer docs explain how it connects to the rest of awtsmoos.com. surrounding systems compiler api and compiler application behavior. native/runtime apis and platform execution. shared browser/platform modules. ai/model assistance and provider configuration where enabled. tunnel/native preview workflows where remote execution is involved. generated evidence use project symbol summary.md for lexical symbol scale, project dependencies.md for cross project source references, external dependencies.md for package imports, public entry points.md for the browser entry and test ownership.md for test neighborhoods. human manuals docs/apps/developer tools.md docs/systems/geelooy os.md docs/systems/ai.md docs/api/other families.md docs/development/readme.md change strategy a ui only editor change may remain local, but compiler, native execution, ai orchestration, filesystem/project loading or shared platform changes can cross multiple projects. trace generated dependency edges, inspect the owning backend contract and run code specific plus shared platform tests when those boundaries move.",
+		"page": "pages/docs-projects-code-md-43fa7863f7.json"
+	},
+	{
+		"id": "docs-projects-dosdb-md-867be882f9",
+		"title": "DosDB Project",
+		"sourcePath": "docs/PROJECTS/DOSDB.md",
+		"category": "Data",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "DosDB Project",
+				"anchor": "dosdb-project"
+			},
+			{
+				"level": 2,
+				"text": "Canonical source",
+				"anchor": "canonical-source"
+			},
+			{
+				"level": 2,
+				"text": "Architectural layers",
+				"anchor": "architectural-layers"
+			},
+			{
+				"level": 2,
+				"text": "Human documentation",
+				"anchor": "human-documentation"
+			},
+			{
+				"level": 2,
+				"text": "Dependency relationship",
+				"anchor": "dependency-relationship"
+			},
+			{
+				"level": 2,
+				"text": "Verification strategy",
+				"anchor": "verification-strategy"
+			},
+			{
+				"level": 2,
+				"text": "Local navigation",
+				"anchor": "local-navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He DosDB Project The Awtsmoos lets many generations of persistence remain reachable while Awtsmoos.com uses DosDB as the bridge between legacy logical APIs and newer binary/VirtualFs storage. Canonical source ayzarim/DosDB/ This is a major data project, not a tiny helper. Generated symbol/t",
+		"searchText": "b\"h boruch hashem blessed is he dosdb project the awtsmoos lets many generations of persistence remain reachable while awtsmoos.com uses dosdb as the bridge between legacy logical apis and newer binary/virtualfs storage. canonical source ayzarim/dosdb/ this is a major data project, not a tiny helper. generated symbol/test discovery shows a very large implementation and test surface, so changes should begin from the data manuals rather than from one method file in isolation. architectural layers index.js — main dosdb compatibility wrapper and method binding. methods/ — legacy logical read/write/path/array/object/directory behavior. awtsmoosdbfsadapter.js — routing into modern awtsmoosdb virtualfs or compatible legacy binary files. awtsmoosdbbridge.js — lazy parallel awtsmoosdb for ai/search/vector/graph experimentation. runtimereadguard.js — null safe parser result normalization without byte mutation. awtsmoosbinary/ — binary storage, parsing, awtsmoosdb and compatibility infrastructure. human documentation docs/data/readme.md — persistence overview. docs/data/dosdb.md — compatibility/read/write/cache architecture. docs/data/awtsmoosdb and virtualfs.md — modern database and legacy file detection. docs/data/path contracts.md — migration sensitive logical paths. dependency relationship generated dependency evidence shows social api source importing dosdb internals. the dynamic server also initializes dosdb as the runtime database. therefore a dosdb compatibility change can affect social behavior, server boot, tests, repair tools and any subsystem using $i.db. verification strategy use dosdb local tests plus dynamic server db initialization tests and representative social persistence tests. for format/router changes, include real historical/legacy fixture shapes in addition to newly written files. local navigation a local ayzarim/dosdb/documentation.md should point here and to the data manuals, while detailed method behavior remains in source and tests.",
+		"page": "pages/docs-projects-dosdb-md-867be882f9.json"
+	},
+	{
+		"id": "docs-projects-games-platform-md-95e7f4354e",
+		"title": "Games and Simulation Platform",
+		"sourcePath": "docs/PROJECTS/GAMES_PLATFORM.md",
+		"category": "Games",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Games and Simulation Platform",
+				"anchor": "games-and-simulation-platform"
+			},
+			{
+				"level": 2,
+				"text": "Canonical area",
+				"anchor": "canonical-area"
+			},
+			{
+				"level": 2,
+				"text": "Shared versus game-specific roots",
+				"anchor": "shared-versus-game-specific-roots"
+			},
+			{
+				"level": 2,
+				"text": "Realtime applications",
+				"anchor": "realtime-applications"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Human guidance",
+				"anchor": "human-guidance"
+			},
+			{
+				"level": 2,
+				"text": "Change strategy",
+				"anchor": "change-strategy"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Games and Simulation Platform The Awtsmoos lets many worlds appear beneath geelooy/games/ while Awtsmoos.com shares libraries, styles, tests and realtime infrastructure across projects of very different size. Canonical area geelooy/games/ The generated project atlas enumerates each game,",
+		"searchText": "b\"h boruch hashem blessed is he games and simulation platform the awtsmoos lets many worlds appear beneath geelooy/games/ while awtsmoos.com shares libraries, styles, tests and realtime infrastructure across projects of very different size. canonical area geelooy/games/ the generated project atlas enumerates each game, file categories, entry files and local documentation status. the public entry atlas maps game urls to index.html, titles, scripts and styles. shared versus game specific roots geelooy/games/scripts/, styles/ and tests/ are shared game infrastructure rather than independent games. individual game directories such as mitzvah world, ohr hagnuz, sefira clash, scribe journey and shema strike can also have realtime/server relationships. realtime applications the dynamic server currently registers versioned realtime applications for mitzvah world, ohr hagnuz, sefira clash, scribe journey and shema strike. not every game is realtime; use websocket applications.md rather than assuming a socket layer from the presence of a game directory. generated evidence project atlas.md — game boundaries and file categories. public entry points.md — browser entry points. project symbol summary.md — lexical source summaries. project dependencies.md — shared library relationships. test ownership.md — test neighborhoods. human guidance docs/apps/games and simulation.md is the broad chooser. docs/projects/mitzvah world.md gives a deeper example of a large project with its own internal documentation universe. change strategy for a game local change read its local documentation.md or readme first. for shared scripts/styles/libraries or realtime transport, identify every dependent game and run representative cross game tests rather than validating only one title.",
+		"page": "pages/docs-projects-games-platform-md-95e7f4354e.json"
+	},
+	{
+		"id": "docs-projects-mitzvah-world-md-4fe811a7ae",
+		"title": "Mitzvah World",
+		"sourcePath": "docs/PROJECTS/MITZVAH_WORLD.md",
+		"category": "Projects",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Mitzvah World",
+				"anchor": "mitzvah-world"
+			},
+			{
+				"level": 2,
+				"text": "Canonical source",
+				"anchor": "canonical-source"
+			},
+			{
+				"level": 2,
+				"text": "Existing in-project documentation",
+				"anchor": "existing-in-project-documentation"
+			},
+			{
+				"level": 2,
+				"text": "Surrounding runtime systems",
+				"anchor": "surrounding-runtime-systems"
+			},
+			{
+				"level": 2,
+				"text": "Human documentation",
+				"anchor": "human-documentation"
+			},
+			{
+				"level": 2,
+				"text": "Change strategy",
+				"anchor": "change-strategy"
+			},
+			{
+				"level": 2,
+				"text": "Documentation boundary",
+				"anchor": "documentation-boundary"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Mitzvah World The Awtsmoos lets a browser project become a world of assets, scenes, movies, experiments, shared systems and realtime behavior; Awtsmoos.com treats Mitzvah World as a major project rather than a single game page. Canonical source geelooy/games/mitzvahWorld/ The observed ro",
+		"searchText": "b\"h boruch hashem blessed is he mitzvah world the awtsmoos lets a browser project become a world of assets, scenes, movies, experiments, shared systems and realtime behavior; awtsmoos.com treats mitzvah world as a major project rather than a single game page. canonical source geelooy/games/mitzvahworld/ the observed root contains assets/, docs/, experiments/, movies/, proof/, references/, shared/, styles/, ai/evidence directories, an index.html, and multiple project audit/index documents. it also carries an external assets link. existing in project documentation before changing a major subsystem, inspect project local documents such as: directory guide.md directory index.md directory catalog.json system overlap map.md next ai readme.md remaining work.md focused audit documents for movie/procedural systems these are project specific evidence and should be preserved rather than replaced by central generic docs. surrounding runtime systems mitzvah world is not isolated to static game files: root index.js contains direct autoplay ping/report handlers associated with mitzvah world; report material is written beneath the mitzvah world tree; the dynamic server has a registered realtime application with id mitzvah world version 1; generated dependency evidence shows the project importing shared libraries heavily; generated test ownership identifies this as one of the largest test neighborhoods in the repository. human documentation docs/apps/games and simulation.md docs/api/direct root handlers.md docs/websockets/applications.md generated project atlas, project symbol summary, project dependencies, test ownership change strategy a scene/asset/editor change may be browser only, but engine/shared/realtime/report changes can cross project boundaries. begin from the local directory maps, trace imports/callers, identify whether websocket or root direct server behavior participates, then run the nearest focused tests plus relevant game/runtime regression tests. documentation boundary central docs explain how mitzvah world relates to the repository. the project's own directory guides remain the detailed internal map. do not duplicate their entire subsystem catalog centrally.",
+		"page": "pages/docs-projects-mitzvah-world-md-4fe811a7ae.json"
+	}
+]

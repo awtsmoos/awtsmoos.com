@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-scripts-awtsmoos-merkavaastparser-readme-md-41bfc06e7e",
+	"title": "Merkava AST Parser: A Kabbalistic Journey into the Soul of JavaScript",
+	"sourcePath": "geelooy/scripts/awtsmoos/MerkavaASTParser/readme.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Merkava AST Parser: A Kabbalistic Journey into the Soul of JavaScript",
+			"anchor": "merkava-ast-parser-a-kabbalistic-journey-into-the-soul-of-javascript"
+		},
+		{
+			"level": 2,
+			"text": "The Emanation",
+			"anchor": "the-emanation"
+		},
+		{
+			"level": 2,
+			"text": "Shevirah: The Shattering of the Vessels",
+			"anchor": "shevirah-the-shattering-of-the-vessels"
+		},
+		{
+			"level": 2,
+			"text": "The Gauntlet: Trials of Syntactic Purity",
+			"anchor": "the-gauntlet-trials-of-syntactic-purity"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-scripts-awtsmoos-merkavaastparser-readme-md-41bfc06e7e-001.json"
+	]
+}

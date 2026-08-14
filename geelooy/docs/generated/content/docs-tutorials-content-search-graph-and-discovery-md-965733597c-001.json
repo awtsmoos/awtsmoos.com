@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Search, Graph, and Discovery\n\nSocial discovery spans more than one search endpoint.\n\n## Search families\n\nGeneral search/query/index/readiness, Hebrew exact/Tanach search, comment lexical/vector/stress/stats, RAG status/context routes, feeds/trending/recommendations, and object/graph/reference/repost relationships.\n\n## Evidence discipline\n\nGenerated routes reveal entry points, not ranking semantics, embedding models, index freshness, or relevance guarantees. Follow owning search/RAG source and configuration names.\n\n## Graph/object layer\n\nEntity/object/universe/relationship routes expose identity, edges, timeline, children, DNA/snapshot/fork/reference concepts. Treat them as explicit models, not synonyms for raw database paths.\n"
+}

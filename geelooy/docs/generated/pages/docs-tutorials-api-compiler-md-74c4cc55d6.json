@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-tutorials-api-compiler-md-74c4cc55d6",
+	"title": "Compiler API Tutorial",
+	"sourcePath": "docs/TUTORIALS/API/COMPILER.md",
+	"category": "API",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Compiler API Tutorial",
+			"anchor": "compiler-api-tutorial"
+		},
+		{
+			"level": 2,
+			"text": "What this family owns",
+			"anchor": "what-this-family-owns"
+		},
+		{
+			"level": 2,
+			"text": "How to explore it",
+			"anchor": "how-to-explore-it"
+		},
+		{
+			"level": 2,
+			"text": "Safety / interpretation",
+			"anchor": "safety-interpretation"
+		},
+		{
+			"level": 2,
+			"text": "Evidence rule",
+			"anchor": "evidence-rule"
+		},
+		{
+			"level": 2,
+			"text": "Next",
+			"anchor": "next"
+		}
+	],
+	"markdownParts": [
+		"content/docs-tutorials-api-compiler-md-74c4cc55d6-001.json"
+	]
+}

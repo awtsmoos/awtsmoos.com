@@ -1,0 +1,137 @@
+[
+	{
+		"id": "awtsmoos-com-documentation-md-96d1ba1331",
+		"title": "Nested Awtsmoos.com Documentation",
+		"sourcePath": "awtsmoos.com/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Nested Awtsmoos.com Documentation",
+				"anchor": "nested-awtsmoos-com-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Nested Awtsmoos.com Documentation The Awtsmoos reveals this nested shell beside the repository root so matching names do not create confusion; Awtsmoos.com documents only what inspection proves, refusing to invent a staging or canonical conclusion. Read ../docs/SYSTEMS/NESTED AWTSMOOS CO",
+		"searchText": "b\"h boruch hashem blessed is he nested awtsmoos.com documentation the awtsmoos reveals this nested shell beside the repository root so matching names do not create confusion; awtsmoos.com documents only what inspection proves, refusing to invent a staging or canonical conclusion. read ../docs/systems/nested awtsmoos com.md. at the documented inspection point, this nested tree contains ai thought material and geelooy/apps/tunnel control/, not the full root level geelooy website.",
+		"page": "pages/awtsmoos-com-documentation-md-96d1ba1331.json"
+	},
+	{
+		"id": "ayzarim-awtsmoosdynamicserver-documentation-md-418402da2f",
+		"title": "Dynamic Server Documentation",
+		"sourcePath": "ayzarim/awtsmoosDynamicServer/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Dynamic Server Documentation",
+				"anchor": "dynamic-server-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Dynamic Server Documentation The Awtsmoos sends each request through bootstrap, auth, database, derech, file, and socket light; Awtsmoos.com maps this server centrally so runtime changes are made from evidence, not sight alone. Read ../../docs/ARCHITECTURE.md. Dynamic paths: ../../docs/R",
+		"searchText": "b\"h boruch hashem blessed is he dynamic server documentation the awtsmoos sends each request through bootstrap, auth, database, derech, file, and socket light; awtsmoos.com maps this server centrally so runtime changes are made from evidence, not sight alone. read ../../docs/architecture.md. dynamic paths: ../../docs/routes/dynamic paths.md identity: ../../docs/systems/auth and identity.md database: ../../docs/systems/database and storage.md testing: ../../docs/systems/testing.md",
+		"page": "pages/ayzarim-awtsmoosdynamicserver-documentation-md-418402da2f.json"
+	},
+	{
+		"id": "ayzarim-documentation-md-959e1682a2",
+		"title": "Ayzarim Runtime and Infrastructure",
+		"sourcePath": "ayzarim/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Ayzarim Runtime and Infrastructure",
+				"anchor": "ayzarim-runtime-and-infrastructure"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Ayzarim Runtime and Infrastructure The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Primary server/runtime/infrastructure district. It contains the Dynamic Server, DosDB, SSH infrastructure and ",
+		"searchText": "b\"h boruch hashem blessed is he ayzarim runtime and infrastructure the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role primary server/runtime/infrastructure district. it contains the dynamic server, dosdb, ssh infrastructure and other server side systems; it is not merely a bag of utilities. start here read docs/architecture.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes for persistence use docs/data/readme.md; for security use docs/security/readme.md; for realtime use docs/websockets/readme.md.",
+		"page": "pages/ayzarim-documentation-md-959e1682a2.json"
+	},
+	{
+		"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-ai-agent-decision-tree-md-41303cb860",
+		"title": "AI Agent Decision Tree",
+		"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/AI_AGENT_DECISION_TREE.md",
+		"category": "Data",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "AI Agent Decision Tree",
+				"anchor": "ai-agent-decision-tree"
+			},
+			{
+				"level": 2,
+				"text": "Broken RAG request",
+				"anchor": "broken-rag-request"
+			},
+			{
+				"level": 2,
+				"text": "Growing database",
+				"anchor": "growing-database"
+			},
+			{
+				"level": 2,
+				"text": "Completion",
+				"anchor": "completion"
+			}
+		],
+		"excerpt": "AI Agent Decision Tree Broken RAG request 1. Preserve production PID, port, live hashes, and open handles. 2. Probe both strict routes with autoInstall=false. 3. If route missing, trace registration. 4. If lane missing, inspect root, filename, and fast manifest. 5. If embedding fails, inspect model root, model file, bi",
+		"searchText": "ai agent decision tree broken rag request 1. preserve production pid, port, live hashes, and open handles. 2. probe both strict routes with autoinstall=false. 3. if route missing, trace registration. 4. if lane missing, inspect root, filename, and fast manifest. 5. if embedding fails, inspect model root, model file, binary, provider, and dimensions. 6. if index fails, inspect list, metadata, registry count, entry node, keys, and payloads. 7. if only derived graph is bad, rebuild it from existing vectors on an isolated candidate. 8. re embed only after vectors are proven absent, corrupt, or incompatible. growing database 1. confirm callers import index.js. 2. confirm omitted reuse resolves to verified. 3. compare omitted, explicit verified, and explicit false on disposable databases. 4. inspect leases, quarantine, free list seal, tail ranges, wal, and allocated blocks. 5. vacuum only to a separate candidate. completion require fresh hashes, strict provenance, cold/warm/restart proof, candidate audit, read only reopen, tests, documentation freshness, rollback, and an approval gate.",
+		"page": "pages/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-ai-agent-decision-tree-md-41303cb860.json"
+	},
+	{
+		"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-ai-search-and-vector-index--ddff786958",
+		"title": "AI Search and Vector Index",
+		"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/AI_SEARCH_AND_VECTOR_INDEX.md",
+		"category": "Data",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "AI Search and Vector Index",
+				"anchor": "ai-search-and-vector-index"
+			},
+			{
+				"level": 2,
+				"text": "Components",
+				"anchor": "components"
+			},
+			{
+				"level": 2,
+				"text": "Public API rule",
+				"anchor": "public-api-rule"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			}
+		],
+		"excerpt": "AI Search and Vector Index AwtsmoosDB stores vector payloads and a persisted HNSW graph. The public facade exposes strict indexed search; the Geelooy RAG service supplies lane discovery, local query embedding, read only sessions, and HTTP provenance. Components Vector list: canonical stored coordinates and payloads. Me",
+		"searchText": "ai search and vector index awtsmoosdb stores vector payloads and a persisted hnsw graph. the public facade exposes strict indexed search; the geelooy rag service supplies lane discovery, local query embedding, read only sessions, and http provenance. components vector list: canonical stored coordinates and payloads. metadata: dimensions, metric, hnsw parameters, registry and entry node. registry pointers: stable ordering from node id to persisted graph node. hnsw traversal: approximate nearest neighbor search. hydration: resolve hit keys to payloads. strict route: rejects non indexed execution. public api rule application writers import index.js, gaining verified free space reuse by default. dedicated strict search readers may extend database.js directly only to enforce read only, wal disabled, shared lock behavior without writer side cache hydration. verification use direct canonical vector probes plus http probes. direct probes prove the persisted graph; http probes additionally prove query embedding, lane resolution, route contracts, session reuse, and provenance.",
+		"page": "pages/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-ai-search-and-vector-index--ddff786958.json"
+	}
+]

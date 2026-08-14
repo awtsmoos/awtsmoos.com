@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-tutorials-projects-libraries-and-tooling-md-f171c0f31f",
+	"title": "Libraries and Tooling",
+	"sourcePath": "docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md",
+	"category": "Projects",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Libraries and Tooling",
+			"anchor": "libraries-and-tooling"
+		},
+		{
+			"level": 2,
+			"text": "Investigate these boundaries",
+			"anchor": "investigate-these-boundaries"
+		},
+		{
+			"level": 2,
+			"text": "Caveats",
+			"anchor": "caveats"
+		}
+	],
+	"markdownParts": [
+		"content/docs-tutorials-projects-libraries-and-tooling-md-f171c0f31f-001.json"
+	]
+}

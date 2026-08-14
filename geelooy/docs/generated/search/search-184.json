@@ -1,0 +1,287 @@
+[
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-reeyuh-7e819b94-md-2c2cfe1bd4",
+		"title": "Project Tutorial: Shulchan Aruch Viewer",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-reeyuh-7e819b94.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: Shulchan Aruch Viewer",
+				"anchor": "project-tutorial-shulchan-aruch-viewer"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Shulchan Aruch Viewer Path: geelooy/reeyuh · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not run",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: shulchan aruch viewer path: geelooy/reeyuh · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 0 0 1 public entry points /reeyuh → geelooy/reeyuh/index.html — shulchan aruch viewer symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-reeyuh-7e819b94-md-2c2cfe1bd4.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-register-92e7f470-md-60acc9e76a",
+		"title": "Project Tutorial: Create Awtsmoos Account",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-register-92e7f470.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: Create Awtsmoos Account",
+				"anchor": "project-tutorial-create-awtsmoos-account"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Create Awtsmoos Account Path: geelooy/register · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: create awtsmoos account path: geelooy/register · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 0 0 1 public entry points /register → geelooy/register/index.html — create awtsmoos account symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-register-92e7f470-md-60acc9e76a.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-resources-22d1bfaf-md-a3efddf597",
+		"title": "Project Tutorial: geelooy/resources",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-resources-22d1bfaf.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: geelooy/resources",
+				"anchor": "project-tutorial-geelooy-resources"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/resources Path: geelooy/resources · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not run",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/resources path: geelooy/resources · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 2 0 0 0 0 0 2 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-resources-22d1bfaf-md-a3efddf597.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-scripts-1d55a5b0-md-9d3276c257",
+		"title": "Project Tutorial: geelooy/scripts",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-scripts-1d55a5b0.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: geelooy/scripts",
+				"anchor": "project-tutorial-geelooy-scripts"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/scripts Path: geelooy/scripts · Type: library · Family: Libraries and Tooling Read the human Libraries and Tooling guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership o",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/scripts path: geelooy/scripts · type: library · family: libraries and tooling read the human libraries and tooling guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: geelooy/scripts/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 1314 96 1 0 6 37 1454 public entry points /scripts/awtsmoos/compiling/pe → geelooy/scripts/awtsmoos/compiling/pe/index.html — awtsmoos exe compiler /scripts/awtsmoos/merkavaastparser → geelooy/scripts/awtsmoos/merkavaastparser/index.html — kabbalistic es6 ast parser /scripts/awtsmoos/merkavabeautifier → geelooy/scripts/awtsmoos/merkavabeautifier/index.html — merkava beautifier /scripts/awtsmoos/merkavaexecutor → geelooy/scripts/awtsmoos/merkavaexecutor/index.html — merkava executor — runtime id ast ect /scripts/awtsmoos/merkavaexecutor/.mode2 path app → geelooy/scripts/awtsmoos/merkavaexecutor/.mode2 path app/index.html /scripts/awtsmoos/tts → geelooy/scripts/awtsmoos/tts/index.html — kokoro forge b\"h /scripts/awtsmoos/zip → geelooy/scripts/awtsmoos/zip/index.html — awtsmoos native zip /scripts/tricks → geelooy/scripts/tricks/index.html symbol evidence source files: 1264; classes: 357; functions: 4504; exports: 1729; samples: awtsmoosapi, for, processtext, causallength, attend, applyropepair, rotatehead, softmaxinplace, convertggufbytes, convertgguffile, copytensors, finalmanifestbytes. depends on geelooy/shared — 38 lexical references; examples: geelooy/scripts/awtsmoos/compiling/native/asmimage.js; geelooy/scripts/awtsmoos/compiling/native/asmobjectdata.js; geelooy/scripts/awtsmoos/compiling/native/c/frame.js geelooy/apps/tunnel — 5 lexical references; examples: geelooy/scripts/awtsmoos/merkavaexecutor/.test tunnel directory entry env.cjs; geelooy/scripts/awtsmoos/merkavaexecutor/.test tunnel simulate runtime helpers.cjs; geelooy/scripts/awtsmoos/merkavaexecutor/.test tunnel simulate runtime url puppeteer.cjs geelooy/apps/android emulator — 3 lexical references; examples: geelooy/scripts/awtsmoos/compiling/android/apk/zipwriter.js; geelooy/scripts/awtsmoos/extracting/webview apk/extract.js geelooy/apps/compiler — 3 lexical references; examples: geelooy/scripts/awtsmoos/compiling/cpp/compiler.js ayzarim/dosdb — 1 lexical reference; examples: geelooy/scripts/awtsmoos/minimax virtual os game/seed users.cjs geelooy/api/tunnel — 1 lexical reference; examples: geelooy/scripts/awtsmoos/minimax virtual os game/seed users.cjs geelooy/apps/app.js — 1 lexical reference; examples: geelooy/scripts/awtsmoos/social/navigation/adapters/appsroute.js used by geelooy/apps/merkava native browser — 44 lexical references; examples: geelooy/apps/merkava native browser/.inspect md2.cjs; geelooy/apps/merkava native browser/.test compile webgl.cjs; geelooy/apps/merkava native browser/build seed.mjs geelooy/apps/exe emulator — 8 lexical references; examples: geelooy/apps/exe emulator/examples/progressive/generatedartifacts.mjs; geelooy/apps/exe emulator/source/compilesourceartifact.js; geelooy/apps/exe emulator/source/nativecontainers.js geelooy/apps/compiler — 3 lexical references; examples: geelooy/apps/compiler/compiler.js; geelooy/apps/compiler/compiler c.js; geelooy/apps/compiler/ui/browserartifactbuilders.js geelooy/ai — 1 lexical reference; examples: geelooy/ai/js/render/event ui/codehighlight.js geelooy/apps/rebbe — 1 lexical reference; examples: geelooy/apps/rebbe/android/build.js geelooy/apps/tunnel — 1 lexical reference; examples: geelooy/apps/tunnel/agent/tools/fs/jswriteverifier.js geelooy/comment thread — 1 lexical reference; examples: geelooy/comment thread/app.js geelooy/heichel editor — 1 lexical reference; examples: geelooy/heichel editor/app.js external packages react — 1 lexical reference ws — 1 lexical reference verification clue observed test classified files: 96 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-scripts-1d55a5b0-md-9d3276c257.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-shared-cc435059-md-cbf4c2a74c",
+		"title": "Project Tutorial: geelooy/shared",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-shared-cc435059.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: geelooy/shared",
+				"anchor": "project-tutorial-geelooy-shared"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/shared Path: geelooy/shared · Type: library · Family: Libraries and Tooling Read the human Libraries and Tooling guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or ",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/shared path: geelooy/shared · type: library · family: libraries and tooling read the human libraries and tooling guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: package.json, documentation.md local documentation: geelooy/shared/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 74 14 0 0 1 1 90 public entry points none observed. symbol evidence source files: 70; classes: 11; functions: 231; exports: 177; samples: activitybeacon, startactivitybeacon, publicaliasfrommemory, queryalias, verifiedalias, eventpayload, safe actions, all runtime actions, virtual actions, iswriteaction, normalizeactionname, actioncapability. depends on geelooy/ai — 2 lexical references; examples: geelooy/shared/awtsmoos runtime/actions.js; geelooy/shared/awtsmoos runtime/agent core.js geelooy/apps/android emulator — 1 lexical reference; examples: geelooy/shared/compiling/native/apkidentity.js used by geelooy/scripts — 38 lexical references; examples: geelooy/scripts/awtsmoos/compiling/native/asmimage.js; geelooy/scripts/awtsmoos/compiling/native/asmobjectdata.js; geelooy/scripts/awtsmoos/compiling/native/c/frame.js geelooy/os — 25 lexical references; examples: geelooy/os/programs/advanced code editor/compilerbridge.js; geelooy/os/programs/advanced code editor/embedconfiguration.js; geelooy/os/programs/advanced code editor/vfsbridge.js geelooy/apps/code — 16 lexical references; examples: geelooy/apps/code/js/actions/commands/compileprojectmanifest.js; geelooy/apps/code/js/ai studio/oracle.js; geelooy/apps/code/js/ai studio/panel.js geelooy/apps/compiler — 9 lexical references; examples: geelooy/apps/compiler/embed/oscompilerchannel.js; geelooy/apps/compiler/ui/browserartifactbuilders.js; geelooy/apps/compiler/ui/nativebuildclient.js geelooy/apps/exe emulator — 8 lexical references; examples: geelooy/apps/exe emulator/core/awtexeruntime.js; geelooy/apps/exe emulator/core/executablehost.js; geelooy/apps/exe emulator/core/wasmguiimports.js geelooy/heichelos — 7 lexical references; examples: geelooy/heichelos/heichel/modules/legend/carddepthobserver.js; geelooy/heichelos/heichel/modules/legend/heroscrolldepth.js; geelooy/heichelos/post/logic/legend/centersectionobserver.js geelooy/ai — 2 lexical references; examples: geelooy/ai/central/index.js; geelooy/ai/central/streamclient.js geelooy/apps/tunnel control — 2 lexical references; examples: geelooy/apps/tunnel control/js/runtime/mesh/runtimeadapters.js; geelooy/apps/tunnel control/js/runtime/mesh/virtualfilesystem.js external packages none observed. verification clue observed test classified files: 14 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-shared-cc435059-md-cbf4c2a74c.json"
+	}
+]

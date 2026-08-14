@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-indexed-search-performance--172d9f78a4",
+	"title": "Indexed Search Performance Model",
+	"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/INDEXED_SEARCH_PERFORMANCE_MODEL.md",
+	"category": "Data",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Indexed Search Performance Model",
+			"anchor": "indexed-search-performance-model"
+		},
+		{
+			"level": 2,
+			"text": "Cold path",
+			"anchor": "cold-path"
+		},
+		{
+			"level": 2,
+			"text": "Warm path",
+			"anchor": "warm-path"
+		},
+		{
+			"level": 2,
+			"text": "Performance evidence",
+			"anchor": "performance-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Forbidden optimization",
+			"anchor": "forbidden-optimization"
+		}
+	],
+	"markdownParts": [
+		"content/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-indexed-search-performance--172d9f78a4-001.json"
+	]
+}

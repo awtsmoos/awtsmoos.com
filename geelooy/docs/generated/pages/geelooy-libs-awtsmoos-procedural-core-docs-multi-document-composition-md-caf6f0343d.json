@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-docs-multi-document-composition-md-caf6f0343d",
+	"title": "B\"H",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/MULTI_DOCUMENT_COMPOSITION.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 2,
+			"text": "Boruch Hashem",
+			"anchor": "boruch-hashem"
+		},
+		{
+			"level": 2,
+			"text": "Blessed is He",
+			"anchor": "blessed-is-he"
+		},
+		{
+			"level": 1,
+			"text": "Multi-Document Composition",
+			"anchor": "multi-document-composition"
+		},
+		{
+			"level": 2,
+			"text": "Sources",
+			"anchor": "sources"
+		},
+		{
+			"level": 2,
+			"text": "Namespaces",
+			"anchor": "namespaces"
+		},
+		{
+			"level": 2,
+			"text": "Conflicts",
+			"anchor": "conflicts"
+		},
+		{
+			"level": 2,
+			"text": "Cycles and optional imports",
+			"anchor": "cycles-and-optional-imports"
+		},
+		{
+			"level": 2,
+			"text": "Undo",
+			"anchor": "undo"
+		},
+		{
+			"level": 2,
+			"text": "Stability",
+			"anchor": "stability"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-docs-multi-document-composition-md-caf6f0343d-001.json"
+	]
+}

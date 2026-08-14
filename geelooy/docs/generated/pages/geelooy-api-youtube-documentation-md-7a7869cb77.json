@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-youtube-documentation-md-7a7869cb77",
+	"title": "YouTube API Documentation",
+	"sourcePath": "geelooy/api/youtube/DOCUMENTATION.md",
+	"category": "API",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "YouTube API Documentation",
+			"anchor": "youtube-api-documentation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-youtube-documentation-md-7a7869cb77-001.json"
+	]
+}

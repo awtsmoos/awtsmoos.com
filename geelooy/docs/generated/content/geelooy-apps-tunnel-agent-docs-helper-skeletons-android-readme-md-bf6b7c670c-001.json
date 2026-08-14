@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\n\n# Android Remote Helper Skeleton\n\nVisible-consent MediaProjection helper skeleton. It must never start hidden.\n\nFiles planned:\n- `ConsentActivity.kt`: asks Android MediaProjection permission.\n- `CaptureService.kt`: foreground service with persistent stop notification.\n- `FrameEncoder.kt`: encodes frames for tunnel delivery.\n- `TunnelBridge.kt`: binds frames to a short-lived session token.\n- `PanicStopReceiver.kt`: immediate revoke/stop path.\n\nBlocked by default: clipboard, files, raw shell, credential reveal, invisible capture.\n"
+}

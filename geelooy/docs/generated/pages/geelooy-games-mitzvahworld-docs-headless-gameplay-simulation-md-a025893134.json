@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-docs-headless-gameplay-simulation-md-a025893134",
+	"title": "B\"H",
+	"sourcePath": "geelooy/games/mitzvahWorld/docs/HEADLESS_GAMEPLAY_SIMULATION.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Renderer-Free Gameplay Simulation",
+			"anchor": "renderer-free-gameplay-simulation"
+		},
+		{
+			"level": 2,
+			"text": "Purpose",
+			"anchor": "purpose"
+		},
+		{
+			"level": 2,
+			"text": "Real model loading",
+			"anchor": "real-model-loading"
+		},
+		{
+			"level": 2,
+			"text": "Real mechanics reused",
+			"anchor": "real-mechanics-reused"
+		},
+		{
+			"level": 2,
+			"text": "Deterministic time",
+			"anchor": "deterministic-time"
+		},
+		{
+			"level": 2,
+			"text": "Inspection",
+			"anchor": "inspection"
+		},
+		{
+			"level": 2,
+			"text": "CLI",
+			"anchor": "cli"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-docs-headless-gameplay-simulation-md-a025893134-001.json"
+	]
+}

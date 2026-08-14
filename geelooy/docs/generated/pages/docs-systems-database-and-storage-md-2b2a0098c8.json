@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-systems-database-and-storage-md-2b2a0098c8",
+	"title": "Database and Storage",
+	"sourcePath": "docs/SYSTEMS/DATABASE_AND_STORAGE.md",
+	"category": "Systems",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Database and Storage",
+			"anchor": "database-and-storage"
+		},
+		{
+			"level": 2,
+			"text": "Runtime initialization",
+			"anchor": "runtime-initialization"
+		},
+		{
+			"level": 2,
+			"text": "Database-root precedence",
+			"anchor": "database-root-precedence"
+		},
+		{
+			"level": 2,
+			"text": "Runtime exposure",
+			"anchor": "runtime-exposure"
+		},
+		{
+			"level": 2,
+			"text": "Browser database tools",
+			"anchor": "browser-database-tools"
+		},
+		{
+			"level": 2,
+			"text": "Path contracts",
+			"anchor": "path-contracts"
+		},
+		{
+			"level": 2,
+			"text": "Job queue",
+			"anchor": "job-queue"
+		},
+		{
+			"level": 2,
+			"text": "Secrets and local config",
+			"anchor": "secrets-and-local-config"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		}
+	],
+	"markdownParts": [
+		"content/docs-systems-database-and-storage-md-2b2a0098c8-001.json"
+	]
+}

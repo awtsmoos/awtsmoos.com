@@ -1,0 +1,344 @@
+[
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-cards-de32ecc3-m-2a7b467dea",
+		"title": "Project Tutorial: The Utterances — Blackjack on Awtsmoos",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-cards-de32ecc3.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: The Utterances — Blackjack on Awtsmoos",
+				"anchor": "project-tutorial-the-utterances-blackjack-on-awtsmoos"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: The Utterances — Blackjack on Awtsmoos Path: geelooy/games/cards · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runti",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: the utterances — blackjack on awtsmoos path: geelooy/games/cards · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md local documentation: geelooy/games/cards/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 10 0 0 0 1 0 11 public entry points /games/cards → geelooy/games/cards/index.html — the utterances — blackjack on awtsmoos symbol evidence source files: 5; classes: 4; functions: 4; exports: 5; samples: blackjackai, createdeck, shuffledeck, renderer, blackjackgame, orchestrates, initializemenu, beginexperience. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-cards-de32ecc3-m-2a7b467dea.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-chess-9ba46d03-m-a245021c40",
+		"title": "Project Tutorial: Ultimate Chess AI",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-chess-9ba46d03.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: Ultimate Chess AI",
+				"anchor": "project-tutorial-ultimate-chess-ai"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Ultimate Chess AI Path: geelooy/games/chess · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or healt",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: ultimate chess ai path: geelooy/games/chess · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, main.js, documentation.md local documentation: geelooy/games/chess/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 35 0 0 0 1 0 36 public entry points /games/chess → geelooy/games/chess/index.html — ultimate chess ai /games/chess/debug → geelooy/games/chess/debug/index.html — awtsmoos engine debugging harness symbol evidence source files: 28; classes: 16; functions: 85; exports: 44; samples: evaluate, ordermoves, quiesce, search, searchroot, decodemove, processrawbook, initializeengine, forgeuniverseindices, getlsbindex, popbit, popcount. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-chess-9ba46d03-m-a245021c40.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-city-of-light-78-27ff7f0456",
+		"title": "Project Tutorial: City of Light · The Complete Pilgrimage",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-city-of-light-78d65cbc.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: City of Light · The Complete Pilgrimage",
+				"anchor": "project-tutorial-city-of-light-the-complete-pilgrimage"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: City of Light · The Complete Pilgrimage Path: geelooy/games/city of light · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, ",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: city of light · the complete pilgrimage path: geelooy/games/city of light · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, documentation.md, readme.md, readme.md local documentation: geelooy/games/city of light/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 67 11 0 0 2 0 80 public entry points /games/city of light → geelooy/games/city of light/index.html — city of light · the complete pilgrimage symbol evidence source files: 54; classes: 28; functions: 76; exports: 96; samples: abilities, abilitybyid, abilitylist, ability, campaign chapters, chapterbynumber, chapterbyid, chapterpresentation, chaptersunlockedthrough, campaignprogress, clampchapter, nonnegative. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 11 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-city-of-light-78-27ff7f0456.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-connect4-f617ea5-349457e991",
+		"title": "Project Tutorial: Connect 4",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-connect4-f617ea51.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: Connect 4",
+				"anchor": "project-tutorial-connect-4"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Connect 4 Path: geelooy/games/connect4 · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health gua",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: connect 4 path: geelooy/games/connect4 · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, main.js local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 6 0 0 0 0 0 6 public entry points /games/connect4 → geelooy/games/connect4/index.html — connect 4 symbol evidence source files: 4; classes: 5; functions: 28; exports: 0; samples: getgolemmove, minimax, scoreposition, evaluatewindow, getvalidlocations, ai isterminalnode, getnextopenrow, ai droppiece, ai checkwin, resize, init, resetgame. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-connect4-f617ea5-349457e991.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-dove-c1bb7fb4-md-142f49d009",
+		"title": "Project Tutorial: Noah's Dove's 🕊️ Quest ❓ for Shalom",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-dove-c1bb7fb4.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: Noah's Dove's 🕊️ Quest ❓ for Shalom",
+				"anchor": "project-tutorial-noah-s-dove-s-quest-for-shalom"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Noah's Dove's 🕊️ Quest ❓ for Shalom Path: geelooy/games/dove · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: noah's dove's 🕊️ quest ❓ for shalom path: geelooy/games/dove · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 8 0 0 0 0 0 8 public entry points /games/dove → geelooy/games/dove/index.html — noah's dove's 🕊️ quest ❓ for shalom symbol evidence source files: 6; classes: 0; functions: 22; exports: 32; samples: init, update, draw, drawwaveline, canvas width, canvas height, updatedimensions, dove start x, dove start y, dove width, dove height, dove radius. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-dove-c1bb7fb4-md-142f49d009.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-emojis-a9a3155b--0cb0308ee6",
+		"title": "Project Tutorial: Emoji War — Neon Caption Arcade",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-emojis-a9a3155b.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: Emoji War — Neon Caption Arcade",
+				"anchor": "project-tutorial-emoji-war-neon-caption-arcade"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Emoji War — Neon Caption Arcade Path: geelooy/games/emojis · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime own",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: emoji war — neon caption arcade path: geelooy/games/emojis · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md local documentation: geelooy/games/emojis/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 36 0 0 0 1 0 37 public entry points /games/emojis → geelooy/games/emojis/index.html — emoji war — neon caption arcade symbol evidence source files: 30; classes: 16; functions: 103; exports: 88; samples: setupaudio, playsound, configuresound, configuresweep, rebuildstars, drawbackground, drawwebcambackground, loadcaptiondraft, preparecaptiondata, updatefilecount, revokecaptionurls, bindcaptiondragging. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-emojis-a9a3155b--0cb0308ee6.json"
+	}
+]

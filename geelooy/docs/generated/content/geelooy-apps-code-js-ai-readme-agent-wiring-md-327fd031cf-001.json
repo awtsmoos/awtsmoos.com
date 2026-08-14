@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H\n\n# Autonomous Vibe Agent Wiring\n\nThis folder adds the missing architecture for the AI coding UI.\n\n## Main fixes\n\n1. The filesystem provider now rejects missing provider identity early.\n2. Git commit context is validated before remote upload.\n3. GitHub commit happens once, after all files are uploaded.\n4. Local `.awtsmoos-repo/ikar.js` anchor writes inherit the correct provider type.\n5. Agent timeline phases replace frozen \"waiting first spark\" UI.\n6. Tool calls render collapsed by default.\n7. File edits/creates/tests/commits can stream as readable phases.\n\n## Required stream integration\n\nWherever the AI API currently handles stream events, import:\n\n```js\nimport { agentStreamController } from './agent/stream-controller.js';"
+}

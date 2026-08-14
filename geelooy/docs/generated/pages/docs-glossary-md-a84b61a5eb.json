@@ -1,0 +1,84 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-glossary-md-a84b61a5eb",
+	"title": "Repository Glossary",
+	"sourcePath": "docs/GLOSSARY.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Repository Glossary",
+			"anchor": "repository-glossary"
+		},
+		{
+			"level": 2,
+			"text": "Awtsmoos",
+			"anchor": "awtsmoos"
+		},
+		{
+			"level": 2,
+			"text": "Geelooy",
+			"anchor": "geelooy"
+		},
+		{
+			"level": 2,
+			"text": "Derech",
+			"anchor": "derech"
+		},
+		{
+			"level": 2,
+			"text": "$i",
+			"anchor": "i"
+		},
+		{
+			"level": 2,
+			"text": "$GET, $POST, $DELETE",
+			"anchor": "get-post-delete"
+		},
+		{
+			"level": 2,
+			"text": "Dynamic parameter",
+			"anchor": "dynamic-parameter"
+		},
+		{
+			"level": 2,
+			"text": "Heichel / Heichelos",
+			"anchor": "heichel-heichelos"
+		},
+		{
+			"level": 2,
+			"text": "Alias",
+			"anchor": "alias"
+		},
+		{
+			"level": 2,
+			"text": "DosDB",
+			"anchor": "dosdb"
+		},
+		{
+			"level": 2,
+			"text": "Perutah / Perutas",
+			"anchor": "perutah-perutas"
+		},
+		{
+			"level": 2,
+			"text": "Tunnel",
+			"anchor": "tunnel"
+		},
+		{
+			"level": 2,
+			"text": "Mission room",
+			"anchor": "mission-room"
+		},
+		{
+			"level": 2,
+			"text": "Generated docs",
+			"anchor": "generated-docs"
+		}
+	],
+	"markdownParts": [
+		"content/docs-glossary-md-a84b61a5eb-001.json"
+	]
+}

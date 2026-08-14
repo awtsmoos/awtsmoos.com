@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-docs-glb-wardrobe-and-tailor-md-ea7130d937",
+	"title": "B\"H",
+	"sourcePath": "geelooy/games/mitzvahWorld/docs/GLB_WARDROBE_AND_TAILOR.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Canonical GLB Wardrobe and Tailor",
+			"anchor": "canonical-glb-wardrobe-and-tailor"
+		},
+		{
+			"level": 2,
+			"text": "Meaningful garment groups",
+			"anchor": "meaningful-garment-groups"
+		},
+		{
+			"level": 2,
+			"text": "Required garments",
+			"anchor": "required-garments"
+		},
+		{
+			"level": 2,
+			"text": "Appearance",
+			"anchor": "appearance"
+		},
+		{
+			"level": 2,
+			"text": "Attributes",
+			"anchor": "attributes"
+		},
+		{
+			"level": 2,
+			"text": "Tailor",
+			"anchor": "tailor"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-docs-glb-wardrobe-and-tailor-md-ea7130d937-001.json"
+	]
+}

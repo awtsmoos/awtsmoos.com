@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Geelooy Test Documentation\n\nThe Awtsmoos asks behavior to prove itself through tests rather than confidence alone;\nAwtsmoos.com maps this public-layer test tree beside package scripts and system-specific suites so verification can be chosen from the known.\n\nRead [../../docs/TEST_INDEX.md](../../docs/TEST_INDEX.md) and [../../docs/SYSTEMS/TESTING.md](../../docs/SYSTEMS/TESTING.md).\n"
+}

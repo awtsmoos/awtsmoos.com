@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-nesher-studio-modules-streaming-readme-md-a90377763f",
+	"title": "Nesher YouTube Streaming Modules",
+	"sourcePath": "geelooy/apps/nesher-studio/modules/streaming/README.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Nesher YouTube Streaming Modules",
+			"anchor": "nesher-youtube-streaming-modules"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-nesher-studio-modules-streaming-readme-md-a90377763f-001.json"
+	]
+}

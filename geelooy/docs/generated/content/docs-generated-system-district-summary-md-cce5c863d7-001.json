@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# System District Summary\n\n| District | Systems | Env names | Apps | Events |\n| --- | --- | --- | --- | --- |\n| Data and Persistence | 7 | 75 | 0 | 0 |\n| Security and Trust | 6 | 92 | 0 | 0 |\n| Realtime and WebSockets | 5 | 106 | 20 | 55 |\n"
+}

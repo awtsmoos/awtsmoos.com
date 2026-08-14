@@ -1,0 +1,242 @@
+[
+	{
+		"id": "docs-api-calling-cookbook-md-9607600aca",
+		"title": "Calling the APIs by Hand",
+		"sourcePath": "docs/API/CALLING_COOKBOOK.md",
+		"category": "API",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Calling the APIs by Hand",
+				"anchor": "calling-the-apis-by-hand"
+			},
+			{
+				"level": 2,
+				"text": "The universal calling workflow",
+				"anchor": "the-universal-calling-workflow"
+			},
+			{
+				"level": 2,
+				"text": "Example: health-style GPT route",
+				"anchor": "example-health-style-gpt-route"
+			},
+			{
+				"level": 2,
+				"text": "Example: Wallet",
+				"anchor": "example-wallet"
+			},
+			{
+				"level": 2,
+				"text": "Example: Social dynamic route",
+				"anchor": "example-social-dynamic-route"
+			},
+			{
+				"level": 2,
+				"text": "Example: Tunnel Control",
+				"anchor": "example-tunnel-control"
+			},
+			{
+				"level": 2,
+				"text": "Example: Mission Room WebSocket",
+				"anchor": "example-mission-room-websocket"
+			},
+			{
+				"level": 2,
+				"text": "Why no giant curl catalog appears here",
+				"anchor": "why-no-giant-curl-catalog-appears-here"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Calling the APIs by Hand The Awtsmoos gives a human a route to enter, yet authority and shape must still be learned before the call; Awtsmoos.com makes manual use safer by tracing source, method, identity, vessels, callers, and failure wall by wall. The universal calling workflow 1. Sear",
+		"searchText": "b\"h boruch hashem blessed is he calling the apis by hand the awtsmoos gives a human a route to enter, yet authority and shape must still be learned before the call; awtsmoos.com makes manual use safer by tracing source, method, identity, vessels, callers, and failure wall by wall. the universal calling workflow 1. search the path in ../generated/api route atlas.md. 2. confirm the owning derech in ../generated/derech mounts.md. 3. check syntax health in ../generated/derech health.md. 4. open ../generated/api source contracts.md for method/vessel/status/header evidence. 5. read the exact handler. 6. check authentication.md for the family's trust boundary. 7. search ../generated/api caller index.md for working browser side usage. 8. run the nearest test before relying on a mutation or security sensitive flow. example: health style gpt route source inventory contains /api/gpt/health. find that row first, then inspect the gpt derech for its response behavior. do not infer that all gpt routes share the health route's method or authentication. example: wallet for /api/wallet/balance, the caller index shows usage from the wallet app. for paypal create/capture routes, read the wallet handler and provider environment configuration before constructing requests. never copy live credentials into a manual example. example: social dynamic route a pattern such as a heichel/post/comment route can contain multiple :variables. replace them with url encoded real identifiers; do not change them to dollar sign names. then inspect alias/heichel ownership checks in addition to login state. example: tunnel control for /api/tunnel/control/my device, devices, preview, pairing, filesystem, or treasury routes, use trusted session/oauth/api key identity. never rely on a browser body field named owner or userid as authorization. example: mission room websocket do not call /api/tunnel/control/mission room/ws as an ordinary json route. obtain the proper one time ticket through the owning mission flow, use a websocket upgrade with trusted session identity and a valid origin, and match the required room protocol version. see ../websockets/mission rooms.md. why no giant curl catalog appears here the repository does not expose one uniform verb/body/auth schema, and some routes are environment/provider dependent. a copied curl command can become dangerously misleading. the generated indexes instead lead directly to the current source and real callers.",
+		"page": "pages/docs-api-calling-cookbook-md-9607600aca.json"
+	},
+	{
+		"id": "docs-api-direct-root-handlers-md-1230d7b7f6",
+		"title": "Direct Root HTTP Handlers",
+		"sourcePath": "docs/API/DIRECT_ROOT_HANDLERS.md",
+		"category": "API",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Direct Root HTTP Handlers",
+				"anchor": "direct-root-http-handlers"
+			},
+			{
+				"level": 2,
+				"text": "/mitzvahWorld/autoplay-ping",
+				"anchor": "mitzvahworld-autoplay-ping"
+			},
+			{
+				"level": 2,
+				"text": "/mitzvahWorld/autoplay-report",
+				"anchor": "mitzvahworld-autoplay-report"
+			},
+			{
+				"level": 2,
+				"text": "/api/mitzvahWorld/autoplay-report",
+				"anchor": "api-mitzvahworld-autoplay-report"
+			},
+			{
+				"level": 2,
+				"text": "Why this matters",
+				"anchor": "why-this-matters"
+			},
+			{
+				"level": 2,
+				"text": "Execution order",
+				"anchor": "execution-order"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Direct Root HTTP Handlers The Awtsmoos reveals that not every endpoint enters through a derech gate; Awtsmoos.com root index.js handles these requests before dynamic routing can participate. /mitzvahWorld/autoplay ping Handled by the Mitzvah World report helper in root index.js. It retur",
+		"searchText": "b\"h boruch hashem blessed is he direct root http handlers the awtsmoos reveals that not every endpoint enters through a derech gate; awtsmoos.com root index.js handles these requests before dynamic routing can participate. /mitzvahworld/autoplay ping handled by the mitzvah world report helper in root index.js. it returns a json response and is checked before normal awtsserver request handling. the inspected root branch does not impose a dedicated post only condition for the ping path. /mitzvahworld/autoplay report post report submission path. the handler persists autoplay report material beneath: geelooy/games/mitzvahworld/reports/autoplay the exact stored record/file behavior should be read in the root handler before changing its format. /api/mitzvahworld/autoplay report post alias for the same report ingress behavior. it looks like an api path but is not discovered from geelooy/api; it is a root process exception. why this matters a route scanner confined to geelooy/api/ cannot discover root direct handlers. they must be maintained as a separate documentation category. if another root direct route is added to index.js, add it here and consider extending the generator with a dedicated root handler scanner. execution order 1. http request reaches root server. 2. mitzvah world direct handler is checked. 3. if it handles the request, generic dynamic routing is not used. 4. otherwise the request falls through to dynamicserver.onrequest.",
+		"page": "pages/docs-api-direct-root-handlers-md-1230d7b7f6.json"
+	},
+	{
+		"id": "docs-api-endpoint-index-md-ccb7781ca2",
+		"title": "Endpoint Index",
+		"sourcePath": "docs/API/ENDPOINT_INDEX.md",
+		"category": "API",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Endpoint Index",
+				"anchor": "endpoint-index"
+			},
+			{
+				"level": 2,
+				"text": "Mount families",
+				"anchor": "mount-families"
+			},
+			{
+				"level": 2,
+				"text": "Root-direct APIs outside derech inventory",
+				"anchor": "root-direct-apis-outside-derech-inventory"
+			},
+			{
+				"level": 2,
+				"text": "How to get every concrete pattern",
+				"anchor": "how-to-get-every-concrete-pattern"
+			},
+			{
+				"level": 2,
+				"text": "Route-table families included mechanically",
+				"anchor": "route-table-families-included-mechanically"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Endpoint Index The Awtsmoos lets a human choose a family before descending into hundreds of lines; Awtsmoos.com keeps the full route atlas below while this page gives the architectural signs. Mount families Prefix Primary source Purpose /api geelooy/api/ awtsmoos.derech.js Root/demo/lega",
+		"searchText": "b\"h boruch hashem blessed is he endpoint index the awtsmoos lets a human choose a family before descending into hundreds of lines; awtsmoos.com keeps the full route atlas below while this page gives the architectural signs. mount families prefix primary source purpose /api geelooy/api/ awtsmoos.derech.js root/demo/legacy dynamic routes /api/admin api/admin/ awtsmoos.derech.js privileged admin code route /api/compiler api/compiler/ compiler/backends/build/rebbe android /api/contact api/contact/ contact submission/status /api/email api/email/ mail routes / social mail adaptation /api/fetch api/fetch/ guarded server side fetch proxy /api/gpt api/gpt/ ai health/capability/chat/reset /api/oauth api/oauth/ oauth authorization/token/client/session routes /api/ohr hagnuz api/ohr hagnuz/ realtime game ticket api /api/public api/public/ public db read plus privileged mutation surface /api/runtime api/runtime/ native capability/launch/status/stop /api/sefarim api/sefarim/ sefer/section/subsection retrieval /api/social api/social/ large social/content/drive/graph domain /api/ssh api/ssh/ ssh connect, execute, file/folder operations /api/streaming api/streaming/ streaming connectors and action dispatch /api/text api/text/ text/timestamp source; currently syntax broken /api/tunnel api/tunnel/ tunnel status/client/request/fs /api/tunnel/control api/tunnel/control/ full tunnel control platform /api/tunnel/install api/tunnel/install/ public installers/bundles /api/wallet api/wallet/ wallet/commerce/paypal /api/youtube api/youtube/ youtube account/media/live management root direct apis outside derech inventory root index.js handles /mitzvahworld/autoplay ping, /mitzvahworld/autoplay report, and /api/mitzvahworld/autoplay report before generic routing. how to get every concrete pattern search ../generated/api route atlas.md. it is deliberately long because it is the mechanical route to source layer. for any pattern containing :name, use ../routes/dynamic paths.md. route table families included mechanically the generator evaluates known table driven route modules for oauth, ohr hagnuz, tunnel control, wallet, youtube, and streaming in addition to scanning static route shaped registrations. that is essential because many callable routes are not literal object keys inside the derech file itself.",
+		"page": "pages/docs-api-endpoint-index-md-ccb7781ca2.json"
+	},
+	{
+		"id": "docs-api-input-vessels-md-20c76b038b",
+		"title": "API Input Vessels",
+		"sourcePath": "docs/API/INPUT_VESSELS.md",
+		"category": "API",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Input Vessels",
+				"anchor": "api-input-vessels"
+			},
+			{
+				"level": 2,
+				"text": "$i — request/runtime context",
+				"anchor": "i-request-runtime-context"
+			},
+			{
+				"level": 2,
+				"text": "Route variables",
+				"anchor": "route-variables"
+			},
+			{
+				"level": 2,
+				"text": "$GET",
+				"anchor": "get"
+			},
+			{
+				"level": 2,
+				"text": "$POST",
+				"anchor": "post"
+			},
+			{
+				"level": 2,
+				"text": "$DELETE",
+				"anchor": "delete"
+			},
+			{
+				"level": 2,
+				"text": "Headers",
+				"anchor": "headers"
+			},
+			{
+				"level": 2,
+				"text": "Cookies and signed session state",
+				"anchor": "cookies-and-signed-session-state"
+			},
+			{
+				"level": 2,
+				"text": "Database and server state",
+				"anchor": "database-and-server-state"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Input Vessels The Awtsmoos clothes one request in path, query, body, cookie, header, identity, and state; Awtsmoos.com separates these vessels so a human knows what data belongs to which gate. $i — request/runtime context Derech modules commonly receive $i, a server created context. ",
+		"searchText": "b\"h boruch hashem blessed is he api input vessels the awtsmoos clothes one request in path, query, body, cookie, header, identity, and state; awtsmoos.com separates these vessels so a human knows what data belongs to which gate. $i — request/runtime context derech modules commonly receive $i, a server created context. depending on the handler it can expose request metadata, url/path information, parsed data vessels, route variables, authenticated identity, database access, response helpers, and family specific utilities. $i is not client json and is not a url segment. route variables dynamic route patterns use colon syntax such as :alias, :postid, :host, or :blobid. the router populates the captured variables for the handler. see ../routes/dynamic paths.md. $ get parsed query/input data. it commonly carries filters, pagination, search controls, optional identifiers, and route specific read parameters. a source reading $ get does not prove the http method is exclusively get. $ post parsed submitted/body data. create, update, action, provider, and control plane handlers frequently use it. the exact content type and required fields remain route specific. $ delete delete oriented parsed input used in a number of social and related mutation flows. it is a data vessel, not proof that the route accepts only delete. headers headers carry identity/provider/protocol evidence in several systems. important examples include authorization bearer credentials, awtsmoos api keys, origin, websocket upgrade headers, content type, and provider specific metadata. the generated source contract index records statically visible header names where the scanner can prove them. cookies and signed session state authentication installed by the dynamic server can populate trusted request user state from session evidence. client submitted body fields must not be substituted for this trusted identity. database and server state $i.db and related server state are injected capabilities, not caller controlled input. they matter when understanding side effects but should never appear in an external api request example. generated evidence ../generated/api source contracts.md labels source files that lexically reference get/post/delete vessels, route variables, headers, cookies, identity, or db access. this is a source level map, not a formal per endpoint schema.",
+		"page": "pages/docs-api-input-vessels-md-20c76b038b.json"
+	},
+	{
+		"id": "docs-api-methods-md-37073f9870",
+		"title": "HTTP Method Evidence",
+		"sourcePath": "docs/API/METHODS.md",
+		"category": "API",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "HTTP Method Evidence",
+				"anchor": "http-method-evidence"
+			},
+			{
+				"level": 2,
+				"text": "What the generated contract index means",
+				"anchor": "what-the-generated-contract-index-means"
+			},
+			{
+				"level": 2,
+				"text": "Observed repository patterns",
+				"anchor": "observed-repository-patterns"
+			},
+			{
+				"level": 2,
+				"text": "Why method cannot be inferred from $POST",
+				"anchor": "why-method-cannot-be-inferred-from-post"
+			},
+			{
+				"level": 2,
+				"text": "How to determine a concrete endpoint's verb",
+				"anchor": "how-to-determine-a-concrete-endpoint-s-verb"
+			},
+			{
+				"level": 2,
+				"text": "Route tables",
+				"anchor": "route-tables"
+			},
+			{
+				"level": 2,
+				"text": "Documentation rule",
+				"anchor": "documentation-rule"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He HTTP Method Evidence The Awtsmoos gives one path different actions, but a method must be proven before a caller may assume; Awtsmoos.com therefore records method evidence conservatively, leaving unknown where source gives no safe room. What the generated contract index means ../GENERATED",
+		"searchText": "b\"h boruch hashem blessed is he http method evidence the awtsmoos gives one path different actions, but a method must be proven before a caller may assume; awtsmoos.com therefore records method evidence conservatively, leaving unknown where source gives no safe room. what the generated contract index means ../generated/api source contracts.md scans production api source files for explicit comparisons against http methods. a source row may list get, post, put, delete, or another verb only when the file contains lexical method dispatch evidence. a row marked unknown does not mean get . it means the discovery pass did not find a reliable explicit comparison in that source file. the handler may infer behavior from request vessels, delegate to another function, accept multiple methods, or rely on runtime machinery that the lexical scanner cannot prove. observed repository patterns the continuation scan found explicit method checks in dozens of api files, especially throughout social. get and post are common; put and delete also appear. patch did not appear in the explicit method comparison scan performed for this pass. why method cannot be inferred from $ post a handler reading $ post is evidence that submitted/body data is available. it is not by itself proof that the route rejects get, put, or another method. likewise, a read from $ get does not prove that only get is accepted. how to determine a concrete endpoint's verb 1. find the url in ../generated/api route atlas.md. 2. open its source file. 3. check ../generated/api source contracts.md for file level method evidence. 4. read the exact route handler and delegated functions. 5. search frontend callers in ../generated/api caller index.md. a caller's method is supporting evidence, not server authority. 6. check tests for method specific negative cases. route tables table driven families such as oauth, wallet, youtube, streaming, ohr hagnuz, and tunnel control can delegate the actual method decision into imported route functions. the route table key proves the url; the imported handler remains the authority for allowed verbs. documentation rule never write get /path or post /path in a human chapter unless the source or a verified contract establishes that verb. prefer route: /path plus a link to method evidence when certainty is incomplete.",
+		"page": "pages/docs-api-methods-md-37073f9870.json"
+	}
+]

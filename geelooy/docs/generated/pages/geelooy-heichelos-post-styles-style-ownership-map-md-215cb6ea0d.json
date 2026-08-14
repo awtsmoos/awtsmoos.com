@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-heichelos-post-styles-style-ownership-map-md-215cb6ea0d",
+	"title": "Reader Style Ownership Map",
+	"sourcePath": "geelooy/heichelos/post/styles/STYLE_OWNERSHIP_MAP.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Reader Style Ownership Map",
+			"anchor": "reader-style-ownership-map"
+		},
+		{
+			"level": 2,
+			"text": "Active entry",
+			"anchor": "active-entry"
+		},
+		{
+			"level": 2,
+			"text": "Active modern reader vessels",
+			"anchor": "active-modern-reader-vessels"
+		},
+		{
+			"level": 2,
+			"text": "Legacy compatibility still loaded",
+			"anchor": "legacy-compatibility-still-loaded"
+		},
+		{
+			"level": 2,
+			"text": "High-risk historical areas",
+			"anchor": "high-risk-historical-areas"
+		},
+		{
+			"level": 2,
+			"text": "Rules for future edits",
+			"anchor": "rules-for-future-edits"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-heichelos-post-styles-style-ownership-map-md-215cb6ea0d-001.json"
+	]
+}

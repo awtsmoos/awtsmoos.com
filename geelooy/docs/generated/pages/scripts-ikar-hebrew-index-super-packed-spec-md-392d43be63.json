@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "scripts-ikar-hebrew-index-super-packed-spec-md-392d43be63",
+	"title": "Ikar Hebrew Super-Packed Index v1",
+	"sourcePath": "scripts/ikar_hebrew_index/super_packed_spec.md",
+	"category": "Operations",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Ikar Hebrew Super-Packed Index v1",
+			"anchor": "ikar-hebrew-super-packed-index-v1"
+		},
+		{
+			"level": 2,
+			"text": "Problem with the old temp shards",
+			"anchor": "problem-with-the-old-temp-shards"
+		},
+		{
+			"level": 2,
+			"text": "New shape",
+			"anchor": "new-shape"
+		},
+		{
+			"level": 2,
+			"text": "Dictionaries",
+			"anchor": "dictionaries"
+		},
+		{
+			"level": 2,
+			"text": "Segment rows",
+			"anchor": "segment-rows"
+		},
+		{
+			"level": 2,
+			"text": "Postings",
+			"anchor": "postings"
+		},
+		{
+			"level": 2,
+			"text": "Retrieval",
+			"anchor": "retrieval"
+		},
+		{
+			"level": 2,
+			"text": "Why this is smaller",
+			"anchor": "why-this-is-smaller"
+		}
+	],
+	"markdownParts": [
+		"content/scripts-ikar-hebrew-index-super-packed-spec-md-392d43be63-001.json"
+	]
+}

@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-ai-search-and-vector-index--ddff786958",
+	"title": "AI Search and Vector Index",
+	"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/AI_SEARCH_AND_VECTOR_INDEX.md",
+	"category": "Data",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "AI Search and Vector Index",
+			"anchor": "ai-search-and-vector-index"
+		},
+		{
+			"level": 2,
+			"text": "Components",
+			"anchor": "components"
+		},
+		{
+			"level": 2,
+			"text": "Public API rule",
+			"anchor": "public-api-rule"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		}
+	],
+	"markdownParts": [
+		"content/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-ai-search-and-vector-index--ddff786958-001.json"
+	]
+}

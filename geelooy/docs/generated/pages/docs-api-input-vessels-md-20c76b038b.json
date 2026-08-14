@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-api-input-vessels-md-20c76b038b",
+	"title": "API Input Vessels",
+	"sourcePath": "docs/API/INPUT_VESSELS.md",
+	"category": "API",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "API Input Vessels",
+			"anchor": "api-input-vessels"
+		},
+		{
+			"level": 2,
+			"text": "$i — request/runtime context",
+			"anchor": "i-request-runtime-context"
+		},
+		{
+			"level": 2,
+			"text": "Route variables",
+			"anchor": "route-variables"
+		},
+		{
+			"level": 2,
+			"text": "$GET",
+			"anchor": "get"
+		},
+		{
+			"level": 2,
+			"text": "$POST",
+			"anchor": "post"
+		},
+		{
+			"level": 2,
+			"text": "$DELETE",
+			"anchor": "delete"
+		},
+		{
+			"level": 2,
+			"text": "Headers",
+			"anchor": "headers"
+		},
+		{
+			"level": 2,
+			"text": "Cookies and signed session state",
+			"anchor": "cookies-and-signed-session-state"
+		},
+		{
+			"level": 2,
+			"text": "Database and server state",
+			"anchor": "database-and-server-state"
+		},
+		{
+			"level": 2,
+			"text": "Generated evidence",
+			"anchor": "generated-evidence"
+		}
+	],
+	"markdownParts": [
+		"content/docs-api-input-vessels-md-20c76b038b-001.json"
+	]
+}

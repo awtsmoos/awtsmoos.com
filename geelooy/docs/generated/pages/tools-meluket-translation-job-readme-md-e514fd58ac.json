@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "tools-meluket-translation-job-readme-md-e514fd58ac",
+	"title": "Meluket DeepSeek Translation Job Scaffold",
+	"sourcePath": "tools/meluket-translation-job/README.md",
+	"category": "Operations",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Meluket DeepSeek Translation Job Scaffold",
+			"anchor": "meluket-deepseek-translation-job-scaffold"
+		},
+		{
+			"level": 2,
+			"text": "Compact alignment model",
+			"anchor": "compact-alignment-model"
+		},
+		{
+			"level": 2,
+			"text": "Required output contents",
+			"anchor": "required-output-contents"
+		},
+		{
+			"level": 2,
+			"text": "Transliteration / glossary rules",
+			"anchor": "transliteration-glossary-rules"
+		},
+		{
+			"level": 2,
+			"text": "Compact XML response schema",
+			"anchor": "compact-xml-response-schema"
+		},
+		{
+			"level": 2,
+			"text": "Future comment storage shape",
+			"anchor": "future-comment-storage-shape"
+		},
+		{
+			"level": 2,
+			"text": "Safe flow",
+			"anchor": "safe-flow"
+		}
+	],
+	"markdownParts": [
+		"content/tools-meluket-translation-job-readme-md-e514fd58ac-001.json"
+	]
+}

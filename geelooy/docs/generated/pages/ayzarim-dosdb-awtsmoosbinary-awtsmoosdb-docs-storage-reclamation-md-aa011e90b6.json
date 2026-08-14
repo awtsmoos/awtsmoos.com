@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-storage-reclamation-md-aa011e90b6",
+	"title": "AwtsmoosDB Storage Reclamation",
+	"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/storage-reclamation.md",
+	"category": "Data",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "AwtsmoosDB Storage Reclamation",
+			"anchor": "awtsmoosdb-storage-reclamation"
+		},
+		{
+			"level": 2,
+			"text": "Strict read-only inspection",
+			"anchor": "strict-read-only-inspection"
+		},
+		{
+			"level": 2,
+			"text": "Verified free-space reuse",
+			"anchor": "verified-free-space-reuse"
+		},
+		{
+			"level": 2,
+			"text": "Storage telemetry",
+			"anchor": "storage-telemetry"
+		},
+		{
+			"level": 2,
+			"text": "Vector bulk loading",
+			"anchor": "vector-bulk-loading"
+		},
+		{
+			"level": 2,
+			"text": "Out-of-place vacuum",
+			"anchor": "out-of-place-vacuum"
+		},
+		{
+			"level": 2,
+			"text": "Command-line vacuum",
+			"anchor": "command-line-vacuum"
+		},
+		{
+			"level": 2,
+			"text": "Production exchange",
+			"anchor": "production-exchange"
+		}
+	],
+	"markdownParts": [
+		"content/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-storage-reclamation-md-aa011e90b6-001.json"
+	]
+}

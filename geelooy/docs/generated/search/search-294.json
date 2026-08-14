@@ -1,0 +1,256 @@
+[
+	{
+		"id": "geelooy-games-nitzotz-io-documentation-md-cffefeee32",
+		"title": "Nitzotz.io — Shlichus Adventure Metropolis",
+		"sourcePath": "geelooy/games/nitzotz-io/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Nitzotz.io — Shlichus Adventure Metropolis",
+				"anchor": "nitzotz-io-shlichus-adventure-metropolis"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Nitzotz.io — Shlichus Adventure Metropolis The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES",
+		"searchText": "b\"h boruch hashem blessed is he nitzotz.io — shlichus adventure metropolis the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “nitzotz.io — shlichus adventure metropolis”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-nitzotz-io-documentation-md-cffefeee32.json"
+	},
+	{
+		"id": "geelooy-games-ohr-hagnuz-documentation-md-8146254f6a",
+		"title": "B\"H — Ohr HaGnuz: The Concealed Frontier",
+		"sourcePath": "geelooy/games/ohr-hagnuz/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Ohr HaGnuz: The Concealed Frontier",
+				"anchor": "b-h-ohr-hagnuz-the-concealed-frontier"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He B\"H — Ohr HaGnuz: The Concealed Frontier The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES P",
+		"searchText": "b\"h boruch hashem blessed is he b\"h — ohr hagnuz: the concealed frontier the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “b\"h — ohr hagnuz: the concealed frontier”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-ohr-hagnuz-documentation-md-8146254f6a.json"
+	},
+	{
+		"id": "geelooy-games-ohr-hagnuz-ohr-hagnuz-next-phase-md-f28ad35ea0",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/ohr-hagnuz/OHR_HAGNUZ_NEXT_PHASE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Ohr HaGnuz Next Phase",
+				"anchor": "ohr-hagnuz-next-phase"
+			},
+			{
+				"level": 2,
+				"text": "Mobile",
+				"anchor": "mobile"
+			},
+			{
+				"level": 2,
+				"text": "Gameplay",
+				"anchor": "gameplay"
+			},
+			{
+				"level": 2,
+				"text": "Exploration",
+				"anchor": "exploration"
+			},
+			{
+				"level": 2,
+				"text": "Implementation Order",
+				"anchor": "implementation-order"
+			}
+		],
+		"excerpt": "B\"H Ohr HaGnuz Next Phase Mobile 1. Bottom thumb action bar 2. Collapsible HUD 3. Floating notifications 4. Fullscreen battle mode Gameplay 5. Musag personalities 6. Torah response combos 7. Sefiros progression tree 8. Torah scroll discoveries 9. Quest system Exploration 10. Hidden groves and secrets 11. Day/night cycl",
+		"searchText": "b\"h ohr hagnuz next phase mobile 1. bottom thumb action bar 2. collapsible hud 3. floating notifications 4. fullscreen battle mode gameplay 5. musag personalities 6. torah response combos 7. sefiros progression tree 8. torah scroll discoveries 9. quest system exploration 10. hidden groves and secrets 11. day/night cycle 12. non combat debate npcs implementation order phase 1: mobile hud + fullscreen battle phase 2: musag personalities + combo system phase 3: quest framework + discoveries phase 4: sefiros progression tree phase 5: day/night and exploration secrets",
+		"page": "pages/geelooy-games-ohr-hagnuz-ohr-hagnuz-next-phase-md-f28ad35ea0.json"
+	},
+	{
+		"id": "geelooy-games-ohr-hagnuz-src-design-expansionbrainstorm-md-e231ef0321",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/ohr-hagnuz/src/design/ExpansionBrainstorm.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Ohr HaGnuz Expansion Brainstorm",
+				"anchor": "ohr-hagnuz-expansion-brainstorm"
+			}
+		],
+		"excerpt": "B\"H Ohr HaGnuz Expansion Brainstorm The goal is not to copy Pokemon or RuneScape; the goal is to make a single player Torah soul RPG with the research, exploration, collection, combat, skilling, and quest depth that makes those games feel infinite. 1. World Multi region open world: village, beist midrash, forest, orcha",
+		"searchText": "b\"h ohr hagnuz expansion brainstorm the goal is not to copy pokemon or runescape; the goal is to make a single player torah soul rpg with the research, exploration, collection, combat, skilling, and quest depth that makes those games feel infinite. 1. world multi region open world: village, beist midrash, forest, orchard, river, cave, desert, midbar, shok, migdal, palace, sky gates, hidden sefiros chambers. travel gates: doors, region edges, portals, skill locked gates, quest locked gardens. random events: wild musagim, lost scrolls, singing trees, wandering magiggidim. 2. collection wild musagim as concept creatures that can be studied, sweetened, indexed, and used to unlock quests (not captured, but revealed). musag dex with question label, place found, development stage, sweetening date. iron/bronze/silver/gold mastery for each musag. 3. battle pokemon style battle screen: two visible sides, bars, exp, menu, status, animations. runescape style skill contribution: chochmah damage, binah defense, daat critical, niggun heal, hitbonenus evade. tempo system: attack, defend, meditate, niggun, source, svara. status: dazed, awe, shattered, fervor, joy, silence, ohr chozer, hitaapachut. enemy ai: logical opponents choose moves based on player status. 4. skills skills like runescape: learning, writing, niggun, hitbonenus, chesed, gevurah, tiferet, netzach, hod, yesod, malchus. each skill has level, exp, nextexp, and perks. world actions grant skill exp: read scroll, collect spark, fixbridge, meditate at tree, sing at river. 5. items inventory: sparks, scrolls, keys, chests, lamps, tools, forged letters, food, niggun shards. garments: equipment that changes appearance, stats, moves, and battle effects. tools: pen, lamp, kleiznemer, forge hammer, bridge nusach. 6. quests main quest: gather hidden light through seven regions. region quests: village, beist midrash, forest, river, cave, orchard, forge, ruins. side quests: npc memories, skill tutorials, rare musagim, reward garments. quest chains with prerequisites and stages. 7. nncs every npc has unique glyph, story, quest, battle or skill function. npc story progresses as quests complete. some npcs are shops, trainers, teleporters, skill masters, secret path guides. 8. ui/\u0015t kh\u0013z[�[x\\ ���\u0005\u0017vw7b\u0006��r��\u00056����\u0007\u0006\u0016�v���\u0004��fv�f�'�\u0007\u0006\u0016�v���\u0004�w6\u0016r\u0006fw���\u0004&\u0017gf�r\u000767&vv�\u0007v�f�\u0006��fw2�\u00077f\u0017gw2�\u0006&\u0017'2�\u0006\u0016��\u0017f���2��\u0005\u0007&w6wb\u0007fw7b\u0006�v�s�\u0007fw7b\u0006f��'2�\u0006f�&w7b�\u0006w&\u001772�\u0007g&\u0016��w\"�\u0006֖fv\u0016�r�\u0006&�72ࠣ��\u0004\u0017wf��\u0017f���\u0006\u0016�b\u0005fw7f��p��\u0004\u0017wf��v\u0016ʋ\u0006'�\u00066ɩ6���\u0005\u0007&w6wb\u0007\u0006\u0017f�2\u0006f�\"\u0006f��'2�\u0006vfvw2�\u0006w&\u001772�\u0004�\u000472�\u0006�fv�2��\u00056���r\u0007fw7g2\u0006f�\"\u0006&\u0017gf�w2�\u0007\u0006�'f\u0016�2�\u0007\u0017vw7g2�\u00076����2�\u0006�\u0017\u0002\u0006��\u0016f��r��\u0004&�b\u0007\u0006�\u0017�fw7b\u0006g&��\u0007f���\u0016vr\u0007f�\u0006֖fv\u0016�rࠣ\u0013\u0002\u00056\u0017fr���\u0016@��\u0004��6\u0016�7f�&\u0016vr\u00076\u0017fr��\u0004\u0017wf�6\u0017fr\u0006\u0016gfw\"\u0007\u0017vw7b\u00066��\u0006�wf����\u0006v\u0017&�v�b\u0007v���6��\u0006�wfv�\u0007w\u0002��\u0004w�\u0006�'b���\u0006�'b\u00076\u0017fr\u00066�frࠤ��\u0006�v�v�f\u0017f���\u0006�&fw ��\u0012�\u00056����2\u0006f�v�f\u0017f����\"�\u00056����\u0004u�\u0002\u0007v�&vb\u0006��f�\u0006&\u0017gf�w2\u0006\u0016�b\u0006�fv�2�2�\u0004�w6\u0016r\u0006fw�\u0006f�v�f\u0017f����b�\u0005t�\u0006�fw&�\u0017�\u0006f�\"\u00076����2�\u0007\u0017vw7g2�\u0006��fv�f�'��r�\u0004v�vג\u0004\u0014�\u0006\u0016�b\u00077f\u0017gw2\u0006��fw2�b�\u0004��&r\u0006�\u0017\u00072\u0006\u0016�b\u0007\u0017vw7b\u00066�\u0016��2�r�\u00056\u0017fr���\u0016bࣂ�\u0004&�b\u0007\u0006�\u0017�fw7b�",
+		"page": "pages/geelooy-games-ohr-hagnuz-src-design-expansionbrainstorm-md-e231ef0321.json"
+	},
+	{
+		"id": "geelooy-games-ohr-hagnuz-src-design-ohr-hagnuz-full-gameplay-plan-md-d10f40b770",
+		"title": "Ohr HaGnuz: I Did Not Forget",
+		"sourcePath": "geelooy/games/ohr-hagnuz/src/design/OHR_HAGNUZ_FULL_GAMEPLAY_PLAN.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Ohr HaGnuz: I Did Not Forget",
+				"anchor": "ohr-hagnuz-i-did-not-forget"
+			},
+			{
+				"level": 2,
+				"text": "Beginning",
+				"anchor": "beginning"
+			},
+			{
+				"level": 2,
+				"text": "Middle",
+				"anchor": "middle"
+			},
+			{
+				"level": 2,
+				"text": "End",
+				"anchor": "end"
+			},
+			{
+				"level": 2,
+				"text": "Files Added",
+				"anchor": "files-added"
+			},
+			{
+				"level": 2,
+				"text": "Files Rewritten",
+				"anchor": "files-rewritten"
+			}
+		],
+		"excerpt": "B\"H Ohr HaGnuz: I Did Not Forget This pass turns the game from loose systems into a real gameplay spine. Beginning The player starts in the first village with the guide ג. The road east now opens into the Garden of Ungiven Things. Middle The player collects five entrusted gifts: Terumah, First Tithe, Poor Tithe, Second",
+		"searchText": "b\"h ohr hagnuz: i did not forget this pass turns the game from loose systems into a real gameplay spine. beginning the player starts in the first village with the guide ג. the road east now opens into the garden of ungiven things. middle the player collects five entrusted gifts: terumah, first tithe, poor tithe, second tithe, and bikkurim. each gift has a receiver and an order. the court of rightful receivers teaches that holiness is given, not sold. end the house of forgetting checks whether the player removed the holy from the house, gave to the levi, gave to the poor, remembered blessing, shared joy, and restored flavor to fruit. files added data/rambam/ yesod/rambam/ data/maps/rambamgiftmaps.js portalindexrambam.js questindexrambam.js storyindexrambam.js encounterindexrambam.js rambammusagspecies.js files rewritten state.js tilelexicon.js worldmaps.js portalindex.js ohrencounter.js questindex.js storyindex.js encounterindex.js musagspecies.js the next major pass should update the ui visuals so the player sees the declaration checklist without opening dev logs.",
+		"page": "pages/geelooy-games-ohr-hagnuz-src-design-ohr-hagnuz-full-gameplay-plan-md-d10f40b770.json"
+	},
+	{
+		"id": "geelooy-games-party-documentation-md-88dde20566",
+		"title": "Party Challenge — Awtsmoos Games",
+		"sourcePath": "geelooy/games/party/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Party Challenge — Awtsmoos Games",
+				"anchor": "party-challenge-awtsmoos-games"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Party Challenge — Awtsmoos Games The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLATFORM.",
+		"searchText": "b\"h boruch hashem blessed is he party challenge — awtsmoos games the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “party challenge — awtsmoos games”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-party-documentation-md-88dde20566.json"
+	},
+	{
+		"id": "geelooy-games-scribe-journey-documentation-md-5e17fccc8e",
+		"title": "The Scribe's Journey: Echoes of Ein Sof",
+		"sourcePath": "geelooy/games/scribe-journey/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "The Scribe's Journey: Echoes of Ein Sof",
+				"anchor": "the-scribe-s-journey-echoes-of-ein-sof"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He The Scribe's Journey: Echoes of Ein Sof The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PL",
+		"searchText": "b\"h boruch hashem blessed is he the scribe's journey: echoes of ein sof the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “the scribe's journey: echoes of ein sof”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-scribe-journey-documentation-md-5e17fccc8e.json"
+	}
+]

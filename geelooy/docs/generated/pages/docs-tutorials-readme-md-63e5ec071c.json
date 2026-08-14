@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-tutorials-readme-md-63e5ec071c",
+	"title": "Awtsmoos.com Tutorials",
+	"sourcePath": "docs/TUTORIALS/README.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos.com Tutorials",
+			"anchor": "awtsmoos-com-tutorials"
+		},
+		{
+			"level": 2,
+			"text": "API families",
+			"anchor": "api-families"
+		},
+		{
+			"level": 2,
+			"text": "Server and runtime",
+			"anchor": "server-and-runtime"
+		},
+		{
+			"level": 2,
+			"text": "Content platform",
+			"anchor": "content-platform"
+		},
+		{
+			"level": 2,
+			"text": "Foundation curriculum",
+			"anchor": "foundation-curriculum"
+		},
+		{
+			"level": 2,
+			"text": "Evidence rule",
+			"anchor": "evidence-rule"
+		}
+	],
+	"markdownParts": [
+		"content/docs-tutorials-readme-md-63e5ec071c-001.json"
+	]
+}

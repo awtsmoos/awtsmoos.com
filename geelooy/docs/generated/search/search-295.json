@@ -1,0 +1,315 @@
+[
+	{
+		"id": "geelooy-games-scripts-documentation-md-c1bcde5503",
+		"title": "Shared Game Scripts",
+		"sourcePath": "geelooy/games/scripts/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Shared Game Scripts",
+				"anchor": "shared-game-scripts"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Shared Game Scripts The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Shared game runtime/browser scripts used across multiple game projects; this is support infrastructure, not a standalone game",
+		"searchText": "b\"h boruch hashem blessed is he shared game scripts the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role shared game runtime/browser scripts used across multiple game projects; this is support infrastructure, not a standalone game. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes use generated cross project dependency evidence to identify every game that imports shared script code before making breaking changes.",
+		"page": "pages/geelooy-games-scripts-documentation-md-c1bcde5503.json"
+	},
+	{
+		"id": "geelooy-games-sefira-clash-documentation-md-c82ee9b752",
+		"title": "Sefira Clash · Open World, Expedition, Co-op, Adventure & VS",
+		"sourcePath": "geelooy/games/sefira-clash/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Sefira Clash · Open World, Expedition, Co-op, Adventure & VS",
+				"anchor": "sefira-clash-open-world-expedition-co-op-adventure-vs"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Sefira Clash · Open World, Expedition, Co op, Adventure & VS The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read d",
+		"searchText": "b\"h boruch hashem blessed is he sefira clash · open world, expedition, co op, adventure & vs the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “sefira clash · open world, expedition, co op, adventure & vs”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-sefira-clash-documentation-md-c82ee9b752.json"
+	},
+	{
+		"id": "geelooy-games-seven-mitzvos-documentation-md-1e46ac11f1",
+		"title": "Seven Mitzvos · Living Material Worlds",
+		"sourcePath": "geelooy/games/seven-mitzvos/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Seven Mitzvos · Living Material Worlds",
+				"anchor": "seven-mitzvos-living-material-worlds"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Seven Mitzvos · Living Material Worlds The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLA",
+		"searchText": "b\"h boruch hashem blessed is he seven mitzvos · living material worlds the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “seven mitzvos · living material worlds”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-seven-mitzvos-documentation-md-1e46ac11f1.json"
+	},
+	{
+		"id": "geelooy-games-shema-strike-documentation-md-60aed49aaf",
+		"title": "Shema Strike: Gates of Light",
+		"sourcePath": "geelooy/games/shema-strike/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Shema Strike: Gates of Light",
+				"anchor": "shema-strike-gates-of-light"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Shema Strike: Gates of Light The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLATFORM.md f",
+		"searchText": "b\"h boruch hashem blessed is he shema strike: gates of light the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “shema strike: gates of light”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-shema-strike-documentation-md-60aed49aaf.json"
+	},
+	{
+		"id": "geelooy-games-styles-documentation-md-40a8a9768b",
+		"title": "Shared Game Styles",
+		"sourcePath": "geelooy/games/styles/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Shared Game Styles",
+				"anchor": "shared-game-styles"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Shared Game Styles The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Shared visual/style infrastructure for game projects; this is not an independent game. Start here Read docs/PROJECTS/GAMES PLA",
+		"searchText": "b\"h boruch hashem blessed is he shared game styles the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role shared visual/style infrastructure for game projects; this is not an independent game. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes css/style changes can affect multiple games even when no javascript import edge exists, so validate representative public entries manually.",
+		"page": "pages/geelooy-games-styles-documentation-md-40a8a9768b.json"
+	},
+	{
+		"id": "geelooy-games-sulam-ha-sod-documentation-md-f49e7e918c",
+		"title": "Sulam HaSod",
+		"sourcePath": "geelooy/games/sulam-ha-sod/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Sulam HaSod",
+				"anchor": "sulam-hasod"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Sulam HaSod The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLATFORM.md for the central ex",
+		"searchText": "b\"h boruch hashem blessed is he sulam hasod the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “sulam hasod”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-sulam-ha-sod-documentation-md-f49e7e918c.json"
+	},
+	{
+		"id": "geelooy-games-tests-documentation-md-91ade4943e",
+		"title": "Shared Game Tests",
+		"sourcePath": "geelooy/games/tests/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Shared Game Tests",
+				"anchor": "shared-game-tests"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Shared Game Tests The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Cross game/shared game verification area; this is test infrastructure, not an independent game. Start here Read docs/PROJECTS/G",
+		"searchText": "b\"h boruch hashem blessed is he shared game tests the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role cross game/shared game verification area; this is test infrastructure, not an independent game. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes use together with docs/test index.md and generated test ownership.md.",
+		"page": "pages/geelooy-games-tests-documentation-md-91ade4943e.json"
+	},
+	{
+		"id": "geelooy-heichel-editor-documentation-md-b6d0acb02a",
+		"title": "Heichel Editor",
+		"sourcePath": "geelooy/heichel-editor/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Heichel Editor",
+				"anchor": "heichel-editor"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Heichel Editor The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Public Social/Heichel editing interface. Observed entry files include index.html and app.js; observed title: “Heichel Editor — Gee",
+		"searchText": "b\"h boruch hashem blessed is he heichel editor the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role public social/heichel editing interface. observed entry files include index.html and app.js; observed title: “heichel editor — geelooy”. start here read docs/projects/social platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes editor/governance changes should be checked against heichel roles, submissions/review and social api authorization.",
+		"page": "pages/geelooy-heichel-editor-documentation-md-b6d0acb02a.json"
+	},
+	{
+		"id": "geelooy-heichel-review-documentation-md-6b72949f89",
+		"title": "Heichel Review Documentation",
+		"sourcePath": "geelooy/heichel-review/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Heichel Review Documentation",
+				"anchor": "heichel-review-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Heichel Review Documentation The Awtsmoos lets review, role, editor, and governance surround content without hiding who may act; Awtsmoos.com maps this UI beside the Social/Heichel system and governance tests so moderation remains a traceable contract. Read ../../docs/SYSTEMS/SOCIAL AND ",
+		"searchText": "b\"h boruch hashem blessed is he heichel review documentation the awtsmoos lets review, role, editor, and governance surround content without hiding who may act; awtsmoos.com maps this ui beside the social/heichel system and governance tests so moderation remains a traceable contract. read ../../docs/systems/social and heichel.md, ../../docs/api/social.md, and ../../docs/test index.md.",
+		"page": "pages/geelooy-heichel-review-documentation-md-6b72949f89.json"
+	}
+]

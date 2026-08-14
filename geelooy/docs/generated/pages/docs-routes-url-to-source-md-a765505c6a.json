@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-routes-url-to-source-md-a765505c6a",
+	"title": "URL to Source",
+	"sourcePath": "docs/ROUTES/URL_TO_SOURCE.md",
+	"category": "Routes",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "URL to Source",
+			"anchor": "url-to-source"
+		},
+		{
+			"level": 2,
+			"text": "General rule",
+			"anchor": "general-rule"
+		},
+		{
+			"level": 2,
+			"text": "API URL lookup",
+			"anchor": "api-url-lookup"
+		},
+		{
+			"level": 2,
+			"text": "Root-direct exception",
+			"anchor": "root-direct-exception"
+		},
+		{
+			"level": 2,
+			"text": "WebSocket exception",
+			"anchor": "websocket-exception"
+		}
+	],
+	"markdownParts": [
+		"content/docs-routes-url-to-source-md-a765505c6a-001.json"
+	]
+}

@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "ayzarim-awtsmoosdynamicserver-documentation-md-418402da2f",
+	"title": "Dynamic Server Documentation",
+	"sourcePath": "ayzarim/awtsmoosDynamicServer/DOCUMENTATION.md",
+	"category": "General",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Dynamic Server Documentation",
+			"anchor": "dynamic-server-documentation"
+		}
+	],
+	"markdownParts": [
+		"content/ayzarim-awtsmoosdynamicserver-documentation-md-418402da2f-001.json"
+	]
+}

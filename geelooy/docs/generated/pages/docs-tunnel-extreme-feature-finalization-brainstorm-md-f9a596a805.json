@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-tunnel-extreme-feature-finalization-brainstorm-md-f9a596a805",
+	"title": "Extreme Feature Finalization Brainstorm",
+	"sourcePath": "docs/tunnel/EXTREME_FEATURE_FINALIZATION_BRAINSTORM.md",
+	"category": "Tunnel",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Extreme Feature Finalization Brainstorm",
+			"anchor": "extreme-feature-finalization-brainstorm"
+		},
+		{
+			"level": 2,
+			"text": "North star",
+			"anchor": "north-star"
+		},
+		{
+			"level": 2,
+			"text": "Highest-value finalization features",
+			"anchor": "highest-value-finalization-features"
+		},
+		{
+			"level": 2,
+			"text": "Continued execution map",
+			"anchor": "continued-execution-map"
+		}
+	],
+	"markdownParts": [
+		"content/docs-tunnel-extreme-feature-finalization-brainstorm-md-f9a596a805-001.json"
+	]
+}

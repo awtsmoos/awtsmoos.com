@@ -1,0 +1,77 @@
+{
+  "bh": "B\"H",
+  "url": "http://127.0.0.1:8080/games/chess/",
+  "errors": [
+    {
+      "source": "network",
+      "level": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "timestamp": 1786705556306.302,
+      "url": "http://127.0.0.1:8080/scripts/awtsmoos/realtime/RealtimePendingMetadata.js",
+      "networkRequestId": "69076.73"
+    }
+  ],
+  "warnings": [],
+  "menuReadyMs": 248.48827699999993,
+  "navigationToMenuMs": 959.4640159999999,
+  "menuLayout": {
+    "innerWidth": 390,
+    "innerHeight": 844,
+    "documentWidth": 390,
+    "documentHeight": 844,
+    "loading": "none",
+    "mainMenu": "flex",
+    "buttonHeights": [
+      53,
+      76,
+      53,
+      53,
+      53,
+      53,
+      53,
+      53,
+      53
+    ],
+    "resources": [
+      "http://127.0.0.1:8080/games/chess/engine/runtime/upgrade-worker.js"
+    ]
+  },
+  "gameLayoutBeforeMove": {
+    "canvasIntrinsic": [
+      370,
+      370
+    ],
+    "canvasCss": [
+      370,
+      370
+    ],
+    "canvasTop": 222.3125,
+    "canvasBottom": 592.3125,
+    "documentWidth": 390,
+    "innerWidth": 390,
+    "drawHeight": 53,
+    "message": "\n\nYou are White. White to move."
+  },
+  "afterHumanMs": 0,
+  "afterHuman": {
+    "message": "\n\nYou are White. White to move.",
+    "canvasData": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXIAAAFyCAYAAADoJFEJAAAQAElEQVR4Ae"
+  },
+  "aiWaitMs": 247.40656000000013,
+  "afterAi": {
+    "message": "\n\nYou are White. White to move.\n\nBlack AI is thinking...",
+    "gameHidden": false,
+    "canvas": [
+      370,
+      370
+    ],
+    "documentWidth": 390,
+    "innerWidth": 390
+  },
+  "consoleErrorSummary": [
+    {
+      "url": "http://127.0.0.1:8080/scripts/awtsmoos/realtime/RealtimePendingMetadata.js",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    }
+  ]
+}

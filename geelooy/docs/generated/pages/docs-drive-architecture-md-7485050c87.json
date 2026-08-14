@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-drive-architecture-md-7485050c87",
+	"title": "Architecture and security",
+	"sourcePath": "docs/drive/architecture.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Architecture and security",
+			"anchor": "architecture-and-security"
+		},
+		{
+			"level": 2,
+			"text": "Data model",
+			"anchor": "data-model"
+		},
+		{
+			"level": 2,
+			"text": "Authentication and ownership",
+			"anchor": "authentication-and-ownership"
+		},
+		{
+			"level": 2,
+			"text": "Quotas and accounting",
+			"anchor": "quotas-and-accounting"
+		},
+		{
+			"level": 2,
+			"text": "Bounded streaming write flow",
+			"anchor": "bounded-streaming-write-flow"
+		},
+		{
+			"level": 2,
+			"text": "Public hosting contract",
+			"anchor": "public-hosting-contract"
+		},
+		{
+			"level": 2,
+			"text": "Manager security and accessibility",
+			"anchor": "manager-security-and-accessibility"
+		}
+	],
+	"markdownParts": [
+		"content/docs-drive-architecture-md-7485050c87-001.json"
+	]
+}

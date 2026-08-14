@@ -9,15 +9,15 @@ import { UniversalChatShell } from "./UniversalChatShell.js";
 import { resolveUniversalChatContext } from "./contextResolver.js";
 
 /**
- * @file Mounts one idempotent universal Torah-chat session and the lightweight private-request bridge around the same site socket.
- * @description The Awtsmoos renews header, game, post, and dedicated app around one transport where public and private covenants stay distinct;
- * Awtsmoos.com keeps source-only public speech visible everywhere while verified private requests remain lightweight until the full app is linked.
+ * @file Mounts one idempotent Universal Torah-chat session and re-adopts the actual route context whenever that singleton is reused.
+ * @description The Awtsmoos renews header, Space, game, post, and dedicated app around one transport where public and private covenants stay distinct;
+ * Awtsmoos.com keeps source-only public speech visible everywhere while a reused singleton follows the current canonical garment instead of an abandoned room.
  */
 
 const INSTANCE_KEY = "__awtsmoosUniversalChat";
 const STYLE_ROOT = "/scripts/awtsmoos/social/universalChat/";
 
-/** Creates or reuses the page's one universal-chat session. */
+/** Creates or reuses the page's one Universal Chat session. */
 export function mountUniversalChat(options = {}) {
 	installStyles();
 	const existing = window[INSTANCE_KEY];
@@ -38,12 +38,7 @@ export function mountUniversalChat(options = {}) {
 		shell,
 		launcher
 	});
-	const instance = {
-		socket,
-		shell,
-		launcher,
-		controller
-	};
+	const instance = { socket, shell, launcher, controller };
 	window[INSTANCE_KEY] = instance;
 	adoptOptions(instance, options);
 	controller.start();
@@ -51,8 +46,9 @@ export function mountUniversalChat(options = {}) {
 	return instance;
 }
 
-/** Applies later header/full-app mounting options to the existing singleton. */
+/** Applies later mounting options and current route context to the existing singleton. */
 function adoptOptions(instance, options) {
+	adoptContext(instance);
 	if (options.mount) {
 		instance.launcher.mount(options.mount);
 	}
@@ -61,7 +57,21 @@ function adoptOptions(instance, options) {
 	}
 }
 
-/** Loads the split universal-chat stylesheets once. */
+/** Moves feed and presence into the route's current bounded context without creating another socket. */
+function adoptContext(instance) {
+	const nextContext = resolveUniversalChatContext();
+	if (instance.controller.context.id === nextContext.id) {
+		return;
+	}
+	instance.controller.context = nextContext;
+	instance.controller.feed.context = nextContext;
+	instance.controller.presence.context = nextContext;
+	if (instance.controller.presence.started) {
+		instance.controller.presence.enter().catch(() => {});
+	}
+}
+
+/** Loads the split Universal Chat stylesheets once. */
 function installStyles() {
 	for (const name of ["panel.css", "messages.css"]) {
 		if (document.querySelector(`link[data-universal-chat-style="${name}"]`)) {
@@ -88,6 +98,6 @@ function revealExpanded(instance, container) {
 /** Loads only the lightweight verified private-request/index bridge on ordinary pages. */
 function mountPrivateBridge() {
 	import("../privateMessaging/bootstrap.js")
-		.then((module) => module.mountPrivateMessagingBridge())
+		.then(module => module.mountPrivateMessagingBridge())
 		.catch(() => {});
 }

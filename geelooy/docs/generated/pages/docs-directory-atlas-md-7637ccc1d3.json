@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-directory-atlas-md-7637ccc1d3",
+	"title": "Directory Atlas",
+	"sourcePath": "docs/DIRECTORY_ATLAS.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Directory Atlas",
+			"anchor": "directory-atlas"
+		},
+		{
+			"level": 2,
+			"text": "Repository-level districts",
+			"anchor": "repository-level-districts"
+		},
+		{
+			"level": 2,
+			"text": "Main geelooy/ product districts",
+			"anchor": "main-geelooy-product-districts"
+		},
+		{
+			"level": 2,
+			"text": "Evidence/support directories under geelooy",
+			"anchor": "evidence-support-directories-under-geelooy"
+		},
+		{
+			"level": 2,
+			"text": "Rule for future maintainers",
+			"anchor": "rule-for-future-maintainers"
+		}
+	],
+	"markdownParts": [
+		"content/docs-directory-atlas-md-7637ccc1d3-001.json"
+	]
+}

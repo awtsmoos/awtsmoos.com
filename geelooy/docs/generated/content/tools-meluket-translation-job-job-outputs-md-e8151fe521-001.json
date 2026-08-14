@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\n\n# Meluket job output location\n\nGenerated translation, validation, raw XML, swarm progress, import backups, and other run artifacts are intentionally kept outside this git repository.\n\nDefault external job root:\n\n```bash\n/Users/awtsmoos/Documents/awtsmoos-jobs/meluket-translation-job\n```\n\nOverride when needed:\n\n```bash\nAWTSMOOS_JOB_ROOT=/some/external/path node tools/meluket-translation-job/runMeluketSwarm.js --run\n```\n\nThe repository should contain scripts only, not generated job output.\n"
+}

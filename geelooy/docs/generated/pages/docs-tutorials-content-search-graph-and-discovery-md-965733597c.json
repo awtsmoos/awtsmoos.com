@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-tutorials-content-search-graph-and-discovery-md-965733597c",
+	"title": "Search, Graph, and Discovery",
+	"sourcePath": "docs/TUTORIALS/CONTENT/SEARCH_GRAPH_AND_DISCOVERY.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Search, Graph, and Discovery",
+			"anchor": "search-graph-and-discovery"
+		},
+		{
+			"level": 2,
+			"text": "Search families",
+			"anchor": "search-families"
+		},
+		{
+			"level": 2,
+			"text": "Evidence discipline",
+			"anchor": "evidence-discipline"
+		},
+		{
+			"level": 2,
+			"text": "Graph/object layer",
+			"anchor": "graph-object-layer"
+		}
+	],
+	"markdownParts": [
+		"content/docs-tutorials-content-search-graph-and-discovery-md-965733597c-001.json"
+	]
+}

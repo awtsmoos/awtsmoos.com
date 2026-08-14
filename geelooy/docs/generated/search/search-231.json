@@ -1,0 +1,202 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-29-kabbalistic-combat-pro-4224654bf1",
+		"title": "Reality File Map",
+		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-29-kabbalistic-combat-production/02_REALITY_FILE_MAP.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Reality File Map",
+				"anchor": "reality-file-map"
+			},
+			{
+				"level": 2,
+				"text": "Observed client boundaries",
+				"anchor": "observed-client-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Observed server boundaries",
+				"anchor": "observed-server-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Canonical shared boundary to add",
+				"anchor": "canonical-shared-boundary-to-add"
+			},
+			{
+				"level": 2,
+				"text": "Adapter boundary to add",
+				"anchor": "adapter-boundary-to-add"
+			},
+			{
+				"level": 2,
+				"text": "Initial production files expected to change",
+				"anchor": "initial-production-files-expected-to-change"
+			},
+			{
+				"level": 2,
+				"text": "Files protected from premature change",
+				"anchor": "files-protected-from-premature-change"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Reality File Map The Awtsmoos gives every ohr a vessel and every vessel a traced import line; Awtsmoos.com keeps client prediction and server judgment distinct by design. Observed client boundaries experiments/Awtsmoos/src/gameplay/combat/TorahAbilityCatalog.js owns current cast records.",
+		"searchText": "b\"h boruch hashem blessed is he reality file map the awtsmoos gives every ohr a vessel and every vessel a traced import line; awtsmoos.com keeps client prediction and server judgment distinct by design. observed client boundaries experiments/awtsmoos/src/gameplay/combat/torahabilitycatalog.js owns current cast records. torahabilitytimeline.js, torahabilitycastrules.js, and torahabilityexecutor.js own cast sequencing. torahstatuseffectcatalog.js, torahstatuseffectrules.js, and torahstatuseffectstore.js own bounded client status behavior. playermeleeactioncatalog.js, factory, rules, geometry, controller, and turn gateway own timed staff/sword actions. physicalguardstate.js and playercombatdefense.js own player defense. spiritualstats.js, shliachprofilecatalog.js, and equipment stores own current attributes. action bar, hud, effects, runtime, and expansion directories must be traced before presentation wiring. observed server boundaries combatattackservice.js validates weapon, action, timing, geometry, stamina, replay token, damage, defeat, and reward. playercombatactionvalidation.js owns stable player action identity and bounded impact token memory. combatstate.js owns authoritative player combat snapshots. enemyactioncatalog.js, resolver, runtime, selector, and state own enemy timelines. enemydamagerules.js, hostilecombatservice.js, and creature services own enemy to player consequences. combatantcatalog.js, role catalog, elite catalog, and spawn catalog own enemy identity. equipment stat records and upgrade services own server derived statistics. persistence tests and request handlers define migration and network contracts. canonical shared boundary to add shared/combat/affinities.json shared/combat/elements.json shared/combat/statuses.json shared/combat/player actions.json shared/combat/enemy actions.json shared/combat/effectiveness rules.json shared/combat/schema version.json adapter boundary to add client esm adapters under gameplay/affinity/ will load, validate, index, predict, and format shared records. server commonjs adapters will load the same records, validate commands, resolve authoritative effectiveness, apply bounded statuses, and filter daas insight. initial production files expected to change client combat catalogs and action factories. client status catalog/store/rules. client profile/stat derivation and persistence. client combat event gateways and hud/effects integration points. server action validation, attack service, damage rules, enemy actions, combat state, persistence, and request payloads. shared combat definitions and focused tests. files protected from premature change build entrypoints, css entry, streaming, region transitions, and renderer fallback remain untouched until connected combat behavior is green and loading profiles show a need.",
+		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-29-kabbalistic-combat-pro-4224654bf1.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-29-kabbalistic-combat-pro-a37a6432ae",
+		"title": "Critique and Twenty Improvements",
+		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-29-kabbalistic-combat-production/03_CRITIQUE_AND_20_IMPROVEMENTS.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Critique and Twenty Improvements",
+				"anchor": "critique-and-twenty-improvements"
+			},
+			{
+				"level": 2,
+				"text": "Critique of the initial direction",
+				"anchor": "critique-of-the-initial-direction"
+			},
+			{
+				"level": 2,
+				"text": "Improved first slice",
+				"anchor": "improved-first-slice"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Critique and Twenty Improvements The Awtsmoos turns critique into clearer form; Awtsmoos.com lets every hidden edge become warm. 1. Keep canonical records data only so both runtimes can validate them. 2. Add schema versioning before persistence fields are introduced. 3. Separate affinity",
+		"searchText": "b\"h boruch hashem blessed is he critique and twenty improvements the awtsmoos turns critique into clearer form; awtsmoos.com lets every hidden edge become warm. 1. keep canonical records data only so both runtimes can validate them. 2. add schema versioning before persistence fields are introduced. 3. separate affinity identity from element identity. 4. separate action definition from runtime action state. 5. separate status definition from active status instance. 6. return structured effectiveness diagnostics, not only final damage. 7. model contextual tags such as airborne, soaked, guarded, hidden, and channeling. 8. bound every status stack and every replay token ledger. 9. store interrupt resistance and remaining resistance separately. 10. make interruption receipts idempotent and cast instance specific. 11. require pre launch validation before projectile creation. 12. filter daas insight on the server by tier. 13. give local authority the same resolver api as multiplayer authority. 14. preserve existing melee timings and add affinity metadata through the factory. 15. preserve existing torah ability identities while enriching their typed records. 16. introduce enemy affinity profiles independently from enemy spawn identity. 17. use presentation adapters so low quality effects never alter rules. 18. keep optional visual families dynamically imported. 19. add migration defaults that preserve existing saves without reallocating player choices. 20. add focused parity tests that feed identical contexts to local and server resolvers. critique of the initial direction the first plan was too eager to create many shared json files without proving the repository's existing load conventions. it also treated ui and effects as later decoration, although cast readability is part of combat correctness. the improved direction must first establish the smallest shared schema, wire one complete vertical slice through client prediction and server authority, and only then expand the catalog. improved first slice implement affinities, elements, typed action fields, contextual effectiveness, bounded core statuses, daas insight tiers, and interrupt metadata for one chochmah projectile, one binah cast, one z\"a water cast, one malchus control cast, existing melee, and representative enemy actions. prove this slice in both local and multiplayer authority before multiplying content.",
+		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-29-kabbalistic-combat-pro-a37a6432ae.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-29-kabbalistic-combat-pro-c445ad7e17",
+		"title": "Improved Plan",
+		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-29-kabbalistic-combat-production/04_IMPROVED_PLAN.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Improved Plan",
+				"anchor": "improved-plan"
+			},
+			{
+				"level": 2,
+				"text": "Phase A — shared truth",
+				"anchor": "phase-a-shared-truth"
+			},
+			{
+				"level": 2,
+				"text": "Phase B — player authority",
+				"anchor": "phase-b-player-authority"
+			},
+			{
+				"level": 2,
+				"text": "Phase C — enemy authority",
+				"anchor": "phase-c-enemy-authority"
+			},
+			{
+				"level": 2,
+				"text": "Phase D — presentation",
+				"anchor": "phase-d-presentation"
+			},
+			{
+				"level": 2,
+				"text": "Phase E — environment and persistence",
+				"anchor": "phase-e-environment-and-persistence"
+			},
+			{
+				"level": 2,
+				"text": "Phase F — verification",
+				"anchor": "phase-f-verification"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Improved Plan The Awtsmoos joins precision and mercy in one progressing line; Awtsmoos.com keeps each production gate observable by design. Phase A — shared truth 1. Add versioned affinity, element, status, and typed action records under shared/combat/. 2. Add schema validation in one sm",
+		"searchText": "b\"h boruch hashem blessed is he improved plan the awtsmoos joins precision and mercy in one progressing line; awtsmoos.com keeps each production gate observable by design. phase a — shared truth 1. add versioned affinity, element, status, and typed action records under shared/combat/. 2. add schema validation in one small client esm adapter and one small server commonjs adapter. 3. add pure contextual effectiveness resolution with ordered diagnostics. 4. add pure daas insight filtering and bounded status instance rules. phase b — player authority 5. enrich existing torah abilities and melee actions with canonical action ids and affinity metadata. 6. extend player profile defaults and migration with affinity allocation, daas, gevurah, and defense compatibility. 7. connect client prediction to the shared resolver without claiming authoritative damage. 8. connect server attack validation and damage receipts to shared actions and effectiveness diagnostics. 9. add cast instance interruption state, pre launch validation, and bounded replay protection. phase c — enemy authority 10. add enemy affinity profiles, resistance profiles, interrupt profiles, and typed action decks. 11. extend enemy action runtime receipts with cast identity, affinity, telegraph, and interruption fields. 12. apply affinity phases to the kedem warden through its existing phase machinery. 13. filter enemy cast insight by server permitted daas tier. phase d — presentation 14. add cast hud models with text, icon, shape, motion, hebrew name, translation, danger, target, and counter guidance. 15. add quality scaled effect families and reduced motion fallbacks without blocking readiness. 16. add player loadout presentation and status indicators through existing ui stores. phase e — environment and persistence 17. add bounded environmental reaction tags and cleanup. 18. migrate existing saves safely and preserve exact once rewards. 19. prove local authority and multiplayer authority use identical ids and equivalent rules. phase f — verification 20. add focused tests after production wiring. 21. run client and server matrices. 22. build compactjs twice and compare manifests. 23. build canonical css twice and compare manifests. 24. run isolated performance profiling. 25. run desktop, mobile, landscape, reduced motion, high contrast, offline, reconnect, webgl failure, and canvas2d browser acceptance. 26. audit syntax, imports, tabs, whitespace, line counts, processes, and worktree state.",
+		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-29-kabbalistic-combat-pro-c445ad7e17.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-29-kabbalistic-combat-pro-a7063e36d5",
+		"title": "Final Critique and Thirty Additional Improvements",
+		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-29-kabbalistic-combat-production/05_FINAL_CRITIQUE_30_IMPROVEMENTS.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Critique and Thirty Additional Improvements",
+				"anchor": "final-critique-and-thirty-additional-improvements"
+			},
+			{
+				"level": 2,
+				"text": "Final revelation",
+				"anchor": "final-revelation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Final Critique and Thirty Additional Improvements The Awtsmoos reveals the missing edge before the blade can stray; Awtsmoos.com keeps every correction recorded on the way. 1. Begin with shared definitions that existing catalogs can consume incrementally. 2. Avoid static import of option",
+		"searchText": "b\"h boruch hashem blessed is he final critique and thirty additional improvements the awtsmoos reveals the missing edge before the blade can stray; awtsmoos.com keeps every correction recorded on the way. 1. begin with shared definitions that existing catalogs can consume incrementally. 2. avoid static import of optional effect families in the fallback bootstrap. 3. preserve current action ids to avoid save and network breakage. 4. add aliases only through one migration table. 5. validate hebrew names and english translations as required fields. 6. keep element and affinity ids lowercase and stable. 7. make diagnostic ordering deterministic for snapshot tests. 8. clamp every numeric multiplier and duration. 9. make immunity explicit rather than encoded as zero damage alone. 10. treat critical interaction as a labeled rule, not a random critical hit. 11. distinguish guard damage, stagger damage, interrupt force, and health damage. 12. distinguish poise from concentration so melee and casting remain readable. 13. reset interrupt resistance only through explicit cast lifecycle transitions. 14. use cast instance ids to reject stale completion after reconnect. 15. include action version in authoritative receipts. 16. keep server insight payloads independent from private resistance records. 17. make daas tiers monotonic and test each disclosure boundary. 18. preserve existing equipment derived legacy damage and defense. 19. add affinity derived mechanics without universal multipliers. 20. record status source, source action, source actor, application time, and expiry. 21. apply cleanse rules before new status reactions when ordering matters. 22. define deterministic reaction precedence for burn, soak, grounding, and illumination. 23. keep active status collections keyed and bounded. 24. use compact snapshots for multiplayer interest updates. 25. keep local authority in a separate adapter, not conditionals scattered through gameplay. 26. add world state tags through a narrow environment context provider. 27. treat accessibility text as required presentation data. 28. treat effect cancellation as part of cast cancellation tests. 29. measure initial bundle inclusion after every new import boundary. 30. delay full catalog expansion until the first vertical slice proves identity, authority, ui, and cleanup. final revelation the implementation must not attempt the entire content matrix before proving the canonical machinery. the first production pass will establish the shared domain, enrich current action catalogs, provide authoritative effectiveness and status receipts, and create tests. further enemy, hud, effect, persistence, loading, and browser work will then extend the same truth without replacement.",
+		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-29-kabbalistic-combat-pro-a7063e36d5.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-29-kabbalistic-combat-pro-d6bc938bb2",
+		"title": "Final Execution Plan",
+		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-29-kabbalistic-combat-production/06_FINAL_EXECUTION_PLAN.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Execution Plan",
+				"anchor": "final-execution-plan"
+			},
+			{
+				"level": 2,
+				"text": "Exact first-pass files",
+				"anchor": "exact-first-pass-files"
+			},
+			{
+				"level": 3,
+				"text": "New shared files",
+				"anchor": "new-shared-files"
+			},
+			{
+				"level": 3,
+				"text": "New client files",
+				"anchor": "new-client-files"
+			},
+			{
+				"level": 3,
+				"text": "Client files to rewrite completely if touched",
+				"anchor": "client-files-to-rewrite-completely-if-touched"
+			},
+			{
+				"level": 3,
+				"text": "New server files",
+				"anchor": "new-server-files"
+			},
+			{
+				"level": 3,
+				"text": "Server files to rewrite completely if touched",
+				"anchor": "server-files-to-rewrite-completely-if-touched"
+			},
+			{
+				"level": 3,
+				"text": "Focused tests after production wiring",
+				"anchor": "focused-tests-after-production-wiring"
+			},
+			{
+				"level": 2,
+				"text": "Pass sequence",
+				"anchor": "pass-sequence"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Final Execution Plan The Awtsmoos creates the path and proof in every present breath; Awtsmoos.com keeps authority alive and duplication put to death. Exact first pass files New shared files shared/combat/affinities.json shared/combat/elements.json shared/combat/statuses.json shared/comb",
+		"searchText": "b\"h boruch hashem blessed is he final execution plan the awtsmoos creates the path and proof in every present breath; awtsmoos.com keeps authority alive and duplication put to death. exact first pass files new shared files shared/combat/affinities.json shared/combat/elements.json shared/combat/statuses.json shared/combat/actions.json shared/combat/effectiveness.json shared/combat/schema version.json new client files experiments/awtsmoos/src/gameplay/affinity/combatdefinitionloader.js .../affinity/combatdefinitionindexes.js .../affinity/combateffectivenessresolver.js .../affinity/combatinsightrules.js .../affinity/combatstatusinstance.js .../affinity/localcombatauthority.js client files to rewrite completely if touched gameplay/combat/torahabilitycatalog.js gameplay/combat/playermeleeactioncatalog.js gameplay/combat/torahstatuseffectcatalog.js gameplay/spiritualstats.js new server files combatdefinitioncatalog.js combateffectivenessresolver.js combatinsightrules.js combatstatusrules.js server files to rewrite completely if touched combatattackservice.js combatattackreceipt.js enemyactioncatalog.js enemydamagerules.js combatstate.js focused tests after production wiring shared definition identity and schema. client effectiveness, insight, status bounds, and local authority parity. server effectiveness diagnostics, replay rejection, status cleanup, and action rejection. existing combat regression tests. pass sequence 1. read all touched files and their call sites. 2. write shared data and adapters. 3. enrich player and enemy catalogs. 4. wire authoritative receipts and local authority. 5. re read every touched file. 6. compare planned versus actual and write a delta file. 7. complete missing production wiring. 8. add tests and run focused verification. 9. expand to hud, effects, persistence, warden, environment, loading, builds, and browser acceptance. 10. perform final audit and close only when remaining work is empty.",
+		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-29-kabbalistic-combat-pro-d6bc938bb2.json"
+	}
+]

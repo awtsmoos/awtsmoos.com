@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "tools-dayuhchadashcutover-publishing-md-e19d38ff11",
+	"title": "Publishing Checklist",
+	"sourcePath": "tools/dayuhChadashCutover/PUBLISHING.md",
+	"category": "Operations",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Publishing Checklist",
+			"anchor": "publishing-checklist"
+		},
+		{
+			"level": 2,
+			"text": "Source",
+			"anchor": "source"
+		},
+		{
+			"level": 2,
+			"text": "Read-only publication preflight",
+			"anchor": "read-only-publication-preflight"
+		},
+		{
+			"level": 2,
+			"text": "Pre-cutover",
+			"anchor": "pre-cutover"
+		},
+		{
+			"level": 2,
+			"text": "Offline installation",
+			"anchor": "offline-installation"
+		},
+		{
+			"level": 2,
+			"text": "Runtime acceptance",
+			"anchor": "runtime-acceptance"
+		},
+		{
+			"level": 2,
+			"text": "Failure",
+			"anchor": "failure"
+		},
+		{
+			"level": 2,
+			"text": "Publication",
+			"anchor": "publication"
+		}
+	],
+	"markdownParts": [
+		"content/tools-dayuhchadashcutover-publishing-md-e19d38ff11-001.json"
+	]
+}

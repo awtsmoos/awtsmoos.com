@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-learn-readme-md-ece31d9925",
+	"title": "Learn Awtsmoos.com",
+	"sourcePath": "docs/LEARN/README.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Learn Awtsmoos.com",
+			"anchor": "learn-awtsmoos-com"
+		},
+		{
+			"level": 2,
+			"text": "Choose a track",
+			"anchor": "choose-a-track"
+		},
+		{
+			"level": 3,
+			"text": "Foundation",
+			"anchor": "foundation"
+		},
+		{
+			"level": 3,
+			"text": "Runtime builder",
+			"anchor": "runtime-builder"
+		},
+		{
+			"level": 3,
+			"text": "Content builder",
+			"anchor": "content-builder"
+		},
+		{
+			"level": 3,
+			"text": "AI investigator",
+			"anchor": "ai-investigator"
+		},
+		{
+			"level": 2,
+			"text": "Exhaustive reference beneath the lessons",
+			"anchor": "exhaustive-reference-beneath-the-lessons"
+		},
+		{
+			"level": 2,
+			"text": "Learning rule",
+			"anchor": "learning-rule"
+		}
+	],
+	"markdownParts": [
+		"content/docs-learn-readme-md-ece31d9925-001.json"
+	]
+}

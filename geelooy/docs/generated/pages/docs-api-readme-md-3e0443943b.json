@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-api-readme-md-3e0443943b",
+	"title": "Awtsmoos.com API Guide",
+	"sourcePath": "docs/API/README.md",
+	"category": "API",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos.com API Guide",
+			"anchor": "awtsmoos-com-api-guide"
+		},
+		{
+			"level": 2,
+			"text": "API architecture",
+			"anchor": "api-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Learn the calling model",
+			"anchor": "learn-the-calling-model"
+		},
+		{
+			"level": 2,
+			"text": "Every route gets generated teaching",
+			"anchor": "every-route-gets-generated-teaching"
+		},
+		{
+			"level": 2,
+			"text": "Human family tutorials",
+			"anchor": "human-family-tutorials"
+		},
+		{
+			"level": 2,
+			"text": "Other generated evidence",
+			"anchor": "other-generated-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Known health caveat",
+			"anchor": "known-health-caveat"
+		},
+		{
+			"level": 2,
+			"text": "Browser experience",
+			"anchor": "browser-experience"
+		}
+	],
+	"markdownParts": [
+		"content/docs-api-readme-md-3e0443943b-001.json"
+	]
+}

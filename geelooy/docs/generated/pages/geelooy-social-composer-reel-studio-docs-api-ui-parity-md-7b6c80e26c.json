@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-social-composer-reel-studio-docs-api-ui-parity-md-7b6c80e26c",
+	"title": "API and UI Parity",
+	"sourcePath": "geelooy/social-composer/reel-studio/docs/API_UI_PARITY.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "API and UI Parity",
+			"anchor": "api-and-ui-parity"
+		},
+		{
+			"level": 2,
+			"text": "Generated API",
+			"anchor": "generated-api"
+		},
+		{
+			"level": 2,
+			"text": "Generated UI",
+			"anchor": "generated-ui"
+		},
+		{
+			"level": 2,
+			"text": "Parity Verification",
+			"anchor": "parity-verification"
+		},
+		{
+			"level": 2,
+			"text": "Legacy Methods",
+			"anchor": "legacy-methods"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-social-composer-reel-studio-docs-api-ui-parity-md-7b6c80e26c-001.json"
+	]
+}

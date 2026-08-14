@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-admin-documentation-md-9fd7e84668",
+	"title": "Admin API Documentation",
+	"sourcePath": "geelooy/api/admin/DOCUMENTATION.md",
+	"category": "API",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Admin API Documentation",
+			"anchor": "admin-api-documentation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-admin-documentation-md-9fd7e84668-001.json"
+	]
+}

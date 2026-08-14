@@ -1,94 +1,112 @@
-/*B"H*/
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
 
-body, html {
-    margin: 0;
-    overflow: hidden;
-    background-color: #000;
-    height: 100%;
-    font-family: "Times New Roman", serif;
+/**
+ * The Awtsmoos fills every viewport without trapping a teaching or stealing a gesture;
+ * Awtsmoos.com gives the canvas a stable mobile vessel and the scrollable words safe passage.
+ */
+html,
+body {
+	background: #000;
+	height: 100%;
+	margin: 0;
+	overflow: hidden;
+	overscroll-behavior: none;
+	padding: 0;
+	width: 100%;
 }
 
-canvas {
-    display: block;
-    background: #000;
-    cursor: none;
+body {
+	min-height: 100dvh;
 }
 
-/* --- Teachings Screen Styles --- */
-#teachings-screen::before{
-content:'B"H'
+#gameCanvas {
+	background: #000;
+	display: block;
+	height: 100dvh;
+	touch-action: none;
+	user-select: none;
+	-webkit-user-select: none;
+	width: 100vw;
 }
+
 #teachings-screen {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: #010002;
-    color: #FFF;
-    z-index: 10;
-    box-sizing: border-box;
-
-    /* --- FIX 2.0: Use Flexbox for a robust layout --- */
-    display: flex;
-    flex-direction: column;
-    padding: 2vh 0; /* Add some padding at the top and bottom */
+	background: rgba(0, 0, 0, 0.96);
+	box-sizing: border-box;
+	color: #f4f4f4;
+	display: flex;
+	flex-direction: column;
+	inset: 0;
+	min-height: 100dvh;
+	padding: max(14px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) max(14px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
+	position: fixed;
+	z-index: 10;
 }
 
 #teachings-screen .content {
-    /* Let this area grow to fill available space and scroll if needed */
-    flex: 1; 
-    overflow-y: auto; 
-    max-height:70vh;
-
-    /* Centering and width */
-    width: 90%;
-    max-width: 600px;
-    margin: 0 auto;
-    padding-right: 15px; /* For scrollbar spacing */
+	box-sizing: border-box;
+	flex: 1 1 auto;
+	margin: 0 auto;
+	max-width: 640px;
+	min-height: 0;
+	overflow-y: auto;
+	padding: clamp(8px, 2.5vw, 22px);
+	-webkit-overflow-scrolling: touch;
+	width: 100%;
 }
 
 #teachings-screen h1 {
-    font-size: 4vh;
-    text-align: center;
-    margin-bottom: 2vh;
+	font-size: clamp(1.55rem, 7vw, 2.8rem);
+	line-height: 1.05;
+	margin: 0 0 0.6em;
+	text-align: center;
 }
 
 #teachings-screen h2 {
-    font-size: 3vh;
-    margin-top: 3vh;
-    color: #FFD700;
+	font-size: clamp(1.1rem, 4.5vw, 1.7rem);
+	line-height: 1.15;
+	margin: 1em 0 0.35em;
 }
 
 #teachings-screen p {
-    font-size: 2.5vh;
-    line-height: 1.6;
-    margin-bottom: 2vh;
-    text-align: justify;
+	font-size: clamp(0.95rem, 3.8vw, 1.2rem);
+	line-height: 1.5;
+	margin: 0 0 0.85em;
 }
 
 #back-button {
-    /* This button will now sit naturally at the bottom */
-    flex-shrink: 0; /* Prevent the button from shrinking */
-    display: block;
-    margin: 20px auto 0 auto; /* Top margin, and centered horizontally */
-    
-    width: 60vw;
-    max-width: 300px;
-    height: 60px;
-    background: none;
-    border: 2px solid #FFF;
-    color: #FFF;
-    font-size: 3vh;
-    font-family: "Courier New", monospace;
-    cursor: pointer;
-}
-
-#back-button:hover {
-    border-color: #FFFF00;
+	align-self: center;
+	flex: 0 0 auto;
+	font-size: 1rem;
+	margin-top: 10px;
+	min-height: 48px;
+	touch-action: manipulation;
+	width: min(100%, 320px);
 }
 
 .hidden {
-    display: none !important;
+	display: none !important;
 }
 
+@media (pointer: fine) {
+	#gameCanvas {
+		cursor: crosshair;
+	}
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+	#teachings-screen {
+		padding-block: 8px;
+	}
+
+	#teachings-screen h1 {
+		font-size: clamp(1.25rem, 4vw, 1.8rem);
+		margin-bottom: 0.35em;
+	}
+
+	#teachings-screen p {
+		font-size: clamp(0.85rem, 2.2vw, 1rem);
+		line-height: 1.35;
+	}
+}

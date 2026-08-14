@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-rag-ingestion-and-embedding-5e246bd5fe",
+	"title": "RAG Ingestion and Embedding Pipeline",
+	"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/RAG_INGESTION_AND_EMBEDDING_PIPELINE.md",
+	"category": "Data",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "RAG Ingestion and Embedding Pipeline",
+			"anchor": "rag-ingestion-and-embedding-pipeline"
+		},
+		{
+			"level": 2,
+			"text": "Pipeline",
+			"anchor": "pipeline"
+		},
+		{
+			"level": 2,
+			"text": "Identity checks",
+			"anchor": "identity-checks"
+		},
+		{
+			"level": 2,
+			"text": "Recovery order",
+			"anchor": "recovery-order"
+		}
+	],
+	"markdownParts": [
+		"content/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-rag-ingestion-and-embedding-5e246bd5fe-001.json"
+	]
+}

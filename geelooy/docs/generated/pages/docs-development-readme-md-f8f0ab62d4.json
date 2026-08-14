@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-development-readme-md-f8f0ab62d4",
+	"title": "Development and Contribution Guide",
+	"sourcePath": "docs/DEVELOPMENT/README.md",
+	"category": "Development",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Development and Contribution Guide",
+			"anchor": "development-and-contribution-guide"
+		},
+		{
+			"level": 2,
+			"text": "Begin from ownership",
+			"anchor": "begin-from-ownership"
+		},
+		{
+			"level": 2,
+			"text": "Common change paths",
+			"anchor": "common-change-paths"
+		},
+		{
+			"level": 2,
+			"text": "Repository realities",
+			"anchor": "repository-realities"
+		},
+		{
+			"level": 2,
+			"text": "Change workflow",
+			"anchor": "change-workflow"
+		},
+		{
+			"level": 2,
+			"text": "Generated evidence is not a substitute for design",
+			"anchor": "generated-evidence-is-not-a-substitute-for-design"
+		}
+	],
+	"markdownParts": [
+		"content/docs-development-readme-md-f8f0ab62d4-001.json"
+	]
+}

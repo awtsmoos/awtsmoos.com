@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-procedural-forest-audit-md-9e29ab5286",
+	"title": "B\"H — Mitzvah World Procedural Forest Audit",
+	"sourcePath": "geelooy/games/mitzvahWorld/PROCEDURAL_FOREST_AUDIT.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Mitzvah World Procedural Forest Audit",
+			"anchor": "b-h-mitzvah-world-procedural-forest-audit"
+		},
+		{
+			"level": 2,
+			"text": "Canonical system",
+			"anchor": "canonical-system"
+		},
+		{
+			"level": 2,
+			"text": "Dependency graph",
+			"anchor": "dependency-graph"
+		},
+		{
+			"level": 2,
+			"text": "Preset inventory",
+			"anchor": "preset-inventory"
+		},
+		{
+			"level": 2,
+			"text": "Geometry and generation",
+			"anchor": "geometry-and-generation"
+		},
+		{
+			"level": 2,
+			"text": "Capability matrix",
+			"anchor": "capability-matrix"
+		},
+		{
+			"level": 2,
+			"text": "Mitzvah World integration",
+			"anchor": "mitzvah-world-integration"
+		},
+		{
+			"level": 2,
+			"text": "Verified metrics",
+			"anchor": "verified-metrics"
+		},
+		{
+			"level": 2,
+			"text": "Regression evidence",
+			"anchor": "regression-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Explicit limitations",
+			"anchor": "explicit-limitations"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-procedural-forest-audit-md-9e29ab5286-001.json"
+	]
+}

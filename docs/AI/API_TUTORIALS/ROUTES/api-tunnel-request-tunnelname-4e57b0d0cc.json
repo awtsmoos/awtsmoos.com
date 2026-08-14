@@ -1,0 +1,69 @@
+{
+	"schema": "awtsmoos-api-tutorial-v1",
+	"id": "api-tunnel-request-tunnelname-4e57b0d0cc",
+	"route": "/api/tunnel/request/:tunnelName",
+	"source": "geelooy/api/tunnel/_awtsmoos.derech.js",
+	"discoveryKind": "static-literal",
+	"family": {
+		"mount": "/api/tunnel",
+		"title": "Tunnel Relay",
+		"manual": "docs/TUTORIALS/API/TUNNEL.md"
+	},
+	"derech": {
+		"source": "geelooy/api/tunnel/_awtsmoos.derech.js",
+		"status": "OK",
+		"issue": "—",
+		"mount": "/api/tunnel"
+	},
+	"dynamic": true,
+	"pathParameters": [
+		{
+			"name": "tunnelName",
+			"catchAll": false
+		}
+	],
+	"methods": [],
+	"methodEvidence": "unknown",
+	"vessels": [
+		"route-vars",
+		"headers",
+		"identity"
+	],
+	"statuses": [
+		"401",
+		"404"
+	],
+	"headers": [
+		"Access-Control-Allow-Origin",
+		"Content-Type"
+	],
+	"callers": [],
+	"callerCount": 0,
+	"tests": [
+		{
+			"name": "test:mission-continuity-actions",
+			"command": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs"
+		},
+		{
+			"name": "test:treasury",
+			"command": "node geelooy/api/tunnel/control/test/runTreasuryTests.cjs"
+		},
+		{
+			"name": "test:treasury:full",
+			"command": "node geelooy/api/tunnel/control/test/treasury/runAll.cjs"
+		},
+		{
+			"name": "test:tunnel-release",
+			"command": "node --test scripts/tunnel/testing/*.test.cjs scripts/repository-hygiene/testing/*.test.cjs"
+		}
+	],
+	"examples": [],
+	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-request-tunnelname-4e57b0d0cc.md",
+	"confidence": "unknown-method",
+	"related": [
+		{
+			"id": "api-tunnel-fs-tunnelname-48e2aaea39",
+			"route": "/api/tunnel/fs/:tunnelName"
+		}
+	]
+}

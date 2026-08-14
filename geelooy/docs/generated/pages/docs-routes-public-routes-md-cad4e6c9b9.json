@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-routes-public-routes-md-cad4e6c9b9",
+	"title": "Major Public Routes",
+	"sourcePath": "docs/ROUTES/PUBLIC_ROUTES.md",
+	"category": "Routes",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Major Public Routes",
+			"anchor": "major-public-routes"
+		}
+	],
+	"markdownParts": [
+		"content/docs-routes-public-routes-md-cad4e6c9b9-001.json"
+	]
+}

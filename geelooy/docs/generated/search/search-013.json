@@ -1,0 +1,222 @@
+[
+	{
+		"id": "docs-development-adding-an-api-md-bd6f9fbc2b",
+		"title": "Adding or Changing an HTTP API",
+		"sourcePath": "docs/DEVELOPMENT/ADDING_AN_API.md",
+		"category": "Development",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Adding or Changing an HTTP API",
+				"anchor": "adding-or-changing-an-http-api"
+			},
+			{
+				"level": 2,
+				"text": "Before adding a route",
+				"anchor": "before-adding-a-route"
+			},
+			{
+				"level": 2,
+				"text": "Contract checklist",
+				"anchor": "contract-checklist"
+			},
+			{
+				"level": 2,
+				"text": "Dollar-variable rule",
+				"anchor": "dollar-variable-rule"
+			},
+			{
+				"level": 2,
+				"text": "Documentation steps",
+				"anchor": "documentation-steps"
+			},
+			{
+				"level": 2,
+				"text": "Security",
+				"anchor": "security"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Adding or Changing an HTTP API The Awtsmoos lets a request enter a derech, while Awtsmoos.com must keep path, method, input, authority, side effect, response, caller, and test visible together. Before adding a route Find the owning API family and read its awtsmoos.derech.js, local DOCUME",
+		"searchText": "b\"h boruch hashem blessed is he adding or changing an http api the awtsmoos lets a request enter a derech, while awtsmoos.com must keep path, method, input, authority, side effect, response, caller, and test visible together. before adding a route find the owning api family and read its awtsmoos.derech.js, local documentation.md, family manual and nearby route modules. search the generated route and caller indexes to avoid creating duplicate or near duplicate contracts. contract checklist public path pattern and dynamic :name variables. accepted http methods, explicitly enforced when required. query/body/delete input vessels and validation. authentication source: session, api key, oauth or intentionally public. resource authorization/ownership beyond login. database paths or external provider side effects. http status/error behavior. response content type: json, file, binary, stream or upgrade. existing and new callers. positive and negative tests. dollar variable rule url parameters use colon syntax. $i, $ get, $ post, $ delete and related names are server request/context vessels; never document them as url path grammar. documentation steps 1. update the human api family guide when semantics change. 2. add or update examples only when source proves method/body/auth requirements. 3. regenerate route, contract, caller and health indexes. 4. confirm api route contract atlas.md points to the correct source. 5. if lexical method evidence remains unknown, do not rewrite it as get merely for prettier documentation. security for privileged or mutating apis, include unauthenticated, wrong owner, wrong scope and malformed input tests. client submitted owner/user fields must never silently become trusted identity.",
+		"page": "pages/docs-development-adding-an-api-md-bd6f9fbc2b.json"
+	},
+	{
+		"id": "docs-development-adding-realtime-md-cbb3c7eb2f",
+		"title": "Adding or Changing Realtime Behavior",
+		"sourcePath": "docs/DEVELOPMENT/ADDING_REALTIME.md",
+		"category": "Realtime",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Adding or Changing Realtime Behavior",
+				"anchor": "adding-or-changing-realtime-behavior"
+			},
+			{
+				"level": 2,
+				"text": "First choose the realtime layer",
+				"anchor": "first-choose-the-realtime-layer"
+			},
+			{
+				"level": 2,
+				"text": "Versioned application checklist",
+				"anchor": "versioned-application-checklist"
+			},
+			{
+				"level": 2,
+				"text": "Admission-sensitive sockets",
+				"anchor": "admission-sensitive-sockets"
+			},
+			{
+				"level": 2,
+				"text": "Documentation steps",
+				"anchor": "documentation-steps"
+			},
+			{
+				"level": 2,
+				"text": "Compatibility",
+				"anchor": "compatibility"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Adding or Changing Realtime Behavior The Awtsmoos lets a long lived connection carry many messages, while Awtsmoos.com must preserve transport, identity, application version, admission and domain protocol as separate vessels. First choose the realtime layer The dynamic server owns a vers",
+		"searchText": "b\"h boruch hashem blessed is he adding or changing realtime behavior the awtsmoos lets a long lived connection carry many messages, while awtsmoos.com must preserve transport, identity, application version, admission and domain protocol as separate vessels. first choose the realtime layer the dynamic server owns a versioned realtimeplatform with registered applications. mission rooms add pre handshake admission policy. tunnel relay is a separate account bound transport subsystem. do not put every websocket feature into the same protocol merely because the transport is shared. versioned application checklist stable application id. explicit supported protocol version or versions. registration through the application definitions/registry layer. message validation and machine readable errors. trusted identity sourced from the socket session, not message payload. disconnect cleanup for presence/subscriptions/state. tests for malformed messages, wrong version and wrong authority. admission sensitive sockets if connection admission depends on ticket, origin, room, tunnel, scope or other authority, validate it before the handshake where architecture requires. mission rooms are the concrete example documented in docs/websockets/mission rooms.md. documentation steps 1. update docs/websockets/ human manuals. 2. regenerate the realtime application and event indexes. 3. confirm new event strings appear only as lexical evidence; document actual protocol meaning manually. 4. update ai project records through regeneration, never by hand. compatibility protocol version changes are contract changes. prefer additive/new version evolution when old clients must continue working; document migration and compatibility expectations explicitly.",
+		"page": "pages/docs-development-adding-realtime-md-cbb3c7eb2f.json"
+	},
+	{
+		"id": "docs-development-documentation-workflow-md-f5cdc526ad",
+		"title": "Documentation Workflow",
+		"sourcePath": "docs/DEVELOPMENT/DOCUMENTATION_WORKFLOW.md",
+		"category": "Development",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Documentation Workflow",
+				"anchor": "documentation-workflow"
+			},
+			{
+				"level": 2,
+				"text": "Four surfaces",
+				"anchor": "four-surfaces"
+			},
+			{
+				"level": 2,
+				"text": "Regenerate",
+				"anchor": "regenerate"
+			},
+			{
+				"level": 2,
+				"text": "Verify search behavior",
+				"anchor": "verify-search-behavior"
+			},
+			{
+				"level": 2,
+				"text": "Validate",
+				"anchor": "validate"
+			},
+			{
+				"level": 2,
+				"text": "Frontend rules",
+				"anchor": "frontend-rules"
+			},
+			{
+				"level": 2,
+				"text": "Browser completion gate",
+				"anchor": "browser-completion-gate"
+			},
+			{
+				"level": 2,
+				"text": "When generated counts change",
+				"anchor": "when-generated-counts-change"
+			},
+			{
+				"level": 2,
+				"text": "When generation is wrong",
+				"anchor": "when-generation-is-wrong"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Documentation Workflow The Awtsmoos renews the code and explanation together; Awtsmoos.com keeps manual meaning, generated evidence, AI discovery, and the /docs/ public reflection synchronized through one repeatable workflow. Four surfaces 1. Manual Markdown — purpose, architecture, trus",
+		"searchText": "b\"h boruch hashem blessed is he documentation workflow the awtsmoos renews the code and explanation together; awtsmoos.com keeps manual meaning, generated evidence, ai discovery, and the /docs/ public reflection synchronized through one repeatable workflow. four surfaces 1. manual markdown — purpose, architecture, trust, caveats, design decisions, examples, and change strategy. 2. generated evidence — inventories, routes, contracts, callers, symbols, dependencies, entries, configuration names, health, and coverage. 3. ai discovery — repository/project manifests and bounded records under docs/ai/. 4. interactive publication — searchable page/search/category/project records under geelooy/docs/generated/, rendered by the dependency free /docs/ frontend. never hand edit generated evidence, ai project records, or public publication json. regenerate the same command refreshes all generated surfaces, preventing the browser index from becoming a forgotten second build. verify search behavior search tests run against the real generated corpus, not fixtures alone. add focused assertions whenever ranking/filter/ask semantics change. validate the unified gate checks canonical markdown/ai/generators, publication integrity, and frontend source safety/structure. generated missing documentation.md remains a reviewed work queue rather than a number blindly forced to zero. frontend rules keep authored html/css/js modules ≤120 lines and split responsibilities before growth. use tabs for executable code indentation. keep b\"h/awtsmoos commentary on authored sources. do not assign innerhtml; render markdown into explicit dom nodes. keep browser data generated and read only. preserve browser back/forward and direct deep links. keep search local and ask retrieval useful without gpt. send only bounded retrieved documentation context to optional gpt synthesis. do not publish thought/planning, dependency, build, vendor, or user private roots. browser completion gate for publication/frontend changes, launch a fixed root preview and verify desktop plus mobile: home dashboard, categories, search/keyboard palette, filters, document rendering, source/deep link controls, heading navigation, ask retrieval, graceful gpt failure when the api is absent, and console/network cleanliness. when generated counts change counts are snapshots of a living checkout. prefer generated manifests over manually repeated numbers. if a number matters for orientation, refresh it only after the final generation run. when generation is wrong never edit output to hide a defect. improve the smallest responsible discovery/publication module, regenerate from canonical source, rerun search tests and validator, then browser test if visible behavior changed.",
+		"page": "pages/docs-development-documentation-workflow-md-f5cdc526ad.json"
+	},
+	{
+		"id": "docs-development-readme-md-f8f0ab62d4",
+		"title": "Development and Contribution Guide",
+		"sourcePath": "docs/DEVELOPMENT/README.md",
+		"category": "Development",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Development and Contribution Guide",
+				"anchor": "development-and-contribution-guide"
+			},
+			{
+				"level": 2,
+				"text": "Begin from ownership",
+				"anchor": "begin-from-ownership"
+			},
+			{
+				"level": 2,
+				"text": "Common change paths",
+				"anchor": "common-change-paths"
+			},
+			{
+				"level": 2,
+				"text": "Repository realities",
+				"anchor": "repository-realities"
+			},
+			{
+				"level": 2,
+				"text": "Change workflow",
+				"anchor": "change-workflow"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence is not a substitute for design",
+				"anchor": "generated-evidence-is-not-a-substitute-for-design"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Development and Contribution Guide The Awtsmoos renews every source change while Awtsmoos.com asks the maintainer to reveal the owning project, contract, test, documentation, and evidence together. Begin from ownership Before editing, identify the project boundary in docs/GENERATED/PROJE",
+		"searchText": "b\"h boruch hashem blessed is he development and contribution guide the awtsmoos renews every source change while awtsmoos.com asks the maintainer to reveal the owning project, contract, test, documentation, and evidence together. begin from ownership before editing, identify the project boundary in docs/generated/project atlas.md, then read the nearest human guide or local documentation.md. use project dependencies.md to see cross project imports and test ownership.md to find verification neighborhoods. common change paths new project or major directory → adding a project.md. new/changed http api → adding an api.md. new/changed realtime protocol → adding realtime.md. documentation system changes → documentation workflow.md. persistent data shape changes → ../data/path contracts.md. authentication/authorization/security changes → ../security/readme.md. repository realities the repository contains active product code, tests, generated artifacts, assets, evidence/planning trees, tools, operations material, symlink aliases and nested shells. do not infer edit ownership from file count or basename alone. the generated project atlas classifies observed boundaries, but source and human docs remain the authority for intended behavior. change workflow 1. read source and owning documentation. 2. trace imports/callers and data boundaries. 3. implement the smallest coherent source change. 4. run focused tests and broader tests when shared code changes. 5. regenerate docs when routes/projects/entries/config/dependencies change. 6. update manual docs when purpose, architecture, trust, workflow or contract changes. 7. validate links, source paths, generator syntax and documentation coverage. generated evidence is not a substitute for design the generator can tell you that an import, route, symbol, environment name or html entry exists. it cannot decide whether the architecture is good, whether an api should be public, whether a data migration is safe, or whether a trust boundary is correct. those decisions belong in human documentation and tests.",
+		"page": "pages/docs-development-readme-md-f8f0ab62d4.json"
+	},
+	{
+		"id": "docs-directory-atlas-md-7637ccc1d3",
+		"title": "Directory Atlas",
+		"sourcePath": "docs/DIRECTORY_ATLAS.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Directory Atlas",
+				"anchor": "directory-atlas"
+			},
+			{
+				"level": 2,
+				"text": "Repository-level districts",
+				"anchor": "repository-level-districts"
+			},
+			{
+				"level": 2,
+				"text": "Main geelooy/ product districts",
+				"anchor": "main-geelooy-product-districts"
+			},
+			{
+				"level": 2,
+				"text": "Evidence/support directories under geelooy",
+				"anchor": "evidence-support-directories-under-geelooy"
+			},
+			{
+				"level": 2,
+				"text": "Rule for future maintainers",
+				"anchor": "rule-for-future-maintainers"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Atlas The Awtsmoos makes a city of folders, each chamber carrying a different flame; Awtsmoos.com needs not every pebble named, but every major district needs a name. Repository level districts Directory Human meaning Start here geelooy/ Default public root: pages, apps, games,",
+		"searchText": "b\"h boruch hashem blessed is he directory atlas the awtsmoos makes a city of folders, each chamber carrying a different flame; awtsmoos.com needs not every pebble named, but every major district needs a name. repository level districts directory human meaning start here geelooy/ default public root: pages, apps, games, shared browser code, apis docs/start here.md ayzarim/ server/runtime/tooling infrastructure docs/architecture.md docs/ human + generated documentation docs/readme.md tests/ repository level verification suites docs/systems/testing.md scripts/ automation and maintenance scripts; now also docs generator docs/maintaining the docs.md tools/ developer/maintenance utilities inspect per task ops/ operations/runtime support docs/operations/readme.md users/ user associated repository material; treat as sensitive inspect deliberately ai thoughts/ durable agent plans/evidence, not a public app latest task subfolder awtsmoos.com/ nested focused shell, distinct from repository root docs/systems/nested awtsmoos com.md main geelooy/ product districts area purpose api/ dynamic http api surface docs/api/readme.md apps/ large collection of standalone/embedded apps docs/apps/readme.md games/, game/ interactive worlds and game launch surface docs/apps/games and simulation.md os/, node os/, platform/ geelooy os / virtual runtime / creator world systems docs/systems/geelooy os.md social , profile/, comment thread/, notifications/ social ui docs/systems/social and heichel.md heichel , post editor/ heichel content creation, review, and display docs/systems/social and heichel.md login/, logout/, register/ account entry/exit docs/systems/auth and identity.md db/, awtai db/ database browsing/conversion tools docs/systems/database and storage.md ai/ browser ai product docs/systems/ai.md youtube/, record/, recorder/, ayin/ media facing browser products docs/apps/media tools.md shared/, libs/, scripts/, style/ reusable runtime/browser foundations docs/systems/shared libraries.md tests/, browser test/ public layer tests and harnesses docs/systems/testing.md legal/, about/, contact/, donate/ public informational/support surfaces docs/routes/public routes.md evidence/support directories under geelooy directories such as .awtsmoos agent thoughts, .awtsmoos smoke, .data, tmp, resources, parsers, or support css are real parts of the checkout but are not documented as independent products unless their behavior becomes a user facing project. their presence is still captured in generated/public route inventory.md. rule for future maintainers when a new top level directory starts representing a distinct product, api family, operating subsystem, or human workflow, add a human page. when it is merely an implementation detail, ensure it appears in generated inventory and link it from the owning system page instead of manufacturing a fake project boundary.",
+		"page": "pages/docs-directory-atlas-md-7637ccc1d3.json"
+	}
+]

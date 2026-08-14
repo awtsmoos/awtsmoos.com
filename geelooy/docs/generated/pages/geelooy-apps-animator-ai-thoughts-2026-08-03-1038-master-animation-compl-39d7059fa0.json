@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-39d7059fa0",
+	"title": "EXPORTAUDIT",
+	"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_1038_master-animation-completion-orchestrator/EXPORT_AUDIT.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "EXPORTAUDIT",
+			"anchor": "exportaudit"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-39d7059fa0-001.json"
+	]
+}

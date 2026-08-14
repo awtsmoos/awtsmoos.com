@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-vector-index-invariants-md-866b0cfd8a",
+	"title": "Vector Index Invariants",
+	"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/VECTOR_INDEX_INVARIANTS.md",
+	"category": "Data",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Vector Index Invariants",
+			"anchor": "vector-index-invariants"
+		},
+		{
+			"level": 2,
+			"text": "Required invariants",
+			"anchor": "required-invariants"
+		},
+		{
+			"level": 2,
+			"text": "Canonical versus derived",
+			"anchor": "canonical-versus-derived"
+		},
+		{
+			"level": 2,
+			"text": "Source anchors",
+			"anchor": "source-anchors"
+		}
+	],
+	"markdownParts": [
+		"content/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-vector-index-invariants-md-866b0cfd8a-001.json"
+	]
+}

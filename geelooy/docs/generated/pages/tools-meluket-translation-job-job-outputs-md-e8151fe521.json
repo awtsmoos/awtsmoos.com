@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "tools-meluket-translation-job-job-outputs-md-e8151fe521",
+	"title": "Meluket job output location",
+	"sourcePath": "tools/meluket-translation-job/JOB_OUTPUTS.md",
+	"category": "Operations",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Meluket job output location",
+			"anchor": "meluket-job-output-location"
+		}
+	],
+	"markdownParts": [
+		"content/tools-meluket-translation-job-job-outputs-md-e8151fe521-001.json"
+	]
+}

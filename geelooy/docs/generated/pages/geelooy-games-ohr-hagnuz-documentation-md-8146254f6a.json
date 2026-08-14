@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-ohr-hagnuz-documentation-md-8146254f6a",
+	"title": "B\"H — Ohr HaGnuz: The Concealed Frontier",
+	"sourcePath": "geelooy/games/ohr-hagnuz/DOCUMENTATION.md",
+	"category": "Games",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Ohr HaGnuz: The Concealed Frontier",
+			"anchor": "b-h-ohr-hagnuz-the-concealed-frontier"
+		},
+		{
+			"level": 2,
+			"text": "Role",
+			"anchor": "role"
+		},
+		{
+			"level": 2,
+			"text": "Start here",
+			"anchor": "start-here"
+		},
+		{
+			"level": 2,
+			"text": "Change rule",
+			"anchor": "change-rule"
+		},
+		{
+			"level": 2,
+			"text": "Project-specific notes",
+			"anchor": "project-specific-notes"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-ohr-hagnuz-documentation-md-8146254f6a-001.json"
+	]
+}

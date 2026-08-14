@@ -1,0 +1,208 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-tests-assets-directory-g-e9297c0645",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/tests/assets/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/tests/assets",
+				"anchor": "directory-guide-experiments-awtsmoos-tests-assets"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Test themes",
+				"anchor": "test-themes"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/tests/assets Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose Integration tests focused on the assets area. The Awtsmoos renews every path and every art",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/tests/assets role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose integration tests focused on the assets area. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: appointed, assets, awtsmoos, com, covenant, deterministic, evidence, experiments, guards, guide, illuminate, import file mix: .md: 1 · .js: 1 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h proves that playable materials remain local and the world manifest is import safe. the awtsmoos lets every texture illuminate its appointed surface without leaving the village; awtsmoos.com guards that covenant through deterministic source and runtime evidence. representative files materialoriginpolicy.test.js — proves that playable materials remain local and the world manifest is import safe. the awtsmoos lets every texture illuminate its appointed surface without leaving the village; awtsmoos.com guards that covenant through deterministic source and runtime evidence. covers: “production material policy accepts only approved local paths”, “production material policy rejects remote, traversing, and forbidden paths”, “world texture manifest imports and contains only local valid roles”. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:test node:assert/strict node:fs node:url ../../src/assets/productionmaterialurlpolicy.js ../../src/assets/worldtexturemanifest.js test themes production material policy accepts only approved local paths production material policy rejects remote, traversing, and forbidden paths world texture manifest imports and contains only local valid roles runtime javascript contains no obsolete external material hosts directory map parent: experiments/awtsmoos/tests children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-tests-assets-directory-g-e9297c0645.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-tests-directory-guide-md-9e1e154c83",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/tests/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/tests",
+				"anchor": "directory-guide-experiments-awtsmoos-tests"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/tests Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 3 structural child directories Purpose Higher level integration tests kept outside the source tree. The Awtsmoos renews every path and e",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/tests role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 3 structural child directories purpose higher level integration tests kept outside the source tree. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: awtsmoos, experiments, guide file mix: .md: 1 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: experiments/awtsmoos children: experiments/awtsmoos/tests/assets experiments/awtsmoos/tests/gameplay experiments/awtsmoos/tests/world related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-tests-directory-guide-md-9e1e154c83.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-tests-gameplay-directory-561340a4fb",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/tests/gameplay/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/tests/gameplay",
+				"anchor": "directory-guide-experiments-awtsmoos-tests-gameplay"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Test themes",
+				"anchor": "test-themes"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/tests/gameplay Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 5 files, 0 structural child directories Purpose Integration tests focused on the gameplay area. The Awtsmoos renews every path and every",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/tests/gameplay role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 5 files, 0 structural child directories purpose integration tests focused on the gameplay area. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: guards, torah, action, bar, gevurah, light, timeline, ability, charge, remembers, shlichus, tiferes file mix: .js: 4 · .md: 1 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence guards the one action bar vessel from layout drift and duplicated activation. chesed fills the slot, gevurah keeps its border bright; yesod remembers every place, while malchus turns one edge to light. b\"h a focused witness that one shlichus survives reload and pays its reward once. the awtsmoos renews the world without duplicating yesterday's earned light; this test guards the persistence vessel that carries that truth in awtsmoos.com. guards the single torah cast river from start through interruption and completion. netzach bears the casting light, gevurah may close its gate; hod counts three channel beats, while tiferes joins their fate. representative files actionbarstore.test.js — guards the one action bar vessel from layout drift and duplicated activation. chesed fills the slot, gevurah keeps its border bright; yesod remembers every place, while malchus turns one edge to light. covers: “store and drag share one bounded layout owner”, “yesod persistence restores one compact two row layout”, “one fresh keyboard edge produces exactly one activation”. shlichusruntimecoordinator.test.js — a focused witness that one shlichus survives reload and pays its reward once. the awtsmoos renews the world without duplicating yesterday's earned light; this test guards the persistence vessel that carries that truth in awtsmoos.com. covers: “shlichus restores progress and never duplicates a completed reward”. torahabilitytimelinelifecycle.test.js — guards the single torah cast river from start through interruption and completion. netzach bears the casting light, gevurah may close its gate; hod counts three channel beats, while tiferes joins their fate. covers: “cast executes once only at its canonical completion deadline”, “interrupt clears the sole cast without executing it”, “channel commits once, emits three bounded ticks, and completes once”. torahabilitytimelinepreflight.test.js — guards the one torah timeline where target, focus, cooldown, and charge become one law. chochmah sees the foe, gevurah measures where shadows are; yesod remembers every charge, while tiferes keeps one action bar. covers: “preflight rejects missing target, range, and focus through one path”, “accepted instant ability creates global and personal cooldown”, “charged ability consumes two charges and lazily restores one”. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:test node:assert/strict ../../src/gameplay/actionbar/actionbarbindingrules.js ../../src/gameplay/actionbar/actionbardragcontroller.js ../../src/gameplay/actionbar/actionbarpersistence.js ../../src/gameplay/actionbar/actionbarstore.js ../../src/gameplay/adventurestore.js ../../src/gameplay/shliachprofilestore.js ../../src/gameplay/shlichuspersistence.js ../../src/gameplay/shlichusruntimecoordinator.js ../../src/gameplay/combat/torahabilitycatalog.js ../../src/gameplay/combat/torahabilitytimeline.js test themes store and drag share one bounded layout owner yesod persistence restores one compact two row layout one fresh keyboard edge produces exactly one activation shlichus restores progress and never duplicates a completed reward cast executes once only at its canonical completion deadline interrupt clears the sole cast without executing it channel commits once, emits three bounded ticks, and completes once preflight rejects missing target, range, and focus through one path accepted instant ability creates global and personal cooldown charged ability consumes two charges and lazily restores one directory map parent: experiments/awtsmoos/tests children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-tests-gameplay-directory-561340a4fb.json"
+	}
+]

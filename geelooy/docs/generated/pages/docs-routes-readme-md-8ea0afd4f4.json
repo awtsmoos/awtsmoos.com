@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-routes-readme-md-8ea0afd4f4",
+	"title": "Routes",
+	"sourcePath": "docs/ROUTES/README.md",
+	"category": "Routes",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Routes",
+			"anchor": "routes"
+		},
+		{
+			"level": 2,
+			"text": "Public filesystem routes",
+			"anchor": "public-filesystem-routes"
+		},
+		{
+			"level": 2,
+			"text": "Dynamic/API routes",
+			"anchor": "dynamic-api-routes"
+		},
+		{
+			"level": 2,
+			"text": "Dynamic parameters",
+			"anchor": "dynamic-parameters"
+		},
+		{
+			"level": 2,
+			"text": "URL lookup workflow",
+			"anchor": "url-lookup-workflow"
+		},
+		{
+			"level": 2,
+			"text": "Do not confuse these three things",
+			"anchor": "do-not-confuse-these-three-things"
+		}
+	],
+	"markdownParts": [
+		"content/docs-routes-readme-md-8ea0afd4f4-001.json"
+	]
+}

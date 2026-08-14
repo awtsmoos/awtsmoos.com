@@ -1,0 +1,712 @@
+[
+	{
+		"projectId": "geelooy-api-oauth-98ffda8e",
+		"path": "geelooy/api/oauth",
+		"type": "api",
+		"family": {
+			"id": "apis",
+			"title": "API Projects"
+		},
+		"title": "geelooy/api/oauth",
+		"entries": [
+			"_awtsmoos.derech.js",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-oauth-98ffda8e.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/api/oauth/DOCUMENTATION.md",
+				"documentId": "geelooy-api-oauth-documentation-md-e06e4ac2da"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APIS.md",
+				"documentId": "docs-tutorials-projects-apis-md-030810cad3"
+			},
+			{
+				"sourcePath": "docs/API/README.md",
+				"documentId": "docs-api-readme-md-3e0443943b"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 30,
+			"tests": 3,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 34,
+		"symbolSummary": {
+			"files": 30,
+			"classes": 0,
+			"functions": 110,
+			"exports": 82,
+			"samples": [
+				"dynamicRoutes",
+				"POST",
+				"cleanRouteName",
+				"callRoute",
+				"buildTokenBody",
+				"makeAccessToken",
+				"base64Url",
+				"sign",
+				"getClient",
+				"listClients",
+				"ruleAllows",
+				"wildcardToRegex"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/api/tunnel",
+				"count": 1,
+				"examples": "geelooy/api/oauth/data/clients.js"
+			}
+		],
+		"incoming": [
+			{
+				"project": "geelooy/api/tunnel",
+				"count": 1,
+				"examples": "geelooy/api/tunnel/control/core/auth.js"
+			},
+			{
+				"project": "geelooy/api/youtube",
+				"count": 1,
+				"examples": "geelooy/api/youtube/routes/auth.js"
+			}
+		],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-api-ohr-hagnuz-670c00a6",
+		"path": "geelooy/api/ohr-hagnuz",
+		"type": "api",
+		"family": {
+			"id": "apis",
+			"title": "API Projects"
+		},
+		"title": "geelooy/api/ohr-hagnuz",
+		"entries": [
+			"_awtsmoos.derech.js",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-ohr-hagnuz-670c00a6.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/api/ohr-hagnuz/DOCUMENTATION.md",
+				"documentId": "geelooy-api-ohr-hagnuz-documentation-md-7ac05c17c0"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APIS.md",
+				"documentId": "docs-tutorials-projects-apis-md-030810cad3"
+			},
+			{
+				"sourcePath": "docs/API/README.md",
+				"documentId": "docs-api-readme-md-3e0443943b"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 6,
+			"tests": 1,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 8,
+		"symbolSummary": {
+			"files": 6,
+			"classes": 0,
+			"functions": 17,
+			"exports": 14,
+			"samples": [
+				"dynamicRoutes",
+				"GAME_PROTOCOL_VERSION",
+				"canonicalOrigin",
+				"gameTicketClaims",
+				"normalizeSlot",
+				"requestOrigin",
+				"firstHeader",
+				"boundedInteger",
+				"issueOnlineJourneyTicket",
+				"packet",
+				"result",
+				"clearGameTickets"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/api/tunnel",
+				"count": 2,
+				"examples": "geelooy/api/ohr-hagnuz/routes/realtimeTicket.js"
+			}
+		],
+		"incoming": [
+			{
+				"project": "ayzarim/awtsmoosDynamicServer",
+				"count": 2,
+				"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/ohrHagnuz/AuthenticatedWorldTestHarness.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/ohrHagnuz/auth/GameTicketConsumer.js"
+			}
+		],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-api-perutas-5ead9cce",
+		"path": "geelooy/api/perutas",
+		"type": "api",
+		"family": {
+			"id": "apis",
+			"title": "API Projects"
+		},
+		"title": "geelooy/api/perutas",
+		"entries": [
+			"index.js",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-perutas-5ead9cce.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/api/perutas/DOCUMENTATION.md",
+				"documentId": "geelooy-api-perutas-documentation-md-7c96629456"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APIS.md",
+				"documentId": "docs-tutorials-projects-apis-md-030810cad3"
+			},
+			{
+				"sourcePath": "docs/API/README.md",
+				"documentId": "docs-api-readme-md-3e0443943b"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 32,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 33,
+		"symbolSummary": {
+			"files": 32,
+			"classes": 0,
+			"functions": 194,
+			"exports": 138,
+			"samples": [
+				"accountFor",
+				"addCredits",
+				"grantDaily",
+				"normalizeAmounts",
+				"summary",
+				"fresh",
+				"zero",
+				"makeMaster",
+				"grantOne",
+				"sum",
+				"adminGrant",
+				"adminOverview"
+			]
+		},
+		"outgoing": [],
+		"incoming": [
+			{
+				"project": "geelooy/api/tunnel",
+				"count": 16,
+				"examples": "geelooy/api/tunnel/control/core/usageStore.js; geelooy/api/tunnel/control/routes/adminPerutas.js; geelooy/api/tunnel/control/routes/adminVault.js"
+			}
+		],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-api-public-aeb4e1be",
+		"path": "geelooy/api/public",
+		"type": "api",
+		"family": {
+			"id": "apis",
+			"title": "API Projects"
+		},
+		"title": "geelooy/api/public",
+		"entries": [
+			"_awtsmoos.derech.js",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-public-aeb4e1be.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/api/public/DOCUMENTATION.md",
+				"documentId": "geelooy-api-public-documentation-md-f05980d63c"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APIS.md",
+				"documentId": "docs-tutorials-projects-apis-md-030810cad3"
+			},
+			{
+				"sourcePath": "docs/API/README.md",
+				"documentId": "docs-api-readme-md-3e0443943b"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 1,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 2,
+		"symbolSummary": {
+			"files": 1,
+			"classes": 0,
+			"functions": 2,
+			"exports": 1,
+			"samples": [
+				"dynamicRoutes",
+				"if",
+				"checkUser"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-api-runtime-5791d099",
+		"path": "geelooy/api/runtime",
+		"type": "api",
+		"family": {
+			"id": "apis",
+			"title": "API Projects"
+		},
+		"title": "geelooy/api/runtime",
+		"entries": [
+			"_awtsmoos.derech.js",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-runtime-5791d099.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/api/runtime/DOCUMENTATION.md",
+				"documentId": "geelooy-api-runtime-documentation-md-9666920d47"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APIS.md",
+				"documentId": "docs-tutorials-projects-apis-md-030810cad3"
+			},
+			{
+				"sourcePath": "docs/API/README.md",
+				"documentId": "docs-api-readme-md-3e0443943b"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 5,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 6,
+		"symbolSummary": {
+			"files": 5,
+			"classes": 0,
+			"functions": 14,
+			"exports": 8,
+			"samples": [
+				"authorizeRuntimeRequest",
+				"isAllowedOrigin",
+				"normalizedHost",
+				"failure",
+				"REQUEST_BYTES",
+				"runtimeRequestBody",
+				"bodyError",
+				"runtimeCapabilities",
+				"runtimeLaunch",
+				"runtimeStatus",
+				"runtimeStop",
+				"authorizedBodyCall"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-api-sefarim-ff35f559",
+		"path": "geelooy/api/sefarim",
+		"type": "api",
+		"family": {
+			"id": "apis",
+			"title": "API Projects"
+		},
+		"title": "geelooy/api/sefarim",
+		"entries": [
+			"_awtsmoos.derech.js",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-sefarim-ff35f559.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/api/sefarim/DOCUMENTATION.md",
+				"documentId": "geelooy-api-sefarim-documentation-md-3579995508"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APIS.md",
+				"documentId": "docs-tutorials-projects-apis-md-030810cad3"
+			},
+			{
+				"sourcePath": "docs/API/README.md",
+				"documentId": "docs-api-readme-md-3e0443943b"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 1,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 2,
+		"symbolSummary": {
+			"files": 1,
+			"classes": 0,
+			"functions": 0,
+			"exports": 1,
+			"samples": [
+				"dynamicRoutes"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-api-social-0cd2dc86",
+		"path": "geelooy/api/social",
+		"type": "api",
+		"family": {
+			"id": "apis",
+			"title": "API Projects"
+		},
+		"title": "geelooy/api/social",
+		"entries": [
+			"_awtsmoos.derech.js",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-social-0cd2dc86.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/api/social/DOCUMENTATION.md",
+				"documentId": "geelooy-api-social-documentation-md-02501ae227"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APIS.md",
+				"documentId": "docs-tutorials-projects-apis-md-030810cad3"
+			},
+			{
+				"sourcePath": "docs/API/README.md",
+				"documentId": "docs-api-readme-md-3e0443943b"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 1038,
+			"tests": 148,
+			"assets": 0,
+			"generated": 0,
+			"docs": 5,
+			"other": 1
+		},
+		"totalFiles": 1192,
+		"symbolSummary": {
+			"files": 532,
+			"classes": 11,
+			"functions": 2574,
+			"exports": 2151,
+			"samples": [
+				"metadata",
+				"requireLogin",
+				"ownershipResponse",
+				"createAliasSafely",
+				"deleteAliasSafely",
+				"aliasEntityRoute",
+				"needs",
+				"targetFromBody",
+				"method",
+				"input",
+				"json",
+				"query"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "ayzarim/DosDB",
+				"count": 33,
+				"examples": "geelooy/api/social/helper/comments/aliasIndex/PackedIndexStore.js; geelooy/api/social/helper/comments/canonicalCommentSource.js; geelooy/api/social/helper/comments/commentAwtsmoosDbBridge.js"
+			}
+		],
+		"incoming": [
+			{
+				"project": "geelooy/sites",
+				"count": 5,
+				"examples": "geelooy/sites/siteGateway.js; geelooy/sites/siteResolution.js"
+			},
+			{
+				"project": "geelooy/api/tunnel",
+				"count": 2,
+				"examples": "geelooy/api/tunnel/control/routes/osFs/listRead.js; geelooy/api/tunnel/control/routes/osFs/writeOps.js"
+			},
+			{
+				"project": "ayzarim/email",
+				"count": 1,
+				"examples": "ayzarim/email/awtsmoosEmailIngress.js"
+			},
+			{
+				"project": "geelooy/api/email",
+				"count": 1,
+				"examples": "geelooy/api/email/_awtsmoos.derech.js"
+			},
+			{
+				"project": "geelooy/api/wallet",
+				"count": 1,
+				"examples": "geelooy/api/wallet/core/transferIdentity.js"
+			}
+		],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-api-ssh-23e5c9da",
+		"path": "geelooy/api/ssh",
+		"type": "api",
+		"family": {
+			"id": "apis",
+			"title": "API Projects"
+		},
+		"title": "geelooy/api/ssh",
+		"entries": [
+			"_awtsmoos.derech.js",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-ssh-23e5c9da.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/api/ssh/DOCUMENTATION.md",
+				"documentId": "geelooy-api-ssh-documentation-md-3d9d9b7323"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APIS.md",
+				"documentId": "docs-tutorials-projects-apis-md-030810cad3"
+			},
+			{
+				"sourcePath": "docs/API/README.md",
+				"documentId": "docs-api-readme-md-3e0443943b"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 9,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 10,
+		"symbolSummary": {
+			"files": 9,
+			"classes": 0,
+			"functions": 19,
+			"exports": 17,
+			"samples": [
+				"call",
+				"connect",
+				"withClient",
+				"openSftp",
+				"execCommand",
+				"removePath",
+				"quote",
+				"bodyOf",
+				"connectionConfig",
+				"requiredBody",
+				"ok",
+				"fail"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "ayzarim/ssh",
+				"count": 1,
+				"examples": "geelooy/api/ssh/lib/client.js"
+			}
+		],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-api-streaming-de509724",
+		"path": "geelooy/api/streaming",
+		"type": "api",
+		"family": {
+			"id": "apis",
+			"title": "API Projects"
+		},
+		"title": "geelooy/api/streaming",
+		"entries": [
+			"_awtsmoos.derech.js",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-streaming-de509724.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/api/streaming/DOCUMENTATION.md",
+				"documentId": "geelooy-api-streaming-documentation-md-2e514340ef"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APIS.md",
+				"documentId": "docs-tutorials-projects-apis-md-030810cad3"
+			},
+			{
+				"sourcePath": "docs/API/README.md",
+				"documentId": "docs-api-readme-md-3e0443943b"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 14,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 3,
+			"other": 0
+		},
+		"totalFiles": 17,
+		"symbolSummary": {
+			"files": 14,
+			"classes": 0,
+			"functions": 32,
+			"exports": 34,
+			"samples": [
+				"dynamicRoutes",
+				"POST",
+				"action",
+				"clean",
+				"call",
+				"id",
+				"actions",
+				"create",
+				"status",
+				"connectorMap",
+				"youtube",
+				"accessToken"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-api-text-df4ea16e",
+		"path": "geelooy/api/text",
+		"type": "api",
+		"family": {
+			"id": "apis",
+			"title": "API Projects"
+		},
+		"title": "geelooy/api/text",
+		"entries": [
+			"_awtsmoos.derech.js",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-text-df4ea16e.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/api/text/DOCUMENTATION.md",
+				"documentId": "geelooy-api-text-documentation-md-b0640f09c6"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APIS.md",
+				"documentId": "docs-tutorials-projects-apis-md-030810cad3"
+			},
+			{
+				"sourcePath": "docs/API/README.md",
+				"documentId": "docs-api-readme-md-3e0443943b"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 1,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 2,
+		"symbolSummary": {
+			"files": 1,
+			"classes": 0,
+			"functions": 0,
+			"exports": 0,
+			"samples": []
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	}
+]

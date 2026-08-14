@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Awtsmoos Code Documentation\n\nThe Awtsmoos gives source an editor and lets local, native, AI, SSH, and Tunnel powers meet;\nAwtsmoos.com maps this major developer project without pretending every backend lives beneath one suite.\n\nRead [../../../docs/APPS/DEVELOPER_TOOLS.md](../../../docs/APPS/DEVELOPER_TOOLS.md).\n\nRelated backend families: compiler, runtime/native, SSH, GPT, and Tunnel. Search exact callers before changing contracts.\n"
+}

@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-projects-awtsmoos-ai-md-3ab2bfe677",
+	"title": "Awtsmoos AI",
+	"sourcePath": "docs/PROJECTS/AWTSMOOS_AI.md",
+	"category": "Projects",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos AI",
+			"anchor": "awtsmoos-ai"
+		},
+		{
+			"level": 2,
+			"text": "Primary source areas",
+			"anchor": "primary-source-areas"
+		},
+		{
+			"level": 2,
+			"text": "Do not flatten AI into one backend",
+			"anchor": "do-not-flatten-ai-into-one-backend"
+		},
+		{
+			"level": 2,
+			"text": "Generated evidence",
+			"anchor": "generated-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Human manuals",
+			"anchor": "human-manuals"
+		},
+		{
+			"level": 2,
+			"text": "Change strategy",
+			"anchor": "change-strategy"
+		}
+	],
+	"markdownParts": [
+		"content/docs-projects-awtsmoos-ai-md-3ab2bfe677-001.json"
+	]
+}

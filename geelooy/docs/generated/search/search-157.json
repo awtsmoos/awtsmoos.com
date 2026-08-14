@@ -1,0 +1,104 @@
+[
+	{
+		"id": "docs-generated-human-documentation-human-docs-002-md-23e3bfb207",
+		"title": "Generated Human Documentation Index 71–140",
+		"sourcePath": "docs/GENERATED/HUMAN_DOCUMENTATION/human-docs-002.md",
+		"category": "General",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated Human Documentation Index 71–140",
+				"anchor": "generated-human-documentation-index-71-140"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Human Documentation Index 71–140 Manual Markdown pages outside the generated tree, with title, line count, and relative link count. Document Title Lines Links docs/README.md Awtsmoos.com Documentation 58 17 docs/ROUTES/DYNAMIC PATHS.md Dynamic Paths and Dollar Variables 61 1 do",
+		"searchText": "b\"h boruch hashem blessed is he generated human documentation index 71–140 manual markdown pages outside the generated tree, with title, line count, and relative link count. document title lines links docs/readme.md awtsmoos.com documentation 58 17 docs/routes/dynamic paths.md dynamic paths and dollar variables 61 1 docs/routes/public routes.md major public routes 51 1 docs/routes/readme.md routes 45 6 docs/routes/url to source.md url to source 48 2 docs/security/readme.md security and trust boundaries 42 3 docs/security/realtime security.md realtime security 54 0 docs/security/secrets and config.md secrets and security sensitive configuration 46 0 docs/security/trust boundaries.md trust boundaries 61 0 docs/source to doc.md source to documentation map 37 0 docs/start here.md start here 72 19 docs/systems/ai.md ai systems 41 0 docs/systems/auth and identity.md authentication and identity system 50 0 docs/systems/database and storage.md database and storage 48 0 docs/systems/geelooy os.md geelooy os and virtual runtime 36 0 docs/systems/nested awtsmoos com.md nested awtsmoos.com/ shell 37 0 docs/systems/readme.md cross cutting systems 34 18 docs/systems/service worker.md service worker 30 0 docs/systems/shared libraries.md shared libraries and browser foundations 39 0 docs/systems/social and heichel.md social and heichel system 56 1 docs/systems/testing.md testing and verification 49 0 docs/systems/tunnel.md tunnel system 43 1 docs/test index.md test and verification chooser 64 1 docs/tutorials/api/admin.md admin api tutorial 34 3 docs/tutorials/api/compiler.md compiler api tutorial 34 3 docs/tutorials/api/contact.md contact api tutorial 34 3 docs/tutorials/api/email.md email api tutorial 34 3 docs/tutorials/api/fetch.md fetch proxy api tutorial 34 3 docs/tutorials/api/gpt.md gpt api tutorial 34 3 docs/tutorials/api/oauth.md oauth api tutorial 34 3 docs/tutorials/api/ohr hagnuz.md ohr hagnuz api tutorial 34 3 docs/tutorials/api/public.md public api tutorial 34 3 docs/tutorials/api/root api.md root api api tutorial 34 3 docs/tutorials/api/runtime.md native runtime api tutorial 34 3 docs/tutorials/api/sefarim.md sefarim api tutorial 34 3 docs/tutorials/api/social.md social api tutorial 34 3 docs/tutorials/api/ssh.md ssh api tutorial 34 3 docs/tutorials/api/streaming.md streaming api tutorial 34 3 docs/tutorials/api/text.md text jobs api tutorial 34 3 docs/tutorials/api/tunnel.md tunnel relay api tutorial 34 3 docs/tutorials/api/tunnel control.md tunnel control api tutorial 34 3 docs/tutorials/api/tunnel install.md tunnel install api tutorial 34 3 docs/tutorials/api/wallet.md wallet api tutorial 34 3 docs/tutorials/api/youtube.md youtube api tutorial 34 3 docs/tutorials/content/aliases and api keys.md aliases and api keys 22 0 docs/tutorials/content/comments.md comments and replies 27 0 docs/tutorials/content/content migrations.md content migrations 24 0 docs/tutorials/content/heichelos.md heichelos 27 0 docs/tutorials/content/mail notifications drive.md mail, notifications, and drive 24 0 docs/tutorials/content/moderation and governance.md moderation and governance 20 0 docs/tutorials/content/posts and series.md posts and series 24 0 docs/tutorials/content/search graph and discovery.md search, graph, and discovery 20 0 docs/tutorials/content/social content model.md social content model 26 1 docs/tutorials/readme.md awtsmoos.com tutorials 30 6 docs/tutorials/systems/documentation runtime.md tutorial: documentation runtime 26 0 docs/tutorials/systems/dosdb runtime.md tutorial: dosdb runtime 22 0 docs/tutorials/systems/dynamic routing.md tutorial: dynamic routing 26 0 docs/tutorials/systems/identity and auth.md tutorial: identity and authorization 26 0 docs/tutorials/systems/realtime runtime.md tutorial: realtime runtime 22 0 docs/tutorials/systems/request pipeline.md tutorial: http request pipeline 24 0 docs/tutorials/systems/server boot.md tutorial: server boot 25 0 docs/websockets/applications.md realtime applications and events 43 1 docs/websockets/mission rooms.md mission room websocket admission 40 1 docs/websockets/readme.md websocket and realtime platform 48 5 docs/websockets/tunnel relay.md tunnel relay websocket system 47 1 docs/drive/readme.md awtsmoos drive and self hosted public hosting 45 4 docs/drive/api examples.md api examples 92 0 docs/drive/architecture.md architecture and security 49 0 docs/drive/operations.md operations, migration, rollback, and recovery 47 0 docs/operations/readme.md awtsmoos production operations 62 5",
+		"page": "pages/docs-generated-human-documentation-human-docs-002-md-23e3bfb207.json"
+	},
+	{
+		"id": "docs-generated-human-documentation-human-docs-003-md-3ceaa83380",
+		"title": "Generated Human Documentation Index 141–147",
+		"sourcePath": "docs/GENERATED/HUMAN_DOCUMENTATION/human-docs-003.md",
+		"category": "General",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated Human Documentation Index 141–147",
+				"anchor": "generated-human-documentation-index-141-147"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Human Documentation Index 141–147 Manual Markdown pages outside the generated tree, with title, line count, and relative link count. Document Title Lines Links docs/operations/dayuh agent checklist.md Dayuh sync checklist for AI agents 92 0 docs/operations/dayuh code deploy and",
+		"searchText": "b\"h boruch hashem blessed is he generated human documentation index 141–147 manual markdown pages outside the generated tree, with title, line count, and relative link count. document title lines links docs/operations/dayuh agent checklist.md dayuh sync checklist for ai agents 92 0 docs/operations/dayuh code deploy and git.md dayuh code deployment and git boundary 107 0 docs/operations/dayuh database sync runbook.md dayuh chadash database sync runbook 103 0 docs/operations/dayuh recovery and conflicts.md dayuh sync recovery and conflict handling 115 0 docs/tunnel/extreme feature finalization brainstorm.md extreme feature finalization brainstorm 95 1 docs/tunnel/extreme feature finalization continuation.md extreme feature finalization — continuation 65 0 docs/tunnel/root search brainstorm.md root search brainstorm and refinement roadmap 81 0",
+		"page": "pages/docs-generated-human-documentation-human-docs-003-md-3ceaa83380.json"
+	},
+	{
+		"id": "docs-generated-missing-documentation-md-32732176d4",
+		"title": "Generated Missing Documentation",
+		"sourcePath": "docs/GENERATED/MISSING_DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated Missing Documentation",
+				"anchor": "generated-missing-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Missing Documentation Project Type Files Title Entries",
+		"searchText": "b\"h boruch hashem blessed is he generated missing documentation project type files title entries",
+		"page": "pages/docs-generated-missing-documentation-md-32732176d4.json"
+	},
+	{
+		"id": "docs-generated-project-atlas-md-7cba914a76",
+		"title": "Generated Project Atlas",
+		"sourcePath": "docs/GENERATED/PROJECT_ATLAS.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated Project Atlas",
+				"anchor": "generated-project-atlas"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Project Atlas Observed project/directory boundaries with classified file counts and local documentation status. 163 rows. Chunk Rows Count projects 001.md 1–45 45 projects 002.md 46–90 45 projects 003.md 91–135 45 projects 004.md 136–163 28",
+		"searchText": "b\"h boruch hashem blessed is he generated project atlas observed project/directory boundaries with classified file counts and local documentation status. 163 rows. chunk rows count projects 001.md 1–45 45 projects 002.md 46–90 45 projects 003.md 91–135 45 projects 004.md 136–163 28",
+		"page": "pages/docs-generated-project-atlas-md-7cba914a76.json"
+	},
+	{
+		"id": "docs-generated-project-atlas-projects-001-md-43a23e060d",
+		"title": "Generated Project Atlas 1–45",
+		"sourcePath": "docs/GENERATED/PROJECT_ATLAS/projects-001.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated Project Atlas 1–45",
+				"anchor": "generated-project-atlas-1-45"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Project Atlas 1–45 Observed project/directory boundaries with classified file counts and local documentation status. Path Type Files Source Tests Assets Generated Local docs Entries Title ai thoughts evidence 6079 679 0 325 0 — — — ai thoughts evidence 1632 494 79 0 0 — — — awt",
+		"searchText": "b\"h boruch hashem blessed is he generated project atlas 1–45 observed project/directory boundaries with classified file counts and local documentation status. path type files source tests assets generated local docs entries title ai thoughts evidence 6079 679 0 325 0 — — — ai thoughts evidence 1632 494 79 0 0 — — — awtsmoos.com project 4 1 0 0 0 awtsmoos.com/documentation.md documentation.md — ayzarim runtime root 1781 1439 316 0 0 ayzarim/documentation.md documentation.md — ayzarim/dosdb data 1008 827 160 0 0 ayzarim/dosdb/documentation.md index.js, documentation.md — ayzarim/awtsmoosdynamicserver runtime 747 589 156 0 0 ayzarim/awtsmoosdynamicserver/documentation.md index.js, documentation.md — ayzarim/email infrastructure 5 5 0 0 0 — — — ayzarim/maintence infrastructure 1 1 0 0 0 — — — ayzarim/math infrastructure 1 1 0 0 0 — — — ayzarim/ssh infrastructure 12 11 0 0 0 ayzarim/ssh/documentation.md documentation.md — ayzarim/tools infrastructure 4 4 0 0 0 — — — geelooy public root 29045 22231 3912 78 76 geelooy/documentation.md index.html, documentation.md awtsmoos — play, create, learn & build geelooy/.awtsmoos agent thoughts evidence 393 68 6 28 0 — — — geelooy/.awtsmoos smoke project 4 4 0 0 0 — — — geelooy/.data project 1 1 0 0 0 — — — geelooy/@ project 3 3 0 0 0 — awtsmoos.derech.js — geelooy/about public 1 1 0 0 0 — index.html about — geelooy geelooy/ai public 1111 649 152 2 0 geelooy/ai/documentation.md index.html, index.js, documentation.md awtsmoos ai geelooy/api project 1741 1452 254 0 0 geelooy/api/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/admin api 2 1 0 0 0 geelooy/api/admin/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/compiler api 10 8 1 0 0 geelooy/api/compiler/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/contact api 2 1 0 0 0 geelooy/api/contact/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/email api 2 1 0 0 0 geelooy/api/email/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/fetch api 2 1 0 0 0 geelooy/api/fetch/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/gpt api 14 10 3 0 0 geelooy/api/gpt/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/nav api 1 1 0 0 0 — — — geelooy/api/oauth api 34 30 3 0 0 geelooy/api/oauth/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/ohr hagnuz api 8 6 1 0 0 geelooy/api/ohr hagnuz/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/perutas api 33 32 0 0 0 geelooy/api/perutas/documentation.md index.js, documentation.md — geelooy/api/public api 2 1 0 0 0 geelooy/api/public/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/runtime api 6 5 0 0 0 geelooy/api/runtime/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/sefarim api 2 1 0 0 0 geelooy/api/sefarim/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/social api 1182 1031 145 0 0 geelooy/api/social/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/ssh api 10 9 0 0 0 geelooy/api/ssh/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/streaming api 17 14 0 0 0 geelooy/api/streaming/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/text api 2 1 0 0 0 geelooy/api/text/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/tunnel api 329 231 91 0 0 geelooy/api/tunnel/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/wallet api 58 48 9 0 0 geelooy/api/wallet/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/youtube api 22 19 1 0 0 geelooy/api/youtube/documentation.md awtsmoos.derech.js, documentation.md — geelooy/apps public 9187 7404 1534 45 19 geelooy/apps/documentation.md index.html, app.js, documentation.md awtsmoos apps — create, compute & build geelooy/apps/android emulator app 1420 884 535 0 0 geelooy/apps/android emulator/documentation.md documentation.md — geelooy/apps/animator app 2601 2458 0 43 0 geelooy/apps/animator/documentation.md index.html, package.json, documentation.md awtsmoos park engine — b\"h geelooy/apps/archive uploader app 3 3 0 0 0 — index.html, app.js ia//hyper uploader geelooy/apps/audio editor app 4 4 0 0 0 — index.html, main.js pro audio editor geelooy/apps/awtsmoos gguf app 88 87 0 0 0 geelooy/apps/awtsmoos gguf/documentation.md index.html, index.js, app.js, documentation.md gguf chat & metadata b\"h",
+		"page": "pages/docs-generated-project-atlas-projects-001-md-43a23e060d.json"
+	},
+	{
+		"id": "docs-generated-project-atlas-projects-002-md-9cb1b33e4d",
+		"title": "Generated Project Atlas 46–90",
+		"sourcePath": "docs/GENERATED/PROJECT_ATLAS/projects-002.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated Project Atlas 46–90",
+				"anchor": "generated-project-atlas-46-90"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Project Atlas 46–90 Observed project/directory boundaries with classified file counts and local documentation status. Path Type Files Source Tests Assets Generated Local docs Entries Title geelooy/apps/bookCoverMaker app 1 1 0 0 0 — index.html Book Cover Generator geelooy/apps/",
+		"searchText": "b\"h boruch hashem blessed is he generated project atlas 46–90 observed project/directory boundaries with classified file counts and local documentation status. path type files source tests assets generated local docs entries title geelooy/apps/bookcovermaker app 1 1 0 0 0 — index.html book cover generator geelooy/apps/broadcaster app 3 3 0 0 0 — index.html — geelooy/apps/byteviewer app 4 3 0 0 0 — index.html hex viewer of the awtsmoos geelooy/apps/captions app 68 64 0 0 0 geelooy/apps/captions/documentation.md index.html, documentation.md ein sof engine [quantum core v2.5] geelooy/apps/code app 1099 1055 40 1 0 geelooy/apps/code/documentation.md index.html, documentation.md awtsmoos code geelooy/apps/compiler app 79 77 1 0 0 geelooy/apps/compiler/documentation.md index.html, documentation.md awtsmoos compiler geelooy/apps/csv app 5 5 0 0 0 — index.html awtsmoos native grid geelooy/apps/drive app 24 23 0 0 0 geelooy/apps/drive/documentation.md index.html, documentation.md awtsmoos drive geelooy/apps/editor app 40 39 0 0 0 geelooy/apps/editor/documentation.md index.html, documentation.md mitzvah world animator geelooy/apps/exe emulator app 417 271 133 1 9 geelooy/apps/exe emulator/documentation.md index.html, documentation.md awtsmoos exe emulator geelooy/apps/gpt api pulse garden app 1 1 0 0 0 — index.html awtsmoos pulse garden geelooy/apps/lyric sync app 4 4 0 0 0 — index.html lyric sync engine geelooy/apps/merkava native browser app 79 60 0 0 10 geelooy/apps/merkava native browser/documentation.md package.json, documentation.md — geelooy/apps/mitzvah pushkuh app 150 140 7 0 0 geelooy/apps/mitzvah pushkuh/documentation.md index.html, documentation.md mitzvah pushkuh · garden of sparks geelooy/apps/nesher studio app 542 416 117 0 0 geelooy/apps/nesher studio/documentation.md index.html, main.js, documentation.md 🦅 nesher studio geelooy/apps/pdf to img app 1 1 0 0 0 — index.html high res pdf to image converter geelooy/apps/piano app 60 59 0 0 0 geelooy/apps/piano/documentation.md index.html, main.js, documentation.md awtsmoos web synthesizer ultimate geelooy/apps/rebbe app 126 125 0 0 0 geelooy/apps/rebbe/documentation.md index.html, main.js, documentation.md awtsmoos archive // omega geelooy/apps/scripts app 8 8 0 0 0 — — — geelooy/apps/styles app 5 5 0 0 0 — — — geelooy/apps/tests app 1 0 1 0 0 — — — geelooy/apps/transcribe app 2 2 0 0 0 — index.html assemblyai transcription geelooy/apps/tunnel app 1860 1173 651 0 0 geelooy/apps/tunnel/documentation.md index.html, documentation.md, readme.md, readme.md awtsmoos tunnel console geelooy/apps/tunnel control app 465 409 49 0 0 geelooy/apps/tunnel control/documentation.md index.html, documentation.md, readme.md, readme.md awtsmoos tunnel control geelooy/apps/video editor app 2 2 0 0 0 — index.html awtsmoos video editor chapter 7 revised geelooy/apps/virtual os stress light counter app 1 1 0 0 0 — index.html light counter geelooy/apps/wallet app 18 17 0 0 0 geelooy/apps/wallet/documentation.md index.html, main.js, documentation.md awtsmoos wallet — perutah treasury geelooy/apps/watermark remover app 1 1 0 0 0 — index.html svg mask alpha brute force geelooy/awtai db public 3 3 0 0 0 — index.html, app.js awtai db gguf converter geelooy/ayin public 1 1 0 0 0 — index.html real awtsmoos recorder geelooy/browser test project 2 1 1 0 0 — — — geelooy/comment thread public 12 10 1 0 0 geelooy/comment thread/documentation.md index.html, app.js, documentation.md comment thread — geelooy geelooy/contact public 3 3 0 0 0 — index.html contact — awtsmoos geelooy/control public 3 3 0 0 0 — index.html, app.js code control panel geelooy/css project 1 1 0 0 0 — — — geelooy/db public 9 7 0 0 0 geelooy/db/documentation.md index.html, documentation.md — geelooy/docs public 1470 0 0 0 0 geelooy/docs/documentation.md index.html, documentation.md awtsmoos documentation geelooy/donate public 1 1 0 0 0 — index.html — geelooy/editor public 1 1 0 0 0 — index.html — geelooy/email public 113 109 2 0 0 geelooy/email/documentation.md index.html, index.js, documentation.md mail — geelooy geelooy/entity view public 2 2 0 0 0 — index.html, app.js entity universe geelooy/fetch public 1 1 0 0 0 — index.html — geelooy/game public 1 1 0 0 0 — index.html opening mitzvah world… geelooy/games public 8071 6312 1365 1 57 geelooy/games/documentation.md index.html, documentation.md awtsmoos games — 25 visual worlds, solo & multiplayer geelooy/games/kavanah game 12 11 0 0 0 geelooy/games/kavanah/documentation.md index.html, documentation.md kavanah",
+		"page": "pages/docs-generated-project-atlas-projects-002-md-9cb1b33e4d.json"
+	}
+]

@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-generated-system-district-summary-md-cce5c863d7",
+	"title": "System District Summary",
+	"sourcePath": "docs/GENERATED/SYSTEM_DISTRICT_SUMMARY.md",
+	"category": "Systems",
+	"provenance": "generated",
+	"headings": [
+		{
+			"level": 1,
+			"text": "System District Summary",
+			"anchor": "system-district-summary"
+		}
+	],
+	"markdownParts": [
+		"content/docs-generated-system-district-summary-md-cce5c863d7-001.json"
+	]
+}

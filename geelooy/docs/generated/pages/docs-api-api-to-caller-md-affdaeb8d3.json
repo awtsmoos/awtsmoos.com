@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-api-api-to-caller-md-affdaeb8d3",
+	"title": "API to Human-Facing Caller Map",
+	"sourcePath": "docs/API/API_TO_CALLER.md",
+	"category": "API",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "API to Human-Facing Caller Map",
+			"anchor": "api-to-human-facing-caller-map"
+		},
+		{
+			"level": 2,
+			"text": "Find exact callers",
+			"anchor": "find-exact-callers"
+		},
+		{
+			"level": 2,
+			"text": "Change rule",
+			"anchor": "change-rule"
+		}
+	],
+	"markdownParts": [
+		"content/docs-api-api-to-caller-md-affdaeb8d3-001.json"
+	]
+}

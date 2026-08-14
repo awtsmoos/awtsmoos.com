@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-remaining-work-md-5cf1d82fed",
+	"title": "Mitzvah World — Closed Work Ledger",
+	"sourcePath": "geelooy/games/mitzvahWorld/REMAINING_WORK.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Mitzvah World — Closed Work Ledger",
+			"anchor": "mitzvah-world-closed-work-ledger"
+		},
+		{
+			"level": 2,
+			"text": "Requested Repair Scope",
+			"anchor": "requested-repair-scope"
+		},
+		{
+			"level": 2,
+			"text": "Verified Production State — 2026-08-02",
+			"anchor": "verified-production-state-2026-08-02"
+		},
+		{
+			"level": 2,
+			"text": "Durable Evidence",
+			"anchor": "durable-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Remaining Task-Scoped Work",
+			"anchor": "remaining-task-scoped-work"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-remaining-work-md-5cf1d82fed-001.json"
+	]
+}

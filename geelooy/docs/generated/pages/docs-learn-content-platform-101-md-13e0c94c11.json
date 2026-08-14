@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-learn-content-platform-101-md-13e0c94c11",
+	"title": "Content Platform 101",
+	"sourcePath": "docs/LEARN/CONTENT_PLATFORM_101.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Content Platform 101",
+			"anchor": "content-platform-101"
+		},
+		{
+			"level": 2,
+			"text": "What you will learn",
+			"anchor": "what-you-will-learn"
+		},
+		{
+			"level": 2,
+			"text": "Core hierarchy",
+			"anchor": "core-hierarchy"
+		},
+		{
+			"level": 2,
+			"text": "Canonical and compatibility layers",
+			"anchor": "canonical-and-compatibility-layers"
+		},
+		{
+			"level": 2,
+			"text": "Trust",
+			"anchor": "trust"
+		},
+		{
+			"level": 2,
+			"text": "Beyond CRUD",
+			"anchor": "beyond-crud"
+		},
+		{
+			"level": 2,
+			"text": "Next",
+			"anchor": "next"
+		}
+	],
+	"markdownParts": [
+		"content/docs-learn-content-platform-101-md-13e0c94c11-001.json"
+	]
+}

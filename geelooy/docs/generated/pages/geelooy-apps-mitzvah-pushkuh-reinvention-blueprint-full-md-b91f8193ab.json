@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-mitzvah-pushkuh-reinvention-blueprint-full-md-b91f8193ab",
+	"title": "Mitzvah Pushkuh Reinvention Blueprint",
+	"sourcePath": "geelooy/apps/mitzvah-pushkuh/REINVENTION_BLUEPRINT_FULL.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Mitzvah Pushkuh Reinvention Blueprint",
+			"anchor": "mitzvah-pushkuh-reinvention-blueprint"
+		},
+		{
+			"level": 2,
+			"text": "Current-state analysis",
+			"anchor": "current-state-analysis"
+		},
+		{
+			"level": 2,
+			"text": "200 deposit rituals",
+			"anchor": "200-deposit-rituals"
+		},
+		{
+			"level": 2,
+			"text": "100 lifecycle systems",
+			"anchor": "100-lifecycle-systems"
+		},
+		{
+			"level": 2,
+			"text": "100 archive systems",
+			"anchor": "100-archive-systems"
+		},
+		{
+			"level": 2,
+			"text": "100 profile/community/interaction/animation/visual systems",
+			"anchor": "100-profile-community-interaction-animation-visual-systems"
+		},
+		{
+			"level": 2,
+			"text": "20 product visions",
+			"anchor": "20-product-visions"
+		},
+		{
+			"level": 2,
+			"text": "Selected vision",
+			"anchor": "selected-vision"
+		},
+		{
+			"level": 2,
+			"text": "Final test",
+			"anchor": "final-test"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-mitzvah-pushkuh-reinvention-blueprint-full-md-b91f8193ab-001.json"
+	]
+}

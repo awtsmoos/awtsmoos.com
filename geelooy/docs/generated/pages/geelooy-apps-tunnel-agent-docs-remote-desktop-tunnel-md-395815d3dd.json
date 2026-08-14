@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agent-docs-remote-desktop-tunnel-md-395815d3dd",
+	"title": "Remote Desktop Tunnel: Large Next Layer",
+	"sourcePath": "geelooy/apps/tunnel/agent/docs/REMOTE_DESKTOP_TUNNEL.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Remote Desktop Tunnel: Large Next Layer",
+			"anchor": "remote-desktop-tunnel-large-next-layer"
+		},
+		{
+			"level": 2,
+			"text": "New in this layer",
+			"anchor": "new-in-this-layer"
+		},
+		{
+			"level": 2,
+			"text": "Helper skeletons created",
+			"anchor": "helper-skeletons-created"
+		},
+		{
+			"level": 2,
+			"text": "Current active guarantees",
+			"anchor": "current-active-guarantees"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agent-docs-remote-desktop-tunnel-md-395815d3dd-001.json"
+	]
+}

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\n# Long Recording Design\n\nCurrent Nesher behavior:\n- Video frames are sent one at a time to the existing MediaBunnyBase worker.\n- MediaBunnyBase keeps only a small frame queue.\n- Final MP4 bytes are written through an IndexedDB range target in the shared video library.\n- Captured tab audio is stored as PCM packets in IndexedDB while recording.\n\nThis avoids the main RAM traps during recording.\n\nRemaining limitation:\n- The current shared finalize API expects one AudioBuffer-like shim, so final muxing materializes audio once at the end.\n\nFuture true segment mode:\n- Finalize a fragment every 30-120 seconds.\n- Store fragments in IndexedDB.\n- Stitch using a same-codec fragmented-MP4 concat action, not by decoding/re-encoding.\n- This belongs in `/scripts/awtsmoos/video`, so all apps benefit.\n"
+}

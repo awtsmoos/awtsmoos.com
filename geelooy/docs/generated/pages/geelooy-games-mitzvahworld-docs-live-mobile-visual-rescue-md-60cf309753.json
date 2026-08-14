@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-docs-live-mobile-visual-rescue-md-60cf309753",
+	"title": "B\"H",
+	"sourcePath": "geelooy/games/mitzvahWorld/docs/LIVE_MOBILE_VISUAL_RESCUE.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Live Mobile Visual Rescue",
+			"anchor": "live-mobile-visual-rescue"
+		},
+		{
+			"level": 2,
+			"text": "Runtime publication",
+			"anchor": "runtime-publication"
+		},
+		{
+			"level": 2,
+			"text": "Right rail",
+			"anchor": "right-rail"
+		},
+		{
+			"level": 2,
+			"text": "Terrain and road density",
+			"anchor": "terrain-and-road-density"
+		},
+		{
+			"level": 2,
+			"text": "Friendly quest NPC",
+			"anchor": "friendly-quest-npc"
+		},
+		{
+			"level": 2,
+			"text": "Houses, demons, equipment, and casting",
+			"anchor": "houses-demons-equipment-and-casting"
+		},
+		{
+			"level": 2,
+			"text": "Acceptance authority",
+			"anchor": "acceptance-authority"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-docs-live-mobile-visual-rescue-md-60cf309753-001.json"
+	]
+}

@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-sefarim-documentation-md-3579995508",
+	"title": "Sefarim API Documentation",
+	"sourcePath": "geelooy/api/sefarim/DOCUMENTATION.md",
+	"category": "API",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Sefarim API Documentation",
+			"anchor": "sefarim-api-documentation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-sefarim-documentation-md-3579995508-001.json"
+	]
+}

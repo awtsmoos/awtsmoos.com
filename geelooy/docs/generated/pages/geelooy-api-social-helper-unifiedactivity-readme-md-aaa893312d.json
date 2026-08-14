@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-helper-unifiedactivity-readme-md-aaa893312d",
+	"title": "B\"H",
+	"sourcePath": "geelooy/api/social/helper/unifiedActivity/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Boruch Hashem",
+			"anchor": "boruch-hashem"
+		},
+		{
+			"level": 1,
+			"text": "Blessed is He",
+			"anchor": "blessed-is-he"
+		},
+		{
+			"level": 1,
+			"text": "Unified Activity Ledger",
+			"anchor": "unified-activity-ledger"
+		},
+		{
+			"level": 2,
+			"text": "Privacy law",
+			"anchor": "privacy-law"
+		},
+		{
+			"level": 2,
+			"text": "Controls",
+			"anchor": "controls"
+		},
+		{
+			"level": 2,
+			"text": "Storage",
+			"anchor": "storage"
+		},
+		{
+			"level": 2,
+			"text": "Adoption",
+			"anchor": "adoption"
+		},
+		{
+			"level": 2,
+			"text": "Tests",
+			"anchor": "tests"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-helper-unifiedactivity-readme-md-aaa893312d-001.json"
+	]
+}

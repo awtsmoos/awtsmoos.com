@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-db-documentation-md-94231c30f4",
+	"title": "Database Tool Documentation",
+	"sourcePath": "geelooy/db/DOCUMENTATION.md",
+	"category": "General",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Database Tool Documentation",
+			"anchor": "database-tool-documentation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-db-documentation-md-94231c30f4-001.json"
+	]
+}

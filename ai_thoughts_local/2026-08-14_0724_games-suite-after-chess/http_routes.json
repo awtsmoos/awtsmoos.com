@@ -1,0 +1,164 @@
+[
+  {
+    "game": "KAVANAH",
+    "indexExists": true,
+    "status": 200,
+    "contentType": "text/html; charset=utf-8"
+  },
+  {
+    "game": "Merkava",
+    "indexExists": true,
+    "status": 200,
+    "contentType": "text/html; charset=utf-8"
+  },
+  {
+    "game": "Nachash",
+    "indexExists": true,
+    "status": 200,
+    "contentType": "text/html; charset=utf-8"
+  },
+  {
+    "game": "adventure",
+    "indexExists": true,
+    "status": 200,
+    "contentType": "text/html; charset=utf-8"
+  },
+  {
+    "game": "brick-blast",
+    "indexExists": true,
+    "status": 200,
+    "contentType": "text/html; charset=utf-8"
+  },
+  {
+    "game": "cards",
+    "indexExists": true,
+    "status": 200,
+    "contentType": "text/html; charset=utf-8"
+  },
+  {
+    "game": "city-of-light",
+    "indexExists": true,
+    "status": 200,
+    "contentType": "text/html; charset=utf-8"
+  },
+  {
+    "game": "connect4",
+    "indexExists": true,
+    "status": 200,
+    "contentType": "text/html; charset=utf-8"
+  },
+  {
+    "game": "dove",
+    "indexExists": true,
+    "status": 200,
+    "contentType": "text/html; charset=utf-8"
+  },
+  {
+    "game": "emojis",
+    "indexExists": true,
+    "status": 200,
+    "contentType": "text/html; charset=utf-8"
+  },
+  {
+    "game": "kabbalah-shooter",
+    "indexExists": true,
+    "status": 200,
+    "contentType": "text/html; charset=utf-8"
+  },
+  {
+    "game": "migdol",
+    "indexExists": true,
+    "status": 200,
+    "contentType": "text/html; charset=utf-8"
+  },
+  {
+    "game": "mitzvahWorld",
+    "indexExists": true,
+    "status": 200,
+    "contentType": "text/html; charset=utf-8"
+  },
+  {
+    "game": "neshama-quest",
+    "indexExists": true,
+    "status": 200,
+    "contentType": "text/html; charset=utf-8"
+  },
+  {
+    "game": "nitzotz-io",
+    "indexExists": true,
+    "status": 200,
+    "contentType": "text/html; charset=utf-8"
+  },
+  {
+    "game": "ohr-hagnuz",
+    "indexExists": true,
+    "status": 200,
+    "contentType": "text/html; charset=utf-8"
+  },
+  {
+    "game": "party",
+    "indexExists": true,
+    "status": 200,
+    "contentType": "text/html; charset=utf-8"
+  },
+  {
+    "game": "pong",
+    "indexExists": true,
+    "status": 200,
+    "contentType": "text/html; charset=utf-8"
+  },
+  {
+    "game": "rambam",
+    "indexExists": false,
+    "status": 200,
+    "contentType": "application/json; charset=utf-8"
+  },
+  {
+    "game": "rebbe-runner",
+    "indexExists": true,
+    "status": 200,
+    "contentType": "text/html; charset=utf-8"
+  },
+  {
+    "game": "scribe-journey",
+    "indexExists": true,
+    "status": 200,
+    "contentType": "text/html; charset=utf-8"
+  },
+  {
+    "game": "sefira-clash",
+    "indexExists": true,
+    "status": 200,
+    "contentType": "text/html; charset=utf-8"
+  },
+  {
+    "game": "seven-mitzvos",
+    "indexExists": true,
+    "status": 200,
+    "contentType": "text/html; charset=utf-8"
+  },
+  {
+    "game": "shema-strike",
+    "indexExists": true,
+    "status": 200,
+    "contentType": "text/html; charset=utf-8"
+  },
+  {
+    "game": "soul-jump",
+    "indexExists": true,
+    "status": 200,
+    "contentType": "text/html; charset=utf-8"
+  },
+  {
+    "game": "sulam-ha-sod",
+    "indexExists": true,
+    "status": 200,
+    "contentType": "text/html; charset=utf-8"
+  },
+  {
+    "game": "tetris",
+    "indexExists": true,
+    "status": 200,
+    "contentType": "text/html; charset=utf-8"
+  }
+]

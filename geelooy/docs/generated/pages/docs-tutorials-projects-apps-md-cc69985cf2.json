@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-tutorials-projects-apps-md-cc69985cf2",
+	"title": "Applications",
+	"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+	"category": "Projects",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Applications",
+			"anchor": "applications"
+		},
+		{
+			"level": 2,
+			"text": "Investigate an app",
+			"anchor": "investigate-an-app"
+		},
+		{
+			"level": 2,
+			"text": "Common traps",
+			"anchor": "common-traps"
+		}
+	],
+	"markdownParts": [
+		"content/docs-tutorials-projects-apps-md-cc69985cf2-001.json"
+	]
+}

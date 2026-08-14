@@ -1,0 +1,104 @@
+[
+	{
+		"id": "docs-generated-api-callers-api-callers-005-md-5649ba40c9",
+		"title": "Generated API Caller Index 321–341",
+		"sourcePath": "docs/GENERATED/API_CALLERS/api-callers-005.md",
+		"category": "General",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated API Caller Index 321–341",
+				"anchor": "generated-api-caller-index-321-341"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated API Caller Index 321–341 Literal /api/ references found outside the API source tree; test callers are labeled. API literal Caller source Kind /api/tunnel/install/agent.zip geelooy/apps/tunnel/agent/testing/selfUpdateNotificationOnly.test.cjs test /api/tunnel/install/bundle mani",
+		"searchText": "b\"h boruch hashem blessed is he generated api caller index 321–341 literal /api/ references found outside the api source tree; test callers are labeled. api literal caller source kind /api/tunnel/install/agent.zip geelooy/apps/tunnel/agent/testing/selfupdatenotificationonly.test.cjs test /api/tunnel/install/bundle manifest geelooy/apps/tunnel/agent/testing/helpers/isolatedinstall/bundle.cjs test /api/tunnel/install/bundle manifest geelooy/apps/tunnel/agent/testing/helpers/isolatedinstalledagent/bundleserver.cjs test /api/tunnel/install/bundle manifest geelooy/apps/tunnel/agent/testing/helpers/transactionalinstaller/releaseserver.cjs test /api/tunnel/install/installer components.tar.gz geelooy/apps/tunnel/agent/testing/helpers/transactionalinstaller/cases/freshinstall.cjs test /api/tunnel/install/installer components.tar.gz geelooy/apps/tunnel/agent/testing/helpers/transactionalinstaller/releaseserver.cjs test /api/tunnel/install/status geelooy/apps/tunnel/js/status.js runtime /api/tunnel/install/unix geelooy/apps/tunnel/agent/testing/helpers/transactionalinstaller/releaseserver.cjs test /api/v2/social/meta geelooy/scripts/awtsmoos/social/hub/api.js runtime /api/wallet/balance geelooy/apps/wallet/main.js runtime /api/wallet/balance geelooy/apps/wallet/scripts/view.js runtime /api/wallet/paypal/capture geelooy/apps/wallet/scripts/checkout.js runtime /api/wallet/paypal/create geelooy/apps/wallet/scripts/checkout.js runtime /api/youtube/${path} geelooy/youtube/youtubeapi.js runtime /api/youtube/auth/start geelooy/apps/nesher studio/modules/streaming/youtubecontrol.js runtime /api/youtube/auth/start?mode=manage&returnto=/youtube/ geelooy/youtube/index.html runtime /api/youtube/auth/start?mode=read&returnto=/youtube/ geelooy/youtube/index.html runtime /api/youtube/auth/start?mode=upload&returnto=/youtube/ geelooy/youtube/index.html runtime /api/youtube/auth/status geelooy/apps/nesher studio/modules/streaming/youtubecontrol.js runtime /api/youtube/live/create geelooy/apps/nesher studio/modules/streaming/youtubecontrol.js runtime /api/youtube/live/transition geelooy/apps/nesher studio/modules/streaming/youtubecontrol.js runtime",
+		"page": "pages/docs-generated-api-callers-api-callers-005-md-5649ba40c9.json"
+	},
+	{
+		"id": "docs-generated-api-family-summary-md-36d2bee422",
+		"title": "Generated API Family Summary",
+		"sourcePath": "docs/GENERATED/API_FAMILY_SUMMARY.md",
+		"category": "General",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated API Family Summary",
+				"anchor": "generated-api-family-summary"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated API Family Summary Mount Route rows Dynamic Syntax Derech /api 3 3 OK geelooy/api/ awtsmoos.derech.js /api/admin 1 0 OK geelooy/api/admin/ awtsmoos.derech.js /api/compiler 3 0 OK geelooy/api/compiler/ awtsmoos.derech.js /api/contact 2 0 OK geelooy/api/contact/ awtsmoos.derech.j",
+		"searchText": "b\"h boruch hashem blessed is he generated api family summary mount route rows dynamic syntax derech /api 3 3 ok geelooy/api/ awtsmoos.derech.js /api/admin 1 0 ok geelooy/api/admin/ awtsmoos.derech.js /api/compiler 3 0 ok geelooy/api/compiler/ awtsmoos.derech.js /api/contact 2 0 ok geelooy/api/contact/ awtsmoos.derech.js /api/email 2 0 ok geelooy/api/email/ awtsmoos.derech.js /api/fetch 1 0 ok geelooy/api/fetch/ awtsmoos.derech.js /api/gpt 5 0 ok geelooy/api/gpt/ awtsmoos.derech.js /api/oauth 8 1 ok geelooy/api/oauth/ awtsmoos.derech.js /api/ohr hagnuz 1 0 ok geelooy/api/ohr hagnuz/ awtsmoos.derech.js /api/public 1 0 ok geelooy/api/public/ awtsmoos.derech.js /api/runtime 4 0 ok geelooy/api/runtime/ awtsmoos.derech.js /api/sefarim 4 3 ok geelooy/api/sefarim/ awtsmoos.derech.js /api/social 420 302 ok geelooy/api/social/ awtsmoos.derech.js /api/ssh 0 0 ok geelooy/api/ssh/ awtsmoos.derech.js /api/streaming 4 2 ok geelooy/api/streaming/ awtsmoos.derech.js /api/text 2 2 fail geelooy/api/text/ awtsmoos.derech.js /api/tunnel 2 2 ok geelooy/api/tunnel/ awtsmoos.derech.js /api/tunnel/control 79 14 ok geelooy/api/tunnel/control/ awtsmoos.derech.js /api/tunnel/install 0 0 ok geelooy/api/tunnel/install/ awtsmoos.derech.js /api/wallet 9 0 ok geelooy/api/wallet/ awtsmoos.derech.js /api/youtube 22 3 ok geelooy/api/youtube/ awtsmoos.derech.js",
+		"page": "pages/docs-generated-api-family-summary-md-36d2bee422.json"
+	},
+	{
+		"id": "docs-generated-api-family-tutorials-md-9e2ceba51a",
+		"title": "API Family Tutorials",
+		"sourcePath": "docs/GENERATED/API_FAMILY_TUTORIALS.md",
+		"category": "General",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Family Tutorials",
+				"anchor": "api-family-tutorials"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Family Tutorials Mount Family Routes Dynamic Derech health Manual /api API Root 3 3 OK human tutorial /api/admin Admin 1 0 OK human tutorial /api/compiler Compiler 3 0 OK human tutorial /api/contact Contact 2 0 OK human tutorial /api/email Email 2 0 OK human tutorial /api/fetch Fetch",
+		"searchText": "b\"h boruch hashem blessed is he api family tutorials mount family routes dynamic derech health manual /api api root 3 3 ok human tutorial /api/admin admin 1 0 ok human tutorial /api/compiler compiler 3 0 ok human tutorial /api/contact contact 2 0 ok human tutorial /api/email email 2 0 ok human tutorial /api/fetch fetch proxy 1 0 ok human tutorial /api/gpt gpt 5 0 ok human tutorial /api/oauth oauth 8 1 ok human tutorial /api/ohr hagnuz ohr hagnuz 1 0 ok human tutorial /api/public public 1 0 ok human tutorial /api/runtime native runtime 4 0 ok human tutorial /api/sefarim sefarim 4 3 ok human tutorial /api/social social 420 302 ok human tutorial /api/ssh ssh 0 0 no extracted rows human tutorial /api/streaming streaming 4 2 ok human tutorial /api/text text jobs 2 2 fail human tutorial /api/tunnel tunnel relay 2 2 ok human tutorial /api/tunnel/control tunnel control 79 14 ok human tutorial /api/tunnel/install tunnel install 0 0 no extracted rows human tutorial /api/wallet wallet 9 0 ok human tutorial /api/youtube youtube 22 3 ok human tutorial",
+		"page": "pages/docs-generated-api-family-tutorials-md-9e2ceba51a.json"
+	},
+	{
+		"id": "docs-generated-api-file-inventory-md-923797091a",
+		"title": "Generated API File Inventory",
+		"sourcePath": "docs/GENERATED/API_FILE_INVENTORY.md",
+		"category": "General",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated API File Inventory",
+				"anchor": "generated-api-file-inventory"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated API File Inventory Complete index for 1730 API source files. Chunk Rows Count api files 001.md 1–90 90 api files 002.md 91–180 90 api files 003.md 181–270 90 api files 004.md 271–360 90 api files 005.md 361–450 90 api files 006.md 451–540 90 api files 007.md 541–630 90 api file",
+		"searchText": "b\"h boruch hashem blessed is he generated api file inventory complete index for 1730 api source files. chunk rows count api files 001.md 1–90 90 api files 002.md 91–180 90 api files 003.md 181–270 90 api files 004.md 271–360 90 api files 005.md 361–450 90 api files 006.md 451–540 90 api files 007.md 541–630 90 api files 008.md 631–720 90 api files 009.md 721–810 90 api files 010.md 811–900 90 api files 011.md 901–990 90 api files 012.md 991–1080 90 api files 013.md 1081–1170 90 api files 014.md 1171–1260 90 api files 015.md 1261–1350 90 api files 016.md 1351–1440 90 api files 017.md 1441–1530 90 api files 018.md 1531–1620 90 api files 019.md 1621–1710 90 api files 020.md 1711–1730 20",
+		"page": "pages/docs-generated-api-file-inventory-md-923797091a.json"
+	},
+	{
+		"id": "docs-generated-api-files-api-files-001-md-8c451875ba",
+		"title": "Generated API File Inventory 1–90",
+		"sourcePath": "docs/GENERATED/API_FILES/api-files-001.md",
+		"category": "General",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated API File Inventory 1–90",
+				"anchor": "generated-api-file-inventory-1-90"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated API File Inventory 1–90 Every listed source path exists beneath geelooy/api; local documentation pointers are excluded. geelooy/api/.DS Store geelooy/api/ awtsmoos.derech.js geelooy/api/admin/ awtsmoos.derech.js geelooy/api/compiler/ awtsmoos.derech.js geelooy/api/compiler/core",
+		"searchText": "b\"h boruch hashem blessed is he generated api file inventory 1–90 every listed source path exists beneath geelooy/api; local documentation pointers are excluded. geelooy/api/.ds store geelooy/api/ awtsmoos.derech.js geelooy/api/admin/ awtsmoos.derech.js geelooy/api/compiler/ awtsmoos.derech.js geelooy/api/compiler/core/auth.js geelooy/api/compiler/core/body.js geelooy/api/compiler/core/handlers.js geelooy/api/compiler/core/limiter.js geelooy/api/compiler/core/rebbeapkhandler.js geelooy/api/compiler/core/rebbeapkhandler.test.mjs geelooy/api/compiler/core/serializer.js geelooy/api/compiler/core/serviceloader.js geelooy/api/contact/ awtsmoos.derech.js geelooy/api/email/ awtsmoos.derech.js geelooy/api/fetch/ awtsmoos.derech.js geelooy/api/gpt/ awtsmoos.derech.js geelooy/api/gpt/core/auth.js geelooy/api/gpt/core/body.js geelooy/api/gpt/core/browsertransport.js geelooy/api/gpt/core/conversationmode.js geelooy/api/gpt/core/handlers.js geelooy/api/gpt/core/methodpolicy.js geelooy/api/gpt/core/relayclient.js geelooy/api/gpt/core/relaypolicy.js geelooy/api/gpt/core/transportstrategy.js geelooy/api/gpt/test/gptrequest.test.cjs geelooy/api/gpt/test/gptsource.test.cjs geelooy/api/gpt/test/gpttopology.test.cjs geelooy/api/nav/highlighter.js geelooy/api/oauth/ awtsmoos.derech.js geelooy/api/oauth/core/accesstoken.js geelooy/api/oauth/core/clients.js geelooy/api/oauth/core/codestore.js geelooy/api/oauth/core/currentuser.js geelooy/api/oauth/core/refreshstore.js geelooy/api/oauth/core/requestbody.js geelooy/api/oauth/core/scopecatalog.test.cjs geelooy/api/oauth/core/scopeevolution.js geelooy/api/oauth/core/scopes.js geelooy/api/oauth/core/serversecret.js geelooy/api/oauth/core/test/scopeevolution.test.cjs geelooy/api/oauth/core/tokendecoder.js geelooy/api/oauth/core/tokenmaker.js geelooy/api/oauth/core/tokenreader.js geelooy/api/oauth/data/clients.js geelooy/api/oauth/routes/authorize.js geelooy/api/oauth/routes/authorizeview.js geelooy/api/oauth/routes/clients.js geelooy/api/oauth/routes/logout.js geelooy/api/oauth/routes/me.js geelooy/api/oauth/routes/start.js geelooy/api/oauth/routes/table.js geelooy/api/oauth/routes/test/tokenscopeevolution.test.cjs geelooy/api/oauth/routes/token.js geelooy/api/oauth/routes/tokenentries.js geelooy/api/oauth/routes/tokengrants.js geelooy/api/oauth/tools/html.js geelooy/api/oauth/tools/requestdata.js geelooy/api/oauth/tools/respond.js geelooy/api/oauth/tools/urls.js geelooy/api/oauth/views/approvalpage.js geelooy/api/oauth/views/loginpage.js geelooy/api/ohr hagnuz/ awtsmoos.derech.js geelooy/api/ohr hagnuz/auth/gameticketclaims.js geelooy/api/ohr hagnuz/auth/gameticketissuer.js geelooy/api/ohr hagnuz/auth/gameticketstore.js geelooy/api/ohr hagnuz/auth/gameticketstore.test.cjs geelooy/api/ohr hagnuz/routes/realtimeticket.js geelooy/api/ohr hagnuz/routes/table.js geelooy/api/perutas/accountservice.js geelooy/api/perutas/adminservice.js geelooy/api/perutas/adminvaultservice.js geelooy/api/perutas/advisor/advisorservice.js geelooy/api/perutas/agenteconomyservice.js geelooy/api/perutas/agents/agentprofitservice.js geelooy/api/perutas/analytics/treasurygraphservice.js geelooy/api/perutas/budgets/budgetguardservice.js geelooy/api/perutas/budgets/budgetservice.js geelooy/api/perutas/devicegraphservice.js geelooy/api/perutas/economymath.js geelooy/api/perutas/flowservice.js geelooy/api/perutas/forecasting/forecastservice.js geelooy/api/perutas/fraudsignalservice.js geelooy/api/perutas/identityservice.js geelooy/api/perutas/index.js geelooy/api/perutas/ledgerservice.js geelooy/api/perutas/marketplace/commissionservice.js geelooy/api/perutas/marketplaceservice.js geelooy/api/perutas/organizationservice.js geelooy/api/perutas/providersandbox.js",
+		"page": "pages/docs-generated-api-files-api-files-001-md-8c451875ba.json"
+	},
+	{
+		"id": "docs-generated-api-files-api-files-002-md-e6b02c5e73",
+		"title": "Generated API File Inventory 91–180",
+		"sourcePath": "docs/GENERATED/API_FILES/api-files-002.md",
+		"category": "General",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated API File Inventory 91–180",
+				"anchor": "generated-api-file-inventory-91-180"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated API File Inventory 91–180 Every listed source path exists beneath geelooy/api; local documentation pointers are excluded. geelooy/api/perutas/providerService.js geelooy/api/perutas/providers/providerMarginService.js geelooy/api/perutas/purchaseService.js geelooy/api/perutas/rec",
+		"searchText": "b\"h boruch hashem blessed is he generated api file inventory 91–180 every listed source path exists beneath geelooy/api; local documentation pointers are excluded. geelooy/api/perutas/providerservice.js geelooy/api/perutas/providers/providermarginservice.js geelooy/api/perutas/purchaseservice.js geelooy/api/perutas/receiptservice.js geelooy/api/perutas/refundservice.js geelooy/api/perutas/reputation/reputationservice.js geelooy/api/perutas/resourceaccountingservice.js geelooy/api/perutas/resourceworldservice.js geelooy/api/perutas/subscriptionservice.js geelooy/api/perutas/tierservice.js geelooy/api/perutas/usageservice.js geelooy/api/public/ awtsmoos.derech.js geelooy/api/runtime/ awtsmoos.derech.js geelooy/api/runtime/core/auth.js geelooy/api/runtime/core/body.js geelooy/api/runtime/core/handlers.js geelooy/api/runtime/core/serviceloader.js geelooy/api/sefarim/ awtsmoos.derech.js geelooy/api/social/ awtsmoos.activityledger.js geelooy/api/social/ awtsmoos.alias.js geelooy/api/social/ awtsmoos.assets.js geelooy/api/social/ awtsmoos.civilization.js geelooy/api/social/ awtsmoos.comments.js geelooy/api/social/ awtsmoos.communications.js geelooy/api/social/ awtsmoos.community.js geelooy/api/social/ awtsmoos.content.js geelooy/api/social/ awtsmoos.counter.js geelooy/api/social/ awtsmoos.derech.js geelooy/api/social/ awtsmoos.destinations.js geelooy/api/social/ awtsmoos.drive.js geelooy/api/social/ awtsmoos.editor.js geelooy/api/social/ awtsmoos.entities.js geelooy/api/social/ awtsmoos.filesystem.js geelooy/api/social/ awtsmoos.governance.js geelooy/api/social/ awtsmoos.graph.js geelooy/api/social/ awtsmoos.heichel.js geelooy/api/social/ awtsmoos.identitybootstrap.js geelooy/api/social/ awtsmoos.interactionflow.js geelooy/api/social/ awtsmoos.keys.js geelooy/api/social/ awtsmoos.living.js geelooy/api/social/ awtsmoos.mail.js geelooy/api/social/ awtsmoos.membergovernance.js geelooy/api/social/ awtsmoos.migrations.js geelooy/api/social/ awtsmoos.nodeos.js geelooy/api/social/ awtsmoos.notifications.js geelooy/api/social/ awtsmoos.objects.js geelooy/api/social/ awtsmoos.packed.js geelooy/api/social/ awtsmoos.platform.js geelooy/api/social/ awtsmoos.posts.base.js geelooy/api/social/ awtsmoos.posts.js geelooy/api/social/ awtsmoos.profile.js geelooy/api/social/ awtsmoos.profilehub.js geelooy/api/social/ awtsmoos.publishflow.js geelooy/api/social/ awtsmoos.radiance.js geelooy/api/social/ awtsmoos.reviewcenter.js geelooy/api/social/ awtsmoos.richsocial.js geelooy/api/social/ awtsmoos.search.js geelooy/api/social/ awtsmoos.series.base.js geelooy/api/social/ awtsmoos.series.js geelooy/api/social/ awtsmoos.thoughts.js geelooy/api/social/helper/ awtsmoos.constants.js geelooy/api/social/helper/alias.js geelooy/api/social/helper/apikeys.js geelooy/api/social/helper/assets/assetbindings.js geelooy/api/social/helper/assets/assetmanifest.js geelooy/api/social/helper/assets/assetpaths.js geelooy/api/social/helper/assets/assetpolicy.js geelooy/api/social/helper/assets/assetratelimit.js geelooy/api/social/helper/assets/assetupload.js geelooy/api/social/helper/assets/multipart.js geelooy/api/social/helper/assets/test/assetbindingandcommentsections.test.mjs geelooy/api/social/helper/awtsmoosdb/shardengine.js geelooy/api/social/helper/awtsmoosdb/shardroot.js geelooy/api/social/helper/awtsmoosdb/shardstore.js geelooy/api/social/helper/awtsmoosdb/test/shardroot.test.js geelooy/api/social/helper/awtsmoosdb/test/shardstore.test.js geelooy/api/social/helper/civilization/index.js geelooy/api/social/helper/civilization/projections.js geelooy/api/social/helper/civilization/schema.js geelooy/api/social/helper/civilization/state.js geelooy/api/social/helper/civilization/store.js geelooy/api/social/helper/comments/aliascommentindex.js geelooy/api/social/helper/comments/aliasindex/indexcodec.js geelooy/api/social/helper/comments/aliasindex/indexqueries.js geelooy/api/social/helper/comments/aliasindex/packedindexstore.js geelooy/api/social/helper/comments/canonicalcommentsource.js geelooy/api/social/helper/comments/commentawtsmoosdbbridge.js geelooy/api/social/helper/comments/commentcreation.js geelooy/api/social/helper/comments/commentdeletion.js geelooy/api/social/helper/comments/commentmigration.js",
+		"page": "pages/docs-generated-api-files-api-files-002-md-e6b02c5e73.json"
+	}
+]

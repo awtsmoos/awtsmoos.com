@@ -1,0 +1,153 @@
+[
+	{
+		"id": "docs-generated-system-tutorials-systems-tunnel-relay-md-345cf07b9d",
+		"title": "System Tutorial: Tunnel Relay",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/tunnel-relay.md",
+		"category": "Tunnel",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "System Tutorial: Tunnel Relay",
+				"anchor": "system-tutorial-tunnel-relay"
+			},
+			{
+				"level": 2,
+				"text": "Claims boundary",
+				"anchor": "claims-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Change risk",
+				"anchor": "change-risk"
+			},
+			{
+				"level": 2,
+				"text": "Human manuals",
+				"anchor": "human-manuals"
+			},
+			{
+				"level": 2,
+				"text": "Related project boundaries",
+				"anchor": "related-project-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Source anchors",
+				"anchor": "source-anchors"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Environment-name evidence",
+				"anchor": "environment-name-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Realtime application registration evidence",
+				"anchor": "realtime-application-registration-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Lexical event/message evidence",
+				"anchor": "lexical-event-message-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Tags",
+				"anchor": "tags"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: Tunnel Relay District: realtime · System ID: tunnel relay Account bound agent/device transport, durable request correlation, registration authority, and relay lifecycle. Generated evidence below is a navigation aid. Trust, migration, consistency, protocol, and authorizat",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial: tunnel relay district: realtime · system id: tunnel relay account bound agent/device transport, durable request correlation, registration authority, and relay lifecycle. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary tunnel relay is a specialized account bound transport, not one of the ordinary versioned application factories. change risk registration authority, routing identity, correlation, retry, or durable state changes can cross account/transport boundaries. human manuals docs/websockets/tunnel relay.md docs/tutorials/api/tunnel control.md related project boundaries ayzarim/awtsmoosdynamicserver (runtime) — ayzarim/awtsmoosdynamicserver geelooy/api/tunnel (api) — geelooy/api/tunnel source anchors ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay.js ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/securitybridge.js ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/registrationauthority.js generated evidence docs/generated/websocket event index.md environment name evidence name class source refs example sources awts entry limit test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awts entry match test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awts entry offset test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awts entry roots test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awtsmoos binding history per identity runtime config 1 geelooy/api/tunnel/control/core/tunnelsecurity/bindingretentionpolicy.js awtsmoos binding retention ms tuning 1 geelooy/api/tunnel/control/core/tunnelsecurity/bindingretentionpolicy.js awtsmoos native recovering ms tuning 1 geelooy/api/tunnel/control/routes/fsvessel/livedeviceidentity.js awtsmoos registration stress count test/tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/test/registrationreplacementstress.test.cjs awtsmoos relay stress count test/tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay.concurrent correlation.test.cjs awtsmoos sefira profile path path/storage 1 ayzarim/awtsmoosdynamicserver/websocket/apps/sefiraclash/expeditionprofilerepository.js awtsmoos tunnel completed limit tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel consumer progress ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestackhandler.js awtsmoos tunnel control store path/storage 9 ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/missionroomsocketintegration.test.cjs; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/missionroomupgrade.test.cjs; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/upgradepolicy.test.cjs awtsmoos tunnel pending ttl ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel quarantine limit tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay max safe wait ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay safe wait ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay state root path/storage 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/durablepaths.js awtsmoos tunnel request acceptance ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestdispatch.js awtsmoos ws max missed heartbeats runtime config 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js awtsmoos ws probe grace ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js awtsmoos ws stale ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js mw load clients runtime config 1 ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/sessionloadprobe.cjs realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence awtsmoosmydevice — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopeerrors.js retryaction — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/canonicalenvelopes.js retryaction — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopeidentity.js tunnel ack — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/register.js tunnel ack — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/registrationtransfer.js tunnel replaced — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/registrationtransfer.js tunnel request — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestdispatch.js tunnel response ack — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/responsehandler.js tunnelrequestconflict — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopeerrors.js tunnelrequestpending — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopepending.js tunnelrequestpersistencefailed — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/canonicalenvelopes.js tunnelrequestsendfailed — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopeerrors.js tunnelrequeststateunknown — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopeerrors.js tunnelrequesttransportstalled — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopeerrors.js tunnelunavailable — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopeerrors.js tags websocket · tunnel · relay · authorization · correlation",
+		"page": "pages/docs-generated-system-tutorials-systems-tunnel-relay-md-345cf07b9d.json"
+	},
+	{
+		"id": "docs-generated-system-tutorials-systems-websocket-upgrade-session-md-e3ca056fe3",
+		"title": "System Tutorial: WebSocket Upgrade and Session",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/websocket-upgrade-session.md",
+		"category": "Realtime",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "System Tutorial: WebSocket Upgrade and Session",
+				"anchor": "system-tutorial-websocket-upgrade-and-session"
+			},
+			{
+				"level": 2,
+				"text": "Claims boundary",
+				"anchor": "claims-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Change risk",
+				"anchor": "change-risk"
+			},
+			{
+				"level": 2,
+				"text": "Human manuals",
+				"anchor": "human-manuals"
+			},
+			{
+				"level": 2,
+				"text": "Related project boundaries",
+				"anchor": "related-project-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Source anchors",
+				"anchor": "source-anchors"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Environment-name evidence",
+				"anchor": "environment-name-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Realtime application registration evidence",
+				"anchor": "realtime-application-registration-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Lexical event/message evidence",
+				"anchor": "lexical-event-message-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Tags",
+				"anchor": "tags"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: WebSocket Upgrade and Session District: realtime · System ID: websocket upgrade session Upgrade time identity/admission, handshake, client session attachment, and connection activity. Generated evidence below is a navigation aid. Trust, migration, consistency, protocol, ",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial: websocket upgrade and session district: realtime · system id: websocket upgrade session upgrade time identity/admission, handshake, client session attachment, and connection activity. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary upgrade source establishes the handshake/session boundary; deployment reachability is not inferred. change risk handshake, identity, cookie, and admission changes can alter every realtime application. human manuals docs/websockets/readme.md docs/security/realtime security.md related project boundaries ayzarim/awtsmoosdynamicserver (runtime) — ayzarim/awtsmoosdynamicserver source anchors ayzarim/awtsmoosdynamicserver/websocket/core/socketupgrade.js generated evidence docs/generated/websocket applications.md environment name evidence name class source refs example sources awts entry limit test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awts entry match test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awts entry offset test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awts entry roots test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awtsmoos registration stress count test/tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/test/registrationreplacementstress.test.cjs awtsmoos relay stress count test/tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay.concurrent correlation.test.cjs awtsmoos sefira profile path path/storage 1 ayzarim/awtsmoosdynamicserver/websocket/apps/sefiraclash/expeditionprofilerepository.js awtsmoos tunnel completed limit tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel consumer progress ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestackhandler.js awtsmoos tunnel control store path/storage 9 ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/missionroomsocketintegration.test.cjs; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/missionroomupgrade.test.cjs; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/upgradepolicy.test.cjs awtsmoos tunnel pending ttl ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel quarantine limit tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay max safe wait ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay safe wait ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay state root path/storage 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/durablepaths.js awtsmoos tunnel request acceptance ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestdispatch.js awtsmoos ws max missed heartbeats runtime config 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js awtsmoos ws probe grace ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js awtsmoos ws stale ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js mw load clients runtime config 1 ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/sessionloadprobe.cjs realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence none observed for this system packet. tags websocket · upgrade · identity · protocol",
+		"page": "pages/docs-generated-system-tutorials-systems-websocket-upgrade-session-md-e3ca056fe3.json"
+	},
+	{
+		"id": "docs-generated-test-ownership-md-beeceaf32d",
+		"title": "Generated Test Ownership",
+		"sourcePath": "docs/GENERATED/TEST_OWNERSHIP.md",
+		"category": "Testing",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated Test Ownership",
+				"anchor": "generated-test-ownership"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Test Ownership Project Type Test files Local docs geelooy public root 3912 geelooy/DOCUMENTATION.md geelooy/apps public 1534 geelooy/apps/DOCUMENTATION.md geelooy/games public 1365 geelooy/games/DOCUMENTATION.md geelooy/games/mitzvahWorld game 953 geelooy/games/mitzvahWorld/DOC",
+		"searchText": "b\"h boruch hashem blessed is he generated test ownership project type test files local docs geelooy public root 3912 geelooy/documentation.md geelooy/apps public 1534 geelooy/apps/documentation.md geelooy/games public 1365 geelooy/games/documentation.md geelooy/games/mitzvahworld game 953 geelooy/games/mitzvahworld/documentation.md geelooy/apps/tunnel app 651 geelooy/apps/tunnel/documentation.md geelooy/apps/android emulator app 535 geelooy/apps/android emulator/documentation.md ayzarim runtime root 316 ayzarim/documentation.md geelooy/api project 254 geelooy/api/documentation.md ayzarim/dosdb data 160 ayzarim/dosdb/documentation.md ayzarim/awtsmoosdynamicserver runtime 156 ayzarim/awtsmoosdynamicserver/documentation.md geelooy/ai public 152 geelooy/ai/documentation.md geelooy/api/social api 145 geelooy/api/social/documentation.md geelooy/apps/exe emulator app 133 geelooy/apps/exe emulator/documentation.md geelooy/libs library 132 geelooy/libs/documentation.md geelooy/heichelos project 119 geelooy/heichelos/documentation.md geelooy/apps/nesher studio app 117 geelooy/apps/nesher studio/documentation.md geelooy/games/scribe journey game 99 geelooy/games/scribe journey/documentation.md geelooy/scripts library 96 geelooy/scripts/documentation.md geelooy/tests test 96 geelooy/tests/documentation.md tests test 92 tests/documentation.md geelooy/api/tunnel api 91 geelooy/api/tunnel/documentation.md geelooy/games/ohr hagnuz game 89 geelooy/games/ohr hagnuz/documentation.md ai thoughts evidence 79 — geelooy/games/seven mitzvos game 65 geelooy/games/seven mitzvos/documentation.md geelooy/apps/tunnel control app 49 geelooy/apps/tunnel control/documentation.md geelooy/style library 47 geelooy/style/documentation.md geelooy/apps/code app 40 geelooy/apps/code/documentation.md geelooy/games/sefira clash game 40 geelooy/games/sefira clash/documentation.md geelooy/games/merkava game 31 geelooy/games/merkava/documentation.md geelooy/games/nitzotz io game 29 geelooy/games/nitzotz io/documentation.md tools tooling 29 tools/documentation.md geelooy/os public 25 geelooy/os/documentation.md geelooy/games/shema strike game 21 geelooy/games/shema strike/documentation.md geelooy/platform project 19 geelooy/platform/documentation.md geelooy/social composer public 17 geelooy/social composer/documentation.md geelooy/social hub public 16 geelooy/social hub/documentation.md geelooy/games/sulam ha sod game 14 geelooy/games/sulam ha sod/documentation.md geelooy/shared library 14 geelooy/shared/documentation.md scripts tooling 14 scripts/documentation.md geelooy/games/tests game 13 geelooy/games/tests/documentation.md geelooy/games/city of light game 11 geelooy/games/city of light/documentation.md geelooy/api/wallet api 9 geelooy/api/wallet/documentation.md geelooy/apps/mitzvah pushkuh app 7 geelooy/apps/mitzvah pushkuh/documentation.md geelooy/.awtsmoos agent thoughts evidence 6 — geelooy/mawgawl public 4 geelooy/mawgawl/documentation.md geelooy/api/gpt api 3 geelooy/api/gpt/documentation.md geelooy/api/oauth api 3 geelooy/api/oauth/documentation.md geelooy/geelooy project 3 — geelooy/email public 2 geelooy/email/documentation.md geelooy/heichel review public 2 geelooy/heichel review/documentation.md geelooy/profile public 2 geelooy/profile/documentation.md geelooy/api/compiler api 1 geelooy/api/compiler/documentation.md geelooy/api/ohr hagnuz api 1 geelooy/api/ohr hagnuz/documentation.md geelooy/api/youtube api 1 geelooy/api/youtube/documentation.md geelooy/apps/compiler app 1 geelooy/apps/compiler/documentation.md geelooy/apps/tests app 1 — geelooy/browser test project 1 — geelooy/comment thread public 1 geelooy/comment thread/documentation.md geelooy/heichel editor public 1 geelooy/heichel editor/documentation.md geelooy/notifications public 1 geelooy/notifications/documentation.md geelooy/post editor public 1 geelooy/post editor/documentation.md geelooy/sites project 1 — geelooy/social actions project 1 — templates tooling 1 templates/documentation.md",
+		"page": "pages/docs-generated-test-ownership-md-beeceaf32d.json"
+	}
+]

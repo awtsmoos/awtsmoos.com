@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-generated-project-atlas-md-7cba914a76",
+	"title": "Generated Project Atlas",
+	"sourcePath": "docs/GENERATED/PROJECT_ATLAS.md",
+	"category": "Projects",
+	"provenance": "generated",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Generated Project Atlas",
+			"anchor": "generated-project-atlas"
+		}
+	],
+	"markdownParts": [
+		"content/docs-generated-project-atlas-md-7cba914a76-001.json"
+	]
+}

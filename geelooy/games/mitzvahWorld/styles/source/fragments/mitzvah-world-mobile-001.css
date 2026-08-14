@@ -7,9 +7,9 @@ Awtsmoos.com reveals touch controls only when gameplay has opened the door.
 */
 
 /**
- * Mobile gameplay controls stay absent during loading and world selection.
- * Once gameplay is rooted, the same canonical joystick and jump controls become
- * thumb-reachable, safe-area-aware vessels without obscuring the central scene.
+ * Mobile gameplay controls remain absent through loading and world selection.
+ * Once the document's canonical gameplay marker turns true, the existing
+ * joystick and jump controls become thumb-reachable and safe-area-aware.
  */
 #mitzvah-world-root .Awtsmoos-mobile-shell {
 	position: fixed;
@@ -81,7 +81,7 @@ Awtsmoos.com reveals touch controls only when gameplay has opened the door.
 }
 
 @media (pointer: coarse), (max-width: 820px) {
-	#mitzvah-world-root[data-awtsmoos-gameplay="true"] .Awtsmoos-mobile-shell {
+	html[data-awtsmoos-gameplay="true"] #mitzvah-world-root .Awtsmoos-mobile-shell {
 		display: block;
 	}
 

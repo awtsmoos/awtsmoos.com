@@ -1,0 +1,24 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-generated-websocket-applications-md-58413448ec",
+	"title": "Generated Realtime Application Inventory",
+	"sourcePath": "docs/GENERATED/WEBSOCKET_APPLICATIONS.md",
+	"category": "Realtime",
+	"provenance": "generated",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Generated Realtime Application Inventory",
+			"anchor": "generated-realtime-application-inventory"
+		},
+		{
+			"level": 2,
+			"text": "WebSocket application directories",
+			"anchor": "websocket-application-directories"
+		}
+	],
+	"markdownParts": [
+		"content/docs-generated-websocket-applications-md-58413448ec-001.json"
+	]
+}

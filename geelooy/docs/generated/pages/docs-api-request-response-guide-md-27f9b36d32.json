@@ -1,0 +1,79 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-api-request-response-guide-md-27f9b36d32",
+	"title": "Request and Response Guide",
+	"sourcePath": "docs/API/REQUEST_RESPONSE_GUIDE.md",
+	"category": "API",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Request and Response Guide",
+			"anchor": "request-and-response-guide"
+		},
+		{
+			"level": 2,
+			"text": "Common request vessels",
+			"anchor": "common-request-vessels"
+		},
+		{
+			"level": 3,
+			"text": "Route variables",
+			"anchor": "route-variables"
+		},
+		{
+			"level": 3,
+			"text": "$GET",
+			"anchor": "get"
+		},
+		{
+			"level": 3,
+			"text": "$POST",
+			"anchor": "post"
+		},
+		{
+			"level": 3,
+			"text": "$DELETE",
+			"anchor": "delete"
+		},
+		{
+			"level": 3,
+			"text": "$i",
+			"anchor": "i"
+		},
+		{
+			"level": 2,
+			"text": "Content types",
+			"anchor": "content-types"
+		},
+		{
+			"level": 2,
+			"text": "Error behavior",
+			"anchor": "error-behavior"
+		},
+		{
+			"level": 2,
+			"text": "Pagination and filters",
+			"anchor": "pagination-and-filters"
+		},
+		{
+			"level": 2,
+			"text": "Binary/proxy behavior",
+			"anchor": "binary-proxy-behavior"
+		},
+		{
+			"level": 2,
+			"text": "Streaming and WebSockets",
+			"anchor": "streaming-and-websockets"
+		},
+		{
+			"level": 2,
+			"text": "Best manual calling process",
+			"anchor": "best-manual-calling-process"
+		}
+	],
+	"markdownParts": [
+		"content/docs-api-request-response-guide-md-27f9b36d32-001.json"
+	]
+}

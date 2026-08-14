@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-animator-agent-prior-ledger-md-ba9dc773b9",
+	"title": "Remaining Work",
+	"sourcePath": "geelooy/apps/animator/.agent-prior-ledger.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Remaining Work",
+			"anchor": "remaining-work"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-animator-agent-prior-ledger-md-ba9dc773b9-001.json"
+	]
+}

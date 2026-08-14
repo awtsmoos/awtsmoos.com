@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-tutorials-content-social-content-model-md-cddb010acd",
+	"title": "Social Content Model",
+	"sourcePath": "docs/TUTORIALS/CONTENT/SOCIAL_CONTENT_MODEL.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Social Content Model",
+			"anchor": "social-content-model"
+		},
+		{
+			"level": 2,
+			"text": "Core entities",
+			"anchor": "core-entities"
+		},
+		{
+			"level": 2,
+			"text": "Adjacent systems",
+			"anchor": "adjacent-systems"
+		},
+		{
+			"level": 2,
+			"text": "Canonical + compatibility",
+			"anchor": "canonical-compatibility"
+		},
+		{
+			"level": 2,
+			"text": "Trust",
+			"anchor": "trust"
+		}
+	],
+	"markdownParts": [
+		"content/docs-tutorials-content-social-content-model-md-cddb010acd-001.json"
+	]
+}

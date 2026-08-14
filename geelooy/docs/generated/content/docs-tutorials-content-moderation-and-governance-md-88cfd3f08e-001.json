@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Moderation and Governance\n\nSocial write workflows can move through submission/review/moderation rather than immediate publication.\n\n## Observed systems\n\nHeichel roles/editors/members, invites, submission settings, submitted posts/comments, review approval/rejection, moderation queues/actions/escalations/reports, and unified-social governance/review routes.\n\n## Teaching rule\n\nDo not treat POST as synonymous with “published now.” Follow the exact handler to see whether it creates canonical content, a pending submission, review record, moderation event, or another staged artifact.\n\n## Authority\n\nReview/approval actions need stronger resource authority than ordinary authenticated reads.\n"
+}

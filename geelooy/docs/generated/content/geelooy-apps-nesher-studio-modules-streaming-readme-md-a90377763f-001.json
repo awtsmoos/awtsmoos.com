@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\n# Nesher YouTube Streaming Modules\n\n`youtubeControl.js` talks to `/api/youtube` for OAuth/control metadata.\n`hlsUploader.js` is the direct-to-YouTube byte path.\n\nStill needed for actual live streaming:\n- WebCodecs H.264/AAC encoder settings finalized.\n- Browser JS muxer that emits YouTube-compatible HLS media segments and playlists.\n- A segment scheduler that sends those bytes through `hlsUploader`.\n\nThis intentionally avoids ffmpeg and avoids sending video bytes through awtsmoos.com.\n"
+}

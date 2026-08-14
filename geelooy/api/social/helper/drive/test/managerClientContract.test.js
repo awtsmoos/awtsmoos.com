@@ -21,6 +21,7 @@ const actionsSource = readClient('actions.js');
 const uploadsSource = readClient('uploads.js');
 const streamSource = readClient('streamUpload.js');
 const apiSource = readClient('api.js');
+const transportSource = readClient('apiTransport.js');
 const stateSource = readClient('state.js');
 
 function allClientSource() {
@@ -42,9 +43,10 @@ test('Manager streams raw files without base64 duplication', () => {
 test('session identity is default while explicit credentials remain in memory', () => {
 	assert.match(indexSource, /value="session"/);
 	assert.match(stateSource, /credentialType:\s*'session'/);
-	assert.match(apiSource, /credentials:\s*'same-origin'/);
-	assert.match(apiSource, /x-awtsmoos-api-key/);
-	assert.match(apiSource, /Bearer/);
+	assert.match(apiSource, /apiTransport\.js/);
+	assert.match(transportSource, /credentials:\s*'same-origin'/);
+	assert.match(transportSource, /x-awtsmoos-api-key/);
+	assert.match(transportSource, /Bearer/);
 	assert.doesNotMatch(allClientSource(), /localStorage|sessionStorage|indexedDB/);
 });
 

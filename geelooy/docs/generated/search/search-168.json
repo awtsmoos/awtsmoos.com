@@ -1,0 +1,401 @@
+[
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-apps-animator-bdd4c03a-b930c6edfb",
+		"title": "Project Tutorial: Awtsmoos Park Engine — B\"H",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-animator-bdd4c03a.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: Awtsmoos Park Engine — B\"H",
+				"anchor": "project-tutorial-awtsmoos-park-engine-b-h"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Awtsmoos Park Engine — B\"H Path: geelooy/apps/animator · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or hea",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: awtsmoos park engine — b\"h path: geelooy/apps/animator · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, documentation.md local documentation: geelooy/apps/animator/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 2458 0 43 0 1 99 2601 public entry points /apps/animator → geelooy/apps/animator/index.html — awtsmoos park engine — b\"h symbol evidence source files: 2394; classes: 1927; functions: 250; exports: 2327; samples: vibedb, editor, filesystemprovider, state, tabs, ui, externalmanifest, loopenginecontroller, looperrorhandler, loopgitpusher, architectofdomains, batchexecutor. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-animator-bdd4c03a-b930c6edfb.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-apps-archive-uploader--3793af305b",
+		"title": "Project Tutorial: IA//HYPERUPLOADER",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-archive-uploader-d1abfc99.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: IA//HYPERUPLOADER",
+				"anchor": "project-tutorial-ia-hyperuploader"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: IA//HYPER UPLOADER Path: geelooy/apps/archive uploader · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or hea",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: ia//hyper uploader path: geelooy/apps/archive uploader · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, app.js local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 3 0 0 0 0 0 3 public entry points /apps/archive uploader → geelooy/apps/archive uploader/index.html — ia//hyper uploader symbol evidence source files: 1; classes: 0; functions: 17; exports: 0; samples: checkauth, savecredentials, purgecredentials, selectdirectory, processrootentry, scandirectory, addtoqueue, processqueue, uploaditem, handlesuccess, handleerror, fetchexistingfilelists. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-archive-uploader--3793af305b.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-apps-audio-editor-b0fc-1e5aa1e0ea",
+		"title": "Project Tutorial: Pro Audio Editor",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-audio-editor-b0fc66c9.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: Pro Audio Editor",
+				"anchor": "project-tutorial-pro-audio-editor"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Pro Audio Editor Path: geelooy/apps/audio editor · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health gu",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: pro audio editor path: geelooy/apps/audio editor · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, main.js local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 4 0 0 0 0 0 4 public entry points /apps/audio editor → geelooy/apps/audio editor/index.html — pro audio editor symbol evidence source files: 2; classes: 0; functions: 26; exports: 0; samples: initaudiocontext, setupcanvas, resizecanvas, loop, updateplayhead, render, drawruler, drawclipwaveform, drawroundedrect, setupeventlisteners, handlepointerdown, handlepointermove. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-audio-editor-b0fc-1e5aa1e0ea.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-apps-awtsmoos-gguf-6ea-327e2d2a70",
+		"title": "Project Tutorial: GGUF Chat & Metadata - B\"H",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-awtsmoos-gguf-6ea89df4.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: GGUF Chat & Metadata - B\"H",
+				"anchor": "project-tutorial-gguf-chat-metadata-b-h"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: GGUF Chat & Metadata B\"H Path: geelooy/apps/awtsmoos gguf · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or ",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: gguf chat & metadata b\"h path: geelooy/apps/awtsmoos gguf · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, index.js, app.js, documentation.md local documentation: geelooy/apps/awtsmoos gguf/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 87 0 0 0 1 0 88 public entry points /apps/awtsmoos gguf → geelooy/apps/awtsmoos gguf/index.html — gguf chat & metadata b\"h symbol evidence source files: 79; classes: 6; functions: 94; exports: 113; samples: bootstrap, sendprompttoworker, stopworkergeneration, resetsession, init, handlefile, handlemetadata, handlepurifiedmodel, searchtoken, lookuptoken, setupchat, handlereset. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-awtsmoos-gguf-6ea-327e2d2a70.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-apps-bookcovermaker-02-275bfb6e77",
+		"title": "Project Tutorial: Book Cover Generator",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-bookcovermaker-027596b0.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: Book Cover Generator",
+				"anchor": "project-tutorial-book-cover-generator"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Book Cover Generator Path: geelooy/apps/bookCoverMaker · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or hea",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: book cover generator path: geelooy/apps/bookcovermaker · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 0 0 1 public entry points /apps/bookcovermaker → geelooy/apps/bookcovermaker/index.html — book cover generator symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-bookcovermaker-02-275bfb6e77.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-apps-broadcaster-e3a9a-4a652c731f",
+		"title": "Project Tutorial: geelooy/apps/broadcaster",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-broadcaster-e3a9a676.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: geelooy/apps/broadcaster",
+				"anchor": "project-tutorial-geelooy-apps-broadcaster"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/apps/broadcaster Path: geelooy/apps/broadcaster · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or he",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/apps/broadcaster path: geelooy/apps/broadcaster · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 3 0 0 0 0 0 3 public entry points /apps/broadcaster → geelooy/apps/broadcaster/index.html symbol evidence source files: 2; classes: 3; functions: 2; exports: 0; samples: sefirotparticle, awtsmooslayeredriver, initializeawtsmooslayeredriver, awtsmoosbroadcaster, createbroadcastcontrols. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-broadcaster-e3a9a-4a652c731f.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-apps-byteviewer-0b1db2-5bdd7828a4",
+		"title": "Project Tutorial: Hex Viewer of the Awtsmoos",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-byteviewer-0b1db28c.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: Hex Viewer of the Awtsmoos",
+				"anchor": "project-tutorial-hex-viewer-of-the-awtsmoos"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Hex Viewer of the Awtsmoos Path: geelooy/apps/byteViewer · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or h",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: hex viewer of the awtsmoos path: geelooy/apps/byteviewer · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 3 0 0 0 0 1 4 public entry points /apps/byteviewer → geelooy/apps/byteviewer/index.html — hex viewer of the awtsmoos symbol evidence source files: 1; classes: 1; functions: 0; exports: 0; samples: awtsmooshexviewer. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-byteviewer-0b1db2-5bdd7828a4.json"
+	}
+]

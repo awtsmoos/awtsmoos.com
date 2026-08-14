@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-tutorials-api-wallet-md-4dfd493b82",
+	"title": "Wallet API Tutorial",
+	"sourcePath": "docs/TUTORIALS/API/WALLET.md",
+	"category": "API",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Wallet API Tutorial",
+			"anchor": "wallet-api-tutorial"
+		},
+		{
+			"level": 2,
+			"text": "What this family owns",
+			"anchor": "what-this-family-owns"
+		},
+		{
+			"level": 2,
+			"text": "How to explore it",
+			"anchor": "how-to-explore-it"
+		},
+		{
+			"level": 2,
+			"text": "Safety / interpretation",
+			"anchor": "safety-interpretation"
+		},
+		{
+			"level": 2,
+			"text": "Evidence rule",
+			"anchor": "evidence-rule"
+		},
+		{
+			"level": 2,
+			"text": "Next",
+			"anchor": "next"
+		}
+	],
+	"markdownParts": [
+		"content/docs-tutorials-api-wallet-md-4dfd493b82-001.json"
+	]
+}

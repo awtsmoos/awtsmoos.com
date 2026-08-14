@@ -1,9 +1,33 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-mitzvah-world-loading-002.css reveals localized style through the Awtsmoos and Awtsmoos.com.
+
+The Awtsmoos keeps failure visible and short landscapes open to the living door;
+Awtsmoos.com compresses ornament before it hides the action the traveler came for.
 */
 
 #mitzvah-world-root .Awtsmoos-menu-boot[data-loading-failure="true"] .Awtsmoos-loading-card {
 	border-color: #ff746a;
+}
+
+@media (max-height: 480px) and (orientation: landscape) {
+	#mitzvah-world-root .Awtsmoos-menu-boot {
+		place-items: start center;
+	}
+
+	#mitzvah-world-root .Awtsmoos-loading-card {
+		width: min(760px, calc(100vw - 24px));
+		padding: 14px 18px;
+		border-radius: 16px;
+	}
+
+	#mitzvah-world-root .Awtsmoos-loading-card h1 {
+		font-size: clamp(20px, 5vw, 28px);
+	}
+
+	#mitzvah-world-root #loadingMessage,
+	#mitzvah-world-root .Awtsmoos-progress-group {
+		margin-top: 8px;
+		margin-bottom: 8px;
+	}
 }

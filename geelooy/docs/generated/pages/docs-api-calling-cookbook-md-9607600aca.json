@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-api-calling-cookbook-md-9607600aca",
+	"title": "Calling the APIs by Hand",
+	"sourcePath": "docs/API/CALLING_COOKBOOK.md",
+	"category": "API",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Calling the APIs by Hand",
+			"anchor": "calling-the-apis-by-hand"
+		},
+		{
+			"level": 2,
+			"text": "The universal calling workflow",
+			"anchor": "the-universal-calling-workflow"
+		},
+		{
+			"level": 2,
+			"text": "Example: health-style GPT route",
+			"anchor": "example-health-style-gpt-route"
+		},
+		{
+			"level": 2,
+			"text": "Example: Wallet",
+			"anchor": "example-wallet"
+		},
+		{
+			"level": 2,
+			"text": "Example: Social dynamic route",
+			"anchor": "example-social-dynamic-route"
+		},
+		{
+			"level": 2,
+			"text": "Example: Tunnel Control",
+			"anchor": "example-tunnel-control"
+		},
+		{
+			"level": 2,
+			"text": "Example: Mission Room WebSocket",
+			"anchor": "example-mission-room-websocket"
+		},
+		{
+			"level": 2,
+			"text": "Why no giant curl catalog appears here",
+			"anchor": "why-no-giant-curl-catalog-appears-here"
+		}
+	],
+	"markdownParts": [
+		"content/docs-api-calling-cookbook-md-9607600aca-001.json"
+	]
+}

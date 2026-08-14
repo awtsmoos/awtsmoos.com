@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-rebuild-vs-reuse-decision-t-0f6990a80a",
+	"title": "Rebuild Versus Reuse Decision Tree",
+	"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/REBUILD_VS_REUSE_DECISION_TREE.md",
+	"category": "Data",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Rebuild Versus Reuse Decision Tree",
+			"anchor": "rebuild-versus-reuse-decision-tree"
+		},
+		{
+			"level": 2,
+			"text": "Are canonical vectors present and readable?",
+			"anchor": "are-canonical-vectors-present-and-readable"
+		},
+		{
+			"level": 2,
+			"text": "Do dimensions and corpus identity match the query model?",
+			"anchor": "do-dimensions-and-corpus-identity-match-the-query-model"
+		},
+		{
+			"level": 2,
+			"text": "Is the persisted HNSW graph usable?",
+			"anchor": "is-the-persisted-hnsw-graph-usable"
+		},
+		{
+			"level": 2,
+			"text": "Is only derived index state missing or stale?",
+			"anchor": "is-only-derived-index-state-missing-or-stale"
+		},
+		{
+			"level": 2,
+			"text": "Is the database merely fragmented?",
+			"anchor": "is-the-database-merely-fragmented"
+		},
+		{
+			"level": 2,
+			"text": "Publication",
+			"anchor": "publication"
+		}
+	],
+	"markdownParts": [
+		"content/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-rebuild-vs-reuse-decision-t-0f6990a80a-001.json"
+	]
+}

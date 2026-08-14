@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\n\n# DELTA\n\n## Planned versus actual\n\nThe initial plan expected a native one-minute scene, performance bridge, persistence proof, export, and visual courts. Actual archaeology revealed four additional defects that became completed work:\n\n1. The former one-minute exporter rendered abstract blocks rather than production characters.\n2. The cinematic schema was hard-coded to two minutes.\n3. Crossed arms, pocket hands, open palms, hands, shoes, and garment motion did not reach sufficiently readable production geometry.\n4. Canonical blocking coordinates did not scale into the 180×300 production court.\n\nAll four deltas were implemented, tested, read back, and verified. No unresolved delta remains.\n"
+}

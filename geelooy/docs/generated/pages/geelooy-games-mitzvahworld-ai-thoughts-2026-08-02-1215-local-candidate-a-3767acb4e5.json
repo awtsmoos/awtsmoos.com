@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-08-02-1215-local-candidate-a-3767acb4e5",
+	"title": "B\"H",
+	"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-08-02-1215-local-candidate-audit/05_CANDIDATE_BROWSER_FAILURE_EVIDENCE.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Candidate Browser Failure Evidence",
+			"anchor": "candidate-browser-failure-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Candidate Identity",
+			"anchor": "candidate-identity"
+		},
+		{
+			"level": 2,
+			"text": "Green Source Evidence",
+			"anchor": "green-source-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Red Promotion Evidence",
+			"anchor": "red-promotion-evidence"
+		},
+		{
+			"level": 3,
+			"text": "CompactJS architecture proof",
+			"anchor": "compactjs-architecture-proof"
+		},
+		{
+			"level": 3,
+			"text": "Isolated browser proof",
+			"anchor": "isolated-browser-proof"
+		},
+		{
+			"level": 2,
+			"text": "Comparison With Proven Production",
+			"anchor": "comparison-with-proven-production"
+		},
+		{
+			"level": 2,
+			"text": "Safety Result",
+			"anchor": "safety-result"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-ai-thoughts-2026-08-02-1215-local-candidate-a-3767acb4e5-001.json"
+	]
+}

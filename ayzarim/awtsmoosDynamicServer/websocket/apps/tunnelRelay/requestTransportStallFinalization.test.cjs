@@ -11,7 +11,13 @@ const Ack = require("./requestAckHandler.js");
 const Dispatch = require("./requestDispatch.js");
 const State = require("./state.js");
 
-test("acceptance timeout becomes terminal before the tunnel is fenced", async t => {
+/**
+ * @file Proves request watchdog finalization stays durable without inventing transport death.
+ * @description
+ * The Awtsmoos lets one uncertain deed end in truth while the road itself remains separately judged;
+ * Awtsmoos.com persists acceptance and consumer failures without letting their meanings become smudged.
+ */
+test("acceptance timeout becomes terminal request-only state", async t => {
 	const fixture = context(t);
 	const record = pending(fixture, "acceptance-request");
 	const transport = connection();
@@ -26,12 +32,14 @@ test("acceptance timeout becomes terminal before the tunnel is fenced", async t 
 	const durable = await State.hydrate(fixture, "acceptance-request", record.expected);
 	assert.equal(durable.state, "failed");
 	assert.equal(durable.data.terminal, true);
-	assert.equal(durable.data.accepted, null);
+	assert.equal(durable.data.accepted, false);
+	assert.equal(durable.data.action, "tunnelRequestAcceptanceTimedOut");
+	assert.equal(durable.data.healthImpact, "request_only");
 	assert.equal(durable.data.error, "device_request_acceptance_timeout");
 	assert.equal(transport.sent[0].transportReceiptId, "acceptance-request");
 });
 
-test("consumer timeout ends canonical work and releases device custody", async t => {
+test("consumer timeout becomes terminal request-only state", async t => {
 	const fixture = context(t);
 	const record = pending(fixture, "consumer-request");
 	const transport = connection();
@@ -47,6 +55,8 @@ test("consumer timeout ends canonical work and releases device custody", async t
 	assert.equal(durable.state, "failed");
 	assert.equal(durable.data.terminal, true);
 	assert.equal(durable.data.accepted, true);
+	assert.equal(durable.data.action, "tunnelRequestConsumerStalled");
+	assert.equal(durable.data.healthImpact, "request_only");
 	assert.equal(durable.data.retryable, false);
 	assert.equal(durable.data.error, "device_consumer_progress_timeout");
 	assert.equal(transport.sent[0].transportReceiptId, "consumer-request");

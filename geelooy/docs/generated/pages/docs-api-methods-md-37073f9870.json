@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-api-methods-md-37073f9870",
+	"title": "HTTP Method Evidence",
+	"sourcePath": "docs/API/METHODS.md",
+	"category": "API",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "HTTP Method Evidence",
+			"anchor": "http-method-evidence"
+		},
+		{
+			"level": 2,
+			"text": "What the generated contract index means",
+			"anchor": "what-the-generated-contract-index-means"
+		},
+		{
+			"level": 2,
+			"text": "Observed repository patterns",
+			"anchor": "observed-repository-patterns"
+		},
+		{
+			"level": 2,
+			"text": "Why method cannot be inferred from $POST",
+			"anchor": "why-method-cannot-be-inferred-from-post"
+		},
+		{
+			"level": 2,
+			"text": "How to determine a concrete endpoint's verb",
+			"anchor": "how-to-determine-a-concrete-endpoint-s-verb"
+		},
+		{
+			"level": 2,
+			"text": "Route tables",
+			"anchor": "route-tables"
+		},
+		{
+			"level": 2,
+			"text": "Documentation rule",
+			"anchor": "documentation-rule"
+		}
+	],
+	"markdownParts": [
+		"content/docs-api-methods-md-37073f9870-001.json"
+	]
+}

@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-data-path-contracts-md-410c759055",
+	"title": "Persistent Path Contracts",
+	"sourcePath": "docs/DATA/PATH_CONTRACTS.md",
+	"category": "Data",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Persistent Path Contracts",
+			"anchor": "persistent-path-contracts"
+		},
+		{
+			"level": 2,
+			"text": "Why paths matter",
+			"anchor": "why-paths-matter"
+		},
+		{
+			"level": 2,
+			"text": "Main database root",
+			"anchor": "main-database-root"
+		},
+		{
+			"level": 2,
+			"text": "Social packed families",
+			"anchor": "social-packed-families"
+		},
+		{
+			"level": 2,
+			"text": "Legacy sidecars",
+			"anchor": "legacy-sidecars"
+		},
+		{
+			"level": 2,
+			"text": "System paths",
+			"anchor": "system-paths"
+		},
+		{
+			"level": 2,
+			"text": "Migration checklist",
+			"anchor": "migration-checklist"
+		},
+		{
+			"level": 2,
+			"text": "Never infer safety from a route rename",
+			"anchor": "never-infer-safety-from-a-route-rename"
+		}
+	],
+	"markdownParts": [
+		"content/docs-data-path-contracts-md-410c759055-001.json"
+	]
+}

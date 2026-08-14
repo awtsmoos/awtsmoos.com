@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-nesher-studio-docs-tab-capture-roadmap-md-169ad3a82d",
+	"title": "Nesher Studio Tab Capture Roadmap",
+	"sourcePath": "geelooy/apps/nesher-studio/docs/TAB_CAPTURE_ROADMAP.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Nesher Studio Tab Capture Roadmap",
+			"anchor": "nesher-studio-tab-capture-roadmap"
+		},
+		{
+			"level": 2,
+			"text": "What works inside a normal page",
+			"anchor": "what-works-inside-a-normal-page"
+		},
+		{
+			"level": 2,
+			"text": "What cannot be done by a normal page",
+			"anchor": "what-cannot-be-done-by-a-normal-page"
+		},
+		{
+			"level": 2,
+			"text": "Best extension route",
+			"anchor": "best-extension-route"
+		},
+		{
+			"level": 2,
+			"text": "Best tunnel route",
+			"anchor": "best-tunnel-route"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-nesher-studio-docs-tab-capture-roadmap-md-169ad3a82d-001.json"
+	]
+}

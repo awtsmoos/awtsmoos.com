@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-scripts-tricks-ai-relay-readme-md-a9d86aabb4",
+	"title": "B\"H Awtsmoos AI Relay",
+	"sourcePath": "geelooy/scripts/tricks/ai-relay/README.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H Awtsmoos AI Relay",
+			"anchor": "b-h-awtsmoos-ai-relay"
+		},
+		{
+			"level": 2,
+			"text": "Run",
+			"anchor": "run"
+		},
+		{
+			"level": 2,
+			"text": "macOS / Linux quick install",
+			"anchor": "macos-linux-quick-install"
+		},
+		{
+			"level": 2,
+			"text": "Windows quick run",
+			"anchor": "windows-quick-run"
+		},
+		{
+			"level": 2,
+			"text": "Environment",
+			"anchor": "environment"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-scripts-tricks-ai-relay-readme-md-a9d86aabb4-001.json"
+	]
+}

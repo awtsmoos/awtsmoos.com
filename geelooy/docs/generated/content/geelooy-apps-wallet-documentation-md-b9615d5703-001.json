@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Wallet App Documentation\n\nThe Awtsmoos gives value a vessel while every accounting promise must remain tied to code;\nAwtsmoos.com maps this UI to Wallet, commerce, PayPal, Perutas, and adjacent treasury roads.\n\nRead [../../../docs/APPS/COMMERCE_AND_WALLET.md](../../../docs/APPS/COMMERCE_AND_WALLET.md) and [../../../docs/API/WALLET.md](../../../docs/API/WALLET.md).\n"
+}

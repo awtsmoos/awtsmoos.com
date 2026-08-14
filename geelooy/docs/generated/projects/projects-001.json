@@ -1,0 +1,681 @@
+[
+	{
+		"projectId": "ai-thoughts-021beb76",
+		"path": "ai-thoughts",
+		"type": "evidence",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "ai-thoughts",
+		"entries": [],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ai-thoughts-021beb76.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 682,
+			"tests": 0,
+			"assets": 325,
+			"generated": 0,
+			"docs": 9,
+			"other": 5102
+		},
+		"totalFiles": 6118,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "ai-thoughts-e431fde4",
+		"path": "ai_thoughts",
+		"type": "evidence",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "ai_thoughts",
+		"entries": [],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ai-thoughts-e431fde4.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 503,
+			"tests": 79,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 1084
+		},
+		"totalFiles": 1666,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "awtsmoos-com-0c3ac1c0",
+		"path": "awtsmoos.com",
+		"type": "project",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "awtsmoos.com",
+		"entries": [
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/awtsmoos-com-0c3ac1c0.md",
+		"documentation": [
+			{
+				"sourcePath": "awtsmoos.com/DOCUMENTATION.md",
+				"documentId": "awtsmoos-com-documentation-md-96d1ba1331"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 1,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 2
+		},
+		"totalFiles": 4,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "ayzarim-awtsmoosdynamicserver-e406758e",
+		"path": "ayzarim/awtsmoosDynamicServer",
+		"type": "runtime",
+		"family": {
+			"id": "runtime",
+			"title": "Runtime and Infrastructure"
+		},
+		"title": "ayzarim/awtsmoosDynamicServer",
+		"entries": [
+			"index.js",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-awtsmoosdynamicserver-e406758e.md",
+		"documentation": [
+			{
+				"sourcePath": "ayzarim/awtsmoosDynamicServer/DOCUMENTATION.md",
+				"documentId": "ayzarim-awtsmoosdynamicserver-documentation-md-418402da2f"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+				"documentId": "docs-tutorials-projects-runtime-and-infrastructure-md-1e31989624"
+			},
+			{
+				"sourcePath": "docs/ARCHITECTURE.md",
+				"documentId": "docs-architecture-md-ff21b6b9a3"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 605,
+			"tests": 158,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 1
+		},
+		"totalFiles": 765,
+		"symbolSummary": {
+			"files": 605,
+			"classes": 180,
+			"functions": 1661,
+			"exports": 1471,
+			"samples": [
+				"DependencyInjector",
+				"greet",
+				"TemplateObjectGenerator",
+				"fetchAwtsmoos",
+				"_getTemplateObject",
+				"fetchIt",
+				"checkRateLimit",
+				"recordUsage",
+				"estimateTokens",
+				"callGemini",
+				"result",
+				"data"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/api/tunnel",
+				"count": 11,
+				"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/channel.js; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/channelSnapshot.js; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgradeFakes.cjs"
+			},
+			{
+				"project": "ayzarim/tools",
+				"count": 3,
+				"examples": "ayzarim/awtsmoosDynamicServer/server/deps.js"
+			},
+			{
+				"project": "ayzarim/email",
+				"count": 2,
+				"examples": "ayzarim/awtsmoosDynamicServer/server/deps.js"
+			},
+			{
+				"project": "geelooy/api/ohr-hagnuz",
+				"count": 2,
+				"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/ohrHagnuz/AuthenticatedWorldTestHarness.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/ohrHagnuz/auth/GameTicketConsumer.js"
+			},
+			{
+				"project": "ayzarim/awtsmoos.config.json",
+				"count": 1,
+				"examples": "ayzarim/awtsmoosDynamicServer/server/deps.js"
+			},
+			{
+				"project": "ayzarim/DosDB",
+				"count": 1,
+				"examples": "ayzarim/awtsmoosDynamicServer/server/deps.js"
+			}
+		],
+		"incoming": [
+			{
+				"project": "geelooy/api/tunnel",
+				"count": 1,
+				"examples": "geelooy/api/tunnel/control/routes/fsVessel/tunnelClient.js"
+			}
+		],
+		"externalDependencies": [
+			{
+				"dependency": "ws",
+				"count": 1,
+				"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/socketIntegrationFixture.cjs"
+			}
+		],
+		"publicEntries": [],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "ayzarim-c859d21f",
+		"path": "ayzarim",
+		"type": "runtime-root",
+		"family": {
+			"id": "runtime",
+			"title": "Runtime and Infrastructure"
+		},
+		"title": "ayzarim",
+		"entries": [
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-c859d21f.md",
+		"documentation": [
+			{
+				"sourcePath": "ayzarim/DOCUMENTATION.md",
+				"documentId": "ayzarim-documentation-md-959e1682a2"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+				"documentId": "docs-tutorials-projects-runtime-and-infrastructure-md-1e31989624"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 1455,
+			"tests": 318,
+			"assets": 0,
+			"generated": 0,
+			"docs": 24,
+			"other": 2
+		},
+		"totalFiles": 1799,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "ayzarim-dosdb-eaaa802e",
+		"path": "ayzarim/DosDB",
+		"type": "data",
+		"family": {
+			"id": "runtime",
+			"title": "Runtime and Infrastructure"
+		},
+		"title": "ayzarim/DosDB",
+		"entries": [
+			"index.js",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-dosdb-eaaa802e.md",
+		"documentation": [
+			{
+				"sourcePath": "ayzarim/DosDB/DOCUMENTATION.md",
+				"documentId": "ayzarim-dosdb-documentation-md-9bb2bc3272"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+				"documentId": "docs-tutorials-projects-runtime-and-infrastructure-md-1e31989624"
+			},
+			{
+				"sourcePath": "docs/ARCHITECTURE.md",
+				"documentId": "docs-architecture-md-ff21b6b9a3"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 827,
+			"tests": 160,
+			"assets": 0,
+			"generated": 0,
+			"docs": 21,
+			"other": 0
+		},
+		"totalFiles": 1008,
+		"symbolSummary": {
+			"files": 813,
+			"classes": 383,
+			"functions": 1117,
+			"exports": 731,
+			"samples": [
+				"AwtsmoosDbEmbedderConfig",
+				"defaultEmbeddingDimensions",
+				"embedTextFallback",
+				"attachDefaultEmbedding",
+				"AWTSMOOS_DB_AI_CONFIG_PATH",
+				"loadEmbedderConfig",
+				"getDefaultEmbedderConfig",
+				"resolveEmbedderModelPath",
+				"providerShape",
+				"detectGgufRunner",
+				"assertGgufEmbedderReady",
+				"embedTextWithConfiguredGguf"
+			]
+		},
+		"outgoing": [],
+		"incoming": [
+			{
+				"project": "geelooy/api/social",
+				"count": 33,
+				"examples": "geelooy/api/social/helper/comments/aliasIndex/PackedIndexStore.js; geelooy/api/social/helper/comments/canonicalCommentSource.js; geelooy/api/social/helper/comments/commentAwtsmoosDbBridge.js"
+			},
+			{
+				"project": "ayzarim/maintence",
+				"count": 2,
+				"examples": "ayzarim/maintence/transferOldDBToAwtsmoosDB.js"
+			},
+			{
+				"project": "ayzarim/awtsmoosDynamicServer",
+				"count": 1,
+				"examples": "ayzarim/awtsmoosDynamicServer/server/deps.js"
+			},
+			{
+				"project": "geelooy/scripts",
+				"count": 1,
+				"examples": "geelooy/scripts/awtsmoos/minimax-virtual-os-game/seed-users.cjs"
+			}
+		],
+		"externalDependencies": [
+			{
+				"dependency": "entries",
+				"count": 1,
+				"examples": "ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/operations/obj/makomChafshee_aiPrompt.js"
+			}
+		],
+		"publicEntries": [],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "ayzarim-email-b0bdabd0",
+		"path": "ayzarim/email",
+		"type": "infrastructure",
+		"family": {
+			"id": "runtime",
+			"title": "Runtime and Infrastructure"
+		},
+		"title": "ayzarim/email",
+		"entries": [],
+		"humanManual": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-email-b0bdabd0.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+				"documentId": "docs-tutorials-projects-runtime-and-infrastructure-md-1e31989624"
+			},
+			{
+				"sourcePath": "docs/ARCHITECTURE.md",
+				"documentId": "docs-architecture-md-ff21b6b9a3"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 5,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 5,
+		"symbolSummary": {
+			"files": 5,
+			"classes": 2,
+			"functions": 18,
+			"exports": 2,
+			"samples": [
+				"AwtsmoosEmailClient",
+				"processCapsules",
+				"sendSystemReply",
+				"isAutoGenerated",
+				"parseMime",
+				"embedInlineImages",
+				"parseHeaders",
+				"parseFromHeader",
+				"decodeBody",
+				"decodeQuotedPrintable",
+				"decodeMimeHeader",
+				"escapeHtml"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/api/social",
+				"count": 1,
+				"examples": "ayzarim/email/awtsmoosEmailIngress.js"
+			}
+		],
+		"incoming": [
+			{
+				"project": "ayzarim/awtsmoosDynamicServer",
+				"count": 2,
+				"examples": "ayzarim/awtsmoosDynamicServer/server/deps.js"
+			}
+		],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "ayzarim-maintence-c5395902",
+		"path": "ayzarim/maintence",
+		"type": "infrastructure",
+		"family": {
+			"id": "runtime",
+			"title": "Runtime and Infrastructure"
+		},
+		"title": "ayzarim/maintence",
+		"entries": [],
+		"humanManual": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-maintence-c5395902.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+				"documentId": "docs-tutorials-projects-runtime-and-infrastructure-md-1e31989624"
+			},
+			{
+				"sourcePath": "docs/ARCHITECTURE.md",
+				"documentId": "docs-architecture-md-ff21b6b9a3"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 1,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 1,
+		"symbolSummary": {
+			"files": 1,
+			"classes": 0,
+			"functions": 1,
+			"exports": 0,
+			"samples": [
+				"convertNodeToObj"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "ayzarim/DosDB",
+				"count": 2,
+				"examples": "ayzarim/maintence/transferOldDBToAwtsmoosDB.js"
+			}
+		],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "ayzarim-math-f7d5fed1",
+		"path": "ayzarim/math",
+		"type": "infrastructure",
+		"family": {
+			"id": "runtime",
+			"title": "Runtime and Infrastructure"
+		},
+		"title": "ayzarim/math",
+		"entries": [],
+		"humanManual": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-math-f7d5fed1.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+				"documentId": "docs-tutorials-projects-runtime-and-infrastructure-md-1e31989624"
+			},
+			{
+				"sourcePath": "docs/ARCHITECTURE.md",
+				"documentId": "docs-architecture-md-ff21b6b9a3"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 1,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 1,
+		"symbolSummary": {
+			"files": 1,
+			"classes": 2,
+			"functions": 0,
+			"exports": 0,
+			"samples": [
+				"Node",
+				"BTree"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "ayzarim-ssh-099c712a",
+		"path": "ayzarim/ssh",
+		"type": "infrastructure",
+		"family": {
+			"id": "runtime",
+			"title": "Runtime and Infrastructure"
+		},
+		"title": "ayzarim/ssh",
+		"entries": [
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-ssh-099c712a.md",
+		"documentation": [
+			{
+				"sourcePath": "ayzarim/ssh/DOCUMENTATION.md",
+				"documentId": "ayzarim-ssh-documentation-md-7859ccc062"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+				"documentId": "docs-tutorials-projects-runtime-and-infrastructure-md-1e31989624"
+			},
+			{
+				"sourcePath": "docs/ARCHITECTURE.md",
+				"documentId": "docs-architecture-md-ff21b6b9a3"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 11,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 12,
+		"symbolSummary": {
+			"files": 11,
+			"classes": 19,
+			"functions": 16,
+			"exports": 51,
+			"samples": [
+				"IGNORE",
+				"UNIMPLEMENTED",
+				"DEBUG",
+				"SERVICE_REQUEST",
+				"SERVICE_ACCEPT",
+				"KEXINIT",
+				"NEWKEYS",
+				"KEXDH_INIT",
+				"KEXDH_REPLY",
+				"USERAUTH_REQUEST",
+				"USERAUTH_FAILURE",
+				"USERAUTH_SUCCESS"
+			]
+		},
+		"outgoing": [],
+		"incoming": [
+			{
+				"project": "geelooy/api/ssh",
+				"count": 1,
+				"examples": "geelooy/api/ssh/lib/client.js"
+			}
+		],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "ayzarim-tools-550b3dd6",
+		"path": "ayzarim/tools",
+		"type": "infrastructure",
+		"family": {
+			"id": "runtime",
+			"title": "Runtime and Infrastructure"
+		},
+		"title": "ayzarim/tools",
+		"entries": [],
+		"humanManual": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-tools-550b3dd6.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+				"documentId": "docs-tutorials-projects-runtime-and-infrastructure-md-1e31989624"
+			},
+			{
+				"sourcePath": "docs/ARCHITECTURE.md",
+				"documentId": "docs-architecture-md-ff21b6b9a3"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 4,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 4,
+		"symbolSummary": {
+			"files": 4,
+			"classes": 2,
+			"functions": 10,
+			"exports": 7,
+			"samples": [
+				"AwtsmoosAuth",
+				"decodeCookieToken",
+				"decodeTokenPayload",
+				"validateToken",
+				"createToken",
+				"generateSalt",
+				"hashPassword",
+				"verifyPassword",
+				"encrypt",
+				"decrypt",
+				"Utils",
+				"generateRandomId"
+			]
+		},
+		"outgoing": [],
+		"incoming": [
+			{
+				"project": "ayzarim/awtsmoosDynamicServer",
+				"count": 3,
+				"examples": "ayzarim/awtsmoosDynamicServer/server/deps.js"
+			}
+		],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	}
+]

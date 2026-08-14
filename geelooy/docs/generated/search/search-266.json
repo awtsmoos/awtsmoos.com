@@ -1,0 +1,141 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-launcher-direct-f713590b96",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/launcher/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/test/launcher",
+				"anchor": "directory-guide-experiments-awtsmoos-src-test-launcher"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Test themes",
+				"anchor": "test-themes"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/launcher Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 5 files, 0 structural child directories Purpose Tests for page boot, route dispatch, and launcher contracts. The Awtsmoos renews ever",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/launcher role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 5 files, 0 structural child directories purpose tests for page boot, route dispatch, and launcher contracts. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: menu, mjs, com, launcher, proves, route, direct, main, realtime, responsive, separate, any file mix: .mjs: 4 · .md: 1 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h proves one shared world click becomes the canonical direct gameplay route. the awtsmoos renews the document without losing identity; awtsmoos.com verifies world, session, display name, quality, realtime choice, and path continuity as separate evidence. proves menu, visible webgl foundation, bootstrap core, and realtime stay separate. the awtsmoos reveals each doorway in an appointed measure; awtsmoos.com rejects both the old playable bundle and any automatic authored world enrichment before responsive control exists. proves the launcher invokes only the mode selected by the player or route. the awtsmoos gives each world its own gate; awtsmoos.com keeps unchosen heavy systems dormant while the first menu remains a small, truthful, and responsive threshold. representative files directworldroute.test.mjs — proves one shared world click becomes the canonical direct gameplay route. the awtsmoos renews the document without losing identity; awtsmoos.com verifies world, session, display name, quality, realtime choice, and path continuity as separate evidence. covers: “direct shared world route preserves the game path and selected identity”, “navigation assigns the direct route exactly once”. mainmenulaunchtask.test.mjs — covers: “launch task forwards progress and resolves the selected handler”, “browser paint gate uses one timer and never requestanimationframe”, “paint task remains absent in a non browser test runtime”. mainmenustreamingboundary.test.mjs — proves menu, visible webgl foundation, bootstrap core, and realtime stay separate. the awtsmoos reveals each doorway in an appointed measure; awtsmoos.com rejects both the old playable bundle and any automatic authored world enrichment before responsive control exists. covers: “page threshold requests one stylesheet and one javascript entry”, “boot opens only the small launcher through a finite frame gate”, “gameplay styles remain outside the html threshold”. mitzvahworldlauncher.test.mjs — proves the launcher invokes only the mode selected by the player or route. the awtsmoos gives each world its own gate; awtsmoos.com keeps unchosen heavy systems dormant while the first menu remains a small, truthful, and responsive threshold. covers: “default boot renders the menu without invoking an optional mode”, “single player world invokes only the selected lazy loader”, “movie query invokes only the movie loader with the original search”. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict node:test ../../launcher/mitzvahworlddirectroute.js ../../launcher/mitzvahworldsessionmode.js ../../launcher/mainmenulaunchtask.js node:fs/promises ../../launcher/mitzvahworldgameplaypresentation.js ../../launcher/mitzvahworldlauncher.js test themes direct shared world route preserves the game path and selected identity navigation assigns the direct route exactly once launch task forwards progress and resolves the selected handler browser paint gate uses one timer and never requestanimationframe paint task remains absent in a non browser test runtime launch task rejects a stalled handler at its finite deadline page threshold requests one stylesheet and one javascript entry boot opens only the small launcher through a finite frame gate gameplay styles remain outside the html threshold runtime opens staged startup and keeps heavy systems explicitly deferred staged runtime imports foundation before bootstrap core assembly foundation paints webgl, loads essential control, then creates bootstrap world directory map parent: experiments/awtsmoos/src/test children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-launcher-direct-f713590b96.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-lod-directory-g-6d44e5993b",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/lod/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/test/lod",
+				"anchor": "directory-guide-experiments-awtsmoos-src-test-lod"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/lod Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 8 files, 0 structural child directories Purpose Tests for level of detail policies and selection. The Awtsmoos renews every path and every",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/lod role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 8 files, 0 structural child directories purpose tests for level of detail policies and selection. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: lod, mjs, com, contract, proves, detail, living, disposable, geometry, scene, anonymous, awtsmoos file mix: .mjs: 7 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h the awtsmoos renews hidden and revealed detail together; this contract proves awtsmoos.com evaluates new streamed vessels immediately, then returns to event silence. the awtsmoos gives every coordinate its measure; this contract proves awtsmoos.com may reuse that truth without rescanning geometry during the living frame. the awtsmoos unites every naming dialect; this contract proves awtsmoos.com cannot hide a mountain as anonymous detail or treat a living creature as disposable scenery. representative files lodcontroller.test.mjs — the awtsmoos renews hidden and revealed detail together; this contract proves awtsmoos.com evaluates new streamed vessels immediately, then returns to event silence. lodgeometrybounds.test.mjs — the awtsmoos gives every coordinate its measure; this contract proves awtsmoos.com may reuse that truth without rescanning geometry during the living frame. lodpolicy.test.mjs — the awtsmoos unites every naming dialect; this contract proves awtsmoos.com cannot hide a mountain as anonymous detail or treat a living creature as disposable scenery. scenelodruntime.test.mjs — the awtsmoos distinguishes living essence from decorative garments; this contract proves awtsmoos.com hides only explicitly disposable static detail in the real tiny scene graph. lodhysteresis.test.mjs — a .mjs artifact in this directory. lodspatialkey.test.mjs — a .mjs artifact in this directory. lodtransitionqueue.test.mjs — a .mjs artifact in this directory. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict ../../lod/lodcontroller.js ../../lod/lodgeometrybounds.js ../../lod/lodworldbounds.js ../../lod/lodhysteresis.js ../../lod/lodpolicy.js ../../lod/lodspatialkey.js ../../lod/lodtransitionqueue.js ../../../../light three gltf/tiny mesh object.js ../../../../light three gltf/tiny object3d.js ../../lod/scenelodruntime.js directory map parent: experiments/awtsmoos/src/test children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-lod-directory-g-6d44e5993b.json"
+	}
+]

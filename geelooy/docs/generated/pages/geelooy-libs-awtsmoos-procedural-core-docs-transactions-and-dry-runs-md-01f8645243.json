@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-docs-transactions-and-dry-runs-md-01f8645243",
+	"title": "B\"H",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/TRANSACTIONS_AND_DRY_RUNS.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 2,
+			"text": "Boruch Hashem",
+			"anchor": "boruch-hashem"
+		},
+		{
+			"level": 2,
+			"text": "Blessed is He",
+			"anchor": "blessed-is-he"
+		},
+		{
+			"level": 1,
+			"text": "Transactions and Dry Runs",
+			"anchor": "transactions-and-dry-runs"
+		},
+		{
+			"level": 2,
+			"text": "Dry run",
+			"anchor": "dry-run"
+		},
+		{
+			"level": 2,
+			"text": "Atomic batch",
+			"anchor": "atomic-batch"
+		},
+		{
+			"level": 2,
+			"text": "Revision control",
+			"anchor": "revision-control"
+		},
+		{
+			"level": 2,
+			"text": "Runtime adapters",
+			"anchor": "runtime-adapters"
+		},
+		{
+			"level": 2,
+			"text": "Undo",
+			"anchor": "undo"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-docs-transactions-and-dry-runs-md-01f8645243-001.json"
+	]
+}

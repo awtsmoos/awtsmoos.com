@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-generated-public-route-inventory-md-7a76f1c409",
+	"title": "Generated Public Directory Inventory",
+	"sourcePath": "docs/GENERATED/PUBLIC_ROUTE_INVENTORY.md",
+	"category": "Routes",
+	"provenance": "generated",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Generated Public Directory Inventory",
+			"anchor": "generated-public-directory-inventory"
+		}
+	],
+	"markdownParts": [
+		"content/docs-generated-public-route-inventory-md-7a76f1c409-001.json"
+	]
+}

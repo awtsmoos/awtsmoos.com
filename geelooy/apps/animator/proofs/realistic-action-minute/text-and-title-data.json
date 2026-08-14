@@ -1,0 +1,46 @@
+{
+  "titleCards": [
+    {
+      "id": "cup_title",
+      "start": 0,
+      "duration": 2400,
+      "text": "THE LAST CUP BEFORE THE MEETING",
+      "subtitle": "AN OFFICE ACTION COMEDY",
+      "kind": "title-card"
+    },
+    {
+      "id": "cup_tag",
+      "start": 58000,
+      "duration": 2000,
+      "text": "DIPLOMACY",
+      "subtitle": "NOW AVAILABLE AS TEA",
+      "kind": "title-card"
+    }
+  ],
+  "textBoxes": [
+    {
+      "id": "cup_status",
+      "start": 6500,
+      "duration": 2800,
+      "text": "COFFEE MACHINE: 1 CUP LEFT",
+      "kind": "text-box",
+      "placement": "lower-third"
+    },
+    {
+      "id": "cup_rescue",
+      "start": 38500,
+      "duration": 3300,
+      "text": "MUG RESCUE PROTOCOL",
+      "kind": "text-box",
+      "placement": "lower-third"
+    },
+    {
+      "id": "cup_printer",
+      "start": 48000,
+      "duration": 3000,
+      "text": "PRINTER STATUS: NEGOTIATING",
+      "kind": "text-box",
+      "placement": "lower-third"
+    }
+  ]
+}

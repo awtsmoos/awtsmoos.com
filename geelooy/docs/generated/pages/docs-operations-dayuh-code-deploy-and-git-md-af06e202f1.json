@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-operations-dayuh-code-deploy-and-git-md-af06e202f1",
+	"title": "Dayuh code deployment and Git boundary",
+	"sourcePath": "docs/operations/dayuh-code-deploy-and-git.md",
+	"category": "Operations",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Dayuh code deployment and Git boundary",
+			"anchor": "dayuh-code-deployment-and-git-boundary"
+		},
+		{
+			"level": 2,
+			"text": "Database versus code",
+			"anchor": "database-versus-code"
+		},
+		{
+			"level": 2,
+			"text": "Shared-worktree rule",
+			"anchor": "shared-worktree-rule"
+		},
+		{
+			"level": 2,
+			"text": "Dangerous convenience commands",
+			"anchor": "dangerous-convenience-commands"
+		},
+		{
+			"level": 2,
+			"text": "Safe exact-file Git workflow",
+			"anchor": "safe-exact-file-git-workflow"
+		},
+		{
+			"level": 2,
+			"text": "Remote code verification",
+			"anchor": "remote-code-verification"
+		},
+		{
+			"level": 2,
+			"text": "Service restart",
+			"anchor": "service-restart"
+		},
+		{
+			"level": 2,
+			"text": "Static-file deployment",
+			"anchor": "static-file-deployment"
+		},
+		{
+			"level": 2,
+			"text": "Documentation status",
+			"anchor": "documentation-status"
+		}
+	],
+	"markdownParts": [
+		"content/docs-operations-dayuh-code-deploy-and-git-md-af06e202f1-001.json"
+	]
+}

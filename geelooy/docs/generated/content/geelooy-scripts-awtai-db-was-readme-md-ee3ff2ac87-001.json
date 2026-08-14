@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\n# WAS Chat Conversations\n\n`bin/was-chat.js` creates persisted chat conversation JSON files and uses AWTAI-DB disk-first inference with temp-heavy scratch/KV spill.\n\nConversation root defaults to `~/Documents/awtai-db-chats`.\n"
+}

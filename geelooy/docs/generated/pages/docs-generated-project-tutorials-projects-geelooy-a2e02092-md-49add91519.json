@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-generated-project-tutorials-projects-geelooy-a2e02092-md-49add91519",
+	"title": "Project Tutorial: Awtsmoos — Play, Create, Send & Build",
+	"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-a2e02092.md",
+	"category": "Projects",
+	"provenance": "generated",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Project Tutorial: Awtsmoos — Play, Create, Send & Build",
+			"anchor": "project-tutorial-awtsmoos-play-create-send-build"
+		},
+		{
+			"level": 2,
+			"text": "Entry and documentation evidence",
+			"anchor": "entry-and-documentation-evidence"
+		},
+		{
+			"level": 2,
+			"text": "File shape",
+			"anchor": "file-shape"
+		},
+		{
+			"level": 2,
+			"text": "Public entry points",
+			"anchor": "public-entry-points"
+		},
+		{
+			"level": 2,
+			"text": "Symbol evidence",
+			"anchor": "symbol-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Depends on",
+			"anchor": "depends-on"
+		},
+		{
+			"level": 2,
+			"text": "Used by",
+			"anchor": "used-by"
+		},
+		{
+			"level": 2,
+			"text": "External packages",
+			"anchor": "external-packages"
+		},
+		{
+			"level": 2,
+			"text": "Verification clue",
+			"anchor": "verification-clue"
+		}
+	],
+	"markdownParts": [
+		"content/docs-generated-project-tutorials-projects-geelooy-a2e02092-md-49add91519-001.json"
+	]
+}

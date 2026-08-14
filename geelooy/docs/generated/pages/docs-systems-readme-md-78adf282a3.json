@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-systems-readme-md-78adf282a3",
+	"title": "Cross-Cutting Systems",
+	"sourcePath": "docs/SYSTEMS/README.md",
+	"category": "Systems",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Cross-Cutting Systems",
+			"anchor": "cross-cutting-systems"
+		},
+		{
+			"level": 2,
+			"text": "System manuals",
+			"anchor": "system-manuals"
+		},
+		{
+			"level": 2,
+			"text": "Deeper cross-system manuals",
+			"anchor": "deeper-cross-system-manuals"
+		}
+	],
+	"markdownParts": [
+		"content/docs-systems-readme-md-78adf282a3-001.json"
+	]
+}

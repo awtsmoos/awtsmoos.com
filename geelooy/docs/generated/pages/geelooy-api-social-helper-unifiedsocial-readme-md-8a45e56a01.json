@@ -1,0 +1,79 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-social-helper-unifiedsocial-readme-md-8a45e56a01",
+	"title": "B\"H",
+	"sourcePath": "geelooy/api/social/helper/unifiedSocial/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Boruch Hashem",
+			"anchor": "boruch-hashem"
+		},
+		{
+			"level": 1,
+			"text": "Blessed is He",
+			"anchor": "blessed-is-he"
+		},
+		{
+			"level": 1,
+			"text": "Unified Social Backend",
+			"anchor": "unified-social-backend"
+		},
+		{
+			"level": 2,
+			"text": "Identity",
+			"anchor": "identity"
+		},
+		{
+			"level": 2,
+			"text": "Acting-alias authorization",
+			"anchor": "acting-alias-authorization"
+		},
+		{
+			"level": 2,
+			"text": "Permissions",
+			"anchor": "permissions"
+		},
+		{
+			"level": 2,
+			"text": "Destinations",
+			"anchor": "destinations"
+		},
+		{
+			"level": 2,
+			"text": "Publishing",
+			"anchor": "publishing"
+		},
+		{
+			"level": 2,
+			"text": "Review",
+			"anchor": "review"
+		},
+		{
+			"level": 2,
+			"text": "Governance",
+			"anchor": "governance"
+		},
+		{
+			"level": 2,
+			"text": "Compatibility",
+			"anchor": "compatibility"
+		},
+		{
+			"level": 2,
+			"text": "Testing",
+			"anchor": "testing"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-social-helper-unifiedsocial-readme-md-8a45e56a01-001.json"
+	]
+}

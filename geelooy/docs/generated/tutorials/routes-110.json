@@ -1,0 +1,619 @@
+[
+	{
+		"id": "api-tunnel-control-conversations-list-402556b6ec",
+		"route": "/api/tunnel/control/conversations/list",
+		"source": "geelooy/api/tunnel/control/routes/table.js",
+		"discoveryKind": "route-table",
+		"family": {
+			"mount": "/api/tunnel/control",
+			"title": "Tunnel Control",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md"
+		},
+		"derech": {
+			"source": "geelooy/api/tunnel/control/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/tunnel/control"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [
+			{
+				"literal": "/api/tunnel/control/conversations/list",
+				"source": "geelooy/apps/tunnel-control/js/features/previewGateway.js",
+				"kind": "runtime"
+			}
+		],
+		"callerCount": 1,
+		"tests": [
+			{
+				"name": "test:mission-continuity-actions",
+				"command": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs"
+			},
+			{
+				"name": "test:treasury",
+				"command": "node geelooy/api/tunnel/control/test/runTreasuryTests.cjs"
+			},
+			{
+				"name": "test:treasury:full",
+				"command": "node geelooy/api/tunnel/control/test/treasury/runAll.cjs"
+			},
+			{
+				"name": "test:tunnel-release",
+				"command": "node --test scripts/tunnel/testing/*.test.cjs scripts/repository-hygiene/testing/*.test.cjs"
+			}
+		],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-conversations-list-402556b6ec.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-tunnel-control-admin-vault-0c79867071",
+				"route": "/api/tunnel/control/admin-vault"
+			},
+			{
+				"id": "api-tunnel-control-admin-perutas-5d22edeedf",
+				"route": "/api/tunnel/control/admin/perutas"
+			},
+			{
+				"id": "api-tunnel-control-agent-economy-55b9aaa475",
+				"route": "/api/tunnel/control/agent-economy"
+			},
+			{
+				"id": "api-tunnel-control-api-keys-db993bf8af",
+				"route": "/api/tunnel/control/api-keys"
+			},
+			{
+				"id": "api-tunnel-control-api-keys-create-91bd090e21",
+				"route": "/api/tunnel/control/api-keys/create"
+			},
+			{
+				"id": "api-tunnel-control-api-keys-revoke-4d16d58e2e",
+				"route": "/api/tunnel/control/api-keys/revoke"
+			},
+			{
+				"id": "api-tunnel-control-bank-0febb5b433",
+				"route": "/api/tunnel/control/bank"
+			},
+			{
+				"id": "api-tunnel-control-blob-blobid-205f6668ce",
+				"route": "/api/tunnel/control/blob/:blobId"
+			}
+		]
+	},
+	{
+		"id": "api-tunnel-control-conversations-register-447a75de56",
+		"route": "/api/tunnel/control/conversations/register",
+		"source": "geelooy/api/tunnel/control/routes/table.js",
+		"discoveryKind": "route-table",
+		"family": {
+			"mount": "/api/tunnel/control",
+			"title": "Tunnel Control",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md"
+		},
+		"derech": {
+			"source": "geelooy/api/tunnel/control/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/tunnel/control"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [
+			{
+				"literal": "/api/tunnel/control/conversations/register?${qs}",
+				"source": "geelooy/apps/tunnel-control/js/features/previewGateway.js",
+				"kind": "runtime"
+			}
+		],
+		"callerCount": 1,
+		"tests": [
+			{
+				"name": "test:mission-continuity-actions",
+				"command": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs"
+			},
+			{
+				"name": "test:treasury",
+				"command": "node geelooy/api/tunnel/control/test/runTreasuryTests.cjs"
+			},
+			{
+				"name": "test:treasury:full",
+				"command": "node geelooy/api/tunnel/control/test/treasury/runAll.cjs"
+			},
+			{
+				"name": "test:tunnel-release",
+				"command": "node --test scripts/tunnel/testing/*.test.cjs scripts/repository-hygiene/testing/*.test.cjs"
+			}
+		],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-conversations-register-447a75de56.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-tunnel-control-admin-vault-0c79867071",
+				"route": "/api/tunnel/control/admin-vault"
+			},
+			{
+				"id": "api-tunnel-control-admin-perutas-5d22edeedf",
+				"route": "/api/tunnel/control/admin/perutas"
+			},
+			{
+				"id": "api-tunnel-control-agent-economy-55b9aaa475",
+				"route": "/api/tunnel/control/agent-economy"
+			},
+			{
+				"id": "api-tunnel-control-api-keys-db993bf8af",
+				"route": "/api/tunnel/control/api-keys"
+			},
+			{
+				"id": "api-tunnel-control-api-keys-create-91bd090e21",
+				"route": "/api/tunnel/control/api-keys/create"
+			},
+			{
+				"id": "api-tunnel-control-api-keys-revoke-4d16d58e2e",
+				"route": "/api/tunnel/control/api-keys/revoke"
+			},
+			{
+				"id": "api-tunnel-control-bank-0febb5b433",
+				"route": "/api/tunnel/control/bank"
+			},
+			{
+				"id": "api-tunnel-control-blob-blobid-205f6668ce",
+				"route": "/api/tunnel/control/blob/:blobId"
+			}
+		]
+	},
+	{
+		"id": "api-tunnel-control-device-2da02fee01",
+		"route": "/api/tunnel/control/device",
+		"source": "geelooy/api/tunnel/control/routes/table.js",
+		"discoveryKind": "route-table",
+		"family": {
+			"mount": "/api/tunnel/control",
+			"title": "Tunnel Control",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md"
+		},
+		"derech": {
+			"source": "geelooy/api/tunnel/control/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/tunnel/control"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [
+			{
+				"name": "test:mission-continuity-actions",
+				"command": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs"
+			},
+			{
+				"name": "test:treasury",
+				"command": "node geelooy/api/tunnel/control/test/runTreasuryTests.cjs"
+			},
+			{
+				"name": "test:treasury:full",
+				"command": "node geelooy/api/tunnel/control/test/treasury/runAll.cjs"
+			},
+			{
+				"name": "test:tunnel-release",
+				"command": "node --test scripts/tunnel/testing/*.test.cjs scripts/repository-hygiene/testing/*.test.cjs"
+			}
+		],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-device-2da02fee01.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-tunnel-control-admin-vault-0c79867071",
+				"route": "/api/tunnel/control/admin-vault"
+			},
+			{
+				"id": "api-tunnel-control-admin-perutas-5d22edeedf",
+				"route": "/api/tunnel/control/admin/perutas"
+			},
+			{
+				"id": "api-tunnel-control-agent-economy-55b9aaa475",
+				"route": "/api/tunnel/control/agent-economy"
+			},
+			{
+				"id": "api-tunnel-control-api-keys-db993bf8af",
+				"route": "/api/tunnel/control/api-keys"
+			},
+			{
+				"id": "api-tunnel-control-api-keys-create-91bd090e21",
+				"route": "/api/tunnel/control/api-keys/create"
+			},
+			{
+				"id": "api-tunnel-control-api-keys-revoke-4d16d58e2e",
+				"route": "/api/tunnel/control/api-keys/revoke"
+			},
+			{
+				"id": "api-tunnel-control-bank-0febb5b433",
+				"route": "/api/tunnel/control/bank"
+			},
+			{
+				"id": "api-tunnel-control-blob-blobid-205f6668ce",
+				"route": "/api/tunnel/control/blob/:blobId"
+			}
+		]
+	},
+	{
+		"id": "api-tunnel-control-devices-545a565879",
+		"route": "/api/tunnel/control/devices",
+		"source": "geelooy/api/tunnel/control/routes/table.js",
+		"discoveryKind": "route-table",
+		"family": {
+			"mount": "/api/tunnel/control",
+			"title": "Tunnel Control",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md"
+		},
+		"derech": {
+			"source": "geelooy/api/tunnel/control/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/tunnel/control"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [
+			{
+				"literal": "/api/tunnel/control/devices",
+				"source": "geelooy/apps/tunnel-control/js/api/controlDevices.js",
+				"kind": "runtime"
+			},
+			{
+				"literal": "/api/tunnel/control/devices",
+				"source": "geelooy/apps/tunnel-control/js/platform/liveTunnelMesh.js",
+				"kind": "runtime"
+			},
+			{
+				"literal": "/api/tunnel/control/devices",
+				"source": "geelooy/os/remote/tunnelControlClient.js",
+				"kind": "runtime"
+			}
+		],
+		"callerCount": 3,
+		"tests": [
+			{
+				"name": "test:mission-continuity-actions",
+				"command": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs"
+			},
+			{
+				"name": "test:treasury",
+				"command": "node geelooy/api/tunnel/control/test/runTreasuryTests.cjs"
+			},
+			{
+				"name": "test:treasury:full",
+				"command": "node geelooy/api/tunnel/control/test/treasury/runAll.cjs"
+			},
+			{
+				"name": "test:tunnel-release",
+				"command": "node --test scripts/tunnel/testing/*.test.cjs scripts/repository-hygiene/testing/*.test.cjs"
+			}
+		],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-devices-545a565879.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-tunnel-control-admin-vault-0c79867071",
+				"route": "/api/tunnel/control/admin-vault"
+			},
+			{
+				"id": "api-tunnel-control-admin-perutas-5d22edeedf",
+				"route": "/api/tunnel/control/admin/perutas"
+			},
+			{
+				"id": "api-tunnel-control-agent-economy-55b9aaa475",
+				"route": "/api/tunnel/control/agent-economy"
+			},
+			{
+				"id": "api-tunnel-control-api-keys-db993bf8af",
+				"route": "/api/tunnel/control/api-keys"
+			},
+			{
+				"id": "api-tunnel-control-api-keys-create-91bd090e21",
+				"route": "/api/tunnel/control/api-keys/create"
+			},
+			{
+				"id": "api-tunnel-control-api-keys-revoke-4d16d58e2e",
+				"route": "/api/tunnel/control/api-keys/revoke"
+			},
+			{
+				"id": "api-tunnel-control-bank-0febb5b433",
+				"route": "/api/tunnel/control/bank"
+			},
+			{
+				"id": "api-tunnel-control-blob-blobid-205f6668ce",
+				"route": "/api/tunnel/control/blob/:blobId"
+			}
+		]
+	},
+	{
+		"id": "api-tunnel-control-docs-5cd123e44b",
+		"route": "/api/tunnel/control/docs",
+		"source": "geelooy/api/tunnel/control/routes/table.js",
+		"discoveryKind": "route-table",
+		"family": {
+			"mount": "/api/tunnel/control",
+			"title": "Tunnel Control",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md"
+		},
+		"derech": {
+			"source": "geelooy/api/tunnel/control/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/tunnel/control"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [
+			{
+				"literal": "/api/tunnel/control/docs",
+				"source": "geelooy/apps/tunnel-control/js/shell/pageSpecs.js",
+				"kind": "runtime"
+			}
+		],
+		"callerCount": 1,
+		"tests": [
+			{
+				"name": "test:mission-continuity-actions",
+				"command": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs"
+			},
+			{
+				"name": "test:treasury",
+				"command": "node geelooy/api/tunnel/control/test/runTreasuryTests.cjs"
+			},
+			{
+				"name": "test:treasury:full",
+				"command": "node geelooy/api/tunnel/control/test/treasury/runAll.cjs"
+			},
+			{
+				"name": "test:tunnel-release",
+				"command": "node --test scripts/tunnel/testing/*.test.cjs scripts/repository-hygiene/testing/*.test.cjs"
+			}
+		],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-docs-5cd123e44b.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-tunnel-control-admin-vault-0c79867071",
+				"route": "/api/tunnel/control/admin-vault"
+			},
+			{
+				"id": "api-tunnel-control-admin-perutas-5d22edeedf",
+				"route": "/api/tunnel/control/admin/perutas"
+			},
+			{
+				"id": "api-tunnel-control-agent-economy-55b9aaa475",
+				"route": "/api/tunnel/control/agent-economy"
+			},
+			{
+				"id": "api-tunnel-control-api-keys-db993bf8af",
+				"route": "/api/tunnel/control/api-keys"
+			},
+			{
+				"id": "api-tunnel-control-api-keys-create-91bd090e21",
+				"route": "/api/tunnel/control/api-keys/create"
+			},
+			{
+				"id": "api-tunnel-control-api-keys-revoke-4d16d58e2e",
+				"route": "/api/tunnel/control/api-keys/revoke"
+			},
+			{
+				"id": "api-tunnel-control-bank-0febb5b433",
+				"route": "/api/tunnel/control/bank"
+			},
+			{
+				"id": "api-tunnel-control-blob-blobid-205f6668ce",
+				"route": "/api/tunnel/control/blob/:blobId"
+			}
+		]
+	},
+	{
+		"id": "api-tunnel-control-docs-json-81c7bfa91c",
+		"route": "/api/tunnel/control/docs.json",
+		"source": "geelooy/api/tunnel/control/routes/table.js",
+		"discoveryKind": "route-table",
+		"family": {
+			"mount": "/api/tunnel/control",
+			"title": "Tunnel Control",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md"
+		},
+		"derech": {
+			"source": "geelooy/api/tunnel/control/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/tunnel/control"
+		},
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [
+			{
+				"literal": "/api/tunnel/control/docs.json",
+				"source": "geelooy/apps/tunnel-control/js/api/controlKeys.js",
+				"kind": "runtime"
+			},
+			{
+				"literal": "/api/tunnel/control/docs.json",
+				"source": "geelooy/apps/tunnel-control/js/shell/pageSpecs.js",
+				"kind": "runtime"
+			}
+		],
+		"callerCount": 2,
+		"tests": [
+			{
+				"name": "test:mission-continuity-actions",
+				"command": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs"
+			},
+			{
+				"name": "test:treasury",
+				"command": "node geelooy/api/tunnel/control/test/runTreasuryTests.cjs"
+			},
+			{
+				"name": "test:treasury:full",
+				"command": "node geelooy/api/tunnel/control/test/treasury/runAll.cjs"
+			},
+			{
+				"name": "test:tunnel-release",
+				"command": "node --test scripts/tunnel/testing/*.test.cjs scripts/repository-hygiene/testing/*.test.cjs"
+			}
+		],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-docs-json-81c7bfa91c.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-tunnel-control-admin-vault-0c79867071",
+				"route": "/api/tunnel/control/admin-vault"
+			},
+			{
+				"id": "api-tunnel-control-admin-perutas-5d22edeedf",
+				"route": "/api/tunnel/control/admin/perutas"
+			},
+			{
+				"id": "api-tunnel-control-agent-economy-55b9aaa475",
+				"route": "/api/tunnel/control/agent-economy"
+			},
+			{
+				"id": "api-tunnel-control-api-keys-db993bf8af",
+				"route": "/api/tunnel/control/api-keys"
+			},
+			{
+				"id": "api-tunnel-control-api-keys-create-91bd090e21",
+				"route": "/api/tunnel/control/api-keys/create"
+			},
+			{
+				"id": "api-tunnel-control-api-keys-revoke-4d16d58e2e",
+				"route": "/api/tunnel/control/api-keys/revoke"
+			},
+			{
+				"id": "api-tunnel-control-bank-0febb5b433",
+				"route": "/api/tunnel/control/bank"
+			},
+			{
+				"id": "api-tunnel-control-blob-blobid-205f6668ce",
+				"route": "/api/tunnel/control/blob/:blobId"
+			}
+		]
+	},
+	{
+		"id": "api-tunnel-control-ephemeral-resultid-e8895373ec",
+		"route": "/api/tunnel/control/ephemeral/:resultId",
+		"source": "geelooy/api/tunnel/control/routes/table.js",
+		"discoveryKind": "route-table",
+		"family": {
+			"mount": "/api/tunnel/control",
+			"title": "Tunnel Control",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md"
+		},
+		"derech": {
+			"source": "geelooy/api/tunnel/control/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/tunnel/control"
+		},
+		"dynamic": true,
+		"pathParameters": [
+			{
+				"name": "resultId",
+				"catchAll": false
+			}
+		],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [
+			{
+				"name": "test:mission-continuity-actions",
+				"command": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs"
+			},
+			{
+				"name": "test:treasury",
+				"command": "node geelooy/api/tunnel/control/test/runTreasuryTests.cjs"
+			},
+			{
+				"name": "test:treasury:full",
+				"command": "node geelooy/api/tunnel/control/test/treasury/runAll.cjs"
+			},
+			{
+				"name": "test:tunnel-release",
+				"command": "node --test scripts/tunnel/testing/*.test.cjs scripts/repository-hygiene/testing/*.test.cjs"
+			}
+		],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-ephemeral-resultid-e8895373ec.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-tunnel-control-admin-vault-0c79867071",
+				"route": "/api/tunnel/control/admin-vault"
+			},
+			{
+				"id": "api-tunnel-control-admin-perutas-5d22edeedf",
+				"route": "/api/tunnel/control/admin/perutas"
+			},
+			{
+				"id": "api-tunnel-control-agent-economy-55b9aaa475",
+				"route": "/api/tunnel/control/agent-economy"
+			},
+			{
+				"id": "api-tunnel-control-api-keys-db993bf8af",
+				"route": "/api/tunnel/control/api-keys"
+			},
+			{
+				"id": "api-tunnel-control-api-keys-create-91bd090e21",
+				"route": "/api/tunnel/control/api-keys/create"
+			},
+			{
+				"id": "api-tunnel-control-api-keys-revoke-4d16d58e2e",
+				"route": "/api/tunnel/control/api-keys/revoke"
+			},
+			{
+				"id": "api-tunnel-control-bank-0febb5b433",
+				"route": "/api/tunnel/control/bank"
+			},
+			{
+				"id": "api-tunnel-control-blob-blobid-205f6668ce",
+				"route": "/api/tunnel/control/blob/:blobId"
+			}
+		]
+	}
+]

@@ -1,0 +1,314 @@
+[
+	{
+		"id": "docs-systems-service-worker-md-467d5f36e2",
+		"title": "Service Worker",
+		"sourcePath": "docs/SYSTEMS/SERVICE_WORKER.md",
+		"category": "Systems",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Service Worker",
+				"anchor": "service-worker"
+			},
+			{
+				"level": 2,
+				"text": "Source",
+				"anchor": "source"
+			},
+			{
+				"level": 2,
+				"text": "Current behavior",
+				"anchor": "current-behavior"
+			},
+			{
+				"level": 2,
+				"text": "Consequence",
+				"anchor": "consequence"
+			},
+			{
+				"level": 2,
+				"text": "Why this deserves its own page",
+				"anchor": "why-this-deserves-its-own-page"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Service Worker The Awtsmoos lets old caches depart so the present source can answer without a ghost; Awtsmoos.com currently uses its service worker as a retirement vessel, not an offline proxy host. Source geelooy/service worker.js Current behavior The worker is intentionally a retiremen",
+		"searchText": "b\"h boruch hashem blessed is he service worker the awtsmoos lets old caches depart so the present source can answer without a ghost; awtsmoos.com currently uses its service worker as a retirement vessel, not an offline proxy host. source geelooy/service worker.js current behavior the worker is intentionally a retirement/cleanup worker: no fetch handler is installed; installation calls skipwaiting; activation unregisters the worker; clients receive a geelooy service worker retired message. consequence do not document current geelooy behavior as service worker backed offline caching. if a future feature reintroduces fetch interception/cache management, that is a major runtime change and this page plus browser deployment tests must be updated. why this deserves its own page a stale service worker can make filesystem/routes appear broken even when current source is correct. the retirement design is therefore operationally important even though the file is small.",
+		"page": "pages/docs-systems-service-worker-md-467d5f36e2.json"
+	},
+	{
+		"id": "docs-systems-shared-libraries-md-5a36455888",
+		"title": "Shared Libraries and Browser Foundations",
+		"sourcePath": "docs/SYSTEMS/SHARED_LIBRARIES.md",
+		"category": "Systems",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Shared Libraries and Browser Foundations",
+				"anchor": "shared-libraries-and-browser-foundations"
+			},
+			{
+				"level": 2,
+				"text": "geelooy/shared/",
+				"anchor": "geelooy-shared"
+			},
+			{
+				"level": 2,
+				"text": "geelooy/libs/",
+				"anchor": "geelooy-libs"
+			},
+			{
+				"level": 2,
+				"text": "geelooy/scripts/",
+				"anchor": "geelooy-scripts"
+			},
+			{
+				"level": 2,
+				"text": "geelooy/style/, css/, resources/",
+				"anchor": "geelooy-style-css-resources"
+			},
+			{
+				"level": 2,
+				"text": "Root ayzarim/",
+				"anchor": "root-ayzarim"
+			},
+			{
+				"level": 2,
+				"text": "Dependency rule",
+				"anchor": "dependency-rule"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Shared Libraries and Browser Foundations The Awtsmoos gives many apps one reusable vessel, but shared code multiplies every consequence too; Awtsmoos.com keeps libraries, scripts, styles, and shared domains separate so ownership remains in view. geelooy/shared/ Cross project shared modul",
+		"searchText": "b\"h boruch hashem blessed is he shared libraries and browser foundations the awtsmoos gives many apps one reusable vessel, but shared code multiplies every consequence too; awtsmoos.com keeps libraries, scripts, styles, and shared domains separate so ownership remains in view. geelooy/shared/ cross project shared modules. the immediate tree contains multiple domain packages and a package.json. important examples include tunnel and virtual os material. when a shared module changes, search every importer before assuming one app scope. geelooy/libs/ large reusable library tree with thousands of files. treat as implementation infrastructure, not one user facing project. document a library separately only when it establishes a public contract or major architecture. geelooy/scripts/ large script/runtime tree used by public apps. it includes awtsmoos specific parser/runtime code; for example, dynamic server compact js tests reference merkava parser code beneath this tree. geelooy/style/, css/, resources/ shared visual/assets foundations. a change can affect many unrelated pages, so perform visual/browser regression checks for broad edits. root ayzarim/ although not browser shared code, ayzarim is the primary server/runtime foundation and should be treated with the same cross cutting caution. dependency rule for any shared file change: 1. find all imports/references; 2. classify browser/server/build consumers; 3. run the broadest relevant tests; 4. inspect route/api contracts if helpers change request construction; 5. update the owning system docs rather than creating a fake product page for every utility.",
+		"page": "pages/docs-systems-shared-libraries-md-5a36455888.json"
+	},
+	{
+		"id": "docs-systems-social-and-heichel-md-e085674f5b",
+		"title": "Social and Heichel System",
+		"sourcePath": "docs/SYSTEMS/SOCIAL_AND_HEICHEL.md",
+		"category": "Systems",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Social and Heichel System",
+				"anchor": "social-and-heichel-system"
+			},
+			{
+				"level": 2,
+				"text": "Human surfaces",
+				"anchor": "human-surfaces"
+			},
+			{
+				"level": 2,
+				"text": "Backend",
+				"anchor": "backend"
+			},
+			{
+				"level": 2,
+				"text": "Core concepts",
+				"anchor": "core-concepts"
+			},
+			{
+				"level": 3,
+				"text": "User/session identity",
+				"anchor": "user-session-identity"
+			},
+			{
+				"level": 3,
+				"text": "Alias",
+				"anchor": "alias"
+			},
+			{
+				"level": 3,
+				"text": "Heichel",
+				"anchor": "heichel"
+			},
+			{
+				"level": 3,
+				"text": "Post/comment graph",
+				"anchor": "post-comment-graph"
+			},
+			{
+				"level": 2,
+				"text": "Storage",
+				"anchor": "storage"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			},
+			{
+				"level": 2,
+				"text": "API detail",
+				"anchor": "api-detail"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Social and Heichel System The Awtsmoos lets identity meet content, comment, series, editor, and friend; Awtsmoos.com spreads this domain across many screens while the Social API binds the backend end to end. Human surfaces geelooy/profile/ — profile UI. geelooy/social/ and social hub/ — ",
+		"searchText": "b\"h boruch hashem blessed is he social and heichel system the awtsmoos lets identity meet content, comment, series, editor, and friend; awtsmoos.com spreads this domain across many screens while the social api binds the backend end to end. human surfaces geelooy/profile/ — profile ui. geelooy/social/ and social hub/ — social entry/hub. geelooy/social composer/ — post creation. geelooy/comment thread/ — comment conversation. geelooy/notifications/ — signals/notifications. geelooy/heichelos/ — heichel browsing/content. geelooy/heichel editor/ — heichel editor. geelooy/heichel review/ — review/governance center. geelooy/post editor/ — post editor. geelooy/email/ — mail surface with social mail relationships. backend the central backend is geelooy/api/social/, mounted at /api/social. it composes dozens of route factories and contributes hundreds of route rows to the generated atlas. core concepts user/session identity server auth establishes a logged in user context. social helpers can also resolve revocable api keys. alias many social writes act through an alias. authentication alone is not enough: alias ownership/authorization must be checked for the intended mutation. heichel heichel behavior spans creation, content, posts, series, editors, ownership, review/governance, comments, and discovery. changes frequently cross both api route factories and multiple uis. post/comment graph posts and comments have nested ownership, metadata, reply/thread, and moderation behavior. search/graph/rag modules add additional read/discovery paths. storage social routes persist through $i.db/dosdb backed helpers. database path strings are part of the domain contract; changing them is a migration concern, not a cosmetic refactor. verification the repository package scripts and subsystem tests include extensive coverage for social routes, profiles, aliases, heichelos, posts, comments, api keys, graphs/content, and notifications. run the smallest relevant tests plus broader route regression tests when changing shared helpers. api detail see ../api/social.md and search /api/social/ in the generated route atlas.",
+		"page": "pages/docs-systems-social-and-heichel-md-e085674f5b.json"
+	},
+	{
+		"id": "docs-systems-testing-md-11c99cd39b",
+		"title": "Testing and Verification",
+		"sourcePath": "docs/SYSTEMS/TESTING.md",
+		"category": "Testing",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Testing and Verification",
+				"anchor": "testing-and-verification"
+			},
+			{
+				"level": 2,
+				"text": "Test locations",
+				"anchor": "test-locations"
+			},
+			{
+				"level": 2,
+				"text": "Package scripts",
+				"anchor": "package-scripts"
+			},
+			{
+				"level": 2,
+				"text": "Documentation verification added by this pass",
+				"anchor": "documentation-verification-added-by-this-pass"
+			},
+			{
+				"level": 2,
+				"text": "Defect evidence",
+				"anchor": "defect-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Change-to-test rule",
+				"anchor": "change-to-test-rule"
+			},
+			{
+				"level": 2,
+				"text": "Completion standard",
+				"anchor": "completion-standard"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Testing and Verification The Awtsmoos asks evidence to stand where confidence would otherwise pretend; Awtsmoos.com has tests at root, public, server, API, and project layers, so verification must follow the change to its end. Test locations root tests/; geelooy/tests/; ayzarim/awtsmoosD",
+		"searchText": "b\"h boruch hashem blessed is he testing and verification the awtsmoos asks evidence to stand where confidence would otherwise pretend; awtsmoos.com has tests at root, public, server, api, and project layers, so verification must follow the change to its end. test locations root tests/; geelooy/tests/; ayzarim/awtsmoosdynamicserver/tests/; subsystem local test/ or tests/ directories throughout api/apps/shared code; browser test and app specific harnesses. package scripts package.json exposes many focused test commands covering routes, social, tunnel, gpt, code ai, profiles, heichelos, posts, comments, api keys, graph/content, notifications, platform/node client, virtual os, dayuh, and related systems. read the current scripts rather than relying on this summary when choosing the exact command. documentation verification added by this pass node check scripts/docs/discovery.js node check scripts/docs/render.js node check scripts/docs/generate docs.js node scripts/docs/generate docs.js line limit scan over generated markdown and generator source markdown relative link validation over the new documentation surfaces current generator snapshot: 1,195 api source files , 21 derech files , 567 route reference rows , 327 parameterized rows , six stable generated entry points , and 25 bounded generated chunks . defect evidence node check geelooy/api/text/ awtsmoos.derech.js currently fails at line 73 with an unexpected comma. this demonstrates why route inventory and runtime health must be documented separately. change to test rule dynamic router → route matcher/dynamic server tests plus representative api tests. social helper → broad social + ownership/auth regression. tunnel auth/control → tunnel security/control/agent tests. shared virtual os → platform/node/virtual os tests plus callers. db path/init → server/test/initdb.test.js and operations checks. public ui/shared styles → browser/smoke tests where available. completion standard a passing targeted test proves only what it covers. pair tests with source readback, generated inventory refresh, and caller/route search before declaring a cross cutting change complete.",
+		"page": "pages/docs-systems-testing-md-11c99cd39b.json"
+	},
+	{
+		"id": "docs-systems-tunnel-md-dbf7604f09",
+		"title": "Tunnel System",
+		"sourcePath": "docs/SYSTEMS/TUNNEL.md",
+		"category": "Tunnel",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tunnel System",
+				"anchor": "tunnel-system"
+			},
+			{
+				"level": 2,
+				"text": "Major source roots",
+				"anchor": "major-source-roots"
+			},
+			{
+				"level": 2,
+				"text": "Base Tunnel API",
+				"anchor": "base-tunnel-api"
+			},
+			{
+				"level": 2,
+				"text": "Control plane",
+				"anchor": "control-plane"
+			},
+			{
+				"level": 2,
+				"text": "Installer plane",
+				"anchor": "installer-plane"
+			},
+			{
+				"level": 2,
+				"text": "Trusted identity",
+				"anchor": "trusted-identity"
+			},
+			{
+				"level": 2,
+				"text": "Long-lived behavior",
+				"anchor": "long-lived-behavior"
+			},
+			{
+				"level": 2,
+				"text": "Existing docs",
+				"anchor": "existing-docs"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel System The Awtsmoos bridges distance without erasing identity, consent, or machine boundary; Awtsmoos.com makes Tunnel a platform across agent, API, app, installer, preview, mission, and treasury. Major source roots geelooy/apps/tunnel/ — Tunnel console/agent ecosystem. geelooy/ap",
+		"searchText": "b\"h boruch hashem blessed is he tunnel system the awtsmoos bridges distance without erasing identity, consent, or machine boundary; awtsmoos.com makes tunnel a platform across agent, api, app, installer, preview, mission, and treasury. major source roots geelooy/apps/tunnel/ — tunnel console/agent ecosystem. geelooy/apps/tunnel control/ — control plane ui. geelooy/api/tunnel/ — tunnel http api. geelooy/api/tunnel/control/ — large control plane backend. geelooy/api/tunnel/install/ — public installer/bundle endpoints. geelooy/shared/tunnel/ — reusable tunnel client/runtime material. ayzarim/awtsmoosdynamicserver/websocket/ — related long lived communication and mission room server behavior. base tunnel api the base derech registers status, clients, request/:tunnelname, and fs/:tunnelname. control plane tunnel control currently exposes 79 route table keys. human domains: bootstrap/identity, api keys, pairing, device grants, filesystem, previews, blobs, ephemeral results, conversations, mission rooms, live calls, provider/compute, usage/accounting, bank/budgets/marketplace, reputation, and treasury. installer plane public endpoints distribute windows/linux/unix installer material, bundle manifest/components, and agent zip artifacts. these are intentionally different from authenticated remote control routes. trusted identity control auth resolves oauth, verified api key, or signed session evidence. client submitted owner fields are not authority. pairing, grant, filesystem, preview, and treasury changes must preserve this invariant. long lived behavior mission room and other socket flows continue under the dynamic server's websocket runtime after http upgrade/ticket establishment. do not document them as ordinary request/response only apis. existing docs read docs/tunnel/ for specialist pre existing material and ../api/tunnel control.md for the current http route family map.",
+		"page": "pages/docs-systems-tunnel-md-dbf7604f09.json"
+	},
+	{
+		"id": "docs-test-index-md-0cc4899bcd",
+		"title": "Test and Verification Chooser",
+		"sourcePath": "docs/TEST_INDEX.md",
+		"category": "Testing",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Test and Verification Chooser",
+				"anchor": "test-and-verification-chooser"
+			},
+			{
+				"level": 2,
+				"text": "Complete package-script list",
+				"anchor": "complete-package-script-list"
+			},
+			{
+				"level": 2,
+				"text": "Social routes and contracts",
+				"anchor": "social-routes-and-contracts"
+			},
+			{
+				"level": 2,
+				"text": "Identity, comments, notifications, Heichelos",
+				"anchor": "identity-comments-notifications-heichelos"
+			},
+			{
+				"level": 2,
+				"text": "Platform and OS",
+				"anchor": "platform-and-os"
+			},
+			{
+				"level": 2,
+				"text": "Tunnel",
+				"anchor": "tunnel"
+			},
+			{
+				"level": 2,
+				"text": "AI and developer tooling",
+				"anchor": "ai-and-developer-tooling"
+			},
+			{
+				"level": 2,
+				"text": "Dayuh / release",
+				"anchor": "dayuh-release"
+			},
+			{
+				"level": 2,
+				"text": "Aggregate npm test",
+				"anchor": "aggregate-npm-test"
+			},
+			{
+				"level": 2,
+				"text": "Safety",
+				"anchor": "safety"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Test and Verification Chooser The Awtsmoos asks evidence to follow each change, from route to UI to storage to realtime line; Awtsmoos.com exposes many focused scripts, so this chooser points a maintainer toward the right verification sign. Complete package script list GENERATED/TEST SCR",
+		"searchText": "b\"h boruch hashem blessed is he test and verification chooser the awtsmoos asks evidence to follow each change, from route to ui to storage to realtime line; awtsmoos.com exposes many focused scripts, so this chooser points a maintainer toward the right verification sign. complete package script list generated/test script index.md is generated directly from current package.json test like scripts. the continuation scan found 33 such scripts at discovery time. social routes and contracts test:routes — social route coverage. test:social content — social content behavior. test:social packed and test:packed engine — packed/migration/snapshot behavior. test:concurrency failure — concurrency/failure stress. test:real server writes — real server write behavior; inspect environment before running. identity, comments, notifications, heichelos test:api keys — social api key lifecycle. test:comments — comments system. test:notifications — notification behavior. test:heichel governance — editors/roles. test:heichelos quality — heichel ui/quality checks. test:post submissions — submission flows. test:profile menu — profile ui simulation. platform and os test:platform ops test:platform execution test:platform ui test:node client test:virtual os tunnel test:treasury and test:treasury:full — tunnel control treasury. test:mission continuity actions — agent mission continuity filesystem action group. test:tunnel release — tunnel/repository release checks. ai and developer tooling test:ai — ai harness. test:ai:stress — repeated ai harness rounds. test:code ai studio — isolated code ai studio behavior. dayuh / release test:dayuh cutover — cutover release check. test:dayuh release — broader route/comment/social/packed/maintenance/cutover chain. aggregate npm test the root test script composes a broad sequence spanning routes, treasury, style ownership, css, heichelos, profile, governance, submissions, comments, keys, graph, social content, notifications, packed systems, platform, node client, and dayuh cutover. read the current generated command before assuming this list is permanent. safety tests named real server, provider, release, or stress can have heavier/environment dependent effects than isolated unit tests. inspect their source and configuration requirements before execution.",
+		"page": "pages/docs-test-index-md-0cc4899bcd.json"
+	}
+]

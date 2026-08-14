@@ -1,0 +1,237 @@
+[
+	{
+		"id": "docs-generated-api-tutorials-routes-api-social-heichelos-heichel-posts-p-5f35e1490c",
+		"title": "API Tutorial: /api/social/heichelos/:heichel/posts/:post/comments/:comment/replies",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-post-comments-comment-replies-dfd07015ad.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/social/heichelos/:heichel/posts/:post/comments/:comment/replies",
+				"anchor": "api-tutorial-api-social-heichelos-heichel-posts-post-comments-comment-replies"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/social/heichelos/:heichel/posts/:post/comments/:comment/replies Family: Social · Mount: /api/social · Derech health: OK Source: geelooy/api/social/helper/comments/routes/rich.js · Discovery: static literal · Confidence: unknown method Read the human Social tutorial Gen",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/social/heichelos/:heichel/posts/:post/comments/:comment/replies family: social · mount: /api/social · derech health: ok source: geelooy/api/social/helper/comments/routes/rich.js · discovery: static literal · confidence: unknown method read the human social tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: $ get, $ post, $ delete observed status literals: — observed headers: — path parameters name shape heichel single segment post single segment comment single segment starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test — npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:api keys — node geelooy/api/social/helper/test/apikeys.test.js test:comments — node geelooy/api/social/helper/comments/test/runallcommentstests.js test:concurrency failure — node geelooy/api/social/test/concurrencyfailurestress.test.mjs test:dayuh release — npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover related routes /api/social /api/social/abuse/ratelimit/check /api/social/alias/:alias /api/social/alias/:alias/details /api/social/alias/:alias/heichelos /api/social/alias/:alias/heichelos/:heichel /api/social/alias/:alias/heichelos/:heichel/ownership /api/social/alias/:alias/heichelos/details",
+		"page": "pages/docs-generated-api-tutorials-routes-api-social-heichelos-heichel-posts-p-5f35e1490c.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-social-heichelos-heichel-posts-p-8dbe9e47a6",
+		"title": "API Tutorial: /api/social/heichelos/:heichel/posts/:post/comments/:comment/sections/:section/replies",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-post-comments-comment-section-3a442c78d1.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/social/heichelos/:heichel/posts/:post/comments/:comment/sections/:section/replies",
+				"anchor": "api-tutorial-api-social-heichelos-heichel-posts-post-comments-comment-sections-section-replies"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/social/heichelos/:heichel/posts/:post/comments/:comment/sections/:section/replies Family: Social · Mount: /api/social · Derech health: OK Source: geelooy/api/social/helper/comments/routes/rich.js · Discovery: static literal · Confidence: unknown method Read the human S",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/social/heichelos/:heichel/posts/:post/comments/:comment/sections/:section/replies family: social · mount: /api/social · derech health: ok source: geelooy/api/social/helper/comments/routes/rich.js · discovery: static literal · confidence: unknown method read the human social tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: $ get, $ post, $ delete observed status literals: — observed headers: — path parameters name shape heichel single segment post single segment comment single segment section single segment starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test — npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:api keys — node geelooy/api/social/helper/test/apikeys.test.js test:comments — node geelooy/api/social/helper/comments/test/runallcommentstests.js test:concurrency failure — node geelooy/api/social/test/concurrencyfailurestress.test.mjs test:dayuh release — npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover related routes /api/social /api/social/abuse/ratelimit/check /api/social/alias/:alias /api/social/alias/:alias/details /api/social/alias/:alias/heichelos /api/social/alias/:alias/heichelos/:heichel /api/social/alias/:alias/heichelos/:heichel/ownership /api/social/alias/:alias/heichelos/details",
+		"page": "pages/docs-generated-api-tutorials-routes-api-social-heichelos-heichel-posts-p-8dbe9e47a6.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-social-heichelos-heichel-posts-p-79f6b1d8c2",
+		"title": "API Tutorial: /api/social/heichelos/:heichel/posts/:post/imported-comment-tree",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-post-imported-comment-tree-bae6abcb59.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/social/heichelos/:heichel/posts/:post/imported-comment-tree",
+				"anchor": "api-tutorial-api-social-heichelos-heichel-posts-post-imported-comment-tree"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/social/heichelos/:heichel/posts/:post/imported comment tree Family: Social · Mount: /api/social · Derech health: OK Source: geelooy/api/social/helper/comments/routes/rich.js · Discovery: static literal · Confidence: unknown method Read the human Social tutorial Generat",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/social/heichelos/:heichel/posts/:post/imported comment tree family: social · mount: /api/social · derech health: ok source: geelooy/api/social/helper/comments/routes/rich.js · discovery: static literal · confidence: unknown method read the human social tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: $ get, $ post, $ delete observed status literals: — observed headers: — path parameters name shape heichel single segment post single segment starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test — npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:api keys — node geelooy/api/social/helper/test/apikeys.test.js test:comments — node geelooy/api/social/helper/comments/test/runallcommentstests.js test:concurrency failure — node geelooy/api/social/test/concurrencyfailurestress.test.mjs test:dayuh release — npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover related routes /api/social /api/social/abuse/ratelimit/check /api/social/alias/:alias /api/social/alias/:alias/details /api/social/alias/:alias/heichelos /api/social/alias/:alias/heichelos/:heichel /api/social/alias/:alias/heichelos/:heichel/ownership /api/social/alias/:alias/heichelos/details",
+		"page": "pages/docs-generated-api-tutorials-routes-api-social-heichelos-heichel-posts-p-79f6b1d8c2.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-social-heichelos-heichel-posts-p-3b7a8a2b6f",
+		"title": "API Tutorial: /api/social/heichelos/:heichel/posts/:post/subsections/:subsection/comments",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-post-subsections-subsection-c-a9fffb7d14.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/social/heichelos/:heichel/posts/:post/subsections/:subsection/comments",
+				"anchor": "api-tutorial-api-social-heichelos-heichel-posts-post-subsections-subsection-comments"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/social/heichelos/:heichel/posts/:post/subsections/:subsection/comments Family: Social · Mount: /api/social · Derech health: OK Source: geelooy/api/social/helper/comments/routes/rich.js · Discovery: static literal · Confidence: unknown method Read the human Social tutor",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/social/heichelos/:heichel/posts/:post/subsections/:subsection/comments family: social · mount: /api/social · derech health: ok source: geelooy/api/social/helper/comments/routes/rich.js · discovery: static literal · confidence: unknown method read the human social tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: $ get, $ post, $ delete observed status literals: — observed headers: — path parameters name shape heichel single segment post single segment subsection single segment starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test — npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:api keys — node geelooy/api/social/helper/test/apikeys.test.js test:comments — node geelooy/api/social/helper/comments/test/runallcommentstests.js test:concurrency failure — node geelooy/api/social/test/concurrencyfailurestress.test.mjs test:dayuh release — npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover related routes /api/social /api/social/abuse/ratelimit/check /api/social/alias/:alias /api/social/alias/:alias/details /api/social/alias/:alias/heichelos /api/social/alias/:alias/heichelos/:heichel /api/social/alias/:alias/heichelos/:heichel/ownership /api/social/alias/:alias/heichelos/details",
+		"page": "pages/docs-generated-api-tutorials-routes-api-social-heichelos-heichel-posts-p-3b7a8a2b6f.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-social-heichelos-heichel-posts-p-df481a2516",
+		"title": "API Tutorial: /api/social/heichelos/:heichel/posts/:post/verses/:verse/comments",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-post-verses-verse-comments-a3d19f4929.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/social/heichelos/:heichel/posts/:post/verses/:verse/comments",
+				"anchor": "api-tutorial-api-social-heichelos-heichel-posts-post-verses-verse-comments"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/social/heichelos/:heichel/posts/:post/verses/:verse/comments Family: Social · Mount: /api/social · Derech health: OK Source: geelooy/api/social/helper/comments/routes/rich.js · Discovery: static literal · Confidence: unknown method Read the human Social tutorial Genera",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/social/heichelos/:heichel/posts/:post/verses/:verse/comments family: social · mount: /api/social · derech health: ok source: geelooy/api/social/helper/comments/routes/rich.js · discovery: static literal · confidence: unknown method read the human social tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: $ get, $ post, $ delete observed status literals: — observed headers: — path parameters name shape heichel single segment post single segment verse single segment starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test — npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:api keys — node geelooy/api/social/helper/test/apikeys.test.js test:comments — node geelooy/api/social/helper/comments/test/runallcommentstests.js test:concurrency failure — node geelooy/api/social/test/concurrencyfailurestress.test.mjs test:dayuh release — npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover related routes /api/social /api/social/abuse/ratelimit/check /api/social/alias/:alias /api/social/alias/:alias/details /api/social/alias/:alias/heichelos /api/social/alias/:alias/heichelos/:heichel /api/social/alias/:alias/heichelos/:heichel/ownership /api/social/alias/:alias/heichelos/details",
+		"page": "pages/docs-generated-api-tutorials-routes-api-social-heichelos-heichel-posts-p-df481a2516.json"
+	}
+]

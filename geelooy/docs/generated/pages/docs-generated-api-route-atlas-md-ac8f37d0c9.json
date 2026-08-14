@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-generated-api-route-atlas-md-ac8f37d0c9",
+	"title": "Generated API Route Atlas",
+	"sourcePath": "docs/GENERATED/API_ROUTE_ATLAS.md",
+	"category": "Routes",
+	"provenance": "generated",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Generated API Route Atlas",
+			"anchor": "generated-api-route-atlas"
+		}
+	],
+	"markdownParts": [
+		"content/docs-generated-api-route-atlas-md-ac8f37d0c9-001.json"
+	]
+}

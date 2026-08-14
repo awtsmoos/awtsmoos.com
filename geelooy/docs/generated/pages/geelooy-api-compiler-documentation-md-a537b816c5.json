@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-compiler-documentation-md-a537b816c5",
+	"title": "Compiler API Documentation",
+	"sourcePath": "geelooy/api/compiler/DOCUMENTATION.md",
+	"category": "API",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Compiler API Documentation",
+			"anchor": "compiler-api-documentation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-compiler-documentation-md-a537b816c5-001.json"
+	]
+}

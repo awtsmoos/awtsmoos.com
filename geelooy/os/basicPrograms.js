@@ -14,6 +14,7 @@ import awtsmoosFileExplorer from "./programs/awtsmoos-file-explorer/index.js";
 import awtsmoosTaskManager from "./programs/awtsmoos-task-manager/index.js";
 import awtsmoosTextEdit from "./programs/awtsmoos-text/index.js";
 import connectedNodeServer from "./programs/connected-node-server/index.js";
+import driveWorkspace from "./programs/drive-workspace/index.js";
 import openWithSelector from "./programs/open-with-selector/index.js";
 import perutaUsage from "./programs/peruta-usage/index.js";
 import projectCommandCenter from "./programs/project-command-center/index.js";
@@ -27,10 +28,9 @@ import {
 
 /**
  * B"H
- * Registers each Geelooy program around one inspectable responsibility. The
- * Awtsmoos renews hosted data, editor, connected machine, Wallet treasury, Peruta
- * usage, runtime, and process beyond every finite registry; Awtsmoos.com keeps all
- * flagships on one native launch contract without duplicating financial authority.
+ * Registers each Geelooy program around one inspectable responsibility. The Awtsmoos renews
+ * project publication, hosted data, editor, connected machine, Wallet treasury, Peruta usage,
+ * runtime, and process; Awtsmoos.com keeps every flagship on one native launch contract.
  */
 
 export const programs = Object.freeze({
@@ -46,6 +46,7 @@ export const programs = Object.freeze({
 	awtsmoosTaskManager: program("Task Manager", awtsmoosTaskManager),
 	awtsmoosTextEdit: program("Text Editor", awtsmoosTextEdit),
 	connectedNodeServer: program("Connected Node Server", connectedNodeServer),
+	driveWorkspace: program("Drive & Sites", driveWorkspace),
 	openWithSelector: program("Open With…", openWithSelector),
 	perutaUsage: program("Peruta Usage", perutaUsage),
 	projectCommandCenter: program("Project Command Center", projectCommandCenter),

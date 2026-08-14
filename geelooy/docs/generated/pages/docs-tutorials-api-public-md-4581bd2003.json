@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-tutorials-api-public-md-4581bd2003",
+	"title": "Public API Tutorial",
+	"sourcePath": "docs/TUTORIALS/API/PUBLIC.md",
+	"category": "API",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Public API Tutorial",
+			"anchor": "public-api-tutorial"
+		},
+		{
+			"level": 2,
+			"text": "What this family owns",
+			"anchor": "what-this-family-owns"
+		},
+		{
+			"level": 2,
+			"text": "How to explore it",
+			"anchor": "how-to-explore-it"
+		},
+		{
+			"level": 2,
+			"text": "Safety / interpretation",
+			"anchor": "safety-interpretation"
+		},
+		{
+			"level": 2,
+			"text": "Evidence rule",
+			"anchor": "evidence-rule"
+		},
+		{
+			"level": 2,
+			"text": "Next",
+			"anchor": "next"
+		}
+	],
+	"markdownParts": [
+		"content/docs-tutorials-api-public-md-4581bd2003-001.json"
+	]
+}

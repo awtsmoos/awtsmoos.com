@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H Awtsmoos AI Relay\n\nA tiny local Node.js relay for `geelooy/ai` when the Awtsmoos Chrome server extension is not available or not injected yet.\n\n## Run\n\n```bash\nnode awtsmoos-ai-relay.mjs\n```\n\nDefault health URL:\n\n```text\nhttp://127.0.0.1:3847/health\n```\n\n## macOS / Linux quick install\n\n```bash\nmkdir -p ~/.awtsmoos-ai-relay\ncurl -L https://awtsmoos.com/scripts/tricks/ai-relay/awtsmoos-ai-relay.mjs -o ~/.awtsmoos-ai-relay/awtsmoos-ai-relay.mjs\nnode ~/.awtsmoos-ai-relay/awtsmoos-ai-relay.mjs\n```\n\n## Windows quick run\n\n```powershell\nmkdir $env:USERPROFILE\\.awtsmoos-ai-relay -Force\ncurl.exe -L https://awtsmoos.com/scripts/tricks/ai-relay/awtsmoos-ai-relay.mjs -o $env:USERPROFILE\\.awtsmoos-ai-relay\\awtsmoos-ai-relay.mjs\nnode $env:USERPROFILE\\.awtsmoos-ai-relay\\awtsmoos-ai-relay.mjs\n```\n\n## Environment\n\n```bash\nAWTSMOOS_AI_RELAY_PORT=3847 node awtsmoos-ai-relay.mjs\n```\n\nThe relay keeps an in-memory cookie jar per upstream origin and streams upstream response bodies back to the browser.\n"
+}

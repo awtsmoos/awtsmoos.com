@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-tests-virtual-os-readme-md-e4135edaef",
+	"title": "B\"H — Virtual OS Smoke Suite",
+	"sourcePath": "geelooy/tests/virtual-os/README.md",
+	"category": "Testing",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Virtual OS Smoke Suite",
+			"anchor": "b-h-virtual-os-smoke-suite"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-tests-virtual-os-readme-md-e4135edaef-001.json"
+	]
+}

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# EXE Emulator Documentation\n\nThe Awtsmoos lets executable-world behavior be simulated through a large browser-side engine with many moving parts;\nAwtsmoos.com maps this app beside simulation and developer runtime docs before anyone assumes it is a trivial launcher of charts.\n\nRead [../../../docs/APPS/GAMES_AND_SIMULATION.md](../../../docs/APPS/GAMES_AND_SIMULATION.md) and [../../../docs/APPS/DEVELOPER_TOOLS.md](../../../docs/APPS/DEVELOPER_TOOLS.md).\n"
+}

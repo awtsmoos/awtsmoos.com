@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-tutorials-projects-apis-md-030810cad3",
+	"title": "API Projects",
+	"sourcePath": "docs/TUTORIALS/PROJECTS/APIS.md",
+	"category": "Projects",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "API Projects",
+			"anchor": "api-projects"
+		},
+		{
+			"level": 2,
+			"text": "Investigate an API project",
+			"anchor": "investigate-an-api-project"
+		},
+		{
+			"level": 2,
+			"text": "Why project and route evidence differ",
+			"anchor": "why-project-and-route-evidence-differ"
+		}
+	],
+	"markdownParts": [
+		"content/docs-tutorials-projects-apis-md-030810cad3-001.json"
+	]
+}

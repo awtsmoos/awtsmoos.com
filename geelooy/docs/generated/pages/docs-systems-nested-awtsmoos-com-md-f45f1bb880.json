@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-systems-nested-awtsmoos-com-md-f45f1bb880",
+	"title": "Nested awtsmoos.com/ Shell",
+	"sourcePath": "docs/SYSTEMS/NESTED_AWTSMOOS_COM.md",
+	"category": "Systems",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Nested awtsmoos.com/ Shell",
+			"anchor": "nested-awtsmoos-com-shell"
+		},
+		{
+			"level": 2,
+			"text": "Repository root",
+			"anchor": "repository-root"
+		},
+		{
+			"level": 2,
+			"text": "Nested directory",
+			"anchor": "nested-directory"
+		},
+		{
+			"level": 2,
+			"text": "Documentation rule",
+			"anchor": "documentation-rule"
+		},
+		{
+			"level": 2,
+			"text": "Duplicate-risk rule",
+			"anchor": "duplicate-risk-rule"
+		}
+	],
+	"markdownParts": [
+		"content/docs-systems-nested-awtsmoos-com-md-f45f1bb880-001.json"
+	]
+}

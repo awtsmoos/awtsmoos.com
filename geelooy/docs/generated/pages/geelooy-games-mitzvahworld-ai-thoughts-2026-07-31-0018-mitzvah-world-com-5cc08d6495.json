@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-5cc08d6495",
+	"title": "B\"H",
+	"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/06_FINAL_EXECUTION_PLAN.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Final Execution Plan",
+			"anchor": "final-execution-plan"
+		},
+		{
+			"level": 2,
+			"text": "Proven Defects",
+			"anchor": "proven-defects"
+		},
+		{
+			"level": 2,
+			"text": "Authorized Full-File Writes",
+			"anchor": "authorized-full-file-writes"
+		},
+		{
+			"level": 3,
+			"text": "Runtime Source",
+			"anchor": "runtime-source"
+		},
+		{
+			"level": 3,
+			"text": "New Focused Tests",
+			"anchor": "new-focused-tests"
+		},
+		{
+			"level": 3,
+			"text": "Generated and Durable Artifacts",
+			"anchor": "generated-and-durable-artifacts"
+		},
+		{
+			"level": 2,
+			"text": "Explicit Non-Targets",
+			"anchor": "explicit-non-targets"
+		},
+		{
+			"level": 2,
+			"text": "Execution Order",
+			"anchor": "execution-order"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-5cc08d6495-001.json"
+	]
+}

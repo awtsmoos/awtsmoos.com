@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-agents-md-c5c27feed0",
+	"title": "Awtsmoos Tunnel — AI Agent Instructions",
+	"sourcePath": "geelooy/apps/tunnel/agents.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos Tunnel — AI Agent Instructions",
+			"anchor": "awtsmoos-tunnel-ai-agent-instructions"
+		},
+		{
+			"level": 2,
+			"text": "Connection flow",
+			"anchor": "connection-flow"
+		},
+		{
+			"level": 2,
+			"text": "Installer and restart commands",
+			"anchor": "installer-and-restart-commands"
+		},
+		{
+			"level": 2,
+			"text": "Verify installed capabilities before use",
+			"anchor": "verify-installed-capabilities-before-use"
+		},
+		{
+			"level": 2,
+			"text": "Required operating discipline",
+			"anchor": "required-operating-discipline"
+		},
+		{
+			"level": 2,
+			"text": "Durable command protocol",
+			"anchor": "durable-command-protocol"
+		},
+		{
+			"level": 2,
+			"text": "Recovery-enabled health and levels",
+			"anchor": "recovery-enabled-health-and-levels"
+		},
+		{
+			"level": 2,
+			"text": "Offline restore protocol",
+			"anchor": "offline-restore-protocol"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-agents-md-c5c27feed0-001.json"
+	]
+}

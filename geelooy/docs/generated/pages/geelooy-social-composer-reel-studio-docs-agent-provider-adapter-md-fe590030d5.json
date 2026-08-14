@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-social-composer-reel-studio-docs-agent-provider-adapter-md-fe590030d5",
+	"title": "Agent Provider Adapter",
+	"sourcePath": "geelooy/social-composer/reel-studio/docs/AGENT_PROVIDER_ADAPTER.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Agent Provider Adapter",
+			"anchor": "agent-provider-adapter"
+		},
+		{
+			"level": 2,
+			"text": "Request Format",
+			"anchor": "request-format"
+		},
+		{
+			"level": 2,
+			"text": "No Provider",
+			"anchor": "no-provider"
+		},
+		{
+			"level": 2,
+			"text": "Provider Return",
+			"anchor": "provider-return"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-social-composer-reel-studio-docs-agent-provider-adapter-md-fe590030d5-001.json"
+	]
+}

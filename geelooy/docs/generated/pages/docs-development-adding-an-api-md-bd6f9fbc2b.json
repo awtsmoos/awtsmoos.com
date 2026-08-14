@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-development-adding-an-api-md-bd6f9fbc2b",
+	"title": "Adding or Changing an HTTP API",
+	"sourcePath": "docs/DEVELOPMENT/ADDING_AN_API.md",
+	"category": "Development",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Adding or Changing an HTTP API",
+			"anchor": "adding-or-changing-an-http-api"
+		},
+		{
+			"level": 2,
+			"text": "Before adding a route",
+			"anchor": "before-adding-a-route"
+		},
+		{
+			"level": 2,
+			"text": "Contract checklist",
+			"anchor": "contract-checklist"
+		},
+		{
+			"level": 2,
+			"text": "Dollar-variable rule",
+			"anchor": "dollar-variable-rule"
+		},
+		{
+			"level": 2,
+			"text": "Documentation steps",
+			"anchor": "documentation-steps"
+		},
+		{
+			"level": 2,
+			"text": "Security",
+			"anchor": "security"
+		}
+	],
+	"markdownParts": [
+		"content/docs-development-adding-an-api-md-bd6f9fbc2b-001.json"
+	]
+}

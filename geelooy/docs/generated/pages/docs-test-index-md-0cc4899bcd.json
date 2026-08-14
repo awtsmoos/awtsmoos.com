@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-test-index-md-0cc4899bcd",
+	"title": "Test and Verification Chooser",
+	"sourcePath": "docs/TEST_INDEX.md",
+	"category": "Testing",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Test and Verification Chooser",
+			"anchor": "test-and-verification-chooser"
+		},
+		{
+			"level": 2,
+			"text": "Complete package-script list",
+			"anchor": "complete-package-script-list"
+		},
+		{
+			"level": 2,
+			"text": "Social routes and contracts",
+			"anchor": "social-routes-and-contracts"
+		},
+		{
+			"level": 2,
+			"text": "Identity, comments, notifications, Heichelos",
+			"anchor": "identity-comments-notifications-heichelos"
+		},
+		{
+			"level": 2,
+			"text": "Platform and OS",
+			"anchor": "platform-and-os"
+		},
+		{
+			"level": 2,
+			"text": "Tunnel",
+			"anchor": "tunnel"
+		},
+		{
+			"level": 2,
+			"text": "AI and developer tooling",
+			"anchor": "ai-and-developer-tooling"
+		},
+		{
+			"level": 2,
+			"text": "Dayuh / release",
+			"anchor": "dayuh-release"
+		},
+		{
+			"level": 2,
+			"text": "Aggregate npm test",
+			"anchor": "aggregate-npm-test"
+		},
+		{
+			"level": 2,
+			"text": "Safety",
+			"anchor": "safety"
+		}
+	],
+	"markdownParts": [
+		"content/docs-test-index-md-0cc4899bcd-001.json"
+	]
+}

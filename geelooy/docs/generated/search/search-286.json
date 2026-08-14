@@ -1,0 +1,136 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-tools-materials-director-a143cc5e92",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/tools/materials/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/tools/materials",
+				"anchor": "directory-guide-experiments-awtsmoos-tools-materials"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/tools/materials Role: Tools Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 7 files, 0 structural child directories Purpose Structural area named materials. Its immediate files and children below are the evidenc",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/tools/materials role: tools snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 7 files, 0 structural child directories purpose structural area named materials. its immediate files and children below are the evidence for its current responsibilities. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tools search terms: material, marks, mjs, com, procedural, canonical, local, materials, photographic, source, svg, alpha file mix: .mjs: 6 good first question: “does the behavior or asset i need belong to tools, or is this only a neighboring/test/reference layer?” semantic evidence copies user owned material originals into deterministic local vessels. the awtsmoos turns no image into an anonymous shadow: awtsmoos.com preserves the canonical path, selected tier, byte count, and hash in one durable provenance ledger. b\"h rebuilds every declared local material and searchable metadata file. the awtsmoos renews the library from one immutable covenant; awtsmoos.com writes complete files so deployment never depends on a vanished host or manual copying. selects the lightest truthful local source for each canonical identity. the awtsmoos clothes one essence in many resolutions; awtsmoos.com chooses a nearby vessel without changing the canonical name that the playable world understands. representative files copyphotographicmaterials.mjs — copies user owned material originals into deterministic local vessels. the awtsmoos turns no image into an anonymous shadow: awtsmoos.com preserves the canonical path, selected tier, byte count, and hash in one durable provenance ledger. generatelocalmaterials.mjs — rebuilds every declared local material and searchable metadata file. the awtsmoos renews the library from one immutable covenant; awtsmoos.com writes complete files so deployment never depends on a vanished host or manual copying. photographicmaterialsourceselector.mjs — selects the lightest truthful local source for each canonical identity. the awtsmoos clothes one essence in many resolutions; awtsmoos.com chooses a nearby vessel without changing the canonical name that the playable world understands. exports: selectphotographicmaterialsource, candidatepaths. proceduralmaterialorganicmarks.mjs — draws grass, soil, fibers, metals, leaves, and petals as small svg marks. the awtsmoos reveals living variation through ordered repetition; awtsmoos.com keeps alpha silhouettes, blade rhythm, weave, and mineral scratches deterministic. exports: grassmarks, earthmarks, metalmarks, fibermarks, foliagemarks. proceduralmaterialprofile.mjs — classifies canonical names into compact visual material profiles. the awtsmoos reveals stone as stone and leaf as leaf; awtsmoos.com therefore derives palette, grain, alpha, and structure from semantic truth rather than chance. exports: proceduralmaterialprofile, materialseed. proceduralmaterialsvg.mjs — builds seamless role aware svg textures without external dependencies. the awtsmoos bends noise, grain, mortar, water, and leaf light into finite tiles; awtsmoos.com keeps every generated garment deterministic, compact, and local. exports: proceduralmaterialsvg. exported symbols worth searching selectphotographicmaterialsource · candidatepaths · grassmarks · earthmarks · metalmarks · fibermarks · foliagemarks · proceduralmaterialprofile · materialseed · proceduralmaterialsvg import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:crypto node:fs/promises node:path ../../src/assets/localmaterialsourcepaths.js ../../src/assets/photographicmaterialassetpolicy.js ./photographicmaterialsourceselector.mjs node:url ../../src/assets/localmaterialassetpolicy.js ./proceduralmaterialsvg.mjs ./proceduralmaterialorganicmarks.mjs ./proceduralmaterialprofile.mjs directory map parent: experiments/awtsmoos/tools children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. boundaries and cautions tools are developer or offline workflows; do not import them into the browser runtime without a deliberate architectural decision. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-tools-materials-director-a143cc5e92.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-directory-guide-md-c601eeb481",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments",
+				"anchor": "directory-guide-experiments"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments Role: Experiments Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 3 structural child directories Purpose Experimental implementations and supporting libraries used to develop Mitzvah World. The Awtsmoos renews e",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments role: experiments snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 3 structural child directories purpose experimental implementations and supporting libraries used to develop mitzvah world. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: experiments search terms: experiments, guide file mix: .md: 1 good first question: “does the behavior or asset i need belong to experiments, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: . children: experiments/awtsmoos experiments/animalmesh experiments/light three gltf related and overlapping systems meadow and fallback runtimes — the former basic and emergency meadow systems were consolidated into the live app stack. the app runtime and launcher now form the single meadow ownership path. rendering stacks — the project contains a lightweight scene/gltf library, the canonical app level progressive renderer, and focused render helpers. emergency fallback visuals were absorbed into the app renderer. terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. procedural world and village generation — village, road, house, primitive, text driven, and public api systems collaborate but are maintained in separate directories. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. combat domain, action bars, targeting, and hud — domain rules live under gameplay while browser widgets and target presentation live under ui and styles. colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. movie runtime, projects, tools, and evidence — runtime movie logic is separated from authored projects, exact generation tools, and captured evidence. diagnostics, logs, tools, and root audits — live diagnostics, captured logs, offline tools, and root audit reports describe different stages of observability. player, creature, horse, enemy, and experimental mesh systems — actor assets and world side populations span player hydration, creature generators, enemies, horses, and experimental animal meshes. streaming, lod, visibility, and performance policy — large world loading and frame budget concerns are separated into streaming, lod, visibility, and performance modules. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-directory-guide-md-c601eeb481.json"
+	}
+]

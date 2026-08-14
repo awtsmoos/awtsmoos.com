@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-generated-external-dependencies-md-e2c4466410",
+	"title": "Generated External Dependency Evidence",
+	"sourcePath": "docs/GENERATED/EXTERNAL_DEPENDENCIES.md",
+	"category": "General",
+	"provenance": "generated",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Generated External Dependency Evidence",
+			"anchor": "generated-external-dependency-evidence"
+		}
+	],
+	"markdownParts": [
+		"content/docs-generated-external-dependencies-md-e2c4466410-001.json"
+	]
+}

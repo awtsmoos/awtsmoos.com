@@ -1,0 +1,82 @@
+{
+	"schema": "awtsmoos-api-tutorial-v1",
+	"id": "api-tunnel-control-receipt-certificate-8274fa9ea3",
+	"route": "/api/tunnel/control/receipt/certificate",
+	"source": "geelooy/api/tunnel/control/routes/table.js",
+	"discoveryKind": "route-table",
+	"family": {
+		"mount": "/api/tunnel/control",
+		"title": "Tunnel Control",
+		"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md"
+	},
+	"derech": {
+		"source": "geelooy/api/tunnel/control/_awtsmoos.derech.js",
+		"status": "OK",
+		"issue": "—",
+		"mount": "/api/tunnel/control"
+	},
+	"dynamic": false,
+	"pathParameters": [],
+	"methods": [],
+	"methodEvidence": "unknown",
+	"vessels": [],
+	"statuses": [],
+	"headers": [],
+	"callers": [],
+	"callerCount": 0,
+	"tests": [
+		{
+			"name": "test:mission-continuity-actions",
+			"command": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs"
+		},
+		{
+			"name": "test:treasury",
+			"command": "node geelooy/api/tunnel/control/test/runTreasuryTests.cjs"
+		},
+		{
+			"name": "test:treasury:full",
+			"command": "node geelooy/api/tunnel/control/test/treasury/runAll.cjs"
+		},
+		{
+			"name": "test:tunnel-release",
+			"command": "node --test scripts/tunnel/testing/*.test.cjs scripts/repository-hygiene/testing/*.test.cjs"
+		}
+	],
+	"examples": [],
+	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-receipt-certificate-8274fa9ea3.md",
+	"confidence": "unknown-method",
+	"related": [
+		{
+			"id": "api-tunnel-control-admin-vault-0c79867071",
+			"route": "/api/tunnel/control/admin-vault"
+		},
+		{
+			"id": "api-tunnel-control-admin-perutas-5d22edeedf",
+			"route": "/api/tunnel/control/admin/perutas"
+		},
+		{
+			"id": "api-tunnel-control-agent-economy-55b9aaa475",
+			"route": "/api/tunnel/control/agent-economy"
+		},
+		{
+			"id": "api-tunnel-control-api-keys-db993bf8af",
+			"route": "/api/tunnel/control/api-keys"
+		},
+		{
+			"id": "api-tunnel-control-api-keys-create-91bd090e21",
+			"route": "/api/tunnel/control/api-keys/create"
+		},
+		{
+			"id": "api-tunnel-control-api-keys-revoke-4d16d58e2e",
+			"route": "/api/tunnel/control/api-keys/revoke"
+		},
+		{
+			"id": "api-tunnel-control-bank-0febb5b433",
+			"route": "/api/tunnel/control/bank"
+		},
+		{
+			"id": "api-tunnel-control-blob-blobid-205f6668ce",
+			"route": "/api/tunnel/control/blob/:blobId"
+		}
+	]
+}

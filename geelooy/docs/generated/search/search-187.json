@@ -1,0 +1,224 @@
+[
+	{
+		"id": "docs-generated-project-tutorials-projects-templates-9c6641c1-md-b048d9d340",
+		"title": "Project Tutorial: templates",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/templates-9c6641c1.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: templates",
+				"anchor": "project-tutorial-templates"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: templates Path: templates · Type: tooling · Family: Libraries and Tooling Read the human Libraries and Tooling guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health gua",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: templates path: templates · type: tooling · family: libraries and tooling read the human libraries and tooling guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: templates/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 13 1 0 0 1 0 15 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 1 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-templates-9c6641c1-md-b048d9d340.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-tests-59830ebc-md-cc4ad2563e",
+		"title": "Project Tutorial: tests",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/tests-59830ebc.md",
+		"category": "Testing",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: tests",
+				"anchor": "project-tutorial-tests"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: tests Path: tests · Type: test · Family: Libraries and Tooling Read the human Libraries and Tooling guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. En",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: tests path: tests · type: test · family: libraries and tooling read the human libraries and tooling guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: tests/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 0 92 0 0 1 0 93 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 92 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-tests-59830ebc-md-cc4ad2563e.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-tools-f9d35d43-md-67265bc906",
+		"title": "Project Tutorial: tools",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/tools-f9d35d43.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: tools",
+				"anchor": "project-tutorial-tools"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: tools Path: tools · Type: tooling · Family: Libraries and Tooling Read the human Libraries and Tooling guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees.",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: tools path: tools · type: tooling · family: libraries and tooling read the human libraries and tooling guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: tools/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 113 29 0 0 3 56 201 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 29 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-tools-f9d35d43-md-67265bc906.json"
+	},
+	{
+		"id": "docs-generated-project-type-summary-md-dbfa69a736",
+		"title": "Project Type Summary",
+		"sourcePath": "docs/GENERATED/PROJECT_TYPE_SUMMARY.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Type Summary",
+				"anchor": "project-type-summary"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Type Summary Type Projects Files Tests Public entries api 20 1758 261 0 app 33 9199 1535 39 data 1 1008 160 0 evidence 3 8195 85 0 game 31 8133 1370 33 infrastructure 5 23 0 0 library 4 4700 289 9 operations 1 5 0 0 project 20 2917 405 15 public 37 22622 3132 43 public root 1 307",
+		"searchText": "b\"h boruch hashem blessed is he project type summary type projects files tests public entries api 20 1758 261 0 app 33 9199 1535 39 data 1 1008 160 0 evidence 3 8195 85 0 game 31 8133 1370 33 infrastructure 5 23 0 0 library 4 4700 289 9 operations 1 5 0 0 project 20 2917 405 15 public 37 22622 3132 43 public root 1 30755 3928 1 runtime 1 765 158 0 runtime root 1 1799 318 0 test 2 191 188 0 tooling 3 569 44 0",
+		"page": "pages/docs-generated-project-type-summary-md-dbfa69a736.json"
+	},
+	{
+		"id": "docs-generated-public-entry-points-md-4fb7406c5e",
+		"title": "Generated Public Entry Point Atlas",
+		"sourcePath": "docs/GENERATED/PUBLIC_ENTRY_POINTS.md",
+		"category": "General",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated Public Entry Point Atlas",
+				"anchor": "generated-public-entry-point-atlas"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Public Entry Point Atlas Every discovered index.html beneath the Geelooy public root, with title and linked script/style evidence. 140 rows. Chunk Rows Count public entry points 001.md 1–45 45 public entry points 002.md 46–90 45 public entry points 003.md 91–135 45 public entry",
+		"searchText": "b\"h boruch hashem blessed is he generated public entry point atlas every discovered index.html beneath the geelooy public root, with title and linked script/style evidence. 140 rows. chunk rows count public entry points 001.md 1–45 45 public entry points 002.md 46–90 45 public entry points 003.md 91–135 45 public entry points 004.md 136–140 5",
+		"page": "pages/docs-generated-public-entry-points-md-4fb7406c5e.json"
+	},
+	{
+		"id": "docs-generated-public-entry-points-public-entry-points-001-md-fdee908a1f",
+		"title": "Generated Public Entry Point Atlas 1–45",
+		"sourcePath": "docs/GENERATED/PUBLIC_ENTRY_POINTS/public-entry-points-001.md",
+		"category": "General",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated Public Entry Point Atlas 1–45",
+				"anchor": "generated-public-entry-point-atlas-1-45"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Public Entry Point Atlas 1–45 Every discovered index.html beneath the Geelooy public root, with title and linked script/style evidence. URL Entry file Title Scripts Script sample Styles Style sample / geelooy/index.html Awtsmoos — Play, Create, Learn & Build 1 /scripts/home sim",
+		"searchText": "b\"h boruch hashem blessed is he generated public entry point atlas 1–45 every discovered index.html beneath the geelooy public root, with title and linked script/style evidence. url entry file title scripts script sample styles style sample / geelooy/index.html awtsmoos — play, create, learn & build 1 /scripts/home simple/index.js?v=26 4 /favicon.svg; /api/social/aliases/abarbanel/filesystem/readfile?path=awtsmoosimages%2fhomepage%2fawtsmoos home hero.jpg; /style/home simple/base.css?v=25; /style/home simple/components.css?v=27 /about geelooy/about/index.html about — geelooy 1 /scripts/awtsmoos/social/shell/boot.js?v=extreme 005 2 /style/geelooy app/index.css?v=extreme 005; /style/geelooy app/shell/hybrid navigation.css?v=extreme 005 /ai geelooy/ai/index.html awtsmoos ai 1 index.js?v=ui total polish 2026 06 30 ai chat local revelation 01 1 styles.css?v=ui total polish 2026 06 30 ai chat local revelation 01 /ai/animation geelooy/ai/animation/index.html expressive stick figure animator 0 — 1 ../css/legacy pages.css /apps geelooy/apps/index.html awtsmoos apps — create, compute & build 2 ./scripts/apps filter.js?v=apps portfolio 004; /scripts/awtsmoos/social/shell/boot.js?v=extreme 005 3 /style/geelooy app/index.css?v=extreme 005; /style/geelooy app/shell/hybrid navigation.css?v=extreme 005; ./style.css?v=apps portfolio 004 /apps/animator geelooy/apps/animator/index.html awtsmoos park engine — b\"h 2 ./src/main.js; ./src/rectification/bootrectifier.js 2 data:;base64,ivborw0kggo=; ./src/index.css /apps/archive uploader geelooy/apps/archive uploader/index.html ia//hyper uploader 1 app.js 1 styles.css /apps/audio editor geelooy/apps/audio editor/index.html pro audio editor 2 main.js; /register.js 2 style.css; https://fonts.googleapis.com/icon?family=material+icons /apps/awtsmoos gguf geelooy/apps/awtsmoos gguf/index.html gguf chat & metadata b\"h 1 ./index.js 6 ./css/theme.css; ./css/base.css; ./css/layout.css; ./css/components.css /apps/bookcovermaker geelooy/apps/bookcovermaker/index.html book cover generator 0 — 0 — /apps/broadcaster geelooy/apps/broadcaster/index.html — 0 — 0 — /apps/byteviewer geelooy/apps/byteviewer/index.html hex viewer of the awtsmoos 1 script.js 1 styles.css /apps/captions geelooy/apps/captions/index.html ein sof engine [quantum core v2.5] 0 — 0 — /apps/captions/video geelooy/apps/captions/video/index.html ein sof caption studio — geelooy 1 main.js?v=caption studio 007 8 style.css?v=caption studio 007; /style/civilization/core tokens.css?v=caption studio 007; /style/civilization/core base.css?v=caption studio 007; /style/civilization/core components.css?v=caption studio 007 /apps/code geelooy/apps/code/index.html awtsmoos code 2 js/main.js?compact=true; /register.js 4 https://fonts.googleapis.com; https://fonts.gstatic.com; https://fonts.googleapis.com/css2?family=fira+code:wght@400;600&family=inter:wght@400;600;700&display=swap; css/app.css /apps/compiler geelooy/apps/compiler/index.html awtsmoos compiler 1 script.js 5 style.css; native.css; evidence.css; responsive.css /apps/csv geelooy/apps/csv/index.html awtsmoos native grid 1 js/app.js 1 css/style.css /apps/drive geelooy/apps/drive/index.html awtsmoos drive 1 ./js/app.js 6 ./styles/tokens.css; ./styles/base.css; ./styles/layout.css; ./styles/components.css /apps/editor geelooy/apps/editor/index.html mitzvah world animator 1 src/app.js 1 style.css /apps/editor/old geelooy/apps/editor/old/index.html mitzvah world editor 1 script.js 0 — /apps/exe emulator geelooy/apps/exe emulator/index.html awtsmoos exe emulator 1 script.js 1 style.css /apps/exe emulator/examples/blender webgl fixture geelooy/apps/exe emulator/examples/blender webgl fixture/index.html awtsmoos blender studio 1 ./js/main.js 1 ./styles/app.css /apps/gpt api pulse garden geelooy/apps/gpt api pulse garden/index.html awtsmoos pulse garden 0 — 0 — /apps/lyric sync geelooy/apps/lyric sync/index.html lyric sync engine 2 script.js; /register.js 3 https://fonts.googleapis.com/css2?family=heebo:wght@400;700&family=teko:wght@700&display=swap; style.css; https://cdnjs.cloudflare.com/ajax/libs/font awesome/6.4.2/css/all.min.css /apps/merkava native browser/tmp chrome webgl geelooy/apps/merkava native browser/tmp chrome webgl/index.html — 0 — 0 — /apps/mitzvah pushkuh geelooy/apps/mitzvah pushkuh/index.html mitzvah pushkuh · garden of sparks 1 src/app.js 2 data:image/svg+xml,%3csvg xmlns=; style.css /apps/nesher studio geelooy/apps/nesher studio/index.html 🦅 nesher studio 1 ./main.js?v=nesher gpu river 1 ./style.css /apps/pdf to img geelooy/apps/pdf to img/index.html high res pdf to image converter 1 https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js 1 https://cdnjs.cloudflare.com/ajax/libs/font awesome/6.4.0/css/all.min.css /apps/piano geelooy/apps/piano/index.html awtsmoos web synthesizer ultimate 2 sheetrender.js; main.js 1 style.css /apps/rebbe geelooy/apps/rebbe/index.html awtsmoos archive // omega 1 main.js 4 styles/core.css; styles/main.css; styles/ui.css; styles/studio.css /apps/transcribe geelooy/apps/transcribe/index.html assemblyai transcription 0 — 0 — /apps/tunnel geelooy/apps/tunnel/index.html awtsmoos tunnel console 1 ./js/main.js 1 ./css/tunnel.css /apps/tunnel control geelooy/apps/tunnel control/index.html awtsmoos tunnel control 1 ./js/app.js 1 ./css/app.css /apps/tunnel control/tests/activity preview geelooy/apps/tunnel control/tests/activity preview/index.html tunnel activity visual proof 1 ./fixture.js 1 ../../css/app.css /apps/tunnel control/tests/device security preview geelooy/apps/tunnel control/tests/device security preview/index.html verified device security preview 1 ./fixture.js 1 ../../css/app.css /apps/tunnel/agent/tools/fs/testing/.tmp all actions source stress geelooy/apps/tunnel/agent/tools/fs/testing/.tmp all actions source stress/index.html — 0 — 0 — /apps/tunnel/agent/tools/fs/testing/.tmp connected bulk runtime actors geelooy/apps/tunnel/agent/tools/fs/testing/.tmp connected bulk runtime actors/index.html — 1 ./src/app.js 1 style.css /apps/tunnel/agent/tools/fs/testing/.tmp connected files pagination stress geelooy/apps/tunnel/agent/tools/fs/testing/.tmp connected files pagination stress/index.html — 1 ./src/app.js?v=abc 1 ./style.css?x=1 /apps/tunnel/agent/tools/fs/testing/.tmp connected pagination geelooy/apps/tunnel/agent/tools/fs/testing/.tmp connected pagination/index.html — 1 ./src/app.js 1 style.css /apps/tunnel/agent/tools/fs/testing/.tmp runtime actions real geelooy/apps/tunnel/agent/tools/fs/testing/.tmp runtime actions real/index.html — 1 ./app.js 0 — /apps/video editor geelooy/apps/video editor/index.html awtsmoos video editor chapter 7 revised 0 — 0 — /apps/virtual os stress light counter geelooy/apps/virtual os stress light counter/index.html light counter 0 — 0 — /apps/wallet geelooy/apps/wallet/index.html awtsmoos wallet — perutah treasury 1 ./main.js?v=wallet buckets 003 1 ./style.css?v=wallet buckets 003 /apps/watermark remover geelooy/apps/watermark remover/index.html svg mask alpha brute force 1 https://cdn.jsdelivr.net/npm/canvg/dist/browser/canvg.min.js 0 — /awtai db geelooy/awtai db/index.html awtai db gguf converter 2 ../scripts/awtai db/awtai db.js; ./app.js 1 ./style.css",
+		"page": "pages/docs-generated-public-entry-points-public-entry-points-001-md-fdee908a1f.json"
+	}
+]

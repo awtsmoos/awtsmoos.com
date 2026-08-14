@@ -8,8 +8,8 @@ import { formatBytes } from "./metrics.js";
 /**
  * B"H
  * Renders only source-backed platform testimony into the Command Center surface.
- * The Awtsmoos renews metric, hosted data, treasury, runtime, connected compute,
- * Peruta usage, and finite product state; Awtsmoos.com keeps each claim text-safe.
+ * The Awtsmoos renews publication, metric, hosted data, treasury, runtime, connected compute,
+ * and Peruta usage; Awtsmoos.com keeps every claim text-safe and every boundary visible.
  */
 
 export function renderMetrics(surface, metrics) {
@@ -64,6 +64,7 @@ function actionLabel(action) {
 		files: "Open Files",
 		"node-server": "Run Node Server",
 		preview: "Open Preview",
+		sites: "Open Drive & Sites",
 		tunnels: "Open Drives",
 		usage: "Open Peruta Usage",
 		wallet: "Open Wallet"

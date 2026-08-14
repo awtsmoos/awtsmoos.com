@@ -1,0 +1,143 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets private consent, unread sequence truth, relationships, and accepted rooms become thumb-readable without collapsing into the full thread application.
+*/
+.hubMessagesPanel,
+.hubMessagesRegion {
+	display: grid;
+	gap: .85rem;
+}
+
+.hubMessagesHeading {
+	display: grid;
+	gap: .35rem;
+}
+
+.hubMessagesHeading :is(h2, p),
+.hubMessagesRegion h3,
+.hubMessagesStatus {
+	margin: 0;
+}
+
+.hubMessagesHeading p,
+.hubMessagesStatus,
+.hubMessageCard small,
+.hubRequestCard small {
+	color: var(--muted);
+}
+
+#hubMessagesSummary {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.hubMessagesMetric {
+	display: grid;
+	gap: .1rem;
+	padding: .75rem;
+	border: 1px solid var(--line-hot);
+	border-radius: .85rem;
+	background: var(--surface-strong);
+}
+
+.hubMessagesMetric strong {
+	font-size: 1.3rem;
+}
+
+.hubPrivateRequestComposer {
+	display: grid;
+	grid-template-columns: minmax(8rem, 1fr) minmax(6rem, .45fr) auto;
+	gap: .55rem;
+}
+
+.hubPrivateRequestComposer :is(input, select, button) {
+	min-height: 2.9rem;
+	font: inherit;
+}
+
+.hubPrivateRequestComposer button,
+.hubRequestActions button {
+	border: 1px solid var(--line-hot);
+	border-radius: .75rem;
+	background: var(--surface-strong);
+	color: var(--ink);
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.hubMessageCard,
+.hubRequestCard {
+	display: grid;
+	gap: .55rem;
+	padding: .8rem;
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	background: var(--surface-strong);
+}
+
+.hubMessageOpen {
+	display: grid;
+	gap: .28rem;
+	width: 100%;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	color: var(--ink);
+	font: inherit;
+	text-align: left;
+	cursor: pointer;
+}
+
+.hubMessageOpen span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.hubRequestActions {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: .5rem;
+}
+
+.hubRequestActions button {
+	min-height: 2.75rem;
+}
+
+#hubMessagesRelationships {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+#hubMessagesRelationships h3 {
+	flex-basis: 100%;
+}
+
+.hubRelationshipChip {
+	padding: .35rem .6rem;
+	border: 1px solid var(--line-hot);
+	border-radius: 999px;
+	font-size: .8rem;
+}
+
+.hubRelationshipChip.is-blocked {
+	opacity: .68;
+}
+
+@media (max-width: 42rem) {
+	.hubMessagesPanel {
+		gap: .7rem;
+	}
+
+	#hubMessagesSummary,
+	.hubPrivateRequestComposer {
+		grid-template-columns: 1fr;
+	}
+
+	.hubPrivateRequestComposer button,
+	.hubMessageOpen,
+	.hubRequestActions button {
+		min-height: 3rem;
+	}
+}

@@ -3,8 +3,10 @@
 // Blessed is He
 
 /**
+ * @module DriveState
+ * @description
  * The Awtsmoos holds transient browser state without becoming a secret store;
- * Awtsmoos.com forgets credentials on refresh and renews each path once more.
+ * Awtsmoos.com remembers project testimony for one page lifetime while credentials vanish on refresh.
  */
 
 export const driveState = {
@@ -17,6 +19,7 @@ export const driveState = {
 	page: 1,
 	cursorHistory: [null],
 	site: null,
+	sites: [],
 	upload: {
 		visibility: 'private',
 		cachePolicy: 'mutable'
@@ -52,6 +55,10 @@ export function setEntries(result) {
 
 export function setSite(site) {
 	driveState.site = site || null;
+}
+
+export function setSites(result) {
+	driveState.sites = Array.from(result?.sites || result || []);
 }
 
 export function setUploadOptions(values) {

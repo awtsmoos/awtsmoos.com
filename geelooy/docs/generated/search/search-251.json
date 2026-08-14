@@ -1,0 +1,146 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-diagnostics-director-657c826f18",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/diagnostics/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/diagnostics",
+				"anchor": "directory-guide-experiments-awtsmoos-src-diagnostics"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/diagnostics Role: Runtime subsystem Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 9 files, 1 structural child directories Purpose Runtime observability, boot evidence, health receipts, and diagnostics seri",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/diagnostics role: runtime subsystem snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 9 files, 1 structural child directories purpose runtime observability, boot evidence, health receipts, and diagnostics serialization. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: runtime subsystem search terms: material, village, diagnostic, readability, cache, com, diagnostics, hydration, image, life, settled, binding file mix: .js: 8 good first question: “does the behavior or asset i need belong to runtime subsystem, or is this only a neighboring/test/reference layer?” semantic evidence b\"h proves the exact shared image cache used by world meshes without booting the full game. each green card means a real browser image is complete, dimensioned, and cache bound. installs the small visual shell for the shared cache material diagnostic. distinguishes blocking physical texture work from optional post load transforms. the awtsmoos clothes every finite surface before judgment; awtsmoos.com waits for requests and binding, yet does not mistake optional alpha preparation for an unresolved cottage garment. representative files materialdiagnosticmode.js — proves the exact shared image cache used by world meshes without booting the full game. each green card means a real browser image is complete, dimensioned, and cache bound. exports: launchmaterialdiagnostic. materialdiagnosticstyle.js — installs the small visual shell for the shared cache material diagnostic. exports: installmaterialdiagnosticstyle. villagehydrationsettled.js — distinguishes blocking physical texture work from optional post load transforms. the awtsmoos clothes every finite surface before judgment; awtsmoos.com waits for requests and binding, yet does not mistake optional alpha preparation for an unresolved cottage garment. exports: hydrationsettled, blockingbindingpending. villageliferuntimelogger.js — publishes bounded settled residency, readability, gpu, batching, and frame evidence. the awtsmoos renews village life beyond appearance; awtsmoos.com names real failures after hydration settles instead of alarming over white placeholder vessels during lawful loading. exports: villageliferuntimelogger. villagelightingdiagnostics.js — measures live golden hour uniforms against a stronger material readable floor. the awtsmoos reveals warm form without burying stone in night; awtsmoos.com rejects an environment that is technically nonblack yet too dim to reveal original resolution surfaces. exports: inspectvillagelighting. villagematerialdiagnostichelpers.js — names and classifies live village material evidence without false alarms. the awtsmoos distinguishes stone from shadow and parchment from plaster; awtsmoos.com audits physical garments while exempting intentional masks, text, cards, and procedural light. exports: materialidentity, materialclassification, usablematerialimage, nearwhitematerial, unresolvedmaterialrecord. villagematerialdiagnostics.js — audits live texture residency and lighting weighted physical readability. the awtsmoos clothes every finite village vessel; awtsmoos.com records hydrated stone, timber, slate, plaster, and terrain while proving that real textures are not hidden beneath dark tints. exports: inspectvillagematerials. villagematerialreadability.js — converts live material tint and light into named family readability evidence. the awtsmoos reveals stone, timber, roof, road, water, and meadow through distinct darkness; awtsmoos.com preserves rich shadow while naming the exact vessels that fall below legibility. exports: createreadabilityledger, recordmaterialreadability, summarizematerialreadability, readabilityfamily. exported symbols worth searching launchmaterialdiagnostic · installmaterialdiagnosticstyle · hydrationsettled · blockingbindingpending · villageliferuntimelogger · inspectvillagelighting · materialidentity · materialclassification · usablematerialimage · nearwhitematerial · unresolvedmaterialrecord · emptymaterialsummary · emptymaterialfamily · inspectvillagematerials · createreadabilityledger · recordmaterialreadability import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../assets/runtimematerialmanifest.js ../assets/publicmaterialcache.js ./materialdiagnosticstyle.js ./villagehydrationsettled.js ./villagelightingdiagnostics.js ./villagematerialdiagnostics.js ./villagematerialdiagnostichelpers.js ./villagematerialreadability.js directory map parent: experiments/awtsmoos/src children: experiments/awtsmoos/src/diagnostics/logs related and overlapping systems diagnostics, logs, tools, and root audits — live diagnostics, captured logs, offline tools, and root audit reports describe different stages of observability. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-diagnostics-director-657c826f18.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-diagnostics-logs-dir-ca0f4bd461",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/diagnostics/logs/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/diagnostics/logs",
+				"anchor": "directory-guide-experiments-awtsmoos-src-diagnostics-logs"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/diagnostics/logs Role: Runtime subsystem Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 18 files, 0 structural child directories Purpose Captured diagnostic logs and runtime evidence. These are historical o",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/diagnostics/logs role: runtime subsystem snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 18 files, 0 structural child directories purpose captured diagnostic logs and runtime evidence. these are historical observations, not active logic. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: runtime subsystem search terms: diagnostics, diagnostic, record, canonical, road, com, ground, severity, terrain, arrival, build, clearance file mix: .js: 17 good first question: “does the behavior or asset i need belong to runtime subsystem, or is this only a neighboring/test/reference layer?” semantic evidence proves every entr01 road vertex conforms to canonical terrain plus its lift. the awtsmoos joins both banks in one measured invitation; awtsmoos.com rejects buried or floating arrival stones through exact textual offsets rather than subjective screenshots. measures bridge01 deck clearance above canonical river elevation. the awtsmoos keeps passage and water distinct without severing either; awtsmoos.com proves the stone deck remains traversable above the modeled source to outlet hydrology profile. audits identifiers, footprints, roads, water, cameras, and biomes as one contract. the awtsmoos is one through all directions; awtsmoos.com exposes any duplicate dwelling, missing threshold, detached road, broken river sequence, or absent camera in explicit logs. exposes the production canonical terrain authority to text only diagnostics. the awtsmoos gives visible ground and measured ground one source; awtsmoos.com prevents tests from passing on a synthetic slope while the real alpine valley obeys another field. representative files arrivalsurfacediagnostics.js — proves every entr01 road vertex conforms to canonical terrain plus its lift. the awtsmoos joins both banks in one measured invitation; awtsmoos.com rejects buried or floating arrival stones through exact textual offsets rather than subjective screenshots. exports: recordarrivalsurfacediagnostics. bridgeclearancediagnostics.js — measures bridge01 deck clearance above canonical river elevation. the awtsmoos keeps passage and water distinct without severing either; awtsmoos.com proves the stone deck remains traversable above the modeled source to outlet hydrology profile. exports: recordbridgeclearancediagnostics. canonicalcontractdiagnostics.js — audits identifiers, footprints, roads, water, cameras, and biomes as one contract. the awtsmoos is one through all directions; awtsmoos.com exposes any duplicate dwelling, missing threshold, detached road, broken river sequence, or absent camera in explicit logs. exports: recordcanonicalcontractdiagnostics. canonicalgroundsampler.js — exposes the production canonical terrain authority to text only diagnostics. the awtsmoos gives visible ground and measured ground one source; awtsmoos.com prevents tests from passing on a synthetic slope while the real alpine valley obeys another field. exports: createcanonicalgroundsampler. canonicalidentitydiagnostics.js — proves every canonical village identity occurs exactly once in a world build. the awtsmoos is singular while creation carries many names; awtsmoos.com guards each landmark, threshold, home, and farm from both disappearance and accidental duplication. exports: recordcanonicalidentitydiagnostics. diagnosticevent.js — creates deterministic immutable diagnostic events without wall clock noise. the awtsmoos renews each instant beyond sequence; awtsmoos.com numbers finite observations so two world builds can be compared by meaning rather than by accidental timestamps. exports: creatediagnosticevent. diagnosticledger.js — collects ordered events and computes severity totals for logs only acceptance. the awtsmoos contains no ledger, yet awtsmoos.com records every finite promise and fracture so the village can be repaired from explicit evidence instead of impression or hidden state. exports: creatediagnosticledger. diagnosticseverity.js — defines the ordered language used by every logs only diagnostic stream. the awtsmoos is not increased by praise or diminished by alarm; awtsmoos.com nevertheless gives each finite signal a measured vessel so builders can distinguish insight from breakage. exports: diagnostic severity, diagnosticseverityrank, isdiagnosticfailure, normalizediagnosticseverity. diagnostictextformatter.js — formats the same ledger as readable text or machine comparable json lines. the awtsmoos exceeds every alphabet; awtsmoos.com turns one verified stream into two useful garments, one for human repair and one for deterministic tooling without visual inspection. exports: diagnosticeventstojsonlines, diagnosticeventstotext. foundationdiagnostics.js — proves every non specialized canonical structure has one valid retaining foundation. the awtsmoos supports each finite vessel without confusing it with the road beneath; awtsmoos.com records exact identity, clearance, embed depth, and finite geometry at every tier. exports: recordfoundationdiagnostics. qualitytierdiagnostics.js — verifies quality tiers grow detail monotonically while preserving identity. the awtsmoos is not measured by abundance; awtsmoos.com nevertheless ensures that each larger finite budget adds detail rather than unpredictably deleting architecture or warmth. exports: recordqualitytierdiagnostics. roadgradediagnostics.js — measures the actual dense visible road surface rather than terrain hidden below it. the awtsmoos distinguishes riverbank from the supported cobble vessel above; awtsmoos.com certifies the walkable collision surface itself while steep terrain remains honest underneath. exports: recordroadgradediagnostics. roadhydrologydiagnostics.js — measures real route connectivity and the source to outlet water profile. the awtsmoos joins road, bridge, river, cascade, and bank without confusion; awtsmoos.com reconstructs those finite connections from coordinates so a boolean claim cannot conceal a gap. exports: recordroadhydrologydiagnostics. exported symbols worth searching recordarrivalsurfacediagnostics · recordbridgeclearancediagnostics · recordcanonicalcontractdiagnostics · createcanonicalgroundsampler · recordcanonicalidentitydiagnostics · creatediagnosticevent · creatediagnosticledger · diagnostic severity · diagnosticseverityrank · isdiagnosticfailure · normalizediagnosticseverity · diagnosticeventstojsonlines · diagnosticeventstotext · recordfoundationdiagnostics · recordqualitytierdiagnostics · recordroadgradediagnostics import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../../world/canonicalterrainheight.js ../../world/canonicalterrainhydrology.js ../../world/village/canonicalvillageplan.js ../../world/village/canonicalvillageidentifiers.js ./diagnosticseverity.js ./diagnosticevent.js ../../world/canonicalroadsurfacenetwork.js ../../world/terraingeometry.js ./canonicalcontractdiagnostics.js ./canonicalgroundsampler.js ./diagnosticledger.js ./qualitytierdiagnostics.js directory map parent: experiments/awtsmoos/src/diagnostics children: none. related and overlapping systems diagnostics, logs, tools, and root audits — live diagnostics, captured logs, offline tools, and root audit reports describe different stages of observability. boundaries and cautions these files record observations or outputs; they do not own the behavior they describe. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-diagnostics-logs-dir-ca0f4bd461.json"
+	}
+]

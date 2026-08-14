@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-bad65f6298",
+	"title": "B\"H",
+	"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/09_THIRD_PASS_DEPLOYMENT_GATE.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Third Pass: Deployment and Living-Entry Gate",
+			"anchor": "third-pass-deployment-and-living-entry-gate"
+		},
+		{
+			"level": 2,
+			"text": "New Evidence",
+			"anchor": "new-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Third-Pass Plan",
+			"anchor": "third-pass-plan"
+		},
+		{
+			"level": 2,
+			"text": "Guardrails",
+			"anchor": "guardrails"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-bad65f6298-001.json"
+	]
+}

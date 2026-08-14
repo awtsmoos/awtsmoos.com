@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-social-composer-readme-md-368ce6a040",
+	"title": "B\"H",
+	"sourcePath": "geelooy/social-composer/README.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Boruch Hashem",
+			"anchor": "boruch-hashem"
+		},
+		{
+			"level": 1,
+			"text": "Blessed is He",
+			"anchor": "blessed-is-he"
+		},
+		{
+			"level": 1,
+			"text": "Geelooy Unified Social Composer",
+			"anchor": "geelooy-unified-social-composer"
+		},
+		{
+			"level": 2,
+			"text": "Entry points",
+			"anchor": "entry-points"
+		},
+		{
+			"level": 2,
+			"text": "Identity",
+			"anchor": "identity"
+		},
+		{
+			"level": 2,
+			"text": "Destinations",
+			"anchor": "destinations"
+		},
+		{
+			"level": 2,
+			"text": "Content",
+			"anchor": "content"
+		},
+		{
+			"level": 2,
+			"text": "Publication law",
+			"anchor": "publication-law"
+		},
+		{
+			"level": 2,
+			"text": "Diagnostics",
+			"anchor": "diagnostics"
+		},
+		{
+			"level": 2,
+			"text": "Tests",
+			"anchor": "tests"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-social-composer-readme-md-368ce6a040-001.json"
+	]
+}

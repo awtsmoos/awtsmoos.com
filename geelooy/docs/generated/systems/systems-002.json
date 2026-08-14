@@ -1,0 +1,395 @@
+[
+	{
+		"systemId": "dosdb-filesystem",
+		"district": "data",
+		"title": "DosDB Filesystem Storage",
+		"summary": "The legacy filesystem-oriented database layer and its compatibility surface.",
+		"manuals": [
+			"docs/DATA/DOSDB.md",
+			"docs/DATA/README.md"
+		],
+		"projects": [
+			{
+				"projectId": "ayzarim-dosdb-eaaa802e",
+				"path": "ayzarim/DosDB",
+				"type": "data",
+				"title": "ayzarim/DosDB",
+				"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-dosdb-eaaa802e.md"
+			}
+		],
+		"sources": [
+			"ayzarim/DosDB/index.js"
+		],
+		"generatedEvidence": [
+			"docs/GENERATED/PROJECT_TUTORIAL_INDEX.md"
+		],
+		"tags": [
+			"persistence",
+			"filesystem",
+			"compatibility"
+		],
+		"claimsBoundary": "Project and source presence establish implementation location, not the complete physical format of every persisted record.",
+		"changeRisk": "Filesystem layout and compatibility behavior can be migration-sensitive.",
+		"environmentEvidence": [
+			{
+				"name": "AWTSMOOS_EMBED_MODE",
+				"classification": "runtime-config",
+				"sources": 1,
+				"exampleSources": "ayzarim/DosDB/aiSearch/textEmbedRunner.js"
+			},
+			{
+				"name": "AWTSMOOS_EMBED_MODEL_ROOT",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/ai_search_model_root_precedence_test.js"
+			},
+			{
+				"name": "AWTSMOOSDB_FAST_TEST",
+				"classification": "test/tuning",
+				"sources": 3,
+				"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/idle/fastGate.js; ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js; ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/semantic_ai_dosdb_test.js"
+			},
+			{
+				"name": "AWTSMOOSDB_TEST_SCALE",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js"
+			},
+			{
+				"name": "NODE_ENV",
+				"classification": "runtime-config",
+				"sources": 3,
+				"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js; geelooy/api/wallet/core/paypalEnvironment.js; geelooy/api/wallet/tests/paypalEnvironment.test.js"
+			}
+		],
+		"realtimeApplications": [],
+		"eventEvidence": [],
+		"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/dosdb-filesystem.md",
+		"provenance": "curated-system-semantics-plus-generated-local-source-evidence"
+	},
+	{
+		"systemId": "mission-room-admission",
+		"district": "realtime",
+		"title": "Mission Room Admission",
+		"summary": "Ticket issuance, account-scoped authority, origin/protocol validation, initial snapshot proof, and upgrade policy.",
+		"manuals": [
+			"docs/WEBSOCKETS/MISSION_ROOMS.md",
+			"docs/SECURITY/REALTIME_SECURITY.md"
+		],
+		"projects": [
+			{
+				"projectId": "geelooy-api-tunnel-df787c17",
+				"path": "geelooy/api/tunnel",
+				"type": "api",
+				"title": "geelooy/api/tunnel",
+				"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-tunnel-df787c17.md"
+			},
+			{
+				"projectId": "ayzarim-awtsmoosdynamicserver-e406758e",
+				"path": "ayzarim/awtsmoosDynamicServer",
+				"type": "runtime",
+				"title": "ayzarim/awtsmoosDynamicServer",
+				"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-awtsmoosdynamicserver-e406758e.md"
+			}
+		],
+		"sources": [
+			"geelooy/api/tunnel/control/missionRooms/ticketIssuer.js",
+			"geelooy/api/tunnel/control/missionRooms/missionAccess.js",
+			"ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/upgradePolicy.js"
+		],
+		"generatedEvidence": [
+			"docs/GENERATED/WEBSOCKET_EVENT_INDEX.md"
+		],
+		"tags": [
+			"websocket",
+			"mission-room",
+			"ticket",
+			"origin",
+			"authorization",
+			"protocol"
+		],
+		"claimsBoundary": "Generated event strings remain lexical evidence; room admission meaning comes from inspected policy/ticket source and human manuals.",
+		"changeRisk": "Ticket binding, origin, protocol version, snapshot proof, or permission changes are security/protocol sensitive.",
+		"environmentEvidence": [
+			{
+				"name": "AWTS_ENTRY_LIMIT",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/tests/compactJs.entrySweep.test.js"
+			},
+			{
+				"name": "AWTS_ENTRY_MATCH",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/tests/compactJs.entrySweep.test.js"
+			},
+			{
+				"name": "AWTS_ENTRY_OFFSET",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/tests/compactJs.entrySweep.test.js"
+			},
+			{
+				"name": "AWTS_ENTRY_ROOTS",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/tests/compactJs.entrySweep.test.js"
+			},
+			{
+				"name": "AWTSMOOS_BINDING_HISTORY_PER_IDENTITY",
+				"classification": "runtime-config",
+				"sources": 1,
+				"exampleSources": "geelooy/api/tunnel/control/core/tunnelSecurity/bindingRetentionPolicy.js"
+			},
+			{
+				"name": "AWTSMOOS_BINDING_RETENTION_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "geelooy/api/tunnel/control/core/tunnelSecurity/bindingRetentionPolicy.js"
+			},
+			{
+				"name": "AWTSMOOS_NATIVE_RECOVERING_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "geelooy/api/tunnel/control/routes/fsVessel/liveDeviceIdentity.js"
+			},
+			{
+				"name": "AWTSMOOS_REGISTRATION_STRESS_COUNT",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/test/registrationReplacementStress.test.cjs"
+			},
+			{
+				"name": "AWTSMOOS_RELAY_STRESS_COUNT",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay.concurrent-correlation.test.cjs"
+			},
+			{
+				"name": "AWTSMOOS_SEFIRA_PROFILE_PATH",
+				"classification": "path/storage",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionProfileRepository.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_COMPLETED_LIMIT",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_CONSUMER_PROGRESS_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestAckHandler.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_CONTROL_STORE",
+				"classification": "path/storage",
+				"sources": 9,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomSocketIntegration.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgrade.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/upgradePolicy.test.cjs"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_PENDING_TTL_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_QUARANTINE_LIMIT",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_RELAY_MAX_SAFE_WAIT_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_RELAY_SAFE_WAIT_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_RELAY_STATE_ROOT",
+				"classification": "path/storage",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/durablePaths.js"
+			},
+			{
+				"name": "AWTSMOOS_TUNNEL_REQUEST_ACCEPTANCE_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestDispatch.js"
+			},
+			{
+				"name": "AWTSMOOS_WS_MAX_MISSED_HEARTBEATS",
+				"classification": "runtime-config",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/core/clientLiveness.js"
+			},
+			{
+				"name": "AWTSMOOS_WS_PROBE_GRACE_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/core/clientLiveness.js"
+			},
+			{
+				"name": "AWTSMOOS_WS_STALE_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/core/clientLiveness.js"
+			},
+			{
+				"name": "MW_LOAD_CLIENTS",
+				"classification": "runtime-config",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/sessionLoadProbe.cjs"
+			}
+		],
+		"realtimeApplications": [],
+		"eventEvidence": [],
+		"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/mission-room-admission.md",
+		"provenance": "curated-system-semantics-plus-generated-local-source-evidence"
+	},
+	{
+		"systemId": "oauth-bearer-identity",
+		"district": "security",
+		"title": "OAuth Bearer Identity",
+		"summary": "OAuth route/token surface and server-side use of verified bearer records as authoritative identity.",
+		"manuals": [
+			"docs/SECURITY/TRUST_BOUNDARIES.md",
+			"docs/TUTORIALS/API/OAUTH.md"
+		],
+		"projects": [
+			{
+				"projectId": "geelooy-api-oauth-98ffda8e",
+				"path": "geelooy/api/oauth",
+				"type": "api",
+				"title": "geelooy/api/oauth",
+				"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-oauth-98ffda8e.md"
+			},
+			{
+				"projectId": "geelooy-api-tunnel-df787c17",
+				"path": "geelooy/api/tunnel",
+				"type": "api",
+				"title": "geelooy/api/tunnel",
+				"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-tunnel-df787c17.md"
+			}
+		],
+		"sources": [
+			"geelooy/api/oauth/_awtsmoos.derech.js",
+			"geelooy/api/tunnel/control/core/auth.js"
+		],
+		"generatedEvidence": [
+			"docs/GENERATED/API_TUTORIAL_INDEX.md"
+		],
+		"tags": [
+			"identity",
+			"oauth",
+			"bearer",
+			"security"
+		],
+		"claimsBoundary": "A bearer token becomes identity only after server-side verification; request fields are not trusted substitutes.",
+		"changeRisk": "Token validation, expiry, issuer/subject, scope, or CORS behavior is security-sensitive.",
+		"environmentEvidence": [
+			{
+				"name": "AWTSMOOS_BINDING_HISTORY_PER_IDENTITY",
+				"classification": "runtime-config",
+				"sources": 1,
+				"exampleSources": "geelooy/api/tunnel/control/core/tunnelSecurity/bindingRetentionPolicy.js"
+			},
+			{
+				"name": "AWTSMOOS_BINDING_RETENTION_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "geelooy/api/tunnel/control/core/tunnelSecurity/bindingRetentionPolicy.js"
+			},
+			{
+				"name": "AWTSMOOS_DIR",
+				"classification": "path/storage",
+				"sources": 1,
+				"exampleSources": "geelooy/api/oauth/core/serverSecret.js"
+			},
+			{
+				"name": "AWTSMOOS_NATIVE_RECOVERING_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "geelooy/api/tunnel/control/routes/fsVessel/liveDeviceIdentity.js"
+			}
+		],
+		"realtimeApplications": [],
+		"eventEvidence": [],
+		"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/oauth-bearer-identity.md",
+		"provenance": "curated-system-semantics-plus-generated-local-source-evidence"
+	},
+	{
+		"systemId": "parallel-awtsmoosdb",
+		"district": "data",
+		"title": "Parallel AwtsmoosDB Bridge",
+		"summary": "The DosDB-side bridge that exposes a parallel AwtsmoosDB path for newer database capabilities.",
+		"manuals": [
+			"docs/DATA/README.md",
+			"docs/DATA/AWTSMOOSDB_AND_VIRTUALFS.md"
+		],
+		"projects": [
+			{
+				"projectId": "ayzarim-dosdb-eaaa802e",
+				"path": "ayzarim/DosDB",
+				"type": "data",
+				"title": "ayzarim/DosDB",
+				"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-dosdb-eaaa802e.md"
+			}
+		],
+		"sources": [
+			"ayzarim/DosDB/awtsmoosDbBridge.js"
+		],
+		"generatedEvidence": [],
+		"tags": [
+			"persistence",
+			"awtsmoosdb",
+			"bridge"
+		],
+		"claimsBoundary": "Bridge presence does not mean all legacy DosDB callers use the newer engine.",
+		"changeRisk": "Bridge selection/fallback changes can alter which physical storage family receives writes.",
+		"environmentEvidence": [
+			{
+				"name": "AWTSMOOS_EMBED_MODE",
+				"classification": "runtime-config",
+				"sources": 1,
+				"exampleSources": "ayzarim/DosDB/aiSearch/textEmbedRunner.js"
+			},
+			{
+				"name": "AWTSMOOS_EMBED_MODEL_ROOT",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/ai_search_model_root_precedence_test.js"
+			},
+			{
+				"name": "AWTSMOOSDB_FAST_TEST",
+				"classification": "test/tuning",
+				"sources": 3,
+				"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/idle/fastGate.js; ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js; ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/semantic_ai_dosdb_test.js"
+			},
+			{
+				"name": "AWTSMOOSDB_TEST_SCALE",
+				"classification": "test/tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js"
+			},
+			{
+				"name": "NODE_ENV",
+				"classification": "runtime-config",
+				"sources": 3,
+				"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js; geelooy/api/wallet/core/paypalEnvironment.js; geelooy/api/wallet/tests/paypalEnvironment.test.js"
+			}
+		],
+		"realtimeApplications": [],
+		"eventEvidence": [],
+		"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/parallel-awtsmoosdb.md",
+		"provenance": "curated-system-semantics-plus-generated-local-source-evidence"
+	}
+]

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H\n# Ohr HaGnuz Next Phase\n\n## Mobile\n1. Bottom thumb action bar\n2. Collapsible HUD\n3. Floating notifications\n4. Fullscreen battle mode\n\n## Gameplay\n5. Musag personalities\n6. Torah response combos\n7. Sefiros progression tree\n8. Torah scroll discoveries\n9. Quest system\n\n## Exploration\n10. Hidden groves and secrets\n11. Day/night cycle\n12. Non-combat debate NPCs\n\n## Implementation Order\nPhase 1: Mobile HUD + fullscreen battle\nPhase 2: Musag personalities + combo system\nPhase 3: Quest framework + discoveries\nPhase 4: Sefiros progression tree\nPhase 5: Day/night and exploration secrets\n"
+}

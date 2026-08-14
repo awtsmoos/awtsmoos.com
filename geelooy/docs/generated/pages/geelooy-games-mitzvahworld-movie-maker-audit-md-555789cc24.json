@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-movie-maker-audit-md-555789cc24",
+	"title": "B\"H — Mitzvah World Movie Maker Audit",
+	"sourcePath": "geelooy/games/mitzvahWorld/MOVIE_MAKER_AUDIT.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Mitzvah World Movie Maker Audit",
+			"anchor": "b-h-mitzvah-world-movie-maker-audit"
+		},
+		{
+			"level": 2,
+			"text": "Recovered systems",
+			"anchor": "recovered-systems"
+		},
+		{
+			"level": 2,
+			"text": "Launcher",
+			"anchor": "launcher"
+		},
+		{
+			"level": 2,
+			"text": "Runtime architecture",
+			"anchor": "runtime-architecture"
+		},
+		{
+			"level": 2,
+			"text": "AI project contract",
+			"anchor": "ai-project-contract"
+		},
+		{
+			"level": 2,
+			"text": "NLE",
+			"anchor": "nle"
+		},
+		{
+			"level": 2,
+			"text": "Thirty-second film",
+			"anchor": "thirty-second-film"
+		},
+		{
+			"level": 2,
+			"text": "Floor correction",
+			"anchor": "floor-correction"
+		},
+		{
+			"level": 2,
+			"text": "Final media",
+			"anchor": "final-media"
+		},
+		{
+			"level": 2,
+			"text": "Regression proof",
+			"anchor": "regression-proof"
+		},
+		{
+			"level": 2,
+			"text": "Honest limitations",
+			"anchor": "honest-limitations"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-movie-maker-audit-md-555789cc24-001.json"
+	]
+}

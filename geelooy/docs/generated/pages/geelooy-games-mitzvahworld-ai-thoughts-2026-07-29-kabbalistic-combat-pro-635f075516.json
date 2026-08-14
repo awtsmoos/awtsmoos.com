@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-29-kabbalistic-combat-pro-635f075516",
+	"title": "Remaining Work",
+	"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-29-kabbalistic-combat-production/07_REMAINING_WORK.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Remaining Work",
+			"anchor": "remaining-work"
+		},
+		{
+			"level": 2,
+			"text": "Shared domain",
+			"anchor": "shared-domain"
+		},
+		{
+			"level": 2,
+			"text": "Player systems",
+			"anchor": "player-systems"
+		},
+		{
+			"level": 2,
+			"text": "Enemy systems",
+			"anchor": "enemy-systems"
+		},
+		{
+			"level": 2,
+			"text": "Presentation",
+			"anchor": "presentation"
+		},
+		{
+			"level": 2,
+			"text": "Persistence and environment",
+			"anchor": "persistence-and-environment"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		},
+		{
+			"level": 2,
+			"text": "Preserved pre-existing meadow work",
+			"anchor": "preserved-pre-existing-meadow-work"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-ai-thoughts-2026-07-29-kabbalistic-combat-pro-635f075516-001.json"
+	]
+}

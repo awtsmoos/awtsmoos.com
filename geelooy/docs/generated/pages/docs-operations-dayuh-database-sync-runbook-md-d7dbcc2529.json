@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-operations-dayuh-database-sync-runbook-md-d7dbcc2529",
+	"title": "Dayuh Chadash database sync runbook",
+	"sourcePath": "docs/operations/dayuh-database-sync-runbook.md",
+	"category": "Operations",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Dayuh Chadash database sync runbook",
+			"anchor": "dayuh-chadash-database-sync-runbook"
+		},
+		{
+			"level": 2,
+			"text": "Production variables",
+			"anchor": "production-variables"
+		},
+		{
+			"level": 2,
+			"text": "Credential preflight",
+			"anchor": "credential-preflight"
+		},
+		{
+			"level": 2,
+			"text": "Read-only status",
+			"anchor": "read-only-status"
+		},
+		{
+			"level": 2,
+			"text": "Local to remote",
+			"anchor": "local-to-remote"
+		},
+		{
+			"level": 2,
+			"text": "Remote to local",
+			"anchor": "remote-to-local"
+		},
+		{
+			"level": 2,
+			"text": "Bidirectional sync",
+			"anchor": "bidirectional-sync"
+		},
+		{
+			"level": 2,
+			"text": "Deletion policy",
+			"anchor": "deletion-policy"
+		},
+		{
+			"level": 2,
+			"text": "Initial or recovery seed",
+			"anchor": "initial-or-recovery-seed"
+		},
+		{
+			"level": 2,
+			"text": "Completion gates",
+			"anchor": "completion-gates"
+		}
+	],
+	"markdownParts": [
+		"content/docs-operations-dayuh-database-sync-runbook-md-d7dbcc2529-001.json"
+	]
+}

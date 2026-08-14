@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Awtsmoos GGUF Documentation\n\nThe Awtsmoos lets local model artifacts become a conversational tool while metadata, model path, and runtime stay distinct;\nAwtsmoos.com maps this app beside the AI system without assuming it shares every `/api/gpt` contract.\n\nRead [../../../docs/SYSTEMS/AI.md](../../../docs/SYSTEMS/AI.md), [../../../docs/APPS/DEVELOPER_TOOLS.md](../../../docs/APPS/DEVELOPER_TOOLS.md), and [../../../docs/CONFIGURATION.md](../../../docs/CONFIGURATION.md).\n"
+}

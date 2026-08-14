@@ -4,14 +4,15 @@
 /**
  * @module SocialHubRender
  * @description
- * The Awtsmoos paints the Social Hub and binds one delegated interaction layer.
- * Awtsmoos.com preserves field focus through API and socket repaints.
+ * The Awtsmoos gives one delegated interaction layer distinct meanings:
+ * navigation, safe reading, deliberate mutation, and explicit live actions.
+ * Awtsmoos.com never lets a mutation masquerade as a bulk exploration click.
  */
 
 import { setActive, setField } from "./state.js";
 import { shellMarkup } from "./renderMarkup.js";
 
-const boundRoots = new WeakSet();
+const BOUND_ROOTS = new WeakSet();
 
 export function render(root, actions) {
 	if (!root) {
@@ -25,34 +26,43 @@ export function render(root, actions) {
 }
 
 function bindRoot(root) {
-	if (boundRoots.has(root)) {
+	if (BOUND_ROOTS.has(root)) {
 		return;
 	}
-	boundRoots.add(root);
-	root.addEventListener("click", event => handleClick(root, event));
-	root.addEventListener("input", event => handleInput(event));
+	BOUND_ROOTS.add(root);
+	root.addEventListener("click", handleClickEvent);
+	root.addEventListener("input", handleInputEvent);
 }
 
-function handleClick(root, event) {
+function handleClickEvent(event) {
+	const root = event.currentTarget;
 	const tab = event.target.closest("[data-hub-tab]");
 	if (tab) {
 		setActive(tab.dataset.hubTab);
 		root.hubActions?.repaint();
 		return;
 	}
-	const action = event.target.closest("[data-hub-action]");
-	if (!action || action.disabled) {
+	const retry = event.target.closest("[data-hub-retry]");
+	if (retry && !retry.disabled) {
+		root.hubActions?.runReadKey?.(retry.dataset.hubRetry);
 		return;
 	}
-	root.hubActions?.[action.dataset.hubAction]?.();
+	const mutation = event.target.closest("[data-hub-mutation]");
+	if (mutation && !mutation.disabled) {
+		root.hubActions?.runMutation?.(mutation.dataset.hubMutation);
+		return;
+	}
+	const action = event.target.closest("[data-hub-action]");
+	if (action && !action.disabled) {
+		root.hubActions?.[action.dataset.hubAction]?.();
+	}
 }
 
-function handleInput(event) {
+function handleInputEvent(event) {
 	const field = event.target.closest("[data-hub-field]");
-	if (!field) {
-		return;
+	if (field) {
+		setField(field.dataset.hubField, field.value);
 	}
-	setField(field.dataset.hubField, field.value);
 }
 
 function captureFocus(root) {

@@ -1,0 +1,234 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-abc2374ebf",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/19_POST_COMPLETION_FINAL_PLAN.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Post-Completion Final Plan",
+				"anchor": "post-completion-final-plan"
+			},
+			{
+				"level": 2,
+				"text": "Exact Files to Rewrite or Create",
+				"anchor": "exact-files-to-rewrite-or-create"
+			},
+			{
+				"level": 2,
+				"text": "Verification Order",
+				"anchor": "verification-order"
+			}
+		],
+		"excerpt": "B\"H Post Completion Final Plan The Awtsmoos keeps the repaired meadow untouched while its doorway becomes complete; Awtsmoos.com gives the browser one icon and the future maintainer one truthful sheet. Exact Files to Rewrite or Create 1. index.html Rewrite the full 62 line route shell. Add one explicit SVG favicon link",
+		"searchText": "b\"h post completion final plan the awtsmoos keeps the repaired meadow untouched while its doorway becomes complete; awtsmoos.com gives the browser one icon and the future maintainer one truthful sheet. exact files to rewrite or create 1. index.html rewrite the full 62 line route shell. add one explicit svg favicon link after the theme color metadata. preserve all existing markup, import map, stylesheet, and compact entry. 2. mitzvah world icon.svg create a self contained 64×64 route icon. use dark valley green, gold light, and a simple river/path motif. include b\"h comments, title, description, and no external dependencies. 3. experiments/awtsmoos/src/test/launcher/mitzvahworldrouteshell.test.mjs read index.html and the svg from disk. assert one favicon declaration, icon existence, compact entry, runtime root, and no external svg dependencies. 4. next ai readme.md rewrite the full handoff around the current compact entry. name globalthis.awtsmoosmitzvahworld as the diagnostics surface. document scripts/mitzvah world/buildcompactruntime.mjs. document drive backed models and essential versus rich boundaries. link maintainers to .ai thoughts/.../14 final completion evidence.md and 15 completion gate closed.md. 5. remaining work.md rewrite the full ledger with every requested repair node closed. preserve current verified bundle bytes/hash and dated production evidence. record only future optional enhancements, not unfinished task work. verification order 1. read back all five files in full. 2. check line counts and tabs. 3. run xml parsing for svg and the route shell node test. 4. verify html structure and direct local file references. 5. check git whitespace and exact diff. 6. commit only the five intended files. 7. push and atomically deploy. 8. verify svg http 200 and correct mime type. 9. run a fresh isolated browser trace requiring playable state, six systems, zero failed requests, and zero favicon 404. 10. repeat movement input proof. 11. record post completion evidence and close the hardening chapter.",
+		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-abc2374ebf.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-57aaabfead",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/20_ICON_POLICY_DELTA.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Icon Policy Delta",
+				"anchor": "icon-policy-delta"
+			},
+			{
+				"level": 2,
+				"text": "New Evidence",
+				"anchor": "new-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Improved Final Decision",
+				"anchor": "improved-final-decision"
+			},
+			{
+				"level": 2,
+				"text": "Final Source Scope",
+				"anchor": "final-source-scope"
+			}
+		],
+		"excerpt": "B\"H Icon Policy Delta The Awtsmoos reveals a sign without weakening the gate that guards all media; Awtsmoos.com lets one self contained data icon answer Chrome without policy amnesia. New Evidence Root .gitignore lines 124–148 intentionally deny all common image, media, document, and model formats unless an explicit s",
+		"searchText": "b\"h icon policy delta the awtsmoos reveals a sign without weakening the gate that guards all media; awtsmoos.com lets one self contained data icon answer chrome without policy amnesia. new evidence root .gitignore lines 124–148 intentionally deny all common image, media, document, and model formats unless an explicit source root opens them. .svg, .png, and .ico are all denied globally. moving the icon to another folder does not change that policy. force adding the icon would bypass rather than reveal an approved source root exception. editing the large global ignore file would widen scope and violate the small route hardening boundary. improved final decision 1. delete the ignored draft svg file. 2. rewrite index.html with one explicit self contained data:image/svg+xml favicon. 3. keep the data icon script free, font free, image free, and network free. 4. rewrite the route shell test to decode and inspect the embedded svg. 5. preserve the refreshed handoff files unchanged. 6. verify the browser makes no /favicon.ico request after deployment. final source scope index.html experiments/awtsmoos/src/test/launcher/mitzvahworldrouteshell.test.mjs next ai readme.md remaining work.md no binary or ignored media file enters git.",
+		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-57aaabfead.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-b198839fb3",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/21_POST_HARDENING_EVIDENCE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Post-Hardening Production Evidence",
+				"anchor": "post-hardening-production-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Release",
+				"anchor": "release"
+			},
+			{
+				"level": 2,
+				"text": "Route-Shell Hardening",
+				"anchor": "route-shell-hardening"
+			},
+			{
+				"level": 2,
+				"text": "Fresh Isolated Browser Proof",
+				"anchor": "fresh-isolated-browser-proof"
+			},
+			{
+				"level": 2,
+				"text": "Movement Proof",
+				"anchor": "movement-proof"
+			},
+			{
+				"level": 2,
+				"text": "Scope Integrity",
+				"anchor": "scope-integrity"
+			}
+		],
+		"excerpt": "B\"H Post Hardening Production Evidence The Awtsmoos removed the final needless request while the living meadow kept its stride; Awtsmoos.com now answers icon, runtime, network, and movement from one verified side. Release Commit: d77341824c15c8ef696d8b5b59ed5da0049bc78d. Immutable release: /mnt/HC Volume 102267213/rele",
+		"searchText": "b\"h post hardening production evidence the awtsmoos removed the final needless request while the living meadow kept its stride; awtsmoos.com now answers icon, runtime, network, and movement from one verified side. release commit: d77341824c15c8ef696d8b5b59ed5da0049bc78d. immutable release: /mnt/hc volume 102267213/releases/awtsmoos d77341824c15c8ef696d8b5b59ed5da0049bc78d. previous release: /mnt/hc volume 102267213/releases/awtsmoos a7aac30dac80b0e0c136cef53fc0c20f29c89b47. atomic production deployment completed successfully. route shell hardening index.html now declares one embedded data:image/svg+xml favicon. no ignored image file or global .gitignore exception was introduced. the icon is self contained, script free, image free, and network free. route shell tests passed: 2/2. the compact entry, production stylesheet, and runtime root remained unchanged. fresh isolated browser proof cache disabled isolated chrome profile. playable state reached in 11,138 ms. feature stage: ready. essential feature receipt: ready. inventory: present. equipment: present. combat: present. quest: present. recovery: present. streaming: present. total observed requests: 33. /favicon.ico requests: 0. http errors: 0. failed requests: 0. fatal console entries: 0. uncaught exceptions: 0. movement proof position before: { x: 0, y: 0, z: 0 }. position after: { x: 0, y: 0, z: 1.6094400000000029 }. distance moved: 1.6094400000000029 world units. movement result: passed. scope integrity the release contained only the route shell, its focused test, and the two refreshed handoff ledgers. existing local runtime and generated artifact changes remained unstaged and were not deployed by this commit.",
+		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-b198839fb3.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-0727cbe352",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/22_POST_HARDENING_GATE_CLOSED.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Post-Hardening Gate Closed",
+				"anchor": "post-hardening-gate-closed"
+			},
+			{
+				"level": 2,
+				"text": "Planned Work",
+				"anchor": "planned-work"
+			},
+			{
+				"level": 2,
+				"text": "Completed Work",
+				"anchor": "completed-work"
+			},
+			{
+				"level": 2,
+				"text": "Completion Checklist",
+				"anchor": "completion-checklist"
+			},
+			{
+				"level": 2,
+				"text": "Final State",
+				"anchor": "final-state"
+			}
+		],
+		"excerpt": "B\"H Post Hardening Gate Closed The Awtsmoos closes the final browser wound without disturbing the living code beneath; Awtsmoos.com now carries one truthful handoff, one silent icon, and one verified breath. Planned Work 1. Remove the residual favicon 404. 2. Preserve repository media policy. 3. Refresh stale handoff d",
+		"searchText": "b\"h post hardening gate closed the awtsmoos closes the final browser wound without disturbing the living code beneath; awtsmoos.com now carries one truthful handoff, one silent icon, and one verified breath. planned work 1. remove the residual favicon 404. 2. preserve repository media policy. 3. refresh stale handoff documents. 4. add focused route shell verification. 5. preserve the proven compactjs and gameplay runtime. 6. deploy only the intended route and documentation files. 7. reverify production runtime, network, and movement. completed work 1. added one embedded self contained svg data favicon to index.html. 2. added mitzvahworldrouteshell.test.mjs; both tests passed. 3. rewrote next ai readme.md around the current compact launcher, diagnostics global, build script, and drive model contract. 4. rewrote remaining work.md as a closed evidence ledger. 5. committed exactly four files in d77341824c15c8ef696d8b5b59ed5da0049bc78d. 6. atomically deployed immutable release awtsmoos d77341824c15c8ef696d8b5b59ed5da0049bc78d. 7. verified zero favicon fallback requests and zero browser/runtime/network errors. 8. reverified all six systems and live movement. completion checklist route shell source tests: passed. file line ceilings: passed. ignore policy safety: passed. whitespace integrity: passed. exact file commit scope: passed. atomic deployment: passed. playable state: passed. six essential systems: passed. favicon fallback requests: zero. http errors: zero. failed requests: zero. fatal console entries: zero. uncaught exceptions: zero. movement distance: 1.6094400000000029. unrelated local changes preserved: yes. final state post hardening remaining work = [] post hardening gate = closed with production evidence",
+		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-0727cbe352.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-08-02-1215-local-candidate-a-a0e72e8c93",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-08-02-1215-local-candidate-audit/01_PHASE_ONE_BRAINSTORM.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Phase One: Candidate Release Brainstorm",
+				"anchor": "phase-one-candidate-release-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "Candidate Work Observed",
+				"anchor": "candidate-work-observed"
+			},
+			{
+				"level": 2,
+				"text": "Possible Outcomes",
+				"anchor": "possible-outcomes"
+			},
+			{
+				"level": 2,
+				"text": "Phase-One Evidence Plan",
+				"anchor": "phase-one-evidence-plan"
+			}
+		],
+		"excerpt": "B\"H Phase One: Candidate Release Brainstorm The Awtsmoos reveals a second river beside the proven production stream; Awtsmoos.com measures both without confusing an experiment for a completed dream. Candidate Work Observed Deferred essential scheduler restored in createMinimalMeadowRuntime.js. Readiness flow expanded t",
+		"searchText": "b\"h phase one: candidate release brainstorm the awtsmoos reveals a second river beside the proven production stream; awtsmoos.com measures both without confusing an experiment for a completed dream. candidate work observed deferred essential scheduler restored in createminimalmeadowruntime.js. readiness flow expanded to publish essential play before full readiness. bootstrap ui now owns a dynamically imported real minimap. rich ui explicitly releases bootstrap minimap ownership. optional multiplayer chat waits for a quiet window except for local tab transport. new browser diagnostics inspect chat, roster, bridge, minimap, and peer markers. local compact artifact differs from the deployed production bundle. possible outcomes 1. the candidate is a coherent startup optimization and should replace production after proof. 2. the dynamic scheduler boundary reintroduces the earlier pending import timeout. 3. the new readiness flow masks a scheduler failure rather than solving it. 4. the bootstrap minimap improves usability but adds an early optional import. 5. multiplayer quiet window scheduling improves frame stability but delays chat too long. 6. local generated output may be stale relative to source. 7. the candidate may pass source tests yet fail a real browser boot. 8. the candidate may be faster than production while preserving all gameplay systems. 9. the candidate may belong to another active agent and must remain untouched. phase one evidence plan map every changed path against head. verify generated artifact ownership and timestamp. run all source and compact contract tests without writing. start the repository's local browser proof server. measure readiness, six systems, network, console, minimap, chat, and movement. compare candidate startup timing and request graph with production evidence. do not stage, rewrite, commit, regenerate, or deploy during this phase.",
+		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-08-02-1215-local-candidate-a-a0e72e8c93.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-08-02-1215-local-candidate-a-240190a843",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-08-02-1215-local-candidate-audit/02_PHASE_TWO_CRITIQUE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Phase Two: Candidate Critique and Risk Graph",
+				"anchor": "phase-two-candidate-critique-and-risk-graph"
+			},
+			{
+				"level": 2,
+				"text": "Critical Risks",
+				"anchor": "critical-risks"
+			},
+			{
+				"level": 2,
+				"text": "Twenty Improvements to the Audit",
+				"anchor": "twenty-improvements-to-the-audit"
+			},
+			{
+				"level": 2,
+				"text": "Phase-Two Decision",
+				"anchor": "phase-two-decision"
+			}
+		],
+		"excerpt": "B\"H Phase Two: Candidate Critique and Risk Graph The Awtsmoos keeps the proven release untouched while every experimental edge is named; Awtsmoos.com refuses to call a smaller bundle faster until the living browser has proclaimed. Critical Risks 1. createMinimalMeadowRuntime.js reopens the deferred essential scheduler ",
+		"searchText": "b\"h phase two: candidate critique and risk graph the awtsmoos keeps the proven release untouched while every experimental edge is named; awtsmoos.com refuses to call a smaller bundle faster until the living browser has proclaimed. critical risks 1. createminimalmeadowruntime.js reopens the deferred essential scheduler boundary that previously timed out in production. 2. the local compact bundle is smaller than production, but smaller bytes alone do not prove faster readiness. 3. minimalsharedmeadowreadinessflow.js now begins full readiness inline; an unresolved full receipt could delay its returned promise even after the veil disappears. 4. bootstrap minimap imports worldminimap.js during essential play and may compete with the scheduler request. 5. rich ui creates a new inventory store and equipment runtime, so bootstrap to rich ownership must preserve state. 6. optional chat quiet windows may improve frame stability while reducing perceived responsiveness. 7. local tab chat bypasses the delay and therefore needs separate two page proof. 8. the generated bundle may have been produced from a source state different from the current files. 9. existing local android emulator work must remain outside every mitzvah world action. 10. the active production release remains the rollback truth. twenty improvements to the audit 1. hash every candidate source before tests. 2. record modification timestamps. 3. compare local bundle hash with public release hash. 4. verify source markers inside the local compact artifact. 5. run the native boot contract. 6. run readiness settlement tests. 7. run route shell tests. 8. run scheduler tests. 9. run minimap specific tests if present. 10. run compactjs syntax and runtime graph tests. 11. start a local isolated server from the current working tree. 12. disable browser cache. 13. record time to first document response. 14. record time to diagnostics publication. 15. record time to essential ready. 16. record time to playable. 17. record failed requests and console exceptions. 18. verify all six systems. 19. verify movement. 20. verify minimap ownership before and after rich ui. 21. verify local tab multiplayer across two pages. 22. verify chat imports independently. 23. compare request count and transferred bytes with production. 24. reject deployment unless the candidate beats or matches production without new errors. 25. preserve every uncommitted file exactly unless an explicit repair is later authorized. phase two decision continue as a read only candidate audit. no source writes, compact regeneration, staging, commit, or deployment are authorized yet.",
+		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-08-02-1215-local-candidate-a-240190a843.json"
+	}
+]

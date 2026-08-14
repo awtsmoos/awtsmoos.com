@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-08-02-1215-local-candidate-a-4896c79a29",
+	"title": "B\"H",
+	"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-08-02-1215-local-candidate-audit/07_AUDIT_GATE_CLOSED.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Candidate Audit Gate Closed",
+			"anchor": "candidate-audit-gate-closed"
+		},
+		{
+			"level": 2,
+			"text": "Original Audit Plan",
+			"anchor": "original-audit-plan"
+		},
+		{
+			"level": 2,
+			"text": "Work Actually Performed",
+			"anchor": "work-actually-performed"
+		},
+		{
+			"level": 2,
+			"text": "Evidence Reconciliation",
+			"anchor": "evidence-reconciliation"
+		},
+		{
+			"level": 3,
+			"text": "What passed",
+			"anchor": "what-passed"
+		},
+		{
+			"level": 3,
+			"text": "What failed",
+			"anchor": "what-failed"
+		},
+		{
+			"level": 3,
+			"text": "What remains unproven",
+			"anchor": "what-remains-unproven"
+		},
+		{
+			"level": 2,
+			"text": "Audit Integrity",
+			"anchor": "audit-integrity"
+		},
+		{
+			"level": 2,
+			"text": "Final State",
+			"anchor": "final-state"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-ai-thoughts-2026-08-02-1215-local-candidate-a-4896c79a29-001.json"
+	]
+}

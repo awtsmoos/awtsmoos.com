@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-how-to-choose-a-project-md-d7737467cb",
+	"title": "How to Choose a Project Boundary",
+	"sourcePath": "docs/HOW_TO_CHOOSE_A_PROJECT.md",
+	"category": "Projects",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "How to Choose a Project Boundary",
+			"anchor": "how-to-choose-a-project-boundary"
+		},
+		{
+			"level": 2,
+			"text": "First question: what kind of surface is this?",
+			"anchor": "first-question-what-kind-of-surface-is-this"
+		},
+		{
+			"level": 2,
+			"text": "Use Project Explorer",
+			"anchor": "use-project-explorer"
+		},
+		{
+			"level": 2,
+			"text": "What each project packet can answer",
+			"anchor": "what-each-project-packet-can-answer"
+		},
+		{
+			"level": 2,
+			"text": "What it cannot prove",
+			"anchor": "what-it-cannot-prove"
+		}
+	],
+	"markdownParts": [
+		"content/docs-how-to-choose-a-project-md-d7737467cb-001.json"
+	]
+}

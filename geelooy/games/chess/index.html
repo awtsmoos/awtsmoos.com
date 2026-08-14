@@ -10,6 +10,7 @@
 	<title>Ultimate Chess AI</title>
 	<link rel="stylesheet" href="style.css">
 	<link rel="stylesheet" href="ui/chess-polish.css">
+	<link rel="stylesheet" href="ui/chess-mobile.css">
 	<link rel="stylesheet" href="online/online.css">
 	<link rel="stylesheet" href="social/panel.css">
 	<link rel="stylesheet" href="social/menu.css">
@@ -54,13 +55,19 @@
 
 	<div id="gameContainer" class="hidden">
 		<div id="onlineGameBadge" class="hidden"></div>
-		<div class="captured-pieces-container"><canvas id="capturedByBlackCanvas" height="90" width="500"></canvas></div>
+		<div class="captured-pieces-container">
+			<canvas id="capturedByBlackCanvas" height="90" width="500"></canvas>
+		</div>
 		<button id="drawButton" class="menu-button">Offer / Claim Draw</button>
 		<div id="board-wrapper">
-			<div id="chessContainer"><canvas id="chessCanvas"></canvas></div>
+			<div id="chessContainer">
+				<canvas id="chessCanvas"></canvas>
+			</div>
 		</div>
 		<div id="message"></div>
-		<div class="captured-pieces-container"><canvas id="capturedByWhiteCanvas" height="90" width="500"></canvas></div>
+		<div class="captured-pieces-container">
+			<canvas id="capturedByWhiteCanvas" height="90" width="500"></canvas>
+		</div>
 		<div id="gameOverOverlay" class="hidden">
 			<div id="gameOverText"></div>
 			<div>
@@ -72,7 +79,9 @@
 
 	<div id="analysisScreen" class="menu">
 		<div id="openingNameDisplay"></div>
-		<div id="analysis-board-wrapper"><canvas id="analysisCanvas"></canvas></div>
+		<div id="analysis-board-wrapper">
+			<canvas id="analysisCanvas"></canvas>
+		</div>
 		<div id="analysis-controls">
 			<button id="analysisBackToMenuButton" class="menu-button">Menu</button>
 			<button id="loadPgnButton" class="menu-button">Load PGN</button>
@@ -92,6 +101,7 @@
 		<button id="backToMenuButton" class="menu-button">Back</button>
 	</div>
 
+	<script src="ui/engine-worker-route.js"></script>
 	<script src="ui/canvas-stability.js" type="module"></script>
 	<script src="social/legacy-observer.js"></script>
 	<script src="main.js" type="module"></script>

@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-projects-readme-md-13c3e5100d",
+	"title": "Awtsmoos.com Project Guide",
+	"sourcePath": "docs/PROJECTS/README.md",
+	"category": "Projects",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos.com Project Guide",
+			"anchor": "awtsmoos-com-project-guide"
+		},
+		{
+			"level": 2,
+			"text": "Interactive Project Explorer",
+			"anchor": "interactive-project-explorer"
+		},
+		{
+			"level": 2,
+			"text": "Generated project teaching",
+			"anchor": "generated-project-teaching"
+		},
+		{
+			"level": 2,
+			"text": "Human project-family manuals",
+			"anchor": "human-project-family-manuals"
+		},
+		{
+			"level": 2,
+			"text": "Deeper named manuals",
+			"anchor": "deeper-named-manuals"
+		},
+		{
+			"level": 2,
+			"text": "Investigation order",
+			"anchor": "investigation-order"
+		}
+	],
+	"markdownParts": [
+		"content/docs-projects-readme-md-13c3e5100d-001.json"
+	]
+}

@@ -1,0 +1,335 @@
+[
+	{
+		"id": "docs-tutorials-api-tunnel-install-md-851ae40f00",
+		"title": "Tunnel Install API Tutorial",
+		"sourcePath": "docs/TUTORIALS/API/TUNNEL_INSTALL.md",
+		"category": "API",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tunnel Install API Tutorial",
+				"anchor": "tunnel-install-api-tutorial"
+			},
+			{
+				"level": 2,
+				"text": "What this family owns",
+				"anchor": "what-this-family-owns"
+			},
+			{
+				"level": 2,
+				"text": "How to explore it",
+				"anchor": "how-to-explore-it"
+			},
+			{
+				"level": 2,
+				"text": "Safety / interpretation",
+				"anchor": "safety-interpretation"
+			},
+			{
+				"level": 2,
+				"text": "Evidence rule",
+				"anchor": "evidence-rule"
+			},
+			{
+				"level": 2,
+				"text": "Next",
+				"anchor": "next"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Install API Tutorial What this family owns Mount: /api/tunnel/install Derech: geelooy/api/tunnel/install/ awtsmoos.derech.js The current literal route extractor reports zero child route rows for this mount even though installer artifacts are documented elsewhere. How to explore it",
+		"searchText": "b\"h boruch hashem blessed is he tunnel install api tutorial what this family owns mount: /api/tunnel/install derech: geelooy/api/tunnel/install/ awtsmoos.derech.js the current literal route extractor reports zero child route rows for this mount even though installer artifacts are documented elsewhere. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/tunnel/install. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/tunnel/install/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation follow the current derech/download implementation for exact artifact names instead of treating historical docs as live route proof. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
+		"page": "pages/docs-tutorials-api-tunnel-install-md-851ae40f00.json"
+	},
+	{
+		"id": "docs-tutorials-api-tunnel-md-8ddad49b2f",
+		"title": "Tunnel Relay API Tutorial",
+		"sourcePath": "docs/TUTORIALS/API/TUNNEL.md",
+		"category": "API",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tunnel Relay API Tutorial",
+				"anchor": "tunnel-relay-api-tutorial"
+			},
+			{
+				"level": 2,
+				"text": "What this family owns",
+				"anchor": "what-this-family-owns"
+			},
+			{
+				"level": 2,
+				"text": "How to explore it",
+				"anchor": "how-to-explore-it"
+			},
+			{
+				"level": 2,
+				"text": "Safety / interpretation",
+				"anchor": "safety-interpretation"
+			},
+			{
+				"level": 2,
+				"text": "Evidence rule",
+				"anchor": "evidence-rule"
+			},
+			{
+				"level": 2,
+				"text": "Next",
+				"anchor": "next"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Relay API Tutorial What this family owns Mount: /api/tunnel Derech: geelooy/api/tunnel/ awtsmoos.derech.js Base extracted routes relay requests/filesystem actions to a named connected tunnel. How to explore it 1. Open API Family Tutorials for current route counts/health. 2. Filter",
+		"searchText": "b\"h boruch hashem blessed is he tunnel relay api tutorial what this family owns mount: /api/tunnel derech: geelooy/api/tunnel/ awtsmoos.derech.js base extracted routes relay requests/filesystem actions to a named connected tunnel. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/tunnel. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/tunnel/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation trusted account/tunnel identity and action specific filesystem permissions must be checked before forwarding. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
+		"page": "pages/docs-tutorials-api-tunnel-md-8ddad49b2f.json"
+	},
+	{
+		"id": "docs-tutorials-api-wallet-md-4dfd493b82",
+		"title": "Wallet API Tutorial",
+		"sourcePath": "docs/TUTORIALS/API/WALLET.md",
+		"category": "API",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Wallet API Tutorial",
+				"anchor": "wallet-api-tutorial"
+			},
+			{
+				"level": 2,
+				"text": "What this family owns",
+				"anchor": "what-this-family-owns"
+			},
+			{
+				"level": 2,
+				"text": "How to explore it",
+				"anchor": "how-to-explore-it"
+			},
+			{
+				"level": 2,
+				"text": "Safety / interpretation",
+				"anchor": "safety-interpretation"
+			},
+			{
+				"level": 2,
+				"text": "Evidence rule",
+				"anchor": "evidence-rule"
+			},
+			{
+				"level": 2,
+				"text": "Next",
+				"anchor": "next"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Wallet API Tutorial What this family owns Mount: /api/wallet Derech: geelooy/api/wallet/ awtsmoos.derech.js Balance/me, catalog, entitlements, purchase, mock buy, and PayPal create/capture form the current eight route family. How to explore it 1. Open API Family Tutorials for current rou",
+		"searchText": "b\"h boruch hashem blessed is he wallet api tutorial what this family owns mount: /api/wallet derech: geelooy/api/wallet/ awtsmoos.derech.js balance/me, catalog, entitlements, purchase, mock buy, and paypal create/capture form the current eight route family. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/wallet. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/wallet/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation never infer currency units, settlement/idempotency/refund guarantees, or production vs mock behavior from names; inspect handlers/provider config. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
+		"page": "pages/docs-tutorials-api-wallet-md-4dfd493b82.json"
+	},
+	{
+		"id": "docs-tutorials-api-youtube-md-cd6427dc8a",
+		"title": "YouTube API Tutorial",
+		"sourcePath": "docs/TUTORIALS/API/YOUTUBE.md",
+		"category": "API",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "YouTube API Tutorial",
+				"anchor": "youtube-api-tutorial"
+			},
+			{
+				"level": 2,
+				"text": "What this family owns",
+				"anchor": "what-this-family-owns"
+			},
+			{
+				"level": 2,
+				"text": "How to explore it",
+				"anchor": "how-to-explore-it"
+			},
+			{
+				"level": 2,
+				"text": "Safety / interpretation",
+				"anchor": "safety-interpretation"
+			},
+			{
+				"level": 2,
+				"text": "Evidence rule",
+				"anchor": "evidence-rule"
+			},
+			{
+				"level": 2,
+				"text": "Next",
+				"anchor": "next"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He YouTube API Tutorial What this family owns Mount: /api/youtube Derech: geelooy/api/youtube/ awtsmoos.derech.js Auth/oauth start/callback/status/logout, channel, videos, uploads, and live stream operations coexist with broad dynamic fallback patterns. How to explore it 1. Open API Family ",
+		"searchText": "b\"h boruch hashem blessed is he youtube api tutorial what this family owns mount: /api/youtube derech: geelooy/api/youtube/ awtsmoos.derech.js auth/oauth start/callback/status/logout, channel, videos, uploads, and live stream operations coexist with broad dynamic fallback patterns. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/youtube. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/youtube/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation prefer explicit named routes. provider oauth state, credentials, upload payloads, ownership, and live transitions are implementation sensitive. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
+		"page": "pages/docs-tutorials-api-youtube-md-cd6427dc8a.json"
+	},
+	{
+		"id": "docs-tutorials-content-aliases-and-api-keys-md-176c87c552",
+		"title": "Aliases and API Keys",
+		"sourcePath": "docs/TUTORIALS/CONTENT/ALIASES_AND_API_KEYS.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Aliases and API Keys",
+				"anchor": "aliases-and-api-keys"
+			},
+			{
+				"level": 2,
+				"text": "Alias role",
+				"anchor": "alias-role"
+			},
+			{
+				"level": 2,
+				"text": "API keys",
+				"anchor": "api-keys"
+			},
+			{
+				"level": 2,
+				"text": "Inputs",
+				"anchor": "inputs"
+			},
+			{
+				"level": 2,
+				"text": "Security rule",
+				"anchor": "security-rule"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Aliases and API Keys Alias role Aliases are Social facing identities owned through user/account state and reused across Heichel/content/profile/follow/drive/mail behavior. API keys Social keys can be created, listed, revoked, and verified. Raw key material is shown at creation; SHA 256 h",
+		"searchText": "b\"h boruch hashem blessed is he aliases and api keys alias role aliases are social facing identities owned through user/account state and reused across heichel/content/profile/follow/drive/mail behavior. api keys social keys can be created, listed, revoked, and verified. raw key material is shown at creation; sha 256 hash and metadata persist rather than plaintext secret storage. inputs supported key evidence includes named input/header/bearer forms. inspect helper/apikeys.js for current precedence and validation. security rule an alias name in a body/path is not proof the authenticated principal owns that alias. ownership checks remain required for privileged actions.",
+		"page": "pages/docs-tutorials-content-aliases-and-api-keys-md-176c87c552.json"
+	},
+	{
+		"id": "docs-tutorials-content-comments-md-2d9f464383",
+		"title": "Comments and Replies",
+		"sourcePath": "docs/TUTORIALS/CONTENT/COMMENTS.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Comments and Replies",
+				"anchor": "comments-and-replies"
+			},
+			{
+				"level": 2,
+				"text": "Surfaces",
+				"anchor": "surfaces"
+			},
+			{
+				"level": 2,
+				"text": "Compatibility",
+				"anchor": "compatibility"
+			},
+			{
+				"level": 2,
+				"text": "Moderation",
+				"anchor": "moderation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Comments and Replies Comments attach to posts and richer substructures; replies/reactions/comment trees form their own navigation domain. Surfaces post comment collections; aliases contributing comments; singular comment routes; nested replies; reactions; subsection/verse comments; submi",
+		"searchText": "b\"h boruch hashem blessed is he comments and replies comments attach to posts and richer substructures; replies/reactions/comment trees form their own navigation domain. surfaces post comment collections; aliases contributing comments; singular comment routes; nested replies; reactions; subsection/verse comments; submitted comment moderation; comment search/ranking/vector/rag evidence. compatibility some comment routes appear more than once in generated extraction because multiple route objects/factories expose compatible paths. use source ownership to distinguish implementations. moderation approval/denial/submitted comment flows are separate from ordinary comment read/write behavior.",
+		"page": "pages/docs-tutorials-content-comments-md-2d9f464383.json"
+	},
+	{
+		"id": "docs-tutorials-content-content-migrations-md-a5d67ef7d5",
+		"title": "Content Migrations",
+		"sourcePath": "docs/TUTORIALS/CONTENT/CONTENT_MIGRATIONS.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Content Migrations",
+				"anchor": "content-migrations"
+			},
+			{
+				"level": 2,
+				"text": "Observed migration surfaces",
+				"anchor": "observed-migration-surfaces"
+			},
+			{
+				"level": 2,
+				"text": "Safe migration workflow",
+				"anchor": "safe-migration-workflow"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Content Migrations Social carries several storage/model generations, so migrations are first class operational behavior. Observed migration surfaces Post v2 dry run/run routes, packed content migrations/repair, node OS migrations, compatibility post/series paths, and newer rich/unified o",
+		"searchText": "b\"h boruch hashem blessed is he content migrations social carries several storage/model generations, so migrations are first class operational behavior. observed migration surfaces post v2 dry run/run routes, packed content migrations/repair, node os migrations, compatibility post/series paths, and newer rich/unified object models. safe migration workflow 1. identify source/target path contracts. 2. run dry run/read only reporting first. 3. snapshot/backup affected data. 4. verify idempotency/re run behavior in source/tests. 5. execute narrowly. 6. reconcile indexes/manifests/references. 7. validate old/new read paths as required by compatibility promises. generated route presence alone is never authorization to run a migration.",
+		"page": "pages/docs-tutorials-content-content-migrations-md-a5d67ef7d5.json"
+	},
+	{
+		"id": "docs-tutorials-content-heichelos-md-b073481c09",
+		"title": "Heichelos",
+		"sourcePath": "docs/TUTORIALS/CONTENT/HEICHELOS.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Heichelos",
+				"anchor": "heichelos"
+			},
+			{
+				"level": 2,
+				"text": "Observed capabilities",
+				"anchor": "observed-capabilities"
+			},
+			{
+				"level": 2,
+				"text": "Authority",
+				"anchor": "authority"
+			},
+			{
+				"level": 2,
+				"text": "Investigation",
+				"anchor": "investigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Heichelos A Heichel is a governed Social content/community space, not merely a folder. Observed capabilities create/read/update/delete Heichel behavior; ownership checks; editor/member/role management; submission settings; invites/review/moderation; post/question/content organization; se",
+		"searchText": "b\"h boruch hashem blessed is he heichelos a heichel is a governed social content/community space, not merely a folder. observed capabilities create/read/update/delete heichel behavior; ownership checks; editor/member/role management; submission settings; invites/review/moderation; post/question/content organization; series/subseries relationships; community/full settings and discovery. authority login/api key identity does not automatically grant heichel mutation. read owner/editor/member/moderation checks in the exact handler. investigation start at /api/social/heichelos/:heichel, then follow its route factory imports and generated related route links.",
+		"page": "pages/docs-tutorials-content-heichelos-md-b073481c09.json"
+	},
+	{
+		"id": "docs-tutorials-content-mail-notifications-drive-md-a8eca2bd73",
+		"title": "Mail, Notifications, and Drive",
+		"sourcePath": "docs/TUTORIALS/CONTENT/MAIL_NOTIFICATIONS_DRIVE.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Mail, Notifications, and Drive",
+				"anchor": "mail-notifications-and-drive"
+			},
+			{
+				"level": 2,
+				"text": "Mail",
+				"anchor": "mail"
+			},
+			{
+				"level": 2,
+				"text": "Notifications",
+				"anchor": "notifications"
+			},
+			{
+				"level": 2,
+				"text": "Drive",
+				"anchor": "drive"
+			},
+			{
+				"level": 2,
+				"text": "Security",
+				"anchor": "security"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Mail, Notifications, and Drive Social includes user facing communication and storage subsystems that share identity but have distinct persistence/permission rules. Mail Mail routes cover get/read/send/delete/thread/settings/approval/unread/notify/universe mirror concepts. /api/email is a",
+		"searchText": "b\"h boruch hashem blessed is he mail, notifications, and drive social includes user facing communication and storage subsystems that share identity but have distinct persistence/permission rules. mail mail routes cover get/read/send/delete/thread/settings/approval/unread/notify/universe mirror concepts. /api/email is a smaller façade over mail oriented behavior. notifications alias notifications support read/archive/poll/preferences/unread/digest/fanout patterns. drive alias drive supports entries, stream/public/immutable paths, copy/move/trash/restore/purge, credentials, usage/quota/reconciliation, site and manager/admin surfaces. security identity alone does not grant arbitrary drive path mutation or mail impersonation. follow alias/service/credential/ownership checks in each handler.",
+		"page": "pages/docs-tutorials-content-mail-notifications-drive-md-a8eca2bd73.json"
+	}
+]

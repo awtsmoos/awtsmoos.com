@@ -1,0 +1,75 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets one accepted private room become a full mobile chamber while Back, identity, bounded controls, and safe-area geometry remain touchable.
+*/
+.hubMessagesRoomMount {
+	min-height: min(72dvh, 54rem);
+}
+
+.hubConversationSurface {
+	display: grid;
+	grid-template-rows: auto auto minmax(12rem, 1fr) auto;
+	gap: .65rem;
+	min-height: min(72dvh, 54rem);
+}
+
+.hubConversationHeader {
+	position: sticky;
+	top: 0;
+	z-index: 3;
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	align-items: center;
+	gap: .75rem;
+	padding: .7rem 0;
+	background: var(--surface);
+}
+
+.hubConversationHeader h3,
+.hubConversationHeader p,
+.hubConversationStatus {
+	margin: 0;
+}
+
+.hubConversationMeta,
+.hubConversationStatus {
+	color: var(--muted);
+}
+
+.hubConversationBack,
+.hubConversationControls button {
+	min-height: 2.8rem;
+	border: 1px solid var(--line-hot);
+	border-radius: .75rem;
+	background: var(--surface-strong);
+	color: var(--ink);
+	font: inherit;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.hubConversationBack {
+	padding: .6rem .75rem;
+}
+
+.hubConversationControls {
+	display: flex;
+	justify-content: center;
+}
+
+.hubConversationControls button {
+	padding: .55rem .85rem;
+}
+
+@media (max-width: 42rem) {
+	.hubMessagesRoomMount,
+	.hubConversationSurface {
+		min-height: calc(100dvh - 11rem);
+	}
+
+	.hubConversationBack,
+	.hubConversationControls button {
+		min-height: 3rem;
+	}
+}

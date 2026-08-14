@@ -1,0 +1,234 @@
+[
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-b4d4f4d393",
+		"title": "Phase One — Theoretical File Map",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_1038_master-animation-completion-orchestrator/02_PHASE_ONE_THEORETICAL_FILE_MAP.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One — Theoretical File Map",
+				"anchor": "phase-one-theoretical-file-map"
+			},
+			{
+				"level": 2,
+				"text": "Likely source families",
+				"anchor": "likely-source-families"
+			},
+			{
+				"level": 2,
+				"text": "Files that may be written",
+				"anchor": "files-that-may-be-written"
+			}
+		],
+		"excerpt": "B\"H Phase One — Theoretical File Map This is a hypothesis map only. Actual files must be confirmed before rewriting. Likely source families src/character/ : identity, performance state, evaluation, serialization. src/render/ and tools/render/ : production geometry, preview/export bridge, frame rendering. src/camera/ : ",
+		"searchText": "b\"h phase one — theoretical file map this is a hypothesis map only. actual files must be confirmed before rewriting. likely source families src/character/ : identity, performance state, evaluation, serialization. src/render/ and tools/render/ : production geometry, preview/export bridge, frame rendering. src/camera/ : views, shot plans, framing, continuity. src/persistence/ : save, import, restoration, transient filtering. src/scenes/ : one minute sitcom project, dialogue, text boxes, titles, timeline. tools/verify/ : feature smokes, browser proof, scale courts, metadata, compliance. proofs/ : source project, preview, final mp4, proof frames, manifests, hashes. package.json: only if verification or render command coverage is incomplete. files that may be written only files proven defective or missing after full readback. every changed file will be rewritten completely, kept below 120 javascript lines, tab indented, fully documented, and verified against consumers.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-b4d4f4d393.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-c820193de8",
+		"title": "Phase One Critique — Twenty Improvements",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_1038_master-animation-completion-orchestrator/03_PHASE_ONE_CRITIQUE_20_IMPROVEMENTS.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase One Critique — Twenty Improvements",
+				"anchor": "phase-one-critique-twenty-improvements"
+			}
+		],
+		"excerpt": "B\"H Phase One Critique — Twenty Improvements 1. Distrust yesterday's None; rerun today's evidence. 2. Separate historic claims from current observations. 3. Audit the newly added realistic action branch. 4. Confirm the exact live worktree delta. 5. Read every changed file fully. 6. Trace preview and export to the same ",
+		"searchText": "b\"h phase one critique — twenty improvements 1. distrust yesterday's none; rerun today's evidence. 2. separate historic claims from current observations. 3. audit the newly added realistic action branch. 4. confirm the exact live worktree delta. 5. read every changed file fully. 6. trace preview and export to the same renderer. 7. sample dialogue frames, not only still endpoints. 8. verify mouth displacement quantitatively. 9. verify eye direction at small scale. 10. test locked poses after all motion layers. 11. inspect text box bounds at every camera cut. 12. confirm project package restoration from disk. 13. exclude cyclic and renderer only state. 14. recompute proof hashes. 15. validate mp4 duration, codecs, and audio. 16. detect loading shell screenshots. 17. record browser console errors. 18. run full verification after focused tests. 19. audit headers, tabs, syntax, and line counts. 20. challenge completion with independent agents.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-c820193de8.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-7f1be5a0f2",
+		"title": "Phase Two — Improved Brainstorm",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_1038_master-animation-completion-orchestrator/04_PHASE_TWO_IMPROVED_BRAINSTORM.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Improved Brainstorm",
+				"anchor": "phase-two-improved-brainstorm"
+			},
+			{
+				"level": 2,
+				"text": "Lanes",
+				"anchor": "lanes"
+			}
+		],
+		"excerpt": "B\"H Phase Two — Improved Brainstorm The better architecture is an evidence first audit with isolated specialist lanes. Lanes Architecture and import graph. Character identity and body diversity. Face, viseme, gaze, blink, and head turn. Body acting, gesture phases, contact locks, hands, shoes. Garments, hair, secondary",
+		"searchText": "b\"h phase two — improved brainstorm the better architecture is an evidence first audit with isolated specialist lanes. lanes architecture and import graph. character identity and body diversity. face, viseme, gaze, blink, and head turn. body acting, gesture phases, contact locks, hands, shoes. garments, hair, secondary motion. camera, shots, text, titles, and timing. customizer, serialization, import, restoration. preview, browser, export, package, metadata. pixel courts and perceptual review. compliance, regression suite, and completion gate. each lane returns exact files, tests, browser/export evidence, defects, remaining work, and next action. the master rereads all changed files and reruns the whole chain.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-7f1be5a0f2.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-0d764ad940",
+		"title": "Phase Two — Execution Plan",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_1038_master-animation-completion-orchestrator/05_PHASE_TWO_EXECUTION_PLAN.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two — Execution Plan",
+				"anchor": "phase-two-execution-plan"
+			}
+		],
+		"excerpt": "B\"H Phase Two — Execution Plan 1. Refresh repository status and checkpoint evidence. 2. Create a live feature matrix from real imports and tests. 3. Spawn specialist agents sequentially through the tunnel mission system; no parallel Chrome tabs. 4. Assign nonoverlapping audit scopes first. 5. Convert every proven defec",
+		"searchText": "b\"h phase two — execution plan 1. refresh repository status and checkpoint evidence. 2. create a live feature matrix from real imports and tests. 3. spawn specialist agents sequentially through the tunnel mission system; no parallel chrome tabs. 4. assign nonoverlapping audit scopes first. 5. convert every proven defect into defect ledger.md and remaining work.md. 6. read complete target files, dependencies, consumers, and tests. 7. rewrite complete files only. 8. run focused verification for each defect. 9. run render/export and exact scale courts. 10. run full npm run verify. 11. run compliance, syntax, line count, tab, header, and git diff check gates. 12. re read all changed files and close the delta.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-0d764ad940.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-a5fd8fde56",
+		"title": "Phase Two Critique — Thirty Additional Improvements",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_1038_master-animation-completion-orchestrator/06_PHASE_TWO_CRITIQUE_30_IMPROVEMENTS.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Two Critique — Thirty Additional Improvements",
+				"anchor": "phase-two-critique-thirty-additional-improvements"
+			}
+		],
+		"excerpt": "B\"H Phase Two Critique — Thirty Additional Improvements 1. Use immutable tunnel routing. 2. Recover durable receipts after disconnects. 3. Avoid duplicate command dispatch. 4. Keep one spawning action at a time. 5. Allow active agents only on disjoint scopes. 6. Require structured agent receipts. 7. Verify every agent ",
+		"searchText": "b\"h phase two critique — thirty additional improvements 1. use immutable tunnel routing. 2. recover durable receipts after disconnects. 3. avoid duplicate command dispatch. 4. keep one spawning action at a time. 5. allow active agents only on disjoint scopes. 6. require structured agent receipts. 7. verify every agent claim independently. 8. pin the original worktree before edits. 9. distinguish generated from authored files. 10. preserve public exports. 11. check all call sites before rewrites. 12. detect circular imports. 13. test deterministic clocks. 14. compare preview/export frame hashes where possible. 15. confirm title card safe areas. 16. confirm captions survive camera cuts. 17. confirm eyes remain legible at 180×300. 18. confirm fingers do not alias into noise. 19. confirm heel/toe silhouettes. 20. confirm garments do not merge with limbs. 21. confirm crossed arms remain locked. 22. confirm pocket hands remain locked. 23. confirm viseme changes span spoken intervals. 24. confirm blinks are deterministic. 25. confirm gaze is view space aware. 26. confirm startup restore from a clean process. 27. confirm packaged media is self contained. 28. record file sizes and sha 256 hashes. 29. inspect representative pixels directly. 30. keep next action executable until all evidence closes.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-a5fd8fde56.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-97d15d145b",
+		"title": "Phase Three — Final Brainstorm",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_1038_master-animation-completion-orchestrator/07_PHASE_THREE_FINAL_BRAINSTORM.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Phase Three — Final Brainstorm",
+				"anchor": "phase-three-final-brainstorm"
+			}
+		],
+		"excerpt": "B\"H Phase Three — Final Brainstorm The final method combines skeptical archaeology, sequential delegation, whole file repair, and proof courts. The Awtsmoos is beyond every vessel yet renews each vessel now; therefore no cached belief is accepted as present truth. Every feature is followed from authored state into geom",
+		"searchText": "b\"h phase three — final brainstorm the final method combines skeptical archaeology, sequential delegation, whole file repair, and proof courts. the awtsmoos is beyond every vessel yet renews each vessel now; therefore no cached belief is accepted as present truth. every feature is followed from authored state into geometry and pixels. every success creates a shadow audit. every export is opened, measured, hashed, and compared with its source project. every browser proof must show the loaded production canvas, not a shell. the system is considered complete only when independent auditors fail to find a meaningful defect and the master verification, render, persistence, export, pixel, and compliance gates all pass on the current tree.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-97d15d145b.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-89839f361b",
+		"title": "Final Execution Plan",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_1038_master-animation-completion-orchestrator/08_FINAL_EXECUTION_PLAN.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Final Execution Plan",
+				"anchor": "final-execution-plan"
+			},
+			{
+				"level": 2,
+				"text": "Actual files intended for writing",
+				"anchor": "actual-files-intended-for-writing"
+			},
+			{
+				"level": 2,
+				"text": "Execution order",
+				"anchor": "execution-order"
+			}
+		],
+		"excerpt": "B\"H Final Execution Plan Actual files intended for writing This checkpoint's planning and ledger files. Product source/test/render files only when a live defect is proven by direct evidence. No speculative rewrites. Execution order 1. Baseline status, source graph, proof inventory, current checkpoints. 2. Sequential sp",
+		"searchText": "b\"h final execution plan actual files intended for writing this checkpoint's planning and ledger files. product source/test/render files only when a live defect is proven by direct evidence. no speculative rewrites. execution order 1. baseline status, source graph, proof inventory, current checkpoints. 2. sequential specialist agent dispatch and structured receipts. 3. independent master verification of findings. 4. complete file repairs for proven defects. 5. focused tests and readback. 6. browser production render and console review. 7. one minute render/export and metadata verification. 8. exact scale courts: 320×320, 180×300, 512×512, 1536×864. 9. full repository verification. 10. compliance and delta audit. 11. final completion challenge. 12. close only with empty remaining work and next action: none.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-89839f361b.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-8ddde7866e",
+		"title": "AGENTASSIGNMENTS",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_1038_master-animation-completion-orchestrator/AGENT_ASSIGNMENTS.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "AGENTASSIGNMENTS",
+				"anchor": "agentassignments"
+			},
+			{
+				"level": 2,
+				"text": "Mission service",
+				"anchor": "mission-service"
+			},
+			{
+				"level": 2,
+				"text": "Architecture and Import Graph Auditor",
+				"anchor": "architecture-and-import-graph-auditor"
+			},
+			{
+				"level": 2,
+				"text": "Safe fallback",
+				"anchor": "safe-fallback"
+			}
+		],
+		"excerpt": "B\"H AGENT ASSIGNMENTS Mission service Mission: mission msdcptng fa702cf844 Project root preserved: /Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator Architecture and Import Graph Auditor Requested agent ID: architecture import auditor 01 Requested mode: read only Status: BLOCKED EXTERNALLY The mission service acc",
+		"searchText": "b\"h agent assignments mission service mission: mission msdcptng fa702cf844 project root preserved: /users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator architecture and import graph auditor requested agent id: architecture import auditor 01 requested mode: read only status: blocked externally the mission service accepted the exact agent id and absolute project root, but reported active: false, why: explicit block; the worker registry remained at zero active processes and produced no structured receipt. no specialist claim was accepted as evidence. safe fallback the master process will execute the same isolated audit scopes sequentially and record direct file, command, browser, export, and pixel evidence.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-8ddde7866e.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-62eb8323d7",
+		"title": "COMPLETEDWORK",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_1038_master-animation-completion-orchestrator/COMPLETED_WORK.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "COMPLETEDWORK",
+				"anchor": "completedwork"
+			}
+		],
+		"excerpt": "B\"H COMPLETED WORK Connected to the live native Awtsmoos Tunnel. Read root agent law. Inspected animator root and package scripts. Read the newest relevant master checkpoint and its evidence. Created this new checkpoint without overwriting prior work. Completed three planning and critique phases. Detected and corrected",
+		"searchText": "b\"h completed work connected to the live native awtsmoos tunnel. read root agent law. inspected animator root and package scripts. read the newest relevant master checkpoint and its evidence. created this new checkpoint without overwriting prior work. completed three planning and critique phases. detected and corrected the checkpoint path typo introduced during ledger creation.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-62eb8323d7.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-692cbd3576",
+		"title": "DEFECTLEDGER",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_1038_master-animation-completion-orchestrator/DEFECT_LEDGER.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "DEFECTLEDGER",
+				"anchor": "defectledger"
+			},
+			{
+				"level": 2,
+				"text": "ORCH-001 — Checkpoint ledger path typo",
+				"anchor": "orch-001-checkpoint-ledger-path-typo"
+			}
+		],
+		"excerpt": "B\"H DEFECT LEDGER ORCH 001 — Checkpoint ledger path typo Status: Fixed. Several new ledger files were first written beneath the misspelled root geeloy. The canonical copies were rewritten beneath geelooy, and the accidental tree was removed only after its contents were verified as artifacts of this run.",
+		"searchText": "b\"h defect ledger orch 001 — checkpoint ledger path typo status: fixed. several new ledger files were first written beneath the misspelled root geeloy. the canonical copies were rewritten beneath geelooy, and the accidental tree was removed only after its contents were verified as artifacts of this run.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-692cbd3576.json"
+	},
+	{
+		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-b1cd57d154",
+		"title": "DELTA",
+		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_1038_master-animation-completion-orchestrator/DELTA.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "DELTA",
+				"anchor": "delta"
+			}
+		],
+		"excerpt": "B\"H DELTA The prior checkpoint claimed closure, but the current package includes a later realistic action minute branch. Present completion must therefore be independently refreshed. This run also discovered an orchestration artifact path typo; it is being repaired before delegation.",
+		"searchText": "b\"h delta the prior checkpoint claimed closure, but the current package includes a later realistic action minute branch. present completion must therefore be independently refreshed. this run also discovered an orchestration artifact path typo; it is being repaired before delegation.",
+		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-b1cd57d154.json"
+	}
+]

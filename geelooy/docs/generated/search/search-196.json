@@ -1,0 +1,284 @@
+[
+	{
+		"id": "docs-health-md-5b9eeee252",
+		"title": "Source and API Health Evidence",
+		"sourcePath": "docs/HEALTH.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Source and API Health Evidence",
+				"anchor": "source-and-api-health-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Derech syntax matrix",
+				"anchor": "derech-syntax-matrix"
+			},
+			{
+				"level": 2,
+				"text": "What OK proves",
+				"anchor": "what-ok-proves"
+			},
+			{
+				"level": 2,
+				"text": "What route discovery proves",
+				"anchor": "what-route-discovery-proves"
+			},
+			{
+				"level": 2,
+				"text": "Stronger evidence ladder",
+				"anchor": "stronger-evidence-ladder"
+			},
+			{
+				"level": 2,
+				"text": "Why the Text failure stays visible",
+				"anchor": "why-the-text-failure-stays-visible"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Source and API Health Evidence The Awtsmoos distinguishes existence from health, for a path in source may still fail before it can speak; Awtsmoos.com records syntax evidence separately so a generated route row is never mistaken for a runtime guarantee we did not seek. Derech syntax matr",
+		"searchText": "b\"h boruch hashem blessed is he source and api health evidence the awtsmoos distinguishes existence from health, for a path in source may still fail before it can speak; awtsmoos.com records syntax evidence separately so a generated route row is never mistaken for a runtime guarantee we did not seek. derech syntax matrix generated/derech health.md runs node check against every awtsmoos.derech.js mount in geelooy/api. at the continuation discovery point, 20 of 21 derech files parsed successfully. the one known failure remained geelooy/api/text/ awtsmoos.derech.js, with a javascript syntax error. what ok proves ok proves only that node can parse the derech file. it does not prove: imported modules exist in every deployment; credentials/configuration are present; every route handler succeeds; authentication permits the current caller; external providers are reachable; database state is valid; all http methods are accepted; websocket protocol versions match. what route discovery proves the route atlas proves source visible route registrations discovered by the generator's supported patterns and known route tables. it is stronger than a guessed list but weaker than a successful endpoint probe. stronger evidence ladder 1. source exists. 2. source parses. 3. route registration is discoverable. 4. dependencies/config load. 5. authentication/authorization works for a test identity. 6. handler executes in a controlled test. 7. expected side effects and response are verified. 8. relevant integration/browser/provider/realtime behavior is verified. why the text failure stays visible the documentation task does not silently repair unrelated application source. keeping the failure in generated health output prevents a future reader from interpreting textually extracted route evidence as a verified live endpoint.",
+		"page": "pages/docs-health-md-5b9eeee252.json"
+	},
+	{
+		"id": "docs-how-to-choose-a-project-md-d7737467cb",
+		"title": "How to Choose a Project Boundary",
+		"sourcePath": "docs/HOW_TO_CHOOSE_A_PROJECT.md",
+		"category": "Projects",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "How to Choose a Project Boundary",
+				"anchor": "how-to-choose-a-project-boundary"
+			},
+			{
+				"level": 2,
+				"text": "First question: what kind of surface is this?",
+				"anchor": "first-question-what-kind-of-surface-is-this"
+			},
+			{
+				"level": 2,
+				"text": "Use Project Explorer",
+				"anchor": "use-project-explorer"
+			},
+			{
+				"level": 2,
+				"text": "What each project packet can answer",
+				"anchor": "what-each-project-packet-can-answer"
+			},
+			{
+				"level": 2,
+				"text": "What it cannot prove",
+				"anchor": "what-it-cannot-prove"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He How to Choose a Project Boundary Choose a boundary by the behavior you need to understand, not by which directory happens to be largest. First question: what kind of surface is this? End user browser experience → look for app / public boundaries and public entry evidence. Dynamic HTTP be",
+		"searchText": "b\"h boruch hashem blessed is he how to choose a project boundary choose a boundary by the behavior you need to understand, not by which directory happens to be largest. first question: what kind of surface is this? end user browser experience → look for app / public boundaries and public entry evidence. dynamic http behavior → start with an api project, then switch to route tutorials for url semantics. game/world → use game projects plus realtime evidence where applicable. server/database/runtime → use runtime, runtime root, infrastructure, data, or operations projects. shared implementation → use library or tooling boundaries and inspect incoming consumers. compatibility/navigation root → inspect alias or generic project evidence carefully. planning/discovery material → evidence is not automatically a product. use project explorer /docs/?view=projects exposes the generated boundary model directly. filter by exact type, whether a public entry exists, whether test files exist, documentation coverage, or a path/dependency/entry search term. what each project packet can answer where is it? exact project path. how does source enter? source entry files and symbol samples. how can a user enter? discovered public html entries when present. what does it reference? lexical outgoing project edges and external package evidence. what references it? lexical incoming project edges. how might i verify it? nearby test file evidence and human docs. what it cannot prove runtime call frequency or reachability; application health; complete dynamic imports/registrations; behavioral test coverage quality; authentication/authorization policy; production deployment status. for those questions, continue into current source, dedicated api/realtime/data/security docs, tests, and runtime checks.",
+		"page": "pages/docs-how-to-choose-a-project-md-d7737467cb.json"
+	},
+	{
+		"id": "docs-integrations-md-c37aff7eb3",
+		"title": "External Integrations",
+		"sourcePath": "docs/INTEGRATIONS.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "External Integrations",
+				"anchor": "external-integrations"
+			},
+			{
+				"level": 2,
+				"text": "Awtsmoos OAuth",
+				"anchor": "awtsmoos-oauth"
+			},
+			{
+				"level": 2,
+				"text": "YouTube / Google",
+				"anchor": "youtube-google"
+			},
+			{
+				"level": 2,
+				"text": "PayPal / Wallet",
+				"anchor": "paypal-wallet"
+			},
+			{
+				"level": 2,
+				"text": "SMTP / email",
+				"anchor": "smtp-email"
+			},
+			{
+				"level": 2,
+				"text": "SSH",
+				"anchor": "ssh"
+			},
+			{
+				"level": 2,
+				"text": "AI/model providers",
+				"anchor": "ai-model-providers"
+			},
+			{
+				"level": 2,
+				"text": "Streaming connectors",
+				"anchor": "streaming-connectors"
+			},
+			{
+				"level": 2,
+				"text": "Fetch proxy",
+				"anchor": "fetch-proxy"
+			},
+			{
+				"level": 2,
+				"text": "Configuration and secrets",
+				"anchor": "configuration-and-secrets"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He External Integrations The Awtsmoos lets Awtsmoos.com meet external providers through explicit vessels while secret values and foreign failure remain outside the documentation itself. Awtsmoos OAuth Source: geelooy/api/oauth/. Human docs: docs/API/OAUTH.md. OAuth bearer evidence can becom",
+		"searchText": "b\"h boruch hashem blessed is he external integrations the awtsmoos lets awtsmoos.com meet external providers through explicit vessels while secret values and foreign failure remain outside the documentation itself. awtsmoos oauth source: geelooy/api/oauth/. human docs: docs/api/oauth.md. oauth bearer evidence can become a trusted identity source for tunnel control after server verification. client registration, redirect validation, scopes, tokens and current identity behavior remain source controlled contracts. youtube / google source: geelooy/api/youtube/ plus youtube/streaming clients. human docs: docs/api/youtube.md. configuration includes client, redirect, refresh token, encryption/session and secret root concepts; the generated environment inventory lists names without values. paypal / wallet source: geelooy/api/wallet/. human docs: docs/api/wallet.md. purchase, capture, entitlement and provider behavior must be read from current handlers/tests; mock purchase routes are not production settlement guarantees. smtp / email root server startup, geelooy/api/email/, contact, social mail and browser email interfaces are related but distinct. awtsmoos disable mail affects mail startup in inspected root behavior. ssh source: geelooy/api/ssh/ plus server side ssh infrastructure. remote command/filesystem operations are security sensitive; credentials and remote mutations must never be documented as reusable live examples. ai/model providers gpt api, browser ai, local gguf tooling, search/vector systems and developer ai integrations can use different providers/models/configuration. do not collapse them into one credential or schema. streaming connectors geelooy/api/streaming/ dispatches connector/action behavior. observed connector families include awtsmoos, facebook, twitch and youtube. each connector owns provider specific payload and credential semantics. fetch proxy /api/fetch is a server side outbound fetch surface with auth/origin/limit/binary behavior; it should not be described as an unrestricted generic proxy. configuration and secrets use docs/configuration.md, docs/security/secrets and config.md and docs/generated/environment variables.md. the generated layer intentionally records names and source ownership, never secret values.",
+		"page": "pages/docs-integrations-md-c37aff7eb3.json"
+	},
+	{
+		"id": "docs-interactive-documentation-md-5e3a4b2975",
+		"title": "Interactive Documentation Application",
+		"sourcePath": "docs/INTERACTIVE_DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Interactive Documentation Application",
+				"anchor": "interactive-documentation-application"
+			},
+			{
+				"level": 2,
+				"text": "Primary modes",
+				"anchor": "primary-modes"
+			},
+			{
+				"level": 3,
+				"text": "Learn — /docs/?view=learn",
+				"anchor": "learn-docs-view-learn"
+			},
+			{
+				"level": 3,
+				"text": "API Explorer — /docs/?view=api",
+				"anchor": "api-explorer-docs-view-api"
+			},
+			{
+				"level": 3,
+				"text": "Project Explorer — /docs/?view=projects",
+				"anchor": "project-explorer-docs-view-projects"
+			},
+			{
+				"level": 3,
+				"text": "Documents",
+				"anchor": "documents"
+			},
+			{
+				"level": 2,
+				"text": "Publication v5",
+				"anchor": "publication-v5"
+			},
+			{
+				"level": 2,
+				"text": "Evidence safety",
+				"anchor": "evidence-safety"
+			},
+			{
+				"level": 2,
+				"text": "Local browser state",
+				"anchor": "local-browser-state"
+			},
+			{
+				"level": 2,
+				"text": "Development gates",
+				"anchor": "development-gates"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Interactive Documentation Application The Awtsmoos lets canonical Markdown and generated evidence become searchable, teachable public doorways without surrendering source provenance. The application is served at /docs/ from geelooy/docs/. Primary modes Learn — /docs/?view=learn Five sour",
+		"searchText": "b\"h boruch hashem blessed is he interactive documentation application the awtsmoos lets canonical markdown and generated evidence become searchable, teachable public doorways without surrendering source provenance. the application is served at /docs/ from geelooy/docs/. primary modes learn — /docs/?view=learn five source backed tracks open canonical tutorial documents. completion state is optional browser local storage only. api explorer — /docs/?view=api consumes generated api tutorial shards and supports family/health/shape/confidence/text filters, route deep links, contract/caller/test evidence, tutorial links, copy source, guarded examples, and route aware ask. project explorer — /docs/?view=projects consumes enriched project packets and supports: exact project type filtering; public entry/test/docs yes/no filters; path/title/entry/dependency text search; selected project deep links; file shape and source entry evidence; public html entry evidence; lexical symbol summaries; incoming/outgoing project dependency evidence; external package evidence; human project family and generated project tutorial links; project aware ask and source path copy. documents global search supports free text and category:, kind: and path: filters. markdown reading preserves provenance, favorites/recents, deep links and retrieval first ask. publication v5 geelooy/docs/generated/manifest.json is the single public data entry. it declares transport bounded search/project/api tutorial arrays plus categories, page metadata and lossless markdown content shards. project packets are richer in v5 while remaining bounded and source derived. evidence safety raw markdown html is not executed; authored modules may not assign innerhtml. project imports/symbols/tests/public entries are labeled discovery evidence. route method/status/header evidence remains conservative. unknown methods never receive invented executable starters. local browser state theme, favorites, recents, and learning completion are browser local convenience state. they are not documentation authority or server/account data. development gates after frontend/publication changes, sweep every manifest declared json response through the real server and exercise home/learn/api/projects/documents/search/ask at desktop and mobile widths.",
+		"page": "pages/docs-interactive-documentation-md-5e3a4b2975.json"
+	},
+	{
+		"id": "docs-learn-add-an-api-route-md-7ac7b52b6e",
+		"title": "Add an API Route",
+		"sourcePath": "docs/LEARN/ADD_AN_API_ROUTE.md",
+		"category": "Routes",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Add an API Route",
+				"anchor": "add-an-api-route"
+			},
+			{
+				"level": 2,
+				"text": "Before coding",
+				"anchor": "before-coding"
+			},
+			{
+				"level": 2,
+				"text": "Decide ownership",
+				"anchor": "decide-ownership"
+			},
+			{
+				"level": 2,
+				"text": "Implementation checklist",
+				"anchor": "implementation-checklist"
+			},
+			{
+				"level": 2,
+				"text": "Documentation gate",
+				"anchor": "documentation-gate"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Add an API Route Before coding Read the owning local DOCUMENTATION.md, family tutorial, derech file, neighboring handlers, auth helpers, persistence paths, and tests. Decide ownership Prefer the existing family derech/route table when the behavior belongs to that subsystem. Do not create",
+		"searchText": "b\"h boruch hashem blessed is he add an api route before coding read the owning local documentation.md, family tutorial, derech file, neighboring handlers, auth helpers, persistence paths, and tests. decide ownership prefer the existing family derech/route table when the behavior belongs to that subsystem. do not create a new mount merely to avoid understanding the ancestor routing model. implementation checklist 1. define an explicit route/path shape. 2. choose method behavior in the exact handler. 3. parse only required query/body/path inputs. 4. establish trusted identity before privileged actions. 5. apply resource level authorization separately. 6. return explicit status/header/body semantics. 7. add focused tests and representative caller integration if appropriate. 8. update the human family tutorial when meaning/workflow changes. 9. regenerate docs so the route tutorial appears automatically. documentation gate the generated tutorial must never invent payload fields that the implementation does not prove.",
+		"page": "pages/docs-learn-add-an-api-route-md-7ac7b52b6e.json"
+	},
+	{
+		"id": "docs-learn-ai-agent-discovery-md-5371ffd118",
+		"title": "AI Agent Discovery",
+		"sourcePath": "docs/LEARN/AI_AGENT_DISCOVERY.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "AI Agent Discovery",
+				"anchor": "ai-agent-discovery"
+			},
+			{
+				"level": 2,
+				"text": "Goal",
+				"anchor": "goal"
+			},
+			{
+				"level": 2,
+				"text": "Recommended order",
+				"anchor": "recommended-order"
+			},
+			{
+				"level": 2,
+				"text": "Route packet",
+				"anchor": "route-packet"
+			},
+			{
+				"level": 2,
+				"text": "Evidence rules",
+				"anchor": "evidence-rules"
+			},
+			{
+				"level": 2,
+				"text": "Efficient question",
+				"anchor": "efficient-question"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He AI Agent Discovery Goal Find the right files quickly without treating semantic search, generated evidence, or repository size as authority. Recommended order 1. llms.txt for compact navigation. 2. docs/README.md or /docs/ for human framing. 3. docs/LEARN/ when the task needs conceptual c",
+		"searchText": "b\"h boruch hashem blessed is he ai agent discovery goal find the right files quickly without treating semantic search, generated evidence, or repository size as authority. recommended order 1. llms.txt for compact navigation. 2. docs/readme.md or /docs/ for human framing. 3. docs/learn/ when the task needs conceptual context. 4. docs/ai/manifest.json for project discovery. 5. docs/ai/api tutorials/manifest.json for route teaching/discovery. 6. generated evidence for exhaustive lists. 7. current source and tests for final authority. route packet each ai tutorial record includes stable id, route, source, family/manual, derech health, dynamic parameters, source level method/vessel/status/header evidence, selected callers/tests, starter example only when method evidence exists, and related routes. evidence rules unknown method is unknown; caller match is navigation evidence, not runtime proof; lexical statuses/headers are not exhaustive runtime schemas; failed derech syntax weakens runtime confidence; generated family/test matching can be heuristic; source/test evidence wins when stale docs disagree. efficient question concept → human tutorial → route/project record → source → related callers/tests → runtime verification.",
+		"page": "pages/docs-learn-ai-agent-discovery-md-5371ffd118.json"
+	}
+]

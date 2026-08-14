@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-api-response-patterns-md-1876abbb76",
+	"title": "Response Patterns",
+	"sourcePath": "docs/API/RESPONSE_PATTERNS.md",
+	"category": "API",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Response Patterns",
+			"anchor": "response-patterns"
+		},
+		{
+			"level": 2,
+			"text": "JSON-like dynamic responses",
+			"anchor": "json-like-dynamic-responses"
+		},
+		{
+			"level": 2,
+			"text": "Explicit HTTP status evidence",
+			"anchor": "explicit-http-status-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Headers",
+			"anchor": "headers"
+		},
+		{
+			"level": 2,
+			"text": "Downloads and binary content",
+			"anchor": "downloads-and-binary-content"
+		},
+		{
+			"level": 2,
+			"text": "Streaming",
+			"anchor": "streaming"
+		},
+		{
+			"level": 2,
+			"text": "WebSocket upgrade",
+			"anchor": "websocket-upgrade"
+		},
+		{
+			"level": 2,
+			"text": "Error bodies",
+			"anchor": "error-bodies"
+		},
+		{
+			"level": 2,
+			"text": "Generated evidence",
+			"anchor": "generated-evidence"
+		}
+	],
+	"markdownParts": [
+		"content/docs-api-response-patterns-md-1876abbb76-001.json"
+	]
+}

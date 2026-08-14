@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Generated API Source Contract Evidence\n\nLexical source evidence; methods marked unknown are not assumed GET. **313 rows.**\n\n| Chunk | Rows | Count |\n| --- | --- | --- |\n| [api-source-contracts-001.md](API_SOURCE_CONTRACTS/api-source-contracts-001.md) | 1–65 | 65 |\n| [api-source-contracts-002.md](API_SOURCE_CONTRACTS/api-source-contracts-002.md) | 66–130 | 65 |\n| [api-source-contracts-003.md](API_SOURCE_CONTRACTS/api-source-contracts-003.md) | 131–195 | 65 |\n| [api-source-contracts-004.md](API_SOURCE_CONTRACTS/api-source-contracts-004.md) | 196–260 | 65 |\n| [api-source-contracts-005.md](API_SOURCE_CONTRACTS/api-source-contracts-005.md) | 261–313 | 53 |\n"
+}

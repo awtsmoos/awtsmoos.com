@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-wallet-documentation-md-b9615d5703",
+	"title": "Wallet App Documentation",
+	"sourcePath": "geelooy/apps/wallet/DOCUMENTATION.md",
+	"category": "Apps",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Wallet App Documentation",
+			"anchor": "wallet-app-documentation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-wallet-documentation-md-b9615d5703-001.json"
+	]
+}

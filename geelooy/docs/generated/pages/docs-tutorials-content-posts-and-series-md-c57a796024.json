@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-tutorials-content-posts-and-series-md-c57a796024",
+	"title": "Posts and Series",
+	"sourcePath": "docs/TUTORIALS/CONTENT/POSTS_AND_SERIES.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Posts and Series",
+			"anchor": "posts-and-series"
+		},
+		{
+			"level": 2,
+			"text": "Post flows",
+			"anchor": "post-flows"
+		},
+		{
+			"level": 2,
+			"text": "Series flows",
+			"anchor": "series-flows"
+		},
+		{
+			"level": 2,
+			"text": "Canonical evolution",
+			"anchor": "canonical-evolution"
+		},
+		{
+			"level": 2,
+			"text": "Safe mutation",
+			"anchor": "safe-mutation"
+		}
+	],
+	"markdownParts": [
+		"content/docs-tutorials-content-posts-and-series-md-c57a796024-001.json"
+	]
+}

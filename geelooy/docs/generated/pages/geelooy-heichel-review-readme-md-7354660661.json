@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-heichel-review-readme-md-7354660661",
+	"title": "B\"H",
+	"sourcePath": "geelooy/heichel-review/README.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Boruch Hashem",
+			"anchor": "boruch-hashem"
+		},
+		{
+			"level": 1,
+			"text": "Blessed is He",
+			"anchor": "blessed-is-he"
+		},
+		{
+			"level": 1,
+			"text": "Heichel Review and Governance Center",
+			"anchor": "heichel-review-and-governance-center"
+		},
+		{
+			"level": 2,
+			"text": "Entry point",
+			"anchor": "entry-point"
+		},
+		{
+			"level": 2,
+			"text": "Review center",
+			"anchor": "review-center"
+		},
+		{
+			"level": 2,
+			"text": "Member governance",
+			"anchor": "member-governance"
+		},
+		{
+			"level": 2,
+			"text": "Invitations",
+			"anchor": "invitations"
+		},
+		{
+			"level": 2,
+			"text": "Series policy",
+			"anchor": "series-policy"
+		},
+		{
+			"level": 2,
+			"text": "Security",
+			"anchor": "security"
+		},
+		{
+			"level": 2,
+			"text": "Tests",
+			"anchor": "tests"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-heichel-review-readme-md-7354660661-001.json"
+	]
+}

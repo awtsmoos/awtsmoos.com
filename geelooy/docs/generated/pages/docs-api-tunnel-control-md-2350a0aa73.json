@@ -1,0 +1,84 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-api-tunnel-control-md-2350a0aa73",
+	"title": "Tunnel Control API",
+	"sourcePath": "docs/API/TUNNEL_CONTROL.md",
+	"category": "API",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Tunnel Control API",
+			"anchor": "tunnel-control-api"
+		},
+		{
+			"level": 2,
+			"text": "Mount",
+			"anchor": "mount"
+		},
+		{
+			"level": 2,
+			"text": "Route families",
+			"anchor": "route-families"
+		},
+		{
+			"level": 3,
+			"text": "Identity and bootstrap",
+			"anchor": "identity-and-bootstrap"
+		},
+		{
+			"level": 3,
+			"text": "Keys, pairing, grants, device access",
+			"anchor": "keys-pairing-grants-device-access"
+		},
+		{
+			"level": 3,
+			"text": "Remote filesystem and tunnel traffic",
+			"anchor": "remote-filesystem-and-tunnel-traffic"
+		},
+		{
+			"level": 3,
+			"text": "Preview and viewing",
+			"anchor": "preview-and-viewing"
+		},
+		{
+			"level": 3,
+			"text": "Blobs and ephemeral results",
+			"anchor": "blobs-and-ephemeral-results"
+		},
+		{
+			"level": 3,
+			"text": "Mission/collaboration/live calls",
+			"anchor": "mission-collaboration-live-calls"
+		},
+		{
+			"level": 3,
+			"text": "Compute and accounting",
+			"anchor": "compute-and-accounting"
+		},
+		{
+			"level": 3,
+			"text": "Treasury/economy",
+			"anchor": "treasury-economy"
+		},
+		{
+			"level": 2,
+			"text": "Identity model",
+			"anchor": "identity-model"
+		},
+		{
+			"level": 2,
+			"text": "Human clients",
+			"anchor": "human-clients"
+		},
+		{
+			"level": 2,
+			"text": "Full list",
+			"anchor": "full-list"
+		}
+	],
+	"markdownParts": [
+		"content/docs-api-tunnel-control-md-2350a0aa73-001.json"
+	]
+}

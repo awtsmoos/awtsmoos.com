@@ -1,0 +1,329 @@
+[
+	{
+		"id": "docs-api-social-md-47d36f52f7",
+		"title": "Social API",
+		"sourcePath": "docs/API/SOCIAL.md",
+		"category": "API",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Social API",
+				"anchor": "social-api"
+			},
+			{
+				"level": 2,
+				"text": "Mount",
+				"anchor": "mount"
+			},
+			{
+				"level": 2,
+				"text": "Major domains observed",
+				"anchor": "major-domains-observed"
+			},
+			{
+				"level": 2,
+				"text": "Identity",
+				"anchor": "identity"
+			},
+			{
+				"level": 2,
+				"text": "Request helpers",
+				"anchor": "request-helpers"
+			},
+			{
+				"level": 2,
+				"text": "Frontend surfaces",
+				"anchor": "frontend-surfaces"
+			},
+			{
+				"level": 2,
+				"text": "Exhaustive endpoint lookup",
+				"anchor": "exhaustive-endpoint-lookup"
+			},
+			{
+				"level": 2,
+				"text": "Before modifying a Social endpoint",
+				"anchor": "before-modifying-a-social-endpoint"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Social API The Awtsmoos gives identity, relationship, content, and conversation a shared domain; Awtsmoos.com gathers hundreds of social paths under one derech so the human needs a map in hand. Mount Primary derech: geelooy/api/social/ awtsmoos.derech.js → /api/social/.... The derech con",
+		"searchText": "b\"h boruch hashem blessed is he social api the awtsmoos gives identity, relationship, content, and conversation a shared domain; awtsmoos.com gathers hundreds of social paths under one derech so the human needs a map in hand. mount primary derech: geelooy/api/social/ awtsmoos.derech.js → /api/social/.... the derech constructs a request vessel and merges many route factory modules rather than keeping every endpoint in one file. this is why the generated atlas is essential. major domains observed authenticated profile/user state; aliases and alias ownership; follows/followers and relationships; posts and post metadata; heichelos, series, editors, ownership, review/governance; comments, comment threads, replies, moderation; notifications/signals; social api keys; mail/social messaging; drive/file like social storage; search and rag oriented retrieval; graph/entity relationships; packed/import/export style content; civilization/node os/community adjacent functionality. identity social can act from signed server login state or a verified revocable api key. key helpers accept supported input/header/bearer forms and store a sha 256 hash rather than the raw key. ownership checks still matter after authentication, especially for alias/heichel/post/comment writes. request helpers helper/general.js exposes common login and options behavior. myopts normalizes pagination/filter/query controls used by social reads. api key helpers live in helper/apikeys.js. frontend surfaces primary consumers include profile, social hub, social composer, comments, notifications, heichel editors/review/display, post editor, and some mail/drive experiences. exhaustive endpoint lookup search /api/social/ in ../generated/api route atlas.md. the social family contributes hundreds of route patterns spread across dozens of route bearing files, so a hand copied flat list would become stale faster than the generated inventory. before modifying a social endpoint 1. find the route row and source module. 2. identify the route factory/domain owner. 3. trace alias/heichel/post/comment ownership checks. 4. identify db paths touched. 5. search all browser callers. 6. run the relevant social/profile/heichel/post/comment/api key tests from package.json and subsystem test folders. 7. regenerate docs.",
+		"page": "pages/docs-api-social-md-47d36f52f7.json"
+	},
+	{
+		"id": "docs-api-streaming-md-3206758286",
+		"title": "Streaming API",
+		"sourcePath": "docs/API/STREAMING.md",
+		"category": "API",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Streaming API",
+				"anchor": "streaming-api"
+			},
+			{
+				"level": 2,
+				"text": "Mount",
+				"anchor": "mount"
+			},
+			{
+				"level": 2,
+				"text": "Public table keys",
+				"anchor": "public-table-keys"
+			},
+			{
+				"level": 2,
+				"text": "Design",
+				"anchor": "design"
+			},
+			{
+				"level": 2,
+				"text": "Headers/CORS",
+				"anchor": "headers-cors"
+			},
+			{
+				"level": 2,
+				"text": "Related products",
+				"anchor": "related-products"
+			},
+			{
+				"level": 2,
+				"text": "Reference",
+				"anchor": "reference"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Streaming API The Awtsmoos lets one stream pass through many providers while each connector keeps its own key; Awtsmoos.com uses a dispatch layer so the human must follow provider and action before assuming what will be. Mount geelooy/api/streaming/ awtsmoos.derech.js mounts a route tabl",
+		"searchText": "b\"h boruch hashem blessed is he streaming api the awtsmoos lets one stream pass through many providers while each connector keeps its own key; awtsmoos.com uses a dispatch layer so the human must follow provider and action before assuming what will be. mount geelooy/api/streaming/ awtsmoos.derech.js mounts a route table beneath /api/streaming. public table keys the top level table currently exposes root and connector dispatch concepts. beneath that layer, connector plugins observed in the source include awtsmoos, facebook, twitch, and youtube oriented behavior. design this is not best understood as a static crud list. requests dispatch through connector/action logic, so the route suffix, provider selection, action name, credentials, and payload shape must be read in the concrete connector module. headers/cors the inspected derech applies public/cors/no store style response behavior appropriate to the connector gateway. that does not imply every provider action is anonymous; provider credentials or account state can still be required by the action implementation. related products broadcaster/media tools, youtube manager, and streaming related apps can sit above this layer. youtube also has its own dedicated /api/youtube route table for channel/video/live management. reference use ../generated/api file inventory.md to see every streaming source file and ../generated/api route atlas.md for mounted route evidence.",
+		"page": "pages/docs-api-streaming-md-3206758286.json"
+	},
+	{
+		"id": "docs-api-tunnel-control-md-2350a0aa73",
+		"title": "Tunnel Control API",
+		"sourcePath": "docs/API/TUNNEL_CONTROL.md",
+		"category": "API",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tunnel Control API",
+				"anchor": "tunnel-control-api"
+			},
+			{
+				"level": 2,
+				"text": "Mount",
+				"anchor": "mount"
+			},
+			{
+				"level": 2,
+				"text": "Route families",
+				"anchor": "route-families"
+			},
+			{
+				"level": 3,
+				"text": "Identity and bootstrap",
+				"anchor": "identity-and-bootstrap"
+			},
+			{
+				"level": 3,
+				"text": "Keys, pairing, grants, device access",
+				"anchor": "keys-pairing-grants-device-access"
+			},
+			{
+				"level": 3,
+				"text": "Remote filesystem and tunnel traffic",
+				"anchor": "remote-filesystem-and-tunnel-traffic"
+			},
+			{
+				"level": 3,
+				"text": "Preview and viewing",
+				"anchor": "preview-and-viewing"
+			},
+			{
+				"level": 3,
+				"text": "Blobs and ephemeral results",
+				"anchor": "blobs-and-ephemeral-results"
+			},
+			{
+				"level": 3,
+				"text": "Mission/collaboration/live calls",
+				"anchor": "mission-collaboration-live-calls"
+			},
+			{
+				"level": 3,
+				"text": "Compute and accounting",
+				"anchor": "compute-and-accounting"
+			},
+			{
+				"level": 3,
+				"text": "Treasury/economy",
+				"anchor": "treasury-economy"
+			},
+			{
+				"level": 2,
+				"text": "Identity model",
+				"anchor": "identity-model"
+			},
+			{
+				"level": 2,
+				"text": "Human clients",
+				"anchor": "human-clients"
+			},
+			{
+				"level": 2,
+				"text": "Full list",
+				"anchor": "full-list"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Control API The Awtsmoos joins distant machine to trusted request, with every grant kept in its place; Awtsmoos.com exposes a wide control plane, so a human needs the families before the full route space. Mount geelooy/api/tunnel/control/ awtsmoos.derech.js → /api/tunnel/control/.",
+		"searchText": "b\"h boruch hashem blessed is he tunnel control api the awtsmoos joins distant machine to trusted request, with every grant kept in its place; awtsmoos.com exposes a wide control plane, so a human needs the families before the full route space. mount geelooy/api/tunnel/control/ awtsmoos.derech.js → /api/tunnel/control/.... the derech delegates to routes/table.js. the current route table contains 79 keys , all included in the generated route atlas. route families identity and bootstrap bootstrap, me, my device, device, devices, organization, provider, openapi, openapi key, docs, docs.json. keys, pairing, grants, device access api keys , pairing/request, pairing/approve, pairing/status, tunnels/access, tunnels/devices/revoke, tunnels/grants/create, tunnels/grants/revoke. remote filesystem and tunnel traffic fs/:tunnelname, fs/awtsmoos os, handoff/:tunnelname, plus base tunnel routes outside control for clients/status/request/filesystem. preview and viewing preview/:tunnelname, create/list/update/revoke/grant/settings routes, view/:previewid, view/:previewid/raw, view/:previewid/proxy, and view/:previewid/ws. blobs and ephemeral results blob/:blobid, manifest/view variants, ephemeral/list, ephemeral/:resultid, page/search/delete variants. mission/collaboration/live calls mission room/stream, live calls, live calls/stream, conversation get/list/register, and flow oriented controls. websocket mission room behavior also exists server side. compute and accounting compute, capture/history/receipt/subscription, usage, resource accounting, receipt/certificate, refund, budgets, bank, marketplace, agent economy. treasury/economy treasury and routes for advisor, agents, budgets, forecast, graph, home, marketplace, providers, reputation; plus admin/perutas, admin vault, and treasury test/support surfaces. identity model core/auth.js derives trusted identity from oauth bearer evidence, verified api keys, or signed session state. browser supplied owner fields are not authoritative. this is a central security invariant when adding routes. human clients geelooy/apps/tunnel control, geelooy/apps/tunnel, shared tunnel code, installed agents, and awtsmoos os/code integrations are major consumers. full list search /api/tunnel/control/ in ../generated/api route atlas.md. for installer downloads see other families.md.",
+		"page": "pages/docs-api-tunnel-control-md-2350a0aa73.json"
+	},
+	{
+		"id": "docs-api-wallet-md-74103fc61e",
+		"title": "Wallet and Commerce API",
+		"sourcePath": "docs/API/WALLET.md",
+		"category": "API",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Wallet and Commerce API",
+				"anchor": "wallet-and-commerce-api"
+			},
+			{
+				"level": 2,
+				"text": "Mount",
+				"anchor": "mount"
+			},
+			{
+				"level": 2,
+				"text": "Current route-table keys",
+				"anchor": "current-route-table-keys"
+			},
+			{
+				"level": 2,
+				"text": "Adjacent economy systems",
+				"anchor": "adjacent-economy-systems"
+			},
+			{
+				"level": 2,
+				"text": "Browser surface",
+				"anchor": "browser-surface"
+			},
+			{
+				"level": 2,
+				"text": "Safety for callers",
+				"anchor": "safety-for-callers"
+			},
+			{
+				"level": 2,
+				"text": "Reference",
+				"anchor": "reference"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Wallet and Commerce API The Awtsmoos gives value a vessel, but accounting must never be guessed from a friendly route name; Awtsmoos.com documents the gates while the implementation remains the authority for every monetary claim. Mount geelooy/api/wallet/ awtsmoos.derech.js mounts the Wa",
+		"searchText": "b\"h boruch hashem blessed is he wallet and commerce api the awtsmoos gives value a vessel, but accounting must never be guessed from a friendly route name; awtsmoos.com documents the gates while the implementation remains the authority for every monetary claim. mount geelooy/api/wallet/ awtsmoos.derech.js mounts the wallet route table beneath /api/wallet. current route table keys me — wallet/user context. balance — balance oriented read. commerce/catalog — purchasable catalog. commerce/entitlements — ownership/entitlement view. commerce/purchase — purchase flow. buy/mock — mock purchase/testing path. paypal/create — paypal order/payment creation flow. paypal/capture — paypal capture flow. adjacent economy systems geelooy/api/perutas/ contains additional perutah oriented implementation material. tunnel control also owns compute/accounting/bank/budget/marketplace/treasury/reputation routes. treat those as adjacent ledgers/control plane economy rather than silently merging them with wallet semantics. browser surface geelooy/apps/wallet/ is titled “awtsmoos wallet — perutah treasury” in the current checkout. safety for callers do not infer currency units, settlement guarantees, idempotency, refund rules, production vs mock behavior, or entitlement semantics from endpoint names. read handler code and payment provider configuration before making financial assumptions. reference search /api/wallet/ in the generated route atlas for source links.",
+		"page": "pages/docs-api-wallet-md-74103fc61e.json"
+	},
+	{
+		"id": "docs-api-youtube-md-521ce107db",
+		"title": "YouTube API",
+		"sourcePath": "docs/API/YOUTUBE.md",
+		"category": "API",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "YouTube API",
+				"anchor": "youtube-api"
+			},
+			{
+				"level": 2,
+				"text": "Mount",
+				"anchor": "mount"
+			},
+			{
+				"level": 2,
+				"text": "Current route-table keys",
+				"anchor": "current-route-table-keys"
+			},
+			{
+				"level": 3,
+				"text": "Root and auth",
+				"anchor": "root-and-auth"
+			},
+			{
+				"level": 3,
+				"text": "Channels",
+				"anchor": "channels"
+			},
+			{
+				"level": 3,
+				"text": "Videos and uploads",
+				"anchor": "videos-and-uploads"
+			},
+			{
+				"level": 3,
+				"text": "Live streaming",
+				"anchor": "live-streaming"
+			},
+			{
+				"level": 2,
+				"text": "Browser surface",
+				"anchor": "browser-surface"
+			},
+			{
+				"level": 2,
+				"text": "Calling notes",
+				"anchor": "calling-notes"
+			},
+			{
+				"level": 2,
+				"text": "Generated reference",
+				"anchor": "generated-reference"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He YouTube API The Awtsmoos lets media move through an external provider while credentials remain a guarded key; Awtsmoos.com gathers channel, upload, video, live, and OAuth actions in one family to see. Mount geelooy/api/youtube/ awtsmoos.derech.js delegates to a route table beneath /api/y",
+		"searchText": "b\"h boruch hashem blessed is he youtube api the awtsmoos lets media move through an external provider while credentials remain a guarded key; awtsmoos.com gathers channel, upload, video, live, and oauth actions in one family to see. mount geelooy/api/youtube/ awtsmoos.derech.js delegates to a route table beneath /api/youtube. current route table keys root and auth /, auth/start, auth/callback, auth/status, auth/logout, plus parallel oauth/start, oauth/callback, oauth/status, oauth/logout routes. channels channel, channel/mine. videos and uploads videos, videos/list, videos/update, uploads/start. live streaming live, live/list, live/create, live/transition. browser surface geelooy/youtube/ is the primary named youtube manager ui found in the public tree. streaming/broadcaster tools may also interact with provider specific capabilities. calling notes provider oauth state, external api credentials, upload payloads, channel ownership, and live state transitions are implementation sensitive. use the route table to locate the concrete handler before constructing a call. generated reference every route table key above appears under /api/youtube/ in ../generated/api route atlas.md.",
+		"page": "pages/docs-api-youtube-md-521ce107db.json"
+	},
+	{
+		"id": "docs-apps-commerce-and-wallet-md-86e8c3df49",
+		"title": "Commerce and Wallet",
+		"sourcePath": "docs/APPS/COMMERCE_AND_WALLET.md",
+		"category": "Apps",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Commerce and Wallet",
+				"anchor": "commerce-and-wallet"
+			},
+			{
+				"level": 2,
+				"text": "Wallet app — geelooy/apps/wallet/",
+				"anchor": "wallet-app-geelooy-apps-wallet"
+			},
+			{
+				"level": 2,
+				"text": "Perutas",
+				"anchor": "perutas"
+			},
+			{
+				"level": 2,
+				"text": "Tunnel Control economy",
+				"anchor": "tunnel-control-economy"
+			},
+			{
+				"level": 2,
+				"text": "Payment safety",
+				"anchor": "payment-safety"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Commerce and Wallet The Awtsmoos lets value be counted in a vessel, while trust demands every ledger be read with care; Awtsmoos.com separates Wallet, provider compute, and treasury so similar names do not imply one accounting layer. Wallet app — geelooy/apps/wallet/ Current title: “Awts",
+		"searchText": "b\"h boruch hashem blessed is he commerce and wallet the awtsmoos lets value be counted in a vessel, while trust demands every ledger be read with care; awtsmoos.com separates wallet, provider compute, and treasury so similar names do not imply one accounting layer. wallet app — geelooy/apps/wallet/ current title: “awtsmoos wallet — perutah treasury.” primary backend is /api/wallet/ . wallet routes cover user context, balance, catalog, entitlements, purchase, mock buy, and paypal create/capture flows. see ../api/wallet.md. perutas geelooy/api/perutas/ contains perutah oriented source. if it lacks an independent derech mount, trace its owning caller/ancestor rather than assuming /api/perutas is directly callable. tunnel control economy the tunnel control api has separate accounting/economy concepts: compute receipts/history/subscriptions, usage, resource accounting, bank, budgets, marketplace, provider, refund, reputation, and treasury subroutes. these are not automatically the same ledger or contract as wallet. payment safety before changing commerce code, inspect: authentication and ownership; idempotency/replay handling; external provider configuration; mock/test versus production behavior; entitlement persistence; balance/perutah units; refund/capture state transitions; tests around money like state. do not infer real monetary guarantees from endpoint or ui names alone.",
+		"page": "pages/docs-apps-commerce-and-wallet-md-86e8c3df49.json"
+	}
+]

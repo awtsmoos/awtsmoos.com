@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\n\n# Phase One — Theoretical File Map\n\nThis is a hypothesis map only. Actual files must be confirmed before rewriting.\n\n## Likely source families\n\n- `src/character/**`: identity, performance state, evaluation, serialization.\n- `src/render/**` and `tools/render/**`: production geometry, preview/export bridge, frame rendering.\n- `src/camera/**`: views, shot plans, framing, continuity.\n- `src/persistence/**`: save, import, restoration, transient filtering.\n- `src/scenes/**`: one-minute sitcom project, dialogue, text boxes, titles, timeline.\n- `tools/verify/**`: feature smokes, browser proof, scale courts, metadata, compliance.\n- `proofs/**`: source project, preview, final MP4, proof frames, manifests, hashes.\n- `package.json`: only if verification or render command coverage is incomplete.\n\n## Files that may be written\n\nOnly files proven defective or missing after full readback. Every changed file will be rewritten completely, kept below 120 JavaScript lines, tab-indented, fully documented, and verified against consumers.\n"
+}

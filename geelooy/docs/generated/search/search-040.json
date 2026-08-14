@@ -1,0 +1,100 @@
+[
+	{
+		"id": "docs-generated-api-tutorial-index-routes-011-md-5bf68900f3",
+		"title": "API Tutorial Routes 451–495",
+		"sourcePath": "docs/GENERATED/API_TUTORIAL_INDEX/routes-011.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial Routes 451–495",
+				"anchor": "api-tutorial-routes-451-495"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial Routes 451–495 Each row links one discovered API route to generated teaching. Method/contract fields remain evidence, not invented schemas. Route Family Method evidence Health Tutorial Source /api/social/user/:user/aliases/:alias Social GET, POST, PUT, DELETE OK tutorial gee",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial routes 451–495 each row links one discovered api route to generated teaching. method/contract fields remain evidence, not invented schemas. route family method evidence health tutorial source /api/social/user/:user/aliases/:alias social get, post, put, delete ok tutorial geelooy/api/social/ awtsmoos.alias.js /api/social/user/:user/aliases/:alias/details social get, post, put, delete ok tutorial geelooy/api/social/ awtsmoos.alias.js /api/social/user/:user/aliases/details social get, post, put, delete ok tutorial geelooy/api/social/ awtsmoos.alias.js /api/streaming streaming unknown ok tutorial geelooy/api/streaming/routes/table.js /api/streaming/:connector streaming unknown ok tutorial geelooy/api/streaming/ awtsmoos.derech.js /api/streaming/:connector/:action streaming unknown ok tutorial geelooy/api/streaming/ awtsmoos.derech.js /api/streaming/connector streaming unknown ok tutorial geelooy/api/streaming/routes/table.js /api/text/timestamp/:jobid text jobs unknown fail tutorial geelooy/api/text/ awtsmoos.derech.js /api/text/timestamp/:jobid/result text jobs unknown fail tutorial geelooy/api/text/ awtsmoos.derech.js /api/tunnel/control/admin vault tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/admin/perutas tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/agent economy tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/api keys tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/api keys/create tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/api keys/revoke tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/bank tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/blob/:blobid tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/blob/:blobid/manifest tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/blob/:blobid/view tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/bootstrap tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/budgets tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/compute tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/compute/capture tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/compute/history tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/compute/receipt tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/compute/subscription tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/conversations/get tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/conversations/list tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/conversations/register tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/device tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/devices tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/docs tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/docs.json tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/ephemeral/:resultid tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/ephemeral/:resultid/delete tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/ephemeral/:resultid/page tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/ephemeral/:resultid/search tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/ephemeral/list tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/flow tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/fs/:tunnelname tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/fs/awtsmoos os tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/handoff/:tunnelname tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/live calls tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/live calls/stream tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/marketplace tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js",
+		"page": "pages/docs-generated-api-tutorial-index-routes-011-md-5bf68900f3.json"
+	},
+	{
+		"id": "docs-generated-api-tutorial-index-routes-012-md-ae4d115c02",
+		"title": "API Tutorial Routes 496–540",
+		"sourcePath": "docs/GENERATED/API_TUTORIAL_INDEX/routes-012.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial Routes 496–540",
+				"anchor": "api-tutorial-routes-496-540"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial Routes 496–540 Each row links one discovered API route to generated teaching. Method/contract fields remain evidence, not invented schemas. Route Family Method evidence Health Tutorial Source /api/tunnel/control/me Tunnel Control unknown OK tutorial geelooy/api/tunnel/contro",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial routes 496–540 each row links one discovered api route to generated teaching. method/contract fields remain evidence, not invented schemas. route family method evidence health tutorial source /api/tunnel/control/me tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/mission room/stream tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/my device tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/openapi tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/openapi key tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/organization tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/pairing/approve tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/pairing/request tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/pairing/status tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/preview/:tunnelname tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/preview/access/revoke tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/preview/create tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/preview/grant tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/preview/list tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/preview/revoke tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/preview/settings tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/preview/settings/set tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/preview/update tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/provider tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/receipt/certificate tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/refund tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/reputation tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/resource accounting tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/treasury tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/treasury test tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/treasury/advisor tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/treasury/agents tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/treasury/budgets tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/treasury/forecast tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/treasury/graph tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/treasury/home tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/treasury/marketplace tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/treasury/providers tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/treasury/reputation tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/tunnels/access tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/tunnels/devices/revoke tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/tunnels/grants/create tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/tunnels/grants/revoke tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/usage tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/view/:previewid tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/view/:previewid/proxy tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/view/:previewid/raw tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/control/view/:previewid/ws tunnel control unknown ok tutorial geelooy/api/tunnel/control/routes/table.js /api/tunnel/fs/:tunnelname tunnel relay unknown ok tutorial geelooy/api/tunnel/ awtsmoos.derech.js /api/tunnel/request/:tunnelname tunnel relay unknown ok tutorial geelooy/api/tunnel/ awtsmoos.derech.js",
+		"page": "pages/docs-generated-api-tutorial-index-routes-012-md-ae4d115c02.json"
+	},
+	{
+		"id": "docs-generated-api-tutorial-index-routes-013-md-aad53b72e0",
+		"title": "API Tutorial Routes 541–573",
+		"sourcePath": "docs/GENERATED/API_TUTORIAL_INDEX/routes-013.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial Routes 541–573",
+				"anchor": "api-tutorial-routes-541-573"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial Routes 541–573 Each row links one discovered API route to generated teaching. Method/contract fields remain evidence, not invented schemas. Route Family Method evidence Health Tutorial Source /api/wallet/balance Wallet unknown OK tutorial geelooy/api/wallet/routes/table.js /",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial routes 541–573 each row links one discovered api route to generated teaching. method/contract fields remain evidence, not invented schemas. route family method evidence health tutorial source /api/wallet/balance wallet unknown ok tutorial geelooy/api/wallet/routes/table.js /api/wallet/buy/mock wallet unknown ok tutorial geelooy/api/wallet/routes/table.js /api/wallet/commerce/catalog wallet unknown ok tutorial geelooy/api/wallet/routes/table.js /api/wallet/commerce/entitlements wallet unknown ok tutorial geelooy/api/wallet/routes/table.js /api/wallet/commerce/purchase wallet unknown ok tutorial geelooy/api/wallet/routes/table.js /api/wallet/me wallet unknown ok tutorial geelooy/api/wallet/routes/table.js /api/wallet/paypal/capture wallet unknown ok tutorial geelooy/api/wallet/routes/table.js /api/wallet/paypal/create wallet unknown ok tutorial geelooy/api/wallet/routes/table.js /api/wallet/transfer wallet unknown ok tutorial geelooy/api/wallet/routes/table.js /api/what/:are/you/:doing api root unknown ok tutorial geelooy/api/ awtsmoos.derech.js /api/wow/:asd/asd/:rt/k api root unknown ok tutorial geelooy/api/ awtsmoos.derech.js /api/youtube youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/:a youtube unknown ok tutorial geelooy/api/youtube/ awtsmoos.derech.js /api/youtube/:a/:b youtube unknown ok tutorial geelooy/api/youtube/ awtsmoos.derech.js /api/youtube/:a/:b/:c youtube unknown ok tutorial geelooy/api/youtube/ awtsmoos.derech.js /api/youtube/auth/callback youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/auth/logout youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/auth/start youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/auth/status youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/channel youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/channel/mine youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/live youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/live/create youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/live/list youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/live/transition youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/oauth/callback youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/oauth/logout youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/oauth/start youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/oauth/status youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/uploads/start youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/videos youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/videos/list youtube unknown ok tutorial geelooy/api/youtube/routes/table.js /api/youtube/videos/update youtube unknown ok tutorial geelooy/api/youtube/routes/table.js",
+		"page": "pages/docs-generated-api-tutorial-index-routes-013-md-aad53b72e0.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-admin-code-932e02a2cc-md-b9fcb9faa4",
+		"title": "API Tutorial: /api/admin/code",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-admin-code-932e02a2cc.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/admin/code",
+				"anchor": "api-tutorial-api-admin-code"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/admin/code Family: Admin · Mount: /api/admin · Derech health: OK Source: geelooy/api/admin/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human Admin tutorial Generated evidence is a navigation and teaching aid, not an OpenAPI con",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/admin/code family: admin · mount: /api/admin · derech health: ok source: geelooy/api/admin/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human admin tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: $ post, identity observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/admin/code geelooy/control/app.js runtime related tests no package script heuristic match was found. related routes none generated.",
+		"page": "pages/docs-generated-api-tutorials-routes-api-admin-code-932e02a2cc-md-b9fcb9faa4.json"
+	}
+]

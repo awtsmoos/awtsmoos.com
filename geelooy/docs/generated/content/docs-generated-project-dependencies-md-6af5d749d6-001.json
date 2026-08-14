@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Generated Cross-Project Dependency Evidence\n\nRelative-import edges between observed project boundaries; counts are lexical references, not runtime reachability. **69 rows.**\n\n| Chunk | Rows | Count |\n| --- | --- | --- |\n| [dependencies-001.md](PROJECT_DEPENDENCIES/dependencies-001.md) | 1–65 | 65 |\n| [dependencies-002.md](PROJECT_DEPENDENCIES/dependencies-002.md) | 66–69 | 4 |\n"
+}

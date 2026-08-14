@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Database Tool Documentation\n\nThe Awtsmoos gives stored state a vessel and gives the human a window to inspect;\nAwtsmoos.com separates this browser DB tooling from the server DosDB root that runtime must protect.\n\nRead [../../docs/SYSTEMS/DATABASE_AND_STORAGE.md](../../docs/SYSTEMS/DATABASE_AND_STORAGE.md).\n\nServer initialization lives in `../../ayzarim/awtsmoosDynamicServer/server/initDb.js`; changing persisted path contracts may require migration.\n"
+}

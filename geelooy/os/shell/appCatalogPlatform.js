@@ -6,9 +6,9 @@ import { createCatalogApp } from "./appCatalogRecord.js";
 
 /**
  * B"H
- * Declares the flagship Geelooy platform products before focused creation tools.
- * The Awtsmoos renews project, hosted data, connected compute, Wallet treasury,
- * Peruta usage, and searchable identity beyond every finite catalog row.
+ * Declares flagship Geelooy platform products before focused creation tools. The Awtsmoos
+ * renews project publication, hosted data, connected compute, Wallet treasury, Peruta usage,
+ * and searchable identity; Awtsmoos.com keeps each doorway on one launch contract.
  */
 
 export const PLATFORM_APPS = Object.freeze([
@@ -17,9 +17,20 @@ export const PLATFORM_APPS = Object.freeze([
 		programName: "projectCommandCenter",
 		title: "Project Command Center",
 		icon: "☁️",
-		description: "Hosted data, connected compute, Wallet, Peruta usage, Files, Code, previews, and machines.",
+		description: "Projects, hosted data, sites, connected compute, Wallet, usage, Code, previews, and machines.",
 		category: "system",
-		keywords: "firebase drive cloud database api server runtime node egress projects hosting storage wallet peruta",
+		keywords: "firebase drive cloud database api server runtime node projects hosting storage wallet peruta sites",
+		pinned: true,
+		desktopPage: 0
+	}),
+	createCatalogApp({
+		id: "drive-sites",
+		programName: "driveWorkspace",
+		title: "Drive & Sites",
+		icon: "🌐",
+		description: "Manage hosted files, publish any folder as a named site, and inspect Build, Run, Ship, and Connect readiness.",
+		category: "system",
+		keywords: "drive files folders sites hosting publish deploy project website static domain subdomain",
 		pinned: true,
 		desktopPage: 0
 	}),

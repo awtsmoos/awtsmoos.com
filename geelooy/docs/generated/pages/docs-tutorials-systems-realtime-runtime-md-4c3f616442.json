@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-tutorials-systems-realtime-runtime-md-4c3f616442",
+	"title": "Tutorial: Realtime Runtime",
+	"sourcePath": "docs/TUTORIALS/SYSTEMS/REALTIME_RUNTIME.md",
+	"category": "Realtime",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Tutorial: Realtime Runtime",
+			"anchor": "tutorial-realtime-runtime"
+		},
+		{
+			"level": 2,
+			"text": "Layers",
+			"anchor": "layers"
+		},
+		{
+			"level": 2,
+			"text": "Specialized systems",
+			"anchor": "specialized-systems"
+		},
+		{
+			"level": 2,
+			"text": "Evidence",
+			"anchor": "evidence"
+		}
+	],
+	"markdownParts": [
+		"content/docs-tutorials-systems-realtime-runtime-md-4c3f616442-001.json"
+	]
+}

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Service Worker\n\nThe Awtsmoos lets old caches depart so the present source can answer without a ghost;\nAwtsmoos.com currently uses its service worker as a retirement vessel, not an offline proxy host.\n\n## Source\n\n`geelooy/service-worker.js`\n\n## Current behavior\n\nThe worker is intentionally a retirement/cleanup worker:\n\n- no `fetch` handler is installed;\n- installation calls `skipWaiting`;\n- activation unregisters the worker;\n- clients receive a `geelooy-service-worker-retired` message.\n\n## Consequence\n\nDo not document current Geelooy behavior as service-worker-backed offline caching. If a future feature reintroduces fetch interception/cache management, that is a major runtime change and this page plus browser deployment tests must be updated.\n\n## Why this deserves its own page\n\nA stale service worker can make filesystem/routes appear broken even when current source is correct. The retirement design is therefore operationally important even though the file is small.\n"
+}

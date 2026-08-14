@@ -1,0 +1,49 @@
+[
+	{
+		"id": "tools-meluket-translation-job-readme-md-e514fd58ac",
+		"title": "Meluket DeepSeek Translation Job Scaffold",
+		"sourcePath": "tools/meluket-translation-job/README.md",
+		"category": "Operations",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Meluket DeepSeek Translation Job Scaffold",
+				"anchor": "meluket-deepseek-translation-job-scaffold"
+			},
+			{
+				"level": 2,
+				"text": "Compact alignment model",
+				"anchor": "compact-alignment-model"
+			},
+			{
+				"level": 2,
+				"text": "Required output contents",
+				"anchor": "required-output-contents"
+			},
+			{
+				"level": 2,
+				"text": "Transliteration / glossary rules",
+				"anchor": "transliteration-glossary-rules"
+			},
+			{
+				"level": 2,
+				"text": "Compact XML response schema",
+				"anchor": "compact-xml-response-schema"
+			},
+			{
+				"level": 2,
+				"text": "Future comment storage shape",
+				"anchor": "future-comment-storage-shape"
+			},
+			{
+				"level": 2,
+				"text": "Safe flow",
+				"anchor": "safe-flow"
+			}
+		],
+		"excerpt": "B\"H Meluket DeepSeek Translation Job Scaffold This folder is intentionally inert unless explicitly run. It is designed for whole post translation batches to save tokens while preserving exact alignment. Compact alignment model Do not repeat seriesId, postId, and full source hashes on every subsection. Instead: The prom",
+		"searchText": "b\"h meluket deepseek translation job scaffold this folder is intentionally inert unless explicitly run. it is designed for whole post translation batches to save tokens while preserving exact alignment. compact alignment model do not repeat seriesid, postid, and full source hashes on every subsection. instead: the prompt sends one post at a time. the root xml has seriesid and postid once. each subsection uses only compact coordinates: v = versesection index s = subsection index the validator compares counts and coordinates against the original source item list. optional short hashes can be used only as a safety check, for example first 8 hex chars, but they are not needed for every line if order + coordinates are strict. required output contents for each post, the model should return: 1. postintroshort — one sentence summary of the whole maamar. 2. postintrolong — longer “eric novel style” opening, atmospheric but faithful. 3. for each versesection: sectionsummaryshort — one sentence. sectionsummarylong — fuller summary. translations for every subsection in that section. transliteration / glossary rules the model must preserve these spellings exactly: יעקב → yaakov, not jacob יצחק → yitzchak, not isaac אברהם → avraham, not abraham משה → moshe, not moses דוד → dovid, not david עצמות / atzmus → awtsmoos ein sof, sefiros, nefesh habahamis, nefesh haelokis, yechidah, chayah the rebbe, the alter rebbe, the mitteler rebbe, the tzemach tzedek compact xml response schema future comment storage shape translation comments: /social/heichelos/ikar/comments/atseries/ /atpost/ /meluket translation en.awtsmoosjson summary comments: meluket summary en.awtsmoosjson possible object shape: safe flow 1. prepare one whole post prompt. 2. send one whole post test to deepseek. 3. validate strict coordinate coverage: every source subsection must have exactly one . 4. reject markdown fences. 5. reject missing or extra sections/subsections. 6. review output manually. 7. only then write comments.",
+		"page": "pages/tools-meluket-translation-job-readme-md-e514fd58ac.json"
+	}
+]

@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-embedding-reuse-policy-md-84ccd6e059",
+	"title": "Embedding Reuse Policy",
+	"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/EMBEDDING_REUSE_POLICY.md",
+	"category": "Data",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Embedding Reuse Policy",
+			"anchor": "embedding-reuse-policy"
+		},
+		{
+			"level": 2,
+			"text": "Reuse by default",
+			"anchor": "reuse-by-default"
+		},
+		{
+			"level": 2,
+			"text": "Regeneration gate",
+			"anchor": "regeneration-gate"
+		},
+		{
+			"level": 2,
+			"text": "Non-evidence",
+			"anchor": "non-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Safe repair hierarchy",
+			"anchor": "safe-repair-hierarchy"
+		}
+	],
+	"markdownParts": [
+		"content/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-embedding-reuse-policy-md-84ccd6e059-001.json"
+	]
+}

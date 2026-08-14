@@ -1,0 +1,124 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-directory-index-md-fe0fb36cd8",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/DIRECTORY_INDEX.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Mitzvah World Directory Index",
+				"anchor": "mitzvah-world-directory-index"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Categories",
+				"anchor": "categories"
+			},
+			{
+				"level": 3,
+				"text": "Application runtime",
+				"anchor": "application-runtime"
+			},
+			{
+				"level": 3,
+				"text": "Assets",
+				"anchor": "assets"
+			},
+			{
+				"level": 3,
+				"text": "Experiments",
+				"anchor": "experiments"
+			},
+			{
+				"level": 3,
+				"text": "Gameplay",
+				"anchor": "gameplay"
+			},
+			{
+				"level": 3,
+				"text": "Movie runtime",
+				"anchor": "movie-runtime"
+			},
+			{
+				"level": 3,
+				"text": "Movies",
+				"anchor": "movies"
+			},
+			{
+				"level": 3,
+				"text": "Networking",
+				"anchor": "networking"
+			},
+			{
+				"level": 3,
+				"text": "Project root",
+				"anchor": "project-root"
+			},
+			{
+				"level": 3,
+				"text": "Prototype",
+				"anchor": "prototype"
+			},
+			{
+				"level": 3,
+				"text": "References",
+				"anchor": "references"
+			},
+			{
+				"level": 3,
+				"text": "Rendering library",
+				"anchor": "rendering-library"
+			},
+			{
+				"level": 3,
+				"text": "Runtime subsystem",
+				"anchor": "runtime-subsystem"
+			},
+			{
+				"level": 3,
+				"text": "Styles",
+				"anchor": "styles"
+			},
+			{
+				"level": 3,
+				"text": "Tests",
+				"anchor": "tests"
+			},
+			{
+				"level": 3,
+				"text": "Tools",
+				"anchor": "tools"
+			},
+			{
+				"level": 3,
+				"text": "UI",
+				"anchor": "ui"
+			},
+			{
+				"level": 3,
+				"text": "World systems",
+				"anchor": "world-systems"
+			},
+			{
+				"level": 2,
+				"text": "Coverage policy",
+				"anchor": "coverage-policy"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Mitzvah World Directory Index Generated from the live repository structure at 2026 07 23T23:32:30.660Z . This index covers 129 structural directories and excludes AI planning history, dependency folders, build products, coverage, caches, and Git internals. The Awtsmoos renews the whole p",
+		"searchText": "b\"h boruch hashem blessed is he mitzvah world directory index generated from the live repository structure at 2026 07 23t23:32:30.660z . this index covers 129 structural directories and excludes ai planning history, dependency folders, build products, coverage, caches, and git internals. the awtsmoos renews the whole project every instant; this index is a finite map for humans and retrieval agents seeking the current vessels through which mitzvah world is expressed on awtsmoos.com. start here for the live page and handoff context, begin with the project root guide. for overlapping or disconnected implementations, use the system overlap map. for programmatic lookup, use directory catalog.json. for the current direct meadow path, inspect index.html, experiments/awtsmoos/src/launcher, and experiments/awtsmoos/src/app. categories application runtime experiments/awtsmoos/src/app — application assembly, boot phases, meadow runtime, render fallbacks, player hydration, and high level runtime coordination. assets assets — runtime consumable models, textures, and material libraries. assets/materials — material and surface asset collections used to dress terrain, vegetation, and world geometry. assets/materials/generated — generated material derivatives and machine produced visual assets. treat these as outputs unless the generating workflow says otherwise. assets/materials/generated/catalog — generated material catalog metadata for programmatic lookup. assets/materials/local — locally curated material assets that can be consumed without an external asset service. assets/materials/local/terrain — terrain focused material files and textures. assets/materials/local/world — world scale material collections, catalogs, processed derivatives, and full resolution sources. assets/materials/local/world/awtsmoos nature — nature oriented source assets, especially forest vegetation and tree libraries. assets/materials/local/world/awtsmoos nature/chai forest — forest material sources organized around bark, ground, and leaf textures. assets/materials/local/world/awtsmoos nature/chai forest/textures — texture groups used to construct forest materials. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark — collection of individual bark material sets. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark001 1k jpg — a single bark material set named bark001 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark002 1k jpg — a single bark material set named bark002 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark003 1k jpg — a single bark material set named bark003 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark004 1k jpg — a single bark material set named bark004 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark006 1k jpg — a single bark material set named bark006 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark007 1k jpg — a single bark material set named bark007 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark008 1k jpg — a single bark material set named bark008 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark012 1k jpg — a single bark material set named bark012 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark013 1k jpg — a single bark material set named bark013 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark014 1k jpg — a single bark material set named bark014 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark015 1k jpg — a single bark material set named bark015 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/ground — ground cover texture sources for forest terrain. assets/materials/local/world/awtsmoos nature/chai forest/textures/leaves — leaf texture sources for foliage rendering. assets/materials/local/world/awtsmoos nature/ilanos — tree oriented source collection; “ilanos” groups arboreal assets. assets/materials/local/world/awtsmoos nature/ilanos/trees — individual tree texture or material assets. assets/materials/local/world/catalog — curated world material catalog metadata. assets/materials/local/world/full resolution — high resolution source material images retained before processing or downscaling. assets/materials/local/world/processed — processed material derivatives organized by semantic subject. assets/materials/local/world/processed/botany — processed botany material outputs. assets/materials/local/world/various — loose world material assets that do not yet belong to a narrower collection. assets/models — 3d model assets for players and reference worlds. assets/models/player — canonical player model assets, including the chossid glb used by the meadow runtime. assets/models/reference world — reference world model files used as visual or geometry evidence. assets/textures — loose top level textures that are not part of the structured material library. experiments experiments — experimental implementations and supporting libraries used to develop mitzvah world. experiments/awtsmoos — the primary modular mitzvah world experiment, including runtime source, tests, and tools. experiments/awtsmoos/src — subsystem root for the modular game runtime. gameplay experiments/awtsmoos/src/gameplay — gameplay domain rules and coordinators shared by combat, action bars, progression, abilities, and player state. experiments/awtsmoos/src/gameplay/actionbar — action bar slot models, commands, activation rules, and presentation neutral action selection. experiments/awtsmoos/src/gameplay/combat — combat turns, melee, torah abilities, cooldowns, targeting gates, progression rewards, and encounter state. movie runtime experiments/awtsmoos/src/movie — movie runtime, timeline sampling, actor direction, camera direction, recording, export, and project execution. experiments/awtsmoos/src/movie/audio — movie audio scheduling, synthesis, pcm handling, and capture support. experiments/awtsmoos/src/movie/package — movie package metadata and packaging helpers. movies movies — movie projects, generated evidence, manifests, and tool entry points. movies/evidence — rendered or captured evidence grouped by movie run. movies/evidence/chossid journey 30s corrected — evidence artifacts for the corrected 30 second chossid journey movie. movies/projects — authored movie project definitions and timelines. networking experiments/awtsmoos/src/network — realtime transport, multiplayer session state, player snapshots, remote avatars, and connection status. project root . — project entry, top level audits, handoff notes, and navigation for the mitzvah world game. prototype experiments/animalmesh — small experimental mesh generation surface for animal geometry. references references — reference snapshots retained for comparison and reconstruction. references/canonical procedural village — canonical procedural village reference files and manifest evidence. rendering library experiments/light three gltf — custom lightweight three like scene graph, math, webgl helpers, and gltf loading stack. experiments/light three gltf/test — tests for the lightweight scene graph, gltf, math, and renderer primitives. runtime subsystem experiments/awtsmoos/src/assets — asset loading, catalogs, caches, material resolution, gltf handling, and progressive fetch behavior. experiments/awtsmoos/src/bundles — narrow bundle entry definitions for selected runtime surfaces. experiments/awtsmoos/src/camera — camera profiles, orbit/follow behavior, framing, and camera state coordination. experiments/awtsmoos/src/collision — octree storage, triangle geometry, capsule collision, raycasts, and step resolution. experiments/awtsmoos/src/diagnostics — runtime observability, boot evidence, health receipts, and diagnostics serialization. experiments/awtsmoos/src/diagnostics/logs — captured diagnostic logs and runtime evidence. these are historical observations, not active logic. experiments/awtsmoos/src/input — keyboard, joystick, jump, and ui input adapters. experiments/awtsmoos/src/launcher — page boot, route selection, menu loading, mode dispatch, and the direct shared meadow entry. experiments/awtsmoos/src/lod — level of detail selection, distance policies, and scene lod coordination. experiments/awtsmoos/src/math — low level geometry and spatial mathematics used by collision and world systems. experiments/awtsmoos/src/motion — focused motion primitives or helpers that do not own a full gameplay domain. experiments/awtsmoos/src/performance — quality profiles, budgets, timing, capability probes, and performance policy. experiments/awtsmoos/src/render — focused rendering helpers outside the larger app renderer stack. styles styles — css for loading, meadow hud, menus, mobile controls, combat, game rails, and shell visibility. tests experiments/awtsmoos/src/test — colocated subsystem tests and test harnesses for the source tree. experiments/awtsmoos/src/test/app — tests for app boot, runtime assembly, meadow behavior, renderer fallbacks, and application contracts. experiments/awtsmoos/src/test/assets — tests for asset loading, catalogs, material handling, and progressive fetch behavior. experiments/awtsmoos/src/test/botany — tests for botanical generation and vegetation behavior. experiments/awtsmoos/src/test/camera — tests for camera rules and camera coordination. experiments/awtsmoos/src/test/collision — tests for octrees, capsules, raycasts, steps, and collision geometry. experiments/awtsmoos/src/test/diagnostics — tests for diagnostic receipts, logging, and boot evidence. experiments/awtsmoos/src/test/gameplay — tests for gameplay rules, progression, targeting, action bars, and combat integration. experiments/awtsmoos/src/test/gameplay/combat — structural area named combat. its immediate files and children below are the evidence for its current responsibilities. experiments/awtsmoos/src/test/geometry — tests for procedural and low level geometry generation. experiments/awtsmoos/src/test/ground — tests for ground or terrain contact behavior. experiments/awtsmoos/src/test/input — tests for keyboard, joystick, jump, or input adapters. experiments/awtsmoos/src/test/launcher — tests for page boot, route dispatch, and launcher contracts. experiments/awtsmoos/src/test/lod — tests for level of detail policies and selection. experiments/awtsmoos/src/test/movie — tests for movie timelines, actors, cameras, audio, recording, and export. experiments/awtsmoos/src/test/network — tests for multiplayer sessions, snapshots, transports, and remote state. experiments/awtsmoos/src/test/performance — tests for quality profiles, budgets, timing, and capability policy. experiments/awtsmoos/src/test/platform — tests for platform world generation and behavior. experiments/awtsmoos/src/test/render — tests for rendering helpers. experiments/awtsmoos/src/test/renderer — tests for renderer implementations and frame behavior. experiments/awtsmoos/src/test/shadows — tests for shadow related world or render behavior. experiments/awtsmoos/src/test/streaming — tests for chunk, district, asset, collision, and visibility streaming. experiments/awtsmoos/src/test/support — shared test support helpers and fixtures. experiments/awtsmoos/src/test/ui — tests for ui coordinators and browser presentation contracts. experiments/awtsmoos/src/test/visibility — tests for visibility policy and reveal/hide behavior. experiments/awtsmoos/src/test/world — tests for world generation, village systems, terrain, creatures, enemies, and environmental integration. experiments/awtsmoos/tests — higher level integration tests kept outside the source tree. experiments/awtsmoos/tests/assets — integration tests focused on the assets area. experiments/awtsmoos/tests/gameplay — integration tests focused on the gameplay area. experiments/awtsmoos/tests/world — integration tests focused on the world area. tools experiments/awtsmoos/tools — offline or developer facing utilities for diagnostics and material preparation. experiments/awtsmoos/tools/diagnostics — structural area named diagnostics. its immediate files and children below are the evidence for its current responsibilities. experiments/awtsmoos/tools/materials — structural area named materials. its immediate files and children below are the evidence for its current responsibilities. movies/tools — movie generation and inspection tools. movies/tools/exact — exact or deterministic movie production helpers. ui experiments/awtsmoos/src/ui — hud, menus, targeting presentation, action/combat widgets, dialogue, inventory, and browser dom coordination. world systems experiments/awtsmoos/src/world — world construction, terrain, streaming, village generation, vegetation, structures, creatures, npcs, and environmental systems. experiments/awtsmoos/src/world/botany — botanical generation, flower or plant geometry, and botany specific world rules. experiments/awtsmoos/src/world/creatures — creature runtime models and world side creature behavior. experiments/awtsmoos/src/world/enemy — enemy actors, populations, state, combat bridges, spawning, and hostile world behavior. experiments/awtsmoos/src/world/forest — forest level composition and coordination. experiments/awtsmoos/src/world/grass — grass generation or rendering. experiments/awtsmoos/src/world/horses — horse models, movement, population, or world integration. experiments/awtsmoos/src/world/house — house generation, geometry, interiors, and structure assembly. experiments/awtsmoos/src/world/lighting — world lighting, sun, ambient, or environment light coordination. experiments/awtsmoos/src/world/materials — world material definitions and material assignment policy. experiments/awtsmoos/src/world/npc — npc actors, behavior, dialogue, population, and world integration. experiments/awtsmoos/src/world/platform — platform world geometry and platform gameplay support. experiments/awtsmoos/src/world/primitives — reusable procedural geometry primitives for world construction. experiments/awtsmoos/src/world/proceduralapi — public procedural world api and request/response adapters. experiments/awtsmoos/src/world/proceduraltext — text driven procedural world interpretation and generation. experiments/awtsmoos/src/world/road — road layout, splines, meshes, intersections, and roadside composition. experiments/awtsmoos/src/world/room — room or interior space generation. experiments/awtsmoos/src/world/sky — sky, atmosphere, backdrop, and celestial presentation. experiments/awtsmoos/src/world/streaming — chunk, district, visibility, collision, and asset streaming for large worlds. experiments/awtsmoos/src/world/terrain — terrain data, geometry, collision, and terrain runtime helpers. experiments/awtsmoos/src/world/trees — tree generation, placement, geometry, and world integration. experiments/awtsmoos/src/world/village — large procedural village system: layout, buildings, roads, populations, materials, districts, and runtime composition. experiments/awtsmoos/src/world/visibility — world visibility policy, culling, and reveal/hide coordination. coverage policy every listed directory contains directory guide.md after this pass. existing readme files are preserved and referenced by their local guide. similar implementations are documented together but not merged in code. re run the catalog generator after adding a new structural directory.",
+		"page": "pages/geelooy-games-mitzvahworld-directory-index-md-fe0fb36cd8.json"
+	}
+]

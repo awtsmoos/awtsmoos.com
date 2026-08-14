@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Generated Cross-Project Dependency Evidence 66–69\n\nRelative-import edges between observed project boundaries; counts are lexical references, not runtime reachability.\n\n| Source project | Target project | References | Example sources |\n| --- | --- | --- | --- |\n| geelooy/scripts | geelooy/apps/app.js | 1 | geelooy/scripts/awtsmoos/social/navigation/adapters/appsRoute.js |\n| geelooy/shared | geelooy/apps/android-emulator | 1 | geelooy/shared/compiling/native/apkIdentity.js |\n| geelooy/social-composer | geelooy/shared | 1 | geelooy/social-composer/js/main.js |\n| geelooy/view | geelooy/api/tunnel | 1 | geelooy/view/_awtsmoos.derech.js |\n"
+}

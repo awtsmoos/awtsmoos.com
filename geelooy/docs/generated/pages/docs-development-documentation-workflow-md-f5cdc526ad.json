@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-development-documentation-workflow-md-f5cdc526ad",
+	"title": "Documentation Workflow",
+	"sourcePath": "docs/DEVELOPMENT/DOCUMENTATION_WORKFLOW.md",
+	"category": "Development",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Documentation Workflow",
+			"anchor": "documentation-workflow"
+		},
+		{
+			"level": 2,
+			"text": "Four surfaces",
+			"anchor": "four-surfaces"
+		},
+		{
+			"level": 2,
+			"text": "Regenerate",
+			"anchor": "regenerate"
+		},
+		{
+			"level": 2,
+			"text": "Verify search behavior",
+			"anchor": "verify-search-behavior"
+		},
+		{
+			"level": 2,
+			"text": "Validate",
+			"anchor": "validate"
+		},
+		{
+			"level": 2,
+			"text": "Frontend rules",
+			"anchor": "frontend-rules"
+		},
+		{
+			"level": 2,
+			"text": "Browser completion gate",
+			"anchor": "browser-completion-gate"
+		},
+		{
+			"level": 2,
+			"text": "When generated counts change",
+			"anchor": "when-generated-counts-change"
+		},
+		{
+			"level": 2,
+			"text": "When generation is wrong",
+			"anchor": "when-generation-is-wrong"
+		}
+	],
+	"markdownParts": [
+		"content/docs-development-documentation-workflow-md-f5cdc526ad-001.json"
+	]
+}

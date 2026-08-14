@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-youtube-docs-setup-md-b230bcce36",
+	"title": "B\"H — Awtsmoos YouTube integration",
+	"sourcePath": "geelooy/api/youtube/docs/SETUP.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Awtsmoos YouTube integration",
+			"anchor": "b-h-awtsmoos-youtube-integration"
+		},
+		{
+			"level": 2,
+			"text": "Public manager",
+			"anchor": "public-manager"
+		},
+		{
+			"level": 2,
+			"text": "Google Cloud configuration",
+			"anchor": "google-cloud-configuration"
+		},
+		{
+			"level": 2,
+			"text": "Secret installation",
+			"anchor": "secret-installation"
+		},
+		{
+			"level": 2,
+			"text": "Token model",
+			"anchor": "token-model"
+		},
+		{
+			"level": 2,
+			"text": "Upload model",
+			"anchor": "upload-model"
+		},
+		{
+			"level": 2,
+			"text": "API routes",
+			"anchor": "api-routes"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-youtube-docs-setup-md-b230bcce36-001.json"
+	]
+}

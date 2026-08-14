@@ -1,0 +1,263 @@
+[
+	{
+		"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-field-guide-publishing-a-va-0e12da53a7",
+		"title": "Field Guide: Publishing a Vacuumed Vector DB",
+		"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/FIELD_GUIDE__PUBLISHING_A_VACUUMED_VECTOR_DB.md",
+		"category": "Data",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Field Guide: Publishing a Vacuumed Vector DB",
+				"anchor": "field-guide-publishing-a-vacuumed-vector-db"
+			},
+			{
+				"level": 2,
+				"text": "Candidate court",
+				"anchor": "candidate-court"
+			},
+			{
+				"level": 2,
+				"text": "API court",
+				"anchor": "api-court"
+			},
+			{
+				"level": 2,
+				"text": "Approval gate",
+				"anchor": "approval-gate"
+			},
+			{
+				"level": 2,
+				"text": "After approved cutover",
+				"anchor": "after-approved-cutover"
+			}
+		],
+		"excerpt": "Field Guide: Publishing a Vacuumed Vector DB Candidate court Candidate path is outside the live RAG root. Source and rollback are preserved. Record count and semantic digest match. Canonical vector corpus is unchanged. List, dimensions, metric, registry, entry node, keys, nodes, payloads, and allocations pass. Determin",
+		"searchText": "field guide: publishing a vacuumed vector db candidate court candidate path is outside the live rag root. source and rollback are preserved. record count and semantic digest match. canonical vector corpus is unchanged. list, dimensions, metric, registry, entry node, keys, nodes, payloads, and allocations pass. deterministic self vector and sampled recall pass. read only reopen changes no bytes. candidate sha 256 is recorded. api court generate a complete fast manifest, publish only into an isolated root, start port 8081, and run the full matrix on both strict route spellings. record cold and warm timing, stop, prove port closure, restart, and repeat. approval gate prepare exact cutover and rollback commands but do not execute them until the user explicitly authorizes production replacement/restart. preserve the production pid and port otherwise. after approved cutover recompute live hash, re run all published lanes, verify rollback, and retain source clone, candidate, vectors, manifests, and evidence.",
+		"page": "pages/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-field-guide-publishing-a-va-0e12da53a7.json"
+	},
+	{
+		"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-field-guide-rag-repair-with-acff758c49",
+		"title": "Field Guide: RAG Repair Without Re-embedding",
+		"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/FIELD_GUIDE__RAG_REPAIR_WITHOUT_REEMBEDDING.md",
+		"category": "Data",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Field Guide: RAG Repair Without Re-embedding",
+				"anchor": "field-guide-rag-repair-without-re-embedding"
+			}
+		],
+		"excerpt": "Field Guide: RAG Repair Without Re embedding 1. Record production PID, port, cwd, environment clues, live hashes, sizes, inodes, and open handles. 2. Probe /search/rag/query and /rag/search/query with autoInstall=false. 3. Require structured errors and full provenance; status 200 alone is insufficient. 4. Trace route r",
+		"searchText": "field guide: rag repair without re embedding 1. record production pid, port, cwd, environment clues, live hashes, sizes, inodes, and open handles. 2. probe /search/rag/query and /rag/search/query with autoinstall=false. 3. require structured errors and full provenance; status 200 alone is insufficient. 4. trace route registration and immutable strict options. 5. resolve lane root .awtsdb fast manifest list. 6. verify query model file, provider, binary, and dimensions. 7. open the database read only; verify list length, metadata, registry count, entry node, keys, and payloads. 8. query one canonical stored vector through persisted hnsw. 9. repair path, process, model resolver, session cache, registry traversal, or manifest before corpus work. 10. if the graph alone is absent, clone to a candidate and rebuild from existing vectors. 11. run cold, warm, compatibility route, and isolated restart probes. 12. recompute hashes and prove no canonical vector file changed. never accept exact or linear fallback. never regenerate embeddings without the explicit incompatibility gate in embedding reuse policy.md.",
+		"page": "pages/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-field-guide-rag-repair-with-acff758c49.json"
+	},
+	{
+		"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-indexed-search-performance--172d9f78a4",
+		"title": "Indexed Search Performance Model",
+		"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/INDEXED_SEARCH_PERFORMANCE_MODEL.md",
+		"category": "Data",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Indexed Search Performance Model",
+				"anchor": "indexed-search-performance-model"
+			},
+			{
+				"level": 2,
+				"text": "Cold path",
+				"anchor": "cold-path"
+			},
+			{
+				"level": 2,
+				"text": "Warm path",
+				"anchor": "warm-path"
+			},
+			{
+				"level": 2,
+				"text": "Performance evidence",
+				"anchor": "performance-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Forbidden optimization",
+				"anchor": "forbidden-optimization"
+			}
+		],
+		"excerpt": "Indexed Search Performance Model Strict RAG latency is the sum of lane discovery, readiness, query embedding, persisted HNSW traversal, payload hydration, and response serialization. Measure each component before changing index quality. Cold path Cold requests may open the database, hydrate vector metadata, load regist",
+		"searchText": "indexed search performance model strict rag latency is the sum of lane discovery, readiness, query embedding, persisted hnsw traversal, payload hydration, and response serialization. measure each component before changing index quality. cold path cold requests may open the database, hydrate vector metadata, load registry pointers, and populate graph node caches. registry traversal must be single pass; repeated sequence root parsing can turn startup quadratic. warm path warm requests should reuse the open read only handle, resolved list, metadata, registry pointer array, and graph node cache. a cache fingerprint must include device, inode, size, and modification time so atomic replacement invalidates the old generation. performance evidence record wall time plus embedding, search, hydration, and serialization timing. test both strict route spellings, every published indexed lane, repeated warm queries, and an isolated restart. forbidden optimization never hide latency by exact scan, linear scan, text fallback, lower quality unapproved hnsw settings, or embedding regeneration. performance work must preserve persisted index provenance and recall.",
+		"page": "pages/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-indexed-search-performance--172d9f78a4.json"
+	},
+	{
+		"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-lifecycle-wal-lease-invaria-9cf5e84b23",
+		"title": "Lifecycle, WAL, and Lease Invariants",
+		"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/LIFECYCLE_WAL_LEASE_INVARIANTS.md",
+		"category": "Data",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Lifecycle, WAL, and Lease Invariants",
+				"anchor": "lifecycle-wal-and-lease-invariants"
+			},
+			{
+				"level": 2,
+				"text": "Writable lifecycle",
+				"anchor": "writable-lifecycle"
+			},
+			{
+				"level": 2,
+				"text": "Read-only lifecycle",
+				"anchor": "read-only-lifecycle"
+			},
+			{
+				"level": 2,
+				"text": "Quarantine rule",
+				"anchor": "quarantine-rule"
+			},
+			{
+				"level": 2,
+				"text": "Source anchors",
+				"anchor": "source-anchors"
+			}
+		],
+		"excerpt": "Lifecycle, WAL, and Lease Invariants WAL recovery, allocation leases, retirement quarantine, and read only protections form one safety boundary. Storage reclamation must not weaken any part. Writable lifecycle Acquire the writable process/database lock. Recover or validate WAL before ordinary mutation. Lease selected f",
+		"searchText": "lifecycle, wal, and lease invariants wal recovery, allocation leases, retirement quarantine, and read only protections form one safety boundary. storage reclamation must not weaken any part. writable lifecycle acquire the writable process/database lock. recover or validate wal before ordinary mutation. lease selected free ranges before writing. retire replaced ranges; do not immediately reuse same generation bytes. persist metadata and free list state coherently. await idle before close, copy, hash, or publish. read only lifecycle read only opens disable wal creation and mutation, use shared locks, avoid free list hydration for search only sessions, and reject writes. a read only audit must not change file size, modification time, or sidecars. quarantine rule a retired range becomes reusable only after the verifier proves it is outside reachable state and no active lease owns it. apparent deleted space may therefore be intentional quarantine, not a leak. source anchors core/wal.js core/allocator/allocationleases.js core/allocator/retirementqueue.js core/allocator/verifiedreusegate.js core/pager/readonlypager.js",
+		"page": "pages/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-lifecycle-wal-lease-invaria-9cf5e84b23.json"
+	},
+	{
+		"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-manifest-schema-md-6bbbd7288a",
+		"title": "Fast Manifest Schema",
+		"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/MANIFEST_SCHEMA.md",
+		"category": "Data",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Fast Manifest Schema",
+				"anchor": "fast-manifest-schema"
+			},
+			{
+				"level": 2,
+				"text": "Required identity",
+				"anchor": "required-identity"
+			},
+			{
+				"level": 2,
+				"text": "Admission rules",
+				"anchor": "admission-rules"
+			},
+			{
+				"level": 2,
+				"text": "Replacement",
+				"anchor": "replacement"
+			},
+			{
+				"level": 2,
+				"text": "Drift prevention",
+				"anchor": "drift-prevention"
+			}
+		],
+		"excerpt": "Fast Manifest Schema The sibling .fast manifest.json is a publication declaration, not a substitute for opening the database. Required identity listName: persisted vector list name. recordCount: positive expected corpus count. dimensions: positive vector dimensions. corpus or source identity: non disabled and traceable",
+		"searchText": "fast manifest schema the sibling .fast manifest.json is a publication declaration, not a substitute for opening the database. required identity listname: persisted vector list name. recordcount: positive expected corpus count. dimensions: positive vector dimensions. corpus or source identity: non disabled and traceable. database identity: path/basename and preferably sha 256, bytes, and modification generation. model identity: compatible provider and model where recorded. index identity: registry count, entry node, metric, and build metadata where recorded. admission rules the .awtsdb and manifest share a basename and live in the configured rag root. a manifest with missing identity, disabled corpus, zero count, or zero dimensions is not public. read only readiness must still prove the list and persisted registry are usable. replacement publish database and manifest as one coherent generation. preserve the previous pair in rollback material. restart only an isolated server until explicit production approval is given. drift prevention never copy a manifest with stale absolute paths or a hash from another candidate. recompute identity after the final idle close.",
+		"page": "pages/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-manifest-schema-md-6bbbd7288a.json"
+	},
+	{
+		"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-rag-ingestion-and-embedding-5e246bd5fe",
+		"title": "RAG Ingestion and Embedding Pipeline",
+		"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/RAG_INGESTION_AND_EMBEDDING_PIPELINE.md",
+		"category": "Data",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "RAG Ingestion and Embedding Pipeline",
+				"anchor": "rag-ingestion-and-embedding-pipeline"
+			},
+			{
+				"level": 2,
+				"text": "Pipeline",
+				"anchor": "pipeline"
+			},
+			{
+				"level": 2,
+				"text": "Identity checks",
+				"anchor": "identity-checks"
+			},
+			{
+				"level": 2,
+				"text": "Recovery order",
+				"anchor": "recovery-order"
+			}
+		],
+		"excerpt": "RAG Ingestion and Embedding Pipeline The corpus pipeline separates source text, canonical embeddings, the AwtsmoosDB vector list, the derived HNSW graph, and the query embedder. A failure in one layer does not prove loss in another. Pipeline Identity checks Record source digest, vector corpus SHA 256, provider, model, ",
+		"searchText": "rag ingestion and embedding pipeline the corpus pipeline separates source text, canonical embeddings, the awtsmoosdb vector list, the derived hnsw graph, and the query embedder. a failure in one layer does not prove loss in another. pipeline identity checks record source digest, vector corpus sha 256, provider, model, dimensions, list name, record count, semantic digest, database sha 256, and manifest identity. query embeddings must use a compatible provider/model and dimension, but query generation never rewrites corpus vectors. recovery order 1. repair route or process generation. 2. repair path and manifest resolution. 3. repair query model or binary resolution. 4. repair read only session and persisted registry access. 5. rebuild only the derived hnsw graph from existing vectors. 6. generate new embeddings only after direct incompatibility proof.",
+		"page": "pages/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-rag-ingestion-and-embedding-5e246bd5fe.json"
+	},
+	{
+		"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-rag-path-and-restart-rules--add59a0a09",
+		"title": "RAG Path and Restart Rules",
+		"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/RAG_PATH_AND_RESTART_RULES.md",
+		"category": "Data",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "RAG Path and Restart Rules",
+				"anchor": "rag-path-and-restart-rules"
+			},
+			{
+				"level": 2,
+				"text": "Path resolution",
+				"anchor": "path-resolution"
+			},
+			{
+				"level": 2,
+				"text": "Session identity",
+				"anchor": "session-identity"
+			},
+			{
+				"level": 2,
+				"text": "Restart court",
+				"anchor": "restart-court"
+			},
+			{
+				"level": 2,
+				"text": "Failure rule",
+				"anchor": "failure-rule"
+			}
+		],
+		"excerpt": "RAG Path and Restart Rules Path resolution The active RAG root is derived from the server database directory, AWTS DB ROOT, or the process working directory. Always inspect the running process, cwd, environment, and resolved root. A stale inherited absolute path is a configuration defect, not proof that vectors disappe",
+		"searchText": "rag path and restart rules path resolution the active rag root is derived from the server database directory, awts db root, or the process working directory. always inspect the running process, cwd, environment, and resolved root. a stale inherited absolute path is a configuration defect, not proof that vectors disappeared. session identity read only shard sessions are generation bound. device, inode, size, and modification time identify the opened file. atomic replacement must invalidate the old session and reopen the new generation. restart court preserve production pid and port unless approval authorizes a restart. use port 8081 and an isolated rag root for rehearsal. probe both strict route spellings for every indexed lane. stop the isolated server, verify the port closes, start it again, and repeat the full matrix. compare live database stat and sha 256 before and after. failure rule a process that binds a port is not ready. readiness requires real local query embeddings, persisted hnsw provenance, nonempty payload bearing hits, and no fallback.",
+		"page": "pages/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-rag-path-and-restart-rules--add59a0a09.json"
+	},
+	{
+		"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-readme-md-1beb51dace",
+		"title": "AwtsmoosDB Maintainer Documentation",
+		"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/README.md",
+		"category": "Data",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "AwtsmoosDB Maintainer Documentation",
+				"anchor": "awtsmoosdb-maintainer-documentation"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Automated contract",
+				"anchor": "automated-contract"
+			}
+		],
+		"excerpt": "AwtsmoosDB Maintainer Documentation These guides preserve the boundaries that keep canonical records, vectors, indexes, WAL recovery, leases, and free space reuse distinct. The Awtsmoos creates every vessel anew; maintainers must still prove which vessel is canonical before changing it. Start here AI AGENT DECISION TRE",
+		"searchText": "awtsmoosdb maintainer documentation these guides preserve the boundaries that keep canonical records, vectors, indexes, wal recovery, leases, and free space reuse distinct. the awtsmoos creates every vessel anew; maintainers must still prove which vessel is canonical before changing it. start here ai agent decision tree.md for incident triage. troubleshooting rag search.md for a broken api. embedding reuse policy.md before any embedding job. vector index invariants.md before index work. v2 allocator reuse and tail reclaim.md before storage work. field guide publishing a vacuumed vector db.md before publication. automated contract run from the package directory: the checker verifies required files, headers, source anchors, required terms, and the 120 line ceiling. it does not replace runtime tests, hashes, or read only audits.",
+		"page": "pages/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-readme-md-1beb51dace.json"
+	}
+]

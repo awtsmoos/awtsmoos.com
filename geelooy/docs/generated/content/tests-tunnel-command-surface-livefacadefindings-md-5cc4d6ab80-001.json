@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H Live Facade Stress Findings\n\n## Verified passing in repo-side tests\n- Catalog has 400 unique actions.\n- Command-tree aliases normalize into action batch payloads.\n- `dispatchOsFs()` executes `commandTreeDryRun` through command-tree handlers.\n- Plain newline/CSV/JSON path parsing works in `parsePlainList()`.\n\n## Live facade mismatches still observed\n- `commandTreeDryRun` returns `unknown_command_action` before repo dispatch.\n- `actionBatch` returns ok/count 0 for valid JSON steps instead of executing or rejecting.\n- `workflowValidate` accepts workflow JSON with no errors.\n- `workflowRun` returns ok but empty `steps:{}` for the same valid workflow.\n- `testMatrix` returns ok but empty `results` and empty `plan`.\n\n## Next repair target\nThe external action dispatcher/facade must route advanced workflow and command-tree actions into the same implementation tested under `geelooy/API/tunnel/control/routes/osFs`.\n"
+}

@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-playeractions-readme-6c6a131773",
+	"title": "B\"H",
+	"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/README.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Custom Player Actions",
+			"anchor": "custom-player-actions"
+		},
+		{
+			"level": 2,
+			"text": "Public messages",
+			"anchor": "public-messages"
+		},
+		{
+			"level": 2,
+			"text": "Adding an AI-authored action",
+			"anchor": "adding-an-ai-authored-action"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-experiments-awtsmoos-src-playeractions-readme-6c6a131773-001.json"
+	]
+}

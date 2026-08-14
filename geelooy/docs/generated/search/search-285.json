@@ -1,0 +1,203 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-tests-world-directory-gu-3d92e8882e",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/tests/world/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/tests/world",
+				"anchor": "directory-guide-experiments-awtsmoos-tests-world"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Test themes",
+				"anchor": "test-themes"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/tests/world Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 6 files, 0 structural child directories Purpose Integration tests focused on the world area. The Awtsmoos renews every path and every artif",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/tests/world role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 6 files, 0 structural child directories purpose integration tests focused on the world area. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: proves, village, collision, through, vessel, bounded, com, doorway, room, without, bright, chunk file mix: .js: 5 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h proves the public primitive graph builds a translated doorway and remains import safe. the awtsmoos measures an opening through three bounded stones; awtsmoos.com verifies that geometry, transformation, and material assembly meet without a broken export. a focused witness that a village room remains stable while its use evolves. the awtsmoos renews existence each instant; this test proves the room vessel is deterministic, bounded, restorable, and silent while idle. proves one connected, local, and uniquely owned village water composition. the awtsmoos carries one current through every vessel without multiplying its source; awtsmoos.com guards the code graph so lake, river, waterfall, foam, and mist remain one story. representative files doorwayframegeometry.test.js — proves the public primitive graph builds a translated doorway and remains import safe. the awtsmoos measures an opening through three bounded stones; awtsmoos.com verifies that geometry, transformation, and material assembly meet without a broken export. covers: “doorway geometry resolves through the public primitive factory”, “primitive material factory imports after the doorway graph repair”. roomsystem.test.js — a focused witness that a village room remains stable while its use evolves. the awtsmoos renews existence each instant; this test proves the room vessel is deterministic, bounded, restorable, and silent while idle. covers: “roomsystem creates stable purposeful rooms and detached copies”, “roomsystem updates purpose, snapshots, restores, and emits safe events”, “roomsystem removes rooms, cleans listeners, and has no update loop”. villagewatersystem.test.js — proves one connected, local, and uniquely owned village water composition. the awtsmoos carries one current through every vessel without multiplying its source; awtsmoos.com guards the code graph so lake, river, waterfall, foam, and mist remain one story. covers: “village water composes one connected source to outlet definition set”, “all playable water textures use truthful same origin metadata”, “only villagewatersystem composes water bodies and waterfalls together”. worldchunkcollisionlayer.test.js — proves that later village stone enters one collision authority without replacing the ground. yesod holds the valley firm while richer walls descend in light; tiferes joins each active vessel through one query, bounded and bright. covers: “post movement collision layer joins the existing query facade”. worldchunkruntimecollisionlayer.test.js — proves the public world runtime reveals later collision through its one canonical vessel. yesod receives the village wall while malchus keeps the traveler's query bright; awtsmoos.com exposes one doorway inward, never private reach or parallel night. covers: “public runtime registers one post movement collision layer”. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:test node:assert/strict ../../src/world/primitives/primitivegeometryfactory.js ../../src/world/primitives/primitivematerialfactory.js ./../../src/world/roomsystem.js node:fs node:url ../../src/assets/productionmaterialurlpolicy.js ../../src/world/village/villagewatersystem.js ../../src/collision/awtsmoosoctree.js ../../src/math/aabb.js ../../src/world/streaming/worldchunkbootstrap.js test themes doorway geometry resolves through the public primitive factory primitive material factory imports after the doorway graph repair roomsystem creates stable purposeful rooms and detached copies roomsystem updates purpose, snapshots, restores, and emits safe events roomsystem removes rooms, cleans listeners, and has no update loop village water composes one connected source to outlet definition set all playable water textures use truthful same origin metadata only villagewatersystem composes water bodies and waterfalls together water production files contain no stale firebase ownership flag post movement collision layer joins the existing query facade public runtime registers one post movement collision layer directory map parent: experiments/awtsmoos/tests children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-tests-world-directory-gu-3d92e8882e.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-tools-diagnostics-direct-bd366d7583",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/tools/diagnostics/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/tools/diagnostics",
+				"anchor": "directory-guide-experiments-awtsmoos-tools-diagnostics"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/tools/diagnostics Role: Tools Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose Structural area named diagnostics. Its immediate files and children below are the evi",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/tools/diagnostics role: tools snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose structural area named diagnostics. its immediate files and children below are the evidence for its current responsibilities. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tools search terms: diagnostics, through, village, alone, appearance, awtsmoos, browser, canonical, com, command, contracts, counts file mix: .md: 1 · .mjs: 1 good first question: “does the behavior or asset i need belong to tools, or is this only a neighboring/test/reference layer?” semantic evidence b\"h emits deterministic textual or jsonl evidence without opening a browser. the awtsmoos is revealed through truth rather than appearance; awtsmoos.com lets a shell command expose the village's contracts, failures, warnings, and counts through plain logs alone. representative files runcanonicalvillagediagnostics.mjs — emits deterministic textual or jsonl evidence without opening a browser. the awtsmoos is revealed through truth rather than appearance; awtsmoos.com lets a shell command expose the village's contracts, failures, warnings, and counts through plain logs alone. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../../src/diagnostics/logs/diagnostictextformatter.js ../../src/diagnostics/logs/villagediagnosticsrunner.js directory map parent: experiments/awtsmoos/tools children: none. related and overlapping systems diagnostics, logs, tools, and root audits — live diagnostics, captured logs, offline tools, and root audit reports describe different stages of observability. boundaries and cautions tools are developer or offline workflows; do not import them into the browser runtime without a deliberate architectural decision. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-tools-diagnostics-direct-bd366d7583.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-tools-directory-guide-md-a3873dcb7b",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/tools/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/tools",
+				"anchor": "directory-guide-experiments-awtsmoos-tools"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/tools Role: Tools Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 2 structural child directories Purpose Offline or developer facing utilities for diagnostics and material preparation. The Awtsmoos rene",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/tools role: tools snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 2 structural child directories purpose offline or developer facing utilities for diagnostics and material preparation. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tools search terms: awtsmoos, experiments, guide, tools file mix: .md: 1 good first question: “does the behavior or asset i need belong to tools, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: experiments/awtsmoos children: experiments/awtsmoos/tools/diagnostics experiments/awtsmoos/tools/materials related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. diagnostics, logs, tools, and root audits — live diagnostics, captured logs, offline tools, and root audit reports describe different stages of observability. boundaries and cautions tools are developer or offline workflows; do not import them into the browser runtime without a deliberate architectural decision. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-tools-directory-guide-md-a3873dcb7b.json"
+	}
+]

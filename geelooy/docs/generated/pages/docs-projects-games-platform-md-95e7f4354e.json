@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-projects-games-platform-md-95e7f4354e",
+	"title": "Games and Simulation Platform",
+	"sourcePath": "docs/PROJECTS/GAMES_PLATFORM.md",
+	"category": "Games",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Games and Simulation Platform",
+			"anchor": "games-and-simulation-platform"
+		},
+		{
+			"level": 2,
+			"text": "Canonical area",
+			"anchor": "canonical-area"
+		},
+		{
+			"level": 2,
+			"text": "Shared versus game-specific roots",
+			"anchor": "shared-versus-game-specific-roots"
+		},
+		{
+			"level": 2,
+			"text": "Realtime applications",
+			"anchor": "realtime-applications"
+		},
+		{
+			"level": 2,
+			"text": "Generated evidence",
+			"anchor": "generated-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Human guidance",
+			"anchor": "human-guidance"
+		},
+		{
+			"level": 2,
+			"text": "Change strategy",
+			"anchor": "change-strategy"
+		}
+	],
+	"markdownParts": [
+		"content/docs-projects-games-platform-md-95e7f4354e-001.json"
+	]
+}

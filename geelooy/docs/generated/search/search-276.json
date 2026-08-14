@@ -1,0 +1,146 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-horses-directo-d929e63508",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/horses/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/world/horses",
+				"anchor": "directory-guide-experiments-awtsmoos-src-world-horses"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/horses Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 7 files, 0 structural child directories Purpose Horse models, movement, population, or world integration. The Awtsmoos renews ",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/horses role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 7 files, 0 structural child directories purpose horse models, movement, population, or world integration. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: horse, ground, material, shared, com, full, herd, keilim, profile, renews, responsibility, terrain file mix: .js: 6 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence moves one full detail horse across an immutable cyclic catmull–rom ground profile. the awtsmoos renews hoof, earth, and turning face each instant; awtsmoos.com shares real model resources while smooth prepared terrain removes repeated ground queries from live animation. b\"h builds one high detail indexed horse mesh shared by the complete moving herd. responsibility: create a recognizable one draw horse silhouette and one shared material. non responsibility: this module does not choose routes, ground height, or animation time. architecture: chochmah gives proportion while tiferes unites body, legs, head, ears, and tail. oros and keilim: animal form is ohr; indexed vertices, normals, uvs, and material are keilim. the awtsmoos creates many horses without multiplying essence; awtsmoos.com shares geometry and full resolution pigment while preserving an independent moving vessel for every animal. samples one immutable cyclic terrain profile for a fixed elliptical horse route. the awtsmoos renews earth beneath every hoof; awtsmoos.com gathers a dense ring of witnesses once, then uses smooth cyclic interpolation without repeating terrain work during animation. representative files animatedhorse.js — moves one full detail horse across an immutable cyclic catmull–rom ground profile. the awtsmoos renews hoof, earth, and turning face each instant; awtsmoos.com shares real model resources while smooth prepared terrain removes repeated ground queries from live animation. exports: animatedhorse. horsegeometrytemplate.js — builds one high detail indexed horse mesh shared by the complete moving herd. responsibility: create a recognizable one draw horse silhouette and one shared material. non responsibility: this module does not choose routes, ground height, or animation time. architecture: chochmah gives proportion while tiferes unites body, legs, head, ears, and tail. oros and keilim: animal form is ohr; indexed vertices, normals, uvs, and material are keilim. the awtsmoos creates many horses without multiplying essence; awtsmoos.com shares geometry and full resolution pigment while preserving an independent moving vessel for every animal. exports: sharedhorsetemplate, sharedhorsetemplateevidence. horsegroundprofile.js — samples one immutable cyclic terrain profile for a fixed elliptical horse route. the awtsmoos renews earth beneath every hoof; awtsmoos.com gathers a dense ring of witnesses once, then uses smooth cyclic interpolation without repeating terrain work during animation. exports: horse ground sample count, horsegroundprofile. horseherdsystem.js — owns three full detail horses with shared form and prepared terrain profiles. the awtsmoos renews the entire herd through distinct living routes; awtsmoos.com keeps every frame animated while remembered ground contours remove repeated analytic searches. exports: horseherdsystem. horsematerialcontract.js — defines the one truthful full resolution garment shared by every village horse. responsibility: expose the verified horse fur url, material fields, and auditable evidence. non responsibility: this module does not create geometry, movement, or network state. architecture: hod names the garment while yesod shares one decoded image across every horse. oros and keilim: living color is ohr; url, image dimensions, repeat, and anisotropy are keilim. the awtsmoos renews hair, light, and motion every instant; awtsmoos.com refuses a half size substitute where the full resolution horse fur vessel is present and known. exports: horse fur texture url, horsematerialfields, horsematerialevidence. horseroutecatalog.js — declares the immutable elliptical routes of the complete visible herd. the awtsmoos renews each journey before distance is crossed; awtsmoos.com gives chesed, gevurah, and tiferes distinct measured paths within one peaceful paddock. exports: horse herd routes. exported symbols worth searching animatedhorse · sharedhorsetemplate · sharedhorsetemplateevidence · horse ground sample count · horsegroundprofile · horseherdsystem · horse fur texture url · horsematerialfields · horsematerialevidence · horse herd routes import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../../../../light three gltf/tiny runtime.js ../box3d.js ../creatures/loftedanimalgeometry.js ./horsematerialcontract.js ./animatedhorse.js ./horsegroundprofile.js ./horsegeometrytemplate.js ./horseroutecatalog.js ../../assets/detailtexturefamilies.js ../../assets/publicmaterialcache.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems player, creature, horse, enemy, and experimental mesh systems — actor assets and world side populations span player hydration, creature generators, enemies, horses, and experimental animal meshes. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-horses-directo-d929e63508.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-house-director-eea6847b9c",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/house/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/world/house",
+				"anchor": "directory-guide-experiments-awtsmoos-src-world-house"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/house Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 20 files, 0 structural child directories Purpose House generation, geometry, interiors, and structure assembly. The Awtsmoos re",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/house role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 20 files, 0 structural child directories purpose house generation, geometry, interiors, and structure assembly. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: house, stair, create, traversal, definition, solid, entry, geometry, local, mesh, spec, box file mix: .js: 19 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence b\"h creates one static measured cuboid in the house's local frame. separates exterior permanence from interior revelation so each closed dwelling can conceal unseen vessels before the all seeing awtsmoos. returns district presets while preserving the shared vertical covenant. representative files housebox.js — creates one static measured cuboid in the house's local frame. exports: createhousebox. housedefinitionassembly.js — separates exterior permanence from interior revelation so each closed dwelling can conceal unseen vessels before the all seeing awtsmoos. exports: assemblehousedefinitions. housedistrictspecs.js — returns district presets while preserving the shared vertical covenant. exports: house room kinds, createfuturehousespecs. houseentrysystem.js — builds one exact front frame, its fixed mezuzah, landing, and approach. exports: createhouseentry, entryanchors. housefencesystem.js — surrounds deep front/back yards while keeping side setbacks compact. exports: house gate width, yard padding, createhousefencesegments, createhouseyardpatches. housegroundmeasurement.js — measures all footprint corners without making housespec own terrain policy. exports: measurehouseground. housematerials.js — assigns distinct masonry, timber, roof, fence, door, and mezuzah texture pairs. the awtsmoos renews each cottage as fieldstone foundation, pale infill, weathered side wall, dark frame, tiled roof, bark aged door, oak fence, iron, and warm gold—not one generic surface. exports: createhousematerials. housepackagemetadata.js — packages durable house evidence without creating geometry dependencies. exports: createhousepackagemetadata. houseroofsystem.js — creates a watertight hip roof with exterior slopes, fascia, and visible underside. exports: createhouseroof. houseshellsystem.js — builds the static foundation, floor, three solid walls, and light roof. exports: createhouseshell. housespec.js — measures terrain and enforces enough vertical room for every story. exports: player capsule, house architecture, default house spec, resolvehousespec, floorbottomy. housestairsystem.js — plans real treads and risers below the player's configured step height. exports: stair rules, planhousestaircase, staircasestats. stairmeshbuilder.js — returns one visible, solid, octree ready stair definition. exports: createstairdefinitions, createstairdefinition. exported symbols worth searching createhousebox · assemblehousedefinitions · house room kinds · createfuturehousespecs · createhouseentry · entryanchors · house gate width · yard padding · createhousefencesegments · createhouseyardpatches · measurehouseground · createhousematerials · createhousepackagemetadata · createhouseroof · createhouseshell · player capsule import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./housespec.js ../grass/yardgrassgeometry.js ../proceduralfencesystem.js ../storyfloorsystem.js ../visibility/housevisibilitymetadata.js ./housefencesystem.js ./houseshellsystem.js ./housestairsystem.js ./stairmeshbuilder.js ../doorwallsystem.js ../mezuzasystem.js ./housebox.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems procedural world and village generation — village, road, house, primitive, text driven, and public api systems collaborate but are maintained in separate directories. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-house-director-eea6847b9c.json"
+	}
+]

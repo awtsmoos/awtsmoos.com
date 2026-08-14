@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-security-readme-md-19893eb549",
+	"title": "Security and Trust Boundaries",
+	"sourcePath": "docs/SECURITY/README.md",
+	"category": "Security",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Security and Trust Boundaries",
+			"anchor": "security-and-trust-boundaries"
+		},
+		{
+			"level": 2,
+			"text": "Canonical session covenant",
+			"anchor": "canonical-session-covenant"
+		},
+		{
+			"level": 2,
+			"text": "Trusted identity sources",
+			"anchor": "trusted-identity-sources"
+		},
+		{
+			"level": 2,
+			"text": "Authentication versus authorization",
+			"anchor": "authentication-versus-authorization"
+		},
+		{
+			"level": 2,
+			"text": "Security manuals",
+			"anchor": "security-manuals"
+		},
+		{
+			"level": 2,
+			"text": "Evidence rule",
+			"anchor": "evidence-rule"
+		}
+	],
+	"markdownParts": [
+		"content/docs-security-readme-md-19893eb549-001.json"
+	]
+}

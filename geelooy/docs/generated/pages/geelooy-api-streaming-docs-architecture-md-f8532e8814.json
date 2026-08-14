@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-streaming-docs-architecture-md-f8532e8814",
+	"title": "Streaming Architecture",
+	"sourcePath": "geelooy/api/streaming/docs/ARCHITECTURE.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Streaming Architecture",
+			"anchor": "streaming-architecture"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-streaming-docs-architecture-md-f8532e8814-001.json"
+	]
+}

@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-scribe-journey-documentation-md-5e17fccc8e",
+	"title": "The Scribe's Journey: Echoes of Ein Sof",
+	"sourcePath": "geelooy/games/scribe-journey/DOCUMENTATION.md",
+	"category": "Games",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "The Scribe's Journey: Echoes of Ein Sof",
+			"anchor": "the-scribe-s-journey-echoes-of-ein-sof"
+		},
+		{
+			"level": 2,
+			"text": "Role",
+			"anchor": "role"
+		},
+		{
+			"level": 2,
+			"text": "Start here",
+			"anchor": "start-here"
+		},
+		{
+			"level": 2,
+			"text": "Change rule",
+			"anchor": "change-rule"
+		},
+		{
+			"level": 2,
+			"text": "Project-specific notes",
+			"anchor": "project-specific-notes"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-scribe-journey-documentation-md-5e17fccc8e-001.json"
+	]
+}

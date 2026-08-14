@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-manifest-schema-md-6bbbd7288a",
+	"title": "Fast Manifest Schema",
+	"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/MANIFEST_SCHEMA.md",
+	"category": "Data",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Fast Manifest Schema",
+			"anchor": "fast-manifest-schema"
+		},
+		{
+			"level": 2,
+			"text": "Required identity",
+			"anchor": "required-identity"
+		},
+		{
+			"level": 2,
+			"text": "Admission rules",
+			"anchor": "admission-rules"
+		},
+		{
+			"level": 2,
+			"text": "Replacement",
+			"anchor": "replacement"
+		},
+		{
+			"level": 2,
+			"text": "Drift prevention",
+			"anchor": "drift-prevention"
+		}
+	],
+	"markdownParts": [
+		"content/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-manifest-schema-md-6bbbd7288a-001.json"
+	]
+}

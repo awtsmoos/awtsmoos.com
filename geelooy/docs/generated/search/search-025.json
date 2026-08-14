@@ -1,0 +1,87 @@
+[
+	{
+		"id": "docs-generated-api-files-api-files-018-md-1999ba087a",
+		"title": "Generated API File Inventory 1531–1620",
+		"sourcePath": "docs/GENERATED/API_FILES/api-files-018.md",
+		"category": "General",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated API File Inventory 1531–1620",
+				"anchor": "generated-api-file-inventory-1531-1620"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated API File Inventory 1531–1620 Every listed source path exists beneath geelooy/api; local documentation pointers are excluded. geelooy/api/tunnel/control/routes/osFs/publicUrls.js geelooy/api/tunnel/control/routes/osFs/qualityActions.js geelooy/api/tunnel/control/routes/osFs/sema",
+		"searchText": "b\"h boruch hashem blessed is he generated api file inventory 1531–1620 every listed source path exists beneath geelooy/api; local documentation pointers are excluded. geelooy/api/tunnel/control/routes/osfs/publicurls.js geelooy/api/tunnel/control/routes/osfs/qualityactions.js geelooy/api/tunnel/control/routes/osfs/semantic.js geelooy/api/tunnel/control/routes/osfs/supportactions.js geelooy/api/tunnel/control/routes/osfs/syntaxafterwrite.js geelooy/api/tunnel/control/routes/osfs/test/pathjail.test.cjs geelooy/api/tunnel/control/routes/osfs/test/publicurls.test.cjs geelooy/api/tunnel/control/routes/osfs/test/virtualactionbridge.test.cjs geelooy/api/tunnel/control/routes/osfs/test/virtualaiagents.test.cjs geelooy/api/tunnel/control/routes/osfs/test/virtualwebsitemissionrejection.test.cjs geelooy/api/tunnel/control/routes/osfs/test/writeifhashpublicurls.test.cjs geelooy/api/tunnel/control/routes/osfs/test/writeopspublicurls.test.cjs geelooy/api/tunnel/control/routes/osfs/textsearch.js geelooy/api/tunnel/control/routes/osfs/virtualactionbridge.js geelooy/api/tunnel/control/routes/osfs/virtualaiagents.js geelooy/api/tunnel/control/routes/osfs/writeops.js geelooy/api/tunnel/control/routes/pairing.js geelooy/api/tunnel/control/routes/previewgateway.js geelooy/api/tunnel/control/routes/previewgateway/activity.js geelooy/api/tunnel/control/routes/previewgateway/lifecycle.js geelooy/api/tunnel/control/routes/previewgateway/previewgateway.test.cjs geelooy/api/tunnel/control/routes/previewgateway/request.js geelooy/api/tunnel/control/routes/previewgateway/settings.js geelooy/api/tunnel/control/routes/previewgateway/sharing.js geelooy/api/tunnel/control/routes/previewproxy.js geelooy/api/tunnel/control/routes/previewproxy.test.cjs geelooy/api/tunnel/control/routes/previewproxypolicy.js geelooy/api/tunnel/control/routes/previewproxyresponse.js geelooy/api/tunnel/control/routes/protectedfs.js geelooy/api/tunnel/control/routes/protectedfsauthorization.js geelooy/api/tunnel/control/routes/protectedfscompatibility.js geelooy/api/tunnel/control/routes/protectedfspolicy.js geelooy/api/tunnel/control/routes/provider.js geelooy/api/tunnel/control/routes/receiptcertificate.js geelooy/api/tunnel/control/routes/refund.js geelooy/api/tunnel/control/routes/reputation.js geelooy/api/tunnel/control/routes/resourceaccounting.js geelooy/api/tunnel/control/routes/revokeapikey.js geelooy/api/tunnel/control/routes/routegroups/dataroutes.js geelooy/api/tunnel/control/routes/routegroups/economyroutes.js geelooy/api/tunnel/control/routes/routegroups/identityroutes.js geelooy/api/tunnel/control/routes/routegroups/previewroutes.js geelooy/api/tunnel/control/routes/routegroups/treasuryroutes.js geelooy/api/tunnel/control/routes/table.js geelooy/api/tunnel/control/routes/test/devicediscoveryofflinenative.test.cjs geelooy/api/tunnel/control/routes/test/missionroomsocketticket.test.cjs geelooy/api/tunnel/control/routes/test/missionroomticketfixture.cjs geelooy/api/tunnel/control/routes/test/openapikeycontinuationparams.test.cjs geelooy/api/tunnel/control/routes/test/protectedfsauthorization.test.cjs geelooy/api/tunnel/control/routes/test/protectedfscarrieractionrecovery.test.cjs geelooy/api/tunnel/control/routes/test/protectedfscarriernormalize.test.cjs geelooy/api/tunnel/control/routes/test/protectedfsperutaguard.test.cjs geelooy/api/tunnel/control/routes/test/protectedfspreviewdefault.test.cjs geelooy/api/tunnel/control/routes/test/protectedfsstickyroute.test.cjs geelooy/api/tunnel/control/routes/test/protectedfstimeout.test.cjs geelooy/api/tunnel/control/routes/test/responsecontractcommandactions.test.cjs geelooy/api/tunnel/control/routes/test/responsecontractretryaction.test.cjs geelooy/api/tunnel/control/routes/test/routetablenoduplicates.test.cjs geelooy/api/tunnel/control/routes/treasury.js geelooy/api/tunnel/control/routes/treasury/advisor.js geelooy/api/tunnel/control/routes/treasury/agents.js geelooy/api/tunnel/control/routes/treasury/budgets.js geelooy/api/tunnel/control/routes/treasury/forecast.js geelooy/api/tunnel/control/routes/treasury/graph.js geelooy/api/tunnel/control/routes/treasury/home.js geelooy/api/tunnel/control/routes/treasury/marketplace.js geelooy/api/tunnel/control/routes/treasury/providers.js geelooy/api/tunnel/control/routes/treasury/reputation.js geelooy/api/tunnel/control/routes/treasury/routetools.js geelooy/api/tunnel/control/routes/treasurytest.js geelooy/api/tunnel/control/routes/tunnelaccess.js geelooy/api/tunnel/control/routes/usage.js geelooy/api/tunnel/control/routes/view.js geelooy/api/tunnel/control/scripts/prunebindings.cjs geelooy/api/tunnel/control/test/runtreasurytests.cjs geelooy/api/tunnel/control/test/treasury/aliasroutes.test.cjs geelooy/api/tunnel/control/test/treasury/crosssurfacesync.test.cjs geelooy/api/tunnel/control/test/treasury/graphrouterender.test.cjs geelooy/api/tunnel/control/test/treasury/integrationguards.test.cjs geelooy/api/tunnel/control/test/treasury/productroutes.test.cjs geelooy/api/tunnel/control/test/treasury/productservices.test.cjs geelooy/api/tunnel/control/test/treasury/runall.cjs geelooy/api/tunnel/control/test/treasury/uirender.test.cjs geelooy/api/tunnel/control/test/treasuryhttp.test.cjs geelooy/api/tunnel/control/test/treasuryroutes.test.cjs geelooy/api/tunnel/control/test/treasuryservices.test.cjs geelooy/api/tunnel/control/views/adminvaultpage.js geelooy/api/tunnel/control/views/computepage.js geelooy/api/tunnel/control/views/economyview.js geelooy/api/tunnel/control/views/treasury/treasuryhomepage.js",
+		"page": "pages/docs-generated-api-files-api-files-018-md-1999ba087a.json"
+	},
+	{
+		"id": "docs-generated-api-files-api-files-019-md-37cf71201a",
+		"title": "Generated API File Inventory 1621–1710",
+		"sourcePath": "docs/GENERATED/API_FILES/api-files-019.md",
+		"category": "General",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated API File Inventory 1621–1710",
+				"anchor": "generated-api-file-inventory-1621-1710"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated API File Inventory 1621–1710 Every listed source path exists beneath geelooy/api; local documentation pointers are excluded. geelooy/api/tunnel/control/views/treasury/components/Forms.js geelooy/api/tunnel/control/views/treasury/components/GraphPanel.js geelooy/api/tunnel/contr",
+		"searchText": "b\"h boruch hashem blessed is he generated api file inventory 1621–1710 every listed source path exists beneath geelooy/api; local documentation pointers are excluded. geelooy/api/tunnel/control/views/treasury/components/forms.js geelooy/api/tunnel/control/views/treasury/components/graphpanel.js geelooy/api/tunnel/control/views/treasury/components/portalgrid.js geelooy/api/tunnel/control/views/treasury/components/shell.js geelooy/api/tunnel/control/views/treasury/components/stats.js geelooy/api/tunnel/control/views/treasury/styles/treasurycss.js geelooy/api/tunnel/control/views/treasurycockpit.js geelooy/api/tunnel/install/ awtsmoos.derech.js geelooy/api/tunnel/install/scripts/client.js geelooy/api/tunnel/install/scripts/unix.js geelooy/api/tunnel/install/scripts/windows.js geelooy/api/tunnel/install/test/install route fixture.mjs geelooy/api/tunnel/install/test/unix bootstrap server.mjs geelooy/api/tunnel/install/test/unixbootstraphttpisolation.test.mjs geelooy/api/tunnel/install/test/unixbootstraptermuxisolation.test.mjs geelooy/api/tunnel/install/test/unixinstallerroute.test.mjs geelooy/api/tunnel/install/tools/bundledescriptor.js geelooy/api/tunnel/install/tools/installercomponents.js geelooy/api/tunnel/install/tools/respond.js geelooy/api/tunnel/install/tools/sourcefile.js geelooy/api/tunnel/install/tools/zipbundle.js geelooy/api/tunnel/install/tools/zipsources.js geelooy/api/tunnel/install/tools/zipwriter.js geelooy/api/tunnel/shared/scopecatalog.js geelooy/api/wallet/ awtsmoos.derech.js geelooy/api/wallet/core/amount.js geelooy/api/wallet/core/balancebuckets.js geelooy/api/wallet/core/balancestate.js geelooy/api/wallet/core/bucketmutations.js geelooy/api/wallet/core/commerce/access.js geelooy/api/wallet/core/commerce/app creator services.js geelooy/api/wallet/core/commerce/app services.js geelooy/api/wallet/core/commerce/app system services.js geelooy/api/wallet/core/commerce/app utility services.js geelooy/api/wallet/core/commerce/catalog.js geelooy/api/wallet/core/commerce/entitlement.js geelooy/api/wallet/core/commerce/flagship action.js geelooy/api/wallet/core/commerce/flagship worlds.js geelooy/api/wallet/core/commerce/purchasecommit.js geelooy/api/wallet/core/commerce/purchaseengine.js geelooy/api/wallet/core/commerce/purchasemutation.js geelooy/api/wallet/core/commerce/purchasevalidation.js geelooy/api/wallet/core/commerce/receipt.js geelooy/api/wallet/core/commerce/sku.js geelooy/api/wallet/core/creditoperations.js geelooy/api/wallet/core/currency.js geelooy/api/wallet/core/environment.js geelooy/api/wallet/core/filelock.js geelooy/api/wallet/core/ledger.js geelooy/api/wallet/core/paypal.js geelooy/api/wallet/core/paypalenvironment.js geelooy/api/wallet/core/paypalreceipt.js geelooy/api/wallet/core/paypaltransport.js geelooy/api/wallet/core/persistence.js geelooy/api/wallet/core/request.js geelooy/api/wallet/core/respond.js geelooy/api/wallet/core/spendoperations.js geelooy/api/wallet/core/storagepaths.js geelooy/api/wallet/core/store.js geelooy/api/wallet/core/transactionrunner.js geelooy/api/wallet/core/transferidentity.js geelooy/api/wallet/core/transferledger.js geelooy/api/wallet/core/transferoperations.js geelooy/api/wallet/core/transfervalidation.js geelooy/api/wallet/core/user.js geelooy/api/wallet/core/walletaccess.js geelooy/api/wallet/core/walletmodel.js geelooy/api/wallet/routes/balance.js geelooy/api/wallet/routes/buymock.js geelooy/api/wallet/routes/commercecatalog.js geelooy/api/wallet/routes/commerceentitlements.js geelooy/api/wallet/routes/commercepurchase.js geelooy/api/wallet/routes/me.js geelooy/api/wallet/routes/paypalcapture.js geelooy/api/wallet/routes/paypalcreate.js geelooy/api/wallet/routes/table.js geelooy/api/wallet/routes/transfer.js geelooy/api/wallet/tests/balancebuckets.test.js geelooy/api/wallet/tests/commerceengine.test.js geelooy/api/wallet/tests/commerceroutes.test.js geelooy/api/wallet/tests/environment.test.js geelooy/api/wallet/tests/paypalenvironment.test.js geelooy/api/wallet/tests/paypalreceipt.test.js geelooy/api/wallet/tests/request.test.js geelooy/api/wallet/tests/store.test.js geelooy/api/wallet/tests/storebuckets.integration.test.js geelooy/api/wallet/tests/transferroute.test.js geelooy/api/wallet/tests/transferstore.integration.test.js geelooy/api/wallet/tests/transfervalidation.test.js geelooy/api/youtube/ awtsmoos.derech.js",
+		"page": "pages/docs-generated-api-files-api-files-019-md-37cf71201a.json"
+	},
+	{
+		"id": "docs-generated-api-files-api-files-020-md-ea935b83f6",
+		"title": "Generated API File Inventory 1711–1730",
+		"sourcePath": "docs/GENERATED/API_FILES/api-files-020.md",
+		"category": "General",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated API File Inventory 1711–1730",
+				"anchor": "generated-api-file-inventory-1711-1730"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated API File Inventory 1711–1730 Every listed source path exists beneath geelooy/api; local documentation pointers are excluded. geelooy/api/youtube/core/body.js geelooy/api/youtube/core/client.js geelooy/api/youtube/core/config.js geelooy/api/youtube/core/cookies.js geelooy/api/yo",
+		"searchText": "b\"h boruch hashem blessed is he generated api file inventory 1711–1730 every listed source path exists beneath geelooy/api; local documentation pointers are excluded. geelooy/api/youtube/core/body.js geelooy/api/youtube/core/client.js geelooy/api/youtube/core/config.js geelooy/api/youtube/core/cookies.js geelooy/api/youtube/core/googleoauth.js geelooy/api/youtube/core/identity.js geelooy/api/youtube/core/json.js geelooy/api/youtube/core/origin.js geelooy/api/youtube/core/session.js geelooy/api/youtube/core/signedtoken.js geelooy/api/youtube/core/tokenstore.js geelooy/api/youtube/core/vault.js geelooy/api/youtube/docs/setup.md geelooy/api/youtube/routes/auth.js geelooy/api/youtube/routes/channel.js geelooy/api/youtube/routes/live.js geelooy/api/youtube/routes/table.js geelooy/api/youtube/routes/uploads.js geelooy/api/youtube/routes/videos.js geelooy/api/youtube/test/security.test.cjs",
+		"page": "pages/docs-generated-api-files-api-files-020-md-ea935b83f6.json"
+	},
+	{
+		"id": "docs-generated-api-route-atlas-md-ac8f37d0c9",
+		"title": "Generated API Route Atlas",
+		"sourcePath": "docs/GENERATED/API_ROUTE_ATLAS.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated API Route Atlas",
+				"anchor": "generated-api-route-atlas"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated API Route Atlas Complete index for 573 source to route rows. Chunk Rows Count api routes 001.md 1–85 85 api routes 002.md 86–170 85 api routes 003.md 171–255 85 api routes 004.md 256–340 85 api routes 005.md 341–425 85 api routes 006.md 426–510 85 api routes 007.md 511–573 63",
+		"searchText": "b\"h boruch hashem blessed is he generated api route atlas complete index for 573 source to route rows. chunk rows count api routes 001.md 1–85 85 api routes 002.md 86–170 85 api routes 003.md 171–255 85 api routes 004.md 256–340 85 api routes 005.md 341–425 85 api routes 006.md 426–510 85 api routes 007.md 511–573 63",
+		"page": "pages/docs-generated-api-route-atlas-md-ac8f37d0c9.json"
+	},
+	{
+		"id": "docs-generated-api-route-contract-atlas-md-00c0c57391",
+		"title": "Generated API Route Contract Atlas",
+		"sourcePath": "docs/GENERATED/API_ROUTE_CONTRACT_ATLAS.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated API Route Contract Atlas",
+				"anchor": "generated-api-route-contract-atlas"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated API Route Contract Atlas Every discovered path joined to its source file contract evidence; unknown remains unknown. 573 rows. Chunk Rows Count api route contracts 001.md 1–55 55 api route contracts 002.md 56–110 55 api route contracts 003.md 111–165 55 api route contracts 004.",
+		"searchText": "b\"h boruch hashem blessed is he generated api route contract atlas every discovered path joined to its source file contract evidence; unknown remains unknown. 573 rows. chunk rows count api route contracts 001.md 1–55 55 api route contracts 002.md 56–110 55 api route contracts 003.md 111–165 55 api route contracts 004.md 166–220 55 api route contracts 005.md 221–275 55 api route contracts 006.md 276–330 55 api route contracts 007.md 331–385 55 api route contracts 008.md 386–440 55 api route contracts 009.md 441–495 55 api route contracts 010.md 496–550 55 api route contracts 011.md 551–573 23",
+		"page": "pages/docs-generated-api-route-contract-atlas-md-00c0c57391.json"
+	}
+]

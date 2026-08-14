@@ -1,0 +1,146 @@
+[
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-light-three-gltf-test-directory-g-75aa421554",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/light-three-gltf/test/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/light-three-gltf/test",
+				"anchor": "directory-guide-experiments-light-three-gltf-test"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Test themes",
+				"anchor": "test-themes"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/light three gltf/test Role: Rendering library Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 27 files, 0 structural child directories Purpose Tests for the lightweight scene graph, GLTF, math, and renderer primitives. T",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/light three gltf/test role: rendering library snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 27 files, 0 structural child directories purpose tests for the lightweight scene graph, gltf, math, and renderer primitives. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: rendering library search terms: mjs, tiny, state, render, texture, cache, com, proves, layered, material, native, static file mix: .mjs: 26 good first question: “does the behavior or asset i need belong to rendering library, or is this only a neighboring/test/reference layer?” semantic evidence b\"h proves first clip activation, exact looping, crossfade, and bind restoration. the awtsmoos gives motion to clip zero before any clock has passed; awtsmoos.com verifies that idle begins alive, continues without reset, and yields cleanly to every later gesture. creates a fake webgl context whose native call ledger remains observable. proves exact skips, selective vao invalidation, restore, and identity. the awtsmoos remembers without confusion; awtsmoos.com erases only the declarations a hidden vertex array change can alter while preserving every unrelated witnessed state. representative files tiny animation player.test.mjs — proves first clip activation, exact looping, crossfade, and bind restoration. the awtsmoos gives motion to clip zero before any clock has passed; awtsmoos.com verifies that idle begins alive, continues without reset, and yields cleanly to every later gesture. tiny gl state cache fixture.mjs — creates a fake webgl context whose native call ledger remains observable. exports: createfakegl, nativecallcount. tiny gl state cache.test.mjs — proves exact skips, selective vao invalidation, restore, and identity. the awtsmoos remembers without confusion; awtsmoos.com erases only the declarations a hidden vertex array change can alter while preserving every unrelated witnessed state. tiny gltf instance.test.mjs — proves resource sharing and mutable skeleton isolation between actors. the awtsmoos renews each body through one shared form; awtsmoos.com verifies that geometry and palette vessels are reused while bones and transforms remain independent. covers: “instances share geometry and default material but not bones”, “palette resolvers can share one variant across many instances”. tiny gpu texture binding.test.mjs — proves an already bound unit needs neither activation nor another texture bind. the awtsmoos joins memory and garment without empty motion; awtsmoos.com verifies that returning to a resident unit changes only the sampler uniform, not global webgl texture state. covers: “resident texture units skip redundant activetexture and bindtexture calls”. tiny layered terrain shader.test.mjs — proves six active samplers, ecological controls, and smaller gpu compilation. the awtsmoos is one beneath every stacked garment; awtsmoos.com verifies distinct earth without assuming every finite gpu should evaluate ten overlapping textures per pixel. covers: “default fragment shader contains six terrain samplers and seven mixes”, “a smaller shader contains only its measured layer capacity”, “ecological zone weights travel from vertex input to fragment shader”. tiny layered texture binder.test.mjs — proves zero ordinary material tax and hardware aware terrain layer capacity. the awtsmoos fills six vessels on broad hardware and five on a smaller vessel; awtsmoos.com never makes cottages or chassidim walk through empty terrain binding declarations. covers: “ordinary materials perform no terrain texture operations”, “verified hardware binds all six layers to units three through eight”, “eight unit hardware disables only the sixth excess terrain layer”. tiny layered texture state.test.mjs — proves ordinary materials stay empty while six active layers compare exactly. the awtsmoos joins only truly equal garments; awtsmoos.com detects image, readiness, repeat, ecology, height, slope, rotation, strength, and wetness without blank ordinary state. covers: “ordinary materials expose no layered state”, “six complete layers compare by exact shader visible state”, “missing logical layers become disabled default shader records”. tiny material signature.test.mjs — prevents batching across sidedness or incompatible native pixel density contracts. the awtsmoos unites forms without confusing their boundaries or scale; awtsmoos.com keeps distinct culling covenants and original pixel measurements in separate renderer vessels. covers: “material signatures distinguish every renderer visible sidedness contract”, “pre hydration signatures preserve distinct native density policies”, “hydrated source dimensions become part of the effective repeat signature”. tiny native texture density.test.mjs — proves original pixels produce fractional world scale repeats without resampling. the awtsmoos preserves the finite dimensions of every image vessel; awtsmoos.com verifies that world uvs reveal more or less of that source rather than enlarging or shrinking the source. covers: “world uv density uses exact source width, height, and uv scale”, “normalized surfaces calculate fractional cycles from measured surface size”, “unresolved and opted out sources preserve authored fallback repetition”. tiny render allocation cache.test.mjs — proves frame, transform, world map, and bounds storage reuse without math drift. the awtsmoos renews every coordinate; awtsmoos.com verifies the same finite vessels may receive those exact values again instead of becoming short lived frame garbage. covers: “world traversal reuses map, snapshots, hierarchy matrices, and sphere storage”, “render frames reuse camera matrices, camera position, and world map exactly”. tiny render culling.test.mjs — proves conservative bounds, camera culling, and invisible matrix skipping. the awtsmoos renews seen and unseen forms alike; awtsmoos.com verifies that the renderer conceals only what evidence places outside the present camera vessel. covers: “local and world spheres are cached and transformed”, “camera collection preserves front meshes and rejects side and distant meshes”, “explicit mountains remain visible and missing bounds fail open”. tiny render gl state stats.test.mjs — proves exact aggregation of cache and vertex array invalidation evidence. the awtsmoos contains every call and lawful omission; awtsmoos.com records their measure so an optimization remains a tested vessel rather than a flattering boast. exported symbols worth searching createfakegl · nativecallcount · createscene · collect · material · triangle · readyimage import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict ../tiny runtime.js ../tiny animation.js ../tiny gl state cache.js ./tiny gl state cache fixture.mjs node:test ../tiny gltf instance.js ../tiny gpu texture cache.js ../tiny fragment shader.js ../tiny unified shaders.js ../tiny render webgl utils.js ../tiny layered texture binder.js test themes instances share geometry and default material but not bones palette resolvers can share one variant across many instances resident texture units skip redundant activetexture and bindtexture calls default fragment shader contains six terrain samplers and seven mixes a smaller shader contains only its measured layer capacity ecological zone weights travel from vertex input to fragment shader only explicit layered terrain enters material mode five ordinary materials perform no terrain texture operations verified hardware binds all six layers to units three through eight eight unit hardware disables only the sixth excess terrain layer ordinary materials expose no layered state six complete layers compare by exact shader visible state directory map parent: experiments/light three gltf children: none. related and overlapping systems rendering stacks — the project contains a lightweight scene/gltf library, the canonical app level progressive renderer, and focused render helpers. emergency fallback visuals were absorbed into the app renderer. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-light-three-gltf-test-directory-g-75aa421554.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-movie-maker-audit-md-555789cc24",
+		"title": "B\"H — Mitzvah World Movie Maker Audit",
+		"sourcePath": "geelooy/games/mitzvahWorld/MOVIE_MAKER_AUDIT.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Mitzvah World Movie Maker Audit",
+				"anchor": "b-h-mitzvah-world-movie-maker-audit"
+			},
+			{
+				"level": 2,
+				"text": "Recovered systems",
+				"anchor": "recovered-systems"
+			},
+			{
+				"level": 2,
+				"text": "Launcher",
+				"anchor": "launcher"
+			},
+			{
+				"level": 2,
+				"text": "Runtime architecture",
+				"anchor": "runtime-architecture"
+			},
+			{
+				"level": 2,
+				"text": "AI project contract",
+				"anchor": "ai-project-contract"
+			},
+			{
+				"level": 2,
+				"text": "NLE",
+				"anchor": "nle"
+			},
+			{
+				"level": 2,
+				"text": "Thirty-second film",
+				"anchor": "thirty-second-film"
+			},
+			{
+				"level": 2,
+				"text": "Floor correction",
+				"anchor": "floor-correction"
+			},
+			{
+				"level": 2,
+				"text": "Final media",
+				"anchor": "final-media"
+			},
+			{
+				"level": 2,
+				"text": "Regression proof",
+				"anchor": "regression-proof"
+			},
+			{
+				"level": 2,
+				"text": "Honest limitations",
+				"anchor": "honest-limitations"
+			}
+		],
+		"excerpt": "B\"H — Mitzvah World Movie Maker Audit Recovered systems The repository did not contain an older Mitzvah World movie maker, but it did contain the two required foundations. geelooy/apps/animator supplied NLE track, camera shot, scene, performance, and export architecture. geelooy/apps/piano supplied ordered browser reco",
+		"searchText": "b\"h — mitzvah world movie maker audit recovered systems the repository did not contain an older mitzvah world movie maker, but it did contain the two required foundations. geelooy/apps/animator supplied nle track, camera shot, scene, performance, and export architecture. geelooy/apps/piano supplied ordered browser recording, audio stream, worker, finalization, and download patterns. the new system adapts those ideas to the real mitzvah world runtime rather than creating a disconnected renderer. launcher the game no longer boots invisibly underneath its opening screen. the short main menu offers: enter world movie maker mode=world bypasses the menu for normal gameplay. movie get parameters bypass the menu and open the studio. runtime architecture ai project contract projects may arrive through encoded get json, raw get json, fetched json, pasted editor json, or the included sample. tracks support scene changes and visibility, actor motion and animation, door motion, eased cinematic cameras, dialogue, and audio. the complete machine readable contract is movies/movie project.schema.json. nle the visible studio provides track lanes, colored clips, ruler, scrub playhead, live preview, json editor, apply json, get url generation, play/stop, render progress, and browser download. the source webgl canvas remains active but hidden. the output canvas composites real world frames with scene grades, transitions, titles, camera shot names, and dialogue subtitles. thirty second film project: movies/projects/chossid journey 30s.json. the film uses seven tracks and thirty three clips. the chossid walks, runs, speaks with another character, approaches the real main house door, passes through it after it opens, runs inside, jumps, and completes the journey. eight camera shots include establishing, side tracking, two shot, low angle hero, doorway follow, interior tracking, jump low angle, and crane ending. floor correction the first rendered candidate was rejected after evidence showed the general collision ground sampler was striking the house roof overhang. movie actors now use terrain height outdoors and explicit rotated house floor metadata indoors. verified heights: outdoor approach: approximately 0.52 m interior floor: approximately 0.77 m interior jump apex: approximately 3.02 m grounded interior ending: approximately 0.77 m the rejected evidence was deleted and the entire movie was rerendered. final media accepted final: movies/chossid journey 30s.mp4. browser master: movies/chossid journey 30s browser master.webm. poster: movies/chossid journey 30s poster.jpg. final format: h.264 video 960 × 540 24 fps 720 frames 30.000 seconds aac stereo 48 khz 13,794,089 bytes sha 256 0eb45182641022bfc51d17030aafc341dd8c55be1d7c36e867671ebaab2e9c8a full video and audio decode completed without errors. audio measures approximately −23.0 db mean and −2.1 db peak. regression proof movie project and floor resolver tests pass. the original forest still contains fifty four trees and all thirty six presets. the prior geometry suite still reports five houses, fourteen doors and mezuzahs, four staircases, zero stair penetrations, and zero road gaps or intersections. honest limitations browser live webaudio depends on trusted playback permissions. the accepted render obtained a running live audio context, and the finalizer always adds timed spoken dialogue from the same json before mp4 verification. the nle is json first: clips can be scrubbed and projects rebuilt, but drag resize editing is not yet implemented.",
+		"page": "pages/geelooy-games-mitzvahworld-movie-maker-audit-md-555789cc24.json"
+	}
+]

@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-nitzotz-io-documentation-md-cffefeee32",
+	"title": "Nitzotz.io — Shlichus Adventure Metropolis",
+	"sourcePath": "geelooy/games/nitzotz-io/DOCUMENTATION.md",
+	"category": "Games",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Nitzotz.io — Shlichus Adventure Metropolis",
+			"anchor": "nitzotz-io-shlichus-adventure-metropolis"
+		},
+		{
+			"level": 2,
+			"text": "Role",
+			"anchor": "role"
+		},
+		{
+			"level": 2,
+			"text": "Start here",
+			"anchor": "start-here"
+		},
+		{
+			"level": 2,
+			"text": "Change rule",
+			"anchor": "change-rule"
+		},
+		{
+			"level": 2,
+			"text": "Project-specific notes",
+			"anchor": "project-specific-notes"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-nitzotz-io-documentation-md-cffefeee32-001.json"
+	]
+}

@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-29-kabbalistic-combat-pro-c445ad7e17",
+	"title": "Improved Plan",
+	"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-29-kabbalistic-combat-production/04_IMPROVED_PLAN.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Improved Plan",
+			"anchor": "improved-plan"
+		},
+		{
+			"level": 2,
+			"text": "Phase A — shared truth",
+			"anchor": "phase-a-shared-truth"
+		},
+		{
+			"level": 2,
+			"text": "Phase B — player authority",
+			"anchor": "phase-b-player-authority"
+		},
+		{
+			"level": 2,
+			"text": "Phase C — enemy authority",
+			"anchor": "phase-c-enemy-authority"
+		},
+		{
+			"level": 2,
+			"text": "Phase D — presentation",
+			"anchor": "phase-d-presentation"
+		},
+		{
+			"level": 2,
+			"text": "Phase E — environment and persistence",
+			"anchor": "phase-e-environment-and-persistence"
+		},
+		{
+			"level": 2,
+			"text": "Phase F — verification",
+			"anchor": "phase-f-verification"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-ai-thoughts-2026-07-29-kabbalistic-combat-pro-c445ad7e17-001.json"
+	]
+}

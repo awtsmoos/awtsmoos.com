@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-shared-documentation-md-02d3743582",
+	"title": "Shared Code Documentation",
+	"sourcePath": "geelooy/shared/DOCUMENTATION.md",
+	"category": "General",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Shared Code Documentation",
+			"anchor": "shared-code-documentation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-shared-documentation-md-02d3743582-001.json"
+	]
+}

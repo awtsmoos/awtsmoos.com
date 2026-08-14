@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-data-dosdb-md-fe0d8600a5",
+	"title": "DosDB Architecture",
+	"sourcePath": "docs/DATA/DOSDB.md",
+	"category": "Data",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "DosDB Architecture",
+			"anchor": "dosdb-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Core role",
+			"anchor": "core-role"
+		},
+		{
+			"level": 2,
+			"text": "Read behavior",
+			"anchor": "read-behavior"
+		},
+		{
+			"level": 2,
+			"text": "Routed modern storage and legacy fallback",
+			"anchor": "routed-modern-storage-and-legacy-fallback"
+		},
+		{
+			"level": 2,
+			"text": "AwtsmoosBinaryJSON sidecars",
+			"anchor": "awtsmoosbinaryjson-sidecars"
+		},
+		{
+			"level": 2,
+			"text": "Runtime read guard",
+			"anchor": "runtime-read-guard"
+		},
+		{
+			"level": 2,
+			"text": "Migration-sensitive behavior",
+			"anchor": "migration-sensitive-behavior"
+		},
+		{
+			"level": 2,
+			"text": "Source entry points",
+			"anchor": "source-entry-points"
+		}
+	],
+	"markdownParts": [
+		"content/docs-data-dosdb-md-fe0d8600a5-001.json"
+	]
+}

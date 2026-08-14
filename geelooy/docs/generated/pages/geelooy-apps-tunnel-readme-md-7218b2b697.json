@@ -1,0 +1,84 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-tunnel-readme-md-7218b2b697",
+	"title": "Awtsmoos Tunnel — Human Operations Guide",
+	"sourcePath": "geelooy/apps/tunnel/README.md",
+	"category": "Tunnel",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos Tunnel — Human Operations Guide",
+			"anchor": "awtsmoos-tunnel-human-operations-guide"
+		},
+		{
+			"level": 2,
+			"text": "Open the control surfaces",
+			"anchor": "open-the-control-surfaces"
+		},
+		{
+			"level": 2,
+			"text": "Install, refresh, or start",
+			"anchor": "install-refresh-or-start"
+		},
+		{
+			"level": 3,
+			"text": "macOS or Linux",
+			"anchor": "macos-or-linux"
+		},
+		{
+			"level": 3,
+			"text": "Windows PowerShell",
+			"anchor": "windows-powershell"
+		},
+		{
+			"level": 2,
+			"text": "Force a complete restart",
+			"anchor": "force-a-complete-restart"
+		},
+		{
+			"level": 3,
+			"text": "macOS or Linux",
+			"anchor": "macos-or-linux-2"
+		},
+		{
+			"level": 3,
+			"text": "Windows PowerShell",
+			"anchor": "windows-powershell-2"
+		},
+		{
+			"level": 2,
+			"text": "Restart only the supervised child on macOS or Linux",
+			"anchor": "restart-only-the-supervised-child-on-macos-or-linux"
+		},
+		{
+			"level": 2,
+			"text": "Check the installed feature set",
+			"anchor": "check-the-installed-feature-set"
+		},
+		{
+			"level": 2,
+			"text": "Inspect recovery-enabled health",
+			"anchor": "inspect-recovery-enabled-health"
+		},
+		{
+			"level": 2,
+			"text": "Concurrency and fallback levels",
+			"anchor": "concurrency-and-fallback-levels"
+		},
+		{
+			"level": 2,
+			"text": "Offline restoration",
+			"anchor": "offline-restoration"
+		},
+		{
+			"level": 2,
+			"text": "Important runtime files",
+			"anchor": "important-runtime-files"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-tunnel-readme-md-7218b2b697-001.json"
+	]
+}

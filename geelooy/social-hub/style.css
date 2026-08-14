@@ -2,7 +2,7 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos gathers Inbox, people, Spaces, channel activity, review, member governance, profile identity, and neighboring communication vessels
+ * The Awtsmoos gathers Inbox, live Torah Chat, inline private Messages, Spaces, presence, review, governance, profile identity, and neighboring communication vessels
  * through focused styles so Awtsmoos.com can grow radically without one global glass-panel stylesheet.
  */
 @import url('/style/social-system/index.css?v=social-core-006');
@@ -14,6 +14,12 @@
 @import url('./styles/navigation.css?v=hub-nebula-004');
 @import url('./styles/communication-links.css?v=hub-comms-001');
 @import url('./styles/inbox.css?v=hub-inbox-001');
+@import url('./styles/realtime.css?v=hub-live-001');
+@import url('./styles/chat-route.css?v=hub-chat-001');
+@import url('./styles/messages-layout.css?v=hub-messages-002');
+@import url('./styles/messages-cards.css?v=hub-messages-002');
+@import url('./styles/messages-room-shell.css?v=hub-messages-004');
+@import url('./styles/messages-room-content.css?v=hub-messages-004');
 @import url('./styles/cards.css?v=hub-dark-003');
 @import url('./styles/interaction.css?v=hub-dark-003');
 @import url('./styles/interaction-media.css?v=hub-dark-003');

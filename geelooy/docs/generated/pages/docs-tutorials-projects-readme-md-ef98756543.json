@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-tutorials-projects-readme-md-ef98756543",
+	"title": "Project and System Tutorials",
+	"sourcePath": "docs/TUTORIALS/PROJECTS/README.md",
+	"category": "Projects",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Project and System Tutorials",
+			"anchor": "project-and-system-tutorials"
+		},
+		{
+			"level": 2,
+			"text": "Human guides",
+			"anchor": "human-guides"
+		},
+		{
+			"level": 2,
+			"text": "Generated project teaching",
+			"anchor": "generated-project-teaching"
+		},
+		{
+			"level": 2,
+			"text": "Evidence rule",
+			"anchor": "evidence-rule"
+		}
+	],
+	"markdownParts": [
+		"content/docs-tutorials-projects-readme-md-ef98756543-001.json"
+	]
+}

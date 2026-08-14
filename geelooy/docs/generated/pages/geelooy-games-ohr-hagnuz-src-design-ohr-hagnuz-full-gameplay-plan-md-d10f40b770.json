@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-ohr-hagnuz-src-design-ohr-hagnuz-full-gameplay-plan-md-d10f40b770",
+	"title": "Ohr HaGnuz: I Did Not Forget",
+	"sourcePath": "geelooy/games/ohr-hagnuz/src/design/OHR_HAGNUZ_FULL_GAMEPLAY_PLAN.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Ohr HaGnuz: I Did Not Forget",
+			"anchor": "ohr-hagnuz-i-did-not-forget"
+		},
+		{
+			"level": 2,
+			"text": "Beginning",
+			"anchor": "beginning"
+		},
+		{
+			"level": 2,
+			"text": "Middle",
+			"anchor": "middle"
+		},
+		{
+			"level": 2,
+			"text": "End",
+			"anchor": "end"
+		},
+		{
+			"level": 2,
+			"text": "Files Added",
+			"anchor": "files-added"
+		},
+		{
+			"level": 2,
+			"text": "Files Rewritten",
+			"anchor": "files-rewritten"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-ohr-hagnuz-src-design-ohr-hagnuz-full-gameplay-plan-md-d10f40b770-001.json"
+	]
+}

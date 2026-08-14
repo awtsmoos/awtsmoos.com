@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# YouTube API Documentation\n\nThe Awtsmoos lets account, channel, video, upload, live, and provider OAuth move through explicit routes and guarded keys;\nAwtsmoos.com maps this family to YouTube Manager and configuration docs without ever copying secrets into these leaves.\n\nRead [../../../docs/API/YOUTUBE.md](../../../docs/API/YOUTUBE.md), [../../../docs/APPS/MEDIA_TOOLS.md](../../../docs/APPS/MEDIA_TOOLS.md), and [../../../docs/CONFIGURATION.md](../../../docs/CONFIGURATION.md).\n"
+}

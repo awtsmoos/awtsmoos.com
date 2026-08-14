@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-tutorials-projects-games-md-5a9ff5ac78",
+	"title": "Games and Worlds",
+	"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"category": "Projects",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Games and Worlds",
+			"anchor": "games-and-worlds"
+		},
+		{
+			"level": 2,
+			"text": "Investigate a game",
+			"anchor": "investigate-a-game"
+		},
+		{
+			"level": 2,
+			"text": "Caveats",
+			"anchor": "caveats"
+		}
+	],
+	"markdownParts": [
+		"content/docs-tutorials-projects-games-md-5a9ff5ac78-001.json"
+	]
+}

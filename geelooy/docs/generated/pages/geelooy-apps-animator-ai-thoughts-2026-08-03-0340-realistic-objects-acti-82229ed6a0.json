@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-82229ed6a0",
+	"title": "EVIDENCE",
+	"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0340_realistic-objects-action-movie/EVIDENCE.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "EVIDENCE",
+			"anchor": "evidence"
+		},
+		{
+			"level": 2,
+			"text": "Full repository verification",
+			"anchor": "full-repository-verification"
+		},
+		{
+			"level": 2,
+			"text": "Final focused audit",
+			"anchor": "final-focused-audit"
+		},
+		{
+			"level": 2,
+			"text": "Final media",
+			"anchor": "final-media"
+		},
+		{
+			"level": 2,
+			"text": "Compliance",
+			"anchor": "compliance"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-82229ed6a0-001.json"
+	]
+}

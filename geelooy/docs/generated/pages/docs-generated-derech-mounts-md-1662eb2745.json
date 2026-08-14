@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-generated-derech-mounts-md-1662eb2745",
+	"title": "Generated Derech Mounts",
+	"sourcePath": "docs/GENERATED/DERECH_MOUNTS.md",
+	"category": "General",
+	"provenance": "generated",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Generated Derech Mounts",
+			"anchor": "generated-derech-mounts"
+		}
+	],
+	"markdownParts": [
+		"content/docs-generated-derech-mounts-md-1662eb2745-001.json"
+	]
+}

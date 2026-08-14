@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-apps-readme-md-0951719bae",
+	"title": "Awtsmoos Applications",
+	"sourcePath": "docs/APPS/README.md",
+	"category": "Apps",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos Applications",
+			"anchor": "awtsmoos-applications"
+		},
+		{
+			"level": 2,
+			"text": "Choose an app family",
+			"anchor": "choose-an-app-family"
+		},
+		{
+			"level": 2,
+			"text": "Immediate projects observed",
+			"anchor": "immediate-projects-observed"
+		},
+		{
+			"level": 2,
+			"text": "Existing specialist documentation",
+			"anchor": "existing-specialist-documentation"
+		},
+		{
+			"level": 2,
+			"text": "When an app deserves its own new page",
+			"anchor": "when-an-app-deserves-its-own-new-page"
+		}
+	],
+	"markdownParts": [
+		"content/docs-apps-readme-md-0951719bae-001.json"
+	]
+}

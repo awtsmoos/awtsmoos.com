@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Generated Documentation Coverage\n\nObserved project boundaries and whether a local human breadcrumb is required and present. **163 rows.**\n\n| Chunk | Rows | Count |\n| --- | --- | --- |\n| [documentation-coverage-001.md](DOCUMENTATION_COVERAGE/documentation-coverage-001.md) | 1–60 | 60 |\n| [documentation-coverage-002.md](DOCUMENTATION_COVERAGE/documentation-coverage-002.md) | 61–120 | 60 |\n| [documentation-coverage-003.md](DOCUMENTATION_COVERAGE/documentation-coverage-003.md) | 121–163 | 43 |\n"
+}

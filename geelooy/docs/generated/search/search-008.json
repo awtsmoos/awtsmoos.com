@@ -1,0 +1,327 @@
+[
+	{
+		"id": "docs-api-oauth-md-761cf5e162",
+		"title": "OAuth API",
+		"sourcePath": "docs/API/OAUTH.md",
+		"category": "Security",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "OAuth API",
+				"anchor": "oauth-api"
+			},
+			{
+				"level": 2,
+				"text": "Mount",
+				"anchor": "mount"
+			},
+			{
+				"level": 2,
+				"text": "Current route-table keys",
+				"anchor": "current-route-table-keys"
+			},
+			{
+				"level": 2,
+				"text": "Security boundary",
+				"anchor": "security-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Callers",
+				"anchor": "callers"
+			},
+			{
+				"level": 2,
+				"text": "Exact implementation",
+				"anchor": "exact-implementation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He OAuth API The Awtsmoos lets delegated trust flow by explicit grants rather than whispered claim; Awtsmoos.com keeps authorization routes together so clients can enter identity by name. Mount geelooy/api/oauth/ awtsmoos.derech.js mounts a route table beneath /api/oauth. Current route tabl",
+		"searchText": "b\"h boruch hashem blessed is he oauth api the awtsmoos lets delegated trust flow by explicit grants rather than whispered claim; awtsmoos.com keeps authorization routes together so clients can enter identity by name. mount geelooy/api/oauth/ awtsmoos.derech.js mounts a route table beneath /api/oauth. current route table keys /api/oauth/ — root behavior. /api/oauth/authorize — authorization flow. /api/oauth/clients — client management/listing behavior. /api/oauth/logout — oauth/session logout behavior. /api/oauth/me — current oauth identity/context. /api/oauth/start — flow start. /api/oauth/token — token exchange/issuance behavior. security boundary oauth bearer evidence is one of the trusted identity sources used by tunnel control. do not document or expose live client secrets/tokens. when changing this family, trace registered client validation, redirect rules, scopes, token lifetime/storage, and the downstream consumer that trusts the resulting bearer evidence. callers tunnel control and other oauth aware awtsmoos applications are natural consumers. youtube maintains a separate provider specific oauth family under /api/youtube. exact implementation read geelooy/api/oauth/routes/table.js and the functions it imports. the generated atlas records the route keys but intentionally does not guess body parameters or token semantics that are only defined deeper in implementation.",
+		"page": "pages/docs-api-oauth-md-761cf5e162.json"
+	},
+	{
+		"id": "docs-api-other-families-md-417d38bd25",
+		"title": "Other API Families",
+		"sourcePath": "docs/API/OTHER_FAMILIES.md",
+		"category": "API",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Other API Families",
+				"anchor": "other-api-families"
+			},
+			{
+				"level": 2,
+				"text": "Root /api derech",
+				"anchor": "root-api-derech"
+			},
+			{
+				"level": 2,
+				"text": "Admin",
+				"anchor": "admin"
+			},
+			{
+				"level": 2,
+				"text": "Compiler",
+				"anchor": "compiler"
+			},
+			{
+				"level": 2,
+				"text": "Contact",
+				"anchor": "contact"
+			},
+			{
+				"level": 2,
+				"text": "Email",
+				"anchor": "email"
+			},
+			{
+				"level": 2,
+				"text": "Fetch",
+				"anchor": "fetch"
+			},
+			{
+				"level": 2,
+				"text": "GPT",
+				"anchor": "gpt"
+			},
+			{
+				"level": 2,
+				"text": "Ohr HaGnuz",
+				"anchor": "ohr-hagnuz"
+			},
+			{
+				"level": 2,
+				"text": "Public DB",
+				"anchor": "public-db"
+			},
+			{
+				"level": 2,
+				"text": "Native runtime",
+				"anchor": "native-runtime"
+			},
+			{
+				"level": 2,
+				"text": "Sefarim",
+				"anchor": "sefarim"
+			},
+			{
+				"level": 2,
+				"text": "SSH",
+				"anchor": "ssh"
+			},
+			{
+				"level": 2,
+				"text": "Text — known broken mount",
+				"anchor": "text-known-broken-mount"
+			},
+			{
+				"level": 2,
+				"text": "Tunnel base",
+				"anchor": "tunnel-base"
+			},
+			{
+				"level": 2,
+				"text": "Tunnel installer",
+				"anchor": "tunnel-installer"
+			},
+			{
+				"level": 2,
+				"text": "Everything else",
+				"anchor": "everything-else"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Other API Families The Awtsmoos does not let the smaller family vanish because larger systems fill the page; Awtsmoos.com keeps every derech mount visible here, including the broken and the strange. Root /api derech geelooy/api/ awtsmoos.derech.js contains example/legacy style dynamic pa",
+		"searchText": "b\"h boruch hashem blessed is he other api families the awtsmoos does not let the smaller family vanish because larger systems fill the page; awtsmoos.com keeps every derech mount visible here, including the broken and the strange. root /api derech geelooy/api/ awtsmoos.derech.js contains example/legacy style dynamic paths including /api/wow/:asd/asd/:rt/k, /api/even/:asd/more/:rt/k, /api/what/:are/you/:doing, and a manual comparison for /api/newendpoint/hi. treat these as source observed routes, not architectural templates for new api design. admin /api/admin/code is a privileged code execution route. the inspected source checks $u.info.entry === \"asdf\" before execution. this is a high risk administrative surface. compiler /api/compiler includes route groups for android/rebbe, backends, and build behavior. it is tied to authenticated development/compilation workflows and geelooy/apps/compiler. contact /api/contact exposes root/status style behavior. contact submissions send mail and persist a signal under a db path shaped like /contactsignals/ . email /api/email adapts/wraps social mail behavior and maps mail oriented routes into the email prefix. primary ui: geelooy/email. fetch /api/fetch/ is a guarded server side fetch proxy. the inspected derech requires authenticated state and an awtsmoos origin condition, applies in memory request/byte limits, accepts remote request options, and can encode binary output. gpt /api/gpt exposes /, /health, /capability, /chat, and /reset. browser ai and developer ai features are likely consumers. ohr hagnuz /api/ohr hagnuz/realtime ticket provides a realtime/game ticket entry. server side websocket support for ohr hagnuz exists under the dynamic server's websocket apps. public db /api/public exposes public read database behavior rooted under a social path and privileged mutation operations. reading and mutation have different trust assumptions; inspect the derech before writes. native runtime /api/runtime/native/capabilities, /launch, /status, and /stop expose native runtime control/capability operations. sefarim routes include /api/sefarim/, /:sefer, /:sefer/section/:section, and /:sefer/section/:section/sub/:sub. ssh parameterized routes cover connect, execute, folder listing, file content, write, mkdir, delete, stat, rename, chmod, and realpath using :username/:host. treat remote command/file actions as security sensitive and inspect auth/credential flow before use. text — known broken mount geelooy/api/text/ awtsmoos.derech.js currently fails node check with syntaxerror: unexpected token ',' at line 73. any textual route rows extracted from it are documentation of intended/source visible patterns, not proof of runtime availability. tunnel base outside control, /api/tunnel registers status, clients, request/:tunnelname, and fs/:tunnelname. tunnel installer /api/tunnel/install serves public installer/bundle artifacts including windows, linux, unix, installer components.tar.gz, bundle manifest, and agent.zip. everything else the generated api file inventory is the exhaustive file level fallback. if a helper directory such as perutas or nav has no independent derech, locate the ancestor derech or caller that owns it rather than inventing a mount.",
+		"page": "pages/docs-api-other-families-md-417d38bd25.json"
+	},
+	{
+		"id": "docs-api-readme-md-3e0443943b",
+		"title": "Awtsmoos.com API Guide",
+		"sourcePath": "docs/API/README.md",
+		"category": "API",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos.com API Guide",
+				"anchor": "awtsmoos-com-api-guide"
+			},
+			{
+				"level": 2,
+				"text": "API architecture",
+				"anchor": "api-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Learn the calling model",
+				"anchor": "learn-the-calling-model"
+			},
+			{
+				"level": 2,
+				"text": "Every route gets generated teaching",
+				"anchor": "every-route-gets-generated-teaching"
+			},
+			{
+				"level": 2,
+				"text": "Human family tutorials",
+				"anchor": "human-family-tutorials"
+			},
+			{
+				"level": 2,
+				"text": "Other generated evidence",
+				"anchor": "other-generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Known health caveat",
+				"anchor": "known-health-caveat"
+			},
+			{
+				"level": 2,
+				"text": "Browser experience",
+				"anchor": "browser-experience"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos.com API Guide The Awtsmoos gives each endpoint a vessel and each learner two complementary maps: human family teaching for meaning, generated route tutorials for exhaustive current evidence. API architecture Most dynamic HTTP source lives beneath geelooy/api/ and mounts through ",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos.com api guide the awtsmoos gives each endpoint a vessel and each learner two complementary maps: human family teaching for meaning, generated route tutorials for exhaustive current evidence. api architecture most dynamic http source lives beneath geelooy/api/ and mounts through ancestor discovered awtsmoos.derech.js. root index.js also owns a few direct handlers. websocket applications are a separate realtime plane. dynamic url variables use :name and terminal :name . $i, $ get, $ post, $ delete, cookies, headers, trusted identity, and db context are request/data vessels—not url syntax. learn the calling model before using unfamiliar endpoints, read: ../learn/http routing 101.md ../learn/api requests 101.md ../learn/authentication 101.md ../learn/responses 101.md ../learn/trace a request.md every route gets generated teaching ../generated/api tutorial index.md is the exhaustive route entry. each generated route tutorial includes: stable route/tutorial identity; family + owning derech/source + syntax health; dynamic path variables; source level method, request vessel, status, and header evidence; selected pattern compatible callers; heuristic related test scripts; related routes; guarded curl/browser fetch starters only when method evidence exists. generated tutorials are conservative source analysis, not openapi. unknown method evidence remains unknown. caller/test matches aid navigation and do not prove runtime execution. human family tutorials all cataloged mounts have a manual under ../tutorials/api/. major examples include social, tunnel control, oauth, youtube, wallet, gpt, compiler, runtime, fetch, contact, email, sefarim, streaming and the specialized/zero row/unhealthy mounts. use ../generated/api family tutorials.md for the current generated family census rather than copying snapshot counts into prose. other generated evidence ../generated/api route contract atlas.md ../generated/api caller index.md ../generated/dynamic parameter inventory.md ../generated/derech health.md ../generated/test ownership.md known health caveat the text derech remains the known syntax invalid api mount in current inspected source. its extracted route strings are useful intended/source evidence, not proof of a runnable endpoint until health turns green. browser experience /docs/?view=api exposes the generated route model as a filterable api explorer with source/caller/test/evidence panes, family/full tutorial links, copyable source paths and route aware ask.",
+		"page": "pages/docs-api-readme-md-3e0443943b.json"
+	},
+	{
+		"id": "docs-api-request-response-guide-md-27f9b36d32",
+		"title": "Request and Response Guide",
+		"sourcePath": "docs/API/REQUEST_RESPONSE_GUIDE.md",
+		"category": "API",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Request and Response Guide",
+				"anchor": "request-and-response-guide"
+			},
+			{
+				"level": 2,
+				"text": "Common request vessels",
+				"anchor": "common-request-vessels"
+			},
+			{
+				"level": 3,
+				"text": "Route variables",
+				"anchor": "route-variables"
+			},
+			{
+				"level": 3,
+				"text": "$GET",
+				"anchor": "get"
+			},
+			{
+				"level": 3,
+				"text": "$POST",
+				"anchor": "post"
+			},
+			{
+				"level": 3,
+				"text": "$DELETE",
+				"anchor": "delete"
+			},
+			{
+				"level": 3,
+				"text": "$i",
+				"anchor": "i"
+			},
+			{
+				"level": 2,
+				"text": "Content types",
+				"anchor": "content-types"
+			},
+			{
+				"level": 2,
+				"text": "Error behavior",
+				"anchor": "error-behavior"
+			},
+			{
+				"level": 2,
+				"text": "Pagination and filters",
+				"anchor": "pagination-and-filters"
+			},
+			{
+				"level": 2,
+				"text": "Binary/proxy behavior",
+				"anchor": "binary-proxy-behavior"
+			},
+			{
+				"level": 2,
+				"text": "Streaming and WebSockets",
+				"anchor": "streaming-and-websockets"
+			},
+			{
+				"level": 2,
+				"text": "Best manual calling process",
+				"anchor": "best-manual-calling-process"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Request and Response Guide The Awtsmoos gives one request many vessels—path, body, cookie, header, key; Awtsmoos.com becomes callable when a human knows which vessel the handler expects to see. Common request vessels Route variables Patterns such as :alias, :host, :blobId, or :sefer are ",
+		"searchText": "b\"h boruch hashem blessed is he request and response guide the awtsmoos gives one request many vessels—path, body, cookie, header, key; awtsmoos.com becomes callable when a human knows which vessel the handler expects to see. common request vessels route variables patterns such as :alias, :host, :blobid, or :sefer are populated by the dynamic route matcher. they come from url segments. $ get query style parsed input. social helpers also normalize pagination/filter fields from get input. $ post submitted request body data after body parsing. many create/update/action endpoints read from this vessel. $ delete delete oriented parsed input where a route uses that method/data convention. $i the surrounding request/runtime context. depending on the derech it can expose request headers, authenticated user state, db access, url/path information, parsed data vessels, response methods, and helper apis. content types most business apis return json like objects through the dynamic server. important exceptions include installer/bundle downloads, proxied/binary fetch results, public file/blob viewing, streams, and upgrade/websocket flows. read the handler before assuming json. error behavior there is no single universal schema across every api family. common handlers return objects containing error, status like fields, or family specific structured errors; some handlers also set http status codes or headers. do not build a client around one inferred error shape without inspecting the exact family. pagination and filters social helper myopts normalizes several get controls including page/pagesize and filter related options. individual domains may add their own cursor/limit semantics. binary/proxy behavior the fetch api can proxy remote content and represent binary payloads in base64 oriented output according to handler logic. tunnel preview/blob/view endpoints can serve content that is not ordinary json. youtube uploads and installer bundles also have specialized payloads. streaming and websockets streaming connectors may use action dispatch that differs from crud apis. websocket flows leave the ordinary http response model after upgrade and continue under ayzarim/awtsmoosdynamicserver/websocket/. best manual calling process use the generated atlas to find source, read the handler, note method/auth/parameter/body requirements, then reproduce the frontend call if one exists. api to caller.md maps major families to likely browser clients.",
+		"page": "pages/docs-api-request-response-guide-md-27f9b36d32.json"
+	},
+	{
+		"id": "docs-api-response-patterns-md-1876abbb76",
+		"title": "Response Patterns",
+		"sourcePath": "docs/API/RESPONSE_PATTERNS.md",
+		"category": "API",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Response Patterns",
+				"anchor": "response-patterns"
+			},
+			{
+				"level": 2,
+				"text": "JSON-like dynamic responses",
+				"anchor": "json-like-dynamic-responses"
+			},
+			{
+				"level": 2,
+				"text": "Explicit HTTP status evidence",
+				"anchor": "explicit-http-status-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Headers",
+				"anchor": "headers"
+			},
+			{
+				"level": 2,
+				"text": "Downloads and binary content",
+				"anchor": "downloads-and-binary-content"
+			},
+			{
+				"level": 2,
+				"text": "Streaming",
+				"anchor": "streaming"
+			},
+			{
+				"level": 2,
+				"text": "WebSocket upgrade",
+				"anchor": "websocket-upgrade"
+			},
+			{
+				"level": 2,
+				"text": "Error bodies",
+				"anchor": "error-bodies"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Response Patterns The Awtsmoos lets a response leave as JSON, stream, file, denial, event, or upgraded connection in time; Awtsmoos.com records the patterns without forcing every family into one invented schema or line. JSON like dynamic responses Many derech handlers return JavaScript o",
+		"searchText": "b\"h boruch hashem blessed is he response patterns the awtsmoos lets a response leave as json, stream, file, denial, event, or upgraded connection in time; awtsmoos.com records the patterns without forcing every family into one invented schema or line. json like dynamic responses many derech handlers return javascript objects that the dynamic server serializes. common source shapes include success fields, error, family specific payload objects, status like metadata, ids, lists, and pagination information. there is no repository wide guarantee that every api shares one json envelope. explicit http status evidence api source can set response status codes directly or return status bearing structures. the generated source contract index extracts only statically visible three digit codes from recognized patterns. absence of a listed code means not discovered, not necessarily 200 only. headers some handlers set cors, cache, content type, download, proxy, or provider specific headers. static setheader names are surfaced in the generated contract evidence when discoverable. downloads and binary content tunnel installer artifacts, proxy/blob/view routes, uploads, and fetch/media behavior can return or transport non json data. do not build a json only client without reading the exact handler. streaming streaming connectors and long lived routes can have lifecycle semantics beyond one request/one object. a route may initiate provider work or maintain a stream rather than return a final resource representation immediately. websocket upgrade an http request that upgrades successfully leaves the ordinary response model. mission room admission, for example, performs identity/origin/ticket/protocol checks before the websocket handshake, then communication continues in the realtime platform. see ../websockets/readme.md. error bodies different api families use different error structures. before coding against an error, inspect: http status; top level error or message; nested provider error; machine readable code; whether the error is returned, thrown, or written directly to the response. generated evidence use ../generated/api source contracts.md for observed source level statuses and headers, then read the route handler for authoritative shape.",
+		"page": "pages/docs-api-response-patterns-md-1876abbb76.json"
+	}
+]

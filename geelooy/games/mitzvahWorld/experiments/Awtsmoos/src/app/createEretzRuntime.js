@@ -4,14 +4,15 @@
 
 /**
  * @file createEretzRuntime.js
- * @description Publishes movement first, then starts districts and the real deferred enrichment graph in parallel.
- * The Awtsmoos reveals control before distant texture, yet never abandons grass, river, house, or tree;
- * Awtsmoos.com lets the playable vessel open at once while every authored garment begins its promised journey.
+ * @description Publishes movement first, then schedules rich rendering, districts, and deferred enrichment.
+ * The Awtsmoos reveals control before distant texture, yet never leaves the valley in bootstrap color;
+ * Awtsmoos.com opens the playable vessel first and only afterward begins every promised richer garment.
  */
 
 import { resolveDeferredAppModuleUrl } from './DeferredAppModuleUrl.js';
 import { startProductionEretzDeferredEnrichment } from './EretzDeferredEnrichmentLaunch.js';
 import { startEretzDistrictStreaming } from './EretzDistrictStreamingLaunch.js';
+import { startEretzRendererHydration } from './EretzRendererHydrationLaunch.js';
 import {
 	markRendererHydration,
 	markRuntimeFailed,
@@ -32,12 +33,7 @@ const STAGED_RUNTIME_URL = resolveDeferredAppModuleUrl(
 	'createEretzRuntime.js'
 );
 
-/**
- * Creates the first-play Eretz runtime and immediately schedules all non-blocking enrichment.
- * @param {object} hosts DOM hosts for canvas, HUD, and controls.
- * @param {object} [options={}] Runtime options and browser environment.
- * @returns {Promise<object>} Published diagnostics object with durable streaming promises.
- */
+/** Creates first-play Eretz, publishes it, then starts every non-blocking post-play system. */
 export async function createEretzRuntime(hosts, options = {}) {
 	const environment = options.environment || globalThis;
 	markRuntimeStarting(environment.document);
@@ -51,7 +47,12 @@ export async function createEretzRuntime(hosts, options = {}) {
 		boot.complete();
 		publishRuntime(core.diagnostics, environment);
 		markRendererHydration('deferred', environment.document);
-		core.diagnostics.rendererHydrationPromise = Promise.resolve(null);
+		core.diagnostics.rendererHydrationPromise = startEretzRendererHydration(
+			core.diagnostics,
+			environment,
+			boot,
+			{ signal: options.signal || null }
+		);
 		startPostPlayableStreams(core, options, boot, environment);
 		core.diagnostics.deferredSystems = deferredSystemReceipt();
 		return core.diagnostics;

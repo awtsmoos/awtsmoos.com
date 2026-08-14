@@ -1,0 +1,148 @@
+{
+  "ok": true,
+  "title": "The Last Cup Before the Meeting",
+  "durationSeconds": 60,
+  "outputDirectory": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/realistic-action-minute",
+  "outputFile": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/realistic-action-minute/the-last-cup-before-the-meeting.mp4",
+  "previewFile": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/realistic-action-minute/the-last-cup-before-the-meeting-preview.mp4",
+  "frameCount": 720,
+  "frames": [
+    {
+      "timeMs": 1000,
+      "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/realistic-action-minute/frames/frame-01000ms.png",
+      "width": 640,
+      "height": 360,
+      "uniqueColors": 3,
+      "bytes": 2291,
+      "sha256": "093a6247c4a4302c26654c22fa2630bab6b33e1adfe7f991f5e79912113772c5",
+      "rawSha256": "0f48fe809ccef743d5c810624f030775bfd836ef056b696c1bad0eb6a233ef8c"
+    },
+    {
+      "timeMs": 4000,
+      "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/realistic-action-minute/frames/frame-04000ms.png",
+      "width": 640,
+      "height": 360,
+      "uniqueColors": 130,
+      "bytes": 21558,
+      "sha256": "4541326fdd6a62079c09d25041bbf49099c1f4a4551c562e7b8af99834330a92",
+      "rawSha256": "45d09a9fbd9c91a1dd7a560792e48df722d559f0773e1eb71ecb1e8e4d48b25c"
+    },
+    {
+      "timeMs": 7600,
+      "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/realistic-action-minute/frames/frame-07600ms.png",
+      "width": 640,
+      "height": 360,
+      "uniqueColors": 117,
+      "bytes": 14934,
+      "sha256": "92289599c5e8c5cab7ee815d4617a4107c7f547191b9f344312eb3b2d0ee916a",
+      "rawSha256": "3a98590acd5f124988d43fa7fbe68869ecb9a67c6b06842a5965e77ead6afbfb"
+    },
+    {
+      "timeMs": 19000,
+      "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/realistic-action-minute/frames/frame-19000ms.png",
+      "width": 640,
+      "height": 360,
+      "uniqueColors": 110,
+      "bytes": 15090,
+      "sha256": "8a58c489caa9a5fbe299b95a67534cf7c8a3ec1f1d6a816cbc209384002c35ce",
+      "rawSha256": "fc20e2ad5966039096531447b3f22fcafd4a176d38f6747e81f8f842a92e0243"
+    },
+    {
+      "timeMs": 27000,
+      "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/realistic-action-minute/frames/frame-27000ms.png",
+      "width": 640,
+      "height": 360,
+      "uniqueColors": 132,
+      "bytes": 19004,
+      "sha256": "12aa9a459b7c5cc96268d84b551fbbf78a5230ac0181a84e4d18d23812277392",
+      "rawSha256": "3e657f3babc34c8b34ec2cc8dd35c72e75db9f7564d7adb31a8878e0e7dbc158"
+    },
+    {
+      "timeMs": 30500,
+      "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/realistic-action-minute/frames/frame-30500ms.png",
+      "width": 640,
+      "height": 360,
+      "uniqueColors": 106,
+      "bytes": 16734,
+      "sha256": "c6bd840f4e98892f4b9ced3c2ab78701f8b03b4c67df36f952791d358b087c03",
+      "rawSha256": "29e2d65a6ae545aa55c30edc05f80cd8f1b3397303510a092f626c00589dda1c"
+    },
+    {
+      "timeMs": 37000,
+      "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/realistic-action-minute/frames/frame-37000ms.png",
+      "width": 640,
+      "height": 360,
+      "uniqueColors": 110,
+      "bytes": 16308,
+      "sha256": "0186908c6b716a74991db94f3bd772193d7158a8c4b2e67d6c89a8e947f1915d",
+      "rawSha256": "401e366a94cc93aae774d2e61115d9cf1aad49b4bc83b308564743414ef91448"
+    },
+    {
+      "timeMs": 42000,
+      "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/realistic-action-minute/frames/frame-42000ms.png",
+      "width": 640,
+      "height": 360,
+      "uniqueColors": 90,
+      "bytes": 15863,
+      "sha256": "adf4db236434ac41ff67df1e8123f8c4719bff0b4b227221c2a4c6c16baa700a",
+      "rawSha256": "7ab834d39ce70cb7e5b50964a6665daf5c12fa2104230011e6188110b1085744"
+    },
+    {
+      "timeMs": 49500,
+      "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/realistic-action-minute/frames/frame-49500ms.png",
+      "width": 640,
+      "height": 360,
+      "uniqueColors": 105,
+      "bytes": 13544,
+      "sha256": "8ecc4f10a6c36731bdf1fce8cb3801f1f0a5ca69063277688ec014844070c369",
+      "rawSha256": "3f79ff9a3027d1798015da5f25c3c2fe39a18da00301ad7e1a6623d48ec3ee02"
+    },
+    {
+      "timeMs": 55000,
+      "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/realistic-action-minute/frames/frame-55000ms.png",
+      "width": 640,
+      "height": 360,
+      "uniqueColors": 112,
+      "bytes": 17261,
+      "sha256": "96cc6d82de0989ba3e413a756890ec3232091750491f499af5f651ca9c76bf72",
+      "rawSha256": "d7a7a47c6f231abce1255a5efcbbdf06f6d3c1c64262df323e960940dba1ed2c"
+    },
+    {
+      "timeMs": 58500,
+      "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/realistic-action-minute/frames/frame-58500ms.png",
+      "width": 640,
+      "height": 360,
+      "uniqueColors": 3,
+      "bytes": 2057,
+      "sha256": "5b99faf17b2e5be46ef1cba19573df6d6636fc50f187358d8d454c009fb399a5",
+      "rawSha256": "506441ff993af6073fb0227f734b81df1e983a56c9d0c366cde86f1cdd74c6f2"
+    }
+  ],
+  "probe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 640,
+        "height": 360,
+        "r_frame_rate": "12/1"
+      },
+      {
+        "codec_name": "aac",
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ],
+    "format": {
+      "duration": "60.000000",
+      "size": "3340073"
+    }
+  },
+  "hashes": {
+    "finalMovie": "d2d38daa90bd8c83421e98d84cf7bdeaad1f844e8da989e65438562863c249ca",
+    "previewMovie": "897aebcd7bf9374cadaad0669d364a452a9b825bbb9c8b8c6270b1a38cb5b77d",
+    "productionPlan": "3195beb2c5954878e21f0052a18208cdfa8a9fced9a4763010871924346e991c"
+  }
+}

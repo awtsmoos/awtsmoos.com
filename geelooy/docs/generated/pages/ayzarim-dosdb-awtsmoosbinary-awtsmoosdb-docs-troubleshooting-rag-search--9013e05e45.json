@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-troubleshooting-rag-search--9013e05e45",
+	"title": "Troubleshooting RAG Search",
+	"sourcePath": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/docs/TROUBLESHOOTING_RAG_SEARCH.md",
+	"category": "Data",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Troubleshooting RAG Search",
+			"anchor": "troubleshooting-rag-search"
+		},
+		{
+			"level": 2,
+			"text": "Route missing",
+			"anchor": "route-missing"
+		},
+		{
+			"level": 2,
+			"text": "Lane missing",
+			"anchor": "lane-missing"
+		},
+		{
+			"level": 2,
+			"text": "Embedding error",
+			"anchor": "embedding-error"
+		},
+		{
+			"level": 2,
+			"text": "Persisted-index error",
+			"anchor": "persisted-index-error"
+		},
+		{
+			"level": 2,
+			"text": "Slow first query",
+			"anchor": "slow-first-query"
+		},
+		{
+			"level": 2,
+			"text": "False success",
+			"anchor": "false-success"
+		},
+		{
+			"level": 2,
+			"text": "Production rule",
+			"anchor": "production-rule"
+		}
+	],
+	"markdownParts": [
+		"content/ayzarim-dosdb-awtsmoosbinary-awtsmoosdb-docs-troubleshooting-rag-search--9013e05e45-001.json"
+	]
+}

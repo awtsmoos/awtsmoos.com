@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-nesher-studio-docs-monitor-sources-md-a25532b5cd",
+	"title": "Monitor Sources",
+	"sourcePath": "geelooy/apps/nesher-studio/docs/MONITOR_SOURCES.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Monitor Sources",
+			"anchor": "monitor-sources"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-nesher-studio-docs-monitor-sources-md-a25532b5cd-001.json"
+	]
+}

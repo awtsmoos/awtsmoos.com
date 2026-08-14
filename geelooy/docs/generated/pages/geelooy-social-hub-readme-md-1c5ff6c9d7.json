@@ -1,0 +1,89 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-social-hub-readme-md-1c5ff6c9d7",
+	"title": "B\"H",
+	"sourcePath": "geelooy/social-hub/README.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Boruch Hashem",
+			"anchor": "boruch-hashem"
+		},
+		{
+			"level": 1,
+			"text": "Blessed is He",
+			"anchor": "blessed-is-he"
+		},
+		{
+			"level": 1,
+			"text": "Awtsmoos Social Hub",
+			"anchor": "awtsmoos-social-hub"
+		},
+		{
+			"level": 2,
+			"text": "Entry point",
+			"anchor": "entry-point"
+		},
+		{
+			"level": 2,
+			"text": "Navigation",
+			"anchor": "navigation"
+		},
+		{
+			"level": 2,
+			"text": "Exact interactions",
+			"anchor": "exact-interactions"
+		},
+		{
+			"level": 2,
+			"text": "Transformations",
+			"anchor": "transformations"
+		},
+		{
+			"level": 3,
+			"text": "Comment becomes post",
+			"anchor": "comment-becomes-post"
+		},
+		{
+			"level": 3,
+			"text": "Post becomes comment",
+			"anchor": "post-becomes-comment"
+		},
+		{
+			"level": 2,
+			"text": "Profile constellation",
+			"anchor": "profile-constellation"
+		},
+		{
+			"level": 2,
+			"text": "Private activity",
+			"anchor": "private-activity"
+		},
+		{
+			"level": 2,
+			"text": "Legal pages",
+			"anchor": "legal-pages"
+		},
+		{
+			"level": 2,
+			"text": "Visual system",
+			"anchor": "visual-system"
+		},
+		{
+			"level": 2,
+			"text": "Tests",
+			"anchor": "tests"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-social-hub-readme-md-1c5ff6c9d7-001.json"
+	]
+}

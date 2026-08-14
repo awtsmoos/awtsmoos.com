@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\n\n# DEFECT_LEDGER\n\n## ORCH-001 — Checkpoint ledger path typo\n\nStatus: Fixed.\n\nSeveral new ledger files were first written beneath the misspelled root `geeloy`. The canonical copies were rewritten beneath `geelooy`, and the accidental tree was removed only after its contents were verified as artifacts of this run.\n"
+}

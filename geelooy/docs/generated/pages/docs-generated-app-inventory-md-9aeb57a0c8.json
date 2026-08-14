@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-generated-app-inventory-md-9aeb57a0c8",
+	"title": "Generated App Inventory",
+	"sourcePath": "docs/GENERATED/APP_INVENTORY.md",
+	"category": "General",
+	"provenance": "generated",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Generated App Inventory",
+			"anchor": "generated-app-inventory"
+		}
+	],
+	"markdownParts": [
+		"content/docs-generated-app-inventory-md-9aeb57a0c8-001.json"
+	]
+}

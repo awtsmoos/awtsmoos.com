@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-websockets-mission-rooms-md-07b0b06bb8",
+	"title": "Mission Room WebSocket Admission",
+	"sourcePath": "docs/WEBSOCKETS/MISSION_ROOMS.md",
+	"category": "Realtime",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Mission Room WebSocket Admission",
+			"anchor": "mission-room-websocket-admission"
+		},
+		{
+			"level": 2,
+			"text": "WebSocket path",
+			"anchor": "websocket-path"
+		},
+		{
+			"level": 2,
+			"text": "Admission sequence observed in source",
+			"anchor": "admission-sequence-observed-in-source"
+		},
+		{
+			"level": 2,
+			"text": "After successful handshake",
+			"anchor": "after-successful-handshake"
+		},
+		{
+			"level": 2,
+			"text": "Security implications",
+			"anchor": "security-implications"
+		},
+		{
+			"level": 2,
+			"text": "HTTP relationship",
+			"anchor": "http-relationship"
+		}
+	],
+	"markdownParts": [
+		"content/docs-websockets-mission-rooms-md-07b0b06bb8-001.json"
+	]
+}

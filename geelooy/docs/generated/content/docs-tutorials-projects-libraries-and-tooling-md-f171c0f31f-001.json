@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Libraries and Tooling\n\nLibrary/tooling/test boundaries exist to be consumed, executed during development, or support other systems rather than present one end-user surface.\n\n## Investigate these boundaries\n\n1. Use incoming dependency evidence to find consumers.\n2. Use outgoing/external dependencies to understand assumptions.\n3. Inspect exports and representative symbol samples.\n4. Distinguish production libraries from scripts/tools/tests by exact project type.\n5. Trace package scripts and test ownership before changing shared behavior.\n\n## Caveats\n\nA highly connected library can have no public HTML entry. Export counts are lexical discovery evidence. Tooling commands can mutate files/processes and should be reviewed for safety separately from ordinary library calls.\n"
+}

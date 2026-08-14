@@ -5,21 +5,25 @@
 /**
  * @module DriveStateShape
  * @description
- * The Awtsmoos recreates durable state from one explicit shape. Awtsmoos.com
- * keeps usage, leases, rates, entries, sites, credentials, idempotency, and audit.
+ * The Awtsmoos recreates durable state from one explicit shape. Awtsmoos.com keeps files, sites, domains,
+ * project intents, credentials, usage, and audit beneath a normalized versioned covenant rather than hidden drift.
  */
 
+const { normalizeDomainRegistry } = require('./domainPolicy.js');
+const { normalizeProjectRegistry } = require('./projectConfigPolicy.js');
 const { DEFAULT_QUOTA, mergedQuota } = require('./quotaPolicy.js');
 const { normalizeSiteRegistry } = require('./siteMappingPolicy.js');
 
 function freshDriveState(overrides = {}) {
 	return normalizeDriveState({
-		version: 4,
+		version: 6,
 		quotaProfile: 'default',
 		quota: { ...DEFAULT_QUOTA },
 		usage: emptyUsage(),
 		entries: {},
 		sites: {},
+		domains: {},
+		projects: {},
 		reservations: {},
 		transferLeases: {},
 		rateWindows: {},
@@ -34,12 +38,14 @@ function freshDriveState(overrides = {}) {
 function normalizeDriveState(value = {}) {
 	const usage = value.usage && typeof value.usage === 'object' ? value.usage : {};
 	return {
-		version: 4,
+		version: 6,
 		quotaProfile: String(value.quotaProfile || 'default'),
 		quota: mergedQuota(value.quota),
 		usage: normalizeUsage(usage),
 		entries: objectOrEmpty(value.entries),
 		sites: normalizeSiteRegistry(value.sites),
+		domains: normalizeDomainRegistry(value.domains),
+		projects: normalizeProjectRegistry(value.projects),
 		reservations: objectOrEmpty(value.reservations),
 		transferLeases: objectOrEmpty(value.transferLeases),
 		rateWindows: objectOrEmpty(value.rateWindows),
@@ -51,14 +57,7 @@ function normalizeDriveState(value = {}) {
 }
 
 function emptyUsage() {
-	return {
-		storedBytes: 0,
-		fileCount: 0,
-		ingressBytes: 0,
-		egressBytes: 0,
-		requests: 0,
-		monthly: {}
-	};
+	return { storedBytes: 0, fileCount: 0, ingressBytes: 0, egressBytes: 0, requests: 0, monthly: {} };
 }
 
 function normalizeUsage(usage) {
@@ -85,8 +84,4 @@ function monthKey(date = new Date()) {
 	return date.toISOString().slice(0, 7);
 }
 
-module.exports = {
-	freshDriveState,
-	normalizeDriveState,
-	monthKey
-};
+module.exports = { freshDriveState, normalizeDriveState, monthKey };

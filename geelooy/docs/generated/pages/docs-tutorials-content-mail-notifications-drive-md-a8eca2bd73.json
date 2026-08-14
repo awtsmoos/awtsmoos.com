@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-tutorials-content-mail-notifications-drive-md-a8eca2bd73",
+	"title": "Mail, Notifications, and Drive",
+	"sourcePath": "docs/TUTORIALS/CONTENT/MAIL_NOTIFICATIONS_DRIVE.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Mail, Notifications, and Drive",
+			"anchor": "mail-notifications-and-drive"
+		},
+		{
+			"level": 2,
+			"text": "Mail",
+			"anchor": "mail"
+		},
+		{
+			"level": 2,
+			"text": "Notifications",
+			"anchor": "notifications"
+		},
+		{
+			"level": 2,
+			"text": "Drive",
+			"anchor": "drive"
+		},
+		{
+			"level": 2,
+			"text": "Security",
+			"anchor": "security"
+		}
+	],
+	"markdownParts": [
+		"content/docs-tutorials-content-mail-notifications-drive-md-a8eca2bd73-001.json"
+	]
+}

@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-learn-api-requests-101-md-30ca4256fb",
+	"title": "API Requests 101",
+	"sourcePath": "docs/LEARN/API_REQUESTS_101.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "API Requests 101",
+			"anchor": "api-requests-101"
+		},
+		{
+			"level": 2,
+			"text": "What you will learn",
+			"anchor": "what-you-will-learn"
+		},
+		{
+			"level": 2,
+			"text": "Common vessels",
+			"anchor": "common-vessels"
+		},
+		{
+			"level": 2,
+			"text": "Method warning",
+			"anchor": "method-warning"
+		},
+		{
+			"level": 2,
+			"text": "Starter workflow",
+			"anchor": "starter-workflow"
+		},
+		{
+			"level": 2,
+			"text": "Examples",
+			"anchor": "examples"
+		},
+		{
+			"level": 2,
+			"text": "Next",
+			"anchor": "next"
+		}
+	],
+	"markdownParts": [
+		"content/docs-learn-api-requests-101-md-30ca4256fb-001.json"
+	]
+}

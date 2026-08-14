@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-rebbe-documentation-md-e77410fce1",
+	"title": "Rebbe App Documentation",
+	"sourcePath": "geelooy/apps/rebbe/DOCUMENTATION.md",
+	"category": "Apps",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Rebbe App Documentation",
+			"anchor": "rebbe-app-documentation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-rebbe-documentation-md-e77410fce1-001.json"
+	]
+}

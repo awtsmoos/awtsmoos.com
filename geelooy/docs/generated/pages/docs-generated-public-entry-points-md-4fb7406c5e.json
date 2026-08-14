@@ -1,0 +1,19 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-generated-public-entry-points-md-4fb7406c5e",
+	"title": "Generated Public Entry Point Atlas",
+	"sourcePath": "docs/GENERATED/PUBLIC_ENTRY_POINTS.md",
+	"category": "General",
+	"provenance": "generated",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Generated Public Entry Point Atlas",
+			"anchor": "generated-public-entry-point-atlas"
+		}
+	],
+	"markdownParts": [
+		"content/docs-generated-public-entry-points-md-4fb7406c5e-001.json"
+	]
+}

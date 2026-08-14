@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-ohr-hagnuz-ohr-hagnuz-next-phase-md-f28ad35ea0",
+	"title": "B\"H",
+	"sourcePath": "geelooy/games/ohr-hagnuz/OHR_HAGNUZ_NEXT_PHASE.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Ohr HaGnuz Next Phase",
+			"anchor": "ohr-hagnuz-next-phase"
+		},
+		{
+			"level": 2,
+			"text": "Mobile",
+			"anchor": "mobile"
+		},
+		{
+			"level": 2,
+			"text": "Gameplay",
+			"anchor": "gameplay"
+		},
+		{
+			"level": 2,
+			"text": "Exploration",
+			"anchor": "exploration"
+		},
+		{
+			"level": 2,
+			"text": "Implementation Order",
+			"anchor": "implementation-order"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-ohr-hagnuz-ohr-hagnuz-next-phase-md-f28ad35ea0-001.json"
+	]
+}

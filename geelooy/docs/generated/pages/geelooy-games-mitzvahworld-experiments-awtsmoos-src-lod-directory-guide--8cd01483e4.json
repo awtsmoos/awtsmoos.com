@@ -1,0 +1,74 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-lod-directory-guide--8cd01483e4",
+	"title": "B\"H",
+	"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/lod/DIRECTORY_GUIDE.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Directory Guide: experiments/Awtsmoos/src/lod",
+			"anchor": "directory-guide-experiments-awtsmoos-src-lod"
+		},
+		{
+			"level": 2,
+			"text": "Purpose",
+			"anchor": "purpose"
+		},
+		{
+			"level": 2,
+			"text": "Find things here",
+			"anchor": "find-things-here"
+		},
+		{
+			"level": 2,
+			"text": "Semantic evidence",
+			"anchor": "semantic-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Representative files",
+			"anchor": "representative-files"
+		},
+		{
+			"level": 2,
+			"text": "Exported symbols worth searching",
+			"anchor": "exported-symbols-worth-searching"
+		},
+		{
+			"level": 2,
+			"text": "Import neighborhood",
+			"anchor": "import-neighborhood"
+		},
+		{
+			"level": 2,
+			"text": "Directory map",
+			"anchor": "directory-map"
+		},
+		{
+			"level": 2,
+			"text": "Related and overlapping systems",
+			"anchor": "related-and-overlapping-systems"
+		},
+		{
+			"level": 2,
+			"text": "Boundaries and cautions",
+			"anchor": "boundaries-and-cautions"
+		},
+		{
+			"level": 2,
+			"text": "Navigation",
+			"anchor": "navigation"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-experiments-awtsmoos-src-lod-directory-guide--8cd01483e4-001.json"
+	]
+}

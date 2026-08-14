@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-ai-streaming-automation-limits-md-3fcdc7ed55",
+	"title": "B\"H — Awtsmoos AI Streaming, Relay, and Automation Guarantees",
+	"sourcePath": "geelooy/ai/STREAMING_AUTOMATION_LIMITS.md",
+	"category": "AI",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H — Awtsmoos AI Streaming, Relay, and Automation Guarantees",
+			"anchor": "b-h-awtsmoos-ai-streaming-relay-and-automation-guarantees"
+		},
+		{
+			"level": 2,
+			"text": "Verified by harness",
+			"anchor": "verified-by-harness"
+		},
+		{
+			"level": 2,
+			"text": "Survival matrix",
+			"anchor": "survival-matrix"
+		},
+		{
+			"level": 2,
+			"text": "Remaining non-faked upgrades",
+			"anchor": "remaining-non-faked-upgrades"
+		},
+		{
+			"level": 2,
+			"text": "Safety notes",
+			"anchor": "safety-notes"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-ai-streaming-automation-limits-md-3fcdc7ed55-001.json"
+	]
+}

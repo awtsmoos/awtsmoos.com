@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-platform-creator-world-os-readme-md-0752b21c56",
+	"title": "Creator–World OS",
+	"sourcePath": "geelooy/platform/creator-world-os/README.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Creator–World OS",
+			"anchor": "creator-world-os"
+		},
+		{
+			"level": 2,
+			"text": "Laws",
+			"anchor": "laws"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-platform-creator-world-os-readme-md-0752b21c56-001.json"
+	]
+}

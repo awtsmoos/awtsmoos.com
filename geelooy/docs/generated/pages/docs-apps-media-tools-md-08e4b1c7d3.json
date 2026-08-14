@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-apps-media-tools-md-08e4b1c7d3",
+	"title": "Media Tools",
+	"sourcePath": "docs/APPS/MEDIA_TOOLS.md",
+	"category": "Apps",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Media Tools",
+			"anchor": "media-tools"
+		},
+		{
+			"level": 2,
+			"text": "Browser-level media surfaces outside apps/",
+			"anchor": "browser-level-media-surfaces-outside-apps"
+		},
+		{
+			"level": 2,
+			"text": "Audio Editor — geelooy/apps/audio-editor/",
+			"anchor": "audio-editor-geelooy-apps-audio-editor"
+		},
+		{
+			"level": 2,
+			"text": "Video Editor — geelooy/apps/video-editor/",
+			"anchor": "video-editor-geelooy-apps-video-editor"
+		},
+		{
+			"level": 2,
+			"text": "Captions — geelooy/apps/captions/",
+			"anchor": "captions-geelooy-apps-captions"
+		},
+		{
+			"level": 2,
+			"text": "Transcribe — geelooy/apps/transcribe/",
+			"anchor": "transcribe-geelooy-apps-transcribe"
+		},
+		{
+			"level": 2,
+			"text": "Lyric Sync — geelooy/apps/lyric-sync/",
+			"anchor": "lyric-sync-geelooy-apps-lyric-sync"
+		},
+		{
+			"level": 2,
+			"text": "Broadcaster — geelooy/apps/broadcaster/",
+			"anchor": "broadcaster-geelooy-apps-broadcaster"
+		},
+		{
+			"level": 2,
+			"text": "PDF and image utilities",
+			"anchor": "pdf-and-image-utilities"
+		},
+		{
+			"level": 2,
+			"text": "Related APIs",
+			"anchor": "related-apis"
+		}
+	],
+	"markdownParts": [
+		"content/docs-apps-media-tools-md-08e4b1c7d3-001.json"
+	]
+}

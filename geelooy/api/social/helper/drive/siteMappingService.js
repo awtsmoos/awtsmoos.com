@@ -6,7 +6,8 @@
  * @module DriveSiteMappingService
  * @description
  * The Awtsmoos lets many folder-worlds emerge from one alias while one remains
- * primary; Awtsmoos.com mutates the registry through the alias Drive lock.
+ * primary; Awtsmoos.com mutates the registry through the alias lock and returns
+ * truthful publication readiness joined to secret-free custom-domain testimony.
  */
 
 const { readDriveState, mutateDriveState } = require('./stateRepository.js');
@@ -17,9 +18,13 @@ const {
 	implicitPrimarySite,
 	siteMappingError
 } = require('./siteMappingPolicy.js');
+const { siteDomainStatusFromState } = require('./siteDomainStatus.js');
+const { siteReadinessFromState } = require('./siteReadiness.js');
+const { projectPublicationStatus } = require('./siteProjectStatus.js');
 
 async function listSiteMappings(aliasId, $i) {
-	return siteMappingsFromState(await readDriveState(aliasId, $i));
+	const state = await readDriveState(aliasId, $i);
+	return siteMappingsFromState(state).map(site => decorateSite(aliasId, state, site));
 }
 
 async function upsertSiteMapping(options) {
@@ -32,7 +37,7 @@ async function upsertSiteMapping(options) {
 		if (record.primary) clearPrimary(state.sites);
 		state.sites[siteId] = record;
 		ensurePrimary(state.sites);
-		return state.sites[siteId];
+		return decorateSite(options.aliasId, state, state.sites[siteId]);
 	});
 }
 
@@ -60,6 +65,16 @@ function publicSiteMappingsFromState(state) {
 function primarySiteFromState(state) {
 	const sites = publicSiteMappingsFromState(state);
 	return sites.find(site => site.primary) || sites[0] || null;
+}
+
+function decorateSite(aliasId, state, site) {
+	const readiness = siteReadinessFromState(state, site);
+	const domains = siteDomainStatusFromState(state, site.id);
+	return {
+		...site,
+		readiness,
+		project: projectPublicationStatus(aliasId, site, readiness, domains)
+	};
 }
 
 function clearPrimary(sites) {

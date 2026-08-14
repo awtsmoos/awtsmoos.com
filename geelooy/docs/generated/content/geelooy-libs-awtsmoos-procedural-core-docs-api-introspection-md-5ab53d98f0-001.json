@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "# B\"H\n\n## Boruch Hashem\n\n## Blessed is He\n\nThe Awtsmoos renews every contract in ordered light; Awtsmoos.com keeps exact creation editable and right.\n\n# API Introspection\n\n## Methods\n\n`api.describe`, `api.namespaces`, `api.methods`, `api.schema`, `api.capabilities`, and `api.examples` are generated from `MethodRegistry`.\n\n## Definition fields\n\nEach definition exposes identity, namespace, runtime name, label, description, stability, parameter/result schemas, permissions, transaction mode, undo support, side effects, cost, UI metadata, and examples.\n\n## Extension\n\nRegister a method definition when creating the API, or register it on `MethodRegistry` before runtime aliases are generated. Duplicate IDs fail deterministically.\n\n## UI parity\n\n`createApiExplorerModel(registry)` uses the same public definitions. No second handwritten control contract exists.\n\n## Stability\n\nRegistry and introspection envelopes are stable; individual experimental method stability is reported explicitly.\n"
+}

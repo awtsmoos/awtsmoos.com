@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-projects-runtime-server-md-2ba142f313",
+	"title": "Awtsmoos Dynamic Server",
+	"sourcePath": "docs/PROJECTS/RUNTIME_SERVER.md",
+	"category": "Projects",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos Dynamic Server",
+			"anchor": "awtsmoos-dynamic-server"
+		},
+		{
+			"level": 2,
+			"text": "Canonical source",
+			"anchor": "canonical-source"
+		},
+		{
+			"level": 2,
+			"text": "Main responsibilities",
+			"anchor": "main-responsibilities"
+		},
+		{
+			"level": 2,
+			"text": "Entry docs",
+			"anchor": "entry-docs"
+		},
+		{
+			"level": 2,
+			"text": "Generated evidence",
+			"anchor": "generated-evidence"
+		},
+		{
+			"level": 2,
+			"text": "High-risk change areas",
+			"anchor": "high-risk-change-areas"
+		},
+		{
+			"level": 2,
+			"text": "Local breadcrumb",
+			"anchor": "local-breadcrumb"
+		}
+	],
+	"markdownParts": [
+		"content/docs-projects-runtime-server-md-2ba142f313-001.json"
+	]
+}
