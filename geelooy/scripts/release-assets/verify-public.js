@@ -6,26 +6,19 @@
 const Catalog = require("./catalog.js");
 const Fingerprint = require("./fingerprint.js");
 
-/**
- * Verify deployed public release assets against the still-present source witnesses.
- * Set AWTSMOOS_ASSET_ORIGIN to test a non-production host while preserving `/sites/...` paths.
- */
+/** Verify public external payload without requiring deleted Git witnesses. */
 async function main() {
-	const origin = String(process.env.AWTSMOOS_ASSET_ORIGIN || "https://awtsmoos.com").replace(/\/$/, "");
-	const projectRoot = process.env.AWTSMOOS_PROJECT_ROOT || process.cwd();
+	const origin = String(process.env.AWTSMOOS_ASSET_ORIGIN || "").replace(/\/$/, "");
 	const results = [];
 	for (const item of Catalog.ENTRIES) {
-		const expected = Fingerprint.fingerprintFile(Catalog.absoluteLocalPath(projectRoot, item));
-		const url = new URL(item.publicUrl, origin);
-		const head = await fetch(url, { method: "HEAD" });
-		if (!head.ok) throw new Error(`ASSET_HEAD_FAILED:${item.id}:${head.status}`);
+		const url = origin ? new URL(item.publicUrl).href.replace(/^https:\/\/awtsmoos\.com/, origin) : item.publicUrl;
 		const response = await fetch(url);
 		if (!response.ok) throw new Error(`ASSET_GET_FAILED:${item.id}:${response.status}`);
 		const actual = Fingerprint.fingerprintBuffer(Buffer.from(await response.arrayBuffer()));
-		if (actual.sha256 !== expected.sha256 || actual.bytes !== expected.bytes) {
+		if (actual.sha256 !== item.sha256 || actual.bytes !== item.bytes) {
 			throw new Error(`ASSET_PUBLIC_HASH_MISMATCH:${item.id}`);
 		}
-		results.push({ id: item.id, url: url.href, ...actual });
+		results.push({ id: item.id, url, ...actual });
 	}
 	process.stdout.write(`${JSON.stringify({ ok: true, results }, null, 2)}\n`);
 }

@@ -4,13 +4,10 @@
 
 /**
  * @module ModelManifest
- * @description
- * The Awtsmoos gives each finite GLB an immutable hash and a truthful home.
- * Awtsmoos.com serves Seven Mitzvos models from this game's own public tree,
- * so no living world depends on a sibling game's private folder or deployment.
+ * @description Seven Mitzvos loads immutable GLBs from public Drive, outside Git.
  */
 const PRODUCTION_ORIGIN = 'https://awtsmoos.com';
-const MODEL_PATH = '/games/seven-mitzvos/assets/models/reference-world/';
+const MODEL_PATH = '/sites/awtsmoos-release-assets/models/';
 
 export const REMOTE_MODEL_ORIGIN = PRODUCTION_ORIGIN;
 export const REMOTE_MODEL_PATH = MODEL_PATH;
@@ -34,24 +31,13 @@ export function modelRecord(id) {
 
 function model(file, sha256, height, materialRole = '') {
 	assertHash(sha256);
-	const assetPath = `${MODEL_PATH}${sha256}/${encodeURIComponent(file)}`;
+	const assetPath = `${MODEL_PATH}${sha256}.glb`;
 	return Object.freeze({
-		assetPath,
-		file,
-		height,
-		materialRole,
-		sha256,
-		url: `${publicOrigin()}${assetPath}`
+		assetPath, file, height, materialRole, sha256,
+		url: `${PRODUCTION_ORIGIN}${assetPath}`
 	});
 }
 
-function publicOrigin() {
-	const origin = globalThis.location?.origin;
-	return /^https?:\/\//.test(origin || '') ? origin : PRODUCTION_ORIGIN;
-}
-
 function assertHash(value) {
-	if (!/^[a-f0-9]{64}$/.test(value)) {
-		throw new Error(`Invalid model hash: ${value}`);
-	}
+	if (!/^[a-f0-9]{64}$/.test(value)) throw new Error(`Invalid model hash: ${value}`);
 }
