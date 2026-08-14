@@ -1,5 +1,5 @@
 B"H
-1.0.531
+1.0.532
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtector.mjs
@@ -130,6 +130,7 @@ ai/relay/split-browser/directApi.cjs
 ai/relay/split-browser/directServiceLoader.cjs
 ai/relay/split-browser/headerMap.cjs
 ai/relay/split-browser/http.cjs
+ai/relay/split-browser/humanLoginPage.cjs
 ai/relay/split-browser/index.js
 ai/relay/split-browser/jsPreamble.cjs
 ai/relay/split-browser/logger.cjs
