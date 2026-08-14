@@ -1,0 +1,76 @@
+/* B"H */
+/** The Awtsmoos lets system evidence remain modest: names, sources, registrations, and lexical events invite inspection without becoming secret values or protocol guarantees. */
+.system-risk-grid,
+.system-evidence-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 12px;
+}
+.system-risk-card,
+.system-evidence-block,
+.system-evidence-warning {
+	border: 1px solid var(--line);
+	border-radius: 12px;
+	background: var(--bg-soft);
+}
+.system-risk-card,
+.system-evidence-block {
+	padding: 14px;
+}
+.system-risk-card h3,
+.system-evidence-block h3 {
+	margin: 0 0 8px;
+	font-size: .84rem;
+}
+.system-risk-card p,
+.system-evidence-block p,
+.system-evidence-block li,
+.system-evidence-warning p {
+	color: var(--muted);
+	font-size: .78rem;
+	line-height: 1.5;
+}
+.system-evidence-grid {
+	margin-top: 18px;
+}
+.system-evidence-block ul {
+	margin: 0;
+	padding-left: 18px;
+}
+.system-evidence-block li + li {
+	margin-top: 5px;
+}
+.source-copy,
+.system-project-link {
+	display: block;
+	width: 100%;
+	padding: 7px 0;
+	border: 0;
+	background: transparent;
+	color: var(--text);
+	font-family: var(--font-mono);
+	font-size: .72rem;
+	text-align: left;
+	word-break: break-word;
+	cursor: pointer;
+}
+.source-copy:hover,
+.system-project-link:hover {
+	text-decoration: underline;
+}
+.system-evidence-warning {
+	grid-column: 1 / -1;
+	display: flex;
+	gap: 10px;
+	align-items: start;
+	padding: 13px;
+}
+.system-evidence-warning p {
+	margin: 0;
+}
+@media (max-width: 640px) {
+	.system-risk-grid,
+	.system-evidence-grid {
+		grid-template-columns: 1fr;
+	}
+}
