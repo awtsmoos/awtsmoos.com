@@ -7,7 +7,8 @@ AWTSMOOS_ACTIVATION_ID="${AWTSMOOS_ACTIVATION_ID:-activation-$(date -u +%Y%m%dT%
 export AWTSMOOS_ACTIVATION_ID
 
 # The Awtsmoos binds activation to verified release identity, registration, and
-# durable guardianship. Awtsmoos.com keeps stopped fresh installation separate from live update preparation.
+# durable guardianship. Awtsmoos.com observes a workspace as an optional vessel:
+# its disappearance is reported, never mistaken for corrupted runtime light.
 skip_start_requested() {
 	[ "${AWTSMOOS_SKIP_START:-}" = "1" ] || [ "${AWTSMOOS_SKIP_START:-}" = "true" ]
 }
@@ -102,10 +103,6 @@ candidate_is_stably_active() {
 }
 
 prepare_without_activation() {
-	if [ ! -f "$ROOT/main.js" ]; then
-		install_fresh_without_start
-		return $?
-	fi
 	local prepared="${ROOT}.prepared-${CANDIDATE_VERSION}-$(date -u +%Y%m%dT%H%M%SZ)"
 	mv "$CANDIDATE_ROOT" "$prepared"
 	CANDIDATE_ROOT=""

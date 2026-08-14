@@ -9,7 +9,8 @@ const Create = require("./create.js");
  * @file Connects implicit mission policy, persistence, and truthful response annotation.
  * @description
  * The Awtsmoos gives substantive work durable memory without pretending that memory
- * was explicitly requested. Awtsmoos.com carries the exact boot reason into Tunnel Control.
+ * was explicitly requested. Awtsmoos.com carries the exact boot reason and the original
+ * plain-English boot testimony into Tunnel Control without turning advisory memory into a lock.
  */
 async function maybeStart(config, payload = {}, active = null) {
 	if (active || !Policy.shouldBoot(payload)) return null;
@@ -53,6 +54,7 @@ function annotate(result = {}, boot = null) {
 		},
 		agentGuidance: {
 			...(result.agentGuidance || {}),
+			plainEnglish: boot.bootMessage,
 			canSteer: true,
 			mustCallNext: false
 		}

@@ -48,6 +48,7 @@ try {
 		"unix-install-sources.sh", "unix-candidate-probe.sh",
 		"unix-activation-promotion.sh", "unix-emergency-capture.sh",
 		"unix-supervisor-identity.sh", "unix-supervisor-emergency.sh",
+		"unix-supervisor-network-state.cjs", "unix-supervisor-orphan-executors.cjs",
 		"unix-service-cli.sh"
 	]) assert.ok(COMPONENTS.includes(required), `missing required component: ${required}`);
 	assert.equal(COMPONENTS.includes("unix-bootstrap-components-download.sh"), false);
@@ -59,6 +60,8 @@ try {
 	assert.match(bootstrap, /fetch_bootstrap_file unix-bootstrap-components-download\.sh/);
 	assert.match(components, /source "\$runtime_root\/unix-bootstrap-components-download\.sh"/);
 	assert.match(components, /unix-service-cli\.sh/);
+	assert.match(components, /unix-supervisor-network-state\.cjs/);
+	assert.match(components, /unix-supervisor-orphan-executors\.cjs/);
 	assert.match(download, /installer-components\.tar\.gz/);
 	assert.match(download, /Using cached verified installer components/);
 	assert.match(download, /Using compatible component download fallback/);

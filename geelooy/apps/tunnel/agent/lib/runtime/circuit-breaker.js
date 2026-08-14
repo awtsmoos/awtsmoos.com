@@ -18,13 +18,13 @@ const DEFAULTS = Object.freeze({
 });
 
 /**
-	* @file Opens only for real backpressure and reports healthy state as closed.
-	* @description The Awtsmoos names electrical truth without contradictory routing.
-	*/
+ * @file Protects control existence with rolling lag evidence instead of one quiet sample.
+ * @description The Awtsmoos remembers the recent storm long enough for expensive work to bow;
+ * Awtsmoos.com keeps p0 alive while recovery envelopes defer the lanes that deepen pressure.
+ */
 function canAccept(lane, context = {}, limits = DEFAULTS, request = {}) {
-	const lagMs = Number(context.eventLoopLag?.lastMs || 0);
-	const maxLagMs = Number(context.eventLoopLag?.maxMs || 0);
-	const level = Policy.levelForLag(lagMs, limits);
+	const lag = lagEvidence(context);
+	const level = Policy.levelForLag(lag.pressureMs, limits);
 	const queued = Number(context.lanes?.[lane]?.queued || 0);
 	const pressureReason = Policy.reasonFor(lane, level, queued, limits);
 	const liveness = Liveness.evidence(context, limits);
@@ -33,8 +33,9 @@ function canAccept(lane, context = {}, limits = DEFAULTS, request = {}) {
 		ok: true,
 		status: 202,
 		circuitLevel: hardBlock ? "open" : level,
-		eventLoopLagMs: lagMs,
-		maxEventLoopLagMs: maxLagMs,
+		eventLoopLagMs: lag.lastMs,
+		maxEventLoopLagMs: lag.maxMs,
+		pressureLagMs: lag.pressureMs,
 		degraded: level !== "closed" || Boolean(pressureReason),
 		advisoryOnly: limits.advisoryOnly === true,
 		pressureReason,
@@ -54,16 +55,24 @@ function canAccept(lane, context = {}, limits = DEFAULTS, request = {}) {
 }
 
 function snapshot(context = {}, limits = DEFAULTS) {
-	const lagMs = Number(context.eventLoopLag?.lastMs || 0);
-	const level = Policy.levelForLag(lagMs, limits);
+	const lag = lagEvidence(context);
+	const level = Policy.levelForLag(lag.pressureMs, limits);
 	const liveness = Liveness.evidence(context, limits);
 	return {
 		limits,
 		level: liveness.saturated ? "open" : level,
-		eventLoopLagMs: lagMs,
+		eventLoopLagMs: lag.lastMs,
+		maxEventLoopLagMs: lag.maxMs,
+		pressureLagMs: lag.pressureMs,
 		advisoryOnly: limits.advisoryOnly === true,
 		liveness
 	};
+}
+
+function lagEvidence(context = {}) {
+	const lastMs = Number(context.eventLoopLag?.lastMs || 0);
+	const maxMs = Number(context.eventLoopLag?.maxMs || 0);
+	return { lastMs, maxMs, pressureMs: Math.max(lastMs, maxMs) };
 }
 
 function number(value, fallback) {
@@ -75,6 +84,7 @@ module.exports = {
 	DEFAULTS,
 	blockingReason: Policy.blockingReason,
 	canAccept,
+	lagEvidence,
 	levelForLag: Policy.levelForLag,
 	livePressureEvidence: Liveness.evidence,
 	reasonFor: Policy.reasonFor,

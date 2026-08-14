@@ -3,31 +3,51 @@
 // Blessed is He
 
 const Context = require("./context.js");
-const {
-	Store,
-	Spawning
-} = Context.shared;
+const Admission = require("./spawnAdmission.js");
+const Fairness = require("./spawnFairness.js");
+const { Store, Spawning } = Context.shared;
 const runPacedBatch = Context.reference("runPacedBatch");
+const scheduleWake = Context.reference("scheduleWake");
 const seedPendingChildren = Context.reference("seedPendingChildren");
-const status = Context.reference("status");
 
 /**
- * @file Reveals the drainSpawnQueue stage of website-agent orchestration.
- * @description
- * The Awtsmoos gives this stage one bounded responsibility while sibling stages are
- * resolved lazily through durable shared context after the browser vessel closes.
+ * @file Drains recursive intention in pressure-aware parent-fair quanta above one browser tab.
+ * @description The Awtsmoos keeps every branch remembered while Awtsmoos.com rechecks the
+ * vessel before each activation breath, yielding immediately when recent pressure says enough.
  */
 async function drainSpawnQueue(config, id, service) {
-	const maxPasses = Number(Store.read(id)?.plan?.subagentPolicy?.maxTotalWebsiteAgents || 256);
-	for (let pass = 0; pass < maxPasses; pass += 1) {
-		await seedPendingChildren(config, id);
+	const initial = Store.read(id);
+	if (!initial || initial.cancelRequested) return;
+	const policy = initial.plan?.subagentPolicy || {};
+	for (let quantumIndex = 0; quantumIndex < 8; quantumIndex += 1) {
+		const before = Store.read(id);
+		if (!before || before.cancelRequested) return;
+		const decision = Admission.evaluate(policy);
+		Admission.remember(Store, id, decision);
+		const backlog = Admission.metrics(before);
+		if (!backlog.backlog) return;
+		if (!decision.allowActivation) {
+			scheduleWake(config, id, decision.wakeMs);
+			return;
+		}
+		if (quantumIndex >= decision.maxQuanta) break;
+		await seedPendingChildren(config, id, decision.quantum);
 		const record = Store.read(id);
 		if (!record || record.cancelRequested) return;
-		const queued = Spawning.pending(record);
-		if (!queued.length) return;
-		await runPacedBatch(config, id, queued, 1, service, false);
-		if (Store.read(id)?.agents.some(agent => agent.status === "waiting_for_login")) return;
+		const pending = Spawning.pending(record);
+		if (!pending.length) break;
+		const fairPolicy = Admission.effectivePolicy(policy, decision);
+		const plan = Fairness.select(pending, fairPolicy);
+		await runPacedBatch(config, id, plan.selected, 1, service, false);
+		const after = Store.read(id);
+		if (!after || after.cancelRequested) return;
+		if (after.agents.some(agent => agent.status === "waiting_for_login")) return;
 	}
+	const remaining = Store.read(id);
+	if (!remaining || remaining.cancelRequested) return;
+	const finalDecision = Admission.evaluate(policy);
+	const remembered = Admission.remember(Store, id, finalDecision) || finalDecision;
+	if (Admission.metrics(remaining).backlog > 0) scheduleWake(config, id, remembered.wakeMs);
 }
 
 Context.register("drainSpawnQueue", drainSpawnQueue);

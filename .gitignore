@@ -1,79 +1,33 @@
-# B"H
-# Boruch Hashem
-# Blessed is He
-#
-# The Awtsmoos renews each boundary without carrying yesterday's shadows.
-# Awtsmoos.com keeps source in Git while runtime media, plans, proofs, logs,
-# caches, archives, and machine state remain outside.
-
-# Local Awtsmoos tunnel state.
-.awtsmoos/
-.Awtsmoos/
-.awtsmoos-*/
-.Awtsmoos-*/
-**/.awtsmoos/
-**/.Awtsmoos/
-**/.awtsmoos-audit/
-**/.awtsmoos-agent-thoughts/
-**/[aA][wW][tT][sS][mM][oO][oO][sS]/
+# B"H — source in Git; runtime state, media, generated payload, caches, and machine artifacts elsewhere.
+**/.awtsmoos*/
+**/.Awtsmoos*/
 *.awtsmoos.log
-.awtsmoos.local.json
-.awtsmoos.config.local.json
-.Awtsmoos.local.json
-.Awtsmoos.config.local.json
-.awtsmoos-*
+*.awtsmoos.local.json
+*.awtsmoos.config.local.json
 .ai_tmp_*
-
-# Intentional public Awtsmoos source trees.
 !geelooy/scripts/awtsmoos/
 geelooy/scripts/awtsmoos/*
 !geelooy/scripts/awtsmoos/social/
 !geelooy/scripts/awtsmoos/social/**
 !geelooy/games/mitzvahWorld/experiments/Awtsmoos/
 !geelooy/games/mitzvahWorld/experiments/Awtsmoos/**
-
-# Mitzvah World runtime media lives in authenticated Awtsmoos Drive.
-geelooy/games/mitzvahWorld/assets/
-geelooy/games/mitzvahWorld/references/
-
-# Planning and generated thought archives.
+geelooy/ai/thoughts/
 .ai-thoughts/
 ai_thoughts/
 ai-thoughts/
-AI_THOUGHTS/
-AI-THOUGHTS/
 **/.ai-thoughts/
 **/ai_thoughts/
-**/ai-thoughts/
-**/AI_THOUGHTS/
-**/AI-THOUGHTS/
-geelooy/ai/thoughts/
-meluket_*_probe.json
-meluket_*_surface.txt
-meluket_*_search.txt
-meluket_*_locator.txt
-
-# Generated proof, inspection, and recovery material.
-.awtsmoos-artifacts/
-geelooy/apps/animator/proofs/
-inspection-shared-world/
-traces/
-**/.reports/
-**/reports/
 **/screenshots/
+**/recordings/
 **/visual-proof/
 **/review-output/
 **/simulator-results/
-**/.sim/*.json
-**/.sim/*.jsonl
-**/lastChrome*.json
-**/lastNodeDom*.json
-**/fullGameplay*.json
+**/.reports/
+**/reports/
+**/traces/
 **/*evidence*.json
 **/*evidence*.txt
 **/*evidence*.html
-
-# Mutable runtime state, caches, logs, and temporary output.
 .data/
 geelooy/.data/
 .logs/
@@ -95,24 +49,14 @@ command-output/
 *.log
 *.out
 *.err
-*.out.log
-*.err.log
-npm-start.log
-
-# Database and generated shard artifacts.
+.DS_Store
+Thumbs.db
 searchPacked/
-*.bin
 *.awtsbin
 *.awtsdb
 *.awtsdb-wal
 *.awtsdb.tmp
 *.awtsidx
-
-# Build products, archives, maps, and packages.
-**/*.dSYM/
-**/dist/*.exe
-**/dist/*.apk
-*.apk
 *.map
 *.zip
 *.7z
@@ -121,14 +65,13 @@ searchPacked/
 *.tar.gz
 *.tgz
 *.gz
-*.bak
-*.swp
-*.tmp
-
-# Images, audio, video, documents, and 3D models are denied unless a source root opens them.
+*.br
+*.dmg
+*.pkg
+**/*.dSYM/
+**/dist/
 *.png
 *.jpg
-!geelooy/resources/home/restored-awtsmoos-hero.jpg
 *.jpeg
 *.gif
 *.webp
@@ -137,6 +80,11 @@ searchPacked/
 *.tiff
 *.svg
 *.ico
+*.glb
+*.gltf
+*.bin
+*.wasm
+*.node
 *.mp3
 *.wav
 *.flac
@@ -148,42 +96,10 @@ searchPacked/
 *.avi
 *.mkv
 *.webm
-*.glb
-*.gltf
+*.woff
+*.woff2
+*.ttf
+*.otf
 *.pdf
-!geelooy/games/seven-mitzvos/favicon.svg
-!geelooy/apps/code/assets/**
-!geelooy/scripts/awtsmoos/MerkavaExecutor/**
-
-# Operating-system and editor noise.
-.DS_Store
-Thumbs.db
-
-# B"H Awtsmoos generated artifacts
-.awtsmoos/
-.awtsmoos/actions/
-.awtsmoos/actions/results/
-.awtsmoos/previews/
-.awtsmoos/tmp/
-.Awtsmoos/
-.Awtsmoos/actions/
-.Awtsmoos/actions/results/
-.Awtsmoos/previews/
-.Awtsmoos/tmp/
-**/.awtsmoos/
-**/.Awtsmoos/
-.awtsmoos-tmp/
-.Awtsmoos-tmp/
-*.awtsmoos.log
-.awtsmoos.local.json
-.Awtsmoos.local.json
-**/runtime-cache/
-**/execution-plans/*.json
-**/tests/headless/visual-proof/*.png
-**/tests/chrome/*.png
-**/tests/chrome/*.json
-**/reports/*.json
-**/dist/*.exe
-**/.cache/
-**/tmp/
-**/temp/
+geelooy/games/mitzvahWorld/assets/
+geelooy/games/mitzvahWorld/references/

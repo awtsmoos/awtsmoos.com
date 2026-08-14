@@ -31,8 +31,9 @@ helpers=(
 	unix-service-cli.sh unix-supervisor-install.sh unix-launchd-family.sh
 	unix-agent-singleton.cjs unix-agent-receipt.cjs
 	unix-agent-launcher.cjs unix-agent-identity.cjs
-	unix-supervisor-files.sh unix-supervisor-runtime.sh
-	unix-supervisor-agents.sh unix-supervisor-guard.sh
+	unix-supervisor-files.sh unix-supervisor-network-state.cjs
+	unix-supervisor-orphan-executors.cjs
+	unix-supervisor-runtime.sh unix-supervisor-agents.sh unix-supervisor-guard.sh
 	unix-supervisor-health-memory.sh unix-supervisor-receipt.sh
 	unix-supervisor-health.sh unix-supervisor-recovery.sh
 	unix-supervisor-identity.sh unix-supervisor-emergency.sh
