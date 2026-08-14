@@ -12,9 +12,9 @@ function firstTurn(record, agent, room) {
 		`B"H — You are ${agent.name}, specialist ${agent.ordinal} in mission ${record.missionId}.`,
 		`Stable agent session: ${agent.agentSessionId}.`,
 		`Goal: ${record.goal}`,
-		...(agent.parentAgentId ? [
-			`Parent website agent: ${agent.parentAgentId}. Recursive depth: ${Number(agent.depth || 0)}.`,
-			`Exact child assignment: ${agent.assignmentPrompt || agent.focus || agent.scope}`
+		...(agent.isSpawnedAgent || agent.parentAgentId ? [
+			`Flat mission peer sponsored by: ${agent.sponsorAgentId || agent.parentAgentId}.`,
+			`Exact peer assignment: ${agent.assignmentPrompt || agent.focus || agent.scope}`
 		] : []),
 		`Role: ${agent.role}. Focus: ${agent.focus}.`,
 		"Initial room snapshot:",

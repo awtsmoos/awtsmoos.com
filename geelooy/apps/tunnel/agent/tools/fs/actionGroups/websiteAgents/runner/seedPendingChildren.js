@@ -8,24 +8,20 @@ const { Store } = Context.shared;
 const seedChildRoom = require("./seedChildRoom.js");
 const commitSeededChild = require("./commitSeededChild.js");
 
-/**
- * @file Seeds only a parent-fair slice of children the current runtime breath can materialize.
- * @description The Awtsmoos preserves every logical child while Awtsmoos.com lets quieter
- * parents enter room reality before a prolific branch can monopolize bounded activation.
- */
+/** Seeds only a sponsor-fair slice of flat peers the runtime can materialize. */
 async function seedPendingChildren(config, id, limit) {
 	const record = Store.read(id);
 	const pending = selectPending(record, limit);
-	for (const child of pending) {
-		const identifiers = await seedChildRoom(config, id, child);
-		commitSeededChild(id, child, identifiers);
+	for (const peer of pending) {
+		const identifiers = await seedChildRoom(config, id, peer);
+		commitSeededChild(id, peer, identifiers);
 	}
 	return pending.length;
 }
 
 function selectPending(record = {}, limit) {
 	const pending = (record.agents || []).filter(agent =>
-		agent.parentAgentId && agent.roomSeeded === false
+		(agent.isSpawnedAgent || agent.parentAgentId) && agent.roomSeeded === false
 	);
 	const maximum = boundedLimit(limit);
 	if (maximum === Infinity) return pending;

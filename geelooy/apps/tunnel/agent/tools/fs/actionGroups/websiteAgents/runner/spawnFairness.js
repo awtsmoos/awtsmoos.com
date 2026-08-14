@@ -5,11 +5,7 @@
 const DEFAULT_QUANTUM = 4;
 const DEFAULT_MAX_QUANTA = 2;
 
-/**
- * @file Shapes recursive website children into parent-fair bounded quanta.
- * @description The Awtsmoos may reveal a vast logical family, but Awtsmoos.com lets
- * each parent breathe before a prolific branch monopolizes the single physical tab.
- */
+/** Shapes flat website peers into sponsor-fair bounded activation quanta. */
 function select(pending = [], policy = {}) {
 	const quantum = bounded(policy.spawnDrainQuantum, DEFAULT_QUANTUM, 1, 16);
 	const maxQuanta = bounded(policy.spawnDrainMaxQuanta, DEFAULT_MAX_QUANTA, 1, 8);
@@ -17,8 +13,8 @@ function select(pending = [], policy = {}) {
 	const selected = roundRobin(groups, quantum);
 	const selectedByParent = {};
 	for (const agent of selected) {
-		const parent = String(agent.parentAgentId || "root");
-		selectedByParent[parent] = (selectedByParent[parent] || 0) + 1;
+		const sponsor = sponsorId(agent);
+		selectedByParent[sponsor] = (selectedByParent[sponsor] || 0) + 1;
 	}
 	return {
 		selected,
@@ -34,10 +30,14 @@ function select(pending = [], policy = {}) {
 function groupByParent(pending = []) {
 	const groups = new Map();
 	for (const agent of [...pending].sort(compareWithinParent)) {
-		const parent = String(agent.parentAgentId || "root");
-		groups.set(parent, [...(groups.get(parent) || []), agent]);
+		const sponsor = sponsorId(agent);
+		groups.set(sponsor, [...(groups.get(sponsor) || []), agent]);
 	}
 	return groups;
+}
+
+function sponsorId(agent = {}) {
+	return String(agent.sponsorAgentId || agent.parentAgentId || "root");
 }
 
 function roundRobin(groups, limit) {
@@ -73,5 +73,6 @@ module.exports = {
 	DEFAULT_QUANTUM,
 	groupByParent,
 	roundRobin,
-	select
+	select,
+	sponsorId
 };

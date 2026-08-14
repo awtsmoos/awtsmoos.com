@@ -7,9 +7,9 @@ const Scopes = require("./plannerScopes.js");
 const Target = require("./plannerTarget.js");
 
 /**
- * @file Composes one durable congestion-safe website-agent mission plan.
- * @description The Awtsmoos may call a hundred shluchim while Awtsmoos.com opens one tab;
- * recursive intention remains abundant while current pressure decides its activation breath.
+ * @file Composes one durable congestion-safe flat website-agent mission plan.
+ * @description The Awtsmoos may call hundreds of peer shluchim while Awtsmoos.com
+ * keeps every logical agent at depth zero and opens only one verified-close tab.
  */
 function plan(config = {}, input = {}) {
 	const projectRoot = Scopes.canonicalProjectRoot(input.projectRoot || config.root || process.cwd());
@@ -18,7 +18,12 @@ function plan(config = {}, input = {}) {
 	const scopes = Scopes.scopeCandidates(projectRoot, input);
 	const target = Target.customGptTarget(input);
 	const startSpacingMs = Policy.spacing(input.startSpacingMs);
-	const maxTotalWebsiteAgents = Policy.bounded(input.maxTotalWebsiteAgents, Math.max(256, count), count, 512);
+	const maxTotalWebsiteAgents = Policy.bounded(
+		input.maxTotalWebsiteAgents,
+		Math.max(256, count),
+		count,
+		512
+	);
 	const maxSubagentsPerAgent = Policy.bounded(
 		input.maxSubagentsPerAgent ?? input.maxHelpersPerAgent,
 		32,
@@ -40,15 +45,20 @@ function plan(config = {}, input = {}) {
 			postCloseCooldownMs: Policy.POST_CLOSE_COOLDOWN_MS
 		},
 		subagentPolicy: {
-			mode: "bounded-single-use",
-			priority: ["large", "enormous"].includes(scale) ? "required-when-available" : "preferred",
-			allowRecursiveSubagents: input.allowRecursiveSubagents !== false && input.allowRecursiveSubagents !== "false",
-			maxSubagentDepth: Policy.bounded(input.maxSubagentDepth, 4, 1, 8),
+			mode: "bounded-flat-peers",
+			topology: "flatland",
+			priority: ["large", "enormous"].includes(scale)
+				? "required-when-available"
+				: "preferred",
+			allowRecursiveSubagents: input.allowRecursiveSubagents !== false &&
+				input.allowRecursiveSubagents !== "false",
+			maxSubagentDepth: 1,
 			maxSubagentsPerAgent,
 			maxHelpersPerAgent: maxSubagentsPerAgent,
 			maxTotalWebsiteAgents,
 			subagentStartSpacingMs: Policy.spacing(input.subagentStartSpacingMs, startSpacingMs),
-			pressureAwareActivation: input.pressureAwareActivation !== false && input.pressureAwareActivation !== "false",
+			pressureAwareActivation: input.pressureAwareActivation !== false &&
+				input.pressureAwareActivation !== "false",
 			spawnDrainQuantum: Policy.bounded(input.spawnDrainQuantum, 4, 1, 16),
 			spawnDrainMaxQuanta: Policy.bounded(input.spawnDrainMaxQuanta, 2, 1, 8),
 			softPressureQuantum: Policy.bounded(input.softPressureQuantum, 1, 1, 2),
@@ -56,7 +66,7 @@ function plan(config = {}, input = {}) {
 			softPressureWakeMs: Policy.bounded(input.softPressureWakeMs, 1500, 1500, 60000),
 			hardPressureWakeMs: Policy.bounded(input.hardPressureWakeMs, 3000, 3000, 60000),
 			panicPressureWakeMs: Policy.bounded(input.panicPressureWakeMs, 5000, 5000, 60000),
-			recursiveFanOut: "independent-scoped-work-with-stable-request-keys",
+			recursiveFanOut: "flat-peer-fan-out-with-stable-sponsor-keys",
 			handoffRequired: true,
 			roomUpdates: ["plan", "progress", "handoff", "completion"]
 		},
