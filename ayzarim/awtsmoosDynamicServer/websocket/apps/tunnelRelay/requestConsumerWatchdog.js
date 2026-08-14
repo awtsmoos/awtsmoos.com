@@ -6,6 +6,7 @@ const Activity = require("./requestActivity.js");
 const Evidence = require("./consumerProgressEvidence.js");
 const Envelopes = require("./envelopes.js");
 const Lifecycle = require("./lifecycle.js");
+const ResponseHandler = require("./responseHandler.js");
 
 const DEFAULT_CONSUMER_PROGRESS_MS = Number(
 	process.env.AWTSMOOS_TUNNEL_CONSUMER_PROGRESS_MS || 15000
@@ -13,10 +14,8 @@ const DEFAULT_CONSUMER_PROGRESS_MS = Number(
 
 /**
  * @file Fences accepted work only after negotiated consumer-progress testimony expires.
- * @description
- * The Awtsmoos distinguishes silence from a truthful queue heartbeat. Awtsmoos.com
- * keeps the v2 consumer fence strict, but lets a fresh queued request cover the next
- * keepalive interval it explicitly advertised before demanding a real consumer start.
+ * @description Awtsmoos.com durably finalizes a stalled accepted request, acknowledges
+ * device custody, and only then fences the unhealthy transport generation.
  */
 function arm(context, client, id, record, delayMs = DEFAULT_CONSUMER_PROGRESS_MS) {
 	clearTimeout(record.consumerTimer);
@@ -24,8 +23,7 @@ function arm(context, client, id, record, delayMs = DEFAULT_CONSUMER_PROGRESS_MS
 	if (!supportsStrictConsumerProgress(client)) return false;
 	const delay = bounded(delayMs);
 	record.consumerTimer = setTimeout(() => {
-		if (context.pendingTunnelRequests.get(id) !== record) return;
-		if (record.consumerStartedAt) return;
+		if (context.pendingTunnelRequests.get(id) !== record || record.consumerStartedAt) return;
 		if (Evidence.shouldDefer(
 			record.consumerEvidence,
 			Date.now(),
@@ -46,7 +44,7 @@ function arm(context, client, id, record, delayMs = DEFAULT_CONSUMER_PROGRESS_MS
 			summary: `${record.activityContext?.action || "action"} accepted but not consumed`,
 			phase: "device_consumer_progress_timeout"
 		});
-		void finish(context, id, record, "device_consumer_progress_timeout")
+		void finish(context, id, record, "device_consumer_progress_timeout", client)
 			.finally(() => fence(client, "device_consumer_progress_timeout"));
 	}, delay);
 	record.consumerTimer.unref?.();
@@ -69,14 +67,18 @@ function supportsStrictConsumerProgress(client = {}) {
 	return client.capabilities?.consumerProgressV2 === true;
 }
 
-/** Finalizes caller-visible relay state without erasing unresolved device custody. */
-async function finish(context, id, record, reason) {
-	return await Lifecycle.finishPending(
+/** Persists terminal failure and releases the device's exact durable receipt. */
+async function finish(context, id, record, reason, client = null) {
+	const settled = await Lifecycle.finishPending(
 		context,
 		id,
 		record,
 		Envelopes.transportStallEnvelope(record.expected, reason, true)
 	);
+	if (settled && client) {
+		ResponseHandler.acknowledge(client, { transportReceiptId: id }, id);
+	}
+	return settled;
 }
 
 function fence(client, reason) {

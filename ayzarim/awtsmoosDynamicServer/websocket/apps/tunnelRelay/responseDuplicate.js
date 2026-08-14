@@ -9,10 +9,8 @@ const Validation = require("./validation.js");
 
 /**
  * @file Reconciles terminal responses after pending memory or socket generation changed.
- * @description
- * The Awtsmoos may let the old waiter vanish while durable truth remains on disk.
- * Awtsmoos.com hydrates that exact origin record, validates immutable correlation,
- * persists late terminal testimony when needed, and only then releases device custody.
+ * @description Awtsmoos.com releases device custody only after exact validation or
+ * durable authenticated-orphan testimony; correlation mismatches remain unacknowledged.
  */
 function handle(context, client, data, id) {
 	const lookup = Generation.lookupExpected(client, data);
@@ -29,9 +27,13 @@ function handle(context, client, data, id) {
 }
 
 async function settle(context, client, data, id, record, lookup) {
-	if (!record) {
-		return Protocol.quarantine(context, "unsolicited_response", data, lookup);
-	}
+	if (!record) return await settleAuthenticatedOrphan(
+		context,
+		client,
+		data,
+		id,
+		lookup
+	);
 	if (record.state === "pending") {
 		return await settlePending(context, client, data, id, record);
 	}
@@ -52,10 +54,7 @@ async function settle(context, client, data, id, record, lookup) {
 			id,
 			data,
 			record.expected,
-			{
-				registrationKey: client.registrationKey,
-				observedAt: new Date().toISOString()
-			}
+			{ registrationKey: client.registrationKey, observedAt: new Date().toISOString() }
 		);
 		if (!committed?.reconciliation) {
 			return Protocol.quarantine(
@@ -65,6 +64,17 @@ async function settle(context, client, data, id, record, lookup) {
 				record.expected
 			);
 		}
+	}
+	return Protocol.acknowledge(client, data, id);
+}
+
+async function settleAuthenticatedOrphan(context, client, data, id, lookup) {
+	if (!Generation.sameGeneration({ expected: lookup }, client)) {
+		return Protocol.quarantine(context, "unsolicited_response", data, lookup);
+	}
+	const committed = await State.rememberCompleted(context, id, data, lookup);
+	if (!committed || !["completed", "failed"].includes(committed.state)) {
+		return Protocol.quarantine(context, "orphan_response_not_persisted", data, lookup);
 	}
 	return Protocol.acknowledge(client, data, id);
 }
@@ -80,12 +90,7 @@ async function settlePending(context, client, data, id, record) {
 
 function validSettlement(context, client, data, record, prefix) {
 	if (!Generation.maySettle(record, client, data)) {
-		Protocol.quarantine(
-			context,
-			`${prefix}_foreign_registration`,
-			data,
-			record.expected
-		);
+		Protocol.quarantine(context, `${prefix}_foreign_registration`, data, record.expected);
 		return false;
 	}
 	const validation = Validation.validateTunnelResponse(record.expected, data);
@@ -100,9 +105,4 @@ function validSettlement(context, client, data, record, prefix) {
 	return false;
 }
 
-module.exports = {
-	handle,
-	settle,
-	settlePending,
-	validSettlement
-};
+module.exports = { handle, settle, settleAuthenticatedOrphan, settlePending, validSettlement };

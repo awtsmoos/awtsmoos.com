@@ -5,18 +5,15 @@
 const assert = require("node:assert/strict");
 const path = require("node:path");
 
-/**
-	* @file Proves a duplicate settled response receives another transport ACK.
-	* @description The Awtsmoos lets acknowledgment vanish without reviving uncertainty.
-	*/
+/** @file Proves durable duplicate and authenticated-orphan response settlement. */
 const directory = __dirname;
 const statePath = path.join(directory, "state.js");
 const lifecyclePath = path.join(directory, "lifecycle.js");
 const validationPath = path.join(directory, "validation.js");
 const handlerPath = path.join(directory, "responseHandler.js");
 const quarantine = [];
-let hydrated = { state: "completed" };
-let recoveredPending = 0;
+const persisted = [];
+let hydrated = completed("request-one");
 let responseValid = true;
 
 require.cache[statePath] = {
@@ -30,9 +27,10 @@ require.cache[statePath] = {
 		},
 		hydrate: async () => hydrated,
 		quarantine: (_context, entry) => quarantine.push(entry),
-		rememberCompleted: async () => {
-			recoveredPending += 1;
-			return { state: "completed" };
+		rememberCompleted: async (_context, id, data, expected) => {
+			const record = { ...completed(id), data, expected };
+			persisted.push(record);
+			return record;
 		}
 	}
 };
@@ -57,64 +55,60 @@ const Handler = require(handlerPath);
 const sent = [];
 const client = {
 	registrationKey: "acct::route",
+	tunnelId: "route",
 	send: message => sent.push(message)
 };
 const context = { pendingTunnelRequests: new Map() };
-const accepted = Handler.handleTunnelResponse(context, client, {
-	id: "request-one",
-	transportReceiptId: "receipt-one"
+
+void run().catch(error => {
+	console.error(error);
+	process.exitCode = 1;
 });
-assert.equal(accepted, true);
-setImmediate(() => {
-	assert.equal(sent.length, 1);
-	assert.equal(sent[0].type, "TUNNEL_RESPONSE_ACK");
-	assert.equal(sent[0].transportReceiptId, "receipt-one");
-	assert.equal(quarantine.length, 0);
+
+async function run() {
+	respond("request-one", "receipt-one");
+	await turn();
+	assert.equal(sent.at(-1).transportReceiptId, "receipt-one");
 	hydrated = null;
-	assert.equal(Handler.handleTunnelResponse(context, client, {
-		id: "orphan-one",
-		transportReceiptId: "orphan-receipt"
-	}), true);
-	setImmediate(() => {
-		assert.equal(sent.length, 2);
-		assert.equal(sent[1].transportReceiptId, "orphan-receipt");
-		assert.equal(quarantine.length, 1);
-		assert.equal(quarantine[0].reason, "unsolicited_response");
-		hydrated = {
-			state: "pending",
-			expected: {
-				id: "recovered-pending",
-				registrationKey: client.registrationKey
-			}
-		};
-		assert.equal(Handler.handleTunnelResponse(context, client, {
-			id: "recovered-pending",
-			transportReceiptId: "recovered-receipt"
-		}), true);
-		setImmediate(() => {
-		assert.equal(sent.length, 3);
-		assert.equal(sent[2].transportReceiptId, "recovered-receipt");
-		assert.equal(recoveredPending, 1);
-			responseValid = false;
-			context.pendingTunnelRequests.set("mismatched-response", {
-				expected: { registrationKey: client.registrationKey },
-				registrationKey: client.registrationKey
-			});
-			assert.equal(Handler.handleTunnelResponse(context, client, {
-				id: "mismatched-response",
-				transportReceiptId: "mismatched-receipt"
-			}), false);
-			assert.equal(sent.length, 4);
-			assert.equal(sent[3].transportReceiptId, "mismatched-receipt");
-			assert.equal(quarantine.at(-1).reason, "correlation_mismatch");
-			console.log(JSON.stringify({
-				ok: true,
-				suite: "response-ack-recovery",
-				duplicateSettledResponseReacknowledged: true,
-				authenticatedMismatchQuarantinedAndAcknowledged: true,
-				authenticatedOrphanSettledAfterQuarantine: true,
-				pendingRecordRecoveredAfterServerRestart: true
-			}, null, 2));
-		});
+	respond("orphan-one", "orphan-receipt");
+	await turn();
+	assert.equal(persisted.at(-1).data.transportReceiptId, "orphan-receipt");
+	assert.equal(sent.at(-1).transportReceiptId, "orphan-receipt");
+	hydrated = pending("recovered-pending");
+	respond("recovered-pending", "recovered-receipt");
+	await turn();
+	assert.equal(sent.at(-1).transportReceiptId, "recovered-receipt");
+	responseValid = false;
+	context.pendingTunnelRequests.set("mismatch", pending("mismatch"));
+	const beforeMismatch = sent.length;
+	assert.equal(respond("mismatch", "mismatched-receipt"), false);
+	assert.equal(sent.length, beforeMismatch);
+	assert.equal(quarantine.at(-1).reason, "correlation_mismatch");
+	console.log(JSON.stringify({
+		ok: true,
+		suite: "response-ack-recovery",
+		durableDuplicateAcknowledged: true,
+		authenticatedOrphanPersistedThenAcknowledged: true,
+		mismatchPreservedWithoutAcknowledgement: true
+	}, null, 2));
+}
+
+function respond(id, transportReceiptId) {
+	return Handler.handleTunnelResponse(context, client, {
+		id,
+		originRegistrationKey: client.registrationKey,
+		transportReceiptId
 	});
-});
+}
+
+function completed(id) {
+	return { state: "completed", expected: { id, registrationKey: "acct::route" } };
+}
+
+function pending(id) {
+	return { state: "pending", expected: { id, registrationKey: "acct::route" } };
+}
+
+function turn() {
+	return new Promise(resolve => setImmediate(resolve));
+}

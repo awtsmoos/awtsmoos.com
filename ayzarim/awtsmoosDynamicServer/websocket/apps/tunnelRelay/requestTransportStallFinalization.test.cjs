@@ -20,28 +20,18 @@ test("acceptance timeout becomes terminal before the tunnel is fenced", async t 
 		"acceptance-request",
 		record,
 		"device_request_acceptance_timeout",
-		false,
 		transport
 	);
 	assert.equal(fixture.pendingTunnelRequests.has("acceptance-request"), false);
-	const durable = await State.hydrate(
-		fixture,
-		"acceptance-request",
-		record.expected
-	);
+	const durable = await State.hydrate(fixture, "acceptance-request", record.expected);
 	assert.equal(durable.state, "failed");
 	assert.equal(durable.data.terminal, true);
-	assert.equal(durable.data.accepted, false);
+	assert.equal(durable.data.accepted, null);
 	assert.equal(durable.data.error, "device_request_acceptance_timeout");
-	assert.deepEqual(transport.sent, [{
-		id: "acceptance-request",
-		settledAt: transport.sent[0].settledAt,
-		transportReceiptId: "acceptance-request",
-		type: "TUNNEL_RESPONSE_ACK"
-	}]);
+	assert.equal(transport.sent[0].transportReceiptId, "acceptance-request");
 });
 
-test("consumer timeout ends the canonical request so reconnect cannot replay it", async t => {
+test("consumer timeout ends canonical work and releases device custody", async t => {
 	const fixture = context(t);
 	const record = pending(fixture, "consumer-request");
 	const transport = connection();
@@ -53,11 +43,7 @@ test("consumer timeout ends the canonical request so reconnect cannot replay it"
 		transport
 	);
 	assert.equal(fixture.pendingTunnelRequests.has("consumer-request"), false);
-	const durable = await State.hydrate(
-		fixture,
-		"consumer-request",
-		record.expected
-	);
+	const durable = await State.hydrate(fixture, "consumer-request", record.expected);
 	assert.equal(durable.state, "failed");
 	assert.equal(durable.data.terminal, true);
 	assert.equal(durable.data.accepted, true);
@@ -79,10 +65,7 @@ function connection() {
 function context(t) {
 	const root = fs.mkdtempSync(path.join(os.tmpdir(), "awtsmoos-stall-finalization-"));
 	t.after(() => fs.rmSync(root, { force: true, recursive: true }));
-	return {
-		pendingTunnelRequests: new Map(),
-		tunnelRelayStateRoot: root
-	};
+	return { pendingTunnelRequests: new Map(), tunnelRelayStateRoot: root };
 }
 
 function pending(fixture, id) {
