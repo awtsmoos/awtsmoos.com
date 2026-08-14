@@ -1,5 +1,5 @@
 B"H
-1.0.529
+1.0.530
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtector.mjs
@@ -900,6 +900,7 @@ lib/connection-vessel/mailbox.js
 lib/connection-vessel/parent-consumer-health-values.js
 lib/connection-vessel/parent-consumer-health.js
 lib/connection-vessel/parent-watchdog-control.js
+lib/connection-vessel/parent-watchdog-pressure.js
 lib/connection-vessel/parent-watchdog-repair.js
 lib/connection-vessel/parent-watchdog-values.js
 lib/connection-vessel/parent-watchdog.js
@@ -1062,6 +1063,7 @@ lib/runtime/priority/legacyQueue.js
 lib/runtime/priority/policy.js
 lib/runtime/priority/requester.js
 lib/runtime/priority/workSets.js
+lib/runtime/process-lifecycle-log.js
 lib/runtime/process-singleton-owner.js
 lib/runtime/process-singleton.js
 lib/runtime/processIdentity.js
