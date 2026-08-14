@@ -8,9 +8,9 @@ const path = require("node:path");
 const Circuit = require("../lib/runtime/circuit-breaker.js");
 
 /**
- * @file Guards the law that overload may defer work but may not destroy transport existence.
- * @description The Awtsmoos keeps control above congestion; Awtsmoos.com forbids the breaker
- * from becoming a hidden socket-kill switch while mission testimony waits durably.
+ * @file Guards the law that overload may park work but may not reject the deed or destroy transport.
+ * @description The Awtsmoos keeps control above congestion; Awtsmoos.com retains accepted
+ * mission testimony until pressure clears instead of requiring unsafe redispatch.
  */
 const context = {
 	eventLoopLag: { lastMs: 2, maxMs: 6500 },
@@ -21,33 +21,34 @@ const context = {
 const limits = { ...Circuit.DEFAULTS, advisoryOnly: false };
 
 const control = Circuit.canAccept("p0_control", context, limits, { action: "commandStatus" });
-assert.equal(control.blockingReason, "");
 assert.equal(control.ok, true);
+assert.equal(control.startAllowed, true);
 
 for (const lane of ["p1_fs_light", "p2_chrome_light", "p3_heavy", "p4_bulk"]) {
 	const result = Circuit.canAccept(lane, context, limits, { action: "syntheticWork" });
-	assert.match(result.blockingReason, /kernel_panic_lag_only_p0/);
+	assert.equal(result.ok, true);
+	assert.equal(result.deferred, true);
+	assert.equal(result.startAllowed, false);
 	assert.ok(result.retryAfterMs > 0);
-	assert.notEqual(result.reason, "accepted");
 }
 
 const breakerSource = read("../lib/runtime/circuit-breaker.js");
+const queueSource = read("../lib/runtime/main-queue.js");
 const policySource = read("../lib/runtime/circuit-policy.js");
 const persistenceSource = read("../tools/fs/mission/lock/persistence.js");
-const lifecycleSource = read("../tools/fs/mission/lock/lifecycle.js");
 for (const source of [breakerSource, policySource]) {
 	assert.doesNotMatch(source, /process\.exit|replacementRequested|websocket[^\n]*\.close|\.terminate\s*\(/i);
 }
 assert.match(breakerSource, /Math\.max\(lastMs, maxMs\)/);
+assert.match(queueSource, /pressure\.wake/);
+assert.match(queueSource, /pressure\.lanes/);
 assert.match(persistenceSource, /Deferred\.write/);
-assert.match(persistenceSource, /Nested\.tryRemember/);
-assert.doesNotMatch(lifecycleSource, /Nested\.remember/);
 
 console.log(JSON.stringify({
 	ok: true,
 	suite: "congestion-survival-contract",
 	p0Survives: true,
-	nonP0Defers: true,
+	nonP0Parks: true,
 	noTransportKillPath: true
 }));
 

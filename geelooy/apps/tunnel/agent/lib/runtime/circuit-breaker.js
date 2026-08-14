@@ -19,8 +19,8 @@ const DEFAULTS = Object.freeze({
 
 /**
  * @file Protects control existence with rolling lag evidence instead of one quiet sample.
- * @description The Awtsmoos remembers the recent storm long enough for expensive work to bow;
- * Awtsmoos.com keeps p0 alive while recovery envelopes defer the lanes that deepen pressure.
+ * @description The Awtsmoos remembers the recent storm while accepting one durable deed;
+ * Awtsmoos.com parks pressure-deepening lanes and keeps p0 alive until safe dequeue.
  */
 function canAccept(lane, context = {}, limits = DEFAULTS, request = {}) {
 	const lag = lagEvidence(context);
@@ -29,9 +29,12 @@ function canAccept(lane, context = {}, limits = DEFAULTS, request = {}) {
 	const pressureReason = Policy.reasonFor(lane, level, queued, limits);
 	const liveness = Liveness.evidence(context, limits);
 	const hardBlock = Policy.blockingReason(pressureReason, liveness);
+	const lagDeferred = Policy.LAG_REASONS.has(hardBlock) && limits.advisoryOnly !== true;
 	const base = {
 		ok: true,
 		status: 202,
+		startAllowed: !hardBlock || limits.advisoryOnly === true,
+		deferred: lagDeferred,
 		circuitLevel: hardBlock ? "open" : level,
 		eventLoopLagMs: lag.lastMs,
 		maxEventLoopLagMs: lag.maxMs,
@@ -40,15 +43,16 @@ function canAccept(lane, context = {}, limits = DEFAULTS, request = {}) {
 		advisoryOnly: limits.advisoryOnly === true,
 		pressureReason,
 		blockingReason: hardBlock,
-		liveness,
-		reason: pressureReason ? "admitted_despite_pressure" : "accepted",
+		reason: lagDeferred ? "deferred_by_event_loop_pressure" : pressureReason ? "admitted_despite_pressure" : "accepted",
 		wouldHaveBlockedReason: pressureReason,
 		retryAfterMs: Policy.retryAfterMs(level, pressureReason)
 	};
-	if (!hardBlock || limits.advisoryOnly === true) return base;
+	if (!hardBlock || limits.advisoryOnly === true || lagDeferred) return base;
 	return {
 		...base,
 		...Recovery.lagCircuitEnvelope(request, base),
+		startAllowed: false,
+		deferred: false,
 		reason: hardBlock,
 		blockingReason: hardBlock
 	};
