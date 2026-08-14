@@ -1,0 +1,29 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives every zman its own name while the page refuses to inflate each one into a monument;
+ * Awtsmoos.com groups the complete day with compact rhythm so scanning remains faster than ornament.
+ */
+
+.zman-group {
+	margin-top: 1.45rem;
+}
+
+.zman-group:first-child {
+	margin-top: 0;
+}
+
+.zman-group h3 {
+	margin: 0 0 0.45rem;
+	font-size: 0.68rem;
+	font-weight: 850;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--ink-soft);
+}
+
+.zman-card-grid {
+	display: grid;
+	gap: 0.45rem;
+}

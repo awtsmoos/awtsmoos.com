@@ -4,16 +4,18 @@
 
 /**
  * @file CanonicalVillagePlan.js
- * @description Publishes the single measured contract consumed by every village subsystem.
- * The Awtsmoos unites holy gathering, commerce, homes, water, earth, roads, and living growth;
- * Awtsmoos.com prevents each procedural vessel from inventing a different valley in isolation.
+ * @description Publishes the single measured contract consumed by village systems without awakening arrival runtime side effects.
+ * The Awtsmoos unites gathering, commerce, homes, water, earth, roads, cameras, and story place;
+ * Awtsmoos.com keeps the canonical plan spatially pure so gameplay, cutscenes, cinema, and diagnostics share one valley cheaply.
  */
 
 import { CANONICAL_VILLAGE_BIOMES } from './CanonicalVillageBiomes.js';
 import { CANONICAL_VILLAGE_CAMERAS } from './CanonicalVillageCameras.js';
+import { CANONICAL_VILLAGE_CLEARINGS } from './CanonicalVillageClearings.js';
 import { CANONICAL_VILLAGE_FOOTPRINTS } from './CanonicalVillageFootprints.js';
 import { CANONICAL_VILLAGE_HOUSES } from './CanonicalVillageHouses.js';
 import { CANONICAL_VILLAGE_IDS } from './CanonicalVillageIdentifiers.js';
+import { CANONICAL_VILLAGE_LOCATIONS } from './CanonicalVillageLocations.js';
 import {
 	CANONICAL_RIVER_CASCADES,
 	CANONICAL_RIVER_CONTROL_POINTS,
@@ -23,10 +25,9 @@ import {
 	canonicalRoadNetworkEvidence,
 	canonicalVillageRoadRoutes
 } from './CanonicalVillageRoads.js';
-import {
-	VILLAGE_ARRIVAL_CLEARINGS,
-	VILLAGE_ARRIVAL_ENTRANCE
-} from './VillageArrivalContract.js';
+import { VILLAGE_ARRIVAL_ENTRANCE } from './VillageArrivalSpatialContract.js';
+
+export { CANONICAL_VILLAGE_CLEARINGS } from './CanonicalVillageClearings.js';
 
 export const CANONICAL_VILLAGE_LANDMARKS = Object.freeze({
 	beisChabad: marker(-35, 45, 'BEIS01'),
@@ -56,17 +57,6 @@ export const CANONICAL_VILLAGE_DISTRICTS = Object.freeze([
 	district('riverfront-gardens', 'water-edge', [-5, 36], [18, 15], 'medium', 4.28, ['H27'])
 ]);
 
-export const CANONICAL_VILLAGE_CLEARINGS = Object.freeze([
-	...VILLAGE_ARRIVAL_CLEARINGS,
-	clearing('beis-chabad-courtyard', -35, 45, 9),
-	clearing('market-square', -26, 12, 12),
-	clearing('shul-courtyard', -34, -24, 10),
-	clearing('bridge-approach', 10, 10, 9),
-	clearing('portal-terrace', 56, -49, 8),
-	clearing('farm-crossing', 43, 39, 8),
-	clearing('riverfront-path', -5, 36, 8)
-]);
-
 export const CANONICAL_VILLAGE_PLAN = Object.freeze({
 	biomes: CANONICAL_VILLAGE_BIOMES,
 	cameras: CANONICAL_VILLAGE_CAMERAS,
@@ -76,6 +66,7 @@ export const CANONICAL_VILLAGE_PLAN = Object.freeze({
 	houses: CANONICAL_VILLAGE_HOUSES,
 	identifiers: CANONICAL_VILLAGE_IDS,
 	landmarks: CANONICAL_VILLAGE_LANDMARKS,
+	locations: CANONICAL_VILLAGE_LOCATIONS,
 	river: Object.freeze({
 		cascades: CANONICAL_RIVER_CASCADES,
 		controlPoints: CANONICAL_RIVER_CONTROL_POINTS,
@@ -85,19 +76,20 @@ export const CANONICAL_VILLAGE_PLAN = Object.freeze({
 		evidence: canonicalRoadNetworkEvidence(),
 		routes: Object.freeze(canonicalVillageRoadRoutes())
 	}),
-	version: '2026.07-canonical-alpine-village'
+	version: '2026.08-canonical-alpine-village-locations'
 });
 
 function district(id, habitat, center, radius, detail, phase, houseIds, landmarkId = null) {
 	return Object.freeze({
-		center: Object.freeze(center), detail, habitat,
-		houseIds: Object.freeze(houseIds), id, landmarkId, phase,
+		center: Object.freeze(center),
+		detail,
+		habitat,
+		houseIds: Object.freeze(houseIds),
+		id,
+		landmarkId,
+		phase,
 		radius: Object.freeze(radius)
 	});
-}
-
-function clearing(id, x, z, radius) {
-	return Object.freeze({ id, radius, x, z });
 }
 
 function marker(x, z, id) {

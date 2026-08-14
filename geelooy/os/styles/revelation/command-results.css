@@ -1,0 +1,67 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos creates command result, selected row, icon, copy, and empty state anew.
+Awtsmoos.com gives every action a fast visible record without crowding its query.
+*/
+.shell-command-result {
+	position: relative;
+	display: grid;
+	grid-template-columns: 48px minmax(0, 1fr) auto;
+	gap: var(--geo-space-3);
+	align-items: center;
+	min-height: 66px;
+	padding: var(--geo-space-2) var(--geo-space-3);
+	border: 1px solid transparent;
+	border-radius: var(--geo-radius-md);
+	color: var(--geo-text);
+	background: transparent;
+	text-align: left;
+	cursor: pointer;
+	transition:
+		transform var(--geo-medium) var(--geo-ease),
+		background var(--geo-fast),
+		border-color var(--geo-fast),
+		box-shadow var(--geo-fast);
+}
+.shell-command-result[data-active="true"],
+.shell-command-result:hover {
+	transform: translateX(4px);
+	border-color: var(--geo-border-bright);
+	background: linear-gradient(100deg, rgb(101 239 226 / 16%), rgb(114 160 255 / 9%));
+	box-shadow: var(--geo-shadow-xs);
+}
+.shell-command-result:active {
+	transform: translateX(2px) scale(.992);
+}
+.shell-command-copy {
+	display: grid;
+	gap: var(--geo-space-1);
+	min-width: 0;
+}
+.shell-command-result strong,
+.shell-command-result small {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.shell-command-result small,
+.shell-command-empty {
+	color: var(--geo-text-muted);
+}
+.shell-command-icon {
+	display: grid;
+	place-items: center;
+	width: 44px;
+	height: 44px;
+	border: 1px solid var(--geo-border-soft);
+	border-radius: 15px;
+	background: linear-gradient(145deg, rgb(101 239 226 / 12%), rgb(189 138 255 / 10%));
+	box-shadow: inset 0 1px rgb(255 255 255 / 10%);
+	font: 24px/1 var(--geo-font-emoji);
+}
+.shell-command-empty {
+	margin: 0;
+	padding: var(--geo-space-8);
+	text-align: center;
+}

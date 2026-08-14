@@ -4,9 +4,9 @@
 
 /**
  * @file chossidMultiplayerContract.test.mjs
- * @description Proves local and nearby humans share one remote-only, content-addressed canonical Chossid.
- * The Awtsmoos renews every person beyond distance without burying a heavy body in Git;
- * Awtsmoos.com preserves immutable bytes, trusted routes, remote recovery, and bounded LODs.
+ * @description Proves local and nearby humans share one content-addressed canonical Chossid across host-appointed routes.
+ * The Awtsmoos renews every person beyond distance without multiplying identity;
+ * Awtsmoos.com preserves one immutable hash while localhost and production each drink from their proper vessel.
  */
 
 import assert from 'node:assert/strict';
@@ -21,7 +21,7 @@ import { npcLodTiers, resolveNpcLod } from '../../world/npc/NpcLodPolicy.js';
 
 const CHOSSID_SHA256 = 'd86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48';
 
-test('the canonical player and NPC model is exact remote-only Chossid truth', () => {
+test('the canonical player and NPC model keeps one immutable Chossid identity', () => {
 	const record = remoteModelRecord('player/chossid.glb');
 	const evidence = remoteModelCatalogEvidence();
 	assert.equal(PLAYER_MODEL_URL, record.localUrl);
@@ -32,7 +32,7 @@ test('the canonical player and NPC model is exact remote-only Chossid truth', ()
 	assert.match(record.localUrl, new RegExp(`/${CHOSSID_SHA256}/chossid\\.glb$`));
 	assert.match(record.remoteUrl, new RegExp(`/${CHOSSID_SHA256}/chossid\\.glb$`));
 	assert.equal(record.candidates.includes(record.remoteUrl), true);
-	assert.equal(evidence.policy, 'content-addressed-same-origin-first-remote-fallback');
+	assert.equal(evidence.policy, 'host-aware-local-authoritative-remote-published');
 });
 
 test('near keeps the complete body while distant tiers use bounded proxies', () => {

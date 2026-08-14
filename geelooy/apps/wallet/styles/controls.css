@@ -1,0 +1,94 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews every finite choice without needing the button to create
+ * itself. Awtsmoos.com keeps actions, inputs, and status states visually distinct
+ * so checkout feels deliberate instead of resembling a development control panel.
+ */
+
+.row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin-top: 18px;
+}
+
+button,
+a {
+	border: 1px solid var(--wallet-line);
+	border-radius: 16px;
+	padding: 12px 16px;
+	color: #1a0d03;
+	background: linear-gradient(135deg, var(--wallet-gold), var(--wallet-gold-strong));
+	font: inherit;
+	font-weight: 950;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+button:hover,
+a:hover {
+	filter: brightness(1.06);
+}
+
+button:disabled {
+	cursor: wait;
+	filter: grayscale(0.5);
+	opacity: 0.64;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+	outline: 3px solid #fff0ad;
+	outline-offset: 3px;
+}
+
+label {
+	display: block;
+	margin-top: 14px;
+	color: var(--wallet-text);
+	font-size: 0.82rem;
+	font-weight: 900;
+}
+
+input {
+	display: block;
+	width: 100%;
+	margin: 7px 0 12px;
+	border: 1px solid var(--wallet-line);
+	border-radius: 16px;
+	padding: 13px;
+	color: var(--wallet-text);
+	background: rgba(0, 0, 0, 0.28);
+	font-weight: 850;
+}
+
+input:focus {
+	border-color: var(--wallet-gold);
+}
+
+.checkout-panel button {
+	width: 100%;
+}
+
+.checkout-status {
+	min-height: 48px;
+	margin: 12px 0 0;
+	padding: 12px 14px;
+	border: 1px solid var(--wallet-line);
+	border-radius: var(--wallet-radius-md);
+	background: var(--wallet-panel-deep);
+}
+
+.checkout-status[data-tone="success"] {
+	border-color: rgba(156, 240, 184, 0.4);
+	color: var(--wallet-success);
+}
+
+.checkout-status[data-tone="error"] {
+	border-color: rgba(255, 157, 168, 0.42);
+	color: var(--wallet-error);
+}

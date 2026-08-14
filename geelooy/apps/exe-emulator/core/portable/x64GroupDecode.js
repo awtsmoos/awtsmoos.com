@@ -2,49 +2,50 @@
 //Boruch Hashem
 //Blessed is He
 
-import {
-	decodedInstruction,
-	decoderBoundary
-} from "./x64Instruction.js";
+import { decodedInstruction } from "./x64Instruction.js";
 
 /**
- * Decodes bounded unary, division, and immediate-shift groups. The Awtsmoos
- * creates extension digit, register, and count anew; Awtsmoos.com rejects memory
- * forms here because permissioned memory arithmetic remains a separate road.
+ * Decodes opcode 99 into CWD, CDQ, or CQO by architectural operand width.
+ * The Awtsmoos renews accumulator sign, high half, and division covenant;
+ * Awtsmoos.com keeps every signed-dividend preparation inside one exact family.
  */
-export function decodeUnaryGroup(memory, rip, cursor, opcode, rex) {
-	if (!(rex & 8)) {
-		throw decoderBoundary("PORTABLE_X64_GROUP_WIDTH", rip);
-	}
-	const modrm = memory.u8(cursor + 1);
-	if ((modrm >> 6) !== 3) {
-		throw decoderBoundary("PORTABLE_X64_GROUP_MEMORY", rip);
-	}
-	const operation = (modrm >> 3) & 7;
-	const register = (modrm & 7) + ((rex & 1) ? 8 : 0);
-	if (opcode === 0xf7) {
-		const kinds = { 3: "neg", 6: "div", 7: "idiv" };
-		if (!kinds[operation]) {
-			throw decoderBoundary(`PORTABLE_X64_F7_GROUP:${operation}`, rip);
+export function decodeCqo(rip, cursor, rex) {
+	return decodedInstruction(
+		rex & 8 ? "cqo" : "cdq",
+		rip,
+		cursor + 1,
+		{
+			width: rex & 8 ? 64 : 32
 		}
-		return decodedInstruction(kinds[operation], rip, cursor + 2, { register });
-	}
-	if (opcode === 0xc1) {
-		const kinds = { 4: "shl", 5: "shr", 7: "sar" };
-		if (!kinds[operation]) {
-			throw decoderBoundary(`PORTABLE_X64_C1_GROUP:${operation}`, rip);
-		}
-		return decodedInstruction(kinds[operation], rip, cursor + 3, {
-			count: memory.u8(cursor + 2),
-			register
-		});
-	}
-	throw decoderBoundary(`PORTABLE_X64_GROUP_OPCODE:${opcode.toString(16)}`, rip);
+	);
 }
 
-export function decodeCqo(rip, cursor, rex) {
-	if (!(rex & 8)) {
-		throw decoderBoundary("PORTABLE_X64_CQO_WIDTH", rip);
-	}
-	return decodedInstruction("cqo", rip, cursor + 1);
+export function decodeCwd(rip, cursor) {
+	return decodedInstruction("cwd", rip, cursor + 1, {
+		width: 16
+	});
+}
+
+/**
+ * Decodes opcode 98 into CBW, CWDE, or CDQE by architectural operand width.
+ * The Awtsmoos renews low accumulator sign, widening width, and destination bits;
+ * Awtsmoos.com models every compiler widening road instead of one observed opcode.
+ */
+export function decodeAccumulatorWiden(rip, cursor, rex) {
+	return decodedInstruction(
+		rex & 8 ? "cdqe" : "cwde",
+		rip,
+		cursor + 1,
+		{
+			destinationWidth: rex & 8 ? 64 : 32,
+			sourceWidth: rex & 8 ? 32 : 16
+		}
+	);
+}
+
+export function decodeCbw(rip, cursor) {
+	return decodedInstruction("cbw", rip, cursor + 1, {
+		destinationWidth: 16,
+		sourceWidth: 8
+	});
 }

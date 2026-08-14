@@ -4,21 +4,22 @@
 
 /**
  * @file CanonicalFoundationSampling.js
- * @description Resolves safe base elevations from canonical or generated structure envelopes.
- * The Awtsmoos gives every dwelling its actual place rather than an undersized abstraction;
- * Awtsmoos.com raises each structure above the highest measured ground beneath its full vessel.
+ * @description Resolves slope-aware finished-floor elevations from complete canonical support envelopes.
+ * The Awtsmoos raises every dwelling above the mountain without severing it from the earth below;
+ * Awtsmoos.com lets steeper ground earn a little more breathing room while retaining stone completes the flow.
  */
 
 import { CANONICAL_FOOTPRINTS_BY_ID } from './CanonicalVillageFootprints.js';
 import { sampleFoundationEnvelope } from './FoundationEnvelopeSampling.js';
 import { villageGroundHeight } from './VillageGroundSampling.js';
 
-const FOUNDATION_CLEARANCE = 0.12;
-const FOUNDATION_EMBED = 0.24;
+const FOUNDATION_EMBED = 0.3;
+const MINIMUM_CLEARANCE = 0.28;
+const MAXIMUM_CLEARANCE = 0.75;
+const SLOPE_CLEARANCE_FACTOR = 0.06;
 
 /**
  * Measures one canonical identity using an optional generated envelope override.
- *
  * @param {string} id Canonical identity.
  * @param {object} groundSampler Shared ground authority.
  * @param {object|null} [envelopeOverride=null] Actual generated structure envelope.
@@ -34,25 +35,31 @@ export function canonicalFoundationSample(
 		return null;
 	}
 	const ground = sampleFoundationEnvelope(envelope, groundSampler);
+	const terrainVariance = ground.maximumGround - ground.minimumGround;
+	const clearance = Math.min(
+		MAXIMUM_CLEARANCE,
+		MINIMUM_CLEARANCE + terrainVariance * SLOPE_CLEARANCE_FACTOR
+	);
 	return Object.freeze({
 		bottom: ground.minimumGround - FOUNDATION_EMBED,
+		clearance,
 		envelope,
 		maximumGround: ground.maximumGround,
 		minimumGround: ground.minimumGround,
 		samples: ground.samples,
-		top: ground.maximumGround + FOUNDATION_CLEARANCE
+		terrainVariance,
+		top: ground.maximumGround + clearance
 	});
 }
 
 /**
- * Returns a safe structure base from a measured envelope or fallback coordinate.
- *
+ * Returns a safe finished-floor datum from a measured envelope or fallback coordinate.
  * @param {string} id Canonical identity.
  * @param {object} groundSampler Shared ground authority.
  * @param {number} fallbackX Fallback x coordinate.
  * @param {number} fallbackZ Fallback z coordinate.
  * @param {object|null} [envelopeOverride=null] Actual generated structure envelope.
- * @returns {number} Safe structure base elevation.
+ * @returns {number} Safe finished-floor elevation.
  */
 export function canonicalFoundationTopHeight(
 	id,

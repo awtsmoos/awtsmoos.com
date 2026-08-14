@@ -1,0 +1,78 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews the first gate as a scrollable frame instead of a fixed wall;
+ * Awtsmoos.com keeps hero, launch action, and mode choice visible while the hand may pan through all.
+ * This vessel owns only onboarding geometry and primary hierarchy.
+ */
+.overlay {
+	padding: 14px;
+}
+
+.overlay-panel {
+	border-radius: 28px;
+	max-height: 92vh;
+	max-height: 92dvh;
+	overflow-x: hidden;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	padding: clamp(20px, 3vw, 34px);
+	text-align: left;
+	touch-action: pan-y;
+	-webkit-overflow-scrolling: touch;
+	width: min(780px, 96vw);
+}
+
+.overlay-hero {
+	text-align: center;
+}
+
+.overlay h1 {
+	font-size: clamp(36px, 5.4vw, 64px);
+}
+
+.stars {
+	font-size: clamp(24px, 3vw, 34px);
+	margin-top: 7px;
+}
+
+#overlayText {
+	font-size: 15px;
+	margin: 7px auto 12px;
+}
+
+.hero-actions {
+	margin: 10px 0 12px;
+}
+
+.primary {
+	font-size: 22px;
+	min-width: min(330px, 78vw);
+	padding: 13px 24px;
+}
+
+.mode-gate {
+	margin: 8px 0;
+	padding: 12px;
+}
+
+.overlay-help {
+	color: #9eacd0;
+	font-size: 9px;
+	margin: 12px 0 0;
+	text-align: center;
+}
+
+@media (max-width: 720px) {
+	.overlay {
+		padding: 6px;
+	}
+
+	.overlay-panel {
+		border-radius: 20px;
+		max-height: calc(100dvh - 12px);
+		padding: 14px 12px;
+	}
+}

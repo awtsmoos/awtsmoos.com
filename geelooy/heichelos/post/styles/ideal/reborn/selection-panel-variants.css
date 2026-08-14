@@ -1,0 +1,50 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos reveals each Hebrew search form with an honest name and value;
+ * no guessed root or hidden transformation enters the reader's study chamber.
+ */
+.awtsmoos-selection-variants {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: .5rem;
+}
+
+.awtsmoos-selection-variant {
+	display: grid;
+	gap: .35rem;
+	min-height: 64px;
+	padding: .65rem;
+	border: 1px solid rgba(34, 211, 238, .24);
+	border-radius: .9rem;
+	background: rgba(34, 211, 238, .07);
+	color: #f8fafc;
+	text-align: start;
+	cursor: pointer;
+}
+
+.awtsmoos-selection-variant strong {
+	color: #9fdff8;
+	font-size: .66rem;
+	letter-spacing: .04em;
+}
+
+.awtsmoos-selection-variant span {
+	overflow: hidden;
+	font-size: 1rem;
+	font-weight: 800;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.awtsmoos-selection-variant:hover,
+.awtsmoos-selection-variant:focus-visible {
+	outline: 2px solid rgba(248, 214, 130, .62);
+	outline-offset: 2px;
+}
+
+@media (max-width: 520px) {
+	.awtsmoos-selection-variants {
+		grid-template-columns: 1fr;
+	}
+}

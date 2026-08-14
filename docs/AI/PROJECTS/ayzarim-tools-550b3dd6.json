@@ -1,0 +1,63 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "ayzarim-tools-550b3dd6",
+	"path": "ayzarim/tools",
+	"type": "infrastructure",
+	"family": {
+		"id": "runtime",
+		"title": "Runtime and Infrastructure"
+	},
+	"title": "ayzarim/tools",
+	"entries": [],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+		"docs/ARCHITECTURE.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-tools-550b3dd6.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 4,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 0,
+		"other": 0
+	},
+	"totalFiles": 4,
+	"symbolSummary": {
+		"files": 4,
+		"classes": 2,
+		"functions": 10,
+		"exports": 7,
+		"samples": [
+			"AwtsmoosAuth",
+			"decodeCookieToken",
+			"decodeTokenPayload",
+			"validateToken",
+			"createToken",
+			"generateSalt",
+			"hashPassword",
+			"verifyPassword",
+			"encrypt",
+			"decrypt",
+			"Utils",
+			"generateRandomId"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [
+		{
+			"project": "ayzarim/awtsmoosDynamicServer",
+			"count": 3,
+			"examples": "ayzarim/awtsmoosDynamicServer/server/deps.js"
+		}
+	],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": false,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

@@ -39,6 +39,12 @@ function read(file, virtualPath) {
     return awts.deserializeBinary(db.fs.readRange(virtualPath, 0, stat.size));
   } catch { return null; }
 }
+function list(file, virtualPath) {
+  try {
+    const db = getDb(file);
+    return db ? db.fs.ls(virtualPath) : [];
+  } catch { return []; }
+}
 function sourceMark(file) {
   try { return fingerprint(file); } catch { return 'missing'; }
 }
@@ -47,4 +53,4 @@ function closeAll() {
   pool.clear();
 }
 process.once('exit', closeAll);
-module.exports = { read, sourceMark, closeAll };
+module.exports = { read, list, sourceMark, closeAll };

@@ -1,4 +1,11 @@
-/* B"H — The desktop rail keeps every main chamber one calm step away. */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The desktop rail keeps every main chamber one calm step away. The Awtsmoos
+ * renews route and traveler; Awtsmoos.com anchors navigation to a solid dark rail
+ * so orientation comes from persistent structure rather than frosted transparency.
+ */
 .g-rail {
 	position: fixed;
 	inset: 0 auto 0 0;
@@ -8,9 +15,9 @@
 	flex-direction: column;
 	gap: var(--g-space-5);
 	padding: var(--g-space-5);
-	border-right: 1px solid var(--g-line);
-	background: rgba(5, 9, 20, 0.88);
-	backdrop-filter: blur(24px) saturate(130%);
+	border-right: 1px solid #1d3550;
+	background: #050d1c;
+	box-shadow: 12px 0 36px rgba(0, 0, 0, .24);
 }
 
 .g-brand {
@@ -25,10 +32,10 @@
 	width: 2.75rem;
 	height: 2.75rem;
 	place-items: center;
-	border: 1px solid var(--g-line-strong);
+	border: 1px solid #35647e;
 	border-radius: var(--g-radius-sm);
-	background: var(--g-gradient-soft);
-	box-shadow: var(--g-glow);
+	background: #0c2036;
+	box-shadow: 0 8px 20px rgba(0, 0, 0, .28);
 	font-weight: 900;
 }
 
@@ -39,21 +46,21 @@
 
 .g-brand-copy strong {
 	font-size: 1.12rem;
-	letter-spacing: -0.03em;
+	letter-spacing: -.03em;
 }
 
 .g-brand-copy small {
-	margin-top: 0.3rem;
+	margin-top: .3rem;
 	color: var(--g-muted);
-	font-size: 0.72rem;
-	letter-spacing: 0.12em;
+	font-size: .72rem;
+	letter-spacing: .12em;
 	text-transform: uppercase;
 }
 
 .g-rail-nav,
 .g-rail-secondary {
 	display: grid;
-	gap: 0.35rem;
+	gap: .35rem;
 }
 
 .g-rail-nav a,
@@ -62,7 +69,7 @@
 	grid-template-columns: 2rem 1fr;
 	align-items: center;
 	min-height: 3rem;
-	padding: 0.55rem 0.8rem;
+	padding: .55rem .8rem;
 	border: 1px solid transparent;
 	border-radius: var(--g-radius-sm);
 	color: var(--g-muted);
@@ -73,10 +80,16 @@
 .g-rail-secondary a:hover,
 .g-rail-nav a[aria-current="page"],
 .g-rail-secondary a[aria-current="page"] {
-	border-color: var(--g-line);
-	background: var(--g-surface-soft);
+	border-color: #294a66;
+	background: #0c1d31;
 	color: var(--g-text);
 	transform: translateX(2px);
+}
+
+.g-rail-nav a:focus-visible,
+.g-rail-secondary a:focus-visible {
+	outline: 3px solid var(--g-cyan);
+	outline-offset: 2px;
 }
 
 .g-route-icon {
@@ -88,11 +101,11 @@
 }
 
 .g-rail-label {
-	margin: 0.4rem 0 0.1rem 0.8rem;
+	margin: .4rem 0 .1rem .8rem;
 	color: var(--g-dim);
-	font-size: 0.68rem;
+	font-size: .68rem;
 	font-weight: 800;
-	letter-spacing: 0.14em;
+	letter-spacing: .14em;
 	text-transform: uppercase;
 }
 

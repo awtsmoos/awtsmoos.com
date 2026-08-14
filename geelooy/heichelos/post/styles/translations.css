@@ -1,0 +1,89 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets English rest beneath Torah without drowning the original light.
+ * Awtsmoos.com keeps the phone vessel clear, touchable, focused, and calm.
+ */
+.post-reader-localized-context .awtsmoos-translation-toolbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .75rem;
+	width: min(820px, calc(100% - 1.5rem));
+	margin: -.35rem auto 1rem;
+	padding: .8rem .9rem;
+	border: 1px solid rgba(96, 165, 250, .32);
+	border-radius: 18px;
+	background: rgba(7, 18, 35, .94);
+	box-shadow: 0 14px 38px rgba(0, 0, 0, .24);
+	color: #dbeafe;
+	font-family: var(--font-ui);
+}
+
+.post-reader-localized-context .awtsmoos-translation-status {
+	font-size: .92rem;
+	font-weight: 800;
+	line-height: 1.35;
+}
+
+.post-reader-localized-context .awtsmoos-translation-toggle {
+	min-width: 116px;
+	min-height: 44px;
+	padding: .65rem .85rem;
+	border: 1px solid rgba(147, 197, 253, .45);
+	border-radius: 14px;
+	background: rgba(59, 130, 246, .16);
+	color: #eff6ff;
+	font: 800 .9rem/1 var(--font-ui);
+	cursor: pointer;
+}
+
+.post-reader-localized-context .awtsmoos-translation-block {
+	direction: ltr !important;
+	text-align: left !important;
+	margin: .55rem 0 1rem;
+	padding: .9rem 1rem;
+	border-inline-start: 4px solid #60a5fa;
+	border-radius: 14px;
+	background: linear-gradient(180deg, rgba(30, 64, 175, .14), rgba(15, 23, 42, .72));
+	color: #eff6ff;
+	font-family: var(--font-ui);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06);
+	scroll-margin-block: 24vh;
+}
+
+.post-reader-localized-context .awtsmoos-translation-focus {
+	outline: 2px solid #93c5fd;
+	outline-offset: 3px;
+	box-shadow: 0 0 0 5px rgba(59, 130, 246, .18), 0 16px 42px rgba(30, 64, 175, .28);
+}
+
+.post-reader-localized-context .awtsmoos-translation-kicker {
+	display: block;
+	margin-bottom: .4rem;
+	color: #93c5fd;
+	font: 900 .74rem/1 var(--font-ui);
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+
+.post-reader-localized-context .awtsmoos-translation-block p {
+	margin: .45rem 0 0;
+	font-size: clamp(1.02rem, 4.2vw, 1.2rem) !important;
+	line-height: 1.58 !important;
+	color: #f8fafc !important;
+	text-align: left !important;
+	direction: ltr !important;
+}
+
+.post-reader-localized-context.awtsmoos-translations-hidden .awtsmoos-translation-block {
+	display: none !important;
+}
+
+@media (max-width: 520px) {
+	.post-reader-localized-context .awtsmoos-translation-toolbar {
+		align-items: stretch;
+		flex-direction: column;
+	}
+	.post-reader-localized-context .awtsmoos-translation-toggle { width: 100%; }
+}

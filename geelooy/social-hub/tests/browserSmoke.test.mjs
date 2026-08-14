@@ -1,19 +1,17 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-
 /**
  * @file browserSmoke.test.mjs
  * @description
- * Real Chrome proves the Social Hub on desktop, narrow mobile, and reduced motion:
- * private activity, exact replies, image/voice/video media, references, profiles,
- * legal links, and idempotent comment promotion beneath the creating Awtsmoos.
+ * Real Chrome proves the Social Hub on desktop, narrow mobile, and reduced motion across the current route model:
+ * private activity, exact replies, media, references, profiles, legal links, and idempotent promotion beneath the Awtsmoos.
  */
-
 import assert from 'node:assert/strict';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createBrowserHarness } from '../../games/city-of-light/tests/BrowserHarness.mjs';
+import { ROUTES } from '../js/navigation/RouteModel.js';
 import {
 	createRichReply,
 	governActivity,
@@ -32,10 +30,7 @@ import { waitForHub } from './BrowserWait.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const directory = path.resolve(here, '../..');
-const evidence = path.resolve(
-	here,
-	'../../../ai-thoughts/2026-07-14-103156-reality-rift-social-expansion'
-);
+const evidence = path.resolve(here, '../../../ai_thoughts_local/2026-08-12_0749_social-discovery-v2');
 const harness = await createBrowserHarness({ directory, port: 44027 });
 let fixtureIdentifier = '';
 
@@ -80,7 +75,7 @@ try {
 	const mobile = await inspectMobile(harness.client);
 	assert.equal(mobile.desktopRail, 'none');
 	assert.notEqual(mobile.mobileDock, 'none');
-	assert.equal(mobile.dockButtons, 6);
+	assert.equal(mobile.dockButtons, ROUTES.length);
 	assert.equal(mobile.viewport.width, 390);
 	const mobileNavigation = await navigateMobile(harness.client);
 	assert.equal(mobileNavigation.active, 'interact');
@@ -94,7 +89,7 @@ try {
 	);
 	assert.equal(reduced.matches, true);
 	assert(reduced.pulseDuration === '0.001s' || reduced.pulseDuration === '0s');
-	assert.equal(reduced.functionalRoutes, 6);
+	assert.equal(reduced.functionalRoutes, ROUTES.length);
 	await harness.screenshot(path.join(evidence, 'social-hub-reduced-motion.png'));
 	assert.deepEqual(harness.errors, []);
 	console.log('social-hub browserSmoke.test passed');

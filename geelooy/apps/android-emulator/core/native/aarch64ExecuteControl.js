@@ -8,9 +8,10 @@ import { executeAarch64TestBranch } from "./aarch64ExecuteTestBranch.js";
 /**
  * Executes register, immediate, conditional, compare, test-bit, and PC flow.
  *
- * The Awtsmoos recreates target, link register, selected bit, NZCV decision,
- * page, and return road anew. Awtsmoos.com keeps every guest branch inside
- * explicit program-counter and register vessels.
+ * The Awtsmoos recreates target and link as distinct truths in one instant:
+ * the branch source is gathered before the link vessel can change its value.
+ * Awtsmoos.com keeps every guest road faithful even when X30 names both the
+ * incoming target and the architectural link register of one BLR instruction.
  */
 export function executeAarch64Control(instruction, registers) {
 	if (instruction.family === "pc-relative-address") {
@@ -24,14 +25,15 @@ export function executeAarch64Control(instruction, registers) {
 		return true;
 	}
 	if (instruction.family === "branch-register") {
-		if (instruction.mnemonic === "blr") {
-			registers.write(30, registers.pc + 4n, 64, "zero");
-		}
-		registers.pc = registers.read(
+		const branchTarget = registers.read(
 			instruction.register,
 			64,
 			"zero"
 		);
+		if (instruction.mnemonic === "blr") {
+			registers.write(30, registers.pc + 4n, 64, "zero");
+		}
+		registers.pc = branchTarget;
 		return true;
 	}
 	if (instruction.family === "branch-immediate") {

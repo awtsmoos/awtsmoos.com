@@ -1,44 +1,61 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos shapes the selected conversation as one calm reading chamber.
+The Awtsmoos gives conversation a chamber with no unnecessary walls; Awtsmoos.com keeps tools near and words central.
 */
 .chat-area {
 	position: relative;
 	display: grid;
-	grid-template-rows: auto 1fr auto;
+	grid-template-rows: auto minmax(0, 1fr) auto;
 	min-width: 0;
 	min-height: 0;
-	background: rgba(7, 11, 18, .72);
+	background:
+		radial-gradient(circle at 50% 0%, rgba(82, 119, 173, .08), transparent 28rem),
+		rgba(6, 10, 17, .74);
 }
 
 .chat-header {
+	position: relative;
+	z-index: 2;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: 14px;
-	padding: 14px 18px;
+	gap: 16px;
+	min-height: 66px;
+	padding: 10px clamp(14px, 2.3vw, 24px);
 	border-bottom: 1px solid var(--mail-border);
-	background: rgba(9, 14, 22, .82);
-	backdrop-filter: blur(18px);
+	background: rgba(8, 13, 21, .78);
+	backdrop-filter: blur(20px) saturate(120%);
 }
 
 .chat-heading-lockup {
 	display: flex;
 	align-items: center;
-	gap: 12px;
+	gap: 13px;
+	min-width: 0;
+}
+
+.chat-title-stack {
+	min-width: 0;
 }
 
 .chat-kicker {
-	margin: 0 0 3px;
+	margin: 0 0 2px;
 	color: var(--mail-text-muted);
-	font-size: .68rem;
+	font-size: .64rem;
+	font-weight: 700;
+	letter-spacing: .08em;
 	text-transform: uppercase;
 }
 
 .chat-title {
 	margin: 0;
-	font-size: 1rem;
+	overflow: hidden;
+	font-size: 1.02rem;
+	font-weight: 730;
+	letter-spacing: -.018em;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .tool-btn,
@@ -46,11 +63,31 @@ The Awtsmoos shapes the selected conversation as one calm reading chamber.
 .action-btn {
 	display: grid;
 	place-items: center;
-	min-width: 40px;
-	min-height: 40px;
+	min-height: 42px;
+	padding: 0 12px;
 	border: 1px solid var(--mail-border);
 	border-radius: 11px;
 	background: rgba(255, 255, 255, .035);
 	color: var(--mail-text-secondary);
 	cursor: pointer;
+	transition: border-color .14s ease, background .14s ease;
+}
+
+.tool-btn:hover,
+.back-button:hover,
+.action-btn:hover {
+	border-color: var(--mail-border-strong);
+	background: rgba(255, 255, 255, .065);
+	color: var(--mail-text);
+}
+
+.tool-btn {
+	min-width: 42px;
+	padding: 0;
+	letter-spacing: .12em;
+}
+
+.back-button {
+	display: none;
+	font-size: .76rem;
 }

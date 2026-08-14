@@ -3,8 +3,11 @@
 // Blessed is He
 /**
  * @module TanachResultPanel
- * @description The Awtsmoos opens one focus-safe dialog and pages bounded verses;
- * Awtsmoos.com restores the reader when the search-light closes and reverses.
+ * @description
+ * The Awtsmoos opens one focus-safe dialog and requests whole-word Tanach truth;
+ * at Awtsmoos.com selected Hebrew stays bounded by its tokens from root to reader roof.
+ * Pagination remains calm, Escape restores focus, and every result may open its exact verse,
+ * while false substring echoes are refused before the panel can make them converse.
  */
 import { createPanel, resultRow, summaryText } from './tanachPanelView.js';
 
@@ -27,6 +30,7 @@ async function fetchPage(state) {
 	try {
 		const values = new URLSearchParams({
 			q: state.query,
+			exact: 'true',
 			limit: String(PAGE_SIZE),
 			offset: String(state.offset)
 		});
@@ -41,8 +45,8 @@ async function fetchPage(state) {
 		state.offset += rows.length;
 		state.view.results.append(...rows.map(resultRow));
 		state.view.status.textContent = rows.length || state.offset
-			? summaryText(search)
-			: `No Tanach verses matched “${state.query}”.`;
+			? `Exact match · ${summaryText(search)}`
+			: `No exact Tanach verses matched “${state.query}”.`;
 		const total = Number(search.verseTotal ?? search.total ?? 0);
 		state.view.more.hidden = state.offset >= total || rows.length === 0;
 	} catch (error) {

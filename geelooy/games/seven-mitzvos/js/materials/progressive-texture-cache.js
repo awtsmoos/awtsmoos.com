@@ -2,85 +2,54 @@
 //Boruch Hashem
 //Blessed is He
 
-import * as THREE from '../../../scripts/build/three.module.js';
 import { materialRecord } from './firebase-material-manifest.js';
-import { addMaterialMetric } from './material-runtime-metrics.js';
+import {
+	SEVEN_MATERIAL_SOURCES,
+	SEVEN_PHYSICAL_MATERIALS
+} from './seven-material-runtime.js';
 
 /**
- * @module RemoteTextureCache
+ * @file progressive-texture-cache.js
  * @description
- * The Awtsmoos carries each photographic garment directly from the verified
- * migration root. Awtsmoos.com keeps one texture per role and never asks the
- * MitzvahWorld local folder to clothe a different game.
+ * The Awtsmoos renews every image before it becomes a map; Awtsmoos.com keeps this compatibility vessel thin while the shared procedural core owns image dedupe, sampler state, and bounded hydration.
+ * Reading this facade never starts new network work: the stage material runtime alone decides when frame budget permits source hydration.
  */
-const browser = typeof document !== 'undefined';
-const textureCache = new Map();
-const textureLoader = browser ? new THREE.TextureLoader() : null;
-
-/** Returns the shared texture vessel for one semantic material role. */
 export function materialTexture(role) {
-	return materialTextureEntry(role).texture;
+	return SEVEN_PHYSICAL_MATERIALS.material(role).map || null;
 }
 
-/** Returns the observable loading record for one semantic material role. */
+/** @param {string} role Semantic material role. @returns {object} Compatibility texture evidence. */
 export function materialTextureEntry(role) {
-	if (!textureCache.has(role)) {
-		textureCache.set(role, createEntry(role));
-	}
-	return textureCache.get(role);
-}
-
-function createEntry(role) {
 	const record = materialRecord(role);
 	if (!record) {
-		return { role, status: 'missing', texture: null };
+		return {
+			error: 'Unknown material role',
+			status: 'missing',
+			texture: null
+		};
 	}
-	if (!browser) {
-		return { record, role, status: 'node-placeholder', texture: placeholder() };
-	}
-	const entry = {
-		error: null,
-		record,
-		role,
-		status: 'loading-remote',
-		texture: null
+	const material = SEVEN_PHYSICAL_MATERIALS.material(role);
+	const sourceStatus = SEVEN_MATERIAL_SOURCES.status(record.remoteUrl);
+	return {
+		error: sourceError(record.remoteUrl),
+		status: compatibilityStatus(material.userData.materialState, sourceStatus),
+		texture: material.map || null
 	};
-	entry.texture = textureLoader.load(
-		record.remoteUrl,
-		texture => remoteReady(entry, texture),
-		undefined,
-		error => remoteFailed(entry, error)
-	);
-	configure(entry.texture);
-	return entry;
 }
 
-function remoteReady(entry, texture) {
-	configure(texture);
-	entry.status = 'remote-ready';
-	addMaterialMetric('remoteLoaded');
+function compatibilityStatus(materialState, sourceState) {
+	if (materialState === 'ready') {
+		return 'remote-ready';
+	}
+	if (materialState === 'failed' || sourceState === 'failed') {
+		return 'remote-failed';
+	}
+	if (sourceState === 'loading') {
+		return 'loading-remote';
+	}
+	return 'remote-pending';
 }
 
-function remoteFailed(entry, error) {
-	entry.error = String(error?.message || error || 'remote-texture-failed');
-	entry.status = 'remote-failed';
-	addMaterialMetric('remoteFailed');
-}
-
-function configure(texture) {
-	texture.colorSpace = THREE.SRGBColorSpace;
-	texture.wrapS = THREE.ClampToEdgeWrapping;
-	texture.wrapT = THREE.ClampToEdgeWrapping;
-	texture.generateMipmaps = true;
-	texture.minFilter = THREE.LinearMipmapLinearFilter;
-	texture.magFilter = THREE.LinearFilter;
-	texture.userData.awtsmoosSharedTexture = true;
-}
-
-function placeholder() {
-	const bytes = new Uint8Array([190, 190, 190, 255]);
-	const texture = new THREE.DataTexture(bytes, 1, 1, THREE.RGBAFormat);
-	texture.needsUpdate = true;
-	texture.userData.awtsmoosSharedTexture = true;
-	return texture;
+function sourceError(url) {
+	return SEVEN_MATERIAL_SOURCES.entry(url)?.error || null;
 }

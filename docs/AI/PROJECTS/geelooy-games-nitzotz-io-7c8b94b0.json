@@ -1,0 +1,76 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-games-nitzotz-io-7c8b94b0",
+	"path": "geelooy/games/nitzotz-io",
+	"type": "game",
+	"family": {
+		"id": "games",
+		"title": "Games and Worlds"
+	},
+	"title": "Nitzotz.io — Shlichus Adventure Metropolis",
+	"entries": [
+		"index.html",
+		"package.json",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/games/nitzotz-io/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/GAMES.md",
+		"docs/APPS/GAMES_AND_SIMULATION.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-nitzotz-io-7c8b94b0.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 220,
+		"tests": 29,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 250,
+	"symbolSummary": {
+		"files": 187,
+		"classes": 0,
+		"functions": 574,
+		"exports": 372,
+		"samples": [
+			"selectShlichus",
+			"shlichusTemplates",
+			"resolveTemplate",
+			"descriptionFor",
+			"template",
+			"hash",
+			"mix",
+			"adventureMetric",
+			"adventureProgress",
+			"settleAdventureReward",
+			"emptySettlement",
+			"updateAdventure"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/libs",
+			"count": 2,
+			"examples": "geelooy/games/nitzotz-io/js/procedural/localMeshes.js; geelooy/games/nitzotz-io/js/webgl/meshUpload.js"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/games/nitzotz-io",
+			"file": "geelooy/games/nitzotz-io/index.html",
+			"title": "Nitzotz.io — Shlichus Adventure Metropolis",
+			"scripts": 1,
+			"styles": 2
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

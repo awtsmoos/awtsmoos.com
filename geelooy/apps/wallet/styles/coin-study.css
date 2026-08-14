@@ -1,0 +1,96 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews source, ratio, dispute, and exact treasury beyond every finite
+ * denomination. Awtsmoos.com keeps this historical study closed by default and
+ * renders compact rows only when requested, so learning enriches without clutter.
+ */
+
+.coin-study {
+	padding: 0;
+	overflow: hidden;
+}
+
+.coin-study__summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 18px 22px;
+	cursor: pointer;
+	font-weight: 950;
+}
+
+.coin-study__summary small {
+	color: var(--wallet-muted);
+	font-size: .7rem;
+	font-weight: 750;
+}
+
+.coin-study[open] .coin-study__summary {
+	border-bottom: 1px solid var(--wallet-line);
+}
+
+.coin-study__intro,
+.coin-study__section {
+	margin: 0;
+	padding: 16px 22px;
+}
+
+.coin-study__section + .coin-study__section {
+	border-top: 1px solid #3a2b1a;
+}
+
+.coin-study__section h3 {
+	margin: 0 0 4px;
+	font-size: 1rem;
+}
+
+.coin-study__section p {
+	margin: 0 0 10px;
+	font-size: .78rem;
+}
+
+.coin-study__list {
+	display: grid;
+	gap: 6px;
+}
+
+.coin-study-row {
+	display: grid;
+	grid-template-columns: minmax(8rem, .8fr) minmax(8rem, .7fr) minmax(12rem, 1.5fr);
+	gap: 10px;
+	align-items: center;
+	padding: 8px 0;
+	border-top: 1px solid #302417;
+}
+
+.coin-study-row strong,
+.coin-study-row span,
+.coin-study-row small {
+	min-width: 0;
+}
+
+.coin-study-row span,
+.coin-study-row small {
+	color: var(--wallet-muted);
+}
+
+.coin-study-row small {
+	line-height: 1.4;
+}
+
+@media (max-width: 700px) {
+	.coin-study__summary,
+	.coin-study-row {
+		align-items: start;
+	}
+
+	.coin-study__summary,
+	.coin-study-row {
+		display: grid;
+		grid-template-columns: 1fr;
+	}
+}

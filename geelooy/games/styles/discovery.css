@@ -1,0 +1,108 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets discovery become one clear instrument instead of another room before the games.
+*/
+.discoveryPanel {
+	margin-top: 14px;
+	padding: clamp(16px, 2vw, 22px);
+	border: 1px solid var(--games-line);
+	border-radius: var(--games-radius-lg);
+	background: rgba(12, 11, 24, .9);
+	box-shadow: var(--games-shadow-sm);
+}
+
+.discoveryHeading {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: end;
+	gap: 14px;
+}
+
+.discoveryHeading h2 {
+	margin: 0;
+	font-size: clamp(1.55rem, 3vw, 2.25rem);
+	letter-spacing: -.03em;
+}
+
+.gameCount {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 34px;
+	padding: 0 10px;
+	border: 1px solid var(--games-line-soft);
+	border-radius: 999px;
+	color: var(--games-muted);
+	font-size: .76rem;
+	font-weight: 800;
+	white-space: nowrap;
+}
+
+.searchWrap {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 8px;
+	min-height: 48px;
+	margin-top: 14px;
+	padding: 0 13px;
+	border: 1px solid var(--games-line-soft);
+	border-radius: 14px;
+	background: #080914;
+}
+
+.searchWrap input {
+	width: 100%;
+	min-width: 0;
+	border: 0;
+	outline: 0;
+	background: transparent;
+	color: var(--games-text);
+	font: inherit;
+	font-size: max(16px, .95rem);
+}
+
+.searchWrap kbd {
+	padding: 3px 6px;
+	border: 1px solid var(--games-line-soft);
+	border-radius: 6px;
+	color: var(--games-muted);
+	font-size: .7rem;
+}
+
+.tagCloud {
+	display: flex;
+	gap: 7px;
+	overflow-x: auto;
+	margin-top: 10px;
+	padding: 2px 1px 6px;
+	scrollbar-width: thin;
+}
+
+.tag {
+	flex: 0 0 auto;
+	min-height: 40px;
+	padding: 7px 11px;
+	border: 1px solid var(--games-line-soft);
+	border-radius: 999px;
+	background: rgba(255,255,255,.035);
+	color: var(--games-muted);
+	font: inherit;
+	font-size: .74rem;
+	font-weight: 780;
+	cursor: pointer;
+}
+
+.tag.active,
+.tag:hover {
+	border-color: var(--games-cyan);
+	color: var(--games-text);
+}
+
+.catalogStatus {
+	min-height: 20px;
+	margin: 5px 0 0;
+	color: var(--games-muted);
+	font-size: .74rem;
+}

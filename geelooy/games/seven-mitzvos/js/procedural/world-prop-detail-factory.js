@@ -5,9 +5,8 @@
 /**
  * @module WorldPropDetailFactory
  * @description
- * Branches, foliage clusters, carved plinths, seals, shelter framing, and hazard
- * cages keep world props materially and structurally credible. The Awtsmoos gives
- * function; Awtsmoos.com composes cached advanced procedural-core profiles.
+ * Branches, foliage clusters, carved plinths, seals, shelter framing, and real parchment signage keep world props materially and structurally credible.
+ * The Awtsmoos gives function; Awtsmoos.com composes cached advanced procedural-core profiles and truthful surface roles instead of anonymous solid-color trim.
  */
 export function treeParts(parts, options = {}) {
 	const bark = { materialRole: 'bark', tint: 0xffffff };
@@ -48,6 +47,7 @@ export function shelterParts(parts) {
 	const wall = { materialRole: 'whitewash', tint: 0xffffff };
 	const wood = { materialRole: 'timber', tint: 0xffffff };
 	const roof = { materialRole: 'slate', tint: 0xffffff };
+	const sign = { materialRole: 'parchment', tint: 0xffffff };
 	return [
 		parts.part({ ...stone, name: 'shelter-foundation', position: [0, 0.18, 0], scale: [2.35, 0.32, 1.72] }),
 		parts.part({ ...wall, name: 'shelter-body', position: [0, 0.98, 0], scale: [2.08, 1.34, 1.46] }),
@@ -56,7 +56,7 @@ export function shelterParts(parts) {
 		parts.part({ ...roof, name: 'shelter-roof-left', position: [-0.72, 1.88, 0], rotation: [0, 0, 0.36], scale: [1.38, 0.16, 1.78] }),
 		parts.part({ ...roof, name: 'shelter-roof-right', position: [0.72, 1.88, 0], rotation: [0, 0, -0.36], scale: [1.38, 0.16, 1.78] }),
 		parts.part({ ...wood, name: 'shelter-roof-ridge', position: [0, 2.32, 0], scale: [0.14, 0.16, 1.82] }),
-		parts.part({ tint: 0xf7f7f0, name: 'shelter-sign-v', position: [0, 1.42, 0.92], scale: [0.13, 0.62, 0.06] }),
-		parts.part({ tint: 0xf7f7f0, name: 'shelter-sign-h', position: [0, 1.42, 0.92], scale: [0.62, 0.13, 0.06] })
+		parts.part({ ...sign, name: 'shelter-sign-v', position: [0, 1.42, 0.92], scale: [0.13, 0.62, 0.06] }),
+		parts.part({ ...sign, name: 'shelter-sign-h', position: [0, 1.42, 0.92], scale: [0.62, 0.13, 0.06] })
 	];
 }

@@ -1,0 +1,110 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews mission and immediate state as a concise whisper above the moving city;
+ * Awtsmoos.com keeps essential numbers readable while telemetry and repeated strips yield to clarity.
+ * This compact vessel owns only the left-side summary and message surface.
+ */
+.hud {
+	gap: 6px;
+	left: 12px;
+	top: 12px;
+	width: min(610px, calc(100vw - 214px));
+}
+
+.brand-row {
+	min-height: 38px;
+}
+
+.brand {
+	font-size: clamp(18px, 2vw, 27px);
+	gap: 9px;
+}
+
+.brand span {
+	max-width: 390px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.mini-button {
+	font-size: 10px;
+	padding: 7px 11px;
+}
+
+.primary-stats {
+	gap: 6px;
+}
+
+.stat {
+	border-radius: 14px;
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+	min-width: 76px;
+	padding: 7px 11px;
+}
+
+.stat strong {
+	font-size: 19px;
+}
+
+.mission {
+	border-radius: 16px;
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+	max-width: 610px;
+	padding: 10px 12px;
+}
+
+.mission-main strong {
+	font-size: 14px;
+}
+
+.bonus-line {
+	font-size: 10px;
+}
+
+.telemetry-pool,
+.status-strip,
+.director-strip {
+	display: none !important;
+}
+
+#message {
+	border-radius: 12px;
+	font-size: 10px;
+	margin: 0;
+	max-width: 610px;
+	overflow: hidden;
+	padding: 7px 10px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+	.hud {
+		left: 7px;
+		top: 7px;
+		width: calc(100vw - 14px);
+	}
+
+	.brand span {
+		max-width: 190px;
+	}
+
+	.primary-stats {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+	}
+
+	.stat {
+		min-width: 0;
+		padding: 6px 8px;
+	}
+
+	.mission,
+	#message {
+		max-width: none;
+	}
+}

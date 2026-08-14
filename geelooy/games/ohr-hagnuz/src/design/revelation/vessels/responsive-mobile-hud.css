@@ -1,33 +1,43 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
 
-/** The Awtsmoos keeps quest, map, vitality, and actions readable on a phone. */
+/**
+ * The Awtsmoos renews mission and map as optional revelation rather than permanent obstruction;
+ * Awtsmoos.com begins phone play collapsed, then lets the user expand these vessels by intention.
+ * Expanded phone HUD remains compact while ordinary play gives the world priority.
+ */
 @media (max-width: 720px) {
+	.revelation-pardes,
+	.revelation-event-log,
+	.revelation-companions {
+		display: none;
+	}
+
 	.revelation-quest-card {
-		left: 7px;
-		top: calc(var(--ohr-topbar-height) + 7px);
-		width: min(218px, 56vw);
-		padding: 9px 10px;
+		left: 6px;
+		padding: 7px 8px;
+		top: calc(var(--ohr-topbar-height) + 6px);
+		width: min(188px, 48vw);
 	}
 
 	.revelation-quest-card h1 {
-		font-size: 15px;
+		font-size: 13px;
 	}
 
 	.revelation-quest-card p {
 		display: -webkit-box;
+		font-size: 9px;
 		overflow: hidden;
-		font-size: 10px;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 2;
 	}
 
 	.revelation-minimap {
-		right: 7px;
-		top: calc(var(--ohr-topbar-height) + 7px);
-		width: min(142px, 37vw);
-		padding: 7px;
+		padding: 5px;
+		right: 6px;
+		top: calc(var(--ohr-topbar-height) + 6px);
+		width: min(112px, 29vw);
 	}
 
 	.revelation-minimap header b {
@@ -36,42 +46,43 @@
 
 	[data-revelation-minimap] {
 		gap: 1px;
-		padding: 3px;
-	}
-
-	.revelation-pardes,
-	.revelation-event-log,
-	.revelation-companions {
-		display: none;
+		padding: 2px;
 	}
 
 	.revelation-vitality {
-		left: 7px;
-		bottom: calc(var(--ohr-dock-height) + 61px);
-		width: 155px;
-		padding: 7px 8px;
+		bottom: calc(var(--ohr-dock-height) + 58px);
+		left: 6px;
+		padding: 5px 7px;
+		width: 132px;
 	}
 
 	.revelation-action-bar {
-		bottom: calc(var(--ohr-dock-height) + 7px);
-		grid-template-columns: repeat(4, minmax(58px, 1fr));
+		bottom: calc(var(--ohr-dock-height) + 5px);
+		display: none;
+	}
+
+	body[data-hud-collapsed='false'] .revelation-action-bar {
+		display: grid;
 		gap: 3px;
-		width: calc(100% - 14px);
+		grid-template-columns: repeat(2, minmax(82px, 1fr));
+		max-width: 360px;
+		right: 6px;
+		width: calc(100% - 150px);
 	}
 
 	.revelation-action {
-		grid-template-columns: 20px 1fr;
 		gap: 4px;
-		min-height: 42px;
-		padding: 5px;
+		grid-template-columns: 18px 1fr;
+		min-height: 38px;
+		padding: 4px;
 	}
 
 	.revelation-action kbd {
-		width: 19px;
-		height: 19px;
+		height: 18px;
+		width: 18px;
 	}
 
 	.revelation-action span {
-		font-size: 8px;
+		font-size: 7px;
 	}
 }

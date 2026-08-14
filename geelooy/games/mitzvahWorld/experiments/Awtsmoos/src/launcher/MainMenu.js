@@ -12,6 +12,7 @@
 import { createLaunchTransition } from './LaunchTransitionView.js';
 import { runMainMenuLaunch } from './MainMenuLaunchTask.js?v=20260722-launch-task-01';
 import { loadMainMenuPopulation } from './MainMenuPopulation.js';
+import { publishMainMenuRuntime } from './MainMenuRuntimePublication.js';
 import { renderActionSection } from './MainMenuSectionView.js';
 import { bindMainMenuNavigation, createMainMenuShell } from './MainMenuShell.js';
 import { installMainMenuStyle } from './MainMenuStyle.js';
@@ -86,6 +87,7 @@ async function chooseMode(context) {
 			timeoutMs: options.launchTimeoutMs
 		});
 		if (launchSerial !== state.launchSerial || controller.signal.aborted) return null;
+		publishMainMenuRuntime(options.environment || globalThis, result);
 		transition.complete();
 		menu.remove();
 		setGameHostsVisible(hosts, true);

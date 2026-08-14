@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-email-5712a013",
+	"path": "geelooy/email",
+	"type": "public",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "Mail — Geelooy",
+	"entries": [
+		"index.html",
+		"index.js",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/email/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-email-5712a013.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 109,
+		"tests": 2,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 1
+	},
+	"totalFiles": 113,
+	"symbolSummary": {
+		"files": 39,
+		"classes": 3,
+		"functions": 174,
+		"exports": 108,
+		"samples": [
+			"smartParse",
+			"markdownToHtml",
+			"htmlToMarkdown",
+			"formatTime",
+			"bootMail",
+			"renderFailure",
+			"async",
+			"connectSocket",
+			"broadcastTyping",
+			"publishSocialMailEvent",
+			"threadKey",
+			"firstText"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/email",
+			"file": "geelooy/email/index.html",
+			"title": "Mail — Geelooy",
+			"scripts": 2,
+			"styles": 5
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

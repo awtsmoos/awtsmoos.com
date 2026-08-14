@@ -1,0 +1,105 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos is one Torah before post, author, channel, or time; Awtsmoos.com gives source-backed public discussion the calm rhythm of a study journal, with tighter phone spacing that preserves every visible author, channel, time, citation, and consent doorway in light. */
+
+.messaging-special-pane .universal-chat-messages {
+	display: block;
+	min-height: 0;
+	padding: 1rem clamp(0.85rem, 3vw, 2.2rem) 1.75rem;
+}
+
+.messaging-special-pane .universal-chat-message {
+	display: grid;
+	gap: 0.78rem;
+	max-width: 900px;
+	margin: 0 auto;
+	padding: 1rem 0 1.3rem;
+	border: 0;
+	border-bottom: 1px solid var(--msg-line);
+	border-radius: 0;
+	background: transparent;
+}
+
+.messaging-special-pane .universal-chat-message + .universal-chat-message {
+	margin-top: 0.3rem;
+}
+
+.messaging-special-pane .universal-chat-message > header {
+	display: flex;
+	align-items: center;
+	gap: 0.7rem;
+}
+
+.messaging-special-pane .universal-chat-message-identity {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 0.38rem;
+	min-width: 0;
+}
+
+.messaging-special-pane .universal-chat-channel {
+	display: inline-flex;
+	align-items: center;
+	min-height: 24px;
+	padding: 0 0.45rem;
+	border: 1px solid var(--msg-line);
+	border-radius: 999px;
+	color: var(--msg-muted);
+	font-size: 0.6rem;
+	font-weight: 760;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.messaging-special-pane .universal-chat-author {
+	font-size: 0.82rem;
+	font-weight: 780;
+}
+
+.messaging-special-pane .universal-chat-message time {
+	flex: 0 0 auto;
+	margin-left: auto;
+	color: var(--msg-muted);
+	font-size: 0.68rem;
+	opacity: 1;
+}
+
+.messaging-special-pane .universal-chat-whisper,
+.messaging-special-pane .universal-chat-older {
+	min-height: 38px;
+	padding: 0 0.62rem;
+	font-size: 0.66rem;
+	font-weight: 720;
+}
+
+@media (max-width: 600px) {
+	.messaging-special-pane .universal-chat-messages {
+		padding: 0.5rem 0.62rem 1.2rem;
+	}
+
+	.messaging-special-pane .universal-chat-message {
+		gap: 0.58rem;
+		padding: 0.72rem 0 0.92rem;
+	}
+
+	.messaging-special-pane .universal-chat-message + .universal-chat-message {
+		margin-top: 0.12rem;
+	}
+
+	.messaging-special-pane .universal-chat-message > header {
+		align-items: flex-start;
+		gap: 0.48rem;
+	}
+
+	.messaging-special-pane .universal-chat-message time {
+		font-size: 0.64rem;
+	}
+
+	.messaging-special-pane .universal-chat-whisper,
+	.messaging-special-pane .universal-chat-older {
+		min-height: 44px;
+	}
+}

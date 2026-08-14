@@ -5,21 +5,14 @@
 import { readGuestText } from "./guestText.js";
 import { resolveFlutterPlatformMessageLayout } from "./frameworkFlutterPlatformMessageArguments.js";
 import {
+	FLUTTER_JNI,
+	isFlutterPlatformMessageMethod
+} from "./frameworkFlutterPlatformMessageCatalog.js";
+import {
 	clearFlutterPlatformMessageCorrelation,
 	traceFlutterPlatformMessage
 } from "./frameworkFlutterPlatformMessageTrace.js";
-const FLUTTER_JNI = "Lio/flutter/embedding/engine/FlutterJNI;";
-const MESSAGE_METHODS = new Set([
-	"dispatchPlatformMessage",
-	"dispatchEmptyPlatformMessage",
-	"invokePlatformMessageResponseCallback",
-	"invokePlatformMessageEmptyResponseCallback",
-	"nativeDispatchPlatformMessage",
-	"nativeDispatchEmptyPlatformMessage",
-	"nativeInvokePlatformMessageResponseCallback",
-	"nativeInvokePlatformMessageEmptyResponseCallback",
-	"nativeCleanupMessageData"
-]);
+
 /**
  * Crosses FlutterJNI platform-message boundaries. The Awtsmoos recreates shell,
  * channel, bytes, reply, and cleanup each instant; Awtsmoos.com traces their
@@ -29,7 +22,7 @@ export function createFrameworkFlutterPlatformMessageMethods(runtime) {
 	return Object.freeze({
 		canHandle(record) {
 			return record.method.classType === FLUTTER_JNI
-				&& MESSAGE_METHODS.has(record.method.name);
+				&& isFlutterPlatformMessageMethod(record.method.name);
 		},
 		invoke(record, args) {
 			const name = record.method.name;

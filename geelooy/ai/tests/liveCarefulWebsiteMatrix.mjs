@@ -1,56 +1,130 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 import fs from "node:fs";
 import { DirectService } from "../relay/direct/chatgpt/DirectService.mjs";
 
-const port = Number(process.env.AWTSMOOS_CHROME_DEBUG_PORT || 9224);
-const minimumIntervalMs = Math.max(18000,
-	Number(process.env.AWTSMOOS_DIRECT_INTERVAL_MS || 18000));
-const outputPath = "geelooy/ai/thoughts/live-careful-submit-only-2x2.json";
+const port = Number(process.env.AWTSMOOS_CHROME_DEBUG_PORT || 9223);
+const minimumIntervalMs = Math.max(
+	12000,
+	Number(process.env.AWTSMOOS_DIRECT_INTERVAL_MS || 12000)
+);
+const outputPath = "geelooy/ai/thoughts/live-careful-website-2x2.json";
+const eventPath = "/tmp/awtsmoos-careful-website-2x2.jsonl";
+const beforeTargets = await pageTargets();
 const service = new DirectService({ preferredPort: port, minimumIntervalMs });
+const chains = [
+	{ conversation: 1, key: null },
+	{ conversation: 2, key: null }
+];
 const records = [];
-const starts = [];
+const startTimes = [];
+let smoke = null;
 
 try {
-	for (let dispatch = 1; dispatch <= 2; dispatch += 1) {
-		for (let group = 1; group <= 2; group += 1) {
-			starts.push(Date.now());
+	startTimes.push(Date.now());
+	const smokeResult = await service.send({
+		prompt: "Reply with exactly: BH TEST NEW CHAT.",
+		conversationKey: null,
+		mode: "chatgpt-website",
+		timeoutMs: 240000,
+		onProgress: event => append({
+			type: "smoke-progress",
+			stage: event.stage,
+			status: event.status,
+			at: event.at
+		})
+	});
+	smoke = {
+		exact: smokeResult.answer.trim() === "BH TEST NEW CHAT.",
+		created: smokeResult.created,
+		composerTouched: smokeResult.composerTouched,
+		submissionTransport: smokeResult.submissionTransport,
+		completionSource: smokeResult.completionSource
+	};
+	assert(smoke.exact, "New-chat smoke answer was not exact.");
+	assert(smoke.created === true, "New-chat smoke was not marked created.");
+	assert(smoke.composerTouched === true, "New-chat smoke did not use the website composer.");
+	assert(smoke.submissionTransport === "chatgpt-website-composer",
+		"New-chat smoke did not use the ordinary website submission.");
+	assert(smoke.completionSource === "page-request-get",
+		"New-chat smoke did not finish through authenticated GET polling.");
+	service.reset(smokeResult.conversationKey);
+	append({ type: "smoke-complete", ...smoke });
+
+	for (const turn of [1, 2]) {
+		for (const chain of chains) {
+			const expected = `BH CAREFUL WEBSITE C${chain.conversation} T${turn}.`;
+			startTimes.push(Date.now());
 			const result = await service.send({
-				prompt: `B'H. Begin independent careful work C${group} D${dispatch}; report progress only through durable tools.`,
+				prompt: `Reply with exactly: ${expected}`,
+				conversationKey: chain.key,
 				mode: "chatgpt-website",
-				timeoutMs: 60000
+				timeoutMs: 240000,
+				onProgress: event => append({
+					type: "progress",
+					conversation: chain.conversation,
+					turn,
+					stage: event.stage,
+					status: event.status,
+					at: event.at
+				})
 			});
-			assert(result.status === 202, "Dispatch status was not 202.");
-			assert(result.dispatched === true, "Prompt was not dispatched.");
-			assert(result.accepted === true, "Prompt POST was not accepted.");
-			assert(result.promptVerified === true, "Prompt was not verified.");
-			assert(result.tabClose?.verified === true, "Tab close was not verified.");
-			assert(result.answer === "" && result.done === false,
-				"Transport unexpectedly waited for a response.");
-			records.push({
-				group,
-				dispatch,
-				responseStatus: result.responseStatus,
+			const exact = result.answer.trim() === expected;
+			assert(exact, `Conversation ${chain.conversation} turn ${turn} was not exact.`);
+			assert(result.composerTouched === true, "Website composer was not used.");
+			assert(result.submissionTransport === "chatgpt-website-composer",
+				"Unexpected submission transport.");
+			assert(result.completionSource === "page-request-get",
+				"Completion did not use authenticated GET polling.");
+			if (turn === 1) assert(result.created === true, "New chat was not marked created.");
+			if (turn === 2) assert(result.created === false, "Continuation was marked new.");
+			if (chain.key) assert(result.conversationKey === chain.key, "Continuation key changed.");
+			chain.key = result.conversationKey;
+			const record = {
+				conversation: chain.conversation,
+				turn,
+				exact,
+				created: result.created,
+				sameConversation: result.sameConversation,
+				composerTouched: result.composerTouched,
+				submissionTransport: result.submissionTransport,
 				completionSource: result.completionSource,
-				requestLatencyMs: result.requestLatencyMs,
-				tabCloseVerified: result.tabClose.verified
-			});
+				hostReuseSource: result.hostReuseSource,
+				intervalMs: result.pacing?.intervalMs ?? null,
+				requestLatencyMs: result.requestLatencyMs
+			};
+			records.push(record);
+			append({ type: "turn-complete", ...record });
 		}
 	}
-	const gaps = starts.slice(1).map((time, index) => time - starts[index]);
-	assert(gaps.every(value => value >= minimumIntervalMs), "Dispatch starts were too close.");
-	const agentTabs = await countAgentTabs();
-	assert(agentTabs === 0, "An Awtsmoos agent tab remained open.");
+	assert(chains[0].key !== chains[1].key, "Two new chats shared one local key.");
+	const intervals = startTimes.slice(1).map((time, index) => time - startTimes[index]);
+	assert(intervals.every(value => value >= minimumIntervalMs), "Turn starts were too close.");
+	await service.close();
+	const afterTargets = await pageTargets();
+	const newTargetIds = afterTargets
+		.filter(target => !beforeTargets.some(before => before.id === target.id))
+		.map(target => target.id);
+	assert(newTargetIds.length === 0, "The relay opened an unnecessary new tab.");
 	const report = {
 		BH: "B\"H — Boruch Hashem — Blessed is He",
 		verifiedAt: new Date().toISOString(),
-		mode: "chatgpt-website-submit-only",
-		totalDispatches: records.length,
+		mode: "chatgpt-website",
+		smoke,
+		smokeConversationsCreated: 1,
+		conversationsCreated: 2,
+		turnsPerConversation: 2,
+		totalTurns: records.length + 1,
 		minimumIntervalMs,
-		minimumObservedStartGapMs: Math.min(...gaps),
-		agentTabs,
+		minimumObservedStartGapMs: Math.min(...intervals),
+		beforePageCount: beforeTargets.length,
+		afterPageCount: afterTargets.length,
+		newTargetIds,
+		allExact: records.every(record => record.exact),
+		allContinued: records.filter(record => record.turn === 2)
+			.every(record => record.sameConversation),
 		records
 	};
 	fs.mkdirSync("geelooy/ai/thoughts", { recursive: true });
@@ -60,12 +134,15 @@ try {
 	await service.close().catch(() => undefined);
 }
 
-async function countAgentTabs() {
+async function pageTargets() {
 	const response = await fetch(`http://127.0.0.1:${port}/json/list`);
 	const targets = await response.json();
-	const marker = "g-6a03feea8398819192067ae3dbfa449c-awtsmoos-shliach-agent";
-	return targets.filter(target => target.type === "page"
-		&& String(target.url || "").includes(marker)).length;
+	return targets.filter(target => target.type === "page")
+		.map(target => ({ id: target.id, title: target.title, url: target.url }));
+}
+
+function append(value) {
+	fs.appendFileSync(eventPath, `${JSON.stringify(value)}\n`);
 }
 
 function assert(condition, message) {

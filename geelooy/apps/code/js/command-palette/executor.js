@@ -1,67 +1,54 @@
-// B"H
-import { State } from '../state.js';
-import { Actions } from '../actions/index.js';
-import { Tabs } from '../tabs/index.js';
-import { UI } from '../ui.js';
-import { VisualEngine } from '../visuals/index.js';
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
- * B"H
- * Chapter 812: The command palette became a portal map.
- * Any `open-url:/path` action opens the same Treasury doors as the OS Start
- * menu, keeping Apps/Code, Virtual OS, and Tunnel Control in one economy.
+ * @file executor.js
+ * @description
+ * The Awtsmoos renews palette choice and destination in one clear decree;
+ * Awtsmoos.com keeps portal light, local tools, and global actions in harmony.
+ * This thin coordinator delegates each command to the vessel that truly owns it.
  */
+
+import { Actions } from "../actions/index.js";
+import { openPortalAction } from "../actions/portalUrl.js";
+import { UI } from "../ui.js";
+import { executeLocalPaletteCommand } from "./localCommands.js";
+
+/**
+ * Executes one URL portal command through the shared guarded boundary.
+ * @param {string} actionId Portal-bearing action identifier.
+ * @returns {{ok: boolean, url?: string, error?: string}} Portal result.
+ */
+function executePortal(actionId) {
+	const result = openPortalAction(actionId);
+	if (!result.ok) {
+		UI.showToast(`Portal blocked: ${result.error}`, "error");
+		return result;
+	}
+	UI.showToast(`Opened ${result.url}`, "success");
+	return result;
+}
+
 export const PaletteExecutor = {
-  execute(cmd, paletteObj) {
-    paletteObj.hide();
-    if (!cmd) return;
-    if (typeof cmd.action === 'string' && cmd.action.startsWith('open-url:')) return openUrl(cmd.action.slice('open-url:'.length));
-    if (cmd.action === 'reload-window') return location.reload();
-    if (cmd.action === 'show-search') return import('../search-system.js').then(m => m.SearchSystem.show());
-    if (cmd.action === 'scope-to-active') return scopeToActive();
-    if (cmd.action === 'scope-clear') return import('../search-system.js').then(m => { m.SearchSystem.currentScopeItem = null; UI.showToast('Search scope cleared.', 'info'); });
-    if (cmd.action === 'close-tab-direct') return State.activeTabId && Tabs.close(State.activeTabId);
-    if (cmd.action === 'open-vibe-context') return openVibeContext();
-    if (cmd.action === 'apply-external-ai-context') return openAIManifestation();
-    if (cmd.action === 'show-graph-nav') return VisualEngine.triggerGraphNav();
-    if (cmd.action === 'open-browser-tab') return import('../browser/index.js').then(m => m.BrowserManager.open());
-    return Actions.handle(cmd.action);
-  }
+	/**
+	 * Executes one selected palette command after closing the palette surface.
+	 * @param {{action?: string}} command Selected command record.
+	 * @param {{hide: Function}} paletteObject Palette controller.
+	 * @returns {Promise<unknown>} Command result when one is produced.
+	 */
+	async execute(command, paletteObject) {
+		paletteObject.hide();
+		if (!command?.action) {
+			return null;
+		}
+		if (command.action.startsWith("open-url:")) {
+			return executePortal(command.action);
+		}
+		const local = await executeLocalPaletteCommand(command.action);
+		if (local.handled) {
+			return local.result;
+		}
+		return await Actions.handle(command.action);
+	}
 };
-
-function openUrl(url) {
-  if (!url || !url.startsWith('/')) return UI.showToast('Blocked unsafe portal URL.', 'error');
-  window.open(url, '_blank', 'noopener,noreferrer');
-  UI.showToast(`Opened ${url}`, 'success');
-}
-
-function activeTab() {
-  return State.tabs.find(tab => tab.id === State.activeTabId);
-}
-
-function parentItem(tab) {
-  const parentPath = tab.item.path.substring(0, tab.item.path.lastIndexOf('/')) || '/';
-  return { ...tab.item, path: parentPath, kind: 'directory', name: parentPath.split('/').pop() || 'Root' };
-}
-
-function scopeToActive() {
-  const tab = activeTab();
-  if (!tab?.item) return UI.showToast('No active file to scope search.', 'warning');
-  return import('../search-system.js').then(m => m.SearchSystem.show(parentItem(tab)));
-}
-
-function openVibeContext() {
-  const tab = activeTab();
-  if (!tab?.item) return UI.showToast('No active file to infer Vibe context.', 'warning');
-  return import('../vibe/vibe-controller.js').then(m => m.VibeController.open(parentItem(tab)));
-}
-
-function openAIManifestation() {
-  const tab = activeTab();
-  if (!tab?.item) return UI.showToast('No active file to infer workspace context.', 'warning');
-  return import('../features/ai-manifestation/index.js').then(m => {
-    const item = parentItem(tab);
-    item.workspaceId = tab.item.workspaceId;
-    return m.AIManifestation.showDialog(item);
-  });
-}

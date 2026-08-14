@@ -4,12 +4,12 @@
 
 /**
  * @file MovieSceneWorldIdentity.js
- * @description Preserves legacy string worlds while exposing canonical object-world identity and context.
- * The Awtsmoos is beyond string and specification while both finite forms may point toward one revealed place;
- * Awtsmoos.com keeps events, loaders, retries, and frame snapshots stable across the compatibility space.
+ * @description Preserves legacy string world IDs while normalizing object worlds as explicit JSON.
+ * The Awtsmoos is beyond string and specification while both finite forms may identify one revealed place;
+ * Awtsmoos.com keeps compatibility without assigning weather, trees, danger, or camera behavior from the words in a name.
  */
 
-import { compileMovieWorldPrompt } from './MovieWorldPromptCompiler.js';
+import { compileMovieWorldJson } from './MovieWorldJsonCompiler.js';
 import {
 	isMovieWorldSpec,
 	normalizeMovieWorldSpec
@@ -21,18 +21,13 @@ export function movieSceneWorldRequest(value, context = {}) {
 		return {
 			identity: value,
 			legacy: true,
-			spec: context.compileLegacy === true
-				? compileMovieWorldPrompt(value, context)
-				: null,
+			spec: context.compileLegacy === true ? legacySpec(value, context) : null,
 			value
 		};
 	}
 	const spec = isMovieWorldSpec(value)
 		? normalizeMovieWorldSpec(value)
-		: compileMovieWorldPrompt(value.prompt || value.label || value.id, {
-			...context,
-			...value
-		});
+		: compileMovieWorldJson(value, context);
 	return {
 		identity: spec.id,
 		legacy: false,
@@ -45,4 +40,13 @@ export function movieSceneWorldSnapshot(value) {
 	const request = movieSceneWorldRequest(value);
 	if (!request) return null;
 	return request.legacy ? request.identity : request.spec;
+}
+
+function legacySpec(value, context) {
+	return compileMovieWorldJson({
+		id: value,
+		label: context.label || value,
+		regionId: value,
+		seed: context.seed
+	}, context);
 }

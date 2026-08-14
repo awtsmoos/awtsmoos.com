@@ -1,26 +1,75 @@
-/* B"H — Desktop city intelligence lives in a clear right rail. */
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews map and ranking as clear edge intelligence rather than a blurred veil;
+ * Awtsmoos.com keeps the right rail crisp and quiet so the moving city remains the dominant tale.
+ * This vessel preserves minimap geometry while removing expensive backdrop filtering.
+ */
 .right-rail {
-	position: fixed;
-	top: 18px;
-	right: 18px;
-	z-index: 3;
 	display: grid;
 	gap: 10px;
-	width: 228px;
 	pointer-events: none;
+	position: fixed;
+	right: 18px;
+	top: 18px;
+	width: 228px;
+	z-index: 3;
 }
-.leaderboard-card, #map, .desktop-help {
+
+.leaderboard-card,
+#map,
+.desktop-help {
+	background: rgba(4, 6, 18, 0.74);
 	border: 1px solid rgba(255, 255, 255, 0.19);
 	border-radius: 22px;
-	background: rgba(4, 6, 18, 0.82);
-	box-shadow: var(--shadow);
-	backdrop-filter: blur(16px);
+	box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
 }
-.leaderboard-card { padding: 13px; }
-.leaderboard-card h2 { margin: 0 0 8px; color: var(--gold); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; }
-.leader-row { display: grid; grid-template-columns: 22px 1fr auto; gap: 7px; padding: 5px 6px; border-radius: 9px; font-size: 12px; }
-.leader-row.you { background: rgba(255, 223, 108, 0.15); color: #fff2ae; }
-.leader-row strong { color: var(--gold); }
-#map { width: 228px; height: 228px; }
-.desktop-help { padding: 10px 12px; color: #b9c8e8; font-size: 9px; line-height: 1.6; letter-spacing: 0.08em; }
-.desktop-help b { color: var(--gold); }
+
+.leaderboard-card {
+	padding: 13px;
+}
+
+.leaderboard-card h2 {
+	color: var(--gold);
+	font-size: 11px;
+	letter-spacing: 0.14em;
+	margin: 0 0 8px;
+	text-transform: uppercase;
+}
+
+.leader-row {
+	border-radius: 9px;
+	display: grid;
+	font-size: 12px;
+	gap: 7px;
+	grid-template-columns: 22px 1fr auto;
+	padding: 5px 6px;
+}
+
+.leader-row.you {
+	background: rgba(255, 223, 108, 0.15);
+	color: #fff2ae;
+}
+
+.leader-row strong {
+	color: var(--gold);
+}
+
+#map {
+	height: 228px;
+	width: 228px;
+}
+
+.desktop-help {
+	color: #b9c8e8;
+	font-size: 9px;
+	letter-spacing: 0.08em;
+	line-height: 1.6;
+	padding: 10px 12px;
+}
+
+.desktop-help b {
+	color: var(--gold);
+}

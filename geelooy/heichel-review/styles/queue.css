@@ -1,17 +1,19 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * Review queues prioritize source, state, and selection without decorative noise.
+ * Review queues prioritize source, state, readable intent, and selection without noise.
  */
+
 .reviewQueue {
 	display: grid;
 	gap: .6rem;
 }
+
 .queueCard {
 	display: grid;
-	gap: .3rem;
+	gap: .35rem;
 	width: 100%;
-	min-height: 5.5rem;
+	min-height: 6.5rem;
 	padding: .8rem;
 	border: 1px solid var(--line);
 	border-radius: var(--radius-m);
@@ -21,8 +23,9 @@
 	text-align: left;
 	contain: layout paint style;
 	content-visibility: auto;
-	contain-intrinsic-size: auto 6rem;
+	contain-intrinsic-size: auto 7rem;
 }
+
 .queueCard::before {
 	width: .45rem;
 	height: .45rem;
@@ -30,27 +33,39 @@
 	background: var(--muted);
 	content: "";
 }
+
 .queueCard:is(:hover, :focus-visible) {
 	border-color: var(--awt-line-strong);
 	box-shadow: var(--shadow-card);
 }
+
 .queueCard[data-selected="true"] {
 	border-color: var(--accent);
 	box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 16%, transparent);
 }
+
 .queueCard[data-selected="true"]::before {
 	background: var(--accent);
 }
+
 .queueCard :where(span, small),
 .emptyState {
 	color: var(--muted);
 }
+
 .queueCard strong {
 	font-size: .96rem;
 }
+
 .queueCard span {
 	font-size: var(--type-small);
 }
+
+.queueCard .queueExcerpt {
+	color: var(--awt-ink);
+	line-height: 1.45;
+}
+
 .queueCard small {
 	font-size: var(--type-caption);
 }

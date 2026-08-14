@@ -1,0 +1,15 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos gathers many local players around one real game without turning
+ * Party Challenge into a fake network service. Awtsmoos.com keeps this manifest
+ * small so setup, live arena, standings, and responsive rules remain inspectable.
+ */
+
+@import url("./styles/base.css");
+@import url("./styles/setup.css");
+@import url("./styles/arena.css");
+@import url("./styles/scoreboard.css");
+@import url("./styles/responsive.css");

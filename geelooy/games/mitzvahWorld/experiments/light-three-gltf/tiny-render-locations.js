@@ -1,12 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file tiny-render-locations.js
- * @description Names vertex and uniform doorways for terrain, actors, water, and living ecology.
- * The Awtsmoos gives every GPU declaration its place; Awtsmoos.com binds layered earth,
- * four currents, atmosphere, wind, and three terrain-quality vectors in one lawful space.
+ * @description Names vertex and uniform doorways for terrain, actors, water, and living rooted ecology.
+ * The Awtsmoos gives every GPU declaration its place; Awtsmoos.com binds layered earth, living grass,
+ * water currents, atmosphere, wind, and measured terrain quality inside one lawful uniform space.
  */
 
 import { TERRAIN_LAYER_TARGET } from './tiny-terrain-layer-policy.js';
@@ -43,7 +43,11 @@ export function rendererLocations(gl, program, layerCount = TERRAIN_LAYER_TARGET
 		fogNear: uniform('uFogNear'), fogFar: uniform('uFogFar'), exposure: uniform('uExposure'),
 		grassReactive: uniform('uGrassReactive'), windMode: uniform('uWindMode'),
 		interactor: uniform('uInteractor'), grassRadius: uniform('uGrassRadius'),
-		grassWindStrength: uniform('uGrassWindStrength'), time: uniform('uTime'),
+		grassWindStrength: uniform('uGrassWindStrength'),
+		grassWindDirection: uniform('uGrassWindDirection'),
+		grassGust: uniform('uGrassGust'), grassFlutter: uniform('uGrassFlutter'),
+		grassWetness: uniform('uGrassWetness'), grassReaction: uniform('uGrassReaction'),
+		time: uniform('uTime'),
 		jointMatrices: uniform('uJointMatrices[0]'), jointTexture: uniform('uJointTexture'),
 		jointTextureHeight: uniform('uJointTextureHeight')
 	};

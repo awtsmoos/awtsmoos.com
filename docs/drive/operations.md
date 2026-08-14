@@ -1,8 +1,8 @@
-<!--B"H
+B"H
 Boruch Hashem
 Blessed is He
+
 The Awtsmoos preserves each receipt so migration, rollback, and recovery remain measurable.
--->
 
 # Operations, migration, rollback, and recovery
 

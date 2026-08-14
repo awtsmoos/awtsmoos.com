@@ -1,20 +1,92 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
 
-/** The Awtsmoos keeps hands, panels, and dialogue reachable on a phone. */
+/**
+ * The Awtsmoos renews the hand without letting controls become a second landscape;
+ * Awtsmoos.com keeps movement and Talk/Interact present while duplicate navigation leaves the phone stage.
+ * Navigation belongs to the Revelation dock; these controls remain the immediate gameplay vocabulary.
+ */
 @media (max-width: 720px) {
-	.ohr-ui-root { inset: var(--ohr-topbar-height) 0 var(--ohr-dock-height); }
-	.ohr-joy { left: 10px; bottom: 10px; width: 112px; height: 112px; }
-	.ohr-joy .ohr-touch { width: 36px; height: 36px; }
-	.ohr-joy .up, .ohr-joy .down { left: 38px; }
-	.ohr-joy .left, .ohr-joy .right { top: 38px; }
-	.ohr-right-rail { right: 9px; gap: 6px; }
-	.ohr-right-rail .ohr-touch, .ohr-bottom-actions .ohr-touch { min-width: 48px; min-height: 46px; border-radius: 14px; }
-	.ohr-bottom-actions { right: 10px; bottom: 10px; gap: 7px; }
-	.ohr-panel-shell, .ohr-dialogue-shell { padding: 12px 9px; }
-	.ohr-panel, .ohr-dialogue { width: 96vw; max-height: 76vh; padding: 18px; }
-	.ohr-panel h2, .ohr-dialogue h2 { font-size: 22px; }
-	.ohr-panel section { grid-template-columns: 1fr; }
-	.ohr-dialogue p { padding: 15px; font-size: 16px; }
+	.ohr-ui-root {
+		inset: var(--ohr-topbar-height) 0 var(--ohr-dock-height);
+	}
+
+	.ohr-joy {
+		bottom: 8px;
+		height: 96px;
+		left: 8px;
+		width: 96px;
+	}
+
+	.ohr-joy .ohr-touch {
+		height: 44px;
+		min-height: 44px;
+		min-width: 44px;
+		width: 44px;
+	}
+
+	.ohr-joy .up,
+	.ohr-joy .down {
+		left: 26px;
+	}
+
+	.ohr-joy .left,
+	.ohr-joy .right {
+		top: 26px;
+	}
+
+	.ohr-right-rail {
+		display: none;
+	}
+
+	.ohr-bottom-actions {
+		bottom: 8px;
+		gap: 6px;
+		right: 8px;
+	}
+
+	.ohr-bottom-actions .ohr-touch {
+		border-radius: 12px;
+		min-height: 48px;
+		min-width: 48px;
+		padding: 4px 7px;
+	}
+
+	.ohr-bottom-actions .ohr-touch small {
+		font-size: 8px;
+	}
+
+	.ohr-world-card {
+		font-size: 10px;
+		max-width: min(58vw, 220px);
+		padding: 7px 9px;
+	}
+
+	.ohr-panel-shell,
+	.ohr-dialogue-shell {
+		padding: 8px 6px;
+	}
+
+	.ohr-panel,
+	.ohr-dialogue {
+		max-height: 72dvh;
+		overflow: auto;
+		padding: 14px;
+		width: 94vw;
+	}
+
+	.ohr-panel h2,
+	.ohr-dialogue h2 {
+		font-size: 19px;
+	}
+
+	.ohr-panel section {
+		grid-template-columns: 1fr;
+	}
+
+	.ohr-dialogue p {
+		font-size: 14px;
+		padding: 11px;
+	}
 }

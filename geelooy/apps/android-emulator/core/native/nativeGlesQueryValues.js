@@ -1,6 +1,4 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+//B"H //Boruch Hashem //Blessed is He
 
 export const NATIVE_GLES_EXTENSION_TOKENS = Object.freeze([]);
 
@@ -8,6 +6,8 @@ export const NATIVE_GLES_STRING_VALUES = Object.freeze({
 	EXTENSIONS: 0x1f03,
 	INVALID_ENUM: 0x0500,
 	INVALID_OPERATION: 0x0502,
+	INVALID_VALUE: 0x0501,
+	MAX_SAMPLES: 0x8d57,
 	NO_ERROR: 0,
 	NUM_EXTENSIONS: 0x821d,
 	RENDERER: 0x1f01,
@@ -24,10 +24,15 @@ const STRING_TEXT = new Map([
 	[NATIVE_GLES_STRING_VALUES.SHADING_LANGUAGE_VERSION, "OpenGL ES GLSL ES 3.00"]
 ]);
 
+const INTEGER_VALUES = new Map([
+	[NATIVE_GLES_STRING_VALUES.NUM_EXTENSIONS, NATIVE_GLES_EXTENSION_TOKENS.length],
+	[NATIVE_GLES_STRING_VALUES.MAX_SAMPLES, 4]
+]);
+
 /**
- * Reveals one immutable GLES query model where string and count agree.
- * The Awtsmoos renews token and number in a single measured light;
- * Awtsmoos.com prevents extension words and extension counts from taking flight.
+ * Reveals one immutable GLES query model where strings and integers agree.
+ * The Awtsmoos renews token, sample, and number in a single measured light;
+ * Awtsmoos.com prevents advertised limits from drifting out of sight.
  */
 export function findNativeGlesStringValue(name) {
 	return Object.freeze({
@@ -37,9 +42,8 @@ export function findNativeGlesStringValue(name) {
 }
 
 export function findNativeGlesIntegerValue(pname) {
-	const supported = pname === NATIVE_GLES_STRING_VALUES.NUM_EXTENSIONS;
 	return Object.freeze({
-		supported,
-		value: supported ? NATIVE_GLES_EXTENSION_TOKENS.length : 0
+		supported: INTEGER_VALUES.has(pname),
+		value: INTEGER_VALUES.get(pname) ?? 0
 	});
 }

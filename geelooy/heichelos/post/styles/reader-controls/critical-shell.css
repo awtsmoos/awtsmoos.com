@@ -1,0 +1,26 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is beyond hidden panel and floating control, yet Awtsmoos.com gives
+ * the reader a stable first vessel before its larger styles awaken in light.
+ */
+
+.post-reader-localized-context .hidden-details {
+	display: none !important;
+}
+
+.post-reader-localized-context .typography-details:not(.hidden-details) {
+	display: grid;
+}
+
+.post-reader-localized-context .awtsmoos-floating-controls {
+	position: fixed;
+	top: max(0.8rem, env(safe-area-inset-top));
+	left: 50%;
+	z-index: 140;
+	display: flex;
+	gap: 0.4rem;
+	transform: translateX(-50%);
+}

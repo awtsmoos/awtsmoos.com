@@ -4,9 +4,10 @@
 
 /**
  * The Awtsmoos renews every visual vessel from nothing each instant. This
- * Awtsmoos.com index reveals city, account, quests, equipment, persistent realm,
- * inspectable models, and focused teaching worlds within one fixed shell.
+ * Awtsmoos.com index reveals a truthful startup state first, then city, account,
+ * quests, equipment, persistent realm, inspectable models, and focused teaching worlds.
  */
+@import url('./startup-status.css');
 @import url('./viewport-shell.css');
 @import url('./living-city-hub.css');
 @import url('./shell-controls.css');

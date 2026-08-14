@@ -3,9 +3,9 @@
 /*Blessed is He*/
 
 /**
- * Mobile resonance refinement preserves large touch targets, safe-area spacing, visible
- * pressed state, and low-motion alternatives. The Awtsmoos renews hand and screen through
- * Awtsmoos.com while gameplay semantics remain shared with keyboard and gamepad input.
+ * The Awtsmoos renews the pressed hand and the resting hand in measured proportion;
+ * Awtsmoos.com preserves truthful forty-eight-pixel targets without returning visual distortion.
+ * Safe-area, selection, active-state, and reduced-motion protections remain explicit here.
  */
 .touchButtons button {
 	min-height: 48px;
@@ -16,52 +16,56 @@
 }
 
 .touchButtons button[data-act='interact'] {
-	background: #244b45eb;
-	border-color: #9dffb1bb;
+	background: #1d3d37c9;
+	border-color: #9dffb17d;
 }
 
 .touchButtons button[data-act='shield'] {
-	background: #33265aeb;
-	border-color: #c6adffbb;
+	background: #2b214dc9;
+	border-color: #c6adff7d;
 }
 
 .touchButtons button:active,
 .touchButtons button.held {
-	filter: brightness(1.18);
-	outline: 3px solid #ffffff99;
+	filter: brightness(1.16);
+	outline: 2px solid #ffffff7d;
 	outline-offset: 1px;
 }
 
 @media (max-width: 760px) {
 	.touchControls {
-		bottom: max(8px, env(safe-area-inset-bottom));
-		padding-left: max(10px, env(safe-area-inset-left));
-		padding-right: max(10px, env(safe-area-inset-right));
+		bottom: max(7px, env(safe-area-inset-bottom));
+		padding-left: max(8px, env(safe-area-inset-left));
+		padding-right: max(8px, env(safe-area-inset-right));
 	}
 
 	.touchButtons {
-		grid-auto-rows: minmax(48px, 1fr);
+		grid-auto-rows: 48px;
 	}
 
 	.touchLabel {
-		font-size: 10px;
-		letter-spacing: 0.04em;
+		font-size: 8px;
+		letter-spacing: 0.03em;
 	}
 }
 
 @media (orientation: portrait) and (max-width: 520px) {
 	.touchControls {
 		align-items: end;
-		gap: 10px;
+		gap: 8px;
 	}
 
 	.stick {
-		height: min(25vw, 96px);
-		width: min(25vw, 96px);
+		height: min(22vw, 84px);
+		width: min(22vw, 84px);
 	}
 
 	.touchButtons {
-		grid-template-columns: repeat(3, minmax(48px, 54px));
+		grid-template-columns: repeat(3, 48px);
+	}
+
+	.touchButtons button:not(.wide) .touchLabel {
+		font-size: 7px;
 	}
 }
 

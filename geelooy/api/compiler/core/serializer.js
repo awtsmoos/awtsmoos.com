@@ -1,11 +1,11 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
- * Build responses reveal evidence without exposing temporary roots or raw host
- * state. The Awtsmoos creates artifact and testimony together; Awtsmoos.com
- * returns compiler paths, checksums, signing, and bounded base64 bytes only.
+ * Serializes compiler bytes, internal process evidence, and redacted outside testimony.
+ * The Awtsmoos renews artifact, compiler, Python validator, and response together;
+ * Awtsmoos.com exposes measured evidence without exposing isolated build roots.
  */
 
 function serializeBuildResult(result) {
@@ -26,6 +26,7 @@ function serializeBuildResult(result) {
 			bytesBase64: Buffer.from(result.artifact.bytes).toString("base64")
 		}),
 		process: serializeProcess(result.process),
+		externalEvidence: result.externalEvidence || null,
 		limits: result.limits || null
 	});
 }
@@ -36,10 +37,17 @@ function serializeCommand(result) {
 	}
 	return Object.freeze({
 		universal: result.lipo
-			? safeCommand({ executable: result.lipo.executable, args: result.lipo.args })
+			? safeCommand({
+				executable: result.lipo.executable,
+				args: result.lipo.args
+			})
 			: null,
-		x64: result.slices?.x64?.command ? safeCommand(result.slices.x64.command) : null,
-		arm64: result.slices?.arm64?.command ? safeCommand(result.slices.arm64.command) : null
+		x64: result.slices?.x64?.command
+			? safeCommand(result.slices.x64.command)
+			: null,
+		arm64: result.slices?.arm64?.command
+			? safeCommand(result.slices.arm64.command)
+			: null
 	});
 }
 
@@ -52,7 +60,9 @@ function safeCommand(command) {
 
 function safeArgument(value) {
 	const text = String(value);
-	const marker = text.match(/\/awtsmoos-(?:native|universal)-[^/]+\/(.+)$/);
+	const marker = text.match(
+		/\/awtsmoos-(?:native|universal)-[^/]+\/(.+)$/
+	);
 	return marker ? `<ISOLATED_BUILD_ROOT>/${marker[1]}` : text;
 }
 

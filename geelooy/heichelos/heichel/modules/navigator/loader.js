@@ -14,6 +14,7 @@ import * as api from '../api.js';
 import * as ui from '../ui.js';
 import * as DND from '../dragdrop.js';
 import { normalizeCollection } from './content-normalizer.js';
+import { annotateTranslationState } from '../living-path/translation-context.js';
 
 let loadToken = 0;
 
@@ -55,16 +56,27 @@ async function loadIdentity(seriesId) {
 	return [breadcrumb, seriesData];
 }
 
+function optionalTranslations(seriesId) {
+	if (!api.isTranslationSeries(seriesId)) return Promise.resolve(null);
+	return api.getSeriesTranslations(appState.heichelId, seriesId, 250).catch(error => {
+		console.warn('B"H translation metadata remained optional', error);
+		return null;
+	});
+}
+
 async function loadCollections(seriesId) {
-	const [posts, subSeries, groupings] = await Promise.all([
+	const [postsRaw, subSeries, groupings, translations] = await Promise.all([
 		api.getPostDetails(appState.heichelId, seriesId),
 		api.getSubSeriesDetails(appState.heichelId, seriesId),
-		api.getAlternateGroupDetails(appState.heichelId, seriesId)
+		api.getAlternateGroupDetails(appState.heichelId, seriesId),
+		optionalTranslations(seriesId)
 	]);
+	const posts = annotateTranslationState(normalizeCollection(postsRaw), translations);
 	return {
-		posts: normalizeCollection(posts),
+		posts,
 		subSeries: normalizeCollection(subSeries),
-		groupings: normalizeCollection(groupings)
+		groupings: normalizeCollection(groupings),
+		translationMeta: translations?.meta || null
 	};
 }
 

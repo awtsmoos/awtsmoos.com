@@ -1,28 +1,29 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file MinimalMeadowVegetationSystem.js
- * @description Keeps dense ecological cells visible and reactive through distance-aware staggered updates.
+ * @description Orchestrates dense ecological cells through bounded visibility, coherent gusts, and smooth traveler wake.
  * The Awtsmoos lets nearby blade and blossom answer the traveler while distant abundance rests;
- * Awtsmoos.com preserves every cell, full high quality, bounded arithmetic, and zero-allocation wind.
+ * Awtsmoos.com preserves real grass batches, rooted geometry, and staggered work while the meadow gains living continuity.
  */
 
 import { Group } from '../../../light-three-gltf/tiny-runtime.js';
 import { createMinimalMeadowVegetationCells } from './MinimalMeadowVegetationCells.js';
+import { createMinimalMeadowVegetationCell } from './MinimalMeadowVegetationDistributionCellFactory.js';
 import {
-	createMinimalMeadowVegetationCell
-} from './MinimalMeadowVegetationDistributionCellFactory.js';
+	prepareMinimalMeadowVegetationDynamics,
+	updateMinimalMeadowVegetationDynamics
+} from './MinimalMeadowVegetationDynamics.js';
 import {
-	minimalMeadowVegetationDiagnostics
-} from './MinimalMeadowWorldPopulationDiagnostics.js';
-import {
-	minimalMeadowVegetationBudget
-} from './MinimalMeadowVegetationQualityBudget.js';
-
-const INTERACTION_RADIUS = 7.5;
-const INTERACTION_RADIUS_SQUARED = INTERACTION_RADIUS * INTERACTION_RADIUS;
+	countMinimalMeadowVegetationActivity,
+	createMinimalMeadowVegetationMotionState,
+	minimalMeadowVegetationUsesMobileProfile,
+	updateMinimalMeadowVegetationMotionState
+} from './MinimalMeadowVegetationMotionState.js';
+import { minimalMeadowVegetationDiagnostics } from './MinimalMeadowWorldPopulationDiagnostics.js';
+import { minimalMeadowVegetationBudget } from './MinimalMeadowVegetationQualityBudget.js';
 
 export class MinimalMeadowVegetationSystem {
 	constructor(runtime) {
@@ -31,7 +32,7 @@ export class MinimalMeadowVegetationSystem {
 		this.group = new Group();
 		this.group.name = 'Awtsmoos_seeded_ecological_vegetation';
 		this.clock = 0;
-		this.mobile = mobileProfile(runtime);
+		this.mobile = minimalMeadowVegetationUsesMobileProfile(runtime);
 		this.budget = minimalMeadowVegetationBudget({
 			mobile: this.mobile,
 			quality: runtime.qualityProfile?.quality
@@ -41,21 +42,30 @@ export class MinimalMeadowVegetationSystem {
 			mobile: this.mobile,
 			quality: this.budget.quality
 		});
-		this.cells = this.specifications.map(specification => prepareCell(
+		this.cells = this.specifications.map(specification => prepareMinimalMeadowVegetationDynamics(
 			createMinimalMeadowVegetationCell(specification, runtime.terrain)
 		));
+		this.motion = createMinimalMeadowVegetationMotionState(runtime.state);
 		for (const cell of this.cells) this.group.add(cell.group);
 	}
 
 	update(deltaSeconds) {
-		this.clock += deltaSeconds;
+		const delta = Math.max(0, Number(deltaSeconds || 0));
+		this.clock += delta;
 		const player = this.runtime.state;
+		const windContext = updateMinimalMeadowVegetationMotionState(
+			this.motion,
+			player,
+			delta,
+			this.clock
+		);
 		const stride = Math.max(1, Math.round(1 / this.budget.updateFraction));
 		const phase = Math.floor(this.clock * 60) % stride;
 		for (let index = 0; index < this.cells.length; index += 1) {
-			this.updateVisibility(this.cells[index], player);
-			if (index % stride === phase || this.cells[index].reaction > 0) {
-				this.updateCell(this.cells[index], player, index);
+			const cell = this.cells[index];
+			this.updateVisibility(cell, player);
+			if (index % stride === phase || cell.reaction > 0.002) {
+				updateMinimalMeadowVegetationDynamics(cell, windContext);
 			}
 		}
 	}
@@ -69,23 +79,14 @@ export class MinimalMeadowVegetationSystem {
 		cell.distanceSquared = distanceSquared;
 	}
 
-	updateCell(cell, player, index) {
-		if (!cell.windMetadata) prepareCell(cell);
-		const distanceSquared = cell.distanceSquared ?? 0;
-		const reaction = distanceSquared >= INTERACTION_RADIUS_SQUARED
-			? 0
-			: 1 - Math.sqrt(distanceSquared) / INTERACTION_RADIUS;
-		const ambient = Math.sin(this.clock * 1.15 + index * 1.37) * 0.025;
-		const windStrength = 0.045 + Math.abs(ambient) + reaction * 0.08;
-		cell.reaction = reaction;
-		for (const metadata of cell.windMetadata) metadata.windStrength = windStrength;
-	}
-
 	diagnostics() {
+		const activity = countMinimalMeadowVegetationActivity(this.cells);
 		return {
 			...minimalMeadowVegetationDiagnostics(this),
 			budget: this.budget,
-			visibleCells: this.cells.filter(cell => cell.group.visible !== false).length
+			reactiveCells: activity.reactive,
+			visibleCells: activity.visible,
+			wetCells: activity.wet
 		};
 	}
 
@@ -93,25 +94,4 @@ export class MinimalMeadowVegetationSystem {
 		this.group.parent?.remove(this.group);
 		if (this.runtime.vegetation === this) this.runtime.vegetation = null;
 	}
-}
-
-function prepareCell(cell) {
-	cell.group.quaternion.set(0, 0, 0, 1);
-	cell.windMetadata = cell.group.children.map(child => {
-		child.userData ||= {};
-		child.userData.AwtsmoosYardGrass ||= {
-			interactionRadius: 2.4,
-			reactsToPlayer: true,
-			rooted: true,
-			windStrength: 0.045
-		};
-		return child.userData.AwtsmoosYardGrass;
-	});
-	return cell;
-}
-
-function mobileProfile(runtime) {
-	const environment = runtime.environment || globalThis;
-	return Number(environment.innerWidth || 1024) <= 820
-		|| Boolean(environment.matchMedia?.('(pointer: coarse)')?.matches);
 }

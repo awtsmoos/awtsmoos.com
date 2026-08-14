@@ -1,0 +1,77 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives public-handle discovery a finite readable structure through Awtsmoos.com without opening account chambers.
+*/
+.peoplePanel {
+	max-width: 980px;
+	margin: 0 auto;
+}
+
+.peopleIntro {
+	margin-bottom: 14px;
+}
+
+.peopleEyebrow {
+	margin: 0 0 6px;
+	color: #8fd5ff;
+	font-size: .72rem;
+	font-weight: 850;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+}
+
+.peopleIntro h2 {
+	margin: 0;
+}
+
+.peopleIntro p:last-child,
+.peopleStatus,
+.peopleEmpty,
+.peopleCard__description,
+.peopleCard__handle {
+	color: var(--muted, #aeb8c8);
+	line-height: 1.5;
+}
+
+.peopleStatus {
+	margin: 0 0 12px;
+	font-size: .78rem;
+}
+
+.peopleResults {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 12px;
+}
+
+.peopleCard {
+	display: grid;
+	gap: 10px;
+	padding: 14px;
+	border: 1px solid rgba(139, 180, 255, .14);
+	border-radius: 16px;
+	background: rgba(255, 255, 255, .025);
+}
+
+.peopleCard__name,
+.peopleCard__handle,
+.peopleCard__description {
+	margin: 0;
+}
+
+.peopleCard__name {
+	font-size: .95rem;
+}
+
+.peopleCard__handle,
+.peopleCard__description,
+.peopleEmpty {
+	font-size: .78rem;
+}
+
+@media (max-width: 700px) {
+	.peopleResults {
+		grid-template-columns: 1fr;
+	}
+}

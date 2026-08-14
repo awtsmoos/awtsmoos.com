@@ -2,58 +2,70 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
-import { spawnSync } from "node:child_process";
-
 /**
- * @file Publishes the complete local vessel and proves the remote revelation.
- * @description The Awtsmoos verifies, gathers, seals, force-pushes, awakens
- * BH.sh through the custom SSH chariot, then tests the public world itself.
+ * @file bhRelease.mjs
+ * @description
+ * The Awtsmoos publishes only through the source vessel production truly serves. Awtsmoos.com
+ * first witnesses systemd authority; an obsolete snapshot road is refused before any archive rises.
  */
+import { spawnSync } from 'node:child_process';
+import { assertLocalSnapshotAuthority } from './production/productionAuthority.mjs';
 
-const commitMessage = 'B"H';
-const branch = capture("git", ["branch", "--show-current"]);
+async function main() {
+	verifySource();
+	await assertLocalSnapshotAuthority();
+	const receipt = buildSnapshot();
+	publishSnapshot(receipt.receiptPath);
+	verifyProduction();
+	console.log(`B"H published and verified local snapshot ${receipt.hash}.`);
+}
 
-if (!branch) throw new Error("B\"H cannot publish from a detached HEAD.");
+function verifySource() {
+	run(process.execPath, ['scripts/verifyHomeSource.mjs']);
+}
 
-run(process.execPath, ["scripts/verifyHomeSource.mjs"]);
-run("git", ["add", "."]);
-commitAllChanges();
-run("git", ["push", "--force", "origin", `HEAD:${branch}`]);
-run(process.execPath, ["scripts/bh.mjs", "--command", "cd ~ && ./BH.sh"]);
-run(process.execPath, ["scripts/verifyHomeProduction.mjs"]);
+function buildSnapshot() {
+	const output = capture(process.execPath, ['scripts/production/buildLocalSnapshot.mjs']);
+	const receipt = JSON.parse(output);
+	if (!receipt?.hash || !receipt?.receiptPath) {
+		throw new Error('B"H local snapshot receipt is incomplete.');
+	}
+	return receipt;
+}
 
-console.log(`B"H published and verified ${branch}.`);
+function publishSnapshot(receiptPath) {
+	run(process.execPath, ['scripts/production/publishLocalSnapshot.mjs', receiptPath]);
+}
 
-function commitAllChanges() {
-	const result = execute("git", ["commit", "-m", commitMessage]);
-	if (result.status === 0) return;
-	const staged = capture("git", ["diff", "--cached", "--name-only"]);
-	if (staged) process.exit(result.status ?? 1);
-	console.log('B"H no new changes to commit; publishing the current HEAD.');
+function verifyProduction() {
+	run(process.execPath, ['scripts/verifyHomeProduction.mjs']);
 }
 
 function run(command, argumentsList) {
-	const result = execute(command, argumentsList);
+	const result = execute(command, argumentsList, 'inherit');
 	if (result.status !== 0) process.exit(result.status ?? 1);
-}
-
-function execute(command, argumentsList) {
-	return spawnSync(command, argumentsList, {
-		cwd: process.cwd(),
-		stdio: "inherit",
-		shell: false,
-		env: process.env
-	});
 }
 
 function capture(command, argumentsList) {
-	const result = spawnSync(command, argumentsList, {
+	const result = execute(command, argumentsList, 'pipe');
+	if (result.status !== 0) {
+		process.stderr.write(result.stderr || '');
+		process.exit(result.status ?? 1);
+	}
+	return String(result.stdout || '').trim();
+}
+
+function execute(command, argumentsList, stdio) {
+	return spawnSync(command, argumentsList, {
 		cwd: process.cwd(),
-		encoding: "utf8",
+		encoding: 'utf8',
+		stdio,
 		shell: false,
 		env: process.env
 	});
-	if (result.status !== 0) process.exit(result.status ?? 1);
-	return String(result.stdout || "").trim();
 }
+
+main().catch(error => {
+	console.error(`B"H ${error.code || 'release_failed'}: ${error.message}`);
+	process.exit(1);
+});

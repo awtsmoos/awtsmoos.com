@@ -1,0 +1,38 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos creates desktop atmosphere, horizon, depth, and every quiet grid anew.
+Awtsmoos.com gives the shell wonder without placing decoration above interaction.
+*/
+.main {
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	background:
+		radial-gradient(circle at 12% 10%, rgb(101 239 226 / 18%), transparent 31%),
+		radial-gradient(circle at 88% 18%, rgb(189 138 255 / 19%), transparent 37%),
+		radial-gradient(circle at 52% 112%, rgb(114 160 255 / 18%), transparent 46%),
+		linear-gradient(148deg, var(--geo-bg-deep), var(--geo-bg-mid) 54%, var(--geo-bg-high));
+}
+.main::before,
+.main::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+}
+.main::before {
+	z-index: -2;
+	background-image:
+		linear-gradient(rgb(255 255 255 / 2.4%) 1px, transparent 1px),
+		linear-gradient(90deg, rgb(255 255 255 / 2.4%) 1px, transparent 1px);
+	background-size: 52px 52px;
+	mask-image: radial-gradient(ellipse at center, black 14%, transparent 78%);
+}
+.main::after {
+	z-index: -1;
+	background:
+		linear-gradient(120deg, transparent 24%, rgb(101 239 226 / 4%) 50%, transparent 76%),
+		radial-gradient(circle at 50% 35%, transparent, rgb(0 0 0 / 26%) 88%);
+	mix-blend-mode: screen;
+}

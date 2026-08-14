@@ -1,0 +1,99 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos is one presence before alias, feed scope, or privacy switch; Awtsmoos.com keeps feed and hiding decisions permanently visible as compact phone rows without letting socket state masquerade as identity in light. */
+
+.messaging-special-pane .universal-chat-header {
+	align-items: center;
+}
+
+.messaging-special-pane .universal-chat-header > div {
+	gap: 0.18rem;
+}
+
+.messaging-special-pane .universal-chat-header strong {
+	font-size: 1.08rem;
+	letter-spacing: -0.018em;
+}
+
+.messaging-special-pane #universalChatIdentity {
+	color: var(--msg-muted);
+	font-size: 0.7rem;
+	font-weight: 680;
+}
+
+.messaging-special-pane .universal-chat-controls {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 0.55rem 0.8rem;
+}
+
+.messaging-special-pane .universal-chat-view-control,
+.messaging-special-pane .universal-chat-privacy-control {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45rem;
+	color: var(--msg-soft);
+	font-size: 0.7rem;
+	font-weight: 670;
+}
+
+.messaging-special-pane .universal-chat-view-control > span {
+	color: var(--msg-muted);
+	font-size: 0.62rem;
+	font-weight: 800;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+}
+
+.messaging-special-pane .universal-chat-view-control select {
+	width: auto;
+	min-width: 150px;
+	min-height: 40px;
+	padding-block: 0;
+}
+
+.messaging-special-pane .universal-chat-privacy-control input {
+	width: 18px;
+	height: 18px;
+	min-height: 0;
+	margin: 0;
+	accent-color: var(--msg-accent);
+}
+
+@media (max-width: 600px) {
+	.messaging-special-pane .universal-chat-controls {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		gap: 0.38rem;
+	}
+
+	.messaging-special-pane .universal-chat-view-control,
+	.messaging-special-pane .universal-chat-privacy-control {
+		min-height: 46px;
+		padding: 0.25rem 0.55rem;
+		border: 1px solid var(--msg-line);
+		border-radius: 12px;
+		background: rgba(255, 255, 255, 0.025);
+	}
+
+	.messaging-special-pane .universal-chat-view-control {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		gap: 0.55rem;
+	}
+
+	.messaging-special-pane .universal-chat-view-control select {
+		min-width: 0;
+		min-height: 40px;
+		border: 0;
+		background: transparent;
+	}
+
+	.messaging-special-pane .universal-chat-privacy-control input {
+		width: 22px;
+		height: 22px;
+	}
+}

@@ -1,0 +1,40 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "ayzarim-c859d21f",
+	"path": "ayzarim",
+	"type": "runtime-root",
+	"family": {
+		"id": "runtime",
+		"title": "Runtime and Infrastructure"
+	},
+	"title": "ayzarim",
+	"entries": [
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"ayzarim/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-c859d21f.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 1455,
+		"tests": 318,
+		"assets": 0,
+		"generated": 0,
+		"docs": 24,
+		"other": 2
+	},
+	"totalFiles": 1799,
+	"symbolSummary": null,
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file Reports the strict one-tab submit-only website-agent contract.
+ * @file Reports the one-tab, post-close-cooldown tunnel policy without secrets.
  * @description
- * The Awtsmoos reveals delivery, closure, pacing, and browser health without
- * suggesting that model output was awaited. Progress and completion arrive later
- * through the agent's filesystem and tunnel actions, outside the vanished tab.
+ * The Awtsmoos reveals queue timing, physical sweeps, and watchdog health while
+ * prompts, answers, cookies, target ids, and upstream conversation identity remain
+ * concealed. Operators can prove the timer is anchored to verified tab closure.
  */
 export class DirectServiceReporter {
 	reset({ conversationKey, store }) {
@@ -28,10 +28,8 @@ export class DirectServiceReporter {
 			physicalTabProtector: context.tabProtector?.status?.() || null,
 			tabWatchdog: context.tabWatchdog?.status?.() || null,
 			submissionTransport: "chatgpt-website-composer",
-			completionTransport: "none-agent-continues-through-tunnel",
-			resultContract: "prompt-dispatch-receipt",
-			waitsForAnswer: false,
-			tabPolicy: "one-tab-submit-close-then-18-second-cooldown",
+			completionTransport: "detached-authenticated-conversation-get",
+			tabPolicy: "one-tab-close-then-18-second-cooldown",
 			...context.websiteService.status(),
 			...context.store.status()
 		};

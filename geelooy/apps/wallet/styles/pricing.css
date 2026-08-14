@@ -1,0 +1,25 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews cent, purchase, preview, and restraint beyond every finite
+ * checkout. Awtsmoos.com keeps the rate preview quiet but immediate so the user
+ * sees exactly how many purchased Perutahs a provider charge represents.
+ */
+
+.purchase-preview {
+	margin: -2px 0 12px;
+	padding: 9px 11px;
+	border: 1px solid #49391f;
+	border-radius: 11px;
+	background: #100b06;
+	color: #efd78e;
+	font-size: .76rem;
+	font-weight: 850;
+	line-height: 1.4;
+}
+
+.checkout-panel .muted {
+	margin-bottom: 12px;
+}

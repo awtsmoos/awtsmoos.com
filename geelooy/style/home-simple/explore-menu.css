@@ -1,119 +1,97 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos opens Explore above the hero as a visible constellation of useful worlds.
+The Awtsmoos lowers a broad constellation from the top of Awtsmoos.com; the chamber is deep and solid, its edges bright, its order visible without frosting the world behind it.
 */
-.menu {
-	position: relative;
-}
-
-.menu > button {
-	display: inline-flex;
-	align-items: center;
-	gap: 6px;
-	white-space: nowrap;
-}
-
-.menu.is-open > button {
-	background: rgba(126, 166, 226, .14);
-	color: #fff;
-}
-
-.menu-panel {
+.world-panel {
 	position: absolute;
-	top: calc(100% + 9px);
-	right: 0;
-	z-index: 500;
+	top: calc(100% + .5rem);
+	left: 50%;
+	z-index: 820;
+	width: min(1120px, calc(100vw - 32px));
+	max-height: calc(100dvh - 92px - env(safe-area-inset-bottom));
+	padding: 1rem;
+	overflow: auto;
+	border: 1px solid #315a7a;
+	border-radius: 1.35rem;
+	background: #071325;
+	box-shadow: 0 30px 84px rgba(0, 0, 0, .68);
+	transform: translateX(-50%);
+	transform-origin: top center;
+	animation: world-panel-arrival .2s ease-out;
+}
+
+.world-panel-heading {
+	display: flex;
+	align-items: end;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: .2rem .25rem .9rem;
+	border-bottom: 1px solid #17314b;
+}
+
+.world-panel-heading > div {
 	display: grid;
-	grid-template-columns: repeat(2, minmax(0, 1fr));
-	gap: 8px;
-	width: min(430px, calc(100vw - 20px));
-	padding: 10px;
-	border: 1px solid rgba(93, 218, 255, .26);
-	border-radius: 20px;
-	background: linear-gradient(180deg, rgba(8, 14, 25, .99), rgba(5, 9, 18, .99));
-	box-shadow: 0 34px 100px rgba(0, 0, 0, .72), 0 0 40px rgba(80, 180, 255, .12);
-	backdrop-filter: blur(28px);
-	opacity: 0;
-	transform: translateY(-7px) scale(.985);
-	pointer-events: none;
-	transition: opacity .17s ease, transform .17s ease;
+	gap: .18rem;
 }
 
-.menu.is-open .menu-panel {
-	opacity: 1;
-	transform: none;
-	pointer-events: auto;
+.world-panel-heading small,
+.world-panel-heading > span {
+	color: #8799b2;
+	font-size: .62rem;
+	font-weight: 800;
+	letter-spacing: .1em;
+	text-transform: uppercase;
 }
 
-.explore-tile {
-	display: grid;
-	grid-template-columns: 42px 1fr;
-	grid-template-rows: auto auto;
-	column-gap: 10px;
-	padding: 11px;
-	border: 1px solid rgba(255, 255, 255, .05);
-	border-radius: 15px;
-	background: rgba(255, 255, 255, .028);
-	transition: border-color .15s ease, background .15s ease, transform .15s ease;
+.world-panel-heading strong {
+	font-size: clamp(1.25rem, 2vw, 1.8rem);
+	letter-spacing: -.035em;
 }
 
-.explore-tile > span {
-	position: relative;
-	display: grid;
-	grid-row: 1 / 3;
-	align-self: center;
-	place-items: center;
-	width: 38px;
-	height: 38px;
-	border: 1px solid rgba(111, 214, 255, .32);
-	border-radius: 50%;
-	background: radial-gradient(circle at 35% 28%, rgba(136, 219, 255, .38), rgba(25, 47, 88, .76) 45%, rgba(5, 8, 18, .98) 78%);
-	box-shadow: 0 0 18px rgba(75, 174, 255, .18), inset 0 0 10px rgba(118, 98, 255, .16);
-	font-size: 1.15rem;
+.world-panel::-webkit-scrollbar {
+	width: 10px;
 }
 
-.explore-tile > span::after {
-	position: absolute;
-	inset: 50% -14% auto;
-	height: 6px;
-	border: 1px solid rgba(111, 214, 255, .28);
-	border-radius: 50%;
-	content: "";
-	transform: translateY(-50%) rotate(-8deg);
+.world-panel::-webkit-scrollbar-thumb {
+	border: 3px solid transparent;
+	border-radius: 999px;
+	background: #355b79;
+	background-clip: padding-box;
 }
 
-.explore-tile strong {
-	font-size: .84rem;
-}
+@keyframes world-panel-arrival {
+	from {
+		opacity: 0;
+		transform: translate(-50%, -12px) scale(.985);
+	}
 
-.explore-tile small {
-	color: #8391a6;
-	font-size: .69rem;
-}
-
-.explore-tile:hover,
-.explore-tile:focus-visible {
-	outline: none;
-	border-color: rgba(133, 210, 255, .34);
-	background: rgba(96, 143, 210, .11);
-	transform: translateY(-2px);
-}
-
-@media (max-width: 680px) {
-	.menu-panel {
-		position: fixed;
-		top: calc(env(safe-area-inset-top) + 74px);
-		right: 8px;
-		left: 8px;
-		width: auto;
-		max-height: calc(100dvh - env(safe-area-inset-top) - 90px);
-		overflow: auto;
+	to {
+		opacity: 1;
+		transform: translate(-50%, 0) scale(1);
 	}
 }
 
-@media (max-width: 390px) {
-	.menu-panel {
-		grid-template-columns: 1fr;
+@media (max-width: 680px) {
+	.world-panel {
+		top: calc(100% + .4rem);
+		width: calc(100vw - 16px);
+		max-height: calc(100dvh - 78px - env(safe-area-inset-bottom));
+		padding: .72rem;
+		border-radius: 1.05rem;
+	}
+
+	.world-panel-heading {
+		padding: .15rem .15rem .7rem;
+	}
+
+	.world-panel-heading > span {
+		display: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.world-panel {
+		animation: none;
 	}
 }

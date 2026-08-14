@@ -1,0 +1,89 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives WPM, LPM, eye line, density, and estimate clear native
+ * controls; at Awtsmoos.com this file alone owns every semantic pace button.
+ */
+.auto-scroll-semantic-controls {
+	display: grid;
+	gap: .7rem;
+	min-width: 0;
+}
+
+.auto-scroll-unit-switch {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: .35rem;
+}
+
+.auto-scroll-unit-switch button,
+.auto-scroll-presets button {
+	min-height: 38px;
+	padding: .4rem .55rem;
+	border: 1px solid rgba(148, 163, 184, .24);
+	border-radius: .7rem;
+	background: rgba(255, 255, 255, .04);
+	color: inherit;
+	font: 800 .7rem/1.2 inherit;
+	cursor: pointer;
+}
+
+.auto-scroll-presets button {
+	min-width: 0;
+	padding-inline: .25rem;
+	font-size: .62rem;
+}
+
+.auto-scroll-unit-switch button[aria-pressed="true"],
+.auto-scroll-presets button[aria-pressed="true"] {
+	border-color: rgba(34, 211, 238, .58);
+	background: rgba(34, 211, 238, .14);
+	color: #67e8f9;
+}
+
+.auto-scroll-semantic-range {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	gap: .35rem .7rem;
+	font-size: .72rem;
+	font-weight: 800;
+}
+
+.auto-scroll-semantic-range input {
+	grid-column: 1 / -1;
+	width: 100%;
+	min-width: 0;
+	accent-color: #22d3ee;
+}
+
+.auto-scroll-semantic-range output {
+	color: #67e8f9;
+	font-size: .68rem;
+}
+
+.auto-scroll-semantic-summary {
+	display: grid;
+	gap: .2rem;
+	padding: .6rem .7rem;
+	border: 1px solid rgba(148, 163, 184, .18);
+	border-radius: .8rem;
+	background: rgba(255, 255, 255, .035);
+}
+
+.auto-scroll-semantic-summary span {
+	font-size: .8rem;
+	font-weight: 850;
+}
+
+.auto-scroll-semantic-summary small {
+	color: var(--reader-muted, #7f8ea4);
+	font-size: .64rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.auto-scroll-unit-switch button,
+	.auto-scroll-presets button {
+		transition: none;
+	}
+}

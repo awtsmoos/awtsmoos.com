@@ -1,0 +1,28 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos marks the chosen reader eye line with a quiet measured thread,
+ * present only during the active river and never blocking touch or sacred text.
+ */
+.awtsmoos-auto-scroll-eye-line {
+	position: fixed;
+	z-index: 1198;
+	top: var(--awtsmoos-eye-line, 42vh);
+	inset-inline: max(.75rem, env(safe-area-inset-left)) max(.75rem, env(safe-area-inset-right));
+	height: 1px;
+	border-radius: 999px;
+	background: linear-gradient(90deg, transparent, rgba(34, 211, 238, .58), transparent);
+	box-shadow: 0 0 .55rem rgba(34, 211, 238, .24);
+	pointer-events: none;
+}
+.awtsmoos-auto-scroll-eye-line[data-auto-scroll-state="paused"] {
+	background: linear-gradient(90deg, transparent, rgba(245, 158, 11, .58), transparent);
+}
+.awtsmoos-auto-scroll-eye-line[hidden] {
+	display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+	.awtsmoos-auto-scroll-eye-line {
+		transition: none;
+	}
+}

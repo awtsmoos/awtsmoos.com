@@ -1,17 +1,16 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * @module SocialApiDerech
  * @description
  * The Awtsmoos remembers one request before asynchronous identity gates open.
- * Awtsmoos.com gathers every social route, including the unified alias drive,
- * without allowing concurrent requests to exchange their query or body vessels.
+ * Awtsmoos.com gathers public discovery, safe identity bootstrap, and every live social route
+ * without allowing concurrent requests to exchange query or body vessels.
  */
-
 const aliases = require('./_awtsmoos.alias.js');
 const assets = require('./_awtsmoos.assets.js');
+const books = require('./_awtsmoos.books.js');
 const civilization = require('./_awtsmoos.civilization.js');
 const comments = require('./_awtsmoos.comments.js');
 const communications = require('./_awtsmoos.communications.js');
@@ -25,6 +24,7 @@ const fileSystem = require('./_awtsmoos.fileSystem.js');
 const governance = require('./_awtsmoos.governance.js');
 const graph = require('./_awtsmoos.graph.js');
 const heichelos = require('./_awtsmoos.heichel.js');
+const identityBootstrap = require('./_awtsmoos.identityBootstrap.js');
 const keys = require('./_awtsmoos.keys.js');
 const living = require('./_awtsmoos.living.js');
 const mail = require('./_awtsmoos.mail.js');
@@ -35,6 +35,7 @@ const packed = require('./_awtsmoos.packed.js');
 const platform = require('./_awtsmoos.platform.js');
 const posts = require('./_awtsmoos.posts.js');
 const profile = require('./_awtsmoos.profile.js');
+const publicDiscovery = require('./_awtsmoos.publicDiscovery.js');
 const search = require('./_awtsmoos.search.js');
 const series = require('./_awtsmoos.series.js');
 const thoughts = require('./_awtsmoos.thoughts.js');
@@ -62,11 +63,7 @@ async function fetchProxy($i, variables) {
 	} catch (error) {
 		return {
 			BH: 'B"H',
-			error: {
-				message: 'Issue',
-				code: 'PROBLEM',
-				details: String(error)
-			}
+			error: { message: 'Issue', code: 'PROBLEM', details: String(error) }
 		};
 	}
 }
@@ -94,34 +91,13 @@ module.exports = async $i => {
 	await $i.use({
 		'/': async () => ({ BH: 'yes', session: $i.request.user }),
 		'/fetch/:url': async variables => fetchProxy($i, variables),
-		...profile(vessel),
-		...communications(vessel),
-		...civilization(vessel),
-		...objects(vessel),
-		...aliases(vessel),
-		...keys(vessel),
-		...graph(vessel),
-		...search(vessel),
-		...content(vessel),
-		...community(vessel),
-		...entities(vessel),
-		...living(vessel),
-		...thoughts(vessel),
-		...assets(vessel),
-		...drive(vessel),
-		...editor(vessel),
-		...governance(vessel),
-		...notifications(vessel),
-		...packed(vessel),
-		...platform(vessel),
-		...migrations(vessel),
-		...heichelos(vessel),
-		...posts(vessel),
-		...counters(vessel),
-		...mail(vessel),
-		...fileSystem({ $i }),
-		...optionalNodeOs(vessel),
-		...comments(vessel),
-		...series(vessel)
+		...profile(vessel), ...publicDiscovery(vessel), ...identityBootstrap(vessel),
+		...communications(vessel), ...civilization(vessel), ...objects(vessel), ...aliases(vessel),
+		...keys(vessel), ...graph(vessel), ...search(vessel), ...content(vessel), ...community(vessel),
+		...entities(vessel), ...living(vessel), ...thoughts(vessel), ...assets(vessel),
+		...drive(vessel), ...editor(vessel), ...governance(vessel), ...notifications(vessel),
+		...packed(vessel), ...platform(vessel), ...migrations(vessel), ...heichelos(vessel),
+		...posts(vessel), ...counters(vessel), ...mail(vessel), ...fileSystem({ $i }),
+		...optionalNodeOs(vessel), ...comments(vessel), ...series(vessel), ...books(vessel)
 	});
 };

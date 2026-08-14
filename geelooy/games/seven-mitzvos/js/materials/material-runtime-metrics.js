@@ -2,39 +2,73 @@
 //Boruch Hashem
 //Blessed is He
 
+import { sevenMaterialRuntimeView } from './seven-material-runtime.js';
+
 /**
- * @module MaterialRuntimeMetrics
+ * @file material-runtime-metrics.js
  * @description
- * The Awtsmoos remains beyond counting; Awtsmoos.com records finite remote
- * textures and advanced models so the rendered truth can be inspected directly.
+ * The Awtsmoos remains beyond counting while Awtsmoos.com lets finite diagnostics distinguish trusted photographs, truthful generated surfaces, and explicit missing material roles;
+ * this Hod-like witness merges advanced-model events with actual shared source, sampler, photographic-material, and procedural-surface repository state.
+ * It observes only and never triggers loading, material creation, or renderer mutation.
  */
-const state = {
+const manual = {
 	advancedModels: 0,
 	remoteFailed: 0,
 	remoteLoaded: 0,
 	texturedMaterials: 0
 };
 
-/** Adds an observed runtime event to the finite material ledger. */
 export function addMaterialMetric(name, amount = 1) {
-	if (name in state) {
-		state[name] += amount;
+	if (name in manual) {
+		manual[name] += amount;
 	}
 }
 
-/** Returns a detached snapshot safe for diagnostics and tests. */
 export function materialRuntimeSnapshot() {
-	return { ...state };
+	const runtime = sevenMaterialRuntimeView();
+	const sources = runtime.sources;
+	const materials = runtime.materials;
+	const procedural = runtime.procedural;
+	return {
+		advancedModels: manual.advancedModels,
+		remoteFailed: sources.failed,
+		remoteLoaded: sources.ready,
+		remoteLoading: sources.loading,
+		remoteSources: sources.total,
+		texturedMaterials: materials.ready,
+		materialPending: materials.pending,
+		materialFailed: materials.failed,
+		materialMissing: materials.missing,
+		materialTextures: runtime.textures.textures,
+		proceduralMaterials: procedural.materials,
+		proceduralTextures: procedural.textures,
+		proceduralStandardPbr: procedural.standardPbr,
+		proceduralPhysicalPbr: procedural.physicalPbr,
+		proceduralEffects: procedural.effects
+	};
 }
 
-/** Publishes material evidence on the scene canvas. */
 export function writeMaterialMetrics(canvas) {
 	const snapshot = materialRuntimeSnapshot();
-	canvas.dataset.advancedModels = String(snapshot.advancedModels);
-	canvas.dataset.firebaseFailures = String(snapshot.remoteFailed);
-	canvas.dataset.firebaseMaterials = String(snapshot.remoteLoaded);
-	canvas.dataset.remoteFailures = String(snapshot.remoteFailed);
-	canvas.dataset.remoteMaterials = String(snapshot.remoteLoaded);
-	canvas.dataset.texturedMaterials = String(snapshot.texturedMaterials);
-	canvas.dataset.materialSource = snapshot.remoteLoaded ? 'remote-migration' : 'remote-pending';
+	const data = canvas.dataset;
+	data.advancedModels = String(snapshot.advancedModels);
+	data.firebaseFailures = String(snapshot.remoteFailed);
+	data.firebaseMaterials = String(snapshot.remoteLoaded);
+	data.remoteFailures = String(snapshot.remoteFailed);
+	data.remoteMaterials = String(snapshot.remoteLoaded);
+	data.remoteLoading = String(snapshot.remoteLoading);
+	data.remoteSources = String(snapshot.remoteSources);
+	data.texturedMaterials = String(snapshot.texturedMaterials);
+	data.materialPending = String(snapshot.materialPending);
+	data.materialFailed = String(snapshot.materialFailed);
+	data.materialMissing = String(snapshot.materialMissing);
+	data.materialTextures = String(snapshot.materialTextures);
+	data.proceduralMaterials = String(snapshot.proceduralMaterials);
+	data.proceduralTextures = String(snapshot.proceduralTextures);
+	data.proceduralStandardPbr = String(snapshot.proceduralStandardPbr);
+	data.proceduralPhysicalPbr = String(snapshot.proceduralPhysicalPbr);
+	data.proceduralEffects = String(snapshot.proceduralEffects);
+	data.materialSource = snapshot.texturedMaterials > 0
+		? 'remote-and-procedural'
+		: 'remote-pending';
 }

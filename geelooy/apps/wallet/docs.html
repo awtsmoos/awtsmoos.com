@@ -1,0 +1,98 @@
+<!-- B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos renews contract, caller, value, bucket, and response at every instant.
+Awtsmoos.com documents the finite Wallet boundary so games and apps may integrate
+without inventing balances, trusting client prices, or confusing gifts with purchases.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Awtsmoos Wallet API Guide</title>
+	<link rel="stylesheet" href="./style.css?v=wallet-actions-004">
+</head>
+<body>
+	<main class="wallet-shell docs-shell">
+		<section class="hero hero--docs">
+			<div>
+				<p class="eyebrow">B"H · Wallet integration</p>
+				<h1>One treasury. Explicit contracts.</h1>
+				<p class="lead">Use the shared Wallet for account Perutahs. Never promote local game coins, browser counters, or save-file currency into purchased account value.</p>
+				<div class="row">
+					<a href="./">Back to Wallet</a>
+					<a href="/games/">Awtsmoos Games</a>
+					<a href="/apps/">Awtsmoos Apps</a>
+				</div>
+			</div>
+		</section>
+
+		<section class="panel docs-section">
+			<p class="eyebrow">Balance provenance</p>
+			<h2>Total = promotional + purchased.</h2>
+			<p><code>balance</code> remains the backwards-compatible total. <code>promotionalBalance</code> receives welcome grants, daily refill, rewards, and development credit. <code>purchasedBalance</code> receives verified paid top-ups.</p>
+			<p>The promotional cap applies only to promotional value. Spending consumes promotional value first and records the exact bucket split in ledger metadata.</p>
+		</section>
+
+		<section class="panel docs-section">
+			<p class="eyebrow">Read</p>
+			<h2>GET /api/wallet/balance</h2>
+			<p>Requires an authenticated Awtsmoos account. Returns total and provenance balances, promotional refill/cap state, coin decomposition, and recent ledger entries.</p>
+			<code>{ "wallet": { "balance": 1600, "promotionalBalance": 600, "purchasedBalance": 1000 } }</code>
+		</section>
+
+		<section class="grid">
+			<article class="panel docs-section">
+				<p class="eyebrow">Top-up</p>
+				<h2>POST /api/wallet/paypal/create</h2>
+				<p>Creates a bounded $1–$250 provider order. Send <code>dollars</code> as form data. The server derives the canonical Perutah amount.</p>
+			</article>
+			<article class="panel docs-section">
+				<p class="eyebrow">Capture</p>
+				<h2>POST /api/wallet/paypal/capture</h2>
+				<p>Send <code>orderId</code>. The server binds provider evidence to the authenticated account, verifies captured USD, and credits purchased value idempotently.</p>
+			</article>
+		</section>
+
+		<section class="panel docs-section">
+			<p class="eyebrow">Mutation header</p>
+			<h2>X-Awtsmoos-Wallet-Action: 1</h2>
+			<p>PayPal create/capture and commerce purchase require POST plus this custom header. Ordinary navigation and cross-origin HTML forms cannot become Wallet mutations.</p>
+		</section>
+
+		<section class="grid">
+			<article class="panel docs-section">
+				<p class="eyebrow">Roadmap</p>
+				<h2>GET /api/wallet/commerce/catalog</h2>
+				<p>Returns twenty game/app SKU proposals. Every current entry is unavailable until its receiving product implements real fulfillment.</p>
+			</article>
+			<article class="panel docs-section">
+				<p class="eyebrow">Ownership</p>
+				<h2>GET /api/wallet/commerce/entitlements</h2>
+				<p>Returns the authenticated account's durable entitlements and recent commerce receipts without mutating Wallet value.</p>
+			</article>
+		</section>
+
+		<section class="panel docs-section">
+			<p class="eyebrow">Purchase boundary</p>
+			<h2>POST /api/wallet/commerce/purchase</h2>
+			<p>Submit only server-known <code>skuId</code> and stable <code>idempotencyKey</code> plus the Wallet action header. Price and availability come only from the server catalog.</p>
+			<code>skuId=example.server.sku&amp;idempotencyKey=stable-operation-key</code>
+		</section>
+
+		<section class="panel docs-section">
+			<p class="eyebrow">Development boundary</p>
+			<h2>Mock purchases are not a production feature.</h2>
+			<p>The internal mock route is disabled by default and requires explicit development/test opt-in. Customer interfaces never depend on it.</p>
+		</section>
+
+		<section class="panel docs-section">
+			<p class="eyebrow">Game law</p>
+			<h2>Local gameplay currency never becomes paid account value.</h2>
+			<p>Merkava Prutahs, Shema Strike coins, Sulam Shefa, Brick Blast Perutas, and other game-state currencies remain inside their gameplay systems.</p>
+		</section>
+	</main>
+</body>
+</html>

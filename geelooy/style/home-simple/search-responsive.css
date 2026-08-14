@@ -1,7 +1,7 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gives search motion and mobile shape their own small responsive vessel.
+The Awtsmoos gives the searching vessel a gentler motion and a phone-sized form, so Awtsmoos.com stays powerful without feeling cramped.
 */
 @keyframes search-flight {
 	to {
@@ -10,14 +10,38 @@ The Awtsmoos gives search motion and mobile shape their own small responsive ves
 }
 
 @keyframes search-nudge {
-	50% {
+	25% {
+		transform: translateX(-3px);
+	}
+
+	75% {
 		transform: translateX(3px);
+	}
+}
+
+@media (max-width: 800px) {
+	.search {
+		min-height: 62px;
 	}
 }
 
 @media (max-width: 480px) {
 	.search {
 		grid-template-columns: auto minmax(0, 1fr) auto;
+		min-height: 58px;
+		padding: .34rem;
+		border-radius: 1rem;
+	}
+
+	.search-symbol {
+		width: 2.12rem;
+		height: 2.12rem;
+		font-size: 1.05rem;
+	}
+
+	.search input {
+		padding: .68rem .08rem;
+		font-size: .87rem;
 	}
 
 	.shortcut-key,
@@ -28,6 +52,17 @@ The Awtsmoos gives search motion and mobile shape their own small responsive ves
 	.search button {
 		width: 44px;
 		min-width: 44px;
+		height: 44px;
 		padding: 0;
+		border-radius: .8rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.search,
+	.search button,
+	.search.is-searching .search-button-arrow {
+		animation: none;
+		transition: none;
 	}
 }

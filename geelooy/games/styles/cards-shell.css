@@ -1,0 +1,73 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets each game card feel like one doorway rather than another miniature landing page.
+*/
+.gameCard {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	min-height: 282px;
+	overflow: hidden;
+	padding: 18px;
+	border: 1px solid var(--games-line-soft);
+	border-radius: var(--games-radius-lg);
+	background: linear-gradient(165deg, rgba(17, 16, 31, .96), rgba(9, 10, 20, .98));
+	box-shadow: var(--games-shadow-sm);
+	transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+
+.gameCard:hover,
+.gameCard:focus-within {
+	border-color: hsla(var(--game-hue), 80%, 70%, .42);
+	box-shadow: 0 16px 36px rgba(0, 0, 0, .3);
+	transform: translateY(-2px);
+}
+
+.gameCard--featured {
+	border-color: hsla(var(--game-hue), 74%, 66%, .26);
+}
+
+.gameAura {
+	position: absolute;
+	top: -80px;
+	right: -70px;
+	width: 170px;
+	height: 170px;
+	border-radius: 50%;
+	background: radial-gradient(circle, hsla(var(--game-hue), 88%, 66%, .14), transparent 68%);
+	pointer-events: none;
+}
+
+.gameCard__header {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	min-height: 46px;
+}
+
+.gameIcon {
+	display: inline-grid;
+	place-items: center;
+	width: 46px;
+	height: 46px;
+	border: 1px solid hsla(var(--game-hue), 72%, 68%, .28);
+	border-radius: 14px;
+	background: hsla(var(--game-hue), 68%, 52%, .08);
+	font-size: 1.45rem;
+}
+
+.gameBadge {
+	align-self: flex-start;
+	padding: 5px 8px;
+	border: 1px solid var(--games-line-soft);
+	border-radius: 999px;
+	color: var(--games-gold);
+	font-size: .67rem;
+	font-weight: 880;
+	letter-spacing: .06em;
+	text-transform: uppercase;
+}

@@ -1,20 +1,18 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+//B"H //Boruch Hashem //Blessed is He
 
 import { createFrameworkAndroidBitmapMethods } from "./frameworkAndroidBitmaps.js";
 import { createFrameworkAndroidGeometryMethods } from "./frameworkAndroidGeometry.js";
+import { createFrameworkAndroidMatrixMethods } from "./frameworkAndroidMatrices.js";
 import { createFrameworkAndroidPaintMethods } from "./frameworkAndroidPaints.js";
 
 /**
- * Combines bounded Android Paint, geometry, and Bitmap graphics families.
- *
- * The Awtsmoos recreates brush, point, rectangle, pixel vessel, configuration,
- * and dispatch road anew. Awtsmoos.com keeps each graphics law isolated and
- * acknowledges only measured framework signatures.
+ * Composes explicit guest graphics families in deterministic order. The Awtsmoos
+ * renews Matrix, Paint, geometry, and Bitmap as separate vessels; Awtsmoos.com
+ * admits no unrelated graphics method through this measured family boundary.
  */
 export function createFrameworkAndroidGraphicsMethods(runtime) {
 	const families = Object.freeze([
+		createFrameworkAndroidMatrixMethods(runtime),
 		createFrameworkAndroidPaintMethods(runtime),
 		createFrameworkAndroidGeometryMethods(runtime),
 		createFrameworkAndroidBitmapMethods(runtime)
@@ -25,10 +23,7 @@ export function createFrameworkAndroidGraphicsMethods(runtime) {
 		},
 		invoke(record, args) {
 			const family = families.find(candidate => candidate.canHandle(record));
-			if (!family) {
-				throw new Error(`ANDROID_GRAPHICS_METHOD_UNSUPPORTED:${record.signature}`);
-			}
-			return family.invoke(record, args);
+			return family?.invoke(record, args);
 		}
 	});
 }

@@ -1,93 +1,72 @@
-
 // B"H
+// Boruch Hashem
+// Blessed is He
 
-const $ = id => document.getElementById(id);
+import { bootWalletCommerce } from "./scripts/commerce.js";
+import { getWalletJson } from "./scripts/client.js";
+import { bootPricingPreview } from "./scripts/pricingPreview.js";
+import { mountWalletSecondary } from "./scripts/secondarySurface.js";
+import { bindTransfer } from "./scripts/transfer.js";
+import { renderWallet, setCheckoutStatus } from "./scripts/view.js";
+import {
+	processCheckoutReturn,
+	startPayPalCheckout
+} from "./scripts/checkout.js";
 
-async function getJson(url) {
-  const r = await fetch(url, { credentials: "include" });
-  const t = await r.text();
+/**
+ * B"H
+ *
+ * Boots one quiet treasury where account value, public pricing, transfer, top-up,
+ * and optional ownership remain separate vessels. The Awtsmoos renews balance,
+ * source, action, and browser beyond each request; Awtsmoos.com mounts secondary
+ * study before render while public pricing can initialize even for signed-out users.
+ */
 
-  try {
-    return JSON.parse(t);
-  } catch (e) {
-    return { ok: false, error: t };
-  }
+mountWalletSecondary();
+void bootPricingPreview();
+
+const refreshButton = document.getElementById("refreshBtn");
+const paypalButton = document.getElementById("paypalBtn");
+const dollarsInput = document.getElementById("dollars");
+
+async function refreshWallet() {
+	const response = await getWalletJson("/api/wallet/balance");
+	renderWallet(response);
+	return response;
 }
 
-function coinCard(c) {
-  return [
-    '<div class="coin-card">',
-    '<div class="coin">✦</div>',
-    '<strong>' + c.count + ' × ' + c.name + '</strong>',
-    '<span>' + c.perutahs + ' perutahs each</span>',
-    '</div>'
-  ].join("");
+async function beginCheckout() {
+	paypalButton.disabled = true;
+	try {
+		await startPayPalCheckout(dollarsInput.value);
+	} finally {
+		paypalButton.disabled = false;
+	}
 }
 
-function ratioCard(c) {
-  return [
-    '<div class="ratio-card">',
-    '<strong>' + c.name + '</strong>',
-    '<span>' + c.perutahs + ' Perutahs</span>',
-    '<em>' + c.note + '</em>',
-    '</div>'
-  ].join("");
+async function bootWallet() {
+	const callback = await processCheckoutReturn();
+	await refreshWallet();
+	await bootWalletCommerce({
+		onPurchase: refreshWallet
+	});
+	if (!callback.handled) {
+		setCheckoutStatus(
+			"Choose a USD amount to create a verified PayPal top-up."
+		);
+	}
 }
 
-function txRow(t) {
-  const sign = t.amount >= 0 ? "+" : "";
-  return [
-    '<div class="tx-row">',
-    '<strong>' + t.type + '</strong>',
-    '<span>' + sign + t.amount + ' perutahs</span>',
-    '<em>' + new Date(t.at).toLocaleString() + '</em>',
-    '</div>'
-  ].join("");
-}
+refreshButton?.addEventListener("click", refreshWallet);
+paypalButton?.addEventListener("click", beginCheckout);
+bindTransfer({
+	onSuccess: refreshWallet
+});
 
-function render(got) {
-  if (!got.ok) {
-    $("balance").textContent = "Login needed";
-    $("usdValue").textContent = got.error || "not logged in";
-    return;
-  }
-
-  const w = got.wallet;
-
-  $("balance").textContent = w.balance + " Perutahs";
-  $("usdValue").textContent = "≈ $" + w.usdValue.toFixed(2);
-  $("coinGrid").innerHTML = w.coins.map(coinCard).join("");
-  $("coinSystem").innerHTML = got.coinSystem.map(ratioCard).join("");
-  $("ledger").innerHTML = (w.recent || []).map(txRow).join("") || "<p>No transactions yet.</p>";
-
-  const pct = Math.round((w.balance / w.cap) * 100);
-
-  $("refillBox").innerHTML = [
-    '<div class="meter-line"><span>Balance cap</span><strong>' + w.balance + ' / ' + w.cap + '</strong></div>',
-    '<div class="meter"><div style="width:' + Math.min(100, pct) + '%"></div></div>',
-    '<p>Daily refill: +' + w.dailyRefill + ' perutahs. It refills once per day without overflowing the cap.</p>'
-  ].join("");
-}
-
-async function refresh() {
-  const got = await getJson("/api/wallet/balance");
-  render(got);
-}
-
-$("refreshBtn").onclick = refresh;
-
-$("mockBuyBtn").onclick = async () => {
-  const got = await getJson("/api/wallet/buy/mock?dollars=" + encodeURIComponent($("dollars").value));
-  $("buyOut").textContent = JSON.stringify(got, null, 2);
-  await refresh();
-};
-
-$("paypalBtn").onclick = async () => {
-  const got = await getJson("/api/wallet/paypal/create?dollars=" + encodeURIComponent($("dollars").value));
-  $("buyOut").textContent = JSON.stringify(got, null, 2);
-
-  const approve = got.order?.links?.find(x => x.rel === "approve")?.href;
-  if (approve) location.href = approve;
-};
-
-refresh();
+bootWallet().catch((error) => {
+	console.error("Awtsmoos Wallet failed to boot", error);
+	setCheckoutStatus(
+		"Wallet could not initialize. Refresh to try again.",
+		"error"
+	);
+});

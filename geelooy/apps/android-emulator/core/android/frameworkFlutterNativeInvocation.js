@@ -5,6 +5,7 @@
 import { createAarch64Registers } from "../native/aarch64Registers.js";
 import { runAarch64MachineWithImports } from "../native/aarch64MachineWithImports.js";
 import { placeFlutterNativeArguments } from "./frameworkFlutterNativeArguments.js";
+import { createFrameworkFlutterNativeCheckpointObserver } from "./frameworkFlutterNativeCheckpoint.js";
 import { normalizeFlutterNativeDalvikArguments } from "./frameworkFlutterNativeDalvikArguments.js";
 import { parseFlutterNativeDescriptor } from "./frameworkFlutterNativeDescriptors.js";
 import {
@@ -64,11 +65,18 @@ export function invokeFrameworkFlutterNative(
 	});
 	const callNumber = session.nextCallNumber();
 	const report = runAarch64MachineWithImports({
+		checkpointInstructionLimit: runtime.nativeMachineCheckpointInstructions,
 		hostCallLimit: 131072,
 		hostImports: session.hostImports,
 		imports: session.imports,
 		instructionLimit: 60000000,
 		memory: session.state.memory,
+		onCheckpoint: createFrameworkFlutterNativeCheckpointObserver(
+			runtime,
+			callNumber,
+			record,
+			address
+		),
 		registers,
 		returnAddress: session.state.returnAddress,
 		systemRegisters: session.state.systemRegisters,

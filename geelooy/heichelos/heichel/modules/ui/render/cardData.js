@@ -37,6 +37,8 @@ export function normalizeCardData(item = {}, type = 'post') {
 		timestamp: normalizeTime(first(raw.timestamp, raw.createdAt, raw.publishedAt, raw.modifiedAt, raw.date)),
 		indexInSeries: item.indexInSeries,
 		parentSeriesId: String(first(raw.parentSeriesId, raw.parentId, item.parentSeriesId) || ''),
+		translationStatus: String(first(item.translationStatus, raw.translationStatus) || ''),
+		translationSourceStatus: String(first(item.translationSourceStatus, raw.translationSourceStatus) || ''),
 		raw
 	};
 }

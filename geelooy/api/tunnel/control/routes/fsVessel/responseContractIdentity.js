@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file Validates response correlation while permitting truthful worker promotion.
- * @description
- * The Awtsmoos compares the requested doorway to an approved execution vessel.
- * Awtsmoos.com reports real conflicts without rejecting honest command promotion.
- */
+	* @file Validates response correlation while permitting truthful worker promotion.
+	* @description
+	* The Awtsmoos compares the requested doorway to an approved execution vessel.
+	* Awtsmoos.com reports real conflicts without rejecting honest command promotion.
+	*/
 function expectedResponseAction(payload = {}) {
 	if (payload.action === "retryAction") {
 		return String(
@@ -22,28 +22,17 @@ function expectedResponseAction(payload = {}) {
 
 function allowedActionAlias(expected, actual) {
 	if (expected === actual) return true;
-	const commandActions = [
-		"command",
-		"commandRun",
-		"commandStart"
-	];
 	const aliases = {
-		shellCommand: commandActions,
-		command: commandActions,
-		commandRun: commandActions,
-		commandStart: commandActions,
+		command: ["command", "commandRun", "commandStart"],
+		commandRun: ["command", "commandRun", "commandStart"],
+		commandStart: ["command", "commandRun", "commandStart"],
 		commandOutputPage: ["commandJobOutputPage", "commandOutputPage"],
 		commandJobOutputPage: ["commandJobOutputPage", "commandOutputPage"],
 		commandPoll: ["commandStatus", "commandPoll", "commandJobStatus"],
 		commandStatus: ["commandStatus", "commandPoll", "commandJobStatus"],
 		commandJobStatus: ["commandStatus", "commandPoll", "commandJobStatus"],
 		commandWait: ["commandWait", "commandStatus", "commandJobStatus"],
-		commandJobWait: [
-			"commandWait",
-			"commandJobWait",
-			"commandStatus",
-			"commandJobStatus"
-		],
+		commandJobWait: ["commandWait", "commandJobWait", "commandStatus", "commandJobStatus"],
 		nodeCheckFiles: ["nodeCheckFiles", "nodeCheckMany"],
 		nodeCheckMany: ["nodeCheckFiles", "nodeCheckMany"]
 	};

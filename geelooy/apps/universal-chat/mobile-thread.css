@@ -1,0 +1,73 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos is one before narrow glass and wide desktop; Awtsmoos.com keeps Back, room title, details, history, and sending reachable through one consistent phone measure while extracted identity and message-rhythm garments keep chrome from consuming speech in light. */
+
+@media (max-width: 760px) {
+	.messaging-thread-header:not([hidden]) {
+		min-height: 58px;
+		gap: 0.5rem;
+		padding: max(0.42rem, env(safe-area-inset-top)) 0.55rem 0.42rem;
+	}
+
+	.messaging-mobile-back {
+		flex: 0 0 44px;
+		width: 44px;
+		height: 44px;
+		padding: 0;
+	}
+
+	.messaging-thread-identity {
+		flex: 1 1 auto;
+	}
+
+	.messaging-thread-tools {
+		flex: 0 0 auto;
+		gap: 0.3rem;
+	}
+
+	.messaging-thread-tools button {
+		min-height: 44px;
+	}
+
+	.messaging-composer {
+		padding: 0.5rem 0.58rem max(0.54rem, env(safe-area-inset-bottom));
+	}
+}
+
+@media (max-width: 430px) {
+	.messaging-thread-header:not([hidden]) {
+		gap: 0.35rem;
+		padding-inline: 0.45rem;
+	}
+
+	#messagingDetailsToggle {
+		display: inline-grid;
+		place-items: center;
+		width: 44px;
+		min-width: 44px;
+		min-height: 44px;
+		padding: 0;
+		font-size: 0;
+	}
+
+	#messagingDetailsToggle::before {
+		content: "•••";
+		font-size: 0.82rem;
+		letter-spacing: 0.08em;
+		transform: translateY(-0.08rem);
+	}
+
+	.messaging-new-action > span:last-child {
+		display: none;
+	}
+
+	.messaging-new-action {
+		width: 44px;
+		min-width: 44px;
+		min-height: 44px;
+		padding: 0;
+		justify-content: center;
+	}
+}

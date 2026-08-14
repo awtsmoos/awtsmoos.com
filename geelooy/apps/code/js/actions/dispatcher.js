@@ -1,52 +1,107 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
 
-// B"H
 /**
  * @file dispatcher.js
- * @brief The Channel Architect & Guardian.
+ * @description
+ * The Awtsmoos renews command, context, and consequence in one living flow;
+ * Awtsmoos.com guards each doorway so URLs never masquerade as modules below.
+ * This dispatcher keeps virtual-file reads safe and routes actions deliberately.
  */
 
-import { ActionRegistry } from './registry.js';
-import { ActionExecutor } from './executor.js';
-import { FileSystemProvider } from '../fs-provider.js';
+import { ActionRegistry } from "./registry.js";
+import { ActionExecutor } from "./executor.js";
+import { isPortalActionId, openPortalAction } from "./portalUrl.js";
+import { FileSystemProvider } from "../fs-provider.js";
+
+const VIRTUAL_ITEM_TYPES = new Set([
+	"vibe-manager",
+	"html-preview-file",
+	"devtools",
+	"browser"
+]);
+
+/** Returns a stable object context for every action invocation. */
+function normalizeContext(context) {
+	if (typeof context === "object" && context !== null) {
+		return context;
+	}
+	return { payload: context };
+}
+
+/** Reports whether a filesystem item should prefer its in-memory content. */
+function isVirtualItem(item = {}) {
+	return item.isVirtual === true || VIRTUAL_ITEM_TYPES.has(item.type);
+}
+
+/** Installs the virtual-file read sentinel exactly once. */
+function installVirtualReadGuard() {
+	if (FileSystemProvider._awtsmoosVirtualGuarded) {
+		return;
+	}
+	const originalRead = FileSystemProvider.read;
+	if (typeof originalRead === "function") {
+		FileSystemProvider.read = async function guardedRead(item, ...args) {
+			if (isVirtualItem(item) && item.content) {
+				return item.content;
+			}
+			return await originalRead.apply(this, [item, ...args]);
+		};
+	}
+	FileSystemProvider._awtsmoosVirtualGuarded = true;
+}
+
+/** Displays one bounded failure without hiding the underlying console error. */
+async function showDispatchFailure(error) {
+	try {
+		const { UI } = await import("../ui.js");
+		UI.showToast(`Action failed: ${error.message || error}`, "error", 9000);
+	} catch (toastError) {
+		console.warn("B\"H - Dispatch toast unavailable.", toastError);
+	}
+}
+
+/** Handles URL-bearing action identifiers before module resolution can see them. */
+function dispatchPortal(actionId) {
+	const result = openPortalAction(actionId);
+	if (!result.ok) {
+		throw new Error(result.error || "portal_action_failed");
+	}
+	return result;
+}
 
 export const ActionDispatcher = {
-    init() {
-        if (FileSystemProvider._awtsmoosVirtualGuarded) return;
+	/** Awakens the filesystem sentinel used by virtual editor vessels. */
+	init() {
+		installVirtualReadGuard();
+	},
 
-        console.log("B\"H - ActionDispatcher: Manifesting Virtual Sentinel.");
-
-        const ogRead = FileSystemProvider.read;
-        if (ogRead) {
-            FileSystemProvider.read = async function(item, ...args) {
-                const isVirtualType = ['vibe-manager', 'html-preview-file', 'devtools', 'browser'].includes(item.type);
-                const isVirtualMarker = (item.isVirtual === true);
-
-                if (isVirtualType || isVirtualMarker) {
-                    if (item.content !== undefined && item.content !== null && item.content !== "") {
-                        return item.content;
-                    }
-                    console.log("[Sentinel] B\"H - Virtual vessel " + item.path + " is empty. Diving to physical depth.");
-                }
-                
-                return await ogRead.apply(this, [item, ...args]);
-            };
-        }
-
-        FileSystemProvider._awtsmoosVirtualGuarded = true;
-    },
-
-    async dispatch(actionId, context) {
-        console.log("B\"H - Dispatching action -> [" + actionId + "]");
-        try {
-            const actionDef = await ActionRegistry.resolve(actionId);
-            const enrichedContext = (typeof context === 'object' && context !== null) ? context : { payload: context };
-            await ActionExecutor.execute(actionDef, enrichedContext, actionId);
-        } catch (err) {
-            console.error("B\"H - Fatal Dispatch Barrier for [" + actionId + "]", err);
-            try {
-                const { UI } = await import('../ui.js');
-                UI.showToast(`Action failed: ${err.message || err}`, 'error', 9000);
-            } catch (_) {}
-        }
-    }
+	/**
+	 * Resolves and executes one logical action request.
+	 * @param {string} actionId Logical action name or explicit portal action.
+	 * @param {unknown} context Invocation context or payload.
+	 * @returns {Promise<unknown>} Action result when successful.
+	 */
+	async dispatch(actionId, context) {
+		console.log(`B"H - Dispatching action -> [${actionId}]`);
+		try {
+			if (isPortalActionId(actionId)) {
+				return dispatchPortal(actionId);
+			}
+			const actionDefinition = await ActionRegistry.resolve(actionId);
+			if (!actionDefinition) {
+				throw new Error(`action_not_found:${String(actionId)}`);
+			}
+			return await ActionExecutor.execute(
+				actionDefinition,
+				normalizeContext(context),
+				actionId
+			);
+		} catch (error) {
+			console.error(`B"H - Fatal Dispatch Barrier for [${actionId}]`, error);
+			await showDispatchFailure(error);
+			return null;
+		}
+	}
 };

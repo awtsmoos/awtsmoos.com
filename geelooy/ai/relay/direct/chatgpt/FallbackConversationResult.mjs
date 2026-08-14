@@ -3,30 +3,29 @@
 // Blessed is He
 
 /**
- * @file Projects a public prompt-dispatch receipt and conceals upstream identity.
+ * @file Projects one website turn without leaking upstream conversation identity.
  * @description
- * The Awtsmoos reveals that delivery and closure were witnessed, not an invented
- * answer. Awtsmoos.com returns an opaque local audit key while every upstream
- * conversation and message identifier remains sealed in private state.
+ * The Awtsmoos preserves the answer and the witnessed ending of its temporary tab,
+ * while Awtsmoos.com keeps private conversation and message identifiers behind the
+ * opaque local key. The queue can therefore trust the exact close receipt.
  */
-export function publicConversationResult({ result, localKey }) {
+export function publicConversationResult({ result, localKey, created }) {
 	return {
 		ok: true,
 		mode: "chatgpt-website",
-		answer: "",
+		answer: result.answer,
 		conversationKey: localKey,
-		created: true,
+		created,
 		status: result.status,
-		done: false,
-		dispatched: result.dispatched === true,
-		accepted: result.accepted === true,
-		promptVerified: result.promptVerified === true,
-		responseStatus: result.responseStatus,
-		acceptedAt: result.acceptedAt,
+		done: result.done,
+		frames: result.frames,
+		items: result.items,
+		subscriptionAttempts: result.subscriptionAttempts,
 		completionSource: result.completionSource,
 		requestLatencyMs: result.requestLatencyMs,
+		pacing: result.pacing,
 		hostReuseSource: result.hostReuseSource,
-		sameConversation: false,
+		sameConversation: result.sameConversation,
 		navigatedToConversation: result.navigatedToConversation,
 		composerTouched: result.composerTouched === true,
 		submissionTransport: result.submissionTransport,

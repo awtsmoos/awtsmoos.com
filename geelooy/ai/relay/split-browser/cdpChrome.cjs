@@ -2,75 +2,76 @@
 // Boruch Hashem
 // Blessed is He
 
-const { findBrowserTarget, findPageTarget } = require("./debugChromeDiscovery.cjs");
+const { findPageTarget, findBrowserTarget } = require("./debugChromeDiscovery.cjs");
 const { summarizeDebugCookies } = require("./debugChromeCookies.cjs");
-const { reconcileKeeper } = require("./debugChromeKeeper.cjs");
 const { launchDebugChrome, debugPort, discoveryOptions } = require("./debugChromeLauncher.cjs");
 const { closeStaleDebugProcesses } = require("./debugChromeProcessRecovery.cjs");
-const { closeDebugChrome } = require("./debugChromeShutdown.cjs");
+const { createCdpClient } = require("./debugChromeWebSocket.cjs");
 const { purgeRestoredAgentTabs } = require("./restoredAgentTabPurge.cjs");
 
 /**
- * @file Makes browser readiness follow the authenticated profile's actual owner port.
+ * @file Owns startup and readiness of the isolated visible debug Chrome profile.
  * @description
- * The Awtsmoos reuses port 9223 when Chrome's singleton already owns the profile,
- * purges restored agent pages, normalizes one inert keeper, and only then permits a
- * final-URL target to be born for one accepted prompt dispatch.
+ * The Awtsmoos never calls a restored session ready. Awtsmoos.com purges every old
+ * custom-GPT target before returning the browser, while passive status remains
+ * non-destructive and unrelated pages remain untouched.
  */
 async function openDebugChrome(config = {}) {
 	const before = await statusDebugChrome(config);
 	if (before.ok) return prepareReady(config, before);
-	const firstLaunch = await launchDebugChrome(config);
-	const firstConfig = { ...config, debugPort: firstLaunch.debugPort };
-	const first = await waitForDebugChrome(firstConfig, 15000);
-	if (first.ok) return prepareReady(firstConfig, { ...first, launch: firstLaunch });
-	const port = firstLaunch.debugPort || debugPort(config);
+	launchDebugChrome(config);
+	const first = await waitForDebugChrome(config, 12000);
+	if (first.ok) return prepareReady(config, first);
+	const port = debugPort(config);
 	const recovery = await closeStaleDebugProcesses(port);
-	await sleep(recovery.closed ? 750 : 250);
-	const secondLaunch = await launchDebugChrome(firstConfig);
-	const secondConfig = { ...firstConfig, debugPort: secondLaunch.debugPort };
-	const second = await waitForDebugChrome(secondConfig, 20000);
-	if (!second.ok) {
-		return { ...second, recoveryAttempted: true,
-			staleProcessesClosed: recovery.closed, launch: secondLaunch };
-	}
-	const ready = await prepareReady(secondConfig, { ...second, launch: secondLaunch });
+	await sleep(recovery.closed ? 750 : 150);
+	launchDebugChrome(config);
+	const second = await waitForDebugChrome(config, 16000);
+	if (!second.ok) return { ...second, recoveryAttempted: true, staleProcessesClosed: recovery.closed };
+	const ready = await prepareReady(config, second);
 	return { ...ready, recoveryAttempted: true, staleProcessesClosed: recovery.closed };
 }
 
 async function prepareReady(config, state) {
-	const port = state.debugPort || debugPort(config);
 	const purge = await purgeRestoredAgentTabs({
-		port,
-		ports: [port],
+		port: state.debugPort || debugPort(config),
+		ports: [state.debugPort || debugPort(config)],
 		terminateOnResistance: true
 	});
 	if (!purge.ok) {
 		return { ok: false, status: "restored_agent_tabs_resisted",
 			error: `Restored agent tabs remained: ${purge.remaining}`, purge };
 	}
-	const keeper = await reconcileKeeper(port);
-	const browser = await findBrowserTarget({ preferredPort: port, onlyPreferred: true });
-	if (!browser.ok) {
-		return { ok: false, status: "debug_chrome_lost_after_purge",
-			error: browser.error || "Chrome exited after keeper reconciliation.", purge, keeper };
-	}
-	process.env.AWTSMOOS_CHROME_DEBUG_PORT = String(port);
-	return { ...state, ok: true, status: "debug_chrome_ready", debugPort: port,
-		targetKind: "browser", restoredAgentTabsClosed: purge.closed,
-		restoredAgentTabsRemaining: 0, keeper };
+	return { ...state, restoredAgentTabsClosed: purge.closed, restoredAgentTabsRemaining: 0 };
 }
 
 async function statusDebugChrome(config = {}) {
-	const target = await findBrowserTarget(discoveryOptions(config));
+	const target = await findPageTarget(discoveryOptions(config));
 	if (!target.ok) return target;
 	return { ok: true, status: "debug_chrome_ready", debugPort: target.debugPort,
-		targetKind: "browser", browser: target.browser || "Chrome" };
+		targetKind: target.kind, cookieCount: null, cookieNames: [] };
 }
 
 async function saveDebugCookies(config = {}) {
 	const target = await findPageTarget(discoveryOptions(config));
 	return target.ok ? summarizeDebugCookies(target, [], "") : target;
+}
+
+async function closeDebugChrome(config = {}) {
+	const port = debugPort(config);
+	const target = await findBrowserTarget({ preferredPort: port, onlyPreferred: true });
+	if (!target.ok) {
+		const recovery = await closeStaleDebugProcesses(port);
+		return { ok: true, status: recovery.closed
+			? "stale_debug_chrome_closed" : "debug_chrome_already_closed", debugPort: port };
+	}
+	const client = await createCdpClient(target.webSocketDebuggerUrl);
+	await Promise.race([client.send("Browser.close", {}).catch(() => undefined), sleep(750)]);
+	client.close();
+	const closed = await waitUntilClosed(port, 5000);
+	if (!closed) await closeStaleDebugProcesses(port);
+	return { ok: true, status: closed ? "debug_chrome_closed" : "stale_debug_chrome_closed",
+		debugPort: port };
 }
 
 async function waitForDebugChrome(config, milliseconds) {
@@ -79,14 +80,22 @@ async function waitForDebugChrome(config, milliseconds) {
 	while (Date.now() < deadline) {
 		last = await statusDebugChrome(config);
 		if (last.ok) return last;
-		await sleep(250);
+		await sleep(350);
 	}
 	return { ok: false, status: "debug_chrome_unavailable",
 		error: last?.error || "Chrome DevTools did not answer." };
 }
 
-function sleep(milliseconds) {
-	return new Promise(resolve => setTimeout(resolve, milliseconds));
+async function waitUntilClosed(port, milliseconds) {
+	const deadline = Date.now() + milliseconds;
+	while (Date.now() < deadline) {
+		const state = await findBrowserTarget({ preferredPort: port, onlyPreferred: true });
+		if (!state.ok) return true;
+		await sleep(150);
+	}
+	return false;
 }
 
-module.exports = { closeDebugChrome, openDebugChrome, saveDebugCookies, statusDebugChrome };
+function sleep(milliseconds) { return new Promise(resolve => setTimeout(resolve, milliseconds)); }
+
+module.exports = { openDebugChrome, statusDebugChrome, saveDebugCookies, closeDebugChrome };

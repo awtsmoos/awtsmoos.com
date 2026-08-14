@@ -1,107 +1,11 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-/* The Awtsmoos reveals new depth through one thin rail and closed progression doors. */
-.resource-rail {
-	display: grid;
-	grid-template-columns: 76px 82px minmax(150px, 1fr) 82px;
-	gap: 5px;
-	max-width: 610px;
-}
-.resource-rail > span {
-	display: grid;
-	gap: 2px;
-	min-width: 0;
-	padding: 6px 9px;
-	border: 1px solid rgba(255, 255, 255, 0.12);
-	border-radius: 11px;
-	background: rgba(4, 7, 22, 0.72);
-	box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
-	backdrop-filter: blur(10px);
-}
-.resource-rail small {
-	color: #8390b8;
-	font-size: 7px;
-	font-weight: 900;
-	letter-spacing: 0.12em;
-}
-.resource-rail b {
-	overflow: hidden;
-	color: #eef5ff;
-	font-size: 10px;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
-.resource-rail.adventure-active .shlichus-resource {
-	border-color: rgba(255, 218, 99, 0.45);
-	background: rgba(52, 38, 4, 0.7);
-}
-#pulse.cooling {
-	filter: saturate(0.42);
-	opacity: 0.78;
-}
-#pulse.cooling b { color: #9aa5c5; }
-#pulseState { min-width: 42px; }
-.expansion-disclosure {
-	border-color: rgba(126, 220, 255, 0.28);
-	background: rgba(36, 78, 105, 0.09);
-}
-.shlichus-grid, .talent-grid {
-	display: grid;
-	grid-template-columns: repeat(3, minmax(0, 1fr));
-	gap: 7px;
-}
-.talent-grid { margin-top: 8px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.shlichus-step, .talent-card {
-	display: grid;
-	gap: 5px;
-	min-width: 0;
-	padding: 10px;
-	border: 1px solid rgba(255, 255, 255, 0.11);
-	border-radius: 13px;
-	background: rgba(255, 255, 255, 0.04);
-	color: #eef5ff;
-	text-align: left;
-}
-.shlichus-step.active {
-	border-color: rgba(255, 218, 99, 0.55);
-	background: rgba(255, 218, 99, 0.08);
-}
-.shlichus-step.complete {
-	border-color: rgba(91, 235, 174, 0.48);
-	background: rgba(91, 235, 174, 0.07);
-}
-.shlichus-step b, .talent-card b { font-size: 10px; }
-.shlichus-step span, .talent-card span { color: #9eacd0; font-size: 9px; line-height: 1.35; }
-.shlichus-step em, .talent-card em { color: var(--gold); font-size: 8px; font-style: normal; }
-.talent-card { cursor: pointer; }
-.talent-card:hover:not(:disabled) { border-color: rgba(126, 220, 255, 0.52); }
-.talent-card.capped { opacity: 0.62; }
-.expansion-empty { color: #9eacd0; font-size: 10px; }
-.room-panel { display: grid; gap: 9px; }
-.room-panel p { margin: 0; color: #7edcff; font-size: 10px; font-weight: 900; }
-.room-panel small { color: #8b97b8; font-size: 8px; line-height: 1.4; }
-.room-controls { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 7px; }
-.room-controls input {
-	min-width: 0;
-	padding: 10px 12px;
-	border: 1px solid rgba(126, 220, 255, 0.32);
-	border-radius: 12px;
-	outline: none;
-	background: rgba(2, 5, 17, 0.78);
-	color: #eef5ff;
-	font: inherit;
-}
-.room-controls input:focus { border-color: #7edcff; }
-@media (max-width: 720px) {
-	.resource-rail {
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		max-width: none;
-	}
-	.resource-rail .shlichus-resource { grid-column: 1 / -1; grid-row: 2; }
-	.resource-rail > span { padding: 5px 7px; }
-	.resource-rail b { font-size: 9px; }
-	.shlichus-grid, .talent-grid { grid-template-columns: 1fr; }
-	.room-controls { grid-template-columns: 1fr; }
-	#pulse { bottom: 18px; }
-}
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews expansion through smaller vessels whose duties no longer collide;
+ * Awtsmoos.com keeps progression and room fellowship separate while preserving their final cascade side by side.
+ * This manifest remains last in style order so narrow-screen progression rules cannot be resurrected later.
+ */
+@import url('./expansion/progression.css');
+@import url('./expansion/rooms.css');

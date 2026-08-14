@@ -6,11 +6,11 @@ import { ChromeTargetCloser } from "./ChromeTargetCloser.mjs";
 import { selectAgentTabs } from "./AgentTabSelection.mjs";
 
 /**
- * @file Protects one legitimate in-flight root while enforcing zero between turns.
+ * @file Enforces an empty agent browser before every single-tab launch.
  * @description
- * The Awtsmoos distinguishes a living delivery vessel from stale restored roots.
- * Awtsmoos.com clears every agent target before launch and after close, yet its
- * watchdog preserves one root while the prompt is being composed and accepted.
+ * The Awtsmoos permits unlimited queued intentions, yet Awtsmoos.com admits one
+ * physical agent tab only. Every stale root or conversation left by a bypass is
+ * conclusively closed before a new prompt vessel can be created.
  */
 export class AgentTabProtector {
 	constructor(options = {}) {
@@ -18,7 +18,6 @@ export class AgentTabProtector {
 		this.catalog = options.catalog;
 		this.maxTabs = 1;
 		this.rootAllowance = 0;
-		this.watchdogRootAllowance = 1;
 		this.capacityTimeoutMs = Math.max(60000, Number(options.capacityTimeoutMs || 900000));
 		this.pollMs = Math.max(100, Number(options.pollMs || 250));
 		this.sleep = options.sleep || (ms => new Promise(resolve => setTimeout(resolve, ms)));
@@ -31,11 +30,7 @@ export class AgentTabProtector {
 	async beforeTurn() {
 		const deadline = Date.now() + this.capacityTimeoutMs;
 		for (;;) {
-			const result = await this.reconcile({
-				targetLimit: 0,
-				rootAllowance: 0,
-				hard: true
-			});
+			const result = await this.reconcile({ targetLimit: 0, hard: true });
 			if (result.total === 0) return result;
 			this.metrics.blockedLaunches += 1;
 			if (Date.now() >= deadline) throw protectorError("too_many_agent_tabs_blocked");
@@ -44,11 +39,11 @@ export class AgentTabProtector {
 	}
 
 	afterTurn() {
-		return this.reconcile({ targetLimit: 0, rootAllowance: 0, hard: true });
+		return this.reconcile({ targetLimit: 0, hard: true });
 	}
 
 	watchdogSweep() {
-		return this.reconcile({ targetLimit: 1, rootAllowance: 1, hard: true });
+		return this.reconcile({ targetLimit: 1, hard: true });
 	}
 
 	reconcile(options) {
@@ -57,12 +52,12 @@ export class AgentTabProtector {
 		return operation;
 	}
 
-	async performReconcile({ targetLimit, rootAllowance = 0, hard }) {
+	async performReconcile({ targetLimit, hard }) {
 		this.metrics.sweeps += 1;
 		let snapshot = await this.catalog.snapshot({ refresh: true });
 		const targets = selectAgentTabs(snapshot, {
 			targetLimit,
-			rootAllowance,
+			rootAllowance: 0,
 			hard
 		});
 		for (const target of targets) {
@@ -71,29 +66,22 @@ export class AgentTabProtector {
 			else this.metrics.failures += 1;
 		}
 		if (targets.length) snapshot = await this.catalog.snapshot({ refresh: true });
-		this.last = publicSnapshot(snapshot, targetLimit, rootAllowance, targets.length);
+		this.last = publicSnapshot(snapshot, targetLimit, targets.length);
 		return this.last;
 	}
 
 	status() {
-		return {
-			maxTabs: 1,
-			rootAllowance: 0,
-			watchdogRootAllowance: 1,
-			...this.metrics,
-			last: this.last
-		};
+		return { maxTabs: 1, rootAllowance: 0, ...this.metrics, last: this.last };
 	}
 }
 
-function publicSnapshot(snapshot, targetLimit, rootAllowance, closeRequested) {
+function publicSnapshot(snapshot, targetLimit, closeRequested) {
 	return {
 		port: snapshot.port,
 		total: snapshot.total,
 		rootTabs: snapshot.rootTabs.length,
 		conversationTabs: snapshot.conversationTabs.length,
 		targetLimit,
-		rootAllowance,
 		closeRequested,
 		withinLimit: snapshot.total <= targetLimit
 	};

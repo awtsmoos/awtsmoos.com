@@ -4,9 +4,9 @@
 
 /**
  * @file TerrainMaterialStackPreset.js
- * @description Defines six broad ecological garments instead of sixteen high-frequency repeats.
- * The Awtsmoos reveals one mountain meadow through grass, earth, moss, and stone; Awtsmoos.com
- * turns each source in a distinct direction while continuous masks erase the fiction of square cells.
+ * @description Gives the canonical valley three independent real grasses plus earth, marsh, and stone.
+ * The Awtsmoos reveals one mountain meadow through countless finite blades and changing soil;
+ * Awtsmoos.com keeps each grass photograph distinct while ecological masks join them without checkerboard toil.
  */
 
 import { materialStackRecipe } from './MaterialStackRecipe.js';
@@ -16,70 +16,63 @@ import {
 	MOUNTAIN_VILLAGE_TERRAIN_VARIANTS as T
 } from './MountainVillageTerrainSources.js';
 
-/**
- * Builds the terrain stack with phone-readable repeats and explicit ecological responsibilities.
- *
- * @returns {object} Six-layer terrain material recipe.
- */
 export function mountainTerrainStack() {
 	return materialStackRecipe('mountain-terrain', {
 		fallbackColor: [0.31, 0.34, 0.22, 1],
 		layers: [
-			meadow('meadow-base-grass', T.baseGrass, 100, [8, 7], 0.52, 0.12),
-			meadow('meadow-lush-grass', T.grassOne, 99, [7, 8], 0.42, -0.58, 0.22),
-			earth('meadow-open-soil', S.dirt, 98, [6, 6], 0.38, 1.04),
-			shoulderLayer(),
-			wetLayer(),
+			grassLayer('meadow-base-grass', T.grassOne, 100, [8, 7], 0.64, 0.12, 0.08),
+			grassLayer('meadow-lush-grass', T.grassFour, 99, [7, 8], 0.6, -0.58, 0.2),
+			grassLayer('meadow-dry-grass', T.grassEight, 98, [6, 7], 0.54, 1.12, -0.12),
+			earthLayer(),
+			wetBankLayer(),
 			stoneLayer()
 		]
 	});
 }
 
-function meadow(role, url, priority, repeat, strength, angle, wetness = 0.08) {
+function grassLayer(role, url, priority, repeat, strength, angle, wetness) {
 	return layer(role, url, {
 		angle,
 		priority,
 		repeat,
-		slope: [0, 0.58],
+		slope: [0, 0.66],
 		strength,
 		wetness,
-		zones: [1, 0.04, 0.12, 0.06]
+		zones: grassZones(role)
 	});
 }
 
-function earth(role, url, priority, repeat, strength, angle) {
-	return layer(role, url, {
-		angle,
-		priority,
-		repeat,
-		slope: [0.08, 0.82],
-		strength,
-		wetness: -0.12,
-		zones: [0.34, 0.18, 0.46, 0.18]
-	});
+function grassZones(role) {
+	if (role === 'meadow-lush-grass') {
+		return [0.8, 0.02, 0.28, 0.03];
+	}
+	if (role === 'meadow-dry-grass') {
+		return [0.68, 0.02, 0.05, 0.32];
+	}
+	return [0.94, 0.02, 0.14, 0.05];
 }
 
-function shoulderLayer() {
-	return layer('meadow-road-shoulder', T.dirtGrassThree, {
-		angle: -1.22,
+function earthLayer() {
+	return layer('meadow-open-soil', S.dirt, {
+		angle: 1.04,
 		priority: 97,
-		repeat: [5, 6],
-		slope: [0, 0.54],
-		strength: 0.64,
-		wetness: -0.04,
-		zones: [0.22, 1, 0.08, 0]
+		repeat: [6, 6],
+		slope: [0.06, 0.86],
+		strength: 0.56,
+		wetness: -0.1,
+		zones: [0.28, 0.92, 0.22, 0.2]
 	});
 }
 
-function wetLayer() {
+function wetBankLayer() {
 	return layer('meadow-moss-and-wet-grass', T.marshGrass, {
 		angle: 0.76,
 		priority: 96,
 		repeat: [7, 6],
-		slope: [0, 0.46],
-		strength: 0.44,
-		wetness: 0.72,
-		zones: [0.22, 0, 1, 0]
+		slope: [0, 0.5],
+		strength: 0.62,
+		wetness: 0.7,
+		zones: [0.18, 0, 1, 0]
 	});
 }
 
@@ -88,8 +81,8 @@ function stoneLayer() {
 		angle: 1.68,
 		priority: 95,
 		repeat: [5, 5],
-		slope: [0.26, 1],
-		strength: 0.58,
-		zones: [0.06, 0, 0, 1]
+		slope: [0.24, 1],
+		strength: 0.62,
+		zones: [0.04, 0, 0, 1]
 	});
 }

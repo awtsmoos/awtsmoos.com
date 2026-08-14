@@ -1,0 +1,68 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-apps-archive-uploader-d1abfc99",
+	"path": "geelooy/apps/archive-uploader",
+	"type": "app",
+	"family": {
+		"id": "apps",
+		"title": "Applications"
+	},
+	"title": "IA//HYPER_UPLOADER",
+	"entries": [
+		"index.html",
+		"app.js"
+	],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/APPS.md",
+		"docs/APPS/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-archive-uploader-d1abfc99.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 3,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 0,
+		"other": 0
+	},
+	"totalFiles": 3,
+	"symbolSummary": {
+		"files": 1,
+		"classes": 0,
+		"functions": 17,
+		"exports": 0,
+		"samples": [
+			"checkAuth",
+			"saveCredentials",
+			"purgeCredentials",
+			"selectDirectory",
+			"processRootEntry",
+			"scanDirectory",
+			"addToQueue",
+			"processQueue",
+			"uploadItem",
+			"handleSuccess",
+			"handleError",
+			"fetchExistingFileLists"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/apps/archive-uploader",
+			"file": "geelooy/apps/archive-uploader/index.html",
+			"title": "IA//HYPER_UPLOADER",
+			"scripts": 1,
+			"styles": 1
+		}
+	],
+	"requiresLocalDocumentation": false,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

@@ -1,0 +1,102 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos remembers meaning without surveillance; Awtsmoos.com keeps the private journal primary while capture choices fold into one native mobile disclosure instead of occupying the path before the remembered deeds in light. */
+
+.messaging-special-header {
+	display: flex;
+	gap: 1rem;
+	align-items: flex-start;
+	justify-content: space-between;
+	margin-bottom: 0.85rem;
+}
+
+.messaging-special-header h2 {
+	margin: 0;
+	font-size: clamp(1.1rem, 2vw, 1.45rem);
+}
+
+.messaging-special-header p {
+	margin: 0.3rem 0 0;
+	max-width: 66ch;
+	color: var(--msg-soft);
+	line-height: 1.55;
+}
+
+.messaging-activity-workspace {
+	width: min(920px, calc(100% - 2rem));
+	margin: 0 auto;
+	padding: clamp(1.1rem, 4vw, 2.4rem) 0 2rem;
+}
+
+.messaging-activity-header > div:first-child {
+	min-width: 0;
+}
+
+.messaging-activity-disclosure {
+	margin-bottom: 0.2rem;
+}
+
+.messaging-activity-preferences {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.35rem;
+}
+
+.messaging-activity-preferences span {
+	display: inline-flex;
+	align-items: center;
+	min-height: 28px;
+	padding: 0 0.55rem;
+	border: 1px solid var(--msg-line);
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.025);
+	color: var(--msg-muted);
+	font-size: 0.64rem;
+	font-weight: 680;
+	white-space: nowrap;
+}
+
+.messaging-activity-journal {
+	display: grid;
+	gap: 1.15rem;
+	margin-top: 0.8rem;
+}
+
+.messaging-activity-day > h3 {
+	margin: 0 0 0.35rem;
+	color: var(--msg-soft);
+	font-size: 0.72rem;
+	font-weight: 800;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+}
+
+.messaging-activity-workspace > .messaging-empty-state {
+	min-height: 440px;
+}
+
+@media (max-width: 760px) {
+	.messaging-activity-workspace {
+		width: calc(100% - 1.2rem);
+		padding: 0.75rem 0 1.5rem;
+	}
+
+	.messaging-activity-header {
+		margin-bottom: 0.65rem;
+	}
+
+	.messaging-activity-header p {
+		font-size: 0.78rem;
+		line-height: 1.45;
+	}
+
+	.messaging-activity-preferences {
+		gap: 0.3rem;
+	}
+
+	.messaging-activity-journal {
+		margin-top: 0.65rem;
+	}
+}

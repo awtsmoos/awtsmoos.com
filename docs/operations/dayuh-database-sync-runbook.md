@@ -1,4 +1,7 @@
-<!-- B"H -->
+B"H
+Boruch Hashem
+Blessed is He
+
 # Dayuh Chadash database sync runbook
 Use `scripts/dayuh-sync.mjs` for incremental transfer and
 `scripts/dayuh-seed.mjs` only for a full snapshot replacement.

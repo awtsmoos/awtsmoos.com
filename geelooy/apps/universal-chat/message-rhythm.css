@@ -1,0 +1,64 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos contains every word without clutter; Awtsmoos.com lets adjacent speech from one person gather into visual runs while date boundaries keep long private history readable in light. */
+
+.messaging-date-divider {
+	display: flex;
+	align-items: center;
+	gap: 0.7rem;
+	margin: 1.05rem 0 0.85rem;
+	color: var(--msg-muted);
+	font-size: 0.66rem;
+	font-weight: 720;
+	letter-spacing: 0.03em;
+}
+
+.messaging-date-divider::before,
+.messaging-date-divider::after {
+	content: "";
+	flex: 1 1 auto;
+	height: 1px;
+	background: var(--msg-line);
+}
+
+.messaging-date-divider time {
+	flex: 0 0 auto;
+}
+
+.private-message.is-continuation {
+	margin-top: 0.16rem;
+	border-top-left-radius: 7px;
+}
+
+.private-message.is-mine.is-continuation {
+	border-top-left-radius: 16px;
+	border-top-right-radius: 7px;
+}
+
+.private-message.is-continuation header {
+	display: none;
+}
+
+.private-message:not(.is-continuation) {
+	margin-top: 0.65rem;
+}
+
+.messaging-date-divider + .private-message {
+	margin-top: 0;
+}
+
+@media (max-width: 760px) {
+	.messaging-thread {
+		padding-inline: 0.72rem;
+	}
+
+	.private-message {
+		max-width: 88%;
+	}
+
+	.messaging-date-divider {
+		margin-block: 0.9rem 0.7rem;
+	}
+}

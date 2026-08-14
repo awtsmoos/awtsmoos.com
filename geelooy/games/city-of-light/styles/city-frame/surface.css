@@ -1,0 +1,27 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews the city itself before every label and control;
+ * Awtsmoos.com gives the renderer one full viewport so generated streets become the player's whole visual vessel.
+ * This module owns only the game frame and Canvas geometry.
+ */
+.gameFrame {
+	background: #03040a;
+	height: 100%;
+	overflow: hidden;
+	position: relative;
+	width: 100%;
+}
+
+#cityCanvas {
+	display: block;
+	height: 100%;
+	inset: 0;
+	position: absolute;
+	touch-action: none;
+	user-select: none;
+	-webkit-user-select: none;
+	width: 100%;
+}

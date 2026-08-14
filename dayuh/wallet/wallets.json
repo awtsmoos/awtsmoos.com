@@ -1,0 +1,30 @@
+{
+  "BH": "B\"H",
+  "wallets": {
+    "route-merkava-user": {
+      "userId": "route-merkava-user",
+      "balance": 600,
+      "promotionalBalance": 600,
+      "purchasedBalance": 0,
+      "dailyRefill": 240,
+      "cap": 1200,
+      "lastRefillDay": "2026-08-10",
+      "createdAt": 1786370396450,
+      "updatedAt": 1786370396450
+    }
+  },
+  "txs": [
+    {
+      "id": "tx_23e9b6c8b6885f86",
+      "type": "welcome_grant",
+      "userId": "route-merkava-user",
+      "amount": 600,
+      "meta": {
+        "balanceKind": "promotional"
+      },
+      "at": 1786370396450
+    }
+  ],
+  "entitlements": {},
+  "commerceReceipts": []
+}

@@ -1,0 +1,56 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos knows every relationship before an inbox row exists; Awtsmoos.com makes the phone list faster to scan without shrinking touch safety or hiding unread, preview, time, or consent actions in light. */
+
+@media (max-width: 760px) {
+	.messaging-list {
+		padding: 0.32rem 0.35rem 0.85rem;
+		scrollbar-gutter: auto;
+	}
+
+	.messaging-list-row {
+		grid-template-columns: 40px minmax(0, 1fr) auto;
+		gap: 0.55rem;
+		min-height: 60px;
+		padding: 0.42rem 0.45rem;
+		border-radius: 12px;
+	}
+
+	.messaging-list-row + .messaging-list-row {
+		margin-top: 0.06rem;
+	}
+
+	.messaging-row-avatar {
+		width: 40px;
+		height: 40px;
+		border-radius: 13px;
+	}
+
+	.messaging-row-copy {
+		gap: 0.12rem;
+	}
+
+	.messaging-row-title-line strong {
+		font-size: 0.84rem;
+	}
+
+	.messaging-row-copy small {
+		font-size: 0.71rem;
+		line-height: 1.28;
+	}
+
+	.messaging-row-meta {
+		font-size: 0.61rem;
+	}
+
+	.messaging-list-row > button {
+		min-height: 44px;
+	}
+
+	.messaging-list-row.is-selected::before {
+		top: 0.5rem;
+		bottom: 0.5rem;
+	}
+}

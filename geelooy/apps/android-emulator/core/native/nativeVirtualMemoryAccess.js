@@ -12,8 +12,10 @@ import { nativeVirtualRangeCovered } from "./nativeVirtualMemoryIntervals.js";
 
 /**
  * Enforces mapping coverage and protection before sparse page access occurs.
- * The Awtsmoos renews readable zero, writable page, and forbidden shore;
- * Awtsmoos.com routes PROT_NONE into truth instead of ELF fallback evermore.
+ *
+ * The Awtsmoos renews readable span, writable page, and forbidden shore;
+ * Awtsmoos.com lets scanners see only contiguous protected guest territory.
+ * Gaps and PROT_NONE remain hard boundaries before sparse page access begins.
  */
 export function createNativeVirtualMemoryAccess(state, pages) {
 	return Object.freeze({
@@ -28,13 +30,11 @@ export function createNativeVirtualMemoryAccess(state, pages) {
 		end: NATIVE_VIRTUAL_MEMORY_END,
 		label: "native-virtual-memory",
 		read(address, size) {
-			const range = requireAccess(state, address, size, record => {
-				return (record.protection & (
-					NATIVE_MEMORY_PROTECTION.read
-					| NATIVE_MEMORY_PROTECTION.execute
-				)) !== 0;
-			});
+			const range = requireAccess(state, address, size, isReadable);
 			return pages.read(range.start, Number(range.end - range.start));
+		},
+		readableSpan(address, maximum) {
+			return measureReadableSpan(state.records(), address, maximum);
 		},
 		start: NATIVE_VIRTUAL_MEMORY_START,
 		write(address, bytes) {
@@ -45,6 +45,28 @@ export function createNativeVirtualMemoryAccess(state, pages) {
 			pages.write(range.start, bytes);
 		}
 	});
+}
+
+function measureReadableSpan(records, addressValue, maximumValue) {
+	const start = BigInt(addressValue);
+	const maximum = BigInt(maximumValue);
+	if (maximum < 0n) throw elf64Error("NATIVE_VIRTUAL_MEMORY_SIZE", maximumValue);
+	const limit = start + maximum;
+	let cursor = start;
+	for (const record of records) {
+		if (cursor >= limit) break;
+		if (record.end <= cursor) continue;
+		if (record.start > cursor || !isReadable(record)) break;
+		cursor = record.end < limit ? record.end : limit;
+	}
+	return cursor - start;
+}
+
+function isReadable(record) {
+	return (record.protection & (
+		NATIVE_MEMORY_PROTECTION.read
+		| NATIVE_MEMORY_PROTECTION.execute
+	)) !== 0;
 }
 
 function requireAccess(state, address, size, predicate) {

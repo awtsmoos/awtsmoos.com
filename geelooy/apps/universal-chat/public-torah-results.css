@@ -1,0 +1,109 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos is beyond chosen and unchosen source cards; Awtsmoos.com makes the finite one-to-five boundary unmistakable on narrow glass, with a larger selection mark, visible provenance, and one whole-card thumb target in light. */
+
+.messaging-special-pane .universal-chat-results {
+	display: grid;
+	gap: 0.45rem;
+	max-height: 250px;
+	overflow-y: auto;
+	padding-right: 0.2rem;
+	overscroll-behavior: contain;
+}
+
+.messaging-special-pane .universal-chat-result {
+	position: relative;
+	grid-template-columns: 24px minmax(0, 1fr);
+	align-items: start;
+	gap: 0.65rem;
+	min-height: 84px;
+	padding: 0.72rem;
+	border-color: var(--msg-line);
+	border-radius: 14px;
+	background: rgba(255, 255, 255, 0.028);
+	transition: transform 120ms ease, border-color 120ms ease, background 120ms ease, opacity 120ms ease;
+}
+
+.messaging-special-pane .universal-chat-result:hover {
+	border-color: rgba(121, 224, 183, 0.24);
+	background: rgba(121, 224, 183, 0.045);
+}
+
+.messaging-special-pane .universal-chat-result.is-selected {
+	border-color: rgba(121, 224, 183, 0.46);
+	background: rgba(121, 224, 183, 0.105);
+	box-shadow: inset 3px 0 0 rgba(121, 224, 183, 0.7);
+}
+
+.messaging-special-pane .universal-chat-result:has(input:disabled:not(:checked)) {
+	opacity: 0.46;
+}
+
+.messaging-special-pane .universal-chat-result input[type="checkbox"] {
+	width: 22px;
+	height: 22px;
+	min-height: 0;
+	margin: 0.08rem 0 0;
+	accent-color: var(--msg-accent);
+}
+
+.messaging-special-pane .universal-chat-result > span {
+	display: grid;
+	gap: 0.2rem;
+	min-width: 0;
+}
+
+.messaging-special-pane .universal-chat-result > span > strong {
+	font-size: 0.84rem;
+	line-height: 1.32;
+}
+
+.messaging-special-pane .universal-chat-result > span > small {
+	color: var(--msg-accent);
+	font-size: 0.64rem;
+	font-weight: 720;
+	line-height: 1.35;
+	opacity: 0.82;
+}
+
+.messaging-special-pane .universal-chat-result > span > span {
+	color: var(--msg-soft);
+	font-size: 0.76rem;
+	line-height: 1.48;
+}
+
+.messaging-special-pane .universal-chat-selection-summary,
+.messaging-special-pane .universal-chat-results-empty {
+	margin: 0;
+	color: var(--msg-muted);
+	font-size: 0.68rem;
+	font-weight: 650;
+	line-height: 1.4;
+}
+
+@media (max-width: 760px) {
+	.messaging-special-pane .universal-chat-results {
+		gap: 0.38rem;
+		max-height: min(34dvh, 300px);
+		padding-right: 0.1rem;
+	}
+
+	.messaging-special-pane .universal-chat-result {
+		grid-template-columns: 28px minmax(0, 1fr);
+		min-height: 88px;
+		gap: 0.55rem;
+		padding: 0.68rem;
+	}
+
+	.messaging-special-pane .universal-chat-result input[type="checkbox"] {
+		width: 24px;
+		height: 24px;
+	}
+
+	.messaging-special-pane .universal-chat-result > span > span {
+		font-size: 0.75rem;
+		line-height: 1.44;
+	}
+}

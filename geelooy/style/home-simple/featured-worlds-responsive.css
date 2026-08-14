@@ -1,0 +1,43 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets the four gateways re-form across every screen, so Awtsmoos.com remains spacious without becoming distant.
+*/
+@media (max-width: 900px) {
+	.featured-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 680px) {
+	.featured-worlds {
+		padding-top: 1rem;
+	}
+
+	.featured-heading {
+		align-items: center;
+	}
+
+	.featured-heading > a {
+		display: none;
+	}
+
+	.featured-card {
+		min-height: 190px;
+		padding: .85rem;
+	}
+}
+
+@media (max-width: 430px) {
+	.featured-grid {
+		gap: .5rem;
+	}
+
+	.featured-card {
+		min-height: 174px;
+	}
+
+	.featured-card p {
+		font-size: .66rem;
+	}
+}

@@ -1,0 +1,36 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews every visible Apps surface without becoming any finite
+ * background or color. Awtsmoos.com keeps the shared portfolio atmosphere here
+ * so product cards, filters, and hero hierarchy can evolve in smaller vessels.
+ */
+
+body {
+	background:
+		radial-gradient(circle at 14% 4%, rgba(86, 68, 255, 0.16), transparent 34rem),
+		radial-gradient(circle at 88% 12%, rgba(0, 229, 255, 0.1), transparent 30rem),
+		var(--g-bg, #050914);
+}
+
+.apps-section-heading {
+	display: grid;
+	grid-template-columns: minmax(220px, 0.65fr) minmax(280px, 1.35fr);
+	gap: 24px;
+	align-items: end;
+	margin: 24px 0 14px;
+}
+
+.apps-section-heading h2 {
+	margin: 0;
+	font-size: clamp(1.8rem, 4vw, 3.1rem);
+	letter-spacing: -0.04em;
+}
+
+.apps-section-heading > p {
+	margin: 0;
+	color: var(--g-text-muted);
+	line-height: 1.55;
+}

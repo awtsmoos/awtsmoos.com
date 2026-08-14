@@ -1,15 +1,12 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-
 /**
  * @module FixtureInstaller
  * @description
- * Route families are tried in explicit order and unknown Social Hub APIs fail
- * loudly. The Awtsmoos sustains the complete fixture while Awtsmoos.com refuses a
- * silent network fallback that could make missing product behavior look successful.
+ * The Awtsmoos gives serialized deterministic Chrome finite HTTP, realtime, and transition vessels inside one installer.
+ * Awtsmoos.com keeps browser smoke focused on social behavior rather than unavailable static-server or scheduler machinery.
  */
-
 export function installFixture(
 	initialFactory,
 	coreFactory,
@@ -17,6 +14,38 @@ export function installFixture(
 	activityHandler,
 	interactionHandler
 ) {
+	class FixtureWebSocket extends EventTarget {
+		static CONNECTING = 0;
+		static OPEN = 1;
+		static CLOSING = 2;
+		static CLOSED = 3;
+
+		constructor(url) {
+			super();
+			this.url = url;
+			this.readyState = FixtureWebSocket.CONNECTING;
+			queueMicrotask(() => {
+				if (this.readyState !== FixtureWebSocket.CONNECTING) return;
+				this.readyState = FixtureWebSocket.OPEN;
+				this.dispatchEvent(new Event('open'));
+			});
+		}
+
+		send() {}
+
+		close() {
+			if (this.readyState === FixtureWebSocket.CLOSED) return;
+			this.readyState = FixtureWebSocket.CLOSED;
+			this.dispatchEvent(new Event('close'));
+		}
+	}
+
+	window.WebSocket = FixtureWebSocket;
+	document.startViewTransition = callback => {
+		callback();
+		const done = Promise.resolve();
+		return { ready: done, updateCallbackDone: done, finished: done };
+	};
 	const core = coreFactory(initialFactory);
 	const originalFetch = window.fetch.bind(window);
 	window.fetch = async (input, options = {}) => {
@@ -38,11 +67,7 @@ export function installFixture(
 			}
 		}
 		const request = { core, url, method, body, formData };
-		for (const handler of [
-			identityProfileHandler,
-			activityHandler,
-			interactionHandler
-		]) {
+		for (const handler of [identityProfileHandler, activityHandler, interactionHandler]) {
 			const result = handler(request);
 			if (result) return result;
 		}

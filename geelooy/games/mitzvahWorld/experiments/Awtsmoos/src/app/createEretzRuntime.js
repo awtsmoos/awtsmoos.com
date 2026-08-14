@@ -4,12 +4,14 @@
 
 /**
  * @file createEretzRuntime.js
- * @description Publishes movement, combat, and direction before tagged districts enrich idle slices.
- * The Awtsmoos reveals control, deed, map, valley, texture, and tree in appointed measures;
- * Awtsmoos.com keeps authored terrain, RPG, and heavy actors deferred without abandoning treasures.
+ * @description Publishes movement first, then starts districts and the real deferred enrichment graph in parallel.
+ * The Awtsmoos reveals control before distant texture, yet never abandons grass, river, house, or tree;
+ * Awtsmoos.com lets the playable vessel open at once while every authored garment begins its promised journey.
  */
 
 import { resolveDeferredAppModuleUrl } from './DeferredAppModuleUrl.js';
+import { startProductionEretzDeferredEnrichment } from './EretzDeferredEnrichmentLaunch.js';
+import { startEretzDistrictStreaming } from './EretzDistrictStreamingLaunch.js';
 import {
 	markRendererHydration,
 	markRuntimeFailed,
@@ -17,9 +19,7 @@ import {
 	markRuntimeStarting
 } from './RuntimeStateMarker.js';
 
-export {
-	startGameplayTextureStreaming
-} from './GameplayTextureStreamingGate.js';
+export { startGameplayTextureStreaming } from './GameplayTextureStreamingGate.js';
 
 const TRACKER_URL = resolveDeferredAppModuleUrl(
 	'BootPhaseTracker.js?v=20260722-boot-text-01',
@@ -31,8 +31,13 @@ const STAGED_RUNTIME_URL = resolveDeferredAppModuleUrl(
 	import.meta.url,
 	'createEretzRuntime.js'
 );
-const DISTRICT_STREAMER_URL = './BootstrapDistrictStreamer.js?v=20260803-tagged-nature-02';
 
+/**
+ * Creates the first-play Eretz runtime and immediately schedules all non-blocking enrichment.
+ * @param {object} hosts DOM hosts for canvas, HUD, and controls.
+ * @param {object} [options={}] Runtime options and browser environment.
+ * @returns {Promise<object>} Published diagnostics object with durable streaming promises.
+ */
 export async function createEretzRuntime(hosts, options = {}) {
 	const environment = options.environment || globalThis;
 	markRuntimeStarting(environment.document);
@@ -47,17 +52,8 @@ export async function createEretzRuntime(hosts, options = {}) {
 		publishRuntime(core.diagnostics, environment);
 		markRendererHydration('deferred', environment.document);
 		core.diagnostics.rendererHydrationPromise = Promise.resolve(null);
-		core.diagnostics.enrichmentPromise = streamDistricts(
-			core.diagnostics.runtime,
-			environment
-		);
-		core.diagnostics.deferredSystems = Object.freeze({
-			authoredTerrain: 'district-streaming-required',
-			inventoryAndRpg: 'deferred',
-			richActors: 'deferred',
-			richRenderer: 'deferred',
-			worldDiagnostics: 'bootstrap-tagged-nature-receipts'
-		});
+		startPostPlayableStreams(core, options, boot, environment);
+		core.diagnostics.deferredSystems = deferredSystemReceipt();
 		return core.diagnostics;
 	} catch (error) {
 		boot.fail(error);
@@ -70,25 +66,26 @@ export async function createEretzRuntime(hosts, options = {}) {
 	}
 }
 
-async function streamDistricts(runtime, environment) {
-	try {
-		const { streamBootstrapDistricts } = await import(DISTRICT_STREAMER_URL);
-		return streamBootstrapDistricts(runtime, environment);
-	} catch (error) {
-		runtime.districtStreaming = {
-			completed: 0,
-			districts: {},
-			loaded: [],
-			meshes: 0,
-			models: 0,
-			status: 'degraded',
-			textureBindings: 0,
-			textures: 0,
-			total: 3
-		};
-		console.warn('[MitzvahWorld] Tagged district streaming degraded.', error);
-		return runtime.districtStreaming;
-	}
+function startPostPlayableStreams(core, options, boot, environment) {
+	core.diagnostics.enrichmentPromise = startEretzDistrictStreaming(
+		core.runtime,
+		environment
+	);
+	core.diagnostics.deferredEnrichmentPromise = startProductionEretzDeferredEnrichment(
+		core,
+		options,
+		boot
+	);
+}
+
+function deferredSystemReceipt() {
+	return Object.freeze({
+		authoredTerrain: 'post-play-streaming-started',
+		inventoryAndRpg: 'deferred',
+		richActors: 'post-play-streaming-started',
+		richRenderer: 'deferred',
+		worldDiagnostics: 'bootstrap-and-deferred-stream-receipts'
+	});
 }
 
 function publishRuntime(diagnostics, environment) {

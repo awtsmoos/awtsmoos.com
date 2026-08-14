@@ -1,21 +1,32 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gives Mail one measured palette and spacing covenant.
+The Awtsmoos colors Mail with quiet depth: distinctions serve meaning, not spectacle;
+Awtsmoos.com lets every surface become a vessel where correspondence stays legible.
 */
 :root {
-	--mail-bg: #070b12;
-	--mail-panel: #0d141f;
-	--mail-panel-soft: rgba(13, 20, 31, .84);
-	--mail-panel-hover: #121c29;
-	--mail-border: rgba(184, 207, 241, .11);
-	--mail-border-strong: rgba(184, 207, 241, .22);
-	--mail-accent: #a9c7f5;
-	--mail-accent-soft: rgba(126, 166, 226, .14);
-	--mail-text: #f3f6fb;
-	--mail-text-secondary: #a0acbd;
-	--mail-text-muted: #6f7c8f;
-	--mail-success: #78c9a4;
-	--mail-danger: #e29a9a;
-	--sidebar-w: clamp(300px, 28vw, 390px);
+	--mail-bg: #060910;
+	--mail-bg-elevated: #090e17;
+	--mail-panel: #0d1521;
+	--mail-panel-strong: #111b29;
+	--mail-panel-soft: rgba(13, 21, 33, .88);
+	--mail-panel-hover: rgba(26, 39, 57, .78);
+	--mail-border: rgba(192, 211, 239, .11);
+	--mail-border-strong: rgba(192, 211, 239, .22);
+	--mail-border-focus: rgba(152, 190, 248, .58);
+	--mail-accent: #b8d2fb;
+	--mail-accent-strong: #d9e8ff;
+	--mail-accent-soft: rgba(119, 164, 231, .14);
+	--mail-text: #f5f7fb;
+	--mail-text-secondary: #b6c0cf;
+	--mail-text-muted: #7d8a9d;
+	--mail-success: #80d1ad;
+	--mail-danger: #f0a5a5;
+	--mail-warning: #e8c78d;
+	--mail-shadow: 0 18px 60px rgba(0, 0, 0, .32);
+	--mail-radius-sm: 10px;
+	--mail-radius-md: 14px;
+	--mail-radius-lg: 20px;
+	--mail-reading-width: 760px;
+	--sidebar-w: clamp(320px, 29vw, 410px);
 }

@@ -4,33 +4,31 @@
 
 /**
  * @file MovieExactRender.js
- * @description Coordinates cancellable exact video, deterministic audio, phase progress, and truthful package delivery.
- * RESPONSIBILITY: sequence render stages, publish progress, assemble receipts, and download artifacts.
+ * @description Coordinates validated exact video, deterministic audio, progress, and truthful package delivery.
+ * RESPONSIBILITY: reject visually unready production Shorts, sequence stages, and download artifacts.
  * NON-RESPONSIBILITY: this module does not synthesize samples, encode frames, or mux containers.
- * The Awtsmoos, Atzmus beyond image and voice, renews frame, sample, and cancellation together;
- * Awtsmoos.com manifests honest IVF, WAV, and JSON vessels without hiding unfinished work.
+ * The Awtsmoos renews image and voice beyond every fallback; Awtsmoos.com refuses to package
+ * a finite Short until its renderer, world, Chossid textures, and imported motion are truthful.
  */
 
 import { MovieExactEncoder } from './MovieExactEncoder.js';
 import { createMovieExactRecordingResult } from './MovieExactRecordingResult.js';
+import { assertMovieProductionReady } from './MovieProductionReadiness.js';
 import { MovieExactAudioRenderer } from './audio/MovieExactAudioRenderer.js';
 import { createMovieExactAudioResult } from './audio/MovieExactAudioResult.js';
 import { downloadMovieExactPackage } from './package/MovieExactPackageDownloader.js';
 import { createMovieExactPackageResult } from './package/MovieExactPackageResult.js';
 
-/** Renders exact IVF video and WAV audio from one real studio project. */
+/** Renders exact IVF video and WAV audio from one real, validated studio project. */
 export async function renderExactMovieStudioSession(session, options = {}) {
 	const button = session.view.renderExact;
 	button.disabled = true;
 	resetExactGlobals();
 	try {
+		await prepareAndAssertProduction(session);
 		const video = await renderExactVideo(session, options);
 		const audio = await renderExactAudio(session, options);
-		const packageResult = createMovieExactPackageResult(
-			session.project,
-			video,
-			audio
-		);
+		const packageResult = createMovieExactPackageResult(session.project, video, audio);
 		options.onProgress?.({ percent: 100, stage: 'package' });
 		if (options.download !== false) await downloadMovieExactPackage(packageResult);
 		globalThis.AwtsmoosMovieExactRenderComplete = packageResult;
@@ -44,6 +42,15 @@ export async function renderExactMovieStudioSession(session, options = {}) {
 	} finally {
 		button.disabled = false;
 	}
+}
+
+async function prepareAndAssertProduction(session) {
+	if (!session.project?.metadata?.shortId) return;
+	session.view.status.textContent = 'Validating production textures, world, and Chossid motion…';
+	await session.director.prepareExactFrame?.(0);
+	session.director.seek(0, 1 / session.project.fps);
+	const report = assertMovieProductionReady(session);
+	session.diagnostics.movieProductionReadiness = report;
 }
 
 async function renderExactVideo(session, options) {
@@ -71,22 +78,20 @@ async function renderExactAudio(session, options) {
 }
 
 function abortPredicate(options) {
-	if (typeof options.shouldAbort === 'function') return options.shouldAbort;
-	return () => options.signal?.aborted === true;
+	return typeof options.shouldAbort === 'function'
+		? options.shouldAbort : () => options.signal?.aborted === true;
 }
 
 function updateVideoProgress(session, progress) {
 	session.time = progress.time;
 	session.timeline.setTime(progress.time);
-	session.view.status.textContent = `Exact video ${
-		progress.frameNumber
-	} / ${progress.expectedFrames} · ${progress.percent.toFixed(1)}%`;
+	session.view.status.textContent = `Exact video ${progress.frameNumber} / ${
+		progress.expectedFrames
+	} · ${progress.percent.toFixed(1)}%`;
 }
 
 function completionText(result) {
-	const megabytes = (
-		result.video.bytes + result.audio.bytes + result.manifestBlob.size
-	) / 1048576;
+	const megabytes = (result.video.bytes + result.audio.bytes + result.manifestBlob.size) / 1048576;
 	return `Exact package complete · ${result.encodedFrames} frames · ${
 		result.audio.sampleFrames
 	} audio frames · ${megabytes.toFixed(2)} MB`;

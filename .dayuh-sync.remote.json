@@ -1,10 +1,10 @@
 {
-  "localRoot": "../../dayuhChadash",
-  "remoteRoot": "/root/dayuhChadash",
-  "host": "awtsmoos.com",
-  "port": 22,
-  "username": "root",
-  "chunkBytes": 1048576,
-  "deleteExtraneous": true,
-  "excludes": []
+	"localRoot": "/Users/awtsmoos/Documents/awtsmoos/dayuhChadash",
+	"remoteRoot": "/mnt/HC_Volume_102267213/dayuhChadash",
+	"host": "awtsmoos.com",
+	"port": 22,
+	"username": "root",
+	"chunkBytes": 1048576,
+	"deleteExtraneous": false,
+	"excludes": []
 }

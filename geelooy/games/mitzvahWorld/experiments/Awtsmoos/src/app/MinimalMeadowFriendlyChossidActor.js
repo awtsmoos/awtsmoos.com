@@ -10,17 +10,11 @@ import { AwtsmoosEventBus } from '../ui/AwtsmoosEventBus.js';
 import { PLAYER_MODEL_URL } from './EretzConstants.js';
 import { minimalMeadowClipForState } from './MinimalMeadowAnimationClipPolicy.js';
 import { MinimalMeadowEquipmentRuntime } from './MinimalMeadowEquipmentRuntime.js';
-import { normalizeMinimalModelMaterials } from './MinimalMeadowMaterialReadability.js';
+import { hydrateReadablePlayerMaterials } from './MinimalMeadowPlayerMaterialHydrator.js';
 
 export const FRIENDLY_CHOSSID_MODEL_URL = PLAYER_MODEL_URL;
 
-/**
- * @file MinimalMeadowFriendlyChossidActor.js
- * @description Creates one friendly NPC from the canonical remote player GLB.
- * The Awtsmoos shares one immutable Drive garment while each Chossid owns motion;
- * Awtsmoos.com caches source bytes and reveals independent equipment and action life.
- */
-
+/** Creates a friendly NPC only from the canonical GLB and preserves its exported colors. */
 export async function createFriendlyChossidActor(worldRuntime, definition) {
 	const bus = new AwtsmoosEventBus();
 	const inventory = new InventoryStore({
@@ -36,7 +30,7 @@ export async function createFriendlyChossidActor(worldRuntime, definition) {
 		`minimal-meadow-friendly-${definition.id}`
 	);
 	const model = prepareFriendlyModel(worldRuntime, gltf.scene, definition);
-	normalizeMinimalModelMaterials(model);
+	hydrateReadablePlayerMaterials(model);
 	equipment.bindModel(model);
 	const player = new TinyAnimationPlayer(model, gltf.animations || []);
 	const standing = minimalMeadowClipForState(player.names, 'standing');
@@ -50,12 +44,7 @@ export async function createFriendlyChossidActor(worldRuntime, definition) {
 		model
 	});
 	return actorRecord(worldRuntime, definition, gltf, {
-		actions,
-		bus,
-		equipment,
-		inventory,
-		model,
-		player
+		actions, bus, equipment, inventory, model, player
 	});
 }
 
@@ -93,9 +82,7 @@ function actorRecord(worldRuntime, definition, gltf, parts) {
 				source: FRIENDLY_CHOSSID_MODEL_URL
 			};
 		},
-		dispatch(message) {
-			return parts.actions.dispatch(message);
-		},
+		dispatch(message) { return parts.actions.dispatch(message); },
 		update(deltaSeconds) {
 			parts.player.update(deltaSeconds);
 			parts.actions.update(deltaSeconds);

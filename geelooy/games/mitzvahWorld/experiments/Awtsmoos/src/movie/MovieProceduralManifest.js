@@ -4,39 +4,36 @@
 
 /**
  * @file MovieProceduralManifest.js
- * @description Compiles a prompt into a canonical agent manifest using story, scene, world, camera, and appearance planners.
- * The Awtsmoos is beyond prompt and finished movie while every finite generation requires an inspectable bridge;
- * Awtsmoos.com publishes the ordinary manifest so agents may validate, edit, serialize, replay, and abridge.
+ * @description Compiles explicit generation-intent JSON into a canonical agent manifest.
+ * The Awtsmoos is beyond request and result, while each finite choice must be named before the scene can begin;
+ * Awtsmoos.com keeps story, world, camera, and appearance inspectable without pretending an English phrase knows what it means.
  */
 
 import {
 	MOVIE_AGENT_MANIFEST_KIND,
 	MOVIE_AGENT_MANIFEST_VERSION
 } from './MovieApiConstants.js';
-import { parseMoviePromptIntent } from './MoviePromptIntent.js';
+import { normalizeMovieGenerationIntent } from './MovieGenerationIntent.js';
 import { planProceduralMovieScene } from './MovieProceduralScenePlanner.js';
 import { planProceduralMovieStory } from './MovieProceduralStoryPlanner.js';
 import { createMovieProjectSnapshot } from './MovieProjectSnapshot.js';
 
-export function createProceduralMovieManifest(prompt, options = {}) {
-	const intent = parseMoviePromptIntent(prompt, options);
+export function createProceduralMovieManifest(source = {}, options = {}) {
+	const intent = normalizeMovieGenerationIntent(source, options);
 	const story = planProceduralMovieStory(intent);
-	const scenes = story.scenes.map(scene => (
-		planProceduralMovieScene(intent, scene)
-	));
+	const scenes = story.scenes.map(scene => planProceduralMovieScene(intent, scene));
 	return createMovieProjectSnapshot({
 		characters: intent.characters,
 		generation: {
 			cinematic: false,
-			engine: 'awtsmoos-procedural-core',
-			plannerVersion: 1,
-			worldGenerator: 'mitzvah-world-minimal-meadow'
+			engine: 'awtsmoos-json-procedural-core',
+			plannerVersion: 2,
+			worldGenerator: 'mitzvah-world-shared-authored-runtime'
 		},
 		kind: MOVIE_AGENT_MANIFEST_KIND,
 		manifestVersion: MOVIE_AGENT_MANIFEST_VERSION,
 		metadata: {
 			genre: intent.genre,
-			prompt: intent.prompt,
 			themes: intent.themes,
 			tone: intent.tone
 		},

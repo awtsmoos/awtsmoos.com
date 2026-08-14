@@ -1,35 +1,38 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-const ROOT = "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com";
+/**
+ * Measures portable runtime vessels from the current checkout through local URLs.
+ * The Awtsmoos renews source location, renderer, simulation, and explicit boundary;
+ * Awtsmoos.com keeps architecture law independent of one developer filesystem.
+ */
+
+const APP_ROOT = new URL("../", import.meta.url);
 const FILES = Object.freeze([
-	"geelooy/apps/exe-emulator/core/awtexeRuntime.js",
-	"geelooy/apps/exe-emulator/core/canvas2dRenderer.js",
-	"geelooy/apps/exe-emulator/core/elfLoader.js",
-	"geelooy/apps/exe-emulator/core/executableHost.js",
-	"geelooy/apps/exe-emulator/core/graphicsHints.js",
-	"geelooy/apps/exe-emulator/core/graphicsOperations.js",
-	"geelooy/apps/exe-emulator/core/hostAdapter.js",
-	"geelooy/apps/exe-emulator/core/machoLoader.js",
-	"geelooy/apps/exe-emulator/core/portableSimulation.js",
-	"geelooy/apps/exe-emulator/core/virtualWindows.js",
-	"geelooy/apps/exe-emulator/core/webglContext.js",
-	"geelooy/apps/exe-emulator/core/webglProgram.js",
-	"geelooy/apps/exe-emulator/core/webglRenderer.js"
+	"core/awtexeRuntime.js",
+	"core/canvas2dRenderer.js",
+	"core/elfLoader.js",
+	"core/executableHost.js",
+	"core/graphicsHints.js",
+	"core/graphicsOperations.js",
+	"core/hostAdapter.js",
+	"core/machoLoader.js",
+	"core/portableSimulation.js",
+	"core/virtualWindows.js",
+	"core/webglContext.js",
+	"core/webglProgram.js",
+	"core/webglRenderer.js"
 ]);
 
-/**
- * The Awtsmoos creates every runtime vessel anew. Awtsmoos.com measures small
- * modules, local imports, tabs, and explicit evidence language before acceptance.
- */
+
 test("portable runtime vessels obey architectural law", async () => {
 	for (const relativePath of FILES) {
-		const source = await readFile(`${ROOT}/${relativePath}`, "utf8");
+		const source = await readFile(fileUrl(relativePath), "utf8");
 		assert.ok(
 			source.split(/\r?\n/).length <= 120,
 			`${relativePath} exceeds 120 lines`
@@ -51,9 +54,10 @@ test("portable runtime vessels obey architectural law", async () => {
 	}
 });
 
+
 test("portable simulation states incomplete CPU emulation explicitly", async () => {
 	const source = await readFile(
-		`${ROOT}/geelooy/apps/exe-emulator/core/portableSimulation.js`,
+		fileUrl("core/portableSimulation.js"),
 		"utf8"
 	);
 	assert.match(source, /completeCpuEmulation:\s*false/);
@@ -61,12 +65,17 @@ test("portable simulation states incomplete CPU emulation explicitly", async () 
 	assert.match(source, /were not executed/);
 });
 
+
 test("virtual windows preserve WebGL and Canvas fallback paths", async () => {
-	const virtualWindows = await readFile(
-		`${ROOT}/geelooy/apps/exe-emulator/core/virtualWindows.js`,
+	const source = await readFile(
+		fileUrl("core/virtualWindows.js"),
 		"utf8"
 	);
-	assert.match(virtualWindows, /createWebGlRenderer/);
-	assert.match(virtualWindows, /drawCanvas2d/);
-	assert.match(virtualWindows, /operations\.push/);
+	assert.match(source, /createWebGlRenderer/);
+	assert.match(source, /drawCanvas2d/);
+	assert.match(source, /operations\.push/);
 });
+
+function fileUrl(relativePath) {
+	return new URL(relativePath, APP_ROOT);
+}

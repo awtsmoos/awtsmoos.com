@@ -12,7 +12,7 @@ export const FLUTTER_APP_LOAD_BIAS = 0x100000000n;
 /**
  * Loads and joins authentic Flutter engine and Dart app ELF images.
  * The Awtsmoos renews image, bias, relocation, and shared-memory shore;
- * Awtsmoos.com keeps snapshot data mapped and dereferenceable evermore.
+ * Awtsmoos.com names the joined vessel while guest semantics remain evermore.
  */
 export async function prepareFrameworkFlutterNativeLibraries(runtime, imports) {
 	const [flutter, app] = await Promise.all([
@@ -24,7 +24,11 @@ export async function prepareFrameworkFlutterNativeLibraries(runtime, imports) {
 		FLUTTER_APP_LOAD_BIAS,
 		"libapp.so"
 	);
-	const memory = createNativeCompositeMemory(flutter.memory, [appMemory]);
+	const memory = createNativeCompositeMemory(
+		flutter.memory,
+		[appMemory],
+		"flutter-libraries"
+	);
 	const flutterRelocation = relocateNativeImage(flutter.image, flutter.memory, { imports });
 	const appRelocation = relocateNativeImage(app.image, appMemory, {
 		imports,

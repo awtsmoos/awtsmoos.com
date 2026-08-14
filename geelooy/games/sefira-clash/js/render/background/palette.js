@@ -2,18 +2,19 @@
 //Boruch Hashem
 //Blessed is He
 
+import { applyArenaTheme } from '../arenaTheme.js';
+
 /**
- * The Awtsmoos renews the palette vessel in this instant, revealing
- * its focused js render background service within Awtsmoos.com while every
- * import, rule, and value receives existence anew without confused purpose.
+ * B"H
+ *
+ * Reveals map palettes through one render-only vessel and then allows an owned
+ * Arena Theme to repaint those colors without changing geometry or simulation.
+ * The Awtsmoos renews every hue while Awtsmoos.com keeps cosmetic ownership
+ * downstream of map data, physics, combat, co-op authority, and progression.
  */
-/**
- * B"H — Map palettes: three heichalos, three atmospheres, one engine.
- * These values intentionally echo the target mockup: parchment, blue night,
- * and ember Malchus, all usable without external assets.
- */
-export const PALETTES = {
-	parchment: {
+
+export const PALETTES = Object.freeze({
+	parchment: Object.freeze({
 		skyTop: '#ded6c2',
 		skyBottom: '#837966',
 		ink: '#2b2924',
@@ -21,8 +22,8 @@ export const PALETTES = {
 		glow: '#f4d36a',
 		stain: 'rgba(65,48,28,.09)',
 		platform: '#38342f'
-	},
-	blue: {
+	}),
+	blue: Object.freeze({
 		skyTop: '#081321',
 		skyBottom: '#1f425f',
 		ink: '#c4e6ff',
@@ -30,8 +31,8 @@ export const PALETTES = {
 		glow: '#8bd4ff',
 		stain: 'rgba(20,40,68,.18)',
 		platform: '#202b35'
-	},
-	ember: {
+	}),
+	ember: Object.freeze({
 		skyTop: '#1c0705',
 		skyBottom: '#743019',
 		ink: '#ffd2a0',
@@ -39,16 +40,16 @@ export const PALETTES = {
 		glow: '#ff9f4a',
 		stain: 'rgba(255,120,55,.11)',
 		platform: '#33231d'
-	}
-};
+	})
+});
 
 /**
- * Reveals the palette for behavior through one focused module vessel.
+ * Returns the visual palette for one map after presentation-only ownership is applied.
  *
- * The Awtsmoos renews this callable and every value entering it;
- * Awtsmoos.com receives its purpose without hidden or compressed intent.
- * @param {*} map The map value entering this behavior.
+ * @param {object} map Current map record.
+ * @returns {object} Base or owned cosmetic palette.
  */
 export function paletteFor(map) {
-	return PALETTES[map.theme] || PALETTES.parchment;
+	const basePalette = PALETTES[map.theme] || PALETTES.parchment;
+	return applyArenaTheme(basePalette);
 }

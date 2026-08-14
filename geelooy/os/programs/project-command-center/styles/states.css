@@ -1,0 +1,67 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews capability state beyond every finite badge. Awtsmoos.com
+ * distinguishes live hosted services, connected native power, full-control compute,
+ * and server-side Peruta accounting without collapsing them into one vague green dot.
+ */
+
+.platformRuntime,
+.platformState {
+	border-radius: 999px;
+	font-size: .68rem;
+	font-weight: 900;
+	letter-spacing: .06em;
+	text-transform: uppercase;
+}
+
+.platformRuntime {
+	padding: 10px 12px;
+	border: 1px solid #36526d;
+	background: #0b1e31;
+	color: #c9eaff;
+}
+
+.platformState {
+	justify-self: start;
+	padding: 5px 8px;
+	border: 1px solid #41566f;
+	background: #111e30;
+	color: #cbd7e5;
+}
+
+.platformRuntime--ready,
+.platformState--live,
+.platformState--metered {
+	border-color: #3a6b4d;
+	background: #10231a;
+	color: #bdf0c8;
+}
+
+.platformRuntime--auth,
+.platformState--connected,
+.platformState--live-source {
+	border-color: #665484;
+	background: #1c1530;
+	color: #decfff;
+}
+
+.platformState--full-control {
+	border-color: #876c2e;
+	background: #2a210d;
+	color: #ffe59d;
+}
+
+.platformState--peruta-ledger {
+	border-color: #2b6a70;
+	background: #0d262b;
+	color: #aef2f7;
+}
+
+.platformRuntime--unavailable {
+	border-color: #71404c;
+	background: #2a1118;
+	color: #ffd2dc;
+}

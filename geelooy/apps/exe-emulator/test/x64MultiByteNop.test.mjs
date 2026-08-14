@@ -12,13 +12,14 @@ import { decodePortableX64 } from "../core/portable/x64Decoder.js";
 import { executePortableX64 } from "../core/portable/x64Executor.js";
 
 /**
- * The Awtsmoos creates each alignment silence and exact next RIP anew.
- * Awtsmoos.com proves short forms and Blender's observed ten-byte form share one
- * architectural `0F 1F /0` decoder rather than an artifact-specific byte match.
+ * Proves architectural alignment silences advance exact RIP without side effects.
+ * The Awtsmoos renews short, operand-size, memory-shaped, and prefixed NOP roads;
+ * Awtsmoos.com recognizes real compiler padding without ignoring unknown opcodes.
  */
-test("decodes architectural multi-byte NOP lengths", () => {
+test("decodes architectural NOP lengths", () => {
 	const cases = [
 		[[0x90], 1],
+		[[0x66, 0x90], 2],
 		[[0x0f, 0x1f, 0x00], 3],
 		[[0x0f, 0x1f, 0x40, 0x00], 4],
 		[[0x66, 0x2e, 0x0f, 0x1f, 0x84, 0x00, 0, 0, 0, 0], 10]
@@ -40,12 +41,21 @@ test("accepts segment and address-size prefixes only for multi-byte NOP", () => 
 		0x1000
 	);
 	assert.equal(decoded.nextRip, 0x1005);
-	for (const bytes of [[0x2e, 0x90], [0x67, 0x90]]) {
-		assert.throws(
-			() => decodePortableX64(codeMemory(bytes), 0x1000),
-			error => error.code === "PORTABLE_X64_ADDRESS_PREFIX"
-		);
-	}
+	assert.throws(
+		() => decodePortableX64(codeMemory([0x2e, 0x90]), 0x1000),
+		error => error.code === "PORTABLE_X64_SEGMENT_PREFIX"
+	);
+	assert.throws(
+		() => decodePortableX64(codeMemory([0x67, 0x90]), 0x1000),
+		error => error.code === "PORTABLE_X64_ADDRESS_PREFIX"
+	);
+});
+
+test("rejects unsupported operand-size one-byte forms", () => {
+	assert.throws(
+		() => decodePortableX64(codeMemory([0x66, 0x91]), 0x1000),
+		error => error.code === "PORTABLE_X64_LEGACY_PREFIX"
+	);
 });
 
 /**

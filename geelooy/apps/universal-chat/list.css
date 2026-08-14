@@ -1,0 +1,106 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos knows every relationship before a row exists; Awtsmoos.com gives conversation summaries the compact rhythm of a dependable inbox, while one quiet accent edge makes the room currently owning the thread unmistakable in light. */
+
+.messaging-list {
+	min-height: 0;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	padding: 0.5rem 0.45rem 1rem;
+	scrollbar-gutter: stable;
+}
+
+.messaging-list-row {
+	position: relative;
+	display: grid;
+	grid-template-columns: 42px minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 0.7rem;
+	min-height: 64px;
+	padding: 0.55rem 0.6rem;
+	border: 1px solid transparent;
+	border-radius: 13px;
+	background: transparent;
+	color: var(--msg-text);
+}
+
+.messaging-list-row + .messaging-list-row {
+	margin-top: 0.12rem;
+}
+
+.messaging-list-row.is-clickable {
+	cursor: pointer;
+}
+
+.messaging-list-row.is-clickable:hover {
+	background: rgba(255, 255, 255, 0.035);
+}
+
+.messaging-list-row.is-selected {
+	border-color: rgba(121, 224, 183, 0.14);
+	background: var(--msg-accent-soft);
+}
+
+.messaging-list-row.is-selected::before {
+	content: "";
+	position: absolute;
+	top: 0.62rem;
+	bottom: 0.62rem;
+	left: 0.14rem;
+	width: 3px;
+	border-radius: 999px;
+	background: var(--msg-accent);
+	box-shadow: 0 0 12px rgba(121, 224, 183, 0.16);
+}
+
+.messaging-list-row.has-unread .messaging-row-copy strong {
+	color: #f7fffa;
+	font-weight: 800;
+}
+
+.messaging-row-avatar {
+	display: grid;
+	place-items: center;
+	width: 42px;
+	height: 42px;
+	border: 1px solid rgba(121, 224, 183, 0.13);
+	border-radius: 14px;
+	background: linear-gradient(145deg, rgba(121, 224, 183, 0.12), rgba(255, 255, 255, 0.035));
+	color: #dfffee;
+	font-size: 0.72rem;
+	font-weight: 850;
+	letter-spacing: 0.03em;
+}
+
+.messaging-row-copy {
+	display: grid;
+	min-width: 0;
+	gap: 0.18rem;
+}
+
+.messaging-row-title-line {
+	display: flex;
+	min-width: 0;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 0.5rem;
+}
+
+.messaging-row-title-line strong {
+	overflow: hidden;
+	font-size: 0.88rem;
+	font-weight: 680;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.messaging-row-copy small {
+	overflow: hidden;
+	color: var(--msg-muted);
+	font-size: 0.75rem;
+	line-height: 1.35;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}

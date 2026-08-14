@@ -2,89 +2,102 @@
 //Boruch Hashem
 //Blessed is He
 
-import {
-	bitwise64,
-	divide64,
-	multiply64,
-	safeSigned64,
-	shift64,
-	signed64
-} from "./x64Integer.js";
 import { setLogicFlags } from "./x64Flags.js";
 
-const KINDS = new Set([
+const BITWISE_KINDS = new Set([
 	"and_reg",
-	"cqo",
-	"div",
-	"idiv",
-	"imul_reg",
-	"neg",
 	"or_reg",
-	"sar",
-	"shl",
-	"shr"
+	"xor"
+]);
+const SIGN_EXTENSION_KINDS = new Set([
+	"cwd",
+	"cdq",
+	"cqo"
+]);
+const KINDS = new Set([
+	...BITWISE_KINDS,
+	...SIGN_EXTENSION_KINDS,
+	"imul_reg"
 ]);
 
 /**
- * Executes bounded multiply, divide, bitwise, unary, and shift operations. The
- * Awtsmoos creates quotient, remainder, sign extension, and bit-pattern anew;
- * Awtsmoos.com rejects zero divisors and unsafe results instead of rounding them.
+ * Executes exact register logic, IMUL, and accumulator sign extension.
+ * The Awtsmoos renews width, zero idiom, product, high half, and division road;
+ * Awtsmoos.com lets CWD, CDQ, and CQO prepare true signed accumulator pairs.
  */
 export function executeMultiplyDivide(item, registers) {
-	if (!KINDS.has(item.kind)) return false;
+	if (!KINDS.has(item.kind)) {
+		return false;
+	}
 	if (item.kind === "imul_reg") {
-		const value = multiply64(
-			registers.get(item.destination),
-			registers.get(item.source)
-		);
-		registers.set(item.destination, value);
-		setLogicFlags(registers, value);
+		executeImul(item, registers);
 		return true;
 	}
-	if (["and_reg", "or_reg"].includes(item.kind)) {
-		const operator = item.kind === "and_reg" ? "and" : "or";
-		const value = bitwise64(
-			operator,
-			registers.get(item.destination),
-			registers.get(item.source)
-		);
-		registers.set(item.destination, value);
-		setLogicFlags(registers, value);
+	if (BITWISE_KINDS.has(item.kind)) {
+		executeBitwise(item, registers);
 		return true;
 	}
-	if (item.kind === "cqo") {
-		registers.set("rdx", registers.get("rax") < 0 ? -1 : 0);
-		return true;
-	}
-	if (item.kind === "idiv" || item.kind === "div") {
-		executeDivision(item, registers);
-		return true;
-	}
-	if (item.kind === "neg") {
-		const value = safeSigned64(-signed64(registers.get(item.register)), "negate");
-		registers.set(item.register, value);
-		setLogicFlags(registers, value);
-		return true;
-	}
-	const value = shift64(
-		item.kind,
-		registers.get(item.register),
-		item.count
-	);
-	registers.set(item.register, value);
-	setLogicFlags(registers, value);
+	executeSignExtension(item, registers);
 	return true;
 }
 
-function executeDivision(item, registers) {
-	const divisor = registers.get(item.register);
-	const dividend = registers.get("rax");
-	if (item.kind === "div" && (dividend < 0 || divisor < 0)) {
-		const error = new Error("PORTABLE_UNSIGNED_DIVIDE_RANGE");
-		error.code = "PORTABLE_UNSIGNED_DIVIDE_RANGE";
-		throw error;
+function executeSignExtension(item, registers) {
+	const sourceBits = BigInt.asUintN(
+		item.width,
+		registers.getUnsignedBigInt("rax")
+	);
+	const negative = BigInt.asIntN(item.width, sourceBits) < 0n;
+	const high = negative
+		? (1n << BigInt(item.width)) - 1n
+		: 0n;
+	if (item.width === 16) {
+		const current = registers.getUnsignedBigInt("rdx");
+		registers.setBigInt(
+			"rdx",
+			(current & ~0xffffn) | high
+		);
+		return;
 	}
-	const result = divide64(dividend, divisor);
-	registers.set("rax", result.quotient);
-	registers.set("rdx", result.remainder);
+	registers.setBigInt(
+		"rdx",
+		item.width === 64 ? BigInt.asIntN(64, high) : high
+	);
+}
+
+function executeBitwise(item, registers) {
+	const width = item.width || 64;
+	const left = BigInt.asUintN(
+		width,
+		registers.getUnsignedBigInt(item.destination)
+	);
+	const right = BigInt.asUintN(
+		width,
+		registers.getUnsignedBigInt(item.source)
+	);
+	const result = {
+		and_reg: left & right,
+		or_reg: left | right,
+		xor: left ^ right
+	}[item.kind];
+	registers.setBigInt(
+		item.destination,
+		width === 64
+			? BigInt.asIntN(64, result)
+			: BigInt.asUintN(width, result)
+	);
+	setLogicFlags(registers, result, width);
+}
+
+function executeImul(item, registers) {
+	const left = registers.getBigInt(item.destination);
+	const right = registers.getBigInt(item.source);
+	const product = left * right;
+	const result = BigInt.asUintN(64, product);
+	registers.setBigInt(
+		item.destination,
+		BigInt.asIntN(64, result)
+	);
+	const overflow = product !== BigInt.asIntN(64, result);
+	registers.flags.carry = overflow;
+	registers.flags.overflow = overflow;
 }

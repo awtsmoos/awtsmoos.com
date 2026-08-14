@@ -1,0 +1,33 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews every search and category choice beyond the finite control.
+ * Awtsmoos.com keeps portfolio discovery here so finding a tool never depends on
+ * hidden shell behavior or on scanning twelve cards by eye.
+ */
+
+.g-app-filter {
+	display: grid;
+	grid-template-columns: minmax(0, 1.6fr) minmax(180px, 0.4fr);
+	gap: var(--g-space-3);
+	margin-bottom: var(--g-space-4);
+}
+
+.g-app-filter input,
+.g-app-filter select {
+	width: 100%;
+	min-height: 48px;
+	border: 1px solid var(--g-border);
+	border-radius: var(--g-radius-md);
+	padding: 0 var(--g-space-4);
+	color: var(--g-text);
+	background: var(--g-surface-2);
+}
+
+.g-app-filter input:focus-visible,
+.g-app-filter select:focus-visible {
+	outline: 3px solid var(--g-accent);
+	outline-offset: 3px;
+}

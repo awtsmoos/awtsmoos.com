@@ -1,0 +1,103 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The active Party Challenge keeps the real game visually dominant. The Awtsmoos
+ * renews current player, round, and world; Awtsmoos.com wraps that world with only
+ * the controls required to reset a turn, record a result, and continue fairly.
+ */
+
+.partyArena {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 310px;
+	gap: 14px;
+	margin-top: 16px;
+}
+
+.partyGameStage {
+	display: grid;
+	min-width: 0;
+	grid-template-rows: auto minmax(420px, 72vh);
+	overflow: hidden;
+	border: 1px solid var(--party-border);
+	border-radius: 18px;
+	background: #03060c;
+}
+
+.turnHeader {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 12px 14px;
+	border-bottom: 1px solid var(--party-border);
+	background: #0b1526;
+}
+
+.turnHeader strong {
+	font-size: 1rem;
+}
+
+.turnHeader span {
+	color: var(--party-muted);
+	font-size: .8rem;
+}
+
+#gameFrame {
+	display: block;
+	width: 100%;
+	height: 100%;
+	border: 0;
+	background: #000;
+}
+
+.turnControls {
+	display: grid;
+	align-content: start;
+	gap: 14px;
+	padding: 16px;
+}
+
+.turnControls h2 {
+	margin: 0;
+	font-size: 1.4rem;
+}
+
+.turnControls p {
+	margin: 0;
+	color: var(--party-muted);
+	line-height: 1.5;
+}
+
+.turnScoreField {
+	display: grid;
+	gap: 7px;
+}
+
+.turnScoreField input {
+	min-height: 48px;
+	padding: 0 12px;
+	border: 1px solid var(--party-border);
+	border-radius: 10px;
+	background: #08111f;
+	color: var(--party-text);
+	font-size: 1.1rem;
+	font-weight: 850;
+}
+
+.turnActions {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 8px;
+}
+
+.partyNotice {
+	padding: 10px 12px;
+	border: 1px solid #31536a;
+	border-radius: 10px;
+	background: #0b1d2b;
+	color: #c9e8f5;
+	font-size: .78rem;
+	line-height: 1.45;
+}

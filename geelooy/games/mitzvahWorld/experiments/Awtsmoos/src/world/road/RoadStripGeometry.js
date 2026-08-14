@@ -4,12 +4,13 @@
 
 /**
  * @file RoadStripGeometry.js
- * @description Creates one supported grade-solved cobble road with ecological material weights.
- * The Awtsmoos renews traveler, stone, moss seam, and retaining wall; Awtsmoos.com keeps the
- * visible and collision geometry identical while dense road heights remain independent of cliffs.
+ * @description Creates one shared cobble network while preserving each route's authored physical width.
+ * The Awtsmoos renews every road with its own finite measure; Awtsmoos.com keeps visible and collision geometry identical
+ * while a narrow river lane, broad arrival road, and their junctions all obey the same spatial-realism authority.
  */
 
 import { REPEAT_HOOKS } from '../../assets/TextureRepeat.js';
+import { resolveRoadRouteWidth } from '../spatial/WorldRoadCorridor.js';
 import { appendRoadJunctions } from './RoadJunctionGeometry.js';
 import {
 	roadMaterialEvidence,
@@ -27,13 +28,11 @@ export function createRoadStrip(
 ) {
 	const mesh = createRoadMesh(REPEAT_HOOKS.roadTileWorld);
 	const routeStats = routes.map(route => {
-		return appendRoadRibbon(
-			mesh,
-			route,
-			surfaceSampler,
-			width,
-			supportSampler
-		);
+		const routeWidth = resolveRoadRouteWidth(route, width);
+		return Object.freeze({
+			...appendRoadRibbon(mesh, route, surfaceSampler, routeWidth, supportSampler),
+			width: routeWidth
+		});
 	});
 	const junctions = appendRoadJunctions(
 		mesh,
@@ -43,7 +42,7 @@ export function createRoadStrip(
 		supportSampler
 	);
 	const material = roadMaterialFields(texture);
-	const network = roadNetworkDefinition(mesh, routes, junctions, material);
+	const network = roadNetworkDefinition(mesh, routes, junctions, material, width);
 	return {
 		collider: network,
 		stats: roadStripStatistics(mesh, routeStats, junctions, material),
@@ -51,7 +50,7 @@ export function createRoadStrip(
 	};
 }
 
-function roadNetworkDefinition(mesh, routes, junctions, material) {
+function roadNetworkDefinition(mesh, routes, junctions, material, fallbackWidth) {
 	return {
 		...material,
 		color: '#7f776a',
@@ -64,14 +63,13 @@ function roadNetworkDefinition(mesh, routes, junctions, material) {
 		solid: true,
 		userData: {
 			AwtsmoosRoadMaterial: roadMaterialEvidence(material.mapImage),
-			AwtsmoosRoadSurface: {
-				gradeAuthority: 'dense-shared-raised-road-surface',
+			AwtsmoosRoadSurface: Object.freeze({
+				fallbackWidth,
 				junctionCount: junctions.length,
-				retainingSides: true,
 				routeCount: routes.length,
-				topFaceIndices: mesh.topFaceIndices,
-				visibleEqualsCollision: true
-			},
+				routeWidths: routeWidthMap(routes, fallbackWidth),
+				widthAuthority: 'canonical-route-width'
+			}),
 			family: 'full-quality-mountain-cobble-road-network'
 		},
 		uvs: mesh.uvs,
@@ -92,8 +90,16 @@ function roadStripStatistics(mesh, routes, junctions, material) {
 		surfaceAuthority: 'dense-shared-raised-road-surface',
 		topFaceCount: mesh.topFaceIndices.length,
 		visibleEqualsCollision: true,
-		visualSegments
+		visualSegments,
+		widthAuthority: 'canonical-route-width'
 	};
+}
+
+function routeWidthMap(routes, fallbackWidth) {
+	return Object.freeze(Object.fromEntries(routes.map(route => [
+		route.id,
+		resolveRoadRouteWidth(route, fallbackWidth)
+	])));
 }
 
 function roadZone(index) {

@@ -1,0 +1,53 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews map and ranking as a thin edge of knowledge, never the center of play;
+ * Awtsmoos.com keeps the rail small on wide screens and almost weightless on the phone's narrow way.
+ * This vessel owns only the compact right-side rail and minimap geometry.
+ */
+.right-rail {
+	gap: 7px;
+	right: 12px;
+	top: 12px;
+	width: 176px;
+}
+
+.leaderboard-card,
+#map {
+	border-radius: 16px;
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.leaderboard-card {
+	padding: 9px;
+}
+
+.leader-row:nth-child(n + 4),
+.desktop-help {
+	display: none;
+}
+
+#map {
+	height: 176px;
+	width: 176px;
+}
+
+@media (max-width: 720px) {
+	.right-rail {
+		bottom: 96px;
+		right: 7px;
+		top: auto;
+		width: 96px;
+	}
+
+	.leaderboard-card {
+		display: none;
+	}
+
+	#map {
+		height: 96px;
+		width: 96px;
+	}
+}

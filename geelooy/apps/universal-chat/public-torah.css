@@ -1,0 +1,87 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos is one Torah before drawer and flagship; Awtsmoos.com pins every optional and permanent chamber to its own grid row so hidden status or history can never steal the reading track in light. */
+
+.messaging-special-pane > .universal-chat-drawer,
+.messaging-special-pane .universal-chat-drawer.is-expanded {
+	position: relative;
+	inset: auto;
+	display: grid;
+	grid-template-rows: auto auto auto auto auto minmax(180px, 1fr) max-content;
+	gap: 0;
+	width: 100%;
+	max-width: none;
+	height: 100%;
+	min-height: 0;
+	max-height: none;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	box-shadow: none;
+	color: var(--msg-text);
+}
+
+.messaging-special-pane .universal-chat-header {
+	grid-row: 1;
+	min-height: 72px;
+	padding: 0.85rem clamp(0.85rem, 2.5vw, 1.6rem);
+	border-bottom: 1px solid var(--msg-line);
+	background: rgba(10, 21, 16, 0.7);
+}
+
+.messaging-special-pane .universal-chat-controls {
+	grid-row: 2;
+	justify-content: flex-start;
+	min-height: 48px;
+	padding-block: 0.45rem;
+	border-bottom: 1px solid var(--msg-line);
+}
+
+.messaging-special-pane .universal-chat-status {
+	grid-row: 3;
+}
+
+.messaging-special-pane .universal-chat-roster {
+	grid-row: 4;
+}
+
+.messaging-special-pane .universal-chat-older {
+	grid-row: 5;
+}
+
+.messaging-special-pane .universal-chat-messages {
+	grid-row: 6;
+	min-height: 0;
+	margin: 0;
+	border-radius: 0;
+	background: transparent;
+	scrollbar-gutter: stable;
+}
+
+.messaging-special-pane .universal-chat-composer {
+	grid-row: 7;
+}
+
+.messaging-special-pane #universalChatClose,
+.messaging-special-pane .universal-chat-app-link {
+	display: none;
+}
+
+.messaging-special-pane .universal-chat-controls,
+.messaging-special-pane .universal-chat-status,
+.messaging-special-pane .universal-chat-roster {
+	margin: 0;
+	padding-inline: clamp(0.85rem, 2.5vw, 1.6rem);
+}
+
+.messaging-special-pane .universal-chat-status,
+.messaging-special-pane .universal-chat-roster {
+	padding-block: 0.28rem;
+	color: var(--msg-muted);
+	font-size: 0.72rem;
+	opacity: 1;
+}

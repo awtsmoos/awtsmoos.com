@@ -1,0 +1,59 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos is beyond alias and anonymous garment; Awtsmoos.com shows the current social identity compactly enough for navigation while keeping privacy status readable in light. */
+
+.messaging-identity {
+	display: grid;
+	grid-template-columns: 32px minmax(0, 1fr);
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.messaging-identity-mark {
+	display: grid;
+	place-items: center;
+	width: 32px;
+	height: 32px;
+	border: 1px solid rgba(121, 224, 183, 0.17);
+	border-radius: 11px;
+	background: var(--msg-accent-soft);
+	color: #e3fff1;
+	font-size: 0.72rem;
+	font-weight: 850;
+}
+
+.messaging-identity > span:last-child {
+	display: grid;
+	min-width: 0;
+	gap: 0.05rem;
+}
+
+.messaging-identity strong,
+.messaging-identity small {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.messaging-identity strong {
+	font-size: 0.72rem;
+	font-weight: 760;
+}
+
+.messaging-identity small {
+	color: var(--msg-muted);
+	font-size: 0.58rem;
+}
+
+@media (min-width: 761px) and (max-width: 1100px) {
+	.messaging-identity {
+		grid-template-columns: 1fr;
+		justify-items: center;
+	}
+
+	.messaging-identity > span:last-child {
+		display: none;
+	}
+}

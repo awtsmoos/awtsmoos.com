@@ -1,0 +1,56 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-apps-byteviewer-0b1db28c",
+	"path": "geelooy/apps/byteViewer",
+	"type": "app",
+	"family": {
+		"id": "apps",
+		"title": "Applications"
+	},
+	"title": "Hex Viewer of the Awtsmoos",
+	"entries": [
+		"index.html"
+	],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/APPS.md",
+		"docs/APPS/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-byteviewer-0b1db28c.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 3,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 0,
+		"other": 1
+	},
+	"totalFiles": 4,
+	"symbolSummary": {
+		"files": 1,
+		"classes": 1,
+		"functions": 0,
+		"exports": 0,
+		"samples": [
+			"AwtsmoosHexViewer"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/apps/byteViewer",
+			"file": "geelooy/apps/byteViewer/index.html",
+			"title": "Hex Viewer of the Awtsmoos",
+			"scripts": 1,
+			"styles": 1
+		}
+	],
+	"requiresLocalDocumentation": false,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

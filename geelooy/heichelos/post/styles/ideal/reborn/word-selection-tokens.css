@@ -1,0 +1,44 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos reveals Hebrew words as temporary touchable vessels while native
+ * vertical motion remains sovereign throughout selection mode on Awtsmoos.com.
+ */
+.awtsmoos-word-token {
+	appearance: none;
+	display: inline;
+	margin: 0 .035em;
+	padding: .04em .1em .09em;
+	border: 1px solid transparent;
+	border-radius: .22em;
+	background: rgba(34, 211, 238, .055);
+	color: inherit;
+	font: inherit;
+	line-height: inherit;
+	text-align: inherit;
+	vertical-align: baseline;
+	box-decoration-break: clone;
+	-webkit-box-decoration-break: clone;
+	cursor: pointer;
+	touch-action: pan-y pinch-zoom;
+}
+
+.awtsmoos-word-token:hover,
+.awtsmoos-word-token:focus-visible {
+	border-color: rgba(34, 211, 238, .62);
+	background: rgba(34, 211, 238, .16);
+	outline: 2px solid transparent;
+}
+
+.awtsmoos-word-token.is-selected {
+	border-color: rgba(248, 214, 130, .88);
+	background: linear-gradient(135deg, rgba(248, 214, 130, .92), rgba(34, 211, 238, .78));
+	color: #07111f;
+	box-shadow: 0 .18em .62em rgba(34, 211, 238, .24);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.awtsmoos-word-token {
+		transition: none;
+	}
+}

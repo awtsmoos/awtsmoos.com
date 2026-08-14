@@ -1,0 +1,107 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos surrounds selected Hebrew and its phonetic reading with one
+ * bounded research chamber while actions live in a separate garment.
+ */
+.awtsmoos-selection-backdrop {
+	position: fixed;
+	inset: 0;
+	z-index: 2147483646;
+	display: grid;
+	place-items: center;
+	padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+	background: rgba(1, 5, 13, .78);
+	backdrop-filter: blur(15px) saturate(125%);
+}
+
+.awtsmoos-selection-panel {
+	display: grid;
+	gap: .85rem;
+	width: min(94vw, 600px);
+	max-height: min(88dvh, 760px);
+	padding: 1rem;
+	overflow: auto;
+	overscroll-behavior: contain;
+	border: 1px solid rgba(248, 214, 130, .48);
+	border-radius: 1.5rem;
+	background:
+		radial-gradient(circle at 12% 0%, rgba(34, 211, 238, .2), transparent 14rem),
+		radial-gradient(circle at 100% 100%, rgba(248, 214, 130, .16), transparent 12rem),
+		linear-gradient(165deg, rgba(8, 17, 32, .995), rgba(2, 7, 16, .995));
+	color: #fffdf5;
+	box-shadow: 0 32px 100px rgba(0, 0, 0, .82), inset 0 1px rgba(255, 255, 255, .08);
+	font-family: var(--font-ui, Inter, system-ui, sans-serif);
+}
+
+.awtsmoos-selection-panel header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+.awtsmoos-selection-panel h2,
+.awtsmoos-selection-panel h3 {
+	margin: 0;
+	color: #f8d682;
+}
+
+.awtsmoos-selection-panel h2 {
+	font-size: 1.16rem;
+}
+
+.awtsmoos-selection-panel h3 {
+	font-size: .74rem;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+
+.awtsmoos-selection-close {
+	width: 44px;
+	height: 44px;
+	border: 1px solid rgba(148, 163, 184, .24);
+	border-radius: 999px;
+	background: rgba(255, 255, 255, .07);
+	color: #fff;
+	font-size: 1.65rem;
+	cursor: pointer;
+}
+
+.awtsmoos-selection-phrase {
+	margin: 0;
+	padding: .85rem;
+	border: 1px solid rgba(34, 211, 238, .22);
+	border-radius: 1rem;
+	background: rgba(34, 211, 238, .07);
+	font-size: clamp(1.35rem, 6vw, 2rem);
+	font-weight: 800;
+	line-height: 1.5;
+	text-align: center;
+}
+
+.awtsmoos-selection-phonetics {
+	display: grid;
+	gap: .3rem;
+	margin: 0;
+	padding: .8rem;
+	border-radius: 1rem;
+	background: rgba(255, 255, 255, .05);
+}
+
+.awtsmoos-selection-phonetics strong {
+	color: #9fdff8;
+	font-size: .68rem;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+
+.awtsmoos-selection-phonetics span {
+	font-size: 1.05rem;
+	font-weight: 800;
+}
+
+.awtsmoos-selection-phonetics small {
+	color: #9aaac0;
+	font-size: .68rem;
+}

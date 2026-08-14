@@ -5,9 +5,9 @@
 /**
  * @module PostCard
  * @description
- * An authored post shows canonical coordinates and direct open, reference, and
- * exact-comment actions. The Awtsmoos is one before every destination while
- * Awtsmoos.com carries the source identity without copying the post body.
+ * The Awtsmoos lets a public profile reveal authored work as human context first and machinery never.
+ * Awtsmoos.com keeps the real post doorway primary while alias-owned composition and comment actions
+ * appear only when an authenticated public alias is actually active.
  */
 
 import {
@@ -16,30 +16,19 @@ import {
 	textElement
 } from './CardElements.js';
 
-export function postCard({ document, post, aliasId }) {
-	const card = document.createElement('article');
-	card.className = 'profileCard riftCard';
-	const title = textElement(document, 'h3', post.title || post.postId || post.id);
-	const summary = textElement(
-		document,
-		'p',
-		post.description || post.summary || 'Canonical post',
-		'cardSummary'
-	);
-	const source = post.postId || post.id;
-	const coordinate = textElement(
-		document,
-		'code',
-		`${post.heichelId || 'unknown'}/${post.seriesId || 'root'}/${source}`,
-		'canonicalCoordinate'
-	);
-	const actions = cardActions(document);
+function postContext(post) {
+	return [post.heichelName || post.heichelId, post.seriesName || post.seriesId]
+		.filter(Boolean)
+		.join(' · ');
+}
+
+function openPath(post, source) {
+	return post.path || `/heichelos/${post.heichelId}/post/${source}`;
+}
+
+function aliasActions(document, actions, post, source, aliasId) {
+	if (!aliasId) return;
 	actions.append(
-		actionLink(
-			document,
-			'Open',
-			post.path || `/heichelos/${post.heichelId}/post/${source}`
-		),
 		actionLink(
 			document,
 			'Add to Heichel',
@@ -51,6 +40,34 @@ export function postCard({ document, post, aliasId }) {
 			`/social-hub/?alias=${encodeURIComponent(aliasId)}&heichel=${encodeURIComponent(post.heichelId || '')}&series=${encodeURIComponent(post.seriesId || 'root')}&post=${encodeURIComponent(source)}#interact`
 		)
 	);
-	card.append(title, summary, coordinate, actions);
+}
+
+export function postCard({ document, post, aliasId }) {
+	const card = document.createElement('article');
+	card.className = 'profileCard riftCard';
+	const source = post.postId || post.id;
+	const title = textElement(document, 'h3', post.title || source || 'Untitled post');
+	const summary = textElement(
+		document,
+		'p',
+		post.description || post.summary || 'Public post',
+		'cardSummary'
+	);
+	card.append(title, summary);
+	const context = postContext(post);
+	if (context) {
+		card.append(textElement(document, 'p', context, 'profilePostContext'));
+	}
+	const actions = cardActions(document);
+	const open = actionLink(document, 'Open post →', openPath(post, source));
+	open.classList.add('profileCardPrimaryAction');
+	actions.append(open);
+	aliasActions(document, actions, post, source, aliasId);
+	card.append(actions);
 	return card;
 }
+
+export {
+	postContext,
+	openPath
+};

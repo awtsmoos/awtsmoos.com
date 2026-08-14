@@ -1,0 +1,67 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews guide, mission, mode, and city light as a small constellation above the road;
+ * Awtsmoos.com keeps this summary readable without making persistent information the player's heaviest load.
+ * This vessel owns only always-available world summary presentation.
+ */
+.worldSummary {
+	display: grid;
+	gap: 0.35rem;
+	grid-template-columns: minmax(10rem, 1.5fr) minmax(8rem, 1fr) minmax(8rem, auto);
+	left: max(0.55rem, env(safe-area-inset-left));
+	max-width: min(52rem, calc(100% - 1.1rem));
+	position: absolute;
+	top: max(0.55rem, env(safe-area-inset-top));
+}
+
+.guideCard,
+.missionCard,
+.modeCard {
+	align-items: center;
+	background: rgba(4, 14, 28, 0.78);
+	border: 1px solid rgba(168, 225, 255, 0.2);
+	border-radius: 0.8rem;
+	box-shadow: 0 0.55rem 1.4rem rgba(0, 0, 0, 0.22);
+	display: flex;
+	font-size: clamp(0.64rem, 1.1vw, 0.82rem);
+	gap: 0.42rem;
+	margin: 0;
+	min-height: 2.55rem;
+	min-width: 0;
+	padding: 0.38rem 0.58rem;
+}
+
+.guideCard strong,
+.missionCard strong,
+.modeCard strong {
+	color: var(--gold);
+	flex: 0 0 auto;
+}
+
+.guideCard span,
+.missionCard span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.missionCard,
+.modeCard {
+	justify-content: space-between;
+}
+
+.modeCard {
+	font-weight: 800;
+}
+
+.modeCard select {
+	background: #0b2239;
+	border: 1px solid rgba(168, 225, 255, 0.3);
+	border-radius: 0.48rem;
+	color: #fff;
+	min-width: 6.2rem;
+	padding: 0.3rem;
+}

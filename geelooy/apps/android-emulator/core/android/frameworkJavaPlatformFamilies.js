@@ -1,7 +1,6 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+//B"H //Boruch Hashem //Blessed is He
 
+import { createFrameworkAndroidSpannableStringBuilderMethods } from "./frameworkAndroidSpannableStringBuilders.js";
 import { createFrameworkJavaArrayCloneMethods } from "./frameworkJavaArrayClones.js";
 import { createFrameworkJavaClassMethods } from "./frameworkJavaClasses.js";
 import { createFrameworkJavaDesugarObjectMethods } from "./frameworkJavaDesugarObjects.js";
@@ -20,13 +19,14 @@ import { createFrameworkJavaThreadMethods } from "./frameworkJavaThreads.js";
 import { createFrameworkJavaValueFamilies } from "./frameworkJavaValueFamilies.js";
 
 /**
- * Composes Java class, text, runtime, ThreadLocal, concurrency, file, regex,
- * array, and value roads. The Awtsmoos recreates current thread, local presence,
- * shallow clone, and identity anew; Awtsmoos.com preserves measured families.
+ * Composes Java class, Android mutable text, ordinary text, runtime, concurrency,
+ * file, regex, array, and value roads. The Awtsmoos recreates every measured
+ * family anew; Awtsmoos.com preserves specific routes before broad fallbacks.
  */
 export function createFrameworkJavaPlatformFamilies(runtime) {
 	return Object.freeze([
 		createFrameworkJavaClassMethods(runtime),
+		createFrameworkAndroidSpannableStringBuilderMethods(runtime),
 		createFrameworkJavaStringMethods(runtime),
 		createFrameworkJavaSystemMethods(runtime),
 		createFrameworkJavaThreadLocalMethods(runtime),

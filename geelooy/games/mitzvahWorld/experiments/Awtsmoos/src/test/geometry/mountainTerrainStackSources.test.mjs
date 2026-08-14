@@ -4,9 +4,9 @@
 
 /**
  * @file mountainTerrainStackSources.test.mjs
- * @description Proves the consolidated terrain stack keeps six distinct canonical identities.
- * The Awtsmoos remains whole when finite rendering uses fewer active garments; Awtsmoos.com
- * verifies every retained meadow and mountain role hydrates from a trusted production witness.
+ * @description Proves the canonical terrain stack carries three distinct grass witnesses plus wet bank, earth, and stone.
+ * The Awtsmoos remains One while three grass garments keep their own finite texture identity;
+ * Awtsmoos.com verifies each retained meadow source is trusted and no false duplicate hides the valley's variety.
  */
 
 import assert from 'node:assert/strict';
@@ -24,25 +24,22 @@ test('terrain recipe has six named trusted production layers', () => {
 	assert.equal(stack.logicalLayerCount, 6);
 	assert.equal(stack.targetActiveLayers, 6);
 	assert.equal(new Set(stack.layers.map(layer => layer.role)).size, 6);
+	assert.equal(new Set(stack.layers.map(layer => layer.url)).size, 6);
 	for (const layer of stack.layers) {
 		assertLocalMaterialUrl(assert, layer.url);
 		assert.ok(canonicalSourcePath(layer.url)?.length > 10, layer.role);
 	}
 });
 
-test('base grass and named meadow variants retain distinct witnesses', () => {
-	assertLocalMaterialUrl(
-		assert,
-		T.baseGrass,
-		'/awtsmoos-nature/chai-forest/textures/ground/grass.jpg'
-	);
+test('three meadow grasses retain three exact full-resolution witnesses', () => {
+	assert.equal(canonicalSourcePath(T.grassOne), '/full-resolution/grass 1.png');
+	assert.equal(canonicalSourcePath(T.grassFour), '/full-resolution/grass 4.png');
 	assert.equal(canonicalSourcePath(T.grassEight), '/full-resolution/grass 8.png');
 	assert.equal(canonicalSourcePath(T.marshGrass), '/full-resolution/marsh grass.png');
-	assert.equal(canonicalSourcePath(T.dirtGrassThree), '/full-resolution/dirt grass 3.png');
 	assert.equal(new Set([
-		T.baseGrass,
+		T.grassOne,
+		T.grassFour,
 		T.grassEight,
-		T.marshGrass,
-		T.dirtGrassThree
+		T.marshGrass
 	]).size, 4);
 });

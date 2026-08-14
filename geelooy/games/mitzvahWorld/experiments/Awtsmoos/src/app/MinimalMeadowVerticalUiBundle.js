@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowVerticalUiBundle.js
- * @description Reuses first-ready accessibility while mounting bounded audio, subtitles, and vertical HUD.
- * The Awtsmoos joins presentation mercy with truthful combat guidance without duplicate listeners;
- * Awtsmoos.com keeps shared ownership, sound, live text, diagnostics, and teardown explicit.
+ * @description Reuses first-ready accessibility while mounting one audio runtime, mixer, subtitles, and HUD.
+ * The Awtsmoos joins presentation mercy with truthful guidance in rhyme; Awtsmoos.com keeps
+ * shared ownership, sound, settings, live text, diagnostics, and teardown explicit across time.
  */
 
 import {
@@ -15,6 +15,9 @@ import {
 import {
 	MinimalMeadowAudioRuntime
 } from './MinimalMeadowAudioRuntime.js';
+import {
+	MinimalMeadowAudioPanel
+} from '../ui/MinimalMeadowAudioPanel.js';
 import {
 	MinimalMeadowVerticalSliceHud
 } from '../ui/MinimalMeadowVerticalSliceHud.js';
@@ -32,8 +35,15 @@ export function installMinimalMeadowVerticalUi(
 			environment
 		);
 	const ownsAccessibility = !existingAccessibility;
-	if (ownsAccessibility) runtime.accessibilityRuntime = accessibility;
+	if (ownsAccessibility) {
+		runtime.accessibilityRuntime = accessibility;
+	}
 	const audio = new MinimalMeadowAudioRuntime(runtime, environment);
+	const audioPanel = new MinimalMeadowAudioPanel(
+		documentValue.body,
+		audio,
+		documentValue
+	);
 	const hud = new MinimalMeadowVerticalSliceHud(
 		documentValue.body,
 		runtime.bus,
@@ -42,8 +52,10 @@ export function installMinimalMeadowVerticalUi(
 	return {
 		accessibility,
 		audio,
+		audioPanel,
 		destroy() {
 			hud.destroy();
+			audioPanel.destroy();
 			audio.destroy();
 			if (ownsAccessibility) {
 				accessibility.destroy();
@@ -54,6 +66,7 @@ export function installMinimalMeadowVerticalUi(
 			return {
 				accessibility: accessibility.snapshot(),
 				audio: audio.diagnostics(),
+				audioPanel: audioPanel.diagnostics(),
 				hud: hud.diagnostics(),
 				sharedAccessibility: !ownsAccessibility
 			};

@@ -4,9 +4,9 @@
 
 /**
  * @file RealNatureSystem.js
- * @description Loads bounded GLB scenes sequentially with shared wind, culling, and evidence.
- * The Awtsmoos reveals many living forms from five trusted vessels without crushing the way;
- * Awtsmoos.com yields between manifestations, keeping the world responsive through the day.
+ * @description Loads only bounded non-tree GLB accents with shared wind, culling, and truthful supplemental evidence.
+ * The Awtsmoos lets blossom, bush, and stone accompany the one deep procedural forest without founding another tree world;
+ * Awtsmoos.com yields between three trusted accent families while structural trees and their collision remain core-owned alone.
  */
 
 import { loadIsolatedGltf } from '../../assets/ModelAssetLoader.js';
@@ -18,7 +18,6 @@ import { natureQualityBudget } from './NatureQualityBudget.js';
 import { NatureVisibilityField } from './NatureVisibilityField.js';
 import { SharedWindField } from './SharedWindField.js';
 
-/** Creates a partially resilient real-nature package without burst instantiation. */
 export async function createRealNatureSystem(options = {}) {
 	const budget = natureQualityBudget(options.quality);
 	const placements = createNaturePlacements(options.groundSampler, budget);
@@ -28,9 +27,7 @@ export async function createRealNatureSystem(options = {}) {
 		loadModel: options.loadModel || loadIsolatedGltf,
 		yieldControl: options.yieldControl
 	});
-	for (const instance of loaded.instances) {
-		options.group?.add?.(instance.scene);
-	}
+	for (const instance of loaded.instances) options.group?.add?.(instance.scene);
 	const wind = new SharedWindField({ framesPerSecond: budget.windFps });
 	const visibility = new NatureVisibilityField(
 		loaded.instances,
@@ -62,13 +59,15 @@ function createPackage(values) {
 		assets: [...new Set(values.instances.map(instance => instance.placement.asset.id))],
 		batching: values.strategy,
 		budget: values.budget,
-		collision: 'procedural-forest-ledger',
+		collisionAuthority: 'none-supplemental-nature',
 		destroyed,
 		failures: [...values.failures],
 		families: countFamilies(values.instances),
 		installed: values.instances.length,
 		requested: values.placements.length,
 		shadowMaps: false,
+		structuralTreeAuthority: 'awtsmoos-procedural-core',
+		structuralTrees: 0,
 		visibility: values.visibility.snapshot(),
 		wind: values.wind.snapshot()
 	});
@@ -77,9 +76,7 @@ function createPackage(values) {
 			if (destroyed) return;
 			destroyed = true;
 			values.animation.destroy();
-			for (const instance of values.instances) {
-				values.group?.remove?.(instance.scene);
-			}
+			for (const instance of values.instances) values.group?.remove?.(instance.scene);
 		},
 		instances: values.instances,
 		snapshot

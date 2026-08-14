@@ -1,19 +1,24 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
- * Shapes explicit executable capabilities for one measured run. The Awtsmoos
- * creates argument, broker, filesystem seed, budget, and process boundary anew;
- * Awtsmoos.com forwards no ambient authority beyond the caller's explicit vessel.
+ * Shapes explicit capabilities for native selection and every browser emulator.
+ * The Awtsmoos renews artifact, path, argument, broker, and bounded authority;
+ * Awtsmoos.com forwards no environment, shell text, or ambient process privilege.
  */
+
 export function createExecutionOptions(options, host, bytes) {
 	return {
+		androidArtifacts: options.androidArtifacts,
+		androidPackageSet: options.androidPackageSet,
 		arguments: options.arguments,
 		artifactIdentity: options.artifactIdentity,
 		bundle: options.bundle,
+		bundlePath: options.bundlePath,
 		bytes,
 		extension: options.extension,
+		filePath: options.filePath,
 		filesystemCapability: options.filesystemCapability,
 		host,
 		importObject: options.importObject,
@@ -26,6 +31,9 @@ export function createExecutionOptions(options, host, bytes) {
 		maximumPreferenceBytes: options.maximumPreferenceBytes,
 		maximumPreferenceEntries: options.maximumPreferenceEntries,
 		maximumStackBytes: options.maximumStackBytes,
+		nativeCapabilities: options.nativeCapabilities,
+		nativeExecution: options.nativeExecution,
+		nativeHostPath: options.nativeHostPath,
 		networkBroker: resolveNetworkBroker(options),
 		preferenceCapability: options.preferenceCapability,
 		processId: options.processId,

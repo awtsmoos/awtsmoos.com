@@ -1,0 +1,75 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-mawgawl-13489054",
+	"path": "geelooy/mawgawl",
+	"type": "public",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "geelooy/mawgawl",
+	"entries": [
+		"index.html",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/mawgawl/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-mawgawl-13489054.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 37,
+		"tests": 4,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 42,
+	"symbolSummary": {
+		"files": 18,
+		"classes": 2,
+		"functions": 87,
+		"exports": 47,
+		"samples": [
+			"from",
+			"showMessage",
+			"showDivInModal",
+			"updateDivInModal",
+			"closeModal",
+			"createCalendar",
+			"resetMinutes",
+			"createCalendarWithMonth",
+			"addBooking",
+			"displayHours",
+			"minuteClickHandler",
+			"displayMinutes"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/mawgawl",
+			"file": "geelooy/mawgawl/index.html",
+			"title": "",
+			"scripts": 1,
+			"styles": 1
+		},
+		{
+			"url": "/mawgawl/sefarim",
+			"file": "geelooy/mawgawl/sefarim/index.html",
+			"title": "Search the Living Library — Geelooy",
+			"scripts": 2,
+			"styles": 17
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

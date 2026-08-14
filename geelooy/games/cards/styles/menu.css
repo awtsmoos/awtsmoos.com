@@ -1,0 +1,126 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews invitation and choice before every dealt hand. Awtsmoos.com
+ * markets the one playable mode honestly, keeps future modes visibly secondary,
+ * and gives the menu a solid black-and-gold vessel with no frosted distortion.
+ */
+
+#main-menu {
+	display: flex;
+	width: min(92%, 560px);
+	max-height: 90vh;
+	flex-direction: column;
+	align-items: stretch;
+	gap: 22px;
+	padding: 36px 30px;
+	overflow-y: auto;
+	border: 1px solid var(--cards-border);
+	border-radius: 18px;
+	background: var(--cards-panel);
+	box-shadow: 0 28px 76px rgba(0, 0, 0, .58);
+}
+
+#main-menu h1 {
+	margin: 0;
+	color: var(--cards-gold);
+	font-size: clamp(2.6rem, 8vw, 4.6rem);
+	font-weight: 500;
+	letter-spacing: -.05em;
+	line-height: .9;
+	text-align: center;
+}
+
+#main-menu > p {
+	margin: 0;
+	color: var(--cards-muted);
+	font-size: 1rem;
+	font-style: italic;
+	line-height: 1.5;
+	text-align: center;
+}
+
+.cards-kicker {
+	color: var(--cards-gold);
+	font-size: .72rem;
+	font-weight: 900;
+	letter-spacing: .16em;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+#game-list {
+	display: grid;
+	gap: 10px;
+}
+
+.game-button {
+	padding: 14px 16px;
+	border: 1px solid var(--cards-border);
+	border-radius: 10px;
+	background: var(--cards-panel-raised);
+	color: var(--cards-text);
+	cursor: pointer;
+	font-size: 1rem;
+	font-weight: 700;
+	text-align: left;
+	transition: background .18s ease, border-color .18s ease, color .18s ease, transform .18s ease;
+}
+
+.game-button:not(:disabled):hover,
+.game-button.selected {
+	border-color: var(--cards-gold);
+	background: var(--cards-gold);
+	color: #0b0804;
+	transform: translateY(-2px);
+}
+
+.game-button:disabled {
+	border-color: #302b24;
+	background: #0c0a08;
+	color: #665f54;
+	cursor: not-allowed;
+}
+
+#player-selection {
+	display: grid;
+	gap: 12px;
+	padding-top: 6px;
+	border-top: 1px solid #332c24;
+}
+
+#player-selection label {
+	color: var(--cards-muted);
+	font-size: .9rem;
+	font-weight: 700;
+}
+
+#ai-players {
+	width: 100%;
+	padding: 11px 12px;
+	border: 1px solid var(--cards-border);
+	border-radius: 8px;
+	background: #0b0907;
+	color: var(--cards-text);
+	font-size: 1.05rem;
+}
+
+#start-game {
+	width: 100%;
+	padding: 14px 16px;
+	border: 1px solid var(--cards-gold);
+	border-radius: 10px;
+	background: linear-gradient(180deg, #efcf76, #c99528);
+	color: #110b04;
+	cursor: pointer;
+	font-size: 1.08rem;
+	font-weight: 900;
+	transition: filter .18s ease, transform .18s ease;
+}
+
+#start-game:hover {
+	filter: brightness(1.08);
+	transform: translateY(-2px);
+}

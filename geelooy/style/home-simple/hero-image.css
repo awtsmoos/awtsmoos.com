@@ -1,95 +1,105 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The recovered rainbow world becomes a cinematic portal through depth, light, and careful masking.
+The Awtsmoos lets the historical world remain large without swallowing the next human intention;
+at Awtsmoos.com the image breathes with viewport height, preserving wonder while revealing search in the first revelation.
 */
-.dance-shell {
-	--tilt-x: 0deg;
-	--tilt-y: 0deg;
-	width: 100%;
-	min-height: 0;
-	transform: perspective(1400px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
-	transition: transform .22s ease-out;
-}
-
 .dance-frame {
 	position: relative;
+	isolation: isolate;
 	width: 100%;
-	aspect-ratio: 2.42 / 1;
-	max-height: min(51dvh, 550px);
+	min-height: clamp(430px, min(34vw, 64vh), 540px);
 	overflow: hidden;
-	border: 1px solid rgba(132, 194, 255, .16);
-	border-radius: 1.55rem;
-	background: #09101b;
-	box-shadow: 0 30px 90px rgba(0, 0, 0, .46), 0 0 50px rgba(55, 107, 185, .08);
+	border: 1px solid #2c5879;
+	border-radius: 2rem;
+	background: #07101d;
+	box-shadow: 0 34px 90px rgba(0, 0, 0, .46);
 }
 
-.dance-frame::before {
+.dance-frame::after {
 	position: absolute;
-	inset: -7%;
-	background: url("/resources/home/restored-awtsmoos-hero.jpg") center / cover;
+	inset: 0;
+	z-index: 3;
+	border: 1px solid rgba(255, 255, 255, .05);
+	border-radius: inherit;
+	box-shadow: inset 0 -100px 130px rgba(2, 5, 12, .2);
 	content: "";
-	filter: blur(24px) saturate(1.2);
-	opacity: .42;
-	transform: scale(1.1);
+	pointer-events: none;
 }
 
-.dance-frame img {
-	position: relative;
+.hero-image {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
 	display: block;
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	object-position: center 48%;
-	filter: saturate(1.08) contrast(1.03) brightness(.9);
+	object-position: 50% 48%;
+	filter: saturate(1.06) contrast(1.03);
 }
 
 .banner-shade {
 	position: absolute;
 	inset: 0;
+	z-index: 1;
 	background:
-		linear-gradient(90deg, rgba(3, 7, 14, .88), rgba(3, 7, 14, .34) 52%, rgba(3, 7, 14, .08)),
-		linear-gradient(180deg, transparent 55%, rgba(2, 6, 12, .32));
+		linear-gradient(90deg, rgba(2, 6, 14, .84) 0%, rgba(3, 8, 18, .52) 36%, rgba(3, 8, 18, .04) 76%),
+		linear-gradient(0deg, rgba(1, 4, 10, .42), transparent 50%);
 }
 
 .hero-orbit {
 	position: absolute;
-	right: 7%;
-	top: 14%;
-	width: clamp(7rem, 15vw, 12rem);
-	aspect-ratio: 1;
-	border: 1px solid rgba(153, 218, 255, .13);
-	border-radius: 50%;
-	box-shadow: inset 0 0 3rem rgba(85, 136, 220, .08);
+	top: 1.35rem;
+	right: 1.35rem;
+	z-index: 4;
+	display: flex;
+	gap: .38rem;
+	padding: .48rem .64rem;
+	border: 1px solid #3a607f;
+	border-radius: 999px;
+	background: rgba(8, 19, 32, .9);
+	box-shadow: 0 10px 24px rgba(0, 0, 0, .3);
 }
 
 .hero-orbit i {
-	position: absolute;
-	width: .38rem;
-	height: .38rem;
+	width: .36rem;
+	height: .36rem;
 	border-radius: 50%;
-	background: #a5dcff;
-	box-shadow: 0 0 1rem rgba(110, 204, 255, .8);
+	background: #dbefff;
+	box-shadow: 0 0 .7rem rgba(120, 202, 255, .42);
 }
 
-.hero-orbit i:nth-child(1) { left: 8%; top: 48%; }
-.hero-orbit i:nth-child(2) { right: 16%; top: 20%; }
-.hero-orbit i:nth-child(3) { right: 28%; bottom: 8%; }
+.hero-orbit i:nth-child(2) {
+	opacity: .58;
+}
+
+.hero-orbit i:nth-child(3) {
+	opacity: .32;
+}
+
+@media (max-width: 850px) {
+	.dance-frame {
+		min-height: clamp(440px, min(68vw, 68vh), 560px);
+	}
+}
 
 @media (max-width: 680px) {
 	.dance-frame {
-		aspect-ratio: 16 / 9;
-		max-height: 45dvh;
-		border-radius: 1.15rem;
+		min-height: clamp(500px, min(125vw, 72vh), 620px);
+		border-radius: 1.5rem;
+	}
+
+	.hero-image {
+		object-position: 50% 45%;
+	}
+
+	.banner-shade {
+		background: linear-gradient(0deg, rgba(2, 5, 12, .9) 0%, rgba(2, 6, 14, .42) 52%, rgba(2, 6, 14, .02) 84%);
 	}
 
 	.hero-orbit {
-		display: none;
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	.dance-shell {
-		transform: none !important;
+		top: .9rem;
+		right: .9rem;
 	}
 }

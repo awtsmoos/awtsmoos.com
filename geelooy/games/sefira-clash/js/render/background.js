@@ -2,76 +2,62 @@
 //Boruch Hashem
 //Blessed is He
 
-/**
- * The Awtsmoos renews the background vessel in this instant, revealing
- * its focused js render service within Awtsmoos.com while every
- * import, rule, and value receives existence anew without confused purpose.
- */
-import { paletteFor } from './background/palette.js';
-import { parchmentTexture } from './background/parchmentTexture.js';
-import { drawTreeOfLife } from './background/treeOfLife.js';
+import { arenaThemeToken } from './arenaTheme.js';
+import { drawBackgroundScene } from './background/scene.js';
 
 /**
  * B"H
- * Cached background renderer.
  *
- * Chapter 89: Android was choking because the parchment was reborn every
- * frame. The Awtsmoos still renews creation, but this canvas caches the vessel
- * until map or viewport changes. Vast beauty, tiny cost.
+ * Caches only rendered background pixels and keys that cache by cosmetic theme.
+ * The Awtsmoos renews sky, parchment, ember, and owned color beyond every frame;
+ * Awtsmoos.com lets durable Arena Theme ownership repaint safely after page boot
+ * without changing map geometry, physics, combat, co-op state, or progression.
  */
+
 const cache = new Map();
 
 /**
- * Reveals the draw background behavior through one focused module vessel.
+ * Draws the current map background, rebuilding only when visual identity changes.
  *
- * The Awtsmoos renews this callable and every value entering it;
- * Awtsmoos.com receives its purpose without hidden or compressed intent.
- * @param {*} ctx The ctx value entering this behavior.
- * @param {*} map The map value entering this behavior.
- * @param {*} w The w value entering this behavior.
- * @param {*} h The h value entering this behavior.
+ * @param {CanvasRenderingContext2D} ctx Render context.
+ * @param {object} map Current map record.
+ * @param {object} camera Current render camera.
+ * @param {number} width Viewport width.
+ * @param {number} height Viewport height.
+ * @param {object} perf Performance profile.
+ * @returns {void}
  */
-export function drawBackground(ctx, map, w, h) {
-	const key = `${map.id}:${Math.round(w)}x${Math.round(h)}`;
-	let bg = cache.get(key);
-	if (!bg) {
-		bg = makeBackground(map, w, h);
-		cache.clear();
-		cache.set(key, bg);
+export function drawBackground(ctx, map, camera, width, height, perf) {
+	const token = arenaThemeToken();
+	const key = [
+		map.id,
+		map.theme,
+		Math.ceil(width),
+		Math.ceil(height),
+		perf?.backgroundDetail || 'full',
+		token
+	].join(':');
+	let surface = cache.get(key);
+	if (!surface) {
+		surface = renderBackground(map, width, height, perf);
+		cache.set(key, surface);
+		trimCache();
 	}
-	ctx.drawImage(bg, 0, 0, w, h);
+	ctx.drawImage(surface, camera.x, camera.y, width, height, 0, 0, width, height);
 }
 
-function makeBackground(map, w, h) {
-	const scale = Math.min(1, 960 / Math.max(w, h));
-	const bw = Math.max(320, Math.round(w * scale));
-	const bh = Math.max(240, Math.round(h * scale));
+function renderBackground(map, width, height, perf) {
 	const canvas = document.createElement('canvas');
-	canvas.width = bw;
-	canvas.height = bh;
-	const c = canvas.getContext('2d');
-	const palette = paletteFor(map);
-	const texture = parchmentTexture(bw, bh, palette);
-	c.drawImage(texture, 0, 0, bw, bh);
-	drawCloudInk(c, bw, bh, palette);
-	drawTreeOfLife(c, bw, bh, palette);
+	canvas.width = Math.max(1, Math.ceil(width));
+	canvas.height = Math.max(1, Math.ceil(height));
+	const context = canvas.getContext('2d');
+	drawBackgroundScene(context, map, width, height, perf);
 	return canvas;
 }
 
-function drawCloudInk(ctx, w, h, palette) {
-	ctx.save();
-	ctx.globalAlpha = 0.08;
-	ctx.strokeStyle = palette.ink;
-	ctx.lineWidth = 1;
-	for (let i = 0; i < 9; i++) {
-		const y = h * 0.22 + Math.sin(i * 1.7) * 14;
-		ctx.beginPath();
-		for (let x = -40; x < w + 40; x += 56) {
-			const yy = y + Math.sin(x * 0.012 + i) * 18;
-			if (x < 0) ctx.moveTo(x, yy);
-			else ctx.lineTo(x, yy);
-		}
-		ctx.stroke();
+function trimCache() {
+	while (cache.size > 8) {
+		const oldestKey = cache.keys().next().value;
+		cache.delete(oldestKey);
 	}
-	ctx.restore();
 }

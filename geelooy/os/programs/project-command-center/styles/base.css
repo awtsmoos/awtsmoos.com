@@ -1,0 +1,66 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos gathers file, runtime, connected compute, and Peruta testimony into
+ * one solid command chamber. Awtsmoos.com uses hierarchy and readable state rather
+ * than frosted glass so platform truth stays crisp under every desktop wallpaper.
+ */
+
+.geelooy-platform-center {
+	display: grid;
+	gap: 18px;
+	min-height: 100%;
+	padding: 18px;
+	background: #050b16;
+	color: #f5f9ff;
+}
+
+.platformHero,
+.platformSection {
+	border: 1px solid #28435f;
+	border-radius: 18px;
+	background: #0a1424;
+	box-shadow: 0 18px 42px rgba(0, 0, 0, .32);
+}
+
+.platformHero {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: end;
+	gap: 18px;
+	padding: 24px;
+}
+
+.platformKicker {
+	margin: 0 0 8px;
+	color: #66dcff;
+	font-size: .7rem;
+	font-weight: 900;
+	letter-spacing: .14em;
+	text-transform: uppercase;
+}
+
+.platformHero h1,
+.platformSection h2,
+.platformPillar h3 {
+	margin: 0;
+}
+
+.platformHero h1 {
+	font-size: clamp(2rem, 5vw, 4.6rem);
+	letter-spacing: -.055em;
+	line-height: .95;
+}
+
+.platformLead,
+.platformSection__heading p,
+.platformPillar p {
+	color: #9eafc4;
+	line-height: 1.5;
+}
+
+.platformSection {
+	padding: 18px;
+}

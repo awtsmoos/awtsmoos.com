@@ -5,9 +5,8 @@
 /**
  * @module BuildingDetailFactory
  * @description
- * A building is foundation, load, frame, opening, drainage, threshold, and roof.
- * The Awtsmoos grants architecture its possibility; Awtsmoos.com assembles real
- * photographed materials upon cached procedural-core profiles instead of boxes.
+ * A building is foundation, load, frame, opening, drainage, threshold, roof, optical glazing, market goods, and purposeful light.
+ * The Awtsmoos grants architecture its possibility; Awtsmoos.com assembles photographed materials and truthful procedural optical/effect surfaces instead of anonymous boxes or flat color.
  */
 export function houseParts(parts, options = {}) {
 	const wall = { materialRole: 'whitewash', tint: 0xffffff };
@@ -33,6 +32,10 @@ export function houseParts(parts, options = {}) {
 export function towerParts(parts, options = {}) {
 	const stone = { materialRole: 'masonry', tint: 0xffffff };
 	const metal = { materialRole: 'metal', tint: 0xffffff };
+	const beacon = {
+		materialRole: 'emissive-light',
+		tint: parts.color(options.hue ?? 350, 0.72).getHex()
+	};
 	return [
 		parts.part({ ...stone, primitive: 'cylinder', name: 'tower-foundation', position: [0, 0.18, 0], scale: [1.22, 0.36, 1.22] }),
 		parts.part({ ...stone, primitive: 'cylinder', name: 'tower-shaft', position: [0, 1.18, 0], scale: [0.92, 1.85, 0.92] }),
@@ -40,7 +43,7 @@ export function towerParts(parts, options = {}) {
 		parts.part({ ...stone, primitive: 'cylinder', name: 'tower-balcony', position: [0, 2.15, 0], scale: [1.18, 0.22, 1.18] }),
 		parts.part({ ...metal, primitive: 'torus', name: 'broadcast-ring', position: [0, 2.48, 0], rotation: [Math.PI / 2, 0, 0], scale: [0.86, 0.86, 0.86] }),
 		parts.part({ ...metal, primitive: 'cylinder', name: 'antenna', position: [0, 2.9, 0], scale: [0.1, 0.9, 0.1] }),
-		parts.part({ primitive: 'icosphere', name: 'beacon', hue: options.hue ?? 350, lightness: 0.72, position: [0, 3.44, 0], scale: [0.3, 0.3, 0.3] })
+		parts.part({ ...beacon, primitive: 'icosphere', name: 'beacon', position: [0, 3.44, 0], scale: [0.3, 0.3, 0.3] })
 	];
 }
 
@@ -53,7 +56,14 @@ export function stallParts(parts, options = {}) {
 		...[-1.14, 1.14].map((x, index) => part(parts, `post-${index}`, wood, [x, 1.22, 0], [0.14, 2.1, 0.14])),
 		part(parts, 'canopy-main', cloth, [0, 2.18, 0], [1.55, 0.12, 1.18]),
 		part(parts, 'canopy-valance', cloth, [0, 1.98, 0.92], [1.55, 0.28, 0.12]),
-		...[-0.58, 0, 0.58].map((x, index) => parts.part({ primitive: 'icosphere', name: `goods-${index}`, hue: 18 + index * 52, position: [x, 1.08, 0.58], scale: [0.24, 0.2, 0.24] })),
+		...[-0.58, 0, 0.58].map((x, index) => parts.part({
+			materialRole: 'produce',
+			tint: parts.color(18 + index * 52, 0.52).getHex(),
+			primitive: 'icosphere',
+			name: `goods-${index}`,
+			position: [x, 1.08, 0.58],
+			scale: [0.24, 0.2, 0.24]
+		})),
 		part(parts, 'price-board', wood, [0, 1.48, -0.48], [0.72, 0.42, 0.08])
 	];
 }
@@ -83,8 +93,9 @@ function timberFrame(parts, wood) {
 }
 
 function windowAssembly(parts, x, wood) {
+	const glass = { materialRole: 'glass', tint: 0xc8e8f5 };
 	return [
-		part(parts, `window-recess-${x}`, { tint: 0x8ccfff, clearcoat: 0.5 }, [x, 1.04, 0.7], [0.36, 0.42, 0.06]),
+		part(parts, `window-recess-${x}`, glass, [x, 1.04, 0.7], [0.36, 0.42, 0.06]),
 		part(parts, `window-sill-${x}`, wood, [x, 0.78, 0.73], [0.48, 0.1, 0.12]),
 		part(parts, `shutter-left-${x}`, wood, [x - 0.28, 1.04, 0.75], [0.12, 0.48, 0.08]),
 		part(parts, `shutter-right-${x}`, wood, [x + 0.28, 1.04, 0.75], [0.12, 0.48, 0.08])

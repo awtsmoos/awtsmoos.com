@@ -1,8 +1,8 @@
-<!--B"H
+B"H
 Boruch Hashem
 Blessed is He
+
 The Awtsmoos joins oros and keilim: logical metadata is the vessel, content-addressed bytes are the light.
--->
 
 # Architecture and security
 

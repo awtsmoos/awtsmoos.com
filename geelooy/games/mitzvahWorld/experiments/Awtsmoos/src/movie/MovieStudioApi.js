@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioApi.js
- * @description Creates one stable facade over cinema, project, compositions, agents, media, performance, jobs, and UI.
- * The Awtsmoos renews every project and service while identity remains beyond replacement;
- * Awtsmoos.com gives old callers familiar doors and agents immutable contracts for the complete studio.
+ * @description Creates one stable facade over cinema, locations, reproduction, Shorts, project, agents, media, performance, jobs, and UI.
+ * The Awtsmoos renews every project, place, and recreation while identity remains beyond replacement;
+ * Awtsmoos.com gives old callers familiar doors and authors one discoverable contract for the complete Studio and living village.
  */
 
 import {
@@ -26,6 +26,7 @@ import { createMovieStudioDiagnosticsDomain } from './MovieStudioApiDiagnostics.
 import { createMovieStudioEventsDomain } from './MovieStudioApiEvents.js';
 import { createMovieStudioHistoryDomain } from './MovieStudioApiHistory.js';
 import { createMovieStudioInstancesDomain } from './MovieStudioApiInstances.js';
+import { createMovieStudioLocationsDomain } from './MovieStudioApiLocations.js';
 import { createMovieStudioMediaDomain } from './MovieStudioApiMedia.js';
 import { createMovieStudioPatchDomain } from './MovieStudioApiPatch.js';
 import { createMovieStudioPerformanceDomain } from './MovieStudioApiPerformance.js';
@@ -34,10 +35,12 @@ import { createMovieStudioPlaybackDomain } from './MovieStudioApiPlayback.js';
 import { createMovieStudioPluginsDomain } from './MovieStudioApiPlugins.js';
 import { createMovieStudioProjectDomain } from './MovieStudioApiProject.js';
 import { createMovieStudioRenderJobsDomain } from './MovieStudioApiRenderJobs.js';
+import { createMovieStudioReproductionDomain } from './MovieStudioApiReproduction.js';
 import { createMovieStudioRuntimeAdaptersDomain } from './MovieStudioApiRuntimeAdapters.js';
 import { createMovieStudioScene3dDomain } from './MovieStudioApiScene3d.js';
 import { createMovieStudioSchemaDomain } from './MovieStudioApiSchema.js';
 import { createMovieStudioSelectionDomain } from './MovieStudioApiSelection.js';
+import { createMovieStudioShortsDomain } from './MovieStudioApiShorts.js';
 import { createMovieStudioTextDomain } from './MovieStudioApiText.js';
 import { createMovieStudioTimelineDomain } from './MovieStudioApiTimeline.js';
 import { createMovieStudioUiDomain } from './MovieStudioApiUi.js';
@@ -59,6 +62,7 @@ export function createMovieStudioApi(session) {
 		events: createMovieStudioEventsDomain(session),
 		history: createMovieStudioHistoryDomain(session, commands),
 		instances: createMovieStudioInstancesDomain(session),
+		locations: createMovieStudioLocationsDomain(session),
 		media: createMovieStudioMediaDomain(session, commands),
 		patch: createMovieStudioPatchDomain(session),
 		performance: createMovieStudioPerformanceDomain(session),
@@ -68,15 +72,15 @@ export function createMovieStudioApi(session) {
 		project: createMovieStudioProjectDomain(session),
 		projectSchemaVersion: MOVIE_PROJECT_SCHEMA_VERSION,
 		renderJobs: createMovieStudioRenderJobsDomain(session),
+		reproduction: createMovieStudioReproductionDomain(session),
 		runtimeAdapters: createMovieStudioRuntimeAdaptersDomain(session),
 		scene3d: createMovieStudioScene3dDomain(session),
 		schema: createMovieStudioSchemaDomain(session),
 		selection: createMovieStudioSelectionDomain(session),
+		shorts: createMovieStudioShortsDomain(session),
 		text: createMovieStudioTextDomain(session, commands),
 		timeline: createMovieStudioTimelineDomain(session, commands),
-		transactions: Object.freeze({
-			execute: (batch, options) => commands.executeBatch(batch, options)
-		}),
+		transactions: Object.freeze({ execute: (batch, options) => commands.executeBatch(batch, options) }),
 		ui: createMovieStudioUiDomain(session),
 		unsafe: createUnsafeMovieStudioApi(session)
 	};

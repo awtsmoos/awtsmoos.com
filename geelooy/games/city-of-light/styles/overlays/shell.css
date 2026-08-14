@@ -1,0 +1,83 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews pause and recovery as intentional chambers above the city;
+ * Awtsmoos.com lets these panels scroll within themselves while ordinary play remains one still viewport.
+ * This module owns overlay shell, pause heading, and pause action geometry only.
+ */
+.overlay {
+	align-items: center;
+	background: rgba(2, 4, 10, 0.9);
+	display: none;
+	inset: 0;
+	justify-content: center;
+	overflow: hidden;
+	padding: max(10px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
+	position: fixed;
+	z-index: 20;
+}
+
+.overlay.visible {
+	display: flex;
+}
+
+.overlayPanel {
+	background: #0a1021;
+	border: 1px solid #425271;
+	border-radius: 18px;
+	box-shadow: 0 24px 70px rgba(0, 0, 0, 0.58);
+	max-height: calc(100dvh - 20px);
+	overflow-x: hidden;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	padding: 16px;
+	touch-action: pan-y;
+	width: min(980px, 100%);
+	-webkit-overflow-scrolling: touch;
+}
+
+.pauseHeading {
+	align-items: center;
+	display: flex;
+	gap: 12px;
+	justify-content: space-between;
+}
+
+.pauseActions,
+.settingsRow {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 7px;
+	margin: 12px 0;
+}
+
+.pauseBack {
+	align-items: center;
+	display: inline-flex;
+	min-height: 42px;
+}
+
+.transitionPanel,
+.errorPanel {
+	max-width: 620px;
+	text-align: center;
+}
+
+@media (max-width: 760px) {
+	.overlay {
+		align-items: stretch;
+	}
+
+	.overlayPanel {
+		border-radius: 14px;
+		max-height: calc(100dvh - 20px);
+		padding: 12px;
+	}
+
+	.pauseHeading {
+		align-items: stretch;
+		flex-direction: column;
+	}
+}

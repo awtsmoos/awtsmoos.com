@@ -1,0 +1,86 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos is never disconnected; Awtsmoos.com gives finite network recovery one calm global signal that remains visible above every chamber without replacing local action feedback or consuming a phone like a modal in light. */
+
+.messaging-status {
+	min-height: 0;
+	margin: 0.35rem 0.75rem 0;
+	color: var(--msg-muted);
+	font-size: 0.72rem;
+	line-height: 1.35;
+}
+
+.messaging-connection-state {
+	position: absolute;
+	z-index: 80;
+	top: 0.75rem;
+	right: 0.75rem;
+	display: flex;
+	align-items: center;
+	width: fit-content;
+	max-width: min(360px, calc(100vw - 1.5rem));
+	min-height: 44px;
+	margin: 0;
+	padding: 0.58rem 0.78rem 0.58rem 2.05rem;
+	border: 1px solid rgba(255, 196, 102, 0.22);
+	border-radius: 13px;
+	background: rgba(18, 25, 20, 0.96);
+	box-shadow: 0 14px 42px rgba(0, 0, 0, 0.34);
+	backdrop-filter: blur(16px);
+	color: #ffe0ae;
+	font-size: 0.75rem;
+	font-weight: 650;
+	line-height: 1.32;
+}
+
+.messaging-connection-state::before {
+	content: "";
+	position: absolute;
+	left: 0.78rem;
+	top: 50%;
+	width: 8px;
+	height: 8px;
+	transform: translateY(-50%);
+	border-radius: 50%;
+	background: #ffc875;
+	box-shadow: 0 0 0 4px rgba(255, 200, 117, 0.09);
+	animation: messaging-reconnect-pulse 1.2s ease-in-out infinite;
+}
+
+.messaging-app[data-realtime="reconnecting"] .messaging-presence-summary {
+	opacity: 0.62;
+}
+
+@keyframes messaging-reconnect-pulse {
+	50% {
+		opacity: 0.42;
+		transform: translateY(-50%) scale(0.78);
+	}
+}
+
+@media (max-width: 760px) {
+	.messaging-connection-state {
+		top: max(0.38rem, env(safe-area-inset-top));
+		right: 0.55rem;
+		left: 0.55rem;
+		width: auto;
+		max-width: none;
+		min-height: 42px;
+		padding: 0.5rem 0.68rem 0.5rem 1.95rem;
+		border-radius: 12px;
+		font-size: 0.7rem;
+		line-height: 1.25;
+	}
+
+	.messaging-connection-state::before {
+		left: 0.7rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.messaging-connection-state::before {
+		animation: none;
+	}
+}

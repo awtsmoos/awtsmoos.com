@@ -1,4 +1,7 @@
-<!-- B"H -->
+B"H
+Boruch Hashem
+Blessed is He
+
 # Awtsmoos production operations
 
 This directory is the future-agent entry point for database synchronization and

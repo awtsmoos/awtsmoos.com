@@ -4,18 +4,27 @@
 
 /**
  * @file VillageCottageOrnamentBatch.js
- * @description Coordinates shared timber, shutter, blossom, flower-box, and threshold draws.
- * The Awtsmoos binds many intimate details into measured vessels; Awtsmoos.com uses a verified
- * oak source so every shutter remains textured without repeatedly requesting a missing filename.
+ * @description Coordinates facade detail, walkable stairs, and low-cost inhabited yard traces in shared draws.
+ * The Awtsmoos gathers timber, flower, earth, and stone around one lawful dwelling; Awtsmoos.com keeps
+ * stairs physically solid while trampled earth and stepping stones remain visual ground language, not collision clutter.
  */
 
 import { TEXTURE_URLS } from '../../assets/TextureCatalog.js';
+import { MOUNTAIN_VILLAGE_SOURCES as S } from '../materials/MountainVillageMaterialSources.js';
 import { createVillageBoxBatch } from './VillageBoxBatch.js';
 import { createCottageBlossomBatch } from './VillageCottageBlossomBatch.js';
 import { appendCottageOrnamentLayout } from './VillageCottageOrnamentLayout.js';
 
 export function createCottageOrnamentCollector() {
-	return { beams: [], blossoms: [], flowerBoxes: [], shutters: [], steps: [] };
+	return {
+		beams: [],
+		blossoms: [],
+		flowerBoxes: [],
+		shutters: [],
+		steps: [],
+		yardEarth: [],
+		yardStones: []
+	};
 }
 
 export function appendCottageOrnaments(collector, cottage) {
@@ -28,16 +37,19 @@ export function createCottageOrnamentBatches(collector) {
 		batch('cottage-shutter-batch', collector.shutters, '#385b52', TEXTURE_URLS.wood.oak3, 'shutters'),
 		batch('cottage-flower-box-batch', collector.flowerBoxes, '#5a3620', TEXTURE_URLS.wood.planks1, 'flower-box'),
 		createCottageBlossomBatch(collector.blossoms),
-		batch('cottage-entry-step-batch', collector.steps, '#8c8274', TEXTURE_URLS.bricks.fieldstone1, 'entry-step')
+		batch('cottage-yard-earth-batch', collector.yardEarth, '#70543a', S.dirt, 'trampled-yard-earth'),
+		batch('cottage-yard-stone-batch', collector.yardStones, '#82786b', S.fieldstone, 'yard-stepping-stone'),
+		batch('cottage-entry-step-batch', collector.steps, '#8c8274', S.fieldstone, 'terrain-fitted-entry-step', true)
 	].filter(Boolean);
 }
 
-function batch(id, boxes, color, textureUrl, part) {
+function batch(id, boxes, color, textureUrl, part, solid = false) {
 	if (!boxes.length) return null;
-	return createVillageBoxBatch(id, boxes, {
+	const definition = createVillageBoxBatch(id, boxes, {
 		color,
 		family: 'reference-cottage-ornament-batch',
 		part,
 		textureUrl
 	});
+	return { ...definition, solid };
 }

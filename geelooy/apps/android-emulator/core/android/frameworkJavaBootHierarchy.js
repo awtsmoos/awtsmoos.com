@@ -1,15 +1,13 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+//B"H //Boruch Hashem //Blessed is He
 
 const OBJECT = "Ljava/lang/Object;";
 const SYNC = "Ljava/util/Collections$Synchronized";
 const UNMODIFIABLE = "Ljava/util/Collections$Unmodifiable";
 
 /**
- * Names measured boot-class ancestry outside the loaded guest DEX. The Awtsmoos
- * recreates platform superclass, interface road, and wrapper garment anew;
- * Awtsmoos.com grants only explicit Android and Java hierarchy testimony.
+ * Names measured boot ancestry, including exception and executor garments.
+ * The Awtsmoos renews superclass and interface roads in every instant;
+ * Awtsmoos.com grants only explicit platform testimony, never guessed kinship.
  */
 export const BOOT_SUPERCLASSES = Object.freeze({
 	"Landroid/app/Activity;": "Landroid/view/ContextThemeWrapper;",
@@ -22,9 +20,12 @@ export const BOOT_SUPERCLASSES = Object.freeze({
 	"Landroid/view/ContextThemeWrapper;": "Landroid/content/ContextWrapper;",
 	"Ljava/lang/Class;": OBJECT,
 	"Ljava/lang/ClassLoader;": OBJECT,
+	"Ljava/lang/Exception;": "Ljava/lang/Throwable;",
+	"Ljava/lang/IllegalStateException;": "Ljava/lang/RuntimeException;",
+	"Ljava/lang/RuntimeException;": "Ljava/lang/Exception;",
 	"Ljava/lang/String;": OBJECT,
+	"Ljava/lang/Throwable;": OBJECT,
 	"Ljava/util/AbstractCollection;": OBJECT,
-	"Ljava/util/AbstractExecutorService;": OBJECT,
 	"Ljava/util/ArrayList;": "Ljava/util/AbstractCollection;",
 	[`${SYNC}Collection;`]: OBJECT,
 	[`${SYNC}List;`]: `${SYNC}Collection;`,
@@ -41,17 +42,18 @@ export const BOOT_SUPERCLASSES = Object.freeze({
 	"Ljava/util/LinkedHashMap;": "Ljava/util/HashMap;",
 	"Ljava/util/LinkedHashSet;": "Ljava/util/HashSet;",
 	"Ljava/util/WeakHashMap;": OBJECT,
+	"Ljava/util/concurrent/AbstractExecutorService;": OBJECT,
 	"Ljava/util/concurrent/CopyOnWriteArrayList;": OBJECT,
 	"Ljava/util/concurrent/CopyOnWriteArraySet;": OBJECT,
+	"Ljava/util/concurrent/Executors$DelegatedExecutorService;": "Ljava/util/concurrent/AbstractExecutorService;",
 	"Ljava/util/concurrent/FutureTask;": OBJECT,
 	"Ljava/util/concurrent/ScheduledThreadPoolExecutor;": "Ljava/util/concurrent/ThreadPoolExecutor;",
-	"Ljava/util/concurrent/ThreadPoolExecutor;": "Ljava/util/AbstractExecutorService;"
+	"Ljava/util/concurrent/ThreadPoolExecutor;": "Ljava/util/concurrent/AbstractExecutorService;"
 });
 
 export const BOOT_INTERFACES = Object.freeze({
 	"Ljava/lang/String;": ["Ljava/lang/CharSequence;", "Ljava/io/Serializable;", "Ljava/lang/Comparable;"],
 	"Ljava/util/AbstractCollection;": ["Ljava/util/Collection;"],
-	"Ljava/util/AbstractExecutorService;": ["Ljava/util/concurrent/ExecutorService;"],
 	"Ljava/util/ArrayList;": ["Ljava/util/List;"],
 	[`${SYNC}Collection;`]: ["Ljava/util/Collection;"],
 	[`${SYNC}List;`]: ["Ljava/util/List;"],
@@ -69,6 +71,7 @@ export const BOOT_INTERFACES = Object.freeze({
 	"Ljava/util/Set;": ["Ljava/util/Collection;"],
 	"Ljava/util/SortedMap;": ["Ljava/util/Map;"],
 	"Ljava/util/WeakHashMap;": ["Ljava/util/Map;"],
+	"Ljava/util/concurrent/AbstractExecutorService;": ["Ljava/util/concurrent/ExecutorService;"],
 	"Ljava/util/concurrent/CopyOnWriteArrayList;": ["Ljava/util/List;"],
 	"Ljava/util/concurrent/CopyOnWriteArraySet;": ["Ljava/util/Set;"],
 	"Ljava/util/concurrent/ExecutorService;": ["Ljava/util/concurrent/Executor;"],

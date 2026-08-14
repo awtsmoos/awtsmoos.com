@@ -1,8 +1,7 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+//B"H //Boruch Hashem //Blessed is He
 
 const SERVICE_TYPES = Object.freeze({
+	accessibility: "Landroid/view/accessibility/AccessibilityManager;",
 	activity: "Landroid/app/ActivityManager;",
 	clipboard: "Landroid/content/ClipboardManager;",
 	connectivity: "Landroid/net/ConnectivityManager;",

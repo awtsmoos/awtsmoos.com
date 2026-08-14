@@ -1,14 +1,12 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+//B"H //Boruch Hashem //Blessed is He
 
 import { isDalvikGuestException } from "./guestExceptions.js";
 import { isDalvikTypeAssignable } from "./methodDispatchHierarchy.js";
 
 /**
- * Resolves one guest exception against the current frame's protected regions.
- * The Awtsmoos recreates thrown type, typed gate, catch-all road, and target anew;
- * Awtsmoos.com never lets a host error enter a guest catch clause.
+ * Resolves one propagated guest exception against the caller's DEX handlers.
+ * The Awtsmoos preserves envelope, reference, protected road, and typed gate;
+ * Awtsmoos.com adds full boot ancestry without changing the executor contract.
  */
 export function resolveDalvikExceptionHandler(
 	error,
@@ -17,26 +15,36 @@ export function resolveDalvikExceptionHandler(
 	context
 ) {
 	if (!isDalvikGuestException(error)) return null;
-	const region = (frame.record.code.exceptionHandlers || []).find(item => {
-		return instruction.pc >= item.startPc && instruction.pc < item.endPc;
+	const regions = frame.record.code?.exceptionHandlers || [];
+	const region = regions.find(candidate => {
+		return instruction.pc >= candidate.startPc
+			&& instruction.pc < candidate.endPc;
 	});
 	if (!region) return null;
-	const thrownType = context.heap.get(error.guestReference).type;
-	for (const handler of region.handlers) {
-		if (isDalvikTypeAssignable(
-			context.registry,
-			thrownType,
-			handler.type
-		)) {
-			return resolution(error.guestReference, handler.target, handler.type);
+	const reference = error.guestReference;
+	const thrownType = context.heap.get(reference).type;
+	for (const handler of region.handlers || []) {
+		if (isCatchAssignable(context, thrownType, handler.type)) {
+			return Object.freeze({
+				reference,
+				target: handler.target,
+				type: handler.type
+			});
 		}
 	}
-	if (region.catchAllTarget !== null) {
-		return resolution(error.guestReference, region.catchAllTarget, null);
+	if (Number.isInteger(region.catchAllTarget)) {
+		return Object.freeze({
+			reference,
+			target: region.catchAllTarget,
+			type: null
+		});
 	}
 	return null;
 }
 
-function resolution(reference, target, type) {
-	return Object.freeze({ reference, target, type });
+function isCatchAssignable(context, thrownType, catchType) {
+	if (typeof context.framework?.isAssignable === "function") {
+		return context.framework.isAssignable(thrownType, catchType);
+	}
+	return isDalvikTypeAssignable(context.registry, thrownType, catchType);
 }

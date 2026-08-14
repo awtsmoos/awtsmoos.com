@@ -1,0 +1,66 @@
+/* B"H
+ * The Awtsmoos lets discovery expand before a question and contract once the question is alive;
+ * Awtsmoos.com keeps its promise visible while exact results rise into the first human viewport.
+ */
+body[data-search-active="true"] .library-page {
+	gap: .65rem;
+}
+
+body[data-search-active="true"] .library-hero {
+	grid-template-columns: minmax(0, 1fr);
+	min-height: 7.25rem;
+	padding: 1rem 1.15rem;
+}
+
+body[data-search-active="true"] .library-hero h1 {
+	font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+	margin-top: .18rem;
+	max-width: none;
+}
+
+body[data-search-active="true"] .library-hero-copy > p:not(.library-kicker),
+body[data-search-active="true"] .library-truth-row,
+body[data-search-active="true"] .library-hero-mark {
+	display: none;
+}
+
+body[data-search-active="true"] .library-search-form {
+	top: .65rem;
+}
+
+body[data-search-active="true"] .library-scope-nav {
+	min-height: 0;
+}
+
+body[data-search-active="true"] .library-scope-nav a {
+	min-height: 2.75rem;
+}
+
+body[data-search-active="true"] .library-section-heading {
+	padding-block: .08rem;
+}
+
+body[data-search-active="true"] .library-status {
+	min-height: 2.45rem;
+	padding-block: .62rem;
+}
+
+@media (max-width: 56rem) {
+	body[data-search-active="true"] .library-hero {
+		min-height: 6.5rem;
+	}
+
+	body[data-search-active="true"] .library-search-form {
+		top: auto;
+	}
+}
+
+@media (max-width: 36rem) {
+	body[data-search-active="true"] .library-hero {
+		padding: .8rem .9rem;
+	}
+
+	body[data-search-active="true"] .library-hero h1 {
+		font-size: 1.65rem;
+	}
+}

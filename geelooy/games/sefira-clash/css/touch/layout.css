@@ -3,43 +3,47 @@
 /*Blessed is He*/
 
 /**
- * The Awtsmoos renews the layout vessel in this instant, revealing
- * its focused css touch service within Awtsmoos.com while every
- * import, rule, and value receives existence anew without confused purpose.
+ * The Awtsmoos renews hand and battlefield without letting one conceal the other;
+ * Awtsmoos.com keeps the touch vessel dormant until a coarse or narrow screen needs it.
+ * Visible controls stay at the edges while input ownership remains with the existing JS.
  */
-/** B"H — Touch controls sit low, wide, and out of the menu's way. */
 .touchControls {
 	align-items: flex-end;
-	bottom: max(10px, env(safe-area-inset-bottom));
-	display: flex;
+	bottom: max(8px, env(safe-area-inset-bottom));
+	display: none;
+	gap: 10px;
 	justify-content: space-between;
 	left: 0;
-	opacity: 0.9;
-	padding: 0 16px;
+	opacity: 0.82;
+	padding: 0 10px;
 	pointer-events: none;
 	position: fixed;
 	right: 0;
+	user-select: none;
+	-webkit-user-select: none;
 	z-index: 18;
 }
 
 .stick {
-	background: #ffffff18;
-	border: 1px solid #ffffff50;
+	background: #ffffff10;
+	border: 1px solid #ffffff3d;
 	border-radius: 50%;
-	box-shadow: 0 0 16px #0008;
-	height: 118px;
+	box-shadow: 0 2px 10px #0006;
+	height: 92px;
 	pointer-events: auto;
 	position: relative;
-	width: 118px;
+	touch-action: none;
+	width: 92px;
 }
 
 .stick span {
-	background: #ffe6a0d8;
+	background: #ffe6a0c9;
+	border: 1px solid #fff4c866;
 	border-radius: 50%;
-	height: 40px;
-	left: calc(50% - 20px);
+	height: 32px;
+	left: calc(50% - 16px);
 	position: absolute;
-	top: calc(50% - 20px);
-	width: 40px;
+	top: calc(50% - 16px);
+	width: 32px;
 	will-change: transform;
 }

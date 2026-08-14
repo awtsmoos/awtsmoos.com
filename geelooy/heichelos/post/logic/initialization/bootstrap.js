@@ -24,6 +24,7 @@ import { awakenInlineSparks } from "/heichelos/post/logic/initialization/autoInl
 import { manifestPost } from "/heichelos/post/logic/initialization/postManifest.js?v=social-reborn-003";
 import { createReaderPanels } from "/heichelos/post/logic/initialization/readerPanels.js";
 import { mountDiscussion } from "/heichelos/post/social/discussion.js?v=social-reborn-003";
+import { mountPostTranslations } from "/heichelos/post/translations/controller.js?v=translation-reader-001";
 
 async function hydrateIdentity(post, heichelId) {
 	const [heichel, alias] = await Promise.all([
@@ -63,7 +64,13 @@ function beginDiscussion(viewport) {
 		});
 }
 
-/** Ignites the post immediately, then opens optional community work afterward. */
+function beginTranslation(viewport, post, series, heichelId) {
+	void mountPostTranslations({ viewport, post, series, heichelId }).catch(error => {
+		console.warn('B"H translation reader remained optional', error);
+	});
+}
+
+/** Ignites the post immediately, then opens optional translation and community work afterward. */
 export async function ignite() {
 	console.log("%c B\"H - Commencing Social Reader", "color: #ccff00; font-weight: 900;");
 	const viewport = document.getElementById("realPost");
@@ -75,6 +82,7 @@ export async function ignite() {
 		window.tabRefs = createReaderPanels(sidebar);
 		prepareReaderBehavior();
 		window.__awtsmoosPostRenderMode = await manifestPost(viewport, post, series, pIdx);
+		beginTranslation(viewport, post, series, hId);
 		document.body.dataset.socialReaderReady = "true";
 		beginDiscussion(viewport);
 		await settleCoreReader();

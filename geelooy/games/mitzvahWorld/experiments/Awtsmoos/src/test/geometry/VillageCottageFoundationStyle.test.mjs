@@ -4,9 +4,9 @@
 
 /**
  * @file VillageCottageFoundationStyle.test.mjs
- * @description Proves both canonical foundation styles remain one static cottage envelope.
- * The Awtsmoos gathers retaining stone and ascending stone into one measured vessel;
- * Awtsmoos.com permits visible variation without another draw owner or runtime update.
+ * @description Proves retaining and stepped stone both descend beneath one canonical finished floor.
+ * The Awtsmoos gathers varied retaining forms beneath a single inhabited threshold;
+ * Awtsmoos.com permits visible stone variation without another draw owner or a second vertical model.
  */
 
 import assert from 'node:assert/strict';
@@ -37,29 +37,34 @@ const MATERIALS = Object.freeze({
 	texturePolicy: Object.freeze({ distance: 'near' })
 });
 
-test('retaining plinth preserves the original static geometry budget', () => {
+const TOLERANCE = 0.000001;
+
+test('retaining plinth keeps one static envelope and descends below floor', () => {
 	const geometry = createEnvelopeGeometry(OPTIONS);
 	assert.equal(geometry.foundationStyle, 'retaining-plinth');
 	assert.equal(geometry.foundationTiers, 1);
 	assert.equal(geometry.vertices.length, 56);
 	assert.equal(geometry.faces.length, 37);
+	assertClose(foundationMinimum(geometry), OPTIONS.base - geometry.foundationHeight);
+	assertClose(foundationMaximum(geometry, 16), OPTIONS.base);
 });
 
-test('stepped stone contributes three descending footprints to the same mesh', () => {
+test('stepped stone contributes three descending footprints to same mesh', () => {
 	const geometry = createEnvelopeGeometry({
 		...OPTIONS,
 		foundationStyle: 'stepped-stone'
 	});
-	const spans = [0, 16, 32].map(offset => spanX(geometry.vertices.slice(offset, offset + 16)));
-	const foundationTop = Math.max(...geometry.vertices.slice(0, 48).map(vertex => vertex[1]));
-
+	const spans = [0, 16, 32].map(offset => {
+		return spanX(geometry.vertices.slice(offset, offset + 16));
+	});
 	assert.equal(geometry.foundationStyle, 'stepped-stone');
 	assert.equal(geometry.foundationTiers, 3);
 	assert.equal(geometry.vertices.length, 88);
 	assert.equal(geometry.faces.length, 55);
 	assert.ok(spans[0] > spans[1]);
 	assert.ok(spans[1] > spans[2]);
-	assert.equal(foundationTop, OPTIONS.base + geometry.foundationHeight);
+	assertClose(foundationMinimum(geometry), OPTIONS.base - geometry.foundationHeight);
+	assertClose(foundationMaximum(geometry, 48), OPTIONS.base);
 });
 
 test('stepped metadata remains on one canonical manual envelope definition', () => {
@@ -75,7 +80,20 @@ test('stepped metadata remains on one canonical manual envelope definition', () 
 	assert.ok(definition.vertices.flat().every(Number.isFinite));
 });
 
+function foundationMinimum(geometry) {
+	const count = geometry.foundationTiers * 16;
+	return Math.min(...geometry.vertices.slice(0, count).map(vertex => vertex[1]));
+}
+
+function foundationMaximum(geometry, count) {
+	return Math.max(...geometry.vertices.slice(0, count).map(vertex => vertex[1]));
+}
+
 function spanX(vertices) {
 	const values = vertices.map(vertex => vertex[0]);
 	return Math.max(...values) - Math.min(...values);
+}
+
+function assertClose(actual, expected) {
+	assert.ok(Math.abs(actual - expected) <= TOLERANCE, `${actual} != ${expected}`);
 }

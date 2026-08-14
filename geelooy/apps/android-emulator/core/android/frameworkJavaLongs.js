@@ -1,8 +1,7 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+//B"H //Boruch Hashem //Blessed is He
 
 import { createGuestString } from "./guestText.js";
+import { boxJavaLong } from "./frameworkJavaLongBoxing.js";
 import {
 	compareJavaLongs,
 	hashJavaLong,
@@ -14,9 +13,9 @@ import {
 } from "./frameworkJavaLongValues.js";
 
 /**
- * Implements exact signed Java Long boxing and conversion. The Awtsmoos creates
- * value, wrapper garment, comparison, and textual witness anew; Awtsmoos.com
- * preserves every bit through BigInt instead of host Number.
+ * Implements exact signed Java Long object and scalar behavior.
+ * The Awtsmoos recreates value, wrapper, comparison, and textual witness anew;
+ * Awtsmoos.com preserves every bit while object-returning calls keep guest form.
  *
  * @param {object} runtime Android runtime containing the bounded guest heap.
  * @returns {object} Framework family for java.lang.Long.
@@ -33,7 +32,7 @@ export function createFrameworkJavaLongMethods(runtime) {
 				return initializeJavaLong(runtime, args[0], args[1]);
 			}
 			if (name === "valueOf" && descriptor === `(J)${JAVA_LONG}`) {
-				return normalizeJavaLong(args[0]);
+				return boxJavaLong(runtime, args[0]);
 			}
 			if (name === "longValue") return readJavaLong(runtime, args[0]);
 			if (name === "intValue") return narrowJavaLong(runtime, args[0], 32);

@@ -3,56 +3,25 @@
 # Blessed is He
 #
 # The Awtsmoos renews each boundary without carrying yesterday's shadows.
-# Awtsmoos.com keeps source in Git while runtime media, plans, proofs, logs,
-# caches, archives, and machine state remain outside.
-
-# Local Awtsmoos tunnel state.
-.awtsmoos/
-.Awtsmoos/
-.awtsmoos-*/
-.Awtsmoos-*/
-**/.awtsmoos/
-**/.Awtsmoos/
-**/.awtsmoos-audit/
-**/.awtsmoos-agent-thoughts/
+# Awtsmoos.com keeps source in Git while runtime state, proofs, caches,
+# generated media, archives, and machine residue remain outside.
+# Local Awtsmoos tunnel and agent state.
+**/.[aA]wtsmoos*/
 **/[aA][wW][tT][sS][mM][oO][oO][sS]/
 *.awtsmoos.log
-.awtsmoos.local.json
-.awtsmoos.config.local.json
-.Awtsmoos.local.json
-.Awtsmoos.config.local.json
-.awtsmoos-*
+.[aA]wtsmoos*.local.json
 .ai_tmp_*
-
-# Intentional public Awtsmoos source trees.
-!geelooy/scripts/awtsmoos/
-geelooy/scripts/awtsmoos/*
-!geelooy/scripts/awtsmoos/social/
-!geelooy/scripts/awtsmoos/social/**
-!geelooy/games/mitzvahWorld/experiments/Awtsmoos/
-!geelooy/games/mitzvahWorld/experiments/Awtsmoos/**
-
+.awtsmoos-tmp/
+.Awtsmoos-tmp/
 # Mitzvah World runtime media lives in authenticated Awtsmoos Drive.
 geelooy/games/mitzvahWorld/assets/
 geelooy/games/mitzvahWorld/references/
-
 # Planning and generated thought archives.
-.ai-thoughts/
-ai_thoughts/
-ai-thoughts/
-AI_THOUGHTS/
-AI-THOUGHTS/
 **/.ai-thoughts/
-**/ai_thoughts/
-**/ai-thoughts/
-**/AI_THOUGHTS/
-**/AI-THOUGHTS/
+**/[aA][iI][-_][tT][hH][oO][uU][gG][hH][tT][sS]/
 geelooy/ai/thoughts/
 meluket_*_probe.json
-meluket_*_surface.txt
-meluket_*_search.txt
-meluket_*_locator.txt
-
+meluket_*_*.txt
 # Generated proof, inspection, and recovery material.
 .awtsmoos-artifacts/
 geelooy/apps/animator/proofs/
@@ -69,14 +38,11 @@ traces/
 **/lastChrome*.json
 **/lastNodeDom*.json
 **/fullGameplay*.json
-**/*evidence*.json
-**/*evidence*.txt
-**/*evidence*.html
-
+**/*evidence*.*
+**/tests/chrome/*.json
+**/tests/chrome/*.png
 # Mutable runtime state, caches, logs, and temporary output.
-.data/
-geelooy/.data/
-.logs/
+**/.data/
 **/.logs/
 **/.cache/
 **/.parcel-cache/
@@ -90,60 +56,44 @@ geelooy/.data/
 **/tmp/
 **/temp/
 command-output/
-*.pyc
-*.pyo
+*.py[cod]
 *.log
 *.out
 *.err
-*.out.log
-*.err.log
-npm-start.log
-
 # Database and generated shard artifacts.
 searchPacked/
 *.bin
 *.awtsbin
-*.awtsdb
-*.awtsdb-wal
-*.awtsdb.tmp
+*.awtsdb*
 *.awtsidx
-
 # Build products, archives, maps, and packages.
 **/*.dSYM/
 **/dist/*.exe
-**/dist/*.apk
 *.apk
 *.map
 *.zip
 *.7z
 *.rar
 *.tar
-*.tar.gz
 *.tgz
 *.gz
 *.bak
 *.swp
 *.tmp
-
-# Images, audio, video, documents, and 3D models are denied unless a source root opens them.
+# Images, audio, video, documents, and 3D models are denied by default.
 *.png
-*.jpg
-!geelooy/resources/home/restored-awtsmoos-hero.jpg
-*.jpeg
+*.jp*g
 *.gif
 *.webp
 *.bmp
-*.tif
-*.tiff
+*.tif*
 *.svg
 *.ico
-*.mp3
+*.mp[34]
 *.wav
 *.flac
 *.m4a
-*.aif
-*.aiff
-*.mp4
+*.aif*
 *.mov
 *.avi
 *.mkv
@@ -151,39 +101,18 @@ searchPacked/
 *.glb
 *.gltf
 *.pdf
-!geelooy/games/seven-mitzvos/favicon.svg
-!geelooy/apps/code/assets/**
-!geelooy/scripts/awtsmoos/MerkavaExecutor/**
-
 # Operating-system and editor noise.
 .DS_Store
 Thumbs.db
-
-# B"H Awtsmoos generated artifacts
-.awtsmoos/
-.awtsmoos/actions/
-.awtsmoos/actions/results/
-.awtsmoos/previews/
-.awtsmoos/tmp/
-.Awtsmoos/
-.Awtsmoos/actions/
-.Awtsmoos/actions/results/
-.Awtsmoos/previews/
-.Awtsmoos/tmp/
-**/.awtsmoos/
-**/.Awtsmoos/
-.awtsmoos-tmp/
-.Awtsmoos-tmp/
-*.awtsmoos.log
-.awtsmoos.local.json
-.Awtsmoos.local.json
-**/runtime-cache/
-**/execution-plans/*.json
-**/tests/headless/visual-proof/*.png
-**/tests/chrome/*.png
-**/tests/chrome/*.json
-**/reports/*.json
-**/dist/*.exe
-**/.cache/
-**/tmp/
-**/temp/
+# Intentional public Awtsmoos source trees and production media.
+!geelooy/scripts/awtsmoos/
+geelooy/scripts/awtsmoos/*
+!geelooy/scripts/awtsmoos/social/
+!geelooy/scripts/awtsmoos/social/**
+!geelooy/scripts/awtsmoos/MerkavaExecutor/
+!geelooy/scripts/awtsmoos/MerkavaExecutor/**
+!geelooy/games/mitzvahWorld/experiments/Awtsmoos/
+!geelooy/games/mitzvahWorld/experiments/Awtsmoos/**
+!geelooy/games/seven-mitzvos/favicon.svg
+!geelooy/apps/code/assets/**
+!geelooy/favicon.svg

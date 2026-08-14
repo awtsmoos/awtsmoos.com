@@ -1,0 +1,47 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "ayzarim-math-f7d5fed1",
+	"path": "ayzarim/math",
+	"type": "infrastructure",
+	"family": {
+		"id": "runtime",
+		"title": "Runtime and Infrastructure"
+	},
+	"title": "ayzarim/math",
+	"entries": [],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+		"docs/ARCHITECTURE.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-math-f7d5fed1.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 1,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 0,
+		"other": 0
+	},
+	"totalFiles": 1,
+	"symbolSummary": {
+		"files": 1,
+		"classes": 2,
+		"functions": 0,
+		"exports": 0,
+		"samples": [
+			"Node",
+			"BTree"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": false,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

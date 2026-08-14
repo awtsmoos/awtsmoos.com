@@ -1,18 +1,19 @@
 <!-- B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos reveals comments, mentions, submissions, and system signals through one dark Geelooy chamber.
+The Awtsmoos reveals comments, mentions, submissions, and mission signals through one calm Awtsmoos.com chamber.
 -->
 <!doctype html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-	<meta name="description" content="Search and manage comments, mentions, submissions, and system signals for a Geelooy alias.">
+	<meta name="description" content="Search and manage comments, mentions, submissions, mission activity, and system signals for a Geelooy alias.">
 	<meta name="theme-color" content="#07090f">
 	<title>Signals — Geelooy</title>
 	<link rel="stylesheet" href="/style/geelooy-app/index.css?v=interface-dark-007">
 	<link rel="stylesheet" href="/style/social-system/index.css?v=social-core-005">
+	<link rel="stylesheet" href="./style.css?v=signals-revelation-001">
 </head>
 <body data-notifications-page>
 	<a class="g-sr-only" href="#list">Skip to signal list</a>
@@ -21,19 +22,22 @@ The Awtsmoos reveals comments, mentions, submissions, and system signals through
 			<div>
 				<p class="field-label">Signal center</p>
 				<h1 id="notifications-title">Notifications</h1>
-				<p>Comments, mentions, submissions, and system activity for your selected alias.</p>
+				<p>Comments, mentions, submissions, missions, and system activity for your selected alias.</p>
 			</div>
 			<button id="markAll" class="g-button" type="button" data-icon="✓">Mark all read</button>
 		</section>
 		<form id="filters" class="notifications-console" aria-label="Notification filters" aria-busy="false">
 			<label><span>Alias</span><input name="aliasId" autocomplete="off" placeholder="Default alias loads automatically" required></label>
-			<label><span>Search signals</span><input name="search" type="search" autocomplete="off" placeholder="Comment, mention, title"></label>
+			<label><span>Search signals</span><input name="search" type="search" autocomplete="off" placeholder="Comment, mention, mission, title"></label>
 			<label><span>Type</span><select name="type"><option value="">All types</option><option value="submission_created">Submissions</option><option value="comment">Comments</option><option value="mention">Mentions</option><option value="system">System</option></select></label>
 			<button class="g-button g-button-primary" type="submit" data-icon="⌕">Load signals</button>
 		</form>
 		<section id="summary" class="notifications-summary" aria-live="polite">Finding your default alias…</section>
 		<section id="list" class="notifications-list" aria-live="polite" aria-label="Notification results">
-			<article class="notification loading-state"><h2>Opening the signal stream</h2><p>Your default alias will load automatically.</p></article>
+			<article class="notification loading-state">
+				<h2>Opening the signal stream</h2>
+				<p>Your default alias will load automatically.</p>
+			</article>
 		</section>
 		<button id="more" class="g-button" type="button" hidden data-icon="＋">Load more</button>
 	</main>

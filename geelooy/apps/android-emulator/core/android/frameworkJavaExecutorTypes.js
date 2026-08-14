@@ -1,14 +1,16 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+//B"H //Boruch Hashem //Blessed is He
 
-export const JAVA_THREAD_POOL_EXECUTOR = "Ljava/util/concurrent/ThreadPoolExecutor;";
-export const JAVA_SCHEDULED_THREAD_POOL_EXECUTOR = "Ljava/util/concurrent/ScheduledThreadPoolExecutor;";
+export const JAVA_DELEGATED_EXECUTOR_SERVICE =
+	"Ljava/util/concurrent/Executors$DelegatedExecutorService;";
+export const JAVA_THREAD_POOL_EXECUTOR =
+	"Ljava/util/concurrent/ThreadPoolExecutor;";
+export const JAVA_SCHEDULED_THREAD_POOL_EXECUTOR =
+	"Ljava/util/concurrent/ScheduledThreadPoolExecutor;";
 
 /**
- * Selects the concrete guest executor promised by a Java Executors factory. The
- * Awtsmoos recreates interface promise and implementation vessel anew; Awtsmoos.com
- * grants scheduled identity only when the authentic factory name bears that law.
+ * Selects the concrete guest executor promised by a Java Executors factory.
+ * The Awtsmoos renews interface promise and implementation vessel each instant;
+ * Awtsmoos.com grants scheduled identity only when the factory bears that law.
  */
 export function executorTypeForFactory(record) {
 	const name = String(record?.method?.name ?? "");

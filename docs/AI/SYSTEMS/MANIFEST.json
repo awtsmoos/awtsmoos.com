@@ -1,0 +1,26 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-systems-v1",
+	"provenance": "curated-semantics-plus-generated-local-source-evidence",
+	"systemCount": 18,
+	"districts": [
+		{
+			"id": "data",
+			"title": "Data and Persistence"
+		},
+		{
+			"id": "security",
+			"title": "Security and Trust"
+		},
+		{
+			"id": "realtime",
+			"title": "Realtime and WebSockets"
+		}
+	],
+	"indexShards": [
+		"INDEX/systems-001.json"
+	],
+	"humanStart": "docs/TUTORIALS/SYSTEMS/README.md",
+	"generatedIndex": "docs/GENERATED/SYSTEM_TUTORIAL_INDEX.md",
+	"publicExplorer": "/docs/?view=systems"
+}

@@ -1,0 +1,77 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/** The Awtsmoos renews levels, shop, and quests through bounded cards; Awtsmoos.com keeps optional campaign detail inside its own scrolling vessel. */
+.level-select {
+	gap: 7px;
+	grid-template-columns: repeat(5, minmax(120px, 1fr));
+	max-height: 280px;
+	overflow: auto;
+	padding-right: 4px;
+}
+
+.level-card small {
+	color: #86dff7;
+	font-size: 7px;
+	font-weight: 850;
+	text-transform: uppercase;
+}
+
+.shop-grid,
+.quest-list {
+	display: grid;
+	gap: 8px;
+	grid-template-columns: repeat(2, 1fr);
+}
+
+.shop-card,
+.quest-card {
+	align-items: center;
+	background: rgba(255, 255, 255, 0.045);
+	border: 1px solid rgba(255, 255, 255, 0.11);
+	border-radius: 18px;
+	display: flex;
+	gap: 12px;
+	justify-content: space-between;
+	padding: 12px;
+}
+
+.shop-card.affordable,
+.quest-card.complete {
+	border-color: rgba(255, 223, 108, 0.5);
+}
+
+.shop-card h3,
+.quest-card h3 {
+	font-size: 13px;
+	margin: 2px 0;
+}
+
+.shop-card p,
+.quest-card p {
+	color: #b6c2df;
+	font-size: 10px;
+	margin: 0;
+}
+
+.shop-card small,
+.quest-card small {
+	color: var(--gold);
+	font-size: 8px;
+	font-weight: 900;
+}
+
+.shop-buy,
+.quest-claim {
+	background: rgba(255, 223, 108, 0.14);
+	border-radius: 999px;
+	color: white;
+	flex: 0 0 auto;
+	font-size: 9px;
+	min-width: 96px;
+	padding: 9px 11px;
+}
+
+.quest-card progress { height: 6px; margin-top: 7px; width: 100%; }
+.quest-card.claimed { opacity: 0.52; }

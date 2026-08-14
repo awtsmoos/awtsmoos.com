@@ -1,0 +1,83 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos gathers many local players into one ordered vessel without turning
+ * their shared device into frosted spectacle. Awtsmoos.com keeps Party Challenge
+ * solid, high-contrast, and honest about what it is: local pass-and-play multiplayer.
+ */
+
+:root {
+	color-scheme: dark;
+	font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+	--party-bg: #050813;
+	--party-panel: #0c1628;
+	--party-panel-raised: #122039;
+	--party-border: #294560;
+	--party-text: #f6f9ff;
+	--party-muted: #9cacbf;
+	--party-gold: #ffd66f;
+	--party-cyan: #67ddff;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	min-width: 320px;
+	min-height: 100%;
+	margin: 0;
+	background: var(--party-bg);
+	color: var(--party-text);
+}
+
+body {
+	min-height: 100vh;
+	min-height: 100dvh;
+}
+
+button,
+input,
+select {
+	font: inherit;
+}
+
+button,
+a {
+	touch-action: manipulation;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+	outline: 3px solid var(--party-cyan);
+	outline-offset: 3px;
+}
+
+.partyShell {
+	width: min(1480px, calc(100% - 24px));
+	margin: 0 auto;
+	padding: 20px 0 56px;
+}
+
+.partyPanel {
+	border: 1px solid var(--party-border);
+	border-radius: 18px;
+	background: var(--party-panel);
+	box-shadow: 0 20px 54px rgba(0, 0, 0, .34);
+}
+
+.partyKicker {
+	margin: 0 0 8px;
+	color: var(--party-cyan);
+	font-size: .7rem;
+	font-weight: 900;
+	letter-spacing: .14em;
+	text-transform: uppercase;
+}

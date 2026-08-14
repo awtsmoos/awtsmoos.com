@@ -1,0 +1,101 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * Party setup gives local players one clear promise: Solo remains the normal game
+ * route; this chamber is an optional shared-device tournament around the same game.
+ */
+
+.partyHero {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(250px, .55fr);
+	gap: 20px;
+	padding: clamp(22px, 5vw, 48px);
+	margin-bottom: 16px;
+}
+
+.partyHero h1 {
+	margin: 0;
+	font-size: clamp(2.7rem, 8vw, 6rem);
+	line-height: .9;
+	letter-spacing: -.055em;
+}
+
+.partyHero p {
+	color: var(--party-muted);
+	line-height: 1.55;
+}
+
+.partyTruth {
+	align-self: end;
+	padding: 16px;
+	border: 1px solid #3d5770;
+	border-radius: 14px;
+	background: var(--party-panel-raised);
+}
+
+.partyTruth strong {
+	color: var(--party-gold);
+}
+
+.partySetup {
+	display: grid;
+	gap: 16px;
+	padding: 20px;
+}
+
+.setupGrid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 12px;
+}
+
+.partyField {
+	display: grid;
+	gap: 7px;
+}
+
+.partyField label {
+	font-weight: 850;
+}
+
+.partyField input,
+.partyField select {
+	min-height: 46px;
+	padding: 0 12px;
+	border: 1px solid var(--party-border);
+	border-radius: 10px;
+	background: #08111f;
+	color: var(--party-text);
+}
+
+.playerNames {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 10px;
+}
+
+.partyButton {
+	display: inline-flex;
+	min-height: 46px;
+	align-items: center;
+	justify-content: center;
+	padding: 10px 15px;
+	border: 1px solid #4c7690;
+	border-radius: 10px;
+	background: #12334b;
+	color: #fff;
+	cursor: pointer;
+	font-weight: 900;
+}
+
+.partyButton--primary {
+	border-color: var(--party-gold);
+	background: #3b2c12;
+	color: #ffedb0;
+}
+
+.partyButton:hover {
+	filter: brightness(1.15);
+}

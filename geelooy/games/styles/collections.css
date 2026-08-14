@@ -1,0 +1,78 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets collections name the worlds without forcing another long corridor between player and play.
+*/
+.gamesCatalog {
+	display: grid;
+	gap: 28px;
+	margin-top: 20px;
+}
+
+.gameCollection {
+	display: grid;
+	gap: 14px;
+}
+
+.collectionHeading {
+	display: grid;
+	grid-template-columns: minmax(0, .72fr) minmax(260px, 1fr);
+	align-items: end;
+	gap: 16px;
+}
+
+.collectionHeading .eyebrow {
+	margin-bottom: 5px;
+}
+
+.collectionHeading h2 {
+	margin: 0;
+	font-size: clamp(1.65rem, 3vw, 2.55rem);
+	letter-spacing: -.04em;
+}
+
+.collectionHeading p:last-child {
+	max-width: 720px;
+	margin: 0;
+	color: var(--games-muted);
+	font-size: .86rem;
+	line-height: 1.5;
+}
+
+.gamesGrid,
+.gamesGrid--originals {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 12px;
+}
+
+.loadingState,
+.emptyState {
+	margin: 0;
+	padding: 24px;
+	border: 1px dashed var(--games-line-soft);
+	border-radius: var(--games-radius-lg);
+	color: var(--games-muted);
+	text-align: center;
+}
+
+.gamesFooter {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 14px;
+	margin-top: 34px;
+	padding: 18px 0 8px;
+	border-top: 1px solid var(--games-line-soft);
+	color: var(--games-muted);
+	font-size: .76rem;
+}
+
+.gamesFooter nav {
+	display: flex;
+	gap: 12px;
+}
+
+.gamesFooter a {
+	color: var(--games-text-soft);
+}

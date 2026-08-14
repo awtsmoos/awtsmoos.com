@@ -2,14 +2,15 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos lets hidden meaning open through luminous hinges. Disclosures,
- * grouped fields, and dialogs on Awtsmoos.com never resemble browser defaults.
+ * The Awtsmoos lets hidden meaning open through deliberate hinges. Disclosures,
+ * grouped fields, and dialogs on Awtsmoos.com receive solid native-like vessels,
+ * strong focus, and readable state without browser-default fog or frosted backdrops.
  */
 :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) details {
-	background: var(--g-control-field);
-	border: 1px solid rgba(117, 211, 255, 0.34);
+	background: #0a172b;
+	border: 1px solid #294965;
 	border-radius: var(--g-radius-md);
-	box-shadow: var(--g-control-shadow);
+	box-shadow: 0 12px 30px rgba(0, 0, 0, .24);
 	overflow: clip;
 	transition: border-color var(--g-motion-fast) var(--g-ease), box-shadow var(--g-motion-medium) var(--g-ease), transform var(--g-motion-fast) var(--g-ease-pressure);
 }
@@ -19,60 +20,60 @@
 	cursor: pointer;
 	display: grid;
 	font-weight: 850;
-	gap: 0.75rem;
+	gap: .75rem;
 	grid-template-columns: 1fr auto;
 	list-style: none;
 	min-height: 3.25rem;
-	padding: 0.85rem 1rem;
-	transition: background var(--g-motion-fast) var(--g-ease), color var(--g-motion-fast) var(--g-ease), text-shadow var(--g-motion-medium) var(--g-ease);
+	padding: .85rem 1rem;
+	transition: background var(--g-motion-fast) var(--g-ease), color var(--g-motion-fast) var(--g-ease);
 }
 
-:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) summary::-webkit-details-marker { display: none; }
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) summary::-webkit-details-marker {
+	display: none;
+}
 
 :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) summary::after {
 	background: var(--g-gradient-hot);
 	border-radius: 50%;
-	box-shadow: var(--g-glow);
 	clip-path: polygon(18% 38%, 50% 68%, 82% 38%, 68% 24%, 50% 42%, 32% 24%);
 	content: "";
 	height: 1.3rem;
-	transition: filter var(--g-motion-fast) var(--g-ease), transform var(--g-motion-medium) var(--g-ease);
+	transition: transform var(--g-motion-medium) var(--g-ease);
 	width: 1.3rem;
 }
 
 :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) details[open] {
-	border-color: rgba(255, 72, 203, 0.62);
-	box-shadow: var(--g-control-hover);
+	border-color: #a45194;
+	box-shadow: 0 16px 36px rgba(0, 0, 0, .28);
 }
 
-:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) details[open] summary::after { transform: rotate(180deg); }
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) details[open] summary::after {
+	transform: rotate(180deg);
+}
 
 @media (hover: hover) {
 	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) details:hover {
 		border-color: var(--g-cyan);
-		box-shadow: var(--g-glow);
+		box-shadow: 0 16px 38px rgba(0, 0, 0, .3);
 		transform: translateY(-2px);
 	}
 
 	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) summary:hover {
-		background: var(--g-gradient-soft);
-		color: #ffffff;
-		text-shadow: 0 0 18px rgba(60, 236, 255, 0.34);
+		background: #102840;
+		color: #fff;
 	}
 }
 
-:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) summary:active { filter: saturate(1.5); }
-
 :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) summary:focus-visible {
-	box-shadow: inset 0 0 0 3px var(--g-cyan), var(--g-glow);
+	box-shadow: inset 0 0 0 3px var(--g-cyan);
 	outline: 0;
 }
 
 :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) fieldset {
-	background: var(--g-surface);
-	border: 1px solid rgba(126, 104, 255, 0.48);
+	background: #0a172b;
+	border: 1px solid #514a86;
 	border-radius: var(--g-radius-md);
-	box-shadow: var(--g-control-shadow);
+	box-shadow: 0 12px 30px rgba(0, 0, 0, .22);
 	margin: 0;
 	padding: 1.15rem;
 }
@@ -80,27 +81,27 @@
 :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) legend {
 	background: var(--g-gradient-hot);
 	border-radius: var(--g-radius-pill);
-	box-shadow: var(--g-glow-hot);
 	color: #02050d;
 	font-weight: 900;
-	padding: 0.35rem 0.8rem;
+	padding: .35rem .8rem;
 }
 
 :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) dialog {
-	background: var(--g-surface-strong);
-	border: 1px solid rgba(60, 236, 255, 0.54);
+	background: #071326;
+	border: 1px solid #356783;
 	border-radius: var(--g-radius-lg);
-	box-shadow: var(--g-shadow-lg), var(--g-glow-hot);
+	box-shadow: 0 32px 92px rgba(0, 0, 0, .74);
 	color: var(--g-text);
 	max-width: min(42rem, calc(100vw - 2rem));
 	padding: 1.35rem;
 }
 
 :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) dialog::backdrop {
-	background: rgba(1, 3, 10, 0.82);
-	backdrop-filter: blur(16px) saturate(1.2);
+	background: rgba(1, 3, 10, .84);
 }
 
 @media (prefers-reduced-motion: reduce) {
-	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(details, summary) { transform: none !important; }
+	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(details, summary) {
+		transform: none !important;
+	}
 }

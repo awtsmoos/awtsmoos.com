@@ -2,11 +2,8 @@
 //Boruch Hashem
 //Blessed is He
 
-import { decodeAarch64Instruction } from "./aarch64Decoder.js";
-import { executeAarch64Control } from "./aarch64ExecuteControl.js";
-import { executeAarch64Data } from "./aarch64ExecuteData.js";
-import { executeAarch64Memory } from "./aarch64ExecuteMemory.js";
-import { executeAarch64System } from "./aarch64ExecuteSystem.js";
+import { createAarch64InstructionCache } from "./aarch64InstructionCache.js";
+import { executeAarch64MachineInstruction } from "./aarch64MachineExecute.js";
 import {
 	createAarch64MachineReporter,
 	machineErrorEvidence,
@@ -17,9 +14,9 @@ import { createAarch64SystemRegisters } from "./aarch64SystemRegisters.js";
 const DEFAULT_INSTRUCTION_LIMIT = 100000;
 
 /**
- * Fetches, decodes, and executes bounded AArch64 guest instructions. The
- * Awtsmoos recreates PC, system state, memory crossing, and stop testimony anew;
- * Awtsmoos.com never lets an unknown word masquerade as successful motion.
+ * Fetches, decodes, and executes bounded AArch64 guest instructions.
+ * The Awtsmoos renews every fetched word while remembered form can rhyme;
+ * Awtsmoos.com reuses decode only while guest bytes remain the same in time.
  */
 export function runAarch64Machine(options) {
 	const registers = options.registers;
@@ -27,6 +24,7 @@ export function runAarch64Machine(options) {
 	const systemRegisters = options.systemRegisters
 		|| createAarch64SystemRegisters();
 	const reporter = createAarch64MachineReporter(options);
+	const instructionCache = createAarch64InstructionCache();
 	const instructionLimit = normalizeMachineLimit(
 		options.instructionLimit,
 		DEFAULT_INSTRUCTION_LIMIT
@@ -34,7 +32,13 @@ export function runAarch64Machine(options) {
 	for (let step = 0; step < instructionLimit; step += 1) {
 		const preflight = reporter.preflight(registers, step);
 		if (preflight) return preflight;
-		const fetched = fetchInstruction(memory, registers, reporter, step);
+		const fetched = fetchInstruction(
+			memory,
+			registers,
+			reporter,
+			instructionCache,
+			step
+		);
 		if (fetched.stop) return fetched.stop;
 		const instruction = fetched.instruction;
 		reporter.append(instruction);
@@ -46,7 +50,7 @@ export function runAarch64Machine(options) {
 				{ instruction }
 			);
 		}
-		const executed = executeInstruction({
+		const executed = executeAarch64MachineInstruction({
 			instruction,
 			memory,
 			registers,
@@ -59,13 +63,12 @@ export function runAarch64Machine(options) {
 	return reporter.stop("budget", registers, instructionLimit);
 }
 
-function fetchInstruction(memory, registers, reporter, step) {
+function fetchInstruction(memory, registers, reporter, instructionCache, step) {
 	try {
+		const address = registers.pc;
+		const word = memory.readU32(address);
 		return Object.freeze({
-			instruction: decodeAarch64Instruction(
-				memory.readU32(registers.pc),
-				registers.pc
-			),
+			instruction: instructionCache.decode(address, word),
 			stop: null
 		});
 	} catch (error) {
@@ -74,44 +77,6 @@ function fetchInstruction(memory, registers, reporter, step) {
 			stop: reporter.stop("memory-fault", registers, step, {
 				error: machineErrorEvidence(error)
 			})
-		});
-	}
-}
-
-function executeInstruction(context) {
-	const {
-		instruction,
-		memory,
-		registers,
-		reporter,
-		step,
-		systemRegisters
-	} = context;
-	try {
-		if (executeAarch64Control(instruction, registers)) return null;
-		if (executeAarch64Data(instruction, registers)
-			|| executeAarch64Memory(instruction, registers, memory)
-			|| executeAarch64System(
-				instruction,
-				registers,
-				systemRegisters
-			)) {
-			registers.advance();
-			return null;
-		}
-		return reporter.stop(
-			"unsupported-instruction",
-			registers,
-			step,
-			{ instruction }
-		);
-	} catch (error) {
-		const reason = error?.code === "AARCH64_SYSTEM_REGISTER_UNSUPPORTED"
-			? "unsupported-system-register"
-			: "execution-fault";
-		return reporter.stop(reason, registers, step, {
-			error: machineErrorEvidence(error),
-			instruction
 		});
 	}
 }

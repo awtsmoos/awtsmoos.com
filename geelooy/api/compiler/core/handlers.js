@@ -5,20 +5,23 @@
 const { authorizeCompilerRequest } = require("./auth.js");
 const { compilerRequestBody } = require("./body.js");
 const { acquireBuildLease, LIMITS } = require("./limiter.js");
+const { compilerRebbeApk } = require("./rebbeApkHandler.js");
 const { serializeBuildResult } = require("./serializer.js");
 const { loadCompilerServices } = require("./serviceLoader.js");
 
 /**
- * Route handlers join authentication, discovery, guarded execution, and honest
- * error testimony. The Awtsmoos creates success and refusal together;
- * Awtsmoos.com never emits placeholder bytes when a backend is unavailable.
+ * @fileoverview
+ * Joins authenticated compiler discovery, guarded native builds, and the
+ * source-owned Rebbe Android package into one honest API boundary.
+ *
+ * The Awtsmoos creates success and refusal together; Awtsmoos.com never emits
+ * placeholder bytes when a backend or requested artifact is unavailable.
  */
 
 async function compilerBackends($i) {
 	const authorization = authorizeCompilerRequest($i);
-	if (!authorization.ok) {
-		return authorization;
-	}
+	if (!authorization.ok) return authorization;
+
 	try {
 		const services = await loadCompilerServices();
 		const discovery = await services.discoverToolchains();
@@ -28,10 +31,10 @@ async function compilerBackends($i) {
 		capabilities["awtsmoos-simulated"] = true;
 		capabilities["browser-pe-generator"] = true;
 		return Object.freeze({
-			ok: true,
-			targets: services.listCompilerTargets(capabilities),
 			discovery,
-			routeLimits: LIMITS
+			ok: true,
+			routeLimits: LIMITS,
+			targets: services.listCompilerTargets(capabilities)
 		});
 	} catch (error) {
 		return errorResponse(error);
@@ -40,11 +43,10 @@ async function compilerBackends($i) {
 
 async function compilerBuild($i) {
 	const authorization = authorizeCompilerRequest($i);
-	if (!authorization.ok) {
-		return authorization;
-	}
+	if (!authorization.ok) return authorization;
 	let release = null;
 	let detachAbort = null;
+
 	try {
 		const input = compilerRequestBody($i);
 		release = acquireBuildLease(authorization.userId);
@@ -52,8 +54,12 @@ async function compilerBuild($i) {
 		detachAbort = cancellation.detach;
 		const services = await loadCompilerServices();
 		const result = input.target === "macos-universal"
-			? await services.compileMacUniversalProject(input, { signal: cancellation.signal })
-			: await services.compileNativeProject(input, { signal: cancellation.signal });
+			? await services.compileMacUniversalProject(input, {
+				signal: cancellation.signal
+			})
+			: await services.compileNativeProject(input, {
+				signal: cancellation.signal
+			});
 		return serializeBuildResult(result);
 	} catch (error) {
 		return errorResponse(error);
@@ -68,10 +74,10 @@ function requestCancellation(request) {
 	const abort = () => controller.abort();
 	request?.once?.("aborted", abort);
 	return Object.freeze({
-		signal: controller.signal,
 		detach() {
 			request?.off?.("aborted", abort);
-		}
+		},
+		signal: controller.signal
 	});
 }
 
@@ -79,27 +85,25 @@ function errorResponse(error) {
 	const diagnostic = error?.buildDiagnostic || {
 		code: error?.code || "NATIVE_BUILD_FAILED",
 		message: error?.message || "Native build failed.",
-		stage: error?.stage || "compiler-api",
-		retryable: Boolean(error?.retryable)
+		retryable: Boolean(error?.retryable),
+		stage: error?.stage || "compiler-api"
 	};
 	return Object.freeze({
+		error: diagnostic,
 		ok: false,
-		status: error?.status || statusFor(diagnostic.code),
-		error: diagnostic
+		status: error?.status || statusFor(diagnostic.code)
 	});
 }
 
 function statusFor(code) {
-	if (String(code).includes("UNAVAILABLE")) {
-		return 503;
-	}
-	if (String(code).includes("LIMIT") || String(code).includes("CONCURRENCY")) {
-		return 429;
-	}
+	if (String(code).includes("UNAVAILABLE")) return 503;
+	if (String(code).includes("LIMIT")
+		|| String(code).includes("CONCURRENCY")) return 429;
 	return 400;
 }
 
 module.exports = {
 	compilerBackends,
-	compilerBuild
+	compilerBuild,
+	compilerRebbeApk
 };

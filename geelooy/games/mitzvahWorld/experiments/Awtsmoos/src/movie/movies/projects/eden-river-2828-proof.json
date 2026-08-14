@@ -1,0 +1,961 @@
+{
+	"agentMetadata": {
+		"shortId": "eden-river-2828-production",
+		"shortSpeakerPlanned": true,
+		"shortWorld": "river-garden"
+	},
+	"authoring3d": {
+		"geometryGraphs": [],
+		"models": [],
+		"modifierStacks": [],
+		"motions": [],
+		"sculptLayers": [],
+		"shaderGraphs": [],
+		"textures": [],
+		"version": 1,
+		"vertexGroups": []
+	},
+	"cameraRigs": [],
+	"characters": [],
+	"compiled": {
+		"cameraRigCount": 0,
+		"materialPresets": {},
+		"sequenceCount": 0,
+		"sourceTrackCount": 6
+	},
+	"compositions": [
+		{
+			"audioEnabled": true,
+			"backgroundColor": "#00000000",
+			"duration": 44,
+			"fps": 30,
+			"height": 1920,
+			"id": "eden-river-2828-production-speaker-inset",
+			"layers": [
+				{
+					"audioEnabled": true,
+					"blendMode": "normal",
+					"color": "#ffffffff",
+					"duration": 44,
+					"enabled": true,
+					"id": "eden-river-2828-production-speaker-layer",
+					"kind": "media",
+					"locked": false,
+					"loop": false,
+					"masks": [],
+					"name": "Layer 1",
+					"opacity": 1,
+					"playbackRate": 1,
+					"sourceId": "short-speaker-video",
+					"sourceStart": 0,
+					"start": 0,
+					"text": "",
+					"transform": {
+						"anchorX": 0,
+						"anchorY": 0,
+						"opacity": 1,
+						"rotation": 0,
+						"scaleX": 0.5625,
+						"scaleY": 0.5625,
+						"x": 180,
+						"y": 480,
+						"z": 0
+					}
+				}
+			],
+			"name": "Short speaker inset · World first",
+			"pixelAspectRatio": 1,
+			"version": 1,
+			"width": 1080,
+			"workArea": {
+				"end": 44,
+				"start": 0
+			}
+		}
+	],
+	"duration": 44,
+	"fps": 30,
+	"graphs": [],
+	"markers": [],
+	"materialGraphs": [],
+	"materialPresets": {},
+	"media": [
+		{
+			"duration": 44,
+			"folder": "",
+			"height": 720,
+			"id": "short-speaker-video",
+			"kind": "video",
+			"label": "Speaker",
+			"metadata": {
+				"role": "short-speaker-video"
+			},
+			"proxyUrl": null,
+			"status": "online",
+			"tags": [],
+			"thumbnailUrl": null,
+			"url": "/games/mitzvahWorld/assets/generated/shorts/eden-river-2828-video.mp4",
+			"width": 1280
+		},
+		{
+			"duration": 44,
+			"folder": "",
+			"height": null,
+			"id": "short-speaker-video-audio",
+			"kind": "audio",
+			"label": "Speaker audio",
+			"metadata": {
+				"role": "short-speaker-audio"
+			},
+			"proxyUrl": null,
+			"status": "online",
+			"tags": [],
+			"thumbnailUrl": null,
+			"url": "/games/mitzvahWorld/assets/generated/shorts/eden-river-2828-audio.m4a",
+			"width": null
+		}
+	],
+	"mediaWorkspace": {
+		"savedSearches": [],
+		"source": {
+			"inPoint": 0,
+			"mediaId": null,
+			"outPoint": 0
+		},
+		"version": 1
+	},
+	"metadata": {
+		"hideStudioHeader": true,
+		"overlayCompositionId": "eden-river-2828-production-speaker-inset",
+		"shortId": "eden-river-2828-production",
+		"shortLayout": "world-first",
+		"shortLayoutZones": {
+			"captions": {
+				"height": 470,
+				"width": 940,
+				"x": 70,
+				"y": 1420
+			},
+			"heroWorld": {
+				"height": 520,
+				"width": 1080,
+				"x": 0,
+				"y": 900
+			},
+			"title": {
+				"height": 310,
+				"width": 940,
+				"x": 70,
+				"y": 150
+			}
+		},
+		"shortSpeakerLayout": {
+			"height": 405,
+			"width": 720,
+			"x": 180,
+			"y": 480
+		},
+		"shortSpeakerPlanned": true,
+		"shortWorld": "river-garden"
+	},
+	"performance": {
+		"aids": [],
+		"cues": [],
+		"performers": [],
+		"preferences": {
+			"actionAssignments": [
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null
+			],
+			"activeLoop": 1,
+			"bindings": {
+				"action": [
+					"KeyF"
+				],
+				"action1": [
+					"Digit1"
+				],
+				"action2": [
+					"Digit2"
+				],
+				"action3": [
+					"Digit3"
+				],
+				"action4": [
+					"Digit4"
+				],
+				"action5": [
+					"Digit5"
+				],
+				"action6": [
+					"Digit6"
+				],
+				"action7": [
+					"Digit7"
+				],
+				"action8": [
+					"Digit8"
+				],
+				"action9": [
+					"Digit9"
+				],
+				"backward": [
+					"KeyS",
+					"ArrowDown"
+				],
+				"cancel": [
+					"Escape"
+				],
+				"crouch": [
+					"KeyC",
+					"ControlLeft",
+					"ControlRight"
+				],
+				"forward": [
+					"KeyW",
+					"ArrowUp"
+				],
+				"jump": [
+					"Space"
+				],
+				"record": [
+					"KeyR"
+				],
+				"run": [
+					"ShiftLeft",
+					"ShiftRight"
+				],
+				"strafeLeft": [
+					"KeyA",
+					"ArrowLeft"
+				],
+				"strafeRight": [
+					"KeyD",
+					"ArrowRight"
+				],
+				"turnLeft": [
+					"KeyQ"
+				],
+				"turnRight": [
+					"KeyE"
+				]
+			},
+			"camera": {
+				"collisionAvoidance": false,
+				"damping": 0.14,
+				"distance": 6.5,
+				"eyeOffset": 0,
+				"height": 2.2,
+				"invertY": false,
+				"lookSensitivity": 0.003,
+				"shoulderOffset": 0.7
+			},
+			"cameraMode": "director",
+			"countIn": 3,
+			"jumpEnabled": true,
+			"loopCount": 1,
+			"metronome": false,
+			"movementReference": "camera",
+			"overlay": true,
+			"postRoll": 0,
+			"preRoll": 0,
+			"punchIn": null,
+			"punchOut": null,
+			"recordAudio": false,
+			"recordCamera": false,
+			"runSpeed": 7.2,
+			"sampleRate": 30,
+			"turnSpeed": 2.35,
+			"walkSpeed": 4.2
+		},
+		"recovery": [],
+		"takes": [],
+		"version": 1
+	},
+	"render": {},
+	"resolution": {
+		"height": 1920,
+		"width": 1080
+	},
+	"seed": 613,
+	"sequences": [],
+	"title": "A River Flows From Eden",
+	"tracks": [
+		{
+			"clips": [
+				{
+					"duration": 8,
+					"easing": "linear",
+					"id": "eden-river-2828-production-scene-1",
+					"label": "Beat 1",
+					"shortVisual": "river-garden",
+					"start": 0,
+					"transition": "cut",
+					"world": {
+						"assets": [
+							"terrain",
+							"sky",
+							"road",
+							"vegetation",
+							"water"
+						],
+						"atmosphere": {
+							"ambience": "river-and-reeds",
+							"mood": "hopeful",
+							"timeOfDay": "day",
+							"weather": "breeze"
+						},
+						"camera": {
+							"energy": "measured",
+							"preferredRigs": [
+								"craneReveal",
+								"orbitRight",
+								"sideTrack"
+							],
+							"shotScale": "cinematic"
+						},
+						"id": "lower-meadow:river-rise:613",
+						"kind": "awtsmoos.movie.world-spec",
+						"label": "Beat 1",
+						"packageId": "lower-meadow",
+						"population": {
+							"crowd": 8,
+							"enemies": 0,
+							"npcs": 4,
+							"vegetation": "moist"
+						},
+						"prompt": "flowing river, stone bridge, reeds, rocks and riverfront gardens; flowing river, garden, reeds and blessing",
+						"quest": null,
+						"regionId": "river-rise",
+						"seed": 613,
+						"version": 1
+					}
+				},
+				{
+					"duration": 9,
+					"easing": "linear",
+					"id": "eden-river-2828-production-scene-2",
+					"label": "Beat 2",
+					"shortVisual": "river-garden",
+					"start": 8,
+					"transition": "cut",
+					"world": {
+						"assets": [
+							"terrain",
+							"sky",
+							"road",
+							"vegetation",
+							"water"
+						],
+						"atmosphere": {
+							"ambience": "river-and-reeds",
+							"mood": "hopeful",
+							"timeOfDay": "late-afternoon",
+							"weather": "breeze"
+						},
+						"camera": {
+							"energy": "measured",
+							"preferredRigs": [
+								"sideTrack",
+								"craneReveal",
+								"dollyIn"
+							],
+							"shotScale": "cinematic"
+						},
+						"id": "lower-meadow:river-rise:714",
+						"kind": "awtsmoos.movie.world-spec",
+						"label": "Beat 2",
+						"packageId": "lower-meadow",
+						"population": {
+							"crowd": 17,
+							"enemies": 0,
+							"npcs": 9,
+							"vegetation": "moist"
+						},
+						"prompt": "flowing river, stone bridge, reeds, rocks and riverfront gardens; flowing river, garden, reeds and blessing",
+						"quest": null,
+						"regionId": "river-rise",
+						"seed": 714,
+						"version": 1
+					}
+				},
+				{
+					"duration": 8,
+					"easing": "linear",
+					"id": "eden-river-2828-production-scene-3",
+					"label": "Beat 3",
+					"shortVisual": "river-garden",
+					"start": 17,
+					"transition": "cut",
+					"world": {
+						"assets": [
+							"terrain",
+							"sky",
+							"road",
+							"vegetation",
+							"water"
+						],
+						"atmosphere": {
+							"ambience": "river-and-reeds",
+							"mood": "hopeful",
+							"timeOfDay": "late-afternoon",
+							"weather": "soft-clouds"
+						},
+						"camera": {
+							"energy": "measured",
+							"preferredRigs": [
+								"dollyIn",
+								"craneReveal",
+								"orbitRight"
+							],
+							"shotScale": "cinematic"
+						},
+						"id": "lower-meadow:river-rise:815",
+						"kind": "awtsmoos.movie.world-spec",
+						"label": "Beat 3",
+						"packageId": "lower-meadow",
+						"population": {
+							"crowd": 13,
+							"enemies": 0,
+							"npcs": 10,
+							"vegetation": "moist"
+						},
+						"prompt": "flowing river, stone bridge, reeds, rocks and riverfront gardens; flowing river, garden, reeds and blessing",
+						"quest": null,
+						"regionId": "river-rise",
+						"seed": 815,
+						"version": 1
+					}
+				},
+				{
+					"duration": 9,
+					"easing": "linear",
+					"id": "eden-river-2828-production-scene-4",
+					"label": "Beat 4",
+					"shortVisual": "river-garden",
+					"start": 25,
+					"transition": "cut",
+					"world": {
+						"assets": [
+							"terrain",
+							"sky",
+							"road",
+							"vegetation",
+							"water"
+						],
+						"atmosphere": {
+							"ambience": "river-and-reeds",
+							"mood": "hopeful",
+							"timeOfDay": "day",
+							"weather": "soft-clouds"
+						},
+						"camera": {
+							"energy": "measured",
+							"preferredRigs": [
+								"craneReveal",
+								"sideTrack",
+								"dollyIn"
+							],
+							"shotScale": "cinematic"
+						},
+						"id": "lower-meadow:river-rise:916",
+						"kind": "awtsmoos.movie.world-spec",
+						"label": "Beat 4",
+						"packageId": "lower-meadow",
+						"population": {
+							"crowd": 18,
+							"enemies": 0,
+							"npcs": 9,
+							"vegetation": "moist"
+						},
+						"prompt": "flowing river, stone bridge, reeds, rocks and riverfront gardens; flowing river, garden, reeds and blessing",
+						"quest": null,
+						"regionId": "river-rise",
+						"seed": 916,
+						"version": 1
+					}
+				},
+				{
+					"duration": 10,
+					"easing": "linear",
+					"id": "eden-river-2828-production-scene-5",
+					"label": "Beat 5",
+					"shortVisual": "infinite-light",
+					"start": 34,
+					"transition": "cut",
+					"world": {
+						"assets": [
+							"terrain",
+							"sky",
+							"road",
+							"vegetation",
+							"water"
+						],
+						"atmosphere": {
+							"ambience": "river-and-reeds",
+							"mood": "hopeful",
+							"timeOfDay": "golden-hour",
+							"weather": "breeze"
+						},
+						"camera": {
+							"energy": "measured",
+							"preferredRigs": [
+								"craneReveal",
+								"sideTrack",
+								"orbitRight"
+							],
+							"shotScale": "cinematic"
+						},
+						"id": "lower-meadow:river-rise:1017",
+						"kind": "awtsmoos.movie.world-spec",
+						"label": "Beat 5",
+						"packageId": "lower-meadow",
+						"population": {
+							"crowd": 16,
+							"enemies": 0,
+							"npcs": 11,
+							"vegetation": "moist"
+						},
+						"prompt": "flowing river, stone bridge, reeds, rocks and riverfront gardens; golden mountain horizon and vast daylight",
+						"quest": null,
+						"regionId": "river-rise",
+						"seed": 1017,
+						"version": 1
+					}
+				}
+			],
+			"id": "agent-scenes",
+			"target": null,
+			"type": "scene"
+		},
+		{
+			"clips": [
+				{
+					"duration": 3,
+					"easing": "linear",
+					"id": "eden-river-2828-production-scene-1-title-1",
+					"position": "top",
+					"start": 0,
+					"style": {
+						"align": "center",
+						"background": "rgba(0,0,0,0)",
+						"color": "#ffffff",
+						"curve": 0,
+						"fontFamily": "system-ui",
+						"fontSize": 96,
+						"fontWeight": 900,
+						"maximumWidth": 0.86,
+						"strokeColor": "#000000",
+						"strokeWidth": 12
+					},
+					"subtitle": null,
+					"text": "A RIVER FLOWS FROM EDEN",
+					"variant": "card"
+				}
+			],
+			"id": "agent-title-global",
+			"target": null,
+			"type": "title"
+		},
+		{
+			"clips": [
+				{
+					"anchor": {
+						"x": 18,
+						"y": 7,
+						"z": 7
+					},
+					"duration": 8,
+					"easing": "linear",
+					"fieldOfView": 48,
+					"from": {
+						"position": {
+							"x": -12,
+							"y": 8,
+							"z": 18
+						},
+						"target": {
+							"x": 14,
+							"y": 10,
+							"z": 10
+						}
+					},
+					"id": "eden-river-2828-production-scene-1-camera-2",
+					"shot": "river-garden:sideTrack",
+					"start": 0,
+					"to": {
+						"position": {
+							"x": -12,
+							"y": 7,
+							"z": 22
+						},
+						"target": {
+							"x": 14,
+							"y": 10,
+							"z": 10
+						}
+					}
+				},
+				{
+					"anchor": {
+						"x": 18,
+						"y": 7,
+						"z": 7
+					},
+					"duration": 9,
+					"easing": "linear",
+					"fieldOfView": 50,
+					"from": {
+						"position": {
+							"x": -12,
+							"y": 8,
+							"z": 18
+						},
+						"target": {
+							"x": 14,
+							"y": 10,
+							"z": 10
+						}
+					},
+					"id": "eden-river-2828-production-scene-2-camera-1",
+					"shot": "river-garden:craneReveal",
+					"start": 8,
+					"to": {
+						"position": {
+							"x": -12,
+							"y": 10,
+							"z": 20
+						},
+						"target": {
+							"x": 14,
+							"y": 10,
+							"z": 10
+						}
+					}
+				},
+				{
+					"anchor": {
+						"x": 18,
+						"y": 7,
+						"z": 7
+					},
+					"duration": 8,
+					"easing": "linear",
+					"fieldOfView": 50,
+					"from": {
+						"position": {
+							"x": -14,
+							"y": 8,
+							"z": 20
+						},
+						"target": {
+							"x": 14,
+							"y": 10,
+							"z": 10
+						}
+					},
+					"id": "eden-river-2828-production-scene-3-camera-1",
+					"shot": "river-garden:orbitLeft",
+					"start": 17,
+					"to": {
+						"position": {
+							"x": -12,
+							"y": 8,
+							"z": 18
+						},
+						"target": {
+							"x": 14,
+							"y": 10,
+							"z": 10
+						}
+					}
+				},
+				{
+					"anchor": {
+						"x": 18,
+						"y": 7,
+						"z": 7
+					},
+					"duration": 9,
+					"easing": "linear",
+					"fieldOfView": 48,
+					"from": {
+						"position": {
+							"x": -12,
+							"y": 7,
+							"z": 22
+						},
+						"target": {
+							"x": 14,
+							"y": 10,
+							"z": 10
+						}
+					},
+					"id": "eden-river-2828-production-scene-4-camera-1",
+					"shot": "river-garden:dollyIn",
+					"start": 25,
+					"to": {
+						"position": {
+							"x": -10,
+							"y": 7,
+							"z": 20
+						},
+						"target": {
+							"x": 14,
+							"y": 10,
+							"z": 10
+						}
+					}
+				},
+				{
+					"anchor": {
+						"x": 18,
+						"y": 7,
+						"z": 7
+					},
+					"duration": 10,
+					"easing": "linear",
+					"fieldOfView": 52,
+					"from": {
+						"position": {
+							"x": -12,
+							"y": 8,
+							"z": 20
+						},
+						"target": {
+							"x": 14,
+							"y": 10,
+							"z": 10
+						}
+					},
+					"id": "eden-river-2828-production-scene-5-camera-1",
+					"shot": "river-garden:aerialPullback",
+					"start": 34,
+					"to": {
+						"position": {
+							"x": -14,
+							"y": 12,
+							"z": 24
+						},
+						"target": {
+							"x": 14,
+							"y": 10,
+							"z": 10
+						}
+					}
+				}
+			],
+			"id": "agent-camera-global",
+			"target": null,
+			"type": "camera"
+		},
+		{
+			"clips": [
+				{
+					"animation": "talk",
+					"at": {
+						"x": 10,
+						"z": 10
+					},
+					"duration": 8,
+					"easing": "linear",
+					"id": "eden-river-2828-production-scene-1-actor-3",
+					"start": 0
+				},
+				{
+					"animation": "talk",
+					"at": {
+						"x": 10,
+						"z": 10
+					},
+					"duration": 9,
+					"easing": "linear",
+					"id": "eden-river-2828-production-scene-2-actor-2",
+					"start": 8
+				},
+				{
+					"animation": "talk",
+					"at": {
+						"x": 10,
+						"z": 10
+					},
+					"duration": 8,
+					"easing": "linear",
+					"id": "eden-river-2828-production-scene-3-actor-2",
+					"start": 17
+				},
+				{
+					"animation": "talk",
+					"at": {
+						"x": 10,
+						"z": 10
+					},
+					"duration": 9,
+					"easing": "linear",
+					"id": "eden-river-2828-production-scene-4-actor-2",
+					"start": 25
+				},
+				{
+					"animation": "talk",
+					"at": {
+						"x": 10,
+						"z": 10
+					},
+					"duration": 10,
+					"easing": "linear",
+					"id": "eden-river-2828-production-scene-5-actor-2",
+					"start": 34
+				}
+			],
+			"id": "agent-actor-player",
+			"target": "player",
+			"type": "actor"
+		},
+		{
+			"clips": [
+				{
+					"duration": 8,
+					"easing": "linear",
+					"id": "eden-river-2828-production-scene-1-caption-4",
+					"language": "en",
+					"position": "bottom",
+					"speaker": null,
+					"start": 0,
+					"style": {
+						"align": "center",
+						"background": "rgba(0,0,0,0)",
+						"color": "#ffffff",
+						"curve": 0.14,
+						"fontFamily": "system-ui",
+						"fontSize": 84,
+						"fontWeight": 900,
+						"maximumWidth": 0.88,
+						"strokeColor": "#000000",
+						"strokeWidth": 12
+					},
+					"text": "So too, when it comes to Shabbos, it says: ‘A river flows from Eden to water the garden.’"
+				},
+				{
+					"duration": 9,
+					"easing": "linear",
+					"id": "eden-river-2828-production-scene-2-caption-3",
+					"language": "en",
+					"position": "bottom",
+					"speaker": null,
+					"start": 8,
+					"style": {
+						"align": "center",
+						"background": "rgba(0,0,0,0)",
+						"color": "#ffffff",
+						"curve": 0.14,
+						"fontFamily": "system-ui",
+						"fontSize": 84,
+						"fontWeight": 900,
+						"maximumWidth": 0.88,
+						"strokeColor": "#000000",
+						"strokeWidth": 12
+					},
+					"text": "In the original Garden of Eden, there was a garden of delight. Eden means delight."
+				},
+				{
+					"duration": 8,
+					"easing": "linear",
+					"id": "eden-river-2828-production-scene-3-caption-3",
+					"language": "en",
+					"position": "bottom",
+					"speaker": null,
+					"start": 17,
+					"style": {
+						"align": "center",
+						"background": "rgba(0,0,0,0)",
+						"color": "#ffffff",
+						"curve": 0.14,
+						"fontFamily": "system-ui",
+						"fontSize": 84,
+						"fontWeight": 900,
+						"maximumWidth": 0.88,
+						"strokeColor": "#000000",
+						"strokeWidth": 12
+					},
+					"text": "The Garden of Eden is different from Eden itself. Eden means delight."
+				},
+				{
+					"duration": 9,
+					"easing": "linear",
+					"id": "eden-river-2828-production-scene-4-caption-3",
+					"language": "en",
+					"position": "bottom",
+					"speaker": null,
+					"start": 25,
+					"style": {
+						"align": "center",
+						"background": "rgba(0,0,0,0)",
+						"color": "#ffffff",
+						"curve": 0.14,
+						"fontFamily": "system-ui",
+						"fontSize": 84,
+						"fontWeight": 900,
+						"maximumWidth": 0.88,
+						"strokeColor": "#000000",
+						"strokeWidth": 12
+					},
+					"text": "The river flows from Eden to water the garden. Eden itself is the source of delight."
+				},
+				{
+					"duration": 10,
+					"easing": "linear",
+					"id": "eden-river-2828-production-scene-5-caption-3",
+					"language": "en",
+					"position": "bottom",
+					"speaker": null,
+					"start": 34,
+					"style": {
+						"align": "center",
+						"background": "rgba(0,0,0,0)",
+						"color": "#ffffff",
+						"curve": 0.14,
+						"fontFamily": "system-ui",
+						"fontSize": 84,
+						"fontWeight": 900,
+						"maximumWidth": 0.88,
+						"strokeColor": "#000000",
+						"strokeWidth": 12
+					},
+					"text": "The spiritual source of delight is the delight of the Creator, also known as the wisdom of the Creator."
+				}
+			],
+			"id": "agent-caption-global",
+			"target": null,
+			"type": "caption"
+		},
+		{
+			"clips": [
+				{
+					"duration": 44,
+					"easing": "linear",
+					"id": "eden-river-2828-production-speaker-audio-clip",
+					"kind": "media",
+					"mediaId": "short-speaker-video-audio",
+					"offset": 0,
+					"start": 0,
+					"volume": 1
+				}
+			],
+			"id": "eden-river-2828-production-speaker-audio",
+			"label": "Speaker audio",
+			"muted": false,
+			"solo": false,
+			"target": null,
+			"type": "audio"
+		}
+	],
+	"version": 1,
+	"viewMode": "legacy"
+}

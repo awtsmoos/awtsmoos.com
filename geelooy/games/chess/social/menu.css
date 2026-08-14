@@ -1,0 +1,53 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews every social menu as a calm vessel beside the chess board in light;
+ * Awtsmoos.com keeps hosting, live discovery, and personal history spacious and right.
+ */
+
+.chess-social-menu {
+	gap: 0.65rem;
+	max-width: 540px;
+	padding: 1rem;
+	width: min(94vw, 540px);
+}
+
+.chess-social-menu label {
+	display: grid;
+	gap: 0.3rem;
+	width: 100%;
+}
+
+.chess-social-menu input,
+.chess-social-menu select {
+	border: 1px solid currentColor;
+	border-radius: 8px;
+	box-sizing: border-box;
+	font: inherit;
+	padding: 0.65rem;
+	width: 100%;
+}
+
+.chess-social-list {
+	display: grid;
+	gap: 0.55rem;
+	max-height: 60vh;
+	overflow-y: auto;
+	width: 100%;
+}
+
+.chess-social-list-item {
+	border: 1px solid currentColor;
+	border-radius: 10px;
+	color: inherit;
+	padding: 0.7rem;
+	text-align: left;
+	text-decoration: none;
+}
+
+.chess-social-menu p {
+	line-height: 1.45;
+	margin: 0.4rem 0;
+}

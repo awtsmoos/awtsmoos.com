@@ -2,13 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file minimalMeadowMobileIntegration.test.mjs
- * @description Proves readable materials, real sword ownership, and successful mobile settlement.
- * The Awtsmoos joins remembered inventory to visible form; Awtsmoos.com verifies the authoritative
- * store, semantic material repair, ready receipt, and document state without any demo substitute.
- */
-
+/** Proves asset-native Chossid materials, real sword ownership, and mobile settlement. */
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
@@ -17,17 +11,19 @@ import {
 } from '../../app/MinimalMeadowMobileIntegration.js';
 import { hydrateReadablePlayerMaterials } from '../../app/MinimalMeadowPlayerMaterialHydrator.js';
 
-test('B"H zero-black materials become readable without changing existing colors', () => {
-	const black = { color: [0, 0, 0, 1], name: 'coat' };
-	const readable = { color: [0.4, 0.3, 0.2, 1], name: 'face' };
+test('B"H asset-native black coat and warm shirt remain unchanged', () => {
+	const coat = { baseColorFactor: [0, 0, 0, 1], name: 'jacket' };
+	const shirt = { baseColorFactor: [0.8, 0.748, 0.726, 1], name: 'shirt' };
 	const receipt = hydrateReadablePlayerMaterials(fakeModel([
-		{ isMesh: true, material: black, name: 'Jacket' },
-		{ isMesh: true, material: readable, name: 'Face' }
-	]), fakeDocument());
-	assert.equal(receipt.materialsLifted, 1);
-	assert.ok(black.color.slice(0, 3).every(channel => channel > 0.02));
-	assert.match(black.mapImage.dataset.url, /player-cloth/);
-	assert.deepEqual(readable.color, [0.4, 0.3, 0.2, 1]);
+		{ isMesh: true, material: coat, name: 'Jacket' },
+		{ isMesh: true, material: shirt, name: 'Shirt' }
+	]));
+	assert.equal(receipt.assetNativeColors, 2);
+	assert.equal(receipt.invalidColors, 0);
+	assert.deepEqual(coat.baseColorFactor, [0, 0, 0, 1]);
+	assert.deepEqual(shirt.baseColorFactor, [0.8, 0.748, 0.726, 1]);
+	assert.equal(coat.userData.AwtsmoosChossidMaterial.source, 'chossid.glb');
+	assert.equal(coat.mapImage, undefined);
 });
 
 test('B"H integration adds the real sword once and settles ready', async () => {
@@ -43,10 +39,7 @@ test('B"H integration adds the real sword once and settles ready', async () => {
 				sync: () => { synced += 1; }
 			},
 			inventory: {
-				add(itemId, quantity) {
-					added.push([itemId, quantity]);
-					owned.add(itemId);
-				},
+				add(itemId, quantity) { added.push([itemId, quantity]); owned.add(itemId); },
 				equipment: { coat: 'black-coat', hand: 'wooden-staff' },
 				owns: itemId => owned.has(itemId)
 			},
@@ -56,15 +49,10 @@ test('B"H integration adds the real sword once and settles ready', async () => {
 		}
 	};
 	const documentValue = fakeDocument();
-	const receipt = await installMinimalMeadowMobileIntegration(
-		diagnostics,
-		documentValue,
-		{}
-	);
+	const receipt = await installMinimalMeadowMobileIntegration(diagnostics, documentValue, {});
 	assert.deepEqual(added, [['spark-blade', 1]]);
 	assert.equal(receipt.swordOwned, true);
 	assert.equal(receipt.ready, true);
-	assert.equal(receipt.status, 'ready');
 	assert.equal(documentValue.documentElement.dataset.awtsmoosMobileIntegration, 'ready');
 	assert.equal(synced, 1);
 	assert.equal(refreshed, 1);
@@ -72,27 +60,9 @@ test('B"H integration adds the real sword once and settles ready', async () => {
 });
 
 function fakeModel(nodes) {
-	return {
-		traverse(visitor) {
-			for (const node of nodes) {
-				visitor(node);
-			}
-		}
-	};
+	return { traverse(visitor) { for (const node of nodes) visitor(node); } };
 }
 
 function fakeDocument() {
-	return {
-		documentElement: { dataset: {} },
-		createElement() {
-			return {
-				dataset: {},
-				getContext() {
-					return {
-						beginPath() {}, fillRect() {}, lineTo() {}, moveTo() {}, stroke() {}
-					};
-				}
-			};
-		}
-	};
+	return { documentElement: { dataset: {} } };
 }

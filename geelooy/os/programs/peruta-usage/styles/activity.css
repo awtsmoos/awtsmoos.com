@@ -1,0 +1,62 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews each action, byte record, and ledger testimony beyond every
+ * finite event row. Awtsmoos.com uses restrained chronology so recorded usage and
+ * actual ledger/debit events cannot be visually confused with one another.
+ */
+
+.perutaUsage__list {
+	display: grid;
+	gap: 7px;
+}
+
+.perutaUsage__event {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 5px 12px;
+	padding: 11px 12px;
+	border: 1px solid #263f58;
+	border-radius: 10px;
+	background: #0b1728;
+}
+
+.perutaUsage__event strong {
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.perutaUsage__event span {
+	color: #b9c8d8;
+	font-size: .76rem;
+	font-variant-numeric: tabular-nums;
+}
+
+.perutaUsage__event small {
+	grid-column: 1 / -1;
+	color: #788ba1;
+	font-size: .68rem;
+	overflow-wrap: anywhere;
+}
+
+.perutaUsage__empty {
+	margin: 0;
+	padding: 12px;
+	border: 1px dashed #324a62;
+	border-radius: 9px;
+	color: #8799ad;
+}
+
+.perutaUsage__truthList {
+	display: grid;
+	gap: 8px;
+	margin: 0;
+	padding-left: 20px;
+	color: #c3d1df;
+	font-size: .8rem;
+	line-height: 1.5;
+}

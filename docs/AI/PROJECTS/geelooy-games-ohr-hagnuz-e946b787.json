@@ -1,0 +1,70 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-games-ohr-hagnuz-e946b787",
+	"path": "geelooy/games/ohr-hagnuz",
+	"type": "game",
+	"family": {
+		"id": "games",
+		"title": "Games and Worlds"
+	},
+	"title": "B&quot;H — Ohr HaGnuz: The Concealed Frontier",
+	"entries": [
+		"index.html",
+		"package.json",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/games/ohr-hagnuz/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/GAMES.md",
+		"docs/APPS/GAMES_AND_SIMULATION.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-ohr-hagnuz-e946b787.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 700,
+		"tests": 89,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 3
+	},
+	"totalFiles": 793,
+	"symbolSummary": {
+		"files": 671,
+		"classes": 189,
+		"functions": 195,
+		"exports": 1124,
+		"samples": [
+			"CollisionMatrix",
+			"validates",
+			"EncounterValidator",
+			"InteractionValidator",
+			"OverworldLogic",
+			"PortalValidator",
+			"WorldMapAssembler",
+			"takes",
+			"EncounterGenerator",
+			"MovementLogic",
+			"PathLogic",
+			"DivineWill"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/games/ohr-hagnuz",
+			"file": "geelooy/games/ohr-hagnuz/index.html",
+			"title": "B&quot;H — Ohr HaGnuz: The Concealed Frontier",
+			"scripts": 1,
+			"styles": 7
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

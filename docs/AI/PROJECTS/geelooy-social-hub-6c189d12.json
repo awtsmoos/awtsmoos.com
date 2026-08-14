@@ -1,0 +1,71 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-social-hub-6c189d12",
+	"path": "geelooy/social-hub",
+	"type": "public",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "Social Hub — Geelooy",
+	"entries": [
+		"index.html",
+		"package.json",
+		"DOCUMENTATION.md",
+		"README.md",
+		"readme.md"
+	],
+	"humanDocumentation": [
+		"geelooy/social-hub/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-social-hub-6c189d12.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 61,
+		"tests": 16,
+		"assets": 0,
+		"generated": 0,
+		"docs": 2,
+		"other": 0
+	},
+	"totalFiles": 79,
+	"symbolSummary": {
+		"files": 34,
+		"classes": 22,
+		"functions": 37,
+		"exports": 44,
+		"samples": [
+			"createSocialHub",
+			"HubApp",
+			"activityCard",
+			"durationLabel",
+			"timestamp",
+			"ActivityPanel",
+			"ActivityTracker",
+			"PrivacyActions",
+			"prepared",
+			"PrivacyPanel",
+			"CATEGORIES",
+			"preferencesFromFields"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/social-hub",
+			"file": "geelooy/social-hub/index.html",
+			"title": "Social Hub — Geelooy",
+			"scripts": 2,
+			"styles": 3
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

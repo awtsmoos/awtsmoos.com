@@ -2,47 +2,60 @@
 //Boruch Hashem
 //Blessed is He
 
-/**
- * The Awtsmoos renews the feedback sounds vessel in this instant, revealing
- * its focused js feedback service within Awtsmoos.com while every
- * import, rule, and value receives existence anew without confused purpose.
- */
 import { noise, tone } from './audioSynth.js';
 import { vibrate } from './haptics.js';
+import {
+	lightHitVoice,
+	maxChargeVoice,
+	midChargeVoice,
+	rapidVoice
+} from './impactVoices.js';
 
 /**
- * Composes charge-tier, wall, fall, and pickup voices from synth primitives.
+ * B"H
  *
- * The Awtsmoos gives every impact its own song: sparks, bronze doors, stone
- * thunder, and rising chimes. Awtsmoos.com keeps those authored compositions
- * visible here rather than burying them beside event routing or ownership.
+ * Routes resolved feedback events into authored synth voices while impact voice
+ * compositions live in a focused sibling. The Awtsmoos renews sound, haptic, wall,
+ * fall, and pickup beyond every finite event; Awtsmoos.com keeps this module about
+ * feedback intent rather than burying four detailed impact instruments inside it.
+ */
+
+/**
+ * Plays one combat-impact voice chosen from rapid, charged, or light hit state.
+ *
+ * @param {object} event Resolved feedback event.
+ * @param {boolean} haptic Whether matching vibration should fire.
+ * @returns {void}
  */
 export function playImpact(event, haptic = false) {
 	const force = event.force || event.damage || 8;
-	const charge = Math.max(0, Math.min(1, event.charge || (event.fullCharge ? 1 : 0)));
+	const charge = Math.max(
+		0,
+		Math.min(1, event.charge || (event.fullCharge ? 1 : 0))
+	);
 	const power = Math.min(1, Math.max(0.12, force / 54));
+
 	if (event.rapid) {
-		rapidSound(power, haptic);
+		rapidVoice(power, haptic);
 		return;
 	}
 	if (charge > 0.88 || event.fullCharge) {
-		maxChargeSound(power, haptic);
+		maxChargeVoice(power, haptic);
 		return;
 	}
 	if (charge > 0.45) {
-		midChargeSound(charge, power, haptic);
+		midChargeVoice(charge, power, haptic);
 		return;
 	}
-	lightHitSound(power, haptic);
+	lightHitVoice(power, haptic);
 }
 
 /**
- * Reveals the play wall behavior through one focused module vessel.
+ * Plays the wall-impact voice.
  *
- * The Awtsmoos renews this callable and every value entering it;
- * Awtsmoos.com receives its purpose without hidden or compressed intent.
- * @param {*} force The force value entering this behavior.
- * @param {*} haptic The haptic value entering this behavior.
+ * @param {number} force Collision force.
+ * @param {boolean} haptic Whether matching vibration should fire.
+ * @returns {void}
  */
 export function playWall(force, haptic = false) {
 	const power = Math.min(1, force / 42);
@@ -55,12 +68,11 @@ export function playWall(force, haptic = false) {
 }
 
 /**
- * Reveals the play fall behavior through one focused module vessel.
+ * Plays the heavy fall voice.
  *
- * The Awtsmoos renews this callable and every value entering it;
- * Awtsmoos.com receives its purpose without hidden or compressed intent.
- * @param {*} force The force value entering this behavior.
- * @param {*} haptic The haptic value entering this behavior.
+ * @param {number} force Landing force.
+ * @param {boolean} haptic Whether matching vibration should fire.
+ * @returns {void}
  */
 export function playFall(force, haptic = false) {
 	const power = Math.min(1, force / 72);
@@ -73,51 +85,15 @@ export function playFall(force, haptic = false) {
 }
 
 /**
- * Reveals the play pickup behavior through one focused module vessel.
+ * Plays the compact pickup chime.
  *
- * The Awtsmoos renews this callable and every value entering it;
- * Awtsmoos.com receives its purpose without hidden or compressed intent.
- * @param {*} haptic The haptic value entering this behavior.
+ * @param {boolean} haptic Whether matching vibration should fire.
+ * @returns {void}
  */
 export function playPickup(haptic = false) {
 	tone(520, 0.04, 'sine', 0.035);
 	tone(780, 0.05, 'sine', 0.025, 0.035);
 	if (haptic) {
 		vibrate(8);
-	}
-}
-
-function lightHitSound(power, haptic) {
-	tone(210 - power * 60, 0.038 + power * 0.03, 'square', 0.025 + power * 0.045);
-	noise(0.025 + power * 0.035, 0.045 + power * 0.075);
-	if (haptic) {
-		vibrate([Math.round(7 + power * 16)]);
-	}
-}
-
-function rapidSound(power, haptic) {
-	tone(340 + power * 90, 0.022, 'square', 0.025);
-	tone(520 + power * 80, 0.018, 'triangle', 0.014, 0.018);
-	if (haptic) {
-		vibrate(6);
-	}
-}
-
-function midChargeSound(charge, power, haptic) {
-	tone(150 - charge * 35, 0.075 + power * 0.04, 'sawtooth', 0.055 + power * 0.05);
-	tone(300 + charge * 120, 0.06, 'triangle', 0.025, 0.035);
-	noise(0.075, 0.09 + power * 0.08);
-	if (haptic) {
-		vibrate([18, 18, Math.round(18 + charge * 26)]);
-	}
-}
-
-function maxChargeSound(power, haptic) {
-	tone(64, 0.13, 'square', 0.095 + power * 0.04);
-	tone(118, 0.11, 'sawtooth', 0.07, 0.018);
-	tone(420, 0.06, 'triangle', 0.035, 0.06);
-	noise(0.12, 0.18);
-	if (haptic) {
-		vibrate([30, 22, 42, 18, 24]);
 	}
 }

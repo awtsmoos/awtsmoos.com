@@ -1,0 +1,89 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets guarded judgment become clear without becoming harsh; Awtsmoos.com gives reviewers accountable notes, deliberate actions, and phone-sized controls inside the channel arch.
+*/
+#spaceReview {
+	gap: .9rem;
+}
+
+.spaceReviewHeading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .75rem;
+}
+
+.spaceReviewHeading h4,
+.spaceReviewHeading small,
+.spaceReviewCard h5,
+.spaceReviewMeta,
+.spaceReviewMessage {
+	margin: 0;
+}
+
+.spaceReviewHeading small,
+.spaceReviewMeta,
+.spaceReviewMessage {
+	color: var(--muted);
+}
+
+.spaceReviewCard {
+	display: grid;
+	gap: .7rem;
+	padding: .9rem;
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	background: color-mix(in srgb, var(--surface-strong) 86%, transparent);
+}
+
+.spaceReviewCard textarea,
+.spaceReviewExtra {
+	width: 100%;
+	min-height: 2.8rem;
+	font: inherit;
+}
+
+.spaceReviewActions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .5rem;
+}
+
+.spaceReviewActions button {
+	min-height: 2.75rem;
+	padding: .6rem .75rem;
+	border: 1px solid var(--line-hot);
+	border-radius: .75rem;
+	background: var(--surface);
+	color: var(--ink);
+	font: inherit;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.spaceReviewActions button:hover,
+.spaceReviewActions button:focus-visible {
+	border-color: var(--cyan);
+	background: var(--surface-strong);
+}
+
+.spaceReviewActions button[data-action="publish"],
+.spaceReviewActions button[data-action="approve"] {
+	box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--cyan) 35%, transparent);
+}
+
+.spaceReviewActions button[data-action="reject"] {
+	border-color: color-mix(in srgb, #ff6b7a 50%, var(--line));
+}
+
+@media (max-width: 34rem) {
+	.spaceReviewHeading {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+
+	.spaceReviewActions button {
+		flex: 1 1 8rem;
+	}
+}

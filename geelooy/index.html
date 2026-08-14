@@ -1,79 +1,108 @@
 <!-- B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos opens a living portal where every destination remains direct, visible, and real.
+The Awtsmoos opens one living constellation on Awtsmoos.com: learn, play, create,
+carry one treasury, send generosity, and connect a machine. Each finite doorway
+reveals one path while the Awtsmoos renews the entire world every instant.
 -->
 <!doctype html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-	<meta name="description" content="Enter the living world of Awtsmoos: Torah, social worlds, mail, games, apps, and the central Heichel.">
+	<meta name="description" content="Awtsmoos.com brings together original games, creator tools, Torah, a sendable promotional Perutah Wallet, Awtsmoos OS, Code, community, and local-machine connection.">
 	<meta name="theme-color" content="#050914">
-	<title>Awtsmoos — The Living Portal</title>
-	<link rel="preload" href="/resources/home/restored-awtsmoos-hero.jpg" as="image">
-	<link rel="stylesheet" href="/style/home-simple/base.css?v=17">
-	<link rel="stylesheet" href="/style/home-simple/components.css?v=17">
+	<title>Awtsmoos — Play, Create, Send & Build</title>
+	<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+	<link rel="preload" as="image" href="/api/social/aliases/abarbanel/fileSystem/readFile?path=awtsmoosImages%2Fhomepage%2Fawtsmoos-home-hero.jpg">
+	<link rel="stylesheet" href="/style/home-simple/base.css?v=25">
+	<link rel="stylesheet" href="/style/home-simple/components.css?v=27">
 </head>
 <body>
-	<canvas class="particle-sky" data-particle-sky aria-hidden="true"></canvas>
+	<canvas class="particle-sky" data-particle-sky data-particle-status="connecting" aria-hidden="true"></canvas>
 	<div class="ambient-glow" aria-hidden="true"></div>
+	<button class="explore-backdrop" type="button" data-menu-backdrop tabindex="-1" aria-label="Close the worlds launcher" aria-hidden="true" disabled></button>
 	<header class="site-header">
 		<div class="header-rail">
-			<a class="brand" href="/" aria-label="Awtsmoos home">
-				<span class="brand-mark" aria-hidden="true">א</span>
-				<span class="brand-copy"><strong>Awtsmoos</strong><small>The living portal</small></span>
-			</a>
+			<a class="brand" href="/" aria-label="Awtsmoos home"><span class="brand-mark" aria-hidden="true">א</span><span class="brand-copy"><strong>Awtsmoos</strong><small>Play · Create · Send · Build</small></span></a>
 			<div class="system-signal" aria-label="Awtsmoos system online"><i></i><span>Living system</span></div>
+			<details class="world-launcher" data-menu-root>
+				<summary class="launcher-button" data-menu-button aria-controls="world-panel" aria-expanded="false"><span class="launcher-glyph" aria-hidden="true"></span><span>Worlds</span></summary>
+				<nav class="world-panel" id="world-panel" data-menu-panel aria-label="Awtsmoos worlds" aria-hidden="true">
+					<div class="world-panel-heading"><div><small>Awtsmoos constellation</small><strong>Choose what to do</strong></div><span data-world-total>Loading doors…</span></div>
+					<div class="launcher-tools"><label class="launcher-search"><span aria-hidden="true">⌕</span><input type="search" data-world-filter placeholder="Filter worlds…" autocomplete="off"><kbd>G</kbd></label><div class="launcher-meta"><span data-world-count>Loading worlds…</span><span><kbd>↑ ↓ ← →</kbd> move</span></div></div>
+					<div class="world-grid" data-world-grid></div>
+					<p class="world-empty" data-world-empty hidden>No world matches that search.</p>
+				</nav>
+			</details>
 			<div class="profile-mount" data-profile-mount aria-label="Account and profile"></div>
 		</div>
-		<nav class="direct-navigation" aria-label="Main destinations">
-			<a href="/heichelos/ikar"><span>🏛️</span><b><strong>Ikar</strong><small>Central Heichel</small></b></a>
-			<a href="/social-hub/"><span>📰</span><b><strong>Social Feed</strong><small>Posts and people</small></b></a>
-			<a href="/mawgawl/sefarim/"><span>📖</span><b><strong>Torah</strong><small>Living library</small></b></a>
-			<a href="/email/"><span>✉️</span><b><strong>Mail</strong><small>Private messages</small></b></a>
-			<a href="/apps"><span>🧩</span><b><strong>Apps</strong><small>Tools and worlds</small></b></a>
-			<a href="/games"><span>🎮</span><b><strong>Games</strong><small>Play and discover</small></b></a>
-			<a href="/heichelos"><span>🌌</span><b><strong>Spaces</strong><small>All Heichelos</small></b></a>
-			<a href="/os"><span>🛸</span><b><strong>OS</strong><small>Awtsmoos system</small></b></a>
-		</nav>
 	</header>
+
 	<main class="home">
 		<section class="hero" aria-labelledby="hero-title">
 			<div class="dance-shell" data-parallax>
-				<div class="dance-frame">
-					<img src="/resources/home/restored-awtsmoos-hero.jpg" alt="The luminous Awtsmoos rainbow landscape" width="480" height="270" decoding="async">
+				<div class="dance-frame" data-pointer-light>
+					<img class="hero-image" src="/api/social/aliases/abarbanel/fileSystem/readFile?path=awtsmoosImages%2Fhomepage%2Fawtsmoos-home-hero.jpg" width="1024" height="1024" alt="The historical luminous rainbow world of Awtsmoos" decoding="async" fetchpriority="high">
 					<div class="banner-shade" aria-hidden="true"></div>
 					<div class="hero-orbit" aria-hidden="true"><i></i><i></i><i></i></div>
 					<div class="banner-copy">
-						<p class="eyebrow"><span></span>Everything begins from nothing.</p>
-						<h1 id="hero-title">Enter the living world of Awtsmoos.</h1>
-						<p class="hero-summary">Search Torah, meet people, enter worlds, create, play, and reveal what was waiting to exist.</p>
-						<div class="hero-actions"><a href="/heichelos/ikar">Enter Ikar <span>→</span></a><a href="/social-hub/">Open the feed</a></div>
+						<p class="eyebrow"><span></span>B"H · One living constellation</p>
+						<h1 id="hero-title">Play worlds. Create tools. Send Perutas. Build.</h1>
+						<p class="hero-summary">Enter original games, build with creator apps, learn Torah, send promotional Perutas by @alias, buy purchased Perutas, and connect your own machine through Awtsmoos.</p>
+						<div class="hero-actions"><a data-world-id="games" href="/games/">Play Games <span>→</span></a><a data-world-id="apps" href="/apps/">Create with Apps</a><a data-world-id="wallet" href="/apps/wallet/">Open Wallet · Send + Buy</a></div>
 					</div>
 				</div>
 			</div>
-			<div class="action-panel">
-				<form class="search" action="/mawgawl/sefarim/" method="get" role="search">
-					<span class="search-symbol" aria-hidden="true">⌕</span>
-					<label class="sr-only" for="home-search">Search the living library</label>
-					<input id="home-search" name="q" type="search" placeholder="Search Torah, people, worlds…" autocomplete="off" enterkeyhint="search">
-					<span class="shortcut-key" aria-hidden="true">/</span>
-					<button type="submit" aria-label="Search the living library"><span class="search-button-label">Search</span><span class="search-button-arrow" aria-hidden="true">→</span></button>
-				</form>
-				<div class="search-paths" aria-label="Popular searches"><a href="/mawgawl/sefarim/?q=בראשית">בראשית</a><a href="/mawgawl/sefarim/?q=moshe">Moshe</a><a href="/mawgawl/sefarim/?q=shabbos">Shabbos</a></div>
+
+			<div class="action-panel" data-reveal>
+				<div class="search-shell" data-omnibox-root>
+					<form class="search" action="/mawgawl/sefarim/" method="get" role="search">
+						<span class="search-symbol" aria-hidden="true">⌕</span>
+						<label class="sr-only" for="home-search">Search Torah and Awtsmoos worlds</label>
+						<input id="home-search" name="q" type="search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="home-search-listbox" placeholder="Search Torah, Games, Apps, Wallet, OS…" autocomplete="off" enterkeyhint="search">
+						<span class="shortcut-key" aria-hidden="true">/</span>
+						<button type="submit" aria-label="Search"><span class="search-button-label">Search</span><span class="search-button-arrow" aria-hidden="true">→</span></button>
+					</form>
+					<section class="omnibox-panel" data-omnibox-panel hidden><header class="omnibox-heading"><span data-omnibox-heading>Continue or discover</span><button type="button" data-history-clear hidden>Clear history</button></header><div class="omnibox-options" id="home-search-listbox" data-omnibox-options role="listbox" aria-label="Search suggestions"></div></section>
+					<p class="sr-only" data-omnibox-status aria-live="polite"></p>
+				</div>
+				<div class="search-paths" aria-label="Popular Torah searches"><a href="/mawgawl/sefarim/?q=בראשית">בראשית</a><a href="/mawgawl/sefarim/?q=moshe">Moshe</a><a href="/mawgawl/sefarim/?q=shabbos">Shabbos</a></div>
 			</div>
-			<div class="portal-status"><span><i></i>WebGL sky active</span><span>8 direct worlds</span><span>Synced identity</span><a href="/contact/">Send a signal</a></div>
+
+			<nav class="portal-shortcuts" aria-label="Primary Awtsmoos products" data-reveal>
+				<a data-world-id="games" href="/games/"><span aria-hidden="true">◆</span><strong>Games</strong><small>Original worlds + quick play</small></a>
+				<a data-world-id="apps" href="/apps/"><span aria-hidden="true">✦</span><strong>Apps</strong><small>Studios, editors, utilities</small></a>
+				<a data-world-id="wallet" href="/apps/wallet/"><span aria-hidden="true">◇</span><strong>Wallet</strong><small>Send gifts + buy Perutas</small></a>
+				<a data-world-id="tunnel" href="/apps/tunnel-control/"><span aria-hidden="true">↔</span><strong>Connect</strong><small>Link a local machine</small></a>
+			</nav>
+
+			<div class="portal-status"><span><i></i>Live products stay truthful</span><span>14 direct doors</span><span>One identity</span><a data-world-id="wallet" href="/apps/wallet/#send">Send Perutas</a></div>
+			<nav class="direct-navigation" aria-label="Direct product navigation" data-reveal>
+				<a data-world-id="torah" href="/mawgawl/sefarim/"><span>ת</span><b><strong>Torah</strong><small>Learn</small></b></a>
+				<a data-world-id="games" href="/games/"><span>◆</span><b><strong>Games</strong><small>Play</small></b></a>
+				<a data-world-id="apps" href="/apps/"><span>✦</span><b><strong>Apps</strong><small>Create</small></b></a>
+				<a data-world-id="wallet" href="/apps/wallet/"><span>◇</span><b><strong>Wallet</strong><small>Send + Buy</small></b></a>
+				<a data-world-id="os" href="/os"><span>◈</span><b><strong>OS</strong><small>Workspace</small></b></a>
+				<a data-world-id="code" href="/apps/code"><span>&lt;/&gt;</span><b><strong>Code</strong><small>Build</small></b></a>
+				<a data-world-id="feed" href="/social-hub/"><span>◌</span><b><strong>Community</strong><small>People</small></b></a>
+				<a data-world-id="about" href="/about"><span>?</span><b><strong>About</strong><small>Purpose</small></b></a>
+			</nav>
+		</section>
+
+		<section class="featured-worlds" aria-labelledby="featured-title" data-reveal>
+			<div class="featured-heading"><div><p>Start with what you want to do</p><h2 id="featured-title">Four powerful ways into Awtsmoos.</h2></div><a data-world-id="wallet" href="/apps/wallet/">Open Wallet <span>→</span></a></div>
+			<div class="featured-grid">
+				<a class="featured-card featured-card--games" data-world-id="games" href="/games/" data-pointer-light><span class="featured-number">01</span><span class="featured-symbol">◆</span><div><small>Play</small><h3>Awtsmoos Games</h3><p>Enter original campaign worlds, experimental adventures, and fast quick-play games.</p></div><b>↗</b></a>
+				<a class="featured-card featured-card--apps" data-world-id="apps" href="/apps/" data-pointer-light><span class="featured-number">02</span><span class="featured-symbol">✦</span><div><small>Create</small><h3>Creator Apps</h3><p>Edit, code, transcribe, produce media, and use focused tools without fake paywalls.</p></div><b>↗</b></a>
+				<a class="featured-card featured-card--torah" data-world-id="wallet" href="/apps/wallet/" data-pointer-light><span class="featured-number">03</span><span class="featured-symbol">◇</span><div><small>Treasury</small><h3>Awtsmoos Wallet</h3><p>Send promotional Perutas to another @alias, buy purchased Perutas, and inspect the server ledger.</p></div><b>↗</b></a>
+				<a class="featured-card featured-card--os" data-world-id="os" href="/os" data-pointer-light><span class="featured-number">04</span><span class="featured-symbol">◈</span><div><small>Build</small><h3>Awtsmoos OS</h3><p>Open the workspace, edit real projects, and connect local machines when you need them.</p></div><b>↗</b></a>
+			</div>
 		</section>
 	</main>
-	<nav class="mobile-dock" aria-label="Mobile navigation">
-		<a href="/heichelos/ikar"><span>🏛️</span><small>Ikar</small></a>
-		<a href="/social-hub/"><span>📰</span><small>Feed</small></a>
-		<a href="/mawgawl/sefarim/"><span>🔎</span><small>Torah</small></a>
-		<a href="/email/"><span>✉️</span><small>Mail</small></a>
-		<a href="/profile"><span>👤</span><small>Profile</small></a>
-	</nav>
-	<footer class="site-footer"><p>Awtsmoos.com</p><div><a href="/about">About</a><a href="/contact/">Contact</a></div></footer>
-	<script type="module" src="/scripts/home-simple/index.js?v=17"></script>
+
+	<nav class="mobile-dock" aria-label="Mobile navigation"><a data-world-id="ikar" href="/heichelos/ikar"><span>א</span><small>Ikar</small></a><a data-world-id="games" href="/games/"><span>◆</span><small>Games</small></a><a data-world-id="apps" href="/apps/"><span>✦</span><small>Apps</small></a><a data-world-id="torah" href="/mawgawl/sefarim/"><span>ת</span><small>Torah</small></a><a data-world-id="wallet" href="/apps/wallet/"><span>◇</span><small>Wallet</small></a></nav>
+	<footer class="site-footer"><p>Awtsmoos.com — renewed every instant.</p><div><a data-world-id="about" href="/about">About</a><a data-world-id="contact" href="/contact/">Contact</a></div></footer>
+	<script type="module" src="/scripts/home-simple/index.js?v=26"></script>
 </body>
 </html>

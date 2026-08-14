@@ -3,106 +3,97 @@
 /*Blessed is He*/
 
 /**
- * Portrait space becomes a compact constellation rather than a scrolling list.
- * The Awtsmoos renews every small screen, while this Awtsmoos.com vessel fits
- * shell, seven titles, and teaching details inside one touch-sized chamber.
+ * The Awtsmoos renews the touching hand at the city's edge without rebuilding the old card grid;
+ * Awtsmoos.com keeps one compact summary, one nearby action, and honest forty-eight-pixel movement beside the stride.
+ * Fine-pointer play hides this vessel entirely while coarse and narrow play receive stable directional ownership.
  */
-@media (max-width: 700px) {
-	.appTopBar {
-		grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-		min-height: 2.85rem;
-		padding-bottom: 0.4rem;
+.worldTouchControls {
+	display: none;
+	grid-template-columns: repeat(3, 48px);
+	grid-template-rows: repeat(2, 48px);
+	gap: 4px;
+	left: max(0.65rem, env(safe-area-inset-left));
+	bottom: max(0.65rem, env(safe-area-inset-bottom));
+	pointer-events: auto;
+	position: absolute;
+	user-select: none;
+	-webkit-user-select: none;
+}
+
+.worldTouchControls button {
+	background: rgba(4, 14, 28, 0.8);
+	border: 1px solid rgba(168, 225, 255, 0.25);
+	border-radius: 0.85rem;
+	box-shadow: 0 0.45rem 1.25rem rgba(0, 0, 0, 0.24);
+	color: #eef8ff;
+	font-size: 1rem;
+	font-weight: 900;
+	min-height: 48px;
+	min-width: 48px;
+	padding: 0;
+	touch-action: none;
+}
+
+.worldUp {
+	grid-column: 2;
+}
+
+.worldLeft,
+.worldDown,
+.worldRight {
+	grid-row: 2;
+}
+
+@media (pointer: coarse), (max-width: 760px) {
+	.worldTouchControls {
+		display: grid;
 	}
 
-	.brandLockup strong {
-		font-size: 0.82rem;
+	.worldSummary {
+		gap: 0.3rem;
+		grid-template-columns: minmax(0, 1fr) minmax(7.2rem, auto);
+		left: max(0.45rem, env(safe-area-inset-left));
+		max-width: calc(100% - 0.9rem);
+		top: max(0.45rem, env(safe-area-inset-top));
 	}
 
-	.brandLockup span {
-		width: 1.65rem;
-		font-size: 0.72rem;
+	.guideCard {
+		grid-column: 1 / -1;
 	}
 
-	.gamesLink,
-	.legacyMark {
+	.guideCard,
+	.missionCard,
+	.modeCard {
 		font-size: 0.64rem;
+		min-height: 2.35rem;
+		padding: 0.32rem 0.45rem;
 	}
 
-	.hubLayer {
-		gap: 0.48rem;
-		padding: 0.55rem max(0.5rem, env(safe-area-inset-right)) max(0.5rem, env(safe-area-inset-bottom)) max(0.5rem, env(safe-area-inset-left));
+	.modeCard strong {
+		display: none;
 	}
 
-	.mitzvahGrid3d {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		grid-template-rows: repeat(4, minmax(0, 1fr));
-		gap: 0.42rem;
+	.modeCard select {
+		min-width: 5.8rem;
 	}
 
-	.mitzvahTile {
-		grid-template-columns: auto minmax(0, 1fr) auto;
-		grid-template-rows: minmax(0, 1fr) auto;
-		grid-template-areas:
-			"number title symbol"
-			"progress progress progress";
-		column-gap: 0.45rem;
-		padding: 0.42rem 0.52rem;
-		border-radius: 0.85rem;
+	.worldContext {
+		bottom: calc(6.7rem + env(safe-area-inset-bottom));
+		max-width: calc(100% - 1rem);
+		padding: 0.65rem 0.75rem;
 	}
 
-	.tileNumber {
-		grid-area: number;
+	#worldInteract {
+		min-height: 48px;
 	}
 
-	.tileSymbol {
-		grid-area: symbol;
-		align-self: center;
-		width: clamp(1.7rem, 6vh, 2.65rem);
-		font-size: clamp(0.9rem, 3.3vh, 1.5rem);
+	.worldHint {
+		display: none;
 	}
+}
 
-	.mitzvahTile strong {
-		grid-area: title;
-		align-self: center;
-		justify-self: start;
-		max-width: none;
-		font-size: clamp(0.66rem, 3vw, 0.9rem);
-		text-align: left;
-	}
-
-	.tileProgress {
-		grid-area: progress;
-		justify-self: end;
-		font-size: 0.54rem;
-	}
-
-	.detailLayer {
-		padding: 3.05rem max(0.55rem, env(safe-area-inset-right)) max(0.55rem, env(safe-area-inset-bottom)) max(0.55rem, env(safe-area-inset-left));
-	}
-
-	.detailCard {
-		grid-template-columns: 4.4rem minmax(0, 1fr);
-		gap: 0.42rem 0.75rem;
-		padding: 0.78rem;
-		border-radius: 1rem;
-	}
-
-	.detailIdentity {
-		min-height: 7.2rem;
-	}
-
-	.detailIdentity strong {
-		width: 3.5rem;
-		font-size: 1.8rem;
-	}
-
-	.detailPractice {
-		grid-template-columns: 1fr;
-		gap: 0.28rem;
-	}
-
-	.detailFooter {
-		align-items: stretch;
-		flex-direction: column;
+@media (pointer: fine) and (min-width: 761px) {
+	.worldTouchControls {
+		display: none;
 	}
 }

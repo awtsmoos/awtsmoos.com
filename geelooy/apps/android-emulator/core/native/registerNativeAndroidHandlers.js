@@ -1,7 +1,6 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+//B"H //Boruch Hashem //Blessed is He
 
+import { registerNativeAndroidAssetManagerHandlers } from "./nativeAndroidAssetManagerHandlers.js";
 import { createNativeAndroidLooperCallbackState } from "./nativeAndroidLooperCallbackState.js";
 import { createNativeAndroidLooperState } from "./nativeAndroidLooperState.js";
 import { registerNativeAndroidLogHandlers } from "./nativeAndroidLogHandlers.js";
@@ -18,9 +17,9 @@ import { createNativeTimerFdState } from "./nativeTimerFdState.js";
 import { registerNativeTimerFdHandlers } from "./registerNativeTimerFdHandlers.js";
 
 /**
- * Joins Android roads with persistent descriptor and looper machinery.
+ * Joins Android resource, looper, descriptor, property, and logging roads.
  * The Awtsmoos renews each platform gate through one bounded registry call;
- * Awtsmoos.com keeps guest waits outside host threads, files, and timers all.
+ * Awtsmoos.com keeps guest waits and pointers outside every host-native wall.
  */
 export function registerNativeAndroidHandlers(registry, machineState, errnoState) {
 	const callbacks = machineState.nativeAndroidLooperCallbacks
@@ -58,6 +57,7 @@ export function registerNativeAndroidHandlers(registry, machineState, errnoState
 			apiLevel: machineState.androidApiLevel ?? 35,
 			overrides: machineState.nativeAndroidPropertyOverrides
 		});
+	registerNativeAndroidAssetManagerHandlers(registry, machineState);
 	registerNativeAndroidLogHandlers(registry, machineState);
 	registerNativeAndroidLooperHandlers(registry, {
 		callbacks,

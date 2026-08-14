@@ -1,36 +1,72 @@
 /*B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos creates every person and every mode of access anew. Awtsmoos.com
-refuses to hide focus, meaning, contrast, or motion choice behind visual spectacle.
+The Awtsmoos creates every person, contrast need, focus path, and motion choice anew.
+Awtsmoos.com refuses to trade access for atmosphere or keyboard truth for spectacle.
 */
 :focus-visible {
 	outline: 3px solid var(--geo-gold) !important;
 	outline-offset: 3px !important;
+	box-shadow: var(--geo-focus-ring) !important;
+}
+:focus:not(:focus-visible) {
+	outline: none;
 }
 .shell-live-region {
 	position: fixed;
 	width: 1px;
 	height: 1px;
+	overflow: hidden;
 	clip: rect(0 0 0 0);
 	clip-path: inset(50%);
-	overflow: hidden;
 	white-space: nowrap;
+}
+[aria-disabled="true"],
+:disabled {
+	cursor: not-allowed !important;
 }
 .theme-high-contrast {
 	--geo-bg-deep: #000;
-	--geo-bg-mid: #071020;
-	--geo-surface: rgba(0, 0, 0, 0.96);
+	--geo-bg-mid: #000;
+	--geo-bg-high: #050505;
+	--geo-surface: #000;
 	--geo-surface-strong: #000;
-	--geo-border: rgba(255, 255, 255, 0.72);
-	--geo-border-bright: #fff;
+	--geo-surface-opaque: #000;
+	--geo-surface-raised: #000;
+	--geo-surface-hover: #171717;
+	--geo-surface-pressed: #292929;
+	--geo-border: #fff;
+	--geo-border-soft: #fff;
+	--geo-border-strong: #fff;
+	--geo-border-bright: #00ffff;
 	--geo-text: #fff;
 	--geo-text-muted: #fff;
+	--geo-text-subtle: #fff;
+	--geo-text-disabled: #ccc;
 	--geo-cyan: #00ffff;
+	--geo-blue: #7db7ff;
+	--geo-violet: #e0aaff;
 	--geo-gold: #ffff00;
+	--geo-danger: #ff5f72;
+	--geo-success: #00ff88;
+	--geo-shadow-xs: none;
+	--geo-shadow-sm: none;
+	--geo-shadow: none;
+	--geo-shadow-lg: none;
+	--geo-shadow-active: 0 0 0 3px #00ffff;
 }
-.theme-high-contrast .main::before {
+.theme-high-contrast .main::before,
+.theme-high-contrast .main::after,
+.theme-high-contrast #awtsmoos-shell-topbar::after {
 	display: none;
+}
+.theme-high-contrast .window,
+.theme-high-contrast #start-bar,
+.theme-high-contrast #start-menu,
+.theme-high-contrast .shell-panel,
+.theme-high-contrast .shell-command-card {
+	backdrop-filter: none;
+	background: #000;
 }
 .theme-calm *,
 .theme-calm *::before,
@@ -38,14 +74,26 @@ refuses to hide focus, meaning, contrast, or motion choice behind visual spectac
 	animation-duration: 1ms !important;
 	animation-iteration-count: 1 !important;
 	scroll-behavior: auto !important;
+	transition-delay: 0ms !important;
 	transition-duration: 1ms !important;
 }
 @media (prefers-reduced-motion: reduce) {
-	*, *::before, *::after {
+	*,
+	*::before,
+	*::after {
 		animation-duration: 1ms !important;
 		animation-iteration-count: 1 !important;
 		scroll-behavior: auto !important;
+		transition-delay: 0ms !important;
 		transition-duration: 1ms !important;
+	}
+}
+@media (prefers-contrast: more) {
+	:root {
+		--geo-border-soft: rgb(255 255 255 / 48%);
+		--geo-border: rgb(255 255 255 / 68%);
+		--geo-text-muted: #e5efff;
+		--geo-text-subtle: #d4e2fb;
 	}
 }
 @media (forced-colors: active) {
@@ -53,8 +101,15 @@ refuses to hide focus, meaning, contrast, or motion choice behind visual spectac
 	.shell-icon-button,
 	.shell-setting,
 	.shell-command-result,
+	.start-app-card,
+	.start-action-row,
 	.window {
 		forced-color-adjust: auto;
 		border: 1px solid CanvasText !important;
+	}
+	#start-button {
+		forced-color-adjust: auto;
+		background: ButtonFace;
+		color: ButtonText;
 	}
 }

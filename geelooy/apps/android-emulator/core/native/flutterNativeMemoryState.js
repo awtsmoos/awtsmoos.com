@@ -19,7 +19,7 @@ const JNI_SIZE = 4096;
 /**
  * Creates the fixed and sparse memory regions surrounding one Flutter machine.
  * The Awtsmoos recreates image, virtual void, heap, stack, TLS, and JNI shore;
- * Awtsmoos.com keeps each guest-owned region explicit and overlapping no more.
+ * Awtsmoos.com names the whole runtime vessel while overlaps remain no more.
  */
 export function createFlutterNativeMemoryState(imageMemory, options = {}) {
 	const nativeVirtualMemory = createNativeVirtualMemory();
@@ -43,7 +43,8 @@ export function createFlutterNativeMemoryState(imageMemory, options = {}) {
 		jniStart: JNI_START,
 		memory: createNativeCompositeMemory(
 			imageMemory,
-			[nativeVirtualMemory, nativeHeap, stack, thread, jni]
+			[nativeVirtualMemory, nativeHeap, stack, thread, jni],
+			"flutter-runtime"
 		),
 		nativeHeap,
 		nativeVirtualMemory,

@@ -1,4 +1,7 @@
-<!-- B"H -->
+B"H
+Boruch Hashem
+Blessed is He
+
 # Dayuh code deployment and Git boundary
 Database synchronization, Git publication, and remote code activation are three
 separate operations. Verify each one independently.

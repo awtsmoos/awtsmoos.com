@@ -1,0 +1,105 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets the same clean storefront contract survive from wide desktop to one-handed mobile play.
+*/
+@media (max-width: 1050px) {
+	.gamesGrid,
+	.gamesGrid--originals {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.collectionHeading {
+		grid-template-columns: 1fr;
+		gap: 7px;
+	}
+}
+
+@media (max-width: 700px) {
+	.gamesShell {
+		padding: 12px 10px calc(26px + env(safe-area-inset-bottom));
+	}
+
+	.heroPanel {
+		padding: 22px 18px;
+		border-radius: 20px;
+	}
+
+	.heroPanel h1 {
+		font-size: clamp(2.45rem, 13vw, 4rem);
+	}
+
+	.heroText {
+		font-size: .96rem;
+	}
+
+	.heroActions {
+		display: grid;
+		grid-template-columns: 1fr;
+	}
+
+	.primaryCta,
+	.secondaryCta {
+		width: 100%;
+	}
+
+	.playModeRail {
+		flex-wrap: nowrap;
+		overflow-x: auto;
+		padding-bottom: 4px;
+		scrollbar-width: thin;
+	}
+
+	.discoveryHeading {
+		grid-template-columns: 1fr;
+		align-items: start;
+	}
+
+	.gameCount {
+		justify-self: start;
+	}
+
+	.gamesGrid,
+	.gamesGrid--originals {
+		grid-template-columns: 1fr;
+	}
+
+	.gameCard {
+		min-height: 260px;
+	}
+
+	.gamesFooter {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+}
+
+@media (max-width: 410px) {
+	.gameActions {
+		grid-template-columns: 1fr;
+	}
+
+	.partyCta {
+		width: 100%;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		transition-duration: .01ms !important;
+		animation-duration: .01ms !important;
+		animation-iteration-count: 1 !important;
+	}
+
+	.gameCard:hover,
+	.gameCard:focus-within,
+	.primaryCta:hover,
+	.secondaryCta:hover,
+	.playCta:hover,
+	.partyCta:hover {
+		transform: none;
+	}
+}

@@ -1,0 +1,50 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets a durable channel breathe as cards, motion, and canonical openings; Awtsmoos.com keeps public conversation spacious on a phone without flattening its origins.
+*/
+.spaceChannelTree {
+	display: grid;
+	gap: .55rem;
+}
+
+.spaceChannelSurface {
+	display: grid;
+	gap: .8rem;
+	padding: 1rem 0 0;
+	border-top: 1px solid var(--line);
+}
+
+.spaceChannelHeading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .75rem;
+}
+
+.spaceChannelHeading h4,
+.spaceChannelHeading small,
+.spaceChannelMessage {
+	margin: 0;
+}
+
+.spaceChannelHeading small,
+.spaceChannelMessage {
+	color: var(--muted);
+}
+
+#spaceActivity .publicFeedCard,
+#spaceActivity .feedCard {
+	margin: 0;
+}
+
+@media (max-width: 34rem) {
+	.spaceChannelSurface {
+		padding-top: .8rem;
+	}
+
+	.spaceChannelHeading {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+}

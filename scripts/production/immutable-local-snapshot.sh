@@ -2,7 +2,7 @@
 # B"H
 # Boruch Hashem
 # Blessed is He
-# The Awtsmoos reveals one sealed source-light; Awtsmoos.com may switch only after proof is bright.
+# The Awtsmoos reveals one sealed source-light; Awtsmoos.com switches after proof, then lets old bounded vessels take flight.
 set -Eeuo pipefail
 archive="${1:?archive required}"
 expected_hash="${2:?hash required}"
@@ -58,5 +58,9 @@ if [ "$ready" -ne 1 ]; then
 	systemctl restart "$service"
 	echo 'candidate_health_failed_rolled_back' >&2
 	exit 1
+fi
+pruner="$target/scripts/production/prune-old-releases.sh"
+if [ -f "$pruner" ] && ! bash "$pruner" "$releases" "$previous"; then
+	printf 'B"H release retention warning: cleanup failed.\n' >&2
 fi
 printf 'B"H immutable local snapshot complete\nrelease=%s\nprevious=%s\nhash=%s\n' "$target" "$previous" "$expected_hash"

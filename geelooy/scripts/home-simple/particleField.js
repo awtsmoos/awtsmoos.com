@@ -1,99 +1,93 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-// The Awtsmoos gathers scattered points into a hidden spiral, where every letter turns softly around one center.
+// The Awtsmoos gathers a deterministic constellation into one GPU buffer, then binds time, depth, attention, and motion without waste.
 
 import { WebGlProgram } from "./webglProgram.js";
 
 export class ParticleField {
 	constructor(gl, settings) {
 		this.gl = gl;
-		this.settings = settings;
-		this.amount = settings.amount;
-		this.includesGlyphs = settings.includesGlyphs;
-		this.stride = this.includesGlyphs ? 5 : 4;
+		this.attributes = settings.attributes;
+		this.stride = settings.stride;
+		this.amount = settings.data.length / this.stride;
 		this.program = new WebGlProgram(gl, settings.vertexSource, settings.fragmentSource);
-		this.buffer = this.createBuffer();
+		this.buffer = this.createBuffer(settings.data);
 	}
 
-	createBuffer() {
-		const values = new Float32Array(this.amount * this.stride);
+	createBuffer(data) {
+		const buffer = this.gl.createBuffer();
 
-		for (let index = 0; index < this.amount; index += 1) {
-			this.writeParticle(values, index, index * this.stride);
+		if (!buffer) {
+			throw new Error("WebGL could not create a particle buffer.");
 		}
 
-		const buffer = this.gl.createBuffer();
 		this.gl.bindBuffer(this.gl.ARRAY_BUFFER, buffer);
-		this.gl.bufferData(this.gl.ARRAY_BUFFER, values, this.gl.STATIC_DRAW);
+		this.gl.bufferData(this.gl.ARRAY_BUFFER, data, this.gl.STATIC_DRAW);
 		return buffer;
 	}
 
-	writeParticle(values, index, offset) {
-		const point = this.settings.distribution === "galaxy"
-			? this.createGalaxyPoint(index)
-			: this.createSkyPoint();
-
-		values[offset] = point.x;
-		values[offset + 1] = point.y;
-		values[offset + 2] = point.depth;
-		values[offset + 3] = this.includesGlyphs
-			? index % 22
-			: 1 + point.depth * 1.2;
-
-		if (this.includesGlyphs) {
-			values[offset + 4] = 11 + point.depth * 7;
-		}
-	}
-
-	createSkyPoint() {
-		return {
-			x: Math.random() * 2 - 1,
-			y: Math.random() * 2 - 1,
-			depth: Math.random()
-		};
-	}
-
-	createGalaxyPoint(index) {
-		const progress = (index + .5) / this.amount;
-		const arm = index % 2;
-		const angle = progress * Math.PI * 5 + arm * Math.PI;
-		const radius = .15 + progress * .72;
-		const drift = (Math.random() - .5) * .08;
-
-		return {
-			x: Math.cos(angle) * radius * .82 + drift,
-			y: Math.sin(angle) * radius * .48 + drift,
-			depth: .35 + progress * .65
-		};
-	}
-
-	bind(time) {
+	bind(frameState) {
 		this.program.use();
 		this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffer);
-		const strideBytes = this.stride * Float32Array.BYTES_PER_ELEMENT;
-		this.bindAttribute("a_position", 3, strideBytes, 0);
-		this.bindAttribute(this.includesGlyphs ? "a_glyph" : "a_size", 1, strideBytes, 12);
-
-		if (this.includesGlyphs) {
-			this.bindAttribute("a_scale", 1, strideBytes, 16);
-		}
-
-		this.gl.uniform1f(this.program.uniform("u_time"), time);
+		this.bindAttributes();
+		this.setUniform1f("u_time", frameState.time);
+		this.setUniform1f("u_aspect", frameState.aspect);
+		this.setUniform1f("u_dpr", frameState.dpr);
+		this.setUniform1f("u_scroll", frameState.scroll);
+		this.setUniform1f("u_pointer_strength", frameState.pointerStrength);
+		this.setUniform2f("u_pointer", frameState.pointerX, frameState.pointerY);
+		this.setUniform2f(
+			"u_pointer_velocity",
+			frameState.pointerVelocityX,
+			frameState.pointerVelocityY
+		);
 	}
 
-	bindAttribute(name, size, stride, offset) {
-		const location = this.program.attribute(name);
+	bindAttributes() {
+		const strideBytes = this.stride * Float32Array.BYTES_PER_ELEMENT;
 
-		if (location < 0) {
-			return;
+		this.attributes.forEach(attribute => {
+			const location = this.program.attribute(attribute.name);
+
+			if (location < 0) {
+				return;
+			}
+
+			this.gl.enableVertexAttribArray(location);
+			this.gl.vertexAttribPointer(
+				location,
+				attribute.size,
+				this.gl.FLOAT,
+				false,
+				strideBytes,
+				attribute.offset * Float32Array.BYTES_PER_ELEMENT
+			);
+		});
+	}
+
+	setUniform1f(name, value) {
+		const location = this.program.uniform(name);
+
+		if (location !== null) {
+			this.gl.uniform1f(location, value);
 		}
+	}
 
-		this.gl.enableVertexAttribArray(location);
-		this.gl.vertexAttribPointer(location, size, this.gl.FLOAT, false, stride, offset);
+	setUniform2f(name, firstValue, secondValue) {
+		const location = this.program.uniform(name);
+
+		if (location !== null) {
+			this.gl.uniform2f(location, firstValue, secondValue);
+		}
 	}
 
 	draw() {
 		this.gl.drawArrays(this.gl.POINTS, 0, this.amount);
+	}
+
+	dispose() {
+		this.gl.deleteBuffer(this.buffer);
+		this.program.dispose();
 	}
 }

@@ -1,0 +1,89 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets translated discovery glow distinctly without overpowering Torah.
+ */
+
+.nav-card-translation-badge {
+	display: inline-flex;
+	align-items: center;
+	min-block-size: 24px;
+	padding: .2rem .45rem;
+	border: 1px solid rgba(96, 165, 250, .28);
+	border-radius: 999px;
+	font-size: .62rem;
+	font-weight: 900;
+	white-space: nowrap;
+}
+
+.nav-card-translation-badge.is-ready {
+	background: rgba(37, 99, 235, .18);
+	color: #bfdbfe;
+}
+
+.nav-card-translation-badge.is-missing {
+	background: rgba(120, 53, 15, .16);
+	border-color: rgba(251, 191, 36, .28);
+	color: #fde68a;
+}
+
+.nav-card-translation-badge.is-pending {
+	background: rgba(71, 85, 105, .24);
+	border-color: rgba(148, 163, 184, .25);
+	color: #cbd5e1;
+}
+
+.living-path-translation-search {
+	display: grid;
+	gap: .55rem;
+	padding: .75rem;
+	border: 1px solid rgba(96, 165, 250, .24);
+	border-radius: 16px;
+	background: linear-gradient(180deg, rgba(30, 58, 138, .12), rgba(7, 14, 28, .88));
+}
+
+.translation-search-heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .6rem;
+	color: #9fb6d0;
+	font-size: .68rem;
+}
+
+.translation-search-list {
+	display: grid;
+	gap: .5rem;
+}
+
+.translation-search-result {
+	display: grid;
+	gap: .28rem;
+	min-block-size: 48px;
+	padding: .7rem .78rem;
+	border: 1px solid rgba(125, 211, 252, .18);
+	border-radius: 12px;
+	background: rgba(15, 23, 42, .78);
+	color: #f8fafc;
+	text-decoration: none;
+}
+
+.translation-search-result strong {
+	font-size: .86rem;
+	line-height: 1.45;
+}
+
+.translation-search-source {
+	color: #cbd5e1;
+	font-size: .8rem;
+	line-height: 1.45;
+	text-align: right;
+}
+
+@media (max-width: 520px) {
+	.translation-search-heading {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+	.translation-search-result { padding: .8rem; }
+}

@@ -5,16 +5,12 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { executeInvokeOperation } from "../core/dalvik/operations/invokes.js";
-import {
-	classDefinition,
-	createDispatchFixture,
-	methodRecord
-} from "./dalvikDispatchFixture.mjs";
+import { classDefinition, createDispatchFixture, methodRecord } from "./dalvikDispatchFixture.mjs";
 
 /**
- * Proves end-to-end invoke-interface execution and trace evidence. The Awtsmoos
- * renews declared interface, concrete receiver, result, and record of the road;
- * Awtsmoos.com keeps failures grounded in actual guest heap types.
+ * Proves invoke-interface execution and current resolution testimony. The Awtsmoos
+ * recreates declaration, receiver, resolved signature, and result every instant;
+ * Awtsmoos.com keeps trace evidence synchronized with the method actually run.
  */
 test("invoke-interface executes and traces the resolved guest method", async () => {
 	const declared = methodRecord("Ltest/I;", "call", "()V", false);
@@ -25,11 +21,7 @@ test("invoke-interface executes and traces the resolved guest method", async () 
 		definitions: [
 			classDefinition("Ljava/lang/Object;"),
 			classDefinition("Ltest/I;", "Ljava/lang/Object;"),
-			classDefinition(
-				"Ltest/Impl;",
-				"Ljava/lang/Object;",
-				["Ltest/I;"]
-			)
+			classDefinition("Ltest/Impl;", "Ljava/lang/Object;", ["Ltest/I;"])
 		],
 		invokeGuest(record) {
 			invoked = record;
@@ -42,12 +34,7 @@ test("invoke-interface executes and traces the resolved guest method", async () 
 	});
 	const receiver = fixture.receiver("Ltest/Impl;");
 	const frame = createFrame(receiver);
-	await executeInvokeOperation({
-		index: 0,
-		name: "invoke-interface",
-		pc: 4,
-		registers: [0]
-	}, frame, fixture.context);
+	await executeInvokeOperation({ index: 0, name: "invoke-interface", pc: 4, registers: [0] }, frame, fixture.context);
 	assert.equal(invoked, implementation);
 	assert.equal(frame.pendingResult, 7);
 	assert.deepEqual(traced, {
@@ -57,11 +44,12 @@ test("invoke-interface executes and traces the resolved guest method", async () 
 		guestCode: true,
 		receiverType: "Ltest/Impl;",
 		resolution: "class-hierarchy",
-		resolvedSignature: implementation.signature
+		resolvedSignature: implementation.signature,
+		signature: implementation.signature
 	});
 });
 
-test("failed invokes preserve actual receiver and resolution evidence", async () => {
+test("failed invokes preserve receiver and resolution evidence", async () => {
 	const declared = methodRecord("Ltest/I;", "call", "()V", false);
 	const fixture = createDispatchFixture({
 		definitions: [
@@ -73,12 +61,7 @@ test("failed invokes preserve actual receiver and resolution evidence", async ()
 	});
 	const receiver = fixture.receiver("Ltest/Other;");
 	await assert.rejects(
-		executeInvokeOperation({
-			index: 0,
-			name: "invoke-interface",
-			pc: 8,
-			registers: [0]
-		}, createFrame(receiver), fixture.context),
+		executeInvokeOperation({ index: 0, name: "invoke-interface", pc: 8, registers: [0] }, createFrame(receiver), fixture.context),
 		error => {
 			assert.equal(error.code, "DALVIK_INTERFACE_RECEIVER_MISMATCH");
 			assert.equal(error.dalvikInvoke.receiverType, "Ltest/Other;");
@@ -92,10 +75,6 @@ test("failed invokes preserve actual receiver and resolution evidence", async ()
 function createFrame(receiver) {
 	return {
 		pendingResult: null,
-		registers: {
-			getMany() {
-				return [receiver];
-			}
-		}
+		registers: { getMany: () => [receiver] }
 	};
 }

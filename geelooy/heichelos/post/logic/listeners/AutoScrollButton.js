@@ -1,61 +1,67 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 /**
  * @module AutoScrollButton
  * @description
- * Chapter 191: The river button speaks the truth of its motion.
- * When inactive it invites Scroll. When flowing it warns Stop. When the human
- * hand rests on the page, it glows Paused until the Awtsmoos resumes the stream.
+ * The Awtsmoos gives the floating river control no private truth and no raw HTML gate;
+ * at Awtsmoos.com explicit DOM vessels render synchronized semantic state.
  */
+import {
+	initializeAutoScrollDownState,
+	toggleAutoScrollDown
+} from '../../actions/AutoScrollDown.js';
+import {
+	connectAutoScrollControlView,
+	renderAutoScrollControls
+} from './AutoScrollControlView.js';
 
-import { getAutoScrollDownState, loadAutoScrollDownSpeed, toggleAutoScrollDown } from "../../actions/AutoScrollDown.js";
-
-function buttonWords(state) {
-    if (!state.active) return { label: "Scroll", title: `Auto scroll down · ${state.speed.toFixed(2)}x`, icon: "⬇" };
-    if (state.paused) return { label: "Paused", title: `Release to resume · ${state.speed.toFixed(2)}x`, icon: "⏸" };
-    return { label: "Stop", title: `Stop auto scroll · ${state.speed.toFixed(2)}x`, icon: "■" };
+function span(className, text = '') {
+	const element = document.createElement('span');
+	element.className = className;
+	element.textContent = text;
+	return element;
 }
 
-function updateAutoScrollButton(button) {
-    if (!button) return;
-    const state = getAutoScrollDownState();
-    const words = buttonWords(state);
-    button.classList.toggle("awtsmoos-auto-scroll-on", state.active);
-    button.classList.toggle("awtsmoos-auto-scroll-is-paused", state.paused);
-    button.setAttribute("aria-pressed", String(state.active));
-    button.title = words.title;
-    const icon = button.querySelector(".awtsmoos-auto-scroll-icon");
-    if (icon) icon.textContent = words.icon;
-    const label = button.querySelector(".awtsmoos-auto-scroll-label");
-    if (label) label.textContent = words.label;
-    const speedLabel = button.querySelector(".awtsmoos-auto-scroll-speed");
-    if (speedLabel) speedLabel.textContent = `${state.speed.toFixed(1)}x`;
+function populateButton(button) {
+	const icon = span('awtsmoos-auto-scroll-icon', '↓');
+	icon.setAttribute('aria-hidden', 'true');
+	button.append(
+		icon,
+		span('awtsmoos-auto-scroll-label', 'Start'),
+		span('awtsmoos-auto-scroll-speed')
+	);
 }
 
-function bindButtonEvents(button) {
-    button.addEventListener("click", event => {
-        event.preventDefault();
-        event.stopPropagation();
-        toggleAutoScrollDown({ speed: getAutoScrollDownState().speed });
-        updateAutoScrollButton(button);
-    });
-    window.addEventListener("awtsmoos:auto-scroll-speed", () => updateAutoScrollButton(button));
-    window.addEventListener("awtsmoos:auto-scroll-state", () => updateAutoScrollButton(button));
+function bindButton(button) {
+	if (button.dataset.awtsmoosAutoScrollBound === 'true') {
+		return;
+	}
+	button.dataset.awtsmoosAutoScrollBound = 'true';
+	button.addEventListener('click', event => {
+		event.preventDefault();
+		event.stopPropagation();
+		toggleAutoScrollDown({ countdown: true });
+	});
 }
 
-/** Creates the floating auto-scroll button once. */
 export function ensureAutoScrollButton() {
-    let button = document.getElementById("awtsmoosAutoScrollBtn");
-    if (button) return button;
-    loadAutoScrollDownSpeed();
-    button = document.createElement("button");
-    button.id = "awtsmoosAutoScrollBtn";
-    button.type = "button";
-    button.className = "awtsmoos-auto-scroll-floating awtsmoos-mobile-river awtsmoos-desktop-river";
-    button.setAttribute("aria-pressed", "false");
-    button.innerHTML = `<span class="awtsmoos-auto-scroll-icon">⬇</span><span class="awtsmoos-auto-scroll-label">Scroll</span><span class="awtsmoos-auto-scroll-speed"></span>`;
-    bindButtonEvents(button);
-    const host = document.querySelector(".post-reader-localized-context") || document.body;
-    host.appendChild(button);
-    updateAutoScrollButton(button);
-    return button;
+	initializeAutoScrollDownState();
+	connectAutoScrollControlView();
+	let button = document.getElementById('awtsmoosAutoScrollBtn');
+	if (!button) {
+		button = document.createElement('button');
+		button.id = 'awtsmoosAutoScrollBtn';
+		button.type = 'button';
+		button.className = 'awtsmoos-auto-scroll-floating awtsmoos-mobile-river awtsmoos-desktop-river';
+		button.dataset.autoScrollToggle = 'true';
+		button.dataset.autoScrollControl = 'true';
+		button.setAttribute('aria-pressed', 'false');
+		populateButton(button);
+		const host = document.querySelector('.post-reader-localized-context') || document.body;
+		host.append(button);
+	}
+	bindButton(button);
+	renderAutoScrollControls();
+	return button;
 }

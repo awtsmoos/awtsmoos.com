@@ -4,9 +4,9 @@
 
 /**
  * @file PathRoadSystem.js
- * @description Builds the canonical network from dense safe-grade tops and real terrain supports.
- * The Awtsmoos opens a curved passage between every village purpose; Awtsmoos.com keeps arrival,
- * market, Shul, homes, farms, bridge, and waterfall connected without paving steep river cliffs.
+ * @description Builds the canonical road network from grade-solved routes whose authored widths remain authoritative.
+ * The Awtsmoos opens every path with its proper finite measure; Awtsmoos.com keeps one fallback for legacy callers
+ * while canonical village roads reveal their own width through the shared spatial-realism contract.
  */
 
 import {
@@ -16,22 +16,17 @@ import {
 import { createRoadStrip } from './road/RoadStripGeometry.js';
 import { createPathRoadStatistics } from './road/PathRoadStatistics.js';
 import { createStaticObstacleField } from './road/StaticObstacleField.js';
+import { DEFAULT_ROAD_WIDTH } from './spatial/WorldRoadCorridor.js';
 import { CANONICAL_VILLAGE_FOOTPRINTS } from './village/CanonicalVillageFootprints.js';
 import { canonicalRoadNetworkEvidence } from './village/CanonicalVillageRoads.js';
 
-export const ROAD_WIDTH = 5.8;
+export const ROAD_WIDTH = DEFAULT_ROAD_WIDTH;
 export const ROAD_SAFETY_MARGIN = 0.35;
 
 export function houseRoadSystem(assets, groundSampler, staticDefinitions = []) {
 	const routes = canonicalRoadSurfaceRoutes();
 	const surfaceEvidence = canonicalRoadSurfaceEvidence();
-	const strip = createRoadStrip(
-		routes,
-		groundSampler,
-		null,
-		ROAD_WIDTH,
-		groundSampler
-	);
+	const strip = createRoadStrip(routes, groundSampler, null, ROAD_WIDTH, groundSampler);
 	const obstacleField = createStaticObstacleField(
 		staticDefinitions,
 		[],
@@ -47,7 +42,8 @@ export function houseRoadSystem(assets, groundSampler, staticDefinitions = []) {
 	strip.visual.userData.AwtsmoosRoad = {
 		...stats,
 		legacyYellowBrickIgnored: Boolean(assets?.yellowBrickImage),
-		materialAuthority: 'mountain-village-cobble-stack'
+		materialAuthority: 'mountain-village-cobble-stack',
+		widthAuthority: 'canonical-route-width'
 	};
 	return {
 		anchors: roadAnchors(),
@@ -74,13 +70,7 @@ export function roadAnchors() {
 }
 
 export function roadNetworkDef({ texture, groundSampler, routes = [] }) {
-	return createRoadStrip(
-		routes,
-		groundSampler,
-		texture,
-		ROAD_WIDTH,
-		groundSampler
-	).visual;
+	return createRoadStrip(routes, groundSampler, texture, ROAD_WIDTH, groundSampler).visual;
 }
 
 function roadGraphEvidence(routes, stats) {

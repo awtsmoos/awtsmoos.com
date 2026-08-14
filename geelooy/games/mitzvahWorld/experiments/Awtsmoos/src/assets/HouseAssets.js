@@ -4,92 +4,86 @@
 
 /**
  * @file HouseAssets.js
- * @description Loads preferred public house textures without making the network sovereign.
- * The Awtsmoos renews wall, stone, road, wood, and earth beyond any fetched image;
- * Awtsmoos.com preserves every public URL while authored colors remain the fallback keilim.
+ * @description Loads verified house textures with conservative concurrency and a sequential semantic recovery pass.
+ * The Awtsmoos renews wall, stone, wood, and earth beyond every finite delay;
+ * Awtsmoos.com first opens two distant doors, then revisits any missing real surface alone so contention never masquerades as absence.
  */
 
-import {
-	TEXTURE_PURPOSES,
-	TEXTURE_URLS
-} from './TextureCatalog.js';
-import { highestResolutionSurface } from './HighestResolutionSurfaceCatalog.js';
+import { HOUSE_TEXTURE_CANDIDATES, houseTextureCandidateEntries } from './HouseTextureCandidates.js';
 
-const HOUSE_IMAGE_ENTRIES = Object.freeze([
-	entry('whiteBrickImage', TEXTURE_PURPOSES.houseWall, 'white-brick-house-wall'),
-	entry('redBrickImage', TEXTURE_PURPOSES.lavaPlatform, 'red-brick-lava-platform'),
-	entry('redBrick1Image', TEXTURE_URLS.bricks.red1, 'red-brick-variant-1'),
-	entry('redBrick2Image', TEXTURE_URLS.bricks.red2, 'red-brick-variant-2'),
-	entry('yellowBrickImage', TEXTURE_PURPOSES.road, 'yellow-brick-road'),
-	entry('goldImage', TEXTURE_PURPOSES.coin, 'gold-coin'),
-	entry('stoneImage', TEXTURE_PURPOSES.houseFloor, 'stone-house-floor'),
-	entry('woodImage', TEXTURE_PURPOSES.houseDoor, 'wood-door-roof'),
-	entry('dirt1Image', TEXTURE_URLS.terrain.dirt1, 'terrain-dirt-1'),
-	entry('dirt2Image', TEXTURE_URLS.terrain.dirt2, 'terrain-dirt-2'),
-	entry('dirtGrass1Image', TEXTURE_URLS.terrain.dirtGrass1, 'terrain-dirt-grass-1'),
-	entry('dirtGrass2Image', TEXTURE_URLS.terrain.dirtGrass2, 'terrain-dirt-grass-2'),
-	entry('terrainMixImage', highestResolutionSurface('dirt'), 'terrain-dirt-chai-pot')
-]);
+export const HOUSE_TEXTURE_LOAD_CONCURRENCY = 2;
+export const HOUSE_TEXTURE_CANDIDATE_TIMEOUT_MS = 30000;
+export const HOUSE_TEXTURE_RECOVERY_TIMEOUT_MS = 45000;
 
 export async function loadHouseAssets(loadFirstImage) {
-	const records = await Promise.all(
-		HOUSE_IMAGE_ENTRIES.map(definition => loadPreferredEntry(
-			definition,
-			loadFirstImage
-		))
+	if (typeof loadFirstImage !== 'function') throw new TypeError('House asset loading requires an image loader function.');
+	const firstPass = await mapWithConcurrency(
+		HOUSE_TEXTURE_CANDIDATES,
+		HOUSE_TEXTURE_LOAD_CONCURRENCY,
+		definition => loadPreferredEntry(definition, loadFirstImage, HOUSE_TEXTURE_CANDIDATE_TIMEOUT_MS)
 	);
-	const assets = Object.fromEntries(
-		records.map(record => [record.key, record.image])
-	);
+	const records = await recoverMissingEntries(firstPass, loadFirstImage);
+	const assets = Object.fromEntries(records.map(record => [record.key, record.image]));
 	assets.brickImage = assets.whiteBrickImage;
 	assets.lavaImage = assets.redBrickImage;
-	assets.terrainDirtImages = [
-		assets.dirt1Image,
-		assets.dirt2Image,
-		assets.dirtGrass1Image,
-		assets.dirtGrass2Image,
-		assets.terrainMixImage
-	];
-	assets.houseMaterialDegradation = records
-		.filter(record => !record.image)
-		.map(({ error, key, kind, url }) => ({ error, key, kind, url }));
-	assets.publicUrls = Object.fromEntries(
-		HOUSE_IMAGE_ENTRIES.map(definition => [definition.kind, definition.url])
-	);
+	assets.terrainDirtImages = [assets.dirt1Image, assets.dirt2Image, assets.dirtGrass1Image, assets.dirtGrass2Image, assets.terrainMixImage];
+	assets.houseMaterialDegradation = records.filter(record => !record.image).map(({ error, key, kind, url, urls }) => ({ error, key, kind, url, urls }));
+	assets.houseMaterialRecovery = records.filter(record => record.recovered).map(({ key, kind, url }) => ({ key, kind, url }));
+	assets.publicUrls = Object.fromEntries(HOUSE_TEXTURE_CANDIDATES.map(definition => [definition.kind, definition.url]));
 	return assets;
 }
 
 export function houseImageEntries() {
-	return HOUSE_IMAGE_ENTRIES.map(definition => ({ ...definition }));
+	return houseTextureCandidateEntries();
 }
 
-async function loadPreferredEntry(definition, loadFirstImage) {
+async function recoverMissingEntries(records, loadFirstImage) {
+	const output = [...records];
+	for (let index = 0; index < output.length; index += 1) {
+		if (output[index].image) continue;
+		const recovered = await loadPreferredEntry(HOUSE_TEXTURE_CANDIDATES[index], loadFirstImage, HOUSE_TEXTURE_RECOVERY_TIMEOUT_MS);
+		output[index] = recovered.image ? { ...recovered, recovered: true } : recovered;
+	}
+	return output;
+}
+
+async function loadPreferredEntry(definition, loadFirstImage, timeoutMs) {
 	let image = null;
 	let error = null;
 	try {
-		image = await loadFirstImage([definition.url], 15000);
+		image = await loadFirstImage(definition.urls, timeoutMs);
 	} catch (caught) {
 		error = caught?.message || String(caught);
 	}
 	if (!validImage(image)) image = null;
-	if (image) {
-		image.dataset ||= {};
-		image.dataset.AwtsmoosTextureKind = definition.kind;
-		image.dataset.requestedAlias = definition.url;
-	}
-	return {
-		...definition,
-		error: image ? null : error || 'unavailable',
-		image
+	if (image) tagImage(image, definition);
+	return { ...definition, error: image ? null : error || 'unavailable', image };
+}
+
+async function mapWithConcurrency(values, concurrency, action) {
+	const results = new Array(values.length);
+	let cursor = 0;
+	const worker = async () => {
+		while (cursor < values.length) {
+			const index = cursor++;
+			results[index] = await action(values[index]);
+		}
 	};
+	await Promise.all(Array.from({ length: Math.min(concurrency, values.length) }, worker));
+	return results;
 }
 
 function validImage(image) {
 	if (!image) return false;
-	if (image.naturalWidth === undefined) return true;
-	return image.naturalWidth > 0 && image.naturalHeight > 0;
+	const width = image.naturalWidth ?? image.videoWidth ?? image.width;
+	const height = image.naturalHeight ?? image.videoHeight ?? image.height;
+	return Number(width) > 0 && Number(height) > 0;
 }
 
-function entry(key, url, kind) {
-	return Object.freeze({ key, kind, url });
+function tagImage(image, definition) {
+	try {
+		if (!image.dataset) return;
+		image.dataset.AwtsmoosTextureKind = definition.kind;
+		image.dataset.requestedAlias = definition.url;
+	} catch {}
 }

@@ -1,0 +1,48 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews account testimony across desktop and phone alike.
+ * Awtsmoos.com collapses the balance grid and event rows before hiding truth,
+ * preserving readable Peruta state without shrinking touch targets.
+ */
+
+@media (max-width: 760px) {
+	.perutaUsage {
+		padding: 10px;
+	}
+
+	.perutaUsage__hero,
+	.perutaUsage__section {
+		padding: 14px;
+	}
+
+	.perutaUsage__sectionHeading {
+		align-items: start;
+		flex-direction: column;
+	}
+
+	.perutaUsage__balanceGrid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.perutaUsage__event {
+		grid-template-columns: 1fr;
+	}
+
+	.perutaUsage__event small {
+		grid-column: auto;
+	}
+}
+
+@media (max-width: 460px) {
+	.perutaUsage__balanceGrid {
+		grid-template-columns: 1fr;
+	}
+
+	.perutaUsage__button,
+	.perutaUsage__purchase {
+		width: 100%;
+	}
+}

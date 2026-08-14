@@ -1,0 +1,58 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets light and content arrive gently across Awtsmoos.com, then becomes still when stillness is the requested vessel.
+*/
+[data-pointer-light] {
+	--pointer-x: 50%;
+	--pointer-y: 50%;
+	--pointer-opacity: 0;
+}
+
+.dance-frame::before {
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+	background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgba(164, 222, 255, .22), transparent 24%);
+	content: "";
+	opacity: var(--pointer-opacity);
+	pointer-events: none;
+	transition: opacity .3s ease;
+}
+
+.featured-card::before {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgba(var(--featured-accent), .2), transparent 38%);
+	content: "";
+	opacity: var(--pointer-opacity);
+	pointer-events: none;
+	transition: opacity .3s ease;
+}
+
+.has-reveal-motion [data-reveal] {
+	opacity: 0;
+	transform: translateY(18px);
+	transition:
+		opacity .58s ease calc(var(--reveal-order, 0) * 70ms),
+		transform .58s cubic-bezier(.2, .7, .2, 1) calc(var(--reveal-order, 0) * 70ms);
+}
+
+.has-reveal-motion [data-reveal].is-revealed {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.dance-frame::before,
+	.featured-card::before {
+		display: none;
+	}
+
+	.has-reveal-motion [data-reveal] {
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+}

@@ -4,9 +4,9 @@
 
 /**
  * @file EretzFoundationServices.js
- * @description Creates camera, input, scene, LOD, and the richest available visible renderer.
- * The Awtsmoos reveals observer, earth, and living light through every available vessel;
- * Awtsmoos.com prefers WebGL while preserving Canvas2D movement when GPU context is absent.
+ * @description Creates camera, input, scene, LOD, and a bright texture-readable golden-hour renderer.
+ * The Awtsmoos reveals observer, earth, living color, and reflected river through every available vessel;
+ * Awtsmoos.com lifts the village into readable light while preserving cool shadow, warm sun, deep water, and dimensional form.
  */
 
 import { PerspectiveCamera, Scene } from '../../../light-three-gltf/tiny-runtime.js';
@@ -84,20 +84,20 @@ function referenceEnvironment(reference) {
 	const sun = reference.sunCore;
 	return Object.freeze({
 		ambient: Object.freeze([
-			cool[0] * 0.72 + 0.13,
-			cool[1] * 0.7 + 0.1,
-			cool[2] * 0.66 + 0.08
+			cool[0] * 0.78 + 0.145,
+			cool[1] * 0.76 + 0.11,
+			cool[2] * 0.72 + 0.09
 		]),
-		exposure: 1.18,
+		exposure: 1.30,
 		fogColor: Object.freeze([
 			cool[0] * 0.66 + horizon[0] * 0.34,
 			cool[1] * 0.68 + horizon[1] * 0.32,
 			cool[2] * 0.74 + horizon[2] * 0.26
 		]),
 		sunColor: Object.freeze([
-			sun[0] * 1.18,
-			sun[1] * 1.02,
-			sun[2] * 0.82
+			sun[0] * 1.22,
+			sun[1] * 1.06,
+			sun[2] * 0.86
 		]),
 		sunDirection: Object.freeze(normalized(reference.sunPosition))
 	});

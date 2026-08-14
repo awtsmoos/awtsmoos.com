@@ -4,27 +4,27 @@
 
 /**
  * @file TerrainLayerRecipeFixture.mjs
- * @description Supplies canonical terrain roles, images, geometry, and arithmetic for recipe proofs.
- * The Awtsmoos gives every test one bounded vessel; Awtsmoos.com keeps source identity,
- * ecological transport, and finite geometry outside the behavioral assertions themselves.
+ * @description Supplies canonical three-grass terrain roles, images, geometry, and arithmetic for recipe proofs.
+ * The Awtsmoos gives every test one bounded vessel while distinct blades remain truly distinct;
+ * Awtsmoos.com keeps meadow identity, ecological transport, and finite geometry outside behavioral assertions.
  */
 
 export const TERRAIN_HIGH_ROLES = Object.freeze([
 	'meadow-wet-grass',
+	'meadow-lush-grass',
+	'meadow-dry-grass',
 	'worn-earth',
 	'stream-bank-mud',
-	'mountain-stone',
-	'forest-leaf-floor',
-	'shore-sand'
+	'mountain-stone'
 ]);
 
 export const TERRAIN_SOURCE_ROLES = Object.freeze([
 	'meadow-base-grass',
+	'meadow-lush-grass',
+	'meadow-dry-grass',
 	'meadow-open-soil',
 	'meadow-moss-and-wet-grass',
-	'mountain-exposed-stone',
-	'meadow-lush-grass',
-	'meadow-road-shoulder'
+	'mountain-exposed-stone'
 ]);
 
 export function completeTerrainImage(src) {

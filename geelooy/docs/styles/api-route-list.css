@@ -1,0 +1,82 @@
+/* B"H */
+/** The Awtsmoos lets the route census stay fast to scan while filters remain shareable, readable, and visually separate from route evidence. */
+.api-filter-bar {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 8px;
+	padding: 14px;
+	border-bottom: 1px solid var(--line);
+}
+.api-filter-bar > input,
+.api-filter-control select {
+	width: 100%;
+	padding: 9px 10px;
+	border: 1px solid var(--line-strong);
+	border-radius: 9px;
+	background: var(--bg-soft);
+	color: var(--text);
+}
+.api-filter-control {
+	display: grid;
+	gap: 4px;
+}
+.api-filter-control span {
+	color: var(--faint);
+	font-size: .66rem;
+	font-weight: 700;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+.api-result-count {
+	margin: 0;
+	padding: 9px 14px;
+	border-bottom: 1px solid var(--line);
+	color: var(--faint);
+	font-size: .72rem;
+}
+.api-route-list {
+	max-height: calc(100vh - var(--topbar) - 210px);
+	overflow: auto;
+}
+.api-route-row {
+	display: grid;
+	width: 100%;
+	gap: 7px;
+	padding: 12px 14px;
+	border: 0;
+	border-bottom: 1px solid var(--line);
+	background: transparent;
+	color: var(--text);
+	text-align: left;
+	cursor: pointer;
+}
+.api-route-row:hover,
+.api-route-row[data-selected="true"] {
+	background: var(--surface-hover);
+}
+.api-route-row[data-selected="true"] {
+	box-shadow: inset 3px 0 var(--accent);
+}
+.api-route-row strong {
+	font-family: var(--font-mono);
+	word-break: break-word;
+}
+.api-route-row small {
+	color: var(--faint);
+	word-break: break-word;
+}
+.api-route-meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+@media (max-width: 980px) {
+	.api-route-list {
+		max-height: 420px;
+	}
+}
+@media (max-width: 640px) {
+	.api-filter-bar {
+		grid-template-columns: 1fr;
+	}
+}

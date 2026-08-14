@@ -2,103 +2,109 @@
 //Boruch Hashem
 //Blessed is He
 
+import { OpenWorldHud } from '../open-world/open-world-hud.js';
 import { DailyMissionService } from './daily-mission-service.js';
+import { LivingCityInteractionSystem } from './living-city-interaction-system.js';
 import { LivingCityStage } from './living-city-stage.js';
+import {
+	collectLivingCityElements,
+	guideFallback,
+	LivingCityModeStore,
+	publishLivingCityWitness
+} from './living-city-service-support.js';
 
 /**
  * @module LivingCityService
  * @description
- * One visual service joins the real procedural city to guide text, optional
- * difficulty, daily purpose, and persistent light. The Awtsmoos joins these
- * finite layers while Awtsmoos.com leaves the historical civic economy untouched.
+ * The Awtsmoos renews traveler, visible city, daily purpose, and one interaction composition while every mature domain retains its own law;
+ * Awtsmoos.com keeps civic, ecology, Sefirah, encounter, and Realm dispatch behind LivingCityInteractionSystem so this service remains a session/view coordinator.
+ * Difficulty, district progress, preserved position, and HUD behavior remain established vessels.
  */
 export class LivingCityService {
-	constructor(root, options) {
-		this.root = root;
+	constructor(root, options = {}) {
 		this.progress = options.progress;
-		this.definitions = options.definitions;
-		this.onSelect = options.onSelect;
+		this.definitions = options.definitions || [];
+		this.onInteract = options.onInteract || (() => {});
 		this.missions = new DailyMissionService();
-		this.elements = collect(root);
-		this.modeKey = 'awtsmoos-seven-worlds-mode';
-		this.elements.mode.value = this.savedMode();
-		this.elements.mode.addEventListener('change', () => this.saveMode());
-		this.city = new LivingCityStage(this.elements.stage, {
-			progress: this.progress,
-			definitions: this.definitions,
-			onSelect: this.onSelect
+		this.elements = collectLivingCityElements(root);
+		this.modeStore = new LivingCityModeStore();
+		this.interactions = new LivingCityInteractionSystem(this.onInteract);
+		this.civic = this.interactions.civic;
+		this.positionState = { x: 0, z: 7 };
+		this.city = null;
+		this.elements.mode.value = this.modeStore.load();
+		this.modeHandler = () => this.modeStore.save(this.mode());
+		this.elements.mode.addEventListener('change', this.modeHandler);
+		this.hud = new OpenWorldHud(this.elements.hud, {
+			onDirection: (x, z) => this.city?.setDirection(x, z),
+			onInteract: () => this.city?.interact()
 		});
+		this.hud.mount();
+		publishLivingCityWitness(this);
 	}
 
-	show() {
+	show(focusId = null) {
 		this.refresh();
-		this.city.mount();
+		if (!this.city) {
+			this.city = new LivingCityStage(this.elements.stage, {
+				progress: this.progress,
+				definitions: this.definitions,
+				civic: this.civic.service,
+				initialPosition: this.positionState,
+				onContext: context => this.handleContext(context),
+				onInteract: context => this.interactions.handle(context, this.hud)
+			}).mount();
+			this.interactions.attach(this.city);
+		}
+		if (focusId) {
+			this.city.focusDistrict(focusId);
+		}
 		this.elements.guide.textContent = this.city.message();
+		publishLivingCityWitness(this);
+	}
+
+	suspend() {
+		if (!this.city) {
+			return;
+		}
+		this.positionState = this.city.position();
+		this.city.destroy();
+		this.city = null;
+		this.interactions.attach(null);
+		this.hud.release();
+		this.hud.context(null);
+		publishLivingCityWitness(this);
 	}
 
 	hide() {
-		this.city.destroy();
+		this.suspend();
 	}
 
 	refresh() {
 		const city = this.progress.city();
 		const mission = this.missions.view(this.progress);
-		this.elements.light.textContent = `${city.light} city light`;
+		this.elements.light.textContent = `${city.light} light`;
 		this.elements.mission.textContent = mission.label;
 		this.elements.missionProgress.textContent = mission.progress;
-		if (!this.city.stage) {
-			this.elements.guide.textContent = guideFallback(city);
-		}
+		this.elements.guide.textContent = this.city?.message() || guideFallback(city);
 	}
 
 	mode() {
 		return this.elements.mode.value;
 	}
 
-	savedMode() {
-		try {
-			const saved = localStorage.getItem(this.modeKey);
-			return ['relaxed', 'standard', 'challenge'].includes(saved) ? saved : 'relaxed';
-		} catch {
-			return 'relaxed';
-		}
+	handleContext(context) {
+		this.hud.context(context);
+		publishLivingCityWitness(this);
 	}
 
-	saveMode() {
-		try {
-			localStorage.setItem(this.modeKey, this.mode());
-		} catch {
-			// Difficulty remains valid for the active page.
-		}
+	position() {
+		return this.city?.position() || { ...this.positionState };
 	}
 
 	destroy() {
-		this.city.destroy();
+		this.suspend();
+		this.hud.destroy();
+		this.elements.mode.removeEventListener('change', this.modeHandler);
 	}
-}
-
-function collect(root) {
-	return {
-		stage: required(root, '#cityStage'),
-		guide: required(root, '#guideMessage'),
-		mission: required(root, '#dailyMission'),
-		missionProgress: required(root, '#dailyMissionProgress'),
-		mode: required(root, '#difficultyMode'),
-		light: required(root, '#cityLight')
-	};
-}
-
-function required(root, selector) {
-	const element = root.querySelector(selector);
-	if (!element) {
-		throw new Error(`B"H | Missing living-city element: ${selector}`);
-	}
-	return element;
-}
-
-function guideFallback(city) {
-	if (city.restored) {
-		return `${city.restored} districts are awake. Choose the next place to strengthen.`;
-	}
-	return 'Choose a district to begin restoring the city.';
 }

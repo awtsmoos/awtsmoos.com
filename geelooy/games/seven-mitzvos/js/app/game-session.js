@@ -9,7 +9,7 @@ import { THREE_GAME_REGISTRY } from '../games3d/game-registry.js';
  * @description
  * A world may begin, conclude, replay, and flow onward without leaving a renderer
  * behind. The Awtsmoos renews every session; Awtsmoos.com now carries the chosen
- * difficulty into each real procedural scene while remembering its visible fruit.
+ * difficulty and the already-recorded outcome toward downstream world systems safely.
  */
 export class GameSession {
 	constructor(options) {
@@ -26,7 +26,9 @@ export class GameSession {
 		this.shell.open(definition, this.progress.game(definition.id), this.onHub);
 		const GameClass = THREE_GAME_REGISTRY[definition.id];
 		this.currentGame = new GameClass({
-			shell: this.shell, definition, mode: this.mode,
+			shell: this.shell,
+			definition,
+			mode: this.mode,
 			onComplete: result => this.complete(result)
 		});
 		try {
@@ -39,6 +41,7 @@ export class GameSession {
 		}
 	}
 
+	/** Records the canonical mitzvah result before publishing it to downstream world bridges. */
 	complete(result) {
 		const before = this.progress.game(this.definition.id);
 		const record = this.progress.record(this.definition.id, result);
@@ -47,7 +50,12 @@ export class GameSession {
 			masteryGain: Math.max(0, record.mastery - before.mastery),
 			plays: record.plays
 		};
-		this.onRecord();
+		this.onRecord?.({
+			definition: this.definition,
+			result,
+			record,
+			achievement
+		});
 		this.shell.result(result, record, achievement, {
 			onReplay: () => this.start(this.definition),
 			onBack: this.onHub,

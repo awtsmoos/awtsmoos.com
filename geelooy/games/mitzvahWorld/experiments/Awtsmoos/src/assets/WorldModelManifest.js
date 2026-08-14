@@ -2,18 +2,16 @@
 // Boruch Hashem
 // Blessed is He
 
-import { remoteModelRecord } from './RemoteModelCatalog.js';
-
 /**
  * @file WorldModelManifest.js
- * @description Preserves gameplay roles, placements, budgets, and remote model truth.
- * The Awtsmoos keeps every creature and tool in its measured place;
- * Awtsmoos.com streams immutable Drive bytes while legacy manifest contracts remain whole.
+ * @description Preserves optional non-tree imported model roles, placements, budgets, and immutable remote truth.
+ * The Awtsmoos lets creature, tool, flower, bush, and stone retain finite identity while Awtsmoos.com
+ * excludes every structural tree because the canonical deep procedural forest alone owns trunk, branch, canopy, and species.
  */
 
+import { remoteModelRecord } from './RemoteModelCatalog.js';
+
 export const WORLD_MODEL_MANIFEST = Object.freeze({
-	'normal-tree': model('NormalTree_5.glb', 'flora', false, 2),
-	'pine-tree': model('PineTree_3.glb', 'flora', false, 2),
 	'flower-clump': model('Flower_4_Clump.glb', 'flora', false, 4),
 	'flower-bush': model('Bush_Large_Flowers.glb', 'flora', false, 3),
 	'river-rock': model('Rock_2.glb', 'terrain', false, 4),
@@ -33,8 +31,6 @@ export const WORLD_MODEL_MANIFEST = Object.freeze({
 });
 
 export const WORLD_MODEL_PLACEMENTS = Object.freeze([
-	placement('normal-tree', -94, -104, 2.5, 0.2),
-	placement('pine-tree', 98, -124, 2.8, -0.4),
 	placement('flower-clump', 68, -51, 1.4, 0),
 	placement('flower-bush', -42, 13, 1.3, 0.8),
 	placement('river-rock', -17, 34, 2.2, 0.3),
@@ -47,7 +43,7 @@ export const WORLD_MODEL_PLACEMENTS = Object.freeze([
 ]);
 
 export const WORLD_MODEL_GROUPS = Object.freeze({
-	forest: Object.freeze(['normal-tree', 'pine-tree', 'flower-clump', 'flower-bush', 'river-rock']),
+	nature: Object.freeze(['flower-clump', 'flower-bush', 'river-rock']),
 	village: Object.freeze(['axe-small', 'wooden-staff', 'sword', 'shield', 'book', 'scroll', 'chest']),
 	wildlife: Object.freeze(['snake', 'snake-angry', 'cow', 'sheep', 'rat', 'spider'])
 });
@@ -61,7 +57,9 @@ export function worldModelManifestEvidence() {
 	return Object.freeze({
 		bytes: definitions.reduce((sum, item) => sum + item.bytes, 0),
 		models: definitions.length,
-		remoteOnly: definitions.every(item => item.url.startsWith('https://awtsmoos.com/sites/firebase_drive_migration/'))
+		remoteOnly: definitions.every(item => item.url.startsWith('https://awtsmoos.com/sites/firebase_drive_migration/')),
+		structuralTreeAuthority: 'awtsmoos-procedural-core',
+		structuralTreeModels: 0
 	});
 }
 

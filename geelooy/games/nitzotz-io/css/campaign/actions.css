@@ -1,0 +1,17 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews the launch action as a clear foothold rather than a frosted obstruction;
+ * Awtsmoos.com keeps the primary gateway sticky while stable opacity replaces GPU-heavy blur.
+ */
+.hero-actions {
+	background: rgba(3, 4, 16, 0.88);
+	border-radius: 24px;
+	bottom: -1px;
+	box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
+	padding: 10px;
+	position: sticky;
+	z-index: 2;
+}

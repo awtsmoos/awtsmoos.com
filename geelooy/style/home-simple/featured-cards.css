@@ -1,0 +1,117 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+Each featured card is a small keli: distinct light, shared structure, and one honest
+path deeper into Awtsmoos.com—solid enough to stand without blur or glass.
+*/
+.featured-card {
+	--featured-accent: 112, 190, 255;
+	position: relative;
+	isolation: isolate;
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	align-content: space-between;
+	gap: .9rem;
+	min-height: 220px;
+	padding: 1rem;
+	overflow: hidden;
+	border: 1px solid rgba(var(--featured-accent), .34);
+	border-radius: 1.2rem;
+	background: #0a172b;
+	box-shadow: 0 18px 46px rgba(0, 0, 0, .26);
+	transition: border-color .2s ease, background .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+
+.featured-card > * {
+	position: relative;
+	z-index: 1;
+}
+
+.featured-card::after {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	width: 46%;
+	height: 38%;
+	border-radius: 100% 0 0 0;
+	background: rgba(var(--featured-accent), .08);
+	content: "";
+	pointer-events: none;
+}
+
+.featured-number {
+	color: rgba(var(--featured-accent), .72);
+	font-size: .58rem;
+	font-weight: 850;
+	letter-spacing: .1em;
+}
+
+.featured-symbol {
+	display: grid;
+	place-items: center;
+	width: 2.75rem;
+	height: 2.75rem;
+	border: 1px solid rgba(var(--featured-accent), .5);
+	border-radius: .86rem;
+	background: #10263e;
+	color: rgb(var(--featured-accent));
+	font-size: 1rem;
+	font-weight: 900;
+}
+
+.featured-card > div {
+	grid-column: 1 / -1;
+	align-self: end;
+}
+
+.featured-card h3 {
+	margin: .35rem 0 .45rem;
+	font-size: 1.1rem;
+	letter-spacing: -.035em;
+}
+
+.featured-card p {
+	margin: 0;
+	color: #96a5ba;
+	font-size: .72rem;
+	line-height: 1.5;
+}
+
+.featured-card > b {
+	color: rgba(var(--featured-accent), .9);
+	font-size: .9rem;
+}
+
+.featured-card:hover {
+	border-color: rgba(var(--featured-accent), .76);
+	background: #10243b;
+	box-shadow: 0 24px 58px rgba(0, 0, 0, .34);
+	transform: translateY(-4px);
+}
+
+.featured-card:focus-visible {
+	outline: 3px solid var(--focus-ring);
+	outline-offset: 3px;
+}
+
+.featured-card--torah {
+	--featured-accent: 99, 178, 255;
+}
+
+.featured-card--apps {
+	--featured-accent: 104, 220, 160;
+}
+
+.featured-card--games {
+	--featured-accent: 245, 121, 164;
+}
+
+.featured-card--os {
+	--featured-accent: 148, 126, 255;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.featured-card {
+		transition: none;
+	}
+}

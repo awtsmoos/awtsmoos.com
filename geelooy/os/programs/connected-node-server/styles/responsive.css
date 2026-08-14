@@ -1,0 +1,51 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews full-control compute across wide desktop, tablet, and phone.
+ * Awtsmoos.com collapses the control plane around the server before shrinking
+ * touch targets, hiding logs, or making Peruta testimony unreadable.
+ */
+
+@media (max-width: 760px) {
+	.connectedServer {
+		padding: 10px;
+	}
+
+	.connectedServer__form,
+	.connectedServer__usageGrid {
+		grid-template-columns: 1fr;
+	}
+
+	.connectedServer__hero,
+	.connectedServer__form,
+	.connectedServer__statusPanel,
+	.connectedServer__logsPanel,
+	.connectedServer__usagePanel {
+		padding: 14px;
+	}
+
+	.connectedServer__controls {
+		display: grid;
+		grid-template-columns: 1fr;
+	}
+
+	.connectedServer__button,
+	.connectedServer__preview {
+		width: 100%;
+		justify-content: center;
+		text-align: center;
+	}
+
+	.connectedServer__logs {
+		max-height: 340px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.connectedServer__button,
+	.connectedServer__preview {
+		transition: none;
+	}
+}

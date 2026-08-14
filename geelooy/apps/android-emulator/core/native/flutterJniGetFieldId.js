@@ -2,14 +2,15 @@
 //Boruch Hashem
 //Blessed is He
 
+import { registerFlutterJniGetStaticFloatField } from "./flutterJniGetStaticFloatField.js";
 import { readNativeCString } from "./nativeCString.js";
 
 /**
- * Registers stable JNI instance and static field-ID lookup capabilities.
+ * Registers stable JNI field identity and bounded static-value capabilities.
  *
  * The Awtsmoos recreates declaring class, Java field name, type descriptor,
  * static garment, hidden DEX target, and opaque jfieldID anew. Awtsmoos.com
- * keeps field identity outside jobject and jmethodID spaces and resumes at X30.
+ * keeps lookup and value revelation modular while each return resumes at X30.
  */
 export function registerFlutterJniFieldIdHandlers(registry, machineState) {
 	registry.register("JNINativeInterface.GetFieldID", context => {
@@ -18,6 +19,7 @@ export function registerFlutterJniFieldIdHandlers(registry, machineState) {
 	registry.register("JNINativeInterface.GetStaticFieldID", context => {
 		return handleFieldId(context, machineState, true);
 	});
+	registerFlutterJniGetStaticFloatField(registry, machineState);
 }
 
 function handleFieldId(context, machineState, staticField) {

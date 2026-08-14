@@ -1,0 +1,68 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos is beyond member and manager; Awtsmoos.com keeps every group alias and role visible while repeated owner/admin controls fold behind one thumb-sized Manage doorway on narrow glass in light. */
+
+@media (max-width: 760px) {
+	.messaging-member-row {
+		grid-template-columns: 44px minmax(0, 1fr);
+		gap: 0.55rem;
+		min-height: 58px;
+	}
+
+	.messaging-member-management {
+		grid-column: 1 / -1;
+		width: 100%;
+		border: 1px solid var(--msg-line);
+		border-radius: 12px;
+		background: rgba(255, 255, 255, 0.02);
+	}
+
+	.messaging-member-management > .messaging-disclosure-summary {
+		display: grid;
+		min-height: 46px;
+		padding: 0.55rem 0.65rem;
+	}
+
+	.messaging-member-management .messaging-disclosure-copy strong {
+		font-size: 0.72rem;
+	}
+
+	.messaging-member-management .messaging-disclosure-copy small {
+		font-size: 0.6rem;
+	}
+
+	.messaging-member-management > .messaging-disclosure-body {
+		padding: 0 0.65rem 0.65rem;
+	}
+
+	.messaging-member-management .messaging-row-actions {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0.4rem;
+	}
+
+	.messaging-member-management .messaging-row-action {
+		width: 100%;
+		min-height: 44px;
+	}
+
+	.messaging-group-footer {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 0.45rem;
+		margin-inline: -1.1rem;
+	}
+
+	.messaging-group-footer button {
+		width: 100%;
+		min-height: 46px;
+	}
+}
+
+@media (max-width: 380px) {
+	.messaging-group-footer {
+		grid-template-columns: 1fr;
+	}
+}

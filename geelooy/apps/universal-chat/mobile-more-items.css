@@ -1,0 +1,94 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos is beyond category and destination; Awtsmoos.com gives secondary mobile doors one grouped thumb-first grammar so More feels like a map of living rooms rather than a miscellaneous drawer in light. */
+
+.messaging-mobile-more-group {
+	display: grid;
+	gap: 0.38rem;
+}
+
+.messaging-mobile-more-group + .messaging-mobile-more-group {
+	padding-top: 0.25rem;
+	border-top: 1px solid var(--msg-line);
+}
+
+.messaging-mobile-more-group h3 {
+	margin: 0;
+	padding: 0 0.2rem;
+	color: var(--msg-muted);
+	font-size: 0.62rem;
+	font-weight: 820;
+	letter-spacing: 0.09em;
+	text-transform: uppercase;
+}
+
+.messaging-mobile-more-grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 0.38rem;
+}
+
+.messaging-mobile-more-item {
+	display: grid;
+	grid-template-columns: 38px minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 0.65rem;
+	min-height: 64px;
+	padding: 0.55rem 0.65rem;
+	border: 1px solid var(--msg-line);
+	border-radius: 14px;
+	background: rgba(255, 255, 255, 0.025);
+	color: var(--msg-text);
+	text-align: left;
+}
+
+.messaging-mobile-more-item > .messaging-icon {
+	width: 22px;
+	height: 22px;
+	margin: auto;
+	color: var(--msg-soft);
+}
+
+.messaging-mobile-more-item > span {
+	display: grid;
+	min-width: 0;
+	gap: 0.1rem;
+}
+
+.messaging-mobile-more-item strong {
+	font-size: 0.8rem;
+	line-height: 1.25;
+}
+
+.messaging-mobile-more-item small {
+	overflow: hidden;
+	color: var(--msg-muted);
+	font-size: 0.65rem;
+	line-height: 1.35;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.messaging-mobile-more-item::after {
+	content: "›";
+	color: rgba(220, 245, 233, 0.36);
+	font-size: 1rem;
+}
+
+.messaging-mobile-more-item.is-active {
+	border-color: rgba(121, 224, 183, 0.24);
+	background: rgba(121, 224, 183, 0.11);
+}
+
+.messaging-mobile-more-item.is-active > .messaging-icon,
+.messaging-mobile-more-item.is-active::after {
+	color: var(--msg-accent);
+}
+
+@media (min-width: 560px) and (max-width: 760px) {
+	.messaging-mobile-more-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}

@@ -1,0 +1,40 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Every matched verse receives two honest doors: the Awtsmoos reader within and
+ * explicit outside exploration for translations and commentary.
+ */
+.awtsmoos-tanach-result-group {
+	display: grid;
+	overflow: hidden;
+	border: 1px solid rgb(127 127 127 / 35%);
+	border-radius: .8rem;
+	background: rgb(127 127 127 / 4%);
+}
+
+.awtsmoos-tanach-result-group .awtsmoos-tanach-result {
+	border: 0;
+	border-radius: 0;
+}
+
+.awtsmoos-tanach-result b {
+	color: rgb(45 110 220);
+	font-size: .75rem;
+}
+
+.awtsmoos-tanach-commentary-link {
+	padding: .7rem .85rem;
+	border-top: 1px solid rgb(127 127 127 / 22%);
+	background: rgb(45 110 220 / 7%);
+	color: inherit;
+	font-size: .78rem;
+	font-weight: 800;
+	text-decoration: none;
+}
+
+.awtsmoos-tanach-commentary-link:hover,
+.awtsmoos-tanach-commentary-link:focus-visible {
+	background: rgb(45 110 220 / 15%);
+	outline: 3px solid rgb(45 110 220 / 45%);
+	outline-offset: -3px;
+}

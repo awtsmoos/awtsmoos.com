@@ -1,0 +1,77 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-games-chess-9ba46d03",
+	"path": "geelooy/games/chess",
+	"type": "game",
+	"family": {
+		"id": "games",
+		"title": "Games and Worlds"
+	},
+	"title": "Ultimate Chess AI",
+	"entries": [
+		"index.html",
+		"main.js",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/games/chess/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/GAMES.md",
+		"docs/APPS/GAMES_AND_SIMULATION.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-chess-9ba46d03.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 35,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 36,
+	"symbolSummary": {
+		"files": 28,
+		"classes": 16,
+		"functions": 85,
+		"exports": 44,
+		"samples": [
+			"evaluate",
+			"orderMoves",
+			"quiesce",
+			"search",
+			"searchRoot",
+			"decodeMove",
+			"processRawBook",
+			"initializeEngine",
+			"forgeUniverseIndices",
+			"getLSBIndex",
+			"popBit",
+			"popcount"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/games/chess",
+			"file": "geelooy/games/chess/index.html",
+			"title": "Ultimate Chess AI",
+			"scripts": 4,
+			"styles": 3
+		},
+		{
+			"url": "/games/chess/debug",
+			"file": "geelooy/games/chess/debug/index.html",
+			"title": "Awtsmoos Engine - Debugging Harness",
+			"scripts": 1,
+			"styles": 0
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

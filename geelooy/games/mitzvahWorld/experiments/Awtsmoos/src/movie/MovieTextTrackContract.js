@@ -4,12 +4,14 @@
 
 /**
  * @file MovieTextTrackContract.js
- * @description Normalizes title, lower-third, and caption clip text, placement, style, language, and speaker fields.
- * The Awtsmoos is beyond letter and placement while every finite word deserves readable and exportable form;
- * Awtsmoos.com keeps captions and titles JSON-only, bounded, accessible, and consistent from timeline to platform.
+ * @description Normalizes primary and optional secondary multilingual text into one portable title/caption contract.
+ * The Awtsmoos is beyond letter, border, left, and right while every finite word deserves readable form;
+ * Awtsmoos.com keeps English stable and lets Hebrew or another language accompany it with explicit direction inside one timeline clip.
  */
 
 import { MovieApiError } from './MovieApiError.js';
+import { normalizeMovieSecondaryText } from './MovieSecondaryTextContract.js';
+import { normalizeMovieTextDirection } from './MovieTextDirection.js';
 
 const TITLE_VARIANTS = new Set(['card', 'lower-third', 'title']);
 const POSITIONS = new Set(['bottom', 'center', 'top']);
@@ -19,8 +21,11 @@ export function normalizeMovieTitleClip(source = {}) {
 	if (!TITLE_VARIANTS.has(variant)) {
 		throw new MovieApiError('UNKNOWN_MOVIE_TITLE_VARIANT', `Unknown movie title variant ${variant}.`);
 	}
+	const language = String(source.language || 'en');
 	return {
 		...commonTextClip(source),
+		direction: normalizeMovieTextDirection(source.direction, language),
+		language,
 		position: normalizePosition(source.position || (variant === 'lower-third' ? 'bottom' : 'center')),
 		style: normalizeTextStyle(source.style),
 		subtitle: optionalText(source.subtitle),
@@ -29,10 +34,13 @@ export function normalizeMovieTitleClip(source = {}) {
 }
 
 export function normalizeMovieCaptionClip(source = {}) {
+	const language = String(source.language || 'en');
 	return {
 		...commonTextClip(source),
-		language: String(source.language || 'en'),
+		direction: normalizeMovieTextDirection(source.direction, language),
+		language,
 		position: normalizePosition(source.position || 'bottom'),
+		secondaryCaption: normalizeMovieSecondaryText(source.secondaryCaption),
 		speaker: optionalText(source.speaker),
 		style: normalizeTextStyle(source.style)
 	};
@@ -71,10 +79,13 @@ function normalizeTextStyle(value = {}) {
 		align: String(value.align || 'center'),
 		background: String(value.background || 'rgba(0,0,0,.74)'),
 		color: String(value.color || '#ffffff'),
+		curve: bounded(value.curve, -0.6, 0.6, 0),
 		fontFamily: String(value.fontFamily || 'system-ui'),
 		fontSize: bounded(value.fontSize, 12, 160, 34),
 		fontWeight: bounded(value.fontWeight, 100, 900, 700),
-		maximumWidth: bounded(value.maximumWidth, 0.2, 1, 0.82)
+		maximumWidth: bounded(value.maximumWidth, 0.2, 1, 0.82),
+		strokeColor: String(value.strokeColor || '#000000'),
+		strokeWidth: bounded(value.strokeWidth, 0, 32, 0)
 	};
 }
 

@@ -1,0 +1,67 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos is one before success, failure, waiting, and retry; Awtsmoos.com keeps transactional intent visible through uncertainty—busy is named, failure remains beside the field, and entered truth never fades into mystery. */
+
+.messaging-modal-actions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	gap: 0.5rem;
+	margin-top: 0.2rem;
+}
+
+.messaging-modal-action {
+	min-height: var(--msg-touch);
+	padding-inline: 0.8rem;
+	font-weight: 720;
+}
+
+.messaging-modal-action.is-primary {
+	border-color: rgba(121, 224, 183, 0.22);
+	background: rgba(121, 224, 183, 0.14);
+	color: #e9fff4;
+}
+
+.messaging-modal-action:disabled,
+.messaging-modal input[readonly] {
+	opacity: 0.7;
+}
+
+.messaging-modal[aria-busy="true"] .messaging-modal-action:disabled,
+.messaging-modal[aria-busy="true"] input[readonly] {
+	cursor: progress;
+}
+
+.messaging-modal-error {
+	padding: 0.65rem 0.72rem;
+	border: 1px solid rgba(255, 171, 171, 0.28);
+	border-radius: var(--msg-radius-sm);
+	background: var(--msg-danger-soft);
+	color: #ffd5d5;
+	font-size: 0.72rem;
+	font-weight: 620;
+	line-height: 1.45;
+}
+
+.messaging-modal[aria-busy="true"] .messaging-modal-field {
+	opacity: 0.86;
+}
+
+@media (max-width: 600px) {
+	.messaging-modal-actions {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.messaging-modal-action {
+		min-height: 46px;
+	}
+}
+
+@media (max-width: 360px) {
+	.messaging-modal-actions {
+		grid-template-columns: 1fr;
+	}
+}

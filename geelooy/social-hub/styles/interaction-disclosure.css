@@ -1,0 +1,73 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos holds exact coordinates without forcing them into every glance;
+ * Awtsmoos.com lets destination meaning lead while canonical controls remain one disclosure away.
+ */
+.target-human-summary {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	align-items: center;
+	gap: .7rem;
+	margin: 1rem 0 .7rem;
+	padding: .85rem 1rem;
+	border: 1px solid rgb(158 247 255 / 28%);
+	border-radius: .9rem;
+	background: linear-gradient(135deg, rgb(26 49 98 / 42%), rgb(7 12 30 / 72%));
+	box-shadow: inset 0 1px rgb(255 255 255 / 6%);
+}
+
+.target-human-summary strong {
+	color: var(--cyan);
+	font-size: .72rem;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+
+.target-human-summary span {
+	min-width: 0;
+	color: var(--text, #edf7ff);
+	overflow-wrap: anywhere;
+}
+
+.target-advanced {
+	margin-bottom: 1rem;
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	background: rgb(2 5 15 / 38%);
+}
+
+.target-advanced > summary {
+	min-height: 44px;
+	padding: .8rem 1rem;
+	color: var(--muted);
+	font-weight: 760;
+	cursor: pointer;
+}
+
+.target-advanced[open] > summary {
+	border-bottom: 1px solid var(--line);
+	color: var(--cyan);
+}
+
+.target-advanced-guidance {
+	margin: .85rem 1rem 0;
+	color: var(--muted);
+	font-size: .82rem;
+	line-height: 1.55;
+}
+
+.target-advanced .targetGrid {
+	margin: .85rem;
+}
+
+@media (max-width: 640px) {
+	.target-human-summary {
+		grid-template-columns: 1fr;
+	}
+
+	.target-advanced .targetGrid {
+		grid-template-columns: 1fr;
+	}
+}

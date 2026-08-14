@@ -1,0 +1,116 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos is one beyond route and thumb; Awtsmoos.com keeps five stable phone doors in one glassy rail, where the chosen chamber becomes a quiet accent pill without changing width or making the thumb chase moving geometry in light. */
+
+@media (max-width: 760px) {
+	.messaging-rail {
+		z-index: 40;
+		grid-column: 1;
+		grid-row: 2;
+		display: block;
+		min-width: 0;
+		padding: 0.3rem max(0.22rem, env(safe-area-inset-right)) max(0.32rem, env(safe-area-inset-bottom)) max(0.22rem, env(safe-area-inset-left));
+		overflow: hidden;
+		border: 0;
+		border-top: 1px solid var(--msg-line-strong);
+		background: rgba(7, 15, 11, 0.94);
+		backdrop-filter: blur(18px) saturate(1.1);
+	}
+
+	.messaging-brand,
+	.messaging-identity,
+	.messaging-rail-divider,
+	.messaging-rail-button[data-mobile-primary="false"] {
+		display: none;
+	}
+
+	.messaging-rail-buttons {
+		display: grid;
+		grid-template-columns: repeat(5, minmax(0, 1fr));
+		gap: 0.12rem;
+		min-width: 0;
+		overflow: visible;
+		padding: 0;
+	}
+
+	.messaging-rail-button,
+	.messaging-mobile-more-button {
+		position: relative;
+		display: grid;
+		grid-template-columns: 1fr;
+		justify-items: center;
+		align-content: center;
+		gap: 0.18rem;
+		min-width: 0;
+		min-height: 58px;
+		padding: 0.34rem 0.16rem;
+		border: 1px solid transparent;
+		border-radius: 14px;
+		background: transparent;
+		color: var(--msg-muted);
+		text-align: center;
+		touch-action: manipulation;
+		transition: transform 140ms ease, background 170ms ease, border-color 170ms ease, color 170ms ease;
+	}
+
+	.messaging-rail-button[data-section="chats"] { order: 1; }
+	.messaging-rail-button[data-section="public"] { order: 2; }
+	.messaging-rail-button[data-section="requests"] { order: 3; }
+	.messaging-rail-button[data-section="discover"] { order: 4; }
+	.messaging-mobile-more-button { order: 5; }
+
+	.messaging-rail-button.is-active,
+	.messaging-mobile-more-button[aria-expanded="true"] {
+		border-color: rgba(121, 224, 183, 0.18);
+		background: rgba(121, 224, 183, 0.11);
+		color: #effff6;
+		box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
+	}
+
+	.messaging-rail-button.is-active::before {
+		content: "";
+		position: absolute;
+		top: 3px;
+		left: 50%;
+		width: 22px;
+		height: 3px;
+		border-radius: 999px;
+		background: var(--msg-accent);
+		transform: translateX(-50%);
+		box-shadow: 0 0 10px rgba(121, 224, 183, 0.22);
+	}
+
+	.messaging-rail-button .messaging-rail-icon,
+	.messaging-mobile-more-button .messaging-rail-icon,
+	.messaging-rail-button > .messaging-icon,
+	.messaging-mobile-more-button > .messaging-icon {
+		transition: transform 160ms ease, color 160ms ease;
+	}
+
+	.messaging-rail-button.is-active .messaging-rail-icon,
+	.messaging-rail-button.is-active > .messaging-icon,
+	.messaging-mobile-more-button[aria-expanded="true"] .messaging-rail-icon,
+	.messaging-mobile-more-button[aria-expanded="true"] > .messaging-icon {
+		color: var(--msg-accent);
+		transform: translateY(-1px) scale(1.06);
+	}
+
+	.messaging-rail-label {
+		width: 100%;
+		overflow: hidden;
+		font-size: 0.58rem;
+		font-weight: 680;
+		line-height: 1.05;
+		text-align: center;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.messaging-rail-button.is-active .messaging-rail-label,
+	.messaging-mobile-more-button[aria-expanded="true"] .messaging-rail-label {
+		color: #effff6;
+		font-weight: 800;
+	}
+}

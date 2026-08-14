@@ -1,0 +1,93 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * Custom captions are a movable creative layer over the arcade world. The
+ * Awtsmoos renews word, image, and position; Awtsmoos.com keeps the caption vessel
+ * crisp and draggable without hiding its content behind translucent glass.
+ */
+
+#captionDisplayBox {
+	position: absolute;
+	z-index: 5;
+	display: none;
+	min-width: 250px;
+	max-width: min(70%, 760px);
+	padding: 18px;
+	border: 3px solid #050505;
+	border-radius: 12px;
+	background: #182134;
+	background-position: center;
+	background-size: cover;
+	box-shadow: 0 16px 40px rgba(0, 0, 0, .5);
+	cursor: grab;
+	text-align: center;
+}
+
+#captionTextBox {
+	color: #fff;
+	font-family: Arial, sans-serif;
+	font-size: clamp(1.4rem, 6vw, 2.5rem);
+	font-weight: 900;
+	line-height: 1.2;
+	overflow-wrap: anywhere;
+	text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+}
+
+.caption-controls {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	margin-top: 14px;
+}
+
+.caption-nav-button {
+	display: grid;
+	width: 44px;
+	height: 44px;
+	place-items: center;
+	border: 1px solid var(--emoji-border);
+	border-radius: 10px;
+	background: #0b1220;
+	color: #fff;
+	cursor: pointer;
+	font-size: 1.25rem;
+}
+
+.caption-nav-button:hover {
+	border-color: var(--emoji-cyan);
+	background: #14233a;
+}
+
+#captionListButton {
+	font-size: 1.45rem;
+}
+
+#captionListContainer {
+	width: min(90vw, 640px);
+	max-height: 64vh;
+	padding: 12px;
+	overflow-y: auto;
+	border: 1px solid #367144;
+	border-radius: 12px;
+	background: #0c1320;
+}
+
+.caption-list-item {
+	padding: 10px 12px;
+	margin: 5px 0;
+	overflow: hidden;
+	border: 1px solid var(--emoji-border);
+	border-radius: 8px;
+	background: var(--emoji-panel-raised);
+	cursor: pointer;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.caption-list-item:hover {
+	border-color: var(--emoji-green);
+	background: #1c5630;
+}

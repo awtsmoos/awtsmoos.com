@@ -1,0 +1,45 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews play, ownership, and ornament beyond every finite card.
+ * Awtsmoos.com gives a live cosmetic one small solid doorway without turning the
+ * Games catalog into a shop wall or hiding the primary free-to-play launch path.
+ */
+
+.gameCommerce {
+	display: grid;
+	gap: 2px;
+	margin-top: 11px;
+	padding: 9px 10px;
+	border: 1px solid rgba(235, 195, 91, .42);
+	border-radius: 11px;
+	background: #1d1609;
+	color: #fff1b8;
+	text-decoration: none;
+}
+
+.gameCommerce span {
+	color: #d7bd72;
+	font-size: .62rem;
+	font-weight: 900;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+
+.gameCommerce strong {
+	font-size: .74rem;
+	line-height: 1.35;
+}
+
+.gameCommerce:hover,
+.gameCommerce:focus-visible {
+	border-color: #f0ce72;
+	background: #2a200b;
+}
+
+.gameCommerce:focus-visible {
+	outline: 3px solid var(--games-cyan);
+	outline-offset: 2px;
+}

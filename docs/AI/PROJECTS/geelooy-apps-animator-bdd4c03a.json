@@ -1,0 +1,70 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-apps-animator-bdd4c03a",
+	"path": "geelooy/apps/animator",
+	"type": "app",
+	"family": {
+		"id": "apps",
+		"title": "Applications"
+	},
+	"title": "Awtsmoos Park Engine — B\"H",
+	"entries": [
+		"index.html",
+		"package.json",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/apps/animator/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/APPS.md",
+		"docs/APPS/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-animator-bdd4c03a.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 2458,
+		"tests": 0,
+		"assets": 43,
+		"generated": 0,
+		"docs": 1,
+		"other": 99
+	},
+	"totalFiles": 2601,
+	"symbolSummary": {
+		"files": 2394,
+		"classes": 1927,
+		"functions": 250,
+		"exports": 2327,
+		"samples": [
+			"VibeDB",
+			"Editor",
+			"FileSystemProvider",
+			"State",
+			"Tabs",
+			"UI",
+			"ExternalManifest",
+			"LoopEngineController",
+			"LoopErrorHandler",
+			"LoopGitPusher",
+			"ArchitectOfDomains",
+			"BatchExecutor"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/apps/animator",
+			"file": "geelooy/apps/animator/index.html",
+			"title": "Awtsmoos Park Engine — B\"H",
+			"scripts": 2,
+			"styles": 2
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

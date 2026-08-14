@@ -1,0 +1,74 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos draws a whole world through a narrow frame; Awtsmoos.com keeps every transition lucid and every destination the same.
+*/
+@media (max-width: 850px) {
+	.mail-civilization-shell {
+		grid-template-rows: auto minmax(0, 1fr) auto;
+		height: 100dvh;
+		min-height: 100dvh;
+		overflow: hidden;
+	}
+
+	.mail-civilization-status {
+		grid-template-columns: 1fr auto;
+		min-height: 58px;
+		padding: max(8px, env(safe-area-inset-top)) 13px 8px;
+	}
+
+	.mail-header-shortcuts,
+	.mail-civilization-brand small {
+		display: none;
+	}
+
+	.app-container {
+		position: relative;
+		display: block;
+		min-height: 0;
+		overflow: hidden;
+		isolation: isolate;
+	}
+
+	.sidebar,
+	.chat-area {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		min-height: 0;
+		transition: transform .22s ease, opacity .18s ease;
+	}
+
+	.sidebar {
+		z-index: 1;
+		border-right: 0;
+		transform: translateX(0);
+	}
+
+	.chat-area {
+		z-index: 2;
+		transform: translateX(102%);
+		box-shadow: -24px 0 70px rgba(0, 0, 0, .28);
+	}
+
+	.app-container.view-chat .sidebar {
+		pointer-events: none;
+		opacity: 0;
+		transform: translateX(-16%);
+	}
+
+	.app-container.view-chat .chat-area {
+		transform: translateX(0);
+	}
+
+	.back-button {
+		display: grid;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) and (max-width: 850px) {
+	.sidebar,
+	.chat-area {
+		transition: none;
+	}
+}

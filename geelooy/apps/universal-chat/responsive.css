@@ -1,0 +1,110 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos is unchanged between desktop and tablet; Awtsmoos.com lets wide glass carry a labeled rail and mid-width glass carry compact navigation, while room identity owns its own truth and special chambers reclaim every empty column in light. */
+
+@media (min-width: 1101px) {
+	.messaging-app.is-special-section {
+		grid-template-columns: 148px minmax(0, 1fr);
+	}
+
+	.messaging-app.is-special-section .messaging-list-pane {
+		display: none;
+	}
+
+	.messaging-app.is-special-section .messaging-thread-pane {
+		grid-column: 2;
+	}
+
+	.messaging-rail-label {
+		white-space: nowrap;
+	}
+}
+
+@media (min-width: 761px) and (max-width: 1100px) {
+	.messaging-app {
+		grid-template-columns: 82px minmax(278px, 318px) minmax(0, 1fr);
+	}
+
+	.messaging-app.is-special-section {
+		grid-template-columns: 82px minmax(0, 1fr);
+	}
+
+	.messaging-app.is-special-section .messaging-list-pane {
+		display: none;
+	}
+
+	.messaging-app.is-special-section .messaging-thread-pane {
+		grid-column: 2;
+	}
+
+	.messaging-brand {
+		padding-inline: 0.3rem;
+	}
+
+	.messaging-brand-copy {
+		display: none;
+	}
+
+	.messaging-rail-buttons {
+		padding-inline: 0.35rem;
+	}
+
+	.messaging-rail-button {
+		grid-template-columns: 1fr;
+		justify-items: center;
+		gap: 0.22rem;
+		min-height: 54px;
+		padding: 0.4rem 0.25rem;
+		text-align: center;
+	}
+
+	.messaging-rail-button.is-active::before {
+		left: -0.35rem;
+	}
+
+	.messaging-rail-label {
+		width: 100%;
+		font-size: 0.58rem;
+		line-height: 1.1;
+		white-space: nowrap;
+	}
+
+	.messaging-identity {
+		padding: 0.45rem 0.35rem;
+		font-size: 0.68rem;
+	}
+
+	.messaging-pane-header,
+	.messaging-thread-header {
+		padding-inline: 0.7rem;
+	}
+
+	.messaging-workspace-search,
+	.messaging-status,
+	.messaging-connection-state,
+	.messaging-presence-summary {
+		margin-inline: 0.6rem;
+	}
+}
+
+@media (min-width: 761px) and (max-width: 840px) {
+	.messaging-app:not(.is-special-section) {
+		grid-template-columns: 82px 282px minmax(0, 1fr);
+	}
+
+	.messaging-pane-heading p {
+		display: none;
+	}
+
+	.messaging-new-action > span:last-child {
+		display: none;
+	}
+
+	.messaging-new-action {
+		width: 40px;
+		padding: 0;
+		justify-content: center;
+	}
+}

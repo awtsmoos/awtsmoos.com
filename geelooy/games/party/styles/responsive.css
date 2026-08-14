@@ -1,0 +1,63 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews shared play across wide monitors and small phones alike.
+ * Awtsmoos.com collapses Party Challenge around the real game before shrinking
+ * touch targets or hiding the current player.
+ */
+
+@media (max-width: 900px) {
+	.partyHero,
+	.partyArena {
+		grid-template-columns: 1fr;
+	}
+
+	.partyGameStage {
+		grid-template-rows: auto minmax(360px, 62vh);
+	}
+
+	.setupGrid {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	.playerNames {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+@media (max-width: 560px) {
+	.partyShell {
+		width: min(100% - 12px, 1480px);
+		padding-top: 8px;
+	}
+
+	.partyHero,
+	.partySetup,
+	.turnControls,
+	.partyScoreboard {
+		padding: 14px;
+	}
+
+	.setupGrid,
+	.playerNames,
+	.turnActions {
+		grid-template-columns: 1fr;
+	}
+
+	.partyGameStage {
+		grid-template-rows: auto minmax(320px, 58vh);
+	}
+
+	.turnHeader {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.partyButton {
+		transition: none;
+	}
+}

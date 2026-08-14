@@ -1,0 +1,75 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-comment-thread-6cb34586",
+	"path": "geelooy/comment-thread",
+	"type": "public",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "Comment Thread — Geelooy",
+	"entries": [
+		"index.html",
+		"app.js",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/comment-thread/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-comment-thread-6cb34586.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 10,
+		"tests": 1,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 12,
+	"symbolSummary": {
+		"files": 9,
+		"classes": 1,
+		"functions": 21,
+		"exports": 9,
+		"samples": [
+			"async",
+			"loadCommentTree",
+			"submitComment",
+			"parseResponse",
+			"errorMessage",
+			"createComposer",
+			"field",
+			"readCommentThreadConfig",
+			"clean",
+			"createElement",
+			"createMedia",
+			"createPreview"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/scripts",
+			"count": 1,
+			"examples": "geelooy/comment-thread/app.js"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/comment-thread",
+			"file": "geelooy/comment-thread/index.html",
+			"title": "Comment Thread — Geelooy",
+			"scripts": 2,
+			"styles": 2
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

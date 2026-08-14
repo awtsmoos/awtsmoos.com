@@ -1,0 +1,73 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-apps-csv-75db72bc",
+	"path": "geelooy/apps/csv",
+	"type": "app",
+	"family": {
+		"id": "apps",
+		"title": "Applications"
+	},
+	"title": "Awtsmoos Native Grid",
+	"entries": [
+		"index.html"
+	],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/APPS.md",
+		"docs/APPS/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-csv-75db72bc.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 5,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 0,
+		"other": 0
+	},
+	"totalFiles": 5,
+	"symbolSummary": {
+		"files": 3,
+		"classes": 1,
+		"functions": 12,
+		"exports": 3,
+		"samples": [
+			"showToast",
+			"updateFilename",
+			"initDB",
+			"storeFileHandle",
+			"getStoredFileHandle",
+			"restoreSession",
+			"verifyPermission",
+			"openFile",
+			"loadData",
+			"saveFile",
+			"saveFileAs",
+			"downloadBlob"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [
+		{
+			"dependency": "change",
+			"count": 1,
+			"examples": "geelooy/apps/csv/js/grid.js"
+		}
+	],
+	"publicEntries": [
+		{
+			"url": "/apps/csv",
+			"file": "geelooy/apps/csv/index.html",
+			"title": "Awtsmoos Native Grid",
+			"scripts": 1,
+			"styles": 1
+		}
+	],
+	"requiresLocalDocumentation": false,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

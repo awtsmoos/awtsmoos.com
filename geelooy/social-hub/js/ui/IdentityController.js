@@ -1,17 +1,14 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-
 /**
  * @class IdentityController
  * @description
- * Verified alias bootstrap, switching, profile target, and logged-out guidance share
- * one public identity surface. The Awtsmoos knows the inward person directly while
- * Awtsmoos.com distinguishes authenticated ownership from the alias shown in public.
+ * The Awtsmoos lets public social discovery remain whole even when private alias bootstrap is unavailable.
+ * Awtsmoos.com distinguishes optional authenticated ownership from the public identity surface instead of
+ * turning a retired private endpoint into a page-level failure or an endless startup state.
  */
-
 const MEMORY_KEY = 'BH.socialHub.publicAlias.v1';
-
 function rememberedAlias(storage = localStorage) {
 	try {
 		return JSON.parse(storage.getItem(MEMORY_KEY) || 'null')?.aliasId || '';
@@ -19,7 +16,6 @@ function rememberedAlias(storage = localStorage) {
 		return '';
 	}
 }
-
 function rememberAlias(alias, storage = localStorage) {
 	storage.setItem(MEMORY_KEY, JSON.stringify({
 		aliasId: alias.aliasId,
@@ -27,28 +23,26 @@ function rememberAlias(alias, storage = localStorage) {
 		verifiedAt: Date.now()
 	}));
 }
-
 export class IdentityController {
 	constructor({ root, api, state, status, onChanged }) {
 		Object.assign(this, { root, api, state, status, onChanged });
 	}
-
 	async initialize() {
 		this.element('hubAliasSelect').addEventListener('change', event => {
 			this.choose(event.target.value);
 		});
+		this.renderPublicMode('Public discovery is ready. Log in to publish or manage aliases.');
 		const snapshot = this.state.snapshot();
 		const preferred = snapshot.identity.aliasId || rememberedAlias();
 		try {
 			const identity = await this.api.identity(preferred);
 			this.applyIdentity(identity);
-		} catch (error) {
-			this.loggedOut(error.message);
+		} catch {
+			this.loggedOut();
 		}
 	}
-
-	applyIdentity(identity) {
-		const aliases = identity.aliases || [];
+	applyIdentity(identity = {}) {
+		const aliases = Array.isArray(identity.aliases) ? identity.aliases : [];
 		const selected = identity.selectedAlias || aliases[0]?.aliasId || '';
 		this.state.mutate('identity:loaded', value => {
 			value.identity.loggedIn = Boolean(identity.loggedIn);
@@ -56,12 +50,12 @@ export class IdentityController {
 			value.identity.aliasId = selected;
 			if (!value.profileAliasId) value.profileAliasId = selected;
 		});
-		this.render(aliases, selected, identity.loggedIn);
+		this.render(aliases, selected, Boolean(identity.loggedIn));
 		const alias = aliases.find(item => item.aliasId === selected);
 		if (alias) rememberAlias(alias);
-		this.onChanged?.(selected);
+		if (selected) this.onChanged?.(selected);
+		if (!selected) this.finishPublicStartup();
 	}
-
 	render(aliases, selected, loggedIn) {
 		const select = this.element('hubAliasSelect');
 		select.replaceChildren(new Option('Choose public alias', ''));
@@ -72,10 +66,9 @@ export class IdentityController {
 		select.disabled = !aliases.length;
 		this.element('identityState').textContent = loggedIn
 			? `${aliases.length} verified public alias${aliases.length === 1 ? '' : 'es'}`
-			: 'Log in to use private activity and publish interactions.';
-		this.element('loginLink').hidden = Boolean(loggedIn);
+			: 'Public discovery · log in to publish or manage aliases.';
+		this.element('loginLink').hidden = loggedIn;
 	}
-
 	choose(aliasId) {
 		const snapshot = this.state.snapshot();
 		const alias = snapshot.identity.aliases.find(item => item.aliasId === aliasId);
@@ -88,22 +81,26 @@ export class IdentityController {
 		this.onChanged?.(aliasId);
 		this.status.show(`Acting as ${alias.name || aliasId}.`, 'success');
 	}
-
-	loggedOut(reason) {
-		this.state.mutate('identity:logged-out', value => {
+	loggedOut() {
+		this.state.mutate('identity:public', value => {
 			value.identity.loggedIn = false;
 			value.identity.aliases = [];
 			value.identity.aliasId = '';
 		});
-		this.render([], '', false);
-		this.status.show(reason || 'Log in to activate the Social Hub.', 'error', true);
+		this.renderPublicMode('Public discovery is ready. Log in to publish or manage aliases.');
+		this.finishPublicStartup();
 	}
-
+	finishPublicStartup() {
+		this.status.show('Public social is ready.', 'success');
+	}
+	renderPublicMode(message) {
+		this.render([], '', false);
+		this.element('identityState').textContent = message;
+	}
 	element(id) {
 		return this.root.getElementById(id);
 	}
 }
-
 export {
 	MEMORY_KEY,
 	rememberedAlias,

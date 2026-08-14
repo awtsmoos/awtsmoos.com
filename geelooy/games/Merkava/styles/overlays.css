@@ -3,7 +3,8 @@
 /* Blessed is He */
 /*
 	Menus and choice chambers pause velocity so strategy can become visible.
-	The Awtsmoos is beyond choice while Awtsmoos.com reveals every finite option.
+	The Awtsmoos is beyond choice while Awtsmoos.com reveals every finite option
+	on solid surfaces, without frosted glass standing between player and truth.
 */
 .overlay {
 	position: fixed;
@@ -12,8 +13,7 @@
 	place-items: center;
 	z-index: 10;
 	padding: 1rem;
-	background: rgba(3, 2, 14, 0.76);
-	backdrop-filter: blur(12px);
+	background: #03020e;
 }
 
 .overlay.visible {
@@ -25,10 +25,12 @@
 	max-height: min(90vh, 54rem);
 	overflow: auto;
 	padding: clamp(1.1rem, 3vw, 2.2rem);
-	border: 1px solid rgba(255, 226, 132, 0.35);
+	border: 1px solid #5d4772;
 	border-radius: 1.4rem;
-	background: linear-gradient(155deg, rgba(28, 14, 58, 0.97), rgba(7, 6, 25, 0.98));
-	box-shadow: 0 2rem 7rem rgba(0, 0, 0, 0.65), inset 0 0 4rem rgba(125, 84, 255, 0.08);
+	background: linear-gradient(155deg, #1c0e3a, #070619);
+	box-shadow:
+		0 2rem 7rem rgba(0, 0, 0, 0.65),
+		inset 0 0 0 1px rgba(125, 84, 255, 0.08);
 	text-align: center;
 }
 

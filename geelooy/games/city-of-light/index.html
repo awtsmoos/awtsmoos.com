@@ -2,74 +2,80 @@
 <!--Boruch Hashem-->
 <!--Blessed is He-->
 <!--
-	Twenty-four chapters gather inside one accessible campaign shell. Every menu,
-	control, mission word, and generated street on Awtsmoos.com becomes a doorway
-	through which the continuously creating Awtsmoos may be encountered in play.
+	The Awtsmoos renews the city before its explanations: Canvas, traveler, wildlife,
+	mission, and light become the first visible vessel. Awtsmoos.com keeps every
+	campaign detail reachable in pause without making ordinary play a scrolling page.
 -->
 <!doctype html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-	<meta name="theme-color" content="#080b18">
+	<meta name="theme-color" content="#050812">
 	<title>City of Light · The Complete Pilgrimage</title>
 	<link rel="stylesheet" href="./style.css">
 </head>
 <body>
 	<main class="campaignShell">
-		<header class="campaignHeader">
-			<div>
-				<a class="backLink" href="../">← Awtsmoos Games</a>
-				<p class="eyebrow">B"H · Twenty-four generated chapters</p>
-				<h1>City of Light</h1>
-				<p class="chapterLine"><span id="regionValue">Courtyards of Dawn</span> · Chapter <strong id="chapterValue">1 / 24</strong></p>
-				<h2 id="chapterTitle">First Courtyard</h2>
-			</div>
-			<button id="pauseButton" class="pauseButton" type="button">Pause · P</button>
-		</header>
-
-		<section class="statusGrid" aria-label="Campaign status">
-			<div><span>Mission</span><strong id="missionLabel">Gather six sparks</strong></div>
-			<div><span>Progress</span><strong id="missionProgress">0 / 6</strong></div>
-			<div><span>Chapter light</span><strong id="sparkValue">0</strong></div>
-			<div><span>Total light</span><strong id="totalValue">0</strong></div>
-			<div><span>Abilities</span><strong id="abilityValue">Steady Light</strong></div>
-			<div><span>Seed</span><code id="seedValue">city-of-light</code></div>
-		</section>
-
 		<section class="gameFrame" aria-label="City of Light campaign game">
 			<canvas id="cityCanvas" aria-label="A generated campaign district with wildlife"></canvas>
-			<p id="message" class="message" aria-live="polite">The district awakens.</p>
-		</section>
+			<header class="campaignHeader">
+				<a class="backLink" href="../">← Games</a>
+				<div class="chapterIdentity">
+					<p class="eyebrow">B"H · Chapter <strong id="chapterValue">1 / 24</strong></p>
+					<h1>City of Light</h1>
+					<p class="chapterLine"><span id="regionValue">Courtyards of Dawn</span></p>
+					<h2 id="chapterTitle">First Courtyard</h2>
+				</div>
+				<button id="pauseButton" class="pauseButton" type="button" aria-label="Pause campaign">Pause · P</button>
+			</header>
 
-		<section class="controlDeck" aria-label="Controls">
-			<div class="controlHelp">
-				<strong>Move</strong> arrows / WASD
-				<strong>Interact or call</strong> E / Enter
-				<strong>Dash</strong> Shift
-				<strong>Reveal targets</strong> Q
-			</div>
-			<nav class="touchControls" aria-label="Touch controls">
-				<button class="up" type="button" data-direction="ArrowUp" aria-label="Move up">↑</button>
-				<button class="left" type="button" data-direction="ArrowLeft" aria-label="Move left">←</button>
-				<button class="down" type="button" data-direction="ArrowDown" aria-label="Move down">↓</button>
-				<button class="right" type="button" data-direction="ArrowRight" aria-label="Move right">→</button>
-				<button class="interact" type="button" data-action="Interact">Call · E</button>
-				<button class="dash" type="button" data-action="Dash">Dash</button>
-				<button class="reveal" type="button" data-action="Reveal">Reveal</button>
-			</nav>
+			<section class="statusGrid" aria-label="Campaign status">
+				<div class="statusMission"><span>Mission</span><strong id="missionLabel">Gather six sparks</strong></div>
+				<div><span>Progress</span><strong id="missionProgress">0 / 6</strong></div>
+				<div><span>Light</span><strong id="sparkValue">0</strong></div>
+				<div><span>Total</span><strong id="totalValue">0</strong></div>
+			</section>
+
+			<p id="message" class="message" aria-live="polite">The district awakens.</p>
+
+			<section class="controlDeck" aria-label="Touch controls">
+				<nav class="touchControls" aria-label="Touch controls">
+					<div class="movementCluster" aria-label="Movement">
+						<button class="up" type="button" data-direction="ArrowUp" aria-label="Move up">↑</button>
+						<button class="left" type="button" data-direction="ArrowLeft" aria-label="Move left">←</button>
+						<button class="down" type="button" data-direction="ArrowDown" aria-label="Move down">↓</button>
+						<button class="right" type="button" data-direction="ArrowRight" aria-label="Move right">→</button>
+					</div>
+					<div class="actionCluster" aria-label="Actions">
+						<button class="interact" type="button" data-action="Interact">Call</button>
+						<button class="dash" type="button" data-action="Dash">Dash</button>
+						<button class="reveal" type="button" data-action="Reveal">Reveal</button>
+					</div>
+				</nav>
+			</section>
 		</section>
 	</main>
 
 	<section id="pauseOverlay" class="overlay" aria-hidden="true">
 		<div class="overlayPanel pausePanel">
-			<p class="eyebrow">The pilgrimage is still</p>
-			<h2>Campaign Map</h2>
-			<div class="pauseActions">
+			<div class="pauseHeading">
+				<div><p class="eyebrow">The pilgrimage is still</p><h2>Campaign Map</h2></div>
 				<button id="resumeButton" type="button">Resume</button>
+			</div>
+			<div class="pauseMeta" aria-label="Campaign details">
+				<div><span>Abilities</span><strong id="abilityValue">Steady Light</strong></div>
+				<div><span>Seed</span><code id="seedValue">city-of-light</code></div>
+			</div>
+			<div class="controlHelp" aria-label="Keyboard controls">
+				<span><strong>Move</strong> arrows / WASD</span><span><strong>Call</strong> E / Enter</span>
+				<span><strong>Dash</strong> Shift</span><span><strong>Reveal</strong> Q</span>
+			</div>
+			<div class="pauseActions">
 				<button id="restartCheckpointButton" type="button">Restart checkpoint</button>
 				<button id="restartChapterButton" type="button">Restart chapter</button>
 				<button id="newCampaignButton" type="button">New campaign</button>
+				<a class="backLink pauseBack" href="../">Return to games</a>
 			</div>
 			<div class="settingsRow">
 				<button id="motionButton" type="button" aria-pressed="false">Reduced motion</button>

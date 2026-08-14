@@ -1,0 +1,97 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gathers selected words into one mobile-safe rail of count,
+ * phrase, undo, clearing, completion, and peaceful exit.
+ */
+.awtsmoos-word-toolbar {
+	position: fixed;
+	right: max(.75rem, env(safe-area-inset-right));
+	bottom: max(.75rem, env(safe-area-inset-bottom));
+	left: max(.75rem, env(safe-area-inset-left));
+	z-index: 2147483645;
+	display: grid;
+	gap: .65rem;
+	max-width: 760px;
+	margin-inline: auto;
+	padding: .8rem;
+	border: 1px solid rgba(248, 214, 130, .46);
+	border-radius: 1.3rem;
+	background:
+		radial-gradient(circle at 0% 0%, rgba(34, 211, 238, .22), transparent 12rem),
+		linear-gradient(160deg, rgba(8, 18, 34, .985), rgba(3, 8, 18, .995));
+	box-shadow: 0 22px 70px rgba(0, 0, 0, .72), inset 0 1px rgba(255, 255, 255, .08);
+	backdrop-filter: blur(20px) saturate(140%);
+	font-family: var(--font-ui, Inter, system-ui, sans-serif);
+}
+
+.awtsmoos-word-toolbar-heading {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 1rem;
+	color: #f8d682;
+}
+
+.awtsmoos-word-toolbar-heading strong {
+	font-size: .82rem;
+	letter-spacing: .05em;
+}
+
+.awtsmoos-word-toolbar-heading span {
+	color: #9fb0c7;
+	font-size: .68rem;
+}
+
+.awtsmoos-word-toolbar-phrase {
+	overflow: hidden;
+	margin: 0;
+	color: #fffdf5;
+	font-size: clamp(1.05rem, 4vw, 1.42rem);
+	font-weight: 800;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.awtsmoos-word-toolbar-controls {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: .45rem;
+}
+
+.awtsmoos-word-toolbar button {
+	min-height: 44px;
+	padding: .62rem .5rem;
+	border: 1px solid rgba(148, 163, 184, .2);
+	border-radius: .8rem;
+	background: rgba(255, 255, 255, .07);
+	color: #f8fafc;
+	font: 800 .72rem/1 var(--font-ui, Inter, system-ui, sans-serif);
+	cursor: pointer;
+	touch-action: manipulation;
+}
+
+.awtsmoos-word-toolbar button:disabled {
+	opacity: .38;
+	cursor: default;
+}
+
+.awtsmoos-word-toolbar .awtsmoos-word-primary {
+	border-color: rgba(248, 214, 130, .62);
+	background: linear-gradient(135deg, #f8d682, #22d3ee);
+	color: #07111f;
+}
+
+.awtsmoos-word-toolbar .awtsmoos-word-exit {
+	border-color: rgba(248, 113, 113, .34);
+	color: #fecaca;
+}
+
+@media (max-width: 430px) {
+	.awtsmoos-word-toolbar-controls {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+	.awtsmoos-word-toolbar-heading span {
+		display: none;
+	}
+}

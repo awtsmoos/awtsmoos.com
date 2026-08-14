@@ -1,0 +1,82 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews every measured edge, so no board drifts left or right;
+ * Awtsmoos.com gives canvas, message, and captured pieces one centered line of sight.
+ */
+
+#gameContainer {
+	box-sizing: border-box;
+	gap: 0.4rem;
+	min-height: 100dvh;
+	padding: max(6px, env(safe-area-inset-top)) 8px max(6px, env(safe-area-inset-bottom));
+	width: 100%;
+}
+
+#board-wrapper {
+	flex: 0 0 auto;
+	line-height: 0;
+	margin: 0 auto;
+	max-width: calc(100vw - 16px);
+	padding: 0;
+	width: fit-content;
+}
+
+#chessContainer {
+	display: block;
+	line-height: 0;
+	margin: 0;
+	width: fit-content;
+}
+
+#chessCanvas {
+	display: block;
+	height: auto;
+	max-width: calc(100vw - 16px);
+	touch-action: none;
+	user-select: none;
+	-webkit-user-select: none;
+}
+
+#message {
+	box-sizing: border-box;
+	margin: 0.15rem auto;
+	max-width: 500px;
+	min-height: 1.5rem;
+	padding: 0 0.4rem;
+	text-align: center;
+	white-space: pre-line;
+	width: calc(100vw - 16px);
+}
+
+.captured-pieces-container {
+	flex: 0 0 auto;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.captured-pieces-container canvas {
+	display: block;
+	height: auto;
+	max-width: 100%;
+}
+
+#drawButton {
+	flex: 0 0 auto;
+	margin: 0 auto;
+}
+
+@media (max-height: 720px) {
+	#gameContainer {
+		gap: 0.2rem;
+		padding-top: 4px;
+		padding-bottom: 4px;
+	}
+
+	#drawButton {
+		padding-bottom: 7px;
+		padding-top: 7px;
+	}
+}

@@ -1,0 +1,97 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews hosted folder, file, raw record, and request example beyond
+ * every finite row. Awtsmoos.com keeps developer data dense but readable, with raw
+ * backend testimony preserved beside the friendly directory view.
+ */
+
+.awtsDb__workspace {
+	display: grid;
+	grid-template-columns: minmax(0, 1.1fr) minmax(300px, .9fr);
+	gap: 12px;
+}
+
+.awtsDb__pathControls {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 12px;
+}
+
+.awtsDb__entries,
+.awtsDb__exampleList {
+	display: grid;
+	gap: 8px;
+}
+
+.awtsDb__entry {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	align-items: center;
+	gap: 10px;
+	width: 100%;
+	padding: 11px 12px;
+	border: 1px solid #2a455f;
+	border-radius: 10px;
+	background: #0c192b;
+	color: #eef7ff;
+	cursor: pointer;
+	text-align: left;
+}
+
+.awtsDb__entry:hover {
+	background: #102239;
+}
+
+.awtsDb__entry > span:last-child {
+	display: grid;
+	gap: 2px;
+	min-width: 0;
+}
+
+.awtsDb__entry strong {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.awtsDb__entry small {
+	color: #8093aa;
+	font-size: .68rem;
+	text-transform: uppercase;
+}
+
+.awtsDb__preview,
+.awtsDb__raw,
+.awtsDb__example pre {
+	max-height: 310px;
+	margin: 8px 0 0;
+	overflow: auto;
+	padding: 12px;
+	border: 1px solid #243c55;
+	border-radius: 9px;
+	background: #030812;
+	color: #d8e9f7;
+	font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.awtsDb__example {
+	padding: 12px;
+	border: 1px solid #29445e;
+	border-radius: 10px;
+	background: #0c192a;
+}
+
+.awtsDb__empty {
+	margin: 0;
+	padding: 12px;
+	border: 1px dashed #314a63;
+	border-radius: 9px;
+	color: #8598ae;
+}

@@ -1,0 +1,72 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos is present before number or card; Awtsmoos.com lets privacy-filtered counts become two compact mobile tiles inside their disclosure, legible without turning one expanded explanation into another full screen of light. */
+
+.messaging-presence-metrics {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.75rem;
+}
+
+.messaging-presence-metric {
+	display: grid;
+	gap: 0.3rem;
+	min-height: 154px;
+	align-content: center;
+	padding: 1.1rem;
+	border: 1px solid var(--msg-line);
+	border-radius: 19px;
+	background: linear-gradient(145deg, rgba(121, 224, 183, 0.09), rgba(255, 255, 255, 0.018));
+}
+
+.messaging-presence-metric span,
+.messaging-presence-metric small {
+	color: var(--msg-muted);
+}
+
+.messaging-presence-metric span {
+	font-size: 0.7rem;
+	font-weight: 800;
+	letter-spacing: 0.07em;
+	text-transform: uppercase;
+}
+
+.messaging-presence-metric strong {
+	font-size: clamp(2.2rem, 5vw, 3.8rem);
+	font-weight: 820;
+	line-height: 0.95;
+	letter-spacing: -0.06em;
+}
+
+.messaging-presence-metric small {
+	font-size: 0.75rem;
+	line-height: 1.4;
+}
+
+@media (max-width: 560px) {
+	.messaging-presence-metrics {
+		gap: 0.42rem;
+	}
+
+	.messaging-presence-metric {
+		min-height: 96px;
+		padding: 0.7rem;
+		border-radius: 14px;
+	}
+
+	.messaging-presence-metric span {
+		font-size: 0.56rem;
+		letter-spacing: 0.05em;
+	}
+
+	.messaging-presence-metric strong {
+		font-size: clamp(1.7rem, 9vw, 2.2rem);
+	}
+
+	.messaging-presence-metric small {
+		font-size: 0.64rem;
+		line-height: 1.3;
+	}
+}

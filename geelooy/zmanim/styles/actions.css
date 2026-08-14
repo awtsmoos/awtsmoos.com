@@ -1,0 +1,139 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives every choice its measured vessel while controls remain small enough to disappear after use;
+ * Awtsmoos.com makes date, shita, and sharing thumb-safe without turning utility into visual abuse.
+ */
+
+awtsmoos-date-control {
+	position: relative;
+	display: block;
+}
+
+.date-control {
+	display: grid;
+	grid-template-columns: 44px minmax(0, 1fr) 44px auto;
+	gap: 0.35rem;
+}
+
+.date-control button,
+.opinion-segments button,
+.share-actions button {
+	min-height: 44px;
+	border: 1px solid var(--line);
+	border-radius: var(--radius-small);
+	background: var(--paper-raised);
+	color: var(--ink);
+	cursor: pointer;
+}
+
+.date-step {
+	font-size: 1rem;
+}
+
+.date-trigger {
+	display: grid;
+	align-content: center;
+	gap: 0.05rem;
+	min-width: 0;
+	padding-inline: 0.6rem;
+	text-align: start;
+}
+
+.date-civil,
+.date-hebrew {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.date-civil {
+	font-size: 0.78rem;
+}
+
+.date-hebrew {
+	font-size: 0.65rem;
+	color: var(--ink-soft);
+}
+
+.date-today {
+	padding-inline: 0.65rem;
+	font-size: 0.68rem;
+	font-weight: 750;
+}
+
+.date-calendar-shell {
+	position: absolute;
+	z-index: 35;
+	top: calc(100% + 0.45rem);
+	left: 0;
+	right: 0;
+	padding: 0.55rem;
+	border: 1px solid var(--line);
+	border-radius: var(--radius-medium);
+	background: var(--paper-raised);
+	box-shadow: var(--shadow);
+}
+
+.date-calendar-shell[hidden] {
+	display: none;
+}
+
+.opinion-segments {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 0.3rem;
+}
+
+.opinion-segments button {
+	padding-inline: 0.4rem;
+	font-size: 0.72rem;
+	font-weight: 750;
+}
+
+.opinion-segments button[data-selected] {
+	border-color: var(--forest);
+	background: var(--forest);
+	color: white;
+}
+
+.native-method {
+	margin-top: 0.35rem;
+	font-size: 0.62rem;
+	color: var(--ink-soft);
+}
+
+.native-method summary {
+	cursor: pointer;
+}
+
+.native-method select {
+	width: 100%;
+	min-height: 40px;
+	margin-top: 0.35rem;
+	border: 1px solid var(--line);
+	border-radius: 8px;
+	background: var(--paper-raised);
+}
+
+.share-actions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: end;
+	gap: 0.35rem;
+}
+
+.share-actions button {
+	min-height: 34px;
+	padding-inline: 0.6rem;
+	font-size: 0.65rem;
+}
+
+.share-status {
+	width: 100%;
+	min-height: 0.8rem;
+	font-size: 0.62rem;
+	text-align: end;
+	color: var(--forest-bright);
+}

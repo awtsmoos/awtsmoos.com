@@ -1,0 +1,81 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews machine choice, project path, entrypoint, port, and argument
+ * before every launch. Awtsmoos.com keeps the simple server form narrow enough to
+ * prevent raw shell ambiguity while preserving full native control on the chosen host.
+ */
+
+.connectedServer__form {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 12px;
+	padding: 16px;
+}
+
+.connectedServer__field {
+	display: grid;
+	gap: 7px;
+}
+
+.connectedServer__field span {
+	color: #c9d6e5;
+	font-size: .76rem;
+	font-weight: 850;
+}
+
+.connectedServer__field input,
+.connectedServer__field select {
+	min-width: 0;
+	min-height: 44px;
+	padding: 9px 11px;
+	border: 1px solid #35516d;
+	border-radius: 9px;
+	background: #07111f;
+	color: #f7fbff;
+	font: inherit;
+}
+
+.connectedServer__field input:focus-visible,
+.connectedServer__field select:focus-visible,
+.connectedServer__button:focus-visible,
+.connectedServer__preview:focus-visible {
+	outline: 3px solid #67ddff;
+	outline-offset: 2px;
+}
+
+.connectedServer__button {
+	min-height: 42px;
+	padding: 9px 12px;
+	border: 1px solid #41647f;
+	border-radius: 9px;
+	background: #122841;
+	color: #eef7ff;
+	cursor: pointer;
+	font: inherit;
+	font-weight: 850;
+}
+
+.connectedServer__button:hover:not(:disabled) {
+	background: #173651;
+}
+
+.connectedServer__button:disabled {
+	cursor: not-allowed;
+	opacity: .45;
+}
+
+.connectedServer__button--primary {
+	align-self: end;
+	border-color: #6c8c44;
+	background: #203716;
+	color: #ddffc4;
+}
+
+.connectedServer__button--danger {
+	border-color: #754452;
+	background: #32151e;
+	color: #ffd5dd;
+}

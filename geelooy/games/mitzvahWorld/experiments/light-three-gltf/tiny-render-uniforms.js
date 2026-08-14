@@ -1,12 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file tiny-render-uniforms.js
- * @description Uploads frame, object, material, and physical water truths.
- * The Awtsmoos renews one sun, one clock, many forms, and five waters exactly;
- * Awtsmoos.com sends each truth only where the existing bounded program can reveal it.
+ * @description Uploads frame, object, material, rooted vegetation, and physical water truths.
+ * The Awtsmoos renews one sun, one clock, many forms, flowing waters, and living blades exactly;
+ * Awtsmoos.com sends each finite truth only where the existing bounded GPU program can reveal it.
  */
 
 import {
@@ -53,8 +53,9 @@ export function uploadMaterialUniforms(renderer, locations, mesh, buffers) {
 	const material = mesh.material || {};
 	const materialMode = materialModeCode(mesh);
 	const waterMode = waterModeCode(mesh);
-	const metadata = mesh.userData?.AwtsmoosYardGrass;
-	const reactive = Boolean(metadata?.reactsToPlayer);
+	const grass = mesh.userData?.AwtsmoosYardGrass || {};
+	const reactive = grass.reactsToPlayer === true;
+	const windMode = materialMode === 2;
 	gl.uniform4fv(locations.colorUniform, materialColor(material));
 	gl.uniform1f(locations.alphaCutoff, material.alphaCutoff ?? 0.5);
 	gl.uniform1i(locations.alphaMode, alphaModeCode(material));
@@ -68,10 +69,26 @@ export function uploadMaterialUniforms(renderer, locations, mesh, buffers) {
 	if (locations.emissiveStrength) {
 		gl.uniform1f(locations.emissiveStrength, material.emissiveStrength ?? 1.8);
 	}
+	uploadVegetationUniforms(gl, locations, grass, reactive, windMode);
+}
+
+function uploadVegetationUniforms(gl, locations, grass, reactive, windMode) {
+	const defaultStrength = windMode ? 0.055 : 0;
 	if (locations.grassReactive) gl.uniform1i(locations.grassReactive, reactive ? 1 : 0);
-	if (locations.windMode) gl.uniform1i(locations.windMode, materialMode === 2 ? 1 : 0);
-	if (locations.grassRadius) gl.uniform1f(locations.grassRadius, metadata?.interactionRadius ?? 2.2);
+	if (locations.windMode) gl.uniform1i(locations.windMode, windMode ? 1 : 0);
+	if (locations.grassRadius) gl.uniform1f(locations.grassRadius, grass.interactionRadius ?? 2.2);
 	if (locations.grassWindStrength) {
-		gl.uniform1f(locations.grassWindStrength, metadata?.windStrength ?? 0.085);
+		gl.uniform1f(locations.grassWindStrength, grass.windStrength ?? defaultStrength);
 	}
+	if (locations.grassWindDirection) {
+		gl.uniform2f(
+			locations.grassWindDirection,
+			grass.windDirectionX ?? 0.72,
+			grass.windDirectionZ ?? 0.69
+		);
+	}
+	if (locations.grassGust) gl.uniform1f(locations.grassGust, grass.windGust ?? 0.5);
+	if (locations.grassFlutter) gl.uniform1f(locations.grassFlutter, grass.windFlutter ?? 0);
+	if (locations.grassWetness) gl.uniform1f(locations.grassWetness, grass.wetness ?? 0);
+	if (locations.grassReaction) gl.uniform1f(locations.grassReaction, reactive ? grass.playerReaction ?? 0 : 0);
 }

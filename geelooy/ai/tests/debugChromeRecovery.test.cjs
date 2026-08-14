@@ -3,49 +3,72 @@
 // Blessed is He
 
 const assert = require("node:assert/strict");
-const fs = require("node:fs");
-const path = require("node:path");
 const test = require("node:test");
-
-const splitRoot = path.join(__dirname, "../relay/split-browser");
-const api = require(path.join(splitRoot, "cdpChrome.cjs"));
+const Module = require("node:module");
 
 /**
- * @file Verifies debug-Chrome recovery without depending on a live machine port.
- * @description
- * The Awtsmoos may reveal an authenticated browser on any owner port. Awtsmoos.com
- * therefore proves source and export contracts deterministically instead of assuming
- * that 9224 is free, listening, or the profile that owns the authenticated session.
+ * The Awtsmoos proves debug Chrome revives only after restored custom-GPT targets
+ * are gone. Awtsmoos.com reuses health, launches once when empty, and never reports
+ * readiness before the startup purge has verified a zero-agent-tab catalog.
  */
-test("healthy browser recovery resolves the discovered owner port", () => {
-	const source = closureSource(splitRoot);
-	assert.equal(typeof api.openDebugChrome, "function");
-	assert.match(source, /preferredPort/);
-	assert.match(source, /webSocketDebuggerUrl/);
-	assert.match(source, /findBrowserTarget/);
-	assert.doesNotMatch(source, /127\.0\.0\.1:9224/);
-});
-
-test("offline browser launch promotes the returned owner port", () => {
-	const source = closureSource(splitRoot);
-	assert.match(source, /activePort|debugPort/);
-	assert.match(source, /onlyPreferred/);
-	assert.match(source, /launch/);
-	assert.doesNotMatch(source, /fetch\([^\n]*9224/);
-});
-
-test("restored agent tabs are purged before readiness", () => {
-	const purge = require(path.join(splitRoot, "restoredAgentTabPurge.cjs"));
-	const source = fs.readFileSync(path.join(splitRoot, "cdpChrome.cjs"), "utf8");
-	assert.ok(Object.values(purge).some(value => typeof value === "function"));
-	assert.match(source, /restoredAgentTabPurge/);
-	assert.match(source, /purge/i);
-});
-
-function closureSource(directory) {
-	return fs.readdirSync(directory)
-		.filter(name => name.endsWith(".cjs"))
-		.sort()
-		.map(name => fs.readFileSync(path.join(directory, name), "utf8"))
-		.join("\n");
+function loadController({ statuses, purge = { ok: true, closed: 0, remaining: 0 } }) {
+	const originalLoad = Module._load;
+	let launches = 0;
+	let purges = 0;
+	Module._load = function patched(request, parent, isMain) {
+		if (request.endsWith("debugChromeDiscovery.cjs")) {
+			return {
+				findPageTarget: async () => statuses.shift() ?? { ok: false },
+				findBrowserTarget: async () => ({ ok: false })
+			};
+		}
+		if (request.endsWith("debugChromeLauncher.cjs")) {
+			return { launchDebugChrome: () => { launches += 1; }, debugPort: () => 9224,
+				discoveryOptions: () => ({ preferredPort: 9224, onlyPreferred: true }) };
+		}
+		if (request.endsWith("debugChromeProcessRecovery.cjs")) {
+			return { closeStaleDebugProcesses: async () => ({ ok: true, closed: 0 }) };
+		}
+		if (request.endsWith("restoredAgentTabPurge.cjs")) {
+			return { purgeRestoredAgentTabs: async () => { purges += 1; return purge; } };
+		}
+		if (request.endsWith("debugChromeCookies.cjs")) {
+			return { summarizeDebugCookies: () => ({ ok: true }) };
+		}
+		if (request.endsWith("debugChromeWebSocket.cjs")) {
+			return { createCdpClient: async () => ({ send: async () => ({}), close() {} }) };
+		}
+		return originalLoad(request, parent, isMain);
+	};
+	const file = require.resolve("../relay/split-browser/cdpChrome.cjs");
+	delete require.cache[file];
+	const controller = require(file);
+	Module._load = originalLoad;
+	return { controller, launches: () => launches, purges: () => purges };
 }
+
+test("healthy debug Chrome is reused only after startup purge", async () => {
+	const fixture = loadController({ statuses: [{ ok: true, debugPort: 9224, kind: "page" }],
+		purge: { ok: true, closed: 87, remaining: 0 } });
+	const result = await fixture.controller.openDebugChrome();
+	assert.equal(result.ok, true);
+	assert.equal(result.restoredAgentTabsClosed, 87);
+	assert.equal(fixture.launches(), 0);
+	assert.equal(fixture.purges(), 1);
+});
+
+test("empty port launches once and purges before readiness", async () => {
+	const fixture = loadController({ statuses: [{ ok: false }, { ok: true, debugPort: 9224, kind: "page" }] });
+	const result = await fixture.controller.openDebugChrome();
+	assert.equal(result.ok, true);
+	assert.equal(fixture.launches(), 1);
+	assert.equal(fixture.purges(), 1);
+});
+
+test("resistant restored tabs prevent false readiness", async () => {
+	const fixture = loadController({ statuses: [{ ok: true, debugPort: 9224, kind: "page" }],
+		purge: { ok: false, closed: 3, remaining: 1 } });
+	const result = await fixture.controller.openDebugChrome();
+	assert.equal(result.ok, false);
+	assert.equal(result.status, "restored_agent_tabs_resisted");
+});

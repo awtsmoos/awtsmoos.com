@@ -1,0 +1,106 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos is beyond foreground and background; Awtsmoos.com lets the mobile More map rise as one intentional bottom sheet whose backdrop, clipped entry motion, grabber, header, and exit agree in light. */
+
+.messaging-mobile-more-host,
+.messaging-mobile-more-menu {
+	position: fixed;
+	z-index: 60;
+	inset: 0;
+	overflow: hidden;
+	pointer-events: none;
+}
+
+.messaging-mobile-more-menu:not([hidden]) {
+	pointer-events: auto;
+}
+
+.messaging-mobile-more-backdrop {
+	position: absolute;
+	inset: 0;
+	border: 0;
+	border-radius: 0;
+	background: rgba(0, 0, 0, 0.64);
+	opacity: 0;
+	transition: opacity 180ms ease;
+}
+
+.messaging-mobile-more-sheet {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	display: grid;
+	gap: 0.8rem;
+	max-height: min(76dvh, 720px);
+	overflow-y: auto;
+	padding: 0.55rem 0.75rem calc(5.1rem + env(safe-area-inset-bottom));
+	border: 1px solid var(--msg-line-strong);
+	border-bottom: 0;
+	border-radius: 24px 24px 0 0;
+	background: rgba(8, 18, 13, 0.985);
+	box-shadow: 0 -24px 80px rgba(0, 0, 0, 0.5);
+	opacity: 0;
+	transform: translateY(18px);
+	transition: transform 180ms ease, opacity 180ms ease;
+	overscroll-behavior: contain;
+}
+
+.messaging-mobile-more-menu[data-motion-state="open"] .messaging-mobile-more-backdrop {
+	opacity: 1;
+}
+
+.messaging-mobile-more-menu[data-motion-state="open"] .messaging-mobile-more-sheet {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.messaging-mobile-more-grabber {
+	width: 42px;
+	height: 4px;
+	margin: 0 auto -0.15rem;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.22);
+}
+
+.messaging-mobile-more-sheet > header {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	padding: 0 0.15rem 0.15rem;
+}
+
+.messaging-mobile-more-sheet > header > div {
+	display: grid;
+	min-width: 0;
+	gap: 0.12rem;
+}
+
+.messaging-mobile-more-sheet h2 {
+	margin: 0;
+	font-size: 1.02rem;
+}
+
+.messaging-mobile-more-sheet header p {
+	margin: 0;
+	color: var(--msg-muted);
+	font-size: 0.68rem;
+	line-height: 1.4;
+}
+
+.messaging-mobile-more-sheet header button {
+	flex: 0 0 44px;
+	width: 44px;
+	height: 44px;
+	margin-left: auto;
+	padding: 0;
+	font-size: 1.25rem;
+}
+
+@media (min-width: 761px) {
+	.messaging-mobile-more-host {
+		display: none;
+	}
+}

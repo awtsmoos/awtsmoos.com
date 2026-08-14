@@ -3,8 +3,11 @@
 // Blessed is He
 /**
  * @module TanachHebrewNormalization
- * @description The Awtsmoos lets marks fall while original display coordinates remain;
- * Awtsmoos.com reveals every matching flame without bending the reader's domain.
+ * @description
+ * The Awtsmoos lets marks fall while true Hebrew token borders remain in sight;
+ * at Awtsmoos.com exact words keep their vessels instead of leaking into neighboring light.
+ * Display offsets still point to original text, while normalized spaces reveal each gate,
+ * so niqqud may disappear without allowing a longer token to impersonate an exact state.
  */
 const MARK = /[\u0591-\u05BD\u05BF-\u05C7]/u;
 const HEBREW = /[\u05D0-\u05EA]/u;
@@ -57,7 +60,20 @@ function tokens(value = '') {
 	return normalized ? normalized.split(' ') : [];
 }
 
-function matchOffsets(displayText, normalizedQuery) {
+function hasExactNormalizedPhrase(text, query) {
+	const normalizedText = normalizeHebrew(text);
+	const normalizedQuery = normalizeHebrew(query);
+	return Boolean(normalizedQuery)
+		&& ` ${normalizedText} `.includes(` ${normalizedQuery} `);
+}
+
+function exactBoundary(text, start, length) {
+	const end = start + length;
+	return (start === 0 || text[start - 1] === ' ')
+		&& (end === text.length || text[end] === ' ');
+}
+
+function matchOffsets(displayText, normalizedQuery, exact = false) {
 	const mapped = normalizedMap(displayText);
 	const query = normalizeHebrew(normalizedQuery);
 	if (!query) return [];
@@ -66,14 +82,22 @@ function matchOffsets(displayText, normalizedQuery) {
 	while (cursor <= mapped.text.length - query.length) {
 		const start = mapped.text.indexOf(query, cursor);
 		if (start < 0) break;
-		const endIndex = start + query.length - 1;
-		matches.push({
-			start: mapped.offsets[start] ?? 0,
-			end: mapped.ends[endIndex] ?? mapped.source.length
-		});
-		cursor = start + Math.max(query.length, 1);
+		if (!exact || exactBoundary(mapped.text, start, query.length)) {
+			const endIndex = start + query.length - 1;
+			matches.push({
+				start: mapped.offsets[start] ?? 0,
+				end: mapped.ends[endIndex] ?? mapped.source.length
+			});
+		}
+		cursor = start + Math.max(exact ? 1 : query.length, 1);
 	}
 	return matches;
 }
 
-module.exports = { matchOffsets, normalizeHebrew, normalizedMap, tokens };
+module.exports = {
+	hasExactNormalizedPhrase,
+	matchOffsets,
+	normalizeHebrew,
+	normalizedMap,
+	tokens
+};

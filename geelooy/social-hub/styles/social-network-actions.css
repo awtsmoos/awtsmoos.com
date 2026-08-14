@@ -1,0 +1,80 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets network navigation and guarded relationship action remain reachable without blur or oversized chrome.
+*/
+.networkAlias,
+.networkContext,
+.profileFollowButton,
+.publicFeedCard__profile {
+	min-height: 44px;
+	border-radius: 999px;
+	font: inherit;
+	font-size: .78rem;
+}
+
+.networkAlias,
+.profileFollowButton,
+.publicFeedCard__profile {
+	border: 1px solid rgba(121, 212, 255, .28);
+	background: rgba(76, 180, 255, .09);
+	color: #c9efff;
+	cursor: pointer;
+}
+
+.networkAlias,
+.networkContext,
+.profileFollowButton {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0 13px;
+}
+
+.networkContext {
+	border: 1px solid rgba(139, 180, 255, .13);
+	color: var(--muted, #aeb8c8);
+}
+
+.profileFollowHost {
+	display: flex;
+	align-items: center;
+	min-height: 46px;
+	margin: 10px 0 12px;
+}
+
+.profileFollowButton {
+	font-weight: 850;
+}
+
+.profileFollowMessage {
+	margin: 0;
+	color: var(--muted, #aeb8c8);
+	font-size: .78rem;
+	line-height: 1.5;
+}
+
+.publicFeedCard__profile {
+	display: inline-flex;
+	align-items: center;
+	padding: 0 11px;
+	margin: 0 0 7px;
+}
+
+.networkAlias:hover,
+.networkAlias:focus-visible,
+.profileFollowButton:hover,
+.profileFollowButton:focus-visible,
+.publicFeedCard__profile:hover,
+.publicFeedCard__profile:focus-visible {
+	border-color: #79d4ff;
+	background: rgba(76, 180, 255, .15);
+}
+
+@media (max-width: 700px) {
+	.networkAlias,
+	.networkContext {
+		width: 100%;
+		border-radius: 12px;
+	}
+}

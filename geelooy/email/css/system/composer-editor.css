@@ -1,19 +1,20 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gives writing one immediate and readable surface.
+The Awtsmoos gives the unsent word spacious form; Awtsmoos.com keeps delivery clear and editing quiet.
 */
 .composer-content {
-	padding: 10px;
+	padding: 9px 10px 10px;
 }
 
 .subject-input,
 .message-input,
 .styled-input {
+	box-sizing: border-box;
 	width: 100%;
 	border: 1px solid var(--mail-border);
 	border-radius: 11px;
-	background: rgba(255, 255, 255, .025);
+	background: rgba(255, 255, 255, .022);
 	color: var(--mail-text);
 }
 
@@ -23,27 +24,58 @@ The Awtsmoos gives writing one immediate and readable surface.
 }
 
 .message-input {
-	min-height: 110px;
-	padding: 12px;
+	min-height: 118px;
+	max-height: min(34vh, 320px);
+	padding: 12px 13px;
 	outline: none;
-	line-height: 1.55;
+	font-size: .94rem;
+	line-height: 1.62;
 	resize: vertical;
+	transition: border-color .14s ease, background .14s ease, box-shadow .14s ease;
+}
+
+.message-input:focus {
+	border-color: var(--mail-border-strong);
+	background: rgba(255, 255, 255, .034);
+	box-shadow: 0 0 0 4px rgba(119, 164, 231, .045);
+}
+
+.visual-editor:empty::before {
+	content: attr(data-placeholder);
+	color: var(--mail-text-muted);
+	pointer-events: none;
 }
 
 .composer-action-row {
 	display: flex;
-	justify-content: flex-end;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
 	padding-top: 9px;
+}
+
+.composer-send-hint {
+	margin: 0;
+	color: var(--mail-text-muted);
+	font-size: .66rem;
 }
 
 .send-btn,
 .btn-primary {
 	min-height: 42px;
-	padding: 0 16px;
-	border: 1px solid rgba(255, 255, 255, .35);
+	padding: 0 17px;
+	border: 1px solid rgba(255, 255, 255, .42);
 	border-radius: 11px;
-	background: #e9f1fd;
-	color: #0b1421;
-	font-weight: 720;
+	background: linear-gradient(180deg, #edf4ff, #dceafd);
+	box-shadow: 0 8px 24px rgba(87, 132, 197, .16);
+	color: #0a1421;
+	font-weight: 760;
 	cursor: pointer;
+	transition: transform .14s ease, box-shadow .14s ease;
+}
+
+.send-btn:hover,
+.btn-primary:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 10px 28px rgba(87, 132, 197, .24);
 }

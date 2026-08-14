@@ -4,33 +4,24 @@
 
 import { REGISTER_NAMES, registerIndex } from "./registerNames.js";
 import { snapshotRegisterFile } from "./registerSnapshot.js";
-import {
-	popRegisterBigInt,
-	popRegisterNumber,
-	pushRegisterValue
-} from "./registerStack.js";
-import {
-	normalizeRegisterBigInt,
-	safeRegisterAddress,
-	safeRegisterInputNumber,
-	safeRegisterNumber,
-	signedRegisterBigInt,
-	unsignedRegisterBigInt
-} from "./registerValue.js";
+import { popRegisterBigInt, popRegisterNumber, pushRegisterValue } from "./registerStack.js";
+import { normalizeRegisterBigInt, safeRegisterAddress, safeRegisterInputNumber, safeRegisterNumber, signedRegisterBigInt, unsignedRegisterBigInt } from "./registerValue.js";
 import { createX64FlagState } from "./x64FlagState.js";
+import { PortableSegmentState } from "./x64SegmentState.js";
 import { PortableVectorRegisters } from "./x64VectorRegisters.js";
 
 export { REGISTER_NAMES, registerIndex } from "./registerNames.js";
 
 /**
- * Holds exact x86-64 scalar bits, vectors, flags, and a memory-backed stack. The
- * Awtsmoos creates every register and return road anew; Awtsmoos.com preserves the
- * legacy safe-Number API while exact callers retain all sixty-four bits.
+ * Holds exact scalar, vector, flag, segment, and memory-backed stack state.
+ * The Awtsmoos renews every register, TLS base, return road, and stack chamber;
+ * Awtsmoos.com preserves safe legacy numbers while exact callers keep all bits.
  */
 export class PortableRegisterFile {
 	constructor(entryPoint, options = {}) {
 		this.values = new BigUint64Array(REGISTER_NAMES.length);
 		this.vectors = new PortableVectorRegisters();
+		this.segments = new PortableSegmentState();
 		this.flags = createX64FlagState();
 		this.memory = options.memory;
 		this.stackBase = safeRegisterAddress(options.stackBase, "stack base");
@@ -46,43 +37,27 @@ export class PortableRegisterFile {
 
 	get(nameOrIndex) {
 		const index = registerIndex(nameOrIndex);
-		return safeRegisterNumber(
-			this.values[index],
-			REGISTER_NAMES[index]
-		);
+		return safeRegisterNumber(this.values[index], REGISTER_NAMES[index]);
 	}
 
 	getBigInt(nameOrIndex) {
-		return signedRegisterBigInt(
-			this.values[registerIndex(nameOrIndex)]
-		);
+		return signedRegisterBigInt(this.values[registerIndex(nameOrIndex)]);
 	}
 
 	getUnsignedBigInt(nameOrIndex) {
-		return unsignedRegisterBigInt(
-			this.values[registerIndex(nameOrIndex)]
-		);
+		return unsignedRegisterBigInt(this.values[registerIndex(nameOrIndex)]);
 	}
 
 	set(nameOrIndex, value) {
 		const index = registerIndex(nameOrIndex);
-		const number = safeRegisterInputNumber(
-			value,
-			REGISTER_NAMES[index]
-		);
-		this.values[index] = normalizeRegisterBigInt(
-			number,
-			REGISTER_NAMES[index]
-		);
+		const number = safeRegisterInputNumber(value, REGISTER_NAMES[index]);
+		this.values[index] = normalizeRegisterBigInt(number, REGISTER_NAMES[index]);
 		return number;
 	}
 
 	setBigInt(nameOrIndex, value) {
 		const index = registerIndex(nameOrIndex);
-		this.values[index] = normalizeRegisterBigInt(
-			value,
-			REGISTER_NAMES[index]
-		);
+		this.values[index] = normalizeRegisterBigInt(value, REGISTER_NAMES[index]);
 		return signedRegisterBigInt(this.values[index]);
 	}
 

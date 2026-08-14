@@ -1,0 +1,68 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-youtube-c14506c7",
+	"path": "geelooy/youtube",
+	"type": "public",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "Awtsmoos YouTube Manager",
+	"entries": [
+		"index.html",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/youtube/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-youtube-c14506c7.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 6,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 7,
+	"symbolSummary": {
+		"files": 4,
+		"classes": 0,
+		"functions": 14,
+		"exports": 7,
+		"samples": [
+			"boot",
+			"loadChannel",
+			"loadVideos",
+			"uploadMetadata",
+			"updateChanges",
+			"showUpdateError",
+			"youtubeApi",
+			"request",
+			"uploadToGoogle",
+			"byId",
+			"showConnection",
+			"showChannel"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/youtube",
+			"file": "geelooy/youtube/index.html",
+			"title": "Awtsmoos YouTube Manager",
+			"scripts": 1,
+			"styles": 1
+		}
+	],
+	"requiresLocalDocumentation": false,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

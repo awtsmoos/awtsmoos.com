@@ -3,19 +3,30 @@
 /*Blessed is He*/
 
 /**
- * Thumb controls and a narrow HUD must serve the canvas rather than consume it.
- * The Awtsmoos renews touch and vision together, while this Awtsmoos.com mobile
- * game vessel preserves the largest possible three-dimensional field.
+ * The Awtsmoos renews each encounter as a full three-dimensional chamber whose controls remain reachable but never tiny;
+ * Awtsmoos.com keeps the encounter HUD compact on phones while preserving forty-eight-pixel actions and the largest possible stage.
+ * This vessel changes only mobile presentation; every game mechanic continues through the existing GameSession and game classes.
  */
 @media (max-width: 700px) {
-	.gameTopBar {
+	.gameHeader {
+		gap: 0.35rem;
 		grid-template-columns: auto minmax(0, 1fr);
 		grid-template-rows: auto auto;
-		min-height: 3.1rem;
+		min-height: 3rem;
+		padding: 0.35rem 0.45rem;
 	}
 
-	.gameTopBar > div:nth-child(2) {
+	.gameHeader > p {
+		min-width: 0;
 		text-align: right;
+	}
+
+	.gameHeader strong,
+	.gameHeader small {
+		display: block;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 
 	.gameHud {
@@ -24,19 +35,25 @@
 	}
 
 	.gameStatus {
-		min-height: 2rem;
 		font-size: 0.66rem;
+		min-height: 2rem;
+		padding: 0.35rem 0.45rem;
 	}
 
 	.gameControls {
-		grid-template-columns: repeat(4, minmax(0, 1fr));
-		gap: 0.3rem;
-		padding-top: 0.35rem;
+		gap: 0.35rem;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		padding: 0.4rem max(0.45rem, env(safe-area-inset-right)) max(0.45rem, env(safe-area-inset-bottom)) max(0.45rem, env(safe-area-inset-left));
+	}
+
+	.controlButton,
+	.primaryButton,
+	.backButton {
+		min-height: 48px;
 	}
 
 	.controlButton {
-		min-height: 2.25rem;
-		padding: 0.32rem;
-		font-size: 0.62rem;
+		font-size: 0.7rem;
+		padding: 0.45rem 0.55rem;
 	}
 }

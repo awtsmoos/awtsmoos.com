@@ -1,0 +1,115 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets a palace become a community and each nested path a channel; Awtsmoos.com keeps every chamber touchable, legible, actionable, and canonical.
+*/
+.spacesPanel {
+	display: grid;
+	gap: var(--space-4);
+}
+
+.spacesHeading {
+	display: grid;
+	gap: .35rem;
+}
+
+.spacesHeading h2,
+.spacesHeading p {
+	margin: 0;
+}
+
+.spacesHeading p,
+.spaceCard p,
+.spaceCard small,
+.spacePolicy,
+.spacesMessage {
+	color: var(--muted);
+}
+
+.spacesSearch input {
+	width: 100%;
+	min-height: 3rem;
+	font-size: 1rem;
+}
+
+.spacesRegion {
+	display: grid;
+	gap: .75rem;
+}
+
+.spaceCard {
+	display: grid;
+	gap: .45rem;
+	padding: 1rem;
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	background: var(--surface-strong);
+}
+
+.spaceCard p,
+.spaceCard small {
+	margin: 0;
+}
+
+.spaceOpen,
+.spaceChannel,
+.spaceCreateLink {
+	min-height: 2.85rem;
+	border: 1px solid var(--line-hot);
+	border-radius: .8rem;
+	font: inherit;
+	font-weight: 700;
+}
+
+.spaceOpen,
+.spaceChannel {
+	background: var(--surface);
+	color: var(--ink);
+	text-align: left;
+	cursor: pointer;
+}
+
+.spaceOpen {
+	padding: .75rem .85rem;
+	font-size: 1rem;
+}
+
+.spaceChannel {
+	padding: .7rem .8rem;
+}
+
+.spaceCreateLink {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: .7rem 1rem;
+	background: linear-gradient(135deg, color-mix(in srgb, var(--cyan) 22%, var(--surface)), var(--surface-strong));
+	color: var(--ink);
+	text-align: center;
+	text-decoration: none;
+}
+
+.spaceOpen:hover,
+.spaceOpen:focus-visible,
+.spaceChannel:hover,
+.spaceChannel:focus-visible,
+.spaceCreateLink:hover,
+.spaceCreateLink:focus-visible {
+	border-color: var(--cyan);
+	background: var(--surface-strong);
+}
+
+#spaceDetail {
+	padding-top: .5rem;
+	border-top: 1px solid var(--line);
+}
+
+#spaceDetail h3 {
+	margin: 0;
+}
+
+@media (min-width: 48rem) {
+	#spacesResults {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}

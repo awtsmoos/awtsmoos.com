@@ -1,0 +1,107 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos remembers meaningful paths without needing an engagement score; Awtsmoos.com keeps each owner-only event readable in light while phone density is imported explicitly by the flagship root as its own smaller garment. */
+
+.messaging-activity-list {
+	position: relative;
+	display: grid;
+	gap: 0;
+	max-width: 800px;
+}
+
+.messaging-activity-list::before {
+	content: "";
+	position: absolute;
+	top: 0.9rem;
+	bottom: 0.9rem;
+	left: 7px;
+	width: 1px;
+	background: var(--msg-line-strong);
+}
+
+.messaging-activity-card {
+	position: relative;
+	display: grid;
+	grid-template-columns: 16px minmax(0, 1fr);
+	gap: 0.75rem;
+	padding: 0.72rem 0;
+}
+
+.messaging-activity-marker {
+	position: relative;
+	z-index: 1;
+	width: 9px;
+	height: 9px;
+	margin-top: 0.38rem;
+	border: 2px solid #0b1712;
+	border-radius: 50%;
+	background: var(--msg-accent);
+	box-shadow: 0 0 0 3px rgba(121, 224, 183, 0.08);
+}
+
+.messaging-activity-copy {
+	display: grid;
+	gap: 0.45rem;
+	padding-bottom: 0.72rem;
+	border-bottom: 1px solid var(--msg-line);
+}
+
+.messaging-activity-heading {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 0.75rem;
+}
+
+.messaging-activity-heading strong {
+	min-width: 0;
+	overflow-wrap: anywhere;
+	font-size: 0.9rem;
+	line-height: 1.4;
+}
+
+.messaging-activity-heading time {
+	flex: 0 0 auto;
+	color: var(--msg-muted);
+	font-size: 0.68rem;
+}
+
+.messaging-activity-meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.3rem;
+}
+
+.messaging-activity-chip {
+	display: inline-flex;
+	align-items: center;
+	min-height: 24px;
+	padding: 0 0.45rem;
+	border: 1px solid var(--msg-line);
+	border-radius: 999px;
+	color: var(--msg-muted);
+	font-size: 0.6rem;
+	line-height: 1;
+}
+
+.messaging-activity-open {
+	justify-self: start;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 36px;
+	padding: 0 0.65rem;
+	border: 1px solid var(--msg-line-strong);
+	border-radius: 9px;
+	color: var(--msg-text);
+	font-size: 0.68rem;
+	font-weight: 720;
+	text-decoration: none;
+}
+
+.messaging-activity-open:hover {
+	border-color: rgba(121, 224, 183, 0.26);
+	background: rgba(121, 224, 183, 0.07);
+}

@@ -1,0 +1,87 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos is present before any sheet interrupts the workspace; Awtsmoos.com keeps transactional forms inside the visual viewport, scrollable without escape, and safe around every device edge—intent stays near, focus stays clear, and no finite dialog swallows the air. */
+
+.messaging-modal-overlay {
+	position: fixed;
+	z-index: 1000;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+	background: rgba(0, 0, 0, 0.68);
+	backdrop-filter: blur(8px);
+	overscroll-behavior: contain;
+}
+
+.messaging-modal {
+	display: grid;
+	gap: 0.8rem;
+	width: min(440px, 100%);
+	max-height: min(720px, 92dvh);
+	overflow: auto;
+	padding: 1rem;
+	border: 1px solid var(--msg-line-strong);
+	border-radius: 18px;
+	background: #0c1913;
+	box-shadow: var(--msg-shadow-strong);
+	overscroll-behavior: contain;
+	scroll-padding-block: 0.75rem;
+}
+
+.messaging-modal h2 {
+	margin: 0;
+	font-size: 1.1rem;
+	line-height: 1.25;
+}
+
+.messaging-modal p {
+	margin: 0;
+	color: var(--msg-soft);
+	font-size: 0.8rem;
+	line-height: 1.55;
+}
+
+.messaging-modal-field {
+	display: grid;
+	gap: 0.35rem;
+	margin-top: 0.15rem;
+}
+
+.messaging-modal-field > span {
+	color: var(--msg-soft);
+	font-size: 0.7rem;
+	font-weight: 760;
+}
+
+.messaging-modal input,
+.messaging-modal textarea,
+.messaging-modal select {
+	width: 100%;
+	min-height: var(--msg-touch);
+	padding: 0.65rem 0.75rem;
+	border: 1px solid var(--msg-line-strong);
+	border-radius: var(--msg-radius-sm);
+	background: var(--msg-surface);
+	color: var(--msg-text);
+}
+
+@media (max-width: 600px) {
+	.messaging-modal-overlay {
+		align-items: flex-end;
+		padding: env(safe-area-inset-top) 0 0;
+	}
+
+	.messaging-modal {
+		width: 100%;
+		max-height: min(82dvh, 680px);
+		padding: 1rem max(0.85rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(0.85rem, env(safe-area-inset-left));
+		border-right: 0;
+		border-bottom: 0;
+		border-left: 0;
+		border-radius: var(--msg-radius-lg) var(--msg-radius-lg) 0 0;
+	}
+}

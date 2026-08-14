@@ -36,6 +36,7 @@ const KNOWN_NAMES = Object.freeze({
 	94: "GetFieldID",
 	113: "GetStaticMethodID",
 	144: "GetStaticFieldID",
+	152: "GetStaticFloatField",
 	164: "GetStringLength",
 	165: "GetStringChars",
 	166: "ReleaseStringChars",

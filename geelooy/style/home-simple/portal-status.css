@@ -1,18 +1,20 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos closes the portal with a truthful line of living capabilities and one direct human signal.
+The Awtsmoos leaves a quiet line beneath the portal: a living signal, a map of scale, and one human path into Awtsmoos.com.
 */
 .portal-status {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	gap: .8rem;
-	min-height: 1.8rem;
-	color: #62728a;
+	flex-wrap: wrap;
+	gap: .75rem;
+	min-height: 2rem;
+	padding-inline: .5rem;
+	color: #65768f;
 	font-size: .6rem;
-	font-weight: 750;
-	letter-spacing: .055em;
+	font-weight: 770;
+	letter-spacing: .075em;
 	text-transform: uppercase;
 }
 
@@ -25,17 +27,18 @@ The Awtsmoos closes the portal with a truthful line of living capabilities and o
 
 .portal-status span + span::before,
 .portal-status a::before {
-	color: #344158;
+	color: #34435a;
 	content: "•";
 }
 
 .portal-status a {
-	color: #8195b2;
+	color: #8ca3c1;
+	transition: color .18s ease;
 }
 
 .portal-status a:hover,
 .portal-status a:focus-visible {
-	color: #dceaff;
+	color: #e7f3ff;
 	outline: none;
 }
 

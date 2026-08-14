@@ -3,15 +3,11 @@
 // Blessed is He
 /**
  * @module MailComposerViewHeader
- * @description The Awtsmoos gives mode and window controls one focused Awtsmoos.com vessel.
+ * @description
+ * The Awtsmoos gives every writing mode its proper vessel; Awtsmoos.com keeps
+ * advanced controls available but secondary so the message remains primary.
  */
-import {
-	switchMode,
-	toggleSubject,
-	toggleFullscreen,
-	toggleMinimize,
-	toggleEnterSend
-} from './actions.js';
+import { switchMode, toggleSubject, toggleFullscreen, toggleMinimize, toggleEnterSend } from './actions.js';
 import { iconControl, modeTab } from './controls.js';
 
 /** Returns the composer mode and window-control bar. */
@@ -28,9 +24,9 @@ function modeGroup(ui) {
 	return {
 		tag: 'div',
 		classList: ['composer-tabs'],
-		attributes: { role: 'group', 'aria-label': 'Composer mode' },
+		attributes: { role: 'group', 'aria-label': 'Writing mode' },
 		children: [
-			modeTab('Visual', 'visual', true, event => activateMode(event, ui)),
+			modeTab('Write', 'visual', true, event => activateMode(event, ui)),
 			modeTab('Markdown', 'markdown', false, event => activateMode(event, ui)),
 			modeTab('HTML', 'html', false, event => activateMode(event, ui))
 		]
@@ -50,8 +46,8 @@ function windowControls(ui) {
 		classList: ['flex', 'gap-2', 'composer-window-controls'],
 		children: [
 			iconControl('Enter sends', 'Toggle Enter to send', 'btnEnterSend', event => toggleEnterSend(event)),
-			iconControl('Subject', 'Toggle subject', '', () => toggleSubject(ui)),
-			iconControl('Expand', 'Maximize composer', '', () => toggleFullscreen(ui)),
+			iconControl('Subject', 'Show or hide subject', '', () => toggleSubject(ui)),
+			iconControl('Expand', 'Expand composer', '', () => toggleFullscreen(ui)),
 			iconControl('Minimize', 'Minimize composer', '', event => {
 				event.stopPropagation();
 				toggleMinimize(ui);

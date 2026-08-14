@@ -1,0 +1,78 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos creates active frame, resting frame, content field, and every edge anew.
+Awtsmoos.com reveals process focus without dimming the work entrusted to it.
+*/
+.window,
+.awts-window {
+	position: relative;
+	isolation: isolate;
+	border: 1px solid var(--geo-border);
+	border-radius: var(--geo-radius-lg);
+	background:
+		linear-gradient(145deg, rgb(255 255 255 / 6%), transparent 38%),
+		var(--geo-surface-strong);
+	box-shadow: var(--geo-shadow-sm);
+	backdrop-filter: blur(28px) saturate(155%);
+	transition:
+		border-color var(--geo-fast),
+		box-shadow var(--geo-medium) var(--geo-ease),
+		opacity var(--geo-fast),
+		transform var(--geo-medium) var(--geo-ease),
+		filter var(--geo-fast);
+}
+.window::before,
+.awts-window::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	border-radius: inherit;
+	pointer-events: none;
+	background: linear-gradient(115deg, rgb(101 239 226 / 4%), transparent 35%, rgb(189 138 255 / 5%));
+}
+.window.active,
+.awts-window[data-state="active"] {
+	z-index: 900;
+	border-color: var(--geo-border-bright);
+	box-shadow: var(--geo-shadow-active), var(--geo-glow-cyan);
+	opacity: 1;
+	filter: saturate(1.05);
+}
+.window.inactive,
+.awts-window[data-state="inactive"] {
+	filter: saturate(.72) brightness(.9);
+	opacity: .88;
+	box-shadow: 0 14px 42px rgb(0 0 0 / 32%);
+}
+.window-content,
+.windows-body {
+	color: var(--geo-text);
+	background: linear-gradient(180deg, rgb(2 6 18 / 12%), rgb(2 6 18 / 34%));
+}
+.window-content > img {
+	display: block;
+	max-width: 100%;
+	max-height: 100%;
+	margin: auto;
+	object-fit: contain;
+}
+.window.is-fullscreen,
+.awts-window.is-fullscreen {
+	border: 0;
+	border-radius: 0;
+	box-shadow: none;
+}
+@media (max-width: 700px) {
+	.window,
+	.awts-window {
+		border-radius: 0;
+		transition: none;
+	}
+	.window.inactive,
+	.awts-window[data-state="inactive"] {
+		opacity: 1;
+		filter: none;
+	}
+}

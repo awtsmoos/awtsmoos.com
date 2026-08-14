@@ -1,0 +1,86 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets the Games doorway announce itself without becoming the whole journey.
+*/
+.gamesShell {
+	width: min(1280px, 100%);
+	margin: 0 auto;
+	padding: clamp(16px, 3vw, 34px);
+}
+
+.heroPanel {
+	position: relative;
+	overflow: hidden;
+	padding: clamp(24px, 4vw, 42px);
+	border: 1px solid var(--games-line);
+	border-radius: var(--games-radius-xl);
+	background:
+		radial-gradient(circle at 82% 12%, rgba(64, 225, 255, .14), transparent 26%),
+		radial-gradient(circle at 10% 10%, rgba(246, 202, 104, .16), transparent 30%),
+		linear-gradient(145deg, rgba(17, 13, 32, .97), rgba(7, 8, 18, .96));
+	box-shadow: var(--games-shadow-lg);
+}
+
+.eyebrow {
+	margin: 0 0 8px;
+	color: var(--games-cyan);
+	font-size: .72rem;
+	font-weight: 900;
+	letter-spacing: .14em;
+	text-transform: uppercase;
+}
+
+.heroPanel h1 {
+	max-width: 920px;
+	margin: 0;
+	color: var(--games-gold);
+	font-size: clamp(2.8rem, 6vw, 5.4rem);
+	line-height: .94;
+	letter-spacing: -.055em;
+}
+
+.heroText {
+	max-width: 820px;
+	margin: 18px 0 0;
+	color: var(--games-text-soft);
+	font-size: clamp(1rem, 1.6vw, 1.16rem);
+	line-height: 1.55;
+}
+
+.heroActions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin-top: 22px;
+}
+
+.primaryCta,
+.secondaryCta {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 46px;
+	padding: 0 18px;
+	border: 1px solid var(--games-line);
+	border-radius: 999px;
+	font-size: .84rem;
+	font-weight: 900;
+	text-decoration: none;
+}
+
+.primaryCta {
+	border-color: transparent;
+	background: linear-gradient(135deg, var(--games-gold), #fff1b4);
+	color: #171006;
+}
+
+.secondaryCta {
+	background: rgba(255,255,255,.045);
+	color: var(--games-text);
+}
+
+.primaryCta:hover,
+.secondaryCta:hover {
+	transform: translateY(-1px);
+}

@@ -1,49 +1,19 @@
 // B"H
 import assert from 'node:assert/strict';
-import {
-	createQuestion,
-	createAnswer,
-	listAnswers,
-	createSection,
-	listSections,
-	repostEntity,
-	shareEntity,
-	referenceEntity
-} from '../api/socialContent.js';
-import {
-	createComment,
-	replyToComment,
-	listCommentAuthors,
-	listCommentsByAlias
-} from '../api/comments.js';
-import {
-	listNotifications,
-	getUnreadNotificationCount,
-	markNotificationRead,
-	createNotification,
-	pollNotifications,
-	fanoutNotifications
-} from '../api/notifications.js';
+import { createQuestion, createAnswer, listAnswers, createSection, listSections, repostEntity, shareEntity, referenceEntity } from '../api/socialContent.js';
+import { createComment, replyToComment, listCommentAuthors, listCommentsByAlias } from '../api/comments.js';
+import { listNotifications, getUnreadNotificationCount, markNotificationRead, createNotification, pollNotifications, fanoutNotifications } from '../api/notifications.js';
 import { semanticSearch } from '../api/semanticSearch.js';
-import {
-	getPostDetails as getLegacyPostDetails,
-	getBreadcrumb as getLegacyBreadcrumb
-} from '../../api/contentApi.js';
+import { getPostDetails as getLegacyPostDetails, getBreadcrumb as getLegacyBreadcrumb } from '../../api/contentApi.js';
 
 const calls = [];
 globalThis.fetch = async (url, opts = {}) => {
 	calls.push({ url: String(url), opts });
-	const payload = String(url).includes('/breadcrumb') ? [] : { success: true };
-	return {
-		ok: true,
-		status: 200,
-		statusText: 'OK',
-		async json() {
-			return payload;
-		}
-	};
+	const text = String(url);
+	let payload = text.includes('/breadcrumb') ? [] : { success: true };
+	if (text.includes('/comment-tree?')) payload = { success: [{ id: 'c1', aliasId: 'a', replies: [] }] };
+	return { ok: true, status: 200, statusText: 'OK', async json() { return payload; } };
 };
-
 const bodyText = call => call.opts?.body?.toString?.() || '';
 
 await createQuestion({ heichelId: 'h 1', aliasId: 'a', postId: 'q1', title: 'Q', content: 'Body', sections: [{ id: 's1' }] });
@@ -76,10 +46,11 @@ assert.ok(calls.some(call => call.url.includes('/api/social/content/heichelos/h%
 assert.ok(calls.some(call => call.url.endsWith('/api/social/content/repost') && bodyText(call).includes('toSectionId=s1')));
 assert.ok(calls.some(call => call.url.endsWith('/api/social/content/share') && bodyText(call).includes('fromParentId=p1')));
 assert.ok(calls.some(call => call.url.endsWith('/api/social/graph/references') && bodyText(call).includes('kind=references')));
-assert.ok(calls.some(call => call.url.includes('/api/social/heichelos/h%201/post/p1/comments/') && call.opts.method === 'POST' && bodyText(call).includes('verseSection')));
-assert.ok(calls.some(call => call.url.includes('/api/social/heichelos/h%201/comment/c1') && call.opts.method === 'POST' && bodyText(call).includes('Reply')));
-assert.ok(calls.some(call => call.url.includes('/api/social/heichelos/h%201/post/p1/comments/aliases?') && call.url.includes('verseSection=v1')));
-assert.ok(calls.some(call => call.url.includes('/api/social/heichelos/h%201/comments/inSeries/s1/atPost/p1/atAlias/a?') && call.url.includes('verseSection=v1')));
+assert.ok(calls.some(call => call.url.endsWith('/api/social/heichelos/h%201/posts/p1/comment-tree') && call.opts.method === 'POST' && bodyText(call).includes('verseSection=v1')));
+assert.ok(calls.some(call => call.url.endsWith('/api/social/heichelos/h%201/posts/p1/comments/c1/replies') && call.opts.method === 'POST' && bodyText(call).includes('Reply')));
+assert.equal(calls.filter(call => call.url.includes('/api/social/heichelos/h%201/posts/p1/comment-tree?')).length, 2);
+assert.ok(calls.some(call => call.url.includes('/api/social/heichelos/h%201/posts/p1/comment-tree?') && call.url.includes('verseSection=v1')));
+assert.ok(!calls.some(call => call.url.includes('/comments/aliases') || call.url.includes('/comments/inSeries/')));
 assert.ok(calls.some(call => call.url.includes('/api/social/notifications/a?includeRead=yes')));
 assert.ok(calls.some(call => call.url.endsWith('/api/social/notifications/a/unread/count')));
 assert.ok(calls.some(call => call.url.endsWith('/api/social/notifications/a/n1/read') && call.opts.method === 'POST'));
@@ -87,7 +58,6 @@ assert.ok(calls.some(call => call.url.endsWith('/api/social/notifications/b') &&
 assert.ok(calls.some(call => call.url.includes('/api/social/notifications/b/poll?since=9')));
 assert.ok(calls.some(call => call.url.endsWith('/api/social/notifications/fanout') && bodyText(call).includes('toAliases=b%2Cc')));
 assert.ok(calls.some(call => call.url.includes('/api/social/search/semantic?') && call.url.includes('entityType=comment') && call.url.includes('limit=7')));
-
 const legacyPostsCall = calls.find(call => call.url.includes('/posts/details?'));
 assert.ok(legacyPostsCall, 'legacy navigator post request missing');
 const legacyPostsUrl = new URL(legacyPostsCall.url, 'http://awtsmoos.local');
@@ -96,5 +66,4 @@ assert.ok(legacyPostsUrl.pathname.includes('BH-seferHamaamarimMeluket-%D7%9E%D7%
 assert.ok(legacyPostsUrl.searchParams.has('properties'));
 assert.ok(!legacyPostsUrl.searchParams.has('propertyMap'));
 assert.ok(calls.some(call => call.url.includes('%D7%9E%D7%A0%D7%97%D7%9D%20%D7%90%D7%91_meluket/breadcrumb')));
-
 console.log('B"H browserApiRequestShapes.test passed');

@@ -4,9 +4,9 @@
 
 /**
  * @file RemoteModelRecords.js
- * @description Records byte counts and SHA-256 identities for every canonical Mitzvah World GLB.
- * The Awtsmoos gives each finite form one immutable name; Awtsmoos.com serves these exact
- * measured bytes through content-addressed Drive paths while Git preserves identity and truth.
+ * @description Records byte counts and SHA-256 identities for every active canonical Mitzvah World GLB.
+ * The Awtsmoos gives each finite imported form one immutable name; Awtsmoos.com keeps structural trees
+ * outside this table because every live tree now grows exclusively through the deeper procedural core in `geelooy/libs`.
  */
 
 export const REMOTE_MODEL_RECORDS = Object.freeze({
@@ -17,8 +17,6 @@ export const REMOTE_MODEL_RECORDS = Object.freeze({
 	'reference-world/Chest_Closed.glb': record(85120, '2ac5715af9015d885338e8c6d4b7fbea47131a253c24944e11f331b907b4d160'),
 	'reference-world/Cow.glb': record(370816, '1d513ef5e3cba976405b68621905aa1954b7c7b673f0566bb3ac0135c330af6f'),
 	'reference-world/Flower_4_Clump.glb': record(4868, 'ec4c5186b8b33b8095b5e8a4f733cfed1b21e876cf40f0ea9ea14537066592b9'),
-	'reference-world/NormalTree_5.glb': record(94036, '5391f680617b2f8f5c7d0d8dbae1c18e6cd2f0e3795a6e4e0902110e3f5c51d5'),
-	'reference-world/PineTree_3.glb': record(56980, '2e2061c8d5ed2a9beff3fa4f2e95967c9dfc554407c464278b2a0af13b29c204'),
 	'reference-world/Rat.glb': record(593268, '163afe5bfb722229a814af69dd61e8809e0679e5782c312ad840ac7a599a58a7'),
 	'reference-world/Rock_2.glb': record(11144, '10783ce0a1956b1c2c6879f7dba303b39fbe8f92256fe910b270f2f3b5d4e3ac'),
 	'reference-world/Scroll.glb': record(52704, '5e8581b1041eeae144e12b12b295eda498a8f9b52218065a7b76307cb1bd4ec9'),

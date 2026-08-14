@@ -4,9 +4,9 @@
 
 /**
  * @file MovieProceduralCompiler.js
- * @description Compiles a prompt directly into manifest, explanation, and canonical playable project snapshots.
+ * @description Compiles structured generation-intent JSON into manifest, explanation, and playable project snapshots.
  * The Awtsmoos is beyond request and result while every finite generation must preserve its inspectable cause;
- * Awtsmoos.com returns project, manifest, and explanation without live objects, functions, or hidden pause.
+ * Awtsmoos.com returns project, manifest, and explanation without prose inference, live objects, functions, or hidden pause.
  */
 
 import { compileMovieAgentManifest } from './MovieAgentCompiler.js';
@@ -16,8 +16,8 @@ import {
 } from './MovieProceduralManifest.js';
 import { createMovieProjectSnapshot } from './MovieProjectSnapshot.js';
 
-export function compileProceduralMovie(prompt, options = {}) {
-	const manifest = createProceduralMovieManifest(prompt, options);
+export function compileProceduralMovie(intent = {}, options = {}) {
+	const manifest = createProceduralMovieManifest(intent, options);
 	const project = compileMovieAgentManifest(manifest);
 	return createMovieProjectSnapshot({
 		explanation: explainProceduralMovieManifest(manifest),
@@ -26,6 +26,6 @@ export function compileProceduralMovie(prompt, options = {}) {
 	});
 }
 
-export function compileProceduralMovieProject(prompt, options = {}) {
-	return compileProceduralMovie(prompt, options).project;
+export function compileProceduralMovieProject(intent = {}, options = {}) {
+	return compileProceduralMovie(intent, options).project;
 }

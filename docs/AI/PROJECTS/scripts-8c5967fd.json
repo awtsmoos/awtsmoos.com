@@ -1,0 +1,51 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "scripts-8c5967fd",
+	"path": "scripts",
+	"type": "tooling",
+	"family": {
+		"id": "libraries",
+		"title": "Libraries and Tooling"
+	},
+	"title": "scripts",
+	"entries": [
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"scripts/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/scripts-8c5967fd.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 273,
+		"tests": 14,
+		"assets": 0,
+		"generated": 0,
+		"docs": 51,
+		"other": 15
+	},
+	"totalFiles": 353,
+	"symbolSummary": null,
+	"outgoingDependencies": [],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/apps/code",
+			"count": 3,
+			"examples": "geelooy/apps/code/js/android/android-source-builder.js"
+		},
+		{
+			"project": "geelooy/apps/tunnel",
+			"count": 1,
+			"examples": "geelooy/apps/tunnel/agent/rebuild-manifest.cjs"
+		}
+	],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

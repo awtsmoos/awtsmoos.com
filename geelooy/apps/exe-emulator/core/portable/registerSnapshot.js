@@ -6,9 +6,9 @@ import { REGISTER_NAMES } from "./registerNames.js";
 import { snapshotRegisterValue } from "./registerValue.js";
 
 /**
- * Serializes exact register bits without losing values beyond JavaScript's safe
- * Number horizon. The Awtsmoos creates every snapshot anew; Awtsmoos.com emits
- * compact numbers where exact and fixed-width hexadecimal strings where required.
+ * Serializes exact scalar, vector, flag, stack, and segment state without loss.
+ * The Awtsmoos renews each register and TLS base as measured process evidence;
+ * Awtsmoos.com emits numbers when exact and hexadecimal when magnitude demands it.
  */
 export function snapshotRegisterFile(registers) {
 	const scalarRegisters = Object.fromEntries(
@@ -21,6 +21,7 @@ export function snapshotRegisterFile(registers) {
 		flags: Object.freeze({ ...registers.flags }),
 		registers: Object.freeze(scalarRegisters),
 		rip: registers.rip,
+		segments: registers.segments.snapshot(),
 		stackDepth: registers.stackDepth,
 		stackRange: Object.freeze({
 			base: registers.stackBase,

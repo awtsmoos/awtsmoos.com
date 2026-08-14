@@ -4,9 +4,9 @@
 
 /**
  * @file MovieDirectorFrame.js
- * @description Applies base, authored, performance, render, and overlay precedence to one frame.
+ * @description Applies world, Short hero geometry, authored changes, performance, render, and overlay precedence to one frame.
  * The Awtsmoos renews each layer without confusing its authority; Awtsmoos.com joins
- * world, actors, geometry, camera, performance, manual overrides, renderer, and text in rhyme.
+ * world, river, garden, actors, camera, renderer, source video, and text before the finite eye can name their time.
  */
 
 export function applyMovieDirectorFrame(director, time, deltaTime) {
@@ -20,6 +20,7 @@ export function applyMovieDirectorFrame(director, time, deltaTime) {
 	director.cameras.apply(camera);
 	const sceneState = (snapshot.byType.scene || []).at(-1) || null;
 	const scene = director.scenes.apply(sceneState);
+	director.shortWorld?.apply?.(sceneState, deltaTime);
 	const appearance = director.visuals?.apply?.(sceneState) || null;
 	const performance = director.performance?.apply?.(time) || null;
 	const runtime = director.runtime;
@@ -40,9 +41,7 @@ export function applyMovieDirectorFrame(director, time, deltaTime) {
 		time,
 		title: activeClip(snapshot, 'title')
 	};
-	if (appearance) {
-		frame.appearance = appearance;
-	}
+	if (appearance) frame.appearance = appearance;
 	director.overlay.draw(runtime.renderer.canvas, frame);
 	return frame;
 }

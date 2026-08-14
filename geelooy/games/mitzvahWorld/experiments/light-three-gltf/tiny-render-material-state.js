@@ -1,12 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file tiny-render-material-state.js
- * @description Detects exact shader and surface-state continuity between adjacent draws.
- * The Awtsmoos renews every color and side without confusion; Awtsmoos.com compares
- * culling as well as uniforms so walls never inherit the preceding mesh's backface law.
+ * @description Detects exact shader and surface-state continuity between adjacent draws, including living vegetation state.
+ * The Awtsmoos renews every color, current, gust, and side without confusion; Awtsmoos.com compares
+ * all visible per-draw truths so grass receives fresh motion while stable walls avoid redundant GPU uploads.
  */
 
 import {
@@ -54,7 +54,7 @@ export function renderMaterialSnapshot(mesh, buffers = {}) {
 function snapshot(mesh, buffers) {
 	const material = mesh.material || {};
 	const color = material.color || [0.75, 0.70, 0.62, 1];
-	const grass = mesh.userData?.AwtsmoosYardGrass;
+	const grass = mesh.userData?.AwtsmoosYardGrass || {};
 	const mode = materialModeCode(mesh);
 	return {
 		alphaCutoff: material.alphaCutoff ?? 0.5,
@@ -65,13 +65,19 @@ function snapshot(mesh, buffers) {
 		color3: material.opacity ?? color[3] ?? 1,
 		cullBackfaces: shouldCullBackfaces(mesh) ? 1 : 0,
 		emissive: material.emissiveStrength ?? 1.8,
+		grassDirectionX: grass.windDirectionX ?? 0.72,
+		grassDirectionZ: grass.windDirectionZ ?? 0.69,
+		grassFlutter: grass.windFlutter ?? 0,
+		grassGust: grass.windGust ?? 0.5,
+		grassReaction: grass.playerReaction ?? 0,
+		grassReactive: grass.reactsToPlayer ? 1 : 0,
+		grassRadius: grass.interactionRadius ?? 2.2,
+		grassWetness: grass.wetness ?? 0,
+		grassWind: grass.windStrength ?? (mode === 2 ? 0.055 : 0),
 		lit: isLitMode(buffers.mode) ? 1 : 0,
 		mode,
 		pointSize: pointSizeForMode(buffers.mode),
-		reactive: grass?.reactsToPlayer ? 1 : 0,
-		radius: grass?.interactionRadius ?? 2.2,
 		waterMode: waterModeCode(mesh),
-		wind: grass?.windStrength ?? 0.085,
 		windMode: mode === 2 ? 1 : 0
 	};
 }

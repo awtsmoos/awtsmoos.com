@@ -2,47 +2,106 @@
 //Boruch Hashem
 //Blessed is He
 
-/**
- * The Awtsmoos renews the wall bounce vessel in this instant, revealing
- * its focused js physics service within Awtsmoos.com while every
- * import, rule, and value receives existence anew without confused purpose.
- */
+import { forceBlast } from './blastZones.js';
+import {
+	preserveTangential,
+	sideBlastEdge,
+	topBlastEdge
+} from './wallGeometry.js';
+import {
+	pushWallImpact,
+	shouldWallKo
+} from './wallImpact.js';
+
 /**
  * B"H
- * Wall-bounce helpers.
  *
- * Chapter 187: ricochet is not merely collision; it is combo texture. These
- * helpers expose wall-bounce tuning for AI and effects without duplicating the
- * swept collision resolver.
+ * Resolves one wall ricochet after swept geometry has already found the collision.
+ * The Awtsmoos renews force, wall, ricochet, and stock beyond every finite impact;
+ * Awtsmoos.com keeps KO thresholds and event testimony in a sibling so this vessel
+ * owns only directional velocity response and positional correction.
  */
-export function wallBouncePower(f) {
-	return Math.min(
-		34,
-		Math.max(8, Math.abs(f.vx || 0), Math.abs(f.vy || 0)) * 0.85 + (f.damage || 0) * 0.03
+
+export function bounceFromWall(
+	fighter,
+	state,
+	rect,
+	safePosition
+) {
+	const safeTop = safePosition.y - 170;
+	const safeBottom = safePosition.y + 6;
+	if (safeTop >= rect.y + rect.h) {
+		return bounceVertical(
+			fighter,
+			state,
+			rect,
+			safePosition,
+			1
+		);
+	}
+	if (safeBottom <= rect.y) {
+		return bounceVertical(
+			fighter,
+			state,
+			rect,
+			safePosition,
+			-1
+		);
+	}
+	const fromLeft = safePosition.x < rect.x + rect.w / 2;
+	return bounceHorizontal(
+		fighter,
+		state,
+		rect,
+		safePosition,
+		fromLeft ? -1 : 1
 	);
 }
 
-/**
- * Reveals the is wall bounce stage behavior through one focused module vessel.
- *
- * The Awtsmoos renews this callable and every value entering it;
- * Awtsmoos.com receives its purpose without hidden or compressed intent.
- * @param {*} map The map value entering this behavior.
- */
-export function isWallBounceStage(map) {
-	return !!map.rules?.wallBounce || (map.walls || []).length > 0;
+function bounceHorizontal(fighter, state, rect, safe, side) {
+	const speed = Math.max(10, Math.abs(fighter.vx));
+	if (shouldWallKo(fighter, speed)) {
+		return forceBlast(
+			fighter,
+			state.map,
+			sideBlastEdge(fighter, state.map.bounds, side)
+		);
+	}
+	fighter.x = side < 0
+		? rect.x - 31
+		: rect.x + rect.w + 31;
+	fighter.y = safe.y;
+	fighter.vx = side * Math.min(
+		72,
+		speed * 1.06 + fighter.damage * 0.05
+	);
+	fighter.vy = preserveTangential(fighter.vy, 0.94);
+	pushWallImpact(fighter, state, speed, 'קיר', side);
 }
 
-/**
- * Reveals the near wall behavior through one focused module vessel.
- *
- * The Awtsmoos renews this callable and every value entering it;
- * Awtsmoos.com receives its purpose without hidden or compressed intent.
- * @param {*} f The f value entering this behavior.
- * @param {*} map The map value entering this behavior.
- * @param {*} margin The margin value entering this behavior.
- */
-export function nearWall(f, map, margin = 150) {
-	const walls = map.walls || [];
-	return walls.some(w => Math.abs(f.x - w.x) < margin || Math.abs(f.x - (w.x + w.w)) < margin);
+function bounceVertical(fighter, state, rect, safe, direction) {
+	const speed = Math.max(10, Math.abs(fighter.vy));
+	if (shouldWallKo(fighter, speed) && direction < 0) {
+		return forceBlast(
+			fighter,
+			state.map,
+			topBlastEdge(fighter, state.map.bounds)
+		);
+	}
+	fighter.x = safe.x;
+	fighter.y = direction > 0
+		? rect.y + rect.h + 173
+		: rect.y - 8;
+	fighter.vy = direction * Math.min(
+		68,
+		speed * 1.03 + fighter.damage * 0.045
+	);
+	fighter.vx = preserveTangential(fighter.vx, 0.94);
+	pushWallImpact(
+		fighter,
+		state,
+		speed,
+		direction > 0 ? 'תקרה' : 'רצפה',
+		0
+	);
 }

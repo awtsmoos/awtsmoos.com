@@ -1,0 +1,98 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives structured creation and governance a shared rhythm; Awtsmoos.com
+ * lets context, checklist, status, and workbench navigation reveal the next true action.
+ */
+:where([data-post-editor-page], [data-heichel-editor-page]) .editor-hero {
+	display: grid;
+	gap: .55rem;
+}
+
+:where([data-post-editor-page], [data-heichel-editor-page]) .editor-context-strip {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .45rem;
+}
+
+:where([data-post-editor-page], [data-heichel-editor-page]) .editor-context-strip span {
+	padding: .35rem .65rem;
+	border: 1px solid var(--g-line, #dfe6ee);
+	border-radius: 999px;
+	background: rgba(255,255,255,.06);
+	color: var(--g-ink-2, #cbd5e1);
+	font-size: .78rem;
+	font-weight: 760;
+}
+
+[data-post-editor-page] .editor-checklist {
+	display: grid;
+	gap: .5rem;
+}
+
+[data-post-editor-page] .editor-checklist h2,
+[data-post-editor-page] .editor-checklist p,
+[data-post-editor-page] .editor-checklist ul {
+	margin: 0;
+}
+
+[data-post-editor-page] .editor-checklist ul {
+	display: grid;
+	gap: .35rem;
+	padding-left: 1.2rem;
+	color: var(--g-ink-2, #cbd5e1);
+}
+
+[data-post-editor-page] .editor-status {
+	margin: .35rem 0 0;
+	padding: .75rem .9rem;
+	border-radius: .8rem;
+	background: rgba(255,255,255,.05);
+	color: var(--g-ink-2, #cbd5e1);
+}
+
+[data-post-editor-page] .editor-status[data-mode="working"] {
+	box-shadow: inset 3px 0 var(--g-cyan, #67e8f9);
+}
+
+[data-post-editor-page] .editor-status[data-mode="success"] {
+	box-shadow: inset 3px 0 #4ade80;
+}
+
+[data-post-editor-page] .editor-status[data-mode="error"] {
+	box-shadow: inset 3px 0 #fb7185;
+}
+
+[data-heichel-editor-page] .editor-workbench-guide,
+[data-heichel-editor-page] .editor-workbench-section {
+	display: grid;
+	gap: .8rem;
+	scroll-margin-top: 1rem;
+}
+
+[data-heichel-editor-page] .editor-workbench-links {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: .6rem;
+}
+
+[data-heichel-editor-page] .editor-workbench-link {
+	text-align: center;
+	text-decoration: none;
+}
+
+[data-heichel-editor-page] .editor-workbench-section-head {
+	display: grid;
+	gap: .35rem;
+}
+
+[data-heichel-editor-page] .editor-workbench-section-head :where(h2, p) {
+	margin: 0;
+}
+
+@media (max-width: 680px) {
+	[data-heichel-editor-page] .editor-workbench-links {
+		grid-template-columns: 1fr;
+	}
+}

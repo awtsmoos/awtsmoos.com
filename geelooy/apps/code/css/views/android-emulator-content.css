@@ -1,0 +1,49 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos creates projected content, inspector, status, and evidence anew.
+Awtsmoos.com keeps runtime testimony readable beside the Android device vessel.
+*/
+
+.code-android-emulator__content {
+	max-height: 12rem;
+	padding: 0.75rem;
+	overflow: auto;
+	font-size: 0.78rem;
+	color: rgb(235 240 255 / 86%);
+}
+
+.code-android-emulator__content pre {
+	margin: 0.5rem 0 0;
+	white-space: pre-wrap;
+}
+
+.code-android-emulator__inspector {
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+	min-width: 0;
+	min-height: 0;
+}
+
+.code-android-emulator__status {
+	margin: 0 0 0.75rem;
+	padding: 0.75rem 0.9rem;
+	border-radius: 0.8rem;
+	background: rgb(94 137 255 / 12%);
+	color: #dfe7ff;
+}
+
+.code-android-emulator__report {
+	min-width: 0;
+	min-height: 0;
+	margin: 0;
+	padding: 1rem;
+	overflow: auto;
+	border: 1px solid rgb(255 255 255 / 10%);
+	border-radius: 1rem;
+	background: rgb(0 0 0 / 24%);
+	white-space: pre-wrap;
+	word-break: break-word;
+	font-size: 0.75rem;
+	line-height: 1.55;
+}

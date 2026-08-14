@@ -4,9 +4,9 @@
 
 /**
  * @file VillageWaterfallSystem.js
- * @description Composes batched sheets, impact foam, mist, and one subordinate ledge batch.
- * The Awtsmoos pours one current through many descents; Awtsmoos.com binds every top,
- * impact, white ribbon, and rising veil to hydrology without CPU particles or card drift.
+ * @description Composes current-coherent waterfall sheets, impact foam, mist, and one subordinate ledge batch.
+ * The Awtsmoos pours the same river through descent and plunge; Awtsmoos.com keeps shallow-river primary
+ * and seamless-water detail coherent from source through cascade while foam and mist remain separate bounded vessels.
  */
 
 import { cachedTextureImage } from '../../assets/PublicMaterialCache.js';
@@ -19,48 +19,23 @@ import { createWaterfallLedgeDefinition } from './VillageWaterfallLedgeGeometry.
 import { createWaterfallMistGeometry } from './VillageWaterfallMistGeometry.js';
 import { createWaterfallSheetGeometry } from './VillageWaterfallSheetGeometry.js';
 
-/**
- * Creates one waterfall definition family from the canonical hydrology profile.
- *
- * @param {Function} groundSampler - Terrain height sampler.
- * @param {object|null} hydrology - Optional shared profile from VillageWaterSystem.
- * @returns {object[]} Water sheets, foam, mist, and one static ledge batch.
- */
 export function createWaterfallDefinitions(groundSampler, hydrology = null) {
 	const profile = hydrology || createRiverHydrology(groundSampler);
 	return [
 		waterDefinition({
-			color: '#d7f6ff',
-			geometry: createWaterfallSheetGeometry(profile),
-			id: 'stream-waterfall-sheets',
-			mapRepeat: [4.2, 2.8],
-			mixStrength: 0.24,
-			mixTextureUrl: S.waterLake,
-			opacity: 0.84,
-			textureUrl: S.waterStream,
-			waterVariant: 'waterfall'
+			color: '#a8cbc6', geometry: createWaterfallSheetGeometry(profile),
+			id: 'stream-waterfall-sheets', mapRepeat: [4.2, 2.8], mixStrength: 0.18,
+			mixTextureUrl: S.waterStill, opacity: 0.58, textureUrl: S.waterStream, waterVariant: 'waterfall'
 		}),
 		waterDefinition({
-			color: '#effcff',
-			geometry: createWaterfallImpactGeometry(profile),
-			id: 'stream-whitewater-impact',
-			mapRepeat: [7, 1.2],
-			mixStrength: 0.2,
-			mixTextureUrl: S.waterStream,
-			opacity: 0.78,
-			textureUrl: TEXTURE_URLS.water.bright,
-			waterVariant: 'foam'
+			color: '#d5e6df', geometry: createWaterfallImpactGeometry(profile),
+			id: 'stream-whitewater-impact', mapRepeat: [7, 1.2], mixStrength: 0.12,
+			mixTextureUrl: S.waterStill, opacity: 0.46, textureUrl: TEXTURE_URLS.water.bright, waterVariant: 'foam'
 		}),
 		waterDefinition({
-			color: '#d9f8ff',
-			geometry: createWaterfallMistGeometry(profile),
-			id: 'stream-waterfall-impact-mist',
-			mapRepeat: [2.6, 2.2],
-			mixStrength: 0,
-			mixTextureUrl: null,
-			opacity: 0.34,
-			textureUrl: TEXTURE_URLS.water.bright,
-			waterVariant: 'mist'
+			color: '#c7d9d3', geometry: createWaterfallMistGeometry(profile),
+			id: 'stream-waterfall-impact-mist', mapRepeat: [2.6, 2.2], mixStrength: 0,
+			mixTextureUrl: null, opacity: 0.14, textureUrl: TEXTURE_URLS.water.bright, waterVariant: 'mist'
 		}),
 		createWaterfallLedgeDefinition(profile)
 	];

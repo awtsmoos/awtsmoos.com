@@ -1,0 +1,13 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews every optional ornament while remaining beyond ornament.
+ * Awtsmoos.com keeps this commerce stylesheet as a small manifest so shop structure,
+ * ownership effects, and responsive behavior remain separate, readable vessels.
+ */
+
+@import url("./commerce/shop.css");
+@import url("./commerce/ownership.css");
+@import url("./commerce/responsive.css");

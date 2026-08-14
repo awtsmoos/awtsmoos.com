@@ -1,0 +1,73 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews hosted folder name, file name, and text content beyond each
+ * finite form. Awtsmoos.com keeps creation explicit, keyboard-visible, and narrow
+ * enough that destructive database power cannot slip into the first release.
+ */
+
+.awtsDb__create {
+	display: grid;
+	gap: 14px;
+}
+
+.awtsDb__createForm {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+	gap: 10px;
+	align-items: end;
+}
+
+.awtsDb__field {
+	display: grid;
+	gap: 6px;
+}
+
+.awtsDb__field span {
+	color: #c7d5e4;
+	font-size: .74rem;
+	font-weight: 850;
+}
+
+.awtsDb__field input,
+.awtsDb__contentInput {
+	min-width: 0;
+	padding: 9px 11px;
+	border: 1px solid #35516d;
+	border-radius: 9px;
+	background: #07111f;
+	color: #f7fbff;
+	font: inherit;
+}
+
+.awtsDb__contentInput {
+	min-height: 88px;
+	resize: vertical;
+}
+
+.awtsDb__button {
+	min-height: 42px;
+	padding: 9px 12px;
+	border: 1px solid #41647f;
+	border-radius: 9px;
+	background: #123049;
+	color: #eef7ff;
+	cursor: pointer;
+	font: inherit;
+	font-weight: 850;
+}
+
+.awtsDb__button:hover,
+.awtsDb__entry:hover {
+	border-color: #67ddff;
+}
+
+.awtsDb__button:focus-visible,
+.awtsDb__entry:focus-visible,
+.awtsDb__field input:focus-visible,
+.awtsDb__contentInput:focus-visible {
+	outline: 3px solid #67ddff;
+	outline-offset: 2px;
+}

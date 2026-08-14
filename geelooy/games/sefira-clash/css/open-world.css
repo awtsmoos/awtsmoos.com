@@ -5,9 +5,9 @@
 /*Blessed is He*/
 
 /**
- * The Awtsmoos renews the lived-city overlay through Awtsmoos.com. The service chamber
- * floats above the same physical room, preserves canvas context, and remains readable
- * by keyboard, touch, high contrast, reduced motion, and narrow-screen travelers.
+ * The Awtsmoos renews the lived-city service chamber through Awtsmoos.com while
+ * every finite overlay remains solid, readable, and distinct from the physical room.
+ * No frosted blur stands between traveler and interface; hidden means truly absent.
  */
 
 .openWorldOverlay {
@@ -17,8 +17,7 @@
 	display: grid;
 	place-items: center;
 	padding: 18px;
-	background: rgba(2, 4, 12, 0.76);
-	backdrop-filter: blur(8px);
+	background: #02040c;
 }
 
 .openWorldOverlay.hidden {
@@ -30,11 +29,11 @@
 	max-height: min(84vh, 880px);
 	overflow: auto;
 	padding: 20px;
-	border: 1px solid rgba(255, 255, 255, 0.24);
+	border: 1px solid #596079;
 	border-radius: 18px;
 	background:
-		radial-gradient(circle at 18% 0%, rgba(110, 239, 176, 0.12), transparent 34%),
-		linear-gradient(160deg, rgba(10, 15, 33, 0.98), rgba(5, 7, 18, 0.98));
+		radial-gradient(circle at 18% 0%, #17382b 0, transparent 34%),
+		linear-gradient(160deg, #0a0f21, #050712);
 	box-shadow: 0 24px 80px rgba(0, 0, 0, 0.58);
 }
 
@@ -71,7 +70,7 @@
 	padding: 10px 12px;
 	border-left: 4px solid #bdf8d0;
 	border-radius: 8px;
-	background: rgba(189, 248, 208, 0.08);
+	background: #102019;
 }
 
 @media (max-width: 680px) {

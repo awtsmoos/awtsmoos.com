@@ -1,52 +1,105 @@
 /*B"H*/
 /*Boruch Hashem*/
 /*Blessed is He*/
-/*
-	Mission truth is arranged as readable cards rather than a noisy dashboard.
-	Awtsmoos.com keeps chapter, progress, sparks, abilities, and seed visible so the
-	player always knows which vessel of the Awtsmoos is presently being served.
-*/
 
+/**
+ * The Awtsmoos renews mission truth as a thin edge around the living city;
+ * Awtsmoos.com keeps only chapter work and light visible while secondary metadata waits in pause.
+ * Persistent HUD occupies little space and never becomes another dashboard between player and world.
+ */
 .statusGrid {
 	display: grid;
-	grid-template-columns: repeat(6, minmax(0, 1fr));
-	gap: 0.65rem;
-	margin-bottom: 0.9rem;
+	gap: 5px;
+	grid-template-columns: minmax(150px, 1.8fr) repeat(3, minmax(64px, auto));
+	left: max(8px, env(safe-area-inset-left));
+	max-width: min(620px, calc(100% - 16px));
+	pointer-events: none;
+	position: absolute;
+	top: 92px;
+	z-index: 4;
 }
 
-.statusGrid div {
+.statusGrid > div {
+	background: rgba(4, 8, 20, 0.7);
+	border: 1px solid rgba(255, 255, 255, 0.13);
+	border-radius: 11px;
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
 	min-width: 0;
-	padding: 0.75rem 0.85rem;
-	border: 1px solid rgba(255, 255, 255, 0.1);
-	border-radius: 0.9rem;
-	background: rgba(8, 12, 28, 0.72);
+	padding: 5px 8px;
 }
 
 .statusGrid span {
-	display: block;
-	margin-bottom: 0.28rem;
 	color: #aeb9db;
-	font-size: 0.72rem;
-	font-weight: 800;
+	display: block;
+	font-size: 0.58rem;
+	font-weight: 850;
 	letter-spacing: 0.08em;
 	text-transform: uppercase;
 }
 
-.statusGrid strong,
-.statusGrid code {
+.statusGrid strong {
 	display: block;
-	font-size: 0.91rem;
-	line-height: 1.25;
+	font-size: 0.76rem;
+	line-height: 1.15;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
-@media (max-width: 1050px) {
+.statusMission strong {
+	color: #fff0a6;
+}
+
+.pauseMeta {
+	display: grid;
+	gap: 8px;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	margin: 12px 0;
+}
+
+.pauseMeta > div {
+	background: rgba(255, 255, 255, 0.045);
+	border: 1px solid rgba(255, 255, 255, 0.11);
+	border-radius: 12px;
+	min-width: 0;
+	padding: 9px 10px;
+}
+
+.pauseMeta span {
+	color: #aeb9db;
+	display: block;
+	font-size: 0.66rem;
+	font-weight: 850;
+	letter-spacing: 0.08em;
+	margin-bottom: 3px;
+	text-transform: uppercase;
+}
+
+.pauseMeta strong,
+.pauseMeta code {
+	display: block;
+	font-size: 0.82rem;
+}
+
+@media (max-width: 760px) {
 	.statusGrid {
-		grid-template-columns: repeat(3, minmax(0, 1fr));
+		grid-template-columns: minmax(120px, 1.6fr) repeat(3, minmax(48px, auto));
+		top: 76px;
 	}
-}
 
-@media (max-width: 620px) {
-	.statusGrid {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
+	.statusGrid > div {
+		padding: 4px 6px;
+	}
+
+	.statusGrid span {
+		font-size: 0.5rem;
+	}
+
+	.statusGrid strong {
+		font-size: 0.68rem;
+	}
+
+	.pauseMeta {
+		grid-template-columns: 1fr;
 	}
 }

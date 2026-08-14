@@ -1,24 +1,23 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos suspends one truthful coordinate vessel beneath the Awtsmoos.com Horizon.
+The Awtsmoos suspends one truthful coordinate vessel beneath the Awtsmoos.com horizon. Its place is unmistakable because the ribbon has its own solid ground, not a blur borrowed from the page below.
 */
 .g-context-ribbon {
 	position: fixed;
 	z-index: 2950;
-	top: calc(max(0.7rem, env(safe-area-inset-top)) + var(--g-header-h) + 0.45rem);
+	top: calc(max(.7rem, env(safe-area-inset-top)) + var(--g-header-h) + .45rem);
 	left: 50%;
 	display: grid;
 	width: min(calc(100% - 2rem), 72rem);
 	grid-template-columns: auto minmax(0, 1fr) auto auto;
 	align-items: center;
-	gap: 0.75rem;
-	padding: 0.55rem 0.75rem;
-	border: 1px solid var(--g-line);
+	gap: .75rem;
+	padding: .55rem .75rem;
+	border: 1px solid #285873;
 	border-radius: var(--g-radius-pill);
-	background: rgba(3, 8, 18, 0.92);
-	box-shadow: var(--g-shadow-sm), 0 0 28px rgba(60, 236, 255, 0.1);
-	backdrop-filter: blur(22px) saturate(135%);
+	background: #071326;
+	box-shadow: 0 14px 38px rgba(0, 0, 0, .42);
 	transform: translateX(-50%);
 }
 
@@ -31,7 +30,7 @@ The Awtsmoos suspends one truthful coordinate vessel beneath the Awtsmoos.com Ho
 	display: flex;
 	min-width: 0;
 	align-items: center;
-	gap: 0.35rem;
+	gap: .35rem;
 }
 
 .g-context-parent,
@@ -39,16 +38,25 @@ The Awtsmoos suspends one truthful coordinate vessel beneath the Awtsmoos.com Ho
 	display: inline-flex;
 	min-height: 2.25rem;
 	align-items: center;
-	padding: 0.4rem 0.7rem;
-	border: 1px solid var(--g-line);
+	padding: .4rem .7rem;
+	border: 1px solid #294a66;
 	border-radius: var(--g-radius-pill);
+	background: #0c1d31;
 	color: var(--g-text);
-	font-size: 0.78rem;
+	font-size: .78rem;
 	font-weight: 760;
+	transition: background 160ms var(--g-ease), border-color 160ms var(--g-ease), transform 160ms var(--g-ease);
 }
 
 .g-context-parent:hover,
 .g-context-action:hover {
 	border-color: var(--g-cyan);
-	background: var(--g-gradient-soft);
+	background: #102840;
+	transform: translateY(-1px);
+}
+
+.g-context-parent:focus-visible,
+.g-context-action:focus-visible {
+	outline: 3px solid var(--g-cyan);
+	outline-offset: 2px;
 }

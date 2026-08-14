@@ -1,0 +1,85 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos opens verified paths beneath one searching vessel; Awtsmoos.com keeps that chamber solid and legible, because discovery should be revealed by order rather than a frosted distortion of what lies behind it.
+*/
+.search-shell {
+	position: relative;
+	z-index: 120;
+	width: 100%;
+}
+
+.search-shell.is-open .search {
+	border-color: #68ceff;
+	border-radius: 1.15rem 1.15rem .62rem .62rem;
+	box-shadow: 0 0 0 4px rgba(73, 157, 220, .11), 0 22px 58px rgba(0, 0, 0, .4);
+}
+
+.omnibox-panel {
+	position: absolute;
+	top: calc(100% + .42rem);
+	right: 0;
+	left: 0;
+	z-index: 150;
+	max-height: min(430px, calc(100vh - 9rem));
+	overflow: auto;
+	padding: .48rem;
+	border: 1px solid #2b506f;
+	border-radius: .72rem 1rem 1.15rem 1.15rem;
+	background: #071324;
+	box-shadow: 0 24px 64px rgba(0, 0, 0, .56);
+	transform-origin: top center;
+	animation: omnibox-arrive .18s ease both;
+}
+
+.omnibox-panel[hidden] {
+	display: none;
+}
+
+.omnibox-heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .8rem;
+	padding: .42rem .55rem .5rem;
+	color: #879ab3;
+	font-size: .6rem;
+	font-weight: 840;
+	letter-spacing: .11em;
+	text-transform: uppercase;
+}
+
+.omnibox-heading button {
+	padding: .36rem .5rem;
+	border: 1px solid transparent;
+	border-radius: .45rem;
+	background: transparent;
+	color: #93a6bd;
+	cursor: pointer;
+	font: inherit;
+	letter-spacing: .04em;
+	text-transform: none;
+}
+
+.omnibox-heading button:hover {
+	border-color: #2d4c68;
+	background: #102239;
+	color: #fff;
+}
+
+.omnibox-heading button:focus-visible {
+	outline: 3px solid var(--focus-ring);
+	outline-offset: 2px;
+}
+
+.omnibox-options {
+	display: grid;
+	gap: .2rem;
+}
+
+@keyframes omnibox-arrive {
+	from {
+		opacity: 0;
+		transform: translateY(-5px) scale(.992);
+	}
+}

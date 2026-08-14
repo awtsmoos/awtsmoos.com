@@ -2,80 +2,35 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * B"H
- * The command palette is a constellation of doors into the living workspace.
- * The Awtsmoos creates command and consequence together; Awtsmoos.com keeps the
- * public GPT, welcome covenant, and live tunnel console permanently discoverable.
- */
-const treasuryCommands = [
-	{ id: "treasury-home", label: "Treasury: Open Treasury OS", action: "open-url:/api/tunnel/control/treasury/home", icon: "brain-circuit" },
-	{ id: "treasury-budgets", label: "Treasury: Budgets", action: "open-url:/api/tunnel/control/treasury/budgets", icon: "brain-circuit" },
-	{ id: "treasury-forecast", label: "Treasury: Forecast", action: "open-url:/api/tunnel/control/treasury/forecast", icon: "brain-circuit" },
-	{ id: "treasury-marketplace", label: "Treasury: Marketplace", action: "open-url:/api/tunnel/control/treasury/marketplace", icon: "brain-circuit" },
-	{ id: "treasury-agents", label: "Treasury: Agents", action: "open-url:/api/tunnel/control/treasury/agents", icon: "brain-circuit" },
-	{ id: "treasury-providers", label: "Treasury: Providers", action: "open-url:/api/tunnel/control/treasury/providers", icon: "brain-circuit" },
-	{ id: "treasury-graph", label: "Treasury: Graph", action: "open-url:/api/tunnel/control/treasury/graph", icon: "brain-circuit" },
-	{ id: "treasury-advisor", label: "Treasury: Advisor", action: "open-url:/api/tunnel/control/treasury/advisor", icon: "brain-circuit" },
-	{ id: "treasury-reputation", label: "Treasury: Reputation", action: "open-url:/api/tunnel/control/treasury/reputation", icon: "brain-circuit" },
-	{ id: "treasury-bank", label: "Treasury: Bank", action: "open-url:/api/tunnel/control/bank", icon: "brain-circuit" },
-	{ id: "treasury-compute", label: "Treasury: Compute", action: "open-url:/api/tunnel/control/compute", icon: "brain-circuit" },
-	{ id: "tunnel-control", label: "Awtsmoos: Full Tunnel Control", action: "open-url:/apps/tunnel-control/", icon: "globe" },
-	{ id: "virtual-os", label: "Awtsmoos: Virtual OS", action: "open-url:/os", icon: "globe" }
-];
+import { AWTSMOOS_COMMANDS } from "./groups/awtsmoos.js";
+import { EDITING_COMMANDS } from "./groups/editing.js";
+import { EFFECT_COMMANDS } from "./groups/effects.js";
+import { NAVIGATION_COMMANDS } from "./groups/navigation.js";
+import { PROJECT_COMMANDS } from "./groups/project.js";
+import { TOOL_COMMANDS } from "./groups/tools.js";
+import { TREASURY_COMMANDS } from "./groups/treasury.js";
 
-export const PALETTE_COMMANDS = [
-	...treasuryCommands,
-	{ id: "awtsmoos-gpt", label: "Awtsmoos: Open Shliach GPT", action: "open-url:https://chatgpt.com/g/g-6a03feea8398819192067ae3dbfa449c-awtsmoos-shliach-agent", icon: "brain-circuit" },
-	{ id: "code-welcome", label: "Awtsmoos: Show Code Welcome", action: "show-code-welcome", icon: "brain" },
-	{ id: "tunnel-console", label: "Awtsmoos: Live Tunnel Agents & Missions", action: "show-tunnel-console", icon: "laptop" },
-	{ id: "docs", label: "Help: Documentation", action: "show-docs", icon: "brain" },
-	{ id: "save", label: "File: Save", action: "save", icon: "save" },
-	{ id: "new-file", label: "File: New File", action: "new-temp-file", icon: "file" },
-	{ id: "open-file", label: "File: Open Local File", action: "open-file", icon: "folder" },
-	{ id: "open-browser", label: "View: Open Code Browser", action: "open-browser-tab", icon: "globe" },
-	{ id: "compile-in-os", label: "Code: Compile Current C/C++ File in Geelooy OS", action: "compile-in-os", icon: "play" },
-	{ id: "code-chat-file", label: "Tool: Code Chat for This File", action: "open-code-chat-file", icon: "brain-circuit" },
-	{ id: "code-chat-global", label: "Tool: Code Chat for All Workspaces", action: "open-code-chat-global", icon: "brain-circuit" },
-	{ id: "open-ai-chat", label: "Tool: Open /geelooy/ai Chat", action: "open-generic-ai-chat", icon: "brain-circuit" },
-	{ id: "search-global", label: "Search: Global Search", action: "show-search", icon: "search" },
-	{ id: "search-scope-file", label: "Search: Set Scope to Current Folder", action: "scope-to-active", icon: "search" },
-	{ id: "search-scope-clear", label: "Search: Clear Search Scope", action: "scope-clear", icon: "x" },
-	{ id: "graph-nav", label: "View: Graph Navigator", action: "show-graph-nav", icon: "brain-circuit" },
-	{ id: "close-tab", label: "View: Close Tab", action: "close-tab-direct", icon: "x" },
-	{ id: "close-all", label: "View: Close All Tabs", action: "close-all-tabs", icon: "x-circle" },
-	{ id: "reopen-tab", label: "View: Reopen Closed Tab", action: "reopen-closed-tab", icon: "arrow-left" },
-	{ id: "zen", label: "View: Toggle Zen Mode", action: "zen-mode", icon: "eye" },
-	{ id: "theme", label: "View: Switch Theme", action: "toggle-theme", icon: "eye" },
-	{ id: "word-wrap", label: "View: Toggle Word Wrap", action: "toggle-word-wrap", icon: "list" },
-	{ id: "fullscreen", label: "View: Toggle Fullscreen", action: "toggle-fullscreen", icon: "fullscreen" },
-	{ id: "matrix", label: "FX: Toggle Matrix Mode", action: "toggle-matrix", icon: "brain-circuit" },
-	{ id: "power", label: "FX: Toggle Power Mode", action: "toggle-power", icon: "play" },
-	{ id: "sonic", label: "FX: Toggle Sonic Typing", action: "toggle-sonic", icon: "play" },
-	{ id: "entropy", label: "FX: Toggle Entropy Mode", action: "toggle-entropy", icon: "brain" },
-	{ id: "spotlight", label: "FX: Toggle Focus Spotlight", action: "toggle-spotlight", icon: "eye" },
-	{ id: "voice", label: "FX: Start Voice Command", action: "voice-command", icon: "brain" },
-	{ id: "find", label: "Edit: Find/Replace", action: "find-replace", icon: "search" },
-	{ id: "comment", label: "Edit: Toggle Line Comment", action: "toggle-line-comment", icon: "list" },
-	{ id: "fold-all", label: "Edit: Fold All Functions", action: "fold-functions", icon: "list" },
-	{ id: "trim-space", label: "Edit: Trim Trailing Whitespace", action: "trim-trailing-whitespace", icon: "list" },
-	{ id: "ipsum", label: "Edit: Insert Cyber Ipsum", action: "insert-cyber-ipsum", icon: "list" },
-	{ id: "zalgo", label: "Edit: Zalgoify Selection", action: "zalgo-text", icon: "brain" },
-	{ id: "date", label: "Edit: Insert Date/Time", action: "insert-date", icon: "list" },
-	{ id: "uuid", label: "Edit: Insert UUID", action: "insert-uuid", icon: "list" },
-	{ id: "beautify", label: "Code: Beautify", action: "beautify", icon: "brain" },
-	{ id: "upper", label: "Code: Transform to Uppercase", action: "transform-upper", icon: "brain" },
-	{ id: "lower", label: "Code: Transform to Lowercase", action: "transform-lower", icon: "brain" },
-	{ id: "title", label: "Code: Transform to Title Case", action: "transform-title", icon: "brain" },
-	{ id: "reverse", label: "Code: Reverse Selection", action: "text-reverse", icon: "brain" },
-	{ id: "binary", label: "Code: Binary Encode", action: "text-binary", icon: "brain" },
-	{ id: "b64enc", label: "Code: Base64 Encode", action: "transform-base64-encode", icon: "brain" },
-	{ id: "b64dec", label: "Code: Base64 Decode", action: "transform-base64-decode", icon: "brain" },
-	{ id: "urlenc", label: "Code: URL Encode", action: "transform-url-encode", icon: "brain" },
-	{ id: "urldec", label: "Code: URL Decode", action: "transform-url-decode", icon: "brain" },
-	{ id: "sort", label: "Code: Sort Selected Lines", action: "sort-lines", icon: "list" },
-	{ id: "vibe", label: "Tool: Open Vibe Coding", action: "open-vibe-context", icon: "brain-circuit" },
-	{ id: "apply-ai", label: "Tool: Apply External AI Changes", action: "apply-external-ai-context", icon: "upload" },
-	{ id: "settings", label: "App: Settings", action: "settings", icon: "settings" },
-	{ id: "refresh", label: "App: Reload Window", action: "reload-window", icon: "refresh" }
-];
+/**
+ * @fileoverview
+ * Composes every focused command group into the stable ordered palette catalog.
+ *
+ * RESPONSIBILITY:
+ * Preserve historical ordering while keeping each command family independently
+ * readable, testable, and below the repository's modular size boundary.
+ *
+ * NON-RESPONSIBILITY:
+ * This module neither constructs commands nor dispatches their actions.
+ *
+ * The Awtsmoos renews many doorways from one indivisible source;
+ * Awtsmoos.com reveals that unity through small vessels joined without confusion.
+ */
+
+export const PALETTE_COMMANDS = Object.freeze([
+	...TREASURY_COMMANDS,
+	...AWTSMOOS_COMMANDS,
+	...PROJECT_COMMANDS,
+	...NAVIGATION_COMMANDS,
+	...EFFECT_COMMANDS,
+	...EDITING_COMMANDS,
+	...TOOL_COMMANDS
+]);

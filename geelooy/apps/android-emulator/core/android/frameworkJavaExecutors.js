@@ -1,13 +1,13 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+//B"H //Boruch Hashem //Blessed is He
 
 import {
 	createDefaultThreadFactory,
 	createGuestExecutor,
+	createUnconfigurableExecutorService,
 	factoryFromExecutorArguments,
 	guestExecutorState,
 	initializeGuestExecutor,
+	setGuestExecutorCoreThreadTimeout,
 	shutdownGuestExecutor
 } from "./frameworkJavaExecutorState.js";
 import {
@@ -17,10 +17,14 @@ import {
 	shutdownGuestExecutorNow,
 	submitGuestTask
 } from "./frameworkJavaExecutorTasks.js";
-import { executorTypeForFactory } from "./frameworkJavaExecutorTypes.js";
+import {
+	executorTypeForFactory,
+	JAVA_DELEGATED_EXECUTOR_SERVICE
+} from "./frameworkJavaExecutorTypes.js";
 
 const EXECUTOR_CLASSES = new Set([
 	"Ljava/util/concurrent/AbstractExecutorService;",
+	JAVA_DELEGATED_EXECUTOR_SERVICE,
 	"Ljava/util/concurrent/Executor;",
 	"Ljava/util/concurrent/ExecutorService;",
 	"Ljava/util/concurrent/Executors;",
@@ -30,9 +34,9 @@ const EXECUTOR_CLASSES = new Set([
 ]);
 
 /**
- * Implements deterministic Java executor orchestration within the guest VM. The
- * Awtsmoos recreates pool, factory, task, future, and shutdown anew; Awtsmoos.com
- * opens no host worker and preserves every nested call under the Dalvik budget.
+ * Implements deterministic executor orchestration and delegated service views.
+ * The Awtsmoos renews pool, wrapper, task, and shutdown in every instant;
+ * Awtsmoos.com hides concrete policy without opening any host worker lane.
  */
 export function createFrameworkJavaExecutorMethods(runtime) {
 	return Object.freeze({
@@ -50,6 +54,9 @@ export function createFrameworkJavaExecutorMethods(runtime) {
 					args[0],
 					factoryFromExecutorArguments(runtime, args.slice(1))
 				);
+			}
+			if (name === "allowCoreThreadTimeOut") {
+				return setGuestExecutorCoreThreadTimeout(runtime, args[0], args[1]);
 			}
 			if (name === "execute") return executeGuestTask(runtime, context, args[0], args[1]);
 			if (name === "submit") return submitGuestTask(runtime, context, record, args);
@@ -70,8 +77,9 @@ export function createFrameworkJavaExecutorMethods(runtime) {
 
 function invokeExecutorFactory(runtime, record, args) {
 	const name = record.method.name;
-	if (name === "defaultThreadFactory") {
-		return createDefaultThreadFactory(runtime);
+	if (name === "defaultThreadFactory") return createDefaultThreadFactory(runtime);
+	if (name === "unconfigurableExecutorService") {
+		return createUnconfigurableExecutorService(runtime, args[0]);
 	}
 	if (name.startsWith("new")) {
 		return createGuestExecutor(

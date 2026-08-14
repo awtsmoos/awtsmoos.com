@@ -15,6 +15,7 @@ import { createStorageGateway } from './storage-gateway.js';
 import { readPreferences } from './preference-store.js';
 import { LivingPathFilterController } from './filter-controller.js';
 import { LivingPathContextController } from './context-controller.js';
+import { LivingPathTranslationSearch } from './translation-search.js';
 import { connectProfileDisclosure } from './profile-disclosure.js';
 import { handleFilterKeydown } from './filter-focus.js';
 
@@ -24,6 +25,7 @@ export class LivingPathController {
 		this.gateway = createStorageGateway();
 		this.filters = new LivingPathFilterController(navigator, this.gateway);
 		this.context = new LivingPathContextController(navigator, this.gateway);
+		this.translationSearch = new LivingPathTranslationSearch();
 		this.keydown = event => handleFilterKeydown(event, () => this.closeFilters());
 	}
 
@@ -41,15 +43,22 @@ export class LivingPathController {
 	afterLoad(content) {
 		const filtered = this.filters.renderCommitted();
 		this.context.afterLoad(content);
+		this.translationSearch.seriesChanged();
 		return filtered;
 	}
 
-	queryChanged(query) { this.filters.queryChanged(query); }
+	queryChanged(query) {
+		this.filters.queryChanged(query);
+		this.translationSearch.queryChanged(query);
+	}
 	scopeChanged(value) { this.filters.scopeChanged(value); }
 	previewFilters() { this.filters.preview(); }
 	applyFilters() { this.filters.apply(); this.setFilterOpen(false); }
 	resetFilters() { this.filters.reset(); }
-	clearSearch() { this.filters.clearSearch(); }
+	clearSearch() {
+		this.filters.clearSearch();
+		this.translationSearch.queryChanged('');
+	}
 
 	openFilters() {
 		this.filters.open();

@@ -1,0 +1,32 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews wide and narrow product vessels without changing their
+ * identity. Awtsmoos.com keeps discovery, hero hierarchy, and navigation usable
+ * on smaller screens so the portfolio remains a doorway rather than a wall.
+ */
+
+@media (max-width: 760px) {
+	.apps-hero,
+	.apps-section-heading,
+	.g-app-filter {
+		grid-template-columns: 1fr;
+	}
+
+	.apps-hero-actions {
+		flex-direction: column;
+	}
+
+	.apps-hero-actions > a {
+		width: 100%;
+		text-align: center;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.g-app-card {
+		transition: none;
+	}
+}

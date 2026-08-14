@@ -1,7 +1,8 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-Eight direct worlds remain visible as real links, each carrying its own name and purpose.
+The Awtsmoos opens direct roads without fog: Torah, play, creation, treasury,
+workspace, code, community, and purpose stand as crisp paths on Awtsmoos.com.
 */
 .direct-navigation {
 	display: grid;
@@ -9,11 +10,10 @@ Eight direct worlds remain visible as real links, each carrying its own name and
 	gap: .4rem;
 	margin-top: .48rem;
 	padding: .4rem;
-	border: 1px solid rgba(105, 198, 255, .13);
+	border: 1px solid #213d59;
 	border-radius: 1rem;
-	background: rgba(6, 12, 23, .88);
-	box-shadow: 0 12px 30px rgba(0, 0, 0, .18);
-	backdrop-filter: blur(20px);
+	background: #071326;
+	box-shadow: 0 12px 30px rgba(0, 0, 0, .24);
 }
 
 .direct-navigation a {
@@ -27,7 +27,7 @@ Eight direct worlds remain visible as real links, each carrying its own name and
 	border: 1px solid transparent;
 	border-radius: .72rem;
 	color: #aab7ca;
-	transition: transform .16s ease, border-color .16s ease, background .16s ease;
+	transition: transform .16s ease, border-color .16s ease, background .16s ease, color .16s ease;
 }
 
 .direct-navigation a > span {
@@ -35,9 +35,9 @@ Eight direct worlds remain visible as real links, each carrying its own name and
 	width: 2rem;
 	height: 2rem;
 	place-items: center;
-	border: 1px solid rgba(120, 203, 255, .16);
+	border: 1px solid #294965;
 	border-radius: .65rem;
-	background: rgba(77, 129, 197, .08);
+	background: #0c1d31;
 	font-size: .95rem;
 }
 
@@ -55,22 +55,26 @@ Eight direct worlds remain visible as real links, each carrying its own name and
 }
 
 .direct-navigation strong {
-	color: #e6edf8;
+	color: #eef5ff;
 	font-size: .72rem;
 }
 
 .direct-navigation small {
-	color: #64758e;
+	color: #7487a2;
 	font-size: .55rem;
 	font-weight: 650;
 }
 
-.direct-navigation a:hover,
-.direct-navigation a:focus-visible {
-	border-color: rgba(119, 210, 255, .28);
-	background: rgba(90, 150, 215, .1);
-	outline: none;
+.direct-navigation a:hover {
+	border-color: #4c9ccb;
+	background: #102840;
+	color: #fff;
 	transform: translateY(-2px);
+}
+
+.direct-navigation a:focus-visible {
+	outline: 3px solid var(--focus-ring);
+	outline-offset: 2px;
 }
 
 @media (max-width: 980px) {
@@ -82,5 +86,11 @@ Eight direct worlds remain visible as real links, each carrying its own name and
 @media (max-width: 680px) {
 	.direct-navigation {
 		display: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.direct-navigation a {
+		transition: none;
 	}
 }

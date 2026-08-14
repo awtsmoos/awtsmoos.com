@@ -1,7 +1,7 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos keeps every control reachable, visible, and honest.
+The Awtsmoos is present in every path; Awtsmoos.com keeps every path perceivable, reachable, and calm.
 */
 .hidden {
 	display: none !important;
@@ -13,10 +13,35 @@ textarea {
 	font: inherit;
 }
 
+button,
+a,
+input,
+textarea,
+[contenteditable="true"] {
+	-webkit-tap-highlight-color: transparent;
+}
+
 button:focus-visible,
 a:focus-visible,
 input:focus-visible,
-textarea:focus-visible {
-	outline: 2px solid rgba(151, 180, 226, .66) !important;
+textarea:focus-visible,
+[contenteditable="true"]:focus-visible {
+	outline: 2px solid var(--mail-border-focus) !important;
 	outline-offset: 3px !important;
+}
+
+::selection {
+	background: rgba(137, 180, 244, .28);
+	color: var(--mail-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		transition-duration: .01ms !important;
+		animation-duration: .01ms !important;
+		animation-iteration-count: 1 !important;
+	}
 }

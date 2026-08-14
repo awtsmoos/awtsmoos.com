@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioView.js
- * @description Creates stable DOM references, document identity, and semantic staged loading for the studio shell.
- * The Awtsmoos renews each visible boundary beyond form; Awtsmoos.com gives preview,
- * inspector, utilities, loading, status, and authored JSON distinct finite vessels.
+ * @description Creates stable DOM references, document identity, and project-aware preview geometry for the studio shell.
+ * The Awtsmoos renews each visible boundary beyond form; Awtsmoos.com gives portrait and landscape projects
+ * one truthful aspect token so monitor, cinema focus, guides, and canvas all reveal the same authored vessel.
  */
 
 import { movieStudioMarkup } from './MovieStudioMarkup.js';
@@ -36,10 +36,7 @@ export function createMovieStudioView(project) {
 export function showMovieLoading(message = 'B"H building the cinematic world…') {
 	removeMovieLoadingOverlays();
 	const loading = createMovieWorldLoadingView(message);
-	return {
-		...loading,
-		remove: removeMovieLoadingOverlays
-	};
+	return { ...loading, remove: removeMovieLoadingOverlays };
 }
 
 function removeMovieLoadingOverlays() {
@@ -49,9 +46,12 @@ function removeMovieLoadingOverlays() {
 function setMovieStudioViewProject(view, project) {
 	const width = Number(project.resolution?.width) || 1920;
 	const height = Number(project.resolution?.height) || 1080;
-	view.root.style.setProperty('--movie-aspect-ratio', String(width / height));
+	const aspect = width / height;
+	view.root.style.setProperty('--movie-aspect-ratio', String(aspect));
+	view.root.style.setProperty('--movie-project-aspect', String(aspect));
 	view.root.style.setProperty('--movie-project-width', `${width}px`);
 	view.root.style.setProperty('--movie-project-height', `${height}px`);
+	view.root.dataset.projectOrientation = height > width ? 'portrait' : 'landscape';
 	const title = project.title || 'Untitled movie';
 	document.title = `MitzvahWorld Movie Maker — ${title}`;
 	if (view.title) view.title.textContent = title;

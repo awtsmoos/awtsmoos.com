@@ -1,0 +1,65 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos is beyond dim and bright; Awtsmoos.com lets stronger human vision choices sharpen every border and current path—truth stays near, no state disappears, and contrast makes the finite vessel clear. */
+
+@media (prefers-contrast: more) {
+	:root {
+		--msg-line: rgba(238, 255, 247, 0.2);
+		--msg-line-strong: rgba(238, 255, 247, 0.34);
+		--msg-muted: rgba(238, 248, 243, 0.78);
+		--msg-soft: rgba(238, 248, 243, 0.9);
+	}
+
+	.messaging-rail-button.is-active,
+	.messaging-mobile-more-button[aria-expanded="true"],
+	.messaging-special-pane .universal-chat-result.is-selected {
+		border-width: 2px;
+	}
+}
+
+@media (forced-colors: active) {
+	.messaging-app {
+		forced-color-adjust: auto;
+	}
+
+	.messaging-app :where(
+		button,
+		a[href],
+		input,
+		textarea,
+		select,
+		summary,
+		[role="button"],
+		.messaging-list-row.is-clickable
+	):focus-visible {
+		outline-color: Highlight;
+	}
+
+	.messaging-rail-button.is-active,
+	.messaging-mobile-more-button[aria-expanded="true"],
+	.messaging-special-pane .universal-chat-result.is-selected,
+	.messaging-disclosure[open],
+	.messaging-modal,
+	.messaging-details {
+		border: 2px solid Highlight;
+	}
+
+	.messaging-rail-button.is-active::before,
+	.messaging-special-pane .universal-chat-result.is-selected::before {
+		background: Highlight;
+	}
+
+	.messaging-modal-error,
+	.messaging-connection-state {
+		border: 2px solid Mark;
+		color: CanvasText;
+	}
+
+	.messaging-rail-badge {
+		border: 2px solid CanvasText;
+		background: Highlight;
+		color: HighlightText;
+	}
+}

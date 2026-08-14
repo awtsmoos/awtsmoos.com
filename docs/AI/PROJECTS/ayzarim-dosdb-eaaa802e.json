@@ -1,0 +1,88 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "ayzarim-dosdb-eaaa802e",
+	"path": "ayzarim/DosDB",
+	"type": "data",
+	"family": {
+		"id": "runtime",
+		"title": "Runtime and Infrastructure"
+	},
+	"title": "ayzarim/DosDB",
+	"entries": [
+		"index.js",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"ayzarim/DosDB/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+		"docs/ARCHITECTURE.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-dosdb-eaaa802e.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 827,
+		"tests": 160,
+		"assets": 0,
+		"generated": 0,
+		"docs": 21,
+		"other": 0
+	},
+	"totalFiles": 1008,
+	"symbolSummary": {
+		"files": 813,
+		"classes": 383,
+		"functions": 1117,
+		"exports": 731,
+		"samples": [
+			"AwtsmoosDbEmbedderConfig",
+			"defaultEmbeddingDimensions",
+			"embedTextFallback",
+			"attachDefaultEmbedding",
+			"AWTSMOOS_DB_AI_CONFIG_PATH",
+			"loadEmbedderConfig",
+			"getDefaultEmbedderConfig",
+			"resolveEmbedderModelPath",
+			"providerShape",
+			"detectGgufRunner",
+			"assertGgufEmbedderReady",
+			"embedTextWithConfiguredGguf"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/api/social",
+			"count": 33,
+			"examples": "geelooy/api/social/helper/comments/aliasIndex/PackedIndexStore.js; geelooy/api/social/helper/comments/canonicalCommentSource.js; geelooy/api/social/helper/comments/commentAwtsmoosDbBridge.js"
+		},
+		{
+			"project": "ayzarim/maintence",
+			"count": 2,
+			"examples": "ayzarim/maintence/transferOldDBToAwtsmoosDB.js"
+		},
+		{
+			"project": "ayzarim/awtsmoosDynamicServer",
+			"count": 1,
+			"examples": "ayzarim/awtsmoosDynamicServer/server/deps.js"
+		},
+		{
+			"project": "geelooy/scripts",
+			"count": 1,
+			"examples": "geelooy/scripts/awtsmoos/minimax-virtual-os-game/seed-users.cjs"
+		}
+	],
+	"externalDependencies": [
+		{
+			"dependency": "entries",
+			"count": 1,
+			"examples": "ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/operations/obj/makomChafshee_aiPrompt.js"
+		}
+	],
+	"publicEntries": [],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

@@ -4,9 +4,9 @@
 
 /**
  * @file MovieActorState.js
- * @description Resolves actor points, facing, animation names, and grounded offsets.
- * The Awtsmoos creates motion before coordinates know they move; Awtsmoos.com keeps
- * these pure decisions apart from runtime mutation, so each cinematic vessel stays clear.
+ * @description Resolves actor points, facing, exact exported animations, semantic aliases, and grounded offsets.
+ * The Awtsmoos creates motion before coordinates know they move; Awtsmoos.com preserves every Chossid clip by name,
+ * while semantic requests still prefer living positive-duration movement over a static pose when both could answer.
  */
 
 import { lerpPoint } from './MovieEasing.js';
@@ -19,16 +19,16 @@ import {
 export function resolveMovieActorAnimation(runtime, target, requested) {
 	const player = movieActorPlayer(runtime, target);
 	const names = player?.names || [];
+	const exact = names.find(name => name === requested);
+	if (exact) return exact;
 	const direct = target === 'player' ? runtime.clips?.[requested] : null;
-	if (direct) return direct;
-	const expressions = {
-		idle: /stand|idle|neutral/i,
-		jump: /jump|leap/i,
-		run: /run/i,
-		talk: /hands-out|neutral|stand/i,
-		walk: /walk/i
-	};
-	return names.find(name => expressions[requested]?.test(name)) || names[0] || '';
+	if (typeof direct === 'string' && direct) return direct;
+	const expression = animationExpression(requested);
+	if (!expression) return names[0] || '';
+	return movingMatch(player, expression)
+		|| names.find(name => expression.test(name))
+		|| names[0]
+		|| '';
 }
 
 export function resolveMovieActorPoint(state) {
@@ -64,4 +64,29 @@ export function setMovieActorYaw(model, facing) {
 		0,
 		Math.cos(facing / 2)
 	);
+}
+
+function animationExpression(requested) {
+	return {
+		dance: /dance/i,
+		danceHipHop: /dance hip hop/i,
+		danceSilly: /dance silly/i,
+		fall: /fall|air|drop/i,
+		handsOut: /hands-out/i,
+		idle: /stand|idle|neutral/i,
+		jump: /jump|leap/i,
+		neutral: /neutral/i,
+		punch: /punch/i,
+		run: /run/i,
+		stab: /stab/i,
+		talk: /hands-out|neutral|stand/i,
+		walk: /walk/i
+	}[requested] || null;
+}
+
+function movingMatch(player, expression) {
+	const clips = Array.isArray(player?.clips) ? player.clips : [];
+	return clips.find(clip =>
+		Number(clip?.duration) > 0.0005 && expression.test(String(clip?.name || ''))
+	)?.name || '';
 }

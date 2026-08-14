@@ -1,39 +1,35 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-// The Awtsmoos gives every search submission a visible state and an exact, encoded path into the living library.
+// The Awtsmoos preserves the native Torah form beneath every enhancement, recording only a bounded question before opening the living library.
 
 export class SearchController {
-	constructor(formElement) {
+	constructor(formElement, options = {}) {
 		this.formElement = formElement;
 		this.inputElement = formElement.querySelector("input[type='search']");
 		this.buttonElement = formElement.querySelector("button[type='submit']");
 		this.labelElement = this.buttonElement?.querySelector(".search-button-label");
+		this.history = options.history;
+		this.omnibox = options.omnibox;
 	}
 
 	connect() {
-		document.addEventListener("keydown", event => this.handleShortcut(event));
 		this.formElement.addEventListener("submit", event => this.handleSubmit(event));
 		this.inputElement?.addEventListener("input", () => this.clearInvalidState());
-	}
-
-	handleShortcut(event) {
-		const target = event.target;
-		const isTyping = target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement;
-		if (event.key === "/" && !isTyping) {
-			event.preventDefault();
-			this.inputElement?.focus();
-		}
-		if (event.key === "Escape" && target === this.inputElement) this.inputElement.blur();
+		return this;
 	}
 
 	handleSubmit(event) {
 		event.preventDefault();
-		const query = this.inputElement?.value.trim() || "";
+		const query = this.inputElement?.value.trim() ?? "";
+
 		if (!query) {
 			this.showInvalidState();
 			return;
 		}
+
+		this.history?.recordQuery(query);
+		this.omnibox?.close();
 		this.setBusy(true);
 		const destination = new URL(this.formElement.action, location.origin);
 		destination.searchParams.set("q", query);
@@ -54,7 +50,13 @@ export class SearchController {
 	setBusy(isBusy) {
 		this.formElement.classList.toggle("is-searching", isBusy);
 		this.formElement.setAttribute("aria-busy", String(isBusy));
-		if (this.buttonElement) this.buttonElement.disabled = isBusy;
-		if (this.labelElement) this.labelElement.textContent = isBusy ? "Opening" : "Search";
+
+		if (this.buttonElement) {
+			this.buttonElement.disabled = isBusy;
+		}
+
+		if (this.labelElement) {
+			this.labelElement.textContent = isBusy ? "Opening" : "Search";
+		}
 	}
 }

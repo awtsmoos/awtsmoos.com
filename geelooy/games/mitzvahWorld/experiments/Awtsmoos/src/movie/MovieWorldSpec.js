@@ -4,35 +4,45 @@
 
 /**
  * @file MovieWorldSpec.js
- * @description Normalizes one JSON-only generated-world specification for MitzvahWorld movie scenes.
- * The Awtsmoos is beyond region, weather, population, and package while every cinematic world needs a name;
- * Awtsmoos.com keeps the finite decree canonical so agents, loaders, events, and snapshots speak the same.
+ * @description Normalizes explicit JSON world specifications without interpreting prose.
+ * The Awtsmoos is beyond region, weather, texture, and road, while each finite world needs a declared vessel to show;
+ * Awtsmoos.com keeps that vessel deterministic and portable so gameplay and Movie Studio share one reality as they grow.
  */
 
 import { createMovieProjectSnapshot } from './MovieProjectSnapshot.js';
 import { hashMovieProceduralText } from './MovieProceduralSeed.js';
+import { normalizeMovieWorldDomains } from './MovieWorldSpecDomains.js';
 
 export const MOVIE_WORLD_SPEC_KIND = 'awtsmoos.movie.world-spec';
-export const MOVIE_WORLD_SPEC_VERSION = 1;
+export const MOVIE_WORLD_SPEC_VERSION = 2;
 
 export function normalizeMovieWorldSpec(source = {}, defaults = {}) {
-	const value = typeof source === 'string' ? { prompt: source } : { ...(source || {}) };
-	const prompt = String(value.prompt || value.label || value.id || defaults.prompt || 'village heart');
-	const seed = finiteSeed(value.seed ?? defaults.seed ?? hashMovieProceduralText(prompt));
-	const regionId = String(value.regionId || defaults.regionId || 'village-heart');
-	const packageId = String(value.packageId || defaults.packageId || packageForRegion(regionId));
-	const id = String(value.id || defaults.id || `${packageId}:${regionId}:${seed}`);
+	const value = normalizeSource(source);
+	const fallback = normalizeSource(defaults);
+	const regionId = String(value.regionId || fallback.regionId || 'village-heart');
+	const packageId = String(value.packageId || fallback.packageId || packageForRegion(regionId));
+	const domains = normalizeMovieWorldDomains(value, fallback);
+	const identity = JSON.stringify({
+		assets: value.assets || fallback.assets || [],
+		domains,
+		packageId,
+		population: value.population || fallback.population || {},
+		quest: value.quest ?? fallback.quest ?? null,
+		regionId
+	});
+	const seed = finiteSeed(value.seed ?? fallback.seed ?? hashMovieProceduralText(identity));
+	const id = String(value.id || fallback.id || `${packageId}:${regionId}:${seed}`);
 	return createMovieProjectSnapshot({
-		assets: stringArray(value.assets || defaults.assets),
-		atmosphere: normalizeAtmosphere(value.atmosphere || defaults.atmosphere),
-		camera: normalizeCamera(value.camera || defaults.camera),
+		assets: stringArray(value.assets || fallback.assets),
+		atmosphere: normalizeAtmosphere(value.atmosphere || fallback.atmosphere),
+		camera: normalizeCamera(value.camera || fallback.camera),
+		...domains,
 		id,
 		kind: MOVIE_WORLD_SPEC_KIND,
-		label: String(value.label || defaults.label || humanize(regionId)),
+		label: String(value.label || fallback.label || regionId),
 		packageId,
-		population: normalizePopulation(value.population || defaults.population),
-		prompt,
-		quest: normalizeQuest(value.quest ?? defaults.quest),
+		population: normalizePopulation(value.population || fallback.population),
+		quest: normalizeQuest(value.quest ?? fallback.quest),
 		regionId,
 		seed,
 		version: MOVIE_WORLD_SPEC_VERSION
@@ -47,6 +57,13 @@ export function isMovieWorldSpec(value) {
 
 export function movieWorldSpecIdentity(value) {
 	return normalizeMovieWorldSpec(value).id;
+}
+
+function normalizeSource(value) {
+	if (typeof value === 'string') {
+		return { id: value, label: value, regionId: value };
+	}
+	return value && typeof value === 'object' && !Array.isArray(value) ? { ...value } : {};
 }
 
 function normalizeAtmosphere(value = {}) {
@@ -78,21 +95,13 @@ function normalizePopulation(value = {}) {
 function normalizeQuest(value) {
 	if (!value) return null;
 	if (value === true) return { enabled: true, id: 'three-shadows-before-sunset' };
-	return {
-		enabled: value.enabled !== false,
-		id: String(value.id || 'three-shadows-before-sunset')
-	};
+	return { enabled: value.enabled !== false, id: String(value.id || 'three-shadows-before-sunset') };
 }
 
 function packageForRegion(regionId) {
-	return ['kedem-gate', 'cedar-terraces', 'letter-quarry', 'warden-summit']
-		.includes(regionId) ? 'kedem-highlands' : 'lower-meadow';
-}
-
-function humanize(value) {
-	return String(value).split('-').map(word => (
-		word ? word[0].toUpperCase() + word.slice(1) : ''
-	)).join(' ');
+	return ['kedem-gate', 'cedar-terraces', 'letter-quarry', 'warden-summit'].includes(regionId)
+		? 'kedem-highlands'
+		: 'lower-meadow';
 }
 
 function stringArray(value) {
@@ -101,8 +110,7 @@ function stringArray(value) {
 
 function boundedInteger(value, minimum, maximum, fallback) {
 	const number = Number(value);
-	if (!Number.isFinite(number)) return fallback;
-	return Math.max(minimum, Math.min(maximum, Math.round(number)));
+	return Number.isFinite(number) ? Math.max(minimum, Math.min(maximum, Math.round(number))) : fallback;
 }
 
 function finiteSeed(value) {

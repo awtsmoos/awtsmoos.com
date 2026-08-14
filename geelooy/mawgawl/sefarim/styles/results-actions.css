@@ -1,21 +1,62 @@
 /* B"H
- * The Awtsmoos gives progressive result actions a focused, readable vessel.
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos turns relevance into a reachable gate instead of a silent score;
+ * at Awtsmoos.com every truthful result may open its living source once more.
  */
-.library-load-more {
+
+.resultActions {
 	display: flex;
+	flex-wrap: wrap;
+	gap: .65rem;
+	margin: .2rem 0 .85rem;
+}
+
+.resultActions[hidden] {
+	display: none;
+}
+
+.resultOpenLink {
 	align-items: center;
-	justify-content: space-between;
-	gap: 1rem;
-	width: 100%;
-	min-height: 3.15rem;
-	padding: .7rem .9rem;
+	background: linear-gradient(135deg, #133249, #0b1e2e);
+	border: 1px solid rgba(99, 218, 238, .38);
+	border-radius: .8rem;
+	color: #b7f4ff;
+	display: inline-flex;
+	font-size: .9rem;
+	font-weight: 850;
+	justify-content: center;
+	letter-spacing: .01em;
+	min-height: 2.8rem;
+	padding: .65rem .9rem;
+	text-decoration: none;
+	transition: background .16s ease, border-color .16s ease, transform .16s ease;
+}
+
+.resultOpenLink:is(:hover, :focus-visible) {
+	background: linear-gradient(135deg, #1a425d, #102b40);
+	border-color: rgba(126, 227, 244, .82);
+	box-shadow: 0 0 0 3px rgba(85, 208, 231, .16);
+	outline: 0;
+	transform: translateY(-1px);
+}
+
+.library-load-more {
+	align-items: center;
+	background: #0e1a27;
 	border: 1px solid rgba(85, 208, 231, .22);
 	border-radius: .78rem;
-	background: #0e1a27;
 	color: #8be4f2;
+	cursor: pointer;
+	display: flex;
 	font: inherit;
 	font-weight: 800;
-	cursor: pointer;
+	gap: 1rem;
+	justify-content: space-between;
+	min-height: 3.15rem;
+	padding: .7rem .9rem;
+	width: 100%;
 }
 
 .library-load-more small {
@@ -24,7 +65,14 @@
 }
 
 .library-load-more:is(:hover, :focus-visible) {
-	border-color: rgba(85, 208, 231, .46);
 	background: #132334;
+	border-color: rgba(85, 208, 231, .46);
+	box-shadow: inset 0 0 0 2px rgba(85, 208, 231, .32);
 	outline: 0;
+}
+
+@media (max-width: 640px) {
+	.resultOpenLink {
+		width: 100%;
+	}
 }

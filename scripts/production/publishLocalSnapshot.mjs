@@ -4,7 +4,7 @@
 /**
  * @file publishLocalSnapshot.mjs
  * @description The Awtsmoos carries one hash-sealed source vessel through Keter;
- * Awtsmoos.com switches immutably only after remote size and hash agree together.
+ * Awtsmoos.com switches immutably, then clears the transient archive so storage may breathe.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -31,6 +31,7 @@ const connection = await openAwtsmoosSftp({
 	password
 });
 const files = dayuhSftpOps(connection.sftp);
+let archiveUploaded = false;
 
 function quote(value) {
 	return `'${String(value).replace(/'/g, `'\\''`)}'`;
@@ -42,9 +43,19 @@ async function remote(command) {
 	return result.stdout.trim();
 }
 
+async function cleanupRemoteArchive() {
+	if (!archiveUploaded) return;
+	try {
+		await remote(`rm -f -- ${quote(remoteArchive)}`);
+	} catch (error) {
+		console.error(`B"H remote snapshot cleanup warning: ${error.message}`);
+	}
+}
+
 try {
 	await remote(`mkdir -p ${quote(remoteRoot)}`);
 	await files.upload(receipt.archive, remoteArchive, receipt.bytes);
+	archiveUploaded = true;
 	await files.upload(script, remoteScript, fs.statSync(script).size);
 	const actual = await remote(`sha256sum ${quote(remoteArchive)} | cut -d' ' -f1`);
 	if (actual !== receipt.hash) throw new Error('remote_snapshot_hash_mismatch');
@@ -54,5 +65,6 @@ try {
 	if (!current.endsWith(receipt.hash)) throw new Error(`release_switch_mismatch:${current}`);
 	console.log(JSON.stringify({ BH: 'B"H', current, hash: receipt.hash, output }, null, 2));
 } finally {
+	await cleanupRemoteArchive();
 	connection.close();
 }

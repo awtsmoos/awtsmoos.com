@@ -1,0 +1,104 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "ayzarim-awtsmoosdynamicserver-e406758e",
+	"path": "ayzarim/awtsmoosDynamicServer",
+	"type": "runtime",
+	"family": {
+		"id": "runtime",
+		"title": "Runtime and Infrastructure"
+	},
+	"title": "ayzarim/awtsmoosDynamicServer",
+	"entries": [
+		"index.js",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"ayzarim/awtsmoosDynamicServer/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+		"docs/ARCHITECTURE.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-awtsmoosdynamicserver-e406758e.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 605,
+		"tests": 158,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 1
+	},
+	"totalFiles": 765,
+	"symbolSummary": {
+		"files": 605,
+		"classes": 180,
+		"functions": 1661,
+		"exports": 1471,
+		"samples": [
+			"DependencyInjector",
+			"greet",
+			"TemplateObjectGenerator",
+			"fetchAwtsmoos",
+			"_getTemplateObject",
+			"fetchIt",
+			"checkRateLimit",
+			"recordUsage",
+			"estimateTokens",
+			"callGemini",
+			"result",
+			"data"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/api/tunnel",
+			"count": 11,
+			"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/channel.js; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/channelSnapshot.js; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgradeFakes.cjs"
+		},
+		{
+			"project": "ayzarim/tools",
+			"count": 3,
+			"examples": "ayzarim/awtsmoosDynamicServer/server/deps.js"
+		},
+		{
+			"project": "ayzarim/email",
+			"count": 2,
+			"examples": "ayzarim/awtsmoosDynamicServer/server/deps.js"
+		},
+		{
+			"project": "geelooy/api/ohr-hagnuz",
+			"count": 2,
+			"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/ohrHagnuz/AuthenticatedWorldTestHarness.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/ohrHagnuz/auth/GameTicketConsumer.js"
+		},
+		{
+			"project": "ayzarim/awtsmoos.config.json",
+			"count": 1,
+			"examples": "ayzarim/awtsmoosDynamicServer/server/deps.js"
+		},
+		{
+			"project": "ayzarim/DosDB",
+			"count": 1,
+			"examples": "ayzarim/awtsmoosDynamicServer/server/deps.js"
+		}
+	],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/api/tunnel",
+			"count": 1,
+			"examples": "geelooy/api/tunnel/control/routes/fsVessel/tunnelClient.js"
+		}
+	],
+	"externalDependencies": [
+		{
+			"dependency": "ws",
+			"count": 1,
+			"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/socketIntegrationFixture.cjs"
+		}
+	],
+	"publicEntries": [],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

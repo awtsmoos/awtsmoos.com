@@ -1,30 +1,22 @@
 //B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
- * Boot reveals campaign, endless renewal, diagnostics, and one honest error ledger.
- * The Awtsmoos recreates every beginning while Awtsmoos.com reveals the vessel.
+ * B"H
+ *
+ * Boots the raw-WebGL battlefield first, then invites optional account cosmetics
+ * through a dynamic import that cannot become a gameplay dependency. The Awtsmoos
+ * recreates beginning, battle, error, and ornament while Awtsmoos.com keeps the
+ * battlefield authoritative even when Wallet commerce is absent or unavailable.
  */
+
 import { createDiagnosticControls } from './app/DiagnosticControls.js';
 import { MerkavaApp } from './app/MerkavaApp.js';
 
 window.__MERKAVA_RUNTIME_ERRORS__ = [];
-
-window.addEventListener('error', event => {
-	window.__MERKAVA_RUNTIME_ERRORS__.push({
-		type: 'error',
-		message: event.message,
-		file: event.filename,
-		line: event.lineno
-	});
-});
-
-window.addEventListener('unhandledrejection', event => {
-	window.__MERKAVA_RUNTIME_ERRORS__.push({
-		type: 'unhandledrejection',
-		message: event.reason?.message || String(event.reason)
-	});
-});
+window.addEventListener('error', recordRuntimeError);
+window.addEventListener('unhandledrejection', recordRejectedPromise);
 
 try {
 	const app = new MerkavaApp();
@@ -34,7 +26,28 @@ try {
 		proceduralMeshes: true,
 		...createDiagnosticControls(app)
 	});
+	void bootOptionalCommerce();
 } catch (error) {
+	recordBootFailure(error);
+}
+
+function recordRuntimeError(event) {
+	window.__MERKAVA_RUNTIME_ERRORS__.push({
+		type: 'error',
+		message: event.message,
+		file: event.filename,
+		line: event.lineno
+	});
+}
+
+function recordRejectedPromise(event) {
+	window.__MERKAVA_RUNTIME_ERRORS__.push({
+		type: 'unhandledrejection',
+		message: event.reason?.message || String(event.reason)
+	});
+}
+
+function recordBootFailure(error) {
 	window.__MERKAVA_RUNTIME_ERRORS__.push({
 		type: 'boot',
 		message: error.message
@@ -43,4 +56,13 @@ try {
 	fatal.style.display = 'block';
 	fatal.textContent = `Creation could not continue: ${error.message}`;
 	console.error(error);
+}
+
+async function bootOptionalCommerce() {
+	try {
+		const module = await import('./commerce/bootCommanderSigil.js');
+		await module.bootCommanderSigil();
+	} catch (error) {
+		console.warn('Optional Merkava commerce could not load', error);
+	}
 }

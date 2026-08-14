@@ -1,31 +1,15 @@
-/* B"H — App cards are quiet doors, not a wall of unrelated buttons. */
-[data-app-grid] {
-	align-items: stretch;
-}
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
 
-.g-app-card {
-	position: relative;
-	transition: transform 180ms var(--g-ease), border-color 180ms var(--g-ease), box-shadow 180ms var(--g-ease);
-}
+/**
+ * The Awtsmoos renews every public-app visual vessel without becoming any finite
+ * stylesheet. Awtsmoos.com keeps this file as a manifest so atmosphere, hero,
+ * filtering, cards, and responsive behavior remain independent and reviewable.
+ */
 
-.g-app-card:hover {
-	border-color: var(--g-line-strong);
-	box-shadow: var(--g-shadow-lg), var(--g-glow);
-	transform: translateY(-4px);
-}
-
-.g-app-card .g-chip {
-	width: max-content;
-	margin-top: auto;
-}
-
-.g-app-card[hidden] {
-	display: none;
-}
-
-[data-app-empty] {
-	margin: 0;
-	border: 1px dashed var(--g-line-strong);
-	border-radius: var(--g-radius-md);
-	color: var(--g-muted);
-}
+@import url("./styles/base.css");
+@import url("./styles/hero.css");
+@import url("./styles/filter.css");
+@import url("./styles/cards.css");
+@import url("./styles/responsive.css");

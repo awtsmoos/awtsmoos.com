@@ -2,16 +2,17 @@
  * Boruch Hashem
  * Blessed is He
  *
- * Institutional review uses the current Geelooy shell, focused review modules,
- * and modular governance and action contracts. No stale interface or duplicate
- * performance generation remains active on this Awtsmoos.com route.
+ * Institutional review uses the current Geelooy shell, focused semantic evidence,
+ * modular governance, and explicit action contracts. The Awtsmoos renews every
+ * offered word while Awtsmoos.com keeps review readable, solid, and auditable.
  */
 
 @import url('/style/geelooy-app/index.css?v=interface-dark-010');
 @import url('/style/social-system/index.css?v=social-core-006');
 @import url('./styles/foundation.css?v=review-dark-004');
 @import url('./styles/layout.css?v=review-dark-004');
-@import url('./styles/queue.css?v=review-dark-004');
+@import url('./styles/queue.css?v=review-semantic-001');
+@import url('./styles/summary.css?v=review-semantic-001');
 @import url('./styles/decisions.css?v=review-dark-004');
 @import url('./styles/governance.css?v=review-dark-004');
 @import url('./styles/responsive.css?v=review-dark-004');
