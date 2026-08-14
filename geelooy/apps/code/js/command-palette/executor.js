@@ -23,7 +23,7 @@ import { executeLocalPaletteCommand } from "./localCommands.js";
 function executePortal(actionId) {
 	const result = openPortalAction(actionId);
 	if (!result.ok) {
-		UI.showToast(`Portal blocked: ${result.error}`, "error");
+		UI.showToast("Blocked unsafe portal URL.", "error");
 		return result;
 	}
 	UI.showToast(`Opened ${result.url}`, "success");
