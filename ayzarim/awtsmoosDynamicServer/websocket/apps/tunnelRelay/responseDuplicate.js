@@ -2,6 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
+const Compatibility = require("./responseCompatibility.js");
 const Generation = require("./responseGeneration.js");
 const Protocol = require("./responseProtocol.js");
 const State = require("./state.js");
@@ -48,7 +49,7 @@ async function settle(context, client, data, id, record, lookup) {
 	if (!validSettlement(context, client, data, record, "terminal_duplicate")) {
 		return false;
 	}
-	if (!Generation.sameGeneration(record, client) && record.state !== "completed") {
+	if (record.state !== "completed") {
 		const committed = await State.rememberReconciliation(
 			context,
 			id,
@@ -94,7 +95,7 @@ function validSettlement(context, client, data, record, prefix) {
 		return false;
 	}
 	const validation = Validation.validateTunnelResponse(record.expected, data);
-	if (validation.ok) return true;
+	if (validation.ok || Compatibility.acceptsMissingStream(record, data, validation)) return true;
 	Protocol.quarantine(
 		context,
 		`${prefix}_correlation_mismatch`,
