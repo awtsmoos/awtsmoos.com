@@ -1,5 +1,5 @@
 B"H
-1.0.542
+1.0.543
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtector.mjs
@@ -1747,6 +1747,7 @@ tools/fs/mission/autoContinuation/promptPlan.js
 tools/fs/mission/autoContinuation/recoveryAgents.js
 tools/fs/mission/autoContinuation/recoveryContext.js
 tools/fs/mission/autoContinuation/state.js
+tools/fs/mission/autoContinuation/terminalDispatch.js
 tools/fs/mission/autoContinuation/websiteStatus.js
 tools/fs/mission/autoSeed/config.js
 tools/fs/mission/autoSeed/index.js
