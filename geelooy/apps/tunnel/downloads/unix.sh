@@ -15,8 +15,7 @@ case "$(basename "$requested_root")" in
 	.awtsmoos-tunnel.candidate-*|.awtsmoos-tunnel.activation-rollback-*|\
 	.awtsmoos-tunnel.failed-*|.awtsmoos-tunnel.incomplete-*|\
 	.awtsmoos-tunnel.installer-runtime-*|.awtsmoos-tunnel.recovery-displaced-*)
-		printf '[Awtsmoos][bootstrap][recovered] Ignoring transient install root: %s\n' \
-			"$requested_root" >&2
+		printf '[Awtsmoos][bootstrap][recovered] Ignoring transient install root: %s\n' "$requested_root" >&2
 		install_root="$canonical_root"
 		;;
 	*) install_root="$requested_root" ;;
@@ -25,6 +24,7 @@ runtime_root="${install_root}.installer-runtime-$$"
 progress_file="$runtime_root/install-progress.state"
 install_cwd="${AWTSMOOS_INSTALL_CWD:-$PWD}"
 project_root="${AWTSMOOS_PROJECT_ROOT:-$install_cwd}"
+custody_delegated=0
 
 for absolute in "$install_cwd" "$project_root"; do
 	case "$absolute" in
@@ -39,8 +39,7 @@ export AWTSMOOS_INSTALL_CWD="$install_cwd"
 export AWTSMOOS_PROJECT_ROOT="$project_root"
 
 bootstrap_progress() {
-	local percent="$1"
-	local message="$2"
+	local percent="$1" message="$2"
 	printf '%s\n' "$percent" > "$progress_file"
 	if [ -t 1 ] && [ "${AWTSMOOS_PROGRESS_MODE:-tty}" != "plain" ]; then
 		printf '\r\033[2K[%3d%%] %s' "$percent" "$message"
@@ -55,15 +54,14 @@ cleanup_bootstrap() {
 		[ -t 1 ] && [ "${AWTSMOOS_PROGRESS_MODE:-tty}" != "plain" ] && printf '\n'
 		printf '[FAILED] Awtsmoos Tunnel bootstrap stopped before completion.\n' >&2
 	fi
-	rm -rf "$runtime_root"
+	[ "$custody_delegated" = "1" ] || rm -rf "$runtime_root"
 	exit "$exit_code"
 }
 
 fetch_bootstrap_file() {
 	local name="$1"
 	curl -fsSL --retry 5 --retry-delay 1 --connect-timeout 10 \
-		--speed-time 30 --speed-limit 1024 \
-		"$origin/apps/tunnel/downloads/$name" -o "$runtime_root/$name"
+		--speed-time 30 --speed-limit 1024 "$origin/apps/tunnel/downloads/$name" -o "$runtime_root/$name"
 	chmod +x "$runtime_root/$name"
 }
 
@@ -93,6 +91,13 @@ bootstrap_progress 18 'Verified installer components ready'
 export AWTSMOOS_INSTALL_ORIGIN="$origin"
 export AWTSMOOS_INSTALL_ROOT="$install_root"
 export AWTSMOOS_INSTALL_RUNTIME="$runtime_root"
-bash "$runtime_root/unix-install-core.sh"
+recovery_root="${AWTSMOOS_RECOVERY_ROOT:-${install_root}-recovery}"
+custody_delegated=1
+set +e
+"$AWTSMOOS_NODE_BIN" "$runtime_root/unix-install-custody.cjs" delegate \
+	"$runtime_root/unix-install-core.sh" "$runtime_root" "$recovery_root" "$install_cwd"
+install_status=$?
+set -e
 trap - EXIT
 rm -rf "$runtime_root"
+exit "$install_status"

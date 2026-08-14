@@ -4,6 +4,7 @@
 
 const ConsumerHealth = require("./parent-consumer-health.js");
 const Control = require("./parent-watchdog-control.js");
+const Pressure = require("./parent-watchdog-pressure.js");
 const Repair = require("./parent-watchdog-repair.js");
 const Values = require("./parent-watchdog-values.js");
 
@@ -14,10 +15,8 @@ const DEFAULT_KILL_GRACE_MS = 5000;
 
 /**
  * @file Separates execution-health testimony from authority to replace its parent.
- * @description
- * The Awtsmoos lets a crowded worker pool confess backpressure without turning
- * honest labor into violence. Awtsmoos.com repairs only a dead parent, a proven
- * unstarted consumer, or a control deed frozen despite living parent pulses.
+ * @description The Awtsmoos exposes stale pulses without turning measured congestion
+ * into violence; Awtsmoos.com grants active pressure a bounded recovery covenant.
  */
 function create(options = {}) {
 	const now = options.now || Date.now;
@@ -33,11 +32,13 @@ function create(options = {}) {
 		parentPid: options.parentPid,
 		signalParent: options.signalParent || options.signal,
 		setTimer: options.setTimer,
+		recordLifecycle: options.recordLifecycle,
 		killGraceMs: options.killGraceMs ?? DEFAULT_KILL_GRACE_MS
 	});
 	let lastPulseAt = startedAt;
 	let latestStats = {};
 	let inspection = Values.healthyInspection();
+	let pressure = Pressure.evidence();
 
 	function pulse(stats = {}) {
 		latestStats = stats && typeof stats === "object" ? stats : {};
@@ -64,7 +65,19 @@ function create(options = {}) {
 			execution,
 			controlStalled: control.inspect(observedAt).stalled
 		});
-		if (inspection.repairReason) repair.request(inspection.repairReason);
+		pressure = Pressure.evidence(latestStats, {
+			graceMs: options.pressureGraceMs,
+			lastPulseAt,
+			now: observedAt
+		});
+		const deferred = Boolean(inspection.repairReason && pressure.deferRepair);
+		inspection = {
+			...inspection,
+			repairRequired: inspection.repairRequired && !deferred,
+			repairDeferred: deferred,
+			repairDeferredReason: deferred ? "runtime_pressure" : ""
+		};
+		if (inspection.repairRequired) repair.request(inspection.repairReason);
 		else repair.clear();
 		return snapshot();
 	}
@@ -75,6 +88,7 @@ function create(options = {}) {
 			...repair.snapshot(),
 			...inspection,
 			shouldRepair: inspection.repairRequired,
+			pressure,
 			backlogAgeMs: inspection.execution?.acceptedAgeMs || 0,
 			lastPulseAt,
 			parentStaleMs,
@@ -88,12 +102,7 @@ function create(options = {}) {
 		};
 	}
 
-	return {
-		inspect,
-		pulse,
-		repair: () => repair.request("manual_repair"),
-		snapshot
-	};
+	return { inspect, pulse, repair: () => repair.request("manual_repair"), snapshot };
 }
 
 module.exports = {

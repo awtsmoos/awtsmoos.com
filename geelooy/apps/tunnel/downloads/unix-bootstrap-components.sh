@@ -6,7 +6,7 @@
 # The Awtsmoos gathers every installer and guardian garment into one verified archive.
 # Awtsmoos.com keeps this list declarative while publication validates the runtime graph.
 helpers=(
-	unix-install-core.sh unix-install-sources.sh unix-cleanup.sh
+	unix-install-core.sh unix-install-custody.cjs unix-install-sources.sh unix-cleanup.sh
 	unix-install-log.sh unix-install-progress.sh unix-install-browser.sh
 	unix-install-lock.sh unix-install-lock-owner.cjs unix-log-retention.sh
 	unix-device-identity-state.sh unix-state-migration.sh
@@ -43,13 +43,9 @@ helpers=(
 source "$runtime_root/unix-bootstrap-components-download.sh"
 
 download_installer_components() {
-	if archive_components; then
-		return 0
-	fi
+	if archive_components; then return 0; fi
 	rm -f "$runtime_root/installer-components.tar.gz"
 	local helper=""
-	for helper in "${helpers[@]}"; do
-		rm -f "$runtime_root/$helper"
-	done
+	for helper in "${helpers[@]}"; do rm -f "$runtime_root/$helper"; done
 	fallback_components
 }

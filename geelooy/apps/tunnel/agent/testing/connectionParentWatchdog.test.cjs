@@ -12,6 +12,7 @@ const watchdog = Watchdog.create({
 	killGraceMs: 1000,
 	startedAt: Date.now() - 60000,
 	signal: (pid, signal) => signals.push({ pid, signal }),
+	recordLifecycle: () => true,
 	setTimer: callback => ({ callback, unref() {} })
 });
 
@@ -29,41 +30,48 @@ result = watchdog.inspect(
 assert.equal(result.shouldRepair, true);
 assert.deepEqual(signals, [{ pid: 4242, signal: "SIGTERM" }]);
 
-watchdog.pulse();
-result = watchdog.inspect(
-	{ registered: true },
-	{ inbox: { count: 1, oldestAgeMs: 60000 } }
-);
-assert.equal(result.shouldRepair, false);
-assert.equal(signals.length, 1);
-
-const stalledSignals = [];
-let clock = Date.now();
-const stalled = Watchdog.create({
+const pressureSignals = [];
+let clock = 1000000;
+const pressured = Watchdog.create({
 	parentPid: 5252,
-	parentStaleMs: 60000,
+	parentStaleMs: 30000,
 	backlogStaleMs: 5000,
-	controlStallMs: 10000,
+	pressureGraceMs: 600000,
 	startedAt: clock,
 	now: () => clock,
-	signal: (pid, signal) => stalledSignals.push({ pid, signal }),
+	signal: (pid, signal) => pressureSignals.push({ pid, signal }),
+	recordLifecycle: () => true,
 	setTimer: () => ({ unref() {} })
 });
-stalled.pulse({
-	lanes: { p0_control: { inflight: 1, queued: 0 } },
-	lastSuccessfulActionAt: 1
+pressured.pulse({
+	circuit: { level: "hard", pressureLagMs: 3751 },
+	eventLoopLag: { lastMs: 933, maxMs: 3751 },
+	executionStages: { active: 7, waitingForConsumer: 2 },
+	inflight: 7,
+	queued: 1
 });
-clock += 11000;
-stalled.inspect(
+clock += 31000;
+result = pressured.inspect(
 	{ registered: true },
-	{ inbox: { count: 4, oldestAgeMs: 60000 } }
+	{ inbox: { count: 17, oldestAgeMs: 49592935 } }
 );
-assert.deepEqual(stalledSignals, [{ pid: 5252, signal: "SIGTERM" }]);
+assert.equal(result.shouldRepair, false);
+assert.equal(result.repairDeferred, true);
+assert.equal(result.repairDeferredReason, "runtime_pressure");
+assert.equal(pressureSignals.length, 0);
+
+clock += 570000;
+result = pressured.inspect(
+	{ registered: true },
+	{ inbox: { count: 17, oldestAgeMs: 50162935 } }
+);
+assert.equal(result.shouldRepair, true);
+assert.deepEqual(pressureSignals, [{ pid: 5252, signal: "SIGTERM" }]);
 
 console.log(JSON.stringify({
 	ok: true,
 	suite: "connection-parent-watchdog",
-	requiresLiveRegistrationAndOldBacklog: true,
-	freshPulsePreventsRepair: true,
-	liveHeartbeatWithSingleStuckControlActionRepairs: true
+	deadIdleParentRepairs: true,
+	pressureDefersRepair: true,
+	boundedPressureGrace: true
 }));
