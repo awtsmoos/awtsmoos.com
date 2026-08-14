@@ -1,6 +1,7 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+const fs = require("node:fs");
 const Fs = require("../../tools/fs/index.js");
 const AutoContinuation = require("../../tools/fs/mission/autoContinuation/index.js");
 const ProjectRoots = require("../../tools/fs/mission/projectRootRegistry.js");
@@ -27,6 +28,15 @@ function interval(env = process.env) {
 	const configured = Number(env.AWTSMOOS_MISSION_BOOT_RESUME_MS || DEFAULT_INTERVAL_MS);
 	const value = Number.isFinite(configured) ? configured : DEFAULT_INTERVAL_MS;
 	return Math.min(MAX_INTERVAL_MS, Math.max(MIN_INTERVAL_MS, Math.floor(value)));
+}
+function usableBinding(config = {}, binding = null) {
+	if (!binding?.projectRoot || fs.existsSync(binding.projectRoot) || !config.root) return binding;
+	return {
+		...binding,
+		projectRoot: config.root,
+		staleProjectRoot: binding.projectRoot,
+		fallbackReason: "persisted_project_root_missing"
+	};
 }
 function scopedConfig(config = {}, binding = null) {
 	const root = binding?.projectRoot || config.root;
@@ -57,7 +67,8 @@ function start(log, config, options = {}) {
 		if (running) return { ok: true, skipped: true, reason: "tick_already_running" };
 		running = true;
 		try {
-			const binding = deps.projectRoots.read(config);
+			const persisted = deps.projectRoots.read(config);
+			const binding = usableBinding(config, persisted);
 			const scoped = scopedConfig(config, binding);
 			const continuation = await deps.autoContinuation.run(scoped, {
 				env,
@@ -76,7 +87,7 @@ function start(log, config, options = {}) {
 				cwd: scoped.root
 			});
 			logResult(log, reason, continuation, resume);
-			return { ok: true, continuation, resume, projectRoot: scoped.root };
+			return { ok: true, continuation, resume, projectRoot: scoped.root, binding };
 		} catch (error) {
 			log?.("Mission boot/continuation failed:", error?.stack || error?.message || String(error));
 			return { ok: false, error: error?.message || String(error) };
@@ -104,5 +115,5 @@ function logResult(log, reason, continuation, resume) {
 module.exports = {
 	DEFAULT_INTERVAL_MS, MAX_INTERVAL_MS, MIN_INTERVAL_MS,
 	autoMission, candidateProbe, dependencies, enabled, interval,
-	logResult, scopedConfig, start
+	logResult, scopedConfig, start, usableBinding
 };
