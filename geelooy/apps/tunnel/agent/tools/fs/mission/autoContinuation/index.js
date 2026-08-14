@@ -5,6 +5,7 @@
 const Helpers = require("./coordinatorHelpers.js");
 const Prompt = require("./prompt.js");
 const RecoveryContext = require("./recoveryContext.js");
+const TerminalDispatch = require("./terminalDispatch.js");
 
 /**
  * @file Coordinates one root-correct, mission-wide-idempotent continuation turn.
@@ -45,6 +46,8 @@ async function run(config, options = {}) {
 	if (blocked) return blocked;
 	const current = deps.State.read(scopedConfig, mission.id, fingerprint);
 	const websiteRecord = deps.WebsiteStore.read(identity.websiteMissionId);
+	const terminal = TerminalDispatch.settle(scopedConfig, identity, current, websiteRecord, deps);
+	if (terminal) return terminal;
 	if (websiteRecord) return Helpers.recoverExisting(scopedConfig, identity, current, websiteRecord, deps);
 	const decision = deps.Eligibility.decide({
 		mission,
