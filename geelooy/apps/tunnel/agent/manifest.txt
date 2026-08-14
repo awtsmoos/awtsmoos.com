@@ -1,5 +1,5 @@
 B"H
-1.0.539
+1.0.540
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtector.mjs
@@ -1700,6 +1700,7 @@ tools/fs/executor/pool-capacity.js
 tools/fs/executor/pool-jobs.js
 tools/fs/executor/pool-lifecycle.js
 tools/fs/executor/pool-state.js
+tools/fs/executor/pool-warm.js
 tools/fs/executor/pool.js
 tools/fs/executor/requester.js
 tools/fs/executor/worker-child.cjs
