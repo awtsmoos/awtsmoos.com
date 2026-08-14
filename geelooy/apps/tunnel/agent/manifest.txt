@@ -1,5 +1,5 @@
 B"H
-1.0.546
+1.0.547
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtector.mjs
@@ -920,6 +920,7 @@ lib/connection-vessel/mailbox.js
 lib/connection-vessel/parent-consumer-health-values.js
 lib/connection-vessel/parent-consumer-health.js
 lib/connection-vessel/parent-watchdog-control.js
+lib/connection-vessel/parent-watchdog-policy.js
 lib/connection-vessel/parent-watchdog-pressure.js
 lib/connection-vessel/parent-watchdog-repair.js
 lib/connection-vessel/parent-watchdog-values.js
