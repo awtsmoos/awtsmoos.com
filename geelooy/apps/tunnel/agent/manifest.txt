@@ -1,5 +1,5 @@
 B"H
-1.0.545
+1.0.546
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtector.mjs
@@ -1088,6 +1088,7 @@ lib/runtime/process-lifecycle-log.js
 lib/runtime/process-singleton-owner.js
 lib/runtime/process-singleton.js
 lib/runtime/processIdentity.js
+lib/runtime/progress-interval.js
 lib/runtime/project-root-guidance.js
 lib/runtime/project-root-health.js
 lib/runtime/recovery-envelope.js
