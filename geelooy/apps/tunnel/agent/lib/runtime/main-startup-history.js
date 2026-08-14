@@ -2,36 +2,48 @@
 // Boruch Hashem
 // Blessed is He
 
+const ChildProcess = require("node:child_process");
+const Path = require("node:path");
 const DeviceEnvironment = require("../deviceIdentity/environment.js");
 
 /**
- * @file Guards project-history maintenance during agent startup.
+ * @file Starts owning history maintenance outside the latency-critical runtime.
  * @description
- * The Awtsmoos lets an owning runtime tend its durable garden, while a staged
- * candidate remains a witness only. Awtsmoos.com keeps the unowning probe from
- * pruning another vessel before localhost can testify that the candidate lives.
+ * The Awtsmoos opens its API and relay before a separate worker measures history.
+ * Awtsmoos.com keeps readonly candidates inert and owning event loops responsive.
  */
 
-/**
- * Runs startup history cleanup only for an owning runtime.
- *
- * @param {object} dependencies Startup dependencies containing HistoryCleanup.
- * @param {object} config Canonical runtime configuration.
- * @returns {object} Cleanup testimony or an explicit readonly skip receipt.
- */
+/** Starts non-blocking history cleanup for an owning runtime. */
 function cleanupHistory(dependencies, config) {
-	if (DeviceEnvironment.isCandidateProbe()) {
-		return readonlyCandidateReceipt();
-	}
+	if (DeviceEnvironment.isCandidateProbe()) return readonlyCandidateReceipt();
 	try {
-		return dependencies.HistoryCleanup.cleanupAwtsmoosState({
-			projectRoot: config.root,
-			stateRoot: config.deviceStateRoot,
-			dryRun: false
-		});
+		const spawn = dependencies.spawnHistoryCleanup || spawnCleanup;
+		const worker = spawn(dependencies.config.ROOT, config);
+		worker?.unref?.();
+		return {
+			ok: true,
+			scheduled: true,
+			pid: Number(worker?.pid || 0),
+			reason: "owning_cleanup_worker"
+		};
 	} catch (error) {
 		return failure(error);
 	}
+}
+
+/** Spawns the bundled cleanup utility without inheriting runtime event-loop work. */
+function spawnCleanup(installRoot, config) {
+	const script = Path.join(installRoot, "scripts", "cleanup-state.cjs");
+	return ChildProcess.spawn(process.execPath, [
+		script,
+		"--project-root",
+		config.root,
+		"--install-root",
+		config.deviceStateRoot || ""
+	], {
+		detached: false,
+		stdio: "ignore"
+	});
 }
 
 /** Returns truthful testimony that a non-owning candidate skipped maintenance. */
@@ -55,5 +67,6 @@ function failure(error) {
 module.exports = {
 	cleanupHistory,
 	failure,
-	readonlyCandidateReceipt
+	readonlyCandidateReceipt,
+	spawnCleanup
 };
