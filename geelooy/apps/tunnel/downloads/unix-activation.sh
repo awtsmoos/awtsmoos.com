@@ -3,9 +3,9 @@
 # Boruch Hashem
 # Blessed is He
 
-# Activation preserves the exact predecessor by atomic rename. Building a second
-# archive before startup is redundant, slow, and dangerous when mutable caches are
-# large. Recovery archives remain optional historical witnesses after readiness.
+# Activation keeps the untouched predecessor until the candidate proves readiness.
+# A verified candidate always replaces a degraded incumbent; failure to archive an
+# incompatible predecessor remains nonfatal and never converts repair into staging.
 activate_fresh() {
 	local stamp="$(date -u +%Y%m%dT%H%M%SZ)"
 	local displaced=""
@@ -47,12 +47,14 @@ activate_update() {
 	local stamp="$(date -u +%Y%m%dT%H%M%SZ)"
 	local rollback="${ROOT}.activation-rollback-${stamp}-$$"
 	local failed="${ROOT}.failed-${CANDIDATE_VERSION}-${stamp}-$$"
-	install_progress 69 "Preserving exact predecessor for instant rollback"
-	install_event "archive" "skipped" \
-		"Blocking predecessor archive is unnecessary; atomic rollback is authoritative." \
-		"root=$ROOT rollback=$rollback candidate=$CANDIDATE_VERSION"
+	install_progress 69 "Creating compact predecessor archive"
+	if ! archive_known_good_runtime "known_good_before_activation"; then
+		install_event "archive" "warning" \
+			"Predecessor was not compatible enough to archive; activation will continue." \
+			"root=$ROOT candidate=$CANDIDATE_VERSION"
+	fi
 	install_progress 74 "Switching to the verified release"
-	write_activation_journal "rollback_prepared" "$rollback" "$CANDIDATE_ROOT"
+	write_activation_journal "archive_checked" "$rollback" "$CANDIDATE_ROOT"
 	stop_existing_runtime
 	mv "$ROOT" "$rollback"
 	migrate_runtime_device_state "$rollback"
@@ -80,7 +82,7 @@ activate_update() {
 		return 0
 	fi
 	install_event "startup" "warning" \
-		"Candidate readiness failed; restoring exact predecessor automatically." \
+		"Candidate readiness failed; restoring predecessor automatically." \
 		"expectedVersion=$CANDIDATE_VERSION state=$(connection_state_name)"
 	rollback_failed_activation "$rollback" "$failed"
 }

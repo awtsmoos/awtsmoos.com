@@ -3,11 +3,12 @@
 // Blessed is He
 
 /**
- * The Awtsmoos distinguishes a wounded wire from a rejected identity. Socket and relay
- * failures remain transient; an invalid device credential demands local identity
- * quarantine and supervised re-pairing rather than endless reconnect or code rollback.
+ * The Awtsmoos distinguishes a wounded wire from a wounded release. Awtsmoos.com
+ * therefore records credential, socket, relay, and heartbeat failures durably while
+ * refusing to roll back healthy code for transport wounds that belong to recovery.
  */
 const TRANSIENT_PATTERNS = [
+	"invalid_device_credential",
 	"socket_closed",
 	"waiting_for_pong_or_frame",
 	"tunnel_not_alive",
@@ -19,21 +20,15 @@ const TRANSIENT_PATTERNS = [
 
 function classify(reason) {
 	const normalized = String(reason || "").trim().toLowerCase();
-	if (normalized.includes("invalid_device_credential")) {
-		return {
-			kind: "identity",
-			restoreEligible: false,
-			requiresIdentityReset: true,
-			normalized
-		};
-	}
 	const transient = TRANSIENT_PATTERNS.some(pattern => normalized.includes(pattern));
 	return {
 		kind: transient ? "transport" : "software",
 		restoreEligible: !transient,
-		requiresIdentityReset: false,
 		normalized
 	};
 }
 
-module.exports = { TRANSIENT_PATTERNS, classify };
+module.exports = {
+	TRANSIENT_PATTERNS,
+	classify
+};

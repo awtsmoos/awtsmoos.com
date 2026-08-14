@@ -4,58 +4,66 @@
 
 const crypto = require("node:crypto");
 const fs = require("node:fs");
-const os = require("node:os");
 const path = require("node:path");
 const { ROOT: DEFAULT_INSTALL_ROOT } = require("../config.js");
 const Environment = require("./environment.js");
-const Strength = require("./metadataStrength.js");
 
 /**
- * @file Persists one canonical device identity outside replaceable runtime roots.
+ * @file Persists only nonsecret device-binding metadata.
  * @description
- * The Awtsmoos keeps one physical-device covenant while releases and rollbacks change
- * garments. Awtsmoos.com writes recovery first and mirrors it into the active runtime.
+ * The Awtsmoos renews sign and essence without confusing them. Awtsmoos.com
+ * stores a random device ID, public key, tunnel ID, and timestamps here, while
+ * private keys and credentials remain solely in platform secure storage.
  */
-function installRoot(config = {}) {
-	return Environment.assertSafeInstallRoot(
-		process.env.AWTSMOOS_INSTALL_ROOT || config.installRoot || DEFAULT_INSTALL_ROOT
-	);
-}
 
-function recoveryRoot(config = {}) {
-	if (process.env.AWTSMOOS_RECOVERY_ROOT) {
-		return path.resolve(process.env.AWTSMOOS_RECOVERY_ROOT);
-	}
-	if (Environment.isTestMode()) return `${installRoot(config)}-recovery`;
-	return path.join(os.homedir(), ".awtsmoos-tunnel-recovery");
-}
-
+/** Returns the nonsecret metadata path beneath the selected install root. */
 function metadataPath(config = {}) {
-	return path.join(recoveryRoot(config), "state", "device-binding.json");
-}
-
-function mirrorPath(config = {}) {
-	return path.join(installRoot(config), "device-binding.json");
-}
-
-function read(config = {}) {
-	return Strength.stronger(
-		readFile(metadataPath(config)),
-		readFile(mirrorPath(config))
+	const root = Environment.assertSafeInstallRoot(
+		process.env.AWTSMOOS_INSTALL_ROOT ||
+		config.installRoot ||
+		DEFAULT_INSTALL_ROOT
 	);
+	return path.join(root, "device-binding.json");
 }
 
+/** Reads one metadata record, returning null when absent or invalid. */
+function read(config = {}) {
+	try {
+		const parsed = JSON.parse(fs.readFileSync(metadataPath(config), "utf8"));
+		return parsed && typeof parsed === "object" ? parsed : null;
+	} catch {
+		return null;
+	}
+}
+
+/** Atomically writes a complete nonsecret metadata record. */
 function write(config, metadata) {
-	const complete = { ...metadata, schemaVersion: 1 };
-	writeFile(metadataPath(config), complete);
-	writeFile(mirrorPath(config), complete);
-	return complete;
+	const target = metadataPath(config);
+	const temporary = `${target}.${process.pid}.${Date.now()}.tmp`;
+	fs.mkdirSync(path.dirname(target), { recursive: true, mode: 0o700 });
+	try {
+		fs.writeFileSync(
+			temporary,
+			JSON.stringify(metadata, null, 2),
+			{ encoding: "utf8", mode: 0o600 }
+		);
+		fs.renameSync(temporary, target);
+	} finally {
+		try {
+			fs.unlinkSync(temporary);
+		} catch {}
+	}
+	return metadata;
 }
 
+/** Returns existing metadata or creates a new unpaired device identity. */
 function loadOrCreate(config = {}) {
 	const existing = read(config);
-	if (existing?.deviceId) return write(config, existing);
+	if (existing?.deviceId) {
+		return existing;
+	}
 	return write(config, {
+		schemaVersion: 1,
 		deviceId: `dev_${crypto.randomBytes(18).toString("base64url")}`,
 		tunnelId: null,
 		publicKey: null,
@@ -66,50 +74,34 @@ function loadOrCreate(config = {}) {
 	});
 }
 
+/** Merges and atomically writes nonsecret metadata. */
 function update(config, patch = {}) {
 	const current = loadOrCreate(config);
-	return write(config, { ...current, ...patch, deviceId: current.deviceId });
+	return write(config, {
+		...current,
+		...patch,
+		deviceId: current.deviceId,
+		schemaVersion: 1
+	});
 }
 
+/** Removes the local nonsecret binding record without following symlinks. */
 function remove(config = {}) {
-	let removed = false;
-	for (const target of new Set([metadataPath(config), mirrorPath(config)])) {
-		try {
-			fs.unlinkSync(target);
-			removed = true;
-		} catch (error) {
-			if (error?.code !== "ENOENT") throw error;
-		}
-	}
-	return removed;
-}
-
-function readFile(file) {
+	const target = metadataPath(config);
 	try {
-		const value = JSON.parse(fs.readFileSync(file, "utf8"));
-		return value && typeof value === "object" ? value : null;
-	} catch {
-		return null;
+		fs.unlinkSync(target);
+		return true;
+	} catch (error) {
+		if (error?.code === "ENOENT") return false;
+		throw error;
 	}
-}
-
-function writeFile(file, value) {
-	fs.mkdirSync(path.dirname(file), { recursive: true, mode: 0o700 });
-	const temporary = `${file}.${process.pid}.${Date.now()}.tmp`;
-	fs.writeFileSync(temporary, JSON.stringify(value, null, 2), { mode: 0o600 });
-	fs.renameSync(temporary, file);
 }
 
 module.exports = {
-	installRoot,
 	loadOrCreate,
 	metadataPath,
-	mirrorPath,
 	read,
-	recoveryRoot,
 	remove,
-	score: Strength.score,
-	stronger: Strength.stronger,
 	update,
 	write
 };

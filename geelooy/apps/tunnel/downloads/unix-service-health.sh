@@ -4,8 +4,9 @@
 # Blessed is He
 
 # The Awtsmoos renews agent, supervisor, and outer service as distinct witnesses.
-# Awtsmoos.com repairs the replaceable supervisor PID file from the canonical guard
-# or exact process census before deciding that durable guardianship is missing.
+# Awtsmoos.com accepts completion only when exactly one agent and one supervisor own
+# this root and the configured outer service proves durable guardianship.
+
 if ! command -v service_mode >/dev/null 2>&1; then
 	if [ -n "${AWTSMOOS_INSTALL_RUNTIME:-}" ] &&
 		[ -f "$AWTSMOOS_INSTALL_RUNTIME/unix-service-identity.sh" ]; then
@@ -20,27 +21,9 @@ if ! command -v service_mode >/dev/null 2>&1; then
 	fi
 fi
 
-resolved_supervisor_pid() {
-	local pid="$(cat "$ROOT/supervisor.pid" 2>/dev/null || true)"
-	if service_process_matches "$pid" "$ROOT/awtsmoos-supervisor.sh"; then
-		printf '%s\n' "$pid"
-		return 0
-	fi
-	local guard_pid="$(cat "$RECOVERY_ROOT/state/supervisor-instance.lock/owner.pid" 2>/dev/null || true)"
-	if service_process_matches "$guard_pid" "$ROOT/awtsmoos-supervisor.sh"; then
-		printf '%s\n' "$guard_pid" > "$ROOT/supervisor.pid"
-		printf '%s\n' "$guard_pid"
-		return 0
-	fi
-	local found="$(find_supervisor_pids | awk 'NF { print; count += 1 } END { if (count != 1) exit 1 }')" || return 1
-	[ -n "$found" ] || return 1
-	printf '%s\n' "$found" > "$ROOT/supervisor.pid"
-	printf '%s\n' "$found"
-}
-
 service_supervision_ready() {
 	local agent_pid="${1:-$(cat "$ROOT/agent.pid" 2>/dev/null || true)}"
-	local supervisor_pid="$(resolved_supervisor_pid 2>/dev/null || true)"
+	local supervisor_pid="$(cat "$ROOT/supervisor.pid" 2>/dev/null || true)"
 	service_process_matches "$agent_pid" "$ROOT/awtsmoos-agent-launcher.cjs" ||
 		service_process_matches "$agent_pid" "$ROOT/main.js" || return 1
 	service_process_matches "$supervisor_pid" "$ROOT/awtsmoos-supervisor.sh" || return 1
@@ -61,7 +44,7 @@ service_process_matches() {
 
 service_health_summary() {
 	local agent_pid="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
-	local supervisor_pid="$(resolved_supervisor_pid 2>/dev/null || true)"
+	local supervisor_pid="$(cat "$ROOT/supervisor.pid" 2>/dev/null || true)"
 	local mode="$(service_mode)"
 	local outer_state="portable_supervisor"
 	local agent_count="$(find_agent_pids | awk 'NF { count += 1 } END { print count + 0 }')"

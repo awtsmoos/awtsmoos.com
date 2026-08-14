@@ -6,87 +6,92 @@ const assert = require("node:assert/strict");
 const Delivery = require("../lib/connection-vessel/child-delivery.js");
 
 /**
- * @file Proves acceptance and progress are reconstructed from durable inbox custody.
+ * @file Proves acceptance and initial progress survive registration races.
  * @description
- * The Awtsmoos admits one request before execution. A dead child may forget memory,
- * but a new generation reads the inbox, re-speaks acceptance once, and never dispatches
- * a second command merely because the relay missed the first testimony.
+ * The Awtsmoos stores the deed before the socket can speak; Awtsmoos.com then
+ * replays acceptance before motion, preserving every identity in ordered light.
  */
 const inbox = [];
-const request = {
+const socketFrames = [];
+const parentFrames = [];
+const state = {
+	activeWs: { opened: true },
+	registrationConfirmed: false
+};
+const runtime = Delivery.createDelivery({
+	Send: {
+		safeSend(_socket, envelope) {
+			socketFrames.push(envelope);
+			return true;
+		}
+	},
+	mailbox: {
+		inbox: () => [...inbox],
+		outbox: () => [],
+		putInbox(envelope) {
+			inbox.push(envelope);
+		}
+	},
+	send(message) {
+		parentFrames.push(message);
+		return true;
+	},
+	state
+});
+
+const racedRequest = {
 	type: "TUNNEL_REQUEST",
 	id: "frame-one",
 	requestId: "request-one",
 	controlRequestId: "control-one",
 	transportReceiptId: "receipt-one",
-	payload: { action: "commandStart" }
+	payload: { action: "read" }
 };
-
-const firstFrames = [];
-const firstState = state(1, false);
-const first = runtime(firstState, firstFrames, inbox);
-first.enqueueRequest(firstState.activeWs, request);
+runtime.enqueueRequest(state.activeWs, racedRequest);
 assert.equal(inbox.length, 1);
-assert.equal(firstFrames.length, 0);
-assert.equal(first.pendingAcceptances(), 1);
-assert.equal(first.pendingProgress(), 1);
+assert.equal(socketFrames.length, 0);
+assert.equal(runtime.pendingAcceptances(), 1);
+assert.equal(runtime.pendingProgress(), 1);
 
-const secondFrames = [];
-const secondState = state(2, true);
-const reborn = runtime(secondState, secondFrames, inbox);
-assert.equal(reborn.flush(), 0);
-assert.deepEqual(secondFrames.map(frame => frame.type), [
-	"TUNNEL_REQUEST_ACK",
-	"TUNNEL_PROGRESS"
-]);
-assert.equal(reborn.pendingAcceptances(), 0);
-assert.equal(reborn.pendingProgress(), 0);
-assertIdentities(secondFrames[0], request);
-assertIdentities(secondFrames[1], request);
+state.registrationConfirmed = true;
+assert.equal(runtime.flush(), 0);
+assert.equal(runtime.pendingAcceptances(), 0);
+assert.equal(runtime.pendingProgress(), 0);
+assert.equal(socketFrames.length, 2);
+assert.equal(socketFrames[0].type, "TUNNEL_REQUEST_ACK");
+assert.equal(socketFrames[1].type, "TUNNEL_PROGRESS");
+assert.equal(socketFrames[1].phase, "accepted_waiting_for_consumer");
+assert.equal(socketFrames[1].stillRunning, true);
+assertIdentities(socketFrames[0], racedRequest);
+assertIdentities(socketFrames[1], racedRequest);
 
-reborn.flush();
-assert.equal(secondFrames.length, 2, "same generation must not repeat recovered receipts");
-secondState.generation = 3;
-reborn.flush();
-assert.equal(secondFrames.length, 4, "new socket generation may restate durable custody once");
-assert.deepEqual(secondFrames.slice(2).map(frame => frame.type), [
-	"TUNNEL_REQUEST_ACK",
-	"TUNNEL_PROGRESS"
-]);
+runtime.parentDidBecomeReady();
+assert.equal(parentFrames.length, 1);
+assert.deepEqual(parentFrames[0].envelope, racedRequest);
+
+const immediateRequest = {
+	type: "TUNNEL_REQUEST",
+	id: "frame-two",
+	payload: {
+		action: "list",
+		controlRequestId: "control-two",
+		transportReceiptId: "receipt-two"
+	}
+};
+runtime.enqueueRequest(state.activeWs, immediateRequest);
+assert.equal(socketFrames.length, 4);
+assert.equal(socketFrames[2].type, "TUNNEL_REQUEST_ACK");
+assert.equal(socketFrames[3].type, "TUNNEL_PROGRESS");
+assert.equal(socketFrames[3].controlRequestId, "control-two");
+assert.equal(socketFrames[3].transportReceiptId, "receipt-two");
 
 console.log(JSON.stringify({
 	ok: true,
 	suite: "connection-vessel-acceptance-recovery",
-	recoveredAcrossChildRestart: true,
-	oncePerGeneration: true,
+	registrationRaceRecovered: true,
+	consumerProgressRecovered: true,
 	correlationPreserved: true
 }, null, 2));
-
-function state(generation, registrationConfirmed) {
-	return {
-		activeWs: { opened: true },
-		generation,
-		registrationConfirmed
-	};
-}
-
-function runtime(runtimeState, frames, durableInbox) {
-	return Delivery.createDelivery({
-		Send: {
-			safeSend(_socket, envelope) {
-				frames.push(envelope);
-				return true;
-			}
-		},
-		mailbox: {
-			inbox: () => [...durableInbox],
-			outbox: () => [],
-			putInbox(envelope) { durableInbox.push(envelope); }
-		},
-		send() { return true; },
-		state: runtimeState
-	});
-}
 
 function assertIdentities(actual, expected) {
 	assert.equal(actual.id, expected.id);
