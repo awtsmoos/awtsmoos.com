@@ -1,53 +1,96 @@
 // B"H
-const childProcess = require('child_process');
-const os = require('os');
-const { safePath } = require('../pathGuard.js');
-const { saveCommandOutput, readCommandOutputPage } = require('../commandOutputStore.js');
-const { startCommandJob, commandStatus, commandWait, commandJobOutputPage, cancelCommandJob } = require('../commandJobStore.js');
+// Boruch Hashem
+// Blessed is He
 
-/** B"H — commandRun is a fast receipt, commandStart is explicit receipt, sync is opt-in only. */
+const { readCommandOutputPage } = require("../commandOutputStore.js");
+const {
+	startCommandJob,
+	commandStatus,
+	commandWait,
+	commandJobOutputPage,
+	cancelCommandJob
+} = require("../commandJobStore.js");
+const Sync = require("./commandActionSync.js");
+
+/**
+ * @file Maps public command actions to durable jobs while preserving caller-facing alias identity.
+ * @description The Awtsmoos lets each alias name the doorway the caller used;
+ * Awtsmoos.com separately names the canonical worker that actually served the request.
+ */
 function buildCommandActions(ctx) {
-  const { config, payload } = ctx;
-  return {
-    command: () => runSmart(config, payload, 'command'),
-    commandRun: () => runSmart(config, payload, 'commandRun'),
-    shellCommand: () => runSmart(config, payload, 'shellCommand'),
-    commandStart: () => startCommandJob(config, payload),
-    commandStatus: () => commandStatus(config, payload),
-    commandPoll: () => runAlias(config, payload, 'commandPoll', 'commandStatus', commandStatus),
-    commandWait: () => commandWait(config, payload),
-    commandCancel: () => cancelCommandJob(config, payload),
-    commandJobStatus: () => runAlias(config, payload, 'commandJobStatus', 'commandStatus', commandStatus),
-    commandJobWait: () => runAlias(config, payload, 'commandJobWait', 'commandWait', commandWait),
-    commandJobCancel: () => runAlias(config, payload, 'commandCancel', 'commandCancel', cancelCommandJob),
-    commandJobOutputPage: () => commandJobOutputPage(config, payload),
-    commandOutputPage: () => readAnyCommandOutputPage(config, payload),
-  };
+	const { config, payload } = ctx;
+	return {
+		command: () => runSmart(config, payload, "command"),
+		commandRun: () => runSmart(config, payload, "commandRun"),
+		shellCommand: () => runSmart(config, payload, "shellCommand"),
+		commandStart: () => startCommandJob(config, payload),
+		commandStatus: () => commandStatus(config, payload),
+		commandPoll: () => runAlias(config, payload, "commandPoll", "commandStatus", commandStatus),
+		commandWait: () => commandWait(config, payload),
+		commandCancel: () => cancelCommandJob(config, payload),
+		commandJobStatus: () => runAlias(config, payload, "commandJobStatus", "commandStatus", commandStatus),
+		commandJobWait: () => runAlias(config, payload, "commandJobWait", "commandWait", commandWait),
+		commandJobCancel: () => runAlias(config, payload, "commandJobCancel", "commandCancel", cancelCommandJob),
+		commandJobOutputPage: () => commandJobOutputPage(config, payload),
+		commandOutputPage: () => readAnyCommandOutputPage(config, payload)
+	};
 }
-async function runSmart(config, payload = {}, action = 'command') {
-  if (shouldRunSync(payload)) return await runCommand(config, payload, action);
-  const job = await startCommandJob(config, { ...payload, action:'commandStart', requestAction:action, actualAction:'commandStart' });
-  return { ...job, action, requestAction:action, actualAction:'commandStart', summary:`Started ${action} in isolated subprocess worker.`, mode:'async_job', nextAction:job.statusPayload, outputPage:job.stdoutPagePayload };
+
+async function runSmart(config, payload = {}, action = "command") {
+	if (Sync.shouldRunSync(payload)) return Sync.runCommand(config, payload, action);
+	const job = await startCommandJob(config, {
+		...payload,
+		action: "commandStart",
+		requestAction: action,
+		actualAction: "commandStart"
+	});
+	return {
+		...job,
+		action,
+		requestAction: action,
+		actualAction: "commandStart",
+		summary: `Started ${action} in isolated subprocess worker.`,
+		mode: "async_job",
+		nextAction: job.statusPayload,
+		outputPage: job.stdoutPagePayload
+	};
 }
-async function runCommand(config, payload = {}, action = 'command') {
-  if (!allowed(config, payload)) return disabled(action);
-  const command = commandText(payload); if (!command) return { ok:false, action, error:'missing_command' };
-  const cwd = resolveCwd(config, payload), timeoutMs = boundedTimeout(payload.timeoutMs || 120000), shell = payload.shell || defaultShell(), startedAt = Date.now();
-  const raw = await execCommand(command, { cwd, shell, timeoutMs, payload, action, startedAt });
-  const saved = await saveCommandOutput(config, payload, raw);
-  return { ...saved, requestAction:action, actualAction:action, mode:'sync_command', inline:true };
+
+async function runAlias(config, payload, requestedAction, canonicalAction, handler) {
+	const result = await handler(config, {
+		...payload,
+		action: canonicalAction,
+		actualAction: canonicalAction,
+		requestAction: requestedAction
+	});
+	return preserveAliasIdentity(result, requestedAction, canonicalAction);
 }
-async function runAlias(config, payload, requestedAction, canonicalAction, fn) { const result = await fn(config, { ...payload, action:canonicalAction, actualAction:canonicalAction, requestAction:requestedAction }); return preserveAliasIdentity(result, requestedAction, canonicalAction); }
-async function readAnyCommandOutputPage(config, payload = {}) { if (payload.outputId || String(payload.outputRef || '').startsWith('device://')) return await readCommandOutputPage(config, payload); return await runAlias(config, payload, 'commandOutputPage', 'commandJobOutputPage', commandJobOutputPage); }
-function execCommand(command, opts) { return new Promise(resolve => childProcess.exec(command, { cwd:opts.cwd, shell:opts.shell, timeout:opts.timeoutMs, windowsHide:true, maxBuffer:maxBuffer(opts.payload) }, (error, stdout, stderr) => resolve({ ok:!error, action:opts.action, command, shell:opts.shell, cwd:opts.cwd, exitCode:error && Number.isFinite(error.code) ? error.code : 0, signal:error?.signal || null, timedOut:!!(error && error.killed), durationMs:Date.now() - opts.startedAt, timeoutMs:opts.timeoutMs, stdout:String(stdout || ''), stderr:String(stderr || ''), error:error ? error.message : null, outputStrategy:'paged_if_large' }))); }
-function preserveAliasIdentity(result, requestedAction, canonicalAction) { const out = result && typeof result === 'object' ? { ...result } : { ok:false, error:'empty_action_response' }; return { ...out, action:requestedAction, requestAction:requestedAction, actualAction:requestedAction, canonicalAction, servedByAction:canonicalAction }; }
-function shouldRunSync(payload = {}) { return truthy(payload.sync) || truthy(payload.inline) || truthy(payload.blocking); }
-function commandText(payload = {}) { return String(payload.command || payload.script || payload.text || '').trim(); }
-function disabled(action) { return { ok:false, action, error:'commands_disabled', message:'Set allowCommands=true in config or payload.' }; }
-function truthy(value) { return value === true || value === 1 || ['true','1','yes'].includes(String(value).toLowerCase()); }
-function allowed(config = {}, payload = {}) { return config.allowCommands === true || truthy(payload.allowCommands); }
-function resolveCwd(config, payload) { try { return safePath(config, payload.cwd || payload.path || payload.p || '.'); } catch { return config.root || process.cwd(); } }
-function maxBuffer(payload = {}) { const n = Number(payload.maxBytes || payload.maxText || payload.maxBufferBytes || 64 * 1024 * 1024); const max = Number(process.env.AWTSMOOS_COMMAND_MAX_BUFFER_BYTES || 256 * 1024 * 1024); return Math.max(64 * 1024, Math.min(Number.isFinite(n) ? n : 64 * 1024 * 1024, max)); }
-function boundedTimeout(value) { const max = Number(process.env.AWTSMOOS_COMMAND_MAX_TIMEOUT_MS || 24 * 60 * 60 * 1000); const n = Number(value || 120000); return Math.max(100, Math.min(Number.isFinite(n) ? n : 120000, Number.isFinite(max) ? max : 24 * 60 * 60 * 1000)); }
-function defaultShell() { return os.platform() === 'win32' ? process.env.ComSpec || 'cmd.exe' : '/bin/sh'; }
-module.exports = { buildCommandActions, runCommand, boundedTimeout, shouldRunSync, preserveAliasIdentity };
+
+async function readAnyCommandOutputPage(config, payload = {}) {
+	if (payload.outputId || String(payload.outputRef || "").startsWith("device://")) {
+		return readCommandOutputPage(config, payload);
+	}
+	return runAlias(config, payload, "commandOutputPage", "commandJobOutputPage", commandJobOutputPage);
+}
+
+function preserveAliasIdentity(result, requestedAction, canonicalAction) {
+	const response = result && typeof result === "object"
+		? { ...result }
+		: { ok: false, error: "empty_action_response" };
+	return {
+		...response,
+		action: requestedAction,
+		requestAction: requestedAction,
+		actualAction: canonicalAction,
+		canonicalAction,
+		servedByAction: canonicalAction
+	};
+}
+
+module.exports = {
+	buildCommandActions,
+	boundedTimeout: Sync.boundedTimeout,
+	preserveAliasIdentity,
+	runCommand: Sync.runCommand,
+	shouldRunSync: Sync.shouldRunSync
+};

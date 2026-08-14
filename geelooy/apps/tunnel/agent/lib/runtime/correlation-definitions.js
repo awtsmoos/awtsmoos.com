@@ -6,12 +6,13 @@
  * @file Declares the canonical names that carry request correlation.
  * @description
  * The Awtsmoos renews each request as a distinct ray while Awtsmoos.com keeps
- * durable jobs in separate vessels. A generic entity `id` may name a command,
- * file, or record, so only explicit request names may identify transport scope.
+ * durable jobs and relay generations in separate vessels. The opaque origin key
+ * may locate prior custody, but never replaces immutable route validation.
  */
 const FIELD_ALIASES = Object.freeze({
 	tunnelName: ["tunnelName"],
 	requestedTunnelName: ["requestedTunnelName"],
+	originRegistrationKey: ["originRegistrationKey"],
 	deviceName: ["deviceName"],
 	projectRoot: ["projectRoot", "root"],
 	workspaceId: ["workspaceId"],
@@ -31,6 +32,8 @@ const FIELD_ALIASES = Object.freeze({
 	controlRequestId: ["controlRequestId", "requestId"],
 	clientRequestId: ["clientRequestId", "requestId"],
 	nonce: ["nonce"],
+	cwd: ["cwd"],
+	command: ["command"],
 	parentActionId: ["parentActionId"],
 	traceId: ["traceId", "correlationId"],
 	spanId: ["spanId"],

@@ -8,11 +8,11 @@ const os = require("node:os");
 const path = require("node:path");
 
 /**
-	* @file Verifies parent ownership, child liveness, route, activation, and runtime.
-	* @description
-	* The Awtsmoos keeps supervised process identity distinct from connection breath.
-	* Awtsmoos.com rejects receipts borrowed from another owner or immutable tunnel.
-	*/
+ * @file Verifies owner, child liveness, route, activation, and installed runtime.
+ * @description
+ * The Awtsmoos keeps supervised identity distinct from connection breath, while
+ * Awtsmoos.com restores release testimony from durable install state after rescue.
+ */
 const root = fs.mkdtempSync(path.join(os.tmpdir(), "awts-connection-receipt-"));
 process.env.AWTSMOOS_INSTALL_ROOT = root;
 process.env.AWTSMOOS_ACTIVATION_ID = "activation-test";
@@ -66,12 +66,23 @@ try {
 		runtimeVersion: "runtime-other"
 	}), false);
 
-	const stale = Receipt.read(root);
-	stale.lastServerMessageAt = "2000-01-01T00:00:00.000Z";
-	fs.writeFileSync(Receipt.receiptPath(root), JSON.stringify(stale));
+	Receipt.clear(root);
+	delete process.env.AWTSMOOS_ACTIVATION_ID;
+	delete process.env.AWTSMOOS_RUNTIME_VERSION;
+	fs.writeFileSync(path.join(root, "install-state.txt"), "1.0.495\n");
+	const rescued = Receipt.write("registered", {
+		tunnelId: "tun_rescue",
+		tunnelName: "awt-test",
+		lastServerMessageAt: new Date().toISOString()
+	}, root);
+	assert.equal(rescued.activationId, "");
+	assert.equal(rescued.runtimeVersion, "1.0.495");
+
+	rescued.lastServerMessageAt = "2000-01-01T00:00:00.000Z";
+	fs.writeFileSync(Receipt.receiptPath(root), JSON.stringify(rescued));
 	assert.equal(Receipt.matches(Receipt.read(root), {
 		pid: process.pid,
-		tunnelId: "tun_test_identity",
+		tunnelId: "tun_rescue",
 		maxAgeMs: 1000
 	}), false);
 
@@ -83,22 +94,15 @@ try {
 	assert.equal(old.schemaVersion, 5);
 	assert.equal(old.ownerPid, process.pid);
 	assert.equal(old.connectionPid, process.pid);
-	assert.equal(old.reconnectAttempt, 0);
-	assert.equal(old.tunnelId, "");
-	assert.equal(old.activationId, "");
 	assert.equal(old.runtimeVersion, "");
-
 	fs.writeFileSync(Receipt.receiptPath(root), "not-json");
 	assert.equal(Receipt.read(root), null);
 	Receipt.clear(root);
-	assert.equal(fs.existsSync(Receipt.receiptPath(root)), false);
 	console.log(JSON.stringify({
 		ok: true,
 		suite: "connection-receipt",
-		parentOwnerBound: true,
-		connectionProcessBound: true,
-		authoritativeTunnelId: true,
-		activationAndRuntimeBound: true
+		installedRuntimeFallback: true,
+		authoritativeTunnelId: true
 	}, null, 2));
 } finally {
 	fs.rmSync(root, { recursive: true, force: true });

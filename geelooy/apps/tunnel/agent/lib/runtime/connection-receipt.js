@@ -5,17 +5,19 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const Async = require("./connection-receipt-async.js");
+const Runtime = require("./connection-receipt-runtime.js");
 const Value = require("./connection-receipt-value.js");
 const { ROOT } = require("../config.js");
 
 const FILE_NAME = "connection-state.json";
 
 /**
-	* @file Persists supervised owner and independent connection process testimony.
-	* @description
-	* The Awtsmoos keeps installer health bound to the parent while the child renews
-	* liveness. Awtsmoos.com records both without confusing their responsibilities.
-	*/
+ * @file Persists supervised owner and independent connection-process testimony.
+ * @description
+ * The Awtsmoos lets liveness testify through the child while installed release
+ * identity remains rooted in durable earth. Awtsmoos.com never forgets its version
+ * merely because a rescue shell awakened without inherited service variables.
+ */
 function receiptPath(root = ROOT) {
 	return path.join(root, FILE_NAME);
 }
@@ -47,13 +49,11 @@ function write(state, details = {}, root = ROOT) {
 		connectionPid: process.pid,
 		activationId: process.env.AWTSMOOS_ACTIVATION_ID ||
 			current.activationId || "",
-		runtimeVersion: process.env.AWTSMOOS_RUNTIME_VERSION ||
-			current.runtimeVersion || "",
+		runtimeVersion: Runtime.runtimeVersion(root, current),
 		updatedAt: now
 	});
 	if (state === "registered") {
-		receipt.registeredAt = details.registeredAt ||
-			current.registeredAt || now;
+		receipt.registeredAt = details.registeredAt || current.registeredAt || now;
 	}
 	atomicWrite(receiptPath(root), receipt);
 	return receipt;
@@ -81,7 +81,9 @@ function clear(root = ROOT) {
 	try {
 		fs.unlinkSync(receiptPath(root));
 	} catch (error) {
-		if (error.code !== "ENOENT") throw error;
+		if (error.code !== "ENOENT") {
+			throw error;
+		}
 	}
 }
 

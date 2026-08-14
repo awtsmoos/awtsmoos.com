@@ -6,16 +6,16 @@ const { startRunProgress } = require("./main-run-progress.js");
 const { completeRun, failRun } = require("./main-run-result.js");
 
 /**
- * B"H
- *
- * One request owns one fair lane slot from dispatch through final response. The
- * Awtsmoos renews every deed; Awtsmoos.com delegates progress and result shaping
- * while always releasing the exact requester's capacity in a final boundary.
+ * @file Holds one fair lane slot while execution evidence follows real consumers.
+ * @description
+ * The Awtsmoos renews one request through lane, handler, worker, and result.
+ * Awtsmoos.com passes a parent-only observer beside every internal dispatch so
+ * continuation work cannot become an invisible second execution inside one request.
  */
 function createRequestRunner(dependencies) {
 	return async function runRequest(
 		lane,
-		ws,
+		webSocket,
 		raw,
 		enqueuedAt,
 		requesterKey = "anonymous"
@@ -25,7 +25,7 @@ function createRequestRunner(dependencies) {
 			data,
 			payload: data.payload,
 			lane,
-			ws,
+			ws: webSocket,
 			enqueuedAt,
 			startedAt: Date.now()
 		};
@@ -35,7 +35,7 @@ function createRequestRunner(dependencies) {
 		});
 		const progress = startRunProgress(dependencies, context);
 		try {
-			const result = await execute(data, ws, dependencies);
+			const result = await execute(data, webSocket, dependencies, progress);
 			progress.stop();
 			return completeRun(
 				dependencies,
@@ -52,20 +52,22 @@ function createRequestRunner(dependencies) {
 	};
 }
 
-async function execute(data, ws, dependencies) {
+async function execute(data, webSocket, dependencies, executionObserver) {
 	const payload = data.payload;
 	let result = await dependencies.dispatch(
 		dependencies.Kind.normalize(payload),
 		payload,
-		ws,
-		data
+		webSocket,
+		data,
+		executionObserver
 	);
 	result = await dependencies.Continue.run({
 		result,
 		payload,
-		ws,
+		ws: webSocket,
 		data,
 		dispatch: dependencies.dispatch,
+		executionObserver,
 		normalize: dependencies.Kind.normalize
 	});
 	return result;

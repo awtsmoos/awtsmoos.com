@@ -4,167 +4,71 @@
 
 const os = require("node:os");
 const { openUrl } = require("../open.js");
+const Approval = require("./pairingApproval.js");
+const Commit = require("./pairingCommit.js");
+const Failure = require("./identityFailure.js");
 const KeyMaterial = require("./keyMaterial.js");
 const Metadata = require("./metadata.js");
-const PairingClient = require("./pairingClient.js");
-const SecureStore = require("./secureStore.js");
+const Pending = require("./pairingPending.js");
 
-const POLL_INTERVAL_MS = 2000;
-const PENDING_SECRET_KIND = "pairing-request-secret";
+const MAXIMUM_REPAIR_ATTEMPTS = 0;
 
 /**
- * @file Completes one-time pairing and stores only protected credentials.
+ * @file Pairs one coherent physical witness without silently erasing a wounded one.
  * @description
- * The Awtsmoos joins account approval and device possession without placing the
- * covenant in browser JavaScript. Awtsmoos.com receives an encrypted envelope,
- * decrypts it locally, and commits the credential only to secure storage.
+ * The Awtsmoos renews the road but the witness does not vanish for convenience;
+ * Awtsmoos.com sends incoherence to explicit recovery, never to automatic fresh-pair expedience.
  */
-
-/** Completes pairing and returns disclosure-safe device identity. */
 async function pair(config = {}, options = {}) {
+	try {
+		return await pairOnce(config, options);
+	} catch (error) {
+		if (Failure.isRecoverable(error)) {
+			error.requiresIdentityRecovery = true;
+			error.identityRecoveryCode = Failure.classify(error).code;
+			options.log?.(
+				"error",
+				`B\"H physical identity recovery required; automatic destructive repair refused: ${error.identityRecoveryCode}`
+			);
+		}
+		throw error;
+	}
+}
+
+/** Runs one pairing attempt against the existing or explicitly authorized physical witness. */
+async function pairOnce(config, options) {
 	const keys = KeyMaterial.ensure(config);
-	const pending = loadPending(config, keys.metadata.deviceId);
-	const response = pending || await createPending(config, keys);
-	const approval = response.approvalUrl || PairingClient.approvalUrl(
-		config, response.pairingId, response.userCode
-	);
-	announce(options.log, response.userCode, approval, response.expiresAt);
+	const pending = Pending.load(config, keys);
+	const response = pending || await Pending.create(config, keys, {
+		name: config.deviceName || os.hostname(),
+		platform: `${process.platform}-${process.arch}`
+	});
+	const approval = response.approvalUrl;
+	Approval.announce(options.log, response, approval);
 	if (options.openBrowser !== false && !response.browserOpenedAt) {
 		(options.openUrl || openUrl)(approval);
 		Metadata.update(config, { pairingBrowserOpenedAt: new Date().toISOString() });
 	}
 	let approved;
 	try {
-		approved = await waitForApproval(config, response, options);
+		approved = await Approval.wait(config, response, options);
 	} catch (error) {
-		if (error?.message === "pairing_expired") clearPending(config, keys.metadata.deviceId);
+		if (error?.message === "pairing_expired") {
+			Pending.clear(config, keys.metadata.deviceId);
+		}
 		throw error;
 	}
-	const credential = KeyMaterial.decryptCredential(
-		keys.privateKey,
-		approved.credentialEnvelope
-	);
-	SecureStore.write(keys.metadata.deviceId, "credential", credential);
-	const completedPending = Metadata.read(config) || {};
-	const metadata = Metadata.update(config, {
-		tunnelId: approved.tunnelId,
-		pairedAt: new Date().toISOString(),
-		credentialVersion: Number(keys.metadata.credentialVersion || 0) + 1,
-		lastControlOpenedAt: completedPending.pairingBrowserOpenedAt ||
-			completedPending.lastControlOpenedAt || null,
-		pairingId: null,
-		pairingUserCode: null,
-		pairingExpiresAt: null,
-		pairingApprovalUrl: null,
-		pairingBrowserOpenedAt: null
-	});
-	SecureStore.remove(keys.metadata.deviceId, PENDING_SECRET_KIND);
-	return {
-		ok: true,
-		state: "paired",
-		deviceId: metadata.deviceId,
-		tunnelId: metadata.tunnelId
-	};
-}
-
-/** Creates and durably records one resumable pairing transaction. */
-async function createPending(config, keys) {
-	const response = await PairingClient.request(config, {
-		deviceId: keys.metadata.deviceId,
-		tunnelName: config.tunnelName,
-		deviceName: config.deviceName || os.hostname(),
-		platform: `${process.platform}-${process.arch}`,
-		devicePublicKey: KeyMaterial.wirePublicKey(keys.publicKey)
-	});
-	const approvalUrl = PairingClient.approvalUrl(
-		config, response.pairingId, response.userCode
-	);
-	SecureStore.write(keys.metadata.deviceId, PENDING_SECRET_KIND, response.requestSecret);
-	Metadata.update(config, {
-		pairingId: response.pairingId,
-		pairingUserCode: response.userCode,
-		pairingExpiresAt: Number(response.expiresAt),
-		pairingApprovalUrl: approvalUrl,
-		pairingBrowserOpenedAt: null
-	});
-	return { ...response, approvalUrl, browserOpenedAt: null };
-}
-
-/** Loads a still-live pairing request while its secret remains in Keychain. */
-function loadPending(config, deviceId) {
-	const metadata = Metadata.read(config);
-	if (!metadata?.pairingId || Number(metadata.pairingExpiresAt) <= Date.now()) {
-		clearPending(config, deviceId);
-		return null;
-	}
-	const requestSecret = SecureStore.read(deviceId, PENDING_SECRET_KIND);
-	if (!requestSecret) {
-		clearPending(config, deviceId);
-		return null;
-	}
-	return {
-		pairingId: metadata.pairingId,
-		userCode: metadata.pairingUserCode,
-		expiresAt: Number(metadata.pairingExpiresAt),
-		approvalUrl: metadata.pairingApprovalUrl,
-		browserOpenedAt: metadata.pairingBrowserOpenedAt,
-		requestSecret
-	};
-}
-
-/** Clears only pending approval state, never an established device credential. */
-function clearPending(config, deviceId) {
-	if (deviceId) SecureStore.remove(deviceId, PENDING_SECRET_KIND);
-	const metadata = Metadata.read(config);
-	if (!metadata?.deviceId) return;
-	Metadata.update(config, {
-		pairingId: null,
-		pairingUserCode: null,
-		pairingExpiresAt: null,
-		pairingApprovalUrl: null,
-		pairingBrowserOpenedAt: null
-	});
-}
-
-/** Polls until approved, expired, cancelled, or timed out. */
-async function waitForApproval(config, response, options = {}) {
-	const deadline = Math.min(
-		Number(response.expiresAt || 0),
-		Date.now() + Number(options.timeoutMs || 10 * 60 * 1000)
-	);
-	while (Date.now() < deadline) {
-		if (options.signal?.aborted) {
-			throw new Error("pairing_cancelled");
-		}
-		const status = await PairingClient.status(
-			config,
-			response.pairingId,
-			response.requestSecret
-		);
-		if (status.state === "approved" && status.credentialEnvelope) {
-			return status;
-		}
-		await delay(POLL_INTERVAL_MS);
-	}
-	throw new Error("pairing_expired");
-}
-
-function announce(log, userCode, approval, expiresAt) {
-	log?.("info", `B\"H Pairing code: ${userCode}`);
-	log?.("info", `Approve this device: ${approval}`);
-	log?.("info", `Pairing expires: ${new Date(expiresAt).toISOString()}`);
-}
-
-function delay(milliseconds) {
-	return new Promise((resolve) => setTimeout(resolve, milliseconds));
+	return Commit.commit(config, keys, approved);
 }
 
 module.exports = {
-	POLL_INTERVAL_MS,
-	PENDING_SECRET_KIND,
-	clearPending,
-	createPending,
-	loadPending,
+	MAXIMUM_REPAIR_ATTEMPTS,
+	POLL_INTERVAL_MS: Approval.POLL_INTERVAL_MS,
+	PENDING_SECRET_KIND: Pending.PENDING_SECRET_KIND,
+	clearPending: Pending.clear,
+	createPending: Pending.create,
+	loadPending: Pending.load,
 	pair,
-	waitForApproval
+	pairOnce,
+	waitForApproval: Approval.wait
 };

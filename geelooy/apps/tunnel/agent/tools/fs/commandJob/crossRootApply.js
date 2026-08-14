@@ -1,29 +1,48 @@
 // B"H
-const fs = require('node:fs').promises;
-const Cleanup = require('./processCleanup.js');
-const Lifecycle = require('./lifecycle.js');
-const Monitor = require('./crossRootMonitor.js');
+// Boruch Hashem
+// Blessed is He
 
-/** B"H — Apply mode mutates only explicit decisions and never signals current work. */
+const fs = require("node:fs").promises;
+const Cleanup = require("./processCleanup.js");
+const Lifecycle = require("./lifecycle.js");
+const Monitor = require("./crossRootMonitor.js");
+
+/**
+ * @file Applies only the reconciliation action proven safe for one command.
+ * @description
+ * The Awtsmoos gives live work one owner and inherited work one watcher.
+ * Awtsmoos.com never attaches a detached monitor to a registry-owned child.
+ */
 async function apply(record, decision, options = {}) {
 	if (options.apply !== true) {
 		return receipt(record, decision, true, { dryRun: true });
 	}
 	try {
-		if (decision.action === 'remove_terminal') {
+		if (decision.action === "remove_terminal") {
 			await fs.rm(record.directory, { recursive: true, force: true });
 			return receipt(record, decision, true, { removed: true });
 		}
-		if (decision.action === 'keep_terminal') {
+		if (decision.action === "keep_terminal") {
 			return receipt(record, decision, true, { kept: true });
 		}
-		if (decision.action === 'preserve_current_exact') {
+		if (decision.action === "preserve_live_owned") {
+			return receipt(record, decision, true, {
+				kept: true,
+				currentRoot: true,
+				liveOwned: true,
+				monitor: {
+					started: false,
+					reason: "live_registry_owned"
+				}
+			});
+		}
+		if (decision.action === "preserve_current_exact") {
 			return preserveCurrent(record, decision, options);
 		}
-		if (decision.action === 'cleanup_exact') {
+		if (decision.action === "cleanup_exact") {
 			return cleanupExact(record, decision, options);
 		}
-		if (decision.action === 'finalize') {
+		if (decision.action === "finalize") {
 			const meta = await Lifecycle.finalizeDetached(
 				record.rootConfig,
 				record.jobId,
@@ -56,7 +75,7 @@ async function cleanupExact(record, decision, options) {
 		options.cleanupOptions || {}
 	);
 	const patch = {
-		status: cleanup.ok ? 'cancelled' : cleanup.state,
+		status: cleanup.ok ? "cancelled" : cleanup.state,
 		cancelled: cleanup.ok,
 		startupRecovered: true,
 		cleanup,
@@ -82,4 +101,9 @@ function receipt(record, decision, ok, extra = {}) {
 	};
 }
 
-module.exports = { apply, cleanupExact, preserveCurrent, receipt };
+module.exports = {
+	apply,
+	cleanupExact,
+	preserveCurrent,
+	receipt
+};

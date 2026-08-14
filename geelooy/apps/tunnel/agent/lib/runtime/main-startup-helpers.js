@@ -2,12 +2,14 @@
 // Boruch Hashem
 // Blessed is He
 
+const StartupHistory = require("./main-startup-history.js");
+
 /**
  * @file Holds focused startup operations with explicit failure receipts.
  * @description
  * The Awtsmoos renews root, process, and command history without confusing one
- * vessel for another. Awtsmoos.com checks the physical workspace first, then lets
- * cleanup and reconciliation flow only through a root the installed process proved.
+ * vessel for another. Awtsmoos.com checks the physical workspace first, while a
+ * readonly candidate leaves another vessel's project history entirely untouched.
  */
 function probeProjectRoot(dependencies, config) {
 	try {
@@ -62,18 +64,6 @@ function startLocalApi(dependencies) {
 	}
 }
 
-function cleanupHistory(dependencies, config) {
-	try {
-		return dependencies.HistoryCleanup.cleanupAwtsmoosState({
-			projectRoot: config.root,
-			stateRoot: config.deviceStateRoot,
-			dryRun: false
-		});
-	} catch (error) {
-		return failure(error);
-	}
-}
-
 function logConfiguration(dependencies, config) {
 	const lines = [
 		`B"H split agent ${dependencies.AGENT_VERSION} starting`,
@@ -106,7 +96,7 @@ function failure(error) {
 }
 
 module.exports = {
-	cleanupHistory,
+	cleanupHistory: StartupHistory.cleanupHistory,
 	failure,
 	logConfiguration,
 	probeProjectRoot,

@@ -3,57 +3,46 @@
 # Boruch Hashem
 # Blessed is He
 
-# Candidate start installs its matching guardian. Restored runtimes start their own
-# preserved guardian so rollback never mutates the predecessor before verification.
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-supervisor-files.sh"
+
+# The Awtsmoos renews every supervisor helper as one coherent installed covenant.
+assert_supervisor_runtime_files() {
+	local destination="$1"
+	local pair=""
+	local target_name=""
+	while IFS= read -r pair; do
+		[ -n "$pair" ] || continue
+		target_name="${pair##*:}"
+		[ -f "$destination/$target_name" ] || install_fail \
+			"preflight" \
+			"Candidate supervisor helper is missing." \
+			"root=$destination helper=$target_name"
+	done <<EOF
+$(supervisor_runtime_pairs)
+EOF
+}
+
 write_supervisor_to() {
 	local destination="$1"
+	local pair=""
+	local source_name=""
+	local target_name=""
 	mkdir -p "$destination"
-	for pair in \
-		"unix-node-runtime.sh:awtsmoos-node-runtime.sh" \
-		"unix-legacy-catalog.sh:awtsmoos-legacy-catalog.sh" \
-		"unix-supervisor.sh:awtsmoos-supervisor.sh" \
-		"unix-supervisor-runtime.sh:awtsmoos-supervisor-runtime.sh" \
-		"unix-supervisor-agents.sh:awtsmoos-supervisor-agents.sh" \
-		"unix-supervisor-guard.sh:awtsmoos-supervisor-guard.sh" \
-		"unix-supervisor-health-memory.sh:awtsmoos-supervisor-health-memory.sh" \
-		"unix-supervisor-receipt.sh:awtsmoos-supervisor-receipt.sh" \
-		"unix-supervisor-health.sh:awtsmoos-supervisor-health.sh" \
-		"unix-supervisor-recovery.sh:awtsmoos-supervisor-recovery.sh" \
-		"unix-supervisor-legacy.sh:awtsmoos-supervisor-legacy.sh" \
-		"unix-agent-singleton.cjs:awtsmoos-agent-singleton.cjs" \
-		"unix-agent-receipt.cjs:awtsmoos-agent-receipt.cjs" \
-		"unix-agent-launcher.cjs:awtsmoos-agent-launcher.cjs"; do
-		local source_name="${pair%%:*}"
-		local target_name="${pair##*:}"
+	while IFS= read -r pair; do
+		[ -n "$pair" ] || continue
+		source_name="${pair%%:*}"
+		target_name="${pair##*:}"
 		cp -p "$AWTSMOOS_INSTALL_RUNTIME/$source_name" "$destination/$target_name"
 		chmod +x "$destination/$target_name"
-	done
+	done <<EOF
+$(supervisor_runtime_pairs)
+EOF
+	assert_supervisor_runtime_files "$destination"
 }
 
 write_supervisor() {
 	write_supervisor_to "$ROOT"
 	persist_node_runtime "$ROOT"
-}
-
-start_detached_portable_supervisor() {
-	AWTSMOOS_NODE_BIN="$AWTSMOOS_NODE_BIN" node - "$ROOT" <<'NODE'
-const fs = require("node:fs");
-const { spawn } = require("node:child_process");
-const path = require("node:path");
-const root = path.resolve(process.argv[2]);
-const log = fs.openSync(path.join(root, "supervisor-stdout.log"), "a", 0o600);
-try {
-	const child = spawn("/bin/bash", [path.join(root, "awtsmoos-supervisor.sh"), root], {
-		cwd: root,
-		detached: true,
-		env: process.env,
-		stdio: ["ignore", log, log]
-	});
-	child.unref();
-} finally {
-	fs.closeSync(log);
-}
-NODE
 }
 
 start_supervisor_process() {

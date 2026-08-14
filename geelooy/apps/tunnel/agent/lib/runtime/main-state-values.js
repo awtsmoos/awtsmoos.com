@@ -5,11 +5,12 @@
 const FailureHistory = require("../ws/transportFailureHistory.js");
 
 /**
-	* @file Creates bounded runtime state and public classified connection testimony.
-	* @description
-	* The Awtsmoos renews mutable route state while preserving the causes of endings.
-	* Awtsmoos.com exposes generation, mailbox, and bounded failure history safely.
-	*/
+ * @file Creates runtime state and preserves separate transport/execution testimony.
+ * @description
+ * The Awtsmoos renews route and worker state without confusing their meanings.
+ * Awtsmoos.com exposes the child vessel's full health beside registration, so a
+ * connected socket can never erase evidence that its execution consumer is sick.
+ */
 function createState(dependencies, lagMonitor) {
 	return {
 		activeWs: null,
@@ -44,6 +45,12 @@ function connectionSnapshot(state) {
 		tunnelId: state.tunnelId || "",
 		tunnelName: state.tunnelName || "",
 		registered: state.registrationConfirmed === true,
+		connected: child.connected === true,
+		running: child.running !== false,
+		fullHealth: child.fullHealth || null,
+		executionHealth: child.executionHealth || null,
+		parent: child.parent || null,
+		parentCustody: child.parentCustody || null,
 		reconnectAttempt: state.reconnectAttempt,
 		lastRegisteredAt: state.lastRegisteredAt || null,
 		replacementRequested: state.replacementRequested === true,
@@ -64,4 +71,8 @@ function memorySnapshotState(state, inflight, queued) {
 	};
 }
 
-module.exports = { connectionSnapshot, createState, memorySnapshotState };
+module.exports = {
+	connectionSnapshot,
+	createState,
+	memorySnapshotState
+};

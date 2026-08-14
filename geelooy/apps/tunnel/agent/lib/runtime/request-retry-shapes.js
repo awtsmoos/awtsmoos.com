@@ -3,25 +3,60 @@
 // Blessed is He
 
 /**
- * B"H
- * A retry is a window into one existing deed. The Awtsmoos does not create a
- * second command when Awtsmoos.com asks whether the first has finished.
+ * @file Returns explicit resume and reconciliation truth for one canonical request.
+ * @description
+ * The Awtsmoos preserves a deed without granting permission to repeat it.
+ * Awtsmoos.com names when a renewed parent found non-replayable pending work,
+ * so interruption becomes durable evidence instead of a silent duplicate side effect.
  */
 function pending(record) {
+	const jobId = findJobId(record.progress);
+	const retryPayload = {
+		action: "retryAction",
+		controlRequestId: record.controlRequestId,
+		requestedAction: record.requestedAction
+	};
+	const reconciliationRequired = record.hydratedAfterRestart === true &&
+		record.durable?.replaySafe !== true;
 	return {
 		ok: false,
 		status: 202,
 		action: "tunnelRequestPending",
 		pending: true,
+		canonicalRequestPending: true,
+		durableRequestPending: record.durable?.enabled === true,
+		safeToReplay: false,
+		reconciliationRequired,
+		recoveryState: reconciliationRequired
+			? "interrupted_reconciliation_required"
+			: "pending",
 		controlRequestId: record.controlRequestId,
 		requestedAction: record.requestedAction,
+		durableReceiptRef: record.durable?.receiptRef || null,
 		progress: clone(record.progress),
-		retryPayload: {
-			action: "retryAction",
-			controlRequestId: record.controlRequestId,
-			requestedAction: record.requestedAction
-		}
+		retryPayload,
+		resumePlan: resumePlan(retryPayload, jobId)
 	};
+}
+
+function resumePlan(retryPayload, jobId) {
+	return {
+		canonicalAction: "retryAction",
+		poll: retryPayload,
+		...(jobId ? {
+			jobId,
+			status: { action: "commandStatus", jobId },
+			wait: { action: "commandWait", jobId, inlineOutput: true },
+			stdout: { action: "commandJobOutputPage", jobId, stream: "stdout" },
+			stderr: { action: "commandJobOutputPage", jobId, stream: "stderr" }
+		} : {})
+	};
+}
+
+function findJobId(progress) {
+	return String(
+		progress?.jobId || progress?.job?.jobId || progress?.receipt?.jobId || ""
+	).trim() || null;
 }
 
 function conflict(record, requestedAction) {
@@ -65,6 +100,8 @@ module.exports = {
 	clone,
 	completed,
 	conflict,
+	findJobId,
 	missing,
-	pending
+	pending,
+	resumePlan
 };

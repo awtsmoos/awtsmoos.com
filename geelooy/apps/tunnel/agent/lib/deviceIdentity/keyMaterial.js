@@ -3,81 +3,80 @@
 // Blessed is He
 
 const crypto = require("node:crypto");
+const Creation = require("./identityCreationAuthority.js");
+const Coherence = require("./keyCoherence.js");
 const Metadata = require("./metadata.js");
 const SecureStore = require("./secureStore.js");
 
 /**
- * @file Generates device possession keys and keeps the private key protected.
+ * @file Preserves possession keys and allows new-key birth only through explicit authority.
  * @description
- * The Awtsmoos renews hidden root and revealed branch together. Awtsmoos.com
- * stores the RSA private key only in secure storage, while its public testimony
- * and fingerprint may safely accompany the nonsecret device metadata.
+ * The Awtsmoos may renew the garment while the hidden key remains the same root;
+ * Awtsmoos.com refuses silent replacement, so recovery must restore before creation bears fruit.
  */
-
-/** Returns a stable SHA-256 fingerprint for one public key. */
 function fingerprint(publicKey) {
-	return crypto
-		.createHash("sha256")
-		.update(String(publicKey), "utf8")
-		.digest("base64url");
+	return Coherence.fingerprint(publicKey);
 }
 
-/** Encodes an RSA SPKI key as verifier-safe base64url for the HTTPS boundary. */
 function wirePublicKey(publicKey) {
 	const key = crypto.createPublicKey(String(publicKey || ""));
 	const der = key.export({ format: "der", type: "spki" });
 	return `rsa-spki-base64url:${der.toString("base64url")}`;
 }
 
-/** Returns existing key material or creates a protected RSA key pair. */
+/** Reuses coherent key material or delegates new-key creation to the explicit gate. */
 function ensure(config = {}) {
 	const metadata = Metadata.loadOrCreate(config);
 	const privateKey = SecureStore.read(metadata.deviceId, "private-key");
-	if (privateKey && metadata.publicKey) {
-		return {
-			metadata,
-			privateKey,
-			publicKey: metadata.publicKey
-		};
-	}
+	if (privateKey || metadata.publicKey) return coherentMaterial(config, metadata, privateKey);
+	return generate(config, metadata);
+}
+
+function coherentMaterial(config, metadata, privateKey) {
+	const coherent = Coherence.assert(metadata, privateKey);
+	const updated = metadata.publicKeyFingerprint === coherent.fingerprint
+		? metadata
+		: Metadata.update(config, {
+			publicKey: coherent.publicKey,
+			publicKeyFingerprint: coherent.fingerprint
+		});
+	return {
+		metadata: updated,
+		privateKey,
+		publicKey: coherent.publicKey,
+		fingerprint: coherent.fingerprint
+	};
+}
+
+/** Creates a private/public pair only for a fresh install or explicit operator reset. */
+function generate(config = {}, metadata = {}) {
+	Creation.assertCreationAllowed(config, "private_key_generate");
 	const pair = crypto.generateKeyPairSync("rsa", {
 		modulusLength: 3072,
-		publicKeyEncoding: {
-			type: "spki",
-			format: "pem"
-		},
-		privateKeyEncoding: {
-			type: "pkcs8",
-			format: "pem"
-		}
+		publicKeyEncoding: { type: "spki", format: "pem" },
+		privateKeyEncoding: { type: "pkcs8", format: "pem" }
 	});
 	SecureStore.write(metadata.deviceId, "private-key", pair.privateKey);
+	const keyFingerprint = fingerprint(pair.publicKey);
 	const updated = Metadata.update(config, {
 		publicKey: pair.publicKey,
-		publicKeyFingerprint: fingerprint(pair.publicKey)
+		publicKeyFingerprint: keyFingerprint,
+		identityGeneration: Number(metadata.identityGeneration || 0) + 1
 	});
 	return {
 		metadata: updated,
 		privateKey: pair.privateKey,
-		publicKey: pair.publicKey
+		publicKey: pair.publicKey,
+		fingerprint: keyFingerprint
 	};
 }
 
-/** Decrypts an OAEP credential envelope using protected key material. */
 function decryptCredential(privateKey, envelope) {
-	return crypto.privateDecrypt(
-		{
-			key: privateKey,
-			oaepHash: "sha256",
-			padding: crypto.constants.RSA_PKCS1_OAEP_PADDING
-		},
-		Buffer.from(String(envelope || ""), "base64")
-	).toString("utf8");
+	return crypto.privateDecrypt({
+		key: privateKey,
+		oaepHash: "sha256",
+		padding: crypto.constants.RSA_PKCS1_OAEP_PADDING
+	}, Buffer.from(String(envelope || ""), "base64")).toString("utf8");
 }
 
-module.exports = {
-	decryptCredential,
-	ensure,
-	fingerprint,
-	wirePublicKey
-};
+module.exports = { decryptCredential, ensure, fingerprint, generate, wirePublicKey };

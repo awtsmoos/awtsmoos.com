@@ -3,92 +3,57 @@
 # Boruch Hashem
 # Blessed is He
 
-# Activation keeps the untouched predecessor until the candidate proves readiness.
-# A verified candidate always replaces a degraded incumbent; failure to archive an
-# incompatible predecessor remains nonfatal and never converts repair into staging.
+# Activation proves staged life before any predecessor path is displaced. Fresh install
+# alone grants explicit identity creation authority; update probes remain read-only.
 activate_fresh() {
 	local stamp="$(date -u +%Y%m%dT%H%M%SZ)"
 	local displaced=""
+	local failed="${ROOT}.failed-${CANDIDATE_VERSION}-${stamp}-$$"
 	mkdir -p "$(dirname "$ROOT")"
+	install_progress 69 "Proving staged runtime before first promotion"
+	if ! prove_candidate_before_promotion fresh; then
+		install_fail "candidate-probe" \
+			"Fresh candidate could not prove registered command readiness." \
+			"candidate=$CANDIDATE_ROOT"
+	fi
 	if [ -e "$ROOT" ]; then
 		displaced="${ROOT}.incomplete-${stamp}-$$"
-		mv "$ROOT" "$displaced"
-		migrate_runtime_device_state "$displaced"
 	fi
-	write_activation_journal "fresh_prepared" "$CANDIDATE_ROOT" "$displaced"
-	mv "$CANDIDATE_ROOT" "$ROOT"
-	CANDIDATE_ROOT=""
-	write_activation_journal "fresh_activated" "$ROOT" "$displaced"
-	install_event "activate" "passed" \
-		"Fresh candidate moved into the live path." "$ROOT"
-	if skip_start_requested; then
-		[ -n "$displaced" ] && schedule_displaced_cleanup "$displaced"
-		write_activation_journal "committed" "$ROOT" "$displaced"
-		return 0
+	install_progress 78 "Promoting proven fresh runtime"
+	if ! promote_candidate_root "$displaced"; then
+		install_fail "activate" \
+			"Could not promote the proven fresh candidate." \
+			"candidate=$CANDIDATE_ROOT root=$ROOT"
 	fi
-	install_progress 82 "Starting registered tunnel runtime"
-	start_supervisor
-	if candidate_is_stably_active; then
-		[ -n "$displaced" ] && schedule_displaced_cleanup "$displaced"
-		write_activation_journal "committed" "$ROOT" "$displaced"
-		install_event "startup" "passed" \
-			"Fresh runtime registered successfully." "$ROOT"
-		return 0
-	fi
-	remove_active_install
-	[ -n "$displaced" ] && [ -e "$displaced" ] && mv "$displaced" "$ROOT"
-	write_activation_journal "fresh_failed" "$ROOT" "$displaced"
-	install_fail "startup" \
-		"Fresh runtime failed registration and was removed." \
-		"state=$(connection_state_name)"
+	start_promoted_candidate "$displaced" "$failed"
 }
 
 activate_update() {
 	local stamp="$(date -u +%Y%m%dT%H%M%SZ)"
 	local rollback="${ROOT}.activation-rollback-${stamp}-$$"
 	local failed="${ROOT}.failed-${CANDIDATE_VERSION}-${stamp}-$$"
-	install_progress 69 "Creating compact predecessor archive"
-	if ! archive_known_good_runtime "known_good_before_activation"; then
-		install_event "archive" "warning" \
-			"Predecessor was not compatible enough to archive; activation will continue." \
-			"root=$ROOT candidate=$CANDIDATE_VERSION"
+	install_progress 69 "Proving candidate while predecessor remains recoverable"
+	write_activation_journal "predecessor_preserved" "$CANDIDATE_ROOT" "$ROOT"
+	if ! prove_candidate_before_promotion readonly; then
+		install_fail "candidate-probe" \
+			"Candidate failed before predecessor displacement; predecessor was restored." \
+			"candidate=$CANDIDATE_ROOT root=$ROOT"
 	fi
-	install_progress 74 "Switching to the verified release"
-	write_activation_journal "archive_checked" "$rollback" "$CANDIDATE_ROOT"
-	stop_existing_runtime
-	mv "$ROOT" "$rollback"
-	migrate_runtime_device_state "$rollback"
-	write_activation_journal "predecessor_displaced" "$rollback" "$CANDIDATE_ROOT"
-	mv "$CANDIDATE_ROOT" "$ROOT"
-	CANDIDATE_ROOT=""
-	write_activation_journal "candidate_activated" "$rollback" "$ROOT"
-	install_event "activate" "passed" \
-		"Candidate moved into the live path." \
-		"root=$ROOT rollback=$rollback"
-	if skip_start_requested; then
-		schedule_displaced_cleanup "$rollback"
-		write_activation_journal "committed" "$rollback" "$ROOT"
-		return 0
+	install_progress 78 "Promoting registered candidate atomically"
+	if ! promote_candidate_root "$rollback"; then
+		install_fail "activate" \
+			"Candidate promotion failed; predecessor path was restored." \
+			"candidate=$CANDIDATE_ROOT root=$ROOT rollback=$rollback"
 	fi
-	install_progress 82 "Starting registered tunnel runtime"
-	start_supervisor
-	if candidate_is_stably_active; then
-		write_activation_journal "candidate_stable" "$rollback" "$ROOT"
-		schedule_displaced_cleanup "$rollback"
-		write_activation_journal "committed" "$rollback" "$ROOT"
-		install_event "startup" "passed" \
-			"Candidate registered; predecessor cleanup was detached." \
-			"root=$ROOT rollback=$rollback state=$(connection_state_name)"
-		return 0
-	fi
-	install_event "startup" "warning" \
-		"Candidate readiness failed; restoring predecessor automatically." \
-		"expectedVersion=$CANDIDATE_VERSION state=$(connection_state_name)"
-	rollback_failed_activation "$rollback" "$failed"
+	start_promoted_candidate "$rollback" "$failed"
 }
 
 activate_release_candidate() {
 	install_rescue_runtime
+	if skip_start_requested; then
+		prepare_without_activation
+		return 0
+	fi
 	if [ -f "$ROOT/main.js" ]; then
 		activate_update
 	else

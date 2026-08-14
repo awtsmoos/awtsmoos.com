@@ -5,24 +5,36 @@
 const path = require("node:path");
 
 /**
- * @file Names isolated credential and metadata vessels for each environment.
+ * @file Names isolated credential vessels and seals non-owning candidate mutations.
  * @description
- * The Awtsmoos renews production and test worlds without confusing their
- * boundaries. Awtsmoos.com refuses protected install roots for candidate tests
- * and gives every disposable run a distinct secure-storage service.
+ * The Awtsmoos lets a staged probe read the incumbent witness without rewriting it.
+ * Awtsmoos.com grants identity creation only through an explicit fresh-install gate.
  */
-
 const PROTECTED_ROOTS = Object.freeze([
 	"/Users/awtsmoos/.awtsmoos-tunnel",
 	"/Users/awtsmoos/.awtsmoos-tunnel-recovery"
 ]);
+const CANDIDATE_MODE = "candidate-probe";
 
-/** Returns whether the candidate is explicitly running in isolated test mode. */
 function isTestMode() {
 	return process.env.AWTSMOOS_TEST_MODE === "1";
 }
 
-/** Converts an environment value into a bounded service-name fragment. */
+function isCandidateProbe() {
+	return process.env.AWTSMOOS_REGISTRATION_MODE === CANDIDATE_MODE;
+}
+
+function candidateIdentityMutationAllowed() {
+	return !isCandidateProbe() || process.env.AWTSMOOS_CANDIDATE_IDENTITY_MUTATION === "1";
+}
+
+function assertIdentityMutationAllowed(operation = "identity_mutation") {
+	if (candidateIdentityMutationAllowed()) return true;
+	const error = new Error(`candidate_identity_mutation_forbidden:${operation}`);
+	error.code = "candidate_identity_mutation_forbidden";
+	throw error;
+}
+
 function safeFragment(value, fallback) {
 	const normalized = String(value || fallback)
 		.replace(/[^A-Za-z0-9._-]+/g, "-")
@@ -30,7 +42,6 @@ function safeFragment(value, fallback) {
 	return normalized || fallback;
 }
 
-/** Returns a production-incompatible credential service name for tests. */
 function serviceName() {
 	const explicit = process.env.AWTSMOOS_CREDENTIAL_SERVICE;
 	if (explicit) {
@@ -41,9 +52,7 @@ function serviceName() {
 		}
 		return normalized;
 	}
-	if (!isTestMode()) {
-		return "com.awtsmoos.tunnel.device";
-	}
+	if (!isTestMode()) return "com.awtsmoos.tunnel.device";
 	const namespace = safeFragment(
 		process.env.AWTSMOOS_TEST_NAMESPACE,
 		`pid-${process.pid}`
@@ -51,12 +60,9 @@ function serviceName() {
 	return `com.awtsmoos.tunnel.device.test.${namespace}`;
 }
 
-/** Rejects a test root that enters protected operational infrastructure. */
 function assertSafeInstallRoot(root) {
 	const resolved = path.resolve(String(root || ""));
-	if (!isTestMode()) {
-		return resolved;
-	}
+	if (!isTestMode()) return resolved;
 	for (const forbidden of PROTECTED_ROOTS) {
 		const protectedRoot = path.resolve(forbidden);
 		if (resolved === protectedRoot || resolved.startsWith(`${protectedRoot}${path.sep}`)) {
@@ -67,8 +73,12 @@ function assertSafeInstallRoot(root) {
 }
 
 module.exports = {
+	CANDIDATE_MODE,
 	PROTECTED_ROOTS,
+	assertIdentityMutationAllowed,
 	assertSafeInstallRoot,
+	candidateIdentityMutationAllowed,
+	isCandidateProbe,
 	isTestMode,
 	safeFragment,
 	serviceName

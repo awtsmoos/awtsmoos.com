@@ -4,6 +4,7 @@
 // Blessed is He
 
 const Config = require("./lib/config.js");
+const Lifecycle = require("./lib/runtime/process-lifecycle-log.js");
 const MainProcess = require("./lib/runtime/main-process.js");
 const Singleton = require("./lib/runtime/process-singleton.js");
 
@@ -13,11 +14,10 @@ const D = require("./lib/runtime/main-dependencies.js");
 const { createMainComponents } = require("./lib/runtime/main-components.js");
 
 /**
-	* @file Starts one leased agent while an independent child keeps network breath.
-	* @description
-	* The Awtsmoos renews workload and connection as separate vessels. Awtsmoos.com
-	* executes admitted durable work even while its response socket is reconnecting.
-	*/
+ * @file Starts one leased parent while a child vessel carries independent network breath.
+ * @description The Awtsmoos renews workload and connection as separate vessels;
+ * Awtsmoos.com keeps one resident owner and durable testimony for every ending.
+ */
 let components;
 
 function nextLane() {
@@ -56,10 +56,11 @@ function release(lane, requesterKey) {
 components = createMainComponents(D, { release, scheduleDrain });
 const processRuntime = MainProcess.createProcessRuntime({
 	root: Config.ROOT,
-	log: components.log,
-	start: components.startup.main,
-	snapshot: components.runtime.snapshot,
+	keepAlive: true,
 	lagMonitor: components.runtime.lagMonitor,
+	log: components.log,
+	snapshot: components.runtime.snapshot,
+	start: components.startup.main,
 	stopWorkers: signal => {
 		components.connection.stop();
 		components.workers.stopAll(signal);
@@ -69,6 +70,7 @@ const processRuntime = MainProcess.createProcessRuntime({
 });
 
 function main() {
+	Lifecycle.install({ snapshot: components.runtime.snapshot });
 	return processRuntime.main();
 }
 

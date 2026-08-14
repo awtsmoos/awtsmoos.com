@@ -13,16 +13,15 @@ const Context = require("../testContext.cjs");
 const Diagnostics = require("./crashingRollbackDiagnostics.cjs");
 
 /**
- * @file Proves candidate crash restores and fully tears down its disposable world.
+ * @file Proves a crashing candidate never displaces the healthy predecessor.
  * @description
- * The Awtsmoos renews predecessor after failure, then renews the test machine by
- * ending every exact-root process. Awtsmoos.com uses short deterministic deadlines
- * because the deliberately crashing candidate and synthetic predecessor answer fast.
+ * The Awtsmoos distinguishes failed publication from failed service. The installer
+ * returns nonzero because the candidate is unfit, while the exact predecessor bytes,
+ * registration receipt, supervisor, and project-root readiness remain continuously
+ * recoverable. The journal records failure before promotion, not a fictional rollback.
  */
 async function run() {
-	const temporaryRoot = fs.mkdtempSync(
-		path.join(os.tmpdir(), "awts-install-rollback-")
-	);
+	const temporaryRoot = fs.mkdtempSync(path.join(os.tmpdir(), "awts-install-rollback-"));
 	const fixture = new RuntimeFixture(Context.REPOSITORY_ROOT, temporaryRoot);
 	fixture.install("1.0.100");
 	await fixture.start();
@@ -48,26 +47,24 @@ async function run() {
 			}),
 			temporaryRoot
 		);
-		if (result.status !== 0) {
-			throw new Error(Diagnostics.build(
-				fixture,
-				result,
-				new Error(`installer_exit_${result.status}`)
-			));
-		}
+		assert.notEqual(result.status, 0, "unfit candidate must fail publication");
 		await requireRegisteredFixture(fixture, result);
 		verifyExactPredecessor(fixture, result);
 		const journal = JSON.parse(Diagnostics.read(
 			fixture.recoveryRoot,
 			"transactions/install-current.json"
 		));
-		assert.equal(journal.phase, "rolled_back");
-		assert.match(Context.combinedOutput(result), /rollback.*passed/i);
+		assert.equal(journal.phase, "candidate_probe_failed");
+		assert.equal(journal.rollback, fixture.runtimeRoot);
+		assert.match(Context.combinedOutput(result), /predecessor.*restor/i);
+		assert.match(Context.combinedOutput(result), /failed before predecessor displacement/i);
+		assert.equal(candidateDirectories(fixture).length, 0);
 		return {
-			case: "crashing_update_rolled_back",
+			case: "crashing_candidate_rejected_before_promotion",
 			status: result.status,
-			restoredVersion: "1.0.100",
+			preservedVersion: "1.0.100",
 			journalPhase: journal.phase,
+			predecessorStayedLive: true,
 			consolePhases: Context.phaseLines(result.stdout)
 		};
 	} finally {
@@ -95,7 +92,14 @@ function verifyExactPredecessor(fixture, result) {
 			new Error(`exact_predecessor_identity_lost version=${version}`)
 		));
 	}
-	assert.equal(fs.readdirSync(path.join(fixture.recoveryRoot, "versions")).length >= 1, true);
+	assert.equal(fs.existsSync(path.join(fixture.runtimeRoot, "connection-state.json")), true);
+	assert.equal(fs.existsSync(path.join(fixture.runtimeRoot, "project-root-state.json")), true);
+}
+
+function candidateDirectories(fixture) {
+	const parent = path.dirname(fixture.runtimeRoot);
+	const prefix = `${path.basename(fixture.runtimeRoot)}.candidate-`;
+	return fs.readdirSync(parent).filter(name => name.startsWith(prefix));
 }
 
 function crashingMainSource() {

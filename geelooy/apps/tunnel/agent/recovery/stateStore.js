@@ -6,10 +6,8 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 /**
- * B"H
- * Recovery memory is written atomically, for the Awtsmoos never confuses a
- * half-written vessel with truth. Awtsmoos.com survives power loss between
- * intent and rename without inventing crash or registration-failure memory.
+ * @file Persists recovery truth atomically outside ephemeral process memory.
+ * The Awtsmoos remembers crash, registration, identity, and restoration as one scroll.
  */
 function statePath(root) {
 	return path.join(root, "recovery-state.json");
@@ -17,16 +15,25 @@ function statePath(root) {
 
 function defaults() {
 	return {
-		version: 1,
+		version: 2,
 		tier: 5,
 		consecutiveFailures: 0,
 		registrationFailures: 0,
+		restoreEligibleRegistrationFailures: 0,
+		lastFailureKind: "",
 		lastFailureReason: "",
 		lastStartAt: null,
 		lastHealthyAt: null,
 		lastDowngradeAt: null,
 		lastRegistrationFailureAt: null,
+		identityInspectionRequired: false,
+		identityResetRequired: false,
+		identityRepairReason: "",
+		identityRepairAttempts: 0,
+		lastIdentityRepairAt: null,
+		lastIdentityRepairState: "",
 		restoreRequired: false,
+		restoreReason: "",
 		history: []
 	};
 }
@@ -42,18 +49,17 @@ function read(root) {
 function write(root, state) {
 	const target = statePath(root);
 	const temporary = `${target}.${process.pid}.${Date.now()}.tmp`;
-	fs.mkdirSync(path.dirname(target), { recursive: true });
-	fs.writeFileSync(temporary, `${JSON.stringify(normalize(state), null, 2)}\n`);
+	fs.mkdirSync(path.dirname(target), { recursive: true, mode: 0o700 });
+	fs.writeFileSync(temporary, `${JSON.stringify(normalize(state), null, 2)}\n`, {
+		mode: 0o600
+	});
 	fs.renameSync(temporary, target);
 	return normalize(state);
 }
 
 function update(root, mutate) {
 	const current = read(root);
-	const next = mutate({
-		...current,
-		history: [...current.history]
-	}) || current;
+	const next = mutate({ ...current, history: [...current.history] }) || current;
 	return write(root, next);
 }
 
@@ -62,10 +68,7 @@ function append(state, event) {
 		at: new Date().toISOString(),
 		...event
 	}];
-	return {
-		...state,
-		history: history.slice(-100)
-	};
+	return { ...state, history: history.slice(-100) };
 }
 
 function normalize(value = {}) {
@@ -73,18 +76,20 @@ function normalize(value = {}) {
 	return {
 		...base,
 		...value,
+		version: 2,
 		tier: Math.max(0, Math.min(5, Number(value.tier ?? base.tier))),
-		consecutiveFailures: Math.max(0, Number(value.consecutiveFailures || 0)),
-		registrationFailures: Math.max(0, Number(value.registrationFailures || 0)),
+		consecutiveFailures: count(value.consecutiveFailures),
+		registrationFailures: count(value.registrationFailures),
+		restoreEligibleRegistrationFailures: count(
+			value.restoreEligibleRegistrationFailures
+		),
+		identityRepairAttempts: count(value.identityRepairAttempts),
 		history: Array.isArray(value.history) ? value.history.slice(-100) : []
 	};
 }
 
-module.exports = {
-	append,
-	defaults,
-	read,
-	statePath,
-	update,
-	write
-};
+function count(value) {
+	return Math.max(0, Number(value || 0));
+}
+
+module.exports = { append, defaults, read, statePath, update, write };

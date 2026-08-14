@@ -4,9 +4,8 @@
 # Blessed is He
 
 # The Awtsmoos renews one supervisor log, one canonical child, and one exit record.
-# Awtsmoos.com rechecks the exact-root census immediately before spawn, adopting a
-# racing healthy child instead of creating another body beside it.
-
+# Awtsmoos.com adopts a racing exact-root child without imposing a stale activation
+# garment, then restores the launchd activation before creating a supervised body.
 supervisor_log() {
 	local event="$1"
 	local detail="${2:-}"
@@ -33,6 +32,7 @@ supervisor_agent_command() {
 
 finish_supervisor() {
 	stop_managed_child
+	stop_emergency_runtime 2>/dev/null || true
 	cleanup_supervisor
 	exit 0
 }
@@ -41,23 +41,40 @@ clear_child_receipt() {
 	rm -f "$ROOT/connection-state.json" "$ROOT/project-root-state.json"
 }
 
+bind_supervisor_activation() {
+	if [ -n "${SUPERVISOR_ACTIVATION_ID:-}" ]; then
+		export AWTSMOOS_ACTIVATION_ID="$SUPERVISOR_ACTIVATION_ID"
+	else
+		unset AWTSMOOS_ACTIVATION_ID 2>/dev/null || true
+	fi
+}
+
+adopt_existing_agent() {
+	local pid="$1"
+	local event="${2:-agent_adopted}"
+	CHILD_PID="$pid"
+	CHILD_OWNED=0
+	CHILD_KIND="modern"
+	unset AWTSMOOS_ACTIVATION_ID 2>/dev/null || true
+	printf '%s\n' "$CHILD_PID" > "$PID_FILE"
+	supervisor_log "$event" "pid=$CHILD_PID activation=adopted_unbound"
+}
+
 start_new_agent() {
 	local existing=""
 	export AWTSMOOS_SELF_UPDATE_MODE="notify"
 	export AWTSMOOS_COMMAND_TIER
+	bind_supervisor_activation
 	if [ -n "${AWTSMOOS_COMMAND_MAX_ACTIVE:-}" ]; then
 		export AWTSMOOS_COMMAND_MAX_ACTIVE
 	else
 		unset AWTSMOOS_COMMAND_MAX_ACTIVE 2>/dev/null || true
 	fi
+	stop_emergency_runtime 2>/dev/null || true
 	stop_supervisor_legacy_processes
 	existing="$(reconcile_agent_processes)"
 	if supervisor_agent_command "$existing"; then
-		CHILD_PID="$existing"
-		CHILD_OWNED=0
-		CHILD_KIND="modern"
-		printf '%s\n' "$CHILD_PID" > "$PID_FILE"
-		supervisor_log "agent_adopted_before_spawn" "pid=$CHILD_PID"
+		adopt_existing_agent "$existing" "agent_adopted_before_spawn"
 		return 0
 	fi
 	clear_child_receipt

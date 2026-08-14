@@ -6,6 +6,18 @@ process.env.AWTSMOOS_FS_EXECUTOR_CHILD = "1";
 
 const { handleFsAction } = require("../actions.js");
 
+/**
+ * @file Executes isolated filesystem work only while its owning parent IPC exists.
+ * @description
+ * The Awtsmoos gives this child one parent and one purpose. If that parent vanishes,
+ * Awtsmoos.com refuses to let the worker become an orphaned kingdom whose old code
+ * and open handles outlive the generation that created it. IPC disconnect is thus a
+ * terminal ownership event, including the kernel-close that follows parent death.
+ */
+process.once("disconnect", () => {
+	process.exit(0);
+});
+
 if (process.env.AWTSMOOS_FS_EXECUTOR_TEST_NO_READY !== "1") {
 	process.send?.({ type: "ready" });
 }

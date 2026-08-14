@@ -3,11 +3,12 @@
 // Blessed is He
 
 /**
-	* @file Classifies transport endings by network phase and probable ownership.
-	* @description
-	* The Awtsmoos distinguishes DNS, TCP, TLS, proxy, protocol, reset, timeout, and
-	* local liveness so Awtsmoos.com can heal the right layer instead of saying drop.
-	*/
+ * @file Classifies transport endings by network phase and probable ownership.
+ * @description
+ * The Awtsmoos distinguishes DNS, TCP, TLS, proxy, protocol, reset, timeout, and
+ * local liveness so Awtsmoos.com heals the correct layer instead of naming every
+ * wound unknown. Explicit normalized transport_* causes remain stable testimony.
+ */
 function classify(input, phase = "unknown") {
 	if (input?.transportFailure) return input.transportFailure;
 	const code = String(input?.code || "").trim();
@@ -32,7 +33,7 @@ function categoryFor(value, phase) {
 	if (/cert_|err_tls_|certificate|self signed/.test(value)) return "certificate";
 	if (/502|503|504|bad gateway|service unavailable|gateway timeout/.test(value)) return "proxy";
 	if (/ehostunreach|enetunreach|econnrefused/.test(value)) return "network";
-	if (/econnreset|epipe|socket hang up/.test(value)) return "reset";
+	if (/econnreset|epipe|socket hang up|transport_reset/.test(value)) return "reset";
 	if (/etimedout|timeout|idle_timeout/.test(value)) return "timeout";
 	if (/handshake_rejected|accept_mismatch|frame|protocol/.test(value)) return "protocol";
 	if (/unsupported_websocket_protocol|invalid url/.test(value)) return "configuration";
@@ -47,10 +48,13 @@ function phaseFor(category, fallback) {
 	if (category === "dns") return "dns";
 	if (category === "certificate") return "tls";
 	if (category === "proxy" || category === "protocol") return "websocket_handshake";
-	if (["network", "reset", "timeout"].includes(category)) return fallback === "unknown" ? "socket" : fallback;
+	if (["network", "reset", "timeout"].includes(category)) {
+		return fallback === "unknown" ? "socket" : fallback;
+	}
 	if (category === "liveness") return "liveness";
 	return fallback;
 }
+
 function codeFor(category, value = "") {
 	if (category === "authentication" && /invalid_device_credential/.test(value)) {
 		return "invalid_device_credential";
@@ -58,4 +62,9 @@ function codeFor(category, value = "") {
 	return `transport_${category}`;
 }
 
-module.exports = { categoryFor, classify, codeFor, phaseFor };
+module.exports = {
+	categoryFor,
+	classify,
+	codeFor,
+	phaseFor
+};

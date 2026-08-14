@@ -1,20 +1,34 @@
 // B"H
-const assert = require("assert");
+
+const assert = require("node:assert/strict");
+const test = require("node:test");
 const { buildPreviewActions } = require("../actionGroups/previewActions.js");
 
-const payload = { controlBaseUrl: "https://awtsmoos.com/api/tunnel/control/fs/native-one", tunnelName: "native-one", path: "dist/index.html", visibility: "private", title: "Dist" };
-const actions = buildPreviewActions({ payload });
-
-(async () => {
-  const file = await actions.previewFile();
-  assert.strictEqual(file.preview.kind, "file");
-  assert(file.url.includes("/api/tunnel/control/preview/create"));
-  assert(file.url.includes("preview64="));
-  const server = await actions.previewExposeLocalServer.call(null, { });
-  const proxy = await buildPreviewActions({ payload: { ...payload, port: 5173 } }).previewExposeLocalServer();
-  assert.strictEqual(proxy.preview.kind, "proxy");
-  assert(proxy.proxyUrl.includes("/api/tunnel/control/preview/native-one"));
-  const page = await buildPreviewActions({ payload: { ...payload, content: "<h1>Report</h1>" } }).previewPage();
-  assert.strictEqual(page.preview.kind, "page");
-  console.log("BHY native preview actions tests passed");
-})().catch(error => { console.error(error); process.exit(1); });
+/**
+ * @file Proves account preview proposals never masquerade as completed creation.
+ */
+test("preview proposals expose authorization truth", async () => {
+	const payload = {
+		controlBaseUrl: "https://awtsmoos.com/api/tunnel/control/fs/native-one",
+		tunnelName: "native-one",
+		path: "dist/index.html",
+		visibility: "private",
+		title: "Dist"
+	};
+	const actions = buildPreviewActions({ payload });
+	const file = await actions.previewFile();
+	assert.equal(file.ok, true);
+	assert.equal(file.preview.kind, "file");
+	assert.equal(file.created, false);
+	assert.equal(file.publicVerified, false);
+	assert.equal(file.authorizationRequired, true);
+	assert.match(file.url, /preview\/create/);
+	assert.match(file.url, /preview64=/);
+	const page = await buildPreviewActions({
+		payload: { ...payload, content: "<h1>Report</h1>" }
+	}).previewPage();
+	assert.equal(page.preview.kind, "page");
+	const settings = await actions.previewSettingsSet();
+	assert.equal(settings.performed, false);
+	assert.equal(settings.authorizationRequired, true);
+});

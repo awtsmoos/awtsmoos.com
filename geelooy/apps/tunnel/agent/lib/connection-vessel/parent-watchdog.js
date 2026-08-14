@@ -2,139 +2,107 @@
 // Boruch Hashem
 // Blessed is He
 
+const ConsumerHealth = require("./parent-consumer-health.js");
+const Control = require("./parent-watchdog-control.js");
+const Pressure = require("./parent-watchdog-pressure.js");
+const Repair = require("./parent-watchdog-repair.js");
+const Values = require("./parent-watchdog-values.js");
+
 const DEFAULT_PARENT_STALE_MS = 30000;
 const DEFAULT_BACKLOG_STALE_MS = 10000;
-const DEFAULT_KILL_GRACE_MS = 10000;
-const DEFAULT_CONTROL_STALL_MS = 20000;
+const DEFAULT_CONTROL_STALL_MS = ConsumerHealth.DEFAULT_CONSUMER_STALE_MS;
+const DEFAULT_KILL_GRACE_MS = 5000;
 
 /**
- * The connection vessel can still breathe when the execution parent is wedged.
- * It requests a supervised parent restart only when registration is live, durable
- * inbox work is old, and the parent's independent pulse has also stopped.
+ * @file Separates execution-health testimony from authority to replace its parent.
+ * @description The Awtsmoos exposes stale pulses without turning measured congestion
+ * into violence; Awtsmoos.com grants active pressure a bounded recovery covenant.
  */
 function create(options = {}) {
-	const parentPid = positive(options.parentPid, 0);
-	const parentStaleMs = bounded(
-		options.parentStaleMs ?? process.env.AWTSMOOS_PARENT_STALE_MS,
-		DEFAULT_PARENT_STALE_MS,
-		5000,
-		10 * 60 * 1000
-	);
-	const backlogStaleMs = bounded(
-		options.backlogStaleMs ?? process.env.AWTSMOOS_PARENT_BACKLOG_STALE_MS,
-		DEFAULT_BACKLOG_STALE_MS,
-		5000,
-		10 * 60 * 1000
-	);
-	const killGraceMs = bounded(
-		options.killGraceMs ?? process.env.AWTSMOOS_PARENT_KILL_GRACE_MS,
-		DEFAULT_KILL_GRACE_MS,
-		1000,
-		60000
-	);
-	const controlStallMs = bounded(
-		options.controlStallMs ?? process.env.AWTSMOOS_PARENT_CONTROL_STALL_MS,
-		DEFAULT_CONTROL_STALL_MS,
-		10000,
-		10 * 60 * 1000
-	);
-	const signal = options.signal || ((pid, name) => process.kill(pid, name));
-	const setTimer = options.setTimer || setTimeout;
 	const now = options.now || Date.now;
-	let lastPulseAt = Number(options.startedAt || now());
-	let lastControlProgressAt = lastPulseAt;
-	let controlSignature = "";
-	let controlInflight = 0;
-	let controlQueued = 0;
-	let repairs = 0;
-	let repairing = false;
+	const parentStaleMs = Repair.bounded(options.parentStaleMs, DEFAULT_PARENT_STALE_MS);
+	const backlogStaleMs = Repair.bounded(options.backlogStaleMs, DEFAULT_BACKLOG_STALE_MS);
+	const consumerStaleMs = Repair.bounded(
+		options.consumerStaleMs ?? options.controlStallMs,
+		DEFAULT_CONTROL_STALL_MS
+	);
+	const startedAt = Values.finiteTime(options.startedAt, now());
+	const control = Control.create({ now, startedAt, controlStallMs: consumerStaleMs });
+	const repair = Repair.create({
+		parentPid: options.parentPid,
+		signalParent: options.signalParent || options.signal,
+		setTimer: options.setTimer,
+		recordLifecycle: options.recordLifecycle,
+		killGraceMs: options.killGraceMs ?? DEFAULT_KILL_GRACE_MS
+	});
+	let lastPulseAt = startedAt;
+	let latestStats = {};
+	let inspection = Values.healthyInspection();
+	let pressure = Pressure.evidence();
 
 	function pulse(stats = {}) {
-		const at = now();
-		lastPulseAt = at;
-		const lane = stats.lanes?.p0_control || {};
-		const signature = [
-			Number(lane.inflight || 0),
-			Number(lane.queued || 0),
-			Number(stats.lastSuccessfulActionAt || 0)
-		].join(":");
-		controlInflight = Number(lane.inflight || 0);
-		controlQueued = Number(lane.queued || 0);
-		if (signature !== controlSignature) {
-			controlSignature = signature;
-			lastControlProgressAt = at;
-			repairing = false;
-		}
-		if (controlInflight + controlQueued === 0) repairing = false;
+		latestStats = stats && typeof stats === "object" ? stats : {};
+		lastPulseAt = now();
+		control.pulse(latestStats);
 		return snapshot();
 	}
 
 	function inspect(connection = {}, mailbox = {}) {
-		const at = now();
-		const parentAgeMs = Math.max(0, at - lastPulseAt);
+		const observedAt = now();
 		const inbox = mailbox.inbox || {};
-		const backlogAgeMs = Number(inbox.oldestAgeMs || 0);
-		const controlBacklog = controlInflight + controlQueued;
-		const controlStalled = controlBacklog > 0 &&
-			at - lastControlProgressAt > controlStallMs;
-		const shouldRepair = parentPid > 1 &&
-			connection.registered === true &&
-			Number(inbox.count || 0) > 0 &&
-			backlogAgeMs > backlogStaleMs &&
-			(parentAgeMs > parentStaleMs || controlStalled);
-		if (shouldRepair && !repairing) repair();
-		return {
-			...snapshot(),
-			backlogAgeMs,
-			controlStalled,
-			controlBacklog,
-			shouldRepair
+		const registered = connection.registered === true;
+		const execution = ConsumerHealth.inspect(latestStats, mailbox, {
+			consumerStaleMs,
+			registered
+		});
+		inspection = Values.inspection({
+			registered,
+			unresolved: Values.nonnegative(inbox.count),
+			acceptedAgeMs: Values.nonnegative(inbox.oldestAgeMs),
+			backlogStaleMs,
+			parentAgeMs: Math.max(0, observedAt - lastPulseAt),
+			parentStaleMs,
+			execution,
+			controlStalled: control.inspect(observedAt).stalled
+		});
+		pressure = Pressure.evidence(latestStats, {
+			graceMs: options.pressureGraceMs,
+			lastPulseAt,
+			now: observedAt
+		});
+		const deferred = Boolean(inspection.repairReason && pressure.deferRepair);
+		inspection = {
+			...inspection,
+			repairRequired: inspection.repairRequired && !deferred,
+			repairDeferred: deferred,
+			repairDeferredReason: deferred ? "runtime_pressure" : ""
 		};
-	}
-
-	function repair() {
-		repairing = true;
-		repairs += 1;
-		try {
-			signal(parentPid, "SIGTERM");
-		} catch {
-			repairing = false;
-			return false;
-		}
-		const timer = setTimer(() => {
-			try { signal(parentPid, "SIGKILL"); } catch {}
-		}, killGraceMs);
-		timer?.unref?.();
-		return true;
+		if (inspection.repairRequired) repair.request(inspection.repairReason);
+		else repair.clear();
+		return snapshot();
 	}
 
 	function snapshot() {
+		const controlHealth = control.inspect(now());
 		return {
-			parentPid,
+			...repair.snapshot(),
+			...inspection,
+			shouldRepair: inspection.repairRequired,
+			pressure,
+			backlogAgeMs: inspection.execution?.acceptedAgeMs || 0,
 			lastPulseAt,
-			parentAgeMs: Math.max(0, now() - lastPulseAt),
 			parentStaleMs,
 			backlogStaleMs,
-			controlStallMs,
-			controlInflight,
-			controlQueued,
-			controlBacklog: controlInflight + controlQueued,
-			lastControlProgressAt,
-			repairing,
-			repairs
+			consumerStaleMs,
+			controlStallMs: consumerStaleMs,
+			controlInflight: controlHealth.inflight,
+			controlQueued: controlHealth.queued,
+			controlBacklog: controlHealth.backlog,
+			lastControlProgressAt: controlHealth.lastProgressAt
 		};
 	}
 
-	return { inspect, pulse, repair, snapshot };
-}
-
-function positive(value, fallback) {
-	const number = Number(value);
-	return Number.isFinite(number) && number > 0 ? Math.floor(number) : fallback;
-}
-
-function bounded(value, fallback, minimum, maximum) {
-	return Math.max(minimum, Math.min(maximum, positive(value, fallback)));
+	return { inspect, pulse, repair: () => repair.request("manual_repair"), snapshot };
 }
 
 module.exports = {

@@ -8,6 +8,7 @@ const path = require("node:path");
 function fixtureMainSource() {
 	return `// B"H
 const fs = require("node:fs");
+const http = require("node:http");
 const path = require("node:path");
 
 async function main() {
@@ -16,6 +17,7 @@ async function main() {
 	const runtimeVersion = fs.readFileSync(path.join(root, "install-state.txt"), "utf8").trim();
 	const activationId = process.env.AWTSMOOS_ACTIVATION_ID || "";
 	const tunnelId = "tun_transaction_fixture";
+	let server = null;
 
 	function writeJson(name, value) {
 		const target = path.join(root, name);
@@ -44,8 +46,32 @@ async function main() {
 		});
 	}
 
-	function stop() { process.exit(0); }
+	function startActivationApi() {
+		if (process.env.AWTSMOOS_LOCAL_API !== "1") return;
+		const host = process.env.AWTSMOOS_LOCAL_API_HOST || "127.0.0.1";
+		const port = Number(process.env.AWTSMOOS_LOCAL_API_PORT || 0);
+		server = http.createServer((request, response) => {
+			let body = "";
+			request.setEncoding("utf8");
+			request.on("data", chunk => body += chunk);
+			request.on("end", () => {
+				let action = {};
+				try { action = JSON.parse(body || "{}"); } catch {}
+				const ok = request.method === "POST" && request.url === "/fs" &&
+					action.action === "stat" && action.p === ".";
+				response.writeHead(ok ? 200 : 400, { "content-type": "application/json" });
+				response.end(JSON.stringify({ ok, fixture: true, root: config.root }));
+			});
+		});
+		server.listen(port, host);
+	}
+
+	function stop() {
+		if (server) server.close(() => process.exit(0));
+		else process.exit(0);
+	}
 	writeHealth();
+	startActivationApi();
 	setInterval(writeHealth, 1000);
 	process.on("SIGTERM", stop);
 }

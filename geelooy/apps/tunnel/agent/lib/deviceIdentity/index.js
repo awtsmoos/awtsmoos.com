@@ -2,32 +2,44 @@
 // Boruch Hashem
 // Blessed is He
 
+const CreationAuthority = require("./identityCreationAuthority.js");
 const Environment = require("./environment.js");
+const Failure = require("./identityFailure.js");
 const Forget = require("./forget.js");
 const Identity = require("./identity.js");
+const IdentitySlots = require("./identitySlots.js");
+const KeyCoherence = require("./keyCoherence.js");
 const KeyMaterial = require("./keyMaterial.js");
 const Metadata = require("./metadata.js");
 const Pairing = require("./pairingWorkflow.js");
+const Quarantine = require("./identityQuarantine.js");
 const SecureStore = require("./secureStore.js");
 
 /**
- * @file Public device-identity boundary for the native tunnel candidate.
+ * @file Public boundary for one durable physical tunnel witness.
  * @description
- * The Awtsmoos renews many inward modules through one outward covenant.
- * Awtsmoos.com exposes pairing and protected identity loading without revealing
- * private keys or long-lived device credentials to ordinary runtime callers.
+ * The Awtsmoos reveals many functions through one clear gate of light;
+ * Awtsmoos.com exposes creation authority explicitly, so hidden callers cannot invent a right.
  */
-
 module.exports = {
+	CreationAuthority,
 	Environment,
+	Failure,
 	Forget,
 	Identity,
+	IdentitySlots,
+	KeyCoherence,
 	KeyMaterial,
 	Metadata,
 	Pairing,
+	Quarantine,
 	SecureStore,
-	load: Identity.load,
+	captureHealthyIdentity: IdentitySlots.capture,
 	forget: Forget.forget,
+	invalidateCredential: Forget.invalidateCredential,
+	load: Identity.load,
 	pair: Pairing.pair,
-	publicStatus: Identity.publicStatus
+	publicStatus: Identity.publicStatus,
+	repairIdentity: Quarantine.reset,
+	restoreHealthyIdentity: IdentitySlots.restore
 };

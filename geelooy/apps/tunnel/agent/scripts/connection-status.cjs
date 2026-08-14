@@ -6,13 +6,9 @@
 const path = require("node:path");
 
 /**
- * B"H
- *
- * The supervisor asks a narrow question: did this exact process receive the
- * server's acknowledgement? The Awtsmoos renews the witness; Awtsmoos.com
- * answers through a machine-readable exit code without exposing secrets.
+ * @file Answers whether one exact process, activation, version, and tunnel received ACK.
+ * The Awtsmoos does not let an old receipt impersonate a newly staged runtime.
  */
-
 const [action = "status", rawRoot = process.cwd(), ...args] = process.argv.slice(2);
 const root = path.resolve(rawRoot);
 process.env.AWTSMOOS_INSTALL_ROOT = root;
@@ -20,9 +16,7 @@ const Receipt = require("../lib/runtime/connection-receipt.js");
 
 const result = execute(action, args);
 console.log(JSON.stringify(result, null, 2));
-if (result.ok === false) {
-	process.exitCode = 1;
-}
+if (result.ok === false) process.exitCode = 1;
 
 function execute(selectedAction, selectedArgs) {
 	const receipt = Receipt.read(root);
@@ -31,21 +25,25 @@ function execute(selectedAction, selectedArgs) {
 		return { ok: true, action: "connectionReceiptCleared", root };
 	}
 	if (selectedAction === "check") {
-		const [pid, tunnelName, maxAgeMs] = selectedArgs;
-		const ok = Receipt.matches(receipt, {
+		const [
 			pid,
 			tunnelName,
-			maxAgeMs
-		});
+			maxAgeMs,
+			activationId,
+			runtimeVersion
+		] = selectedArgs;
+		const expected = {
+			pid: Number(pid || 0),
+			tunnelName: String(tunnelName || ""),
+			maxAgeMs: Number(maxAgeMs || 0),
+			activationId: String(activationId || ""),
+			runtimeVersion: String(runtimeVersion || "")
+		};
 		return {
-			ok,
+			ok: Receipt.matches(receipt, expected),
 			action: "connectionReceiptCheck",
 			receipt,
-			expected: {
-				pid: Number(pid || 0),
-				tunnelName: String(tunnelName || ""),
-				maxAgeMs: Number(maxAgeMs || 0)
-			}
+			expected
 		};
 	}
 	return {

@@ -25,7 +25,9 @@ try {
 	fs.chmodSync(supervisor, 0o755);
 	execFileSync("bash", ["-c", [
 		`ROOT=${quote(temporary)}`,
-		`source ${quote(path.join(downloads, "unix-supervisor-install.sh"))}`,
+		`AWTSMOOS_INSTALL_RUNTIME=${quote(downloads)}`,
+		`AWTSMOOS_NODE_BIN=${quote(process.execPath)}`,
+		`source ${quote(path.join(downloads, "unix-process-control.sh"))}`,
 		"start_detached_portable_supervisor"
 	].join("\n")], { stdio: "ignore" });
 	for (let attempt = 0; attempt < 30 && !fs.existsSync(pidFile); attempt += 1) {
@@ -33,9 +35,11 @@ try {
 	}
 	pid = Number(fs.readFileSync(pidFile, "utf8").trim());
 	process.kill(pid, 0);
-	const identity = execFileSync("ps", ["-o", "pid=,ppid=,pgid=", "-p", String(pid)], {
-		encoding: "utf8"
-	}).trim().split(/\s+/).map(Number);
+	const identity = execFileSync(
+		"ps",
+		["-o", "pid=,ppid=,pgid=", "-p", String(pid)],
+		{ encoding: "utf8" }
+	).trim().split(/\s+/).map(Number);
 	assert.equal(identity[0], pid);
 	assert.equal(identity[1], 1);
 	assert.equal(identity[2], pid);

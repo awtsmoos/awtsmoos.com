@@ -9,9 +9,12 @@ const FAILURE_LIMIT = 3;
 const FAILURE_WINDOW_MS = 10 * 60 * 1000;
 
 /**
- * A lost registration is evidence, not automatic proof of broken code. The Awtsmoos
- * renews each bounded attempt; Awtsmoos.com records transport wounds separately and
- * requests archive restoration only for repeated software-eligible registration harm.
+ * @file Records registration wounds without persisting destructive-reset authority.
+ * @description
+ * The Awtsmoos lets transport, software, and identity testimony accumulate without
+ * turning yesterday's latch into permission to erase today's physical device.
+ * Awtsmoos.com retains inspection evidence, while explicit reset authority lives only
+ * in the fresh controller invocation that names it.
  */
 function report(current, reason, now = Date.now()) {
 	const classification = Policy.classify(reason);
@@ -29,6 +32,8 @@ function report(current, reason, now = Date.now()) {
 		: 0;
 	const restoreRequired = current.restoreRequired === true
 		|| eligibleFailures >= FAILURE_LIMIT;
+	const inspectionRequired = current.identityInspectionRequired === true
+		|| classification.requiresIdentityInspection;
 	const next = {
 		...current,
 		registrationFailures: failures,
@@ -36,6 +41,11 @@ function report(current, reason, now = Date.now()) {
 		lastRegistrationFailureAt: new Date(now).toISOString(),
 		lastFailureKind: classification.kind,
 		lastFailureReason: reason,
+		identityInspectionRequired: inspectionRequired,
+		identityResetRequired: false,
+		identityRepairReason: classification.requiresIdentityInspection
+			? reason
+			: current.identityRepairReason || "",
 		restoreRequired,
 		restoreReason: restoreRequired
 			? current.restoreReason || reason
@@ -47,6 +57,8 @@ function report(current, reason, now = Date.now()) {
 		failureKind: classification.kind,
 		registrationFailures: failures,
 		restoreEligibleRegistrationFailures: eligibleFailures,
+		identityInspectionRequired: inspectionRequired,
+		identityResetRequired: false,
 		restoreRequired,
 		tier: next.tier
 	});

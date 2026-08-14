@@ -105,6 +105,7 @@ candidate_is_stably_active() {
 prepare_without_activation() {
 	local prepared="${ROOT}.prepared-${CANDIDATE_VERSION}-$(date -u +%Y%m%dT%H%M%SZ)"
 	mv "$CANDIDATE_ROOT" "$prepared"
+	CANDIDATE_ROOT=""
 	write_activation_journal "prepared_not_activated" "$prepared" ""
 	install_event "activate" "prepared" \
 		"Verified update preserved without stopping the active tunnel." "$prepared"

@@ -7,18 +7,13 @@ const Macos = require("./macosStore.js");
 const TestStore = require("./testStore.js");
 
 /**
- * @file Selects fail-closed platform secure storage for device secrets.
+ * @file Selects fail-closed platform storage and seals read-only candidate probes.
  * @description
- * The Awtsmoos renews every operating system through one hidden intention.
- * Awtsmoos.com currently reveals a complete macOS Keychain adapter and rejects
- * unsupported platforms rather than degrading long-lived secrets into plaintext.
+ * The Awtsmoos lets a staged witness read protected identity but never rewrite the
+ * incumbent unless a fresh installer has granted exact mutation authority.
  */
+const ADAPTERS = Object.freeze({ darwin: Macos });
 
-const ADAPTERS = Object.freeze({
-	darwin: Macos
-});
-
-/** Returns the supported platform adapter or throws. */
 function adapter() {
 	if (Environment.isTestMode()) return TestStore;
 	const selected = ADAPTERS[process.platform];
@@ -28,13 +23,12 @@ function adapter() {
 	return selected;
 }
 
-/** Builds one device-scoped account name for a secret kind. */
 function account(deviceId, kind) {
 	return `${String(deviceId)}:${String(kind)}`;
 }
 
-/** Writes one device secret under the isolated service name. */
 function write(deviceId, kind, value) {
+	Environment.assertIdentityMutationAllowed(`secure_store_write:${kind}`);
 	adapter().write(
 		Environment.serviceName(),
 		account(deviceId, kind),
@@ -42,7 +36,6 @@ function write(deviceId, kind, value) {
 	);
 }
 
-/** Reads one device secret without logging its value. */
 function read(deviceId, kind) {
 	return adapter().read(
 		Environment.serviceName(),
@@ -50,8 +43,8 @@ function read(deviceId, kind) {
 	);
 }
 
-/** Removes one device secret from the environment-specific service. */
 function remove(deviceId, kind) {
+	Environment.assertIdentityMutationAllowed(`secure_store_remove:${kind}`);
 	return adapter().remove(
 		Environment.serviceName(),
 		account(deviceId, kind)

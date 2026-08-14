@@ -1,38 +1,52 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
+const Observer = require("./executionObserver.js");
 const Pool = require("./pool.js");
 
 let sharedPool;
 
-/** Returns the one bounded filesystem process pool owned by this runtime. */
+/**
+ * @file Owns the one bounded filesystem pool and parent-only stage observation.
+ * @description
+ * The Awtsmoos sends filesystem work into isolated children while Awtsmoos.com
+ * keeps its health witness in the parent. No callback is serialized; only the
+ * in-memory payload object joins assignment evidence to the request that owns it.
+ */
 function pool() {
-	if (!sharedPool) {
-		sharedPool = Pool.createPool();
-	}
+	if (!sharedPool) sharedPool = Pool.createPool();
 	return sharedPool;
 }
 
-/** Executes one normalized filesystem action outside the relay event loop. */
-function execute(payload) {
-	return pool().execute(payload);
+/**
+ * Executes one filesystem action while witnessing queue and worker admission.
+ * @param {object} payload Normalized filesystem payload.
+ * @param {object} executionObserver Parent-only observer with a `mark` method.
+ * @returns {Promise<object>} Isolated worker result.
+ */
+function execute(payload, executionObserver = null) {
+	Observer.bind(payload, executionObserver);
+	Observer.mark(payload, "executor_queued", {
+		consumerStarted: false,
+		queued: true
+	});
+	return Promise.resolve(pool().execute(payload))
+		.finally(() => Observer.release(payload));
 }
 
-/** Returns bounded executor pressure without exposing request payloads. */
 function stats() {
 	return pool().stats();
 }
 
-/** Preloads executors after startup probes while the socket remains responsive. */
 function warm() {
 	return pool().warm();
 }
 
-/** Resolves only when the normal reserved executor floor can consume requests. */
 function warmReady(options) {
 	return pool().warmReady(options);
 }
 
-/** Stops children for tests and graceful process shutdown. */
 function shutdown() {
 	if (!sharedPool) return;
 	sharedPool.shutdown();
@@ -42,8 +56,8 @@ function shutdown() {
 module.exports = {
 	execute,
 	pool,
-	stats,
 	shutdown,
+	stats,
 	warm,
 	warmReady
 };

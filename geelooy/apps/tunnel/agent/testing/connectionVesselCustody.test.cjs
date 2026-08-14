@@ -8,14 +8,15 @@ const ParentRouter = require("../lib/connection-vessel/controller-message-router
 const Protocol = require("../lib/connection-vessel/protocol.js");
 
 /**
- * @file Proves parent custody settles one exact child inbox receipt.
+ * @file Proves parent queue custody never masquerades as terminal settlement.
  * @description
- * The Awtsmoos preserves accepted work until responsibility truly crosses IPC.
- * Awtsmoos.com acknowledges after safe parent admission, while a thrown admission
- * leaves the finite receipt untouched for honest replay after recovery.
+ * The Awtsmoos carries one accepted deed across IPC without erasing its witness.
+ * Awtsmoos.com may note that the parent admitted the request, yet the durable child
+ * inbox remains until the relay later confirms a terminal response independently.
  */
 const admitted = [];
 const acknowledgements = [];
+const parentCustody = [];
 const settled = [];
 const logs = [];
 const parent = ParentRouter.createMessageRouter({
@@ -46,6 +47,7 @@ const child = ChildRouter.createChildMessageRouter({
 	mailbox: {
 		acknowledge: receiptId => settled.push(receiptId)
 	},
+	noteParentCustody: receiptId => parentCustody.push(receiptId),
 	parentDidBecomeReady() {},
 	stop() {},
 	transmit() {},
@@ -54,7 +56,8 @@ const child = ChildRouter.createChildMessageRouter({
 	exitProcess() {}
 });
 assert.equal(child.handle(acknowledgements[0]), true);
-assert.deepEqual(settled, ["custody-one"]);
+assert.deepEqual(parentCustody, ["custody-one"]);
+assert.deepEqual(settled, []);
 
 const failedAcknowledgements = [];
 const rejectingParent = ParentRouter.createMessageRouter({
@@ -77,6 +80,6 @@ console.log(JSON.stringify({
 	ok: true,
 	suite: "connection-vessel-custody",
 	ackAfterAdmission: true,
-	exactChildSettlement: true,
+	parentCustodyDoesNotSettleDurableInbox: true,
 	failurePreservesReceipt: true
 }, null, 2));

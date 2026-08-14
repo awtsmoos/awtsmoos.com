@@ -3,9 +3,7 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos crowns a verified tunnel through registration and guardianship.
-# Awtsmoos.com names the workspace truthfully as an optional user vessel, so a
-# moved or vanished project can never borrow the language of runtime corruption.
+# The Awtsmoos crowns a verified tunnel with one durable recovery doorway.
 installer_config_value() {
 	local key="$1"
 	node - "$ROOT/config.json" "$key" <<'NODE'
@@ -37,10 +35,6 @@ workspace_status_label() {
 		printf '%s\n' 'available'
 	elif project_root_receipt_matches_runtime "$agent_pid" "$activation_id" &&
 		local_runtime_action_ready; then
-		# A healthy incumbent writes its full read/write root receipt at startup.
-		# Receipt age alone must not make a long-lived workspace look unavailable:
-		# preserve the identity-bound testimony only after a fresh action crosses
-		# the same living agent's executor and configured project-root boundary.
 		printf '%s\n' 'available'
 	else
 		printf '%s\n' 'unavailable (optional; tunnel remains healthy)'
@@ -64,8 +58,9 @@ print_install_success_card() {
 	printf 'Guardian    : %s\n' "$(service_health_summary)"
 	printf 'Version     : %s\n' "$version"
 	printf 'Control     : %s\n\n' "$control_url"
-	printf '%s\n' 'Socket watchdog, supervisor, and service manager are active.'
-	printf '%s\n' 'Refresh or repair at any time with:'
+	printf '%s\n' 'Durable local repair:'
+	printf '%s\n' "$ROOT/awtsmoos-tunnel-service.sh repair"
+	printf '%s\n' 'Full reinstall or upgrade:'
 	printf '%s\n' 'curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash'
 	printf '%s\n' '============================================================'
 }
@@ -99,11 +94,9 @@ complete_install_experience() {
 		return 0
 	fi
 	agent_pid="$(verified_agent_pid || true)"
-	if [ -z "$agent_pid" ]; then
-		install_fail "complete" \
-			"Registration or durable guardian did not converge." \
-			"phase=$phase $(final_readiness_failure_detail)"
-	fi
+	[ -n "$agent_pid" ] || install_fail "complete" \
+		"Registration or durable guardian did not converge." \
+		"phase=$phase $(final_readiness_failure_detail)"
 	tunnel_id="$(connection_receipt_value tunnelId)"
 	[ -n "$tunnel_id" ] || install_fail "complete" \
 		"Registration did not provide an authoritative tunnel ID." "pid=$agent_pid"

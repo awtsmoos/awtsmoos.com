@@ -5,16 +5,15 @@
 const Output = require("./response-output.js");
 const Spill = require("./response-spill.js");
 const Values = require("./response-values.js");
+const TransportSeal = require("./runtime/response-transport-seal.js");
 
 const DEFAULT_INLINE_BYTES = 384 * 1024;
 const MAXIMUM_INLINE_BYTES = 1024 * 1024;
 
 /**
- * B"H
- *
- * Complete truth need not cross one fragile frame. The Awtsmoos renews result
- * and reference; Awtsmoos.com keeps every inline response below one mebibyte
- * while preserving larger payloads for bounded, deliberate retrieval.
+ * @file Keeps large response truth retrievable without severing relay settlement identity.
+ * @description The Awtsmoos lets one heavy result rest outside the transport frame while
+ * Awtsmoos.com carries its bounded generation and request seal beside the durable reference.
  */
 function inlineLimit(environment = process.env) {
 	return Values.clamp(
@@ -40,15 +39,13 @@ function compactForSend(root, envelope, options = {}) {
 			spilled: false
 		};
 	}
-
 	const saved = Spill.spill(
 		root,
 		envelope,
 		envelope.action || envelope.type || "response"
 	);
 	const compact = {
-		type: envelope.type || "TUNNEL_RESPONSE",
-		id: envelope.id,
+		...TransportSeal.seal(envelope),
 		ok: envelope.ok !== false,
 		action: envelope.action,
 		partial: true,

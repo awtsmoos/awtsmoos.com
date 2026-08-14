@@ -1,19 +1,15 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 
-/** Termux-shaped activation advances, while failure restarts its predecessor. */
+/** Candidate failure preserves predecessor bytes; success proves before promotion. */
 function runScenario(name, script) {
 	const result = spawnSync("bash", ["-c", script], {
 		cwd: process.cwd(),
-		encoding: "utf8",
-		env: {
-			...process.env,
-			HOME: "/data/data/com.termux/files/home",
-			PREFIX: "/data/data/com.termux/files/usr"
-		}
+		encoding: "utf8"
 	});
 	assert.equal(
 		result.status,
@@ -31,61 +27,47 @@ ROOT="$TMP/live"
 CANDIDATE_ROOT="$TMP/candidate"
 CANDIDATE_VERSION="9.9.9"
 RECOVERY_ROOT="$TMP/recovery"
+AWTSMOOS_ACTIVATION_ID="activation-proof"
 mkdir -p "$ROOT" "$CANDIDATE_ROOT" "$RECOVERY_ROOT"
 printf 'old\n' > "$ROOT/main.js"
 printf 'new\n' > "$CANDIDATE_ROOT/main.js"
-write_supervisor() { :; }
-install_progress() { :; }
-write_activation_journal() { :; }
-stop_existing_runtime() { :; }
-install_event() { :; }
-connection_state_name() { printf 'isolated'; }
+install_progress(){ :; }
+install_event(){ :; }
+write_activation_journal(){ :; }
+connection_state_name(){ printf 'isolated'; }
 `;
 
-const termuxOutput = runScenario("termux archive warning", String.raw`
+const failed = runScenario("failed proof preserves predecessor", String.raw`
 ${shared}
-archive_known_good_runtime() { return 1; }
-schedule_displaced_cleanup() { printf '%s\n' "$1" > "$TMP/rollback-path"; }
-skip_start_requested() { return 0; }
-source geelooy/apps/tunnel/downloads/unix-activation.sh
-activate_update
-test "$(cat "$ROOT/main.js")" = "new"
-ROLLBACK="$(cat "$TMP/rollback-path")"
-test "$(cat "$ROLLBACK/main.js")" = "old"
-test "$HOME" = "/data/data/com.termux/files/home"
-test "$PREFIX" = "/data/data/com.termux/files/usr"
-printf 'termux-update-passed\n'
+source geelooy/apps/tunnel/downloads/unix-activation-promotion.sh
+start_candidate_probe(){ printf 'probe\n' >> "$TMP/trace"; }
+wait_for_candidate_probe(){ return 1; }
+stop_candidate_probe(){ printf 'stop\n' >> "$TMP/trace"; }
+restart_preserved_predecessor(){ printf 'restart\n' >> "$TMP/trace"; }
+if prove_candidate_before_promotion; then exit 9; fi
+test "$(cat "$ROOT/main.js")" = old
+test "$(cat "$CANDIDATE_ROOT/main.js")" = new
+grep -q restart "$TMP/trace"
+printf 'failed-proof-preserved\n'
 `);
-assert.match(termuxOutput, /termux-update-passed/);
+assert.match(failed, /failed-proof-preserved/);
 
-const rollbackOutput = runScenario("candidate rollback", String.raw`
+const ordered = runScenario("proof precedes promotion", String.raw`
 ${shared}
-source geelooy/apps/tunnel/downloads/unix-activation-rollback.sh
+prove_candidate_before_promotion(){ printf 'prove\n' >> "$TMP/trace"; }
+promote_candidate_root(){ printf 'promote\n' >> "$TMP/trace"; }
+start_promoted_candidate(){ printf 'start\n' >> "$TMP/trace"; }
 source geelooy/apps/tunnel/downloads/unix-activation.sh
-archive_known_good_runtime() { return 0; }
-skip_start_requested() { return 1; }
-start_supervisor() { :; }
-start_restored_supervisor() { printf 'restarted\n' > "$TMP/restarted"; }
-candidate_is_stably_active() { return 1; }
-restored_runtime_ready() { test -f "$TMP/restarted"; }
-mark_runtime_restored() { :; }
-restore_archive_layers() { return 1; }
-restore_legacy_layer() { return 1; }
-install_fail() { printf 'unexpected install_fail\n' >&2; return 1; }
 activate_update
-test "$(cat "$ROOT/main.js")" = "old"
-FAILED="$(find "$TMP" -maxdepth 1 -type d -name 'live.failed-*' | head -n 1)"
-test -n "$FAILED"
-test "$(cat "$FAILED/main.js")" = "new"
-test "$(cat "$TMP/restarted")" = "restarted"
-printf 'rollback-passed\n'
+printf 'prove\npromote\nstart\n' > "$TMP/expected"
+cmp "$TMP/trace" "$TMP/expected"
+printf 'ordered-promotion-passed\n'
 `);
-assert.match(rollbackOutput, /rollback-passed/);
+assert.match(ordered, /ordered-promotion-passed/);
 
 console.log(JSON.stringify({
 	ok: true,
 	suite: "unix-activation-isolation",
-	termuxShapedUpdate: true,
-	failedCandidateRolledBack: true,
-	predecessorRestarted: true
+	failedCandidatePreservedPredecessor: true,
+	proofPrecedesPromotion: true
 }, null, 2));

@@ -8,26 +8,17 @@ const Target = require("./plannerTarget.js");
 
 /**
  * @file Composes one durable congestion-safe website-agent mission plan.
- * @description
- * The Awtsmoos may call a hundred shluchim while Awtsmoos.com opens one tab.
- * Every agent receives both canonical relative and absolute scope names before any
- * queue admission, while the upstream recursion and room policies remain intact.
+ * @description The Awtsmoos may call a hundred shluchim while Awtsmoos.com opens one tab;
+ * recursive intention remains abundant while current pressure decides its activation breath.
  */
 function plan(config = {}, input = {}) {
-	const projectRoot = Scopes.canonicalProjectRoot(
-		input.projectRoot || config.root || process.cwd()
-	);
+	const projectRoot = Scopes.canonicalProjectRoot(input.projectRoot || config.root || process.cwd());
 	const scale = Policy.promptScale(input);
 	const count = Policy.agentCount(input, scale);
 	const scopes = Scopes.scopeCandidates(projectRoot, input);
 	const target = Target.customGptTarget(input);
 	const startSpacingMs = Policy.spacing(input.startSpacingMs);
-	const maxTotalWebsiteAgents = Policy.bounded(
-		input.maxTotalWebsiteAgents,
-		Math.max(256, count),
-		count,
-		512
-	);
+	const maxTotalWebsiteAgents = Policy.bounded(input.maxTotalWebsiteAgents, Math.max(256, count), count, 512);
 	const maxSubagentsPerAgent = Policy.bounded(
 		input.maxSubagentsPerAgent ?? input.maxHelpersPerAgent,
 		32,
@@ -40,7 +31,8 @@ function plan(config = {}, input = {}) {
 		customGptName: target.name,
 		requestedCount: input.agentCount ?? input.count ?? null,
 		agentCount: count,
-		minimumAgentCount: 3,
+		minimumAgentCount: Policy.minimumAgentCount(input),
+		continuationOnly: Policy.continuationOnly(input),
 		fanOutTier: scale,
 		physicalTabPolicy: {
 			maxActiveTabs: 1,
@@ -49,19 +41,21 @@ function plan(config = {}, input = {}) {
 		},
 		subagentPolicy: {
 			mode: "bounded-single-use",
-			priority: ["large", "enormous"].includes(scale)
-				? "required-when-available"
-				: "preferred",
-			allowRecursiveSubagents: input.allowRecursiveSubagents !== false &&
-				input.allowRecursiveSubagents !== "false",
+			priority: ["large", "enormous"].includes(scale) ? "required-when-available" : "preferred",
+			allowRecursiveSubagents: input.allowRecursiveSubagents !== false && input.allowRecursiveSubagents !== "false",
 			maxSubagentDepth: Policy.bounded(input.maxSubagentDepth, 4, 1, 8),
 			maxSubagentsPerAgent,
 			maxHelpersPerAgent: maxSubagentsPerAgent,
 			maxTotalWebsiteAgents,
-			subagentStartSpacingMs: Policy.spacing(
-				input.subagentStartSpacingMs,
-				startSpacingMs
-			),
+			subagentStartSpacingMs: Policy.spacing(input.subagentStartSpacingMs, startSpacingMs),
+			pressureAwareActivation: input.pressureAwareActivation !== false && input.pressureAwareActivation !== "false",
+			spawnDrainQuantum: Policy.bounded(input.spawnDrainQuantum, 4, 1, 16),
+			spawnDrainMaxQuanta: Policy.bounded(input.spawnDrainMaxQuanta, 2, 1, 8),
+			softPressureQuantum: Policy.bounded(input.softPressureQuantum, 1, 1, 2),
+			spawnDrainWakeMs: Policy.bounded(input.spawnDrainWakeMs, 1000, 250, 60000),
+			softPressureWakeMs: Policy.bounded(input.softPressureWakeMs, 1500, 1500, 60000),
+			hardPressureWakeMs: Policy.bounded(input.hardPressureWakeMs, 3000, 3000, 60000),
+			panicPressureWakeMs: Policy.bounded(input.panicPressureWakeMs, 5000, 5000, 60000),
 			recursiveFanOut: "independent-scoped-work-with-stable-request-keys",
 			handoffRequired: true,
 			roomUpdates: ["plan", "progress", "handoff", "completion"]

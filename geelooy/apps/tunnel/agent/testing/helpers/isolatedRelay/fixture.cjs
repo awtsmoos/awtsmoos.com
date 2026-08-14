@@ -6,42 +6,43 @@ const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
 const { spawn } = require("node:child_process");
+const ChildEnvironment = require("./childEnvironment.cjs");
+const IdentityFixture = require("./identityFixture.cjs");
 
 /**
- * @file Creates a disposable account-bound agent world around the real source.
+ * @file Creates one disposable account-bound agent world around the real source.
  * @description
- * The Awtsmoos renews root, identity, credential namespace, and child independently.
- * Awtsmoos.com keeps every test under temporary directories and test-only storage,
- * proving recovery without reading or changing the user's installed tunnel secrets.
+ * The Awtsmoos gives every child an independent secret file while preserving one
+ * coherent device generation. Duplicate-process tests therefore exercise singleton
+ * ownership instead of failing because the first child securely erased shared input.
  */
 function createFixture(relayUrl, options = {}) {
 	const temporaryRoot = fs.mkdtempSync(path.join(os.tmpdir(), "awts-isolated-agent-"));
 	const installRoot = path.join(temporaryRoot, "install");
+	const recoveryRoot = path.join(temporaryRoot, "recovery");
 	const projectRoot = path.join(temporaryRoot, "project");
 	const tunnelId = options.tunnelId || "tun_isolated_longevity";
 	const tunnelName = options.tunnelName || "awt-isolated-longevity";
 	const deviceId = options.deviceId || "dev_isolated_longevity";
-	fs.mkdirSync(installRoot, { recursive: true });
-	fs.mkdirSync(projectRoot, { recursive: true });
+	for (const directory of [installRoot, recoveryRoot, projectRoot]) {
+		fs.mkdirSync(directory, { recursive: true, mode: 0o700 });
+	}
 	writeJson(path.join(installRoot, "config.json"), config(relayUrl, projectRoot, tunnelName));
-	writeJson(path.join(installRoot, "device-binding.json"), {
-		schemaVersion: 1,
-		deviceId,
-		tunnelId,
-		publicKey: "isolated-test-public-key",
-		publicKeyFingerprint: "isolated-test-fingerprint",
-		credentialVersion: 1,
-		pairedAt: new Date().toISOString(),
-		createdAt: new Date().toISOString()
-	});
+	const identity = IdentityFixture.create(installRoot, { deviceId, tunnelId });
 	return {
 		temporaryRoot,
 		installRoot,
+		recoveryRoot,
 		projectRoot,
 		tunnelId,
 		tunnelName,
 		deviceId,
-		spawnAgent: () => spawnAgent(installRoot, temporaryRoot),
+		spawnAgent: () => spawnAgent(
+			installRoot,
+			recoveryRoot,
+			temporaryRoot,
+			IdentityFixture.writeSecrets(temporaryRoot, identity.secrets)
+		),
 		readReceipt: () => readJson(path.join(installRoot, "connection-state.json")),
 		cleanup: () => fs.rmSync(temporaryRoot, {
 			recursive: true,
@@ -80,27 +81,10 @@ function config(relay, projectRoot, tunnelName) {
 	};
 }
 
-function spawnAgent(installRoot, namespace) {
-	const childFile = path.join(__dirname, "agentChild.cjs");
-	return spawn(process.execPath, [childFile], {
+function spawnAgent(installRoot, recoveryRoot, namespace, secretPath) {
+	return spawn(process.execPath, [path.join(__dirname, "agentChild.cjs")], {
 		cwd: installRoot,
-		env: {
-			...process.env,
-			AWTSMOOS_INSTALL_ROOT: installRoot,
-			AWTSMOOS_TEST_MODE: "1",
-			AWTSMOOS_TEST_NAMESPACE: path.basename(namespace),
-			AWTSMOOS_SKIP_PAIRING_BROWSER: "1",
-			AWTSMOOS_SKIP_OPEN_CONTROL: "1",
-			AWTSMOOS_MISSION_BOOT_RESUME: "0",
-			AWTSMOOS_WS_LIVENESS_INTERVAL_MS: "1000",
-			AWTSMOOS_WS_PING_IDLE_MS: "1000",
-			AWTSMOOS_WS_DEAD_IDLE_MS: "3000",
-			AWTSMOOS_RECONNECT_BASE_MS: "150",
-			AWTSMOOS_RECONNECT_MAX_MS: "800",
-			AWTSMOOS_RECONNECT_JITTER: "0",
-			AWTSMOOS_REGISTRATION_RETRY_MS: "300",
-			AWTSMOOS_REGISTRATION_MAX_ATTEMPTS: "8"
-		},
+		env: ChildEnvironment.create(installRoot, recoveryRoot, namespace, secretPath),
 		stdio: ["ignore", "pipe", "pipe"]
 	});
 }
@@ -110,7 +94,11 @@ function writeJson(file, value) {
 }
 
 function readJson(file) {
-	try { return JSON.parse(fs.readFileSync(file, "utf8")); } catch { return null; }
+	try {
+		return JSON.parse(fs.readFileSync(file, "utf8"));
+	} catch {
+		return null;
+	}
 }
 
 module.exports = {

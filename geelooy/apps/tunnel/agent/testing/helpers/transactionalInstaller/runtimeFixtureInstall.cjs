@@ -12,9 +12,9 @@ const FixtureSource = require("./runtimeFixtureSource.cjs");
 /**
  * @file Installs a complete synthetic predecessor for transactional rollback tests.
  * @description
- * The Awtsmoos renews runtime, Node locator, singleton, guardian, and receipt together.
- * Awtsmoos.com copies every production supervisor dependency so rollback cannot pass
- * while lacking the helpers that prevent duplicate agents or PATH-dependent failure.
+ * The Awtsmoos gives production and fixture one supervisor garment scroll. Identity,
+ * emergency, receipt, singleton, health, and recovery helpers therefore cannot enter
+ * the real guardian while silently disappearing from rollback and stability proofs.
  */
 function installFixture(fixture, version) {
 	const source = Sources.descriptor(fixture.repositoryRoot);
@@ -34,9 +34,7 @@ function extractRuntime(zipPath, runtimeRoot) {
 	const result = spawnSync("unzip", ["-oq", zipPath, "-d", runtimeRoot], {
 		encoding: "utf8"
 	});
-	if (result.status !== 0) {
-		throw new Error(result.stderr || "fixture_extract_failed");
-	}
+	if (result.status !== 0) throw new Error(result.stderr || "fixture_extract_failed");
 }
 
 function copySupervisorFiles(fixture) {
@@ -44,27 +42,29 @@ function copySupervisorFiles(fixture) {
 		fixture.repositoryRoot,
 		"geelooy/apps/tunnel/downloads"
 	);
-	const pairs = {
-		"unix-node-runtime.sh": "awtsmoos-node-runtime.sh",
-		"unix-legacy-catalog.sh": "awtsmoos-legacy-catalog.sh",
-		"unix-supervisor.sh": "awtsmoos-supervisor.sh",
-		"unix-supervisor-runtime.sh": "awtsmoos-supervisor-runtime.sh",
-		"unix-supervisor-agents.sh": "awtsmoos-supervisor-agents.sh",
-		"unix-supervisor-guard.sh": "awtsmoos-supervisor-guard.sh",
-		"unix-supervisor-health-memory.sh": "awtsmoos-supervisor-health-memory.sh",
-		"unix-supervisor-receipt.sh": "awtsmoos-supervisor-receipt.sh",
-		"unix-supervisor-health.sh": "awtsmoos-supervisor-health.sh",
-		"unix-supervisor-recovery.sh": "awtsmoos-supervisor-recovery.sh",
-		"unix-supervisor-legacy.sh": "awtsmoos-supervisor-legacy.sh",
-		"unix-agent-singleton.cjs": "awtsmoos-agent-singleton.cjs",
-		"unix-agent-receipt.cjs": "awtsmoos-agent-receipt.cjs",
-		"unix-agent-launcher.cjs": "awtsmoos-agent-launcher.cjs"
-	};
-	for (const [source, target] of Object.entries(pairs)) {
+	for (const [source, target] of supervisorPairs(downloads)) {
 		const destination = path.join(fixture.runtimeRoot, target);
 		fs.copyFileSync(path.join(downloads, source), destination);
 		fs.chmodSync(destination, 0o755);
 	}
+}
+
+function supervisorPairs(downloads) {
+	const manifest = path.join(downloads, "unix-supervisor-files.sh");
+	const result = spawnSync("bash", ["-c", `set -Eeuo pipefail
+source "$MANIFEST"
+supervisor_runtime_pairs`], {
+		encoding: "utf8",
+		env: { ...process.env, MANIFEST: manifest }
+	});
+	if (result.status !== 0) {
+		throw new Error(result.stderr || "fixture_supervisor_manifest_failed");
+	}
+	return result.stdout.trim().split(/\r?\n/).filter(Boolean).map(line => {
+		const separator = line.indexOf(":");
+		if (separator <= 0) throw new Error(`fixture_supervisor_pair_invalid:${line}`);
+		return [line.slice(0, separator), line.slice(separator + 1)];
+	});
 }
 
 function seal(runtimeRoot) {
@@ -73,11 +73,10 @@ function seal(runtimeRoot) {
 		"seal",
 		runtimeRoot
 	], { encoding: "utf8" });
-	if (result.status !== 0) {
-		throw new Error(`${result.stdout}\n${result.stderr}`);
-	}
+	if (result.status !== 0) throw new Error(`${result.stdout}\n${result.stderr}`);
 }
 
 module.exports = {
-	installFixture
+	installFixture,
+	supervisorPairs
 };

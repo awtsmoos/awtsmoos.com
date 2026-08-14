@@ -1,96 +1,85 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 const Acknowledgement = require("./main-connection-acknowledgement.js");
+const Authorization = require("./main-connection-authorization.js");
+
 /**
-	* @file Routes relay words into registration, settlement, liveness, and work.
-	* @description
-	* The Awtsmoos keeps response settlement distinct from socket delivery.
-	* Awtsmoos.com removes durable mailbox testimony only after relay acknowledgment.
-	*/
+ * @file Routes relay words into registration, settlement, liveness, and work.
+ * @description
+ * The Awtsmoos preserves one physical vessel while credentials and sockets may
+ * change. Awtsmoos.com removes durable request testimony only after settlement,
+ * while terminal authorization events live in a separate identity-safe vessel.
+ */
 function createConnectionMessages(dependencies) {
-	function handle(raw, ws) {
-		dependencies.Control.markSeen?.(ws);
+	function handle(raw, webSocket) {
+		dependencies.Control.markSeen?.(webSocket);
 		const data = parse(raw, dependencies.log);
 		if (!data) return false;
 		if (data.type === "TUNNEL_ACK") {
-			return Acknowledgement.handleAcknowledgement(dependencies, data, ws);
+			return Acknowledgement.handleAcknowledgement(
+				dependencies,
+				data,
+				webSocket
+			);
 		}
 		if (data.type === "TUNNEL_RESPONSE_ACK") {
-			return handleResponseAcknowledgement(data);
+			return handleResponseAcknowledgement(dependencies, data);
 		}
 		if (data.type === "TUNNEL_REVOKED") {
-			return handleRevocation(data, ws);
+			return Authorization.handleRevocation(dependencies, data, webSocket);
 		}
 		if (dependencies.Replacement.isReplacementMessage(data)) {
-			return handleReplacement(data, ws);
+			return Authorization.handleReplacement(dependencies, data, webSocket);
 		}
 		checkpoint(dependencies);
 		if (data.type === "TUNNEL_PING") {
-			const pong = {
-				type: "TUNNEL_PONG",
-				at: new Date().toISOString()
-			};
-			if (data.includeStats === true) pong.queueStats = dependencies.stats();
-			dependencies.Send.safeSend(ws, pong);
-			return true;
+			return handlePing(dependencies, data, webSocket);
 		}
 		if (data.type === "TUNNEL_REQUEST") {
-			dependencies.enqueueRequest(ws, data);
+			dependencies.enqueueRequest(webSocket, data);
 			return true;
 		}
 		return false;
 	}
-	function handleResponseAcknowledgement(data) {
-		const id = String(data.transportReceiptId || data.id || "");
-		if (!id || !dependencies.TransportMailbox) return false;
-		dependencies.TransportMailbox.acknowledge(id);
-		return true;
-	}
-
-	function handleRevocation(data, ws) {
-		const config = dependencies.loadConfig();
-		const result = dependencies.DeviceIdentity.forget(config);
-		dependencies.state.replacementRequested = true;
-		dependencies.state.registrationRejected = true;
-		dependencies.state.registrationFailureReason = "device_revoked";
-		dependencies.Receipt?.write("device_revoked", {
-			generation: dependencies.state.generation,
-			tunnelName: dependencies.state.tunnelName || "",
-			tunnelId: data.tunnelId || result.tunnelId || ""
-		});
-		dependencies.log("warn", "B\"H tunnel device revoked; local credentials deleted.");
-		try { ws.close(true); } catch {}
-		return true;
-	}
-
-	function handleReplacement(data, ws) {
-		dependencies.state.replacementRequested = true;
-		dependencies.Receipt?.write("replaced", {
-			generation: dependencies.state.generation,
-			reason: data.message || "newer_agent_connection_adopted"
-		});
-		dependencies.Replacement.exitBecauseNewerConnectionOwnsTunnel({
-			reason: data.message || "newer_agent_connection_adopted",
-			clearReconnect: dependencies.clearReconnect,
-			close: () => ws.close(true),
-			log: dependencies.log,
-			exit: dependencies.exitProcess,
-			setTimer: dependencies.setTimer,
-			delayMs: dependencies.replacementExitDelayMs
-		});
-		return true;
-	}
 
 	return {
 		handle,
-		handleAcknowledgement(data, ws) {
-			return Acknowledgement.handleAcknowledgement(dependencies, data, ws);
+		handleAcknowledgement(data, webSocket) {
+			return Acknowledgement.handleAcknowledgement(
+				dependencies,
+				data,
+				webSocket
+			);
 		},
-		handleReplacement,
-		handleResponseAcknowledgement,
-		handleRevocation
+		handleReplacement(data, webSocket) {
+			return Authorization.handleReplacement(dependencies, data, webSocket);
+		},
+		handleResponseAcknowledgement(data) {
+			return handleResponseAcknowledgement(dependencies, data);
+		},
+		handleRevocation(data, webSocket) {
+			return Authorization.handleRevocation(dependencies, data, webSocket);
+		}
 	};
+}
+
+function handleResponseAcknowledgement(dependencies, data) {
+	const id = String(data.transportReceiptId || data.id || "");
+	if (!id || !dependencies.TransportMailbox) return false;
+	dependencies.TransportMailbox.acknowledge(id);
+	return true;
+}
+
+function handlePing(dependencies, data, webSocket) {
+	const pong = {
+		type: "TUNNEL_PONG",
+		at: new Date().toISOString()
+	};
+	if (data.includeStats === true) pong.queueStats = dependencies.stats();
+	dependencies.Send.safeSend(webSocket, pong);
+	return true;
 }
 
 function checkpoint(dependencies) {
@@ -117,4 +106,10 @@ function parse(raw, log) {
 	}
 }
 
-module.exports = { checkpoint, createConnectionMessages, parse };
+module.exports = {
+	checkpoint,
+	createConnectionMessages,
+	handlePing,
+	handleResponseAcknowledgement,
+	parse
+};
