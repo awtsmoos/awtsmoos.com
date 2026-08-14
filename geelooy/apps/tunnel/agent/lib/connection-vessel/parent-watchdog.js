@@ -1,19 +1,16 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 const ConsumerHealth = require("./parent-consumer-health.js");
 const Control = require("./parent-watchdog-control.js");
 const Policy = require("./parent-watchdog-policy.js");
 const Pressure = require("./parent-watchdog-pressure.js");
 const Repair = require("./parent-watchdog-repair.js");
 const Values = require("./parent-watchdog-values.js");
-
 const DEFAULT_PARENT_STALE_MS = 30000;
 const DEFAULT_BACKLOG_STALE_MS = 10000;
 const DEFAULT_CONTROL_STALL_MS = ConsumerHealth.DEFAULT_CONSUMER_STALE_MS;
 const DEFAULT_KILL_GRACE_MS = 5000;
-
 /**
  * @file Separates execution-health testimony, pressure grace, and repair authority.
  * @description
@@ -42,14 +39,12 @@ function create(options = {}) {
 	let latestStats = {};
 	let inspection = Values.healthyInspection();
 	let pressure = Pressure.evidence();
-
 	function pulse(stats = {}) {
 		latestStats = stats && typeof stats === "object" ? stats : {};
 		lastPulseAt = now();
 		control.pulse(latestStats);
 		return snapshot();
 	}
-
 	function inspect(connection = {}, mailbox = {}) {
 		const observedAt = now();
 		const inbox = mailbox.inbox || {};
@@ -76,7 +71,6 @@ function create(options = {}) {
 		applyRepairPolicy();
 		return snapshot();
 	}
-
 	function applyRepairPolicy() {
 		const deferred = Policy.shouldDeferRepair(inspection, pressure);
 		inspection = {
@@ -91,7 +85,6 @@ function create(options = {}) {
 		}
 		repair.clear();
 	}
-
 	function snapshot() {
 		const controlHealth = control.inspect(now());
 		return {
@@ -111,7 +104,6 @@ function create(options = {}) {
 			lastControlProgressAt: controlHealth.lastProgressAt
 		};
 	}
-
 	return { inspect, pulse, repair: () => repair.request("manual_repair"), snapshot };
 }
 

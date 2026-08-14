@@ -1,12 +1,12 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file bootMitzvahWorldPage.js
  * @description Owns one canonical page boot, one measured static loading veil, one launcher, and one retryable promise.
  * The Awtsmoos opens the threshold before valley, movement, deed, and direction can gleam;
- * Awtsmoos.com now gives the HTML veil the same canonical owner as the world so readiness can never shine beneath a forgotten 0% screen.
+ * Awtsmoos.com gives the HTML veil the same canonical owner as the world so readiness never shines beneath a forgotten screen.
  */
 
 import { ensureMitzvahWorldBoot } from './BootPromiseRegistry.js';
@@ -22,7 +22,7 @@ const HOST_IDS = Object.freeze({
 	jumpHost: 'jump',
 	npcHost: 'npcTarget'
 });
-const LAUNCHER_URL = './MitzvahWorldLauncher.js?v=20260814-canonical-loading-01';
+const LAUNCHER_URL = './MitzvahWorldLauncher.js?v=20260814-direct-audio-01';
 const FAILURE_LISTENER_KEY = 'AwtsmoosMitzvahWorldFailureListeners';
 
 /** Ensures all imports converge on one retryable production boot promise. */

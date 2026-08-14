@@ -1,0 +1,106 @@
+{
+  "source": {
+    "files": [
+      {
+        "name": "state-values.js",
+        "lines": 114,
+        "spaceIndented": 0
+      },
+      {
+        "name": "state.js",
+        "lines": 77,
+        "spaceIndented": 0
+      },
+      {
+        "name": "controls.js",
+        "lines": 97,
+        "spaceIndented": 0
+      },
+      {
+        "name": "viewport.js",
+        "lines": 57,
+        "spaceIndented": 1
+      },
+      {
+        "name": "menu-controller.js",
+        "lines": 48,
+        "spaceIndented": 0
+      },
+      {
+        "name": "game-actions.js",
+        "lines": 40,
+        "spaceIndented": 0
+      },
+      {
+        "name": "main.js",
+        "lines": 114,
+        "spaceIndented": 0
+      }
+    ],
+    "css": {
+      "lines": 112,
+      "spaceIndented": 0
+    },
+    "hasDataFavicon": true
+  },
+  "before": {
+    "state": "playing",
+    "time": 8,
+    "gap": 102.79999999999995,
+    "entityGaps": [
+      2
+    ],
+    "canvas": [
+      390,
+      844,
+      390,
+      844
+    ],
+    "doc": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ]
+  },
+  "pointer": {
+    "down": true,
+    "cancelled": true
+  },
+  "after": {
+    "state": "playing",
+    "time": 18,
+    "gap": 82.79999999999995,
+    "entityGaps": [],
+    "canvas": [
+      844,
+      390,
+      844,
+      390
+    ],
+    "doc": [
+      844,
+      390
+    ],
+    "viewport": [
+      844,
+      390
+    ]
+  },
+  "gapDelta": -20,
+  "timeDelta": 10,
+  "teachings": {
+    "open": true,
+    "backHeight": 48,
+    "closed": true,
+    "state": "waiting"
+  },
+  "raf": {
+    "fps": 61.56837330352528,
+    "maxGap": 18.399999999999864
+  },
+  "errors": [],
+  "badResponses": []
+}

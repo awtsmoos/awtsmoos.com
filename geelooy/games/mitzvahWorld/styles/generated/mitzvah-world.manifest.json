@@ -51,11 +51,6 @@
 				"previous": "70px"
 			},
 			{
-				"key": "root|#mitzvah-world-root #jump|touch-action",
-				"next": "none",
-				"previous": "manipulation"
-			},
-			{
 				"key": "root|#mitzvah-world-root|overflow",
 				"next": "clip",
 				"previous": "hidden"
@@ -84,6 +79,26 @@
 				"key": "root|#mitzvah-world-root #jump|height",
 				"next": "58px",
 				"previous": "76px"
+			},
+			{
+				"key": "root|#mitzvah-world-root .Awtsmoos-jump-button|border",
+				"next": "1px solid rgba(255, 209, 102, 0.78)",
+				"previous": "2px solid rgba(255, 219, 111, .62)"
+			},
+			{
+				"key": "root|#mitzvah-world-root .Awtsmoos-jump-button|background",
+				"next": "rgba(37, 27, 8, 0.88)",
+				"previous": "rgba(58, 37, 11, .76)"
+			},
+			{
+				"key": "root|#mitzvah-world-root .Awtsmoos-jump-button|color",
+				"next": "#fff7d6",
+				"previous": "#fff2b3"
+			},
+			{
+				"key": "root|#mitzvah-world-root .Awtsmoos-jump-button|font-size",
+				"next": "23px",
+				"previous": "30px"
 			}
 		],
 		"zIndexConflicts": []
@@ -111,6 +126,7 @@
 		"styles/source/fragments/mitzvah-world-mobile-integration-001.css",
 		"styles/source/fragments/mitzvah-world-mobile-integration-002.css",
 		"styles/source/fragments/mitzvah-world-mobile-001.css",
+		"styles/source/fragments/mitzvah-world-mobile-jump-001.css",
 		"styles/source/fragments/mitzvah-world-panels-001.css",
 		"styles/source/fragments/mitzvah-world-quest-001.css",
 		"styles/source/fragments/mitzvah-world-responsive-001.css",
@@ -125,27 +141,27 @@
 		"styles/source/imports-001.css",
 		"styles/source/mitzvah-world.css"
 	],
-	"inputBytes": 65730,
-	"outputBytes": 49416,
+	"inputBytes": 66910,
+	"outputBytes": 50217,
 	"stateCoverage": {
 		"missing": [],
 		"ready": true
 	},
 	"representations": {
 		"brotli": {
-			"bytes": 8052,
+			"bytes": 8196,
 			"encoding": "br",
-			"sha256": "80472865a2b4d26eaf04aee89607bd856fdabd9006a5b646d19023f4e47a1e14"
+			"sha256": "8d5b7016742686c078aa3decdb8f113333b7134da8b9db7ed0b7f26d43a21b29"
 		},
 		"gzip": {
-			"bytes": 9301,
+			"bytes": 9454,
 			"encoding": "gzip",
-			"sha256": "8d4e5ed4ad58326b0a22c1c08a747640ea3c72ccf17e80d3af696e502f033631"
+			"sha256": "c11b9fd36d028f2f98f03d52d18865743becf189c0c7052b280032775a4a0467"
 		},
 		"identity": {
-			"bytes": 49417,
+			"bytes": 50218,
 			"encoding": "identity",
-			"sha256": "5662f8f807e9fa2c44cae555da628f75885e030fc6a02b1bd855cc35211a12fe"
+			"sha256": "06decac70cc3423818c5ec7eecb2379e4c608fe4ef4d8f595c04d5be98c61496"
 		}
 	}
 }

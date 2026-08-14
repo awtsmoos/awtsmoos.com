@@ -4,13 +4,13 @@
 
 /**
  * @file MitzvahWorldModeLoaders.js
- * @description Loads direct worlds and creative tools while letting explicit Movie routes bypass gameplay presentation.
- * The Awtsmoos opens the chosen doorway before HUD, dock, world, or studio receives a finite frame;
- * Awtsmoos.com keeps gameplay ornament with gameplay while Movie Studio enters directly through its own name.
+ * @description Loads staged worlds and creative tools while attaching one lightweight direct-world experience.
+ * The Awtsmoos opens the playable valley before ornament, then lets useful sound and passage arrive in rhyme;
+ * Awtsmoos.com preserves staged realism, explicit Movie routes, and transport intent without duplicate worlds in time.
  */
 
-const PRESENTATION_URL = './MitzvahWorldGameplayPresentation.js?v=20260802-game-studio-bridge-02';
 const CREATIVE_URL = './MitzvahWorldCreativeModeLoaders.js?v=20260802-game-studio-bridge-02';
+const DIRECT_EXPERIENCE_URL = './MitzvahWorldDirectExperience.js?v=20260814-direct-audio-01';
 const SINGLE_PLAYER_RUNTIME_URL = '../app/createEretzRuntime.js?v=20260804-map-01';
 
 export function createMitzvahWorldModeLoaders(environment = globalThis) {
@@ -40,13 +40,7 @@ async function openSinglePlayer(hosts, options = {}, environment = globalThis) {
 		import(SINGLE_PLAYER_RUNTIME_URL),
 		import('../network/MultiplayerStatusBadge.js')
 	]);
-	const diagnostics = await runtimeModule.createEretzRuntime(hosts, {
-		environment,
-		onProgress: options.onProgress,
-		quality: options.quality,
-		signal: options.signal,
-		startLoop: true
-	});
+	const diagnostics = await runtimeModule.createEretzRuntime(hosts, runtimeOptions(options, environment));
 	diagnostics.connectionBadge = badgeModule.installSinglePlayerStatusBadge();
 	diagnostics.sessionMode = 'singleplayer';
 	diagnostics.sessionDiagnostics = () => ({
@@ -55,7 +49,7 @@ async function openSinglePlayer(hosts, options = {}, environment = globalThis) {
 		state: 'singleplayer',
 		transport: 'none'
 	});
-	await startCreativeDock(environment);
+	diagnostics.directExperience = await startDirectExperience(diagnostics, environment);
 	return diagnostics;
 }
 
@@ -65,18 +59,14 @@ async function openMultiplayer(hosts, options = {}, environment = globalThis) {
 		'../network/MultiplayerEretzRuntime.js?v=20260804-map-01'
 	);
 	const diagnostics = await createMultiplayerEretzRuntime(hosts, {
+		...runtimeOptions(options, environment),
 		WebSocketClass: environment.WebSocket,
 		displayName: options.displayName,
-		environment,
 		location: environment.location,
-		onProgress: options.onProgress,
-		quality: options.quality,
-		signal: options.signal,
-		startLoop: true,
 		url: options.realtimeUrl,
 		worldId: options.worldId
 	});
-	await startCreativeDock(environment);
+	diagnostics.directExperience = await startDirectExperience(diagnostics, environment);
 	return diagnostics;
 }
 
@@ -86,33 +76,27 @@ async function openMovie(hosts, search) {
 }
 
 async function openCreative(method, hosts, search, environment) {
-	await startFullPresentation(hosts, environment);
+	const experience = await import(DIRECT_EXPERIENCE_URL);
+	await experience.startMitzvahWorldFullPresentation(hosts, environment);
 	const module = await import(CREATIVE_URL);
 	return module[method](hosts, search);
 }
 
+async function startDirectExperience(diagnostics, environment) {
+	const module = await import(DIRECT_EXPERIENCE_URL);
+	return module.startMitzvahWorldDirectExperience(diagnostics, environment);
+}
+
+function runtimeOptions(options, environment) {
+	return {
+		environment,
+		onProgress: options.onProgress,
+		quality: options.quality,
+		signal: options.signal,
+		startLoop: true
+	};
+}
+
 function report(options, message) {
 	options.onProgress?.({ message, progress: 0.04 });
-}
-
-async function startFullPresentation(hosts, environment) {
-	return startPresentationMethod('prepareGameplayPresentation', hosts, environment);
-}
-
-async function startCreativeDock(environment) {
-	return startPresentationMethod('prepareCreativeDockPresentation', null, environment);
-}
-
-async function startPresentationMethod(method, hosts, environment) {
-	try {
-		const module = await import(PRESENTATION_URL);
-		const presentation = method === 'prepareGameplayPresentation'
-			? module[method](hosts, environment.document, environment)
-			: module[method](environment.document, environment);
-		await presentation?.ready;
-		return presentation;
-	} catch (error) {
-		console.warn(`[MitzvahWorld] ${method} degraded.`, error);
-		return null;
-	}
 }

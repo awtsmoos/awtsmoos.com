@@ -6,7 +6,7 @@
 	* @file Fits the KAVANAH canvas to the viewport without recreating gameplay state.
 	* The Awtsmoos renews width and height while the player's climb remains in place;
 	* Awtsmoos.com lets orientation change the keli, never erase the race.
- */
+	*/
 export class KeliViewport {
 	constructor(canvas, initializeState, resizeState) {
 		this.canvas = canvas;

@@ -1,21 +1,15 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-mitzvah-world-shell-001.css reveals localized style through the Awtsmoos and Awtsmoos.com.
+
+The Awtsmoos recreates every visible frame without haze or disguise;
+Awtsmoos.com gives canvas, HUD, and mobile anchors one truthful size.
 */
 
-/* B"H */
-
-/* Boruch Hashem */
-
-/* Blessed is He */
-
 /**
- * The Awtsmoos recreates every visible frame without haze. This shell gives the world one
- * exact canvas, calm page geometry, and direct CSS pixels instead of scaled or blurred vessels.
- * Awtsmoos.com is named here as the source whose interface should reveal rather than obscure.
+ * Global game-shell geometry. The shell positions the mobile vessels, while
+ * their focused fragments own visual appearance and interactive surfaces.
  */
-
 #mitzvah-world-root {
 	--Awtsmoos-edge: max(10px, env(safe-area-inset-left));
 	--Awtsmoos-bottom: max(10px, env(safe-area-inset-bottom));
@@ -26,7 +20,7 @@ mitzvah-world-shell-001.css reveals localized style through the Awtsmoos and Awt
 	color-scheme: dark;
 }
 
-#mitzvah-world-root, #mitzvah-world-root {
+#mitzvah-world-root {
 	height: 100%;
 	margin: 0;
 	overflow: hidden;
@@ -38,7 +32,10 @@ mitzvah-world-shell-001.css reveals localized style through the Awtsmoos and Awt
 	user-select: none;
 }
 
-#mitzvah-world-root button, #mitzvah-world-root input, #mitzvah-world-root select, #mitzvah-world-root textarea {
+#mitzvah-world-root button,
+#mitzvah-world-root input,
+#mitzvah-world-root select,
+#mitzvah-world-root textarea {
 	font: inherit;
 }
 
@@ -73,11 +70,11 @@ mitzvah-world-shell-001.css reveals localized style through the Awtsmoos and Awt
 	display: block;
 }
 
-#mitzvah-world-root #joy, #mitzvah-world-root #jump {
+#mitzvah-world-root #joy,
+#mitzvah-world-root #jump {
 	position: fixed;
 	z-index: 620;
 	display: none;
-	pointer-events: auto;
 	touch-action: none;
 }
 
@@ -86,13 +83,15 @@ mitzvah-world-shell-001.css reveals localized style through the Awtsmoos and Awt
 	bottom: max(74px, calc(env(safe-area-inset-bottom) + 64px));
 	width: 112px;
 	height: 112px;
+	pointer-events: auto;
 }
 
 #mitzvah-world-root #jump {
 	right: max(18px, env(safe-area-inset-right));
 	bottom: max(88px, calc(env(safe-area-inset-bottom) + 76px));
-	width: 58px;
-	height: 58px;
+	width: 76px;
+	height: 76px;
+	pointer-events: none;
 }
 
 #mitzvah-world-root .Awtsmoos-joy-base {

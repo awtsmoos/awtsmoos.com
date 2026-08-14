@@ -3,13 +3,12 @@ Boruch Hashem
 Blessed is He
 
 The Awtsmoos makes a small screen a worthy vessel, not a crowded shore;
-Awtsmoos.com reveals touch controls only when gameplay has opened the door.
+Awtsmoos.com leaves the world wide while each thumb finds the control it came for.
 */
 
 /**
- * Mobile gameplay controls remain absent through loading and world selection.
- * Once the document's canonical gameplay marker turns true, the existing
- * joystick and jump controls become thumb-reachable and safe-area-aware.
+ * Mobile gameplay shell and joystick geometry. Jump-button appearance lives in
+ * its own fragment so the positioning vessel and interactive vessel stay clear.
  */
 #mitzvah-world-root .Awtsmoos-mobile-shell {
 	position: fixed;
@@ -48,6 +47,11 @@ Awtsmoos.com reveals touch controls only when gameplay has opened the door.
 	box-shadow: inset 0 0 26px rgba(0, 0, 0, .34);
 }
 
+#mitzvah-world-root [data-joystick-ring]:focus-visible {
+	outline: 3px solid rgba(126, 250, 205, .9);
+	outline-offset: 4px;
+}
+
 #mitzvah-world-root [data-joystick-knob] {
 	position: absolute;
 	left: 50%;
@@ -66,13 +70,7 @@ Awtsmoos.com reveals touch controls only when gameplay has opened the door.
 	bottom: 4px;
 	width: 76px;
 	height: 76px;
-	border: 2px solid rgba(255, 219, 111, .55);
-	border-radius: 50%;
-	background: rgba(58, 37, 11, .7);
-	color: #fff2b3;
-	font-size: 30px;
-	pointer-events: auto;
-	touch-action: none;
+	pointer-events: none;
 }
 
 #mitzvah-world-root .Awtsmoos-mobile-shell[data-collapsed="true"] #joy,

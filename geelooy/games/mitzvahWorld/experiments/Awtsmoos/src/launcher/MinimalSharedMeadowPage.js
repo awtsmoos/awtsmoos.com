@@ -9,7 +9,7 @@
  * Awtsmoos.com lets source and compact gates find the same living door.
  */
 
-const BUILD_VERSION = '20260803-a04-06';
+const BUILD_VERSION = '20260814-direct-audio-01';
 const SOURCE_URL = new URL(import.meta.url);
 const LAUNCHER_BASE = SOURCE_URL.pathname.includes('/launcher/')
 	? new URL('./', SOURCE_URL)
@@ -17,12 +17,20 @@ const LAUNCHER_BASE = SOURCE_URL.pathname.includes('/launcher/')
 const PAGE_BOOT_URL = launcherModuleUrl('bootMitzvahWorldPage.js');
 const RUNTIME_BOOT_URL = launcherModuleUrl('MinimalSharedMeadowRuntimePage.js');
 const SESSION_MODE_URL = launcherModuleUrl('MitzvahWorldSessionMode.js');
-export async function bootCanonicalMitzvahWorldPage(documentValue = document, environment = globalThis) {
+
+export async function bootCanonicalMitzvahWorldPage(
+	documentValue = document,
+	environment = globalThis
+) {
 	const { ensureMitzvahWorldPageBoot } = await import(PAGE_BOOT_URL);
 	return ensureMitzvahWorldPageBoot(documentValue, environment);
 }
 
-export async function bootMinimalSharedMeadow(documentValue = document, environment = globalThis, dependencies = {}) {
+export async function bootMinimalSharedMeadow(
+	documentValue = document,
+	environment = globalThis,
+	dependencies = {}
+) {
 	const runtimeModule = await import(RUNTIME_BOOT_URL);
 	const sessionMode = await resolveSessionMode(environment);
 	return runtimeModule.bootMinimalSharedMeadowRuntimePage(

@@ -4,24 +4,24 @@
 
 /**
  * @file JumpButton.js
- * @description Converts removable pointer and Space intent into one finite queued jump.
- * The Awtsmoos lifts the traveler without stealing a space from chat or dialogue speech;
- * Awtsmoos.com releases every listener so no hidden jump survives beyond its proper reach.
+ * @description Turns one deliberate press into one jump while reflecting press state to the real control.
+ * The Awtsmoos lifts the traveler in one revealed beat, never stealing a space from dialogue speech;
+ * Awtsmoos.com lets pointer, keyboard, focus, and release return to stillness with nothing hidden underneath.
  */
 
 import { isEditableTarget } from './InputTargetPolicy.js';
+import { createJumpButtonElement, createJumpHostElement } from './JumpButtonElements.js';
 
 export class JumpButton {
 	constructor(host, environment = globalThis) {
 		this.environment = environment;
-		this.document = environment.document;
 		this.ownsHost = !host;
-		this.host = host || createJumpHost(this.document);
+		this.host = host || createJumpHostElement(environment.document);
 		this.held = false;
 		this.queued = false;
-		this.button = createJumpButton(this.document);
+		this.button = createJumpButtonElement(environment.document);
 		this.onPointerDown = event => this.pointerDown(event);
-		this.onPointerUp = () => this.release();
+		this.onPointerRelease = event => this.pointerRelease(event);
 		this.onKeyDown = event => this.keyDown(event);
 		this.onKeyUp = event => this.keyUp(event);
 		this.onBlur = () => this.release();
@@ -37,9 +37,9 @@ export class JumpButton {
 
 	bind() {
 		this.button.addEventListener('pointerdown', this.onPointerDown);
-		this.button.addEventListener('pointerup', this.onPointerUp);
-		this.button.addEventListener('pointercancel', this.onPointerUp);
-		this.button.addEventListener('lostpointercapture', this.onPointerUp);
+		this.button.addEventListener('pointerup', this.onPointerRelease);
+		this.button.addEventListener('pointercancel', this.onPointerRelease);
+		this.button.addEventListener('lostpointercapture', this.onPointerRelease);
 		this.environment.addEventListener?.('keydown', this.onKeyDown);
 		this.environment.addEventListener?.('keyup', this.onKeyUp);
 		this.environment.addEventListener?.('blur', this.onBlur);
@@ -47,8 +47,15 @@ export class JumpButton {
 
 	pointerDown(event) {
 		event.preventDefault();
-		this.queueFromPress();
 		this.button.setPointerCapture?.(event.pointerId);
+		this.queueFromPress();
+	}
+
+	pointerRelease(event) {
+		if (event?.pointerId !== undefined && this.button.hasPointerCapture?.(event.pointerId)) {
+			this.button.releasePointerCapture?.(event.pointerId);
+		}
+		this.release();
 	}
 
 	keyDown(event) {
@@ -70,17 +77,19 @@ export class JumpButton {
 			this.queued = true;
 		}
 		this.held = true;
+		this.button.dataset.pressed = 'true';
 	}
 
 	release() {
 		this.held = false;
+		this.button.dataset.pressed = 'false';
 	}
 
 	destroy() {
 		this.button.removeEventListener('pointerdown', this.onPointerDown);
-		this.button.removeEventListener('pointerup', this.onPointerUp);
-		this.button.removeEventListener('pointercancel', this.onPointerUp);
-		this.button.removeEventListener('lostpointercapture', this.onPointerUp);
+		this.button.removeEventListener('pointerup', this.onPointerRelease);
+		this.button.removeEventListener('pointercancel', this.onPointerRelease);
+		this.button.removeEventListener('lostpointercapture', this.onPointerRelease);
 		this.environment.removeEventListener?.('keydown', this.onKeyDown);
 		this.environment.removeEventListener?.('keyup', this.onKeyUp);
 		this.environment.removeEventListener?.('blur', this.onBlur);
@@ -91,23 +100,4 @@ export class JumpButton {
 			this.host.remove();
 		}
 	}
-}
-
-function createJumpButton(documentValue) {
-	const button = documentValue.createElement('button');
-	button.className = 'Awtsmoos-jump-button';
-	button.type = 'button';
-	button.textContent = '⬆️';
-	button.setAttribute('aria-label', 'Jump');
-	button.setAttribute('aria-keyshortcuts', 'Space');
-	return button;
-}
-
-function createJumpHost(documentValue) {
-	const host = documentValue.createElement('div');
-	host.id = 'jump';
-	host.setAttribute('role', 'group');
-	host.setAttribute('aria-label', 'Jump control');
-	documentValue.body.append(host);
-	return host;
 }

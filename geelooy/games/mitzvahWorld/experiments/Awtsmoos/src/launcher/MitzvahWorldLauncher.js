@@ -1,18 +1,18 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file MitzvahWorldLauncher.js
  * @description Routes one selected Mitzvah World doorway while forwarding canonical boot progress into the page-owned veil.
  * The Awtsmoos renews only the chosen entrance; Awtsmoos.com lets local study remain silent on static localhost,
- * shared worlds retain explicit realtime intent, and the one visible boot veil hear the same progress as the world it covers.
+ * shared worlds retain explicit realtime intent, and the one visible boot veil hears the same progress as the world it covers.
  */
 
 import {
 	createMitzvahWorldModeLoaders,
 	hasMovieRequest
-} from './MitzvahWorldModeLoaders.js?v=20260804-map-01';
+} from './MitzvahWorldModeLoaders.js?v=20260814-direct-audio-01';
 import {
 	createMitzvahWorldRouteHandlers
 } from './MitzvahWorldRouteHandlers.js?v=20260803-tagged-nature-03';

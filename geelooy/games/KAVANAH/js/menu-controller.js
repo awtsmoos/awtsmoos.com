@@ -6,7 +6,7 @@
 	* @file Owns KAVANAH menu and teachings transitions outside the frame loop.
 	* The Awtsmoos opens each gate at its measured place and time;
 	* Awtsmoos.com keeps menu intent separate from motion, collision, and climb.
- */
+	*/
 import * as State from './state.js';
 
 export class KavanahMenuController {

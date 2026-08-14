@@ -3,14 +3,15 @@
 // Blessed is He
 
 /**
-	* @file Coordinates KAVANAH while viewport, menu, input, and state remain modular.
+	* @file Coordinates KAVANAH while viewport, menu, input, state, and transitions stay modular.
 	* The Awtsmoos renews every frame but does not erase the climb already won;
 	* Awtsmoos.com lets each vessel reveal its task while the game remains one.
- */
+	*/
 import * as State from './state.js';
 import * as Drawing from './drawing.js';
 import * as Controls from './controls.js';
 import * as Entities from './entities.js';
+import * as GameActions from './game-actions.js';
 import { KeliViewport } from './viewport.js';
 import { KavanahMenuController } from './menu-controller.js';
 
@@ -24,17 +25,6 @@ const menu = new KavanahMenuController(
 let touchOffset = null;
 let sanctifyTimer = 0;
 
-/** Activates a fully charged Tikkun with the existing timing semantics. */
-function activateTikkun() {
-	const player = State.getPlayer();
-	if (player.tikkun < player.maxTikkun) {
-		return;
-	}
-	player.tikkun = 0;
-	player.isTikkun = true;
-	player.tikkunTimer = 250;
-}
-
 /** Runs one gameplay simulation step without touching menu-only states. */
 function update() {
 	if (State.getGameState() !== 'playing') {
@@ -46,6 +36,14 @@ function update() {
 	const player = State.getPlayer();
 	const pointer = Controls.getPointerState();
 	const cameraY = State.getCameraY();
+	updatePlayer(pointer, player, cameraY);
+	State.checkPlayerBounds(canvas.width, canvas.height);
+	updateTikkun(player);
+	updateWorld(cameraY, cameraSpeed);
+}
+
+/** Applies pointer motion while preserving the original drag offset semantics. */
+function updatePlayer(pointer, player, cameraY) {
 	if (pointer.isActive) {
 		if (touchOffset === null) {
 			touchOffset = {
@@ -57,19 +55,28 @@ function update() {
 			pointer.x - touchOffset.x,
 			pointer.y - touchOffset.y + cameraY
 		);
-	} else {
-		touchOffset = null;
-		if (player.combo > 0 && !player.isTikkun) {
-			player.combo = 0;
-		}
+		return;
 	}
-	State.checkPlayerBounds(canvas.width, canvas.height);
+	touchOffset = null;
+	if (player.combo > 0 && !player.isTikkun) {
+		player.combo = 0;
+	}
+}
+
+/** Advances charged Tikkun duration without changing its original rules. */
+function updateTikkun(player) {
 	if (player.isTikkun && player.tikkunTimer > 0) {
 		State.decrementTikkunTimer();
-	} else if (player.isTikkun) {
+		return;
+	}
+	if (player.isTikkun) {
 		State.endTikkun();
 		player.combo = 0;
 	}
+}
+
+/** Spawns, updates, and sanctifies the same world entities as before. */
+function updateWorld(cameraY, cameraSpeed) {
 	sanctifyTimer++;
 	if (sanctifyTimer > 40 - Math.min(35, State.getAscension() / 500)) {
 		Entities.sanctifyRandomLetter();
@@ -80,28 +87,15 @@ function update() {
 		cameraY,
 		cameraSpeed,
 		canvas.width,
-		gameOver
+		finishGame
 	);
 	Entities.updateParticles();
 }
 
-/** Preserves the existing best-score, burst, and delayed-reset game-over flow. */
-function gameOver() {
-	if (State.getGameState() !== 'playing') {
-		return;
-	}
-	State.setGameState('gameOver');
+/** Clears drag state before delegating the preserved game-over transition. */
+function finishGame() {
 	touchOffset = null;
-	const ascension = State.getAscension();
-	if (ascension > State.getBestAscension()) {
-		localStorage.setItem('kavanahBestAscension', ascension);
-		State.setBestAscension(ascension);
-	}
-	const player = State.getPlayer();
-	Entities.createGameOverParticles(player.x, player.y);
-	setTimeout(() => {
-		State.init(canvas.width, canvas.height);
-	}, 750);
+	GameActions.finishGame(canvas);
 }
 
 /** Draws at the browser's native display cadence. */
@@ -114,7 +108,7 @@ function gameLoop() {
 Controls.setupControls(
 	canvas,
 	(x, y) => menu.handlePointerStart(x, y),
-	activateTikkun
+	GameActions.activateTikkun
 );
 new KeliViewport(canvas, State.init, State.resizeViewport).start();
 gameLoop();

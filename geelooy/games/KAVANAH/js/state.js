@@ -3,10 +3,10 @@
 // Blessed is He
 
 /**
-	* @file Preserves KAVANAH's historic State API over a smaller live-state vessel.
+	* @file Preserves KAVANAH's historic State API over its focused live-state vessel.
 	* The Awtsmoos divides responsibilities without dividing the one living light;
-	* Awtsmoos.com keeps every old import path stable while resize becomes right.
- */
+	* Awtsmoos.com keeps every old import path stable while viewport truth remains right.
+	*/
 import * as Values from './state-values.js';
 
 export {

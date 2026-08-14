@@ -1,0 +1,144 @@
+{
+  "url": "http://127.0.0.1:5180/geelooy/games/KAVANAH/index.html",
+  "sourceProof": {
+    "files": [
+      {
+        "name": "state-values.js",
+        "lines": 114,
+        "spaceIndented": 0
+      },
+      {
+        "name": "state.js",
+        "lines": 77,
+        "spaceIndented": 0
+      },
+      {
+        "name": "controls.js",
+        "lines": 97,
+        "spaceIndented": 0
+      },
+      {
+        "name": "viewport.js",
+        "lines": 57,
+        "spaceIndented": 1
+      },
+      {
+        "name": "menu-controller.js",
+        "lines": 48,
+        "spaceIndented": 0
+      },
+      {
+        "name": "game-actions.js",
+        "lines": 40,
+        "spaceIndented": 0
+      },
+      {
+        "name": "main.js",
+        "lines": 114,
+        "spaceIndented": 0
+      }
+    ],
+    "css": {
+      "lines": 112,
+      "spaceIndented": 0
+    },
+    "html": {
+      "lines": 68,
+      "hasDataFavicon": true
+    }
+  },
+  "initial": {
+    "state": "waiting",
+    "time": 0,
+    "canvas": [
+      390,
+      844,
+      390,
+      844
+    ],
+    "doc": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "menu": {
+      "start": {
+        "x": 78,
+        "y": 422,
+        "w": 234,
+        "h": 60
+      },
+      "teachings": {
+        "x": 78,
+        "y": 502,
+        "w": 234,
+        "h": 60
+      },
+      "back": {
+        "x": 78,
+        "y": 717.4,
+        "w": 234,
+        "h": 60
+      }
+    }
+  },
+  "pointerProof": {
+    "activeAfterDown": true,
+    "activeAfterCancel": false
+  },
+  "beforeRotate": {
+    "state": "playing",
+    "time": 8,
+    "camera": -16,
+    "playerY": 675.2,
+    "groundY": 778,
+    "playerGroundGap": 102.79999999999995,
+    "groundEntityGaps": [],
+    "entityCount": 2,
+    "particles": 0
+  },
+  "afterRotate": {
+    "state": "playing",
+    "time": 17,
+    "camera": -34,
+    "playerY": 221.20000000000005,
+    "groundY": 306,
+    "playerGroundGap": 84.79999999999995,
+    "groundEntityGaps": [],
+    "entityCount": 3,
+    "particles": 0,
+    "canvas": [
+      844,
+      390,
+      844,
+      390
+    ],
+    "doc": [
+      844,
+      390
+    ],
+    "viewport": [
+      844,
+      390
+    ]
+  },
+  "gapDelta": -18,
+  "timeDelta": 9,
+  "teachings": {
+    "open": true,
+    "backHeight": 48,
+    "contentHeight": 316,
+    "closed": true,
+    "stateAfterBack": "waiting"
+  },
+  "raf": {
+    "frames": 31,
+    "fps": 60.867857841250334,
+    "maxGap": 18.09999999999991
+  },
+  "errors": [],
+  "badResponses": []
+}

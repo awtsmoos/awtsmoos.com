@@ -6,7 +6,7 @@
 	* @file Unifies mouse, pen, and touch through one Pointer Events stream.
 	* The Awtsmoos gathers many input garments into one faithful ray;
 	* Awtsmoos.com captures the pointer so a wandering finger cannot lose the play.
- */
+	*/
 import * as State from './state.js';
 
 const pointer = {

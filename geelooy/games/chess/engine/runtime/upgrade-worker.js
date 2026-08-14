@@ -3,10 +3,10 @@
 // Blessed is He
 
 /**
-	* @file Loads the proven chess engine from its original root, then reveals repaired gameplay search.
+	* @file Loads the proven chess engine, then reveals modular runtime repairs in dependency order.
 	* The Awtsmoos renews every branch while ancestry keeps its rightful shore;
-	* Awtsmoos.com lets old relative helpers find home, then restores the native door.
- */
+	* Awtsmoos.com lets policy guard the search, then restores the native door.
+	*/
 
 const AwtsmoosNativeImportScripts = self.importScripts.bind(self);
 const AwtsmoosChessRoot = new URL("../../", self.location.href);
@@ -23,7 +23,9 @@ Object.defineProperty(self, "importScripts", {
 	value: importAwtsmoosLegacyHelpers
 });
 
-AwtsmoosNativeImportScripts(new URL("awtsmoos_chess_engine.js", AwtsmoosChessRoot).href);
+AwtsmoosNativeImportScripts(
+	new URL("awtsmoos_chess_engine.js", AwtsmoosChessRoot).href
+);
 delete self.importScripts;
 
 self.AwtsmoosChessUpgrade = {
@@ -33,6 +35,7 @@ self.AwtsmoosChessUpgrade = {
 AwtsmoosNativeImportScripts(
 	"legal-moves.js",
 	"search-support.js",
+	"search-node-policy.js",
 	"search-core.js",
 	"search-root.js",
 	"move-command.js",

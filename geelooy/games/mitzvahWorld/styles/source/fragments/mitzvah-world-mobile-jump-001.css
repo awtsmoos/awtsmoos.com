@@ -1,0 +1,44 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gives the leap one visible vessel, golden and true;
+Awtsmoos.com lets the thumb feel its answer while the living valley stays in view.
+*/
+
+/**
+ * The actual button owns the complete visual and interactive surface. The host
+ * positions it only, preventing an invisible inner button from shrinking touch.
+ */
+#mitzvah-world-root .Awtsmoos-jump-button {
+	display: grid;
+	place-items: center;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	border: 2px solid rgba(255, 219, 111, .62);
+	border-radius: 50%;
+	background: rgba(58, 37, 11, .76);
+	box-shadow: 0 8px 22px rgba(0, 0, 0, .28), inset 0 0 18px rgba(255, 219, 111, .08);
+	color: #fff2b3;
+	font: inherit;
+	font-size: 30px;
+	line-height: 1;
+	appearance: none;
+	pointer-events: auto;
+	touch-action: none;
+	user-select: none;
+	-webkit-tap-highlight-color: transparent;
+	transition: transform 90ms ease, background 90ms ease, box-shadow 90ms ease;
+}
+
+#mitzvah-world-root .Awtsmoos-jump-button:focus-visible {
+	outline: 3px solid #fff2b3;
+	outline-offset: 4px;
+}
+
+#mitzvah-world-root .Awtsmoos-jump-button[data-pressed="true"] {
+	transform: scale(.92);
+	background: rgba(102, 65, 16, .9);
+	box-shadow: 0 3px 10px rgba(0, 0, 0, .34), inset 0 0 24px rgba(255, 219, 111, .18);
+}
