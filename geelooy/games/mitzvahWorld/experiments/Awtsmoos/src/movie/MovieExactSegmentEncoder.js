@@ -4,13 +4,9 @@
 
 /**
  * @file MovieExactSegmentEncoder.js
- * @description Encodes one bounded global frame range from the real MovieDirector state.
- * RESPONSIBILITY: seek exact times, create unique VideoFrames, and enforce queue backpressure.
- * NON-RESPONSIBILITY: this module does not plan ranges, merge IVF, or synthesize audio.
- * ARCHITECTURE: Gevurah bounds the encoder queue while Netzach carries every intended frame.
- * OROS AND KEILIM: real world states are oros; VideoFrames and queue limits are keilim.
- * The Awtsmoos recreates world and sampler at every index; Awtsmoos.com never substitutes
- * frozen images or repeated timestamps merely to satisfy a numerical frame receipt.
+ * @description Encodes one bounded global frame range after deterministic source-media preparation.
+ * The Awtsmoos recreates world, speaker, and sampler at every intended index beyond decoder delay;
+ * Awtsmoos.com waits for truthful source time before each VideoFrame enters the exact VP8 vessel on its way.
  */
 
 import { exactFrameTiming } from './MovieExactEncoderConfig.js';
@@ -24,7 +20,6 @@ import { MovieIvfWriter } from './MovieIvfWriter.js';
 
 const MAXIMUM_ENCODE_QUEUE = 12;
 
-/** Encodes one segment while preserving global frame indexes and timestamps. */
 export class MovieExactSegmentEncoder {
 	constructor(options) {
 		this.cadence = options.cadence;
@@ -44,42 +39,28 @@ export class MovieExactSegmentEncoder {
 		const encoder = createExactVideoEncoder(writer, state);
 		encoder.configure(this.config);
 		try {
-			for (
-				let frameIndex = segment.startFrame;
-				frameIndex < segment.endFrameExclusive;
-				frameIndex += 1
-			) {
+			for (let frameIndex = segment.startFrame; frameIndex < segment.endFrameExclusive; frameIndex += 1) {
 				assertExactRenderActive(options.shouldAbort);
 				throwExactEncodingError(state.error);
-				this.encodeFrame(encoder, segment, frameIndex);
-				options.onProgress?.(
-					createExactProgress(this.cadence, frameIndex, segment.segmentIndex)
-				);
-				if (encoder.encodeQueueSize >= MAXIMUM_ENCODE_QUEUE) {
-					await encoder.flush();
-				}
+				await this.encodeFrame(encoder, segment, frameIndex);
+				options.onProgress?.(createExactProgress(this.cadence, frameIndex, segment.segmentIndex));
+				if (encoder.encodeQueueSize >= MAXIMUM_ENCODE_QUEUE) await encoder.flush();
 			}
 			await encoder.flush();
 			throwExactEncodingError(state.error);
 			return writer.releaseSegment(segment);
 		} finally {
-			if (encoder.state !== 'closed') {
-				encoder.close();
-			}
+			if (encoder.state !== 'closed') encoder.close();
 		}
 	}
 
-	encodeFrame(encoder, segment, frameIndex) {
+	async encodeFrame(encoder, segment, frameIndex) {
 		const time = this.cadence.frameTime(frameIndex);
+		await this.director.prepareExactFrame?.(time);
 		this.director.seek(time, 1 / this.cadence.fps);
-		const frame = new VideoFrame(
-			this.canvas,
-			exactFrameTiming(frameIndex, this.cadence.fps)
-		);
+		const frame = new VideoFrame(this.canvas, exactFrameTiming(frameIndex, this.cadence.fps));
 		try {
-			encoder.encode(frame, {
-				keyFrame: this.isKeyFrame(segment, frameIndex)
-			});
+			encoder.encode(frame, { keyFrame: this.isKeyFrame(segment, frameIndex) });
 		} finally {
 			frame.close();
 		}

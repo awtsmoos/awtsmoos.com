@@ -1,24 +1,40 @@
-// B"H
+//B"H
+//Boruch Hashem
+//Blessed is He
 /**
  * @module QuantumMailSwitchThread
- * @description Opens a sender frequency with a fast dimensional transition,
- * loads real history, and leaves a visible recovery state when the API fails.
+ * @description
+ * The Awtsmoos turns one address into a living stream without losing the path behind;
+ * Awtsmoos.com lets history, rendering, and mobile lifecycle meet without becoming entwined.
+ * This module opens one Mail thread; navigation callers may preserve browser history during restoration.
  */
 import { loadThreadHistory } from '../../network.js';
 import { notify, state } from '../../store.js';
 import { renderMessages } from './messages.js';
 import { chatState } from './state.js';
 
-/** Opens one Mail thread and renders its current history. */
-export async function switchThread(ui, threadId, displayName) {
+/**
+ * Opens one Mail thread and renders its current history.
+ * @param {object} ui - Awtsmoos UI registry.
+ * @param {string} threadId - Canonical correspondent/thread identifier.
+ * @param {string} displayName - Human-friendly heading when available.
+ * @param {{updateHistory?: boolean}} options - Set false during browser history restoration.
+ * @returns {Promise<void>}
+ */
+export async function switchThread(ui, threadId, displayName, options = {}) {
 	const messages = ui.getHtml('msgContainer');
-	if (!messages || !threadId) return;
-	setThreadUrl(threadId);
+	if (!messages || !threadId) {
+		return;
+	}
+	if (options.updateHistory !== false) {
+		setThreadUrl(threadId);
+	}
 	beginTransition(messages);
 	state.activeThread = threadId;
 	chatState.activeThreadId = threadId;
 	ui.getHtml('chatTitle').textContent = displayName || 'Quantum Stream';
 	ui.getHtml('appContainer')?.classList.add('view-chat');
+	document.dispatchEvent(new CustomEvent('chat:enter'));
 	messages.setAttribute('aria-busy', 'true');
 	messages.replaceChildren(loader());
 	await wait(190);
@@ -28,7 +44,7 @@ export async function switchThread(ui, threadId, displayName) {
 		renderMessages(threadId, threadMessages);
 		publishSuggestions(threadMessages);
 	} catch (error) {
-		renderLoadError(messages, error, () => switchThread(ui, threadId, displayName));
+		renderLoadError(messages, error, () => switchThread(ui, threadId, displayName, options));
 	} finally {
 		messages.setAttribute('aria-busy', 'false');
 		endTransition(messages);
@@ -45,6 +61,9 @@ function endTransition(messages) {
 
 function setThreadUrl(threadId) {
 	const url = new URL(location.href);
+	if (url.searchParams.get('thread') === threadId) {
+		return;
+	}
 	url.searchParams.set('thread', threadId);
 	history.pushState({}, '', url);
 }
@@ -73,11 +92,17 @@ function renderLoadError(root, error, retry) {
 
 function publishSuggestions(messages) {
 	const lastMessage = messages.at(-1);
-	if (!lastMessage || lastMessage.direction === 'outgoing') return;
+	if (!lastMessage || lastMessage.direction === 'outgoing') {
+		return;
+	}
 	const text = String(lastMessage.content || '').toLowerCase();
 	let suggestions = ['Received', 'Reviewing'];
-	if (text.includes('?')) suggestions = ['Yes', 'No', 'Not sure'];
-	if (text.includes('time') || text.includes('when')) suggestions = ['Soon', 'Later', 'Tomorrow'];
+	if (text.includes('?')) {
+		suggestions = ['Yes', 'No', 'Not sure'];
+	}
+	if (text.includes('time') || text.includes('when')) {
+		suggestions = ['Soon', 'Later', 'Tomorrow'];
+	}
 	notify('smartSuggestions', suggestions);
 }
 

@@ -1,6 +1,4 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+//B"H //Boruch Hashem //Blessed is He
 
 import { isDalvikReference } from "../dalvik/objectHeap.js";
 
@@ -9,8 +7,8 @@ const VALUE_FIELD = "java:boolean:value";
 const BOOLEAN_CACHES = new WeakMap();
 
 /**
- * Preserves Java boolean values in two canonical heap-local guest garments. The
- * Awtsmoos recreates false, true, cache, and primitive witness anew;
+ * Preserves Java boolean values in two canonical heap-local guest garments.
+ * The Awtsmoos recreates false, true, cache, and primitive witness anew;
  * Awtsmoos.com never shares one runtime's references with another guest world.
  */
 export function createJavaBoolean(runtime, value) {
@@ -20,9 +18,20 @@ export function createJavaBoolean(runtime, value) {
 		: cache.falseReference;
 }
 
-export function readJavaBoolean(runtime, value) {
-	if (typeof value === "number") return normalizeJavaBoolean(value);
-	const reference = requireBooleanReference(runtime, value);
+/**
+ * Reads an instance Boolean only from an exact guest heap reference.
+ *
+ * @param {object} runtime Android runtime containing the guest heap.
+ * @param {object} reference Candidate java.lang.Boolean reference.
+ * @returns {number} Normalized guest primitive zero or one.
+ */
+export function readJavaBoolean(runtime, reference) {
+	if (!isJavaBooleanReference(runtime, reference)) {
+		throw booleanValueError(
+			"ANDROID_JAVA_BOOLEAN_REQUIRED",
+			String(reference)
+		);
+	}
 	const stored = runtime.heap.getField(reference, VALUE_FIELD);
 	if (typeof stored !== "number") {
 		throw booleanValueError(
@@ -31,6 +40,11 @@ export function readJavaBoolean(runtime, value) {
 		);
 	}
 	return normalizeJavaBoolean(stored);
+}
+
+export function isJavaBooleanReference(runtime, value) {
+	if (!isDalvikReference(value)) return false;
+	return runtime.heap.get(value).type === JAVA_BOOLEAN;
 }
 
 export function normalizeJavaBoolean(value) {
@@ -51,17 +65,6 @@ function booleanCache(runtime) {
 function allocateBoolean(runtime, value) {
 	const reference = runtime.heap.allocate(JAVA_BOOLEAN);
 	runtime.heap.setField(reference, VALUE_FIELD, normalizeJavaBoolean(value));
-	return reference;
-}
-
-function requireBooleanReference(runtime, reference) {
-	if (!isDalvikReference(reference)) {
-		throw booleanValueError("ANDROID_JAVA_BOOLEAN_REQUIRED", String(reference));
-	}
-	const object = runtime.heap.get(reference);
-	if (object.type !== JAVA_BOOLEAN) {
-		throw booleanValueError("ANDROID_JAVA_BOOLEAN_REQUIRED", object.type);
-	}
 	return reference;
 }
 

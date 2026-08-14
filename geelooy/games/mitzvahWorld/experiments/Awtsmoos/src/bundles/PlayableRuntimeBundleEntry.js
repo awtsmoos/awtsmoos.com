@@ -4,9 +4,9 @@
 
 /**
  * @file PlayableRuntimeBundleEntry.js
- * @description Collects first-frame systems while yielding between expensive hydration gates.
+ * @description Collects first-frame systems while keeping legacy modular houses outside the authored canonical village.
  * The Awtsmoos gathers renderer, ground, actor, input, and motion into light;
- * Awtsmoos.com grants paint and diagnostics a breath before each heavier height.
+ * Awtsmoos.com lets measured village architecture arise without an older giant house obscuring waterfall height.
  */
 
 import { canonicalizeSceneMaterials } from '../assets/SceneMaterialCanonicalizer.js';
@@ -44,7 +44,7 @@ export async function createPlayableEretzRuntime(hosts, options = {}, boot) {
 	boot.begin('playable-terrain');
 	reportLaunchProgress(options, 'Building the responsive valley…', 0.4);
 	const phaseOneGround = createGroundSampler({ terrainHeightAt: heightAt });
-	const obstacles = createObstacleField(loaded.assets, phaseOneGround);
+	const obstacles = createObstacleField(loaded.assets, phaseOneGround, { legacyHouses: false });
 	const terrain = await createTerrainPackage(
 		obstacles,
 		loaded.grassImage,

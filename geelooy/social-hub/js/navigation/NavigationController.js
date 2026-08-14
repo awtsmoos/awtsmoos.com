@@ -1,26 +1,27 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-
 /**
  * @class NavigationController
  * @description
- * One route model feeds desktop rail, mobile dock, browser history, title, focus,
- * and transition classes. The Awtsmoos gives all destinations one inward point;
- * Awtsmoos.com changes visible chambers without splitting the semantic application.
+ * The Awtsmoos lets hash chambers, selected Spaces, and neighboring communication applications share one reachable current;
+ * Awtsmoos.com keeps internal history exact while Mail, Signals, Composer, and canonical community coordinates remain honest vessels.
  */
-
+import { COMMUNICATION_LINKS, communicationLink } from './CommunicationLinks.js';
 import {
 	ROUTES,
+	profileAliasFromLocation,
 	routeById,
 	routeButton,
 	routeFromLocation,
 	routeUrl
 } from './RouteModel.js';
+import { focusRoutePanel } from './RouteFocus.js';
+import { spaceRouteFromLocation } from './SpaceRouteState.js';
 
 export class NavigationController {
-	constructor({ root, state, onNavigate }) {
-		Object.assign(this, { root, state, onNavigate });
+	constructor({ root, state, onNavigate, onLocation }) {
+		Object.assign(this, { root, state, onNavigate, onLocation });
 		this.containers = [
 			root.getElementById('desktopNavigation'),
 			root.getElementById('mobileNavigation')
@@ -28,25 +29,41 @@ export class NavigationController {
 	}
 
 	initialize() {
-		for (const container of this.containers) this.renderContainer(container);
-		window.addEventListener('hashchange', () => {
-			this.activate(routeFromLocation().id, false);
+		for (const container of this.containers) {
+			this.renderContainer(container);
+		}
+		window.addEventListener('hashchange', () => this.syncLocation());
+		window.addEventListener('popstate', () => this.syncLocation());
+		this.syncLocation();
+	}
+
+	syncLocation() {
+		const route = routeFromLocation();
+		this.activate(route.id, { writeHistory: false, notifyNavigate: false });
+		this.onLocation?.({
+			route,
+			profileAliasId: profileAliasFromLocation(),
+			space: spaceRouteFromLocation()
 		});
-		this.activate(routeFromLocation().id, false);
 	}
 
 	renderContainer(container) {
 		container.replaceChildren();
 		for (const route of ROUTES) {
 			const button = routeButton(this.root, route);
-			button.addEventListener('click', () => this.activate(route.id, true));
+			button.addEventListener('click', () => this.activate(route.id));
 			container.append(button);
+		}
+		for (const item of COMMUNICATION_LINKS) {
+			container.append(communicationLink(this.root, item));
 		}
 	}
 
-	activate(routeId, writeHistory = true) {
+	activate(routeId, options = {}) {
 		const route = routeById(routeId);
 		const previous = this.state.snapshot().activeTab;
+		const writeHistory = options.writeHistory !== false;
+		const notifyNavigate = options.notifyNavigate !== false;
 		if (writeHistory && location.hash !== `#${route.id}`) {
 			history.pushState(null, '', routeUrl(route.id));
 		}
@@ -55,8 +72,11 @@ export class NavigationController {
 			this.renderActive(route);
 		});
 		document.title = `${route.title} · Awtsmoos Social Hub`;
-		this.focusPanel(route.id);
-		if (route.id !== previous) this.onNavigate?.(route, previous);
+		focusRoutePanel(this.root, route.id);
+		if (notifyNavigate && route.id !== previous) {
+			this.onNavigate?.(route, previous);
+		}
+		return route;
 	}
 
 	renderActive(route) {
@@ -66,15 +86,17 @@ export class NavigationController {
 			button.setAttribute('aria-current', active ? 'page' : 'false');
 		}
 		for (const panel of this.root.querySelectorAll('[data-panel]')) {
-			panel.hidden = panel.dataset.panel !== route.id;
-			panel.dataset.active = String(panel.dataset.panel === route.id);
+			const active = panel.dataset.panel === route.id;
+			panel.hidden = !active;
+			panel.dataset.active = String(active);
 		}
 		this.root.getElementById('workspaceTitle').textContent = route.title;
 	}
 
 	transition(change) {
 		if (document.startViewTransition) {
-			document.startViewTransition(change);
+			const transition = document.startViewTransition(change);
+			this.observeTransition(transition);
 			return;
 		}
 		document.documentElement.dataset.transitioning = 'true';
@@ -84,11 +106,9 @@ export class NavigationController {
 		});
 	}
 
-	focusPanel(routeId) {
-		const panel = this.root.querySelector(`[data-panel="${routeId}"]`);
-		if (!panel) return;
-		requestAnimationFrame(() => {
-			panel.querySelector('h2, h1, [tabindex="-1"]')?.focus({ preventScroll: true });
-		});
+	observeTransition(transition) {
+		for (const promise of [transition.ready, transition.updateCallbackDone, transition.finished]) {
+			promise?.catch(() => null);
+		}
 	}
 }

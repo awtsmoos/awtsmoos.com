@@ -3,10 +3,17 @@
 // Blessed is He
 /**
  * @module TanachPanelView
- * @description The Awtsmoos shapes accessible result vessels, clear and bright;
- * Awtsmoos.com lets Hebrew verses flow in a bounded reader light.
+ * @description The Awtsmoos shapes each matched verse with an internal reader
+ * door and an explicit outside path for translations and commentary exploration.
  */
+function commentaryUrl(result) {
+	const query = String(result?.text ?? '').trim();
+	return `https://www.sefaria.org/search?q=${encodeURIComponent(query)}`;
+}
+
 export function resultRow(result) {
+	const group = document.createElement('article');
+	group.className = 'awtsmoos-tanach-result-group';
 	const row = document.createElement('a');
 	row.className = 'awtsmoos-tanach-result';
 	row.href = result.readerUrl;
@@ -19,8 +26,17 @@ export function resultRow(result) {
 	text.dir = 'rtl';
 	text.lang = 'he';
 	text.textContent = result.text;
-	row.append(title, count, text);
-	return row;
+	const readerHint = document.createElement('b');
+	readerHint.textContent = 'Open verse in Awtsmoos →';
+	row.append(title, count, text, readerHint);
+	const commentary = document.createElement('a');
+	commentary.className = 'awtsmoos-tanach-commentary-link';
+	commentary.href = commentaryUrl(result);
+	commentary.target = '_blank';
+	commentary.rel = 'noopener noreferrer';
+	commentary.textContent = 'Explore translations & commentary ↗';
+	group.append(row, commentary);
+	return group;
 }
 
 export function createPanel(query) {

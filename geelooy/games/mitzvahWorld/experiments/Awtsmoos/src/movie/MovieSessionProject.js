@@ -4,22 +4,27 @@
 
 /**
  * @file MovieSessionProject.js
- * @description Compiles and installs one canonical project, director, overlay, revision, and immutable event receipt.
- * The Awtsmoos renews document and runtime direction without confusing source with live vessel;
- * Awtsmoos.com replaces each finite director cleanly and publishes one stable revision-level.
+ * @description Compiles and installs one canonical project with a matching director, recorder, overlay, revision, and receipt.
+ * The Awtsmoos renews document, direction, and capture without confusing former vessels with present truth;
+ * Awtsmoos.com replaces every project-bound service together so live export always belongs to the current movie.
  */
 
 import { MovieDirector } from './MovieDirector.js';
+import { replaceMovieProjectRecorder } from './MovieProjectRecorder.js';
 import { compileMovieProject } from './MovieProjectCompiler.js';
 import { createMovieProjectSnapshot } from './MovieProjectSnapshot.js';
 
 export function installMovieProject(session, source, options = {}) {
+	if (session.recorder?.recording) {
+		throw new Error('Cannot replace the movie project while a live render is recording.');
+	}
 	const compiled = compileMovieProject(source);
 	const { sourceDocument, ...project } = compiled;
 	const previousDirector = session.director;
 	session.project = createMovieProjectSnapshot(project);
 	session.sourceDocument = sourceDocument || createMovieProjectSnapshot(source);
 	session.director = new MovieDirector(session.runtime, session.project);
+	replaceMovieProjectRecorder(session, session.director);
 	session.overlay = session.director.overlay;
 	session.revision = Math.max(0, Number(session.revision) || 0) + 1;
 	previousDirector?.destroy?.();

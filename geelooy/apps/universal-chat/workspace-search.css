@@ -1,0 +1,86 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos sees every vessel without searching; Awtsmoos.com keeps loaded-workspace search visibly bounded, compact on phones, and honest about its local scope while every clear doorway remains thumb-sized in light. */
+
+.messaging-workspace-search {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 0.5rem;
+	height: 46px;
+	margin: 0.6rem 0.75rem 0;
+	padding: 0 0.2rem 0 0.65rem;
+	border: 1px solid var(--msg-line);
+	border-radius: 13px;
+	background: rgba(255, 255, 255, 0.035);
+	transition: border-color 120ms ease, background 120ms ease;
+}
+
+.messaging-workspace-search:focus-within {
+	border-color: rgba(121, 224, 183, 0.3);
+	background: rgba(121, 224, 183, 0.045);
+}
+
+.messaging-search-mark {
+	color: var(--msg-muted);
+	font-size: 1.08rem;
+}
+
+.messaging-workspace-search input {
+	min-width: 0;
+	height: 100%;
+	border: 0;
+	outline: 0;
+	background: transparent;
+	color: var(--msg-text);
+	font-size: 0.78rem;
+}
+
+.messaging-workspace-search button {
+	display: grid;
+	place-items: center;
+	width: 40px;
+	height: 40px;
+	min-width: 40px;
+	min-height: 40px;
+	padding: 0;
+	border: 0;
+	border-radius: 10px;
+	background: transparent;
+	color: var(--msg-muted);
+	font-size: 1rem;
+}
+
+.messaging-workspace-search button:hover {
+	background: rgba(255, 255, 255, 0.06);
+	color: var(--msg-text);
+}
+
+.messaging-search-feedback {
+	margin: 0.28rem 0.85rem 0;
+	color: var(--msg-muted);
+	font-size: 0.64rem;
+	line-height: 1.35;
+}
+
+@media (max-width: 760px) {
+	.messaging-workspace-search {
+		height: 48px;
+		gap: 0.36rem;
+		margin: 0.48rem 0.6rem 0;
+		padding-left: 0.58rem;
+	}
+
+	.messaging-workspace-search button {
+		width: 44px;
+		height: 44px;
+		min-width: 44px;
+		min-height: 44px;
+	}
+
+	.messaging-search-feedback {
+		margin-inline: 0.68rem;
+	}
+}

@@ -1,15 +1,16 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file bootMitzvahWorldPage.js
- * @description Reveals one paint, one fresh map-ready launcher, and one retryable production promise.
- * The Awtsmoos creates the threshold before valley, movement, deed, and direction can gleam;
- * Awtsmoos.com keeps failure visible, cache truth current, and duplicate ownership outside the stream.
+ * @description Owns one canonical page boot, one measured static loading veil, one launcher, and one retryable promise.
+ * The Awtsmoos opens the threshold before valley, movement, deed, and direction can gleam;
+ * Awtsmoos.com now gives the HTML veil the same canonical owner as the world so readiness can never shine beneath a forgotten 0% screen.
  */
 
 import { ensureMitzvahWorldBoot } from './BootPromiseRegistry.js';
+import { MeadowLoadingScreen } from './MeadowLoadingScreen.js';
 
 const HOST_IDS = Object.freeze({
 	actionHost: 'actions',
@@ -21,9 +22,10 @@ const HOST_IDS = Object.freeze({
 	jumpHost: 'jump',
 	npcHost: 'npcTarget'
 });
-const LAUNCHER_URL = './MitzvahWorldLauncher.js?v=20260804-map-01';
+const LAUNCHER_URL = './MitzvahWorldLauncher.js?v=20260814-canonical-loading-01';
 const FAILURE_LISTENER_KEY = 'AwtsmoosMitzvahWorldFailureListeners';
 
+/** Ensures all imports converge on one retryable production boot promise. */
 export function ensureMitzvahWorldPageBoot(
 	documentValue = document,
 	environment = globalThis
@@ -34,11 +36,13 @@ export function ensureMitzvahWorldPageBoot(
 	);
 }
 
+/** Boots the canonical launcher while the existing HTML veil reports actual runtime progress. */
 export async function bootMitzvahWorldPage(
 	documentValue = document,
 	environment = globalThis
 ) {
 	const hosts = resolveHosts(documentValue);
+	const loading = new MeadowLoadingScreen(documentValue, environment);
 	installFailureListeners(hosts.hud, environment);
 	setBootState(documentValue, 'painting');
 	await firstPaint(environment);
@@ -48,13 +52,17 @@ export async function bootMitzvahWorldPage(
 		const launched = await launchMitzvahWorld(
 			hosts,
 			environment.location?.search || '',
-			{ environment }
+			{
+				environment,
+				onProgress: update => loading.world(update)
+			}
 		);
-		setBootState(documentValue, 'ready');
-		documentValue.documentElement.dataset.awtsmoosMenuReady = 'true';
 		environment.AwtsmoosMitzvahWorld = launched;
+		setBootState(documentValue, 'ready');
+		loading.finish();
 		return launched;
 	} catch (error) {
+		loading.fail(error);
 		showFailure(hosts.hud, documentValue, error);
 		throw error;
 	}
@@ -103,7 +111,6 @@ function setBootState(documentValue, state) {
 function showFailure(hud, documentValue, error) {
 	const message = error?.message || String(error);
 	setBootState(documentValue, 'failed');
-	documentValue.documentElement.dataset.awtsmoosMenuReady = 'true';
 	hud.textContent = `B"H startup failed: ${message}`;
 	hud.dataset.bootFailure = error?.stack || message;
 	console.error(error);

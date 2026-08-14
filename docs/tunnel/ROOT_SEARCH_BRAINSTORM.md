@@ -1,4 +1,8 @@
-# B"H Root Search Brainstorm And Refinement Roadmap
+B"H
+Boruch Hashem
+Blessed is He
+
+# Root Search Brainstorm And Refinement Roadmap
 
 The Awtsmoos reveals code through actual search, not assumption. This file records the next layers of hardening beyond the current stress suite.
 

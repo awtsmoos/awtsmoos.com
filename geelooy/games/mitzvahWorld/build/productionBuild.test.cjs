@@ -4,9 +4,9 @@
 
 /**
  * @file productionBuild.test.cjs
- * @description Proves direct compact publication, deterministic chunks, compression, and cinema reachability.
- * The Awtsmoos grants first control through one small gate while later worlds retain measured light;
- * Awtsmoos.com verifies every public handoff, hash, deferred chamber, and compressed byte in sight.
+ * @description Proves tiny first-control, deterministic deferred chunks, compression, and complete cinema/reproduction reachability.
+ * The Awtsmoos grants first control through one almost weightless gate while later worlds retain measured beauty;
+ * Awtsmoos.com forbids spatial, hydrology, Wellspring, particles, reproduction, and Studio weight from entering that doorway early.
  */
 
 const assert = require('node:assert/strict');
@@ -22,6 +22,22 @@ const chunks = Object.freeze([
 	['presentation', 'installMinimalMeadowPresentationBundle'],
 	['world', 'installMinimalMeadowWorldSystems'],
 	['optional', 'hydrateMinimalMeadowPlayer']
+]);
+const firstControlForbidden = Object.freeze([
+	'CanonicalVillagePlan',
+	'MitzvahWorldCreativeModeLoaders',
+	'MovieReproduction',
+	'MovieReproductionEffects',
+	'MovieReproductionEnvironment',
+	'MovieStudio',
+	'MovieStudioApiReproduction',
+	'VillageRiparianReedPlacement',
+	'VillageRiverHydrology',
+	'VillageRiverStonePlacement',
+	'Wellspring',
+	'WorldEcologyOccupancy',
+	'WorldParticle',
+	'WorldSpatialRealismApi'
 ]);
 
 test('B"H production page selects the compact publication directly', () => {
@@ -40,16 +56,18 @@ test('B"H production CSS is complete and every representation is verified', () =
 	verifyRepresentations('styles/generated/mitzvah-world.production.css', manifest.representations);
 });
 
-test('B"H first-control artifact is deterministic, tiny, and hands off canonically', () => {
+test('B"H first-control stays under five kilobytes and contains no deferred world systems', () => {
 	const manifest = json('build/generated/mitzvah-world-js.json');
 	const compact = text('experiments/Awtsmoos/src/mitzvah-world.compact.js');
 	assert.equal(manifest.deterministic, true);
 	assert.deepEqual(manifest.optionalModulesBundled, []);
-	assert.ok(manifest.outputBytes >= 1000 && manifest.outputBytes <= 20000);
+	assert.ok(manifest.outputBytes >= 1000 && manifest.outputBytes <= 5120);
 	for (const marker of ['PAGE_BOOT_URL', 'RUNTIME_BOOT_URL', 'bootCanonicalMitzvahWorldPage']) {
 		assert.match(compact, new RegExp(marker));
 	}
-	assert.doesNotMatch(compact, /MitzvahWorldCreativeModeLoaders/);
+	for (const forbidden of firstControlForbidden) {
+		assert.doesNotMatch(compact, new RegExp(forbidden), forbidden);
+	}
 	verifyRepresentations('experiments/Awtsmoos/src/mitzvah-world.compact.js', manifest.representations);
 });
 
@@ -70,6 +88,7 @@ test('B"H deferred creative mode preserves the complete served cinema graph', ()
 	const cinema = cinemaSources();
 	assert.match(loader, /import\('\.\.\/movie\/MovieStudio\.js'\)/);
 	assert.match(api, /createMovieStudioCinemaDomain/);
+	assert.match(api, /createMovieStudioReproductionDomain/);
 	for (const marker of [
 		'createMovieCinemaFlagship',
 		'one-minute-chassidic-village',

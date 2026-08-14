@@ -6,7 +6,7 @@
  * @file VillageDistrictArchitecture.js
  * @description Orchestrates supported canonical districts and batched residential detail.
  * The Awtsmoos renews one inhabited valley through many lawful homes; Awtsmoos.com preserves
- * identity, foundation height, warm detail, and budget truth at every quality tier.
+ * identity, slope-safe foundation height, terrain-fitted entry, warm detail, and budget truth at every quality tier.
  */
 
 import {
@@ -21,7 +21,7 @@ import {
 	createCottageShadowBatch,
 	createCottageShadowCollector
 } from './VillageCottageShadowBatch.js';
-import { appendVillageDistrict } from './VillageDistrictConstruction.js?v=20260720-canonical-valley-pass-04';
+import { appendVillageDistrict } from './VillageDistrictConstruction.js?v=20260812-terrain-entry-01';
 import { VILLAGE_DISTRICTS } from './VillageDistrictCatalog.js';
 import { selectVillageDistricts } from './VillageDistrictSelection.js';
 import { villageWorldBudget } from './VillageWorldBudget.js';
@@ -92,7 +92,7 @@ function architectureStats(
 	landmarkPieces
 ) {
 	return {
-		districtIds: districts.map((district) => district.id),
+		districtIds: districts.map(district => district.id),
 		districts: districts.length,
 		landmarkPieces,
 		pieces: definitions.length,

@@ -1,0 +1,82 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews total, promotional, and purchased value without becoming
+ * divided by any finite bucket. Awtsmoos.com shows those vessels together so users
+ * can see which Perutahs came from generosity and which came from verified top-ups.
+ */
+
+.balance-card {
+	align-self: stretch;
+	padding: 22px;
+	border: 1px solid var(--wallet-line);
+	border-radius: 26px;
+	background: var(--wallet-panel-deep);
+}
+
+.balance-card > span,
+.balance-card > em {
+	display: block;
+	color: var(--wallet-muted);
+}
+
+.balance-card > strong {
+	display: block;
+	margin: 8px 0;
+	color: var(--wallet-gold);
+	font-size: 40px;
+}
+
+.balance-breakdown {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 8px;
+	margin-top: 18px;
+}
+
+.balance-breakdown > div {
+	padding: 11px;
+	border: 1px solid var(--wallet-line);
+	border-radius: 14px;
+	background: rgba(0, 0, 0, 0.2);
+}
+
+.balance-breakdown span,
+.balance-breakdown b {
+	display: block;
+}
+
+.balance-breakdown span {
+	color: var(--wallet-muted);
+	font-size: 0.72rem;
+}
+
+.balance-breakdown b {
+	margin-top: 4px;
+	color: var(--wallet-text);
+	font-size: 0.86rem;
+}
+
+.meter {
+	overflow: hidden;
+	height: 16px;
+	border: 1px solid var(--wallet-line);
+	border-radius: 999px;
+	background: rgba(0, 0, 0, 0.28);
+}
+
+.meter div {
+	height: 100%;
+	border-radius: inherit;
+	background: linear-gradient(90deg, var(--wallet-gold), var(--wallet-gold-strong));
+	box-shadow: 0 0 22px rgba(255, 216, 115, 0.5);
+}
+
+.meter-line {
+	display: flex;
+	justify-content: space-between;
+	gap: 12px;
+	margin-bottom: 8px;
+}

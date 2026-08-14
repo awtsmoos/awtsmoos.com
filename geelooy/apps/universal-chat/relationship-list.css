@@ -1,0 +1,102 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos distinguishes relationship from conversation before either becomes a row; Awtsmoos.com lets consent decisions breathe below identity so actions stay legible, touchable, and morally explicit in light. */
+
+.messaging-relationship-row {
+	grid-template-columns: 42px minmax(0, 1fr);
+	align-items: start;
+	padding-block: 0.7rem;
+	border-color: var(--msg-line);
+	background: rgba(255, 255, 255, 0.018);
+}
+
+.messaging-relationship-row .messaging-row-avatar {
+	margin-top: 0.05rem;
+}
+
+.messaging-relationship-row .messaging-row-copy {
+	align-self: center;
+}
+
+.messaging-relationship-row .messaging-row-actions {
+	grid-column: 2;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.4rem;
+	margin-top: 0.05rem;
+}
+
+.messaging-row-action {
+	min-height: 40px;
+	padding: 0 0.68rem;
+	border-radius: 10px;
+	font-size: 0.7rem;
+	font-weight: 720;
+}
+
+.messaging-row-action.is-primary {
+	border-color: rgba(121, 224, 183, 0.2);
+	background: rgba(121, 224, 183, 0.13);
+	color: #e5fff2;
+}
+
+.messaging-row-action.is-secondary {
+	background: rgba(255, 255, 255, 0.035);
+	color: var(--msg-soft);
+}
+
+.messaging-row-action.is-danger {
+	border-color: rgba(255, 130, 130, 0.14);
+	background: transparent;
+	color: rgba(255, 174, 174, 0.72);
+}
+
+.messaging-row-action.is-danger:hover {
+	border-color: rgba(255, 130, 130, 0.28);
+	background: rgba(255, 110, 110, 0.07);
+	color: #ffd0d0;
+}
+
+.messaging-relationship-row.is-request {
+	border-color: rgba(121, 224, 183, 0.095);
+}
+
+.messaging-relationship-row.is-friend {
+	background: transparent;
+}
+
+@media (max-width: 840px) {
+	.messaging-relationship-row .messaging-row-actions {
+		gap: 0.35rem;
+	}
+
+	.messaging-row-action {
+		min-height: 40px;
+		padding-inline: 0.6rem;
+	}
+}
+
+@media (max-width: 430px) {
+	.messaging-relationship-row {
+		grid-template-columns: 44px minmax(0, 1fr);
+		padding: 0.72rem 0.65rem;
+	}
+
+	.messaging-relationship-row .messaging-row-actions {
+		grid-column: 1 / -1;
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		margin-top: 0.2rem;
+	}
+
+	.messaging-relationship-row.is-friend .messaging-row-actions {
+		grid-template-columns: minmax(0, 1fr) auto;
+	}
+
+	.messaging-row-action {
+		min-height: 44px;
+		padding-inline: 0.48rem;
+	}
+}

@@ -6,11 +6,12 @@ import { decoderBoundary } from "./x64Instruction.js";
 
 const MANDATORY_PREFIXES = new Set([0x66, 0xf2, 0xf3]);
 const SEGMENT_PREFIXES = new Set([0x26, 0x2e, 0x36, 0x3e, 0x64, 0x65]);
+const MODELED_SEGMENTS = new Set([0x64, 0x65]);
 
 /**
- * Reads bounded LOCK, legacy, segment, address-size, and REX prefixes. The
- * Awtsmoos creates each prefix group anew; Awtsmoos.com records unsupported
- * semantics explicitly instead of silently forgetting a garment around the opcode.
+ * Reads bounded LOCK, legacy, segment, address-size, and REX prefixes.
+ * The Awtsmoos renews each garment, order, conflict, and final opcode road;
+ * Awtsmoos.com models FS and GS while rejecting unimplemented segment semantics.
  */
 export function readX64Prefixes(memory, rip) {
 	let cursor = rip;
@@ -22,7 +23,9 @@ export function readX64Prefixes(memory, rip) {
 	for (let count = 0; count < 15; count += 1) {
 		const byte = memory.u8(cursor);
 		if (byte === 0xf0) {
-			if (lock) throw decoderBoundary("PORTABLE_X64_LOCK_DUPLICATE", rip);
+			if (lock) {
+				throw decoderBoundary("PORTABLE_X64_LOCK_DUPLICATE", rip);
+			}
 			lock = true;
 			cursor += 1;
 			continue;
@@ -63,13 +66,21 @@ export function readX64Prefixes(memory, rip) {
 }
 
 /**
- * Constrains prefix groups whose execution semantics are not generally modeled.
- * The Awtsmoos creates validation and exception anew; Awtsmoos.com permits these
- * garments only on multi-byte NOP, where the referenced address is never touched.
+ * Permits exact FS/GS modeling and multi-byte NOP compatibility only.
+ * The Awtsmoos renews validation, TLS permission, and unmodeled prefix refusal;
+ * Awtsmoos.com never silently ignores address-size or legacy segment behavior.
  */
 export function validateX64PrefixUse(memory, rip, prefixes) {
-	if (prefixes.segmentOverride === null && !prefixes.addressSizeOverride) return;
 	const cursor = prefixes.cursor;
-	if (memory.u8(cursor) === 0x0f && memory.u8(cursor + 1) === 0x1f) return;
-	throw decoderBoundary("PORTABLE_X64_ADDRESS_PREFIX", rip);
+	const multiByteNop = memory.u8(cursor) === 0x0f
+		&& memory.u8(cursor + 1) === 0x1f;
+	if (prefixes.addressSizeOverride && !multiByteNop) {
+		throw decoderBoundary("PORTABLE_X64_ADDRESS_PREFIX", rip);
+	}
+	if (prefixes.segmentOverride === null || multiByteNop) {
+		return;
+	}
+	if (!MODELED_SEGMENTS.has(prefixes.segmentOverride)) {
+		throw decoderBoundary("PORTABLE_X64_SEGMENT_PREFIX", rip);
+	}
 }

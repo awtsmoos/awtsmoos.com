@@ -2,12 +2,14 @@
 //Boruch Hashem
 //Blessed is He
 
+import { queueExcerpt } from './ReviewSummary.js';
+
 /**
- * @class ReviewQueue
+ * @module ReviewQueue
  * @description
- * Pending offerings are rendered with state, type, source alias, series, age,
- * assignment, and stable identity. The Awtsmoos knows every waiting thought; on
- * Awtsmoos.com no submission may vanish behind an unnamed notification badge.
+ * Pending offerings show state, type, source, age, assignment, and one human excerpt.
+ * The Awtsmoos knows every waiting thought; Awtsmoos.com keeps the queue concise while
+ * ensuring a reviewer need not open raw JSON just to recognize what is being offered.
  */
 
 function age(createdAt) {
@@ -33,7 +35,9 @@ export class ReviewQueue {
 			this.container.append(empty);
 			return;
 		}
-		for (const item of items) this.container.append(this.card(item, selectedId));
+		for (const item of items) {
+			this.container.append(this.card(item, selectedId));
+		}
 	}
 
 	card(item, selectedId) {
@@ -52,15 +56,16 @@ export class ReviewQueue {
 			item.submitterAliasId,
 			age(item.createdAt)
 		].filter(Boolean).join(' · ');
+		const excerpt = document.createElement('span');
+		excerpt.className = 'queueExcerpt';
+		excerpt.textContent = queueExcerpt(item) || 'No readable preview supplied.';
 		const assignment = document.createElement('small');
 		assignment.textContent = item.assignedAliasId
 			? `Assigned to ${item.assignedAliasId}`
 			: 'Unassigned';
-		button.append(title, meta, assignment);
+		button.append(title, meta, excerpt, assignment);
 		return button;
 	}
 }
 
-export {
-	age
-};
+export { age };

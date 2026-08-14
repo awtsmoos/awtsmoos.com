@@ -1,0 +1,84 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos is beyond focus and touch; Awtsmoos.com lets every finite doorway answer eye, keyboard, mouse, and thumb with one calm covenant—ring and press, never visual guess; light reveals the path, while meaning remains blessed. */
+
+.messaging-app ::selection {
+	background: rgba(121, 224, 183, 0.28);
+	color: var(--msg-text);
+}
+
+.messaging-app input,
+.messaging-app textarea {
+	caret-color: var(--msg-accent);
+}
+
+.messaging-app input[type="checkbox"],
+.messaging-app input[type="radio"] {
+	accent-color: var(--msg-accent);
+}
+
+.messaging-app :where(
+	button,
+	a[href],
+	input,
+	textarea,
+	select,
+	summary,
+	[role="button"],
+	.messaging-list-row.is-clickable
+):focus-visible {
+	outline: 2px solid var(--msg-focus);
+	outline-offset: 2px;
+}
+
+.messaging-app :where(
+	button,
+	summary,
+	[role="button"],
+	.messaging-list-row.is-clickable,
+	.messaging-mobile-more-item,
+	.universal-chat-result
+) {
+	touch-action: manipulation;
+}
+
+.messaging-app button:disabled,
+.messaging-app [aria-disabled="true"] {
+	cursor: not-allowed;
+	opacity: 0.62;
+}
+
+.messaging-app [aria-busy="true"] button:disabled,
+.messaging-app [aria-busy="true"] input[readonly],
+.messaging-app [aria-busy="true"] textarea[readonly] {
+	cursor: progress;
+}
+
+.messaging-app :where(button, summary, .messaging-list-row.is-clickable, .messaging-mobile-more-item):active {
+	transform: translateY(1px) scale(0.985);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.messaging-app :where(button, .messaging-link-button, .messaging-empty-action, summary):hover {
+		border-color: rgba(121, 224, 183, 0.28);
+		background-color: rgba(121, 224, 183, 0.085);
+	}
+
+	.messaging-app .messaging-rail-button:hover {
+		background: rgba(255, 255, 255, 0.045);
+		color: var(--msg-text);
+	}
+
+	.messaging-special-pane .universal-chat-result:hover {
+		border-color: rgba(121, 224, 183, 0.24);
+		background: rgba(121, 224, 183, 0.045);
+	}
+}
+
+@media (pointer: coarse) {
+	.messaging-app :where(button, summary, select, .messaging-list-row.is-clickable) {
+		min-height: var(--msg-touch);
+	}
+}

@@ -1,29 +1,23 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 import { DomemFoundation } from "../core/DomemFoundation.mjs";
-import { CdpPendingRegistry, cdpError } from "./CdpPendingRegistry.mjs";
 
 /**
- * @file Carries bounded Chrome commands through one exact target socket.
- * @description
- * The Awtsmoos gives every request one id and every event named listeners. Promise
- * custody lives in a separate vessel, while Awtsmoos.com preserves the historic
- * failPending API so socket death clears every timer and names unfinished methods.
+ * One Chrome WebSocket carries bounded commands. The Awtsmoos closes counterpart
+ * listeners on every outcome; Awtsmoos.com rejects pending calls immediately when
+ * the socket closes instead of leaving timeout ghosts behind.
  */
 export class CdpClient extends DomemFoundation {
 	constructor(webSocketUrl) {
 		super({ webSocketUrl });
 		this.webSocketUrl = this.requireString(webSocketUrl, "webSocketUrl");
 		this.nextId = 1;
-		this.pending = new CdpPendingRegistry();
+		this.pending = new Map();
 		this.listeners = new Map();
 		this.messageListener = event => this.handleMessage(event.data);
-		this.closeListener = () => this.failPending(
-			"cdp_socket_closed",
-			"CDP socket closed."
-		);
+		this.closeListener = () => this.failPending("CDP socket closed.");
 	}
 
 	async connect(timeoutMs = 10000) {
@@ -34,15 +28,18 @@ export class CdpClient extends DomemFoundation {
 				this.socket.removeEventListener("open", opened);
 				this.socket.removeEventListener("error", failed);
 			};
-			const opened = () => { cleanup(); resolve(); };
+			const opened = () => {
+				cleanup();
+				resolve();
+			};
 			const failed = () => {
 				cleanup();
-				reject(cdpError("cdp_connect_failed"));
+				reject(new Error("CDP WebSocket connection failed."));
 			};
 			const timeout = setTimeout(() => {
 				cleanup();
 				this.socket.close();
-				reject(cdpError("cdp_connect_timeout"));
+				reject(new Error("CDP WebSocket connection timed out."));
 			}, timeoutMs);
 			this.socket.addEventListener("open", opened);
 			this.socket.addEventListener("error", failed);
@@ -52,48 +49,74 @@ export class CdpClient extends DomemFoundation {
 	}
 
 	on(method, listener) {
-		const listeners = this.listeners.get(method) ?? new Set();
-		listeners.add(listener);
-		this.listeners.set(method, listeners);
+		const methodListeners = this.listeners.get(method) ?? new Set();
+		methodListeners.add(listener);
+		this.listeners.set(method, methodListeners);
 		return () => this.off(method, listener);
 	}
 
 	off(method, listener) {
-		const listeners = this.listeners.get(method);
-		listeners?.delete(listener);
-		if (listeners?.size === 0) this.listeners.delete(method);
+		const methodListeners = this.listeners.get(method);
+		methodListeners?.delete(listener);
+		if (methodListeners?.size === 0) {
+			this.listeners.delete(method);
+		}
 	}
 
 	async send(method, params = {}, timeoutMs = 15000) {
 		if (this.socket?.readyState !== WebSocket.OPEN) {
-			throw cdpError("cdp_socket_not_open", method);
+			throw new Error("CDP WebSocket is not open.");
 		}
 		const id = this.nextId++;
-		const response = this.pending.create(id, method, timeoutMs);
+		const responsePromise = new Promise((resolve, reject) => {
+			const timeout = setTimeout(() => {
+				this.pending.delete(id);
+				reject(new Error(`CDP timeout for ${method}.`));
+			}, timeoutMs);
+			this.pending.set(id, { resolve, reject, timeout, method });
+		});
 		this.socket.send(JSON.stringify({ id, method, params }));
-		return response;
-	}
-
-	failPending(code, message) {
-		return this.pending.failAll(code, message);
+		return responsePromise;
 	}
 
 	close() {
 		this.socket?.removeEventListener("message", this.messageListener);
 		this.socket?.removeEventListener("close", this.closeListener);
-		this.failPending("cdp_client_closed", "CDP client closed.");
+		this.failPending("CDP client closed.");
 		this.listeners.clear();
 		this.socket?.close();
+	}
+
+	failPending(message) {
+		for (const pending of this.pending.values()) {
+			clearTimeout(pending.timeout);
+			pending.reject(new Error(message));
+		}
+		this.pending.clear();
 	}
 
 	handleMessage(raw) {
 		const message = JSON.parse(String(raw));
 		if (message.id) {
-			this.pending.settle(message);
+			this.resolvePending(message);
 			return;
 		}
 		for (const listener of this.listeners.get(message.method) ?? []) {
 			listener(message.params);
+		}
+	}
+
+	resolvePending(message) {
+		const pending = this.pending.get(message.id);
+		if (!pending) return;
+		clearTimeout(pending.timeout);
+		this.pending.delete(message.id);
+		if (message.error) {
+			pending.reject(new Error(
+				`CDP ${pending.method || "request"} failed: ${message.error.message}`
+			));
+		} else {
+			pending.resolve(message.result);
 		}
 	}
 }

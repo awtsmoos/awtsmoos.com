@@ -4,9 +4,9 @@
 
 /**
  * @file MitzvahWorldModeLoaders.js
- * @description Loads direct worlds with real map, lightweight cinema controls, and creative routes.
- * The Awtsmoos opens control and direction before ornament; Awtsmoos.com keeps direct worlds lean
- * while every runtime retains a bounded, reversible doorway into the canonical Movie Studio.
+ * @description Loads direct worlds and creative tools while letting explicit Movie routes bypass gameplay presentation.
+ * The Awtsmoos opens the chosen doorway before HUD, dock, world, or studio receives a finite frame;
+ * Awtsmoos.com keeps gameplay ornament with gameplay while Movie Studio enters directly through its own name.
  */
 
 const PRESENTATION_URL = './MitzvahWorldGameplayPresentation.js?v=20260802-game-studio-bridge-02';
@@ -16,12 +16,7 @@ const SINGLE_PLAYER_RUNTIME_URL = '../app/createEretzRuntime.js?v=20260804-map-0
 export function createMitzvahWorldModeLoaders(environment = globalThis) {
 	return Object.freeze({
 		materials: hosts => openCreative('openMaterialsMode', hosts, '', environment),
-		movie: (hosts, options) => openCreative(
-			'openMovieMode',
-			hosts,
-			options?.search || '',
-			environment
-		),
+		movie: (hosts, options) => openMovie(hosts, options?.search || ''),
 		multiplayer: (hosts, options) => openMultiplayer(hosts, options, environment),
 		platform: hosts => openCreative('openPlatformMode', hosts, '', environment),
 		singlePlayer: (hosts, options) => openSinglePlayer(hosts, options, environment)
@@ -83,6 +78,11 @@ async function openMultiplayer(hosts, options = {}, environment = globalThis) {
 	});
 	await startCreativeDock(environment);
 	return diagnostics;
+}
+
+async function openMovie(hosts, search) {
+	const module = await import(CREATIVE_URL);
+	return module.openMovieMode(hosts, search);
 }
 
 async function openCreative(method, hosts, search, environment) {

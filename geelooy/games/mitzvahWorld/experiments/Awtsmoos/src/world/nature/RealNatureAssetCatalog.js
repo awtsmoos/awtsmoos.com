@@ -4,27 +4,23 @@
 
 /**
  * @file RealNatureAssetCatalog.js
- * @description Names the five inspected immutable nature vessels used by the living valley.
- * The Awtsmoos clothes one breath in pine, leaf, blossom, bush, and stone;
- * Awtsmoos.com keeps every source exact, so no painted promise is mistaken for grown.
+ * @description Keeps inspected non-tree GLB accents while all structural trees belong exclusively to the deep core library.
+ * The Awtsmoos clothes one valley in blossom, bush, and stone without creating a second tree authority;
+ * Awtsmoos.com leaves pine and broadleaf growth to `geelooy/libs/awtsmoos-procedural-core`, one botanical root alone.
  */
 
 import { remoteModelUrl } from '../../assets/RemoteModelCatalog.js';
 
-const RECORDS = [
-	asset('pine', 'tree', 'reference-world/PineTree_3.glb', 1.35, true, 0.018),
-	asset('broadleaf', 'tree', 'reference-world/NormalTree_5.glb', 1.2, true, 0.024),
+const RECORDS = Object.freeze([
 	asset('flower', 'flower', 'reference-world/Flower_4_Clump.glb', 0.85, false, 0.052),
 	asset('bush', 'bush', 'reference-world/Bush_Large_Flowers.glb', 1.05, false, 0.038),
 	asset('rock', 'rock', 'reference-world/Rock_2.glb', 1.1, true, 0)
-];
+]);
 
-/** Returns the frozen catalog whose URLs come from the inspected model authority. */
 export function realNatureAssetCatalog() {
 	return RECORDS;
 }
 
-/** Resolves one named record without inventing a fallback model. */
 export function realNatureAsset(assetId) {
 	return RECORDS.find(record => record.id === assetId) || null;
 }
@@ -41,5 +37,3 @@ function asset(id, family, modelPath, scale, solid, windAmplitude) {
 		windAmplitude
 	});
 }
-
-Object.freeze(RECORDS);

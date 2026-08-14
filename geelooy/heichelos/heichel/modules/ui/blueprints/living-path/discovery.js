@@ -40,6 +40,24 @@ export function resultStatus() {
 	});
 }
 
+export function translationSearchResults() {
+	return {
+		tag: 'section',
+		attr: {
+			class: 'living-path-translation-search hidden',
+			'aria-labelledby': 'translation-search-title'
+		},
+		ref: 'translationSearchSection',
+		children: [
+			box('translation-search-heading', [
+				{ tag: 'span', attr: { class: 'living-path-kicker' }, children: ['English translation search'] },
+				{ tag: 'span', attr: { role: 'status', 'aria-live': 'polite' }, ref: 'translationSearchStatus' }
+			]),
+			{ tag: 'div', attr: { class: 'translation-search-list' }, ref: 'translationSearchList' }
+		]
+	};
+}
+
 export function relatedPaths() {
 	return {
 		tag: 'section',

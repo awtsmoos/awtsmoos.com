@@ -4,16 +4,13 @@
 
 /**
  * @file MovieFramePump.js
- * @description Submits deterministic frames without RAF or clamped timeouts.
- * The Awtsmoos renews time itself; this finite Awtsmoos.com vessel keeps each
- * intended frame measurable while yielding a compositor task after submission.
+ * @description Submits deterministic wall-clock capture frames while source video media plays muted in synchronized real time.
+ * The Awtsmoos renews time itself beyond deadline, media clock, or frame request;
+ * Awtsmoos.com keeps MediaRecorder truthful by joining real-time speaker motion with every intended canvas frame it must collect.
  */
 
 import { MovieFrameScheduler } from './MovieFrameScheduler.js';
 
-/**
- * Drives one MovieDirector on absolute wall-clock frame deadlines.
- */
 export class MovieFramePump {
 	constructor(options) {
 		this.cadence = options.cadence;
@@ -24,34 +21,25 @@ export class MovieFramePump {
 		this.ownsScheduler = !options.scheduler;
 		this.scheduler = options.scheduler || new MovieFrameScheduler(options.clock);
 		this.captureMode = options.captureMode || (
-			typeof this.track?.requestFrame === 'function'
-				? 'manual'
-				: 'automatic'
+			typeof this.track?.requestFrame === 'function' ? 'manual' : 'automatic'
 		);
 	}
 
-	/** Renders every planned frame, then holds the final frame to exact duration. */
 	async run() {
+		this.director.pause?.();
+		await this.director.prepareExactFrame?.(0);
+		await this.director.overlay?.playMedia?.(0, 1, { muted: true });
 		const startedAtMs = this.scheduler.now();
 		let framesRequested = 0;
 		let framesRendered = 0;
 		let maximumDriftMs = 0;
-
-		this.director.pause?.();
 		try {
-			for (
-				let frameIndex = 0;
-				frameIndex < this.cadence.expectedFrames;
-				frameIndex += 1
-			) {
+			for (let frameIndex = 0; frameIndex < this.cadence.expectedFrames; frameIndex += 1) {
 				this.assertActive();
 				const deadlineMs = this.cadence.deadlineMs(startedAtMs, frameIndex);
 				await this.scheduler.waitUntil(deadlineMs);
 				this.assertActive();
-				maximumDriftMs = Math.max(
-					maximumDriftMs,
-					this.scheduler.now() - deadlineMs
-				);
+				maximumDriftMs = Math.max(maximumDriftMs, this.scheduler.now() - deadlineMs);
 				const time = this.cadence.frameTime(frameIndex);
 				this.director.seek(time, 1 / this.cadence.fps);
 				framesRendered += 1;
@@ -62,16 +50,10 @@ export class MovieFramePump {
 				await this.scheduler.yieldFrame();
 				this.onProgress(this.progress(frameIndex, time));
 			}
-			await this.scheduler.waitUntil(
-				this.cadence.endingDeadlineMs(startedAtMs)
-			);
-			return this.telemetry(
-				startedAtMs,
-				framesRendered,
-				framesRequested,
-				maximumDriftMs
-			);
+			await this.scheduler.waitUntil(this.cadence.endingDeadlineMs(startedAtMs));
+			return this.telemetry(startedAtMs, framesRendered, framesRequested, maximumDriftMs);
 		} finally {
+			this.director.overlay?.pauseMedia?.();
 			if (this.ownsScheduler) this.scheduler.dispose();
 		}
 	}

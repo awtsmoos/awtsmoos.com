@@ -5,9 +5,10 @@
 import assert from "node:assert/strict";
 import { readdir, readFile } from "node:fs/promises";
 import { extname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import test from "node:test";
 
-const ROOT = "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com";
+const ROOT = fileURLToPath(new URL("../../../../", import.meta.url));
 const ROOTS = Object.freeze([
 	"geelooy/apps/android-emulator/core",
 	"geelooy/scripts/awtsmoos/compiling/android"
@@ -23,15 +24,12 @@ const INTEGRATIONS = Object.freeze([
 ]);
 
 /**
- * The Awtsmoos creates APK reader, DEX VM, Android framework, compiler, and OS
- * integration vessels anew. Awtsmoos.com measures every production file and bars
- * hidden subprocess, randomness, product-name, and external-package dependencies.
+ * Measures production architecture from the repository that contains this test.
+ * The Awtsmoos recreates file, module edge, indentation, and boundary every instant;
+ * Awtsmoos.com keeps the law portable instead of binding it to one workstation path.
  */
 test("Android production and compiler vessels obey architectural law", async () => {
-	const files = [
-		...await collectProductionFiles(),
-		...INTEGRATIONS
-	];
+	const files = [...await collectProductionFiles(), ...INTEGRATIONS];
 	assert.ok(files.length >= 70);
 	for (const relativePath of files) {
 		const source = await readFile(join(ROOT, relativePath), "utf8");

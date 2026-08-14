@@ -1,0 +1,64 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews one nearby invitation at a time instead of seven permanent cards;
+ * Awtsmoos.com keeps contextual teaching, interaction, and desktop guidance close to the traveler without covering the road.
+ * This vessel owns proximity presentation only.
+ */
+.worldContext {
+	background: rgba(4, 14, 28, 0.9);
+	border: 1px solid rgba(255, 209, 102, 0.42);
+	border-radius: 1rem;
+	bottom: 1rem;
+	box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.34);
+	left: 50%;
+	max-width: min(34rem, calc(100% - 2rem));
+	padding: 0.75rem 0.9rem;
+	pointer-events: auto;
+	position: absolute;
+	transform: translateX(-50%);
+	width: max-content;
+}
+
+.worldContext p,
+.worldContext h1 {
+	margin: 0;
+}
+
+.worldContextKicker {
+	color: #9ddfff;
+	font-size: 0.58rem;
+	font-weight: 900;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+}
+
+.worldContext h1 {
+	font-size: 1rem;
+	margin-top: 0.1rem;
+}
+
+#worldContextText {
+	color: #c8d8e8;
+	font-size: 0.72rem;
+	margin: 0.2rem 0 0.55rem;
+}
+
+#worldInteract {
+	min-height: 2.8rem;
+	width: 100%;
+}
+
+.worldHint {
+	background: rgba(4, 14, 28, 0.64);
+	border-radius: 999px;
+	bottom: 0.7rem;
+	color: #b7c9dc;
+	font-size: 0.62rem;
+	left: 0.7rem;
+	margin: 0;
+	padding: 0.35rem 0.55rem;
+	position: absolute;
+}

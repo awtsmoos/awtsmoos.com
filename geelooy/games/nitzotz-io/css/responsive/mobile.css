@@ -1,87 +1,111 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-/* The Awtsmoos places the gate to play before optional catalogs on small screens. */
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews the first gate so the hand may scroll before the world claims every gesture;
+ * Awtsmoos.com gives onboarding pan-y, then keeps play controls compact and clear without pressure.
+ * Small screens reveal the game first while optional catalogs remain reachable inside their own scroll vessel.
+ */
 @media (max-width: 720px) {
 	.overlay {
-		padding: max(8px, env(safe-area-inset-top)) 8px max(8px, env(safe-area-inset-bottom));
+		padding: max(6px, env(safe-area-inset-top)) 6px max(6px, env(safe-area-inset-bottom));
 		place-items: stretch;
 	}
+
 	.overlay-panel {
 		display: flex;
 		flex-direction: column;
-		width: 100%;
-		max-height: calc(100dvh - 16px);
-		padding: 16px 14px;
-		border-radius: 26px;
+		max-height: calc(100dvh - 12px);
+		overflow-x: hidden;
+		overflow-y: auto;
 		overscroll-behavior: contain;
+		padding: 14px 12px;
+		-webkit-overflow-scrolling: touch;
+		touch-action: pan-y;
+		width: 100%;
 	}
+
+	.overlay h1 {
+		font-size: clamp(28px, 9vw, 42px);
+		order: 2;
+	}
+
 	.eyebrow {
 		order: 1;
 	}
-	.overlay h1 {
-		order: 2;
-		font-size: clamp(32px, 10vw, 50px);
-	}
+
 	.stars {
+		font-size: 22px;
+		margin-top: 4px;
 		order: 3;
-		margin-top: 6px;
 	}
+
 	#overlayText {
+		font-size: 13px;
+		margin: 4px auto 8px;
 		order: 4;
-		margin: 6px auto 10px;
 	}
+
 	.hero-actions {
+		margin: 0 0 8px;
 		order: 5;
-		margin: 0 0 10px;
 	}
+
 	.primary {
-		min-width: min(330px, 88vw);
-		padding: 14px 22px;
-		font-size: 21px;
+		font-size: 18px;
+		min-width: min(300px, 86vw);
+		padding: 11px 18px;
 	}
+
 	.mode-gate {
+		margin: 4px 0 6px;
 		order: 6;
-		margin: 4px 0 8px;
-		padding: 10px;
+		padding: 8px;
 	}
+
 	.level-select {
-		order: 7;
+		gap: 5px;
 		grid-template-columns: repeat(3, 1fr);
-		gap: 6px;
-		margin: 4px 0 10px;
+		margin: 4px 0 8px;
+		order: 7;
 	}
+
 	.settings {
-		order: 8;
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
+		order: 8;
 	}
+
 	.mode-heading {
 		align-items: stretch;
 		flex-direction: column;
 	}
+
 	.mode-select {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
-	.mode-card {
-		min-height: 58px;
-	}
+
+	.mode-card,
 	.level-card {
-		min-height: 62px;
-		padding: 7px;
+		min-height: 54px;
 	}
-	.level-card span {
-		font-size: 9px;
-	}
+
 	.chip {
 		min-width: 0;
 	}
+
 	#stick {
-		width: 104px;
-		height: 104px;
+		height: 88px;
+		width: 88px;
 	}
+
 	#pulse {
-		width: 84px;
-		height: 84px;
+		height: 70px;
+		width: 70px;
+	}
+
+	.resource-rail {
+		display: none;
 	}
 }

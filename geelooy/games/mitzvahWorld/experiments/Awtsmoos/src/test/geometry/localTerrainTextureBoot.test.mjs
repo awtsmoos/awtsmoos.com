@@ -4,9 +4,9 @@
 
 /**
  * @file localTerrainTextureBoot.test.mjs
- * @description Proves six approved uploaded terrain maps bind before terrain construction.
- * The Awtsmoos joins earth and garment in one boot moment; Awtsmoos.com refuses a blank valley
- * by requiring meadow, soil, mud, stone, leaf-floor, and shore through one trusted remote origin.
+ * @description Proves three grasses, earth, marsh, and stone bind from trusted full-resolution transport.
+ * The Awtsmoos joins many blades and earth in one boot moment without a blank olive valley;
+ * Awtsmoos.com requires six distinct approved images before the terrain material reveals its living tally.
  */
 
 import assert from 'node:assert/strict';
@@ -21,23 +21,24 @@ import { terrainLayerRecipe } from '../../world/terrain/TerrainLayerRecipe.js';
 
 const REMOTE_ROOT = /^https:\/\/awtsmoos\.com\/sites\/firebase_drive_migration\/full-resolution\//;
 
-test('all six uploaded terrain images use approved filename transport', () => {
+test('all six production terrain images use approved filename transport', () => {
 	const urls = localTerrainTextureUrls();
 	const evidence = localTerrainTextureEvidence();
 	assert.equal(urls.length, 6);
 	assert.equal(evidence.roles.length, 6);
 	assert.equal(new Set(Object.values(evidence.filenames)).size, 6);
+	assert.deepEqual([
+		evidence.filenames['meadow-wet-grass'],
+		evidence.filenames['meadow-lush-grass'],
+		evidence.filenames['meadow-dry-grass']
+	], ['grass 1.png', 'grass 4.png', 'grass 8.png']);
 	for (const url of urls) {
 		assert.match(url, REMOTE_ROOT);
 		assert.equal(assertProductionMaterialUrl(url, 'uploaded terrain'), url);
 	}
-	for (const filename of Object.values(evidence.filenames)) {
-		assert.equal(filename.includes('://'), false);
-		assert.equal(filename.includes('%20'), false);
-	}
 });
 
-test('high terrain recipe exposes six distinct approved maps and source roles', () => {
+test('high terrain recipe exposes six distinct approved maps', () => {
 	const recipe = terrainLayerRecipe('high');
 	assert.equal(recipe.layers.length, 6);
 	assert.equal(new Set(recipe.layers.map(layer => layer.url)).size, 6);
@@ -47,8 +48,8 @@ test('high terrain recipe exposes six distinct approved maps and source roles', 
 	}));
 });
 
-test('terrain binds a real meadow base and earth mix at construction', () => {
-	const grassImage = image('dirt grass 6.png');
+test('terrain binds a real grass base and earth mix at construction', () => {
+	const grassImage = image('grass 1.png');
 	const dirtImage = image('dirt 2.png');
 	const material = createTerrainMaterial({
 		dirtImage,

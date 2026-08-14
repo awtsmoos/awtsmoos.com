@@ -1,0 +1,92 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-games-mitzvahworld-e62d44db",
+	"path": "geelooy/games/mitzvahWorld",
+	"type": "game",
+	"family": {
+		"id": "games",
+		"title": "Games and Worlds"
+	},
+	"title": "B&quot;H Mitzvah World — Restored River Valley",
+	"entries": [
+		"index.html",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/games/mitzvahWorld/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/GAMES.md",
+		"docs/APPS/GAMES_AND_SIMULATION.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-mitzvahworld-e62d44db.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 2536,
+		"tests": 956,
+		"assets": 0,
+		"generated": 53,
+		"docs": 9,
+		"other": 282
+	},
+	"totalFiles": 3836,
+	"symbolSummary": {
+		"files": 2448,
+		"classes": 489,
+		"functions": 7734,
+		"exports": 4785,
+		"samples": [
+			"send",
+			"evaluate",
+			"waitFor",
+			"waitForDevTools",
+			"findTarget",
+			"waitForReady",
+			"delay",
+			"publishState",
+			"publishVerificationFailure",
+			"createBootSnapshot",
+			"boundedBootCount",
+			"bootDebugEnabled"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/libs",
+			"count": 17,
+			"examples": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCreatureMesh.js; geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowProceduralCreature.js; geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProceduralSeed.js"
+		},
+		{
+			"project": "libs",
+			"count": 1,
+			"examples": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeCoreFacade.js"
+		}
+	],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/social-composer",
+			"count": 4,
+			"examples": "geelooy/social-composer/reel-studio/nle/NleAiProjectCodec.js; geelooy/social-composer/reel-studio/nle/NleMovieActionExecutor.js; geelooy/social-composer/reel-studio/nle/NleMoviePackage.js"
+		}
+	],
+	"externalDependencies": [
+		{
+			"dependency": "ws",
+			"count": 1,
+			"examples": "geelooy/games/mitzvahWorld/proof/BrowserProofCdpSupport.mjs"
+		}
+	],
+	"publicEntries": [
+		{
+			"url": "/games/mitzvahWorld",
+			"file": "geelooy/games/mitzvahWorld/index.html",
+			"title": "B&quot;H Mitzvah World — Restored River Valley",
+			"scripts": 1,
+			"styles": 2
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

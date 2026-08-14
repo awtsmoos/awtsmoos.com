@@ -1,0 +1,82 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews the invitation between two distant chairs in sight;
+ * Awtsmoos.com makes the waiting room calm, copyable, centered, and bright.
+ */
+
+#onlineLobby {
+	box-sizing: border-box;
+	gap: 1rem;
+	max-width: 560px;
+	padding: 1.25rem;
+	text-align: center;
+	width: min(94vw, 560px);
+}
+
+#onlineLobby h2 {
+	margin: 0;
+}
+
+#onlineLobbyStatus {
+	line-height: 1.45;
+	margin: 0;
+	min-height: 2.9em;
+}
+
+#onlineInvitePanel {
+	display: grid;
+	gap: 0.65rem;
+	width: 100%;
+}
+
+#onlineInvitePanel.hidden {
+	display: none;
+}
+
+#onlineInviteLabel {
+	font-size: 0.9rem;
+	opacity: 0.85;
+}
+
+#onlineInviteRow {
+	display: grid;
+	gap: 0.55rem;
+	grid-template-columns: minmax(0, 1fr) auto;
+	width: 100%;
+}
+
+#onlineInviteLink {
+	border: 1px solid currentColor;
+	border-radius: 8px;
+	box-sizing: border-box;
+	font: inherit;
+	min-width: 0;
+	padding: 0.7rem;
+	width: 100%;
+}
+
+#copyOnlineInviteButton {
+	margin: 0;
+	white-space: nowrap;
+}
+
+#onlineGameBadge {
+	border: 1px solid currentColor;
+	border-radius: 999px;
+	font-size: 0.85rem;
+	margin: 0 auto;
+	padding: 0.28rem 0.75rem;
+}
+
+@media (max-width: 520px) {
+	#onlineInviteRow {
+		grid-template-columns: 1fr;
+	}
+
+	#copyOnlineInviteButton {
+		width: 100%;
+	}
+}

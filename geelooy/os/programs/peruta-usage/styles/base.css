@@ -1,0 +1,85 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews balance, ledger, plan, and request beyond every finite card.
+ * Awtsmoos.com keeps Peruta testimony on solid surfaces with no glass, so account
+ * state reads like infrastructure rather than decorative finance theater.
+ */
+
+.perutaUsage {
+	display: grid;
+	gap: 16px;
+	min-height: 100%;
+	padding: 18px;
+	background: #050b14;
+	color: #f6f9ff;
+}
+
+.perutaUsage__hero,
+.perutaUsage__section {
+	border: 1px solid #28455f;
+	border-radius: 16px;
+	background: #0a1526;
+	box-shadow: 0 16px 38px rgba(0, 0, 0, .3);
+}
+
+.perutaUsage__hero {
+	padding: 24px;
+	background: linear-gradient(135deg, #0c1c2c, #111329);
+}
+
+.perutaUsage__kicker {
+	margin: 0 0 8px;
+	color: #67ddff;
+	font-size: .7rem;
+	font-weight: 900;
+	letter-spacing: .14em;
+	text-transform: uppercase;
+}
+
+.perutaUsage h1,
+.perutaUsage h2 {
+	margin: 0;
+}
+
+.perutaUsage h1 {
+	font-size: clamp(2.2rem, 5vw, 4.6rem);
+	letter-spacing: -.055em;
+	line-height: .95;
+}
+
+.perutaUsage__lead,
+.perutaUsage__sectionHeading p {
+	color: #a5b5c8;
+	line-height: 1.5;
+}
+
+.perutaUsage__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-top: 18px;
+}
+
+.perutaUsage__button,
+.perutaUsage__purchase {
+	display: inline-flex;
+	min-height: 42px;
+	align-items: center;
+	justify-content: center;
+	padding: 8px 12px;
+	border: 1px solid #47708c;
+	border-radius: 9px;
+	background: #123149;
+	color: #f7fbff;
+	font-weight: 850;
+	text-decoration: none;
+}
+
+.perutaUsage__button:focus-visible,
+.perutaUsage__purchase:focus-visible {
+	outline: 3px solid #67ddff;
+	outline-offset: 2px;
+}

@@ -2,16 +2,11 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file MovieDirector.js
- * @description Owns rate-aware timing, cast, authored 3D, effects, cameras, scenes, and seek.
- * The Awtsmoos renews every cinematic frame beyond elapsed time; Awtsmoos.com keeps
- * forward, reverse, acting, appearance, authoring, and export rooted in one project truth.
- */
-
+/** Owns timing, canonical cast, Short real-world systems, media, cameras, playback, and seek. */
 import { MovieActorDirector } from './MovieActorDirector.js';
 import { MovieAuthoring3dDirector } from './MovieAuthoring3dDirector.js';
 import { MovieCameraDirector } from './MovieCameraDirector.js';
+import { assertMovieCinemaHumans } from './MovieCinemaHumanSafety.js';
 import { MovieCrowdDirector } from './MovieCrowdDirector.js';
 import { applyMovieDirectorFrame } from './MovieDirectorFrame.js';
 import { MovieDoorDirector } from './MovieDoorDirector.js';
@@ -20,11 +15,13 @@ import { createMoviePlaybackClock } from './MoviePlaybackClock.js';
 import { normalizeMoviePlaybackRate } from './MoviePlaybackRate.js';
 import { MoviePerformanceDirector } from './MoviePerformanceDirector.js';
 import { MovieSceneDirector } from './MovieSceneDirector.js';
+import { MovieShortHeroWorldDirector } from './shorts/MovieShortHeroWorldDirector.js';
 import { MovieTimeline } from './MovieTimeline.js';
 import { MovieVisualEffectDirector } from './MovieVisualEffectDirector.js';
 
 export class MovieDirector {
 	constructor(runtime, project) {
+		assertProductionHumanManifest(project);
 		this.runtime = runtime;
 		this.project = project;
 		this.timeline = new MovieTimeline(project);
@@ -34,6 +31,7 @@ export class MovieDirector {
 		this.cameras = new MovieCameraDirector(runtime, project);
 		this.doors = new MovieDoorDirector(runtime);
 		this.scenes = new MovieSceneDirector(runtime);
+		this.shortWorld = new MovieShortHeroWorldDirector(runtime, project);
 		this.visuals = new MovieVisualEffectDirector(runtime);
 		this.performance = new MoviePerformanceDirector(runtime, project);
 		this.overlay = new MovieOverlay(project);
@@ -53,6 +51,10 @@ export class MovieDirector {
 		this.overlay.canvas.height = height;
 	}
 
+	async prepareExactFrame(time) {
+		await Promise.all([this.overlay.prepareMedia(time), this.shortWorld.prepare?.()]);
+	}
+
 	seek(time, deltaTime = 1 / this.project.fps) {
 		this.time = Math.max(0, Math.min(this.project.duration, Number(time) || 0));
 		this.lastFrame = applyMovieDirectorFrame(this, this.time, Math.abs(deltaTime));
@@ -63,34 +65,37 @@ export class MovieDirector {
 		this.pause();
 		const rate = normalizeMoviePlaybackRate(options.rate, 1);
 		if (!rate) return this;
+		const startAt = options.startAt ?? this.time;
 		this.playbackRate = rate;
 		this.playing = true;
+		this.overlay.playMedia(startAt, rate);
 		const clock = createMoviePlaybackClock({
 			duration: this.project.duration,
 			now: performance.now(),
 			rate,
-			startAt: options.startAt ?? this.time
+			startAt
 		});
-		const frame = now => {
-			if (!this.playing) return;
-			const sample = clock.sample(now);
-			const state = this.seek(sample.time, sample.delta);
-			options.onFrame?.(state);
-			if (sample.atBoundary) {
-				this.playing = false;
-				this.playbackRate = 0;
-				options.onEnd?.(state);
-				return;
-			}
-			this.animationFrame = requestAnimationFrame(frame);
-		};
-		this.animationFrame = requestAnimationFrame(frame);
+		this.animationFrame = requestAnimationFrame(now => this.playbackFrame(clock, now, options));
 		return this;
+	}
+
+	playbackFrame(clock, now, options) {
+		if (!this.playing) return;
+		const sample = clock.sample(now);
+		const state = this.seek(sample.time, sample.delta);
+		options.onFrame?.(state);
+		if (sample.atBoundary) {
+			this.pause();
+			options.onEnd?.(state);
+			return;
+		}
+		this.animationFrame = requestAnimationFrame(time => this.playbackFrame(clock, time, options));
 	}
 
 	pause() {
 		this.playing = false;
 		this.playbackRate = 0;
+		this.overlay?.pauseMedia();
 		if (this.animationFrame) cancelAnimationFrame(this.animationFrame);
 		this.animationFrame = 0;
 		return this;
@@ -100,10 +105,15 @@ export class MovieDirector {
 		this.pause();
 		this.performance.destroy();
 		this.visuals.destroy();
+		this.shortWorld.destroy();
 		this.authoring3d.destroy();
 		this.crowd.destroy();
-		this.overlay.canvas.remove();
+		this.overlay.destroy();
 	}
+}
+
+function assertProductionHumanManifest(project) {
+	if (project?.metadata?.shortId) assertMovieCinemaHumans(project, { finalMode: true });
 }
 
 export default MovieDirector;

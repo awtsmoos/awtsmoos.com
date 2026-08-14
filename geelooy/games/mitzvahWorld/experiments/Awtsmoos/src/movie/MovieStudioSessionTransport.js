@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioSessionTransport.js
- * @description Owns bounded seek, play, pause, stop, frame-step, shuttle, and rate transitions.
- * The Awtsmoos joins every transport intention to one session; Awtsmoos.com ensures
- * timeline, director, status, event bus, and public state never describe different motion.
+ * @description Owns bounded transport while delegated media readiness keeps paused source-video scrubbing truthful.
+ * The Awtsmoos renews timeline intention before motion or stillness can divide the frame;
+ * Awtsmoos.com keeps transport immediate while a focused helper restores the real source image after decoder delay.
  */
 
 import {
@@ -16,29 +16,21 @@ import {
 	stepMoviePlaybackTime
 } from './MoviePlaybackRate.js';
 import { publishMovieStudioPlaybackState } from './MovieStudioPlaybackState.js';
+import { scheduleMovieStudioMediaRedraw } from './MovieStudioSessionMediaSeek.js';
 
 export function seekMovieStudioSession(session, time) {
 	session.time = boundMoviePlaybackTime(time, session.project.duration);
 	const frame = session.director.seek(session.time);
-	session.timeline?.setTime(frame.time);
-	session.view.status.textContent = `${frame.time.toFixed(2)} / ${session.project.duration.toFixed(2)}s · ${frame.shot}`;
-	session.events.emit('playback:time', {
-		revision: session.revision,
-		shot: frame.shot,
-		time: frame.time
-	});
+	applySeekState(session, frame);
+	scheduleMovieStudioMediaRedraw(session, frame.time);
 	return frame;
 }
 
 export function playMovieStudioSession(session, options = {}) {
 	const rate = normalizeMoviePlaybackRate(options.rate, session.playbackRate || 1);
-	if (!rate) {
-		return pauseMovieStudioSession(session);
-	}
+	if (!rate) return pauseMovieStudioSession(session);
 	const boundaryStart = rate > 0 ? 0 : session.project.duration;
-	const atBoundary = rate > 0
-		? session.time >= session.project.duration
-		: session.time <= 0;
+	const atBoundary = rate > 0 ? session.time >= session.project.duration : session.time <= 0;
 	session.time = Object.hasOwn(options, 'startAt')
 		? boundMoviePlaybackTime(options.startAt, session.project.duration)
 		: atBoundary ? boundaryStart : session.time;
@@ -74,8 +66,9 @@ export function stepMovieStudioSession(session, frames = 1) {
 }
 
 export function shuttleMovieStudioSession(session, direction) {
-	const rate = nextMovieShuttleRate(session.playbackRate, direction);
-	return playMovieStudioSession(session, { rate });
+	return playMovieStudioSession(session, {
+		rate: nextMovieShuttleRate(session.playbackRate, direction)
+	});
 }
 
 export function setMovieStudioPlaybackRate(session, rate) {
@@ -83,6 +76,16 @@ export function setMovieStudioPlaybackRate(session, rate) {
 	return normalized
 		? playMovieStudioSession(session, { rate: normalized })
 		: pauseMovieStudioSession(session);
+}
+
+function applySeekState(session, frame) {
+	session.timeline?.setTime(frame.time);
+	session.view.status.textContent = `${frame.time.toFixed(2)} / ${session.project.duration.toFixed(2)}s · ${frame.shot}`;
+	session.events.emit('playback:time', {
+		revision: session.revision,
+		shot: frame.shot,
+		time: frame.time
+	});
 }
 
 function applyMovieStudioPlaybackFrame(session, frame) {

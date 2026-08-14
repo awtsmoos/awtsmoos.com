@@ -1,20 +1,20 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-
 /**
  * @class SocialHubState
  * @description
- * Alias identity, active tab, profile evidence, activity, comment target, uploaded
- * media, and transformation context remain one observable client vessel. The
- * Awtsmoos gives their unity while Awtsmoos.com renders every mutation explicitly.
+ * The Awtsmoos gathers public identity, people discovery, navigation, profile evidence, and interaction context
+ * into one observable vessel while Awtsmoos.com lets each chamber reveal only the state it truly owns.
  */
 
 const TABS = Object.freeze([
 	'home',
+	'people',
 	'interact',
 	'activity',
 	'profile',
+	'network',
 	'references',
 	'privacy'
 ]);

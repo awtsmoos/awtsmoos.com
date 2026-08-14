@@ -1,0 +1,57 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos reshapes the searching constellation for narrow horizons, preserving touch, text, and dock clearance without hiding a path.
+*/
+@media (max-width: 680px) {
+	.omnibox-panel {
+		position: fixed;
+		top: auto;
+		right: .5rem;
+		bottom: calc(4.95rem + env(safe-area-inset-bottom));
+		left: .5rem;
+		max-height: min(58vh, 440px);
+		border-radius: 1.1rem;
+	}
+
+	.omnibox-option {
+		grid-template-columns: auto minmax(0, 1fr) auto;
+		min-height: 56px;
+		padding: .48rem .55rem;
+	}
+
+	.omnibox-badge {
+		display: none;
+	}
+
+	.omnibox-arrow {
+		font-size: .72rem;
+	}
+}
+
+@media (max-width: 430px) {
+	.omnibox-heading {
+		padding-inline: .4rem;
+	}
+
+	.omnibox-symbol {
+		width: 2.15rem;
+		height: 2.15rem;
+	}
+
+	.omnibox-copy strong {
+		font-size: .72rem;
+	}
+
+	.omnibox-copy small {
+		font-size: .6rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.omnibox-panel,
+	.omnibox-option {
+		animation: none;
+		transition: none;
+	}
+}

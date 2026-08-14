@@ -1,0 +1,70 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos is beyond portrait and landscape; Awtsmoos.com lets short glass keep every doorway alive—less ornamental height, more room for Torah and speech, while thumb targets remain complete in light. */
+
+@media (max-width: 760px) and (max-height: 620px) {
+	.messaging-rail {
+		padding-top: 0.12rem;
+		padding-bottom: max(0.16rem, env(safe-area-inset-bottom));
+	}
+
+	.messaging-rail-button,
+	.messaging-mobile-more-button {
+		min-height: 46px;
+		gap: 0.05rem;
+		padding-block: 0.2rem;
+	}
+
+	.messaging-rail-label {
+		font-size: 0.54rem;
+	}
+
+	.messaging-pane-header,
+	.messaging-thread-header:not([hidden]) {
+		min-height: 50px;
+		padding-block: 0.25rem;
+	}
+
+	.messaging-composer {
+		padding-top: 0.38rem;
+		padding-bottom: max(0.4rem, env(safe-area-inset-bottom));
+	}
+
+	.messaging-composer textarea {
+		max-height: 88px;
+	}
+
+	.messaging-modal {
+		max-height: 94dvh;
+		gap: 0.55rem;
+		padding: 0.7rem max(0.7rem, env(safe-area-inset-right)) max(0.72rem, env(safe-area-inset-bottom)) max(0.7rem, env(safe-area-inset-left));
+		border-radius: 18px 18px 0 0;
+	}
+
+	.messaging-mobile-more-sheet {
+		max-height: 88dvh;
+		gap: 0.55rem;
+		padding-bottom: calc(3.7rem + env(safe-area-inset-bottom));
+	}
+
+	.messaging-details {
+		padding-top: max(0.65rem, env(safe-area-inset-top));
+		padding-right: max(0.7rem, env(safe-area-inset-right));
+		padding-bottom: max(0.7rem, env(safe-area-inset-bottom));
+		padding-left: max(0.7rem, env(safe-area-inset-left));
+	}
+
+	.messaging-empty-state {
+		padding-top: 0.8rem;
+	}
+}
+
+@media (max-width: 760px) and (orientation: landscape) {
+	.messaging-special-pane,
+	.messaging-thread,
+	.messaging-list {
+		scroll-padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+	}
+}

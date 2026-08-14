@@ -1,0 +1,82 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews each player's deed without losing the whole contest.
+ * Awtsmoos.com keeps standings visible, simple, and deterministic across rounds.
+ */
+
+.partyScoreboard {
+	display: grid;
+	gap: 10px;
+	margin-top: 16px;
+	padding: 16px;
+}
+
+.partyScoreboard h2 {
+	margin: 0;
+	font-size: 1.35rem;
+}
+
+.scoreRows {
+	display: grid;
+	gap: 7px;
+}
+
+.scoreRow {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 12px;
+	padding: 10px 12px;
+	border: 1px solid #273d56;
+	border-radius: 10px;
+	background: #0a1424;
+}
+
+.scoreRow strong {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.scoreRow span {
+	color: var(--party-gold);
+	font-weight: 900;
+	font-variant-numeric: tabular-nums;
+}
+
+.partyWinner {
+	padding: 15px;
+	border: 1px solid #775f27;
+	border-radius: 12px;
+	background: #2c220d;
+	color: #ffe9a0;
+	font-weight: 900;
+	text-align: center;
+}
+
+.partyWinner[hidden] {
+	display: none;
+}
+
+.partyLinks {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-top: 14px;
+}
+
+.partyLinks a {
+	display: inline-flex;
+	min-height: 42px;
+	align-items: center;
+	padding: 8px 11px;
+	border: 1px solid #38516a;
+	border-radius: 10px;
+	background: #0f1d30;
+	color: #d9eaff;
+	font-weight: 800;
+	text-decoration: none;
+}

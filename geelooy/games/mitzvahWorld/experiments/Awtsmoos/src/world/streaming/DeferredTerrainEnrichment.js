@@ -4,13 +4,17 @@
 
 /**
  * @file DeferredTerrainEnrichment.js
- * @description Streams sacred lettering and forest after the playable valley exists.
- * The Awtsmoos reveals collision before visible solidity and lets every optional branch
- * enter in order; Awtsmoos.com guards exactly-once work, teardown, and stale promises.
+ * @description Owns exactly-once scheduling, lifecycle, teardown, and snapshots for optional text and deep-core forest enrichment.
+ * The Awtsmoos reveals collision before optional visible solidity; Awtsmoos.com keeps generation tokens and cleanup
+ * in one bounded owner while feature installation lives elsewhere, preventing this lifecycle vessel from becoming a thicket.
  */
 
 import { DeferredTerrainCollisionLedger } from './DeferredTerrainCollisionLedger.js';
 import { DeferredTerrainFeatureHydrator } from './DeferredTerrainFeatureHydrator.js';
+import {
+	installDeferredForestFeature,
+	installDeferredTextFeature
+} from './DeferredTerrainFeatureInstaller.js';
 import {
 	cancelTerrainIdle,
 	loadDeferredForestModule,
@@ -41,13 +45,12 @@ export class DeferredTerrainEnrichment {
 		this.obstacleAdditions = [];
 	}
 
-	/** Schedules one ordered enrichment pass without blocking movement. */
 	start() {
 		if (this.promise) return this.promise;
 		if (this.state === 'destroyed') return Promise.resolve(this.snapshot());
 		const generation = ++this.generation;
 		this.state = 'scheduled';
-		this.promise = new Promise((resolve) => {
+		this.promise = new Promise(resolve => {
 			this.handle = this.schedule(() => {
 				this.handle = null;
 				this.run(generation).then(resolve);
@@ -58,8 +61,8 @@ export class DeferredTerrainEnrichment {
 
 	async run(generation) {
 		try {
-			await this.installText(generation);
-			await this.installForest(generation);
+			await installDeferredTextFeature(this, generation);
+			await installDeferredForestFeature(this, generation);
 			if (this.isCurrent(generation)) this.state = 'complete';
 		} catch (error) {
 			if (this.isCurrent(generation)) {
@@ -70,39 +73,6 @@ export class DeferredTerrainEnrichment {
 		return this.snapshot();
 	}
 
-	async installText(generation) {
-		if (!this.isCurrent(generation)) return;
-		this.state = 'text-loading';
-		const module = await this.loadText();
-		if (!this.isCurrent(generation)) return;
-		const packageValue = await module.createProceduralTextLandmark(
-			this.context.groundSampler
-		);
-		if (!this.isCurrent(generation)) return;
-		const colliders = this.ledger.insertAll(packageValue.colliders);
-		this.context.obstacleTriangles.push(...colliders);
-		this.obstacleAdditions.push(...colliders);
-		this.hydrator.installText(packageValue);
-	}
-
-	async installForest(generation) {
-		if (!this.isCurrent(generation)) return;
-		this.state = 'forest-loading';
-		const module = await this.loadForest();
-		if (!this.isCurrent(generation)) return;
-		const packageValue = module.createProceduralForest({
-			groundSampler: this.context.groundSampler,
-			halfSize: this.context.halfSize,
-			obstacleTriangles: this.context.obstacleTriangles,
-			quality: this.context.quality,
-			roadTriangles: this.context.roadTriangles
-		});
-		if (!this.isCurrent(generation)) return;
-		this.ledger.insertAll(packageValue.colliders);
-		this.hydrator.installForest(packageValue);
-	}
-
-	/** Cancels stale work and removes every manifested visual and collider. */
 	destroy() {
 		this.generation += 1;
 		if (this.handle !== null) this.cancel(this.handle);

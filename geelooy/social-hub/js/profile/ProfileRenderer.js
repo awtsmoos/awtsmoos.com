@@ -1,15 +1,12 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-
 /**
  * @class ProfileRenderer
  * @description
- * Profile summary, posts, comments, references, roles, and shared activity render
- * from one response through focused card builders. The Awtsmoos gives the complete
- * person while Awtsmoos.com shows only canonical and visibility-approved evidence.
+ * The Awtsmoos lets one profile reveal authored work and bounded public relationships through focused renderers.
+ * Awtsmoos.com shows only canonical visibility-approved evidence and never invents social mutation state.
  */
-
 import {
 	commentCard,
 	postCard,
@@ -18,13 +15,13 @@ import {
 	sharedActivityCard,
 	textElement
 } from './ProfileCards.js';
-
+import { ProfileRelationships } from './ProfileRelationships.js';
 export class ProfileRenderer {
-	constructor({ root, state, onPromote }) {
-		Object.assign(this, { root, state, onPromote });
+	constructor({ root, state, onPromote, onOpenAlias }) {
+		Object.assign(this, { root, state, onPromote, onOpenAlias });
+		this.relationships = new ProfileRelationships({ root, onOpenAlias });
 	}
-
-	render(profile) {
+	render(profile, livingCard = null) {
 		if (!profile) return;
 		this.element('profileAliasId').value = profile.alias?.id
 			|| profile.alias?.aliasId
@@ -36,6 +33,7 @@ export class ProfileRenderer {
 			|| profile.alias?.description
 			|| 'No public description.';
 		this.element('profileStats').textContent = this.stats(profile);
+		this.relationships.render(livingCard);
 		this.collection('profilePosts', profile.posts, post => postCard({
 			document: this.root,
 			post,
@@ -48,16 +46,9 @@ export class ProfileRenderer {
 			onPromote: this.onPromote
 		}));
 		this.references(profile.references || []);
-		this.collection('profileRoles', profile.heichelos, record => roleCard({
-			document: this.root,
-			record
-		}));
-		this.collection('profileActivity', profile.activity, event => sharedActivityCard({
-			document: this.root,
-			event
-		}));
+		this.collection('profileRoles', profile.heichelos, record => roleCard({ document: this.root, record }));
+		this.collection('profileActivity', profile.activity, event => sharedActivityCard({ document: this.root, event }));
 	}
-
 	stats(profile) {
 		return [
 			`${profile.posts?.length || 0} posts`,
@@ -67,31 +58,20 @@ export class ProfileRenderer {
 			profile.ownerView ? 'owner view' : 'public view'
 		].join(' · ');
 	}
-
 	references(references) {
 		for (const id of ['profileReferences', 'referenceMap']) {
-			this.collection(id, references, edge => referenceCard({
-				document: this.root,
-				edge
-			}));
+			this.collection(id, references, edge => referenceCard({ document: this.root, edge }));
 		}
 	}
-
 	collection(id, items = [], renderer) {
 		const container = this.element(id);
 		container.replaceChildren();
 		if (!items.length) {
-			container.append(textElement(
-				this.root,
-				'p',
-				'Nothing is visible here yet.',
-				'emptyState'
-			));
+			container.append(textElement(this.root, 'p', 'Nothing is visible here yet.', 'emptyState'));
 			return;
 		}
 		for (const item of items) container.append(renderer(item));
 	}
-
 	element(id) {
 		return this.root.getElementById(id);
 	}

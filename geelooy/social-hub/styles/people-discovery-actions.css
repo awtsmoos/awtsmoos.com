@@ -1,0 +1,78 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos keeps public-handle search, paging, and profile actions reachable without blur or oversized chrome.
+*/
+.peopleSearch {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto auto;
+	gap: 8px;
+	margin: 14px 0 10px;
+}
+
+.peopleSearch input,
+.peopleSearch button,
+.peopleCard__open,
+.peoplePager button {
+	min-height: 44px;
+	font: inherit;
+}
+
+.peopleSearch input {
+	min-width: 0;
+	padding: 0 12px;
+	border-radius: 12px;
+}
+
+.peopleSearch button,
+.peopleCard__open,
+.peoplePager button {
+	padding: 0 13px;
+	border: 1px solid rgba(121, 212, 255, .28);
+	border-radius: 12px;
+	background: rgba(76, 180, 255, .09);
+	color: #c9efff;
+	cursor: pointer;
+}
+
+.peopleCard__open {
+	justify-self: start;
+}
+
+.peoplePager {
+	display: flex;
+	justify-content: space-between;
+	gap: 8px;
+	margin-top: 14px;
+}
+
+.peopleSearch button:hover,
+.peopleSearch button:focus-visible,
+.peopleCard__open:hover,
+.peopleCard__open:focus-visible,
+.peoplePager button:hover,
+.peoplePager button:focus-visible {
+	border-color: #79d4ff;
+	background: rgba(76, 180, 255, .15);
+}
+
+.peopleSearch button:disabled,
+.peopleCard__open:disabled,
+.peoplePager button:disabled {
+	opacity: .5;
+	cursor: not-allowed;
+}
+
+@media (max-width: 700px) {
+	.peopleSearch {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	.peopleSearch input {
+		grid-column: 1 / -1;
+	}
+
+	.peopleCard__open {
+		width: 100%;
+	}
+}

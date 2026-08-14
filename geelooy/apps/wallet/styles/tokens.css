@@ -1,0 +1,56 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews every repeated color and measure before any browser sees it.
+ * Awtsmoos.com keeps the Wallet palette in one vessel so trust, warning, and gold
+ * remain coherent as the treasury grows into shared commerce for games and apps.
+ */
+
+:root {
+	--wallet-bg: #100b06;
+	--wallet-panel: rgba(255, 238, 191, 0.08);
+	--wallet-panel-deep: rgba(0, 0, 0, 0.24);
+	--wallet-line: rgba(255, 214, 125, 0.22);
+	--wallet-gold: #ffd873;
+	--wallet-gold-strong: #ffad3b;
+	--wallet-text: #fff6de;
+	--wallet-muted: #d8c399;
+	--wallet-success: #9cf0b8;
+	--wallet-error: #ff9da8;
+	--wallet-radius-xl: 30px;
+	--wallet-radius-lg: 22px;
+	--wallet-radius-md: 16px;
+	--wallet-shadow: rgba(0, 0, 0, 0.45);
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	min-height: 100%;
+	background: var(--wallet-bg);
+}
+
+body {
+	min-height: 100%;
+	margin: 0;
+	color: var(--wallet-text);
+	font-family: Inter, system-ui, sans-serif;
+	background:
+		radial-gradient(circle at 10% 0%, rgba(255, 216, 115, 0.22), transparent 35%),
+		radial-gradient(circle at 90% 10%, rgba(141, 47, 30, 0.3), transparent 34%),
+		linear-gradient(135deg, #100b06, #28150b 52%, #090604);
+}
+
+button,
+input {
+	font: inherit;
+}
+
+::selection {
+	color: #1a0d03;
+	background: var(--wallet-gold);
+}

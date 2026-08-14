@@ -1,98 +1,72 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 /**
- * Chapter 193 test: the river ignores taps and tiny jitter, pauses only after a
- * meaningful manual scroll gesture, resumes after release, and still stops when
- * commanded by the green button.
+ * @file AutoScrollDown.test.mjs
+ * @description The Awtsmoos proves one semantic river contract: Off-first,
+ * measured motion, live pace changes, pauses, lifecycle stop, and preference sync.
  */
-import assert from "node:assert/strict";
-import {
-    getAutoScrollDownState,
-    pauseAutoScrollDown,
-    scheduleAutoScrollResume,
-    startAutoScrollDown,
-    stopAutoScrollDown,
-    toggleAutoScrollDown
-} from "../AutoScrollDown.js";
+import assert from 'node:assert/strict';
+import test from 'node:test';
+import { createAutoScrollHarness } from './AutoScrollHarness.mjs';
+const wait = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds));
 
-const classes = new Set();
-const listeners = new Map();
-const scrollElement = { scrollTop: 0, scrollHeight: 900, clientHeight: 100 };
+function advanceFrames(harness, startTime, count) {
+	for (let index = 0; index < count; index += 1) {
+		assert.equal(harness.runFrame(startTime + index * 16), true);
+	}
+}
 
-globalThis.window = {
-    innerHeight: 100,
-    dispatchEvent: () => true,
-    addEventListener: () => {}
-};
-globalThis.CustomEvent = class CustomEvent {
-    constructor(type, init = {}) { this.type = type; this.detail = init.detail; }
-};
-globalThis.document = {
-    scrollingElement: scrollElement,
-    documentElement: null,
-    querySelector: () => null,
-    addEventListener: (type, handler) => listeners.set(type, handler),
-    body: {
-        classList: {
-            add: name => classes.add(name),
-            remove: name => classes.delete(name)
-        }
-    }
-};
-let rafId = 0;
-globalThis.requestAnimationFrame = fn => {
-    rafId += 1;
-    setTimeout(() => fn(Date.now()), 0);
-    return rafId;
-};
-globalThis.cancelAnimationFrame = () => {};
+test('complete measured semantic auto-scroll contract', async () => {
+	const harness = createAutoScrollHarness();
+	const river = await harness.loadRiver();
+	const initial = river.initializeAutoScrollDownState();
+	assert.equal(initial.active, false);
+	assert.equal(initial.status, 'off');
+	assert.equal(initial.unit, 'wpm');
+	assert.equal(initial.value, 120);
+	assert.equal(initial.preset, 'learn');
+	assert.equal(initial.pixelsPerSecond, 40);
 
-const target = { closest: () => null };
+	const slow = river.setAutoScrollDownPace(40);
+	assert.equal(slow.active, false);
+	assert.equal(slow.value, 40);
+	assert.equal(slow.preset, 'custom');
+	assert.match(harness.storageValues.get('awtsmoos-reader-auto-scroll-pace-v3'), /"value":40/);
 
-assert.equal(startAutoScrollDown({ speed: 3 }), true);
-assert.equal(getAutoScrollDownState().active, true);
-assert.equal(getAutoScrollDownState().paused, false);
-assert.equal(getAutoScrollDownState().speed, 3);
-assert.equal(classes.has("awtsmoos-auto-scroll-active"), true);
-await new Promise(resolve => setTimeout(resolve, 5));
-const moved = scrollElement.scrollTop;
-assert.ok(moved > 0);
+	harness.root.scrollTop = 0;
+	river.startAutoScrollDown({ pace: 40 });
+	advanceFrames(harness, 1000, 50);
+	const slowDistance = harness.root.scrollTop;
+	river.stopAutoScrollDown();
+	assert.ok(slowDistance >= 5 && slowDistance <= 15, `slow distance ${slowDistance}`);
 
-listeners.get("pointerdown")?.({ target, clientY: 100, clientX: 10 });
-assert.equal(getAutoScrollDownState().paused, false, "mere touch must not pause");
-listeners.get("pointermove")?.({ target, clientY: 112, clientX: 10 });
-assert.equal(getAutoScrollDownState().paused, false, "tiny jitter must not pause");
+	harness.root.scrollTop = 0;
+	river.startAutoScrollDown({ preset: 'review' });
+	advanceFrames(harness, 3000, 50);
+	const reviewDistance = harness.root.scrollTop;
+	assert.ok(reviewDistance > slowDistance * 3);
+	assert.equal(harness.classes.has('awtsmoos-auto-scroll-active'), true);
+	assert.equal(river.pauseAutoScrollDown(), true);
+	assert.equal(river.getAutoScrollDownState().status, 'paused');
+	assert.equal(river.toggleAutoScrollDown(), true);
+	assert.equal(river.getAutoScrollDownState().status, 'scrolling');
 
-listeners.get("pointermove")?.({ target, clientY: 142, clientX: 10 });
-assert.equal(getAutoScrollDownState().paused, true, "real drag must pause");
-const pausedAt = scrollElement.scrollTop;
-await new Promise(resolve => setTimeout(resolve, 5));
-assert.equal(scrollElement.scrollTop, pausedAt, "paused river must not move");
+	river.pauseAutoScrollDown('manual-navigation');
+	river.scheduleAutoScrollResume(1, 'manual-navigation');
+	await wait(8);
+	assert.equal(river.getAutoScrollDownState().status, 'scrolling');
+	harness.fireWindow('pagehide');
+	assert.equal(river.getAutoScrollDownState().active, false);
 
-listeners.get("pointerup")?.();
-await new Promise(resolve => setTimeout(resolve, 700));
-assert.equal(getAutoScrollDownState().paused, false, "release resumes after delay");
-await new Promise(resolve => setTimeout(resolve, 5));
-assert.ok(scrollElement.scrollTop > pausedAt);
-
-listeners.get("wheel")?.({ target, deltaY: 8 });
-assert.equal(getAutoScrollDownState().paused, false, "tiny wheel must not pause");
-listeners.get("wheel")?.({ target, deltaY: 44 });
-assert.equal(getAutoScrollDownState().paused, true, "real wheel must pause");
-scheduleAutoScrollResume(1);
-await new Promise(resolve => setTimeout(resolve, 8));
-assert.equal(getAutoScrollDownState().paused, false);
-
-pauseAutoScrollDown();
-assert.equal(getAutoScrollDownState().paused, true);
-assert.equal(classes.has("awtsmoos-auto-scroll-paused"), true);
-scheduleAutoScrollResume(1);
-await new Promise(resolve => setTimeout(resolve, 8));
-assert.equal(getAutoScrollDownState().paused, false);
-assert.equal(classes.has("awtsmoos-auto-scroll-paused"), false);
-
-assert.equal(toggleAutoScrollDown(), false);
-assert.equal(getAutoScrollDownState().active, false);
-assert.equal(classes.has("awtsmoos-auto-scroll-active"), false);
-assert.equal(stopAutoScrollDown(), false);
-
-console.log('B"H AutoScrollDown.test passed');
+	harness.fireWindow('storage', {
+		key: 'awtsmoos-reader-auto-scroll-pace-v3',
+		newValue: JSON.stringify({ unit: 'lpm', value: 7.5, preset: 'review', eyeLine: 0.5 })
+	});
+	const synced = river.getAutoScrollDownState();
+	assert.equal(synced.unit, 'lpm');
+	assert.equal(synced.value, 7.5);
+	assert.equal(synced.active, false);
+	assert.ok(harness.emittedStates.every(state => 'estimateText' in state && 'paceText' in state));
+	river.stopAutoScrollDown();
+});

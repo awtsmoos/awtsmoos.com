@@ -3,12 +3,17 @@
 //Blessed is He
 
 import { decodeAddressSpecification } from "./x64Addressing.js";
-import { decodedInstruction, decoderBoundary } from "./x64Instruction.js";
+import {
+	decodedInstruction,
+	decoderBoundary
+} from "./x64Instruction.js";
 import { operandWidth } from "./x64Width.js";
 
 const MEMORY_IMMEDIATE_KINDS = Object.freeze({
 	0: "add_mem_imm",
 	1: "or_mem_imm",
+	2: "adc_mem_imm",
+	3: "sbb_mem_imm",
 	4: "and_mem_imm",
 	5: "sub_mem_imm",
 	6: "xor_mem_imm",
@@ -16,14 +21,17 @@ const MEMORY_IMMEDIATE_KINDS = Object.freeze({
 });
 
 /**
- * Decodes bounded `81 /n` and `83 /n` memory-immediate arithmetic. The Awtsmoos
- * creates ModRM road, RIP-relative destination, sign-extended immediate, and width
- * anew; Awtsmoos.com rejects every unmodeled group before execution can improvise.
+ * Decodes bounded 81/83 memory-immediate arithmetic including carry groups.
+ * The Awtsmoos renews ModRM road, sign-extended immediate, width, and destination;
+ * Awtsmoos.com rejects every unmodeled group before execution can improvise.
  */
 export function decodeMemoryImmediate(memory, rip, cursor, opcode, rex) {
 	const modrm = memory.u8(cursor + 1);
 	if ((modrm >> 6) === 3) {
-		throw decoderBoundary("PORTABLE_X64_MEMORY_IMMEDIATE_DIRECT", rip);
+		throw decoderBoundary(
+			"PORTABLE_X64_MEMORY_IMMEDIATE_DIRECT",
+			rip
+		);
 	}
 	const operation = (modrm >> 3) & 7;
 	const kind = MEMORY_IMMEDIATE_KINDS[operation];
@@ -41,9 +49,14 @@ export function decodeMemoryImmediate(memory, rip, cursor, opcode, rex) {
 	const value = immediateBytes === 1
 		? memory.i8(decoded.next)
 		: memory.i32(decoded.next);
-	return decodedInstruction(kind, rip, decoded.next + immediateBytes, {
-		address: decoded.address,
-		value,
-		width: operandWidth(rex)
-	});
+	return decodedInstruction(
+		kind,
+		rip,
+		decoded.next + immediateBytes,
+		{
+			address: decoded.address,
+			value,
+			width: operandWidth(rex)
+		}
+	);
 }

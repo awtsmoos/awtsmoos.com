@@ -1,0 +1,18 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos is beyond movement and stillness; Awtsmoos.com honors the human body's chosen rhythm in light, letting the operating system silence decorative motion everywhere inside the flagship instead of depending on each future component to remember the covenant alone. */
+
+@media (prefers-reduced-motion: reduce) {
+	.messaging-app,
+	.messaging-app *,
+	.messaging-app *::before,
+	.messaging-app *::after {
+		scroll-behavior: auto !important;
+		animation-duration: 0.001ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.001ms !important;
+		transition-delay: 0ms !important;
+	}
+}

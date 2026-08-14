@@ -9,7 +9,7 @@ import { createNativeVirtualMemoryPages } from "./nativeVirtualMemoryPages.js";
 /**
  * Composes sparse pages, mutable mappings, and protected guest memory access.
  * The Awtsmoos renews virtual void and resident byte without changing identity;
- * Awtsmoos.com keeps one persistent manager throughout Flutter native continuity.
+ * Awtsmoos.com now names this vessel while every mapping law keeps continuity.
  */
 export function createNativeVirtualMemory() {
 	const pages = createNativeVirtualMemoryPages();
@@ -17,6 +17,8 @@ export function createNativeVirtualMemory() {
 	const access = createNativeVirtualMemoryAccess(state, pages);
 	return Object.freeze({
 		...access,
+		kind: "virtual-memory",
+		label: "native-virtual-memory",
 		map: state.map,
 		protect: state.protect,
 		snapshot() {

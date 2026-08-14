@@ -1,8 +1,9 @@
-<!--B"H
+<!-- B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos creates shell, app, action, window, and responsive boundary anew.
-Awtsmoos.com gives every registered stub a stable entrance on desktop and mobile.
+The Awtsmoos creates project, file, data path, runtime, process, machine, and shell anew.
+Awtsmoos.com reveals Geelooy OS as one inspectable project platform: hosted files,
+AwtsmoosDB APIs, code, previews, native runtime, measured usage, and connected drives.
 -->
 <!doctype html>
 <html lang="en">
@@ -10,32 +11,33 @@ Awtsmoos.com gives every registered stub a stable entrance on desktop and mobile
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 	<meta name="theme-color" content="#071022">
-	<title>Geelooy OS — Awtsmoos</title>
-	<link rel="stylesheet" href="./styles.css?v=revelation-6">
-	<link rel="stylesheet" href="./civilization/styles.css?v=revelation-6">
-	<link rel="stylesheet" href="./styles/native-executable-accessibility.css?v=revelation-6">
-	<link rel="stylesheet" href="./styles/revelation/tokens.css?v=revelation-6">
-	<link rel="stylesheet" href="./styles/revelation/shell.css?v=revelation-6">
-	<link rel="stylesheet" href="./styles/revelation/dock.css?v=revelation-6">
-	<link rel="stylesheet" href="./styles/revelation/dock-pinned.css?v=revelation-6">
-	<link rel="stylesheet" href="./styles/revelation/windows.css?v=revelation-6">
-	<link rel="stylesheet" href="./styles/revelation/overlays.css?v=revelation-6">
-	<link rel="stylesheet" href="./styles/revelation/command.css?v=revelation-6">
-	<link rel="stylesheet" href="./styles/revelation/launcher.css?v=revelation-6">
-	<link rel="stylesheet" href="./styles/revelation/launcher-records.css?v=revelation-6">
-	<link rel="stylesheet" href="./styles/revelation/feedback.css?v=revelation-6">
-	<link rel="stylesheet" href="./styles/revelation/responsive.css?v=revelation-6">
-	<link rel="stylesheet" href="./styles/revelation/responsive-mobile.css?v=revelation-6">
-	<link rel="stylesheet" href="./styles/revelation/accessibility.css?v=revelation-6">
+	<meta name="description" content="Geelooy OS is the Awtsmoos project workspace for hosted files, AwtsmoosDB APIs, Code, previews, supervised runtime, usage telemetry, and connected machines.">
+	<title>Geelooy OS — Files, AwtsmoosDB, Runtime & Control</title>
+	<link rel="stylesheet" href="./styles.css?v=revelation-7">
+	<link rel="stylesheet" href="./civilization/styles.css?v=revelation-7">
+	<link rel="stylesheet" href="./styles/native-executable-accessibility.css?v=revelation-7">
+	<link rel="stylesheet" href="./styles/revelation/tokens.css?v=revelation-7">
+	<link rel="stylesheet" href="./styles/revelation/shell.css?v=revelation-7">
+	<link rel="stylesheet" href="./styles/revelation/dock.css?v=revelation-7">
+	<link rel="stylesheet" href="./styles/revelation/dock-pinned.css?v=revelation-7">
+	<link rel="stylesheet" href="./styles/revelation/windows.css?v=revelation-7">
+	<link rel="stylesheet" href="./styles/revelation/overlays.css?v=revelation-7">
+	<link rel="stylesheet" href="./styles/revelation/command.css?v=revelation-7">
+	<link rel="stylesheet" href="./styles/revelation/launcher.css?v=revelation-7">
+	<link rel="stylesheet" href="./styles/revelation/launcher-records.css?v=revelation-7">
+	<link rel="stylesheet" href="./styles/revelation/feedback.css?v=revelation-7">
+	<link rel="stylesheet" href="./styles/revelation/responsive.css?v=revelation-7">
+	<link rel="stylesheet" href="./styles/revelation/responsive-mobile.css?v=revelation-7">
+	<link rel="stylesheet" href="./styles/revelation/accessibility.css?v=revelation-7">
 </head>
 <body>
 	<div class="main">
 		<header id="awtsmoos-shell-topbar" aria-label="Geelooy system controls">
 			<div class="shell-brand">
 				<span class="shell-brand-mark" aria-hidden="true">✦</span>
-				<span class="shell-brand-copy">Geelooy OS</span>
+				<span class="shell-brand-copy">Geelooy OS · Files · DB · Runtime</span>
 			</div>
-			<span id="shell-status" class="shell-chip" role="status">Starting…</span>
+			<span id="shell-status" class="shell-chip" role="status">Starting Project Command Center…</span>
 			<div class="shell-topbar-actions">
 				<button id="shell-command-button" class="shell-chip" type="button" aria-haspopup="dialog">Search <kbd>⌘⇧K</kbd></button>
 				<time id="shell-clock" class="shell-chip">--:--</time>
@@ -43,8 +45,8 @@ Awtsmoos.com gives every registered stub a stable entrance on desktop and mobile
 				<div id="loginHolder" class="login-area"></div>
 			</div>
 		</header>
-		<main id="desktop" class="desktop" aria-label="Geelooy desktop"></main>
-		<nav id="start-bar" aria-label="Applications and running tasks">
+		<main id="desktop" class="desktop" aria-label="Geelooy project desktop"></main>
+		<nav id="start-bar" aria-label="Platform applications and running tasks">
 			<button id="start-button" type="button" aria-label="Open Apps" aria-controls="start-menu" aria-expanded="false">
 				<span class="start-button-label">Apps</span>
 			</button>
@@ -67,11 +69,11 @@ Awtsmoos.com gives every registered stub a stable entrance on desktop and mobile
 	</aside>
 	<div id="shell-command-palette" hidden role="dialog" aria-modal="true" aria-label="Command palette">
 		<div class="shell-command-card">
-			<input id="shell-command-input" type="search" autocomplete="off" placeholder="Search apps and actions" aria-controls="shell-command-results">
+			<input id="shell-command-input" type="search" autocomplete="off" placeholder="Search platform apps and actions" aria-controls="shell-command-results">
 			<div id="shell-command-results" role="listbox" aria-label="Command results"></div>
 		</div>
 	</div>
 	<div id="shell-live-region" class="shell-live-region" aria-live="polite" aria-atomic="true"></div>
-	<script type="module" src="./script.js?v=revelation-6"></script>
+	<script type="module" src="./script.js?v=revelation-7"></script>
 </body>
 </html>

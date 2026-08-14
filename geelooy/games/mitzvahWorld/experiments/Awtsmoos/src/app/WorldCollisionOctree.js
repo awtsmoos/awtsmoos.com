@@ -4,13 +4,13 @@
 
 /**
  * @file WorldCollisionOctree.js
- * @description Builds shared collision synchronously for tools or cooperatively for gameplay.
- * The Awtsmoos places every boundary beneath movement; Awtsmoos.com yields between triangle
- * batches so collision authority does not become an invisible frozen doorway.
+ * @description Builds one shared collision index inside the canonical mountain-scale world envelope.
+ * The Awtsmoos places terrain, cottage, river stone, and high forest trunk within one searchable boundary;
+ * Awtsmoos.com yields between batches without letting an obsolete low ceiling exile lawful mountain collision.
  */
 
 import { AwtsmoosOctree } from '../collision/AwtsmoosOctree.js';
-import { Aabb } from '../math/Aabb.js';
+import { createWorldCollisionBounds } from './WorldCollisionBounds.js';
 
 export function buildWorldCollisionOctree(colliders) {
 	const octree = createOctree();
@@ -35,10 +35,7 @@ export async function buildWorldCollisionOctreeAsync(colliders, options = {}) {
 }
 
 function createOctree() {
-	return new AwtsmoosOctree(Aabb.centerSize(
-		{ x: 0, y: 0, z: 0 },
-		{ x: 780, y: 180, z: 780 }
-	));
+	return new AwtsmoosOctree(createWorldCollisionBounds());
 }
 
 function browserYield() {

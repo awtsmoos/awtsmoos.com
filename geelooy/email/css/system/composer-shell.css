@@ -1,44 +1,67 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gives composition one calm outer vessel.
+The Awtsmoos turns thought into a sent word; Awtsmoos.com frames composition gently so writing remains the center.
 */
 .composer-area {
-	padding: 12px 16px 16px;
+	padding: 10px clamp(12px, 2.5vw, 26px) max(14px, env(safe-area-inset-bottom));
 	border-top: 1px solid var(--mail-border);
-	background: rgba(8, 13, 21, .9);
+	background: linear-gradient(180deg, rgba(7, 11, 18, .9), rgba(6, 10, 16, .97));
 }
 
 .composer-box {
+	max-width: calc(var(--mail-reading-width) + 140px);
+	margin: 0 auto;
 	border: 1px solid var(--mail-border);
-	border-radius: 16px;
-	background: rgba(255, 255, 255, .03);
+	border-radius: 18px;
+	background: rgba(14, 22, 34, .92);
+	box-shadow: 0 14px 45px rgba(0, 0, 0, .18), inset 0 1px rgba(255, 255, 255, .025);
+	overflow: hidden;
 }
 
 .composer-topbar {
-	padding: 8px 10px;
+	gap: 12px;
+	padding: 7px 9px;
 	border-bottom: 1px solid var(--mail-border);
+	background: rgba(255, 255, 255, .018);
 }
 
 .composer-tabs {
 	display: flex;
-	gap: 6px;
+	gap: 4px;
 }
 
 .mode-tab,
 .icon-btn,
 .win-ctrl,
 .close-modal {
-	min-width: 40px;
-	min-height: 40px;
+	min-height: 38px;
+	padding: 0 10px;
 	border: 1px solid transparent;
-	border-radius: 10px;
+	border-radius: 9px;
 	background: transparent;
 	color: var(--mail-text-muted);
+	font-size: .73rem;
 	cursor: pointer;
 }
 
-.mode-tab.active {
+.icon-btn,
+.win-ctrl,
+.close-modal {
+	min-width: 38px;
+	padding: 0 8px;
+}
+
+.mode-tab:hover,
+.icon-btn:hover,
+.win-ctrl:hover,
+.close-modal:hover {
+	background: rgba(255, 255, 255, .045);
+	color: var(--mail-text-secondary);
+}
+
+.mode-tab.active,
+.mode-tab[aria-pressed="true"] {
 	border-color: var(--mail-border);
 	background: var(--mail-accent-soft);
 	color: var(--mail-text);

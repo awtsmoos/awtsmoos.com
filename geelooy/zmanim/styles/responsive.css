@@ -1,0 +1,106 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is one before narrow and wide are named by devices;
+ * Awtsmoos.com lets room unfold only when it truly helps, while the mobile path stays first and decisive.
+ */
+
+@media (min-width: 760px) {
+	.control-deck {
+		grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.9fr);
+	}
+
+	.method-control {
+		grid-column: 1 / -1;
+	}
+
+	.daily-dashboard {
+		grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+	}
+
+	.day-timeline {
+		grid-column: 1 / -1;
+	}
+
+	.trust-strip {
+		grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+		align-items: center;
+	}
+
+	.zman-card-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (min-width: 980px) {
+	.control-deck {
+		grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.9fr) minmax(260px, 0.8fr);
+		align-items: start;
+	}
+
+	.method-control {
+		grid-column: auto;
+	}
+
+	.sticky-context {
+		grid-template-columns: minmax(0, 1fr) auto auto;
+	}
+
+	#sticky-next {
+		grid-column: auto;
+	}
+
+	.key-time {
+		padding: 0.82rem;
+	}
+}
+
+@media (max-width: 520px) {
+	.header-link {
+		display: none;
+	}
+
+	.app-header {
+		grid-template-columns: auto minmax(0, 1fr);
+	}
+
+	.section-heading {
+		align-items: start;
+	}
+
+	.compact-heading {
+		flex-direction: column;
+	}
+
+	.share-actions {
+		justify-content: start;
+	}
+
+	.share-status {
+		text-align: start;
+	}
+}
+
+@media (max-width: 370px) {
+	.date-control {
+		grid-template-columns: 42px minmax(0, 1fr) 42px;
+	}
+
+	.date-today {
+		grid-column: 1 / -1;
+	}
+
+	.key-times {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		transition: none !important;
+	}
+}

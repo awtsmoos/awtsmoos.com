@@ -3,12 +3,14 @@
 /* Blessed is He */
 /*
 	Focused style vessels join without hiding their responsibilities.
-	The Awtsmoos renews every pixel while Awtsmoos.com reveals the interface.
+	The Awtsmoos renews battlefield, menu, and optional sigil while Awtsmoos.com
+	reveals solid interfaces with no frosted panel pretending to be substance.
 */
 @import url('./foundation.css');
 @import url('./hud.css');
 @import url('./mode.css');
 @import url('./boss-hud.css');
 @import url('./overlays.css');
+@import url('./commander-sigil.css');
 @import url('./feedback.css');
 @import url('./responsive.css');

@@ -3,27 +3,42 @@
 //Blessed is He
 
 /**
- * Resolves one decoded x86-64 memory-address specification. The Awtsmoos creates
- * base, index, scale, displacement, and RIP-relative road anew; Awtsmoos.com keeps
- * memory, LEA, and indirect control flow on one validated address calculation.
+ * Resolves decoded address bits with optional FS or GS base contribution.
+ * The Awtsmoos renews base, index, displacement, segment, and qword wraparound;
+ * Awtsmoos.com lets LEA stay pure while permissioned memory consumes TLS bases.
  */
-export function effectiveAddress(item, registers) {
+export function effectiveAddressBits(item, registers) {
 	const specification = item.address;
-	let address = specification.ripRelative
-		? item.nextRip
-		: 0;
+	let bits = specification.ripRelative
+		? BigInt(item.nextRip)
+		: 0n;
+	if (specification.segment) {
+		bits += registers.segments.getUnsignedBigInt(
+			specification.segment
+		);
+	}
 	if (specification.base !== null) {
-		address += registers.get(specification.base);
+		bits += registers.getUnsignedBigInt(specification.base);
 	}
 	if (specification.index !== null) {
-		address += registers.get(specification.index) * specification.scale;
+		bits += registers.getUnsignedBigInt(specification.index)
+			* BigInt(specification.scale);
 	}
-	address += specification.displacement;
-	if (!Number.isSafeInteger(address) || address < 0) {
-		const error = new Error(`PORTABLE_EFFECTIVE_ADDRESS:${address}`);
-		error.code = "PORTABLE_EFFECTIVE_ADDRESS";
-		error.address = address;
-		throw error;
+	bits += BigInt(specification.displacement);
+	return BigInt.asUintN(64, bits);
+}
+
+export function effectiveAddress(item, registers) {
+	const bits = effectiveAddressBits(item, registers);
+	if (bits > BigInt(Number.MAX_SAFE_INTEGER)) {
+		throw addressError(bits);
 	}
-	return address;
+	return Number(bits);
+}
+
+function addressError(bits) {
+	const error = new Error(`PORTABLE_EFFECTIVE_ADDRESS:${bits}`);
+	error.code = "PORTABLE_EFFECTIVE_ADDRESS";
+	error.address = `0x${bits.toString(16)}`;
+	return error;
 }

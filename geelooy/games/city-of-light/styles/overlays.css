@@ -1,88 +1,10 @@
 /*B"H*/
 /*Boruch Hashem*/
 /*Blessed is He*/
-/*
-	Pause, transition, and recovery become clear chambers above the still-visible
-	city. Awtsmoos.com never replaces the journey with a blank modal; the Awtsmoos-
-	given world remains present while choice, reward, or repair is announced.
-*/
 
-.overlay {
-	position: fixed;
-	inset: 0;
-	display: none;
-	align-items: center;
-	justify-content: center;
-	z-index: 20;
-	padding: 1rem;
-	background: rgba(2, 3, 8, 0.82);
-	backdrop-filter: blur(16px);
-}
-
-.overlay.visible {
-	display: flex;
-}
-
-.overlayPanel {
-	width: min(980px, 100%);
-	max-height: calc(100vh - 2rem);
-	overflow: auto;
-	padding: 1.35rem;
-	border: 1px solid rgba(255, 255, 255, 0.18);
-	border-radius: 1.3rem;
-	background: linear-gradient(145deg, rgba(24, 34, 66, 0.96), rgba(5, 7, 18, 0.98));
-	box-shadow: 0 40px 130px rgba(0, 0, 0, 0.66);
-}
-
-.pauseActions,
-.settingsRow {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.55rem;
-	margin: 1rem 0;
-}
-
-.chapterGrid {
-	display: grid;
-	grid-template-columns: repeat(4, minmax(0, 1fr));
-	gap: 0.55rem;
-}
-
-.chapterCard {
-	display: grid;
-	grid-template-columns: auto 1fr auto;
-	align-items: center;
-	gap: 0.55rem;
-	min-height: 4rem;
-	border-radius: 0.9rem;
-	text-align: left;
-}
-
-.chapterCard.completed {
-	border-color: rgba(170, 255, 211, 0.55);
-}
-
-.chapterCard.current {
-	outline: 2px solid #ffd978;
-}
-
-.chapterNumber,
-.chapterMark {
-	font-weight: 900;
-}
-
-.chapterName {
-	font-size: 0.84rem;
-}
-
-.transitionPanel,
-.errorPanel {
-	max-width: 620px;
-	text-align: center;
-}
-
-@media (max-width: 760px) {
-	.chapterGrid {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
-}
+/**
+ * The Awtsmoos renews pause, chapter choice, transition, and recovery through separate chambers;
+ * Awtsmoos.com keeps one explicit overlay cascade while each source vessel remains small enough to inspect fully.
+ */
+@import url('./overlays/shell.css');
+@import url('./overlays/chapters.css');

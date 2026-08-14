@@ -1,0 +1,129 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * Emoji War menus become solid arcade control rooms instead of frosted overlays.
+ * The Awtsmoos renews every choice and setting; Awtsmoos.com gives each choice a
+ * strong edge, clear hierarchy, and mobile-safe touch target without glass.
+ */
+
+.menu-container {
+	position: absolute;
+	inset: 0;
+	z-index: 10;
+	display: none;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	padding: max(18px, env(safe-area-inset-top)) 16px max(18px, env(safe-area-inset-bottom));
+	overflow-y: auto;
+	background: #080d18;
+}
+
+.menu-container h1 {
+	margin: 0 0 8px;
+	font-size: clamp(2.4rem, 10vw, 5rem);
+	letter-spacing: -.05em;
+	line-height: .9;
+	text-align: center;
+}
+
+.menu-container h2 {
+	margin: 0 0 8px;
+	color: var(--emoji-muted);
+	font-size: clamp(1.15rem, 5vw, 1.75rem);
+	text-align: center;
+}
+
+.menu-container h3 {
+	margin: 0 0 6px;
+	color: var(--emoji-green);
+	font-size: 1.05rem;
+}
+
+.menu-lead {
+	max-width: 620px;
+	margin: 0 0 10px;
+	color: var(--emoji-muted);
+	line-height: 1.55;
+	text-align: center;
+}
+
+.menu-button,
+#imageUploadLabel {
+	display: inline-flex;
+	min-width: min(100%, 280px);
+	min-height: 48px;
+	align-items: center;
+	justify-content: center;
+	padding: 12px 20px;
+	border: 1px solid #367144;
+	border-radius: 10px;
+	background: #143b22;
+	color: #fff;
+	cursor: pointer;
+	font-size: 1rem;
+	font-weight: 850;
+	text-align: center;
+	transition: background .18s ease, border-color .18s ease, transform .18s ease;
+}
+
+.menu-button:hover,
+#imageUploadLabel:hover {
+	border-color: var(--emoji-green);
+	background: #1c5630;
+	transform: translateY(-2px);
+}
+
+.menu-button.secondary {
+	border-color: #3d4d68;
+	background: #172236;
+}
+
+.menu-button.danger {
+	border-color: #8e3a3a;
+	background: #481c1c;
+}
+
+.menu-container textarea,
+.menu-container input[type="number"] {
+	width: min(90vw, 560px);
+	padding: 11px 12px;
+	border: 1px solid var(--emoji-border);
+	border-radius: 9px;
+	background: #0a111d;
+	color: #fff;
+	font-size: 1rem;
+}
+
+.menu-container textarea {
+	min-height: 110px;
+	resize: vertical;
+}
+
+.menu-container label {
+	margin-top: 8px;
+	color: var(--emoji-text);
+	font-weight: 750;
+}
+
+.setting-group {
+	width: min(92vw, 620px);
+	padding: 16px;
+	border: 1px solid var(--emoji-border);
+	border-radius: 12px;
+	background: var(--emoji-panel);
+	text-align: center;
+}
+
+#imageUploader {
+	display: none;
+}
+
+#fileCount,
+#webcamStatus {
+	color: var(--emoji-muted);
+	font-size: .88rem;
+}

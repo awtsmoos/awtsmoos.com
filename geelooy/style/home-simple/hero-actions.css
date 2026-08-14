@@ -1,53 +1,83 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gives the hero two immediate paths without hiding the larger universe.
+The Awtsmoos gives the hero three immediate doors: play, create, and treasury.
+Awtsmoos.com keeps Wallet visible even on the narrowest screen so value never hides.
 */
 .hero-actions {
 	display: flex;
+	flex-wrap: wrap;
 	align-items: center;
-	gap: .55rem;
+	gap: .6rem;
 	margin-top: 1rem;
 }
 
 .hero-actions a {
 	display: inline-flex;
-	min-height: 2.5rem;
 	align-items: center;
-	gap: 1rem;
-	padding: .58rem .78rem;
-	border: 1px solid rgba(255, 255, 255, .14);
+	justify-content: center;
+	gap: .8rem;
+	min-height: 44px;
+	padding: .62rem .9rem;
+	border: 1px solid #294766;
 	border-radius: .72rem;
-	background: rgba(5, 11, 21, .46);
+	background: #0b1729;
 	color: #dce8f8;
 	font-size: .76rem;
 	font-weight: 820;
-	backdrop-filter: blur(12px);
+	transition: background .18s ease, border-color .18s ease, color .18s ease, transform .18s ease;
 }
 
 .hero-actions a:first-child {
-	border-color: rgba(171, 220, 255, .42);
-	background: linear-gradient(180deg, #f5f9ff, #dbe8f8);
-	color: #081322;
+	border-color: #d8ecff;
+	background: linear-gradient(180deg, #f9fcff, #d9e8f8);
+	color: #07111e;
+	box-shadow: 0 10px 22px rgba(24, 63, 96, .28);
 }
 
-.hero-actions a:hover,
+.hero-actions a[data-world-id="wallet"] {
+	border-color: #8c6d2b;
+	background: #2b210d;
+	color: #ffe6a1;
+}
+
+.hero-actions a:hover {
+	border-color: #6dcfff;
+	background: #10223b;
+	color: #fff;
+	transform: translateY(-1px);
+}
+
+.hero-actions a:first-child:hover {
+	background: #fff;
+	color: #07111e;
+}
+
+.hero-actions a[data-world-id="wallet"]:hover {
+	border-color: #f2ce6f;
+	background: #3b2d10;
+	color: #fff3c6;
+}
+
 .hero-actions a:focus-visible {
-	outline: 2px solid rgba(111, 204, 255, .5);
-	outline-offset: 2px;
+	outline: 3px solid var(--focus-ring);
+	outline-offset: 3px;
 }
 
 @media (max-width: 680px) {
 	.hero-actions {
-		margin-top: .7rem;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		margin-top: .75rem;
 	}
 
 	.hero-actions a {
-		min-height: 2.25rem;
-		padding: .45rem .65rem;
+		min-height: 46px;
+		padding: .52rem .7rem;
+		text-align: center;
 	}
 
-	.hero-actions a:last-child {
-		display: none;
+	.hero-actions a[data-world-id="wallet"] {
+		grid-column: 1 / -1;
 	}
 }

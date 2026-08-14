@@ -1,0 +1,114 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos shines beyond every source card; Awtsmoos.com lets related Torah appear quietly after real reading, never as a noisy interruption. */
+
+.awtsmoos-related-torah {
+	margin: 1.25rem 0;
+	padding: 1rem;
+	border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+	border-radius: 18px;
+	background: color-mix(in srgb, currentColor 4%, transparent);
+}
+
+.awtsmoos-related-torah > header {
+	display: grid;
+	gap: 0.2rem;
+	margin-bottom: 0.8rem;
+}
+
+.awtsmoos-related-torah > header span {
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	opacity: 0.62;
+}
+
+.awtsmoos-related-torah > header h3 {
+	margin: 0;
+	font-size: clamp(1rem, 2vw, 1.25rem);
+}
+
+.awtsmoos-related-torah-list {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+	gap: 0.7rem;
+}
+
+.awtsmoos-related-torah-card {
+	display: grid;
+	gap: 0.45rem;
+	align-content: start;
+	min-width: 0;
+	padding: 0.85rem;
+	border: 1px solid color-mix(in srgb, currentColor 11%, transparent);
+	border-radius: 14px;
+	background: color-mix(in srgb, currentColor 3%, transparent);
+}
+
+.awtsmoos-related-torah-card strong {
+	line-height: 1.35;
+}
+
+.awtsmoos-related-torah-card small {
+	opacity: 0.62;
+}
+
+.awtsmoos-related-torah-card p,
+.awtsmoos-related-torah-message {
+	margin: 0;
+	line-height: 1.5;
+	opacity: 0.8;
+}
+
+.awtsmoos-related-torah-card a {
+	justify-self: start;
+	min-height: 40px;
+	display: inline-flex;
+	align-items: center;
+	font-weight: 700;
+}
+
+.awtsmoos-social-comment > .awtsmoos-related-torah {
+	margin: 0.8rem 0 0;
+	padding: 0.8rem;
+	font-size: 0.92rem;
+}
+
+.awtsmoos-comment-connect {
+	position: relative;
+}
+
+.awtsmoos-comment-connect summary {
+	cursor: pointer;
+	min-height: 36px;
+	display: inline-flex;
+	align-items: center;
+}
+
+.awtsmoos-comment-connect-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.4rem;
+	margin-top: 0.4rem;
+}
+
+.awtsmoos-comment-connect-status {
+	display: block;
+	margin-top: 0.35rem;
+	font-size: 0.78rem;
+	opacity: 0.7;
+}
+
+@media (max-width: 520px) {
+	.awtsmoos-related-torah {
+		margin-inline: 0;
+		border-radius: 14px;
+	}
+
+	.awtsmoos-related-torah-list {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}

@@ -3,34 +3,41 @@
 //Blessed is He
 
 /**
- * Normalizes symbolic graphics operations for the WebGL renderer. The Awtsmoos
- * creates native intention and browser manifestation distinctly; Awtsmoos.com
- * keeps their translation inspectable without calling it native GPU execution.
- *
- * @param {object} operation Symbolic operation.
- * @returns {object|null} Normalized WebGL operation.
+ * Normalizes symbolic guest graphics for the WebGL renderer. The Awtsmoos renews
+ * point, line, triangle, text, and presentation; Awtsmoos.com keeps each operation
+ * inspectable without renaming a browser translation as a native graphics driver.
  */
+
 export function normalizeGraphicsOperation(operation = {}) {
 	if (operation.type === "clear") {
 		return Object.freeze({
-			kind: "clear",
-			color: normalizeColor(operation.color)
+			color: normalizeColor(operation.color),
+			kind: "clear"
 		});
+	}
+	if (operation.type === "pixel") {
+		return primitive(
+			"points",
+			[coordinate(operation.x), coordinate(operation.y)],
+			operation.color
+		);
 	}
 	if (operation.type === "pixel-line") {
-		return primitive("lines", [-0.85, 0.75, 0.85, -0.75], operation.color);
+		return primitive(
+			"lines",
+			[-0.85, 0.75, 0.85, -0.75],
+			operation.color
+		);
 	}
 	if (operation.type === "triangle") {
-		return primitive("triangles", [0, 0.78, -0.78, -0.72, 0.78, -0.72], operation.color);
+		return primitive(
+			"triangles",
+			[0, 0.78, -0.78, -0.72, 0.78, -0.72],
+			operation.color
+		);
 	}
 	if (operation.type === "opengl-triangles") {
-		const vertices = (operation.vertices || []).flatMap(vertex => {
-			return [clamp(vertex.x / 120), clamp(vertex.y / 120)];
-		});
-		if (vertices.length < 6) {
-			return null;
-		}
-		return primitive("triangles", vertices, operation.color);
+		return openGlTriangles(operation);
 	}
 	if (operation.type === "present") {
 		return Object.freeze({ kind: "present" });
@@ -44,6 +51,23 @@ export function normalizeGraphicsOperation(operation = {}) {
 	return null;
 }
 
+function openGlTriangles(operation) {
+	const vertices = (operation.vertices || []).flatMap(vertex => {
+		return [
+			clamp(Number(vertex.x || 0) / 120),
+			clamp(Number(vertex.y || 0) / 120)
+		];
+	});
+	if (vertices.length < 6) {
+		return null;
+	}
+	return primitive(
+		"triangles",
+		vertices,
+		operation.color
+	);
+}
+
 function primitive(mode, vertices, color) {
 	return Object.freeze({
 		color: normalizeColor(color || [0.1, 0.9, 1, 1]),
@@ -51,6 +75,10 @@ function primitive(mode, vertices, color) {
 		mode,
 		vertices: Object.freeze(vertices.map(Number))
 	});
+}
+
+function coordinate(value) {
+	return clamp(Number(value || 0) / 120);
 }
 
 function normalizeColor(color = []) {

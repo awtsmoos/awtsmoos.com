@@ -1,0 +1,119 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos renews one source-discussion chamber without stealing layout from the page beneath it. */
+
+.universal-chat-drawer {
+	background: rgba(15, 20, 18, 0.985);
+	border: 1px solid rgba(255, 255, 255, 0.16);
+	border-radius: 18px;
+	bottom: 14px;
+	box-shadow: 0 24px 80px rgba(0, 0, 0, 0.42);
+	box-sizing: border-box;
+	color: #f8fff9;
+	display: grid;
+	gap: 0.65rem;
+	grid-template-rows: auto auto auto auto auto minmax(120px, 1fr) auto auto;
+	max-height: calc(100dvh - 28px);
+	max-width: calc(100vw - 28px);
+	padding: 0.85rem;
+	position: fixed;
+	right: 14px;
+	width: min(460px, calc(100vw - 28px));
+	z-index: 2147483001;
+}
+
+.universal-chat-drawer[hidden] {
+	display: none;
+}
+
+.universal-chat-header,
+.universal-chat-controls,
+.universal-chat-search-row,
+.universal-chat-publish-row {
+	align-items: center;
+	display: flex;
+	gap: 0.55rem;
+	justify-content: space-between;
+}
+
+.universal-chat-header > div {
+	display: grid;
+	gap: 0.08rem;
+}
+
+.universal-chat-header small {
+	opacity: 0.72;
+}
+
+.universal-chat-header button,
+.universal-chat-drawer button,
+.universal-chat-drawer input,
+.universal-chat-drawer select {
+	box-sizing: border-box;
+	font: inherit;
+}
+
+.universal-chat-drawer button,
+.universal-chat-drawer select,
+.universal-chat-drawer input {
+	border: 1px solid rgba(255, 255, 255, 0.22);
+	border-radius: 9px;
+	padding: 0.55rem 0.65rem;
+}
+
+.universal-chat-drawer button {
+	background: rgba(72, 132, 91, 0.34);
+	color: inherit;
+	cursor: pointer;
+}
+
+.universal-chat-drawer button:disabled {
+	cursor: not-allowed;
+	opacity: 0.45;
+}
+
+.universal-chat-search-row input {
+	min-width: 0;
+	width: 100%;
+}
+
+.universal-chat-status,
+.universal-chat-roster {
+	font-size: 0.82rem;
+	line-height: 1.35;
+	opacity: 0.78;
+}
+
+.universal-chat-app-link {
+	color: #aef4c2;
+	font-size: 0.84rem;
+	text-align: right;
+}
+
+.universal-chat-drawer.is-expanded {
+	bottom: auto;
+	margin: 2rem auto;
+	max-height: none;
+	max-width: 920px;
+	min-height: calc(100dvh - 4rem);
+	position: relative;
+	right: auto;
+	width: min(920px, calc(100vw - 2rem));
+}
+
+@media (max-width: 640px) {
+	.universal-chat-drawer {
+		bottom: 6px;
+		max-height: calc(100dvh - 12px);
+		max-width: calc(100vw - 12px);
+		right: 6px;
+		width: calc(100vw - 12px);
+	}
+	.universal-chat-controls,
+	.universal-chat-publish-row {
+		align-items: stretch;
+		flex-direction: column;
+	}
+}

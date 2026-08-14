@@ -1,18 +1,23 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @file PublicMaterialImageLoader.js
- * @description Decodes canonical material URLs under one absolute end-to-end deadline.
- * The Awtsmoos lets every pixel doorway answer or close within its appointed measure;
- * Awtsmoos.com prevents cache, retry, fetch, blob, or decoder silence from freezing the living world.
+ * @description Loads production images fetch/blob-first with one absolute deadline and a bounded direct fallback.
+ * The Awtsmoos reveals distant pixels through many finite doors without becoming any door;
+ * Awtsmoos.com gives verified bytes first measure, then reserves a smaller direct-image recovery path before time is done.
  */
-import {
-	decodePublicImageBlob,
-	decodePublicImageUrl
-} from './PublicImageDecode.js';
+
+import { decodePublicImageBlob, decodePublicImageUrl } from './PublicImageDecode.js';
 import { fetchPublicImageBlob } from './PublicImageFetch.js';
 import { publicImageCircuitIsOpen } from './PublicImageRateLimitCircuit.js';
+import {
+	publicMaterialNow,
+	publicMaterialPhaseBudget,
+	publicMaterialRemainingBudget,
+	racePublicMaterialDeadline
+} from './PublicMaterialLoadBudget.js';
 import {
 	materialImageAttempt,
 	materialImageFailure,
@@ -20,101 +25,78 @@ import {
 } from './PublicMaterialImageRecords.js';
 export { serializableImageRecord } from './PublicMaterialImageRecords.js';
 
+const FETCH_BUDGET_SHARE = 0.68;
+
 export function loadPublicMaterialImage(url, timeoutMs = 30000, dependencies = {}) {
-	const startedAt = currentTime(dependencies);
-	return withMaterialDeadline(
-		loadWithinDeadline(url, timeoutMs, dependencies, startedAt),
-		url,
+	const startedAt = publicMaterialNow(dependencies);
+	const operation = loadWithinDeadline(url, timeoutMs, dependencies, startedAt);
+	return racePublicMaterialDeadline(
+		operation,
 		timeoutMs,
 		dependencies,
-		startedAt
+		() => deadlineFailure(url, startedAt, dependencies)
 	);
 }
 
 async function loadWithinDeadline(url, timeoutMs, dependencies, startedAt) {
+	if (publicImageCircuitIsOpen(url, dependencies)) {
+		return loadCircuitFailure(url, timeoutMs, dependencies, startedAt);
+	}
 	const attempts = [];
-	const circuitOpen = publicImageCircuitIsOpen(url, dependencies);
-	const direct = circuitOpen
-		? skippedDirectRecord()
-		: await decodePublicImageUrl(url, timeoutMs, dependencies);
-	attempts.push(materialImageAttempt(direct));
-	if (direct.ok) return success(url, direct, null, attempts, startedAt, dependencies);
-	const fetched = await fetchPublicImageBlob(url, timeoutMs, dependencies);
+	const fetched = await fetchPublicImageBlob(url, fetchBudget(timeoutMs, startedAt, dependencies), dependencies);
 	attempts.push(materialImageAttempt(fetched));
 	if (fetched.ok) {
 		const decoded = await decodePublicImageBlob(
 			url,
 			fetched.blob,
-			timeoutMs,
+			remaining(timeoutMs, startedAt, dependencies),
 			dependencies
 		);
 		attempts.push(materialImageAttempt(decoded));
-		if (decoded.ok) {
-			return success(url, decoded, fetched, attempts, startedAt, dependencies);
-		}
+		if (decoded.ok) return success(url, decoded, fetched, attempts, startedAt, dependencies);
+	}
+	let direct = skippedDirectRecord('fetch-response-definitive');
+	if (directFallbackAllowed(fetched)) {
+		direct = await decodePublicImageUrl(url, remaining(timeoutMs, startedAt, dependencies), dependencies);
+		attempts.push(materialImageAttempt(direct));
+		if (direct.ok) return success(url, direct, fetched, attempts, startedAt, dependencies);
 	}
 	return failure(url, direct, fetched, attempts, startedAt, dependencies);
 }
 
-function withMaterialDeadline(operation, url, timeoutMs, dependencies, startedAt) {
-	const setTimer = dependencies.setTimeoutFunction || globalThis.setTimeout;
-	const clearTimer = dependencies.clearTimeoutFunction || globalThis.clearTimeout;
-	if (!setTimer || timeoutMs <= 0) return operation;
-	let timer = null;
-	const deadline = new Promise(resolve => {
-		timer = setTimer(() => resolve(deadlineFailure(
-			url,
-			startedAt,
-			dependencies
-		)), timeoutMs);
-	});
-	return Promise.race([operation, deadline]).finally(() => clearTimer?.(timer));
+async function loadCircuitFailure(url, timeoutMs, dependencies, startedAt) {
+	const direct = skippedDirectRecord('rate-limit-circuit-open');
+	const attempts = [materialImageAttempt(direct)];
+	const fetched = await fetchPublicImageBlob(url, fetchBudget(timeoutMs, startedAt, dependencies), dependencies);
+	attempts.push(materialImageAttempt(fetched));
+	return failure(url, direct, fetched, attempts, startedAt, dependencies);
+}
+
+function directFallbackAllowed(fetched) {
+	return !fetched?.ok && (!fetched?.status || fetched.status >= 500);
 }
 
 function deadlineFailure(url, startedAt, dependencies) {
-	const attempt = materialImageAttempt({
-		error: 'material-deadline-exceeded',
-		method: 'material-deadline',
-		stage: 'deadline'
-	});
+	const attempt = materialImageAttempt({ error: 'material-deadline-exceeded', method: 'material-deadline', stage: 'deadline' });
 	return failure(url, attempt, null, [attempt], startedAt, dependencies);
 }
 
 function success(url, decoded, fetched, attempts, startedAt, dependencies) {
-	return materialImageSuccess({
-		attempts,
-		decoded,
-		fetched,
-		now: () => currentTime(dependencies),
-		startedAt,
-		url
-	});
+	return materialImageSuccess({ attempts, decoded, fetched, now: () => publicMaterialNow(dependencies), startedAt, url });
 }
 
 function failure(url, direct, fetched, attempts, startedAt, dependencies) {
-	return materialImageFailure({
-		attempts,
-		direct,
-		fetched,
-		now: () => currentTime(dependencies),
-		startedAt,
-		url
-	});
+	return materialImageFailure({ attempts, direct, fetched, now: () => publicMaterialNow(dependencies), startedAt, url });
 }
 
-function skippedDirectRecord() {
-	return {
-		error: 'rate-limit-circuit-open',
-		method: 'direct-image-url-skipped-circuit',
-		ok: false,
-		rateLimited: true,
-		stage: 'circuit',
-		status: 429
-	};
+function fetchBudget(timeoutMs, startedAt, dependencies) {
+	return publicMaterialPhaseBudget(timeoutMs, startedAt, dependencies, FETCH_BUDGET_SHARE);
 }
 
-function currentTime(dependencies) {
-	return dependencies.now?.()
-		?? globalThis.performance?.now?.()
-		?? Date.now();
+function remaining(timeoutMs, startedAt, dependencies) {
+	return publicMaterialRemainingBudget(timeoutMs, startedAt, dependencies);
+}
+
+function skippedDirectRecord(error) {
+	return { error, method: 'direct-image-url-skipped', ok: false, rateLimited: error === 'rate-limit-circuit-open', stage: 'policy', status: 0 };
 }

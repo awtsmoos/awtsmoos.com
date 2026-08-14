@@ -1,12 +1,16 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
 
-/** The Awtsmoos keeps the overhead world full-screen and seven doors touchable. */
+/**
+ * The Awtsmoos renews the phone frame as a doorway into the world, not a stack of bars;
+ * Awtsmoos.com keeps navigation reachable while giving the canvas back its sky and stars.
+ * This vessel compresses persistent chrome without changing game state or navigation meaning.
+ */
 @media (max-width: 720px) {
 	:root {
-		--ohr-topbar-height: 58px;
-		--ohr-dock-height: 58px;
+		--ohr-topbar-height: 46px;
+		--ohr-dock-height: 50px;
 	}
 
 	body {
@@ -14,41 +18,41 @@
 	}
 
 	#game-shell {
-		width: 100vw;
-		height: 100dvh;
-		min-height: 0;
 		border: 0;
 		border-radius: 0;
+		height: 100dvh;
+		min-height: 0;
+		width: 100vw;
 	}
 
 	.revelation-topbar {
-		grid-template-columns: minmax(116px, 1fr) auto;
-		gap: 5px;
-		padding: 7px 8px;
+		gap: 4px;
+		grid-template-columns: minmax(92px, 1fr) auto;
+		padding: 5px 7px;
 	}
 
 	.revelation-brand {
-		gap: 6px;
+		gap: 5px;
 	}
 
 	.revelation-brand-mark {
-		width: 34px;
-		height: 34px;
-		font-size: 20px;
+		font-size: 17px;
+		height: 30px;
+		width: 30px;
 	}
 
 	.revelation-brand strong {
-		font-size: 15px;
+		font-size: 13px;
 	}
 
 	.revelation-resources {
-		gap: 3px;
+		gap: 2px;
 	}
 
 	.revelation-resources span {
-		min-width: 43px;
-		padding: 4px;
-		border-radius: 8px;
+		border-radius: 7px;
+		min-width: 39px;
+		padding: 3px;
 	}
 
 	.revelation-resources i {
@@ -56,30 +60,44 @@
 	}
 
 	.revelation-resources b {
-		font-size: 10px;
+		font-size: 9px;
 	}
 
 	.revelation-dock {
+		gap: 2px;
 		grid-template-columns: repeat(7, 1fr);
-		gap: 3px;
-		padding: 5px 6px;
+		padding: 4px 5px max(4px, env(safe-area-inset-bottom));
 	}
 
 	.revelation-nav-button {
+		border-radius: 8px;
 		display: grid;
-		grid-template-columns: 1fr;
-		place-items: center;
 		gap: 0;
-		padding: 4px 1px;
-		border-radius: 9px;
+		grid-template-columns: 1fr;
+		min-height: 42px;
+		padding: 3px 1px;
+		place-items: center;
 	}
 
 	.revelation-nav-button span {
-		font-size: 16px;
+		font-size: 15px;
 	}
 
 	.revelation-nav-button b {
-		font-size: 7px;
+		font-size: 6px;
+		line-height: 1;
 		text-align: center;
+	}
+
+	.revelation-nav-button small {
+		display: none;
+	}
+
+	.revelation-collapse {
+		bottom: calc(var(--ohr-dock-height) + 5px);
+		height: 38px;
+		min-height: 38px;
+		min-width: 38px;
+		width: 38px;
 	}
 }

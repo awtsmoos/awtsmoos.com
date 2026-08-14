@@ -1,12 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file MitzvahWorldLauncher.js
- * @description Routes direct worlds through fresh map-ready boundaries without importing menu population.
- * The Awtsmoos renews only the chosen doorway; Awtsmoos.com keeps movement, combat, and direction
- * current while menu, cinema, rich panels, and shared-world ornament remain beyond explicit entrances.
+ * @description Routes one selected Mitzvah World doorway while forwarding canonical boot progress into the page-owned veil.
+ * The Awtsmoos renews only the chosen entrance; Awtsmoos.com lets local study remain silent on static localhost,
+ * shared worlds retain explicit realtime intent, and the one visible boot veil hear the same progress as the world it covers.
  */
 
 import {
@@ -18,6 +18,7 @@ import {
 } from './MitzvahWorldRouteHandlers.js?v=20260803-tagged-nature-03';
 import { mitzvahWorldSessionMode } from './MitzvahWorldSessionMode.js';
 
+/** Launches exactly one selected route and forwards direct-world progress when supplied by the canonical page boot. */
 export async function launchMitzvahWorld(
 	hosts,
 	search = globalThis.location?.search || '',
@@ -28,9 +29,7 @@ export async function launchMitzvahWorld(
 	const modes = dependencies.modeLoaders
 		|| createMitzvahWorldModeLoaders(environment);
 	const revealHosts = dependencies.setGameHostsVisible || setGameHostsVisible;
-	const realtimeUrl = parameters.get('realtimeUrl')
-		|| environment.AwtsmoosRealtimeUrl
-		|| inferRealtimeUrl(environment.location);
+	const realtimeUrl = resolveRealtimeUrl(parameters, environment);
 	const routes = createMitzvahWorldRouteHandlers({
 		environment,
 		hosts,
@@ -44,14 +43,17 @@ export async function launchMitzvahWorld(
 		return modes.materials(hosts);
 	}
 	if (parameters.get('mode') === 'world') {
+		const selection = Object.freeze({
+			onProgress: dependencies.onProgress
+		});
 		return mitzvahWorldSessionMode(parameters) === 'singleplayer'
-			? routes.openSinglePlayer()
-			: routes.openMultiplayer();
+			? routes.openSinglePlayer(selection)
+			: routes.openMultiplayer(selection);
 	}
 	if (parameters.get('mode') === 'platform') return routes.openPlatform();
 	if (parameters.get('mode') === 'mission-movie') return routes.openVillageMovie();
 	if (hasMovieRequest(parameters)) return routes.openMovie(search);
-	const menuModule = await import('./MainMenu.js?v=20260722-menu-only-01');
+	const menuModule = await import('./MainMenu.js?v=20260813-local-population-01');
 	const renderMenu = dependencies.showMainMenu || menuModule.showMainMenu;
 	return renderMenu(hosts, routes.menu, {
 		WebSocketClass: environment.WebSocket,
@@ -66,11 +68,20 @@ export function setGameHostsVisible(hosts, visible) {
 	}
 }
 
+export function resolveRealtimeUrl(parameters, environment = globalThis) {
+	if (parameters?.has?.('realtimeUrl')) return parameters.get('realtimeUrl') || null;
+	if (environment.AwtsmoosRealtimeUrl) return environment.AwtsmoosRealtimeUrl;
+	return inferRealtimeUrl(environment.location);
+}
+
 export function inferRealtimeUrl(locationValue = globalThis.location) {
-	if (!locationValue?.host || !/^https?:$/.test(locationValue.protocol || '')) {
-		return null;
-	}
+	if (!locationValue?.host || !/^https?:$/.test(locationValue.protocol || '')) return null;
+	if (isStaticLocalPreview(locationValue)) return null;
 	return `${locationValue.protocol === 'https:' ? 'wss:' : 'ws:'}//${locationValue.host}`;
+}
+
+function isStaticLocalPreview(locationValue) {
+	return ['127.0.0.1', 'localhost', '::1'].includes(locationValue.hostname || '');
 }
 
 export default launchMitzvahWorld;

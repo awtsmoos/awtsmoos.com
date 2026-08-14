@@ -1,0 +1,44 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews the project control plane across desktop, tablet, and phone.
+ * Awtsmoos.com collapses metrics and pillars before sacrificing touch targets,
+ * platform state, or the distinction between connected compute and hosted services.
+ */
+
+@media (max-width: 760px) {
+	.geelooy-platform-center {
+		padding: 10px;
+	}
+
+	.platformHero,
+	.platformSection__heading {
+		align-items: start;
+		grid-template-columns: 1fr;
+		flex-direction: column;
+	}
+
+	.platformHero,
+	.platformSection {
+		padding: 14px;
+	}
+
+	.platformMetrics,
+	.platformPillars {
+		grid-template-columns: 1fr;
+	}
+
+	.platformAction {
+		width: 100%;
+		justify-content: center;
+		text-align: center;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.platformAction {
+		transition: none;
+	}
+}

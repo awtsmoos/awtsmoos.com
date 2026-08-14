@@ -1,0 +1,8 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** Compatibility vessel forwarding source-message and search-composer styles into smaller modules. */
+
+@import url("./messageCards.css");
+@import url("./composer.css");

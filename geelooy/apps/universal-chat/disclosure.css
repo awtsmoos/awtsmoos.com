@@ -1,0 +1,95 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos is beyond concealment and revelation; Awtsmoos.com gives secondary knowledge a native details vessel whose summary stays touchable, whose content breathes when revealed, and whose motion remains a servant of meaning in light. */
+
+.messaging-disclosure {
+	border: 1px solid var(--msg-line);
+	border-radius: 16px;
+	background: rgba(255, 255, 255, 0.025);
+	contain: layout paint;
+}
+
+.messaging-disclosure-summary {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 28px;
+	align-items: center;
+	gap: 0.65rem;
+	min-height: 48px;
+	padding: 0.7rem 0.8rem;
+	cursor: pointer;
+	list-style: none;
+}
+
+.messaging-disclosure-summary::-webkit-details-marker {
+	display: none;
+}
+
+.messaging-disclosure-copy {
+	display: grid;
+	min-width: 0;
+	gap: 0.12rem;
+}
+
+.messaging-disclosure-copy strong {
+	font-size: 0.78rem;
+	line-height: 1.3;
+}
+
+.messaging-disclosure-copy small {
+	overflow: hidden;
+	color: var(--msg-muted);
+	font-size: 0.66rem;
+	line-height: 1.35;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.messaging-disclosure-indicator {
+	display: grid;
+	place-items: center;
+	width: 28px;
+	height: 28px;
+	border-radius: 9px;
+	background: rgba(121, 224, 183, 0.07);
+	color: var(--msg-accent);
+	font-size: 0.95rem;
+	transform: rotate(0deg);
+	transition: transform 180ms ease, background 180ms ease;
+}
+
+.messaging-disclosure[open] .messaging-disclosure-indicator {
+	background: rgba(121, 224, 183, 0.13);
+	transform: rotate(180deg);
+}
+
+.messaging-disclosure-body {
+	display: grid;
+	gap: 0.65rem;
+	padding: 0 0.8rem 0.8rem;
+	animation: messagingDisclosureReveal 180ms ease both;
+}
+
+@keyframes messagingDisclosureReveal {
+	from {
+		opacity: 0;
+		transform: translateY(-4px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@media (max-width: 760px) {
+	.messaging-disclosure-summary {
+		min-height: 52px;
+		padding: 0.72rem 0.75rem;
+	}
+
+	.messaging-disclosure-body {
+		padding: 0 0.75rem 0.75rem;
+	}
+}

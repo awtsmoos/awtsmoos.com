@@ -4,16 +4,29 @@
 
 /**
  * @file villageHydrologyContract.test.mjs
- * @description Proves one descending source, channel, pool, and static thalweg contract.
+ * @description Proves one descending source, lake, channel, pool, and static thalweg contract.
  * The Awtsmoos gives every drop descent and concealed depth; Awtsmoos.com guards wet
  * shoulders, shallow shelves, trusted stone, and the animated current in one finite vessel.
  */
+
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { createRiverHydrology, RIVER_CASCADES, sampleHydrologyAt } from '../../world/village/VillageRiverHydrology.js';
-import { createRiverBedGeometry, RIVER_BED_BANDS } from '../../world/village/VillageRiverBedGeometry.js';
+import {
+	createRiverHydrology,
+	RIVER_CASCADES,
+	sampleHydrologyAt
+} from '../../world/village/VillageRiverHydrology.js';
+import {
+	createRiverBedGeometry,
+	RIVER_BED_BANDS
+} from '../../world/village/VillageRiverBedGeometry.js';
 import { createWaterBodyDefinitions } from '../../world/village/VillageWaterBodies.js';
-import { assertFiniteHydrologyPoint, assertProductionTexture, flatGround, HYDROLOGY_SEGMENTS } from './VillageHydrologyTestSupport.mjs';
+import {
+	assertFiniteHydrologyPoint,
+	assertProductionTexture,
+	flatGround,
+	HYDROLOGY_SEGMENTS
+} from './VillageHydrologyTestSupport.mjs';
 
 const EXPECTED_FLOW_REGIMES = Object.freeze([
 	'mountain-source',
@@ -55,11 +68,19 @@ test('the static riverbed forms wet shoulders, shallow shelves, and a deep thalw
 	const hydrology = createRiverHydrology(flatGround, HYDROLOGY_SEGMENTS);
 	const geometry = createRiverBedGeometry(hydrology);
 	const definitions = createWaterBodyDefinitions(flatGround, hydrology);
-	const bed = definitions.find(definition => definition.userData?.part === 'river-bed-channel');
-	const river = definitions.find(definition => definition.userData?.waterVariant === 'river');
-	assert.equal(definitions.length, 3);
+	const bed = definitions.find(definition => {
+		return definition.userData?.part === 'river-bed-channel';
+	});
+	const river = definitions.find(definition => {
+		return definition.userData?.waterVariant === 'river'
+			&& definition.id === 'Awtsmoos_flowing_stream_alpine_current_water';
+	});
+	assert.equal(definitions.length, 4);
 	assert.equal(geometry.vertices.length, hydrology.points.length * RIVER_BED_BANDS);
-	assert.equal(geometry.faces.length, (hydrology.points.length - 1) * (RIVER_BED_BANDS - 1));
+	assert.equal(
+		geometry.faces.length,
+		(hydrology.points.length - 1) * (RIVER_BED_BANDS - 1)
+	);
 	assert.ok(geometry.vertices.flat().every(Number.isFinite));
 	const firstSection = geometry.vertices.slice(0, RIVER_BED_BANDS);
 	assert.ok(firstSection[2][1] < firstSection[1][1]);
@@ -70,6 +91,7 @@ test('the static riverbed forms wet shoulders, shallow shelves, and a deep thalw
 	assert.equal(bed.shape, 'manual');
 	assert.equal(bed.transparent, false);
 	assert.equal(bed.userData.staticGeometry, true);
+	assert.equal(bed.texturePolicy.role, 'submerged-wet-river-stone');
 	assertProductionTexture(bed.textureUrl, 'river-bed-channel');
 	assert.ok(river);
 	assert.equal(river.texturePolicy.animated, true);

@@ -3,18 +3,15 @@
 // Blessed is He
 /**
  * @module MailComposerViewEditor
- * @description The Awtsmoos gives subject, rich text, source, and send behavior one focused Awtsmoos.com vessel.
+ * @description
+ * The Awtsmoos turns intention into language; Awtsmoos.com gives the reply
+ * enough space to breathe, a clear delivery action, and honest keyboard guidance.
  */
-import {
-	handleInput,
-	handleSend,
-	handleMagneticMove,
-	handleMagneticLeave
-} from './actions.js';
+import { handleInput, handleSend, handleMagneticMove, handleMagneticLeave } from './actions.js';
 import { composerState } from './state.js';
 import { visualToolbar } from './controls.js';
 
-/** Returns the editor body and delivery action. */
+/** Returns the editor body and its delivery row. */
 export function composerContent(ui) {
 	return {
 		tag: 'div',
@@ -33,8 +30,7 @@ function subjectLine() {
 			tag: 'input',
 			shaym: 'chatSubject',
 			classList: ['subject-input'],
-			attributes: { 'aria-label': 'Message subject' },
-			placeholder: 'Message subject'
+			attributes: { 'aria-label': 'Message subject', placeholder: 'Add a subject' }
 		}]
 	};
 }
@@ -51,7 +47,7 @@ function sendOnKey(event, ui) {
 	if (event.key !== 'Enter') {
 		return;
 	}
-	const shouldSend = composerState.enterToSend ? !event.shiftKey : event.ctrlKey;
+	const shouldSend = composerState.enterToSend ? !event.shiftKey : event.ctrlKey || event.metaKey;
 	if (!shouldSend) {
 		return;
 	}
@@ -68,12 +64,10 @@ function visualEditor(ui) {
 		attributes: {
 			role: 'textbox',
 			'aria-multiline': 'true',
-			'aria-label': 'Write your message'
+			'aria-label': 'Write your reply',
+			'data-placeholder': 'Write a thoughtful reply…'
 		},
-		events: {
-			input: handleInput,
-			keydown: event => sendOnKey(event, ui)
-		}
+		events: { input: handleInput, keydown: event => sendOnKey(event, ui) }
 	};
 }
 
@@ -82,11 +76,8 @@ function codeEditor(ui) {
 		tag: 'textarea',
 		shaym: 'codeEditor',
 		classList: ['message-input', 'source-editor', 'hidden'],
-		attributes: { 'aria-label': 'Source message editor' },
-		events: {
-			input: handleInput,
-			keydown: event => sendOnKey(event, ui)
-		}
+		attributes: { 'aria-label': 'Source message editor', placeholder: 'Write source…' },
+		events: { input: handleInput, keydown: event => sendOnKey(event, ui) }
 	};
 }
 
@@ -94,16 +85,15 @@ function actionBar(ui) {
 	return {
 		tag: 'div',
 		classList: ['composer-action-row'],
-		children: [{
-			tag: 'button',
-			classList: ['send-btn', 'send-transmission-btn'],
-			attributes: { type: 'button', 'aria-label': 'Send message' },
-			textContent: 'Send message',
-			events: {
-				click: () => handleSend(ui),
-				mousemove: handleMagneticMove,
-				mouseleave: handleMagneticLeave
+		children: [
+			{ tag: 'p', classList: ['composer-send-hint'], textContent: 'Shift+Enter for a new line' },
+			{
+				tag: 'button',
+				classList: ['send-btn', 'send-transmission-btn'],
+				attributes: { type: 'button', 'aria-label': 'Send message' },
+				textContent: 'Send message',
+				events: { click: () => handleSend(ui), mousemove: handleMagneticMove, mouseleave: handleMagneticLeave }
 			}
-		}]
+		]
 	};
 }

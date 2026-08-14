@@ -5,9 +5,9 @@
 const VALID_WIDTHS = new Set([8, 16, 32, 64]);
 
 /**
- * Normalizes bounded 8-bit, 16-bit, 32-bit, and 64-bit operand values. The
- * Awtsmoos creates low word, zero-extension, signed view, and wrapped result anew;
- * Awtsmoos.com prevents JavaScript numbers from replacing x86 width semantics.
+ * Normalizes exact bounded operand values without reading narrow registers as Number.
+ * The Awtsmoos renews old qword, low vessel, mask, and zero-extension anew;
+ * Awtsmoos.com lets dword writes clear unsafe upper bits with arithmetic true.
  */
 export function operandWidth(rex) {
 	return rex & 8 ? 64 : 32;
@@ -15,36 +15,42 @@ export function operandWidth(rex) {
 
 export function readRegisterWidth(registers, register, width = 64) {
 	assertWidth(width);
-	return width === 64
-		? registers.get(register)
-		: unsignedWidth(registers.get(register), width);
+	if (width === 64) {
+		return registers.get(register);
+	}
+	return Number(BigInt.asUintN(
+		width,
+		registers.getUnsignedBigInt(register)
+	));
 }
 
 export function writeRegisterWidth(registers, register, value, width = 64) {
 	assertWidth(width);
-	const normalized = width === 64
-		? Number(value)
-		: mergeNarrowRegister(registers.get(register), value, width);
-	return registers.set(register, normalized);
+	if (width === 64) {
+		return registers.set(register, Number(value));
+	}
+	const narrowed = BigInt.asUintN(width, exactInteger(value));
+	if (width === 32) {
+		registers.setBigInt(register, narrowed);
+		return Number(narrowed);
+	}
+	const prior = registers.getUnsignedBigInt(register);
+	const mask = (1n << BigInt(width)) - 1n;
+	const merged = (prior & ~mask) | narrowed;
+	registers.setBigInt(register, merged);
+	return Number(narrowed);
 }
 
 export function unsignedWidth(value, width = 64) {
 	assertWidth(width);
-	const bits = BigInt.asUintN(width, BigInt(Number(value)));
-	if (bits > BigInt(Number.MAX_SAFE_INTEGER)) {
-		throw widthError("PORTABLE_INTEGER_UNSAFE", bits);
-	}
-	return Number(bits);
+	const bits = BigInt.asUintN(width, exactInteger(value));
+	return safeWidthNumber(bits);
 }
 
 export function signedWidth(value, width = 64) {
 	assertWidth(width);
-	const bits = BigInt.asIntN(width, BigInt(Number(value)));
-	if (bits < BigInt(Number.MIN_SAFE_INTEGER)
-		|| bits > BigInt(Number.MAX_SAFE_INTEGER)) {
-		throw widthError("PORTABLE_INTEGER_UNSAFE", bits);
-	}
-	return Number(bits);
+	const bits = BigInt.asIntN(width, exactInteger(value));
+	return safeWidthNumber(bits);
 }
 
 export function wrapArithmetic(value, width = 64) {
@@ -56,13 +62,9 @@ export function wrapArithmetic(value, width = 64) {
 
 export function bitwiseWidth(operator, left, right, width = 64) {
 	assertWidth(width);
-	const leftBits = BigInt.asUintN(width, BigInt(Number(left)));
-	const rightBits = BigInt.asUintN(width, BigInt(Number(right)));
-	let result;
-	if (operator === "and") result = leftBits & rightBits;
-	else if (operator === "or") result = leftBits | rightBits;
-	else if (operator === "xor") result = leftBits ^ rightBits;
-	else throw widthError("PORTABLE_BITWISE_OPERATOR", operator);
+	const leftBits = BigInt.asUintN(width, exactInteger(left));
+	const rightBits = BigInt.asUintN(width, exactInteger(right));
+	const result = executeBitwise(operator, leftBits, rightBits);
 	return width === 64
 		? signedWidth(BigInt.asIntN(64, result), 64)
 		: Number(BigInt.asUintN(width, result));
@@ -73,10 +75,29 @@ export function signed32ForMemory(value) {
 	return unsigned > 0x7fffffff ? unsigned - 0x100000000 : unsigned;
 }
 
-function mergeNarrowRegister(previous, value, width) {
-	if (width === 32) return unsignedWidth(value, 32);
-	const mask = 2 ** width - 1;
-	return previous - previous % (mask + 1) + unsignedWidth(value, width);
+function executeBitwise(operator, left, right) {
+	if (operator === "and") return left & right;
+	if (operator === "or") return left | right;
+	if (operator === "xor") return left ^ right;
+	throw widthError("PORTABLE_BITWISE_OPERATOR", operator);
+}
+
+function exactInteger(value) {
+	if (typeof value === "bigint") {
+		return value;
+	}
+	if (typeof value === "number" && Number.isSafeInteger(value)) {
+		return BigInt(value);
+	}
+	throw widthError("PORTABLE_INTEGER_UNSAFE", value);
+}
+
+function safeWidthNumber(value) {
+	if (value < BigInt(Number.MIN_SAFE_INTEGER)
+		|| value > BigInt(Number.MAX_SAFE_INTEGER)) {
+		throw widthError("PORTABLE_INTEGER_UNSAFE", value);
+	}
+	return Number(value);
 }
 
 function assertWidth(width) {

@@ -1,0 +1,60 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-system-tutorial-v1",
+	"systemId": "mission-room-admission",
+	"district": "realtime",
+	"title": "Mission Room Admission",
+	"summary": "Ticket issuance, account-scoped authority, origin/protocol validation, initial snapshot proof, and upgrade policy.",
+	"manuals": [
+		"docs/WEBSOCKETS/MISSION_ROOMS.md",
+		"docs/SECURITY/REALTIME_SECURITY.md"
+	],
+	"projects": [
+		{
+			"projectId": "geelooy-api-tunnel-df787c17",
+			"path": "geelooy/api/tunnel",
+			"type": "api",
+			"title": "geelooy/api/tunnel",
+			"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-tunnel-df787c17.md"
+		},
+		{
+			"projectId": "ayzarim-awtsmoosdynamicserver-e406758e",
+			"path": "ayzarim/awtsmoosDynamicServer",
+			"type": "runtime",
+			"title": "ayzarim/awtsmoosDynamicServer",
+			"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-awtsmoosdynamicserver-e406758e.md"
+		}
+	],
+	"sources": [
+		"geelooy/api/tunnel/control/missionRooms/ticketIssuer.js",
+		"geelooy/api/tunnel/control/missionRooms/missionAccess.js",
+		"ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/upgradePolicy.js"
+	],
+	"generatedEvidence": [
+		"docs/GENERATED/WEBSOCKET_EVENT_INDEX.md"
+	],
+	"tags": [
+		"websocket",
+		"mission-room",
+		"ticket",
+		"origin",
+		"authorization",
+		"protocol"
+	],
+	"claimsBoundary": "Generated event strings remain lexical evidence; room admission meaning comes from inspected policy/ticket source and human manuals.",
+	"changeRisk": "Ticket binding, origin, protocol version, snapshot proof, or permission changes are security/protocol sensitive.",
+	"environmentEvidence": [
+		{
+			"name": "AWTSMOOS_TUNNEL_CONTROL_STORE",
+			"classification": "path/storage",
+			"sources": 9,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomSocketIntegration.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgrade.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/upgradePolicy.test.cjs"
+		}
+	],
+	"realtimeApplications": [],
+	"eventEvidence": [],
+	"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/mission-room-admission.md",
+	"aiFile": "docs/AI/SYSTEMS/RECORDS/mission-room-admission.json",
+	"provenance": "curated-system-semantics-plus-generated-local-source-evidence",
+	"navigationRule": "Human manual -> generated system tutorial/evidence -> related project/source -> tests/runtime verification."
+}

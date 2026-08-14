@@ -2,91 +2,110 @@
 //Boruch Hashem
 //Blessed is He
 
+import { adventureStatusText } from "./adventureStatus.js";
+
 /**
- * The Awtsmoos renews the adventure hud vessel in this instant, revealing
- * its focused js render v3 hud service within Awtsmoos.com while every
- * import, rule, and value receives existence anew without confused purpose.
+ * @file AdventureHud.js
+ * @description
+ * The Awtsmoos renews the gate, the fighter, and the measured strip of truth;
+ * Awtsmoos.com keeps objective rules in simulation while the HUD speaks clearly to youth.
+ * This renderer keeps Adventure status compact enough that combat remains the main scene.
  */
+
+const PANEL_HEIGHT = 60;
+const PANEL_MAX_WIDTH = 360;
+
 /**
- * B"H
- * Adventure HUD: the campaign speaks while the fight moves.
- *
- * Damage cards tell the brawler truth. This panel tells the gate truth: where
- * you are, how many Sparks you found, how many Kelipos still block the exit, and
- * whether the hidden light was discovered.
+ * Draws one compact Adventure status strip while the run is actively playing.
+ * @param {CanvasRenderingContext2D} ctx Battlefield rendering context.
+ * @param {object} state Current game state.
+ * @param {number} width Canvas width in CSS-aligned game pixels.
+ * @param {number} height Canvas height in CSS-aligned game pixels.
  */
-export function drawAdventureHud(ctx, state, w, h) {
+export function drawAdventureHud(ctx, state, width, height) {
 	const run = state.adventureRun;
-	if (!run || state.phase !== 'playing') return;
-	const panelW = Math.min(420, w - 24);
-	const x = Math.max(12, (w - panelW) / 2);
-	const y = w < 760 ? 72 : 76;
+	if (!run || state.phase !== "playing") {
+		return;
+	}
+	const panelWidth = Math.min(PANEL_MAX_WIDTH, width - 20);
+	const x = Math.max(10, (width - panelWidth) / 2);
+	const y = width < 760 ? 60 : 66;
 	ctx.save();
-	drawPanel(ctx, x, y, panelW, 74, run);
-	drawText(ctx, x, y, panelW, run);
-	drawMeters(ctx, x + 14, y + 52, panelW - 28, run);
+	drawPanel(ctx, x, y, panelWidth, run);
+	drawHeading(ctx, x, y, panelWidth, run);
+	drawStatus(ctx, x, y, panelWidth, run);
+	drawMeters(ctx, x + 12, y + 43, panelWidth - 24, run);
 	ctx.restore();
 }
 
-function drawPanel(ctx, x, y, w, h, run) {
-	const pulse = run.pulse > 0 ? 0.22 : 0;
-	ctx.fillStyle = `rgba(3,5,12,${0.76 + pulse})`;
-	ctx.strokeStyle = run.enemiesLeft <= 0 ? '#84f7ff' : '#ffe082';
-	ctx.lineWidth = run.pulse > 0 ? 3 : 1.5;
-	round(ctx, x, y, w, h, 16);
+/** Draws the bounded glass strip without an oversized shadow. */
+function drawPanel(ctx, x, y, width, run) {
+	const pulse = run.pulse > 0 ? 0.12 : 0;
+	ctx.fillStyle = `rgba(3,5,12,${0.68 + pulse})`;
+	ctx.strokeStyle = run.enemiesLeft <= 0 ? "#84f7ff" : "#ffe082";
+	ctx.lineWidth = run.pulse > 0 ? 2 : 1;
+	roundedRect(ctx, x, y, width, PANEL_HEIGHT, 12);
 	ctx.fill();
 	ctx.stroke();
 }
 
-function drawText(ctx, x, y, w, run) {
-	ctx.textAlign = 'left';
-	ctx.fillStyle = '#84f7ff';
-	ctx.font = '950 12px system-ui';
-	ctx.fillText(`GATE ${run.gate} · ${run.name}`, x + 14, y + 19);
-	ctx.fillStyle = '#fff3bf';
-	ctx.font = '900 15px system-ui';
-	ctx.fillText(status(run), x + 14, y + 40);
-	ctx.textAlign = 'right';
-	ctx.fillStyle = run.hiddenFound ? '#e9c4ff' : '#d8c995';
-	ctx.font = '850 12px system-ui';
-	ctx.fillText(`Hidden ${run.hiddenFound}/${run.hiddenTotal}`, x + w - 14, y + 19);
+/** Draws gate identity and hidden-light progress on one top line. */
+function drawHeading(ctx, x, y, width, run) {
+	ctx.textBaseline = "middle";
+	ctx.textAlign = "left";
+	ctx.fillStyle = "#84f7ff";
+	ctx.font = "800 10px system-ui";
+	ctx.fillText(`GATE ${run.gate} · ${run.name}`, x + 12, y + 12, width - 110);
+	ctx.textAlign = "right";
+	ctx.fillStyle = run.hiddenFound ? "#e9c4ff" : "#d8c995";
+	ctx.fillText(`Hidden ${run.hiddenFound}/${run.hiddenTotal}`, x + width - 12, y + 12);
 }
 
-function drawMeters(ctx, x, y, w, run) {
-	const sparkRatio = run.totalSparks ? run.sparks / run.totalSparks : 1;
-	const enemyRatio = run.enemiesTotal ? 1 - run.enemiesLeft / run.enemiesTotal : 1;
-	bar(ctx, x, y, w * 0.58, sparkRatio, '#84f7ff', `✦ ${run.sparks}/${run.totalSparks}`);
-	bar(ctx, x + w * 0.62, y, w * 0.38, enemyRatio, '#ff8f7a', `${run.enemiesLeft} left`);
+/** Draws a presentation-safe objective line with Canvas width bounding. */
+function drawStatus(ctx, x, y, width, run) {
+	ctx.textAlign = "left";
+	ctx.textBaseline = "middle";
+	ctx.fillStyle = "#fff3bf";
+	ctx.font = "700 12px system-ui";
+	ctx.fillText(adventureStatusText(run), x + 12, y + 29, width - 24);
 }
 
-function status(run) {
-	if (run.enemiesLeft <= 0) return `Exit open · ${run.lastPickup || run.objective}`;
-	return run.lastPickup || run.objective;
+/** Draws two micro meters without labels extending outside the panel. */
+function drawMeters(ctx, x, y, width, run) {
+	const sparks = run.totalSparks ? run.sparks / run.totalSparks : 1;
+	const enemies = run.enemiesTotal ? 1 - run.enemiesLeft / run.enemiesTotal : 1;
+	const leftWidth = width * 0.58;
+	meter(ctx, x, y, leftWidth, sparks, "#84f7ff", `✦ ${run.sparks}/${run.totalSparks}`);
+	meter(ctx, x + width * 0.62, y, width * 0.38, enemies, "#ff8f7a", `${run.enemiesLeft} left`);
 }
 
-function bar(ctx, x, y, w, ratio, color, label) {
-	ctx.fillStyle = 'rgba(255,255,255,.12)';
-	round(ctx, x, y, w, 10, 5);
+/** Draws one labeled progress meter inside its own eight-pixel track. */
+function meter(ctx, x, y, width, ratio, color, label) {
+	const safeRatio = Math.max(0, Math.min(1, ratio));
+	ctx.fillStyle = "rgba(255,255,255,.12)";
+	roundedRect(ctx, x, y, width, 9, 4.5);
 	ctx.fill();
 	ctx.fillStyle = color;
-	round(ctx, x, y, Math.max(8, w * Math.max(0, Math.min(1, ratio))), 10, 5);
+	roundedRect(ctx, x, y, Math.max(8, width * safeRatio), 9, 4.5);
 	ctx.fill();
-	ctx.font = '800 10px system-ui';
-	ctx.fillStyle = '#fff8cf';
-	ctx.textAlign = 'center';
-	ctx.fillText(label, x + w / 2, y + 24);
+	ctx.fillStyle = "#fff8cf";
+	ctx.font = "700 8px system-ui";
+	ctx.textAlign = "center";
+	ctx.textBaseline = "middle";
+	ctx.fillText(label, x + width / 2, y + 4.5, width - 6);
 }
 
-function round(ctx, x, y, w, h, r) {
+/** Draws one rounded rectangle path without relying on browser-specific helpers. */
+function roundedRect(ctx, x, y, width, height, radius) {
 	ctx.beginPath();
-	ctx.moveTo(x + r, y);
-	ctx.lineTo(x + w - r, y);
-	ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-	ctx.lineTo(x + w, y + h - r);
-	ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-	ctx.lineTo(x + r, y + h);
-	ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-	ctx.lineTo(x, y + r);
-	ctx.quadraticCurveTo(x, y, x + r, y);
+	ctx.moveTo(x + radius, y);
+	ctx.lineTo(x + width - radius, y);
+	ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+	ctx.lineTo(x + width, y + height - radius);
+	ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+	ctx.lineTo(x + radius, y + height);
+	ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+	ctx.lineTo(x, y + radius);
+	ctx.quadraticCurveTo(x, y, x + radius, y);
 	ctx.closePath();
 }

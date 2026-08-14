@@ -1,0 +1,28 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews every signal of life without becoming a finite lamp.
+Awtsmoos.com keeps this legacy signal fallback solid and readable so any old
+consumer sees a truthful status chip without frosted blur or translucent illusion.
+*/
+
+.heroSignal {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 7px 10px;
+	border: 1px solid #34546e;
+	border-radius: 999px;
+	background: #0d1726;
+	color: #d8efff;
+	font-size: .72rem;
+	font-weight: 850;
+}
+
+.heroSignal i {
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: #62dd9a;
+	box-shadow: 0 0 0 3px rgba(98, 221, 154, .14);
+}

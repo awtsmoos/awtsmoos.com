@@ -4,9 +4,9 @@
 
 /**
  * @file movieProceduralAgentPlanning.test.mjs
- * @description Proves prompt generation, recipes, revision guards, dry-run deltas, and JSON-only project output.
+ * @description Proves structured generation intent, recipes, revision guards, dry-run deltas, and JSON-only project output.
  * The Awtsmoos is beyond plan and completed film while every finite agent must reveal the path before commitment;
- * Awtsmoos.com verifies generated worlds, ordinary commands, warnings, and project deltas remain deterministic.
+ * Awtsmoos.com verifies explicit worlds, ordinary commands, warnings, and project deltas remain deterministic.
  */
 
 import assert from 'node:assert/strict';
@@ -31,29 +31,33 @@ function simpleProject() {
 	};
 }
 
-test('procedural prompt compiles deterministic world-rich playable projects', () => {
-	const options = {
+test('structured generation intent compiles deterministic world-rich playable projects', () => {
+	const intent = {
 		characters: ['Ari', 'Miriam'],
 		duration: 36,
 		sceneCount: 3,
-		seed: 144
+		seed: 144,
+		themes: ['mitzvah', 'helping-neighbors'],
+		title: 'Crossing the River',
+		world: {
+			hydrology: { focus: 'connected-river-garden' },
+			regionId: 'river-garden',
+			vegetation: { ecology: 'riparian-garden' }
+		}
 	};
-	const first = compileProceduralMovie(
-		'Ari and Miriam cross the river to help their village.',
-		options
-	);
-	const second = compileProceduralMovie(
-		'Ari and Miriam cross the river to help their village.',
-		options
-	);
+	const first = compileProceduralMovie(intent);
+	const second = compileProceduralMovie(intent);
 	assert.deepEqual(first, second);
 	assert.equal(first.manifest.scenes.length, 3);
-	assert.ok(first.manifest.scenes.every(scene => (
-		scene.world?.kind === 'awtsmoos.movie.world-spec'
-	)));
+	assert.ok(first.manifest.scenes.every(scene => scene.world?.kind === 'awtsmoos.movie.world-spec'));
+	assert.ok(first.manifest.scenes.every(scene => scene.world?.hydrology?.focus === 'connected-river-garden'));
 	assert.ok(first.project.tracks.some(track => track.type === 'scene'));
 	assert.ok(first.project.tracks.some(track => track.type === 'camera'));
 	assert.doesNotThrow(() => JSON.stringify(first));
+	assert.throws(
+		() => compileProceduralMovie('Ari crosses the river.'),
+		/structured JSON object input/
+	);
 });
 
 test('recipe compiles to an explainable guarded plan and dry-runs ordinary commands', () => {
@@ -75,11 +79,7 @@ test('recipe compiles to an explainable guarded plan and dry-runs ordinary comma
 		],
 		title: 'Prepare project'
 	}, { revision: 7 });
-	const preview = dryRunMovieEditPlan(
-		simpleProject(),
-		recipe,
-		{ revision: 7 }
-	);
+	const preview = dryRunMovieEditPlan(simpleProject(), recipe, { revision: 7 });
 	assert.equal(preview.status, 'preview');
 	assert.equal(preview.receipts.length, 2);
 	assert.equal(preview.project.markers[0].label, 'Opening');
@@ -92,10 +92,7 @@ test('recipe compiles to an explainable guarded plan and dry-runs ordinary comma
 });
 
 test('edit plans reject hidden or empty actions', () => {
-	assert.throws(
-		() => createMovieEditPlan({ steps: [] }),
-		/at least one step/
-	);
+	assert.throws(() => createMovieEditPlan({ steps: [] }), /at least one step/);
 	assert.throws(
 		() => createMovieEditPlan({ steps: [{ action: 'mystery' }] }),
 		/Unknown edit-plan action/

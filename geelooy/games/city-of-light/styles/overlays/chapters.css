@@ -1,0 +1,55 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews the campaign map as a chosen pause-time revelation;
+ * Awtsmoos.com keeps twenty-four chapters reachable without leaving their cards permanently over the city.
+ * This module owns chapter selection and completion emphasis only.
+ */
+.chapterGrid {
+	display: grid;
+	gap: 6px;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.chapterCard {
+	align-items: center;
+	background: #10172a;
+	border: 1px solid #2b3851;
+	border-radius: 12px;
+	display: grid;
+	gap: 6px;
+	grid-template-columns: auto 1fr auto;
+	min-height: 56px;
+	text-align: left;
+}
+
+.chapterCard:hover {
+	background: #151e35;
+	border-color: #687a9f;
+}
+
+.chapterCard.completed {
+	border-color: #5f9878;
+}
+
+.chapterCard.current {
+	outline: 2px solid #ffd978;
+	outline-offset: 1px;
+}
+
+.chapterNumber,
+.chapterMark {
+	font-weight: 900;
+}
+
+.chapterName {
+	font-size: 0.8rem;
+}
+
+@media (max-width: 760px) {
+	.chapterGrid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}

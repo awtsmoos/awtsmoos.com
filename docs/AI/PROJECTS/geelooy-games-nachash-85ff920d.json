@@ -1,0 +1,68 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-games-nachash-85ff920d",
+	"path": "geelooy/games/Nachash",
+	"type": "game",
+	"family": {
+		"id": "games",
+		"title": "Games and Worlds"
+	},
+	"title": "Tikkun HaNachash",
+	"entries": [
+		"index.html",
+		"main.js"
+	],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/GAMES.md",
+		"docs/APPS/GAMES_AND_SIMULATION.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-nachash-85ff920d.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 5,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 0,
+		"other": 0
+	},
+	"totalFiles": 5,
+	"symbolSummary": {
+		"files": 3,
+		"classes": 8,
+		"functions": 31,
+		"exports": 0,
+		"samples": [
+			"onPointerDown",
+			"onPointerMove",
+			"onPointerUp",
+			"updateKeyboardDirection",
+			"handleKeyDown",
+			"handleKeyUp",
+			"handleResize",
+			"startGame",
+			"endGame",
+			"createAndShowGameOverScreen",
+			"handleWorkerMessage",
+			"init"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/games/Nachash",
+			"file": "geelooy/games/Nachash/index.html",
+			"title": "Tikkun HaNachash",
+			"scripts": 2,
+			"styles": 2
+		}
+	],
+	"requiresLocalDocumentation": false,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

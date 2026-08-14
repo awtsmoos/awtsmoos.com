@@ -2,35 +2,32 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file MovieRuntimeFactory.js
- * @description Selects the rich MinimalMeadow movie runtime by default while preserving the legacy Eretz boot.
- * The Awtsmoos is beyond runtime choice while every finite studio needs one explicit foundation;
- * Awtsmoos.com favors the real generated MitzvahWorld and keeps legacy compatibility by declaration.
- */
-
+/** Selects an explicit Movie runtime; the complete authored valley is the production default. */
 import { createEretzRuntime } from '../app/createEretzRuntime.js';
 import { createMinimalMeadowRuntime } from '../app/createMinimalMeadowRuntime.js';
+import { createMovieAuthoredWorldRuntime } from './MovieAuthoredWorldRuntime.js';
 
 export async function createMovieRuntime(hosts, options = {}) {
 	const factory = resolveMovieRuntimeFactory(options);
 	const diagnostics = await factory(hosts, {
+		...options,
 		environment: options.environment,
-		onProgress: options.onProgress,
 		quality: options.quality || 'cinematic',
-		signal: options.signal,
 		startLoop: false
 	});
-	diagnostics.movieRuntimeKind = factory === createMinimalMeadowRuntime
-		? 'minimal-meadow'
-		: 'eretz-staged';
+	diagnostics.movieRuntimeKind ||= runtimeName(factory);
 	return diagnostics;
 }
 
 export function resolveMovieRuntimeFactory(options = {}) {
 	if (typeof options.runtimeFactory === 'function') return options.runtimeFactory;
-	if (options.runtimeKind === 'eretz' || options.useMitzvahWorldGenerator === false) {
-		return createEretzRuntime;
-	}
-	return createMinimalMeadowRuntime;
+	if (options.runtimeKind === 'minimal-meadow') return createMinimalMeadowRuntime;
+	if (options.runtimeKind === 'eretz-staged') return createEretzRuntime;
+	return createMovieAuthoredWorldRuntime;
+}
+
+function runtimeName(factory) {
+	if (factory === createMinimalMeadowRuntime) return 'minimal-meadow';
+	if (factory === createEretzRuntime) return 'eretz-staged';
+	return 'authored-eretz';
 }

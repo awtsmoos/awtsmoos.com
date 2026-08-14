@@ -4,15 +4,16 @@
 
 /**
  * @file RoadJunctionGeometry.js
- * @description Caps route terminals with flat grade-solved tops and terrain-reaching supports.
- * The Awtsmoos unites branching paths at one shared elevation; Awtsmoos.com makes each junction
- * a real supported cobble platform instead of stretching steep terrain across an invisible seam.
+ * @description Caps route terminals with grade-solved platforms sized by the roads that truly meet there.
+ * The Awtsmoos unites every branching path without erasing its measure; Awtsmoos.com lets a narrow river lane remain narrow
+ * while a wider village road may still open into a broader junction, all from one shared spatial truth.
  */
 
 import {
 	addRoadFace,
 	addRoadVertex
 } from './RoadMeshWriter.js';
+import { roadTerminalJunctions } from '../spatial/WorldRoadCorridor.js';
 
 const TOP_LIFT = 0.135;
 const MINIMUM_THICKNESS = 0.085;
@@ -25,30 +26,22 @@ export function appendRoadJunctions(
 	width,
 	supportSampler = surfaceSampler
 ) {
-	const points = uniqueTerminalPoints(routes);
-	const radius = width * 0.505;
-	for (const point of points) {
+	const junctions = roadTerminalJunctions(routes, width);
+	for (const junction of junctions) {
 		appendJunction(
 			mesh,
-			point,
+			junction.point,
 			surfaceSampler,
 			supportSampler,
-			radius,
+			junction.width * 0.505,
 			18
 		);
 	}
-	return points;
-}
-
-function uniqueTerminalPoints(routes) {
-	const map = new Map();
-	for (const route of routes) {
-		for (const point of [route.points[0], route.points.at(-1)]) {
-			if (!point) continue;
-			map.set(`${point.x.toFixed(3)},${point.z.toFixed(3)}`, point);
-		}
-	}
-	return [...map.values()];
+	return Object.freeze(junctions.map(junction => Object.freeze({
+		...junction.point,
+		routeIds: junction.routeIds,
+		width: junction.width
+	})));
 }
 
 function appendJunction(mesh, center, surfaceSampler, supportSampler, radius, segments) {
@@ -57,14 +50,7 @@ function appendJunction(mesh, center, surfaceSampler, supportSampler, radius, se
 	const bottomY = Math.min(topY - MINIMUM_THICKNESS, supportY);
 	const topCenter = addRoadVertex(mesh, { ...center, y: topY });
 	const bottomCenter = addRoadVertex(mesh, { ...center, y: bottomY });
-	const rings = junctionRings(
-		mesh,
-		center,
-		supportSampler,
-		radius,
-		segments,
-		topY
-	);
+	const rings = junctionRings(mesh, center, supportSampler, radius, segments, topY);
 	appendJunctionFaces(mesh, topCenter, bottomCenter, rings, segments);
 }
 
@@ -91,12 +77,7 @@ function appendJunctionFaces(mesh, topCenter, bottomCenter, rings, segments) {
 		const next = (index + 1) % segments;
 		addRoadFace(mesh, [topCenter, rings.top[next], rings.top[index]], true);
 		addRoadFace(mesh, [bottomCenter, rings.bottom[index], rings.bottom[next]]);
-		addRoadFace(mesh, [
-			rings.top[index],
-			rings.top[next],
-			rings.bottom[next],
-			rings.bottom[index]
-		]);
+		addRoadFace(mesh, [rings.top[index], rings.top[next], rings.bottom[next], rings.bottom[index]]);
 	}
 }
 

@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file Selects stale agent targets while preserving one legitimate in-flight root.
+ * @file Chooses the least destructive agent tabs needed to restore capacity.
  * @description
- * The Awtsmoos removes surplus roots first, then stale conversations, and touches a
- * protected root only when no other target can restore the requested hard limit.
- * Thus one composing custom-GPT root survives the watchdog but nothing survives close.
+ * The Awtsmoos preserves living conversations before idle roots. Awtsmoos.com
+ * first removes surplus root pages, then sacrifices the final allowed root when a
+ * new launch needs room, and touches conversations only during hard-cap recovery.
  */
 export function selectAgentTabs(snapshot, options = {}) {
 	const targetLimit = Math.max(0, Number(options.targetLimit || 0));
@@ -17,21 +17,15 @@ export function selectAgentTabs(snapshot, options = {}) {
 	selected.push(...snapshot.rootTabs.slice(rootAllowance));
 	let remaining = snapshot.total - selected.length;
 
-	if (options.hard === true && remaining > targetLimit) {
-		const neededConversations = Math.min(
-			snapshot.conversationTabs.length,
-			remaining - targetLimit
-		);
-		selected.push(...snapshot.conversationTabs.slice(-neededConversations));
-		remaining -= neededConversations;
+	if (remaining > targetLimit) {
+		const neededRoots = Math.min(protectedRoots.length, remaining - targetLimit);
+		selected.push(...protectedRoots.slice(-neededRoots));
+		remaining -= neededRoots;
 	}
 
-	if (remaining > targetLimit) {
-		const neededRoots = Math.min(
-			protectedRoots.length,
-			remaining - targetLimit
-		);
-		selected.push(...protectedRoots.slice(-neededRoots));
+	if (options.hard === true && remaining > targetLimit) {
+		const neededConversations = remaining - targetLimit;
+		selected.push(...snapshot.conversationTabs.slice(-neededConversations));
 	}
 
 	return selected.filter((target, index, all) =>

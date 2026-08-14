@@ -1,0 +1,84 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews price, product, and choice beyond every finite card.
+ * Awtsmoos.com keeps the Treasury Shop solid and explicit so optional ownership
+ * never looks like a hidden financial privilege or a glassy illusion.
+ */
+
+.treasury-shop {
+	border-color: rgba(219, 178, 84, .42);
+	background: #171109;
+}
+
+.treasury-shop__grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 10px;
+	margin-top: 14px;
+}
+
+.treasury-good {
+	display: grid;
+	align-content: start;
+	gap: 9px;
+	padding: 14px;
+	border: 1px solid #574321;
+	border-radius: 16px;
+	background: #100c07;
+}
+
+.treasury-good h3,
+.treasury-good p {
+	margin: 0;
+}
+
+.treasury-good p {
+	color: var(--wallet-muted);
+	font-size: .82rem;
+	line-height: 1.5;
+}
+
+.treasury-good__badge {
+	justify-self: start;
+	padding: 4px 7px;
+	border: 1px solid #6f562c;
+	border-radius: 999px;
+	color: #f3d98c;
+	font-size: .66rem;
+	font-weight: 900;
+	letter-spacing: .05em;
+	text-transform: uppercase;
+}
+
+.treasury-good__price {
+	color: #fff0bc;
+	font-size: 1rem;
+}
+
+.treasury-good__button {
+	min-height: 42px;
+	margin-top: auto;
+}
+
+.treasury-shop__status {
+	margin: 12px 0 0;
+	padding: 11px 12px;
+	border: 1px solid #4b3920;
+	border-radius: 12px;
+	background: #0e0a06;
+	color: var(--wallet-muted);
+	line-height: 1.45;
+}
+
+.treasury-shop__status[data-tone="success"] {
+	border-color: rgba(156, 240, 184, .42);
+	color: var(--wallet-success);
+}
+
+.treasury-shop__status[data-tone="error"] {
+	border-color: rgba(255, 157, 168, .42);
+	color: var(--wallet-error);
+}

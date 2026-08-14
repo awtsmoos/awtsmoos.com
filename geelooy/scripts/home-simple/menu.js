@@ -1,82 +1,115 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-// The Awtsmoos gives Explore one focused chamber with a real backdrop, predictable focus, and no conflict with identity.
+// The Awtsmoos gathers every world without trapping the traveler; native details remain the vessel, and this class adds graceful light.
 
 export class MenuController {
 	constructor(rootElement) {
 		this.rootElement = rootElement;
 		this.buttonElement = rootElement.querySelector("[data-menu-button]");
-		this.items = [...rootElement.querySelectorAll("[role='menuitem']")];
-		this.backdropElement = this.createBackdrop();
+		this.panelElement = rootElement.querySelector("[data-menu-panel]");
+		this.backdropElement = document.querySelector("[data-menu-backdrop]");
+		this.linkElements = [...rootElement.querySelectorAll("[data-world-link]")];
 	}
 
 	connect() {
-		this.buttonElement?.addEventListener("click", () => this.toggle());
-		this.backdropElement.addEventListener("click", () => this.close({ restoreFocus: true }));
-		document.addEventListener("click", event => this.closeFromOutside(event));
+		this.rootElement.addEventListener("toggle", () => this.syncState());
+		this.backdropElement?.addEventListener("click", () => this.close(true));
+		document.addEventListener("pointerdown", event => this.handleOutsidePointer(event));
 		document.addEventListener("keydown", event => this.handleKeyboard(event));
-		document.addEventListener("awtsmoosProfileOpening", () => this.close());
+		document.addEventListener("awtsmoosProfileOpening", () => this.close(false));
+		this.syncState();
+		return this;
 	}
 
-	createBackdrop() {
-		const backdrop = document.createElement("button");
-		backdrop.type = "button";
-		backdrop.className = "explore-backdrop";
-		backdrop.tabIndex = -1;
-		backdrop.setAttribute("aria-label", "Close Explore menu");
-		document.body.append(backdrop);
-		return backdrop;
+	syncState() {
+		const isOpen = this.rootElement.open;
+		this.buttonElement?.setAttribute("aria-expanded", String(isOpen));
+		this.panelElement?.setAttribute("aria-hidden", String(!isOpen));
+		this.backdropElement?.setAttribute("aria-hidden", String(!isOpen));
+		this.backdropElement?.toggleAttribute("disabled", !isOpen);
+		this.backdropElement?.classList.toggle("is-visible", isOpen);
+		document.body.classList.toggle("explore-open", isOpen);
+
+		if (isOpen) {
+			this.closeProfileDropdown();
+			document.dispatchEvent(new CustomEvent("awtsmoosExploreOpening"));
+		}
 	}
 
-	toggle() {
-		const opening = !this.rootElement.classList.contains("is-open");
-		if (opening) this.open();
-		else this.close({ restoreFocus: true });
+	close(restoreFocus = false) {
+		if (!this.rootElement.open) {
+			return;
+		}
+
+		this.rootElement.open = false;
+
+		if (restoreFocus) {
+			this.buttonElement?.focus();
+		}
 	}
 
-	open() {
-		this.closeProfile();
-		this.rootElement.classList.add("is-open");
-		this.backdropElement.classList.add("is-visible");
-		document.body.classList.add("explore-open");
-		this.buttonElement?.setAttribute("aria-expanded", "true");
-		queueMicrotask(() => this.items[0]?.focus());
-	}
+	handleOutsidePointer(event) {
+		if (!this.rootElement.open || this.rootElement.contains(event.target)) {
+			return;
+		}
 
-	close({ restoreFocus = false } = {}) {
-		this.rootElement.classList.remove("is-open");
-		this.backdropElement.classList.remove("is-visible");
-		document.body.classList.remove("explore-open");
-		this.buttonElement?.setAttribute("aria-expanded", "false");
-		if (restoreFocus) this.buttonElement?.focus();
-	}
-
-	closeProfile() {
-		const backdrop = document.querySelector("[data-profile-ref='dropdownBackdrop']:not([hidden])");
-		backdrop?.click();
-	}
-
-	closeFromOutside(event) {
-		if (!this.rootElement.contains(event.target) && event.target !== this.backdropElement) this.close();
+		if (event.target !== this.backdropElement) {
+			this.close(false);
+		}
 	}
 
 	handleKeyboard(event) {
-		if (event.key === "Escape") {
-			this.close({ restoreFocus: true });
+		if (event.key === "Escape" && this.rootElement.open) {
+			event.preventDefault();
+			this.close(true);
 			return;
 		}
-		if (!this.rootElement.classList.contains("is-open")) return;
-		const index = this.items.indexOf(document.activeElement);
-		if (event.key === "ArrowDown" || event.key === "ArrowRight") {
-			event.preventDefault();
-			this.items[(index + 1) % this.items.length]?.focus();
+
+		if (!this.rootElement.open) {
+			return;
 		}
-		if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
+
+		const navigableLinks = this.getNavigableLinks();
+
+		if (event.target === this.buttonElement && event.key === "ArrowDown") {
 			event.preventDefault();
-			this.items[(index - 1 + this.items.length) % this.items.length]?.focus();
+			navigableLinks[0]?.focus();
+			return;
 		}
-		if (event.key === "Home") this.items[0]?.focus();
-		if (event.key === "End") this.items.at(-1)?.focus();
+
+		const activeIndex = navigableLinks.indexOf(document.activeElement);
+		const direction = this.getDirection(event.key);
+
+		if (activeIndex < 0 || direction === null || navigableLinks.length === 0) {
+			return;
+		}
+
+		event.preventDefault();
+		const nextIndex = (activeIndex + direction + navigableLinks.length) % navigableLinks.length;
+		navigableLinks[nextIndex]?.focus();
+	}
+
+	getNavigableLinks() {
+		return this.linkElements.filter(linkElement => {
+			return !linkElement.hidden && linkElement.getAttribute("aria-hidden") !== "true";
+		});
+	}
+
+	getDirection(keyName) {
+		const panelWidth = this.panelElement?.getBoundingClientRect().width ?? window.innerWidth;
+		const columnCount = panelWidth < 620 ? 2 : panelWidth < 900 ? 3 : 4;
+		const directions = {
+			ArrowLeft: -1,
+			ArrowRight: 1,
+			ArrowUp: -columnCount,
+			ArrowDown: columnCount
+		};
+		return directions[keyName] ?? null;
+	}
+
+	closeProfileDropdown() {
+		const profileBackdrop = document.querySelector(".awtsmoos-dropdown-backdrop:not([hidden])");
+		profileBackdrop?.click();
 	}
 }

@@ -4,16 +4,18 @@
 
 /**
  * @file EretzWorldModuleLoader.js
- * @description Opens terrain construction and world finalization as separate module waves.
+ * @description Opens current canonical terrain construction and world-finalization modules as separate waves.
  * The Awtsmoos reveals ground before horizon and collision before ornament; Awtsmoos.com
- * keeps each request family finite so the main thread may breathe between forms.
+ * cache-busts the promoted terrain vessel so the post-play world always reflects the current authored valley.
  */
+
+const TERRAIN_URL = '../world/Terrain3D.js?v=20260812-canonical-world-promotion-01';
 
 export async function loadTerrainConstructionModules() {
 	const [ground, obstacles, terrain] = await Promise.all([
 		import('../world/GroundPlacementSystem.js'),
 		import('../world/ObstacleField.js'),
-		import('../world/Terrain3D.js?v=20260722-stream-14')
+		import(TERRAIN_URL)
 	]);
 	return { ...ground, ...obstacles, ...terrain };
 }

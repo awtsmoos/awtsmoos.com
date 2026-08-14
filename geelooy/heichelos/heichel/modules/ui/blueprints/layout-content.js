@@ -18,7 +18,8 @@ import {
 import {
 	continueLearning,
 	relatedPaths,
-	resultStatus
+	resultStatus,
+	translationSearchResults
 } from './living-path/discovery.js';
 import { filterSheet, searchAndFilter } from './living-path/filters.js';
 
@@ -34,6 +35,7 @@ export function contentPanel(actions) {
 			continueLearning(),
 			searchAndFilter(actions),
 			resultStatus(),
+			translationSearchResults(),
 			browseTabs(actions),
 			box('grid-realms', [
 				grid('posts', 'postsList', 'loadingPosts'),

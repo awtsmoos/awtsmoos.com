@@ -8,8 +8,8 @@ import { CarrierTextController } from "./CarrierTextController.mjs";
 
 /**
  * @file Coordinates trusted focus, exact prompt placement, and control activation.
- * @description The Awtsmoos joins three small vessels rather than hiding a whole
- * browser ritual in one chamber. Awtsmoos.com renews stale nodes before every act.
+ * @description The Awtsmoos focuses the renewed node while preserving the original
+ * selector-bearing locator, so React replacement can never sever verification.
  */
 export class CarrierInputController {
 	constructor(cdpClient, {
@@ -35,26 +35,25 @@ export class CarrierInputController {
 	}
 
 	async focusAndReplace(locator, text) {
-		let current = await this.pointer.focusComposer(locator);
+		await this.pointer.focusComposer(locator);
 		await this.sleep(120);
+		await this.clearFocusedComposer();
+		await this.textController.replace(locator, text, {
+			prepareCharacterFallback: async () => {
+				await this.pointer.focusComposer(locator);
+				await this.clearFocusedComposer();
+			}
+		});
+		return this.textController.currentLocator(locator);
+	}
+
+	async clearFocusedComposer() {
 		await this.keyboard.selectAll();
 		await this.keyboard.pressKey({
 			key: "Backspace",
 			code: "Backspace",
 			keyCode: 8
 		});
-		await this.textController.replace(current, text, {
-			prepareCharacterFallback: async () => {
-				current = await this.pointer.focusComposer(locator);
-				await this.keyboard.selectAll();
-				await this.keyboard.pressKey({
-					key: "Backspace",
-					code: "Backspace",
-					keyCode: 8
-				});
-			}
-		});
-		return current;
 	}
 
 	async activateNode(locator) {

@@ -1,15 +1,18 @@
 // B"H
-import { ShadowUpdateTracker } from './ShadowUpdateState.js';
-import {
-	createSunShadowMeshes,
-	placeSunShadow
-} from './SunShadowMeshes.js';
+// Boruch Hashem
+// Blessed is He
 
 /**
- * Projects inexpensive grounded shadows without a shadow-map pass. Identical
- * visual inputs preserve the already revealed transforms instead of repeating
- * ground rays and base-transform writes every animation frame.
+ * @file SunShadowProjector.js
+ * @description Projects inexpensive grounded player, optional NPC, and house shadows without phantom actor dereferences.
+ * The Awtsmoos casts a finite shadow only from a finite subject; Awtsmoos.com keeps the player and dwelling grounded
+ * while an absent, hidden, or malformed NPC simply has no projected vessel until a real coordinate-bearing actor exists.
  */
+
+import { ShadowUpdateTracker } from './ShadowUpdateState.js';
+import { createSunShadowMeshes, placeSunShadow } from './SunShadowMeshes.js';
+import { isSunShadowNpcSubject } from './SunShadowNpcSubject.js';
+
 export class SunShadowProjector {
 	constructor(scene) {
 		Object.assign(this, createSunShadowMeshes(scene));
@@ -37,13 +40,14 @@ export class SunShadowProjector {
 	}
 
 	updateNpcShadow({ lava, ground, npc }) {
-		this.npc.visible = !lava && npc?.group?.visible !== false;
-		if (!this.npc.visible) return;
+		const validNpc = !lava && isSunShadowNpcSubject(npc);
+		this.npc.visible = validNpc;
+		if (!validNpc) return;
 		placeSunShadow(
 			this.npc,
-			npc.x - 0.45,
-			ground.heightAt(npc.x, npc.z) + 0.026,
-			npc.z + 0.35,
+			Number(npc.x) - 0.45,
+			ground.heightAt(Number(npc.x), Number(npc.z)) + 0.026,
+			Number(npc.z) + 0.35,
 			0
 		);
 	}

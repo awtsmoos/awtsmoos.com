@@ -1,0 +1,67 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-apps-lyric-sync-78687d22",
+	"path": "geelooy/apps/lyric-sync",
+	"type": "app",
+	"family": {
+		"id": "apps",
+		"title": "Applications"
+	},
+	"title": "Lyric Sync Engine",
+	"entries": [
+		"index.html"
+	],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/APPS.md",
+		"docs/APPS/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-lyric-sync-78687d22.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 4,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 0,
+		"other": 0
+	},
+	"totalFiles": 4,
+	"symbolSummary": {
+		"files": 2,
+		"classes": 2,
+		"functions": 18,
+		"exports": 0,
+		"samples": [
+			"saveSettings",
+			"loadSettings",
+			"parseVTT",
+			"collectSettings",
+			"updateLyrics",
+			"timeToSeconds",
+			"formatTime",
+			"downloadBlob",
+			"ParticleSystem",
+			"is",
+			"handleExport",
+			"drawFrame"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/apps/lyric-sync",
+			"file": "geelooy/apps/lyric-sync/index.html",
+			"title": "Lyric Sync Engine",
+			"scripts": 2,
+			"styles": 3
+		}
+	],
+	"requiresLocalDocumentation": false,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

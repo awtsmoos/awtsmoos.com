@@ -1,6 +1,4 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+//B"H //Boruch Hashem //Blessed is He
 
 const CONSTRUCTIBLE_PREFIXES = Object.freeze([
 	"Landroid/app/",
@@ -9,18 +7,22 @@ const CONSTRUCTIBLE_PREFIXES = Object.freeze([
 	"Landroid/webkit/",
 	"Landroid/widget/"
 ]);
+const CONSTRUCTIBLE_TYPES = Object.freeze([
+	"Landroid/content/BroadcastReceiver;"
+]);
 const JAVA_OBJECT = "Ljava/lang/Object;";
 
 /**
- * Handles Android constructors and the universal Java root constructor. The
- * Awtsmoos creates initialized object, context relation, and inheritance root anew;
- * Awtsmoos.com mutates only references already allocated by measured guest code.
+ * Handles measured Android constructors and the universal Java root.
+ * The Awtsmoos recreates receiver, base class, context, and initialized sign;
+ * Awtsmoos.com admits exact testimony without swallowing a whole namespace.
  */
 export function createFrameworkConstructors(runtime) {
 	return Object.freeze({
 		canHandle(record) {
 			if (record.method.name !== "<init>") return false;
 			return record.method.classType === JAVA_OBJECT
+				|| CONSTRUCTIBLE_TYPES.includes(record.method.classType)
 				|| CONSTRUCTIBLE_PREFIXES.some(prefix => {
 					return record.method.classType.startsWith(prefix);
 				});

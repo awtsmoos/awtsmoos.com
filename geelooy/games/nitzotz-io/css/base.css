@@ -1,58 +1,90 @@
-/* B"H — Canvas, cinematic palette, and universal controls. */
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews the city without placing a dark veil between world and eye;
+ * Awtsmoos.com keeps contrast strong while the vignette becomes a whisper instead of a sky.
+ * Canvas input remains isolated, while menus and overlays may own their own touch gestures.
+ */
 :root {
 	color-scheme: dark;
 	--gold: #ffdf6c;
 	--blue: #7edcff;
 	--violet: #9d7cff;
 	--ink: #02030a;
-	--glass: rgba(5, 7, 20, 0.78);
-	--glass-strong: rgba(5, 6, 18, 0.94);
-	--line: rgba(255, 255, 255, 0.18);
-	--shadow: 0 22px 65px rgba(0, 0, 0, 0.42);
+	--glass: rgba(5, 7, 20, 0.62);
+	--glass-strong: rgba(5, 6, 18, 0.84);
+	--line: rgba(255, 255, 255, 0.22);
+	--shadow: 0 14px 38px rgba(0, 0, 0, 0.28);
 }
 
-* { box-sizing: border-box; }
+* {
+	box-sizing: border-box;
+}
 
-html, body {
-	margin: 0;
-	height: 100%;
-	overflow: hidden;
+html,
+body {
 	background: var(--ink);
 	color: white;
 	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+	height: 100%;
+	margin: 0;
+	overflow: hidden;
 }
 
 body::after {
-	position: fixed;
+	background: radial-gradient(
+		circle at 50% 42%,
+		transparent 48%,
+		rgba(0, 0, 0, 0.16) 100%
+	);
+	content: "";
 	inset: 0;
 	pointer-events: none;
-	content: "";
-	background: radial-gradient(circle at 50% 42%, transparent 35%, rgba(0, 0, 0, 0.34) 100%);
+	position: fixed;
 	z-index: 2;
 }
 
-button, canvas, meter { -webkit-tap-highlight-color: transparent; }
-
-#game {
-	position: fixed;
-	inset: 0;
-	width: 100vw;
-	height: 100vh;
-	touch-action: none;
-	background: #02030a;
+button,
+canvas,
+meter {
+	-webkit-tap-highlight-color: transparent;
 }
 
-.button, .mini-button, .level-card {
+#game {
+	background: var(--ink);
+	height: 100vh;
+	height: 100dvh;
+	inset: 0;
+	position: fixed;
+	touch-action: none;
+	width: 100vw;
+}
+
+.button,
+.mini-button,
+.level-card {
 	border: 1px solid rgba(255, 255, 255, 0.24);
 	cursor: pointer;
 	font: inherit;
 	font-weight: 900;
-	transition: transform 130ms ease, border-color 130ms ease, background 130ms ease, box-shadow 130ms ease;
+	transition:
+		transform 130ms ease,
+		border-color 130ms ease,
+		background 130ms ease,
+		box-shadow 130ms ease;
 }
 
-.button:hover, .mini-button:hover, .level-card:hover:not(:disabled) {
-	transform: translateY(-2px);
+.button:hover,
+.mini-button:hover,
+.level-card:hover:not(:disabled) {
 	border-color: rgba(255, 223, 108, 0.78);
+	transform: translateY(-2px);
 }
 
-.button:active, .mini-button:active, .level-card:active:not(:disabled) { transform: translateY(1px) scale(0.98); }
+.button:active,
+.mini-button:active,
+.level-card:active:not(:disabled) {
+	transform: translateY(1px) scale(0.98);
+}

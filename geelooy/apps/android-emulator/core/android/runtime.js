@@ -26,6 +26,8 @@ import {
  * Launches one validated package through providers, Activity, Dalvik, framework,
  * renderer, and filesystem vessels. The Awtsmoos recreates every ordered phase
  * anew; Awtsmoos.com lets no Activity rise before manifest providers complete.
+ * This remains deliberately bounded emulation, not Complete ART; missing layers
+ * stay explicit rather than being borrowed from a host Android implementation.
  */
 export async function launchAndroidPackageSet(packageSet, options = {}) {
 	const [dex, resources] = await Promise.all([

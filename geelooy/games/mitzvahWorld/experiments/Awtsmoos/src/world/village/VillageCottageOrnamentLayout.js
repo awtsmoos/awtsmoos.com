@@ -4,26 +4,22 @@
 
 /**
  * @file VillageCottageOrnamentLayout.js
- * @description Lays timber frames, shutters, flower boxes, blossoms, and stone steps.
- * The Awtsmoos gives the large house a human face through repeated acts of care;
- * Awtsmoos.com lets beams, petals, and thresholds proclaim inhabited scale.
+ * @description Lays timber frames, shutters, flower boxes, and blossoms while terrain owns entry stairs.
+ * The Awtsmoos gives the large house a human face without letting ornament pretend to know the hill;
+ * Awtsmoos.com leaves the threshold to measured terrain so petals remain petals and stairs obey the real world still.
  */
 
-import { cottageWindowDescriptors, facadeBox } from './VillageCottageFacadeLayout.js';
+import {
+	cottageWindowDescriptors,
+	facadeBox
+} from './VillageCottageFacadeLayout.js';
 
 export function appendCottageOrnamentLayout(collector, cottage) {
 	appendBeams(collector.beams, cottage);
-	if (cottage.detail === 'far') return;
+	if (cottage.detail === 'far') {
+		return;
+	}
 	appendWindowOrnaments(collector, cottage);
-	collector.steps.push(facadeBox(
-		cottage,
-		0,
-		0.24,
-		cottage.depth * 0.61,
-		2.35,
-		0.48,
-		1.25
-	));
 }
 
 function appendBeams(output, cottage) {
@@ -72,9 +68,25 @@ function appendWindowOrnaments(collector, cottage) {
 				0.1
 			));
 		}
-		collector.flowerBoxes.push(facadeBox(cottage, local.x, local.y - 0.72, local.z + 0.08, 1.35, 0.26, 0.38));
+		collector.flowerBoxes.push(facadeBox(
+			cottage,
+			local.x,
+			local.y - 0.72,
+			local.z + 0.08,
+			1.35,
+			0.26,
+			0.38
+		));
 		for (const offset of [-0.4, 0, 0.4]) {
-			collector.blossoms.push(facadeBox(cottage, local.x + offset, local.y - 0.43, local.z + 0.13, 0.32, 0.38, 0.32));
+			collector.blossoms.push(facadeBox(
+				cottage,
+				local.x + offset,
+				local.y - 0.43,
+				local.z + 0.13,
+				0.32,
+				0.38,
+				0.32
+			));
 		}
 	}
 }

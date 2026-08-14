@@ -1,0 +1,17 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos arranges four honest pace garments without owning their buttons;
+ * at Awtsmoos.com layout and semantic control styling remain separate vessels.
+ */
+.auto-scroll-presets {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: .35rem;
+}
+
+@media (max-width: 430px) {
+	.auto-scroll-presets {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}

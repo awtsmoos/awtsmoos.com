@@ -1,827 +1,106 @@
-<!--
-ב"ה
-B"H
+<!-- B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos renews face, caption, wave, camera, and every finite spark.
+Emoji War keeps its arcade score local to the game: no local score, helper, or
+power-up is presented as purchased Wallet value.
 -->
-
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
-<title>Emoji War Evolved</title>
-<style>
-body,html{
-    margin:0;
-    width:100%;
-    height:100%;
-    overflow: hidden;
-    background-color: #090a0f;
-    font-family: 'Arial', sans-serif;
-    color: white;
-    touch-action: none; /* Prevents scrolling on mobile */
-}
-#k{
-    position:absolute;
-    left:0;
-    top:0;
-    width:100%;
-    height:100%;
-    z-index: 1;
-}
-#webcamFeed {
-    display: none; /* Hidden video element for webcam stream */
-}
-.ui-element {
-    position: absolute;
-    text-shadow: 2px 2px 4px #000000;
-    z-index: 2;
-    padding: 5px 10px;
-    border-radius: 5px;
-    background-color: rgba(0,0,0,0.2);
-}
-#topInfo { top: 10px; left: 10px; font-size: 18px; }
-#highScoreInfo { top: 10px; right: 10px; text-align: right; font-size: 18px;}
-#comboInfo {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    font-size: 24px;
-    font-weight: bold;
-    color: #ffc107;
-    text-shadow: 2px 2px 4px #000;
-    z-index: 2;
-    opacity: 0;
-    transform: scale(0.8);
-    transition: opacity 0.2s, transform 0.2s;
-}
-
-#powerUpContainer {
-    position: absolute;
-    top: 80px;
-    left: 10px;
-    z-index: 5;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-.power-up-active {
-    display: flex;
-    align-items: center;
-    background-color: rgba(0,0,0,0.5);
-    padding: 5px;
-    border-radius: 8px;
-}
-.power-up-icon { font-size: 24px; margin-right: 8px; }
-.power-up-timer {
-    width: 100px;
-    height: 10px;
-    background-color: #555;
-    border-radius: 5px;
-    overflow: hidden;
-}
-.power-up-timer-bar {
-    height: 100%;
-    background-color: #4CAF50;
-    border-radius: 5px;
-    transition: width 0.1s linear;
-}
-
-.menu-container {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-    backdrop-filter: blur(5px);
-    box-sizing: border-box;
-    padding: 15px;
-    overflow-y: auto;
-}
-.menu-button {
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 24px;
-    margin: 10px;
-    cursor: pointer;
-    border-radius: 8px;
-    box-shadow: 3px 3px 5px rgba(0,0,0,0.3);
-    transition: background-color 0.2s;
-}
-.menu-button:hover { background-color: #45a049; }
-.menu-container h1 { font-size: 48px; text-shadow: 3px 3px 6px #000; margin-bottom: 20px; text-align: center; }
-.menu-container h2 { font-size: 28px; color: #ccc; }
-.menu-container h3 { font-size: 22px; margin-bottom: 10px; color: #4CAF50; }
-.menu-container textarea {
-    width: 90%;
-    max-width: 500px;
-    height: 100px;
-    margin-bottom: 10px;
-    font-size: 16px;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #333;
-    color: white;
-    border: 1px solid #555;
-}
-.menu-container label {
-    font-size: 18px;
-    margin-top: 15px;
-    margin-bottom: 5px;
-}
-.setting-group {
-    background-color: rgba(255,255,255,0.05);
-    padding: 15px;
-    border-radius: 8px;
-    margin: 10px 0;
-    text-align: center;
-    width: 90%;
-    max-width: 600px;
-}
-
-#imageUploadLabel {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 10px 0;
-}
-#imageUploadLabel:hover { background-color: #0056b3; }
-#imageUploader { display: none; }
-#fileCount { color: #ccc; font-style: italic; }
-
-#gameMessageDisplay {
-    position: absolute;
-    top: 40%; left: 50%;
-    transform: translate(-50%, -50%) scale(0.5);
-    font-size: 7vw; /* Responsive font size */
-    font-weight: bold;
-    color: white;
-    text-shadow: 5px 5px 10px black;
-    z-index: 11;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s, transform 0.3s;
-    text-align: center;
-}
-
-#mainMenu, #settingsMenu, #gameOverMenu, #customCaptionsMenu { display: none; }
-
-
-/* Caption Box Styles */
-#captionDisplayBox {
-    position: absolute;
-    border: 5px solid black;
-    padding: 20px;
-    border-radius: 10px;
-    max-width: 70%;
-    min-width: 250px;
-    box-sizing: border-box;
-    text-align: center;
-    z-index: 5;
-    display: none;
-    box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
-    cursor: grab;
-    background-size: cover;
-    background-position: center;
-}
-
-#captionTextBox {
-    color: white;
-    font-size: 40px;
-    font-family: 'Arial', sans-serif;
-    word-wrap: break-word;
-    white-space: normal;
-    line-height: 1.2;
-    text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 3px 3px 5px rgba(0,0,0,0.8);
-}
-
-.caption-nav-button {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: white;
-    text-shadow: 2px 2px 4px #000000;
-    margin: 0 10px;
-}
-
-#captionListButton { font-size: 32px; }
-
-#captionListMenu {
-    display: none; /* Hidden by default */
-    flex-direction: column;
-}
-#captionListContainer {
-    width: 90%;
-    max-width: 600px;
-    max-height: 70vh;
-    overflow-y: auto;
-    background-color: rgba(20, 20, 30, 0.95);
-    border: 2px solid #4CAF50;
-    border-radius: 10px;
-    padding: 15px;
-}
-.caption-list-item {
-    padding: 10px;
-    margin: 5px 0;
-    background-color: rgba(0,0,0,0.3);
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.caption-list-item:hover {
-    background-color: #4CAF50;
-}
-
-</style>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="theme-color" content="#070a12">
+	<meta name="description" content="Emoji War is a touch-first neon survival shooter with custom captions, local image remixes, power-ups, webcam effects, waves, and combos.">
+	<title>Emoji War — Neon Caption Arcade</title>
+	<link rel="stylesheet" href="./style.css?v=emoji-war-solid-004">
 </head>
 <body>
+	<canvas id="k" aria-label="Emoji War game field"></canvas>
+	<video id="webcamFeed" playsinline muted></video>
 
-<canvas id="k"></canvas>
-<video id="webcamFeed" autoplay playsinline></video>
+	<div id="topInfo" class="ui-element" aria-live="polite">
+		Score <span id="currentScoreValue">0</span>
+		· Lives <span id="playerLivesValue">3</span>
+	</div>
+	<div id="highScoreInfo" class="ui-element">
+		Best <span id="highScoreValue">0</span>
+	</div>
+	<div id="comboInfo" aria-live="polite"></div>
+	<div id="powerUpContainer" aria-live="polite"></div>
+	<div id="gameMessageDisplay" aria-live="assertive"></div>
 
-<!-- UI Elements -->
-<div id="topInfo" class="ui-element">Score: <span id="currentScoreValue">0</span><br>Lives: <span id="playerLivesValue">3</span></div>
-<div id="highScoreInfo" class="ui-element">High Score: <span id="highScoreValue">0</span></div>
-<div id="comboInfo"></div>
-<div id="powerUpContainer"></div>
-<div id="gameMessageDisplay"></div>
+	<section id="mainMenu" class="menu-container" aria-labelledby="emoji-war-title">
+		<p class="menu-lead">B"H · Awtsmoos Quick Play · Local arcade score only</p>
+		<h1 id="emoji-war-title">Emoji War</h1>
+		<h2>Neon survival, captions, helpers, waves, and chaotic joy.</h2>
+		<button id="playClassicButton" class="menu-button">Play classic survival</button>
+		<button id="playCustomButton" class="menu-button secondary">Create a caption remix</button>
+		<button id="settingsButton" class="menu-button secondary">Gameplay & camera settings</button>
+	</section>
 
-<!-- Menus -->
-<div id="mainMenu" class="menu-container">
-    <h1>Emoji War Evolved</h1>
-    <button class="menu-button" onclick="startGame(false)">Play Normal</button>
-    <button class="menu-button" onclick="showCustomCaptionsMenu()">Play with Captions</button>
-    <button class="menu-button" onclick="showSettingsMenu()">Settings</button>
-</div>
+	<section id="customCaptionsMenu" class="menu-container" aria-labelledby="captions-title">
+		<h1 id="captions-title">Caption Remix</h1>
+		<p class="menu-lead">One caption per line. Optional local images pair by line order and stay in this browser session.</p>
+		<label for="captionsTextarea">Caption lines</label>
+		<textarea id="captionsTextarea" placeholder="B\"H — keep moving.&#10;A new line, a new scene."></textarea>
+		<label id="imageUploadLabel" for="imageUploader">Choose local caption images</label>
+		<input id="imageUploader" type="file" accept="image/*" multiple>
+		<p id="fileCount">No local images selected.</p>
+		<button id="startCustomButton" class="menu-button">Start caption remix</button>
+		<button id="captionsBackButton" class="menu-button secondary">Back</button>
+	</section>
 
-<div id="customCaptionsMenu" class="menu-container">
-    <h1>Custom Game</h1>
-    <textarea id="captionsTextarea" placeholder="Paste captions here, separated by two newlines (press Enter twice)."></textarea>
-    <label for="imageUploader" id="imageUploadLabel">Select Images (Optional)</label>
-    <input type="file" id="imageUploader" multiple accept="image/*">
-    <span id="fileCount">0 images selected</span>
-    <div>
-        <button class="menu-button" onclick="startCustomGame()">Go</button>
-        <button class="menu-button" onclick="showMainMenu()">Back</button>
-    </div>
-</div>
+	<section id="settingsMenu" class="menu-container" aria-labelledby="settings-title">
+		<h1 id="settings-title">Settings</h1>
+		<div class="setting-group">
+			<h3>Player scale</h3>
+			<label for="playerSizeSlider">Emoji size: <span id="playerSizeValue">150</span></label>
+			<input id="playerSizeSlider" type="range" min="72" max="240" step="2" value="150">
+			<button id="saveGameplayButton" class="menu-button">Save gameplay setting</button>
+		</div>
+		<div class="setting-group">
+			<h3>Emoji pools</h3>
+			<label for="badEmojisTextarea">Opponents</label>
+			<textarea id="badEmojisTextarea"></textarea>
+			<label for="goodEmojisTextarea">Friendly helpers</label>
+			<textarea id="goodEmojisTextarea"></textarea>
+			<button id="saveEmojisButton" class="menu-button">Save emoji pools</button>
+			<button id="resetEmojisButton" class="menu-button secondary">Reset defaults</button>
+		</div>
+		<div class="setting-group">
+			<h3>Optional local camera effects</h3>
+			<label><input id="enableWebcamPlayer" type="checkbox"> Show camera inside player</label>
+			<label><input id="enableWebcamBg" type="checkbox"> Show faint camera background</label>
+			<p id="webcamStatus">Camera remains off until you enable and save it.</p>
+			<button id="saveWebcamButton" class="menu-button">Save camera setting</button>
+		</div>
+		<button id="settingsBackButton" class="menu-button secondary">Back</button>
+	</section>
 
-<div id="settingsMenu" class="menu-container">
-    <h1>Settings</h1>
+	<section id="gameOverMenu" class="menu-container" aria-labelledby="game-over-title">
+		<h1 id="game-over-title">Wave Broken</h1>
+		<p class="menu-lead">Final local score: <strong id="finalScoreValue">0</strong></p>
+		<button id="restartButton" class="menu-button">Re-enter the current mode</button>
+		<button id="gameOverMenuButton" class="menu-button secondary">Return to menu</button>
+	</section>
 
-    <div class="setting-group">
-        <h3>Gameplay Settings</h3>
-        <label for="playerSizeSlider">Player Size: <span id="playerSizeValue">150</span></label>
-        <br>
-        <input type="range" id="playerSizeSlider" min="30" max="200" value="150" style="width: 80%; vertical-align: middle;">
-        <button class="menu-button" onclick="saveGameplaySettings()">Save Gameplay</button>
-    </div>
+	<section id="captionListMenu" class="menu-container" aria-labelledby="caption-list-title">
+		<h1 id="caption-list-title">Caption List</h1>
+		<div id="captionListContainer"></div>
+		<button id="captionListCloseButton" class="menu-button secondary">Close list</button>
+	</section>
 
-    <div class="setting-group">
-        <h3>Customize Emojis</h3>
-        <label for="badEmojisTextarea">Bad Emojis (Enemies):</label>
-        <textarea id="badEmojisTextarea"></textarea>
-        <label for="goodEmojisTextarea">Good Emojis (Drop Powerups):</label>
-        <textarea id="goodEmojisTextarea"></textarea>
-        <button class="menu-button" onclick="saveEmojis()">Save Emojis</button>
-        <button class="menu-button" onclick="resetEmojis()" style="background-color:#f44336;">Reset Defaults</button>
-    </div>
+	<aside id="captionDisplayBox" aria-live="polite">
+		<div id="captionTextBox"></div>
+		<div class="caption-controls">
+			<button id="previousCaptionButton" class="caption-nav-button" aria-label="Previous caption">←</button>
+			<button id="captionListButton" class="caption-nav-button" aria-label="Open caption list">☰</button>
+			<button id="nextCaptionButton" class="caption-nav-button" aria-label="Next caption">→</button>
+		</div>
+	</aside>
 
-    <div class="setting-group">
-        <h3>Webcam Settings</h3>
-        <label><input type="checkbox" id="enableWebcamPlayer"> Show Webcam on Player</label><br>
-        <label><input type="checkbox" id="enableWebcamBg"> Show Webcam in Background</label><br>
-        <button class="menu-button" onclick="saveWebcamSettings()">Save & Activate Webcam</button>
-        <p id="webcamStatus" style="color: #ffc107;"></p>
-    </div>
-
-    <button class="menu-button" onclick="showMainMenu()">Back</button>
-</div>
-
-<div id="gameOverMenu" class="menu-container">
-    <h1>Game Over</h1>
-    <h2>Final Score: <span id="finalScoreValue">0</span></h2>
-    <button class="menu-button" onclick="startGame(customMode)">Play Again</button>
-    <button class="menu-button" onclick="showMainMenu()">Main Menu</button>
-</div>
-
-<!-- Caption List Menu -->
-<div id="captionListMenu" class="menu-container">
-    <h1>Caption Index</h1>
-    <div id="captionListContainer"></div>
-    <button class="menu-button" onclick="hideCaptionList()">Close</button>
-</div>
-
-
-<!-- Draggable Caption Box -->
-<div id="captionDisplayBox">
-    <div id="captionTextBox"></div>
-    <div style="margin-top: 15px;">
-        <button class="caption-nav-button" onclick="prevCaption()">⬅️</button>
-        <button id="captionListButton" class="caption-nav-button" onclick="showCaptionList()">📜</button>
-        <button class="caption-nav-button" onclick="nextCaption()">➡️</button>
-    </div>
-</div>
-
-
-<script>
-//B"H
-console.log('B"H');
-
-// --- SETUP & GLOBAL VARIABLES ---
-const k = document.getElementById('k');
-const ctx = k.getContext("2d");
-const webcamFeed = document.getElementById('webcamFeed');
-
-// DOM Elements
-const mainMenu = document.getElementById('mainMenu'), settingsMenu = document.getElementById('settingsMenu'), gameOverMenu = document.getElementById('gameOverMenu'), customCaptionsMenu = document.getElementById('customCaptionsMenu'), captionListMenu = document.getElementById('captionListMenu'), captionDisplayBox = document.getElementById('captionDisplayBox'), captionTextBox = document.getElementById('captionTextBox'), captionsTextarea = document.getElementById('captionsTextarea'), imageUploader = document.getElementById('imageUploader'), fileCount = document.getElementById('fileCount'), currentScoreValue = document.getElementById('currentScoreValue'), highScoreValue = document.getElementById('highScoreValue'), playerLivesValue = document.getElementById('playerLivesValue'), finalScoreValue = document.getElementById('finalScoreValue'), badEmojisTextarea = document.getElementById('badEmojisTextarea'), goodEmojisTextarea = document.getElementById('goodEmojisTextarea'), powerUpContainer = document.getElementById('powerUpContainer'), gameMessageDisplay = document.getElementById('gameMessageDisplay'), comboInfo = document.getElementById('comboInfo'), captionListContainer = document.getElementById('captionListContainer');
-
-// --- GAME CONFIG ---
-let playerSize = 150; // Player size is now a mutable variable
-const PLAYER_INVINCIBILITY_DURATION = 2000;
-const ENEMY_BULLET_EMOJI = "🔥";
-const DEFAULT_BAD_EMOJIS = "😡😠😩🤢👿🦋🧐🦗🦣🪳😵‍💫✈️🐌🤬🫠🤨🧐🌊🗣️✨🥸🙀✊🌪️🌞🦇";
-const DEFAULT_GOOD_EMOJIS = "😀😇😍🥳🤩💎🎁💖";
-const HEBREW_LETTERS = Array.from("אבגדהוזחטיכךלמםנןסעפףצץקרשת");
-const BULLET_COLORS = ['#ff00ff', '#00ffff', '#ffff00', '#00ff00', '#ff8800', '#ff44cc'];
-const POWERUP_TYPES = { 'SHIELD': { emoji: "🛡️", duration: 10000 }, 'SPREAD_SHOT': { emoji: "☄️", duration: 8000 }, 'RAPID_FIRE': { emoji: "🔥", duration: 7000 }, 'BOMB': { emoji: "💣", duration: 0 }, 'TIME_WARP': { emoji: "⏳", duration: 5000 } };
-const PLAYER_SHOOT_DELAY = 120, PLAYER_RAPID_FIRE_DELAY = 60, COMBO_TIMEOUT = 2500;
-const HELPER_MAX_COUNT = 26;
-
-// --- GAME STATE ---
-let player = null, highScore = 0, gameObjects = [], bullets = [], particles = [], stars = [], badEmojis = [], goodEmojis = [], currentScore = 0, playerLives = 3, gameLoopId = null, isGameOver = true, isTouching = false, customMode = false, lastShotTime = 0, activePowerUps = {}, playerInvincibilityEnd = 0, screenShake = { time: 0, intensity: 0 }, screenFlash = { time: 0, color: 'white' }, currentWave = 0, waveState = 'INTERMISSION', waveTransitionTime = 0, comboCount = 0, lastKillTime = 0, difficulty = 1.0;
-let lastDragPos = { x: 0, y: 0 };
-let spawnQueue = [];
-
-// Webcam State
-let webcamActive = false, showWebcamOnPlayer = false, showWebcamInBackground = false;
-
-// Custom Caption State
-let customCaptionData = [], currentCaptionIndex = 0, captionImageUrls = [], isDraggingCaptionBox = false, dragOffsetX = 0, dragOffsetY = 0, captionBoxLastX = localStorage.getItem('captionBoxX') ? parseFloat(localStorage.getItem('captionBoxX')) : null, captionBoxLastY = localStorage.getItem('captionBoxY') ? parseFloat(localStorage.getItem('captionBoxY')) : null;
-
-// --- AUDIO SETUP ---
-let audioCtx;
-function setupAudio() { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
-function playSound(type, ...args) {
-    if (!audioCtx) return;
-    const o = audioCtx.createOscillator(), g = audioCtx.createGain(), t = audioCtx.currentTime;
-    o.connect(g); g.connect(audioCtx.destination); g.gain.setValueAtTime(0.2, t);
-    switch (type) {
-        case 'shoot': o.type = 'triangle'; o.frequency.value = activePowerUps['RAPID_FIRE'] ? 660 : 440; g.gain.exponentialRampToValueAtTime(0.001, t + 0.1); break;
-        case 'enemy_shoot': o.type = 'square'; o.frequency.value = 330; g.gain.exponentialRampToValueAtTime(0.001, t + 0.15); break;
-        case 'hit': o.type = 'square'; o.frequency.value = 220; g.gain.exponentialRampToValueAtTime(0.001, t + 0.15); break;
-        case 'destroy': o.type = 'sawtooth'; o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(50, t + 0.2); g.gain.exponentialRampToValueAtTime(0.001, t + 0.2); break;
-        case 'powerup': o.type = 'sine'; o.frequency.setValueAtTime(523, t); o.frequency.linearRampToValueAtTime(1046, t + 0.2); g.gain.exponentialRampToValueAtTime(0.001, t + 0.2); break;
-        case 'playerHit': o.type = 'square'; o.frequency.setValueAtTime(200, t); o.frequency.exponentialRampToValueAtTime(100, t + 0.4); g.gain.setValueAtTime(0.3,t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.4); break;
-        case 'combo': o.type = 'sine'; o.frequency.value = 440 + (args[0] * 20); g.gain.exponentialRampToValueAtTime(0.001, t + 0.1); break;
-        case 'dash': o.type = 'triangle'; o.frequency.setValueAtTime(800, t); o.frequency.exponentialRampToValueAtTime(200, t + 0.15); g.gain.exponentialRampToValueAtTime(0.001, t + 0.15); break;
-        case 'timewarp_on': o.type = 'sawtooth'; o.frequency.setValueAtTime(800,t); o.frequency.exponentialRampToValueAtTime(100,t+0.5); g.gain.exponentialRampToValueAtTime(0.001, t+0.5); break;
-        case 'timewarp_off': o.type = 'sawtooth'; o.frequency.setValueAtTime(100,t); o.frequency.exponentialRampToValueAtTime(800,t+0.5); g.gain.exponentialRampToValueAtTime(0.001, t+0.5); break;
-        case 'gameOver': o.type = 'sawtooth'; o.frequency.setValueAtTime(400,t); o.frequency.exponentialRampToValueAtTime(50,t+1.5); g.gain.exponentialRampToValueAtTime(0.001, t+1.5); break;
-        case 'gameStart': o.type = 'sine'; o.frequency.setValueAtTime(261, t); o.frequency.linearRampToValueAtTime(523, t+0.3); g.gain.exponentialRampToValueAtTime(0.001, t+0.3); break;
-    }
-    o.start(t); o.stop(t + 1.5);
-}
-
-// --- GAME OBJECT CLASSES ---
-class GameObject { constructor(x, y, size, emoji) { this.x=x; this.y=y; this.size=size; this.emoji=emoji; this.radius=size/2; this.toBeRemoved = false; } draw() { ctx.font = `${this.size}px Arial`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(this.emoji, this.x, this.y); } update(timeScale = 1) {} }
-class Player extends GameObject { constructor(x, y) { super(x, y, playerSize, "😀"); this.shielded = false; this.helpers = []; } draw() { const isInvincible = Date.now() < playerInvincibilityEnd; if (isInvincible && Math.floor(Date.now()/100)%2===0) return; if (webcamActive && showWebcamOnPlayer && webcamFeed.readyState >= 2) { ctx.save(); ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2); ctx.clip(); const vW=webcamFeed.videoWidth, vH=webcamFeed.videoHeight, vRatio=vW/vH, r=this.radius; let sW,sH,sX,sY; if(vRatio > 1){sH=vH;sW=vH;sX=(vW-sW)/2;sY=0;}else{sW=vW;sH=vW;sX=0;sY=(vH-sH)/2;} ctx.drawImage(webcamFeed,sX,sY,sW,sH,this.x-r,this.y-r,r*2,r*2); ctx.restore(); } else { super.draw(); } if (this.shielded) { ctx.beginPath(); ctx.arc(this.x, this.y, this.radius+15, 0, Math.PI*2); ctx.strokeStyle = `rgba(0, 255, 255, ${0.5 + Math.sin(Date.now()*0.01)*0.3})`; ctx.lineWidth=5; ctx.stroke(); } } update() { this.x = Math.max(this.radius, Math.min(k.width - this.radius, this.x)); this.y = Math.max(this.radius, Math.min(k.height - this.radius, this.y)); this.updateHelpers(); } updateHelpers() { const numHelpers = this.helpers.length; if (numHelpers === 0) return; const angleStep = Math.PI * 2 / numHelpers; let distance = 100; if(numHelpers > 7) distance = 150; if(numHelpers > 15) distance = 200; this.helpers.forEach((helper, i) => { const angle = (i * angleStep) - (Math.PI / 2); helper.targetX = this.x + Math.cos(angle) * distance; helper.targetY = this.y + Math.sin(angle) * distance; }); } addHelpers(count) { const currentCount = this.helpers.length; const toAdd = Math.min(count, HELPER_MAX_COUNT - currentCount); for(let i = 0; i < toAdd; i++) { this.helpers.push(new HelperShip(this.x, this.y)); } } }
-class HelperShip extends GameObject { constructor(x, y) { super(x, y, playerSize * 0.6, "🙂"); this.targetX = x; this.targetY = y; this.lastShotTime = 0; } update() { this.x += (this.targetX - this.x) * 0.1; this.y += (this.targetY - this.y) * 0.1; const shootDelay = activePowerUps['RAPID_FIRE'] ? PLAYER_RAPID_FIRE_DELAY * 2 : PLAYER_SHOOT_DELAY * 2; if (Date.now() - this.lastShotTime > shootDelay) { bullets.push(new Bullet(this.x, this.y + this.radius)); this.lastShotTime = Date.now(); } } draw() { if (webcamActive && showWebcamOnPlayer && webcamFeed.readyState >= 2) { ctx.save(); ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2); ctx.clip(); const vW=webcamFeed.videoWidth, vH=webcamFeed.videoHeight, vRatio=vW/vH, r=this.radius; let sW,sH,sX,sY; if(vRatio > 1){sH=vH;sW=vH;sX=(vW-sW)/2;sY=0;}else{sW=vW;sH=vW;sX=0;sY=(vH-sH)/2;} ctx.drawImage(webcamFeed,sX,sY,sW,sH,this.x-r,this.y-r,r*2,r*2); ctx.restore(); } else { super.draw(); } } }
-class Bullet extends GameObject { constructor(x, y) { const emoji = HEBREW_LETTERS[Math.floor(Math.random() * HEBREW_LETTERS.length)]; super(x, y, 40, emoji); this.speed = 18; this.color = BULLET_COLORS[Math.floor(Math.random() * BULLET_COLORS.length)]; } update() { this.y += this.speed; if (this.y > k.height) this.toBeRemoved = true; } draw() { ctx.save(); ctx.font = `bold ${this.size}px Arial`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.shadowColor = this.color; ctx.shadowBlur = 15; ctx.strokeStyle = 'black'; ctx.lineWidth = 3; ctx.strokeText(this.emoji, this.x, this.y); ctx.fillStyle = this.color; ctx.fillText(this.emoji, this.x, this.y); ctx.restore(); } }
-class SpreadBullet extends Bullet { constructor(x, y, angle) { super(x, y); this.vx = Math.sin(angle) * this.speed; this.vy = Math.cos(angle) * this.speed; } update() { this.x += this.vx; this.y += this.vy; if (this.y > k.height || this.x < 0 || this.x > k.width) this.toBeRemoved = true; } }
-class EnemyBullet extends GameObject { constructor(x, y, vx = 0, vy = -8 * Math.sqrt(difficulty)) { super(x, y, 25, ENEMY_BULLET_EMOJI); this.vx = vx; this.vy = vy; } update(timeScale=1) { this.x += this.vx * timeScale; this.y += this.vy * timeScale; if (this.y > k.height || this.y < -this.size || this.x < -this.size || this.x > k.width + this.size) this.toBeRemoved = true; } }
-class Enemy extends GameObject { constructor(x, y, size, emoji, speed, health=1) { super(x, y, size, emoji); this.speed=speed; this.health=health; this.maxHealth=health; this.hitTimer=0; this.baseScore = 100; this.scale=1;} update(timeScale=1) { this.y -= this.speed * timeScale; if (this.y < -this.size) this.toBeRemoved = true; if (this.hitTimer>0) {this.hitTimer--; this.scale += (1.2 - this.scale) * 0.5;} else {this.scale += (1 - this.scale) * 0.2;} } draw() { ctx.save(); if (this.hitTimer > 0) ctx.filter = 'brightness(2)'; ctx.translate(this.x, this.y); ctx.scale(this.scale, this.scale); ctx.translate(-this.x, -this.y); super.draw(); ctx.restore(); if (this.health > 1) { const bw = this.size; ctx.fillStyle="#555"; ctx.fillRect(this.x-bw/2, this.y-this.radius-10, bw, 5); ctx.fillStyle="red"; ctx.fillRect(this.x-bw/2, this.y-this.radius-10, bw * (this.health/this.maxHealth), 5); } } takeDamage() { this.health--; this.hitTimer=5; playSound('hit'); return this.health <= 0; } }
-class GoodEmoji extends Enemy { constructor(x, y, size, emoji, speed) { super(x, y, size, emoji, speed, 1); this.baseScore = 50; } draw() { ctx.save(); ctx.shadowColor = 'lime'; ctx.shadowBlur = 20; super.draw(); ctx.restore(); } }
-class SineWaveEnemy extends Enemy { constructor(x, y, size, emoji, speed, health) { super(x, y, size, emoji, speed, health); this.originX = x; this.angle = Math.random() * Math.PI * 2; this.baseScore = 150; } update(timeScale=1) { super.update(timeScale); this.angle += 0.05 * timeScale; this.x = this.originX + Math.sin(this.angle) * (k.width / 6); } }
-class ShooterEnemy extends Enemy { constructor(x, y, size, emoji, speed, health) { super(x, y, size, emoji, speed, health); this.state = 'descending'; this.stopY = k.height - (Math.random() * (k.height * 0.3) + (k.height * 0.1)); this.shootTimer = Date.now() + 1500; this.baseScore = 200; } update(timeScale=1) { super.update(timeScale); if (this.state === 'descending') { if (this.y <= this.stopY) this.state = 'shooting'; } else if (this.state === 'shooting' && player) { if (Date.now() > this.shootTimer) { const angle = Math.atan2(player.y - this.y, player.x - this.x); const speed = 7 * Math.sqrt(difficulty); const vx = Math.cos(angle) * speed; const vy = Math.sin(angle) * speed; gameObjects.push(new EnemyBullet(this.x, this.y, vx, vy)); playSound('enemy_shoot'); this.shootTimer = Date.now() + (2500 / difficulty); } } } }
-class DasherEnemy extends Enemy { constructor(x, y, size, emoji, speed, health) { super(x, y, size, emoji, speed, health); this.state = 'descending'; this.stopY = k.height - (Math.random() * (k.height * 0.4) + (k.height * 0.1)); this.pauseTime = 0; this.vx = 0; this.vy = 0; this.baseScore = 250; } update(timeScale=1) { if (this.state === 'descending') { this.y -= this.speed * timeScale; if (this.y <= this.stopY) { this.state = 'pausing'; this.pauseTime = Date.now() + 750 / Math.sqrt(difficulty); } } else if (this.state === 'pausing') { if (Date.now() >= this.pauseTime && player) { this.state = 'dashing'; playSound('dash'); const angle = Math.atan2(player.y - this.y, player.x - this.x); this.vx = Math.cos(angle) * this.speed * 3; this.vy = Math.sin(angle) * this.speed * 3; } } else if (this.state === 'dashing') { this.x += this.vx * timeScale; this.y += this.vy * timeScale; if (this.y > k.height + this.size || this.y < -this.size || this.x < -this.size || this.x > k.width + this.size) this.toBeRemoved = true; } } }
-class HeavyEnemy extends Enemy { constructor(x,y,size,emoji,speed,health) { super(x,y,size,emoji,speed,health); this.baseScore=500; } }
-class GematriaBox extends Enemy { constructor(x,y) { super(x,y,70, '💠', 1.5, 100); this.value = -10; this.baseScore = 0; } takeDamage() { this.value++; this.hitTimer=5; playSound('hit'); return false; } draw() { super.draw(); const valueColor = this.value < 0 ? `rgb(255, ${Math.floor(255 * (1 - Math.abs(this.value)/10))}, ${Math.floor(255 * (1 - Math.abs(this.value)/10))})` : `rgb(${Math.floor(255 * (1 - Math.min(this.value,26)/26))}, 255, ${Math.floor(255 * (1 - Math.min(this.value,26)/26))})`; ctx.fillStyle = valueColor; ctx.font = 'bold 24px Arial'; ctx.fillText(this.value, this.x, this.y + this.radius); ctx.font = 'bold 20px Arial'; ctx.fillText(numberToGematria(this.value), this.x, this.y + this.radius + 25); } }
-class PowerUp extends GameObject { constructor(x, y, type) { const c=POWERUP_TYPES[type]; super(x, y, 50, c.emoji); this.type=type; this.speed=2; } update(timeScale=1) { this.y -= this.speed * timeScale; if (this.y < -this.size) this.toBeRemoved = true; } draw() { ctx.save(); const gr = this.radius + 10 * Math.abs(Math.sin(Date.now()*0.005)); const grad = ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,gr); grad.addColorStop(0, 'rgba(0,255,255,0.7)'); grad.addColorStop(1, 'rgba(0,255,255,0)'); ctx.fillStyle=grad; ctx.beginPath(); ctx.arc(this.x,this.y,gr,0,Math.PI*2); ctx.fill(); ctx.restore(); super.draw(); } }
-class Particle extends GameObject { constructor(x, y, emoji) { super(x, y, 20, emoji); this.vx=(Math.random()-0.5)*12; this.vy=(Math.random()-0.5)*12; this.life=1.0; this.size = Math.random() * 15 + 10; } update(timeScale=1) { this.x+=this.vx * timeScale; this.y+=this.vy * timeScale; this.life-=0.04 * timeScale; this.vy += 0.1 * timeScale; if (this.life <= 0) this.toBeRemoved = true; } draw() { ctx.globalAlpha=this.life; super.draw(); ctx.globalAlpha=1.0; } }
-class ScorePopup extends GameObject { constructor(x, y, text) { super(x, y, 30, text); this.vy=2; this.life=1.0; } update() { this.y+=this.vy; this.life-=0.02; if (this.life <= 0) this.toBeRemoved = true; } draw() { ctx.globalAlpha=this.life; ctx.fillStyle="#ffff00"; ctx.font=`bold ${this.size}px Arial`; ctx.fillText(this.emoji, this.x, this.y); ctx.globalAlpha=1.0; ctx.fillStyle="white"; } }
-
-// --- GAME LOGIC ---
-function resetGame() {
-    isGameOver=false; isTouching=false; currentScore=0; playerLives=3; lastShotTime=0; activePowerUps={};
-    player = new Player(k.width/2, k.height * 0.2);
-    gameObjects=[]; bullets=[]; particles=[]; spawnQueue=[];
-    currentWave = 0; waveState = 'INTERMISSION'; waveTransitionTime = Date.now() + 1000; difficulty = 1.0;
-    comboCount = 0; lastKillTime = 0;
-    updateUI();
-}
-function startGame(isCustom) {
-    customMode = isCustom;
-    resetGame();
-    mainMenu.style.display='none'; gameOverMenu.style.display='none'; settingsMenu.style.display='none'; customCaptionsMenu.style.display='none'; captionListMenu.style.display = 'none';
-    document.querySelector('#topInfo').style.display = 'block';
-    document.querySelector('#highScoreInfo').style.display = 'block';
-    showGameMessage("3", 1000, () => showGameMessage("2", 1000, () => showGameMessage("1", 1000, () => {
-        showGameMessage("GO!", 500, () => {
-            playSound('gameStart');
-            if (gameLoopId) cancelAnimationFrame(gameLoopId);
-            gameLoopId = requestAnimationFrame(gameLoop);
-        });
-    })));
-}
-function showGameMessage(text, duration, callback) {
-    gameMessageDisplay.textContent = text;
-    gameMessageDisplay.style.opacity = 1; gameMessageDisplay.style.transform = 'translate(-50%, -50%) scale(1)';
-    setTimeout(() => {
-        gameMessageDisplay.style.opacity = 0; gameMessageDisplay.style.transform = 'translate(-50%, -50%) scale(0.5)';
-        if (callback) setTimeout(callback, 300);
-    }, duration);
-}
-function gameLoop() {
-    if (isGameOver) return;
-    const now = Date.now();
-    const timeScale = activePowerUps['TIME_WARP'] ? 0.4 : 1.0;
-    
-    drawBackground();
-    manageWaves(now);
-    manageSpawning(now);
-    
-    const shootDelay = activePowerUps['RAPID_FIRE'] ? PLAYER_RAPID_FIRE_DELAY : PLAYER_SHOOT_DELAY;
-    if (isTouching && now - lastShotTime > shootDelay) { shoot(); lastShotTime = now; }
-    
-    // Update objects
-    player.update();
-    player.helpers.forEach(h => h.update());
-    bullets.forEach(b => b.update());
-    gameObjects.forEach(obj => obj.update(timeScale));
-    particles.forEach(p => p.update(timeScale));
-    
-    player.shielded = !!activePowerUps['SHIELD'];
-    
-    // Draw objects
-    player.draw();
-    player.helpers.forEach(h => h.draw());
-    gameObjects.forEach(obj => obj.draw());
-    bullets.forEach(obj => obj.draw());
-    particles.forEach(obj => obj.draw());
-
-    handleCollisions(); cleanupObjects(); updatePowerUps(now); updateCombo(now); updateUI(); updateCaptionDisplay();
-    gameLoopId = requestAnimationFrame(gameLoop);
-}
-function drawBackground() {
-    ctx.save();
-    if(screenShake.time > 0) {
-        ctx.translate((Math.random()-0.5)*screenShake.intensity, (Math.random()-0.5)*screenShake.intensity);
-        screenShake.time--;
-    }
-    ctx.fillStyle = "#090a0f"; ctx.fillRect(0, 0, k.width, k.height);
-    if (webcamActive && showWebcamInBackground && webcamFeed.readyState >= 2) {
-        ctx.globalAlpha = 0.2;
-        const h = k.width / webcamFeed.videoWidth * webcamFeed.videoHeight;
-        ctx.drawImage(webcamFeed, 0, (k.height-h)/2, k.width, h);
-        ctx.globalAlpha = 1;
-    }
-    ctx.fillStyle = "white";
-    stars.forEach(s => { s.y -= s.speed; if (s.y < 0) { s.y = k.height; s.x = Math.random()*k.width; } ctx.fillRect(s.x, s.y, s.size, s.size); });
-    if(screenFlash.time > 0) {
-        ctx.fillStyle = screenFlash.color;
-        ctx.globalAlpha = screenFlash.time / 10;
-        ctx.fillRect(0,0,k.width,k.height);
-        screenFlash.time--;
-    }
-    ctx.restore();
-}
-function handleCollisions() {
-    bullets.forEach(b => { gameObjects.forEach(o => { if (o instanceof Enemy && checkCollision(b, o)) { b.toBeRemoved=true; if (o.takeDamage()) destroyEnemy(o); } }); });
-    gameObjects.forEach(o => { if (checkCollision(player, o)) { if (o instanceof Enemy) handlePlayerHit(o); else if (o instanceof PowerUp) { activatePowerUp(o.type); o.toBeRemoved=true; playSound('powerup'); } else if (o instanceof EnemyBullet) { o.toBeRemoved = true; handlePlayerHit(o); } } });
-}
-function checkCollision(o1, o2) { if(!o1 || !o2) return false; const dx=o1.x-o2.x, dy=o1.y-o2.y; return Math.sqrt(dx*dx+dy*dy) < o1.radius+o2.radius; }
-function handlePlayerHit(enemy) {
-    if (Date.now()<playerInvincibilityEnd) return;
-    if (player.shielded) { delete activePowerUps['SHIELD']; playerInvincibilityEnd = Date.now() + 1000; playSound('hit'); createExplosion(enemy.x, enemy.y, enemy.emoji); enemy.toBeRemoved=true; return; }
-    playerLives--; playSound('playerHit'); shakeScreen(20, 40); screenFlash = {time: 12, color: 'rgba(255,0,0,0.6)'};
-    if (playerLives <= 0) endGame(); else { playerInvincibilityEnd = Date.now() + PLAYER_INVINCIBILITY_DURATION; createExplosion(enemy.x, enemy.y, enemy.emoji); enemy.toBeRemoved=true; }
-}
-function endGame() { isGameOver = true; cancelAnimationFrame(gameLoopId); finalScoreValue.textContent=currentScore; gameOverMenu.style.display = 'flex'; captionDisplayBox.style.display = 'none'; player.helpers = []; playSound('gameOver'); }
-function shoot() { playSound('shoot'); if (activePowerUps['SPREAD_SHOT']) { bullets.push(new SpreadBullet(player.x,player.y+player.radius,-0.2)); bullets.push(new SpreadBullet(player.x,player.y+player.radius,0)); bullets.push(new SpreadBullet(player.x,player.y+player.radius,0.2)); } else { bullets.push(new Bullet(player.x,player.y+player.radius)); } }
-
-// --- DYNAMIC WAVE SYSTEM ---
-function manageWaves(now) {
-    const activeEnemies = gameObjects.filter(o => o instanceof Enemy).length;
-    if (activeEnemies === 0 && spawnQueue.length === 0 && waveState === 'ACTIVE') {
-        waveState = 'INTERMISSION';
-        waveTransitionTime = now + 2500; // Wait 2.5 seconds
-        showGameMessage("Wave Clear!", 1500);
-        screenFlash = {time: 10, color: 'rgba(0,255,100,0.3)'};
-    } else if (waveState === 'INTERMISSION' && now > waveTransitionTime) {
-        startNextWave(now);
-    }
-}
-function manageSpawning(now) {
-    for (let i = spawnQueue.length - 1; i >= 0; i--) {
-        const spawn = spawnQueue[i];
-        if (now >= spawn.time) {
-            spawnEnemy(spawn.type);
-            spawnQueue.splice(i, 1);
-        }
-    }
-}
-function startNextWave(now) {
-    waveState = 'SPAWNING';
-    currentWave++;
-    difficulty = 1 + (currentWave * 0.15) + (currentScore / 20000);
-    showGameMessage(`Wave ${currentWave}`, 1500);
-    waveTransitionTime = now + 2000; // 2 seconds for message to display
-    generateWave(now + 2000); // Start queueing spawns after 2 seconds
-}
-function generateWave(startTime) {
-    const budget = 12 + currentWave * 8;
-    let spent = 0;
-    let spawnTimeOffset = 0;
-    const enemyTypes = [ {type:'swarmer', cost:1}, {type:'sine', cost:2}, {type:'shooter', cost:3.5}, {type:'heavy', cost:5}, {type:'dasher', cost:4}, {type:'good', cost: 2}, {type:'gematria', cost: 6} ];
-
-    while(spent < budget) {
-        let availableTypes = enemyTypes.filter(e => e.cost <= budget - spent);
-        if (currentWave < 2 && availableTypes.some(e => e.type === 'dasher')) availableTypes = availableTypes.filter(e => e.type !== 'dasher');
-        if (currentWave < 3 && availableTypes.some(e => e.type === 'gematria')) availableTypes = availableTypes.filter(e => e.type !== 'gematria');
-        if(availableTypes.length === 0) break;
-        
-        const choice = availableTypes[Math.floor(Math.random() * availableTypes.length)];
-        let count = 1;
-        if(choice.type === 'swarmer') count = Math.min(Math.floor((budget-spent)/choice.cost), Math.floor(Math.random()*5)+3);
-        
-        for (let i = 0; i < count; i++) {
-            spawnQueue.push({ type: choice.type, time: startTime + spawnTimeOffset });
-            spawnTimeOffset += (450 / difficulty);
-        }
-        spent += choice.cost * count;
-    }
-    setTimeout(() => { if (!isGameOver) waveState = 'ACTIVE'; }, spawnTimeOffset + 2000);
-}
-function spawnEnemy(type) {
-    const size = Math.random() * 20 + 40;
-    const x = Math.random() * (k.width - size) + size / 2;
-    const y = k.height + size;
-    const speed = (Math.random() * 2.0 + 1.5) * Math.sqrt(difficulty);
-    const health = 1 * difficulty;
-    let enemy;
-    switch(type) {
-        case 'sine': enemy = new SineWaveEnemy(x, y, size, '🦋', speed, Math.ceil(health*1.2)); break;
-        case 'shooter': enemy = new ShooterEnemy(x, y, size + 10, '👿', speed * 0.8, Math.ceil(health*1.5)); break;
-        case 'dasher': enemy = new DasherEnemy(x, y, size, '🦇', speed * 1.2, Math.ceil(health*0.8)); break;
-        case 'heavy': enemy = new HeavyEnemy(x, y, size + 20, '🦣', speed * 0.5, Math.ceil(health*4)); break;
-        case 'good': enemy = new GoodEmoji(x, y, size, goodEmojis[Math.floor(Math.random() * goodEmojis.length)], speed); break;
-        case 'gematria': enemy = new GematriaBox(x, y); break;
-        case 'swarmer': default: enemy = new Enemy(x, y, size, badEmojis[Math.floor(Math.random() * badEmojis.length)], speed, Math.ceil(health)); break;
-    }
-    gameObjects.push(enemy);
-}
-
-function destroyEnemy(enemy) { 
-    enemy.toBeRemoved=true; 
-    const now = Date.now();
-    if (enemy instanceof GematriaBox) {
-        if(enemy.value > 0) player.addHelpers(enemy.value);
-    } else if (enemy instanceof GoodEmoji) {
-        currentScore += enemy.baseScore;
-        const types=Object.keys(POWERUP_TYPES); 
-        gameObjects.push(new PowerUp(enemy.x,enemy.y,types[Math.floor(Math.random()*types.length)]));
-    } else {
-        if(now - lastKillTime < COMBO_TIMEOUT) { comboCount++; } else { comboCount = 1; }
-        lastKillTime = now;
-        playSound('combo', comboCount);
-        const scoreGain = Math.floor(enemy.baseScore * (1 + (comboCount-1)*0.1));
-        currentScore+=scoreGain; 
-        gameObjects.push(new ScorePopup(enemy.x,enemy.y,`+${scoreGain}`)); 
-        if(Math.random()<0.15){const types=Object.keys(POWERUP_TYPES); gameObjects.push(new PowerUp(enemy.x,enemy.y,types[Math.floor(Math.random()*types.length)]));} 
-    }
-    if (currentScore>highScore) { highScore=currentScore; localStorage.setItem('emojiShooterHighScore',highScore); } 
-    createExplosion(enemy.x,enemy.y,enemy.emoji); 
-    playSound('destroy'); 
-    if (enemy instanceof HeavyEnemy) shakeScreen(10, 20);
-}
-function createExplosion(x,y,emoji) { for(let i=0;i<15;i++)particles.push(new Particle(x,y,emoji)); screenFlash = {time: 4, color: 'rgba(255,255,150,0.4)'}; }
-function activatePowerUp(type) { const config=POWERUP_TYPES[type]; if(type==='BOMB'){gameObjects.forEach(o=>{if(o instanceof Enemy && !(o instanceof GoodEmoji))destroyEnemy(o)});playSound('destroy'); shakeScreen(20,40); screenFlash={time:15, color:'rgba(255,255,255,0.8)'}; return;} activePowerUps[type]=Date.now()+config.duration; if (type === 'TIME_WARP') playSound('timewarp_on'); }
-function updatePowerUps(now) { let html=''; for(const type in activePowerUps){ const endTime=activePowerUps[type]; if(now>endTime){ if (type === 'TIME_WARP') playSound('timewarp_off'); delete activePowerUps[type]; continue;} const config=POWERUP_TYPES[type],timeLeft=endTime-now,percent=(timeLeft/config.duration)*100; html+=`<div class="power-up-active"><span class="power-up-icon">${config.emoji}</span><div class="power-up-timer"><div class="power-up-timer-bar" style="width:${percent}%;"></div></div></div>`; } powerUpContainer.innerHTML=html; }
-function cleanupObjects() { bullets=bullets.filter(b=>!b.toBeRemoved); gameObjects=gameObjects.filter(o=>!o.toBeRemoved); particles=particles.filter(p=>!p.toBeRemoved); }
-function updateUI() { currentScoreValue.textContent=currentScore; highScoreValue.textContent=highScore; playerLivesValue.textContent=playerLives; }
-function updateCombo(now) {
-    if (now - lastKillTime > COMBO_TIMEOUT && comboCount > 0) comboCount = 0;
-    if (comboCount > 1) {
-        comboInfo.textContent = `x${comboCount} COMBO`; comboInfo.style.opacity = '1'; comboInfo.style.transform = `scale(${1 + Math.min(comboCount / 50, 0.5)})`;
-    } else {
-        comboInfo.style.opacity = '0'; comboInfo.style.transform = 'scale(0.8)';
-    }
-}
-function shakeScreen(intensity, duration) { screenShake.intensity = intensity; screenShake.time = duration; }
-
-// --- MENU & SETTINGS ---
-function showMainMenu() {
-    mainMenu.style.display = 'flex'; gameOverMenu.style.display = 'none'; settingsMenu.style.display = 'none'; customCaptionsMenu.style.display = 'none'; captionDisplayBox.style.display = 'none'; captionListMenu.style.display = 'none';
-    document.querySelector('#topInfo').style.display = 'none'; document.querySelector('#highScoreInfo').style.display = 'none';
-    powerUpContainer.innerHTML = ''; comboInfo.style.opacity = '0';
-    captionImageUrls.forEach(url => URL.revokeObjectURL(url)); captionImageUrls = [];
-    fileCount.textContent = '0 images selected'; imageUploader.value = '';
-}
-function showSettingsMenu() { 
-    mainMenu.style.display='none'; 
-    settingsMenu.style.display='flex'; 
-    badEmojisTextarea.value=badEmojis.join(''); 
-    goodEmojisTextarea.value=goodEmojis.join(''); 
-    document.getElementById('enableWebcamPlayer').checked = showWebcamOnPlayer; 
-    document.getElementById('enableWebcamBg').checked = showWebcamInBackground; 
-    
-    const slider = document.getElementById('playerSizeSlider');
-    const valueLabel = document.getElementById('playerSizeValue');
-    slider.value = playerSize;
-    valueLabel.textContent = playerSize;
-    slider.oninput = () => { valueLabel.textContent = slider.value; };
-}
-function saveEmojis() {
-    const newBad = Array.from(badEmojisTextarea.value.trim()); if(newBad.length > 0) { localStorage.setItem('customBadEmojis', newBad.join('')); badEmojis = newBad; } else { localStorage.removeItem('customBadEmojis'); badEmojis = Array.from(DEFAULT_BAD_EMOJIS); }
-    const newGood = Array.from(goodEmojisTextarea.value.trim()); if(newGood.length > 0) { localStorage.setItem('customGoodEmojis', newGood.join('')); goodEmojis = newGood; } else { localStorage.removeItem('customGoodEmojis'); goodEmojis = Array.from(DEFAULT_GOOD_EMOJIS); }
-    alert('Emojis saved!');
-}
-function resetEmojis() {
-    localStorage.removeItem('customBadEmojis');
-    localStorage.removeItem('customGoodEmojis');
-    badEmojis = Array.from(DEFAULT_BAD_EMOJIS);
-    goodEmojis = Array.from(DEFAULT_GOOD_EMOJIS);
-    badEmojisTextarea.value = badEmojis.join('');
-    goodEmojisTextarea.value = goodEmojis.join('');
-    alert('Emojis reset to default!');
-}
-function saveGameplaySettings() {
-    playerSize = parseInt(document.getElementById('playerSizeSlider').value);
-    localStorage.setItem('playerSize', playerSize);
-    alert('Gameplay settings saved!');
-}
-function loadSettings() {
-    highScore=localStorage.getItem('emojiShooterHighScore')?parseInt(localStorage.getItem('emojiShooterHighScore')):0;
-    badEmojis = localStorage.getItem('customBadEmojis') ? Array.from(localStorage.getItem('customBadEmojis')) : Array.from(DEFAULT_BAD_EMOJIS);
-    goodEmojis = localStorage.getItem('customGoodEmojis') ? Array.from(localStorage.getItem('customGoodEmojis')) : Array.from(DEFAULT_GOOD_EMOJIS);
-    showWebcamOnPlayer = localStorage.getItem('webcamPlayer') === 'true';
-    showWebcamInBackground = localStorage.getItem('webcamBg') === 'true';
-    playerSize = localStorage.getItem('playerSize') ? parseInt(localStorage.getItem('playerSize')) : 150;
-}
-
-// --- WEBCAM FUNCTIONS ---
-function saveWebcamSettings() {
-    showWebcamOnPlayer = document.getElementById('enableWebcamPlayer').checked;
-    showWebcamInBackground = document.getElementById('enableWebcamBg').checked;
-    localStorage.setItem('webcamPlayer', showWebcamOnPlayer);
-    localStorage.setItem('webcamBg', showWebcamInBackground);
-    if(showWebcamOnPlayer || showWebcamInBackground) {
-        initWebcam();
-    } else {
-        stopWebcam();
-        alert("Webcam settings saved. Webcam is disabled.");
-    }
-}
-async function initWebcam() {
-    const statusEl = document.getElementById('webcamStatus');
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        statusEl.textContent = "Webcam not supported by this browser."; statusEl.style.color = 'red'; return;
-    }
-    try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        webcamFeed.srcObject = stream;
-        webcamActive = true;
-        statusEl.textContent = "Webcam activated successfully!";
-        statusEl.style.color = 'lime';
-    } catch (err) {
-        webcamActive = false;
-        showWebcamOnPlayer = false; showWebcamInBackground = false;
-        localStorage.setItem('webcamPlayer', 'false'); localStorage.setItem('webcamBg', 'false');
-        document.getElementById('enableWebcamPlayer').checked = false; document.getElementById('enableWebcamBg').checked = false;
-        statusEl.textContent = "Webcam access denied or failed.";
-        statusEl.style.color = 'red';
-        console.error("Webcam Error:", err);
-    }
-}
-function stopWebcam() {
-    if(webcamFeed.srcObject) {
-        webcamFeed.srcObject.getTracks().forEach(track => track.stop());
-        webcamFeed.srcObject = null;
-        webcamActive = false;
-        const statusEl = document.getElementById('webcamStatus');
-        statusEl.textContent = "Webcam is off.";
-        statusEl.style.color = '#ffc107';
-    }
-}
-
-// --- CUSTOM CAPTION FUNCTIONS ---
-function showCustomCaptionsMenu() { mainMenu.style.display = 'none'; customCaptionsMenu.style.display = 'flex'; const saved = localStorage.getItem('customCaptionsText'); if (saved) captionsTextarea.value = saved; }
-function startCustomGame() {
-    const text = captionsTextarea.value.trim(); if (!text) { alert("Please enter some captions!"); return; }
-    const captions = text.split('\n\n').filter(s => s.trim() !== ''); if (captions.length === 0) { alert("No valid captions found. Ensure they are separated by two newlines."); return; }
-    localStorage.setItem('customCaptionsText', text); currentCaptionIndex = 0;
-    customCaptionData = captions.map((caption, index) => ({ text: caption, imageUrl: captionImageUrls.length > 0 ? captionImageUrls[index % captionImageUrls.length] : null, color: `rgba(${Math.floor(Math.random()*100)},${Math.floor(Math.random()*100)},${Math.floor(Math.random()*100)},0.8)` }));
-    positionCaptionBox(); startGame(true);
-}
-function updateCaptionDisplay() {
-    if (!customMode || customCaptionData.length === 0) { captionDisplayBox.style.display = 'none'; return; }
-    captionDisplayBox.style.display = 'block'; const currentData = customCaptionData[currentCaptionIndex];
-    captionTextBox.textContent = currentData.text;
-    if (currentData.imageUrl) { captionDisplayBox.style.backgroundImage = `url(${currentData.imageUrl})`; captionDisplayBox.style.backgroundColor = 'rgba(0,0,0,0.5)'; } else { captionDisplayBox.style.backgroundImage = 'none'; captionDisplayBox.style.backgroundColor = currentData.color; }
-}
-function nextCaption() { currentCaptionIndex = (currentCaptionIndex + 1) % customCaptionData.length; }
-function prevCaption() { currentCaptionIndex = (currentCaptionIndex - 1 + customCaptionData.length) % customCaptionData.length; }
-function showCaptionList() {
-    captionListMenu.style.display = 'flex';
-    captionListContainer.innerHTML = '';
-    customCaptionData.forEach((data, index) => {
-        const item = document.createElement('div');
-        item.className = 'caption-list-item';
-        item.textContent = `${index + 1}: ${data.text}`;
-        item.dataset.index = index;
-        item.onclick = () => { currentCaptionIndex = index; hideCaptionList(); };
-        captionListContainer.appendChild(item);
-    });
-}
-function hideCaptionList() { captionListMenu.style.display = 'none'; }
-function startDrag(e) { const c=e.touches?e.touches[0]:e; isDraggingCaptionBox=true; const rect=captionDisplayBox.getBoundingClientRect(); dragOffsetX=c.clientX-rect.left; dragOffsetY=c.clientY-rect.top; captionDisplayBox.style.cursor='grabbing'; e.preventDefault(); }
-function dragCaptionBox(e) { if(!isDraggingCaptionBox)return; const c=e.touches?e.touches[0]:e; let newX=c.clientX-dragOffsetX; let newY=c.clientY-dragOffsetY; newX=Math.max(0,Math.min(newX,k.width-captionDisplayBox.offsetWidth)); newY=Math.max(0,Math.min(newY,k.height-captionDisplayBox.offsetHeight)); captionDisplayBox.style.left=`${newX}px`; captionDisplayBox.style.top=`${newY}px`; captionBoxLastX=newX; captionBoxLastY=newY; e.preventDefault(); }
-function endDragCaptionBox() { isDraggingCaptionBox=false; captionDisplayBox.style.cursor='grab'; localStorage.setItem('captionBoxX',captionBoxLastX); localStorage.setItem('captionBoxY',captionBoxLastY); }
-function positionCaptionBox() { if (captionBoxLastX !== null && captionBoxLastY !== null) { let x = Math.max(0, Math.min(captionBoxLastX, k.width - captionDisplayBox.offsetWidth)); let y = Math.max(0, Math.min(captionBoxLastY, k.height - captionDisplayBox.offsetHeight)); captionDisplayBox.style.left = `${x}px`; captionDisplayBox.style.top = `${y}px`; } else { captionDisplayBox.style.left = '50%'; captionDisplayBox.style.top = '15%'; captionDisplayBox.style.transform = 'translateX(-50%)'; } }
-
-// --- UTILITY FUNCTIONS ---
-function numberToGematria(num) {
-    if (num <= 0) return '';
-    const letters = { 1:'א', 2:'ב', 3:'ג', 4:'ד', 5:'ה', 6:'ו', 7:'ז', 8:'ח', 9:'ט', 10:'י', 20:'כ', 30:'ל', 40:'מ', 50:'נ', 60:'ס', 70:'ע', 80:'פ', 90:'צ', 100:'ק', 200:'ר', 300:'ש', 400:'ת' };
-    let str = '';
-    let n = Math.floor(num);
-    while(n >= 400) { str += 'ת'; n -= 400; }
-    if(n >= 100) { str += letters[Math.floor(n/100)*100]; n %= 100; }
-    if(n >= 10) { str += letters[Math.floor(n/10)*10]; n %= 10; }
-    if(n > 0) { str += letters[n]; }
-    return str.split('').reverse().join(''); // Standard Hebrew writing order
-}
-
-// --- EVENT LISTENERS ---
-function handlePointerStart(e) {
-    setupAudio();
-    if (e.target.closest('.caption-nav-button')) return;
-    if (e.target.closest('#captionDisplayBox')) { startDrag(e); return; }
-    if (captionListMenu.style.display === 'flex') return;
-    if (isGameOver) return;
-    e.preventDefault();
-    isTouching = true;
-    const c = e.touches ? e.touches[0] : e;
-    lastDragPos.x = c.clientX;
-    lastDragPos.y = c.clientY;
-}
-function handlePointerMove(e) {
-    if (isDraggingCaptionBox) { dragCaptionBox(e); return; }
-    if (captionListMenu.style.display === 'flex') return;
-    if (isGameOver || !isTouching || !player) return;
-    e.preventDefault();
-    const c = e.touches ? e.touches[0] : e;
-    
-    const deltaX = c.clientX - lastDragPos.x;
-    const deltaY = c.clientY - lastDragPos.y;
-
-    player.x += deltaX;
-    player.y += deltaY;
-
-    lastDragPos.x = c.clientX;
-    lastDragPos.y = c.clientY;
-}
-function handlePointerEnd(e) { if (isDraggingCaptionBox) { endDragCaptionBox(e); } isTouching = false; }
-function handleResize() {
-    k.width=window.innerWidth; k.height=window.innerHeight;
-    if(player) { player.x=k.width/2; player.y = k.height * 0.2; }
-    positionCaptionBox(); stars = [];
-    for (let i = 0; i < 200; i++) { stars.push({ x: Math.random() * k.width, y: Math.random() * k.height, size: Math.random() * 2 + 1, speed: Math.random() * 0.5 + 0.2 }); }
-}
-
-window.addEventListener('resize', handleResize);
-document.addEventListener('touchstart', handlePointerStart, { passive: false });
-document.addEventListener('touchmove', handlePointerMove, { passive: false });
-document.addEventListener('touchend', handlePointerEnd);
-document.addEventListener('mousedown', handlePointerStart);
-document.addEventListener('mousemove', handlePointerMove);
-document.addEventListener('mouseup', handlePointerEnd);
-
-imageUploader.addEventListener('change', (e) => {
-    captionImageUrls.forEach(url => URL.revokeObjectURL(url)); captionImageUrls = [];
-    const files = Array.from(e.target.files);
-    files.forEach(file => { captionImageUrls.push(URL.createObjectURL(file)); });
-    fileCount.textContent = `${files.length} image${files.length !== 1 ? 's' : ''} selected`;
-});
-
-// --- INITIALIZATION ---
-handleResize(); loadSettings(); showMainMenu();
-
-</script>
+	<script type="module" src="./js/main.js?v=emoji-war-solid-004"></script>
 </body>
 </html>

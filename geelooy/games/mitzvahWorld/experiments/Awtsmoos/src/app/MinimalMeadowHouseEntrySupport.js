@@ -4,16 +4,29 @@
 
 /**
  * @file MinimalMeadowHouseEntrySupport.js
- * @description Builds visible threshold steps and exact discrete support from terrain to floor.
- * The Awtsmoos joins meadow and doorway through many level rises; Awtsmoos.com keeps every
- * visible step non-trapping while one measured sampler carries feet to the raised foundation.
+ * @description Coordinates terrain planning, visible stair manifestation, and gameplay height support.
+ * The Awtsmoos joins survey, stone, and walkable covenant without confusing their role;
+ * Awtsmoos.com lets Tiferes bind three focused vessels into one doorway from hillside to home and soul.
  */
 
-import { houseBox, housePoint } from './MinimalMeadowHouseMath.js';
+import {
+	createMinimalMeadowHouseEntryHeightSupport
+} from './MinimalMeadowHouseEntryHeightSupport.js';
+import {
+	createMinimalMeadowHouseEntryTerrainPlan
+} from './MinimalMeadowHouseEntryTerrainPlan.js';
+import {
+	createMinimalMeadowHouseEntryTreads
+} from './MinimalMeadowHouseEntryTreads.js';
 
-const ENTRY_TREAD = 0.38;
-const MAXIMUM_ENTRY_RISE = 0.2;
-
+/**
+ * Creates a complete terrain-adaptive house entry.
+ * @param {object} profile House profile.
+ * @param {object} material Foundation material.
+ * @param {number} groundY Raised foundation datum.
+ * @param {Function} heightAt Canonical terrain-height sampler.
+ * @returns {object} Stair definitions, evidence, and gameplay support adapter.
+ */
 export function createMinimalMeadowHouseEntrySupport(
 	profile,
 	material,
@@ -21,87 +34,41 @@ export function createMinimalMeadowHouseEntrySupport(
 	heightAt
 ) {
 	const threshold = groundY + profile.floorThickness;
-	const outside = housePoint(profile, 0, profile.depth / 2 + 14);
-	const outsideY = heightAt(outside.x, outside.z);
-	const rise = Math.max(0, threshold - outsideY);
-	const steps = Math.max(1, Math.ceil(rise / MAXIMUM_ENTRY_RISE));
-	const run = steps * ENTRY_TREAD;
-	const outerZ = profile.depth / 2 + run;
-	const definitions = [];
-	for (let index = 0; index < steps; index += 1) {
-		const top = outsideY + rise * (index + 1) / steps;
-		const bottom = outsideY - 0.16;
-		definitions.push(houseBox(
+	const plan = createMinimalMeadowHouseEntryTerrainPlan(
+		profile,
+		heightAt,
+		threshold
+	);
+	return {
+		definitions: createMinimalMeadowHouseEntryTreads(
 			profile,
 			material,
-			`entry-step-${index + 1}`,
-			0,
-			(top + bottom) / 2,
-			outerZ - (index + 0.5) * ENTRY_TREAD,
-			{
-				x: profile.doorWidth + 1.6,
-				y: top - bottom,
-				z: ENTRY_TREAD + 0.02
-			},
-			{
-				role: 'visual-discrete-entry-step',
-				solid: false,
-				walkable: false
-			}
-		));
-	}
-	return {
-		definitions,
-		evidence: Object.freeze({
-			maximumRise: rise / steps,
-			rise,
-			run,
-			steps
-		}),
-		support: createEntrySupport(
+			plan.treads,
+			plan.treadLength
+		),
+		evidence: entryEvidence(plan.treads, threshold, plan.resolved),
+		support: createMinimalMeadowHouseEntryHeightSupport(
 			profile,
-			outsideY,
 			threshold,
-			steps,
-			run,
-			outerZ
+			plan.treads,
+			plan.resolved,
+			plan.treadLength
 		)
 	};
 }
 
-function createEntrySupport(profile, outsideY, threshold, steps, run, outerZ) {
-	const rise = (threshold - outsideY) / steps;
-	return Object.freeze({
-		heightAt(x, z, currentY) {
-			const local = houseLocalPoint(profile, x, z);
-			if (Math.abs(local.x) > (profile.doorWidth + 1.8) / 2) return null;
-			const innerZ = profile.depth / 2 - 0.42;
-			if (local.z < innerZ || local.z > outerZ + 0.18) return null;
-			if (local.z <= profile.depth / 2 + 0.18) return threshold;
-			const progress = Math.max(0, outerZ - local.z);
-			const index = Math.min(steps - 1, Math.floor(progress / ENTRY_TREAD));
-			const height = outsideY + rise * (index + 1);
-			if (Number.isFinite(currentY) && currentY > height + 1.1) return null;
-			return height;
-		},
-		kind: 'entry',
-		maximumRise: rise,
-		outerZ,
-		profileId: profile.id,
-		run,
-		steps,
-		threshold,
-		tread: ENTRY_TREAD
+function entryEvidence(treads, threshold, resolved) {
+	const tops = treads.map(record => record.top);
+	const rises = tops.map((top, index) => {
+		const previous = tops[index - 1] ?? resolved.outsideY;
+		return top - previous;
 	});
-}
-
-function houseLocalPoint(profile, x, z) {
-	const dx = x - profile.x;
-	const dz = z - profile.z;
-	const cosine = Math.cos(profile.yaw);
-	const sine = Math.sin(profile.yaw);
-	return {
-		x: dx * cosine + dz * sine,
-		z: -dx * sine + dz * cosine
-	};
+	const clearances = treads.map(record => record.top - record.terrainY);
+	return Object.freeze({
+		maximumRise: Math.max(0, ...rises),
+		minimumTerrainClearance: Math.min(...clearances),
+		rise: Math.max(0, threshold - resolved.outsideY),
+		run: resolved.run,
+		steps: resolved.steps
+	});
 }

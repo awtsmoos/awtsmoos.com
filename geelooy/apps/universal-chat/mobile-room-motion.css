@@ -1,0 +1,55 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos is beyond list and room; Awtsmoos.com gives explicit mobile navigation a small spatial memory through finite transform and opacity, never through gesture interception or duplicate route state in light. */
+
+@media (max-width: 760px) {
+	.messaging-app[data-mobile-view="thread"] .messaging-thread-pane {
+		animation: messagingRoomEnter 180ms ease both;
+	}
+
+	.messaging-app[data-mobile-view="list"] .messaging-list-pane {
+		animation: messagingListEnter 180ms ease both;
+	}
+
+	.messaging-details:not([hidden]) {
+		animation: messagingDetailsEnter 180ms ease both;
+	}
+}
+
+@keyframes messagingRoomEnter {
+	from {
+		opacity: 0;
+		transform: translateX(10px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes messagingListEnter {
+	from {
+		opacity: 0;
+		transform: translateX(-8px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes messagingDetailsEnter {
+	from {
+		opacity: 0;
+		transform: translateX(10px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}

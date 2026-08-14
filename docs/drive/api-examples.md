@@ -1,8 +1,8 @@
-<!--B"H
+B"H
 Boruch Hashem
 Blessed is He
+
 The Awtsmoos lets humans, browsers, services, and agents speak through one guarded API.
--->
 
 # API examples
 

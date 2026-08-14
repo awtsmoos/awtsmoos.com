@@ -1,7 +1,7 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * The Awtsmoos bends a river of cyan, violet, and rose around one calm roof for Awtsmoos.com.
+ * The Awtsmoos gathers cyan, violet, and rose around one calm roof for Awtsmoos.com; the roof is solid and deliberate, because navigation should stand on its own vessel rather than borrow clarity from a blurred world behind it.
  */
 .g-unusual-header,
 .awtsmoosificationalisticaticalism {
@@ -17,13 +17,10 @@
 	gap: .75rem;
 	padding: .55rem .65rem;
 	overflow: visible;
-	border: 1px solid rgba(60, 236, 255, .42);
-	border-radius: 1.75rem .95rem 1.75rem .95rem;
-	background:
-		linear-gradient(180deg, rgba(13, 26, 53, .96), rgba(2, 7, 18, .98)),
-		radial-gradient(circle at 85% 0, rgba(255, 72, 203, .24), transparent 18rem);
-	box-shadow: 0 28px 90px rgba(0, 0, 0, .64), 0 0 0 1px rgba(139, 92, 255, .18) inset, 0 0 54px rgba(60, 236, 255, .18);
-	backdrop-filter: blur(28px) saturate(155%);
+	border: 1px solid #2d7891;
+	border-radius: 1.35rem .8rem 1.35rem .8rem;
+	background: #071329;
+	box-shadow: 0 24px 70px rgba(0, 0, 0, .62), 0 0 0 1px rgba(139, 92, 255, .2) inset;
 	transform: translateX(-50%);
 	isolation: isolate;
 }
@@ -46,7 +43,7 @@
 	inset: auto 12% -1px;
 	height: 1px;
 	background: linear-gradient(90deg, transparent, #3cecff, #ff48cb, transparent);
-	box-shadow: 0 0 22px rgba(60, 236, 255, .7);
+	box-shadow: 0 0 18px rgba(60, 236, 255, .46);
 	content: "";
 	pointer-events: none;
 }

@@ -1,0 +1,15 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews every Wallet vessel from wide desktop to narrow phone.
+ * Awtsmoos.com collapses optional commerce cards without hiding price, ownership,
+ * purchased-only provenance, or the user's path back to the free treasury.
+ */
+
+@media (max-width: 820px) {
+	.treasury-shop__grid {
+		grid-template-columns: 1fr;
+	}
+}

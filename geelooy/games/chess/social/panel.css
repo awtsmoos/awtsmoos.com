@@ -1,0 +1,112 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews board and community without letting either shove the other from sight;
+ * Awtsmoos.com keeps chat and optional media floating, responsive, readable, and light.
+ */
+
+.chess-social-panel {
+	backdrop-filter: blur(14px);
+	background: rgba(20, 22, 26, 0.94);
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	border-radius: 14px;
+	bottom: 12px;
+	box-shadow: 0 12px 40px rgba(0, 0, 0, 0.28);
+	box-sizing: border-box;
+	color: #fff;
+	display: flex;
+	flex-direction: column;
+	max-height: calc(100dvh - 24px);
+	position: fixed;
+	right: 12px;
+	width: min(360px, calc(100vw - 24px));
+	z-index: 1500;
+}
+
+.chess-social-panel.hidden,
+.chess-social-body.hidden {
+	display: none;
+}
+
+.chess-social-header {
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+	padding: 0.7rem 0.85rem;
+}
+
+.chess-social-header button,
+.chess-social-panel button,
+.chess-social-panel input {
+	box-sizing: border-box;
+	font: inherit;
+}
+
+.chess-social-body {
+	display: grid;
+	gap: 0.6rem;
+	overflow: auto;
+	padding: 0 0.85rem 0.85rem;
+}
+
+.chess-social-status,
+.chess-presence {
+	font-size: 0.88rem;
+	line-height: 1.35;
+}
+
+.chess-watch-row,
+.chess-chat-form {
+	display: grid;
+	gap: 0.45rem;
+	grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.chess-watch-row input,
+.chess-chat-form input {
+	border: 1px solid rgba(255, 255, 255, 0.25);
+	border-radius: 8px;
+	min-width: 0;
+	padding: 0.55rem;
+}
+
+.chess-media-grid {
+	display: grid;
+	gap: 0.45rem;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.chess-media-video {
+	aspect-ratio: 16 / 9;
+	background: #000;
+	border-radius: 10px;
+	object-fit: cover;
+	width: 100%;
+}
+
+.chess-chat-log {
+	background: rgba(0, 0, 0, 0.18);
+	border-radius: 10px;
+	max-height: 180px;
+	min-height: 72px;
+	overflow-y: auto;
+	padding: 0.55rem;
+}
+
+.chess-chat-message {
+	font-size: 0.88rem;
+	line-height: 1.35;
+	margin-bottom: 0.35rem;
+	overflow-wrap: anywhere;
+}
+
+@media (max-width: 760px) {
+	.chess-social-panel {
+		bottom: 6px;
+		left: 6px;
+		right: 6px;
+		width: auto;
+	}
+}

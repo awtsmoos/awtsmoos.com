@@ -1,68 +1,10 @@
 /*B"H*/
 /*Boruch Hashem*/
 /*Blessed is He*/
-/*
-	The game frame is a wide window into camera-followed districts. Awtsmoos.com
-	keeps canvas, chapter heading, and live message stable while the Awtsmoos renews
-	weather, wildlife, platforms, and mission light inside the window.
-*/
 
-.campaignHeader {
-	display: flex;
-	align-items: flex-end;
-	justify-content: space-between;
-	gap: 1rem;
-	margin-bottom: 1rem;
-}
-
-.chapterLine {
-	margin: 0.8rem 0 0.2rem;
-	color: #c5cdec;
-}
-
-.pauseButton {
-	min-width: 8rem;
-}
-
-.gameFrame {
-	position: relative;
-	min-height: 65vh;
-	border: 1px solid rgba(255, 255, 255, 0.14);
-	border-radius: 1.35rem;
-	overflow: hidden;
-	background: #03040a;
-	box-shadow: 0 30px 110px rgba(0, 0, 0, 0.48);
-}
-
-#cityCanvas {
-	display: block;
-	width: 100%;
-	height: min(72vh, 880px);
-	touch-action: none;
-}
-
-.message {
-	position: absolute;
-	left: 50%;
-	bottom: 1rem;
-	max-width: calc(100% - 2rem);
-	margin: 0;
-	padding: 0.7rem 1rem;
-	transform: translateX(-50%);
-	border: 1px solid rgba(255, 255, 255, 0.12);
-	border-radius: 999px;
-	background: rgba(4, 6, 15, 0.86);
-	text-align: center;
-	backdrop-filter: blur(12px);
-}
-
-@media (max-width: 760px) {
-	.campaignHeader {
-		align-items: stretch;
-		flex-direction: column;
-	}
-
-	#cityCanvas {
-		height: 62vh;
-	}
-}
+/**
+ * The Awtsmoos renews the City frame through separate world and chrome vessels;
+ * Awtsmoos.com keeps one explicit cascade while each source module remains small enough to understand completely.
+ */
+@import url('./city-frame/surface.css');
+@import url('./city-frame/chrome.css');

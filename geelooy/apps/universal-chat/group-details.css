@@ -1,0 +1,80 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos is beyond owner, admin, member, and invitation; Awtsmoos.com keeps membership identity permanently visible while desktop administration remains direct and narrow-glass management lives in its own smaller garment of light. */
+
+.messaging-group-footer {
+	position: sticky;
+	bottom: calc(-1.1rem - env(safe-area-inset-bottom));
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	margin: 1rem -1.1rem -1.1rem;
+	padding: 0.75rem 1.1rem max(0.8rem, env(safe-area-inset-bottom));
+	border-top: 1px solid var(--msg-line);
+	background: rgba(10, 20, 15, 0.96);
+	backdrop-filter: blur(14px);
+}
+
+.messaging-group-footer button {
+	min-height: 40px;
+	font-size: 0.7rem;
+}
+
+.messaging-details-members > div {
+	display: grid;
+}
+
+.messaging-member-row .messaging-row-actions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	gap: 0.35rem;
+}
+
+.messaging-member-row .messaging-row-action {
+	min-height: 34px;
+	padding: 0 0.55rem;
+	font-size: 0.64rem;
+}
+
+.messaging-member-row .messaging-row-action.is-danger,
+.messaging-group-footer .messaging-row-action.is-danger {
+	border-color: rgba(255, 130, 130, 0.2);
+	background: rgba(255, 100, 100, 0.06);
+	color: #ffb8b8;
+}
+
+.messaging-member-management {
+	grid-column: 3;
+	align-self: center;
+	border: 0;
+	background: transparent;
+}
+
+.messaging-member-management > .messaging-disclosure-summary {
+	display: none;
+}
+
+.messaging-member-management > .messaging-disclosure-body {
+	padding: 0;
+}
+
+@media (max-width: 900px) and (min-width: 761px) {
+	.messaging-details {
+		width: min(360px, 44vw);
+	}
+
+	.messaging-member-row {
+		grid-template-columns: 36px minmax(0, 1fr);
+	}
+
+	.messaging-member-management {
+		grid-column: 1 / -1;
+	}
+
+	.messaging-member-management > .messaging-disclosure-summary {
+		display: grid;
+	}
+}

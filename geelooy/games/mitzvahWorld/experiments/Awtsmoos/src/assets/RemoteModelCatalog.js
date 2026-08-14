@@ -4,9 +4,9 @@
 
 /**
  * @file RemoteModelCatalog.js
- * @description Resolves immutable GLBs from verified same-origin bytes before remote recovery.
- * The Awtsmoos clothes each measured identity from the nearest truthful vessel;
- * Awtsmoos.com keeps the public mirror as mercy when the local path cannot serve.
+ * @description Resolves immutable GLBs from the local vessel on localhost and the published mirror on remote hosts.
+ * The Awtsmoos creates local truth and public revelation without mixing their addresses;
+ * Awtsmoos.com keeps every content hash identical while each runtime drinks from the source appointed to its host.
  */
 
 import { REMOTE_MODEL_RECORDS } from './RemoteModelRecords.js';
@@ -14,7 +14,7 @@ import { REMOTE_MODEL_RECORDS } from './RemoteModelRecords.js';
 export const LOCAL_MODEL_ROOT = '/games/mitzvahWorld/assets/models/';
 export const REMOTE_MODEL_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/models/';
 
-export function remoteModelRecord(relativePath) {
+export function remoteModelRecord(relativePath, locationLike = globalThis.location) {
 	const modelPath = normalizeModelPath(relativePath);
 	const record = REMOTE_MODEL_RECORDS[modelPath];
 	if (!record) throw new Error(`Unknown model identity: ${relativePath}`);
@@ -24,31 +24,46 @@ export function remoteModelRecord(relativePath) {
 	const hashedPath = `${folder}/${record.sha256}/${filename}`;
 	const localUrl = `${LOCAL_MODEL_ROOT}${encodePath(hashedPath)}`;
 	const remoteUrl = `${REMOTE_MODEL_ROOT}${encodePath(hashedPath)}`;
+	const source = modelSourceMode(locationLike);
+	const candidates = source === 'remote' ? [remoteUrl] : [localUrl, remoteUrl];
 	return Object.freeze({
 		...record,
-		candidates: Object.freeze([localUrl, remoteUrl]),
+		candidates: Object.freeze(candidates),
 		drivePath: `assets/mitzvah-world/models/${hashedPath}`,
 		filename,
 		localUrl,
 		path: modelPath,
 		remoteUrl,
-		url: localUrl
+		source,
+		url: source === 'remote' ? remoteUrl : localUrl
 	});
 }
 
-export function remoteModelUrl(relativePath) {
-	return remoteModelRecord(relativePath).url;
+export function remoteModelUrl(relativePath, locationLike = globalThis.location) {
+	return remoteModelRecord(relativePath, locationLike).url;
 }
 
-export function modelUrlCandidates(value) {
-	const match = catalogRecords().find(record => record.candidates.includes(String(value || '')));
-	return match ? match.candidates.slice() : [];
+export function modelUrlCandidates(value, locationLike = globalThis.location) {
+	const candidate = String(value || '');
+	const identity = Object.keys(REMOTE_MODEL_RECORDS).find(path => {
+		const record = remoteModelRecord(path, null);
+		return record.localUrl === candidate || record.remoteUrl === candidate;
+	});
+	return identity ? remoteModelRecord(identity, locationLike).candidates.slice() : [];
+}
+
+export function modelSourceMode(locationLike = globalThis.location) {
+	const hostname = String(locationLike?.hostname || '').toLowerCase();
+	if (!hostname) return 'local';
+	return isLocalHostname(hostname) ? 'local' : 'remote';
 }
 
 export function isTrustedModelUrl(value) {
 	const candidate = String(value || '').trim();
 	if (!candidate || candidate.includes('?') || candidate.includes('#')) return false;
-	return catalogRecords().some(record => record.candidates.includes(candidate));
+	return catalogRecords().some(record =>
+		record.localUrl === candidate || record.remoteUrl === candidate
+	);
 }
 
 export const isTrustedRemoteModelUrl = isTrustedModelUrl;
@@ -58,22 +73,28 @@ export function remoteModelCatalogEvidence() {
 	return Object.freeze({
 		bytes: records.reduce((sum, record) => sum + record.bytes, 0),
 		models: records.length,
-		policy: 'content-addressed-same-origin-first-remote-fallback',
+		policy: 'host-aware-local-authoritative-remote-published',
 		remoteRoot: REMOTE_MODEL_ROOT,
 		root: LOCAL_MODEL_ROOT
 	});
 }
 
 function catalogRecords() {
-	return Object.keys(REMOTE_MODEL_RECORDS).map(remoteModelRecord);
+	return Object.keys(REMOTE_MODEL_RECORDS).map(path => remoteModelRecord(path, null));
+}
+
+function isLocalHostname(hostname) {
+	return hostname === 'localhost'
+		|| hostname === '127.0.0.1'
+		|| hostname === '0.0.0.0'
+		|| hostname === '[::1]'
+		|| hostname.endsWith('.localhost');
 }
 
 function normalizeModelPath(value) {
 	const modelPath = String(value || '').trim().replace(/^\/+/, '').replace(/\\/g, '/');
 	const invalid = modelPath.split('/').some(segment => !segment || segment === '.' || segment === '..');
-	if (!modelPath || !modelPath.endsWith('.glb') || invalid) {
-		throw new Error(`Invalid model identity: ${value}`);
-	}
+	if (!modelPath || !modelPath.endsWith('.glb') || invalid) throw new Error(`Invalid model identity: ${value}`);
 	return modelPath;
 }
 

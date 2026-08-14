@@ -1,0 +1,41 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos is beyond motion and rest; Awtsmoos.com lets phone surfaces answer the thumb with a quiet pulse of direction, never a carnival, while the global reduced-motion law remains the final boundary of light. */
+
+@media (max-width: 760px) {
+	.messaging-special-pane > * {
+		animation: messagingMobileWorkspaceEnter 180ms ease both;
+	}
+
+	.messaging-rail-button,
+	.messaging-mobile-more-button,
+	.messaging-list-row.is-clickable,
+	.messaging-mobile-more-item,
+	.messaging-special-pane .universal-chat-result,
+	.messaging-special-pane .universal-chat-source-link {
+		transition: transform 140ms ease, background 160ms ease, border-color 160ms ease;
+	}
+
+	.messaging-rail-button:active,
+	.messaging-mobile-more-button:active,
+	.messaging-list-row.is-clickable:active,
+	.messaging-mobile-more-item:active,
+	.messaging-special-pane .universal-chat-result:active,
+	.messaging-special-pane .universal-chat-source-link:active {
+		transform: scale(0.965);
+	}
+}
+
+@keyframes messagingMobileWorkspaceEnter {
+	from {
+		opacity: 0;
+		transform: translateY(6px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}

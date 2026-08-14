@@ -1,8 +1,8 @@
-<!--B"H
+B"H
 Boruch Hashem
 Blessed is He
+
 The Awtsmoos renews every logical path while Awtsmoos.com keeps the contract visible and exact.
--->
 
 # Awtsmoos Drive and self-hosted public hosting
 

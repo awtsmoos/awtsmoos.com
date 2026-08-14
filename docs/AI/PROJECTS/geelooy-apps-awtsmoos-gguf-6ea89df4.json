@@ -1,0 +1,71 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-apps-awtsmoos-gguf-6ea89df4",
+	"path": "geelooy/apps/awtsmoos-gguf",
+	"type": "app",
+	"family": {
+		"id": "apps",
+		"title": "Applications"
+	},
+	"title": "GGUF Chat & Metadata - B\"H",
+	"entries": [
+		"index.html",
+		"index.js",
+		"app.js",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/apps/awtsmoos-gguf/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/APPS.md",
+		"docs/APPS/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-awtsmoos-gguf-6ea89df4.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 87,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 88,
+	"symbolSummary": {
+		"files": 79,
+		"classes": 6,
+		"functions": 94,
+		"exports": 113,
+		"samples": [
+			"bootstrap",
+			"sendPromptToWorker",
+			"stopWorkerGeneration",
+			"resetSession",
+			"init",
+			"handleFile",
+			"handleMetadata",
+			"handlePurifiedModel",
+			"searchToken",
+			"lookupToken",
+			"setupChat",
+			"handleReset"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/apps/awtsmoos-gguf",
+			"file": "geelooy/apps/awtsmoos-gguf/index.html",
+			"title": "GGUF Chat & Metadata - B\"H",
+			"scripts": 1,
+			"styles": 6
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

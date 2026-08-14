@@ -4,18 +4,23 @@
 
 const {
 	compilerBackends,
-	compilerBuild
+	compilerBuild,
+	compilerRebbeApk
 } = require("./core/handlers.js");
 
 /**
- * The compiler pathway exposes discovery and guarded building through the same
- * authenticated derech system as the rest of Awtsmoos.com. The Awtsmoos creates
- * request and artifact together; no unauthenticated route may summon a compiler.
+ * @fileoverview
+ * Exposes authenticated compiler discovery, guarded native builds, and the
+ * source-owned Rebbe Responsa Android package through one derech.
+ *
+ * The Awtsmoos creates request, compiler, archive, and artifact together;
+ * Awtsmoos.com grants each route only through the existing authenticated vessel.
  */
 
 module.exports = {
 	async dynamicRoutes($i) {
 		await $i.use({
+			"/android/rebbe": async () => compilerRebbeApk($i),
 			"/backends": async () => compilerBackends($i),
 			"/build": async () => compilerBuild($i)
 		});

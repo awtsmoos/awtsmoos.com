@@ -1,67 +1,94 @@
 /*B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos creates each app card and action row anew. Awtsmoos.com gives
-selection, category, icon depth, and pending state one coherent visual language.
+The Awtsmoos creates every app entrance, action row, icon, and selected path anew.
+Awtsmoos.com gives dense records depth without surrendering scanning speed.
 */
 .start-app-card,
 .start-action-row {
 	position: relative;
+	isolation: isolate;
 	border: 1px solid var(--geo-border-soft);
 	color: var(--geo-text);
-	background: linear-gradient(145deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .035));
+	background: var(--geo-gradient-surface);
+	box-shadow: inset 0 1px rgb(255 255 255 / 7%);
 	cursor: pointer;
-	transition: transform var(--geo-fast), border-color var(--geo-fast), background var(--geo-fast), box-shadow var(--geo-fast);
+	transition:
+		transform var(--geo-medium) var(--geo-ease),
+		border-color var(--geo-fast),
+		background var(--geo-fast),
+		box-shadow var(--geo-fast);
+}
+.start-app-card::before,
+.start-action-row::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	border-radius: inherit;
+	background: linear-gradient(125deg, rgb(101 239 226 / 8%), transparent 42%, rgb(189 138 255 / 7%));
+	opacity: 0;
+	transition: opacity var(--geo-fast);
 }
 .start-app-card {
 	display: grid;
 	grid-template-rows: auto 1fr;
-	gap: 10px;
-	min-height: 138px;
-	padding: 14px;
-	border-radius: 19px;
+	gap: var(--geo-space-3);
+	min-height: 146px;
+	padding: var(--geo-space-4);
+	border-radius: var(--geo-radius-md);
 	text-align: left;
 }
 .start-action-row {
 	display: grid;
-	grid-template-columns: 38px minmax(0, 1fr);
-	gap: 10px;
+	grid-template-columns: 42px minmax(0, 1fr);
+	gap: var(--geo-space-3);
 	align-items: center;
 	width: 100%;
-	min-height: 56px;
-	padding: 8px 11px;
-	border-radius: 14px;
+	min-height: 60px;
+	padding: var(--geo-space-2) var(--geo-space-3);
+	border-radius: var(--geo-radius-sm);
 	text-align: left;
 }
 .start-app-card:hover,
 .start-action-row:hover,
 .start-app-card[data-active="true"],
 .start-action-row[data-active="true"] {
-	transform: translateY(-2px);
+	transform: translateY(-3px);
 	border-color: var(--geo-border-bright);
-	background: linear-gradient(145deg, rgba(77, 233, 220, .16), rgba(91, 140, 255, .13));
-	box-shadow: 0 12px 30px rgba(0, 0, 0, .24);
+	background: var(--geo-surface-hover);
+	box-shadow: var(--geo-shadow-sm), var(--geo-glow-cyan);
+}
+.start-app-card:hover::before,
+.start-action-row:hover::before,
+.start-app-card[data-active="true"]::before,
+.start-action-row[data-active="true"]::before {
+	opacity: 1;
+}
+.start-app-card:active,
+.start-action-row:active {
+	transform: translateY(-1px) scale(.988);
 }
 .start-record-icon {
 	display: grid;
 	place-items: center;
-	width: 48px;
-	height: 48px;
-	border: 1px solid rgba(255, 255, 255, .13);
-	border-radius: 16px;
-	background: linear-gradient(145deg, rgba(77, 233, 220, .12), rgba(183, 125, 255, .11));
-	font: 28px/1 var(--geo-font-emoji);
-	box-shadow: inset 0 1px rgba(255, 255, 255, .1);
+	width: 52px;
+	height: 52px;
+	border: 1px solid rgb(255 255 255 / 14%);
+	border-radius: 17px;
+	background: linear-gradient(145deg, rgb(101 239 226 / 16%), rgb(189 138 255 / 13%));
+	box-shadow: inset 0 1px rgb(255 255 255 / 12%), var(--geo-shadow-xs);
+	font: 29px/1 var(--geo-font-emoji);
 }
 .start-action-row .start-record-icon {
-	width: 36px;
-	height: 36px;
-	border-radius: 12px;
-	font-size: 21px;
+	width: 40px;
+	height: 40px;
+	border-radius: 13px;
+	font-size: 22px;
 }
 .start-record-copy {
 	display: grid;
-	gap: 4px;
+	gap: var(--geo-space-1);
 	min-width: 0;
 }
 .start-record-copy strong,
@@ -71,23 +98,16 @@ selection, category, icon depth, and pending state one coherent visual language.
 }
 .start-record-copy strong {
 	font-size: 14px;
+	font-weight: 780;
 	letter-spacing: -.01em;
 }
 .start-record-copy small {
 	color: var(--geo-text-muted);
-	line-height: 1.35;
+	line-height: 1.4;
 }
 .start-app-card:disabled,
 .start-action-row:disabled {
-	color: var(--geo-text);
-}
-@media (max-width: 700px) {
-	.start-app-card {
-		min-height: 102px;
-	}
-	.start-app-card .start-record-icon {
-		margin-inline: auto;
-		width: 46px;
-		height: 46px;
-	}
+	color: var(--geo-text-disabled);
+	cursor: not-allowed;
+	filter: saturate(.55);
 }

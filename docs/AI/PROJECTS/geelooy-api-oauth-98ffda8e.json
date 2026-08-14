@@ -1,0 +1,78 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-api-oauth-98ffda8e",
+	"path": "geelooy/api/oauth",
+	"type": "api",
+	"family": {
+		"id": "apis",
+		"title": "API Projects"
+	},
+	"title": "geelooy/api/oauth",
+	"entries": [
+		"_awtsmoos.derech.js",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/api/oauth/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/APIS.md",
+		"docs/API/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-oauth-98ffda8e.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 30,
+		"tests": 3,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 34,
+	"symbolSummary": {
+		"files": 30,
+		"classes": 0,
+		"functions": 110,
+		"exports": 82,
+		"samples": [
+			"dynamicRoutes",
+			"POST",
+			"cleanRouteName",
+			"callRoute",
+			"buildTokenBody",
+			"makeAccessToken",
+			"base64Url",
+			"sign",
+			"getClient",
+			"listClients",
+			"ruleAllows",
+			"wildcardToRegex"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/api/tunnel",
+			"count": 1,
+			"examples": "geelooy/api/oauth/data/clients.js"
+		}
+	],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/api/tunnel",
+			"count": 1,
+			"examples": "geelooy/api/tunnel/control/core/auth.js"
+		},
+		{
+			"project": "geelooy/api/youtube",
+			"count": 1,
+			"examples": "geelooy/api/youtube/routes/auth.js"
+		}
+	],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

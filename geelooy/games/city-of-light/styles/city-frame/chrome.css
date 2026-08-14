@@ -1,0 +1,102 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews title and guidance as a thin edge around the living city;
+ * Awtsmoos.com keeps chapter identity, pause, and message readable without making them the world.
+ * This module owns only gameplay chrome layered above the Canvas.
+ */
+.campaignHeader {
+	align-items: flex-start;
+	display: flex;
+	gap: 8px;
+	inset: max(8px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) auto max(8px, env(safe-area-inset-left));
+	justify-content: space-between;
+	pointer-events: none;
+	position: absolute;
+	z-index: 4;
+}
+
+.campaignHeader > * {
+	pointer-events: auto;
+}
+
+.campaignHeader .backLink {
+	align-self: flex-start;
+	background: rgba(4, 8, 20, 0.72);
+	border: 1px solid rgba(255, 255, 255, 0.16);
+	border-radius: 999px;
+	padding: 7px 10px;
+}
+
+.chapterIdentity {
+	background: rgba(4, 8, 20, 0.7);
+	border: 1px solid rgba(255, 255, 255, 0.14);
+	border-radius: 14px;
+	box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
+	max-width: min(420px, 46vw);
+	padding: 7px 10px;
+}
+
+.chapterIdentity h1 {
+	display: none;
+}
+
+.chapterLine {
+	color: #d6dcf6;
+	font-size: 0.72rem;
+	margin: 2px 0 0;
+}
+
+.pauseButton {
+	min-height: 42px;
+	min-width: 94px;
+}
+
+.message {
+	background: rgba(5, 9, 20, 0.8);
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	border-radius: 999px;
+	bottom: 18px;
+	box-shadow: 0 8px 22px rgba(0, 0, 0, 0.24);
+	color: #f7f9ff;
+	font-size: 0.84rem;
+	font-weight: 720;
+	left: 50%;
+	margin: 0;
+	max-width: min(560px, calc(100% - 32px));
+	padding: 8px 12px;
+	position: absolute;
+	text-align: center;
+	transform: translateX(-50%);
+	z-index: 3;
+}
+
+@media (max-width: 760px) {
+	.chapterIdentity {
+		max-width: 48vw;
+		padding: 6px 8px;
+	}
+
+	.campaignHeader .backLink {
+		font-size: 0;
+	}
+
+	.campaignHeader .backLink::before {
+		content: "←";
+		font-size: 1rem;
+	}
+
+	.pauseButton {
+		font-size: 0.72rem;
+		min-width: 76px;
+	}
+
+	.message {
+		bottom: calc(118px + env(safe-area-inset-bottom));
+		border-radius: 12px;
+		font-size: 0.76rem;
+		max-width: calc(100% - 20px);
+	}
+}

@@ -1,0 +1,88 @@
+<!-- B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gathers many finite players around one real visual world. Awtsmoos.com
+keeps Solo as the ordinary doorway and offers Party Challenge as an optional local
+pass-and-play tournament—real shared play without pretending a network exists.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+	<meta name="theme-color" content="#050813">
+	<meta name="description" content="Party Challenge turns any public Awtsmoos visual game into a 2–4 player local pass-and-play tournament while Solo remains the default game mode.">
+	<title>Party Challenge — Awtsmoos Games</title>
+	<link rel="stylesheet" href="./style.css?v=party-001">
+</head>
+<body>
+	<main class="partyShell">
+		<section class="partyHero partyPanel">
+			<div>
+				<p class="partyKicker">B"H · Local multiplayer across Awtsmoos Games</p>
+				<h1>Party Challenge</h1>
+				<p id="partyGameDescription">Choose any visual Awtsmoos game, pass the device, and compare fresh turns across one or more rounds.</p>
+				<p><strong id="partyGameTitle">Choose a game</strong> · <span id="partyVisualMode">Visual game</span> · <span id="partyMultiplayerMode">Local Party Challenge</span></p>
+			</div>
+			<aside class="partyTruth">
+				<strong>Solo stays default.</strong>
+				<p>Party Challenge is shared-device multiplayer. Five games also contain their own native multiplayer systems, labeled separately in the Games catalog.</p>
+			</aside>
+		</section>
+
+		<section id="setupPanel" class="partyPanel partySetup">
+			<form id="partySetupForm">
+				<div class="setupGrid">
+					<div class="partyField">
+						<label for="gameSelect">Visual game</label>
+						<select id="gameSelect"></select>
+					</div>
+					<div class="partyField">
+						<label for="playerCount">Players</label>
+						<select id="playerCount"><option value="2">2 players</option><option value="3">3 players</option><option value="4">4 players</option></select>
+					</div>
+					<div class="partyField">
+						<label for="roundCount">Rounds</label>
+						<select id="roundCount"><option value="1">1 round</option><option value="2">2 rounds</option><option value="3">3 rounds</option><option value="5">5 rounds</option></select>
+					</div>
+				</div>
+				<div class="partyField">
+					<label for="scoreMode">Winner rule</label>
+					<select id="scoreMode"><option value="higher">Higher result wins</option><option value="lower">Lower result/time wins</option></select>
+				</div>
+				<div id="playerNames" class="playerNames">
+					<div class="partyField" data-player-field="1"><label for="playerName1">Player 1</label><input id="playerName1" value="Player 1" maxlength="30"></div>
+					<div class="partyField" data-player-field="2"><label for="playerName2">Player 2</label><input id="playerName2" value="Player 2" maxlength="30"></div>
+					<div class="partyField" data-player-field="3" hidden><label for="playerName3">Player 3</label><input id="playerName3" value="Player 3" maxlength="30" disabled></div>
+					<div class="partyField" data-player-field="4" hidden><label for="playerName4">Player 4</label><input id="playerName4" value="Player 4" maxlength="30" disabled></div>
+				</div>
+				<p class="partyNotice">Each turn opens a fresh copy of the selected real game. Play the turn, then enter the result shown by that game. Party Challenge does not alter Wallet balances, game saves, or internal scoring rules.</p>
+				<button class="partyButton partyButton--primary" type="submit">Start Party Challenge</button>
+			</form>
+		</section>
+
+		<section id="partyArena" class="partyArena" hidden>
+			<div class="partyGameStage">
+				<header class="turnHeader"><strong id="turnPlayer">Player 1</strong><span id="turnRound">Round 1</span></header>
+				<iframe id="gameFrame" title="Current Party Challenge game" allow="autoplay; fullscreen; gamepad" referrerpolicy="same-origin"></iframe>
+			</div>
+			<aside class="partyPanel turnControls">
+				<p class="partyKicker">Current turn</p>
+				<h2>Play first. Record second.</h2>
+				<p id="turnNotice">Party Challenge is local pass-and-play.</p>
+				<div class="turnScoreField"><label for="turnScore">Turn result</label><input id="turnScore" type="number" step="any" inputmode="decimal" placeholder="Score or time"></div>
+				<div class="turnActions"><button id="reloadTurn" class="partyButton" type="button">Restart this turn</button><button id="recordTurn" class="partyButton partyButton--primary" type="button">Record & pass</button></div>
+			</aside>
+		</section>
+
+		<section id="partyScoreboard" class="partyPanel partyScoreboard" hidden>
+			<h2>Standings</h2>
+			<div id="scoreRows" class="scoreRows"></div>
+			<p id="partyWinner" class="partyWinner" hidden></p>
+			<div class="partyLinks"><a id="soloLink" href="../">Open selected game Solo</a><a id="gamesLink" href="../">Back to all Games</a></div>
+		</section>
+	</main>
+	<script type="module" src="./js/main.js?v=party-001"></script>
+</body>
+</html>

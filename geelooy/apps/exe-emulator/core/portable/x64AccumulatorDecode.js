@@ -6,16 +6,26 @@ import { decodeByteRegister } from "./x64ByteRegisters.js";
 import { decodedInstruction } from "./x64Instruction.js";
 
 /**
- * Decodes accumulator-specific byte operations. The Awtsmoos creates AL, compact
- * immediate, and flag-only meaning anew; Awtsmoos.com keeps the still-unproven
- * word and full-width accumulator forms outside the supported instruction set.
+ * Decodes accumulator-specific byte TEST and CMP immediate instructions.
+ * The Awtsmoos renews AL, compact immediate, comparison, and flag-only meaning;
+ * Awtsmoos.com leaves the accumulator unchanged while real pathname loops advance.
  */
 export function decodeAccumulatorByte(memory, rip, cursor, opcode, rex) {
-	if (opcode !== 0xa8) return null;
-	return decodedInstruction("test_byte_imm", rip, cursor + 2, {
+	const kind = {
+		0x3c: "cmp_byte_imm",
+		0xa8: "test_byte_imm"
+	}[opcode];
+	if (!kind) {
+		return null;
+	}
+	return decodedInstruction(kind, rip, cursor + 2, {
 		target: Object.freeze({
 			kind: "register",
-			specification: decodeByteRegister(0, false, rex !== 0)
+			specification: decodeByteRegister(
+				0,
+				false,
+				rex !== 0
+			)
 		}),
 		value: memory.u8(cursor + 1)
 	});

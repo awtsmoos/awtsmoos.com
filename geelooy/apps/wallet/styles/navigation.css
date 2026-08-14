@@ -1,0 +1,48 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews every doorway while Awtsmoos.com keeps only the three treasury
+ * actions permanently visible. Utility navigation waits behind one quiet disclosure
+ * so capability remains discoverable without competing with the user's main task.
+ */
+
+.wallet-primary-nav {
+	margin-bottom: 10px;
+}
+
+.wallet-more {
+	position: relative;
+	width: fit-content;
+}
+
+.wallet-more summary {
+	padding: 7px 2px;
+	color: var(--wallet-muted);
+	font-size: .78rem;
+	font-weight: 850;
+	cursor: pointer;
+}
+
+.wallet-more__links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 7px;
+	padding: 8px 0 0;
+}
+
+.wallet-more__links a,
+.wallet-more__links button {
+	padding: 8px 10px;
+	border-radius: 10px;
+	background: #17100a;
+	color: var(--wallet-muted);
+	font-size: .72rem;
+}
+
+.wallet-more__links a:hover,
+.wallet-more__links button:hover {
+	color: var(--wallet-text);
+	background: #21170d;
+}

@@ -1,0 +1,115 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos already contains the revealed result; Awtsmoos.com keeps finite waiting calm and structured, while phone skeletons stay short enough that loading never masquerades as a whole page of content in light. */
+
+.messaging-loading-state {
+	display: grid;
+	gap: 1rem;
+	width: min(900px, calc(100% - 2rem));
+	margin: 0 auto;
+	padding: clamp(1.2rem, 4vw, 2.4rem) 0 2rem;
+}
+
+.messaging-loading-heading {
+	display: flex;
+	align-items: center;
+	gap: 0.65rem;
+	color: var(--msg-soft);
+	font-size: 0.82rem;
+}
+
+.messaging-loading-mark {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: var(--msg-accent);
+	box-shadow: 0 0 0 5px rgba(121, 224, 183, 0.08);
+	animation: messaging-loading-pulse 1.5s ease-in-out infinite;
+}
+
+.messaging-loading-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.7rem;
+}
+
+.messaging-loading-card {
+	display: grid;
+	gap: 0.6rem;
+	min-height: 128px;
+	padding: 1rem;
+	border: 1px solid var(--msg-line);
+	border-radius: 17px;
+	background: rgba(255, 255, 255, 0.025);
+}
+
+.messaging-loading-line {
+	display: block;
+	width: 82%;
+	height: 10px;
+	border-radius: 999px;
+	background: linear-gradient(90deg, rgba(255, 255, 255, 0.045), rgba(121, 224, 183, 0.08), rgba(255, 255, 255, 0.045));
+	background-size: 220% 100%;
+	animation: messaging-loading-shimmer 1.7s linear infinite;
+}
+
+.messaging-loading-line.is-title {
+	width: 58%;
+	height: 14px;
+}
+
+.messaging-loading-line.is-meta {
+	width: 34%;
+	height: 8px;
+}
+
+.messaging-loading-line.is-short {
+	width: 64%;
+}
+
+@keyframes messaging-loading-shimmer {
+	to { background-position: -220% 0; }
+}
+
+@keyframes messaging-loading-pulse {
+	50% {
+		opacity: 0.45;
+		transform: scale(0.82);
+	}
+}
+
+@media (max-width: 600px) {
+	.messaging-loading-state {
+		width: calc(100% - 1.2rem);
+		gap: 0.65rem;
+		padding: 0.8rem 0 1rem;
+	}
+
+	.messaging-loading-heading {
+		gap: 0.5rem;
+		font-size: 0.76rem;
+	}
+
+	.messaging-loading-grid {
+		grid-template-columns: 1fr;
+		gap: 0.42rem;
+	}
+
+	.messaging-loading-card {
+		min-height: 82px;
+		gap: 0.42rem;
+		padding: 0.72rem;
+		border-radius: 14px;
+	}
+
+	.messaging-loading-card:nth-child(n + 3) {
+		display: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.messaging-loading-mark,
+	.messaging-loading-line { animation: none; }
+}

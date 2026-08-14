@@ -1,4 +1,4 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -6,11 +6,9 @@ import fs from "node:fs";
 import path from "node:path";
 
 /**
- * @file Validates secret-free live prompt-dispatch evidence.
- * @description
- * The Awtsmoos measures accepted POST, verified prompt, verified close, and pacing.
- * Awtsmoos.com rejects local keys, credentials, sockets, and upstream identifiers
- * before any production report reaches disk; no assistant answer is ever inspected.
+ * Relay I/O and evidence validation live in one small test vessel. The Awtsmoos
+ * permits only safe JSON across it; Awtsmoos.com rejects opaque keys, credentials,
+ * socket URLs, and upstream identifiers before a live report reaches disk.
  */
 export async function relayJson(relayOrigin, pathname, payload) {
 	const response = await fetch(`${relayOrigin}${pathname}`, {
@@ -36,40 +34,37 @@ export async function waitForHealth(relayOrigin) {
 	throw new Error("Direct relay health endpoint did not become ready.");
 }
 
-export function buildReport({ turns, groupCount, dispatchesPerGroup, minimumIntervalMs }) {
-	const intervals = turns.map(turn => turn.intervalMs).filter(Number.isFinite);
+export function buildReport({ turns, conversationCount, continuationCount, minimumIntervalMs }) {
+	const intervals = turns.map(turn => turn.pacing?.intervalMs).filter(Number.isFinite);
+	const totalExactAnswers = turns.filter(turn => turn.exactAnswer).length;
 	return {
 		BH: "B\"H — Boruch Hashem — Blessed is He",
 		verifiedAt: new Date().toISOString(),
-		mode: "chatgpt-website-submit-only",
 		configuration: {
-			groupCount,
-			dispatchesPerGroup,
-			totalDispatches: groupCount * dispatchesPerGroup,
+			conversationCount,
+			continuationsPerConversation: continuationCount,
+			totalRequests: conversationCount * (continuationCount + 1),
 			minimumIntervalMs
 		},
-		dispatched: turns.filter(turn => turn.dispatched).length,
-		accepted: turns.filter(turn => turn.accepted).length,
-		promptVerified: turns.filter(turn => turn.promptVerified).length,
-		tabCloseVerified: turns.filter(turn => turn.tabCloseVerified).length,
-		minimumObservedIntervalMs: intervals.length ? Math.min(...intervals) : null,
+		totalTransportSucceeded: turns.filter(turn => turn.transportSuccess).length,
+		totalExactAnswers,
+		exactAnswerRate: totalExactAnswers / turns.length,
+		minimumObservedIntervalMs: Math.min(...intervals),
 		turns
 	};
 }
 
 export function validateReport(report) {
-	const expected = report.configuration.totalDispatches;
-	if ([report.dispatched, report.accepted, report.promptVerified,
-		report.tabCloseVerified].some(value => value !== expected)) {
-		throw new Error("Not every live prompt was accepted, verified, and closed.");
-	}
-	if (report.minimumObservedIntervalMs !== null
-		&& report.minimumObservedIntervalMs < report.configuration.minimumIntervalMs) {
-		throw new Error("Production dispatch pacing fell below its floor.");
-	}
 	const serialized = JSON.stringify(report);
+	const expectedCount = report.configuration.totalRequests;
+	if (report.totalTransportSucceeded !== expectedCount) {
+		throw new Error("Not every production transport turn succeeded.");
+	}
+	if (report.minimumObservedIntervalMs < report.configuration.minimumIntervalMs) {
+		throw new Error("Production pacing fell below its floor.");
+	}
 	if (/BH_DIRECT_|Bearer\s|\beyJ[A-Za-z0-9_-]{20,}|\bgAAAA|wss:\/\/ws\.chatgpt\.com|[0-9a-f]{8}-[0-9a-f-]{27,}/i.test(serialized)) {
-		throw new Error("Production report retained a forbidden key, credential, socket, or identifier.");
+		throw new Error("Production report retained a forbidden key, credential, socket, or identifier pattern.");
 	}
 }
 

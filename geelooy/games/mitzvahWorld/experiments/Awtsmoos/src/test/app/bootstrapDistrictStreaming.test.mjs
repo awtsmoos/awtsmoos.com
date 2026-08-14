@@ -4,74 +4,82 @@
 
 /**
  * @file bootstrapDistrictStreaming.test.mjs
- * @description Proves districts publish and later release visible and physical form together.
- * The Awtsmoos reveals twelve measured forms and their appointed departure;
- * Awtsmoos.com verifies 144 indexed faces, three groups, one release, and complete disposal.
+ * @description Proves the honest eight-part fallback streams completely yet cannot resurrect after canonical retirement.
+ * The Awtsmoos permits temporary architecture before the full valley; Awtsmoos.com registers every district before
+ * asynchronous garments, then proves disposal during hydration releases that district and forbids every later one.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { Scene } from '../../../../light-three-gltf/tiny-runtime.js';
 import { BootstrapCollisionWorld } from '../../app/BootstrapCollisionWorld.js';
-import { BOOTSTRAP_DISTRICTS } from '../../app/BootstrapDistrictDefinitions.js';
 import { streamBootstrapDistricts } from '../../app/BootstrapDistrictStreamer.js';
 
-const immediateEnvironment = {
-	performance: { now: () => 100 },
-	requestIdleCallback(callback) {
-		callback({ didTimeout: false, timeRemaining: () => 12 });
-	}
-};
-
-const immediateServices = {
+const environment = { performance: { now: () => 100 } };
+const immediate = {
 	hydrateNature: async () => ({ loaded: 0 }),
-	hydrateTextures: async () => ({ loaded: 0, mapImagesBound: 0 })
+	hydrateTextures: async () => ({ loaded: 0, mapImagesBound: 0 }),
+	waitForIdle: async () => {}
 };
 
-test('streamer publishes 144 triangles and releases every district cleanly', async () => {
-	const mainOctree = new BootstrapCollisionWorld();
-	const runtime = {
-		mainOctree,
-		scene: new Scene(),
-		sceneLod: {
-			refreshCalls: 0,
-			refresh() {
-				this.refreshCalls += 1;
-			}
-		}
-	};
-	const state = await streamBootstrapDistricts(
-		runtime,
-		immediateEnvironment,
-		immediateServices
-	);
+test('current bootstrap publishes 96 collision faces and disposes cleanly', async () => {
+	const runtime = runtimeFixture();
+	const state = await streamBootstrapDistricts(runtime, environment, immediate);
 	assert.equal(state.status, 'ready');
+	assert.equal(state.retired, false);
 	assert.equal(state.active, 3);
 	assert.equal(state.completed, 3);
-	assert.equal(state.meshes, 12);
-	assert.equal(state.colliders, 144);
-	assert.equal(state.triangles, 144);
-	assert.equal(runtime.scene.children.length, 3);
-	assert.equal(runtime.sceneLod.refreshCalls, 6);
-	assert.equal(mainOctree.diagnostics().spatialIndex.indexedColliders, 144);
-	assert.equal(typeof state.releaseDistrict, 'function');
-	assert.equal(typeof state.dispose, 'function');
-	const firstId = BOOTSTRAP_DISTRICTS[0].id;
-	assert.equal(state.releaseDistrict(firstId).trianglesRemoved, 48);
-	assert.equal(state.status, 'partial');
-	assert.equal(state.active, 2);
-	assert.equal(state.colliders, 96);
 	assert.equal(state.meshes, 8);
-	assert.equal(runtime.scene.children.length, 2);
-	assert.equal(runtime.sceneLod.refreshCalls, 7);
+	assert.equal(state.colliders, 96);
+	assert.equal(state.triangles, 96);
+	assert.equal(runtime.scene.children.length, 3);
+	assert.equal(runtime.mainOctree.diagnostics().spatialIndex.indexedColliders, 96);
 	const disposal = state.dispose();
-	assert.equal(disposal.districtsReleased, 2);
+	assert.equal(disposal.districtsReleased, 3);
 	assert.equal(disposal.trianglesRemoved, 96);
+	assert.equal(state.retired, true);
+	assert.equal(state.status, 'disposed');
+	assert.equal(runtime.scene.children.length, 0);
+	assert.equal(runtime.mainOctree.diagnostics().triangles, 0);
+});
+
+test('retirement during hydration removes the mounted district and stops future districts', async () => {
+	const runtime = runtimeFixture();
+	let finishTexture;
+	const textureGate = new Promise(resolve => { finishTexture = resolve; });
+	const streaming = streamBootstrapDistricts(runtime, environment, {
+		hydrateNature: async () => ({ loaded: 0 }),
+		hydrateTextures: async () => textureGate,
+		waitForIdle: async () => {}
+	});
+	await waitUntil(() => runtime.districtStreaming?.active === 1);
+	const state = runtime.districtStreaming;
+	const disposal = state.dispose();
+	assert.equal(disposal.districtsReleased, 1);
+	assert.equal(runtime.scene.children.length, 0);
+	finishTexture({ loaded: 0, mapImagesBound: 0 });
+	await streaming;
+	assert.equal(state.retired, true);
 	assert.equal(state.status, 'disposed');
 	assert.equal(state.active, 0);
-	assert.equal(state.colliders, 0);
-	assert.equal(state.triangles, 0);
+	assert.equal(state.loaded.length, 0);
+	assert.equal(state.completed, 0);
 	assert.equal(runtime.scene.children.length, 0);
-	assert.equal(runtime.sceneLod.refreshCalls, 9);
-	assert.equal(mainOctree.diagnostics().triangles, 0);
+	assert.equal(runtime.mainOctree.diagnostics().triangles, 0);
 });
+
+function runtimeFixture() {
+	return {
+		mainOctree: new BootstrapCollisionWorld(),
+		scene: new Scene(),
+		sceneLod: { refresh() {} }
+	};
+}
+
+async function waitUntil(predicate) {
+	for (let attempt = 0; attempt < 20; attempt += 1) {
+		if (predicate()) return;
+		await Promise.resolve();
+	}
+	throw new Error('bootstrap stream did not reach expected state');
+}

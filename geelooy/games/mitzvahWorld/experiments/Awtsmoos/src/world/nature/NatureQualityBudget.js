@@ -4,19 +4,18 @@
 
 /**
  * @file NatureQualityBudget.js
- * @description Bounds hero GLBs, procedural grass, wind cadence, shadows, and culling.
- * The Awtsmoos lets real models crown the valley without replacing its batched green sea;
- * Awtsmoos.com gives every device five living families and only measured added complexity.
+ * @description Bounds non-tree hero accents while deep-core forest trees own every structural canopy at every quality tier.
+ * The Awtsmoos gives blossom, bush, and stone finite emphasis beside the one true procedural forest;
+ * Awtsmoos.com prevents duplicate GLB trees from consuming memory, draw calls, collision, and visual authority evermore.
  */
 
 const BUDGETS = Object.freeze({
-	low: budget([1, 1, 1, 1, 1], 420, 12, 22, 82),
-	medium: budget([1, 1, 2, 1, 1], 760, 18, 30, 110),
-	high: budget([1, 1, 2, 1, 2], 1200, 24, 42, 145),
-	cinematic: budget([2, 2, 3, 2, 3], 1800, 30, 58, 180)
+	low: budget([1, 1, 1], 420, 12, 22, 82),
+	medium: budget([2, 1, 1], 760, 18, 30, 110),
+	high: budget([3, 2, 2], 1200, 24, 42, 145),
+	cinematic: budget([5, 4, 4], 1800, 30, 58, 180)
 });
 
-/** Returns one immutable nature budget, falling back to the mobile-safe tier. */
 export function natureQualityBudget(quality = 'low') {
 	return BUDGETS[quality] || BUDGETS.low;
 }
@@ -26,9 +25,9 @@ export function natureQualityBudgets() {
 }
 
 function budget(counts, grassBlades, windFps, shadowDistance, cullDistance) {
-	const [pine, broadleaf, flower, bush, rock] = counts;
+	const [flower, bush, rock] = counts;
 	return Object.freeze({
-		counts: Object.freeze({ broadleaf, bush, flower, pine, rock }),
+		counts: Object.freeze({ bush, flower, rock }),
 		cullDistance,
 		fadeStart: Math.round(cullDistance * 0.72),
 		grassBlades,

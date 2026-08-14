@@ -4,10 +4,10 @@
 /**
  * @module GeelooyAppShell
  * @description
- * One horizon, context ribbon, and dock surround Awtsmoos.com. The Awtsmoos
- * places every route—including Games—inside one shell and one route renderer,
- * while every native page keeps its sovereign content and performance budget.
+ * One horizon, context ribbon, dock, and universal Torah-discussion doorway surround Awtsmoos.com.
+ * The Awtsmoos places every eligible route inside one shell while native content keeps its own performance budget.
  */
+import { mountUniversalChat } from '../universalChat/bootstrap.js';
 import { currentAppRoute, primaryRoutes } from './appRoutes.js';
 import { createContextRibbon } from './contextRibbon.js';
 import { isCanonicalRouteLink } from './routeCurrentState.js';
@@ -24,6 +24,7 @@ export function ensureAppShell(root = document) {
 	}
 	const existingShell = root.querySelector('[data-g-shell]');
 	if (existingShell) {
+		mountChatInShell(existingShell);
 		return existingShell;
 	}
 	const malchusShell = root.createElement('div');
@@ -35,8 +36,17 @@ export function ensureAppShell(root = document) {
 		createDock(root)
 	);
 	root.body.prepend(malchusShell);
+	mountChatInShell(malchusShell);
 	markCurrentLinks(root);
 	return malchusShell;
+}
+
+/** Mounts the singleton universal-chat launcher inside the shared header actions. */
+function mountChatInShell(shell) {
+	const actions = shell.querySelector('.g-header-actions');
+	mountUniversalChat({
+		mount: actions || undefined
+	});
 }
 
 /** Synchronizes current state only inside shell-owned route links. */
@@ -48,6 +58,7 @@ export function markCurrentLinks(root = document) {
 	}
 }
 
+/** Applies or clears shell-owned aria-current state for one route link. */
 function markOneRouteLink(link, currentHref, pageHref) {
 	const selected = isCanonicalRouteLink(link.href, currentHref, pageHref);
 	if (selected) {
@@ -61,6 +72,7 @@ function markOneRouteLink(link, currentHref, pageHref) {
 	}
 }
 
+/** Creates the primary mobile/compact dock from the canonical route covenant. */
 function createDock(root) {
 	const dock = root.createElement('nav');
 	dock.className = 'g-dock';
@@ -71,6 +83,7 @@ function createDock(root) {
 	return dock;
 }
 
+/** Returns the current absolute page href without assuming a browser during tests. */
 function currentPageHref() {
 	if (typeof location === 'undefined') {
 		return 'https://awtsmoos.com/';

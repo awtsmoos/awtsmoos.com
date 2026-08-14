@@ -54,5 +54,8 @@ export * from './api/platform.js';
 // B"H - Exporting embedding-native search vessels
 export * from './api/semanticSearch.js';
 
+// B"H - Exporting safe translation discovery vessels
+export * from './api/translations.js';
+
 // B"H - Exporting operational dashboards: moderation, migrations, federation, media, relationships, analytics, jobs, permissions
 export * from './api/platformOps.js';

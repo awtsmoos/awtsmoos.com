@@ -1,102 +1,115 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-// The Awtsmoos reveals a real field of stars and Hebrew letters, animated with restraint and never hidden from the eye.
+// The Awtsmoos conducts the GPU sky through birth, stillness, loss, and restoration, while focused vessels own runtime and time.
 
-import { GlyphAtlas } from "./glyphAtlas.js";
-import { ParticleField } from "./particleField.js";
-import { ParticleRenderer } from "./particleRenderer.js";
-import {
-	GLYPH_FRAGMENT_SHADER,
-	GLYPH_VERTEX_SHADER,
-	STAR_FRAGMENT_SHADER,
-	STAR_VERTEX_SHADER
-} from "./shaderSources.js";
+import { ParticleAnimator } from "./particle-animator.js";
+import { ParticlePointer } from "./particle-pointer.js";
+import { ParticleQualityPolicy } from "./particle-quality.js";
+import { ParticleRuntime } from "./particle-runtime.js";
 
 export class ParticleSky {
 	constructor(canvasElement) {
 		this.canvasElement = canvasElement;
-		this.prefersStillness = matchMedia("(prefers-reduced-motion: reduce)").matches;
-		this.gl = canvasElement.getContext("webgl", {
-			alpha: true,
-			antialias: true,
-			powerPreference: "low-power"
+		this.qualityPolicy = new ParticleQualityPolicy();
+		this.profile = this.qualityPolicy.createProfile();
+		this.pointer = new ParticlePointer({ isInteractive: !this.profile.isStatic });
+		this.animator = new ParticleAnimator({
+			canvasElement,
+			pointer: this.pointer,
+			profile: this.profile,
+			drawHandler: frameState => this.runtime?.draw(frameState),
+			degradeHandler: timestamp => this.degrade(timestamp)
 		});
-		this.isRunning = false;
+		this.runtime = new ParticleRuntime(canvasElement, this.profile, this.animator);
+		this.resizeFrame = 0;
 	}
 
 	connect() {
-		if (!this.gl) {
-			this.setStatus("unavailable");
-			return;
-		}
-
 		try {
-			this.createScene();
-			this.resize();
+			if (!this.runtime.createContext()) {
+				this.setStatus("unavailable");
+				return this;
+			}
+
+			this.pointer.connect();
 			this.connectEvents();
-			this.setStatus(this.prefersStillness ? "static" : "running");
-			this.isRunning = !this.prefersStillness;
-			this.renderer.draw(0);
-			if (this.isRunning) requestAnimationFrame(time => this.render(time));
+			this.runtime.rebuildScene("building");
+			this.runtime.resize();
+			this.animator.drawStatic();
+			this.profile.isStatic ? this.setStatus("static") : this.start();
 		} catch (error) {
-			console.warn("Awtsmoos particle sky disabled:", error);
+			console.warn("Awtsmoos WebGL sky disabled:", error);
 			this.setStatus("error");
 		}
-	}
 
-	createScene() {
-		const starField = new ParticleField(this.gl, {
-			amount: 110,
-			distribution: "sky",
-			includesGlyphs: false,
-			vertexSource: STAR_VERTEX_SHADER,
-			fragmentSource: STAR_FRAGMENT_SHADER
-		});
-		const glyphField = new ParticleField(this.gl, {
-			amount: 22,
-			distribution: "galaxy",
-			includesGlyphs: true,
-			vertexSource: GLYPH_VERTEX_SHADER,
-			fragmentSource: GLYPH_FRAGMENT_SHADER
-		});
-		const atlas = new GlyphAtlas(this.gl).createTexture();
-		this.renderer = new ParticleRenderer(this.gl, starField, glyphField, atlas);
+		return this;
 	}
 
 	connectEvents() {
-		addEventListener("resize", () => {
-			this.resize();
-			if (this.prefersStillness) this.renderer.draw(0);
-		}, { passive: true });
+		addEventListener("resize", () => this.scheduleResize(), { passive: true });
 		document.addEventListener("visibilitychange", () => this.handleVisibility());
-		this.canvasElement.addEventListener("webglcontextlost", event => {
-			event.preventDefault();
-			this.isRunning = false;
-			this.setStatus("lost");
+		this.canvasElement.addEventListener("webglcontextlost", event => this.handleContextLost(event));
+		this.canvasElement.addEventListener("webglcontextrestored", () => this.handleContextRestored());
+	}
+
+	scheduleResize() {
+		if (this.resizeFrame) {
+			return;
+		}
+
+		this.resizeFrame = requestAnimationFrame(() => {
+			this.resizeFrame = 0;
+			this.runtime.resize();
 		});
 	}
 
 	handleVisibility() {
-		if (this.prefersStillness) return;
-		this.isRunning = !document.hidden;
-		if (this.isRunning) requestAnimationFrame(time => this.render(time));
+		if (document.hidden) {
+			this.animator.stop();
+			this.setStatus("paused");
+			return;
+		}
+
+		if (!this.profile.isStatic) {
+			this.start();
+		}
+	}
+
+	handleContextLost(event) {
+		event.preventDefault();
+		this.animator.stop();
+		this.runtime.releaseLostScene();
+		this.setStatus("lost");
+	}
+
+	handleContextRestored() {
+		try {
+			this.runtime.createContext();
+			this.runtime.rebuildScene("restoring");
+			this.runtime.resize();
+			this.animator.drawStatic();
+			this.profile.isStatic ? this.setStatus("static") : this.start();
+		} catch (error) {
+			console.warn("Awtsmoos WebGL restoration failed:", error);
+			this.setStatus("error");
+		}
+	}
+
+	start() {
+		this.setStatus(this.profile.tier === "low" ? "degraded" : "running");
+		this.animator.start();
+	}
+
+	degrade(timestamp) {
+		this.profile = this.qualityPolicy.downgrade(this.profile);
+		this.runtime.updateProfile(this.profile);
+		this.runtime.rebuildScene("degraded");
+		this.runtime.resize();
+		this.animator.drawStatic(timestamp);
 	}
 
 	setStatus(status) {
 		this.canvasElement.dataset.particleStatus = status;
-	}
-
-	resize() {
-		const ratio = Math.min(devicePixelRatio, 1.75);
-		this.canvasElement.width = Math.round(innerWidth * ratio);
-		this.canvasElement.height = Math.round(innerHeight * ratio);
-		this.gl.viewport(0, 0, this.canvasElement.width, this.canvasElement.height);
-	}
-
-	render(time) {
-		if (!this.isRunning) return;
-		this.renderer.draw(time);
-		requestAnimationFrame(nextTime => this.render(nextTime));
 	}
 }

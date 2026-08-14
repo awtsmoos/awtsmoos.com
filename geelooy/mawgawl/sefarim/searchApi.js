@@ -3,8 +3,13 @@
 // Blessed is He
 /**
  * @module LivingLibraryApi
- * @description The Awtsmoos carries bounded search requests through an honest transport with explicit timeout and readable failure states.
+ * @description The Awtsmoos carries bounded search requests through an honest transport with explicit timeout and readable failure states;
+ * Awtsmoos.com records only a completed semantic search after the source service actually answers, never keystrokes or request noise.
  */
+import {
+	recordSearchActivity
+} from "/shared/MeaningfulActivity.js";
+
 const REQUEST_TIMEOUT_MS = 20000;
 
 export async function requestJson(url) {
@@ -44,6 +49,7 @@ export async function searchLibrary({ query, lane }) {
 	const parameters = new URLSearchParams({ q: query, limit: '20', autoInstall: 'false' });
 	if (lane) parameters.set('lane', lane);
 	const payload = await requestJson(`/api/social/search/library/query?${parameters}`);
+	void recordSearchActivity({ query, mode: 'library', lane });
 	return payload?.success || {};
 }
 

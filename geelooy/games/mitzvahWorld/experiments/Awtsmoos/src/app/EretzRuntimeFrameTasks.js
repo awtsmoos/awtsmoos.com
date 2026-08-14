@@ -4,9 +4,9 @@
 
 /**
  * @file EretzRuntimeFrameTasks.js
- * @description Runs every rich-world frame task in fixed order through reusable timing marks.
- * The Awtsmoos renews all servants without creating a new council each pulse;
- * Awtsmoos.com preserves streaming, gameplay, animation, water, shadow, camera, render, and HUD truth.
+ * @description Runs rich-world tasks in fixed order while preserving first-play HUD and minimap through promotion.
+ * The Awtsmoos renews streaming, deed, animation, water, shadow, camera, rendering, and witness in one cadence;
+ * Awtsmoos.com lets bootstrap UI survive as a garment while its provisional scheduler yields the pulse beneath it.
  */
 
 import { updateEretzAnimationFrame } from './EretzAnimationFrame.js';
@@ -14,13 +14,7 @@ import { faceTarget } from './EretzPlayerModel.js';
 import { refreshStatusHud } from './EretzStatusHud.js';
 import { refreshWorldDiagnostics } from './WorldDiagnostics.js';
 
-export function runEretzRuntimeFrameTasks(
-	runtime,
-	context,
-	deltaTime,
-	now,
-	costs
-) {
+export function runEretzRuntimeFrameTasks(runtime, context, deltaTime, now, costs) {
 	measureTask(costs, 'streaming', updateStreaming, runtime, context, deltaTime, now);
 	measureTask(costs, 'gameplay', updateGameplay, runtime, context, deltaTime, now);
 	measureTask(costs, 'animation', updateAnimation, runtime, context, deltaTime, now);
@@ -41,9 +35,7 @@ function measureTask(costs, name, task, runtime, context, deltaTime, now) {
 }
 
 function updateStreaming(runtime, context, deltaTime, now) {
-	if (context.cadence.due('chunks', now)) {
-		runtime.chunkRuntime?.update({ at: now });
-	}
+	if (context.cadence.due('chunks', now)) runtime.chunkRuntime?.update({ at: now });
 	if (!context.cadence.due('materialHydration', now)) return;
 	runtime.materialHydrationStats = context.residency.update(runtime.scene);
 }
@@ -55,6 +47,7 @@ function updateGameplay(runtime, context, deltaTime, now) {
 	runtime.multiplayerBridge?.update(deltaTime, runtime.state, now);
 	if (context.cadence.due('minimap', now)) {
 		runtime.gameplayUi?.updatePosition(runtime.state);
+		runtime.bootstrapMinimap?.refresh?.();
 	}
 	if (context.cadence.due('houseVisibility', now)) {
 		runtime.houseVisibility.update(runtime.state);
@@ -94,7 +87,10 @@ function renderWorld(runtime, context, deltaTime, now) {
 
 function updateCadencedUi(runtime, context, now) {
 	if (context.cadence.due('combatHud', now)) runtime.combatActionBar?.update(now);
-	if (context.cadence.due('hud', now)) refreshStatusHud(runtime);
+	if (context.cadence.due('hud', now)) {
+		refreshStatusHud(runtime);
+		runtime.bootstrapHud?.refresh?.();
+	}
 	if (context.cadence.due('diagnostics', now)) {
 		refreshWorldDiagnostics(context.diagnostics, runtime);
 	}

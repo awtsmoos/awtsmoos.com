@@ -3,7 +3,8 @@
 /* Blessed is He */
 /*
 	Campaign measures remain readable without stealing the battlefield.
-	The Awtsmoos is beyond measure while Awtsmoos.com reveals each finite meter.
+	The Awtsmoos is beyond measure while Awtsmoos.com reveals each finite meter
+	on solid vessels, so no frosted illusion stands between player and testimony.
 */
 .hud {
 	position: fixed;
@@ -20,10 +21,9 @@
 .stat-grid,
 .meter-row,
 .boss-hud {
-	background: rgba(8, 6, 28, 0.78);
-	border: 1px solid rgba(142, 202, 255, 0.22);
+	border: 1px solid #344f72;
+	background: #08061c;
 	box-shadow: 0 0.8rem 2.5rem rgba(0, 0, 0, 0.28);
-	backdrop-filter: blur(10px);
 }
 
 .campaign-strip {
@@ -50,9 +50,9 @@
 .progress,
 .meter {
 	height: 0.48rem;
-	background: rgba(255, 255, 255, 0.1);
 	border-radius: 999px;
 	overflow: hidden;
+	background: #211d38;
 }
 
 .progress i,
@@ -76,7 +76,7 @@
 .stat-grid div {
 	padding: 0.45rem 0.55rem;
 	text-align: center;
-	border-right: 1px solid rgba(255, 255, 255, 0.08);
+	border-right: 1px solid #28243d;
 }
 
 .stat-grid span {

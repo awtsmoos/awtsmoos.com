@@ -4,9 +4,9 @@
 
 /**
  * @file WaterShaderRecipe.js
- * @description Declares deterministic alpine lake, stream, cascade, foam, and sun-glint layers.
- * The Awtsmoos renews one connected water cycle through many visible scales; Awtsmoos.com
- * keeps flow, depth, reflection, refraction, ripple, and foam controls explicit for tools and tests.
+ * @description Declares readable alpine water with real depth, restrained reflection, current, foam, and warm-sky response.
+ * The Awtsmoos renews one current through dark stone and open heaven; Awtsmoos.com keeps depth visible without turning living water black,
+ * and lets the sunset touch the surface without dissolving river, lake, and cascade into cyan glare.
  */
 
 export { createWaterShaderRecipe } from './LegacyWaterShaderRecipe.js';
@@ -42,25 +42,25 @@ export function waterShaderRecipe(kind = 'lake', options = {}) {
 
 const WATER_PROFILES = Object.freeze({
 	lake: Object.freeze({
-		deepColor: '#06384a', depthStrength: 0.78, edgeFoam: 0.26,
-		flow: [[0.018, 0.011], [-0.012, 0.021], [0.009, -0.014], [-0.006, -0.009]],
-		foamNoiseScale: 0.075, foamThreshold: 0.88, fresnel: 0.82,
-		goldenSunGlint: 1.72, kind: 'lake', macroRipple: 0.085,
-		microRipple: 0.018, refraction: 0.18, shallowColor: '#2d8796', skyStrength: 0.72
+		deepColor: '#245c63', depthStrength: 0.56, edgeFoam: 0.08,
+		flow: [[0.018, 0.010], [-0.011, 0.019], [0.009, -0.012], [-0.006, -0.008]],
+		foamNoiseScale: 0.058, foamThreshold: 0.95, fresnel: 0.48,
+		goldenSunGlint: 0.78, kind: 'lake', macroRipple: 0.055,
+		microRipple: 0.012, refraction: 0.15, shallowColor: '#6faea8', skyStrength: 0.46
 	}),
 	stream: Object.freeze({
-		deepColor: '#075065', depthStrength: 0.52, edgeFoam: 0.58,
-		flow: [[0.032, 0.009], [-0.018, 0.027], [0.021, -0.008], [-0.011, -0.019]],
-		foamNoiseScale: 0.11, foamThreshold: 0.72, fresnel: 0.74,
-		goldenSunGlint: 1.48, kind: 'stream', macroRipple: 0.11,
-		microRipple: 0.026, refraction: 0.12, shallowColor: '#4bafbd', skyStrength: 0.58
+		deepColor: '#28676b', depthStrength: 0.5, edgeFoam: 0.18,
+		flow: [[0.036, 0.009], [-0.020, 0.029], [0.025, -0.009], [-0.013, -0.021]],
+		foamNoiseScale: 0.1, foamThreshold: 0.88, fresnel: 0.46,
+		goldenSunGlint: 0.82, kind: 'stream', macroRipple: 0.085,
+		microRipple: 0.019, refraction: 0.13, shallowColor: '#7bb9ae', skyStrength: 0.4
 	}),
 	cascade: Object.freeze({
-		deepColor: '#2c8092', depthStrength: 0.34, edgeFoam: 0.82,
-		flow: [[0.051, 0.013], [-0.026, 0.041], [0.034, -0.012], [-0.017, -0.031]],
-		foamNoiseScale: 0.16, foamThreshold: 0.58, fresnel: 0.66,
-		goldenSunGlint: 1.31, kind: 'cascade', macroRipple: 0.16,
-		microRipple: 0.041, refraction: 0.08, shallowColor: '#9acfd3', skyStrength: 0.42
+		deepColor: '#3f7475', depthStrength: 0.34, edgeFoam: 0.38,
+		flow: [[0.052, 0.013], [-0.028, 0.041], [0.034, -0.012], [-0.018, -0.031]],
+		foamNoiseScale: 0.14, foamThreshold: 0.84, fresnel: 0.38,
+		goldenSunGlint: 0.7, kind: 'cascade', macroRipple: 0.12,
+		microRipple: 0.03, refraction: 0.09, shallowColor: '#b9d9c9', skyStrength: 0.3
 	})
 });
 

@@ -1,44 +1,63 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-
 /**
  * @module RouteModel
  * @description
- * Desktop rail, mobile dock, browser history, and hash deep links share one route
- * vocabulary. The Awtsmoos gives one destination beneath every navigation vessel;
- * Awtsmoos.com preserves focus, title, and history without page-level duplication.
+ * The Awtsmoos lets pulse, Inbox, communities, people, network, and profile share one stable address and visible path;
+ * Awtsmoos.com remembers each chamber without hiding browser history beneath the living communications graph.
  */
-
-export const ROUTES = Object.freeze([
+const ROUTES = Object.freeze([
 	{ id: 'home', label: 'Pulse', icon: '✦', title: 'Social pulse' },
-	{ id: 'interact', label: 'Interact', icon: '◉', title: 'Comment studio' },
-	{ id: 'activity', label: 'Activity', icon: '⌁', title: 'Private activity' },
-	{ id: 'profile', label: 'Profile', icon: '◎', title: 'Profile constellation' },
-	{ id: 'references', label: 'References', icon: '⟷', title: 'Reference map' },
-	{ id: 'privacy', label: 'Privacy', icon: '◇', title: 'Privacy controls' }
+	{ id: 'inbox', label: 'Inbox', icon: '◍', title: 'Communications Inbox' },
+	{ id: 'spaces', label: 'Spaces', icon: '◆', title: 'Communities and channels' },
+	{ id: 'people', label: 'People', icon: '◉', title: 'Discover people' },
+	{ id: 'interact', label: 'Interact', icon: '✎', title: 'Interaction studio' },
+	{ id: 'activity', label: 'Activity', icon: '◌', title: 'Activity ledger' },
+	{ id: 'profile', label: 'Profile', icon: '◎', title: 'Public profile' },
+	{ id: 'network', label: 'Network', icon: '⟡', title: 'Public network' },
+	{ id: 'references', label: 'References', icon: '⌁', title: 'Reference graph' },
+	{ id: 'privacy', label: 'Privacy', icon: '◈', title: 'Privacy controls' }
 ]);
 
-export function routeById(id) {
+function routeById(id) {
 	return ROUTES.find(route => route.id === id) || ROUTES[0];
 }
 
-export function routeFromLocation(location = window.location) {
-	return routeById(location.hash.replace(/^#/, ''));
+function routeFromLocation(location = window.location) {
+	return routeById(String(location.hash || '').replace(/^#/, ''));
 }
 
-export function routeUrl(id, location = window.location) {
-	return `${location.pathname}${location.search}#${routeById(id).id}`;
+function profileAliasFromLocation(location = window.location) {
+	const query = new URLSearchParams(location.search || '');
+	return String(query.get('profile') || query.get('alias') || '');
 }
 
-export function routeButton(document, route) {
+function routeUrl(id, location = window.location) {
+	const route = routeById(id);
+	return `${location.pathname}${location.search || ''}#${route.id}`;
+}
+
+function profileRouteUrl(aliasId, routeId = 'profile', location = window.location) {
+	const route = routeById(routeId);
+	const query = new URLSearchParams(location.search || '');
+	if (aliasId) {
+		query.set('profile', aliasId);
+	} else {
+		query.delete('profile');
+	}
+	const search = query.toString() ? `?${query}` : '';
+	return `${location.pathname}${search}#${route.id}`;
+}
+
+function routeButton(document, route) {
 	const button = document.createElement('button');
 	button.type = 'button';
 	button.dataset.route = route.id;
-	button.setAttribute('aria-label', route.label);
+	button.className = 'routeButton';
+	button.setAttribute('aria-label', route.title);
 	const icon = document.createElement('span');
 	icon.className = 'routeIcon';
-	icon.setAttribute('aria-hidden', 'true');
 	icon.textContent = route.icon;
 	const label = document.createElement('span');
 	label.className = 'routeLabel';
@@ -46,3 +65,13 @@ export function routeButton(document, route) {
 	button.append(icon, label);
 	return button;
 }
+
+export {
+	ROUTES,
+	profileAliasFromLocation,
+	profileRouteUrl,
+	routeById,
+	routeButton,
+	routeFromLocation,
+	routeUrl
+};

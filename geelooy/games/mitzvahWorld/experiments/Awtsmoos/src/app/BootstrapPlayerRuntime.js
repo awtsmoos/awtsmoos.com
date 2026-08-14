@@ -4,12 +4,15 @@
 
 /**
  * @file BootstrapPlayerRuntime.js
- * @description Mounts immediate Chossid play, lawful collision, and canonical replacement.
- * The Awtsmoos grants one identity through fallback, motion, defeat, and renewal;
- * Awtsmoos.com keeps the first frame playable while the measured garment reaches its reveal.
+ * @description Mounts immediate canonical Chossid play while preserving deferred rich-frame actor contracts from first play.
+ * The Awtsmoos reveals one traveler before the crowd without making later absence dangerous; Awtsmoos.com binds
+ * the real Chossid now and the canonical no-op actor vessels beside him until streamed actors replace them in their hour.
  */
 
 import { createBootstrapVisiblePlayer } from './BootstrapVisiblePlayer.js';
+import { createDeferredActorSystems } from './EretzDeferredActorPlaceholders.js';
+import { installCanonicalChossidAnimation } from './MinimalMeadowCanonicalAnimation.js';
+import { hydrateReadablePlayerMaterials } from './MinimalMeadowPlayerMaterialHydrator.js';
 import {
 	createBootstrapPlayerVessels,
 	prepareCanonicalPlayerMeshes
@@ -38,50 +41,62 @@ export function createBootstrapPlayerRuntime(foundation) {
 	}
 	if (!model.parent) foundation.scene.add(model);
 	const state = createBootstrapPlayerState();
+	const deferredActors = createDeferredActorSystems();
 	let runtime = null;
-	const player = {
-		diagnostics: () => ({
-			action: state.action,
-			animations: runtime.playerGltf.animations?.length || 0,
-			bootstrap: true,
-			jumpsUsed: state.jumpsUsed,
-			lifecycle: state.lifecycle,
-			meshes: runtime.canonicalPlayer?.meshes || meshCount,
-			position: { x: state.x, y: state.y, z: state.z },
-			realModel: runtime.canonicalPlayer?.status === 'ready'
-		}),
-		names: (foundation.playerGltf.animations || []).map(clip => clip.name || ''),
-		update() {}
-	};
+	const player = bootstrapAnimationHandle(foundation.playerGltf.animations || [], state);
 	runtime = {
 		...foundation,
 		...createBootstrapPlayerVessels(foundation),
+		...deferredActors,
 		feet: 0,
 		footOffset: 0,
 		model,
 		player,
 		playerStats: createBootstrapPlayerStats(),
 		state,
-		visiblePlayer
+		visiblePlayer,
+		worldActorsReady: false
 	};
 	startCanonicalPlayer(runtime, foundation, visiblePlayer === model, meshCount);
 	return runtime;
 }
 
 function startCanonicalPlayer(runtime, foundation, alreadyCanonical, meshCount) {
-	if (alreadyCanonical) {
-		runtime.canonicalPlayer = Object.freeze({
-			animations: runtime.playerGltf.animations?.length || 0,
-			meshes: meshCount,
-			scale: CANONICAL_PLAYER_SCALE,
-			status: 'ready'
-		});
-		runtime.canonicalPlayerPromise = Promise.resolve(runtime.canonicalPlayer);
+	if (!alreadyCanonical) {
+		runtime.canonicalPlayerPromise = hydrateMinimalMeadowPlayer(
+			runtime,
+			foundation.environment || globalThis,
+			foundation.playerHydrationDependencies || {}
+		);
 		return;
 	}
-	runtime.canonicalPlayerPromise = hydrateMinimalMeadowPlayer(
+	const materials = hydrateReadablePlayerMaterials(runtime.visiblePlayer);
+	const animation = installCanonicalChossidAnimation(
 		runtime,
-		foundation.environment || globalThis,
-		foundation.playerHydrationDependencies || {}
+		runtime.playerGltf,
+		runtime.visiblePlayer
 	);
+	runtime.canonicalPlayer = Object.freeze({
+		animations: runtime.playerGltf.animations?.length || 0,
+		defaultClip: animation.defaultClip,
+		materials,
+		meshes: meshCount,
+		scale: CANONICAL_PLAYER_SCALE,
+		status: 'ready'
+	});
+	runtime.canonicalPlayerPromise = Promise.resolve(runtime.canonicalPlayer);
+}
+
+function bootstrapAnimationHandle(animations, state) {
+	return {
+		diagnostics: () => ({
+			action: state.action,
+			animations: animations.length,
+			bootstrap: true,
+			lifecycle: state.lifecycle
+		}),
+		names: animations.map(clip => clip.name || ''),
+		play() {},
+		update() {}
+	};
 }

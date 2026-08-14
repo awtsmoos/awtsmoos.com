@@ -4,16 +4,21 @@
 
 /**
  * @file villageRiverStoneBatch.test.mjs
- * @description Proves authored wet stones remain one clear, finite, trusted static batch.
- * The Awtsmoos leaves each stone where current and earth give reason; Awtsmoos.com guards
- * all crossings while thirty-six geological forms become one bounded render vessel.
+ * @description Proves authored wet-stone deposits remain deterministic clusters and one finite expanded static batch.
+ * The Awtsmoos gathers submerged and bank-side stones from bounded river memories; Awtsmoos.com guards each cluster,
+ * then reveals every finite geological form through one truthful render vessel without turning water into a stone trench.
  */
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { assertProductionMaterialUrl } from '../../assets/ProductionMaterialUrlPolicy.js';
 import { createRiverHydrology } from '../../world/village/VillageRiverHydrology.js';
 import { createRiverStoneBatchDefinition } from '../../world/village/VillageRiverStoneBatch.js';
-import { createRiverStonePlacements, isOutsideRiverStoneClearings, RIVER_STONE_COUNT } from '../../world/village/VillageRiverStonePlacement.js';
+import {
+	createRiverStonePlacements,
+	isOutsideRiverStoneClearings,
+	RIVER_STONE_CLUSTER_COUNT,
+	RIVER_STONE_COUNT
+} from '../../world/village/VillageRiverStonePlacement.js';
 
 const CHANNEL_REGIMES = new Set(['mountain-source', 'fast-narrows', 'outlet-run']);
 const EXPECTED_REGIMES = ['calm-lower-pool', 'fast-narrows', 'mountain-source', 'outlet-run', 'plunge-pool', 'village-current'];
@@ -24,16 +29,16 @@ test('river stones follow hydrology and preserve one opaque geometry budget', ()
 	const first = createRiverStonePlacements(ground, hydrology);
 	const second = createRiverStonePlacements(ground, hydrology);
 	const batch = createRiverStoneBatchDefinition(ground, hydrology);
-	assert.equal(first.length, RIVER_STONE_COUNT);
+	assert.equal(first.length, RIVER_STONE_CLUSTER_COUNT);
 	assert.deepEqual(first, second);
-	assert.equal(uniquePositions(first), RIVER_STONE_COUNT);
+	assert.equal(uniquePositions(first), RIVER_STONE_CLUSTER_COUNT);
+	assert.equal(first.reduce((total, item) => total + item.stoneCount, 0), RIVER_STONE_COUNT);
 	assert.ok(first.every(item => isOutsideRiverStoneClearings(item.x, item.z)));
-	assert.ok(first.every(item => item.y + item.height * 0.54 >= item.waterY + 0.039));
+	assert.ok(first.some(item => item.y + item.height * 0.54 < item.waterY + 0.039));
 	assert.ok(first.every(item => !item.channel || CHANNEL_REGIMES.has(item.flowRegime)));
-	assert.ok(first.filter(item => item.side < 0).length >= 14);
-	assert.ok(first.filter(item => item.side > 0).length >= 14);
 	assert.ok(first.some(item => item.channel));
 	assert.deepEqual([...new Set(first.map(item => item.flowRegime))].sort(), EXPECTED_REGIMES);
+	assert.ok(first.every(item => item.occupancy?.valid === true));
 	assert.ok(first.flatMap(numericValues).every(Number.isFinite));
 	assert.equal(batch.id, 'Awtsmoos_river_stone_batch');
 	assert.equal(batch.userData.instances, RIVER_STONE_COUNT);

@@ -4,9 +4,9 @@
 
 /**
  * @file LocalTerrainTextureCatalog.js
- * @description Maps local ecological roles to inspected public full-resolution texture vessels.
- * The Awtsmoos renews meadow, mud, stone, leaf, sand, and earth through one trusted road;
- * Awtsmoos.com names that remote authority plainly, so diagnostics carry no contradictory load.
+ * @description Maps six physical terrain slots to three real grasses, earth, marsh, and exposed stone.
+ * The Awtsmoos renews one meadow through distinct blades without flattening them into one olive decree;
+ * Awtsmoos.com names every full-resolution garment plainly so the renderer can mix living variety truthfully.
  */
 
 import {
@@ -21,11 +21,11 @@ export const TERRAIN_TEXTURE_AUTHORITY = Object.freeze({
 });
 
 export const TERRAIN_TEXTURE_FILENAMES = Object.freeze({
-	'forest-leaf-floor': 'forest floor covered with leaves.png',
-	'meadow-wet-grass': 'dirt grass 6.png',
+	'meadow-dry-grass': 'grass 8.png',
+	'meadow-lush-grass': 'grass 4.png',
+	'meadow-wet-grass': 'grass 1.png',
 	'mountain-stone': 'weathered fieldstone Rock 1.png',
-	'shore-sand': 'sand 1.png',
-	'stream-bank-mud': 'mud.png',
+	'stream-bank-mud': 'marsh grass.png',
 	'worn-earth': 'dirt 2.png'
 });
 

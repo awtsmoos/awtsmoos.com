@@ -1,0 +1,62 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Human review evidence precedes serialized audit payload in one solid surface.
+ */
+
+.semanticSummary {
+	display: grid;
+	gap: .8rem;
+	margin: var(--space-4) 0;
+	padding: var(--space-4);
+	border: 1px solid var(--awt-line-strong);
+	border-radius: var(--radius-m);
+	background: var(--surface);
+	box-shadow: var(--shadow-paper);
+}
+
+.summaryKind {
+	margin: 0;
+	color: var(--accent);
+	font-size: var(--type-caption);
+	font-weight: 820;
+	letter-spacing: var(--tracking-caption);
+	text-transform: uppercase;
+}
+
+.semanticSummary h3,
+.semanticSummary p {
+	margin: 0;
+}
+
+.summaryBody {
+	max-width: 70ch;
+	white-space: pre-wrap;
+}
+
+.summaryFacts {
+	display: grid;
+	grid-template-columns: minmax(7rem, auto) minmax(0, 1fr);
+	gap: .35rem .8rem;
+	margin: 0;
+	padding-top: .8rem;
+	border-top: 1px solid var(--line);
+}
+
+.summaryFacts dt {
+	color: var(--muted);
+	font-size: var(--type-small);
+	font-weight: 760;
+}
+
+.summaryFacts dd {
+	min-width: 0;
+	margin: 0;
+	overflow-wrap: anywhere;
+}
+
+@media (max-width: 36rem) {
+	.summaryFacts {
+		grid-template-columns: 1fr;
+	}
+}

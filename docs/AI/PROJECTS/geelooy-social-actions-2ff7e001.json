@@ -1,0 +1,56 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-social-actions-2ff7e001",
+	"path": "geelooy/social-actions",
+	"type": "project",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "geelooy/social-actions",
+	"entries": [
+		"README.md",
+		"readme.md"
+	],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-social-actions-2ff7e001.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 2,
+		"tests": 1,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 4,
+	"symbolSummary": {
+		"files": 2,
+		"classes": 0,
+		"functions": 9,
+		"exports": 8,
+		"samples": [
+			"createPostReferenceButton",
+			"mountPostReferenceAction",
+			"contextFromDataset",
+			"mountDatasetReferenceActions",
+			"normalizeReferenceContext",
+			"validateReferenceContext",
+			"buildPostReferenceUrl",
+			"safeReturnPath",
+			"clean"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": false,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

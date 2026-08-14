@@ -1,67 +1,101 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos balances cinematic image, living search, and system truth inside one visible field.
+The Awtsmoos places image and searching hand in one immediate rhythm across Awtsmoos.com;
+wonder remains first, yet Torah search now follows before shortcut furniture can delay the traveler.
 */
 .home {
 	display: grid;
-	min-height: 0;
-	place-items: center;
-	padding: 0 12px 7px;
-	overflow: hidden;
+	place-items: start center;
+	width: 100%;
+	padding: 14px 16px 6px;
 }
 
 .hero {
 	display: grid;
-	grid-template-rows: minmax(0, auto) auto auto;
-	gap: .55rem;
+	gap: .82rem;
 	width: min(1240px, 100%);
-	min-height: 0;
-	max-height: 100%;
+}
+
+.dance-shell {
+	order: 1;
+	min-width: 0;
+	will-change: transform;
 }
 
 .action-panel {
+	order: 2;
 	display: grid;
 	grid-template-columns: minmax(0, 1fr) auto;
 	align-items: center;
-	gap: .55rem;
+	gap: .75rem;
+}
+
+.portal-shortcuts {
+	order: 3;
+}
+
+.portal-status {
+	order: 4;
+}
+
+.direct-navigation {
+	order: 5;
 }
 
 .search-paths {
 	display: flex;
-	gap: .32rem;
+	align-items: center;
+	justify-content: flex-end;
+	gap: .42rem;
 }
 
 .search-paths a {
-	padding: .5rem .7rem;
-	border: 1px solid rgba(255, 255, 255, .055);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 44px;
+	padding: .52rem .78rem;
+	border: 1px solid rgba(139, 190, 229, .1);
 	border-radius: 999px;
-	background: rgba(255, 255, 255, .025);
-	color: #718097;
-	font-size: .66rem;
-	font-weight: 700;
+	background: rgba(9, 17, 30, .64);
+	color: #75859e;
+	font-size: .68rem;
+	font-weight: 760;
+	transition: border-color .18s ease, color .18s ease, background .18s ease;
 }
 
 .search-paths a:hover,
 .search-paths a:focus-visible {
-	border-color: rgba(122, 204, 255, .23);
-	color: #dceaff;
-	outline: none;
+	border-color: rgba(130, 205, 255, .38);
+	background: rgba(83, 143, 201, .1);
+	color: #e9f5ff;
+	outline: 3px solid var(--focus-ring);
+	outline-offset: 2px;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 800px) {
 	.action-panel {
 		grid-template-columns: 1fr;
 	}
 
 	.search-paths {
 		justify-content: center;
+		flex-wrap: wrap;
 	}
 }
 
-@media (max-height: 690px) {
-	.portal-status,
-	.search-paths {
-		display: none;
+@media (max-width: 680px) {
+	.home {
+		padding: 8px 8px calc(82px + env(safe-area-inset-bottom));
+	}
+
+	.hero {
+		gap: .65rem;
+	}
+
+	.search-paths a {
+		min-height: 44px;
+		padding: .5rem .72rem;
 	}
 }

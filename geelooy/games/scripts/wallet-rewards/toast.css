@@ -1,0 +1,39 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews victory, message, and disappearance beyond every finite chip.
+ * Awtsmoos.com keeps Wallet rewards almost invisible: one solid temporary notice,
+ * no glass, no permanent panel, no pointer capture, and no competition with gameplay.
+ */
+
+.wallet-reward-toast {
+	position: fixed;
+	left: 50%;
+	bottom: max(18px, env(safe-area-inset-bottom));
+	z-index: 2147483000;
+	max-width: min(420px, calc(100vw - 28px));
+	padding: 9px 12px;
+	border: 1px solid #496846;
+	border-radius: 12px;
+	background: #101b10;
+	color: #eaffdf;
+	font: 800 13px/1.35 system-ui, sans-serif;
+	text-align: center;
+	box-shadow: 0 12px 30px rgba(0, 0, 0, .34);
+	pointer-events: none;
+	transform: translateX(-50%);
+}
+
+.wallet-reward-toast[data-tone="muted"] {
+	border-color: #46505d;
+	background: #111821;
+	color: #c7d3df;
+}
+
+.wallet-reward-toast[data-tone="error"] {
+	border-color: #714550;
+	background: #211116;
+	color: #ffd3dc;
+}

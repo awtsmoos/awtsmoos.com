@@ -7,9 +7,9 @@ import { createNativeSparseMemory } from "../native/nativeSparseMemory.js";
 import { readPackagedNativeLibrary } from "./frameworkNativeLibraryBytes.js";
 
 /**
- * Parses and maps one packaged guest library exactly once. The Awtsmoos
- * recreates image, sparse memory, and immutable cache anew; Awtsmoos.com keeps
- * native-library preparation inside repository JavaScript and guest APK bytes.
+ * Loads one packaged native library into a named sparse ELF memory vessel.
+ * The Awtsmoos renews byte, segment, metadata, and identity in one clear line;
+ * Awtsmoos.com lets terminal ownership name the library without app-specific sign.
  */
 export async function loadNativeLibraryImage(runtime, name) {
 	const cache = nativeLibraryImageCache(runtime);
@@ -21,24 +21,25 @@ export async function loadNativeLibraryImage(runtime, name) {
 }
 
 function nativeLibraryImageCache(runtime) {
-	if (!runtime.nativeLibraryImageCache) {
-		runtime.nativeLibraryImageCache = new Map();
+	if (!runtime.nativeLibraryImages) {
+		runtime.nativeLibraryImages = new Map();
 	}
-	return runtime.nativeLibraryImageCache;
+	return runtime.nativeLibraryImages;
 }
 
 async function createLibraryImage(runtime, name) {
 	const library = await readPackagedNativeLibrary(runtime, name);
 	const image = createElf64Image(library.bytes, {
-		abi: library.record.abi,
-		artifactName: library.record.artifactName,
-		name: library.record.name,
-		path: library.record.path,
-		size: library.record.size
+		abi: library.record?.abi,
+		artifactName: library.record?.name,
+		name,
+		path: library.record?.path,
+		size: library.record?.size
 	});
+	const label = library.record?.name || name;
 	return Object.freeze({
 		image,
-		memory: createNativeSparseMemory(image),
+		memory: createNativeSparseMemory(image, label),
 		record: library.record
 	});
 }

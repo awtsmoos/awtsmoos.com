@@ -3,8 +3,8 @@
 // Blessed is He
 /**
  * The Awtsmoos renews every botanical family through one truthful doorway.
- * This Awtsmoos.com barrel merges legacy meshes, canonical skeletons, LODs,
- * trellis fields, reports, presets, reference species, and botany exactly once.
+ * This Awtsmoos.com barrel merges canonical trees, runtime profiles, stable skeleton LODs,
+ * species materials, trellis fields, reports, and deep botanical realism exactly once.
  */
 export {
 	TreeGenerator,
@@ -40,6 +40,12 @@ export {
 	listTreeDetailProfiles,
 	normalizeTreeDetailProfile
 } from "../core/geometry/generators/tree/treeDetailProfiles.js";
+export {
+	TREE_RUNTIME_PROFILES,
+	applyTreeRuntimeProfile,
+	listTreeRuntimeProfiles,
+	treeRuntimeProfile
+} from "../core/geometry/generators/tree/treeRuntimeProfile.js";
 export {
 	cloneTreeValue,
 	mergeTreeConfig,
@@ -90,9 +96,7 @@ export {
 	BOTANICAL_GOLDEN_ANGLE,
 	createBotanicalPhyllotaxis
 } from "../core/geometry/generators/botany/BotanicalPhyllotaxis.js";
-export {
-	planBotanicalFlowerOrgans
-} from "../core/geometry/generators/botany/BotanicalFlowerOrgans.js";
+export { planBotanicalFlowerOrgans } from "../core/geometry/generators/botany/BotanicalFlowerOrgans.js";
 export {
 	createBotanicalVascularState,
 	stepBotanicalVascularTransport,

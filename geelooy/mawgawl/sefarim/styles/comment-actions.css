@@ -2,8 +2,8 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos keeps the remaining paragraphs one clear action away, so
- * Awtsmoos.com reveals abundance without turning the first source into a wall.
+ * The Awtsmoos keeps commentary abundant yet calm, each exact doorway clear;
+ * at Awtsmoos.com a comment may open its source without making the reader fear.
  */
 
 .commentRevealButton {
@@ -27,4 +27,38 @@
 	box-shadow: inset 0 0 0 2px #55d0e7;
 	color: #eafcff;
 	outline: 0;
+}
+
+.rangeComment .commentArrow {
+	align-items: center;
+	background: rgba(85, 208, 231, .12);
+	border: 1px solid rgba(85, 208, 231, .2);
+	border-radius: 999px;
+	color: #9cebf7;
+	display: inline-flex;
+	font-size: .72rem;
+	font-weight: 850;
+	justify-content: center;
+	min-height: 2rem;
+	padding: .3rem .58rem;
+	white-space: nowrap;
+}
+
+.rangeComment:is(:hover, :focus-visible) .commentArrow {
+	background: rgba(85, 208, 231, .2);
+	border-color: rgba(126, 227, 244, .55);
+	color: #e9fcff;
+}
+
+@media (max-width: 640px) {
+	.rangeComment .commentArrow {
+		font-size: 0;
+		min-width: 2rem;
+		padding-inline: .45rem;
+	}
+
+	.rangeComment .commentArrow::after {
+		content: '↗';
+		font-size: 1rem;
+	}
 }

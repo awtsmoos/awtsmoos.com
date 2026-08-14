@@ -1,0 +1,74 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets public feed cards reveal message and doorway while private dashboard furniture waits for a real active alias.
+*/
+.publicDiscovery__feed {
+	margin-top: 14px;
+}
+
+.publicDiscovery__status,
+.publicFeedCard__identity,
+.publicFeedCard__context,
+.profilePostContext {
+	color: var(--muted, #aeb8c8);
+	font-size: .78rem;
+}
+
+.publicDiscovery__list {
+	display: grid;
+	gap: 10px;
+	margin-top: 8px;
+}
+
+.publicDiscoveryEmpty,
+.publicFeedCard {
+	padding: 16px;
+	border: 1px solid rgba(139, 180, 255, .14);
+	border-radius: 16px;
+	background: rgba(255, 255, 255, .025);
+}
+
+.publicDiscoveryEmpty h3,
+.publicFeedCard h3 {
+	margin: 0;
+}
+
+.publicDiscoveryEmpty p,
+.publicFeedCard__excerpt {
+	margin: 8px 0 12px;
+	line-height: 1.5;
+}
+
+.publicFeedCard__identity,
+.publicFeedCard__context {
+	margin: 0 0 6px;
+}
+
+.publicFeedCard__open,
+.publicDiscoveryEmpty a {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 44px;
+	padding: 0 14px;
+	border-radius: 12px;
+	background: linear-gradient(135deg, #9fdfff, #d7f2ff);
+	color: #06111f;
+	font-weight: 800;
+	text-decoration: none;
+}
+
+.publicFeedCard__open {
+	margin-top: 10px;
+}
+
+.profileCardPrimaryAction {
+	font-weight: 900;
+}
+
+[data-panel="home"][data-identity-active="false"] .heroRift,
+[data-panel="home"][data-identity-active="false"] .pulseGrid,
+[data-panel="home"][data-identity-active="false"] .quickActionGrid {
+	display: none;
+}

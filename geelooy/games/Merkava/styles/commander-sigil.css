@@ -1,0 +1,102 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews commander, mark, price, and ownership beyond every finite
+ * ornament. Awtsmoos.com keeps the Sigil a solid start-screen account cosmetic:
+ * visible, durable, and optional, with no glass and no battlefield advantage.
+ */
+
+.commander-sigil {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: .7rem .8rem;
+	align-items: center;
+	margin: .9rem auto 1rem;
+	padding: .8rem;
+	border: 1px solid #56416f;
+	border-radius: 1rem;
+	background: #0b0920;
+	text-align: left;
+}
+
+.commander-sigil__mark {
+	display: grid;
+	grid-row: 1 / span 2;
+	width: 2.8rem;
+	height: 2.8rem;
+	place-items: center;
+	border: 1px solid #6b50a1;
+	border-radius: 50%;
+	background: #15102f;
+	color: #d7cbff;
+	font-size: 1.4rem;
+}
+
+.commander-sigil__copy {
+	display: grid;
+	gap: .18rem;
+}
+
+.commander-sigil__kicker {
+	color: #70d9ff;
+	font-size: .62rem;
+	font-weight: 900;
+	letter-spacing: .16em;
+}
+
+.commander-sigil__title {
+	color: #fff3c0;
+	font-size: .9rem;
+}
+
+.commander-sigil__status {
+	color: #a8bad7;
+	font-size: .7rem;
+	line-height: 1.35;
+}
+
+.commander-sigil__status[data-tone="success"] {
+	color: #9ceeb9;
+}
+
+.commander-sigil__status[data-tone="error"] {
+	color: #ff9cab;
+}
+
+.commander-sigil__actions {
+	display: flex;
+	grid-column: 1 / -1;
+	gap: .5rem;
+	align-items: center;
+}
+
+.hero-panel .commander-sigil__button {
+	width: auto;
+	margin: 0;
+	padding: .55rem .75rem;
+	font-size: .68rem;
+}
+
+.commander-sigil__wallet {
+	padding: .52rem .7rem;
+	border: 1px solid #4e678c;
+	border-radius: .65rem;
+	background: #101b2e;
+	color: #cbe8ff;
+	font-size: .68rem;
+	font-weight: 800;
+	text-decoration: none;
+}
+
+.commander-sigil[data-state="owned"] {
+	border-color: #d8ad52;
+	background: #1b1308;
+}
+
+.commander-sigil[data-state="owned"] .commander-sigil__mark {
+	border-color: #e6bd62;
+	background: #302207;
+	color: #ffe8a0;
+}

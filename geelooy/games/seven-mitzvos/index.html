@@ -18,11 +18,19 @@
 	<link rel="modulepreload" href="./js/materials/firebase-material-manifest.js">
 	<link rel="modulepreload" href="./js/materials/physical-material-library.js">
 	<link rel="modulepreload" href="./js/assets/gltf-model-library.js">
-	<link rel="stylesheet" href="./styles/index.css">
+	<link rel="stylesheet" href="./styles/index.css?v=startup-002">
 </head>
 <body>
-	<div id="sevenMitzvosApp"></div>
+	<div id="sevenMitzvosApp">
+		<section class="sevenMitzvosStartup" role="status" aria-live="polite" aria-label="Seven Mitzvos City is loading">
+			<div class="sevenMitzvosStartup__card">
+				<p class="sevenMitzvosStartup__eyebrow">B"H · Seven Mitzvos City</p>
+				<h1>Preparing the living city…</h1>
+				<p>Loading the teaching worlds, materials, and persistent realm.</p>
+			</div>
+		</section>
+	</div>
 	<noscript>This Awtsmoos.com game needs JavaScript to reveal its seven living worlds.</noscript>
-	<script type="module" src="./js/main.js"></script>
+	<script type="module" src="./js/main.js?v=startup-002"></script>
 </body>
 </html>

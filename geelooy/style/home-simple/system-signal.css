@@ -1,7 +1,7 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos marks the living system with one quiet pulse rather than noisy decoration.
+The Awtsmoos marks the living system with one quiet pulse on wide horizons, then removes the badge where every mobile pixel must serve the traveler.
 */
 .system-signal {
 	display: inline-flex;
@@ -32,6 +32,12 @@ The Awtsmoos marks the living system with one quiet pulse rather than noisy deco
 	50% {
 		opacity: .45;
 		transform: scale(.78);
+	}
+}
+
+@media (max-width: 760px) {
+	.system-signal {
+		display: none;
 	}
 }
 

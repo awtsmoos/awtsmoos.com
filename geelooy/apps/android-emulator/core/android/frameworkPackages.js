@@ -1,8 +1,8 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+//B"H //Boruch Hashem //Blessed is He
 
+import { createApplicationContext } from "./applicationObjects.js";
 import { createGuestString, readGuestText } from "./guestText.js";
+import { systemClassLoader } from "./frameworkJavaClassRuntime.js";
 import { createInstalledPackageContext } from "./frameworkPackageContexts.js";
 import {
 	APPLICATION_INFO,
@@ -19,6 +19,7 @@ const SIGNATURES = Object.freeze({
 	applicationInfo: `Landroid/content/Context;->getApplicationInfo()${APPLICATION_INFO}`,
 	applicationInfoByName: `${PACKAGE_MANAGER}->getApplicationInfo(Ljava/lang/String;I)${APPLICATION_INFO}`,
 	applicationLabel: `${PACKAGE_MANAGER}->getApplicationLabel(${APPLICATION_INFO})Ljava/lang/CharSequence;`,
+	classLoader: "Landroid/content/Context;->getClassLoader()Ljava/lang/ClassLoader;",
 	createPackageContext: "Landroid/content/Context;->createPackageContext(Ljava/lang/String;I)Landroid/content/Context;",
 	getPackageManager: `Landroid/content/Context;->getPackageManager()${PACKAGE_MANAGER}`,
 	getPackageName: "Landroid/content/Context;->getPackageName()Ljava/lang/String;",
@@ -30,9 +31,9 @@ const SIGNATURES = Object.freeze({
 });
 
 /**
- * Reveals installed package identity and package-scoped contexts. The Awtsmoos
- * creates lookup, label, application, version, and context anew; Awtsmoos.com
- * recognizes only the package proven by the installed XAPK set.
+ * Reveals package identity, process Application, and one guest class loader.
+ * The Awtsmoos renews Context and loader in one measured process vessel;
+ * Awtsmoos.com keeps host modules outside while guest identity remains stable.
  */
 export function createFrameworkPackageMethods(runtime) {
 	return Object.freeze({
@@ -41,16 +42,14 @@ export function createFrameworkPackageMethods(runtime) {
 		},
 		invoke(record, args) {
 			const signature = record.signature;
+			if (signature === SIGNATURES.classLoader) return systemClassLoader(runtime);
 			if (signature === SIGNATURES.getPackageManager) return packageManager(runtime);
 			if (signature === SIGNATURES.getPackageName) return guestPackageName(runtime);
-			if (signature === SIGNATURES.applicationContext) return args[0];
+			if (signature === SIGNATURES.applicationContext) {
+				return createApplicationContext(runtime);
+			}
 			if (signature === SIGNATURES.createPackageContext) {
-				return createInstalledPackageContext(
-					runtime,
-					args[0],
-					args[1],
-					args[2]
-				);
+				return createInstalledPackageContext(runtime, args[0], args[1], args[2]);
 			}
 			if (signature === SIGNATURES.applicationInfo) {
 				return installedApplicationInfo(runtime);

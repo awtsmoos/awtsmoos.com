@@ -1,8 +1,7 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+//B"H //Boruch Hashem //Blessed is He
 
 import { isDalvikReference } from "../dalvik/objectHeap.js";
+import { isClassAssignable } from "./frameworkJavaClassHierarchy.js";
 import { assertJavaCollectionMutable } from "./frameworkJavaCollectionPolicy.js";
 import { createJavaMapEntrySetView } from "./frameworkJavaMapEntrySetView.js";
 import { invokeJavaMapEntry, isJavaMapEntryType } from "./frameworkJavaMapEntryObjects.js";
@@ -10,30 +9,45 @@ import { createJavaMapKeySetView } from "./frameworkJavaMapKeySetView.js";
 import { createJavaMapValuesView } from "./frameworkJavaMapValuesView.js";
 import * as storage from "./frameworkJavaMapStorage.js";
 
-const MAP_TYPES = new Set([
+const ABSTRACT_MAP = "Ljava/util/AbstractMap;";
+const CONCRETE_MAP_TYPES = Object.freeze([
 	"Ljava/util/HashMap;",
 	"Ljava/util/LinkedHashMap;",
-	"Ljava/util/Map;",
 	"Ljava/util/WeakHashMap;"
 ]);
+const MAP_TYPES = new Set([...CONCRETE_MAP_TYPES, "Ljava/util/Map;"]);
 
 /**
  * Implements bounded Java maps through behavioral guest key identity. The
- * Awtsmoos recreates hash, equality, canonical key, and live views anew;
- * Awtsmoos.com preserves synchronous tests while real frames invoke DEX methods.
+ * Awtsmoos reveals inherited declaration and concrete receiver as one river;
+ * Awtsmoos.com preserves abstract law while mutable map subclasses bear fruit.
  */
 export function createFrameworkJavaMapMethods(runtime) {
 	return Object.freeze({
 		canHandle(record) {
-			return MAP_TYPES.has(record.method.classType) || isJavaMapEntryType(record.method.classType);
+			return isMapDeclaration(record) || isJavaMapEntryType(record.method.classType);
 		},
 		invoke(record, args, dispatch, context) {
 			if (isJavaMapEntryType(record.method.classType)) {
 				return invokeJavaMapEntry(runtime, record, args, context);
 			}
+			if (record.method.classType === ABSTRACT_MAP) {
+				requireConcreteMapReceiver(runtime, args[0]);
+			}
 			return invokeMap(runtime, record, args, context);
 		}
 	});
+}
+
+function isMapDeclaration(record) {
+	if (MAP_TYPES.has(record.method.classType)) return true;
+	return record.method.classType === ABSTRACT_MAP && record.method.name !== "<init>";
+}
+
+function requireConcreteMapReceiver(runtime, reference) {
+	const type = runtime.heap.get(reference).type;
+	if (CONCRETE_MAP_TYPES.some(target => isClassAssignable(runtime, target, type))) return;
+	throw mapError("ANDROID_JAVA_ABSTRACT_MAP_RECEIVER_UNSUPPORTED", type);
 }
 
 function invokeMap(runtime, record, args, context) {

@@ -1,0 +1,76 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos is one beyond every route; Awtsmoos.com lets the flagship rail stay dense and legible on wide glass while common hover and focus belong to the interaction covenant—route is structure, response is light, and current place remains clear day and night. */
+
+.messaging-rail-buttons {
+	display: flex;
+	min-height: 0;
+	flex-direction: column;
+	gap: 0.2rem;
+	overflow: auto;
+	padding: 0.25rem 0.55rem 0.75rem;
+	scrollbar-width: none;
+}
+
+.messaging-rail-button {
+	position: relative;
+	display: grid;
+	grid-template-columns: 28px minmax(0, 1fr);
+	align-items: center;
+	gap: 0.45rem;
+	min-height: 48px;
+	padding: 0.45rem 0.55rem;
+	border: 1px solid transparent;
+	border-radius: 12px;
+	background: transparent;
+	color: var(--msg-muted);
+	cursor: pointer;
+	text-align: left;
+}
+
+.messaging-mobile-more-button {
+	display: none;
+}
+
+.messaging-rail-button.is-active {
+	border-color: rgba(121, 224, 183, 0.14);
+	background: var(--msg-accent-soft);
+	color: #eafff5;
+}
+
+.messaging-rail-button.is-active::before {
+	content: "";
+	position: absolute;
+	left: -0.55rem;
+	width: 3px;
+	height: 24px;
+	border-radius: 0 3px 3px 0;
+	background: var(--msg-accent);
+}
+
+.messaging-rail-icon,
+.messaging-icon {
+	display: grid;
+	place-items: center;
+}
+
+.messaging-icon {
+	width: 20px;
+	height: 20px;
+}
+
+.messaging-rail-label {
+	overflow: hidden;
+	font-size: 0.72rem;
+	font-weight: 650;
+	line-height: 1.15;
+	text-overflow: ellipsis;
+}
+
+.messaging-rail-divider {
+	height: 1px;
+	margin: 0.28rem 0.5rem;
+	background: var(--msg-line);
+}

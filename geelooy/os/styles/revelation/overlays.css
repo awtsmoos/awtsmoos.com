@@ -1,59 +1,85 @@
 /*B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos creates menu and settings surfaces anew. Awtsmoos.com keeps
-layered controls focused, readable, and free from legacy translated animation.
+The Awtsmoos creates menu, setting, scrim, and every layered boundary anew.
+Awtsmoos.com keeps temporary controls luminous, readable, and spatially accountable.
 */
 #start-menu {
 	position: fixed;
 	left: 50%;
 	right: auto;
-	bottom: calc(var(--geo-dock-height) + 26px);
-	width: min(860px, calc(100vw - 28px));
-	max-height: min(76vh, 720px);
+	bottom: calc(var(--geo-dock-height) + 30px);
+	width: min(900px, calc(100vw - 32px));
+	max-height: min(78vh, 740px);
 	transform: translateX(-50%);
 	transform-origin: center bottom;
-	animation: none;
 	overflow: hidden;
-	border: 1px solid var(--geo-border);
-	border-radius: var(--geo-radius-lg);
-	background: rgba(8, 14, 35, 0.96);
-	box-shadow: var(--geo-shadow);
-	backdrop-filter: blur(30px) saturate(165%);
+	border: 1px solid var(--geo-border-strong);
+	border-radius: var(--geo-radius-xl);
+	background:
+		linear-gradient(145deg, rgb(255 255 255 / 7%), transparent 36%),
+		var(--geo-surface-strong);
+	box-shadow: var(--geo-shadow-lg), inset 0 1px rgb(255 255 255 / 10%);
+	backdrop-filter: blur(34px) saturate(175%);
+}
+#start-menu::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background: radial-gradient(circle at 16% 0%, rgb(101 239 226 / 11%), transparent 34%);
 }
 .shell-panel {
 	position: fixed;
 	z-index: 1800;
-	top: calc(var(--geo-topbar-height) + 14px);
-	right: 16px;
-	width: min(340px, calc(100vw - 28px));
-	padding: 14px;
-	border: 1px solid var(--geo-border);
-	border-radius: var(--geo-radius-md);
-	background: rgba(8, 14, 35, 0.96);
-	box-shadow: var(--geo-shadow);
-	backdrop-filter: blur(28px) saturate(160%);
+	top: calc(var(--geo-topbar-height) + var(--geo-space-3));
+	right: max(var(--geo-space-4), env(safe-area-inset-right));
+	width: min(360px, calc(100vw - 32px));
+	padding: var(--geo-space-4);
+	border: 1px solid var(--geo-border-strong);
+	border-radius: var(--geo-radius-lg);
+	background:
+		linear-gradient(145deg, rgb(255 255 255 / 7%), transparent 45%),
+		var(--geo-surface-strong);
+	box-shadow: var(--geo-shadow), inset 0 1px rgb(255 255 255 / 9%);
+	backdrop-filter: blur(30px) saturate(165%);
 }
 .shell-setting-grid {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
-	gap: 10px;
+	gap: var(--geo-space-3);
 }
 .shell-setting {
 	display: grid;
 	place-items: center;
-	gap: 6px;
-	min-height: 76px;
-	padding: 10px;
-	border: 1px solid var(--geo-border);
-	border-radius: 14px;
+	gap: var(--geo-space-2);
+	min-height: 86px;
+	padding: var(--geo-space-3);
+	border: 1px solid var(--geo-border-soft);
+	border-radius: var(--geo-radius-md);
 	color: var(--geo-text);
-	background: var(--geo-surface-soft);
+	background: var(--geo-gradient-surface);
+	box-shadow: inset 0 1px rgb(255 255 255 / 7%);
 	cursor: pointer;
+	transition:
+		transform var(--geo-medium) var(--geo-ease),
+		border-color var(--geo-fast),
+		background var(--geo-fast),
+		box-shadow var(--geo-fast);
+}
+.shell-setting:hover {
+	transform: translateY(-2px);
+	border-color: var(--geo-border-bright);
+	background: var(--geo-surface-hover);
+	box-shadow: var(--geo-shadow-xs);
+}
+.shell-setting:active {
+	transform: scale(.98);
 }
 .shell-setting[aria-pressed="true"] {
 	border-color: var(--geo-border-bright);
-	background: rgba(77, 233, 220, 0.2);
+	background: linear-gradient(145deg, rgb(101 239 226 / 20%), rgb(114 160 255 / 12%));
+	box-shadow: var(--geo-glow-cyan);
 }
 .shell-panel[hidden] {
 	display: none;

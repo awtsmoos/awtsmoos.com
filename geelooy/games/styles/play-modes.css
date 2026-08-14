@@ -1,0 +1,31 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets play modes inform without becoming four more storefront walls.
+*/
+.playModeRail {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin: 12px 0 0;
+}
+
+.playModeRail > span {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	min-height: 36px;
+	padding: 7px 11px;
+	border: 1px solid var(--games-line-soft);
+	border-radius: 999px;
+	background: rgba(255,255,255,.035);
+	color: var(--games-muted);
+	font-size: .76rem;
+	font-weight: 760;
+	white-space: nowrap;
+}
+
+.playModeRail strong {
+	color: var(--games-text);
+	font-size: .82rem;
+}

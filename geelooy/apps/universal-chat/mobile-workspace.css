@@ -1,0 +1,103 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos fills every measure; Awtsmoos.com gives narrow screens one social chamber at a time, shorter contextual chrome, safe-area-aware scrolling, and one honest 44px doorway into every persistent action in light. */
+
+@media (max-width: 760px) {
+	#messagingAppRoot,
+	.messaging-app {
+		width: 100%;
+		height: 100vh;
+		height: 100dvh;
+		min-height: 0;
+		overflow: hidden;
+	}
+
+	.messaging-app {
+		grid-template-columns: minmax(0, 1fr);
+		grid-template-rows: minmax(0, 1fr) auto;
+	}
+
+	.messaging-list-pane,
+	.messaging-thread-pane {
+		grid-column: 1;
+		grid-row: 1;
+		width: 100%;
+		height: 100%;
+		min-width: 0;
+		min-height: 0;
+		border: 0;
+	}
+
+	.messaging-app[data-mobile-view="list"] .messaging-thread-pane,
+	.messaging-app[data-mobile-view="thread"] .messaging-list-pane,
+	.messaging-app[data-mobile-view="special"] .messaging-list-pane {
+		display: none;
+	}
+
+	.messaging-mobile-back {
+		display: inline-grid;
+		place-items: center;
+		flex: 0 0 44px;
+		width: 44px;
+		height: 44px;
+	}
+
+	.messaging-pane-header,
+	.messaging-thread-header {
+		min-height: 64px;
+		padding: max(0.55rem, env(safe-area-inset-top)) 0.6rem 0.55rem;
+	}
+
+	.messaging-app.is-special-section .messaging-thread-header {
+		display: flex;
+		position: relative;
+		z-index: 4;
+		min-height: 48px;
+		padding: max(0.2rem, env(safe-area-inset-top)) 0.55rem 0.2rem;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.035);
+		background: rgba(7, 15, 11, 0.94);
+		backdrop-filter: blur(14px);
+	}
+
+	.messaging-app.is-special-section .messaging-thread-heading,
+	.messaging-app.is-special-section .messaging-thread-tools {
+		display: none;
+	}
+
+	.messaging-pane-heading p,
+	.messaging-thread-heading small {
+		max-width: 72vw;
+	}
+
+	.messaging-presence-summary,
+	.messaging-workspace-search,
+	.messaging-search-feedback,
+	.messaging-status,
+	.messaging-connection-state {
+		margin-inline: 0.6rem;
+	}
+
+	.messaging-workspace-search {
+		height: 44px;
+	}
+
+	.messaging-special-pane {
+		overscroll-behavior: contain;
+		scroll-padding-top: 0.75rem;
+		padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+	}
+
+	.messaging-special-pane,
+	.messaging-thread,
+	.messaging-list {
+		scrollbar-gutter: auto;
+	}
+
+	.messaging-details {
+		position: fixed;
+		width: 100vw;
+		max-width: 100vw;
+	}
+}

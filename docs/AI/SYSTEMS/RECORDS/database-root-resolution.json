@@ -1,0 +1,42 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-system-tutorial-v1",
+	"systemId": "database-root-resolution",
+	"district": "data",
+	"title": "Database Root Resolution",
+	"summary": "How the runtime chooses the persistence root before DosDB or newer storage layers operate.",
+	"manuals": [
+		"docs/DATA/README.md",
+		"docs/DATA/PATH_CONTRACTS.md"
+	],
+	"projects": [
+		{
+			"projectId": "ayzarim-awtsmoosdynamicserver-e406758e",
+			"path": "ayzarim/awtsmoosDynamicServer",
+			"type": "runtime",
+			"title": "ayzarim/awtsmoosDynamicServer",
+			"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-awtsmoosdynamicserver-e406758e.md"
+		}
+	],
+	"sources": [
+		"ayzarim/awtsmoosDynamicServer/server/initDb.js"
+	],
+	"generatedEvidence": [
+		"docs/GENERATED/ENVIRONMENT_VARIABLES.md"
+	],
+	"tags": [
+		"persistence",
+		"environment",
+		"path",
+		"migration"
+	],
+	"claimsBoundary": "Environment names and inspected manuals describe precedence; no environment value is read or published.",
+	"changeRisk": "Changing root precedence or defaults can redirect an existing deployment to different persisted data.",
+	"environmentEvidence": [],
+	"realtimeApplications": [],
+	"eventEvidence": [],
+	"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/database-root-resolution.md",
+	"aiFile": "docs/AI/SYSTEMS/RECORDS/database-root-resolution.json",
+	"provenance": "curated-system-semantics-plus-generated-local-source-evidence",
+	"navigationRule": "Human manual -> generated system tutorial/evidence -> related project/source -> tests/runtime verification."
+}

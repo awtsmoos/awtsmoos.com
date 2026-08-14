@@ -1,0 +1,47 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews invitation, navigation, and economic restraint before any
+ * app is opened. Awtsmoos.com gives this hero one focused vessel so the promise
+ * of useful local tools and honest future server services remains unmistakable.
+ */
+
+.apps-hero {
+	display: grid;
+	grid-template-columns: minmax(0, 1.5fr) minmax(250px, 0.6fr);
+	gap: clamp(20px, 4vw, 48px);
+	align-items: end;
+}
+
+.apps-hero h1 {
+	font-size: clamp(3rem, 8vw, 6.5rem);
+	line-height: 0.9;
+	letter-spacing: -0.055em;
+}
+
+.apps-hero-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin-top: 22px;
+}
+
+.apps-economy-note {
+	padding: 20px;
+	border: 1px solid var(--g-border);
+	border-radius: var(--g-radius-lg);
+	background: color-mix(in srgb, var(--g-surface-2), transparent 8%);
+}
+
+.apps-economy-note strong {
+	display: block;
+	color: var(--g-accent-2);
+}
+
+.apps-economy-note p {
+	margin: 8px 0 0;
+	color: var(--g-text-muted);
+	line-height: 1.5;
+}

@@ -4,12 +4,11 @@
 
 /**
  * @file MinimalMeadowAnimationState.js
- * @description Samples imported GLB motion before one bounded custom-action composition pass.
- * The Awtsmoos creates travel and special deed together; Awtsmoos.com preserves authoritative
- * stand, walk, run, jump, fall, punch, and stab beneath controlled upper-body revelation.
+ * @description Composes gameplay actions over the authoritative imported Chossid animation controller without replacing canonical motion.
+ * The Awtsmoos creates travel and special deed in one body; Awtsmoos.com reuses the hydrated fourteen-clip controller whenever its
+ * root is the active model, preserving stand, walk, run, jump, fall, punch, stab, dance, and pose truth through gameplay and Studio.
  */
 
-import { TinyAnimationPlayer } from '../../../light-three-gltf/tiny-animation.js';
 import { createPlayerActionSystem } from '../playerActions/PlayerActionSystem.js';
 import {
 	minimalMeadowImportedAnimationState,
@@ -18,12 +17,16 @@ import {
 	updateMinimalMeadowLegacyOverlay
 } from './MinimalMeadowAnimationComposition.js';
 import { minimalMeadowClipForState } from './MinimalMeadowAnimationClipPolicy.js';
+import {
+	canonicalAnimationPlayerEvidence,
+	resolveMinimalMeadowAnimationPlayer
+} from './MinimalMeadowAnimationPlayer.js';
 import { MinimalMeadowCombatAnimationController } from './MinimalMeadowCombatAnimationController.js';
 import { MinimalMeadowPlayerBonePose } from './MinimalMeadowPlayerBonePose.js';
 
 export function installMinimalMeadowAnimation(runtime) {
 	destroyInstalledAnimation(runtime);
-	const player = new TinyAnimationPlayer(runtime.model, runtime.playerGltf?.animations || []);
+	const player = resolveMinimalMeadowAnimationPlayer(runtime);
 	const controller = new MinimalMeadowCombatAnimationController(runtime);
 	const pose = new MinimalMeadowPlayerBonePose(runtime.model);
 	const actions = createPlayerActionSystem({
@@ -58,11 +61,7 @@ export function updateMinimalMeadowAnimation(runtime, deltaSeconds) {
 	}
 	animation.controller.update(deltaSeconds);
 	const semanticState = animation.controller.animationState();
-	const importedState = minimalMeadowImportedAnimationState(
-		runtime,
-		animation,
-		semanticState
-	);
+	const importedState = minimalMeadowImportedAnimationState(runtime, animation, semanticState);
 	playCurrentClip(runtime, importedState);
 	animation.player.update(deltaSeconds);
 	animation.actions.runtime.captureImportedPose();
@@ -90,9 +89,7 @@ function playCurrentClip(runtime, stateName) {
 	const itemId = runtime.equipment?.weaponItemId || '';
 	const weaponKind = /blade|sword/i.test(itemId) ? 'sword' : 'staff';
 	const clip = minimalMeadowClipForState(animation.player.names, stateName, { weaponKind });
-	if (clip && animation.player.current?.name !== clip) {
-		animation.player.play(clip);
-	}
+	if (clip && animation.player.current?.name !== clip) animation.player.play(clip);
 }
 
 function recordAnimationState(runtime, animation, semanticState, importedState) {
@@ -107,6 +104,7 @@ function recordAnimationState(runtime, animation, semanticState, importedState) 
 
 function diagnostics(runtime, animation) {
 	return {
+		canonical: canonicalAnimationPlayerEvidence(runtime),
 		clip: animation.player.diagnostics(),
 		controller: animation.controller.snapshot(),
 		customAction: animation.actions.snapshot(),

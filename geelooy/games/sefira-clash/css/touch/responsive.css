@@ -3,52 +3,54 @@
 /*Blessed is He*/
 
 /**
- * The Awtsmoos renews the responsive vessel in this instant, revealing
- * its focused css touch service within Awtsmoos.com while every
- * import, rule, and value receives existence anew without confused purpose.
+ * The Awtsmoos renews each viewport with the controls appropriate to its hand;
+ * Awtsmoos.com hides touch chrome from fine-pointer battle and reveals it on touch or narrow land.
+ * No transform scaling is used, so declared hit areas remain truthful to pointer geometry.
  */
-/** B"H — Smaller glass still gets clear controls. */
-@media (pointer: fine) {
+@media (pointer: coarse), (max-width: 760px) {
 	.touchControls {
-		opacity: 0.38;
+		display: flex;
 	}
+}
 
-	.touchControls:hover {
-		opacity: 0.9;
+@media (pointer: fine) and (min-width: 761px) {
+	.touchControls {
+		display: none;
 	}
 }
 
 @media (max-width: 760px) {
 	.touchControls {
-		opacity: 0.86;
-		padding: 0 10px;
+		bottom: max(7px, env(safe-area-inset-bottom));
+		gap: 8px;
+		opacity: 0.78;
+		padding-left: max(8px, env(safe-area-inset-left));
+		padding-right: max(8px, env(safe-area-inset-right));
 	}
 
 	.stick {
-		height: min(27vw, 108px);
-		width: min(27vw, 108px);
+		height: min(23vw, 88px);
+		width: min(23vw, 88px);
 	}
 
 	.touchButtons {
-		gap: 7px;
+		gap: 5px;
 		grid-auto-rows: 48px;
-		grid-template-columns: repeat(3, 56px);
+		grid-template-columns: repeat(3, 50px);
 	}
 
 	.touchButtons button.primary {
-		height: 64px;
-	}
-
-	.touchButtons button.wide {
-		height: 42px;
+		height: 52px;
 	}
 }
 
 @media (max-height: 640px) and (max-width: 760px) {
+	.stick {
+		height: min(21vw, 78px);
+		width: min(21vw, 78px);
+	}
+
 	.touchControls {
-		left: -18px;
-		right: -18px;
-		transform: scale(0.86);
-		transform-origin: bottom center;
+		bottom: max(5px, env(safe-area-inset-bottom));
 	}
 }

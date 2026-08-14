@@ -1,0 +1,17 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets the synchronized river card fold gracefully on narrow
+ * screens while Awtsmoos.com keeps base ownership distinct from responsive flow.
+ */
+@media (max-width: 430px) {
+	.post-reader-localized-context :where(.speed-readout-row) {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+
+	.post-reader-localized-context :where(.speed-readout-row) output {
+		max-width: 100%;
+		text-align: start;
+	}
+}

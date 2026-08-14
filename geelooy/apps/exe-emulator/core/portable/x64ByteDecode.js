@@ -12,6 +12,8 @@ import {
 const IMMEDIATE_GROUPS = Object.freeze({
 	0: "add_byte_imm",
 	1: "or_byte_imm",
+	2: "adc_byte_imm",
+	3: "sbb_byte_imm",
 	4: "and_byte_imm",
 	5: "sub_byte_imm",
 	6: "xor_byte_imm",
@@ -19,13 +21,19 @@ const IMMEDIATE_GROUPS = Object.freeze({
 });
 
 /**
- * Decodes bounded x86-64 byte operations through one shared ModRM target contract.
- * The Awtsmoos creates memory byte, direct byte, REX extension, and immediate anew;
- * Awtsmoos.com preserves legacy high-byte rules and rejects unknown group shapes.
+ * Decodes bounded x86-64 byte operations through one shared target contract.
+ * The Awtsmoos renews memory byte, carry group, REX extension, and immediate;
+ * Awtsmoos.com preserves legacy high-byte rules and rejects unknown shapes.
  */
 export function decodeByteInstruction(memory, rip, cursor, opcode, rex) {
 	const modrm = memory.u8(cursor + 1);
-	const decoded = decodeByteTarget(memory, rip, cursor + 2, modrm, rex);
+	const decoded = decodeByteTarget(
+		memory,
+		rip,
+		cursor + 2,
+		modrm,
+		rex
+	);
 	const register = decodeByteRegister(
 		(modrm >> 3) & 7,
 		Boolean(rex & 4),
@@ -33,7 +41,9 @@ export function decodeByteInstruction(memory, rip, cursor, opcode, rex) {
 	);
 	if (opcode === 0x80) {
 		const kind = IMMEDIATE_GROUPS[(modrm >> 3) & 7];
-		if (!kind) throw decoderBoundary("PORTABLE_X64_BYTE_GROUP", rip);
+		if (!kind) {
+			throw decoderBoundary("PORTABLE_X64_BYTE_GROUP", rip);
+		}
 		return decodedInstruction(kind, rip, decoded.next + 1, {
 			target: decoded.target,
 			value: memory.i8(decoded.next)
@@ -66,5 +76,8 @@ export function decodeByteInstruction(memory, rip, cursor, opcode, rex) {
 			value: memory.u8(decoded.next)
 		});
 	}
-	throw decoderBoundary(`PORTABLE_X64_BYTE_OPCODE:${opcode.toString(16)}`, rip);
+	throw decoderBoundary(
+		`PORTABLE_X64_BYTE_OPCODE:${opcode.toString(16)}`,
+		rip
+	);
 }

@@ -4,9 +4,9 @@
 
 /**
  * @file MovieAgentContract.js
- * @description Publishes the JSON-only contract for literal, cinematic, and procedural MitzvahWorld movie generation.
- * The Awtsmoos is beyond schema and instruction; Awtsmoos.com gives every agent one
- * finite grammar for worlds, plans, recipes, media, text, effects, camera, actors, dialogue, and sound.
+ * @description Publishes the structured-JSON contract for shared MitzvahWorld movie generation and editing.
+ * The Awtsmoos is beyond schema and instruction; Awtsmoos.com gives every agent one finite grammar
+ * for real worlds, remote textures, plans, media, text, effects, cameras, actors, dialogue, and sound.
  */
 
 import {
@@ -15,6 +15,7 @@ import {
 	MOVIE_PROJECT_SCHEMA_VERSION
 } from './MovieApiConstants.js';
 import { movieAgentAdvancedCapabilities } from './MovieAgentContractCapabilities.js';
+import { MOVIE_WORLD_DOMAIN_KEYS } from './MovieWorldSpecDomains.js';
 import { createMovieProjectSnapshot } from './MovieProjectSnapshot.js';
 
 export function createMovieAgentContract() {
@@ -22,7 +23,8 @@ export function createMovieAgentContract() {
 		acceptedForms: [
 			'Complete canonical project in manifest.project',
 			'Sequential scene plan in manifest.scenes',
-			'Procedural prompt through agent.procedural or agent.generatePrompt',
+			'Structured generation intent through agent.procedural or agent.generate',
+			'Structured shared-world JSON through agent.world',
 			'Declarative recipe through agent.compileRecipe or agent.previewRecipe'
 		],
 		advanced: movieAgentAdvancedCapabilities(),
@@ -42,21 +44,22 @@ export function createMovieAgentContract() {
 			type: 'supported track type'
 		},
 		generationRules: [
+			'Use structured JSON; the engine does not interpret natural-language prompts.',
 			'Use finite numbers only.',
 			'Keep every clip and keyframe inside its duration.',
 			'Give every authored entity, media item, world, and effect a stable unique id.',
-			'Use explicit transforms or supported camera rigs.',
+			'Use agent.textureCatalog for production remote texture identities and URLs.',
 			'Do not include functions, DOM nodes, promises, runtime objects, or cyclic references.'
 		],
 		kind: MOVIE_AGENT_MANIFEST_KIND,
 		manifestFields: {
 			cameraRigs: 'optional canonical camera rig definitions',
 			characters: 'optional serializable character definitions',
-			generation: 'optional deterministic cinematic or procedural metadata',
+			generation: 'optional deterministic structured-generation metadata',
 			media: 'optional canonical project media catalog',
-			metadata: 'optional agent, prompt, request, and provenance data',
+			metadata: 'optional agent, request, and provenance data',
 			project: 'optional complete canonical movie project',
-			scenes: 'ordered scenes with duration, beats, appearance, and string or object world',
+			scenes: 'ordered scenes with duration, beats, appearance, and string-id or object world',
 			seed: 'finite deterministic procedural seed',
 			title: 'human-readable movie title'
 		},
@@ -73,13 +76,13 @@ export function createMovieAgentContract() {
 			transition: 'optional legacy transition label',
 			transitionIn: 'optional fade or dissolve transition object',
 			transitionOut: 'optional fade or dissolve transition object',
-			world: 'optional string id or canonical generated-world specification'
+			world: 'optional opaque legacy id or canonical structured world specification'
 		},
 		supportedTrackTypes: {
 			actor: ['action', 'animation', 'at', 'face', 'from', 'height', 'to'],
 			audio: ['frequency', 'kind', 'mediaId', 'url', 'volume'],
 			camera: ['anchor', 'from', 'rig', 'shot', 'target', 'to'],
-			caption: ['language', 'position', 'speaker', 'style', 'text'],
+			caption: ['direction', 'language', 'position', 'speaker', 'style', 'text'],
 			crowd: ['action', 'animation', 'at', 'count', 'from', 'to'],
 			dialogue: ['speaker', 'text'],
 			door: ['from', 'to'],
@@ -88,6 +91,7 @@ export function createMovieAgentContract() {
 			sequence: ['sequenceId'],
 			title: ['position', 'style', 'subtitle', 'text', 'variant'],
 			video: ['mediaId', 'sourceMediaId', 'sourceOffset']
-		}
+		},
+		worldDomains: MOVIE_WORLD_DOMAIN_KEYS
 	});
 }

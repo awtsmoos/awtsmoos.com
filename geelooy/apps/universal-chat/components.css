@@ -1,0 +1,83 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos is beyond button and heading; Awtsmoos.com gives core controls shape and hierarchy while focus, hover, touch, warning, and motion live in their own truthful garments—one source for structure, one source for response, so the interface may breathe and rhyme. */
+
+button,
+.messaging-link-button,
+.messaging-empty-action {
+	min-height: 40px;
+	border: 1px solid var(--msg-line-strong);
+	border-radius: var(--msg-radius-sm);
+	background: var(--msg-surface);
+	color: var(--msg-text);
+	cursor: pointer;
+}
+
+.messaging-pane-header,
+.messaging-thread-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.8rem;
+	min-height: 72px;
+	padding: 0.8rem 0.9rem;
+	border-bottom: 1px solid var(--msg-line);
+	background: #0a1510;
+	background: rgba(10, 21, 16, 0.86);
+	backdrop-filter: blur(16px);
+}
+
+.messaging-pane-heading {
+	display: grid;
+	min-width: 0;
+	gap: 0.15rem;
+}
+
+.messaging-kicker,
+.messaging-card-eyebrow {
+	color: rgba(121, 224, 183, 0.72);
+	font-size: 0.63rem;
+	font-weight: 800;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.messaging-pane-header h1,
+.messaging-special-card h2,
+.messaging-empty-state h2 {
+	margin: 0;
+	font-size: clamp(1.05rem, 1.7vw, 1.3rem);
+	line-height: 1.2;
+}
+
+#messagingSectionSummary {
+	margin: 0;
+	overflow: hidden;
+	color: var(--msg-muted);
+	font-size: 0.73rem;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.messaging-new-action {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.25rem;
+	padding: 0 0.7rem;
+	background: var(--msg-accent-soft);
+	color: #dfffee;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}

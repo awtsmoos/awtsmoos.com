@@ -2,72 +2,60 @@
 //Boruch Hashem
 //Blessed is He
 
+import {
+	AWTSMOOS_MATERIAL_REGISTRY,
+	AWTSMOOS_MATERIAL_TRANSPORT,
+	AWTSMOOS_REMOTE_MATERIAL_ROOT,
+	awtsmoosCriticalMaterialRecords,
+	awtsmoosMaterialRecord
+} from '../../../../libs/awtsmoos-procedural-core/src/core/materials/presets/awtsmoosRemoteMaterials.js';
+
+const SEVEN_ROLES = Object.freeze([
+	'masonry', 'whitewash', 'timber', 'slate', 'brick', 'cloth',
+	'deerFur', 'cowFur', 'grass', 'dirt', 'tilledSoil', 'leaf', 'bark',
+	'stone', 'leather', 'parchment', 'metal', 'water'
+]);
+
 /**
- * @module RemoteMaterialManifest
+ * @file firebase-material-manifest.js
  * @description
- * The Awtsmoos renews each visible grain through one truthful remote spring.
- * Awtsmoos.com follows MitzvahWorld's migration transport, so no Seven Mitzvos
- * texture can drift into a sibling game's private local asset directory.
+ * The Awtsmoos renews every material source while Awtsmoos.com lets Seven Mitzvos inherit one shared production catalog instead of copying paths into another isolated manifest.
+ * This compatibility facade preserves the established Seven public record shape while remote identity, aliases, verified tilled soil, and physical coefficients belong to the general procedural core.
  */
-const REMOTE_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/';
-
-export const REMOTE_MATERIAL_ROOT = REMOTE_ROOT.replace(/\/$/, '');
+export const REMOTE_MATERIAL_ROOT = AWTSMOOS_REMOTE_MATERIAL_ROOT.replace(/\/$/, '');
 export const FIREBASE_MATERIAL_ORIGIN = REMOTE_MATERIAL_ROOT;
-export const MATERIALS = Object.freeze({
-	masonry: record('various/Stone retaining wall masonry.png', 0.92, 0.02),
-	whitewash: record('various/Whitewashed stone.png', 0.86, 0.01),
-	timber: record('various/Rough weathered oak wood planks.png', 0.78, 0.03),
-	slate: record('various/slate roof shingles.png', 0.7, 0.08),
-	brick: record('full-resolution/red brick 1.png', 0.84, 0.02),
-	cloth: record('full-resolution/tan cloth.png', 0.98, 0),
-	deerFur: record('full-resolution/deer fur 1.png', 0.96, 0),
-	cowFur: record('full-resolution/cow fur 1.png', 0.95, 0),
-	grass: record('full-resolution/grass 5.png', 0.98, 0),
-	dirt: record('full-resolution/dirt 2.png', 1, 0),
-	leaf: record('full-resolution/leaf 1.png', 0.9, 0),
-	bark: record('full-resolution/tree bark 1.png', 0.94, 0),
-	stone: record('full-resolution/stone 1.png', 0.8, 0.04),
-	leather: record('full-resolution/leather.png', 0.82, 0.01),
-	parchment: record('full-resolution/parchment.png', 0.93, 0),
-	metal: record('full-resolution/rusty iron.png', 0.52, 0.72),
-	water: record('full-resolution/seamless water brighter.png', 0.18, 0.05, 0.38)
-});
+export const MATERIALS = Object.freeze(Object.fromEntries(
+	SEVEN_ROLES.map(role => [role, compatibilityRecord(role)])
+));
 
-/** Returns one immutable semantic material record. */
+/** @param {string} role Seven semantic material role. @returns {object|null} Compatibility record. */
 export function materialRecord(role) {
-	return MATERIALS[role] || null;
+	const shared = AWTSMOOS_MATERIAL_REGISTRY.resolve(role);
+	return shared ? compatibilityRecord(shared.role) : null;
 }
 
-/** Returns the small set that should be warmed before entering a world. */
+/** @returns {object[]} Critical startup role records without triggering network work. */
 export function criticalMaterialRecords() {
-	return ['masonry', 'whitewash', 'timber', 'slate', 'grass'].map(role => MATERIALS[role]);
+	return awtsmoosCriticalMaterialRecords().map(record => compatibilityRecord(record.role));
 }
 
-/** Builds one canonical migration URL from a validated catalog path. */
+/** @param {string} path Verified relative production path. @returns {string} Canonical remote URL. */
 export function remoteMaterialUrl(path) {
-	return REMOTE_ROOT + encodePath(normalizePath(path));
+	return AWTSMOOS_MATERIAL_TRANSPORT.url(path);
 }
 
-function record(path, roughness, metalness, transmission = 0) {
-	const remoteUrl = remoteMaterialUrl(path);
+function compatibilityRecord(role) {
+	const shared = awtsmoosMaterialRecord(role);
+	if (!shared) {
+		return null;
+	}
+	const remoteUrl = shared.paths.full || shared.paths.source;
 	return Object.freeze({
 		firebaseUrl: remoteUrl,
-		metalness,
-		path,
+		metalness: shared.metalness,
+		path: shared.sourcePath,
 		remoteUrl,
-		roughness,
-		transmission
+		roughness: shared.roughness,
+		transmission: shared.transmission
 	});
-}
-
-function normalizePath(path) {
-	const clean = String(path || '').trim().replace(/^\/+/, '').split('\\').join('/');
-	if (!clean || clean.split('/').some(segment => !segment || segment === '.' || segment === '..')) {
-		throw new Error(`Invalid remote material path: ${path}`);
-	}
-	return clean;
-}
-
-function encodePath(path) {
-	return path.split('/').map(encodeURIComponent).join('/');
 }

@@ -1,29 +1,64 @@
-/* B"H — Primary and bonus missions remain readable during dense traffic. */
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews mission knowledge without putting frosted darkness above the city;
+ * Awtsmoos.com keeps the objective crisp, bounded, and readable while moving light remains visible and pretty.
+ * This vessel preserves mission structure while replacing expensive backdrop blur with stable contrast.
+ */
 .mission {
-	display: grid;
-	grid-template-columns: 1fr auto;
-	gap: 7px 16px;
-	padding: 13px 15px;
+	background: linear-gradient(135deg, rgba(7, 9, 29, 0.78), rgba(15, 8, 34, 0.68));
 	border: 1px solid var(--line);
 	border-radius: 22px;
-	background: linear-gradient(135deg, rgba(7, 9, 29, 0.9), rgba(15, 8, 34, 0.78));
-	box-shadow: var(--shadow);
-	backdrop-filter: blur(18px);
+	box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
+	display: grid;
+	gap: 7px 16px;
+	grid-template-columns: 1fr auto;
+	padding: 13px 15px;
 }
 
-.mission-main { display: grid; gap: 2px; }
-.mission small { color: var(--blue); font-size: 10px; font-weight: 900; letter-spacing: 0.16em; }
-.mission > span { align-self: center; color: var(--gold); font-size: 16px; font-weight: 950; }
-.mission meter { grid-column: 1 / -1; width: 100%; height: 12px; accent-color: var(--gold); }
+.mission-main {
+	display: grid;
+	gap: 2px;
+}
+
+.mission small {
+	color: var(--blue);
+	font-size: 10px;
+	font-weight: 900;
+	letter-spacing: 0.16em;
+}
+
+.mission > span {
+	align-self: center;
+	color: var(--gold);
+	font-size: 16px;
+	font-weight: 950;
+}
+
+.mission meter {
+	accent-color: var(--gold);
+	grid-column: 1 / -1;
+	height: 12px;
+	width: 100%;
+}
 
 .bonus-line {
-	grid-column: 1 / -1;
-	display: flex;
-	justify-content: space-between;
-	gap: 12px;
-	padding-top: 6px;
 	border-top: 1px solid rgba(255, 255, 255, 0.1);
+	display: flex;
 	font-size: 12px;
+	gap: 12px;
+	grid-column: 1 / -1;
+	justify-content: space-between;
+	padding-top: 6px;
 }
-.bonus-line b { color: #d8e5ff; }
-.bonus-line span { color: var(--gold); font-weight: 900; }
+
+.bonus-line b {
+	color: #d8e5ff;
+}
+
+.bonus-line span {
+	color: var(--gold);
+	font-weight: 900;
+}

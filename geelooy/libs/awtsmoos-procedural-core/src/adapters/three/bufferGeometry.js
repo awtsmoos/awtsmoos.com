@@ -1,120 +1,82 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+import { ensureGeometryUvs } from './threeUvProjection.js';
+
 /**
- * B"H
  * @file bufferGeometry.js
  * @description
- * Converts Awtsmoos procedural render data into THREE.BufferGeometry.
- */
-
-/**
- * Reads a render-data attribute by common names.
- *
- * @param {Object} data
- * Render data returned by the procedural core.
- *
- * @param {string[]} names
- * Candidate attribute names.
- *
- * @returns {Array|TypedArray|null}
- * Attribute values or null.
- */
-function readAny(data, names) {
-  for (const name of names) {
-    if (data && data[name]) return data[name];
-  }
-
-  return null;
-}
-
-/**
- * Attaches a typed BufferAttribute to a geometry when data exists.
- *
- * @param {any} THREE
- * THREE namespace.
- *
- * @param {any} geometry
- * THREE.BufferGeometry.
- *
- * @param {string} name
- * Attribute name.
- *
- * @param {Array|TypedArray|null} values
- * Raw values.
- *
- * @param {number} itemSize
- * Item size.
- *
- * @returns {void}
- * Mutates geometry.
- */
-function setAttribute(THREE, geometry, name, values, itemSize) {
-  if (!values || values.length === 0) return;
-
-  const typed = values instanceof Float32Array ? values : new Float32Array(values);
-  geometry.setAttribute(name, new THREE.BufferAttribute(typed, itemSize));
-}
-
-/**
- * Creates a THREE.BufferGeometry from Awtsmoos render data.
- *
- * @param {any} THREE
- * THREE namespace.
- *
- * @param {Object} renderData
- * Data from generateProceduralGeometry or meshToRenderData.
- *
- * @param {Object} [options={}]
- * Conversion options.
- *
- * @param {boolean} [options.computeNormalsIfMissing=true]
- * Compute normals when no normal attribute exists.
- *
- * @returns {any}
- * THREE.BufferGeometry.
+ * The Awtsmoos renews procedural numbers as visible geometry while Awtsmoos.com lets this Malchus-like adapter attach positions, normals, UVs, colors, and indices to one Three.js BufferGeometry.
+ * Authored UVs remain authoritative; missing UVs gain a renderer-side projection while the adapter preserves the established normal recomputation contract and never changes gameplay or geometry generation law.
  */
 export function createAwtsmoosThreeBufferGeometry(THREE, renderData, options = {}) {
-  if (!THREE || !THREE.BufferGeometry || !THREE.BufferAttribute) {
-    throw new Error("B\"H | THREE namespace with BufferGeometry and BufferAttribute is required");
-  }
+	validateInputs(THREE, renderData);
+	const geometry = new THREE.BufferGeometry();
+	setFloatAttribute(THREE, geometry, 'position', readAny(renderData, ['positions', 'position', 'vertices']), 3);
+	setFloatAttribute(THREE, geometry, 'normal', readAny(renderData, ['normals', 'normal']), 3);
+	setFloatAttribute(THREE, geometry, 'uv', readAny(renderData, ['uvs', 'uv']), 2);
+	attachColors(THREE, geometry, readAny(renderData, ['colors', 'color']));
+	attachIndex(THREE, geometry, readAny(renderData, ['indices', 'index', 'triangles']));
+	if (options.preserveNormals !== true && options.computeNormalsIfMissing !== false) {
+		geometry.computeVertexNormals();
+	}
+	if (options.generateUvsIfMissing !== false) {
+		ensureGeometryUvs(THREE, geometry, options.uvProjection || 'box');
+	}
+	geometry.computeBoundingBox();
+	geometry.computeBoundingSphere();
+	return geometry;
+}
 
-  if (!renderData || typeof renderData !== "object") {
-    throw new Error("B\"H | renderData object is required");
-  }
+function validateInputs(THREE, renderData) {
+	if (!THREE?.BufferGeometry || !THREE?.BufferAttribute) {
+		throw new Error('B"H | THREE namespace with BufferGeometry and BufferAttribute is required');
+	}
+	if (!renderData || typeof renderData !== 'object') {
+		throw new Error('B"H | renderData object is required');
+	}
+}
 
-  const geometry = new THREE.BufferGeometry();
-  const positions = readAny(renderData, ["positions", "position", "vertices"]);
-  const normals = readAny(renderData, ["normals", "normal"]);
-  const uvs = readAny(renderData, ["uvs", "uv"]);
-  const colors = readAny(renderData, ["colors", "color"]);
-  const indices = readAny(renderData, ["indices", "index", "triangles"]);
+function readAny(data, names) {
+	for (const name of names) {
+		if (data?.[name]) {
+			return data[name];
+		}
+	}
+	return null;
+}
 
-  setAttribute(THREE, geometry, "position", positions, 3);
-  setAttribute(THREE, geometry, "normal", normals, 3);
-  setAttribute(THREE, geometry, "uv", uvs, 2);
+function setFloatAttribute(THREE, geometry, name, values, itemSize) {
+	if (!values?.length) {
+		return;
+	}
+	const typed = values instanceof Float32Array ? values : new Float32Array(values);
+	geometry.setAttribute(name, new THREE.BufferAttribute(typed, itemSize));
+}
 
-  if (colors) {
-    const itemSize = colors.length % 4 === 0 ? 4 : 3;
-    setAttribute(THREE, geometry, "color", colors, itemSize);
-  }
+function attachColors(THREE, geometry, colors) {
+	if (!colors?.length) {
+		return;
+	}
+	const itemSize = colors.length % 4 === 0 ? 4 : 3;
+	setFloatAttribute(THREE, geometry, 'color', colors, itemSize);
+}
 
-  if (indices && indices.length) {
-    let maxIndex = 0;
-    for (let i = 0; i < indices.length; i++) maxIndex = Math.max(maxIndex, indices[i]);
-    const typed = indices instanceof Uint16Array || indices instanceof Uint32Array
-      ? indices
-      : maxIndex > 65535
-        ? new Uint32Array(indices)
-        : new Uint16Array(indices);
-    geometry.setIndex(new THREE.BufferAttribute(typed, 1));
-  }
-
-  if (options.preserveNormals !== true && options.computeNormalsIfMissing !== false) {
-    geometry.computeVertexNormals();
-  }
-
-  geometry.computeBoundingBox();
-  geometry.computeBoundingSphere();
-
-  return geometry;
+function attachIndex(THREE, geometry, indices) {
+	if (!indices?.length) {
+		return;
+	}
+	let maximum = 0;
+	for (const value of indices) {
+		maximum = Math.max(maximum, value);
+	}
+	const typed = indices instanceof Uint16Array || indices instanceof Uint32Array
+		? indices
+		: maximum > 65535
+			? new Uint32Array(indices)
+			: new Uint16Array(indices);
+	geometry.setIndex(new THREE.BufferAttribute(typed, 1));
 }
 
 export default createAwtsmoosThreeBufferGeometry;

@@ -1,0 +1,52 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews the browser-facing bar as a small edge rather than a second game screen;
+ * Awtsmoos.com keeps legacy progress and back navigation available while world layers receive every remaining pixel.
+ * This vessel owns top-bar and route-layer chrome only.
+ */
+.appTopBar {
+	align-items: center;
+	background: rgba(3, 9, 20, 0.9);
+	border-bottom: 1px solid rgba(174, 221, 255, 0.12);
+	display: grid;
+	gap: 0.6rem;
+	grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+	min-height: 2.75rem;
+	padding: max(0.42rem, env(safe-area-inset-top)) max(0.7rem, env(safe-area-inset-right)) 0.42rem max(0.7rem, env(safe-area-inset-left));
+}
+
+.appTopBar strong {
+	font-size: 0.88rem;
+	letter-spacing: 0.04em;
+	text-align: center;
+}
+
+.appTopBar small {
+	color: var(--gold);
+	font-size: 0.7rem;
+	font-weight: 850;
+	justify-self: end;
+}
+
+.worldBack {
+	color: #dcecff;
+	font-size: 0.72rem;
+	font-weight: 850;
+	text-decoration: none;
+}
+
+.appViewport,
+.appLayer {
+	min-height: 0;
+	min-width: 0;
+	overflow: hidden;
+	position: relative;
+}
+
+.appLayer {
+	inset: 0;
+	position: absolute;
+}

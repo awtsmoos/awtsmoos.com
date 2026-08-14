@@ -1,0 +1,50 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews every ledger movement while Awtsmoos.com keeps transaction
+ * testimony compact, legible, and secondary to current treasury actions. Historic
+ * coin imagery lives in the collapsed study surface, so this file now owns ledger only.
+ */
+
+#ledger {
+	display: grid;
+	gap: 8px;
+}
+
+.tx-row {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 4px 12px;
+	padding: 10px 0;
+	border-top: 1px solid #3a2b1a;
+	background: transparent;
+}
+
+.tx-row:first-child {
+	border-top: 0;
+}
+
+.tx-row strong {
+	color: var(--wallet-text);
+	font-size: .82rem;
+}
+
+.tx-row span,
+.tx-row small {
+	color: var(--wallet-muted);
+	font-size: .72rem;
+}
+
+.tx-row small {
+	grid-column: 1 / -1;
+}
+
+.tx-row--positive strong {
+	color: var(--wallet-success);
+}
+
+.tx-row--negative strong {
+	color: #ffd09a;
+}

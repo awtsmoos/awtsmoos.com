@@ -5,50 +5,59 @@
 import { PortableByteMemory } from "./byteMemory.js";
 import { loadElf64Image } from "./elfImage.js";
 import { loadMachO64Image } from "./machoImage.js";
+import { initialProgramBreakForImage } from "./programBreakImage.js";
+import { preparePortableProcess } from "./processBootstrap.js";
 import { PortableRegisterFile } from "./registerFile.js";
 import { createPortableStack } from "./stackLayout.js";
 import { createPortableSyscallHost } from "./syscallHost.js";
-import { prepareVirtualDarwinRuntime } from "./virtualDarwinRuntime.js";
-import { prepareVirtualProcessArguments } from "./virtualProcessArguments.js";
-import { assertVirtualRuntimeSegments } from "./virtualRuntimeLayout.js";
 import { executePortableX64 } from "./x64Executor.js";
 
 const X64_ALIASES = new Set(["x86-64", "x86_64"]);
 
 /**
- * Loads and executes x86-64 ELF or Mach-O bytes with bounded stack and imports.
- * The Awtsmoos creates image, C-main arguments, virtual dyld doorway, heap,
- * syscall, and result anew; Awtsmoos.com never confuses subset emulation with native.
+ * Loads and executes x86-64 ELF or Mach-O bytes with their measured process ABI.
+ * The Awtsmoos renews image, heap seed, files, stack, imports, and registers;
+ * Awtsmoos.com never confuses this bounded instruction subset with native execution.
  */
 export function executePortableBinary(identity, bytes, host = {}, options = {}) {
 	if (!X64_ALIASES.has(identity.architecture)) {
-		throw portableBoundary(`PORTABLE_ARCHITECTURE:${identity.architecture}`);
+		throw portableBoundary(
+			"PORTABLE_ARCHITECTURE",
+			identity.architecture
+		);
 	}
 	const image = loadImage(identity.format, bytes, options);
-	const virtualRuntime = identity.format === "mach-o"
-		? prepareVirtualDarwinRuntime(bytes, image, options)
-		: emptyVirtualRuntime();
-	const processArguments = identity.format === "mach-o"
-		? prepareVirtualProcessArguments(options)
-		: emptyProcessArguments();
 	const stack = createPortableStack(options);
+	const processRuntime = preparePortableProcess(
+		identity,
+		bytes,
+		image,
+		stack,
+		options
+	);
 	const segments = [
 		...image.segments,
-		...virtualRuntime.segments,
-		...processArguments.segments,
+		...processRuntime.virtualRuntime.segments,
+		...processRuntime.arguments.segments,
 		stack.segment
 	];
-	assertVirtualRuntimeSegments(segments);
 	const memory = new PortableByteMemory(segments, options);
 	const registers = new PortableRegisterFile(image.entryPoint, {
 		memory,
 		stackBase: stack.base,
 		stackTop: stack.top
 	});
-	processArguments.apply(registers);
-	const syscalls = createPortableSyscallHost(image.personality, host, {
-		virtualImports: virtualRuntime.host
-	});
+	processRuntime.arguments.apply(registers);
+	const syscalls = createPortableSyscallHost(
+		image.personality,
+		host,
+		{
+			...options,
+			executableByteLength: bytes.length,
+			initialProgramBreak: initialProgramBreakForImage(image),
+			virtualImports: processRuntime.virtualRuntime.host
+		}
+	);
 	const execution = executePortableX64({
 		limit: Number(options.instructionLimit || 100000),
 		memory,
@@ -59,18 +68,11 @@ export function executePortableBinary(identity, bytes, host = {}, options = {}) 
 		image,
 		stack,
 		execution,
-		virtualRuntime,
-		processArguments
+		processRuntime
 	);
 }
 
-function executionResult(
-	image,
-	stack,
-	execution,
-	virtualRuntime,
-	processArguments
-) {
+function executionResult(image, stack, execution, processRuntime) {
 	const syscallState = execution.syscalls;
 	return Object.freeze({
 		completeCpuEmulation: false,
@@ -80,37 +82,34 @@ function executionResult(
 		imports: syscallState.imports,
 		mode: "portable-x86-64-subset",
 		personality: image.personality,
-		processArguments: processArguments.metadata,
+		processArguments: processRuntime.arguments.metadata,
 		registers: execution.registers,
-		stack: Object.freeze({ base: stack.base, size: stack.size, top: stack.top }),
+		stack: Object.freeze({
+			base: stack.base,
+			size: stack.size,
+			top: stack.top
+		}),
 		stderr: syscallState.stderr,
 		stdout: syscallState.stdout,
 		steps: execution.steps,
-		unsupportedBoundary: "Complete CPU, dyld/ld.so, frameworks, threads, signals, TLS, and unlisted instructions or calls remain unsupported.",
-		virtualRuntime: virtualRuntime.metadata
+		syscalls: syscallState,
+		unsupportedBoundary: "Complete CPU, dynamic linking, frameworks, threads, signals, and unlisted instructions or calls remain unsupported.",
+		virtualRuntime: processRuntime.virtualRuntime.metadata
 	});
 }
 
 function loadImage(format, bytes, options) {
-	if (format === "elf") return loadElf64Image(bytes, options);
-	if (format === "mach-o") return loadMachO64Image(bytes, options);
-	throw portableBoundary(`PORTABLE_FORMAT:${format}`);
+	if (format === "elf") {
+		return loadElf64Image(bytes, options);
+	}
+	if (format === "mach-o") {
+		return loadMachO64Image(bytes, options);
+	}
+	throw portableBoundary("PORTABLE_FORMAT", format);
 }
 
-function emptyVirtualRuntime() {
-	return Object.freeze({ host: null, metadata: null, segments: Object.freeze([]) });
-}
-
-function emptyProcessArguments() {
-	return Object.freeze({
-		apply() {},
-		metadata: null,
-		segments: Object.freeze([])
-	});
-}
-
-function portableBoundary(message) {
-	const error = new Error(message);
-	error.code = String(message).split(":")[0];
+function portableBoundary(code, detail) {
+	const error = new Error(`${code}:${detail}`);
+	error.code = code;
 	return error;
 }

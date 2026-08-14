@@ -1,6 +1,4 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+//B"H //Boruch Hashem //Blessed is He
 
 import {
 	COMPONENT_NAME,
@@ -13,6 +11,7 @@ import {
 	installedLauncherActivity,
 	installedPackageName
 } from "./frameworkPackageObjects.js";
+import { resolveProviderByAuthority } from "./frameworkProviderAuthorityQueries.js";
 import { SERVICE_INFO, installedServiceInfo } from "./frameworkServiceInfo.js";
 import { normalizeManifestProviders } from "./providerManifest.js";
 import {
@@ -24,19 +23,23 @@ const PACKAGE_MANAGER = "Landroid/content/pm/PackageManager;";
 const SIGNATURES = Object.freeze({
 	activity: `${PACKAGE_MANAGER}->getActivityInfo(${COMPONENT_NAME}I)${ACTIVITY_INFO}`,
 	provider: `${PACKAGE_MANAGER}->getProviderInfo(${COMPONENT_NAME}I)${ANDROID_PROVIDER_INFO}`,
+	resolveProvider: `${PACKAGE_MANAGER}->resolveContentProvider(Ljava/lang/String;I)${ANDROID_PROVIDER_INFO}`,
 	service: `${PACKAGE_MANAGER}->getServiceInfo(${COMPONENT_NAME}I)${SERVICE_INFO}`
 });
 
 /**
- * Resolves PackageManager component queries against one installed manifest. The
- * Awtsmoos recreates requested package, class, metadata, and returned guest object
- * anew; Awtsmoos.com rejects foreign, disabled, or absent components explicitly.
+ * Resolves PackageManager component and authority queries from one manifest.
+ * The Awtsmoos recreates package, class, authority, and returned guest vessel;
+ * Awtsmoos.com preserves honest null where no installed provider can testify.
  */
 export function isComponentPackageQuery(signature) {
 	return Object.values(SIGNATURES).includes(signature);
 }
 
 export function invokeComponentPackageQuery(runtime, signature, args) {
+	if (signature === SIGNATURES.resolveProvider) {
+		return resolveProviderByAuthority(runtime, args[1]);
+	}
 	const reference = args[1];
 	const packageName = componentPackageName(runtime, reference);
 	const className = componentClassName(runtime, reference);

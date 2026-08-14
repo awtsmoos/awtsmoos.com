@@ -1,0 +1,77 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews one dynamic viewport with no hidden page beneath the living city;
+ * Awtsmoos.com keeps the document fixed, accessible, and free of accidental scroll while world layers exchange ownership.
+ * This vessel owns only global viewport and shell foundations.
+ */
+:root {
+	color-scheme: dark;
+	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	background: #030711;
+	color: #ecf7ff;
+	--gold: #ffd166;
+	--ink: #ecf7ff;
+	--muted: #9fb4c8;
+	--panel: rgba(6, 16, 31, 0.78);
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body,
+#sevenMitzvosApp {
+	height: 100%;
+	height: 100dvh;
+	margin: 0;
+	overflow: hidden;
+	overscroll-behavior: none;
+	width: 100%;
+}
+
+body {
+	background: #030711;
+	color: var(--ink);
+	inset: 0;
+	position: fixed;
+}
+
+button,
+a,
+select {
+	font: inherit;
+}
+
+button {
+	color: inherit;
+}
+
+[hidden] {
+	display: none !important;
+}
+
+.appShell {
+	background: radial-gradient(circle at 50% 0%, #12375b 0%, #071326 34%, #030711 80%);
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+	height: 100%;
+	isolation: isolate;
+	min-height: 0;
+	overflow: hidden;
+	position: relative;
+	width: 100%;
+}
+
+.cosmicVeil {
+	background-image:
+		radial-gradient(circle at 15% 20%, rgba(92, 217, 255, 0.1), transparent 28%),
+		radial-gradient(circle at 83% 72%, rgba(255, 209, 102, 0.08), transparent 25%);
+	inset: 0;
+	pointer-events: none;
+	position: absolute;
+	z-index: -1;
+}

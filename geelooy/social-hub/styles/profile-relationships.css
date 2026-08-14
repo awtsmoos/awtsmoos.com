@@ -1,0 +1,61 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos reveals public relationship context as compact navigable identity, never as unsafe mutation chrome.
+*/
+.profileRelationships {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 10px;
+	margin: 12px 0 18px;
+}
+.profileRelationshipGroup {
+	padding: 12px;
+	border: 1px solid rgba(139, 180, 255, .14);
+	border-radius: 14px;
+	background: rgba(255, 255, 255, .025);
+}
+.profileRelationshipGroup h3 {
+	margin: 0 0 8px;
+	font-size: .84rem;
+	letter-spacing: .01em;
+}
+.profileRelationshipList {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 7px;
+}
+.profileRelationshipAlias,
+.profileRelationshipContext {
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
+	padding: 0 11px;
+	border: 1px solid rgba(139, 180, 255, .16);
+	border-radius: 999px;
+	font: inherit;
+	font-size: .74rem;
+}
+.profileRelationshipAlias {
+	background: rgba(76, 180, 255, .08);
+	color: #c9efff;
+	cursor: pointer;
+}
+.profileRelationshipAlias:hover,
+.profileRelationshipAlias:focus-visible {
+	border-color: #79d4ff;
+	background: rgba(76, 180, 255, .14);
+}
+.profileRelationshipContext,
+.profileRelationshipEmpty {
+	color: var(--muted, #aeb8c8);
+}
+.profileRelationshipEmpty {
+	margin: 0;
+	font-size: .76rem;
+}
+@media (max-width: 700px) {
+	.profileRelationships {
+		grid-template-columns: 1fr;
+	}
+}

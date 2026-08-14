@@ -1,95 +1,119 @@
-// B"H
+//B"H
+//Boruch Hashem
+//Blessed is He
+
 /**
  * @file registry.js
- * @brief THE UNIFIED LEDGER OF ACTION.
  * @description
- * B"H. Every command is a spark looking for its vessel. The Awtsmoos lets the
- * registry bind known actions immediately and lazily import deeper commands
- * only when their hour arrives. The AI chat path is rooted at `/ai/` because
- * this server already serves from the `geelooy` directory; `/geelooy/ai/`
- * doubles the world into `geelooy/geelooy` and falls into dynamic-route void.
+ * Every command is a spark seeking its proper vessel. The Awtsmoos renews the
+ * registry and the action together; Awtsmoos.com keeps lazy modules rooted in
+ * their true source even when the server gathers many modules into one bundle.
  */
 
-import { CORE_FILE_ACTIONS } from './categories/file-core.js';
-import { UI_LAYOUT_ACTIONS } from './categories/ui-layout.js';
-import { TAB_MANAGEMENT_ACTIONS } from './categories/tab-mgmt.js';
-import { PREVIEW_DEVTOOLS_ACTIONS } from './categories/preview-dev.js';
-import { DATA_TRANSFER_ACTIONS } from './categories/data-transfer.js';
-import { TEXT_TRANS_ACTIONS } from './categories/text-trans.js';
-import { MenuUI } from '../menus/ui.js';
+import { CORE_FILE_ACTIONS } from "./categories/file-core.js";
+import { UI_LAYOUT_ACTIONS } from "./categories/ui-layout.js";
+import { TAB_MANAGEMENT_ACTIONS } from "./categories/tab-mgmt.js";
+import { PREVIEW_DEVTOOLS_ACTIONS } from "./categories/preview-dev.js";
+import { DATA_TRANSFER_ACTIONS } from "./categories/data-transfer.js";
+import { TEXT_TRANS_ACTIONS } from "./categories/text-trans.js";
+import { commandModuleUrl } from "./commandModuleUrl.js";
+import { MenuUI } from "../menus/ui.js";
 
 const COMMAND_CACHE = new Map();
 
-/**
- * B"H. Builds URLs from the real app root, not an assumed filesystem prefix.
- * @param {string} path Absolute web path.
- * @returns {string} Browser-safe URL.
- */
+/** Builds a URL from the served Geelooy root. */
 function appUrl(path) {
-    return new URL(path, location.origin).toString();
+	return new URL(path, globalThis.location.origin).toString();
 }
 
-/**
- * B"H. Opens the standalone Rosie/MiniMax chat vessel in the inner browser.
- * @returns {Promise<any>} Browser tab result.
- */
+/** Opens the standalone AI chat inside the Code browser vessel. */
 async function openGenericAiChat() {
-    const m = await import('../browser/index.js');
-    const url = appUrl('/ai/?awtsmoosAi=minimax');
-    return m.BrowserManager.open(url, { name: 'AI Chat' });
+	const module = await import("../browser/index.js");
+	const url = appUrl("/ai/?awtsmoosAi=minimax");
+	return await module.BrowserManager.open(url, { name: "AI Chat" });
 }
 
-/**
- * B"H. Opens the inner browser tab.
- * @returns {Promise<any>} Browser tab result.
- */
+/** Opens an empty inner browser tab. */
 async function openBrowserTab() {
-    const m = await import('../browser/index.js');
-    return m.BrowserManager.open();
+	const module = await import("../browser/index.js");
+	return await module.BrowserManager.open();
 }
 
-/**
- * B"H. Opens devtools against preview or browser vessels.
- * @param {object} ctx Action context.
- * @returns {Promise<any>} DevTools open result.
- */
-async function openDevTools(ctx) {
-    const module = await import('../devtools/open.js');
-    return module.DevToolsOpener.open(ctx);
+/** Opens DevTools for the supplied preview/browser context. */
+async function openDevTools(context) {
+	const module = await import("../devtools/open.js");
+	return await module.DevToolsOpener.open(context);
+}
+
+/** Reveals an item in its owning workspace. */
+async function revealInWorkspace(context) {
+	const module = await import("./commands/reveal-in-workspace.js");
+	return await module.default(context);
+}
+
+/** Closes every menu without manufacturing an anonymous command wrapper. */
+function cancelMenu() {
+	return MenuUI.hideAll();
 }
 
 const FALLBACK_ACTIONS = {
-    ...CORE_FILE_ACTIONS,
-    ...UI_LAYOUT_ACTIONS,
-    ...TAB_MANAGEMENT_ACTIONS,
-    ...PREVIEW_DEVTOOLS_ACTIONS,
-    ...DATA_TRANSFER_ACTIONS,
-    ...TEXT_TRANS_ACTIONS,
-    'cancel-menu': () => MenuUI.hideAll(),
-    'reveal-in-workspace': async (ctx) => (await import('./commands/reveal-in-workspace.js')).default(ctx),
-    'open-browser-tab': openBrowserTab,
-    'open-generic-ai-chat': openGenericAiChat,
-    'open-devtools': openDevTools
+	...CORE_FILE_ACTIONS,
+	...UI_LAYOUT_ACTIONS,
+	...TAB_MANAGEMENT_ACTIONS,
+	...PREVIEW_DEVTOOLS_ACTIONS,
+	...DATA_TRANSFER_ACTIONS,
+	...TEXT_TRANS_ACTIONS,
+	"cancel-menu": cancelMenu,
+	"reveal-in-workspace": revealInWorkspace,
+	"open-browser-tab": openBrowserTab,
+	"open-generic-ai-chat": openGenericAiChat,
+	"open-devtools": openDevTools
 };
 
+/** Returns and caches a known fallback action when one exists. */
+function resolveFallback(actionId) {
+	const handler = FALLBACK_ACTIONS[actionId];
+	if (!handler) {
+		return null;
+	}
+	COMMAND_CACHE.set(actionId, handler);
+	return handler;
+}
+
+/** Imports one validated lazy command from its canonical browser path. */
+async function importLazyCommand(actionId) {
+	const module = await import(commandModuleUrl(actionId));
+	const executor = module.default || Object.values(module).find(
+		exportValue => typeof exportValue === "function"
+	);
+	if (executor) {
+		COMMAND_CACHE.set(actionId, executor);
+	}
+	return executor || null;
+}
+
 export const ActionRegistry = {
-    async resolve(actionId) {
-        if (COMMAND_CACHE.has(actionId)) return COMMAND_CACHE.get(actionId);
-
-        if (FALLBACK_ACTIONS[actionId]) {
-            const handler = FALLBACK_ACTIONS[actionId];
-            COMMAND_CACHE.set(actionId, handler);
-            return handler;
-        }
-
-        try {
-            const module = await import('./commands/' + actionId + '.js');
-            const executor = module.default || Object.values(module).find(exp => typeof exp === 'function');
-            if (executor) COMMAND_CACHE.set(actionId, executor);
-            return executor || null;
-        } catch (e) {
-            console.error('B"H - Registry Error: Action [' + actionId + '] could not be found.', e);
-            return null;
-        }
-    }
+	/**
+	 * Resolves one logical action identifier to an executable handler.
+	 * @param {string} actionId Logical action identifier.
+	 * @returns {Promise<Function|null>} Executable handler when found.
+	 */
+	async resolve(actionId) {
+		if (COMMAND_CACHE.has(actionId)) {
+			return COMMAND_CACHE.get(actionId);
+		}
+		const fallback = resolveFallback(actionId);
+		if (fallback) {
+			return fallback;
+		}
+		try {
+			return await importLazyCommand(actionId);
+		} catch (error) {
+			console.error(
+				`B"H - Registry Error: Action [${actionId}] could not be resolved.`,
+				error
+			);
+			return null;
+		}
+	}
 };

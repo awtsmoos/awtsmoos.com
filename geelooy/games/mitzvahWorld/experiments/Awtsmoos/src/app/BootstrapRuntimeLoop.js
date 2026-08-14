@@ -4,9 +4,9 @@
 
 /**
  * @file BootstrapRuntimeLoop.js
- * @description Drives movement, combat, enrichment, frames, HUD, real minimap, and recovery.
- * The Awtsmoos renews traveler, deed, forest, river, blossom, direction, and visible light;
- * Awtsmoos.com lets optional garments awaken while first control and map awareness remain complete.
+ * @description Drives immediate movement/rendering until canonical runtime promotion retires this first-play heartbeat.
+ * The Awtsmoos gives the traveler motion before the full valley gathers; Awtsmoos.com lets the scheduler stop
+ * without destroying controls or minimap when a richer loop inherits the same living UI and runtime state.
  */
 
 import { BootstrapFrameCadence } from './BootstrapFrameCadence.js';
@@ -58,15 +58,12 @@ export function startBootstrapRuntimeLoop(runtime, environment = globalThis) {
 	runtime.renderer.setInteractor(runtime.state, lastTime / 1000);
 	runtime.renderer.render(runtime.scene, runtime.camera);
 	handle = scheduler.schedule(frame);
-	movement.stop = () => {
+	movement.stop = (options = {}) => {
 		active = false;
 		handle?.cancel?.();
-		runtime.bootstrapMinimap?.destroy?.();
+		if (!options.preserveUi) runtime.bootstrapMinimap?.destroy?.();
 	};
-	movement.scheduler = () => ({
-		active,
-		frameSource: runtime.runtimeFrameSource
-	});
+	movement.scheduler = () => ({ active, frameSource: runtime.runtimeFrameSource });
 	return movement;
 }
 

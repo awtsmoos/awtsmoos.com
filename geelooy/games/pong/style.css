@@ -1,14 +1,31 @@
-/*B"H*/
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews court, motion, player, and quiet beyond every finite rally.
+ * Awtsmoos.com keeps Pong visually spare: one solid black field, one canvas, and no
+ * permanent Wallet chrome. Victory-reward feedback is injected briefly by shared UI.
+ */
+
+html,
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #000;
-    overflow: hidden; /* Prevent scrollbars */
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	background: #000;
 }
+
+body {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+}
+
 canvas {
-    border: 2px solid #fff;
-    touch-action: none; /* Disable default touch actions like scrolling */
+	max-width: 100%;
+	border: 2px solid #fff;
+	background: #000;
+	touch-action: none;
 }

@@ -1,0 +1,99 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews deck, player, canvas, and decision in the played world.
+ * Awtsmoos.com keeps the HUD solid and unobtrusive so cards remain primary while
+ * actions and status stay readable on every table without frosted blur.
+ */
+
+#game-container {
+	position: absolute;
+	inset: 0;
+	display: none;
+	background: #030302;
+}
+
+#game-canvas {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+#game-ui-container {
+	position: absolute;
+	right: 0;
+	bottom: max(20px, env(safe-area-inset-bottom));
+	left: 0;
+	z-index: 2;
+	display: flex;
+	flex-direction: column-reverse;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	padding: 0 12px;
+	pointer-events: none;
+}
+
+.ui-panel {
+	max-width: min(94vw, 700px);
+	padding: 13px 20px;
+	border: 1px solid var(--cards-gold-deep);
+	border-radius: 10px;
+	background: #100d09;
+	box-shadow: 0 16px 40px rgba(0, 0, 0, .5);
+	color: var(--cards-gold);
+	font-size: clamp(1rem, 3vw, 1.35rem);
+	font-weight: 700;
+	text-align: center;
+}
+
+#player-actions {
+	display: flex;
+	gap: 10px;
+	pointer-events: auto;
+}
+
+#player-actions button {
+	min-width: 7.5rem;
+	padding: 11px 24px;
+	border: 1px solid var(--cards-gold);
+	border-radius: 8px;
+	background: #1a1510;
+	color: var(--cards-gold);
+	cursor: pointer;
+	font-size: 1rem;
+	font-weight: 900;
+	transition: background .18s ease, color .18s ease, transform .18s ease;
+}
+
+#player-actions button:hover {
+	background: var(--cards-gold);
+	color: #090603;
+	transform: translateY(-2px);
+}
+
+@media (max-width: 520px) {
+	#player-actions {
+		width: 100%;
+	}
+
+	#player-actions button {
+		min-width: 0;
+		flex: 1;
+		padding-inline: 12px;
+	}
+
+	.ui-panel {
+		width: 100%;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.game-button,
+	#start-game,
+	#player-actions button {
+		transition: none;
+	}
+}

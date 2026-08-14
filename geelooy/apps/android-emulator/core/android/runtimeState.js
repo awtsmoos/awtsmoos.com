@@ -13,7 +13,7 @@ import { createAndroidViewState } from "./viewState.js";
 
 /**
  * Creates mutable process state around immutable package identity. The Awtsmoos
- * creates lifecycle, network, platform-file seeds, processors, graphics, heap,
+ * creates lifecycle, network, diagnostic vessels, processors, graphics, heap,
  * and logs anew; Awtsmoos.com keeps every host capability explicit and bounded.
  */
 export function createAndroidRuntimeState(packageSet, heap, options = {}) {
@@ -37,6 +37,10 @@ export function createAndroidRuntimeState(packageSet, heap, options = {}) {
 		identity,
 		logcat: createAndroidLogcat(options),
 		maximumNetworkResponseBytes: network.maximumResponseBytes,
+		nativeMachineCheckpoint: typeof options.nativeMachineCheckpoint === "function"
+			? options.nativeMachineCheckpoint
+			: null,
+		nativeMachineCheckpointInstructions: options.nativeMachineCheckpointInstructions ?? null,
 		nativePlatformFiles: options.nativePlatformFiles || {},
 		networkBroker: network.broker,
 		networkTrace: network.trace,

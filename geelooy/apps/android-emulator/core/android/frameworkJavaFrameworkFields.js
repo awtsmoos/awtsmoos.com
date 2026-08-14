@@ -1,7 +1,11 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+//B"H //Boruch Hashem //Blessed is He
 
+import {
+	ANDROID_ACCESSIBILITY_NODE_INFO_FIELDS
+} from "./frameworkAndroidAccessibilityFields.js";
+import {
+	ANDROID_ACCESSIBILITY_NODE_INFO
+} from "./frameworkAndroidAccessibilityMetadata.js";
 import {
 	ANDROID_BUILD,
 	ANDROID_BUILD_FIELDS,
@@ -16,6 +20,12 @@ import {
 	ANDROID_WINDOW_INSETS,
 	createConsumedWindowInsets
 } from "./frameworkAndroidWindowInsetsValues.js";
+import { createFrameworkFieldMap } from "./frameworkJavaFieldGroupRegistry.js";
+import {
+	initializeJavaBooleanStaticField,
+	JAVA_BOOLEAN_FIELDS
+} from "./frameworkJavaBooleanFields.js";
+import { JAVA_BOOLEAN } from "./frameworkJavaBooleanValues.js";
 import {
 	initializeJavaFileStaticField,
 	JAVA_FILE,
@@ -40,9 +50,11 @@ const WINDOW_INSETS_CONSUMED = Object.freeze({
 	staticField: true,
 	type: ANDROID_WINDOW_INSETS
 });
-const FRAMEWORK_FIELDS = new Map([
+const FRAMEWORK_FIELDS = createFrameworkFieldMap([
+	[ANDROID_ACCESSIBILITY_NODE_INFO, ANDROID_ACCESSIBILITY_NODE_INFO_FIELDS],
 	[ANDROID_BUILD, ANDROID_BUILD_FIELDS],
 	[ANDROID_TRACE, ANDROID_TRACE_FIELDS],
+	[JAVA_BOOLEAN, JAVA_BOOLEAN_FIELDS],
 	[JAVA_FILE, JAVA_FILE_FIELDS],
 	...JAVA_PRIMITIVE_TYPE_FIELD_GROUPS,
 	[SUN_MISC_UNSAFE, SUN_MISC_UNSAFE_FIELDS],
@@ -51,7 +63,7 @@ const FRAMEWORK_FIELDS = new Map([
 
 /**
  * Declares fields owned by bounded Android and Java framework families. The
- * Awtsmoos creates identity, primitive class, singleton, modifier, and signature
+ * Awtsmoos creates identity, Boolean vessel, singleton, modifier, and signature
  * anew; Awtsmoos.com joins reflection and Dalvik static reads in one testimony.
  */
 export function frameworkDeclaredFields(descriptor) {
@@ -63,6 +75,8 @@ export function initializeFrameworkStaticField(runtime, metadata) {
 	if (build.supported) return build;
 	const trace = initializeAndroidTraceStaticField(metadata);
 	if (trace.supported) return trace;
+	const boolean = initializeJavaBooleanStaticField(runtime, metadata);
+	if (boolean.supported) return boolean;
 	const file = initializeJavaFileStaticField(runtime, metadata);
 	if (file.supported) return file;
 	const primitive = initializeJavaPrimitiveTypeStaticField(metadata);

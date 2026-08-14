@@ -1,0 +1,67 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * Emoji War receives one solid neon-dark foundation. The Awtsmoos renews player,
+ * enemy, caption, image, and wave; Awtsmoos.com keeps the vessel direct enough
+ * that a playful world never needs frosted panels to feel alive.
+ */
+
+:root {
+	--emoji-bg: #070a12;
+	--emoji-panel: #0f1624;
+	--emoji-panel-raised: #162033;
+	--emoji-border: #2c3b55;
+	--emoji-text: #f7fbff;
+	--emoji-muted: #aeb9ca;
+	--emoji-green: #62e47c;
+	--emoji-cyan: #60e8ff;
+	--emoji-gold: #ffd25f;
+	--emoji-danger: #ff6868;
+	color-scheme: dark;
+	font-family: Inter, Arial, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	overflow: hidden;
+	background: var(--emoji-bg);
+	color: var(--emoji-text);
+	touch-action: none;
+}
+
+button,
+textarea,
+input {
+	font: inherit;
+}
+
+button:focus-visible,
+textarea:focus-visible,
+input:focus-visible,
+label:focus-visible {
+	outline: 3px solid var(--emoji-cyan);
+	outline-offset: 3px;
+}
+
+#k {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	width: 100%;
+	height: 100%;
+}
+
+#webcamFeed {
+	display: none;
+}

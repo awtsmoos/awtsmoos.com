@@ -1,0 +1,75 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+Each omnibox option is a small native doorway: clear label, quiet meaning, visible type, and one arrow toward the chosen Awtsmoos.com world.
+*/
+.omnibox-option {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto auto;
+	align-items: center;
+	gap: .72rem;
+	min-height: 58px;
+	padding: .54rem .65rem;
+	border: 1px solid transparent;
+	border-radius: .78rem;
+	color: #dce8f7;
+	transition: background .14s ease, border-color .14s ease, transform .14s ease;
+}
+
+.omnibox-option:hover,
+.omnibox-option.is-active {
+	border-color: rgba(117, 201, 255, .16);
+	background: linear-gradient(90deg, rgba(90, 169, 229, .13), rgba(122, 92, 217, .055));
+	outline: none;
+	transform: translateX(2px);
+}
+
+.omnibox-symbol {
+	display: grid;
+	place-items: center;
+	width: 2.35rem;
+	height: 2.35rem;
+	border: 1px solid rgba(128, 203, 255, .18);
+	border-radius: .7rem;
+	background: rgba(92, 170, 230, .08);
+	color: #9ed8ff;
+	font-size: .82rem;
+	font-weight: 900;
+}
+
+.omnibox-copy {
+	display: grid;
+	gap: .12rem;
+	min-width: 0;
+}
+
+.omnibox-copy strong {
+	overflow: hidden;
+	font-size: .76rem;
+	letter-spacing: -.01em;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.omnibox-copy small {
+	overflow: hidden;
+	color: #788aa3;
+	font-size: .64rem;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.omnibox-badge {
+	padding: .28rem .42rem;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, .045);
+	color: #71849e;
+	font-size: .53rem;
+	font-weight: 800;
+	white-space: nowrap;
+}
+
+.omnibox-arrow {
+	color: #7899b6;
+	font-size: .78rem;
+}

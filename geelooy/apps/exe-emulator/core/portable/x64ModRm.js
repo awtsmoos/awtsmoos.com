@@ -6,90 +6,90 @@ import {
 	decodedInstruction,
 	decoderBoundary
 } from "./x64Instruction.js";
+import { decodeRegisterImmediate } from "./x64RegisterImmediateDecode.js";
 import { operandWidth } from "./x64Width.js";
 
-const REGISTER_KINDS = Object.freeze({
+const FORWARD_KINDS = Object.freeze({
 	0x01: "add_reg",
 	0x09: "or_reg",
+	0x11: "adc_reg",
+	0x19: "sbb_reg",
 	0x21: "and_reg",
 	0x29: "sub_reg",
 	0x31: "xor",
 	0x39: "cmp_reg",
 	0x85: "test_reg"
 });
+const REVERSE_KINDS = Object.freeze({
+	0x03: "add_reg",
+	0x0b: "or_reg",
+	0x13: "adc_reg",
+	0x1b: "sbb_reg",
+	0x23: "and_reg",
+	0x2b: "sub_reg",
+	0x33: "xor",
+	0x3b: "cmp_reg"
+});
 
 /**
- * Decodes bounded 32-bit and 64-bit direct-register ModRM forms. The Awtsmoos
- * creates source, destination, width, and operation anew; Awtsmoos.com preserves
- * zero-extending 32-bit destinations beside full-width REX.W behavior.
+ * Decodes direct-register ModRM forms in either architectural operand direction.
+ * The Awtsmoos renews carry, source, destination, width, and operation together;
+ * Awtsmoos.com delegates immediate groups so this exact vessel remains bounded.
  */
 export function decodeRegisterModRm(memory, rip, cursor, opcode, rex) {
 	const modrm = memory.u8(cursor + 1);
 	if ((modrm >> 6) !== 3) {
 		throw decoderBoundary("PORTABLE_X64_MEMORY_OPERAND", rip);
 	}
-	const destination = (modrm & 7) + ((rex & 1) ? 8 : 0);
-	const source = ((modrm >> 3) & 7) + ((rex & 4) ? 8 : 0);
+	const rmRegister = (modrm & 7) + ((rex & 1) ? 8 : 0);
+	const regRegister = ((modrm >> 3) & 7) + ((rex & 4) ? 8 : 0);
 	const width = operandWidth(rex);
-	if (REGISTER_KINDS[opcode]) {
-		return decodedInstruction(REGISTER_KINDS[opcode], rip, cursor + 2, {
-			destination,
-			source,
+	if (FORWARD_KINDS[opcode]) {
+		return registerOperation(
+			FORWARD_KINDS[opcode],
+			rip,
+			cursor,
+			rmRegister,
+			regRegister,
 			width
-		});
+		);
 	}
-	if (opcode === 0x89) {
-		return decodedInstruction("mov_reg", rip, cursor + 2, {
-			destination,
-			source,
+	if (REVERSE_KINDS[opcode]) {
+		return registerOperation(
+			REVERSE_KINDS[opcode],
+			rip,
+			cursor,
+			regRegister,
+			rmRegister,
 			width
-		});
+		);
 	}
-	if (opcode === 0x8b) {
-		return decodedInstruction("mov_reg", rip, cursor + 2, {
-			destination: source,
-			source: destination,
+	if (opcode === 0x89 || opcode === 0x8b) {
+		const reverse = opcode === 0x8b;
+		return registerOperation(
+			"mov_reg",
+			rip,
+			cursor,
+			reverse ? regRegister : rmRegister,
+			reverse ? rmRegister : regRegister,
 			width
-		});
+		);
 	}
-	return decodeImmediateGroup(
+	return decodeRegisterImmediate(
 		memory,
 		rip,
 		cursor,
 		opcode,
-		destination,
+		rmRegister,
 		modrm,
 		width
 	);
 }
 
-function decodeImmediateGroup(memory, rip, cursor, opcode, register, modrm, width) {
-	const immediateBytes = opcode === 0x83 ? 1 : 4;
-	const value = immediateBytes === 1
-		? memory.i8(cursor + 2)
-		: memory.i32(cursor + 2);
-	const operation = (modrm >> 3) & 7;
-	if (opcode === 0xc7 && operation === 0) {
-		return decodedInstruction("mov_imm", rip, cursor + 2 + immediateBytes, {
-			register,
-			value,
-			width
-		});
-	}
-	const kinds = {
-		0: "add_imm",
-		1: "or_imm",
-		4: "and_imm",
-		5: "sub_imm",
-		6: "xor_imm",
-		7: "cmp_imm"
-	};
-	if (!kinds[operation]) {
-		throw decoderBoundary(`PORTABLE_X64_GROUP_${operation}`, rip);
-	}
-	return decodedInstruction(kinds[operation], rip, cursor + 2 + immediateBytes, {
-		register,
-		value,
+function registerOperation(kind, rip, cursor, destination, source, width) {
+	return decodedInstruction(kind, rip, cursor + 2, {
+		destination,
+		source,
 		width
 	});
 }

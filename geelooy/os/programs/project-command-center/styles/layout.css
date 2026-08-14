@@ -1,0 +1,111 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews metric, pillar, action, and boundary beyond every finite grid.
+ * Awtsmoos.com keeps platform facts dense enough for builders yet spacious enough
+ * that Files, Connected Node, Peruta usage, and diagnostics remain distinguishable.
+ */
+
+.platformSection__heading {
+	display: flex;
+	align-items: end;
+	justify-content: space-between;
+	gap: 16px;
+	margin-bottom: 14px;
+}
+
+.platformSection__heading p {
+	max-width: 680px;
+	margin: 0;
+	font-size: .82rem;
+}
+
+.platformMetrics,
+.platformPillars {
+	display: grid;
+	gap: 10px;
+}
+
+.platformMetrics {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.platformPillars {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.platformMetric,
+.platformPillar {
+	border: 1px solid #223b55;
+	border-radius: 13px;
+	background: #0d1a2d;
+}
+
+.platformMetric {
+	display: grid;
+	gap: 5px;
+	padding: 13px;
+}
+
+.platformMetric span {
+	color: #8296ad;
+	font-size: .7rem;
+	font-weight: 800;
+	text-transform: uppercase;
+}
+
+.platformMetric strong {
+	font-size: 1rem;
+	font-variant-numeric: tabular-nums;
+}
+
+.platformPillar {
+	display: grid;
+	align-content: start;
+	gap: 10px;
+	padding: 16px;
+}
+
+.platformPillar p {
+	margin: 0;
+	font-size: .82rem;
+}
+
+.platformAction {
+	justify-self: start;
+	min-height: 40px;
+	padding: 8px 12px;
+	border: 1px solid #48708c;
+	border-radius: 9px;
+	background: #123049;
+	color: #fff;
+	cursor: pointer;
+	font-weight: 850;
+}
+
+.platformAction:hover {
+	background: #17415f;
+}
+
+.platformAction:focus-visible {
+	outline: 3px solid #66dcff;
+	outline-offset: 2px;
+}
+
+.platformBoundaries {
+	display: grid;
+	gap: 8px;
+	margin: 0;
+	padding-left: 20px;
+	color: #c8d4e2;
+	font-size: .82rem;
+	line-height: 1.5;
+}
+
+.platformStatus {
+	margin: 0;
+	color: #8397ae;
+	font-size: .75rem;
+}

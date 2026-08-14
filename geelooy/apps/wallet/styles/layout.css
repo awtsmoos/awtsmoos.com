@@ -1,0 +1,101 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews shell, hero, panel, and every finite treasury region.
+ * Awtsmoos.com gives the Wallet solid, trustworthy surfaces: value, provenance,
+ * checkout, and ledger stand on their own structure instead of frosted glass.
+ */
+
+.wallet-shell {
+	width: min(1280px, calc(100vw - 28px));
+	margin: auto;
+	padding: 28px 0 80px;
+}
+
+.hero,
+.panel {
+	border: 1px solid #5a4427;
+	border-radius: var(--wallet-radius-xl);
+	background:
+		radial-gradient(circle at top right, rgba(255, 216, 115, .08), transparent 36%),
+		#1a1009;
+	box-shadow: 0 28px 76px rgba(0, 0, 0, .46);
+}
+
+.hero {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 340px;
+	gap: 24px;
+	padding: clamp(24px, 6vw, 58px);
+	margin-bottom: 18px;
+}
+
+.hero--docs {
+	grid-template-columns: 1fr;
+}
+
+.eyebrow {
+	margin: 0 0 9px;
+	color: var(--wallet-gold);
+	font-size: 12px;
+	font-weight: 950;
+	letter-spacing: .15em;
+	text-transform: uppercase;
+}
+
+h1 {
+	margin: 0;
+	font-size: clamp(46px, 8vw, 92px);
+	line-height: .9;
+	letter-spacing: -.07em;
+}
+
+h2 {
+	margin: 0 0 12px;
+	font-size: clamp(24px, 4vw, 30px);
+	letter-spacing: -.03em;
+}
+
+.lead,
+.muted,
+p {
+	color: var(--wallet-muted);
+	line-height: 1.55;
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	gap: 18px;
+	margin-bottom: 18px;
+}
+
+.panel {
+	padding: 22px;
+	margin-bottom: 18px;
+}
+
+.grid > .panel {
+	margin-bottom: 0;
+}
+
+.docs-shell {
+	max-width: 1060px;
+}
+
+.docs-section code {
+	display: block;
+	overflow-wrap: anywhere;
+	padding: 12px 14px;
+	border: 1px solid #5a4427;
+	border-radius: var(--wallet-radius-md);
+	color: var(--wallet-gold);
+	background: #0e0905;
+}
+
+.trust-panel {
+	border-color: #37634a;
+	background: #111a12;
+}

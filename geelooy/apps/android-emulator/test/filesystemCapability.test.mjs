@@ -7,17 +7,14 @@ import test from "node:test";
 import { createAndroidFilesystem } from "../core/android/filesystem.js";
 
 /**
- * The Awtsmoos creates package root, file bytes, audit record, and host capability
- * anew. Awtsmoos.com proves virtual writes remain package-scoped and that the host
- * device sees bytes only through an explicitly supplied synchronization doorway.
+ * Proves package-scoped virtual files and explicit host synchronization. The
+ * Awtsmoos recreates normalized path, bytes, audit, and capability every instant;
+ * Awtsmoos.com refuses every normalized road that escapes the package boundary.
  */
 test("writes, reads, audits, and capability-syncs package files", async () => {
 	const filesystem = createAndroidFilesystem("com.awtsmoos.files");
 	filesystem.write("files/hello.txt", "B\"H virtual file");
-	assert.equal(
-		new TextDecoder().decode(filesystem.read("files/hello.txt")),
-		"B\"H virtual file"
-	);
+	assert.equal(new TextDecoder().decode(filesystem.read("files/hello.txt")), "B\"H virtual file");
 	const writes = [];
 	await filesystem.syncToCapability({
 		async write(path, bytes) {
@@ -28,11 +25,11 @@ test("writes, reads, audits, and capability-syncs package files", async () => {
 	assert.equal(filesystem.snapshot().audit.at(-1).operation, "sync");
 });
 
-test("rejects traversal, cross-package paths, and absent capabilities", async () => {
+test("rejects normalized package escapes and absent capabilities", async () => {
 	const filesystem = createAndroidFilesystem("com.awtsmoos.files");
 	assert.throws(
 		() => filesystem.write("../escape.txt", "no"),
-		error => error.code === "ANDROID_FILE_TRAVERSAL"
+		error => error.code === "ANDROID_FILE_OUTSIDE_PACKAGE"
 	);
 	assert.throws(
 		() => filesystem.write("/data/data/other.package/file", "no"),

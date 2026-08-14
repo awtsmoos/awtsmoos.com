@@ -1,0 +1,65 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews optional knowledge behind an intentional disclosure rather than a permanent wall;
+ * Awtsmoos.com keeps settings and campaign detail reachable while first access remains scrollable and small.
+ * This vessel owns disclosure and settings presentation only.
+ */
+.compact-disclosure {
+	background: rgba(255, 255, 255, 0.035);
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 16px;
+	margin-top: 8px;
+}
+
+.compact-disclosure > summary {
+	color: var(--gold);
+	cursor: pointer;
+	font-size: 11px;
+	font-weight: 950;
+	letter-spacing: 0.11em;
+	list-style: none;
+	padding: 12px 14px;
+	text-transform: uppercase;
+}
+
+.compact-disclosure > summary::-webkit-details-marker {
+	display: none;
+}
+
+.compact-disclosure > summary::after {
+	content: "+";
+	float: right;
+}
+
+.compact-disclosure[open] > summary::after {
+	content: "−";
+}
+
+.compact-disclosure-content {
+	padding: 0 12px 12px;
+}
+
+.compact-disclosure .campaign-section {
+	background: none;
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+.settings {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 720px) {
+	.settings {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.compact-disclosure > summary {
+		padding: 10px 11px;
+	}
+}

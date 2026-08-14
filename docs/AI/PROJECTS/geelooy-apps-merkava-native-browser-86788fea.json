@@ -1,0 +1,75 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-apps-merkava-native-browser-86788fea",
+	"path": "geelooy/apps/merkava-native-browser",
+	"type": "app",
+	"family": {
+		"id": "apps",
+		"title": "Applications"
+	},
+	"title": "geelooy/apps/merkava-native-browser",
+	"entries": [
+		"package.json",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/apps/merkava-native-browser/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/APPS.md",
+		"docs/APPS/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-merkava-native-browser-86788fea.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 60,
+		"tests": 0,
+		"assets": 0,
+		"generated": 10,
+		"docs": 1,
+		"other": 8
+	},
+	"totalFiles": 79,
+	"symbolSummary": {
+		"files": 55,
+		"classes": 0,
+		"functions": 55,
+		"exports": 10,
+		"samples": [
+			"readSample",
+			"cStringLiteral",
+			"cMacroString",
+			"stopGeneratedExeIfRunning",
+			"fileStats",
+			"buildReport",
+			"injectCssIntoHtml",
+			"collectCssAssets",
+			"collectScriptAssets",
+			"attrsOf",
+			"fetchText",
+			"describeEmbeddedExecutor"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/scripts",
+			"count": 44,
+			"examples": "geelooy/apps/merkava-native-browser/.inspect-md2.cjs; geelooy/apps/merkava-native-browser/.test-compile-webgl.cjs; geelooy/apps/merkava-native-browser/build-seed.mjs"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/apps/merkava-native-browser/tmp-chrome-webgl",
+			"file": "geelooy/apps/merkava-native-browser/tmp-chrome-webgl/index.html",
+			"title": "",
+			"scripts": 0,
+			"styles": 0
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

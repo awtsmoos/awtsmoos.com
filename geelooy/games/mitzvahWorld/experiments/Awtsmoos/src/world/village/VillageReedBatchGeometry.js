@@ -4,33 +4,33 @@
 
 /**
  * @file VillageReedBatchGeometry.js
- * @description Batches terrain-rooted reeds shaped by moisture, current, and access clearings.
- * The Awtsmoos causes many stems to reveal one quiet bank; Awtsmoos.com keeps their entire
- * ecology inside one static draw so village life gains depth without stealing a frame.
+ * @description Expands audited riparian colony centers into one dense static reed geometry batch.
+ * The Awtsmoos causes many stems to reveal one quiet bank; Awtsmoos.com keeps abundance inside one draw,
+ * so the game and Studio gain living shoreline depth without turning world entry into hundreds of objects or placement searches.
  */
 
 import { TEXTURE_URLS } from '../../assets/TextureCatalog.js';
 import { createRiverHydrology } from './VillageRiverHydrology.js';
 import {
 	createRiparianReedPlacements,
+	RIPARIAN_REED_CLUSTER_COUNT,
 	RIPARIAN_REED_COUNT
 } from './VillageRiparianReedPlacement.js';
 import { createStaticWaterTexturePolicy } from './VillageWaterMaterialPolicy.js';
 
-/**
- * Creates one immutable crossed-quad reed batch beside the canonical river.
- *
- * @param {Function|object} groundSampler - Canonical village ground sampler.
- * @param {object|null} hydrology - Optional shared hydrology profile.
- * @returns {object} One manual static geometry definition.
- */
 export function createReedBatchDefinition(groundSampler, hydrology = null) {
 	const profile = hydrology || createRiverHydrology(groundSampler, 64);
-	const placements = createRiparianReedPlacements(groundSampler, profile);
+	const clusters = createRiparianReedPlacements(groundSampler, profile);
 	const geometry = { faces: [], vertices: [] };
-	for (const placement of placements) appendCrossedReed(geometry, placement);
+	let stems = 0;
+	clusters.forEach((cluster, clusterIndex) => {
+		for (let stemIndex = 0; stemIndex < cluster.stemCount; stemIndex += 1) {
+			appendCrossedReed(geometry, stemFromCluster(cluster, clusterIndex, stemIndex));
+			stems += 1;
+		}
+	});
 	return {
-		color: '#769756',
+		color: '#718f50',
 		doubleSided: true,
 		...geometry,
 		id: 'Awtsmoos_stream_reeds_batch',
@@ -39,20 +39,38 @@ export function createReedBatchDefinition(groundSampler, hydrology = null) {
 		solid: false,
 		texturePolicy: createStaticWaterTexturePolicy({
 			primaryUrl: TEXTURE_URLS.terrain.marshGrass,
-			role: 'connected-river-reed-batch'
+			role: 'connected-river-reed-colonies'
 		}),
 		textureUrl: TEXTURE_URLS.terrain.marshGrass,
 		userData: {
-			ecology: 'moisture-flow-terrain-clearings',
+			clusters: clusters.length,
+			densityAuthority: 'shared-spatial-riparian-colonies',
+			ecology: 'water-road-footprint-staging-audited',
 			family: 'stream-reeds',
-			instances: placements.length,
+			instances: stems,
 			staticBatch: true
 		}
 	};
 }
 
+function stemFromCluster(cluster, clusterIndex, stemIndex) {
+	const phase = clusterIndex * 1.37 + stemIndex * 2.399963;
+	const amount = Math.sqrt((stemIndex + 0.55) / cluster.stemCount);
+	const radial = cluster.clusterRadius * amount * (0.58 + Math.sin(phase * 1.7) * 0.14);
+	const variation = Math.sin(phase * 1.31);
+	return {
+		bankWetness: cluster.bankWetness,
+		height: cluster.height * (0.82 + (variation + 1) * 0.11),
+		leanX: cluster.leanX + Math.cos(phase) * 0.025,
+		leanZ: cluster.leanZ + Math.sin(phase) * 0.025,
+		x: cluster.x + Math.cos(phase) * radial,
+		y: cluster.y + Math.sin(phase * 0.73) * 0.018,
+		z: cluster.z + Math.sin(phase) * radial
+	};
+}
+
 function appendCrossedReed(geometry, placement) {
-	const width = 0.038 + placement.bankWetness * 0.018;
+	const width = 0.034 + placement.bankWetness * 0.022;
 	const top = placement.y + placement.height;
 	appendQuad(geometry, [
 		[placement.x - width, placement.y, placement.z],
@@ -74,4 +92,4 @@ function appendQuad(geometry, vertices) {
 	geometry.faces.push([start, start + 1, start + 2, start + 3]);
 }
 
-export { RIPARIAN_REED_COUNT };
+export { RIPARIAN_REED_CLUSTER_COUNT, RIPARIAN_REED_COUNT };

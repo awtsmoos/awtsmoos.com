@@ -1,0 +1,102 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets title, one invitation, and one primary doorway carry the card while extra facts stay quiet.
+*/
+.gameGenre {
+	margin: 16px 0 5px;
+	color: var(--games-cyan);
+	font-size: .7rem;
+	font-weight: 900;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+
+.gameCard h3 {
+	margin: 0;
+	font-size: clamp(1.22rem, 2vw, 1.55rem);
+	line-height: 1.12;
+}
+
+.gameTitleLink {
+	color: var(--games-text);
+	text-decoration: none;
+}
+
+.gameTitleLink:hover,
+.gameTitleLink:focus-visible {
+	color: var(--games-gold);
+}
+
+.gameHook {
+	margin: 9px 0 0;
+	color: var(--games-text-soft);
+	font-size: .88rem;
+	line-height: 1.48;
+}
+
+.gameModes {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin-top: 11px;
+}
+
+.modeChip {
+	display: inline-flex;
+	align-items: center;
+	min-height: 28px;
+	padding: 4px 8px;
+	border: 1px solid var(--games-line-soft);
+	border-radius: 999px;
+	color: var(--games-muted);
+	font-size: .66rem;
+	font-weight: 800;
+}
+
+.modeChip--native {
+	border-color: rgba(64, 225, 255, .35);
+	color: var(--games-cyan);
+}
+
+.gameCard__footer {
+	display: grid;
+	margin-top: auto;
+	padding-top: 16px;
+}
+
+.gameActions {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 8px;
+}
+
+.playCta,
+.partyCta {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 46px;
+	border-radius: 12px;
+	font-size: .78rem;
+	font-weight: 900;
+	text-decoration: none;
+}
+
+.playCta {
+	padding: 0 13px;
+	background: linear-gradient(135deg, var(--games-gold), #fff0b0);
+	color: #171006;
+}
+
+.partyCta {
+	padding: 0 11px;
+	border: 1px solid var(--games-line-soft);
+	background: rgba(255,255,255,.035);
+	color: var(--games-text-soft);
+}
+
+.playCta:hover,
+.partyCta:hover {
+	transform: translateY(-1px);
+}

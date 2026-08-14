@@ -1,48 +1,94 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-Five thumb-sized doors keep the most important worlds readable and reachable on every phone.
+The Awtsmoos gathers Ikar, Torah, Apps, Games, and Mail into five truthful thumb doors; Awtsmoos.com gives the dock a solid foundation so mobile navigation feels anchored rather than floating behind frosted glass.
 */
 .mobile-dock {
 	display: none;
 }
 
 @media (max-width: 680px) {
+	html {
+		scroll-padding-bottom: calc(5.25rem + env(safe-area-inset-bottom));
+	}
+
+	.search input,
+	.hero-actions a,
+	.featured-card,
+	.portal-shortcuts a {
+		scroll-margin-bottom: calc(5.25rem + env(safe-area-inset-bottom));
+	}
+
 	.mobile-dock {
 		position: fixed;
-		right: .45rem;
-		bottom: max(.45rem, env(safe-area-inset-bottom));
-		left: .45rem;
-		z-index: 900;
+		right: .5rem;
+		bottom: max(.5rem, env(safe-area-inset-bottom));
+		left: .5rem;
+		z-index: 650;
 		display: grid;
 		grid-template-columns: repeat(5, minmax(0, 1fr));
-		padding: .32rem;
-		border: 1px solid rgba(108, 199, 255, .19);
-		border-radius: 1.05rem;
-		background: linear-gradient(180deg, rgba(9, 17, 31, .97), rgba(5, 10, 20, .98));
-		box-shadow: 0 18px 50px rgba(0, 0, 0, .56), inset 0 1px rgba(255, 255, 255, .04);
-		backdrop-filter: blur(22px);
+		gap: .18rem;
+		padding: .34rem;
+		border: 1px solid #2d5473;
+		border-radius: 1.12rem;
+		background: #071221;
+		box-shadow: 0 20px 48px rgba(0, 0, 0, .58);
+		transition: opacity .2s ease, transform .2s ease;
 	}
 
 	.mobile-dock a {
 		display: grid;
 		place-items: center;
-		gap: .12rem;
+		gap: .13rem;
 		min-width: 0;
-		min-height: 3.25rem;
-		border-radius: .75rem;
-		color: #9babc0;
+		min-height: 3.35rem;
+		border: 1px solid transparent;
+		border-radius: .78rem;
+		color: #9aacbf;
+		transition: background .16s ease, border-color .16s ease, color .16s ease, transform .16s ease;
 	}
 
-	.mobile-dock a:hover,
-	.mobile-dock a:focus-visible {
-		background: rgba(94, 160, 221, .12);
+	.mobile-dock a:hover {
+		border-color: #355f7f;
+		background: #10253e;
 		color: #fff;
-		outline: none;
+		transform: translateY(-1px);
 	}
 
-	.mobile-dock span { font-size: 1.05rem; }
-	.mobile-dock small { font-size: .58rem; font-weight: 820; }
-	.site-footer { display: none; }
-	.home { padding-bottom: 4.55rem; }
+	.mobile-dock a:focus-visible {
+		outline: 3px solid var(--focus-ring);
+		outline-offset: 2px;
+	}
+
+	.mobile-dock span {
+		font-size: 1.04rem;
+		line-height: 1;
+	}
+
+	.mobile-dock small {
+		overflow: hidden;
+		max-width: 100%;
+		font-size: .56rem;
+		font-weight: 830;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.site-footer {
+		display: none;
+	}
+}
+
+body.explore-open .mobile-dock,
+body[data-awtsmoos-profile-open="true"] .mobile-dock {
+	opacity: 0;
+	pointer-events: none;
+	transform: translateY(1rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.mobile-dock,
+	.mobile-dock a {
+		transition: none;
+	}
 }

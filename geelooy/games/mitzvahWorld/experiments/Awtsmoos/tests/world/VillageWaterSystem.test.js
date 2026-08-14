@@ -66,11 +66,11 @@ test('animated water uses one physical shader contract', () => {
 	}
 });
 
-test('river stone batch explicitly owns its public remote material', () => {
+test('river stone batch explicitly owns its public remote deposit material', () => {
 	const { definitions } = createVillageWaterDefinitions(() => 0);
 	const stones = definitions.find(definition => definition.id === 'Awtsmoos_river_stone_batch');
 	assert.equal(stones.texturePolicy.publicFirebase, true);
-	assert.equal(stones.texturePolicy.role, 'wet-riverbank-stone-batch');
+	assert.equal(stones.texturePolicy.role, 'wet-riverbank-stone-deposits');
 	assert.equal(stones.textureUrl.startsWith(DRIVE_ROOT), true);
 });
 

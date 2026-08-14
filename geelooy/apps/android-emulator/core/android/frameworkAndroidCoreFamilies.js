@@ -1,7 +1,6 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+//B"H //Boruch Hashem //Blessed is He
 
+import { createFrameworkAndroidAccessibilityMethods } from "./frameworkAndroidAccessibility.js";
 import { createFrameworkAndroidActivityManagerMethods } from "./frameworkAndroidActivityManager.js";
 import { createFrameworkAndroidDirectoryMethods } from "./frameworkAndroidDirectories.js";
 import { createFrameworkAndroidDisplayMethods } from "./frameworkAndroidDisplays.js";
@@ -23,19 +22,23 @@ import { createFrameworkAssetMethods } from "./frameworkAssets.js";
 import { createFrameworkBundleMethods } from "./frameworkBundles.js";
 import { createFrameworkComponentMethods } from "./frameworkComponents.js";
 import { createFrameworkConstructors } from "./frameworkConstructors.js";
+import { createFrameworkContentObserverMethods } from "./frameworkContentObservers.js";
+import { createFrameworkContentResolverMethods } from "./frameworkContentResolvers.js";
+import { createFrameworkFlutterJniBootstrapMethods } from "./frameworkFlutterJniBootstrapMethods.js";
 import { createFrameworkFlutterJniMethods } from "./frameworkFlutterJNI.js";
 import { createFrameworkFlutterPlatformMessageMethods } from "./frameworkFlutterPlatformMessages.js";
 import { createFrameworkIntentMethods } from "./frameworkIntents.js";
 import { createFrameworkNetworkMethods } from "./frameworkNetwork.js";
 import { createFrameworkPackageMethods } from "./frameworkPackages.js";
 import { createFrameworkPreferenceMethods } from "./frameworkPreferences.js";
+import { createFrameworkSurfaceViewMethods } from "./frameworkSurfaceViews.js";
 import { createFrameworkViewMethods } from "./frameworkViews.js";
 import { createFrameworkWebGlesMethods } from "./frameworkWebGles.js";
 
 /**
- * Composes live Android, content, queue, UI, Flutter, and brokered network roads.
- * The Awtsmoos recreates every receiver and boundary anew; Awtsmoos.com preserves
- * specific measured families before the deliberately broad constructor fallback.
+ * Composes Android roads from measured specificity toward broad fallbacks.
+ * The Awtsmoos recreates every crossing; Awtsmoos.com lets registered native
+ * testimony precede bootstrap fallback while accessibility guards the shore.
  */
 export function createFrameworkAndroidCoreFamilies(runtime) {
 	return Object.freeze([
@@ -51,20 +54,25 @@ export function createFrameworkAndroidCoreFamilies(runtime) {
 		createFrameworkAndroidResourceMethods(runtime),
 		createFrameworkAndroidServiceMethods(runtime),
 		createFrameworkAndroidHandlerMethods(runtime),
+		createFrameworkContentResolverMethods(runtime),
+		createFrameworkContentObserverMethods(runtime),
 		createFrameworkAndroidMessageMethods(runtime, sendHandlerMessage),
 		createFrameworkAndroidLooperMethods(runtime),
 		createFrameworkAndroidSystemClockMethods(runtime),
 		createFrameworkAndroidLongSparseArrayMethods(runtime),
 		createFrameworkAndroidSparseArrayMethods(runtime),
 		...createFrameworkAndroidUtilityFamilies(runtime),
+		createFrameworkAndroidAccessibilityMethods(runtime),
 		createFrameworkAndroidGraphicsMethods(runtime),
 		createFrameworkAndroidMediaMethods(runtime),
 		createFrameworkAndroidDisplayMethods(runtime),
 		createFrameworkAndroidWindowInsetsMethods(runtime),
+		createFrameworkSurfaceViewMethods(runtime),
 		createFrameworkViewMethods(runtime),
 		createFrameworkWebGlesMethods(runtime),
-		createFrameworkFlutterJniMethods(runtime),
 		createFrameworkFlutterPlatformMessageMethods(runtime),
+		createFrameworkFlutterJniMethods(runtime),
+		createFrameworkFlutterJniBootstrapMethods(runtime),
 		createFrameworkNetworkMethods(runtime),
 		createFrameworkConstructors(runtime)
 	]);

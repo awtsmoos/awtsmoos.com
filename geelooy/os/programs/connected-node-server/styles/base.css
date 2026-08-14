@@ -1,0 +1,83 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews connected machine, process, port, and ledger without any
+ * finite panel becoming their source. Awtsmoos.com keeps this control plane solid,
+ * high-contrast, and inspection-first so full native power never hides behind glass.
+ */
+
+.connectedServer {
+	display: grid;
+	gap: 16px;
+	min-height: 100%;
+	padding: 18px;
+	background: #050b14;
+	color: #f6f9ff;
+}
+
+.connectedServer__hero,
+.connectedServer__form,
+.connectedServer__statusPanel,
+.connectedServer__logsPanel,
+.connectedServer__usagePanel {
+	border: 1px solid #28445f;
+	border-radius: 16px;
+	background: #0a1526;
+	box-shadow: 0 16px 38px rgba(0, 0, 0, .32);
+}
+
+.connectedServer__hero {
+	padding: 24px;
+	background: linear-gradient(135deg, #0c1a2d, #101329);
+}
+
+.connectedServer__kicker {
+	margin: 0 0 8px;
+	color: #67ddff;
+	font-size: .7rem;
+	font-weight: 900;
+	letter-spacing: .14em;
+	text-transform: uppercase;
+}
+
+.connectedServer h1,
+.connectedServer h2 {
+	margin: 0;
+}
+
+.connectedServer h1 {
+	max-width: 900px;
+	font-size: clamp(2rem, 5vw, 4.4rem);
+	letter-spacing: -.055em;
+	line-height: .95;
+}
+
+.connectedServer__lead {
+	max-width: 900px;
+	margin: 14px 0 0;
+	color: #a9b8ca;
+	line-height: 1.55;
+}
+
+.connectedServer__message {
+	margin: 0;
+	padding: 10px 12px;
+	border: 1px solid #2d4c69;
+	border-radius: 10px;
+	background: #0b1a2a;
+	color: #cad9e8;
+}
+
+.connectedServer__message--warn {
+	border-color: #6c5828;
+	background: #241c0d;
+	color: #ffe5a4;
+}
+
+.connectedServer__message--error {
+	border-color: #74404b;
+	background: #2b1017;
+	color: #ffd2d9;
+}

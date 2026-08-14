@@ -1,0 +1,132 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos renews the next moment before the dashboard can announce it;
+ * Awtsmoos.com makes one zman dominant, six anchors quick, and everything else quiet enough to fit.
+ */
+
+.next-zman-panel {
+	min-height: 208px;
+	padding: clamp(1rem, 4vw, 1.5rem);
+	border-radius: var(--radius-large);
+	background:
+		radial-gradient(circle at 90% 0%, rgba(255, 255, 255, 0.12), transparent 17rem),
+		var(--forest);
+	color: white;
+}
+
+.next-kicker {
+	margin: 0 0 0.35rem;
+	font-size: 0.66rem;
+	font-weight: 850;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	opacity: 0.66;
+}
+
+.next-zman-panel h2 {
+	max-width: 20ch;
+	margin: 0;
+	font-family: Georgia, "Times New Roman", serif;
+	font-size: clamp(1.75rem, 7vw, 2.7rem);
+	line-height: 1;
+	letter-spacing: -0.035em;
+}
+
+.next-zman-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0.45rem 0.8rem;
+	margin-top: 0.9rem;
+}
+
+.next-zman-row strong {
+	font-size: clamp(2.6rem, 12vw, 4.5rem);
+	line-height: 0.9;
+	letter-spacing: -0.055em;
+}
+
+.next-countdown {
+	padding: 0.3rem 0.55rem;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.12);
+	font-size: 0.72rem;
+	font-weight: 800;
+}
+
+.next-context {
+	display: grid;
+	gap: 0.18rem;
+	margin-top: 1rem;
+	padding-top: 0.8rem;
+	border-top: 1px solid rgba(255, 255, 255, 0.13);
+	font-size: 0.68rem;
+	line-height: 1.4;
+	opacity: 0.72;
+}
+
+.next-muted {
+	max-width: 46ch;
+	margin: 0.8rem 0 0;
+	font-size: 0.78rem;
+	line-height: 1.5;
+	opacity: 0.72;
+}
+
+.key-times-panel {
+	padding: var(--space-3);
+	border: 1px solid var(--line);
+	border-radius: var(--radius-large);
+	background: rgba(255, 253, 248, 0.78);
+}
+
+.compact-heading {
+	align-items: start;
+	margin-bottom: 0.8rem;
+}
+
+.compact-heading h2 {
+	font-size: 1.5rem;
+}
+
+.key-times {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	border-top: 1px solid var(--line);
+	border-left: 1px solid var(--line);
+}
+
+.key-time {
+	min-width: 0;
+	padding: 0.7rem;
+	border-right: 1px solid var(--line);
+	border-bottom: 1px solid var(--line);
+}
+
+.key-time span,
+.key-time strong {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.key-time span {
+	font-size: 0.64rem;
+	color: var(--ink-soft);
+}
+
+.key-time strong {
+	margin-top: 0.2rem;
+	font-size: 1rem;
+}
+
+.key-time[data-status="next"] {
+	background: var(--mist);
+}
+
+.key-time[data-status="passed"] {
+	opacity: 0.56;
+}

@@ -2,11 +2,9 @@
  * Boruch Hashem
  * Blessed is He
  *
- * Social Hub receives the shared profile crown first and its exact social
- * instruments second. The Awtsmoos clothes every label, link, field, action,
- * disclosure, and status surface without leaking broad rules into the shell.
+ * The Awtsmoos gathers Inbox, people, Spaces, channel activity, review, member governance, profile identity, and neighboring communication vessels
+ * through focused styles so Awtsmoos.com can grow radically without one global glass-panel stylesheet.
  */
-
 @import url('/style/social-system/index.css?v=social-core-006');
 @import url('./styles/foundation.css?v=hub-nebula-004');
 @import url('./styles/typography.css?v=hub-nebula-004');
@@ -14,13 +12,23 @@
 @import url('./styles/shell.css?v=hub-nebula-004');
 @import url('./styles/shell-status.css?v=hub-nebula-004');
 @import url('./styles/navigation.css?v=hub-nebula-004');
+@import url('./styles/communication-links.css?v=hub-comms-001');
+@import url('./styles/inbox.css?v=hub-inbox-001');
 @import url('./styles/cards.css?v=hub-dark-003');
 @import url('./styles/interaction.css?v=hub-dark-003');
 @import url('./styles/interaction-media.css?v=hub-dark-003');
 @import url('./styles/activity.css?v=hub-dark-003');
 @import url('./styles/profile.css?v=hub-dark-003');
+@import url('./styles/profile-relationships.css?v=hub-relations-001');
+@import url('./styles/social-network.css?v=hub-network-001');
+@import url('./styles/public-discovery.css?v=hub-public-001');
+@import url('./styles/people-discovery.css?v=hub-people-001');
+@import url('./styles/spaces.css?v=hub-spaces-002');
+@import url('./styles/space-channel.css?v=hub-channel-001');
+@import url('./styles/space-review.css?v=hub-review-001');
+@import url('./styles/space-members.css?v=hub-members-001');
 @import url('./styles/desktop.css?v=hub-dark-003');
-@import url('./styles/mobile.css?v=hub-nebula-004');
+@import url('./styles/mobile.css?v=hub-mobile-005');
 @import url('./styles/mobile-header.css?v=hub-nebula-004');
 @import url('./styles/mobile-narrow.css?v=hub-dark-003');
 @import url('./styles/accessibility.css?v=hub-dark-003');

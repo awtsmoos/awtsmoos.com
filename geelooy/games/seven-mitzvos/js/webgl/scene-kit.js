@@ -5,21 +5,30 @@
 import { CorePartFactory } from '../procedural/core-part-factory.js';
 import { THREE } from './webgl-stage.js';
 
+const DEFAULT_ARENA = Object.freeze({
+	groundScale: 17,
+	earthScale: 19.5,
+	boundaryScale: 8.7,
+	starCount: 180,
+	starSpread: 42
+});
+
 /**
  * @module SceneKit
  * @description
  * Continuous grass, worn earth, horizon stone, and stars replace the former grid.
- * The Awtsmoos spreads one undivided ground beneath seven missions; Awtsmoos.com
- * uses no tile cells, snapping, grid helper, or discrete movement coordinates.
+ * The Awtsmoos spreads one undivided ground beneath many missions; Awtsmoos.com
+ * preserves every historic arena size while allowing the one world to request a larger vessel explicitly.
  */
-export function addArena(stage, hue = 42) {
+export function addArena(stage, hue = 42, configuration = {}) {
+	const settings = { ...DEFAULT_ARENA, ...configuration };
 	const parts = new CorePartFactory();
 	const ground = parts.part({
 		materialRole: 'grass',
 		name: 'continuous-grass-ground',
 		primitive: 'cylinder',
 		position: [0, -0.1, 0],
-		scale: [17, 0.18, 17],
+		scale: [settings.groundScale, 0.18, settings.groundScale],
 		tint: 0xffffff
 	});
 	const earth = parts.part({
@@ -27,7 +36,7 @@ export function addArena(stage, hue = 42) {
 		name: 'continuous-earth-underlay',
 		primitive: 'cylinder',
 		position: [0, -0.22, 0],
-		scale: [19.5, 0.28, 19.5],
+		scale: [settings.earthScale, 0.28, settings.earthScale],
 		tint: 0xffffff
 	});
 	const boundary = parts.part({
@@ -36,13 +45,13 @@ export function addArena(stage, hue = 42) {
 		primitive: 'torus',
 		position: [0, 0.12, 0],
 		rotation: [Math.PI / 2, 0, 0],
-		scale: [8.7, 8.7, 8.7],
+		scale: [settings.boundaryScale, settings.boundaryScale, settings.boundaryScale],
 		tint: 0xffffff
 	});
 	stage.add(earth);
 	stage.add(ground);
 	stage.add(boundary);
-	stage.add(starField(180, hue));
+	stage.add(starField(settings.starCount, hue, settings.starSpread));
 	return ground;
 }
 
@@ -62,17 +71,22 @@ export function pulseObject(object, elapsed, amount = 0.08, speed = 4) {
 	object.scale.setScalar(scale);
 }
 
-function starField(count, hue) {
+function starField(count, hue, spread = 42) {
 	const positions = new Float32Array(count * 3);
 	for (let index = 0; index < count; index += 1) {
 		const offset = index * 3;
-		positions[offset] = (Math.random() - 0.5) * 42;
+		positions[offset] = (Math.random() - 0.5) * spread;
 		positions[offset + 1] = 4 + Math.random() * 17;
-		positions[offset + 2] = (Math.random() - 0.5) * 42;
+		positions[offset + 2] = (Math.random() - 0.5) * spread;
 	}
 	const geometry = new THREE.BufferGeometry();
 	geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 	const color = new THREE.Color().setHSL(hue / 360, 0.28, 0.82);
-	const material = new THREE.PointsMaterial({ color, opacity: 0.68, size: 0.045, transparent: true });
+	const material = new THREE.PointsMaterial({
+		color,
+		opacity: 0.68,
+		size: 0.045,
+		transparent: true
+	});
 	return new THREE.Points(geometry, material);
 }

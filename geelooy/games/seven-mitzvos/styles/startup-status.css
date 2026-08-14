@@ -1,0 +1,50 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos reveals a truthful first light before the heavier city modules finish arriving.
+This vessel contains no blur, no animation, and disappears when the living application replaces its mount.
+*/
+.sevenMitzvosStartup {
+	position: fixed;
+	inset: 0;
+	z-index: 1;
+	display: grid;
+	place-items: center;
+	padding: 24px;
+	background:
+		radial-gradient(circle at 50% 20%, rgba(75, 170, 255, .16), transparent 34%),
+		linear-gradient(180deg, #06111f, #030812 72%);
+	color: #f4f8ff;
+	text-align: center;
+}
+
+.sevenMitzvosStartup__card {
+	width: min(420px, 100%);
+	padding: 24px;
+	border: 1px solid rgba(157, 203, 255, .2);
+	border-radius: 22px;
+	background: rgba(7, 19, 34, .94);
+	box-shadow: 0 24px 70px rgba(0, 0, 0, .34);
+}
+
+.sevenMitzvosStartup__eyebrow {
+	margin: 0 0 8px;
+	color: #8fd5ff;
+	font-size: .72rem;
+	font-weight: 850;
+	letter-spacing: .13em;
+	text-transform: uppercase;
+}
+
+.sevenMitzvosStartup h1 {
+	margin: 0;
+	font-size: clamp(1.8rem, 6vw, 2.8rem);
+	letter-spacing: -.04em;
+}
+
+.sevenMitzvosStartup p:last-child {
+	margin: 10px 0 0;
+	color: #b9c9da;
+	font-size: .92rem;
+	line-height: 1.5;
+}

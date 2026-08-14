@@ -4,31 +4,28 @@
 
 /**
  * @file DeferredWorldModelLoader.js
- * @description Loads optional curated GLBs only after movement is available and the browser is idle.
- * The Awtsmoos reveals the complete procedural valley before imported decoration; Awtsmoos.com
- * waits for a quiet finite moment so optional beauty never steals the first responsive frame.
+ * @description Loads optional non-tree curated GLBs only after canonical movement is available and the browser is idle.
+ * The Awtsmoos reveals the complete procedural valley and deep forest before imported decoration; Awtsmoos.com
+ * streams wildlife and props as a degradable extra vessel, never a second structural tree or first-frame dependency.
  */
 
 import { canonicalizeSceneMaterials } from '../assets/SceneMaterialCanonicalizer.js';
 import { loadWorldModelAssets } from '../assets/WorldModelAssetService.js';
+import {
+	applyDeferredWorldModelStats,
+	createDeferredWorldModelState,
+	scheduleDeferredWorldModelLoad
+} from './DeferredWorldModelLoadState.js';
 import { refreshWorldDiagnostics } from './WorldDiagnostics.js';
 import { worldModelLoadingPolicy } from './WorldModelLoadingPolicy.js';
 
-export function startDeferredWorldModels(
-	foundation,
-	runtime,
-	diagnostics,
-	options,
-	boot
-) {
+export function startDeferredWorldModels(foundation, runtime, diagnostics, options, boot) {
 	const policy = worldModelLoadingPolicy(options);
-	const state = createState(policy);
+	const state = createDeferredWorldModelState(policy);
 	diagnostics.worldModelStatus = state;
-	if (!policy.enabled) {
-		return Promise.resolve(null);
-	}
+	if (!policy.enabled) return Promise.resolve(null);
 	return new Promise(resolve => {
-		const cancel = scheduleIdleLoad(() => loadModels({
+		const cancel = scheduleDeferredWorldModelLoad(() => loadModels({
 			boot,
 			diagnostics,
 			foundation,
@@ -62,7 +59,7 @@ async function loadModels(context) {
 		);
 		context.diagnostics.worldModels = service;
 		context.diagnostics.worldModelStats = service.stats();
-		applyServiceState(context.state, context.diagnostics.worldModelStats);
+		applyDeferredWorldModelStats(context.state, context.diagnostics.worldModelStats);
 		if (context.diagnostics.worldModelStats.failed.length) {
 			context.boot.degrade(
 				'world-models',
@@ -79,55 +76,6 @@ async function loadModels(context) {
 		refreshWorldDiagnostics(context.diagnostics, context.runtime);
 		context.resolve(null);
 	}
-}
-
-function scheduleIdleLoad(callback, delayMilliseconds) {
-	let cancelled = false;
-	let idleHandle = null;
-	let timeoutHandle = null;
-	const invoke = () => {
-		if (!cancelled) {
-			callback();
-		}
-	};
-	timeoutHandle = setTimeout(() => {
-		if (cancelled) {
-			return;
-		}
-		if (typeof requestIdleCallback === 'function') {
-			idleHandle = requestIdleCallback(invoke, { timeout: 1800 });
-			return;
-		}
-		queueMicrotask(invoke);
-	}, Math.max(0, delayMilliseconds));
-	return () => {
-		cancelled = true;
-		clearTimeout(timeoutHandle);
-		if (idleHandle != null && typeof cancelIdleCallback === 'function') {
-			cancelIdleCallback(idleHandle);
-		}
-	};
-}
-
-function createState(policy) {
-	return {
-		cancel: null,
-		error: null,
-		loaded: 0,
-		policy: policy.reason,
-		requested: 0,
-		startedAt: null,
-		status: policy.enabled ? 'scheduled-idle' : 'disabled-by-default'
-	};
-}
-
-function applyServiceState(state, stats) {
-	Object.assign(state, {
-		cancel: null,
-		loaded: stats.loaded,
-		requested: stats.requested,
-		status: stats.failed.length ? 'degraded' : 'ready'
-	});
 }
 
 export default startDeferredWorldModels;

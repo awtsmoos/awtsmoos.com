@@ -1,0 +1,73 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-api-ohr-hagnuz-670c00a6",
+	"path": "geelooy/api/ohr-hagnuz",
+	"type": "api",
+	"family": {
+		"id": "apis",
+		"title": "API Projects"
+	},
+	"title": "geelooy/api/ohr-hagnuz",
+	"entries": [
+		"_awtsmoos.derech.js",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/api/ohr-hagnuz/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/APIS.md",
+		"docs/API/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-ohr-hagnuz-670c00a6.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 6,
+		"tests": 1,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 8,
+	"symbolSummary": {
+		"files": 6,
+		"classes": 0,
+		"functions": 17,
+		"exports": 14,
+		"samples": [
+			"dynamicRoutes",
+			"GAME_PROTOCOL_VERSION",
+			"canonicalOrigin",
+			"gameTicketClaims",
+			"normalizeSlot",
+			"requestOrigin",
+			"firstHeader",
+			"boundedInteger",
+			"issueOnlineJourneyTicket",
+			"packet",
+			"result",
+			"clearGameTickets"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/api/tunnel",
+			"count": 2,
+			"examples": "geelooy/api/ohr-hagnuz/routes/realtimeTicket.js"
+		}
+	],
+	"incomingDependencies": [
+		{
+			"project": "ayzarim/awtsmoosDynamicServer",
+			"count": 2,
+			"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/ohrHagnuz/AuthenticatedWorldTestHarness.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/ohrHagnuz/auth/GameTicketConsumer.js"
+		}
+	],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": false,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

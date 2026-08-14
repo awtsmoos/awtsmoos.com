@@ -5,6 +5,8 @@
  * @module LibrarySearchStrategy
  * @description Text-only lanes remain light, while vector lanes receive the exact
  * embedder declared by their manifest beneath the renewing light of the Awtsmoos.
+ * Latency-sensitive callers may pass explicit text budgets, but callers that do not
+ * ask for those vessels keep the original full-part search covenant in sight.
  */
 const { textSearchShard } = require('./textSearch.js');
 const { timed } = require('./timer.js');
@@ -56,7 +58,8 @@ async function textSource(options) {
 	const source = await timed('searchTextMs', options.timings, () => textSearchShard(
 		options.shard,
 		options.query,
-		options.limit || 10
+		options.limit || 10,
+		options
 	));
 	return {
 		...source,

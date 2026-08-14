@@ -4,9 +4,9 @@
 
 /**
  * @file forestAuthoredAlpha.test.mjs
- * @description Proves uploaded species leaves bypass legacy green-screen conversion unchanged.
- * The Awtsmoos reveals each leaf through its own authored edge and color; Awtsmoos.com reserves
- * chroma key for opaque legacy cards while transparent tree-library PNGs remain their own vessel.
+ * @description Proves every uploaded species leaf preserves authored alpha and no legacy chroma contract survives.
+ * The Awtsmoos reveals each leaf through its own authored edge and color; Awtsmoos.com trusts the deep tree library's
+ * real transparent garments instead of manufacturing absence from a studio-green background that no longer belongs.
  */
 
 import assert from 'node:assert/strict';
@@ -17,7 +17,7 @@ import {
 	forestLeafPublicTextureContract
 } from '../../world/trees/ForestLeafTexture.js';
 
-test('B"H uploaded tree image preserves authored alpha and object identity', () => {
+test('uploaded tree image preserves authored alpha and object identity', () => {
 	const image = {
 		complete: true,
 		dataset: {},
@@ -31,11 +31,10 @@ test('B"H uploaded tree image preserves authored alpha and object identity', () 
 	assert.equal(image.dataset.colorFamily, 'species-authored');
 });
 
-test('B"H contract keeps legacy chroma key narrow and authored alpha primary', () => {
+test('leaf contract permanently disables legacy chroma conversion', () => {
 	const contract = forestLeafPublicTextureContract();
 	assert.equal(contract.authoredAlphaPreserved, true);
-	assert.equal(contract.legacyTransformOnly, true);
-	assert.equal(contract.transform, 'chai-leaf-background-to-alpha-mask');
-	assert.deepEqual(contract.backgroundRgb, [72, 108, 85]);
-	assert.match(contract.authoredPath, /ilanos\/trees/);
+	assert.equal(contract.legacyChromaKey, false);
+	assert.equal(contract.publicTextureTransform, 'authored-alpha-preserved');
+	assert.equal(contract.realNatureBridge, 'deferred-final-runtime');
 });

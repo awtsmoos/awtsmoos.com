@@ -1,26 +1,28 @@
 /*B"H*/
 /*Boruch Hashem*/
 /*Blessed is He*/
-/*
-	Accessibility changes presentation, never mission truth or traversal topology.
-	Awtsmoos.com offers stillness, stronger contrast, clear focus, and readable
-	controls so more vessels may receive the same light of the Awtsmoos.
-*/
 
+/**
+ * The Awtsmoos renews one pilgrimage through many bodies and senses;
+ * Awtsmoos.com keeps contrast, focus, stillness, and readable touch vessels without changing mission truth.
+ * Accessibility modifies presentation only, never generated streets, progression, or player intent.
+ */
 .highContrast {
-	filter: contrast(1.22) saturate(0.92);
+	filter: contrast(1.2) saturate(0.94);
 }
 
-.highContrast .statusGrid div,
+.highContrast .chapterIdentity,
+.highContrast .statusGrid > div,
+.highContrast .message,
 .highContrast .overlayPanel,
-.highContrast .controlDeck {
-	border-color: rgba(255, 255, 255, 0.48);
+.highContrast .touchControls button {
 	background: #050713;
+	border-color: rgba(255, 255, 255, 0.5);
 }
 
 button[aria-pressed="true"] {
-	border-color: #fff0a6;
 	background: rgba(255, 240, 166, 0.18);
+	border-color: #fff0a6;
 }
 
 :focus-visible {
@@ -28,27 +30,41 @@ button[aria-pressed="true"] {
 	outline-offset: 3px;
 }
 
+.gameFrame,
+#cityCanvas,
+.controlDeck,
+.touchControls {
+	-webkit-user-select: none;
+	user-select: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
 	*,
 	*::before,
 	*::after {
+		animation-duration: 0.001ms !important;
 		scroll-behavior: auto !important;
 		transition-duration: 0.001ms !important;
-		animation-duration: 0.001ms !important;
 	}
 }
 
 @media (max-width: 520px) {
-	.touchControls {
-		grid-template-columns: repeat(5, minmax(2.55rem, auto));
-	}
-
-	.touchControls button {
-		padding: 0 0.45rem;
-		font-size: 0.78rem;
-	}
-
 	.message {
-		font-size: 0.82rem;
+		font-size: 0.74rem;
+	}
+
+	.overlayPanel button,
+	.pauseBack {
+		min-height: 44px;
+	}
+}
+
+@media (prefers-contrast: more) {
+	.chapterIdentity,
+	.statusGrid > div,
+	.message,
+	.overlayPanel,
+	.touchControls button {
+		border-color: rgba(255, 255, 255, 0.55);
 	}
 }

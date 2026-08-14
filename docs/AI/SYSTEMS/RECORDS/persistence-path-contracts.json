@@ -1,0 +1,48 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-system-tutorial-v1",
+	"systemId": "persistence-path-contracts",
+	"district": "data",
+	"title": "Persistence Path Contracts",
+	"summary": "Logical path shapes that behave like compatibility contracts across persisted Social and runtime data.",
+	"manuals": [
+		"docs/DATA/PATH_CONTRACTS.md",
+		"docs/DATA/README.md"
+	],
+	"projects": [
+		{
+			"projectId": "geelooy-api-social-0cd2dc86",
+			"path": "geelooy/api/social",
+			"type": "api",
+			"title": "geelooy/api/social",
+			"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-social-0cd2dc86.md"
+		},
+		{
+			"projectId": "ayzarim-dosdb-eaaa802e",
+			"path": "ayzarim/DosDB",
+			"type": "data",
+			"title": "ayzarim/DosDB",
+			"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-dosdb-eaaa802e.md"
+		}
+	],
+	"sources": [
+		"geelooy/api/social/helper/packed/shardPaths.js",
+		"ayzarim/awtsmoosDynamicServer/server/initDb.js"
+	],
+	"generatedEvidence": [],
+	"tags": [
+		"persistence",
+		"path",
+		"compatibility",
+		"migration"
+	],
+	"claimsBoundary": "Human path-contract documentation supplies interpretation; source paths merely anchor where path rules are implemented.",
+	"changeRisk": "Renaming or re-rooting persisted paths can silently strand existing data without migration.",
+	"environmentEvidence": [],
+	"realtimeApplications": [],
+	"eventEvidence": [],
+	"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/persistence-path-contracts.md",
+	"aiFile": "docs/AI/SYSTEMS/RECORDS/persistence-path-contracts.json",
+	"provenance": "curated-system-semantics-plus-generated-local-source-evidence",
+	"navigationRule": "Human manual -> generated system tutorial/evidence -> related project/source -> tests/runtime verification."
+}

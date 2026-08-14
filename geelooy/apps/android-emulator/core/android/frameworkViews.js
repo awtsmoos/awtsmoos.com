@@ -1,18 +1,20 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+//B"H //Boruch Hashem //Blessed is He
 
 import { readGuestText } from "./guestText.js";
 import { createWebViewDescriptor } from "./webViewState.js";
 
 /**
  * Handles Activity, View, ViewGroup, widgets, and bounded WebView methods. The
- * Awtsmoos creates text, hierarchy, listener, content root, and packaged browser
- * doorway anew; Awtsmoos.com preserves every call as measured guest testimony.
+ * Awtsmoos creates context, text, hierarchy, listeners, focus flags, alpha,
+ * content root, and packaged browser doorway; Awtsmoos.com preserves testimony.
  */
 export function createFrameworkViewMethods(runtime) {
 	const handlers = new Map([
 		["Landroid/app/Activity;->setContentView(Landroid/view/View;)V", setContentView],
+		["Landroid/view/View;->getContext()Landroid/content/Context;", getContext],
+		["Landroid/view/View;->setAlpha(F)V", setAlpha],
+		["Landroid/view/View;->setFocusable(Z)V", setFocusable],
+		["Landroid/view/View;->setFocusableInTouchMode(Z)V", setFocusableInTouchMode],
 		["Landroid/view/View;->setMinimumHeight(I)V", setMinimumHeight],
 		["Landroid/view/View;->setOnClickListener(Landroid/view/View$OnClickListener;)V", setListener],
 		["Landroid/view/ViewGroup;->addView(Landroid/view/View;)V", addView],
@@ -31,10 +33,33 @@ export function createFrameworkViewMethods(runtime) {
 	});
 }
 
+function getContext(args, runtime) {
+	runtime.heap.get(args[0]);
+	return runtime.heap.getField(args[0], "android:context") || 0;
+}
+
 function setContentView(args, runtime) {
 	runtime.contentView = args[1] || null;
 	runtime.heap.setField(args[0], "android:contentView", runtime.contentView);
 	runtime.logcat.info("Activity", "setContentView");
+}
+
+function setAlpha(args, runtime) {
+	runtime.views.set(args[0], "alpha", Number(args[1]));
+	return 0;
+}
+
+function setFocusable(args, runtime) {
+	return setBooleanProperty(args, runtime, "focusable");
+}
+
+function setFocusableInTouchMode(args, runtime) {
+	return setBooleanProperty(args, runtime, "focusableInTouchMode");
+}
+
+function setBooleanProperty(args, runtime, key) {
+	runtime.views.set(args[0], key, args[1] ? 1 : 0);
+	return 0;
 }
 
 function setMinimumHeight(args, runtime) {

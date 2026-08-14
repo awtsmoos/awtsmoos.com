@@ -1,0 +1,103 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews score, life, combo, and every temporary gift in one current.
+ * Awtsmoos.com keeps HUD information compact and solid so moving emoji action
+ * remains primary while critical state stays readable on every background.
+ */
+
+.ui-element {
+	position: absolute;
+	z-index: 2;
+	padding: 7px 10px;
+	border: 1px solid var(--emoji-border);
+	border-radius: 9px;
+	background: #0b1220;
+	box-shadow: 0 8px 20px rgba(0, 0, 0, .32);
+	font-size: clamp(.82rem, 2.7vw, 1rem);
+	font-weight: 800;
+	line-height: 1.4;
+	text-shadow: 1px 1px 2px #000;
+}
+
+#topInfo {
+	top: max(10px, env(safe-area-inset-top));
+	left: max(10px, env(safe-area-inset-left));
+}
+
+#highScoreInfo {
+	top: max(10px, env(safe-area-inset-top));
+	right: max(10px, env(safe-area-inset-right));
+	text-align: right;
+}
+
+#comboInfo {
+	position: absolute;
+	bottom: max(10px, env(safe-area-inset-bottom));
+	left: max(10px, env(safe-area-inset-left));
+	z-index: 2;
+	color: var(--emoji-gold);
+	font-size: clamp(1rem, 5vw, 1.5rem);
+	font-weight: 950;
+	opacity: 0;
+	text-shadow: 2px 2px 4px #000;
+	transform: scale(.8);
+	transition: opacity .2s, transform .2s;
+}
+
+#powerUpContainer {
+	position: absolute;
+	top: 80px;
+	left: max(10px, env(safe-area-inset-left));
+	z-index: 5;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.power-up-active {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 6px 8px;
+	border: 1px solid var(--emoji-border);
+	border-radius: 9px;
+	background: #0b1220;
+}
+
+.power-up-icon {
+	font-size: 1.45rem;
+}
+
+.power-up-timer {
+	width: 100px;
+	height: 9px;
+	overflow: hidden;
+	border-radius: 999px;
+	background: #303849;
+}
+
+.power-up-timer-bar {
+	height: 100%;
+	border-radius: inherit;
+	background: var(--emoji-green);
+	transition: width .1s linear;
+}
+
+#gameMessageDisplay {
+	position: absolute;
+	top: 40%;
+	left: 50%;
+	z-index: 11;
+	color: #fff;
+	font-size: clamp(2.5rem, 8vw, 6rem);
+	font-weight: 950;
+	opacity: 0;
+	pointer-events: none;
+	text-align: center;
+	text-shadow: 4px 4px 10px #000;
+	transform: translate(-50%, -50%) scale(.5);
+	transition: opacity .3s, transform .3s;
+}

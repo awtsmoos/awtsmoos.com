@@ -1,4 +1,7 @@
-<!-- B"H -->
+B"H
+Boruch Hashem
+Blessed is He
+
 # Dayuh sync recovery and conflict handling
 
 Use this guide only after reading the main runbook. Recovery must preserve the

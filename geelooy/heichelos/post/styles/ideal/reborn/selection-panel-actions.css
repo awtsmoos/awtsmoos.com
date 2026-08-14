@@ -1,0 +1,75 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives every selected-word action a clear touch target while
+ * individual Hebrew words remain quick doors back into Tanach search.
+ */
+@import url("./selection-panel-variants.css?v=1");
+
+.awtsmoos-selection-word-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .45rem;
+}
+
+.awtsmoos-selection-word-chip {
+	min-height: 42px;
+	padding: .5rem .75rem;
+	border: 1px solid rgba(34, 211, 238, .3);
+	border-radius: 999px;
+	background: rgba(34, 211, 238, .1);
+	color: #f8fafc;
+	font: 800 1rem/1.2 inherit;
+	cursor: pointer;
+}
+
+.awtsmoos-selection-actions {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: .55rem;
+}
+
+.awtsmoos-selection-action {
+	display: grid;
+	grid-template-columns: 42px minmax(0, 1fr);
+	align-items: center;
+	gap: .65rem;
+	min-height: 58px;
+	padding: .65rem;
+	border: 1px solid rgba(148, 163, 184, .2);
+	border-radius: 1rem;
+	background: linear-gradient(180deg, rgba(255, 255, 255, .09), rgba(255, 255, 255, .035));
+	color: #fffdf5;
+	text-align: start;
+	cursor: pointer;
+}
+
+.awtsmoos-selection-action > span {
+	display: grid;
+	place-items: center;
+	width: 42px;
+	height: 42px;
+	border-radius: 999px;
+	background: linear-gradient(135deg, #f8d682, #22d3ee);
+	color: #07111f;
+	font-weight: 950;
+}
+
+.awtsmoos-selection-action strong {
+	font-size: .78rem;
+	line-height: 1.2;
+}
+
+.awtsmoos-selection-action:hover,
+.awtsmoos-selection-action:focus-visible,
+.awtsmoos-selection-word-chip:hover,
+.awtsmoos-selection-word-chip:focus-visible {
+	outline: 2px solid rgba(34, 211, 238, .58);
+	outline-offset: 2px;
+}
+
+@media (max-width: 520px) {
+	.awtsmoos-selection-actions {
+		grid-template-columns: 1fr;
+	}
+}

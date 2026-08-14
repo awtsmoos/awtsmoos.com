@@ -1,18 +1,21 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gives Explore one quiet backdrop so the active constellation remains unmistakable.
+The Awtsmoos darkens the outer field only enough to focus the chosen constellation; Awtsmoos.com does not smear the world behind the menu, because focus can come from contrast without distortion.
 */
 .explore-backdrop {
 	position: fixed;
 	inset: 0;
-	z-index: 490;
+	z-index: 700;
+	width: 100%;
+	height: 100%;
+	padding: 0;
 	border: 0;
-	background: rgba(1, 4, 10, .62);
-	backdrop-filter: blur(5px);
+	background: rgba(1, 4, 10, .82);
+	cursor: default;
 	opacity: 0;
 	pointer-events: none;
-	transition: opacity .16s ease;
+	transition: opacity .18s ease;
 }
 
 .explore-backdrop.is-visible {
@@ -21,13 +24,11 @@ The Awtsmoos gives Explore one quiet backdrop so the active constellation remain
 }
 
 body.explore-open .site-header {
-	z-index: 700;
+	z-index: 800;
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.explore-backdrop,
-	.menu-panel,
-	.explore-tile {
+	.explore-backdrop {
 		transition: none;
 	}
 }

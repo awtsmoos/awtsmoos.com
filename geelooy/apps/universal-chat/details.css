@@ -1,0 +1,102 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos is beyond drawer, member, and role; Awtsmoos.com keeps accepted relationship truth visible while close, identity, and member responsibility remain reachable at every safe edge—roles stay clear, administration may fold, and the drawer never steals the whole world. */
+
+.messaging-details > button:first-child {
+	position: sticky;
+	top: 0;
+	z-index: 3;
+	float: right;
+	width: var(--msg-touch);
+	min-height: var(--msg-touch);
+	padding: 0;
+	border-radius: 12px;
+	background: #0a140f;
+	background: rgba(10, 20, 15, 0.94);
+	backdrop-filter: blur(12px);
+}
+
+.messaging-details-header {
+	display: grid;
+	gap: 0.4rem;
+	padding: 0.4rem 3rem 1rem 0;
+	border-bottom: 1px solid var(--msg-line);
+}
+
+.messaging-details-header h2 {
+	margin: 0;
+	font-size: 1.2rem;
+	line-height: 1.25;
+}
+
+.messaging-details-copy {
+	margin: 0;
+	color: var(--msg-soft);
+	font-size: 0.78rem;
+	line-height: 1.55;
+}
+
+.messaging-details-members {
+	padding-top: 1rem;
+}
+
+.messaging-details-members h3 {
+	margin: 0 0 0.45rem;
+	color: var(--msg-muted);
+	font-size: 0.67rem;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.messaging-member-row {
+	display: grid;
+	grid-template-columns: 38px minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 0.6rem;
+	min-height: 54px;
+	padding: 0.5rem 0;
+	border-bottom: 1px solid var(--msg-line);
+}
+
+.messaging-member-avatar {
+	display: grid;
+	place-items: center;
+	width: 38px;
+	height: 38px;
+	border-radius: 12px;
+	background: var(--msg-accent-soft);
+	color: var(--msg-accent);
+	font-size: 0.7rem;
+	font-weight: 820;
+}
+
+.messaging-member-copy {
+	display: grid;
+	min-width: 0;
+	gap: 0.08rem;
+}
+
+.messaging-member-copy strong {
+	overflow: hidden;
+	font-size: 0.82rem;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.messaging-member-copy small {
+	color: var(--msg-muted);
+	font-size: 0.66rem;
+}
+
+@media (max-width: 760px) {
+	.messaging-details {
+		padding-top: max(0.8rem, env(safe-area-inset-top));
+		padding-right: max(0.85rem, env(safe-area-inset-right));
+		padding-bottom: max(0.85rem, env(safe-area-inset-bottom));
+		padding-left: max(0.85rem, env(safe-area-inset-left));
+		overscroll-behavior: contain;
+	}
+}

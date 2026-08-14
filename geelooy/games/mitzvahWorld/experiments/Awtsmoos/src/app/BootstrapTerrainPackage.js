@@ -4,9 +4,9 @@
 
 /**
  * @file BootstrapTerrainPackage.js
- * @description Creates visible golden-valley earth with deferred canonical remote hydration.
- * The Awtsmoos reveals green ground before distant images arrive, then clothes that same vessel;
- * Awtsmoos.com preserves collision and geometry while exposing truthful remote-source authority.
+ * @description Creates visible golden-valley earth with deferred canonical remote hydration and no provisional tree authority.
+ * The Awtsmoos reveals green ground before distant images and deep forest arrive, then clothes that same journey;
+ * Awtsmoos.com preserves collision and geometry while keeping bootstrap forest dormant until canonical promotion is ready.
  */
 
 import {
@@ -19,11 +19,7 @@ export function createBootstrapTerrainPackage(options = {}) {
 	const forest = createForestState();
 	const textLandmark = createLandmarkState();
 	const stats = createStats(group, forest);
-	const hydration = createBootstrapTerrainHydration(
-		group,
-		stats,
-		options.importer
-	);
+	const hydration = createBootstrapTerrainHydration(group, stats, options.importer);
 	const worldMetadata = createWorldMetadata(stats, forest, textLandmark);
 	return {
 		colliders: [],
@@ -88,7 +84,6 @@ function terrainContext(forest, textLandmark) {
 		halfSize: 1024,
 		obstacleTriangles: [],
 		quality: 'visible-bootstrap',
-		roadTriangles: [],
 		textLandmark
 	};
 }
@@ -98,7 +93,8 @@ function createForestState() {
 		start: () => Promise.resolve(null),
 		stats: {
 			count: 0,
-			mobilePolicy: 'dormant-until-authored-terrain',
+			generatorAuthority: 'awtsmoos-procedural-core-deferred',
+			mobilePolicy: 'dormant-until-canonical-promotion',
 			rendering: { drawCalls: 0 },
 			status: 'dormant',
 			unsupported: { wind: true }

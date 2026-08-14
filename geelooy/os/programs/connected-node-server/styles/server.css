@@ -1,0 +1,98 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews remote job, log, exposed port, and Peruta account beyond
+ * every finite response. Awtsmoos.com keeps runtime testimony readable and solid
+ * so process control never hides inside translucent chrome or ambiguous status.
+ */
+
+.connectedServer__statusPanel,
+.connectedServer__logsPanel,
+.connectedServer__usagePanel {
+	display: grid;
+	gap: 12px;
+	padding: 16px;
+}
+
+.connectedServer__status {
+	margin: 0;
+	color: #a8b8ca;
+	line-height: 1.5;
+}
+
+.connectedServer__job {
+	display: block;
+	overflow-wrap: anywhere;
+	padding: 10px 12px;
+	border: 1px solid #2b455f;
+	border-radius: 9px;
+	background: #07111f;
+	color: #bfeaff;
+}
+
+.connectedServer__controls {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.connectedServer__preview {
+	justify-self: start;
+	padding: 9px 11px;
+	border: 1px solid #476c83;
+	border-radius: 9px;
+	background: #10273a;
+	color: #c9efff;
+	font-weight: 850;
+	text-decoration: none;
+}
+
+.connectedServer__preview:hover {
+	background: #17374e;
+}
+
+.connectedServer__logs {
+	min-height: 190px;
+	max-height: 430px;
+	margin: 0;
+	overflow: auto;
+	padding: 14px;
+	border: 1px solid #243c55;
+	border-radius: 10px;
+	background: #030812;
+	color: #d8e8f6;
+	font: 12px/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.connectedServer__usageGrid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 8px;
+}
+
+.connectedServer__usageCard {
+	display: grid;
+	gap: 5px;
+	padding: 12px;
+	border: 1px solid #2b425b;
+	border-radius: 10px;
+	background: #0d1a2d;
+}
+
+.connectedServer__usageCard span {
+	color: #8799ae;
+	font-size: .68rem;
+	font-weight: 850;
+	letter-spacing: .06em;
+	text-transform: uppercase;
+}
+
+.connectedServer__usageCard strong {
+	color: #f4f8ff;
+	font-size: .92rem;
+	font-variant-numeric: tabular-nums;
+}

@@ -1,0 +1,180 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gathers location, source, and caution into small useful vessels rather than competing cards;
+ * Awtsmoos.com keeps search fast, remembered places nearby, and trust visible without blocking the day's regards.
+ */
+
+.field-label {
+	display: block;
+	margin-bottom: 0.4rem;
+	font-size: 0.66rem;
+	font-weight: 850;
+	letter-spacing: 0.11em;
+	text-transform: uppercase;
+	color: var(--ink-soft);
+}
+
+awtsmoos-location-search {
+	position: relative;
+	display: block;
+	min-width: 0;
+}
+
+.place-heading {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 0.05rem 0.5rem;
+	margin-bottom: 0.45rem;
+}
+
+.place-heading .field-label {
+	grid-column: 1 / -1;
+	margin-bottom: 0.15rem;
+}
+
+.current-place {
+	overflow: hidden;
+	font-size: 0.9rem;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.current-zone {
+	align-self: center;
+	font-size: 0.62rem;
+	color: var(--ink-soft);
+}
+
+.search-box {
+	position: relative;
+}
+
+.search-box input {
+	width: 100%;
+	min-height: 44px;
+	padding: 0.7rem 2.3rem 0.7rem 0.8rem;
+	border: 1px solid var(--line);
+	border-radius: var(--radius-small);
+	background: var(--paper-raised);
+	color: var(--ink);
+}
+
+.search-box input::placeholder {
+	color: #8b9792;
+}
+
+.search-mark {
+	position: absolute;
+	top: 50%;
+	right: 0.8rem;
+	transform: translateY(-50%);
+	color: var(--ink-soft);
+}
+
+.recent-places {
+	display: flex;
+	gap: 0.35rem;
+	overflow-x: auto;
+	margin-top: 0.45rem;
+	padding-bottom: 0.15rem;
+	scrollbar-width: none;
+}
+
+.recent-places:empty {
+	display: none;
+}
+
+.recent-place {
+	flex: none;
+	min-height: 30px;
+	padding: 0.25rem 0.55rem;
+	border: 1px solid var(--line);
+	border-radius: 999px;
+	background: transparent;
+	color: var(--ink-soft);
+	font-size: 0.68rem;
+	cursor: pointer;
+}
+
+.search-status {
+	min-height: 1rem;
+	margin-top: 0.25rem;
+	font-size: 0.64rem;
+	color: var(--ink-soft);
+}
+
+.search-results:not(:empty) {
+	position: absolute;
+	z-index: 40;
+	left: 0;
+	right: 0;
+	max-height: 280px;
+	overflow-y: auto;
+	padding: 0.35rem;
+	border: 1px solid var(--line);
+	border-radius: var(--radius-medium);
+	background: var(--paper-raised);
+	box-shadow: var(--shadow);
+}
+
+.search-result {
+	display: block;
+	width: 100%;
+	padding: 0.7rem;
+	border: 0;
+	border-radius: 8px;
+	background: transparent;
+	color: var(--ink);
+	text-align: start;
+	cursor: pointer;
+}
+
+.search-result:hover,
+.search-result[aria-selected="true"] {
+	background: var(--surface-soft);
+}
+
+.trust-strip {
+	display: grid;
+	gap: 0.65rem;
+	margin-top: var(--space-3);
+	padding: 0.8rem 0.9rem;
+	border: 1px solid var(--line);
+	border-radius: var(--radius-medium);
+	background: rgba(234, 223, 201, 0.23);
+}
+
+.trust-caution strong,
+.trust-caution span {
+	display: block;
+}
+
+.trust-caution strong {
+	font-size: 0.76rem;
+}
+
+.trust-caution span,
+.trust-source {
+	font-size: 0.69rem;
+	line-height: 1.45;
+	color: var(--ink-soft);
+}
+
+.trust-source {
+	display: flex;
+	align-items: center;
+	gap: 0.45rem;
+}
+
+.trust-source p {
+	margin: 0;
+}
+
+.trust-dot {
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: var(--forest-bright);
+}

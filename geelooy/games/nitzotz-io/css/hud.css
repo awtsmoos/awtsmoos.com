@@ -1,55 +1,113 @@
-/* B"H — Desktop HUD frames the city without covering its center. */
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews knowledge without turning information into a foggy wall;
+ * Awtsmoos.com keeps the HUD crisp, compact, and translucent so the city remains visible through all.
+ * Expensive backdrop blur yields to stable contrast and smaller shadows on mobile and desktop alike.
+ */
 .hud {
-	position: fixed;
-	top: 18px;
-	left: 18px;
-	z-index: 3;
 	display: grid;
-	gap: 9px;
-	width: min(850px, calc(100vw - 300px));
+	gap: 7px;
+	left: 14px;
 	pointer-events: none;
+	position: fixed;
+	top: 14px;
+	width: min(760px, calc(100vw - 250px));
+	z-index: 3;
 }
 
-.brand-row, .brand, .primary-stats, .status-strip, .director-strip {
-	display: flex;
+.brand-row,
+.brand,
+.primary-stats,
+.status-strip,
+.director-strip {
 	align-items: center;
+	display: flex;
 }
-.brand-row { justify-content: space-between; }
-.brand { gap: 12px; font-size: clamp(22px, 2.4vw, 34px); text-shadow: 0 0 28px rgba(126, 220, 255, 0.7); }
-.brand span { color: var(--gold); font-size: 0.48em; letter-spacing: 0.08em; text-transform: uppercase; }
+
+.brand-row {
+	justify-content: space-between;
+}
+
+.brand {
+	font-size: clamp(20px, 2.2vw, 30px);
+	gap: 10px;
+	text-shadow: 0 0 16px rgba(126, 220, 255, 0.4);
+}
+
+.brand span {
+	color: var(--gold);
+	font-size: 0.46em;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
 
 .mini-button {
-	pointer-events: auto;
-	padding: 9px 14px;
+	background: rgba(5, 7, 20, 0.72);
 	border-radius: 999px;
-	background: rgba(4, 6, 18, 0.78);
 	color: white;
-	letter-spacing: 0.12em;
+	letter-spacing: 0.1em;
+	padding: 8px 12px;
+	pointer-events: auto;
 }
 
-.primary-stats { gap: 9px; }
+.primary-stats {
+	gap: 7px;
+}
+
 .stat {
-	display: grid;
-	min-width: 94px;
-	padding: 9px 14px;
-	border: 1px solid var(--line);
-	border-radius: 18px;
 	background: var(--glass);
-	box-shadow: var(--shadow);
-	backdrop-filter: blur(18px);
+	border: 1px solid var(--line);
+	border-radius: 14px;
+	box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
+	display: grid;
+	min-width: 84px;
+	padding: 7px 11px;
 }
-.stat small { color: #aebeea; font-size: 9px; font-weight: 900; letter-spacing: 0.17em; }
-.stat strong { font-size: 23px; line-height: 1; }
-.stat.timer strong { color: var(--gold); }
 
-.status-strip, .director-strip { flex-wrap: wrap; gap: 7px; }
-.status-strip span, .director-strip span, #message {
-	padding: 7px 10px;
-	border: 1px solid rgba(255, 255, 255, 0.12);
-	border-radius: 999px;
-	background: rgba(4, 6, 18, 0.72);
-	font-size: 11px;
-	backdrop-filter: blur(12px);
+.stat small {
+	color: #b8c6e8;
+	font-size: 8px;
+	font-weight: 900;
+	letter-spacing: 0.14em;
 }
-.status-strip b, #powerText, #districtText { color: var(--gold); }
-#message { max-width: 790px; margin: 0; border-radius: 15px; color: #dce8ff; }
+
+.stat strong {
+	font-size: 20px;
+	line-height: 1;
+}
+
+.stat.timer strong {
+	color: var(--gold);
+}
+
+.status-strip,
+.director-strip {
+	flex-wrap: wrap;
+	gap: 5px;
+}
+
+.status-strip span,
+.director-strip span,
+#message {
+	background: rgba(5, 7, 20, 0.68);
+	border: 1px solid rgba(255, 255, 255, 0.14);
+	border-radius: 999px;
+	font-size: 10px;
+	padding: 5px 8px;
+}
+
+.status-strip b,
+#powerText,
+#districtText {
+	color: var(--gold);
+}
+
+#message {
+	border-radius: 12px;
+	color: #dce8ff;
+	margin: 0;
+	max-width: 720px;
+}

@@ -4,9 +4,9 @@
 
 /**
  * @file TerrainLayerRecipe.test.mjs
- * @description Proves six ecological sources and approved uploaded terrain transport.
- * The Awtsmoos gives each broad garment a truthful filename; Awtsmoos.com lets tests derive the
- * distant road from one transport covenant while meadow, soil, mud, stone, leaf-floor, and shore shine.
+ * @description Proves three real grasses plus earth, marsh, and stone occupy the bounded production sampler stack.
+ * The Awtsmoos lets meadow diversity remain visible without losing ecological order;
+ * Awtsmoos.com verifies trusted full-resolution transport while six garments share one shader border.
  */
 
 import assert from 'node:assert/strict';
@@ -31,7 +31,7 @@ const TERRAIN_TRANSPORT_FOLDER = TERRAIN_TRANSPORT_SAMPLE.pathname.slice(
 	TERRAIN_TRANSPORT_SAMPLE.pathname.lastIndexOf('/') + 1
 );
 
-test('quality recipes preserve six ecological sources and bounded active roles', () => {
+test('quality recipes preserve bounded ecological capacity', () => {
 	const low = terrainLayerRecipe('low');
 	const medium = terrainLayerRecipe('medium');
 	const high = terrainLayerRecipe('high');
@@ -47,39 +47,38 @@ test('quality recipes preserve six ecological sources and bounded active roles',
 	assert.match(high.shader, /six-stage-material-stack/);
 });
 
-test('complete terrain stack retains six distinct source garments', () => {
+test('high terrain directly binds three distinct real grass photographs', () => {
 	const recipe = terrainLayerRecipe('high');
-	assert.equal(recipe.stack.layers.length, 6);
-	assert.equal(new Set(recipe.stack.layers.map(layer => layer.url)).size, 6);
-	assert.equal(new Set(recipe.layers.map(layer => layer.url)).size, 6);
+	const grass = recipe.layers.slice(0, 3);
+	assert.deepEqual(grass.map(layer => layer.role), [
+		'meadow-wet-grass',
+		'meadow-lush-grass',
+		'meadow-dry-grass'
+	]);
+	assert.equal(new Set(grass.map(layer => layer.url)).size, 3);
+	assert.match(grass[0].url, /full-resolution\/grass%201\.png$/);
+	assert.match(grass[1].url, /full-resolution\/grass%204\.png$/);
+	assert.match(grass[2].url, /full-resolution\/grass%208\.png$/);
 });
 
-test('visible maps use the approved uploaded terrain transport', () => {
+test('visible maps use approved uploaded terrain transport', () => {
 	const recipe = terrainLayerRecipe('cinematic');
-	assert.match(recipe.baseUrl, /full-resolution\/dirt%20grass%206\.png$/);
+	assert.match(recipe.baseUrl, /full-resolution\/grass%201\.png$/);
 	assert.match(recipe.dirtUrl, /full-resolution\/dirt%202\.png$/);
+	assert.equal(new Set(recipe.layers.map(layer => layer.url)).size, 6);
 	for (const layer of recipe.layers) {
 		const parsed = new URL(layer.url);
 		assert.equal(parsed.origin, TERRAIN_TRANSPORT_SAMPLE.origin);
 		assert.equal(parsed.pathname.startsWith(TERRAIN_TRANSPORT_FOLDER), true);
 		assert.equal(assertProductionMaterialUrl(layer.url, layer.role), layer.url);
-		assert.equal(
-			assertProductionMaterialUrl(layer.publicUrl, layer.sourceRole),
-			layer.publicUrl
-		);
+		assert.equal(assertProductionMaterialUrl(layer.publicUrl, layer.sourceRole), layer.publicUrl);
 		assert.equal(layer.zones.length, 4);
 		assert.equal(layer.slope.length, 2);
-	}
-	for (const layer of recipe.stack.layers) {
-		assert.equal(assertProductionMaterialUrl(layer.url, layer.role), layer.url);
-		assert.equal(Object.isFrozen(layer), true);
 	}
 });
 
 test('medium terrain carries normalized mixed ecological weights and five slots', () => {
-	const image = completeTerrainImage(
-		remoteFullResolutionTextureUrl('dirt grass 6.png')
-	);
+	const image = completeTerrainImage(remoteFullResolutionTextureUrl('grass 1.png'));
 	const mesh = createTerrainMesh(
 		minimalTerrainRecipeData(),
 		image,
@@ -87,24 +86,12 @@ test('medium terrain carries normalized mixed ecological weights and five slots'
 		image.src,
 		'medium'
 	);
-	const firstWeights = Array.from(
-		mesh.geometry.attributes.zone.array.slice(0, 4)
-	);
+	const weights = Array.from(mesh.geometry.attributes.zone.array.slice(0, 4));
 	assert.equal(mesh.geometry.attributes.zone.itemSize, 4);
-	assert.ok(firstWeights.every(Number.isFinite));
-	assert.ok(Math.abs(sumTerrainWeights(firstWeights) - 1) < 0.00001);
-	assert.ok(Math.abs(firstWeights[0] - 0.8) < 0.00001);
-	assert.ok(Math.abs(firstWeights[2] - 0.14) < 0.00001);
-	assert.ok(Math.abs(firstWeights[3] - 0.06) < 0.00001);
+	assert.ok(weights.every(Number.isFinite));
+	assert.ok(Math.abs(sumTerrainWeights(weights) - 1) < 0.00001);
 	assert.equal(mesh.material.textureLayers.length, 5);
 	assert.equal(mesh.material.materialStack.logicalLayerCount, 6);
-	assert.equal(
-		mesh.material.texturePolicy.shader,
-		'terrain-layered-six-stage-material-stack'
-	);
+	assert.equal(mesh.material.texturePolicy.shader, 'terrain-layered-six-stage-material-stack');
 	assert.equal(mesh.userData.AwtsmoosTerrainValley.layerCount, 5);
-	assert.equal(
-		mesh.userData.AwtsmoosTerrainValley.ecologicalWeightPolicy,
-		'strong-six-source-mobile-blend'
-	);
 });

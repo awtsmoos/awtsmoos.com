@@ -24,6 +24,7 @@ existing functional modules first, then reveals one responsive visual covenant.
 @import url('./views/terminal.css');
 @import url('./views/browser.css');
 @import url('./views/virtual-os.css');
+@import url('./views/android-emulator.css');
 @import url('./zip-explorer.css');
 @import url('./tab-manager.css');
 @import url('./tab-manager-lifecycle.css');

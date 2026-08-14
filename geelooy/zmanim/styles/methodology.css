@@ -1,0 +1,87 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is beyond angle and equation while a trustworthy tool exposes every borrowed method;
+ * Awtsmoos.com keeps that depth one calm disclosure away after the daily work has been rendered.
+ */
+
+.methodology-panel {
+	margin-top: var(--space-5);
+	border-top: 1px solid var(--line);
+	border-bottom: 1px solid var(--line);
+}
+
+.methodology-panel > summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding-block: 0.9rem;
+	cursor: pointer;
+	font-size: 0.78rem;
+	font-weight: 800;
+	list-style: none;
+}
+
+.methodology-panel > summary::-webkit-details-marker {
+	display: none;
+}
+
+.methodology-panel > summary strong {
+	font-size: 0.68rem;
+	color: var(--ink-soft);
+}
+
+.methodology-body {
+	padding: 0 0 var(--space-3);
+	font-size: 0.76rem;
+	line-height: 1.55;
+	color: var(--ink-soft);
+}
+
+.method-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.45rem;
+	margin-block: 0.8rem;
+}
+
+.method-grid div {
+	padding: 0.65rem;
+	border: 1px solid var(--line);
+	border-radius: var(--radius-small);
+	background: rgba(255, 253, 248, 0.56);
+}
+
+.method-grid strong,
+.method-grid span {
+	display: block;
+}
+
+.method-grid strong {
+	font-size: 0.92rem;
+	color: var(--forest);
+}
+
+.method-grid span {
+	margin-top: 0.12rem;
+	font-size: 0.64rem;
+}
+
+.method-caution {
+	padding-left: 0.7rem;
+	border-left: 2px solid var(--warm);
+}
+
+.source-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.55rem 0.85rem;
+	margin-top: 0.8rem;
+}
+
+.source-links a {
+	font-size: 0.7rem;
+	font-weight: 740;
+}

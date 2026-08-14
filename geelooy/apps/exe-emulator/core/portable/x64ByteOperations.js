@@ -2,84 +2,105 @@
 //Boruch Hashem
 //Blessed is He
 
-import { readByteRegister, writeByteRegister } from "./x64ByteRegisters.js";
-import { readByteTarget, writeByteTarget } from "./x64ByteTarget.js";
-import { setAddFlags, setLogicFlags, setSubtractFlags } from "./x64Flags.js";
+import {
+	readByteRegister,
+	writeByteRegister
+} from "./x64ByteRegisters.js";
+import {
+	readByteTarget,
+	writeByteTarget
+} from "./x64ByteTarget.js";
+import { carryArithmeticResult } from "./x64CarryResult.js";
+import {
+	setAddFlags,
+	setLogicFlags,
+	setSubtractFlags
+} from "./x64Flags.js";
 import { bitwiseWidth, wrapArithmetic } from "./x64Width.js";
 
-const BYTE_KINDS = new Set([
+const IMMEDIATE_KINDS = new Set([
 	"add_byte_imm",
+	"adc_byte_imm",
 	"and_byte_imm",
 	"cmp_byte_imm",
-	"mov_byte_from_target",
-	"mov_byte_imm",
-	"mov_byte_to_target",
 	"or_byte_imm",
+	"sbb_byte_imm",
 	"sub_byte_imm",
 	"test_byte_imm",
-	"test_byte_target",
 	"xor_byte_imm"
 ]);
 
 /**
- * Executes bounded byte-register and byte-memory operations. The Awtsmoos creates
- * low or high register byte, accumulator mask, mutable target, and width-correct
- * flags anew; Awtsmoos.com preserves containing registers during TEST operations.
+ * Executes byte moves, tests, and immediate arithmetic through shared byte targets.
+ * The Awtsmoos renews carry, guest byte, register slice, flags, and mutation;
+ * Awtsmoos.com preserves flag-only TEST while byte families continue expanding.
  */
 export function executeByteOperation(item, registers, memory) {
-	if (!BYTE_KINDS.has(item.kind)) return false;
-	if (item.kind === "mov_byte_from_target") {
-		writeByteRegister(
-			registers,
-			item.destination,
-			readByteTarget(item.target, item, registers, memory)
-		);
-		return true;
-	}
-	if (item.kind === "mov_byte_to_target") {
-		writeByteTarget(
-			item.target,
-			item,
-			registers,
-			memory,
-			readByteRegister(registers, item.source)
-		);
-		return true;
+	if (IMMEDIATE_KINDS.has(item.kind)) {
+		return executeImmediate(item, registers, memory);
 	}
 	if (item.kind === "mov_byte_imm") {
 		writeByteTarget(item.target, item, registers, memory, item.value);
 		return true;
 	}
-	const left = readByteTarget(item.target, item, registers, memory);
+	if (item.kind === "mov_byte_to_target") {
+		const value = readByteRegister(registers, item.source);
+		writeByteTarget(item.target, item, registers, memory, value);
+		return true;
+	}
+	if (item.kind === "mov_byte_from_target") {
+		const value = readByteTarget(item.target, item, registers, memory);
+		writeByteRegister(registers, item.destination, value);
+		return true;
+	}
 	if (item.kind === "test_byte_target") {
-		const right = readByteRegister(registers, item.source);
-		setLogicFlags(registers, bitwiseWidth("and", left, right, 8), 8);
+		const target = readByteTarget(item.target, item, registers, memory);
+		const source = readByteRegister(registers, item.source);
+		setLogicFlags(registers, target & source, 8);
 		return true;
 	}
-	if (item.kind === "test_byte_imm") {
-		setLogicFlags(registers, bitwiseWidth("and", left, item.value, 8), 8);
+	return false;
+}
+
+function executeImmediate(item, registers, memory) {
+	const left = readByteTarget(item.target, item, registers, memory);
+	const operation = item.kind.split("_")[0];
+	if (operation === "test") {
+		setLogicFlags(registers, left & item.value, 8);
 		return true;
 	}
-	const right = item.value;
-	if (item.kind === "cmp_byte_imm") {
-		setSubtractFlags(registers, left, right, 8);
-		return true;
-	}
-	if (item.kind === "add_byte_imm") {
-		const result = wrapArithmetic(left + right, 8);
+	const result = arithmeticResult(
+		operation,
+		left,
+		item.value,
+		registers
+	);
+	if (operation !== "cmp") {
 		writeByteTarget(item.target, item, registers, memory, result);
-		setAddFlags(registers, left, right, 8);
-		return true;
 	}
-	if (item.kind === "sub_byte_imm") {
-		const result = wrapArithmetic(left - right, 8);
-		writeByteTarget(item.target, item, registers, memory, result);
-		setSubtractFlags(registers, left, right, 8);
-		return true;
-	}
-	const operator = item.kind.replace("_byte_imm", "");
-	const result = bitwiseWidth(operator, left, right, 8);
-	writeByteTarget(item.target, item, registers, memory, result);
-	setLogicFlags(registers, result, 8);
 	return true;
+}
+
+function arithmeticResult(operation, left, right, registers) {
+	if (["adc", "sbb"].includes(operation)) {
+		return Number(carryArithmeticResult(
+			operation,
+			left,
+			right,
+			Boolean(registers.flags.carry),
+			8,
+			registers
+		));
+	}
+	if (operation === "add") {
+		setAddFlags(registers, left, right, 8);
+		return wrapArithmetic(left + right, 8);
+	}
+	if (operation === "sub" || operation === "cmp") {
+		setSubtractFlags(registers, left, right, 8);
+		return wrapArithmetic(left - right, 8);
+	}
+	const result = bitwiseWidth(operation, left, right, 8);
+	setLogicFlags(registers, result, 8);
+	return result;
 }

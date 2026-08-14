@@ -1,0 +1,70 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos needs no line between dawn and night, yet the eye benefits from a measured path;
+ * Awtsmoos.com keeps the rail compact and gives the living instant one honest marker upon it.
+ */
+
+.day-timeline {
+	padding: 0.85rem 0.95rem;
+	border: 1px solid var(--line);
+	border-radius: var(--radius-medium);
+	background: rgba(255, 253, 248, 0.66);
+}
+
+.timeline-track {
+	position: relative;
+	height: 5px;
+	margin: 0.4rem 0 0.75rem;
+	border-radius: 999px;
+	background: var(--mist);
+}
+
+.timeline-progress {
+	position: absolute;
+	inset: 0 auto 0 0;
+	border-radius: inherit;
+	background: var(--forest-bright);
+}
+
+.timeline-marker {
+	position: absolute;
+	top: 50%;
+	width: 13px;
+	height: 13px;
+	border: 3px solid var(--paper-raised);
+	border-radius: 50%;
+	background: var(--forest);
+	box-shadow: 0 0 0 1px rgba(18, 56, 47, 0.25);
+	transform: translate(-50%, -50%);
+}
+
+.timeline-anchors {
+	display: grid;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	gap: 0.15rem;
+}
+
+.timeline-anchor {
+	min-width: 0;
+	text-align: center;
+}
+
+.timeline-anchor span,
+.timeline-anchor strong {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.timeline-anchor span {
+	font-size: 0.59rem;
+	color: var(--ink-soft);
+}
+
+.timeline-anchor strong {
+	margin-top: 0.1rem;
+	font-size: clamp(0.62rem, 2.5vw, 0.76rem);
+}

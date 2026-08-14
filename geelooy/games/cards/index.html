@@ -1,41 +1,54 @@
-<!--B"H-->
-<!DOCTYPE html>
+<!-- B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos renews deck, player, chance, and choice beyond every finite hand.
+Awtsmoos.com presents the one completed Cards experience directly and keeps future
+modes visible as roadmap rather than pretending unfinished games are ready to play.
+-->
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Ten Utterances - A Card Game Engine</title>
-    <link rel="stylesheet" href="style.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#050403">
+	<meta name="description" content="Play Blackjack: The Reckoning inside The Utterances card-game world on Awtsmoos.com.">
+	<title>The Utterances — Blackjack on Awtsmoos</title>
+	<link rel="stylesheet" href="./style.css?v=cards-solid-002">
 </head>
 <body>
-    <div id="main-menu">
-        <h1>The Utterances</h1>
-        <p>Choose a vessel for the light.</p>
-        <div id="game-list">
-            <button class="game-button" data-game="blackjack">Blackjack (The Reckoning)</button>
-            <button class="game-button" data-game="texasHoldem" disabled>Texas Hold'em (The Gathering) - In potentia</button>
-            <button class="game-button" data-game="war" disabled>War (The Sundering) - In potentia</button>
-            <button class="game-button" data-game="rummy" disabled>Rummy (The Unification) - In potentia</button>
-            <button class="game-button" data-game="poker" disabled>Five-Card Draw (The Concealment) - In potentia</button>
-            <button class="game-button" data-game="solitaire" disabled>Solitaire (The Meditation) - In potentia</button>
-        </div>
-        <div id="player-selection">
-            <label for="ai-players">Number of Opposing Emanations (1-4):</label>
-            <input type="number" id="ai-players" min="1" max="4" value="1">
-            <button id="start-game">Begin the Flow</button>
-        </div>
-    </div>
-    <div id="game-container" style="display: none;">
-        <canvas id="game-canvas"></canvas>
-        <div id="game-ui-container">
-            <div id="player-actions" class="ui-panel" style="display: none;">
-                <button id="hit-button">Request</button>
-                <button id="stand-button">Accept</button>
-            </div>
-            <div id="game-status" class="ui-panel"></div>
-        </div>
-    </div>
-    <!-- Use type="module" to allow for ES6 module imports -->
-    <script type="module" src="js/main.js"></script>
+	<main id="main-menu" aria-labelledby="cards-title">
+		<p class="cards-kicker">B"H · Awtsmoos Quick Play</p>
+		<h1 id="cards-title">The Utterances</h1>
+		<p>Blackjack is live now. Future card worlds remain visible below as roadmap—never disguised as finished play.</p>
+
+		<div id="game-list" aria-label="Card game modes">
+			<button class="game-button selected" data-game="blackjack">Blackjack · The Reckoning — Play now</button>
+			<button class="game-button" data-game="texasHoldem" disabled>Texas Hold'em · The Gathering — Planned</button>
+			<button class="game-button" data-game="war" disabled>War · The Sundering — Planned</button>
+			<button class="game-button" data-game="rummy" disabled>Rummy · The Unification — Planned</button>
+			<button class="game-button" data-game="poker" disabled>Five-Card Draw · The Concealment — Planned</button>
+			<button class="game-button" data-game="solitaire" disabled>Solitaire · The Meditation — Planned</button>
+		</div>
+
+		<section id="player-selection" aria-labelledby="opponents-label">
+			<label id="opponents-label" for="ai-players">Opposing emanations</label>
+			<input type="number" id="ai-players" min="1" max="4" value="1" inputmode="numeric">
+			<button id="start-game">Begin Blackjack</button>
+		</section>
+	</main>
+
+	<section id="game-container" style="display: none;" aria-label="Blackjack table">
+		<canvas id="game-canvas"></canvas>
+		<div id="game-ui-container">
+			<div id="player-actions" class="ui-panel" style="display: none;">
+				<button id="hit-button">Request</button>
+				<button id="stand-button">Accept</button>
+			</div>
+			<div id="game-status" class="ui-panel" role="status"></div>
+		</div>
+	</section>
+
+	<script type="module" src="./js/main.js"></script>
 </body>
 </html>

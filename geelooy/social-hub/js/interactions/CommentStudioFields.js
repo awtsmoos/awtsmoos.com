@@ -1,15 +1,12 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-
 /**
  * @class CommentStudioFields
  * @description
- * Exact target, text, transcript, mood, deep-link copying, and visible coordinate
- * remain one focused field vessel. The Awtsmoos gives every response its place while
- * Awtsmoos.com synchronizes the same coordinate into state and shareable navigation.
+ * The Awtsmoos gives every response an exact coordinate without making coordinates the conversation;
+ * Awtsmoos.com preserves canonical targeting and reports each change to the human-first summary.
  */
-
 import { targetFromFields } from './CommentPayload.js';
 
 export const TARGET_FIELDS = Object.freeze([
@@ -24,8 +21,8 @@ export const TARGET_FIELDS = Object.freeze([
 ]);
 
 export class CommentStudioFields {
-	constructor({ root, state, status }) {
-		Object.assign(this, { root, state, status });
+	constructor({ root, state, status, onTargetChanged = () => {} }) {
+		Object.assign(this, { root, state, status, onTargetChanged });
 	}
 
 	bind() {
@@ -33,6 +30,7 @@ export class CommentStudioFields {
 			this.element(id).addEventListener('input', event => {
 				this.state.setTarget(field, event.target.value);
 				this.renderTarget();
+				this.onTargetChanged(this.state.snapshot());
 			});
 		}
 		for (const [id, field] of [
@@ -44,9 +42,7 @@ export class CommentStudioFields {
 				this.state.setComment(field, event.target.value);
 			});
 		}
-		this.element('copyTargetLink').addEventListener('click', () => {
-			void this.copyTarget();
-		});
+		this.element('copyTargetLink').addEventListener('click', () => void this.copyTarget());
 	}
 
 	render(snapshot) {
@@ -61,13 +57,14 @@ export class CommentStudioFields {
 
 	renderTarget() {
 		const target = targetFromFields(this.root);
-		this.element('targetCoordinate').textContent = [
+		const coordinate = [
 			target.heichelId || 'heichel?',
 			target.seriesId || 'root',
 			`${target.entityType}:${target.entityId || '?'}`,
 			target.subsectionId || target.verseSection || 'root',
 			target.parentCommentId ? `reply:${target.parentCommentId}` : ''
 		].filter(Boolean).join(' / ');
+		this.element('targetCoordinate').textContent = `Exact coordinate: ${coordinate}`;
 	}
 
 	async copyTarget() {
@@ -88,7 +85,7 @@ export class CommentStudioFields {
 		} else {
 			this.element('targetCoordinate').textContent = url;
 		}
-		this.status.show('Exact interaction target copied.', 'success');
+		this.status.show('Exact interaction destination copied.', 'success');
 	}
 
 	element(id) {

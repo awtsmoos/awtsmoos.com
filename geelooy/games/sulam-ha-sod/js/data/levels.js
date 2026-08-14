@@ -1,102 +1,58 @@
 // B"H
-/**
- * Campaign index for Sulam HaSod.
- *
- * Chapter 4: The Awtsmoos held the ladder while gates five through nine were
- * remade into honest chambers. Chapter 5: the same breath inspected every gate,
- * and any door swallowed by stone or suspended over empty air was returned to
- * the covenant of foot and floor. A gate may be cruel, but it may not lie about
- * the ground beneath it.
- */
-import { groundExitDoors } from './doorGrounding.js';
-import { enrichLevel } from './levelCruelty.js';
-import { level01 } from './levels/level01-malchus.js';
-import { level02 } from './levels/level02-yesod.js';
-import { level03 } from './levels/level03-hod.js';
-import { level04 } from './levels/level04-netzach.js';
-import { level05 } from './levels/level05-gevurah.js';
-import { level06 } from './levels/level06-tiferes.js';
-import { level07 } from './levels/level07-chesed.js';
-import { level08 } from './levels/level08-binah.js';
-import { level09 } from './levels/level09-chochmah.js';
-import { level10 } from './levels/level10-keter.js';
-import { level11 } from './levels/level11-daas.js';
-import { level12 } from './levels/level12-ayin.js';
-import { level13 } from './levels/level13-atika.js';
-import { level14 } from './levels/level14-einsof.js';
-import { level15 } from './levels/level15-razor-ayin.js';
-import { level16 } from './levels/level16-trust-breaker.js';
-import { level17 } from './levels/level17-bait-vault.js';
-import { level18 } from './levels/level18-no-autopilot.js';
-import { level19 } from './levels/level19-hidden-manna.js';
-import { level20 } from './levels/level20-crown-of-return.js';
-import { level21 } from './levels/level21-shattered-ledger.js';
-import { level22 } from './levels/level22-mirror-market.js';
-import { level23 } from './levels/level23-vertical-vault.js';
-import { level24 } from './levels/level24-crown-auction.js';
-import { level25 } from './levels/level25-natural-chain.js';
-import { level26 } from './levels/level26-natural-chain.js';
-import { level27 } from './levels/level27-natural-chain.js';
-import { level28 } from './levels/level28-natural-chain.js';
-import { level29 } from './levels/level29-natural-chain.js';
-import { level30 } from './levels/level30-sky-oath.js';
-import { level31 } from './levels/level31-echo-orchard.js';
-import { level32 } from './levels/level32-cave-of-breath.js';
-import { level33 } from './levels/level33-last-ladder.js';
-import { level34 } from './levels/level34-thorn-contract.js';
-import { level35 } from './levels/level35-mirror-abattoir.js';
-import { level36 } from './levels/level36-sky-tax-court.js';
-import { level37 } from './levels/level37-saw-mikveh.js';
-import { level38 } from './levels/level38-crown-of-teeth.js';
-import { level39 } from './levels/level39-abyss-ledger.js';
-import { level40 } from './levels/level40-iron-echo-court.js';
-import { level41 } from './levels/level41-glass-sitra.js';
-import { level42 } from './levels/level42-snow-knife-parliament.js';
-import { level43 } from './levels/level43-thunder-shekel-mine.js';
-import { level44 } from './levels/level44-last-tooth-of-atzilus.js';
-import { level45 } from './levels/level45-blue-fire-beis-din.js';
-import { level46 } from './levels/level46-bone-rain-covenant.js';
-import { level47 } from './levels/level47-river-of-latches.js';
-import { level48 } from './levels/level48-cinder-shofar-vault.js';
-import { level49 } from './levels/level49-ash-mazal-gear.js';
-import { level50 } from './levels/level50-emerald-noose-garden.js';
-import { level51 } from './levels/level51-black-rainbow-gate.js';
+// Boruch Hashem
+// Blessed is He
 
-const RAW_LEVELS = [
-  level01, level02, level03, level04, level05, level06, level07, level08, level09,
-  level10, level11, level12, level13, level14, level15, level16, level17,
-  level18, level19, level20, level21, level22, level23, level24, level25,
-  level26, level27, level28, level29, level30, level31, level32, level33,
-  level34, level35, level36, level37, level38, level39, level40, level41,
-  level42, level43, level44, level45, level46, level47, level48, level49,
-  level50, level51
-];
+import { groundExitDoors } from "./doorGrounding.js";
+import { enrichLevel } from "./levelCruelty.js";
+import { prepareHumanGate } from "./enrichment/humanGateConsistency.js";
+import { CAMPAIGN_GATES_01_17 } from "./levels/campaign-gates-01-17.js";
+import { CAMPAIGN_GATES_18_34 } from "./levels/campaign-gates-18-34.js";
+import { CAMPAIGN_GATES_35_51 } from "./levels/campaign-gates-35-51.js";
+
+/**
+ * B"H
+ *
+ * Assembles the Sulam HaSod campaign from three small ordered gate registries.
+ * The first nine hand-authored chambers retain their authored personality while
+ * receiving only universal ascent/deception/fairness guarantees; later gates keep
+ * the full cruelty enrichment pipeline already designed for them.
+ *
+ * The Awtsmoos renews every rung and chamber from one source beyond the sequence;
+ * Awtsmoos.com keeps finite campaign law explicit, so cruelty may grow without
+ * breaking the covenant that every visible route remains readable and reachable.
+ */
+
+const RAW_LEVELS = Object.freeze([
+	...CAMPAIGN_GATES_01_17,
+	...CAMPAIGN_GATES_18_34,
+	...CAMPAIGN_GATES_35_51
+]);
 
 const HUMAN_AUTHORED_CLEAR_GATES = 9;
-const clone = value => structuredClone(value);
 
 /**
- * Keeps early human-authored gates free from enrichment cruelty.
+ * Reveals one playable gate with the correct level of shared campaign enrichment.
  *
- * @param {object} level Raw authored level.
- * @returns {object} Safe copied level.
- */
-function keepHumanGate(level) { return clone(level); }
-
-/**
- * Reveals the playable campaign gate before grounding the exit.
- *
- * @param {object} level Raw authored level.
- * @param {number} index Zero-based campaign index.
- * @returns {object} Playable campaign level.
+ * @param {object} level
+ * 	Raw authored level definition.
+ * @param {number} index
+ * 	Zero-based campaign index.
+ * @returns {object}
+ * 	Independent playable gate.
  */
 function revealPlayableGate(level, index) {
-  return index < HUMAN_AUTHORED_CLEAR_GATES ? keepHumanGate(level) : enrichLevel(level, index);
+	if (index < HUMAN_AUTHORED_CLEAR_GATES) {
+		return prepareHumanGate(level, index);
+	}
+
+	return enrichLevel(level, index);
 }
 
 /**
- * All playable gates, post-enrichment and post-grounding.
+ * All playable Sulam HaSod gates after enrichment and exit-door grounding.
  *
- * @constant {Array<object>} LEVELS
+ * @constant {Array<object>}
  */
-export const LEVELS = groundExitDoors(RAW_LEVELS.map(revealPlayableGate));
+export const LEVELS = groundExitDoors(
+	RAW_LEVELS.map(revealPlayableGate)
+);

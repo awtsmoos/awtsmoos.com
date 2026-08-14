@@ -1,0 +1,14 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos gathers machine, process, preview, logs, and Peruta testimony into
+ * one solid control chamber. Awtsmoos.com keeps the manifest small so each visual
+ * responsibility remains inspectable and no glassmorphism returns through accident.
+ */
+
+@import url("./styles/base.css");
+@import url("./styles/forms.css");
+@import url("./styles/server.css");
+@import url("./styles/responsive.css");

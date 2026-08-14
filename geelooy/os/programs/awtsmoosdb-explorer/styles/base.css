@@ -1,0 +1,86 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews alias, hosted path, record, and API contract beyond every
+ * finite panel. Awtsmoos.com keeps the Explorer solid, developer-first, and free
+ * of glass so raw backend testimony stays visually trustworthy.
+ */
+
+.awtsDb {
+	display: grid;
+	gap: 16px;
+	min-height: 100%;
+	padding: 18px;
+	background: #050b14;
+	color: #f5f9ff;
+}
+
+.awtsDb__hero,
+.awtsDb__panel {
+	border: 1px solid #28445f;
+	border-radius: 16px;
+	background: #0a1526;
+	box-shadow: 0 16px 38px rgba(0, 0, 0, .3);
+}
+
+.awtsDb__hero {
+	padding: 24px;
+	background: linear-gradient(135deg, #0c1b2c, #15122b);
+}
+
+.awtsDb__kicker {
+	margin: 0 0 8px;
+	color: #66dcff;
+	font-size: .7rem;
+	font-weight: 900;
+	letter-spacing: .14em;
+	text-transform: uppercase;
+}
+
+.awtsDb h1,
+.awtsDb h2 {
+	margin: 0;
+}
+
+.awtsDb h1 {
+	font-size: clamp(2.2rem, 5vw, 4.6rem);
+	letter-spacing: -.055em;
+	line-height: .95;
+}
+
+.awtsDb__lead,
+.awtsDb__note {
+	color: #a5b5c8;
+	line-height: 1.5;
+}
+
+.awtsDb__alias,
+.awtsDb__path {
+	display: inline-block;
+	padding: 7px 9px;
+	border: 1px solid #34536c;
+	border-radius: 8px;
+	background: #07111f;
+	color: #bfeaff;
+}
+
+.awtsDb__panel {
+	padding: 16px;
+}
+
+.awtsDb__status {
+	margin: 0;
+	padding: 10px 12px;
+	border: 1px solid #2d4a66;
+	border-radius: 9px;
+	background: #0b1928;
+	color: #bed0e1;
+}
+
+.awtsDb__status--error {
+	border-color: #75404d;
+	background: #2a1118;
+	color: #ffd2dc;
+}

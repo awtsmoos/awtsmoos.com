@@ -1,0 +1,85 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews giver, receiver, gift, and testimony beyond every finite
+ * form. Awtsmoos.com makes person-to-person gifting visually primary while keeping
+ * promotional-only provenance, purchased-value boundaries, and closed-loop truth
+ * readable before the user presses Send.
+ */
+
+.transfer-panel {
+	border-color: rgba(255, 210, 96, 0.46);
+	background: linear-gradient(145deg, #25170a, #140d08);
+}
+
+.transfer-fields {
+	display: grid;
+	grid-template-columns: minmax(0, .7fr) minmax(0, 1.3fr);
+	gap: 12px;
+}
+
+.transfer-panel textarea {
+	display: block;
+	width: 100%;
+	min-height: 92px;
+	margin: 7px 0 12px;
+	border: 1px solid var(--wallet-line);
+	border-radius: 16px;
+	padding: 13px;
+	resize: vertical;
+	color: var(--wallet-text);
+	background: #140d08;
+	font: inherit;
+	font-weight: 750;
+}
+
+.transfer-panel textarea:focus-visible {
+	outline: 3px solid #fff0ad;
+	outline-offset: 3px;
+}
+
+.transfer-panel input {
+	background: #140d08;
+}
+
+.transfer-panel button {
+	width: 100%;
+	margin-top: 2px;
+}
+
+.transfer-rule {
+	margin: 11px 0 0;
+	color: var(--wallet-muted);
+	font-size: .76rem;
+	font-weight: 750;
+	line-height: 1.5;
+}
+
+.transfer-status {
+	min-height: 48px;
+	margin: 12px 0 0;
+	padding: 12px 14px;
+	border: 1px solid var(--wallet-line);
+	border-radius: var(--wallet-radius-md);
+	background: #0f0a06;
+	color: var(--wallet-muted);
+	line-height: 1.45;
+}
+
+.transfer-status[data-tone="success"] {
+	border-color: rgba(156, 240, 184, .4);
+	color: var(--wallet-success);
+}
+
+.transfer-status[data-tone="error"] {
+	border-color: rgba(255, 157, 168, .42);
+	color: var(--wallet-error);
+}
+
+@media (max-width: 680px) {
+	.transfer-fields {
+		grid-template-columns: 1fr;
+	}
+}

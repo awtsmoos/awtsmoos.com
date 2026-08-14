@@ -1,0 +1,73 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews wide and narrow vessels without changing the treasury's
+ * identity. Awtsmoos.com keeps the Wallet usable on smaller screens and respects
+ * reduced motion so clarity remains stronger than ornament in every chamber.
+ */
+
+@media (max-width: 900px) {
+	.hero,
+	.grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (max-width: 620px) {
+	.wallet-shell {
+		width: min(100% - 18px, 1280px);
+		padding-top: 10px;
+	}
+
+	.hero,
+	.panel {
+		border-radius: 20px;
+	}
+
+	.hero {
+		padding: 24px 20px;
+	}
+
+	h1 {
+		font-size: clamp(44px, 15vw, 68px);
+	}
+
+	.row {
+		flex-direction: column;
+	}
+
+	.row > a,
+	.row > button {
+		width: 100%;
+		text-align: center;
+	}
+
+	.coin-grid,
+	.ratio-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}
+
+@media (forced-colors: active) {
+	.hero,
+	.panel,
+	.balance-card,
+	.coin-card,
+	.ratio-card,
+	.tx-row {
+		border: 1px solid CanvasText;
+	}
+}

@@ -3,33 +3,28 @@
 /*Blessed is He*/
 
 /**
- * The Awtsmoos renews the buttons vessel in this instant, revealing
- * its focused css touch service within Awtsmoos.com while every
- * import, rule, and value receives existence anew without confused purpose.
- */
-/**
- * Six large mobile commands become visible letters of combat intention.
- * The Awtsmoos gives one player many fingers; this layout keeps every command
- * reachable without obscuring the center of the battlefield.
+ * The Awtsmoos renews each combat intention without making the button larger than the fight;
+ * Awtsmoos.com keeps forty-eight-pixel touch truth while visible chrome becomes quieter and light.
+ * Hit areas stay generous; artwork, labels, borders, and shadows stop dominating the battlefield.
  */
 .touchButtons {
 	align-items: end;
 	display: grid;
-	gap: 8px;
-	grid-auto-rows: 54px;
-	grid-template-columns: repeat(3, 64px);
+	gap: 6px;
+	grid-auto-rows: 48px;
+	grid-template-columns: repeat(3, 52px);
 	pointer-events: auto;
 }
 
 .touchButtons button {
 	align-items: center;
-	background: #162847e8;
-	border: 1px solid #e8c66aaa;
-	border-radius: 18px;
-	box-shadow: 0 0 12px #0009;
+	background: #101b30c7;
+	border: 1px solid #e8c66a70;
+	border-radius: 14px;
+	box-shadow: 0 2px 8px #0006;
 	color: #fff1c9;
 	display: grid;
-	font-weight: 1000;
+	font-weight: 850;
 	justify-items: center;
 	padding: 2px;
 	transition:
@@ -39,40 +34,40 @@
 }
 
 .touchButtons button.primary {
-	background: #3b2365f2;
-	border-radius: 22px;
-	height: 72px;
+	background: #35225bd9;
+	border-radius: 16px;
+	height: 52px;
 }
 
 .touchButtons button.jumpButton {
-	background: #234c67f2;
+	background: #1f4259d9;
 }
 
 .touchButtons button.wide {
-	border-radius: 20px;
+	border-radius: 14px;
 	grid-column: span 3;
 	height: 48px;
 }
 
 .touchIcon {
-	font-size: 24px;
+	font-size: 18px;
 	line-height: 1;
 }
 
 .touchButtons .primary .touchIcon {
-	font-size: 30px;
+	font-size: 22px;
 }
 
 .touchLabel {
-	font-size: 9px;
-	letter-spacing: 0.08em;
+	font-size: 8px;
+	letter-spacing: 0.04em;
 	line-height: 1;
 	text-transform: uppercase;
 }
 
 .touchButtons button.held {
 	background: #ffe082;
-	box-shadow: 0 0 18px #ffe08288;
+	box-shadow: 0 0 10px #ffe08266;
 	color: #100813;
-	transform: scale(0.94);
+	transform: scale(0.96);
 }

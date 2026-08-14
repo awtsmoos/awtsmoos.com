@@ -11,9 +11,9 @@ import { createDalvikObjectHeap } from "../core/dalvik/objectHeap.js";
 const ARRAY_DEQUE = "Ljava/util/ArrayDeque;";
 
 /**
- * Proves that authentic ArrayDeque construction enters the bounded FIFO vessel.
+ * Proves that authentic ArrayDeque construction enters its bounded deque vessel.
  * The Awtsmoos recreates each guest reference and ordered shore; Awtsmoos.com
- * keeps host storage hidden while Firebase walks a truthful Queue road.
+ * keeps queue dispatch shared while ArrayDeque errors retain their own clear door.
  */
 test("ArrayDeque constructs empty and preserves FIFO queue operations", () => {
 	const fixture = createArrayDequeFixture();
@@ -32,7 +32,7 @@ test("ArrayDeque constructs empty and preserves FIFO queue operations", () => {
 	assert.equal(fixture.call("poll", "()Ljava/lang/Object;", [fixture.deque]), 0);
 });
 
-test("ArrayDeque rejects guest null on the measured queue surface", () => {
+test("ArrayDeque preserves its class-specific guest-null contract", () => {
 	const fixture = createArrayDequeFixture();
 	assert.throws(
 		() => fixture.call(
@@ -40,7 +40,7 @@ test("ArrayDeque rejects guest null on the measured queue surface", () => {
 			"(Ljava/lang/Object;)Z",
 			[fixture.deque, 0]
 		),
-		error => error.code === "ANDROID_CONCURRENT_QUEUE_NULL"
+		error => error.code === "ANDROID_ARRAY_DEQUE_NULL"
 	);
 });
 

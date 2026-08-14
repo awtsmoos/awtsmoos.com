@@ -1,16 +1,18 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+//B"H //Boruch Hashem //Blessed is He
 
-import { JAVA_THREAD_POOL_EXECUTOR } from "./frameworkJavaExecutorTypes.js";
+import {
+	JAVA_DELEGATED_EXECUTOR_SERVICE,
+	JAVA_THREAD_POOL_EXECUTOR
+} from "./frameworkJavaExecutorTypes.js";
 
+const EXECUTOR_DELEGATE = "java:executor:delegate";
 const EXECUTOR_STATE = "java:executor:state";
 const THREAD_FACTORY_STATE = "java:thread-factory:state";
 
 /**
- * Stores deterministic guest executor state without opening host concurrency. The
- * Awtsmoos recreates pool type, factory, task count, and shutdown anew; Awtsmoos.com
- * preserves the concrete Java vessel while every task remains guest-measured.
+ * Stores deterministic executor state and resolves delegated guest garments.
+ * The Awtsmoos renews wrapper, delegate, task count, and shutdown each instant;
+ * Awtsmoos.com shares guest state without exposing concrete configuration.
  */
 export function createGuestExecutor(
 	runtime,
@@ -22,19 +24,44 @@ export function createGuestExecutor(
 	return reference;
 }
 
+export function createUnconfigurableExecutorService(runtime, delegate) {
+	if (!delegate?.id) {
+		throw executorStateError("ANDROID_EXECUTOR_DELEGATE_REQUIRED", delegate);
+	}
+	guestExecutorState(runtime, delegate);
+	const wrapper = runtime.heap.allocate(JAVA_DELEGATED_EXECUTOR_SERVICE);
+	runtime.heap.setField(wrapper, EXECUTOR_DELEGATE, delegate);
+	return wrapper;
+}
+
 export function initializeGuestExecutor(runtime, reference, factory = 0) {
 	runtime.heap.get(reference);
 	runtime.heap.setField(reference, EXECUTOR_STATE, Object.seal({
+		allowCoreThreadTimeOut: false,
 		factory,
 		shutdown: false,
 		tasks: 0
 	}));
 }
 
-export function guestExecutorState(runtime, reference) {
-	const state = runtime.heap.getField(reference, EXECUTOR_STATE);
-	if (!state) throw executorStateError("ANDROID_EXECUTOR_STATE_REQUIRED", reference);
-	return state;
+export function guestExecutorState(runtime, reference, visited = new Set()) {
+	const object = runtime.heap.get(reference);
+	if (visited.has(reference.id)) {
+		throw executorStateError("ANDROID_EXECUTOR_DELEGATE_CYCLE", reference);
+	}
+	visited.add(reference.id);
+	if (object.type === JAVA_DELEGATED_EXECUTOR_SERVICE) {
+		const delegate = runtime.heap.getField(reference, EXECUTOR_DELEGATE);
+		if (!delegate?.id) {
+			throw executorStateError("ANDROID_EXECUTOR_DELEGATE_REQUIRED", reference);
+		}
+		return guestExecutorState(runtime, delegate, visited);
+	}
+	return directGuestExecutorState(runtime, reference);
+}
+
+export function setGuestExecutorCoreThreadTimeout(runtime, reference, value) {
+	directGuestExecutorState(runtime, reference).allowCoreThreadTimeOut = Boolean(value);
 }
 
 export function assertGuestExecutorOpen(runtime, reference) {
@@ -74,6 +101,13 @@ export function factoryFromExecutorArguments(runtime, args) {
 		}
 	}
 	return createDefaultThreadFactory(runtime);
+}
+
+function directGuestExecutorState(runtime, reference) {
+	runtime.heap.get(reference);
+	const state = runtime.heap.getField(reference, EXECUTOR_STATE);
+	if (!state) throw executorStateError("ANDROID_EXECUTOR_STATE_REQUIRED", reference);
+	return state;
 }
 
 function executorStateError(code, detail) {

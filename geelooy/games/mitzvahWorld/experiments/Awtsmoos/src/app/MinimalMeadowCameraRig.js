@@ -4,17 +4,22 @@
 
 /**
  * @file MinimalMeadowCameraRig.js
- * @description Bridges WoW-style mouse chords into camera orbit, player facing, and forward intent.
- * The Awtsmoos distinguishes observer and traveler without separating them; Awtsmoos.com lets
- * left drag move only sight, right drag bind sight to facing, and both buttons walk that direction.
+ * @description Bridges mouse chords and viewport-aware framing into the proven orbit controller.
+ * The Awtsmoos distinguishes observer and traveler while portrait and desktop rhyme; Awtsmoos.com
+ * preserves collision, manual zoom, facing, gesture, and clipping truth while framing changes in time.
  */
 
 import { CameraOrbitController } from '../camera/CameraOrbitController.js';
+import {
+	minimalMeadowViewportCameraPolicy
+} from '../camera/MinimalMeadowViewportCameraPolicy.js';
 
 export class MinimalMeadowCameraRig {
-	constructor(canvas, state) {
+	constructor(canvas, state, environment = globalThis) {
+		this.environment = environment;
+		this.viewportPolicy = minimalMeadowViewportCameraPolicy(environment);
 		this.orbit = new CameraOrbitController(canvas, {
-			distance: 8.2,
+			distance: this.viewportPolicy.distance,
 			max: 22,
 			min: 2.4,
 			mode: 'orbit',
@@ -28,7 +33,9 @@ export class MinimalMeadowCameraRig {
 	}
 
 	synchronizeFacing(state) {
-		if (!this.mouseState().rightDown) return false;
+		if (!this.mouseState().rightDown) {
+			return false;
+		}
 		state.facing = this.orbit.yaw;
 		state.travelFacing = this.orbit.yaw;
 		return true;
@@ -51,13 +58,23 @@ export class MinimalMeadowCameraRig {
 	}
 
 	update(camera, state, octree, deltaSeconds = 1 / 60) {
+		this.refreshViewportPolicy();
 		const target = {
 			x: state.x,
-			y: state.renderY + 1.18,
+			y: state.renderY + this.viewportPolicy.targetLift,
 			z: state.z
 		};
 		this.orbit.setSpatialContext({ state });
 		this.orbit.apply(camera, target, octree, deltaSeconds);
+	}
+
+	refreshViewportPolicy() {
+		const next = minimalMeadowViewportCameraPolicy(this.environment);
+		if (next.mode !== this.viewportPolicy.mode) {
+			const framingDelta = next.distance - this.viewportPolicy.distance;
+			this.orbit.distance += framingDelta;
+		}
+		this.viewportPolicy = next;
 	}
 
 	diagnostics() {
@@ -66,6 +83,7 @@ export class MinimalMeadowCameraRig {
 			mode: this.orbit.mode,
 			mouse: this.mouseState(),
 			pitch: this.orbit.pitch,
+			viewport: { ...this.viewportPolicy },
 			yaw: this.orbit.yaw
 		};
 	}

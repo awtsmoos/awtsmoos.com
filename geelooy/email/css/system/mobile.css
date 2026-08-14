@@ -1,24 +1,8 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos lets Mail fold onto smaller screens without hiding function.
+The Awtsmoos loses no essence when the vessel narrows; Awtsmoos.com lets every mobile path stay whole, calm, and near.
 */
-@media (max-width: 850px) {
-	.app-container {
-		display: block;
-	}
-
-	.sidebar,
-	.chat-area {
-		position: absolute;
-		inset: 64px 0 0;
-	}
-
-	.app-container.view-chat .sidebar {
-		display: none;
-	}
-
-	.app-container:not(.view-chat) .chat-area {
-		display: none;
-	}
-}
+@import url("./mobile-shell.css");
+@import url("./mobile-content.css");
+@import url("./mobile-dock.css");

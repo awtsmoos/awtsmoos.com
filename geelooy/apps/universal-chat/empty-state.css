@@ -1,0 +1,117 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos is never empty; Awtsmoos.com gives quiet chambers enough explanation and one deliberate next action, while phone emptiness stays compact instead of consuming the screen merely to announce absence in light. */
+
+.messaging-empty-state {
+	display: grid;
+	justify-items: center;
+	align-content: center;
+	min-height: min(420px, 70%);
+	max-width: 520px;
+	margin: auto;
+	padding: 2rem;
+	text-align: center;
+}
+
+.messaging-special-pane > .messaging-empty-state {
+	width: min(620px, 100%);
+	min-height: 100%;
+}
+
+.messaging-list > .messaging-empty-state,
+.messaging-thread > .messaging-empty-state {
+	min-height: 100%;
+}
+
+.messaging-empty-mark {
+	display: grid;
+	place-items: center;
+	width: 62px;
+	height: 62px;
+	margin-bottom: 1rem;
+	border: 1px solid rgba(121, 224, 183, 0.16);
+	border-radius: 20px;
+	background: var(--msg-accent-soft);
+	color: var(--msg-accent);
+}
+
+.messaging-empty-mark .messaging-icon {
+	width: 27px;
+	height: 27px;
+}
+
+.messaging-empty-state h2 {
+	margin: 0;
+	font-size: clamp(1.05rem, 2vw, 1.3rem);
+	line-height: 1.3;
+}
+
+.messaging-empty-state p {
+	max-width: 52ch;
+	margin: 0.55rem 0 0;
+	color: var(--msg-soft);
+	line-height: 1.6;
+}
+
+.messaging-empty-action,
+.messaging-link-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 42px;
+	margin-top: 1rem;
+	padding: 0 0.9rem;
+	border: 1px solid var(--msg-line-strong);
+	border-radius: 11px;
+	background: rgba(121, 224, 183, 0.08);
+	color: var(--msg-text);
+	font-size: 0.75rem;
+	font-weight: 730;
+	text-decoration: none;
+}
+
+.messaging-empty-action:hover,
+.messaging-link-button:hover {
+	border-color: rgba(121, 224, 183, 0.28);
+	background: rgba(121, 224, 183, 0.13);
+}
+
+@media (max-width: 600px) {
+	.messaging-empty-state {
+		align-content: start;
+		min-height: 0;
+		width: 100%;
+		padding: clamp(1.4rem, 10vh, 4rem) 1rem 1.2rem;
+	}
+
+	.messaging-special-pane > .messaging-empty-state {
+		min-height: 0;
+	}
+
+	.messaging-empty-mark {
+		width: 52px;
+		height: 52px;
+		margin-bottom: 0.72rem;
+		border-radius: 17px;
+	}
+
+	.messaging-empty-mark .messaging-icon {
+		width: 23px;
+		height: 23px;
+	}
+
+	.messaging-empty-state p {
+		margin-top: 0.42rem;
+		font-size: 0.78rem;
+		line-height: 1.48;
+	}
+
+	.messaging-empty-action,
+	.messaging-link-button {
+		width: 100%;
+		min-height: 46px;
+		margin-top: 0.78rem;
+	}
+}

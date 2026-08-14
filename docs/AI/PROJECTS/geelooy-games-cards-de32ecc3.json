@@ -1,0 +1,65 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-games-cards-de32ecc3",
+	"path": "geelooy/games/cards",
+	"type": "game",
+	"family": {
+		"id": "games",
+		"title": "Games and Worlds"
+	},
+	"title": "The Utterances — Blackjack on Awtsmoos",
+	"entries": [
+		"index.html",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/games/cards/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/GAMES.md",
+		"docs/APPS/GAMES_AND_SIMULATION.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-cards-de32ecc3.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 10,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 11,
+	"symbolSummary": {
+		"files": 5,
+		"classes": 4,
+		"functions": 4,
+		"exports": 5,
+		"samples": [
+			"BlackjackAI",
+			"createDeck",
+			"shuffleDeck",
+			"Renderer",
+			"BlackjackGame",
+			"orchestrates",
+			"initializeMenu",
+			"beginExperience"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/games/cards",
+			"file": "geelooy/games/cards/index.html",
+			"title": "The Utterances — Blackjack on Awtsmoos",
+			"scripts": 1,
+			"styles": 1
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

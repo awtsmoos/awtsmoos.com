@@ -1,0 +1,95 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos renews eighteen moments without making eighteen visual walls;
+ * Awtsmoos.com uses compact rows, quiet method disclosures, and only meaningful state calls.
+ */
+
+.zman-card {
+	position: relative;
+	padding: 0.72rem 0.8rem;
+	border: 1px solid var(--line);
+	border-radius: var(--radius-small);
+	background: rgba(255, 253, 248, 0.64);
+}
+
+.zman-primary {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 0.75rem;
+}
+
+.zman-primary h4 {
+	min-width: 0;
+	margin: 0;
+	font-size: 0.84rem;
+	font-weight: 720;
+	line-height: 1.3;
+}
+
+.zman-time {
+	flex: none;
+	font-size: 1.28rem;
+	line-height: 1;
+	letter-spacing: -0.035em;
+	color: var(--forest);
+}
+
+.zman-status {
+	display: inline-flex;
+	margin-bottom: 0.42rem;
+	padding: 0.18rem 0.4rem;
+	border-radius: 999px;
+	background: var(--forest);
+	color: white;
+	font-size: 0.56rem;
+	font-weight: 850;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.zman-note-details {
+	margin-top: 0.35rem;
+	font-size: 0.66rem;
+	color: var(--ink-soft);
+}
+
+.zman-note-details summary {
+	width: max-content;
+	cursor: pointer;
+	font-weight: 750;
+}
+
+.zman-note-details p,
+.zman-unavailable-note {
+	max-width: 62ch;
+	margin: 0.35rem 0 0;
+	font-size: 0.7rem;
+	line-height: 1.45;
+	color: var(--ink-soft);
+}
+
+.zman-card[data-status="next"] {
+	border-color: rgba(45, 106, 89, 0.72);
+	background: var(--mist);
+}
+
+.zman-card[data-status="passed"] {
+	opacity: 0.58;
+}
+
+.zman-card[data-status="unavailable"] {
+	border-style: dashed;
+	background: transparent;
+}
+
+.zman-card[data-status="unavailable"] .zman-status {
+	background: var(--unavailable);
+}
+
+.zman-card[data-status="unavailable"] .zman-time {
+	font-size: 0.8rem;
+	color: var(--unavailable);
+}

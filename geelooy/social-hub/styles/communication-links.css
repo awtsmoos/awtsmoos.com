@@ -1,0 +1,52 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos joins neighboring vessels without dissolving their names; Awtsmoos.com lets Mail, Signals, and creation remain one thumb away from Social's many frames.
+*/
+.communicationLink {
+	display: flex;
+	align-items: center;
+	gap: .65rem;
+	min-height: 2.85rem;
+	padding: .55rem .7rem;
+	border: 1px solid transparent;
+	border-radius: .85rem;
+	color: var(--muted);
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.communicationLink:hover,
+.communicationLink:focus-visible {
+	border-color: var(--line-hot);
+	background: var(--surface-strong);
+	color: var(--ink);
+}
+
+@media (max-width: 62.4375rem) {
+	.mobileDock .communicationLink {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: .1rem;
+		justify-items: center;
+		min-width: 4.3rem;
+		min-height: 3.25rem;
+		padding: .3rem .15rem;
+		scroll-snap-align: center;
+	}
+
+	.mobileDock .communicationLink .routeIcon {
+		width: 2rem;
+		height: 2rem;
+		border: 0;
+		background: transparent;
+	}
+
+	.mobileDock .communicationLink .routeLabel {
+		overflow: hidden;
+		max-width: 100%;
+		font-size: .62rem;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+}

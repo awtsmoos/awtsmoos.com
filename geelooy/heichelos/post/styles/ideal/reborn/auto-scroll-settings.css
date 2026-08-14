@@ -1,0 +1,85 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos joins one honest Off state, semantic pace controls, presets,
+ * estimates, and eye-line guidance while each visual vessel remains small.
+ */
+@import url("./auto-scroll-semantic-controls.css?v=1");
+@import url("./auto-scroll-presets.css?v=1");
+@import url("./auto-scroll-eye-line.css?v=1");
+
+.post-reader-localized-context .auto-scroll-settings {
+	display: grid;
+	gap: .75rem;
+}
+.post-reader-localized-context .auto-scroll-heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .75rem;
+}
+.post-reader-localized-context [data-auto-scroll-status] {
+	padding: .28rem .52rem;
+	border: 1px solid rgba(148, 163, 184, .28);
+	border-radius: 999px;
+	background: rgba(255, 255, 255, .05);
+	color: var(--reader-muted, #7f8ea4);
+	font-size: .68rem;
+	font-weight: 850;
+	letter-spacing: .06em;
+	text-transform: uppercase;
+}
+.post-reader-localized-context [data-auto-scroll-status][data-auto-scroll-state="scrolling"] {
+	border-color: rgba(34, 197, 94, .42);
+	background: rgba(34, 197, 94, .12);
+	color: #22c55e;
+}
+.post-reader-localized-context [data-auto-scroll-status][data-auto-scroll-state="paused"],
+.post-reader-localized-context [data-auto-scroll-status][data-auto-scroll-state="resting"] {
+	border-color: rgba(245, 158, 11, .46);
+	background: rgba(245, 158, 11, .12);
+	color: #f59e0b;
+}
+.post-reader-localized-context .auto-scroll-settings-toggle {
+	display: grid;
+	grid-template-columns: 40px minmax(0, 1fr) auto;
+	align-items: center;
+	gap: .65rem;
+	min-height: 52px;
+	padding: .5rem .65rem;
+	border: 1px solid rgba(148, 163, 184, .24);
+	border-radius: .9rem;
+	background: rgba(255, 255, 255, .055);
+	color: inherit;
+	font: inherit;
+	text-align: start;
+	cursor: pointer;
+}
+.post-reader-localized-context .auto-scroll-settings-toggle:hover,
+.post-reader-localized-context .auto-scroll-settings-toggle:focus-visible {
+	border-color: rgba(34, 211, 238, .52);
+	background: rgba(34, 211, 238, .09);
+	outline: 2px solid transparent;
+}
+.post-reader-localized-context .auto-scroll-settings-toggle.awtsmoos-auto-scroll-on {
+	border-color: rgba(34, 197, 94, .48);
+	background: rgba(34, 197, 94, .1);
+}
+.post-reader-localized-context .auto-scroll-settings-toggle .awtsmoos-auto-scroll-icon {
+	display: grid;
+	place-items: center;
+	width: 40px;
+	height: 40px;
+	border-radius: 999px;
+	background: linear-gradient(135deg, #f8d682, #22d3ee);
+	color: #07111f;
+	font-weight: 950;
+}
+.post-reader-localized-context .auto-scroll-settings-toggle .awtsmoos-auto-scroll-label {
+	font-weight: 850;
+}
+.post-reader-localized-context .auto-scroll-settings-toggle .awtsmoos-auto-scroll-speed {
+	color: var(--reader-muted, #7f8ea4);
+	font-size: .72rem;
+	font-weight: 800;
+}

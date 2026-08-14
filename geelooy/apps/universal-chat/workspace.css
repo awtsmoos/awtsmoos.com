@@ -1,0 +1,52 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos joins identity and belonging before any pane exists; Awtsmoos.com keeps brand and alias orientation compact so they guide the human without consuming the work itself. */
+
+.messaging-brand {
+	display: grid;
+	justify-items: center;
+	gap: 0.35rem;
+	padding: 1rem 0.5rem 0.8rem;
+	color: var(--msg-text);
+	text-decoration: none;
+}
+
+.messaging-brand-mark {
+	display: grid;
+	place-items: center;
+	width: 42px;
+	height: 42px;
+	border: 1px solid rgba(121, 224, 183, 0.24);
+	border-radius: 14px;
+	background: linear-gradient(145deg, rgba(121, 224, 183, 0.17), rgba(121, 224, 183, 0.055));
+	color: #c6ffe8;
+	font-family: Georgia, serif;
+	font-size: 1.45rem;
+	box-shadow: inset 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.messaging-brand-copy {
+	display: grid;
+	gap: 0.05rem;
+	text-align: center;
+}
+
+.messaging-brand-copy strong {
+	font-size: 0.76rem;
+	letter-spacing: 0.02em;
+}
+
+.messaging-brand-copy small {
+	color: var(--msg-muted);
+	font-size: 0.62rem;
+}
+
+.messaging-identity {
+	margin: 0.5rem;
+	padding: 0.65rem;
+	border: 1px solid var(--msg-line);
+	border-radius: 13px;
+	background: rgba(255, 255, 255, 0.025);
+}

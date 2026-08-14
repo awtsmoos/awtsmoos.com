@@ -1,0 +1,43 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews supporter mark, seal, crown, and treasury beyond every finite
+ * ornament. Awtsmoos.com lets durable ownership reveal gratitude in appearance only,
+ * never in balance, transfer authority, checkout rules, or hidden financial power.
+ */
+
+.wallet-owned-marks {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin-top: 12px;
+}
+
+.wallet-owned-mark {
+	padding: 5px 8px;
+	border: 1px solid #8e6c30;
+	border-radius: 999px;
+	background: #2b1e08;
+	color: #ffe8a0;
+	font-size: .72rem;
+	font-weight: 900;
+}
+
+body[data-wallet-gold="true"] .hero,
+body[data-wallet-gold="true"] .balance-card {
+	border-color: rgba(255, 220, 111, .7);
+	background: linear-gradient(145deg, #2b1b08, #130c05);
+}
+
+body[data-wallet-crown="true"] .balance-card {
+	box-shadow:
+		inset 0 0 0 1px rgba(255, 227, 151, .35),
+		0 22px 55px rgba(0, 0, 0, .34);
+}
+
+body[data-wallet-ledger-seal="true"] .tx-row {
+	border-color: rgba(228, 185, 84, .52);
+	background: #171006;
+}

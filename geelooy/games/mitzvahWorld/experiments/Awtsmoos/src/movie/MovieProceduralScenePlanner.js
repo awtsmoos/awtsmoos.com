@@ -4,9 +4,9 @@
 
 /**
  * @file MovieProceduralScenePlanner.js
- * @description Expands one story-arc scene into a generated world, coordinated beats, transitions, and grade.
- * The Awtsmoos is beyond actor and shot while each finite scene must reveal intention through coordinated vessels;
- * Awtsmoos.com joins story, world, beats, and appearance without hiding live objects inside authored levels.
+ * @description Expands one story scene using only declared JSON world data and deterministic cinematic planning.
+ * The Awtsmoos is beyond actor and shot while each finite scene receives its world from an explicit vessel;
+ * Awtsmoos.com joins story, world, beats, and appearance without guessing terrain or weather from prose syllables.
  */
 
 import { createMovieProceduralRandom } from './MovieProceduralSeed.js';
@@ -15,23 +15,18 @@ import {
 	proceduralSceneAppearance,
 	proceduralSceneGrade
 } from './MovieProceduralSceneBeats.js';
-import { compileMovieWorldPrompt } from './MovieWorldPromptCompiler.js';
+import { compileMovieWorldJson } from './MovieWorldJsonCompiler.js';
 
 export function planProceduralMovieScene(intent, arcScene) {
 	const random = createMovieProceduralRandom(intent.seed, arcScene.id);
-	const worldPrompt = `${intent.prompt} ${arcScene.purpose} ${arcScene.theme}`;
-	const world = compileMovieWorldPrompt(worldPrompt, {
-		label: proceduralSceneLabel(arcScene.purpose),
-		scope: arcScene.id,
-		seed: random.seed
+	const sourceWorld = intent.worlds?.[arcScene.index] || intent.world || {};
+	const world = compileMovieWorldJson({
+		...sourceWorld,
+		label: sourceWorld.label || proceduralSceneLabel(arcScene.purpose),
+		seed: sourceWorld.seed ?? random.seed
 	});
 	return {
-		beats: createProceduralSceneBeats(
-			arcScene,
-			world,
-			intent.characters,
-			random
-		),
+		beats: createProceduralSceneBeats(arcScene, world, intent.characters, random),
 		duration: arcScene.duration,
 		effects: proceduralSceneAppearance(arcScene),
 		grade: proceduralSceneGrade(world),

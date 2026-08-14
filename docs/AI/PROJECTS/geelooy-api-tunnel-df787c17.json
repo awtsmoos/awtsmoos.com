@@ -1,0 +1,118 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-api-tunnel-df787c17",
+	"path": "geelooy/api/tunnel",
+	"type": "api",
+	"family": {
+		"id": "apis",
+		"title": "API Projects"
+	},
+	"title": "geelooy/api/tunnel",
+	"entries": [
+		"_awtsmoos.derech.js",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/api/tunnel/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/APIS.md",
+		"docs/API/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-tunnel-df787c17.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 231,
+		"tests": 91,
+		"assets": 0,
+		"generated": 0,
+		"docs": 7,
+		"other": 0
+	},
+	"totalFiles": 329,
+	"symbolSummary": {
+		"files": 231,
+		"classes": 5,
+		"functions": 1019,
+		"exports": 751,
+		"samples": [
+			"dynamicRoutes",
+			"response",
+			"ws",
+			"from64",
+			"jsonFrom64",
+			"getUrl",
+			"sendJson",
+			"buildFsPayload",
+			"authorizeRelay",
+			"POST",
+			"Authorization",
+			"BASE_PRICE"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/api/perutas",
+			"count": 16,
+			"examples": "geelooy/api/tunnel/control/core/usageStore.js; geelooy/api/tunnel/control/routes/adminPerutas.js; geelooy/api/tunnel/control/routes/adminVault.js"
+		},
+		{
+			"project": "geelooy/apps/tunnel",
+			"count": 7,
+			"examples": "geelooy/api/tunnel/control/routes/osFs/virtualAiAgents.js; geelooy/api/tunnel/install/tools/zipSources.js"
+		},
+		{
+			"project": "geelooy/api/social",
+			"count": 2,
+			"examples": "geelooy/api/tunnel/control/routes/osFs/listRead.js; geelooy/api/tunnel/control/routes/osFs/writeOps.js"
+		},
+		{
+			"project": "ayzarim/awtsmoosDynamicServer",
+			"count": 1,
+			"examples": "geelooy/api/tunnel/control/routes/fsVessel/tunnelClient.js"
+		},
+		{
+			"project": "geelooy/api/oauth",
+			"count": 1,
+			"examples": "geelooy/api/tunnel/control/core/auth.js"
+		}
+	],
+	"incomingDependencies": [
+		{
+			"project": "ayzarim/awtsmoosDynamicServer",
+			"count": 11,
+			"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/channel.js; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/channelSnapshot.js; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgradeFakes.cjs"
+		},
+		{
+			"project": "geelooy/api/ohr-hagnuz",
+			"count": 2,
+			"examples": "geelooy/api/ohr-hagnuz/routes/realtimeTicket.js"
+		},
+		{
+			"project": "geelooy/api/oauth",
+			"count": 1,
+			"examples": "geelooy/api/oauth/data/clients.js"
+		},
+		{
+			"project": "geelooy/apps/tunnel-control",
+			"count": 1,
+			"examples": "geelooy/apps/tunnel-control/gpt/generate-oauth-scopes.cjs"
+		},
+		{
+			"project": "geelooy/scripts",
+			"count": 1,
+			"examples": "geelooy/scripts/awtsmoos/minimax-virtual-os-game/seed-users.cjs"
+		},
+		{
+			"project": "geelooy/view",
+			"count": 1,
+			"examples": "geelooy/view/_awtsmoos.derech.js"
+		}
+	],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

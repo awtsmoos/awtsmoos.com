@@ -4,12 +4,13 @@
 
 /**
  * @file VillageCottageEnvelopeGeometry.js
- * @description Owns the single canonical cottage stone envelope and authored entrance opening.
- * The Awtsmoos seats each home upon measured earth; Awtsmoos.com keeps retaining and stepped
- * stone in one static mesh while pure prism equations remain a subordinate geometry vessel.
+ * @description Builds one cottage envelope whose wall, door, interior, and finished floor share local zero.
+ * The Awtsmoos seats inhabited walls at one truthful threshold while retaining stone descends below;
+ * Awtsmoos.com keeps the recessed entrance open from floor zero so geometry and gameplay finally know the same flow.
  */
 
 import { appendCottageFoundation } from './VillageCottageFoundationGeometry.js';
+import { villageCottageFoundationHeight } from './VillageCottageFoundationHeight.js';
 import {
 	appendPrism,
 	chamferedRing,
@@ -44,7 +45,7 @@ export function createEnvelopeGeometry(options) {
 	const mesh = { faces: [], vertices: [] };
 	const halfWidth = options.width / 2;
 	const halfDepth = options.depth / 2;
-	const foundationHeight = Math.min(0.9, Math.max(0.62, options.wallHeight * 0.16));
+	const foundationHeight = villageCottageFoundationHeight(options);
 	const foundation = appendCottageFoundation({
 		appendPrism,
 		halfDepth,
@@ -58,23 +59,27 @@ export function createEnvelopeGeometry(options) {
 	const wallWidth = halfWidth - 0.14;
 	const wallDepth = halfDepth - 0.1;
 	const doorwayHalf = Math.min(0.86, wallWidth * 0.2);
-	const doorHeight = Math.min(2.35, options.storyHeight ? options.storyHeight * 0.73 : 2.25);
-
+	const doorHeight = Math.min(
+		2.35,
+		options.storyHeight ? options.storyHeight * 0.73 : 2.25
+	);
 	appendPrism(
 		mesh,
 		chamferedRing(wallWidth, wallDepth - recessDepth, 0.4),
-		foundationHeight,
+		0,
 		options.wallHeight,
 		options,
 		4
 	);
-	appendFrontPier(mesh, -wallWidth, -doorwayHalf, wallDepth, recessDepth, foundationHeight, options);
-	appendFrontPier(mesh, doorwayHalf, wallWidth, wallDepth, recessDepth, foundationHeight, options);
-	appendFrontLintel(mesh, doorwayHalf, wallDepth, recessDepth, foundationHeight + doorHeight, options);
-
+	appendFrontPier(mesh, -wallWidth, -doorwayHalf, wallDepth, recessDepth, options);
+	appendFrontPier(mesh, doorwayHalf, wallWidth, wallDepth, recessDepth, options);
+	appendFrontLintel(mesh, doorwayHalf, wallDepth, recessDepth, doorHeight, options);
 	return {
 		...mesh,
-		entranceOpening: Object.freeze({ height: doorHeight, width: doorwayHalf * 2 }),
+		entranceOpening: Object.freeze({
+			height: doorHeight,
+			width: doorwayHalf * 2
+		}),
 		foundationHeight,
 		foundationStyle: foundation.style,
 		foundationTiers: foundation.tiers,
@@ -89,16 +94,16 @@ function envelopeMetadata(geometry, userData) {
 		foundationHeight: geometry.foundationHeight,
 		foundationStyle: geometry.foundationStyle,
 		foundationTiers: geometry.foundationTiers,
-		part: 'stone-plinth-and-open-recessed-wall-envelope',
+		part: 'stone-foundation-below-open-recessed-wall-envelope',
 		recessDepth: geometry.recessDepth
 	};
 }
 
-function appendFrontPier(mesh, startX, endX, frontZ, depth, bottom, options) {
+function appendFrontPier(mesh, startX, endX, frontZ, depth, options) {
 	appendPrism(
 		mesh,
 		rectangle(startX, endX, frontZ - depth, frontZ),
-		bottom,
+		0,
 		options.wallHeight,
 		options
 	);

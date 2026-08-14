@@ -1,75 +1,65 @@
 // B"H
 /**
  * @module CommentAPI
- * @description Browser vessels for post comments and reply comments.
+ * @description Browser vessels for the dedicated native comment tree.
  */
-
 import { AwtsmoosRequest, BASE_API_URL } from './base.js';
 
-export async function createComment({
-    heichelId,
-    postId,
-    aliasId,
-    seriesId = 'root',
-    content,
-    verseSection = 'root'
-}) {
-    return await AwtsmoosRequest.post(
-        `${BASE_API_URL}heichelos/${encodeURIComponent(heichelId)}/post/${encodeURIComponent(postId)}/comments/`,
-        new URLSearchParams({
-            aliasId,
-            seriesId,
-            content,
-            dayuh: JSON.stringify({ verseSection })
-        })
-    );
+function encode(value) {
+	return encodeURIComponent(String(value ?? ''));
 }
 
-export async function replyToComment({
-    heichelId,
-    postId,
-    commentId,
-    aliasId,
-    seriesId = 'root',
-    content,
-    verseSection = 'root'
-}) {
-    return await AwtsmoosRequest.post(
-        `${BASE_API_URL}heichelos/${encodeURIComponent(heichelId)}/comment/${encodeURIComponent(commentId)}`,
-        new URLSearchParams({
-            aliasId,
-            postId,
-            seriesId,
-            content,
-            dayuh: JSON.stringify({ verseSection })
-        })
-    );
+function treeUrl({ heichelId, postId, verseSection = 'root' }) {
+	const query = new URLSearchParams({
+		limit: '100',
+		maxDepth: '8',
+		replyLimit: '100'
+	});
+	if (verseSection !== '' && verseSection !== 'root') {
+		query.set('verseSection', String(verseSection));
+	}
+	return `${BASE_API_URL}heichelos/${encode(heichelId)}/posts/${encode(postId)}/comment-tree?${query}`;
 }
 
-export async function listCommentAuthors({
-    heichelId,
-    postId,
-    seriesId = 'root',
-    verseSection = 'root'
-}) {
-    return await AwtsmoosRequest.fetch(
-        `${BASE_API_URL}heichelos/${encodeURIComponent(heichelId)}/post/${encodeURIComponent(postId)}/comments/aliases?${new URLSearchParams({
-            seriesId,
-            verseSection
-        })}`
-    );
+function flatten(rows = []) {
+	const out = [];
+	for (const row of Array.isArray(rows) ? rows : []) {
+		out.push(row);
+		out.push(...flatten(row?.replies || []));
+	}
+	return out;
 }
 
-export async function listCommentsByAlias({
-    heichelId,
-    postId,
-    aliasId,
-    seriesId = 'root',
-    verseSection = 'root'
-}) {
-    return await AwtsmoosRequest.fetch(
-        `${BASE_API_URL}heichelos/${encodeURIComponent(heichelId)}/comments/inSeries/${encodeURIComponent(seriesId)}/atPost/${encodeURIComponent(postId)}/atAlias/${encodeURIComponent(aliasId)}?${new URLSearchParams({
-            verseSection
-        })}`
-    );
+async function readTree(args) {
+	const response = await AwtsmoosRequest.fetch(treeUrl(args));
+	return flatten(response?.success || []);
+}
+
+export async function createComment({ heichelId, postId, aliasId, seriesId = 'root', content, verseSection = 'root' }) {
+	return AwtsmoosRequest.post(
+		`${BASE_API_URL}heichelos/${encode(heichelId)}/posts/${encode(postId)}/comment-tree`,
+		new URLSearchParams({ aliasId, seriesId, content, verseSection: String(verseSection) })
+	);
+}
+
+export async function replyToComment({ heichelId, postId, commentId, aliasId, seriesId = 'root', content, verseSection = 'root' }) {
+	return AwtsmoosRequest.post(
+		`${BASE_API_URL}heichelos/${encode(heichelId)}/posts/${encode(postId)}/comments/${encode(commentId)}/replies`,
+		new URLSearchParams({ aliasId, seriesId, content, verseSection: String(verseSection) })
+	);
+}
+
+export async function listCommentAuthors({ heichelId, postId, verseSection = 'root' }) {
+	const rows = await readTree({ heichelId, postId, verseSection });
+	const aliases = rows
+		.map(row => String(row?.aliasId || row?.author || '').trim())
+		.filter(Boolean);
+	return { success: [...new Set(aliases)] };
+}
+
+export async function listCommentsByAlias({ heichelId, postId, aliasId, verseSection = 'root' }) {
+	const rows = await readTree({ heichelId, postId, verseSection });
+	return {
+		success: rows.filter(row => String(row?.aliasId || row?.author || '') === String(aliasId))
+	};
 }

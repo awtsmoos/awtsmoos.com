@@ -1,112 +1,94 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+//B"H //Boruch Hashem //Blessed is He
 
 import { isDalvikReference } from "../dalvik/objectHeap.js";
 import { isDalvikClassValue } from "./frameworkJavaClassValues.js";
+import {
+	boundedStringIndex,
+	createGuestArray,
+	javaStringHash,
+	readGuestArray
+} from "./frameworkJavaStringLegacyValues.js";
+import {
+	JAVA_MUTABLE_TEXT_FIELD,
+	JAVA_STRING,
+	JAVA_STRING_BUFFER,
+	JAVA_STRING_BUILDER,
+	JAVA_STRING_FIELD,
+	javaTextStorage
+} from "./frameworkJavaTextTypes.js";
 
-export const JAVA_STRING = "Ljava/lang/String;";
-export const JAVA_STRING_BUILDER = "Ljava/lang/StringBuilder;";
-export const JAVA_STRING_BUFFER = "Ljava/lang/StringBuffer;";
-const STRING_FIELD = "java:string";
-const BUILDER_FIELD = "java:string-builder:value";
+export {
+	boundedStringIndex,
+	createGuestArray,
+	JAVA_STRING,
+	JAVA_STRING_BUFFER,
+	JAVA_STRING_BUILDER,
+	javaStringHash,
+	readGuestArray
+};
 
 /**
- * Reveals and stores bounded guest text. The Awtsmoos creates literal, heap
- * String, code unit, array cell, and visible meaning anew; Awtsmoos.com accepts
- * VM const-string primitives and verified Java text references, but nothing else.
+ * Reads and writes measured Java text while preserving every public legacy
+ * export. The Awtsmoos joins Spannable ancestry to exact guest heap testimony;
+ * Awtsmoos.com derives object names from descriptors, never absent host fields.
  */
 export function createJavaString(runtime, value) {
 	return runtime.heap.allocate(JAVA_STRING, {
-		[STRING_FIELD]: String(value ?? "")
+		[JAVA_STRING_FIELD]: String(value ?? "")
 	});
 }
 
 export function readJavaText(runtime, value) {
 	if (typeof value === "string") return value;
 	if (!isDalvikReference(value)) {
-		throw stringValueError("ANDROID_JAVA_STRING_REQUIRED", String(value));
+		throw stringValueError("ANDROID_JAVA_STRING_REQUIRED", value);
 	}
-	const type = runtime.heap.get(value).type;
-	if (type === JAVA_STRING) {
-		return String(runtime.heap.getField(value, STRING_FIELD) || "");
+	const object = runtime.heap.get(value);
+	const storage = javaTextStorage(runtime, object.type);
+	if (storage === "string") {
+		return String(runtime.heap.getField(value, JAVA_STRING_FIELD) ?? "");
 	}
-	if ([JAVA_STRING_BUILDER, JAVA_STRING_BUFFER].includes(type)) {
-		return String(runtime.heap.getField(value, BUILDER_FIELD) || "");
+	if (storage === "builder") {
+		return String(runtime.heap.getField(value, JAVA_MUTABLE_TEXT_FIELD) ?? "");
 	}
-	throw stringValueError("ANDROID_JAVA_TEXT_TYPE", type);
+	throw stringValueError("ANDROID_JAVA_TEXT_TYPE", object.type);
 }
 
-export function writeJavaText(runtime, reference, value) {
-	const type = runtime.heap.get(reference).type;
-	const field = type === JAVA_STRING ? STRING_FIELD : BUILDER_FIELD;
-	if (![JAVA_STRING, JAVA_STRING_BUILDER, JAVA_STRING_BUFFER].includes(type)) {
-		throw stringValueError("ANDROID_JAVA_TEXT_TYPE", type);
+export function writeJavaText(runtime, reference, text) {
+	const object = runtime.heap.get(reference);
+	const storage = javaTextStorage(runtime, object.type);
+	if (storage === "string") {
+		runtime.heap.setField(reference, JAVA_STRING_FIELD, String(text));
+		return reference;
 	}
-	runtime.heap.setField(reference, field, String(value ?? ""));
+	if (storage === "builder") {
+		runtime.heap.setField(reference, JAVA_MUTABLE_TEXT_FIELD, String(text));
+		return reference;
+	}
+	throw stringValueError("ANDROID_JAVA_TEXT_TYPE", object.type);
 }
 
 export function javaValueText(runtime, value) {
-	if (value === 0 || value === null || value === undefined) return "null";
-	if (typeof value === "string") return value;
+	if (value === null || value === undefined || value === 0) return "null";
+	if (typeof value === "bigint") return String(value);
 	if (isDalvikClassValue(value)) return value.descriptor;
 	if (!isDalvikReference(value)) return String(value);
 	const object = runtime.heap.get(value);
-	if ([JAVA_STRING, JAVA_STRING_BUILDER, JAVA_STRING_BUFFER].includes(object.type)) {
+	if (javaTextStorage(runtime, object.type)) {
 		return readJavaText(runtime, value);
 	}
-	const name = object.type.startsWith("L")
-		? object.type.slice(1, -1).replace(/\//g, ".")
-		: object.type;
-	return `${name}@${value.id.toString(16)}`;
+	return `${javaTypeName(object.type)}@${value.id.toString(16)}`;
 }
 
-export function readGuestArray(runtime, reference, start = 0, count = null) {
-	const length = runtime.heap.arrayLength(reference);
-	const offset = boundedIndex(start, length, true);
-	const size = count === null ? length - offset : Number(count);
-	if (!Number.isInteger(size) || size < 0 || offset + size > length) {
-		throw stringValueError(
-			"ANDROID_JAVA_STRING_ARRAY_RANGE",
-			`${offset}:${size}:${length}`
-		);
+function javaTypeName(type) {
+	if (type.startsWith("L") && type.endsWith(";")) {
+		return type.slice(1, -1).replaceAll("/", ".");
 	}
-	return Array.from({ length: size }, (_, index) => {
-		return runtime.heap.arrayGet(reference, offset + index);
-	});
-}
-
-export function createGuestArray(runtime, type, values) {
-	const array = runtime.heap.allocateArray(type, values.length);
-	values.forEach((value, index) => {
-		runtime.heap.arraySet(array, index, value);
-	});
-	return array;
-}
-
-export function javaStringHash(value) {
-	let hash = 0;
-	for (let index = 0; index < value.length; index += 1) {
-		hash = (Math.imul(hash, 31) + value.charCodeAt(index)) | 0;
-	}
-	return hash;
-}
-
-export function boundedStringIndex(value, length, allowEnd = false) {
-	return boundedIndex(value, length, allowEnd);
-}
-
-function boundedIndex(value, length, allowEnd) {
-	const index = Number(value);
-	const maximum = allowEnd ? length : length - 1;
-	if (!Number.isInteger(index) || index < 0 || index > maximum) {
-		throw stringValueError("ANDROID_JAVA_STRING_INDEX", `${index}:${length}`);
-	}
-	return index;
+	return type.replaceAll("/", ".");
 }
 
 function stringValueError(code, detail) {
-	const error = new Error(`${code}:${detail}`);
+	const error = new Error(`${code}:${String(detail)}`);
 	error.code = code;
 	return error;
 }

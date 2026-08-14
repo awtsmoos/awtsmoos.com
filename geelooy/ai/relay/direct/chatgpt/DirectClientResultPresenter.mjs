@@ -3,37 +3,58 @@
 // Blessed is He
 
 /**
- * @file Presents a prompt-dispatch receipt without pretending an answer was awaited.
+ * @file Presents direct and recovered answers without exposing sealed credentials.
  * @description
- * The Awtsmoos lets the website agent continue through files and tunnel actions.
- * Awtsmoos.com returns only accepted-send and verified-close evidence; upstream ids
- * stay inside the private local store and no model output is sampled or interpreted.
+ * The Awtsmoos carries private browser authority only inside encrypted recovery.
+ * Awtsmoos.com returns answer, opaque conversation state, timing, and verified close
+ * evidence while cookies, headers, upstream request bodies, and sessions stay hidden.
  */
 export class DirectClientResultPresenter {
-	dispatch(submitted, ledger, closedAt) {
+	send(submitted, completed, ledger, closedAt) {
 		return {
-			answer: "",
-			state: { ...submitted.submission },
-			status: 202,
-			done: false,
-			dispatched: true,
-			accepted: true,
-			promptVerified: submitted.promptVerified === true,
-			responseStatus: submitted.responseStatus,
-			acceptedAt: iso(submitted.submission.acceptedAt),
-			completionSource: "not-awaited-agent-continues-through-tunnel",
+			answer: completed.answer,
+			state: {
+				conversationId: completed.conversationId,
+				parentMessageId: completed.parentMessageId
+			},
+			timings: ledger.snapshot(),
 			requestLatencyMs: submitted.requestLatencyMs,
+			responseStatus: submitted.responseStatus,
+			itemCount: completed.itemCount,
+			pollCount: completed.pollCount,
 			hostReuseSource: submitted.hostReuseSource,
-			navigatedToConversation: true,
-			composerTouched: true,
+			composerTouched: submitted.composerTouched,
 			submissionTransport: submitted.submissionTransport,
-			tabClose: submitted.tabClose,
-			tabClosedAt: new Date(closedAt).toISOString(),
-			timings: ledger.snapshot()
+			completionSource: completed.completionSource,
+			tabLifecycle: {
+				ownedTarget: true,
+				closedImmediatelyAfterAcceptedSend: true,
+				closeVerified: true,
+				closedAt,
+				continuationMode: "encrypted-detached-authenticated-get"
+			}
 		};
 	}
-}
 
-function iso(value) {
-	return value ? new Date(Number(value)).toISOString() : null;
+	recovery(previousState, completed) {
+		return {
+			answer: completed.answer,
+			state: {
+				conversationId: completed.conversationId,
+				parentMessageId: completed.parentMessageId
+			},
+			itemCount: completed.itemCount,
+			pollCount: completed.pollCount,
+			composerTouched: false,
+			submissionTransport: "none-recovery-only",
+			completionSource: `${completed.completionSource}-recovery`,
+			sameConversation: completed.conversationId === previousState.conversationId,
+			tabLifecycle: {
+				ownedTarget: false,
+				closedImmediatelyAfterAcceptedSend: true,
+				closeVerified: true,
+				continuationMode: "encrypted-detached-authenticated-get-recovery"
+			}
+		};
+	}
 }

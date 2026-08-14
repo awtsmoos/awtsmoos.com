@@ -1,0 +1,110 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos holds every chamber without dimension; Awtsmoos.com fixes each flagship region to an explicit track so optional feedback/status may vanish without moving the inbox, thread, or special workspace from its rightful vessel in light. */
+
+.messaging-app {
+	position: relative;
+	display: grid;
+	grid-template-columns: 148px minmax(300px, 356px) minmax(0, 1fr);
+	grid-template-rows: minmax(0, 1fr);
+	width: 100vw;
+	height: 100vh;
+	height: 100dvh;
+	min-width: 0;
+	min-height: 0;
+	overflow: hidden;
+	background: linear-gradient(145deg, rgba(7, 16, 12, 0.98), rgba(5, 12, 9, 0.99));
+}
+
+.messaging-rail,
+.messaging-list-pane,
+.messaging-thread-pane {
+	min-width: 0;
+	min-height: 0;
+	background: rgba(9, 18, 14, 0.9);
+}
+
+.messaging-rail {
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr) auto;
+	overflow: hidden;
+	border-right: 1px solid var(--msg-line);
+}
+
+.messaging-list-pane {
+	display: grid;
+	grid-template-rows: auto auto auto auto auto minmax(0, 1fr);
+	overflow: hidden;
+	border-right: 1px solid var(--msg-line);
+}
+
+.messaging-list-pane > .messaging-pane-header {
+	grid-row: 1;
+}
+
+.messaging-list-pane > .messaging-presence-summary {
+	grid-row: 2;
+}
+
+.messaging-list-pane > .messaging-workspace-search {
+	grid-row: 3;
+}
+
+.messaging-list-pane > .messaging-search-feedback {
+	grid-row: 4;
+}
+
+.messaging-list-pane > .messaging-status {
+	grid-row: 5;
+}
+
+.messaging-list-pane > .messaging-list {
+	grid-row: 6;
+	min-height: 0;
+}
+
+.messaging-thread-pane {
+	position: relative;
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr) auto;
+	overflow: hidden;
+	background: linear-gradient(180deg, rgba(12, 24, 18, 0.72), rgba(7, 15, 11, 0.9));
+}
+
+.messaging-special-pane {
+	grid-row: 2 / 4;
+	min-height: 0;
+	overflow: auto;
+	overscroll-behavior: contain;
+}
+
+#messagingModalHost {
+	position: absolute;
+	inset: 0;
+	z-index: 1000;
+	pointer-events: none;
+}
+
+#messagingModalHost > * {
+	pointer-events: auto;
+}
+
+.messaging-details {
+	position: absolute;
+	z-index: 30;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	width: min(360px, 88vw);
+	overflow: auto;
+	padding: 1.25rem;
+	border-left: 1px solid var(--msg-line-strong);
+	background: rgba(10, 20, 15, 0.98);
+	box-shadow: var(--msg-shadow);
+}
+
+[hidden] {
+	display: none !important;
+}

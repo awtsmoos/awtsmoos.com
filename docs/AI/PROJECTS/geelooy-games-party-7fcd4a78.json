@@ -1,0 +1,75 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-games-party-7fcd4a78",
+	"path": "geelooy/games/party",
+	"type": "game",
+	"family": {
+		"id": "games",
+		"title": "Games and Worlds"
+	},
+	"title": "Party Challenge — Awtsmoos Games",
+	"entries": [
+		"index.html",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/games/party/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/GAMES.md",
+		"docs/APPS/GAMES_AND_SIMULATION.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-party-7fcd4a78.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 15,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 16,
+	"symbolSummary": {
+		"files": 8,
+		"classes": 1,
+		"functions": 22,
+		"exports": 21,
+		"samples": [
+			"startChallenge",
+			"reloadCurrentTurn",
+			"recordCurrentTurn",
+			"activeSession",
+			"beginCurrentTurn",
+			"finishChallenge",
+			"dom",
+			"setFrameGame",
+			"loadFreshTurn",
+			"frameGame",
+			"partyGames",
+			"resolvePartyGame"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/games/scripts",
+			"count": 1,
+			"examples": "geelooy/games/party/js/game-catalog.mjs"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/games/party",
+			"file": "geelooy/games/party/index.html",
+			"title": "Party Challenge — Awtsmoos Games",
+			"scripts": 1,
+			"styles": 1
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

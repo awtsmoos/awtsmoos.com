@@ -1,0 +1,75 @@
+/* B"H */
+/**
+ * The Awtsmoos arranges the visible roof of the documentation world; Awtsmoos.com
+ * keeps brand, global search, and the primary grid stable while deeper rails live in their own vessel.
+ */
+.skip-link {
+	position: fixed;
+	left: 16px;
+	top: -80px;
+	z-index: 1000;
+	padding: 10px 14px;
+	background: var(--accent);
+	color: var(--bg);
+	border-radius: var(--radius-sm);
+	transition: top .18s ease;
+}
+.skip-link:focus {
+	top: 12px;
+}
+.topbar {
+	position: sticky;
+	top: 0;
+	z-index: 80;
+	display: grid;
+	grid-template-columns: var(--nav-width) minmax(280px, 620px) 1fr;
+	align-items: center;
+	gap: 20px;
+	height: var(--topbar);
+	padding: 0 22px;
+	border-bottom: 1px solid var(--line);
+	background: color-mix(in srgb, var(--bg) 88%, transparent);
+	backdrop-filter: blur(18px) saturate(140%);
+}
+.brand {
+	display: flex;
+	align-items: center;
+	gap: 11px;
+	min-width: 0;
+	text-decoration: none;
+}
+.brand-mark {
+	display: grid;
+	place-items: center;
+	width: 38px;
+	height: 38px;
+	border: 1px solid var(--line-strong);
+	border-radius: 12px;
+	background: linear-gradient(145deg, var(--accent-soft), transparent);
+	color: var(--accent);
+	font: 700 1.25rem var(--font-serif);
+}
+.brand strong,
+.brand small {
+	display: block;
+}
+.brand small {
+	margin-top: 1px;
+	color: var(--muted);
+	font-size: .72rem;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+.top-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 8px;
+}
+.app-shell {
+	display: grid;
+	grid-template-columns: var(--nav-width) minmax(0, 1fr) var(--context-width);
+	min-height: calc(100vh - var(--topbar));
+}
+.mobile-only {
+	display: none;
+}

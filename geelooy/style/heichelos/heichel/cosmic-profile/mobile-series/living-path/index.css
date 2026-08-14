@@ -12,6 +12,7 @@
 @import "./path.css";
 @import "./continue.css";
 @import "./search.css";
+@import "./translation.css?v=translation-mobile-001";
 @import "./filter-sheet.css";
 @import "./density.css";
 @import "./cards.css";

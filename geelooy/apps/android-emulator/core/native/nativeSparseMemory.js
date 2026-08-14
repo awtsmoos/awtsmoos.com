@@ -4,16 +4,27 @@
 
 import { ELF_PROGRAM_FLAG } from "./elf64Constants.js";
 import { elf64Error } from "./elf64Errors.js";
+import {
+	locateSparseMemorySegment,
+	sparseMemoryContains,
+	sparseMemoryReadableSpan
+} from "./nativeSparseMemoryRanges.js";
 
 /**
  * Maps PT_LOAD segments into independent guest-memory vessels. The Awtsmoos
  * recreates byte, permission, BSS zero, and loader repair anew; Awtsmoos.com
- * grants relocation authority explicitly without weakening ordinary writes.
+ * now names each ELF shore while ordinary reads and writes remain true.
  */
-export function createNativeSparseMemory(image) {
+export function createNativeSparseMemory(image, label = "elf-image") {
 	const segments = image.loadSegments.map(segment => createSegment(image, segment));
+	const publicSegments = Object.freeze(segments.map(segment => Object.freeze({
+		byteLength: segment.bytes.length,
+		end: segment.end,
+		flags: segment.flags,
+		start: segment.start
+	})));
 	const read = (address, length) => {
-		const location = locateSegment(segments, address, length);
+		const location = locateSparseMemorySegment(segments, address, length);
 		return location.segment.bytes.slice(
 			location.offset,
 			location.offset + length
@@ -21,33 +32,33 @@ export function createNativeSparseMemory(image) {
 	};
 	const writeBytes = (address, input, loader) => {
 		const bytes = normalizeBytes(input);
-		const location = locateSegment(segments, address, bytes.length);
+		const location = locateSparseMemorySegment(segments, address, bytes.length);
 		if (!loader
 			&& (location.segment.flags & ELF_PROGRAM_FLAG.write) === 0) {
-			throw elf64Error(
-				"NATIVE_MEMORY_WRITE_PROTECTED",
-				String(address)
-			);
+			throw elf64Error("NATIVE_MEMORY_WRITE_PROTECTED", String(address));
 		}
 		location.segment.bytes.set(bytes, location.offset);
 	};
 	return Object.freeze({
+		contains(address, length = 1) {
+			return sparseMemoryContains(segments, address, length);
+		},
+		kind: "sparse-elf",
+		label: String(label),
 		loaderWriteU64(address, value) {
 			writeBytes(address, encodeU64(value), true);
 		},
 		read,
+		readableSpan(address, maximum) {
+			return sparseMemoryReadableSpan(segments, address, maximum);
+		},
 		readU32(address) {
 			return readView(read(address, 4)).getUint32(0, true);
 		},
 		readU64(address) {
 			return readView(read(address, 8)).getBigUint64(0, true);
 		},
-		segments: Object.freeze(segments.map(segment => Object.freeze({
-			byteLength: segment.bytes.length,
-			end: segment.end,
-			flags: segment.flags,
-			start: segment.start
-		}))),
+		segments: publicSegments,
 		write(address, input) {
 			writeBytes(address, input, false);
 		},
@@ -71,44 +82,23 @@ function createSegment(image, segment) {
 	};
 }
 
-function locateSegment(segments, address, length) {
-	const start = typeof address === "bigint" ? address : BigInt(address);
-	const size = Number(length);
-	if (!Number.isInteger(size) || size < 0) {
-		throw elf64Error("NATIVE_MEMORY_LENGTH", length);
-	}
-	const end = start + BigInt(size);
-	const segment = segments.find(candidate => {
-		return start >= candidate.start && end <= candidate.end;
-	});
-	if (!segment) {
-		throw elf64Error("NATIVE_MEMORY_ADDRESS", `${start}:${size}`);
-	}
-	const offsetValue = start - segment.start;
-	if (offsetValue > BigInt(Number.MAX_SAFE_INTEGER)) {
-		throw elf64Error("NATIVE_MEMORY_OFFSET", offsetValue);
-	}
-	return Object.freeze({
-		offset: Number(offsetValue),
-		segment
-	});
-}
-
 function normalizeBytes(input) {
-	if (input instanceof Uint8Array) return input;
+	if (input instanceof Uint8Array) {
+		return input;
+	}
 	if (ArrayBuffer.isView(input)) {
-		return new Uint8Array(
-			input.buffer,
-			input.byteOffset,
-			input.byteLength
-		);
+		return new Uint8Array(input.buffer, input.byteOffset, input.byteLength);
 	}
 	throw elf64Error("NATIVE_MEMORY_BYTES_REQUIRED", typeof input);
 }
 
 function encodeU64(value) {
 	const bytes = new Uint8Array(8);
-	new DataView(bytes.buffer).setBigUint64(0, BigInt.asUintN(64, value), true);
+	new DataView(bytes.buffer).setBigUint64(
+		0,
+		BigInt.asUintN(64, value),
+		true
+	);
 	return bytes;
 }
 

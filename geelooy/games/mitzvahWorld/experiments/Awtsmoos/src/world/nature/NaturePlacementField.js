@@ -4,60 +4,85 @@
 
 /**
  * @file NaturePlacementField.js
- * @description Creates deterministic settlement gardens and an outer real-nature ring.
- * The Awtsmoos measures each root against road, slope, and village breath;
- * Awtsmoos.com lets flowers greet the traveler while trees guard the farther depth.
+ * @description Places non-tree hero accents through the same house, stair, road, river, slope, and spacing truth as the forest.
+ * The Awtsmoos lets blossom, bush, and stone gather in living irregularity without blocking a threshold or current;
+ * Awtsmoos.com keeps all trees in the deep core while these finite accents search bounded sites around canonical terrain.
  */
 
+import { ecologySiteEvidenceAt } from '../spatial/WorldEcologyClearance.js';
+import { ecologySpacingClearance } from '../spatial/WorldEcologySpacing.js';
 import { realNatureAssetCatalog } from './RealNatureAssetCatalog.js';
 
 const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5));
 const RADII = Object.freeze({
-	broadleaf: [62, 124],
-	bush: [24, 48],
-	flower: [16, 36],
-	pine: [72, 138],
-	rock: [42, 92]
+	bush: Object.freeze([22, 52]),
+	flower: Object.freeze([16, 42]),
+	rock: Object.freeze([34, 92])
 });
 
-/** Builds bounded placements from the same ground sampler used by the playable world. */
 export function createNaturePlacements(groundSampler, budget) {
 	const placements = [];
 	for (const asset of realNatureAssetCatalog()) {
 		const count = budget.counts[asset.id] || 0;
 		for (let index = 0; index < count; index += 1) {
-			const placement = createPlacement(asset, index, count, groundSampler);
+			const placement = findPlacement(asset, index, count, groundSampler, placements);
 			if (placement) placements.push(placement);
 		}
 	}
 	return Object.freeze(placements);
 }
 
-function createPlacement(asset, index, count, groundSampler) {
-	const [innerRadius, outerRadius] = RADII[asset.id];
-	const fraction = (index + 0.62) / Math.max(1, count);
-	const radius = innerRadius + (outerRadius - innerRadius) * fraction;
-	const angle = index * GOLDEN_ANGLE + familyPhase(asset.id);
-	const x = Math.cos(angle) * radius;
-	const z = Math.sin(angle) * radius;
-	const sample = groundSampler?.heightAt?.(x, z);
-	if (!sample || !Number.isFinite(sample.y)) return null;
-	if ((sample.normal?.y ?? 1) < minimumNormalY(asset.family)) return null;
-	return Object.freeze({
-		asset,
-		index,
-		scale: asset.scale * (0.9 + ((index * 37) % 21) / 100),
-		x,
-		y: sample.y,
-		yaw: angle + Math.PI,
-		z
-	});
+function findPlacement(asset, index, count, groundSampler, occupied) {
+	const radius = siteRadius(asset.family);
+	for (let attempt = 0; attempt < 36; attempt += 1) {
+		const point = candidate(asset, index, count, attempt);
+		const ecology = ecologySiteEvidenceAt(point, {
+			approachMargin: 0.5,
+			clearingMargin: 0.15,
+			groundSampler,
+			minimumNormalY: minimumNormalY(asset.family),
+			roadMargin: 0.35,
+			siteRadius: radius,
+			waterMargin: waterMargin(asset.family)
+		});
+		if (!ecology.valid) continue;
+		const spacing = ecologySpacingClearance(point, radius, occupied);
+		if (spacing < 0) continue;
+		return Object.freeze({
+			asset,
+			ecology,
+			index,
+			scale: asset.scale * (0.88 + ((index * 37 + attempt * 11) % 25) / 100),
+			siteRadius: radius,
+			x: point.x,
+			y: ecology.sample.y,
+			yaw: point.angle + Math.PI,
+			z: point.z
+		});
+	}
+	return null;
+}
+
+function candidate(asset, index, count, attempt) {
+	const [inner, outer] = RADII[asset.id];
+	const fraction = (index + 0.54 + attempt * 0.173) / Math.max(1, count + attempt * 0.31);
+	const radius = inner + (outer - inner) * (fraction % 1);
+	const angle = (index + attempt * 0.47) * GOLDEN_ANGLE + familyPhase(asset.id);
+	return { angle, x: Math.cos(angle) * radius, z: Math.sin(angle) * radius };
 }
 
 function familyPhase(assetId) {
-	return ({ broadleaf: 1.4, bush: 0.7, flower: 0.2, pine: 2.6, rock: 1.9 })[assetId];
+	return ({ bush: 0.7, flower: 0.2, rock: 1.9 })[assetId];
 }
 
 function minimumNormalY(family) {
-	return family === 'rock' ? 0.72 : 0.84;
+	return family === 'rock' ? 0.7 : 0.82;
+}
+
+function siteRadius(family) {
+	return ({ bush: 0.95, flower: 0.42, rock: 1.15 })[family] || 0.5;
+}
+
+function waterMargin(family) {
+	return family === 'rock' ? 0.1 : family === 'flower' ? 0.45 : 0.8;
 }

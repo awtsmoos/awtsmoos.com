@@ -9,6 +9,8 @@
  * Timeline, Tree, and Groupings remain distinct without duplicating content rules.
  */
 
+import { translationBadge } from '../../../living-path/translation-context.js';
+
 export function mediaBlueprint(data) {
 	return {
 		tag: 'div',
@@ -48,7 +50,16 @@ function metaBlueprints(data) {
 	const values = data.type === 'post'
 		? [unit(data.sectionsCount, 'section'), unit(data.commentsCount, 'comment')]
 		: [unit(data.subSeriesCount, 'sub-series'), unit(data.postCount, 'post')];
-	return values.map(value => ({ tag: 'span', children: [value] }));
+	const items = values.map(value => ({ tag: 'span', children: [value] }));
+	const badge = translationBadge(data.translationStatus);
+	if (data.type === 'post' && badge) {
+		items.push({
+			tag: 'span',
+			attr: { class: `nav-card-translation-badge is-${badge.tone}` },
+			children: [badge.label]
+		});
+	}
+	return items;
 }
 
 function description(data) {

@@ -1,0 +1,76 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos is one presence before visible roster or status line; Awtsmoos.com keeps server-projected aliases immediately visible while narrow glass turns a potentially tall wrap into one quiet horizontal roster in light. */
+
+.messaging-special-pane .universal-chat-status:empty {
+	display: none;
+}
+
+.messaging-special-pane .universal-chat-status:not(:empty) {
+	padding-block: 0.45rem;
+	border-bottom: 1px solid var(--msg-line);
+}
+
+.messaging-special-pane .universal-chat-roster {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 0.3rem;
+	min-height: 34px;
+	border-bottom: 1px solid var(--msg-line);
+}
+
+.messaging-special-pane .universal-chat-roster-label {
+	margin-right: 0.15rem;
+	color: var(--msg-muted);
+	font-size: 0.6rem;
+	font-weight: 800;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+}
+
+.messaging-special-pane .universal-chat-roster-member {
+	display: inline-flex;
+	align-items: center;
+	min-height: 26px;
+	padding: 0 0.48rem;
+	border: 1px solid var(--msg-line);
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.025);
+	color: var(--msg-soft);
+	font-size: 0.64rem;
+	font-weight: 680;
+}
+
+@media (max-width: 600px) {
+	.messaging-special-pane .universal-chat-status:not(:empty) {
+		padding-block: 0.34rem;
+		font-size: 0.68rem;
+	}
+
+	.messaging-special-pane .universal-chat-roster {
+		flex-wrap: nowrap;
+		min-height: 42px;
+		overflow-x: auto;
+		overflow-y: hidden;
+		padding: 0.22rem 0;
+		scrollbar-width: none;
+		overscroll-behavior-inline: contain;
+	}
+
+	.messaging-special-pane .universal-chat-roster::-webkit-scrollbar {
+		display: none;
+	}
+
+	.messaging-special-pane .universal-chat-roster-label,
+	.messaging-special-pane .universal-chat-roster-member {
+		flex: 0 0 auto;
+	}
+
+	.messaging-special-pane .universal-chat-roster-member {
+		min-height: 30px;
+		padding-inline: 0.52rem;
+	}
+}

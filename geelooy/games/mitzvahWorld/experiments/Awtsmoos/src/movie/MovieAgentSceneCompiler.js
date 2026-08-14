@@ -4,9 +4,9 @@
 
 /**
  * @file MovieAgentSceneCompiler.js
- * @description Converts ordered AI scenes, appearance, and world identity into deterministic source tracks.
+ * @description Converts ordered AI scenes, visual identity, appearance, and world identity into deterministic source tracks.
  * The Awtsmoos renews every scene before sequence appears; Awtsmoos.com translates
- * relative intention, transition, effect, and world into bounded absolute time without empty placeholders.
+ * relative intention, transition, effect, semantic visual, and world into bounded absolute time without empty placeholders.
  */
 
 import { MovieApiError } from './MovieApiError.js';
@@ -44,24 +44,13 @@ function createState() {
 }
 
 function compileScene(scene, index, state, sceneTrack) {
-	const id = movieAgentUniqueId(
-		String(scene.id || `scene-${index + 1}`),
-		state.sceneIds
-	);
+	const id = movieAgentUniqueId(String(scene.id || `scene-${index + 1}`), state.sceneIds);
 	const duration = movieAgentPositive(scene.duration, `Scene ${id} duration`);
-	const start = movieAgentNonNegative(
-		scene.start ?? state.cursor,
-		`Scene ${id} start`
-	);
+	const start = movieAgentNonNegative(scene.start ?? state.cursor, `Scene ${id} start`);
 	state.cursor = Math.max(state.cursor, start + duration);
 	sceneTrack.clips.push(sceneClip(scene, id, start, duration));
 	for (const [beatIndex, beat] of array(scene.beats).entries()) {
-		compileMovieAgentBeat(
-			beat,
-			beatIndex,
-			{ duration, id, start },
-			state
-		);
+		compileMovieAgentBeat(beat, beatIndex, { duration, id, start }, state);
 	}
 }
 
@@ -75,6 +64,7 @@ function sceneClip(scene, id, start, duration) {
 	};
 	if (array(scene.effects).length) clip.effects = array(scene.effects);
 	if (scene.grade != null) clip.grade = scene.grade;
+	if (scene.shortVisual != null) clip.shortVisual = String(scene.shortVisual);
 	if (scene.transitionIn != null) clip.transitionIn = scene.transitionIn;
 	if (scene.transitionOut != null) clip.transitionOut = scene.transitionOut;
 	if (scene.world != null) clip.world = scene.world;
@@ -85,10 +75,7 @@ function createSourceProject(manifest, state) {
 	return {
 		cameraRigs: array(manifest.cameraRigs),
 		characters: array(manifest.characters),
-		duration: movieAgentPositive(
-			manifest.duration ?? state.cursor,
-			'Agent movie duration'
-		),
+		duration: movieAgentPositive(manifest.duration ?? state.cursor, 'Agent movie duration'),
 		fps: manifest.fps || 24,
 		markers: array(manifest.markers),
 		materialGraphs: array(manifest.materialGraphs),

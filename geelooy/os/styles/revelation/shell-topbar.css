@@ -1,0 +1,107 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos creates crown, brand, action, status, and every tactile topbar path anew.
+Awtsmoos.com keeps the shell crown luminous without stealing space from its work.
+*/
+#awtsmoos-shell-topbar {
+	position: relative;
+	z-index: 1200;
+	display: flex;
+	align-items: center;
+	gap: var(--geo-space-3);
+	min-height: var(--geo-topbar-height);
+	padding:
+		max(var(--geo-space-2), env(safe-area-inset-top))
+		max(var(--geo-space-4), env(safe-area-inset-right))
+		var(--geo-space-2)
+		max(var(--geo-space-4), env(safe-area-inset-left));
+	border-bottom: 1px solid var(--geo-border-soft);
+	background: linear-gradient(180deg, rgb(7 12 29 / 94%), rgb(7 12 29 / 72%));
+	box-shadow: 0 14px 42px rgb(0 0 0 / 28%);
+	backdrop-filter: blur(28px) saturate(165%);
+}
+#awtsmoos-shell-topbar::after {
+	content: "";
+	position: absolute;
+	left: 12%;
+	right: 12%;
+	bottom: -1px;
+	height: 1px;
+	background: linear-gradient(90deg, transparent, var(--geo-cyan), var(--geo-blue), transparent);
+	opacity: .42;
+}
+.shell-brand {
+	display: flex;
+	align-items: center;
+	gap: var(--geo-space-3);
+	min-width: 0;
+	font-weight: 840;
+	letter-spacing: -.02em;
+}
+.shell-brand-mark {
+	display: grid;
+	place-items: center;
+	width: 38px;
+	height: 38px;
+	border: 1px solid rgb(255 255 255 / 19%);
+	border-radius: 13px;
+	background: var(--geo-gradient-brand);
+	box-shadow: var(--geo-shadow-xs), var(--geo-glow-cyan), inset 0 1px rgb(255 255 255 / 30%);
+	text-shadow: 0 1px 8px rgb(0 0 0 / 38%);
+}
+.shell-brand-copy {
+	white-space: nowrap;
+}
+.shell-topbar-actions {
+	display: flex;
+	align-items: center;
+	gap: var(--geo-space-2);
+	min-width: 0;
+	margin-inline-start: auto;
+}
+.shell-chip,
+.shell-icon-button {
+	min-height: var(--geo-control-sm);
+	border: 1px solid var(--geo-border-soft);
+	border-radius: var(--geo-radius-sm);
+	color: var(--geo-text);
+	background: var(--geo-gradient-surface);
+	box-shadow: inset 0 1px rgb(255 255 255 / 8%);
+	cursor: pointer;
+	transition:
+		transform var(--geo-fast) var(--geo-ease),
+		border-color var(--geo-fast),
+		background var(--geo-fast),
+		box-shadow var(--geo-fast);
+}
+.shell-chip {
+	padding-inline: var(--geo-space-3);
+	white-space: nowrap;
+}
+.shell-icon-button {
+	width: var(--geo-control-md);
+	font-family: var(--geo-font-emoji);
+}
+.shell-chip:hover,
+.shell-icon-button:hover,
+.shell-chip[aria-expanded="true"],
+.shell-icon-button[aria-expanded="true"] {
+	transform: translateY(-1px);
+	border-color: var(--geo-border-bright);
+	background: var(--geo-surface-hover);
+	box-shadow: var(--geo-shadow-xs), var(--geo-glow-cyan);
+}
+.shell-chip:active,
+.shell-icon-button:active {
+	transform: translateY(0) scale(.98);
+	background: var(--geo-surface-pressed);
+}
+#shell-status {
+	color: var(--geo-success);
+	font-weight: 760;
+}
+.login-area {
+	min-width: 0;
+	max-width: min(430px, 42vw);
+}

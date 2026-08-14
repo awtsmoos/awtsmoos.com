@@ -1,0 +1,127 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-shared-cc435059",
+	"path": "geelooy/shared",
+	"type": "library",
+	"family": {
+		"id": "libraries",
+		"title": "Libraries and Tooling"
+	},
+	"title": "geelooy/shared",
+	"entries": [
+		"package.json",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/shared/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-shared-cc435059.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 74,
+		"tests": 14,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 1
+	},
+	"totalFiles": 90,
+	"symbolSummary": {
+		"files": 70,
+		"classes": 11,
+		"functions": 231,
+		"exports": 177,
+		"samples": [
+			"ActivityBeacon",
+			"startActivityBeacon",
+			"publicAliasFromMemory",
+			"queryAlias",
+			"verifiedAlias",
+			"eventPayload",
+			"SAFE_ACTIONS",
+			"ALL_RUNTIME_ACTIONS",
+			"VIRTUAL_ACTIONS",
+			"isWriteAction",
+			"normalizeActionName",
+			"actionCapability"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/ai",
+			"count": 2,
+			"examples": "geelooy/shared/awtsmoos-runtime/actions.js; geelooy/shared/awtsmoos-runtime/agent-core.js"
+		},
+		{
+			"project": "geelooy/apps/android-emulator",
+			"count": 1,
+			"examples": "geelooy/shared/compiling/native/apkIdentity.js"
+		}
+	],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/scripts",
+			"count": 38,
+			"examples": "geelooy/scripts/awtsmoos/compiling/native/asmImage.js; geelooy/scripts/awtsmoos/compiling/native/asmObjectData.js; geelooy/scripts/awtsmoos/compiling/native/c/frame.js"
+		},
+		{
+			"project": "geelooy/os",
+			"count": 25,
+			"examples": "geelooy/os/programs/advanced-code-editor/compilerBridge.js; geelooy/os/programs/advanced-code-editor/embedConfiguration.js; geelooy/os/programs/advanced-code-editor/vfsBridge.js"
+		},
+		{
+			"project": "geelooy/apps/code",
+			"count": 16,
+			"examples": "geelooy/apps/code/js/actions/commands/compileProjectManifest.js; geelooy/apps/code/js/ai-studio/oracle.js; geelooy/apps/code/js/ai-studio/panel.js"
+		},
+		{
+			"project": "geelooy/apps/compiler",
+			"count": 9,
+			"examples": "geelooy/apps/compiler/embed/osCompilerChannel.js; geelooy/apps/compiler/ui/browserArtifactBuilders.js; geelooy/apps/compiler/ui/nativeBuildClient.js"
+		},
+		{
+			"project": "geelooy/apps/exe-emulator",
+			"count": 8,
+			"examples": "geelooy/apps/exe-emulator/core/awtexeRuntime.js; geelooy/apps/exe-emulator/core/executableHost.js; geelooy/apps/exe-emulator/core/wasmGuiImports.js"
+		},
+		{
+			"project": "geelooy/heichelos",
+			"count": 7,
+			"examples": "geelooy/heichelos/heichel/modules/legend/cardDepthObserver.js; geelooy/heichelos/heichel/modules/legend/heroScrollDepth.js; geelooy/heichelos/post/logic/legend/centerSectionObserver.js"
+		},
+		{
+			"project": "geelooy/ai",
+			"count": 2,
+			"examples": "geelooy/ai/central/index.js; geelooy/ai/central/streamClient.js"
+		},
+		{
+			"project": "geelooy/apps/tunnel-control",
+			"count": 2,
+			"examples": "geelooy/apps/tunnel-control/js/runtime/mesh/runtimeAdapters.js; geelooy/apps/tunnel-control/js/runtime/mesh/virtualFilesystem.js"
+		},
+		{
+			"project": "geelooy/apps/tunnel",
+			"count": 1,
+			"examples": "geelooy/apps/tunnel/js/browserPageTunnel.js"
+		},
+		{
+			"project": "geelooy/heichel-review",
+			"count": 1,
+			"examples": "geelooy/heichel-review/js/main.js"
+		},
+		{
+			"project": "geelooy/social-composer",
+			"count": 1,
+			"examples": "geelooy/social-composer/js/main.js"
+		}
+	],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

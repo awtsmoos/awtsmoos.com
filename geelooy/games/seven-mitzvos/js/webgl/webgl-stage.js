@@ -1,20 +1,16 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
+
 import * as THREE from '../../../scripts/build/three.module.js';
-import { AdvancedModelHydrator } from '../assets/advanced-model-hydrator.js';
-import { writeMaterialMetrics } from '../materials/material-runtime-metrics.js';
-import { CameraDirector } from './camera-director.js';
-import { DetailGovernor } from './detail-governor.js';
-import { SemanticPicker } from './semantic-picker.js';
-import { StageMetrics } from './stage-metrics.js';
+import { StageRuntimeBundle } from './stage-runtime-bundle.js';
 import { addStageLights, disposeScene } from './stage-resources.js';
+
 /**
- * @module WebglStage
+ * @file webgl-stage.js
  * @description
- * One renderer sees, inspects, hydrates, measures, and releases a photographic
- * living world. The Awtsmoos creates each point anew; Awtsmoos.com protects camera,
- * smooth interaction, advanced GLBs, physical materials, and one-canvas lifecycle.
+ * The Awtsmoos renews one renderer while Awtsmoos.com manifests semantic census, camera, picking, models, truthful materials, event-bounded visibility, consolidation, instancing, bounded shadows, and measured 60 Hz discipline through focused runtime vessels.
+ * This Malchus-like stage owns scene/renderer/canvas lifecycle and the established public API only; diagnostics, visibility, batching, frame timing, hydration, shadow policy, and quality adaptation remain separate.
  */
 export class WebglStage {
 	constructor(host, options = {}) {
@@ -22,93 +18,99 @@ export class WebglStage {
 		this.options = options;
 		this.scene = new THREE.Scene();
 		this.camera = new THREE.PerspectiveCamera(52, 1, 0.1, 120);
-		this.renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
-		this.metrics = new StageMetrics(this.renderer.domElement);
-		this.cameraDirector = new CameraDirector(this.camera);
-		this.detailGovernor = new DetailGovernor(this.camera, this.renderer.domElement);
-		this.modelHydrator = new AdvancedModelHydrator();
-		this.picker = new SemanticPicker(host, this.camera, this.cameraDirector);
+		this.renderer = new THREE.WebGLRenderer({
+			antialias: true,
+			powerPreference: 'high-performance'
+		});
+		this.canvas = this.renderer.domElement;
 		this.clock = new THREE.Clock();
-		this.materialTimer = 0;
-		this.frame = 0;
-		this.handlePointer = event => this.picker.pick(event);
+		this.runtime = new StageRuntimeBundle({
+			host,
+			scene: this.scene,
+			camera: this.camera,
+			renderer: this.renderer,
+			canvas: this.canvas,
+			clock: this.clock
+		});
+		this.handlePointer = event => this.runtime.picker.pick(event);
 		this.handleResize = () => this.resize();
 	}
+
 	mount() {
 		this.scene.background = new THREE.Color(this.options.background || 0x040914);
-		this.cameraDirector.setHome([0, 6.5, 10.5], [0, 0.8, 0]);
-		this.renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.75));
+		this.runtime.cameraDirector.setHome([0, 6.5, 10.5], [0, 0.8, 0]);
 		this.renderer.shadowMap.enabled = true;
 		this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 		this.renderer.outputColorSpace = THREE.SRGBColorSpace;
 		this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
 		this.renderer.toneMappingExposure = 1.08;
-		this.renderer.domElement.className = 'webglCanvas';
-		this.renderer.domElement.setAttribute('aria-label', 'Real-time textured 3D game world');
-		this.host.replaceChildren(this.renderer.domElement);
-		this.picker.mount(this.renderer.domElement);
-		this.renderer.domElement.addEventListener('pointerdown', this.handlePointer);
+		this.canvas.className = 'webglCanvas';
+		this.canvas.setAttribute('aria-label', 'Real-time textured 3D game world');
+		this.host.replaceChildren(this.canvas);
+		this.runtime.picker.mount(this.canvas);
+		this.canvas.addEventListener('pointerdown', this.handlePointer);
 		this.resizeObserver = new ResizeObserver(this.handleResize);
 		this.resizeObserver.observe(this.host);
 		window.addEventListener('resize', this.handleResize);
 		addStageLights(this.scene);
 		this.resize();
 	}
+
 	add(object, interactive = false) {
+		this.runtime.census.track(object, interactive);
+		this.runtime.consolidation.apply(object, interactive);
+		this.runtime.shadowBudget.apply(object, interactive);
 		this.scene.add(object);
-		this.metrics.track(object);
-		this.detailGovernor.track(object);
-		this.picker.track(object, interactive);
-		this.modelHydrator.hydrate(object);
+		this.runtime.metrics.track(object);
+		this.runtime.detailGovernor.track(object);
+		this.runtime.picker.track(object, interactive);
+		this.runtime.modelHydrator.hydrate(object);
+		this.runtime.rootVisibility.track(object, interactive);
+		this.runtime.semanticInstances.track(object, interactive);
 		return object;
 	}
+
 	onPick(handler) {
-		this.picker.onPick(handler);
+		this.runtime.picker.onPick(handler);
 	}
+
 	setCamera(position, target = [0, 0, 0]) {
-		this.cameraDirector.setHome(position, target);
+		this.runtime.cameraDirector.setHome(position, target);
 	}
+
 	start(updateHandler = () => {}) {
-		this.clock.start();
-		const animate = () => {
-			this.frame = requestAnimationFrame(animate);
-			const delta = Math.min(this.clock.getDelta(), 0.05);
-			updateHandler(delta, this.clock.elapsedTime);
-			this.cameraDirector.update(delta);
-			this.detailGovernor.update(delta);
-			this.updateMaterialMetrics(delta);
-			this.renderer.domElement.dataset.cameraMode = this.cameraDirector.mode();
-			this.renderer.render(this.scene, this.camera);
-		};
-		animate();
+		this.runtime.semanticInstances.build();
+		this.runtime.loop.start(updateHandler);
 	}
-	updateMaterialMetrics(delta) {
-		this.materialTimer += delta;
-		if (this.materialTimer < 0.5) return;
-		this.materialTimer = 0;
-		writeMaterialMetrics(this.renderer.domElement);
-	}
+
 	resize() {
 		const width = Math.max(1, this.host.clientWidth);
 		const height = Math.max(1, this.host.clientHeight);
 		this.camera.aspect = width / height;
 		this.camera.updateProjectionMatrix();
+		this.runtime.performance.resize(width);
 		this.renderer.setSize(width, height, false);
-		this.detailGovernor.resize(width);
+		this.runtime.detailGovernor.resize(width);
 	}
+
+	performanceView() {
+		return this.runtime.performanceView();
+	}
+
+	materialView() {
+		return this.runtime.materialView();
+	}
+
 	destroy() {
-		cancelAnimationFrame(this.frame);
+		this.runtime.destroy();
 		this.resizeObserver?.disconnect();
 		window.removeEventListener('resize', this.handleResize);
-		this.renderer.domElement.removeEventListener('pointerdown', this.handlePointer);
-		this.modelHydrator.destroy();
-		this.picker.destroy();
-		this.detailGovernor.destroy();
+		this.canvas.removeEventListener('pointerdown', this.handlePointer);
 		disposeScene(this.scene);
-		this.metrics.reset();
 		this.renderer.dispose();
 		this.renderer.forceContextLoss?.();
 		this.host.replaceChildren();
 	}
 }
+
 export { THREE };

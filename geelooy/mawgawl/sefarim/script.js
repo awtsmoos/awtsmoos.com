@@ -1,54 +1,98 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/** @module LivingLibrarySearchController @description The Awtsmoos starts the requested search immediately while library metadata loads independently. */
+/**
+ * @module LivingLibrarySearchController
+ * @description
+ * The Awtsmoos lets one small orchestrator fetch and render while intent lives in its own vessel;
+ * at Awtsmoos.com a living query also contracts discovery so the first truthful result can enter the first viewport.
+ */
 import { fetchLibraryLanes, searchLibrary } from './searchApi.js';
 import { searchTanach } from './tanachApi.js';
 import { renderTanach } from './tanachView.js';
 import { addLane, renderFailure, renderSearch, setSearching } from './searchView.js';
 import { renderLaneDirectory, renderRecentSearches } from './discoveryView.js';
 import { clearSearchHistory, readSearchHistory, rememberSearch } from './searchHistory.js';
-import { configureMode, LIBRARY_MODE, modeFromUrl, TANACH_MODE } from './searchMode.js';
+import { bindSearchControls } from './searchBindings.js';
+import { replaceSearchLocation } from './searchLocation.js';
+import { SearchIntentController } from './SearchIntentController.js';
+import {
+	book,
+	clearHistoryButton,
+	form,
+	input,
+	laneCount,
+	laneDirectory,
+	mode,
+	recentSearches,
+	results,
+	series,
+	status
+} from './searchDom.js';
+import { LIBRARY_MODE, TANACH_MODE } from './searchMode.js';
 
-const form = document.getElementById('searchForm');
-const input = document.getElementById('query');
-const series = document.getElementById('series');
-const mode = document.getElementById('searchMode');
-const book = document.getElementById('book');
-const laneField = document.getElementById('laneField');
-const bookField = document.getElementById('bookField');
-const status = document.getElementById('status');
-const results = document.getElementById('results');
-const laneDirectory = document.getElementById('laneDirectory');
-const laneCount = document.getElementById('laneCount');
-const recentSearches = document.getElementById('recentSearches');
-const clearHistoryButton = document.getElementById('clearHistory');
+let intentController;
 
 async function loadLanes(selectedLane = '') {
 	try {
 		const lanes = await fetchLibraryLanes();
 		lanes.forEach(lane => addLane(series, lane));
-		if (selectedLane) series.value = selectedLane;
-		renderLaneDirectory({ lanes, container: laneDirectory, count: laneCount, onChoose: chooseLane });
-	} catch (error) {
+		if (selectedLane) {
+			series.value = selectedLane;
+		}
+		renderLaneDirectory({
+			lanes,
+			container: laneDirectory,
+			count: laneCount,
+			onChoose: lane => intentController.chooseLane(lane)
+		});
+	} catch {
 		laneCount.textContent = 'Unavailable';
 	}
 }
 
+function renderHistory(entries = readSearchHistory()) {
+	renderRecentSearches({
+		entries,
+		container: recentSearches,
+		onChoose: entry => intentController.chooseHistory(entry)
+	});
+	clearHistoryButton.disabled = entries.length === 0;
+}
+
 async function runSearch(query) {
 	const normalizedQuery = String(query || '').trim();
-	if (!normalizedQuery) return;
+	if (!normalizedQuery) {
+		return;
+	}
+	document.body.dataset.searchActive = 'true';
+	intentController.prepareMode(normalizedQuery);
 	setSearching(form, true);
 	results.replaceChildren();
-	updateLocation(normalizedQuery);
-	if (mode.value === LIBRARY_MODE) renderHistory(rememberSearch(normalizedQuery, series.value));
+	replaceSearchLocation({
+		query: normalizedQuery,
+		mode: mode.value,
+		lane: series.value,
+		book: book.value.trim()
+	});
+	if (mode.value === LIBRARY_MODE) {
+		renderHistory(rememberSearch(normalizedQuery, series.value));
+	}
 	try {
 		if (mode.value === TANACH_MODE) {
-			status.textContent = 'Searching the persisted Tanach Hebrew index…';
-			renderTanach({ search: await searchTanach({ query: normalizedQuery, book: book.value.trim() }), results, status });
+			status.textContent = 'Searching exact Hebrew in the persisted Tanach index…';
+			const search = await searchTanach({
+				query: normalizedQuery,
+				book: book.value.trim()
+			});
+			renderTanach({ search, results, status });
 		} else {
 			status.textContent = 'Searching stored source text…';
-			renderSearch({ search: await searchLibrary({ query: normalizedQuery, lane: series.value }), results, status, query: normalizedQuery });
+			const search = await searchLibrary({
+				query: normalizedQuery,
+				lane: series.value
+			});
+			renderSearch({ search, results, status, query: normalizedQuery });
 		}
 	} catch (error) {
 		renderFailure({ message: error.message, results, status });
@@ -57,46 +101,15 @@ async function runSearch(query) {
 	}
 }
 
-function chooseLane(lane) {
-	series.value = lane;
-	input.focus();
-	if (input.value.trim()) runSearch(input.value);
-}
-
-function chooseHistory(entry) {
-	mode.value = LIBRARY_MODE;
-	input.value = entry.query;
-	series.value = entry.lane;
-	configureMode(mode, laneField, bookField);
-	runSearch(entry.query);
-}
-
-function renderHistory(entries = readSearchHistory()) {
-	renderRecentSearches({ entries, container: recentSearches, onChoose: chooseHistory });
-	clearHistoryButton.disabled = entries.length === 0;
-}
-
-function updateLocation(query) {
-	const values = new URLSearchParams({ q: query });
-	if (mode.value !== LIBRARY_MODE) values.set('mode', mode.value);
-	if (mode.value === LIBRARY_MODE && series.value) values.set('lane', series.value);
-	if (mode.value === TANACH_MODE && book.value.trim()) values.set('book', book.value.trim());
-	history.replaceState(null, '', `${location.pathname}?${values}`);
-}
-
-function hydrateFromUrl() {
-	const values = new URLSearchParams(location.search);
-	input.value = values.get('q') || '';
-	mode.value = modeFromUrl(values);
-	book.value = values.get('book') || '';
-	configureMode(mode, laneField, bookField);
-	const selectedLane = values.get('lane') || '';
-	loadLanes(selectedLane);
-	if (input.value) runSearch(input.value);
-}
-
-form.addEventListener('submit', event => { event.preventDefault(); runSearch(input.value); });
-mode.addEventListener('change', () => configureMode(mode, laneField, bookField));
-clearHistoryButton.addEventListener('click', () => renderHistory(clearSearchHistory()));
+intentController = new SearchIntentController({ runSearch, loadLanes });
+bindSearchControls({
+	form,
+	input,
+	mode,
+	clearHistoryButton,
+	onSearch: runSearch,
+	onModeChange: () => intentController.handleModeChange(),
+	onClearHistory: () => renderHistory(clearSearchHistory())
+});
 renderHistory();
-hydrateFromUrl();
+intentController.hydrate();

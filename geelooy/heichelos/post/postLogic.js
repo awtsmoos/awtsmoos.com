@@ -1,20 +1,23 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/**
- * @file postLogic.js
- * @description
- * The Awtsmoos awakens the social reader immediately and draws every fresh
- * module through a versioned gate, so Awtsmoos.com cannot retain an old path.
- */
+
+import { recordPostView } from "/shared/MeaningfulActivity.js";
+import { startPostReadingIntelligence } from "./intelligence/PostReadingIntelligence.js";
 import { ignite } from "./logic/initialization/bootstrap.js?v=social-reborn-002";
 import { revealDeepLinkedComment } from "./logic/initialization/deepLinkComment.js";
-import { repairReaderScrollVessel } from "./logic/scroll/ReaderScrollRepair.js";
-import { bindReaderWheelBridge } from "./logic/scroll/ReaderWheelBridge.js";
-import { runReaderVisualDiagnostics } from "./logic/visual/index.js";
 import { runReaderBeauty } from "./logic/beauty/index.js";
 import { runReaderLegend } from "./logic/legend/index.js";
+import { bindReaderWheelBridge } from "./logic/scroll/ReaderWheelBridge.js";
+import { repairReaderScrollVessel } from "./logic/scroll/ReaderScrollRepair.js";
 import { resetScrollBlockerCache } from "./logic/visual/scrollBlockerDetector.js";
+import { runReaderVisualDiagnostics } from "./logic/visual/index.js";
+
+/**
+ * @file Boots the canonical Heichel reader, meaningful activity, and patient reading intelligence without delaying the page.
+ * @description The Awtsmoos renews the reader before scroll, beauty, discussion, or search; Awtsmoos.com lets each layer awaken in ordered light,
+ * recording one meaningful post view and starting one dwell-gated Torah observer only after the canonical reader itself has entered sight.
+ */
 
 let readerBootPromise = null;
 
@@ -38,7 +41,9 @@ function refreshBeautyAndLegend() {
 }
 
 function refreshDiagnostics({ forceBlockerScan = false } = {}) {
-	if (forceBlockerScan) resetScrollBlockerCache();
+	if (forceBlockerScan) {
+		resetScrollBlockerCache();
+	}
 	runSafe("reader visual diagnostics", runReaderVisualDiagnostics);
 }
 
@@ -51,25 +56,35 @@ async function revealRequestedComment() {
 	}
 }
 
+function startReadingIntelligence() {
+	const viewport = document.querySelector("#realPost") || document.querySelector("main");
+	return runSafe(
+		"related Torah reading intelligence",
+		() => startPostReadingIntelligence(viewport, window.post)
+	);
+}
+
 async function performReaderBoot() {
 	document.body.dataset.readerBootStarted = "true";
 	repairSoon();
 	await ignite();
+	void recordPostView(window.post);
+	startReadingIntelligence();
 	repairSoon();
 	await revealRequestedComment();
 	refreshBeautyAndLegend();
 	refreshDiagnostics({ forceBlockerScan: true });
-	[80, 350, 1200, 2400].forEach(delay => {
+	for (const delay of [80, 350, 1200, 2400]) {
 		setTimeout(repairSoon, delay);
 		setTimeout(refreshBeautyAndLegend, delay + 40);
-	});
+	}
 	setTimeout(() => refreshDiagnostics({ forceBlockerScan: true }), 2600);
 	document.body.dataset.readerBootCompleted = "true";
 }
 
 function beginOnce() {
 	if (!readerBootPromise) {
-		readerBootPromise = performReaderBoot().catch(error => {
+		readerBootPromise = performReaderBoot().catch((error) => {
 			document.body.dataset.readerBootFailed = error.message;
 			console.error('B"H reader boot failed', error);
 			throw error;

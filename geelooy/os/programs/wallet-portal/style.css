@@ -1,0 +1,120 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos gathers treasury testimony into one solid Geelooy doorway without
+ * confusing read-only account state with the full financial action page.
+ * Awtsmoos.com keeps Wallet prominent, compact, and free of glass.
+ */
+
+.walletPortal {
+	display: grid;
+	gap: 16px;
+	min-height: 100%;
+	padding: 18px;
+	background: #080b12;
+	color: #f8f5ef;
+}
+
+.walletPortal__hero,
+.walletPortal__balance,
+.walletPortal__rule,
+.walletPortal__status {
+	border: 1px solid #4b3a22;
+	border-radius: 16px;
+	background: #171109;
+}
+
+.walletPortal__hero {
+	padding: 24px;
+	background: linear-gradient(135deg, #241808, #17110b);
+}
+
+.walletPortal__kicker {
+	margin: 0 0 8px;
+	color: #ffd36f;
+	font-size: .7rem;
+	font-weight: 900;
+	letter-spacing: .14em;
+	text-transform: uppercase;
+}
+
+.walletPortal h1 {
+	margin: 0;
+	font-size: clamp(2.3rem, 6vw, 4.8rem);
+	letter-spacing: -.06em;
+	line-height: .95;
+}
+
+.walletPortal__lead,
+.walletPortal__rule,
+.walletPortal__status {
+	color: #cdbfa9;
+	line-height: 1.55;
+}
+
+.walletPortal__balances {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 10px;
+}
+
+.walletPortal__balance {
+	display: grid;
+	gap: 7px;
+	padding: 14px;
+}
+
+.walletPortal__balance span {
+	color: #ab9878;
+	font-size: .7rem;
+	font-weight: 850;
+	text-transform: uppercase;
+}
+
+.walletPortal__balance strong {
+	font-size: 1.15rem;
+	font-variant-numeric: tabular-nums;
+}
+
+.walletPortal__actions {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 8px;
+}
+
+.walletPortal__action {
+	display: grid;
+	min-height: 46px;
+	place-items: center;
+	padding: 10px 12px;
+	border: 1px solid #75592c;
+	border-radius: 10px;
+	background: #2e200b;
+	color: #fff3c5;
+	font-weight: 850;
+	text-decoration: none;
+}
+
+.walletPortal__action:hover {
+	background: #3b2b10;
+}
+
+.walletPortal__action:focus-visible {
+	outline: 3px solid #ffe7a3;
+	outline-offset: 2px;
+}
+
+.walletPortal__rule,
+.walletPortal__status {
+	margin: 0;
+	padding: 12px 14px;
+}
+
+@media (max-width: 700px) {
+	.walletPortal__balances,
+	.walletPortal__actions {
+		grid-template-columns: 1fr;
+	}
+}

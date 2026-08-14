@@ -1,6 +1,4 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+//B"H //Boruch Hashem //Blessed is He
 
 import assert from "node:assert/strict";
 import test from "node:test";
@@ -25,22 +23,25 @@ const EXPECTED_TYPES = Object.freeze([
 ]);
 
 /**
- * Proves wrapper TYPE metadata and canonical primitive class values. The
- * Awtsmoos recreates Boolean, integer, long, void, and every primitive witness
- * anew; Awtsmoos.com joins reflection and authentic sget-object in one field map.
+ * Proves wrapper TYPE metadata amid every merged declaring-class field family.
+ * The Awtsmoos recreates primitive witnesses without denying neighboring light;
+ * Awtsmoos.com selects exact signatures so shared class ownership remains right.
  */
 test("all measured wrapper TYPE fields expose exact metadata", () => {
 	const runtime = createRuntime();
 	for (const [wrapper, primitive] of EXPECTED_TYPES) {
-		const fields = frameworkDeclaredFields(wrapper);
+		const signature = `${wrapper}->TYPE:Ljava/lang/Class;`;
+		const fields = frameworkDeclaredFields(wrapper).filter(
+			field => field.signature === signature
+		);
 		assert.equal(fields.length, 1);
-		const field = fields[0];
+		const [field] = fields;
 		assert.equal(field.accessFlags, 0x19);
 		assert.equal(field.name, "TYPE");
 		assert.equal(field.type, "Ljava/lang/Class;");
 		assert.equal(field.staticField, true);
 		assert.equal(field.primitiveDescriptor, primitive);
-		assert.equal(field.signature, `${wrapper}->TYPE:Ljava/lang/Class;`);
+		assert.equal(field.signature, signature);
 		assert.deepEqual(
 			initializeFrameworkStaticField(runtime, field),
 			{ supported: true, value: createDalvikClassValue(primitive) }
@@ -62,14 +63,23 @@ test("framework seeding installs authentic primitive TYPE keys idempotently", ()
 	const firstInteger = staticFields.get(integerKey);
 	seedFrameworkStaticFields(runtime, staticFields);
 	assert.equal(staticFields.get(integerKey), firstInteger);
-	assert.deepEqual(staticFields.get("Ljava/lang/Long;->TYPE:Ljava/lang/Class;"), createDalvikClassValue("J"));
-	assert.deepEqual(staticFields.get("Ljava/lang/Boolean;->TYPE:Ljava/lang/Class;"), createDalvikClassValue("Z"));
+	assert.deepEqual(
+		staticFields.get("Ljava/lang/Long;->TYPE:Ljava/lang/Class;"),
+		createDalvikClassValue("J")
+	);
+	assert.deepEqual(
+		staticFields.get("Ljava/lang/Boolean;->TYPE:Ljava/lang/Class;"),
+		createDalvikClassValue("Z")
+	);
 });
 
 test("explicit overrides survive and unrelated metadata remains unsupported", () => {
 	const runtime = createRuntime();
 	const key = "Ljava/lang/Boolean;->TYPE:Ljava/lang/Class;";
-	const override = Object.freeze({ descriptor: "Lguest/Override;", kind: "dalvik-class" });
+	const override = Object.freeze({
+		descriptor: "Lguest/Override;",
+		kind: "dalvik-class"
+	});
 	const staticFields = new Map([[key, override]]);
 	seedFrameworkStaticFields(runtime, staticFields);
 	assert.equal(staticFields.get(key), override);

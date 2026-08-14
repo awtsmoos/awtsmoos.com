@@ -8,6 +8,7 @@ import { handleFlutterJniFindClass } from "./flutterJniFindClass.js";
 import { registerFlutterJniFieldIdHandlers } from "./flutterJniGetFieldId.js";
 import { handleFlutterJniGetEnv } from "./flutterJniGetEnv.js";
 import { registerFlutterJniMethodIdHandlers } from "./flutterJniGetMethodId.js";
+import { registerFlutterJniGetObjectClass } from "./flutterJniGetObjectClass.js";
 import { registerFlutterJniObjectArrayHandlers } from "./flutterJniObjectArrayHandlers.js";
 import { handleFlutterJniRegisterNatives } from "./flutterJniRegisterNatives.js";
 import { registerFlutterJniReferenceHandlers } from "./flutterJniReferenceHandlers.js";
@@ -70,6 +71,7 @@ export function createFlutterJniImportHandlers(machineState) {
 	registry.register("JNIInvokeInterface.GetEnv", context => handleFlutterJniGetEnv(context, runtimeState));
 	registry.register("JNINativeInterface.FindClass", context => handleFlutterJniFindClass(context, runtimeState));
 	registry.register("JNINativeInterface.RegisterNatives", context => handleFlutterJniRegisterNatives(context, runtimeState));
+	registerFlutterJniGetObjectClass(registry, runtimeState);
 	registerFlutterJniArrayHandlers(registry, runtimeState);
 	registerFlutterJniObjectArrayHandlers(registry, runtimeState);
 	registerFlutterJniStringHandlers(registry, runtimeState);

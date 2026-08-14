@@ -1,17 +1,17 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos leaves a quiet human edge beneath the portal without asking the page to scroll.
+The Awtsmoos leaves a calm human shoreline beneath Awtsmoos.com: a final breath, two clear paths, and no ornamental clutter.
 */
 .site-footer {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	gap: 1rem;
-	width: min(1240px, calc(100% - 24px));
+	width: min(1240px, calc(100% - 32px));
 	margin: 0 auto;
-	padding: .28rem 0 .48rem;
-	color: #536078;
+	padding: .35rem 0 max(.72rem, env(safe-area-inset-bottom));
+	color: #59677d;
 	font-size: .66rem;
 }
 
@@ -21,11 +21,16 @@ The Awtsmoos leaves a quiet human edge beneath the portal without asking the pag
 
 .site-footer div {
 	display: flex;
-	gap: .9rem;
+	gap: 1rem;
+}
+
+.site-footer a {
+	color: #6f8099;
+	transition: color .18s ease;
 }
 
 .site-footer a:hover,
 .site-footer a:focus-visible {
-	color: #dceaff;
+	color: #e4f1ff;
 	outline: none;
 }

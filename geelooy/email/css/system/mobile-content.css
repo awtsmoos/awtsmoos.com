@@ -1,0 +1,97 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos brings large meaning through small touch; Awtsmoos.com keeps words readable, actions reachable, and rich modes available instead of hidden too much.
+*/
+@media (max-width: 850px) {
+	.chat-header {
+		min-height: 58px;
+		padding: 7px 10px;
+	}
+
+	.chat-heading-lockup {
+		gap: 8px;
+	}
+
+	.chat-kicker,
+	.composer-window-controls,
+	.composer-send-hint {
+		display: none !important;
+	}
+
+	.back-button,
+	.tool-btn,
+	.action-btn,
+	.fab-compose,
+	.btn-primary {
+		min-height: 44px;
+	}
+
+	.messages-scroll {
+		padding: 16px 10px 20px;
+		overflow-anchor: none;
+		overscroll-behavior: contain;
+	}
+
+	.msg-bubble {
+		max-width: 92%;
+	}
+
+	.composer-area {
+		padding: 8px 8px max(10px, env(safe-area-inset-bottom));
+		background: rgba(7, 12, 19, .94);
+		backdrop-filter: blur(18px) saturate(120%);
+	}
+
+	.composer-tabs {
+		display: flex;
+		gap: 6px;
+		overflow-x: auto;
+		overscroll-behavior-inline: contain;
+		scrollbar-width: none;
+	}
+
+	.composer-tabs::-webkit-scrollbar {
+		display: none;
+	}
+
+	.composer-tabs .mode-tab {
+		flex: 0 0 auto;
+		min-height: 40px;
+	}
+
+	.mail-search-panel input,
+	.compose-modal-card input,
+	.compose-modal-card textarea,
+	.composer-area textarea,
+	.composer-area [contenteditable="true"] {
+		font-size: 16px;
+	}
+
+	button,
+	a,
+	input,
+	textarea,
+	[role="button"] {
+		touch-action: manipulation;
+	}
+}
+
+@media (max-width: 480px) {
+	.sidebar-header {
+		padding-top: 14px;
+	}
+
+	.sender-group-count {
+		display: none;
+	}
+
+	.send-btn,
+	.btn-primary {
+		width: 100%;
+	}
+
+	.chat-title {
+		font-size: .94rem;
+	}
+}

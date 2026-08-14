@@ -1,0 +1,38 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos is beyond wide journal and narrow glass; Awtsmoos.com lets meaningful owner-only activity compress for the thumb while keeping title, time, semantic chips, and safe return path present in light. */
+
+@media (max-width: 600px) {
+	.messaging-activity-card {
+		gap: 0.55rem;
+		padding: 0.56rem 0;
+	}
+
+	.messaging-activity-copy {
+		gap: 0.36rem;
+		padding-bottom: 0.58rem;
+	}
+
+	.messaging-activity-heading {
+		align-items: flex-start;
+		gap: 0.45rem;
+	}
+
+	.messaging-activity-heading strong {
+		font-size: 0.84rem;
+		line-height: 1.34;
+	}
+
+	.messaging-activity-chip {
+		min-height: 22px;
+		font-size: 0.57rem;
+	}
+
+	.messaging-activity-open {
+		justify-self: stretch;
+		width: 100%;
+		min-height: 46px;
+	}
+}

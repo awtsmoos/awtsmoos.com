@@ -1,45 +1,99 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gives each thread one readable doorway.
+The Awtsmoos reveals the human before the metadata; Awtsmoos.com lets every thread become a clear doorway.
 */
 .thread-list {
-	padding: 6px 8px 18px;
+	padding: 4px 10px 24px;
 }
 
 .sender-group-card {
-	margin-bottom: 10px;
+	margin-bottom: 14px;
+	padding: 4px;
+	border: 1px solid transparent;
+	border-radius: var(--mail-radius-lg);
 }
 
 .sender-group-head {
-	display: flex;
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
 	align-items: center;
-	gap: 8px;
-	padding: 7px 8px;
+	gap: 9px;
+	padding: 8px 8px 7px;
 	color: var(--mail-text-muted);
-	font-size: .76rem;
+	font-size: .73rem;
+}
+
+.avatar-circle {
+	display: grid;
+	place-items: center;
+	width: 30px;
+	height: 30px;
+	border: 1px solid var(--mail-border);
+	border-radius: 10px;
+	color: var(--mail-text-secondary);
+	font-weight: 760;
+}
+
+.sender-group-name {
+	overflow: hidden;
+	color: var(--mail-text-secondary);
+	font-weight: 680;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.sender-group-count {
+	color: var(--mail-text-muted);
+	font-size: .65rem;
+	font-weight: 550;
+}
+
+.sender-group-items {
+	display: grid;
+	gap: 4px;
 }
 
 .thread-item {
+	position: relative;
 	width: 100%;
-	margin-bottom: 4px;
-	padding: 11px;
+	padding: 11px 12px 12px;
 	border: 1px solid transparent;
-	border-radius: 13px;
+	border-radius: 14px;
 	background: transparent;
 	color: inherit;
 	text-align: left;
 	cursor: pointer;
+	transition: background .14s ease, border-color .14s ease, transform .14s ease;
 }
 
 .thread-item:hover {
 	border-color: var(--mail-border);
 	background: var(--mail-panel-hover);
+	transform: translateX(2px);
 }
 
 .thread-item.active {
-	border-color: var(--mail-border-strong);
-	background: var(--mail-accent-soft);
+	border-color: rgba(165, 198, 246, .3);
+	background: linear-gradient(135deg, rgba(101, 150, 222, .18), rgba(101, 150, 222, .08));
+	box-shadow: inset 3px 0 var(--mail-accent);
+}
+
+.thread-item.unread .thread-name,
+.thread-item.unread .thread-subject {
+	color: var(--mail-text);
+	font-weight: 760;
+}
+
+.thread-item.unread::after {
+	content: "";
+	position: absolute;
+	top: 14px;
+	right: 9px;
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: var(--mail-accent);
 }
 
 .thread-top {
@@ -49,17 +103,53 @@ The Awtsmoos gives each thread one readable doorway.
 }
 
 .thread-name {
+	overflow: hidden;
 	font-weight: 680;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.thread-time {
+	flex: 0 0 auto;
 }
 
 .thread-time,
 .thread-snippet {
 	color: var(--mail-text-muted);
-	font-size: .74rem;
+	font-size: .71rem;
 }
 
 .thread-subject {
 	margin-top: 5px;
+	overflow: hidden;
 	color: var(--mail-text-secondary);
-	font-size: .83rem;
+	font-size: .82rem;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.thread-snippet {
+	margin-top: 3px;
+	overflow: hidden;
+	line-height: 1.45;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.thread-empty-state {
+	display: grid;
+	justify-items: center;
+	gap: 7px;
+	padding: 42px 20px;
+	color: var(--mail-text-muted);
+	text-align: center;
+}
+
+.thread-empty-state strong {
+	color: var(--mail-text-secondary);
+}
+
+.thread-empty-icon {
+	font-size: 1.7rem;
+	opacity: .7;
 }

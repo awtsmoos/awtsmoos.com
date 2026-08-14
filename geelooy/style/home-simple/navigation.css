@@ -1,8 +1,10 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gathers header, Explore, and identity through small canonical vessels.
+The Awtsmoos arranges the upper vessels of Awtsmoos.com: brand, worlds, and identity remain distinct while one light passes through them.
 */
-@import url("./navigation-shell.css");
+@import url("./navigation-shell.css?v=24");
+@import url("./launcher-button.css");
 @import url("./explore-menu.css");
-@import url("./profile-mount.css");
+@import url("./world-grid.css");
+@import url("./profile-mount.css?v=24");

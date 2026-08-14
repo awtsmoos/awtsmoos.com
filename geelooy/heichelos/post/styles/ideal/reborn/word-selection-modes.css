@@ -1,0 +1,57 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos makes Phrase and Collection visibly distinct, while the first
+ * range anchor glows and Awtsmoos.com keeps active-page spacing in one owner.
+ */
+.awtsmoos-word-mode-switch {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: .4rem;
+	padding: .25rem;
+	border: 1px solid rgba(148, 163, 184, .2);
+	border-radius: .9rem;
+	background: rgba(2, 8, 20, .62);
+}
+
+.awtsmoos-word-toolbar .awtsmoos-word-mode {
+	min-height: 38px;
+	border-color: transparent;
+	background: transparent;
+	color: #a9b8cb;
+}
+
+.awtsmoos-word-toolbar .awtsmoos-word-mode[aria-pressed="true"] {
+	border-color: rgba(248, 214, 130, .58);
+	background: linear-gradient(135deg, rgba(248, 214, 130, .92), rgba(34, 211, 238, .74));
+	color: #07111f;
+	box-shadow: 0 .2rem .75rem rgba(34, 211, 238, .18);
+}
+
+.awtsmoos-word-token.is-range-start {
+	outline: .12em solid rgba(255, 255, 255, .92);
+	outline-offset: .08em;
+}
+
+.awtsmoos-word-token.is-range-start::after {
+	content: '◉';
+	margin-inline-start: .12em;
+	font-size: .46em;
+	vertical-align: super;
+}
+
+.awtsmoos-word-token.is-range-end:not(.is-range-start) {
+	box-shadow:
+		0 0 0 .1em rgba(34, 211, 238, .78),
+		0 .18em .62em rgba(34, 211, 238, .24);
+}
+
+body.awtsmoos-word-selection-active {
+	padding-bottom: calc(13rem + env(safe-area-inset-bottom));
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.awtsmoos-word-toolbar .awtsmoos-word-mode {
+		transition: none;
+	}
+}

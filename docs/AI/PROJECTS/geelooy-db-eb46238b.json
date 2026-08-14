@@ -1,0 +1,82 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-db-eb46238b",
+	"path": "geelooy/db",
+	"type": "public",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "geelooy/db",
+	"entries": [
+		"index.html",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/db/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-db-eb46238b.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 7,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 1
+	},
+	"totalFiles": 9,
+	"symbolSummary": {
+		"files": 2,
+		"classes": 0,
+		"functions": 20,
+		"exports": 0,
+		"samples": [
+			"checkAuth",
+			"ext",
+			"handleListFolder",
+			"handleReadFile",
+			"handleWriteFile",
+			"handleCreateItem",
+			"handleDeleteItem",
+			"main",
+			"showLoading",
+			"hideLoading",
+			"showMessage",
+			"updateBreadcrumbs"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/db",
+			"file": "geelooy/db/index.html",
+			"title": "",
+			"scripts": 0,
+			"styles": 0
+		},
+		{
+			"url": "/db/console",
+			"file": "geelooy/db/console/index.html",
+			"title": "Simple DosDB GUI",
+			"scripts": 0,
+			"styles": 0
+		},
+		{
+			"url": "/db/explorer",
+			"file": "geelooy/db/explorer/index.html",
+			"title": "AWTSMOOS DB INTERFACE - HYPERDRIVE EDITION",
+			"scripts": 1,
+			"styles": 2
+		}
+	],
+	"requiresLocalDocumentation": false,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

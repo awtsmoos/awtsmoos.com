@@ -2,33 +2,47 @@
 // Boruch Hashem
 // Blessed is He
 
+import { CarrierSelectorTextReader } from "./CarrierSelectorTextReader.mjs";
 const DOM_TIMEOUT_MS = 20000;
 
 /**
- * @file Reads the living value of ChatGPT's current composer node.
- * @description
- * Outer HTML is only the husk of a textarea; its living letters dwell in the
- * value property. The Awtsmoos therefore resolves the renewed native node and
- * reads that property directly, without exposing the prompt beyond comparison.
+ * @file Reads the living value of ChatGPT's current composer.
+ * @description The Awtsmoos trusts the current selector before any native node ID,
+ * while Awtsmoos.com retains a bounded native fallback for non-selector callers.
  */
 export class CarrierComposerReader {
-	constructor(cdpClient) {
+	constructor(cdpClient, {
+		selectorReader = new CarrierSelectorTextReader(cdpClient)
+	} = {}) {
 		this.cdpClient = cdpClient;
+		this.selectorReader = selectorReader;
 	}
 
 	async text(locator) {
-		let firstError = null;
+		let selectorError = null;
+		if (locator?.selector) {
+			try {
+				const selected = await this.selectorReader.text(locator.selector);
+				if (selected.found) return this.normalize(selected.text);
+			} catch (error) {
+				selectorError = error;
+			}
+		}
+		let nativeError = null;
 		try {
 			return await this.read(this.nativeLocator(locator));
 		} catch (error) {
-			firstError = error;
+			nativeError = error;
 		}
 		try {
 			return await this.read(await this.currentLocator(locator));
 		} catch (error) {
-			throw new Error(
-				`Composer value unavailable: ${this.message(firstError)}; ${this.message(error)}`
-			);
+			throw new Error([
+				"Composer value unavailable",
+				this.message(selectorError),
+				this.message(nativeError),
+				this.message(error)
+			].filter(Boolean).join(": "));
 		}
 	}
 
@@ -63,13 +77,9 @@ export class CarrierComposerReader {
 
 	async release(objectId) {
 		try {
-			await this.cdpClient.send(
-				"Runtime.releaseObject",
-				{ objectId },
-				5000
-			);
+			await this.cdpClient.send("Runtime.releaseObject", { objectId }, 5000);
 		} catch {
-			// Chrome may release the object when React renews the composer.
+			// React may release the object first.
 		}
 	}
 
@@ -84,7 +94,7 @@ export class CarrierComposerReader {
 			selector: locator.selector
 		}, DOM_TIMEOUT_MS);
 		if (!queried.nodeId) throw new Error("The renewed composer node was unavailable.");
-		return { nodeId: queried.nodeId };
+		return { nodeId: queried.nodeId, selector: locator.selector };
 	}
 
 	nativeLocator(locator) {
@@ -103,7 +113,7 @@ export class CarrierComposerReader {
 	}
 
 	message(error) {
-		return String(error?.message || error || "unknown");
+		return error ? String(error?.message || error) : "";
 	}
 }
 

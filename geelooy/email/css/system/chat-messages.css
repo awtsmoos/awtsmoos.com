@@ -1,18 +1,20 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gives messages room to breathe and remain readable.
+The Awtsmoos gives every message measure and breath; Awtsmoos.com keeps long thought readable and short thought light.
 */
 .messages-scroll {
 	min-height: 0;
 	overflow: auto;
-	padding: 22px clamp(14px, 4vw, 42px);
-	scrollbar-color: rgba(151, 180, 226, .24) transparent;
+	padding: clamp(18px, 3.3vw, 38px) clamp(16px, 5vw, 64px) 26px;
+	scrollbar-color: rgba(151, 180, 226, .22) transparent;
+	scrollbar-gutter: stable;
 }
 
 .msg-row {
 	display: flex;
-	margin-bottom: 14px;
+	margin: 0 auto 12px;
+	max-width: calc(var(--mail-reading-width) + 100px);
 }
 
 .msg-row.me {
@@ -20,26 +22,39 @@ The Awtsmoos gives messages room to breathe and remain readable.
 }
 
 .msg-bubble {
-	max-width: min(720px, 82%);
+	max-width: min(var(--mail-reading-width), 86%);
 	padding: 13px 15px;
 	border: 1px solid var(--mail-border);
-	border-radius: 16px;
-	background: var(--mail-panel);
+	border-radius: 17px 17px 17px 6px;
+	background: linear-gradient(145deg, rgba(17, 27, 41, .96), rgba(12, 20, 31, .96));
+	box-shadow: 0 9px 30px rgba(0, 0, 0, .1);
 }
 
 .msg-row.me .msg-bubble {
-	border-color: rgba(151, 180, 226, .2);
-	background: rgba(86, 122, 177, .13);
+	border-color: rgba(151, 187, 241, .22);
+	border-radius: 17px 17px 6px;
+	background: linear-gradient(145deg, rgba(69, 103, 154, .24), rgba(54, 82, 123, .16));
 }
 
 .msg-subject {
 	margin-bottom: 7px;
-	font-weight: 700;
+	color: var(--mail-text);
+	font-weight: 730;
 }
 
 .msg-content {
 	color: var(--mail-text-secondary);
-	line-height: 1.62;
+	font-size: .94rem;
+	line-height: 1.68;
+	overflow-wrap: anywhere;
+}
+
+.msg-content p:first-child {
+	margin-top: 0;
+}
+
+.msg-content p:last-child {
+	margin-bottom: 0;
 }
 
 .msg-footer {
@@ -52,5 +67,47 @@ The Awtsmoos gives messages room to breathe and remain readable.
 
 .msg-time {
 	color: var(--mail-text-muted);
-	font-size: .7rem;
+	font-size: .67rem;
+}
+
+.void-logo {
+	display: grid;
+	place-items: center;
+	align-content: center;
+	min-height: 100%;
+	max-width: 520px;
+	margin: 0 auto;
+	padding: 40px 20px;
+	color: var(--mail-text-muted);
+	text-align: center;
+}
+
+.void-logo h2 {
+	margin: 4px 0 6px;
+	color: var(--mail-text);
+	font-size: clamp(1.3rem, 3vw, 1.8rem);
+	letter-spacing: -.03em;
+}
+
+.void-logo p {
+	max-width: 420px;
+	margin: 0;
+	line-height: 1.55;
+}
+
+.mail-empty-mark {
+	display: grid;
+	place-items: center;
+	width: 54px;
+	height: 54px;
+	margin-bottom: 12px;
+	border: 1px solid var(--mail-border);
+	border-radius: 18px;
+	background: var(--mail-accent-soft);
+	font-size: 1.25rem;
+}
+
+.mail-empty-shortcut {
+	margin-top: 14px !important;
+	font-size: .74rem;
 }

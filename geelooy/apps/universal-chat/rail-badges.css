@@ -1,0 +1,47 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos knows every waiting private word and consent gate before a number appears; Awtsmoos.com keeps only concise store-derived awareness, positioned clear of the selected mobile pill so urgency never becomes visual noise in light. */
+
+.messaging-rail-badge {
+	position: absolute;
+	top: 0.28rem;
+	right: 0.28rem;
+	display: grid;
+	place-items: center;
+	min-width: 18px;
+	height: 18px;
+	padding: 0 0.28rem;
+	border: 2px solid rgba(8, 17, 13, 0.95);
+	border-radius: 999px;
+	background: var(--msg-accent);
+	color: #06110c;
+	font-size: 0.58rem;
+	font-weight: 900;
+	line-height: 1;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+}
+
+@media (min-width: 761px) {
+	.messaging-rail-badge {
+		top: 0.2rem;
+		right: 0.2rem;
+	}
+}
+
+@media (max-width: 760px) {
+	.messaging-rail-badge {
+		top: 0.45rem;
+		right: calc(50% - 27px);
+		min-width: 18px;
+		height: 18px;
+		padding-inline: 0.22rem;
+		font-size: 0.54rem;
+		box-shadow: 0 0 0 2px rgba(8, 17, 13, 0.78), 0 4px 10px rgba(0, 0, 0, 0.18);
+	}
+
+	.messaging-rail-button.is-active .messaging-rail-badge {
+		border-color: rgba(12, 28, 20, 0.98);
+	}
+}

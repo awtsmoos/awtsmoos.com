@@ -2,69 +2,118 @@
 //Boruch Hashem
 //Blessed is He
 
+import { OPEN_WORLD_ARENA_CONFIG } from '../open-world/open-world-space.js';
+import { OpenWorldStageRuntime } from '../open-world/open-world-stage-runtime.js';
 import { SemanticAssetFactory } from '../procedural/semantic-asset-factory.js';
 import { addArena } from '../webgl/scene-kit.js';
 import { WebglStage } from '../webgl/webgl-stage.js';
-import { CityDistrictBuilder } from './city-district-builder.js';
-import { CityGuide } from './city-guide.js';
-import { CityLifeSystem } from './city-life-system.js';
+import { LivingCityWorldManifestation } from './living-city-world-manifestation.js';
 
 /**
  * @module LivingCityStage
  * @description
- * One bounded renderer reveals seven districts and meaningful circulation. The
- * Awtsmoos creates every frame anew; Awtsmoos.com reuses core geometry, animates
- * transforms only, and releases its WebGL context whenever another world opens.
+ * The Awtsmoos renews one large WebGL world while scenery and locomotion remain distinct keilim;
+ * Awtsmoos.com lets districts, civic fields, Realm gate, and Kabbalah landmarks manifest through one collaborator.
+ * This stage owns renderer timing and spatial delegation, never canonical economy, campaign, or progression state.
  */
 export class LivingCityStage {
-	constructor(host, options) {
+	constructor(host, options = {}) {
 		this.host = host;
-		this.definitions = options.definitions;
+		this.definitions = options.definitions || [];
 		this.progress = options.progress;
-		this.onSelect = options.onSelect;
+		this.civic = options.civic;
+		this.onContext = options.onContext || (() => {});
+		this.onInteract = options.onInteract || (() => {});
+		this.initialPosition = options.initialPosition || { x: 0, z: 7 };
 		this.stage = null;
 	}
 
+	/** Mounts the expanded terrain, world manifestation, player runtime, and one render loop. */
 	mount() {
 		this.destroy();
 		this.assets = new SemanticAssetFactory();
 		this.stage = new WebglStage(this.host, { background: 0x07111e });
 		this.stage.mount();
 		this.stage.renderer.shadowMap.enabled = window.innerWidth >= 700;
-		addArena(this.stage, 202);
-		this.stage.setCamera([0, 9.2, 11.8], [0, 0.4, 0]);
-		this.districts = new CityDistrictBuilder(this.assets).build(this.stage, this.definitions, this.progress);
-		this.life = new CityLifeSystem(this.stage, this.assets).mount();
-		this.guide = new CityGuide(this.assets);
-		this.guide.mount(this.stage);
-		this.stage.onPick(object => {
-			const root = object.userData.semanticRoot || object;
-			if (root.userData.districtId) {
-				this.onSelect(root.userData.districtId);
-			}
-		});
+		addArena(this.stage, 202, OPEN_WORLD_ARENA_CONFIG);
+		this.world = new LivingCityWorldManifestation(this.stage, this.assets, {
+			definitions: this.definitions,
+			progress: this.progress,
+			civic: this.civic
+		}).mount();
+		this.runtime = new OpenWorldStageRuntime({
+			stage: this.stage,
+			assets: this.assets,
+			definitions: this.definitions,
+			districtRoots: () => this.world.districtRoots(),
+			realmPortal: this.world.realmPortal,
+			extraContexts: position => this.world.contexts(position),
+			initialPosition: this.initialPosition,
+			onContext: this.onContext,
+			onInteract: this.onInteract
+		}).mount();
 		this.stage.start((delta, elapsed) => this.animate(delta, elapsed));
+		return this;
 	}
 
 	animate(delta, elapsed) {
-		this.districts?.animate(elapsed);
-		this.life?.update(delta, elapsed);
-		this.guide?.animate(elapsed);
-		if (this.stage?.scene) {
-			this.stage.scene.rotation.y += delta * 0.012;
-		}
+		this.runtime?.update(delta, elapsed);
+		this.world?.update(delta, elapsed);
+	}
+
+	setDirection(x, z) {
+		this.runtime?.setDirection(x, z);
+	}
+
+	interact() {
+		this.runtime?.interact();
+	}
+
+	focusDistrict(id) {
+		this.runtime?.focusDistrict(id);
+	}
+
+	refreshCivic() {
+		this.world?.refreshCivic();
+		this.runtime?.refreshContext();
+	}
+
+	attuneSefirah(sefirahId) {
+		this.world?.attuneSefirah(sefirahId);
+		this.runtime?.refreshContext(true);
+	}
+
+	civicView() {
+		return this.world?.civicView() || [];
+	}
+
+	kabbalahView() {
+		return this.world?.kabbalahView() || [];
+	}
+
+	activeSefirah() {
+		return this.world?.activeSefirah(this.position()) || null;
+	}
+
+	position() {
+		return this.runtime?.position() || { ...this.initialPosition };
 	}
 
 	message() {
-		return this.guide?.message(this.progress) || '';
+		return this.world?.message() || '';
+	}
+
+	get currentContext() {
+		return this.runtime?.currentContext || null;
 	}
 
 	destroy() {
+		this.runtime?.destroy();
+		this.world?.destroy();
 		this.stage?.destroy();
+		this.runtime = null;
+		this.world = null;
 		this.stage = null;
-		this.districts = null;
-		this.life = null;
-		this.guide = null;
 		this.host?.replaceChildren();
 	}
 }

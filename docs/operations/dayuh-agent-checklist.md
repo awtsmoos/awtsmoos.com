@@ -1,4 +1,7 @@
-<!-- B"H -->
+B"H
+Boruch Hashem
+Blessed is He
+
 # Dayuh sync checklist for AI agents
 
 This checklist is mandatory for production database work. Do not skip directly

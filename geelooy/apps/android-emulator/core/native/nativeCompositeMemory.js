@@ -2,69 +2,84 @@
 //Boruch Hashem
 //Blessed is He
 
-import { elf64Error } from "./elf64Errors.js";
+import { createAarch64MemoryProvenance } from "./aarch64MemoryProvenance.js";
+import { resolveCompositeTarget } from "./nativeCompositeMemoryRoute.js";
+import {
+	compositeContains,
+	describeCompositeAddress,
+	encodeCompositeInteger,
+	normalizeCompositeMaximum,
+	targetReadableSpan,
+	validateCompositeRegions,
+	viewCompositeBytes
+} from "./nativeCompositeMemorySupport.js";
 
 /**
- * Routes guest-native accesses across image and anonymous memory vessels. The
- * Awtsmoos recreates address, owner, and transferred byte anew; Awtsmoos.com
- * keeps stack, JNI state, and ELF segments joined without merging authority.
+ * Routes guest-native accesses across recursively named memory vessels.
+ * The Awtsmoos recreates owner, byte crossing, and causal testimony anew;
+ * Awtsmoos.com keeps the hot route lean while cold reports reveal who knew.
  */
-export function createNativeCompositeMemory(primary, regions = []) {
+export function createNativeCompositeMemory(
+	primary,
+	regions = [],
+	label = "composite-memory"
+) {
 	const anonymous = Object.freeze([...regions]);
-	validateRegions(anonymous);
+	const provenance = createAarch64MemoryProvenance();
+	const memoryLabel = String(label);
+	validateCompositeRegions(anonymous);
 	const route = (address, size) => {
-		const region = anonymous.find(candidate => {
-			return candidate.contains(address, size);
-		});
-		return region || primary;
+		return resolveCompositeTarget(primary, anonymous, address, size);
 	};
-	const read = (address, size) => route(address, size).read(address, size);
-	const write = (address, bytes) => route(address, bytes.byteLength)
-		.write(address, bytes);
+	const read = (address, size) => {
+		const bytes = route(address, size).read(address, size);
+		provenance.recordRead(address, bytes);
+		return bytes;
+	};
+	const write = (address, bytes) => {
+		route(address, bytes.byteLength).write(address, bytes);
+		provenance.recordWrite(address, bytes);
+	};
 	return Object.freeze({
+		aarch64ProvenanceSnapshot: provenance.snapshot,
+		beginAarch64Instruction: provenance.begin,
+		contains(address, size = 1) {
+			return compositeContains(primary, anonymous, address, size);
+		},
+		describeAddress(address, size = 1) {
+			return describeCompositeAddress(
+				primary,
+				anonymous,
+				memoryLabel,
+				address,
+				size
+			);
+		},
+		endAarch64Instruction: provenance.end,
+		kind: "composite-memory",
+		label: memoryLabel,
 		read,
+		readableSpan(address, maximum) {
+			const start = BigInt(address);
+			const limit = normalizeCompositeMaximum(maximum);
+			if (limit === 0n) {
+				return 0n;
+			}
+			return targetReadableSpan(route(start, 1), start, limit);
+		},
 		readU32(address) {
-			return view(read(address, 4)).getUint32(0, true);
+			return viewCompositeBytes(read(address, 4)).getUint32(0, true);
 		},
 		readU64(address) {
-			return view(read(address, 8)).getBigUint64(0, true);
+			return viewCompositeBytes(read(address, 8)).getBigUint64(0, true);
 		},
 		regions: anonymous,
 		write,
 		writeU32(address, value) {
-			write(address, encode(value, 4));
+			write(address, encodeCompositeInteger(value, 4));
 		},
 		writeU64(address, value) {
-			write(address, encode(value, 8));
+			write(address, encodeCompositeInteger(value, 8));
 		}
 	});
-}
-
-function validateRegions(regions) {
-	const ordered = [...regions].sort((left, right) => {
-		return left.start < right.start ? -1 : 1;
-	});
-	for (let index = 1; index < ordered.length; index += 1) {
-		if (ordered[index].start < ordered[index - 1].end) {
-			throw elf64Error(
-				"NATIVE_ANONYMOUS_OVERLAP",
-				`${ordered[index - 1].label}:${ordered[index].label}`
-			);
-		}
-	}
-}
-
-function encode(value, size) {
-	const bytes = new Uint8Array(size);
-	const target = view(bytes);
-	if (size === 4) {
-		target.setUint32(0, Number(BigInt(value) & 0xffffffffn), true);
-	} else {
-		target.setBigUint64(0, BigInt.asUintN(64, BigInt(value)), true);
-	}
-	return bytes;
-}
-
-function view(bytes) {
-	return new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
 }
