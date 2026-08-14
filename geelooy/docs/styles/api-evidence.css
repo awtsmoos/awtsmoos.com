@@ -1,0 +1,74 @@
+/* B"H */
+/** The Awtsmoos lets route evidence remain legible and qualified; every list invites inspection instead of pretending to be a formal schema. */
+.api-evidence-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 12px;
+	margin-top: 18px;
+}
+.api-evidence-block,
+.api-evidence-warning,
+.api-example {
+	border: 1px solid var(--line);
+	border-radius: 12px;
+	background: var(--bg-soft);
+}
+.api-evidence-block {
+	padding: 14px;
+}
+.api-evidence-block h3 {
+	margin: 0 0 8px;
+	font-size: .84rem;
+}
+.api-evidence-block p,
+.api-evidence-block li,
+.api-evidence-warning p,
+.api-example p {
+	color: var(--muted);
+	font-size: .78rem;
+	line-height: 1.5;
+}
+.api-evidence-block ul {
+	margin: 0;
+	padding-left: 18px;
+}
+.api-evidence-block li + li {
+	margin-top: 5px;
+}
+.api-evidence-warning {
+	grid-column: 1 / -1;
+	display: flex;
+	gap: 10px;
+	align-items: start;
+	padding: 13px;
+}
+.api-evidence-warning p {
+	margin: 0;
+}
+.api-example {
+	margin-top: 14px;
+	padding: 16px;
+}
+.api-example h2 {
+	margin: 0 0 9px;
+	font-size: 1rem;
+}
+.api-example pre {
+	max-width: 100%;
+	overflow: auto;
+	padding: 12px;
+	border: 1px solid var(--line);
+	border-radius: 9px;
+	background: var(--surface-strong);
+	font: .75rem/1.5 var(--font-mono);
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+@media (max-width: 640px) {
+	.api-evidence-grid {
+		grid-template-columns: 1fr;
+	}
+	.api-filter-bar {
+		grid-template-columns: 1fr;
+	}
+}
