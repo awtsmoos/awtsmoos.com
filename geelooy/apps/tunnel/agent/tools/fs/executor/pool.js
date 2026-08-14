@@ -7,6 +7,7 @@ const Jobs = require("./pool-jobs.js");
 const Lifecycle = require("./pool-lifecycle.js");
 const Policy = require("./policy.js");
 const State = require("./pool-state.js");
+const Warm = require("./pool-warm.js");
 
 /** Creates a bounded, requester-fair pool of isolated filesystem executors. */
 function createPool(options = {}) {
@@ -32,11 +33,7 @@ function createPool(options = {}) {
 		ensureWorkers();
 		for (const worker of state.workers) {
 			if (worker.busy || !worker.ready) continue;
-			const index = State.eligibleIndex(
-				state,
-				policy.MAX_PER_REQUESTER,
-				worker
-			);
+			const index = State.eligibleIndex(state, policy.MAX_PER_REQUESTER, worker);
 			if (index < 0) continue;
 			Jobs.assign(state, worker, state.queue.splice(index, 1)[0], policy, expire);
 		}
@@ -87,51 +84,16 @@ function createPool(options = {}) {
 	}
 
 	function ensureWorkers(requested) {
-		if (state.spawnTimer) return;
+		if (state.spawnTimer || state.workers.some(worker => !worker.ready)) return;
 		const target = Capacity.wanted(state, policy, requested);
-		while (state.workers.length < target) {
+		if (state.workers.length < target) {
 			Capacity.spawn(state, policy, { bootExpired, complete, exited });
 		}
 	}
 
 	const stats = () => State.stats(state, policy);
-	function warm() {
-		ensureWorkers(policy.MIN_WORKERS);
-		return stats();
-	}
-
-	function warmReady(options = {}) {
-		const minimum = Math.max(
-			1,
-			Math.min(policy.WORKERS, Number(options.minimum || policy.MIN_WORKERS))
-		);
-		const timeoutMs = Math.max(
-			250,
-			Math.min(30000, Number(options.timeoutMs || policy.READY_TIMEOUT_MS))
-		);
-		ensureWorkers(minimum);
-		return new Promise(resolve => {
-			const startedAt = Date.now();
-			function inspect() {
-				const current = stats();
-				if (current.ready >= minimum) {
-					resolve({ ...current, warmReady: true, waitedMs: Date.now() - startedAt });
-					return;
-				}
-				if (Date.now() - startedAt >= timeoutMs || state.stopped) {
-					resolve({
-						...current,
-						warmReady: false,
-						waitedMs: Date.now() - startedAt
-					});
-					return;
-				}
-				setTimeout(inspect, 20);
-			}
-			inspect();
-		});
-	}
-
+	const warm = () => Warm.start(ensureWorkers, stats, policy.MIN_WORKERS);
+	const warmReady = options => Warm.untilReady(ensureWorkers, stats, state, policy, options);
 	return {
 		execute,
 		shutdown: () => Lifecycle.shutdown(state),

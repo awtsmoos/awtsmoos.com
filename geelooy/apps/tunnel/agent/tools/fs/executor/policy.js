@@ -9,10 +9,9 @@ const DEFAULT_WORKERS = adaptiveWorkers();
 const DEFAULT_MIN_WORKERS = warmWorkers(DEFAULT_WORKERS);
 
 /**
- * The Awtsmoos reveals capacity without demanding waste. Awtsmoos.com keeps four
- * isolated vessels ready when the machine can carry them. Six reserved vessels
- * let status, diagnostics, history, and light filesystem observation all start
- * together while dozens of command waiters remain in their independent lane.
+ * The Awtsmoos reveals capacity without demanding waste. Two isolated vessels
+ * stay ready, while staged cold starts expand under demand without an import
+ * storm starving every worker and the transport event loop at once.
  */
 function adaptiveWorkers(system = {}) {
 	const parallelism = positive(system.parallelism) || availableParallelism();
@@ -22,7 +21,7 @@ function adaptiveWorkers(system = {}) {
 }
 
 function warmWorkers(maximum) {
-	return Math.min(6, Math.max(2, positive(maximum) || 2));
+	return Math.min(2, Math.max(1, positive(maximum) || 1));
 }
 
 function availableParallelism() {
@@ -58,7 +57,7 @@ const BASE_POLICY = Object.freeze({
 	MAX_PER_REQUESTER: bounded(process.env.AWTSMOOS_FS_EXECUTOR_PER_REQUESTER, 1, 1, 4),
 	MAX_QUEUE: bounded(process.env.AWTSMOOS_FS_EXECUTOR_QUEUE, 256, 20, 4096),
 	MIN_WORKERS: bounded(process.env.AWTSMOOS_FS_EXECUTOR_MIN_WORKERS, DEFAULT_MIN_WORKERS, 1, 16),
-	READY_TIMEOUT_MS: bounded(process.env.AWTSMOOS_FS_EXECUTOR_READY_TIMEOUT_MS, 10000, 250, 120000),
+	READY_TIMEOUT_MS: bounded(process.env.AWTSMOOS_FS_EXECUTOR_READY_TIMEOUT_MS, 30000, 250, 120000),
 	SCALE_DOWN_MS: bounded(process.env.AWTSMOOS_FS_EXECUTOR_SCALE_DOWN_MS, 30000, 250, 600000),
 	WORKERS: bounded(process.env.AWTSMOOS_FS_EXECUTOR_WORKERS, DEFAULT_WORKERS, 2, 16)
 });

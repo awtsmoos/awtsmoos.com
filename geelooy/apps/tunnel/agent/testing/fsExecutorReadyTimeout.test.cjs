@@ -9,7 +9,7 @@ const Pool = require("../tools/fs/executor/pool.js");
 
 /**
  * @file Proves a child that never becomes ready cannot freeze shared agent work.
- * The Awtsmoos removes the silent vessel and retries with bounded backoff.
+ * The Awtsmoos removes the silent vessel and retries one at a time with backoff.
  */
 async function run() {
 	const pool = Pool.createPool({
@@ -26,9 +26,9 @@ async function run() {
 		pool.warm();
 		await delay(700);
 		const stats = pool.stats();
-		assert.ok(stats.bootFailures >= 2, JSON.stringify(stats));
+		assert.ok(stats.bootFailures >= 1, JSON.stringify(stats));
 		assert.equal(stats.ready, 0);
-		assert.ok(stats.starting <= 2);
+		assert.ok(stats.starting <= 1);
 		console.log(JSON.stringify({
 			ok: true,
 			suite: "fs-executor-ready-timeout",
