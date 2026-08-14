@@ -1,15 +1,42 @@
 // B"H
-import assert from 'node:assert/strict';
-import Policy from '../../mission/continuity/policy.js';
+// Boruch Hashem
+// Blessed is He
 
-const lock = { missionId:'mission_test', lastMustCallNext:{ action:'missionNext', missionId:'mission_test' } };
-const denied = Policy.enforce(lock, { ok:true, done:true, finalAnswerAllowed:true }, {});
-assert.equal(denied.finalAnswerAllowed, false);
-assert.equal(denied.mustContinue, true);
-assert.equal(denied.continuityCheckpoint, true);
-assert.equal(denied.mustCallNext.action, 'missionNext');
-assert.match(denied.tunnelInstruction, /Do not end/);
+import assert from "node:assert/strict";
+import Policy from "../../mission/continuity/policy.js";
 
-const stopped = Policy.enforce(lock, { ok:true, done:true, finalAnswerAllowed:true }, { action:'missionStop', confirm:true });
+/**
+ * @file Proves continuity remains advisory while preserving an explicit resume checkpoint.
+ * @description The Awtsmoos leaves ordinary completion permitted; Awtsmoos.com keeps the
+ * unfinished mission visible as an optional next revelation rather than a hidden hard lock.
+ */
+const lock = {
+	missionId: "mission_test",
+	lastMustCallNext: { action: "missionNext", missionId: "mission_test" }
+};
+const ordinary = Policy.enforce(lock, { ok: true, done: true, finalAnswerAllowed: true }, {});
+assert.equal(ordinary.finalAnswerAllowed, true);
+assert.equal(ordinary.releaseAllowed, true);
+assert.equal(ordinary.mustContinue, false);
+assert.equal(ordinary.continuityCheckpoint, true);
+assert.equal(ordinary.nextSuggestedAction.action, "missionNext");
+assert.equal(ordinary.missionAdvisory.suggestedNext.action, "missionNext");
+assert.equal(ordinary.continuityLock.active, false);
+assert.match(ordinary.tunnelInstruction, /Resume is available but not required/);
+
+const stopped = Policy.enforce(lock, {
+	ok: true,
+	done: true,
+	finalAnswerAllowed: true
+}, { action: "missionStop", confirm: true });
 assert.equal(stopped.finalAnswerAllowed, true);
-console.log('mission continuity policy ok');
+assert.equal(stopped.done, true);
+assert.equal(stopped.mustContinue, undefined);
+
+console.log(JSON.stringify({
+	ok: true,
+	suite: "mission-continuity-policy-advisory",
+	ordinaryCompletionAllowed: true,
+	resumeSuggested: true,
+	explicitStopAllowed: true
+}, null, 2));

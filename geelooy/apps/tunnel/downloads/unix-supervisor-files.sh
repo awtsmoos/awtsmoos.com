@@ -17,6 +17,8 @@ unix-supervisor-guard.sh:awtsmoos-supervisor-guard.sh
 unix-supervisor-health-memory.sh:awtsmoos-supervisor-health-memory.sh
 unix-supervisor-receipt.sh:awtsmoos-supervisor-receipt.sh
 unix-supervisor-health.sh:awtsmoos-supervisor-health.sh
+unix-supervisor-network-state.cjs:awtsmoos-supervisor-network-state.cjs
+unix-supervisor-orphan-executors.cjs:awtsmoos-supervisor-orphan-executors.cjs
 unix-supervisor-recovery.sh:awtsmoos-supervisor-recovery.sh
 unix-supervisor-identity.sh:awtsmoos-supervisor-identity.sh
 unix-supervisor-emergency.sh:awtsmoos-supervisor-emergency.sh

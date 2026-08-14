@@ -1,5 +1,5 @@
 B"H
-1.0.526
+1.0.529
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtector.mjs
@@ -895,6 +895,7 @@ lib/connection-vessel/mailbox-legacy.js
 lib/connection-vessel/mailbox-paths.js
 lib/connection-vessel/mailbox-record-quarantine.js
 lib/connection-vessel/mailbox-store.js
+lib/connection-vessel/mailbox-usage.js
 lib/connection-vessel/mailbox.js
 lib/connection-vessel/parent-consumer-health-values.js
 lib/connection-vessel/parent-consumer-health.js
@@ -1093,6 +1094,7 @@ lib/runtime/response-surface.js
 lib/runtime/response-transport-seal.js
 lib/runtime/response-v8.js
 lib/runtime/runtime-number.js
+lib/runtime/runtime-pressure.js
 lib/runtime/safe-send.js
 lib/runtime/watchdog.js
 lib/runtime/worker-health.js
@@ -1520,6 +1522,8 @@ tools/fs/actionGroups/websiteAgents/runner/seedPendingChildren.js
 tools/fs/actionGroups/websiteAgents/runner/seedRoom.js
 tools/fs/actionGroups/websiteAgents/runner/sleep.js
 tools/fs/actionGroups/websiteAgents/runner/spawn.js
+tools/fs/actionGroups/websiteAgents/runner/spawnAdmission.js
+tools/fs/actionGroups/websiteAgents/runner/spawnFairness.js
 tools/fs/actionGroups/websiteAgents/runner/spawnRequestLimit.js
 tools/fs/actionGroups/websiteAgents/runner/start.js
 tools/fs/actionGroups/websiteAgents/runner/status.js
@@ -1839,9 +1843,11 @@ tools/fs/mission/ledger/paths.js
 tools/fs/mission/ledger/service.js
 tools/fs/mission/ledger/store.js
 tools/fs/mission/lock/config.js
+tools/fs/mission/lock/deferredPersistence.js
 tools/fs/mission/lock/index.js
 tools/fs/mission/lock/lifecycle.js
 tools/fs/mission/lock/nested.js
+tools/fs/mission/lock/persistence.js
 tools/fs/mission/lock/release.js
 tools/fs/mission/lock/store.js
 tools/fs/mission/loopEngine.js
@@ -1894,6 +1900,8 @@ tools/fs/mission/response/summary.js
 tools/fs/mission/roomAgents.js
 tools/fs/mission/roomAgreement.js
 tools/fs/mission/roomBrainstorm.js
+tools/fs/mission/roomClaims.js
+tools/fs/mission/roomClaimState.js
 tools/fs/mission/roomDelegation.js
 tools/fs/mission/roomDiscovery.js
 tools/fs/mission/roomEngine.js
@@ -1913,6 +1921,8 @@ tools/fs/mission/roomRuntime/health.js
 tools/fs/mission/roomRuntime/identity.js
 tools/fs/mission/roomRuntime/queues.js
 tools/fs/mission/roomRuntime/work.js
+tools/fs/mission/roomRuntime/workCandidates.js
+tools/fs/mission/roomRuntime/workPolicy.js
 tools/fs/mission/roomSimulator.js
 tools/fs/mission/roomState.js
 tools/fs/mission/roomState/base.js

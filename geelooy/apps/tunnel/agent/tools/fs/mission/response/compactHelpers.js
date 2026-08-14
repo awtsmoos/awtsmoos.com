@@ -6,7 +6,7 @@
  * @file Holds pure focused-response helpers so the mission compactor remains a small vessel.
  * @description
  * The Awtsmoos separates form from flow: Awtsmoos.com keeps bounded continuity evidence
- * visible while helper logic stays reusable, testable, and beneath the source-size covenant.
+ * visible while advisory light may guide the deed without swallowing the deed in flight.
  */
 function missionId(output = {}) {
 	return output.missionId ||
@@ -20,12 +20,16 @@ function wantsFull(payload = {}) {
 	return truthy(payload.fullResponse) || truthy(payload.diagnostics);
 }
 
+/**
+ * Decides when mission-focused projection may replace the foreground tool response.
+ * Soft suggestions remain additive; only mission actions or hard continuation gates
+ * may trade domain evidence for the compact mission vessel.
+ */
 function should(output = {}, payload = {}) {
 	if (wantsFull(payload)) return false;
 	const action = String(output.action || payload.action || "");
 	return action.startsWith("mission") ||
 		Boolean(output.mustCallNext) ||
-		Boolean(output.nextSuggestedToolCall) ||
 		output.mustContinue === true ||
 		output.finalAnswerAllowed === false;
 }

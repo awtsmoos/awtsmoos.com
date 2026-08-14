@@ -3,9 +3,9 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos renews one canonical child and removes every exact-root duplicate.
-# Awtsmoos.com prefers the recorded or registered PID, terminates every competing
-# launcher, and manages adopted children whenever relay testimony becomes stale.
+# The Awtsmoos keeps one exact-root agent and reaps only its abandoned executor bodies.
+# Awtsmoos.com never kills by a generic process name: every termination is revalidated
+# against this installed root immediately before TERM and again before forced KILL.
 
 list_existing_agents() {
 	LC_ALL=C LANG=C ps axww -o pid= -o command= 2>/dev/null | \
@@ -28,23 +28,22 @@ NODE
 preferred_agent_pid() {
 	local recorded="$(cat "$PID_FILE" 2>/dev/null || true)"
 	local receipt="$(receipt_agent_pid)"
-	if supervisor_agent_command "$recorded"; then
-		printf '%s\n' "$recorded"
-		return 0
-	fi
-	if supervisor_agent_command "$receipt"; then
-		printf '%s\n' "$receipt"
-		return 0
-	fi
+	if supervisor_agent_command "$recorded"; then printf '%s\n' "$recorded"; return 0; fi
+	if supervisor_agent_command "$receipt"; then printf '%s\n' "$receipt"; return 0; fi
 	list_existing_agents | head -n 1
 }
 
+list_orphan_executor_children() {
+	local helper="$ROOT/awtsmoos-supervisor-orphan-executors.cjs"
+	[ -f "$helper" ] || return 0
+	node "$helper" "$ROOT" 2>/dev/null || true
+}
+
 reconcile_agent_processes() {
+	remove_orphan_executor_children
 	local selected="$(preferred_agent_pid)"
 	remove_agent_duplicates "$selected"
-	if supervisor_agent_command "$selected"; then
-		printf '%s\n' "$selected"
-	fi
+	if supervisor_agent_command "$selected"; then printf '%s\n' "$selected"; fi
 }
 
 find_existing_agent() {
@@ -52,13 +51,8 @@ find_existing_agent() {
 }
 
 remove_agent_duplicates() {
-	local selected=""
+	local selected="${1:-$(preferred_agent_pid)}"
 	local pid=""
-	if [ "$#" -gt 0 ]; then
-		selected="$1"
-	else
-		selected="$(preferred_agent_pid)"
-	fi
 	while IFS= read -r pid; do
 		[ -n "$pid" ] || continue
 		[ -n "$selected" ] && [ "$pid" = "$selected" ] && continue
@@ -68,30 +62,49 @@ $(list_existing_agents)
 EOF
 }
 
+remove_orphan_executor_children() {
+	local pid=""
+	while IFS= read -r pid; do
+		[ -n "$pid" ] || continue
+		terminate_executor_pid "$pid"
+	done <<EOF
+$(list_orphan_executor_children)
+EOF
+}
+
 terminate_agent_pid() {
 	local pid="$1"
 	local reason="${2:-managed_agent_stop}"
 	supervisor_agent_command "$pid" || return 0
 	supervisor_log "agent_termination_requested" "pid=$pid reason=$reason"
 	kill "$pid" 2>/dev/null || true
-	for _ in 1 2 3 4 5; do
-		supervisor_alive "$pid" || break
-		sleep 1
-	done
-	if supervisor_alive "$pid"; then
+	for _ in 1 2 3 4 5; do supervisor_alive "$pid" || break; sleep 1; done
+	if supervisor_alive "$pid" && supervisor_agent_command "$pid"; then
 		kill -9 "$pid" 2>/dev/null || true
 	fi
 	supervisor_log "agent_terminated" "pid=$pid reason=$reason"
+}
+
+terminate_executor_pid() {
+	local pid="$1"
+	local worker="$ROOT/tools/fs/executor/worker-child.cjs"
+	supervisor_command_contains "$pid" "$worker" || return 0
+	supervisor_log "orphan_executor_termination_requested" "pid=$pid"
+	kill "$pid" 2>/dev/null || true
+	for _ in 1 2 3 4 5; do supervisor_alive "$pid" || break; sleep 1; done
+	if supervisor_alive "$pid" && supervisor_command_contains "$pid" "$worker"; then
+		kill -9 "$pid" 2>/dev/null || true
+	fi
+	supervisor_log "orphan_executor_terminated" "pid=$pid"
 }
 
 stop_managed_child() {
 	if supervisor_agent_command "${CHILD_PID:-}"; then
 		terminate_agent_pid "$CHILD_PID" "supervisor_managed_stop"
 	fi
-	if [ "${CHILD_OWNED:-0}" = "1" ]; then
-		wait "$CHILD_PID" 2>/dev/null || true
-	fi
+	if [ "${CHILD_OWNED:-0}" = "1" ]; then wait "$CHILD_PID" 2>/dev/null || true; fi
 	CHILD_OWNED=0
+	remove_orphan_executor_children
 }
 
 stop_owned_child() {

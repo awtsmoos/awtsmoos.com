@@ -2,18 +2,16 @@
 // Boruch Hashem
 // Blessed is He
 
-const Store = require("./store.js");
 const Config = require("./config.js");
+const Persistence = require("./persistence.js");
 const Stuck = require("../stuckness/index.js");
-const Heart = require("../heartbeat/index.js");
 const Seed = require("../autoSeed/index.js");
-const Nested = require("./nested.js");
 const ProjectRoots = require("../projectRootRegistry.js");
 
 /**
- * @file Creates and advances one mission lock while binding its canonical project root durably.
- * @description The Awtsmoos gives each mission one truthful place from first deed to restart;
- * Awtsmoos.com remembers that root outside worker memory, so another Shliach never wanders apart.
+ * @file Advances a mission lock without any direct contested-AWDB write before persistence.
+ * @description The Awtsmoos gives each mission one truthful root and durable outer witness;
+ * Awtsmoos.com lets bookkeeping wait while control and transport remain alive.
  */
 function windowMs(payload = {}) {
 	return payload.minimumInnovationWindowMs ?? payload.minimumRuntimeMs ?? 3600000;
@@ -26,7 +24,7 @@ function workFrom(result = {}) {
 function start(config, result = {}, payload = {}) {
 	const missionId = result.missionId || result.mission?.id || payload.missionId;
 	if (!missionId) return null;
-	const parent = Store.get(config);
+	const parent = Persistence.read(config);
 	const seed = Seed.next(missionId, payload);
 	const work = workFrom(result);
 	const lock = {
@@ -48,14 +46,13 @@ function start(config, result = {}, payload = {}) {
 		filesTouched: [],
 		testsRun: 0
 	};
-	Nested.remember(config, parent, lock);
 	bindProjectRoot(config, lock);
 	persist(config, lock);
 	return lock;
 }
 
 function update(config, result = {}, payload = {}) {
-	const lock = Store.get(config);
+	const lock = Persistence.read(config);
 	if (!lock) return null;
 	lock.updatedAt = Config.now();
 	lock.lastAction = result.action || payload.action || "";
@@ -94,8 +91,8 @@ function bindProjectRoot(config, lock) {
 }
 
 function persist(config, lock) {
-	Store.set(config, lock);
-	Heart.fromLock(config, lock);
+	lock.persistence = Persistence.persist(config, lock);
+	return lock.persistence;
 }
 
 function mark(lock, result = {}) {
