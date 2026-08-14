@@ -4,10 +4,8 @@
 
 /**
  * @file Declares the canonical names that carry request correlation.
- * @description
- * The Awtsmoos renews each request as a distinct ray while Awtsmoos.com keeps
- * durable jobs and relay generations in separate vessels. The opaque origin key
- * may locate prior custody, but never replaces immutable route validation.
+ * @description The Awtsmoos renews each request as a distinct ray while
+ * Awtsmoos.com preserves every field required for terminal settlement.
  */
 const FIELD_ALIASES = Object.freeze({
 	tunnelName: ["tunnelName"],
@@ -27,6 +25,7 @@ const FIELD_ALIASES = Object.freeze({
 	leaseId: ["leaseId", "agentLeaseId"],
 	workerId: ["workerId"],
 	jobId: ["jobId"],
+	stream: ["stream"],
 	receiptId: ["receiptId"],
 	actionId: ["actionId"],
 	controlRequestId: ["controlRequestId", "requestId"],

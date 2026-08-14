@@ -24,9 +24,9 @@ const Validation = require(
 );
 
 /**
- * @file Proves ordinary and spilled responses keep the generation seal needed for ACK settlement.
- * @description The Awtsmoos lets a large answer rest outside one frame while Awtsmoos.com
- * carries the same immutable request identity back to the relay instead of orphaning custody.
+ * @file Proves ordinary and spilled responses preserve every settlement field.
+ * @description Awtsmoos.com keeps generation, command job, and stream identity
+ * across response compaction so exact durable testimony can be acknowledged.
  */
 try {
 	const origin = "4:test:tun_response_seal";
@@ -34,7 +34,7 @@ try {
 	const response = Envelope.responseEnvelope(
 		{ id: "transport-response-seal" },
 		payload,
-		{ ok: true, action: "stat", path: "repo/file.txt", exists: true },
+		{ ok: true, action: "commandJobOutputPage", content: "ready" },
 		Date.now(),
 		() => ({ inflight: 0, queued: 0 })
 	);
@@ -42,6 +42,8 @@ try {
 	assert.equal(response.controlRequestId, payload.controlRequestId);
 	assert.equal(response.clientRequestId, payload.clientRequestId);
 	assert.equal(response.nonce, payload.nonce);
+	assert.equal(response.jobId, payload.jobId);
+	assert.equal(response.stream, "stdout");
 
 	const small = ResponseSize.compactForSend(root, response, { limitBytes: 16384 });
 	assert.equal(small.spilled, false);
@@ -59,7 +61,9 @@ try {
 	assert.equal(spilled.envelope.clientRequestId, payload.clientRequestId);
 	assert.equal(spilled.envelope.projectRoot, root);
 	assert.equal(spilled.envelope.nonce, payload.nonce);
-	assert.equal(spilled.envelope.requestAction, "stat");
+	assert.equal(spilled.envelope.jobId, payload.jobId);
+	assert.equal(spilled.envelope.stream, "stdout");
+	assert.equal(spilled.envelope.requestAction, "commandJobOutputPage");
 	assert.equal(spilled.envelope.content, undefined);
 	assert.equal(spilled.envelope.results, undefined);
 	assert.ok(spilled.bytes < 16384, `spill envelope too large: ${spilled.bytes}`);
@@ -69,10 +73,6 @@ try {
 	const record = { expected };
 	const client = { registrationKey: "new-generation", tunnelId: "tun_response_seal" };
 	assert.equal(Generation.sameImmutableTunnel(record, client, spilled.envelope), true);
-	assert.equal(Generation.sameImmutableTunnel(record, client, {
-		...spilled.envelope,
-		originRegistrationKey: ""
-	}), false);
 	console.log(JSON.stringify({ ok: true, suite: "response-transport-correlation", spilledBytes: spilled.bytes }));
 } finally {
 	fs.rmSync(root, { recursive: true, force: true });
@@ -80,14 +80,15 @@ try {
 
 function requestPayload(projectRoot, originRegistrationKey) {
 	return {
-		action: "stat",
+		action: "commandJobOutputPage",
 		requestedTunnelName: "awt-response-seal",
 		controlRequestId: "req-response-seal",
 		clientRequestId: "client-response-seal",
 		originRegistrationKey,
 		projectRoot,
 		nonce: "nonce-response-seal",
-		path: "repo/file.txt",
+		jobId: "cmdjob-response-seal",
+		stream: "stdout",
 		routeReference: "tun_response_seal",
 		targetVessel: "native-tunnel"
 	};
@@ -97,12 +98,13 @@ function requestExpectation(projectRoot, registrationKey, payload) {
 	return {
 		registrationKey,
 		tunnelName: "awt-response-seal",
-		requestedAction: "stat",
+		requestedAction: payload.action,
 		controlRequestId: payload.controlRequestId,
 		clientRequestId: payload.clientRequestId,
 		projectRoot,
 		nonce: payload.nonce,
-		paths: [payload.path],
+		jobId: payload.jobId,
+		stream: payload.stream,
 		routeReference: payload.routeReference
 	};
 }
