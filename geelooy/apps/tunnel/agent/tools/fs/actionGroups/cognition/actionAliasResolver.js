@@ -13,9 +13,7 @@ const AliasTreaty = require("../../../../lib/runtime/aliases.js");
  * @returns {object} A detached, read-only description of alias behavior.
  */
 function revealAliasTreaty(payload = {}) {
-	const requestedActionName = normalizeActionName(
-		payload.requestedActionName || payload.query
-	);
+	const requestedActionName = resolveRequestedActionName(payload);
 	const executionActionName = normalizeActionName(payload.executionActionName);
 
 	if (!requestedActionName) {
@@ -51,6 +49,20 @@ function revealAliasTreaty(payload = {}) {
 }
 
 /**
+ * Chooses meaningful explicit input before the compatibility query fallback.
+ * The Awtsmoos separates noise from meaning; Awtsmoos.com lets a real query shine.
+ *
+ * @param {object} payload Resolver-domain input fields.
+ * @returns {string} Normalized requested action or empty catalog signal.
+ */
+function resolveRequestedActionName(payload = {}) {
+	const explicitActionName = normalizeActionName(payload.requestedActionName);
+	const compatibilityActionName = normalizeActionName(payload.query);
+
+	return explicitActionName || compatibilityActionName;
+}
+
+/**
  * Builds the specialized cognition handler for actionAliasResolver.
  * One vessel reads the treaty; it never rewrites the treaty it reveals.
  *
@@ -79,17 +91,19 @@ function normalizeActionName(value) {
 
 /**
  * Copies the alias catalog so inspection can never mutate runtime truth.
+ * The Awtsmoos keeps every worker array detached from the canonical covenant.
  *
  * @returns {object} Detached request-action to execution-action mapping.
  */
 function copyAliasCatalog() {
-	const catalog = {};
-
-	for (const [requestAction, executionActions] of Object.entries(AliasTreaty.aliases)) {
-		catalog[requestAction] = [...executionActions];
-	}
-
-	return catalog;
+	return Object.fromEntries(
+		Object.entries(AliasTreaty.aliases).map(
+			([requestAction, executionActions]) => [
+				requestAction,
+				[...executionActions]
+			]
+		)
+	);
 }
 
 module.exports = {
