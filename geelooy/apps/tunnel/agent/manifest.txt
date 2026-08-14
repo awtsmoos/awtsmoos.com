@@ -1,5 +1,5 @@
 B"H
-1.0.543
+1.0.544
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtector.mjs
@@ -1052,6 +1052,7 @@ lib/runtime/main-execution-stages.js
 lib/runtime/main-inbound-dispatch.js
 lib/runtime/main-lane-stats.js
 lib/runtime/main-payload.js
+lib/runtime/main-pressure-queue.js
 lib/runtime/main-process.js
 lib/runtime/main-queue-progress.js
 lib/runtime/main-queue-rejection.js
