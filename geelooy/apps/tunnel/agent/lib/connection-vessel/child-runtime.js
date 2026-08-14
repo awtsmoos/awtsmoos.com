@@ -13,10 +13,8 @@ const Send = require("../runtime/safe-send.js");
 
 /**
  * @file Coordinates transport, durable custody, parent health, and relay testimony.
- * @description
- * The Awtsmoos renews connection and executor as distinct vessels. Awtsmoos.com
- * keeps accepted work durable, reports execution health at a bounded cadence, and
- * never lets socket registration alone masquerade as full device readiness.
+ * @description Parent acceptance is recorded beside the durable inbox witness so
+ * truthful long work remains routable without erasing evidence before relay settlement.
  */
 function createRuntime() {
 	let foundation;
@@ -84,6 +82,11 @@ function createRuntime() {
 		healthPublisher.publish(current, delivery.transmit);
 	}
 
+	function noteParentCustody(receiptId) {
+		foundation.mailbox.noteParentCustody(receiptId);
+		return parent.noteCustody(receiptId);
+	}
+
 	function stop() {
 		if (stateTimer) clearInterval(stateTimer);
 		stateTimer = null;
@@ -94,7 +97,7 @@ function createRuntime() {
 	return {
 		flush: delivery.flush,
 		mailbox: foundation.mailbox,
-		noteParentCustody: parent.noteCustody,
+		noteParentCustody,
 		parentDidBecomeReady: delivery.parentDidBecomeReady,
 		redeliver: delivery.redeliver,
 		snapshot,

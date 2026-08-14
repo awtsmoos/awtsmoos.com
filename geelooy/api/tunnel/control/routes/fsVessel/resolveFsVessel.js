@@ -15,10 +15,8 @@ const {
 
 /**
  * @file Resolves filesystem vessels only after account-bound authorization.
- * @description
- * The Awtsmoos creates request, account, proof, grant, and destination each instant.
- * Awtsmoos.com interprets routing hints here while a focused selection vessel owns
- * browser/native liveness and permission checks, preventing caller-selected foreign routes.
+ * @description Exact native routes retain their declared Chrome control even when
+ * a legacy caller labels a Chrome action as browser-tab storage.
  */
 function resolveFsVessel(options = {}) {
 	const {
@@ -49,31 +47,29 @@ function resolveFsVessel(options = {}) {
 			inventory: authorizedInventory
 		});
 	}
-	const device = resolveInventoryDevice(
-		authorizedInventory.devices,
-		reference
-	);
-	if (!device || target && device.vesselType !== target) {
+	const device = resolveInventoryDevice(authorizedInventory.devices, reference);
+	if (!device || incompatibleTarget(device, target, payload)) {
 		return Errors.missing(reference);
 	}
 	return device.vesselType === VESSEL_TYPES.BROWSER
 		? Selection.resolveBrowser(
-			$i,
-			accountId,
-			device,
-			payload,
-			timeoutMs,
-			authorizedInventory
+			$i, accountId, device, payload, timeoutMs, authorizedInventory
 		)
 		: Selection.resolveNative(
-			$i,
-			accountId,
-			device,
-			payload,
-			permission,
-			timeoutMs,
-			authorizedInventory
+			$i, accountId, device, payload, permission, timeoutMs, authorizedInventory
 		);
+}
+
+function incompatibleTarget(device, target, payload = {}) {
+	if (!target || device.vesselType === target) return false;
+	return !nativeBrowserCompatibility(device, target, payload);
+}
+
+function nativeBrowserCompatibility(device, target, payload = {}) {
+	return target === VESSEL_TYPES.BROWSER &&
+		device.vesselType === VESSEL_TYPES.NATIVE &&
+		device.capabilities?.browserControl === true &&
+		/^(chrome|browser)/i.test(String(payload.action || ""));
 }
 
 /** Interprets only routing hints, never account identity. */
@@ -84,18 +80,16 @@ function requestedVesselType(tunnelName, payload = {}) {
 		payload.fs ||
 		payload.routeHints?.targetVessel
 	);
-	if (explicit) {
-		return explicit;
-	}
-	if (isVirtualOsTunnelName(tunnelName)) {
-		return VESSEL_TYPES.VIRTUAL_OS;
-	}
+	if (explicit) return explicit;
+	if (isVirtualOsTunnelName(tunnelName)) return VESSEL_TYPES.VIRTUAL_OS;
 	return isAutoTunnelName(tunnelName) && hintsWantVirtualOs(payload)
 		? VESSEL_TYPES.VIRTUAL_OS
 		: "";
 }
 
 module.exports = {
+	incompatibleTarget,
+	nativeBrowserCompatibility,
 	requestedVesselType,
 	resolveFsVessel,
 	wantsVirtualOs(name, payload) {

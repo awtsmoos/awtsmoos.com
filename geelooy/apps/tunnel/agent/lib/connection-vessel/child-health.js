@@ -4,10 +4,9 @@
 
 /**
  * @file Composes transport, execution, and mailbox testimony without false alarms.
- * @description The Awtsmoos lets durable age remain strict while Awtsmoos.com also
- * remembers that accepted deeds may still be faithfully executing. A merely degraded
- * inbox may borrow green routing health only while every receipt is consumer-started;
- * stalled, full, orphaned, or outbound testimony never receives that grace.
+ * @description Degraded inbox custody remains routable only when every witness is
+ * parent-owned or actively executing. Stalled, full, outbound, and orphan testimony
+ * never receives grace.
  */
 function compose(state = {}, parent = {}, mailbox = {}) {
 	const transportHealthy = state.activeWs?.opened === true &&
@@ -28,7 +27,6 @@ function compose(state = {}, parent = {}, mailbox = {}) {
 	};
 }
 
-/** Converts watchdog testimony into a stable public execution-health shape. */
 function executionHealth(parent = {}) {
 	const execution = parent.execution || {};
 	const healthy = parent.healthy !== false && execution.healthy !== false;
@@ -44,7 +42,6 @@ function executionHealth(parent = {}) {
 	};
 }
 
-/** Projects bounded mailbox facts while preserving raw lane state. */
 function mailboxHealth(mailbox = {}) {
 	const health = mailbox.health || {};
 	const inbox = mailbox.inbox || {};
@@ -59,13 +56,13 @@ function mailboxHealth(mailbox = {}) {
 		outboxState: text(outbox.state || "healthy"),
 		activeExecutionGrace: false,
 		inboxCount: nonnegative(inbox.count),
+		inboxParentCustodyCount: nonnegative(inbox.parentCustodyCount),
 		inboxOldestAgeMs: nonnegative(inbox.oldestAgeMs),
 		outboxCount: nonnegative(outbox.count),
 		outboxOldestAgeMs: nonnegative(outbox.oldestAgeMs)
 	};
 }
 
-/** Allows only fully consumer-owned degraded inbox custody to remain routable. */
 function applyActiveExecutionGrace(mailbox = {}, execution = {}) {
 	if (!canGrace(mailbox, execution)) return mailbox;
 	return {
@@ -79,6 +76,9 @@ function applyActiveExecutionGrace(mailbox = {}, execution = {}) {
 function canGrace(mailbox, execution) {
 	const stages = execution.stages || {};
 	const inboxCount = nonnegative(mailbox.inboxCount);
+	const activeOwned = nonnegative(stages.active) >= inboxCount &&
+		nonnegative(stages.consumerStarted) >= inboxCount;
+	const parentOwned = nonnegative(mailbox.inboxParentCustodyCount) >= inboxCount;
 	return mailbox.rawState === "degraded" &&
 		mailbox.inboxState === "degraded" &&
 		mailbox.outboxState === "healthy" &&
@@ -87,8 +87,7 @@ function canGrace(mailbox, execution) {
 		execution.consumerStalled !== true &&
 		execution.backpressured !== true &&
 		execution.repairing !== true &&
-		nonnegative(stages.active) >= inboxCount &&
-		nonnegative(stages.consumerStarted) >= inboxCount;
+		(activeOwned || parentOwned);
 }
 
 function overallState(transportHealthy, execution, mailbox) {

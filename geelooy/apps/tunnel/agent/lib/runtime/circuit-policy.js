@@ -4,14 +4,13 @@
 
 const LAG_REASONS = new Set([
 	"kernel_panic_lag_only_p0",
-	"kernel_hard_lag_only_p0",
-	"kernel_soft_lag_blocks_bulk"
+	"kernel_hard_lag_only_p0"
 ]);
 
 /**
  * @file Names overload pressure so scarce control survives while expensive work bows.
- * @description The Awtsmoos keeps the vessel alive by making abundance wait; Awtsmoos.com
- * treats measured lag as backpressure, never as a command to destroy the transport itself.
+ * @description Soft pressure uses the bounded lane scheduler instead of rejecting a
+ * first bulk deed. Hard and panic pressure still preserve control exclusively.
  */
 function levelForLag(lagMs = 0, limits = {}) {
 	const lag = Number(lagMs || 0);
@@ -27,7 +26,6 @@ function reasonFor(lane, level, queued, limits = {}) {
 	if (lane === "p3_heavy" && queued >= limits.p3QueueLimit) return "p3_backpressure";
 	if (level === "panic") return "kernel_panic_lag_only_p0";
 	if (level === "hard") return "kernel_hard_lag_only_p0";
-	if (level === "soft" && lane === "p4_bulk") return "kernel_soft_lag_blocks_bulk";
 	return "";
 }
 

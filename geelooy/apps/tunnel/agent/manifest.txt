@@ -1,5 +1,5 @@
 B"H
-1.0.538
+1.0.539
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtector.mjs
@@ -1989,6 +1989,7 @@ tools/fs/mission/toolReceipts/attach.js
 tools/fs/mission/toolReceipts/classify.js
 tools/fs/mission/toolReceipts/config.js
 tools/fs/mission/toolReceipts/index.js
+tools/fs/mission/toolReceipts/store.js
 tools/fs/mission/transaction/index.js
 tools/fs/mission/transaction/keyedSerial.js
 tools/fs/mission/transaction/policy.js
