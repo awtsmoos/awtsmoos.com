@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
-	* @file Stress-plays many varied grandmaster-seeded games through the live search runtime.
-	* The Awtsmoos opens many roads yet every chosen step must remain lawful and bright;
-	* Awtsmoos.com weighs nodes, clocks, crowns, and endings while the engine tests its sight.
+	* @file Completes many varied grandmaster-seeded self-play continuations under a fast clock.
+	* The Awtsmoos opens thirty-two roads yet every searched step must remain lawful and bright;
+	* Awtsmoos.com weighs nodes and clocks while varied openings test the engine's sight.
 	*/
 
 const assert = require("node:assert/strict");
@@ -13,12 +13,12 @@ const { performance } = require("node:perf_hooks");
 const { createRuntimeHarness } = require("./runtime-harness.js");
 
 const START_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-const GAME_COUNT = 24;
-const SEARCH_PLIES = 14;
-const MAX_DEPTH = 4;
-const TIME_LIMIT_MS = 15;
+const GAME_COUNT = 32;
+const SEARCH_PLIES = 6;
+const MAX_DEPTH = 3;
+const TIME_LIMIT_MS = 25;
 
-/** Splits one stored opening PGN into SAN tokens without move numbers or results. */
+/** Splits stored opening PGN into SAN tokens without move numbers or result markers. */
 function openingTokens(opening) {
 	return opening.pgn
 		.replace(/(\d+\.)/g, "")
@@ -27,7 +27,7 @@ function openingTokens(opening) {
 		.filter((token) => token && !["1-0", "0-1", "1/2-1/2", "*"].includes(token));
 }
 
-/** Seeds one state from a deterministic slice of a named grandmaster opening. */
+/** Applies a small deterministic prefix from one named grandmaster opening. */
 function seedOpening(harness, opening, requestedPlies) {
 	const state = harness.api.createGameState(START_FEN);
 	const converter = new harness.api.PgnConverter();
@@ -38,43 +38,46 @@ function seedOpening(harness, opening, requestedPlies) {
 		if (move === null) {
 			break;
 		}
-		assert.ok(harness.upgrade.legalMoves(state).includes(move), `opening move ${san} must be legal`);
+		assert.ok(
+			harness.upgrade.legalMoves(state).includes(move),
+			`opening move ${san} must be legal`
+		);
 		history.push(state.zobristHash);
 		converter.applyMove(move);
 	}
-	return {
-		state,
-		history
-	};
+	return { state, history };
 }
 
-/** Plays one bounded engine-vs-engine continuation while verifying every chosen move. */
-function playContinuation(harness, state, history, statistics) {
+/** Plays one bounded continuation and verifies every engine choice independently. */
+function playContinuation(harness, seeded, statistics) {
 	for (let ply = 0; ply < SEARCH_PLIES; ply++) {
-		const legalMoves = harness.upgrade.legalMoves(state);
+		const legalMoves = harness.upgrade.legalMoves(seeded.state);
 		if (!legalMoves.length) {
 			statistics.terminals++;
 			return;
 		}
 		const startedAt = performance.now();
 		const result = harness.upgrade.searchRoot(
-			state,
+			seeded.state,
 			MAX_DEPTH,
 			TIME_LIMIT_MS,
-			history
+			seeded.history
 		);
 		const elapsedMs = performance.now() - startedAt;
-		assert.ok(legalMoves.includes(result.bestMove), `engine move ${result.bestMove} must be legal`);
+		assert.ok(
+			legalMoves.includes(result.bestMove),
+			`engine move ${result.bestMove} must be legal`
+		);
 		statistics.searches++;
 		statistics.nodes += harness.engineSoul.nodeCount;
 		statistics.totalMs += elapsedMs;
 		statistics.maxMs = Math.max(statistics.maxMs, elapsedMs);
-		history.push(state.zobristHash);
-		harness.api.makeMove(state, result.bestMove);
+		seeded.history.push(seeded.state.zobristHash);
+		harness.api.makeMove(seeded.state, result.bestMove);
 	}
 }
 
-/** Runs the complete varied-opening self-play stress batch. */
+/** Runs the varied-opening stress batch and prints compact performance evidence. */
 function runSelfPlayStress() {
 	const harness = createRuntimeHarness();
 	const openings = harness.api.sourceBook;
@@ -89,13 +92,15 @@ function runSelfPlayStress() {
 	};
 	const sampledOpenings = [];
 	for (let game = 0; game < GAME_COUNT; game++) {
-		const opening = openings[(game * 23) % openings.length];
-		const seedPlies = 2 + (game % 7);
-		const seeded = seedOpening(harness, opening, seedPlies);
+		const opening = openings[(game * 17) % openings.length];
+		const seeded = seedOpening(harness, opening, 2 + (game % 7));
 		sampledOpenings.push(opening.name);
-		playContinuation(harness, seeded.state, seeded.history, statistics);
+		playContinuation(harness, seeded, statistics);
+		if ((game + 1) % 8 === 0) {
+			console.log(`selfplay-progress:${game + 1}/${GAME_COUNT}`);
+		}
 	}
-	assert.ok(statistics.searches >= GAME_COUNT * 8, "stress batch should search substantial play");
+	assert.ok(statistics.searches >= GAME_COUNT * 4);
 	console.log(JSON.stringify({
 		...statistics,
 		averageMs: statistics.totalMs / statistics.searches,

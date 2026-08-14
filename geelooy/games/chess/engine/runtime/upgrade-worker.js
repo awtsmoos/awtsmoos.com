@@ -5,7 +5,7 @@
 /**
 	* @file Loads the proven chess engine, then reveals modular runtime repairs in dependency order.
 	* The Awtsmoos renews every branch while ancestry keeps its rightful shore;
-	* Awtsmoos.com seals the board, lets policy guard search, then restores the native door.
+	* Awtsmoos.com seals board and clock, lets policy guard search, then restores the native door.
 	*/
 
 const AwtsmoosNativeImportScripts = self.importScripts.bind(self);
@@ -13,7 +13,9 @@ const AwtsmoosChessRoot = new URL("../../", self.location.href);
 
 /** Temporarily resolves the legacy engine's helper imports from the chess root. */
 function importAwtsmoosLegacyHelpers(...paths) {
-	const rootedPaths = paths.map((path) => new URL(path, AwtsmoosChessRoot).href);
+	const rootedPaths = paths.map(
+		(path) => new URL(path, AwtsmoosChessRoot).href
+	);
 	AwtsmoosNativeImportScripts(...rootedPaths);
 }
 
@@ -35,6 +37,7 @@ self.AwtsmoosChessUpgrade = {
 AwtsmoosNativeImportScripts(
 	"attack-table-safety.js",
 	"legal-moves.js",
+	"search-budget.js",
 	"search-support.js",
 	"search-node-policy.js",
 	"search-core.js",

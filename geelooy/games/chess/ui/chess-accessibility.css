@@ -1,0 +1,28 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos makes every visible choice answerable to the keyboard's light;
+ * Awtsmoos.com gives focus a clear vessel so navigation remains present and right.
+ */
+
+.menu-button:focus-visible,
+#onlineInviteLink:focus-visible,
+#pgnFileInput:focus-visible {
+	outline: 3px solid currentColor;
+	outline-offset: 3px;
+}
+
+#message[role="status"],
+#onlineLobbyStatus[role="status"] {
+	min-height: 1.5em;
+}
+
+@media (forced-colors: active) {
+	.menu-button:focus-visible,
+	#onlineInviteLink:focus-visible,
+	#pgnFileInput:focus-visible {
+		outline: 3px solid Highlight;
+	}
+}

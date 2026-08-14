@@ -11,6 +11,7 @@
 	<link rel="stylesheet" href="style.css">
 	<link rel="stylesheet" href="ui/chess-polish.css">
 	<link rel="stylesheet" href="ui/chess-mobile.css">
+	<link rel="stylesheet" href="ui/chess-accessibility.css">
 	<link rel="stylesheet" href="online/online.css">
 	<link rel="stylesheet" href="social/panel.css">
 	<link rel="stylesheet" href="social/menu.css">
@@ -19,7 +20,7 @@
 	<div id="bh-fuse">B"H</div>
 
 	<div id="loadingScreen" class="menu" style="display: flex;">
-		<h2 id="loadingText">Loading Engine... 0%</h2>
+		<h2 id="loadingText" role="status" aria-live="polite" aria-atomic="true">Loading Engine... 0%</h2>
 		<div id="progressBar"><div id="progressBarFill"></div></div>
 	</div>
 
@@ -37,7 +38,7 @@
 
 	<div id="onlineLobby" class="menu">
 		<h2>Online Chess</h2>
-		<p id="onlineLobbyStatus">Preparing your room…</p>
+		<p id="onlineLobbyStatus" role="status" aria-live="polite" aria-atomic="true">Preparing your room…</p>
 		<div id="onlineInvitePanel" class="hidden">
 			<label id="onlineInviteLabel" for="onlineInviteLink">Player invitation link</label>
 			<div id="onlineInviteRow">
@@ -64,12 +65,12 @@
 				<canvas id="chessCanvas"></canvas>
 			</div>
 		</div>
-		<div id="message"></div>
+		<div id="message" role="status" aria-live="polite" aria-atomic="true"></div>
 		<div class="captured-pieces-container">
 			<canvas id="capturedByWhiteCanvas" height="90" width="500"></canvas>
 		</div>
 		<div id="gameOverOverlay" class="hidden">
-			<div id="gameOverText"></div>
+			<div id="gameOverText" role="status" aria-live="assertive" aria-atomic="true"></div>
 			<div>
 				<button id="replayButton" class="menu-button">Main Menu</button>
 				<button id="downloadButton" class="menu-button">Download PGN</button>

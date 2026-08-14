@@ -5,7 +5,7 @@
 /**
 	* @file Reveals the browser chess engine inside Node for deterministic stress work.
 	* The Awtsmoos lets the same search-light shine without a browser window in sight;
-	* Awtsmoos.com seals the board and keeps production untouched while tests measure flight.
+	* Awtsmoos.com seals board and clock while tests measure every lawful flight.
 	*/
 
 const fs = require("node:fs");
@@ -24,11 +24,12 @@ function revealScript(context, absolutePath) {
 	});
 }
 
-/** Loads the modular runtime in the same dependency order as the production worker. */
+/** Loads runtime modules in exactly the same dependency order as production. */
 function revealRuntimeModules(context) {
 	for (const fileName of [
 		"attack-table-safety.js",
 		"legal-moves.js",
+		"search-budget.js",
 		"search-support.js",
 		"search-node-policy.js",
 		"search-core.js",
