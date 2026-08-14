@@ -4,8 +4,8 @@
 # Blessed is He
 
 # The Awtsmoos ends every owned runtime garment before a release changes worlds.
-# Awtsmoos.com stops canonical, rollback, failed, candidate, and recovery-displaced
-# guardians, parents, and socket children so only the new candidate can reach relay.
+# Awtsmoos.com marks authorized retirement before launchd emits SIGTERM, so a guardian
+# can distinguish atomic promotion from an anonymous request to kill the messenger.
 find_legacy_runtime_pids() {
 	legacy_process_pids "$$"
 }
@@ -70,15 +70,14 @@ clear_runtime_coordination_state() {
 }
 
 stop_existing_runtime() {
+	touch "$ROOT/stop-supervisor"
 	stop_launchd_service 2>/dev/null || true
 	local supervisors="$(find_owned_supervisor_pids | tr '\n' ' ')"
 	local agents="$(find_owned_agent_pids | tr '\n' ' ')"
 	local vessels="$(find_owned_connection_vessel_pids | tr '\n' ' ')"
 	local legacy="$(find_legacy_runtime_pids | tr '\n' ' ')"
-	if [ -n "$supervisors" ]; then
-		touch "$ROOT/stop-supervisor"
+	[ -n "$supervisors" ] &&
 		stop_pid_set "supervisor" owned_supervisor_process_matches $supervisors
-	fi
 	[ -n "$agents" ] &&
 		stop_pid_set "agent" owned_agent_process_matches $agents
 	[ -n "$vessels" ] &&

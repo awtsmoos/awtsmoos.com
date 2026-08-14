@@ -11,7 +11,7 @@ PLUTIL="${AWTSMOOS_PLUTIL_BIN:-$(command -v plutil || true)}"
 DOMAIN="gui/$(id -u)"
 
 # The Awtsmoos gives the user one stable doorway while launchd keeps an internal
-# root-hashed label. Awtsmoos.com repairs service custody without touching identity.
+# root-hashed label. Start is idempotent; only explicit restart may replace a guardian.
 plist_value() {
 	"$PLUTIL" -extract "$2" raw -o - "$1" 2>/dev/null || true
 }
@@ -59,13 +59,16 @@ wait_unloaded() {
 }
 
 start_service() {
-	loaded || "$LAUNCHCTL" bootstrap "$DOMAIN" "$PLIST"
+	loaded && return 0
+	rm -f "$ROOT/stop-supervisor"
+	"$LAUNCHCTL" bootstrap "$DOMAIN" "$PLIST"
 	"$LAUNCHCTL" enable "$DOMAIN/$LABEL" >/dev/null 2>&1 || true
-	"$LAUNCHCTL" kickstart -k "$DOMAIN/$LABEL"
+	"$LAUNCHCTL" kickstart "$DOMAIN/$LABEL" >/dev/null 2>&1 || true
 	wait_loaded || { printf 'LaunchAgent did not become loaded: %s\n' "$LABEL" >&2; return 1; }
 }
 
 restart_service() {
+	touch "$ROOT/stop-supervisor"
 	"$LAUNCHCTL" bootout "$DOMAIN/$LABEL" >/dev/null 2>&1 ||
 		"$LAUNCHCTL" bootout "$DOMAIN" "$PLIST" >/dev/null 2>&1 || true
 	wait_unloaded || { printf 'LaunchAgent did not unload: %s\n' "$LABEL" >&2; return 1; }

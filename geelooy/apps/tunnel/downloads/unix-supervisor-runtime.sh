@@ -4,8 +4,8 @@
 # Blessed is He
 
 # The Awtsmoos renews one supervisor log, one canonical child, and one exit record.
-# Awtsmoos.com adopts a racing exact-root child without imposing a stale activation
-# garment, then restores the launchd activation before creating a supervised body.
+# Awtsmoos.com refuses anonymous termination while installer/service transitions carry
+# the private stop marker before asking the guardian to release its living child.
 supervisor_log() {
 	local event="$1"
 	local detail="${2:-}"
@@ -31,6 +31,13 @@ supervisor_agent_command() {
 }
 
 finish_supervisor() {
+	if [ ! -f "$STOP_FILE" ]; then
+		supervisor_log "unmarked_supervisor_stop_ignored" \
+			"pid=$$ childPid=${CHILD_PID:-missing}"
+		return 0
+	fi
+	supervisor_log "marked_supervisor_stop_accepted" \
+		"pid=$$ childPid=${CHILD_PID:-missing}"
 	stop_managed_child
 	stop_emergency_runtime 2>/dev/null || true
 	cleanup_supervisor
