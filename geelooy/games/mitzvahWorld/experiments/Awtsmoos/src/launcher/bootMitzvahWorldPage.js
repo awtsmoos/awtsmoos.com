@@ -22,7 +22,7 @@ const HOST_IDS = Object.freeze({
 	jumpHost: 'jump',
 	npcHost: 'npcTarget'
 });
-const LAUNCHER_URL = './MitzvahWorldLauncher.js?v=20260814-direct-audio-01';
+const LAUNCHER_URL = './MitzvahWorldLauncher.js?v=20260814-direct-audio-02';
 const FAILURE_LISTENER_KEY = 'AwtsmoosMitzvahWorldFailureListeners';
 
 /** Ensures all imports converge on one retryable production boot promise. */

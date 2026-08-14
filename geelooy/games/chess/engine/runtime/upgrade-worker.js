@@ -5,7 +5,7 @@
 /**
 	* @file Loads the proven chess engine, then reveals modular runtime repairs in dependency order.
 	* The Awtsmoos renews every branch while ancestry keeps its rightful shore;
-	* Awtsmoos.com lets policy guard the search, then restores the native door.
+	* Awtsmoos.com seals the board, lets policy guard search, then restores the native door.
 	*/
 
 const AwtsmoosNativeImportScripts = self.importScripts.bind(self);
@@ -33,6 +33,7 @@ self.AwtsmoosChessUpgrade = {
 };
 
 AwtsmoosNativeImportScripts(
+	"attack-table-safety.js",
 	"legal-moves.js",
 	"search-support.js",
 	"search-node-policy.js",

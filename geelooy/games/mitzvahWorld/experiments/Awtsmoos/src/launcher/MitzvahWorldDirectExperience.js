@@ -10,7 +10,7 @@
  */
 
 const PRESENTATION_URL = './MitzvahWorldGameplayPresentation.js?v=20260814-direct-audio-01';
-const AUDIO_URL = '../app/MinimalMeadowDirectWorldAudio.js?v=20260814-direct-audio-01';
+const AUDIO_URL = '../app/MinimalMeadowDirectWorldAudio.js?v=20260814-direct-audio-02';
 
 export async function startMitzvahWorldDirectExperience(
 	diagnostics,

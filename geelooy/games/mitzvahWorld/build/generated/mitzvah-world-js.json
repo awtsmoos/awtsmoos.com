@@ -6,22 +6,22 @@
 	"modules": [],
 	"optionalModulesBundled": [],
 	"outputBytes": 4532,
-	"outputHash": "adc7cb29ad6650da3b6a3680360e6a6c132ca5fdc2ae232734a9968b5c4de148",
+	"outputHash": "94996c32125c91d17310a7c396096ee314288ccd653fc2516934bfc65333b2ed",
 	"representations": {
 		"brotli": {
-			"bytes": 1280,
+			"bytes": 1282,
 			"encoding": "br",
-			"sha256": "18e07d141e57e8769aec900ccbd0556b3a5942cbca17b351a9478dca1a8219dc"
+			"sha256": "304e2ccf7dd97270d21e1e33c084f04bef1de255ae7206122040d63a54d44ee6"
 		},
 		"gzip": {
 			"bytes": 1540,
 			"encoding": "gzip",
-			"sha256": "301723dfa5bd4ab9571b03ddba94f85b6dde3f4212990d00f1e9e289385acf30"
+			"sha256": "ef753f6f5b22de4f5b2ceeaa48790b20f1416a1b58e6bb1e4b87373289852a27"
 		},
 		"identity": {
 			"bytes": 4532,
 			"encoding": "identity",
-			"sha256": "adc7cb29ad6650da3b6a3680360e6a6c132ca5fdc2ae232734a9968b5c4de148"
+			"sha256": "94996c32125c91d17310a7c396096ee314288ccd653fc2516934bfc65333b2ed"
 		}
 	},
 	"sourceMap": false

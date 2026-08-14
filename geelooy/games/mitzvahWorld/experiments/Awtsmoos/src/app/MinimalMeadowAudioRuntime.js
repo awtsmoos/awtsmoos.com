@@ -51,8 +51,8 @@ export class MinimalMeadowAudioRuntime {
 		};
 		environment.addEventListener?.('pointerdown', this.unlock, { passive: true });
 		environment.addEventListener?.('keydown', this.unlock);
+		environment.addEventListener?.('click', this.unlock);
 	}
-
 	async unlockAudio() {
 		const running = await resumeMinimalMeadowAudioPlayback(this);
 		if (!running) {
@@ -104,8 +104,9 @@ export class MinimalMeadowAudioRuntime {
 	removeUnlockListeners() {
 		this.environment.removeEventListener?.('pointerdown', this.unlock);
 		this.environment.removeEventListener?.('keydown', this.unlock);
+		this.environment.removeEventListener?.('click', this.unlock);
 	}
-
+	
 	destroy() {
 		for (const unsubscribe of this.unsubscribers) {
 			unsubscribe();

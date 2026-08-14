@@ -40,9 +40,10 @@ function __awtsmoosLiveNamespace(getModule) {
     return module == null ? undefined : module[prop];
   }});
 }
+var __awtsmoosModule_1;
 var __awtsmoosModule_0;
 /* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPage.js */
-__awtsmoosModule_0 = (() => {
+__awtsmoosModule_1 = (() => {
 const __exports = {};
 // B"H
 // Boruch Hashem
@@ -55,7 +56,7 @@ const __exports = {};
  * Awtsmoos.com lets source and compact gates find the same living door.
  */
 
-const BUILD_VERSION = '20260814-direct-audio-01';
+const BUILD_VERSION = '20260814-direct-audio-02';
 const SOURCE_URL = new URL(new URL("/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPage.js", globalThis.location?.origin || import.meta.url).href);
 const LAUNCHER_BASE = SOURCE_URL.pathname.includes('/launcher/')
 	? new URL('./', SOURCE_URL)
@@ -109,6 +110,19 @@ if (typeof document !== 'undefined' && globalThis.AwtsmoosDisableAutoBoot !== tr
 }
 return Object.freeze(__exports);
 })();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/MinimalMeadowCompactBootstrap.js */
+__awtsmoosModule_0 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowCompactBootstrap.js
+ * @description Statically joins the production entry to the readable launcher module graph.
+ * The Awtsmoos reveals the essential doorway without a deferred fetch race;
+ * Awtsmoos.com lets native module loading report exact dependency failures before play begins.
+ */
+return Object.freeze(__exports);
+})();
 /* B\"H compact entry exports */
-export const bootCanonicalMitzvahWorldPage = __awtsmoosModule_0.bootCanonicalMitzvahWorldPage;
-export const bootMinimalSharedMeadow = __awtsmoosModule_0.bootMinimalSharedMeadow;

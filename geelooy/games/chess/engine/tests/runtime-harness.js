@@ -5,7 +5,7 @@
 /**
 	* @file Reveals the browser chess engine inside Node for deterministic stress work.
 	* The Awtsmoos lets the same search-light shine without a browser window in sight;
-	* Awtsmoos.com keeps production untouched while tests measure every legal flight.
+	* Awtsmoos.com seals the board and keeps production untouched while tests measure flight.
 	*/
 
 const fs = require("node:fs");
@@ -22,6 +22,20 @@ function revealScript(context, absolutePath) {
 	vm.runInContext(source, context, {
 		filename: absolutePath
 	});
+}
+
+/** Loads the modular runtime in the same dependency order as the production worker. */
+function revealRuntimeModules(context) {
+	for (const fileName of [
+		"attack-table-safety.js",
+		"legal-moves.js",
+		"search-support.js",
+		"search-node-policy.js",
+		"search-core.js",
+		"search-root.js"
+	]) {
+		revealScript(context, path.join(RUNTIME_ROOT, fileName));
+	}
 }
 
 /** Creates one fully initialized engine context without building opening books. */
@@ -44,18 +58,11 @@ function createRuntimeHarness() {
 
 	revealScript(context, path.join(CHESS_ROOT, "awtsmoos_chess_engine.js"));
 	vm.runInContext(
-		"initializeAll(); self.AwtsmoosChessUpgrade = { legacyHandler: self.onmessage.bind(self) };",
+		"self.AwtsmoosChessUpgrade = { legacyHandler: self.onmessage.bind(self) };",
 		context
 	);
-	for (const fileName of [
-		"legal-moves.js",
-		"search-support.js",
-		"search-node-policy.js",
-		"search-core.js",
-		"search-root.js"
-	]) {
-		revealScript(context, path.join(RUNTIME_ROOT, fileName));
-	}
+	revealRuntimeModules(context);
+	vm.runInContext("initializeAll();", context);
 	vm.runInContext(
 		`self.AwtsmoosHarnessApi = {
 			createGameState,

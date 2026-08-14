@@ -56,9 +56,19 @@
 				"previous": "hidden"
 			},
 			{
-				"key": "root|#mitzvah-world-root, #mitzvah-world-root|background",
+				"key": "root|#mitzvah-world-root|overflow",
+				"next": "hidden",
+				"previous": "clip"
+			},
+			{
+				"key": "root|#mitzvah-world-root|background",
 				"next": "#06100a",
-				"previous": "#173d2b"
+				"previous": "#07140b"
+			},
+			{
+				"key": "root|#mitzvah-world-root|color",
+				"next": "var(--Awtsmoos-text)",
+				"previous": "#f4ffff"
 			},
 			{
 				"key": "root|#mitzvah-world-root #jump|right",
@@ -69,36 +79,6 @@
 				"key": "root|#mitzvah-world-root #jump|bottom",
 				"next": "max(88px, calc(env(safe-area-inset-bottom) + 76px))",
 				"previous": "4px"
-			},
-			{
-				"key": "root|#mitzvah-world-root #jump|width",
-				"next": "58px",
-				"previous": "76px"
-			},
-			{
-				"key": "root|#mitzvah-world-root #jump|height",
-				"next": "58px",
-				"previous": "76px"
-			},
-			{
-				"key": "root|#mitzvah-world-root .Awtsmoos-jump-button|border",
-				"next": "1px solid rgba(255, 209, 102, 0.78)",
-				"previous": "2px solid rgba(255, 219, 111, .62)"
-			},
-			{
-				"key": "root|#mitzvah-world-root .Awtsmoos-jump-button|background",
-				"next": "rgba(37, 27, 8, 0.88)",
-				"previous": "rgba(58, 37, 11, .76)"
-			},
-			{
-				"key": "root|#mitzvah-world-root .Awtsmoos-jump-button|color",
-				"next": "#fff7d6",
-				"previous": "#fff2b3"
-			},
-			{
-				"key": "root|#mitzvah-world-root .Awtsmoos-jump-button|font-size",
-				"next": "23px",
-				"previous": "30px"
 			}
 		],
 		"zIndexConflicts": []
@@ -141,27 +121,27 @@
 		"styles/source/imports-001.css",
 		"styles/source/mitzvah-world.css"
 	],
-	"inputBytes": 66910,
-	"outputBytes": 50217,
+	"inputBytes": 66765,
+	"outputBytes": 50012,
 	"stateCoverage": {
 		"missing": [],
 		"ready": true
 	},
 	"representations": {
 		"brotli": {
-			"bytes": 8196,
+			"bytes": 8161,
 			"encoding": "br",
-			"sha256": "8d5b7016742686c078aa3decdb8f113333b7134da8b9db7ed0b7f26d43a21b29"
+			"sha256": "be6c39b8a35703b2e122e31fd4a4e13645765d0817f18ef0d691ce9c64065ba4"
 		},
 		"gzip": {
-			"bytes": 9454,
+			"bytes": 9413,
 			"encoding": "gzip",
-			"sha256": "c11b9fd36d028f2f98f03d52d18865743becf189c0c7052b280032775a4a0467"
+			"sha256": "e339e43c5689026073ab19ca6f1b38399ad4d6b340a2497cb3c7b63648f60690"
 		},
 		"identity": {
-			"bytes": 50218,
+			"bytes": 50013,
 			"encoding": "identity",
-			"sha256": "06decac70cc3423818c5ec7eecb2379e4c608fe4ef4d8f595c04d5be98c61496"
+			"sha256": "d35d95828a514a037aa19504308fae1c7abdb2253712470db78535dd0104c9b6"
 		}
 	}
 }

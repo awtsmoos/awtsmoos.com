@@ -9,7 +9,7 @@
  * adds no parallel engine, duplicates no panel, and releases every finite node when ends its time.
  */
 
-import { MinimalMeadowAudioRuntime } from './MinimalMeadowAudioRuntime.js';
+import { MinimalMeadowAudioRuntime } from './MinimalMeadowAudioRuntime.js?v=20260814-direct-audio-02';
 import { MinimalMeadowAudioPanel } from '../ui/MinimalMeadowAudioPanel.js';
 
 const EXPERIENCE_KEY = 'AwtsmoosDirectWorldAudioExperience';

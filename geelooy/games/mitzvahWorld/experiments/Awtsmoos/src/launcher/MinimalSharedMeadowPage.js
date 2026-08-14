@@ -9,7 +9,7 @@
  * Awtsmoos.com lets source and compact gates find the same living door.
  */
 
-const BUILD_VERSION = '20260814-direct-audio-01';
+const BUILD_VERSION = '20260814-direct-audio-02';
 const SOURCE_URL = new URL(import.meta.url);
 const LAUNCHER_BASE = SOURCE_URL.pathname.includes('/launcher/')
 	? new URL('./', SOURCE_URL)

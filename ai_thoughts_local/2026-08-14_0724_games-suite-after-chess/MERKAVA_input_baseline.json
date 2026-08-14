@@ -1,0 +1,154 @@
+{
+  "url": "http://127.0.0.1:5180/geelooy/games/Merkava/index.html",
+  "before": {
+    "app": false,
+    "state": null,
+    "canvas": [
+      300,
+      150,
+      390,
+      844
+    ],
+    "doc": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "errors": []
+  },
+  "start": {
+    "found": true
+  },
+  "pointer": {
+    "before": 1,
+    "after": 1,
+    "thrown": null
+  },
+  "keyboard": {
+    "left": {
+      "before": {
+        "lane": 1,
+        "paused": false
+      },
+      "after": {
+        "lane": 1,
+        "paused": false
+      },
+      "thrown": null
+    },
+    "ability": {
+      "before": {
+        "lane": 1,
+        "paused": false
+      },
+      "after": {
+        "lane": 1,
+        "paused": false
+      },
+      "thrown": null
+    },
+    "pause": {
+      "before": {
+        "lane": 1,
+        "paused": false
+      },
+      "after": {
+        "lane": 1,
+        "paused": false
+      },
+      "thrown": null
+    }
+  },
+  "landscape": {
+    "state": {
+      "running": false,
+      "targetLane": 1,
+      "paused": false
+    },
+    "canvas": [
+      390,
+      844,
+      844,
+      390
+    ],
+    "doc": [
+      844,
+      390
+    ],
+    "viewport": [
+      844,
+      390
+    ],
+    "errors": [
+      {
+        "type": "error",
+        "message": "Uncaught TypeError: this.actions.reversed is not a function",
+        "file": "http://127.0.0.1:5180/geelooy/games/Merkava/src/input/InputController.js",
+        "line": 93
+      },
+      {
+        "type": "error",
+        "message": "Uncaught TypeError: this.actions.reversed is not a function",
+        "file": "http://127.0.0.1:5180/geelooy/games/Merkava/src/input/InputController.js",
+        "line": 44
+      },
+      {
+        "type": "error",
+        "message": "Uncaught TypeError: this.actions.ability is not a function",
+        "file": "http://127.0.0.1:5180/geelooy/games/Merkava/src/input/InputController.js",
+        "line": 29
+      },
+      {
+        "type": "error",
+        "message": "Uncaught TypeError: this.actions.pause is not a function",
+        "file": "http://127.0.0.1:5180/geelooy/games/Merkava/src/input/InputController.js",
+        "line": 34
+      }
+    ]
+  },
+  "runtime": [
+    {
+      "kind": "exception",
+      "text": "Uncaught",
+      "url": "http://127.0.0.1:5180/geelooy/games/Merkava/src/input/InputController.js"
+    },
+    {
+      "kind": "log",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "url": "http://127.0.0.1:5180/api/wallet/commerce/catalog"
+    },
+    {
+      "kind": "log",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "url": "http://127.0.0.1:5180/api/wallet/commerce/entitlements"
+    },
+    {
+      "kind": "exception",
+      "text": "Uncaught",
+      "url": "http://127.0.0.1:5180/geelooy/games/Merkava/src/input/InputController.js"
+    },
+    {
+      "kind": "exception",
+      "text": "Uncaught",
+      "url": "http://127.0.0.1:5180/geelooy/games/Merkava/src/input/InputController.js"
+    },
+    {
+      "kind": "exception",
+      "text": "Uncaught",
+      "url": "http://127.0.0.1:5180/geelooy/games/Merkava/src/input/InputController.js"
+    }
+  ],
+  "badResponses": [
+    {
+      "status": 404,
+      "url": "http://127.0.0.1:5180/api/wallet/commerce/catalog"
+    },
+    {
+      "status": 404,
+      "url": "http://127.0.0.1:5180/api/wallet/commerce/entitlements"
+    }
+  ]
+}

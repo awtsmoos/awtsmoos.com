@@ -10,7 +10,7 @@
  */
 
 const CREATIVE_URL = './MitzvahWorldCreativeModeLoaders.js?v=20260802-game-studio-bridge-02';
-const DIRECT_EXPERIENCE_URL = './MitzvahWorldDirectExperience.js?v=20260814-direct-audio-01';
+const DIRECT_EXPERIENCE_URL = './MitzvahWorldDirectExperience.js?v=20260814-direct-audio-02';
 const SINGLE_PLAYER_RUNTIME_URL = '../app/createEretzRuntime.js?v=20260804-map-01';
 
 export function createMitzvahWorldModeLoaders(environment = globalThis) {

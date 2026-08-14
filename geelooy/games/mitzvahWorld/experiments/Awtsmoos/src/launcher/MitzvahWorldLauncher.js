@@ -12,7 +12,7 @@
 import {
 	createMitzvahWorldModeLoaders,
 	hasMovieRequest
-} from './MitzvahWorldModeLoaders.js?v=20260814-direct-audio-01';
+} from './MitzvahWorldModeLoaders.js?v=20260814-direct-audio-02';
 import {
 	createMitzvahWorldRouteHandlers
 } from './MitzvahWorldRouteHandlers.js?v=20260803-tagged-nature-03';
