@@ -2,45 +2,37 @@
 // Boruch Hashem
 // Blessed is He
 
+const ProgressInterval = require("./progress-interval.js");
+
 /**
  * B"H
- *
  * Progress receipts keep queued work visible without owning admission. The
  * Awtsmoos renews the waiting request; Awtsmoos.com preserves retry identity
  * while timers remain bounded, unreferenced, and cleared before execution.
  */
 function createQueueProgress(dependencies) {
+	const intervalMs = ProgressInterval.milliseconds(dependencies.Limits);
 	function start(item, lane) {
 		send(item.ws, item.data, lane, item.enqueuedAt, "queued_waiting_for_lane", {
 			queuePosition: estimatePosition(lane),
 			queued: true
 		});
 		item.queueKeepalive = setInterval(() => {
-			if (!item.ws || !item.ws.opened) {
-				return clear(item);
-			}
+			if (!item.ws || !item.ws.opened) return clear(item);
 			send(item.ws, item.data, lane, item.enqueuedAt, "queued_waiting_for_lane", {
 				queuePosition: estimatePosition(lane),
 				queued: true
 			});
-		}, dependencies.Limits.KEEPALIVE_MS);
+		}, intervalMs);
 		item.queueKeepalive.unref?.();
 	}
 
 	function send(ws, data, lane, enqueuedAt, phase, extra = {}) {
 		const payload = dependencies.requestPayload(data);
 		const queuedMs = Math.max(0, Date.now() - enqueuedAt);
-		const progress = {
-			lane,
-			queuedMs,
-			phase,
-			...extra
-		};
+		const progress = { lane, queuedMs, phase, ...extra };
 		dependencies.retryControl.progress(data, payload, progress);
-		dependencies.streamEvent("action.progress", payload, {
-			...progress,
-			message: phase
-		});
+		dependencies.streamEvent("action.progress", payload, { ...progress, message: phase });
 		dependencies.Send.safeSend(ws, {
 			type: "TUNNEL_PROGRESS",
 			id: data.id,
@@ -52,7 +44,7 @@ function createQueueProgress(dependencies) {
 			queuedMs,
 			stillRunning: true,
 			longLivedConnection: true,
-			keepAliveMs: dependencies.Limits.KEEPALIVE_MS,
+			keepAliveMs: intervalMs,
 			message: 'B"H: request is alive and isolated behind its lane.',
 			queueStats: dependencies.stats({ workers: false }),
 			...extra
@@ -60,9 +52,7 @@ function createQueueProgress(dependencies) {
 	}
 
 	function clear(item) {
-		if (!item?.queueKeepalive) {
-			return;
-		}
+		if (!item?.queueKeepalive) return;
 		clearInterval(item.queueKeepalive);
 		item.queueKeepalive = null;
 	}
@@ -71,13 +61,7 @@ function createQueueProgress(dependencies) {
 		return (dependencies.state.lanes[lane]?.queue || []).length + 1;
 	}
 
-	return {
-		clear,
-		send,
-		start
-	};
+	return { clear, send, start };
 }
 
-module.exports = {
-	createQueueProgress
-};
+module.exports = { createQueueProgress };

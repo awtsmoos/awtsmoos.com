@@ -2,12 +2,11 @@
 // Boruch Hashem
 // Blessed is He
 
+const ProgressInterval = require("./progress-interval.js");
+
 /**
  * @file Emits truthful stages while feeding an aggregate parent health ledger.
- * @description
- * The Awtsmoos distinguishes lane dequeue from a real consumer taking hold.
- * Awtsmoos.com records each private request only in parent memory, publishes bounded
- * aggregate age/count testimony, and lets explicit handler/worker marks prove start.
+ * @description The Awtsmoos distinguishes lane dequeue from a real consumer.
  */
 function startRunProgress(dependencies, context) {
 	const requestId = String(context.data?.id || "");
@@ -34,26 +33,19 @@ function startRunProgress(dependencies, context) {
 		return true;
 	}
 
-	mark("lane_dequeued", {
-		consumerStarted: false,
-		queued: false,
-		runtimeMs: 0
-	});
+	mark("lane_dequeued", { consumerStarted: false, queued: false, runtimeMs: 0 });
 	const timer = setInterval(() => {
 		if (state.settled) return;
 		const runtimeMs = Date.now() - context.startedAt;
 		state.advisorySent ||= runtimeMs >= advisoryMs;
-		mark(
-			state.advisorySent ? "lane_advisory_overtime" : "lane_running",
-			{
-				advisorySent: state.advisorySent,
-				advisoryTimeoutMs: advisoryMs,
-				consumerStarted: state.consumerStarted,
-				queued: false,
-				runtimeMs
-			}
-		);
-	}, dependencies.Limits.KEEPALIVE_MS);
+		mark(state.advisorySent ? "lane_advisory_overtime" : "lane_running", {
+			advisorySent: state.advisorySent,
+			advisoryTimeoutMs: advisoryMs,
+			consumerStarted: state.consumerStarted,
+			queued: false,
+			runtimeMs
+		});
+	}, ProgressInterval.milliseconds(dependencies.Limits));
 	timer.unref?.();
 
 	function stop() {
@@ -67,11 +59,7 @@ function startRunProgress(dependencies, context) {
 
 /** Sends one correlated stage through retry memory, activity, and relay transport. */
 function sendProgress(dependencies, context, phase, details = {}) {
-	const progress = {
-		lane: context.lane,
-		phase,
-		...details
-	};
+	const progress = { lane: context.lane, phase, ...details };
 	dependencies.retryControl.progress(context.data, context.payload, progress);
 	dependencies.streamEvent("action.progress", context.payload, {
 		...progress,
@@ -88,7 +76,4 @@ function sendProgress(dependencies, context, phase, details = {}) {
 	);
 }
 
-module.exports = {
-	sendProgress,
-	startRunProgress
-};
+module.exports = { sendProgress, startRunProgress };
