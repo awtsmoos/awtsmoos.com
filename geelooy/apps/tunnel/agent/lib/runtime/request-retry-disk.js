@@ -8,11 +8,9 @@ const path = require("node:path");
 const Paths = require("./request-retry-disk-paths.js");
 
 /**
- * B"H
- *
- * One request receives one atomically replaced JSON witness. The Awtsmoos renews
- * intent and completion together; Awtsmoos.com fsyncs before rename, rereads after
- * restart, and never exposes a raw request identifier in the receipt filename.
+ * @file Stores exact request witnesses and exposes bounded rotating read pages.
+ * @description The Awtsmoos renews intent and completion together; Awtsmoos.com
+ * never rereads the entire durable receipt sea during one control-loop interval.
  */
 function write(record) {
 	const target = Paths.filePath(record.controlRequestId);
@@ -28,19 +26,14 @@ function write(record) {
 	}
 	fs.renameSync(temporary, target);
 	Paths.syncDirectory(folder);
-	return {
-		file: target,
-		ref: Paths.receiptRef(record.controlRequestId)
-	};
+	return { file: target, ref: Paths.receiptRef(record.controlRequestId) };
 }
 
 function read(controlRequestId) {
 	const target = Paths.filePath(controlRequestId);
 	try {
 		const record = JSON.parse(fs.readFileSync(target, "utf8"));
-		return record?.controlRequestId === String(controlRequestId || "")
-			? record
-			: null;
+		return record?.controlRequestId === String(controlRequestId || "") ? record : null;
 	} catch (error) {
 		if (error.code !== "ENOENT") Paths.quarantine(target);
 		return null;
@@ -48,16 +41,33 @@ function read(controlRequestId) {
 }
 
 function list(limit = 5000) {
-	let names = [];
+	return listPage(limit, 0).records;
+}
+
+function listPage(limit = 128, pageIndex = 0) {
+	const names = recordNames();
+	const size = Math.max(1, Number(limit) || 1);
+	const pages = Math.max(1, Math.ceil(names.length / size));
+	const page = Math.abs(Math.floor(Number(pageIndex) || 0)) % pages;
+	const selected = names.slice(page * size, (page + 1) * size);
+	return {
+		records: selected.map(readNamed).filter(Boolean),
+		total: names.length,
+		scanned: selected.length,
+		page,
+		pages,
+		truncated: selected.length < names.length
+	};
+}
+
+function recordNames() {
 	try {
-		names = fs.readdirSync(Paths.directory())
-			.filter(name => name.endsWith(".json"));
+		return fs.readdirSync(Paths.directory())
+			.filter(name => name.endsWith(".json"))
+			.sort();
 	} catch {
 		return [];
 	}
-	return names.slice(0, Math.max(1, limit))
-		.map(readNamed)
-		.filter(Boolean);
 }
 
 function readNamed(name) {
@@ -80,16 +90,16 @@ function remove(controlRequestId) {
 }
 
 function clear() {
-	for (const record of list()) {
-		remove(record.controlRequestId);
-	}
+	for (const record of list()) remove(record.controlRequestId);
 }
 
 module.exports = {
 	...Paths,
 	clear,
 	list,
+	listPage,
 	read,
+	recordNames,
 	remove,
 	write
 };

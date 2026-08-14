@@ -5,44 +5,63 @@
 const Disk = require("./request-retry-disk.js");
 const Policy = require("./request-retry-policy.js");
 
+const BATCH_SIZE = 128;
+const COLLECTION_INTERVAL_MS = 60000;
+
 /**
- * B"H
- *
- * Durable cleanup removes only completed history: first expired testimony, then
- * the oldest overflow. The Awtsmoos preserves every pending deed through
- * Awtsmoos.com while completed receipts remain long-lived but disk-bounded.
+ * @file Rotates through durable receipts in bounded cleanup batches.
+ * @description The Awtsmoos preserves every pending deed while Awtsmoos.com
+ * prevents a one-minute cleanup pulse from parsing the whole recovery archive.
  */
 function collect(time = Date.now()) {
-	const records = Disk.list(Policy.DURABLE_MAX_RECORDS + 5000);
-	const completed = [];
+	const page = Disk.listPage(BATCH_SIZE, Math.floor(time / COLLECTION_INTERVAL_MS));
+	const expiredIds = expiredSet(page.records, time);
+	let excess = excessCompleted(page, expiredIds);
+	let completed = 0;
+	let pending = 0;
 	let removed = 0;
-	for (const record of records) {
-		if (record.state !== "completed") continue;
-		if (expired(record, time)) {
-			Disk.remove(record.controlRequestId);
-			removed += 1;
+	for (const record of page.records) {
+		if (record.state !== "completed") {
+			pending += 1;
 			continue;
 		}
-		completed.push(record);
-	}
-	completed.sort((left, right) => completedAt(left) - completedAt(right));
-	const overflow = Math.max(0, completed.length - Policy.DURABLE_MAX_RECORDS);
-	for (const record of completed.slice(0, overflow)) {
-		Disk.remove(record.controlRequestId);
-		removed += 1;
+		if (expiredIds.has(record.controlRequestId) || excess > 0) {
+			Disk.remove(record.controlRequestId);
+			removed += 1;
+			if (!expiredIds.has(record.controlRequestId)) excess -= 1;
+			continue;
+		}
+		completed += 1;
 	}
 	return {
 		removed,
-		completed: completed.length - overflow,
-		pending: records.filter(record => record.state === "pending").length,
-		truncated: records.length >= Policy.DURABLE_MAX_RECORDS + 5000
+		completed,
+		pending,
+		total: page.total,
+		scanned: page.scanned,
+		page: page.page,
+		pages: page.pages,
+		truncated: page.truncated
 	};
+}
+
+function expiredSet(records, time) {
+	return new Set(records.filter(record => record.state === "completed" && expired(record, time))
+		.map(record => record.controlRequestId));
+}
+
+function excessCompleted(page, expiredIds) {
+	if (page.truncated) {
+		return Math.max(0, page.total - Policy.DURABLE_MAX_RECORDS - expiredIds.size);
+	}
+	const retained = page.records.filter(record =>
+		record.state === "completed" && !expiredIds.has(record.controlRequestId)).length;
+	return Math.max(0, retained - Policy.DURABLE_MAX_RECORDS);
 }
 
 function expired(record, time = Date.now()) {
 	const timestamp = completedAt(record);
-	return Number.isFinite(timestamp) &&
-		time - timestamp >= Policy.DURABLE_COMPLETED_TTL_MS;
+	return Number.isFinite(timestamp) && time - timestamp >= Policy.DURABLE_COMPLETED_TTL_MS;
 }
 
 function completedAt(record) {
@@ -50,6 +69,8 @@ function completedAt(record) {
 }
 
 module.exports = {
+	BATCH_SIZE,
+	COLLECTION_INTERVAL_MS,
 	collect,
 	completedAt,
 	expired
