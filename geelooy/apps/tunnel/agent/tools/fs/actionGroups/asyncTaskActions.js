@@ -5,6 +5,7 @@
 const crypto = require("node:crypto");
 const { spawnAsyncTask } = require("../../../lib/runtime/async-task-process.js");
 const Identity = require("../../../lib/runtime/processIdentity.js");
+const Cancel = require("./asyncTaskCancel.js");
 const Durability = require("./asyncTaskDurability.js");
 const Observe = require("./asyncTaskObserve.js");
 const Policy = require("./asyncTaskPolicy.js");
@@ -13,10 +14,10 @@ const Responses = require("./asyncTaskResponses.js");
 const TASKS = new Map();
 
 /**
- * @file Starts and controls async subprocesses while durable observers survive workers.
+ * @file Starts and observes durable async subprocesses while preserving old and new cancellation callers.
  * @description
- * The Awtsmoos lets one worker hold the living process but never the only testimony.
- * Awtsmoos.com persists lifecycle/output outside project hashes before returning receipt.
+ * The Awtsmoos lets a living worker move while its durable testimony remains one;
+ * Awtsmoos.com keeps public observation simple and sends both cancellation dialects through one guarded sun.
  */
 function buildAsyncTaskActions(context) {
 	const { config, payload } = context;
@@ -24,11 +25,17 @@ function buildAsyncTaskActions(context) {
 		asyncTaskStart: () => start(config, payload),
 		asyncTaskStatus: () => Observe.status(config, payload, TASKS),
 		asyncTaskOutputPage: () => Observe.output(config, payload, TASKS),
-		asyncTaskCancel: () => cancel(config, payload),
+		asyncTaskCancel: () => Cancel.cancelTask(config, payload, TASKS),
 		asyncTaskWait: () => Observe.wait(config, payload, TASKS)
 	};
 }
 
+/**
+ * Starts one durable async task.
+ * @param {object} config Native-agent configuration.
+ * @param {object} payload Action payload.
+ * @returns {Promise<object>} Running-task receipt.
+ */
 async function start(config = {}, payload = {}) {
 	if (!Policy.allowed(config, payload)) {
 		return { ok: false, action: "asyncTaskStart", error: "commands_disabled" };
@@ -54,27 +61,6 @@ async function start(config = {}, payload = {}) {
 	return Responses.receipt(taskId, runner.task, "running", "asyncTaskStart");
 }
 
-function cancel(config = {}, payload = {}) {
-	const taskId = Policy.id(payload);
-	const found = Durability.current(config, taskId, TASKS);
-	if (!found) return Responses.missing("asyncTaskCancel", taskId);
-	if (!found.live) {
-		if (Durability.terminal(found.task)) {
-			return Responses.receipt(taskId, found.task, found.task.status, "asyncTaskCancel");
-		}
-		return {
-			ok: false,
-			action: "asyncTaskCancel",
-			error: "task_owner_unavailable",
-			taskId,
-			status: found.task.status
-		};
-	}
-	found.runner.cancel("cancelled");
-	Durability.persist(config, taskId, found.runner.task);
-	return Responses.receipt(taskId, found.runner.task, "cancelled", "asyncTaskCancel");
-}
-
 function createTaskId(processKey) {
 	return `task_${processKey}_${Date.now().toString(36)}_${crypto.randomBytes(4).toString("hex")}`;
 }
@@ -82,7 +68,8 @@ function createTaskId(processKey) {
 module.exports = {
 	TASKS,
 	buildAsyncTaskActions,
-	cancel,
+	cancel: (first = {}, second = {}) => Cancel.cancel(first, second, TASKS),
+	cancelTask: (config = {}, payload = {}) => Cancel.cancelTask(config, payload, TASKS),
 	output: (payload, config = {}) => Observe.output(config, payload, TASKS),
 	start,
 	status: (payload, config = {}) => Observe.status(config, payload, TASKS),

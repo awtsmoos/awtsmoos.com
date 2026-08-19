@@ -1,121 +1,55 @@
 // B"H
-const fs = require('fs');
-const path = require('path');
-const os = require('os');
-const { ROOT } = require('../../lib/config.js');
-const LiveStatus = require('../../lib/runtime/liveness-status.js');
-const { buildConfigActions } = require('./actionGroups/configActions.js');
-const { buildReadActions } = require('./actionGroups/readActions.js');
-const { buildProjectActions } = require('./actionGroups/projectActions.js');
-const { buildWriteActions } = require('./actionGroups/writeActions.js');
-const { buildFileOpsActions } = require('./actionGroups/fileOpsActions.js');
-const { buildHttpActions } = require('./actionGroups/httpActionsGroup.js');
-const { buildCommandActions } = require('./actionGroups/commandActions.js');
-const { buildCommandPresetActions } = require('./actionGroups/commandPresetActions.js');
-const { buildCommandTreeActions } = require('./actionGroups/commandTreeActions.js');
-const { buildAsyncTaskActions } = require('./actionGroups/asyncTaskActions.js');
-const { buildStaticServerActions } = require('./actionGroups/staticServerActions.js');
-const { buildIsolatedActions } = require('./actionGroups/isolatedActions.js');
-const { buildWorkflowActions } = require('./actionGroups/workflowActions.js');
-const { buildPreviewActions } = require('./actionGroups/previewActions.js');
-const { buildEphemeralActions } = require('./actionGroups/ephemeralActions.js');
-const { buildShareActions } = require('./actionGroups/shareActions.js');
-const { buildRemoteDriveActions } = require('./actionGroups/remoteDriveActions.js');
-const { buildPreviewReceiptActions } = require('./actionGroups/previewReceiptActions.js');
-const { buildFakeSshActions } = require('./actionGroups/fakeSshActions.js');
-const { buildRemoteNativeDesktopActions } = require('./actionGroups/remoteNativeDesktopActions.js');
-const { buildVirtualOsGraphActions } = require('./actionGroups/virtualOsGraphActions.js');
-const { buildRuntimeActions } = require('./actionGroups/runtimeActions.js');
-const { buildProcessActions } = require('./actionGroups/processActions.js');
-const { buildPortActions } = require('./actionGroups/portActions.js');
-const { buildNodeDomActions } = require('./actionGroups/nodeDomActions.js');
-const { buildRenderLabActions } = require('./actionGroups/renderLabActions.js');
-const { buildOsSurfaceActions } = require('./actionGroups/osSurfaceActions.js');
-const { buildCognitionActions } = require('./actionGroups/cognitionActions.js');
-const { buildAiAgentActions } = require('./actionGroups/aiAgentActions.js');
-const { buildWebsiteAgentActions } = require('./actionGroups/websiteAgentActions.js');
-const { buildAiTemplateActions } = require('./actionGroups/aiTemplateActions.js');
-const { buildImageActions } = require('./actionGroups/imageActions.js');
-const { buildQualityActions } = require('./actionGroups/qualityActions.js');
-const { buildBatchAliasActions } = require('./actionGroups/batchAliasActions.js');
-const { buildActionHistoryActions } = require('./actionGroups/actionHistoryActions.js');
-const { buildActionStreamActions } = require('./actionGroups/actionStreamActions.js');
-const { buildTaskRuntimeActions } = require('./actionGroups/taskRuntimeActions.js');
-const { buildScanWorkerActions } = require('./actionGroups/scanWorkerActions.js');
-const { buildMissionActions } = require('./actionGroups/missionActions.js');
-const { buildMissionLedgerActions } = require('./actionGroups/missionLedgerActions.js');
-const { buildMissionOperatingActions } = require('./actionGroups/missionOperatingActions.js');
-const { buildMissionAwareActions } = require('./actionGroups/missionAwareActions.js');
-const { buildMissionEightStepActions } = require('./actionGroups/missionEightStepActions.js');
-const { buildMissionDaemonActions } = require('./actionGroups/missionDaemonActions.js');
-const { buildMissionWatchdogActions } = require('./actionGroups/missionWatchdogActions.js');
-const { buildMissionBootActions } = require('./actionGroups/missionBootActions.js');
-const { buildMissionMetaActions } = require('./actionGroups/missionMetaActions.js');
-const { buildMissionImprovementActions } = require('./actionGroups/missionImprovementActions.js');
-const { buildContinuationActions } = require('./actionGroups/continuationActions.js');
-const { buildChromeActions } = require('./actionGroups/chromeActions.js');
-const { buildChatGptActions } = require('../chatgpt/index.js');
-const { buildRemoteDesktopActions } = require('./actionGroups/remoteDesktopActions.js');
-const { wrapActions } = require('./mission/missionAware/wrap.js');
-function payloadEcho(payload) { return { BH:'B"H', ok:true, action:'payloadEcho', payload }; }
-function actionSchemaTrace(payload) { return { BH:'B"H', ok:true, action:'actionSchemaTrace', requestedAction:payload.action, adapterAction:payload.adapterAction || null, actionRecoveredFromCarrier:!!payload.actionRecoveredFromCarrier, kind:payload.kind, keys:Object.keys(payload).sort() }; }
-function awtsmoosMyDevice(config, version) { return { ok:true, action:'awtsmoosMyDevice', tunnelName:config.tunnelName, deviceName:os.hostname(), root:config.root, allowWrite:config.allowWrite, allowSecrets:config.allowSecrets, allowCommands:config.allowCommands, agentVersion:version, vesselType:'native-local', targetVessel:'local-tunnel' }; }
-function selfTest(version) { return { ok:true, action:'agentSelfTest', agentVersion:version, checks:['action_registry','identity_recovery_helper'], generatedAt:new Date().toISOString() }; }
-function versionSkew(version) { return { ok:true, action:'agentVersionSkewCheck', agentVersion:version, installedVersion:version, skew:false }; }
-function livenessTimeline(config) {
-  const entries = logEvents();
-  const latest = [...entries].reverse().find(e => e.event === 'memory') || {};
-  const circuit = latest.circuit || { level:'unknown', advisoryOnly:null };
-  const lag = latest.eventLoopLag || {};
-  return {
-    ok:true, action:'tunnelLivenessTimeline', requestAction:'tunnelLivenessTimeline', actualAction:'tunnelLivenessTimeline',
-    tunnelName:config.tunnelName, ...LiveStatus.statusFromCircuit(circuit),
-    eventLoopLagMs:lag.lastMs ?? null, maxEventLoopLagMs:lag.maxMs ?? null,
-    circuit, timeline:entries.slice(-20), fallbacks:['awtsmoos-virtual-os','awtsmoos-code'],
-    recommendedNext:recommend(circuit.level)
-  };
-}
-function logEvents() {
-  const file = path.join(ROOT, 'agent.log');
-  let text = '';
-  try {
-    const stat = fs.statSync(file);
-    const fd = fs.openSync(file, 'r');
-    const size = Math.min(stat.size, 128 * 1024), buf = Buffer.alloc(size);
-    fs.readSync(fd, buf, 0, size, Math.max(0, stat.size - size));
-    fs.closeSync(fd);
-    text = buf.toString('utf8');
-  } catch { return []; }
-  return text.split(/\n/).map(parseLogLine).filter(Boolean);
-}
-function parseLogLine(line) {
-  const at = (line.match(/^\[([^\]]+)\]/) || [])[1] || '';
-  if (!at) return null;
-  if (line.includes('Tunnel registered ready')) return { at, event:'registered', ok:true };
-  if (line.includes('Tunnel watchdog reconnect')) return { at, event:'watchdog_reconnect', ok:false, ...jsonTail(line) };
-  if (line.includes('Memory:')) return { at, event:'memory', ok:true, ...jsonTail(line) };
-  return null;
-}
-function jsonTail(line) { try { return JSON.parse(line.slice(line.indexOf('{'))); } catch { return {}; } }
-function stateFrom(level) { if (level === 'panic') return 'lagging'; if (level === 'hard') return 'lagging'; if (level === 'soft') return 'degraded'; if (level === 'open') return 'alive'; return 'unknown'; }
-function recommend(level) { return level === 'panic' || level === 'hard' ? 'control_actions_only_until_lag_drops' : 'normal_actions_allowed'; }
-function addCommandAliases(actions) { if (actions.commandRun && !actions.command) actions.command = actions.commandRun; if (actions.commandStart && !actions.commandRun) actions.commandRun = actions.commandStart; if (actions.commandStart && !actions.command) actions.command = actions.commandStart; return actions; }
-function specializedActionGroups(ctx) {
-  return {
-    ...buildProcessActions(ctx),
-    ...buildImageActions(ctx),
-    ...buildCommandTreeActions(ctx, buildActions),
-    ...buildCommandPresetActions(ctx, buildActions),
-    ...buildAiTemplateActions(ctx, buildActions),
-    ...buildEphemeralActions(ctx),
-    ...buildRenderLabActions(ctx),
-    ...buildAiAgentActions(ctx)
-  };
-}
+// Boruch Hashem
+// Blessed is He
+
+const { wrapActions } = require("./mission/missionAware/wrap.js");
+const { buildFoundationActions } = require("./actionBuilderGroups/foundationActions.js");
+const { buildMissionActionGroups } = require("./actionBuilderGroups/missionActions.js");
+const { buildSurfaceActions, buildSpecializedActions } = require("./actionBuilderGroups/surfaceActions.js");
+const { buildLocalActions, livenessTimeline } = require("./actionBuilderGroups/localActions.js");
+
+/**
+ * @file Reveals the native action registry as ordered, focused composition layers.
+ * @description
+ * The Awtsmoos unites many tools without crushing them into one crowded page;
+ * Awtsmoos.com lets foundation, mission, surface, and local light meet in an explicit ordered stage.
+ */
 function buildActions(config, payload, ws, version) {
-  const ctx = { config, payload, ws, version };
-  const actions = addCommandAliases({ ...buildConfigActions(ctx), ...buildReadActions(ctx), ...buildProjectActions(ctx), ...buildFileOpsActions(ctx), ...buildHttpActions(ctx), ...buildCommandActions(ctx), ...buildAsyncTaskActions(ctx), ...buildScanWorkerActions(ctx), ...buildStaticServerActions(ctx), ...buildIsolatedActions(ctx), ...buildWriteActions(ctx), ...buildWorkflowActions(ctx, buildActions), ...buildPreviewActions(ctx), ...buildShareActions(ctx), ...buildRemoteDriveActions(ctx), ...buildPreviewReceiptActions(ctx), ...buildFakeSshActions(ctx), ...buildRemoteNativeDesktopActions(ctx), ...buildVirtualOsGraphActions(ctx), ...buildRuntimeActions(ctx), ...buildNodeDomActions(ctx), ...buildOsSurfaceActions(ctx), ...buildCognitionActions(ctx), ...buildPortActions(ctx), ...buildQualityActions(ctx, buildActions), ...buildBatchAliasActions(ctx, buildActions), ...buildActionHistoryActions(ctx, buildActions), ...buildActionStreamActions(ctx), ...buildTaskRuntimeActions(ctx), ...buildMissionActions(ctx), ...buildMissionLedgerActions(ctx), ...buildMissionOperatingActions(ctx), ...buildMissionAwareActions(ctx), ...buildMissionEightStepActions(ctx), ...buildMissionDaemonActions(ctx, buildActions), ...buildMissionWatchdogActions(ctx, buildActions), ...buildMissionBootActions(ctx, buildActions), ...buildMissionMetaActions(ctx), ...buildMissionImprovementActions(ctx), ...buildContinuationActions(ctx, buildActions), ...buildChromeActions(ctx), ...buildChatGptActions(ctx), ...buildWebsiteAgentActions(ctx), ...buildRemoteDesktopActions(ctx), payloadEcho: async () => payloadEcho(payload), actionSchemaTrace: async () => actionSchemaTrace(payload), awtsmoosMyDevice: async () => awtsmoosMyDevice(config, version), agentSelfTest: async () => selfTest(version), agentVersionSkewCheck: async () => versionSkew(version), tunnelLivenessTimeline: async () => livenessTimeline(config) });
-  Object.assign(actions, specializedActionGroups(ctx));
-  return wrapActions(addCommandAliases(actions), config, payload);
+	const context = {
+		config,
+		payload,
+		ws,
+		version
+	};
+	const actions = addCommandAliases({
+		...buildFoundationActions(context, buildActions),
+		...buildMissionActionGroups(context, buildActions),
+		...buildSurfaceActions(context),
+		...buildLocalActions(context)
+	});
+	Object.assign(actions, buildSpecializedActions(context, buildActions));
+	return wrapActions(addCommandAliases(actions), config, payload);
 }
-module.exports = { buildActions, livenessTimeline };
+
+/**
+ * Preserves historical command aliases after every composition layer is assembled.
+ * @param {object} actions Native action map.
+ * @returns {object} The same map with backward-compatible command aliases.
+ */
+function addCommandAliases(actions) {
+	if (actions.commandRun && !actions.command) {
+		actions.command = actions.commandRun;
+	}
+	if (actions.commandStart && !actions.commandRun) {
+		actions.commandRun = actions.commandStart;
+	}
+	if (actions.commandStart && !actions.command) {
+		actions.command = actions.commandStart;
+	}
+	return actions;
+}
+
+module.exports = {
+	buildActions,
+	livenessTimeline
+};

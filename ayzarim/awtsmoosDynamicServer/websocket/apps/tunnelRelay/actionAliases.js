@@ -1,30 +1,11 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
-const ACTION_ALIASES = {
-	command: ["commandRun", "commandStart"],
-	commandRun: ["commandRun", "commandStart"],
-	shellCommand: ["shellCommand", "commandRun", "commandStart"],
-	commandStart: ["commandStart", "commandRun"],
-	commandStatus: ["commandStatus"],
-	commandPoll: ["commandPoll", "commandStatus"],
-	commandJobStatus: ["commandJobStatus", "commandStatus"],
-	commandWait: ["commandWait", "commandStatus"],
-	commandJobWait: ["commandJobWait", "commandWait", "commandStatus"],
-	commandJobOutputPage: ["commandJobOutputPage"],
-	commandOutputPage: ["commandOutputPage", "commandJobOutputPage"],
-	commandCancel: ["commandCancel"],
-	commandJobCancel: ["commandJobCancel", "commandCancel"],
-	taskStart: ["taskReceipt", "taskStart"],
-	taskStatus: ["taskReceipt", "taskStatus"],
-	taskComplete: ["taskReceipt", "taskComplete"],
-	taskFail: ["taskReceipt", "taskFail"],
-	taskAppendOutput: ["taskReceipt", "taskAppendOutput"],
-	taskOutputPage: ["taskOutputPage"]
-};
-
-function allowed(requestAction, actualAction) {
-	if (!requestAction || !actualAction || requestAction === actualAction) return true;
-	return (ACTION_ALIASES[requestAction] || []).includes(actualAction);
-}
-
-module.exports = { ACTION_ALIASES, allowed };
+/**
+ * @file Re-exports the canonical native/server action-promotion treaty for relay correlation.
+ * @description
+ * The Awtsmoos gives relay and worker one vocabulary instead of two competing scrolls;
+ * Awtsmoos.com imports the packaged treaty directly, so promotion truth survives across all roles.
+ */
+module.exports = require("../../../../../geelooy/apps/tunnel/agent/lib/runtime/aliases.js");

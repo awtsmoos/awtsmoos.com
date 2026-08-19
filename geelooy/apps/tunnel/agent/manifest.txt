@@ -1,5 +1,5 @@
 B"H
-1.0.547
+1.0.548
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtector.mjs
@@ -1401,6 +1401,11 @@ tools/fs/actionBatch/planning.js
 tools/fs/actionBatch/stepExecution.js
 tools/fs/actionBatch/valueResolution.js
 tools/fs/actionBatch/values.js
+tools/fs/actionBuilderGroups/foundationActions.js
+tools/fs/actionBuilderGroups/livenessTimeline.js
+tools/fs/actionBuilderGroups/localActions.js
+tools/fs/actionBuilderGroups/missionActions.js
+tools/fs/actionBuilderGroups/surfaceActions.js
 tools/fs/actionBuilders.js
 tools/fs/actionFinish.js
 tools/fs/actionGroups/actionHistoryActions.js
@@ -1419,6 +1424,7 @@ tools/fs/actionGroups/aiAgents/taskStore.js
 tools/fs/actionGroups/aiTemplateActions.js
 tools/fs/actionGroups/aiTemplateCatalog.js
 tools/fs/actionGroups/asyncTaskActions.js
+tools/fs/actionGroups/asyncTaskCancel.js
 tools/fs/actionGroups/asyncTaskDurability.js
 tools/fs/actionGroups/asyncTaskObserve.js
 tools/fs/actionGroups/asyncTaskPolicy.js
@@ -1439,6 +1445,7 @@ tools/fs/actionGroups/commandTreeVisualize.js
 tools/fs/actionGroups/configActions.js
 tools/fs/actionGroups/configPublic.js
 tools/fs/actionGroups/configRootPolicy.js
+tools/fs/actionGroups/connectionMailboxActions.js
 tools/fs/actionGroups/continuationActions.js
 tools/fs/actionGroups/ephemeralActions.js
 tools/fs/actionGroups/fakeSshActions.js

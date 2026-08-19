@@ -1,28 +1,52 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
- * B"H — An alias is a doorway, not a disguise. Canonical workers may serve a
- * request only when this treaty names them, while the response keeps the action
- * the caller actually used for end-to-end correlation.
+ * @file Defines the one canonical action-promotion treaty shared by native execution and server correlation.
+ * @description
+ * The Awtsmoos sends one deed through many vessels while its identity remains bright;
+ * Awtsmoos.com names every lawful promotion once, so agent, relay, and API all guard the same light.
  */
-const aliases = {
+const ACTION_ALIASES = Object.freeze({
 	command: ["commandRun", "commandStart"],
 	commandRun: ["commandRun", "commandStart"],
 	shellCommand: ["shellCommand", "commandRun", "commandStart"],
 	commandStart: ["commandStart", "commandRun"],
 	commandStatus: ["commandStatus"],
-	commandPoll: ["commandPoll", "commandStatus"],
-	commandJobStatus: ["commandJobStatus", "commandStatus"],
-	commandWait: ["commandWait", "commandStatus"],
-	commandJobWait: ["commandJobWait", "commandWait", "commandStatus"],
-	commandJobOutputPage: ["commandJobOutputPage"],
+	commandPoll: ["commandPoll", "commandStatus", "commandJobStatus"],
+	commandJobStatus: ["commandJobStatus", "commandStatus", "commandPoll"],
+	commandWait: ["commandWait", "commandStatus", "commandJobStatus"],
+	commandJobWait: ["commandJobWait", "commandWait", "commandStatus", "commandJobStatus"],
+	commandJobOutputPage: ["commandJobOutputPage", "commandOutputPage"],
 	commandOutputPage: ["commandOutputPage", "commandJobOutputPage"],
 	commandCancel: ["commandCancel"],
-	commandJobCancel: ["commandJobCancel", "commandCancel"]
-};
+	commandJobCancel: ["commandJobCancel", "commandCancel"],
+	nodeCheckFiles: ["nodeCheckFiles", "nodeCheckMany"],
+	nodeCheckMany: ["nodeCheckFiles", "nodeCheckMany"],
+	taskStart: ["taskReceipt", "taskStart"],
+	taskStatus: ["taskReceipt", "taskStatus"],
+	taskComplete: ["taskReceipt", "taskComplete"],
+	taskFail: ["taskReceipt", "taskFail"],
+	taskAppendOutput: ["taskReceipt", "taskAppendOutput"],
+	taskOutputPage: ["taskOutputPage"]
+});
 
+/**
+ * Determines whether an execution action is a declared manifestation of a requested action.
+ * @param {string} requestAction Original public request action.
+ * @param {string} actualAction Actual execution or response action.
+ * @returns {boolean} Whether the lineage is allowed.
+ */
 function allowed(requestAction, actualAction) {
-	return requestAction === actualAction || (aliases[requestAction] || []).includes(actualAction);
+	if (!requestAction || !actualAction || requestAction === actualAction) {
+		return true;
+	}
+	return (ACTION_ALIASES[requestAction] || []).includes(actualAction);
 }
 
-module.exports = { aliases, allowed };
+module.exports = {
+	ACTION_ALIASES,
+	aliases: ACTION_ALIASES,
+	allowed
+};
