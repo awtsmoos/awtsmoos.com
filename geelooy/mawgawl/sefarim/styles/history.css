@@ -1,5 +1,5 @@
 /* B"H
- * The Awtsmoos turns browser-local search memory into dated, filterable steps instead of a flat forgotten pile.
+ * The Awtsmoos turns browser-local search memory into a navigable year, month, day, and category archive.
  */
 .library-history-controls {
 	display: flex;
@@ -19,23 +19,57 @@
 	font-size: .72rem;
 }
 
+.library-history-year,
+.library-history-month {
+	display: grid;
+	gap: .4rem;
+}
+
+.library-history-year + .library-history-year {
+	margin-top: .55rem;
+	padding-top: .6rem;
+	border-top: 1px solid rgba(151, 178, 205, .12);
+}
+
+.library-history-year > summary,
+.library-history-month > summary {
+	cursor: pointer;
+	list-style-position: inside;
+	font-weight: 800;
+}
+
+.library-history-year > summary {
+	color: #f2d58a;
+	font-size: .83rem;
+}
+
+.library-history-month {
+	margin-inline-start: .35rem;
+}
+
+.library-history-month > summary {
+	color: #9fdce8;
+	font-size: .76rem;
+}
+
 .library-history-day {
 	display: grid;
 	gap: .35rem;
+	margin-inline-start: .5rem;
 }
 
 .library-history-day + .library-history-day {
 	margin-top: .35rem;
-	padding-top: .55rem;
-	border-top: 1px solid rgba(151, 178, 205, .09);
+	padding-top: .45rem;
+	border-top: 1px solid rgba(151, 178, 205, .08);
 }
 
-.library-history-day h3 {
+.library-history-day h4 {
 	margin: 0;
 	color: #d8b96d;
-	font-size: .69rem;
+	font-size: .67rem;
 	font-weight: 700;
-	letter-spacing: .08em;
+	letter-spacing: .07em;
 	text-transform: uppercase;
 }
 
@@ -69,4 +103,11 @@
 	color: #899aaf;
 	font-size: .7rem;
 	line-height: 1.4;
+}
+
+@media (max-width: 640px) {
+	.library-history-controls {
+		align-items: stretch;
+		flex-direction: column;
+	}
 }

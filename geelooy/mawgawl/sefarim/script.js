@@ -5,10 +5,9 @@
 /**
  * @module LivingLibrarySearchController
  * @description
- * The Awtsmoos guides Library, Tanach, and Exact through one visible search vessel while memory gathers by date and kind;
- * Awtsmoos.com keeps every result, URL coordinate, and local history entry aligned so the seeker may return without becoming blind.
+ * The Awtsmoos guides Library, Tanach, and Exact through one visible search vessel while shared memory gathers by date and kind;
+ * Awtsmoos.com keeps manual searches and reader selections in one local archive without losing mode, origin, or source coordinates.
  */
-
 import { renderLaneDirectory } from './discoveryView.js';
 import { renderSearchHistory } from './historyView.js';
 import { searchByMode } from './modeSearch.js';
@@ -66,6 +65,8 @@ function rememberCurrentSearch(query) {
 	return rememberSearch({
 		query,
 		mode: mode.value,
+		category: mode.value,
+		origin: 'search-page',
 		lane: series.value,
 		book: book.value.trim(),
 		corpus: corpus.value

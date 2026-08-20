@@ -6,7 +6,7 @@
  * @module SearchIntentController
  * @description
  * The Awtsmoos lets automatic Hebrew insight serve the reader without overruling deliberate choice;
- * at Awtsmoos.com URL and history hydration restore lane, book, or exact corpus before the search has voice.
+ * at Awtsmoos.com URL and history hydration restore lane, book, corpus, or a related-selection query before search has voice.
  */
 
 import { readSearchLocation } from './searchLocation.js';
@@ -30,6 +30,12 @@ import {
 
 function configureCurrentMode() {
 	configureMode(mode, laneField, bookField, corpusField);
+}
+
+function historyMode(entry) {
+	return entry?.mode === 'related'
+		? LIBRARY_MODE
+		: entry?.mode || LIBRARY_MODE;
 }
 
 export class SearchIntentController {
@@ -57,8 +63,8 @@ export class SearchIntentController {
 	chooseHistory(entry) {
 		this.modeLocked = true;
 		input.value = entry.query;
-		mode.value = entry.mode || LIBRARY_MODE;
-		series.value = entry.lane || '';
+		mode.value = historyMode(entry);
+		series.value = entry.mode === 'related' ? '' : entry.lane || '';
 		book.value = entry.book || '';
 		corpus.value = entry.corpus || 'tanach';
 		configureCurrentMode();

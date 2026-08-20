@@ -6,66 +6,15 @@
  * @file SearchIntentController.test.mjs
  * @description
  * The Awtsmoos tests that shared Sefarim coordinates and remembered intent arrive before each search can fly;
- * Awtsmoos.com preserves library lane, exact corpus, and history mode across one visible truthful URL.
+ * Awtsmoos.com preserves lane, exact corpus, and reader-selection history without burying behavior beneath test scaffolding.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
-
-const elements = new Map();
-const requiredIds = [
-	'searchForm',
-	'query',
-	'series',
-	'searchMode',
-	'book',
-	'corpus',
-	'laneField',
-	'bookField',
-	'corpusField',
-	'status',
-	'results',
-	'laneDirectory',
-	'laneCount',
-	'recentSearches',
-	'historyFilter',
-	'clearHistory'
-];
-
-for (const id of requiredIds) {
-	elements.set(id, {
-		value: id === 'historyFilter' ? 'all' : '',
-		hidden: false,
-		focus() {}
-	});
-}
-
-globalThis.document = {
-	getElementById(id) {
-		return elements.get(id) || null;
-	}
-};
-globalThis.location = {
-	pathname: '/mawgawl/sefarim/',
-	search: ''
-};
-
-const { SearchIntentController } = await import('../SearchIntentController.js');
-
-function controllerWithEvents(events) {
-	const series = elements.get('series');
-	return new SearchIntentController({
-		loadLanes: async selectedLane => {
-			events.push(`load:${selectedLane}`);
-			await Promise.resolve();
-			series.value = selectedLane;
-			events.push(`loaded:${series.value}`);
-		},
-		runSearch: async query => {
-			events.push(`search:${query}:${series.value}`);
-		}
-	});
-}
+import {
+	controllerWithEvents,
+	elements
+} from './searchIntentHarness.mjs';
 
 test('hydrate restores a deep-linked lane before the first search', async () => {
 	location.search = '?q=Torah&mode=library&lane=likkutei-sichos';
@@ -108,4 +57,21 @@ test('history choice restores exact mode and corpus before searching', () => {
 	assert.equal(elements.get('corpus').value, 'talmudBavli');
 	assert.equal(elements.get('corpusField').hidden, false);
 	assert.match(events.at(-1), /^search:אמר:/);
+});
+
+test('reader-selection history reopens as broad Library search', () => {
+	const events = [];
+	const controller = controllerWithEvents(events);
+	elements.get('series').value = 'old-lane';
+	controller.chooseHistory({
+		query: 'divine purpose',
+		mode: 'related',
+		origin: 'comment-selection',
+		lane: 'should-not-survive'
+	});
+	assert.equal(elements.get('query').value, 'divine purpose');
+	assert.equal(elements.get('searchMode').value, 'library');
+	assert.equal(elements.get('series').value, '');
+	assert.equal(elements.get('laneField').hidden, false);
+	assert.match(events.at(-1), /^search:divine purpose:$/);
 });

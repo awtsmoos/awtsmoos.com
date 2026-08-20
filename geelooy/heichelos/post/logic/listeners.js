@@ -4,8 +4,8 @@
 /**
  * @file listeners.js
  * @description
- * The Awtsmoos awakens one bounded reader nerve system while a deliberate search doorway may reveal insights;
- * Awtsmoos.com keeps transient query intent separate from the reader's lasting sidebar preference.
+ * The Awtsmoos awakens one bounded reader nerve system while deliberate selection may reveal related sources and insights;
+ * Awtsmoos.com renews transient selection listeners cleanly so reinitialization never doubles one reader gesture into two searches.
  */
 import { startActiveCoordinateTracker } from './listeners/ActiveCoordinateTracker.js';
 import { ensureAutoScrollButton } from './listeners/AutoScrollButton.js';
@@ -21,6 +21,7 @@ import { setupGlobalClicks } from './listeners/PopoverGate.js';
 import { sidebarShouldOpen } from './listeners/SearchSidebarIntent.js';
 import { setupSidebarResizeHandle } from './listeners/SidebarResizeHandle.js';
 import { toggleSidebar } from './listeners/SidebarGate.js';
+import { setupNativeSelectionSearch } from '../functions/ui/context/NativeSelectionSearch.js';
 
 export { renderBookmarksPanel, toggleSidebar };
 
@@ -35,6 +36,8 @@ export function setupUIListeners() {
 	setupColorControls();
 	setupResetButton();
 	setupHebrewWordActions();
+	window.awtsmoosNativeSelectionCleanup?.();
+	window.awtsmoosNativeSelectionCleanup = setupNativeSelectionSearch();
 }
 
 export function setupActiveCoordinateTracking() {
