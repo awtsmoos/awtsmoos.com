@@ -3,13 +3,13 @@
 // Blessed is He
 
 const { dispatchOsFs } = require("../../osFs/index.js");
-const { runActionBatch } = require("../../osFs/actionBatch.js");
 const ActionNames = require("./actionNames.js");
 const ActionResult = require("./actionResult.js");
 const { RecoveryRepository } = require("./recoveryRepository.js");
 const { SnapshotActions } = require("./snapshotActions.js");
 const { TrashActions } = require("./trashActions.js");
 const { isHostedBatchAction } = require("./hostedBatchActions.js");
+const { dispatchHostedBatch } = require("./hostedBatchDispatcher.js");
 const { isSitePublicationAction } = require("./sitePublicationActions.js");
 const { dispatchSitePublication } = require("./sitePublicationDispatcher.js");
 
@@ -18,13 +18,13 @@ const { dispatchSitePublication } = require("./sitePublicationDispatcher.js");
  * @description
  * The Awtsmoos keeps filesystem, recovery, publication, and batch vessels
  * distinct while one trusted identity flows through them. Awtsmoos.com lets
- * older clients batch newer hosted deeds without falling beneath authority.
+ * older clients batch newer deeds without losing arguments or authority.
  */
 
 const DEFAULT_DEPENDENCIES = Object.freeze({
+	dispatchHostedBatch,
 	dispatchOsFs,
-	dispatchSitePublication,
-	runActionBatch
+	dispatchSitePublication
 });
 
 /**
@@ -54,23 +54,15 @@ async function dispatchHostedVirtualOs(
 	}
 
 	if (isHostedBatchAction(action)) {
-		return await dispatchHostedBatch($i, userId, normalized, dependencies);
+		return await runHostedBatch($i, userId, normalized, dependencies);
 	}
 
 	return await dependencies.dispatchOsFs($i, userId, normalized);
 }
 
-/**
- * Re-enter hosted dispatch for every nested batch step so authority is kept.
- *
- * @param {object} $i Trusted server context.
- * @param {string} userId Authenticated user identity.
- * @param {object} payload Batch payload.
- * @param {object} dependencies Trusted dependency seam.
- * @returns {Promise<object>} Batch receipt.
- */
-async function dispatchHostedBatch($i, userId, payload, dependencies) {
-	const batchRunner = dependencies.runActionBatch || runActionBatch;
+/** Keep every nested batch action inside the authenticated hosted dispatcher. */
+async function runHostedBatch($i, userId, payload, dependencies) {
+	const batchDispatcher = dependencies.dispatchHostedBatch || dispatchHostedBatch;
 	const runHostedAction = nextPayload => dispatchHostedVirtualOs(
 		$i,
 		userId,
@@ -78,7 +70,7 @@ async function dispatchHostedBatch($i, userId, payload, dependencies) {
 		dependencies
 	);
 
-	return await batchRunner(payload, runHostedAction);
+	return await batchDispatcher(payload, runHostedAction);
 }
 
 async function dispatchRecovery($i, userId, payload, osDispatch) {
@@ -108,6 +100,6 @@ async function dispatchRecovery($i, userId, payload, osDispatch) {
 
 module.exports = {
 	DEFAULT_DEPENDENCIES,
-	dispatchHostedBatch,
-	dispatchHostedVirtualOs
+	dispatchHostedVirtualOs,
+	runHostedBatch
 };
