@@ -3,29 +3,28 @@
 // Blessed is He
 
 const { dispatchOsFs } = require("../../osFs/index.js");
+const { runActionBatch } = require("../../osFs/actionBatch.js");
 const ActionNames = require("./actionNames.js");
 const ActionResult = require("./actionResult.js");
 const { RecoveryRepository } = require("./recoveryRepository.js");
 const { SnapshotActions } = require("./snapshotActions.js");
 const { TrashActions } = require("./trashActions.js");
-const {
-	isSitePublicationAction
-} = require("./sitePublicationActions.js");
-const {
-	dispatchSitePublication
-} = require("./sitePublicationDispatcher.js");
+const { isHostedBatchAction } = require("./hostedBatchActions.js");
+const { isSitePublicationAction } = require("./sitePublicationActions.js");
+const { dispatchSitePublication } = require("./sitePublicationDispatcher.js");
 
 /**
  * @module HostedVirtualOsDispatcher
  * @description
- * The Awtsmoos keeps ordinary filesystem deeds, explicit recovery, and
- * canonical publication in separate gates. Awtsmoos.com lets publication use
- * the authenticated server context without letting payload identity become law.
+ * The Awtsmoos keeps filesystem, recovery, publication, and batch vessels
+ * distinct while one trusted identity flows through them. Awtsmoos.com lets
+ * older clients batch newer hosted deeds without falling beneath authority.
  */
 
 const DEFAULT_DEPENDENCIES = Object.freeze({
 	dispatchOsFs,
-	dispatchSitePublication
+	dispatchSitePublication,
+	runActionBatch
 });
 
 /**
@@ -35,7 +34,7 @@ const DEFAULT_DEPENDENCIES = Object.freeze({
  * @param {string} userId Authenticated user identity.
  * @param {object} payload Hosted Virtual OS action payload.
  * @param {object} dependencies Trusted internal dependency seam for tests.
- * @returns {Promise<object>} Recovery, publication, or ordinary osFs response.
+ * @returns {Promise<object>} Hosted action response.
  */
 async function dispatchHostedVirtualOs(
 	$i,
@@ -54,7 +53,32 @@ async function dispatchHostedVirtualOs(
 		return await dependencies.dispatchSitePublication($i, userId, normalized);
 	}
 
+	if (isHostedBatchAction(action)) {
+		return await dispatchHostedBatch($i, userId, normalized, dependencies);
+	}
+
 	return await dependencies.dispatchOsFs($i, userId, normalized);
+}
+
+/**
+ * Re-enter hosted dispatch for every nested batch step so authority is kept.
+ *
+ * @param {object} $i Trusted server context.
+ * @param {string} userId Authenticated user identity.
+ * @param {object} payload Batch payload.
+ * @param {object} dependencies Trusted dependency seam.
+ * @returns {Promise<object>} Batch receipt.
+ */
+async function dispatchHostedBatch($i, userId, payload, dependencies) {
+	const batchRunner = dependencies.runActionBatch || runActionBatch;
+	const runHostedAction = nextPayload => dispatchHostedVirtualOs(
+		$i,
+		userId,
+		nextPayload,
+		dependencies
+	);
+
+	return await batchRunner(payload, runHostedAction);
 }
 
 async function dispatchRecovery($i, userId, payload, osDispatch) {
@@ -84,5 +108,6 @@ async function dispatchRecovery($i, userId, payload, osDispatch) {
 
 module.exports = {
 	DEFAULT_DEPENDENCIES,
+	dispatchHostedBatch,
 	dispatchHostedVirtualOs
 };
