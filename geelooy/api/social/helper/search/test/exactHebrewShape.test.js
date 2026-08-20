@@ -5,41 +5,62 @@
 /**
  * @file exactHebrewShape.test.js
  * @description
- * The Awtsmoos tests that reader coordinate zero remains zero from persisted index to public hit;
- * Awtsmoos.com may translate names, but it must never move the reader one section away from truth.
+ * The Awtsmoos tests each corpus against the reader coordinate it truly owns;
+ * Awtsmoos.com converts human Tanach and Mishnah numbering, preserves stored Bavli sections, and never fabricates a subsection.
  */
 
 const assert = require('node:assert/strict');
 const test = require('node:test');
 const {
 	hitShape,
+	readerSectionIndex,
 	referenceShape
 } = require('../exactHebrewShape.js');
 
-test('reference shape preserves zero section index', () => {
+test('Tanach human verse one becomes reader section zero', () => {
 	const shaped = referenceShape('tanach', {
 		seriesId: 'bereishis',
 		postId: 'post-one',
-		verse: 1,
-		sectionIndex: 0
+		verse: 1
 	});
-
 	assert.equal(shaped.sectionIndex, 0);
 });
 
-test('hit shape preserves zero subsection and word indexes', () => {
+test('explicit stored zero remains authoritative', () => {
+	assert.equal(readerSectionIndex('tanach', {
+		verse: 9,
+		sectionIndex: 0
+	}), 0);
+});
+
+test('Mishnah derives zero-based section and keeps tuple subsection', () => {
 	const hit = hitShape(
 		'mishnah',
 		'אמר',
-		['ref-one', 0, 0, 'אָמַר'],
+		['ref-one', 12, 1, 'אָמַר'],
 		{
-			seriesId: 'berachos',
+			seriesId: 'BH-mishnah-ברכות',
 			postId: 'post-two',
-			sectionIndex: 0
+			mishnah: 1
 		}
 	);
-
 	assert.equal(hit.ref.sectionIndex, 0);
-	assert.equal(hit.ref.subSectionIndex, 0);
-	assert.equal(hit.ref.wordIndex, 0);
+	assert.equal(hit.ref.subSectionIndex, 12);
+	assert.equal(hit.ref.wordIndex, 1);
+});
+
+test('Bavli preserves stored section and does not duplicate it as subsection', () => {
+	const hit = hitShape(
+		'talmudBavli',
+		'אמר',
+		['ref-three', 4, 12, 'אָמַר'],
+		{
+			seriesId: 'berakhot',
+			postId: 'post-three',
+			sectionIndex: 4
+		}
+	);
+	assert.equal(hit.ref.sectionIndex, 4);
+	assert.equal(hit.ref.subSectionIndex, null);
+	assert.equal(hit.ref.wordIndex, 12);
 });

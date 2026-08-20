@@ -5,8 +5,8 @@
 /**
  * @module ExactHebrewShape
  * @description
- * The Awtsmoos preserves every exact Hebrew coordinate, including the sacred zero at a reader's first section;
- * Awtsmoos.com therefore never turns a real zero into the next human-numbered verse by accidental coercion.
+ * The Awtsmoos translates human Torah numbering into the zero-based reader coordinates actually used by the post page;
+ * Awtsmoos.com preserves stored Bavli sections, derives Tanach and Mishnah reader sections, and never mistakes a section for a subsection.
  */
 
 const ROOTS = Object.freeze({
@@ -39,6 +39,22 @@ function corpusList(rawCorpus) {
 		: value.split(',').map(item => item.trim()).filter(Boolean);
 }
 
+function zeroBased(value) {
+	const number = Number(value);
+	return Number.isFinite(number) && number > 0
+		? number - 1
+		: null;
+}
+
+function readerSectionIndex(corpus, reference = {}) {
+	if (reference.sectionIndex !== null && reference.sectionIndex !== undefined) {
+		return Number(reference.sectionIndex);
+	}
+	if (corpus === 'tanach') return zeroBased(reference.verse);
+	if (corpus === 'mishnah') return zeroBased(reference.mishnah);
+	return null;
+}
+
 function referenceShape(corpus, reference) {
 	if (!reference) return null;
 	return {
@@ -57,10 +73,7 @@ function referenceShape(corpus, reference) {
 		amud: reference.amud,
 		postTitle: reference.postTitle,
 		type: reference.type,
-		sectionIndex: reference.sectionIndex
-			?? reference.verse
-			?? reference.mishnah
-			?? null,
+		sectionIndex: readerSectionIndex(corpus, reference),
 		subSectionIndex: null,
 		text: reference.text || reference.textOrig,
 		textOrig: reference.textOrig || reference.text,
@@ -70,8 +83,10 @@ function referenceShape(corpus, reference) {
 
 function hitShape(corpus, normalized, occurrence, reference) {
 	const shaped = referenceShape(corpus, reference);
-	if (shaped && corpus !== 'tanach') {
+	if (shaped && corpus === 'mishnah') {
 		shaped.subSectionIndex = occurrence[1] ?? null;
+		shaped.wordIndex = occurrence[2] ?? null;
+	} else if (shaped && corpus === 'talmudBavli') {
 		shaped.wordIndex = occurrence[2] ?? null;
 	} else if (shaped) {
 		shaped.wordIndex = occurrence[1] ?? null;
@@ -90,6 +105,7 @@ module.exports = {
 	corpusList,
 	hitShape,
 	normalizeWord,
+	readerSectionIndex,
 	referenceShape,
 	wordKey
 };
