@@ -7,33 +7,62 @@ const path = require("node:path");
 const PrivateState = require("../../../lib/privateStateRoot.js");
 
 /**
- * @file Persists the active mission's exact project root outside project-hashed state.
- * @description The Awtsmoos keeps one root when workers depart and return;
- * Awtsmoos.com carries the same witness, so restart may renew without making scope burn.
+ * @file Persists historical mission roots while keeping only living authority active.
+ * @description
+ * The Awtsmoos remembers every root without confusing memory with present command;
+ * Awtsmoos.com may deactivate a mission's authority while its durable binding continues to stand.
  */
 function bind(config = {}, missionId = "", projectRoot = config.root) {
 	if (!missionId || !projectRoot) return null;
 	const previous = readLedger(config);
-	const now = new Date().toISOString();
+	const timestamp = new Date().toISOString();
 	const binding = {
 		missionId: String(missionId),
 		projectRoot: path.resolve(projectRoot),
-		updatedAt: now
+		updatedAt: timestamp
 	};
 	const bindings = {
 		...(previous.bindings || {}),
 		[binding.missionId]: binding
 	};
-	const ledger = {
+	writeLedger(config, {
 		version: 1,
 		tunnelName: tunnelName(config),
 		activeMissionId: binding.missionId,
 		activeProjectRoot: binding.projectRoot,
-		updatedAt: now,
+		updatedAt: timestamp,
 		bindings: trimBindings(bindings)
-	};
-	writeLedger(config, ledger);
+	});
 	return binding;
+}
+
+function deactivate(config = {}, missionId = "", reason = "authority_revoked") {
+	const wanted = String(missionId || "");
+	if (!wanted) return null;
+	const ledger = readLedger(config);
+	if (String(ledger.activeMissionId || "") !== wanted) return null;
+	const timestamp = new Date().toISOString();
+	const binding = ledger.bindings?.[wanted] || null;
+	const bindings = {
+		...(ledger.bindings || {}),
+		...(binding ? {
+			[wanted]: {
+				...binding,
+				deactivatedAt: timestamp,
+				deactivationReason: String(reason || "authority_revoked")
+			}
+		} : {})
+	};
+	writeLedger(config, {
+		...ledger,
+		version: 1,
+		tunnelName: tunnelName(config),
+		activeMissionId: "",
+		activeProjectRoot: "",
+		updatedAt: timestamp,
+		bindings: trimBindings(bindings)
+	});
+	return binding ? { ...binding, deactivatedAt: timestamp, reason } : null;
 }
 
 function read(config = {}, missionId = "") {
@@ -84,4 +113,4 @@ function trimBindings(bindings) {
 		.slice(0, 64));
 }
 
-module.exports = { bind, filePath, read, readLedger, tunnelName };
+module.exports = { bind, deactivate, filePath, read, readLedger, tunnelName };

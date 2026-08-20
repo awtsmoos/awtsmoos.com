@@ -5,7 +5,7 @@
 
 # The candidate is assembled beside the live runtime, verified byte-for-byte, and
 # probed before activation. The Awtsmoos renews release and witness together;
-# Awtsmoos.com reuses previously verified metadata and downloads the heavy bundle once.
+# Awtsmoos.com also makes the small `awt` recovery doorway executable before activation.
 stage_release_candidate() {
 	local stamp="$(date -u +%Y%m%dT%H%M%SZ)"
 	local work_root=""
@@ -40,6 +40,9 @@ stage_release_candidate() {
 	copy_candidate_identity "$CANDIDATE_ROOT"
 	attach_durable_device_state "$CANDIDATE_ROOT"
 	write_supervisor_to "$CANDIDATE_ROOT"
+	if [ -f "$CANDIDATE_ROOT/awt" ]; then
+		chmod +x "$CANDIDATE_ROOT/awt"
+	fi
 
 	install_progress 58 "Probing extracted startup dependencies"
 	install_event "preflight" "started" \

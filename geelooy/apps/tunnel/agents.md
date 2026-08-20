@@ -2,27 +2,74 @@ B"H
 
 # Awtsmoos Tunnel — AI Agent Instructions
 
-These instructions govern AI agents operating through the Awtsmoos Tunnel application tree.
+These instructions govern agents operating through the Awtsmoos Tunnel tree. Inspect live reality first; never infer a tunnel, mission, lock, job, receipt, or server state from stale memory.
 
 ## Connection flow
 
 1. Authenticate with Awtsmoos.com when required.
 2. Discover the active device/tunnel automatically.
-3. When one tunnel is connected, use its returned `tunnelName`.
-4. When none are connected, tell the user to start or refresh the agent, then rediscover the device.
-5. When several are connected, ask which returned tunnel name to use.
-6. Never invent a tunnel name, project root, worker ID, job ID, receipt ID, or command result.
+3. Use the returned tunnel identity; never invent one.
+4. Distinguish public server health, authenticated control-session health, native parent/child health, and mission-controller health before choosing recovery.
+5. If several tunnels are connected, ask which returned identity to use.
 
-References:
+References: <https://awtsmoos.com/api/tunnel/control/docs>, <https://awtsmoos.com/apps/tunnel-control/>, <https://awtsmoos.com/apps/code>.
 
-- Human docs: <https://awtsmoos.com/api/tunnel/control/docs>
-- Machine docs: <https://awtsmoos.com/api/tunnel/control/docs.json>
-- OpenAPI: <https://awtsmoos.com/api/tunnel/control/openapi>
-- Control panel: <https://awtsmoos.com/apps/tunnel-control/>
+## Short recovery ladder
 
-## Installer and restart commands
+Prefer the packaged `awt` command over manual PID commands when it exists.
 
-Normal install, repair, refresh, and startup:
+### macOS/Linux
+
+```bash
+~/.awtsmoos-tunnel/awt status
+```
+
+```bash
+~/.awtsmoos-tunnel/awt check
+```
+
+```bash
+~/.awtsmoos-tunnel/awt rescue --dry-run
+```
+
+```bash
+~/.awtsmoos-tunnel/awt rescue
+```
+
+```bash
+~/.awtsmoos-tunnel/awt normal
+```
+
+### Windows
+
+```powershell
+%USERPROFILE%\.awtsmoos-tunnel\awt.cmd status
+```
+
+```powershell
+%USERPROFILE%\.awtsmoos-tunnel\awt.cmd rescue
+```
+
+`rescue` verifies supervisor-child ownership, sets Level 0, restarts only the verified supervised child, and waits for replacement. `normal` returns to Level 5 with the same guarded child restart. Unknown/typo commands make no mutation and should suggest the nearest valid command.
+
+Offline restore is stronger and requires explicit confirmation:
+
+```bash
+~/.awtsmoos-tunnel/awt restore 0 --confirm
+```
+
+Never jump to reinstall/restore because a GPT OAuth/control session failed. A browser-tab tunnel in Awtsmoos Code is a separate fallback vessel.
+
+## Failure-layer discipline
+
+- OAuth/client failure: reauthorize/rediscover; do not restart a healthy native child merely for authentication failure.
+- Native child wedged, supervisor verified: use `awt rescue`.
+- Supervisor absent/unverified: inspect/refresh the signed install; do not signal an unverified PID.
+- Server/API down: repair/deploy the server independently.
+- Mission controller blocks writes: inspect mission/lock/question/authorization evidence. Do not bypass with shell redirection.
+- Recovery level left at 0 after debugging: use `awt normal` and verify Level 5.
+
+## Install or refresh
 
 ```bash
 curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash
@@ -32,104 +79,46 @@ curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash
 irm https://awtsmoos.com/api/tunnel/install/windows | iex
 ```
 
-Guaranteed forced restart:
-
-```bash
-curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | AWTSMOOS_RESTART=1 bash
-```
-
-```powershell
-$env:AWTSMOOS_RESTART = '1'
-irm https://awtsmoos.com/api/tunnel/install/windows | iex
-Remove-Item Env:AWTSMOOS_RESTART -ErrorAction SilentlyContinue
-```
-
-The installer preserves an existing runtime configuration and saved tunnel identity. Do not delete `config.json` merely to restart the service.
-
-On supervised Unix installations, restart only the child when no file refresh is required:
-
-```bash
-LIVE="$HOME/.awtsmoos-tunnel"
-kill "$(cat "$LIVE/agent.pid")"
-```
-
-## Verify installed capabilities before use
-
-```bash
-LIVE="$HOME/.awtsmoos-tunnel"
-cat "$LIVE/install-state.txt"
-test -f "$LIVE/scripts/recovery-control.cjs" \
-	&& echo 'Recovery controls available' \
-	|| echo 'Recovery controls unavailable'
-```
-
-Never invoke tier or restore commands merely because the repository source contains them. Verify that the connected installed runtime contains the required scripts. When they are absent, use the installer or forced installer restart and verify again.
+The installer preserves an existing runtime configuration and tunnel identity. Do not delete `config.json` to force a restart.
 
 ## Required operating discipline
 
-- Inspect real files and runtime state before making claims.
-- Prefer read-only actions first.
-- Never read secrets without explicit authorization and tunnel permission.
-- Create a verified backup before changing executable or production files.
-- Rewrite complete files; do not apply fragile partial replacements.
+- Read actual files and runtime state before claims.
+- Prefer read-only evidence first.
+- Never read secrets without authorization.
+- Preserve executable/production backups and rollback evidence.
+- Rewrite complete files; never use fragile partial replacements.
 - Keep modules small, descriptive, and testable.
-- Test syntax, focused behavior, integration behavior, installation, and live behavior as appropriate.
-- Preserve the user’s existing tunnel identity and project root.
+- Test syntax, focused behavior, integration behavior, packaging, and live behavior.
+- Preserve the user's tunnel identity and project root.
+- If mission write policy requires authorization, use the documented mission step/token path; never defeat the firewall with shell writes.
+- Refrigerated/terminal missions are durable history, not active filesystem authority.
 
 ## Durable command protocol
 
-`commandStart` is asynchronous and may return a queued or running receipt.
+`commandStart` and promoted heavy actions may be asynchronous. Preserve returned `jobId`, worker/receipt IDs, command, and cwd. Follow with status/wait/output actions. A relay timeout does not prove command failure; inspect durable action/job history and never duplicate work merely because an HTTP wait ended.
 
-- Preserve `jobId`, `workerId`, `receiptId`, `command`, and `cwd`.
-- Use `commandStatus`, `commandWait`, and `commandJobOutputPage` for follow-up.
-- A relay timeout does not prove command failure.
-- Reuse an exact returned retry payload rather than starting the original command again.
-- Never duplicate a command because the first HTTP wait window ended.
-- Treat correlation mismatches as quarantined evidence, not permission to weaken validation.
+Treat response correlation mismatches as quarantined evidence, not permission to weaken validation.
 
-## Recovery-enabled health and levels
+## Recovery levels
 
-Run these only when `scripts/recovery-control.cjs` exists:
+| Level | Mode | Physical workers |
+|---|---|---:|
+| 0 | Emergency | 1 |
+| 1 | Single | 1 |
+| 2 | Dual | 2 |
+| 3 | Four | 4 |
+| 4 | Eight | 8 |
+| 5 | Production | Adaptive |
 
-```bash
-LIVE="$HOME/.awtsmoos-tunnel"
-node "$LIVE/scripts/recovery-control.cjs" status "$LIVE"
-node "$LIVE/scripts/recovery-control.cjs" check "$LIVE"
-```
+Logical admission and physical worker count are separate. After emergency verification, restore Level 5.
 
-| Level | Physical command workers |
-|---|---:|
-| 0 | 1 |
-| 1 | 1 |
-| 2 | 2 |
-| 3 | 4 |
-| 4 | 8 |
-| 5 | Adaptive production capacity |
+## Mission/watchdog recovery discipline
 
-Logical admission is unlimited by default; physical execution is bounded by the selected level.
+A multiple-choice watchdog reference must resolve to its original durable prompt/choices. Never invent A–E choices for a missing payload. If recovery reports `question_payload_missing`, preserve mission evidence and use the suggested mission inspection/manual recovery path; unrelated filesystem authority should not remain permanently locked.
 
-```bash
-node "$LIVE/scripts/recovery-control.cjs" set-tier "$LIVE" 2
-kill "$(cat "$LIVE/agent.pid")"
-```
-
-Return to Level 5 after verification:
-
-```bash
-node "$LIVE/scripts/recovery-control.cjs" set-tier "$LIVE" 5
-kill "$(cat "$LIVE/agent.pid")"
-```
+If a refrigerated/terminal mission appears to own an exclusive project-root lock, reconcile mission lifecycle and lock authority rather than deleting mission history.
 
 ## Offline restore protocol
 
-Run only when both `scripts/recovery-restore.cjs` and the selected recovery package exist:
-
-```bash
-LIVE="$HOME/.awtsmoos-tunnel"
-RECOVERY="$HOME/.awtsmoos-tunnel-recovery"
-node "$LIVE/scripts/recovery-restore.cjs" "$LIVE" 2 "$RECOVERY"
-nohup bash "$LIVE/awtsmoos-supervisor.sh" "$LIVE" \
-	>> "$LIVE/agent-supervisor.log" 2>&1 </dev/null &
-```
-
-After restoration, verify health, selected level, package checksums, preserved `config.json`, one read action, and one command action. Never edit immutable recovery archives in place.
+Use offline restore only after integrity evidence justifies it and the selected recovery archive exists. Preserve `config.json`, recovery archives, checksums, and tunnel identity. Verify status/check, selected level, one read action, and one command action after restoration. Never edit immutable recovery archives in place.

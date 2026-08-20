@@ -7,11 +7,13 @@ const Persistence = require("./persistence.js");
 const Stuck = require("../stuckness/index.js");
 const Seed = require("../autoSeed/index.js");
 const ProjectRoots = require("../projectRootRegistry.js");
+const Questions = require("../questionSnapshot.js");
 
 /**
- * @file Advances a mission lock without any direct contested-AWDB write before persistence.
- * @description The Awtsmoos gives each mission one truthful root and durable outer witness;
- * Awtsmoos.com lets bookkeeping wait while control and transport remain alive.
+ * @file Creates fresh mission authority and advances only living lock generations.
+ * @description
+ * The Awtsmoos gives each mission one truthful root while a revoked hand stays closed;
+ * Awtsmoos.com preserves complete question gates so no watchdog awakens to choices decomposed.
  */
 function windowMs(payload = {}) {
 	return payload.minimumInnovationWindowMs ?? payload.minimumRuntimeMs ?? 3600000;
@@ -34,6 +36,8 @@ function start(config, result = {}, payload = {}) {
 		mode: payload.missionLockMode || Config.DEFAULT_MODE,
 		releaseStatus: Config.LOCKED,
 		releaseAllowed: false,
+		authorityState: "active",
+		authorityGeneration: `${Date.now()}-${process.pid}`,
 		startedAt: Config.now(),
 		updatedAt: Config.now(),
 		minimumUntil: Config.minimumUntil(windowMs(payload)),
@@ -53,7 +57,7 @@ function start(config, result = {}, payload = {}) {
 
 function update(config, result = {}, payload = {}) {
 	const lock = Persistence.read(config);
-	if (!lock) return null;
+	if (!lock || lock.releaseAllowed === true || lock.authorityState === "revoked") return lock || null;
 	lock.updatedAt = Config.now();
 	lock.lastAction = result.action || payload.action || "";
 	const next = result.mustCallNext || result.nextRequiredAction || null;
@@ -75,8 +79,6 @@ function update(config, result = {}, payload = {}) {
 	if (result.releaseToken) lock.releaseToken = result.releaseToken;
 	lock.blockedOn = gate(result) || lock.blockedOn || null;
 	mark(lock, result);
-	lock.releaseAllowed = lock.releaseAllowed === true && result.finalAnswerAllowed === true;
-	lock.releaseStatus = lock.releaseAllowed ? "releasable" : "locked";
 	persist(config, lock);
 	return lock;
 }
@@ -109,7 +111,8 @@ function gate(result = {}) {
 		action: "missionAnswer",
 		questionId: question.questionId || question.id,
 		recommendedAnswer: question.recommendedAnswer || "",
-		expectedAnswerFormat: question.expectedAnswerFormat || ""
+		expectedAnswerFormat: question.expectedAnswerFormat || "",
+		question: Questions.snapshot(question)
 	};
 }
 

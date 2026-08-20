@@ -2,18 +2,66 @@ B"H
 
 # Awtsmoos Tunnel — Human Operations Guide
 
-The Awtsmoos Tunnel connects this computer to Awtsmoos.com so the control panel and authorized AI agents can inspect files, run permitted commands, use browser automation, and operate project tools through the saved tunnel identity.
+The Awtsmoos Tunnel connects this computer to Awtsmoos.com so authorized humans and agents can inspect files, run permitted commands, use browser automation, and operate project tools through the saved tunnel identity.
 
-## Open the control surfaces
+## Emergency recovery — use the shortest safe command first
 
-- Control panel: <https://awtsmoos.com/apps/tunnel-control/>
-- Human action documentation: <https://awtsmoos.com/api/tunnel/control/docs>
-- Machine-readable documentation: <https://awtsmoos.com/api/tunnel/control/docs.json>
-- OpenAPI description: <https://awtsmoos.com/api/tunnel/control/openapi>
+Recovery-enabled installs now ship one guarded command. It verifies the supervised process relationship before signaling a child.
+
+### macOS or Linux
+
+```bash
+~/.awtsmoos-tunnel/awt status
+```
+
+```bash
+~/.awtsmoos-tunnel/awt check
+```
+
+```bash
+~/.awtsmoos-tunnel/awt rescue
+```
+
+```bash
+~/.awtsmoos-tunnel/awt normal
+```
+
+`rescue` is the safe emergency path: verify supervisor + child ownership, set Level 0, terminate only the verified supervised child, and wait for its replacement. `normal` returns to Level 5 and restarts only that verified child. Use `--dry-run` to preview either operation without changing tier or signaling a process.
+
+Offline restore is intentionally stronger and requires confirmation:
+
+```bash
+~/.awtsmoos-tunnel/awt restore 0 --confirm
+```
+
+A typo such as `resuce` returns a suggested command and performs no recovery action.
+
+### Windows
+
+```powershell
+%USERPROFILE%\.awtsmoos-tunnel\awt.cmd status
+```
+
+```powershell
+%USERPROFILE%\.awtsmoos-tunnel\awt.cmd rescue
+```
+
+## Know which layer is broken
+
+| Symptom | First action |
+|---|---|
+| ChatGPT/OAuth control fails but Awtsmoos.com is reachable | Reauthorize the control session; do not restart the Mac agent merely for an OAuth failure. |
+| Native tunnel child is wedged but supervisor is alive | `awt rescue` |
+| Tunnel is healthy but intentionally left in Emergency Level 0 | `awt normal` |
+| `awt check` reports executable/manifest corruption | Inspect recovery evidence, then use confirmed offline restore. |
+| Supervisor itself is absent/unverified | Refresh with the signed installer rather than blindly killing a PID. |
+| Awtsmoos server/API is down | Repair the server independently; a Mac child restart does not repair the server. |
+
+The browser-tab tunnel in Awtsmoos Code can be used as a separate fallback vessel when the native tunnel or its authenticated control session is unavailable.
 
 ## Install, refresh, or start
 
-The installer is also the normal refresh/start entry point. It preserves an existing `config.json`, including the saved tunnel name and project root.
+The installer is also the normal refresh/start entry point. It preserves an existing `config.json`, saved tunnel name, project root, and recovery history.
 
 ### macOS or Linux
 
@@ -27,61 +75,11 @@ curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash
 irm https://awtsmoos.com/api/tunnel/install/windows | iex
 ```
 
-Re-running the installer verifies the manifest, repairs missing files, installs a newer version when available, and starts the background agent.
+A refresh verifies the manifest and candidate before activation. It should be preferred over deleting configuration or inventing a replacement identity.
 
-## Force a complete restart
+## Recovery levels
 
-Use the restart flag when the runtime is installed but the current process is stale, wedged, or must be replaced immediately.
-
-### macOS or Linux
-
-```bash
-curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | AWTSMOOS_RESTART=1 bash
-```
-
-### Windows PowerShell
-
-```powershell
-$env:AWTSMOOS_RESTART = '1'
-irm https://awtsmoos.com/api/tunnel/install/windows | iex
-Remove-Item Env:AWTSMOOS_RESTART -ErrorAction SilentlyContinue
-```
-
-## Restart only the supervised child on macOS or Linux
-
-```bash
-LIVE="$HOME/.awtsmoos-tunnel"
-kill "$(cat "$LIVE/agent.pid")"
-```
-
-The supervisor starts one replacement child without reinstalling files. Use the forced installer restart when the supervisor itself is missing or unhealthy.
-
-## Check the installed feature set
-
-```bash
-LIVE="$HOME/.awtsmoos-tunnel"
-cat "$LIVE/install-state.txt"
-test -f "$LIVE/scripts/recovery-control.cjs" \
-	&& echo 'Recovery controls available' \
-	|| echo 'Recovery controls not installed; refresh the tunnel first'
-```
-
-The tier, integrity, and offline-restore commands below require a recovery-enabled build. Older installed builds can still be refreshed and restarted with the installer commands above.
-
-## Inspect recovery-enabled health
-
-```bash
-LIVE="$HOME/.awtsmoos-tunnel"
-node "$LIVE/scripts/recovery-control.cjs" status "$LIVE"
-node "$LIVE/scripts/recovery-control.cjs" check "$LIVE"
-cat "$LIVE/recovery-state.json"
-```
-
-A healthy recovery-enabled runtime reports a valid manifest, a valid executable seal, and an active recovery level.
-
-## Concurrency and fallback levels
-
-Logical command admission is unlimited by default. Physical subprocess execution is bounded by the selected recovery level.
+Logical command admission is separate from physical subprocess concurrency.
 
 | Level | Mode | Physical workers |
 |---|---|---:|
@@ -92,44 +90,27 @@ Logical command admission is unlimited by default. Physical subprocess execution
 | 4 | Eight | 8 |
 | 5 | Production | Adaptive to machine capacity |
 
-Select a level and restart the supervised child:
+Three rapid nonzero crashes can lower the active level automatically. After emergency verification, return to Level 5 with `awt normal`.
 
-```bash
-LIVE="$HOME/.awtsmoos-tunnel"
-node "$LIVE/scripts/recovery-control.cjs" set-tier "$LIVE" 2
-kill "$(cat "$LIVE/agent.pid")"
-```
+## Deep recovery tools
 
-Return to Level 5:
-
-```bash
-node "$LIVE/scripts/recovery-control.cjs" set-tier "$LIVE" 5
-kill "$(cat "$LIVE/agent.pid")"
-```
-
-Three rapid nonzero crashes automatically lower the active level by one. Level 0 remains the final one-worker fallback.
-
-## Offline restoration
-
-Validated recovery packages normally live beside a recovery-enabled runtime:
+The short command wraps the existing recovery machinery rather than replacing it. Low-level scripts remain available for diagnosis and automation:
 
 ```text
-~/.awtsmoos-tunnel-recovery/tiers/level-0
-...
-~/.awtsmoos-tunnel-recovery/tiers/level-5
+~/.awtsmoos-tunnel/scripts/recovery-control.cjs
+~/.awtsmoos-tunnel/scripts/recovery-restore.cjs
+~/.awtsmoos-tunnel-recovery/tiers/level-0 ... level-5
 ```
 
-Restore a selected level:
+Offline restoration stages and validates a known-good archive and preserves `config.json`. Do not edit immutable recovery archives in place.
 
-```bash
-LIVE="$HOME/.awtsmoos-tunnel"
-RECOVERY="$HOME/.awtsmoos-tunnel-recovery"
-node "$LIVE/scripts/recovery-restore.cjs" "$LIVE" 2 "$RECOVERY"
-nohup bash "$LIVE/awtsmoos-supervisor.sh" "$LIVE" \
-	>> "$LIVE/agent-supervisor.log" 2>&1 </dev/null &
-```
+## Control surfaces
 
-The restore stages and validates the replacement before swapping roots. The existing `config.json` is preserved so the authenticated tunnel identity survives restoration.
+- Control panel: <https://awtsmoos.com/apps/tunnel-control/>
+- Human docs: <https://awtsmoos.com/api/tunnel/control/docs>
+- Machine docs: <https://awtsmoos.com/api/tunnel/control/docs.json>
+- OpenAPI: <https://awtsmoos.com/api/tunnel/control/openapi>
+- Browser/code fallback: <https://awtsmoos.com/apps/code>
 
 ## Important runtime files
 
@@ -138,10 +119,9 @@ The restore stages and validates the replacement before swapping roots. The exis
 ~/.awtsmoos-tunnel/install-state.txt
 ~/.awtsmoos-tunnel/agent.pid
 ~/.awtsmoos-tunnel/supervisor.pid
+~/.awtsmoos-tunnel/recovery-state.json
 ~/.awtsmoos-tunnel/agent.log
 ~/.awtsmoos-tunnel/agent-supervisor.log
 ```
-
-Recovery-enabled builds may also contain `recovery-state.json`, `recovery.log`, `recovery/`, and `scripts/recovery-*.cjs`.
 
 Do not publish `config.json`, private logs, credentials, OAuth material, or secret-like environment data.

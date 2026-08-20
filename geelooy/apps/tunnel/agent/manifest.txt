@@ -1,5 +1,5 @@
 B"H
-1.0.548
+1.0.549
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtector.mjs
@@ -170,6 +170,8 @@ ai/relay/split-browser/server.cjs
 ai/relay/split-browser/serverSupport.cjs
 ai/relay/split-browser/sessionStatusCache.cjs
 ai/relay/split-browser/urlMap.cjs
+awt
+awt.cmd
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/admin/fragmentation.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/admin/index.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/admin/sidecars.js
@@ -1261,6 +1263,9 @@ recovery/healthyTransition.js
 recovery/identityRecovery.js
 recovery/identityRepairController.js
 recovery/integrity.js
+recovery/manualArgs.js
+recovery/manualCli.js
+recovery/manualProcess.js
 recovery/recoveryDecision.js
 recovery/recoveryLog.js
 recovery/registrationFailurePolicy.js
@@ -1286,6 +1291,7 @@ release/runtimeRequiredTransport.js
 release/runtimeWorkerPaths.js
 release/sourcePaths.js
 scripts/auto-manifest.cjs
+scripts/awt.cjs
 scripts/cleanup-state.cjs
 scripts/connection-mailbox.cjs
 scripts/connection-status.cjs
@@ -1745,6 +1751,7 @@ tools/fs/mission/activeGuard/discover.js
 tools/fs/mission/activeGuard/index.js
 tools/fs/mission/activeGuard/policy.js
 tools/fs/mission/agentDirective.js
+tools/fs/mission/answerActions.js
 tools/fs/mission/answerLedger.js
 tools/fs/mission/autoContinuation/agentEndState.js
 tools/fs/mission/autoContinuation/coordinatorHelpers.js
@@ -1763,6 +1770,7 @@ tools/fs/mission/autoSeed/config.js
 tools/fs/mission/autoSeed/index.js
 tools/fs/mission/autoStart/create.js
 tools/fs/mission/autoStart/index.js
+tools/fs/mission/awdbLegacyMigration.js
 tools/fs/mission/awdbStore.js
 tools/fs/mission/boot/index.js
 tools/fs/mission/boot/resume.js
@@ -1923,6 +1931,7 @@ tools/fs/mission/protocolReview.js
 tools/fs/mission/protocolScoring.js
 tools/fs/mission/protocolSimulator.js
 tools/fs/mission/protocolStages.js
+tools/fs/mission/questionSnapshot.js
 tools/fs/mission/releaseCourt/config.js
 tools/fs/mission/releaseCourt/index.js
 tools/fs/mission/releaseCourt/verdict.js
