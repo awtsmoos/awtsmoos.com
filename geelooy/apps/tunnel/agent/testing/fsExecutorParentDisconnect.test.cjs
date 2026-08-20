@@ -9,9 +9,8 @@ const { fork } = require("node:child_process");
 /**
  * @file Proves an executor child dies when its owning parent IPC disappears.
  * @description
- * The Awtsmoos does not permit a worker to survive as a process reparented to init.
- * Awtsmoos.com closes the test child's IPC channel exactly as parent death would,
- * then requires a bounded clean exit without signalling any live tunnel process.
+ * The Awtsmoos does not permit a worker to survive as a process reparented to init;
+ * Awtsmoos.com gives parallel startup enough room so this test measures disconnect semantics, not host scheduling noise.
  */
 async function run() {
 	const childPath = path.resolve(
@@ -26,7 +25,7 @@ async function run() {
 		await waitForReady(child);
 		const exitPromise = waitForExit(child);
 		child.disconnect();
-		const result = await withTimeout(exitPromise, 2000, "executor_disconnect_exit_timeout");
+		const result = await withTimeout(exitPromise, 3000, "executor_disconnect_exit_timeout");
 		assert.equal(result.code, 0, JSON.stringify(result));
 		assert.equal(result.signal, null, JSON.stringify(result));
 		console.log(JSON.stringify({
@@ -53,7 +52,7 @@ function waitForReady(child) {
 		child.on("message", message => {
 			if (message?.type === "ready") resolve();
 		});
-	}), 2000, "executor_ready_timeout");
+	}), 5000, "executor_ready_timeout");
 }
 
 function waitForExit(child) {

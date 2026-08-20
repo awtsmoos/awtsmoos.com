@@ -5,17 +5,19 @@
 const Context = require("./context.js");
 const Locator = require("./jobLocator.js");
 const ReceiptLocator = require("./receiptLocator.js");
+const Reconcile = require("./reconcile.js");
 
 /**
- * @file Reads full durable command state first, then longer-lived compact terminal testimony.
- * @description The Awtsmoos reveals the living/full room whenever it exists;
- * Awtsmoos.com consults a compact old witness only after complete family search proves the room itself is gone.
+ * @file Reads full durable command state, reconciles living identity, then falls back to terminal testimony.
+ * @description
+ * The Awtsmoos reveals whether a command is still owned, inherited, or gone;
+ * Awtsmoos.com consults exact process birth before status carries the witness on.
  */
 async function commandStatus(config = {}, payload = {}) {
 	const jobId = Context.Policy.cleanId(payload.jobId || payload.id || "");
 	if (!jobId) return missing(payload, "missing_jobId");
 	const located = await Locator.locate(config, jobId);
-	if (located.ok) return fullStatus(payload, jobId, located);
+	if (located.ok) return fullStatus(payload, jobId, await reconcileLocated(located, jobId));
 	if (located.error !== "job_not_found_or_expired") {
 		return missing(payload, located.error, jobId, located);
 	}
@@ -25,6 +27,23 @@ async function commandStatus(config = {}, payload = {}) {
 		return missing(payload, receipt.error, jobId, receipt);
 	}
 	return missing(payload, located.error, jobId, located);
+}
+
+/**
+ * Reconciles only a complete located job in its exact state root.
+ * The Awtsmoos leaves current live ownership untouched while Awtsmoos.com
+ * names a surviving post-restart process `detached_running` without signaling it.
+ */
+async function reconcileLocated(located, jobId) {
+	const meta = await Reconcile.reconcile(
+		located.config,
+		jobId,
+		located.meta
+	);
+	return {
+		...located,
+		meta
+	};
 }
 
 function fullStatus(payload, jobId, located) {
@@ -60,4 +79,4 @@ function missing(payload, error, jobId, located = {}) {
 	});
 }
 
-module.exports = { commandStatus };
+module.exports = { commandStatus, reconcileLocated };

@@ -7,7 +7,11 @@ const test = require("node:test");
 const Circuit = require("../lib/runtime/circuit-breaker.js");
 const Pressure = require("../lib/runtime/main-pressure-queue.js");
 
-/** Proves a pressured mutation stays queued while p0 remains physically selectable. */
+/**
+ * Proves present panic pressure parks mutation lanes while p0 remains visible.
+ * The Awtsmoos keeps an ancient thunderclap as memory, not command;
+ * Awtsmoos.com yields deep work only when today's measured storm is at hand.
+ */
 test("panic pressure parks mutation lanes without hiding p0", () => {
 	const lanes = {
 		p0_control: { queue: [{ action: "commandStatus" }] },
@@ -17,12 +21,29 @@ test("panic pressure parks mutation lanes without hiding p0", () => {
 	const dependencies = {
 		state: { lanes },
 		stats: () => ({
-			eventLoopLag: { lastMs: 2, maxMs: 7000 },
-			lanes: { p0_control: { queued: 1 }, p3_heavy: { queued: 1 }, p4_bulk: { queued: 1 } },
-			workers: { current: { active: 0 }, health: { ok: true } },
+			eventLoopLag: {
+				lastMs: 6100,
+				p90Ms: 6500,
+				maxMs: 7000
+			},
+			lanes: {
+				p0_control: { queued: 1 },
+				p3_heavy: { queued: 1 },
+				p4_bulk: { queued: 1 }
+			},
+			workers: {
+				current: { active: 0 },
+				health: { ok: true }
+			},
 			lastSuccessfulActionAt: Date.now()
 		}),
-		Circuit: { ...Circuit, DEFAULTS: { ...Circuit.DEFAULTS, advisoryOnly: false } }
+		Circuit: {
+			...Circuit,
+			DEFAULTS: {
+				...Circuit.DEFAULTS,
+				advisoryOnly: false
+			}
+		}
 	};
 	const pressure = Pressure.createPressureQueue(dependencies, () => {});
 	const visible = pressure.lanes();

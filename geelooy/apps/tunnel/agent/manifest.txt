@@ -1,5 +1,5 @@
 B"H
-1.0.549
+1.0.551
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtector.mjs
@@ -909,6 +909,7 @@ lib/connection-vessel/controller-process-config.js
 lib/connection-vessel/controller-process.js
 lib/connection-vessel/controller-state.js
 lib/connection-vessel/controller.js
+lib/connection-vessel/mailbox-custody.js
 lib/connection-vessel/mailbox-health-policy.js
 lib/connection-vessel/mailbox-health.js
 lib/connection-vessel/mailbox-io.js
@@ -921,6 +922,8 @@ lib/connection-vessel/mailbox-usage.js
 lib/connection-vessel/mailbox.js
 lib/connection-vessel/parent-consumer-health-values.js
 lib/connection-vessel/parent-consumer-health.js
+lib/connection-vessel/parent-consumer-ingress.js
+lib/connection-vessel/parent-execution-health.js
 lib/connection-vessel/parent-watchdog-control.js
 lib/connection-vessel/parent-watchdog-policy.js
 lib/connection-vessel/parent-watchdog-pressure.js
@@ -1031,6 +1034,7 @@ lib/runtime/event-loop-lag.js
 lib/runtime/health-score.js
 lib/runtime/history-cleanup.js
 lib/runtime/kind.js
+lib/runtime/lane-limits.js
 lib/runtime/limit-timeouts.js
 lib/runtime/limits.js
 lib/runtime/liveness-status.js
@@ -1058,6 +1062,7 @@ lib/runtime/main-payload.js
 lib/runtime/main-pressure-queue.js
 lib/runtime/main-process.js
 lib/runtime/main-queue-progress.js
+lib/runtime/main-queue-prune.js
 lib/runtime/main-queue-rejection.js
 lib/runtime/main-queue.js
 lib/runtime/main-reconnect-policy.js
@@ -1666,6 +1671,7 @@ tools/fs/commandJob/processObserve.js
 tools/fs/commandJob/processObserveParse.js
 tools/fs/commandJob/promiseDeadline.js
 tools/fs/commandJob/queueLimits.js
+tools/fs/commandJob/queueStartLease.js
 tools/fs/commandJob/reap.js
 tools/fs/commandJob/reapArbitration.js
 tools/fs/commandJob/receiptGc.js
@@ -1712,11 +1718,15 @@ tools/fs/diagnostics.js
 tools/fs/executor/executionObserver.js
 tools/fs/executor/index.js
 tools/fs/executor/policy.js
+tools/fs/executor/pool-affinity.js
 tools/fs/executor/pool-capacity.js
 tools/fs/executor/pool-jobs.js
 tools/fs/executor/pool-lifecycle.js
+tools/fs/executor/pool-priority.js
+tools/fs/executor/pool-queue.js
 tools/fs/executor/pool-state.js
 tools/fs/executor/pool-warm.js
+tools/fs/executor/pool-worker-events.js
 tools/fs/executor/pool.js
 tools/fs/executor/requester.js
 tools/fs/executor/worker-child.cjs

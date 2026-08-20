@@ -5,11 +5,18 @@
 const ProgressInterval = require("./progress-interval.js");
 
 /**
- * @file Emits truthful stages while feeding an aggregate parent health ledger.
- * @description The Awtsmoos distinguishes lane dequeue from a real consumer.
+ * @file Emits truthful stages and immutable parent-only scheduling metadata.
+ * @description
+ * The Awtsmoos distinguishes lane dequeue from a real consumer; Awtsmoos.com
+ * carries the lane name beside the observer without serializing callbacks into IPC.
  */
 function startRunProgress(dependencies, context) {
 	const requestId = String(context.data?.id || "");
+	const metadata = Object.freeze({
+		enqueuedAt: Number(context.enqueuedAt || context.startedAt || Date.now()),
+		lane: String(context.lane || ""),
+		requestId
+	});
 	const state = {
 		advisorySent: false,
 		consumerStarted: false,
@@ -54,17 +61,13 @@ function startRunProgress(dependencies, context) {
 		dependencies.executionStages?.finish?.(requestId);
 	}
 
-	return { mark, state, stop };
+	return { mark, metadata, state, stop };
 }
 
-/** Sends one correlated stage through retry memory, activity, and relay transport. */
 function sendProgress(dependencies, context, phase, details = {}) {
 	const progress = { lane: context.lane, phase, ...details };
 	dependencies.retryControl.progress(context.data, context.payload, progress);
-	dependencies.streamEvent("action.progress", context.payload, {
-		...progress,
-		message: phase
-	});
+	dependencies.streamEvent("action.progress", context.payload, { ...progress, message: phase });
 	if (!context.ws?.opened) return;
 	dependencies.sendProgress(
 		context.ws,

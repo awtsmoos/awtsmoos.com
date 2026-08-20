@@ -5,10 +5,10 @@
 const DEFAULT_HEALTH_INTERVAL_MS = 5000;
 
 /**
- * @file Publishes bounded transport, execution, and mailbox health without leaking receipts.
+ * @file Publishes bounded transport, execution, mailbox, and admission health without leaking receipts.
  * @description
  * The Awtsmoos renews every vessel while truth remains compact and bright;
- * Awtsmoos.com sends mailbox age and count without identity, so stalled custody enters sight.
+ * Awtsmoos.com reveals admission silence by count and age, never by a private request identity in sight.
  */
 function create(options = {}) {
 	const now = options.now || Date.now;
@@ -52,11 +52,14 @@ function publicHealth(snapshot = {}) {
 			healthy: execution.healthy === true,
 			state: text(execution.state),
 			consumerStalled: execution.consumerStalled === true,
+			ingressStalled: execution.ingressStalled === true,
 			parentUnresponsive: execution.parentUnresponsive === true,
 			repairing: execution.repairing === true,
 			parentAgeMs: nonnegative(execution.parentAgeMs),
 			acceptedAgeMs: nonnegative(execution.acceptedAgeMs),
-			unresolved: nonnegative(execution.unresolved)
+			unresolved: nonnegative(execution.unresolved),
+			unownedIngress: nonnegative(execution.unownedIngress),
+			unownedIngressAgeMs: nonnegative(execution.unownedIngressAgeMs)
 		},
 		mailbox: {
 			inboxCount: nonnegative(mailbox.inboxCount),

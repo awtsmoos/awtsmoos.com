@@ -18,9 +18,10 @@ const DEFAULTS = Object.freeze({
 });
 
 /**
- * @file Protects control existence with rolling lag evidence instead of one quiet sample.
- * @description The Awtsmoos remembers the recent storm while accepting one durable deed;
- * Awtsmoos.com parks pressure-deepening lanes and keeps p0 alive until safe dequeue.
+ * @file Protects control existence using current and representative recent lag.
+ * @description
+ * The Awtsmoos remembers the tallest recent storm for diagnosis without letting
+ * one old thunderclap rule present admission after Awtsmoos.com has recovered.
  */
 function canAccept(lane, context = {}, limits = DEFAULTS, request = {}) {
 	const lag = lagEvidence(context);
@@ -38,6 +39,7 @@ function canAccept(lane, context = {}, limits = DEFAULTS, request = {}) {
 		circuitLevel: hardBlock ? "open" : level,
 		eventLoopLagMs: lag.lastMs,
 		maxEventLoopLagMs: lag.maxMs,
+		representativeLagMs: lag.representativeMs,
 		pressureLagMs: lag.pressureMs,
 		degraded: level !== "closed" || Boolean(pressureReason),
 		advisoryOnly: limits.advisoryOnly === true,
@@ -67,6 +69,7 @@ function snapshot(context = {}, limits = DEFAULTS) {
 		level: liveness.saturated ? "open" : level,
 		eventLoopLagMs: lag.lastMs,
 		maxEventLoopLagMs: lag.maxMs,
+		representativeLagMs: lag.representativeMs,
 		pressureLagMs: lag.pressureMs,
 		advisoryOnly: limits.advisoryOnly === true,
 		liveness
@@ -76,7 +79,9 @@ function snapshot(context = {}, limits = DEFAULTS) {
 function lagEvidence(context = {}) {
 	const lastMs = Number(context.eventLoopLag?.lastMs || 0);
 	const maxMs = Number(context.eventLoopLag?.maxMs || 0);
-	return { lastMs, maxMs, pressureMs: Math.max(lastMs, maxMs) };
+	const p90Ms = Number(context.eventLoopLag?.p90Ms || lastMs);
+	const representativeMs = Math.max(lastMs, p90Ms);
+	return { lastMs, maxMs, p90Ms, representativeMs, pressureMs: representativeMs };
 }
 
 function number(value, fallback) {

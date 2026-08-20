@@ -4,19 +4,21 @@
 
 const { createPressureQueue } = require("./main-pressure-queue.js");
 const { createQueueProgress } = require("./main-queue-progress.js");
+const { createQueuePruner } = require("./main-queue-prune.js");
 const { createQueueRejection } = require("./main-queue-rejection.js");
 
 /**
- * B"H
- * Admission, progress, and fair dispatch meet without becoming one monolith.
- * The Awtsmoos renews each queued deed; Awtsmoos.com reserves control capacity,
- * rotates requesters, and yields between starts so one agent cannot freeze all.
+ * @file Joins admission, bounded queue custody, and fair lane dispatch.
+ * @description
+ * The Awtsmoos renews each waiting deed without pretending waiting is execution;
+ * Awtsmoos.com expires only queue custody, clears its timers, and preserves running work untouched.
  */
 function createQueueRuntime(dependencies) {
 	let scheduleDrain = () => {};
 	const progress = createQueueProgress(dependencies);
 	const rejection = createQueueRejection(dependencies);
 	const pressure = createPressureQueue(dependencies, () => scheduleDrain());
+	const pruner = createQueuePruner(dependencies, rejection, progress, () => scheduleDrain());
 
 	function setScheduleDrain(callback) {
 		scheduleDrain = callback;
@@ -26,11 +28,13 @@ function createQueueRuntime(dependencies) {
 		const data = dependencies.routedData(raw);
 		const payload = data.payload;
 		if (dependencies.retryControl.handleIngress(ws, data, payload)) return undefined;
+		pruner.prune();
 		const item = {
 			ws,
 			data,
 			enqueuedAt: Date.now(),
-			queueKeepalive: null
+			queueKeepalive: null,
+			queueExpiryTimer: null
 		};
 		const lane = dependencies.Priority.laneOf(item);
 		const currentStats = dependencies.stats();
@@ -49,6 +53,7 @@ function createQueueRuntime(dependencies) {
 		)) return rejection.full(ws, data, payload, lane, currentStats);
 		dependencies.streamEvent("action.queued", payload, { lane, deferred: gate.deferred });
 		progress.start(item, lane);
+		pruner.arm(item, lane);
 		dependencies.Priority.enqueue(dependencies.state.lanes, item);
 		if (gate.startAllowed === false) pressure.wake(gate.retryAfterMs);
 		scheduleDrain();
@@ -56,6 +61,7 @@ function createQueueRuntime(dependencies) {
 	}
 
 	function nextLane() {
+		pruner.prune();
 		const lane = dependencies.Priority.nextLane(
 			pressure.lanes(),
 			dependencies.Limits,
@@ -66,11 +72,14 @@ function createQueueRuntime(dependencies) {
 	}
 
 	function takeNext() {
-		return dependencies.Priority.takeNext(
+		pruner.prune();
+		const item = dependencies.Priority.takeNext(
 			pressure.lanes(),
 			dependencies.Limits,
 			dependencies.state.scheduler
 		);
+		if (item) pruner.clear(item);
+		return item;
 	}
 
 	function release(lane, requesterKey) {
@@ -82,6 +91,7 @@ function createQueueRuntime(dependencies) {
 		clearQueueKeepalive: progress.clear,
 		enqueueRequest,
 		nextLane,
+		pruneQueued: pruner.prune,
 		release,
 		sendProgress: progress.send,
 		setScheduleDrain,

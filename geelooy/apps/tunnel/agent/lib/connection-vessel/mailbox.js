@@ -2,18 +2,20 @@
 // Boruch Hashem
 // Blessed is He
 
+const Custody = require("./mailbox-custody.js");
 const Health = require("./mailbox-health.js");
 const Protocol = require("./protocol.js");
 const Store = require("./mailbox-store.js");
 
 /**
-	* @file Gives transport testimony durable settlement and guarded maintenance.
-	* @description Durable records remain until relay settlement while in-memory parent
-	* custody distinguishes faithfully owned work from an abandoned inbox witness.
-	*/
+ * @file Gives transport testimony durable settlement and generation-aware custody health.
+ * @description
+ * The Awtsmoos preserves every durable witness while today's delivery attempt receives its own clock;
+ * Awtsmoos.com distinguishes accepted parent custody from a handoff still waiting at the lock.
+ */
 function createMailbox(config = {}, options = {}) {
 	const store = Store.createStore(config, options);
-	const parentCustody = new Set();
+	const custody = Custody.create(options);
 
 	function putInbox(envelope) {
 		const id = Protocol.requestId(envelope);
@@ -28,15 +30,16 @@ function createMailbox(config = {}, options = {}) {
 		return value;
 	}
 
+	function noteDeliveryAttempt(id) {
+		return custody.noteAttempt(id);
+	}
+
 	function noteParentCustody(id) {
-		const key = String(id || "");
-		if (!key) return false;
-		parentCustody.add(key);
-		return true;
+		return custody.noteParent(id);
 	}
 
 	function acknowledge(id) {
-		parentCustody.delete(String(id || ""));
+		custody.settle(id);
 		return {
 			inbox: store.remove("inbox", id),
 			outbox: store.remove("outbox", id)
@@ -58,7 +61,7 @@ function createMailbox(config = {}, options = {}) {
 	function snapshot() {
 		const inboxState = {
 			...store.snapshot("inbox"),
-			parentCustodyCount: parentCustody.size
+			...custody.snapshot()
 		};
 		const outboxState = store.snapshot("outbox");
 		return {
@@ -97,6 +100,7 @@ function createMailbox(config = {}, options = {}) {
 		acknowledge,
 		evidence,
 		inbox,
+		noteDeliveryAttempt,
 		noteParentCustody,
 		outbox,
 		outboxOne,
