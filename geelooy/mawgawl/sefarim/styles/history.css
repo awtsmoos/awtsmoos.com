@@ -1,12 +1,11 @@
 /* B"H
- * The Awtsmoos turns browser-local search memory into a navigable year, month, day, and category archive.
+ * The Awtsmoos turns browser-local search memory into a navigable year, month, day, category, and source-return archive.
  */
 .library-history-controls {
 	display: flex;
 	align-items: center;
 	gap: .35rem;
 }
-
 .library-history-controls select,
 .library-history-controls button {
 	min-height: 2rem;
@@ -18,52 +17,43 @@
 	font: inherit;
 	font-size: .72rem;
 }
-
 .library-history-year,
 .library-history-month {
 	display: grid;
 	gap: .4rem;
 }
-
 .library-history-year + .library-history-year {
 	margin-top: .55rem;
 	padding-top: .6rem;
 	border-top: 1px solid rgba(151, 178, 205, .12);
 }
-
 .library-history-year > summary,
 .library-history-month > summary {
 	cursor: pointer;
 	list-style-position: inside;
 	font-weight: 800;
 }
-
 .library-history-year > summary {
 	color: #f2d58a;
 	font-size: .83rem;
 }
-
 .library-history-month {
 	margin-inline-start: .35rem;
 }
-
 .library-history-month > summary {
 	color: #9fdce8;
 	font-size: .76rem;
 }
-
 .library-history-day {
 	display: grid;
 	gap: .35rem;
 	margin-inline-start: .5rem;
 }
-
 .library-history-day + .library-history-day {
 	margin-top: .35rem;
 	padding-top: .45rem;
 	border-top: 1px solid rgba(151, 178, 205, .08);
 }
-
 .library-history-day h4 {
 	margin: 0;
 	color: #d8b96d;
@@ -72,39 +62,49 @@
 	letter-spacing: .07em;
 	text-transform: uppercase;
 }
-
 .library-history-item {
+	display: grid;
+	gap: .35rem;
+	width: 100%;
+	border: 1px solid rgba(151, 178, 205, .1);
+	border-radius: .68rem;
+	background: #070d16;
+	overflow: hidden;
+}
+.library-history-item:focus-within,
+.library-history-item:hover {
+	border-color: rgba(85, 208, 231, .3);
+	background: #101b28;
+}
+.library-history-replay {
 	display: grid;
 	gap: .2rem;
 	width: 100%;
 	min-height: 3.35rem;
 	padding: .58rem;
-	border: 1px solid rgba(151, 178, 205, .1);
-	border-radius: .68rem;
-	background: #070d16;
+	border: 0;
+	background: transparent;
 	color: #f4f1e8;
 	font: inherit;
 	text-align: start;
 	cursor: pointer;
 }
-
-.library-history-item:is(:hover, :focus-visible) {
-	border-color: rgba(85, 208, 231, .3);
-	background: #101b28;
-	outline: 0;
-	transform: translateY(-1px);
-}
-
-.library-history-item strong {
+.library-history-replay strong {
 	overflow-wrap: anywhere;
 }
-
-.library-history-item small {
+.library-history-replay small {
 	color: #899aaf;
 	font-size: .7rem;
 	line-height: 1.4;
 }
-
+.library-history-source {
+	padding: 0 .58rem .58rem;
+	color: #79ddec;
+	font-size: .72rem;
+	font-weight: 750;
+	text-decoration: underline;
+	text-underline-offset: .18em;
+}
 @media (max-width: 640px) {
 	.library-history-controls {
 		align-items: stretch;
