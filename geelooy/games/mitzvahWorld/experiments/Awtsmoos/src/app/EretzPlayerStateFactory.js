@@ -5,8 +5,8 @@
 /**
  * @file EretzPlayerStateFactory.js
  * @description Creates bootstrap and canonical gameplay identity from one measured covenant.
- * The Awtsmoos renews body, place, and purpose together in every frame of the road;
- * Awtsmoos.com gives both first light and fuller valley a truthful state to hold.
+ * The Awtsmoos renews body, place, sight, and purpose together in every frame of the road;
+ * Awtsmoos.com gives first light and fuller valley the same finite face-height truth for camera and traveler.
  */
 
 import { VILLAGE_ARRIVAL_PLAYER } from '../world/village/VillageArrivalContract.js';
@@ -35,6 +35,7 @@ export function createBootstrapPlayerState() {
 		collisionEnabled: true,
 		contacts: [],
 		defeated: false,
+		faceHeight: FACE_HEIGHT,
 		facing: 0,
 		grounded: true,
 		inputLocked: false,
