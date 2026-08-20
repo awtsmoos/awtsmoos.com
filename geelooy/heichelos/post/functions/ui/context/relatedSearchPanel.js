@@ -6,20 +6,24 @@
  * @module RelatedSearchPanel
  * @description
  * The Awtsmoos lets one selected passage open a living source constellation beside itself;
- * Awtsmoos.com remembers the search, cancels stale rivers, and lets quick, semantic, and exact truth arrive independently.
+ * Awtsmoos.com remembers the search, cancels stale rivers, and lets each truthful lane arrive in its own time.
  */
 
 import { rememberSearch } from '../../../../../shared/SearchHistory.js';
-import {
-	searchRelatedQuick,
-	searchRelatedSemantic,
-	searchRelatedTanach
-} from './relatedSearchApi.js';
+import { relatedSearchLanes } from './relatedSearchLanes.js';
 import {
 	createRelatedSearchView,
 	renderRelatedError,
+	renderRelatedPending,
 	renderRelatedSection
 } from './relatedSearchView.js';
+
+const COUNT_LABELS = Object.freeze({
+	quick: 'quick',
+	semantic: 'semantic',
+	tanach: 'exact Tanach',
+	exact: 'exact corpus'
+});
 
 let active = null;
 
@@ -39,66 +43,67 @@ function placeAfter(anchor, panel) {
 }
 
 function summaryText(counts) {
-	const labels = [];
-	if (Number.isFinite(counts.quick)) labels.push(`${counts.quick} quick`);
-	if (Number.isFinite(counts.semantic)) labels.push(`${counts.semantic} semantic`);
-	if (Number.isFinite(counts.tanach)) labels.push(`${counts.tanach} exact Tanach`);
+	const labels = Object.entries(counts).map(([key, count]) => {
+		return `${count} ${COUNT_LABELS[key] || key}`;
+	});
 	if (!labels.length) return 'Searching the indexed library…';
-	const total = Object.values(counts)
-		.filter(Number.isFinite)
-		.reduce((sum, count) => sum + count, 0);
+	const total = Object.values(counts).reduce((sum, count) => {
+		return sum + count;
+	}, 0);
 	return `${labels.join(' · ')} · ${total} source${total === 1 ? '' : 's'} shown.`;
 }
 
-async function loadSection({ key, title, search, view, counts, signal }) {
+async function loadLane({ lane, view, counts, signal }) {
+	const container = view.sections[lane.key];
+	renderRelatedPending(container, lane.title, lane.pending);
 	try {
-		const result = await search(signal);
+		const result = await lane.search(signal);
 		if (signal.aborted) return;
-		counts[key] = renderRelatedSection(view.sections[key], title, result);
+		counts[lane.key] = renderRelatedSection(
+			container,
+			lane.title,
+			result
+		);
 		view.summary.textContent = summaryText(counts);
 	} catch (error) {
 		if (error?.name === 'AbortError') return;
-		counts[key] = 0;
-		renderRelatedError(view.sections[key], title, error.message);
+		counts[lane.key] = 0;
+		renderRelatedError(container, lane.title, error.message);
 		view.summary.textContent = summaryText(counts);
 	}
 }
 
-export function showRelatedSearch({ text, language, origin, anchor }) {
-	closeActive();
-	const controller = new AbortController();
-	const view = createRelatedSearchView({ query: text, onClose: closeActive });
-	active = { controller, view };
-	placeAfter(anchor, view.panel);
-	view.panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+function rememberSelection(selection) {
 	rememberSearch({
-		query: text,
+		query: selection.text,
 		mode: 'related',
-		category: language === 'hebrew' ? 'related-hebrew' : 'related-semantic',
-		origin,
+		category: selection.language === 'hebrew'
+			? 'related-hebrew'
+			: 'related-semantic',
+		origin: selection.origin,
 		sourcePath: `${location.pathname}${location.search}`,
 		sourceLabel: document.title
 	});
+}
+
+export function showRelatedSearch(selection) {
+	closeActive();
+	const controller = new AbortController();
+	const view = createRelatedSearchView({
+		query: selection.text,
+		onClose: closeActive
+	});
+	active = { controller, view };
+	placeAfter(selection.anchor, view.panel);
+	view.panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+	rememberSelection(selection);
 	const counts = {};
-	const common = { view, counts, signal: controller.signal };
-	void loadSection({
-		...common,
-		key: 'quick',
-		title: 'Quick library matches',
-		search: signal => searchRelatedQuick(text, signal)
-	});
-	void loadSection({
-		...common,
-		key: 'semantic',
-		title: 'Related by meaning',
-		search: signal => searchRelatedSemantic(text, signal)
-	});
-	if (language !== 'english') {
-		void loadSection({
-			...common,
-			key: 'tanach',
-			title: 'Exact Tanach matches',
-			search: signal => searchRelatedTanach(text, signal)
+	for (const lane of relatedSearchLanes(selection)) {
+		void loadLane({
+			lane,
+			view,
+			counts,
+			signal: controller.signal
 		});
 	}
 }

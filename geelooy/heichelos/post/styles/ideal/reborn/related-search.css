@@ -12,7 +12,6 @@
 	background: color-mix(in srgb, var(--reader-bg, #fff) 94%, #5ed4e9 6%);
 	box-shadow: 0 .8rem 2rem rgba(0, 0, 0, .12);
 }
-
 .awtsmoos-related-close {
 	position: absolute;
 	top: .55rem;
@@ -26,7 +25,6 @@
 	font-size: 1.25rem;
 	cursor: pointer;
 }
-
 .awtsmoos-related-kicker,
 .awtsmoos-related-summary,
 .awtsmoos-related-result small {
@@ -34,13 +32,11 @@
 	color: color-mix(in srgb, currentColor 68%, transparent);
 	font-size: .78rem;
 }
-
 .awtsmoos-related-kicker {
 	font-weight: 800;
 	letter-spacing: .08em;
 	text-transform: uppercase;
 }
-
 .awtsmoos-related-quote {
 	margin: 0;
 	padding: .7rem .8rem;
@@ -49,7 +45,6 @@
 	font-size: .95rem;
 	line-height: 1.55;
 }
-
 .awtsmoos-related-full-search,
 .awtsmoos-related-actions a {
 	color: inherit;
@@ -57,21 +52,17 @@
 	text-decoration: underline;
 	text-underline-offset: .18em;
 }
-
 .awtsmoos-related-section {
 	display: grid;
 	gap: .55rem;
 }
-
 .awtsmoos-related-section:empty {
 	display: none;
 }
-
 .awtsmoos-related-section h3 {
 	margin: .2rem 0 0;
 	font-size: .9rem;
 }
-
 .awtsmoos-related-result {
 	display: grid;
 	gap: .35rem;
@@ -80,12 +71,10 @@
 	border-radius: .75rem;
 	background: color-mix(in srgb, var(--reader-bg, #fff) 97%, currentColor 3%);
 }
-
 .awtsmoos-related-result h4,
 .awtsmoos-related-result p {
 	margin: 0;
 }
-
 .awtsmoos-related-result p {
 	display: -webkit-box;
 	overflow: hidden;
@@ -94,7 +83,6 @@
 	font-size: .9rem;
 	line-height: 1.5;
 }
-
 .awtsmoos-related-actions {
 	display: flex;
 	flex-wrap: wrap;
@@ -102,13 +90,21 @@
 	margin-top: .15rem;
 	font-size: .78rem;
 }
-
-.awtsmoos-related-empty {
+.awtsmoos-related-empty,
+.awtsmoos-related-pending {
 	margin: 0;
 	font-size: .82rem;
 	opacity: .72;
 }
-
+.awtsmoos-related-pending {
+	animation: awtsmoos-related-breathe 1.4s ease-in-out infinite alternate;
+}
+@keyframes awtsmoos-related-breathe {
+	to { opacity: .42; }
+}
+@media (prefers-reduced-motion: reduce) {
+	.awtsmoos-related-pending { animation: none; }
+}
 @media (max-width: 640px) {
 	.awtsmoos-related-search-inline {
 		margin-inline: -.2rem;

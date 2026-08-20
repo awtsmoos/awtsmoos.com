@@ -5,14 +5,20 @@
 /**
  * @module RelatedSearchView
  * @description
- * The Awtsmoos lets related sources appear beside the very words that awakened the search;
- * Awtsmoos.com keeps a visible quote, bounded previews, and two honest doors into every source: here or a new tab.
+ * The Awtsmoos lets related sources appear beside the words that awakened the search;
+ * Awtsmoos.com gives every lane a visible state and every indexed source two honest doors: here or a new tab.
  */
 
 import {
 	fullLibrarySearchUrl,
 	relatedSourceUrl
 } from './relatedDestinations.js';
+import {
+	relatedProvenance,
+	relatedRow,
+	relatedText,
+	relatedTitle
+} from './relatedResultShape.js';
 
 function el(tag, className, text = '') {
 	const node = document.createElement(tag);
@@ -21,8 +27,8 @@ function el(tag, className, text = '') {
 	return node;
 }
 
-function sourceActions(row) {
-	const url = relatedSourceUrl(row);
+function sourceActions(hit) {
+	const url = relatedSourceUrl(relatedRow(hit));
 	const actions = el('div', 'awtsmoos-related-actions');
 	if (!url) return actions;
 	const open = el('a', '', 'Open here');
@@ -35,31 +41,24 @@ function sourceActions(row) {
 	return actions;
 }
 
-function tanachTitle(row) {
-	const title = row.bookTitle || row.bookHebrew;
-	if (!title) return '';
-	const verse = row.verse ?? row.verseStart;
-	return `${title} ${row.chapter || '?'}:${verse ?? '?'}`;
-}
-
-function rowTitle(row = {}) {
-	return tanachTitle(row)
-		|| row.title
-		|| row.sourceLabel
-		|| row.libraryLaneTitle
-		|| 'Related source';
-}
-
 function resultCard(hit) {
-	const row = hit?.row || hit || {};
 	const card = el('article', 'awtsmoos-related-result');
 	card.append(
-		el('h4', '', rowTitle(row)),
-		el('p', '', row.displayText || row.text || 'Source text'),
-		el('small', '', `${row.libraryLaneTitle || row.sourceLabel || 'Indexed source'}${hit?.percent != null ? ` · ${Number(hit.percent).toFixed(1)}%` : ''}`),
-		sourceActions(row)
+		el('h4', '', relatedTitle(hit)),
+		el('p', '', relatedText(hit)),
+		el('small', '', relatedProvenance(hit)),
+		sourceActions(hit)
 	);
 	return card;
+}
+
+function sectionMap() {
+	return {
+		quick: el('div', 'awtsmoos-related-section'),
+		semantic: el('div', 'awtsmoos-related-section'),
+		tanach: el('div', 'awtsmoos-related-section'),
+		exact: el('div', 'awtsmoos-related-section')
+	};
 }
 
 export function createRelatedSearchView({ query, onClose }) {
@@ -73,23 +72,28 @@ export function createRelatedSearchView({ query, onClose }) {
 	full.href = fullLibrarySearchUrl(query);
 	full.target = '_blank';
 	full.rel = 'noopener noreferrer';
-	const summary = el('p', 'awtsmoos-related-summary', 'Searching the indexed library…');
-	const sections = {
-		quick: el('div', 'awtsmoos-related-section'),
-		semantic: el('div', 'awtsmoos-related-section'),
-		tanach: el('div', 'awtsmoos-related-section')
-	};
+	const summary = el(
+		'p',
+		'awtsmoos-related-summary',
+		'Searching the indexed library…'
+	);
+	const sections = sectionMap();
 	panel.append(
 		close,
 		el('p', 'awtsmoos-related-kicker', 'Related to selected text'),
 		el('blockquote', 'awtsmoos-related-quote', query),
 		summary,
 		full,
-		sections.quick,
-		sections.semantic,
-		sections.tanach
+		...Object.values(sections)
 	);
 	return { panel, summary, sections };
+}
+
+export function renderRelatedPending(container, title, message) {
+	container.replaceChildren(
+		el('h3', '', title),
+		el('p', 'awtsmoos-related-pending', message)
+	);
 }
 
 export function renderRelatedSection(container, title, search) {
@@ -98,7 +102,9 @@ export function renderRelatedSection(container, title, search) {
 		: Array.isArray(search?.results) ? search.results : [];
 	container.replaceChildren(el('h3', '', title));
 	if (!hits.length) {
-		container.append(el('p', 'awtsmoos-related-empty', 'No matching sources in this lane.'));
+		container.append(
+			el('p', 'awtsmoos-related-empty', 'No matching sources in this lane.')
+		);
 		return 0;
 	}
 	container.append(...hits.map(resultCard));

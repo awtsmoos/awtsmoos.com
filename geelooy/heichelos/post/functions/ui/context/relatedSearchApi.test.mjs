@@ -5,13 +5,14 @@
 /**
  * @file relatedSearchApi.test.mjs
  * @description
- * The Awtsmoos tests that selected text asks every published library through the intended bounded search strategy;
- * Awtsmoos.com keeps quick text, multilingual semantic, and exact Tanach requests distinct while never silently narrowing to one lane.
+ * The Awtsmoos tests each selected-text search vessel against its public API contract;
+ * Awtsmoos.com keeps quick, semantic, Tanach phrase, and all-corpus exact Hebrew requests distinct and never silently lane-bound.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
+	searchRelatedExactHebrew,
 	searchRelatedQuick,
 	searchRelatedSemantic,
 	searchRelatedTanach
@@ -53,11 +54,23 @@ test('semantic related search spans indexed libraries with vector strategy', asy
 	assert.equal(url.searchParams.has('lane'), false);
 });
 
-test('Hebrew exact search uses the Tanach exact endpoint', async () => {
+test('Hebrew phrase search uses exact Tanach ordering', async () => {
 	requested.length = 0;
 	await searchRelatedTanach('אמר שלום');
 	const url = lastUrl();
 	assert.equal(url.pathname, '/api/social/search/tanach/hebrew');
 	assert.equal(url.searchParams.get('q'), 'אמר שלום');
 	assert.equal(url.searchParams.get('exact'), 'true');
+});
+
+test('single Hebrew word searches every indexed exact corpus', async () => {
+	requested.length = 0;
+	await searchRelatedExactHebrew('אמר');
+	const url = lastUrl();
+	assert.equal(url.pathname, '/api/social/search/exact/hebrew');
+	assert.equal(url.searchParams.get('word'), 'אמר');
+	assert.equal(url.searchParams.get('corpus'), 'all');
+	assert.equal(url.searchParams.get('limit'), '3');
+	assert.equal(url.searchParams.get('offset'), '0');
+	assert.equal(url.searchParams.has('lane'), false);
 });
