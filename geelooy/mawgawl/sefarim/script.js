@@ -5,8 +5,8 @@
 /**
  * @module LivingLibrarySearchController
  * @description
- * The Awtsmoos guides Library, Tanach, and Exact through one visible search vessel while shared memory gathers by date and kind;
- * Awtsmoos.com keeps manual searches and reader selections in one local archive without losing mode, origin, or source coordinates.
+ * The Awtsmoos guides Library, Tanach, and Exact through one visible vessel while shared memory gathers by date and intent;
+ * Awtsmoos.com preserves Text/Semantic strategy with lane, corpus, source history, and every deliberate search coordinate.
  */
 import { renderLaneDirectory } from './discoveryView.js';
 import { renderSearchHistory } from './historyView.js';
@@ -16,19 +16,9 @@ import { bindSearchControls } from './searchBindings.js';
 import { clearSearchHistory, readSearchHistory, rememberSearch } from './searchHistory.js';
 import { fetchLibraryLanes } from './searchApi.js';
 import {
-	book,
-	clearHistoryButton,
-	corpus,
-	form,
-	historyFilter,
-	input,
-	laneCount,
-	laneDirectory,
-	mode,
-	recentSearches,
-	results,
-	series,
-	status
+	book, clearHistoryButton, corpus, form, historyFilter, input,
+	laneCount, laneDirectory, mode, recentSearches, results, series,
+	status, strategy
 } from './searchDom.js';
 import { replaceSearchLocation } from './searchLocation.js';
 import { addLane, renderFailure, setSearching } from './searchView.js';
@@ -61,15 +51,22 @@ function renderHistory(entries = readSearchHistory()) {
 	clearHistoryButton.disabled = entries.length === 0;
 }
 
-function rememberCurrentSearch(query) {
-	return rememberSearch({
+function currentState(query) {
+	return {
 		query,
 		mode: mode.value,
-		category: mode.value,
-		origin: 'search-page',
+		strategy: strategy.value,
 		lane: series.value,
 		book: book.value.trim(),
 		corpus: corpus.value
+	};
+}
+
+function rememberCurrentSearch(query) {
+	return rememberSearch({
+		...currentState(query),
+		category: mode.value,
+		origin: 'search-page'
 	});
 }
 
@@ -80,24 +77,11 @@ async function runSearch(query) {
 	intentController.prepareMode(normalizedQuery);
 	setSearching(form, true);
 	results.replaceChildren();
-	replaceSearchLocation({
-		query: normalizedQuery,
-		mode: mode.value,
-		lane: series.value,
-		book: book.value.trim(),
-		corpus: corpus.value
-	});
+	const state = currentState(normalizedQuery);
+	replaceSearchLocation(state);
 	renderHistory(rememberCurrentSearch(normalizedQuery));
 	try {
-		await searchByMode({
-			query: normalizedQuery,
-			mode: mode.value,
-			lane: series.value,
-			book: book.value.trim(),
-			corpus: corpus.value,
-			results,
-			status
-		});
+		await searchByMode({ ...state, results, status });
 	} catch (error) {
 		renderFailure({ message: error.message, results, status });
 	} finally {
@@ -110,9 +94,11 @@ bindSearchControls({
 	form,
 	input,
 	mode,
+	strategy,
 	clearHistoryButton,
 	onSearch: runSearch,
 	onModeChange: () => intentController.handleModeChange(),
+	onStrategyChange: () => intentController.handleStrategyChange(),
 	onClearHistory: () => renderHistory(clearSearchHistory())
 });
 historyFilter.addEventListener('change', () => renderHistory());

@@ -5,8 +5,8 @@
 /**
  * @module SearchIntentController
  * @description
- * The Awtsmoos lets automatic Hebrew insight serve the reader without overruling deliberate choice;
- * at Awtsmoos.com URL and history hydration restore lane, book, corpus, or a related-selection query before search has voice.
+ * The Awtsmoos lets automatic Hebrew insight serve the reader without overruling deliberate search intent;
+ * Awtsmoos.com restores lane, strategy, book, corpus, or reader-selection history before any request gains a voice.
  */
 
 import { readSearchLocation } from './searchLocation.js';
@@ -18,7 +18,9 @@ import {
 	input,
 	laneField,
 	mode,
-	series
+	series,
+	strategy,
+	strategyField
 } from './searchDom.js';
 import {
 	automaticMode,
@@ -27,9 +29,10 @@ import {
 	LIBRARY_MODE,
 	modeFromUrl
 } from './searchMode.js';
+import { normalizeSearchStrategy } from './searchStrategy.js';
 
 function configureCurrentMode() {
-	configureMode(mode, laneField, bookField, corpusField);
+	configureMode(mode, laneField, strategyField, bookField, corpusField);
 }
 
 function historyMode(entry) {
@@ -64,6 +67,7 @@ export class SearchIntentController {
 		this.modeLocked = true;
 		input.value = entry.query;
 		mode.value = historyMode(entry);
+		strategy.value = normalizeSearchStrategy(entry.strategy);
 		series.value = entry.mode === 'related' ? '' : entry.lane || '';
 		book.value = entry.book || '';
 		corpus.value = entry.corpus || 'tanach';
@@ -77,14 +81,16 @@ export class SearchIntentController {
 		if (input.value.trim()) this.runSearch(input.value);
 	}
 
-	/**
-	 * @returns {Promise<void>} Resolves after URL state is fully restored.
-	 */
+	handleStrategyChange() {
+		if (input.value.trim()) this.runSearch(input.value);
+	}
+
 	async hydrate() {
 		const state = readSearchLocation();
 		input.value = state.query;
 		this.modeLocked = hasExplicitMode(state.values);
 		mode.value = modeFromUrl(state.values);
+		strategy.value = state.strategy;
 		book.value = state.book;
 		corpus.value = state.corpus;
 		configureCurrentMode();

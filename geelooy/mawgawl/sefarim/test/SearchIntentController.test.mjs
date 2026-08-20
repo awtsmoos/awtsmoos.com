@@ -6,7 +6,7 @@
  * @file SearchIntentController.test.mjs
  * @description
  * The Awtsmoos tests that shared Sefarim coordinates and remembered intent arrive before each search can fly;
- * Awtsmoos.com preserves lane, exact corpus, and reader-selection history without burying behavior beneath test scaffolding.
+ * Awtsmoos.com preserves lane, Text/Semantic strategy, exact corpus, and reader-selection history without burying behavior in scaffolding.
  */
 
 import assert from 'node:assert/strict';
@@ -27,6 +27,18 @@ test('hydrate restores a deep-linked lane before the first search', async () => 
 		'search:Torah:likkutei-sichos'
 	]);
 	assert.equal(elements.get('searchMode').value, 'library');
+	assert.equal(elements.get('searchStrategy').value, 'text');
+});
+
+test('hydrate restores semantic Library strategy before searching', async () => {
+	location.search = '?q=purpose&mode=library&strategy=vector';
+	const events = [];
+	const controller = controllerWithEvents(events);
+	await controller.hydrate();
+	assert.equal(elements.get('searchMode').value, 'library');
+	assert.equal(elements.get('searchStrategy').value, 'vector');
+	assert.equal(elements.get('strategyField').hidden, false);
+	assert.match(events.at(-1), /^search:purpose:/);
 });
 
 test('hydrate restores exact corpus and its contextual control', async () => {
@@ -38,7 +50,7 @@ test('hydrate restores exact corpus and its contextual control', async () => {
 	assert.equal(elements.get('corpus').value, 'mishnah');
 	assert.equal(elements.get('corpusField').hidden, false);
 	assert.equal(elements.get('laneField').hidden, true);
-	assert.equal(elements.get('bookField').hidden, true);
+	assert.equal(elements.get('strategyField').hidden, true);
 	assert.match(events.at(-1), /^search:אמר:/);
 });
 
@@ -48,9 +60,7 @@ test('history choice restores exact mode and corpus before searching', () => {
 	controller.chooseHistory({
 		query: 'אמר',
 		mode: 'exact',
-		corpus: 'talmudBavli',
-		lane: '',
-		book: ''
+		corpus: 'talmudBavli'
 	});
 	assert.equal(elements.get('query').value, 'אמר');
 	assert.equal(elements.get('searchMode').value, 'exact');
@@ -59,19 +69,22 @@ test('history choice restores exact mode and corpus before searching', () => {
 	assert.match(events.at(-1), /^search:אמר:/);
 });
 
-test('reader-selection history reopens as broad Library search', () => {
+test('reader-selection history reopens as broad semantic Library search', () => {
 	const events = [];
 	const controller = controllerWithEvents(events);
 	elements.get('series').value = 'old-lane';
 	controller.chooseHistory({
 		query: 'divine purpose',
 		mode: 'related',
+		strategy: 'vector',
 		origin: 'comment-selection',
 		lane: 'should-not-survive'
 	});
 	assert.equal(elements.get('query').value, 'divine purpose');
 	assert.equal(elements.get('searchMode').value, 'library');
+	assert.equal(elements.get('searchStrategy').value, 'vector');
 	assert.equal(elements.get('series').value, '');
 	assert.equal(elements.get('laneField').hidden, false);
+	assert.equal(elements.get('strategyField').hidden, false);
 	assert.match(events.at(-1), /^search:divine purpose:$/);
 });

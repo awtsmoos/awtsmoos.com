@@ -6,7 +6,7 @@
  * @module RelatedSearchPanel
  * @description
  * The Awtsmoos lets one selected passage open a living source constellation beside itself;
- * Awtsmoos.com remembers the search, cancels stale rivers, and carries the selected words into each highlighted source preview.
+ * Awtsmoos.com remembers semantic intent, cancels stale rivers, and carries selected words into each highlighted source preview.
  */
 
 import { rememberSearch } from '../../../../../shared/SearchHistory.js';
@@ -47,9 +47,7 @@ function summaryText(counts) {
 		return `${count} ${COUNT_LABELS[key] || key}`;
 	});
 	if (!labels.length) return 'Searching the indexed library…';
-	const total = Object.values(counts).reduce((sum, count) => {
-		return sum + count;
-	}, 0);
+	const total = Object.values(counts).reduce((sum, count) => sum + count, 0);
 	return `${labels.join(' · ')} · ${total} source${total === 1 ? '' : 's'} shown.`;
 }
 
@@ -78,6 +76,7 @@ function rememberSelection(selection) {
 	rememberSearch({
 		query: selection.text,
 		mode: 'related',
+		strategy: 'vector',
 		category: selection.language === 'hebrew'
 			? 'related-hebrew'
 			: 'related-semantic',

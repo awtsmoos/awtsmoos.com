@@ -6,8 +6,10 @@
  * @module LivingLibrarySearchDom
  * @description
  * The Awtsmoos gathers each finite search vessel by name while remaining beyond every bound;
- * at Awtsmoos.com one explicit DOM map keeps orchestration readable and page ownership sound.
+ * Awtsmoos.com also reveals a runtime strategy control so local HTML evolution need not be overwritten to gain semantic search.
  */
+
+import { ensureSearchStrategyControl } from './searchStrategyControl.js';
 
 function required(id) {
 	const element = document.getElementById(id);
@@ -26,6 +28,9 @@ export const corpus = required('corpus');
 export const laneField = required('laneField');
 export const bookField = required('bookField');
 export const corpusField = required('corpusField');
+const strategyControl = ensureSearchStrategyControl(mode);
+export const strategy = strategyControl.select;
+export const strategyField = strategyControl.field;
 export const status = required('status');
 export const results = required('results');
 export const laneDirectory = required('laneDirectory');
