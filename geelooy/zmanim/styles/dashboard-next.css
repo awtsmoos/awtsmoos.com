@@ -1,0 +1,97 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos creates the approaching moment before any countdown can make a claim;
+ * Awtsmoos.com gives the next zman a strong vessel so urgency and serenity share one flame.
+ */
+
+.next-zman-panel {
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	min-height: 208px;
+	padding: clamp(1rem, 4vw, 1.5rem);
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-radius: var(--radius-large);
+	background:
+		radial-gradient(circle at 88% -10%, rgba(255, 255, 255, 0.16), transparent 16rem),
+		linear-gradient(145deg, #17483c, var(--forest) 62%);
+	box-shadow: 0 20px 46px rgba(18, 56, 47, 0.2);
+	color: white;
+}
+
+.next-zman-panel::after {
+	position: absolute;
+	right: -3rem;
+	bottom: -5rem;
+	z-index: -1;
+	width: 11rem;
+	height: 11rem;
+	border: 1px solid rgba(234, 223, 201, 0.16);
+	border-radius: 50%;
+	content: "";
+}
+
+.next-kicker {
+	margin: 0 0 0.35rem;
+	font-size: 0.66rem;
+	font-weight: 850;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	opacity: 0.7;
+}
+
+.next-zman-panel h2 {
+	max-width: 20ch;
+	margin: 0;
+	font-family: Georgia, "Times New Roman", serif;
+	font-size: clamp(1.75rem, 7vw, 2.7rem);
+	line-height: 1;
+	letter-spacing: -0.035em;
+}
+
+.next-zman-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0.45rem 0.8rem;
+	margin-top: 0.9rem;
+}
+
+.next-zman-row strong {
+	font-size: clamp(2.6rem, 12vw, 4.5rem);
+	font-variant-numeric: tabular-nums;
+	line-height: 0.9;
+	letter-spacing: -0.055em;
+	text-shadow: 0 6px 22px rgba(0, 0, 0, 0.12);
+}
+
+.next-countdown {
+	padding: 0.32rem 0.58rem;
+	border: 1px solid rgba(255, 255, 255, 0.13);
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.11);
+	font-size: 0.72rem;
+	font-weight: 800;
+	backdrop-filter: blur(8px);
+}
+
+.next-context {
+	display: grid;
+	gap: 0.18rem;
+	margin-top: 1rem;
+	padding-top: 0.8rem;
+	border-top: 1px solid rgba(255, 255, 255, 0.14);
+	font-size: 0.68rem;
+	line-height: 1.4;
+	opacity: 0.76;
+}
+
+.next-muted {
+	max-width: 46ch;
+	margin: 0.8rem 0 0;
+	font-size: 0.78rem;
+	line-height: 1.5;
+	opacity: 0.76;
+}

@@ -14,14 +14,11 @@ const PROFILES = Object.freeze({
 });
 
 /**
- * B"H
- * Many agents are sparks, while one scheduler is their measured vessel. The
- * Awtsmoos lets Awtsmoos.com admit unlimited logical work while each recovery
- * tier reveals only the physical process count it can safely carry.
- *
- * @param {NodeJS.ProcessEnv|object} environment Runtime environment.
- * @param {object} system Injectable machine measurements for deterministic tests.
- * @returns {object} Resolved concurrency profile.
+ * @file Resolves bounded physical command capacity and an independent owner share.
+ * @description
+ * The Awtsmoos grants many shluchim one machine without granting one shliach every
+ * process. Awtsmoos.com keeps a small physical fleet, reserves room for peers, and
+ * lets recovery tiers shrink safely while logical requester queues remain abundant.
  */
 function resolve(environment = process.env, system = {}) {
 	const requestedTier = environment.AWTSMOOS_COMMAND_TIER ||
@@ -30,23 +27,25 @@ function resolve(environment = process.env, system = {}) {
 	const profile = PROFILES[normalizeTier(requestedTier)];
 	const override = positive(environment.AWTSMOOS_COMMAND_MAX_ACTIVE);
 	const maxActive = override || profile.maxActive || adaptiveMax(system);
-
+	const defaultOwner = maxActive <= 2 ? 1 : Math.min(2, maxActive - 1);
+	const ownerOverride = positive(environment.AWTSMOOS_COMMAND_MAX_ACTIVE_PER_OWNER);
+	const maxActivePerOwner = Math.max(1, Math.min(maxActive, ownerOverride || defaultOwner));
 	return {
 		tier: profile.tier,
 		name: profile.name,
 		maxActive,
-		logicalAdmission: "unlimited_by_default",
-		source: override ? "explicit_override" : profile.tier === 5
-			? "adaptive_machine_capacity"
-			: "recovery_tier"
+		maxActivePerOwner,
+		logicalAdmission: "bounded_per_owner_high_water",
+		source: override
+			? "explicit_override"
+			: profile.tier === 5
+				? "adaptive_machine_capacity"
+				: "recovery_tier"
 	};
 }
 
-/** @returns {number} Canonical tier from numeric or descriptive aliases. */
 function normalizeTier(value) {
-	const normalized = String(value || "5")
-		.toLowerCase()
-		.replace(/[^a-z0-9]/g, "");
+	const normalized = String(value || "5").toLowerCase().replace(/[^a-z0-9]/g, "");
 	const aliases = {
 		0: 0, l0: 0, level0: 0, emergency: 0, minimal: 0,
 		1: 1, l1: 1, level1: 1, single: 1, sequential: 1,
@@ -55,18 +54,13 @@ function normalizeTier(value) {
 		4: 4, l4: 4, level4: 4, eight: 4,
 		5: 5, l5: 5, level5: 5, production: 5, adaptive: 5, unlimited: 5
 	};
-
-	return Object.prototype.hasOwnProperty.call(aliases, normalized)
-		? aliases[normalized]
-		: 5;
+	return Object.prototype.hasOwnProperty.call(aliases, normalized) ? aliases[normalized] : 5;
 }
 
-/** @returns {number} Resource-aware production subprocess capacity. */
 function adaptiveMax(system = {}) {
 	const parallelism = positive(system.parallelism) || availableParallelism();
 	const totalMemory = positive(system.totalMemory) || os.totalmem();
 	const memorySlots = Math.max(1, Math.floor(totalMemory / (512 * 1024 * 1024)));
-
 	return Math.max(4, Math.min(32, parallelism * 2, memorySlots));
 }
 
@@ -78,9 +72,7 @@ function availableParallelism() {
 
 function positive(value) {
 	const number = Number(value);
-	return Number.isFinite(number) && number > 0
-		? Math.floor(number)
-		: 0;
+	return Number.isFinite(number) && number > 0 ? Math.floor(number) : 0;
 }
 
 module.exports = {

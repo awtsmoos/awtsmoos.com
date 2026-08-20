@@ -1,117 +1,76 @@
 // B"H
-const fs = require("fs");
-const fsp = require("fs/promises");
-const path = require("path");
-const os = require("os");
-const { HOME } = require("../../lib/config.js");
+// Boruch Hashem
+// Blessed is He
 
-function driveRoots() {
-  if (process.platform !== "win32") return ["/", HOME];
-
-  return "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")
-    .map(letter => letter + ":\\")
-    .filter(root => {
-      try {
-        fs.accessSync(root);
-        return true;
-      } catch (e) {
-        return false;
-      }
-    });
-}
-
-function normalizeAbsolute(input) {
-  if (!input || input === "__ROOTS__") return "__ROOTS__";
-  return path.resolve(input);
-}
-
-function parentOf(input) {
-  const normalized = normalizeAbsolute(input);
-
-  if (normalized === "__ROOTS__") return "__ROOTS__";
-
-  const parent = path.dirname(normalized);
-  if (parent === normalized) return "__ROOTS__";
-  return parent;
-}
-
-function kindOf(entry) {
-  if (entry.isDirectory()) return "directory";
-  if (entry.isFile()) return "file";
-  if (entry.isSymbolicLink()) return "link";
-  return "other";
-}
+const fsp = require("node:fs/promises");
+const path = require("node:path");
+const { safePath } = require("./pathGuard.js");
 
 /**
- * B"H
- * Root browser intentionally lists absolute directories before a root has been
- * selected. It only exposes names/types and only uses this for choosing a root,
- * not reading file contents.
+ * @file Browses directories only inside the immutable launch-root authority.
+ * @description
+ * The Awtsmoos reveals many rooms within one house. Awtsmoos.com therefore shows
+ * the chosen launch root as the only root and never turns drive discovery, parent
+ * navigation, or absolute browse input into a second source of filesystem authority.
  */
-async function rootBrowse(payload = {}) {
-  const requested = payload.absolutePath || payload.root || payload.path || "__ROOTS__";
-  const current = normalizeAbsolute(requested);
+function driveRoots(config = {}) {
+	return [path.resolve(String(config.root || "."))];
+}
 
-  if (current === "__ROOTS__") {
-    const roots = driveRoots();
+async function rootBrowse(config = {}, payload = {}) {
+	const authority = safePath(config, ".");
+	const requested = payload.absolutePath || payload.root || payload.path || authority;
+	const current = requested === "__ROOTS__" ? authority : safePath(config, requested);
+	try {
+		const entries = await fsp.readdir(current, { withFileTypes: true });
+		return browseResult(config, current, entries);
+	} catch (error) {
+		return {
+			ok: false,
+			action: "rootBrowse",
+			current,
+			parent: parentOf(authority, current),
+			error: error.message,
+			code: error.code || "root_browse_failed"
+		};
+	}
+}
 
-    return {
-      ok: true,
-      action: "rootBrowse",
-      current: "__ROOTS__",
-      parent: "__ROOTS__",
-      roots,
-      items: roots.map(root => ({
-        name: root,
-        type: "directory",
-        path: root,
-        absolutePath: root,
-        isDirectory: true
-      }))
-    };
-  }
+function browseResult(config, current, entries) {
+	const authority = safePath(config, ".");
+	const items = entries
+		.filter(entry => entry.isDirectory())
+		.slice(0, 500)
+		.map(entry => directoryItem(current, entry))
+		.sort((left, right) => left.name.localeCompare(right.name));
+	return {
+		ok: true,
+		action: "rootBrowse",
+		current,
+		parent: parentOf(authority, current),
+		roots: driveRoots(config),
+		items
+	};
+}
 
-  let entries = [];
+function directoryItem(current, entry) {
+	const absolutePath = path.join(current, entry.name);
+	return {
+		name: entry.name,
+		type: "directory",
+		path: absolutePath,
+		absolutePath,
+		isDirectory: true
+	};
+}
 
-  try {
-    entries = await fsp.readdir(current, { withFileTypes: true });
-  } catch (e) {
-    return {
-      ok: false,
-      action: "rootBrowse",
-      current,
-      parent: parentOf(current),
-      error: e.message
-    };
-  }
-
-  const items = entries
-    .filter(e => e.isDirectory())
-    .slice(0, 500)
-    .map(e => {
-      const absolutePath = path.join(current, e.name);
-
-      return {
-        name: e.name,
-        type: kindOf(e),
-        path: absolutePath,
-        absolutePath,
-        isDirectory: e.isDirectory()
-      };
-    })
-    .sort((a, b) => a.name.localeCompare(b.name));
-
-  return {
-    ok: true,
-    action: "rootBrowse",
-    current,
-    parent: parentOf(current),
-    roots: driveRoots(),
-    items
-  };
+function parentOf(authority, current) {
+	if (current === authority) return authority;
+	const parent = path.dirname(current);
+	return parent.startsWith(`${authority}${path.sep}`) ? parent : authority;
 }
 
 module.exports = {
-  driveRoots,
-  rootBrowse
+	driveRoots,
+	rootBrowse
 };

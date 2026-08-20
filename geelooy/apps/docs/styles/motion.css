@@ -1,0 +1,105 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is beyond movement and stillness; Awtsmoos.com gives transitions
+ * only enough motion to reveal hierarchy, arrival, focus, and changing document garments.
+ */
+:root {
+	--docs-motion-fast: 120ms;
+	--docs-motion-medium: 220ms;
+	--docs-motion-slow: 360ms;
+	--docs-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+	--docs-ease-spring: cubic-bezier(0.2, 0.9, 0.25, 1.18);
+}
+
+button,
+select,
+input,
+.docs-menu,
+.side-panel,
+.document-canvas,
+.command-shell,
+.status-pill,
+.toast {
+	transition:
+		background-color var(--docs-motion-fast) ease,
+		border-color var(--docs-motion-fast) ease,
+		color var(--docs-motion-fast) ease,
+		opacity var(--docs-motion-medium) var(--docs-ease-out),
+		box-shadow var(--docs-motion-medium) var(--docs-ease-out),
+		transform var(--docs-motion-medium) var(--docs-ease-out);
+}
+
+.docs-menu {
+	transform-origin: top left;
+	animation: docs-menu-enter var(--docs-motion-medium) var(--docs-ease-spring) both;
+}
+
+.side-panel:not([hidden]) {
+	animation: docs-panel-enter var(--docs-motion-slow) var(--docs-ease-out) both;
+}
+
+.toast {
+	animation: docs-toast-enter var(--docs-motion-slow) var(--docs-ease-spring) both;
+}
+
+.docs-app[data-page-mode="page"] .document-canvas,
+.docs-app[data-page-mode="pageless"] .document-canvas {
+	transition:
+		width var(--docs-motion-slow) var(--docs-ease-out),
+		max-width var(--docs-motion-slow) var(--docs-ease-out),
+		min-height var(--docs-motion-slow) var(--docs-ease-out),
+		padding var(--docs-motion-slow) var(--docs-ease-out),
+		border-radius var(--docs-motion-slow) var(--docs-ease-out),
+		box-shadow var(--docs-motion-slow) var(--docs-ease-out);
+}
+
+button:active:not(:disabled) {
+	transform: translateY(1px) scale(0.98);
+}
+
+@keyframes docs-menu-enter {
+	from {
+		opacity: 0;
+		transform: translateY(-5px) scale(0.97);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@keyframes docs-panel-enter {
+	from {
+		opacity: 0;
+		transform: translateX(18px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes docs-toast-enter {
+	from {
+		opacity: 0;
+		transform: translateY(10px) scale(0.97);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.001ms !important;
+		animation-iteration-count: 1 !important;
+		scroll-behavior: auto !important;
+		transition-duration: 0.001ms !important;
+	}
+}

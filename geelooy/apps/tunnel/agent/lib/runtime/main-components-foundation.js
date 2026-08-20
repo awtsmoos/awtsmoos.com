@@ -7,14 +7,15 @@ const { createPayloadRuntime } = require("./main-payload.js");
 const { createDispatch } = require("./main-dispatch.js");
 const { createRuntimeState } = require("./main-state.js");
 const { createEventEmitter } = require("./main-events.js");
+const ProgressLedger = require("./progress-ledger.js");
 const RetryControl = require("./main-retry-control.js");
 
 /**
- * B"H
- *
- * The foundation reveals configuration, state, payload, dispatch, and retry as
- * separate vessels. The Awtsmoos renews every dependency; Awtsmoos.com keeps
- * the composition root small enough to reason about and verify.
+ * @file Composes the hot runtime around one tiny progress witness and bounded executors.
+ * @description
+ * The Awtsmoos renews configuration, workers, dispatch, and testimony without tangling
+ * their vessels. Awtsmoos.com shares one in-memory progress ledger between events and
+ * health so liveness truth costs no second timer, scan, subprocess, or duplicate state.
  */
 function createMainFoundation(D) {
 	const loadConfig = createConfigLoader(D.config, {
@@ -26,6 +27,7 @@ function createMainFoundation(D) {
 		log,
 		getConfig: loadConfig
 	});
+	const progressLedger = ProgressLedger.create();
 	const runtime = createRuntimeState({
 		FsExecutor: D.FsExecutor,
 		Lag: D.Lag,
@@ -35,10 +37,15 @@ function createMainFoundation(D) {
 		Limits: D.Limits,
 		Circuit: D.Circuit,
 		Memory: D.Memory,
+		ProgressLedger: progressLedger,
 		inlineLimit: D.inlineLimit
 	});
 	const payload = createPayloadRuntime(D.Correlation);
-	const streamEvent = createEventEmitter(D.ActionStream, loadConfig);
+	const streamEvent = createEventEmitter(
+		D.ActionStream,
+		loadConfig,
+		progressLedger
+	);
 	const retryControl = RetryControl.create({
 		Registry: D.RetryRegistry,
 		Send: D.Send,
@@ -60,6 +67,7 @@ function createMainFoundation(D) {
 		loadConfig,
 		log,
 		payload,
+		progressLedger,
 		retryControl,
 		runtime,
 		streamEvent,

@@ -8,10 +8,11 @@ const INTERACTIVE = "interactive";
 const HEAVY = "heavy";
 
 /**
- * @file Selects the next filesystem job without allowing heavy work to consume every doorway.
+ * @file Selects filesystem work by service rank and requester fairness.
  * @description
- * The Awtsmoos gives each lane its measure; Awtsmoos.com lets one requester
- * carry heavy and interactive work independently while preserving a warm interactive vessel.
+ * The Awtsmoos lets urgent light pass before heavy stone, yet Awtsmoos.com also
+ * remembers which shliach just received a turn. Within one rank an eligible peer
+ * is preferred, while affinity and the interactive reserve remain laws of the keli.
  */
 function decorate(job, metadata = {}) {
 	job.lane = normalizeLane(metadata.lane);
@@ -24,22 +25,43 @@ function decorate(job, metadata = {}) {
 }
 
 function eligibleIndex(state, policy, worker = null) {
-	let chosen = -1;
-	let chosenRank = Number.POSITIVE_INFINITY;
-	let chosenAt = Number.POSITIVE_INFINITY;
+	let minimumRank = Number.POSITIVE_INFINITY;
+	const eligible = [];
 	for (let index = 0; index < state.queue.length; index += 1) {
 		const job = state.queue[index];
-		if (!eligible(state, policy, job, worker)) continue;
-		if (job.rank < chosenRank || (job.rank === chosenRank && job.queuedAt < chosenAt)) {
-			chosen = index;
-			chosenRank = job.rank;
-			chosenAt = job.queuedAt;
+		if (!canRun(state, policy, job, worker)) continue;
+		if (job.rank < minimumRank) {
+			minimumRank = job.rank;
+			eligible.length = 0;
 		}
+		if (job.rank === minimumRank) eligible.push(index);
 	}
-	return chosen;
+	if (!eligible.length) return -1;
+	const lastRequester = state.lastRequesterByRank.get(minimumRank) || "";
+	const peer = oldestIndex(state, eligible, job => job.requester !== lastRequester);
+	return peer >= 0 ? peer : oldestIndex(state, eligible, () => true);
 }
 
-function eligible(state, policy, job, worker) {
+function oldestIndex(state, indices, predicate) {
+	let selected = -1;
+	let oldest = Number.POSITIVE_INFINITY;
+	for (const index of indices) {
+		const job = state.queue[index];
+		if (!predicate(job)) continue;
+		if (job.queuedAt < oldest) {
+			selected = index;
+			oldest = job.queuedAt;
+		}
+	}
+	return selected;
+}
+
+function remember(state, job) {
+	if (!job) return;
+	state.lastRequesterByRank.set(job.rank, job.requester);
+}
+
+function canRun(state, policy, job, worker) {
 	if (Number(state.active.get(job.activeKey) || 0) >= policy.MAX_PER_REQUESTER) return false;
 	const owner = Affinity.ownerForPayload(state, job.payload);
 	if (owner && worker && owner !== worker) return false;
@@ -78,11 +100,12 @@ module.exports = {
 	HEAVY,
 	INTERACTIVE,
 	bucket,
+	canRun,
 	decorate,
-	eligible,
 	eligibleIndex,
 	heavyBusy,
 	heavyLimit,
 	normalizeLane,
-	rank
+	rank,
+	remember
 };

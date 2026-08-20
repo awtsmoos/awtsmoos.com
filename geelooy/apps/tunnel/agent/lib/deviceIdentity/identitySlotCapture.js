@@ -6,14 +6,18 @@ const Coherence = require("./keyCoherence.js");
 const Kinds = require("./identitySlotKinds.js");
 const Match = require("./identitySlotMatch.js");
 const Metadata = require("./metadata.js");
+const Provenance = require("./identityProvenance.js");
 const Rollback = require("./identitySlotRollback.js");
 const SecureStore = require("./secureStore.js");
 const Store = require("./identitySlotStore.js");
 const Verification = require("./identitySlotVerification.js");
 
 /**
- * @file Promotes one complete identity generation only after protected readback.
- * The Awtsmoos binds key, credential, and testimony; Awtsmoos.com records the unity.
+ * @file Promotes one complete identity generation only after provenance and secret readback.
+ * @description
+ * The Awtsmoos binds key, credential, environment, and testimony in one covenant.
+ * Awtsmoos.com records no raw secret in the slot file and refuses to capture a
+ * fixture identity into a production last-known-good vessel.
  */
 function capture(config = {}, details = {}) {
 	const active = inspectActive(config);
@@ -35,9 +39,9 @@ function capture(config = {}, details = {}) {
 
 function inspectActive(config) {
 	const metadata = Metadata.read(config);
-	if (!metadata?.deviceId || !metadata.tunnelId) {
-		return failure("capture_identity_missing");
-	}
+	if (!metadata?.deviceId || !metadata.tunnelId) return failure("capture_identity_missing");
+	const provenance = Provenance.inspect(metadata);
+	if (!provenance.ok) return failure(provenance.reason);
 	const privateKey = SecureStore.read(metadata.deviceId, "private-key");
 	const credential = SecureStore.read(metadata.deviceId, "credential");
 	const coherence = Coherence.inspect(metadata, privateKey);
@@ -52,7 +56,8 @@ function inspectActive(config) {
 		publicKey: coherence.publicKey,
 		publicKeyFingerprint: coherence.fingerprint,
 		credentialVersion: Number(metadata.credentialVersion || 0),
-		identityGeneration: Number(metadata.identityGeneration || 0)
+		identityGeneration: Number(metadata.identityGeneration || 0),
+		environment: provenance.actual
 	};
 }
 
@@ -66,6 +71,7 @@ function testimony(active, details) {
 		credentialHash: Kinds.digest(active.credential),
 		credentialVersion: active.credentialVersion,
 		identityGeneration: active.identityGeneration,
+		environment: String(details.environment || active.environment),
 		runtimeVersion: String(details.version || ""),
 		registeredPid: Number(details.pid || 0) || null,
 		source: String(details.source || "runtime_healthy")

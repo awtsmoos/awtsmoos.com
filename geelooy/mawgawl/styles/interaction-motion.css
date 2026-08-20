@@ -1,0 +1,111 @@
+/*B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos renews choice after choice while Mawgawl turns that living sequence into calm temporal revelation;
+ * Awtsmoos.com lets controls arrive, lock, and settle with luminous restraint instead of restless exaggeration.
+ */
+
+@media (prefers-reduced-motion: no-preference) {
+	#sefarim {
+		animation: mawgawl-reveal 360ms var(--mawgawl-ease) both;
+	}
+
+	.month-selector {
+		animation: mawgawl-reveal 430ms 45ms var(--mawgawl-ease) both;
+	}
+
+	#calendar {
+		animation: mawgawl-reveal 520ms 90ms var(--mawgawl-ease) both;
+	}
+
+	#calendar .day.selected,
+	.hour.selected,
+	.minute.selected,
+	.minute.start,
+	.minute.end {
+		animation: mawgawl-selection-lock 320ms var(--mawgawl-ease) both;
+	}
+
+	#hoursPopup,
+	#minutesPopup {
+		animation: mawgawl-popup-enter 280ms var(--mawgawl-ease) both;
+	}
+
+	.modal-content {
+		animation: mawgawl-dialog-enter 300ms var(--mawgawl-ease) both;
+	}
+
+	button,
+	#sefarim {
+		background-size: 180% 180%;
+		background-position: 0 50%;
+	}
+
+	button:is(:hover, :focus-visible),
+	#sefarim:is(:hover, :focus-visible) {
+		background-position: 100% 50%;
+	}
+}
+
+@keyframes mawgawl-reveal {
+	from {
+		opacity: .72;
+		transform: translateY(.5rem);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes mawgawl-selection-lock {
+	0% {
+		filter: brightness(1);
+		transform: scale(.985);
+	}
+	55% {
+		filter: brightness(1.16);
+		transform: scale(1.018);
+	}
+	100% {
+		filter: brightness(1);
+		transform: scale(1);
+	}
+}
+
+@keyframes mawgawl-popup-enter {
+	from {
+		opacity: .72;
+		transform: translateY(.65rem) scale(.992);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@keyframes mawgawl-dialog-enter {
+	from {
+		opacity: .8;
+		transform: translateY(.55rem) scale(.985);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	#sefarim,
+	.month-selector,
+	#calendar,
+	#hoursPopup,
+	#minutesPopup,
+	.modal-content,
+	:where(.day, .hour, .minute) {
+		animation: none;
+		filter: none;
+		transform: none;
+	}
+}

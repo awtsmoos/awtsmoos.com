@@ -55,14 +55,14 @@ export class MalchusTimeFormatter {
 		return match?.value || "";
 	}
 
-	/** Return today's YYYY-MM-DD in an arbitrary IANA timezone. */
-	static todayInZone(timeZone) {
+	/** Return the YYYY-MM-DD containing an instant in an arbitrary IANA timezone. */
+	static todayInZone(timeZone, instant = new Date()) {
 		const parts = new Intl.DateTimeFormat("en-US", {
 			timeZone,
 			year: "numeric",
 			month: "2-digit",
 			day: "2-digit"
-		}).formatToParts(new Date());
+		}).formatToParts(instant);
 		const year = this.partValue(parts, "year");
 		const month = this.partValue(parts, "month");
 		const day = this.partValue(parts, "day");

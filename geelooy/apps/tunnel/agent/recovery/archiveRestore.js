@@ -1,22 +1,39 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
 const fs = require("node:fs");
 const path = require("node:path");
 const Selector = require("./candidateSelector.js");
 
 /**
- * B"H — Restoration searches actual versions newest to oldest. The displaced
- * runtime remains preserved after success, giving Awtsmoos.com one more return
- * path until a later bounded cleanup explicitly releases it.
+ * @file Swaps one verified archive into place while preserving the displaced live root.
+ * @description
+ * The Awtsmoos permits return without erasing the world being left behind.
+ * Awtsmoos.com stages before movement, preserves rollback testimony, and can require
+ * a genuinely production-ready floor instead of silently descending to legacy bytes.
  */
-function restore(root, tier, recoveryRoot) {
+function restore(root, tier, recoveryRoot, options = {}) {
 	const liveRoot = path.resolve(root);
 	const storeRoot = path.resolve(recoveryRoot || `${liveRoot}-recovery`);
 	const stamp = Date.now();
 	const stageRoot = `${liveRoot}.recovery-stage-${stamp}`;
 	const rollbackRoot = `${liveRoot}.recovery-rollback-${stamp}`;
 	const configPath = path.join(liveRoot, "config.json");
-	const selection = Selector.select({ recoveryRoot: storeRoot, stageRoot, configPath });
-	if (!selection.ok) return { ...selection, tier, recoveryRoot: storeRoot };
+	const selection = Selector.select({
+		recoveryRoot: storeRoot,
+		stageRoot,
+		configPath,
+		productionReadyOnly: options.productionReadyOnly === true
+	});
+	if (!selection.ok) {
+		return {
+			...selection,
+			tier,
+			recoveryRoot: storeRoot,
+			productionReadyOnly: options.productionReadyOnly === true
+		};
+	}
 
 	let movedLive = false;
 	try {
@@ -30,6 +47,7 @@ function restore(root, tier, recoveryRoot) {
 			ok: true,
 			tier,
 			version: selection.candidate.version,
+			productionReady: selection.candidate.productionReady === true,
 			candidate: selection.candidate.directory || selection.candidate.archivePath,
 			rollbackRoot: movedLive ? rollbackRoot : "",
 			attempts: selection.attempts

@@ -9,10 +9,11 @@ const DEFAULT_WORKERS = adaptiveWorkers();
 const DEFAULT_MIN_WORKERS = warmWorkers(DEFAULT_WORKERS);
 
 /**
- * @file Bounds filesystem worker capacity, queue-start patience, and interactive reserve.
+ * @file Bounds filesystem workers while giving hundreds of requesters private queue shares.
  * @description
- * The Awtsmoos grants heavy work a long life after it starts while Awtsmoos.com
- * keeps one warm doorway for control and light deeds before the whole pool becomes stone.
+ * The Awtsmoos gives every shliach a measured vessel; Awtsmoos.com keeps physical
+ * children finite, reserves an interactive doorway, and lets no requester fill the
+ * executor waiting room even when hundreds arrive beneath one renewed sky.
  */
 function adaptiveWorkers(system = {}) {
 	const parallelism = positive(system.parallelism) || availableParallelism();
@@ -55,7 +56,8 @@ const BASE_POLICY = Object.freeze({
 	IDLE_SHUTDOWN_MS: idleShutdownMs(process.env.AWTSMOOS_FS_EXECUTOR_IDLE_MS),
 	JOB_TIMEOUT_MS: bounded(process.env.AWTSMOOS_FS_EXECUTOR_TIMEOUT_MS, 30 * 60 * 1000, 5000, 24 * 60 * 60 * 1000),
 	MAX_PER_REQUESTER: bounded(process.env.AWTSMOOS_FS_EXECUTOR_PER_REQUESTER, 1, 1, 4),
-	MAX_QUEUE: bounded(process.env.AWTSMOOS_FS_EXECUTOR_QUEUE, 256, 20, 4096),
+	MAX_QUEUE: bounded(process.env.AWTSMOOS_FS_EXECUTOR_QUEUE, 4096, 64, 16384),
+	MAX_QUEUE_PER_REQUESTER: bounded(process.env.AWTSMOOS_FS_EXECUTOR_QUEUE_PER_REQUESTER, 8, 1, 128),
 	MIN_WORKERS: bounded(process.env.AWTSMOOS_FS_EXECUTOR_MIN_WORKERS, DEFAULT_MIN_WORKERS, 1, 16),
 	QUEUE_START_TIMEOUT_MS: bounded(process.env.AWTSMOOS_FS_QUEUE_START_MS, 10000, 1000, 300000),
 	READY_TIMEOUT_MS: bounded(process.env.AWTSMOOS_FS_EXECUTOR_READY_TIMEOUT_MS, 30000, 250, 120000),
@@ -68,13 +70,13 @@ function resolve(options = {}) {
 	const policy = { ...BASE_POLICY, ...options };
 	policy.WORKERS = bounded(policy.WORKERS, DEFAULT_WORKERS, 1, 16);
 	policy.MIN_WORKERS = bounded(policy.MIN_WORKERS, DEFAULT_MIN_WORKERS, 1, policy.WORKERS);
+	policy.MAX_QUEUE_PER_REQUESTER = bounded(policy.MAX_QUEUE_PER_REQUESTER, 8, 1, policy.MAX_QUEUE);
 	policy.RESERVED_INTERACTIVE_WORKERS = bounded(
 		policy.RESERVED_INTERACTIVE_WORKERS,
 		BASE_POLICY.RESERVED_INTERACTIVE_WORKERS,
 		0,
 		Math.max(0, policy.WORKERS - 1)
 	);
-	policy.SCALE_DOWN_MS = bounded(policy.SCALE_DOWN_MS, BASE_POLICY.SCALE_DOWN_MS, 250, 600000);
 	return policy;
 }
 

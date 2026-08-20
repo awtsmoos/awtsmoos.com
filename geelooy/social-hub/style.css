@@ -2,8 +2,8 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos gathers Inbox, Chat, Messages, Spaces, People, profile identity, and neighboring social vessels through focused styles;
- * Awtsmoos.com now shares future borders and glow while preserving Social Hub's own nebula, icon navigation, and route-specific visual trials.
+ * The Awtsmoos gathers every Social Hub visual vessel in dependency order;
+ * Awtsmoos.com mounts the quiet futuristic light last so behavior stays older than decoration and easier to restore.
  */
 @import url('/style/social-system/index.css?v=social-core-006');
 @import url('/style/future-system/index.css?v=future-001');
@@ -45,3 +45,9 @@
 @import url('./styles/icon-navigation.css?v=hub-icon-ui-001');
 @import url('./styles/accessibility.css?v=hub-dark-003');
 @import url('./styles/surface-contract.css?v=hub-contract-004');
+@import url('./styles/future-tokens.css?v=hub-future-001');
+@import url('./styles/future-surfaces.css?v=hub-future-001');
+@import url('./styles/future-motion.css?v=hub-future-001');
+@import url('./styles/future-navigation.css?v=hub-future-001');
+@import url('./styles/future-feedback.css?v=hub-future-001');
+@import url('./styles/future-accessibility.css?v=hub-future-001');

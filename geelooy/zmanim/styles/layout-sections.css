@@ -1,0 +1,86 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives every section its place while remaining beyond every heading and line;
+ * Awtsmoos.com lets titles, statistics, and footer paths make the deeper zmanim easy to define.
+ */
+
+.section-heading {
+	display: flex;
+	align-items: end;
+	justify-content: space-between;
+	gap: var(--space-3);
+	margin-bottom: var(--space-3);
+}
+
+.section-heading h2,
+.section-heading p {
+	margin: 0;
+}
+
+.section-heading h2 {
+	font-family: Georgia, "Times New Roman", serif;
+	font-size: clamp(1.7rem, 6vw, 2.5rem);
+	line-height: 1;
+	letter-spacing: -0.035em;
+}
+
+.section-kicker {
+	margin-bottom: 0.3rem !important;
+	font-size: 0.67rem;
+	font-weight: 850;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var(--forest-bright);
+}
+
+.section-meta {
+	margin-top: 0.45rem !important;
+	font-size: 0.76rem;
+	color: var(--ink-soft);
+}
+
+.shaah-stat {
+	flex: none;
+	padding: 0.4rem 0.55rem;
+	border-radius: var(--radius-small);
+	background: rgba(228, 238, 232, 0.68);
+	text-align: end;
+}
+
+.shaah-stat span,
+.shaah-stat strong {
+	display: block;
+}
+
+.shaah-stat span {
+	font-size: 0.65rem;
+	color: var(--ink-soft);
+}
+
+.shaah-stat strong {
+	font-size: 1rem;
+}
+
+.page-footer {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: 0.65rem 1rem;
+	margin-top: var(--space-5);
+	padding-top: var(--space-3);
+	border-top: 1px solid var(--line);
+	font-size: 0.75rem;
+	color: var(--ink-soft);
+}
+
+.page-footer p {
+	margin: 0;
+}
+
+.page-footer nav {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+}

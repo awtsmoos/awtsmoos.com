@@ -2,41 +2,36 @@
 // Boruch Hashem
 // Blessed is He
 
+const FairQueue = require("./priority/fairQueue.js");
+
 /**
- * @file Reveals lane pressure, capacity, and the age of the oldest waiting deed.
+ * @file Reveals lane pressure without exposing requester names or flattening ownership.
  * @description
- * The Awtsmoos renews every queue in time, yet no waiting request may disappear
- * behind a green socket. Awtsmoos.com measures age without exposing requester names,
- * so a consumer that stops drawing from a free lane can be named truthfully.
+ * The Awtsmoos renews each waiting vessel in its own time. Awtsmoos.com counts
+ * requester queues directly, measures the oldest waiting deed across them, and
+ * reports both active and pending isolation limits without merging their identities.
  */
 function laneStats(dependencies, state) {
 	const observedAt = Date.now();
 	return Object.fromEntries(
 		dependencies.Priority.LANE_ORDER.map(lane => {
 			const current = state.lanes[lane];
-			const queuedRequesters = new Set(
-				current.queue.map(item => item.requesterKey || "anonymous")
-			).size;
+			const queue = FairQueue.items(current);
 			return [lane, {
 				inflight: current.inflight,
-				queued: current.queue.length,
-				oldestQueuedAgeMs: oldestQueuedAgeMs(current.queue, observedAt),
+				queued: current.queued,
+				oldestQueuedAgeMs: oldestQueuedAgeMs(queue, observedAt),
 				activeRequesters: current.requesterInflight.size,
-				queuedRequesters,
+				queuedRequesters: current.requesterQueues.size,
 				maxInflight: dependencies.Limits.LANE_LIMITS[lane],
 				maxPerRequester: dependencies.Limits.REQUESTER_LANE_LIMITS[lane],
+				maxQueuedPerRequester: dependencies.Limits.REQUESTER_QUEUE_LIMITS[lane],
 				advisoryTimeoutMs: dependencies.Limits.LANE_TIMEOUT_MS[lane]
 			}];
 		})
 	);
 }
 
-/**
- * Measures the oldest queued item without assuming queue implementation order.
- * @param {Array<object>} queue Lane queue entries carrying `enqueuedAt`.
- * @param {number} observedAt Shared observation timestamp for one stats snapshot.
- * @returns {number} Age in milliseconds, or zero when the lane is empty.
- */
 function oldestQueuedAgeMs(queue = [], observedAt = Date.now()) {
 	let oldestAt = Infinity;
 	for (const item of queue) {

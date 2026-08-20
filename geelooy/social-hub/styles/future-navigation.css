@@ -1,0 +1,65 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets every social chamber remain distinct while Awtsmoos.com turns navigation into a calm constellation with visible gravity.
+*/
+.routeNavigation .routeButton {
+	position: relative;
+	transition:
+		transform var(--future-fast) var(--future-spring),
+		background-color var(--future-normal) var(--future-ease),
+		border-color var(--future-normal) var(--future-ease),
+		opacity var(--future-normal) var(--future-ease);
+}
+
+.routeNavigation .routeButton::before {
+	position: absolute;
+	inset-block: 18%;
+	inset-inline-start: -1px;
+	width: 2px;
+	border-radius: 999px;
+	background: linear-gradient(180deg, #7eefff, #b68cff, #ff88df);
+	box-shadow: 0 0 16px rgb(126 239 255 / 55%);
+	content: "";
+	opacity: 0;
+	transform: scaleY(.3);
+	transition: opacity var(--future-fast) ease, transform var(--future-normal) var(--future-spring);
+}
+
+.routeNavigation .routeButton[data-active="true"]::before {
+	opacity: 1;
+	transform: scaleY(1);
+}
+
+.routeNavigation .routeButton:is(:hover, :focus-visible) {
+	transform: translateX(2px) scale(1.025);
+}
+
+.routeNavigation .routeButton[data-active="true"] {
+	background: linear-gradient(135deg, rgb(73 188 255 / 11%), rgb(147 97 255 / 10%));
+}
+
+.routeNavigation .routeIcon {
+	transition:
+		transform var(--future-normal) var(--future-spring),
+		box-shadow var(--future-normal) var(--future-ease),
+		border-color var(--future-normal) var(--future-ease);
+}
+
+.routeNavigation .routeButton:is(:hover, :focus-visible, [data-active="true"]) .routeIcon {
+	border-color: var(--future-edge-hot);
+	box-shadow: 0 0 22px rgb(72 202 255 / 18%);
+	transform: scale(1.06);
+}
+
+@media (max-width: 62.4375rem) {
+	.mobileDock {
+		background: rgb(5 12 26 / 84%);
+		backdrop-filter: blur(22px) saturate(140%);
+	}
+
+	.routeNavigation .routeButton:is(:hover, :focus-visible) {
+		transform: translateY(-2px) scale(1.02);
+	}
+}

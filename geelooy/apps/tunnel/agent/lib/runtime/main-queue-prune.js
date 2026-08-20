@@ -2,11 +2,14 @@
 // Boruch Hashem
 // Blessed is He
 
+const FairQueue = require("./priority/fairQueue.js");
+
 /**
- * @file Expires only work that is still waiting in a top-level lane queue.
+ * @file Expires waiting work inside requester-owned queues without touching running work.
  * @description
- * The Awtsmoos distinguishes patience from possession: Awtsmoos.com removes a
- * deed that never reached dequeue while leaving every genuinely running deed untouched.
+ * The Awtsmoos distinguishes patience from possession. Awtsmoos.com walks each
+ * waiting vessel, removes only expired custody through the fair-queue contract,
+ * and never lets one requester's cleanup reorder or erase another requester's deeds.
  */
 function createQueuePruner(dependencies, rejection, progress, wake) {
 	function arm(item, lane) {
@@ -29,11 +32,9 @@ function createQueuePruner(dependencies, rejection, progress, wake) {
 	function prune(now = Date.now()) {
 		let expired = 0;
 		for (const [lane, laneState] of Object.entries(dependencies.state.lanes || {})) {
-			const queue = laneState?.queue || [];
-			for (let index = queue.length - 1; index >= 0; index -= 1) {
-				const item = queue[index];
+			for (const item of FairQueue.items(laneState)) {
 				if (!isExpired(item, now)) continue;
-				queue.splice(index, 1);
+				if (!FairQueue.remove(laneState, item)) continue;
 				clear(item);
 				progress.clear(item);
 				rejection.expired(item, lane, now - Number(item.enqueuedAt || now));

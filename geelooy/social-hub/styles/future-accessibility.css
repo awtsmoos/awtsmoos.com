@@ -1,0 +1,72 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gives every person a path; Awtsmoos.com removes decorative motion and glass when perception or hardware asks for a quieter vessel.
+*/
+@media (prefers-reduced-motion: reduce) {
+	.social-hub-document::before,
+	.social-hub-document::after,
+	.workspacePanel:not([hidden]),
+	.pulseOrb[data-active="true"],
+	.pulseOrb[data-active="true"]::before,
+	.hubStatus:not([hidden]) {
+		animation: none !important;
+	}
+
+	:where(.riftCard, .pulseGrid article, .quickActionGrid > *, .publicFeedCard, .routeButton, .routeIcon) {
+		transform: none !important;
+	}
+
+	.primaryButton::after,
+	.publicFeedCard__open::after,
+	.publicDiscovery__lookup button::after {
+		display: none;
+	}
+}
+
+@media (prefers-contrast: more) {
+	.hubHeader,
+	.contextRibbon,
+	.panelIntro,
+	.heroRift,
+	.publicDiscovery,
+	.riftCard,
+	.publicFeedCard {
+		border-color: currentColor;
+		background-image: none;
+	}
+}
+
+@media (forced-colors: active) {
+	.social-hub-document::before,
+	.social-hub-document::after,
+	.routeNavigation .routeButton::before {
+		display: none;
+	}
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+	.hubHeader,
+	.contextRibbon,
+	.desktopRail,
+	.mobileDock,
+	.panelIntro,
+	.heroRift,
+	.publicDiscovery {
+		background-color: rgb(6 13 28 / 97%);
+	}
+}
+
+@media (prefers-reduced-transparency: reduce) {
+	.hubHeader,
+	.contextRibbon,
+	.desktopRail,
+	.mobileDock,
+	.panelIntro,
+	.heroRift,
+	.publicDiscovery {
+		background-color: rgb(6 13 28 / 98%);
+		backdrop-filter: none;
+	}
+}

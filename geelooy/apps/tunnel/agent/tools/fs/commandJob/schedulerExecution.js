@@ -11,10 +11,11 @@ const SchedulerState = require("./schedulerState.js");
 const state = SchedulerState.state;
 
 /**
- * @file Admits command jobs while bounding only their pre-launch queue custody.
+ * @file Admits command jobs without letting one owner consume every process vessel.
  * @description
- * The Awtsmoos lets live processes keep their measured physical slot until true
- * terminal finalization, while Awtsmoos.com expires only commands that never reached launch.
+ * The Awtsmoos lets a command begin immediately only when both machine and owner
+ * have room. Awtsmoos.com otherwise places it in the owner's fair queue with a
+ * start lease, leaving eligible peers free to cross the scheduler without delay.
  */
 async function submit(record = {}) {
 	if (!record.jobId || typeof record.launch !== "function") {
@@ -25,7 +26,7 @@ async function submit(record = {}) {
 		state.rejected += 1;
 		return ownerFailure;
 	}
-	if (Admission.canLaunchImmediately()) {
+	if (Admission.canLaunchImmediately(record)) {
 		state.active.set(record.jobId, record.ownerId);
 		return {
 			ok: true,

@@ -4,11 +4,15 @@
 
 const COMMANDS = Object.freeze([
 	"status",
+	"diagnose",
 	"check",
 	"rescue",
 	"emergency",
 	"restart",
 	"normal",
+	"identity",
+	"known-good",
+	"sealed-emergency",
 	"restore",
 	"help"
 ]);
@@ -16,31 +20,41 @@ const COMMANDS = Object.freeze([
 /**
  * @file Parses the short recovery language and turns typos into inert suggestions.
  * @description
- * The Awtsmoos lets a hurried hand miss one letter without moving one process;
- * Awtsmoos.com keeps command grammar small, explicit, and harmless before recovery crosses into action.
+ * The Awtsmoos lets a hurried hand miss one letter without moving one process.
+ * Awtsmoos.com keeps mutation behind explicit confirmation while diagnosis remains
+ * effortless, so emergency grammar itself cannot become another hidden source of risk.
  */
 function parse(argv = []) {
 	const positionals = [];
-	let command = "help";
-	let dryRun = false;
-	let confirm = false;
-	let json = false;
-	let timeoutMs = 15000;
-	let recoveryRoot = "";
+	const result = {
+		command: "help",
+		confirm: false,
+		confirmHuman: false,
+		dryRun: false,
+		json: false,
+		recoveryRoot: "",
+		timeoutMs: 15000,
+		positionals
+	};
 	for (const arg of argv) {
-		if (arg === "--dry-run") dryRun = true;
-		else if (arg === "--confirm") confirm = true;
-		else if (arg === "--json") json = true;
-		else if (arg.startsWith("--timeout=")) timeoutMs = boundedTimeout(arg);
-		else if (arg.startsWith("--recovery-root=")) recoveryRoot = arg.slice(arg.indexOf("=") + 1);
-		else if (command === "help" && positionals.length === 0) command = String(arg).toLowerCase();
+		if (arg === "--dry-run") result.dryRun = true;
+		else if (arg === "--confirm") result.confirm = true;
+		else if (arg === "--confirm-human") result.confirmHuman = true;
+		else if (arg === "--json") result.json = true;
+		else if (arg.startsWith("--timeout=")) result.timeoutMs = boundedTimeout(arg);
+		else if (arg.startsWith("--recovery-root=")) result.recoveryRoot = valueAfterEquals(arg);
+		else if (result.command === "help" && positionals.length === 0) result.command = String(arg).toLowerCase();
 		else positionals.push(arg);
 	}
-	return { command, confirm, dryRun, json, positionals, recoveryRoot, timeoutMs };
+	return result;
 }
 
 function boundedTimeout(arg) {
-	return Math.max(1000, Number(arg.split("=")[1]) || 15000);
+	return Math.max(1000, Math.min(120000, Number(valueAfterEquals(arg)) || 15000));
+}
+
+function valueAfterEquals(value) {
+	return String(value).slice(String(value).indexOf("=") + 1);
 }
 
 function unknown(command) {
@@ -84,11 +98,11 @@ function help() {
 		command: "help",
 		commands: [...COMMANDS],
 		examples: [
-			"awt status",
-			"awt check",
-			"awt rescue",
-			"awt normal",
-			"awt restore 0 --confirm"
+			"awt diagnose --json",
+			"awt emergency --json",
+			"awt identity --confirm --json",
+			"awt known-good --confirm --json",
+			"awt sealed-emergency --confirm-human --json"
 		]
 	};
 }

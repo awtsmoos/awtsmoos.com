@@ -5,33 +5,38 @@
 const ChildProcess = require("node:child_process");
 const Path = require("node:path");
 const DeviceEnvironment = require("../deviceIdentity/environment.js");
+const MaintenanceScheduler = require("./history-maintenance-scheduler.js");
+
+let scheduler = null;
 
 /**
- * @file Starts owning history maintenance outside the latency-critical runtime.
+ * @file Starts history maintenance outside the latency-critical runtime and keeps it periodic.
  * @description
- * The Awtsmoos opens its API and relay before a separate worker measures history.
- * Awtsmoos.com keeps readonly candidates inert and owning event loops responsive.
+ * The Awtsmoos opens the living gate before history is measured. Awtsmoos.com gives
+ * cleanup its own child process, one at a time, with jitter and a hard ceiling so no
+ * archive traversal may sit inside the event loop that receives another shliach's deed.
  */
-
-/** Starts non-blocking history cleanup for an owning runtime. */
 function cleanupHistory(dependencies, config) {
 	if (DeviceEnvironment.isCandidateProbe()) return readonlyCandidateReceipt();
 	try {
-		const spawn = dependencies.spawnHistoryCleanup || spawnCleanup;
-		const worker = spawn(dependencies.config.ROOT, config);
-		worker?.unref?.();
+		if (!scheduler) {
+			const spawn = dependencies.spawnHistoryCleanup || spawnCleanup;
+			scheduler = MaintenanceScheduler.create({
+				launch: () => spawn(dependencies.config.ROOT, config)
+			});
+		}
+		const status = scheduler.start();
 		return {
 			ok: true,
 			scheduled: true,
-			pid: Number(worker?.pid || 0),
-			reason: "owning_cleanup_worker"
+			reason: "isolated_periodic_history_maintenance",
+			maintenance: status
 		};
 	} catch (error) {
 		return failure(error);
 	}
 }
 
-/** Spawns the bundled cleanup utility without inheriting runtime event-loop work. */
 function spawnCleanup(installRoot, config) {
 	const script = Path.join(installRoot, "scripts", "cleanup-state.cjs");
 	return ChildProcess.spawn(process.execPath, [
@@ -39,14 +44,18 @@ function spawnCleanup(installRoot, config) {
 		"--project-root",
 		config.root,
 		"--install-root",
-		config.deviceStateRoot || ""
+		installRoot
 	], {
 		detached: false,
+		env: {
+			...process.env,
+			AWTSMOOS_INSTALL_ROOT: installRoot,
+			AWTSMOOS_PROJECT_ROOT: config.root
+		},
 		stdio: "ignore"
 	});
 }
 
-/** Returns truthful testimony that a non-owning candidate skipped maintenance. */
 function readonlyCandidateReceipt() {
 	return {
 		ok: true,
@@ -55,7 +64,6 @@ function readonlyCandidateReceipt() {
 	};
 }
 
-/** Shapes a startup-operation failure without throwing through the coordinator. */
 function failure(error) {
 	return {
 		ok: false,
@@ -64,9 +72,14 @@ function failure(error) {
 	};
 }
 
+function schedulerStatus() {
+	return scheduler?.snapshot?.() || null;
+}
+
 module.exports = {
 	cleanupHistory,
 	failure,
 	readonlyCandidateReceipt,
+	schedulerStatus,
 	spawnCleanup
 };

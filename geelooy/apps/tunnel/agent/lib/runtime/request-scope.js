@@ -2,8 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
-const fs = require("node:fs");
-const path = require("node:path");
+const LaunchRoot = require("./launch-root.js");
 
 const INHERITED_FIELDS = Object.freeze([
 	"projectRoot", "scopeRoot", "cwd", "workspaceId", "missionId",
@@ -13,11 +12,12 @@ const INHERITED_FIELDS = Object.freeze([
 ]);
 
 /**
-	* @file Creates an immutable project scope for one request and its children.
-	* @description
-	* The Awtsmoos lets each deed carry its own root. Awtsmoos.com never asks a
-	* mutable session setting to remember where a concurrent child was meant to run.
-	*/
+ * @file Preserves one immutable launch-root scope across requests and child agents.
+ * @description
+ * The Awtsmoos grants movement within a vessel without granting a second vessel.
+ * Awtsmoos.com therefore lets cwd descend through the chosen workspace while every
+ * projectRoot or scopeRoot claim must testify to the exact launch authority.
+ */
 function scopedConfig(config = {}, payload = {}) {
 	return {
 		...config,
@@ -26,54 +26,32 @@ function scopedConfig(config = {}, payload = {}) {
 }
 
 function selectedRoot(config = {}, payload = {}) {
-	const supplied = String(
-		payload.projectRoot ||
-		payload.scopeRoot ||
-		""
-	).trim();
-	if (!supplied) return path.resolve(required(config.root));
-	if (!path.isAbsolute(supplied)) {
-		throw scopeError("project_root_must_be_absolute", supplied);
+	const authority = LaunchRoot.canonical(config.root);
+	for (const field of ["projectRoot", "scopeRoot"]) {
+		if (payload[field] === undefined || payload[field] === null || payload[field] === "") {
+			continue;
+		}
+		LaunchRoot.assertSame(authority, payload[field], field);
 	}
-	const resolved = path.resolve(supplied);
-	let stat;
-	try {
-		stat = fs.statSync(resolved);
-	} catch {
-		throw scopeError("project_root_not_found", resolved);
-	}
-	if (!stat.isDirectory()) {
-		throw scopeError("project_root_not_directory", resolved);
-	}
-	return resolved;
+	return authority;
 }
 
 function childPayload(parent = {}, next = {}) {
 	const child = { ...next };
-	const rootOverride = next.projectRoot !== undefined ||
-		next.scopeRoot !== undefined;
-	for (const field of INHERITED_FIELDS) {
-		if (field === "cwd" && rootOverride && child.cwd === undefined) {
-			continue;
+	const parentRoot = parent.projectRoot || parent.scopeRoot || "";
+	if (parentRoot) {
+		for (const field of ["projectRoot", "scopeRoot"]) {
+			if (child[field] !== undefined) {
+				LaunchRoot.assertSame(parentRoot, child[field], field);
+			}
 		}
+	}
+	for (const field of INHERITED_FIELDS) {
 		if (child[field] === undefined && parent[field] !== undefined) {
 			child[field] = parent[field];
 		}
 	}
 	return child;
-}
-
-function scopeError(code, value) {
-	const error = new Error(`${code}: ${value}`);
-	error.code = code;
-	error.value = value;
-	return error;
-}
-
-function required(value) {
-	const text = String(value || "").trim();
-	if (!text) throw scopeError("missing_project_root", value);
-	return text;
 }
 
 module.exports = {

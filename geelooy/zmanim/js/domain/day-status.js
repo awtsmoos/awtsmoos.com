@@ -16,7 +16,7 @@ function clampRatio(value) {
 
 /** Build chronological context and live state only for today in the selected timezone. */
 export function buildDayStatus(isoDate, timezone, times, now = new Date()) {
-	const today = MalchusTimeFormatter.todayInZone(timezone);
+	const today = MalchusTimeFormatter.todayInZone(timezone, now);
 	const isToday = isoDate === today;
 	const available = availableZmanim(times);
 	const nextIndex = isToday

@@ -8,10 +8,11 @@ const Priority = require("./pool-priority.js");
 const Requester = require("./requester.js");
 
 /**
- * @file Owns filesystem pool state while delegating affinity and scheduling policy.
+ * @file Owns filesystem pool state with separate running and waiting requester measures.
  * @description
- * The Awtsmoos keeps state as state; Awtsmoos.com lets priority and ownership
- * live in smaller vessels so one map cannot become the hidden law of every lane.
+ * The Awtsmoos renews each vessel without confusing waiting with possession.
+ * Awtsmoos.com tracks queued shares, active shares, and recent service separately,
+ * so one agent may be slow in its own chamber while neighboring chambers still glow.
  */
 function create() {
 	return {
@@ -19,7 +20,9 @@ function create() {
 		bootFailures: 0,
 		consecutiveBootFailures: 0,
 		idleTimer: null,
+		lastRequesterByRank: new Map(),
 		queue: [],
+		queuedByRequester: new Map(),
 		resourceOwners: new Map(),
 		scaleTimer: null,
 		spawnTimer: null,
@@ -73,8 +76,10 @@ function stats(state, policy) {
 		consecutiveBootFailures: state.consecutiveBootFailures,
 		maxPerRequester: policy.MAX_PER_REQUESTER,
 		maxQueue: policy.MAX_QUEUE,
+		maxQueuePerRequester: policy.MAX_QUEUE_PER_REQUESTER,
 		minimumWorkers: policy.MIN_WORKERS,
 		queued: state.queue.length,
+		queuedRequesters: state.queuedByRequester.size,
 		ready: state.workers.filter(worker => worker.ready).length,
 		reservedInteractiveWorkers: policy.RESERVED_INTERACTIVE_WORKERS,
 		resourceAffinities: state.resourceOwners.size,

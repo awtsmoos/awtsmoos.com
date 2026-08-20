@@ -7,10 +7,11 @@ const path = require("node:path");
 const Cli = require("../recovery/manualCli.js");
 
 /**
- * @file Stable entry point for the short Awtsmoos tunnel recovery command.
+ * @file Stable one-word entry for diagnosis and layered Awtsmoos tunnel recovery.
  * @description
- * The Awtsmoos lets a frightened hand type one small word while Awtsmoos.com keeps the deeper guards awake;
- * human output stays brief, JSON stays exact, and every recovery deed travels through the same safe lake.
+ * The Awtsmoos lets a frightened hand speak briefly while Awtsmoos.com keeps the
+ * deeper guards explicit. Human output names the chosen recovery plane; JSON keeps
+ * exact evidence for automation without hiding whether a mutation actually occurred.
  */
 async function main(argv = process.argv.slice(2)) {
 	const rootArg = argv.find(arg => arg.startsWith("--root="));
@@ -27,6 +28,9 @@ async function main(argv = process.argv.slice(2)) {
 }
 
 function summary(result = {}) {
+	if (result.ok && result.command === "diagnose") {
+		return `OK diagnose recommendation=${result.recommendation} identity=${result.identity?.state || "unknown"}`;
+	}
 	if (result.ok && result.command === "status") {
 		return `OK status version=${result.version} tier=${result.recovery?.tier} supervisor=${result.processes?.supervisorPid || 0} child=${result.processes?.childPid || 0}`;
 	}
@@ -34,10 +38,19 @@ function summary(result = {}) {
 		return `OK check version=${result.version} integrity=healthy supervised_child=verified`;
 	}
 	if (result.ok && result.dryRun) {
-		return `OK dry-run command=${result.command} tier=${result.tier ?? "unchanged"} signal=${result.intendedSignal || "none"}`;
+		return `OK dry-run command=${result.command} tier=${result.tier ?? "unchanged"} state=${result.state || "ready"}`;
 	}
 	if (result.ok && ["rescue", "restart", "normal"].includes(result.command)) {
 		return `OK ${result.command} tier=${result.tier} child=${result.before?.childPid || 0}->${result.current?.childPid || 0}`;
+	}
+	if (result.ok && result.command === "identity") {
+		return `OK identity state=${result.state} tunnel=${result.after?.tunnelId || result.tunnelId || "unknown"}`;
+	}
+	if (result.ok && result.command === "known-good") {
+		return `OK known-good version=${result.version} productionReady=${result.productionReady === true}`;
+	}
+	if (result.ok && result.command === "sealed-emergency") {
+		return `OK sealed-emergency state=${result.state} pid=${result.pid || 0}`;
 	}
 	if (result.ok && result.command === "restore") return `OK restore tier=${result.tier}`;
 	if (result.ok && result.command === "help") return `awt ${result.commands.join(" | awt ")}`;

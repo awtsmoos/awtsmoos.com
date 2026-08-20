@@ -3,9 +3,16 @@
 // Blessed is He
 
 const Capacity = require("./pool-capacity.js");
+const Queue = require("./pool-queue.js");
 const State = require("./pool-state.js");
 
-/** Cancels retirement clocks whenever new work reveals itself. */
+/**
+ * @file Retires filesystem workers only when every requester queue is quiet.
+ * @description
+ * The Awtsmoos grants rest only after each vessel has released its waiting deed.
+ * Awtsmoos.com closes timers, clears requester queue accounting, and retires children
+ * without turning planned silence into a false failure in the renewed field.
+ */
 function touch(state) {
 	clearTimeout(state.idleTimer);
 	clearTimeout(state.scaleTimer);
@@ -13,7 +20,6 @@ function touch(state) {
 	state.scaleTimer = null;
 }
 
-/** Schedules memory release only after the queue and all workers are quiet. */
 function schedule(state, policy) {
 	if (state.queue.length || state.workers.some(worker => worker.busy)) return;
 	if (state.workers.length > policy.MIN_WORKERS) {
@@ -28,7 +34,6 @@ function schedule(state, policy) {
 	state.idleTimer.unref?.();
 }
 
-/** Retires excess children without treating planned exits as failures. */
 function trim(state, target, force = false) {
 	touch(state);
 	while (state.workers.length > target) {
@@ -50,22 +55,21 @@ function findRetirementCandidate(state, force) {
 	return -1;
 }
 
-/** Closes the pool permanently and rejects work that never began. */
 function shutdown(state) {
 	state.stopped = true;
 	touch(state);
 	clearTimeout(state.spawnTimer);
 	state.spawnTimer = null;
 	trim(state, 0, true);
-	for (const job of state.queue.splice(0)) {
+	for (const job of Queue.takeAll(state)) {
 		job.reject(State.failure("FS_EXECUTOR_STOPPED", "fs_executor_stopped"));
 	}
 }
 
 module.exports = {
+	findRetirementCandidate,
 	schedule,
 	shutdown,
 	touch,
-	trim,
-	findRetirementCandidate
+	trim
 };

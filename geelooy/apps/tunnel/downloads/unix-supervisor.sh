@@ -27,6 +27,35 @@ if ! activate_node_runtime "$ROOT"; then
 		"$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$ROOT" >> "$LOG"
 	exit 78
 fi
+
+resolve_project_root() {
+	node - "$ROOT/config.json" "${AWTSMOOS_PROJECT_ROOT:-${AWTSMOOS_INSTALL_CWD:-}}" <<'NODE'
+const fs = require("node:fs");
+const path = require("node:path");
+const configPath = process.argv[2];
+const environmentRoot = String(process.argv[3] || "").trim();
+let configuredRoot = "";
+try {
+	configuredRoot = String(JSON.parse(fs.readFileSync(configPath, "utf8")).root || "").trim();
+} catch {}
+const selected = configuredRoot || environmentRoot;
+if (!selected) process.exit(64);
+const resolved = path.resolve(selected);
+try {
+	process.stdout.write(fs.realpathSync.native(resolved));
+} catch {
+	process.stdout.write(resolved);
+}
+NODE
+}
+
+PROJECT_ROOT="$(resolve_project_root)" || {
+	printf '%s event=project_root_missing root=%s\n' \
+		"$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$ROOT" >> "$LOG"
+	exit 64
+}
+export AWTSMOOS_PROJECT_ROOT="$PROJECT_ROOT" AWTSMOOS_INSTALL_CWD="$PROJECT_ROOT"
+
 source "$ROOT/awtsmoos-legacy-catalog.sh"
 source "$ROOT/awtsmoos-supervisor-runtime.sh"
 source "$ROOT/awtsmoos-supervisor-agents.sh"
@@ -80,8 +109,7 @@ while true; do
 		repair_identity_after_registration_failure "$REGISTRATION_REASON" || true
 		record_child_exit "$START_SECONDS" 70
 		BACKOFF_SECONDS=$(( BACKOFF_SECONDS * 2 ))
-		[ "$BACKOFF_SECONDS" -le "$MAX_BACKOFF_SECONDS" ] ||
-			BACKOFF_SECONDS="$MAX_BACKOFF_SECONDS"
+		[ "$BACKOFF_SECONDS" -le "$MAX_BACKOFF_SECONDS" ] || BACKOFF_SECONDS="$MAX_BACKOFF_SECONDS"
 		sleep "$BACKOFF_SECONDS"
 		continue
 	fi
@@ -107,8 +135,7 @@ while true; do
 		BACKOFF_SECONDS=1
 	else
 		BACKOFF_SECONDS=$(( BACKOFF_SECONDS * 2 ))
-		[ "$BACKOFF_SECONDS" -le "$MAX_BACKOFF_SECONDS" ] ||
-			BACKOFF_SECONDS="$MAX_BACKOFF_SECONDS"
+		[ "$BACKOFF_SECONDS" -le "$MAX_BACKOFF_SECONDS" ] || BACKOFF_SECONDS="$MAX_BACKOFF_SECONDS"
 	fi
 	sleep "$BACKOFF_SECONDS"
 done

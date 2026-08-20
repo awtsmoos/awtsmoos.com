@@ -9,10 +9,11 @@ const SchedulerState = require("./schedulerState.js");
 const state = SchedulerState.state;
 
 /**
- * @file Moves queued commands into physical launch custody and ends their queue-start lease.
+ * @file Pumps only owners still entitled to another physical command slot.
  * @description
- * The Awtsmoos closes the waiting clock at dequeue before Awtsmoos.com counts
- * the physical slot; from that instant only real launch and process lifetime govern the command.
+ * The Awtsmoos turns the wheel without letting a full vessel halt the circle.
+ * Awtsmoos.com skips owners at their active ceiling, launches an eligible peer,
+ * and closes only the selected command's queue-start lease at the custody boundary.
  */
 async function pump(release) {
 	if (state.launching) return;
@@ -22,8 +23,8 @@ async function pump(release) {
 			state.active.size < state.maxActive &&
 			state.queue.snapshot().queued > 0
 		) {
-			const next = state.queue.dequeue();
-			if (!next?.item) continue;
+			const next = state.queue.dequeue(owner => SchedulerState.ownerCanLaunch(owner));
+			if (!next?.item) break;
 			QueueStartLease.clear(next.item);
 			state.active.set(next.item.jobId, next.item.ownerId);
 			void Runner.launch(next.item, release);

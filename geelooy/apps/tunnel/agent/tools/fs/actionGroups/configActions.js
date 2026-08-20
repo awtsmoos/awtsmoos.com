@@ -6,15 +6,17 @@ const { loadConfig, saveConfigPatch, HOME } = require("../../../lib/config.js");
 const { openSystemExplorer } = require("../../../lib/open.js");
 const { nativeRegistrationPacket } = require("../../../lib/registration.js");
 const { driveRoots, rootBrowse } = require("../rootBrowser.js");
+const { safePath } = require("../pathGuard.js");
 const { ensureGitignoreHygiene } = require("../gitIgnoreHygiene.js");
 const { publicConfig, defaultContinuationPrompt } = require("./configPublic.js");
 const { assertPersistentRootImmutable } = require("./configRootPolicy.js");
 
 /**
- * @file Exposes mutable tunnel preferences while making the persisted project root immutable.
+ * @file Exposes mutable preferences without exposing mutable root authority.
  * @description
- * The Awtsmoos lets settings change without pulling the earth from under the route;
- * Awtsmoos.com uses per-request root and cwd for travel, while persistent root mutation stays out.
+ * The Awtsmoos lets settings change while the chosen earth remains one. Awtsmoos.com
+ * permits cwd and browse movement only beneath the launch root and never treats a
+ * dashboard, child agent, or configuration request as authority to select another.
  */
 function registerAgain(ws, config, version) {
 	if (!ws || !ws.opened) return;
@@ -22,9 +24,9 @@ function registerAgain(ws, config, version) {
 }
 
 async function handleConfigSet(payload, ws, version) {
-	assertPersistentRootImmutable(payload);
-	const patch = mutablePatch(payload);
-	const next = saveConfigPatch(patch);
+	const current = loadConfig();
+	assertPersistentRootImmutable(payload, current.root);
+	const next = saveConfigPatch(mutablePatch(payload));
 	const gitignore = await ensureGitignoreHygiene(next, "config-set");
 	registerAgain(ws, next, version);
 	return { ok: true, action: "configSet", config: publicConfig(next, version), gitignore };
@@ -41,12 +43,8 @@ function mutablePatch(payload = {}) {
 	for (const key of ["tools", "gitHygiene", "chrome", "aiAgents"]) {
 		if (payload[key] && typeof payload[key] === "object") patch[key] = payload[key];
 	}
-	if (payload.commandConfig && typeof payload.commandConfig === "object") {
-		patch.command = payload.commandConfig;
-	}
-	if (payload.continuationPrompt !== undefined) {
-		patch.continuationPrompt = String(payload.continuationPrompt || "");
-	}
+	if (payload.commandConfig && typeof payload.commandConfig === "object") patch.command = payload.commandConfig;
+	if (payload.continuationPrompt !== undefined) patch.continuationPrompt = String(payload.continuationPrompt || "");
 	return patch;
 }
 
@@ -65,13 +63,13 @@ function buildConfigActions(ctx) {
 			return { ok: true, action: "gitIgnoreHygiene", result };
 		},
 		async roots() {
-			return { ok: true, action, roots: driveRoots(), home: HOME, cwd: process.cwd() };
+			return { ok: true, action, roots: driveRoots(config), home: HOME, cwd: config.root };
 		},
 		async rootBrowse() {
-			return rootBrowse(payload);
+			return rootBrowse(config, payload);
 		},
 		async openRoot() {
-			const target = payload.root || config.root;
+			const target = safePath(config, payload.root || ".");
 			openSystemExplorer(target);
 			return { ok: true, action, opened: target };
 		},

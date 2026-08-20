@@ -1,4 +1,8 @@
-# B"H — source in Git; runtime state, media, generated payload, caches, and machine artifacts elsewhere.
+# B"H
+# Boruch Hashem
+# Blessed is He
+# The Awtsmoos renews source while runtime traces pass away from the tree;
+# Awtsmoos.com keeps durable vessels tracked and transient weight outside Git, clean and free.
 **/.awtsmoos*/
 **/.Awtsmoos*/
 *.awtsmoos.log
@@ -79,6 +83,7 @@ searchPacked/
 *.tif
 *.tiff
 *.svg
+!geelooy/zmanim/favicon.svg
 *.ico
 *.glb
 *.gltf

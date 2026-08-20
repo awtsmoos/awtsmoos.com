@@ -7,6 +7,7 @@ const os = require("node:os");
 const path = require("node:path");
 const Defaults = require("./config-defaults.js");
 const Normalizers = require("./config-normalizers.js");
+const LaunchRoot = require("./runtime/launch-root.js");
 
 const HOME = os.homedir();
 const ROOT = path.resolve(
@@ -16,19 +17,22 @@ const ROOT = path.resolve(
 const DIR = ROOT;
 const CONFIG_PATH = path.join(ROOT, "config.json");
 const FILE = CONFIG_PATH;
-const DEFAULTS = Defaults.buildDefaults();
+const INSTALLED = readJson(CONFIG_PATH, {});
+const PROJECT_ROOT = LaunchRoot.select({ persistedRoot: INSTALLED.root });
+const DEFAULTS = Defaults.buildDefaults(PROJECT_ROOT);
 
 /**
- * B"H
- *
- * Configuration reads old testimony, normalizes every supported field, and writes
- * the canonical shape atomically. The Awtsmoos renews code and durable state;
- * Awtsmoos.com migrates the old default Chrome profile path without touching custom paths.
+ * @file Loads mutable preferences around one immutable launch-root authority.
+ * @description
+ * The Awtsmoos renews configuration without moving the ground chosen by the human.
+ * Awtsmoos.com captures that ground once per runtime process, rewrites stale config
+ * testimony back to it, and rejects every later attempt to mutate root authority.
  */
 function loadConfig() {
 	ensureDir();
 	const old = readJson(CONFIG_PATH, null);
-	const next = Normalizers.normalizeConfig(old || {}, DEFAULTS);
+	const normalized = Normalizers.normalizeConfig(old || {}, DEFAULTS);
+	const next = { ...normalized, root: PROJECT_ROOT };
 	if (!old || JSON.stringify(old) !== JSON.stringify(next)) {
 		writeJson(CONFIG_PATH, next);
 	}
@@ -36,42 +40,31 @@ function loadConfig() {
 }
 
 function saveConfigPatch(patch = {}) {
-	ensureDir();
+	assertRootPatch(patch);
 	const current = loadConfig();
-	const merged = {
-		...current,
-		...patch,
-		tools: {
-			...current.tools,
-			...(patch.tools || {})
-		},
-		command: {
-			...current.command,
-			...(patch.command || patch.commandConfig || {})
-		},
-		localApi: {
-			...current.localApi,
-			...(patch.localApi || {})
-		},
-		chrome: {
-			...current.chrome,
-			...(patch.chrome || {})
-		},
-		aiAgents: {
-			...current.aiAgents,
-			...(patch.aiAgents || {})
-		},
-		gitHygiene: {
-			...current.gitHygiene,
-			...(patch.gitHygiene || {})
-		},
-		mission: {
-			...current.mission,
-			...(patch.mission || {})
-		}
-	};
-	const next = Normalizers.normalizeConfig(merged, DEFAULTS);
+	const mutable = { ...patch };
+	delete mutable.root;
+	const merged = mergeSections(current, mutable);
+	const normalized = Normalizers.normalizeConfig(merged, DEFAULTS);
+	const next = { ...normalized, root: PROJECT_ROOT };
 	writeJson(CONFIG_PATH, next);
+	return next;
+}
+
+function assertRootPatch(patch) {
+	if (!Object.prototype.hasOwnProperty.call(patch, "root")) return;
+	LaunchRoot.assertSame(PROJECT_ROOT, patch.root, "config.root");
+}
+
+function mergeSections(current, patch) {
+	const next = { ...current, ...patch };
+	for (const key of ["tools", "localApi", "chrome", "aiAgents", "gitHygiene", "mission"]) {
+		next[key] = { ...current[key], ...(patch[key] || {}) };
+	}
+	next.command = {
+		...current.command,
+		...(patch.command || patch.commandConfig || {})
+	};
 	return next;
 }
 
@@ -81,9 +74,7 @@ function ensureDir() {
 
 function readJson(filePath, fallback) {
 	try {
-		return JSON.parse(
-			fs.readFileSync(filePath, "utf8").replace(/^\uFEFF/, "")
-		);
+		return JSON.parse(fs.readFileSync(filePath, "utf8").replace(/^\uFEFF/, ""));
 	} catch {
 		return fallback;
 	}
@@ -105,6 +96,7 @@ module.exports = {
 	FILE,
 	FOUR_MINUTES_MS: Defaults.FOUR_MINUTES_MS,
 	HOME,
+	PROJECT_ROOT,
 	ROOT,
 	loadConfig,
 	normalizeGitHygiene: Normalizers.normalizeGitHygiene,

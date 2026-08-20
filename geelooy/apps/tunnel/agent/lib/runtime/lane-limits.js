@@ -8,10 +8,11 @@ const Time = require("./limit-timeouts.js");
 const CPU_COUNT = Math.max(1, os.cpus?.().length || 1);
 
 /**
- * @file Owns physical lane and per-requester admission ceilings.
+ * @file Owns physical lane, active-requester, and pending-requester ceilings.
  * @description
- * The Awtsmoos opens many logical doors while Awtsmoos.com keeps one doorway
- * from becoming every doorway, preserving a free turn for another shliach.
+ * The Awtsmoos gives every shliach a current without surrendering the whole sea.
+ * Awtsmoos.com bounds both running and waiting work per requester, so abundance
+ * remains possible for hundreds while one flood can slow only its own vessel.
  */
 const LANE_LIMITS = Object.freeze({
 	p0_control: number("AWTSMOOS_P0_INFLIGHT", 8, 1, 64),
@@ -33,6 +34,16 @@ const REQUESTER_LANE_LIMITS = Object.freeze({
 	p4_bulk: requester("AWTSMOOS_P4_PER_REQUESTER", LANE_LIMITS.p4_bulk)
 });
 
+const REQUESTER_QUEUE_LIMITS = Object.freeze({
+	p0_control: number("AWTSMOOS_P0_QUEUE_PER_REQUESTER", 64, 1, 4096),
+	p0_wait: number("AWTSMOOS_P0_WAIT_QUEUE_PER_REQUESTER", 64, 1, 4096),
+	p0_observe: number("AWTSMOOS_P0_OBSERVE_QUEUE_PER_REQUESTER", 64, 1, 4096),
+	p1_fs_light: number("AWTSMOOS_P1_QUEUE_PER_REQUESTER", 128, 1, 4096),
+	p2_chrome_light: number("AWTSMOOS_P2_QUEUE_PER_REQUESTER", 16, 1, 1024),
+	p3_heavy: number("AWTSMOOS_P3_QUEUE_PER_REQUESTER", 16, 1, 1024),
+	p4_bulk: number("AWTSMOOS_P4_QUEUE_PER_REQUESTER", 4, 1, 256)
+});
+
 function requester(name, laneLimit) {
 	const fallback = laneLimit > 1 ? laneLimit - 1 : 1;
 	return number(name, fallback, 1, laneLimit);
@@ -46,5 +57,6 @@ module.exports = {
 	CPU_COUNT,
 	LANE_LIMITS,
 	REQUESTER_LANE_LIMITS,
+	REQUESTER_QUEUE_LIMITS,
 	requester
 };

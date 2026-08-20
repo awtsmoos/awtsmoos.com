@@ -4,6 +4,7 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
+const Retention = require("../../../lib/history/retentionPlan.js");
 const ReceiptPaths = require("./receiptPaths.js");
 const Policy = require("./receiptPolicy.js");
 const Receipt = require("./terminalReceipt.js");
@@ -11,27 +12,46 @@ const Receipt = require("./terminalReceipt.js");
 const fsp = fs.promises;
 
 /**
- * @file Bounds compact terminal receipts without touching live or full command rooms.
- * @description The Awtsmoos grants incident testimony a longer horizon but still a measured vessel;
- * Awtsmoos.com removes the oldest compact witnesses only after age or receipt-store pressure requires it.
+ * @file Reclaims compact command receipts by age, count, or bytes.
+ * @description
+ * The Awtsmoos leaves useful testimony without demanding an endless archive.
+ * Awtsmoos.com applies one retention covenant to every compact witness, so many
+ * tiny receipts cannot evade a byte limit by multiplying their number without end.
  */
 async function collect(config = {}, options = {}) {
 	const root = ReceiptPaths.receiptRoot(config);
-	const ttlMs = bounded(options.ttlMs, Policy.TTL_MS);
-	const maxBytes = bounded(options.maxBytes, Policy.STORE_MAX_BYTES);
-	const now = Number(options.now || Date.now());
+	const limits = {
+		maxAgeMs: positive(options.ttlMs, Policy.TTL_MS),
+		maxRecords: positive(options.maxRecords, Policy.STORE_MAX_RECORDS),
+		maxBytes: positive(options.maxBytes, Policy.STORE_MAX_BYTES)
+	};
 	const records = await recordsAt(root);
-	let totalBytes = records.reduce((sum, record) => sum + record.bytes, 0);
-	let removed = 0;
-	for (const record of records) {
-		const expired = now - record.finishedAt > ttlMs;
-		const pressured = totalBytes > maxBytes;
-		if (!expired && !pressured) continue;
-		await fsp.rm(record.file, { force: true });
-		totalBytes = Math.max(0, totalBytes - record.bytes);
-		removed += 1;
+	const planned = Retention.plan(records.map(retentionRecord), limits, Number(options.now || Date.now()));
+	let removedBytes = 0;
+	for (const candidate of planned.remove) {
+		await fsp.rm(candidate.record.file, { force: true });
+		removedBytes += candidate.record.bytes;
 	}
-	return { ok: true, scanned: records.length, removed, totalBytes, ttlMs, maxBytes };
+	const bytesBefore = records.reduce((sum, record) => sum + record.bytes, 0);
+	return {
+		ok: true,
+		scanned: records.length,
+		removed: planned.remove.length,
+		bytesBefore,
+		bytesAfter: Math.max(0, bytesBefore - removedBytes),
+		limits,
+		pressure: planned.pressure
+	};
+}
+
+function retentionRecord(record) {
+	return {
+		id: record.file,
+		createdAt: record.finishedAt,
+		bytes: record.bytes,
+		protected: false,
+		record
+	};
 }
 
 async function recordsAt(root) {
@@ -68,9 +88,9 @@ async function safeStat(file) {
 	}
 }
 
-function bounded(value, fallback) {
+function positive(value, fallback) {
 	const number = Number(value);
 	return Number.isFinite(number) && number > 0 ? Math.floor(number) : fallback;
 }
 
-module.exports = { collect, recordsAt };
+module.exports = { collect, recordsAt, retentionRecord };

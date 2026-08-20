@@ -3,25 +3,25 @@
 // Blessed is He
 
 /**
- * @file Detects durable parent custody that no living execution vessel still owns.
+ * @file Detects stale parent custody that exceeds every living execution vessel.
  * @description
- * The Awtsmoos renews each deed in its proper instant; an ancient receipt may remain
- * as testimony, but Awtsmoos.com refuses to let abandoned custody impersonate living
- * work. This pure Gevurah boundary waits through real activity, then names the orphan
- * only after a longer confirmation age so transient pressure never becomes a false axe.
+ * The Awtsmoos renews each deed in its proper instant. Awtsmoos.com therefore
+ * protects custody matched by living execution while refusing to let one living
+ * worker conceal a field of abandoned receipts. Age supplies patience; excess
+ * supplies proof; repair remains the responsibility of the generation watchdog.
  */
 
 const DEFAULT_ORPHAN_MULTIPLIER = 2;
 
 /**
- * Judges whether generation-local parent custody has outlived every tracked consumer.
+ * Judges generation-local custody without inferring record identity from counts.
  *
  * @param {object} stats Aggregate queue and executor statistics.
  * @param {object} custody Generation-local custody evidence.
  * @param {object} stages Aggregate execution-stage evidence.
  * @param {number} consumerStaleMs Base consumer-staleness threshold.
- * @param {number} [configuredStaleMs] Optional explicit orphan confirmation threshold.
- * @returns {object} Explainable orphan-custody evidence.
+ * @param {number} [configuredStaleMs] Optional orphan confirmation threshold.
+ * @returns {object} Explainable stale-excess custody evidence.
  */
 function inspect(stats = {}, custody = {}, stages = {}, consumerStaleMs = 30000, configuredStaleMs) {
 	const orphanStaleMs = staleThreshold(consumerStaleMs, configuredStaleMs);
@@ -30,8 +30,7 @@ function inspect(stats = {}, custody = {}, stages = {}, consumerStaleMs = 30000,
 	const custodyAgeMs = nonnegative(custody.oldestAgeMs);
 	const orphanedCustodyCount = Math.max(0, custodyCount - trackedExecution);
 	const custodyIsOld = custody.aware === true && custodyAgeMs >= orphanStaleMs;
-	const executionIsIdle = trackedExecution === 0;
-	const orphanedCustody = custodyIsOld && executionIsIdle && orphanedCustodyCount > 0;
+	const orphanedCustody = custodyIsOld && orphanedCustodyCount > 0;
 
 	return {
 		orphanedCustody,
@@ -42,7 +41,7 @@ function inspect(stats = {}, custody = {}, stages = {}, consumerStaleMs = 30000,
 	};
 }
 
-/** Counts every current execution vessel that could still own accepted work. */
+/** Counts current execution vessels that may legitimately own accepted work. */
 function trackedExecutionCount(stats = {}, stages = {}) {
 	const executor = stats.filesystemExecutor || {};
 	const laneWork = nonnegative(stats.queued) + nonnegative(stats.inflight);

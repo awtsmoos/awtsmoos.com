@@ -1,7 +1,11 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
+/**
+ * @file Desktop icon catalog including live account tunnels as direct drives.
+ * @description The Awtsmoos lets every connected vessel stand visibly on the desktop; Awtsmoos.com keeps the network overview while each living machine opens in one direct motion.
+ */
 import { APP_CATALOG } from "../shell/appCatalog.js";
 import { launchApp } from "../shell/appLauncher.js";
 import { explainFailure, notifyDesktop } from "./notifications.js";
@@ -9,18 +13,11 @@ import { loadShortcuts } from "./shortcuts.js";
 
 export const USER_HOME_PATH = "/desktop.folder";
 
-/**
- * @file icons.js
- * @description
- * The Awtsmoos lets desktop pages reveal the same registered programs as Start.
- * Awtsmoos.com removes the dead launcher road and preserves real file worlds.
- */
-
-export function desktopIcons() {
+export function desktopIcons(os) {
 	return [
 		...APP_CATALOG.filter(app => app.desktopPage !== null).map(appIcon),
-		folder("agents", "Agents", "🤖", "/network", 1, "remote"),
-		folder("connected-tunnels", "Connected Tunnels", "🔌", "/network", 1, "vessels"),
+		folder("connected-tunnels", "Connected Computers", "🌐", "/network", 1, "network"),
+		...liveDriveIcons(os),
 		folder("virtual-os", "Awtsmoos Virtual OS", "☁️", "/network/awtsmoos-virtual-os", 1, "remote"),
 		folder("previews", "Preview Artifacts", "🔭", "/system/previews", 1, "artifacts"),
 		folder("inbox", "Inbox", "✉️", "/inbox", 2, "social"),
@@ -40,6 +37,22 @@ export function openDesktopIcon(os, item) {
 		explainFailure(os, `Open ${item?.title || "desktop item"}`, error);
 		throw error;
 	}
+}
+
+function liveDriveIcons(os) {
+	return (os?.drives?.list?.() || [])
+		.filter(drive => drive.dynamicTunnelDrive === true)
+		.map(drive => Object.freeze({
+			id: `drive-${drive.id}`,
+			title: drive.title,
+			icon: drive.icon || "💻",
+			kind: "drive",
+			path: drive.root,
+			page: 1,
+			badge: drive.canWrite ? "connected · read/write" : "connected · read-only",
+			subtitle: drive.subtitle || "Live tunnel",
+			open: currentOs => openFolder(currentOs, drive.title, drive.root)
+		}));
 }
 
 function appIcon(app) {
@@ -64,12 +77,16 @@ function folder(id, title, glyph, path, page, badge) {
 		path,
 		page,
 		badge,
-		open: os => os.addWindow({
-			title,
-			path,
-			os,
-			programName: "awtsmoosFileExplorer"
-		})
+		open: os => openFolder(os, title, path)
+	});
+}
+
+function openFolder(os, title, path) {
+	return os.addWindow({
+		title,
+		path,
+		os,
+		programName: "awtsmoosFileExplorer"
 	});
 }
 
@@ -79,11 +96,6 @@ function shortcutIcons() {
 		icon: shortcut.icon || "🔗",
 		kind: shortcut.kind || "shortcut",
 		badge: shortcut.badge || "link",
-		open: os => os.addWindow({
-			title: shortcut.title || "Shortcut",
-			path: shortcut.path || "/",
-			os,
-			programName: "awtsmoosFileExplorer"
-		})
+		open: os => openFolder(os, shortcut.title || "Shortcut", shortcut.path || "/")
 	}));
 }

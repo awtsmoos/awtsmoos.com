@@ -3,8 +3,8 @@
 // Blessed is He
 
 /**
- * @file Boot, adapter, style, fullscreen, SSH, and optional social-mount lifecycle for Geelooy OS.
- * @description The Awtsmoos reveals boot as an ordered chain instead of a compressed incantation; Awtsmoos.com lets storage, SSH, desktop, social worlds, status, and graph awaken in their own station.
+ * @file Boot lifecycle for Geelooy OS local, SSH, social, and live remote-drive worlds.
+ * @description The Awtsmoos reveals the desktop before distant vessels answer; Awtsmoos.com lets local boot remain whole while connected tunnels arrive, depart, and refresh in their appointed flow.
  */
 import osStyles from "../styles/os-base.js";
 import { SettingsManager } from "../settingsManager.js";
@@ -13,11 +13,11 @@ import { localVirtualAdapter } from "../vfs/localVirtualAdapter.js";
 import { tunnelAdapter } from "../vfs/tunnelAdapter.js";
 import { previewAdapter } from "../vfs/previewAdapter.js";
 import { statusStyles } from "../status/osStatus.js";
-import { OS_RUNTIME_STYLES } from "./osRuntimeStyles.js";
+import { installRemoteDriveCoordinator } from "../drives/remoteDriveCoordinator.js";
 import { installSocialMount, requestedSocialPath } from "../social/socialMountLifecycle.js";
 import { installSshSubsystem } from "../ssh/subsystem.js";
+import { OS_RUNTIME_STYLES } from "./osRuntimeStyles.js";
 
-/** @param {object} os Live OS facade. */
 export async function startOs(os) {
 	await os.loadUtilities();
 	await os.db.init("awtsmoos-os");
@@ -31,14 +31,12 @@ export async function startOs(os) {
 		os.listeners();
 		os.maybeOpenRequestedExplorer();
 	}
-	os.refreshRemoteDrives()
-		.then(() => os.renderDesktop())
-		.catch(() => os.updateStatus("needs-login"));
+	const remotes = installRemoteDriveCoordinator(os);
+	remotes.refresh({ announce: true });
 	os.taskbar.notify("Geelooy OS desktop online", "success");
 	os.syncGraph();
 }
 
-/** Publishes shared utility exports for legacy window programs. */
 export async function loadOsUtilities() {
 	const utilities = await import("/scripts/awtsmoos/api/utils.js");
 	for (const [name, value] of Object.entries(utilities)) {
@@ -46,7 +44,6 @@ export async function loadOsUtilities() {
 	}
 }
 
-/** @param {object} os Live OS facade. */
 export function registerOsAdapters(os) {
 	os.vfs.register(localVirtualAdapter(os));
 	os.vfs.register(tunnelAdapter(os));
@@ -55,7 +52,6 @@ export function registerOsAdapters(os) {
 	installSocialMount(os);
 }
 
-/** @param {object} os Live OS facade. */
 export function makeOsDesktop(os) {
 	window.madeDesk ||= `BH-${Date.now()}`;
 	os.md = window.madeDesk;
@@ -69,7 +65,6 @@ export function makeOsDesktop(os) {
 	document.head.appendChild(style);
 }
 
-/** @param {object} os Live OS facade. */
 export function maybeOpenRequestedExplorer(os) {
 	const search = new URLSearchParams(location.search);
 	const explicitPath = search.get("openExplorer") || "";
@@ -88,7 +83,6 @@ export function maybeOpenRequestedExplorer(os) {
 	});
 }
 
-/** @param {object} os Live OS facade. */
 export function toggleOsFullScreen(os) {
 	if (!document.fullscreenElement) {
 		document.querySelector(".main")?.requestFullscreen?.()

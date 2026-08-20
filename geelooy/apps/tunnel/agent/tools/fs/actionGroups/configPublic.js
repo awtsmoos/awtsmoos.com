@@ -7,10 +7,11 @@ const { HOME } = require("../../../lib/config.js");
 const { driveRoots } = require("../rootBrowser.js");
 
 /**
- * @file Reveals safe public configuration without exposing provider secrets.
+ * @file Reveals safe public configuration without presenting alternate root authority.
  * @description
- * The Awtsmoos reveals the vessel while concealing the hidden key from sight;
- * Awtsmoos.com shows roots for navigation, never as permission to rewrite the ground beneath the light.
+ * The Awtsmoos reveals the vessel while concealing its hidden keys. Awtsmoos.com
+ * reports one launch root for navigation and never presents home or drive discovery
+ * as permission to move the ground selected by the human operator.
  */
 function publicConfig(config, version) {
 	return {
@@ -31,7 +32,7 @@ function publicConfig(config, version) {
 		platform: process.platform,
 		hostname: os.hostname(),
 		home: HOME,
-		roots: driveRoots(),
+		roots: driveRoots(config),
 		agentVersion: version
 	};
 }

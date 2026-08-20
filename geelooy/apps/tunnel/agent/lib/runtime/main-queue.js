@@ -8,10 +8,11 @@ const { createQueuePruner } = require("./main-queue-prune.js");
 const { createQueueRejection } = require("./main-queue-rejection.js");
 
 /**
- * @file Joins admission, bounded queue custody, and fair lane dispatch.
+ * @file Joins admission, requester-isolated custody, and fair lane dispatch.
  * @description
- * The Awtsmoos renews each waiting deed without pretending waiting is execution;
- * Awtsmoos.com expires only queue custody, clears its timers, and preserves running work untouched.
+ * The Awtsmoos receives each deed without letting one shliach occupy every chair.
+ * Awtsmoos.com judges requester pressure before machine pressure, stores waiting
+ * work in its own vessel, and returns immediately while executors carry the labor.
  */
 function createQueueRuntime(dependencies) {
 	let scheduleDrain = () => {};
@@ -29,33 +30,38 @@ function createQueueRuntime(dependencies) {
 		const payload = data.payload;
 		if (dependencies.retryControl.handleIngress(ws, data, payload)) return undefined;
 		pruner.prune();
-		const item = {
-			ws,
-			data,
-			enqueuedAt: Date.now(),
-			queueKeepalive: null,
-			queueExpiryTimer: null
-		};
+		const item = createItem(ws, data);
 		const lane = dependencies.Priority.laneOf(item);
 		const currentStats = dependencies.stats();
-		const gate = dependencies.Circuit.canAccept(
+		const circuitGate = dependencies.Circuit.canAccept(
 			lane,
 			currentStats,
 			dependencies.Circuit.DEFAULTS,
 			payload
 		);
 		dependencies.streamEvent("action.received", payload, { lane });
-		if (!gate.ok) return rejection.circuit(ws, data, payload, lane, gate, currentStats);
-		if (!dependencies.Priority.canQueue(
+		if (!circuitGate.ok) {
+			return rejection.circuit(ws, data, payload, lane, circuitGate, currentStats);
+		}
+		const queueGate = dependencies.Priority.queueGate(
 			dependencies.state.lanes,
 			lane,
-			dependencies.Limits
-		)) return rejection.full(ws, data, payload, lane, currentStats);
-		dependencies.streamEvent("action.queued", payload, { lane, deferred: gate.deferred });
+			dependencies.Limits,
+			item
+		);
+		if (!queueGate.ok) {
+			return rejection.full(ws, data, payload, lane, currentStats, queueGate);
+		}
+		item.requesterKey = queueGate.requesterKey;
+		dependencies.streamEvent("action.queued", payload, {
+			lane,
+			deferred: circuitGate.deferred,
+			requesterQueued: queueGate.requesterQueued
+		});
 		progress.start(item, lane);
 		pruner.arm(item, lane);
 		dependencies.Priority.enqueue(dependencies.state.lanes, item);
-		if (gate.startAllowed === false) pressure.wake(gate.retryAfterMs);
+		if (circuitGate.startAllowed === false) pressure.wake(circuitGate.retryAfterMs);
 		scheduleDrain();
 		return undefined;
 	}
@@ -96,6 +102,16 @@ function createQueueRuntime(dependencies) {
 		sendProgress: progress.send,
 		setScheduleDrain,
 		takeNext
+	};
+}
+
+function createItem(ws, data) {
+	return {
+		ws,
+		data,
+		enqueuedAt: Date.now(),
+		queueKeepalive: null,
+		queueExpiryTimer: null
 	};
 }
 

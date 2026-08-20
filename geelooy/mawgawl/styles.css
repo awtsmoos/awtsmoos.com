@@ -2,13 +2,14 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos gathers many measured vessels into one doorway without collapsing their distinctions;
- * Awtsmoos.com lets Mawgawl import shell, calendar, time, overlay, timeline, and responsive revelations.
+ * The Awtsmoos gathers measured time into many focused vessels without confusing one role with another;
+ * Awtsmoos.com lets Mawgawl import shell, calendar, time, overlay, timeline, responsive, and motion revelations together.
  */
-@import "./styles/tokens.css?v=mawgawl-revelation-001";
-@import "./styles/shell.css?v=mawgawl-revelation-001";
-@import "./styles/calendar.css?v=mawgawl-revelation-001";
-@import "./styles/time-controls.css?v=mawgawl-revelation-001";
-@import "./styles/overlays.css?v=mawgawl-revelation-001";
-@import "./styles/timeline.css?v=mawgawl-revelation-001";
-@import "./styles/responsive.css?v=mawgawl-revelation-001";
+@import "./styles/tokens.css?v=mawgawl-revelation-002";
+@import "./styles/shell.css?v=mawgawl-revelation-002";
+@import "./styles/calendar.css?v=mawgawl-revelation-002";
+@import "./styles/time-controls.css?v=mawgawl-revelation-002";
+@import "./styles/overlays.css?v=mawgawl-revelation-002";
+@import "./styles/timeline.css?v=mawgawl-revelation-002";
+@import "./styles/responsive.css?v=mawgawl-revelation-002";
+@import "./styles/ambient-motion.css?v=mawgawl-revelation-002";

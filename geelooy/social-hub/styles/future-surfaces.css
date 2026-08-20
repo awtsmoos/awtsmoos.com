@@ -1,0 +1,69 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos clothes dark space with quiet luminous depth; Awtsmoos.com receives that depth as readable glass, not visual noise.
+*/
+.social-hub-document {
+	isolation: isolate;
+}
+
+.social-hub-document::before,
+.social-hub-document::after {
+	position: fixed;
+	z-index: -1;
+	width: 42rem;
+	aspect-ratio: 1;
+	border-radius: 50%;
+	filter: blur(80px);
+	content: "";
+	pointer-events: none;
+}
+
+.social-hub-document::before {
+	top: 8%;
+	left: -16rem;
+	background: radial-gradient(circle, rgb(48 184 255 / 14%), transparent 68%);
+}
+
+.social-hub-document::after {
+	right: -18rem;
+	bottom: 4%;
+	background: radial-gradient(circle, rgb(172 84 255 / 12%), transparent 70%);
+}
+
+.hubHeader,
+.contextRibbon,
+.desktopRail,
+.mobileDock,
+.panelIntro,
+.heroRift,
+.publicDiscovery,
+.riftCard,
+.publicFeedCard,
+.publicDiscoveryEmpty,
+.pulseGrid article,
+.quickActionGrid > * {
+	border-color: var(--future-edge);
+	background-color: var(--future-glass);
+	box-shadow: var(--future-glow), var(--future-inset);
+	backdrop-filter: blur(18px) saturate(125%);
+}
+
+.hubHeader,
+.contextRibbon,
+.panelIntro,
+.heroRift,
+.publicDiscovery {
+	background-image: linear-gradient(145deg, rgb(23 50 83 / 44%), transparent 46%, rgb(92 44 122 / 20%));
+}
+
+.contextRibbon span,
+.contextRibbon strong {
+	box-shadow: inset 0 1px rgb(255 255 255 / 8%);
+}
+
+.brandSigil,
+.pulseOrb {
+	box-shadow: 0 0 34px rgb(88 212 255 / 18%), var(--future-inset);
+}

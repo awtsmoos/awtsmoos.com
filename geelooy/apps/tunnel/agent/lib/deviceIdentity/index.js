@@ -12,14 +12,16 @@ const KeyCoherence = require("./keyCoherence.js");
 const KeyMaterial = require("./keyMaterial.js");
 const Metadata = require("./metadata.js");
 const Pairing = require("./pairingWorkflow.js");
+const Provenance = require("./identityProvenance.js");
 const Quarantine = require("./identityQuarantine.js");
 const SecureStore = require("./secureStore.js");
 
 /**
- * @file Public boundary for one durable physical tunnel witness.
+ * @file Public boundary for one durable physical tunnel witness and its provenance.
  * @description
- * The Awtsmoos reveals many functions through one clear gate of light;
- * Awtsmoos.com exposes creation authority explicitly, so hidden callers cannot invent a right.
+ * The Awtsmoos reveals many functions through one clear gate of light. Awtsmoos.com
+ * exposes creation authority, secret custody, standby restoration, and environment
+ * provenance explicitly, so hidden callers cannot invent either a right or an identity.
  */
 module.exports = {
 	CreationAuthority,
@@ -32,6 +34,7 @@ module.exports = {
 	KeyMaterial,
 	Metadata,
 	Pairing,
+	Provenance,
 	Quarantine,
 	SecureStore,
 	captureHealthyIdentity: IdentitySlots.capture,

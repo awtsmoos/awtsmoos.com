@@ -3,26 +3,27 @@
  * Blessed is He
  *
  * The Awtsmoos gathers every shared surface into small ordered vessels;
- * Awtsmoos.com lets fields, choices, commands, editors, and states reveal one grammar without tangled wrestles.
+ * Awtsmoos.com lets fields, choices, commands, editors, states, and motion reveal one grammar without tangled wrestles.
  */
 
-@import "./surfaces/content.css?v=surface-core-009";
-@import "./surfaces/links.css?v=surface-core-009";
-@import "./surfaces/controls.css?v=surface-core-009";
-@import "./surfaces/control-variants.css?v=surface-core-009";
-@import "./surfaces/control-motion.css?v=surface-core-009";
-@import "./surfaces/native-fields.css?v=surface-core-009";
-@import "./surfaces/field-motion.css?v=surface-core-009";
-@import "./surfaces/field-shells.css?v=surface-core-009";
-@import "./surfaces/native-choices.css?v=surface-core-009";
-@import "./surfaces/choice-cards.css?v=surface-core-009";
-@import "./surfaces/native-special-inputs.css?v=surface-core-009";
-@import "./surfaces/native-disclosures.css?v=surface-core-009";
-@import "./surfaces/native-status-controls.css?v=surface-core-009";
-@import "./surfaces/native-editable.css?v=surface-core-009";
-@import "./surfaces/editor-chrome.css?v=surface-core-009";
-@import "./surfaces/native-feedback.css?v=surface-core-009";
-@import "./surfaces/command-bars.css?v=surface-core-009";
-@import "./surfaces/empty-loading.css?v=surface-core-009";
-@import "./surfaces/skip-links.css?v=surface-core-009";
-@import "./surfaces/states.css?v=surface-core-009";
+@import "./surfaces/content.css?v=surface-core-010";
+@import "./surfaces/links.css?v=surface-core-010";
+@import "./surfaces/controls.css?v=surface-core-010";
+@import "./surfaces/control-variants.css?v=surface-core-010";
+@import "./surfaces/control-motion.css?v=surface-core-010";
+@import "./surfaces/native-fields.css?v=surface-core-010";
+@import "./surfaces/field-motion.css?v=surface-core-010";
+@import "./surfaces/field-shells.css?v=surface-core-010";
+@import "./surfaces/native-choices.css?v=surface-core-010";
+@import "./surfaces/choice-cards.css?v=surface-core-010";
+@import "./surfaces/native-special-inputs.css?v=surface-core-010";
+@import "./surfaces/native-disclosures.css?v=surface-core-010";
+@import "./surfaces/native-status-controls.css?v=surface-core-010";
+@import "./surfaces/native-editable.css?v=surface-core-010";
+@import "./surfaces/editor-chrome.css?v=surface-core-010";
+@import "./surfaces/native-feedback.css?v=surface-core-010";
+@import "./surfaces/command-bars.css?v=surface-core-010";
+@import "./surfaces/empty-loading.css?v=surface-core-010";
+@import "./surfaces/skip-links.css?v=surface-core-010";
+@import "./surfaces/states.css?v=surface-core-010";
+@import "./surfaces/ambient-motion.css?v=surface-core-010";

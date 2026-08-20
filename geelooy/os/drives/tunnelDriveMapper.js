@@ -3,14 +3,9 @@
 // Blessed is He
 
 /**
- * @file Maps verified remote devices and previews into OS drive records.
- * @description
- * The Awtsmoos lets the title remain warm and human while the mounted root is
- * bound to immutable route identity. Awtsmoos.com keeps vessel kind beside the
- * route as a routing hint only; it never becomes the address and never grants
- * capability by itself. One bond below, many garments above — Blessed is He.
+ * @file Maps verified devices and previews into rich OS drive records.
+ * @description The Awtsmoos lets immutable route identity carry a warm human face; Awtsmoos.com reveals live capability, platform, and locality without confusing presentation with authority.
  */
-
 import { remoteDriveIdentity } from "./remoteDriveIdentity.js";
 
 export function deviceDrive(device = {}) {
@@ -20,13 +15,13 @@ export function deviceDrive(device = {}) {
 	const canRead = device.capabilities?.fsRead === true || device.allowRead === true;
 	const canWrite = device.capabilities?.fsWrite === true || device.allowWrite === true;
 	const canCommand = device.capabilities?.commandRun === true || device.allowCommands === true;
-	const targetVessel = targetVesselFor(vesselType);
 	return {
 		...identity,
 		url: provider === "tunnel"
 			? `awtsmoos://tunnels/${encodeURIComponent(identity.routeReference)}`
 			: `awtsmoos://network/${encodeURIComponent(identity.routeReference)}`,
 		icon: provider === "virtual" ? "☁️" : "💻",
+		iconKey: provider === "virtual" ? "cloud" : "computer",
 		kind: provider,
 		provider,
 		writable: canWrite,
@@ -34,7 +29,9 @@ export function deviceDrive(device = {}) {
 		canWrite,
 		canCommand,
 		commandEnabled: canCommand,
-		targetVessel,
+		permissionState: canWrite ? "read-write" : "read-only",
+		capabilities: capabilitiesOf({ canRead, canWrite, canCommand }),
+		targetVessel: targetVesselFor(vesselType),
 		vesselType,
 		dynamicTunnelDrive: provider === "tunnel",
 		device
@@ -52,6 +49,9 @@ export function previewDrive(preview = {}) {
 		provider: "preview",
 		providerId: "preview",
 		writable: false,
+		permissionState: "read-only",
+		locality: "remote",
+		syncState: "snapshot",
 		preview
 	};
 }
@@ -65,7 +65,8 @@ export function receiptDrive() {
 		icon: "🧾",
 		kind: "receipt",
 		provider: "receipt",
-		writable: false
+		writable: false,
+		permissionState: "read-only"
 	};
 }
 
@@ -79,10 +80,18 @@ export function targetVesselFor(vesselType = "") {
 	return "native-tunnel";
 }
 
-function vesselTypeFor(device) {
+function vesselTypeFor(device = {}) {
 	return String(
 		device.vesselType ||
 		device.kind ||
 		(device.syntheticTunnel ? "virtual-os" : "native-tunnel")
 	).toLowerCase();
+}
+
+function capabilitiesOf({ canRead, canWrite, canCommand }) {
+	return [
+		canRead && "read",
+		canWrite && "write",
+		canCommand && "terminal"
+	].filter(Boolean);
 }

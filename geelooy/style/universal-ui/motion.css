@@ -1,0 +1,83 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos renews even forgotten browser vessels before their next visible state can appear;
+ * Awtsmoos.com gives raw actions, disclosures, and dialogs a quiet motion language of intention and care.
+ */
+
+@media (prefers-reduced-motion: no-preference) {
+	:where(html:not([data-g-ui-raw])) :where(
+		button:not([class]),
+		input[type="button"]:not([class]),
+		input[type="submit"]:not([class]),
+		input[type="reset"]:not([class])
+	) {
+		background-size: 180% 180%;
+		background-position: 0 50%;
+	}
+
+	:where(html:not([data-g-ui-raw])) :where(
+		button:not([class]),
+		input[type="button"]:not([class]),
+		input[type="submit"]:not([class]),
+		input[type="reset"]:not([class])
+	):is(:hover, :focus-visible):not(:disabled) {
+		background-position: 100% 50%;
+	}
+
+	:where(html:not([data-g-ui-raw])) details:not([class])[open] {
+		animation: aw-ui-disclosure-open 220ms cubic-bezier(.16, 1, .3, 1) both;
+		box-shadow: var(--aw-ui-shadow);
+	}
+
+	:where(html:not([data-g-ui-raw])) dialog:not([class])[open] {
+		animation: aw-ui-dialog-enter 260ms cubic-bezier(.16, 1, .3, 1) both;
+	}
+
+	:where(html:not([data-g-ui-raw])) dialog:not([class])[open]::backdrop {
+		animation: aw-ui-backdrop-enter 220ms ease both;
+	}
+}
+
+@keyframes aw-ui-disclosure-open {
+	from {
+		box-shadow: none;
+		transform: translateY(-.15rem);
+	}
+	to {
+		box-shadow: var(--aw-ui-shadow);
+		transform: translateY(0);
+	}
+}
+
+@keyframes aw-ui-dialog-enter {
+	from {
+		opacity: .74;
+		transform: translateY(.55rem) scale(.985);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@keyframes aw-ui-backdrop-enter {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:where(html:not([data-g-ui-raw])) :where(
+		button:not([class]),
+		details:not([class]),
+		dialog:not([class])
+	) {
+		animation: none;
+		transition: none;
+	}
+}

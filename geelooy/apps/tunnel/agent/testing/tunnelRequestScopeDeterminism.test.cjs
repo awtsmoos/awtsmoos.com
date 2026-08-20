@@ -12,44 +12,68 @@ const Replay = require("../tools/fs/actionReplayIdentity.js");
 const Receipts = require("../lib/workers/worker-receipts.js");
 
 /**
-	* @file Proves roots and cwd are immutable, strict, and replay-significant.
-	* @description The Awtsmoos refuses silent fallback into another repository.
-	*/
+ * @file Proves canonical root authority is immutable while cwd stays useful beneath it.
+ * @description
+ * The Awtsmoos gives a request one enduring ground. Awtsmoos.com lets descendants
+ * walk through directories inside that ground, while filesystem aliases resolve to
+ * one real vessel and alternate project roots can never widen execution authority.
+ */
 const sandbox = fs.mkdtempSync(path.join(os.tmpdir(), "awts-scope-"));
 const rootA = path.join(sandbox, "root-a");
 const rootB = path.join(sandbox, "root-b");
-fs.mkdirSync(rootA);
+const nested = path.join(rootA, "nested");
+fs.mkdirSync(nested, { recursive: true });
 fs.mkdirSync(rootB);
 
+const canonicalRootA = fs.realpathSync.native(rootA);
+const canonicalNested = fs.realpathSync.native(nested);
+
 try {
-	const config = { root: rootA };
-	assert.equal(Scope.selectedRoot(config, { projectRoot: rootB }), rootB);
+	const config = { root: canonicalRootA };
+	assert.equal(Scope.selectedRoot(config, {}), canonicalRootA);
+	assert.equal(Scope.selectedRoot(config, { projectRoot: rootA }), canonicalRootA);
+	assert.equal(Scope.selectedRoot(config, { scopeRoot: rootA }), canonicalRootA);
 	assert.throws(
-		() => Scope.selectedRoot(config, { projectRoot: "relative-root" }),
-		error => error.code === "project_root_must_be_absolute"
+		() => Scope.selectedRoot(config, { projectRoot: rootB }),
+		error => error.code === "immutable_root_violation"
 	);
 	assert.throws(
-		() => Scope.selectedRoot(config, { projectRoot: path.join(sandbox, "missing") }),
-		error => error.code === "project_root_not_found"
+		() => Scope.selectedRoot(config, { scopeRoot: sandbox }),
+		error => error.code === "immutable_root_violation"
 	);
-	assert.equal(Context.resolveCwd(config, { cwd: rootA }), rootA);
+
+	assert.equal(Context.resolveCwd(config, { cwd: nested }), canonicalNested);
 	assert.throws(
 		() => Context.resolveCwd(config, { cwd: rootB }),
 		error => error.code === "path_outside_project_root"
 	);
 
-	const inherited = Scope.childPayload({ projectRoot: rootA, cwd: rootA }, { action: "read" });
-	assert.equal(inherited.projectRoot, rootA);
-	assert.equal(inherited.cwd, rootA);
-	const overridden = Scope.childPayload(
-		{ projectRoot: rootA, cwd: rootA },
-		{ action: "read", projectRoot: rootB }
+	const inherited = Scope.childPayload(
+		{ projectRoot: canonicalRootA, cwd: canonicalNested },
+		{ action: "read" }
 	);
-	assert.equal(overridden.projectRoot, rootB);
-	assert.equal(overridden.cwd, undefined);
+	assert.equal(inherited.projectRoot, canonicalRootA);
+	assert.equal(inherited.cwd, canonicalNested);
+	assert.throws(
+		() => Scope.childPayload(
+			{ projectRoot: canonicalRootA, cwd: canonicalNested },
+			{ action: "read", projectRoot: rootB }
+		),
+		error => error.code === "immutable_root_violation"
+	);
 
-	const first = Replay.fingerprint({ action: "read", projectRoot: rootA, cwd: rootA, p: "x" });
-	const second = Replay.fingerprint({ action: "read", projectRoot: rootB, cwd: rootB, p: "x" });
+	const first = Replay.fingerprint({
+		action: "read",
+		projectRoot: canonicalRootA,
+		cwd: canonicalRootA,
+		p: "x"
+	});
+	const second = Replay.fingerprint({
+		action: "read",
+		projectRoot: canonicalRootA,
+		cwd: canonicalNested,
+		p: "x"
+	});
 	assert.notEqual(first, second);
 
 	const receipt = Receipts.created({
@@ -58,11 +82,11 @@ try {
 		workerId: "worker_scope",
 		requestAction: "commandRun",
 		executionAction: "commandStart",
-		projectRoot: rootB,
-		cwd: rootB
+		projectRoot: canonicalRootA,
+		cwd: canonicalNested
 	});
-	assert.equal(receipt.projectRoot, rootB);
-	assert.equal(receipt.cwd, rootB);
+	assert.equal(receipt.projectRoot, canonicalRootA);
+	assert.equal(receipt.cwd, canonicalNested);
 	assert.equal(receipt.executionAction, "commandStart");
 } finally {
 	fs.rmSync(sandbox, { recursive: true, force: true });
@@ -71,8 +95,9 @@ try {
 console.log(JSON.stringify({
 	ok: true,
 	suite: "tunnel-request-scope-determinism",
+	canonicalRoot: true,
+	immutableRoot: true,
 	strictCwd: true,
-	batchInheritance: true,
-	replayScopeBound: true,
-	receiptScopeBound: true
+	childInheritance: true,
+	replayScopeBound: true
 }, null, 2));

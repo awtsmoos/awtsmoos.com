@@ -3,9 +3,11 @@
 // Blessed is He
 
 /**
- * @file Bounds compact terminal command testimony independently from full command rooms.
- * @description The Awtsmoos lets heavy output pass away while a small witness remains;
- * Awtsmoos.com gives that witness a longer horizon without creating another unbounded store.
+ * @file Bounds compact terminal testimony by bytes, age, and record count.
+ * @description
+ * The Awtsmoos leaves a small witness after heavy command rooms pass away.
+ * Awtsmoos.com gives those witnesses three independent horizons so countless tiny
+ * receipts can never become an invisible archive that slows every future shliach.
  */
 const TAIL_BYTES = bounded(
 	process.env.AWTSMOOS_COMMAND_RECEIPT_TAIL_BYTES,
@@ -25,6 +27,12 @@ const STORE_MAX_BYTES = bounded(
 	1024 * 1024,
 	256 * 1024 * 1024
 );
+const STORE_MAX_RECORDS = bounded(
+	process.env.AWTSMOOS_COMMAND_RECEIPT_STORE_MAX_RECORDS,
+	2000,
+	10,
+	100000
+);
 
 function bounded(value, fallback, minimum, maximum) {
 	const number = Number(value ?? fallback);
@@ -34,6 +42,7 @@ function bounded(value, fallback, minimum, maximum) {
 
 module.exports = {
 	STORE_MAX_BYTES,
+	STORE_MAX_RECORDS,
 	TAIL_BYTES,
 	TTL_MS,
 	bounded

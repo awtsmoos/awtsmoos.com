@@ -9,9 +9,11 @@ const Values = require("./main-state-values.js");
 const RuntimePressure = require("./runtime-pressure.js");
 
 /**
- * @file Exposes one bounded runtime pressure witness to control and recursive activation alike.
- * @description The Awtsmoos renews lane, worker, route, and lag testimony together;
- * Awtsmoos.com publishes one living pressure truth without multiplying monitors or clocks.
+ * @file Exposes bounded runtime pressure, progress, worker, and route testimony.
+ * @description
+ * The Awtsmoos renews lane, worker, route, and progress together without making
+ * health itself heavy. Awtsmoos.com reads one constant-time progress witness beside
+ * lag and queues so a living socket can never conceal a front door that stopped moving.
  */
 function createRuntimeState(dependencies) {
 	const lagMonitor = dependencies.Lag.createLagMonitor({ intervalMs: 2000, windowMs: 30000 });
@@ -60,6 +62,7 @@ function createRuntimeState(dependencies) {
 			observeQueueLimit: dependencies.Limits.OBSERVE_QUEUE_LIMIT,
 			lanes,
 			executionStages: executionStages.snapshot(),
+			progress: dependencies.ProgressLedger?.snapshot?.() || null,
 			eventLoopLag: pressure.eventLoopLag,
 			circuit: pressure.circuit,
 			filesystemExecutor: dependencies.FsExecutor?.stats?.() || null,

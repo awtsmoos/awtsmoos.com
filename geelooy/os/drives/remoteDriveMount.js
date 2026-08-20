@@ -3,13 +3,9 @@
 // Blessed is He
 
 /**
- * @file Shapes capability-bound VFS mounts for verified remote drives.
- * @description
- * The Awtsmoos gives Chesed the power to read and sometimes write, while
- * Gevurah decides exactly how far that light may travel. Awtsmoos.com derives
- * each permission from verified capability, never from a provider label alone.
+ * @file Shapes capability-bound VFS mounts for verified connected tunnel drives.
+ * @description The Awtsmoos lets a living remote machine appear as one honest mounted world; Awtsmoos.com carries its title, state, and capability without turning decoration into permission.
  */
-
 export function remoteDriveMount(drive = {}) {
 	return Object.freeze({
 		id: `mount:tunnel:${drive.routeReference}`,
@@ -24,8 +20,17 @@ export function remoteDriveMount(drive = {}) {
 		provider: "tunnel",
 		providerId: drive.routeReference,
 		title: drive.title,
-		icon: drive.icon || "🛰️",
-		iconKey: drive.iconKey || "network",
+		subtitle: drive.subtitle || "Connected tunnel",
+		icon: drive.icon || "💻",
+		iconKey: drive.iconKey || "computer",
+		capabilities: Object.freeze([...(drive.capabilities || [])]),
+		permissionState: drive.permissionState || "read-only",
+		locality: "remote",
+		syncState: "live",
+		connectionState: "connected",
+		platform: drive.platform || "",
+		tunnelName: drive.tunnelName || "",
+		vesselType: drive.vesselType || "native-tunnel",
 		dynamicTunnelMount: true,
 		routeReference: drive.routeReference
 	});

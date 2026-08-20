@@ -2,19 +2,26 @@
 // Boruch Hashem
 // Blessed is He
 
+const LaunchRoot = require("../../../lib/runtime/launch-root.js");
+
 /**
- * @file Makes the persisted tunnel project root immutable through remote control actions.
+ * @file Enforces the immutable launch-root contract at configuration actions.
  * @description
- * The Awtsmoos lets each request name its temporary vessel without moving the enduring ground;
- * Awtsmoos.com keeps persistent root fixed, so route ownership is never shaken by a browse-around.
+ * The Awtsmoos fixes the workspace when the human starts the tunnel. Awtsmoos.com
+ * permits navigation beneath that workspace, but neither an agent nor a descendant
+ * action may replace, widen, or reinterpret the authority root afterward.
  */
-function assertPersistentRootImmutable(payload = {}) {
+function assertPersistentRootImmutable(payload = {}, authorityRoot = "") {
 	if (!Object.prototype.hasOwnProperty.call(payload, "root")) return true;
+	if (authorityRoot) {
+		LaunchRoot.assertSame(authorityRoot, payload.root, "config.root");
+	}
 	const error = new Error(
-		"persistent_root_mutation_disabled: use per-action root or cwd without changing tunnel configuration"
+		"immutable_root_violation: project root is fixed by the directory where the tunnel was started"
 	);
-	error.code = "persistent_root_mutation_disabled";
+	error.code = "immutable_root_violation";
 	error.requestedRoot = payload.root == null ? null : String(payload.root);
+	error.authorityRoot = authorityRoot || null;
 	throw error;
 }
 

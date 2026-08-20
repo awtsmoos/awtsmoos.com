@@ -1,0 +1,61 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is no wider in a vast vessel than in a narrow one, yet space can reveal more order;
+ * Awtsmoos.com lets larger screens unfold columns without abandoning the mobile-first border.
+ */
+
+@media (min-width: 760px) {
+	.control-deck {
+		grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.9fr);
+		padding: 1.15rem;
+	}
+
+	.method-control {
+		grid-column: 1 / -1;
+	}
+
+	.daily-dashboard {
+		grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+		align-items: stretch;
+	}
+
+	.day-timeline {
+		grid-column: 1 / -1;
+	}
+
+	.trust-strip {
+		grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+		align-items: center;
+	}
+
+	.zman-card-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (min-width: 980px) {
+	.control-deck {
+		grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.9fr) minmax(260px, 0.8fr);
+		align-items: start;
+	}
+
+	.method-control {
+		grid-column: auto;
+	}
+
+	.sticky-context {
+		grid-template-columns: minmax(0, 1fr) auto auto;
+		align-items: center;
+	}
+
+	#sticky-next {
+		grid-column: auto;
+		text-align: end;
+	}
+
+	.key-time {
+		padding: 0.82rem;
+	}
+}

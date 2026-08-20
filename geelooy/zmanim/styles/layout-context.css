@@ -1,0 +1,81 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos creates context before a visitor can name what is near or far;
+ * Awtsmoos.com lets the shell, controls, and sticky guidance form one ordered star.
+ */
+
+.zmanim-shell {
+	width: min(100%, var(--content-width));
+	margin-inline: auto;
+	padding: 0 var(--page-inline) calc(3rem + env(safe-area-inset-bottom));
+	isolation: isolate;
+}
+
+.control-deck {
+	display: grid;
+	gap: var(--space-3);
+	margin-top: var(--space-3);
+	padding: clamp(0.9rem, 3vw, 1.2rem);
+	border: 1px solid var(--line-strong);
+	border-radius: var(--radius-large);
+	background:
+		linear-gradient(145deg, rgba(255, 255, 255, 0.72), rgba(255, 253, 248, 0.88)),
+		var(--paper-raised);
+	box-shadow: var(--shadow-soft);
+}
+
+.date-control-block,
+.method-control {
+	min-width: 0;
+}
+
+.sticky-context {
+	position: sticky;
+	top: max(0px, env(safe-area-inset-top));
+	z-index: 15;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 0.14rem 0.7rem;
+	margin-block: var(--space-2);
+	padding: 0.7rem 0.85rem;
+	border: 1px solid rgba(197, 208, 200, 0.92);
+	border-radius: var(--radius-small);
+	background: rgba(250, 249, 244, 0.92);
+	backdrop-filter: blur(16px) saturate(1.08);
+	box-shadow: 0 8px 24px rgba(18, 56, 47, 0.07);
+}
+
+.sticky-context strong,
+.sticky-context span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.sticky-context strong {
+	font-size: 0.82rem;
+	letter-spacing: -0.01em;
+}
+
+.sticky-context span {
+	font-size: 0.71rem;
+	color: var(--ink-soft);
+}
+
+#sticky-next {
+	grid-column: 1 / -1;
+	color: var(--forest-bright);
+	font-weight: 800;
+}
+
+.daily-dashboard {
+	display: grid;
+	gap: var(--space-3);
+	margin-top: var(--space-3);
+}
+
+.all-zmanim-section {
+	margin-top: var(--space-6);
+}

@@ -3,74 +3,81 @@
 // Blessed is He
 
 const assert = require("node:assert/strict");
-const { buildConfigActions, handleConfigSet } = require("../tools/fs/actionGroups/configActions.js");
+const fs = require("node:fs");
+const os = require("node:os");
+const path = require("node:path");
+const Scope = require("../lib/runtime/request-scope.js");
+const RootBrowser = require("../tools/fs/rootBrowser.js");
 const { assertPersistentRootImmutable } = require("../tools/fs/actionGroups/configRootPolicy.js");
 
 /**
- * @file Proves remote control cannot move the persisted tunnel root or advertise rootSelect.
+ * @file Proves every ordinary root-selection surface is bound to canonical launch authority.
  * @description
- * The Awtsmoos lets each request walk through many vessels while the enduring ground stays still;
- * Awtsmoos.com keeps root immutable, so browsing can never become a reconnecting destructive will.
+ * The Awtsmoos gives the human one workspace and Awtsmoos.com guards its boundary:
+ * aliases may resolve to their real filesystem vessel, yet configuration, request scope,
+ * parent traversal, and symlink tricks can never manufacture a second root or wider route.
  */
 (async () => {
-	provePolicyRejectsRoot();
-	proveRuntimeDoesNotAdvertiseRootSelect();
-	await proveConfigSetRejectsBeforeRegistration();
-	console.log(JSON.stringify({ ok: true, suite: "root-immutability-gate" }));
+	const sandbox = fs.mkdtempSync(path.join(os.tmpdir(), "awts-root-gate-"));
+	const authority = path.join(sandbox, "work");
+	const outside = path.join(sandbox, "outside");
+	fs.mkdirSync(path.join(authority, "inside"), { recursive: true });
+	fs.mkdirSync(outside);
+	const canonicalAuthority = fs.realpathSync.native(authority);
+	try {
+		provePolicy(canonicalAuthority, outside);
+		proveScope(canonicalAuthority, outside);
+		await proveBrowser(canonicalAuthority, outside);
+		console.log(JSON.stringify({ ok: true, suite: "root-immutability-gate" }));
+	} finally {
+		fs.rmSync(sandbox, { recursive: true, force: true });
+	}
 })().catch(error => {
 	console.error(error.stack || error);
 	process.exitCode = 1;
 });
 
-function provePolicyRejectsRoot() {
-	assert.equal(assertPersistentRootImmutable({ tunnelName: "stable" }), true);
+function provePolicy(authority, outside) {
+	assert.equal(assertPersistentRootImmutable({ tunnelName: "stable" }, authority), true);
 	assert.throws(
-		() => assertPersistentRootImmutable({ root: "/tmp/forbidden" }),
-		error => error.code === "persistent_root_mutation_disabled"
+		() => assertPersistentRootImmutable({ root: outside }, authority),
+		error => error.code === "immutable_root_violation"
 	);
 }
 
-function proveRuntimeDoesNotAdvertiseRootSelect() {
-	const actions = buildConfigActions({
-		config: minimalConfig(),
-		payload: { action: "configGet" },
-		ws: null,
-		version: "test"
-	});
-	assert.equal(Object.prototype.hasOwnProperty.call(actions, "rootSelect"), false);
-	assert.equal(typeof actions.roots, "function");
-	assert.equal(typeof actions.rootBrowse, "function");
+function proveScope(authority, outside) {
+	const config = { root: authority };
+	assert.equal(Scope.selectedRoot(config, { projectRoot: authority }), authority);
+	assert.throws(
+		() => Scope.selectedRoot(config, { projectRoot: outside }),
+		error => error.code === "immutable_root_violation"
+	);
+	assert.throws(
+		() => Scope.childPayload(
+			{ projectRoot: authority },
+			{ projectRoot: outside }
+		),
+		error => error.code === "immutable_root_violation"
+	);
 }
 
-async function proveConfigSetRejectsBeforeRegistration() {
-	let sendCalls = 0;
-	const ws = {
-		opened: true,
-		sendJson() {
-			sendCalls += 1;
-		}
-	};
+async function proveBrowser(authority, outside) {
+	const config = { root: authority };
+	assert.deepEqual(RootBrowser.driveRoots(config), [authority]);
+	const root = await RootBrowser.rootBrowse(config, { path: "." });
+	assert.equal(root.ok, true);
+	assert.equal(root.current, authority);
+	assert.equal(root.parent, authority);
 	await assert.rejects(
-		() => handleConfigSet({ root: "/tmp/forbidden" }, ws, "test"),
-		error => error.code === "persistent_root_mutation_disabled"
+		() => RootBrowser.rootBrowse(config, { path: outside }),
+		error => error.code === "path_outside_project_root"
 	);
-	assert.equal(sendCalls, 0);
-}
-
-function minimalConfig() {
-	return {
-		tunnelName: "stable",
-		relay: "wss://example.invalid",
-		local: "http://127.0.0.1",
-		root: "/stable/root",
-		allowWrite: false,
-		allowSecrets: false,
-		allowCommands: false,
-		enableLocalHttpProxy: false,
-		aiAgents: {},
-		gitHygiene: {},
-		tools: {},
-		command: {},
-		chrome: {}
-	};
+	if (process.platform !== "win32") {
+		const link = path.join(authority, "escape-link");
+		fs.symlinkSync(outside, link, "dir");
+		await assert.rejects(
+			() => RootBrowser.rootBrowse(config, { path: link }),
+			error => error.code === "symlink_outside_project_root"
+		);
+	}
 }

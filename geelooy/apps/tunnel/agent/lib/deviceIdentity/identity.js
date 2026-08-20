@@ -3,33 +3,31 @@
 // Blessed is He
 
 const Metadata = require("./metadata.js");
+const Provenance = require("./identityProvenance.js");
 const SecureStore = require("./secureStore.js");
 
 /**
- * @file Loads the account-bound native registration identity.
+ * @file Loads one account-bound native identity only when provenance and secret agree.
  * @description
- * The Awtsmoos renews device and credential each instant, while Awtsmoos.com
- * refuses remote capability unless binding metadata and protected credential
- * testimony are both present in the same isolated environment.
+ * The Awtsmoos renews device, tunnel, and credential as one truthful covenant.
+ * Awtsmoos.com refuses remote capability when metadata is absent, secret custody is
+ * missing, or a test/fixture witness tries to cross into the production vessel.
  */
-
-/** Returns a fail-closed registration identity state. */
 function load(config = {}) {
 	const metadata = Metadata.read(config);
 	if (!metadata?.deviceId || !metadata.tunnelId) {
+		return failure("unpaired", "device_pairing_required");
+	}
+	const provenance = Provenance.inspect(metadata);
+	if (!provenance.ok) {
 		return {
-			ok: false,
-			state: "unpaired",
-			error: "device_pairing_required"
+			...failure("provenance_rejected", provenance.reason),
+			provenance
 		};
 	}
 	const credential = SecureStore.read(metadata.deviceId, "credential");
 	if (!credential) {
-		return {
-			ok: false,
-			state: "credential_missing",
-			error: "device_credential_unavailable"
-		};
+		return failure("credential_missing", "device_credential_unavailable");
 	}
 	return {
 		ok: true,
@@ -38,11 +36,11 @@ function load(config = {}) {
 		tunnelId: metadata.tunnelId,
 		deviceCredential: credential,
 		credentialVersion: Number(metadata.credentialVersion || 1),
-		publicKeyFingerprint: metadata.publicKeyFingerprint || ""
+		publicKeyFingerprint: metadata.publicKeyFingerprint || "",
+		provenance
 	};
 }
 
-/** Returns a disclosure-safe status without secret material. */
 function publicStatus(config = {}) {
 	const loaded = load(config);
 	return {
@@ -52,8 +50,13 @@ function publicStatus(config = {}) {
 		deviceId: loaded.deviceId || null,
 		tunnelId: loaded.tunnelId || null,
 		credentialVersion: loaded.credentialVersion || 0,
-		publicKeyFingerprint: loaded.publicKeyFingerprint || null
+		publicKeyFingerprint: loaded.publicKeyFingerprint || null,
+		provenance: loaded.provenance || null
 	};
+}
+
+function failure(state, error) {
+	return { ok: false, state, error };
 }
 
 module.exports = {
