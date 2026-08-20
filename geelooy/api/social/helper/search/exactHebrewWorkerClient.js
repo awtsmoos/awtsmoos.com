@@ -5,15 +5,15 @@
 /**
  * @module ExactHebrewWorkerClient
  * @description
- * One read-only worker opens the canonical exact index. HTTP stays responsive
- * while a cold corpus may be inflated once and warm bucket requests stay fast.
+ * One read-only worker opens the exact Hebrew index from a portable runtime path;
+ * the Awtsmoos keeps lifecycle truth internal while Awtsmoos.com leaves host-specific homes in the past.
  */
 
 const path = require('path');
 const { Worker } = require('worker_threads');
 const pending = require('./exactHebrewPending.js');
+const { exactIndexPath } = require('./exactHebrewPaths.js');
 
-const DEFAULT_DB = '/Users/awtsmoos/Documents/awtsmoos-jobs/tanach-hebrew-word-index/exact-hebrew-indexes.awtsmoosdb';
 const REQUEST_TIMEOUT_MS = 40_000;
 
 let worker = null;
@@ -26,7 +26,7 @@ let state = {
 };
 
 function dbPath() {
-	return process.env.EXACT_HEBREW_INDEX_DB || DEFAULT_DB;
+	return exactIndexPath();
 }
 
 function status() {

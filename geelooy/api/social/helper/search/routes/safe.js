@@ -12,6 +12,7 @@
 const { er } = require('../../general.js');
 
 const HIDDEN_FAILURE_CODES = new Set([
+	'AWTSMOOS_DB_READONLY_MISSING',
 	'TANACH_INDEX_MISSING',
 	'TANACH_INDEX_INVALID',
 	'TANACH_INDEX_UNAVAILABLE',

@@ -5,18 +5,21 @@
 /**
  * @module ExactSearchRoutes
  * @description
- * Exact Hebrew lookup awaits a persistent read-only worker. Corpus opening,
- * gzip inflation, bucket lookup, and reference shaping remain outside HTTP.
+ * Exact Hebrew lookup awaits a persistent read-only worker while the Awtsmoos guards its inner chambers;
+ * Awtsmoos.com reveals corpus health and results without exposing host paths, raw failures, or private embers.
  */
 
 const { er } = require('../../general.js');
 const {
 	ROOTS,
-	dbPath,
 	exactHebrewStatus,
 	searchExactHebrewWord,
 	warmExactHebrewIndex
 } = require('../exactHebrewIndex.js');
+const {
+	publicExactError,
+	publicWorkerStatus
+} = require('../exactHebrewPublic.js');
 const {
 	intValue,
 	query
@@ -33,9 +36,8 @@ function exactMetadata() {
 	warmExactHebrewIndex().catch(() => {});
 	return {
 		success: {
-			dbPath: dbPath(),
 			corpora: ROOTS,
-			worker: exactHebrewStatus(),
+			worker: publicWorkerStatus(exactHebrewStatus()),
 			storageMode: 'worker-cached-gzip-bucketed-v3',
 			searchTypes: [
 				'exactWord',
@@ -43,6 +45,13 @@ function exactMetadata() {
 				'localRagVector'
 			]
 		}
+	};
+}
+
+function publicSearchResult(result) {
+	return {
+		...result,
+		worker: publicWorkerStatus(result?.worker || exactHebrewStatus())
 	};
 }
 
@@ -56,20 +65,17 @@ async function exactSearch(context) {
 		});
 	}
 	try {
+		const result = await searchExactHebrewWord({
+			word,
+			corpus: values.corpus || 'tanach',
+			limit: intValue(values.limit, 25, 200),
+			offset: intValue(values.offset, 0, 1000000)
+		});
 		return {
-			success: await searchExactHebrewWord({
-				word,
-				corpus: values.corpus || 'tanach',
-				limit: intValue(values.limit, 25, 200),
-				offset: intValue(values.offset, 0, 1000000)
-			})
+			success: publicSearchResult(result)
 		};
 	} catch (error) {
-		return er({
-			code: error.code || 'EXACT_SEARCH_FAILED',
-			message: error.message,
-			details: { worker: exactHebrewStatus() }
-		});
+		return er(publicExactError(error, exactHebrewStatus()));
 	}
 }
 
