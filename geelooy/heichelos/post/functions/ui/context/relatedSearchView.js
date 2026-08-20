@@ -6,7 +6,7 @@
  * @module RelatedSearchView
  * @description
  * The Awtsmoos lets related sources appear beside the words that awakened the search;
- * Awtsmoos.com keeps lane states simple while each result card reveals a compact highlighted source preview.
+ * Awtsmoos.com keeps embedded lanes simple while two explicit doors continue either literal text or semantic meaning in the full search page.
  */
 
 import { fullLibrarySearchUrl } from './relatedDestinations.js';
@@ -17,6 +17,23 @@ function el(tag, className, text = '') {
 	if (className) node.className = className;
 	if (text) node.textContent = text;
 	return node;
+}
+
+function externalLink(label, href) {
+	const link = el('a', '', label);
+	link.href = href;
+	link.target = '_blank';
+	link.rel = 'noopener noreferrer';
+	return link;
+}
+
+function fullSearchActions(query) {
+	const actions = el('div', 'awtsmoos-related-actions awtsmoos-related-full-actions');
+	actions.append(
+		externalLink('Full text search ↗', fullLibrarySearchUrl(query, 'text')),
+		externalLink('Full semantic search ↗', fullLibrarySearchUrl(query, 'vector'))
+	);
+	return actions;
 }
 
 function sectionMap() {
@@ -35,10 +52,6 @@ export function createRelatedSearchView({ query, onClose }) {
 	close.type = 'button';
 	close.setAttribute('aria-label', 'Close related sources');
 	close.addEventListener('click', onClose);
-	const full = el('a', 'awtsmoos-related-full-search', 'Open full search ↗');
-	full.href = fullLibrarySearchUrl(query);
-	full.target = '_blank';
-	full.rel = 'noopener noreferrer';
 	const summary = el(
 		'p',
 		'awtsmoos-related-summary',
@@ -50,7 +63,7 @@ export function createRelatedSearchView({ query, onClose }) {
 		el('p', 'awtsmoos-related-kicker', 'Related to selected text'),
 		el('blockquote', 'awtsmoos-related-quote', query),
 		summary,
-		full,
+		fullSearchActions(query),
 		...Object.values(sections)
 	);
 	return { panel, summary, sections };

@@ -3,21 +3,17 @@
 // Blessed is He
 
 /**
- * @module SearchLocation
+ * @module SearchLocationState
  * @description
- * The Awtsmoos lets finite browser coordinates remember one chosen search without burdening the searcher;
- * at Awtsmoos.com query, mode, lane, book, and exact corpus remain explicit vessels in the visible URL.
+ * The Awtsmoos lets one visible URL remember query, mode, source scope, and Library meaning strategy;
+ * Awtsmoos.com keeps ordinary text URLs quiet while semantic intent remains shareable through one explicit vector coordinate.
  */
 
 import {
-	EXACT_MODE,
-	LIBRARY_MODE,
-	TANACH_MODE
-} from './searchMode.js';
+	isSemanticStrategy,
+	strategyFromValues
+} from './searchStrategy.js';
 
-/**
- * @returns {{values:URLSearchParams,query:string,lane:string,book:string,corpus:string}}
- */
 export function readSearchLocation() {
 	const values = new URLSearchParams(location.search);
 	return {
@@ -25,30 +21,25 @@ export function readSearchLocation() {
 		query: values.get('q') || '',
 		lane: values.get('lane') || '',
 		book: values.get('book') || '',
-		corpus: values.get('corpus') || 'tanach'
+		corpus: values.get('corpus') || 'tanach',
+		strategy: strategyFromValues(values)
 	};
 }
 
-/**
- * @param {{query:string,mode:string,lane?:string,book?:string,corpus?:string}} state Search coordinates.
- * @returns {void}
- */
 export function replaceSearchLocation({
 	query,
 	mode,
 	lane = '',
 	book = '',
-	corpus = 'tanach'
+	corpus = 'tanach',
+	strategy = 'text'
 }) {
 	const values = new URLSearchParams({ q: query, mode });
-	if (mode === LIBRARY_MODE && lane) {
-		values.set('lane', lane);
+	if (mode === 'library' && lane) values.set('lane', lane);
+	if (mode === 'library' && isSemanticStrategy(strategy)) {
+		values.set('strategy', 'vector');
 	}
-	if (mode === TANACH_MODE && book) {
-		values.set('book', book);
-	}
-	if (mode === EXACT_MODE && corpus) {
-		values.set('corpus', corpus);
-	}
+	if (mode === 'tanach' && book) values.set('book', book);
+	if (mode === 'exact' && corpus) values.set('corpus', corpus);
 	history.replaceState(null, '', `${location.pathname}?${values}`);
 }

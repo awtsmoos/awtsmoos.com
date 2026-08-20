@@ -5,8 +5,8 @@
 /**
  * @file searchHistory.test.mjs
  * @description
- * The Awtsmoos tests one browser-local search memory shared by manual search, post selection, and comment selection;
- * Awtsmoos.com migrates older vessels, preserves origin and source context, deduplicates intent, and clears every generation together.
+ * The Awtsmoos tests one browser-local memory shared by manual, post, and comment search;
+ * Awtsmoos.com preserves Text/Semantic intent, origin, source context, migration, deduplication, and clearing across the same history river.
  */
 
 import assert from 'node:assert/strict';
@@ -40,7 +40,7 @@ function legacyEntry(query, lane = '') {
 	return { query, lane, visitedAt: 1000 };
 }
 
-test('v1 and v2 history migrate into the shared v3 store', () => {
+test('legacy history migrates with safe Text defaults', () => {
 	reset();
 	values.set('geelooy.library.recent-searches.v1', JSON.stringify([
 		legacyEntry('Torah', 'likkutei-sichos')
@@ -51,11 +51,10 @@ test('v1 and v2 history migrate into the shared v3 store', () => {
 	const history = readSearchHistory();
 	assert.equal(history.length, 2);
 	assert.ok(values.has(SEARCH_HISTORY_STORAGE_KEY));
-	assert.ok(history.some(entry => entry.mode === 'library'));
-	assert.ok(history.some(entry => entry.mode === 'exact'));
+	assert.ok(history.every(entry => entry.strategy === 'text'));
 });
 
-test('post selection preserves related-search source context and deduplicates', () => {
+test('post selection preserves source context and defaults to Semantic', () => {
 	reset();
 	const entry = {
 		query: 'divine purpose',
@@ -69,12 +68,24 @@ test('post selection preserves related-search source context and deduplicates', 
 	rememberSearch(entry);
 	const history = readSearchHistory();
 	assert.equal(history.length, 1);
-	assert.equal(history[0].origin, 'post-selection');
+	assert.equal(history[0].strategy, 'vector');
 	assert.equal(history[0].sourcePath, entry.sourcePath);
-	assert.equal(history[0].category, 'related-semantic');
+	assert.equal(history[0].origin, 'post-selection');
 });
 
-test('same query from post and comment selections remains distinct', () => {
+test('same Library query in Text and Semantic remains distinct', () => {
+	reset();
+	rememberSearch({ query: 'purpose', mode: 'library', strategy: 'text' });
+	rememberSearch({ query: 'purpose', mode: 'library', strategy: 'vector' });
+	const history = readSearchHistory();
+	assert.equal(history.length, 2);
+	assert.deepEqual(new Set(history.map(entry => entry.strategy)), new Set([
+		'text',
+		'vector'
+	]));
+});
+
+test('same reader query from post and comment remains distinct', () => {
 	reset();
 	rememberSearch({ query: 'purpose', mode: 'related', origin: 'post-selection' });
 	rememberSearch({ query: 'purpose', mode: 'related', origin: 'comment-selection' });

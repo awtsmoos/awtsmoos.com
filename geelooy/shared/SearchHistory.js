@@ -6,7 +6,7 @@
  * @module SharedSearchHistory
  * @description
  * The Awtsmoos lets every doorway into search remember one journey in a single browser-local river;
- * Awtsmoos.com joins manual search, post selection, and comment selection without sending private history away.
+ * Awtsmoos.com joins manual, post, and comment search while preserving Text versus Semantic intent without sending private history away.
  */
 
 const STORAGE_KEY = 'geelooy.search.history.v3';
@@ -16,9 +16,15 @@ const LEGACY_KEYS = [
 ];
 const MAX_ENTRIES = 240;
 const MODES = new Set(['library', 'tanach', 'exact', 'related']);
+const STRATEGIES = new Set(['text', 'vector']);
 
 function text(value, fallback = '') {
 	return String(value ?? fallback).trim();
+}
+
+function strategy(value, mode) {
+	if (STRATEGIES.has(value)) return value;
+	return mode === 'related' ? 'vector' : 'text';
 }
 
 function normalize(entry = {}) {
@@ -28,6 +34,7 @@ function normalize(entry = {}) {
 	return {
 		query,
 		mode,
+		strategy: strategy(entry.strategy, mode),
 		category: text(entry.category, mode),
 		origin: text(entry.origin, 'search-page'),
 		lane: text(entry.lane),
@@ -52,6 +59,7 @@ function identity(entry) {
 	return [
 		entry.query.toLowerCase(),
 		entry.mode,
+		entry.strategy,
 		entry.category,
 		entry.origin,
 		entry.lane,
@@ -74,7 +82,7 @@ function migrateLegacy() {
 export function readSearchHistory() {
 	const current = parse(STORAGE_KEY);
 	const entries = current.length ? current : migrateLegacy();
-	return entries.sort((a, b) => b.visitedAt - a.visitedAt).slice(0, MAX_ENTRIES);
+	return entries.sort((left, right) => right.visitedAt - left.visitedAt).slice(0, MAX_ENTRIES);
 }
 
 export function rememberSearch(entry) {

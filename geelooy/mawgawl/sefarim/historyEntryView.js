@@ -6,8 +6,10 @@
  * @module SearchHistoryEntryView
  * @description
  * The Awtsmoos lets one remembered search become both a path back into discovery and a path back to its source;
- * Awtsmoos.com keeps replay and source return side by side so local history becomes navigation rather than a passive log.
+ * Awtsmoos.com keeps replay, source return, and Text/Semantic Library intent visible so local history becomes navigation rather than a log.
  */
+
+import { strategyLabel } from './searchStrategy.js';
 
 const MODE_LABELS = {
 	library: 'Library',
@@ -32,7 +34,8 @@ function contextLabel(entry) {
 	if (entry.mode === 'related') {
 		return ORIGIN_LABELS[entry.origin] || entry.origin;
 	}
-	return entry.lane || 'All libraries';
+	const scope = entry.lane || 'All libraries';
+	return `${strategyLabel(entry.strategy)} · ${scope}`;
 }
 
 function metadata(entry) {
@@ -78,8 +81,6 @@ export function historyEntryView(entry, onChoose) {
 	item.className = 'library-history-item';
 	item.append(replayButton(entry, onChoose));
 	const source = sourceLink(entry);
-	if (source) {
-		item.append(source);
-	}
+	if (source) item.append(source);
 	return item;
 }

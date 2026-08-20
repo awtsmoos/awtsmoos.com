@@ -1,20 +1,20 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @module LivingLibraryApi
- * @description The Awtsmoos carries bounded search requests through an honest transport with explicit timeout and readable failure states;
- * Awtsmoos.com records only a completed semantic search after the source service actually answers, never keystrokes or request noise.
+ * @description
+ * The Awtsmoos carries bounded source searches through one honest transport while literal and semantic work receive truthful runtime windows;
+ * Awtsmoos.com records only completed searches after the indexed source service answers, never keystrokes or request noise.
  */
-import {
-	recordSearchActivity
-} from "/shared/MeaningfulActivity.js";
 
-const REQUEST_TIMEOUT_MS = 20000;
+import { recordSearchActivity } from '/shared/MeaningfulActivity.js';
+import { buildLibrarySearchRequest } from './searchLibraryRequest.js';
 
-export async function requestJson(url) {
+export async function requestJson(url, timeoutMs = 20000) {
 	const controller = new AbortController();
-	const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+	const timeout = setTimeout(() => controller.abort(), timeoutMs);
 	let response;
 	try {
 		response = await fetch(url, {
@@ -23,12 +23,13 @@ export async function requestJson(url) {
 			signal: controller.signal
 		});
 	} catch (error) {
-		if (error.name === 'AbortError') throw new Error('Search took too long. Please try again.');
+		if (error.name === 'AbortError') {
+			throw new Error('Search took too long. Please try again.');
+		}
 		throw new Error('Search could not reach the library service.');
 	} finally {
 		clearTimeout(timeout);
 	}
-
 	const text = await response.text();
 	let payload;
 	try {
@@ -36,7 +37,9 @@ export async function requestJson(url) {
 	} catch {
 		throw new Error(`Search returned unreadable data (${response.status}).`);
 	}
-	if (!response.ok || payload?.error) throw new Error(errorMessage(payload, response.status));
+	if (!response.ok || payload?.error) {
+		throw new Error(errorMessage(payload, response.status));
+	}
 	return payload;
 }
 
@@ -45,11 +48,15 @@ export async function fetchLibraryLanes() {
 	return Array.isArray(payload?.success) ? payload.success : [];
 }
 
-export async function searchLibrary({ query, lane }) {
-	const parameters = new URLSearchParams({ q: query, limit: '20', autoInstall: 'false' });
-	if (lane) parameters.set('lane', lane);
-	const payload = await requestJson(`/api/social/search/library/query?${parameters}`);
-	void recordSearchActivity({ query, mode: 'library', lane });
+export async function searchLibrary({ query, lane, strategy }) {
+	const request = buildLibrarySearchRequest({ query, lane, strategy });
+	const payload = await requestJson(request.url, request.timeoutMs);
+	void recordSearchActivity({
+		query,
+		mode: 'library',
+		lane,
+		strategy: request.strategy
+	});
 	return payload?.success || {};
 }
 

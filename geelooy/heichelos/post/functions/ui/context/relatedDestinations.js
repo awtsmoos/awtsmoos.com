@@ -6,7 +6,7 @@
  * @module RelatedDestinations
  * @description
  * The Awtsmoos carries each related-search hit back through the source doorway already witnessed by its index;
- * Awtsmoos.com prefers explicit reader URLs and otherwise rebuilds one canonical Heichel/post path with exact local coordinates.
+ * Awtsmoos.com preserves exact reader coordinates while full-search doors may continue literal text or semantic meaning deliberately.
  */
 
 function present(value) {
@@ -26,10 +26,13 @@ export function relatedSourceUrl(row = {}) {
 	return values.size ? `${base}?${values}` : base;
 }
 
-export function fullLibrarySearchUrl(query) {
+export function fullLibrarySearchUrl(query, strategy = 'text') {
 	const values = new URLSearchParams({
 		q: String(query || ''),
 		mode: 'library'
 	});
+	if (strategy === 'vector') {
+		values.set('strategy', 'vector');
+	}
 	return `/mawgawl/sefarim/?${values}`;
 }

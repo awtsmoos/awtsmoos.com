@@ -3,54 +3,49 @@
 // Blessed is He
 
 /**
- * @module SefarimModeSearch
+ * @module SearchModeRunner
  * @description
- * The Awtsmoos gives each search mode one bounded engine and one matching renderer;
- * Awtsmoos.com keeps orchestration small while Library, Tanach, and Exact remain distinct vessels.
+ * The Awtsmoos lets each search mode keep its own truthful transport while Library strategy chooses literal text or related meaning;
+ * Awtsmoos.com never lets semantic latency masquerade as a frozen text search, and leaves Tanach/Exact contracts untouched.
  */
 
 import { searchExactHebrew } from './exactApi.js';
 import { renderExactHebrew } from './exactView.js';
 import { searchLibrary } from './searchApi.js';
+import { isSemanticStrategy } from './searchStrategy.js';
 import { renderSearch } from './searchView.js';
 import { searchTanach } from './tanachApi.js';
 import { renderTanach } from './tanachView.js';
-import {
-	EXACT_MODE,
-	LIBRARY_MODE,
-	TANACH_MODE
-} from './searchMode.js';
 
-/**
- * @param {object} options Search and rendering coordinates.
- * @returns {Promise<void>} Resolves after one mode finishes rendering.
- */
+function libraryStatus(strategy) {
+	return isSemanticStrategy(strategy)
+		? 'Finding related meaning across indexed libraries…'
+		: 'Searching stored source text…';
+}
+
 export async function searchByMode({
 	query,
 	mode,
 	lane,
 	book,
 	corpus,
+	strategy,
 	results,
 	status
 }) {
-	if (mode === TANACH_MODE) {
-		status.textContent = 'Searching exact Hebrew in the persisted Tanach index…';
+	if (mode === 'tanach') {
+		status.textContent = 'Searching indexed Tanach text…';
 		const search = await searchTanach({ query, book });
 		renderTanach({ search, results, status });
 		return;
 	}
-
-	if (mode === EXACT_MODE) {
-		status.textContent = 'Finding exact indexed Hebrew occurrences…';
+	if (mode === 'exact') {
+		status.textContent = 'Searching exact Hebrew word indexes…';
 		const search = await searchExactHebrew({ query, corpus });
 		renderExactHebrew({ search, results, status });
 		return;
 	}
-
-	if (mode === LIBRARY_MODE) {
-		status.textContent = 'Searching stored source text…';
-		const search = await searchLibrary({ query, lane });
-		renderSearch({ search, results, status, query });
-	}
+	status.textContent = libraryStatus(strategy);
+	const search = await searchLibrary({ query, lane, strategy });
+	renderSearch({ search, results, status, query });
 }

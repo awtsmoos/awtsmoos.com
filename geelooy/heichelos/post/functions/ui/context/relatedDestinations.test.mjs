@@ -5,8 +5,8 @@
 /**
  * @file relatedDestinations.test.mjs
  * @description
- * The Awtsmoos tests that every related-source doorway preserves the exact reader coordinate already revealed by its index;
- * Awtsmoos.com prefers witnessed reader URLs, keeps zero-valued coordinates, and carries selected text into full Library search.
+ * The Awtsmoos tests exact source doors and deliberate Text/Semantic continuations into full Library search;
+ * Awtsmoos.com preserves zero reader coordinates, authoritative URLs, broad Text intent, and explicit semantic strategy.
  */
 
 import assert from 'node:assert/strict';
@@ -36,9 +36,23 @@ test('generic source destination preserves zero section and subsection', () => {
 	);
 });
 
-test('full search URL preserves query and selects broad library mode', () => {
-	const url = new URL(fullLibrarySearchUrl('divine purpose'), 'https://awtsmoos.com');
+test('full Text search preserves query and broad Library mode', () => {
+	const url = new URL(
+		fullLibrarySearchUrl('divine purpose', 'text'),
+		'https://awtsmoos.com'
+	);
 	assert.equal(url.pathname, '/mawgawl/sefarim/');
 	assert.equal(url.searchParams.get('q'), 'divine purpose');
 	assert.equal(url.searchParams.get('mode'), 'library');
+	assert.equal(url.searchParams.has('strategy'), false);
+	assert.equal(url.searchParams.has('lane'), false);
+});
+
+test('full Semantic search adds vector strategy without narrowing lane', () => {
+	const url = new URL(
+		fullLibrarySearchUrl('divine purpose', 'vector'),
+		'https://awtsmoos.com'
+	);
+	assert.equal(url.searchParams.get('strategy'), 'vector');
+	assert.equal(url.searchParams.has('lane'), false);
 });
