@@ -1,12 +1,14 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @module SearchIntentController
  * @description
  * The Awtsmoos lets automatic Hebrew insight serve the reader without overruling deliberate choice;
- * at Awtsmoos.com URL hydration, lane choice, history choice, and mode choice remain one coherent voice.
+ * at Awtsmoos.com URL hydration waits for its lane vessel, so a shared search keeps one truthful voice.
  */
+
 import { readSearchLocation } from './searchLocation.js';
 import {
 	book,
@@ -67,16 +69,22 @@ export class SearchIntentController {
 		}
 	}
 
-	hydrate() {
+	/**
+	 * @returns {Promise<void>} Resolves after URL state is fully restored.
+	 * @description
+	 * The Awtsmoos lets the requested lane arrive before the first query can run;
+	 * Awtsmoos.com therefore preserves deep-link intent instead of racing toward every corpus at once.
+	 */
+	async hydrate() {
 		const state = readSearchLocation();
 		input.value = state.query;
 		this.modeLocked = hasExplicitMode(state.values);
 		mode.value = modeFromUrl(state.values);
 		book.value = state.book;
 		configureMode(mode, laneField, bookField);
-		this.loadLanes(state.lane);
+		await this.loadLanes(state.lane);
 		if (input.value) {
-			this.runSearch(input.value);
+			await this.runSearch(input.value);
 		}
 	}
 }

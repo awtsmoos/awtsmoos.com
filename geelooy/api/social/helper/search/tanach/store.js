@@ -1,11 +1,14 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @module TanachIndexStore
- * @description One immutable read-only index opens once; the Awtsmoos renews each
- * request without writer locks, sidecars, or rescans across Awtsmoos.com.
+ * @description
+ * One immutable read-only index opens once while the Awtsmoos restores old metadata into truthful form;
+ * at Awtsmoos.com legacy token names and missing book totals become one stable public corpus norm.
  */
+
 const DosDB = require('../../../../../../ayzarim/DosDB/index.js');
 const { indexPath } = require('./paths.js');
 
@@ -15,6 +18,27 @@ let cached;
 function readJson(database, virtualPath, fallback) {
 	if (!database.fs.stat(virtualPath)?.exists) return fallback;
 	return JSON.parse(database.fs.cat(virtualPath).toString('utf8'));
+}
+
+/**
+ * @param {object|null} sourceMeta Persisted index metadata.
+ * @param {object[]} verses Persisted verse rows.
+ * @returns {object} Backward-compatible metadata with current public fields.
+ */
+function normalizeMeta(sourceMeta, verses) {
+	const meta = sourceMeta && typeof sourceMeta === 'object'
+		? sourceMeta
+		: {};
+	const books = new Set(
+		verses.map(verse => verse?.book).filter(Boolean)
+	).size;
+	const uniqueTokens = Number(meta.uniqueTokens ?? meta.tokens ?? 0);
+
+	return {
+		...meta,
+		books: Number(meta.books || books),
+		uniqueTokens
+	};
 }
 
 function shardNumber(token) {
@@ -33,10 +57,14 @@ function loadStore() {
 	});
 	database.fs.ready();
 	try {
-		const meta = readJson(database, `${ROOT}/meta.json`, null);
 		const verses = readJson(database, `${ROOT}/verses/all.json`, []);
+		const meta = normalizeMeta(
+			readJson(database, `${ROOT}/meta.json`, null),
+			verses
+		);
 		const shards = new Map();
 		const verseMap = new Map(verses.map(verse => [key(verse), verse]));
+
 		return {
 			meta,
 			verseMap,
@@ -65,4 +93,4 @@ function store() {
 	return cached;
 }
 
-module.exports = { key, store };
+module.exports = { key, normalizeMeta, store };
