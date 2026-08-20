@@ -6,50 +6,17 @@
  * @module RelatedSearchView
  * @description
  * The Awtsmoos lets related sources appear beside the words that awakened the search;
- * Awtsmoos.com gives every lane a visible state and every indexed source two honest doors: here or a new tab.
+ * Awtsmoos.com keeps lane states simple while each result card reveals a compact highlighted source preview.
  */
 
-import {
-	fullLibrarySearchUrl,
-	relatedSourceUrl
-} from './relatedDestinations.js';
-import {
-	relatedProvenance,
-	relatedRow,
-	relatedText,
-	relatedTitle
-} from './relatedResultShape.js';
+import { fullLibrarySearchUrl } from './relatedDestinations.js';
+import { createRelatedResultCard } from './relatedResultCard.js';
 
 function el(tag, className, text = '') {
 	const node = document.createElement(tag);
 	if (className) node.className = className;
 	if (text) node.textContent = text;
 	return node;
-}
-
-function sourceActions(hit) {
-	const url = relatedSourceUrl(relatedRow(hit));
-	const actions = el('div', 'awtsmoos-related-actions');
-	if (!url) return actions;
-	const open = el('a', '', 'Open here');
-	open.href = url;
-	const tab = el('a', '', 'New tab ↗');
-	tab.href = url;
-	tab.target = '_blank';
-	tab.rel = 'noopener noreferrer';
-	actions.append(open, tab);
-	return actions;
-}
-
-function resultCard(hit) {
-	const card = el('article', 'awtsmoos-related-result');
-	card.append(
-		el('h4', '', relatedTitle(hit)),
-		el('p', '', relatedText(hit)),
-		el('small', '', relatedProvenance(hit)),
-		sourceActions(hit)
-	);
-	return card;
 }
 
 function sectionMap() {
@@ -96,7 +63,7 @@ export function renderRelatedPending(container, title, message) {
 	);
 }
 
-export function renderRelatedSection(container, title, search) {
+export function renderRelatedSection(container, title, search, query = '') {
 	const hits = Array.isArray(search?.hits)
 		? search.hits
 		: Array.isArray(search?.results) ? search.results : [];
@@ -107,7 +74,7 @@ export function renderRelatedSection(container, title, search) {
 		);
 		return 0;
 	}
-	container.append(...hits.map(resultCard));
+	container.append(...hits.map(hit => createRelatedResultCard(hit, query)));
 	return hits.length;
 }
 

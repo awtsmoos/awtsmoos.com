@@ -56,9 +56,7 @@
 	display: grid;
 	gap: .55rem;
 }
-.awtsmoos-related-section:empty {
-	display: none;
-}
+.awtsmoos-related-section:empty { display: none; }
 .awtsmoos-related-section h3 {
 	margin: .2rem 0 0;
 	font-size: .9rem;
@@ -72,16 +70,16 @@
 	background: color-mix(in srgb, var(--reader-bg, #fff) 97%, currentColor 3%);
 }
 .awtsmoos-related-result h4,
+.awtsmoos-related-result p { margin: 0; }
 .awtsmoos-related-result p {
-	margin: 0;
-}
-.awtsmoos-related-result p {
-	display: -webkit-box;
-	overflow: hidden;
-	-webkit-line-clamp: 4;
-	-webkit-box-orient: vertical;
 	font-size: .9rem;
 	line-height: 1.5;
+}
+.awtsmoos-related-result mark {
+	padding: 0 .12em;
+	border-radius: .18em;
+	background: #f2d58a;
+	color: #101722;
 }
 .awtsmoos-related-actions {
 	display: flex;

@@ -6,7 +6,7 @@
  * @module RelatedSearchPanel
  * @description
  * The Awtsmoos lets one selected passage open a living source constellation beside itself;
- * Awtsmoos.com remembers the search, cancels stale rivers, and lets each truthful lane arrive in its own time.
+ * Awtsmoos.com remembers the search, cancels stale rivers, and carries the selected words into each highlighted source preview.
  */
 
 import { rememberSearch } from '../../../../../shared/SearchHistory.js';
@@ -53,7 +53,7 @@ function summaryText(counts) {
 	return `${labels.join(' · ')} · ${total} source${total === 1 ? '' : 's'} shown.`;
 }
 
-async function loadLane({ lane, view, counts, signal }) {
+async function loadLane({ lane, view, counts, signal, query }) {
 	const container = view.sections[lane.key];
 	renderRelatedPending(container, lane.title, lane.pending);
 	try {
@@ -62,7 +62,8 @@ async function loadLane({ lane, view, counts, signal }) {
 		counts[lane.key] = renderRelatedSection(
 			container,
 			lane.title,
-			result
+			result,
+			query
 		);
 		view.summary.textContent = summaryText(counts);
 	} catch (error) {
@@ -103,7 +104,8 @@ export function showRelatedSearch(selection) {
 			lane,
 			view,
 			counts,
-			signal: controller.signal
+			signal: controller.signal,
+			query: selection.text
 		});
 	}
 }
